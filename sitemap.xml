@@ -5,4 +5,6 @@
   <url><loc>https://example.com/articles/gas-station-construction-process.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
   <url><loc>https://example.com/articles/fuel-station-environmental-standards.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
   <url><loc>https://example.com/articles/data-center-generator-farm.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://example.com/accessibility.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://example.com/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

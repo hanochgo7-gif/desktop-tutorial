@@ -66,7 +66,7 @@
   </script>
   -->
 </head>
-<body>
+<body data-root="">
   <a class="skip-link" href="#main">דלג לתוכן</a>
 
   <!-- ===== כותרת עליונה ===== -->
@@ -507,6 +507,10 @@
             <label for="f-msg">כמה מילים על הפרויקט</label>
             <textarea id="f-msg" name="message"></textarea>
           </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>קראתי את <a href="privacy.html">מדיניות הפרטיות</a> ואני מסכים/ה שהפרטים ישמשו לצורך חזרה אליי בלבד. אין חובה למסור את הפרטים, אך בלעדיהם לא נוכל לחזור אליכם.</span>
+          </label>
           <button class="btn btn--primary btn--block" type="submit">שליחה</button>
           <!-- TODO: הטופס עדיין לא מחובר לשירות שליחה. כשתחליטו על פתרון (למשל Formspree), נחבר אותו כאן -->
           <div class="form__notice" id="form-notice" hidden role="status">
@@ -556,7 +560,8 @@
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span id="year"></span> ש. גוטובסקי. כל הזכויות שמורות.</span>
+        <span>© <span id="year"></span> ש. גוטובסקי. כל הזכויות שמורות. <!-- TODO: להשלים מספר ח.פ. --> ח.פ. [מספר חברה]</span>
+        <span class="legal-links"><a href="accessibility.html">הצהרת נגישות</a><a href="privacy.html">מדיניות פרטיות</a></span>
         <a href="#top">חזרה למעלה ↑</a>
       </div>
     </div>
@@ -576,5 +581,6 @@
   </dialog>
 
   <script src="js/main.js" defer></script>
+  <script src="js/a11y.js" defer></script>
 </body>
 </html>
