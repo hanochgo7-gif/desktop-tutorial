@@ -99,3 +99,79 @@
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
+
+/* ---------- תוספות לגרסה הקולנועית ---------- */
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* כותרת: מצב "מעל ההירו" מתחלף למצב מלא אחרי גלילה קצרה */
+  var header = document.querySelector('.header');
+  if (header && document.body.classList.contains('has-hero')) {
+    var onHeroScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 40); };
+    window.addEventListener('scroll', onHeroScroll, { passive: true });
+    onHeroScroll();
+  }
+
+  /* פרלקסה עדינה לתמונות עם data-parallax */
+  var pItems = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  if (pItems.length && !reduce) {
+    var ticking = false;
+    var updateParallax = function () {
+      ticking = false;
+      var vh = window.innerHeight;
+      pItems.forEach(function (el) {
+        var r = el.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        var f = parseFloat(el.getAttribute('data-parallax')) || 0.1;
+        var shift = (r.top + r.height / 2 - vh / 2) * f * -1;
+        el.style.transform = 'translateY(' + shift.toFixed(1) + 'px)';
+      });
+    };
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(updateParallax); } }, { passive: true });
+    updateParallax();
+  }
+
+  /* מונים: data-count = יעד; data-count-years = שנת התחלה (מחושב לשנה הנוכחית) */
+  var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count], [data-count-years]'));
+  counters.forEach(function (el) {
+    if (el.hasAttribute('data-count-years')) {
+      el.setAttribute('data-count', String(new Date().getFullYear() - parseInt(el.getAttribute('data-count-years'), 10)));
+    }
+  });
+  function runCounter(el) {
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    if (isNaN(target)) return;
+    if (reduce) { el.textContent = String(target); return; }
+    var start = null, dur = 1200;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(target * eased));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window && counters.length) {
+    var cObs = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) { if (e.isIntersecting) { runCounter(e.target); obs.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cObs.observe(el); });
+  } else {
+    counters.forEach(function (el) { el.textContent = el.getAttribute('data-count'); });
+  }
+
+  /* קרוסלת המלצות */
+  var track = document.getElementById('testimonial-track');
+  if (track) {
+    document.querySelectorAll('.carousel__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = track.querySelector('.testimonial');
+        var step = card ? card.getBoundingClientRect().width + 18 : 320;
+        var dir = btn.getAttribute('data-dir') === 'next' ? -1 : 1; /* RTL: הבא = שמאלה */
+        track.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  }
+})();
