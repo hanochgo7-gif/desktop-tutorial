@@ -84,14 +84,45 @@
     lightbox.addEventListener('close', function () { lbImg.src = ''; });
   }
 
-  /* ---------- טופס: עדיין לא מחובר לשירות שליחה ---------- */
+  /* ---------- טופס: שליחה למייל המשרד דרך FormSubmit ---------- */
   var form = document.getElementById('contact-form');
   var notice = document.getElementById('form-notice');
+  var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
+  var THANKS = 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
+  function showNotice(html, ok) {
+    if (!notice) return;
+    notice.innerHTML = html;
+    notice.classList.toggle('form__notice--ok', !!ok);
+    notice.hidden = false;
+    notice.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
   if (form) {
+    /* ללא JS: FormSubmit מחזיר לכאן אחרי השליחה */
+    var next = document.getElementById('f-next');
+    if (next) next.value = location.origin + location.pathname + '?sent=1#contact';
+    if (/[?&]sent=1/.test(location.search)) {
+      showNotice(THANKS, true);
+      try { history.replaceState(null, '', location.pathname + '#contact'); } catch (err) {}
+    }
     form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+      if (!window.fetch || !window.FormData) return;
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      if (notice) { notice.hidden = false; notice.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      var btn = form.querySelector('[type="submit"]');
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
+      var data = new FormData(form);
+      data.delete('_next');
+      fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+        method: 'POST', body: data, headers: { 'Accept': 'application/json' }
+      }).then(function (r) { return r.ok ? r.json() : Promise.reject(r); }).then(function () {
+        form.reset();
+        showNotice(THANKS, true);
+      }).catch(function () {
+        showNotice('השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false);
+      }).then(function () {
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+      });
     });
   }
 

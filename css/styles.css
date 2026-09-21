@@ -334,6 +334,9 @@ body.has-hero .header:not(.is-scrolled) .nav-toggle { color: #fff; border-color:
 @media (min-width: 560px) { .form__row { grid-template-columns: 1fr 1fr; } }
 .form__notice { margin-top: 14px; padding: 14px 16px; border-radius: var(--radius); background: #eaf5fa; border: 1px solid #a9d6ea; color: #0b3f56; font-size: .95rem; }
 .form__notice[hidden] { display: none; }
+.form__notice--ok { background: #e9f7ee; border-color: #9fd6b2; color: #14532d; }
+.form__honey { position: absolute; left: -9999px; opacity: 0; height: 0; }
+.form [type="submit"]:disabled { opacity: .6; cursor: progress; }
 .form__notice a { font-weight: 700; color: var(--ink); }
 .consent { display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; color: var(--muted); margin-bottom: 14px; }
 .consent input { margin-top: 5px; width: 18px; height: 18px; flex: none; accent-color: var(--accent); }

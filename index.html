@@ -40,7 +40,7 @@
     "image": "https://example.com/images/hero-cinematic.webp",
     "foundingDate": "1988",
     "telephone": "+972-50-270-3674",
-    "email": "gutovski@gmail.com",
+    "email": "Office@gotovski.co.il",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "המייסדים 6",
@@ -50,7 +50,7 @@
     "areaServed": "IL",
     "contactPoint": [
       { "@type": "ContactPoint", "telephone": "+972-50-270-3674", "contactType": "sales", "availableLanguage": "he" },
-      { "@type": "ContactPoint", "telephone": "+972-8-869-3668", "contactType": "customer service", "availableLanguage": "he" }
+      { "@type": "ContactPoint", "telephone": "+972-8-622-9307", "contactType": "customer service", "availableLanguage": "he" }
     ],
     "knowsAbout": ["הקמת תחנות דלק", "שיפוץ תחנות דלק", "תחנות גז", "צנרת דלק", "עבודות עפר", "חוות גנרטורים לדאטה סנטר"]
   }
@@ -150,6 +150,8 @@
           <li><img src="images/logo-sonol.png" alt="סונול" width="82" height="97" loading="lazy"></li>
           <li><img src="images/logo-dor-alon.png" alt="דור אלון" width="69" height="97" loading="lazy"></li>
           <li class="ltr"><span class="txt">amazon<small class="rtl">פרויקט דאטה סנטר</small></span></li>
+          <!-- TODO: להחליף בלוגו של מגה אור כשיתקבל קובץ -->
+          <li><span class="txt">מגה אור</span></li>
         </ul>
         <ul class="marquee__list marquee__list--dup" aria-hidden="true">
           <li><img src="images/logo-delek.png" alt="" width="75" height="97" loading="lazy"></li>
@@ -157,6 +159,8 @@
           <li><img src="images/logo-sonol.png" alt="" width="82" height="97" loading="lazy"></li>
           <li><img src="images/logo-dor-alon.png" alt="" width="69" height="97" loading="lazy"></li>
           <li class="ltr"><span class="txt">amazon<small class="rtl">פרויקט דאטה סנטר</small></span></li>
+          <!-- TODO: להחליף בלוגו של מגה אור כשיתקבל קובץ -->
+          <li><span class="txt">מגה אור</span></li>
         </ul>
       </div>
     </section>
@@ -511,11 +515,11 @@
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9h.01M9 13h.01M9 17h.01"/></svg>
-              <div><strong>משרד</strong><a href="tel:+97288693668">08-869-3668</a></div>
+              <div><strong>משרד</strong><a href="tel:+97286229307">08-622-9307</a></div>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-              <div><strong>מייל</strong><a href="mailto:gutovski@gmail.com">gutovski@gmail.com</a></div>
+              <div><strong>מייל</strong><a href="mailto:Office@gotovski.co.il">Office@gotovski.co.il</a></div>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -532,7 +536,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
               אינסטגרם
             </a>
-            <a class="btn btn--mail" href="mailto:gutovski@gmail.com">
+            <a class="btn btn--mail" href="mailto:Office@gotovski.co.il">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
               אימייל
             </a>
@@ -541,7 +545,13 @@
             <iframe src="https://www.google.com/maps?q=%D7%94%D7%9E%D7%99%D7%99%D7%A1%D7%93%D7%99%D7%9D%206%2C%20%D7%91%D7%A0%D7%99%D7%94&hl=he&z=15&output=embed" title="מפה: המייסדים 6, מושב בניה" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
           </div>
         </div>
-        <form class="form reveal" id="contact-form" novalidate>
+        <form class="form reveal" id="contact-form" action="https://formsubmit.co/Office@gotovski.co.il" method="POST" novalidate>
+          <!-- שליחה דרך FormSubmit לכתובת Office@gotovski.co.il. בשליחה הראשונה יגיע למייל הזה מכתב אימות חד־פעמי – יש ללחוץ על הקישור שבו -->
+          <input type="hidden" name="_subject" value="פנייה חדשה מאתר ש. גוטובסקי">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="" id="f-next">
+          <input class="form__honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <h3>השאירו פרטים ונחזור אליכם</h3>
           <p>כמה שאלות קצרות שיעזרו לנו להגיע לשיחה מוכנים.</p>
           <div class="form__row">
@@ -580,12 +590,7 @@
             <span>קראתי את <a href="privacy.html">מדיניות הפרטיות</a> ואני מסכים/ה שהפרטים ישמשו לצורך חזרה אליי בלבד. אין חובה למסור את הפרטים, אך בלעדיהם לא נוכל לחזור אליכם.</span>
           </label>
           <button class="btn btn--primary btn--block" type="submit">שליחה</button>
-          <!-- TODO: הטופס עדיין לא מחובר לשירות שליחה. כשתחליטו על פתרון (למשל Formspree), נחבר אותו כאן -->
-          <div class="form__notice" id="form-notice" hidden role="status">
-            שליחת הטופס עדיין לא מחוברת. בינתיים כתבו לנו
-            <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">בוואטסאפ</a>
-            או <a href="mailto:gutovski@gmail.com">במייל</a>.
-          </div>
+          <div class="form__notice" id="form-notice" hidden role="status" aria-live="polite"></div>
         </form>
 
       </div>
@@ -622,8 +627,8 @@
           <h4>דברו איתנו</h4>
           <ul>
             <li><a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
-            <li><a href="tel:+97288693668" class="ltr">08-869-3668</a></li>
-            <li><a href="mailto:gutovski@gmail.com">gutovski@gmail.com</a></li>
+            <li><a href="tel:+97286229307" class="ltr">08-622-9307</a></li>
+            <li><a href="mailto:Office@gotovski.co.il">Office@gotovski.co.il</a></li>
             <li>המייסדים 6, מושב בניה</li>
           </ul>
         </div>
