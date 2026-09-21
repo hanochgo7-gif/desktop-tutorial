@@ -214,6 +214,11 @@ a, button, [role="button"] { cursor: pointer; }
 .about { display: grid; gap: 44px; align-items: center; }
 .about__media { position: relative; }
 .about__img { overflow: hidden; border-radius: var(--radius); aspect-ratio: 4/5; }
+.about__logo { aspect-ratio: 4/5; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); display: grid; place-items: center; align-content: center; gap: 22px; padding: 12%; position: relative; overflow: hidden; }
+.about__logo::before { content: ""; position: absolute; inset: auto -30% -40% auto; width: 120%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line); }
+.about__logo::after { content: ""; position: absolute; inset: auto -30% -40% auto; width: 90%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line); }
+.about__logo img { width: 100%; max-width: 360px; height: auto; position: relative; z-index: 1; }
+.about__logo-line { position: relative; z-index: 1; font-size: .8rem; letter-spacing: .22em; font-weight: 600; color: var(--muted); }
 .about__img img { width: 100%; height: 100%; object-fit: cover; }
 .about__badge { position: absolute; bottom: -18px; inset-inline-start: -8px; background: var(--black); color: #fff; padding: 20px 24px; border-radius: var(--radius); display: grid; gap: 2px; min-width: 170px; box-shadow: var(--shadow); }
 .about__badge strong { font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -.04em; color: var(--accent-2); }
@@ -240,7 +245,7 @@ a, button, [role="button"] { cursor: pointer; }
 .field__arrow { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line-dark); display: grid; place-items: center; transition: background .35s, border-color .35s, transform .5s var(--ease-out); }
 .field__arrow svg { width: 22px; height: 22px; }
 .field:hover .field__arrow { background: #fff; color: var(--ink); border-color: #fff; transform: rotate(-45deg); }
-.field__thumb { grid-column: 1 / -1; aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius); }
+.field__thumb { grid-column: 1 / -1; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius); }
 .field__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .fields__preview { display: none; }
 @media (min-width: 1000px) {
