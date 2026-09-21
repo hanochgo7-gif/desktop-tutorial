@@ -244,54 +244,67 @@
     finishLoader();
   }
 
+  /* חשיפה לפי נראות בפועל (IntersectionObserver) – עובד בכל דפדפן ובכל מיכל גלילה */
+  function whenVisible(el, cb, margin) {
+    if (!('IntersectionObserver' in window)) { cb(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); cb(); } });
+    }, { threshold: 0.01, rootMargin: margin || '0px 0px -8% 0px' });
+    io.observe(el);
+  }
+
   function initGsap() {
     var gsap = window.gsap, ST = window.ScrollTrigger;
     gsap.registerPlugin(ST);
     gsap.defaults({ ease: 'power3.out' });
+    var hidden = []; /* כל מה שהוסתר – לשחרור ברשת הביטחון */
+    function hide(targets, vars) { gsap.set(targets, vars); Array.prototype.push.apply(hidden, gsap.utils.toArray(targets)); }
 
     /* מסך טעינה + כניסת הירו */
     var heroLines = $$('.hero .line > span');
     var heroFades = $$('[data-hero-fade], [data-hero-kicker]');
     var heroImg = $('#hero-img');
-    gsap.set(heroLines, { yPercent: 110 });
-    gsap.set(heroFades, { autoAlpha: 0, y: 24 });
+    hide(heroLines, { yPercent: 110 });
+    hide(heroFades, { autoAlpha: 0, y: 24 });
     if (heroImg) gsap.set(heroImg, { scale: 1.18 });
 
     var intro = gsap.timeline({ onComplete: finishLoader });
     if (loader && !loader.classList.contains('is-done')) {
       loader.style.animation = 'none';
       var n = { v: 0 };
-      intro.to(n, { v: 100, duration: 1.1, ease: 'power2.inOut', onUpdate: function () { if (loaderNum) loaderNum.textContent = String(Math.round(n.v)); } })
+      intro.to(n, { v: 100, duration: 1.0, ease: 'power2.inOut', onUpdate: function () { if (loaderNum) loaderNum.textContent = String(Math.round(n.v)); } })
            .to(loader, { yPercent: -101, duration: .8, ease: 'power4.inOut' }, '+=0.1');
     }
     intro.to(heroImg, { scale: 1, duration: 2.2, ease: 'power2.out' }, '<0.1')
          .to(heroLines, { yPercent: 0, duration: 1.1, stagger: .12, ease: 'power4.out' }, '<0.15')
          .to(heroFades, { autoAlpha: 1, y: 0, duration: .9, stagger: .1 }, '<0.5');
+    /* רשת ביטחון: אם משהו מנע מהפתיחה לרוץ, משחררים הכול אחרי 3.5 שניות */
+    setTimeout(function () { if (loader && !loader.classList.contains('is-done')) { intro.progress(1); finishLoader(); } }, 3500);
 
-    /* פרלקסה עדינה להירו */
+    /* פרלקסה עדינה להירו (אם אין גלילה – פשוט לא זז) */
     gsap.to('.hero__media', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.hero__inner', { yPercent: -10, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '55% top', end: 'bottom top', scrub: true } });
 
-    /* כותרות: מילים שעולות */
+    /* כותרות: מילים שעולות כשהכותרת נראית */
     $$('[data-split]').forEach(function (el) {
       if (el.closest('.hero')) return;
       var words = $$('.w > span', el);
-      gsap.set(words, { yPercent: 110 });
-      ST.create({ trigger: el, start: 'top 85%', once: true, onEnter: function () { gsap.to(words, { yPercent: 0, duration: 1, stagger: .045, ease: 'power4.out' }); } });
+      hide(words, { yPercent: 110 });
+      whenVisible(el, function () { gsap.to(words, { yPercent: 0, duration: 1, stagger: .045, ease: 'power4.out', overwrite: 'auto' }); });
     });
 
     /* חשיפת תמונות */
     $$('[data-img-reveal]').forEach(function (box) {
       var img = box.querySelector('img');
-      gsap.set(box, { clipPath: 'inset(0 0 100% 0)' });
+      hide(box, { clipPath: 'inset(0 0 100% 0)' });
       gsap.set(img, { scale: 1.25 });
-      ST.create({ trigger: box, start: 'top 80%', once: true, onEnter: function () {
-        gsap.to(box, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'power4.inOut' });
+      whenVisible(box, function () {
+        gsap.to(box, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'power4.inOut', overwrite: 'auto' });
         gsap.to(img, { scale: 1, duration: 1.8, ease: 'power3.out' });
-      } });
+      });
     });
-    $$('.gallery__item, .pcard__media, .article-card > img').forEach(function (box) {
-      gsap.from(box, { autoAlpha: 0, y: 40, duration: 1, scrollTrigger: { trigger: box, start: 'top 92%', once: true } });
+    $$('.gallery__item, .article-card > img, .stats li').forEach(function (box) {
+      hide(box, { autoAlpha: 0, y: 40 });
+      whenVisible(box, function () { gsap.to(box, { autoAlpha: 1, y: 0, duration: .9, overwrite: 'auto' }); }, '0px 0px -4% 0px');
     });
 
     /* פרלקסה לתמונות מסומנות */
@@ -300,21 +313,16 @@
       gsap.fromTo(img, { yPercent: -amt * 100 }, { yPercent: amt * 100, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
-    /* מניפסט: מילים שמתמלאות בגלילה */
+    /* מניפסט: מילים שמתמלאות בגלילה, עם השלמה אוטומטית כשהפסקה נראית */
     var sw = $$('.manifesto .sw');
-    if (sw.length) {
-      gsap.set(sw, { opacity: .14 });
-      gsap.to(sw, { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: '.manifesto p', start: 'top 80%', end: 'bottom 45%', scrub: .4 } });
-    }
-
-    /* פרויקטים: גלילה אופקית מוצמדת (בדסקטופ בלבד) */
-    var pin = $('#hscroll-pin'), htrack = $('#hscroll-track'), hview = $('#hscroll-viewport');
-    if (pin && htrack) {
-      ST.matchMedia({
-        '(min-width: 1000px)': function () {
-          var dist = function () { return htrack.scrollWidth - hview.clientWidth; };
-          gsap.to(htrack, { x: function () { return dist(); }, ease: 'none', scrollTrigger: { trigger: pin, start: 'top 12%', end: function () { return '+=' + dist(); }, pin: true, scrub: .6, invalidateOnRefresh: true, anticipatePin: 1 } });
-        }
+    var mp = $('.manifesto p');
+    if (sw.length && mp) {
+      hide(sw, { opacity: .18 });
+      var scrub = gsap.to(sw, { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: mp, start: 'top 80%', end: 'bottom 45%', scrub: .4 } });
+      whenVisible(mp, function () {
+        setTimeout(function () {
+          if (scrub.scrollTrigger && scrub.scrollTrigger.progress < .05) { scrub.scrollTrigger.kill(); gsap.to(sw, { opacity: 1, stagger: .02, duration: .8, overwrite: 'auto' }); }
+        }, 1500);
       });
     }
 
@@ -323,11 +331,8 @@
     if (pline && plist) {
       var horiz = mqDesktop.matches;
       gsap.fromTo(pline, horiz ? { scaleX: 0 } : { scaleY: 0 }, horiz ? { scaleX: 1 } : { scaleY: 1 }, { ease: 'none', scrollTrigger: { trigger: plist, start: 'top 70%', end: 'bottom 60%', scrub: true } });
-      $$('li', plist).forEach(function (li) { ST.create({ trigger: li, start: horiz ? 'top 75%' : 'top 65%', onEnter: function () { li.classList.add('is-on'); }, onLeaveBack: function () { li.classList.remove('is-on'); } }); });
+      $$('li', plist).forEach(function (li) { whenVisible(li, function () { li.classList.add('is-on'); }, '0px 0px -25% 0px'); });
     }
-
-    /* מספרים ענקיים: כניסה */
-    gsap.from('.stats li', { y: 40, autoAlpha: 0, stagger: .08, duration: .7, scrollTrigger: { trigger: '.stats', start: 'top 85%', once: true } });
 
     /* קריאה לפעולה: הטבעת מסתובבת בגלילה */
     var ring = $('.cta__ring');
@@ -358,16 +363,42 @@
     window.addEventListener('load', function () { ST.refresh(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); });
 
+    /* רשת ביטחון אחרונה: שום דבר לא נשאר מוסתר אם הצופה לא הצליח לזהות אותו */
+    function releaseAll() {
+      ST.getAll().forEach(function (t) { t.kill(true); });
+      gsap.globalTimeline.clear();
+      gsap.set(hidden.concat(['.hero__media', '#hero-img', '[data-img-reveal] img', '[data-parallax]', '#process-line', '.cta__ring', '[data-magnetic]']), { clearProps: 'all' });
+      finishLoader();
+    }
+    window.addEventListener('error', releaseAll);
+
     /* כיבוי כשמפעילים "עצירת אנימציות" בתפריט הנגישות */
     var mo = new MutationObserver(function () {
       if (!root.classList.contains('a11y-no-motion')) return;
       mo.disconnect();
-      ST.getAll().forEach(function (t) { t.kill(true); });
-      gsap.globalTimeline.clear();
-      gsap.set('.hero__media, .hero__inner, .hero .line > span, [data-hero-fade], [data-hero-kicker], #hero-img, [data-split] .w > span, [data-img-reveal], [data-img-reveal] img, .gallery__item, .pcard__media, .article-card > img, [data-parallax], .manifesto .sw, #hscroll-track, #process-line, .stats li, .cta__ring, [data-magnetic]', { clearProps: 'all' });
-      finishLoader();
+      releaseAll();
     });
     mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* ---------- פרויקטים: גלילה אופקית טבעית עם כפתורים וגרירה ---------- */
+  var hview = $('#hscroll-viewport');
+  if (hview) {
+    $$('.hscroll__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = hview.querySelector('.pcard');
+        var step = card ? card.getBoundingClientRect().width + 24 : 400;
+        var dir = btn.dataset.dir === 'next' ? -1 : 1; /* RTL: הבא = שמאלה */
+        hview.scrollBy({ left: dir * step, behavior: noMotion() ? 'auto' : 'smooth' });
+      });
+    });
+    if (mqFine.matches) {
+      var dragging = false, startX = 0, startLeft = 0, moved = false;
+      hview.addEventListener('mousedown', function (e) { dragging = true; moved = false; startX = e.clientX; startLeft = hview.scrollLeft; hview.classList.add('is-dragging'); });
+      window.addEventListener('mousemove', function (e) { if (!dragging) return; var dx = e.clientX - startX; if (Math.abs(dx) > 4) moved = true; hview.scrollLeft = startLeft - dx; });
+      window.addEventListener('mouseup', function () { dragging = false; hview.classList.remove('is-dragging'); });
+      hview.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    }
   }
 
   function boot() {

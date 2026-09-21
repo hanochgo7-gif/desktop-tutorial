@@ -255,7 +255,9 @@ a, button, [role="button"] { cursor: pointer; }
 /* ---------- Projects: horizontal scroll ---------- */
 .hscroll { background: var(--paper); overflow: hidden; }
 .hscroll__head { padding-block: clamp(80px, 12vw, 160px) 40px; }
-.hscroll__viewport { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: clamp(60px, 8vw, 120px); scrollbar-width: none; }
+.hscroll__viewport { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; padding-bottom: 24px; scrollbar-width: none; cursor: grab; }
+.hscroll__viewport.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.hscroll__nav { display: flex; gap: 10px; padding: 8px var(--gutter) clamp(60px, 8vw, 120px); }
 .hscroll__viewport::-webkit-scrollbar { display: none; }
 .hscroll__track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; }
 .pcard { position: relative; width: min(86vw, 520px); flex: none; scroll-snap-align: start; display: grid; gap: 18px; color: inherit; }
@@ -272,11 +274,9 @@ a, button, [role="button"] { cursor: pointer; }
 .pcard--end { width: min(70vw, 360px); display: grid; place-items: center; align-content: center; text-align: center; gap: 20px; }
 .pcard--end h3 { font-size: clamp(1.6rem, 3vw, 2.6rem); }
 @media (min-width: 1000px) {
-  .hscroll__viewport { overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
   .hscroll__track { gap: 32px; padding-inline: var(--gutter); }
-  .pcard { width: min(58vw, 760px); }
+  .pcard { width: min(44vw, 640px); }
   .pcard__media { aspect-ratio: 16/10; }
-  .hscroll__pin { padding-block: 0 clamp(60px, 8vw, 120px); }
 }
 
 /* ---------- Stats band ---------- */
