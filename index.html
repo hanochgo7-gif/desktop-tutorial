@@ -17,15 +17,14 @@
   <meta property="og:title" content="ש. גוטובסקי | הקמה ושיפוץ תחנות דלק מאז 1988">
   <meta property="og:description" content="הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר. מערכות דלק וחוות גנרטורים לדאטה סנטר.">
   <meta property="og:url" content="https://example.com/">
-  <meta property="og:image" content="https://example.com/images/hero.webp">
+  <meta property="og:image" content="https://example.com/images/paz-station-construction.webp">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Suez+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="preload" as="image" href="images/hero.webp" imagesrcset="images/hero-800.webp 800w, images/hero.webp 1600w" imagesizes="100vw">
 
   <!-- נתונים מובנים: עסק מקומי -->
   <script type="application/ld+json">
@@ -37,7 +36,7 @@
     "description": "הקמה ושיפוץ תחנות דלק, תחנות גז, עבודות צנרת דלק ועבודות עפר. מערכות דלק וחוות גנרטורים לדאטה סנטר.",
     "url": "https://example.com/",
     "logo": "https://example.com/images/logo.png",
-    "image": "https://example.com/images/hero.webp",
+    "image": "https://example.com/images/paz-station-construction.webp",
     "foundingDate": "1988",
     "telephone": "+972-50-270-3674",
     "email": "gutovski@gmail.com",
@@ -75,35 +74,30 @@
       <a class="logo" href="#top" aria-label="ש. גוטובסקי – לעמוד הראשי">
         <img src="images/logo.png" alt="ש. גוטובסקי – שיפוץ והקמת תחנות דלק" width="226" height="123">
       </a>
-
       <nav class="nav" aria-label="ניווט ראשי">
         <ul>
           <li><a href="#about">קצת עלינו</a></li>
+          <li><a href="#process">איך עובדים</a></li>
           <li><a href="#services">שירותים</a></li>
-          <li><a href="#clients">לקוחות</a></li>
           <li><a href="#testimonials">ממליצים</a></li>
           <li><a href="#gallery">גלריה</a></li>
           <li><a href="#articles">מאמרים</a></li>
           <li><a href="#contact">צור קשר</a></li>
         </ul>
       </nav>
-
       <a class="btn btn--primary header__cta" href="tel:+972502703674">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
         050-270-3674
       </a>
-
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="פתיחת תפריט">
-        <span></span>
-      </button>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="פתיחת תפריט"><span></span></button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobile-menu">
     <ul>
       <li><a href="#about">קצת עלינו</a></li>
+      <li><a href="#process">איך עובדים</a></li>
       <li><a href="#services">שירותים</a></li>
-      <li><a href="#clients">לקוחות</a></li>
       <li><a href="#testimonials">ממליצים</a></li>
       <li><a href="#gallery">גלריה</a></li>
       <li><a href="#articles">מאמרים</a></li>
@@ -116,161 +110,57 @@
 
     <!-- ===== ראשי ===== -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__bg" aria-hidden="true">
-        <img src="images/hero.webp" srcset="images/hero-800.webp 800w, images/hero.webp 1600w" sizes="100vw" alt="" width="1600" height="899" fetchpriority="high">
-      </div>
-      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <ul class="hero__tag" aria-label="תחומי פעילות">
+            <li>קבלן מבצע</li>
+            <li>תשתיות דלק ואנרגיה</li>
+            <li>מאז 1988</li>
+          </ul>
+          <h1 id="hero-title">בונים תחנות דלק. <span>מהיסודות ועד המשאבה.</span></h1>
+          <p class="hero__lead">
+            עבודות עפר, מיכלים תת־קרקעיים, צנרת דלק, ריצוף, סככות ומבנים. גורם מבצע אחד שמכיר את הדרישות
+            של חברות הדלק ושל המשרד להגנת הסביבה, ועכשיו גם תשתיות דלק וגנרטורים לדאטה סנטר.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>
+              דברו איתנו בוואטסאפ
+            </a>
+            <a class="btn btn--ghost" href="tel:+972502703674">התקשרו: 050-270-3674</a>
+          </div>
 
-      <div class="container hero__inner">
-        <p class="hero__eyebrow">קבלן מבצע לתשתיות דלק ואנרגיה</p>
-        <h1 id="hero-title">הקמה ושיפוץ <em>תחנות דלק</em> מאז 1988</h1>
-        <p class="hero__lead">
-          מעבודות העפר ועד ההפעלה: מיכלים, צנרת, ריצוף, סככות ומבנים, בעמידה מלאה בדרישות המשרד להגנת הסביבה.
-          ועכשיו גם מערכות דלק וחוות גנרטורים לדאטה סנטר.
-        </p>
-        <div class="hero__actions">
-          <a class="btn btn--whatsapp" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>
-            דברו איתנו בוואטסאפ
-          </a>
-          <a class="btn btn--outline" href="tel:+972502703674">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
-            התקשרו עכשיו
-          </a>
-        </div>
-
-        <div class="hero__trust">
-          <p class="hero__trust-label">בין לקוחותינו</p>
-          <ul class="client-row" aria-label="לקוחות">
-            <li>דלק</li>
-            <li>פז</li>
-            <li>סונול</li>
-            <li>דור אלון</li>
-            <li class="ltr">amazon</li>
+          <ul class="spec-strip" aria-label="נתוני החברה">
+            <li><small>פועלים מאז</small><strong>1988</strong></li>
+            <li><small>התמחות</small><strong>תחנות דלק וגז</strong></li>
+            <li><small>ביצוע עצמי</small><strong>עפר · צנרת · בנייה</strong></li>
+            <li><small>תחום חדש</small><strong>דאטה סנטר</strong></li>
           </ul>
         </div>
+
+        <div class="hero__visual reveal">
+          <div class="plate-wrap">
+            <span class="dim dim--top" aria-hidden="true"><span>תחנת דלק · שלב הקמה</span></span>
+            <span class="dim dim--side" aria-hidden="true"></span>
+          <figure class="plate plate--main">
+            <img src="images/paz-station-construction.webp" alt="תחנת דלק בשלבי הקמה: סככה, טוטם ומבנה שירות עם ציוד מכני הנדסי" width="1600" height="578" fetchpriority="high">
+            <figcaption>צילום 01 · הקמת תחנה</figcaption>
+          </figure>
+          </div>
+          <figure class="plate plate--small">
+            <img src="images/hero-800.webp" alt="הדמיה: מנוף מניף מיכל דלק לבור באתר דאטה סנטר" width="800" height="450" loading="lazy">
+            <figcaption class="is-render">הדמיה · דאטה סנטר</figcaption>
+          </figure>
+        </div>
       </div>
-      <span class="hero__badge" aria-hidden="true">הדמיה: פרויקט דאטה סנטר</span>
     </section>
     <div class="stripe" aria-hidden="true"></div>
 
-    <!-- ===== קצת עלינו ===== -->
-    <section class="section" id="about" aria-labelledby="about-title">
-      <div class="container about">
-        <div class="about__media reveal">
-          <img src="images/paz-station-construction.webp" alt="הקמת תחנת דלק של פז בשלבי בנייה: סככה, טוטם ומבנה שירות" width="1600" height="578" loading="lazy">
-          <div class="about__year"><small>פועלים מאז</small><strong>1988</strong></div>
-        </div>
-        <div class="about__body reveal">
-          <div class="section-head">
-            <span class="kicker">קצת עלינו</span>
-            <h2 id="about-title">קבלן שמכיר תחנת דלק מהיסודות ועד המשאבה</h2>
-          </div>
-          <p>
-            ש. גוטובסקי מתמחה בהקמה ובשיפוץ של תחנות דלק ותחנות גז, ומלווה כל פרויקט מהתכנון ועד המסירה:
-            עבודות עפר, מיכלים תת־קרקעיים, צנרת דלק, ריצוף ומבנים. אנחנו עובדים לצד חברות הדלק הגדולות בישראל,
-            ומכירים היטב את הדרישות התכנוניות, הבטיחותיות והסביבתיות שמלוות כל תחנה.
-          </p>
-          <p>
-            הניסיון הזה מוביל אותנו גם לתחום חדש: תשתיות דלק, אחסון וגנרטורים לדאטה סנטר, שם אמינות ההספק היא הכל.
-          </p>
-          <ul class="pillars">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              <div><strong>עמידה בתקנים סביבתיים</strong><span>מערכות מישוב אדים בתקן Stage II, מניעת זיהום קרקע ומים.</span></div>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              <div><strong>עמידה בלוחות זמנים</strong><span>תחנה שלא עובדת מפסידה כסף. אנחנו מתכננים את הביצוע כך שההשבתה תהיה קצרה ככל האפשר.</span></div>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
-              <div><strong>צוות מיומן וציוד ייעודי</strong><span>צוותים קבועים, ציוד מכני הנדסי משלנו, ואחריות מלאה על הביצוע.</span></div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== שירותים ===== -->
-    <section class="section section--alt" id="services" aria-labelledby="services-title">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="kicker">השירותים שלנו</span>
-          <h2 id="services-title">כל מה שתחנת דלק צריכה, מגורם מבצע אחד</h2>
-          <p>מתכננים? משדרגים? מקימים חוות גנרטורים? אנחנו לוקחים אחריות על כל שרשרת הביצוע.</p>
-        </div>
-
-        <div class="services">
-          <article class="service reveal">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M3 22h12"/><path d="M6 6h6M6 10h6"/><path d="M15 9h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V9l-3-3"/></svg>
-            </div>
-            <h3>הקמת תחנות דלק</h3>
-            <p>הקמה מלאה של תחנה חדשה: עבודות עפר, מיכלים, צנרת, ריצוף, סככה, מבנה שירות וחיבור למשאבות, בתיאום מלא עם חברת הדלק והרשויות.</p>
-          </article>
-
-          <article class="service reveal">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            </div>
-            <h3>שיפוץ ושדרוג תחנות</h3>
-            <p>החלפת מיכלים וצנרת, שדרוג למערכות מישוב אדים, חידוש ריצוף וסככות, והתאמת תחנות ותיקות לדרישות הרגולציה העדכניות.</p>
-          </article>
-
-          <article class="service reveal">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.2-.3-4 1-5 .5 2.5 2 3.5 3 4.5 1.3 1.3 2 2.8 2 4.5a5 5 0 0 1-10 0c0-1.3.5-2.3 1-3 .4 1.5 1.3 2.5 2.5 2.5z"/></svg>
-            </div>
-            <h3>תחנות גז</h3>
-            <p>הקמה ושיפוץ של תחנות תדלוק בגז, כולל תשתיות, בטיחות ותיאום עם הגורמים המוסמכים.</p>
-          </article>
-
-          <article class="service reveal">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h4v4H4zM16 16h4v4h-4z"/><path d="M8 6h6a4 4 0 0 1 4 4v6"/><path d="M6 8v6a4 4 0 0 0 4 4h6"/></svg>
-            </div>
-            <h3>עבודות צנרת דלק</h3>
-            <p>הנחת צנרת דלק ואדים, צנרת דו־קירית, חיבורים למיכלים ולמשאבות, בדיקות לחץ ואטימות ותיעוד מלא.</p>
-          </article>
-
-          <article class="service reveal">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M4 20V10l6-2v12"/><path d="M10 12l7-4 3 2v10"/><path d="M14 20v-6"/></svg>
-            </div>
-            <h3>עבודות עפר ופיתוח</h3>
-            <p>חפירה, מילוי והידוק, הכנת שטח, בורות מיכלים, תשתיות ניקוז וריצוף, עם ציוד מכני הנדסי משלנו.</p>
-          </article>
-
-          <article class="service service--featured reveal">
-            <span class="service__badge">יכולת חדשה</span>
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </div>
-            <h3>מערכות דלק וחוות גנרטורים לדאטה סנטר</h3>
-            <p>
-              תשתית הגיבוי של דאטה סנטר חייבת לעבוד בכל מצב. אנחנו מבצעים את עבודות התשתית והדלק לחוות גנרטורים:
-              בורות ובסיסים, מיכלי דלק תת־קרקעיים ועיליים, צנרת אספקה והזנה, וחיבור למערכות הבקרה.
-            </p>
-            <ul class="service__list">
-              <li>מיכלי אחסון דלק ומערכות מילוי</li>
-              <li>צנרת הזנה לגנרטורים בתצורת N+1</li>
-              <li>עבודות עפר, בסיסים ותשתיות לאתר</li>
-              <li>תיאום מול מתכננים, יועצי חשמל ורגולציה</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== לקוחות ===== -->
-    <section class="section" id="clients" aria-labelledby="clients-title">
-      <div class="container">
-        <div class="section-head reveal">
-          <span class="kicker">לקוחות</span>
-          <h2 id="clients-title">חברות הדלק הגדולות בישראל סומכות עלינו</h2>
-        </div>
-        <ul class="clients reveal" aria-label="רשימת לקוחות">
+    <section class="clients-bar" id="clients" aria-label="לקוחות">
+      <div class="container clients-bar__inner">
+        <span class="clients-bar__label">בין לקוחותינו</span>
+        <ul class="clients">
           <li class="client"><img src="images/logo-delek.png" alt="דלק" width="75" height="97" loading="lazy"></li>
           <li class="client"><img src="images/logo-paz.png" alt="פז" width="102" height="97" loading="lazy"></li>
           <li class="client"><img src="images/logo-sonol.png" alt="סונול" width="82" height="97" loading="lazy"></li>
@@ -280,11 +170,130 @@
       </div>
     </section>
 
-    <!-- ===== לקוחות ממליצים ===== -->
-    <section class="section section--dark" id="testimonials" aria-labelledby="testimonials-title">
+    <!-- ===== קצת עלינו ===== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container about">
+        <div class="about__body reveal">
+          <div class="section-head">
+            <span class="index">01 / קצת עלינו</span>
+            <h2 id="about-title">קבלן שמכיר תחנת דלק מהיסודות ועד המשאבה</h2>
+          </div>
+          <p>
+            ש. גוטובסקי מתמחה בהקמה ובשיפוץ של תחנות דלק ותחנות גז, ומלווה כל פרויקט מהתכנון ועד המסירה:
+            עבודות עפר, מיכלים תת־קרקעיים, צנרת דלק, ריצוף ומבנים. אנחנו עובדים לצד חברות הדלק הגדולות בישראל,
+            ומכירים היטב את הדרישות התכנוניות, הבטיחותיות והסביבתיות שמלוות כל תחנה.
+          </p>
+          <blockquote class="about__quote">תחנה שלא עובדת מפסידה כסף. לכן אנחנו מתכננים את הביצוע כך שההשבתה תהיה קצרה ככל האפשר.</blockquote>
+          <ul class="pillars">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <div><strong>עמידה בתקנים סביבתיים</strong><span>מערכות מישוב אדים בתקן Stage II, מיכלים וצנרת דו־קיריים, מניעת זיהום קרקע ומים.</span></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <div><strong>עמידה בלוחות זמנים</strong><span>ביצוע בשלבים בתחנות פעילות, כך שחלק מהעמדות ממשיך למכור דלק בכל שלב.</span></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+              <div><strong>צוות מיומן וציוד ייעודי</strong><span>צוותים קבועים, ציוד מכני הנדסי משלנו, ואחריות מלאה על הביצוע.</span></div>
+            </li>
+          </ul>
+        </div>
+        <div class="about__media reveal">
+          <figure class="plate plate--wide">
+            <img src="images/station-forecourt.webp" alt="רחבת תדלוק פעילה במהלך עבודות שדרוג" width="800" height="600" loading="lazy">
+            <figcaption>צילום 02 · שדרוג תחנה פעילה</figcaption>
+          </figure>
+          <figure class="plate">
+            <img src="images/tank-sump-install.webp" alt="בריכת מיכל צהובה עם חיבורי צנרת דלק בשלב ההתקנה" width="800" height="600" loading="lazy">
+            <figcaption>צילום 03 · בריכת מיכל</figcaption>
+          </figure>
+          <figure class="plate">
+            <img src="images/pump-sump-works.webp" alt="עובד מטפל במשאבה טבולה בתוך בריכת מיכל" width="800" height="600" loading="lazy">
+            <figcaption>צילום 04 · משאבה טבולה</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== איך עובדים (ציר זמן) ===== -->
+    <section class="section section--paper2 section--rule" id="process" aria-labelledby="process-title">
       <div class="container">
         <div class="section-head reveal">
-          <span class="kicker">לקוחות ממליצים</span>
+          <span class="index">02 / איך עובדים</span>
+          <h2 id="process-title">מהתכנון ועד המסירה, בחמישה שלבים</h2>
+          <p>כל פרויקט עובר את אותו מסלול. ההבדל הוא במי שמנהל אותו בשטח.</p>
+        </div>
+        <ol class="process">
+          <li class="reveal"><h3>תכנון ואישורים</h3><p>ליווי המתכננים, תיאום עם חברת הדלק והרשויות, ותכנון שלביות לתחנה פעילה.</p></li>
+          <li class="reveal"><h3>עבודות עפר</h3><p>הכשרת שטח, חפירת בור מיכלים, מילוי מבוקר, ניקוז ותשתיות תת־קרקעיות.</p></li>
+          <li class="reveal is-accent"><h3>מיכלים וצנרת</h3><p>הנחת מיכלים דו־קיריים, צנרת דלק ואדים, בדיקות לחץ ואטימות מתועדות.</p></li>
+          <li class="reveal"><h3>ריצוף ומבנים</h3><p>רחבת בטון אטומה, מפריד שמן ודלק, סככה, מבנה שירות וחדר טכני.</p></li>
+          <li class="reveal"><h3>בדיקות ומסירה</h3><p>התקנת ציוד, בדיקות מערכות, אישורי הרשויות וחברת הדלק, ומילוי ראשון.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== שירותים (גיליון מפרט) ===== -->
+    <section class="section section--rule" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="index">03 / שירותים</span>
+          <h2 id="services-title">כל מה שתחנת דלק צריכה, מגורם מבצע אחד</h2>
+        </div>
+        <ul class="spec">
+          <li class="spec__row reveal">
+            <span class="spec__num" aria-hidden="true">01</span>
+            <h3>הקמת תחנות דלק</h3>
+            <div class="spec__body"><p>הקמה מלאה של תחנה חדשה: עבודות עפר, מיכלים, צנרת, ריצוף, סככה, מבנה שירות וחיבור למשאבות, בתיאום מלא עם חברת הדלק והרשויות.</p></div>
+          </li>
+          <li class="spec__row reveal">
+            <span class="spec__num" aria-hidden="true">02</span>
+            <h3>שיפוץ ושדרוג תחנות</h3>
+            <div class="spec__body"><p>החלפת מיכלים וצנרת, שדרוג למערכות מישוב אדים, חידוש ריצוף וסככות, והתאמת תחנות ותיקות לדרישות הרגולציה העדכניות.</p></div>
+          </li>
+          <li class="spec__row reveal">
+            <span class="spec__num" aria-hidden="true">03</span>
+            <h3>תחנות גז</h3>
+            <div class="spec__body"><p>הקמה ושיפוץ של תחנות תדלוק בגז, כולל תשתיות, בטיחות ותיאום עם הגורמים המוסמכים.</p></div>
+          </li>
+          <li class="spec__row reveal">
+            <span class="spec__num" aria-hidden="true">04</span>
+            <h3>עבודות צנרת דלק</h3>
+            <div class="spec__body"><p>הנחת צנרת דלק ואדים, צנרת דו־קירית, חיבורים למיכלים ולמשאבות, בדיקות לחץ ואטימות ותיעוד מלא.</p></div>
+          </li>
+          <li class="spec__row reveal">
+            <span class="spec__num" aria-hidden="true">05</span>
+            <h3>עבודות עפר ופיתוח</h3>
+            <div class="spec__body"><p>חפירה, מילוי והידוק, הכנת שטח, בורות מיכלים, תשתיות ניקוז וריצוף, עם ציוד מכני הנדסי משלנו.</p></div>
+          </li>
+        </ul>
+
+        <article class="feature reveal" aria-labelledby="feature-title">
+          <div>
+            <span class="feature__badge">יכולת חדשה</span>
+            <h3 id="feature-title">מערכות דלק וחוות גנרטורים לדאטה סנטר</h3>
+            <p>
+              תשתית הגיבוי של דאטה סנטר חייבת לעבוד בכל מצב. אנחנו מבצעים את עבודות התשתית והדלק לחוות גנרטורים:
+              בורות ובסיסים, מיכלי דלק תת־קרקעיים ועיליים, צנרת אספקה והזנה, וחיבור למערכות הבקרה.
+            </p>
+            <a class="btn btn--primary" href="articles/data-center-generator-farm.html">איך בנויה חוות גנרטורים</a>
+          </div>
+          <ul class="feature__list">
+            <li>מיכלי אחסון דלק ומערכות מילוי</li>
+            <li>צנרת הזנה לגנרטורים בתצורת N+1</li>
+            <li>עבודות עפר, בסיסים ותשתיות לאתר</li>
+            <li>תיאום מול מתכננים, יועצי חשמל ורגולציה</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== לקוחות ממליצים ===== -->
+    <section class="section section--paper2 section--rule" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="index">04 / לקוחות ממליצים</span>
           <h2 id="testimonials-title">מה אומרים עלינו</h2>
         </div>
         <div class="testimonials">
@@ -292,21 +301,21 @@
           <article class="testimonial reveal">
             <blockquote>עבדנו עם חברת ש. גוטובסקי בהקמה ובשדרוג של מספר תחנות תדלוק. הצוות הפגין מקצועיות גבוהה, הקפיד על תקני הבטיחות המחמירים של הענף ועמד בלוחות הזמנים שנקבעו, גם כשהתנאים בשטח היו מורכבים. אנו ממליצים עליהם בחום לכל פרויקט תשתית בתחום.</blockquote>
             <footer>
-              <div class="testimonial__avatar" aria-hidden="true">י</div>
+              <div class="testimonial__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <div><strong>ישראל ישראלי</strong><span>סמנכ"ל, דלק</span></div>
             </footer>
           </article>
           <article class="testimonial reveal">
             <blockquote>בפרויקט הקמת חוות הגנרטורים למרכז הנתונים שלנו נדרשנו לקבלן שמבין מערכות קריטיות ואינו מתפשר על איכות. חברת ש. גוטובסקי סיפקה ביצוע מדויק, תיאום מלא עם כל הגורמים בשטח וזמינות לאורך כל הדרך. התוצאה עמדה בכל הדרישות ההנדסיות, ונשמח לעבוד איתם שוב.</blockquote>
             <footer>
-              <div class="testimonial__avatar" aria-hidden="true">ע</div>
+              <div class="testimonial__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <div><strong>עומא אדם</strong><span>יזם, מגה אור</span></div>
             </footer>
           </article>
           <article class="testimonial reveal">
             <blockquote>כבעלים של תחנת תדלוק פעילה, היה לי חשוב שהעבודות יתבצעו במינימום הפרעה לפעילות השוטפת. אנשי ש. גוטובסקי תכננו את העבודה בשלבים, עמדו במילה שלהם ונתנו שירות אישי ואכפתי מהיום הראשון ועד המסירה. עבודה נקייה, מסודרת ואמינה.</blockquote>
             <footer>
-              <div class="testimonial__avatar" aria-hidden="true">י</div>
+              <div class="testimonial__avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <div><strong>יוסי יוספי</strong><span>בעלים, סונול גלילות</span></div>
             </footer>
           </article>
@@ -315,49 +324,49 @@
     </section>
 
     <!-- ===== גלריה ===== -->
-    <section class="section" id="gallery" aria-labelledby="gallery-title">
+    <section class="section section--rule" id="gallery" aria-labelledby="gallery-title">
       <div class="container">
         <div class="section-head reveal">
-          <span class="kicker">גלריה</span>
+          <span class="index">05 / גלריה</span>
           <h2 id="gallery-title">מהשטח</h2>
           <p>לחיצה על תמונה פותחת אותה בגודל מלא.</p>
         </div>
         <div class="gallery reveal">
           <button class="gallery__item gallery__item--wide" type="button" data-full="images/paz-station-construction.webp" data-caption="הקמת תחנת דלק פז – סככה, טוטם ומבנה שירות">
             <img src="images/paz-station-construction.webp" alt="הקמת תחנת דלק פז – סככה, טוטם ומבנה שירות בשלבי בנייה" width="1600" height="578" loading="lazy">
-            <span class="gallery__caption">הקמת תחנת דלק</span>
+            <span class="gallery__caption">01 · הקמת תחנת דלק</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/earthworks-excavator.webp" data-caption="עבודות עפר – חפירה והכנת שטח">
             <img src="images/earthworks-excavator.webp" alt="מחפרון בעבודות עפר באתר תחנת דלק" width="493" height="310" loading="lazy">
-            <span class="gallery__caption">עבודות עפר</span>
+            <span class="gallery__caption">02 · עבודות עפר</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/concrete-pour.webp" data-caption="יציקת בטון לרחבת התדלוק">
             <img src="images/concrete-pour.webp" alt="יציקת בטון עם משאבה לרחבת תדלוק" width="558" height="310" loading="lazy">
-            <span class="gallery__caption">יציקת רחבה</span>
+            <span class="gallery__caption">03 · יציקת רחבה</span>
           </button>
           <button class="gallery__item gallery__item--wide" type="button" data-full="images/data-center-generator-farm.webp" data-caption="הדמיה: תכנון חוות גנרטורים 20 מגה־וואט לדאטה סנטר">
             <img src="images/data-center-generator-farm.webp" alt="הדמיית תכנון של חוות גנרטורים לדאטה סנטר עם מיכלי דלק" width="1600" height="899" loading="lazy">
-            <span class="gallery__caption">חוות גנרטורים (הדמיה)</span>
+            <span class="gallery__caption">04 · חוות גנרטורים (הדמיה)</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/station-building.webp" data-caption="מבנה שירות בתחנה – שלב השלד והגמר">
             <img src="images/station-building.webp" alt="מבנה שירות של תחנת דלק בשלב בנייה עם פיגומים" width="535" height="310" loading="lazy">
-            <span class="gallery__caption">מבנה שירות</span>
+            <span class="gallery__caption">05 · מבנה שירות</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/fuel-tank-crane-amazon.webp" data-caption="הדמיה: הנפת מיכל דלק בפרויקט דאטה סנטר">
             <img src="images/fuel-tank-crane-amazon.webp" alt="הדמיה של מנוף מניף מיכל דלק לבור באתר דאטה סנטר" width="1600" height="899" loading="lazy">
-            <span class="gallery__caption">מיכל דלק לדאטה סנטר (הדמיה)</span>
+            <span class="gallery__caption">06 · מיכל דלק (הדמיה)</span>
           </button>
           <button class="gallery__item gallery__item--wide" type="button" data-full="images/station-forecourt.webp" data-caption="רחבת תדלוק פעילה במהלך עבודות שדרוג">
             <img src="images/station-forecourt.webp" alt="רחבת תדלוק פעילה של תחנת דור אלון במהלך עבודות שדרוג" width="800" height="600" loading="lazy">
-            <span class="gallery__caption">שדרוג תחנה פעילה</span>
+            <span class="gallery__caption">07 · שדרוג תחנה פעילה</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/tank-sump-install.webp" data-caption="התקנת בריכת מיכל וחיבורי צנרת">
             <img src="images/tank-sump-install.webp" alt="בריכת מיכל צהובה עם חיבורי צנרת דלק בשלב ההתקנה" width="800" height="600" loading="lazy">
-            <span class="gallery__caption">בריכת מיכל וצנרת</span>
+            <span class="gallery__caption">08 · בריכת מיכל</span>
           </button>
           <button class="gallery__item" type="button" data-full="images/pump-sump-works.webp" data-caption="עבודות בבריכת משאבה טבולה">
             <img src="images/pump-sump-works.webp" alt="עובד מטפל במשאבה טבולה בתוך בריכת מיכל" width="800" height="600" loading="lazy">
-            <span class="gallery__caption">משאבה טבולה</span>
+            <span class="gallery__caption">09 · משאבה טבולה</span>
           </button>
         </div>
         <p class="gallery-note">
@@ -368,10 +377,10 @@
     </section>
 
     <!-- ===== מאמרים ===== -->
-    <section class="section section--alt" id="articles" aria-labelledby="articles-title">
+    <section class="section section--paper2 section--rule" id="articles" aria-labelledby="articles-title">
       <div class="container">
         <div class="section-head reveal">
-          <span class="kicker">מאמרים מקצועיים</span>
+          <span class="index">06 / מאמרים מקצועיים</span>
           <h2 id="articles-title">כדאי לדעת לפני שמתחילים</h2>
           <p>מדריכים קצרים למי שמתכנן תחנת דלק, משדרג תחנה קיימת או בונה גיבוי חשמלי לדאטה סנטר.</p>
         </div>
@@ -423,11 +432,10 @@
       <div class="container contact">
         <div class="reveal">
           <div class="section-head">
-            <span class="kicker">צור קשר</span>
+            <span class="index">07 / צור קשר</span>
             <h2 id="contact-title">נשמח לשמוע על הפרויקט שלכם</h2>
             <p>טלפון, וואטסאפ או מייל. נחזור אליכם בהקדם.</p>
           </div>
-
           <ul class="contact-list">
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
@@ -446,7 +454,6 @@
               <div><strong>כתובת</strong><span class="rtl">המייסדים 6, מושב בניה</span></div>
             </li>
           </ul>
-
           <div class="social">
             <a class="btn btn--whatsapp" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2m0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2"/></svg>
@@ -462,7 +469,6 @@
               אימייל
             </a>
           </div>
-
           <div class="map">
             <iframe
               src="https://www.google.com/maps?q=%D7%94%D7%9E%D7%99%D7%99%D7%A1%D7%93%D7%99%D7%9D%206%2C%20%D7%91%D7%A0%D7%99%D7%94&hl=he&z=15&output=embed"
@@ -472,7 +478,6 @@
               allowfullscreen></iframe>
           </div>
         </div>
-
         <form class="form reveal" id="contact-form" novalidate>
           <h3>השאירו פרטים ונחזור אליכם</h3>
           <p>כמה שאלות קצרות שיעזרו לנו להגיע לשיחה מוכנים.</p>
@@ -535,8 +540,8 @@
           <h4>ניווט</h4>
           <ul>
             <li><a href="#about">קצת עלינו</a></li>
+            <li><a href="#process">איך עובדים</a></li>
             <li><a href="#services">שירותים</a></li>
-            <li><a href="#clients">לקוחות</a></li>
             <li><a href="#gallery">גלריה</a></li>
             <li><a href="#contact">צור קשר</a></li>
           </ul>
@@ -562,7 +567,6 @@
       <div class="footer__bottom">
         <span>© <span id="year"></span> ש. גוטובסקי. כל הזכויות שמורות. <!-- TODO: להשלים מספר ח.פ. --> ח.פ. [מספר חברה]</span>
         <span class="legal-links"><a href="accessibility.html">הצהרת נגישות</a><a href="privacy.html">מדיניות פרטיות</a></span>
-        <a href="#top">חזרה למעלה ↑</a>
       </div>
     </div>
   </footer>
