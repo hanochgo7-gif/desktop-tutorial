@@ -1,92 +1,200 @@
-/* ש. גוטובסקי – סקריפט האתר (ללא תלויות) */
+/* ש. גוטובסקי – סקריפט ראשי
+   אנימציות עם GSAP + ScrollTrigger כשהן זמינות; ללא GSAP, בהפחתת תנועה
+   או כשמופעל "עצירת אנימציות" בתפריט הנגישות – הכול מוצג מיד ובלי תנועה. */
 (function () {
   'use strict';
 
-  /* ---------- כותרת דביקה: צל בגלילה ---------- */
-  var header = document.querySelector('.header');
+  var root = document.documentElement;
+  var body = document.body;
+  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mqFine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var mqDesktop = window.matchMedia('(min-width: 1000px)');
+
+  function noMotion() { return mqReduce.matches || root.classList.contains('a11y-no-motion'); }
+  function hasGsap() { return !!(window.gsap && window.ScrollTrigger); }
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  /* ---------- כותרת עליונה: צבע לפי הקטע, הסתרה בגלילה ---------- */
+  var header = $('.header');
+  var lastY = window.scrollY;
   function onScroll() {
-    if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    var y = window.scrollY;
+    if (header) {
+      header.classList.toggle('is-scrolled', y > 40);
+      if (y > 300 && y > lastY + 6 && !body.classList.contains('menu-open')) header.classList.add('is-hidden');
+      else if (y < lastY - 6 || y < 300) header.classList.remove('is-hidden');
+    }
+    lastY = y;
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ---------- תפריט נייד ---------- */
-  var toggle = document.querySelector('.nav-toggle');
-  var menu = document.getElementById('mobile-menu');
-  function closeMenu() {
+  var themed = $$('[data-theme]').filter(function (el) { return !el.classList.contains('header'); });
+  if (header && themed.length && 'IntersectionObserver' in window) {
+    var themeIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) header.setAttribute('data-theme', e.target.getAttribute('data-theme')); });
+    }, { rootMargin: '-40px 0px -85% 0px', threshold: 0 });
+    themed.forEach(function (el) { themeIO.observe(el); });
+  }
+
+  /* ---------- תפריט מסך מלא ---------- */
+  var toggle = $('.nav-toggle');
+  var menu = $('#mobile-menu');
+  function setMenu(open) {
     if (!toggle || !menu) return;
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'פתיחת תפריט');
-    menu.classList.remove('is-open');
-    document.body.style.overflow = '';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+    menu.classList.toggle('is-open', open);
+    body.classList.toggle('menu-open', open);
+    body.style.overflow = open ? 'hidden' : '';
+    if (open && header) { header.classList.remove('is-hidden'); header.setAttribute('data-theme', 'dark'); }
   }
   if (toggle && menu) {
-    toggle.addEventListener('click', function () {
-      var open = toggle.getAttribute('aria-expanded') === 'true';
-      if (open) { closeMenu(); return; }
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'סגירת תפריט');
-      menu.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-    });
-    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
-    window.addEventListener('resize', function () { if (window.innerWidth >= 960) closeMenu(); });
+    toggle.addEventListener('click', function () { setMenu(toggle.getAttribute('aria-expanded') !== 'true'); });
+    $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
 
-  /* ---------- סימון הקישור הפעיל בניווט ---------- */
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
-  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    var activeObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        navLinks.forEach(function (a) {
-          a.classList.toggle('is-active', a.getAttribute('href') === '#' + entry.target.id);
-        });
+  /* ---------- קישור פעיל בניווט ---------- */
+  var navLinks = $$('.nav a[href^="#"]');
+  var sections = navLinks.map(function (a) { return $(a.getAttribute('href')); }).filter(Boolean);
+  if (sections.length && 'IntersectionObserver' in window) {
+    var navIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + e.target.id); });
       });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    sections.forEach(function (s) { activeObserver.observe(s); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { navIO.observe(s); });
   }
 
-  /* ---------- חשיפה בגלילה ---------- */
-  var reveals = document.querySelectorAll('.reveal');
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion || !('IntersectionObserver' in window)) {
+  /* ---------- פיצול כותרות למילים (לאנימציה) ---------- */
+  $$('[data-split]').forEach(function (el) {
+    if (el.dataset.splitDone) return;
+    el.dataset.splitDone = '1';
+    var out = '';
+    Array.prototype.forEach.call(el.childNodes, function (node) {
+      if (node.nodeType === 3) {
+        out += node.textContent.split(/(\s+)/).map(function (t) { return /^\s+$/.test(t) || !t ? t : '<span class="w"><span>' + t + '</span></span>'; }).join('');
+      } else if (node.nodeType === 1) {
+        var inner = node.textContent.split(/(\s+)/).map(function (t) { return /^\s+$/.test(t) || !t ? t : '<span class="w"><span>' + t + '</span></span>'; }).join('');
+        out += '<' + node.tagName.toLowerCase() + (node.className ? ' class="' + node.className + '"' : '') + '>' + inner + '</' + node.tagName.toLowerCase() + '>';
+      }
+    });
+    el.innerHTML = out;
+  });
+
+  /* ---------- מניפסט: פיצול למילים ---------- */
+  $$('[data-scrub-text]').forEach(function (el) {
+    if (el.dataset.scrubDone) return;
+    el.dataset.scrubDone = '1';
+    var out = '';
+    Array.prototype.forEach.call(el.childNodes, function (node) {
+      var cls = node.nodeType === 1 ? node.className : '';
+      var text = node.textContent;
+      var words = text.split(/(\s+)/).map(function (t) { return /^\s+$/.test(t) || !t ? t : '<span class="sw' + (cls ? ' ' + cls : '') + '">' + t + '</span>'; }).join('');
+      out += words;
+    });
+    el.innerHTML = out;
+  });
+
+  /* ---------- חשיפה בגלילה (נפילה ללא GSAP) ---------- */
+  var reveals = $$('.reveal');
+  if (noMotion() || !('IntersectionObserver' in window)) {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   } else {
-    var revealObserver = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(function (el) { revealObserver.observe(el); });
+    var revIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); revIO.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(function (el) { revIO.observe(el); });
   }
 
-  /* ---------- לייטבוקס לגלריה ---------- */
-  var lightbox = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lightbox-img');
-  var lbCaption = document.getElementById('lightbox-caption');
-  var lbClose = document.getElementById('lightbox-close');
-  if (lightbox && lbImg && typeof lightbox.showModal === 'function') {
-    document.querySelectorAll('.gallery__item').forEach(function (btn) {
+  /* ---------- מונים ---------- */
+  var yearNow = new Date().getFullYear();
+  $$('[data-count-years]').forEach(function (el) { el.dataset.count = String(yearNow - parseInt(el.dataset.countYears, 10)); el.textContent = el.dataset.count; });
+  function runCounter(el) {
+    var to = parseInt(el.dataset.count, 10);
+    if (isNaN(to) || el.dataset.counted) return;
+    el.dataset.counted = '1';
+    if (noMotion()) { el.textContent = String(to); return; }
+    var start = null, dur = 1400;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = String(Math.round(to * eased));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counters = $$('[data-count]');
+  if ('IntersectionObserver' in window) {
+    var cIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { runCounter(e.target); cIO.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cIO.observe(el); });
+  } else { counters.forEach(runCounter); }
+
+  /* ---------- תחומי פעילות: תמונה שעוקבת אחרי העכבר ---------- */
+  var preview = $('#fields-preview');
+  var fieldsList = $('#fields-list');
+  if (preview && fieldsList && mqFine.matches) {
+    var pimgs = $$('img', preview);
+    var px = 0, py = 0, tx = 0, ty = 0, raf = null;
+    function loop() {
+      px += (tx - px) * 0.14; py += (ty - py) * 0.14;
+      preview.style.transform = 'translate(' + (px - 180) + 'px,' + (py - 135) + 'px)' + (preview.classList.contains('is-on') ? ' scale(1)' : ' scale(.85)');
+      raf = requestAnimationFrame(loop);
+    }
+    fieldsList.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; if (!raf) loop(); });
+    $$('.field', fieldsList).forEach(function (a) {
+      a.addEventListener('mouseenter', function () {
+        if (noMotion()) return;
+        var src = a.dataset.preview;
+        pimgs.forEach(function (im) { im.classList.toggle('is-on', im.dataset.src === src); });
+        preview.classList.add('is-on');
+      });
+    });
+    fieldsList.addEventListener('mouseleave', function () { preview.classList.remove('is-on'); });
+  }
+
+  /* ---------- קרוסלת המלצות ---------- */
+  var track = $('#testimonial-track');
+  if (track) {
+    $$('.carousel__btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var caption = btn.getAttribute('data-caption') || '';
-        lbImg.src = btn.getAttribute('data-full');
-        lbImg.alt = caption;
-        if (lbCaption) lbCaption.textContent = caption;
+        var card = track.querySelector('.testimonial');
+        var step = card ? card.getBoundingClientRect().width + 20 : 320;
+        var dir = btn.dataset.dir === 'next' ? -1 : 1; /* RTL: הבא = שמאלה */
+        track.scrollBy({ left: dir * step, behavior: noMotion() ? 'auto' : 'smooth' });
+      });
+    });
+  }
+
+  /* ---------- לייטבוקס ---------- */
+  var lightbox = $('#lightbox');
+  var lbImg = $('#lightbox-img');
+  var lbCap = $('#lightbox-caption');
+  if (lightbox && lbImg && typeof lightbox.showModal === 'function') {
+    $$('.gallery__item').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var img = btn.querySelector('img');
+        lbImg.src = btn.dataset.full || (img && img.src) || '';
+        lbImg.alt = img ? img.alt : '';
+        if (lbCap) lbCap.textContent = btn.dataset.caption || '';
         lightbox.showModal();
       });
     });
+    var lbClose = $('#lightbox-close');
     if (lbClose) lbClose.addEventListener('click', function () { lightbox.close(); });
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
     lightbox.addEventListener('close', function () { lbImg.src = ''; });
   }
 
   /* ---------- טופס: שליחה למייל המשרד דרך FormSubmit ---------- */
-  var form = document.getElementById('contact-form');
-  var notice = document.getElementById('form-notice');
+  var form = $('#contact-form');
+  var notice = $('#form-notice');
   var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
   var THANKS = 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
   function showNotice(html, ok) {
@@ -94,11 +202,10 @@
     notice.innerHTML = html;
     notice.classList.toggle('form__notice--ok', !!ok);
     notice.hidden = false;
-    notice.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    notice.scrollIntoView({ block: 'nearest', behavior: noMotion() ? 'auto' : 'smooth' });
   }
   if (form) {
-    /* ללא JS: FormSubmit מחזיר לכאן אחרי השליחה */
-    var next = document.getElementById('f-next');
+    var next = $('#f-next');
     if (next) next.value = location.origin + location.pathname + '?sent=1#contact';
     if (/[?&]sent=1/.test(location.search)) {
       showNotice(THANKS, true);
@@ -113,96 +220,164 @@
       if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
       var data = new FormData(form);
       data.delete('_next');
-      fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
-        method: 'POST', body: data, headers: { 'Accept': 'application/json' }
-      }).then(function (r) { return r.ok ? r.json() : Promise.reject(r); }).then(function () {
-        form.reset();
-        showNotice(THANKS, true);
-      }).catch(function () {
-        showNotice('השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false);
-      }).then(function () {
-        if (btn) { btn.disabled = false; btn.textContent = label; }
-      });
+      fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+        .then(function () { form.reset(); showNotice(THANKS, true); })
+        .catch(function () { showNotice('השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
+        .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
     });
   }
 
   /* ---------- שנה בכותרת התחתונה ---------- */
-  var year = document.getElementById('year');
-  if (year) year.textContent = String(new Date().getFullYear());
-})();
+  var year = $('#year');
+  if (year) year.textContent = String(yearNow);
 
-/* ---------- תוספות לגרסה הקולנועית ---------- */
-(function () {
-  'use strict';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ======================================================================
+     אנימציות GSAP (רק כשהספרייה נטענה ואין הפחתת תנועה)
+     ====================================================================== */
+  var loader = $('#loader');
+  var loaderNum = $('#loader-num');
 
-  /* כותרת: מצב "מעל ההירו" מתחלף למצב מלא אחרי גלילה קצרה */
-  var header = document.querySelector('.header');
-  if (header && document.body.classList.contains('has-hero')) {
-    var onHeroScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 40); };
-    window.addEventListener('scroll', onHeroScroll, { passive: true });
-    onHeroScroll();
+  function finishLoader() { if (loader) loader.classList.add('is-done'); }
+
+  function heroIntroStatic() {
+    finishLoader();
   }
 
-  /* פרלקסה עדינה לתמונות עם data-parallax */
-  var pItems = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
-  if (pItems.length && !reduce) {
-    var ticking = false;
-    var updateParallax = function () {
-      ticking = false;
-      var vh = window.innerHeight;
-      pItems.forEach(function (el) {
-        var r = el.parentElement.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > vh) return;
-        var f = parseFloat(el.getAttribute('data-parallax')) || 0.1;
-        var shift = (r.top + r.height / 2 - vh / 2) * f * -1;
-        el.style.transform = 'translateY(' + shift.toFixed(1) + 'px)';
-      });
-    };
-    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(updateParallax); } }, { passive: true });
-    updateParallax();
-  }
+  function initGsap() {
+    var gsap = window.gsap, ST = window.ScrollTrigger;
+    gsap.registerPlugin(ST);
+    gsap.defaults({ ease: 'power3.out' });
 
-  /* מונים: data-count = יעד; data-count-years = שנת התחלה (מחושב לשנה הנוכחית) */
-  var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count], [data-count-years]'));
-  counters.forEach(function (el) {
-    if (el.hasAttribute('data-count-years')) {
-      el.setAttribute('data-count', String(new Date().getFullYear() - parseInt(el.getAttribute('data-count-years'), 10)));
+    /* מסך טעינה + כניסת הירו */
+    var heroLines = $$('.hero .line > span');
+    var heroFades = $$('[data-hero-fade], [data-hero-kicker]');
+    var heroImg = $('#hero-img');
+    gsap.set(heroLines, { yPercent: 110 });
+    gsap.set(heroFades, { autoAlpha: 0, y: 24 });
+    if (heroImg) gsap.set(heroImg, { scale: 1.18 });
+
+    var intro = gsap.timeline({ onComplete: finishLoader });
+    if (loader && !loader.classList.contains('is-done')) {
+      loader.style.animation = 'none';
+      var n = { v: 0 };
+      intro.to(n, { v: 100, duration: 1.1, ease: 'power2.inOut', onUpdate: function () { if (loaderNum) loaderNum.textContent = String(Math.round(n.v)); } })
+           .to(loader, { yPercent: -101, duration: .8, ease: 'power4.inOut' }, '+=0.1');
     }
-  });
-  function runCounter(el) {
-    var target = parseInt(el.getAttribute('data-count'), 10);
-    if (isNaN(target)) return;
-    if (reduce) { el.textContent = String(target); return; }
-    var start = null, dur = 1200;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min(1, (ts - start) / dur);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = String(Math.round(target * eased));
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  if ('IntersectionObserver' in window && counters.length) {
-    var cObs = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (e) { if (e.isIntersecting) { runCounter(e.target); obs.unobserve(e.target); } });
-    }, { threshold: 0.5 });
-    counters.forEach(function (el) { cObs.observe(el); });
-  } else {
-    counters.forEach(function (el) { el.textContent = el.getAttribute('data-count'); });
-  }
+    intro.to(heroImg, { scale: 1, duration: 2.2, ease: 'power2.out' }, '<0.1')
+         .to(heroLines, { yPercent: 0, duration: 1.1, stagger: .12, ease: 'power4.out' }, '<0.15')
+         .to(heroFades, { autoAlpha: 1, y: 0, duration: .9, stagger: .1 }, '<0.5');
 
-  /* קרוסלת המלצות */
-  var track = document.getElementById('testimonial-track');
-  if (track) {
-    document.querySelectorAll('.carousel__btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var card = track.querySelector('.testimonial');
-        var step = card ? card.getBoundingClientRect().width + 18 : 320;
-        var dir = btn.getAttribute('data-dir') === 'next' ? -1 : 1; /* RTL: הבא = שמאלה */
-        track.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' });
-      });
+    /* פרלקסה עדינה להירו */
+    gsap.to('.hero__media', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero__inner', { yPercent: -10, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '55% top', end: 'bottom top', scrub: true } });
+
+    /* כותרות: מילים שעולות */
+    $$('[data-split]').forEach(function (el) {
+      if (el.closest('.hero')) return;
+      var words = $$('.w > span', el);
+      gsap.set(words, { yPercent: 110 });
+      ST.create({ trigger: el, start: 'top 85%', once: true, onEnter: function () { gsap.to(words, { yPercent: 0, duration: 1, stagger: .045, ease: 'power4.out' }); } });
     });
+
+    /* חשיפת תמונות */
+    $$('[data-img-reveal]').forEach(function (box) {
+      var img = box.querySelector('img');
+      gsap.set(box, { clipPath: 'inset(0 0 100% 0)' });
+      gsap.set(img, { scale: 1.25 });
+      ST.create({ trigger: box, start: 'top 80%', once: true, onEnter: function () {
+        gsap.to(box, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'power4.inOut' });
+        gsap.to(img, { scale: 1, duration: 1.8, ease: 'power3.out' });
+      } });
+    });
+    $$('.gallery__item, .pcard__media, .article-card > img').forEach(function (box) {
+      gsap.from(box, { autoAlpha: 0, y: 40, duration: 1, scrollTrigger: { trigger: box, start: 'top 92%', once: true } });
+    });
+
+    /* פרלקסה לתמונות מסומנות */
+    $$('[data-parallax]').forEach(function (img) {
+      var amt = parseFloat(img.dataset.parallax) || 0.1;
+      gsap.fromTo(img, { yPercent: -amt * 100 }, { yPercent: amt * 100, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+
+    /* מניפסט: מילים שמתמלאות בגלילה */
+    var sw = $$('.manifesto .sw');
+    if (sw.length) {
+      gsap.set(sw, { opacity: .14 });
+      gsap.to(sw, { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: '.manifesto p', start: 'top 80%', end: 'bottom 45%', scrub: .4 } });
+    }
+
+    /* פרויקטים: גלילה אופקית מוצמדת (בדסקטופ בלבד) */
+    var pin = $('#hscroll-pin'), htrack = $('#hscroll-track'), hview = $('#hscroll-viewport');
+    if (pin && htrack) {
+      ST.matchMedia({
+        '(min-width: 1000px)': function () {
+          var dist = function () { return htrack.scrollWidth - hview.clientWidth; };
+          gsap.to(htrack, { x: function () { return dist(); }, ease: 'none', scrollTrigger: { trigger: pin, start: 'top 12%', end: function () { return '+=' + dist(); }, pin: true, scrub: .6, invalidateOnRefresh: true, anticipatePin: 1 } });
+        }
+      });
+    }
+
+    /* תהליך: קו שנמשך ושלבים שנדלקים */
+    var pline = $('#process-line'), plist = $('#process-list');
+    if (pline && plist) {
+      var horiz = mqDesktop.matches;
+      gsap.fromTo(pline, horiz ? { scaleX: 0 } : { scaleY: 0 }, horiz ? { scaleX: 1 } : { scaleY: 1 }, { ease: 'none', scrollTrigger: { trigger: plist, start: 'top 70%', end: 'bottom 60%', scrub: true } });
+      $$('li', plist).forEach(function (li) { ST.create({ trigger: li, start: horiz ? 'top 75%' : 'top 65%', onEnter: function () { li.classList.add('is-on'); }, onLeaveBack: function () { li.classList.remove('is-on'); } }); });
+    }
+
+    /* מספרים ענקיים: כניסה */
+    gsap.from('.stats li', { y: 40, autoAlpha: 0, stagger: .08, duration: .7, scrollTrigger: { trigger: '.stats', start: 'top 85%', once: true } });
+
+    /* קריאה לפעולה: הטבעת מסתובבת בגלילה */
+    var ring = $('.cta__ring');
+    if (ring) gsap.to(ring, { rotate: 90, ease: 'none', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+    /* כפתורים מגנטיים */
+    if (mqFine.matches) {
+      $$('[data-magnetic]').forEach(function (btn) {
+        var xTo = gsap.quickTo(btn, 'x', { duration: .5, ease: 'power3' }), yTo = gsap.quickTo(btn, 'y', { duration: .5, ease: 'power3' });
+        btn.addEventListener('mousemove', function (e) {
+          var r = btn.getBoundingClientRect();
+          xTo((e.clientX - (r.left + r.width / 2)) * .3); yTo((e.clientY - (r.top + r.height / 2)) * .3);
+        });
+        btn.addEventListener('mouseleave', function () { xTo(0); yTo(0); });
+      });
+    }
+
+    /* סמן מותאם */
+    var cursor = $('#cursor');
+    if (cursor && mqFine.matches) {
+      var cx = gsap.quickTo(cursor, 'x', { duration: .25, ease: 'power3' }), cy = gsap.quickTo(cursor, 'y', { duration: .25, ease: 'power3' });
+      window.addEventListener('mousemove', function (e) { cx(e.clientX); cy(e.clientY); cursor.classList.remove('is-hidden'); }, { passive: true });
+      document.addEventListener('mouseleave', function () { cursor.classList.add('is-hidden'); });
+      document.addEventListener('mouseover', function (e) { cursor.classList.toggle('is-hover', !!e.target.closest('a, button, .gallery__item, .field')); });
+    }
+
+    /* עדכון מיקומים אחרי טעינת תמונות/גופנים */
+    window.addEventListener('load', function () { ST.refresh(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ST.refresh(); });
+
+    /* כיבוי כשמפעילים "עצירת אנימציות" בתפריט הנגישות */
+    var mo = new MutationObserver(function () {
+      if (!root.classList.contains('a11y-no-motion')) return;
+      mo.disconnect();
+      ST.getAll().forEach(function (t) { t.kill(true); });
+      gsap.globalTimeline.clear();
+      gsap.set('.hero__media, .hero__inner, .hero .line > span, [data-hero-fade], [data-hero-kicker], #hero-img, [data-split] .w > span, [data-img-reveal], [data-img-reveal] img, .gallery__item, .pcard__media, .article-card > img, [data-parallax], .manifesto .sw, #hscroll-track, #process-line, .stats li, .cta__ring, [data-magnetic]', { clearProps: 'all' });
+      finishLoader();
+    });
+    mo.observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  function boot() {
+    if (!noMotion() && hasGsap()) { try { initGsap(); return; } catch (err) { /* נפילה למצב סטטי */ } }
+    heroIntroStatic();
+  }
+  /* GSAP נטען עם defer לפני הקובץ הזה; ליתר ביטחון ממתינים לטעינה אם עדיין לא זמין */
+  if (hasGsap() || noMotion()) boot();
+  else {
+    var tries = 0;
+    var wait = setInterval(function () { if (hasGsap() || ++tries > 20) { clearInterval(wait); boot(); } }, 50);
   }
 })();
