@@ -277,6 +277,8 @@ button { font: inherit; cursor: pointer; }
   background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm);
   font-weight: 900; font-size: 1.35rem; color: var(--navy);
 }
+.client img { height: 64px; width: auto; }
+.client--text { font-weight: 900; }
 .client small { display: block; font-size: .75rem; font-weight: 500; color: var(--muted); text-align: center; }
 @media (min-width: 720px) { .clients { grid-template-columns: repeat(5, 1fr); } }
 .clients-note { margin-top: 16px; color: var(--muted); font-size: .9rem; }
