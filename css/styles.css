@@ -101,7 +101,6 @@ a, button, [role="button"] { cursor: pointer; }
 .nav a:hover, .nav a.is-active { text-decoration: none; }
 .nav a::after { content: ""; position: absolute; inset-inline: 12px; bottom: 4px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform .25s var(--ease); }
 .nav a:hover::after, .nav a.is-active::after { transform: scaleX(1); }
-.header__cta { display: none; min-height: 42px; padding-block: 8px; }
 .nav-toggle { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--ink); background: transparent; color: var(--ink); }
 .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after { display: block; width: 22px; height: 1.5px; background: currentColor; position: relative; transition: transform .2s ease, opacity .2s ease; }
 .nav-toggle span::before, .nav-toggle span::after { content: ""; position: absolute; right: 0; }
@@ -121,7 +120,6 @@ body.has-hero .header:not(.is-scrolled) .nav-toggle { color: #fff; border-color:
 .mobile-menu .btn { margin-top: 24px; }
 @media (min-width: 1000px) {
   .nav { display: block; }
-  .header__cta { display: inline-flex; }
   .nav-toggle, .mobile-menu { display: none !important; }
 }
 
