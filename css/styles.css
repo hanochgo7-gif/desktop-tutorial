@@ -279,7 +279,11 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .manifesto p { font-size: clamp(1.6rem, 4.2vw, 3.6rem); font-weight: 700; line-height: 1.25; letter-spacing: -.02em; max-width: 26ch; margin: 0; }
 .manifesto .sw { transition: opacity .2s; }
 .manifesto .accent { color: var(--accent); }
-.manifesto__meta { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 14px 40px; font-size: .9rem; color: var(--muted); }
+.manifesto__meta { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; font-size: .9rem; color: var(--muted); }
+.manifesto__meta > div { display: grid; gap: 2px; align-content: start; padding: 18px 20px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out); }
+.manifesto__meta > div:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.manifesto__meta img { width: 72px; height: 72px; margin-bottom: 8px; transition: transform .4s var(--ease-out); }
+.manifesto__meta > div:hover img { transform: translateY(-3px) rotate(-3deg); }
 .manifesto__meta strong { display: block; color: var(--ink); font-size: 1.1rem; }
 
 /* ---------- About ---------- */
