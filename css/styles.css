@@ -284,6 +284,19 @@ a, button, [role="button"] { cursor: pointer; }
   .pcard__media { aspect-ratio: 16/10; }
 }
 
+/* ---------- Cases (projects, text only) ---------- */
+.cases { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.case { display: grid; gap: 18px; padding-block: 36px; border-bottom: 1px solid var(--line); }
+.case__head { display: grid; gap: 10px; align-content: start; }
+.case__num { font-size: .85rem; letter-spacing: .14em; color: var(--accent-deep); font-weight: 700; font-variant-numeric: tabular-nums; }
+.case__title { font-size: clamp(1.5rem, 3vw, 2.3rem); font-weight: 800; letter-spacing: -.02em; margin: 0; line-height: 1.15; }
+.case__title em { font-style: normal; color: var(--muted); font-weight: 500; }
+.case__lead { margin: 0; font-size: 1.05rem; color: var(--ink); font-weight: 500; max-width: 42ch; }
+.case__tags { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.case__tags li { font-size: .78rem; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); background: var(--paper); }
+.case__body p { margin: 0; color: var(--ink-2); font-weight: 300; line-height: 1.7; max-width: 62ch; }
+@media (min-width: 900px) { .case { grid-template-columns: 1.05fr 1fr; gap: 56px; padding-block: 52px; } }
+
 /* ---------- Stats band ---------- */
 .stats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
 .stats li { display: grid; gap: 8px; border-top: 1px solid var(--line-dark); padding-top: 22px; }
