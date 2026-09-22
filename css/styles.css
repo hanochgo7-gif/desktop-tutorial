@@ -319,7 +319,10 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .fields { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-dark); position: relative; }
 .field { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line-dark); color: inherit; position: relative; transition: padding .4s var(--ease-out); }
 .field:hover, .field:focus-visible { padding-inline-start: 14px; }
-.field__num { font-size: .85rem; color: var(--accent-2); font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.field__icon { display: grid; justify-items: center; gap: 4px; align-self: start; }
+.field__icon img { width: 56px; height: 56px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid var(--line-dark); padding: 4px; transition: transform .5s var(--ease-out), background .35s, border-color .35s; }
+.field:hover .field__icon img { transform: translateY(-4px) rotate(-4deg) scale(1.05); background: rgba(255,255,255,.12); border-color: rgba(79,187,234,.5); }
+.field__num { font-size: .72rem; color: var(--accent-2); font-weight: 600; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
 .field__body { display: grid; gap: 4px; }
 .field h3 { font-size: clamp(1.5rem, 3.6vw, 3rem); font-weight: 800; letter-spacing: -.03em; margin: 0; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; transition: color .3s; }
 .field:hover h3 { color: var(--accent-2); }
@@ -332,7 +335,8 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .field__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .fields__preview { display: none; }
 @media (min-width: 1000px) {
-  .field { grid-template-columns: 80px 1fr auto; padding: 34px 0; }
+  .field { grid-template-columns: 96px 1fr auto; padding: 34px 0; }
+  .field__icon img { width: 68px; height: 68px; }
   .field__thumb { display: none; }
   .fields__preview { display: block; position: fixed; top: 0; left: 0; width: 360px; aspect-ratio: 4/3; border-radius: var(--radius); overflow: hidden; pointer-events: none; z-index: 50; opacity: 0; transform: scale(.85); transition: opacity .35s var(--ease), transform .5s var(--ease-out); box-shadow: var(--shadow); }
   .fields__preview.is-on { opacity: 1; transform: scale(1); }
