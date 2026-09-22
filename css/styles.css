@@ -376,10 +376,12 @@ a, button, [role="button"] { cursor: pointer; }
 .process::before { content: ""; position: absolute; top: 0; bottom: 0; inset-inline-start: 27px; width: 1px; background: var(--line); }
 .process__line { position: absolute; top: 0; bottom: 0; inset-inline-start: 27px; width: 1px; background: var(--accent); transform-origin: top; transform: scaleY(0); }
 .process li { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 6px 20px; padding-block: 28px; counter-increment: step; }
-.process li::before { grid-row: 1 / span 2; }
+.process__icon { grid-row: 1 / span 2; }
 .process li h3, .process li p { grid-column: 2; }
-.process li::before { content: "0" counter(step); width: 56px; height: 56px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); display: grid; place-items: center; font-weight: 700; font-size: .85rem; letter-spacing: .06em; position: relative; z-index: 1; transition: background .4s, color .4s, border-color .4s; }
-.process li.is-on::before { background: var(--accent); color: #fff; border-color: var(--accent); }
+.process li::before { content: none; }
+.process__icon { width: 56px; height: 56px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); position: relative; z-index: 1; transition: border-color .4s, box-shadow .4s; }
+.process li.is-on .process__icon { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(31,143,191,.2); }
+
 .process h3 { font-size: clamp(1.4rem, 2.4vw, 2rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
 .process p { margin: 0; color: var(--muted); max-width: 56ch; font-weight: 300; }
 @media (min-width: 900px) {
@@ -387,7 +389,7 @@ a, button, [role="button"] { cursor: pointer; }
   .process::before, .process__line { top: 27px; bottom: auto; inset-inline: 0; height: 1px; width: auto; transform-origin: right; transform: scaleX(0); }
   .process::before { transform: none; }
   .process li { grid-template-columns: 1fr; padding-block: 0; }
-  .process li::before { grid-row: auto; }
+  .process__icon { grid-row: auto; }
   .process li h3, .process li p { grid-column: 1; }
 }
 
