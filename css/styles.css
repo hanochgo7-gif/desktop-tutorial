@@ -604,7 +604,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 
 /* ---------- Footer ---------- */
 .footer { position: relative; background: var(--black); color: var(--on-dark-muted); padding-block: 72px 28px; font-size: .95rem; overflow: hidden; border-top: 1px solid var(--line-dark); }
-.footer__mark { font-size: clamp(4rem, 19vw, 18rem); font-weight: 900; line-height: .85; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.18); pointer-events: none; user-select: none; white-space: nowrap; margin: 0 0 48px; text-align: center; }
+.footer__mark { font-size: clamp(4rem, 19vw, 18rem); font-weight: 900; line-height: .85; letter-spacing: -.05em; color: #fff; text-shadow: 0 0 40px rgba(255,255,255,.25); pointer-events: none; user-select: none; white-space: nowrap; margin: 0 0 48px; text-align: center; }
 .footer__grid { position: relative; display: grid; gap: 28px; margin-bottom: 40px; }
 .footer__brand img { height: 64px; width: auto; background: #fff; padding: 8px 16px; border-radius: 14px; margin-bottom: 16px; }
 .footer h4 { color: #fff; font-size: .78rem; letter-spacing: .16em; margin-bottom: 14px; }
@@ -641,6 +641,9 @@ body:not(.has-hero) .header { --hdr-fg: #fff; }
 .article-body > p:first-of-type { font-size: 1.22rem; color: var(--ink); line-height: 1.7; }
 .article-body strong { color: var(--ink); font-weight: 700; }
 .article-body img { border-radius: var(--radius); margin: 8px 0 24px; box-shadow: var(--shadow); }
+.article-figure { position: relative; margin: 8px 0 28px; }
+.article-figure img { margin: 0; border-radius: var(--radius-lg); }
+.article-figure figcaption { position: absolute; top: 14px; inset-inline-start: 14px; font-size: .7rem; letter-spacing: .12em; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(12,13,15,.7); color: #fff; }
 .article-body h2 { font-size: 2rem; margin-top: 1.6em; font-weight: 800; padding-top: .6em; border-top: 1px solid var(--line); }
 .article-body h3 { font-size: 1.25rem; margin-top: 1.3em; font-weight: 700; }
 .article-body ul, .article-body ol { margin-bottom: 1.2em; }
@@ -658,8 +661,10 @@ body:not(.has-hero) .header { --hdr-fg: #fff; }
 .aside-card h3 { font-size: 1.1rem; font-weight: 700; }
 .aside-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .aside-card a { color: var(--accent-deep); }
-.aside-card--cta { background: var(--black); color: var(--on-dark); border-color: transparent; }
+.aside-card--cta { background: linear-gradient(160deg, var(--accent) 0%, var(--accent-deep) 100%); color: #fff; border-color: transparent; box-shadow: 0 20px 40px -20px rgba(12,107,150,.6); }
 .aside-card--cta h3 { color: #fff; }
+.aside-card--cta p { color: rgba(255,255,255,.9); }
+.aside-card--cta .btn--outline { border-color: rgba(255,255,255,.6); }
 .aside-card--cta .btn { margin-top: 12px; width: 100%; }
 @media (min-width: 960px) { .article-layout { grid-template-columns: minmax(0, 1fr) 320px; } .article-aside { position: sticky; top: calc(var(--header-h) + 20px); } }
 
