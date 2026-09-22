@@ -663,7 +663,7 @@ body:not(.has-hero) .header { --hdr-fg: #fff; }
 .article-body strong { color: var(--ink); font-weight: 700; }
 .article-body img { border-radius: var(--radius); margin: 8px 0 24px; box-shadow: var(--shadow); }
 .article-figure { position: relative; margin: 8px 0 28px; }
-.article-figure img { margin: 0; border-radius: var(--radius-lg); }
+.article-figure img { margin: 0; border-radius: var(--radius-lg); width: 100%; max-height: 360px; object-fit: cover; object-position: center 40%; }
 .article-figure figcaption { position: absolute; top: 14px; inset-inline-start: 14px; font-size: .7rem; letter-spacing: .12em; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(12,13,15,.7); color: #fff; }
 .article-body h2 { font-size: 2rem; margin-top: 1.6em; font-weight: 800; padding-top: .6em; border-top: 1px solid var(--line); }
 .article-body h3 { font-size: 1.25rem; margin-top: 1.3em; font-weight: 700; }
