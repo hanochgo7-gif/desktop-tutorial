@@ -535,6 +535,13 @@ body:not(.has-hero) .header { --hdr-fg: #fff; }
 .aside-card--cta .btn { margin-top: 12px; width: 100%; }
 @media (min-width: 960px) { .article-layout { grid-template-columns: minmax(0, 1fr) 320px; } .article-aside { position: sticky; top: calc(var(--header-h) + 20px); } }
 
+.a11y-contact { margin: 16px 0 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.a11y-contact summary { cursor: pointer; padding: 14px 18px; font-weight: 700; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.a11y-contact summary::-webkit-details-marker { display: none; }
+.a11y-contact summary::after { content: "+"; font-size: 1.3rem; color: var(--accent-deep); }
+.a11y-contact[open] summary::after { content: "−"; }
+.a11y-contact p { padding: 0 18px 18px; margin: 0; }
+
 /* ---------- Reveal on scroll (נפילה ללא GSAP) ---------- */
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
 .reveal.is-visible { opacity: 1; transform: none; }
