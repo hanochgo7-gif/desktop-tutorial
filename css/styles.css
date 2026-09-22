@@ -272,7 +272,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .mobile-cta a svg { width: 20px; height: 20px; }
 .mobile-cta__main { background: var(--accent); border-color: var(--accent) !important; }
 @media (min-width: 1000px) { .mobile-cta { display: none; } }
-@media (max-width: 999px) { body { padding-bottom: 72px; } .wa-float { bottom: 80px; inset-inline-end: 8px; } .wa-float img { width: 72px; } .wa-float span { display: none; } .a11y { bottom: 84px !important; } }
+@media (max-width: 999px) { body { padding-bottom: 72px; } .wa-float { bottom: 80px; inset-inline-end: 8px; } .wa-float img { width: 56px; } .wa-float span { display: none; } .a11y { bottom: 84px !important; } }
 
 /* ---------- Manifesto (text scrub) ---------- */
 .manifesto { background: var(--paper); }
@@ -559,8 +559,8 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 
 /* ---------- Floating WhatsApp ---------- */
 .wa-float { position: fixed; bottom: 12px; inset-inline-end: 14px; z-index: 90; display: grid; justify-items: center; text-decoration: none !important; filter: drop-shadow(0 16px 22px rgba(0,0,0,.28)); transition: transform .45s var(--ease-out), filter .45s; }
-.wa-float img { width: 96px; height: auto; animation: wa-bob 3.8s ease-in-out infinite; transform-origin: 50% 90%; }
-.wa-float span { display: inline-block; background: #1f9d4e; color: #fff; font-size: .78rem; font-weight: 800; letter-spacing: .06em; padding: 5px 14px; border-radius: 999px; margin-top: -14px; box-shadow: 0 6px 14px rgba(0,0,0,.25); position: relative; }
+.wa-float img { width: 68px; height: auto; animation: wa-bob 3.8s ease-in-out infinite; transform-origin: 50% 90%; }
+.wa-float span { display: none; background: #1f9d4e; color: #fff; font-size: .78rem; font-weight: 800; letter-spacing: .06em; padding: 5px 14px; border-radius: 999px; margin-top: -14px; box-shadow: 0 6px 14px rgba(0,0,0,.25); position: relative; }
 .wa-float:hover { transform: scale(1.07) translateY(-3px); filter: drop-shadow(0 22px 28px rgba(0,0,0,.32)); }
 .wa-float:hover img { animation-play-state: paused; }
 @keyframes wa-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-7px) rotate(2deg); } }
