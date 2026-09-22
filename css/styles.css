@@ -211,10 +211,10 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 /* ---------- Clients marquee ---------- */
 .marquee { background: var(--black); color: #fff; padding-block: 34px; overflow: hidden; border-block: 1px solid var(--line-dark); }
 .marquee__label { text-align: center; font-size: .78rem; letter-spacing: .2em; color: var(--on-dark-muted); margin: 0 0 22px; }
-.marquee__track { display: flex; gap: 0; width: max-content; animation: marquee 40s linear infinite; }
+.marquee__track { display: flex; gap: 0; width: max-content; animation: marquee 40s linear infinite; will-change: transform; backface-visibility: hidden; }
 .marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
 .marquee--reverse .marquee__track { animation-direction: reverse; }
-.marquee:hover .marquee__track, .marquee:focus-within .marquee__track { animation-play-state: paused; }
+/* המרקיזה רצה תמיד, גם בריחוף */
 @keyframes marquee { to { transform: translateX(50%); } }
 .marquee__list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 0; }
 .marquee__list li { display: inline-flex; align-items: center; gap: 28px; padding-inline: 34px; font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 900; letter-spacing: -.03em; color: #fff; white-space: nowrap; }
