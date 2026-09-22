@@ -409,16 +409,20 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
   .cases.has-active .case:not(.is-active) { opacity: .55; }
 }
 @media (max-width: 999px) {
-  /* במובייל: גלולה קטנה וצפה שמסתירה כמה שפחות מהדף */
-  .map-panel { order: -1; position: sticky; top: calc(var(--header-h) + 8px); z-index: 5; justify-self: start; display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 8px; border-radius: 999px; background: rgba(255,255,255,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px -10px rgba(14,18,22,.35); margin-bottom: -8px; }
-  .ilmap { width: auto; height: 40px; }
+  /* במובייל: המפה בעמודה צרה בצד, צמודה בגלילה, כמו במחשב */
+  .projects__layout { grid-template-columns: minmax(0, 1fr) 84px; gap: 14px; align-items: start; }
+  .map-panel { order: 0; position: sticky; top: calc(var(--header-h) + 12px); z-index: 5; display: grid; justify-items: center; gap: 6px; padding: 10px 6px 8px; border-radius: 16px; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 10px 28px -12px rgba(14,18,22,.35); }
+  .ilmap { width: 100%; height: auto; }
   .map__pin .map__label { display: none; }
   .map__pin .map__dot { r: 14; stroke-width: 4; }
   .map__pin.is-on .map__ring { r: 30; }
   .map-panel__kicker { display: none; }
-  .map-panel__caption { margin: 0; font-size: .88rem; min-height: 0; text-align: right; white-space: nowrap; }
+  .map-panel__caption { margin: 0; font-size: .8rem; min-height: 0; text-align: center; line-height: 1.2; }
   .map-panel__city:not(:empty)::after { content: none; }
   .map-panel__city:not(:empty) + .map-panel__name { display: none; }
+  .case { grid-template-columns: 1fr; }
+  .case__title { font-size: clamp(1.3rem, 5.6vw, 1.9rem); }
+}
 }
 }
 
