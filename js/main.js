@@ -330,6 +330,47 @@
     });
   }
 
+  /* ---------- פרויקטים: מפה עם סיכות שנדלקות בגלילה ---------- */
+  var mapPanel = $('#projects-map');
+  var caseEls = $$('.case[data-pin]');
+  if (mapPanel && caseEls.length) {
+    var pinEls = $$('.map__pin', mapPanel);
+    var mapCaption = $('#projects-map-caption');
+    var casesList = caseEls[0].parentElement;
+    var activeCase = null;
+    function setActive(li) {
+      if (li === activeCase) return;
+      activeCase = li;
+      caseEls.forEach(function (c) { c.classList.toggle('is-active', c === li); });
+      casesList.classList.toggle('has-active', !!li);
+      var pin = li ? li.dataset.pin : '';
+      pinEls.forEach(function (p) { p.classList.toggle('is-on', p.dataset.pin === pin); });
+      if (mapCaption) {
+        if (li) {
+          var t = li.querySelector('.case__title');
+          var city = (t && t.querySelector('em')) ? t.querySelector('em').textContent.replace(/^[\s–-]+/, '') : '';
+          var name = t ? t.childNodes[0].textContent.trim() : '';
+          mapCaption.textContent = city ? city + ' · ' + name : name;
+        } else mapCaption.textContent = 'גללו בין הפרויקטים';
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      var caseIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target); });
+      }, { rootMargin: '-40% 0px -45% 0px', threshold: 0 });
+      caseEls.forEach(function (c) { caseIO.observe(c); });
+    }
+    caseEls.forEach(function (c) { c.addEventListener('mouseenter', function () { setActive(c); }); });
+    /* לחיצה על סיכה מגלגלת לפרויקט */
+    pinEls.forEach(function (p) {
+      p.style.cursor = 'pointer';
+      p.addEventListener('click', function () {
+        var target = caseEls.filter(function (c) { return c.dataset.pin === p.dataset.pin; })[0];
+        if (target) target.scrollIntoView({ block: 'center', behavior: noMotion() ? 'auto' : 'smooth' });
+      });
+    });
+  }
+
   /* ---------- מד קריאה (עמודי מאמר) ---------- */
   var progress = $('.progress');
   if (progress) {
