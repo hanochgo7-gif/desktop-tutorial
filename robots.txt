@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # TODO: להחליף example.com בדומיין האמיתי
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://gotovski.co.il/sitemap.xml
