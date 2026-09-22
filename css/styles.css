@@ -265,6 +265,12 @@ a, button, [role="button"] { cursor: pointer; }
 .about { display: grid; gap: 44px; align-items: center; }
 .about__media { position: relative; }
 .about__img { overflow: hidden; border-radius: var(--radius); aspect-ratio: 4/5; }
+.about__illu { position: relative; aspect-ratio: 4/5; border-radius: var(--radius); overflow: hidden; background: #f3f1ec; border: 1px solid var(--line); }
+.about__illu > img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.about__illu-tag { position: absolute; top: 14px; inset-inline-start: 14px; font-size: .7rem; letter-spacing: .12em; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(12,13,15,.75); color: #fff; }
+.about__illu-brand { position: absolute; inset-inline: 18px; bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 999px; padding: 8px 18px 8px 10px; }
+.about__illu-brand img { height: 40px; width: auto; }
+.about__illu-brand span { font-size: .78rem; letter-spacing: .2em; font-weight: 700; color: var(--muted); }
 .about__logo { aspect-ratio: 4/5; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); display: grid; place-items: center; align-content: center; gap: 22px; padding: 12%; position: relative; overflow: hidden; }
 .about__logo::before { content: ""; position: absolute; inset: auto -30% -40% auto; width: 120%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line); }
 .about__logo::after { content: ""; position: absolute; inset: auto -30% -40% auto; width: 90%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line); }
