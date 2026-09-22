@@ -228,6 +228,26 @@
     });
   }
 
+  /* ---------- טופס פנייה מהירה (טלפון בלבד) ---------- */
+  var qf = $('[data-quick-form]');
+  if (qf) {
+    var qn = $('[data-quick-next]'); if (qn) qn.value = location.origin + location.pathname + '?sent=1#contact';
+    var qnotice = $('[data-quick-notice]', qf);
+    qf.addEventListener('submit', function (e) {
+      if (!qf.checkValidity()) { e.preventDefault(); qf.reportValidity(); return; }
+      if (!window.fetch || !window.FormData) return;
+      e.preventDefault();
+      var b = qf.querySelector('[type="submit"]'); var lbl = b ? b.textContent : '';
+      if (b) { b.disabled = true; b.textContent = 'שולח…'; }
+      var d = new FormData(qf); d.delete('_next');
+      fetch(qf.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: d, headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+        .then(function () { qf.reset(); if (qnotice) { qnotice.textContent = 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
+        .catch(function () { if (qnotice) { qnotice.innerHTML = 'השליחה לא הצליחה. התקשרו <a href="tel:+972502703674">050-270-3674</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
+        .then(function () { if (b) { b.disabled = false; b.textContent = lbl; } });
+    });
+  }
+
   /* ---------- שנה בכותרת התחתונה ---------- */
   var year = $('#year');
   if (year) year.textContent = String(yearNow);
