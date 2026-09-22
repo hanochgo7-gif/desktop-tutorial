@@ -286,7 +286,7 @@
     var heroImg = $('#hero-img');
     hide(heroLines, { yPercent: 110 });
     hide(heroFades, { autoAlpha: 0, y: 24 });
-    if (heroImg) gsap.set(heroImg, { scale: 1.18 });
+    if (heroImg) gsap.set(heroImg, { scale: 1.1 });
 
     var intro = gsap.timeline({ onComplete: finishLoader });
     if (loader && !loader.classList.contains('is-done')) {
@@ -295,7 +295,7 @@
       intro.to(n, { v: 100, duration: 1.0, ease: 'power2.inOut', onUpdate: function () { if (loaderNum) loaderNum.textContent = String(Math.round(n.v)); } })
            .to(loader, { yPercent: -101, duration: .8, ease: 'power4.inOut' }, '+=0.1');
     }
-    intro.to(heroImg, { scale: 1, duration: 2.2, ease: 'power2.out' }, '<0.1')
+    intro.to(heroImg, { scale: 1, duration: 3, ease: 'power2.out' }, '<0.1')
          .to(heroLines, { yPercent: 0, duration: 1.1, stagger: .12, ease: 'power4.out' }, '<0.15')
          .to(heroFades, { autoAlpha: 1, y: 0, duration: .9, stagger: .1 }, '<0.5');
     /* רשת ביטחון: אם משהו מנע מהפתיחה לרוץ, משחררים הכול אחרי 3.5 שניות */
