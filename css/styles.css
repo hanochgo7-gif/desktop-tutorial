@@ -352,7 +352,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .field h3 { font-size: clamp(1.5rem, 3.6vw, 3rem); font-weight: 800; letter-spacing: -.03em; margin: 0; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; transition: color .3s; }
 .field:hover h3 { color: var(--accent-2); }
 .field p { margin: 0; color: var(--on-dark-muted); font-size: 1rem; max-width: 60ch; font-weight: 300; }
-.field__badge { font-size: .7rem; font-weight: 700; letter-spacing: .1em; padding: 4px 10px; border-radius: 999px; background: var(--accent); color: #fff; vertical-align: middle; }
+.field__badge { font-size: .88rem; font-weight: 700; letter-spacing: .08em; padding: 7px 16px; border-radius: 999px; background: var(--accent); color: #fff; vertical-align: middle; box-shadow: 0 6px 16px -6px rgba(31,143,191,.7); }
 .field__arrow { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line-dark); display: grid; place-items: center; transition: background .35s, border-color .35s, transform .5s var(--ease-out); }
 .field__arrow svg { width: 22px; height: 22px; }
 .field:hover .field__arrow { background: #fff; color: var(--ink); border-color: #fff; transform: rotate(-45deg); }
