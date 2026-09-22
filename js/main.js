@@ -172,24 +172,105 @@
     });
   }
 
-  /* ---------- לייטבוקס ---------- */
+  /* ---------- גלריה: הצגת שאר התמונות ---------- */
+  var galleryMore = $('[data-gallery-more]');
+  var galleryGrid = $('#gallery-grid');
+  if (galleryMore && galleryGrid) {
+    galleryMore.addEventListener('click', function () {
+      galleryGrid.classList.add('is-expanded');
+      galleryMore.setAttribute('aria-expanded', 'true');
+      galleryMore.hidden = true;
+      var first = galleryGrid.querySelector('.gallery__item--more');
+      if (first) {
+        if (window.gsap && !noMotion()) {
+          var extra = $$('.gallery__item--more', galleryGrid);
+          window.gsap.fromTo(extra, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: .8, stagger: .04, ease: 'power3.out', overwrite: 'auto' });
+        }
+        first.focus({ preventScroll: true });
+        first.scrollIntoView({ block: 'start', behavior: noMotion() ? 'auto' : 'smooth' });
+      }
+    });
+  }
+
+  /* ---------- לייטבוקס עם ניווט ---------- */
   var lightbox = $('#lightbox');
   var lbImg = $('#lightbox-img');
   var lbCap = $('#lightbox-caption');
-  if (lightbox && lbImg && typeof lightbox.showModal === 'function') {
-    $$('.gallery__item').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var img = btn.querySelector('img');
-        lbImg.src = btn.dataset.full || (img && img.src) || '';
-        lbImg.alt = img ? img.alt : '';
-        if (lbCap) lbCap.textContent = btn.dataset.caption || '';
-        lightbox.showModal();
-      });
+  var lbCount = $('#lightbox-count');
+  var lbItems = $$('.gallery__item');
+  var lbIndex = 0;
+  if (lightbox && lbImg && typeof lightbox.showModal === 'function' && lbItems.length) {
+    function lbShow(i) {
+      lbIndex = (i + lbItems.length) % lbItems.length;
+      var btn = lbItems[lbIndex];
+      var img = btn.querySelector('img');
+      lbImg.src = btn.dataset.full || (img && img.src) || '';
+      lbImg.alt = img ? img.alt : '';
+      if (lbCap) lbCap.textContent = btn.dataset.caption || '';
+      if (lbCount) lbCount.textContent = (lbIndex + 1) + ' / ' + lbItems.length;
+      /* טעינה מוקדמת של השכנות */
+      [1, -1].forEach(function (d) { var n = lbItems[(lbIndex + d + lbItems.length) % lbItems.length]; if (n && n.dataset.full) { var pre = new Image(); pre.src = n.dataset.full; } });
+    }
+    lbItems.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { lbShow(i); lightbox.showModal(); });
     });
+    $$('[data-lb-dir]', lightbox).forEach(function (b) {
+      b.addEventListener('click', function (e) { e.stopPropagation(); lbShow(lbIndex + parseInt(b.dataset.lbDir, 10)); });
+    });
+    lightbox.addEventListener('keydown', function (e) {
+      /* RTL: חץ שמאלה = הבאה */
+      if (e.key === 'ArrowLeft') { e.preventDefault(); lbShow(lbIndex + 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); lbShow(lbIndex - 1); }
+    });
+    /* החלקה במובייל */
+    var tx0 = null;
+    lightbox.addEventListener('touchstart', function (e) { tx0 = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', function (e) {
+      if (tx0 === null) return;
+      var dx = e.changedTouches[0].clientX - tx0; tx0 = null;
+      if (Math.abs(dx) > 50) lbShow(lbIndex + (dx < 0 ? 1 : -1));
+    }, { passive: true });
     var lbClose = $('#lightbox-close');
     if (lbClose) lbClose.addEventListener('click', function () { lightbox.close(); });
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
-    lightbox.addEventListener('close', function () { lbImg.src = ''; });
+    lightbox.addEventListener('close', function () { lbImg.src = ''; var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
+  }
+
+  /* ---------- אימות שדות בטופס (הודעה ליד השדה) ---------- */
+  function fieldMessage(input) {
+    var v = input.validity;
+    if (v.valueMissing) return input.type === 'checkbox' ? 'יש לאשר כדי שנוכל לחזור אליכם' : 'שדה חובה';
+    if (input.type === 'email' && (v.typeMismatch || v.patternMismatch)) return 'כתובת המייל לא תקינה';
+    if (input.type === 'tel' && (v.patternMismatch || v.typeMismatch)) return 'מספר הטלפון לא תקין';
+    return 'הערך לא תקין';
+  }
+  function initValidation(formEl) {
+    var fields = $$('input:not([type="hidden"]):not(.form__honey), select, textarea', formEl);
+    fields.forEach(function (input) {
+      var wrap = input.closest('.field') || input.closest('.consent');
+      if (!wrap) return;
+      var err = wrap.querySelector('.field__error');
+      if (!err) { err = document.createElement('small'); err.className = 'field__error'; err.hidden = true; err.id = (input.id || input.name) + '-error'; wrap.appendChild(err); }
+      var described = (input.getAttribute('aria-describedby') || '').split(' ').filter(Boolean);
+      if (described.indexOf(err.id) < 0) { described.push(err.id); input.setAttribute('aria-describedby', described.join(' ')); }
+      function check(show) {
+        var ok = input.checkValidity();
+        wrap.classList.toggle('is-invalid', !ok && show);
+        input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+        if (!ok && show) { err.textContent = fieldMessage(input); err.hidden = false; } else { err.hidden = true; }
+        return ok;
+      }
+      input.addEventListener('blur', function () { if (input.value || input.type === 'checkbox') check(true); });
+      input.addEventListener('input', function () { if (wrap.classList.contains('is-invalid')) check(true); });
+      input.addEventListener('change', function () { check(wrap.classList.contains('is-invalid') || input.type === 'checkbox'); });
+      input._check = check;
+    });
+    return function validateAll() {
+      var firstBad = null;
+      fields.forEach(function (input) { if (input._check && !input._check(true) && !firstBad) firstBad = input; });
+      if (firstBad) { firstBad.focus(); firstBad.scrollIntoView({ block: 'center', behavior: noMotion() ? 'auto' : 'smooth' }); }
+      return !firstBad;
+    };
   }
 
   /* ---------- טופס: שליחה למייל המשרד דרך FormSubmit ---------- */
@@ -211,8 +292,9 @@
       showNotice(THANKS, true);
       try { history.replaceState(null, '', location.pathname + '#contact'); } catch (err) {}
     }
+    var validateForm = initValidation(form);
     form.addEventListener('submit', function (e) {
-      if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
+      if (!validateForm()) { e.preventDefault(); return; }
       if (!window.fetch || !window.FormData) return;
       e.preventDefault();
       var btn = form.querySelector('[type="submit"]');
@@ -246,6 +328,19 @@
         .catch(function () { if (qnotice) { qnotice.innerHTML = 'השליחה לא הצליחה. התקשרו <a href="tel:+972502703674">050-270-3674</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
         .then(function () { if (b) { b.disabled = false; b.textContent = lbl; } });
     });
+  }
+
+  /* ---------- מד קריאה (עמודי מאמר) ---------- */
+  var progress = $('.progress');
+  if (progress) {
+    var pTick = false;
+    function setProgress() {
+      pTick = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.setProperty('--p', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : 0);
+    }
+    window.addEventListener('scroll', function () { if (!pTick) { pTick = true; requestAnimationFrame(setProgress); } }, { passive: true });
+    setProgress();
   }
 
   /* ---------- שנה בכותרת התחתונה ---------- */
