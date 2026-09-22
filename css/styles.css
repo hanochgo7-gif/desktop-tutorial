@@ -318,6 +318,26 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .about__list span { color: var(--muted); font-size: .95rem; }
 @media (min-width: 900px) { .about { grid-template-columns: 1fr 1.15fr; gap: 80px; } }
 
+/* ---------- Story (family) ---------- */
+.story { background: var(--paper); }
+.story__inner { display: grid; gap: 44px; align-items: start; }
+.story__body p { color: var(--ink-2); font-weight: 300; font-size: 1.1rem; line-height: 1.75; max-width: 60ch; }
+.story__body p strong { color: var(--ink); font-weight: 700; }
+.story__quote { margin: 28px 0 0; padding: 22px 26px; border-inline-start: 4px solid var(--accent); background: var(--white); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; box-shadow: var(--shadow-sm); }
+[dir="rtl"] .story__quote { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
+.story__quote p { margin: 0; font-size: clamp(1.3rem, 2.4vw, 1.8rem); font-weight: 800; letter-spacing: -.02em; color: var(--ink); line-height: 1.25; }
+.story__quote footer { margin-top: 8px; font-size: .85rem; color: var(--muted); }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; position: relative; }
+.timeline::before { content: ""; position: absolute; top: 12px; bottom: 12px; inset-inline-start: 11px; width: 2px; background: var(--line); }
+.timeline li { position: relative; display: grid; gap: 4px; padding: 0 0 30px 0; padding-inline-start: 40px; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before { content: ""; position: absolute; top: 8px; inset-inline-start: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 3px solid var(--accent); box-shadow: 0 0 0 4px var(--paper); }
+.timeline li:last-child::before { background: var(--accent); }
+.timeline__year { font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 900; line-height: 1; letter-spacing: -.03em; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
+.timeline strong { font-size: 1.05rem; }
+.timeline li > span:last-child { color: var(--muted); font-size: .95rem; line-height: 1.6; max-width: 34ch; }
+@media (min-width: 900px) { .story__inner { grid-template-columns: 1.3fr 1fr; gap: 80px; } .timeline { position: sticky; top: calc(var(--header-h) + 32px); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 30px 28px; box-shadow: var(--shadow-sm); } .timeline::before { top: 42px; bottom: 42px; inset-inline-start: 39px; } .timeline li::before { inset-inline-start: 32px; box-shadow: 0 0 0 4px var(--white); } .timeline li { padding-inline-start: 68px; } .timeline li::before { background: var(--white); } .timeline li:last-child::before { background: var(--accent); } }
+
 /* ---------- Fields: interactive list with hover preview ---------- */
 .fields { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-dark); position: relative; }
 .field { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line-dark); color: inherit; position: relative; transition: padding .4s var(--ease-out); }
@@ -442,7 +462,8 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .band img { position: absolute; inset: -5% 0; width: 100%; height: 110%; object-fit: cover; object-position: center 50%; filter: saturate(.9); }
 .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(38,52,66,.35), rgba(14,18,22,.15) 45%, rgba(14,18,22,.8)); }
 .band__inner { position: absolute; inset: auto 0 0 0; padding-bottom: clamp(32px, 5vw, 64px); z-index: 1; display: grid; gap: 10px; }
-.band__kicker { font-size: .78rem; letter-spacing: .2em; color: rgba(255,255,255,.75); margin: 0; }
+.band__kicker { position: absolute; top: clamp(18px, 4vw, 44px); inset-inline: 0; z-index: 2; text-align: center; font-size: .78rem; letter-spacing: .2em; color: rgba(255,255,255,.85); margin: 0; }
+.band__kicker::after { content: ""; display: block; width: 1px; height: clamp(20px, 4vw, 40px); margin: 10px auto 0; background: linear-gradient(180deg, rgba(255,255,255,.7), transparent); }
 .band__text { font-size: clamp(1.4rem, 3.4vw, 2.8rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; max-width: 22ch; margin: 0; }
 .band__text em { font-style: normal; color: var(--accent-2); }
 
