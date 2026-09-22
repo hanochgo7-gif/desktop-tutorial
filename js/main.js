@@ -11,6 +11,15 @@
   var mqDesktop = window.matchMedia('(min-width: 1000px)');
 
   function noMotion() { return mqReduce.matches || root.classList.contains('a11y-no-motion'); }
+
+  /* ---------- עמודי מאמר ומסמכים נפתחים תמיד מלמעלה (גם כשהדפדפן או המציג שומרים גלילה קודמת) ---------- */
+  if (!body.classList.contains('has-hero') && !location.hash) {
+    if ('scrollRestoration' in history) { try { history.scrollRestoration = 'manual'; } catch (e) {} }
+    var toTop = function () { try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); } root.scrollTop = 0; body.scrollTop = 0; };
+    toTop();
+    window.addEventListener('pageshow', toTop);
+    window.addEventListener('load', function () { setTimeout(toTop, 0); });
+  }
   function hasGsap() { return !!(window.gsap && window.ScrollTrigger); }
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
