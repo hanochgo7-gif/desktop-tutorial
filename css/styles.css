@@ -208,11 +208,12 @@ a, button, [role="button"] { cursor: pointer; }
 
 /* ---------- Standards strip ---------- */
 .standards { background: var(--paper); border-bottom: 1px solid var(--line); }
-.standards__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-block: 22px; }
+.standards__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-block: 20px; }
 .standards__label { margin: 0; font-size: .78rem; letter-spacing: .16em; font-weight: 700; color: var(--muted); }
 .standards__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
-.standards__list li { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink); }
-.standards__list svg { width: 18px; height: 18px; color: var(--accent); flex: none; }
+.standards__list li { display: inline-flex; align-items: center; gap: 12px; font-size: .92rem; font-weight: 700; padding: 6px 18px 6px 6px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink); }
+.standards__list img { width: 60px; height: 60px; flex: none; border-radius: 50%; background: #f2f0eb; }
+@media (max-width: 480px) { .standards__list { display: grid; grid-template-columns: 1fr; width: 100%; } .standards__list li { border-radius: 16px; } }
 
 /* ---------- Quick lead block ---------- */
 .quick { background: var(--accent); color: #fff; }
