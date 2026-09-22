@@ -276,7 +276,7 @@
   /* ---------- טופס: שליחה למייל המשרד דרך FormSubmit ---------- */
   var form = $('#contact-form');
   var notice = $('#form-notice');
-  var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%96%D7%9E%D7%99%D7%9F%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
+  var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
   var THANKS = 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
   function showNotice(html, ok) {
     if (!notice) return;
