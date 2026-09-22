@@ -398,7 +398,7 @@
     /* תנועת "רחפן": ריחוף איטי ומתמשך של התמונה (זום עדין + סחיפה), הלוך ושוב */
     if (heroImg) {
       intro.add(function () {
-        gsap.to(heroImg, { scale: 1.14, xPercent: -2.5, yPercent: 2.2, rotation: .4, duration: 24, ease: 'sine.inOut', yoyo: true, repeat: -1, overwrite: 'auto' });
+        gsap.to(heroImg, { scale: 1.14, xPercent: -2.5, yPercent: 2.2, rotation: .5, duration: 14, ease: 'sine.inOut', yoyo: true, repeat: -1, overwrite: 'auto' });
       }, '>-1.5');
     }
     /* רשת ביטחון: אם משהו מנע מהפתיחה לרוץ, משחררים הכול אחרי 3.5 שניות */
