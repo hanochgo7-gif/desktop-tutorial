@@ -505,6 +505,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 /* כפתור עם סמל תלת־ממדי */
 .btn--pic { background: var(--white); color: var(--ink); border-color: var(--line); padding: 6px 22px 6px 8px; min-height: 60px; gap: 10px; --btn-hover: var(--paper-2); box-shadow: var(--shadow-sm); }
 .btn--pic img { width: 50px; height: 50px; flex: none; transition: transform .4s var(--ease-out); }
+.btn--pic img.is-photo { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,.18); }
 .btn--pic:hover { border-color: rgba(31,143,191,.45); color: var(--accent-deep); }
 .btn--pic:hover img { transform: translateY(-3px) rotate(-4deg) scale(1.06); }
 .map { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16/9; background: var(--paper-2); }
