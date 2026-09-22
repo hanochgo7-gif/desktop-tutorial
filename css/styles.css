@@ -181,7 +181,10 @@ a, button, [role="button"] { cursor: pointer; }
 /* ---------- Hero ---------- */
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; overflow: hidden; background: var(--black); }
 .hero__media { position: absolute; inset: 0; }
-.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform-origin: center; filter: saturate(.82) contrast(.96); }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform-origin: center; filter: saturate(.82) contrast(.96); will-change: transform; }
+/* תנועת "רחפן" ללא GSAP */
+html.hero-drift .hero__media img { animation: drone 40s ease-in-out infinite alternate; }
+@keyframes drone { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.14) translate(-2.5%, 2.2%) rotate(.4deg); } }
 .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(38,52,66,.55) 0%, rgba(38,52,66,.08) 32%, rgba(14,18,22,.35) 62%, rgba(14,18,22,.96) 100%); }
 .hero__shade::after { content: ""; position: absolute; inset: 0; background-image: var(--grain); opacity: .06; mix-blend-mode: soft-light; pointer-events: none; }
 .hero__inner { position: relative; padding-top: calc(var(--header-h) + 40px); padding-bottom: 32px; display: grid; gap: 28px; }

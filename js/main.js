@@ -357,6 +357,8 @@
 
   function heroIntroStatic() {
     finishLoader();
+    /* ללא GSAP: תנועת "רחפן" איטית לתמונת ההירו ב-CSS */
+    if (!noMotion()) root.classList.add('hero-drift');
   }
 
   /* חשיפה לפי נראות בפועל (IntersectionObserver) – עובד בכל דפדפן ובכל מיכל גלילה */
@@ -393,6 +395,12 @@
     intro.to(heroImg, { scale: 1, duration: 3, ease: 'power2.out' }, '<0.1')
          .to(heroLines, { yPercent: 0, duration: 1.1, stagger: .12, ease: 'power4.out' }, '<0.15')
          .to(heroFades, { autoAlpha: 1, y: 0, duration: .9, stagger: .1 }, '<0.5');
+    /* תנועת "רחפן": ריחוף איטי ומתמשך של התמונה (זום עדין + סחיפה), הלוך ושוב */
+    if (heroImg) {
+      intro.add(function () {
+        gsap.to(heroImg, { scale: 1.14, xPercent: -2.5, yPercent: 2.2, rotation: .4, duration: 24, ease: 'sine.inOut', yoyo: true, repeat: -1, overwrite: 'auto' });
+      }, '>-1.5');
+    }
     /* רשת ביטחון: אם משהו מנע מהפתיחה לרוץ, משחררים הכול אחרי 3.5 שניות */
     setTimeout(function () { if (loader && !loader.classList.contains('is-done')) { intro.progress(1); finishLoader(); } }, 3500);
 
