@@ -273,7 +273,7 @@ a, button, [role="button"] { cursor: pointer; }
 .pcard__tag--render { background: var(--accent); color: #fff; }
 .pcard__num { position: absolute; bottom: 12px; inset-inline-end: 16px; font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; color: #fff; line-height: 1; letter-spacing: -.04em; opacity: .9; text-shadow: 0 6px 30px rgba(0,0,0,.5); }
 .pcard h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; letter-spacing: -.02em; margin: 0; }
-.pcard p { color: var(--ink-2); font-weight: 300; margin: 0; }
+.pcard p { color: var(--ink-2); font-weight: 300; margin: 0; font-size: .98rem; line-height: 1.6; }
 .pcard__meta { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .pcard__meta li { font-size: .78rem; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); }
 .pcard--end { width: min(70vw, 360px); display: grid; place-items: center; align-content: center; text-align: center; gap: 20px; }
