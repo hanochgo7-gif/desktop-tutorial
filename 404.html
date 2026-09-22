@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>מעבירים אתכם… | ש. גוטובסקי</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://gotovski.co.il/">
+  <!-- כתובות מהאתר הישן מופנות לקטע המתאים באתר החדש -->
+  <script>
+    (function () {
+      var p = decodeURIComponent(location.pathname + location.search).toLowerCase();
+      var map = [
+        [/גלרי|gallery|תמונ|photo/, '/#gallery'],
+        [/אודות|עלינו|about|החברה|company/, '/#about'],
+        [/שירות|תחומ|service|הקמ|שיפוץ|גז|צנרת|עפר/, '/#fields'],
+        [/פרויקט|project|עבודות|portfolio/, '/#projects'],
+        [/צור|קשר|contact|טלפון|הצעת/, '/#contact'],
+        [/מאמר|בלוג|blog|article|כתב/, '/#articles'],
+        [/שאל|faq/, '/#faq'],
+        [/נגישות|accessib/, '/accessibility.html'],
+        [/פרטיות|privacy/, '/privacy.html']
+      ];
+      var to = '/';
+      for (var i = 0; i < map.length; i++) { if (map[i][0].test(p)) { to = map[i][1]; break; } }
+      location.replace(to);
+    })();
+  </script>
+  <meta http-equiv="refresh" content="1; url=https://gotovski.co.il/">
+  <style>body{font-family:Heebo,Arial,sans-serif;background:#f3f1ec;color:#0c0d0f;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px}a{color:#0c6b96}</style>
+</head>
+<body>
+  <p>העמוד עבר. מעבירים אתכם לאתר החדש… <a href="https://gotovski.co.il/">ש. גוטובסקי</a></p>
+</body>
+</html>
