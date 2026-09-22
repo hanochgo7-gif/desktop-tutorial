@@ -128,7 +128,7 @@ a, button, [role="button"] { cursor: pointer; }
 .header { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--header-h); color: var(--hdr-fg); transition: color .4s var(--ease), background .4s var(--ease), transform .4s var(--ease-out); }
 .header.is-hidden { transform: translateY(-100%); }
 .header__inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 16px; }
-.logo { display: inline-flex; align-items: center; background: #fff; padding: 6px 12px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+.logo { display: inline-flex; align-items: center; background: #fff; padding: 6px 14px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
 .logo img { height: 52px; width: auto; }
 @media (max-width: 480px) { .logo img { height: 44px; } }
 .nav { display: none; }
@@ -501,7 +501,12 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .contact-list a, .contact-list span.rtl { font-size: 1.15rem; font-weight: 700; color: var(--ink); transition: color .25s; }
 .contact-list a:hover { color: var(--accent-deep); }
 .contact-list li:hover img { transform: translateY(-3px) rotate(-3deg); border-color: rgba(31,143,191,.45); }
-.social { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.social { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; align-items: center; }
+/* כפתור עם סמל תלת־ממדי */
+.btn--pic { background: var(--white); color: var(--ink); border-color: var(--line); padding: 6px 22px 6px 8px; min-height: 60px; gap: 10px; --btn-hover: var(--paper-2); box-shadow: var(--shadow-sm); }
+.btn--pic img { width: 50px; height: 50px; flex: none; transition: transform .4s var(--ease-out); }
+.btn--pic:hover { border-color: rgba(31,143,191,.45); color: var(--accent-deep); }
+.btn--pic:hover img { transform: translateY(-3px) rotate(-4deg) scale(1.06); }
 .map { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16/9; background: var(--paper-2); }
 .map iframe { width: 100%; height: 100%; border: 0; display: block; }
 /* טופס בסגנון "מסמך": נייר משורג, חותמת עדינה, פינה מקופלת (ללא טקסט חוזי) */
@@ -547,7 +552,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .footer { position: relative; background: var(--black); color: var(--on-dark-muted); padding-block: 72px 28px; font-size: .95rem; overflow: hidden; border-top: 1px solid var(--line-dark); }
 .footer__mark { font-size: clamp(4rem, 19vw, 18rem); font-weight: 900; line-height: .85; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.18); pointer-events: none; user-select: none; white-space: nowrap; margin: 0 0 48px; text-align: center; }
 .footer__grid { position: relative; display: grid; gap: 28px; margin-bottom: 40px; }
-.footer__brand img { height: 52px; width: auto; background: #fff; padding: 6px 12px; border-radius: 999px; margin-bottom: 16px; }
+.footer__brand img { height: 64px; width: auto; background: #fff; padding: 8px 16px; border-radius: 14px; margin-bottom: 16px; }
 .footer h4 { color: #fff; font-size: .78rem; letter-spacing: .16em; margin-bottom: 14px; }
 .footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .footer a { color: var(--on-dark); }
