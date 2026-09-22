@@ -185,7 +185,7 @@ a, button, [role="button"] { cursor: pointer; }
 .hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(38,52,66,.55) 0%, rgba(38,52,66,.08) 32%, rgba(14,18,22,.35) 62%, rgba(14,18,22,.96) 100%); }
 .hero__shade::after { content: ""; position: absolute; inset: 0; background-image: var(--grain); opacity: .06; mix-blend-mode: soft-light; pointer-events: none; }
 .hero__inner { position: relative; padding-top: calc(var(--header-h) + 40px); padding-bottom: 32px; display: grid; gap: 28px; }
-.hero__kicker { display: inline-flex; align-items: center; gap: 12px; font-size: .82rem; letter-spacing: .2em; font-weight: 600; color: rgba(255,255,255,.85); margin: 0; }
+.hero__kicker { display: inline-flex; align-items: center; gap: 12px; font-size: .82rem; letter-spacing: .2em; font-weight: 600; color: rgba(255,255,255,.85); margin: 0 0 clamp(10px, 3vw, 36px); }
 .hero__kicker::before { content: ""; width: 44px; height: 1px; background: var(--accent-2); }
 .hero h1 { color: #fff; max-width: 14ch; }
 .hero__row { display: grid; gap: 28px; align-items: end; }
