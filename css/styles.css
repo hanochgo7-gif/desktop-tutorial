@@ -395,6 +395,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .map__pin.is-on .map__ring { animation: map-pulse 1.8s var(--ease-out) infinite; }
 @keyframes map-pulse { 0% { opacity: .45; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.6); } }
 .map-panel__caption { margin: 4px 0 0; font-size: .92rem; font-weight: 700; color: var(--ink); text-align: center; min-height: 1.5em; transition: opacity .3s; }
+.map-panel__city:not(:empty)::after { content: " · "; color: var(--muted); }
 .case.is-active .case__title { color: var(--accent-deep); }
 .case { transition: opacity .4s; }
 @media (min-width: 1000px) {
@@ -404,13 +405,17 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
   .cases.has-active .case:not(.is-active) { opacity: .55; }
 }
 @media (max-width: 999px) {
-  .map-panel { order: -1; position: sticky; top: calc(var(--header-h) + 8px); z-index: 5; grid-template-columns: 1fr auto; justify-items: start; align-items: center; column-gap: 16px; row-gap: 4px; padding: 12px 16px; box-shadow: var(--shadow-md); }
-  .ilmap { width: 64px; grid-column: 2; grid-row: 1; }
-  .map-panel__kicker { display: none; }
+  /* במובייל: גלולה קטנה וצפה שמסתירה כמה שפחות מהדף */
+  .map-panel { order: -1; position: sticky; top: calc(var(--header-h) + 8px); z-index: 5; justify-self: start; display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 8px; border-radius: 999px; background: rgba(255,255,255,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 24px -10px rgba(14,18,22,.35); margin-bottom: -8px; }
+  .ilmap { width: auto; height: 40px; }
   .map__pin .map__label { display: none; }
-  .map__pin .map__dot { r: 13; stroke-width: 3.5; }
-  .map__pin.is-on .map__ring { r: 28; }
-  .map-panel__caption { grid-column: 1; text-align: right; margin: 0; font-size: .95rem; }
+  .map__pin .map__dot { r: 14; stroke-width: 4; }
+  .map__pin.is-on .map__ring { r: 30; }
+  .map-panel__kicker { display: none; }
+  .map-panel__caption { margin: 0; font-size: .88rem; min-height: 0; text-align: right; white-space: nowrap; }
+  .map-panel__city:not(:empty)::after { content: none; }
+  .map-panel__city:not(:empty) + .map-panel__name { display: none; }
+}
 }
 
 /* ---------- Stats band ---------- */

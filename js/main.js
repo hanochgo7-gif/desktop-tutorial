@@ -346,12 +346,13 @@
       var pin = li ? li.dataset.pin : '';
       pinEls.forEach(function (p) { p.classList.toggle('is-on', p.dataset.pin === pin); });
       if (mapCaption) {
+        var cityEl = mapCaption.querySelector('.map-panel__city'), nameEl = mapCaption.querySelector('.map-panel__name');
         if (li) {
           var t = li.querySelector('.case__title');
           var city = (t && t.querySelector('em')) ? t.querySelector('em').textContent.replace(/^[\s–-]+/, '') : '';
           var name = t ? t.childNodes[0].textContent.trim() : '';
-          mapCaption.textContent = city ? city + ' · ' + name : name;
-        } else mapCaption.textContent = 'גללו בין הפרויקטים';
+          if (cityEl) cityEl.textContent = city; if (nameEl) nameEl.textContent = name;
+        } else { if (cityEl) cityEl.textContent = ''; if (nameEl) nameEl.textContent = 'גללו בין הפרויקטים'; }
       }
     }
     if ('IntersectionObserver' in window) {
