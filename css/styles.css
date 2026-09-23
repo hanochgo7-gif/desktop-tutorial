@@ -901,3 +901,7 @@ p, .service-hero__lead, .section-head p { font-size: 1.14rem; }
 .service-diagram__body p { color: var(--ink-2); max-width: 56ch; }
 .service-figure--diagram img { aspect-ratio: auto; object-fit: contain; max-height: 720px; background: #fff; padding: 14px; box-sizing: border-box; }
 
+/* כיתוב הפס הרחב: רקע קל לקריאות */
+.band__kicker { display: flex; flex-direction: column; align-items: center; }
+.band__kicker span { display: inline-block; padding: 7px 16px; border-radius: 999px; background: rgba(14,18,22,.42); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); color: #fff; }
+
