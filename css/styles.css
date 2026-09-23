@@ -312,7 +312,7 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .req { color: var(--accent); }
 
 /* ---------- Mobile CTA bar ---------- */
-.mobile-cta { position: fixed; inset: auto 0 0 0; z-index: 95; display: grid; grid-template-columns: 1.1fr .9fr 1.3fr; background: rgba(11,11,12,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line-dark); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); gap: 6px; }
+.mobile-cta { position: fixed; inset: auto 0 0 0; z-index: 95; display: grid; grid-template-columns: 1fr 1fr; background: rgba(11,11,12,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--line-dark); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); gap: 6px; }
 .mobile-cta a { display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 999px; color: #fff; font-weight: 700; font-size: .9rem; border: 1px solid var(--line-dark); }
 .mobile-cta a svg { width: 20px; height: 20px; }
 .mobile-cta__main { background: var(--accent); border-color: var(--accent) !important; }
