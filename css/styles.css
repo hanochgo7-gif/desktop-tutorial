@@ -316,6 +316,9 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .mobile-cta a { display: inline-flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 999px; color: #fff; font-weight: 700; font-size: .9rem; border: 1px solid var(--line-dark); }
 .mobile-cta a svg { width: 20px; height: 20px; }
 .mobile-cta__main { background: var(--accent); border-color: var(--accent) !important; }
+.mobile-cta__call { position: relative; isolation: isolate; justify-self: center; width: 100%; max-width: 156px; min-height: 52px; border: 0 !important; background: none; padding-inline-start: 46px; padding-inline-end: 14px; font-weight: 800; font-size: .95rem; text-shadow: 0 1px 2px rgba(0,0,0,.35); box-shadow: 0 10px 22px -10px rgba(31,143,191,.85); transition: transform .25s var(--ease-out); }
+.mobile-cta__call::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../images/btn-call.webp") center / 100% 100% no-repeat; border-radius: 999px; }
+.mobile-cta__call:active { transform: scale(.96); }
 .mobile-cta__wa { border: 0 !important; background: transparent; position: relative; overflow: visible; gap: 2px; flex-direction: column !important; }
 .mobile-cta__wa img { width: 58px; height: auto; margin-top: -26px; filter: drop-shadow(0 8px 14px rgba(0,0,0,.35)); animation: wa-bob 3.8s ease-in-out infinite; transform-origin: 50% 90%; }
 .mobile-cta__wa span { font-size: .72rem; margin-top: -6px; }
