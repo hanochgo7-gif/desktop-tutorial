@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=42">
+  <link rel="stylesheet" href="css/styles.css?v=43">
 </head>
 <body>
   <a class="skip-link" href="#main">דלג לתוכן</a>
@@ -25,9 +25,20 @@
       <nav class="nav" aria-label="ניווט ראשי">
         <ul>
           <li><a href="index.html#about">אודות</a></li>
-          <li><a href="index.html#fields">תחומי פעילות</a></li>
+          <li class="nav__item--sub">
+            <a href="index.html#fields" class="nav__parent">תחומי פעילות</a>
+            <button class="nav__caret" type="button" aria-expanded="false" aria-label="פתיחת תפריט תחומי פעילות"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <div class="nav__sub" aria-label="תחומי פעילות">
+            <a href="services/station-construction.html"><img src="images/fld-station.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>הקמת תחנות דלק</strong><small>מהיתר ועד פתיחת התחנה</small></span></a>
+            <a href="services/station-renovation.html"><img src="images/fld-renovation.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>שיפוץ ושדרוג תחנות</strong><small>בלי לסגור את התחנה</small></span></a>
+            <a href="services/gas-stations.html"><img src="images/fld-gas.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>תחנות גז</strong><small>תדלוק בגז, מהתשתית ועד הבטיחות</small></span></a>
+            <a href="services/fuel-piping.html"><img src="images/fld-piping.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>עבודות צנרת דלק</strong><small>דופן כפולה, בדיקות לחץ ותיעוד</small></span></a>
+            <a href="services/earthworks.html"><img src="images/fld-earthworks.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>עבודות עפר ופיתוח</strong><small>חפירה, בורות מיכלים וריצוף</small></span></a>
+            <a href="services/data-center.html"><img src="images/fld-datacenter.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>תשתיות דלק לחוות שרתים</strong><small>מיכלים וצנרת הזנה לגנרטורים</small></span></a>
+              <a class="nav__sub-all" href="index.html#fields">לכל תחומי הפעילות</a>
+            </div>
+          </li>
           <li><a href="index.html#projects">פרויקטים</a></li>
-          <li><a href="index.html#process">איך עובדים</a></li>
           <li><a href="index.html#gallery">גלריה</a></li>
           <li><a href="index.html#articles">מאמרים</a></li>
           <li><a href="index.html#contact">צור קשר</a></li>
@@ -44,12 +55,20 @@
     <ul>
       <li><a href="index.html"><small>00</small>ראשי</a></li>
       <li><a href="index.html#about"><small>01</small>אודות</a></li>
-      <li><a href="index.html#fields"><small>02</small>תחומי פעילות</a></li>
+      <li class="mobile-menu__has-sub"><a href="index.html#fields"><small>02</small>תחומי פעילות</a>
+        <ul class="mobile-menu__sub" aria-label="תחומי פעילות">
+          <li><a href="services/station-construction.html">הקמת תחנות דלק</a></li>
+          <li><a href="services/station-renovation.html">שיפוץ ושדרוג תחנות</a></li>
+          <li><a href="services/gas-stations.html">תחנות גז</a></li>
+          <li><a href="services/fuel-piping.html">עבודות צנרת דלק</a></li>
+          <li><a href="services/earthworks.html">עבודות עפר ופיתוח</a></li>
+          <li><a href="services/data-center.html">תשתיות דלק לחוות שרתים</a></li>
+        </ul>
+      </li>
       <li><a href="index.html#projects"><small>03</small>פרויקטים</a></li>
-      <li><a href="index.html#process"><small>04</small>איך עובדים</a></li>
-      <li><a href="index.html#gallery"><small>05</small>גלריה</a></li>
-      <li><a href="index.html#articles"><small>06</small>מאמרים</a></li>
-      <li><a href="index.html#contact"><small>07</small>צור קשר</a></li>
+      <li><a href="index.html#gallery"><small>04</small>גלריה</a></li>
+      <li><a href="index.html#articles"><small>05</small>מאמרים</a></li>
+      <li><a href="index.html#contact"><small>06</small>צור קשר</a></li>
     </ul>
     <div class="mobile-menu__foot">
       <a href="tel:+972502703674">עוזי: <span class="ltr">050-270-3674</span></a>
@@ -139,13 +158,14 @@
           <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. מערכות דלק וחוות גנרטורים לחוות שרתים.</p>
         </div>
         <div>
-          <h4>ניווט</h4>
+          <h4>תחומי פעילות</h4>
           <ul>
-            <li><a href="index.html#about">אודות</a></li>
-            <li><a href="index.html#fields">תחומי פעילות</a></li>
-            <li><a href="index.html#projects">פרויקטים</a></li>
-            <li><a href="index.html#gallery">גלריה</a></li>
-            <li><a href="index.html#contact">צור קשר</a></li>
+            <li><a href="services/station-construction.html">הקמת תחנות דלק</a></li>
+            <li><a href="services/station-renovation.html">שיפוץ ושדרוג תחנות</a></li>
+            <li><a href="services/gas-stations.html">תחנות גז</a></li>
+            <li><a href="services/fuel-piping.html">עבודות צנרת דלק</a></li>
+            <li><a href="services/earthworks.html">עבודות עפר ופיתוח</a></li>
+            <li><a href="services/data-center.html">תשתיות דלק לחוות שרתים</a></li>
           </ul>
         </div>
         <div>
@@ -184,7 +204,7 @@
     <a href="index.html#contact" class="mobile-cta__main">הצעת מחיר</a>
   </nav>
 
-  <script src="js/main.js?v=42" defer></script>
+  <script src="js/main.js?v=43" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
 </html>

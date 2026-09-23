@@ -65,6 +65,17 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
 
+  /* ---------- תפריט נפתח: תחומי פעילות ---------- */
+  $$('.nav__item--sub').forEach(function (li) {
+    var caret = $('.nav__caret', li);
+    if (!caret) return;
+    function setSub(open) { li.classList.toggle('is-open', open); caret.setAttribute('aria-expanded', String(open)); }
+    caret.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); setSub(!li.classList.contains('is-open')); });
+    document.addEventListener('click', function (e) { if (!li.contains(e.target)) setSub(false); });
+    li.addEventListener('keydown', function (e) { if (e.key === 'Escape' && li.classList.contains('is-open')) { setSub(false); caret.focus(); } });
+    li.addEventListener('mouseleave', function () { setSub(false); });
+  });
+
   /* ---------- קישור פעיל בניווט ---------- */
   var navLinks = $$('.nav a[href^="#"]');
   var sections = navLinks.map(function (a) { return $(a.getAttribute('href')); }).filter(Boolean);
