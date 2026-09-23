@@ -879,3 +879,11 @@ html.a11y-focus *:focus { outline: 4px solid #ff3d00 !important; outline-offset:
 .service-quote { display: grid; gap: 36px; }
 .service-quote .section-head p { max-width: 60ch; }
 @media (min-width: 1000px) { .service-quote { grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; } }
+
+/* ---------- חתך תחנה (עמוד הקמת תחנות) ---------- */
+.service-diagram { display: grid; gap: 28px; align-items: center; }
+@media (min-width: 900px) { .service-diagram { grid-template-columns: 1fr 1.1fr; gap: 56px; } }
+.service-diagram__body h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.service-diagram__body p { color: var(--ink-2); max-width: 56ch; }
+.service-figure--diagram img { aspect-ratio: auto; object-fit: contain; max-height: 720px; background: #fff; padding: 14px; box-sizing: border-box; }
+
