@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>חוות גנרטורים לחוות שרתים: תצורת N+1, אחסון דלק ובקרה | ש. גוטובסקי</title>
+  <title>גנרטורי חירום לחוות שרתים: תצורת N+1, אחסון דלק ובקרה | ש. גוטובסקי</title>
   <meta name="description" content="איך בנויה מערכת הגיבוי החשמלי של חוות שרתים: גנרטורים בתצורת N+1, מיכלי דלק ראשיים ומיכלי יום, צנרת הזנה, בקרת SCADA, פליטות ובדיקות עומס. למה תשתית הדלק קובעת אם הגיבוי יעבוד בשעת אמת.">
   <link rel="canonical" href="https://gotovski.co.il/articles/data-center-generator-farm.html">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="he_IL">
   <meta property="og:site_name" content="ש. גוטובסקי">
-  <meta property="og:title" content="חוות גנרטורים לחוות שרתים: תצורת N+1, אחסון דלק ובקרה">
+  <meta property="og:title" content="גנרטורי חירום לחוות שרתים: תצורת N+1, אחסון דלק ובקרה">
   <meta property="og:description" content="גנרטורים בתצורת N+1, מיכלי דלק, צנרת הזנה ובקרה: איך בנוי הגיבוי החשמלי של חוות שרתים.">
   <meta property="og:url" content="https://gotovski.co.il/articles/data-center-generator-farm.html">
   <meta property="og:image" content="https://gotovski.co.il/images/data-center-generator-farm.webp">
@@ -25,7 +25,7 @@
     "@graph": [
       {
         "@type": "Article",
-        "headline": "חוות גנרטורים לחוות שרתים: תצורת N+1, אחסון דלק ובקרה",
+        "headline": "גנרטורי חירום לחוות שרתים: תצורת N+1, אחסון דלק ובקרה",
         "description": "איך בנויה מערכת הגיבוי החשמלי של חוות שרתים: גנרטורים בתצורת N+1, מיכלי דלק, צנרת הזנה, בקרה, פליטות ובדיקות עומס.",
         "image": "https://gotovski.co.il/images/data-center-generator-farm.webp",
         "inLanguage": "he",
@@ -38,7 +38,7 @@
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "ראשי", "item": "https://gotovski.co.il/" },
           { "@type": "ListItem", "position": 2, "name": "מאמרים", "item": "https://gotovski.co.il/#articles" },
-          { "@type": "ListItem", "position": 3, "name": "חוות גנרטורים לחוות שרתים" }
+          { "@type": "ListItem", "position": 3, "name": "גנרטורי חירום לחוות שרתים" }
         ]
       }
     ]
@@ -67,7 +67,7 @@
             <a href="../services/gas-stations.html"><img src="../images/fld-gas.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>תחנות גז</strong><small>תדלוק בגז, מהתשתית ועד הבטיחות</small></span></a>
             <a href="../services/fuel-piping.html"><img src="../images/fld-piping.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>עבודות צנרת דלק</strong><small>דופן כפולה, בדיקות לחץ ותיעוד</small></span></a>
             <a href="../services/earthworks.html"><img src="../images/fld-earthworks.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>עבודות עפר ופיתוח</strong><small>חפירה, בורות מיכלים וריצוף</small></span></a>
-            <a href="../services/data-center.html"><img src="../images/fld-datacenter.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>תשתיות דלק לחוות שרתים</strong><small>מיכלים וצנרת הזנה לגנרטורים</small></span></a>
+            <a href="../services/data-center.html"><img src="../images/fld-datacenter.webp" alt="" width="256" height="256" loading="lazy" decoding="async"><span><strong>תשתיות דלק לחוות שרתים</strong><small>מיכלים, צנרת וחיבור גנרטורי חירום</small></span></a>
               <a class="nav__sub-all" href="../index.html#fields">לכל תחומי הפעילות</a>
             </div>
           </li>
@@ -118,16 +118,16 @@
         <ol class="crumbs" aria-label="פירורי לחם">
           <li><a href="../index.html">ראשי</a></li>
           <li><a href="../articles.html">מאמרים</a></li>
-          <li>חוות גנרטורים לחוות שרתים</li>
+          <li>גנרטורי חירום לחוות שרתים</li>
         </ol>
-        <h1>חוות גנרטורים לחוות שרתים: תצורת N+1, אחסון דלק ובקרה</h1>
+        <h1>גנרטורי חירום לחוות שרתים: תצורת N+1, אחסון דלק ובקרה</h1>
         <p class="article-hero__meta">מדריך מקצועי · זמן קריאה כ־7 דקות</p>
       </div>
     </section>
 
     <div class="container article-layout">
       <article class="article-body">
-        <img src="../images/data-center-generator-farm.webp" alt="הדמיית תכנון של חוות גנרטורים לחוות שרתים: יחידות גנרטור בקונטיינרים, מיכלי דלק ומבנה בקרה" width="1600" height="899">
+        <img src="../images/data-center-generator-farm.webp" alt="הדמיית תכנון של מערך גנרטורי חירום לחוות שרתים: יחידות גנרטור בקונטיינרים, מיכלי דלק ומבנה בקרה" width="1600" height="899">
 
         <p>
           חוות שרתים נמדדת בזמינות. הפסקת חשמל של דקות בודדות יכולה לעלות ללקוחות שלה יותר מכל תשתית הגיבוי,
@@ -237,7 +237,7 @@
       <aside class="article-aside">
         <div class="aside-card aside-card--cta">
           <h3>בונים גיבוי לחוות שרתים?</h3>
-          <p>אנחנו מבצעים את עבודות התשתית והדלק לחוות גנרטורים: בורות, מיכלים, צנרת ובדיקות.</p>
+          <p>אנחנו מבצעים את תשתיות הדלק ואת חיבור גנרטורי החירום: בורות, מיכלים, צנרת, חיבורים ובדיקות.</p>
           <a class="btn btn--whatsapp" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">לשיחה בוואטסאפ</a>
           <a class="btn btn--outline" href="tel:+972502703674">050-270-3674</a>
         </div>
@@ -251,7 +251,7 @@
         <div class="aside-card">
           <h3>השירותים שלנו</h3>
           <ul>
-            <li><a href="../index.html#fields">מערכות דלק וגנרטורים לחוות שרתים</a></li>
+            <li><a href="../index.html#fields">תשתיות דלק וגנרטורי חירום לחוות שרתים</a></li>
             <li><a href="../index.html#fields">עבודות צנרת דלק</a></li>
             <li><a href="../index.html#fields">עבודות עפר</a></li>
           </ul>
@@ -266,7 +266,7 @@
       <div class="footer__grid">
         <div class="footer__brand">
           <img src="../images/logo.png" alt="ש. גוטובסקי" width="226" height="123" loading="lazy" decoding="async">
-          <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. מערכות דלק וחוות גנרטורים לחוות שרתים.</p>
+          <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. תשתיות דלק וחיבור גנרטורי חירום לחוות שרתים.</p>
         </div>
         <div>
           <h4>תחומי פעילות</h4>
@@ -284,7 +284,7 @@
           <ul>
             <li><a href="gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
             <li><a href="environment-protection.html">איכות הסביבה בתחנות דלק</a></li>
-            <li><a href="data-center-generator-farm.html">חוות גנרטורים לחוות שרתים</a></li>
+            <li><a href="data-center-generator-farm.html">גנרטורי חירום לחוות שרתים</a></li>
           </ul>
         </div>
         <div>
