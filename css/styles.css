@@ -115,6 +115,14 @@ a, button, [role="button"] { cursor: pointer; }
 .btn--mail { background: var(--accent); color: #fff; --btn-hover: var(--accent-deep); }
 .btn--block { width: 100%; }
 .btn--xl { min-height: 68px; padding-inline: 40px; font-size: 1.15rem; }
+/* כפתור "לקבלת הצעת מחיר" מעוצב (תמונה + טקסט) */
+.btn--quote { position: relative; isolation: isolate; background: none; border: 0; min-height: 0; height: 74px; min-width: 222px; padding: 0; padding-inline-start: 60px; padding-inline-end: 20px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.08rem; letter-spacing: -.01em; line-height: 1.1; text-shadow: 0 1px 2px rgba(0,0,0,.35); border-radius: 999px; box-shadow: 0 16px 32px -14px rgba(31,143,191,.8); transition: transform .35s var(--ease-out), box-shadow .35s; }
+.btn--quote::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../images/btn-quote.webp") center / 100% 100% no-repeat; border-radius: inherit; transform: none; transition: filter .3s; }
+.btn--quote:hover::before, .btn--quote:focus-visible::before { transform: none; filter: brightness(1.1) saturate(1.05); }
+.btn--quote:hover { transform: translateY(-2px); box-shadow: 0 22px 40px -14px rgba(31,143,191,.9); }
+.btn--quote:active { transform: translateY(1px) scale(.98); }
+.btn--quote svg { display: none; }
+@media (max-width: 480px) { .btn--quote { height: 64px; min-width: 192px; padding-inline-start: 52px; padding-inline-end: 16px; font-size: .98rem; } }
 
 /* ---------- Loader ---------- */
 .loader { position: fixed; inset: 0; z-index: 2000; background: var(--black); color: #fff; display: flex; align-items: flex-end; justify-content: space-between; padding: 28px var(--gutter); animation: loader-out .7s var(--ease-out) 1.6s forwards; }
