@@ -766,3 +766,42 @@ html.a11y-focus *:focus { outline: 4px solid #ff3d00 !important; outline-offset:
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; }
   .reveal, [data-split] .w > span, .line > span { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- Service pages (עמודי תחומי פעילות) ---------- */
+.service-hero { padding-block: 64px 72px; }
+.service-hero .kicker { margin-bottom: 14px; color: var(--accent-2); }
+.service-hero h1 { max-width: 18ch; }
+.service-hero h1 em { color: var(--accent-2); }
+.service-hero__lead { color: var(--on-dark-muted); font-size: clamp(1.05rem, 1.6vw, 1.3rem); font-weight: 300; max-width: 56ch; line-height: 1.6; margin: 14px 0 26px; }
+.service-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.service-intro__grid { display: grid; gap: 32px; align-items: center; }
+.service-figure { margin: 0; }
+.service-figure img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.service-figure figcaption { margin-top: 10px; font-size: .85rem; color: var(--muted); }
+.service-intro__body h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.service-intro__body p { color: var(--ink-2); font-weight: 300; font-size: 1.08rem; line-height: 1.75; max-width: 60ch; }
+@media (min-width: 900px) { .service-intro__grid { grid-template-columns: 1fr 1.1fr; gap: 64px; } }
+.service-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.service-list li { display: grid; gap: 4px; padding: 20px 22px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); position: relative; padding-inline-start: 46px; transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
+.service-list li::before { content: ""; position: absolute; top: 26px; inset-inline-start: 20px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(31,143,191,.15); }
+.service-list li:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+.service-list strong { font-size: 1.08rem; }
+.service-list span { color: var(--muted); font-size: .95rem; line-height: 1.6; }
+@media (min-width: 720px) { .service-list { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .service-list { grid-template-columns: repeat(4, 1fr); } }
+.service-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; counter-reset: s; }
+.service-steps li { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: start; padding: 22px 0; border-top: 1px solid var(--line); }
+.service-steps li:last-child { border-bottom: 1px solid var(--line); }
+.service-steps li > span { grid-row: 1 / span 2; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--accent-deep); letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; min-width: 2.2ch; }
+.service-steps strong { font-size: 1.15rem; }
+.service-steps p { margin: 0; color: var(--muted); font-weight: 300; max-width: 60ch; }
+@media (min-width: 900px) { .service-steps { grid-template-columns: repeat(3, 1fr); gap: 32px; } .service-steps li { grid-template-columns: 1fr; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 26px; background: var(--white); } .service-steps li > span { grid-row: auto; margin-bottom: 8px; } }
+.service-case p { color: var(--on-dark-muted); font-weight: 300; font-size: 1.08rem; line-height: 1.75; max-width: 70ch; }
+.service-case__tags li { border-color: var(--line-dark); color: var(--on-dark); background: transparent; }
+.service-case__more { margin-top: 22px; color: var(--on-dark) !important; }
+.service-case__more a { color: var(--accent-2); text-decoration: underline; }
+.gallery--service { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 800px) { .gallery--service { grid-template-columns: repeat(3, 1fr); } }
+.service-quote { display: grid; gap: 36px; }
+.service-quote .section-head p { max-width: 60ch; }
+@media (min-width: 1000px) { .service-quote { grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; } }
