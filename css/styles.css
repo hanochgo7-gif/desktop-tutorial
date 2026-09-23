@@ -894,3 +894,10 @@ p, .service-hero__lead, .section-head p { font-size: 1.14rem; }
 .nav, .mobile-menu, .header, .footer ul, .footer h4, .crumbs, .marquee, .standards, .case__tags, .mobile-cta, .btn, .kicker, .field__badge, .form, .quick__form, .hero__kicker, .hero__facts, .loader, .wa-float, .a11y, .lightbox, .gallery__caption, .service-steps li span, .field-tile__name, .nav__sub, .manifesto__meta, .contact-list, .form__doc, label, input, select, textarea, button { font-family: var(--font); }
 .field-tile__name { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.45rem, 2vw, 1.85rem); }
 
+/* ---------- חתך תחנה (עמוד הקמת תחנות) ---------- */
+.service-diagram { display: grid; gap: 28px; align-items: center; }
+@media (min-width: 900px) { .service-diagram { grid-template-columns: 1fr 1.1fr; gap: 56px; } }
+.service-diagram__body h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.service-diagram__body p { color: var(--ink-2); max-width: 56ch; }
+.service-figure--diagram img { aspect-ratio: auto; object-fit: contain; max-height: 720px; background: #fff; padding: 14px; box-sizing: border-box; }
+
