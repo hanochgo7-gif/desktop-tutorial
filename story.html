@@ -3,29 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>מדיניות פרטיות | ש. גוטובסקי</title>
-  <meta name="description" content="מדיניות הפרטיות של אתר ש. גוטובסקי: איזה מידע נאסף, לאיזו מטרה, ומהן זכויותיכם לפי חוק הגנת הפרטיות.">
-  <link rel="canonical" href="https://gotovski.co.il/privacy.html">
-  <meta name="robots" content="noindex, follow">
+  <title>הסיפור שלנו | ש. גוטובסקי, חברה משפחתית מאז 1972</title>
+  <meta name="description" content="הסיפור המשפחתי של ש. גוטובסקי: שמוליק גוטובסקי התחיל ב-1972 כקבלן צנרת ותשתיות, התאגד לחברה ב-1988, והיום מנהלים אותה בניו עוזי ואייל. אותו עיקרון: לבנות פעם אחת, נכון.">
+  <!-- TODO: כשיהיה דומיין, להחליף את https://gotovski.co.il בכתובת האתר האמיתית (כאן, ב-og:url, ב-og:image וב-sitemap.xml) -->
+  <link rel="canonical" href="https://gotovski.co.il/story.html">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0e1216">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:site_name" content="ש. גוטובסקי">
+  <meta property="og:title" content="הסיפור שלנו | ש. גוטובסקי">
+  <meta property="og:description" content="הסיפור המשפחתי של ש. גוטובסקי: שמוליק גוטובסקי התחיל ב-1972 כקבלן צנרת ותשתיות, התאגד לחברה ב-1988, והיום מנהלים אותה בניו עוזי ואייל. אותו עיקרון: לבנות פעם אחת, נכון.">
+  <meta property="og:url" content="https://gotovski.co.il/story.html">
+  <meta property="og:image" content="https://gotovski.co.il/images/hero-cinematic.webp">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=46">
-</head>
-<body>
-  <a class="skip-link" href="#main">דלג לתוכן</a>
-  <div class="progress" aria-hidden="true"></div>
 
-  <header class="header" data-theme="dark">
+
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ראשי", "item": "https://gotovski.co.il/"}, {"@type": "ListItem", "position": 2, "name": "הסיפור שלנו"}]}</script>
+
+  <!-- TODO: Google Analytics – להחליף G-XXXXXXXXXX במזהה האמיתי ולהסיר את ההערה
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</head>
+<body data-root="">
+  <a class="skip-link" href="#main">דלג לתוכן</a>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <header class="header" id="top" data-theme="dark">
     <div class="container header__inner">
       <a class="logo" href="index.html" aria-label="ש. גוטובסקי – לעמוד הראשי">
         <img src="images/logo.png" alt="ש. גוטובסקי – שיפוץ והקמת תחנות דלק" width="226" height="123">
       </a>
       <nav class="nav" aria-label="ניווט ראשי">
         <ul>
-          <li><a href="about.html">אודות</a></li>
-          <li><a href="story.html">הסיפור שלנו</a></li>
+          <li><a href="about.html" class="is-active" aria-current="page">אודות</a></li>
+          <li><a href="story.html" class="is-active" aria-current="page">הסיפור שלנו</a></li>
           <li class="nav__item--sub">
             <a href="index.html#fields" class="nav__parent">תחומי פעילות</a>
             <button class="nav__caret" type="button" aria-expanded="false" aria-label="פתיחת תפריט תחומי פעילות"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
@@ -52,9 +81,9 @@
       </button>
     </div>
   </header>
+
   <div class="mobile-menu" id="mobile-menu">
     <ul>
-      <li><a href="index.html"><small>00</small>ראשי<span class="mobile-menu__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a></li>
       <li><a href="about.html"><small>01</small>אודות<span class="mobile-menu__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a></li>
       <li><a href="story.html"><small>02</small>הסיפור שלנו<span class="mobile-menu__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a></li>
       <li class="mobile-menu__has-sub"><a href="index.html#fields"><small>03</small>תחומי פעילות<span class="mobile-menu__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
@@ -81,87 +110,59 @@
   </div>
 
   <main id="main">
-    <section class="article-hero">
+
+    <section class="article-hero service-hero page-hero" data-theme="dark">
       <div class="container">
         <ol class="crumbs" aria-label="פירורי לחם">
           <li><a href="index.html">ראשי</a></li>
-          <li>מדיניות פרטיות</li>
+          <li>הסיפור שלנו</li>
         </ol>
-        <h1>מדיניות פרטיות</h1>
+        <span class="kicker">חברה משפחתית</span>
+        <h1>הסיפור <em>שלנו</em></h1>
+        <p class="service-hero__lead">משמוליק גוטובסקי, שהתחיל כקבלן צנרת ותשתיות ב־1972, ועד עוזי ואייל שמנהלים את החברה היום. אותו מקצוע, אותה אמת מידה.</p>
       </div>
     </section>
-    <div class="container article-layout">
-      <article class="article-body">
-        <p>
-          חברת ש. גוטובסקי (להלן: "החברה") מכבדת את פרטיות המשתמשים באתר ופועלת בהתאם לחוק הגנת הפרטיות, התשמ"א-1981,
-          והתקנות מכוחו. מסמך זה מסביר איזה מידע נאסף באתר, לאיזו מטרה, ומהן זכויותיכם.
-        </p>
 
-        <h2>המידע שנאסף</h2>
-        <h3>מידע שאתם מוסרים</h3>
-        <p>
-          בטופס "צור קשר" תתבקשו למסור שם, טלפון, כתובת דוא"ל (לא חובה), סוג הפרויקט ותיאור קצר.
-          אין חובה חוקית למסור את המידע, אך בלעדיו לא נוכל לחזור אליכם. המידע ישמש אך ורק למענה לפנייתכם
-          ולתיאום שיחה או פגישה.
-        </p>
-        <h3>מידע שנאסף אוטומטית</h3>
-        <!-- TODO: אם יופעל Google Analytics, להשאיר את הפסקה. אם לא, למחוק אותה -->
-        <p>
-          האתר עשוי להשתמש בכלי מדידה סטטיסטיים (כגון Google Analytics) האוספים מידע אנונימי על אופן השימוש באתר,
-          כגון עמודים שנצפו, משך הביקור וסוג המכשיר. מידע זה אינו מזהה אתכם אישית ומשמש לשיפור האתר בלבד.
-          ניתן לחסום קובצי Cookie בהגדרות הדפדפן.
-        </p>
-
-        <h2>שירותי צד שלישי</h2>
-        <ul>
-          <li><strong>וואטסאפ:</strong> לחיצה על כפתור הוואטסאפ פותחת שיחה באפליקציה, בכפוף למדיניות הפרטיות של WhatsApp.</li>
-          <li><strong>מפות גוגל:</strong> המפה בעמוד "צור קשר" נטענת משרתי Google, בכפוף למדיניות הפרטיות של Google.</li>
-          <li><strong>Google Fonts:</strong> גופני האתר נטענים משרתי Google.</li>
-        </ul>
-
-        <h2>שמירת המידע ואבטחתו</h2>
-        <p>
-          פניות שהתקבלו נשמרות במערכות החברה לצורך הטיפול בהן ולתקופה הנדרשת לכך בלבד. החברה נוקטת אמצעים סבירים
-          לאבטחת המידע, אך אינה יכולה להבטיח חסינות מוחלטת מפני גישה בלתי מורשית.
-        </p>
-
-        <h2>העברת מידע לצדדים שלישיים</h2>
-        <p>
-          החברה לא תמסור את פרטיכם לצדדים שלישיים, למעט במקרים שבהם הדבר נדרש על פי דין, או לספקי שירות הפועלים
-          מטעמה לצורך הטיפול בפנייתכם.
-        </p>
-
-        <h2>דיוור</h2>
-        <p>
-          החברה לא תשלח לכם דברי פרסומת ללא הסכמתכם המפורשת מראש, בהתאם לסעיף 30א לחוק התקשורת (בזק ושידורים), התשמ"ב-1982.
-        </p>
-
-        <h2>זכויותיכם</h2>
-        <p>
-          על פי חוק הגנת הפרטיות, אתם זכאים לעיין במידע שנשמר עליכם ולבקש את תיקונו או מחיקתו.
-          לפניות בנושא: <a href="mailto:Office@gotovski.co.il">Office@gotovski.co.il</a> או בטלפון <a href="tel:+972502703674">050-270-3674</a>.
-        </p>
-
-        <h2>שינויים במדיניות</h2>
-        <p>החברה רשאית לעדכן מדיניות זו מעת לעת. הגרסה העדכנית תפורסם בעמוד זה.</p>
-        <!-- TODO: לעדכן תאריך -->
-        <p><strong>עודכן לאחרונה:</strong> [תאריך העדכון]</p>
-      </article>
-      <aside class="article-aside">
-        <div class="aside-card">
-          <h3>מסמכים משפטיים</h3>
-          <ul>
-            <li><a href="accessibility.html">הצהרת נגישות</a></li>
-            <li><a href="privacy.html">מדיניות פרטיות</a></li>
-          </ul>
+    <!-- ===== הסיפור המשפחתי ===== -->
+    <section class="section story" id="story" data-theme="light" aria-labelledby="story-title">
+      <div class="container story__inner">
+        <div class="story__body">
+          <div class="section-head">
+            <span class="kicker reveal">מאז 1972</span>
+            <h2 id="story-title" data-split>מקבלן צנרת אחד, <em>לחברה שממשיכה את דרכו</em></h2>
+          </div>
+          <p class="reveal">
+            <strong>ש. גוטובסקי</strong> היא חברה משפחתית. שמוליק גוטובסקי התחיל בשנת 1972 כקבלן צנרת ותשתיות, בתקופה שבה תשתיות הדלק בישראל
+            נבנו בידיים, כמעט בלי תקנים כתובים ובלי ציוד ייעודי. שמוליק למד את המקצוע מהשטח: איך מניחים מיכל שלא יזוז,
+            איך מרתכים חיבור שלא ידלוף, ואיך סוגרים צינור כך שיחזיק. בשנת 1988 התאגד העסק לחברה, ש.ג. גוטובסקי בע"מ, ומאז היא
+            פועלת תחת השם הזה.
+          </p>
+          <p class="reveal">
+            הדרישה שלו מעצמו ומהצוותים הייתה פשוטה: מה שנסגר מתחת לאדמה צריך להחזיק לתמיד, כי אף אחד לא יבוא לבדוק.
+            חיבורי צנרת שביצע לפני עשרות שנים עדיין אטומים ופועלים, וגם היום, כשפותחים רחבה ישנה ומגיעים לעבודה שלו,
+            מתקשים לפרק אותה. זו הייתה המורשת שלו: בלי קיצורי דרך.
+          </p>
+          <p class="reveal">
+            שמוליק נפטר בשנת 2008. את החברה ממשיכים לנהל שני בניו, <strong>עוזי ואייל גוטובסקי</strong>, שלמדו ממנו את המקצוע
+            בשטח, מהחפירה הראשונה ועד המסירה. הידע שעבר מאב לבנים פוגש היום את התקנים המחמירים ביותר, ציוד מכני הנדסי
+            משלנו וצוותים קבועים, ואותו עיקרון בדיוק: לבנות פעם אחת, נכון.
+          </p>
         </div>
-        <div class="aside-card aside-card--cta">
-          <h3>נתקלתם בבעיה?</h3>
-          <p>נשמח לשמוע ולתקן. פנו אלינו בטלפון או במייל.</p>
-          <a class="btn btn--outline" href="tel:+972502703674">050-270-3674</a>
+      </div>
+    </section>
+
+    <!-- ===== קריאה לפעולה ===== -->
+    <section class="section cta" data-theme="dark" aria-label="קריאה לפעולה">
+      <div class="cta__ring" aria-hidden="true"></div>
+      <div class="container cta__inner">
+        <h2 data-split>בואו <em>נדבר.</em></h2>
+        <div class="cta__row">
+          <p class="reveal">מתכננים תחנה חדשה, שדרוג או חוות גנרטורים? שיחה קצרה איתנו תחסוך לכם שבועות של תכנון. בלי התחייבות.</p>
+          <a class="btn btn--light btn--xl reveal" data-magnetic href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">לתיאום שיחה בוואטסאפ</a>
         </div>
-      </aside>
-    </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer" data-theme="dark">
@@ -186,8 +187,9 @@
         <div>
           <h4>מאמרים</h4>
           <ul>
-            <li><a href="gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
-            <li><a href="data-center-generator-farm.html">חוות גנרטורים לחוות שרתים</a></li>
+            <li><a href="articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
+            <li><a href="articles/environment-protection.html">איכות הסביבה בתחנות דלק</a></li>
+            <li><a href="articles/data-center-generator-farm.html">חוות גנרטורים לחוות שרתים</a></li>
           </ul>
         </div>
         <div>
@@ -219,6 +221,18 @@
     <a href="contact.html" class="mobile-cta__main">הצעת מחיר</a>
   </nav>
 
+  <!-- לייטבוקס לגלריה -->
+  <dialog class="lightbox" id="lightbox" aria-label="תצוגת תמונה מוגדלת">
+    <button class="lightbox__close" type="button" id="lightbox-close" aria-label="סגירה">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-lb-dir="-1" aria-label="התמונה הקודמת"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="lightbox__nav lightbox__nav--next" type="button" data-lb-dir="1" aria-label="התמונה הבאה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox__caption" id="lightbox-caption"></p>
+    <span class="lightbox__count" id="lightbox-count" aria-live="polite"></span>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="js/main.js?v=44" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>

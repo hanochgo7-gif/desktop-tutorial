@@ -133,7 +133,8 @@ a, button, [role="button"] { cursor: pointer; }
 @media (max-width: 480px) { .logo img { height: 44px; } }
 .nav { display: none; }
 .header__quote { display: none; min-height: 44px; padding: 8px 22px; font-size: .92rem; }
-@media (min-width: 1000px) { .header__quote { display: inline-flex; margin-inline-start: 8px; } }
+@media (min-width: 1200px) { .header__quote { display: inline-flex; margin-inline-start: 8px; } }
+@media (min-width: 1000px) and (max-width: 1199px) { .nav a { padding: 8px 9px; font-size: .9rem; } }
 .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
 .nav a { display: block; padding: 8px 12px; font-weight: 600; font-size: .95rem; position: relative; }
 .nav ul > li > a::after { content: ""; position: absolute; inset-inline: 12px; bottom: 4px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease-out); }
