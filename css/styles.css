@@ -32,6 +32,8 @@
   --gutter: 20px;
   --header-h: 80px;
   --font: "Heebo", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: "Bellefair", "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --font-body: "Frank Ruhl Libre", "David Libre", Georgia, serif;
   --ease: cubic-bezier(.22, .61, .36, 1);
   --ease-out: cubic-bezier(.16, 1, .3, 1);
   --shadow: 0 30px 60px rgba(0,0,0,.28);
@@ -879,3 +881,16 @@ html.a11y-focus *:focus { outline: 4px solid #ff3d00 !important; outline-offset:
 .service-quote { display: grid; gap: 36px; }
 .service-quote .section-head p { max-width: 60ch; }
 @media (min-width: 1000px) { .service-quote { grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; } }
+
+/* ---------- טיפוגרפיה: Bellefair לכותרות, Frank Ruhl Libre למלל ---------- */
+h1, h2, h3, .h { font-family: var(--font-display); font-weight: 400; letter-spacing: 0; }
+h1 { font-size: clamp(2.6rem, 6.4vw, 5.6rem); }
+.article-hero h1 { font-size: clamp(2.5rem, 6vw, 4.8rem); }
+h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); }
+h3 { font-weight: 400; }
+p, blockquote, figcaption, summary, dd, td, .lead, .service-hero__lead, .about__list, .service-list, .faq__item, .story__body, .case p, .article-body, .quick__sub, .cta p, .manifesto p, .contact-list { font-family: var(--font-body); }
+p, .service-hero__lead, .section-head p { font-size: 1.14rem; }
+.manifesto [data-scrub-text] { font-family: var(--font-body); }
+.nav, .mobile-menu, .header, .footer ul, .footer h4, .crumbs, .marquee, .standards, .case__tags, .mobile-cta, .btn, .kicker, .field__badge, .form, .quick__form, .hero__kicker, .hero__facts, .loader, .wa-float, .a11y, .lightbox, .gallery__caption, .service-steps li span, .field-tile__name, .nav__sub, .manifesto__meta, .contact-list, .form__doc, label, input, select, textarea, button { font-family: var(--font); }
+.field-tile__name { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.45rem, 2vw, 1.85rem); }
+
