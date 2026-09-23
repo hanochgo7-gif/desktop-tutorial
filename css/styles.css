@@ -700,7 +700,8 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 
 /* ---------- Footer ---------- */
 .footer { position: relative; background: var(--black); color: var(--on-dark-muted); padding-block: 72px 28px; font-size: .95rem; overflow: hidden; border-top: 1px solid var(--line-dark); }
-.footer__mark { font-size: clamp(4rem, 19vw, 18rem); font-weight: 900; line-height: .85; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.95); paint-order: stroke; pointer-events: none; user-select: none; white-space: nowrap; margin: 0 0 48px; text-align: center; }
+.footer__mark { display: flex; justify-content: center; margin: 0 0 52px; }
+.footer__mark img { width: min(78vw, 380px); height: auto; background: #fff; padding: 18px 34px; border-radius: 24px; box-shadow: 0 24px 56px -22px rgba(0,0,0,.7); }
 .footer__grid { position: relative; display: grid; gap: 28px; margin-bottom: 40px; }
 .footer__brand img { height: 64px; width: auto; background: #fff; padding: 8px 16px; border-radius: 14px; margin-bottom: 16px; }
 .footer h4 { color: #fff; font-size: .78rem; letter-spacing: .16em; margin-bottom: 14px; }
