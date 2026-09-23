@@ -381,6 +381,31 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .field__thumb { grid-column: 1 / -1; aspect-ratio: 16/9; overflow: hidden; border-radius: 12px; }
 .field__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .fields__preview { display: none; }
+/* תחומי פעילות: אריחים קומפקטיים בעמוד הבית */
+.fields-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .fields-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .fields-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+.field-tile { position: relative; display: grid; gap: 22px; justify-items: start; align-content: space-between; min-height: 100%; padding: 26px 24px 24px; border: 1px solid var(--line-dark); border-radius: var(--radius-lg); background: rgba(255,255,255,.035); color: #fff; transition: background .35s var(--ease), border-color .35s var(--ease), transform .45s var(--ease-out); }
+.field-tile img { width: 68px; height: 68px; border-radius: 18px; background: rgba(255,255,255,.06); border: 1px solid var(--line-dark); padding: 5px; transition: transform .45s var(--ease-out), background .35s, border-color .35s; }
+.field-tile__name { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: clamp(1.25rem, 1.8vw, 1.6rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; transition: color .3s; }
+.field-tile__name .field__badge { font-size: .72rem; padding: 5px 11px; }
+.field-tile__arrow { position: absolute; top: 22px; inset-inline-end: 22px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line-dark); display: grid; place-items: center; color: #fff; transition: background .3s, color .3s, border-color .3s, transform .45s var(--ease-out); }
+.field-tile__arrow svg { width: 20px; height: 20px; }
+.field-tile:hover, .field-tile:focus-visible { background: rgba(255,255,255,.075); border-color: rgba(79,187,234,.55); transform: translateY(-5px); }
+.field-tile:hover img { transform: translateY(-3px) rotate(-4deg) scale(1.05); background: rgba(255,255,255,.12); border-color: rgba(79,187,234,.5); }
+.field-tile:hover .field-tile__name { color: var(--accent-2); }
+.field-tile:hover .field-tile__arrow { background: #fff; color: var(--ink); border-color: #fff; transform: rotate(-45deg); }
+/* עמודי משנה ראשיים (אודות, פרויקטים, גלריה, מאמרים, צור קשר) */
+@media (max-width: 559px) {
+  .field-tile { grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 14px 16px 14px 62px; }
+  .field-tile img { width: 52px; height: 52px; border-radius: 14px; }
+  .field-tile__name { font-size: 1.15rem; }
+  .field-tile__arrow { top: 50%; inset-inline-end: 14px; width: 36px; height: 36px; transform: translateY(-50%); }
+  .field-tile:hover .field-tile__arrow { transform: translateY(-50%) rotate(-45deg); }
+}
+.page-hero { padding-block: 56px 64px; }
+.page-hero h1 { max-width: 16ch; }
+.page-hero + .section { padding-top: clamp(56px, 8vw, 96px); }
 @media (min-width: 1000px) {
   .field { grid-template-columns: 96px 1fr auto; padding: 34px 0; }
   .field__icon img { width: 68px; height: 68px; }

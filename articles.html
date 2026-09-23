@@ -3,21 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>הצהרת נגישות | ש. גוטובסקי</title>
-  <meta name="description" content="הצהרת הנגישות של אתר ש. גוטובסקי: התאמות הנגישות באתר, מגבלות ידועות ודרכי פנייה לרכז הנגישות.">
-  <link rel="canonical" href="https://gotovski.co.il/accessibility.html">
-  <meta name="robots" content="noindex, follow">
+  <title>מאמרים ומדריכים | ש. גוטובסקי</title>
+  <meta name="description" content="מאמרים מקצועיים על הקמת תחנות דלק, שמירה על איכות הסביבה בתחנות ותשתיות דלק לחוות שרתים, מאת ש. גוטובסקי.">
+  <!-- TODO: כשיהיה דומיין, להחליף את https://gotovski.co.il בכתובת האתר האמיתית (כאן, ב-og:url, ב-og:image וב-sitemap.xml) -->
+  <link rel="canonical" href="https://gotovski.co.il/articles.html">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0e1216">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:site_name" content="ש. גוטובסקי">
+  <meta property="og:title" content="מאמרים ומדריכים | ש. גוטובסקי">
+  <meta property="og:description" content="מאמרים מקצועיים על הקמת תחנות דלק, שמירה על איכות הסביבה בתחנות ותשתיות דלק לחוות שרתים, מאת ש. גוטובסקי.">
+  <meta property="og:url" content="https://gotovski.co.il/articles.html">
+  <meta property="og:image" content="https://gotovski.co.il/images/hero-cinematic.webp">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="icon" href="images/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=44">
-</head>
-<body>
-  <a class="skip-link" href="#main">דלג לתוכן</a>
-  <div class="progress" aria-hidden="true"></div>
 
-  <header class="header" data-theme="dark">
+
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ראשי", "item": "https://gotovski.co.il/"}, {"@type": "ListItem", "position": 2, "name": "מאמרים"}]}</script>
+
+  <!-- TODO: Google Analytics – להחליף G-XXXXXXXXXX במזהה האמיתי ולהסיר את ההערה
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</head>
+<body data-root="">
+  <a class="skip-link" href="#main">דלג לתוכן</a>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <header class="header" id="top" data-theme="dark">
     <div class="container header__inner">
       <a class="logo" href="index.html" aria-label="ש. גוטובסקי – לעמוד הראשי">
         <img src="images/logo.png" alt="ש. גוטובסקי – שיפוץ והקמת תחנות דלק" width="226" height="123">
@@ -40,7 +69,7 @@
           </li>
           <li><a href="projects.html">פרויקטים</a></li>
           <li><a href="gallery.html">גלריה</a></li>
-          <li><a href="articles.html">מאמרים</a></li>
+          <li><a href="articles.html" class="is-active" aria-current="page">מאמרים</a></li>
           <li><a href="contact.html">צור קשר</a></li>
         </ul>
       </nav>
@@ -51,9 +80,9 @@
       </button>
     </div>
   </header>
+
   <div class="mobile-menu" id="mobile-menu">
     <ul>
-      <li><a href="index.html"><small>00</small>ראשי</a></li>
       <li><a href="about.html"><small>01</small>אודות</a></li>
       <li class="mobile-menu__has-sub"><a href="index.html#fields"><small>02</small>תחומי פעילות</a>
         <ul class="mobile-menu__sub" aria-label="תחומי פעילות">
@@ -78,75 +107,70 @@
   </div>
 
   <main id="main">
-    <section class="article-hero">
+
+    <section class="article-hero service-hero page-hero" data-theme="dark">
       <div class="container">
         <ol class="crumbs" aria-label="פירורי לחם">
           <li><a href="index.html">ראשי</a></li>
-          <li>הצהרת נגישות</li>
+          <li>מאמרים</li>
         </ol>
-        <h1>הצהרת נגישות</h1>
+        <span class="kicker">ידע מקצועי</span>
+        <h1>מאמרים <em>מהניסיון שלנו</em></h1>
+        <p class="service-hero__lead">מדריכים קצרים וברורים למי שמתכנן תחנה, שיפוץ או חוות גנרטורים, מתוך עשרות שנים בשטח.</p>
       </div>
     </section>
-    <div class="container article-layout">
-      <article class="article-body">
-        <p>
-          חברת ש. גוטובסקי רואה חשיבות רבה במתן שירות שוויוני לכלל הציבור, ובכלל זה לאנשים עם מוגבלות.
-          אנו משקיעים משאבים בהנגשת האתר, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות),
-          התשע"ג-2013, ולתקן הישראלי ת"י 5568 המבוסס על הנחיות WCAG 2.0 ברמה AA.
-        </p>
 
-        <h2>התאמות הנגישות באתר</h2>
-        <ul>
-          <li>האתר מותאם לתצוגה בדפדפנים הנפוצים ובמכשירים ניידים.</li>
-          <li>ניתן לנווט באתר באמצעות המקלדת בלבד. מקש Tab מעביר בין הרכיבים, ומקש Enter מפעיל אותם. קישור "דלג לתוכן" מופיע בלחיצה הראשונה על Tab.</li>
-          <li>המבנה הסמנטי של העמודים (כותרות, אזורי ניווט, תוכן ראשי) מותאם לקוראי מסך.</li>
-          <li>לכל התמונות המשמעותיות יש תיאור טקסטואלי חלופי.</li>
-          <li>ניגודיות הצבעים בין הטקסט לרקע עומדת בדרישות התקן.</li>
-          <li>האתר מכבד את הגדרת "הפחתת תנועה" של מערכת ההפעלה.</li>
-          <li>תפריט נגישות (הכפתור העגול בתחתית המסך) מאפשר הגדלת טקסט, ניגודיות גבוהה, הדגשת קישורים, גופן קריא, עצירת אנימציות, סמן עכבר גדול והדגשת מיקוד מקלדת. ההעדפות נשמרות בדפדפן שלכם.</li>
-        </ul>
-
-        <h2>מגבלות ידועות</h2>
-        <p>
-          מפת גוגל המוטמעת בעמוד "צור קשר" מסופקת על ידי צד שלישי ואינה בשליטתנו המלאה. הכתובת המלאה מופיעה גם כטקסט לצד המפה.
-          למרות מאמצינו ייתכן שחלקים מסוימים באתר עדיין אינם נגישים במלואם. אנו ממשיכים לשפר את הנגישות באופן שוטף.
-        </p>
-
-        <h2>הסדרי נגישות בבית העסק</h2>
-        <!-- TODO: לעדכן לפי המצב בפועל במשרד (חניית נכים, גישה ללא מדרגות, שירותים נגישים וכדומה) -->
-        <p>[מקום שמור: פירוט הסדרי הנגישות במשרדי החברה במושב בניה, למשל חניה נגישה, כניסה ללא מדרגות, ושירותים נגישים.]</p>
-
-        <h2>פנייה בנושא נגישות</h2>
-        <p>
-          נתקלתם בבעיית נגישות באתר או בשירות? נשמח לקבל את פנייתכם ולטפל בה בהקדם.
-        </p>
-        <ul>
-          <li><strong>רכז הנגישות:</strong> עזרא גוטובסקי</li>
-          <li><strong>דוא"ל:</strong> <a href="mailto:Office@gotovski.co.il">Office@gotovski.co.il</a></li>
-        </ul>
-        <!-- TODO: להחליף את המספר במספר הוואטסאפ של עזרא (כרגע מספר החברה) -->
-        <details class="a11y-contact">
-          <summary>פנייה לרכז הנגישות בוואטסאפ</summary>
-          <p><a class="btn btn--whatsapp" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%96%D7%A8%D7%90%2C%20%D7%90%D7%A0%D7%99%20%D7%A4%D7%95%D7%A0%D7%94%20%D7%91%D7%A0%D7%95%D7%A9%D7%90%20%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA" target="_blank" rel="noopener">שליחת הודעה לעזרא בוואטסאפ</a></p>
-        </details>
-
-        <p><strong>ההצהרה עודכנה לאחרונה:</strong> 22.09.2026</p>
-      </article>
-      <aside class="article-aside">
-        <div class="aside-card">
-          <h3>מסמכים משפטיים</h3>
-          <ul>
-            <li><a href="accessibility.html">הצהרת נגישות</a></li>
-            <li><a href="privacy.html">מדיניות פרטיות</a></li>
-          </ul>
+    <!-- ===== מאמרים ===== -->
+    <section class="section" id="articles" data-theme="light" aria-labelledby="articles-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker reveal">מאמרים מקצועיים</span>
+          <h2 id="articles-title" data-split>כדאי לדעת <em>לפני שמתחילים</em></h2>
         </div>
-        <div class="aside-card aside-card--cta">
-          <h3>נתקלתם בבעיה?</h3>
-          <p>נשמח לשמוע ולתקן. פנו אלינו בטלפון או במייל.</p>
-          <a class="btn btn--outline" href="tel:+972502703674">050-270-3674</a>
+        <div class="articles">
+          <a class="article-card reveal" href="articles/gas-station-construction-process.html">
+            <img src="images/paz-station-construction.webp" alt="" width="1600" height="578" loading="lazy" decoding="async">
+            <div class="article-card__body">
+              <span class="article-card__tag">הקמה</span>
+              <h3>הקמת תחנת דלק: כל השלבים מהתכנון ועד ההפעלה</h3>
+              <p>מה קורה בין ההחלטה להקים תחנה לבין הלקוח הראשון שמתדלק, ואיפה נמצאים העיכובים הנפוצים.</p>
+              <span class="article-card__more">לקריאה</span>
+            </div>
+          </a>
+          <a class="article-card reveal" href="articles/environment-protection.html">
+            <img src="images/environment-card.webp" alt="" width="800" height="500" loading="lazy" decoding="async">
+            <div class="article-card__body">
+              <span class="article-card__tag">איכות הסביבה</span>
+              <h3>איכות הסביבה בתחנות דלק: התקנים, ואיך אנחנו שומרים על הקרקע ועל המים</h3>
+              <p>מישוב אדים, מיכלים וצנרת בדופן כפולה, מפרידי דלק ופינוי קרקע מזוהמת: מה דורשת הרגולציה ומה אנחנו עושים בכל פרויקט.</p>
+              <span class="article-card__more">לקריאה</span>
+            </div>
+          </a>
+          <a class="article-card reveal" href="articles/data-center-generator-farm.html">
+            <img src="images/datacenter-cinematic.webp" alt="" width="1600" height="900" loading="lazy" decoding="async">
+            <div class="article-card__body">
+              <span class="article-card__tag">חוות שרתים</span>
+              <h3>חוות גנרטורים לחוות שרתים: תצורת N+1, אחסון דלק ובקרה</h3>
+              <p>איך בנויה מערכת גיבוי חשמלי לחוות שרתים, ולמה תשתית הדלק היא החלק שקובע אם היא תעבוד בשעת אמת.</p>
+              <span class="article-card__more">לקריאה</span>
+            </div>
+          </a>
         </div>
-      </aside>
-    </div>
+      </div>
+    </section>
+
+    <!-- ===== קריאה לפעולה ===== -->
+    <section class="section cta" data-theme="dark" aria-label="קריאה לפעולה">
+      <div class="cta__ring" aria-hidden="true"></div>
+      <div class="container cta__inner">
+        <h2 data-split>בואו <em>נדבר.</em></h2>
+        <div class="cta__row">
+          <p class="reveal">מתכננים תחנה חדשה, שדרוג או חוות גנרטורים? שיחה קצרה איתנו תחסוך לכם שבועות של תכנון. בלי התחייבות.</p>
+          <a class="btn btn--light btn--xl reveal" data-magnetic href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener">לתיאום שיחה בוואטסאפ</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer" data-theme="dark">
@@ -171,8 +195,9 @@
         <div>
           <h4>מאמרים</h4>
           <ul>
-            <li><a href="gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
-            <li><a href="data-center-generator-farm.html">חוות גנרטורים לחוות שרתים</a></li>
+            <li><a href="articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
+            <li><a href="articles/environment-protection.html">איכות הסביבה בתחנות דלק</a></li>
+            <li><a href="articles/data-center-generator-farm.html">חוות גנרטורים לחוות שרתים</a></li>
           </ul>
         </div>
         <div>
@@ -204,6 +229,18 @@
     <a href="contact.html" class="mobile-cta__main">הצעת מחיר</a>
   </nav>
 
+  <!-- לייטבוקס לגלריה -->
+  <dialog class="lightbox" id="lightbox" aria-label="תצוגת תמונה מוגדלת">
+    <button class="lightbox__close" type="button" id="lightbox-close" aria-label="סגירה">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" data-lb-dir="-1" aria-label="התמונה הקודמת"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="lightbox__nav lightbox__nav--next" type="button" data-lb-dir="1" aria-label="התמונה הבאה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="lightbox__caption" id="lightbox-caption"></p>
+    <span class="lightbox__count" id="lightbox-count" aria-live="polite"></span>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="js/main.js?v=44" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
