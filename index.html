@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Bellefair&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=55">
+  <link rel="stylesheet" href="css/styles.css?v=56">
   <link rel="preload" as="image" href="images/hero-cinematic.webp" imagesrcset="images/hero-cinematic-1200.webp 1200w, images/hero-cinematic.webp 1600w" imagesizes="100vw">
 
   <!-- נתונים מובנים: עסק מקומי -->
@@ -172,7 +172,7 @@
         </div>
         <div class="hero__foot" data-hero-fade>
           <ul class="facts" aria-label="נתוני החברה">
-            <li><strong><b>1972</b></strong><small>שנת ההקמה</small></li>
+            <li><strong><b data-count="1972">1972</b></strong><small>שנת ההקמה</small></li>
             <li><strong><b data-count="5">5</b> חברות</strong><small>מובילות בין לקוחותינו</small></li>
             <li><strong><b data-count-years="1972">54</b> שנה</strong><small>של תשתיות דלק</small></li>
           </ul>
@@ -240,7 +240,7 @@
           </div>
           <p class="reveal">שישה תחומי ביצוע, צוות אחד, אחריות אחת. לחצו על תחום לכל הפרטים.</p>
         </div>
-        <ul class="fields-grid">
+        <ul class="fields-grid" data-stagger>
           <li><a class="field-tile reveal" href="services/station-construction.html">
             <img src="images/fld-station.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
             <span class="field-tile__name">הקמת תחנות דלק</span>
@@ -310,11 +310,11 @@
   <footer class="footer" data-theme="dark">
     <div class="container">
       <div class="footer__mark"><img src="images/logo.svg" alt="ש. גוטובסקי" width="226" height="123" loading="lazy" decoding="async"></div>
-      <div class="footer__grid">
-        <div class="footer__brand">
+      <div class="footer__grid" data-stagger>
+        <div class="footer__brand reveal">
           <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. תשתיות דלק וחיבור גנרטורי חירום לחוות שרתים.</p>
         </div>
-        <div>
+        <div class="reveal">
           <h4>תחומי פעילות</h4>
           <ul>
             <li><a href="services/station-construction.html">הקמת תחנות דלק</a></li>
@@ -325,7 +325,7 @@
             <li><a href="services/data-center.html">תשתיות דלק לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>מאמרים</h4>
           <ul>
             <li><a href="articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
@@ -333,7 +333,7 @@
             <li><a href="articles/data-center-generator-farm.html">גנרטורי חירום לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>דברו איתנו</h4>
           <ul>
             <li>עוזי: <a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
@@ -373,7 +373,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="js/main.js?v=44" defer></script>
+  <script src="js/main.js?v=45" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
 </html>

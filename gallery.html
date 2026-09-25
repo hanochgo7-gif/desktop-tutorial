@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Bellefair&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=55">
+  <link rel="stylesheet" href="css/styles.css?v=56">
 
 
 
@@ -132,192 +132,200 @@
             <h2 id="gallery-title" data-split>מהשטח</h2>
           </div>
         </div>
+        <div class="gtabs" role="tablist" aria-label="סינון הגלריה לפי תחום" data-gallery-tabs>
+          <button class="gtabs__tab" role="tab" type="button" aria-selected="true" tabindex="0" data-f="all">הכל</button>
+          <button class="gtabs__tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-f="tanks">מיכלים</button>
+          <button class="gtabs__tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-f="pipes">צנרת ושוחות</button>
+          <button class="gtabs__tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-f="earth">עפר, בטון וריצוף</button>
+          <button class="gtabs__tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-f="station">תחנות ומבנים</button>
+          <span class="gtabs__marker" aria-hidden="true"></span>
+        </div>
         <div class="gallery" id="gallery-grid">
-          <button class="gallery__item gallery__item--wide" type="button" data-full="images/tank-lift-site-wide.webp" data-caption="הנפת מיכל דלק במנוף כבד באתר בנייה">
+          <button class="gallery__item lqip gallery__item--wide" type="button" data-full="images/tank-lift-site-wide.webp" data-cat="tanks" data-caption="הנפת מיכל דלק במנוף כבד באתר בנייה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFAv/EACEQAAICAgIBBQAAAAAAAAAAAAECAxEABBJBEyEiMTLB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgED/8QAGhEBAAIDAQAAAAAAAAAAAAAAAQACAxNREf/aAAwDAQACEQMRAD8AYreTX5j20t0T8ZnViLNzjdDx7Busm628fE0awgAj7XZx0MpTVkdZGUkhTQA9cOC9sdUSXLUu+jKDySRuUbYSwezhktUiccmdrvsX+4ZrueQazs//2Q==)">
             <img src="images/tank-lift-site-wide.webp" alt="מנוף ליבהר צהוב מניף מיכל דלק שחור מעל אתר בנייה עם ברזלי זיון" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת מיכל דלק במנוף כבד באתר בנייה</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/tanks-in-pit-liner.webp" data-caption="הנחת מיכלים בבור על יריעת איטום">
+          <button class="gallery__item lqip" type="button" data-full="images/tanks-in-pit-liner.webp" data-cat="tanks" data-caption="הנחת מיכלים בבור על יריעת איטום" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBBQb/xAAjEAACAQMEAQUAAAAAAAAAAAABAgMABBEFEiExUSIyQWHh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQMRE1Ex/9oADAMBAAIRAxEAPwBhbwNcYZNqDnsE1F7cGUpHan1e458Vmisqje3IzjJ+astOSZ7tZGwMqcj6pcrr0FErH21KMEjanHlvyilZ9MSSUukwQNztI6NFRs+lYrh//9k=)">
             <img src="images/tanks-in-pit-liner.webp" alt="מיכלי דלק גליליים גדולים בבור מרופד ביריעת איטום, מנוף מעליהם" width="1400" height="1050" loading="lazy" decoding="async">
             <span class="gallery__caption">הנחת מיכלים בבור על יריעת איטום</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/tank-lift-site-2.webp" data-caption="מיכל דלק באוויר, רגע לפני ההנחה">
+          <button class="gallery__item lqip" type="button" data-full="images/tank-lift-site-2.webp" data-cat="tanks" data-caption="מיכל דלק באוויר, רגע לפני ההנחה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBBAb/xAAiEAACAQMEAgMAAAAAAAAAAAABAgQAAxEFEhMhMUEUIiP/xAAVAQEBAAAAAAAAAAAAAAAAAAABA//EABgRAQEAAwAAAAAAAAAAAAAAAAEAAhEh/9oADAMBAAIRAxEAPwBg0qPbZWK/oDjrul0jULtuY7JtXDeB4OKmIIdxdp5eTGSfABqle0yY94sWG1icbT6qjkNMEtDEutIjreQYDdkZ90UhGpmEPjLb38f1Jz7oo2T2/9k=)">
             <img src="images/tank-lift-site-2.webp" alt="מיכל דלק גדול תלוי על רצועות הנפה על רקע מגדלי משרדים" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">מיכל דלק באוויר, רגע לפני ההנחה</span>
           </button>
-          <button class="gallery__item gallery__item--wide" type="button" data-full="images/tank-lift-sonol.webp" data-caption="הנפת מיכל דלק תת־קרקעי בתחנת סונול פעילה">
+          <button class="gallery__item lqip gallery__item--wide" type="button" data-full="images/tank-lift-sonol.webp" data-cat="tanks" data-caption="הנפת מיכל דלק תת־קרקעי בתחנת סונול פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAUGAQL/xAAjEAACAgEDAwUAAAAAAAAAAAABAgADIQQRQQUSIjJRYXGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQD/xAAYEQADAQEAAAAAAAAAAAAAAAAAARESUf/aAAwDAQACEQMRAD8AZ3WAU+LlTuMqczLr20gBt2tTllww/OZNg+ZYEjOPid23u6dhc7e/MdcCD9+saJCAdQuRvgEwkixYH1d33CVYxH//2Q==)">
             <img src="images/tank-lift-sonol.webp" alt="מנוף מניף מיכל דלק גדול לבור בתחנת סונול, עם עובדים באפודים זוהרים" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת מיכל – סונול</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/concrete-pour.webp" data-caption="יציקת בטון לרחבת התדלוק">
+          <button class="gallery__item lqip" type="button" data-full="images/concrete-pour.webp" data-cat="earth" data-caption="יציקת בטון לרחבת התדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFAf/EACEQAAICAQQCAwAAAAAAAAAAAAECAAMEESExUQUiEkFh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAESEwL/2gAMAwEAAhEDEQA/AGJZiDV3t2+hvtMfy1NGiVAOe3Pxk20BcepwPYsQf0RpA29V46Ezp0M0Wcfy+JZUGdih65hIwA04EJaYlH//2Q==)">
             <img src="images/concrete-pour.webp" alt="יציקת בטון עם משאבה לרחבת תדלוק" width="558" height="310" loading="lazy" decoding="async">
             <span class="gallery__caption">יציקת רחבה</span>
           </button>
-          <button class="gallery__item gallery__item--wide" type="button" data-full="images/tanks-crane-truck.webp" data-caption="מיכלי דלק במקומם, לפני חיבור הצנרת">
+          <button class="gallery__item lqip gallery__item--wide" type="button" data-full="images/tanks-crane-truck.webp" data-cat="tanks" data-caption="מיכלי דלק במקומם, לפני חיבור הצנרת" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQCA//EACMQAAIBBAIABwAAAAAAAAAAAAECAAMEERIFMRMhIkFCUXH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAAMBAQAAAAAAAAAAAAAAAAECEQAD/9oADAMBAAIRAxEAPwA95aW5TxkqMpB9aeYmafIWb7NvimOsqQfyd1UO2rAMuOj1I+dRRaUlCgKG6Ax7SF7sTNbcll1aVbequ1Msy/esSXhQDYDI+RiD2YGXByUjf//Z)">
             <img src="images/tanks-crane-truck.webp" alt="שורת מיכלי דלק שחורים בבור חול, עובדים ומשאית מנוף" width="1400" height="787" loading="lazy" decoding="async">
             <span class="gallery__caption">מיכלי דלק במקומם, לפני חיבור הצנרת</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/station-building.webp" data-caption="מבנה שירות בתחנה – שלב השלד והגמר">
+          <button class="gallery__item lqip" type="button" data-full="images/station-building.webp" data-cat="station" data-caption="מבנה שירות בתחנה – שלב השלד והגמר" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EACEQAAICAQQCAwAAAAAAAAAAAAECAxEABAUSIRQVMWGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oADAMBAAIRAxEAPwBJ97mVikcVMDXQvJxbxKWUurFyDRJ6H5mjwoniDvbMvQJONptNCeIEaimHxkLrUGUvfzjrgOvrDMm6HhrGCgAVdDDHWOX/2Q==)">
             <img src="images/station-building.webp" alt="מבנה שירות של תחנת דלק בשלב בנייה עם פיגומים" width="535" height="310" loading="lazy" decoding="async">
             <span class="gallery__caption">מבנה שירות</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/earthworks-excavator.webp" data-caption="עבודות עפר – חפירה והכנת שטח">
+          <button class="gallery__item lqip" type="button" data-full="images/earthworks-excavator.webp" data-cat="earth" data-caption="עבודות עפר – חפירה והכנת שטח" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAiEAACAQQCAQUAAAAAAAAAAAABAwIAERIxBAVBEzJRYXH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABgRAQEBAQEAAAAAAAAAAAAAAAEAEhMh/9oADAMBAAIRAxEAPwCW9otMJGxyiNH5oTzSuWUmyYWR9ttGkGqhOJMrk/ZvVHBYfVnkMvA/Kn0X2XMLdHbCAsxLAdi3kUUpxHTKd6JFFLbHBf/Z)">
             <img src="images/earthworks-excavator.webp" alt="מחפרון בעבודות עפר באתר תחנת דלק" width="493" height="310" loading="lazy" decoding="async">
             <span class="gallery__caption">עבודות עפר</span>
           </button>
-          <button class="gallery__item gallery__item--wide" type="button" data-full="images/pit-liner-workers.webp" data-caption="פריסת יריעת איטום בבור המיכלים">
+          <button class="gallery__item lqip gallery__item--wide" type="button" data-full="images/pit-liner-workers.webp" data-cat="tanks" data-caption="פריסת יריעת איטום בבור המיכלים" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUE/8QAIhAAAQMCBgMAAAAAAAAAAAAAAQACEQMEBRIUITFBIlGx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgME/8QAFhEAAwAAAAAAAAAAAAAAAAAAAAET/9oADAMBAAIRAxEAPwA7Eb4NaNO+eDNNYxdVzdahtpWNUz5ZTCtmAZjfpNp4WezLSRMbiV3lGemWn0W7/EVMkdgIldhkj//Z)">
             <img src="images/pit-liner-workers.webp" alt="בור מיכלים מרופד ביריעת איטום שחורה, עובדים באפודים זוהרים בתוכו ומעליו" width="1400" height="1050" loading="lazy" decoding="async">
             <span class="gallery__caption">פריסת יריעת איטום בבור המיכלים</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/valve-manifold-wall.webp" data-caption="מערכת שסתומים וצנרת מילוי על קיר המבנה">
+          <button class="gallery__item lqip" type="button" data-full="images/valve-manifold-wall.webp" data-cat="pipes" data-caption="מערכת שסתומים וצנרת מילוי על קיר המבנה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEA//EACAQAAICAgICAwAAAAAAAAAAAAECAAMRMSEiBBIUMmH/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwAsYLf2I0cka3Ee5c8HqN/sXymIVCDjLCSWMS1AJ2OYS6bMVfOoTqzYIhMLUT2+ohEP/9k=)">
             <img src="images/valve-manifold-wall.webp" alt="מערכת שסתומים וצנרת פלדה מותקנת על קיר בטון" width="1400" height="787" loading="lazy" decoding="async">
             <span class="gallery__caption">מערכת שסתומים וצנרת מילוי על קיר המבנה</span>
           </button>
-          <button class="gallery__item gallery__item--wide" type="button" data-full="images/team-wide.webp" data-caption="חלק מהצוות שלנו ביום הכשרת עבודה בגובה">
+          <button class="gallery__item lqip gallery__item--wide" type="button" data-full="images/team-wide.webp" data-caption="חלק מהצוות שלנו ביום הכשרת עבודה בגובה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EACEQAAICAgICAwEAAAAAAAAAAAEDAhEAEgQhQbEFMVHB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAQAC/8QAGREAAgMBAAAAAAAAAAAAAAAAAAECERIh/9oADAMBAAIRAxEAPwCVvMcvnaREYhkdLiKFH+4xr3o6i0kA6x1N+BfvE8VqeSyttJ6gRBjfeVcX4lqQLf1V6j9P36wi88GS07NqPKesMDpRB8EYZcsGK4xPZArDMtllH//Z)">
             <img src="images/team-wide.webp" alt="חלק מצוות החברה ביום הכשרת עבודה בגובה, בקסדות ורתמות בטיחות" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הכשרת עבודה בגובה</span>
           </button>
-          <button class="gallery__item" type="button" data-full="images/tank-delivery.webp" data-caption="הובלת מיכל דלק חדש לתחנה על משאית מנוף">
+          <button class="gallery__item lqip" type="button" data-full="images/tank-delivery.webp" data-cat="tanks" data-caption="הובלת מיכל דלק חדש לתחנה על משאית מנוף" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQCAwX/xAAiEAACAgEDBAMAAAAAAAAAAAABAgADEQUSIQQTMUFRYYH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABgRAQEAAwAAAAAAAAAAAAAAAAABAhES/9oADAMBAAIRAxEAPwBt9TsorXKoSxJ59DzKup1iq1BXbQTWwBbaTkGIBFcksS5PPxJduoeav3Mkyq8w/TXpl9YddwB9M2DCZpNI4yw+hCDT/9k=)">
             <img src="images/tank-delivery.webp" alt="משאית מנוף עם מיכל דלק שחור גדול נכנסת לתחנת דלק" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הובלת מיכל</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tank-lift-crane-2.webp" data-caption="הנפת מיכל דלק למקומו">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tank-lift-crane-2.webp" data-cat="tanks" data-caption="הנפת מיכל דלק למקומו" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAA8DASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBBAX/xAAhEAACAgEEAgMAAAAAAAAAAAABAgADBAUREiExQRNRkf/EABUBAQEAAAAAAAAAAAAAAAAAAAME/8QAGBEAAgMAAAAAAAAAAAAAAAAAAAECA0H/2gAMAwEAAhEDEQA/ALyEh1A8DsxzOWUEzGvys9Ga9KlCKo5L7/JONrfIlLal3+w0dWRYLrkheYgQ1kE9nY9+e4rU60x66vhUJz3J29whItRXh//Z)">
             <img src="images/tank-lift-crane-2.webp" alt="מנוף גדול מניף מיכל דלק גלילי שחור מעל הבור" width="1050" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת מיכל דלק למקומו</span>
           </button>
-          <button class="gallery__item gallery__item--more gallery__item--wide" type="button" data-full="images/paz-station-construction.webp" data-caption="הקמת תחנת דלק – סככה, טוטם ומבנה שירות (הדמיה)">
+          <button class="gallery__item lqip gallery__item--more gallery__item--wide" type="button" data-full="images/paz-station-construction.webp" data-cat="station" data-caption="הקמת תחנת דלק – סככה, טוטם ומבנה שירות (הדמיה)" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAHABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAfEAABBQABBQAAAAAAAAAAAAABAAIDBBEFEiEiMcH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAAH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABIC/9oADAMBAAIRAxEAPwBXtyRPna2JxdI/wx+YEkmtVgZ8LRnfql34iIPSyyFRqcpLJXY8xAkj204iIs01kv/Z)">
             <img src="images/paz-station-construction.webp" alt="הקמת תחנת דלק – סככה, טוטם ומבנה שירות בשלבי בנייה" width="1600" height="578" loading="lazy" decoding="async">
             <span class="gallery__caption">הקמת תחנת דלק (הדמיה)</span>
           </button>
-          <button class="gallery__item gallery__item--more gallery__item--wide" type="button" data-full="images/station-forecourt.webp" data-caption="רחבת תדלוק פעילה במהלך עבודות שדרוג">
+          <button class="gallery__item lqip gallery__item--more gallery__item--wide" type="button" data-full="images/station-forecourt.webp" data-cat="station" data-caption="רחבת תדלוק פעילה במהלך עבודות שדרוג" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIFA//EACAQAAICAQQDAQAAAAAAAAAAAAECAAMRBAUSUSEiMUH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABkRAAMAAwAAAAAAAAAAAAAAAAABESExUf/aAAwDAQACEQMRAD8ATO02pY1WiIZRyOLTgTHQ2aOly5ptdXAbl+L3juTrlNdZKnKt4IBwYo5vUtYsbgPik+BJqegnS6d42+v1WksOyohIBoOfghDARH//2Q==)">
             <img src="images/station-forecourt.webp" alt="רחבת תדלוק פעילה של תחנת דור אלון במהלך עבודות שדרוג" width="800" height="600" loading="lazy" decoding="async">
             <span class="gallery__caption">שדרוג תחנה פעילה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tank-sump-install.webp" data-caption="התקנת בריכת מיכל וחיבורי צנרת">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tank-sump-install.webp" data-cat="pipes" data-caption="התקנת בריכת מיכל וחיבורי צנרת" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBAgX/xAAhEAACAgMAAQUBAAAAAAAAAAABAgMRAAQSQRMiMTJxsf/EABUBAQEAAAAAAAAAAAAAAAAAAAMC/8QAGREBAQADAQAAAAAAAAAAAAAAAQACETFx/9oADAMBAAIRAxEAPwBEKGNHnlsX9FP9yY513Y1RmdTGORwaoYttnnvtfVF/DZSF9WFXng7ElUqt4J83g5CvfK8U1NCurycH2lycM0NMqNdQVF/mGObib//Z)">
             <img src="images/tank-sump-install.webp" alt="בריכת מיכל צהובה עם חיבורי צנרת דלק בשלב ההתקנה" width="800" height="600" loading="lazy" decoding="async">
             <span class="gallery__caption">בריכת מיכל</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/pump-sump-works.webp" data-caption="עבודות בבריכת משאבה טבולה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/pump-sump-works.webp" data-cat="pipes" data-caption="עבודות בבריכת משאבה טבולה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAUGAgT/xAAhEAACAQUAAQUAAAAAAAAAAAABAgMABBESITEFFEFRYf/EABUBAQEAAAAAAAAAAAAAAAAAAAMA/8QAGREBAAMBAQAAAAAAAAAAAAAAAQACAxEx/9oADAMBAAIRAxEAPwBc8kk3WbJPgfVUvpxj9lHGrBtR38NTyW8kcjDI58GsRxzR3m6O4DDoz5FHpk3PZVuEaX94sd0yRw7KOZ0J7RXTZwWqwkxLMqsxbAkNFIZ8Ibc7P//Z)">
             <img src="images/pump-sump-works.webp" alt="עובד מטפל במשאבה טבולה בתוך בריכת מיכל" width="800" height="600" loading="lazy" decoding="async">
             <span class="gallery__caption">משאבה טבולה</span>
           </button>
-          <button class="gallery__item gallery__item--more gallery__item--wide" type="button" data-full="images/data-center-generator-farm.webp" data-caption="הדמיה: מערך גנרטורי חירום של 20 מגה־וואט לחוות שרתים">
+          <button class="gallery__item lqip gallery__item--more gallery__item--wide" type="button" data-full="images/data-center-generator-farm.webp" data-caption="הדמיה: מערך גנרטורי חירום של 20 מגה־וואט לחוות שרתים" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAwUG/8QAJhAAAQMCBQMFAAAAAAAAAAAAAQACBAURAxUiMdESExQhUnGBkv/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFhEAAwAAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwBqoUuEIz/Gj4HcB026jZJ02CBj4TJce7CdWkgNHyqM6qJIJkm9t+hvCnPKlv5R29reFcZFRv5XSneowWEfZQueNbqQ2kn8N4QkYqP/2Q==)">
             <img src="images/data-center-generator-farm.webp" alt="הדמיית תכנון של גנרטורי חירום לחוות שרתים עם מיכלי דלק" width="1600" height="899" loading="lazy" decoding="async">
             <span class="gallery__caption">גנרטורי חירום לחוות שרתים (הדמיה)</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/fuel-piping-island.webp" data-caption="צנרת דלק על אי משאבות – צנרת פלדה שחורה עם תמיכות">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/fuel-piping-island.webp" data-cat="pipes" data-caption="צנרת דלק על אי משאבות – צנרת פלדה שחורה עם תמיכות" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAATABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMEBf/EACEQAAICAQQCAwAAAAAAAAAAAAECAAMhBBESMQVBU5HB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgEA/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAMAwEAAhEDEQA/ALVsjphrBjotJ6Ks2E8XYnB2Jx1NeqKBlBGQpImXxzgWKRjlUp+txKy9NS0hluYsxYnr1E2HYnfYGIVjiecsddaArEDh6MppMXaYD4T+RESOsgHGIiAn/9k=)">
             <img src="images/fuel-piping-island.webp" alt="שני קווי צנרת דלק שחורים מעוגנים לבטון על אי משאבות" width="800" height="777" loading="lazy" decoding="async">
             <span class="gallery__caption">צנרת דלק</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/excavation-active-station.webp" data-caption="חפירה מגודרת מתחת לסככה בתחנה פעילה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/excavation-active-station.webp" data-cat="earth" data-caption="חפירה מגודרת מתחת לסככה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAABAv/EAB0QAAIDAQADAQAAAAAAAAAAAAECAxEhAAQSMWL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAERJh/9oADAMBAAIRAxEAPwBaysi4TEtYLFdscoMD7G0gIIPsCPvcqoBVau84jJ5yO5WJaDZo0cWBLcSObYKT+c64yp51fBu/R10Zate3/9k=)">
             <img src="images/excavation-active-station.webp" alt="בור חפירה מגודר מתחת לסככת תחנת דלק פעילה" width="800" height="600" loading="lazy" decoding="async">
             <span class="gallery__caption">חפירה בתחנה פעילה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/concrete-breaking.webp" data-caption="פירוק בטון ברחבה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/concrete-breaking.webp" data-cat="earth" data-caption="פירוק בטון ברחבה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUCBAb/xAAiEAACAgICAAcAAAAAAAAAAAABAgMRAAQhMQUTIiMyUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEx/9oADAMBAAIRAxEAPwBW7zyKrcsTyx7s5EJMAKB6sV3l3wlASRs+lCLBs39cVjDWh1H8yR29tB8gpuqs8YNITFOTZAP6MM0kWjpNEjPM4YqCQBhgj//Z)">
             <img src="images/concrete-breaking.webp" alt="מיני מחפרון עם פטיש הידראולי שובר בטון ברחבת תחנה" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">פירוק בטון ברחבה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/drainage-channel.webp" data-caption="תעלת ניקוז לפני יציקה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/drainage-channel.webp" data-cat="earth" data-caption="תעלת ניקוז לפני יציקה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAeEAABBAIDAQAAAAAAAAAAAAABAAIDERIxBCFBYf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwBOLkeZOcb2QtuM7GTktppINGt+lKwtJkbbiRspzEtmk1qyR8KQWjM+AMYGJ7HaFDmucbBpCuVNj//Z)">
             <img src="images/drainage-channel.webp" alt="תעלת ניקוז ברחבת תדלוק בשלב טפסנות, לצד סבכת ניקוז קיימת" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">תעלת ניקוז לפני יציקה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/paving-roller.webp" data-caption="הידוק ריצוף בתחנה פעילה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/paving-roller.webp" data-cat="earth" data-caption="הידוק ריצוף בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EACYQAAICAQMACwAAAAAAAAAAAAECAAMhERIxBAUTFCIkQVFhwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAAMBAAAAAAAAAAAAAAAAAAABEVH/2gAMAwEAAhEDEQA/ALN0hAq+axw2465+JzWdYWirwWWLr6g4MhYi7GPZh1I1IJmlSk1lFrzxyZJsaJ77LQHOSfdiTEd324+z+xBMY7p//9k=)">
             <img src="images/paving-roller.webp" alt="מכבש קטן מהדק את הרחבה בתחנת דלק פעילה, מאחורי גדר בטיחות" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">הידוק ריצוף בתחנה פעילה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/dispenser-service.webp" data-caption="טיפול במשאבת סולר">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/dispenser-service.webp" data-cat="station" data-caption="טיפול במשאבת סולר" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgX/xAAhEAADAAIBBAMBAAAAAAAAAAABAgMAERIEITFBE1Fhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAMAwEAAhEDEQA/AJ7q5Y24fJvQ9A/n9yQlcNujoF39jHe614TZAqzbXYdu4JzHUU6duEkV+WwASBrzmHAKeuyvSknCzQEa35wzrp08LzWhiuyB7Iwwu7Iy/9k=)">
             <img src="images/dispenser-service.webp" alt="משאבת סולר פתוחה לטיפול, עם המסנן והצנרת הפנימית חשופים" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">טיפול במשאבת סולר</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/canopy-roof-work.webp" data-caption="עבודה על גג הסככה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/canopy-roof-work.webp" data-cat="station" data-caption="עבודה על גג הסככה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAE/8QAJhAAAgEBBgYDAAAAAAAAAAAAAQIAEQMEEyFxgQUiMkFRYXKR0f/EABUBAQEAAAAAAAAAAAAAAAAAAAIB/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAESE//aAAwDAQACEQMRAD8A1m1tSc7sy/J1/YZvTJ1BUHnEBptBewKmhRfoQ2UrTlUbCPUOaFbiBRypdTqPUoFcPICnc6yhtllH/9k=)">
             <img src="images/canopy-roof-work.webp" alt="במת הרמה ועובד על גג סככת תחנת דלק חדשה" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">עבודה על גג הסככה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/dor-alon-small-station.webp" data-caption="תחנת תדלוק של דור אלון: סככה, עמדת משאבה ואי תדלוק">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/dor-alon-small-station.webp" data-cat="station" data-caption="תחנת תדלוק של דור אלון: סככה, עמדת משאבה ואי תדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EAB8QAAICAwACAwAAAAAAAAAAAAECABEDEiEEMTJhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABgRAAMBAQAAAAAAAAAAAAAAAAACEwED/9oADAMBAAIRAxEAPwCffCPkrgc7ryO0xswXCpyEmhQicHkVyh+Sk5LDcFMKIqJVws5IJcoGoIzfYqE2uXRQqrQHoQkq5man/9k=)">
             <img src="images/dor-alon-small-station.webp" alt="תחנת תדלוק קטנה של דור אלון עם סככה ירוקה-לבנה, משאבה ואי תדלוק צהוב" width="800" height="600" loading="lazy" decoding="async">
             <span class="gallery__caption">תחנת דור אלון</span>
           </button>
-          <button class="gallery__item gallery__item--more gallery__item--wide" type="button" data-full="images/crane-dusk.webp" data-caption="הנפת זרוע מחפר במנוף כבד">
+          <button class="gallery__item lqip gallery__item--more gallery__item--wide" type="button" data-full="images/crane-dusk.webp" data-cat="tanks" data-caption="הנפת זרוע מחפר במנוף כבד" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACEQAAICAQMFAQAAAAAAAAAAAAECAAMRBAVBEiEiMWGB/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgAB/8QAGBEBAAMBAAAAAAAAAAAAAAAAAAERElH/2gAMAwEAAhEDEQA/AKZuqRAWbGeOTFrhqbMuiiqsd/IZZvziZ+vXnTZOA7n059qPkoafcKL6ywa5GA7nrJMtNmOKRAhEBuVWAD1ZHyEWgp//2Q==)">
             <img src="images/crane-dusk.webp" alt="מנוף כבד מניף זרוע של מחפר מעל תחנת דלק" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת זרוע מחפר במנוף כבד</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tank-in-pit-night.webp" data-caption="הנחת מיכל תת־קרקעי על יריעת איטום">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tank-in-pit-night.webp" data-cat="tanks" data-caption="הנחת מיכל תת־קרקעי על יריעת איטום" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQCBQb/xAAlEAACAQMDAgcAAAAAAAAAAAABAgMABBEFElEhIhMUIzEyUmH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/EABURAQEAAAAAAAAAAAAAAAAAAAEA/9oADAMBAAIRAxEAPwCuTUZPDYLhS2OoFO2lwdjySEEDHaT8uaz6XCrFtEfd99xpmG/VFUtFvK+2TihKFJu4n06WZmVWjHCdAf2ioGSWb1PLwLnnJoom/9k=)">
             <img src="images/tank-in-pit-night.webp" alt="עובד בקסדה עומד על מיכל דלק שחור בתוך בור מרופד ביריעת איטום, בעבודת לילה" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">הנחת מיכל תת־קרקעי על יריעת איטום</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/concrete-pour-sumps.webp" data-caption="יציקת רחבת בטון עם שוחות מילוי">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/concrete-pour-sumps.webp" data-cat="earth" data-caption="יציקת רחבת בטון עם שוחות מילוי" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAjEAABBAECBwEAAAAAAAAAAAABAAIDEQQFEhMUImJxkZLh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABcRAQEBAQAAAAAAAAAAAAAAAAASARH/2gAMAwEAAhEDEQA/AJkyswW4Uxva21TmJ4Z9skzjK6iGggmvaVdLmsBO8FzDRZ+rXH1CGd9Pj2z1d1dDylacMHUcqz0O+UI4hKEsl//Z)">
             <img src="images/concrete-pour-sumps.webp" alt="רחבת בטון טרייה עם שוחות מילוי ומכסים, על רקע הרים" width="1200" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">יציקת רחבת בטון עם שוחות מילוי</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/earthworks-cat.webp" data-caption="עבודות עפר לצד קיר תומך">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/earthworks-cat.webp" data-cat="earth" data-caption="עבודות עפר לצד קיר תומך" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACMQAAEDAgYDAQAAAAAAAAAAAAEAAgMEEgUREyIxQSFRYYH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAXEQADAQAAAAAAAAAAAAAAAAAAASFB/9oADAMBAAIRAxEAPwBVRHFTxwh941Nxt5A/VdHh7sm3kyAMORc7vpZmLz6lUD64WnhdXdRi9x2m0rNrRp4UimA8B5HwhCfchGlh/9k=)">
             <img src="images/earthworks-cat.webp" alt="מחפרון קטרפילר ושני עובדים באפודים בחפירה לצד קיר תומך" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">עבודות עפר לצד קיר תומך</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/night-works-fenced.webp" data-caption="עבודות לילה בתחנה פעילה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/night-works-fenced.webp" data-cat="earth" data-caption="עבודות לילה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEAf/EAB8QAAIDAAICAwAAAAAAAAAAAAECAAMRBBIhMSJhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAARUf/aAAwDAQACEQMRAD8AnSmp6i3fOp0EH3MWxa7XepgWb22ZEBRvOeYtnJ6A/EZ9QzCM3KsBzuv5CSNyWJ0Kp2EyKv/Z)">
             <img src="images/night-works-fenced.webp" alt="אזור עבודה מגודר בגדרות ממותגות ש. גוטובסקי בתחנת דלק בלילה" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">עבודות לילה בתחנה פעילה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/adblue-install.webp" data-caption="התקנת עמדת אוריאה (AdBlue)">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/adblue-install.webp" data-cat="station" data-caption="התקנת עמדת אוריאה (AdBlue)" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgAEBf/EACEQAQABBAICAwEAAAAAAAAAAAECAAMEESExBUETFCLR/8QAFgEBAQEAAAAAAAAAAAAAAAAAAwIE/8QAGBEBAQEBAQAAAAAAAAAAAAAAAQIAESH/2gAMAwEAAhEDEQA/AM+ZkSX4kVF4Sn4/IuY9q62gjOciI667aWRixuv2LOo3dcmuJ/yjY/Fy2J3JePeis9VR4ZQHHP8AKTMuZC4IaN67qrlXlbkmLIF9VUkqSDoQ7v/Z)">
             <img src="images/adblue-install.webp" alt="עמדת אוריאה לרכב צהובה עטופה בניילון, בשלב ההתקנה בתחנה" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">התקנת עמדת אוריאה (AdBlue)</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/pump-base.webp" data-caption="בסיס משאבה אחרי יציקה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/pump-base.webp" data-cat="earth" data-caption="בסיס משאבה אחרי יציקה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAgEAACAQQCAwEAAAAAAAAAAAABAgMAERIhBEEFUZEx/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAYEQEAAwEAAAAAAAAAAAAAAAAAARESE//aAAwDAQACEQMRAD8AgctoWOPFZ1H4V3f5Vx5iEgI8bxt1kALfbVk0MQOgV30aGjkXQlcr1c06SmYOR5YDFgfZta5opYckIoVjcj2KKuin/9k=)">
             <img src="images/pump-base.webp" alt="בסיס מתכת של משאבת דלק עם מדי זרימה, לאחר יציקת בטון סביבו" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">בסיס משאבה אחרי יציקה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/floor-repair.webp" data-caption="תיקון רצפה ליד עמדת תדלוק">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/floor-repair.webp" data-cat="earth" data-caption="תיקון רצפה ליד עמדת תדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAgMF/8QAHRAAAgMBAAMBAAAAAAAAAAAAAQIAAxEhBBIiE//EABUBAQEAAAAAAAAAAAAAAAAAAAMB/8QAGREAAwADAAAAAAAAAAAAAAAAAAERAhJR/9oADAMBAAIRAxEAPwCgtX1LtzO4OTL9NqJI+iQZHnXtdUSUClQOgxNbeQsJIh11nRrb4GkchFWfMxoS7oI//9k=)">
             <img src="images/floor-repair.webp" alt="יציקה טרייה מגודרת לצד עמדת תדלוק בתחנה פעילה" width="900" height="675" loading="lazy" decoding="async">
             <span class="gallery__caption">תיקון רצפה ליד עמדת תדלוק</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/air-station-paving.webp" data-caption="עמדת מילוי אוויר וריצוף אבנים משתלבות">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/air-station-paving.webp" data-cat="earth" data-caption="עמדת מילוי אוויר וריצוף אבנים משתלבות" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAhEAACAgEEAgMAAAAAAAAAAAABAgADEQQSITEUcSJBwf/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABoRAAIDAQEAAAAAAAAAAAAAAAABAiFBErH/2gAMAwEAAhEDEQA/AM2mPk1Nk87sDniaq0FJG6tSv25GZGi0q1VbUYvzkN0Jt2oa9hUEHuDNzyxVyiprVJ+IrPs4iS2loY5ahc+omG5LPC0dJ1JH7ERwiwHiIiQp/9k=)">
             <img src="images/air-station-paving.webp" alt="עמדת מילוי אוויר צהובה על רחבה מרוצפת באבנים משתלבות" width="900" height="900" loading="lazy" decoding="async">
             <span class="gallery__caption">עמדת אוויר וריצוף</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tank-lift-fence.webp" data-caption="הנפת מיכל דלק במנוף מעל גדר האתר">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tank-lift-fence.webp" data-cat="tanks" data-caption="הנפת מיכל דלק במנוף מעל גדר האתר" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAA8DASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EACIQAAEDAwMFAAAAAAAAAAAAAAEAAgMEESESEyIxQWGRof/EABYBAQEBAAAAAAAAAAAAAAAAAAQDBf/EABYRAQEBAAAAAAAAAAAAAAAAAAABE//aAAwDAQACEQMRAD8ApkBDcBJfGSVPMamSbWKgNAPHjj0t0sk0JcKk7gPR17fEjaI5VcbCTSGNAt2CVI9w5A5HhCFlnv/Z)">
             <img src="images/tank-lift-fence.webp" alt="מיכל דלק גלילי תלוי על רצועות מנוף מעל גדר אתר בנייה" width="1050" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת מיכל דלק במנוף מעל גדר האתר</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tanks-before-burial.webp" data-caption="מיכלים תת־קרקעיים לפני ההטמנה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tanks-before-burial.webp" data-cat="tanks" data-caption="מיכלים תת־קרקעיים לפני ההטמנה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBP/EAB8QAAEEAgMBAQAAAAAAAAAAAAEAAgMEESESIjFTof/EABYBAQEBAAAAAAAAAAAAAAAAAAMAAf/EABgRAAMBAQAAAAAAAAAAAAAAAAABAxMC/9oADAMBAAIRAxEAPwBl27Wpytje1z+QzkHz8Wa3ebDOYuD/AHGeKpT1YJO74WOcBokJcx7goVZiuSJTbspG4JRv5oVDAdsjJQt26LJH/9k=)">
             <img src="images/tanks-before-burial.webp" alt="מיכלי דלק שחורים עם שוחות עליונות על מצע חול, לצד משאית" width="1400" height="787" loading="lazy" decoding="async">
             <span class="gallery__caption">מיכלים תת־קרקעיים לפני ההטמנה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tanks-in-pit-2.webp" data-caption="המיכלים בבור, לפני חיבור הצנרת">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tanks-in-pit-2.webp" data-cat="tanks" data-caption="המיכלים בבור, לפני חיבור הצנרת" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAA8DASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAECAwQFBv/EACAQAAIBBAIDAQAAAAAAAAAAAAECAwAEERIxURQhImH/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAgP/xAAYEQEAAwEAAAAAAAAAAAAAAAAAAhMxAf/aAAwDAQACEQMRAD8AumWL5VZFJbjBpb11tYTI/GcY7rmpr2dbhgAE1ONR7Ap3nO8sbAsVUex3+1pb1FbXMcc66yxowJzxUng2+gKxhcdUUUKelRx//9k=)">
             <img src="images/tanks-in-pit-2.webp" alt="שלושה מיכלי דלק גליליים בבור, עובד בקסדה צהובה לידם" width="1050" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">המיכלים בבור, לפני חיבור הצנרת</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/tank-welding-shade.webp" data-caption="עבודות ריתוך על המיכלים תחת רשת צל">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/tank-welding-shade.webp" data-cat="tanks" data-caption="עבודות ריתוך על המיכלים תחת רשת צל" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBAwT/xAAhEAABBAEDBQAAAAAAAAAAAAABAAIDEQQSFCExMlFicf/EABUBAQEAAAAAAAAAAAAAAAAAAAAC/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQASAv/aAAwDAQACEQMRAD8AysycmQERQl5HpyVftcuDUIYJXgjVbq6+E9FCgAB8UkqHtqwSmHBL4mufJIx57m8GihNEJpmS/9k=)">
             <img src="images/tank-welding-shade.webp" alt="רתך עובד על מיכלי דלק תחת רשתות צל באתר" width="1400" height="787" loading="lazy" decoding="async">
             <span class="gallery__caption">עבודות ריתוך על המיכלים תחת רשת צל</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/night-sumps-install.webp" data-caption="התקנת שוחות וצנרת בעבודת לילה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/night-sumps-install.webp" data-cat="pipes" data-caption="התקנת שוחות וצנרת בעבודת לילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAfEAACAgIDAAMAAAAAAAAAAAABAgMRACEEBVFx0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/EABURAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIRAxEAPwDL5fXvHJVg/fmA6aYgEsinwnGZ5nlnaIrYNGr3rJngBmYuCWvZC/uFpkU9SzPyoyxslTZOP8nc7/OGGCf/2Q==)">
             <img src="images/night-sumps-install.webp" alt="עובדים מתקינים שוחות וצנרת דלק בתעלה בעבודת לילה" width="787" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">התקנת שוחות וצנרת בעבודת לילה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/pipe-fusion-site.webp" data-caption="הכנת צנרת דלק באתר: חיבור קטעי צנרת לפני ההנחה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/pipe-fusion-site.webp" data-cat="pipes" data-caption="הכנת צנרת דלק באתר: חיבור קטעי צנרת לפני ההנחה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EACMQAAEDAwMFAQAAAAAAAAAAAAEAAgMREzEEEiEFFCJDUXH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQME/8QAGREBAQADAQAAAAAAAAAAAAAAAQASEzFB/9oADAMBAAIRAxEAPwBI9ZJI3ewgAZFMLQdTJXhpI/Ao9mIWtD5CbpLXfOQaKYnlhFsWzt48spbF9jAK3UHERx0PtamfpIZXXHsq45KELO8rnb//2Q==)">
             <img src="images/pipe-fusion-site.webp" alt="צוות מחבר קטעי צנרת דלק שחורה באתר בנייה, לצד מחפרון" width="787" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הכנת צנרת דלק באתר: חיבור קטעי צנרת לפני ההנחה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/crew-pipes-tanks.webp" data-caption="הנחת צנרת דלק לצד המיכלים">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/crew-pipes-tanks.webp" data-cat="pipes" data-caption="הנחת צנרת דלק לצד המיכלים" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAiEAACAgIBAwUAAAAAAAAAAAABAgADESEEEhNRIjFBYbH/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/EABcRAQEBAQAAAAAAAAAAAAAAAAARIUH/2gAMAwEAAhEDEQA/AFKLVZwtqp0kZDDRB8ZlLORyVchBlfjQMaD1d92d9MRpk3+RxeRxukYdcfSw1WhRXtQsN49xJ7NVfpFSkDzCEF0uP//Z)">
             <img src="images/crew-pipes-tanks.webp" alt="שני עובדים באפודים זוהרים מניחים צנרת דלק, מיכלים ברקע" width="788" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הנחת צנרת דלק לצד המיכלים</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/pipe-trench.webp" data-caption="צנרת דלק בתעלה לפני הכיסוי">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/pipe-trench.webp" data-cat="pipes" data-caption="צנרת דלק בתעלה לפני הכיסוי" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EACAQAAEEAgIDAQAAAAAAAAAAAAEAAgMRBEETMQUhUaH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/EABURAQEAAAAAAAAAAAAAAAAAAAEA/9oADAMBAAIRAxEAPwBMnAjiuWRxIJF1pQGPjgUIwR9JT+TynOkDAQQK/UhbKfbWuc09EdKBWpAszpOeIue0XutqssruQ1QA6A0hCSG//9k=)">
             <img src="images/pipe-trench.webp" alt="צינור דלק שחור מונח בתעלת חול לפני הכיסוי" width="788" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">צנרת דלק בתעלה לפני הכיסוי</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/valve-manifold-assembly.webp" data-caption="הרכבת מערכת שסתומים לפני ההתקנה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/valve-manifold-assembly.webp" data-cat="pipes" data-caption="הרכבת מערכת שסתומים לפני ההתקנה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EACEQAAICAQQCAwAAAAAAAAAAAAECAAMRBAUhQRRRMWHB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/xAAXEQADAQAAAAAAAAAAAAAAAAAAARIx/9oADAMBAAIRAxEAPwCfdo7jac1lmPOR3EbKLlcqUwRNdZ4+nKI3w31yPUG2/SMctSCfcnQ5FN1Yi2rB6/ZRyYQk3iGtP//Z)">
             <img src="images/valve-manifold-assembly.webp" alt="מערכת שסתומים ואוגנים מורכבת על הקרקע לפני התקנתה" width="787" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הרכבת מערכת שסתומים לפני ההתקנה</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/pipe-bundle-crane.webp" data-caption="פריקת צנרת באתר במנוף">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/pipe-bundle-crane.webp" data-cat="pipes" data-caption="פריקת צנרת באתר במנוף" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEBv/EACQQAAIBAwMDBQAAAAAAAAAAAAECAwAEERIhMQUTIkFRYbHh/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAZEQEAAgMAAAAAAAAAAAAAAAAAATECESH/2gAMAwEAAhEDEQA/AILq0lZAyqTg4PtxSp0+UqC4IY8+NaWYW0SLHLgo++Byfn6phbW5HiyY9N/2i+nSUwJdCMy6tQGxBwRUUw7UrICSFOMk0UUQrO3/2Q==)">
             <img src="images/pipe-bundle-crane.webp" alt="מנוף פורק צרור צינורות ממשאית באתר, מחפרון ברקע" width="787" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">פריקת צנרת באתר במנוף</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/day-tank-base.webp" data-caption="מיכל דלק עילי על בסיס בטון">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/day-tank-base.webp" data-cat="tanks" data-caption="מיכל דלק עילי על בסיס בטון" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAB/8QAIxAAAgECBgIDAAAAAAAAAAAAAQIDABIEBRETITEiUSNBYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAASAf/aAAwDAQACEQMRAD8AOksW6sLRSbzAFQOjSJPhuJhcKp0JPGprcHlkMxaZppr14Ukg2/tMGDeQXYiRbtebR3VeslmWHzkX6IBpg9+6qqBP/9k=)">
             <img src="images/day-tank-base.webp" alt="מיכל דלק ירוק עילי על בסיס בטון, לצד מלגזה במבנה תעשייתי" width="1050" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">מיכל דלק עילי על בסיס בטון</span>
           </button>
-          <button class="gallery__item gallery__item--more" type="button" data-full="images/green-tank-lift.webp" data-caption="הנפת מיכל דלק עילי במנוף לגג המבנה">
+          <button class="gallery__item lqip gallery__item--more" type="button" data-full="images/green-tank-lift.webp" data-cat="tanks" data-caption="הנפת מיכל דלק עילי במנוף לגג המבנה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUAAsDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIEAwX/xAAgEAEAAgIBBAMAAAAAAAAAAAABAAIDERMEEiJBIZGh/8QAFQEBAQAAAAAAAAAAAAAAAAAABAP/xAAXEQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIRAxEAPwCLh7ldeI/sYwqfE6nDUpx2xHibTfqZ0LtRp0uq+hsDELWSLzoswFct799B0kdvtVrX6hCCYo//2Q==)">
             <img src="images/green-tank-lift.webp" alt="מנוף מניף מיכל דלק ירוק על מסגרת פלדה מעל גג בנייה" width="787" height="1400" loading="lazy" decoding="async">
             <span class="gallery__caption">הנפת מיכל דלק עילי במנוף לגג המבנה</span>
           </button>
@@ -352,11 +360,11 @@
   <footer class="footer" data-theme="dark">
     <div class="container">
       <div class="footer__mark"><img src="images/logo.svg" alt="ש. גוטובסקי" width="226" height="123" loading="lazy" decoding="async"></div>
-      <div class="footer__grid">
-        <div class="footer__brand">
+      <div class="footer__grid" data-stagger>
+        <div class="footer__brand reveal">
           <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. תשתיות דלק וחיבור גנרטורי חירום לחוות שרתים.</p>
         </div>
-        <div>
+        <div class="reveal">
           <h4>תחומי פעילות</h4>
           <ul>
             <li><a href="services/station-construction.html">הקמת תחנות דלק</a></li>
@@ -367,7 +375,7 @@
             <li><a href="services/data-center.html">תשתיות דלק לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>מאמרים</h4>
           <ul>
             <li><a href="articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
@@ -375,7 +383,7 @@
             <li><a href="articles/data-center-generator-farm.html">גנרטורי חירום לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>דברו איתנו</h4>
           <ul>
             <li>עוזי: <a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
@@ -415,7 +423,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="js/main.js?v=44" defer></script>
+  <script src="js/main.js?v=45" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
 </html>

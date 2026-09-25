@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Bellefair&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css?v=55">
+  <link rel="stylesheet" href="../css/styles.css?v=56">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -176,13 +176,38 @@
           <span class="kicker">איך זה עובד</span>
           <h2>מהתכנון ועד המסירה, <em>בחמישה שלבים</em></h2>
         </div>
-        <ol class="service-steps">
-          <li><span>01</span><strong>תכנון ואישורים</strong><p>ליווי המתכננים, תיאום עם חברת הדלק והרשויות, ותכנון לוח זמנים וסדר ביצוע.</p></li>
-          <li><span>02</span><strong>עבודות עפר</strong><p>הכשרת שטח, חפירת בור מיכלים, מילוי מבוקר, ניקוז ותשתיות תת־קרקעיות.</p></li>
-          <li><span>03</span><strong>מיכלים וצנרת</strong><p>הנחת מיכלים בדופן כפולה, צנרת דלק ואדים, בדיקות לחץ ואטימות מתועדות.</p></li>
-          <li><span>04</span><strong>ריצוף ומבנים</strong><p>רחבת בטון אטומה, מפריד שמן ודלק, סככה, מבנה שירות וחדר טכני.</p></li>
-          <li><span>05</span><strong>בדיקות ומסירה</strong><p>התקנת ציוד, בדיקות מערכות, אישורי הרשויות וחברת הדלק, ומילוי ראשון.</p></li>
-        </ol>
+        <div class="steps" data-steps>
+          <div class="steps__list">
+            <div class="steps__item is-open" data-img="0">
+              <h3 class="steps__title"><button class="steps__btn" type="button" id="svc-step-b1" aria-expanded="true" aria-controls="svc-step-p1"><span class="steps__num" aria-hidden="true">01</span><span class="steps__name">תכנון ואישורים</span><span class="steps__ico" aria-hidden="true"></span></button></h3>
+              <div class="steps__panel" id="svc-step-p1" role="region" aria-labelledby="svc-step-b1"><div><p>ליווי המתכננים, תיאום עם חברת הדלק והרשויות, ותכנון לוח זמנים וסדר ביצוע.</p></div></div>
+            </div>
+            <div class="steps__item" data-img="1">
+              <h3 class="steps__title"><button class="steps__btn" type="button" id="svc-step-b2" aria-expanded="false" aria-controls="svc-step-p2"><span class="steps__num" aria-hidden="true">02</span><span class="steps__name">עבודות עפר</span><span class="steps__ico" aria-hidden="true"></span></button></h3>
+              <div class="steps__panel" id="svc-step-p2" role="region" aria-labelledby="svc-step-b2"><div><p>הכשרת שטח, חפירת בור מיכלים, מילוי מבוקר, ניקוז ותשתיות תת־קרקעיות.</p></div></div>
+            </div>
+            <div class="steps__item" data-img="2">
+              <h3 class="steps__title"><button class="steps__btn" type="button" id="svc-step-b3" aria-expanded="false" aria-controls="svc-step-p3"><span class="steps__num" aria-hidden="true">03</span><span class="steps__name">מיכלים וצנרת</span><span class="steps__ico" aria-hidden="true"></span></button></h3>
+              <div class="steps__panel" id="svc-step-p3" role="region" aria-labelledby="svc-step-b3"><div><p>הנחת מיכלים בדופן כפולה, צנרת דלק ואדים, בדיקות לחץ ואטימות מתועדות.</p></div></div>
+            </div>
+            <div class="steps__item" data-img="3">
+              <h3 class="steps__title"><button class="steps__btn" type="button" id="svc-step-b4" aria-expanded="false" aria-controls="svc-step-p4"><span class="steps__num" aria-hidden="true">04</span><span class="steps__name">ריצוף ומבנים</span><span class="steps__ico" aria-hidden="true"></span></button></h3>
+              <div class="steps__panel" id="svc-step-p4" role="region" aria-labelledby="svc-step-b4"><div><p>רחבת בטון אטומה, מפריד שמן ודלק, סככה, מבנה שירות וחדר טכני.</p></div></div>
+            </div>
+            <div class="steps__item" data-img="4">
+              <h3 class="steps__title"><button class="steps__btn" type="button" id="svc-step-b5" aria-expanded="false" aria-controls="svc-step-p5"><span class="steps__num" aria-hidden="true">05</span><span class="steps__name">בדיקות ומסירה</span><span class="steps__ico" aria-hidden="true"></span></button></h3>
+              <div class="steps__panel" id="svc-step-p5" role="region" aria-labelledby="svc-step-b5"><div><p>התקנת ציוד, בדיקות מערכות, אישורי הרשויות וחברת הדלק, ומילוי ראשון.</p></div></div>
+            </div>
+          </div>
+          <figure class="steps__media">
+            <img class="is-on" src="../images/site-briefing.webp" alt="הדמיה: מנהל עבודה עם קסדה ואפוד גוטובסקי מדריך שלושה אנשי צוות ליד מיכלי דלק באתר תחנה בהקמה" width="1600" height="900" loading="lazy" decoding="async" data-tag="הדמיה" data-cap="השיחה הראשונה בשטח, לפני שמתחילים לחפור">
+            <img src="../images/excavation-active-station.webp" alt="חפירה מגודרת מתחת לסככה בתחנה פעילה" width="800" height="600" loading="lazy" decoding="async" data-tag="צילום מהשטח" data-cap="חפירה מגודרת מתחת לסככה בתחנה פעילה">
+            <img src="../images/tank-lift-sonol.webp" alt="מנוף מניף מיכל דלק תת־קרקעי בתחנת סונול פעילה" width="1200" height="900" loading="lazy" decoding="async" data-tag="צילום מהשטח" data-cap="הנפת מיכל תת־קרקעי בתחנת סונול פעילה">
+            <img src="../images/concrete-pour-sumps.webp" alt="יציקת רחבת בטון עם שוחות מילוי בתחנת דלק" width="1200" height="900" loading="lazy" decoding="async" data-tag="צילום מהשטח" data-cap="יציקת רחבת בטון עם שוחות מילוי">
+            <img src="../images/station-forecourt.webp" alt="רחבת תדלוק פעילה עם עמדות משאבה וסככה" width="800" height="600" loading="lazy" decoding="async" data-tag="צילום מהשטח" data-cap="רחבת תדלוק פעילה אחרי עבודות שדרוג">
+            <figcaption class="steps__cap"><span class="steps__tag">הדמיה</span><span class="steps__captext">השיחה הראשונה בשטח, לפני שמתחילים לחפור</span></figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -207,12 +232,12 @@
           <h2>הקמות <em>מהשטח</em></h2>
         </div>
         <div class="gallery gallery--service">
-          <button class="gallery__item" type="button" data-full="../images/earthworks-excavator.webp" data-caption="מחפרון בעבודות עפר באתר תחנת דלק"><img src="../images/earthworks-excavator.webp" alt="מחפרון בעבודות עפר באתר תחנת דלק" width="493" height="310" loading="lazy" decoding="async"><span class="gallery__caption">עבודות עפר</span></button>
-          <button class="gallery__item" type="button" data-full="../images/tank-lift-sonol.webp" data-caption="מנוף מניף מיכל דלק לבור בתחנה"><img src="../images/tank-lift-sonol.webp" alt="מנוף מניף מיכל דלק לבור בתחנה" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">הנפת מיכל לבור</span></button>
-          <button class="gallery__item" type="button" data-full="../images/concrete-pour.webp" data-caption="יציקת בטון לרחבת התדלוק"><img src="../images/concrete-pour.webp" alt="יציקת בטון לרחבת התדלוק" width="558" height="310" loading="lazy" decoding="async"><span class="gallery__caption">יציקת רחבה</span></button>
-          <button class="gallery__item" type="button" data-full="../images/concrete-pour-sumps.webp" data-caption="רחבת בטון טרייה עם שוחות מילוי"><img src="../images/concrete-pour-sumps.webp" alt="רחבת בטון טרייה עם שוחות מילוי" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">רחבה עם שוחות מילוי</span></button>
-          <button class="gallery__item" type="button" data-full="../images/station-building.webp" data-caption="מבנה שירות של תחנת דלק בשלב בנייה"><img src="../images/station-building.webp" alt="מבנה שירות של תחנת דלק בשלב בנייה" width="535" height="310" loading="lazy" decoding="async"><span class="gallery__caption">מבנה שירות</span></button>
-          <button class="gallery__item" type="button" data-full="../images/canopy-roof-work.webp" data-caption="עבודה על גג סככת תחנת דלק חדשה"><img src="../images/canopy-roof-work.webp" alt="עבודה על גג סככת תחנת דלק חדשה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">עבודה על גג הסככה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/earthworks-excavator.webp" data-caption="מחפרון בעבודות עפר באתר תחנת דלק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAiEAACAQQCAQUAAAAAAAAAAAABAwIAERIxBAVBEzJRYXH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABgRAQEBAQEAAAAAAAAAAAAAAAEAEhMh/9oADAMBAAIRAxEAPwCW9otMJGxyiNH5oTzSuWUmyYWR9ttGkGqhOJMrk/ZvVHBYfVnkMvA/Kn0X2XMLdHbCAsxLAdi3kUUpxHTKd6JFFLbHBf/Z)"><img src="../images/earthworks-excavator.webp" alt="מחפרון בעבודות עפר באתר תחנת דלק" width="493" height="310" loading="lazy" decoding="async"><span class="gallery__caption">עבודות עפר</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/tank-lift-sonol.webp" data-caption="מנוף מניף מיכל דלק לבור בתחנה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAUGAQL/xAAjEAACAgEDAwUAAAAAAAAAAAABAgADIQQRQQUSIjJRYXGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQD/xAAYEQADAQEAAAAAAAAAAAAAAAAAARESUf/aAAwDAQACEQMRAD8AZ3WAU+LlTuMqczLr20gBt2tTllww/OZNg+ZYEjOPid23u6dhc7e/MdcCD9+saJCAdQuRvgEwkixYH1d33CVYxH//2Q==)"><img src="../images/tank-lift-sonol.webp" alt="מנוף מניף מיכל דלק לבור בתחנה" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">הנפת מיכל לבור</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/concrete-pour.webp" data-caption="יציקת בטון לרחבת התדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAALABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFAf/EACEQAAICAQQCAwAAAAAAAAAAAAECAAMEESExUQUiEkFh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAESEwL/2gAMAwEAAhEDEQA/AGJZiDV3t2+hvtMfy1NGiVAOe3Pxk20BcepwPYsQf0RpA29V46Ezp0M0Wcfy+JZUGdih65hIwA04EJaYlH//2Q==)"><img src="../images/concrete-pour.webp" alt="יציקת בטון לרחבת התדלוק" width="558" height="310" loading="lazy" decoding="async"><span class="gallery__caption">יציקת רחבה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/concrete-pour-sumps.webp" data-caption="רחבת בטון טרייה עם שוחות מילוי" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAjEAABBAECBwEAAAAAAAAAAAABAAIDEQQFEhMUImJxkZLh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABcRAQEBAQAAAAAAAAAAAAAAAAASARH/2gAMAwEAAhEDEQA/AJkyswW4Uxva21TmJ4Z9skzjK6iGggmvaVdLmsBO8FzDRZ+rXH1CGd9Pj2z1d1dDylacMHUcqz0O+UI4hKEsl//Z)"><img src="../images/concrete-pour-sumps.webp" alt="רחבת בטון טרייה עם שוחות מילוי" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">רחבה עם שוחות מילוי</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/station-building.webp" data-caption="מבנה שירות של תחנת דלק בשלב בנייה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EACEQAAICAQQCAwAAAAAAAAAAAAECAxEABAUSIRQVMWGB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oADAMBAAIRAxEAPwBJ97mVikcVMDXQvJxbxKWUurFyDRJ6H5mjwoniDvbMvQJONptNCeIEaimHxkLrUGUvfzjrgOvrDMm6HhrGCgAVdDDHWOX/2Q==)"><img src="../images/station-building.webp" alt="מבנה שירות של תחנת דלק בשלב בנייה" width="535" height="310" loading="lazy" decoding="async"><span class="gallery__caption">מבנה שירות</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/canopy-roof-work.webp" data-caption="עבודה על גג סככת תחנת דלק חדשה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAE/8QAJhAAAgEBBgYDAAAAAAAAAAAAAQIAEQMEEyFxgQUiMkFRYXKR0f/EABUBAQEAAAAAAAAAAAAAAAAAAAIB/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAESE//aAAwDAQACEQMRAD8A1m1tSc7sy/J1/YZvTJ1BUHnEBptBewKmhRfoQ2UrTlUbCPUOaFbiBRypdTqPUoFcPICnc6yhtllH/9k=)"><img src="../images/canopy-roof-work.webp" alt="עבודה על גג סככת תחנת דלק חדשה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">עבודה על גג הסככה</span></button>
         </div>
       </div>
     </section>
@@ -278,11 +303,11 @@
   <footer class="footer" data-theme="dark">
     <div class="container">
       <div class="footer__mark"><img src="../images/logo.svg" alt="ש. גוטובסקי" width="226" height="123" loading="lazy" decoding="async"></div>
-      <div class="footer__grid">
-        <div class="footer__brand">
+      <div class="footer__grid" data-stagger>
+        <div class="footer__brand reveal">
           <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. תשתיות דלק וחיבור גנרטורי חירום לחוות שרתים.</p>
         </div>
-        <div>
+        <div class="reveal">
           <h4>תחומי פעילות</h4>
           <ul>
             <li><a href="../services/station-construction.html">הקמת תחנות דלק</a></li>
@@ -293,7 +318,7 @@
             <li><a href="../services/data-center.html">תשתיות דלק לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>מאמרים</h4>
           <ul>
             <li><a href="gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
@@ -301,7 +326,7 @@
             <li><a href="data-center-generator-farm.html">גנרטורי חירום לחוות שרתים</a></li>
           </ul>
         </div>
-        <div>
+        <div class="reveal">
           <h4>דברו איתנו</h4>
           <ul>
             <li>עוזי: <a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
@@ -329,7 +354,7 @@
     <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" class="mobile-cta__wa" aria-label="וואטסאפ"><img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async"><span>וואטסאפ</span></a>
   </nav>
 
-  <script src="../js/main.js?v=44" defer></script>
+  <script src="../js/main.js?v=45" defer></script>
   <script src="../js/a11y.js" defer></script>
 </body>
 </html>
