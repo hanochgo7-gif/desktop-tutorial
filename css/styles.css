@@ -1640,3 +1640,4 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 /* גלולת הניווט נשארת תמיד גלויה (לא נעלמת בגלילה), גם כשפס ההודעה פתוח */
 .header.is-hidden { transform: none; }
 body.has-ann .ann { z-index: 99; }
+.band--gallery img { object-position: center 60%; }
