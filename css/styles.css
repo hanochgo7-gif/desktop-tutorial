@@ -1677,3 +1677,13 @@ body.has-ann .ann { z-index: 99; }
 .hero__mid { align-self: start; padding-block: 14px 0; gap: 12px; }
 .hero__in { grid-template-rows: auto auto 1fr; }
 .hero__bottom { align-self: end; }
+/* דף הפרויקטים: מפה גדולה יותר */
+@media (min-width: 1000px) {
+  .projects__layout { grid-template-columns: minmax(0, 1fr) 400px; gap: 56px; }
+  .map-panel { padding: 24px 26px 18px; top: calc(var(--header-h) + 10px); }
+  .ilmap { height: min(780px, calc(100vh - 170px)); }
+  .map__pin .map__label { font-size: 14px; }
+}
+@media (max-width: 999px) {
+  .projects__layout { grid-template-columns: minmax(0, 1fr) 112px; }
+}
