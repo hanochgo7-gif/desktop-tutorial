@@ -855,6 +855,190 @@
     }
   }
 
+  /* ======================================================================
+     שכבת "גלריה" (בהשראת Aker, לפי אישור): המילה הגדולה, גלולת הניווט,
+     כרטיס מתחלף בהירו, קווים ותוויות שנכתבות, רשימה עם תמונה, מפה
+     שמדפדפת לבד, מספרים שעולים, גרעין, מעבר בין דפים
+     ====================================================================== */
+  (function galleryLayer() {
+    var still = noMotion();
+
+    /* המילה "ש.גוטובסקי" אות־אות + "בע״מ" קטן */
+    $$('[data-wordmark]').forEach(function (el) {
+      var word = 'ש.גוטובסקי', ltd = 'בע״מ';
+      el.innerHTML = '';
+      Array.from(word).forEach(function (ch, i) {
+        var s = document.createElement('span'), b = document.createElement('i');
+        b.textContent = ch; b.style.setProperty('--i', String(i)); s.appendChild(b); el.appendChild(s);
+      });
+      var ls = document.createElement('span'), lb = document.createElement('i');
+      ls.className = 'wordmark__ltd'; lb.textContent = ltd; lb.style.setProperty('--i', String(word.length)); ls.appendChild(lb); el.appendChild(ls);
+    });
+
+    /* המילה נמדדת ומותאמת לרוחב הפנוי (הגופן הדק משתנה בין דפדפנים) */
+    var fitTimer = null;
+    function fitWords() {
+      $$('[data-wordmark]').forEach(function (el) {
+        el.style.fontSize = '';
+        var box = el.parentElement, cont = el.closest('.container') || box, cs = getComputedStyle(cont);
+        var avail = cont.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        var feedEl = box.classList.contains('hero__bottom') ? $('.feed', box) : null;
+        if (feedEl && window.innerWidth > 760) avail -= feedEl.getBoundingClientRect().width + 24;
+        var w = el.scrollWidth;
+        if (w > avail && avail > 0) el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * avail / w * 0.98) + 'px';
+      });
+    }
+    fitWords();
+    window.addEventListener('load', fitWords);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWords);
+    window.addEventListener('resize', function () { clearTimeout(fitTimer); fitTimer = setTimeout(fitWords, 120); });
+
+    /* גלולת הניווט: הכיתוב מתחלף בין "תפריט" ל"סגירה" */
+    var pillBtn = $('.navpill__btn'), pillTxt = $('.navpill__txt');
+    if (pillBtn && pillTxt) {
+      var syncPill = function () { pillTxt.textContent = pillBtn.getAttribute('aria-expanded') === 'true' ? 'סגירה' : 'תפריט'; };
+      pillBtn.addEventListener('click', function () { setTimeout(syncPill, 0); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setTimeout(syncPill, 0); });
+      $$('#mobile-menu a').forEach(function (a) { a.addEventListener('click', function () { setTimeout(syncPill, 0); }); });
+    }
+
+    /* גרעין פילם על משטחים כהים */
+    $$('.band, .article-hero, .cta').forEach(function (sec) {
+      if ($('.grain', sec)) return;
+      var g = document.createElement('span'); g.className = 'grain'; g.setAttribute('aria-hidden', 'true');
+      sec.insertBefore(g, sec.firstChild);
+    });
+
+    /* תווית שנכתבת אות אחר אות */
+    function typeIn(el) {
+      if (el.dataset.typed) return; el.dataset.typed = '1';
+      if (still) { el.classList.add('is-typed'); return; }
+      var nodes = Array.prototype.slice.call(el.childNodes), k = 0;
+      nodes.forEach(function (n) {
+        if (n.nodeType !== 3) return;
+        var frag = document.createDocumentFragment();
+        Array.from(n.textContent).forEach(function (ch) {
+          var s = document.createElement('span'); s.className = 'c'; s.textContent = ch;
+          (function (sp, idx) { setTimeout(function () { sp.style.opacity = '1'; }, 40 * idx); })(s, k++);
+          frag.appendChild(s);
+        });
+        el.replaceChild(frag, n);
+      });
+      setTimeout(function () { el.classList.add('is-typed'); }, 40 * k + 50);
+    }
+
+    /* קטע שנכנס לתצוגה: הקווים נמתחים, התוויות נכתבות, המספרים עולים */
+    var secs = $$('.section, .hero, .band, .article-hero, .footer, .quick, .cta, .mapsec, .marquee, .standards');
+    function enter(sec) {
+      sec.classList.add('in');
+      $$('.kicker, .hero__kicker', sec).forEach(typeIn);
+    }
+    if (still || !('IntersectionObserver' in window)) { secs.forEach(enter); }
+    else {
+      var secIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { enter(e.target); secIO.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      secs.forEach(function (s) { secIO.observe(s); });
+    }
+
+    /* מספרים: כל ספרה עולה מהקו */
+    $$('[data-digits-years]').forEach(function (el) { el.dataset.digits = String(new Date().getFullYear() - parseInt(el.dataset.digitsYears, 10)); });
+    $$('[data-digits]').forEach(function (el) {
+      el.innerHTML = '';
+      Array.from(el.dataset.digits).forEach(function (ch, i) {
+        var s = document.createElement('span'), b = document.createElement('i');
+        b.textContent = ch; b.style.setProperty('--i', String(i)); s.appendChild(b); el.appendChild(s);
+      });
+    });
+
+    /* הירו: כרטיס שמתחלף כל 5 שניות */
+    var feed = $('#feed');
+    if (feed) {
+      var fItems = $$('.feed__item', feed), fDots = $('.feed__dots', feed), fi = 0, fTimer = null;
+      if (fDots) fItems.forEach(function (_, i) { var d = document.createElement('i'); if (!i) d.className = 'on'; fDots.appendChild(d); });
+      function showFeed(n) {
+        fi = n;
+        fItems.forEach(function (it, i) { it.classList.remove('is-on', 'is-prev', 'is-next'); it.classList.add(i === n ? 'is-on' : (i < n ? 'is-prev' : 'is-next')); });
+        if (fDots) $$('i', fDots).forEach(function (d, i) { d.classList.toggle('on', i === n); });
+      }
+      function feedStart() { if (still || fItems.length < 2) return; clearInterval(fTimer); fTimer = setInterval(function () { showFeed((fi + 1) % fItems.length); }, 5000); }
+      feed.addEventListener('mouseenter', function () { clearInterval(fTimer); });
+      feed.addEventListener('mouseleave', feedStart);
+      feed.addEventListener('focusin', function () { clearInterval(fTimer); });
+      feed.addEventListener('focusout', feedStart);
+      feedStart();
+    }
+
+    /* רשימה ממוספרת: התמונה עוקבת אחרי השורה */
+    var rows = $$('#rows .row'), stageImgs = $$('#stage img'), stageCap = $('#stage .cap');
+    if (rows.length && stageImgs.length) {
+      function pick(i) {
+        rows.forEach(function (r, k) { r.classList.toggle('is-on', k === i); });
+        stageImgs.forEach(function (im, k) { im.classList.toggle('is-on', k === i); });
+        if (stageCap && stageImgs[i] && stageImgs[i].dataset.cap) stageCap.textContent = stageImgs[i].dataset.cap;
+      }
+      rows.forEach(function (r, i) {
+        r.addEventListener('mouseenter', function () { pick(i); });
+        r.addEventListener('focus', function () { pick(i); });
+      });
+    }
+
+    /* מפה שמדפדפת לבד: סיכה נדלקת, כרטיס מתחלף, פס מתמלא */
+    var mapcard = $('#mapcard');
+    if (mapcard) {
+      var mItems = $$('.mapcard__item', mapcard), mPins = $$('#home-map .pin'), mNav = $('#mapnav'), mi = 0, mTimer = null, mPaused = false, mSeen = false;
+      if (mNav) mItems.forEach(function (_, i) { var b = document.createElement('b'); if (!i) b.className = 'on'; mNav.appendChild(b); });
+      function goMap(n) {
+        mi = n;
+        mItems.forEach(function (it, i) { it.classList.toggle('is-on', i === n); });
+        var pin = mItems[n].dataset.pin;
+        mPins.forEach(function (p) { p.classList.toggle('on', p.dataset.pin === pin); });
+        if (mNav) $$('b', mNav).forEach(function (b, i) { b.classList.toggle('on', i === n); });
+        var bar = $('.mapcard__bar i', mapcard);
+        if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
+        clearTimeout(mTimer);
+        if (!mPaused && !still) mTimer = setTimeout(function () { goMap((mi + 1) % mItems.length); }, 4500);
+      }
+      function pinIndex(p) { for (var i = 0; i < mItems.length; i++) if (mItems[i].dataset.pin === p.dataset.pin) return i; return 0; }
+      mPins.forEach(function (p) {
+        p.addEventListener('mouseenter', function () { mPaused = true; mapcard.classList.remove('run'); clearTimeout(mTimer); goMap(pinIndex(p)); });
+        p.addEventListener('mouseleave', function () { mPaused = false; mapcard.classList.add('run'); goMap(mi); });
+        p.addEventListener('click', function () { mPaused = true; mapcard.classList.remove('run'); clearTimeout(mTimer); goMap(pinIndex(p)); });
+      });
+      if (mNav) $$('b', mNav).forEach(function (b, i) { b.addEventListener('click', function () { goMap(i); }); });
+      mapcard.addEventListener('mouseenter', function () { mPaused = true; mapcard.classList.remove('run'); clearTimeout(mTimer); });
+      mapcard.addEventListener('mouseleave', function () { mPaused = false; mapcard.classList.add('run'); goMap(mi); });
+      if (still || !('IntersectionObserver' in window)) { goMap(0); }
+      else {
+        var mIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { if (!mSeen) { mSeen = true; mapcard.classList.add('run'); } goMap(mi); } else { clearTimeout(mTimer); } });
+        }, { threshold: 0.3 });
+        mIO.observe(mapcard);
+      }
+    }
+
+    /* מעבר בין דפים: וילון כהה קצר בכניסה וביציאה */
+    if (!still) {
+      var veil = document.createElement('div'); veil.className = 'veil on'; veil.setAttribute('aria-hidden', 'true');
+      body.appendChild(veil);
+      requestAnimationFrame(function () { requestAnimationFrame(function () { veil.classList.remove('on'); }); });
+      window.addEventListener('pageshow', function () { veil.classList.remove('on'); });
+      document.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var a = e.target.closest('a[href]');
+        if (!a || a.hasAttribute('download') || (a.target && a.target !== '_self')) return;
+        var href = a.getAttribute('href') || '';
+        if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+        var url; try { url = new URL(a.href, location.href); } catch (err) { return; }
+        if (url.origin !== location.origin) return;
+        if (url.pathname === location.pathname && url.search === location.search && url.hash) return;
+        e.preventDefault();
+        veil.classList.add('on');
+        setTimeout(function () { location.href = a.href; }, 340);
+      });
+    }
+  })();
+
   function boot() {
     if (!noMotion() && hasGsap()) { try { initGsap(); return; } catch (err) { /* נפילה למצב סטטי */ } }
     heroIntroStatic();
