@@ -1215,3 +1215,7 @@ html.a11y-no-motion .steps__bar { display: none; }
 .footer__office-dot { width: 8px; height: 8px; border-radius: 50%; background: #6c6660; flex: none; }
 .footer__office.is-open .footer__office-dot { background: #4fd08a; box-shadow: 0 0 0 4px rgba(79,208,138,.18); }
 .footer__office.is-open [data-office] { color: var(--on-dark); }
+
+/* פרויקטים: תמונה בתוך כרטיס פרויקט (נפתחת בלייטבוקס) */
+.case__photo { display: block; width: 100%; max-width: 640px; margin-top: 18px; aspect-ratio: 3 / 2; border-radius: var(--radius-lg); }
+.case__photo img { object-position: center 78%; }
