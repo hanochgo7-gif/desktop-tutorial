@@ -1637,3 +1637,6 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 @media (max-width: 860px) { .mapsec--light .mapsec__bg::after { background: linear-gradient(to top, rgba(238,236,231,.97) 0%, rgba(238,236,231,.8) 55%, rgba(238,236,231,.45) 100%); } }
 /* תוויות שנכתבות: הרווח בין המילים נשמר גם בתוך inline-flex */
 .kicker .c, .hero__kicker .c { white-space: pre; }
+/* גלולת הניווט נשארת תמיד גלויה (לא נעלמת בגלילה), גם כשפס ההודעה פתוח */
+.header.is-hidden { transform: none; }
+body.has-ann .ann { z-index: 99; }
