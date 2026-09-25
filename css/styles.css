@@ -1602,3 +1602,11 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 .footer__grid { order: 1; margin-bottom: 8px; }
 .footer__mark { order: 2; margin: 32px 0 40px; }
 .footer__bottom { order: 3; }
+
+/* מפה: רקע עירוני קבוע (הדמיה) */
+.mapsec__bg img.is-on { opacity: .62; }
+.mapsec__bg img { filter: saturate(.7) brightness(.72) contrast(1.02); transform: scale(1.04); }
+.mapsec__bg img.is-on { transform: scale(1); transition: transform 30s linear, opacity 1.4s var(--ease); }
+.mapsec__bg::after { background: linear-gradient(to left, rgba(15,14,18,.9) 0%, rgba(15,14,18,.62) 45%, rgba(15,14,18,.3) 100%), linear-gradient(to top, rgba(15,14,18,.85), transparent 35%); }
+.mapsec__stamp { position: absolute; top: 12px; inset-inline-end: 0; font-family: var(--font); font-size: .7rem; color: var(--on-dark-muted); letter-spacing: .02em; }
+.mapsec .section-head { position: relative; }
