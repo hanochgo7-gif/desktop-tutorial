@@ -1641,3 +1641,9 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 .header.is-hidden { transform: none; }
 body.has-ann .ann { z-index: 99; }
 .band--gallery img { object-position: center 60%; }
+/* שורת הפרטים מתחת להצהרה: האייקונים חזרו */
+.meta-line { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px 28px; font-family: var(--font); font-size: .9rem; letter-spacing: 0; color: var(--muted); }
+.meta-line li { display: flex; align-items: center; gap: 14px; }
+.meta-line img { width: 60px; height: 60px; flex: none; transition: transform .4s var(--ease-out); }
+.meta-line li:hover img { transform: translateY(-3px) rotate(-3deg); }
+.meta-line strong { display: block; font-weight: 500; color: var(--ink); font-size: 1rem; }
