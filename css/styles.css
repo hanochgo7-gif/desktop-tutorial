@@ -891,3 +891,9 @@ html.a11y-focus *:focus { outline: 4px solid #ff3d00 !important; outline-offset:
 .band__kicker { display: flex; flex-direction: column; align-items: center; }
 .band__kicker span { display: inline-block; padding: 7px 16px; border-radius: 999px; background: rgba(14,18,22,.42); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); color: #fff; }
 
+/* ---------- תמונה רחבה מעל שלבי העבודה ---------- */
+.process-figure { margin: 0 0 clamp(36px, 5vw, 64px); }
+.process-figure img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: center 40%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.process-figure figcaption { margin-top: 10px; font-size: .85rem; color: var(--muted); }
+@media (max-width: 640px) { .process-figure img { aspect-ratio: 16 / 10; } }
+
