@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=64">
+  <link rel="stylesheet" href="css/styles.css?v=65">
   <link rel="preload" as="image" href="images/hero.webp">
 
   <!-- נתונים מובנים: עסק מקומי -->
@@ -239,6 +239,13 @@
 
     <!-- ===== מפה: פרויקטים נבחרים ===== -->
     <section class="section mapsec" id="map" data-theme="dark" aria-labelledby="map-title">
+      <div class="mapsec__bg" aria-hidden="true">
+        <img class="is-on" src="images/shoham-risers.webp" alt="" width="787" height="1400" loading="lazy" decoding="async" data-pin="shoham">
+        <img src="images/floor-repair.webp" alt="" width="900" height="675" loading="lazy" decoding="async" data-pin="holon">
+        <img src="images/tanks-in-pit-liner.webp" alt="" width="1400" height="1050" loading="lazy" decoding="async" data-pin="ashdod">
+        <img src="images/tank-lift-fence.webp" alt="" width="1050" height="1400" loading="lazy" decoding="async" data-pin="dimona">
+        <img src="images/dor-alon-small-station.webp" alt="" width="800" height="600" loading="lazy" decoding="async" data-pin="eilot">
+      </div>
       <div class="container">
         <div class="section-head">
           <span class="kicker">פרויקטים נבחרים</span>
@@ -255,7 +262,11 @@
             <div class="mapnav" id="mapnav" aria-hidden="true"></div>
           </div>
           <svg class="ilmap" id="home-map" viewBox="0 0 222 574" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="מפת ישראל עם מיקומי הפרויקטים">
+            <defs><pattern id="mapdots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="rgba(79,187,234,.35)"/></pattern></defs>
             <path class="land" d="M114.0 50.4 L140.4 49.0 L170.4 23.8 L198.0 23.8 L210.0 63.0 L183.6 102.2 L171.6 147.0 L168.0 217.0 L162.0 266.0 L152.4 322.0 L135.6 378.0 L122.4 441.0 L109.2 497.0 L98.4 550.2 L87.6 553.0 L66.0 485.8 L44.4 413.0 L25.2 343.0 L14.4 312.2 L36.0 275.8 L56.4 238.0 L68.4 203.0 L78.0 161.0 L87.6 116.2 L97.2 84.0 L109.2 65.8 L114.0 50.4 Z"/>
+            <path class="land-dots" d="M114.0 50.4 L140.4 49.0 L170.4 23.8 L198.0 23.8 L210.0 63.0 L183.6 102.2 L171.6 147.0 L168.0 217.0 L162.0 266.0 L152.4 322.0 L135.6 378.0 L122.4 441.0 L109.2 497.0 L98.4 550.2 L87.6 553.0 L66.0 485.8 L44.4 413.0 L25.2 343.0 L14.4 312.2 L36.0 275.8 L56.4 238.0 L68.4 203.0 L78.0 161.0 L87.6 116.2 L97.2 84.0 L109.2 65.8 L114.0 50.4 Z" fill="url(#mapdots)"/>
+            <path class="route" d="M96 196 L74.4 201.6 L60 231 C 66 280, 84 310, 105.6 333.2 C 122 400, 112 470, 96 544.6"/>
+            <path class="route route--flow" d="M96 196 L74.4 201.6 L60 231 C 66 280, 84 310, 105.6 333.2 C 122 400, 112 470, 96 544.6"/>
             <g class="pin on" data-pin="shoham" transform="translate(96 196)" tabindex="0" role="button" aria-label="שוהם"><circle class="ring" r="22"/><circle class="dot" r="8"/><text x="-16" y="-8">שוהם</text></g>
             <g class="pin" data-pin="holon" transform="translate(74.4 201.6)" tabindex="0" role="button" aria-label="חולון"><circle class="ring" r="22"/><circle class="dot" r="8"/><text x="-16" y="14">חולון</text></g>
             <g class="pin" data-pin="ashdod" transform="translate(60 231)" tabindex="0" role="button" aria-label="אשדוד"><circle class="ring" r="22"/><circle class="dot" r="8"/><text x="-16" y="12">אשדוד</text></g>
@@ -302,7 +313,10 @@
     <!-- ===== שאלות נפוצות ===== -->
     <section class="section section--faq" id="faq" data-theme="light" aria-labelledby="faq-title" style="padding-top:0">
       <div class="container">
-        <div class="section-head"><span class="kicker">לפני שמרימים טלפון</span><h2 id="faq-title" class="visually-hidden">שאלות נפוצות</h2></div>
+        <div class="section-head">
+          <span class="kicker">שאלות נפוצות</span>
+          <h2 id="faq-title" data-split>לפני שמרימים <em>טלפון</em></h2>
+        </div>
         <div class="faq">
         <div class="faq__list">
           <details class="faq__item reveal">
@@ -340,7 +354,7 @@
           <input type="hidden" name="_next" value="" data-quick-next>
           <input class="form__honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="q-phone" class="visually-hidden">מספר טלפון</label>
-          <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="מספר הטלפון שלכם" pattern="[\d+\s\-\(\)]{9,16}" required>
+          <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="מספר טלפון ליצירת קשר" pattern="[\d+\s\-\(\)]{9,16}" required>
           <button class="btn btn--primary" type="submit">לתיאום שיחת ייעוץ</button>
           <p class="quick__consent">בשליחה אתם מאשרים שימוש במספר לצורך חזרה אליכם בלבד. <a href="privacy.html">מדיניות פרטיות</a></p>
           <div class="form__notice" data-quick-notice hidden role="status" aria-live="polite"></div>
@@ -351,9 +365,10 @@
 
   <footer class="footer" data-theme="dark">
     <div class="container">
+      <div class="footer__mark"><img src="images/logo.svg" alt="ש.גוטובסקי בע״מ" width="226" height="123" loading="lazy" decoding="async"></div>
       <div class="footer__grid" data-stagger>
         <div class="footer__brand reveal">
-          <p>הקמה ושיפוץ תחנות דלק, תחנות גז, צנרת דלק ועבודות עפר מאז 1972. תשתיות דלק וחיבור גנרטורי חירום לחוות שרתים.</p>
+          <p>מאז 1972 אנחנו בונים את מה שמתחת לרחבת התדלוק: תחנות דלק וגז, צנרת ועבודות עפר, והיום גם תשתיות הדלק של חוות השרתים.</p>
         </div>
         <div class="reveal">
           <h4>תחומי פעילות</h4>
@@ -386,7 +401,6 @@
           </ul>
         </div>
       </div>
-      <div class="footer__word" data-wordmark aria-label="ש.גוטובסקי בע״מ">ש.גוטובסקי <small>בע״מ</small></div>
       <div class="footer__bottom">
         <span>© <span id="year"></span> ש.גוטובסקי בע״מ. כל הזכויות שמורות. ח.פ. 512635335</span>
         <span class="legal-links"><a href="accessibility.html">הצהרת נגישות</a><a href="privacy.html">מדיניות פרטיות</a></span>
@@ -417,7 +431,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="js/main.js?v=49" defer></script>
+  <script src="js/main.js?v=50" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
 </html>

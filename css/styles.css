@@ -1560,3 +1560,32 @@ body.has-ann .hero__in { padding-top: calc(var(--header-h) + 12px + var(--ann-h)
 html.a11y-no-motion .section-head::before, html.a11y-no-motion .article-hero .container::before, html.a11y-no-motion .band__rule, html.a11y-no-motion .footer .container::before, html.a11y-no-motion .hero__rule { transform: none; }
 html.a11y-no-motion .hero__intro, html.a11y-no-motion .hero__mid p, html.a11y-no-motion .hero__cta, html.a11y-no-motion .feed, html.a11y-no-motion .wordmark > span > i, html.a11y-no-motion .footer__word > span > i, html.a11y-no-motion .number .num span i { opacity: 1; transform: none; animation: none; }
 html.a11y-no-motion .grain, html.a11y-no-motion .hero--word .hero__shade::after { animation: none; }
+
+/* ---------- מפה חיה: צילום הפרויקט ברקע, מסלול מקווקו בין הסיכות, זוהר ---------- */
+.mapsec { position: relative; overflow: hidden; isolation: isolate; }
+.mapsec__bg { position: absolute; inset: 0; z-index: -1; }
+.mapsec__bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); filter: saturate(.55) brightness(.6) contrast(1.05); transition: opacity 1.4s var(--ease), transform 7s linear; }
+.mapsec__bg img.is-on { opacity: .5; transform: scale(1); }
+.mapsec__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to left, rgba(15,14,18,.94) 0%, rgba(15,14,18,.8) 40%, rgba(15,14,18,.45) 100%), radial-gradient(60% 70% at 25% 55%, rgba(31,143,191,.22), transparent 70%); }
+.mapsec .container { position: relative; }
+.mapgrid { grid-template-columns: 1fr 360px; }
+.mapsec .ilmap { width: auto; max-width: 100%; height: clamp(380px, 62vh, 600px); margin-inline: auto; filter: drop-shadow(0 0 34px rgba(79,187,234,.28)); }
+.mapsec .land { fill: rgba(28,28,28,.72); stroke: rgba(79,187,234,.45); stroke-width: 1.2; }
+.mapsec .land-dots { stroke: none; }
+.mapsec .route { fill: none; stroke: rgba(79,187,234,.35); stroke-width: 1.2; stroke-dasharray: 3 5; }
+.mapsec .route--flow { stroke: var(--accent-2); stroke-dasharray: 3 21; stroke-width: 1.6; opacity: 0; }
+.mapsec.in .route--flow { opacity: 1; animation: g-route 1.6s linear infinite; }
+@keyframes g-route { to { stroke-dashoffset: -24; } }
+.mapsec .pin .dot { fill: #8d8781; }
+.mapsec .pin.on .dot { fill: #fff; filter: drop-shadow(0 0 6px rgba(79,187,234,.9)); }
+.mapsec .pin text { font-size: 12.5px; font-weight: 500; paint-order: stroke; stroke: rgba(15,14,18,.9); stroke-width: 3px; stroke-linejoin: round; }
+.mapcard { min-height: 300px; }
+.mapcard__item h3 { font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
+@media (max-width: 860px) { .mapgrid { grid-template-columns: 1fr; } .mapsec .ilmap { height: 380px; } .mapsec__bg::after { background: linear-gradient(to top, rgba(15,14,18,.95) 0%, rgba(15,14,18,.7) 50%, rgba(15,14,18,.5) 100%); } }
+@media (prefers-reduced-motion: reduce) { .mapsec .route--flow { animation: none; opacity: 1; } .mapsec__bg img { transition: none; } }
+html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
+
+/* פוטר: הלוגו על כרטיס לבן (לפי בקשה), במקום המילה הענקית */
+.footer__word { display: none; }
+.footer__mark { margin: 0 0 44px; }
+.footer__mark img { width: min(70vw, 340px); padding: 16px 30px; border-radius: 20px; box-shadow: none; }

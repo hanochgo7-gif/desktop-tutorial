@@ -993,6 +993,7 @@
         mItems.forEach(function (it, i) { it.classList.toggle('is-on', i === n); });
         var pin = mItems[n].dataset.pin;
         mPins.forEach(function (p) { p.classList.toggle('on', p.dataset.pin === pin); });
+        $$('.mapsec__bg img').forEach(function (im) { im.classList.toggle('is-on', im.dataset.pin === pin); });
         if (mNav) $$('b', mNav).forEach(function (b, i) { b.classList.toggle('on', i === n); });
         var bar = $('.mapcard__bar i', mapcard);
         if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
