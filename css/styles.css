@@ -1100,11 +1100,18 @@ html.a11y-no-motion .lqip img, html.a11y-no-motion .footer__mark img { opacity: 
 @keyframes pipe-flow { to { stroke-dashoffset: -16; } }
 .pipe__legend { margin: 22px 0 0; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); max-width: 70ch; }
 .pipe__legend::before { content: ""; display: inline-block; width: 18px; height: 2px; background: var(--accent); margin-inline-end: 8px; vertical-align: middle; }
-@media (max-width: 860px) {
-  .pipe { flex-direction: column; align-items: stretch; }
-  .pipe__node { justify-content: center; white-space: normal; text-align: center; }
-  .pipe__link { height: 36px; min-width: 0; width: 100%; }
-  .pipe__link svg { transform: rotate(-90deg); width: 36px; height: 36px; inset: auto; left: calc(50% - 18px); top: 0; }
+@media (max-width: 1100px) {
+  /* במסכים צרים: עמודה אנכית, קו מקווקו ישר בין הצמתים */
+  .pipe { flex-direction: column; align-items: center; }
+  .pipe__node { width: min(100%, 360px); justify-content: flex-start; white-space: normal; padding: 14px 20px; }
+  .pipe__node > span { flex: 1; }
+  .pipe__link { flex: none; width: 2px; height: 34px; min-width: 0; }
+  .pipe__link svg { display: none; }
+  .pipe__link::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 14px); }
+  .pipe__link::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, var(--accent) 0 6px, transparent 6px 14px); opacity: 0; transition: opacity .6s; }
+  .pipe.is-in .pipe__link::after { opacity: 1; animation: pipe-flow-v 1s linear infinite; }
+}
+@keyframes pipe-flow-v { to { background-position: 0 14px; } }
 }
 
 /* 2 – שאלות נפוצות: שאלה בסריף, זוהר מאחורי השורה הפתוחה */
@@ -1191,10 +1198,10 @@ html[dir="ltr"] .steps__bar { transform-origin: left; }
 /* בלי תנועה */
 @media (prefers-reduced-motion: reduce) {
   .pipe__node { opacity: 1; transform: none; }
-  .pipe__flow { animation: none !important; opacity: 1; }
+  .pipe__flow, .pipe__link::after { animation: none !important; opacity: 1; }
   .steps__bar { display: none; }
   .tw .ch { transition: none; }
 }
 html.a11y-no-motion .pipe__node { opacity: 1; transform: none; }
-html.a11y-no-motion .pipe__flow { animation: none !important; opacity: 1; }
+html.a11y-no-motion .pipe__flow, html.a11y-no-motion .pipe__link::after { animation: none !important; opacity: 1; }
 html.a11y-no-motion .steps__bar { display: none; }
