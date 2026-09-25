@@ -1217,5 +1217,9 @@ html.a11y-no-motion .steps__bar { display: none; }
 .footer__office.is-open [data-office] { color: var(--on-dark); }
 
 /* פרויקטים: תמונה בתוך כרטיס פרויקט (נפתחת בלייטבוקס) */
-.case__photo { display: block; width: 100%; max-width: 640px; margin-top: 18px; aspect-ratio: 3 / 2; border-radius: var(--radius-lg); }
-.case__photo img { object-position: center 78%; }
+.case__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 4px; }
+.case__gallery .gallery__item { aspect-ratio: 4 / 3; border-radius: 16px; }
+.case__gallery .gallery__item:first-child { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; border-radius: var(--radius-lg); }
+.case__gallery .gallery__item img { object-position: var(--pos, center); }
+.case__gallery .gallery__item:not(:first-child) .gallery__caption { display: none; }
+@media (max-width: 640px) { .case__gallery { grid-template-columns: repeat(2, 1fr); } .case__gallery .gallery__item:first-child { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; } }
