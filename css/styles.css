@@ -996,13 +996,14 @@ h1, h2, .h { line-height: 1.02; }
 /* 2 – כניסה מדורגת: ההשהיה לפי מיקום בקבוצה (עד 8 פריטים) */
 [data-stagger] .reveal { transition-delay: calc(var(--i, 0) * 90ms); }
 
-/* 4 – טקסט שמחליק בהובר (רק עם עכבר) */
+/* 4/8 – טקסט שמחליק בהובר, אות אחר אות (רק עם עכבר) */
 .tw { display: inline-grid; overflow: hidden; vertical-align: baseline; line-height: 1.3; padding-block: .05em; margin-block: -.05em; }
-.tw > span { grid-area: 1 / 1; white-space: nowrap; transition: transform .45s var(--m-ease); }
-.tw > span + span { transform: translateY(115%); }
+.tw > span { grid-area: 1 / 1; white-space: pre; display: inline-flex; }
+.tw .ch { display: inline-block; transition: transform .32s cubic-bezier(.76, 0, .24, 1); transition-delay: calc(var(--i, 0) * 28ms); }
+.tw > span + span .ch { transform: translateY(110%); }
 @media (hover: hover) and (pointer: fine) {
-  .has-tw:hover .tw > span:first-child, .has-tw:focus-visible .tw > span:first-child { transform: translateY(-115%); }
-  .has-tw:hover .tw > span + span, .has-tw:focus-visible .tw > span + span { transform: translateY(0); }
+  .has-tw:hover .tw > span:first-child .ch, .has-tw:focus-visible .tw > span:first-child .ch { transform: translateY(-110%); }
+  .has-tw:hover .tw > span + span .ch, .has-tw:focus-visible .tw > span + span .ch { transform: translateY(0); }
 }
 
 /* 7 – שלבי העבודה כאקורדיון, התמונה מתחלפת לפי השלב הפתוח */
@@ -1070,3 +1071,130 @@ h1, h2, .h { line-height: 1.02; }
   .steps__panel, .gtabs__marker, .tw > span { transition: none; }
 }
 html.a11y-no-motion .lqip img, html.a11y-no-motion .footer__mark img { opacity: 1; transition: none; clip-path: none; transform: none; }
+
+/* ==========================================================================
+   שכבת Monad (לפי אישור): תרשים צינור, שאלות בסריף עם זוהר, כרטיס צבעוני,
+   לוגואים שקטים, מונו לתוויות, שטיפת צבע, פס הודעה, שלבים אוטומטיים,
+   זוהר באריחים, פתיחה בלי מסך טעינה, שעה בפוטר
+   ========================================================================== */
+:root { --font-mono: "Cousine", "Noto Sans Mono", "Courier New", monospace; --tint: #dfeaf1; --ann-h: 38px; }
+.loader { display: none !important; }
+
+/* 1 – תרשים צינור */
+.pipe-section .section-head { margin-bottom: clamp(28px, 4vw, 48px); }
+.pipe { display: flex; align-items: center; }
+.pipe__node { flex: none; display: inline-flex; align-items: center; gap: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 12px 18px; font-family: var(--font); font-size: .9rem; font-weight: 600; color: var(--carbon); white-space: nowrap; line-height: 1.2; opacity: 0; transform: translateY(10px) scale(.96); transition: opacity .5s var(--m-ease), transform .5s var(--m-ease), border-color .3s, background .3s; }
+.pipe.is-in .pipe__node { opacity: 1; transform: none; }
+.pipe__node svg { width: 18px; height: 18px; flex: none; color: var(--accent-deep); }
+.pipe__node.is-hub { background: var(--carbon); color: #fff; border-color: var(--carbon); }
+.pipe__node.is-hub svg { color: var(--accent-2); }
+.pipe__node.is-hub .pipe__sub { color: rgba(255,255,255,.7); }
+.pipe__node:hover { border-color: var(--accent); background: #fff; }
+.pipe__node.is-hub:hover { background: var(--onyx); border-color: var(--onyx); }
+.pipe__sub { display: block; font-size: .72rem; font-weight: 500; color: var(--muted); margin-top: 3px; }
+.pipe__link { flex: 1; min-width: 30px; height: 44px; position: relative; }
+.pipe__link svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pipe__link path { fill: none; stroke: var(--line); stroke-width: 1.5; }
+.pipe__link .pipe__flow { stroke: var(--accent); stroke-dasharray: 6 10; opacity: 0; transition: opacity .6s; }
+.pipe.is-in .pipe__flow { opacity: 1; animation: pipe-flow 1.4s linear infinite; }
+@keyframes pipe-flow { to { stroke-dashoffset: -16; } }
+.pipe__legend { margin: 22px 0 0; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); max-width: 70ch; }
+.pipe__legend::before { content: ""; display: inline-block; width: 18px; height: 2px; background: var(--accent); margin-inline-end: 8px; vertical-align: middle; }
+@media (max-width: 860px) {
+  .pipe { flex-direction: column; align-items: stretch; }
+  .pipe__node { justify-content: center; white-space: normal; text-align: center; }
+  .pipe__link { height: 36px; min-width: 0; width: 100%; }
+  .pipe__link svg { transform: rotate(-90deg); width: 36px; height: 36px; inset: auto; left: calc(50% - 18px); top: 0; }
+}
+
+/* 2 – שאלות נפוצות: שאלה בסריף, זוהר מאחורי השורה הפתוחה */
+.faq__item { position: relative; isolation: isolate; }
+.faq__item summary { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; padding: 28px 6px; position: relative; z-index: 1; }
+.faq__item summary:hover { color: var(--carbon); }
+.faq__item p { position: relative; z-index: 1; padding-inline: 6px; }
+.faq__glow { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity .6s var(--m-ease); pointer-events: none; overflow: hidden; border-radius: 12px; }
+.faq__glow::before, .faq__glow::after { content: ""; position: absolute; top: 50%; width: 38%; height: 150%; border-radius: 50%; filter: blur(40px); transform: translateY(-50%); }
+.faq__glow::before { inset-inline-start: -8%; background: rgba(79,187,234,.5); }
+.faq__glow::after { inset-inline-end: -8%; background: rgba(31,143,191,.3); }
+.faq__item[open] .faq__glow, .faq__item:hover .faq__glow { opacity: 1; }
+
+/* 3 – כרטיס צבעוני אחד: התחום החדש */
+.section--paper2 .field-tile--tint { background: var(--tint); border-color: transparent; }
+.section--paper2 .field-tile--tint:hover { background: #d3e3ee; }
+
+/* 4 – לוגואי לקוחות: פס בהיר, לוגואים באפור בלי קופסאות, צבע בהובר */
+.marquee--light { background: var(--paper); color: var(--ink); border-block: 1px solid var(--line); }
+.marquee--light .marquee__label { color: var(--muted); font-family: var(--font-mono); letter-spacing: .12em; }
+.marquee--light .marquee__list li { color: var(--muted); }
+.marquee--light .marquee__list img { background: none; padding: 0; border-radius: 0; filter: grayscale(1) contrast(.9); opacity: .55; transition: filter .4s var(--m-ease), opacity .4s var(--m-ease); }
+.marquee--light .marquee__list li:hover img { filter: none; opacity: 1; }
+.marquee--light .marquee__list .txt { color: var(--muted); transition: color .4s; }
+.marquee--light .marquee__list li:hover .txt { color: var(--carbon); }
+.marquee--light .marquee__list .txt small { color: var(--muted); }
+.marquee--light .marquee__list li::after { background: var(--line); }
+.marquee--light { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee__track.is-js { animation: none; }
+
+/* 5 – מונוספייס לתוויות בלבד */
+.kicker, .hero__kicker, .hero__stamp, .band__kicker span, .standards__label, .steps__num, .steps__tag, .steps__cap, .gallery__caption, .service-figure figcaption, .process-figure figcaption, .crumbs, .footer__bottom, .article-card__tag, .facts small, .gallery-note, .lightbox__count { font-family: var(--font-mono); }
+.kicker { letter-spacing: .08em; font-weight: 700; }
+.hero__kicker { letter-spacing: .06em; }
+.article-card__tag { letter-spacing: .06em; }
+.crumbs { font-size: .8rem; }
+
+/* 6 – שטיפת צבע מטושטשת במקום משטח כחול */
+.quick { background: var(--paper-2); color: var(--ink); position: relative; isolation: isolate; }
+.quick::before, .quick::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+.quick::before { width: 460px; height: 340px; inset-inline-end: -90px; top: -140px; background: radial-gradient(circle, rgba(79,187,234,.75), rgba(79,187,234,0) 70%); }
+.quick::after { width: 560px; height: 380px; inset-inline-start: -140px; bottom: -180px; background: radial-gradient(circle, rgba(31,143,191,.45), rgba(31,143,191,0) 70%); }
+.quick p { color: var(--ink-2); }
+.quick__consent { color: var(--muted) !important; }
+.quick__form input[type="tel"] { border: 1px solid var(--line); }
+.quick__form input[type="tel"]:focus { outline: 3px solid rgba(31,143,191,.35); }
+.quick__form .btn { background: var(--accent); --btn-hover: var(--accent-deep); }
+.quick .form__notice { color: var(--ink); }
+
+/* 7 – פס הודעה מעל ההדר */
+.ann { position: fixed; top: 0; left: 0; right: 0; z-index: 101; height: var(--ann-h); background: var(--onyx); color: #fff; font-family: var(--font); font-size: .82rem; display: flex; align-items: center; justify-content: center; gap: 14px; padding: 0 48px 0 16px; }
+.ann[hidden] { display: none; }
+.ann__text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ann__link { color: #fff; font-weight: 700; border: 1px solid rgba(255,255,255,.5); border-radius: 999px; padding: 3px 11px; text-decoration: none; font-size: .74rem; white-space: nowrap; flex: none; transition: background .3s, color .3s; }
+.ann__link:hover { background: #fff; color: var(--onyx); }
+.ann__close { position: absolute; inset-inline-end: 8px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: #fff; font-size: 22px; line-height: 1; width: 32px; height: 32px; cursor: pointer; border-radius: 50%; }
+.ann__close:hover { background: rgba(255,255,255,.12); }
+body.has-ann .header { top: var(--ann-h); }
+body.has-ann .hero__stamp { top: calc(var(--header-h) + 16px + var(--ann-h)); }
+body.has-ann .mobile-menu { padding-top: var(--ann-h); }
+@media (max-width: 480px) { .ann { font-size: .76rem; gap: 10px; } }
+
+/* 10 – שלבים מתקדמים אוטומטית עם פס התקדמות */
+.steps__item { position: relative; }
+.steps__bar { position: absolute; inset-inline-start: 0; bottom: -1px; height: 2px; width: 100%; transform-origin: right; transform: scaleX(0); background: var(--accent); opacity: 0; pointer-events: none; }
+html[dir="ltr"] .steps__bar { transform-origin: left; }
+.steps__item.is-open .steps__bar { opacity: 1; }
+.steps.is-running .steps__item.is-open .steps__bar { transition: transform var(--steps-dur, 7s) linear; transform: scaleX(1); }
+.steps__ctrl { display: flex; gap: 8px; align-items: center; margin-top: 16px; font-family: var(--font-mono); font-size: .78rem; color: var(--muted); }
+.steps__ctrl button { all: unset; box-sizing: border-box; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--carbon); display: grid; place-items: center; cursor: pointer; color: var(--carbon); transition: background .3s, color .3s; }
+.steps__ctrl button svg { width: 16px; height: 16px; }
+.steps__ctrl button:hover, .steps__ctrl button:focus-visible { background: var(--carbon); color: #fff; }
+.steps__ctrl button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* 11 – זוהר בפינת האריח בהובר */
+.field-tile, .article-card { position: relative; overflow: hidden; isolation: isolate; }
+.field-tile::before, .article-card::before { content: ""; position: absolute; z-index: -1; width: 240px; height: 170px; inset-inline-end: -70px; top: -70px; border-radius: 50%; filter: blur(38px); opacity: 0; transition: opacity .5s var(--m-ease); background: radial-gradient(ellipse at center, rgba(79,187,234,.85), rgba(207,227,238,.55) 55%, transparent 75%); pointer-events: none; }
+.field-tile:hover::before, .field-tile:focus-visible::before, .article-card:hover::before { opacity: 1; }
+.article-card::before { z-index: 1; }
+
+/* 13 – שעה בפוטר */
+.footer__clock b { font-family: var(--font-mono); font-weight: 400; color: #fff; font-variant-numeric: tabular-nums; }
+
+/* בלי תנועה */
+@media (prefers-reduced-motion: reduce) {
+  .pipe__node { opacity: 1; transform: none; }
+  .pipe__flow { animation: none !important; opacity: 1; }
+  .steps__bar { display: none; }
+  .tw .ch { transition: none; }
+}
+html.a11y-no-motion .pipe__node { opacity: 1; transform: none; }
+html.a11y-no-motion .pipe__flow { animation: none !important; opacity: 1; }
+html.a11y-no-motion .steps__bar { display: none; }

@@ -138,37 +138,130 @@
     reveals.forEach(function (el) { revIO.observe(el); });
   }
 
-  /* ---------- טקסט שמחליק בהובר (כפתורים וקישורי התפריט) ---------- */
+  /* ---------- טקסט שמחליק בהובר, אות אחר אות (כפתורים וקישורי התפריט) ---------- */
   if (!noMotion() && mqFine.matches) {
-    $$('.btn, .nav > ul > li > a, .nav__sub-all').forEach(function (el) {
+    $$('.btn, .nav > ul > li > a, .nav__sub-all, .ann__link').forEach(function (el) {
       var tn = Array.prototype.filter.call(el.childNodes, function (n) { return n.nodeType === 3 && n.textContent.trim(); });
       if (tn.length !== 1) return;
       var t = tn[0].textContent.trim();
       var w = document.createElement('span'); w.className = 'tw';
-      var a = document.createElement('span'); a.textContent = t;
-      var b = document.createElement('span'); b.textContent = t; b.setAttribute('aria-hidden', 'true');
-      w.appendChild(a); w.appendChild(b);
+      [0, 1].forEach(function (k) {
+        var row = document.createElement('span'); if (k) row.setAttribute('aria-hidden', 'true');
+        Array.from(t).forEach(function (ch, i) { var c = document.createElement('span'); c.className = 'ch'; c.textContent = ch; c.style.setProperty('--i', String(Math.min(i, 22))); row.appendChild(c); });
+        w.appendChild(row);
+      });
       tn[0].parentNode.replaceChild(w, tn[0]);
       el.classList.add('has-tw');
     });
   }
 
-  /* ---------- שלבי העבודה: אקורדיון שמחליף תמונה ---------- */
+  /* ---------- שלבי העבודה: אקורדיון שמחליף תמונה, מתקדם אוטומטית עם פס התקדמות ---------- */
   $$('[data-steps]').forEach(function (box) {
     var items = $$('.steps__item', box), imgs = $$('.steps__media img', box);
-    var tag = $('.steps__tag', box), cap = $('.steps__captext', box);
-    function openStep(item) {
-      items.forEach(function (i) { var on = i === item; i.classList.toggle('is-open', on); $('.steps__btn', i).setAttribute('aria-expanded', String(on)); });
-      var k = parseInt(item.dataset.img, 10);
+    var tag = $('.steps__tag', box), cap = $('.steps__captext', box), list = $('.steps__list', box);
+    var cur = 0, timer = null, running = false, paused = false, DUR = 7000;
+    var auto = !noMotion() && 'IntersectionObserver' in window;
+    items.forEach(function (it) { var bar = document.createElement('span'); bar.className = 'steps__bar'; it.appendChild(bar); });
+    function resetBar(it) { var bar = $('.steps__bar', it); if (!bar) return; bar.style.transition = 'none'; bar.style.transform = 'scaleX(0)'; void bar.offsetWidth; bar.style.transition = ''; bar.style.transform = ''; }
+    function schedule() {
+      clearTimeout(timer);
+      if (running && !paused && auto) { box.classList.add('is-running'); timer = setTimeout(function () { openStep((cur + 1) % items.length); }, DUR); }
+      else box.classList.remove('is-running');
+    }
+    function openStep(i) {
+      cur = (i + items.length) % items.length;
+      items.forEach(function (it, j) { var on = j === cur; it.classList.toggle('is-open', on); $('.steps__btn', it).setAttribute('aria-expanded', String(on)); });
+      var k = parseInt(items[cur].dataset.img, 10);
       imgs.forEach(function (im, j) {
         im.classList.toggle('is-on', j === k);
         if (j === k) { if (tag) tag.textContent = im.dataset.tag || ''; if (cap) cap.textContent = im.dataset.cap || ''; }
       });
+      resetBar(items[cur]);
+      schedule();
     }
-    items.forEach(function (item) {
-      $('.steps__btn', item).addEventListener('click', function () { if (!item.classList.contains('is-open')) openStep(item); });
+    items.forEach(function (item, i) {
+      $('.steps__btn', item).addEventListener('click', function () { openStep(i); });
     });
+    if (auto && list) {
+      var ctrl = document.createElement('div'); ctrl.className = 'steps__ctrl';
+      ctrl.innerHTML = '<button type="button" data-step="-1" aria-label="השלב הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" data-step="1" aria-label="השלב הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span>השלבים מתחלפים לבד. העכבר מעליהם עוצר.</span>';
+      list.appendChild(ctrl);
+      $$('[data-step]', ctrl).forEach(function (b) { b.addEventListener('click', function () { openStep(cur + parseInt(b.dataset.step, 10)); }); });
+      function pause() { paused = true; clearTimeout(timer); box.classList.remove('is-running'); var bar = $('.steps__bar', items[cur]); if (bar) { bar.style.transition = 'none'; bar.style.transform = 'scaleX(0)'; } }
+      function resume() { if (!paused) return; paused = false; if (running) openStep(cur); }
+      box.addEventListener('mouseenter', pause);
+      box.addEventListener('mouseleave', resume);
+      box.addEventListener('focusin', pause);
+      box.addEventListener('focusout', function (e) { if (!box.contains(e.relatedTarget)) resume(); });
+      box.addEventListener('touchstart', function () { pause(); }, { passive: true });
+      var sIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !running) { running = true; openStep(cur); }
+          else if (!e.isIntersecting && running) { clearTimeout(timer); box.classList.remove('is-running'); running = false; }
+        });
+      }, { threshold: 0.35 });
+      sIO.observe(box);
+    }
   });
+
+  /* ---------- תרשים צינור: הצמתים נכנסות בזו אחר זו, הקווים זורמים ---------- */
+  $$('[data-pipe]').forEach(function (pipe) {
+    $$('.pipe__node', pipe).forEach(function (n, i) { n.style.transitionDelay = (i * 120) + 'ms'; });
+    $$('.pipe__flow', pipe).forEach(function (f, i) { f.style.transitionDelay = (i * 120 + 200) + 'ms'; });
+    if (noMotion() || !('IntersectionObserver' in window)) { pipe.classList.add('is-in'); return; }
+    var pIO = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { pipe.classList.add('is-in'); pIO.disconnect(); } }); }, { threshold: 0.3 });
+    pIO.observe(pipe);
+  });
+
+  /* ---------- לוגואי לקוחות: מרקיזה שמאיצה ומחליפה כיוון לפי הגלילה ---------- */
+  var mqTrack = $('.marquee__track');
+  if (mqTrack && !noMotion()) {
+    var mqList = $('.marquee__list', mqTrack);
+    var mqW = mqList ? mqList.getBoundingClientRect().width : 0;
+    if (mqW > 0) {
+      mqTrack.classList.add('is-js');
+      var mqPos = 0, mqSpeed = .5, mqWant = .5, mqBase = .5, mqDir = 1, mqLastY = window.scrollY, mqLastT = performance.now(), mqTimer = null;
+      window.addEventListener('scroll', function () {
+        var now = performance.now(), dy = window.scrollY - mqLastY, dt = Math.max(16, now - mqLastT);
+        var v = dy / dt * 1000;
+        if (Math.abs(v) > 40) { mqDir = v > 0 ? 1 : -1; mqWant = mqDir * Math.min(Math.abs(v) * 0.004, 4); }
+        mqLastY = window.scrollY; mqLastT = now;
+        clearTimeout(mqTimer); mqTimer = setTimeout(function () { mqWant = mqBase * mqDir; }, 300);
+      }, { passive: true });
+      window.addEventListener('resize', function () { mqW = mqList.getBoundingClientRect().width; });
+      (function mqTick() {
+        mqSpeed += (mqWant - mqSpeed) * .08;
+        mqPos = (((mqPos + mqSpeed) % mqW) + mqW) % mqW;
+        mqTrack.style.transform = 'translateX(' + mqPos.toFixed(2) + 'px)';
+        requestAnimationFrame(mqTick);
+      })();
+    }
+  }
+
+  /* ---------- פס הודעה: נסגר ונזכר ליום ---------- */
+  var ann = $('#ann');
+  if (ann) {
+    var annKey = 'annClosedAt', closedAt = 0;
+    try { closedAt = parseInt(localStorage.getItem(annKey) || '0', 10); } catch (e) {}
+    if (!closedAt || Date.now() - closedAt > 86400000) {
+      ann.hidden = false; body.classList.add('has-ann');
+      var annClose = $('.ann__close', ann);
+      if (annClose) annClose.addEventListener('click', function () { ann.hidden = true; body.classList.remove('has-ann'); try { localStorage.setItem(annKey, String(Date.now())); } catch (e) {} });
+    }
+  }
+
+  /* ---------- שעה במשרד (שעון ישראל) ---------- */
+  var clocks = $$('[data-clock]');
+  if (clocks.length) {
+    var fmt = null;
+    try { fmt = new Intl.DateTimeFormat('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jerusalem' }); } catch (e) {}
+    function tickClock() {
+      var d = new Date(), t;
+      if (fmt) t = fmt.format(d); else t = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+      clocks.forEach(function (c) { c.textContent = t; });
+    }
+    tickClock(); setInterval(tickClock, 30000);
+  }
 
   /* ---------- שאלות נפוצות: פתיחה וסגירה בגובה מונפש ---------- */
   $$('details.faq__item').forEach(function (d) {
@@ -591,14 +684,20 @@
     hide(heroFades, { autoAlpha: 0, y: 24 });
     if (heroImg) gsap.set(heroImg, { scale: 1.1 });
 
-    var intro = gsap.timeline({ onComplete: finishLoader });
+    var intro = gsap.timeline({ onComplete: function () { finishLoader(); if (header) gsap.set(header, { clearProps: 'transform,opacity,visibility' }); } });
     if (loader && !loader.classList.contains('is-done')) {
       loader.style.animation = 'none';
       var n = { v: 0 };
       intro.to(n, { v: 100, duration: 1.0, ease: 'power2.inOut', onUpdate: function () { if (loaderNum) loaderNum.textContent = String(Math.round(n.v)); } })
            .to(loader, { yPercent: -101, duration: .8, ease: 'power4.inOut' }, '+=0.1');
     }
-    intro.to(heroImg, { scale: 1, duration: 3, ease: 'power2.out' }, '<0.1')
+    /* ההדר יורד מלמעלה, ואחריו ההירו נכנס בהדרגה (בלי מסך טעינה) */
+    if (header && body.classList.contains('has-hero')) {
+      header.style.transition = 'none';
+      gsap.set(header, { y: -90, autoAlpha: 0 });
+      intro.to(header, { y: 0, autoAlpha: 1, duration: 1, ease: 'power4.out', onComplete: function () { gsap.set(header, { clearProps: 'transform,opacity,visibility' }); header.style.transition = ''; } }, 0);
+    }
+    intro.to(heroImg, { scale: 1, duration: 3, ease: 'power2.out' }, header ? '<0.15' : '<0.1')
          .to(heroLines, { yPercent: 0, duration: 1.1, stagger: .12, ease: 'power4.out' }, '<0.15')
          .to(heroFades, { autoAlpha: 1, y: 0, duration: .9, stagger: .1 }, '<0.5');
     /* תנועת "רחפן": ריחוף איטי ומתמשך של התמונה (זום עדין + סחיפה), הלוך ושוב */
@@ -696,7 +795,7 @@
     function releaseAll() {
       ST.getAll().forEach(function (t) { t.kill(true); });
       gsap.globalTimeline.clear();
-      gsap.set(hidden.concat(['.hero__media', '#hero-img', '[data-img-reveal] img', '[data-parallax]', '#process-line', '.cta__ring', '[data-magnetic]']), { clearProps: 'all' });
+      gsap.set(hidden.concat(['.header', '.hero__media', '#hero-img', '[data-img-reveal] img', '[data-parallax]', '#process-line', '.cta__ring', '[data-magnetic]']), { clearProps: 'all' });
       finishLoader();
     }
     window.addEventListener('error', releaseAll);
