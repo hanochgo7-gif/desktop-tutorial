@@ -1224,3 +1224,8 @@ html.a11y-no-motion .steps__bar { display: none; }
 .case__gallery .gallery__item:not(:first-child) .gallery__caption { display: none; }
 @media (max-width: 640px) { .case__gallery { grid-template-columns: repeat(2, 1fr); } .case__gallery .gallery__item:first-child { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; } }
 .case__gallery-note { grid-column: 1 / -1; margin: 2px 0 0; font-family: var(--font-mono); font-size: .74rem; color: var(--muted); }
+
+/* פס פעולה תחתון: בועת הוואטסאפ נשארת בתוך הסרגל */
+.mobile-cta__wa { flex-direction: row !important; gap: 8px; overflow: hidden; }
+.mobile-cta__wa img { width: 40px; margin-top: 0; animation: none; filter: drop-shadow(0 4px 8px rgba(0,0,0,.35)); }
+.mobile-cta__wa span { font-size: .9rem; margin-top: 0; }
