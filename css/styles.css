@@ -1673,3 +1673,7 @@ body.has-ann .ann { z-index: 99; }
 .stage img[src*="paz-station-construction"] { object-position: center 55%; }
 /* הירו בלי הכרטיס המתחלף: המילה לבדה בתחתית */
 .hero__bottom { grid-template-columns: 1fr; }
+/* הירו: המשפט צמוד לשורת הפתיחה שמעליו */
+.hero__mid { align-self: start; padding-block: 14px 0; gap: 12px; }
+.hero__in { grid-template-rows: auto auto 1fr; }
+.hero__bottom { align-self: end; }
