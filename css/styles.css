@@ -1610,3 +1610,30 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 .mapsec__bg::after { background: linear-gradient(to left, rgba(15,14,18,.9) 0%, rgba(15,14,18,.62) 45%, rgba(15,14,18,.3) 100%), linear-gradient(to top, rgba(15,14,18,.85), transparent 35%); }
 .mapsec__stamp { position: absolute; top: 12px; inset-inline-end: 0; font-family: var(--font); font-size: .7rem; color: var(--on-dark-muted); letter-spacing: .02em; }
 .mapsec .section-head { position: relative; }
+
+/* מפה בגרסה בהירה: רקע בוקר (הדמיה), טקסט כהה */
+.mapsec--light { background: var(--paper); color: var(--ink); }
+.mapsec--light h2, .mapsec--light .mapcard__item h3 { color: var(--ink); }
+.mapsec--light .mapsec__bg img, .mapsec--light .mapsec__bg img.is-on { filter: saturate(.9) contrast(1.02); object-position: center 72%; }
+.mapsec--light .mapsec__bg img.is-on { opacity: 1; }
+.mapsec--light .mapsec__bg::after { background: linear-gradient(to left, rgba(238,236,231,.96) 0%, rgba(238,236,231,.86) 38%, rgba(238,236,231,.42) 70%, rgba(238,236,231,.2) 100%), linear-gradient(to top, rgba(238,236,231,.9), transparent 30%), linear-gradient(to bottom, rgba(238,236,231,.85), transparent 22%); }
+.mapsec--light .kicker, .mapsec--light .mapcard__item .city, .mapsec--light .mapsec__stamp { color: var(--ink-2); }
+.mapsec--light .mapcard__item p { color: var(--ink-2); }
+.mapsec--light .section-head::before { background: rgba(50,45,42,.35); }
+.mapsec--light .land { fill: rgba(255,255,255,.55); stroke: var(--accent-deep); stroke-width: 1.3; }
+.mapsec--light .ilmap { filter: drop-shadow(0 12px 30px rgba(12,107,150,.22)); }
+.mapsec--light .route { stroke: rgba(12,107,150,.45); }
+.mapsec--light .route--flow { stroke: var(--accent-deep); }
+.mapsec--light .pin .dot { fill: #8a847e; stroke: #fff; }
+.mapsec--light .pin.on .dot { fill: var(--accent-deep); filter: drop-shadow(0 0 5px rgba(31,143,191,.6)); }
+.mapsec--light .pin text { fill: var(--ink-2); stroke: rgba(238,236,231,.9); }
+.mapsec--light .pin.on text { fill: var(--ink); }
+.mapsec--light .mapcard__bar { background: rgba(50,45,42,.2); }
+.mapsec--light .mapcard__bar i { background: var(--accent-deep); }
+.mapsec--light .mapnav b { background: rgba(50,45,42,.3); }
+.mapsec--light .mapnav b.on { background: var(--ink); }
+.mapsec--light .mapcard__item .tbtn { color: var(--ink); }
+.mapsec--light .mapcard__item .tbtn:hover .arr { background: var(--ink); color: #fff; }
+@media (max-width: 860px) { .mapsec--light .mapsec__bg::after { background: linear-gradient(to top, rgba(238,236,231,.97) 0%, rgba(238,236,231,.8) 55%, rgba(238,236,231,.45) 100%); } }
+/* תוויות שנכתבות: הרווח בין המילים נשמר גם בתוך inline-flex */
+.kicker .c, .hero__kicker .c { white-space: pre; }
