@@ -252,13 +252,38 @@
 
   /* ---------- שעה במשרד (שעון ישראל) ---------- */
   var clocks = $$('[data-clock]');
-  if (clocks.length) {
-    var fmt = null;
-    try { fmt = new Intl.DateTimeFormat('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jerusalem' }); } catch (e) {}
+  var officeEls = $$('[data-office]');
+  if (clocks.length || officeEls.length) {
+    /* שעות המשרד: א׳–ה׳ 8:00–16:00, ו׳ עד 12:00 (שעון ישראל) */
+    var HOURS = { 0: [8, 16], 1: [8, 16], 2: [8, 16], 3: [8, 16], 4: [8, 16], 5: [8, 12] };
+    var DAY_NAMES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'שבת'];
+    var partsFmt = null;
+    try { partsFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jerusalem' }); } catch (e) {}
+    var WD = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    function israelNow() {
+      var d = new Date();
+      if (!partsFmt) return { day: d.getDay(), h: d.getHours(), m: d.getMinutes() };
+      var o = {};
+      partsFmt.formatToParts(d).forEach(function (p) { o[p.type] = p.value; });
+      return { day: WD[o.weekday] || 0, h: parseInt(o.hour, 10) % 24, m: parseInt(o.minute, 10) };
+    }
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
     function tickClock() {
-      var d = new Date(), t;
-      if (fmt) t = fmt.format(d); else t = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+      var now = israelNow();
+      var t = pad(now.h) + ':' + pad(now.m);
       clocks.forEach(function (c) { c.textContent = t; });
+      if (!officeEls.length) return;
+      var hrs = HOURS[now.day], cur = now.h + now.m / 60, open = !!hrs && cur >= hrs[0] && cur < hrs[1], text;
+      if (open) {
+        text = 'המשרד פתוח עכשיו · עונים עד ' + pad(hrs[1]) + ':00';
+      } else if (hrs && cur < hrs[0]) {
+        text = 'המשרד סגור · נפתח היום ב-' + pad(hrs[0]) + ':00';
+      } else {
+        var nd = (now.day + 1) % 7, steps = 1;
+        while (!HOURS[nd]) { nd = (nd + 1) % 7; steps++; }
+        text = 'המשרד סגור · ' + (steps === 1 ? 'נפתח מחר' : 'נפתח ביום ' + DAY_NAMES[nd]) + ' ב-' + pad(HOURS[nd][0]) + ':00';
+      }
+      officeEls.forEach(function (el) { el.textContent = text; var li = el.closest('.footer__office'); if (li) li.classList.toggle('is-open', open); });
     }
     tickClock(); setInterval(tickClock, 30000);
   }

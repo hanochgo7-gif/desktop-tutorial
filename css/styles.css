@@ -1205,3 +1205,13 @@ html[dir="ltr"] .steps__bar { transform-origin: left; }
 html.a11y-no-motion .pipe__node { opacity: 1; transform: none; }
 html.a11y-no-motion .pipe__flow, html.a11y-no-motion .pipe__link::after { animation: none !important; opacity: 1; }
 html.a11y-no-motion .steps__bar { display: none; }
+
+/* תרשים הפוך: הסדר מהרחבה למטה, הדלק זורם מהמיכל אל המשאבות (נגד כיוון הקריאה) */
+.pipe--reverse.is-in .pipe__flow { animation-direction: reverse; }
+@media (max-width: 1100px) { .pipe--reverse.is-in .pipe__link::after { animation-direction: reverse; } }
+
+/* שעות המשרד בפוטר */
+.footer__office { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: .8rem; color: var(--on-dark-muted); }
+.footer__office-dot { width: 8px; height: 8px; border-radius: 50%; background: #6c6660; flex: none; }
+.footer__office.is-open .footer__office-dot { background: #4fd08a; box-shadow: 0 0 0 4px rgba(79,208,138,.18); }
+.footer__office.is-open [data-office] { color: var(--on-dark); }
