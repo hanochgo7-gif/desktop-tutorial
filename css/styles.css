@@ -1647,3 +1647,9 @@ body.has-ann .ann { z-index: 99; }
 .meta-line img { width: 60px; height: 60px; flex: none; transition: transform .4s var(--ease-out); }
 .meta-line li:hover img { transform: translateY(-3px) rotate(-3deg); }
 .meta-line strong { display: block; font-weight: 500; color: var(--ink); font-size: 1rem; }
+/* כרטיס עם צילום: הכהיה חזקה יותר כדי שהטקסט ייקרא על תמונה בהירה */
+.card--photo::before { background: linear-gradient(to top, rgba(10,10,12,.94) 0%, rgba(10,10,12,.7) 45%, rgba(10,10,12,.35) 100%); }
+.card--photo img { filter: saturate(.7) brightness(.85); }
+.card--photo h3, .card--photo .kicker, .card--photo .tbtn { text-shadow: 0 2px 14px rgba(0,0,0,.55); }
+.card--photo .kicker { color: rgba(255,255,255,.85); }
+.card--photo:hover img { filter: saturate(.85) brightness(.9); }
