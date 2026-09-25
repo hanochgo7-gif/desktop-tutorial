@@ -1589,3 +1589,9 @@ html.a11y-no-motion .mapsec .route--flow { animation: none; opacity: 1; }
 .footer__word { display: none; }
 .footer__mark { margin: 0 0 44px; }
 .footer__mark img { width: min(70vw, 340px); padding: 16px 30px; border-radius: 20px; box-shadow: none; }
+
+/* תוויות בעברית: Heebo עם ריווח רגיל (המונו נשאר רק למספרים ולשעון) */
+.kicker, .hero__kicker, .section--dark .kicker, .service-hero .kicker, .article-hero .kicker, .band .kicker, .mapsec .kicker, .cta .kicker, .footer .kicker, .map-panel__kicker, .standards__label, .marquee__label, .crumbs, .stage .cap, .mapcard__item .city, .meta-line, .steps__tag, .steps__cap, .gallery__caption, .band__kicker span, .footer__bottom, .article-card__tag, .gallery-note, .case__gallery-note, .pipe__legend, .footer__office, .steps__ctrl, .service-figure figcaption, .process-figure figcaption, .footer h4, .mobile-menu__has-sub > a, .mobile-menu ul a small, .case__num, .steps__num, .facts small { font-family: var(--font); letter-spacing: .02em; word-spacing: normal; }
+.kicker, .hero__kicker { font-size: .8rem; font-weight: 500; }
+.footer h4, .mobile-menu__has-sub > a { font-weight: 500; }
+.mobile-menu__has-sub > a { font-family: var(--font) !important; }
