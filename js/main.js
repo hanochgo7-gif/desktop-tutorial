@@ -491,7 +491,8 @@
     }
     lbAll.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        lbItems = lbAll.filter(function (b) { return b.offsetParent !== null; });
+        var group = btn.closest('.case__gallery');
+        lbItems = (group ? $$('.gallery__item', group) : lbAll).filter(function (b) { return b.offsetParent !== null; });
         if (!lbItems.length) lbItems = lbAll;
         lbShow(Math.max(0, lbItems.indexOf(btn))); lightbox.showModal();
       });

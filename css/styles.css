@@ -1223,3 +1223,4 @@ html.a11y-no-motion .steps__bar { display: none; }
 .case__gallery .gallery__item img { object-position: var(--pos, center); }
 .case__gallery .gallery__item:not(:first-child) .gallery__caption { display: none; }
 @media (max-width: 640px) { .case__gallery { grid-template-columns: repeat(2, 1fr); } .case__gallery .gallery__item:first-child { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; } }
+.case__gallery-note { grid-column: 1 / -1; margin: 2px 0 0; font-family: var(--font-mono); font-size: .74rem; color: var(--muted); }
