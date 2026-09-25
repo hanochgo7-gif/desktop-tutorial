@@ -1671,3 +1671,5 @@ body.has-ann .ann { z-index: 99; }
 @media (max-width: 760px) { .band--site img { transform: scale(1.6); transform-origin: 45% 95%; } }
 .hero--word .hero__media img { object-position: center 45%; }
 .stage img[src*="paz-station-construction"] { object-position: center 55%; }
+/* הירו בלי הכרטיס המתחלף: המילה לבדה בתחתית */
+.hero__bottom { grid-template-columns: 1fr; }
