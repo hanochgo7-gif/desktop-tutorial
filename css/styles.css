@@ -1664,3 +1664,8 @@ body.has-ann .ann { z-index: 99; }
 /* פסקת הפתיחה בהירו: בשורה אחת */
 .hero__intro { max-width: none; }
 @media (min-width: 640px) { .hero__intro { white-space: nowrap; } }
+
+/* פס ההדמיה בדף חוות שרתים: המסגור על אתר הבנייה (המיכלים והבור), פחות על העיר */
+.band--site img { object-position: center 88%; transform: scale(1.4); transform-origin: 64% 92%; }
+.band--site { min-height: 76svh; }
+@media (max-width: 760px) { .band--site img { transform: scale(1.6); transform-origin: 45% 95%; } }
