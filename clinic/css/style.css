@@ -889,3 +889,70 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .wall-art::before { content: ""; position: absolute; left: 50%; top: -9px; width: 1px; height: 10px; background: rgba(60,40,25,.35); }
 .shelf-row > .shelf-item { z-index: 1; }
 @media (max-width: 860px) { .wall-art { top: 4px; width: 34px; } }
+
+/* ===== תפריט הטיפולים ===== */
+.menu-hero { padding: clamp(48px, 9vh, 96px) var(--gutter) 40px; max-width: 46em; }
+.menu-hero h1 { font-size: clamp(38px, 5vw, 64px); }
+.menu-hero p:not(.kicker) { margin-top: 16px; color: var(--slate); font-size: 18px; font-weight: 300; max-width: 34em; }
+.menu-hero .deco-blossom { top: -20%; inset-inline-end: -12%; }
+.sprig-menu { bottom: -6%; inset-inline-end: 8%; rotate: 8deg; } .sprig-menu.s2 { inset-inline-end: 12%; }
+.menu-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.menu-layout { display: grid; grid-template-columns: 260px 1fr; gap: clamp(32px, 6vw, 96px); padding: 24px var(--gutter) 40px; align-items: start; }
+.menu-nav { position: sticky; top: calc(var(--nav-h) + 24px); }
+.menu-nav ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.menu-nav a { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: baseline; padding: 12px 14px; border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 500; transition: background .3s; }
+.menu-nav a small { font: 300 13px var(--serif); color: var(--gold-deep); }
+.menu-nav a span { grid-column: 2; font-size: 13px; color: var(--muted); font-weight: 400; }
+.menu-nav a:hover, .menu-nav a.is-active { background: var(--paper); }
+.menu-nav__note { margin-top: 18px; padding: 14px 16px; border-inline-start: 2px solid var(--gold); font-size: 14px; color: var(--slate); }
+.menu-group { padding: 40px 0 24px; border-top: 1px solid var(--line); }
+.menu-group:first-child { border-top: 0; padding-top: 8px; }
+.menu-group__head { max-width: 40em; margin-bottom: 26px; }
+.menu-group__head h2 { font-size: clamp(30px, 3.4vw, 44px); }
+.menu-group__head p:not(.kicker) { margin-top: 12px; color: var(--slate); font-size: 17px; font-weight: 300; }
+.menu-sub { margin-top: 28px; }
+.menu-sub__head { display: flex; align-items: baseline; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--ink); }
+.menu-sub__head h3 { font-size: 21px; color: var(--ink); white-space: nowrap; }
+.menu-sub__head p { font-size: 14px; color: var(--muted); }
+.menu-list { list-style: none; margin: 0; padding: 0; }
+.menu-item { display: grid; grid-template-columns: 1fr auto; gap: 8px 32px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.menu-item h4 { font: 400 19px/1.25 var(--serif); color: var(--head); margin: 0; }
+.menu-item p { margin-top: 6px; color: var(--slate); font-size: 15px; line-height: 1.6; max-width: 46em; }
+.menu-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.menu-tags span { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--gold-soft); color: var(--gold-deep); }
+.menu-item__side { display: grid; gap: 8px; justify-items: end; text-align: end; min-width: 150px; padding-top: 4px; }
+.menu-series { font-size: 13px; color: var(--slate); max-width: 14em; }
+.menu-ask { font-size: 13px; color: var(--gold-deep); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.menu-cta { margin: 24px var(--gutter) 72px; padding: clamp(32px, 5vw, 56px); border-radius: 26px; background: var(--paper); border: 1px solid var(--line); text-align: center; }
+.menu-cta h2 { font-size: clamp(28px, 3vw, 40px); }
+.menu-cta p { margin: 12px auto 22px; color: var(--slate); max-width: 30em; }
+@media (max-width: 1024px) {
+  .menu-layout { grid-template-columns: 1fr; gap: 24px; }
+  .menu-nav { position: static; }
+  .menu-nav ol { grid-template-columns: repeat(3, 1fr); }
+  .menu-nav a { padding: 10px 12px; }
+  .menu-nav__note { display: none; }
+}
+@media (max-width: 860px) {
+  .menu-nav ol { grid-template-columns: 1fr; }
+  .menu-item { grid-template-columns: 1fr; gap: 6px; }
+  .menu-item__side { justify-items: start; text-align: start; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .menu-sub__head { flex-direction: column; gap: 4px; }
+  .sprig-menu { display: none; }
+}
+@media print {
+  .site-header, .mobile-menu, .wa-float, .to-top, .progress, .frame, .cursor, .deco, .menu-actions, .menu-nav, .menu-ask, .menu-cta, .site-footer { display: none !important; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  .menu-layout { display: block; padding: 0; }
+  .menu-hero { padding: 0 0 12pt; }
+  .menu-group { break-inside: avoid; page-break-inside: avoid; }
+  .menu-item { break-inside: avoid; padding: 8pt 0; }
+  .reveal, .fade-up { opacity: 1 !important; transform: none !important; }
+  h1 [data-split] span, [data-split] span { opacity: 1 !important; transform: none !important; }
+}
+.intro-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 8px; }
+.intro-actions .link-line { font-size: 14px; }
+
+/* תיקון: has-deco הפך את הפתיח ל-relative עם top של sticky, ודחף אותו על הרשימה */
+.has-deco > .service-intro { position: sticky; }
+@media (max-width: 1024px) { .has-deco > .service-intro { position: static; top: auto; } }

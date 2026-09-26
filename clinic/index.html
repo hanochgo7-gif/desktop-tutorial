@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=30">
+  <link rel="stylesheet" href="css/style.css?v=33">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,6 +46,7 @@
       <li><a href="#pedicure">פדיקור טיפולי</a></li>
       <li><a href="#results">לפני ואחרי</a></li>
       <li><a href="#rotem">על רותם</a></li>
+      <li><a href="services.html">תפריט הטיפולים</a></li>
       <li><a class="menu-shop" href="shop.html">חנות</a></li>
     </ul>
   </nav>
@@ -80,7 +81,7 @@
     <div class="deco deco-fan" data-parallax=".06" aria-hidden="true"><svg><use href="images/deco.svg#fan"/></svg></div>
     <div class="deco deco-sprig" data-parallax="-.04" aria-hidden="true"><svg><use href="images/deco.svg#sprig"/></svg></div>
     <div class="hero-copy">
-      <p class="hero-kicker fade-up">רותם גוטובסקי. קליניקה לטיפולי פנים, לייזר ופדיקור טיפולי</p>
+      <p class="hero-kicker fade-up">רותם גוטובסקי, קוסמטיקאית פרא-רפואית מוסמכת P.M.E. קליניקה לטיפולי פנים מתקדמים, הסרת שיער בלייזר ופדיקור טיפולי</p>
       <h1 data-split>העור לא מתנהג לפי גיל. הטיפול נבחר <em>לפי מטרה.</em></h1>
       <p class="hero-text fade-up" style="animation-delay:.5s">אקנה, צלקות, כתמים, נפילת עור, יובש. כל ביקור מתחיל באבחון קצר, ומהמטרה נגזרים הטיפול, החומרים ותוכנית הבית.</p>
       <div class="hero-actions fade-up" style="animation-delay:.7s">
@@ -92,11 +93,6 @@
         <li>מחיר ידוע מראש</li>
         <li>מוצרים מקצועיים לבית</li>
       </ul>
-    </div>
-    <div class="hero-stage" aria-hidden="true">
-      <div class="hcard hcard-1"><b data-count="11">0</b><span>טיפולי פנים לפי מטרה</span></div>
-      <div class="hcard hcard-2 hcard-gold"><b>I–VI</b><span>הסרת שיער לכל גווני העור</span></div>
-      <div class="hcard hcard-3"><b data-count="54">0</b><span>מוצרים בחנות, 5 מותגים</span></div>
     </div>
     <div class="hero-scroll" aria-hidden="true"><i></i><span>גללו</span></div>
   </section>
@@ -123,10 +119,10 @@
 
   <!-- שלושת התחומים -->
   <section class="numbers" data-stagger aria-label="בקצרה">
-    <div class="num reveal"><b data-count="11">0</b><span>טיפולי פנים שונים, מפילינג חכם ועד אקסוזומים</span></div>
-    <div class="num reveal"><b data-count="60" data-suffix="%">0</b><span>ריכוז החומצות המקסימלי בפילינג חכם</span></div>
-    <div class="num reveal"><b data-count="3">0</b><span>שכבות שריר שהאולטרסאונד מגיע אליהן, עד SMAS</span></div>
-    <div class="num reveal"><b data-count="20">0</b><span>דקות אבחון לפני הטיפול הראשון</span></div>
+    <div class="num reveal"><b data-count="11">0</b><span>טיפולי פנים שנבחרים לפי מטרה, לא לפי גיל</span></div>
+    <div class="num reveal"><b>I–VI</b><span>כל גווני העור מטופלים בלייזר, גם עור כהה מאוד</span></div>
+    <div class="num reveal"><b data-count="100" data-suffix="%">0</b><span>כלים חד-פעמיים או מעוקרים בכל טיפול פדיקור</span></div>
+    <div class="num reveal"><b data-count="5">0</b><span>מותגים מקצועיים בחנות, אותם מוצרים שבקליניקה</span></div>
   </section>
 
   <section class="fields" data-stagger aria-label="תחומי הטיפול">
@@ -233,7 +229,7 @@
       <p class="kicker">01</p>
       <h2>טיפולי פנים</h2>
       <p>כל טיפול מתחיל בניקוי ואבחון. הטכנולוגיה נבחרת לפי המטרה, והחומרים המוחדרים לפי סוג העור. רוב הטיפולים ניתנים כסדרה, עם מרווח של שבועיים עד ארבעה שבועות.</p>
-      <a class="btn btn-outline magnet" href="#contact">קביעת אבחון</a>
+      <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת אבחון</a><a class="link-line" href="services.html#face-menu">לתפריט טיפולי הפנים</a></div>
     </div>
     <dl class="treatments" data-stagger>
       <div class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#face-dots"/></svg></i><dt>אקנה</dt><dd>ניקוי עמוק, פלזמה קרה ופילינג חכם להרגעת דלקת והפחתת התפרצויות.</dd></div>
@@ -284,7 +280,7 @@
       <p class="kicker">02</p>
       <h2>הסרת שיער בלייזר</h2>
       <p>לכל אזורי הגוף, לנשים ולגברים. המכשיר מכויל לגוון העור, כך שגם עור כהה מאוד מטופל בבטחה וביעילות.</p>
-      <a class="btn btn-outline magnet" href="#contact">קביעת טיפול ניסיון</a>
+      <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת טיפול ניסיון</a><a class="link-line" href="services.html#laser-menu">לתפריט האזורים</a></div>
     </div>
     <div class="facts" data-stagger>
       <div class="fact reveal">
@@ -313,7 +309,7 @@
       <p class="kicker">03</p>
       <h2>פדיקור טיפולי</h2>
       <p>טיפול רפואי-קוסמטי בכף הרגל, לא פדיקור יופי. כל הכלים חד-פעמיים או מעוקרים, והחומרים מותאמים גם לסוכרתיים.</p>
-      <a class="btn btn-outline magnet" href="#contact">קביעת תור</a>
+      <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת תור</a><a class="link-line" href="services.html#pedicure-menu">לתפריט הפדיקור</a></div>
       <div class="deco deco-blossom intro-flower" aria-hidden="true"><svg><use href="images/deco.svg#blossom"/></svg></div>
     </div>
     <dl class="treatments" data-stagger>
@@ -520,6 +516,6 @@
 <dialog class="lightbox" id="lightbox" aria-label="תעודה מוגדלת"><img src="" alt=""><button class="qv-close" id="lightbox-close" type="button" aria-label="סגירה">×</button></dialog>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=21"></script>
+<script src="js/main.js?v=22"></script>
 </body>
 </html>

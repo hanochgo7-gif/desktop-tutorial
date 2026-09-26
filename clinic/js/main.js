@@ -66,8 +66,9 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
 
+  var mp = $('#menu-print'); if (mp) mp.addEventListener('click', function () { window.print(); });
   /* קישור פעיל בתפריט */
-  var navLinks = $$('.menu a[href^="#"]').filter(function (a) { return a.getAttribute('href').length > 1; });
+  var navLinks = $$('.menu a[href^="#"], .menu-nav a[href^="#"]').filter(function (a) { return a.getAttribute('href').length > 1; });
   var sections = navLinks.map(function (a) { return $(a.getAttribute('href')); }).filter(Boolean);
   if (sections.length && 'IntersectionObserver' in window) {
     var navIO = new IntersectionObserver(function (entries) {
