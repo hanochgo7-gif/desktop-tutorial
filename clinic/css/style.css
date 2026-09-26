@@ -746,6 +746,8 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .shelf-label small { font-size: 12px; color: rgba(62,50,44,.7); }
 .shelf-label .price-ask { color: #8a5b56; }
 .shelf-label .price { font-size: 14px; }
+.shelf-label .price, .shelf-label .price-ask { opacity: 0; transform: translateY(4px); transition: opacity .3s, transform .4s var(--ease-out); }
+.shelf-item:hover .shelf-label .price, .shelf-item:hover .shelf-label .price-ask, .shelf-item.is-open .shelf-label .price, .shelf-item.is-open .shelf-label .price-ask, .shelf-item:focus-within .shelf-label .price, .shelf-item:focus-within .shelf-label .price-ask { opacity: 1; transform: none; }
 .shelf-save { position: absolute; bottom: calc(var(--pb) + var(--ih) + 2px); right: 4%; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.6); background: rgba(255,255,255,.7); color: var(--gold-deep); display: grid; place-items: center; cursor: pointer; z-index: 2; transition: transform .4s var(--ease-out), background .3s, color .3s; }
 .shelf-save svg { width: 17px; height: 17px; }
 .shelf-save.is-on { background: var(--gold); border-color: var(--gold); color: #fff; }
@@ -775,3 +777,101 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
   .shelf-save { width: 30px; height: 30px; }
 }
 @media (prefers-reduced-motion: reduce) { .shelf-item img { animation: none; } }
+
+/* ===== דף הבית: דלת לחנות ===== */
+.shop-door { display: block; position: relative; text-decoration: none; color: inherit; border-radius: 26px; overflow: hidden; }
+.shop-door .wall { pointer-events: none; }
+.shop-door .shelf-save, .shop-door .shelf-badge, .shop-door .shelf-hot, .shop-door .shelf-label { display: none; }
+.shop-door .wall { --pb: 40px; }
+.shop-door .shelf-item img { transition: transform .8s var(--ease-out); }
+.shop-door:hover .shelf-item img { transform: translateY(-6px); }
+.shop-door__cta { position: absolute; inset-inline: 0; bottom: 0; padding: 22px var(--gutter); display: flex; align-items: baseline; justify-content: space-between; gap: 12px; background: linear-gradient(180deg, transparent, rgba(43,36,32,.55)); color: #fff; font: 500 22px var(--sans); }
+.shop-door__cta small { font-size: 14px; opacity: .85; }
+.shop-door:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+/* ===== החנות: עולם עיצובי נפרד ===== */
+.page-shop {
+  --bg: #e8dfd1; --paper: #f3ede3; --ink: #2b2420; --head: #2b2420; --slate: #5b5148; --muted: #7d7166; --line: #d3c6b3;
+  --blush: #d9c7ad; --blush-deep: #c9b28f; --gold: #a8865a; --gold-deep: #7d6240; --gold-soft: #eadfcc; --dark: #2b2420;
+  --serif: "Noto Serif Hebrew", Georgia, serif;
+  background: var(--bg);
+}
+.page-shop .progress { background: var(--gold); }
+.page-shop .cursor { display: none; }
+.page-shop .deco { display: none; }
+.page-shop .site-header { background: var(--dark); color: #fff; border-bottom: 1px solid rgba(255,255,255,.08); height: 84px; }
+.page-shop .site-header.is-scrolled { background: var(--dark); height: 72px; }
+.shop-brand { display: flex; flex-direction: column; gap: 2px; line-height: 1; }
+.shop-brand__name { font: 300 34px var(--serif); color: #fff; letter-spacing: .02em; }
+.shop-brand__sub { font-size: 12px; color: rgba(255,255,255,.65); letter-spacing: .04em; }
+.page-shop .menu a { color: rgba(255,255,255,.85); }
+.page-shop .menu a:hover, .page-shop .menu a.is-active { color: #fff; background: rgba(255,255,255,.1); }
+.page-shop .menu .nav-back { border: 1px solid rgba(255,255,255,.35); border-radius: 999px; }
+.nav-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--gold); color: #fff; font-size: 12px; margin-inline-start: 6px; vertical-align: middle; }
+.nav-count[hidden] { display: none; }
+.page-shop .header-cta { background: var(--gold); border-color: var(--gold); }
+.page-shop .header-cta::before { background: #fff; }
+.page-shop .header-cta:hover { color: var(--ink); }
+.page-shop .nav-toggle span { background: #fff; }
+.page-shop .mobile-menu { background: var(--dark); }
+.page-shop .shop-hero { padding: clamp(48px, 9vh, 96px) var(--gutter) 40px; align-items: end; border-bottom: 1px solid var(--line); }
+.page-shop .shop-hero h1 { font-size: clamp(40px, 5.4vw, 72px); line-height: 1.05; }
+.page-shop .shop-hero .kicker { color: var(--gold-deep); }
+.page-shop .shop-perks li { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 12px 0; }
+.page-shop .shop-perks li:last-child { border-bottom: 1px solid var(--line); }
+.page-shop .shop-bar { background: rgba(232,223,209,.96); border-block: 1px solid var(--line); }
+.page-shop .filter-toggle { background: var(--ink); border-color: var(--ink); color: #fff; }
+.page-shop .filter-toggle[aria-expanded="true"] { background: transparent; color: var(--ink); }
+.page-shop .goal { background: var(--paper); border-color: var(--line); }
+.page-shop .goal.is-active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.page-shop .wall { border-radius: 0; box-shadow: none; margin: 0 calc(-1 * var(--gutter)); padding-inline: var(--gutter); --wp: var(--gutter); }
+.page-shop .shelf-rows { margin: 0 calc(-1 * var(--gutter)); }
+.page-shop .shelf-row { padding-inline: var(--gutter); }
+.page-shop .shop-group { margin-bottom: 0; }
+.page-shop .wall-head { padding-top: 34px; }
+.page-shop .wall-head h2 { font-size: clamp(30px, 3.6vw, 46px); color: var(--ink); }
+.page-shop .wall-head span { color: var(--muted); }
+.page-shop .shelf-card { background: var(--paper); box-shadow: 0 24px 50px -16px rgba(43,36,32,.5); }
+.page-shop .list-bar, .page-shop dialog { border-color: var(--line); }
+.page-shop .site-footer { background: var(--dark); color: rgba(255,255,255,.7); border: 0; padding: 48px var(--gutter); grid-template-columns: auto 1fr auto; }
+.page-shop .site-footer a { color: #fff; }
+.shop-footer__brand { display: flex; flex-direction: column; gap: 6px; }
+.shop-footer__brand .shop-brand__name { font-size: 28px; }
+.page-shop .wa-float { background: var(--gold); }
+.page-shop .to-top { background: var(--ink); color: #fff; }
+.page-shop .btn-solid { background: var(--ink); }
+.page-shop .btn-solid::before { background: var(--gold); }
+.page-shop .btn-gold { background: var(--gold); border-color: var(--gold); }
+@media (max-width: 860px) {
+  .page-shop .site-header { height: 68px; }
+  .shop-brand__name { font-size: 26px; }
+  .shop-brand__sub { display: none; }
+  .page-shop .site-footer { grid-template-columns: 1fr; }
+  .shop-door__cta { font-size: 18px; padding: 16px; }
+}
+
+/* ===== פרחים מרחפים ===== */
+.deco svg { animation: deco-float 7s ease-in-out infinite alternate; transform-origin: 50% 60%; }
+.deco:nth-of-type(2n) svg { animation-duration: 9s; animation-delay: -3s; animation-name: deco-float-b; }
+.deco:nth-of-type(3n) svg { animation-duration: 11s; animation-delay: -5s; }
+@keyframes deco-float { from { transform: translate3d(0, 0, 0) rotate(-1.5deg); } 50% { transform: translate3d(6px, -14px, 0) rotate(1deg); } to { transform: translate3d(-4px, -6px, 0) rotate(2.5deg); } }
+@keyframes deco-float-b { from { transform: translate3d(0, 0, 0) rotate(1.5deg); } 50% { transform: translate3d(-8px, -10px, 0) rotate(-1deg); } to { transform: translate3d(5px, -16px, 0) rotate(-2.5deg); } }
+@media (prefers-reduced-motion: reduce) { .deco svg { animation: none; } }
+
+/* ===== שיבולים: תנועה עדינה ברוח ===== */
+.deco-sprig svg { transform-origin: 50% 100%; animation: sprig-sway 5.5s ease-in-out infinite alternate; }
+.deco-sprig.s2 svg { animation-duration: 6.5s; animation-delay: -2.2s; }
+.deco-sprig.s3 svg { animation-duration: 7.5s; animation-delay: -4.1s; }
+.deco:nth-of-type(2n).deco-sprig svg, .deco:nth-of-type(3n).deco-sprig svg { animation-name: sprig-sway; }
+@keyframes sprig-sway { from { transform: rotate(-4deg) skewX(-2deg); } 40% { transform: rotate(1deg) skewX(0deg); } to { transform: rotate(5deg) skewX(2.5deg); } }
+.deco-sprig.s2 { transform: scale(.8); } .deco-sprig.s3 { transform: scale(.62); }
+.sprig-face { bottom: 0; inset-inline-end: 2%; rotate: 8deg; opacity: .85; } .sprig-face.s2 { inset-inline-end: 6%; } .sprig-face.s3 { inset-inline-end: 9.5%; }
+.sprig-laser { bottom: 0; inset-inline-start: 2%; rotate: -8deg; opacity: .85; } .sprig-laser.s2 { inset-inline-start: 6%; } .sprig-laser.s3 { inset-inline-start: 9.5%; }
+.sprig-pedi { top: 24px; inset-inline-end: 3%; rotate: 170deg; opacity: .7; } .sprig-pedi.s2 { inset-inline-end: 7%; rotate: 176deg; }
+.sprig-process { bottom: 0; inset-inline-end: 4%; rotate: 6deg; opacity: .8; } .sprig-process.s2 { inset-inline-end: 8%; }
+.sprig-certs { bottom: 0; inset-inline-start: 3%; rotate: -6deg; opacity: .85; } .sprig-certs.s2 { inset-inline-start: 7%; } .sprig-certs.s3 { inset-inline-start: 10.5%; }
+.sprig-contact { bottom: 0; inset-inline-end: 2%; rotate: 10deg; opacity: .8; } .sprig-contact.s2 { inset-inline-end: 6%; }
+.sprig-faq { bottom: 0; inset-inline-start: 3%; rotate: -10deg; opacity: .9; } .sprig-faq.s2 { inset-inline-start: 7%; } .sprig-faq.s3 { inset-inline-start: 10.5%; }
+.deco-sprig.s2, .deco-sprig.s3 { transform-origin: 50% 100%; }
+@media (max-width: 860px) { .sprig-face.s3, .sprig-laser.s3, .sprig-certs.s3, .sprig-faq.s3 { display: none; } .deco-sprig { width: 56px; } }
+@media (prefers-reduced-motion: reduce) { .deco-sprig svg { animation: none; } }

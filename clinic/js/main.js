@@ -67,7 +67,7 @@
   }
 
   /* קישור פעיל בתפריט */
-  var navLinks = $$('.menu a[href^="#"]');
+  var navLinks = $$('.menu a[href^="#"]').filter(function (a) { return a.getAttribute('href').length > 1; });
   var sections = navLinks.map(function (a) { return $(a.getAttribute('href')); }).filter(Boolean);
   if (sections.length && 'IntersectionObserver' in window) {
     var navIO = new IntersectionObserver(function (entries) {
@@ -309,6 +309,7 @@
     var n = saved.ids.length, bar = $('#list-bar'), cnt = $('#list-count'), items = $('#list-items');
     $$('[data-save]').forEach(function (b) { var i = parseInt(b.dataset.save, 10), on = saved.has(i); b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); if (b.id === 'qv-save') b.textContent = on ? 'ברשימה ✓' : 'הוספה לרשימה'; });
     if (bar) { bar.hidden = !n; if (cnt) cnt.textContent = n; }
+    var nc = $('#nav-count'); if (nc) { nc.hidden = !n; nc.textContent = n; }
     ['#list-send', '#list-send-2'].forEach(function (s) { var a = $(s); if (a) a.href = listMessage(); });
     if (items) {
       items.innerHTML = n ? saved.ids.map(function (i) {
@@ -425,14 +426,11 @@
   /* דף הבית: מוצרים נבחרים ורצועת מותגים */
   var featured = $('#featured');
   if (featured && P.length) { syncList();
-    var homeBrands = [];
-    P.forEach(function (p) { if (homeBrands.indexOf(p.brand) < 0) homeBrands.push(p.brand); });
+    var doorPicks = P.filter(function (p) { return p.cut && p.pick; }).slice(0, 4);
+    if (doorPicks.length < 4) P.forEach(function (p) { if (doorPicks.length < 4 && p.cut && doorPicks.indexOf(p) < 0) doorPicks.push(p); });
     var drawFeatured = function () {
-      featured.innerHTML = homeBrands.map(function (b) {
-        var items = P.map(function (p, i) { return { p: p, i: i }; }).filter(function (x) { return x.p.brand === b; });
-        return '<div class="wall-head"><h2>' + escapeHtml(b) + '</h2><span>' + items.length + ' מוצרים</span></div>' + rowsHtml(items);
-      }).join('');
-      afterRender(featured);
+      var n = Math.min(shelfCols(), 4);
+      featured.innerHTML = rowsHtml(doorPicks.slice(0, n).map(function (p) { return { p: p, i: P.indexOf(p) }; }));
     };
     drawFeatured(); rerenderFns.push(drawFeatured);
     var strip = $('#brand-strip');
@@ -550,6 +548,8 @@
       if (state.q) openBar(true);
     }
     rerenderFns.push(function () { render(); });
+    ['#nav-quiz', '#m-nav-quiz'].forEach(function (sel) { var a = $(sel); if (a) a.addEventListener('click', function (e) { e.preventDefault(); body.classList.remove('menu-open'); var q = $('#quiz-open'); if (q) q.click(); }); });
+    ['#nav-list', '#m-nav-list'].forEach(function (sel) { var a = $(sel); if (a) a.addEventListener('click', function (e) { e.preventDefault(); body.classList.remove('menu-open'); var l = $('#list-open'); if (l) l.click(); }); });
     if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
     render();
 

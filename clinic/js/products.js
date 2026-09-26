@@ -326,6 +326,7 @@ window.PRODUCTS = [
     size: "30 מ״ל",
     price: null,
     image: "images/klapp-cellpro-lifting.jpg",
+    cut: "images/shelf/klapp-cellpro-lifting-stack.png",
     tall: true
   },
   {
@@ -338,6 +339,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-cellpro-lifting.jpg",
+    cut: "images/shelf/klapp-cellpro-lifting-cream.png",
     tall: false
   },
   {
@@ -350,6 +352,7 @@ window.PRODUCTS = [
     size: "30 מ״ל",
     price: null,
     image: "images/klapp-repagen.jpg",
+    cut: "images/shelf/klapp-repagen-cream.png",
     tall: false
   },
   {
@@ -362,6 +365,7 @@ window.PRODUCTS = [
     size: "20 מ״ל",
     price: null,
     image: "images/klapp-repagen.jpg",
+    cut: "images/shelf/klapp-repagen-group.png",
     tall: true
   },
   {
@@ -374,6 +378,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-repagen.jpg",
+    cut: "images/shelf/klapp-repagen-hand.png",
     tall: true
   },
   {
@@ -386,6 +391,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-repagen.jpg",
+    cut: "images/shelf/klapp-repagen-group.png",
     tall: true
   },
   {
@@ -398,6 +404,7 @@ window.PRODUCTS = [
     size: "30 מ״ל",
     price: null,
     image: "images/klapp-retinol-serum.webp",
+    cut: "images/shelf/klapp-retinol-serum.png",
     tall: true
   },
   {
@@ -410,6 +417,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-retinol-trio.jpg",
+    cut: "images/shelf/klapp-retinol-daynight.png",
     tall: false
   },
   {
@@ -422,6 +430,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-retinol-trio.jpg",
+    cut: "images/shelf/klapp-retinol-mask.png",
     tall: false
   },
   {
@@ -434,6 +443,7 @@ window.PRODUCTS = [
     size: "30 מ״ל",
     price: null,
     image: "images/klapp-retinol-booster.jpg",
+    cut: "images/shelf/klapp-retinol-booster.png",
     tall: true
   },
   {
@@ -446,6 +456,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-cellpro-neck.webp",
+    cut: "images/shelf/klapp-cellpro-neck.png",
     tall: true
   },
   {

@@ -3,36 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>החנות | רותם גוטובסקי</title>
+  <title>החנות של רותם | מוצרים מקצועיים לבית</title>
   <meta name="description" content="מוצרי טיפוח מקצועיים מהקליניקה: חוה זינגבוים, KLAPP, Arkana, SQT ו-Dr. Spicule. סינון לפי מותג וסוג מוצר, הזמנה בוואטסאפ, משלוח או איסוף.">
-  <meta name="theme-color" content="#15181c">
+  <meta name="theme-color" content="#2b2420">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=23">
+  <link rel="stylesheet" href="css/style.css?v=26">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
 <div class="progress" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"></div>
-<div class="frame" aria-hidden="true"></div>
 
-<header class="site-header" id="top">
-  <a class="brand" href="index.html" aria-label="רותם גוטובסקי, דף הבית">
-    <img src="images/logo.png" alt="רותם גוטובסקי p.m.e Cosmetics" width="540" height="480">
+<header class="site-header shop-header" id="top">
+  <a class="brand shop-brand" href="shop.html" aria-label="החנות של רותם">
+    <span class="shop-brand__name">החנות</span>
+    <span class="shop-brand__sub">רותם גוטובסקי · p.m.e Cosmetics</span>
   </a>
-  <nav class="nav" aria-label="ניווט ראשי">
+  <nav class="nav" aria-label="ניווט החנות">
     <ul class="menu">
-      <li><a href="index.html#face">טיפולי פנים</a></li>
-      <li><a href="index.html#laser">הסרת שיער</a></li>
-      <li><a href="index.html#pedicure">פדיקור טיפולי</a></li>
-      <li><a href="index.html#results">תוצאות</a></li>
-      <li><a href="index.html#about">איך זה עובד</a></li>
-      <li><a class="menu-shop is-active" href="shop.html" aria-current="page">חנות</a></li>
+      <li><a href="#shop-main">כל המוצרים</a></li>
+      <li><a href="#" id="nav-quiz">איזה מוצר מתאים לי?</a></li>
+      <li><a href="#" id="nav-list">הרשימה שלי <span class="nav-count" id="nav-count" hidden></span></a></li>
+      <li><a class="nav-back" href="index.html">חזרה לקליניקה</a></li>
     </ul>
   </nav>
-  <a class="btn btn-solid header-cta magnet" href="index.html#contact">קביעת תור</a>
+  <a class="btn btn-solid header-cta magnet" href="https://wa.me/972545779379?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%A0%D7%AA%D7%99%20%D7%91%D7%9E%D7%95%D7%A6%D7%A8%D7%99%D7%9D" target="_blank" rel="noopener">וואטסאפ</a>
   <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="פתיחת תפריט">
     <span></span><span></span><span></span>
   </button>
@@ -40,27 +38,23 @@
 
 <div class="mobile-menu" id="mobile-menu">
   <ul>
-    <li><a href="index.html#face"><small>01</small>טיפולי פנים</a></li>
-    <li><a href="index.html#laser"><small>02</small>הסרת שיער בלייזר</a></li>
-    <li><a href="index.html#pedicure"><small>03</small>פדיקור טיפולי</a></li>
-    <li><a href="index.html#results"><small>04</small>לפני ואחרי</a></li>
-    <li><a href="shop.html"><small>05</small>חנות</a></li>
-    <li><a href="index.html#contact"><small>06</small>קביעת תור</a></li>
+    <li><a href="#shop-main"><small>01</small>כל המוצרים</a></li>
+    <li><a href="#" id="m-nav-quiz"><small>02</small>איזה מוצר מתאים לי?</a></li>
+    <li><a href="#" id="m-nav-list"><small>03</small>הרשימה שלי</a></li>
+    <li><a href="index.html"><small>04</small>חזרה לקליניקה</a></li>
   </ul>
   <div class="mobile-menu__foot">
     <a href="tel:+972545779379">054-577-9379</a>
-    <a href="https://wa.me/972545779379?text=%D7%94%D7%99%D7%99%2C%20%D7%9E%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%90%D7%95%D7%AA%D7%99%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%98%D7%99%D7%A4%D7%95%D7%9C" target="_blank" rel="noopener">וואטסאפ</a>
+    <a href="https://wa.me/972545779379?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%A0%D7%AA%D7%99%20%D7%91%D7%9E%D7%95%D7%A6%D7%A8%D7%99%D7%9D" target="_blank" rel="noopener">וואטסאפ</a>
   </div>
 </div>
 
 <main id="main">
-  <section class="shop-hero has-deco">
-    <div class="deco deco-blossom" data-parallax="-.06" aria-hidden="true"><svg><use href="images/deco.svg#blossom"/></svg></div>
-    <div class="deco deco-fan" data-parallax=".05" aria-hidden="true"><svg><use href="images/deco.svg#fan"/></svg></div>
+  <section class="shop-hero">
     <div>
-      <p class="kicker fade-up">החנות</p>
-      <h1 data-split>מוצרים מקצועיים, להמשך הטיפול בבית</h1>
-      <p class="fade-up" style="animation-delay:.4s">אותם מוצרים שאנחנו עובדים איתם בקליניקה. בוחרים מותג, סוג מוצר או מטרה, מוסיפים לרשימה, ושולחים הכול בהודעת וואטסאפ אחת.</p>
+      <p class="kicker fade-up">מוצרים מקצועיים לבית</p>
+      <h1 data-split>המדפים של הקליניקה, פתוחים גם לכם</h1>
+      <p class="fade-up" style="animation-delay:.4s">אותם מוצרים שאנחנו עובדים איתם בטיפולים. עוברים על המדפים, מוסיפים לרשימה, ושולחים הכול בהודעת וואטסאפ אחת.</p>
       <div class="hero-actions fade-up" style="animation-delay:.55s">
         <button class="btn btn-solid magnet" type="button" id="quiz-open">איזה מוצרים מתאימים לי? <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></button>
         <span class="hero-hint">3 שאלות, 20 שניות</span>
@@ -205,10 +199,10 @@
   </div>
 </dialog>
 
-<footer class="site-footer">
-  <p>רותם גוטובסקי p.m.e Cosmetics. © <span id="year"></span></p>
-  <nav aria-label="קישורים"><a href="index.html">דף הבית</a><a href="index.html#face">טיפולים</a><a href="index.html#contact">קביעת תור</a><a href="#top">חזרה למעלה</a></nav>
-  <p>השעה בישראל <span class="clock" id="clock">--:--</span></p>
+<footer class="site-footer shop-footer">
+  <div class="shop-footer__brand"><span class="shop-brand__name">החנות</span><span>רותם גוטובסקי · p.m.e Cosmetics · © <span id="year"></span></span></div>
+  <nav aria-label="קישורים"><a href="index.html">לאתר הקליניקה</a><a href="index.html#contact">קביעת תור</a><a href="#top">חזרה למעלה</a></nav>
+  <p>משלוח בכל הארץ · איסוף מהקליניקה ללא עלות · תשלום ותיאום בוואטסאפ</p>
 </footer>
 
 <a class="wa-float" href="https://wa.me/972545779379?text=%D7%94%D7%99%D7%99%2C%20%D7%9E%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%90%D7%95%D7%AA%D7%99%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%98%D7%99%D7%A4%D7%95%D7%9C" target="_blank" rel="noopener" aria-label="שיחה בוואטסאפ">
@@ -219,6 +213,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=11"></script>
+<script src="js/main.js?v=12"></script>
 </body>
 </html>
