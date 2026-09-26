@@ -157,6 +157,9 @@ b { font-weight: 600; }
 
 /* חנות */
 .shop { padding: clamp(64px, 10vh, 120px) var(--gutter); border-top: 1px solid var(--line); background: var(--paper); }
+.brand-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+.brand-filter .goal .count { color: var(--muted); font-size: 13px; margin-inline-start: 6px; }
+.brand-filter .goal.is-active .count { color: rgba(255,255,255,.75); }
 .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
 .product-media { margin: 0; background: var(--bg); overflow: hidden; }
 .product-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .6s ease; }
