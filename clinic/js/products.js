@@ -419,5 +419,45 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "מסכת PRP",
+    en: "PRP Mask",
+    desc: "מסכת בד מסדרת PRP Therapy של Arkana, עם פלמיטויל טריפפטיד-5, קופר טריפפטיד-1 וחומצה היאלורונית. אפקט דמוי PRP: התחדשות והרגעה.",
+    size: "יחידה, 28 גרם סרום",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "PRP Rejuvenator (שפופרת)",
+    en: "PRP Rejuvenator",
+    desc: "תכשיר מחדש מסדרת PRP Therapy של Arkana, עם WH-Peptide ו-GHK-Cu, לאפקט ליפטינג ועיצוב מחדש של העור.",
+    size: "100 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "Arkana",
+    name: "PRP Rejuvenator (צנצנת)",
+    en: "PRP Rejuvenator Cream",
+    desc: "קרם מחדש לשימוש ביתי מסדרת PRP Therapy של Arkana, להשלמת הטיפול בקליניקה.",
+    size: "",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Anti-Aging Rejuvenation",
+    en: "SQT Anti-Aging Rejuvenation Set",
+    desc: "ערכה טיפולית מלאה בארבעה שלבים: קרם ביו-מיקרונידלינג ממצק, תמצית התחדשות ממצקת, מסכת Firming Repair וקרם התחדשות. אנטי-אייג'ינג, החלקת קמטים, מיצוק והרמה, שיפור גמישות העור.",
+    size: "ערכה",
+    price: null,
+    image: null,
+    tall: false
   }
 ];

@@ -47,3 +47,7 @@
 | Arkana קרם Skin Tone Neuro (Skin Tone Neuro Cream) | ? | אין מחיר (תמונת מותג) | | חסרה |
 | Arkana בוסטר PDRN Rederm (PDRN Rederm Booster) | 30 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
 | Arkana ערכת EXO + PRP Advanced Treat (EXO + PRP Advanced Treat) | ? | אין מחיר (תמונת מותג) | | חסרה |
+| Arkana מסכת PRP (PRP Mask) | יחידה, 28 גרם סרום | אין מחיר (תמונת מותג) | | חסרה |
+| Arkana PRP Rejuvenator (שפופרת) (PRP Rejuvenator) | 100 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| Arkana PRP Rejuvenator (צנצנת) (PRP Rejuvenator Cream) | ? | אין מחיר (תמונת מותג) | | חסרה |
+| SQT ערכת SQT Anti-Aging Rejuvenation (SQT Anti-Aging Rejuvenation Set) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
