@@ -1815,3 +1815,18 @@ html.a11y-no-motion .hero__title, html.a11y-no-motion .hero__lead, html.a11y-no-
 @media (max-width: 899px) { .quick--photo .quick__form { justify-self: stretch; max-width: none; } }
 .quick--photo .quick__sub a { white-space: nowrap; }
 @media (max-width: 760px) { .hero--cl .hero__in { padding-bottom: calc(76px + env(safe-area-inset-bottom)); } }
+/* --- 1ב. לוגואי הלקוחות בהירו: סרגל שרץ (מאיץ ומחליף כיוון לפי הגלילה, כמו קודם) --- */
+.hero__clients { flex-wrap: nowrap; }
+.hero__clients-viewport { flex: 1 1 0; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.hero__clients-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.hero__clients-list, .hero__clients-list li { display: flex; align-items: center; }
+.hero__clients-list { gap: 0; }
+.hero__clients-list li { height: 46px; padding: 6px 12px; margin-inline-end: clamp(14px, 1.6vw, 22px); background: #fff; border-radius: 8px; font-size: inherit; font-weight: inherit; letter-spacing: 0; gap: 0; }
+.hero__clients-list li::after { display: none; }
+.hero__clients-list img { height: 100%; width: auto; padding: 0; background: none; border-radius: 0; }
+@media (max-width: 760px) { .hero__clients { flex-wrap: wrap; } .hero__clients-viewport { flex-basis: 100%; } .hero__clients-list li { height: 40px; padding: 5px 10px; } }
+@media (prefers-reduced-motion: reduce) { .hero__clients-track { animation: none; flex-wrap: wrap; width: auto; } .hero__clients-viewport { mask-image: none; -webkit-mask-image: none; } }
+html.a11y-no-motion .hero__clients-viewport { mask-image: none; -webkit-mask-image: none; }
+.quick--photo .quick__bg img { object-position: center 60%; }
+.quick--photo .quick__bg::after { background: linear-gradient(to left, rgba(12,12,14,.9) 0%, rgba(12,12,14,.66) 45%, rgba(12,12,14,.3) 100%); }
+@media (max-width: 899px) { .quick--photo .quick__bg img { object-position: 40% 72%; } }

@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=87">
+  <link rel="stylesheet" href="css/styles.css?v=88">
   <link rel="preload" as="image" href="images/hero-tank-lift.webp">
 
   <!-- נתונים מובנים: עסק מקומי -->
@@ -236,13 +236,31 @@
         </div>
         <div class="hero__clients" id="clients" aria-label="לקוחות">
           <span class="hero__clients-label">בין לקוחותינו</span>
-          <ul>
+          <div class="hero__clients-viewport">
+            <div class="marquee__track hero__clients-track">
+              <ul class="marquee__list hero__clients-list">
             <li><img src="images/logo-paz.png" alt="פז" width="102" height="97" decoding="async"></li>
             <li><img src="images/logo-sonol.png" alt="סונול" width="82" height="97" decoding="async"></li>
             <li><img src="images/logo-dor-alon.png" alt="דור אלון" width="69" height="97" decoding="async"></li>
             <li><span class="hero__amz" lang="en">amazon</span></li>
             <li><img src="images/logo-mega-or.png" alt="מגה אור" width="180" height="180" decoding="async"></li>
-          </ul>
+              </ul>
+              <ul class="marquee__list marquee__list--dup hero__clients-list" aria-hidden="true">
+            <li><img src="images/logo-paz.png" alt="" width="102" height="97" decoding="async"></li>
+            <li><img src="images/logo-sonol.png" alt="" width="82" height="97" decoding="async"></li>
+            <li><img src="images/logo-dor-alon.png" alt="" width="69" height="97" decoding="async"></li>
+            <li><span class="hero__amz" lang="en">amazon</span></li>
+            <li><img src="images/logo-mega-or.png" alt="" width="180" height="180" decoding="async"></li>
+              </ul>
+              <ul class="marquee__list marquee__list--dup hero__clients-list" aria-hidden="true">
+            <li><img src="images/logo-paz.png" alt="" width="102" height="97" decoding="async"></li>
+            <li><img src="images/logo-sonol.png" alt="" width="82" height="97" decoding="async"></li>
+            <li><img src="images/logo-dor-alon.png" alt="" width="69" height="97" decoding="async"></li>
+            <li><span class="hero__amz" lang="en">amazon</span></li>
+            <li><img src="images/logo-mega-or.png" alt="" width="180" height="180" decoding="async"></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -406,7 +424,7 @@
 
     <!-- ===== פנייה מהירה ===== -->
     <section class="quick quick--photo" data-theme="dark" aria-labelledby="quick-title">
-      <div class="quick__bg" aria-hidden="true"><img src="images/tank-lift-site-wide.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"></div>
+      <div class="quick__bg" aria-hidden="true"><img src="images/fuel-tank-crane-amazon.webp" alt="" width="1600" height="899" loading="lazy" decoding="async"></div>
       <div class="container quick__inner">
         <div>
           <h2 id="quick-title" class="quick__title">מתכננים הקמה או שדרוג של תחנת דלק?</h2>
