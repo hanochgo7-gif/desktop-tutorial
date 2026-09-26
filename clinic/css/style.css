@@ -1,22 +1,25 @@
 /* רותם גוטובסקי p.m.e Cosmetics: עיצוב */
 :root {
-  --bg: #f7f5f0;
-  --paper: #ffffff;
-  --ink: #1d2024;
-  --slate: #4a5058;
-  --muted: #7b8189;
-  --line: #e3ded4;
-  --gold: #b8912e;
-  --gold-deep: #8f6f1e;
-  --gold-soft: #f3e9cf;
-  --dark: #15181c;
+  --bg: #fbf2ec;
+  --paper: #fff9f5;
+  --ink: #3f3a3d;
+  --head: #6b6366;
+  --slate: #6a6265;
+  --muted: #8f888b;
+  --line: #efd8d3;
+  --blush: #f0c7c2;
+  --blush-deep: #e6b0ab;
+  --gold: #c9827e;
+  --gold-deep: #a9635f;
+  --gold-soft: #f8e1de;
+  --dark: #3a3336;
   --serif: "Noto Serif Hebrew", "Frank Ruhl Libre", Georgia, serif;
   --sans: "Assistant", "Heebo", system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 72px);
   --nav-h: 128px;
   --ease: cubic-bezier(.2, .7, .2, 1);
   --ease-out: cubic-bezier(.16, 1, .3, 1);
-  --shadow: 0 18px 50px rgba(29, 32, 36, .10);
+  --shadow: 0 18px 50px rgba(120, 70, 66, .12);
   --radius: 18px;
 }
 
@@ -27,7 +30,7 @@ body {
   color: var(--ink); background: var(--bg); overflow-x: hidden;
 }
 img { display: block; max-width: 100%; height: auto; }
-h1, h2, h3 { font-family: var(--serif); font-weight: 300; margin: 0; line-height: 1.12; letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 300; margin: 0; line-height: 1.12; letter-spacing: -0.01em; color: var(--head); }
 h2 { font-size: clamp(32px, 4.2vw, 50px); }
 h3 { font-size: 22px; }
 p { margin: 0; }
@@ -125,11 +128,11 @@ button { font-family: inherit; }
 .site-header {
   position: sticky; top: 0; z-index: 150; height: var(--nav-h);
   display: flex; align-items: center; gap: 24px; padding: 0 var(--gutter);
-  background: rgba(247, 245, 240, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: rgba(251, 242, 236, .82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
   transition: transform .5s var(--ease-out), border-color .3s, background .3s, height .4s var(--ease);
 }
-.site-header.is-scrolled { border-color: var(--line); background: rgba(247, 245, 240, .94); height: 88px; }
+.site-header.is-scrolled { border-color: var(--line); background: rgba(251, 242, 236, .94); height: 88px; }
 .site-header.is-hidden { transform: translateY(-100%); }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .brand img { height: 112px; width: auto; transition: height .4s var(--ease); }
@@ -175,8 +178,8 @@ body.menu-open .nav-toggle span { background: #fff; }
 }
 .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .hero-bg span { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .7; animation: drift 14s ease-in-out infinite alternate; }
-.hero-bg span:nth-child(1) { width: 46vw; height: 46vw; background: radial-gradient(circle, rgba(184,145,46,.26), transparent 70%); top: -12%; inset-inline-start: -8%; }
-.hero-bg span:nth-child(2) { width: 36vw; height: 36vw; background: radial-gradient(circle, rgba(74,80,88,.16), transparent 70%); bottom: -14%; inset-inline-end: -6%; animation-delay: -6s; }
+.hero-bg span:nth-child(1) { width: 46vw; height: 46vw; background: radial-gradient(circle, rgba(240,199,194,.55), transparent 70%); top: -12%; inset-inline-start: -8%; }
+.hero-bg span:nth-child(2) { width: 36vw; height: 36vw; background: radial-gradient(circle, rgba(230,176,171,.35), transparent 70%); bottom: -14%; inset-inline-end: -6%; animation-delay: -6s; }
 @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(6vw, 4vh); } }
 .hero-copy { position: relative; z-index: 1; display: grid; justify-items: center; max-width: 62rem; }
 .hero-kicker { color: var(--gold-deep); font-size: 15px; font-weight: 600; margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px; }
@@ -283,6 +286,8 @@ body.menu-open .nav-toggle span { background: #fff; }
 /* ===== קטעי שירות ===== */
 .service { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(32px, 6vw, 96px); padding: clamp(64px, 10vh, 120px) var(--gutter); border-top: 1px solid var(--line); }
 .service-alt { background: var(--paper); }
+.service .kicker { font: 300 clamp(48px, 6vw, 72px)/1 var(--serif); color: var(--blush-deep); margin-bottom: 8px; }
+.service .kicker::before { display: none; }
 .service-intro { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
 .service-intro p { margin: 20px 0 28px; color: var(--slate); font-weight: 300; font-size: 18px; max-width: 26em; }
 .treatments div { position: relative; display: grid; grid-template-columns: 44px 200px 1fr; gap: 20px; padding: 22px 12px; margin: 0 -12px; border-top: 1px solid var(--line); border-radius: 12px; transition: background .4s, transform .5s var(--ease-out); }
@@ -392,8 +397,8 @@ body.menu-open .nav-toggle span { background: #fff; }
 /* ===== על רותם ===== */
 .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding: clamp(64px, 10vh, 120px) var(--gutter); background: var(--paper); border-top: 1px solid var(--line); }
 .about-media { margin: 0; position: relative; }
-.about-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
-.about-media::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--gold); border-radius: var(--radius); z-index: -1; }
+.about-media img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 50%; box-shadow: var(--shadow); }
+.about-media::before { content: ""; position: absolute; top: -14px; left: -14px; right: -14px; aspect-ratio: 1/1; border: 1px solid var(--gold); border-radius: 50%; z-index: 0; pointer-events: none; }
 .about-media figcaption { margin-top: 14px; color: var(--muted); font-size: 14px; }
 .about-copy p:not(.kicker) { margin-top: 18px; color: var(--slate); font-size: 18px; font-weight: 300; max-width: 34em; }
 .about-facts { margin: 30px 0; display: grid; gap: 12px; }
@@ -543,3 +548,36 @@ body.menu-open .nav-toggle span { background: #fff; }
   .product-media img { opacity: 1; }
   .cursor { display: none !important; }
 }
+
+/* ===== רקע: נייר, פרחים חתוכים ומסגרת ===== */
+body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var(--bg) 60%) fixed; }
+.frame { position: fixed; inset: 16px; border: 1px solid rgba(201, 130, 126, .38); pointer-events: none; z-index: 250; }
+.deco { position: absolute; z-index: 0; pointer-events: none; filter: drop-shadow(0 10px 14px rgba(150, 90, 86, .18)); translate: 0 var(--py, 0); will-change: translate; }
+.deco svg { display: block; width: 100%; height: 100%; }
+.deco-blossom { width: clamp(180px, 22vw, 340px); aspect-ratio: 1; }
+.deco-fan { width: clamp(160px, 20vw, 300px); aspect-ratio: 1; }
+.deco-sprig { width: clamp(70px, 8vw, 120px); aspect-ratio: 120 / 200; }
+.has-deco { position: relative; overflow: hidden; }
+.has-deco > *:not(.deco) { position: relative; z-index: 1; }
+.hero .deco-blossom { top: -8%; inset-inline-start: -7%; }
+.hero .deco-fan { bottom: -10%; inset-inline-end: -5%; }
+.hero .deco-sprig { top: 34%; inset-inline-end: 6%; rotate: 18deg; }
+.results .deco-fan { top: -12%; inset-inline-end: -6%; opacity: .8; }
+.about .deco-blossom { bottom: -12%; inset-inline-start: -8%; opacity: .85; }
+.faq .deco-sprig { bottom: 4%; inset-inline-start: 3%; rotate: -14deg; opacity: .9; }
+.shop-hero .deco-blossom { top: -18%; inset-inline-end: -6%; }
+.shop-hero .deco-fan { bottom: -20%; inset-inline-start: -5%; }
+@keyframes deco-breathe { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(3deg) scale(1.03); } }
+.deco-blossom svg, .deco-fan svg { animation: deco-breathe 9s ease-in-out infinite alternate; }
+.field-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--gold-deep); margin-bottom: 18px; }
+.field-icon svg { width: 22px; height: 22px; }
+.ico { width: 22px; height: 22px; flex: none; }
+.hcard-gold { background: var(--gold); border-color: var(--gold); }
+.marquee { background: transparent; }
+.brand img { mix-blend-mode: multiply; }
+@media (max-width: 860px) {
+  .frame { display: none; }
+  .deco { filter: drop-shadow(0 6px 8px rgba(150, 90, 86, .16)); }
+  .hero .deco-sprig { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .deco svg { animation: none; } }

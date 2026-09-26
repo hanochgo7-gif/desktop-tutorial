@@ -10,12 +10,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=11">
+  <link rel="stylesheet" href="css/style.css?v=12">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
 <div class="progress" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"></div>
+<div class="frame" aria-hidden="true"></div>
 
 <header class="site-header" id="top">
   <a class="brand" href="index.html" aria-label="רותם גוטובסקי, דף הבית">
@@ -53,7 +54,9 @@
 </div>
 
 <main id="main">
-  <section class="shop-hero">
+  <section class="shop-hero has-deco">
+    <div class="deco deco-blossom" data-parallax="-.06" aria-hidden="true"><svg><use href="images/deco.svg#blossom"/></svg></div>
+    <div class="deco deco-fan" data-parallax=".05" aria-hidden="true"><svg><use href="images/deco.svg#fan"/></svg></div>
     <div>
       <p class="kicker fade-up">החנות</p>
       <h1 data-split>מוצרים מקצועיים, להמשך הטיפול בבית</h1>
@@ -122,6 +125,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>

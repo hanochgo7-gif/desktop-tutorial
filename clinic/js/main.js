@@ -16,6 +16,7 @@
 
   /* פס התקדמות + כותרת נסתרת בגלילה + חזרה למעלה */
   var header = $('.site-header'), toTop = $('#to-top'), lastY = window.scrollY, ticking = false;
+  var parallax = $$('[data-parallax]').map(function (el) { return { el: el, k: parseFloat(el.getAttribute('data-parallax')) || 0 }; });
   function onScroll() {
     var y = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
     root.style.setProperty('--p', h > 0 ? (y / h).toFixed(4) : 0);
@@ -24,6 +25,15 @@
       header.classList.toggle('is-hidden', y > 320 && y > lastY + 4 && !body.classList.contains('menu-open'));
     }
     if (toTop) toTop.classList.toggle('is-on', y > 600);
+    if (parallax.length && !noMotion()) {
+      var vh = window.innerHeight;
+      parallax.forEach(function (d) {
+        var r = d.el.parentElement.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        var off = (r.top + r.height / 2 - vh / 2) * d.k;
+        d.el.style.setProperty('--py', off.toFixed(1) + 'px');
+      });
+    }
     lastY = y; ticking = false;
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
