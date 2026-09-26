@@ -299,5 +299,45 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "סרום רטינול Triple Action PRO AGE",
+    en: "Retinol Multi Level Performance Serum",
+    desc: "סרום רטינול. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "קרם יום ולילה רטינול Triple Action PRO AGE",
+    en: "Retinol Multi Level Performance Day + Night Cream",
+    desc: "קרם יום ולילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "KLAPP",
+    name: "מסכת לילה רטינול Triple Action PRO AGE",
+    en: "Retinol Multi Level Performance Overnight Mask",
+    desc: "מסכת לילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "KLAPP",
+    name: "בוסטר רטינול Triple Action PRO AGE",
+    en: "Retinol Multi Level Performance Booster",
+    desc: "בוסטר חדש המעודד באופן פעיל את תהליך חידוש העור במהלך הלילה. התוצאה: עור מתוח ומראה צעיר בבוקר. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: true
   }
 ];

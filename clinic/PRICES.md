@@ -35,3 +35,7 @@
 | KLAPP קרם עיניים עשיר Repagen Exclusive (Repagen Exclusive Rich Eye Care Cream) | 20 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
 | KLAPP פלואיד לחות לידיים Repagen Exclusive (Repagen Exclusive Hand Moisture Fluid) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
 | KLAPP פלואיד פנים Repagen Exclusive (Repagen Exclusive Face Fluid) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP סרום רטינול Triple Action PRO AGE (Retinol Multi Level Performance Serum) | 30 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP קרם יום ולילה רטינול Triple Action PRO AGE (Retinol Multi Level Performance Day + Night Cream) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP מסכת לילה רטינול Triple Action PRO AGE (Retinol Multi Level Performance Overnight Mask) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP בוסטר רטינול Triple Action PRO AGE (Retinol Multi Level Performance Booster) | 30 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
