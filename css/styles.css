@@ -1838,3 +1838,11 @@ html.a11y-no-motion .hero__clients-viewport { mask-image: none; -webkit-mask-ima
 @media (max-width: 760px) { .hero__clients-viewport { width: 100%; } }
 .hero__clients-list { flex-wrap: nowrap; gap: 0; }
 .hero__clients ul.hero__clients-list { flex-wrap: nowrap; gap: 0; }
+/* רווח שווה בין כל הלוגואים בסרגל */
+.hero__clients ul.hero__clients-list { justify-content: flex-start; gap: var(--cl-gap, 16px); padding-inline-end: var(--cl-gap, 16px); }
+.hero__clients ul.hero__clients-list li { margin-inline-end: 0; }
+/* פס ההדמיה בדף חוות שרתים: מיקוד על הבור עם המיכלים */
+.band--site img { object-position: center 100%; transform: scale(1.9); transform-origin: 52% 100%; }
+@media (max-width: 760px) { .band--site img { transform: scale(1.9); transform-origin: 50% 100%; } }
+/* תווית הפס: קריאה גם על רקע בהיר */
+.band__tag { background: rgba(10,10,12,.55); color: #fff; padding: 6px 12px; border-radius: 999px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }

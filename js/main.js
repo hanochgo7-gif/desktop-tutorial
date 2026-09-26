@@ -218,9 +218,16 @@
   if (clVp) {
     var sizeClients = function () {
       var lists = $$('.hero__clients-list', clVp);
-      lists.forEach(function (l) { l.style.width = ''; });
+      lists.forEach(function (l) { l.style.width = ''; l.style.setProperty('--cl-gap', '0px'); });
       var w = clVp.clientWidth;
-      lists.forEach(function (l) { var nat = l.scrollWidth; l.style.width = Math.max(w, nat) + 'px'; });
+      lists.forEach(function (l) {
+        var items = $$('li', l), sum = 0;
+        items.forEach(function (li) { sum += li.getBoundingClientRect().width; });
+        /* רווח שווה בין כל הלוגואים, כולל בין סט לסט: (הרוחב פחות הלוגואים) חלקי מספר הלוגואים */
+        var gap = Math.max(14, (w - sum) / items.length);
+        l.style.setProperty('--cl-gap', gap + 'px');
+        l.style.width = Math.max(w, sum + gap * items.length) + 'px';
+      });
     };
     sizeClients();
     window.addEventListener('resize', sizeClients);
