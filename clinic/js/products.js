@@ -37,7 +37,7 @@ window.PRODUCTS = [
     desc: "סרום לילה טיפולי לעידוד תהליכי חידוש, שיקום, תיקון וריפוי העור.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-night-serum.jpg",
     tall: false
   },
   {
@@ -47,7 +47,7 @@ window.PRODUCTS = [
     desc: "מקדם הגנה מינרלי מפני השמש, זיהום אוויר וקרינת מסכים. מסייע במניעת הזדקנות מואצת, תומך בהבהרה ומכיל טינט בגוון אחיד וזוהר.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-bright-protect-spf50.jpg",
     tall: false
   },
   {
@@ -57,7 +57,7 @@ window.PRODUCTS = [
     desc: "תכשיר להעלאת רמת הלחות בעור ולשיקום המחסום העורי.",
     size: "60 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-age-protection.jpg",
     tall: false
   },
   {
@@ -67,7 +67,7 @@ window.PRODUCTS = [
     desc: "קרם במרקם קליל בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת, להעלאת רמת הלחות, הנפח וגמישות העור.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-prophecy-light.jpg",
     tall: false
   },
   {
@@ -77,7 +77,7 @@ window.PRODUCTS = [
     desc: "סרום ג'ל נטול שומן לאיזון העור, המסייע במניעת הופעת קומדונים ושומנים תת-עוריים.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-protection-shield.jpg",
     tall: false
   },
   {
@@ -87,7 +87,7 @@ window.PRODUCTS = [
     desc: "תכשיר טיפולי עשיר בפורמולה מבוססת טכנולוגיית מיקרוקפסולציה ושילוב סינרגטי של פפטידים, לשיפור מראה הגמישות, לעידוד יצירת קולגן עצמוני ולמראה עור מוצק יותר.",
     size: "60 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-derma-fill.jpg",
     tall: false
   },
   {
@@ -97,7 +97,7 @@ window.PRODUCTS = [
     desc: "סרום לחות קליל, נספג במהירות, המעניק לעור זוהר מיידי ומראה קורן. ביוסטימולטור המעודד ייצור חומצה היאלורונית טבעית.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-prophecy-serum.jpg",
     tall: true
   },
   {
@@ -107,7 +107,7 @@ window.PRODUCTS = [
     desc: "מסכה עשירה הנספגת בעור, בטכנולוגיית HZMT, מבוססת קולגן פברילי ממוזער, לתמיכה במיצוק והפחתת מראה קמטים וקמטוטים וללחות אינטנסיבית.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-remicronized-mask.jpg",
     tall: false
   },
   {
@@ -117,7 +117,7 @@ window.PRODUCTS = [
     desc: "קרם עיניים חדשני מבוסס HZMT לטיפול עוצמתי המתמקד במיצוק ובשיפור מראה קמטוטים.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-remicronized-eye.jpg",
     tall: true
   },
   {
@@ -127,7 +127,7 @@ window.PRODUCTS = [
     desc: "ג'ל ניקוי לטיהור, איזון והרגעת העור. מתאים במיוחד לעור עם נטייה לפצעונים.",
     size: "225 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-purifying-gel.jpg",
     tall: true
   },
   {
@@ -137,7 +137,7 @@ window.PRODUCTS = [
     desc: "ג'ל ניקוי טיפולי לעור שמן, עבה ועם נקבוביות סתומות. מסדרת Acne Skin Platform.",
     size: "250 מ״ל",
     price: null,
-    image: null,
+    image: "images/racheli-active-soap.jpg",
     tall: true
   },
   {
@@ -147,7 +147,7 @@ window.PRODUCTS = [
     desc: "ג'ל ניקוי עדין לכל סוגי העור, מסדרת Preventec לסימני הזדקנות ראשונים.",
     size: "250 מ״ל",
     price: null,
-    image: null,
+    image: "images/racheli-gentle-soap.jpg",
     tall: true
   },
   {
@@ -157,7 +157,7 @@ window.PRODUCTS = [
     desc: "ג'ל ניקוי לחותי, מנקה ומאזן את העור תוך תמיכה ושמירה על מחסום העור.",
     size: "225 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-moisturizing-gel.jpg",
     tall: true
   },
   {
@@ -167,7 +167,7 @@ window.PRODUCTS = [
     desc: "קצף ניקוי עדין לניקוי יסודי, הרגעת אדמומיות ולתחושת נוחות מיידית, במיוחד לעור יבש או רגיש.",
     size: "225 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-foaming-cleanser.jpg",
     tall: true
   },
   {
@@ -177,7 +177,7 @@ window.PRODUCTS = [
     desc: "תכשיר לחות קליל, נספג במהירות, נטול שומן, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-moist-oily.jpg",
     tall: true
   },
   {
@@ -187,7 +187,7 @@ window.PRODUCTS = [
     desc: "ג'ל הגנה שקוף בטכנולוגיית פריימר, המעניק מראה מט קטיפתי, הגנה רחבת טווח ובסיס לאיפור.",
     size: "80 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-silky-filter.jpg",
     tall: true
   },
   {
@@ -197,7 +197,7 @@ window.PRODUCTS = [
     desc: "קרם במרקם עשיר בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת ממוזערת, לשיפור מיידי במצבי יובש, להעלאת רמת הלחות, הנפח ולשיפור גמישות העור.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-prophecy-rich.jpg",
     tall: false
   },
   {
@@ -207,7 +207,7 @@ window.PRODUCTS = [
     desc: "תכשיר לחות במרקם עשיר, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-moist-dry.jpg",
     tall: true
   },
   {
@@ -217,7 +217,7 @@ window.PRODUCTS = [
     desc: "קרם למיצוק עור הצוואר והמחשוף, להעלאת רמת הלחות ולטיפול ממוקד בסימני הזדקנות.",
     size: "60 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-extreme-cream.jpg",
     tall: false
   },
   {
@@ -227,7 +227,7 @@ window.PRODUCTS = [
     desc: "מסכה טיפולית עוצמתית להעלאת רמת הלחות, הגנה אנטי-אוקסידנטית ותמיכה בתהליכי הבהרה.",
     size: "60 מ״ל",
     price: null,
-    image: null,
+    image: "images/hz-extra-c-mask.jpg",
     tall: false
   },
   {
@@ -237,7 +237,7 @@ window.PRODUCTS = [
     desc: "מי פנים טיפוליים אקטיביים לשימוש אחרי הניקוי, להכנת העור לקליטת התכשירים הבאים.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/bebelle-treatment-lotion.jpg",
     tall: true
   },
   {
@@ -247,7 +247,7 @@ window.PRODUCTS = [
     desc: "סרום ליפטינג ממותג KLAPP Skin Care Science, מסדרת Cell Pro. זוכה מקום ראשון Beauty Forum Stars Award 2024 בקטגוריית טיפוח העור.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-cellpro-lifting.jpg",
     tall: true
   },
   {
@@ -257,7 +257,7 @@ window.PRODUCTS = [
     desc: "קרם פנים ממצק מסדרת Cell Pro Lifting של KLAPP, להשלמת הסרום.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-cellpro-lifting.jpg",
     tall: false
   },
   {
@@ -267,7 +267,7 @@ window.PRODUCTS = [
     desc: "קרם אנטי-אייג'ינג מקיף מסדרת Repagen Exclusive של KLAPP.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-repagen.jpg",
     tall: false
   },
   {
@@ -277,7 +277,7 @@ window.PRODUCTS = [
     desc: "קרם עיניים עשיר מסדרת Repagen Exclusive של KLAPP.",
     size: "20 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-repagen.jpg",
     tall: true
   },
   {
@@ -287,7 +287,7 @@ window.PRODUCTS = [
     desc: "פלואיד לחות לידיים מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-repagen.jpg",
     tall: true
   },
   {
@@ -297,7 +297,7 @@ window.PRODUCTS = [
     desc: "פלואיד פנים אנטי-אייג'ינג מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-repagen.jpg",
     tall: true
   },
   {
@@ -317,7 +317,7 @@ window.PRODUCTS = [
     desc: "קרם יום ולילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-retinol-trio.jpg",
     tall: false
   },
   {
@@ -327,7 +327,7 @@ window.PRODUCTS = [
     desc: "מסכת לילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-retinol-trio.jpg",
     tall: false
   },
   {
@@ -337,7 +337,7 @@ window.PRODUCTS = [
     desc: "בוסטר חדש המעודד באופן פעיל את תהליך חידוש העור במהלך הלילה. התוצאה: עור מתוח ומראה צעיר בבוקר. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-retinol-booster.jpg",
     tall: true
   },
   {
@@ -407,7 +407,7 @@ window.PRODUCTS = [
     desc: "בוסטר מסדרת Advanced Line של Arkana: PDRN Triple Fusion, תערובת 15 פפטידים וקומפלקס HA 16. עור מוצק וחלק, לחות עמוקה ומילוי.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/arkana-pdrn.jpg",
     tall: true
   },
   {
@@ -457,7 +457,7 @@ window.PRODUCTS = [
     desc: "ערכה טיפולית מלאה בארבעה שלבים: קרם ביו-מיקרונידלינג ממצק, תמצית התחדשות ממצקת, מסכת Firming Repair וקרם התחדשות. אנטי-אייג'ינג, החלקת קמטים, מיצוק והרמה, שיפור גמישות העור.",
     size: "ערכה",
     price: null,
-    image: null,
+    image: "images/sqt-antiaging-set.jpg",
     tall: false
   },
   {
@@ -467,7 +467,7 @@ window.PRODUCTS = [
     desc: "טיפול באקנה וחידוש מרקם העור. סופחת את הזיהום והורגת את חיידקי האקנה, מתאימה לטיפול בצלקות פוסט-אקנתיות חדשות ובסימני מתיחה בגוף. מחדשת ומשפרת את מרקם העור, סוגרת נקבוביות. לעור שמן ומעורב.",
     size: "ערכה",
     price: null,
-    image: null,
+    image: "images/sqt-resurfacing.jpg",
     tall: false
   },
   {
@@ -477,7 +477,7 @@ window.PRODUCTS = [
     desc: "ערכה לעור אקנה: תמצית Resurfacing Repair (4 בקבוקונים, 20 מ״ל), אבקת ביו-מיקרונידלינג (4 בקבוקונים), תמיסת ביו-מיקרונידלינג (4 בקבוקונים) ומסכות (4 יח'). לשיפור אקנה, הבהרת סימני אקנה ושיפור עור אקנתי.",
     size: "ערכה",
     price: null,
-    image: null,
+    image: "images/sqt-resurfacing.jpg",
     tall: false
   },
   {
