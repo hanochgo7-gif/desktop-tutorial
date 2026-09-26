@@ -350,12 +350,25 @@
       '<span class="shelf-label"><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' + price + '</span></li>';
   }
   function shelfCols() { var w = window.innerWidth; return w <= 860 ? 2 : w <= 1024 ? 3 : 4; }
-  var PROPS = ['images/props/bud-vase.png', 'images/props/diffuser.png', 'images/props/pampas.png', 'images/props/shell-frame.png', 'images/props/set.png', 'images/props/bottles.png', 'images/props/canister.png'], propK = 0;
-  function rowsHtml(items) {
+  /* קישוטי מדף: לא למכירה, אחד לכל מותג */
+  var PROPS = {
+    'bud-vase': { src: 'images/props/bud-vase.png', h: .62 },
+    'pampas': { src: 'images/props/pampas.png', h: .98 },
+    'diffuser': { src: 'images/props/diffuser.png', h: .72 },
+    'shell': { src: 'images/props/shell-frame.png', h: .58 },
+    'sage': { src: 'images/props/sage.png', h: .3 }
+  };
+  var PROP_BY_BRAND = { 'חוה זינגבוים': 'pampas', 'KLAPP': 'bud-vase', 'SQT': 'diffuser', 'Arkana': 'sage', 'Dr. Spicule': 'shell' };
+  var propOrder = ['bud-vase', 'diffuser', 'pampas', 'shell', 'sage'], propK = 0;
+  function propHtml(key) {
+    var p = PROPS[key]; if (!p) return '';
+    return '<li class="shelf-prop" aria-hidden="true" style="--ph:' + p.h + '"><img src="' + p.src + '" alt="" loading="lazy" decoding="async"></li>';
+  }
+  function rowsHtml(items, propKey) {
     var n = shelfCols(), rows = [];
     for (var s = 0; s < items.length; s += n) {
       var html = items.slice(s, s + n).map(function (x, k) { return shelfItemHtml(x.p, x.i, k); }).join('');
-      if (s + n > items.length && n > 1) html += '<li class="shelf-prop" aria-hidden="true"><img src="' + PROPS[propK++ % PROPS.length] + '" alt="" loading="lazy" decoding="async"></li>';
+      if (s + n > items.length && n > 1 && propKey !== false) html += propHtml(propKey || propOrder[propK++ % propOrder.length]);
       rows.push('<ul class="shelf-row" data-stagger>' + html + '</ul>');
     }
     return '<div class="shelf-rows">' + rows.join('') + '</div>';
@@ -363,7 +376,7 @@
   function wallHtml(title, items, count) {
     return '<section class="wall shop-group">' +
       (title ? '<div class="wall-head"><h2>' + escapeHtml(title) + '</h2>' + (count ? '<span>' + count + '</span>' : '') + '</div>' : '') +
-      rowsHtml(items) + '</section>';
+      rowsHtml(items, title ? (PROP_BY_BRAND[title] || null) : null) + '</section>';
   }
   var rerenderFns = [], lastCols = shelfCols();
   window.addEventListener('resize', function () { var c = shelfCols(); if (c !== lastCols) { lastCols = c; rerenderFns.forEach(function (f) { f(); }); } });
@@ -433,7 +446,7 @@
     if (doorPicks.length < 4) P.forEach(function (p) { if (doorPicks.length < 4 && p.cut && doorPicks.indexOf(p) < 0) doorPicks.push(p); });
     var drawFeatured = function () {
       var n = Math.min(shelfCols(), 4);
-      featured.innerHTML = rowsHtml(doorPicks.slice(0, n).map(function (p) { return { p: p, i: P.indexOf(p) }; }));
+      featured.innerHTML = rowsHtml(doorPicks.slice(0, n).map(function (p) { return { p: p, i: P.indexOf(p) }; }), false);
     };
     drawFeatured(); rerenderFns.push(drawFeatured);
     var strip = $('#brand-strip');
