@@ -336,10 +336,79 @@
       '<div class="product-info"><p class="product-meta">' + escapeHtml(meta) + '</p><h3>' + escapeHtml(p.name) + '</h3><p>' + escapeHtml(p.desc || '') + '</p>' +
       '<div class="product-row">' + price + '<a class="btn btn-solid" href="' + waLink(p) + '" target="_blank" rel="noopener">הזמנה בוואטסאפ</a></div></div></li>';
   }
+  function shelfItemHtml(p, i, k) {
+    var save = '<button class="shelf-save' + (saved.has(i) ? ' is-on' : '') + '" type="button" data-save="' + i + '" aria-label="הוספה לרשימה" aria-pressed="' + saved.has(i) + '">' + HEART + '</button>';
+    var badge = p.pick ? '<span class="shelf-badge">רותם ממליצה</span>' : '';
+    var media = p.cut ? '<img src="' + p.cut + '" alt="" loading="lazy" decoding="async">'
+      : p.image ? '<img src="' + p.image + '" alt="" loading="lazy" decoding="async">'
+      : '<span class="shelf-ph" aria-hidden="true">תמונה בקרוב</span>';
+    var cls = 'shelf-item' + (p.cut ? '' : p.image ? ' is-box' : ' is-empty');
+    var price = p.price ? '<span class="price">₪ ' + p.price + '</span>' : '<span class="price-ask">מחיר בוואטסאפ</span>';
+    return '<li class="' + cls + '" data-i="' + i + '" style="--i:' + (k % 8) + '">' + save + badge +
+      '<button class="shelf-hit" type="button" aria-label="' + escapeHtml(p.name) + '">' + media + '<span class="shelf-hot" aria-hidden="true"></span><span class="shelf-plank" aria-hidden="true"></span></button>' +
+      '<span class="shelf-label"><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' + price + '</span></li>';
+  }
+  function wallHtml(title, items, count) {
+    return '<section class="wall shop-group"><div class="wall-light" aria-hidden="true"></div>' +
+      (title ? '<div class="wall-head"><h2>' + escapeHtml(title) + '</h2>' + (count ? '<span>' + count + '</span>' : '') + '</div>' : '') +
+      '<ul class="shelf-grid" data-stagger>' + items.map(function (x, k) { return shelfItemHtml(x.p, x.i, k); }).join('') + '</ul></section>';
+  }
+
+  /* כרטיס מדף משותף */
+  var shelfCard = $('#shelf-card'), openItem = null, closeT;
+  function placeCard(li) {
+    var hit = $('.shelf-hit', li) || li, r = hit.getBoundingClientRect();
+    var cw = shelfCard.offsetWidth || 250, ch = shelfCard.offsetHeight || 150;
+    var left = r.left + r.width / 2 - cw / 2; left = Math.max(10, Math.min(window.innerWidth - cw - 10, left));
+    var top = r.bottom - 6; if (top + ch > window.innerHeight - 10) top = r.top - ch - 8; if (top < 10) top = 10;
+    shelfCard.style.left = left + 'px'; shelfCard.style.top = top + 'px';
+  }
+  function openShelf(li) {
+    if (!shelfCard) return; clearTimeout(closeT);
+    var i = parseInt(li.dataset.i, 10), p = P[i]; if (!p) return;
+    if (openItem && openItem !== li) openItem.classList.remove('is-open');
+    openItem = li; li.classList.add('is-open');
+    $('#sc-meta').textContent = [p.category, p.size].filter(Boolean).join(' · ');
+    $('#sc-title').textContent = p.name;
+    $('#sc-desc').textContent = (p.desc || '').split(/[.!?]/)[0].trim() + '.';
+    $('#sc-price').textContent = p.price ? '₪ ' + p.price : 'מחיר בוואטסאפ';
+    $('#sc-wa').href = waLink(p);
+    var sv = $('#sc-save'); if (sv) sv.dataset.save = String(i);
+    var mo = $('#sc-more'); if (mo) mo.dataset.qv = String(i);
+    shelfCard.hidden = false; placeCard(li);
+    requestAnimationFrame(function () { shelfCard.classList.add('is-on'); });
+    syncList();
+  }
+  function closeShelf(now) {
+    clearTimeout(closeT);
+    closeT = setTimeout(function () {
+      if (openItem) openItem.classList.remove('is-open'); openItem = null;
+      if (shelfCard) { shelfCard.classList.remove('is-on'); setTimeout(function () { if (!openItem) shelfCard.hidden = true; }, 320); }
+    }, now ? 0 : 240);
+  }
+  if (shelfCard) {
+    document.addEventListener('click', function (e) {
+      var hit = e.target.closest('.shelf-hit');
+      if (hit) { var li = hit.closest('.shelf-item'); if (openItem === li) closeShelf(true); else openShelf(li); return; }
+      if (openItem && !e.target.closest('.shelf-item') && !shelfCard.contains(e.target)) closeShelf(true);
+    });
+    if (fine) {
+      document.addEventListener('mouseover', function (e) { var li = e.target.closest('.shelf-item'); if (li) openShelf(li); });
+      document.addEventListener('mouseout', function (e) { var li = e.target.closest('.shelf-item'); if (li && !li.contains(e.relatedTarget) && !shelfCard.contains(e.relatedTarget)) closeShelf(); });
+      shelfCard.addEventListener('mouseenter', function () { clearTimeout(closeT); });
+      shelfCard.addEventListener('mouseleave', function () { closeShelf(); });
+    }
+    document.addEventListener('focusin', function (e) { var hit = e.target.closest('.shelf-hit'); if (hit) openShelf(hit.closest('.shelf-item')); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && openItem) closeShelf(true); });
+    window.addEventListener('scroll', function () { if (openItem) placeCard(openItem); }, { passive: true });
+    window.addEventListener('resize', function () { if (openItem) placeCard(openItem); });
+  }
+
   function afterRender(scope) {
     $$('.product-media img', scope).forEach(function (im) { if (im.complete) im.classList.add('is-loaded'); else im.addEventListener('load', function () { im.classList.add('is-loaded'); }, { once: true }); });
     $$('[data-stagger]', scope).concat(scope.hasAttribute && scope.hasAttribute('data-stagger') ? [scope] : []).forEach(function (box) { $$('.reveal', box).forEach(function (el, i) { el.style.setProperty('--i', String(Math.min(i % 8, 10))); }); });
     $$('.product .btn', scope).forEach(buildTw);
+    if (openItem) closeShelf(true);
     observeReveals();
   }
 
@@ -349,7 +418,7 @@
     var pick = P.filter(function (p) { return p.image; });
     var chosen = [], seen = {};
     pick.forEach(function (p) { if (!seen[p.brand] && chosen.length < 4) { seen[p.brand] = 1; chosen.push(p); } });
-    featured.innerHTML = chosen.map(function (p) { return cardHtml(p, P.indexOf(p)); }).join('');
+    featured.innerHTML = chosen.map(function (p, k) { return shelfItemHtml(p, P.indexOf(p), k); }).join('');
     afterRender(featured);
     var strip = $('#brand-strip');
     if (strip) {
@@ -384,88 +453,6 @@
         live = true; render(); keepResultsVisible();
       });
     }
-    /* המדף של רותם */
-    var shelfBox = $('#shelf-items'), shelfScene = $('#shelf-scene'), shelfCard = $('#shelf-card');
-    if (shelfBox && shelfScene && shelfCard) {
-      var SLOTS = [
-        { x: 15, y: 7, w: 11, mx: 8, my: 4, mw: 28 },
-        { x: 38, y: 28, w: 13.5, mx: 58, my: 6, mw: 34 },
-        { x: 17, y: 50, w: 12.5, mx: 10, my: 35, mw: 30 },
-        { x: 61, y: 4, w: 10, mx: 62, my: 38, mw: 26 },
-        { x: 80, y: 24, w: 10.5, mx: 6, my: 66, mw: 30 },
-        { x: 58, y: 49, w: 13, mx: 56, my: 68, mw: 34 }
-      ];
-      var shelfItems = P.map(function (p, i) { return p.cut ? { p: p, i: i } : null; }).filter(Boolean).slice(0, SLOTS.length);
-      shelfBox.innerHTML = shelfItems.map(function (it, k) {
-        var s = SLOTS[k];
-        return '<li class="shelf-item" data-i="' + it.i + '" style="--x:' + s.x + '%;--y:' + s.y + '%;--w:' + s.w + '%;--mx:' + s.mx + '%;--my:' + s.my + '%;--mw:' + s.mw + '%;--i:' + k + '">' +
-          '<button type="button" aria-label="' + escapeHtml(it.p.name) + '"><img src="' + it.p.cut + '" alt="" loading="eager" decoding="async"><span class="shelf-hot" aria-hidden="true"></span><span class="shelf-plank" aria-hidden="true"></span></button></li>';
-      }).join('');
-      var openItem = null, closeT;
-      function placeCard(li) {
-        var sr = shelfScene.getBoundingClientRect(), r = li.getBoundingClientRect();
-        var cw = shelfCard.offsetWidth || 300, ch = shelfCard.offsetHeight || 160, gap = 14;
-        var left = r.right - sr.left + gap;
-        if (left + cw > sr.width - 12) left = r.left - sr.left - cw - gap;
-        if (left < 12) left = 12;
-        var top = r.top - sr.top + 8;
-        if (top + ch > sr.height - 12) top = sr.height - ch - 12;
-        if (top < 12) top = 12;
-        shelfCard.style.left = left + 'px'; shelfCard.style.top = top + 'px';
-      }
-      function openShelf(li) {
-        clearTimeout(closeT);
-        var i = parseInt(li.dataset.i, 10), p = P[i]; if (!p) return;
-        if (openItem && openItem !== li) openItem.classList.remove('is-open');
-        openItem = li; li.classList.add('is-open'); shelfScene.classList.add('has-opened');
-        $('#sc-meta').textContent = [p.category, p.size].filter(Boolean).join(' · ');
-        $('#sc-title').textContent = p.name;
-        $('#sc-desc').textContent = (p.desc || '').split(/[.!?]/)[0].trim() + '.';
-        $('#sc-price').textContent = p.price ? '₪ ' + p.price : 'מחיר בוואטסאפ';
-        $('#sc-wa').href = waLink(p);
-        var sv = $('#sc-save'); sv.dataset.save = String(i);
-        shelfCard.hidden = false; placeCard(li);
-        requestAnimationFrame(function () { shelfCard.classList.add('is-on'); });
-        syncList();
-      }
-      function closeShelf() {
-        closeT = setTimeout(function () {
-          if (openItem) openItem.classList.remove('is-open'); openItem = null;
-          shelfCard.classList.remove('is-on');
-          setTimeout(function () { if (!openItem) shelfCard.hidden = true; }, 350);
-        }, 260);
-      }
-      shelfBox.addEventListener('click', function (e) {
-        var li = e.target.closest('.shelf-item'); if (!li) return;
-        if (openItem === li) { clearTimeout(closeT); closeShelf(); } else openShelf(li);
-      });
-      if (fine) {
-        shelfBox.addEventListener('mouseover', function (e) { var li = e.target.closest('.shelf-item'); if (li) openShelf(li); });
-        shelfBox.addEventListener('mouseout', function (e) { var li = e.target.closest('.shelf-item'); if (li && !li.contains(e.relatedTarget) && !shelfCard.contains(e.relatedTarget)) closeShelf(); });
-        shelfCard.addEventListener('mouseenter', function () { clearTimeout(closeT); });
-        shelfCard.addEventListener('mouseleave', closeShelf);
-      }
-      shelfBox.addEventListener('focusin', function (e) { var li = e.target.closest('.shelf-item'); if (li) openShelf(li); });
-      document.addEventListener('click', function (e) { if (openItem && !shelfScene.contains(e.target)) { clearTimeout(closeT); closeShelf(); } });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && openItem) { clearTimeout(closeT); closeShelf(); } });
-      window.addEventListener('resize', function () { if (openItem) placeCard(openItem); });
-    }
-    if (search) search.value = state.q; if (sort) sort.value = state.sort;
-
-    function pills(box, key, items) {
-      box.innerHTML = [''].concat(items).map(function (v) {
-        var n = P.filter(function (p) { return (!v || p[key] === v); }).length;
-        return '<button type="button" class="goal' + (state[key === 'brand' ? 'brand' : 'cat'] === v ? ' is-active' : '') + '" data-v="' + escapeHtml(v) + '" aria-pressed="' + (state[key === 'brand' ? 'brand' : 'cat'] === v) + '">' + (v ? escapeHtml(v) : 'הכול') + '<span class="count">' + n + '</span></button>';
-      }).join('');
-      box.addEventListener('click', function (e) {
-        var b = e.target.closest('button[data-v]'); if (!b) return;
-        state[key === 'brand' ? 'brand' : 'cat'] = b.dataset.v;
-        $$('button', box).forEach(function (x) { var on = x === b; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', String(on)); });
-        live = true; render(); keepResultsVisible();
-      });
-    }
-    pills(brandBox, 'brand', brands); pills(catBox, 'category', cats);
-
     function norm(s) { return String(s || '').toLowerCase().replace(/[\u0591-\u05c7]/g, '').replace(/[\-_.,'"()\/]+/g, ' ').replace(/\s+/g, ' ').trim(); }
     function filtered() {
       var words = norm(state.q).split(' ').filter(Boolean);
@@ -499,11 +486,11 @@
         order.forEach(function (g) {
           var items = list.filter(function (x) { return x.p[groupKey] === g; });
           if (!items.length) return;
-          html += '<div class="shop-group"><div class="shop-group-head"><h2>' + escapeHtml(g) + '</h2></div><ul class="products" data-stagger>' + items.map(function (x) { return cardHtml(x.p, x.i); }).join('') + '</ul></div>';
+          html += wallHtml(g, items, items.length + ' מוצרים');
         });
       } else {
         list.sort(function (a, b) { return a.p.name.localeCompare(b.p.name, 'he'); });
-        html = '<ul class="products" data-stagger>' + list.map(function (x) { return cardHtml(x.p, x.i); }).join('') + '</ul>';
+        html = wallHtml('', list, '');
       }
       shopMain.innerHTML = html;
       afterRender(shopMain);

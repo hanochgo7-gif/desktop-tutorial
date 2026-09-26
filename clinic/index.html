@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -336,7 +336,18 @@
       <a class="btn btn-gold magnet" href="shop.html">לכל החנות <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
     </div>
     <div class="brand-strip reveal" id="brand-strip"></div>
-    <ul class="products" id="featured" data-stagger data-featured="4"></ul>
+    <div class="wall wall-home"><div class="wall-light" aria-hidden="true"></div><ul class="shelf-grid" id="featured" data-stagger data-featured="4"></ul></div>
+    <div class="shelf-card" id="shelf-card" hidden>
+  <p class="product-meta" id="sc-meta"></p>
+  <h3 id="sc-title"></h3>
+  <p id="sc-desc"></p>
+  <div class="shelf-card__row">
+    <span class="price-ask" id="sc-price"></span>
+    <button class="link-line" type="button" id="sc-more" data-qv="">פרטים</button>
+    <button class="btn btn-outline btn-sm" type="button" id="sc-save" data-save="">הוספה לרשימה</button>
+    <a class="btn btn-solid btn-sm" id="sc-wa" href="#" target="_blank" rel="noopener">הזמנה</a>
+  </div>
+</div>
   </section>
 
   <!-- תהליך -->
@@ -502,6 +513,6 @@
 <dialog class="lightbox" id="lightbox" aria-label="תעודה מוגדלת"><img src="" alt=""><button class="qv-close" id="lightbox-close" type="button" aria-label="סגירה">×</button></dialog>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=8"></script>
+<script src="js/main.js?v=9"></script>
 </body>
 </html>
