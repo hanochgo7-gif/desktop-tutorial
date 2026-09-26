@@ -600,3 +600,8 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
   .treatments div:hover { opacity: 1; }
 }
 @media (max-width: 1024px) { .track { display: none; } }
+.intro-flower { position: relative; margin-top: 36px; width: clamp(150px, 13vw, 210px); margin-inline-start: auto; }
+@media (max-width: 1024px) { .intro-flower { margin: 24px auto 0; width: 140px; } }
+.shop-teaser .deco-sprig { top: 130px; inset-inline-end: 5%; rotate: -20deg; width: clamp(60px, 6vw, 96px); }
+.shop-teaser .deco-blossom { top: 30px; inset-inline-end: 14%; width: clamp(110px, 11vw, 170px); opacity: .9; }
+@media (max-width: 860px) { .shop-teaser .deco-blossom { inset-inline-end: -10%; top: auto; bottom: -8%; } }
