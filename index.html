@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=86">
+  <link rel="stylesheet" href="css/styles.css?v=87">
   <link rel="preload" as="image" href="images/hero-tank-lift.webp">
 
   <!-- נתונים מובנים: עסק מקומי -->
@@ -220,48 +220,30 @@
   <main id="main">
 
     <!-- ===== הירו: המילה הגדולה ===== -->
-    <section class="hero hero--word" data-theme="dark" aria-labelledby="hero-title">
+    <section class="hero hero--word hero--cl" data-theme="dark" aria-labelledby="hero-title">
       <div class="hero__media img-reveal" aria-hidden="true">
         <img id="hero-img" src="images/hero-tank-lift.webp" alt="" width="1600" height="1200" fetchpriority="high">
       </div>
       <div class="hero__shade" aria-hidden="true"></div>
       <div class="container hero__in">
-        <p class="hero__intro">קבלני תשתיות דלק מאז 1972. מתחנות דלק ועד חוות שרתים.</p>
-        <div class="hero__mid">
-          <div class="hero__rule" aria-hidden="true"></div>
-          <p>מה שמתחת לרחבת התדלוק חייב לעבוד עשרות שנים בלי טעות אחת.</p>
+        <div class="hero__main">
+          <div class="hero__copy">
+            <p class="hero__intro">קבלני תשתיות דלק מאז 1972</p>
+            <h1 id="hero-title" class="hero__title">מה שמתחת לרחבת התדלוק חייב לעבוד עשרות שנים</h1>
+            <p class="hero__lead">מתחנות דלק ועד חוות שרתים: מיכלים, צנרת ובטון שנבנים פעם אחת, נכון. עם פז, סונול, דור אלון, אמזון ומגה אור.</p>
+          </div>
+          <div class="hero__logo"><img src="images/logo.svg" alt="ש.גוטובסקי בע״מ" width="226" height="123" fetchpriority="high"></div>
         </div>
-        <div class="hero__bottom">
-          <h1 id="hero-title" class="hero__logo"><img src="images/logo.svg" alt="ש.גוטובסקי בע״מ" width="226" height="123" fetchpriority="high"></h1>
+        <div class="hero__clients" id="clients" aria-label="לקוחות">
+          <span class="hero__clients-label">בין לקוחותינו</span>
+          <ul>
+            <li><img src="images/logo-paz.png" alt="פז" width="102" height="97" decoding="async"></li>
+            <li><img src="images/logo-sonol.png" alt="סונול" width="82" height="97" decoding="async"></li>
+            <li><img src="images/logo-dor-alon.png" alt="דור אלון" width="69" height="97" decoding="async"></li>
+            <li><span class="hero__amz" lang="en">amazon</span></li>
+            <li><img src="images/logo-mega-or.png" alt="מגה אור" width="180" height="180" decoding="async"></li>
+          </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- ===== לקוחות ===== -->
-    <section class="marquee marquee--light" id="clients" data-theme="light" aria-label="לקוחות">
-      <p class="marquee__label">בין לקוחותינו</p>
-      <div class="marquee__track">
-        <ul class="marquee__list">
-          <li><img src="images/logo-paz.png" alt="פז" width="102" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-sonol.png" alt="סונול" width="82" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-dor-alon.png" alt="דור אלון" width="69" height="97" loading="lazy" decoding="async"></li>
-          <li><span class="txt ltr">amazon<small class="rtl">פרויקט חוות שרתים</small></span></li>
-          <li><img src="images/logo-mega-or.png" alt="מגה אור" width="180" height="180" loading="lazy" decoding="async"></li>
-        </ul>
-        <ul class="marquee__list marquee__list--dup" aria-hidden="true">
-          <li><img src="images/logo-paz.png" alt="" width="102" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-sonol.png" alt="" width="82" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-dor-alon.png" alt="" width="69" height="97" loading="lazy" decoding="async"></li>
-          <li><span class="txt ltr">amazon<small class="rtl">פרויקט חוות שרתים</small></span></li>
-          <li><img src="images/logo-mega-or.png" alt="" width="180" height="180" loading="lazy" decoding="async"></li>
-        </ul>
-        <ul class="marquee__list marquee__list--dup" aria-hidden="true">
-          <li><img src="images/logo-paz.png" alt="" width="102" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-sonol.png" alt="" width="82" height="97" loading="lazy" decoding="async"></li>
-          <li><img src="images/logo-dor-alon.png" alt="" width="69" height="97" loading="lazy" decoding="async"></li>
-          <li><span class="txt ltr">amazon<small class="rtl">פרויקט חוות שרתים</small></span></li>
-          <li><img src="images/logo-mega-or.png" alt="" width="180" height="180" loading="lazy" decoding="async"></li>
-        </ul>
       </div>
     </section>
 
@@ -355,6 +337,43 @@
       </div>
     </section>
 
+    <!-- ===== מאמרים ===== -->
+    <section class="section section--posts" id="posts" data-theme="light" aria-labelledby="posts-title" style="padding-top:0">
+      <div class="container">
+        <div class="section-head section-head--posts">
+          <div>
+            <span class="kicker">מאמרים מקצועיים</span>
+            <h2 id="posts-title" data-split>מה כדאי לדעת <em>לפני שמתחילים</em></h2>
+          </div>
+          <a class="tbtn tbtn--light" href="articles.html">לכל המאמרים <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
+        </div>
+        <div class="posts">
+          <a class="post post--lead reveal" href="articles/gas-station-construction-process.html">
+            <span class="post__media"><img src="images/concrete-pour-sumps.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"></span>
+            <span class="post__meta"><span class="post__cat">מדריך</span><span>זמן קריאה כ־6 דקות</span></span>
+            <h3>הקמת תחנת דלק: כל השלבים מהתכנון ועד ההפעלה</h3>
+            <p>מהיתר הבנייה ודרך החפירה, המיכלים והצנרת, ועד בדיקות הלחץ והמילוי הראשון.</p>
+          </a>
+          <div class="posts__side">
+            <a class="post post--sm reveal" href="articles/environment-protection.html">
+              <span class="post__media"><img src="images/pit-liner-workers.webp" alt="" width="1400" height="1050" loading="lazy" decoding="async"></span>
+              <span class="post__body">
+                <span class="post__meta"><span class="post__cat">מאמר</span><span>כ־9 דקות</span></span>
+                <h3>איכות הסביבה בתחנות דלק: התקנים, ואיך שומרים על הקרקע ועל המים</h3>
+              </span>
+            </a>
+            <a class="post post--sm reveal" href="articles/data-center-generator-farm.html">
+              <span class="post__media"><img src="images/day-tank-base.webp" alt="" width="1050" height="1400" loading="lazy" decoding="async"></span>
+              <span class="post__body">
+                <span class="post__meta"><span class="post__cat">מדריך</span><span>כ־7 דקות</span></span>
+                <h3>גנרטורי חירום לחוות שרתים: תצורת N+1, אחסון דלק ובקרה</h3>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== שאלות נפוצות ===== -->
     <section class="section section--faq" id="faq" data-theme="light" aria-labelledby="faq-title" style="padding-top:0">
       <div class="container">
@@ -386,7 +405,8 @@
     </section>
 
     <!-- ===== פנייה מהירה ===== -->
-    <section class="quick" data-theme="light" aria-labelledby="quick-title">
+    <section class="quick quick--photo" data-theme="dark" aria-labelledby="quick-title">
+      <div class="quick__bg" aria-hidden="true"><img src="images/tank-lift-site-wide.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"></div>
       <div class="container quick__inner">
         <div>
           <h2 id="quick-title" class="quick__title">מתכננים הקמה או שדרוג של תחנת דלק?</h2>
@@ -398,8 +418,8 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="" data-quick-next>
           <input class="form__honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label for="q-phone" class="visually-hidden">מספר טלפון</label>
-          <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="מספר טלפון ליצירת קשר" pattern="[\d+\s\-\(\)]{9,16}" required>
+          <label for="q-phone" class="quick__label">מספר טלפון ליצירת קשר</label>
+          <input id="q-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" pattern="[\d+\s\-\(\)]{9,16}" required>
           <button class="btn btn--primary" type="submit">לתיאום שיחת ייעוץ</button>
           <p class="quick__consent">בשליחה אתם מאשרים שימוש במספר לצורך חזרה אליכם בלבד. <a href="privacy.html">מדיניות פרטיות</a></p>
           <div class="form__notice" data-quick-notice hidden role="status" aria-live="polite"></div>
