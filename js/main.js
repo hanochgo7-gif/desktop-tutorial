@@ -878,22 +878,26 @@
     /* אנימציית פתיחה: פעם אחת בכל ביקור, 6 שניות, עם דילוג */
     var intro = $('#intro');
     if (intro) {
-      var seen = false; try { seen = !!sessionStorage.getItem('introSeen'); } catch (e) {}
+      var seen = false, ever = false;
+      try { seen = !!sessionStorage.getItem('introSeen'); ever = !!localStorage.getItem('introSeenEver'); } catch (e) {}
       if (seen || still) { intro.remove(); root.classList.remove('intro-on'); }
       else {
+        /* ביקור ראשון: הבנייה המלאה (6 שניות). ביקור חוזר: התחנה כבר גמורה, 2 שניות */
+        var introMs = ever ? 2000 : 6000;
+        if (ever) intro.classList.add('intro--quick');
         root.classList.add('intro-on');
         var introT = null;
         var introDone = function () {
           clearTimeout(introT);
           if (!intro.classList.contains('is-done')) {
             intro.classList.add('is-done');
-            try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+            try { sessionStorage.setItem('introSeen', '1'); localStorage.setItem('introSeenEver', String(Date.now())); } catch (e) {}
             root.classList.remove('intro-on');
             document.dispatchEvent(new CustomEvent('intro:done'));
             setTimeout(function () { intro.remove(); }, 900);
           }
         };
-        introT = setTimeout(introDone, 6000);
+        introT = setTimeout(introDone, introMs);
         var skipBtn = $('[data-intro-skip]', intro);
         if (skipBtn) skipBtn.addEventListener('click', introDone);
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') introDone(); });

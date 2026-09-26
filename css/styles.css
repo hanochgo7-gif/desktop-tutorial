@@ -1736,3 +1736,6 @@ html.a11y-no-motion .intro, html.intro-seen .intro{display:none}
 /* בזמן הפתיחה, אנימציות ההירו מחכות */
 html.intro-on .hero__intro, html.intro-on .hero__rule, html.intro-on .hero__mid p, html.intro-on .hero__logo, html.intro-on .hero--word .hero__media img{animation-play-state:paused}
 .intro .intro svg .l{animation-play-state:running}
+/* ביקור חוזר: התחנה מופיעה גמורה, הפס מתמלא ב-2 שניות */
+.intro--quick svg .l, .intro--quick svg .f, .intro--quick svg .drop, .intro--quick svg .truck, .intro--quick svg .crane, .intro--quick svg .hook { animation-duration: .01s !important; animation-delay: 0s !important; }
+.intro--quick .intro__bar i { animation-duration: 2s; }
