@@ -333,6 +333,7 @@
   var shopMain = $('#shop-main');
   if (shopMain && P.length) {
     var brandBox = $('#brand-filter'), catBox = $('#cat-filter'), search = $('#search'), sort = $('#sort'), count = $('#shop-count');
+    var badge = $('#filter-badge'), clearAll = $('#clear-all'), clearBtn = $('#search-clear'), toggle = $('#filter-toggle'), bar = $('#shop-bar'), live = false, liveT;
     var brands = [], cats = [];
     P.forEach(function (p) { if (brands.indexOf(p.brand) < 0) brands.push(p.brand); if (cats.indexOf(p.category) < 0) cats.push(p.category); });
     var catOrder = ['ניקוי', 'סרומים ובוסטרים', 'קרמים ולחות', 'מסכות', 'עיניים', 'הגנה מהשמש', 'ערכות וטיפול מקצועי'];
@@ -351,18 +352,22 @@
         var b = e.target.closest('button[data-v]'); if (!b) return;
         state[key === 'brand' ? 'brand' : 'cat'] = b.dataset.v;
         $$('button', box).forEach(function (x) { var on = x === b; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', String(on)); });
-        render();
+        live = true; render(); keepResultsVisible();
       });
     }
     pills(brandBox, 'brand', brands); pills(catBox, 'category', cats);
 
+    function norm(s) { return String(s || '').toLowerCase().replace(/[\u0591-\u05c7]/g, '').replace(/[\-_.,'"()\/]+/g, ' ').replace(/\s+/g, ' ').trim(); }
     function filtered() {
-      var q = state.q.trim().toLowerCase();
+      var words = norm(state.q).split(' ').filter(Boolean);
       return P.map(function (p, i) { return { p: p, i: i }; }).filter(function (x) {
         var p = x.p;
         if (state.brand && p.brand !== state.brand) return false;
         if (state.cat && p.category !== state.cat) return false;
-        if (q && (p.name + ' ' + (p.en || '') + ' ' + (p.desc || '') + ' ' + p.brand + ' ' + p.category).toLowerCase().indexOf(q) < 0) return false;
+        if (words.length) {
+          var hay = norm(p.name + ' ' + (p.en || '') + ' ' + (p.desc || '') + ' ' + p.brand + ' ' + p.category + ' ' + (p.size || ''));
+          for (var k = 0; k < words.length; k++) if (hay.indexOf(words[k]) < 0) return false;
+        }
         return true;
       });
     }
@@ -370,7 +375,12 @@
       var list = filtered();
       var url = new URL(location.href); ['brand', 'cat', 'q', 'sort'].forEach(function (k) { if (state[k] && !(k === 'sort' && state[k] === 'brand')) url.searchParams.set(k, state[k]); else url.searchParams.delete(k); });
       history.replaceState(null, '', url);
-      if (count) count.textContent = list.length ? list.length + ' מוצרים' : '';
+      var q = state.q.trim();
+      if (count) count.textContent = !list.length ? '' : q ? list.length + ' תוצאות ל"' + q + '"' : list.length + ' מוצרים';
+      var active = (state.brand ? 1 : 0) + (state.cat ? 1 : 0);
+      if (badge) { badge.hidden = !active; badge.textContent = active; }
+      if (clearAll) clearAll.hidden = !(active || q);
+      if (clearBtn) clearBtn.hidden = !q;
       if (!list.length) { shopMain.innerHTML = '<div class="empty fade-up"><b>לא נמצא מוצר כזה</b>נסו מילה אחרת, או כתבו לנו בוואטסאפ ונבדוק אם אפשר להשיג.<br><br><a class="btn btn-gold" href="' + WA + '" target="_blank" rel="noopener">שאלה בוואטסאפ</a></div>'; return; }
       var groupKey = state.sort === 'category' ? 'category' : (state.sort === 'brand' ? 'brand' : null);
       var html = '';
@@ -387,8 +397,28 @@
       }
       shopMain.innerHTML = html;
       afterRender(shopMain);
+      if (live) { shopMain.classList.add('is-live'); clearTimeout(liveT); liveT = setTimeout(function () { shopMain.classList.remove('is-live'); }, 600); }
+      live = false;
     }
-    var st; if (search) search.addEventListener('input', function () { clearTimeout(st); st = setTimeout(function () { state.q = search.value; render(); }, 180); });
+    function keepResultsVisible() {
+      var bar = $('#shop-bar'), top = shopMain.getBoundingClientRect().top, barH = bar ? bar.getBoundingClientRect().bottom : 0;
+      if (top < barH - 4 || top > window.innerHeight * .7) window.scrollTo({ top: window.scrollY + top - barH - 8, behavior: noMotion() ? 'auto' : 'smooth' });
+    }
+    var st; if (search) {
+      search.addEventListener('input', function () { clearTimeout(st); st = setTimeout(function () { state.q = search.value; live = true; render(); keepResultsVisible(); }, 160); });
+      search.addEventListener('keydown', function (e) { if (e.key === 'Enter') search.blur(); if (e.key === 'Escape') { search.value = ''; state.q = ''; live = true; render(); } });
+    }
+    if (clearBtn) clearBtn.addEventListener('click', function () { search.value = ''; state.q = ''; live = true; render(); search.focus(); });
+    if (clearAll) clearAll.addEventListener('click', function () {
+      state.q = ''; state.brand = ''; state.cat = ''; if (search) search.value = '';
+      $$('#brand-filter button, #cat-filter button').forEach(function (b) { var on = !b.dataset.v; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+      live = true; render(); keepResultsVisible();
+    });
+    if (toggle && bar) {
+      var openBar = function (on) { bar.classList.toggle('is-open', on); toggle.setAttribute('aria-expanded', String(on)); };
+      toggle.addEventListener('click', function () { openBar(!bar.classList.contains('is-open')); });
+      if (state.brand || state.cat) openBar(true);
+    }
     if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
     render();
   }

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <link rel="stylesheet" href="css/style.css?v=16">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -70,23 +70,29 @@
   </section>
 
   <div class="shop-bar" id="shop-bar">
-    <div class="shop-row">
-      <span class="shop-row-label">מותג</span>
-      <div class="finder-grid" id="brand-filter" role="group" aria-label="סינון לפי מותג"></div>
+    <div class="shop-search">
+      <label class="search search-big"><span class="sr-only">חיפוש מוצר</span><input type="search" id="search" placeholder="חיפוש: שם מוצר, מותג או סוג…" autocomplete="off" enterkeyhint="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><button class="search-clear" id="search-clear" type="button" aria-label="ניקוי החיפוש" hidden>×</button></label>
+      <button class="filter-toggle" id="filter-toggle" type="button" aria-expanded="false" aria-controls="shop-filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>סינון<span class="filter-badge" id="filter-badge" hidden></span></button>
+      <span class="shop-count" id="shop-count" aria-live="polite"></span>
     </div>
-    <div class="shop-row">
-      <span class="shop-row-label">סוג</span>
-      <div class="finder-grid" id="cat-filter" role="group" aria-label="סינון לפי סוג מוצר"></div>
-      <div class="shop-tools">
-        <label class="search"><span class="sr-only">חיפוש מוצר</span><input type="search" id="search" placeholder="חיפוש מוצר…" autocomplete="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></label>
-        <label><span class="sr-only">מיון</span>
+    <div class="shop-filters" id="shop-filters">
+      <div class="shop-row">
+        <span class="shop-row-label">מותג</span>
+        <div class="finder-grid scroll-row" id="brand-filter" role="group" aria-label="סינון לפי מותג"></div>
+      </div>
+      <div class="shop-row">
+        <span class="shop-row-label">סוג</span>
+        <div class="finder-grid scroll-row" id="cat-filter" role="group" aria-label="סינון לפי סוג מוצר"></div>
+      </div>
+      <div class="shop-row shop-row-end">
+        <label class="sort-wrap"><span>מיון</span>
           <select class="select" id="sort">
             <option value="brand">לפי מותג</option>
             <option value="category">לפי סוג מוצר</option>
             <option value="name">לפי שם</option>
           </select>
         </label>
-        <span class="shop-count" id="shop-count"></span>
+        <button class="link-line clear-all" id="clear-all" type="button" hidden>נקה את כל הסינון</button>
       </div>
     </div>
   </div>
@@ -125,6 +131,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=5"></script>
+<script src="js/main.js?v=6"></script>
 </body>
 </html>
