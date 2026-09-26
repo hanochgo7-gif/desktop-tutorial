@@ -1830,3 +1830,11 @@ html.a11y-no-motion .hero__clients-viewport { mask-image: none; -webkit-mask-ima
 .quick--photo .quick__bg img { object-position: center 60%; }
 .quick--photo .quick__bg::after { background: linear-gradient(to left, rgba(12,12,14,.9) 0%, rgba(12,12,14,.66) 45%, rgba(12,12,14,.3) 100%); }
 @media (max-width: 899px) { .quick--photo .quick__bg img { object-position: 40% 72%; } }
+/* לוגואי הלקוחות בהירו: אחד מכל לוגו על המסך, פרושים על כל הרוחב */
+.hero__clients-list { width: max-content; flex: none; justify-content: space-between; padding-inline-end: clamp(14px, 1.6vw, 22px); box-sizing: border-box; }
+.hero__clients-list li { margin-inline-end: clamp(14px, 1.6vw, 22px); }
+.hero__clients { min-width: 0; max-width: 100%; }
+.hero__clients-viewport { width: 0; contain: inline-size; }
+@media (max-width: 760px) { .hero__clients-viewport { width: 100%; } }
+.hero__clients-list { flex-wrap: nowrap; gap: 0; }
+.hero__clients ul.hero__clients-list { flex-wrap: nowrap; gap: 0; }

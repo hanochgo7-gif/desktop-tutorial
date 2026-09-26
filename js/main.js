@@ -213,6 +213,20 @@
     pIO.observe(pipe);
   });
 
+  /* לוגואי הלקוחות בהירו: כל סט נפרש על כל רוחב הסרגל, כך שכל לוגו מופיע פעם אחת על המסך */
+  var clVp = $('.hero__clients-viewport');
+  if (clVp) {
+    var sizeClients = function () {
+      var lists = $$('.hero__clients-list', clVp);
+      lists.forEach(function (l) { l.style.width = ''; });
+      var w = clVp.clientWidth;
+      lists.forEach(function (l) { var nat = l.scrollWidth; l.style.width = Math.max(w, nat) + 'px'; });
+    };
+    sizeClients();
+    window.addEventListener('resize', sizeClients);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeClients);
+  }
+
   /* ---------- לוגואי לקוחות: מרקיזה שמאיצה ומחליפה כיוון לפי הגלילה ---------- */
   var mqTrack = $('.marquee__track');
   if (mqTrack && !noMotion()) {
