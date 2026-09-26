@@ -573,8 +573,8 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .shop-hero .deco-fan { bottom: -20%; inset-inline-start: -5%; }
 @keyframes deco-breathe { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(3deg) scale(1.03); } }
 .deco-blossom svg, .deco-fan svg { animation: deco-breathe 9s ease-in-out infinite alternate; }
-.field-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--gold-deep); margin-bottom: 18px; }
-.field-icon svg { width: 22px; height: 22px; }
+.field-icon { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--gold-deep); margin-bottom: 18px; }
+.field-icon svg { width: 34px; height: 34px; }
 .ico { width: 22px; height: 22px; flex: none; }
 .hcard-gold { background: var(--gold); border-color: var(--gold); }
 .marquee { background: transparent; }
