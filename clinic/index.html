@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>רותם גוטובסקי | טיפולי פנים, הסרת שיער בלייזר ופדיקור טיפולי</title>
   <meta name="description" content="קליניקה לטיפולי פנים לפי מטרה טיפולית: אקנה, צלקות, פיגמנטציה, אנטי-אייג'ינג, פלזמה, אולטרסאונד, מיקרונידלינג ואקסוזומים. הסרת שיער בלייזר לכל גווני העור, פדיקור טיפולי מותאם לסוכרתיים וחנות מוצרי טיפוח.">
-  <meta name="theme-color" content="#223039">
+  <meta name="theme-color" content="#15181c">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="he_IL">
   <meta property="og:title" content="רותם גוטובסקי | טיפול לפי מטרה, לא לפי גיל">
   <meta property="og:description" content="טיפולי פנים, הסרת שיער בלייזר ופדיקור טיפולי. חנות מוצרי טיפוח מקצועיים.">
-  <meta property="og:image" content="images/sqt-vials.webp">
+  <meta property="og:image" content="images/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -31,70 +31,128 @@
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
+<div class="progress" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
 
 <header class="site-header" id="top">
-  <a class="brand" href="#top" aria-label="רותם גוטובסקי, דף הבית">
+  <a class="brand" href="index.html" aria-label="רותם גוטובסקי, דף הבית">
     <img src="images/logo.png" alt="רותם גוטובסקי p.m.e Cosmetics" width="540" height="480">
   </a>
   <nav class="nav" aria-label="ניווט ראשי">
-    <button class="nav-toggle" aria-expanded="false" aria-controls="menu">
-      <span></span><span></span><span></span>
-      <span class="sr-only">תפריט</span>
-    </button>
-    <ul id="menu" class="menu">
+    <ul class="menu">
       <li><a href="#face">טיפולי פנים</a></li>
       <li><a href="#laser">הסרת שיער</a></li>
       <li><a href="#pedicure">פדיקור טיפולי</a></li>
-      <li><a href="#shop">חנות</a></li>
-      <li><a href="#about">על הקליניקה</a></li>
-      <li><a href="#contact">קביעת תור</a></li>
+      <li><a href="#results">תוצאות</a></li>
+      <li><a href="#about">איך זה עובד</a></li>
+      <li><a class="menu-shop" href="shop.html">חנות</a></li>
     </ul>
   </nav>
-  <a class="btn btn-solid header-cta" href="https://wa.me/972545779379" target="_blank" rel="noopener">וואטסאפ</a>
+  <a class="btn btn-solid header-cta magnet" href="#contact">קביעת תור</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="פתיחת תפריט">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="#face"><small>01</small>טיפולי פנים</a></li>
+    <li><a href="#laser"><small>02</small>הסרת שיער בלייזר</a></li>
+    <li><a href="#pedicure"><small>03</small>פדיקור טיפולי</a></li>
+    <li><a href="#results"><small>04</small>לפני ואחרי</a></li>
+    <li><a href="shop.html"><small>05</small>חנות</a></li>
+    <li><a href="#contact"><small>06</small>קביעת תור</a></li>
+  </ul>
+  <div class="mobile-menu__foot">
+    <a href="tel:+972545779379">054-577-9379</a>
+    <a href="https://wa.me/972545779379" target="_blank" rel="noopener">וואטסאפ</a>
+  </div>
+</div>
 
 <main id="main">
 
   <!-- הירו -->
   <section class="hero">
+    <div class="hero-bg" aria-hidden="true"><span></span><span></span></div>
     <div class="hero-copy">
-      <p class="hero-kicker">רותם גוטובסקי. קליניקה לטיפולי פנים, לייזר ופדיקור טיפולי</p>
-      <h1>העור לא מתנהג לפי גיל.<br>הטיפול נבחר לפי מטרה.</h1>
-      <p class="hero-text">אקנה, צלקות, כתמים, נפילת עור, יובש. כל ביקור מתחיל באבחון קצר, ומהמטרה נגזרים הטיפול, החומרים ותוכנית הבית.</p>
-      <div class="hero-actions">
-        <a class="btn btn-solid" href="#contact">קביעת תור לאבחון</a>
+      <p class="hero-kicker fade-up">רותם גוטובסקי. קליניקה לטיפולי פנים, לייזר ופדיקור טיפולי</p>
+      <h1 data-split>העור לא מתנהג לפי גיל. הטיפול נבחר <em>לפי מטרה.</em></h1>
+      <p class="hero-text fade-up" style="animation-delay:.5s">אקנה, צלקות, כתמים, נפילת עור, יובש. כל ביקור מתחיל באבחון קצר, ומהמטרה נגזרים הטיפול, החומרים ותוכנית הבית.</p>
+      <div class="hero-actions fade-up" style="animation-delay:.7s">
+        <a class="btn btn-solid magnet" href="#contact">קביעת תור לאבחון <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
         <a class="link-line" href="#finder">איזה טיפול מתאים לי</a>
       </div>
+      <ul class="hero-trust fade-up" style="animation-delay:.9s">
+        <li>אבחון לפני כל טיפול</li>
+        <li>מחיר ידוע מראש</li>
+        <li>מוצרים מקצועיים לבית</li>
+      </ul>
     </div>
-    <figure class="hero-media">
-      <img src="images/sqt-vials.webp" alt="בקבוקוני SQT לטיפול ביו-מיקרונידלינג על אבן לבנה" width="1080" height="1080" fetchpriority="high">
-      <figcaption>ביו-מיקרונידלינג SQT, מהטיפולים המובילים בקליניקה</figcaption>
-    </figure>
+    <div class="hero-stage" aria-hidden="true">
+      <div class="hcard hcard-1"><b data-count="11">0</b><span>טיפולי פנים לפי מטרה</span></div>
+      <div class="hcard hcard-2 hcard-gold"><b>I–VI</b><span>הסרת שיער לכל גווני העור</span></div>
+      <div class="hcard hcard-3"><b data-count="54">0</b><span>מוצרים בחנות, 5 מותגים</span></div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><i></i><span>גללו</span></div>
   </section>
 
+  <!-- מרקיז מותגים -->
+  <div class="marquee" aria-label="המותגים בקליניקה">
+    <div class="marquee__track">
+      <ul class="marquee__list">
+        <li>Hava Zingboim <small>ISRAEL</small></li>
+        <li>KLAPP <small>GERMANY</small></li>
+        <li>Arkana <small>POLAND</small></li>
+        <li>SQT <small>BIOMICRONEEDLING</small></li>
+        <li>Dr. Spicule <small>SYSTEMS</small></li>
+      </ul>
+      <ul class="marquee__list" aria-hidden="true">
+        <li>Hava Zingboim <small>ISRAEL</small></li>
+        <li>KLAPP <small>GERMANY</small></li>
+        <li>Arkana <small>POLAND</small></li>
+        <li>SQT <small>BIOMICRONEEDLING</small></li>
+        <li>Dr. Spicule <small>SYSTEMS</small></li>
+      </ul>
+    </div>
+  </div>
+
   <!-- שלושת התחומים -->
-  <section class="fields" aria-label="תחומי הטיפול">
-    <a href="#face" class="field">
+  <section class="numbers" data-stagger aria-label="בקצרה">
+    <div class="num reveal"><b data-count="11">0</b><span>טיפולי פנים שונים, מפילינג חכם ועד אקסוזומים</span></div>
+    <div class="num reveal"><b data-count="60" data-suffix="%">0</b><span>ריכוז החומצות המקסימלי בפילינג חכם</span></div>
+    <div class="num reveal"><b data-count="3">0</b><span>שכבות שריר שהאולטרסאונד מגיע אליהן, עד SMAS</span></div>
+    <div class="num reveal"><b data-count="20">0</b><span>דקות אבחון לפני הטיפול הראשון</span></div>
+  </section>
+
+  <section class="fields" data-stagger aria-label="תחומי הטיפול">
+    <a href="#face" class="field reveal">
+      <span class="field-num">01</span>
       <span class="field-name">טיפולי פנים</span>
-      <span class="field-desc">אחד-עשר טיפולים, מפילינג חכם ועד אקסוזומים</span>
+      <span class="field-desc">אחד-עשר טיפולים, מפילינג חכם ועד אקסוזומים. הטכנולוגיה נבחרת לפי המטרה.</span>
+      <span class="field-go">לטיפולים <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
     </a>
-    <a href="#laser" class="field">
+    <a href="#laser" class="field reveal">
+      <span class="field-num">02</span>
       <span class="field-name">הסרת שיער בלייזר</span>
-      <span class="field-desc">לכל הגוף, מעור בהיר ועד כהה מאוד</span>
+      <span class="field-desc">לכל הגוף, לנשים ולגברים. מכויל לגוון העור, מעור בהיר ועד כהה מאוד.</span>
+      <span class="field-go">ללייזר <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
     </a>
-    <a href="#pedicure" class="field">
+    <a href="#pedicure" class="field reveal">
+      <span class="field-num">03</span>
       <span class="field-name">פדיקור טיפולי</span>
-      <span class="field-desc">יבלות, פטריות, ציפורניים חודרניות. מותאם לסוכרתיים</span>
+      <span class="field-desc">יבלות, פטריות, ציפורניים חודרניות. חומרים מותאמים גם לסוכרתיים.</span>
+      <span class="field-go">לפדיקור <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
     </a>
   </section>
 
   <!-- מאתר טיפול לפי מטרה -->
   <section class="finder" id="finder">
-    <div class="section-head">
+    <div class="section-head reveal">
+      <p class="kicker">מאתר טיפול</p>
       <h2>מה מטריד אותך בעור?</h2>
       <p>בחירת המטרה מראה אילו טיפולים בקליניקה נותנים לה מענה. ההתאמה הסופית נעשית באבחון.</p>
     </div>
-    <div class="finder-grid" role="tablist" aria-label="מטרות טיפול">
+    <div class="finder-grid reveal" role="tablist" aria-label="מטרות טיפול">
       <button class="goal is-active" role="tab" aria-selected="true" aria-controls="goal-acne" id="tab-acne">אקנה פעילה</button>
       <button class="goal" role="tab" aria-selected="false" aria-controls="goal-scars" id="tab-scars">צלקות פוסט-אקנה</button>
       <button class="goal" role="tab" aria-selected="false" aria-controls="goal-pigment" id="tab-pigment">כתמי פיגמנטציה</button>
@@ -102,7 +160,7 @@
       <button class="goal" role="tab" aria-selected="false" aria-controls="goal-contour" id="tab-contour">חיטוב פנים וצוואר</button>
       <button class="goal" role="tab" aria-selected="false" aria-controls="goal-texture" id="tab-texture">מרקם עור ונקבוביות</button>
     </div>
-    <div class="finder-panels">
+    <div class="finder-panels reveal">
       <div class="panel" id="goal-acne" role="tabpanel" aria-labelledby="tab-acne">
         <h3>אקנה פעילה</h3>
         <ul>
@@ -110,6 +168,7 @@
           <li><b>פילינג חכם</b> בריכוז חומצות של 20% עד 60%, לפי חומרת המצב.</li>
           <li><b>אקסוזומים</b> להאצת ריפוי ולהפחתת אדמומיות אחרי הטיפול.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="shop.html?cat=ניקוי">מוצרים לעור עם אקנה</a>
       </div>
       <div class="panel" id="goal-scars" role="tabpanel" aria-labelledby="tab-scars" hidden>
         <h3>צלקות פוסט-אקנה</h3>
@@ -118,6 +177,7 @@
           <li><b>ביו-מיקרונידלינג SQT</b> מחטים ננו-ביולוגיות שמחדשות את שכבת האפידרמיס.</li>
           <li><b>אקסוזומים</b> בשילוב עם מחטים, לשיפור מרקם ועומק הצלקת.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="#results">לראות לפני ואחרי</a>
       </div>
       <div class="panel" id="goal-pigment" role="tabpanel" aria-labelledby="tab-pigment" hidden>
         <h3>כתמי פיגמנטציה</h3>
@@ -126,6 +186,7 @@
           <li><b>מיקרונידלינג</b> עם חומרים מבהירים שמוחדרים ישירות לשכבה הפגועה.</li>
           <li><b>הגנה ותחזוקה</b> עם מוצרי בית מהחנות, בלעדיהם הכתמים חוזרים.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="shop.html?cat=הגנה מהשמש">מוצרי הגנה מהשמש</a>
       </div>
       <div class="panel" id="goal-aging" role="tabpanel" aria-labelledby="tab-aging" hidden>
         <h3>קמטים ואובדן מתיחות</h3>
@@ -134,6 +195,7 @@
           <li><b>טיפולי אנטי-אייג'ינג</b> שילוב של פילינג, החדרת חומרים ואקסוזומים.</li>
           <li><b>ביו-מיקרונידלינג SQT</b> לעיבוי האפידרמיס ולעור מלא יותר.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="shop.html?cat=סרומים ובוסטרים">סרומים אנטי-אייג'ינג</a>
       </div>
       <div class="panel" id="goal-contour" role="tabpanel" aria-labelledby="tab-contour" hidden>
         <h3>חיטוב פנים וצוואר</h3>
@@ -142,6 +204,7 @@
           <li><b>המסת שומן וחיטוב צוואר</b> באותה טכנולוגיה, בסדרת טיפולים.</li>
           <li><b>פלזמה חמה</b> להשלמת מתיחה באזורים ממוקדים.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="#contact">קביעת אבחון</a>
       </div>
       <div class="panel" id="goal-texture" role="tabpanel" aria-labelledby="tab-texture" hidden>
         <h3>מרקם עור ונקבוביות</h3>
@@ -150,110 +213,119 @@
           <li><b>מיקרונידלינג</b> לצמצום נקבוביות ולהחלקת המרקם.</li>
           <li><b>ביו-מיקרונידלינג SQT</b> לזוהר ולעובי עור בריא.</li>
         </ul>
+        <a class="btn btn-outline panel-cta" href="shop.html?cat=מסכות">מסכות לטיפול בבית</a>
       </div>
     </div>
   </section>
 
   <!-- טיפולי פנים -->
   <section class="service" id="face">
-    <div class="service-intro">
+    <div class="service-intro reveal">
+      <p class="kicker">01</p>
       <h2>טיפולי פנים</h2>
       <p>כל טיפול מתחיל בניקוי ואבחון. הטכנולוגיה נבחרת לפי המטרה, והחומרים המוחדרים לפי סוג העור. רוב הטיפולים ניתנים כסדרה, עם מרווח של שבועיים עד ארבעה שבועות.</p>
-      <a class="btn btn-outline" href="#contact">קביעת אבחון</a>
+      <a class="btn btn-outline magnet" href="#contact">קביעת אבחון</a>
     </div>
-    <dl class="treatments">
-      <div><dt>אקנה</dt><dd>ניקוי עמוק, פלזמה קרה ופילינג חכם להרגעת דלקת והפחתת התפרצויות.</dd></div>
-      <div><dt>צלקות פוסט-אקנה</dt><dd>מיקרונידלינג ואקסוזומים לשיקום מרקם העור באזורי הצלקת.</dd></div>
-      <div><dt>פלזמה קרה</dt><dd>נלחמת בפתוגנים על פני העור בלי חום, מתאימה לעור דלקתי ורגיש.</dd></div>
-      <div><dt>אנטי-אייג'ינג</dt><dd>פרוטוקול משולב לקמטים, אובדן נפח ומתיחות.</dd></div>
-      <div><dt>פלזמה חמה</dt><dd>אידוי העור למתיחת פנים ללא ניתוח: עפעפיים, קמטי הבעה, קווי צוואר.</dd></div>
-      <div><dt>אולטרסאונד</dt><dd>מטפל בשרירי הפנים בשלוש שכבות עד לשריר התחתון ומגיע ל-SMAS. ממיס שומן ומחטב את הצוואר.</dd></div>
-      <div><dt>כתמי פיגמנטציה</dt><dd>הבהרה הדרגתית בפילינג, החדרת חומרים ותוכנית הגנה לבית.</dd></div>
-      <div><dt>פילינגים חכמים</dt><dd>חומצות בריכוז 20% עד 60%, ריכוז ועומק שנקבעים לפי העור והמטרה.</dd></div>
-      <div><dt>ביו-מיקרונידלינג</dt><dd>החדרת מחטים ננו-ביולוגיות (SQT) לעור, לפי מטרה טיפולית.</dd></div>
-      <div><dt>מיקרונידלינג</dt><dd>החדרת חומרים פעילים דרך תעלות זעירות בעור, לעידוד קולגן וספיגה עמוקה.</dd></div>
-      <div><dt>אקסוזומים</dt><dd>שיקום, הרגעה והאצת ריפוי. מותאם לפי מטרת הטיפול ומשולב עם מחטים.</dd></div>
+    <dl class="treatments" data-stagger>
+      <div class="reveal"><i>01</i><dt>אקנה</dt><dd>ניקוי עמוק, פלזמה קרה ופילינג חכם להרגעת דלקת והפחתת התפרצויות.</dd></div>
+      <div class="reveal"><i>02</i><dt>צלקות פוסט-אקנה</dt><dd>מיקרונידלינג ואקסוזומים לשיקום מרקם העור באזורי הצלקת.</dd></div>
+      <div class="reveal"><i>03</i><dt>פלזמה קרה</dt><dd>נלחמת בפתוגנים על פני העור בלי חום, מתאימה לעור דלקתי ורגיש.</dd></div>
+      <div class="reveal"><i>04</i><dt>אנטי-אייג'ינג</dt><dd>פרוטוקול משולב לקמטים, אובדן נפח ומתיחות.</dd></div>
+      <div class="reveal"><i>05</i><dt>פלזמה חמה</dt><dd>אידוי העור למתיחת פנים ללא ניתוח: עפעפיים, קמטי הבעה, קווי צוואר.</dd></div>
+      <div class="reveal"><i>06</i><dt>אולטרסאונד</dt><dd>מטפל בשרירי הפנים בשלוש שכבות עד לשריר התחתון ומגיע ל-SMAS. ממיס שומן ומחטב את הצוואר.</dd></div>
+      <div class="reveal"><i>07</i><dt>כתמי פיגמנטציה</dt><dd>הבהרה הדרגתית בפילינג, החדרת חומרים ותוכנית הגנה לבית.</dd></div>
+      <div class="reveal"><i>08</i><dt>פילינגים חכמים</dt><dd>חומצות בריכוז 20% עד 60%, ריכוז ועומק שנקבעים לפי העור והמטרה.</dd></div>
+      <div class="reveal"><i>09</i><dt>ביו-מיקרונידלינג</dt><dd>החדרת מחטים ננו-ביולוגיות (SQT) לעור, לפי מטרה טיפולית.</dd></div>
+      <div class="reveal"><i>10</i><dt>מיקרונידלינג</dt><dd>החדרת חומרים פעילים דרך תעלות זעירות בעור, לעידוד קולגן וספיגה עמוקה.</dd></div>
+      <div class="reveal"><i>11</i><dt>אקסוזומים</dt><dd>שיקום, הרגעה והאצת ריפוי. מותאם לפי מטרת הטיפול ומשולב עם מחטים.</dd></div>
     </dl>
   </section>
 
   <!-- תוצאות -->
   <section class="results" id="results" aria-labelledby="results-title">
-    <div class="section-head">
+    <div class="section-head reveal">
+      <p class="kicker">תוצאות</p>
       <h2 id="results-title">לפני ואחרי: צלקות פוסט-אקנה</h2>
       <p>אותו מטופל, אותה זווית צילום. הפנים טושטשו לשמירה על פרטיותו, הצלקות לא. התמונות פורסמו באישורו.</p>
     </div>
-    <div class="ba-grid">
-      <figure class="ba-pair">
+    <div class="ba-grid" data-stagger>
+      <figure class="ba-pair reveal">
         <div class="ba-frame"><img src="images/results/acne-before-1.jpg" alt="לחי עם צלקות אקנה פעילות ואדמומיות, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
         <div class="ba-frame"><img src="images/results/acne-after-1.jpg" alt="אותה לחי אחרי סדרת טיפולים, עור רגוע ומרקם אחיד יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
         <figcaption>קו הלסת. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
-      <figure class="ba-pair">
+      <figure class="ba-pair reveal">
         <div class="ba-frame"><img src="images/results/acne-before-2.jpg" alt="לחי עם צלקות אקנה ופצעונים פעילים, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
         <div class="ba-frame"><img src="images/results/acne-after-2.jpg" alt="אותה לחי אחרי סדרת טיפולים, פחות דלקת ומרקם חלק יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
         <figcaption>הלחי ואזור האוזן. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
     </div>
-    <p class="ba-note">התוצאות אישיות ותלויות בסוג העור, בעומק הצלקות ובהתמדה בטיפול הביתי.</p>
+    <p class="ba-note reveal">התוצאות אישיות ותלויות בסוג העור, בעומק הצלקות ובהתמדה בטיפול הביתי.</p>
   </section>
 
   <!-- לייזר -->
-  <section class="service service-alt" id="laser">
-    <div class="service-intro">
+  <section class="service" id="laser">
+    <div class="service-intro reveal">
+      <p class="kicker">02</p>
       <h2>הסרת שיער בלייזר</h2>
       <p>לכל אזורי הגוף, לנשים ולגברים. המכשיר מכויל לגוון העור, כך שגם עור כהה מאוד מטופל בבטחה וביעילות.</p>
-      <a class="btn btn-outline" href="#contact">קביעת טיפול ניסיון</a>
+      <a class="btn btn-outline magnet" href="#contact">קביעת טיפול ניסיון</a>
     </div>
-    <div class="facts">
-      <div class="fact">
+    <div class="facts" data-stagger>
+      <div class="fact reveal">
         <span class="fact-value">I–VI</span>
         <span class="fact-label">כל סולם פיצפטריק, מעור בהיר ועד כהה מאוד</span>
       </div>
-      <div class="fact">
+      <div class="fact reveal">
         <span class="fact-value">6–8</span>
         <span class="fact-label">טיפולים בסדרה טיפוסית, במרווח של ארבעה עד שישה שבועות</span>
       </div>
-      <div class="fact">
+      <div class="fact reveal">
         <span class="fact-value">כל הגוף</span>
         <span class="fact-label">פנים, בית שחי, ידיים, רגליים, ביקיני, גב וחזה</span>
       </div>
-      <p class="facts-note">לפני הסדרה נעשה טיפול ניסיון על אזור קטן כדי לקבוע את העוצמה המתאימה לעור שלך.</p>
+      <p class="facts-note reveal">לפני הסדרה נעשה טיפול ניסיון על אזור קטן כדי לקבוע את העוצמה המתאימה לעור שלך.</p>
     </div>
   </section>
 
   <!-- פדיקור -->
-  <section class="service" id="pedicure">
-    <div class="service-intro">
+  <section class="service service-alt" id="pedicure">
+    <div class="service-intro reveal">
+      <p class="kicker">03</p>
       <h2>פדיקור טיפולי</h2>
       <p>טיפול רפואי-קוסמטי בכף הרגל, לא פדיקור יופי. כל הכלים חד-פעמיים או מעוקרים, והחומרים מותאמים גם לסוכרתיים.</p>
-      <a class="btn btn-outline" href="#contact">קביעת תור</a>
+      <a class="btn btn-outline magnet" href="#contact">קביעת תור</a>
     </div>
-    <dl class="treatments">
-      <div><dt>יבלות</dt><dd>הסרה מבוקרת של יבלות ועיבוי עור, כולל טיפול בגורם הלחץ שיצר אותן.</dd></div>
-      <div><dt>פטריות</dt><dd>ניקוי הציפורן והחדרת חומרים אנטי-פטרייתיים, עם הנחיות לתחזוקה בבית.</dd></div>
-      <div><dt>ציפורניים חודרניות</dt><dd>שחרור הציפורן, ובמידת הצורך שילוב מגנט BS שמושך את הציפורן לצמיחה בריאה.</dd></div>
-      <div><dt>מותאם לסוכרתיים</dt><dd>חומרים עדינים, ללא חומצות אגרסיביות, ובדיקת עור ותחושה לפני כל טיפול.</dd></div>
+    <dl class="treatments" data-stagger>
+      <div class="reveal"><i>01</i><dt>יבלות</dt><dd>הסרה מבוקרת של יבלות ועיבוי עור, כולל טיפול בגורם הלחץ שיצר אותן.</dd></div>
+      <div class="reveal"><i>02</i><dt>פטריות</dt><dd>ניקוי הציפורן והחדרת חומרים אנטי-פטרייתיים, עם הנחיות לתחזוקה בבית.</dd></div>
+      <div class="reveal"><i>03</i><dt>ציפורניים חודרניות</dt><dd>שחרור הציפורן, ובמידת הצורך שילוב מגנט BS שמושך את הציפורן לצמיחה בריאה.</dd></div>
+      <div class="reveal"><i>04</i><dt>מותאם לסוכרתיים</dt><dd>חומרים עדינים, ללא חומצות אגרסיביות, ובדיקת עור ותחושה לפני כל טיפול.</dd></div>
     </dl>
   </section>
 
-  <!-- חנות -->
-  <section class="shop" id="shop">
-    <div class="section-head">
-      <h2>חנות מוצרי טיפוח</h2>
-      <p>מוצרי חוה זינגבוים, KLAPP, Arkana, SQT ו-Dr. Spicule, אותם מוצרים שאנחנו עובדים איתם בקליניקה, להמשך הטיפול בבית. מזמינים בוואטסאפ, אוספים מהקליניקה או מקבלים משלוח.</p>
+  <!-- טיזר חנות -->
+  <section class="shop-teaser" id="shop">
+    <div class="section-head reveal">
+      <div>
+        <p class="kicker">החנות</p>
+        <h2>אותם מוצרים שאנחנו עובדים איתם בקליניקה</h2>
+        <p>חוה זינגבוים, KLAPP, Arkana, SQT ו-Dr. Spicule. להמשך הטיפול בבית, בהזמנה בוואטסאפ, איסוף מהקליניקה או משלוח.</p>
+      </div>
+      <a class="btn btn-gold magnet" href="shop.html">לכל החנות <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
     </div>
-    <div class="brand-filter" id="brand-filter" role="group" aria-label="סינון לפי מותג"></div>
-    <ul class="products" id="products"></ul>
-    <p class="shop-note">משלוח עד הבית בכל הארץ. איסוף מהקליניקה ללא עלות.</p>
+    <div class="brand-strip reveal" id="brand-strip"></div>
+    <ul class="products" id="featured" data-stagger data-featured="4"></ul>
   </section>
 
   <!-- תהליך -->
   <section class="process" id="about">
-    <div class="section-head">
-      <h2>איך נראה ביקור ראשון</h2>
+    <div class="section-head reveal">
+      <p class="kicker">איך זה עובד</p>
+      <h2>ביקור ראשון בארבעה שלבים</h2>
     </div>
-    <ol class="steps">
-      <li>
+    <ol class="steps reveal" data-steps>
+      <li class="is-open">
         <h3>אבחון</h3>
         <p>עשרים דקות של שיחה ובדיקת עור. מה המטרה, מה ניסית עד היום, אילו תרופות ומה הרגישויות.</p>
       </li>
@@ -274,28 +346,30 @@
 
   <!-- שאלות -->
   <section class="faq">
-    <div class="section-head">
+    <div class="section-head reveal">
+      <p class="kicker">שאלות</p>
       <h2>שאלות שחוזרות</h2>
+      <p>לא מצאת תשובה? כתבי לנו בוואטסאפ, עונים באותו יום.</p>
     </div>
-    <div class="faq-list">
+    <div class="faq-list reveal">
       <details>
-        <summary>אפשר לעשות לייזר על עור כהה?</summary>
+        <summary>אפשר לעשות לייזר על עור כהה? <span class="faq-icon" aria-hidden="true"></span></summary>
         <p>כן. המכשיר מכויל לגוון העור ומטפל בבטחה גם בעור כהה מאוד. לפני הסדרה נעשה טיפול ניסיון על אזור קטן.</p>
       </details>
       <details>
-        <summary>אני סוכרתי, מותר לי פדיקור טיפולי?</summary>
+        <summary>אני סוכרתי, מותר לי פדיקור טיפולי? <span class="faq-icon" aria-hidden="true"></span></summary>
         <p>כן, וזה אפילו מומלץ. אנחנו עובדים עם חומרים המותאמים לסוכרתיים, בודקים תחושה וזרימת דם לפני הטיפול, ולא משתמשים בחומצות אגרסיביות.</p>
       </details>
       <details>
-        <summary>מה ההבדל בין מיקרונידלינג לביו-מיקרונידלינג?</summary>
+        <summary>מה ההבדל בין מיקרונידלינג לביו-מיקרונידלינג? <span class="faq-icon" aria-hidden="true"></span></summary>
         <p>במיקרונידלינג קלאסי מחטים מתכתיות פותחות תעלות זעירות בעור להחדרת חומרים. בביו-מיקרונידלינג (SQT) מוחדרות מחטים ננו-ביולוגיות שנספגות בעור ומעוררות חידוש של האפידרמיס, בלי מכשיר.</p>
       </details>
       <details>
-        <summary>כמה זמן העור אדום אחרי פילינג חכם?</summary>
+        <summary>כמה זמן העור אדום אחרי פילינג חכם? <span class="faq-icon" aria-hidden="true"></span></summary>
         <p>תלוי בריכוז. ב-20% האדמומיות חולפת תוך שעות. ב-60% ייתכן קילוף של שלושה עד חמישה ימים, ומתכננים אותו מראש.</p>
       </details>
       <details>
-        <summary>איך מזמינים מוצרים מהחנות?</summary>
+        <summary>איך מזמינים מוצרים מהחנות? <span class="faq-icon" aria-hidden="true"></span></summary>
         <p>לוחצים על "הזמנה בוואטסאפ" ליד המוצר. אנחנו מאשרים זמינות, מקבלים תשלום בביט או באשראי, ושולחים או מכינים לאיסוף.</p>
       </details>
     </div>
@@ -303,22 +377,26 @@
 
   <!-- יצירת קשר -->
   <section class="contact" id="contact">
-    <div class="contact-copy">
-      <h2>קביעת תור</h2>
-      <p>כותבים מה המטרה, ואנחנו חוזרים עם מועד לאבחון. אפשר גם ישירות בוואטסאפ או בטלפון.</p>
+    <div class="contact-copy reveal">
+      <p class="kicker" style="color:var(--gold)">קביעת תור</p>
+      <h2>כותבים מה המטרה, ואנחנו חוזרים עם מועד</h2>
+      <p>אפשר גם ישירות בוואטסאפ או בטלפון. עונים בשעות הפעילות, ובדרך כלל תוך שעה.</p>
+      <span class="open-now" id="open-now"><i></i><span>בודקים אם פתוח עכשיו</span></span>
       <ul class="contact-details">
-        <li><a href="tel:+972545779379">054-577-9379</a></li>
-        <li><a href="https://wa.me/972545779379" target="_blank" rel="noopener">וואטסאפ</a></li>
-        <li><a href="https://www.instagram.com/" target="_blank" rel="noopener">אינסטגרם</a></li>
-        <li>רחוב, עיר</li>
-        <li>ראשון עד חמישי 9:00–19:00</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.9 2z"/></svg><a href="tel:+972545779379">054-577-9379</a></li>
+        <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.2l-.5-.3z"/></svg><a href="https://wa.me/972545779379" target="_blank" rel="noopener">וואטסאפ</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg><a href="https://www.instagram.com/" target="_blank" rel="noopener">אינסטגרם</a></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>רחוב, עיר</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>ראשון עד חמישי 9:00–19:00</span></li>
       </ul>
     </div>
-    <form class="contact-form" action="https://formsubmit.co/your@email.com" method="POST">
+    <form class="contact-form reveal" action="https://formsubmit.co/your@email.com" method="POST">
       <input type="hidden" name="_subject" value="פנייה חדשה מהאתר">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-      <label>שם מלא<input type="text" name="name" required autocomplete="name"></label>
-      <label>טלפון<input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></label>
+      <div class="form-row">
+        <label>שם מלא<input type="text" name="name" required autocomplete="name"></label>
+        <label>טלפון<input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></label>
+      </div>
       <label>מה המטרה
         <select name="goal">
           <option>טיפולי פנים</option>
@@ -329,16 +407,24 @@
         </select>
       </label>
       <label>כמה מילים<textarea name="message" rows="4"></textarea></label>
-      <button class="btn btn-solid" type="submit">שליחת בקשה לתור</button>
+      <button class="btn btn-gold magnet" type="submit">שליחת בקשה לתור <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></button>
     </form>
   </section>
 
 </main>
 
 <footer class="site-footer">
-  <p>רותם גוטובסקי p.m.e Cosmetics. טיפולי פנים, הסרת שיער בלייזר ופדיקור טיפולי.</p>
-  <p>© <span id="year"></span> כל הזכויות שמורות. <a href="#top">חזרה למעלה</a></p>
+  <p>רותם גוטובסקי p.m.e Cosmetics. טיפולי פנים, הסרת שיער בלייזר ופדיקור טיפולי. © <span id="year"></span></p>
+  <nav aria-label="קישורים"><a href="shop.html">חנות</a><a href="#face">טיפולים</a><a href="#contact">קביעת תור</a><a href="#top">חזרה למעלה</a></nav>
+  <p>השעה בישראל <span class="clock" id="clock">--:--</span></p>
 </footer>
+
+<a class="wa-float" href="https://wa.me/972545779379" target="_blank" rel="noopener" aria-label="שיחה בוואטסאפ">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.2l-.5-.3z"/></svg>
+  <span>וואטסאפ</span>
+</a>
+<button class="to-top" id="to-top" type="button" aria-label="חזרה למעלה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>

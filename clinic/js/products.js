@@ -5,6 +5,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "SQT ביו-מיקרונידלינג, אבקה",
+    category: "ערכות וטיפול מקצועי",
     desc: "מחטים ננו-ביולוגיות לחידוש האפידרמיס. לשימוש בקליניקה.",
     size: "",
     price: null,
@@ -14,6 +15,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "SQT Refine Spicule Serum",
+    category: "ערכות וטיפול מקצועי",
     desc: "סרום ספיקולים לשימוש ביתי בין הטיפולים, ערכה עם ארבעה מילויים.",
     size: "",
     price: null,
@@ -23,6 +25,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "מסכת זהב מחממת",
+    category: "מסכות",
     en: "Gold Heating Mask",
     desc: "מסכה טיפולית מתחממת, מבוססת על המינרל זאוליט, למראה זוהר ובריא ולהעלאת רמת הלחות באופן מיידי.",
     size: "100 מ״ל",
@@ -33,6 +36,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סרום לילה",
+    category: "סרומים ובוסטרים",
     en: "Night Serum for Anti-Aging",
     desc: "סרום לילה טיפולי לעידוד תהליכי חידוש, שיקום, תיקון וריפוי העור.",
     size: "50 מ״ל",
@@ -43,6 +47,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "ברייט & פרוטקט דמי מייקאפ מינרלי SPF 50",
+    category: "הגנה מהשמש",
     en: "Bright & Protect Mineral SPF 50 Demi Make Up",
     desc: "מקדם הגנה מינרלי מפני השמש, זיהום אוויר וקרינת מסכים. מסייע במניעת הזדקנות מואצת, תומך בהבהרה ומכיל טינט בגוון אחיד וזוהר.",
     size: "50 מ״ל",
@@ -53,6 +58,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם אייג' פרוטקשן",
+    category: "קרמים ולחות",
     en: "Age Protection Cream",
     desc: "תכשיר להעלאת רמת הלחות בעור ולשיקום המחסום העורי.",
     size: "60 מ״ל",
@@ -63,6 +69,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם פרופסי לייט",
+    category: "קרמים ולחות",
     en: "Prophecy Light Cream",
     desc: "קרם במרקם קליל בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת, להעלאת רמת הלחות, הנפח וגמישות העור.",
     size: "50 מ״ל",
@@ -73,6 +80,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סרום פרוטקשן שילד",
+    category: "סרומים ובוסטרים",
     en: "Protection Shield Serum",
     desc: "סרום ג'ל נטול שומן לאיזון העור, המסייע במניעת הופעת קומדונים ושומנים תת-עוריים.",
     size: "50 מ״ל",
@@ -83,6 +91,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם דרמה פיל",
+    category: "קרמים ולחות",
     en: "Derma Fill Cream",
     desc: "תכשיר טיפולי עשיר בפורמולה מבוססת טכנולוגיית מיקרוקפסולציה ושילוב סינרגטי של פפטידים, לשיפור מראה הגמישות, לעידוד יצירת קולגן עצמוני ולמראה עור מוצק יותר.",
     size: "60 מ״ל",
@@ -93,6 +102,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סרום פרופסי",
+    category: "סרומים ובוסטרים",
     en: "Prophecy Serum",
     desc: "סרום לחות קליל, נספג במהירות, המעניק לעור זוהר מיידי ומראה קורן. ביוסטימולטור המעודד ייצור חומצה היאלורונית טבעית.",
     size: "50 מ״ל",
@@ -103,6 +113,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "מסכת פנים רימיקרונייזד",
+    category: "מסכות",
     en: "Remicronized Mask",
     desc: "מסכה עשירה הנספגת בעור, בטכנולוגיית HZMT, מבוססת קולגן פברילי ממוזער, לתמיכה במיצוק והפחתת מראה קמטים וקמטוטים וללחות אינטנסיבית.",
     size: "50 מ״ל",
@@ -113,6 +124,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם עיניים רימיקרונייזד",
+    category: "עיניים",
     en: "Remicronized Eye Cream",
     desc: "קרם עיניים חדשני מבוסס HZMT לטיפול עוצמתי המתמקד במיצוק ובשיפור מראה קמטוטים.",
     size: "30 מ״ל",
@@ -123,6 +135,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "ג'ל ניקוי מטהר",
+    category: "ניקוי",
     en: "Purifying Cleansing Gel",
     desc: "ג'ל ניקוי לטיהור, איזון והרגעת העור. מתאים במיוחד לעור עם נטייה לפצעונים.",
     size: "225 מ״ל",
@@ -133,6 +146,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סבון אקטיב לעור בעייתי",
+    category: "ניקוי",
     en: "Active Gentle Soap",
     desc: "ג'ל ניקוי טיפולי לעור שמן, עבה ועם נקבוביות סתומות. מסדרת Acne Skin Platform.",
     size: "250 מ״ל",
@@ -143,6 +157,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סבון פנים לעור עדין",
+    category: "ניקוי",
     en: "Gentle Skin Soap",
     desc: "ג'ל ניקוי עדין לכל סוגי העור, מסדרת Preventec לסימני הזדקנות ראשונים.",
     size: "250 מ״ל",
@@ -153,6 +168,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "ג'ל ניקוי לחותי",
+    category: "ניקוי",
     en: "Moisturizing Cleansing Gel",
     desc: "ג'ל ניקוי לחותי, מנקה ומאזן את העור תוך תמיכה ושמירה על מחסום העור.",
     size: "225 מ״ל",
@@ -163,6 +179,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סבון קצף עדין",
+    category: "ניקוי",
     en: "Foaming Cleanser",
     desc: "קצף ניקוי עדין לניקוי יסודי, הרגעת אדמומיות ולתחושת נוחות מיידית, במיוחד לעור יבש או רגיש.",
     size: "225 מ״ל",
@@ -173,6 +190,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם לחות לעור שמן גרין לאב 23",
+    category: "קרמים ולחות",
     en: "Moist Cream for Oily Skin",
     desc: "תכשיר לחות קליל, נספג במהירות, נטול שומן, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
@@ -183,6 +201,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "סילקי פילטר SPF50",
+    category: "הגנה מהשמש",
     en: "Silky Filter Clear SPF50",
     desc: "ג'ל הגנה שקוף בטכנולוגיית פריימר, המעניק מראה מט קטיפתי, הגנה רחבת טווח ובסיס לאיפור.",
     size: "80 מ״ל",
@@ -193,6 +212,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם פרופסי ריץ'",
+    category: "קרמים ולחות",
     en: "Prophecy Rich Cream",
     desc: "קרם במרקם עשיר בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת ממוזערת, לשיפור מיידי במצבי יובש, להעלאת רמת הלחות, הנפח ולשיפור גמישות העור.",
     size: "50 מ״ל",
@@ -203,6 +223,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם לחות לעור יבש גרין לאב 23",
+    category: "קרמים ולחות",
     en: "Moist Cream for Dry Skin",
     desc: "תכשיר לחות במרקם עשיר, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
@@ -213,6 +234,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "קרם אקסטרים לצוואר ולמחשוף",
+    category: "קרמים ולחות",
     en: "Extreme Cream",
     desc: "קרם למיצוק עור הצוואר והמחשוף, להעלאת רמת הלחות ולטיפול ממוקד בסימני הזדקנות.",
     size: "60 מ״ל",
@@ -223,6 +245,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "מסכת אקסטרה סי",
+    category: "מסכות",
     en: "Extra C Mask",
     desc: "מסכה טיפולית עוצמתית להעלאת רמת הלחות, הגנה אנטי-אוקסידנטית ותמיכה בתהליכי הבהרה.",
     size: "60 מ״ל",
@@ -233,6 +256,7 @@ window.PRODUCTS = [
   {
     brand: "חוה זינגבוים",
     name: "אקטיב טריטמנט לושן (מי פנים)",
+    category: "ניקוי",
     en: "Active Treatment Lotion",
     desc: "מי פנים טיפוליים אקטיביים לשימוש אחרי הניקוי, להכנת העור לקליטת התכשירים הבאים.",
     size: "50 מ״ל",
@@ -243,6 +267,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "סרום ליפטינג Cell Pro",
+    category: "סרומים ובוסטרים",
     en: "Cell Pro Lifting Serum",
     desc: "סרום ליפטינג ממותג KLAPP Skin Care Science, מסדרת Cell Pro. זוכה מקום ראשון Beauty Forum Stars Award 2024 בקטגוריית טיפוח העור.",
     size: "30 מ״ל",
@@ -253,6 +278,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "קרם פנים ליפטינג Cell Pro",
+    category: "קרמים ולחות",
     en: "Cell Pro Lifting Face Cream",
     desc: "קרם פנים ממצק מסדרת Cell Pro Lifting של KLAPP, להשלמת הסרום.",
     size: "50 מ״ל",
@@ -263,6 +289,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "קרם אנטי-אייג'ינג גלובלי Repagen Exclusive",
+    category: "קרמים ולחות",
     en: "Repagen Exclusive Global Anti-Age Cream",
     desc: "קרם אנטי-אייג'ינג מקיף מסדרת Repagen Exclusive של KLAPP.",
     size: "30 מ״ל",
@@ -273,6 +300,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "קרם עיניים עשיר Repagen Exclusive",
+    category: "עיניים",
     en: "Repagen Exclusive Rich Eye Care Cream",
     desc: "קרם עיניים עשיר מסדרת Repagen Exclusive של KLAPP.",
     size: "20 מ״ל",
@@ -283,6 +311,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "פלואיד לחות לידיים Repagen Exclusive",
+    category: "קרמים ולחות",
     en: "Repagen Exclusive Hand Moisture Fluid",
     desc: "פלואיד לחות לידיים מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
@@ -293,6 +322,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "פלואיד פנים Repagen Exclusive",
+    category: "סרומים ובוסטרים",
     en: "Repagen Exclusive Face Fluid",
     desc: "פלואיד פנים אנטי-אייג'ינג מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
@@ -303,6 +333,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "סרום רטינול Triple Action PRO AGE",
+    category: "סרומים ובוסטרים",
     en: "Retinol Multi Level Performance Serum",
     desc: "סרום רטינול למיצוק עור יעיל ולאורך זמן, שיפור רמת הלחות, מראה עור חלק ואחיד וזוהר טבעי שנמשך כל היום. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
@@ -313,6 +344,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "קרם יום ולילה רטינול Triple Action PRO AGE",
+    category: "קרמים ולחות",
     en: "Retinol Multi Level Performance Day + Night Cream",
     desc: "קרם יום ולילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
@@ -323,6 +355,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "מסכת לילה רטינול Triple Action PRO AGE",
+    category: "מסכות",
     en: "Retinol Multi Level Performance Overnight Mask",
     desc: "מסכת לילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
@@ -333,6 +366,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "בוסטר רטינול Triple Action PRO AGE",
+    category: "סרומים ובוסטרים",
     en: "Retinol Multi Level Performance Booster",
     desc: "בוסטר חדש המעודד באופן פעיל את תהליך חידוש העור במהלך הלילה. התוצאה: עור מתוח ומראה צעיר בבוקר. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
@@ -343,6 +377,7 @@ window.PRODUCTS = [
   {
     brand: "KLAPP",
     name: "קרם צוואר ומחשוף Cell Pro Firming",
+    category: "קרמים ולחות",
     en: "Cell Pro Firming Neck & Décolleté Cream",
     desc: "קרם ממצק לצוואר ולמחשוף מסדרת Cell Pro Firming של KLAPP Skin Care Science.",
     size: "50 מ״ל",
@@ -353,6 +388,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "פילינג לקטוביוני Sensi Peel",
+    category: "ערכות וטיפול מקצועי",
     en: "Lactobionic Sensi Peel",
     desc: "פילינג עדין על בסיס חומצה לקטוביונית, מסדרת Neuro Sensi Therapy של Arkana, לעור רגיש.",
     size: "30 מ״ל",
@@ -363,6 +399,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "מסכת Neuro Sensi",
+    category: "ערכות וטיפול מקצועי",
     en: "Neuro Sensi Mask",
     desc: "מסכה מרגיעה מסדרת Neuro Sensi Therapy של Arkana, להרגעת עור רגיש ומגורה.",
     size: "",
@@ -373,6 +410,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "מסכת Skin Tone Neuro",
+    category: "מסכות",
     en: "Skin Tone Neuro Mask",
     desc: "מסכה מבהירה ומרגיעה מסדרת Skin Tone Neuro Therapy של Arkana, עם β-White וחומצה טרנקסמית, להפחתת כתמי פיגמנטציה.",
     size: "100 מ״ל",
@@ -383,6 +421,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "פילינג Skin Tone Neuro",
+    category: "ערכות וטיפול מקצועי",
     en: "Skin Tone Neuro Peel",
     desc: "פילינג מבהיר מסדרת Skin Tone Neuro Therapy של Arkana, לטיפול בכתמי פיגמנטציה ולאיחוד גוון העור.",
     size: "30 מ״ל",
@@ -393,6 +432,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "קרם Skin Tone Neuro",
+    category: "קרמים ולחות",
     en: "Skin Tone Neuro Cream",
     desc: "קרם מבהיר לשימוש יומי מסדרת Skin Tone Neuro Therapy של Arkana, להשלמת הטיפול בפיגמנטציה.",
     size: "",
@@ -403,6 +443,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "בוסטר PDRN Rederm",
+    category: "סרומים ובוסטרים",
     en: "PDRN Rederm Booster",
     desc: "בוסטר מסדרת Advanced Line של Arkana: PDRN Triple Fusion, תערובת 15 פפטידים וקומפלקס HA 16. עור מוצק וחלק, לחות עמוקה ומילוי.",
     size: "30 מ״ל",
@@ -413,6 +454,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "ערכת EXO + PRP Advanced Treat",
+    category: "ערכות וטיפול מקצועי",
     en: "EXO + PRP Advanced Treat",
     desc: "ערכה טיפולית מסדרת Advanced Therapy של Arkana: סרום אקסוזומים, סרום PRP ו-EXO Power, לחידוש עור ואפקט אנטי-אייג'ינג. מתאימה לטיפולי אקסוזומים ומיקרונידלינג.",
     size: "",
@@ -423,6 +465,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "מסכת PRP",
+    category: "ערכות וטיפול מקצועי",
     en: "PRP Mask",
     desc: "מסכת בד מסדרת PRP Therapy של Arkana, עם פלמיטויל טריפפטיד-5, קופר טריפפטיד-1 וחומצה היאלורונית. אפקט דמוי PRP: התחדשות והרגעה.",
     size: "יחידה, 28 גרם סרום",
@@ -433,6 +476,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "PRP Rejuvenator (שפופרת)",
+    category: "ערכות וטיפול מקצועי",
     en: "PRP Rejuvenator",
     desc: "תכשיר מחדש מסדרת PRP Therapy של Arkana, עם WH-Peptide ו-GHK-Cu, לאפקט ליפטינג ועיצוב מחדש של העור.",
     size: "100 מ״ל",
@@ -443,6 +487,7 @@ window.PRODUCTS = [
   {
     brand: "Arkana",
     name: "PRP Rejuvenator (צנצנת)",
+    category: "ערכות וטיפול מקצועי",
     en: "PRP Rejuvenator Cream",
     desc: "קרם מחדש לשימוש ביתי מסדרת PRP Therapy של Arkana, להשלמת הטיפול בקליניקה.",
     size: "",
@@ -453,6 +498,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Anti-Aging Rejuvenation",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Anti-Aging Rejuvenation Set",
     desc: "ערכה טיפולית מלאה בארבעה שלבים: קרם ביו-מיקרונידלינג ממצק, תמצית התחדשות ממצקת, מסכת Firming Repair וקרם התחדשות. אנטי-אייג'ינג, החלקת קמטים, מיצוק והרמה, שיפור גמישות העור.",
     size: "ערכה",
@@ -463,6 +509,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Resurfacing Repair",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Resurfacing Repair Set",
     desc: "טיפול באקנה וחידוש מרקם העור. סופחת את הזיהום והורגת את חיידקי האקנה, מתאימה לטיפול בצלקות פוסט-אקנתיות חדשות ובסימני מתיחה בגוף. מחדשת ומשפרת את מרקם העור, סוגרת נקבוביות. לעור שמן ומעורב.",
     size: "ערכה",
@@ -473,6 +520,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Resurfacing Repair Set II",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Resurfacing Repair Set II",
     desc: "ערכה לעור אקנה: תמצית Resurfacing Repair (4 בקבוקונים, 20 מ״ל), אבקת ביו-מיקרונידלינג (4 בקבוקונים), תמיסת ביו-מיקרונידלינג (4 בקבוקונים) ומסכות (4 יח'). לשיפור אקנה, הבהרת סימני אקנה ושיפור עור אקנתי.",
     size: "ערכה",
@@ -483,6 +531,7 @@ window.PRODUCTS = [
   {
     brand: "Dr. Spicule",
     name: "ערכת Firming Revitalizing",
+    category: "ערכות וטיפול מקצועי",
     en: "Dr. Spicule Firming Revitalizing System",
     desc: "מיצוק, חידוש והבהרת העור: תיקון ושמירה על אלסטיות, חיזוק מחסום העור, עיבוי האפידרמיס, הפחתת קמטוטים ומניעת צניחה. מכילה אקטואין, קרנוזין, פיברונקטין, בטא-גלוקן, פנטנול וחמישה שמנים צמחיים. 4 טיפולים, לכל סוגי העור כולל רגיש.",
     size: "ערכה, 4 טיפולים",
@@ -493,6 +542,7 @@ window.PRODUCTS = [
   {
     brand: "Dr. Spicule",
     name: "ערכת Acne Solutions",
+    category: "ערכות וטיפול מקצועי",
     en: "Dr. Spicule Acne Solutions System",
     desc: "פתרונות אקנה: העלמת אקנה ופצעונים, צמצום צלקות אקנה, טיפול בנקבוביות גדולות וויסות מאזן שומן ומים. מכילה חומצה סליצילית, ביסבולול, בטא-גלוקן, פיברונקטין, צרמיד ותערובת של 10 'מכסחי אקנה'. 4 טיפולים, לעור מעורב או שמנוני.",
     size: "ערכה, 4 טיפולים",
@@ -503,6 +553,7 @@ window.PRODUCTS = [
   {
     brand: "Dr. Spicule",
     name: "ערכת Pigmentation & Brightening",
+    category: "ערכות וטיפול מקצועי",
     en: "Dr. Spicule Anti-Pigmentation & Brightening System",
     desc: "אנטי-פיגמנטציה והבהרה: שיפור מראה עור דהוי, הבהרת כתמים כהים, היפרפיגמנטציה ומלזמה, ואיחוד גוון העור. מכילה ניאצין, חומצה טרנקסמית, פוליפפטידים וחומצות נוספות ותוצרי התססה. 4 טיפולים, לעור מעורב, יבש ושמן.",
     size: "ערכה, 4 טיפולים",
@@ -513,6 +564,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Anti-Aging לטיפול ביתי",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Anti-Aging Homecare Set",
     desc: "מערכת אנטי-אייג'ינג בחמישה ממדים: מטריצת קולגן-פפטיד, רכיבי תסס ביולוגיים, הגנה נגד חמצון וגליקציה, ותיקון תאי העור והמחסום העורי. הרמה ומיצוק תוך שיפור האלסטיות, לגוון עור חלק, תפוח וצעיר יותר. כוללת קרם וסרום. לכל סוגי העור כולל רגיש.",
     size: "ערכה: קרם + סרום",
@@ -523,6 +575,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Revitalizing Beauty",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Revitalizing Beauty Set",
     desc: "חידוש והבהרת העור: מקנה גוון אחיד, משפרת את מרקם העור, מטפלת במשקעי המלנין ובכתמי פיגמנטציה ומדכאת את ייצור המלנין. משפרת צלקות פוסט-אקנתיות ישנות. לכל סוגי העור.",
     size: "ערכה",
@@ -533,6 +586,7 @@ window.PRODUCTS = [
   {
     brand: "SQT",
     name: "ערכת SQT Skin Booster (Hydrating)",
+    category: "ערכות וטיפול מקצועי",
     en: "SQT Nourishing Hydrating Set",
     desc: "סקין בוסטר ללא הזרקה: מתקנת ומחזקת את המחסום האפידרמלי, מחדירה בוסט של לחות ונועלת אותו בעור, ומקנה נפח. מתאימה לשיקום לאחר פלזמה, מיקרונידלינג ופילינג, לכל סוגי העור.",
     size: "ערכה",
