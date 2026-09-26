@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/style.css?v=8">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,7 +44,7 @@
       <li><a href="#laser">הסרת שיער</a></li>
       <li><a href="#pedicure">פדיקור טיפולי</a></li>
       <li><a href="#results">תוצאות</a></li>
-      <li><a href="#about">איך זה עובד</a></li>
+      <li><a href="#certs">הסמכות</a></li>
       <li><a class="menu-shop" href="shop.html">חנות</a></li>
     </ul>
   </nav>
@@ -344,6 +344,24 @@
     </ol>
   </section>
 
+  <!-- הסמכות -->
+  <section class="certs" id="certs" aria-labelledby="certs-title">
+    <div class="section-head reveal">
+      <p class="kicker">הכשרה</p>
+      <h2 id="certs-title">הסמכות ותעודות</h2>
+      <p>רותם גוטובסקי, קוסמטיקאית פרא-רפואית מוסמכת (P.M.E). ההכשרה כוללת ביולוגיה, אנטומיה, פיזיולוגיה וכימיה, ומאפשרת עבודה בשילוב עם צוות רפואי.</p>
+    </div>
+    <ul class="cert-list" data-stagger>
+      <li class="cert reveal">
+        <button type="button" class="cert-open" data-cert="images/certs/pme-hava-zingboim.jpg" aria-label="הגדלת התעודה">
+          <img src="images/certs/pme-hava-zingboim.jpg" alt="תעודת סיום מסלול קוסמטיקאית פרא-רפואית P.M.E, בית הספר למדעי הקוסמטיקה חוה זינגבוים" loading="lazy">
+        </button>
+        <h3>קוסמטיקאית פרא-רפואית מוסמכת P.M.E</h3>
+        <p>בתי הספר למדעי הקוסמטיקה של חוה זינגבוים. מסלול עיוני-מעשי: האטת הזדקנות העור, פיגמנטציה, פילינגים, אקנה והכנת העור לפני ואחרי ניתוחים פלסטיים. ינואר 2022.</p>
+      </li>
+    </ul>
+  </section>
+
   <!-- שאלות -->
   <section class="faq">
     <div class="section-head reveal">
@@ -425,6 +443,7 @@
 </a>
 <button class="to-top" id="to-top" type="button" aria-label="חזרה למעלה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="lightbox" id="lightbox" aria-label="תעודה מוגדלת"><img src="" alt=""><button class="qv-close" id="lightbox-close" type="button" aria-label="סגירה">×</button></dialog>
 
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>

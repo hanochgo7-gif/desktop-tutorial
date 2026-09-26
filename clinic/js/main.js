@@ -339,6 +339,17 @@
     render();
   }
 
+
+  /* תעודות: הגדלה */
+  var lb = $('#lightbox');
+  if (lb) {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cert]');
+      if (b) { $('img', lb).src = b.dataset.cert; $('img', lb).alt = $('img', b).alt; lb.showModal(); return; }
+      if (e.target === lb || e.target.closest('#lightbox-close')) lb.close();
+    });
+  }
+
   /* תצוגה מהירה */
   var qv = $('#qv');
   function openQv(i) {
