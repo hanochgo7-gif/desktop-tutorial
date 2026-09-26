@@ -51,3 +51,5 @@
 | Arkana PRP Rejuvenator (שפופרת) (PRP Rejuvenator) | 100 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
 | Arkana PRP Rejuvenator (צנצנת) (PRP Rejuvenator Cream) | ? | אין מחיר (תמונת מותג) | | חסרה |
 | SQT ערכת SQT Anti-Aging Rejuvenation (SQT Anti-Aging Rejuvenation Set) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
+| SQT ערכת SQT Resurfacing Repair (SQT Resurfacing Repair Set) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
+| SQT ערכת SQT Resurfacing Repair Set II (SQT Resurfacing Repair Set II) | ערכה | אין מחיר (תמונת מותג) | | חסרה |

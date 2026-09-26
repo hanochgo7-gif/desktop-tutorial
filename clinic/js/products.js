@@ -459,5 +459,25 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Resurfacing Repair",
+    en: "SQT Resurfacing Repair Set",
+    desc: "ערכת ביו-מיקרונידלינג עם ספיקולות ספונגילה (SQT Spongilla Spicule) לחידוש פני העור, הפחתת צלקות ושיפור מרקם.",
+    size: "ערכה",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Resurfacing Repair Set II",
+    en: "SQT Resurfacing Repair Set II",
+    desc: "ערכה לעור אקנה: תמצית Resurfacing Repair (4 בקבוקונים, 20 מ״ל), אבקת ביו-מיקרונידלינג (4 בקבוקונים), תמיסת ביו-מיקרונידלינג (4 בקבוקונים) ומסכות (4 יח'). לשיפור אקנה, הבהרת סימני אקנה ושיפור עור אקנתי.",
+    size: "ערכה",
+    price: null,
+    image: null,
+    tall: false
   }
 ];
