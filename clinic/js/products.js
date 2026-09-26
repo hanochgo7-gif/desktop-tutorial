@@ -10,7 +10,7 @@ window.PRODUCTS = [
     desc: "מחטים ננו-ביולוגיות לחידוש האפידרמיס. לשימוש בקליניקה.",
     size: "",
     price: null,
-    image: "images/sqt-vials.webp",
+    image: "images/sqt-vials.jpg",
     tall: false
   },
   {
@@ -21,7 +21,7 @@ window.PRODUCTS = [
     desc: "סרום ספיקולים לשימוש ביתי בין הטיפולים, ערכה עם ארבעה מילויים.",
     size: "",
     price: null,
-    image: "images/sqt-serum-box.webp",
+    image: "images/sqt-serum-box.jpg",
     tall: true
   },
   {
