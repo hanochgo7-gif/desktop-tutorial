@@ -218,7 +218,9 @@ body.menu-open .nav-toggle span { background: #fff; }
 .marquee__list { display: flex; align-items: center; }
 .marquee__list li { display: inline-flex; align-items: center; gap: 30px; padding-inline: 30px; font: 300 clamp(24px, 3vw, 38px)/1 var(--serif); white-space: nowrap; direction: ltr; }
 .marquee__list li::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
-.marquee__list li small { font: 400 13px var(--sans); color: rgba(255,255,255,.55); letter-spacing: .08em; }
+.hz-mark { display: inline-flex; align-items: center; gap: .18em; font: 300 clamp(24px, 3vw, 38px)/1 var(--sans); letter-spacing: .04em; color: #fff; }
+.hz-mark i { width: .17em; height: .17em; border-radius: 50%; background: #d3222a; margin-top: .3em; }
+.ba-pair-square .ba-frame img { aspect-ratio: 1 / 1; }
 
 /* ===== מספרים ===== */
 .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: clamp(48px, 7vh, 80px) var(--gutter); }
