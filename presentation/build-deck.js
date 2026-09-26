@@ -194,13 +194,15 @@ function titleText(s, txt, dark, opts = {}) {
 
   // ---------- 8. section: the choice ----------
   { const s = pres.addSlide(); n++; sectionSlide(s, "02", "הבחירה", "סיירת נח״ל. אבל זה לא סיפור צבאי – זו הפעם הראשונה שבחרתי מי אני רוצה להיות.", n);
+    s.addImage({ path: "nahal-sand.png", x: 1.0, y: 1.6, w: 4.2, h: 4.2 * 124 / 226 });
     s.addNotes("הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות."); }
 
   // ---------- 9. four cards ----------
   {
     const s = pres.addSlide(); n++;
     bg(s, C.paper);
-    titleText(s, "סיירת נח״ל – מה באמת קרה שם", false);
+    titleText(s, "סיירת נח״ל – מה באמת קרה שם", false, { w: W - 1.8 - 2.2 });
+    s.addImage({ path: "nahal-dark.png", x: 0.9, y: 0.35, w: 2.7, h: 2.7 * 124 / 226 });
     photoSlot(s, 0.9, 1.8, 3.4, 4.9, "מהמסלול / טקס סיום / הצוות", false, camL);
     const cards = [
       [ic.mountain, "למה רציתי להגיע לשם", "כי אני אוהב אתגרים. ורציתי להוכיח לעצמי שאני באמת תותח כמו שאני מרגיש – בניגוד למה שאמרו לי כל הזמן."],
