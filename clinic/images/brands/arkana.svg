@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 92" role="img" aria-label="ARKANA advanced beauty care">
+  <g fill="none" stroke="#2b3a9c" stroke-width="9" stroke-linejoin="miter">
+    <path d="M6 58 L28 8 L50 58"/>
+    <path d="M146 58 L168 8 L190 58"/>
+    <path d="M250 58 L272 8 L294 58"/>
+  </g>
+  <g fill="#2b3a9c" font-family="Assistant, 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="60">
+    <text x="58" y="58">R</text>
+    <text x="100" y="58">K</text>
+    <text x="198" y="58">N</text>
+  </g>
+  <text x="150" y="84" text-anchor="middle" fill="#2b3a9c" font-family="Assistant, 'Helvetica Neue', Arial, sans-serif" font-weight="400" font-size="13" letter-spacing="3.2">ADVANCED BEAUTY CARE</text>
+</svg>
