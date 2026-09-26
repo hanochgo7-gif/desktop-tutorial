@@ -1,0 +1,254 @@
+/* סקין סטודיו: עיצוב */
+:root {
+  --bg: #f3f6f8;
+  --paper: #ffffff;
+  --ink: #1f2c34;
+  --slate: #3b505a;
+  --muted: #6c7f8a;
+  --line: #d3dce1;
+  --blue: #1e8fd0;
+  --blue-deep: #146ea3;
+  --serif: "Noto Serif Hebrew", "Frank Ruhl Libre", Georgia, serif;
+  --sans: "Assistant", "Heebo", system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 72px);
+  --nav-h: 68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+}
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 300; margin: 0; line-height: 1.15; letter-spacing: -0.01em; }
+h2 { font-size: clamp(30px, 4vw, 46px); }
+h3 { font-size: 22px; }
+p { margin: 0; }
+a { color: inherit; }
+ul, ol, dl { margin: 0; padding: 0; }
+li { list-style: none; }
+b { font-weight: 600; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; top: -60px; right: 16px; background: var(--ink); color: #fff; padding: 10px 16px; z-index: 100; }
+.skip:focus { top: 8px; }
+
+/* כפתורים וקישורים */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 48px; padding: 0 28px;
+  font: 600 14px/1 var(--sans); letter-spacing: 0.02em;
+  text-decoration: none; border: 1px solid transparent; cursor: pointer;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+.btn-solid { background: var(--slate); color: #fff; }
+.btn-solid:hover { background: var(--ink); }
+.btn-outline { background: transparent; color: var(--slate); border-color: var(--slate); }
+.btn-outline:hover { background: var(--slate); color: #fff; }
+.link-line {
+  font-weight: 600; font-size: 14px; text-decoration: none;
+  padding-bottom: 3px; border-bottom: 1px solid currentColor;
+  transition: color .2s ease;
+}
+.link-line:hover { color: var(--blue-deep); }
+
+/* כותרת האתר */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--nav-h);
+  display: flex; align-items: center; gap: 24px;
+  padding: 0 var(--gutter);
+  background: rgba(243,246,248,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-mark {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  font: 300 22px var(--serif); color: #fff; background: var(--blue);
+}
+.brand-name { font: 400 20px var(--serif); }
+.nav { margin-inline-start: auto; }
+.menu { display: flex; gap: 28px; }
+.menu a { font-size: 15px; text-decoration: none; color: var(--slate); padding-bottom: 3px; border-bottom: 1px solid transparent; }
+.menu a:hover { border-color: var(--slate); }
+.nav-toggle { display: none; }
+.header-cta { height: 40px; padding: 0 20px; }
+
+/* הירו */
+.hero {
+  display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  padding: clamp(40px, 8vh, 96px) var(--gutter);
+  min-height: calc(100vh - var(--nav-h));
+}
+.hero-kicker { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(36px, 5.2vw, 72px); line-height: 1.08; }
+.hero-text { max-width: 30em; margin-top: 28px; font-size: 19px; color: var(--slate); font-weight: 300; }
+.hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 36px; flex-wrap: wrap; }
+.hero-media { margin: 0; position: relative; }
+.hero-media img { aspect-ratio: 4/5; object-fit: cover; width: 100%; }
+.hero-media figcaption {
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 14px;
+}
+
+/* שלושת התחומים */
+.fields {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  margin: 0 var(--gutter);
+}
+.field {
+  padding: 32px 24px; text-decoration: none;
+  display: flex; flex-direction: column; gap: 8px;
+  border-inline-start: 1px solid var(--line);
+  transition: background-color .25s ease;
+}
+.field:first-child { border-inline-start: 0; }
+.field:hover { background: var(--paper); }
+.field-name { font: 300 26px var(--serif); }
+.field-desc { color: var(--muted); font-size: 15px; }
+
+/* כותרת קטע */
+.section-head { max-width: 40em; margin-bottom: 40px; }
+.section-head p { margin-top: 14px; color: var(--slate); font-size: 18px; font-weight: 300; }
+
+/* מאתר טיפול */
+.finder { padding: clamp(64px, 10vh, 120px) var(--gutter); }
+.finder-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.goal {
+  font: 400 16px var(--sans); color: var(--slate);
+  background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  padding: 10px 20px; cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+.goal:hover { border-color: var(--slate); }
+.goal.is-active { background: var(--slate); border-color: var(--slate); color: #fff; }
+.finder-panels { margin-top: 32px; background: var(--paper); padding: 36px clamp(24px, 4vw, 48px); border-inline-start: 4px solid var(--blue); }
+.panel h3 { font-size: 26px; margin-bottom: 20px; }
+.panel li { padding: 14px 0; border-top: 1px solid var(--line); max-width: 46em; }
+.panel li:first-child { border-top: 0; padding-top: 0; }
+
+/* קטעי שירות */
+.service {
+  display: grid; grid-template-columns: 1fr 2fr; gap: clamp(32px, 6vw, 96px);
+  padding: clamp(64px, 10vh, 120px) var(--gutter);
+  border-top: 1px solid var(--line);
+}
+.service-alt { background: var(--paper); }
+.service-intro { position: sticky; top: calc(var(--nav-h) + 32px); align-self: start; }
+.service-intro p { margin: 20px 0 28px; color: var(--slate); font-weight: 300; font-size: 18px; max-width: 26em; }
+.treatments div { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line); }
+.treatments div:first-child { border-top: 0; padding-top: 0; }
+.treatments dt { font: 400 21px var(--serif); }
+.treatments dd { margin: 0; color: var(--slate); max-width: 40em; }
+
+/* לייזר: עובדות */
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-content: start; }
+.fact { display: flex; flex-direction: column; gap: 10px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.fact-value { font: 300 clamp(38px, 4.5vw, 56px)/1 var(--serif); }
+.fact-label { color: var(--slate); font-size: 15px; }
+.facts-note { grid-column: 1 / -1; margin-top: 16px; padding: 18px 22px; background: var(--bg); color: var(--slate); }
+
+/* חנות */
+.shop { padding: clamp(64px, 10vh, 120px) var(--gutter); border-top: 1px solid var(--line); background: var(--paper); }
+.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.product-media { margin: 0; background: var(--bg); overflow: hidden; }
+.product-media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .6s ease; }
+.product-media-tall img { object-position: center 50%; transform: scale(1.02); }
+.product:hover .product-media img { transform: scale(1.05); }
+.product-media-empty { aspect-ratio: 4/5; display: grid; place-items: center; color: var(--muted); font-size: 14px; border: 1px dashed var(--line); }
+.product-info { padding-top: 16px; }
+.product-info h3 { font-size: 19px; }
+.product-info p { margin-top: 6px; color: var(--muted); font-size: 15px; min-height: 3.2em; }
+.product-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.price { font: 400 18px var(--serif); }
+.shop-note { margin-top: 36px; color: var(--muted); font-size: 15px; }
+
+/* תהליך */
+.process { padding: clamp(64px, 10vh, 120px) var(--gutter); border-top: 1px solid var(--line); }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; counter-reset: step; }
+.steps li { counter-increment: step; padding-top: 20px; border-top: 2px solid var(--ink); }
+.steps li::before { content: counter(step); display: block; font: 300 44px/1 var(--serif); color: var(--blue); margin-bottom: 18px; }
+.steps h3 { margin-bottom: 8px; }
+.steps p { color: var(--slate); font-size: 16px; }
+
+/* שאלות */
+.faq { padding: clamp(64px, 10vh, 120px) var(--gutter); background: var(--paper); border-top: 1px solid var(--line); }
+.faq-list { max-width: 52em; }
+.faq-list details { border-top: 1px solid var(--line); }
+.faq-list details:last-child { border-bottom: 1px solid var(--line); }
+.faq-list summary { cursor: pointer; padding: 20px 0; font: 400 20px var(--serif); list-style: none; display: flex; justify-content: space-between; gap: 20px; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; font: 300 26px/1 var(--serif); color: var(--blue); flex-shrink: 0; }
+.faq-list details[open] summary::after { content: "–"; }
+.faq-list details p { padding: 0 0 22px; color: var(--slate); max-width: 44em; }
+
+/* יצירת קשר */
+.contact {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px);
+  padding: clamp(64px, 10vh, 120px) var(--gutter);
+  background: var(--slate); color: #fff;
+}
+.contact-copy p { margin-top: 20px; font-weight: 300; font-size: 18px; max-width: 28em; }
+.contact-details { margin-top: 36px; display: grid; gap: 10px; }
+.contact-details a { text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4); }
+.contact-details a:hover { border-color: #fff; }
+.contact-form { display: grid; gap: 20px; align-content: start; }
+.contact-form label { display: grid; gap: 8px; font-size: 15px; }
+.contact-form input, .contact-form select, .contact-form textarea {
+  font: 400 17px var(--sans); color: var(--ink);
+  background: #fff; border: 1px solid transparent; padding: 12px 14px; width: 100%;
+}
+.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 2px solid var(--blue); outline-offset: 0; }
+.contact-form .btn-solid { background: var(--blue); justify-self: start; }
+.contact-form .btn-solid:hover { background: var(--blue-deep); }
+
+/* פוטר */
+.site-footer { padding: 32px var(--gutter); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+
+/* רספונסיב */
+@media (max-width: 1024px) {
+  .products { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .service { grid-template-columns: 1fr; }
+  .service-intro { position: static; }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 40px; }
+  .hero-media { order: -1; }
+  .hero-media img { aspect-ratio: 1; }
+  .fields { grid-template-columns: 1fr; }
+  .field { border-inline-start: 0; border-top: 1px solid var(--line); padding: 22px 0; }
+  .field:first-child { border-top: 0; }
+  .treatments div { grid-template-columns: 1fr; gap: 6px; }
+  .facts { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+  .header-cta { display: none; }
+  .nav-toggle {
+    display: block; width: 44px; height: 44px; background: none; border: 0; cursor: pointer;
+    display: flex; flex-direction: column; justify-content: center; gap: 6px; align-items: center;
+  }
+  .nav-toggle span { display: block; width: 24px; height: 1.5px; background: var(--ink); }
+  .nav-toggle .sr-only { width: 1px; height: 1px; }
+  .menu {
+    display: none; position: absolute; inset: var(--nav-h) 0 auto 0;
+    flex-direction: column; gap: 0; background: var(--paper); border-bottom: 1px solid var(--line);
+  }
+  .menu.is-open { display: flex; }
+  .menu a { display: block; padding: 16px var(--gutter); border: 0; border-top: 1px solid var(--line); font-size: 18px; }
+}
+@media (max-width: 480px) {
+  .products { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+}
