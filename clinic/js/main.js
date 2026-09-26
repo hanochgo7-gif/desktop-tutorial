@@ -350,7 +350,7 @@
       '<span class="shelf-label"><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' + price + '</span></li>';
   }
   function shelfCols() { var w = window.innerWidth; return w <= 860 ? 2 : w <= 1024 ? 3 : 4; }
-  var PROPS = ['images/props/set.png', 'images/props/bottles.png', 'images/props/canister.png'], propK = 0;
+  var PROPS = ['images/props/shell-frame.png', 'images/props/set.png', 'images/props/bottles.png', 'images/props/canister.png'], propK = 0;
   function rowsHtml(items) {
     var n = shelfCols(), rows = [];
     for (var s = 0; s < items.length; s += n) {
