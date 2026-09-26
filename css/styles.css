@@ -1686,4 +1686,8 @@ body.has-ann .ann { z-index: 99; }
 }
 @media (max-width: 999px) {
   .projects__layout { grid-template-columns: minmax(0, 1fr) 112px; }
-}
+}/* הירו: הלוגו במקום המילה הגדולה, באותו סדר גודל */
+.hero__logo { margin: 0; justify-self: start; display: inline-flex; background: #fff; border-radius: 24px; padding: clamp(14px, 2vw, 28px) clamp(22px, 3vw, 46px); opacity: 0; transform: translateY(24px); animation: g-up .9s var(--ease) .6s forwards; }
+.hero__logo img { width: clamp(220px, 38vw, 560px); height: auto; display: block; }
+@media (prefers-reduced-motion: reduce) { .hero__logo { opacity: 1; transform: none; animation: none; } }
+html.a11y-no-motion .hero__logo { opacity: 1; transform: none; animation: none; }
