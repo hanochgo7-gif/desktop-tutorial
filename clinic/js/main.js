@@ -66,6 +66,32 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
 
+
+  /* תפריט הטיפולים: טבלאות */
+  var svcBox = $('#svc-tables');
+  if (svcBox && window.SERVICES) {
+    var COLS = [['name', 'טיפול'], ['includes', 'מה כולל'], ['who', 'מתאים ל'], ['tech', 'טכנולוגיה'], ['duration', 'משך'], ['series', 'סדרה'], ['interval', 'מרווח'], ['price', 'מחיר']];
+    function priceCell(r) {
+      if (r.price === 0) return '<b class="svc-free">ללא עלות</b>';
+      if (typeof r.price === 'number') return '<b>₪ ' + r.price.toLocaleString('he-IL') + '</b>';
+      return '<span class="svc-ask">לפי אבחון</span>';
+    }
+    svcBox.innerHTML = window.SERVICES.map(function (cat) {
+      var total = cat.groups.reduce(function (n, g) { return n + g.rows.length; }, 0);
+      var body = cat.groups.map(function (g) {
+        return '<tr class="svc-group"><th colspan="' + (COLS.length + 1) + '" scope="rowgroup">' + escapeHtml(g.title) + '</th></tr>' + g.rows.map(function (r) {
+          return '<tr>' + COLS.map(function (c) {
+            var v = c[0] === 'price' ? priceCell(r) : escapeHtml(r[c[0]] || '');
+            if (c[0] === 'name') v = '<b>' + v + '</b>' + (r.note ? '<small>' + escapeHtml(r.note) + '</small>' : '');
+            return '<td data-label="' + c[1] + '"' + (v ? '' : ' class="is-empty"') + '>' + (v || '<span aria-hidden="true">·</span>') + '</td>';
+          }).join('') + '<td class="svc-cta"><a href="' + WA.split('?')[0] + '?text=' + encodeURIComponent('היי, אשמח לשמוע על ' + r.name) + '" target="_blank" rel="noopener" aria-label="שאלה בוואטסאפ על ' + escapeHtml(r.name) + '">וואטסאפ</a></td></tr>';
+        }).join('');
+      }).join('');
+      return '<section class="svc-cat" id="' + cat.id + '"><div class="menu-group__head reveal"><p class="kicker">' + cat.num + '</p><h2>' + escapeHtml(cat.title) + '</h2><p>' + escapeHtml(cat.intro) + '</p></div>' +
+        '<div class="svc-wrap reveal"><table class="svc"><caption class="sr-only">' + escapeHtml(cat.title) + ', ' + total + ' טיפולים</caption><thead><tr>' + COLS.map(function (c) { return '<th scope="col">' + c[1] + '</th>'; }).join('') + '<th scope="col"><span class="sr-only">שאלה</span></th></tr></thead><tbody>' + body + '</tbody></table></div></section>';
+    }).join('') + '<p class="svc-note reveal">משכי הטיפולים משוערים. המחיר הסופי נקבע באבחון לפי האזור, סוג העור והתוכנית, ומחירון מלא זמין בקליניקה ובוואטסאפ.</p>';
+    afterRender(svcBox);
+  }
   var mp = $('#menu-print'); if (mp) mp.addEventListener('click', function () { window.print(); });
   /* קישור פעיל בתפריט */
   var navLinks = $$('.menu a[href^="#"], .menu-nav a[href^="#"]').filter(function (a) { return a.getAttribute('href').length > 1; });
