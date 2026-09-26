@@ -53,3 +53,9 @@
 | SQT ערכת SQT Anti-Aging Rejuvenation (SQT Anti-Aging Rejuvenation Set) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
 | SQT ערכת SQT Resurfacing Repair (SQT Resurfacing Repair Set) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
 | SQT ערכת SQT Resurfacing Repair Set II (SQT Resurfacing Repair Set II) | ערכה | אין מחיר (תמונת מותג) | | חסרה |
+| Dr. Spicule ערכת Firming Revitalizing (Dr. Spicule Firming Revitalizing System) | ערכה, 4 טיפולים | אין מחיר (חוברת Zaretzki) | | מהחוברת |
+| Dr. Spicule ערכת Acne Solutions (Dr. Spicule Acne Solutions System) | ערכה, 4 טיפולים | אין מחיר (חוברת Zaretzki) | | מהחוברת |
+| Dr. Spicule ערכת Pigmentation & Brightening (Dr. Spicule Anti-Pigmentation & Brightening System) | ערכה, 4 טיפולים | אין מחיר (חוברת Zaretzki) | | מהחוברת |
+| SQT ערכת SQT Anti-Aging לטיפול ביתי (SQT Anti-Aging Homecare Set) | ערכה: קרם + סרום | אין מחיר (חוברת Zaretzki) | | מהחוברת |
+| SQT ערכת SQT Revitalizing Beauty (SQT Revitalizing Beauty Set) | ערכה | אין מחיר (חוברת Zaretzki) | | מהחוברת |
+| SQT ערכת SQT Skin Booster (Hydrating) (SQT Nourishing Hydrating Set) | ערכה | אין מחיר (חוברת Zaretzki) | | מהחוברת |

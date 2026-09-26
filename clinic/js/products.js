@@ -464,7 +464,7 @@ window.PRODUCTS = [
     brand: "SQT",
     name: "ערכת SQT Resurfacing Repair",
     en: "SQT Resurfacing Repair Set",
-    desc: "ערכת ביו-מיקרונידלינג עם ספיקולות ספונגילה (SQT Spongilla Spicule) לחידוש פני העור, הפחתת צלקות ושיפור מרקם.",
+    desc: "טיפול באקנה וחידוש מרקם העור. סופחת את הזיהום והורגת את חיידקי האקנה, מתאימה לטיפול בצלקות פוסט-אקנתיות חדשות ובסימני מתיחה בגוף. מחדשת ומשפרת את מרקם העור, סוגרת נקבוביות. לעור שמן ומעורב.",
     size: "ערכה",
     price: null,
     image: null,
@@ -478,6 +478,66 @@ window.PRODUCTS = [
     size: "ערכה",
     price: null,
     image: null,
+    tall: false
+  },
+  {
+    brand: "Dr. Spicule",
+    name: "ערכת Firming Revitalizing",
+    en: "Dr. Spicule Firming Revitalizing System",
+    desc: "מיצוק, חידוש והבהרת העור: תיקון ושמירה על אלסטיות, חיזוק מחסום העור, עיבוי האפידרמיס, הפחתת קמטוטים ומניעת צניחה. מכילה אקטואין, קרנוזין, פיברונקטין, בטא-גלוקן, פנטנול וחמישה שמנים צמחיים. 4 טיפולים, לכל סוגי העור כולל רגיש.",
+    size: "ערכה, 4 טיפולים",
+    price: null,
+    image: "images/drspicule-firming.jpg",
+    tall: false
+  },
+  {
+    brand: "Dr. Spicule",
+    name: "ערכת Acne Solutions",
+    en: "Dr. Spicule Acne Solutions System",
+    desc: "פתרונות אקנה: העלמת אקנה ופצעונים, צמצום צלקות אקנה, טיפול בנקבוביות גדולות וויסות מאזן שומן ומים. מכילה חומצה סליצילית, ביסבולול, בטא-גלוקן, פיברונקטין, צרמיד ותערובת של 10 'מכסחי אקנה'. 4 טיפולים, לעור מעורב או שמנוני.",
+    size: "ערכה, 4 טיפולים",
+    price: null,
+    image: "images/drspicule-acne.jpg",
+    tall: false
+  },
+  {
+    brand: "Dr. Spicule",
+    name: "ערכת Pigmentation & Brightening",
+    en: "Dr. Spicule Anti-Pigmentation & Brightening System",
+    desc: "אנטי-פיגמנטציה והבהרה: שיפור מראה עור דהוי, הבהרת כתמים כהים, היפרפיגמנטציה ומלזמה, ואיחוד גוון העור. מכילה ניאצין, חומצה טרנקסמית, פוליפפטידים וחומצות נוספות ותוצרי התססה. 4 טיפולים, לעור מעורב, יבש ושמן.",
+    size: "ערכה, 4 טיפולים",
+    price: null,
+    image: "images/drspicule-pigment.jpg",
+    tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Anti-Aging לטיפול ביתי",
+    en: "SQT Anti-Aging Homecare Set",
+    desc: "מערכת אנטי-אייג'ינג בחמישה ממדים: מטריצת קולגן-פפטיד, רכיבי תסס ביולוגיים, הגנה נגד חמצון וגליקציה, ותיקון תאי העור והמחסום העורי. הרמה ומיצוק תוך שיפור האלסטיות, לגוון עור חלק, תפוח וצעיר יותר. כוללת קרם וסרום. לכל סוגי העור כולל רגיש.",
+    size: "ערכה: קרם + סרום",
+    price: null,
+    image: "images/sqt-homecare-set.jpg",
+    tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Revitalizing Beauty",
+    en: "SQT Revitalizing Beauty Set",
+    desc: "חידוש והבהרת העור: מקנה גוון אחיד, משפרת את מרקם העור, מטפלת במשקעי המלנין ובכתמי פיגמנטציה ומדכאת את ייצור המלנין. משפרת צלקות פוסט-אקנתיות ישנות. לכל סוגי העור.",
+    size: "ערכה",
+    price: null,
+    image: "images/sqt-sets.jpg",
+    tall: false
+  },
+  {
+    brand: "SQT",
+    name: "ערכת SQT Skin Booster (Hydrating)",
+    en: "SQT Nourishing Hydrating Set",
+    desc: "סקין בוסטר ללא הזרקה: מתקנת ומחזקת את המחסום האפידרמלי, מחדירה בוסט של לחות ונועלת אותו בעור, ומקנה נפח. מתאימה לשיקום לאחר פלזמה, מיקרונידלינג ופילינג, לכל סוגי העור.",
+    size: "ערכה",
+    price: null,
+    image: "images/sqt-sets.jpg",
     tall: false
   }
 ];
