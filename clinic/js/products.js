@@ -189,5 +189,35 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: true
+  },
+  {
+    brand: "חוה זינגבוים",
+    name: "קרם פרופסי ריץ'",
+    en: "Prophecy Rich Cream",
+    desc: "קרם במרקם עשיר בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת ממוזערת, לשיפור מיידי במצבי יובש, להעלאת רמת הלחות, הנפח ולשיפור גמישות העור.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "חוה זינגבוים",
+    name: "קרם לחות לעור יבש גרין לאב 23",
+    en: "Moist Cream for Dry Skin",
+    desc: "תכשיר לחות במרקם עשיר, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "חוה זינגבוים",
+    name: "קרם אקסטרים לצוואר ולמחשוף",
+    en: "Extreme Cream",
+    desc: "קרם למיצוק עור הצוואר והמחשוף, להעלאת רמת הלחות ולטיפול ממוקד בסימני הזדקנות.",
+    size: "60 מ״ל",
+    price: null,
+    image: null,
+    tall: false
   }
 ];
