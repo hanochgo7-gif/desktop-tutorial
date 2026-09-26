@@ -304,10 +304,10 @@ window.PRODUCTS = [
     brand: "KLAPP",
     name: "סרום רטינול Triple Action PRO AGE",
     en: "Retinol Multi Level Performance Serum",
-    desc: "סרום רטינול. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
+    desc: "סרום רטינול למיצוק עור יעיל ולאורך זמן, שיפור רמת הלחות, מראה עור חלק ואחיד וזוהר טבעי שנמשך כל היום. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/klapp-retinol-serum.webp",
     tall: true
   },
   {
@@ -339,5 +339,85 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "קרם צוואר ומחשוף Cell Pro Firming",
+    en: "Cell Pro Firming Neck & Décolleté Cream",
+    desc: "קרם ממצק לצוואר ולמחשוף מסדרת Cell Pro Firming של KLAPP Skin Care Science.",
+    size: "50 מ״ל",
+    price: null,
+    image: "images/klapp-cellpro-neck.webp",
+    tall: true
+  },
+  {
+    brand: "Arkana",
+    name: "פילינג לקטוביוני Sensi Peel",
+    en: "Lactobionic Sensi Peel",
+    desc: "פילינג עדין על בסיס חומצה לקטוביונית, מסדרת Neuro Sensi Therapy של Arkana, לעור רגיש.",
+    size: "30 מ״ל",
+    price: null,
+    image: "images/arkana-sensi.png",
+    tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "מסכת Neuro Sensi",
+    en: "Neuro Sensi Mask",
+    desc: "מסכה מרגיעה מסדרת Neuro Sensi Therapy של Arkana, להרגעת עור רגיש ומגורה.",
+    size: "",
+    price: null,
+    image: "images/arkana-sensi.png",
+    tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "מסכת Skin Tone Neuro",
+    en: "Skin Tone Neuro Mask",
+    desc: "מסכה מבהירה ומרגיעה מסדרת Skin Tone Neuro Therapy של Arkana, עם β-White וחומצה טרנקסמית, להפחתת כתמי פיגמנטציה.",
+    size: "100 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "Arkana",
+    name: "פילינג Skin Tone Neuro",
+    en: "Skin Tone Neuro Peel",
+    desc: "פילינג מבהיר מסדרת Skin Tone Neuro Therapy של Arkana, לטיפול בכתמי פיגמנטציה ולאיחוד גוון העור.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "קרם Skin Tone Neuro",
+    en: "Skin Tone Neuro Cream",
+    desc: "קרם מבהיר לשימוש יומי מסדרת Skin Tone Neuro Therapy של Arkana, להשלמת הטיפול בפיגמנטציה.",
+    size: "",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "Arkana",
+    name: "בוסטר PDRN Rederm",
+    en: "PDRN Rederm Booster",
+    desc: "בוסטר מסדרת Advanced Line של Arkana: PDRN Triple Fusion, תערובת 15 פפטידים וקומפלקס HA 16. עור מוצק וחלק, לחות עמוקה ומילוי.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "Arkana",
+    name: "ערכת EXO + PRP Advanced Treat",
+    en: "EXO + PRP Advanced Treat",
+    desc: "ערכה טיפולית מסדרת Advanced Therapy של Arkana: סרום אקסוזומים, סרום PRP ו-EXO Power, לחידוש עור ואפקט אנטי-אייג'ינג. מתאימה לטיפולי אקסוזומים ומיקרונידלינג.",
+    size: "",
+    price: null,
+    image: null,
+    tall: false
   }
 ];
