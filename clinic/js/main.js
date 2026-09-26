@@ -325,7 +325,7 @@
         order.forEach(function (g) {
           var items = list.filter(function (x) { return x.p[groupKey] === g; });
           if (!items.length) return;
-          html += '<div class="shop-group"><div class="shop-group-head"><h2>' + escapeHtml(g) + '</h2><span>' + items.length + ' מוצרים</span></div><ul class="products" data-stagger>' + items.map(function (x) { return cardHtml(x.p, x.i); }).join('') + '</ul></div>';
+          html += '<div class="shop-group"><div class="shop-group-head"><h2>' + escapeHtml(g) + '</h2></div><ul class="products" data-stagger>' + items.map(function (x) { return cardHtml(x.p, x.i); }).join('') + '</ul></div>';
         });
       } else {
         list.sort(function (a, b) { return a.p.name.localeCompare(b.p.name, 'he'); });
