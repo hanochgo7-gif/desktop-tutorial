@@ -6,12 +6,12 @@
   --slate: #3b505a;
   --muted: #6c7f8a;
   --line: #d3dce1;
-  --blue: #1e8fd0;
-  --blue-deep: #146ea3;
+  --blue: #b8912e;
+  --blue-deep: #9a7622;
   --serif: "Noto Serif Hebrew", "Frank Ruhl Libre", Georgia, serif;
   --sans: "Assistant", "Heebo", system-ui, sans-serif;
   --gutter: clamp(20px, 5vw, 72px);
-  --nav-h: 68px;
+  --nav-h: 84px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -71,11 +71,7 @@ b { font-weight: 600; }
   border-bottom: 1px solid var(--line);
 }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand-mark {
-  width: 34px; height: 34px; display: grid; place-items: center;
-  font: 300 22px var(--serif); color: #fff; background: var(--blue);
-}
-.brand-name { font: 400 20px var(--serif); }
+.brand img { height: 70px; width: auto; }
 .nav { margin-inline-start: auto; }
 .menu { display: flex; gap: 28px; }
 .menu a { font-size: 15px; text-decoration: none; color: var(--slate); padding-bottom: 3px; border-bottom: 1px solid transparent; }
@@ -210,7 +206,7 @@ b { font-weight: 600; }
   background: #fff; border: 1px solid transparent; padding: 12px 14px; width: 100%;
 }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 2px solid var(--blue); outline-offset: 0; }
-.contact-form .btn-solid { background: var(--blue); justify-self: start; }
+.contact-form .btn-solid { background: var(--blue); color: #fff; justify-self: start; }
 .contact-form .btn-solid:hover { background: var(--blue-deep); }
 
 /* פוטר */
