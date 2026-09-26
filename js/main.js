@@ -875,6 +875,31 @@
       ls.className = 'wordmark__ltd'; lb.textContent = ltd; lb.style.setProperty('--i', String(word.length)); ls.appendChild(lb); el.appendChild(ls);
     });
 
+    /* אנימציית פתיחה: פעם אחת בכל ביקור, 6 שניות, עם דילוג */
+    var intro = $('#intro');
+    if (intro) {
+      var seen = false; try { seen = !!sessionStorage.getItem('introSeen'); } catch (e) {}
+      if (seen || still) { intro.remove(); root.classList.remove('intro-on'); }
+      else {
+        root.classList.add('intro-on');
+        var introT = null;
+        var introDone = function () {
+          clearTimeout(introT);
+          if (!intro.classList.contains('is-done')) {
+            intro.classList.add('is-done');
+            try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+            root.classList.remove('intro-on');
+            document.dispatchEvent(new CustomEvent('intro:done'));
+            setTimeout(function () { intro.remove(); }, 900);
+          }
+        };
+        introT = setTimeout(introDone, 6000);
+        var skipBtn = $('[data-intro-skip]', intro);
+        if (skipBtn) skipBtn.addEventListener('click', introDone);
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') introDone(); });
+      }
+    }
+
     /* המילה נמדדת ומותאמת לרוחב הפנוי (הגופן הדק משתנה בין דפדפנים) */
     var fitTimer = null;
     function fitWords() {
@@ -1045,9 +1070,14 @@
     heroIntroStatic();
   }
   /* GSAP נטען עם defer לפני הקובץ הזה; ליתר ביטחון ממתינים לטעינה אם עדיין לא זמין */
-  if (hasGsap() || noMotion()) boot();
+  /* כשאנימציית הפתיחה רצה, כניסת ההירו מחכה לסיומה */
+  function startBoot() {
+    if (root.classList.contains('intro-on')) document.addEventListener('intro:done', boot, { once: true });
+    else boot();
+  }
+  if (hasGsap() || noMotion()) startBoot();
   else {
     var tries = 0;
-    var wait = setInterval(function () { if (hasGsap() || ++tries > 20) { clearInterval(wait); boot(); } }, 50);
+    var wait = setInterval(function () { if (hasGsap() || ++tries > 20) { clearInterval(wait); startBoot(); } }, 50);
   }
 })();

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{if(sessionStorage.getItem("introSeen"))document.documentElement.classList.add("intro-seen");}catch(e){}</script>
   <title>הצהרת נגישות | ש.גוטובסקי בע״מ</title>
   <meta name="description" content="הצהרת הנגישות של אתר ש. גוטובסקי: התאמות הנגישות באתר, מגבלות ידועות ודרכי פנייה לרכז הנגישות.">
   <link rel="canonical" href="https://gotovski.co.il/accessibility.html">
@@ -11,9 +12,110 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=84">
+  <link rel="stylesheet" href="css/styles.css?v=85">
 </head>
 <body>
+  <!-- אנימציית פתיחה: התחנה נבנית ב-6 שניות (פעם אחת בכל ביקור) -->
+  <div class="intro" id="intro" aria-hidden="true">
+  <svg class="intro__scene" viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- clouds -->
+    <g class="cloud"><path class="l thin" pathLength="1" style="--d:.2s" d="M180 70 q14 -22 36 -12 q10 -18 32 -8 q22 -6 30 12 q18 2 14 16 h-112 q-12 -2 0 -8z"/></g>
+    <g class="cloud" style="animation-delay:-6s"><path class="l thin" pathLength="1" style="--d:.5s" d="M860 48 q12 -18 30 -10 q10 -14 28 -6 q18 -4 24 10 q14 2 10 12 h-92 q-10 -2 0 -6z"/></g>
+
+    <!-- ground -->
+    <line class="l" pathLength="1" x1="40" y1="300" x2="1160" y2="300" style="--d:0s"/>
+
+    <!-- service building (right) -->
+    <rect class="f wht" x="930" y="200" width="190" height="100" style="--d:1.2s"/>
+    <rect class="l" pathLength="1" x="930" y="200" width="190" height="100" style="--d:.5s"/>
+    <path class="l" pathLength="1" d="M918 200 h214" style="--d:.9s"/>
+    <rect class="f acc" x="918" y="190" width="214" height="10" style="--d:1.3s"/>
+    <rect class="l" pathLength="1" x="918" y="190" width="214" height="10" style="--d:1.0s"/>
+    <rect class="l thin" pathLength="1" x="950" y="222" width="46" height="34" style="--d:1.2s"/>
+    <rect class="l thin" pathLength="1" x="1010" y="222" width="46" height="34" style="--d:1.3s"/>
+    <rect class="l thin" pathLength="1" x="1074" y="240" width="30" height="60" style="--d:1.4s"/>
+    <path class="l thin" pathLength="1" d="M960 256 h26 M1020 256 h26" style="--d:1.45s"/>
+
+    <!-- tree right -->
+    <path class="l" pathLength="1" d="M1150 300 v-40" style="--d:4.1s"/>
+    <circle class="f tint" cx="1150" cy="238" r="24" style="--d:4.3s"/>
+    <circle class="l thin" pathLength="1" cx="1150" cy="238" r="24" style="--d:4.2s"/>
+
+    <!-- excavation + underground tanks -->
+    <path class="l dash thin" pathLength="1" d="M620 300 v46 h280 v-46" style="--d:.7s"/>
+    <rect class="l" pathLength="1" x="640" y="312" width="72" height="26" rx="13" style="--d:.9s"/>
+    <rect class="l" pathLength="1" x="724" y="312" width="72" height="26" rx="13" style="--d:1.05s"/>
+    <rect class="l" pathLength="1" x="808" y="312" width="72" height="26" rx="13" style="--d:1.2s"/>
+    <rect class="f tint" x="640" y="312" width="72" height="26" rx="13" style="--d:1.5s"/>
+    <rect class="f tint" x="724" y="312" width="72" height="26" rx="13" style="--d:1.6s"/>
+    <rect class="f tint" x="808" y="312" width="72" height="26" rx="13" style="--d:1.7s"/>
+    <!-- fill pipes up to manholes -->
+    <path class="l thin" pathLength="1" d="M676 312 v-12 M760 312 v-12 M844 312 v-12" style="--d:1.8s"/>
+    <circle class="l thin" pathLength="1" cx="676" cy="300" r="5" style="--d:2.0s"/>
+    <circle class="l thin" pathLength="1" cx="760" cy="300" r="5" style="--d:2.05s"/>
+    <circle class="l thin" pathLength="1" cx="844" cy="300" r="5" style="--d:2.1s"/>
+    <!-- sand cover -->
+    <rect class="f sand" x="620" y="301" width="280" height="45" style="--d:2.3s;opacity:0"/>
+
+    <!-- piping from tanks to islands (below ground, dashed) -->
+    <path class="l a" pathLength="1" d="M640 325 h-40 v-14 h-160 M600 311 h-80 v-11" style="--d:2.1s"/>
+    <path class="l a" pathLength="1" d="M440 311 v-11" style="--d:2.5s"/>
+
+    <!-- crane (temporary) -->
+    <g class="crane">
+      <path class="l thin" pathLength="1" d="M300 300 v-210 h180 M300 90 l-40 20 M300 120 h150 M330 300 v-180" style="--d:1.7s"/>
+      <g class="hook"><path class="l thin" pathLength="1" d="M430 90 v70 M418 160 h24 v10 h-24z" style="--d:2.0s"/></g>
+    </g>
+
+    <!-- canopy columns -->
+    <path class="l" pathLength="1" d="M370 300 v-150" style="--d:2.4s"/>
+    <path class="l" pathLength="1" d="M570 300 v-150" style="--d:2.55s"/>
+    <!-- canopy roof -->
+    <rect class="f wht" x="300" y="128" width="340" height="22" style="--d:3.2s"/>
+    <rect class="l" pathLength="1" x="300" y="128" width="340" height="22" style="--d:2.8s"/>
+    <rect class="f acc" x="300" y="128" width="340" height="7" style="--d:3.3s"/>
+    <!-- dispensers -->
+    <rect class="f wht" x="426" y="252" width="28" height="48" style="--d:3.6s"/>
+    <rect class="l" pathLength="1" x="426" y="252" width="28" height="48" rx="3" style="--d:3.4s"/>
+    <rect class="l thin" pathLength="1" x="432" y="258" width="16" height="12" style="--d:3.6s"/>
+    <path class="l thin" pathLength="1" d="M454 270 h8 v20" style="--d:3.7s"/>
+    <rect class="f wht" x="500" y="252" width="28" height="48" style="--d:3.7s"/>
+    <rect class="l" pathLength="1" x="500" y="252" width="28" height="48" rx="3" style="--d:3.5s"/>
+    <rect class="l thin" pathLength="1" x="506" y="258" width="16" height="12" style="--d:3.7s"/>
+    <path class="l thin" pathLength="1" d="M528 270 h8 v20" style="--d:3.8s"/>
+    <!-- island -->
+    <path class="l" pathLength="1" d="M410 300 v-8 h134 v8" style="--d:3.3s"/>
+
+    <!-- totem sign (no text) -->
+    <path class="l" pathLength="1" d="M240 300 v-130" style="--d:3.9s"/>
+    <rect class="f acc" x="216" y="130" width="48" height="40" rx="4" style="--d:4.3s"/>
+    <rect class="l" pathLength="1" x="216" y="130" width="48" height="40" rx="4" style="--d:4.0s"/>
+
+    <!-- tanker truck arriving from the left -->
+    <g class="truck">
+      <rect class="f wht" x="60" y="256" width="120" height="30" rx="15" style="--d:3.4s"/>
+      <rect class="l" pathLength="1" x="60" y="256" width="120" height="30" rx="15" style="--d:3.3s"/>
+      <path class="l" pathLength="1" d="M180 286 h30 v-24 l-12 -14 h-18 z" style="--d:3.4s"/>
+      <rect class="l thin" pathLength="1" x="186" y="252" width="14" height="10" style="--d:3.5s"/>
+      <circle class="f wht" cx="84" cy="290" r="9" style="--d:3.4s"/>
+      <circle class="l" pathLength="1" cx="84" cy="290" r="9" style="--d:3.4s"/>
+      <circle class="f wht" cx="156" cy="290" r="9" style="--d:3.4s"/>
+      <circle class="l" pathLength="1" cx="156" cy="290" r="9" style="--d:3.45s"/>
+      <circle class="f wht" cx="196" cy="290" r="9" style="--d:3.4s"/>
+      <circle class="l" pathLength="1" cx="196" cy="290" r="9" style="--d:3.5s"/>
+    </g>
+
+    <!-- small shrubs -->
+    <path class="l thin" pathLength="1" d="M700 300 q6 -14 12 0 M712 300 q6 -12 12 0" style="--d:4.4s"/>
+    <path class="l thin" pathLength="1" d="M1100 300 q6 -14 12 0" style="--d:4.5s"/>
+  </svg>
+    <div class="intro__text">
+      <p class="intro__h">בונים לכם את התחנה</p>
+      <p class="intro__s">עוד רגע והאתר מוכן</p>
+      <div class="intro__bar" aria-hidden="true"><i></i></div>
+      <button class="intro__skip" type="button" data-intro-skip>דילוג</button>
+    </div>
+  </div>
   <a class="skip-link" href="#main">דלג לתוכן</a>
   <div class="progress" aria-hidden="true"></div>
 
@@ -179,7 +281,7 @@
     <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" class="mobile-cta__wa" aria-label="וואטסאפ"><img src="images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async"><span>וואטסאפ</span></a>
   </nav>
 
-  <script src="js/main.js?v=51" defer></script>
+  <script src="js/main.js?v=52" defer></script>
   <script src="js/a11y.js" defer></script>
 </body>
 </html>
