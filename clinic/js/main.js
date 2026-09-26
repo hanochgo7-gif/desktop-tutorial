@@ -384,10 +384,71 @@
         live = true; render(); keepResultsVisible();
       });
     }
-    var picksBox = $('#picks-row'), picksSec = $('#picks');
-    if (picksBox) {
-      picksBox.innerHTML = P.map(function (p, i) { return p.pick ? cardHtml(p, i) : ''; }).join('');
-      afterRender(picksBox);
+    /* המדף של רותם */
+    var shelfBox = $('#shelf-items'), shelfScene = $('#shelf-scene'), shelfCard = $('#shelf-card');
+    if (shelfBox && shelfScene && shelfCard) {
+      var SLOTS = [
+        { x: 15, y: 7, w: 11, mx: 8, my: 4, mw: 28 },
+        { x: 38, y: 28, w: 13.5, mx: 58, my: 6, mw: 34 },
+        { x: 17, y: 50, w: 12.5, mx: 10, my: 35, mw: 30 },
+        { x: 61, y: 4, w: 10, mx: 62, my: 38, mw: 26 },
+        { x: 80, y: 24, w: 10.5, mx: 6, my: 66, mw: 30 },
+        { x: 58, y: 49, w: 13, mx: 56, my: 68, mw: 34 }
+      ];
+      var shelfItems = P.map(function (p, i) { return p.cut ? { p: p, i: i } : null; }).filter(Boolean).slice(0, SLOTS.length);
+      shelfBox.innerHTML = shelfItems.map(function (it, k) {
+        var s = SLOTS[k];
+        return '<li class="shelf-item" data-i="' + it.i + '" style="--x:' + s.x + '%;--y:' + s.y + '%;--w:' + s.w + '%;--mx:' + s.mx + '%;--my:' + s.my + '%;--mw:' + s.mw + '%;--i:' + k + '">' +
+          '<button type="button" aria-label="' + escapeHtml(it.p.name) + '"><img src="' + it.p.cut + '" alt="" loading="eager" decoding="async"><span class="shelf-hot" aria-hidden="true"></span><span class="shelf-plank" aria-hidden="true"></span></button></li>';
+      }).join('');
+      var openItem = null, closeT;
+      function placeCard(li) {
+        var sr = shelfScene.getBoundingClientRect(), r = li.getBoundingClientRect();
+        var cw = shelfCard.offsetWidth || 300, ch = shelfCard.offsetHeight || 160, gap = 14;
+        var left = r.right - sr.left + gap;
+        if (left + cw > sr.width - 12) left = r.left - sr.left - cw - gap;
+        if (left < 12) left = 12;
+        var top = r.top - sr.top + 8;
+        if (top + ch > sr.height - 12) top = sr.height - ch - 12;
+        if (top < 12) top = 12;
+        shelfCard.style.left = left + 'px'; shelfCard.style.top = top + 'px';
+      }
+      function openShelf(li) {
+        clearTimeout(closeT);
+        var i = parseInt(li.dataset.i, 10), p = P[i]; if (!p) return;
+        if (openItem && openItem !== li) openItem.classList.remove('is-open');
+        openItem = li; li.classList.add('is-open'); shelfScene.classList.add('has-opened');
+        $('#sc-meta').textContent = [p.category, p.size].filter(Boolean).join(' · ');
+        $('#sc-title').textContent = p.name;
+        $('#sc-desc').textContent = (p.desc || '').split(/[.!?]/)[0].trim() + '.';
+        $('#sc-price').textContent = p.price ? '₪ ' + p.price : 'מחיר בוואטסאפ';
+        $('#sc-wa').href = waLink(p);
+        var sv = $('#sc-save'); sv.dataset.save = String(i);
+        shelfCard.hidden = false; placeCard(li);
+        requestAnimationFrame(function () { shelfCard.classList.add('is-on'); });
+        syncList();
+      }
+      function closeShelf() {
+        closeT = setTimeout(function () {
+          if (openItem) openItem.classList.remove('is-open'); openItem = null;
+          shelfCard.classList.remove('is-on');
+          setTimeout(function () { if (!openItem) shelfCard.hidden = true; }, 350);
+        }, 260);
+      }
+      shelfBox.addEventListener('click', function (e) {
+        var li = e.target.closest('.shelf-item'); if (!li) return;
+        if (openItem === li) { clearTimeout(closeT); closeShelf(); } else openShelf(li);
+      });
+      if (fine) {
+        shelfBox.addEventListener('mouseover', function (e) { var li = e.target.closest('.shelf-item'); if (li) openShelf(li); });
+        shelfBox.addEventListener('mouseout', function (e) { var li = e.target.closest('.shelf-item'); if (li && !li.contains(e.relatedTarget) && !shelfCard.contains(e.relatedTarget)) closeShelf(); });
+        shelfCard.addEventListener('mouseenter', function () { clearTimeout(closeT); });
+        shelfCard.addEventListener('mouseleave', closeShelf);
+      }
+      shelfBox.addEventListener('focusin', function (e) { var li = e.target.closest('.shelf-item'); if (li) openShelf(li); });
+      document.addEventListener('click', function (e) { if (openItem && !shelfScene.contains(e.target)) { clearTimeout(closeT); closeShelf(); } });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && openItem) { clearTimeout(closeT); closeShelf(); } });
+      window.addEventListener('resize', function () { if (openItem) placeCard(openItem); });
     }
     if (search) search.value = state.q; if (sort) sort.value = state.sort;
 
@@ -427,7 +488,6 @@
       var q = state.q.trim();
       if (count) count.textContent = !list.length ? '' : q ? list.length + ' תוצאות ל"' + q + '"' : list.length + ' מוצרים';
       var active = (state.brand ? 1 : 0) + (state.cat ? 1 : 0) + (state.goal ? 1 : 0);
-      if (picksSec) picksSec.classList.toggle('is-hidden', !!(active || q));
       if (badge) { badge.hidden = !active; badge.textContent = active; }
       if (clearAll) clearAll.hidden = !(active || q);
       if (clearBtn) clearBtn.hidden = !q;

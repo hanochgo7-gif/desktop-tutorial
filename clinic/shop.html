@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -54,6 +54,26 @@
 </div>
 
 <main id="main">
+  <section class="shelf" id="shelf" aria-labelledby="shelf-title">
+    <div class="shelf-scene" id="shelf-scene">
+      <div class="shelf-light" aria-hidden="true"></div>
+      <div class="shelf-frame" aria-hidden="true"></div>
+      <ul class="shelf-items" id="shelf-items"></ul>
+      <div class="shelf-card" id="shelf-card" hidden>
+        <p class="product-meta" id="sc-meta"></p>
+        <h3 id="sc-title"></h3>
+        <p id="sc-desc"></p>
+        <div class="shelf-card__row">
+          <span class="price-ask" id="sc-price"></span>
+          <button class="btn btn-outline btn-sm" type="button" id="sc-save" data-save="">הוספה לרשימה</button>
+          <a class="btn btn-solid btn-sm" id="sc-wa" href="#" target="_blank" rel="noopener">הזמנה</a>
+        </div>
+      </div>
+      <p class="shelf-hint" aria-hidden="true">מעבירים את העכבר על מוצר</p>
+    </div>
+    <p class="shelf-caption"><span id="shelf-title">המדף של רותם</span> · שישה מוצרים שחוזרים כמעט בכל תוכנית טיפול ביתית</p>
+  </section>
+
   <section class="shop-hero has-deco">
     <div class="deco deco-blossom" data-parallax="-.06" aria-hidden="true"><svg><use href="images/deco.svg#blossom"/></svg></div>
     <div class="deco deco-fan" data-parallax=".05" aria-hidden="true"><svg><use href="images/deco.svg#fan"/></svg></div>
@@ -104,17 +124,6 @@
       </div>
     </div>
   </div>
-
-  <section class="picks" id="picks" aria-labelledby="picks-title">
-    <div class="picks-head">
-      <div>
-        <p class="kicker">הבחירות של רותם</p>
-        <h2 id="picks-title">המוצרים שאני ממליצה עליהם הכי הרבה</h2>
-      </div>
-      <p class="picks-note">אלה המוצרים שחוזרים כמעט בכל תוכנית טיפול ביתית. אפשר לגלול הצידה.</p>
-    </div>
-    <ul class="picks-row" id="picks-row" data-stagger></ul>
-  </section>
 
   <section class="shop-main" id="shop-main" aria-live="polite"></section>
 </main>
@@ -213,6 +222,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=7"></script>
+<script src="js/main.js?v=8"></script>
 </body>
 </html>
