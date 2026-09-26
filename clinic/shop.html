@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=18">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -60,7 +60,11 @@
     <div>
       <p class="kicker fade-up">החנות</p>
       <h1 data-split>מוצרים מקצועיים, להמשך הטיפול בבית</h1>
-      <p class="fade-up" style="animation-delay:.4s">אותם מוצרים שאנחנו עובדים איתם בקליניקה. בוחרים מותג או סוג מוצר, לוחצים על "הזמנה בוואטסאפ", ואנחנו מאשרים זמינות ומחיר.</p>
+      <p class="fade-up" style="animation-delay:.4s">אותם מוצרים שאנחנו עובדים איתם בקליניקה. בוחרים מותג, סוג מוצר או מטרה, מוסיפים לרשימה, ושולחים הכול בהודעת וואטסאפ אחת.</p>
+      <div class="hero-actions fade-up" style="animation-delay:.55s">
+        <button class="btn btn-solid magnet" type="button" id="quiz-open">איזה מוצרים מתאימים לי? <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></button>
+        <span class="hero-hint">3 שאלות, 20 שניות</span>
+      </div>
     </div>
     <ul class="shop-perks fade-up" style="animation-delay:.6s">
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>משלוח עד הבית בכל הארץ</li>
@@ -84,6 +88,10 @@
         <span class="shop-row-label">סוג</span>
         <div class="finder-grid scroll-row" id="cat-filter" role="group" aria-label="סינון לפי סוג מוצר"></div>
       </div>
+      <div class="shop-row">
+        <span class="shop-row-label">מטרה</span>
+        <div class="finder-grid scroll-row" id="goal-filter" role="group" aria-label="סינון לפי מטרה"></div>
+      </div>
       <div class="shop-row shop-row-end">
         <label class="sort-wrap"><span>מיון</span>
           <select class="select" id="sort">
@@ -96,6 +104,17 @@
       </div>
     </div>
   </div>
+
+  <section class="picks" id="picks" aria-labelledby="picks-title">
+    <div class="picks-head">
+      <div>
+        <p class="kicker">הבחירות של רותם</p>
+        <h2 id="picks-title">המוצרים שאני ממליצה עליהם הכי הרבה</h2>
+      </div>
+      <p class="picks-note">אלה המוצרים שחוזרים כמעט בכל תוכנית טיפול ביתית. אפשר לגלול הצידה.</p>
+    </div>
+    <ul class="picks-row" id="picks-row" data-stagger></ul>
+  </section>
 
   <section class="shop-main" id="shop-main" aria-live="polite"></section>
 </main>
@@ -110,10 +129,73 @@
       <div class="qv-tags" id="qv-tags"></div>
       <div class="qv-actions">
         <a class="btn btn-gold" id="qv-wa" href="#" target="_blank" rel="noopener">הזמנה בוואטסאפ</a>
+        <button class="btn btn-outline" id="qv-save" type="button" data-save="">הוספה לרשימה</button>
         <span class="price-ask" id="qv-price"></span>
       </div>
     </div>
     <button class="qv-close" id="qv-close" type="button" aria-label="סגירה">×</button>
+  </div>
+</dialog>
+
+<div class="list-bar" id="list-bar" hidden>
+  <button class="list-bar__open" type="button" id="list-open"><span class="list-bar__count" id="list-count">0</span><span>ברשימה שלך</span></button>
+  <a class="btn btn-gold list-bar__send" id="list-send" href="#" target="_blank" rel="noopener">שליחת הרשימה בוואטסאפ</a>
+</div>
+
+<dialog class="drawer" id="list" aria-labelledby="list-title">
+  <div class="drawer-box">
+    <div class="drawer-head">
+      <h2 id="list-title">הרשימה שלך</h2>
+      <button class="drawer-close" id="list-close" type="button" aria-label="סגירה">×</button>
+    </div>
+    <p class="drawer-note">אוספים כאן את מה שמעניין, ושולחים הכול בהודעה אחת. אנחנו חוזרים עם מחירים, זמינות ואפשרויות משלוח.</p>
+    <ul class="list-items" id="list-items"></ul>
+    <div class="drawer-foot">
+      <a class="btn btn-gold" id="list-send-2" href="#" target="_blank" rel="noopener">שליחת הרשימה בוואטסאפ</a>
+      <button class="link-line" id="list-clear" type="button">ניקוי הרשימה</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="drawer quiz" id="quiz" aria-labelledby="quiz-title">
+  <div class="drawer-box">
+    <div class="drawer-head">
+      <h2 id="quiz-title">איזה מוצרים מתאימים לך?</h2>
+      <button class="drawer-close" id="quiz-close" type="button" aria-label="סגירה">×</button>
+    </div>
+    <ol class="quiz-steps" id="quiz-steps">
+      <li class="quiz-step is-on" data-step="skin">
+        <p class="quiz-q"><span>1 מתוך 3</span>איך העור שלך מרגיש רוב היום?</p>
+        <div class="quiz-opts">
+          <button type="button" data-v="oily">שמן ומבריק</button>
+          <button type="button" data-v="combo">מעורב, שמן במרכז</button>
+          <button type="button" data-v="dry">יבש ומתוח</button>
+          <button type="button" data-v="sensitive">רגיש, מאדים בקלות</button>
+        </div>
+      </li>
+      <li class="quiz-step" data-step="goal">
+        <p class="quiz-q"><span>2 מתוך 3</span>מה הכי מטריד אותך עכשיו?</p>
+        <div class="quiz-opts" id="quiz-goals"></div>
+      </li>
+      <li class="quiz-step" data-step="age">
+        <p class="quiz-q"><span>3 מתוך 3</span>גיל</p>
+        <div class="quiz-opts">
+          <button type="button" data-v="u30">עד 30</button>
+          <button type="button" data-v="30-45">30 עד 45</button>
+          <button type="button" data-v="45">45 ומעלה</button>
+        </div>
+      </li>
+    </ol>
+    <div class="quiz-result" id="quiz-result" hidden>
+      <p class="kicker">ההתאמה שלך</p>
+      <h3 id="quiz-result-title"></h3>
+      <p id="quiz-result-text"></p>
+      <div class="quiz-result-actions">
+        <button class="btn btn-solid" type="button" id="quiz-apply">להצגת המוצרים</button>
+        <a class="btn btn-outline" id="quiz-wa" href="#" target="_blank" rel="noopener">התאמה אישית בוואטסאפ</a>
+      </div>
+    </div>
+    <button class="link-line quiz-back" id="quiz-back" type="button" hidden>חזרה לשאלה הקודמת</button>
   </div>
 </dialog>
 
@@ -131,6 +213,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=7"></script>
 </body>
 </html>

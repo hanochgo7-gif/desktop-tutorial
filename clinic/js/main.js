@@ -296,11 +296,40 @@
   /* ===== מוצרים ===== */
   var P = window.PRODUCTS || [];
   function waLink(p) { return WA + '?text=' + encodeURIComponent('היי, התעניינתי במוצר ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : '')); }
+  var HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10A4 4 0 0 1 12 7.6 4 4 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>';
+  var LS = 'rotem-list';
+  var saved = { ids: [], has: function (i) { return this.ids.indexOf(i) >= 0; } };
+  try { saved.ids = (JSON.parse(localStorage.getItem(LS) || '[]') || []).filter(function (i) { return P[i]; }); } catch (e) { saved.ids = []; }
+  function persist() { try { localStorage.setItem(LS, JSON.stringify(saved.ids)); } catch (e) {} }
+  function listMessage() {
+    var lines = saved.ids.map(function (i) { var p = P[i]; return '• ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : ''); });
+    return WA + '?text=' + encodeURIComponent('היי, אשמח להזמין:\n' + lines.join('\n') + '\n\nאפשר לקבל מחירים וזמינות?');
+  }
+  function syncList() {
+    var n = saved.ids.length, bar = $('#list-bar'), cnt = $('#list-count'), items = $('#list-items');
+    $$('[data-save]').forEach(function (b) { var i = parseInt(b.dataset.save, 10), on = saved.has(i); b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); if (b.id === 'qv-save') b.textContent = on ? 'ברשימה ✓' : 'הוספה לרשימה'; });
+    if (bar) { bar.hidden = !n; if (cnt) cnt.textContent = n; }
+    ['#list-send', '#list-send-2'].forEach(function (s) { var a = $(s); if (a) a.href = listMessage(); });
+    if (items) {
+      items.innerHTML = n ? saved.ids.map(function (i) {
+        var p = P[i];
+        return '<li>' + (p.image ? '<img src="' + p.image + '" alt="">' : '<span class="list-ph">תמונה בקרוב</span>') + '<div><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small></div><button type="button" data-unsave="' + i + '" aria-label="הסרה">×</button></li>';
+      }).join('') : '<li class="list-empty">הרשימה ריקה. לחיצה על הלב בכרטיס מוצר מוסיפה אותו לכאן.</li>';
+    }
+  }
+  function toggleSave(i, btn) {
+    var k = saved.ids.indexOf(i);
+    if (k >= 0) { saved.ids.splice(k, 1); showToast('הוסר מהרשימה'); }
+    else { saved.ids.push(i); showToast('נוסף לרשימה. אפשר להמשיך לבחור ולשלוח הכול יחד'); if (btn) { btn.classList.add('is-pop'); setTimeout(function () { btn.classList.remove('is-pop'); }, 500); } }
+    persist(); syncList();
+  }
   function cardHtml(p, i) {
     var quick = '<button class="product-quick" type="button" data-qv="' + i + '">תצוגה מהירה</button>';
+    var save = '<button class="product-save' + (saved.has(i) ? ' is-on' : '') + '" type="button" data-save="' + i + '" aria-label="הוספה לרשימה" aria-pressed="' + saved.has(i) + '">' + HEART + '</button>';
+    var badge = p.pick ? '<span class="product-badge">רותם ממליצה</span>' : '';
     var media = p.image
-      ? '<figure class="product-media"><img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async">' + quick + '</figure>'
-      : '<figure class="product-media product-media-empty"><span aria-hidden="true">תמונה בקרוב</span>' + quick + '</figure>';
+      ? '<figure class="product-media"><img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async">' + save + badge + quick + '</figure>'
+      : '<figure class="product-media product-media-empty"><span aria-hidden="true">תמונה בקרוב</span>' + save + badge + quick + '</figure>';
     var price = p.price ? '<span class="price">₪ ' + p.price + '</span>' : '<span class="price-ask">מחיר בוואטסאפ</span>';
     var meta = [p.brand, p.size].filter(Boolean).join(' · ');
     return '<li class="product reveal" data-i="' + i + '">' + media +
@@ -316,7 +345,7 @@
 
   /* דף הבית: מוצרים נבחרים ורצועת מותגים */
   var featured = $('#featured');
-  if (featured && P.length) {
+  if (featured && P.length) { syncList();
     var pick = P.filter(function (p) { return p.image; });
     var chosen = [], seen = {};
     pick.forEach(function (p) { if (!seen[p.brand] && chosen.length < 4) { seen[p.brand] = 1; chosen.push(p); } });
@@ -339,8 +368,27 @@
     var catOrder = ['ניקוי', 'סרומים ובוסטרים', 'קרמים ולחות', 'מסכות', 'עיניים', 'הגנה מהשמש', 'ערכות וטיפול מקצועי'];
     cats.sort(function (a, b) { return catOrder.indexOf(a) - catOrder.indexOf(b); });
     var params = new URLSearchParams(location.search);
-    var state = { brand: params.get('brand') || '', cat: params.get('cat') || '', q: params.get('q') || '', sort: params.get('sort') || 'brand' };
-    if (brands.indexOf(state.brand) < 0) state.brand = ''; if (cats.indexOf(state.cat) < 0) state.cat = '';
+    var GOALS = ['אקנה ועור שמן', 'כתמים והבהרה', 'קמטים ומיצוק', 'לחות ויובש', 'עור רגיש', 'שגרה יומית'];
+    var goalBox = $('#goal-filter');
+    var state = { brand: params.get('brand') || '', cat: params.get('cat') || '', goal: params.get('goal') || '', q: params.get('q') || '', sort: params.get('sort') || 'brand' };
+    if (brands.indexOf(state.brand) < 0) state.brand = ''; if (cats.indexOf(state.cat) < 0) state.cat = ''; if (GOALS.indexOf(state.goal) < 0) state.goal = '';
+    if (goalBox) {
+      goalBox.innerHTML = [''].concat(GOALS).map(function (v) {
+        var n = v ? P.filter(function (p) { return (p.concerns || []).indexOf(v) >= 0; }).length : P.length;
+        return '<button type="button" class="goal' + (state.goal === v ? ' is-active' : '') + '" data-v="' + escapeHtml(v) + '" aria-pressed="' + (state.goal === v) + '">' + (v ? escapeHtml(v) : 'הכול') + ' <span class="count">' + n + '</span></button>';
+      }).join('');
+      goalBox.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-v]'); if (!b) return;
+        state.goal = b.dataset.v;
+        $$('button', goalBox).forEach(function (x) { var on = x === b; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', String(on)); });
+        live = true; render(); keepResultsVisible();
+      });
+    }
+    var picksBox = $('#picks-row'), picksSec = $('#picks');
+    if (picksBox) {
+      picksBox.innerHTML = P.map(function (p, i) { return p.pick ? cardHtml(p, i) : ''; }).join('');
+      afterRender(picksBox);
+    }
     if (search) search.value = state.q; if (sort) sort.value = state.sort;
 
     function pills(box, key, items) {
@@ -364,6 +412,7 @@
         var p = x.p;
         if (state.brand && p.brand !== state.brand) return false;
         if (state.cat && p.category !== state.cat) return false;
+        if (state.goal && (p.concerns || []).indexOf(state.goal) < 0) return false;
         if (words.length) {
           var hay = norm(p.name + ' ' + (p.en || '') + ' ' + (p.desc || '') + ' ' + p.brand + ' ' + p.category + ' ' + (p.size || ''));
           for (var k = 0; k < words.length; k++) if (hay.indexOf(words[k]) < 0) return false;
@@ -373,11 +422,12 @@
     }
     function render() {
       var list = filtered();
-      var url = new URL(location.href); ['brand', 'cat', 'q', 'sort'].forEach(function (k) { if (state[k] && !(k === 'sort' && state[k] === 'brand')) url.searchParams.set(k, state[k]); else url.searchParams.delete(k); });
+      var url = new URL(location.href); ['brand', 'cat', 'goal', 'q', 'sort'].forEach(function (k) { if (state[k] && !(k === 'sort' && state[k] === 'brand')) url.searchParams.set(k, state[k]); else url.searchParams.delete(k); });
       history.replaceState(null, '', url);
       var q = state.q.trim();
       if (count) count.textContent = !list.length ? '' : q ? list.length + ' תוצאות ל"' + q + '"' : list.length + ' מוצרים';
-      var active = (state.brand ? 1 : 0) + (state.cat ? 1 : 0);
+      var active = (state.brand ? 1 : 0) + (state.cat ? 1 : 0) + (state.goal ? 1 : 0);
+      if (picksSec) picksSec.classList.toggle('is-hidden', !!(active || q));
       if (badge) { badge.hidden = !active; badge.textContent = active; }
       if (clearAll) clearAll.hidden = !(active || q);
       if (clearBtn) clearBtn.hidden = !q;
@@ -397,6 +447,7 @@
       }
       shopMain.innerHTML = html;
       afterRender(shopMain);
+      syncList();
       if (live) { shopMain.classList.add('is-live'); clearTimeout(liveT); liveT = setTimeout(function () { shopMain.classList.remove('is-live'); }, 600); }
       live = false;
     }
@@ -410,17 +461,58 @@
     }
     if (clearBtn) clearBtn.addEventListener('click', function () { search.value = ''; state.q = ''; live = true; render(); search.focus(); });
     if (clearAll) clearAll.addEventListener('click', function () {
-      state.q = ''; state.brand = ''; state.cat = ''; if (search) search.value = '';
-      $$('#brand-filter button, #cat-filter button').forEach(function (b) { var on = !b.dataset.v; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+      state.q = ''; state.brand = ''; state.cat = ''; state.goal = ''; if (search) search.value = '';
+      $$('#brand-filter button, #cat-filter button, #goal-filter button').forEach(function (b) { var on = !b.dataset.v; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
       live = true; render(); keepResultsVisible();
     });
     if (toggle && bar) {
       var openBar = function (on) { bar.classList.toggle('is-open', on); toggle.setAttribute('aria-expanded', String(on)); };
       toggle.addEventListener('click', function () { openBar(!bar.classList.contains('is-open')); });
-      if (state.brand || state.cat) openBar(true);
+      if (state.brand || state.cat || state.goal) openBar(true);
     }
     if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
     render();
+
+    /* מאתר מוצרים בשלוש שאלות */
+    var quiz = $('#quiz'), qOpen = $('#quiz-open');
+    if (quiz && qOpen) {
+      var ans = {}, steps = $$('.quiz-step', quiz), qResult = $('#quiz-result'), qBack = $('#quiz-back'), stepIdx = 0;
+      $('#quiz-goals').innerHTML = GOALS.map(function (g) { return '<button type="button" data-v="' + escapeHtml(g) + '">' + escapeHtml(g) + '</button>'; }).join('');
+      function showStep(k) {
+        stepIdx = k;
+        steps.forEach(function (s, i) { s.classList.toggle('is-on', i === k); });
+        qResult.hidden = k < steps.length; qBack.hidden = k === 0;
+        if (k === steps.length) buildResult();
+      }
+      function buildResult() {
+        var goal = ans.goal, skin = ans.skin, age = ans.age;
+        var skinTxt = { oily: 'לעור שמן כדאי מרקמים קלילים, ג\'ל ולחות נטולת שומן.', combo: 'לעור מעורב מאזנים: ניקוי עדין ולחות קלילה.', dry: 'לעור יבש מוסיפים לחות עשירה וחומצה היאלורונית.', sensitive: 'לעור רגיש בוחרים נוסחאות מרגיעות, בלי חומצות חזקות.' }[skin] || '';
+        var ageTxt = age === '45' ? ' מגיל 45 מומלץ לשלב גם מיצוק ורטינול.' : age === '30-45' ? ' בגילאי 30 עד 45 כדאי להתחיל במניעה: סרום והגנה יומית.' : '';
+        $('#quiz-result-title').textContent = goal;
+        $('#quiz-result-text').textContent = 'סיננו עבורך את המוצרים למטרה "' + goal + '". ' + skinTxt + ageTxt + ' ההתאמה הסופית נעשית באבחון בקליניקה.';
+        $('#quiz-wa').href = WA + '?text=' + encodeURIComponent('היי, עשיתי את מאתר המוצרים באתר. עור: ' + ({ oily: 'שמן', combo: 'מעורב', dry: 'יבש', sensitive: 'רגיש' }[skin] || '') + ', מטרה: ' + goal + ', גיל: ' + ({ u30: 'עד 30', '30-45': '30 עד 45', '45': '45 ומעלה' }[age] || '') + '. אשמח להמלצה אישית.');
+      }
+      function openQuiz() { ans = {}; $$('.quiz-opts button', quiz).forEach(function (b) { b.classList.remove('is-on'); }); showStep(0); if (typeof quiz.showModal === 'function') quiz.showModal(); else quiz.setAttribute('open', ''); }
+      qOpen.addEventListener('click', openQuiz);
+      quiz.addEventListener('click', function (e) {
+        var o = e.target.closest('.quiz-opts button');
+        if (o) {
+          var step = o.closest('.quiz-step'); ans[step.dataset.step] = o.dataset.v;
+          $$('button', step).forEach(function (b) { b.classList.toggle('is-on', b === o); });
+          setTimeout(function () { showStep(stepIdx + 1); }, 220); return;
+        }
+        if (e.target.closest('#quiz-back')) { showStep(Math.max(0, stepIdx - 1)); return; }
+        if (e.target.closest('#quiz-close') || e.target === quiz) { quiz.close(); return; }
+        if (e.target.closest('#quiz-apply')) {
+          quiz.close();
+          state.brand = ''; state.cat = ''; state.q = ''; state.goal = ans.goal; if (search) search.value = '';
+          $$('#brand-filter button, #cat-filter button').forEach(function (b) { var on = !b.dataset.v; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+          $$('#goal-filter button').forEach(function (b) { var on = b.dataset.v === ans.goal; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+          if (bar && toggle) { bar.classList.add('is-open'); toggle.setAttribute('aria-expanded', 'true'); }
+          live = true; render(); keepResultsVisible();
+        }
+      });
+    }
   }
 
 
@@ -446,10 +538,19 @@
     $('#qv-tags').innerHTML = [p.en, p.category].filter(Boolean).map(function (t) { return '<span>' + escapeHtml(t) + '</span>'; }).join('');
     $('#qv-price').textContent = p.price ? '₪ ' + p.price : 'המחיר נמסר בוואטסאפ';
     $('#qv-wa').href = waLink(p);
+    var qs = $('#qv-save'); if (qs) qs.dataset.save = String(i);
+    syncList();
     if (typeof qv.showModal === 'function') qv.showModal(); else qv.setAttribute('open', '');
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-qv]'); if (b) { openQv(parseInt(b.dataset.qv, 10)); return; }
+    var sv = e.target.closest('[data-save]'); if (sv) { toggleSave(parseInt(sv.dataset.save, 10), sv); return; }
+    var us = e.target.closest('[data-unsave]'); if (us) { toggleSave(parseInt(us.dataset.unsave, 10)); return; }
+    var listDlg = $('#list');
+    if (e.target.closest('#list-open') && listDlg) { syncList(); if (typeof listDlg.showModal === 'function') listDlg.showModal(); else listDlg.setAttribute('open', ''); return; }
+    if (listDlg && (e.target.closest('#list-close') || e.target === listDlg)) { listDlg.close(); return; }
+    if (e.target.closest('#list-clear')) { saved.ids = []; persist(); syncList(); showToast('הרשימה נוקתה'); return; }
+    if (e.target.closest('#list-send, #list-send-2')) { if (!saved.ids.length) { e.preventDefault(); showToast('הרשימה ריקה'); } else showToast('פותחים וואטסאפ עם הרשימה'); }
     if (qv && e.target === qv) qv.close();
     if (e.target.closest('#qv-close')) qv.close();
     var wa = e.target.closest('a[href^="https://wa.me"]'); if (wa && wa.closest('.product, .qv')) showToast('פותחים וואטסאפ עם פרטי המוצר');
