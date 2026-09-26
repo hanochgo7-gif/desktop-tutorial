@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -74,10 +74,13 @@
   </section>
 
   <div class="shop-bar" id="shop-bar">
+    <div class="shop-strip">
+      <button class="filter-toggle" id="filter-toggle" type="button" aria-expanded="false" aria-controls="shop-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="ft-open">חיפוש וסינון</span><span class="ft-close">סגירה</span><span class="filter-badge" id="filter-badge" hidden></span></button>
+      <span class="shop-count" id="shop-count" aria-live="polite"></span>
+    </div>
+    <div class="shop-panel" id="shop-panel">
     <div class="shop-search">
       <label class="search search-big"><span class="sr-only">חיפוש מוצר</span><input type="search" id="search" placeholder="חיפוש: שם מוצר, מותג או סוג…" autocomplete="off" enterkeyhint="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><button class="search-clear" id="search-clear" type="button" aria-label="ניקוי החיפוש" hidden>×</button></label>
-      <button class="filter-toggle" id="filter-toggle" type="button" aria-expanded="false" aria-controls="shop-filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>סינון<span class="filter-badge" id="filter-badge" hidden></span></button>
-      <span class="shop-count" id="shop-count" aria-live="polite"></span>
     </div>
     <div class="shop-filters" id="shop-filters">
       <div class="shop-row">
@@ -101,7 +104,9 @@
           </select>
         </label>
         <button class="link-line clear-all" id="clear-all" type="button" hidden>נקה את כל הסינון</button>
+        <button class="btn btn-solid btn-sm" id="panel-done" type="button">הצגת המוצרים</button>
       </div>
+    </div>
     </div>
   </div>
 
@@ -214,6 +219,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=9"></script>
+<script src="js/main.js?v=10"></script>
 </body>
 </html>
