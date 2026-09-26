@@ -224,7 +224,23 @@ b { font-weight: 600; }
   .service { grid-template-columns: 1fr; }
   .service-intro { position: static; }
 }
+/* לפני ואחרי */
+.results { padding: clamp(64px, 10vh, 120px) var(--gutter); background: var(--paper); }
+.ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 4vw, 56px); }
+.ba-pair { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ba-frame { position: relative; overflow: hidden; background: var(--bg); }
+.ba-frame img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+.ba-tag {
+  position: absolute; top: 12px; inset-inline-start: 12px;
+  font: 400 13px var(--sans); letter-spacing: .02em; color: var(--ink);
+  background: rgba(255,255,255,.92); padding: 5px 12px; border-radius: 999px;
+}
+.ba-tag-after { color: #fff; background: var(--blue); }
+.ba-pair figcaption { grid-column: 1 / -1; margin-top: 12px; color: var(--slate); font-size: 15px; }
+.ba-note { margin-top: 28px; color: var(--muted); font-size: 14px; max-width: 40em; }
+
 @media (max-width: 760px) {
+  .ba-grid { grid-template-columns: 1fr; }
   body { font-size: 16px; }
   .hero { grid-template-columns: 1fr; min-height: 0; padding-top: 40px; }
   .hero-media { order: -1; }
