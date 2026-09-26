@@ -29,3 +29,9 @@
 | קרם אקסטרים לצוואר ולמחשוף (Extreme Cream) | 60 מ״ל | 463 (545) | | חסרה |
 | מסכת אקסטרה סי (Extra C Mask) | 60 מ״ל | 331 (389) | | חסרה |
 | אקטיב טריטמנט לושן, מי פנים (Active Treatment Lotion) | 50 מ״ל | לא נראה בצילום (אתר Bebelle) | | חסרה |
+| KLAPP סרום ליפטינג Cell Pro (Cell Pro Lifting Serum) | 30 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP קרם פנים ליפטינג Cell Pro (Cell Pro Lifting Face Cream) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP קרם אנטי-אייג'ינג גלובלי Repagen Exclusive (Repagen Exclusive Global Anti-Age Cream) | 30 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP קרם עיניים עשיר Repagen Exclusive (Repagen Exclusive Rich Eye Care Cream) | 20 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP פלואיד לחות לידיים Repagen Exclusive (Repagen Exclusive Hand Moisture Fluid) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |
+| KLAPP פלואיד פנים Repagen Exclusive (Repagen Exclusive Face Fluid) | 50 מ״ל | אין מחיר (תמונת מותג) | | חסרה |

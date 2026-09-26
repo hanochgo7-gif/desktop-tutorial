@@ -239,5 +239,65 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "סרום ליפטינג Cell Pro",
+    en: "Cell Pro Lifting Serum",
+    desc: "סרום ליפטינג ממותג KLAPP Skin Care Science, מסדרת Cell Pro. זוכה מקום ראשון Beauty Forum Stars Award 2024 בקטגוריית טיפוח העור.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "קרם פנים ליפטינג Cell Pro",
+    en: "Cell Pro Lifting Face Cream",
+    desc: "קרם פנים ממצק מסדרת Cell Pro Lifting של KLAPP, להשלמת הסרום.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "KLAPP",
+    name: "קרם אנטי-אייג'ינג גלובלי Repagen Exclusive",
+    en: "Repagen Exclusive Global Anti-Age Cream",
+    desc: "קרם אנטי-אייג'ינג מקיף מסדרת Repagen Exclusive של KLAPP.",
+    size: "30 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "KLAPP",
+    name: "קרם עיניים עשיר Repagen Exclusive",
+    en: "Repagen Exclusive Rich Eye Care Cream",
+    desc: "קרם עיניים עשיר מסדרת Repagen Exclusive של KLAPP.",
+    size: "20 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "פלואיד לחות לידיים Repagen Exclusive",
+    en: "Repagen Exclusive Hand Moisture Fluid",
+    desc: "פלואיד לחות לידיים מסדרת Repagen Exclusive של KLAPP.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: true
+  },
+  {
+    brand: "KLAPP",
+    name: "פלואיד פנים Repagen Exclusive",
+    en: "Repagen Exclusive Face Fluid",
+    desc: "פלואיד פנים אנטי-אייג'ינג מסדרת Repagen Exclusive של KLAPP.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: true
   }
 ];
