@@ -440,7 +440,7 @@ body.menu-open .nav-toggle span { background: #fff; }
 
 /* ===== שאלות ===== */
 .faq { padding: clamp(64px, 10vh, 120px) var(--gutter); border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(32px, 6vw, 96px); }
-.faq .section-head { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
+.faq .section-head { position: sticky; top: 104px; align-self: start; }
 .faq-list details { border-top: 1px solid var(--line); }
 .faq-list details:last-child { border-bottom: 1px solid var(--line); }
 .faq-list summary { cursor: pointer; padding: 22px 0; font: 400 21px var(--serif); list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: color .3s; }
