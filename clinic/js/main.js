@@ -144,6 +144,50 @@
     });
   }
 
+
+  /* גלילה חלקה עם אינרציה (עכבר בלבד, לא במצב הפחתת תנועה) */
+  if (fine && !noMotion() && !('ontouchstart' in window)) {
+    var sTarget = window.scrollY, sCur = sTarget, sRaf = null, sIdle = true;
+    function sMax() { return document.documentElement.scrollHeight - window.innerHeight; }
+    function sTo(y) { window.scrollTo({ top: y, left: 0, behavior: 'instant' }); }
+    function sStep() {
+      sCur += (sTarget - sCur) * .11;
+      if (Math.abs(sTarget - sCur) < .5) { sCur = sTarget; sTo(sCur); sRaf = null; sIdle = true; return; }
+      sTo(sCur); sRaf = requestAnimationFrame(sStep);
+    }
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || body.classList.contains('menu-open') || document.querySelector('dialog[open]')) return;
+      var t = e.target.closest && e.target.closest('textarea, select, [data-native-scroll]');
+      if (t && t.scrollHeight > t.clientHeight + 2) return;
+      e.preventDefault();
+      if (sIdle) { sTarget = sCur = window.scrollY; sIdle = false; }
+      var d = e.deltaMode === 1 ? e.deltaY * 32 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+      sTarget = Math.max(0, Math.min(sMax(), sTarget + d));
+      if (!sRaf) sRaf = requestAnimationFrame(sStep);
+    }, { passive: false });
+    window.addEventListener('scroll', function () { if (sIdle) { sTarget = sCur = window.scrollY; } }, { passive: true });
+  }
+
+  /* מסלול טיפולים: העמודה הדביקה מציגה איפה אנחנו ברשימה */
+  $$('.service').forEach(function (sec) {
+    var rows = $$('.treatments > div', sec), track = $('.track', sec);
+    if (!rows.length || !track) return;
+    var now = $('.track-now', track), bar = $('.track-bar i', track), cur = -1;
+    function setCurrent(i) {
+      if (i === cur) return; cur = i;
+      rows.forEach(function (r, k) { r.classList.toggle('is-current', k === i); });
+      now.textContent = String(i + 1).padStart(2, '0');
+      bar.style.setProperty('--t', ((i + 1) / rows.length).toFixed(3));
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) setCurrent(rows.indexOf(en.target)); });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      rows.forEach(function (r) { io.observe(r); });
+    }
+    setCurrent(0);
+  });
+
   /* מונים */
   function runCounter(el) {
     var end = parseInt(el.dataset.count, 10), suf = el.dataset.suffix || '', t0 = null, dur = 1400;

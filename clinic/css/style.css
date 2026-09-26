@@ -585,3 +585,18 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
   .hero .deco-sprig { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .deco svg { animation: none; } }
+
+/* ===== גלילה חלקה ומסלול טיפולים ===== */
+.track { display: flex; align-items: center; gap: 12px; margin-top: 34px; color: var(--muted); font: 300 15px var(--serif); max-width: 26em; }
+.track-bar { flex: 1; height: 1px; background: var(--line); position: relative; overflow: hidden; }
+.track-bar i { position: absolute; inset: 0; background: var(--gold); transform: scaleX(var(--t, 0)); transform-origin: right; transition: transform .6s var(--ease-out); }
+.track-now { color: var(--gold-deep); font-size: 22px; min-width: 1.6em; }
+.treatments div { transition: background .4s, transform .5s var(--ease-out), opacity .5s; }
+@media (min-width: 1025px) {
+  .treatments div { opacity: .55; }
+  .treatments div.is-current { opacity: 1; background: var(--paper); transform: translateX(-6px); }
+  .service-alt .treatments div.is-current { background: var(--bg); }
+  .treatments div.is-current i { background: var(--gold); color: #fff; transform: rotate(-8deg) scale(1.06); }
+  .treatments div:hover { opacity: 1; }
+}
+@media (max-width: 1024px) { .track { display: none; } }
