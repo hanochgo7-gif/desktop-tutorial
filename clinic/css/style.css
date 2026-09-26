@@ -880,3 +880,12 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .shelf-prop { position: relative; margin: 0; height: 100%; display: flex; align-items: flex-end; justify-content: center; padding: 0 10% calc(var(--pb) - 2px); pointer-events: none; list-style: none; }
 .shelf-prop img { display: block; height: calc(var(--ih) * var(--ph, .7)); width: auto; max-width: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(-8px 10px 10px rgba(60,40,25,.25)); opacity: .96; animation: shelf-in 1s var(--ease-out) both; animation-delay: .5s; }
 .shop-door .shelf-prop { display: none; }
+
+/* ===== תמונת צדף תלויה על הקיר ===== */
+.shelf-row { position: relative; }
+.wall-art { position: absolute; top: 6px; inset-inline-start: var(--x, 50%); translate: -50% 0; width: clamp(40px, 3.6vw, 54px); pointer-events: none; z-index: 0; rotate: -1.5deg; }
+[dir="rtl"] .wall-art { translate: 50% 0; }
+.wall-art img { display: block; width: 100%; height: auto; filter: drop-shadow(-4px 8px 10px rgba(60,40,25,.35)); }
+.wall-art::before { content: ""; position: absolute; left: 50%; top: -9px; width: 1px; height: 10px; background: rgba(60,40,25,.35); }
+.shelf-row > .shelf-item { z-index: 1; }
+@media (max-width: 860px) { .wall-art { top: 4px; width: 34px; } }

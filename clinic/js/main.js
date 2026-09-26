@@ -358,8 +358,13 @@
     'shell': { src: 'images/props/shell-frame.png', h: .58 },
     'sage': { src: 'images/props/sage.png', h: .3 }
   };
-  var PROP_BY_BRAND = { 'חוה זינגבוים': 'pampas', 'KLAPP': 'bud-vase', 'SQT': 'diffuser', 'Arkana': 'sage', 'Dr. Spicule': 'shell' };
-  var propOrder = ['bud-vase', 'diffuser', 'pampas', 'shell', 'sage'], propK = 0;
+  var PROP_BY_BRAND = { 'חוה זינגבוים': 'pampas', 'KLAPP': 'bud-vase', 'SQT': 'diffuser', 'Arkana': 'sage', 'Dr. Spicule': 'diffuser' };
+  var propOrder = ['bud-vase', 'diffuser', 'pampas', 'sage'], propK = 0, rowN = 0;
+  function wallArtHtml() {
+    rowN++; if (rowN % 3 !== 1) return '';
+    var n = shelfCols(), k = 1 + (rowN % (n - 1 || 1)), x = 5 + k * (90 / n);
+    return '<span class="wall-art" aria-hidden="true" style="--x:' + x.toFixed(1) + '%"><img src="' + PROPS.shell.src + '" alt="" loading="lazy" decoding="async"></span>';
+  }
   function propHtml(key) {
     var p = PROPS[key]; if (!p) return '';
     return '<li class="shelf-prop" aria-hidden="true" style="--ph:' + p.h + '"><img src="' + p.src + '" alt="" loading="lazy" decoding="async"></li>';
@@ -369,7 +374,7 @@
     for (var s = 0; s < items.length; s += n) {
       var html = items.slice(s, s + n).map(function (x, k) { return shelfItemHtml(x.p, x.i, k); }).join('');
       if (s + n > items.length && n > 1 && propKey !== false) html += propHtml(propKey || propOrder[propK++ % propOrder.length]);
-      rows.push('<ul class="shelf-row" data-stagger>' + html + '</ul>');
+      rows.push('<ul class="shelf-row" data-stagger>' + (propKey === false ? '' : wallArtHtml()) + html + '</ul>');
     }
     return '<div class="shelf-rows">' + rows.join('') + '</div>';
   }
