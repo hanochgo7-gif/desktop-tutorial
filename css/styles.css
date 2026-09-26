@@ -1691,3 +1691,6 @@ body.has-ann .ann { z-index: 99; }
 .hero__logo img { width: clamp(220px, 38vw, 560px); height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) { .hero__logo { opacity: 1; transform: none; animation: none; } }
 html.a11y-no-motion .hero__logo { opacity: 1; transform: none; animation: none; }
+/* פס תמונה: התווית בחלק העליון של הפס */
+.band__tag { position: absolute; top: clamp(18px, 3vw, 34px); inset-inline-start: var(--gutter); z-index: 3; color: rgba(255,255,255,.85); }
+@media (min-width: 1280px) { .band__tag { inset-inline-start: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); } }
