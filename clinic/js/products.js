@@ -219,5 +219,25 @@ window.PRODUCTS = [
     price: null,
     image: null,
     tall: false
+  },
+  {
+    brand: "חוה זינגבוים",
+    name: "מסכת אקסטרה סי",
+    en: "Extra C Mask",
+    desc: "מסכה טיפולית עוצמתית להעלאת רמת הלחות, הגנה אנטי-אוקסידנטית ותמיכה בתהליכי הבהרה.",
+    size: "60 מ״ל",
+    price: null,
+    image: null,
+    tall: false
+  },
+  {
+    brand: "חוה זינגבוים",
+    name: "אקטיב טריטמנט לושן (מי פנים)",
+    en: "Active Treatment Lotion",
+    desc: "מי פנים טיפוליים אקטיביים לשימוש אחרי הניקוי, להכנת העור לקליטת התכשירים הבאים.",
+    size: "50 מ״ל",
+    price: null,
+    image: null,
+    tall: true
   }
 ];
