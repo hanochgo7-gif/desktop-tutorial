@@ -350,10 +350,13 @@
       '<span class="shelf-label"><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' + price + '</span></li>';
   }
   function shelfCols() { var w = window.innerWidth; return w <= 860 ? 2 : w <= 1024 ? 3 : 4; }
+  var PROPS = ['images/props/set.png', 'images/props/bottles.png', 'images/props/canister.png'], propK = 0;
   function rowsHtml(items) {
     var n = shelfCols(), rows = [];
     for (var s = 0; s < items.length; s += n) {
-      rows.push('<ul class="shelf-row" data-stagger>' + items.slice(s, s + n).map(function (x, k) { return shelfItemHtml(x.p, x.i, k); }).join('') + '</ul>');
+      var html = items.slice(s, s + n).map(function (x, k) { return shelfItemHtml(x.p, x.i, k); }).join('');
+      if (s + n > items.length && n > 1) html += '<li class="shelf-prop" aria-hidden="true"><img src="' + PROPS[propK++ % PROPS.length] + '" alt="" loading="lazy" decoding="async"></li>';
+      rows.push('<ul class="shelf-row" data-stagger>' + html + '</ul>');
     }
     return '<div class="shelf-rows">' + rows.join('') + '</div>';
   }
