@@ -718,9 +718,9 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .picks-row .reveal { opacity: 1; transform: none; }
 
 /* ===== קירות מדפים: כל המוצרים (רקע מצולם) ===== */
-.wall { --wp: clamp(20px, 3vw, 40px); --cols: 4; --ih: 200px; --line: 314px; --pb: 125px; --bgh: 520px; --lt: 52px;
+.wall { --wp: clamp(20px, 3vw, 40px); --cols: 4; --ih: 200px; --line: 273px; --pb: 145px; --bgh: 505px; --lt: 70px;
   position: relative; border-radius: 26px; overflow: hidden; isolation: isolate; padding: clamp(28px, 4vw, 48px) var(--wp) 0;
-  background: #ddd3c3; box-shadow: 0 30px 60px -34px rgba(90,60,40,.35); }
+  background: #d8cebe; box-shadow: 0 30px 60px -34px rgba(90,60,40,.35); }
 .wall > * { position: relative; z-index: 1; }
 .wall-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
 .wall-head h2 { font-size: clamp(24px, 2.8vw, 34px); color: #5a4a40; }
@@ -728,11 +728,11 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .shelf-rows { margin: 0 calc(-1 * var(--wp)); }
 .shelf-row { list-style: none; margin: 0; padding: 0 var(--wp); height: calc(var(--line) + var(--pb)); display: grid; grid-template-columns: repeat(var(--cols), 1fr); column-gap: clamp(16px, 2.5vw, 36px);
   background: url("../images/shelf-bg.jpg") center top / auto var(--bgh) repeat-x; }
-.shelf-row + .shelf-row { box-shadow: inset 0 18px 18px -14px rgba(60,40,25,.18); }
+.shelf-row + .shelf-row { box-shadow: inset 0 18px 18px -14px rgba(60,40,25,.12); }
 .shelf-item { position: relative; margin: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: var(--pb); }
 .shelf-item button.shelf-hit { display: block; width: 100%; background: none; border: 0; padding: 0 8%; cursor: pointer; position: relative; }
 .shelf-item img { display: block; width: 100%; height: var(--ih); object-fit: contain; object-position: bottom; filter: drop-shadow(-8px 10px 10px rgba(60,40,25,.28)) drop-shadow(0 22px 14px rgba(60,40,25,.18)); transition: transform .6s var(--ease-out), filter .5s; transform-origin: bottom center; animation: shelf-in 1s var(--ease-out) both; animation-delay: calc(var(--i, 0) * .08s + .1s); }
-.shelf-item.is-box img { height: var(--ih); width: auto; max-width: 100%; margin: 0 auto; object-fit: cover; border-radius: 8px 8px 3px 3px; border: 1px solid rgba(255,255,255,.5); box-shadow: -8px 12px 18px -8px rgba(60,40,25,.45), inset 0 0 0 1px rgba(90,60,40,.08); filter: none; }
+.shelf-item.is-box img { height: var(--ih); width: auto; min-width: 45%; max-width: 100%; margin: 0 auto; object-fit: cover; border-radius: 8px 8px 3px 3px; border: 1px solid rgba(255,255,255,.5); box-shadow: -8px 12px 18px -8px rgba(60,40,25,.45), inset 0 0 0 1px rgba(90,60,40,.08); filter: none; }
 .shelf-item.is-empty .shelf-ph { display: grid; place-items: center; width: 60%; height: var(--ih); margin: 0 auto; border-radius: 12px 12px 4px 4px; background: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.3)); border: 1px solid rgba(255,255,255,.55); color: #8a7a6e; font-size: 12px; box-shadow: -8px 12px 18px -8px rgba(60,40,25,.4); }
 @keyframes shelf-in { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
 .shelf-plank { display: none; }
@@ -762,10 +762,12 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .shelf-card__row .link-line { background: none; border: 0; cursor: pointer; font: 500 13px var(--sans); color: var(--ink); padding: 0; }
 .btn-sm { padding: 9px 14px; font-size: 13px; }
 .wall-home { margin-top: 8px; padding-top: 0; }
+.wall-home .wall-head { padding: 26px 4px 0; }
+.wall-home .wall-head h2 { font-size: clamp(20px, 2.2vw, 26px); }
 .shop-group { margin-bottom: 36px; }
 @media (max-width: 1024px) { .wall { --cols: 3; } }
 @media (max-width: 860px) {
-  .wall { --cols: 2; --ih: 150px; --line: 223px; --pb: 105px; --bgh: 370px; --lt: 38px; --wp: 14px; border-radius: 18px; padding-top: 22px; }
+  .wall { --cols: 2; --ih: 150px; --line: 200px; --pb: 125px; --bgh: 370px; --lt: 52px; --wp: 14px; border-radius: 18px; padding-top: 22px; }
   .shelf-row { column-gap: 12px; }
   .shelf-label b { font-size: 13px; }
   .shelf-card { left: 12px !important; right: 12px !important; top: auto !important; bottom: 84px; width: auto; }

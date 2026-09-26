@@ -425,10 +425,15 @@
   /* דף הבית: מוצרים נבחרים ורצועת מותגים */
   var featured = $('#featured');
   if (featured && P.length) { syncList();
-    var pick = P.filter(function (p) { return p.image; });
-    var chosen = [], seen = {};
-    pick.forEach(function (p) { if (!seen[p.brand] && chosen.length < 4) { seen[p.brand] = 1; chosen.push(p); } });
-    var drawFeatured = function () { featured.innerHTML = rowsHtml(chosen.map(function (p) { return { p: p, i: P.indexOf(p) }; })); afterRender(featured); };
+    var homeBrands = [];
+    P.forEach(function (p) { if (homeBrands.indexOf(p.brand) < 0) homeBrands.push(p.brand); });
+    var drawFeatured = function () {
+      featured.innerHTML = homeBrands.map(function (b) {
+        var items = P.map(function (p, i) { return { p: p, i: i }; }).filter(function (x) { return x.p.brand === b; });
+        return '<div class="wall-head"><h2>' + escapeHtml(b) + '</h2><span>' + items.length + ' מוצרים</span></div>' + rowsHtml(items);
+      }).join('');
+      afterRender(featured);
+    };
     drawFeatured(); rerenderFns.push(drawFeatured);
     var strip = $('#brand-strip');
     if (strip) {
