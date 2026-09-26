@@ -295,7 +295,7 @@
 
   /* ===== מוצרים ===== */
   var P = window.PRODUCTS || [];
-  function waLink(p) { return WA + '?text=' + encodeURIComponent('היי, אני מעוניין/ת ב: ' + p.name + (p.size ? ' (' + p.size + ')' : '')); }
+  function waLink(p) { return WA + '?text=' + encodeURIComponent('היי, התעניינתי במוצר ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : '')); }
   function cardHtml(p, i) {
     var quick = '<button class="product-quick" type="button" data-qv="' + i + '">תצוגה מהירה</button>';
     var media = p.image
