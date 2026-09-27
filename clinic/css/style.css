@@ -1006,3 +1006,11 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
   .svc-cta, .svc thead th:last-child { display: none; }
   .svc tbody tr { break-inside: avoid; }
 }
+
+/* ===== מפה ביצירת קשר ===== */
+.map { grid-column: 1 / -1; border-radius: var(--radius); overflow: hidden; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+.map iframe { display: block; width: 100%; height: 320px; border: 0; filter: saturate(.85) contrast(1.05); }
+.map__foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 18px; font-size: 15px; }
+.map__foot span { margin-inline-end: auto; }
+.map-link { color: var(--gold); text-decoration: none; border-bottom: 1px solid currentColor; margin-inline-start: 6px; font-size: 14px; }
+@media (max-width: 860px) { .map iframe { height: 240px; } }
