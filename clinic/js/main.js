@@ -88,9 +88,11 @@
         }).join('');
       }).join('');
       return '<section class="svc-cat" id="' + cat.id + '"><div class="menu-group__head reveal"><p class="kicker">' + cat.num + '</p><h2>' + escapeHtml(cat.title) + '</h2><p>' + escapeHtml(cat.intro) + '</p></div>' +
-        '<div class="svc-wrap reveal"><table class="svc"><caption class="sr-only">' + escapeHtml(cat.title) + ', ' + total + ' טיפולים</caption><thead><tr>' + COLS.map(function (c) { return '<th scope="col">' + c[1] + '</th>'; }).join('') + '<th scope="col"><span class="sr-only">שאלה</span></th></tr></thead><tbody>' + body + '</tbody></table></div></section>';
+        '<div class="svc-wrap"><table class="svc"><caption class="sr-only">' + escapeHtml(cat.title) + ', ' + total + ' טיפולים</caption><thead><tr>' + COLS.map(function (c) { return '<th scope="col">' + c[1] + '</th>'; }).join('') + '<th scope="col"><span class="sr-only">שאלה</span></th></tr></thead><tbody>' + body + '</tbody></table></div><p class="svc-hint" aria-hidden="true">גללו את הטבלה לצדדים לכל העמודות</p></section>';
     }).join('') + '<p class="svc-note reveal">משכי הטיפולים משוערים. המחיר הסופי נקבע באבחון לפי האזור, סוג העור והתוכנית, ומחירון מלא זמין בקליניקה ובוואטסאפ.</p>';
     afterRender(svcBox);
+    var svcScroll = function () { $$('.svc-wrap', svcBox).forEach(function (w) { w.scrollLeft = w.scrollWidth; }); };
+    svcScroll(); window.addEventListener('resize', svcScroll);
   }
   var mp = $('#menu-print'); if (mp) mp.addEventListener('click', function () { window.print(); });
   /* קישור פעיל בתפריט */
