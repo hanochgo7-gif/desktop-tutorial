@@ -1945,3 +1945,13 @@ html.a11y-no-motion .mm__bg::before { animation: none; }
 @media (max-width: 900px) { .mm__sub, .mm__has-sub.is-open .mm__sub { padding-inline-end: 0; } }
 .mm__nav { gap: 18px; }
 .mm__in { padding-bottom: 18px; }
+/* פס חוות השרתים: הדמיית שוהם (תמונה לאורך, ממוסגרת על הבור והמבנה) */
+.band--site img { transform: none; object-position: center 58%; }
+@media (max-width: 760px) { .band--site img { transform: none; object-position: center 55%; } .band--site { min-height: 82svh; } }
+/* התפריט: רקע קבוע, הדמיית חוות השרתים בשוהם */
+.mm__bg { background: #0b1622 url(../images/datacenter-shoham.webp) center 52% / cover no-repeat; }
+.mm__bg img { display: none; }
+@media (max-width: 900px) { .mm__bg { background-position: center 45%; } }
+.mm__stamp { position: absolute; top: calc(var(--header-h) + 8px); inset-inline-start: var(--gutter); z-index: 3; margin: 0; display: inline-block !important; }
+body.has-ann .mm__stamp { top: calc(var(--header-h) + 8px + var(--ann-h)); }
+@media (max-width: 900px) { .mm__stamp { display: inline-block !important; } .mm__cap { display: block; position: static; } .mm__cap b, .mm__cap > span { display: none; } }
