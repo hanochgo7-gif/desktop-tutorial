@@ -476,12 +476,35 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
 .open-now i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.6); animation: pulse 2s infinite; }
 .open-now.is-closed i { background: #94a3b8; animation: none; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,.6); } 70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
-.contact-form { display: grid; gap: 18px; align-content: start; background: rgba(255,255,255,.04); padding: 30px; border-radius: 22px; border: 1px solid rgba(255,255,255,.1); }
-.contact-form label { display: grid; gap: 8px; font-size: 14px; color: rgba(255,255,255,.75); }
-.contact-form input, .contact-form select, .contact-form textarea { font: 400 16px var(--sans); color: var(--ink); background: #fff; border: 1px solid transparent; padding: 13px 16px; width: 100%; border-radius: 12px; transition: box-shadow .3s, transform .3s; }
-.contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { outline: 0; box-shadow: 0 0 0 4px rgba(184,145,46,.35); }
-.contact-form .btn { justify-self: start; }
-.contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+/* טופס הרשמה לתור: כרטיס ספא */
+.spa-form { position: relative; display: grid; gap: 26px; align-content: start; background: var(--paper); color: var(--ink); padding: clamp(28px, 4vw, 44px); border-radius: 6px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.5); }
+.spa-form::before { content: ""; position: absolute; inset: 12px; border: 1px solid rgba(169,99,95,.35); border-radius: 3px; pointer-events: none; }
+.spa-form > * { position: relative; }
+.spa-form__head { display: grid; gap: 6px; justify-items: start; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.spa-form__mark { width: 30px; height: 30px; color: var(--blush-deep); margin-bottom: 4px; }
+.spa-form__head h3 { margin: 0; font: 300 clamp(26px, 2.6vw, 32px)/1.2 var(--serif); color: var(--head); }
+.spa-form__head p { margin: 0; color: var(--slate); font-size: 15px; }
+.spa-choice { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.spa-choice legend { float: inline-start; width: 100%; margin-bottom: 10px; padding: 0; font: 400 12px var(--sans); letter-spacing: .12em; color: var(--gold-deep); }
+.spa-choice label { position: relative; cursor: pointer; }
+.spa-choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.spa-choice span { display: inline-block; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font-size: 14px; color: var(--slate); transition: all .3s var(--ease); }
+.spa-choice label:hover span { border-color: var(--blush-deep); color: var(--ink); }
+.spa-choice input:checked + span { background: var(--gold-deep); border-color: var(--gold-deep); color: #fff; }
+.spa-choice input:focus-visible + span { box-shadow: 0 0 0 3px var(--gold-soft); }
+.spa-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.spa-field { position: relative; display: block; padding-top: 18px; }
+.spa-field input, .spa-field textarea { width: 100%; font: 400 17px var(--sans); color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--blush-deep); border-radius: 0; padding: 8px 0 10px; outline: 0; transition: border-color .3s; resize: none; }
+.spa-field textarea { min-height: 3.2em; }
+.spa-field span { position: absolute; top: 26px; inset-inline-start: 0; font-size: 16px; color: var(--muted); pointer-events: none; transform-origin: top right; transition: transform .3s var(--ease-out), color .3s; }
+.spa-field input:focus ~ span, .spa-field input:not(:placeholder-shown) ~ span, .spa-field textarea:focus ~ span, .spa-field textarea:not(:placeholder-shown) ~ span { transform: translateY(-24px) scale(.78); color: var(--gold-deep); }
+.spa-field::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px; background: var(--gold-deep); transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease-out); }
+.spa-field:focus-within::after { transform: scaleX(1); }
+.spa-field.is-invalid input { border-color: #c0605a; }
+.spa-form__foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-top: 6px; }
+.spa-form__foot p { margin: 0; flex: 1 1 14em; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.spa-form__done { margin: 0; padding: 14px 18px; border: 1px solid var(--gold); background: var(--gold-soft); color: var(--gold-deep); font: 300 18px var(--serif); }
+.spa-form__done[hidden] { display: none; }
 
 /* ===== פוטר ===== */
 .site-footer { padding: 40px var(--gutter); display: grid; grid-template-columns: 1fr auto auto; gap: 24px; align-items: center; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
@@ -524,7 +547,7 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
   .field { min-height: 0; }
   .facts { grid-template-columns: 1fr; }
   .contact { grid-template-columns: 1fr; }
-  .contact-form .form-row { grid-template-columns: 1fr; }
+  .spa-row { grid-template-columns: 1fr; }
   .ba-grid { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
   .about-media { max-width: 420px; }

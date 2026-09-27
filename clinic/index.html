@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=43">
+  <link rel="stylesheet" href="css/style.css?v=44">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -488,24 +488,39 @@
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>ראשון עד חמישי 9:00–19:00</span></li>
       </ul>
     </div>
-    <form class="contact-form reveal" action="https://formsubmit.co/your@email.com" method="POST">
-      <input type="hidden" name="_subject" value="פנייה חדשה מהאתר">
+    <form class="spa-form reveal" id="book-form" action="https://formsubmit.co/your@email.com" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="בקשה לתור מהאתר">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-      <div class="form-row">
-        <label>שם מלא<input type="text" name="name" required autocomplete="name"></label>
-        <label>טלפון<input type="tel" name="phone" required autocomplete="tel" inputmode="tel"></label>
+      <div class="spa-form__head">
+        <svg class="spa-form__mark" aria-hidden="true"><use href="images/deco.svg#blossom"/></svg>
+        <h3>הרשמה לתור</h3>
+        <p>כמה פרטים, ואנחנו חוזרים אליך עם מועד שנוח לך.</p>
       </div>
-      <label>מה המטרה
-        <select name="goal">
-          <option>טיפולי פנים</option>
-          <option>הסרת שיער בלייזר</option>
-          <option>פדיקור טיפולי</option>
-          <option>הזמנת מוצרים</option>
-          <option>אחר</option>
-        </select>
-      </label>
-      <label>כמה מילים<textarea name="message" rows="4"></textarea></label>
-      <button class="btn btn-gold magnet" type="submit">שליחת בקשה לתור <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></button>
+      <fieldset class="spa-choice">
+        <legend>מה מביא אותך אלינו</legend>
+        <label><input type="radio" name="goal" value="טיפולי פנים" checked><span>טיפולי פנים</span></label>
+        <label><input type="radio" name="goal" value="הסרת שיער בלייזר"><span>הסרת שיער בלייזר</span></label>
+        <label><input type="radio" name="goal" value="פדיקור טיפולי"><span>פדיקור טיפולי</span></label>
+        <label><input type="radio" name="goal" value="ייעוץ ואבחון"><span>ייעוץ ואבחון</span></label>
+        <label><input type="radio" name="goal" value="מוצרים"><span>מוצרים</span></label>
+      </fieldset>
+      <div class="spa-row">
+        <label class="spa-field"><input type="text" name="name" required autocomplete="name" placeholder=" "><span>שם מלא</span></label>
+        <label class="spa-field"><input type="tel" name="phone" required autocomplete="tel" inputmode="tel" placeholder=" "><span>טלפון</span></label>
+      </div>
+      <fieldset class="spa-choice spa-choice--time">
+        <legend>מתי נוח לך</legend>
+        <label><input type="radio" name="when" value="בוקר"><span>בוקר</span></label>
+        <label><input type="radio" name="when" value="צהריים"><span>צהריים</span></label>
+        <label><input type="radio" name="when" value="אחר הצהריים"><span>אחר הצהריים</span></label>
+        <label><input type="radio" name="when" value="גמיש" checked><span>גמיש</span></label>
+      </fieldset>
+      <label class="spa-field"><textarea name="message" rows="2" placeholder=" "></textarea><span>משהו שכדאי שנדע? לא חובה</span></label>
+      <div class="spa-form__foot">
+        <button class="btn btn-gold magnet" type="submit">שליחת הבקשה</button>
+        <p>הבקשה נפתחת בוואטסאפ עם הפרטים שמילאת. חוזרים אליך בשעות הפעילות.</p>
+      </div>
+      <p class="spa-form__done" hidden>תודה, קיבלנו. נחזור אליך עם מועד בהקדם.</p>
     </form>
     <div class="map reveal">
       <iframe title="מפה: המייסדים 67, מושב בניה" src="https://www.google.com/maps?q=%D7%94%D7%9E%D7%99%D7%99%D7%A1%D7%93%D7%99%D7%9D%2067%2C%20%D7%9E%D7%95%D7%A9%D7%91%20%D7%91%D7%A0%D7%99%D7%94&output=embed&hl=he" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
@@ -530,6 +545,6 @@
 <dialog class="lightbox" id="lightbox" aria-label="תעודה מוגדלת"><img src="" alt=""><button class="qv-close" id="lightbox-close" type="button" aria-label="סגירה">×</button></dialog>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=29"></script>
+<script src="js/main.js?v=30"></script>
 </body>
 </html>

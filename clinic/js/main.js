@@ -67,6 +67,26 @@
   }
 
 
+  /* טופס הרשמה לתור: נפתח בוואטסאפ עם הפרטים */
+  var bookForm = $('#book-form');
+  if (bookForm) {
+    bookForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = true;
+      $$('.spa-field', bookForm).forEach(function (f) {
+        var el = f.querySelector('input, textarea'), bad = el.required && !el.value.trim();
+        f.classList.toggle('is-invalid', bad); if (bad && ok) { el.focus(); ok = false; }
+      });
+      if (!ok) { showToast('חסרים שם וטלפון'); return; }
+      var d = new FormData(bookForm);
+      var lines = ['היי, אשמח לקבוע תור.', 'שם: ' + d.get('name'), 'טלפון: ' + d.get('phone'), 'מטרה: ' + d.get('goal'), 'מתי נוח: ' + d.get('when')];
+      if ((d.get('message') || '').trim()) lines.push('הערה: ' + d.get('message').trim());
+      window.open('https://wa.me/972545779379?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+      var done = $('.spa-form__done', bookForm); if (done) done.hidden = false;
+      showToast('הבקשה נפתחה בוואטסאפ, רק לשלוח');
+    });
+  }
+
   /* תפריט הטיפולים: טבלאות */
   var svcBox = $('#svc-tables');
   if (svcBox && window.SERVICES) {
