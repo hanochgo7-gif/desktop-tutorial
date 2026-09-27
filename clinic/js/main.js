@@ -115,7 +115,7 @@
         }).join('') + '</ol></div>';
       }).join('');
       return '<section class="svc-cat lux-cat" id="' + cat.id + '"><div class="lux-cat__head reveal"><span class="lux-num">' + cat.num + '</span><h2>' + escapeHtml(cat.title) + '</h2><p>' + escapeHtml(cat.intro) + '</p><span class="lux-count">' + total + ' ' + (cat.id === 'laser-menu' ? 'אזורים' : 'טיפולים') + '</span></div>' + groups + '</section>';
-    }).join('') + '<p class="svc-note reveal">משכי הטיפולים משוערים. המחיר הסופי נקבע באבחון לפי האזור, סוג העור והתוכנית, ומחירון מלא זמין בקליניקה ובוואטסאפ.</p>';
+    }).join('') + '<p class="svc-note reveal">משכי הטיפולים משוערים. את המחיר הסופי אני קובעת באבחון לפי האזור, סוג העור והתוכנית. מחירון מלא אפשר לקבל ממני בקליניקה ובוואטסאפ.</p>';
     afterRender(svcBox);
   }
   var mp = $('#menu-print'); if (mp) mp.addEventListener('click', function () { window.print(); });
@@ -334,7 +334,7 @@
       var h = parseInt(n.hour, 10), wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'].indexOf(n.weekday) > -1;
       var open = wd && h >= 9 && h < 19;
       openNow.classList.toggle('is-closed', !open);
-      $('span', openNow).textContent = open ? 'פתוח עכשיו, עונים בוואטסאפ' : 'סגור כרגע. כתבו בוואטסאפ ונחזור בבוקר';
+      $('span', openNow).textContent = open ? 'פתוח עכשיו, אני עונה בוואטסאפ' : 'סגור כרגע. כתבו לי בוואטסאפ ואחזור בבוקר';
     }
   }
   if (clocks.length || openNow) { tickClock(); setInterval(tickClock, 15000); }
@@ -580,7 +580,7 @@
       if (badge) { badge.hidden = !active; badge.textContent = active; }
       if (clearAll) clearAll.hidden = !(active || q);
       if (clearBtn) clearBtn.hidden = !q;
-      if (!list.length) { shopMain.innerHTML = '<div class="empty fade-up"><b>לא נמצא מוצר כזה</b>נסו מילה אחרת, או כתבו לנו בוואטסאפ ונבדוק אם אפשר להשיג.<br><br><a class="btn btn-gold" href="' + WA + '" target="_blank" rel="noopener">שאלה בוואטסאפ</a></div>'; return; }
+      if (!list.length) { shopMain.innerHTML = '<div class="empty fade-up"><b>לא נמצא מוצר כזה</b>נסו מילה אחרת, או כתבו לי בוואטסאפ ואבדוק אם אפשר להשיג.<br><br><a class="btn btn-gold" href="' + WA + '" target="_blank" rel="noopener">שאלה בוואטסאפ</a></div>'; return; }
       var groupKey = state.sort === 'category' ? 'category' : (state.sort === 'brand' ? 'brand' : null);
       var html = '';
       if (groupKey) {
@@ -643,7 +643,7 @@
         var skinTxt = { oily: 'לעור שמן כדאי מרקמים קלילים, ג\'ל ולחות נטולת שומן.', combo: 'לעור מעורב מאזנים: ניקוי עדין ולחות קלילה.', dry: 'לעור יבש מוסיפים לחות עשירה וחומצה היאלורונית.', sensitive: 'לעור רגיש בוחרים נוסחאות מרגיעות, בלי חומצות חזקות.' }[skin] || '';
         var ageTxt = age === '45' ? ' מגיל 45 מומלץ לשלב גם מיצוק ורטינול.' : age === '30-45' ? ' בגילאי 30 עד 45 כדאי להתחיל במניעה: סרום והגנה יומית.' : '';
         $('#quiz-result-title').textContent = goal;
-        $('#quiz-result-text').textContent = 'סיננו עבורך את המוצרים למטרה "' + goal + '". ' + skinTxt + ageTxt + ' ההתאמה הסופית נעשית באבחון בקליניקה.';
+        $('#quiz-result-text').textContent = 'סיננתי עבורך את המוצרים למטרה "' + goal + '". ' + skinTxt + ageTxt + ' את ההתאמה הסופית אני עושה באבחון בקליניקה.';
         $('#quiz-wa').href = WA + '?text=' + encodeURIComponent('היי, עשיתי את מאתר המוצרים באתר. עור: ' + ({ oily: 'שמן', combo: 'מעורב', dry: 'יבש', sensitive: 'רגיש' }[skin] || '') + ', מטרה: ' + goal + ', גיל: ' + ({ u30: 'עד 30', '30-45': '30 עד 45', '45': '45 ומעלה' }[age] || '') + '. אשמח להמלצה אישית.');
       }
       function openQuiz() { ans = {}; $$('.quiz-opts button', quiz).forEach(function (b) { b.classList.remove('is-on'); }); showStep(0); if (typeof quiz.showModal === 'function') quiz.showModal(); else quiz.setAttribute('open', ''); }
