@@ -76,23 +76,27 @@
       if (typeof r.price === 'number') return '<b>₪ ' + r.price.toLocaleString('he-IL') + '</b>';
       return '<span class="svc-ask">לפי אבחון</span>';
     }
+    function priceText(r) {
+      if (r.price === 0) return 'ללא עלות';
+      if (typeof r.price === 'number') return '₪ ' + r.price.toLocaleString('he-IL');
+      return 'לפי אבחון';
+    }
     svcBox.innerHTML = window.SERVICES.map(function (cat) {
       var total = cat.groups.reduce(function (n, g) { return n + g.rows.length; }, 0);
-      var body = cat.groups.map(function (g) {
-        return '<tr class="svc-group"><th colspan="' + (COLS.length + 1) + '" scope="rowgroup">' + escapeHtml(g.title) + '</th></tr>' + g.rows.map(function (r) {
-          return '<tr>' + COLS.map(function (c) {
-            var v = c[0] === 'price' ? priceCell(r) : escapeHtml(r[c[0]] || '');
-            if (c[0] === 'name') v = '<b>' + v + '</b>' + (r.note ? '<small>' + escapeHtml(r.note) + '</small>' : '');
-            return '<td data-label="' + c[1] + '"' + (v ? '' : ' class="is-empty"') + '>' + (v || '<span aria-hidden="true">·</span>') + '</td>';
-          }).join('') + '<td class="svc-cta"><a href="' + WA.split('?')[0] + '?text=' + encodeURIComponent('היי, אשמח לשמוע על ' + r.name) + '" target="_blank" rel="noopener" aria-label="שאלה בוואטסאפ על ' + escapeHtml(r.name) + '">וואטסאפ</a></td></tr>';
-        }).join('');
+      var groups = cat.groups.map(function (g) {
+        return '<div class="lux-group"><h3 class="lux-group__title"><span>' + escapeHtml(g.title) + '</span></h3><ol class="lux-list">' + g.rows.map(function (r) {
+          var meta = [r.duration, r.series ? 'סדרה: ' + r.series : '', r.interval ? 'מרווח: ' + r.interval : ''].filter(Boolean);
+          var who = [r.who ? 'מתאים ל' + r.who : '', r.tech ? r.tech : ''].filter(Boolean);
+          return '<li class="lux-row">' +
+            '<div class="lux-row__main"><div class="lux-row__head"><h4>' + escapeHtml(r.name) + (r.note ? '<small>' + escapeHtml(r.note) + '</small>' : '') + '</h4><span class="lux-leader" aria-hidden="true"></span><span class="lux-price' + (r.price === 0 ? ' is-free' : '') + '">' + priceText(r) + '</span></div>' +
+            (r.includes ? '<p class="lux-row__desc">' + escapeHtml(r.includes) + '</p>' : '') +
+            '<p class="lux-row__meta">' + who.map(function (t) { return '<span>' + escapeHtml(t) + '</span>'; }).join('') + meta.map(function (t) { return '<span>' + escapeHtml(t) + '</span>'; }).join('') +
+            '<a class="lux-ask" href="' + WA.split('?')[0] + '?text=' + encodeURIComponent('היי, אשמח לשמוע על ' + r.name) + '" target="_blank" rel="noopener">שאלה בוואטסאפ</a></p></div></li>';
+        }).join('') + '</ol></div>';
       }).join('');
-      return '<section class="svc-cat" id="' + cat.id + '"><div class="menu-group__head reveal"><p class="kicker">' + cat.num + '</p><h2>' + escapeHtml(cat.title) + '</h2><p>' + escapeHtml(cat.intro) + '</p></div>' +
-        '<div class="svc-wrap"><table class="svc"><caption class="sr-only">' + escapeHtml(cat.title) + ', ' + total + ' טיפולים</caption><thead><tr>' + COLS.map(function (c) { return '<th scope="col">' + c[1] + '</th>'; }).join('') + '<th scope="col"><span class="sr-only">שאלה</span></th></tr></thead><tbody>' + body + '</tbody></table></div><p class="svc-hint" aria-hidden="true">גללו את הטבלה לצדדים לכל העמודות</p></section>';
+      return '<section class="svc-cat lux-cat" id="' + cat.id + '"><div class="lux-cat__head reveal"><span class="lux-num">' + cat.num + '</span><h2>' + escapeHtml(cat.title) + '</h2><p>' + escapeHtml(cat.intro) + '</p><span class="lux-count">' + total + ' ' + (cat.id === 'laser-menu' ? 'אזורים' : 'טיפולים') + '</span></div>' + groups + '</section>';
     }).join('') + '<p class="svc-note reveal">משכי הטיפולים משוערים. המחיר הסופי נקבע באבחון לפי האזור, סוג העור והתוכנית, ומחירון מלא זמין בקליניקה ובוואטסאפ.</p>';
     afterRender(svcBox);
-    var svcScroll = function () { $$('.svc-wrap', svcBox).forEach(function (w) { w.scrollLeft = w.scrollWidth; }); };
-    svcScroll(); window.addEventListener('resize', svcScroll);
   }
   var mp = $('#menu-print'); if (mp) mp.addEventListener('click', function () { window.print(); });
   /* קישור פעיל בתפריט */
