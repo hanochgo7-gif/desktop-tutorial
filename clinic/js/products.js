@@ -351,7 +351,7 @@ window.PRODUCTS = [
     desc: "קרם אנטי-אייג'ינג מקיף מסדרת Repagen Exclusive של KLAPP.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-repagen.jpg",
+    image: "images/klapp-repagen-cream.jpg",
     cut: "images/shelf/klapp-repagen-cream.png",
     tall: false
   },
@@ -377,7 +377,7 @@ window.PRODUCTS = [
     desc: "פלואיד לחות לידיים מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-repagen.jpg",
+    image: "images/klapp-repagen-hand.jpg",
     cut: "images/shelf/klapp-repagen-hand.png",
     tall: true
   },
@@ -403,7 +403,7 @@ window.PRODUCTS = [
     desc: "סרום רטינול למיצוק עור יעיל ולאורך זמן, שיפור רמת הלחות, מראה עור חלק ואחיד וזוהר טבעי שנמשך כל היום. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-retinol-serum.webp",
+    image: "images/klapp-retinol-serum.jpg",
     cut: "images/shelf/klapp-retinol-serum.png",
     tall: true
   },
@@ -416,7 +416,7 @@ window.PRODUCTS = [
     desc: "קרם יום ולילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-retinol-trio.jpg",
+    image: "images/klapp-retinol-daynight.jpg",
     cut: "images/shelf/klapp-retinol-daynight.png",
     tall: false
   },
@@ -429,7 +429,7 @@ window.PRODUCTS = [
     desc: "מסכת לילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-retinol-trio.jpg",
+    image: "images/klapp-retinol-mask.jpg",
     cut: "images/shelf/klapp-retinol-mask.png",
     tall: false
   },
@@ -468,7 +468,8 @@ window.PRODUCTS = [
     desc: "פילינג עדין על בסיס חומצה לקטוביונית, מסדרת Neuro Sensi Therapy של Arkana, לעור רגיש.",
     size: "30 מ״ל",
     price: null,
-    image: "images/arkana-sensi.png",
+    image: "images/arkana-sensi-peel.jpg",
+    cut: "images/shelf/arkana-sensi-peel.png",
     tall: false
   },
   {
@@ -480,7 +481,8 @@ window.PRODUCTS = [
     desc: "מסכה מרגיעה מסדרת Neuro Sensi Therapy של Arkana, להרגעת עור רגיש ומגורה.",
     size: "",
     price: null,
-    image: "images/arkana-sensi.png",
+    image: "images/arkana-neuro-sensi-mask.jpg",
+    cut: "images/shelf/arkana-neuro-sensi-mask.png",
     tall: false
   },
   {
@@ -492,7 +494,8 @@ window.PRODUCTS = [
     desc: "מסכה מבהירה ומרגיעה מסדרת Skin Tone Neuro Therapy של Arkana, עם β-White וחומצה טרנקסמית, להפחתת כתמי פיגמנטציה.",
     size: "100 מ״ל",
     price: null,
-    image: null,
+    image: "images/arkana-skintone-mask.jpg",
+    cut: "images/shelf/arkana-skintone-mask.png",
     tall: true
   },
   {
@@ -504,7 +507,8 @@ window.PRODUCTS = [
     desc: "פילינג מבהיר מסדרת Skin Tone Neuro Therapy של Arkana, לטיפול בכתמי פיגמנטציה ולאיחוד גוון העור.",
     size: "30 מ״ל",
     price: null,
-    image: null,
+    image: "images/arkana-skintone-peel.jpg",
+    cut: "images/shelf/arkana-skintone-peel.png",
     tall: false
   },
   {
@@ -516,7 +520,8 @@ window.PRODUCTS = [
     desc: "קרם מבהיר לשימוש יומי מסדרת Skin Tone Neuro Therapy של Arkana, להשלמת הטיפול בפיגמנטציה.",
     size: "",
     price: null,
-    image: null,
+    image: "images/arkana-skintone-cream.jpg",
+    cut: "images/shelf/arkana-skintone-cream.png",
     tall: false
   },
   {
@@ -529,6 +534,7 @@ window.PRODUCTS = [
     size: "30 מ״ל",
     price: null,
     image: "images/arkana-pdrn.jpg",
+    cut: "images/shelf/arkana-pdrn.png",
     tall: true
   },
   {
@@ -540,7 +546,8 @@ window.PRODUCTS = [
     desc: "ערכה טיפולית מסדרת Advanced Therapy של Arkana: סרום אקסוזומים, סרום PRP ו-EXO Power, לחידוש עור ואפקט אנטי-אייג'ינג. מתאימה לטיפולי אקסוזומים ומיקרונידלינג.",
     size: "",
     price: null,
-    image: null,
+    image: "images/arkana-exo-prp.jpg",
+    cut: "images/shelf/arkana-exo-prp.png",
     tall: false
   },
   {
@@ -552,7 +559,8 @@ window.PRODUCTS = [
     desc: "מסכת בד מסדרת PRP Therapy של Arkana, עם פלמיטויל טריפפטיד-5, קופר טריפפטיד-1 וחומצה היאלורונית. אפקט דמוי PRP: התחדשות והרגעה.",
     size: "יחידה, 28 גרם סרום",
     price: null,
-    image: null,
+    image: "images/arkana-prp-mask.jpg",
+    cut: "images/shelf/arkana-prp-mask.png",
     tall: false
   },
   {
@@ -564,7 +572,8 @@ window.PRODUCTS = [
     desc: "תכשיר מחדש מסדרת PRP Therapy של Arkana, עם WH-Peptide ו-GHK-Cu, לאפקט ליפטינג ועיצוב מחדש של העור.",
     size: "100 מ״ל",
     price: null,
-    image: null,
+    image: "images/arkana-prp-rejuvenator-100.jpg",
+    cut: "images/shelf/arkana-prp-rejuvenator-100.png",
     tall: true
   },
   {
@@ -576,7 +585,8 @@ window.PRODUCTS = [
     desc: "קרם מחדש לשימוש ביתי מסדרת PRP Therapy של Arkana, להשלמת הטיפול בקליניקה.",
     size: "",
     price: null,
-    image: null,
+    image: "images/arkana-prp-rejuvenator-50.jpg",
+    cut: "images/shelf/arkana-prp-rejuvenator-50.png",
     tall: false
   },
   {
