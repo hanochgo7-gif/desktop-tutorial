@@ -1846,3 +1846,8 @@ html.a11y-no-motion .hero__clients-viewport { mask-image: none; -webkit-mask-ima
 @media (max-width: 760px) { .band--site img { transform: scale(1.9); transform-origin: 50% 100%; } }
 /* תווית הפס: קריאה גם על רקע בהיר */
 .band__tag { background: rgba(10,10,12,.55); color: #fff; padding: 6px 12px; border-radius: 999px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+/* הטופס המהיר: כרטיס קטן יותר */
+.quick--photo .quick__form { max-width: 430px; padding: clamp(16px, 2.2vw, 22px); gap: 10px; }
+.quick--photo .quick__form input[type="tel"] { min-height: 48px; font-size: 1rem; }
+.quick--photo .quick__form .btn { min-height: 48px; }
+.quick--photo .quick__inner { padding-block: clamp(56px, 8vw, 100px); }
