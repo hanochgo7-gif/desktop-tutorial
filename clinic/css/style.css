@@ -1119,3 +1119,11 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
   .lux-ask { display: none; }
   .lux-leader { border-bottom-color: #999; }
 }
+
+/* ===== תפריט הטיפולים: רקע שיש עם קו זהב בפתיח ===== */
+.page-menu .menu-hero { max-width: none; padding-inline-end: var(--gutter); background: linear-gradient(90deg, rgba(251,242,236,.05) 0%, rgba(251,242,236,.55) 28%, rgba(251,242,236,.92) 48%, var(--bg) 62%), url("../images/menu-marble.jpg") left center / cover no-repeat; }
+.page-menu .menu-hero > * { max-width: 46em; }
+.page-menu .menu-hero .deco-blossom, .page-menu .menu-hero .menu-fan { display: none; }
+@media (max-width: 860px) {
+  .page-menu .menu-hero { background: linear-gradient(180deg, rgba(251,242,236,.6), rgba(251,242,236,.92) 45%, var(--bg) 75%), url("../images/menu-marble.jpg") center top / cover no-repeat; }
+}
