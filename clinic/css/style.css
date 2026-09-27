@@ -1056,3 +1056,13 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .page-shop .mobile-menu::before, .page-shop .mobile-menu::after { border-color: rgba(168,134,90,.5); }
 .page-shop .mobile-menu::after { border-color: rgba(168,134,90,.2); }
 @media (prefers-reduced-motion: reduce) { .menu-flower, .menu-shelf img { animation: none; } }
+
+/* ===== תפריט הטיפולים: קישוטים ===== */
+.menu-cta .deco-blossom { top: -30%; inset-inline-start: -6%; width: clamp(150px, 16vw, 240px); opacity: .9; }
+.menu-cta .deco-fan { bottom: -35%; inset-inline-end: 8%; width: clamp(120px, 13vw, 200px); opacity: .85; }
+.sprig-cta { bottom: -4px; inset-inline-end: 2%; rotate: 8deg; opacity: .85; } .sprig-cta.s2 { inset-inline-end: 5.5%; } .sprig-cta.s3 { inset-inline-end: 8.5%; }
+.menu-fan { bottom: -30%; inset-inline-start: 38%; width: clamp(140px, 15vw, 220px); opacity: .7; }
+.site-footer.has-deco { overflow: hidden; }
+.sprig-foot { bottom: -6px; inset-inline-start: 3%; rotate: -8deg; opacity: .8; width: 60px; } .sprig-foot.s2 { inset-inline-start: 6.5%; } .sprig-foot.s3 { inset-inline-start: 9.5%; }
+.foot-blossom { top: -50%; inset-inline-end: -4%; width: clamp(120px, 12vw, 180px); opacity: .5; }
+@media (max-width: 860px) { .menu-fan, .sprig-cta.s3, .sprig-foot.s3 { display: none; } .menu-cta .deco-blossom { top: -20%; inset-inline-start: -18%; } .foot-blossom { display: none; } }
