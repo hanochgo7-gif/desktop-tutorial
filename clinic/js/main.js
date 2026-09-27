@@ -238,7 +238,7 @@
   /* מרקיז מודע לכיוון הגלילה */
   var track = $('.marquee__track');
   if (track && !noMotion()) {
-    var list = $('.marquee__list', track), w = list.getBoundingClientRect().width, x = 0, base = .6, want = base, cur = base, prevY = window.scrollY, mt;
+    var list = $('.marquee__list', track), w = list.getBoundingClientRect().width, x = 0, base = 1, want = base, cur = base, prevY = window.scrollY, mt;
     window.addEventListener('scroll', function () {
       var y = window.scrollY, d = y - prevY; prevY = y;
       want = base * (d < 0 ? -1 : 1) * Math.min(1 + Math.abs(d) / 12, 5);
