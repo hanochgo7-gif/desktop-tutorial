@@ -2027,3 +2027,12 @@ html.a11y-no-motion .cut__flow-dash, html.a11y-no-motion .cut__pin.is-on b::afte
 .cut__card .cut__nav { margin-top: 10px; padding-top: 8px; }
 .cut__stage { background: transparent; }
 @media (max-width: 900px) { .cut__wrap { grid-template-columns: 1fr; } }
+/* החתך: הכפתורים שקופים כדי לא להסתיר את התרשים */
+.cut__pin b { background: rgba(255,255,255,.14); border: 1.5px solid rgba(28,28,28,.75); color: var(--ink); box-shadow: none; backdrop-filter: none; }
+.cut__pin:hover b, .cut__pin.is-on b { background: rgba(31,143,191,.22); border-color: var(--accent); color: var(--accent-deep); transform: scale(1.08); }
+.cut__pin b::after { border-color: var(--accent); }
+.cut__pin span { background: rgba(255,255,255,.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.6); }
+.cut__pin:hover span, .cut__pin:focus-visible span, .cut__pin.is-on span { box-shadow: none; }
+.cut__stamp { background: rgba(255,255,255,.4); border-color: rgba(50,45,42,.3); }
+.cut__flow-base { stroke: rgba(255,255,255,.35); stroke-width: 5; }
+.cut__flow-dash { stroke-width: 2.5; opacity: .9; }
