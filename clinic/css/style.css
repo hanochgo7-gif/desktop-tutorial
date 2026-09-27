@@ -1184,10 +1184,10 @@ body.page-shop.menu-open .site-header .shop-brand__sub { color: var(--gold-deep)
 }
 
 /* ===== נגישות ===== */
-.a11y-btn { position: fixed; bottom: 90px; inset-inline-start: 22px; z-index: 210; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--dark); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+.a11y-btn { position: fixed; bottom: 84px; inset-inline-end: 22px; z-index: 210; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--dark); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
 .a11y-btn svg { width: 28px; height: 28px; }
 .a11y-btn:focus-visible, .a11y-panel button:focus-visible, .a11y-panel a:focus-visible { outline: 3px solid #1a73e8; outline-offset: 3px; }
-.a11y-panel { position: fixed; bottom: 154px; inset-inline-start: 22px; z-index: 210; width: min(320px, calc(100vw - 48px)); background: #fff; color: #1f1a1c; border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.3); padding: 18px; display: grid; gap: 10px; font-family: var(--sans); }
+.a11y-panel { position: fixed; bottom: 148px; inset-inline-end: 22px; z-index: 210; width: min(320px, calc(100vw - 48px)); background: #fff; color: #1f1a1c; border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,.3); padding: 18px; display: grid; gap: 10px; font-family: var(--sans); }
 .a11y-panel[hidden] { display: none; }
 .a11y-panel h2 { margin: 0 0 4px; font: 600 17px var(--sans); color: #1f1a1c; }
 .a11y-panel button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 11px 14px; border-radius: 10px; border: 1px solid #d9d2d4; background: #fff; color: #1f1a1c; font: 500 15px var(--sans); cursor: pointer; text-align: start; }
@@ -1227,4 +1227,3 @@ html.a11y-focus *:focus { outline: 3px solid #1a73e8 !important; outline-offset:
 .a11y-page .a11y-meta { color: var(--slate); font-size: 15px; }
 .a11y-page .a11y-fill { background: var(--gold-soft); padding: 0 4px; }
 @media print { .a11y-btn, .a11y-panel { display: none !important; } }
-@media (max-width: 860px) { .page-shop .a11y-btn { bottom: 140px; } .page-shop .a11y-panel { bottom: 204px; } }
