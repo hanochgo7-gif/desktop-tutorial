@@ -59,7 +59,16 @@
     toggle.setAttribute('aria-expanded', String(open));
     menu.classList.toggle('is-open', open);
     body.classList.toggle('menu-open', open);
+    if (open) { var first = $('a', menu); if (first) setTimeout(function () { first.focus(); }, 60); }
   }
+  /* לכידת מיקוד בתוך התפריט הפתוח */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !menu || !menu.classList.contains('is-open')) return;
+    var items = [toggle].concat($$('a, button', menu).filter(function (el) { return el.offsetParent !== null; }));
+    var i = items.indexOf(document.activeElement);
+    if (e.shiftKey && (i <= 0)) { e.preventDefault(); items[items.length - 1].focus(); }
+    else if (!e.shiftKey && i === items.length - 1) { e.preventDefault(); items[0].focus(); }
+  });
   if (toggle && menu) {
     toggle.addEventListener('click', function () { setMenu(toggle.getAttribute('aria-expanded') !== 'true'); });
     $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
@@ -223,7 +232,7 @@
 
   /* מסלול טיפולים: העמודה הדביקה מציגה איפה אנחנו ברשימה */
   $$('.service').forEach(function (sec) {
-    var rows = $$('.treatments > div', sec), track = $('.track', sec);
+    var rows = $$('.treatments > li', sec), track = $('.track', sec);
     if (!rows.length || !track) return;
     var now = $('.track-now', track), bar = $('.track-bar i', track), cur = -1;
     function setCurrent(i) {
@@ -505,6 +514,8 @@
     var drawFeatured = function () {
       var n = Math.min(shelfCols(), 4);
       featured.innerHTML = rowsHtml(doorPicks.slice(0, n).map(function (p) { return { p: p, i: P.indexOf(p) }; }), false);
+      /* הקיר בדף הבית הוא תצוגה בלבד בתוך קישור אחד: בלי כפתורים וקישורים מקוננים */
+      $$('a, button', featured).forEach(function (el) { var sp = document.createElement('span'); sp.className = el.className; sp.innerHTML = el.innerHTML; el.replaceWith(sp); });
     };
     drawFeatured(); rerenderFns.push(drawFeatured);
     var strip = $('#brand-strip');
