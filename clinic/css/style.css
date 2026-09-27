@@ -1014,3 +1014,16 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 .map__foot span { margin-inline-end: auto; }
 .map-link { color: var(--gold); text-decoration: none; border-bottom: 1px solid currentColor; margin-inline-start: 6px; font-size: 14px; }
 @media (max-width: 860px) { .map iframe { height: 240px; } }
+
+/* ===== המוצרים נעים קלות על המדף ===== */
+.shelf-item img, .shelf-item.is-box img, .shelf-prop img {
+  animation: shelf-in 1s var(--ease-out) both, shelf-idle var(--idle-d, 6s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i, 0) * .08s + .1s), calc(var(--i, 0) * -1.3s + 1.2s);
+}
+.shelf-item:nth-child(2n) img { --idle-d: 7.4s; }
+.shelf-item:nth-child(3n) img { --idle-d: 8.6s; }
+.shelf-prop img { --idle-d: 9.5s; }
+@keyframes shelf-idle { from { transform: translateY(0) rotate(-.35deg); } to { transform: translateY(-5px) rotate(.35deg); } }
+.shelf-item:hover img, .shelf-item.is-open img, .shelf-item .shelf-hit:focus-visible img { animation: none; }
+.shop-door .shelf-item img { animation-name: shelf-in, shelf-idle; }
+@media (prefers-reduced-motion: reduce) { .shelf-item img, .shelf-item.is-box img, .shelf-prop img { animation: none; } }
