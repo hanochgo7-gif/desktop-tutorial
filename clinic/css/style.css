@@ -1099,27 +1099,16 @@ body.menu-open .site-header .brand { opacity: 0; pointer-events: none; }
 body.page-shop.menu-open .site-header .shop-brand, body.page-shop.menu-open .nav-toggle { color: var(--ink); }
 body.page-shop.menu-open .site-header .shop-brand__sub { color: var(--gold-deep); }
 
-/* מחשב: שתי עמודות, הפריטים נושמים */
+/* מחשב: עמודה אחת רחבה, הפריטים נושמים */
 @media (min-width: 861px) {
-  .mobile-menu { padding: calc(var(--nav-h) + 24px) clamp(48px, 8vw, 140px) 64px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); grid-template-rows: auto 1fr auto; column-gap: clamp(48px, 8vw, 140px); row-gap: 28px; align-content: stretch; }
+  .mobile-menu { padding: calc(var(--nav-h) + 24px) clamp(48px, 10vw, 180px) 64px; grid-template-rows: auto 1fr auto; row-gap: 28px; align-content: stretch; }
   .mobile-menu::before { inset: 22px; }
-  .mobile-menu__brand { grid-column: 1; }
-  .mobile-menu ul { grid-column: 1; align-self: center; }
-  .mobile-menu ul a { gap: 28px; }
-  .mobile-menu ul a small { font-size: 15px; }
-  .mobile-menu__foot { grid-column: 1; }
   .mobile-menu__logo { display: none; }
-  .mobile-menu ul a { font-size: clamp(26px, 2.8vw, 38px); padding: 11px 0; }
-  .mobile-menu__side { display: grid; z-index: auto; grid-column: 2; grid-row: 1 / -1; align-content: center; gap: 22px; padding-inline-start: clamp(32px, 4vw, 64px); border-inline-start: 1px solid rgba(169,99,95,.3); }
-  .mobile-menu__side img { width: min(260px, 60%); height: auto; mix-blend-mode: multiply; }
-  .mobile-menu__side h2 { margin: 0; font: 300 clamp(22px, 2vw, 28px)/1.4 var(--serif); color: var(--head); max-width: 18em; }
-  .mobile-menu__side p { margin: 0; color: var(--slate); font-size: 15px; line-height: 1.8; max-width: 26em; }
-  .mobile-menu__side .side-line { width: 44px; height: 1px; background: var(--gold-deep); }
-  .mobile-menu__side a { color: var(--ink); text-decoration: none; border-bottom: 1px solid rgba(169,99,95,.4); }
-  .mobile-menu__side a:hover { color: var(--gold-deep); }
-  .page-shop .mobile-menu__side { border-color: rgba(125,98,64,.35); }
-  .page-shop .mobile-menu__side .side-line { background: var(--gold-deep); }
-  .menu-shelf { grid-column: 1; }
+  .mobile-menu ul { align-self: center; max-width: 760px; }
+  .mobile-menu ul a { font-size: clamp(26px, 2.8vw, 38px); padding: 11px 0; gap: 28px; }
+  .mobile-menu ul a small { font-size: 15px; }
+  .menu-shelf { max-width: 760px; width: 100%; }
+}
 }
 @media (prefers-reduced-motion: reduce) { .menu-flower, .menu-shelf img { animation: none; } }
 
