@@ -100,6 +100,41 @@
     else if (mmHasSub) mmOn(mmHasSub);
   }
 
+  /* ---------- חתך תשתית הדלק: נקודות, כרטיס, מעבר אוטומטי עד המגע הראשון ---------- */
+  var cutStage = $('[data-cut-stage]');
+  if (cutStage) {
+    var cutData = [];
+    try { cutData = JSON.parse($('[data-cut-data]', cutStage).textContent); } catch (e) {}
+    var cutPins = $$('.cut__pin', cutStage), cutItems = $$('.cut__list li'), cutCard = $('#cut-card');
+    var cutN = $('[data-cut-n]', cutCard), cutT = $('[data-cut-title]', cutCard), cutL = $('[data-cut-lead]', cutCard), cutUl = $('[data-cut-list]', cutCard), cutC = $('[data-cut-count]', cutCard);
+    var cutCur = 0, cutTimer = null, cutTouched = false;
+    function cutShow(i) {
+      i = (i + cutData.length) % cutData.length; cutCur = i;
+      var d = cutData[i]; if (!d) return;
+      cutPins.forEach(function (p, j) { p.classList.toggle('is-on', i === j); p.setAttribute('aria-expanded', String(i === j)); });
+      cutItems.forEach(function (li, j) { li.classList.toggle('is-on', i === j); });
+      cutN.textContent = (i < 9 ? '0' : '') + (i + 1); cutT.textContent = d.t; cutL.textContent = d.l;
+      cutUl.innerHTML = d.b.map(function (b) { return '<li>' + b + '</li>'; }).join('');
+      if (cutC) cutC.textContent = (i + 1) + ' / ' + cutData.length;
+      cutCard.classList.remove('is-swap'); void cutCard.offsetWidth; cutCard.classList.add('is-swap');
+    }
+    function cutStop() { cutTouched = true; clearInterval(cutTimer); cutTimer = null; }
+    $$('[data-cut]', document).forEach(function (el) {
+      var i = +el.getAttribute('data-cut');
+      el.addEventListener('click', function () { cutStop(); cutShow(i); });
+      el.addEventListener('mouseenter', function () { if (el.classList.contains('cut__pin')) { cutStop(); cutShow(i); } });
+      el.addEventListener('focus', function () { cutStop(); cutShow(i); });
+    });
+    $$('[data-cut-step]', cutCard).forEach(function (b) { b.addEventListener('click', function () { cutStop(); cutShow(cutCur + (+b.getAttribute('data-cut-step'))); }); });
+    /* מעבר אוטומטי כשהחתך נראה, עד שהמבקר נוגע במשהו */
+    if (!noMotion()) {
+      whenVisible(cutStage, function () {
+        if (cutTouched) return;
+        cutTimer = setInterval(function () { if (!cutTouched) cutShow(cutCur + 1); }, 4500);
+      }, '0px 0px -20% 0px');
+    }
+  }
+
   /* ---------- תפריט נפתח: תחומי פעילות ---------- */
   $$('.nav__item--sub').forEach(function (li) {
     var caret = $('.nav__caret', li);
