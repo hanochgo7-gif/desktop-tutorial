@@ -65,6 +65,40 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
 
+  /* ---------- התפריט החדש: רקע מתחלף, תחומי ביצוע נפתחים ---------- */
+  var mm = $('#mobile-menu.mm');
+  if (mm) {
+    var mmImgs = $$('.mm__bg img', mm), mmCap = $('[data-mm-cap]', mm), mmSub = $('[data-mm-sub]', mm), mmStamp = $('[data-mm-stamp]', mm);
+    var mmItems = $$('.mm__list > li', mm), mmHasSub = $('.mm__has-sub', mm), mmSubBtn = mmHasSub ? $('.mm__item', mmHasSub) : null;
+    function mmShow(i) {
+      if (!mmImgs[i]) return;
+      mmImgs.forEach(function (im, j) { im.classList.toggle('is-on', i === j); });
+      if (mmCap) mmCap.textContent = mmImgs[i].getAttribute('data-cap') || '';
+      if (mmSub) mmSub.textContent = mmImgs[i].getAttribute('data-sub') || '';
+      if (mmStamp) mmStamp.hidden = !mmImgs[i].getAttribute('data-stamp');
+    }
+    function mmOn(li) { mmItems.forEach(function (x) { x.classList.remove('is-on'); }); li.classList.add('is-on'); var el = $('[data-bg]', li); if (el) mmShow(+el.getAttribute('data-bg')); }
+    mmItems.forEach(function (li) {
+      var it = $('.mm__item', li);
+      if (!it) return;
+      it.addEventListener('mouseenter', function () { mmOn(li); });
+      it.addEventListener('focus', function () { mmOn(li); });
+      $$('.mm__sub a', li).forEach(function (a) {
+        var f = function () { mmShow(+a.getAttribute('data-bg')); };
+        a.addEventListener('mouseenter', f); a.addEventListener('focus', f);
+      });
+    });
+    if (mmSubBtn) {
+      var setMmSub = function (open) { mmHasSub.classList.toggle('is-open', open); mmSubBtn.setAttribute('aria-expanded', String(open)); };
+      mmSubBtn.addEventListener('click', function () { setMmSub(!mmHasSub.classList.contains('is-open')); if (mmHasSub.classList.contains('is-open')) mmOn(mmHasSub); });
+      /* במחשב תחומי הביצוע פתוחים כברירת מחדל, במובייל סגורים */
+      setMmSub(window.innerWidth > 900);
+    }
+    var mmCur = $('.mm__item[aria-current="page"], .mm__sub a[aria-current="page"]', mm);
+    if (mmCur) { var curLi = mmCur.closest('.mm__list > li'); if (curLi) mmOn(curLi); if (mmCur.hasAttribute('data-bg') && mmCur.classList.contains('mm__item') === false) mmShow(+mmCur.getAttribute('data-bg')); }
+    else if (mmHasSub) mmOn(mmHasSub);
+  }
+
   /* ---------- תפריט נפתח: תחומי פעילות ---------- */
   $$('.nav__item--sub').forEach(function (li) {
     var caret = $('.nav__caret', li);

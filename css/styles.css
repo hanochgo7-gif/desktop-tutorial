@@ -1851,3 +1851,97 @@ html.a11y-no-motion .hero__clients-viewport { mask-image: none; -webkit-mask-ima
 .quick--photo .quick__form input[type="tel"] { min-height: 48px; font-size: 1rem; }
 .quick--photo .quick__form .btn { min-height: 48px; }
 .quick--photo .quick__inner { padding-block: clamp(56px, 8vw, 100px); }
+
+/* ==========================================================================
+   תפריט ראשי חדש (mm): רקע צילום מתחלף, אייקונים תלת־ממדיים, כרטיס זכוכית
+   ========================================================================== */
+.mobile-menu.mm, body.has-ann .mobile-menu.mm { display: block; padding: 0; gap: 0; background: #0b1622; color: #fff; overflow-y: auto; overscroll-behavior: contain; }
+.mobile-menu.mm::before { display: none; }
+.mm__bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.mm__bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity .9s var(--g-ease), transform 6s var(--g-ease); filter: saturate(.9) brightness(.95); }
+.mm__bg img.is-on { opacity: 1; transform: scale(1); }
+.mm__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6,14,24,.9) 0%, rgba(6,14,24,.74) 40%, rgba(6,14,24,.42) 70%, rgba(12,107,150,.3) 100%); }
+.mm__bg::before { content: ""; position: absolute; inset: -20%; z-index: 1; background: radial-gradient(40% 50% at 15% 30%, rgba(79,187,234,.28), transparent 70%), radial-gradient(35% 45% at 85% 85%, rgba(31,143,191,.22), transparent 70%); animation: mm-drift 14s ease-in-out infinite alternate; }
+@keyframes mm-drift { to { transform: translate(4%, -3%) scale(1.05); } }
+.mm__in { position: relative; z-index: 2; min-height: 100%; width: min(1320px, 100% - 2 * var(--gutter)); margin-inline: auto; padding: calc(var(--header-h) + 34px) 0 34px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(30px, 5vw, 80px); align-items: stretch; }
+body.has-ann .mm__in { padding-top: calc(var(--header-h) + 34px + var(--ann-h)); }
+/* עמודת הניווט */
+.mm__nav { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; min-width: 0; }
+.mm__list { list-style: none; margin: 0; padding: 0; }
+.mm__list > li { overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.14); }
+.mm__list > li:first-child { border-top: 1px solid rgba(255,255,255,.14); }
+.mm__item { display: grid; grid-template-columns: auto 34px 1fr auto; align-items: center; gap: 14px; width: 100%; padding: 14px 0; margin: 0; background: none; border: 0; color: #fff; font-family: var(--font); font-weight: 200; font-size: clamp(1.8rem, 3.9vw, 3.2rem); line-height: 1.05; letter-spacing: -.02em; text-align: right; cursor: pointer; transform: translateY(110%); transition: transform .9s var(--g-ease), color .3s; }
+.mobile-menu.is-open .mm__item { transform: none; }
+.mm__list > li:nth-child(1) .mm__item { transition-delay: .12s; } .mm__list > li:nth-child(2) .mm__item { transition-delay: .17s; } .mm__list > li:nth-child(3) .mm__item { transition-delay: .22s; } .mm__list > li:nth-child(4) .mm__item { transition-delay: .27s; } .mm__list > li:nth-child(5) .mm__item { transition-delay: .32s; } .mm__list > li:nth-child(6) .mm__item { transition-delay: .37s; } .mm__list > li:nth-child(7) .mm__item { transition-delay: .42s; }
+.mm__ic { width: 58px; height: 58px; border-radius: 16px; background: #fff; display: grid; place-items: center; overflow: hidden; flex: none; box-shadow: 0 10px 24px -12px rgba(0,0,0,.6); transition: transform .6s var(--g-ease), box-shadow .6s; }
+.mm__ic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.15); display: block; }
+.mm__item:hover .mm__ic, .mm__list > li.is-on .mm__item .mm__ic, .mm__item:focus-visible .mm__ic { transform: translateY(-4px) rotate(-6deg) scale(1.06); box-shadow: 0 18px 30px -12px rgba(79,187,234,.55); }
+.mm__item small { font-family: var(--font-mono); font-size: .72rem; color: var(--accent-2); letter-spacing: .06em; }
+.mm__t { transition: transform .5s var(--g-ease); }
+.mm__item:hover .mm__t, .mm__list > li.is-on .mm__item .mm__t { transform: translateX(-10px); }
+.mm__arr { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.14); display: grid; place-items: center; opacity: 0; transform: scale(.7); transition: opacity .35s, transform .5s var(--g-ease), background .3s, color .3s; }
+.mm__arr svg { width: 16px; height: 16px; }
+.mm__item:hover .mm__arr, .mm__list > li.is-on .mm__item .mm__arr { opacity: 1; transform: none; background: #fff; color: var(--onyx); border-color: #fff; }
+.mm__has-sub .mm__item[aria-expanded="true"] .mm__arr { transform: rotate(-90deg); }
+.mm__item[aria-current="page"] .mm__t, .mm__sub a[aria-current="page"] { color: var(--accent-2); }
+/* תחומי הביצוע */
+.mm__sub { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-height: 0; opacity: 0; overflow: hidden; padding: 0 106px 0 0; transition: max-height .7s var(--g-ease), opacity .4s, padding .5s; }
+.mm__has-sub.is-open .mm__sub { max-height: 360px; opacity: 1; padding: 4px 106px 18px 0; }
+.mm__sub a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; font-family: var(--font); font-size: .92rem; font-weight: 400; color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; background: rgba(255,255,255,.04); transition: background .3s, border-color .3s, transform .4s var(--g-ease); }
+.mm__sub a:hover, .mm__sub a:focus-visible { background: rgba(255,255,255,.1); border-color: rgba(79,187,234,.6); transform: translateY(-2px); color: #fff; }
+.mm__sub .mm__ic { width: 38px; height: 38px; border-radius: 10px; box-shadow: none; }
+.mm__sub a:hover .mm__ic { transform: none; }
+.mm__new { margin-inline-start: auto; font-size: .66rem; background: rgba(79,187,234,.16); color: var(--accent-2); padding: 2px 8px; border-radius: 999px; }
+.mm__foot { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; color: rgba(255,255,255,.55); font-size: .82rem; }
+.mm__links { display: flex; gap: 18px; }
+.mm__links a:hover { color: #fff; }
+/* העמודה השנייה: כיתוב וכרטיס */
+.mm__vis { display: grid; grid-template-rows: 1fr auto; gap: 22px; min-width: 0; align-content: end; }
+.mm__cap { align-self: end; display: grid; gap: 6px; padding-bottom: 10px; transform: translateY(16px); opacity: 0; transition: transform 1s var(--g-ease) .25s, opacity .8s .25s; }
+.mobile-menu.is-open .mm__cap { transform: none; opacity: 1; }
+.mm__cap b { font-family: var(--serif); font-weight: 500; font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.1; }
+.mm__cap > span { font-size: 1rem; color: rgba(255,255,255,.72); font-weight: 300; }
+.mm__stamp { display: inline-block; justify-self: start; margin-bottom: 6px; font-size: .68rem; color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 3px 9px; background: rgba(10,10,12,.35); }
+.mm__stamp[hidden] { display: none; }
+.mm__office { display: grid; gap: 14px; padding: 20px 22px; border: 1px solid rgba(255,255,255,.16); border-radius: 18px; background: rgba(8,18,30,.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); opacity: 0; transform: translateY(16px); transition: opacity .7s .45s, transform .9s var(--g-ease) .45s; }
+.mobile-menu.is-open .mm__office { opacity: 1; transform: none; }
+.mm__hd { display: flex; align-items: center; gap: 12px; }
+.mm__hd .mm__ic { width: 40px; height: 40px; border-radius: 11px; box-shadow: none; }
+.mm__clock { font-family: var(--font-mono); font-size: 1.6rem; direction: ltr; }
+.mm__office .footer__office { font-family: var(--font); font-size: .88rem; }
+.mm__row { display: flex; gap: 10px; flex-wrap: wrap; }
+.mm__btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.16); color: #fff; font-family: var(--font); font-size: .9rem; font-weight: 400; transition: background .3s, border-color .3s, transform .4s var(--g-ease); }
+.mm__btn:hover { background: rgba(255,255,255,.08); border-color: #fff; transform: translateY(-2px); }
+.mm__btn svg { width: 16px; height: 16px; }
+.mm__btn .mm__ic { width: 26px; height: 26px; border-radius: 7px; box-shadow: none; margin-inline-start: -6px; }
+.mm__btn .mm__ic img { transform: scale(1.2); }
+.mm__btn .ltr { font-family: var(--font-mono); font-size: .85rem; }
+.mm__btn--wa { background: #25d366; border-color: #25d366; color: #05301a; font-weight: 500; }
+.mm__btn--wa:hover { background: #3ee07b; border-color: #3ee07b; }
+.mm__btn--cta { background: #fff; color: var(--onyx); border-color: #fff; font-weight: 500; }
+.mm__btn--cta:hover { background: var(--tint); }
+@media (max-width: 900px) {
+  .mm__in { grid-template-columns: 1fr; padding-top: calc(var(--header-h) + 16px); gap: 22px; }
+  .mm__vis { order: -1; grid-template-rows: auto; }
+  .mm__cap { display: none; }
+  .mm__item { font-size: clamp(1.6rem, 7.2vw, 2.2rem); padding: 11px 0; }
+  .mm__ic { width: 46px; height: 46px; border-radius: 13px; }
+  .mm__sub { grid-template-columns: 1fr 1fr; padding-inline-end: 0; }
+  .mm__has-sub.is-open .mm__sub { max-height: 460px; padding: 0 0 12px 0; }
+  .mm__office { padding: 16px; }
+  .mm__clock { font-size: 1.3rem; }
+  .mm__btn { height: 40px; padding: 0 13px; font-size: .86rem; }
+}
+@media (prefers-reduced-motion: reduce) { .mm__item, .mm__cap, .mm__office { transform: none; opacity: 1; transition: none; } .mm__bg::before { animation: none; } .mm__bg img { transition: opacity .3s; } }
+html.a11y-no-motion .mm__item, html.a11y-no-motion .mm__cap, html.a11y-no-motion .mm__office { transform: none; opacity: 1; transition: none; }
+html.a11y-no-motion .mm__bg::before { animation: none; }
+/* תפריט: הצד של הקישורים (ימין) כהה יותר, והכול נכנס במסך רגיל בלי גלילה */
+.mm__bg::after { background: linear-gradient(to left, rgba(6,14,24,.93) 0%, rgba(6,14,24,.82) 42%, rgba(6,14,24,.5) 72%, rgba(12,107,150,.3) 100%); }
+.mm__in { padding-top: calc(var(--header-h) + 22px); padding-bottom: 26px; }
+.mm__item { font-size: clamp(1.7rem, 3.3vw, 2.7rem); padding: 11px 0; }
+.mm__ic { width: 52px; height: 52px; border-radius: 14px; }
+.mm__sub { padding-inline-end: 100px; }
+.mm__has-sub.is-open .mm__sub { padding: 2px 100px 14px 0; }
+@media (max-width: 900px) { .mm__sub, .mm__has-sub.is-open .mm__sub { padding-inline-end: 0; } }
+.mm__nav { gap: 18px; }
+.mm__in { padding-bottom: 18px; }
