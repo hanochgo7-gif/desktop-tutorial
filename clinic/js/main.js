@@ -152,7 +152,7 @@
     var tw = document.createElement('span'); tw.className = 'tw';
     [0, 1].forEach(function () {
       var row = document.createElement('span');
-      Array.from(t).forEach(function (ch, i) { var c = document.createElement('span'); c.className = 'ch'; c.textContent = ch; c.style.setProperty('--i', String(Math.min(i, 22))); row.appendChild(c); });
+      (t.match(/[A-Za-z0-9][A-Za-z0-9.\-]*|./g) || []).forEach(function (ch, i) { var c = document.createElement('span'); c.className = 'ch'; c.textContent = ch; c.style.setProperty('--i', String(Math.min(i, 22))); row.appendChild(c); });
       tw.appendChild(row);
     });
     tn[0].parentNode.replaceChild(tw, tn[0]);
