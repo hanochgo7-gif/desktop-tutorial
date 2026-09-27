@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>פלאפל 4x4 | דוכן פלאפל, סביח ובורגר לאירועים – ניסים שרון</title>
+<meta name="description" content="פלאפל 4x4 בהנהלת ניסים שרון – ארוחה ישראלית בכל מקום ובכל שעה. דוכן פלאפל ב-4 טעמים, סביח אורגינל ובר בורגר עשיר, הכול מבושל ומטוגן טרי בשטח. תפריט מותאם לפי בקשה. 050-911-2552">
+<meta property="og:title" content="פלאפל 4x4 – דוכן פלאפל לאירועים בכל מקום ובכל שעה">
+<meta property="og:description" content="4 טעמי פלאפל, סביח אורגינל ובר בורגר. טרי בשטח, מותאם לאירוע שלכם.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --olive:#2f3d1e;      /* ירוק פלאפל עמוק */
+  --olive-2:#3f5229;
+  --cream:#f7efdf;      /* טחינה */
+  --cream-2:#efe3c8;
+  --paper:#fbf7ee;
+  --harissa:#d94a1f;    /* כתום-אדום חריסה */
+  --harissa-2:#b83a14;
+  --ink:#1c1a15;
+  --muted:#6d6656;
+  --line:rgba(28,26,21,.12);
+  --radius:22px;
+  --shadow:0 20px 60px -25px rgba(28,26,21,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --cream:#1f2417; --cream-2:#262d1c; --paper:#161a10; --ink:#f4eee0; --muted:#b5ad98;
+    --line:rgba(244,238,224,.14); --olive:#111509; --olive-2:#1d2612;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:'Heebo',sans-serif;font-weight:900;letter-spacing:-.02em;line-height:1.08}
+.serif{font-family:'Frank Ruhl Libre',serif}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.7rem;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.05rem;border:2px solid transparent;transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer;font-family:inherit}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--harissa);color:#fff;box-shadow:0 12px 30px -10px rgba(217,74,31,.6)}
+.btn-primary:hover{background:var(--harissa-2)}
+.btn-ghost{background:transparent;border-color:currentColor}
+.btn-wa{background:#25d366;color:#fff}
+.btn svg{width:1.2em;height:1.2em;flex:none}
+.eyebrow{display:inline-block;font-weight:700;color:var(--harissa);letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin-bottom:.8rem}
+section{padding:clamp(64px,9vw,120px) 0}
+.sec-title{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:.6rem}
+.lead{font-size:1.2rem;color:var(--muted);max-width:60ch}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:900;font-size:1.35rem;text-decoration:none;letter-spacing:-.02em}
+.logo b{background:var(--olive);color:var(--cream);padding:.1em .45em;border-radius:.4em;font-size:.95em}
+.nav ul{display:flex;gap:1.6rem;list-style:none}
+.nav ul a{text-decoration:none;font-weight:500;color:var(--muted)}
+.nav ul a:hover{color:var(--ink)}
+.nav .btn{padding:.6rem 1.2rem;font-size:.95rem}
+.burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
+.burger span{display:block;height:2px;background:var(--ink);margin:6px 8px;border-radius:2px}
+@media (max-width:860px){
+  .nav ul,.nav .btn-primary{display:none}
+  .burger{display:block}
+  header.open .nav ul{display:flex;flex-direction:column;position:absolute;inset-inline:0;top:72px;background:var(--paper);padding:1.2rem 16px 1.6rem;border-bottom:1px solid var(--line);gap:1rem}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--olive);color:var(--cream);overflow:hidden;padding:clamp(70px,10vw,130px) 0 clamp(80px,10vw,140px)}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(60% 80% at 85% 20%,rgba(217,74,31,.35),transparent 60%),
+  radial-gradient(40% 50% at 10% 90%,rgba(247,239,223,.12),transparent 60%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(2.6rem,7vw,5.4rem);margin:.4rem 0 1.2rem}
+.hero h1 em{font-style:normal;color:#ffb38a}
+.hero p{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:52ch;opacity:.9}
+.hero .cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+.hero .btn-ghost{color:var(--cream)}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.2rem}
+.tags span{border:1px solid rgba(247,239,223,.35);border-radius:999px;padding:.35rem .9rem;font-size:.9rem}
+.hero-art{position:relative;aspect-ratio:1;max-width:460px;margin-inline:auto;width:100%}
+.plate{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff7e6,#e9dcc0 70%,#d8c8a4);box-shadow:0 40px 90px -30px rgba(0,0,0,.6),inset 0 -12px 30px rgba(0,0,0,.08)}
+.ball{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c98a45,#7a4a1c 75%);box-shadow:0 10px 25px -8px rgba(0,0,0,.5);animation:float 6s ease-in-out infinite}
+.ball::after{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,#4e7a2c 0 45%,transparent 46%),radial-gradient(circle at 70% 70%,#5b8a34 0 25%,transparent 26%);opacity:.35}
+.ball:nth-child(2){width:28%;height:28%;top:14%;right:16%}
+.ball:nth-child(3){width:26%;height:26%;top:20%;left:14%;animation-delay:-1.5s}
+.ball:nth-child(4){width:30%;height:30%;bottom:16%;left:22%;animation-delay:-3s}
+.ball:nth-child(5){width:24%;height:24%;bottom:20%;right:18%;animation-delay:-4.5s}
+.ball:nth-child(6){width:20%;height:20%;top:41%;left:41%;animation-delay:-2s}
+.badge-4{position:absolute;right:-8%;top:-6%;background:var(--harissa);color:#fff;border-radius:50%;width:120px;height:120px;display:grid;place-content:center;text-align:center;font-weight:900;line-height:1;box-shadow:var(--shadow);transform:rotate(8deg)}
+.badge-4 b{font-size:2.6rem;display:block}
+.badge-4 small{font-size:.75rem;font-weight:700}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:320px}.badge-4{width:96px;height:96px}.badge-4 b{font-size:2rem}}
+@media (prefers-reduced-motion:reduce){.ball{animation:none}.btn:hover{transform:none}}
+
+/* ---------- strip ---------- */
+.strip{background:var(--harissa);color:#fff;padding:.9rem 0;font-weight:700;overflow:hidden;white-space:nowrap}
+.strip .track{display:inline-flex;gap:3rem;animation:marquee 28s linear infinite}
+.strip .track span::before{content:"✦";margin-inline-end:3rem;opacity:.7}
+@keyframes marquee{to{transform:translateX(50%)}}
+@media (prefers-reduced-motion:reduce){.strip .track{animation:none;white-space:normal;flex-wrap:wrap;gap:1rem}}
+
+/* ---------- about ---------- */
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.about blockquote{font-family:'Frank Ruhl Libre',serif;font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:700;line-height:1.35;border-inline-start:6px solid var(--harissa);padding-inline-start:1.2rem;margin:1.4rem 0}
+.about .sig{font-weight:700;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.stat{background:var(--cream);border-radius:var(--radius);padding:1.2rem 1rem;text-align:center}
+.stat b{display:block;font-size:2rem;font-weight:900;color:var(--harissa)}
+.stat span{font-size:.9rem;color:var(--muted)}
+.photo-ph{aspect-ratio:4/5;border-radius:var(--radius);background:linear-gradient(160deg,var(--cream-2),var(--cream));border:2px dashed var(--line);display:grid;place-content:center;text-align:center;color:var(--muted);padding:2rem}
+.photo-ph strong{display:block;color:var(--ink);margin-bottom:.4rem}
+@media (max-width:860px){.about .wrap{grid-template-columns:1fr}}
+
+/* ---------- menu ---------- */
+.menu{background:var(--cream)}
+.grid{display:grid;gap:1.4rem;margin-top:2.5rem}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1000px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:700px){.grid-4,.grid-3{grid-template-columns:1fr}}
+.card{background:var(--paper);border-radius:var(--radius);padding:1.8rem;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .25s}
+.card:hover{transform:translateY(-4px)}
+.card .num{position:absolute;top:-.3rem;inset-inline-end:1rem;font-size:5rem;font-weight:900;opacity:.07;line-height:1}
+.card .dot{width:52px;height:52px;border-radius:14px;display:grid;place-content:center;font-size:1.6rem;margin-bottom:1rem;background:var(--cream)}
+.card h3{font-size:1.35rem;margin-bottom:.4rem}
+.card p{color:var(--muted);font-size:.98rem}
+.big-cards{grid-template-columns:1fr 1fr}
+@media (max-width:860px){.big-cards{grid-template-columns:1fr}}
+.big{background:var(--olive);color:var(--cream);padding:2.4rem;border-radius:var(--radius);position:relative;overflow:hidden}
+.big.alt{background:var(--harissa);color:#fff}
+.big h3{font-size:2rem;margin-bottom:.6rem}
+.big ul{list-style:none;margin-top:1.2rem;display:grid;gap:.4rem}
+.big li::before{content:"–";margin-inline-end:.5rem;opacity:.6}
+.big .glyph{position:absolute;inset-inline-end:-1rem;bottom:-1.5rem;font-size:9rem;opacity:.12;line-height:1}
+.note{margin-top:2rem;padding:1.2rem 1.5rem;border-radius:var(--radius);background:var(--paper);border:1px dashed var(--harissa);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.note b{color:var(--harissa)}
+
+/* ---------- how ---------- */
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+.step{counter-increment:s;padding-top:1rem;border-top:3px solid var(--line);position:relative}
+.step::before{content:"0" counter(s);font-weight:900;font-size:2.4rem;color:var(--harissa);display:block;line-height:1;margin-bottom:.6rem}
+.step h3{font-size:1.15rem;margin-bottom:.3rem}
+.step p{color:var(--muted);font-size:.95rem}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* ---------- events ---------- */
+.events{background:var(--olive);color:var(--cream)}
+.events .lead{color:rgba(247,239,223,.75)}
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.chips span{background:rgba(247,239,223,.1);border:1px solid rgba(247,239,223,.2);border-radius:999px;padding:.6rem 1.2rem;font-weight:500}
+
+/* ---------- gallery ---------- */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:.9rem;margin-top:2.5rem}
+.gal .photo-ph{aspect-ratio:auto;height:100%;padding:1rem;font-size:.9rem}
+.gal .photo-ph:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gal .photo-ph:nth-child(4){grid-row:span 2}
+@media (max-width:700px){.gal{grid-template-columns:1fr 1fr}.gal .photo-ph:nth-child(1){grid-column:span 2}}
+
+/* ---------- faq ---------- */
+.faq details{border-bottom:1px solid var(--line);padding:1.1rem 0}
+.faq summary{cursor:pointer;font-weight:700;font-size:1.15rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq summary::after{content:"+";font-size:1.6rem;color:var(--harissa);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--muted);margin-top:.6rem;max-width:70ch}
+
+/* ---------- contact ---------- */
+.contact{background:var(--cream)}
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.contact-card{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;background:var(--paper);border-radius:var(--radius);text-decoration:none;border:1px solid var(--line);margin-top:1rem;font-weight:700;font-size:1.15rem}
+.contact-card .ic{width:48px;height:48px;border-radius:14px;display:grid;place-content:center;background:var(--harissa);color:#fff;flex:none}
+.contact-card .ic.wa{background:#25d366}
+.contact-card small{display:block;font-weight:400;color:var(--muted);font-size:.9rem}
+form{background:var(--paper);padding:2rem;border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow)}
+form h3{font-size:1.5rem;margin-bottom:1.2rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-weight:700;margin-bottom:.35rem;font-size:.95rem}
+.field input,.field select,.field textarea{width:100%;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:14px;font:inherit;background:var(--cream);color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--harissa);border-color:transparent}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-note{font-size:.85rem;color:var(--muted);margin-top:.8rem}
+@media (max-width:860px){.contact .wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+footer{background:var(--olive);color:rgba(247,239,223,.8);padding:2.5rem 0;font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+footer a{text-decoration:none}
+
+/* floating WA */
+.fab{position:fixed;bottom:20px;left:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-content:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.5);text-decoration:none}
+.fab svg{width:30px;height:30px}
+.fab:hover{transform:scale(1.06)}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top">פלאפל <b>4x4</b></a>
+    <ul>
+      <li><a href="#about">מי אנחנו</a></li>
+      <li><a href="#menu">התפריט</a></li>
+      <li><a href="#how">איך זה עובד</a></li>
+      <li><a href="#events">אירועים</a></li>
+      <li><a href="#faq">שאלות</a></li>
+      <li><a href="#contact">צור קשר</a></li>
+    </ul>
+    <a class="btn btn-primary" href="tel:0509112552">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>
+      050-911-2552
+    </a>
+    <button class="burger" aria-label="תפריט" onclick="document.querySelector('header').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow" style="color:#ffb38a">קייטרינג שטח · בהנהלת ניסים שרון</span>
+      <h1>ארוחה ישראלית<br>בכל מקום, <em>בכל שעה.</em></h1>
+      <p>דוכן פלאפל חי ב-4 טעמים שונים, סביח אורגינל ובר בורגר עשיר. הכול מבושל ומטוגן טרי מול העיניים של האורחים – בשטח, בחצר, בבסיס או באולם.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#contact">קבלו הצעת מחיר</a>
+        <a class="btn btn-ghost" href="https://wa.me/972509112552?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A1%D7%99%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%93%D7%95%D7%9B%D7%9F%20%D7%A4%D7%9C%D7%90%D7%A4%D7%9C%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2" target="_blank" rel="noopener">וואטסאפ עכשיו</a>
+      </div>
+      <div class="tags">
+        <span>4 טעמי פלאפל</span><span>סביח אורגינל</span><span>בר בורגר</span><span>טרי בשטח</span><span>תפריט לפי בקשה</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="plate"></div>
+      <div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
+      <div class="badge-4"><b>4</b><small>טעמים</small></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true">
+  <div class="track">
+    <span>מטוגן טרי בשטח</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר/בת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>תפריט מותאם אישית</span>
+    <span>מטוגן טרי בשטח</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר/בת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>תפריט מותאם אישית</span>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">מי אנחנו</span>
+      <h2 class="sec-title">ניסים שרון והפלאפל שמגיע אליכם</h2>
+      <p class="lead">"4x4" זה לא רק שם – זה ההבטחה. אנחנו מגיעים לכל מקום ובכל שעה עם ציוד מלא, מוצרים טריים וצוות שיודע להאכיל קהל.</p>
+      <blockquote>אצלנו לא מחממים – מטגנים. כל כדור פלאפל יוצא מהשמן ישר לפיתה של האורח.</blockquote>
+      <p class="sig">– ניסים שרון, בעלים ומנהל</p>
+      <div class="stats">
+        <div class="stat"><b>4</b><span>טעמי פלאפל</span></div>
+        <div class="stat"><b>100%</b><span>מבושל ומטוגן בשטח</span></div>
+        <div class="stat"><b>24/7</b><span>בכל מקום ובכל שעה</span></div>
+      </div>
+    </div>
+    <div class="photo-ph">
+      <strong>תמונה של ניסים ליד הדוכן</strong>
+      כאן תיכנס תמונה אמיתית מאירוע (ראו רשימת החומרים שביקשתי)
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <span class="eyebrow">התפריט</span>
+    <h2 class="sec-title">פלאפל ב-4 טעמים שונים</h2>
+    <p class="lead">כל טעם נטחן ומתובל אצלנו, ומטוגן במקום. האורחים בוחרים, אנחנו מטגנים.</p>
+    <div class="grid grid-4">
+      <div class="card"><span class="num">1</span><div class="dot">🟢</div><h3>קלאסי</h3><p>הפלאפל הירוק והפריך של פעם. חומוס, כוסברה, פטרוזיליה ותבלינים סודיים.</p></div>
+      <div class="card"><span class="num">2</span><div class="dot">🌶️</div><h3>חריף</h3><p>עם הריסה וצ'ילי טרי בתוך הבצק – לא רק בצד. למי שאוהב שיבער.</p></div>
+      <div class="card"><span class="num">3</span><div class="dot">🌿</div><h3>ירוק עשבים</h3><p>עמוס בעשבי תיבול טריים, בצל ירוק ושום. רענן ומלא ניחוח.</p></div>
+      <div class="card"><span class="num">4</span><div class="dot">🟡</div><h3>מזרחי</h3><p>נגיעה של כורכום, כמון וסומק – פלאפל בגוון זהוב וטעם עמוק.</p></div>
+    </div>
+
+    <div class="grid big-cards">
+      <div class="big">
+        <span class="glyph" aria-hidden="true">🍆</span>
+        <h3>סביח אורגינל</h3>
+        <p>חציל מטוגן, ביצה קשה, טחינה, עמבה, סלט ישראלי ותפוח אדמה – בפיתה, כמו שצריך.</p>
+        <ul><li>חציל מטוגן במקום</li><li>עמבה ביתית</li><li>אפשרות טבעונית ללא ביצה</li></ul>
+      </div>
+      <div class="big alt">
+        <span class="glyph" aria-hidden="true">🍔</span>
+        <h3>בר בורגר עשיר</h3>
+        <p>קציצות בשר עסיסיות על הגריל, לחמניות טריות ובר תוספות מלא שהאורחים מרכיבים בעצמם.</p>
+        <ul><li>בורגר בשר / עוף / טבעוני</li><li>בר רטבים ותוספות</li><li>צ'יפס טרי מהשמן</li></ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>מגוונים לפי בקשה:</b>
+      <span>כל המפרט מבושל ומטוגן בשטח. רוצים להוסיף שניצלים, טבעונים, ילדים, או להוריד משהו? מרכיבים תפריט לפי האירוע והתקציב.</span>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <span class="eyebrow">איך זה עובד</span>
+    <h2 class="sec-title">מהשיחה הראשונה ועד הפיתה האחרונה</h2>
+    <div class="steps">
+      <div class="step"><h3>מספרים לנו על האירוע</h3><p>כמה אורחים, איפה, מתי ומה הסגנון. שיחה קצרה או הודעה בוואטסאפ.</p></div>
+      <div class="step"><h3>מרכיבים תפריט</h3><p>בוחרים טעמי פלאפל, סביח, בורגר ותוספות – ומקבלים הצעת מחיר ברורה.</p></div>
+      <div class="step"><h3>מגיעים ומקימים</h3><p>מגיעים עם דוכן, ציוד וגז. לא צריכים מטבח – רק פינה ונקודת חשמל (או בלי).</p></div>
+      <div class="step"><h3>מטגנים ומגישים</h3><p>הכול נעשה חי מול האורחים. בסיום מפנים ומשאירים את המקום נקי.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="events" id="events">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#ffb38a">לאיזה אירועים</span>
+    <h2 class="sec-title">בכל מקום שיש בו אנשים רעבים</h2>
+    <p class="lead">מהחצר בבית ועד לשטח פתוח בלי חשמל – הדוכן שלנו עצמאי לחלוטין.</p>
+    <div class="chips">
+      <span>ימי הולדת</span><span>בר ובת מצווה</span><span>חתונות וחינה</span><span>אירועי חברה והשקות</span><span>ימי גיבוש</span><span>בסיסים, יחידות ומילואים</span><span>אירועי קהילה ובתי ספר</span><span>מסיבות רווקים/ות</span><span>אירועי לילה</span>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <span class="eyebrow">גלריה</span>
+    <h2 class="sec-title">מהשטח</h2>
+    <div class="gal">
+      <div class="photo-ph"><strong>תמונת דוכן באירוע</strong>תמונה רחבה</div>
+      <div class="photo-ph"><strong>פלאפל בשמן</strong></div>
+      <div class="photo-ph"><strong>סביח בפיתה</strong></div>
+      <div class="photo-ph"><strong>בורגר על הגריל</strong>תמונה לאורך</div>
+      <div class="photo-ph"><strong>אורחים בתור</strong></div>
+      <div class="photo-ph"><strong>בר תוספות</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <span class="eyebrow">שאלות נפוצות</span>
+    <h2 class="sec-title">מה כדאי לדעת</h2>
+    <details><summary>מה כלול בדוכן?</summary><p>דוכן מלא, ציוד טיגון וגריל, צוות, כל חומרי הגלם, פיתות, סלטים, טחינה, חמוצים ורטבים, כלים חד-פעמיים, הקמה ופינוי.</p></details>
+    <details><summary>מה המינימום אורחים?</summary><p>[להשלמה – למשל: החל מ-50 סועדים]</p></details>
+    <details><summary>כמה זמן לוקח להקים?</summary><p>כשעה לפני תחילת ההגשה. מגיעים מוקדם כדי שהשמן יהיה חם והפלאפל הראשון יצא בזמן.</p></details>
+    <details><summary>צריך חשמל או מים במקום?</summary><p>לא חובה. הדוכן עובד על גז ומגיע עם מים משלו. נקודת חשמל עוזרת לתאורה בלילה.</p></details>
+    <details><summary>יש כשרות?</summary><p>[להשלמה – סוג כשרות / גוף מפקח, אם יש]</p></details>
+    <details><summary>לאילו אזורים אתם מגיעים?</summary><p>[להשלמה – למשל: כל הארץ, מהצפון ועד אילת]</p></details>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">צור קשר</span>
+      <h2 class="sec-title">בואו נדבר על האירוע שלכם</h2>
+      <p class="lead">ניסים זמין בטלפון ובוואטסאפ. ספרו לנו כמה אורחים ומתי – ותקבלו הצעה תוך זמן קצר.</p>
+      <a class="contact-card" href="tel:0509112552">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span>
+        <span>050-911-2552<small>ניסים שרון · טלפון</small></span>
+      </a>
+      <a class="contact-card" href="https://wa.me/972509112552" target="_blank" rel="noopener">
+        <span class="ic wa"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></svg></span>
+        <span>שלחו וואטסאפ<small>מענה מהיר, גם בשעות לא שגרתיות</small></span>
+      </a>
+    </div>
+    <form id="quote" onsubmit="return sendWA(event)">
+      <h3>בקשת הצעת מחיר</h3>
+      <div class="row">
+        <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" required placeholder="השם שלך"></div>
+        <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" required placeholder="05X-XXXXXXX"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="f-date">תאריך האירוע</label><input id="f-date" name="date" type="date"></div>
+        <div class="field"><label for="f-guests">מספר אורחים</label><input id="f-guests" name="guests" type="number" min="1" placeholder="למשל 120"></div>
+      </div>
+      <div class="field"><label for="f-type">סוג האירוע</label>
+        <select id="f-type" name="type">
+          <option>יום הולדת</option><option>בר/בת מצווה</option><option>חתונה / חינה</option><option>אירוע חברה</option><option>יום גיבוש</option><option>בסיס / יחידה</option><option>אחר</option>
+        </select>
+      </div>
+      <div class="field"><label for="f-place">איפה האירוע?</label><input id="f-place" name="place" placeholder="עיר / יישוב"></div>
+      <div class="field"><label for="f-msg">מה תרצו בתפריט?</label><textarea id="f-msg" name="msg" rows="3" placeholder="פלאפל, סביח, בורגר, תוספות מיוחדות..."></textarea></div>
+      <button class="btn btn-wa" type="submit" style="width:100%;justify-content:center">שלחו את הבקשה בוואטסאפ</button>
+      <p class="form-note">הלחיצה פותחת וואטסאפ עם הפרטים מוכנים לשליחה לניסים. לא נשמר מידע באתר.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong style="color:var(--cream)">פלאפל 4x4</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></div>
+    <div>ארוחה ישראלית בכל מקום ובכל שעה © <span id="y"></span></div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/972509112552" target="_blank" rel="noopener" aria-label="וואטסאפ">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+document.getElementById('y').textContent=new Date().getFullYear();
+document.querySelectorAll('.nav ul a').forEach(a=>a.addEventListener('click',()=>document.querySelector('header').classList.remove('open')));
+function sendWA(e){
+  e.preventDefault();
+  const f=e.target, v=n=>f[n].value.trim();
+  const lines=['היי ניסים, אשמח להצעת מחיר לדוכן פלאפל 4x4:',
+    'שם: '+v('name'),'טלפון: '+v('phone'),
+    v('date')&&'תאריך: '+v('date'), v('guests')&&'אורחים: '+v('guests'),
+    'סוג אירוע: '+v('type'), v('place')&&'מיקום: '+v('place'), v('msg')&&'תפריט: '+v('msg')].filter(Boolean);
+  window.open('https://wa.me/972509112552?text='+encodeURIComponent(lines.join('\n')),'_blank');
+  return false;
+}
+</script>
+</body>
+</html>
