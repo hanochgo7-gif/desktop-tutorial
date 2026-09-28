@@ -187,8 +187,9 @@ section{padding:64px 0}
 .price .sub{text-align:center;opacity:.9;font-size:1.15rem;max-width:36rem;margin:8px auto 32px}
 .plans{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .plans li{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:var(--r-md);padding:26px 22px 24px;text-align:center;position:relative}
-.plans li.best{background:#fff;color:var(--ink);border-color:#fff}
-.plans li.best::after{content:"הכי משתלם";position:absolute;top:-14px;right:50%;transform:translateX(50%);background:var(--lemon);color:var(--ink-deep);font-weight:800;font-size:.9rem;padding:4px 14px;border-radius:999px}
+.plans li.best{background:var(--lemon);color:var(--ink-deep);border-color:var(--lemon);transform:scale(1.04);box-shadow:0 24px 48px -24px rgba(0,0,0,.5)}
+.plans li.best::after{content:"הכי משתלם";position:absolute;top:-14px;right:50%;transform:translateX(50%);background:var(--mint);color:#fff;font-weight:800;font-size:.9rem;padding:4px 14px;border-radius:999px}
+.plans li.best .save{background:var(--ink);color:#fff}
 .plans h3{color:inherit;font-size:1.3rem;margin-bottom:2px}
 .plans .amount{font-family:"Secular One",sans-serif;font-size:clamp(3rem,5.5vw,4.2rem);line-height:1;display:flex;align-items:baseline;justify-content:center;gap:6px;margin:10px 0 6px}
 .plans .amount small{font-family:"Assistant",sans-serif;font-size:1.05rem;font-weight:600;opacity:.9}
@@ -274,6 +275,7 @@ footer{padding:0 0 110px;text-align:center;color:var(--muted);font-size:.95rem}
   .flow{grid-template-columns:1fr 1fr;gap:26px}
   .fit-wrap,.guide{grid-template-columns:1fr}
   .plans{grid-template-columns:1fr;gap:26px}
+  .plans li.best{transform:none}
   .contact{grid-template-columns:1fr;padding:32px 24px}
   .nav{display:none}
 }
