@@ -135,6 +135,15 @@
     }
   }
 
+  /* וידאו הרקע של הטופס המהיר: מתנגן רק כשהקטע על המסך, חוסך סוללה ורוחב פס */
+  $$('[data-quick-video]').forEach(function (qv) {
+    if (noMotion()) { qv.removeAttribute('autoplay'); qv.pause(); return; }
+    if ('IntersectionObserver' in window) {
+      var qvIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var pl = qv.play(); if (pl && pl.catch) pl.catch(function () {}); } else qv.pause(); }); }, { threshold: 0.15 });
+      qvIO.observe(qv);
+    }
+  });
+
   /* ---------- תפריט נפתח: תחומי פעילות ---------- */
   $$('.nav__item--sub').forEach(function (li) {
     var caret = $('.nav__caret', li);
@@ -574,10 +583,10 @@
       var btn = lbItems[lbIndex];
       var img = btn.querySelector('img');
       var lbVid = $('#lightbox-video');
-      if (lbVid) { lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load(); lbVid.hidden = true; }
+      if (lbVid) { lbVid.pause(); lbVid.innerHTML = ''; lbVid.removeAttribute('src'); lbVid.load(); lbVid.hidden = true; }
       if (btn.dataset.video && lbVid) {
         lbImg.hidden = true; lbImg.src = '';
-        lbVid.poster = btn.dataset.full || ''; lbVid.src = btn.dataset.video; lbVid.hidden = false;
+        lbVid.poster = btn.dataset.full || ''; lbVid.innerHTML = ''; [btn.dataset.video.replace(/\.mp4$/, '.webm') + '|video/webm', btn.dataset.video + '|video/mp4'].forEach(function (d) { var pr = d.split('|'), so = document.createElement('source'); so.src = pr[0]; so.type = pr[1]; lbVid.appendChild(so); }); lbVid.load(); lbVid.hidden = false;
         var pl = lbVid.play(); if (pl && pl.catch) pl.catch(function () {});
       } else {
         lbImg.hidden = false;
@@ -616,7 +625,7 @@
     var lbClose = $('#lightbox-close');
     if (lbClose) lbClose.addEventListener('click', function () { lightbox.close(); });
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
-    lightbox.addEventListener('close', function () { lbImg.src = ''; var lv = $('#lightbox-video'); if (lv) { lv.pause(); lv.removeAttribute('src'); lv.load(); lv.hidden = true; } var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
+    lightbox.addEventListener('close', function () { lbImg.src = ''; var lv = $('#lightbox-video'); if (lv) { lv.pause(); lv.innerHTML = ''; lv.removeAttribute('src'); lv.load(); lv.hidden = true; } var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
   }
 
   /* ---------- אימות שדות בטופס (הודעה ליד השדה) ---------- */

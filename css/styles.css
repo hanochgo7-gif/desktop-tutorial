@@ -2086,3 +2086,19 @@ html.a11y-no-motion .cut__flow-halo--b, html.a11y-no-motion .cut__flow-pulse--b 
 .hero__logo--bottom { display: inline-flex !important; margin: 0; justify-self: start; align-self: end; margin-bottom: clamp(16px, 2.5vw, 28px); }
 .hero--cl .hero__intro { margin-bottom: 12px; }
 @media (max-width: 760px) { .hero__main { padding-top: 0; } }
+/* הטופס המהיר: וידאו של המנוף ברקע, אוטומטי ומושתק */
+.quick__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 45%; filter: saturate(.8) contrast(1.02); }
+.quick--photo .quick__bg img { object-position: center 45%; }
+@media (prefers-reduced-motion: reduce) { .quick__video { display: none; } }
+html.a11y-no-motion .quick__video { display: none; }
+/* ראש דף חוות שרתים: וידאו המנוף ברקע */
+.service-hero--video { min-height: min(78svh, 720px); display: grid; align-items: end; padding-block: 120px 64px; }
+.service-hero__media { position: absolute; inset: 0; z-index: 0; }
+.service-hero__media img, .service-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: saturate(.8) contrast(1.02); }
+.service-hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,12,.94) 0%, rgba(10,10,12,.62) 40%, rgba(10,10,12,.28) 75%, rgba(10,10,12,.45) 100%); }
+.service-hero--video .container { position: relative; z-index: 1; }
+.service-hero--video h1, .service-hero--video .service-hero__lead { text-shadow: 0 2px 20px rgba(0,0,0,.4); }
+.service-hero--video .service-hero__lead { color: rgba(255,255,255,.85); }
+@media (prefers-reduced-motion: reduce) { .service-hero__video { display: none; } }
+html.a11y-no-motion .service-hero__video { display: none; }
+@media (max-width: 760px) { .service-hero--video { min-height: 70svh; padding-top: 110px; } }
