@@ -6,215 +6,266 @@
 <title>קייטרינג 4X4 לאירועים | בכל מקום, בכל שעה – ניסים שרון</title>
 <meta name="description" content="קייטרינג 4X4 לאירועים בהנהלת ניסים שרון – בכל מקום, בכל שעה, בכל הארץ. דוכן פלאפל ב-4 טעמים, סביח אורגינל ובר בורגר עשיר, הכול מבושל ומטוגן טרי בשטח. תפריט מותאם לפי בקשה. 050-911-2552">
 <meta property="og:title" content="קייטרינג 4X4 לאירועים – בכל מקום, בכל שעה">
-<meta property="og:description" content="4 טעמי פלאפל, סביח אורגינל ובר בורגר. טרי בשטח, מותאם לאירוע שלכם.">
+<meta property="og:description" content="4 טעמי פלאפל, סביח אורגינל ובר בורגר. טרי בשטח, בכל הארץ.">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/png" href="images/logo.png">
 <meta property="og:image" content="images/logo.png">
+<link rel="icon" type="image/png" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --olive:#2f3d1e;      /* ירוק פלאפל עמוק */
-  --olive-2:#3f5229;
-  --cream:#f7efdf;      /* טחינה */
-  --cream-2:#efe3c8;
-  --paper:#fbf7ee;
-  --harissa:#d94a1f;    /* כתום-אדום חריסה */
-  --harissa-2:#b83a14;
-  --ink:#1c1a15;
-  --muted:#6d6656;
-  --line:rgba(28,26,21,.12);
-  --radius:22px;
-  --shadow:0 20px 60px -25px rgba(28,26,21,.35);
+  --night:#151314;      /* שחור הלוגו */
+  --night-2:#221f20;
+  --sun:#f2b705;        /* צהוב האיור והלוגו */
+  --sun-2:#d99e00;
+  --sky:#22b8dc;        /* טורקיז ה-4X4 */
+  --sand:#f1e7d0;       /* חול מהצילומים */
+  --sand-2:#e6d9b8;
+  --paper:#faf5ea;
+  --ink:#1b1917;
+  --muted:#6f6656;
+  --line:rgba(27,25,23,.14);
+  --wa:#25d366;
+  --r-sm:10px; --r:18px; --r-lg:28px;
+  --shadow:0 24px 50px -28px rgba(27,25,23,.45);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --cream:#1f2417; --cream-2:#262d1c; --paper:#161a10; --ink:#f4eee0; --muted:#b5ad98;
-    --line:rgba(244,238,224,.14); --olive:#111509; --olive-2:#1d2612;
+    --sand:#1d1a18;--sand-2:#26221f;--paper:#141211;--ink:#f3ecdc;--muted:#b6ac98;--line:rgba(243,236,220,.14);
+    --shadow:0 24px 50px -28px rgba(0,0,0,.8);
   }
+}
+:root[data-theme="dark"]{
+  --sand:#1d1a18;--sand-2:#26221f;--paper:#141211;--ink:#f3ecdc;--muted:#b6ac98;--line:rgba(243,236,220,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Heebo',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden}
+body{font-family:'Rubik',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
-h1,h2,h3{font-family:'Heebo',sans-serif;font-weight:900;letter-spacing:-.02em;line-height:1.08}
-.serif{font-family:'Frank Ruhl Libre',serif}
+h1,h2,h3,.display{font-family:'Karantina',sans-serif;font-weight:700;line-height:.95;letter-spacing:.005em}
 .wrap{width:min(1180px,100% - 32px);margin-inline:auto}
-.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 1.7rem;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.05rem;border:2px solid transparent;transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer;font-family:inherit}
-.btn:hover{transform:translateY(-2px)}
-.btn-primary{background:var(--harissa);color:#fff;box-shadow:0 12px 30px -10px rgba(217,74,31,.6)}
-.btn-primary:hover{background:var(--harissa-2)}
-.btn-ghost{background:transparent;border-color:currentColor}
-.btn-wa{background:#25d366;color:#fff}
-.btn svg{width:1.2em;height:1.2em;flex:none}
-.eyebrow{display:inline-block;font-weight:700;color:var(--harissa);letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin-bottom:.8rem}
-section{padding:clamp(64px,9vw,120px) 0}
-.sec-title{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:.6rem}
-.lead{font-size:1.2rem;color:var(--muted);max-width:60ch}
+section{padding:clamp(64px,8vw,110px) 0}
+.h2{font-size:clamp(3rem,7vw,5.6rem);margin-bottom:.35em}
+.lead{font-size:1.15rem;color:var(--muted);max-width:56ch}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
 
-/* ---------- header ---------- */
-header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{display:flex;align-items:center;gap:.7rem;font-weight:900;font-size:1.15rem;text-decoration:none;letter-spacing:-.02em;line-height:1.1}
-.logo img{width:54px;height:54px;border-radius:50%;box-shadow:0 4px 14px -4px rgba(0,0,0,.5)}
-.logo small{display:block;font-weight:500;font-size:.72rem;color:var(--muted);letter-spacing:0}
-.nav ul{display:flex;gap:1.6rem;list-style:none}
-.nav ul a{text-decoration:none;font-weight:500;color:var(--muted)}
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:1rem 1.7rem;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.05rem;border:2px solid transparent;cursor:pointer;font-family:inherit;transition:transform .18s,background .18s,box-shadow .18s}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{width:1.25em;height:1.25em;flex:none}
+.btn-sun{background:var(--sun);color:var(--night);box-shadow:0 14px 30px -12px rgba(242,183,5,.7)}
+.btn-sun:hover{background:#ffc51a}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 14px 30px -12px rgba(37,211,102,.6)}
+.btn-line{background:transparent;border-color:currentColor}
+.btn-night{background:var(--night);color:var(--sun)}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px;gap:1rem}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;line-height:1.05}
+.logo img{width:54px;height:54px;border-radius:50%;box-shadow:0 6px 16px -6px rgba(0,0,0,.6)}
+.logo strong{font-family:'Karantina',sans-serif;font-weight:700;font-size:1.7rem;display:block;letter-spacing:.01em}
+.logo small{font-size:.75rem;color:var(--muted)}
+.nav ul{display:flex;gap:1.5rem;list-style:none}
+.nav ul a{text-decoration:none;font-weight:500;color:var(--muted);font-size:.98rem}
 .nav ul a:hover{color:var(--ink)}
-.nav .btn{padding:.6rem 1.2rem;font-size:.95rem}
+.nav .btn{padding:.6rem 1.15rem;font-size:.95rem}
 .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
 .burger span{display:block;height:2px;background:var(--ink);margin:6px 8px;border-radius:2px}
-@media (max-width:860px){
-  .nav ul,.nav .btn-primary{display:none}
+@media (max-width:900px){
+  .nav ul,.nav .btn{display:none}
   .burger{display:block}
-  header.open .nav ul{display:flex;flex-direction:column;position:absolute;inset-inline:0;top:72px;background:var(--paper);padding:1.2rem 16px 1.6rem;border-bottom:1px solid var(--line);gap:1rem}
+  header.open .nav ul{display:flex;flex-direction:column;position:absolute;inset-inline:0;top:74px;background:var(--paper);padding:1.2rem 16px 1.6rem;border-bottom:1px solid var(--line);gap:1rem}
 }
 
-/* ---------- hero ---------- */
-.hero{position:relative;background:var(--olive);color:var(--cream);overflow:hidden;padding:clamp(70px,10vw,130px) 0 clamp(80px,10vw,140px)}
-.hero::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(60% 80% at 85% 20%,rgba(217,74,31,.35),transparent 60%),
-  radial-gradient(40% 50% at 10% 90%,rgba(247,239,223,.12),transparent 60%)}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center}
-.hero h1{font-size:clamp(2.6rem,7vw,5.4rem);margin:.4rem 0 1.2rem}
-.hero h1 em{font-style:normal;color:#ffb38a}
-.hero p{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:52ch;opacity:.9}
-.hero .cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
-.hero .btn-ghost{color:var(--cream)}
-.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.2rem}
-.tags span{border:1px solid rgba(247,239,223,.35);border-radius:999px;padding:.35rem .9rem;font-size:.9rem}
-.hero-art{position:relative;max-width:440px;margin-inline:auto;width:100%}
-.hero-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:220px 220px 32px 32px;box-shadow:0 40px 90px -30px rgba(0,0,0,.65),0 0 0 8px rgba(247,239,223,.08);animation:float 7s ease-in-out infinite}
-.badge-4{position:absolute;inset-inline-end:-8%;top:6%;background:var(--harissa);color:#fff;border-radius:50%;width:120px;height:120px;display:grid;place-content:center;text-align:center;font-weight:900;line-height:1;box-shadow:var(--shadow);transform:rotate(8deg)}
-.badge-4 b{font-size:2.6rem;display:block}
-.badge-4 small{font-size:.75rem;font-weight:700}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:300px}.hero-img{border-radius:150px 150px 24px 24px}.badge-4{width:96px;height:96px;inset-inline-end:auto;inset-inline-start:-4%;top:4%;transform:rotate(-8deg)}.badge-4 b{font-size:2rem}}
-@media (prefers-reduced-motion:reduce){.hero-img{animation:none}.btn:hover{transform:none}}
+/* ---- hero ---- */
+.hero{position:relative;background:var(--night);color:var(--sand);overflow:hidden;padding:clamp(56px,8vw,110px) 0 clamp(120px,14vw,190px)}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 70% at 22% 45%,rgba(242,183,5,.22),transparent 65%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:2.5rem;align-items:center}
+.kicker{font-weight:500;color:var(--sun);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.kicker svg{width:18px;height:18px}
+.hero h1{font-size:clamp(4rem,9.5vw,8.4rem);color:#fff;margin-bottom:.2em;white-space:nowrap}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line span{display:block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .line:nth-child(2) span{animation-delay:.12s;color:var(--sun)}
+.hero p{font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:50ch;color:rgba(241,231,208,.85);animation:fade .8s .35s both}
+.hero .cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem;animation:fade .8s .5s both}
+.hero .btn-line{color:var(--sand)}
+.trust{display:flex;flex-wrap:wrap;gap:1.2rem 1.8rem;margin-top:2.2rem;animation:fade .8s .65s both}
+.trust div{display:flex;align-items:center;gap:.55rem;font-size:.95rem;color:rgba(241,231,208,.9)}
+.trust svg{width:22px;height:22px;color:var(--sun);flex:none}
+.hero-art{position:relative;max-width:430px;margin-inline:auto;width:100%;animation:pop 1s .2s cubic-bezier(.2,.8,.2,1) both}
+.hero-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:215px 215px 30px 30px;box-shadow:0 50px 90px -30px rgba(0,0,0,.8),0 0 0 10px rgba(242,183,5,.12);animation:float 7s 1.2s ease-in-out infinite}
+.badge-4{position:absolute;inset-inline-end:-6%;top:5%;width:118px;height:118px;border-radius:50%;background:var(--sky);color:var(--night);display:grid;place-content:center;text-align:center;font-weight:700;line-height:.9;transform:rotate(8deg);box-shadow:0 20px 40px -18px rgba(0,0,0,.8);animation:pop .8s .9s cubic-bezier(.3,1.4,.4,1) both}
+.badge-4 b{font-family:'Karantina',sans-serif;font-size:3.4rem;display:block}
+.badge-4 small{font-size:.85rem}
+.drip{position:absolute;bottom:-2px;inset-inline:0;width:100%;height:clamp(70px,9vw,130px);display:block}
+.drip path{fill:var(--paper)}
+@keyframes rise{from{transform:translateY(110%)}to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.85) rotate(8deg)}to{opacity:1;transform:scale(1) rotate(8deg)}}
+.hero-art{animation-name:pop2}
+@keyframes pop2{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:300px}.hero-img{border-radius:150px 150px 22px 22px}.badge-4{width:92px;height:92px;inset-inline-end:auto;inset-inline-start:-6%;transform:rotate(-8deg)}.badge-4 b{font-size:2.6rem}}
 
-/* ---------- strip ---------- */
-.strip{background:var(--harissa);color:#fff;padding:.9rem 0;font-weight:700;overflow:hidden;white-space:nowrap}
-.strip .track{display:inline-flex;gap:3rem;animation:marquee 28s linear infinite}
-.strip .track span::before{content:"✦";margin-inline-end:3rem;opacity:.7}
+/* ---- marquee ---- */
+.strip{background:var(--sun);color:var(--night);padding:.8rem 0;overflow:hidden;white-space:nowrap;font-weight:700;font-family:'Karantina',sans-serif;font-size:1.7rem;letter-spacing:.02em}
+.strip .track{display:inline-flex;gap:2.5rem;animation:marquee 30s linear infinite}
+.strip span{display:inline-flex;align-items:center;gap:2.5rem}
+.strip span::after{content:"✦";font-size:1rem;opacity:.7}
 @keyframes marquee{to{transform:translateX(50%)}}
-@media (prefers-reduced-motion:reduce){.strip .track{animation:none;white-space:normal;flex-wrap:wrap;gap:1rem}}
 
-/* ---------- about ---------- */
-.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
-.about blockquote{font-family:'Frank Ruhl Libre',serif;font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:700;line-height:1.35;border-inline-start:6px solid var(--harissa);padding-inline-start:1.2rem;margin:1.4rem 0}
-.about .sig{font-weight:700;color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-.stat{background:var(--cream);border-radius:var(--radius);padding:1.2rem 1rem;text-align:center}
-.stat b{display:block;font-size:2rem;font-weight:900;color:var(--harissa)}
-.stat span{font-size:.9rem;color:var(--muted)}
-.photo-ph{aspect-ratio:4/5;border-radius:var(--radius);background:linear-gradient(160deg,var(--cream-2),var(--cream));border:2px dashed var(--line);display:grid;place-content:center;text-align:center;color:var(--muted);padding:2rem}
-.photo-ph strong{display:block;color:var(--ink);margin-bottom:.4rem}
-@media (max-width:860px){.about .wrap{grid-template-columns:1fr}}
+/* ---- menu ---- */
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.5rem}
+.dish{background:var(--sand);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.dish .ph{aspect-ratio:4/3;overflow:hidden;position:relative;background:var(--night)}
+.dish .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.dish:hover .ph img{transform:scale(1.04)}
+.dish .ph .ico{position:absolute;inset:0;display:grid;place-content:center;color:var(--sun)}
+.dish .ph .ico svg{width:46%;height:auto;max-width:150px}
+.dish .body{padding:1.5rem 1.5rem 1.7rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
+.dish h3{font-size:2.4rem}
+.dish p{color:var(--muted)}
+.flavors{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.3rem}
+.flavors span{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem;font-size:.9rem;font-weight:500}
+.flavors span::before{content:"";display:inline-block;width:.6em;height:.6em;border-radius:50%;background:var(--dot);margin-inline-end:.4em;vertical-align:middle}
+.dish ul{list-style:none;display:grid;gap:.35rem;margin-top:.2rem}
+.dish li{display:flex;gap:.5rem;align-items:flex-start}
+.dish li svg{width:18px;height:18px;flex:none;color:var(--sky);margin-top:.25em}
+.custom{margin-top:1.6rem;display:flex;gap:1rem;align-items:center;padding:1.2rem 1.4rem;border-radius:var(--r);background:var(--night);color:var(--sand)}
+.custom svg{width:36px;height:36px;color:var(--sun);flex:none}
+.custom b{color:var(--sun)}
+@media (max-width:900px){.menu-grid{grid-template-columns:1fr}}
 
-/* ---------- menu ---------- */
-.menu{background:var(--cream)}
-.grid{display:grid;gap:1.4rem;margin-top:2.5rem}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-@media (max-width:1000px){.grid-4{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:700px){.grid-4,.grid-3{grid-template-columns:1fr}}
-.card{background:var(--paper);border-radius:var(--radius);padding:1.8rem;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .25s}
-.card:hover{transform:translateY(-4px)}
-.card .num{position:absolute;top:-.3rem;inset-inline-end:1rem;font-size:5rem;font-weight:900;opacity:.07;line-height:1}
-.card .dot{width:52px;height:52px;border-radius:14px;display:grid;place-content:center;font-size:1.6rem;margin-bottom:1rem;background:var(--cream)}
-.card h3{font-size:1.35rem;margin-bottom:.4rem}
-.card p{color:var(--muted);font-size:.98rem}
-.big-cards{grid-template-columns:1fr 1fr}
-@media (max-width:860px){.big-cards{grid-template-columns:1fr}}
-.big{background:var(--olive);color:var(--cream);padding:2.4rem;border-radius:var(--radius);position:relative;overflow:hidden}
-.big.alt{background:var(--harissa);color:#fff}
-.big h3{font-size:2rem;margin-bottom:.6rem}
-.big ul{list-style:none;margin-top:1.2rem;display:grid;gap:.4rem}
-.big li::before{content:"–";margin-inline-end:.5rem;opacity:.6}
-.big .glyph{position:absolute;inset-inline-end:-1rem;bottom:-1.5rem;font-size:9rem;opacity:.12;line-height:1}
-.note{margin-top:2rem;padding:1.2rem 1.5rem;border-radius:var(--radius);background:var(--paper);border:1px dashed var(--harissa);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-.note b{color:var(--harissa)}
+/* ---- field band ---- */
+.band{position:relative;min-height:520px;display:grid;align-items:end;color:#fff;background:var(--night)}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(21,19,20,.95) 0%,rgba(21,19,20,.35) 55%,transparent 100%)}
+.band .wrap{position:relative;padding:3rem 0 3.5rem}
+.band h2{font-size:clamp(3.6rem,9vw,7.5rem);color:var(--sun)}
+.band p{max-width:48ch;font-size:1.15rem;color:rgba(255,255,255,.88)}
+.places{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
+.places span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.45rem 1rem;font-size:.95rem;backdrop-filter:blur(6px)}
 
-/* ---------- how ---------- */
-.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
-.step{counter-increment:s;padding-top:1rem;border-top:3px solid var(--line);position:relative}
-.step::before{content:"0" counter(s);font-weight:900;font-size:2.4rem;color:var(--harissa);display:block;line-height:1;margin-bottom:.6rem}
-.step h3{font-size:1.15rem;margin-bottom:.3rem}
-.step p{color:var(--muted);font-size:.95rem}
-@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.steps{grid-template-columns:1fr}}
+/* ---- steps ---- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;counter-reset:s}
+.step{counter-increment:s;background:var(--sand);border-radius:var(--r-lg);padding:1.8rem 1.6rem 1.8rem;position:relative;overflow:hidden}
+.step::before{content:counter(s);font-family:'Karantina',sans-serif;font-size:7rem;font-weight:700;line-height:1;position:absolute;inset-inline-end:.6rem;top:-.4rem;color:var(--sun);opacity:.55}
+.step svg{width:40px;height:40px;color:var(--night);margin-bottom:1rem;position:relative}
+.step h3{font-size:2rem;margin-bottom:.4rem;position:relative}
+.step p{color:var(--muted);position:relative}
+.steps-cta{margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+@media (max-width:900px){.steps{grid-template-columns:1fr}}
 
-/* ---------- events ---------- */
-.events{background:var(--olive);color:var(--cream)}
-.events .lead{color:rgba(247,239,223,.75)}
-.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
-.chips span{background:rgba(247,239,223,.1);border:1px solid rgba(247,239,223,.2);border-radius:999px;padding:.6rem 1.2rem;font-weight:500}
+/* ---- included ---- */
+.incl{background:var(--night);color:var(--sand)}
+.incl .h2{color:var(--sun)}
+.incl .lead{color:rgba(241,231,208,.8)}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem 2rem;margin-top:2.2rem;list-style:none;max-width:900px}
+.checks li{display:flex;gap:.8rem;align-items:center;font-size:1.08rem;padding:.9rem 1rem;border-radius:var(--r-sm);background:var(--night-2)}
+.checks svg{width:26px;height:26px;color:var(--sky);flex:none}
+@media (max-width:700px){.checks{grid-template-columns:1fr}}
 
-/* ---------- gallery ---------- */
+/* ---- gallery ---- */
 .gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;grid-auto-flow:dense;gap:.9rem;margin-top:2.5rem}
-.gal .photo-ph{aspect-ratio:auto;height:100%;padding:1rem;font-size:.9rem}
+.gal figure{margin:0;border-radius:var(--r);overflow:hidden;position:relative;background:var(--sand-2)}
+.gal figure img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gal figure:hover img{transform:scale(1.04)}
+.gal figcaption{position:absolute;inset-inline:0;bottom:0;padding:1.4rem 1rem .8rem;color:#fff;font-weight:500;background:linear-gradient(transparent,rgba(21,19,20,.7))}
 .gal .wide{grid-column:span 2;grid-row:span 2}
 .gal .tall{grid-row:span 2}
-.gal figure{margin:0;border-radius:var(--radius);overflow:hidden;position:relative;background:var(--cream-2)}
-.gal figure img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.gal figure:hover img{transform:scale(1.04)}
-.gal figcaption{position:absolute;inset-inline:0;bottom:0;padding:1.4rem 1rem .8rem;color:#fff;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,.65))}
 @media (max-width:700px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gal .wide{grid-column:span 2}}
 
-/* ---------- faq ---------- */
-.faq details{border-bottom:1px solid var(--line);padding:1.1rem 0}
-.faq summary{cursor:pointer;font-weight:700;font-size:1.15rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
-.faq summary::after{content:"+";font-size:1.6rem;color:var(--harissa);transition:transform .2s}
+/* ---- faq ---- */
+.faq details{border-bottom:1px solid var(--line);padding:1rem 0}
+.faq summary{cursor:pointer;font-weight:500;font-size:1.12rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:'Karantina',sans-serif;font-size:2rem;color:var(--sun-2);transition:transform .2s;line-height:1}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{color:var(--muted);margin-top:.6rem;max-width:70ch}
 
-/* ---------- contact ---------- */
-.contact{background:var(--cream)}
-.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.contact-card{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;background:var(--paper);border-radius:var(--radius);text-decoration:none;border:1px solid var(--line);margin-top:1rem;font-weight:700;font-size:1.15rem}
-.contact-card .ic{width:48px;height:48px;border-radius:14px;display:grid;place-content:center;background:var(--harissa);color:#fff;flex:none}
-.contact-card .ic.wa{background:#25d366}
-.contact-card small{display:block;font-weight:400;color:var(--muted);font-size:.9rem}
-form{background:var(--paper);padding:2rem;border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow)}
-form h3{font-size:1.5rem;margin-bottom:1.2rem}
+/* ---- close ---- */
+.close{background:var(--sun);color:var(--night);position:relative;overflow:hidden}
+.close::before{content:"";position:absolute;inset:auto -10% -40% auto;width:60%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.18)}
+.close .wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.close .h2{color:var(--night)}
+.close .lead{color:rgba(21,19,20,.75)}
+.contact-card{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--night);color:var(--sand);border-radius:var(--r);text-decoration:none;margin-top:1rem;font-weight:700;font-size:1.15rem;transition:transform .18s}
+.contact-card:hover{transform:translateY(-2px)}
+.contact-card .ic{width:48px;height:48px;border-radius:14px;display:grid;place-content:center;background:var(--sun);color:var(--night);flex:none}
+.contact-card .ic.wa{background:var(--wa);color:#fff}
+.contact-card .ic.fb{background:#1877f2;color:#fff}
+.contact-card small{display:block;font-weight:400;font-size:.88rem;color:rgba(241,231,208,.7)}
+form{background:var(--paper);color:var(--ink);padding:2rem;border-radius:var(--r-lg);box-shadow:0 30px 60px -30px rgba(21,19,20,.5)}
+form h3{font-size:2.3rem;margin-bottom:1rem}
 .field{margin-bottom:1rem}
-.field label{display:block;font-weight:700;margin-bottom:.35rem;font-size:.95rem}
-.field input,.field select,.field textarea{width:100%;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:14px;font:inherit;background:var(--cream);color:var(--ink)}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--harissa);border-color:transparent}
+.field label{display:block;font-weight:500;margin-bottom:.35rem;font-size:.95rem}
+.field input,.field select,.field textarea{width:100%;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:var(--sand);color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--sky);border-color:transparent}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .form-note{font-size:.85rem;color:var(--muted);margin-top:.8rem}
-@media (max-width:860px){.contact .wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+@media (max-width:900px){.close .wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
 
-/* ---------- footer ---------- */
-footer{background:var(--olive);color:rgba(247,239,223,.8);padding:2.5rem 0;font-size:.95rem}
+/* ---- footer ---- */
+footer{background:var(--night);color:rgba(241,231,208,.75);padding:2.2rem 0 2.4rem;font-size:.95rem}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 footer a{text-decoration:none}
+footer .brand{display:flex;align-items:center;gap:.8rem}
+footer .brand img{width:44px;height:44px;border-radius:50%}
+footer strong{color:var(--sand)}
 
-/* floating WA */
-.fab{position:fixed;bottom:20px;left:20px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-content:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.5);text-decoration:none}
+/* ---- mobile bar ---- */
+.bar{display:none}
+@media (max-width:900px){
+  body{padding-bottom:78px}
+  .bar{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;position:fixed;bottom:0;inset-inline:0;z-index:60;padding:.6rem 12px calc(.6rem + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px)}
+  .bar .btn{padding:.85rem 1rem;font-size:1rem}
+  .fab{display:none}
+}
+.fab{position:fixed;bottom:22px;left:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-content:center;box-shadow:0 14px 30px -8px rgba(0,0,0,.5);text-decoration:none;transition:transform .18s}
 .fab svg{width:30px;height:30px}
 .fab:hover{transform:scale(1.06)}
+@media (max-width:900px){.fab{display:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .strip{white-space:normal}.strip .track{flex-wrap:wrap;gap:1rem}
+}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".18"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h10v8H3zM13 10h4l3 3v2h-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 3 4 4.5 4 9a4 4 0 0 1-8 0c0-1.5.5-2.5 1.2-3.4.3 1 .9 1.6 1.8 1.9C10.5 8 11.5 5.5 12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24"><path d="M7 10a3.5 3.5 0 0 1 1-6.9A4 4 0 0 1 16 3a3.5 3.5 0 0 1 1 7v8H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 15h10" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-burger" viewBox="0 0 64 64"><path d="M10 26c0-9 10-15 22-15s22 6 22 15z" fill="currentColor"/><rect x="8" y="30" width="48" height="6" rx="3" fill="currentColor" opacity=".55"/><rect x="10" y="39" width="44" height="6" rx="3" fill="currentColor" opacity=".8"/><path d="M10 48h44c0 5-3 8-8 8H18c-5 0-8-3-8-8z" fill="currentColor"/><circle cx="24" cy="19" r="1.4" fill="#151314"/><circle cx="32" cy="16" r="1.4" fill="#151314"/><circle cx="40" cy="19" r="1.4" fill="#151314"/></symbol>
+  </defs>
+</svg>
+
 <header id="top">
   <div class="wrap nav">
-    <a class="logo" href="#top"><img src="images/logo.png" alt="קייטרינג 4X4 לאירועים"><span>קייטרינג 4X4<small>לאירועים · בכל מקום, בכל שעה</small></span></a>
+    <a class="logo" href="#top"><img src="images/logo.png" alt="קייטרינג 4X4 לאירועים"><span><strong>קייטרינג 4X4</strong><small>בכל מקום, בכל שעה</small></span></a>
     <ul>
-      <li><a href="#about">מי אנחנו</a></li>
-      <li><a href="#menu">התפריט</a></li>
+      <li><a href="#menu">מה על השולחן</a></li>
       <li><a href="#how">איך זה עובד</a></li>
-      <li><a href="#events">אירועים</a></li>
+      <li><a href="#included">מה כלול</a></li>
+      <li><a href="#gallery">מהשטח</a></li>
       <li><a href="#faq">שאלות</a></li>
-      <li><a href="#contact">צור קשר</a></li>
     </ul>
-    <a class="btn btn-primary" href="tel:0509112552">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>
-      050-911-2552
-    </a>
+    <a class="btn btn-sun" href="tel:0509112552"><svg><use href="#i-phone"/></svg>050-911-2552</a>
     <button class="burger" aria-label="תפריט" onclick="document.querySelector('header').classList.toggle('open')"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -222,156 +273,168 @@ footer a{text-decoration:none}
 <section class="hero">
   <div class="wrap">
     <div>
-      <span class="eyebrow" style="color:#ffb38a">קייטרינג 4X4 לאירועים · בהנהלת ניסים שרון</span>
-      <h1>בכל מקום,<br><em>בכל שעה.</em></h1>
-      <p>ארוחה ישראלית אמיתית שמגיעה אליכם: דוכן פלאפל חי ב-4 טעמים שונים, סביח אורגינל ובר בורגר עשיר. הכול מבושל ומטוגן טרי מול העיניים של האורחים – בשטח, בחצר, בבסיס או באולם.</p>
+      <div class="kicker"><svg><use href="#i-truck"/></svg>קייטרינג 4X4 לאירועים · בהנהלת ניסים שרון</div>
+      <h1><span class="line"><span>בכל מקום,</span></span><span class="line"><span>בכל שעה.</span></span></h1>
+      <p>ארוחה ישראלית אמיתית שמגיעה אליכם: דוכן פלאפל חי ב-4 טעמים, סביח אורגינל ובר בורגר עשיר. הכול מבושל ומטוגן טרי מול העיניים של האורחים – במדבר, בחוף, בבסיס או בחצר.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#contact">קבלו הצעת מחיר</a>
-        <a class="btn btn-ghost" href="https://wa.me/972509112552?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A1%D7%99%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%9C%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%A7%D7%99%D7%99%D7%98%D7%A8%D7%99%D7%A0%D7%92%204X4%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2" target="_blank" rel="noopener">וואטסאפ עכשיו</a>
+        <a class="btn btn-wa" href="https://wa.me/972509112552?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A1%D7%99%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%A6%D7%A2%D7%AA%20%D7%9E%D7%97%D7%99%D7%A8%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>קבלו הצעת מחיר בוואטסאפ</a>
+        <a class="btn btn-line" href="#menu">מה על השולחן</a>
       </div>
-      <div class="tags">
-        <span>4 טעמי פלאפל</span><span>סביח אורגינל</span><span>בר בורגר</span><span>טרי בשטח</span><span>בכל הארץ</span><span>תפריט לפי בקשה</span>
+      <div class="trust">
+        <div><svg><use href="#i-pin"/></svg>מגיעים לכל הארץ</div>
+        <div><svg><use href="#i-flame"/></svg>מטוגן מול האורחים</div>
+        <div><svg><use href="#i-menu"/></svg>תפריט לפי בקשה</div>
       </div>
     </div>
     <div class="hero-art">
       <img class="hero-img" src="images/hero-falafel.webp" alt="פיתה עם פלאפל וטחינה נשפכת" fetchpriority="high">
-      <div class="badge-4" aria-hidden="true"><b>4</b><small>טעמים</small></div>
+      <div class="badge-4" aria-hidden="true"><b>4</b><small>טעמי פלאפל</small></div>
     </div>
   </div>
+  <svg class="drip" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,70 C120,70 160,30 260,32 C330,34 350,90 400,112 C430,125 450,80 470,62 C520,20 600,22 660,40 C720,58 740,110 790,112 C830,113 840,70 880,58 C940,40 1010,42 1060,60 C1100,75 1120,118 1160,116 C1200,114 1200,52 1260,44 C1330,36 1380,66 1440,70 L1440,120 L0,120 Z"/>
+  </svg>
 </section>
 
 <div class="strip" aria-hidden="true">
   <div class="track">
-    <span>מטוגן טרי בשטח</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר/בת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>תפריט מותאם אישית</span>
-    <span>מטוגן טרי בשטח</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר/בת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>תפריט מותאם אישית</span>
+    <span>המכביה</span><span>מצוקי דרגות</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר ובת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>חינה</span><span>ערבי צוות</span>
+    <span>המכביה</span><span>מצוקי דרגות</span><span>ימי הולדת</span><span>אירועי חברה</span><span>בר ובת מצווה</span><span>חתונות</span><span>ימי גיבוש</span><span>בסיסים ויחידות</span><span>חינה</span><span>ערבי צוות</span>
   </div>
 </div>
 
-<section class="about" id="about">
+<section id="menu">
   <div class="wrap">
-    <div>
-      <span class="eyebrow">מי אנחנו</span>
-      <h2 class="sec-title">ניסים שרון והפלאפל שמגיע אליכם</h2>
-      <p class="lead">"4X4" זה לא רק שם – זה ההבטחה: בכל מקום, בכל שעה. אנחנו מגיעים עם ציוד מלא, מוצרים טריים וצוות שיודע להאכיל קהל.</p>
-      <blockquote>אצלנו לא מחממים – מטגנים. כל כדור פלאפל יוצא מהשמן ישר לפיתה של האורח.</blockquote>
-      <p class="sig">– ניסים שרון, בעלים ומנהל</p>
-      <div class="stats">
-        <div class="stat"><b>4</b><span>טעמי פלאפל</span></div>
-        <div class="stat"><b>100%</b><span>מבושל ומטוגן בשטח</span></div>
-        <div class="stat"><b>24/7</b><span>בכל מקום ובכל שעה</span></div>
-      </div>
+    <h2 class="h2">מה על השולחן</h2>
+    <p class="lead">שלושה דוכנים, כולם חיים. האורחים בוחרים, אנחנו מטגנים מול העיניים שלהם.</p>
+    <div class="menu-grid">
+      <article class="dish">
+        <div class="ph"><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי" loading="lazy"></div>
+        <div class="body">
+          <h3>פלאפל ב-4 טעמים</h3>
+          <p>נטחן ומתובל אצלנו, מטוגן במקום. כל כדור יוצא מהשמן ישר לפיתה.</p>
+          <div class="flavors">
+            <span style="--dot:#5c8a2e">קלאסי</span><span style="--dot:#d9341f">חריף</span><span style="--dot:#2f7d3b">ירוק עשבים</span><span style="--dot:#e0a400">מזרחי</span>
+          </div>
+        </div>
+      </article>
+      <article class="dish">
+        <div class="ph"><img src="images/sabich-haifa.webp" alt="סביח בחלה" loading="lazy"></div>
+        <div class="body">
+          <h3>סביח אורגינל</h3>
+          <p>חציל מטוגן, ביצה קשה, טחינה, עמבה, סלט ותפוח אדמה – כמו שצריך.</p>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>חציל מטוגן במקום</li>
+            <li><svg><use href="#i-check"/></svg>עמבה ביתית</li>
+            <li><svg><use href="#i-check"/></svg>גרסה טבעונית ללא ביצה</li>
+          </ul>
+        </div>
+      </article>
+      <article class="dish">
+        <div class="ph"><div class="ico"><svg><use href="#i-burger"/></svg></div></div>
+        <div class="body">
+          <h3>בר בורגר עשיר</h3>
+          <p>קציצות עסיסיות על הגריל, לחמניות טריות ובר תוספות שהאורחים מרכיבים בעצמם.</p>
+          <ul>
+            <li><svg><use href="#i-check"/></svg>בשר, עוף או טבעוני</li>
+            <li><svg><use href="#i-check"/></svg>בר רטבים ותוספות</li>
+            <li><svg><use href="#i-check"/></svg>צ'יפס טרי מהשמן</li>
+          </ul>
+        </div>
+      </article>
     </div>
-    <div class="photo-ph">
-      <strong>תמונה של ניסים ליד הדוכן</strong>
-      כאן תיכנס תמונה אמיתית מאירוע (ראו רשימת החומרים שביקשתי)
+    <div class="custom">
+      <svg><use href="#i-chef"/></svg>
+      <div><b>מגוונים לפי בקשה.</b> שניצלים, מנות ילדים, טבעונים, פחות או יותר – מרכיבים תפריט לפי האירוע והתקציב.</div>
     </div>
   </div>
 </section>
 
-<section class="menu" id="menu">
+<section class="band" style="padding:0">
+  <img src="images/table-dead-sea.webp" alt="" loading="lazy">
   <div class="wrap">
-    <span class="eyebrow">התפריט</span>
-    <h2 class="sec-title">פלאפל ב-4 טעמים שונים</h2>
-    <p class="lead">כל טעם נטחן ומתובל אצלנו, ומטוגן במקום. האורחים בוחרים, אנחנו מטגנים.</p>
-    <div class="grid grid-4">
-      <div class="card"><span class="num">1</span><div class="dot">🟢</div><h3>קלאסי</h3><p>הפלאפל הירוק והפריך של פעם. חומוס, כוסברה, פטרוזיליה ותבלינים סודיים.</p></div>
-      <div class="card"><span class="num">2</span><div class="dot">🌶️</div><h3>חריף</h3><p>עם הריסה וצ'ילי טרי בתוך הבצק – לא רק בצד. למי שאוהב שיבער.</p></div>
-      <div class="card"><span class="num">3</span><div class="dot">🌿</div><h3>ירוק עשבים</h3><p>עמוס בעשבי תיבול טריים, בצל ירוק ושום. רענן ומלא ניחוח.</p></div>
-      <div class="card"><span class="num">4</span><div class="dot">🟡</div><h3>מזרחי</h3><p>נגיעה של כורכום, כמון וסומק – פלאפל בגוון זהוב וטעם עמוק.</p></div>
-    </div>
-
-    <div class="grid big-cards">
-      <div class="big">
-        <span class="glyph" aria-hidden="true">🍆</span>
-        <h3>סביח אורגינל</h3>
-        <p>חציל מטוגן, ביצה קשה, טחינה, עמבה, סלט ישראלי ותפוח אדמה – בפיתה, כמו שצריך.</p>
-        <ul><li>חציל מטוגן במקום</li><li>עמבה ביתית</li><li>אפשרות טבעונית ללא ביצה</li></ul>
-      </div>
-      <div class="big alt">
-        <span class="glyph" aria-hidden="true">🍔</span>
-        <h3>בר בורגר עשיר</h3>
-        <p>קציצות בשר עסיסיות על הגריל, לחמניות טריות ובר תוספות מלא שהאורחים מרכיבים בעצמם.</p>
-        <ul><li>בורגר בשר / עוף / טבעוני</li><li>בר רטבים ותוספות</li><li>צ'יפס טרי מהשמן</li></ul>
-      </div>
-    </div>
-
-    <div class="note">
-      <b>מגוונים לפי בקשה:</b>
-      <span>כל המפרט מבושל ומטוגן בשטח. רוצים להוסיף שניצלים, טבעונים, ילדים, או להוריד משהו? מרכיבים תפריט לפי האירוע והתקציב.</span>
-    </div>
+    <h2>השטח זה הבית שלנו.</h2>
+    <p>מדבר, חוף, בסיס או חצר. אנחנו מגיעים עם דוכן, גז, מים וצוות. מכם צריך רק פינה ואנשים רעבים.</p>
+    <div class="places"><span>מצוקי דרגות</span><span>חוף השקט, חיפה</span><span>המכביה</span><span>כל הארץ</span></div>
   </div>
 </section>
 
 <section id="how">
   <div class="wrap">
-    <span class="eyebrow">איך זה עובד</span>
-    <h2 class="sec-title">מהשיחה הראשונה ועד הפיתה האחרונה</h2>
+    <h2 class="h2">איך סוגרים אירוע</h2>
+    <p class="lead">שלושה שלבים. הראשון לוקח דקה.</p>
     <div class="steps">
-      <div class="step"><h3>מספרים לנו על האירוע</h3><p>כמה אורחים, איפה, מתי ומה הסגנון. שיחה קצרה או הודעה בוואטסאפ.</p></div>
-      <div class="step"><h3>מרכיבים תפריט</h3><p>בוחרים טעמי פלאפל, סביח, בורגר ותוספות – ומקבלים הצעת מחיר ברורה.</p></div>
-      <div class="step"><h3>מגיעים ומקימים</h3><p>מגיעים עם דוכן, ציוד וגז. לא צריכים מטבח – רק פינה ונקודת חשמל (או בלי).</p></div>
-      <div class="step"><h3>מטגנים ומגישים</h3><p>הכול נעשה חי מול האורחים. בסיום מפנים ומשאירים את המקום נקי.</p></div>
+      <div class="step"><svg><use href="#i-chat"/></svg><h3>מספרים לניסים</h3><p>כמה אורחים, איפה ומתי. הודעת וואטסאפ או שיחה קצרה.</p></div>
+      <div class="step"><svg><use href="#i-menu"/></svg><h3>בונים תפריט והצעה</h3><p>בוחרים דוכנים ותוספות ומקבלים הצעת מחיר ברורה, בלי הפתעות.</p></div>
+      <div class="step"><svg><use href="#i-flame"/></svg><h3>אנחנו מגיעים ומטגנים</h3><p>מקימים כשעה לפני, מגישים חי, ומשאירים את המקום נקי.</p></div>
+    </div>
+    <div class="steps-cta">
+      <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>להתחיל בוואטסאפ</a>
+      <a class="btn btn-line" href="tel:0509112552"><svg><use href="#i-phone"/></svg>050-911-2552</a>
     </div>
   </div>
 </section>
 
-<section class="events" id="events">
+<section class="incl" id="included">
   <div class="wrap">
-    <span class="eyebrow" style="color:#ffb38a">לאיזה אירועים</span>
-    <h2 class="sec-title">בכל מקום שיש בו אנשים רעבים</h2>
-    <p class="lead">בכל הארץ, מהצפון ועד אילת. מהחצר בבית ועד לשטח פתוח בלי חשמל – הדוכן שלנו עצמאי לחלוטין.</p>
-    <div class="chips">
-      <span>ימי הולדת</span><span>בר ובת מצווה</span><span>חתונות וחינה</span><span>אירועי חברה והשקות</span><span>ימי גיבוש</span><span>בסיסים, יחידות ומילואים</span><span>אירועי קהילה ובתי ספר</span><span>מסיבות רווקים/ות</span><span>אירועי לילה</span>
-    </div>
+    <h2 class="h2">מה כלול במחיר</h2>
+    <p class="lead">הכול. אתם לא צריכים להביא, לארגן או לנקות.</p>
+    <ul class="checks">
+      <li><svg><use href="#i-check"/></svg>דוכן מלא, ציוד טיגון וגריל</li>
+      <li><svg><use href="#i-check"/></svg>צוות שמטגן ומגיש</li>
+      <li><svg><use href="#i-check"/></svg>כל חומרי הגלם, טריים</li>
+      <li><svg><use href="#i-check"/></svg>פיתות, סלטים, חמוצים, טחינה ורטבים</li>
+      <li><svg><use href="#i-check"/></svg>כלים חד-פעמיים</li>
+      <li><svg><use href="#i-check"/></svg>הקמה ופינוי, המקום נשאר נקי</li>
+      <li><svg><use href="#i-check"/></svg>עובד גם בלי חשמל ומים במקום</li>
+      <li><svg><use href="#i-check"/></svg>הצעת מחיר אישית לפי מספר אורחים ותפריט</li>
+    </ul>
   </div>
 </section>
 
 <section id="gallery">
   <div class="wrap">
-    <span class="eyebrow">גלריה</span>
-    <h2 class="sec-title">מהשטח</h2>
+    <h2 class="h2">מהשטח</h2>
     <div class="gal">
       <figure class="wide"><img src="images/event-metzukei-dragot.webp" alt="שלט הכניסה למצוקי דרגות – אירוע של קייטרינג 4X4" loading="lazy"><figcaption>אירוע במצוקי דרגות</figcaption></figure>
       <figure class="tall"><img src="images/sabich-platter.webp" alt="מגש סביח בחלה חתוך לפרוסות עם חמוצים על שולחן בחוף חיפה" loading="lazy"><figcaption>מגש סביח לאירוע</figcaption></figure>
-      <figure class="tall"><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח: פיתות, חמוצים, סלטים, צ׳יפס ופלאפל" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
-      <figure><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי, סלט ישראלי, צ׳יפס וסביח בחלה על שולחן בשטח" loading="lazy"><figcaption>פלאפל טרי מהשמן</figcaption></figure>
-      <figure><img src="images/toppings-bar.webp" alt="בר תוספות בשטח: חמוצים, סלט ישראלי, פלאפל טרי, חלה ורטבים" loading="lazy"><figcaption>בר תוספות בשטח</figcaption></figure>
+      <figure class="tall"><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
+      <figure><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי, סלט ישראלי, צ׳יפס וסביח בחלה" loading="lazy"><figcaption>פלאפל טרי מהשמן</figcaption></figure>
+      <figure><img src="images/toppings-bar.webp" alt="בר תוספות בשטח: חמוצים, סלט, פלאפל, חלה ורטבים" loading="lazy"><figcaption>בר תוספות בשטח</figcaption></figure>
       <figure><img src="images/haifa-maccabiah.webp" alt="שולחן הגשה על חוף השקט בחיפה באירוע למשתתפי המכביה" loading="lazy"><figcaption>המכביה, חוף השקט חיפה</figcaption></figure>
-      <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה על שולחן מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
+      <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
     </div>
   </div>
 </section>
 
 <section class="faq" id="faq">
   <div class="wrap">
-    <span class="eyebrow">שאלות נפוצות</span>
-    <h2 class="sec-title">מה כדאי לדעת</h2>
-    <details><summary>מה כלול בדוכן?</summary><p>דוכן מלא, ציוד טיגון וגריל, צוות, כל חומרי הגלם, פיתות, סלטים, טחינה, חמוצים ורטבים, כלים חד-פעמיים, הקמה ופינוי.</p></details>
-    <details><summary>מה המינימום אורחים?</summary><p>[להשלמה – למשל: החל מ-50 סועדים]</p></details>
+    <h2 class="h2">שאלות שכולם שואלים</h2>
     <details><summary>כמה זמן לוקח להקים?</summary><p>כשעה לפני תחילת ההגשה. מגיעים מוקדם כדי שהשמן יהיה חם והפלאפל הראשון יצא בזמן.</p></details>
-    <details><summary>צריך חשמל או מים במקום?</summary><p>לא חובה. הדוכן עובד על גז ומגיע עם מים משלו. נקודת חשמל עוזרת לתאורה בלילה.</p></details>
-    <details><summary>יש כשרות?</summary><p>[להשלמה – סוג כשרות / גוף מפקח, אם יש]</p></details>
-    <details><summary>לאילו אזורים אתם מגיעים?</summary><p>לכל הארץ. מהצפון ועד אילת, כולל שטחים פתוחים, בסיסים ואתרים מרוחקים. הדוכן עצמאי ולא תלוי בתשתיות במקום.</p></details>
+    <details><summary>צריך חשמל או מים במקום?</summary><p>לא. הדוכן עובד על גז ומגיע עם מים משלו. נקודת חשמל עוזרת לתאורה באירועי לילה, אבל לא חובה.</p></details>
+    <details><summary>לאילו אזורים אתם מגיעים?</summary><p>לכל הארץ, מהצפון ועד אילת, כולל שטחים פתוחים, בסיסים ואתרים מרוחקים.</p></details>
+    <details><summary>יש אפשרויות טבעוניות?</summary><p>כן. הפלאפל טבעוני מטבעו, הסביח מוגש גם בלי ביצה, ובבר הבורגר יש קציצה טבעונית.</p></details>
+    <details><summary>אפשר לשנות את התפריט?</summary><p>בטח. מוסיפים, מורידים ומתאימים לפי סוג האירוע, הקהל והתקציב. ספרו לנו מה אתם רוצים.</p></details>
+    <details><summary>כמה זה עולה?</summary><p>המחיר נקבע לפי מספר האורחים והדוכנים שבוחרים. שלחו לנו את הפרטים ותקבלו הצעה מסודרת, בלי הפתעות.</p></details>
   </div>
 </section>
 
-<section class="contact" id="contact">
+<section class="close" id="contact">
   <div class="wrap">
     <div>
-      <span class="eyebrow">צור קשר</span>
-      <h2 class="sec-title">בואו נדבר על האירוע שלכם</h2>
-      <p class="lead">ניסים זמין בטלפון ובוואטסאפ. ספרו לנו כמה אורחים ומתי – ותקבלו הצעה תוך זמן קצר.</p>
+      <h2 class="h2">נסגור את התפריט לאירוע שלכם?</h2>
+      <p class="lead">ניסים עונה אישית. ספרו כמה אורחים ומתי, ותקבלו הצעת מחיר מהר.</p>
+      <a class="contact-card" href="https://wa.me/972509112552" target="_blank" rel="noopener">
+        <span class="ic wa"><svg width="24" height="24"><use href="#i-wa"/></svg></span>
+        <span>שלחו וואטסאפ<small>הדרך הכי מהירה לקבל הצעה</small></span>
+      </a>
       <a class="contact-card" href="tel:0509112552">
-        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span>
+        <span class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg></span>
         <span>050-911-2552<small>ניסים שרון · טלפון</small></span>
       </a>
-      <a class="contact-card" href="https://wa.me/972509112552" target="_blank" rel="noopener">
-        <span class="ic wa"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></svg></span>
-        <span>שלחו וואטסאפ<small>מענה מהיר, גם בשעות לא שגרתיות</small></span>
-      </a>
       <a class="contact-card" href="https://www.facebook.com/profile.php?id=100063584353013" target="_blank" rel="noopener">
-        <span class="ic" style="background:#1877f2"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"/></svg></span>
-        <span>קייטרינג 4X4 לאירועים בפייסבוק<small>תמונות מאירועים בעמוד הפייסבוק</small></span>
+        <span class="ic fb"><svg width="24" height="24"><use href="#i-fb"/></svg></span>
+        <span>קייטרינג 4X4 בפייסבוק<small>עוד תמונות מאירועים</small></span>
       </a>
     </div>
     <form id="quote" onsubmit="return sendWA(event)">
@@ -384,14 +447,16 @@ footer a{text-decoration:none}
         <div class="field"><label for="f-date">תאריך האירוע</label><input id="f-date" name="date" type="date"></div>
         <div class="field"><label for="f-guests">מספר אורחים</label><input id="f-guests" name="guests" type="number" min="1" placeholder="למשל 120"></div>
       </div>
-      <div class="field"><label for="f-type">סוג האירוע</label>
-        <select id="f-type" name="type">
-          <option>יום הולדת</option><option>בר/בת מצווה</option><option>חתונה / חינה</option><option>אירוע חברה</option><option>יום גיבוש</option><option>בסיס / יחידה</option><option>אחר</option>
-        </select>
+      <div class="row">
+        <div class="field"><label for="f-type">סוג האירוע</label>
+          <select id="f-type" name="type">
+            <option>יום הולדת</option><option>בר/בת מצווה</option><option>חתונה / חינה</option><option>אירוע חברה</option><option>יום גיבוש</option><option>בסיס / יחידה</option><option>אחר</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-place">איפה האירוע?</label><input id="f-place" name="place" placeholder="עיר / יישוב"></div>
       </div>
-      <div class="field"><label for="f-place">איפה האירוע?</label><input id="f-place" name="place" placeholder="עיר / יישוב"></div>
       <div class="field"><label for="f-msg">מה תרצו בתפריט?</label><textarea id="f-msg" name="msg" rows="3" placeholder="פלאפל, סביח, בורגר, תוספות מיוחדות..."></textarea></div>
-      <button class="btn btn-wa" type="submit" style="width:100%;justify-content:center">שלחו את הבקשה בוואטסאפ</button>
+      <button class="btn btn-wa" type="submit" style="width:100%"><svg><use href="#i-wa"/></svg>שלחו את הבקשה בוואטסאפ</button>
       <p class="form-note">הלחיצה פותחת וואטסאפ עם הפרטים מוכנים לשליחה לניסים. לא נשמר מידע באתר.</p>
     </form>
   </div>
@@ -399,14 +464,16 @@ footer a{text-decoration:none}
 
 <footer>
   <div class="wrap">
-    <div style="display:flex;align-items:center;gap:.8rem"><img src="images/logo.png" alt="" width="44" height="44" style="border-radius:50%"><span><strong style="color:var(--cream)">קייטרינג 4X4 לאירועים</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></span></div>
+    <div class="brand"><img src="images/logo.png" alt=""><span><strong>קייטרינג 4X4 לאירועים</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></span></div>
     <div><a href="https://www.facebook.com/profile.php?id=100063584353013" target="_blank" rel="noopener">פייסבוק</a> · בכל מקום, בכל שעה © <span id="y"></span></div>
   </div>
 </footer>
 
-<a class="fab" href="https://wa.me/972509112552" target="_blank" rel="noopener" aria-label="וואטסאפ">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></svg>
-</a>
+<div class="bar">
+  <a class="btn btn-sun" href="tel:0509112552"><svg><use href="#i-phone"/></svg>התקשרו</a>
+  <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+</div>
+<a class="fab" href="https://wa.me/972509112552" target="_blank" rel="noopener" aria-label="וואטסאפ"><svg><use href="#i-wa"/></svg></a>
 
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
