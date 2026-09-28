@@ -573,8 +573,17 @@
       lbIndex = (i + lbItems.length) % lbItems.length;
       var btn = lbItems[lbIndex];
       var img = btn.querySelector('img');
-      lbImg.src = btn.dataset.full || (img && img.src) || '';
-      lbImg.alt = img ? img.alt : '';
+      var lbVid = $('#lightbox-video');
+      if (lbVid) { lbVid.pause(); lbVid.removeAttribute('src'); lbVid.load(); lbVid.hidden = true; }
+      if (btn.dataset.video && lbVid) {
+        lbImg.hidden = true; lbImg.src = '';
+        lbVid.poster = btn.dataset.full || ''; lbVid.src = btn.dataset.video; lbVid.hidden = false;
+        var pl = lbVid.play(); if (pl && pl.catch) pl.catch(function () {});
+      } else {
+        lbImg.hidden = false;
+        lbImg.src = btn.dataset.full || (img && img.src) || '';
+        lbImg.alt = img ? img.alt : '';
+      }
       if (lbCap) lbCap.textContent = btn.dataset.caption || '';
       if (lbCount) lbCount.textContent = (lbIndex + 1) + ' / ' + lbItems.length;
       /* טעינה מוקדמת של השכנות */
@@ -607,7 +616,7 @@
     var lbClose = $('#lightbox-close');
     if (lbClose) lbClose.addEventListener('click', function () { lightbox.close(); });
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
-    lightbox.addEventListener('close', function () { lbImg.src = ''; var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
+    lightbox.addEventListener('close', function () { lbImg.src = ''; var lv = $('#lightbox-video'); if (lv) { lv.pause(); lv.removeAttribute('src'); lv.load(); lv.hidden = true; } var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
   }
 
   /* ---------- אימות שדות בטופס (הודעה ליד השדה) ---------- */
