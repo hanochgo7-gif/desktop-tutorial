@@ -162,9 +162,9 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 @media (max-width:900px){.menu-grid{grid-template-columns:1fr}}
 
 /* ---- field band ---- */
-.band{position:relative;min-height:520px;display:grid;align-items:end;color:#fff;background:var(--night)}
-.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}
-.band::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(21,19,20,.95) 0%,rgba(21,19,20,.35) 55%,transparent 100%)}
+.band{position:relative;min-height:600px;display:grid;align-items:end;color:#fff;background:var(--night)}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;opacity:.85}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(21,19,20,.97) 0%,rgba(21,19,20,.6) 50%,rgba(21,19,20,.15) 100%)}
 .band .wrap{position:relative;padding:3rem 0 3.5rem}
 .band h2{font-size:clamp(3.6rem,9vw,7.5rem);color:var(--sun)}
 .band p{max-width:48ch;font-size:1.15rem;color:rgba(255,255,255,.88)}
@@ -190,16 +190,19 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .checks svg{width:26px;height:26px;color:var(--sky);flex:none}
 @media (max-width:700px){.checks{grid-template-columns:1fr}}
 
-/* ---- gallery ---- */
-.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;grid-auto-flow:dense;gap:.9rem;margin-top:2.5rem}
-.gal figure{margin:0;border-radius:var(--r);overflow:hidden;position:relative;background:var(--sand-2)}
-.gal figure img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.gal figure:hover img{transform:scale(1.04)}
-.gal figcaption{position:absolute;inset-inline:0;bottom:0;padding:1.4rem 1rem .8rem;color:#fff;font-weight:500;background:linear-gradient(transparent,rgba(21,19,20,.7))}
-.gal .wide{grid-column:span 2;grid-row:span 2}
-.gal .tall{grid-row:span 2}
-@media (max-width:700px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gal .wide{grid-column:span 2}}
-
+/* ---- field reel ---- */
+.field{background:var(--night);color:var(--sand);padding-bottom:clamp(48px,6vw,80px)}
+.field .h2{color:var(--sun)}
+.field .lead{color:rgba(241,231,208,.75)}
+.reel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:1.8rem max(16px,calc((100% - 1180px)/2)) 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.reel::-webkit-scrollbar{display:none}
+.reel figure{flex:0 0 min(78vw,720px);aspect-ratio:3/2;margin:0;position:relative;border-radius:var(--r);overflow:hidden;scroll-snap-align:start;background:var(--night-2)}
+.reel figure img{width:100%;height:100%;object-fit:cover}
+.reel figcaption{position:absolute;inset-inline:0;bottom:0;padding:1.6rem 1.1rem .9rem;color:#fff;font-weight:500;font-size:1.05rem;background:linear-gradient(transparent,rgba(21,19,20,.75))}
+.reel-nav{display:flex;align-items:center;gap:.6rem;margin-top:.4rem}
+.arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(241,231,208,.35);background:transparent;color:var(--sand);font-size:1.8rem;line-height:1;cursor:pointer;font-family:inherit}
+.arrow:hover{background:var(--sun);color:var(--night);border-color:var(--sun)}
+.hint{color:rgba(241,231,208,.6);font-size:.9rem;margin-inline-start:.4rem}
 /* ---- faq ---- */
 .faq details{border-bottom:1px solid var(--line);padding:1rem 0}
 .faq summary{cursor:pointer;font-weight:500;font-size:1.12rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -396,10 +399,10 @@ footer strong{color:var(--sand)}
 </section>
 
 <section class="band" style="padding:0">
-  <img src="images/table-dead-sea.webp" alt="" loading="lazy">
+  <img src="images/van-4x4.webp" alt="רכב קייטרינג 4X4 ושולחנות הגשה בשטח" loading="lazy">
   <div class="wrap">
     <h2>השטח זה הבית שלנו.</h2>
-    <p>מדבר, חוף, בסיס או חצר. אנחנו מגיעים עם דוכן, גז, מים וצוות. מכם צריך רק פינה ואנשים רעבים.</p>
+    <p>מדבר, חוף, בסיס או חצר. הרכב מגיע עם הכול: דוכן, גז, מים, סלטים וצוות. מכם צריך רק פינה ואנשים רעבים.</p>
     <div class="places"><span>מצוקי דרגות</span><span>חוף השקט, חיפה</span><span>המכביה</span><span>כל הארץ</span></div>
   </div>
 </section>
@@ -437,18 +440,25 @@ footer strong{color:var(--sand)}
   </div>
 </section>
 
-<section id="gallery">
+<section id="gallery" class="field">
   <div class="wrap">
     <h2 class="h2">מהשטח</h2>
-    <div class="gal">
-      <figure class="wide"><img src="images/event-metzukei-dragot.webp" alt="שלט הכניסה למצוקי דרגות – אירוע של קייטרינג 4X4" loading="lazy"><figcaption>אירוע במצוקי דרגות</figcaption></figure>
-      <figure class="tall"><img src="images/sabich-platter.webp" alt="מגש סביח בחלה חתוך לפרוסות עם חמוצים על שולחן בחוף חיפה" loading="lazy"><figcaption>מגש סביח לאירוע</figcaption></figure>
-      <figure class="tall"><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
-      <figure><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי, סלט ישראלי, צ׳יפס וסביח בחלה" loading="lazy"><figcaption>פלאפל טרי וחם</figcaption></figure>
-      <figure><img src="images/toppings-bar.webp" alt="בר תוספות בשטח: חמוצים, סלט, פלאפל, חלה ורטבים" loading="lazy"><figcaption>בר תוספות בשטח</figcaption></figure>
-      <figure><img src="images/haifa-maccabiah.webp" alt="שולחן הגשה על חוף השקט בחיפה באירוע למשתתפי המכביה" loading="lazy"><figcaption>המכביה, חוף השקט חיפה</figcaption></figure>
-      <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
-    </div>
+    <p class="lead">בלי פילטרים. ככה זה נראה באירועים שלנו.</p>
+  </div>
+  <div class="reel" id="reel" tabindex="0" aria-label="תמונות מאירועים">
+    <figure><img src="images/van-4x4.webp" alt="רכב קייטרינג 4X4 ושולחן סלטים בשטח" loading="lazy"><figcaption>הרכב הגיע, השולחן ערוך</figcaption></figure>
+    <figure><img src="images/event-metzukei-dragot.webp" alt="שלט הכניסה למצוקי דרגות" loading="lazy"><figcaption>אירוע במצוקי דרגות</figcaption></figure>
+    <figure><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
+    <figure><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי, סלט ישראלי, צ׳יפס וסביח בחלה" loading="lazy"><figcaption>פלאפל טרי וחם</figcaption></figure>
+    <figure><img src="images/haifa-maccabiah.webp" alt="שולחן הגשה על חוף השקט בחיפה באירוע למשתתפי המכביה" loading="lazy"><figcaption>המכביה, חוף השקט חיפה</figcaption></figure>
+    <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
+    <figure><img src="images/toppings-bar.webp" alt="בר תוספות בשטח: חמוצים, סלט, פלאפל, חלה ורטבים" loading="lazy"><figcaption>בר תוספות בשטח</figcaption></figure>
+    <figure><img src="images/sabich-platter.webp" alt="מגש סביח בחלה חתוך לפרוסות" loading="lazy"><figcaption>מגש סביח לאירוע</figcaption></figure>
+  </div>
+  <div class="wrap reel-nav">
+    <button type="button" class="arrow" data-dir="1" aria-label="הבא">‹</button>
+    <button type="button" class="arrow" data-dir="-1" aria-label="הקודם">›</button>
+    <span class="hint">גללו הצידה או לחצו על החיצים</span>
   </div>
 </section>
 
@@ -522,6 +532,8 @@ footer strong{color:var(--sand)}
 
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
+const reel=document.getElementById('reel');
+document.querySelectorAll('.arrow').forEach(b=>b.addEventListener('click',()=>{const w=reel.querySelector('figure').getBoundingClientRect().width+14;reel.scrollBy({left:-1*b.dataset.dir*w,behavior:'smooth'});}));
 document.querySelectorAll('.nav ul a').forEach(a=>a.addEventListener('click',()=>document.querySelector('header').classList.remove('open')));
 function sendWA(e){
   e.preventDefault();
