@@ -21,7 +21,8 @@
   "name": "רחלי הורנשטיין - שיעורי מתמטיקה פרטיים בזום",
   "description": "שיעורי מתמטיקה פרטיים בזום ליסודי, חטיבת ביניים ותיכון. הכנה למבחנים ולבגרויות, השלמת פערים וחיזוק החומר.",
   "telephone": "+972-50-2703670",
-  "priceRange": "80 ₪ לשעה",
+  "priceRange": "50-80 ₪ לשעה",
+  "openingHours": "Su-Th 14:00-19:00",
   "areaServed": "IL",
   "founder": { "@type": "Person", "name": "רחלי הורנשטיין", "jobTitle": "מורה למתמטיקה" }
 }
@@ -157,14 +158,25 @@ section{padding:56px 0}
 .steps p{margin:0;color:var(--muted)}
 
 /* price */
-.price{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:44px 48px;display:grid;grid-template-columns:auto 1fr auto;gap:40px;align-items:center}
+.price{background:var(--ink);color:#fff;border-radius:var(--radius-lg);padding:44px 48px}
+.price-head{display:flex;align-items:center;gap:24px;margin-bottom:32px}
 .price h2{color:#fff;font-size:2rem}
-.price .amount{font-family:"Secular One",sans-serif;font-size:clamp(3.4rem,7vw,5.2rem);line-height:1;display:flex;align-items:baseline;gap:8px}
-.price .amount small{font-family:"Assistant",sans-serif;font-size:1.2rem;font-weight:600;opacity:.9}
-.price p{margin:0;opacity:.9;font-size:1.1rem;max-width:30rem}
-.price .zoom-badge{width:92px;height:92px;border-radius:24px;background:var(--zoom);display:grid;place-items:center;flex:none}
-.price .zoom-badge svg{width:52px;height:52px}
-.price .btn-outline{background:#fff;border-color:#fff}
+.price-head p{margin:0;opacity:.9;font-size:1.1rem;max-width:34rem}
+.price .zoom-badge{width:80px;height:80px;border-radius:22px;background:var(--zoom);display:grid;place-items:center;flex:none}
+.price .zoom-badge svg{width:46px;height:46px}
+.plans{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.plans li{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:var(--radius-md);padding:26px 24px 24px;text-align:center;position:relative}
+.plans li.best{background:#fff;color:var(--ink);border-color:#fff}
+.plans h3{color:inherit;font-size:1.35rem;margin-bottom:4px}
+.plans .amount{font-family:"Secular One",sans-serif;font-size:clamp(3rem,5.5vw,4.2rem);line-height:1;display:flex;align-items:baseline;justify-content:center;gap:6px;margin:10px 0 6px}
+.plans .amount small{font-family:"Assistant",sans-serif;font-size:1.05rem;font-weight:600;opacity:.9}
+.plans .note{margin:0;font-size:1rem;opacity:.85}
+.plans .save{display:inline-block;background:var(--lemon);color:var(--ink-deep);font-weight:700;font-size:.95rem;padding:4px 14px;border-radius:999px;margin-top:10px}
+.plans .was{opacity:.7;text-decoration:line-through;font-size:1rem;margin-inline-start:6px}
+.price-foot{margin:28px 0 0;text-align:center;opacity:.9;font-size:1.05rem}
+.price-foot .btn-outline{background:#fff;border-color:#fff;margin-top:14px}
+.hours-box{display:flex;align-items:center;gap:14px;background:#fff;border-radius:var(--radius-md);padding:16px 20px;margin-top:18px;font-weight:600;color:var(--ink-deep)}
+.hours-box svg{width:30px;height:30px;flex:none}
 
 /* faq */
 .faq details{background:#fff;border:2px solid var(--line);border-radius:var(--radius-md);padding:0 24px;margin-bottom:12px}
@@ -208,8 +220,8 @@ footer .underline{display:block;width:220px;height:6px;margin:8px auto 0;border-
   .notebook{transform:rotate(0);margin-top:20px}
   .split{grid-template-columns:1fr;gap:24px}
   .steps{grid-template-columns:1fr;gap:28px}
-  .price{grid-template-columns:1fr;text-align:center;gap:24px;justify-items:center}
-  .price .amount{justify-content:center}
+  .price-head{flex-direction:column;text-align:center}
+  .plans{grid-template-columns:1fr}
   .contact{grid-template-columns:1fr;padding:36px 28px}
   .nav{display:none}
 }
@@ -329,7 +341,7 @@ footer .underline{display:block;width:220px;height:6px;margin:8px auto 0;border-
       </li>
       <li>
         <h3>מתאמים מועד</h3>
-        <p>קובעים יחד שעה שנוחה לכם, ואני שולחת קישור לשיעור בזום.</p>
+        <p>קובעים יחד שעה שנוחה לכם בימים א'-ה' בין 14:00 ל-19:00, ואני שולחת קישור לשיעור בזום.</p>
       </li>
       <li>
         <h3>נפגשים בזום</h3>
@@ -342,17 +354,38 @@ footer .underline{display:block;width:220px;height:6px;margin:8px auto 0;border-
 <section id="price">
   <div class="container">
     <div class="price">
-      <div class="zoom-badge" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+      <div class="price-head">
+        <div class="zoom-badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="M16 10l6-3v10l-6-3z"/></svg>
+        </div>
+        <div>
+          <h2>מחירים</h2>
+          <p>המחיר לשעת שיעור בזום, לכל הגילים והרמות. לומדים לבד, בזוג עם חבר, או בקבוצה קטנה של ארבעה תלמידים באותה רמה.</p>
+        </div>
       </div>
-      <div>
-        <h2>שיעור בזום</h2>
-        <p>שיעור פרטי אחד על אחד, במחיר אחיד לכל הגילים והרמות. משלמים רק על שיעורים שהתקיימו.</p>
-      </div>
-      <div style="text-align:center">
-        <div class="amount">80<small>₪ לשעה</small></div>
-        <a href="#contact" class="btn btn-outline" style="margin-top:16px">לתיאום שיעור</a>
-      </div>
+      <ul class="plans">
+        <li>
+          <h3>שיעור פרטי</h3>
+          <div class="amount">80<small>₪ לשעה</small></div>
+          <p class="note">תלמיד אחד, אחד על אחד</p>
+        </li>
+        <li>
+          <h3>בזוג</h3>
+          <div class="amount">55<small>₪ לשעה</small></div>
+          <p class="note">לכל תלמיד <span class="was">80 ₪</span></p>
+          <span class="save">35% הנחה</span>
+        </li>
+        <li class="best">
+          <h3>קבוצה של 4</h3>
+          <div class="amount">50<small>₪ לשעה</small></div>
+          <p class="note">לכל תלמיד <span class="was">80 ₪</span></p>
+          <span class="save">40% הנחה</span>
+        </li>
+      </ul>
+      <p class="price-foot">
+        משלמים רק על שיעורים שהתקיימו. אין דמי הרשמה ואין התחייבות.<br>
+        <a href="#contact" class="btn btn-outline">לתיאום שיעור</a>
+      </p>
     </div>
   </div>
 </section>
@@ -370,7 +403,15 @@ footer .underline{display:block;width:220px;height:6px;margin:8px auto 0;border-
     </details>
     <details>
       <summary>כמה עולה שיעור?</summary>
-      <p>80 ₪ לשעת שיעור בזום. אין דמי הרשמה ואין התחייבות למספר שיעורים.</p>
+      <p>שיעור פרטי: 80 ₪ לשעה. שיעור בזוג: 55 ₪ לשעה לכל תלמיד. קבוצה של ארבעה: 50 ₪ לשעה לכל תלמיד. אין דמי הרשמה ואין התחייבות למספר שיעורים.</p>
+    </details>
+    <details>
+      <summary>מתי מתקיימים השיעורים?</summary>
+      <p>בימים א'-ה', בין 14:00 ל-19:00. קובעים יחד שעה קבועה שנוחה לכם.</p>
+    </details>
+    <details>
+      <summary>אפשר ללמוד בזוג או בקבוצה?</summary>
+      <p>כן. שני חברים באותה רמה יכולים ללמוד יחד במחיר מוזל, וגם קבוצה קטנה של ארבעה תלמידים. כולם מתחברים לאותו שיעור בזום.</p>
     </details>
     <details>
       <summary>איך קובעים שיעור?</summary>
@@ -392,6 +433,10 @@ footer .underline{display:block;width:220px;height:6px;margin:8px auto 0;border-
           <a href="tel:0502703670" class="phone">050-2703670</a>
         </div>
         <p class="hours">אפשר להתקשר או לשלוח הודעה בוואטסאפ, ואחזור אליכם בהקדם.</p>
+        <div class="hours-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span>שיעורים בימים א'-ה', בין 14:00 ל-19:00</span>
+        </div>
       </div>
       <div class="actions">
         <a href="tel:0502703670" class="btn btn-primary">התקשרו עכשיו</a>
