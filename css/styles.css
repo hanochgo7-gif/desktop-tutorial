@@ -2079,3 +2079,10 @@ html.a11y-no-motion .cut__flow-halo--b, html.a11y-no-motion .cut__flow-pulse--b 
 .gallery__item--video .gallery__caption::before { content: "▶ "; font-size: .7em; }
 /* סרגל הלקוחות בלי הכיתוב "בין לקוחותינו" */
 .hero__clients { gap: 0; }
+/* הירו: הטקסט למעלה כדי לא להסתיר את המיכל, הלוגו והלקוחות נשארים למטה */
+.hero--cl .hero__in { grid-template-rows: auto 1fr auto; }
+.hero__main { align-self: start; grid-template-columns: 1fr; padding-top: clamp(8px, 2vw, 24px); padding-bottom: 0; }
+.hero--cl .hero__logo { display: none; }
+.hero__logo--bottom { display: inline-flex !important; margin: 0; justify-self: start; align-self: end; margin-bottom: clamp(16px, 2.5vw, 28px); }
+.hero--cl .hero__intro { margin-bottom: 12px; }
+@media (max-width: 760px) { .hero__main { padding-top: 0; } }
