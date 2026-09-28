@@ -2137,3 +2137,11 @@ html[lang="en"] #about-title .nowrap { white-space: normal; }
 .quick--photo .quick__form .btn { min-height: 44px; font-size: .92rem; }
 .quick--photo .quick__consent { font-size: .7rem; line-height: 1.35; margin: 0; }
 @media (max-width: 899px) { .quick--photo .quick__inner { min-height: 0; padding-block: 40px 18px; gap: 18px; } .quick--photo .quick__inner > div:first-child { padding-bottom: 0; } .quick--photo .quick__form { max-width: 360px; justify-self: center; } }
+/* אנגלית: הטופס עובר לצד השמאלי הפנוי של הווידאו, הכותרת לימין – כמו במראה של הגרסה העברית */
+@media (min-width: 900px) { html[lang="en"] .quick--photo .quick__inner > div:first-child { order: 2; justify-self: end; text-align: right; } html[lang="en"] .quick--photo .quick__form { order: 1; justify-self: start; } }
+/* מסכים צרים: התמונה נדבקת מתחת לכותרת העליונה, והשורות נגללות מתחתיה – רואים גם את התחום וגם את התמונה שלו */
+@media (max-width: 860px) {
+  .stage { position: sticky; top: calc(var(--header-h) + 6px); z-index: 5; aspect-ratio: 16 / 9; order: -1; outline: 18px solid var(--paper); box-shadow: 0 14px 30px -18px rgba(0,0,0,.35); }
+  .list { gap: 14px; }
+  .row { scroll-margin-top: calc(var(--header-h) + 8px + 56.25vw + 24px); }
+}

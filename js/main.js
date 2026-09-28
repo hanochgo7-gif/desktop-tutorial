@@ -1120,6 +1120,20 @@
         r.addEventListener('mouseenter', function () { pick(i); });
         r.addEventListener('focus', function () { pick(i); });
       });
+      /* מסכים צרים: התמונה דבוקה למעלה והשורה שמתחתיה נבחרת תוך כדי גלילה */
+      var narrowMQ = window.matchMedia('(max-width: 860px)'), stageEl = $('#stage'), rowTick = false;
+      function pickByScroll() {
+        rowTick = false;
+        if (!narrowMQ.matches || !stageEl) return;
+        var line = stageEl.getBoundingClientRect().bottom + 18, best = -1, bestD = Infinity;
+        rows.forEach(function (r, i) {
+          var b = r.getBoundingClientRect(); if (b.top + 14 < line) return; /* שורה שכבר נכנסה מתחת לתמונה */
+          var d = b.top - line; if (d < bestD) { bestD = d; best = i; }
+        });
+        if (best < 0) best = rows.length - 1;
+        if (!rows[best].classList.contains('is-on')) pick(best);
+      }
+      window.addEventListener('scroll', function () { if (!rowTick) { rowTick = true; requestAnimationFrame(pickByScroll); } }, { passive: true });
     }
 
     /* מפה שמדפדפת לבד: סיכה נדלקת, כרטיס מתחלף, פס מתמלא */
