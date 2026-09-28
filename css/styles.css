@@ -2104,3 +2104,26 @@ html.a11y-no-motion .service-hero__video { display: none; }
 @media (max-width: 760px) { .service-hero--video { min-height: 70svh; padding-top: 110px; } }
 .stage img[src*="hartuv-tank-lowering"] { object-position: center 40%; }
 .stage img[src*="datacenter-cutaway"] { object-position: center 62%; object-fit: cover; background: #eef1f3; }
+
+/* ==========================================================================
+   גרסה אנגלית (LTR): כיוון, יישור, חצים ומתג שפה
+   ========================================================================== */
+html[lang="en"] body { direction: ltr; text-align: left; }
+html[lang="en"] .article-body th, html[lang="en"] .article-body td, html[lang="en"] .a11y__list button, html[lang="en"] .mm__item, html[lang="en"] .cut__card, html[lang="en"] .cut__list button { text-align: left; direction: ltr; }
+html[lang="en"] .arr svg, html[lang="en"] .mm__arr svg, html[lang="en"] .mobile-menu__arrow svg, html[lang="en"] .lightbox__nav svg, html[lang="en"] .steps__ctrl svg, html[lang="en"] .cut__nav .cut__next svg { transform: scaleX(-1); }
+html[lang="en"] .cut__nav .cut__prev svg { transform: none; }
+html[lang="en"] .tbtn:hover .arr { transform: translateX(6px); }
+html[lang="en"] .mm__item:hover .mm__t, html[lang="en"] .mm__list > li.is-on .mm__item .mm__t { transform: translateX(10px); }
+html[lang="en"] .row.is-on .n, html[lang="en"] .row .n { direction: ltr; }
+html[lang="en"] .hero__title { max-width: 16ch; }
+html[lang="en"] .marquee__list li::after { display: none; }
+html[lang="en"] .section-head::before, html[lang="en"] .band__rule, html[lang="en"] .hero__rule, html[lang="en"] .footer .container::before { transform-origin: left; }
+html[lang="en"] .mm__sub { padding: 0 0 0 100px; }
+html[lang="en"] .mm__has-sub.is-open .mm__sub { padding: 2px 0 14px 100px; }
+@media (max-width: 900px) { html[lang="en"] .mm__sub, html[lang="en"] .mm__has-sub.is-open .mm__sub { padding-inline-start: 0; } }
+/* מתג שפה בגלולת הניווט */
+.navpill__lang { display: inline-flex; align-items: center; justify-content: center; min-width: 38px; height: 38px; padding: 0 10px; border-radius: 999px; font-family: var(--font); font-size: .8rem; font-weight: 600; letter-spacing: .04em; color: var(--ink); background: rgba(50,45,42,.08); transition: background .3s, color .3s; }
+.navpill__lang:hover { background: var(--accent); color: #fff; }
+@media (max-width: 480px) { .navpill__lang { min-width: 34px; height: 34px; padding: 0 8px; font-size: .74rem; } }
+.navpill .navpill__lang { color: #fff; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); height: 32px; min-width: 36px; padding: 0 9px; font-size: .76rem; }
+.navpill .navpill__lang:hover { background: #fff; color: var(--ink); border-color: #fff; }

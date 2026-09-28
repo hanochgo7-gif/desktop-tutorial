@@ -48,12 +48,13 @@
   }
 
   /* ---------- תפריט מסך מלא ---------- */
+  var EN = root.lang === 'en';
   var toggle = $('.nav-toggle');
   var menu = $('#mobile-menu');
   function setMenu(open) {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+    toggle.setAttribute('aria-label', open ? (EN ? 'Close menu' : 'סגירת תפריט') : (EN ? 'Open menu' : 'פתיחת תפריט'));
     menu.classList.toggle('is-open', open);
     body.classList.toggle('menu-open', open);
     body.style.overflow = open ? 'hidden' : '';
@@ -263,7 +264,7 @@
     });
     if (auto && list) {
       var ctrl = document.createElement('div'); ctrl.className = 'steps__ctrl';
-      ctrl.innerHTML = '<button type="button" data-step="-1" aria-label="השלב הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" data-step="1" aria-label="השלב הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span>השלבים מתחלפים לבד. העכבר מעליהם עוצר.</span>';
+      ctrl.innerHTML = '<button type="button" data-step="-1" aria-label="' + (EN ? 'Previous step' : 'השלב הקודם') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" data-step="1" aria-label="' + (EN ? 'Next step' : 'השלב הבא') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span>השלבים מתחלפים לבד. העכבר מעליהם עוצר.</span>';
       list.appendChild(ctrl);
       $$('[data-step]', ctrl).forEach(function (b) { b.addEventListener('click', function () { openStep(cur + parseInt(b.dataset.step, 10)); }); });
       function pause() { paused = true; clearTimeout(timer); box.classList.remove('is-running'); var bar = $('.steps__bar', items[cur]); if (bar) { bar.style.transition = 'none'; bar.style.transform = 'scaleX(0)'; } }
@@ -356,7 +357,7 @@
   if (clocks.length || officeEls.length) {
     /* שעות המשרד: א׳–ה׳ 8:00–16:00, ו׳ עד 12:00 (שעון ישראל) */
     var HOURS = { 0: [8, 16], 1: [8, 16], 2: [8, 16], 3: [8, 16], 4: [8, 16], 5: [8, 12] };
-    var DAY_NAMES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'שבת'];
+    var DAY_NAMES = EN ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] : ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'שבת'];
     var partsFmt = null;
     try { partsFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jerusalem' }); } catch (e) {}
     var WD = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
@@ -375,13 +376,13 @@
       if (!officeEls.length) return;
       var hrs = HOURS[now.day], cur = now.h + now.m / 60, open = !!hrs && cur >= hrs[0] && cur < hrs[1], text;
       if (open) {
-        text = 'המשרד פתוח עכשיו · עונים עד ' + pad(hrs[1]) + ':00';
+        text = EN ? 'The office is open now · until ' + pad(hrs[1]) + ':00' : 'המשרד פתוח עכשיו · עונים עד ' + pad(hrs[1]) + ':00';
       } else if (hrs && cur < hrs[0]) {
-        text = 'המשרד סגור · נפתח היום ב-' + pad(hrs[0]) + ':00';
+        text = EN ? 'The office is closed · opens today at ' + pad(hrs[0]) + ':00' : 'המשרד סגור · נפתח היום ב-' + pad(hrs[0]) + ':00';
       } else {
         var nd = (now.day + 1) % 7, steps = 1;
         while (!HOURS[nd]) { nd = (nd + 1) % 7; steps++; }
-        text = 'המשרד סגור · ' + (steps === 1 ? 'נפתח מחר' : 'נפתח ביום ' + DAY_NAMES[nd]) + ' ב-' + pad(HOURS[nd][0]) + ':00';
+        text = EN ? 'The office is closed · opens ' + (steps === 1 ? 'tomorrow' : 'on ' + DAY_NAMES[nd]) + ' at ' + pad(HOURS[nd][0]) + ':00' : 'המשרד סגור · ' + (steps === 1 ? 'נפתח מחר' : 'נפתח ביום ' + DAY_NAMES[nd]) + ' ב-' + pad(HOURS[nd][0]) + ':00';
       }
       officeEls.forEach(function (el) { el.textContent = text; var li = el.closest('.footer__office'); if (li) li.classList.toggle('is-open', open); });
     }
@@ -631,10 +632,10 @@
   /* ---------- אימות שדות בטופס (הודעה ליד השדה) ---------- */
   function fieldMessage(input) {
     var v = input.validity;
-    if (v.valueMissing) return input.type === 'checkbox' ? 'יש לאשר כדי שנוכל לחזור אליכם' : 'שדה חובה';
-    if (input.type === 'email' && (v.typeMismatch || v.patternMismatch)) return 'כתובת המייל לא תקינה';
-    if (input.type === 'tel' && (v.patternMismatch || v.typeMismatch)) return 'מספר הטלפון לא תקין';
-    return 'הערך לא תקין';
+    if (v.valueMissing) return input.type === 'checkbox' ? (EN ? 'Please confirm so we can get back to you' : 'יש לאשר כדי שנוכל לחזור אליכם') : (EN ? 'Required field' : 'שדה חובה');
+    if (input.type === 'email' && (v.typeMismatch || v.patternMismatch)) return EN ? 'The email address is not valid' : 'כתובת המייל לא תקינה';
+    if (input.type === 'tel' && (v.patternMismatch || v.typeMismatch)) return EN ? 'The phone number is not valid' : 'מספר הטלפון לא תקין';
+    return EN ? 'The value is not valid' : 'הערך לא תקין';
   }
   function initValidation(formEl) {
     var fields = $$('input:not([type="hidden"]):not(.form__honey), select, textarea', formEl);
@@ -669,7 +670,7 @@
   var form = $('#contact-form');
   var notice = $('#form-notice');
   var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
-  var THANKS = 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
+  var THANKS = EN ? 'Thank you! We received your inquiry and will get back to you shortly.' : 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
   function showNotice(html, ok) {
     if (!notice) return;
     notice.innerHTML = html;
@@ -691,13 +692,13 @@
       e.preventDefault();
       var btn = form.querySelector('[type="submit"]');
       var label = btn ? btn.textContent : '';
-      if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
+      if (btn) { btn.disabled = true; btn.textContent = EN ? 'Sending…' : 'שולח…'; }
       var data = new FormData(form);
       data.delete('_next');
       fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
         .then(function () { form.reset(); showNotice(THANKS, true); })
-        .catch(function () { showNotice('השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
+        .catch(function () { showNotice(EN ? 'Sending failed right now. You can write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a> or <a href="mailto:Office@gotovski.co.il">by email</a>.' : 'השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
         .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
     });
   }
@@ -712,12 +713,12 @@
       if (!window.fetch || !window.FormData) return;
       e.preventDefault();
       var b = qf.querySelector('[type="submit"]'); var lbl = b ? b.textContent : '';
-      if (b) { b.disabled = true; b.textContent = 'שולח…'; }
+      if (b) { b.disabled = true; b.textContent = EN ? 'Sending…' : 'שולח…'; }
       var d = new FormData(qf); d.delete('_next');
       fetch(qf.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: d, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
-        .then(function () { qf.reset(); if (qnotice) { qnotice.textContent = 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
-        .catch(function () { if (qnotice) { qnotice.innerHTML = 'השליחה לא הצליחה. התקשרו <a href="tel:+972502703674">050-270-3674</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
+        .then(function () { qf.reset(); if (qnotice) { qnotice.textContent = EN ? 'Thank you! We will get back to you shortly.' : 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
+        .catch(function () { if (qnotice) { qnotice.innerHTML = EN ? 'Sending failed. Call <a href="tel:+97286229307">08-622-9307</a> or write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a>.' : 'השליחה לא הצליחה. התקשרו <a href="tel:+97286229307">08-622-9307</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
         .then(function () { if (b) { b.disabled = false; b.textContent = lbl; } });
     });
   }
@@ -744,7 +745,7 @@
           var city = (t && t.querySelector('em')) ? t.querySelector('em').textContent.replace(/^[\s–-]+/, '') : '';
           var name = t ? t.childNodes[0].textContent.trim() : '';
           if (cityEl) cityEl.textContent = city; if (nameEl) nameEl.textContent = name;
-        } else { if (cityEl) cityEl.textContent = ''; if (nameEl) nameEl.textContent = 'גללו בין הפרויקטים'; }
+        } else { if (cityEl) cityEl.textContent = ''; if (nameEl) nameEl.textContent = EN ? 'Scroll through the projects' : 'גללו בין הפרויקטים'; }
       }
     }
     if ('IntersectionObserver' in window) {
@@ -1034,7 +1035,7 @@
     /* גלולת הניווט: הכיתוב מתחלף בין "תפריט" ל"סגירה" */
     var pillBtn = $('.navpill__btn'), pillTxt = $('.navpill__txt');
     if (pillBtn && pillTxt) {
-      var syncPill = function () { pillTxt.textContent = pillBtn.getAttribute('aria-expanded') === 'true' ? 'סגירה' : 'תפריט'; };
+      var syncPill = function () { pillTxt.textContent = pillBtn.getAttribute('aria-expanded') === 'true' ? (EN ? 'Close' : 'סגירה') : (EN ? 'Menu' : 'תפריט'); };
       pillBtn.addEventListener('click', function () { setTimeout(syncPill, 0); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setTimeout(syncPill, 0); });
       $$('#mobile-menu a').forEach(function (a) { a.addEventListener('click', function () { setTimeout(syncPill, 0); }); });
