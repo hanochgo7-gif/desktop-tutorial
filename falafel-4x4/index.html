@@ -177,8 +177,10 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 /* ---- owner ---- */
 .owner{background:var(--sand)}
 .owner .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:3rem;align-items:center}
-.owner-ph{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/5;max-width:440px}
-.owner-ph img{width:100%;height:100%;object-fit:cover}
+.owner-ph{position:relative;aspect-ratio:4/5;max-width:440px;width:100%}
+.owner-ph .frame{position:absolute;top:7%;left:13%;right:0;bottom:0;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);background:var(--sand-2)}
+.owner-ph .frame img{position:absolute;top:0;left:0;width:calc(100% / .87);height:calc(100% / .93);max-width:none;object-fit:cover;transform:translate(-14.94%,-7.53%)}
+.owner-ph .cut{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;filter:drop-shadow(-6px 10px 14px rgba(27,25,23,.35))}
 .owner .btn{margin-top:1.4rem}
 @media (max-width:900px){.owner .wrap{grid-template-columns:1fr}.owner-ph{max-width:340px}}
 
@@ -432,7 +434,10 @@ footer strong{color:var(--sand)}
 
 <section class="owner" id="nissim">
   <div class="wrap">
-    <div class="owner-ph"><img src="images/nissim.webp" alt="ניסים שרון על הגריל באירוע ביער" loading="lazy"></div>
+    <div class="owner-ph">
+      <div class="frame"><img src="images/nissim.webp" alt="ניסים שרון על הגריל באירוע ביער" loading="lazy"></div>
+      <img class="cut" src="images/nissim-cut.webp" alt="" loading="lazy">
+    </div>
     <div>
       <h2 class="h2">ניסים שרון. על הגריל בעצמו.</h2>
       <p class="lead">ניסים לא שולח צוות ונעלם. הוא זה שמדבר אתכם בטלפון, בונה את התפריט, ועומד מול האורחים באירוע. אותו אדם מההתחלה ועד הפינוי.</p>
