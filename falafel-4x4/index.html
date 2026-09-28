@@ -174,6 +174,14 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .places{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem}
 .places span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.45rem 1rem;font-size:.95rem;backdrop-filter:blur(6px)}
 
+/* ---- owner ---- */
+.owner{background:var(--sand)}
+.owner .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:3rem;align-items:center}
+.owner-ph{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/5;max-width:440px}
+.owner-ph img{width:100%;height:100%;object-fit:cover}
+.owner .btn{margin-top:1.4rem}
+@media (max-width:900px){.owner .wrap{grid-template-columns:1fr}.owner-ph{max-width:340px}}
+
 /* ---- steps ---- */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem;counter-reset:s}
 .step{counter-increment:s;background:var(--sand);border-radius:var(--r-lg);padding:1.8rem 1.6rem 1.8rem;position:relative;overflow:hidden}
@@ -419,6 +427,17 @@ footer strong{color:var(--sand)}
     <h2>השטח זה הבית שלנו.</h2>
     <p>מדבר, חוף, בסיס או חצר. הרכב מגיע עם הכול: דוכן, גז, מים, סלטים וצוות. מכם צריך רק פינה ואנשים רעבים.</p>
     <div class="places"><span>מצוקי דרגות</span><span>חוף השקט, חיפה</span><span>המכביה</span><span>כל הארץ</span></div>
+  </div>
+</section>
+
+<section class="owner" id="nissim">
+  <div class="wrap">
+    <div class="owner-ph"><img src="images/nissim.webp" alt="ניסים שרון על הגריל באירוע ביער" loading="lazy"></div>
+    <div>
+      <h2 class="h2">ניסים שרון. על הגריל בעצמו.</h2>
+      <p class="lead">ניסים לא שולח צוות ונעלם. הוא זה שמדבר אתכם בטלפון, בונה את התפריט, ועומד מול האורחים באירוע. אותו אדם מההתחלה ועד הפינוי.</p>
+      <a class="btn btn-night" href="tel:0509112552"><svg><use href="#i-phone"/></svg>לדבר עם ניסים</a>
+    </div>
   </div>
 </section>
 
