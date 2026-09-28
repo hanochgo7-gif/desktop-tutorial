@@ -97,7 +97,16 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .trust div{display:flex;align-items:center;gap:.55rem;font-size:.95rem;color:rgba(241,231,208,.9)}
 .trust svg{width:22px;height:22px;color:var(--sun);flex:none}
 .hero-art{position:relative;max-width:430px;margin-inline:auto;width:100%;animation:pop 1s .2s cubic-bezier(.2,.8,.2,1) both}
-.hero-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:215px 215px 30px 30px;box-shadow:0 50px 90px -30px rgba(0,0,0,.8),0 0 0 10px rgba(242,183,5,.12);animation:float 7s 1.2s ease-in-out infinite}
+.hero-frame{position:relative;aspect-ratio:3/4;border-radius:215px 215px 30px 30px;overflow:hidden;box-shadow:0 50px 90px -30px rgba(0,0,0,.8),0 0 0 10px rgba(242,183,5,.12);animation:float 7s 1.2s ease-in-out infinite;isolation:isolate}
+.hero-img{width:100%;height:100%;object-fit:cover}
+.drops{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.drops .d{opacity:0;animation:dripfall 3.2s cubic-bezier(.5,0,.85,.4) infinite}
+.drops .d1{animation-delay:.3s}
+.drops .d2{animation-delay:1.5s;animation-duration:2.9s}
+.drops .d3{animation-delay:2.4s;animation-duration:3.5s}
+.drops .d4{animation-delay:3.9s;animation-duration:3.1s}
+.drops .d1 use{transform:translate(42.5px,106px)}.drops .d2 use{transform:translate(50px,103px)}.drops .d3 use{transform:translate(61.5px,96px)}.drops .d4 use{transform:translate(46px,104px)}
+@keyframes dripfall{0%{opacity:0;transform:translateY(0) scale(.6,.8)}12%{opacity:1;transform:translateY(0) scale(1,1.15)}22%{transform:translateY(1px) scale(1,1.35)}100%{opacity:.9;transform:translateY(34px) scale(.9,1.1)}}
 .badge-4{position:absolute;inset-inline-end:-6%;top:5%;width:118px;height:118px;border-radius:50%;background:var(--sky);color:var(--night);display:grid;place-content:center;text-align:center;font-weight:700;line-height:.9;transform:rotate(8deg);box-shadow:0 20px 40px -18px rgba(0,0,0,.8);animation:pop .8s .9s cubic-bezier(.3,1.4,.4,1) both}
 .badge-4 b{font-family:'Karantina',sans-serif;font-size:3.4rem;display:block}
 .badge-4 small{font-size:.85rem}
@@ -109,7 +118,7 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .hero-art{animation-name:pop2}
 @keyframes pop2{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:300px}.hero-img{border-radius:150px 150px 22px 22px}.badge-4{width:92px;height:92px;inset-inline-end:auto;inset-inline-start:-6%;transform:rotate(-8deg)}.badge-4 b{font-size:2.6rem}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:300px}.hero-frame{border-radius:150px 150px 22px 22px}.badge-4{width:92px;height:92px;inset-inline-end:auto;inset-inline-start:-6%;transform:rotate(-8deg)}.badge-4 b{font-size:2.6rem}}
 
 /* ---- marquee ---- */
 .strip{background:var(--sun);color:var(--night);padding:.8rem 0;overflow:hidden;white-space:nowrap;font-weight:700;font-family:'Karantina',sans-serif;font-size:1.7rem;letter-spacing:.02em}
@@ -287,7 +296,19 @@ footer strong{color:var(--sand)}
       </div>
     </div>
     <div class="hero-art">
-      <img class="hero-img" src="images/hero-falafel.webp" alt="פיתה עם פלאפל וטחינה נשפכת" fetchpriority="high">
+      <div class="hero-frame">
+        <img class="hero-img" src="images/hero-falafel.webp" alt="פיתה עם פלאפל וטחינה נשפכת" fetchpriority="high">
+        <svg class="drops" viewBox="0 0 100 133" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="tah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf4e4"/><stop offset="1" stop-color="#e9dcc2"/></linearGradient>
+            <path id="drop" d="M0,-4 C1.4,-1.6 2.2,0 2.2,1.6 A2.2,2.2 0 0 1 -2.2,1.6 C-2.2,0 -1.4,-1.6 0,-4 Z" fill="url(#tah)"/>
+          </defs>
+          <g class="d d1"><use href="#drop"/></g>
+          <g class="d d2"><use href="#drop"/></g>
+          <g class="d d3"><use href="#drop"/></g>
+          <g class="d d4"><use href="#drop"/></g>
+        </svg>
+      </div>
       <div class="badge-4" aria-hidden="true"><b>4</b><small>טעמי פלאפל</small></div>
     </div>
   </div>
