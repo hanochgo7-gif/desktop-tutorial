@@ -150,15 +150,15 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .chips span{background:rgba(247,239,223,.1);border:1px solid rgba(247,239,223,.2);border-radius:999px;padding:.6rem 1.2rem;font-weight:500}
 
 /* ---------- gallery ---------- */
-.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;gap:.9rem;margin-top:2.5rem}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:180px;grid-auto-flow:dense;gap:.9rem;margin-top:2.5rem}
 .gal .photo-ph{aspect-ratio:auto;height:100%;padding:1rem;font-size:.9rem}
-.gal > :nth-child(1){grid-column:span 2;grid-row:span 2}
-.gal > :nth-child(4){grid-row:span 2}
+.gal .wide{grid-column:span 2;grid-row:span 2}
+.gal .tall{grid-row:span 2}
 .gal figure{margin:0;border-radius:var(--radius);overflow:hidden;position:relative;background:var(--cream-2)}
 .gal figure img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .gal figure:hover img{transform:scale(1.04)}
 .gal figcaption{position:absolute;inset-inline:0;bottom:0;padding:1.4rem 1rem .8rem;color:#fff;font-weight:700;background:linear-gradient(transparent,rgba(0,0,0,.65))}
-@media (max-width:700px){.gal{grid-template-columns:1fr 1fr}.gal > :nth-child(1){grid-column:span 2}}
+@media (max-width:700px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gal .wide{grid-column:span 2}}
 
 /* ---------- faq ---------- */
 .faq details{border-bottom:1px solid var(--line);padding:1.1rem 0}
@@ -328,12 +328,13 @@ footer a{text-decoration:none}
     <span class="eyebrow">גלריה</span>
     <h2 class="sec-title">מהשטח</h2>
     <div class="gal">
-      <figure><img src="images/event-metzukei-dragot.webp" alt="שלט הכניסה למצוקי דרגות – אירוע של פלאפל 4x4" loading="lazy"><figcaption>אירוע במצוקי דרגות</figcaption></figure>
+      <figure class="wide"><img src="images/event-metzukei-dragot.webp" alt="שלט הכניסה למצוקי דרגות – אירוע של פלאפל 4x4" loading="lazy"><figcaption>אירוע במצוקי דרגות</figcaption></figure>
+      <figure class="tall"><img src="images/sabich-platter.webp" alt="מגש סביח בחלה חתוך לפרוסות עם חמוצים על שולחן בחוף חיפה" loading="lazy"><figcaption>מגש סביח לאירוע</figcaption></figure>
+      <figure class="tall"><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח: פיתות, חמוצים, סלטים, צ׳יפס ופלאפל" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
       <figure><img src="images/falafel-bowl.webp" alt="קערת פלאפל טרי, סלט ישראלי, צ׳יפס וסביח בחלה על שולחן בשטח" loading="lazy"><figcaption>פלאפל טרי מהשמן</figcaption></figure>
-      <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה על שולחן מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
-      <figure><img src="images/table-dead-sea.webp" alt="שולחן הגשה מלא מול נוף ים המלח: פיתות, חמוצים, סלטים, צ׳יפס ופלאפל" loading="lazy"><figcaption>ארוחה מול ים המלח</figcaption></figure>
-      <figure><img src="images/haifa-maccabiah.webp" alt="שולחן הגשה על חוף השקט בחיפה באירוע למשתתפי המכביה" loading="lazy"><figcaption>המכביה, חוף השקט חיפה</figcaption></figure>
       <figure><img src="images/toppings-bar.webp" alt="בר תוספות בשטח: חמוצים, סלט ישראלי, פלאפל טרי, חלה ורטבים" loading="lazy"><figcaption>בר תוספות בשטח</figcaption></figure>
+      <figure><img src="images/haifa-maccabiah.webp" alt="שולחן הגשה על חוף השקט בחיפה באירוע למשתתפי המכביה" loading="lazy"><figcaption>המכביה, חוף השקט חיפה</figcaption></figure>
+      <figure><img src="images/sabich-haifa.webp" alt="סביח בחלה עם ביצה, חציל וטחינה על שולחן מול הים בחיפה" loading="lazy"><figcaption>סביח אורגינל מול הים</figcaption></figure>
     </div>
   </div>
 </section>
