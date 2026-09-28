@@ -2077,3 +2077,5 @@ html.a11y-no-motion .cut__flow-halo--b, html.a11y-no-motion .cut__flow-pulse--b 
 .gallery__play svg { width: 64px; height: 64px; padding: 16px; box-sizing: border-box; border-radius: 50%; background: rgba(255,255,255,.9); color: var(--ink); box-shadow: 0 10px 30px -10px rgba(0,0,0,.6); transition: transform .4s var(--g-ease), background .3s; }
 .gallery__item--video:hover .gallery__play svg { transform: scale(1.08); background: var(--accent); color: #fff; }
 .gallery__item--video .gallery__caption::before { content: "▶ "; font-size: .7em; }
+/* סרגל הלקוחות בלי הכיתוב "בין לקוחותינו" */
+.hero__clients { gap: 0; }
