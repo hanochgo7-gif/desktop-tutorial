@@ -86,6 +86,8 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:2.5rem;align-items:center}
 .kicker{font-weight:500;color:var(--sun);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
 .kicker svg{width:18px;height:18px}
+.kicker svg.van{width:44px;height:22px}
+.step svg.van{width:88px;height:44px}
 .hero h1{font-size:clamp(4rem,9.5vw,8.4rem);color:#fff;margin-bottom:.2em;white-space:nowrap}
 .hero h1 .line{display:block;overflow:hidden}
 .hero h1 .line span{display:block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
@@ -268,6 +270,19 @@ footer strong{color:var(--sand)}
     <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7s1.9 2.9 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.3-.2-.6-.3z"/></symbol>
     <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".18"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-van" viewBox="0 0 120 60">
+      <ellipse cx="60" cy="53" rx="54" ry="3" fill="#000" opacity=".18"/>
+      <path d="M6,46 V17 Q6,11 12,11 H74 Q84,11 89,18 L97,29 H108 Q114,30 114,38 V46 Z" fill="#fbfbf8" stroke="#1b1917" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M7,45 V18 Q7,13 12,13 H22 Q14,30 22,45 Z" fill="#22b8dc"/>
+      <path d="M76,15 Q83,15 87,21 L93,29 H76 Z" fill="#2a2f36"/>
+      <rect x="62" y="16" width="11" height="14" rx="2" fill="#2a2f36"/>
+      <rect x="94" y="24" width="4" height="6" rx="1" fill="#2a2f36"/>
+      <path d="M60,14 V46" stroke="#1b1917" stroke-width="1.4" opacity=".45"/>
+      <text x="41" y="36" text-anchor="middle" font-family="Karantina,Impact,sans-serif" font-weight="700" font-size="20" fill="#22b8dc" letter-spacing=".5">4X4</text>
+      <path d="M106,36 h6" stroke="#f2b705" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="28" cy="46" r="8.5" fill="#151314"/><circle cx="28" cy="46" r="3.6" fill="#b9b6ad"/>
+      <circle cx="96" cy="46" r="8.5" fill="#151314"/><circle cx="96" cy="46" r="3.6" fill="#b9b6ad"/>
+    </symbol>
     <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h10v8H3zM13 10h4l3 3v2h-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
     <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 3 4 4.5 4 9a4 4 0 0 1-8 0c0-1.5.5-2.5 1.2-3.4.3 1 .9 1.6 1.8 1.9C10.5 8 11.5 5.5 12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
@@ -297,7 +312,7 @@ footer strong{color:var(--sand)}
 <section class="hero">
   <div class="wrap">
     <div>
-      <div class="kicker"><svg><use href="#i-truck"/></svg>קייטרינג 4X4 לאירועים · בהנהלת ניסים שרון</div>
+      <div class="kicker"><svg class="van"><use href="#i-van"/></svg>קייטרינג 4X4 לאירועים · בהנהלת ניסים שרון</div>
       <h1><span class="line"><span>בכל מקום,</span></span><span class="line"><span>בכל שעה.</span></span></h1>
       <p>ארוחה ישראלית אמיתית שמגיעה אליכם: דוכן פלאפל חי ב-4 טעמים, סביח אורגינל ובר בורגר עשיר. הכול מוכן טרי מול העיניים של האורחים – במדבר, בחוף, בבסיס או בחצר.</p>
       <div class="cta">
@@ -414,7 +429,7 @@ footer strong{color:var(--sand)}
     <div class="steps">
       <div class="step"><svg><use href="#i-chat"/></svg><h3>מספרים לניסים</h3><p>כמה אורחים, איפה ומתי. הודעת וואטסאפ או שיחה קצרה.</p></div>
       <div class="step"><svg><use href="#i-menu"/></svg><h3>בונים תפריט והצעה</h3><p>בוחרים דוכנים ותוספות ומקבלים הצעת מחיר ברורה, בלי הפתעות.</p></div>
-      <div class="step"><svg><use href="#i-flame"/></svg><h3>אנחנו מגיעים ומכינים</h3><p>מקימים כשעה לפני, מגישים חי, ומשאירים את המקום נקי.</p></div>
+      <div class="step"><svg class="van"><use href="#i-van"/></svg><h3>אנחנו מגיעים ומכינים</h3><p>מקימים כשעה לפני, מגישים חי, ומשאירים את המקום נקי.</p></div>
     </div>
     <div class="steps-cta">
       <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>להתחיל בוואטסאפ</a>
