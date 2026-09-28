@@ -218,16 +218,23 @@ section{padding:64px 0}
 .phone{font-family:"Secular One",sans-serif;font-size:clamp(1.9rem,4vw,2.6rem);color:var(--ink);text-decoration:none;direction:ltr;display:inline-block;unicode-bidi:isolate}
 .hours-box{display:flex;align-items:center;gap:12px;background:#fff;border-radius:var(--r-md);padding:14px 18px;font-weight:600;color:var(--ink-deep);margin-top:16px}
 .hours-box svg{width:28px;height:28px;flex:none}
-.form{background:#fff;border-radius:var(--r-md);padding:28px;box-shadow:0 20px 40px -24px rgba(30,58,138,.4)}
-.form h3{font-size:1.4rem;margin-bottom:16px}
-.form .hint{color:var(--muted);font-size:1rem;margin-bottom:18px}
-.field{display:grid;gap:6px;margin-bottom:14px}
-.field label{font-weight:700;font-size:1rem}
-.field input,.field select,.field textarea{font:inherit;font-size:1.05rem;padding:12px 14px;border:2px solid var(--line);border-radius:var(--r-sm);background:var(--paper);color:var(--text);width:100%}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--zoom);outline:none;box-shadow:0 0 0 3px rgba(45,140,255,.2)}
-.field textarea{min-height:88px;resize:vertical}
-.form .btn{width:100%;margin-top:6px}
+.form{position:relative;background:#fff;border-radius:6px;padding:34px 30px 28px 44px;box-shadow:0 24px 48px -26px rgba(30,58,138,.5),0 2px 0 var(--line);background-image:repeating-linear-gradient(transparent 0 31px,#d9e6f5 31px 32px);background-position:0 12px;transform:rotate(-.6deg);counter-reset:q}
+.form::before{content:"";position:absolute;top:0;bottom:0;left:30px;width:2px;background:#f0a0ab;opacity:.8}
+.form::after{content:"";position:absolute;top:26px;left:8px;width:12px;height:12px;border-radius:50%;background:var(--sky);box-shadow:0 120px 0 var(--sky),0 240px 0 var(--sky),0 360px 0 var(--sky)}
+.form .exam-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.form .exam-head .hand{font-size:2.3rem;line-height:1;color:var(--ink)}
+.form .exam-head small{display:block;font-family:"Assistant",sans-serif;font-weight:600;font-size:.95rem;color:var(--muted);margin-top:4px}
+.form .grade{font-family:"Amatic SC",cursive;font-weight:700;font-size:2.6rem;color:#e0484f;border:3px solid #e0484f;border-radius:50%;width:70px;height:70px;display:grid;place-items:center;transform:rotate(-12deg);line-height:1;flex:none;background:rgba(255,255,255,.7)}
+.form h3{font-size:1.2rem;margin-bottom:16px;color:var(--ink-deep)}
+.field{display:grid;gap:4px;margin-bottom:12px;counter-increment:q}
+.field label{font-weight:700;font-size:1rem;color:var(--ink)}
+.field label::before{content:counter(q) ". ";font-family:"Secular One",sans-serif;font-weight:400}
+.field input,.field select,.field textarea{font:inherit;font-size:1.05rem;padding:8px 6px;border:0;border-bottom:2px dashed var(--ink);border-radius:0;background:transparent;color:var(--text);width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom-style:solid;border-bottom-color:var(--zoom);background:rgba(220,235,255,.5)}
+.field textarea{min-height:72px;resize:vertical}
+.form .btn{width:100%;margin-top:10px}
 .form .privacy{color:var(--muted);font-size:.9rem;margin:12px 0 0;text-align:center}
+@media (max-width:600px){.form{transform:none;padding:28px 18px 24px 36px}.form::before{left:24px}.form::after{left:6px}}
 
 /* final cta */
 .final{text-align:center;padding:20px 0 60px}
@@ -575,7 +582,11 @@ footer{padding:0 0 110px;text-align:center;color:var(--muted);font-size:.95rem}
       </div>
 
       <form class="form" id="lead-form">
-        <h3>או השאירו פרטים ורחלי תחזור אליכם</h3>
+        <div class="exam-head">
+          <div><span class="hand">מבחן קצר להורים</span><small>4 שאלות, אין תשובות לא נכונות</small></div>
+          <span class="grade" aria-hidden="true">100</span>
+        </div>
+        <h3>השאירו פרטים ורחלי תחזור אליכם</h3>
         <div class="field">
           <label for="f-name">שם ההורה</label>
           <input id="f-name" name="name" type="text" autocomplete="name" required>
