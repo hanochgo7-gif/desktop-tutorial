@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=49">
+  <link rel="stylesheet" href="css/style.css?v=50">
 </head>
 <body class="page-shop">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -150,14 +150,22 @@
 <dialog class="drawer" id="list" aria-labelledby="list-title">
   <div class="drawer-box">
     <div class="drawer-head">
-      <h2 id="list-title">הרשימה שלך</h2>
+      <div><h2 id="list-title">הרשימה שלך</h2><p class="drawer-sub" id="list-sub">עדיין ריקה</p></div>
       <button class="drawer-close" id="list-close" type="button" aria-label="סגירה">×</button>
     </div>
-    <p class="drawer-note">אוספים כאן את מה שמעניין, ושולחים לי הכול בהודעה אחת. אני חוזרת עם מחירים, זמינות ואפשרויות משלוח.</p>
     <ul class="list-items" id="list-items"></ul>
+    <div class="list-opts" id="list-opts">
+      <p class="list-opts__label">איך נוח לך לקבל?</p>
+      <div class="list-opts__row" role="group" aria-label="משלוח או איסוף">
+        <label><input type="radio" name="list-ship" value="איסוף מהקליניקה" checked><span>איסוף מהקליניקה</span></label>
+        <label><input type="radio" name="list-ship" value="משלוח עד הבית"><span>משלוח עד הבית</span></label>
+      </div>
+      <label class="list-opts__note"><span>הערה לרותם, לא חובה</span><input type="text" id="list-note" maxlength="140" placeholder="למשל: העור שלי רגיש, מה מתאים מבין השניים?"></label>
+    </div>
     <div class="drawer-foot">
       <a class="btn btn-gold" id="list-send-2" href="#" target="_blank" rel="noopener">שליחת הרשימה בוואטסאפ</a>
       <button class="link-line" id="list-clear" type="button">ניקוי הרשימה</button>
+      <p class="drawer-foot__hint">ההודעה נפתחת בוואטסאפ עם כל הפרטים. אני חוזרת עם מחירים וזמינות.</p>
     </div>
   </div>
 </dialog>
@@ -233,7 +241,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=32"></script>
+<script src="js/main.js?v=33"></script>
 <script src="js/a11y.js?v=1"></script>
 </body>
 </html>

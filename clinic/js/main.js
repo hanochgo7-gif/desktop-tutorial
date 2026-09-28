@@ -353,19 +353,30 @@
 
   /* הודעה קופצת */
   var toast = $('#toast'), toastT;
-  function showToast(msg) { if (!toast) return; toast.textContent = msg; toast.classList.add('is-on'); clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove('is-on'); }, 2600); }
+  function showToast(msg, actionLabel, onAction) {
+    if (!toast) return;
+    toast.textContent = msg;
+    if (actionLabel && onAction) { var b = document.createElement('button'); b.type = 'button'; b.className = 'toast__act'; b.textContent = actionLabel; b.addEventListener('click', function () { onAction(); toast.classList.remove('is-on'); }); toast.appendChild(b); }
+    toast.classList.add('is-on'); clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove('is-on'); }, actionLabel ? 5000 : 2600);
+  }
 
   /* ===== מוצרים ===== */
   var P = window.PRODUCTS || [];
   function waLink(p) { return WA + '?text=' + encodeURIComponent('היי, התעניינתי במוצר ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : '')); }
   var HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10A4 4 0 0 1 12 7.6 4 4 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>';
-  var LS = 'rotem-list';
+  var LS = 'rotem-list', lastRemoved = null, undoT;
+  function undoRemove() { if (lastRemoved && !saved.has(lastRemoved.i)) { saved.ids.splice(Math.min(lastRemoved.k, saved.ids.length), 0, lastRemoved.i); } lastRemoved = null; clearTimeout(undoT); persist(); syncList(); }
   var saved = { ids: [], has: function (i) { return this.ids.indexOf(i) >= 0; } };
   try { saved.ids = (JSON.parse(localStorage.getItem(LS) || '[]') || []).filter(function (i) { return P[i]; }); } catch (e) { saved.ids = []; }
-  function persist() { try { localStorage.setItem(LS, JSON.stringify(saved.ids)); } catch (e) {} }
+  saved.qty = {};
+  try { saved.qty = JSON.parse(localStorage.getItem(LS + '-qty') || '{}') || {}; } catch (e) { saved.qty = {}; }
+  function qtyOf(i) { return Math.max(1, parseInt(saved.qty[i], 10) || 1); }
+  function persist() { try { localStorage.setItem(LS, JSON.stringify(saved.ids)); localStorage.setItem(LS + '-qty', JSON.stringify(saved.qty)); } catch (e) {} }
   function listMessage() {
-    var lines = saved.ids.map(function (i) { var p = P[i]; return '• ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : ''); });
-    return WA + '?text=' + encodeURIComponent('היי, אשמח להזמין:\n' + lines.join('\n') + '\n\nאפשר לקבל מחירים וזמינות?');
+    var lines = saved.ids.map(function (i) { var p = P[i], q = qtyOf(i); return '• ' + (q > 1 ? q + ' × ' : '') + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : ''); });
+    var ship = $('input[name="list-ship"]:checked'), note = $('#list-note');
+    var tail = '\n\n' + (ship ? ship.value : 'איסוף מהקליניקה') + (note && note.value.trim() ? '\nהערה: ' + note.value.trim() : '') + '\n\nאפשר לקבל מחירים וזמינות?';
+    return WA + '?text=' + encodeURIComponent('היי, אשמח להזמין:\n' + lines.join('\n') + tail);
   }
   function syncList() {
     var n = saved.ids.length, bar = $('#list-bar'), cnt = $('#list-count'), items = $('#list-items');
@@ -373,16 +384,31 @@
     if (bar) { bar.hidden = !n; if (cnt) cnt.textContent = n; }
     var nc = $('#nav-count'); if (nc) { nc.hidden = !n; nc.textContent = n; }
     ['#list-send', '#list-send-2'].forEach(function (s) { var a = $(s); if (a) a.href = listMessage(); });
+    var sub = $('#list-sub'), opts = $('#list-opts');
+    var units = saved.ids.reduce(function (a, i) { return a + qtyOf(i); }, 0);
+    if (sub) sub.textContent = n ? (n === 1 ? 'מוצר אחד' : n + ' מוצרים') + (units > n ? ', ' + units + ' יחידות' : '') : 'עדיין ריקה';
+    if (opts) opts.hidden = !n;
     if (items) {
-      items.innerHTML = n ? saved.ids.map(function (i) {
-        var p = P[i];
-        return '<li>' + (p.image ? '<img src="' + p.image + '" alt="">' : '<span class="list-ph">תמונה בקרוב</span>') + '<div><b>' + escapeHtml(p.name) + '</b><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small></div><button type="button" data-unsave="' + i + '" aria-label="הסרה">×</button></li>';
-      }).join('') : '<li class="list-empty">הרשימה ריקה. לחיצה על הלב בכרטיס מוצר מוסיפה אותו לכאן.</li>';
+      var undoRow = lastRemoved ? '<li class="list-undo"><span>הוסר: ' + escapeHtml(P[lastRemoved.i].name) + '</span><button type="button" data-undo="1">ביטול</button></li>' : '';
+      items.innerHTML = undoRow + (n ? saved.ids.map(function (i) {
+        var p = P[i], q = qtyOf(i);
+        return '<li>' + (p.image ? '<img src="' + p.image + '" alt="">' : '<span class="list-ph">תמונה בקרוב</span>') +
+          '<div><button type="button" class="list-name" data-qv="' + i + '">' + escapeHtml(p.name) + '</button><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' +
+          '<span class="list-qty" role="group" aria-label="כמות"><button type="button" data-qty="' + i + '" data-d="-1" aria-label="פחות">−</button><b>' + q + '</b><button type="button" data-qty="' + i + '" data-d="1" aria-label="יותר">+</button></span></div>' +
+          '<button type="button" class="list-remove" data-unsave="' + i + '" aria-label="הסרה מהרשימה">×</button></li>';
+      }).join('') : '<li class="list-empty"><b>הרשימה עדיין ריקה</b><span>לחיצה על הלב ליד מוצר מוסיפה אותו לכאן, ואז שולחים לי הכול בהודעה אחת.</span><span class="list-empty__acts"><button type="button" class="btn btn-gold btn-sm" id="list-go-shop">לכל המוצרים</button><button type="button" class="btn btn-light btn-sm" id="list-go-quiz">איזה מוצר מתאים לי?</button></span></li>');
     }
   }
+  document.addEventListener('change', function (e) { if (e.target.closest('#list-opts')) syncList(); });
+  document.addEventListener('input', function (e) { if (e.target.id === 'list-note') syncList(); });
   function toggleSave(i, btn) {
     var k = saved.ids.indexOf(i);
-    if (k >= 0) { saved.ids.splice(k, 1); showToast('הוסר מהרשימה'); }
+    if (k >= 0) {
+      saved.ids.splice(k, 1); lastRemoved = { i: i, k: k };
+      clearTimeout(undoT); undoT = setTimeout(function () { lastRemoved = null; syncList(); }, 6000);
+      var inDrawer = $('#list') && $('#list').open;
+      if (!inDrawer) showToast('הוסר מהרשימה', 'ביטול', undoRemove);
+    }
     else { saved.ids.push(i); showToast('נוסף לרשימה. אפשר להמשיך לבחור ולשלוח הכול יחד'); if (btn) { btn.classList.add('is-pop'); setTimeout(function () { btn.classList.remove('is-pop'); }, 500); } }
     persist(); syncList();
   }
@@ -711,10 +737,15 @@
     var b = e.target.closest('[data-qv]'); if (b) { openQv(parseInt(b.dataset.qv, 10)); return; }
     var sv = e.target.closest('[data-save]'); if (sv) { toggleSave(parseInt(sv.dataset.save, 10), sv); return; }
     var us = e.target.closest('[data-unsave]'); if (us) { toggleSave(parseInt(us.dataset.unsave, 10)); return; }
+    if (e.target.closest('[data-undo]')) { undoRemove(); return; }
+    var qb = e.target.closest('[data-qty]'); if (qb) { var qi = parseInt(qb.dataset.qty, 10), nq = qtyOf(qi) + parseInt(qb.dataset.d, 10); if (nq < 1) { toggleSave(qi); } else { saved.qty[qi] = Math.min(9, nq); persist(); syncList(); } return; }
+    if (e.target.closest('#list-go-shop')) { var ld = $('#list'); if (ld && ld.close) ld.close(); var sm = $('#shop-main'); if (sm) sm.scrollIntoView({ behavior: 'smooth' }); return; }
+    if (e.target.closest('#list-go-quiz')) { var ld2 = $('#list'); if (ld2 && ld2.close) ld2.close(); var nq2 = $('#nav-quiz'); if (nq2) nq2.click(); return; }
+    var dlgHit = e.target.closest('dialog.drawer'); if (dlgHit && e.target === dlgHit && dlgHit.close) { dlgHit.close(); return; }
     var listDlg = $('#list');
     if (e.target.closest('#list-open') && listDlg) { syncList(); if (typeof listDlg.showModal === 'function') listDlg.showModal(); else listDlg.setAttribute('open', ''); return; }
     if (listDlg && (e.target.closest('#list-close') || e.target === listDlg)) { listDlg.close(); return; }
-    if (e.target.closest('#list-clear')) { saved.ids = []; persist(); syncList(); showToast('הרשימה נוקתה'); return; }
+    if (e.target.closest('#list-clear')) { var backup = saved.ids.slice(); saved.ids = []; persist(); syncList(); showToast('הרשימה נוקתה', 'ביטול', function () { saved.ids = backup; persist(); syncList(); }); return; }
     if (e.target.closest('#list-send, #list-send-2')) { if (!saved.ids.length) { e.preventDefault(); showToast('הרשימה ריקה'); } else showToast('פותחים וואטסאפ עם הרשימה'); }
     if (qv && e.target === qv) qv.close();
     if (e.target.closest('#qv-close')) qv.close();
