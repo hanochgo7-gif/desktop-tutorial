@@ -8,6 +8,8 @@
 <meta property="og:title" content="קייטרינג 4X4 לאירועים – בכל מקום, בכל שעה">
 <meta property="og:description" content="4 טעמי פלאפל, סביח אורגינל ובר בורגר. טרי בשטח, מותאם לאירוע שלכם.">
 <meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="images/logo.png">
+<meta property="og:image" content="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
@@ -55,8 +57,9 @@ section{padding:clamp(64px,9vw,120px) 0}
 /* ---------- header ---------- */
 header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{display:flex;align-items:center;gap:.6rem;font-weight:900;font-size:1.35rem;text-decoration:none;letter-spacing:-.02em}
-.logo b{background:var(--olive);color:var(--cream);padding:.1em .45em;border-radius:.4em;font-size:.95em}
+.logo{display:flex;align-items:center;gap:.7rem;font-weight:900;font-size:1.15rem;text-decoration:none;letter-spacing:-.02em;line-height:1.1}
+.logo img{width:54px;height:54px;border-radius:50%;box-shadow:0 4px 14px -4px rgba(0,0,0,.5)}
+.logo small{display:block;font-weight:500;font-size:.72rem;color:var(--muted);letter-spacing:0}
 .nav ul{display:flex;gap:1.6rem;list-style:none}
 .nav ul a{text-decoration:none;font-weight:500;color:var(--muted)}
 .nav ul a:hover{color:var(--ink)}
@@ -199,7 +202,7 @@ footer a{text-decoration:none}
 
 <header id="top">
   <div class="wrap nav">
-    <a class="logo" href="#top">קייטרינג <b>4X4</b> לאירועים</a>
+    <a class="logo" href="#top"><img src="images/logo.png" alt="קייטרינג 4X4 לאירועים"><span>קייטרינג 4X4<small>לאירועים · בכל מקום, בכל שעה</small></span></a>
     <ul>
       <li><a href="#about">מי אנחנו</a></li>
       <li><a href="#menu">התפריט</a></li>
@@ -396,7 +399,7 @@ footer a{text-decoration:none}
 
 <footer>
   <div class="wrap">
-    <div><strong style="color:var(--cream)">קייטרינג 4X4 לאירועים</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></div>
+    <div style="display:flex;align-items:center;gap:.8rem"><img src="images/logo.png" alt="" width="44" height="44" style="border-radius:50%"><span><strong style="color:var(--cream)">קייטרינג 4X4 לאירועים</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></span></div>
     <div><a href="https://www.facebook.com/profile.php?id=100063584353013" target="_blank" rel="noopener">פייסבוק</a> · בכל מקום, בכל שעה © <span id="y"></span></div>
   </div>
 </footer>
