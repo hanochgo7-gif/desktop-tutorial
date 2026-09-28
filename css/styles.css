@@ -2103,3 +2103,4 @@ html.a11y-no-motion .quick__video { display: none; }
 html.a11y-no-motion .service-hero__video { display: none; }
 @media (max-width: 760px) { .service-hero--video { min-height: 70svh; padding-top: 110px; } }
 .stage img[src*="hartuv-tank-lowering"] { object-position: center 40%; }
+.stage img[src*="datacenter-cutaway"] { object-position: center 62%; object-fit: cover; background: #eef1f3; }
