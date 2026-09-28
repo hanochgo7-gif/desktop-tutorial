@@ -2128,3 +2128,12 @@ html[lang="en"] .mm__has-sub.is-open .mm__sub { padding: 2px 0 14px 100px; }
 .navpill .navpill__lang { color: #fff; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); height: 32px; min-width: 36px; padding: 0 9px; font-size: .76rem; }
 .navpill .navpill__lang:hover { background: #fff; color: var(--ink); border-color: #fff; }
 html[lang="en"] #about-title .nowrap { white-space: normal; }
+/* טופס מהיר על הווידאו: קטן יותר ונמוך יותר, כדי לא להסתיר את המנוף והמיכל */
+.quick--photo .quick__inner { min-height: clamp(380px, 34vw, 480px); padding-block: 44px 22px; align-items: end; }
+.quick--photo .quick__inner > div:first-child { align-self: center; padding-bottom: 22px; }
+.quick--photo .quick__form { max-width: 340px; padding: 14px 16px 12px; gap: 8px; border-radius: 14px; align-self: end; }
+.quick--photo .quick__label { font-size: .82rem; }
+.quick--photo .quick__form input[type="tel"] { min-height: 44px; font-size: .96rem; padding-block: 8px; }
+.quick--photo .quick__form .btn { min-height: 44px; font-size: .92rem; }
+.quick--photo .quick__consent { font-size: .7rem; line-height: 1.35; margin: 0; }
+@media (max-width: 899px) { .quick--photo .quick__inner { min-height: 0; padding-block: 40px 18px; gap: 18px; } .quick--photo .quick__inner > div:first-child { padding-bottom: 0; } .quick--photo .quick__form { max-width: 360px; justify-self: center; } }
