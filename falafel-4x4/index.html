@@ -82,21 +82,14 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .hero .btn-ghost{color:var(--cream)}
 .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.2rem}
 .tags span{border:1px solid rgba(247,239,223,.35);border-radius:999px;padding:.35rem .9rem;font-size:.9rem}
-.hero-art{position:relative;aspect-ratio:1;max-width:460px;margin-inline:auto;width:100%}
-.plate{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff7e6,#e9dcc0 70%,#d8c8a4);box-shadow:0 40px 90px -30px rgba(0,0,0,.6),inset 0 -12px 30px rgba(0,0,0,.08)}
-.ball{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c98a45,#7a4a1c 75%);box-shadow:0 10px 25px -8px rgba(0,0,0,.5);animation:float 6s ease-in-out infinite}
-.ball::after{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,#4e7a2c 0 45%,transparent 46%),radial-gradient(circle at 70% 70%,#5b8a34 0 25%,transparent 26%);opacity:.35}
-.ball:nth-child(2){width:28%;height:28%;top:14%;right:16%}
-.ball:nth-child(3){width:26%;height:26%;top:20%;left:14%;animation-delay:-1.5s}
-.ball:nth-child(4){width:30%;height:30%;bottom:16%;left:22%;animation-delay:-3s}
-.ball:nth-child(5){width:24%;height:24%;bottom:20%;right:18%;animation-delay:-4.5s}
-.ball:nth-child(6){width:20%;height:20%;top:41%;left:41%;animation-delay:-2s}
-.badge-4{position:absolute;right:-8%;top:-6%;background:var(--harissa);color:#fff;border-radius:50%;width:120px;height:120px;display:grid;place-content:center;text-align:center;font-weight:900;line-height:1;box-shadow:var(--shadow);transform:rotate(8deg)}
+.hero-art{position:relative;max-width:440px;margin-inline:auto;width:100%}
+.hero-img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:220px 220px 32px 32px;box-shadow:0 40px 90px -30px rgba(0,0,0,.65),0 0 0 8px rgba(247,239,223,.08);animation:float 7s ease-in-out infinite}
+.badge-4{position:absolute;inset-inline-end:-8%;top:6%;background:var(--harissa);color:#fff;border-radius:50%;width:120px;height:120px;display:grid;place-content:center;text-align:center;font-weight:900;line-height:1;box-shadow:var(--shadow);transform:rotate(8deg)}
 .badge-4 b{font-size:2.6rem;display:block}
 .badge-4 small{font-size:.75rem;font-weight:700}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:320px}.badge-4{width:96px;height:96px}.badge-4 b{font-size:2rem}}
-@media (prefers-reduced-motion:reduce){.ball{animation:none}.btn:hover{transform:none}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:300px}.hero-img{border-radius:150px 150px 24px 24px}.badge-4{width:96px;height:96px;inset-inline-end:auto;inset-inline-start:-4%;top:4%;transform:rotate(-8deg)}.badge-4 b{font-size:2rem}}
+@media (prefers-reduced-motion:reduce){.hero-img{animation:none}.btn:hover{transform:none}}
 
 /* ---------- strip ---------- */
 .strip{background:var(--harissa);color:#fff;padding:.9rem 0;font-weight:700;overflow:hidden;white-space:nowrap}
@@ -237,10 +230,9 @@ footer a{text-decoration:none}
         <span>4 טעמי פלאפל</span><span>סביח אורגינל</span><span>בר בורגר</span><span>טרי בשטח</span><span>בכל הארץ</span><span>תפריט לפי בקשה</span>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="plate"></div>
-      <div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
-      <div class="badge-4"><b>4</b><small>טעמים</small></div>
+    <div class="hero-art">
+      <img class="hero-img" src="images/hero-falafel.webp" alt="פיתה עם פלאפל וטחינה נשפכת" fetchpriority="high">
+      <div class="badge-4" aria-hidden="true"><b>4</b><small>טעמים</small></div>
     </div>
   </div>
 </section>
