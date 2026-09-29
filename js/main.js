@@ -1056,33 +1056,11 @@
       ls.className = 'wordmark__ltd'; lb.textContent = ltd; lb.style.setProperty('--i', String(word.length)); ls.appendChild(lb); el.appendChild(ls);
     });
 
-    /* אנימציית פתיחה: פעם אחת בכל ביקור, 6 שניות, עם דילוג */
-    var intro = $('#intro');
-    if (intro) {
-      var seen = false, ever = false;
-      try { seen = !!sessionStorage.getItem('introSeen'); ever = !!localStorage.getItem('introSeenEver'); } catch (e) {}
-      if (seen || still) { intro.remove(); root.classList.remove('intro-on'); }
-      else {
-        /* ביקור ראשון: הבנייה המלאה (6 שניות). ביקור חוזר: התחנה כבר גמורה, 2 שניות */
-        var introMs = ever ? 2000 : 6000;
-        if (ever) intro.classList.add('intro--quick');
-        root.classList.add('intro-on');
-        var introT = null;
-        var introDone = function () {
-          clearTimeout(introT);
-          if (!intro.classList.contains('is-done')) {
-            intro.classList.add('is-done');
-            try { sessionStorage.setItem('introSeen', '1'); localStorage.setItem('introSeenEver', String(Date.now())); } catch (e) {}
-            root.classList.remove('intro-on');
-            document.dispatchEvent(new CustomEvent('intro:done'));
-            setTimeout(function () { intro.remove(); }, 900);
-          }
-        };
-        introT = setTimeout(introDone, introMs);
-        var skipBtn = $('[data-intro-skip]', intro);
-        if (skipBtn) skipBtn.addEventListener('click', introDone);
-        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') introDone(); });
-      }
+    /* ציור בניית התחנה בדף הבית: מתחיל כשהוא נכנס למסך */
+    var scene = $('[data-scene]');
+    if (scene) {
+      if (still || !('IntersectionObserver' in window)) scene.classList.add('is-in');
+      else { var sio = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { scene.classList.add('is-in'); sio.disconnect(); } }, { threshold: .35 }); sio.observe(scene); }
     }
 
     /* המילה נמדדת ומותאמת לרוחב הפנוי (הגופן הדק משתנה בין דפדפנים) */
@@ -1250,26 +1228,6 @@
       }
     }
 
-    /* מעבר בין דפים: וילון כהה קצר בכניסה וביציאה */
-    if (!still) {
-      var veil = document.createElement('div'); veil.className = 'veil on'; veil.setAttribute('aria-hidden', 'true');
-      body.appendChild(veil);
-      requestAnimationFrame(function () { requestAnimationFrame(function () { veil.classList.remove('on'); }); });
-      window.addEventListener('pageshow', function () { veil.classList.remove('on'); });
-      document.addEventListener('click', function (e) {
-        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        var a = e.target.closest('a[href]');
-        if (!a || a.hasAttribute('download') || (a.target && a.target !== '_self')) return;
-        var href = a.getAttribute('href') || '';
-        if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
-        var url; try { url = new URL(a.href, location.href); } catch (err) { return; }
-        if (url.origin !== location.origin) return;
-        if (url.pathname === location.pathname && url.search === location.search && url.hash) return;
-        e.preventDefault();
-        veil.classList.add('on');
-        setTimeout(function () { location.href = a.href; }, 340);
-      });
-    }
   })();
 
   function boot() {
@@ -1279,8 +1237,7 @@
   /* GSAP נטען עם defer לפני הקובץ הזה; ליתר ביטחון ממתינים לטעינה אם עדיין לא זמין */
   /* כשאנימציית הפתיחה רצה, כניסת ההירו מחכה לסיומה */
   function startBoot() {
-    if (root.classList.contains('intro-on')) document.addEventListener('intro:done', boot, { once: true });
-    else boot();
+    boot();
   }
   if (hasGsap() || noMotion()) startBoot();
   else {

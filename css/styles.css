@@ -1536,8 +1536,7 @@ body.has-ann .hero__in { padding-top: calc(var(--header-h) + 12px + var(--ann-h)
 .footer__bottom a:hover { text-decoration: underline; }
 
 /* ---------- מעבר בין דפים ---------- */
-.veil { position: fixed; inset: 0; z-index: 4000; background: var(--onyx); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease); }
-.veil.on { opacity: 1; pointer-events: auto; }
+
 
 /* ---------- פס פעולה תחתון במובייל: כפתור שיחה שקט ---------- */
 .mobile-cta__call, .mobile-cta__call:active { background: var(--char); max-width: none; padding-inline: 16px; font-weight: 500; font-size: .92rem; text-shadow: none; box-shadow: none; }
@@ -1698,32 +1697,25 @@ html.a11y-no-motion .hero__logo { opacity: 1; transform: none; animation: none; 
 /* ==========================================================================
    אנימציית פתיחה: התחנה נבנית בקו אחד (6 שניות, פעם אחת בכל ביקור)
    ========================================================================== */
-.intro{position:fixed;inset:0;z-index:5000;background:var(--paper);display:grid;grid-template-rows:1fr auto;align-items:end;justify-items:center;padding:40px 16px 8vh;overflow:hidden;--T:6s;--sand:#e6d9c4}
-.intro.is-done{animation:intro-out .8s var(--ease-out) forwards}
+/* ציור בניית התחנה בדף הבית (לשעבר אנימציית הפתיחה): נבנה פעם אחת כשנכנס למסך */
+.scene{--sand:#e6d9c4;margin:clamp(28px,5vw,56px) auto 0;max-width:980px}
+.scene__svg{width:100%;height:auto;display:block;overflow:visible}
+.scene:not(.is-in) svg *{animation-play-state:paused!important}
 @keyframes intro-out{to{transform:translateY(-100%);visibility:hidden}}
-.intro__scene{width:min(1100px,100%);height:auto;display:block}
-.intro__text{display:grid;justify-items:center;gap:8px;margin-top:clamp(18px,4vh,40px);text-align:center}
-.intro__h{font-family:var(--font);font-size:clamp(1.2rem,2.4vw,1.7rem);font-weight:300;letter-spacing:-.01em;margin:0}
-.intro__s{font-family:var(--font);font-size:.82rem;color:var(--muted);margin:0;font-weight:300}
-.intro__bar{width:min(320px,70vw);height:6px;border-radius:999px;background:rgba(50,45,42,.12);overflow:hidden;margin-top:10px}
-.intro__skip{margin-top:14px;background:none;border:0;color:var(--muted);font:inherit;font-size:.8rem;text-decoration:underline;cursor:pointer;padding:6px 10px}
-.intro__bar i{display:block;height:100%;width:100%;background:var(--accent);transform-origin:right;transform:scaleX(0);animation:bar var(--T) linear forwards;border-radius:999px}
-@keyframes bar{to{transform:scaleX(1)}}
-/* line art */
-.intro svg .l{fill:none;stroke:var(--carbon);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:draw .7s var(--ease) var(--d,0s) forwards, fade .01s linear var(--d,0s) forwards}
-.intro svg .l.a{stroke:var(--accent)}
-.intro svg .l.thin{stroke-width:1.1}
-.intro svg .l.dash{stroke-dasharray:.03 .02;stroke-dashoffset:0;animation:fade .5s var(--ease) var(--d,0s) forwards}
-.intro svg .f{opacity:0;animation:fade .6s var(--ease) var(--d,0s) forwards}
-.intro svg .f.acc{fill:var(--accent)}
-.intro svg .f.tint{fill:var(--tint)}
-.intro svg .f.sand{fill:var(--sand)}
-.intro svg .f.wht{fill:#fff}
-.intro svg .drop{opacity:0;animation:drop .8s var(--ease-out) var(--d,0s) forwards}
-.intro svg .truck{animation:truck 1.6s var(--ease) 3.3s both}
-.intro svg .cloud{animation:cloud 14s linear infinite alternate}
-.intro svg .crane{opacity:0;animation:fade .4s var(--ease) 1.6s forwards, fadeout .5s var(--ease) 3.9s forwards}
-.intro svg .hook{animation:hook 1.2s var(--ease) 2.2s both}
+.scene svg .l{fill:none;stroke:var(--carbon);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:draw .7s var(--ease) var(--d,0s) forwards, fade .01s linear var(--d,0s) forwards}
+.scene svg .l.a{stroke:var(--accent)}
+.scene svg .l.thin{stroke-width:1.1}
+.scene svg .l.dash{stroke-dasharray:.03 .02;stroke-dashoffset:0;animation:fade .5s var(--ease) var(--d,0s) forwards}
+.scene svg .f{opacity:0;animation:fade .6s var(--ease) var(--d,0s) forwards}
+.scene svg .f.acc{fill:var(--accent)}
+.scene svg .f.tint{fill:var(--tint)}
+.scene svg .f.sand{fill:var(--sand)}
+.scene svg .f.wht{fill:#fff}
+.scene svg .drop{opacity:0;animation:drop .8s var(--ease-out) var(--d,0s) forwards}
+.scene svg .truck{animation:truck 1.6s var(--ease) 3.3s both}
+.scene svg .cloud{animation:cloud 14s linear infinite alternate}
+.scene svg .crane{opacity:0;animation:fade .4s var(--ease) 1.6s forwards, fadeout .5s var(--ease) 3.9s forwards}
+.scene svg .hook{animation:hook 1.2s var(--ease) 2.2s both}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
 @keyframes fadeout{to{opacity:0}}
@@ -1731,14 +1723,9 @@ html.a11y-no-motion .hero__logo { opacity: 1; transform: none; animation: none; 
 @keyframes truck{from{transform:translateX(-260px)}to{transform:translateX(0)}}
 @keyframes cloud{from{transform:translateX(0)}to{transform:translateX(-40px)}}
 @keyframes hook{from{transform:translateY(-70px)}to{transform:translateY(0)}}
-@media (prefers-reduced-motion:reduce){.intro{display:none}}
-html.a11y-no-motion .intro, html.intro-seen .intro{display:none}
-/* בזמן הפתיחה, אנימציות ההירו מחכות */
-html.intro-on .hero__intro, html.intro-on .hero__rule, html.intro-on .hero__mid p, html.intro-on .hero__logo, html.intro-on .hero--word .hero__media img{animation-play-state:paused}
-.intro .intro svg .l{animation-play-state:running}
-/* ביקור חוזר: התחנה מופיעה גמורה, הפס מתמלא ב-2 שניות */
-.intro--quick svg .l, .intro--quick svg .f, .intro--quick svg .drop, .intro--quick svg .truck, .intro--quick svg .crane, .intro--quick svg .hook { animation-duration: .01s !important; animation-delay: 0s !important; }
-.intro--quick .intro__bar i { animation-duration: 2s; }
+/* בלי תנועה: הציור מוצג גמור */
+@media (prefers-reduced-motion:reduce){.scene svg .l,.scene svg .f,.scene svg .drop{opacity:1!important;stroke-dashoffset:0!important;transform:none!important}.scene svg .crane{opacity:0!important}}
+html.a11y-no-motion .scene svg .l,html.a11y-no-motion .scene svg .f,html.a11y-no-motion .scene svg .drop{opacity:1!important;stroke-dashoffset:0!important;transform:none!important;animation:none!important}html.a11y-no-motion .scene svg .crane{opacity:0!important;animation:none!important}
 
 /* ==========================================================================
    שכבת Construct: הירו עם כותרת טקסט ולקוחות, קטע מאמרים, טופס על רצועת תמונה
