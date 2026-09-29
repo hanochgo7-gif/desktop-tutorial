@@ -29,10 +29,10 @@ window.ALLENBIS_DEMO = {
   bundles: {
     example: true,
     items: [
-      { id: 'movie', title: 'ערב סרט', text: 'במבה, ביסלי, קולה גדולה ו-M&M\'s', items: [['p42', 1], ['p44', 1], ['p3', 1], ['p73', 1]] },
-      { id: 'party', title: 'חברים מגיעים', text: 'שתייה, קרח, חטיפים ופיצוחים לכולם', items: [['p3', 2], ['p173', 1], ['p49', 2], ['p54', 1], ['p111', 1]] },
-      { id: 'night', title: 'לילה לבן', text: 'אנרגיה ומתוק ללילה ארוך', items: [['p27', 2], ['p38', 1], ['p62', 1], ['p79', 1]] },
-      { id: 'battery', title: 'הסוללה נגמרה', text: 'מטען נייד וכבל USB-C', items: [['p128', 1], ['p118', 1]] }
+      { id: 'movie', img: 'images/art/bundle-movie.webp', title: 'ערב סרט', text: 'במבה, ביסלי, קולה גדולה ו-M&M\'s', items: [['p42', 1], ['p44', 1], ['p3', 1], ['p73', 1]] },
+      { id: 'party', img: 'images/art/bundle-party.webp', title: 'חברים מגיעים', text: 'שתייה, קרח, חטיפים ופיצוחים לכולם', items: [['p3', 2], ['p173', 1], ['p49', 2], ['p54', 1], ['p111', 1]] },
+      { id: 'night', img: 'images/art/bundle-night.webp', title: 'לילה לבן', text: 'אנרגיה ומתוק ללילה ארוך', items: [['p27', 2], ['p38', 1], ['p62', 1], ['p79', 1]] },
+      { id: 'battery', img: 'images/art/bundle-battery.webp', title: 'הסוללה נגמרה', text: 'מטען נייד וכבל USB-C', items: [['p128', 1], ['p118', 1]] }
     ]
   },
 
@@ -51,13 +51,15 @@ window.ALLENBIS_DEMO = {
 
   // איורים (אופציונלי). מוסיפים נתיב לקובץ וזה מופיע באתר. לחבילות: מוסיפים img לכל חבילה.
   art: {
-    emptyCart: '',   // למשל 'images/art/empty-cart.webp'
-    courier: ''      // למשל 'images/art/courier.webp'
+    emptyCart: 'images/art/empty-cart.webp',
+    courier: 'images/art/courier.webp'
   },
 
-  // תמונות לאריחי הקטגוריות. אפשר להחליף בכל תמונה (למשל איורים מ-Nano Banana).
+  // תמונות לאריחי הקטגוריות: נתיב לקובץ, או מזהה מוצר (למשל 'p188') כדי להשתמש בתמונת המוצר.
   categoryArt: {
-    'שתייה': 'p1', 'חטיפים': 'p42', 'ממתקים': 'p67', 'עוגיות': 'p79', 'גלידות': 'p89',
-    'מזון': 'p104', 'אביזרי סלולר': 'p128', 'אחר': 'p176', 'אלכוהול 18+': 'p188'
+    'שתייה': 'images/art/cat-drinks.webp', 'חטיפים': 'images/art/cat-snacks.webp',
+    'ממתקים': 'images/art/cat-candy.webp', 'עוגיות': 'images/art/cat-cookies.webp',
+    'גלידות': 'images/art/cat-icecream.webp', 'מזון': 'images/art/cat-food.webp',
+    'אביזרי סלולר': 'images/art/cat-phone.webp', 'אחר': 'images/art/cat-other.webp'
   }
 };
