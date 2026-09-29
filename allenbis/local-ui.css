@@ -1,0 +1,328 @@
+:root {
+  --local-blue: #124c91;
+  --local-line: #d9e2ec;
+}
+.local-admin {
+  margin: 0;
+  background: #f4f7fb;
+  color: #172a40;
+  font:
+    16px/1.55 Arial,
+    sans-serif;
+}
+.local-admin header,
+.local-admin nav,
+.local-admin main,
+.local-admin > .local-status {
+  max-width: 1240px;
+  margin: auto;
+  padding: 20px;
+}
+.local-admin header {
+  padding-bottom: 4px;
+}
+.local-kicker {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #325b87;
+}
+.local-admin h1 {
+  font-size: clamp(27px, 4vw, 42px);
+  margin: 8px 0;
+}
+.local-admin h2 {
+  margin-top: 8px;
+}
+.local-admin nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  background: #f4f7fb;
+  z-index: 3;
+  border-bottom: 1px solid var(--local-line);
+}
+.local-admin button,
+.local-admin input,
+.local-admin select,
+.checkout-local button,
+.checkout-local input,
+.checkout-local textarea {
+  font: inherit;
+  box-sizing: border-box;
+  min-height: 44px;
+  border: 1px solid #9cabbc;
+  border-radius: 8px;
+  padding: 9px 12px;
+}
+.local-admin button,
+.checkout-local button {
+  background: #fff;
+  cursor: pointer;
+  color: #143a69;
+}
+.local-admin button:disabled,
+.checkout-local button:disabled {
+  cursor: default;
+  color: #657080;
+  background: #e6ebf0;
+}
+.local-admin button[aria-current='page'],
+#savePrices:not(:disabled),
+#confirmSave,
+.checkout-local button[type='submit'] {
+  background: #124c91;
+  color: white;
+}
+.local-admin a {
+  color: #124c91;
+}
+.local-admin nav a {
+  padding: 10px;
+}
+.local-warning {
+  padding: 14px;
+  border: 1px solid #c9a753;
+  border-radius: 10px;
+  background: #fff7df;
+  color: #63470b;
+}
+.local-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.local-metrics > div,
+.local-card {
+  background: white;
+  border: 1px solid var(--local-line);
+  border-radius: 14px;
+  padding: 20px;
+}
+.local-metrics strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1.3;
+}
+.local-filters,
+.local-toolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin: 16px 0;
+}
+.local-admin label,
+.checkout-local label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 14px;
+}
+.local-check {
+  flex-direction: row !important;
+  align-items: center;
+}
+.local-admin input,
+.local-admin select {
+  max-width: 100%;
+  min-width: 0;
+  background: white;
+  color: #172a40;
+}
+.local-admin .local-check input {
+  min-height: 24px;
+}
+.local-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--local-line);
+  border-radius: 12px;
+  background: white;
+}
+.local-admin table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: start;
+  font-size: 14px;
+}
+.local-admin td,
+.local-admin th {
+  padding: 12px;
+  border-bottom: 1px solid var(--local-line);
+  vertical-align: top;
+  text-align: start;
+}
+.local-admin th {
+  background: #eaf0f7;
+  white-space: nowrap;
+}
+.local-product {
+  display: flex;
+  gap: 10px;
+  min-width: 190px;
+}
+.local-product img {
+  width: 48px;
+  height: 60px;
+  object-fit: contain;
+  background: #fafafa;
+}
+.local-product small,
+.local-admin td small {
+  display: block;
+  color: #536273;
+}
+.local-admin input[data-price] {
+  width: 100px;
+  direction: ltr;
+}
+.local-admin select[data-review] {
+  width: 145px;
+}
+.local-admin [aria-invalid='true'] {
+  border: 2px solid #ae2635;
+}
+.local-admin :focus-visible,
+.checkout-local :focus-visible {
+  outline: 3px solid #005ac4;
+  outline-offset: 3px;
+}
+.local-status {
+  min-height: 24px;
+  color: #163f71;
+}
+.local-admin dialog,
+.checkout-local {
+  border: 1px solid #a7b7ca;
+  border-radius: 16px;
+  max-width: 760px;
+  width: calc(100% - 40px);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 22px;
+  color: #172a40;
+  background: #fff;
+  box-sizing: border-box;
+}
+.local-admin dialog::backdrop,
+.checkout-local::backdrop {
+  background: #13243c99;
+}
+.local-admin [hidden],
+.checkout-local [hidden] {
+  display: none !important;
+}
+.local-admin dialog table {
+  font-size: 14px;
+}
+.local-skip {
+  position: fixed;
+  top: -100px;
+  right: 12px;
+  background: #fff;
+  padding: 12px;
+  z-index: 10;
+}
+.local-skip:focus {
+  top: 10px;
+}
+.checkout-local {
+  font:
+    16px/1.5 Arial,
+    sans-serif;
+}
+.checkout-local .checkout-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.checkout-local label.wide {
+  grid-column: 1/-1;
+}
+.checkout-local input,
+.checkout-local textarea {
+  width: 100%;
+}
+.checkout-local ul {
+  padding-inline-start: 22px;
+}
+.checkout-local .local-warning {
+  font-size: 14px;
+}
+.checkout-local .local-toolbar {
+  align-items: center;
+  justify-content: space-between;
+}
+.checkout-local table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.checkout-local td,
+.checkout-local th {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: start;
+}
+.checkout-local .local-total {
+  font-size: 20px;
+  font-weight: bold;
+}
+.checkout-local .local-status {
+  scroll-margin: 20px;
+}
+.local-order-id {
+  direction: ltr;
+  unicode-bidi: isolate;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+.local-admin [data-order] {
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .local-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .local-admin header,
+  .local-admin nav,
+  .local-admin main,
+  .local-admin > .local-status {
+    padding: 14px;
+  }
+  .local-filters > * {
+    flex: 1 1 140px;
+  }
+  .checkout-local .checkout-fields {
+    grid-template-columns: 1fr;
+  }
+  .local-admin dialog,
+  .checkout-local {
+    padding: 16px;
+  }
+  .local-admin table {
+    min-width: 680px;
+  }
+  .local-admin dialog table {
+    min-width: 0;
+  }
+  .local-metrics strong {
+    font-size: 28px;
+  }
+}
+.quantity-promotion {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  margin: 0.4rem 0;
+  background: #e9f2fc;
+  color: #143c63;
+  border: 1px solid #7799bb;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.row .quantity-promotion {
+  max-width: 100%;
+}

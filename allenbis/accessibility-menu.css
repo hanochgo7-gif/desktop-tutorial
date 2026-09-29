@@ -1,0 +1,18 @@
+/* Reserve a slot in the fixed cart footer; the accessibility control never floats over catalog controls. */
+.cartbar{padding-inline-start:5rem}
+#a11yOpen{position:fixed;inset-inline-start:max(calc(1.25rem + env(safe-area-inset-right)),calc((100vw - 820px)/2 + 1.25rem));bottom:calc(1rem + env(safe-area-inset-bottom));z-index:51;width:48px;height:48px;min-width:48px;min-height:48px;border:2px solid #fff;border-radius:50%;background:#133b67;color:#fff;font-size:1.5rem;padding:0;display:grid;place-items:center}
+#a11yOpen:focus-visible{outline:3px solid #ffdf00;outline-offset:3px}
+.a11y-panel{max-width:38rem}.a11y-panel p{line-height:1.6}.a11y-options{display:grid;gap:.75rem}.a11y-options button{min-height:44px;min-width:44px;padding:.65rem .8rem;border:2px solid #76766b;border-radius:.65rem;background:#fff;color:#151515;font:inherit;text-align:start;overflow-wrap:anywhere}
+.a11y-options button[aria-pressed=true]{border-color:#133b67;font-weight:700;text-decoration:underline;background:#e8f1ff}
+.a11y-options fieldset{min-width:0;margin:0;border:1px solid #76766b;border-radius:.65rem;padding:.75rem}.a11y-text-controls{display:flex;gap:.5rem;flex-wrap:wrap}.a11y-text-controls button{flex:1 1 7rem}.a11y-options [aria-disabled=true]{border-style:dashed}
+#a11yStatus{min-height:1.6em}#a11yStatementText[hidden]{display:none}.a11y-links a[href]{text-decoration:underline!important;text-decoration-thickness:.15em!important;font-weight:750!important}
+.a11y-spacing body{line-height:1.7;word-spacing:.12em;letter-spacing:.025em}.a11y-spacing p{line-height:1.8}
+.a11y-motion,.a11y-motion *,.a11y-motion *::before,.a11y-motion *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+/* Explicit palette without filtering or recoloring product artwork. */
+.a11y-contrast body,.a11y-contrast .top,.a11y-contrast .panel,.a11y-contrast .sheethead,.a11y-contrast .agebox,.a11y-contrast .card,.a11y-contrast .search,.a11y-contrast .v2-budget-quick,.a11y-contrast .approved-hero-caption{background:#fff!important;color:#000!important}
+.a11y-contrast :is(p,h1,h2,h3,strong,bdi,label,legend,output,.meta,.line,.v2-status){color:#000!important}
+.a11y-contrast :is(button,input,select,textarea,.qty){background:#fff!important;color:#000!important;border-color:#000!important}
+.a11y-contrast :is(button[aria-pressed=true],.cat.on){background:#000!important;color:#fff!important}
+.a11y-contrast :is(a[href],.budget-error){color:#000!important}.a11y-contrast a.v2-primary{background:#fff!important;border:2px solid #000}
+.a11y-contrast .cartbar{background:#fff!important;color:#000!important;border:2px solid #000}.a11y-contrast #a11yOpen{background:#000!important;color:#fff!important;border-color:#fff!important}
+.a11y-contrast :focus-visible{outline:3px solid #000!important;box-shadow:0 0 0 3px #fff!important}.a11y-contrast [aria-pressed=true]:focus-visible,.a11y-contrast #a11yOpen:focus-visible{outline-color:#005fcc!important}

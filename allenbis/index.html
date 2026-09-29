@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f6f3">
+<title>Allenbis | אלנביס</title>
+<style>
+:root{--bg:#f6f6f3;--card:#fff;--ink:#151515;--muted:#595959;--line:#e6e6df}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input{font:inherit} button{touch-action:manipulation}
+.app{max-width:820px;margin:auto;padding-bottom:calc(108px + env(safe-area-inset-bottom))}
+.top{position:sticky;top:0;z-index:30;background:rgba(246,246,243,.94);backdrop-filter:blur(18px);padding:calc(12px + env(safe-area-inset-top)) 14px 10px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:end;justify-content:space-between} h1{margin:0;font-size:1.875rem;letter-spacing:-.5px}
+.sub{font-size:0.75rem;color:var(--muted)} .logo{font-weight:900;font-size:1.125rem}
+.search{margin-top:10px;background:white;border:1px solid var(--line);border-radius:16px;padding:11px 12px;display:flex;gap:8px}
+.search input{border:0;background:transparent;width:100%;font-size:1rem}
+.hero{margin:12px 14px 8px;height:225px;border-radius:26px;overflow:hidden;position:relative;background:none}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.05),rgba(0,0,0,.72))}
+.herotxt{position:absolute;z-index:2;right:18px;bottom:18px;color:#fff;max-width:65%}
+.herotxt h2{margin:0;font-size:1.75rem;line-height:1.05} .herotxt p{margin:7px 0 0;color:#eee;font-size:0.8125rem}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 5px;scrollbar-width:none} .cats::-webkit-scrollbar{display:none}
+.cat{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px}
+.cat.on{background:#111;color:#fff;border-color:#111}
+.line{padding:6px 14px 0;color:var(--muted);font-size:0.75rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:21px;padding:11px;display:flex;flex-direction:column;min-height:276px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.pic{height:142px;border-radius:15px;background:#fafaf7;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.pic img{width:100%;height:100%;object-fit:contain}
+.badge{position:absolute;top:8px;right:8px;background:#111;color:#fff;border-radius:999px;padding:4px 7px;font-size:0.625rem}
+.name{font-weight:800;font-size:0.875rem;margin-top:9px;line-height:1.25}
+.meta{font-size:0.6875rem;color:var(--muted);margin-top:3px;min-height:24px}
+.price{font-weight:800;margin-top:auto;padding-top:7px}
+.qty{display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;border-radius:12px;overflow:hidden;margin-top:8px;background:#fff}
+.qty button{border:0;background:#f0f0ec;width:42px;height:41px;font-size:1.4375rem;font-weight:700}
+.qty output{min-width:28px;text-align:center;font-weight:700}
+.info{margin-top:8px;background:#f1f1ed;border-radius:11px;padding:9px;text-align:center;font-size:0.6875rem}
+.cartbar{position:fixed;z-index:35;left:12px;right:12px;bottom:calc(9px + env(safe-area-inset-bottom));max-width:796px;margin:auto;background:#111;color:#fff;border-radius:19px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.cartbar button{border:0;background:transparent;color:#fff;font-weight:800}
+.sheet{position:fixed;inset:0;background:#0007;z-index:60;display:none;align-items:flex-end} .sheet.open{display:flex}
+.panel{width:100%;max-width:820px;margin:auto;background:white;border-radius:26px 26px 0 0;max-height:82vh;overflow:auto;padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
+.sheethead{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;padding-bottom:8px}
+.close{border:0;background:#eee;border-radius:999px;width:36px;height:36px;font-size:1.375rem}
+.row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.row .qty{margin:0} .empty{text-align:center;color:var(--muted);padding:36px 10px}
+.age{position:fixed;inset:0;background:#0008;z-index:70;display:none;align-items:flex-end} .age.open{display:flex}
+.agebox{width:100%;max-width:820px;margin:auto;background:#fff;border-radius:26px 26px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));text-align:center}
+.agebox button{width:100%;border:0;border-radius:13px;padding:12px;margin-top:8px;font-weight:800} .yes{background:#111;color:#fff} .no{background:#eee}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.skip{position:fixed;top:8px;right:8px;z-index:100;background:white;color:#111;padding:12px;transform:translateY(-200%)}
+.skip:focus{transform:none}
+:focus-visible{outline:3px solid #005fcc;outline-offset:3px}
+.qty button:focus-visible{outline-offset:-4px}
+.search:focus-within{outline:3px solid #005fcc;outline-offset:2px}
+.cartbar button:focus-visible{outline-color:#9bcaff}
+.qty button,.close{min-width:44px;min-height:44px}
+button[aria-disabled="true"]{color:#595959;cursor:default}
+.cat{min-height:44px}
+.name{margin-bottom:0}
+.herotxt{background:#000b;border-radius:12px;padding:10px}
+.sheet,.age{border:0;padding:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--ink)}
+.sheet[open],.age[open]{display:flex}
+dialog::backdrop{background:#0008}
+body:has(dialog[open]){overflow:hidden}
+.panel,.agebox{margin:auto auto 0}
+.agebox{max-height:100%;overflow:auto}
+#grid{scroll-margin-top:150px}
+.card,.row>div{min-width:0;overflow-wrap:anywhere}
+.meta,.info{font-size:0.75rem;line-height:1.4}
+.search input{min-width:0}
+.cartbar button{min-height:44px}
+.cats{padding-bottom:9px}
+.cat:focus-visible{outline-offset:-4px}
+.row{grid-template-columns:minmax(0,1fr) auto}
+.panel{scroll-padding-top:65px;scroll-padding-bottom:24px}
+button{scroll-margin-block:160px 120px}
+@media(max-width:360px){.grid{gap:8px;padding-inline:10px}.card{padding:8px}.herotxt{max-width:85%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<link rel="stylesheet" href="v2.css">
+<link rel="stylesheet" href="local-ui.css">
+<link rel="icon" href="favicon.svg"><link rel="stylesheet" href="accessibility.css"><link rel="stylesheet" href="accessibility-menu.css"></head>
+<body>
+<a class="skip" href="#mainContent">דילוג לתוכן הראשי</a>
+<div id="status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="app">
+<header class="top"><p id="previewBanner" role="note" style="margin:0;padding:10px 16px;text-align:center;background:#e8f1ff;color:#133b67;font-weight:600">Allenbis בתצוגה מקדימה — ההזמנות ייפתחו בקרוב</p>
+  <div class="brand"><div><h1>אלנביס</h1><div class="sub">Allenbis · הכול במקום אחד</div></div><div class="logo" aria-hidden="true">A.</div></div>
+  <search><div class="search"><span aria-hidden="true">🔎</span><label for="q" class="sr-only">חיפוש מוצר, מותג או קטגוריה</label><input id="q" type="search" aria-controls="grid" aria-describedby="searchHelp" placeholder="חיפוש מוצר, מותג או קטגוריה" autocomplete="off"><button id="clearSearch" type="button" aria-label="ניקוי החיפוש" disabled>×</button></div><p id="searchHelp" class="sr-only">התוצאות מתעדכנות בזמן ההקלדה לפי הקטגוריה שנבחרה.</p></search>
+</header>
+<main id="mainContent" tabindex="-1"><section class="hero v2-hero approved-hero" aria-labelledby="heroTitle">
+  <a class="approved-hero-art" href="#grid" aria-label="לקטלוג המוצרים של Allenbis">
+    <img id="approvedHero" src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(max-width: 1200px) calc(100vw - 28px), 1172px" width="1672" height="684" fetchpriority="high" alt="עובד Allenbis צעיר אוסף חטיפים לשקית בחנות; בחוץ שליח על אופניים עם ארגז Allenbis כחול ולבן">
+  </a>
+  <div class="approved-hero-caption"><div><h2 id="heroTitle">מהחנות עד אליך.</h2><p>שתייה, חטיפים וכל מה שביניהם.</p></div><a class="v2-primary" href="#grid" id="heroShop">יאללה, למוצרים <span aria-hidden="true">←</span></a></div>
+</section>
+<section class="v2-hub" aria-labelledby="v2Title"><div class="v2-heading"><h2 id="v2Title">עוד קצת Allenbis</h2><span>בדיוק בשבילך</span></div>
+  <form id="budgetQuick" class="v2-budget-quick"><label for="budgetQuickInput">יש לי <span aria-hidden="true">₪</span></label><input id="budgetQuickInput" inputmode="decimal" type="text" placeholder="250" maxlength="10" aria-label="התקציב שלי בשקלים" required><button class="v2-primary" type="submit">בנו לי סל</button><p id="budgetAvailability"></p></form>
+  <div class="v2-actions"><button data-feature="again" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">↺</span><strong>קנה שוב חכם</strong><small>הדברים שכבר אהבת</small></button><button data-feature="welcome" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">✦</span><strong>נעים להכיר</strong><small id="welcomeTeaser"></small></button><button data-feature="referral" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">♡</span><strong>חבר מביא חבר</strong><small id="referralTeaser"></small></button><button data-feature="wheel" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">◉</span><strong>גלגל Allenbis</strong><small>מוצר במתנה — בקרוב</small></button><button data-feature="delivery" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">⌁</span><strong>המשלוח שלי</strong><small>כל שלב, במקום אחד</small></button></div>
+</section>
+<nav class="cats" id="cats" aria-label="קטגוריות מוצרים"></nav>
+<h2 id="catalogTitle" class="sr-only">קטלוג המוצרים</h2><p class="line" id="line"></p>
+<section class="grid" id="grid" tabindex="-1" aria-labelledby="catalogTitle"></section></main>
+</div>
+<footer class="cartbar" aria-label="סל הקניות"><button id="openCart" aria-haspopup="dialog" aria-controls="sheet">🛒 סל קניות</button><strong id="cnt">0 פריטים</strong></footer>
+<dialog class="sheet" id="sheet" aria-labelledby="cartTitle"><div class="panel"><div class="sheethead"><h2 id="cartTitle" style="margin:0">הסל שלי</h2><button class="close" id="close" aria-label="סגירת סל הקניות" autofocus>×</button></div><div id="cartRows"></div><div id="cartTotals" class="v2-cart-totals"></div><div id="cartPrizes"></div><div id="cartStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div></div></dialog>
+<dialog class="sheet v2-dialog" id="featureDialog" aria-labelledby="featureTitle"><div class="panel"><div class="sheethead"><h2 id="featureTitle">Allenbis</h2><button class="v2-secondary" id="featureRefresh" type="button" disabled aria-label="רענון פרטי החשבון">רענון</button><button class="close" id="featureClose" type="button" aria-label="סגירת החלון" autofocus>×</button></div><div id="featureBody"></div><p id="featureStatus" role="status" aria-live="polite" aria-atomic="true" class="v2-status"></p></div></dialog>
+<dialog class="age" id="age" aria-labelledby="ageTitle" aria-describedby="ageDescription"><div class="agebox"><h2 id="ageTitle">אלכוהול 18+</h2><p id="ageDescription">הכניסה לקטגוריית האלכוהול מיועדת לבני 18 ומעלה.</p><button class="yes" id="ageYes">אני בן/בת 18 ומעלה</button><button class="no" id="ageNo" autofocus>חזרה לחנות</button></div></dialog>
+<script src="catalog.js" defer></script>
+
+<script src="commerce-config.js" defer></script>
+<script src="commerce-engine.js" defer></script>
+<script src="app.js" defer></script>
+<script src="v2.js" defer></script>
+<script src="preview.js" defer></script><script src="accessibility.js" defer></script>
+<script src="accessibility-menu.js" defer></script></body></html>
