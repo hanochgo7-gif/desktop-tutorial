@@ -216,7 +216,7 @@ def header(root, current=None):
   <div class="menu-in">
     <nav class="menu-nav" aria-label="תפריט ראשי">
       <ol class="menu-list">
-{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', home + '#coach', 'מי אני', 'assets/img/coach-guard-duo.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
+{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', home + '#coach', 'מי אני', 'assets/img/coach-thailand.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
         <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="{root}assets/img/flagship.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
           <span class="menu-num">03</span><span class="menu-t">שירותים</span>{CHEV}
         </button>
