@@ -106,6 +106,24 @@ bdi{unicode-bidi:isolate}
 .quick button:hover{background:rgba(255,255,255,.12)}
 .builder .err{min-height:1.2em;margin-top:-4px;font-size:.875rem;color:#ffe7a3;position:relative;z-index:1}
 .builder .err:empty{min-height:0;margin:-6px 0 0}
+.qz-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:28px;position:relative;z-index:1}
+.qz-dots{display:flex;gap:6px}
+.qz-dots i{width:22px;height:5px;border-radius:3px;background:rgba(255,255,255,.3)}
+.qz-dots i.on{background:#ffd84d}
+.qz-back{border:0;background:none;color:#fff;font-weight:700;padding:6px 2px;text-decoration:underline;text-underline-offset:3px}
+.qz-step{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;animation:qzIn .25s ease-out}
+@keyframes qzIn{from{opacity:0;transform:translateX(-10px)}}
+.qz-q{font:400 1.25rem/1.25 var(--display);color:#fff}
+.qz-q:focus{outline:none}
+.qz-q{scroll-margin-top:calc(var(--top-h,67px) + 110px)}
+.qz-q small{font:600 .8125rem var(--body);color:#c9d6f2;margin-inline-start:6px}
+.qz-opts{display:flex;flex-wrap:wrap;gap:8px}
+.qz-opts button{border:1.5px solid rgba(255,255,255,.6);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;min-height:44px;padding:0 16px;font-weight:700}
+.qz-opts button:hover{background:rgba(255,255,255,.14)}
+.qz-opts button[aria-pressed="true"]{background:#ffd84d;border-color:#ffd84d;color:#14203a}
+.qz-next{align-self:flex-start;min-height:46px}
+.qz-hint{font-size:.875rem;color:#d8e2f6;margin:0}
+@media (prefers-reduced-motion:reduce){.qz-step{animation:none}}
 
 /* Category tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px;padding-block:16px 4px;list-style:none;margin:0;padding-inline:0}
@@ -567,14 +585,32 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
         <span class="neon"><span class="n-name">אלנביס</span><span class="n-open">פתוח</span><span class="n-247">24/7</span></span>
         <img src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(min-width: 960px) 760px, 100vw" width="1672" height="684" fetchpriority="high" decoding="async" alt="">
       </a>
-      <div class="builder">
+      <div class="builder" id="quiz">
         <h1 id="heroTitle">מהחנות, עד הדלת שלך.</h1>
-        <p>אין לך כוח לבחור? תגיד כמה בא לך להוציא, ונרכיב לך סל של שתייה, חטיפים וממתקים.</p>
-        <form class="budget" id="budgetForm" novalidate>
-          <label class="field" for="budget"><span aria-hidden="true">₪</span><span class="sr-only">תקציב בשקלים</span><input id="budget" inputmode="decimal" placeholder="100" maxlength="7" autocomplete="off" aria-describedby="budgetErr"></label>
-          <button class="btn-tag" type="submit">הרכיבו לי סל</button>
-        </form>
-        <div class="quick" role="group" aria-label="סכומים מהירים"><button type="button" data-amount="50">‏50 ₪</button><button type="button" data-amount="100">‏100 ₪</button><button type="button" data-amount="200">‏200 ₪</button></div>
+        <p>4 שאלות קצרות, ונרכיב לך סל שמתאים בדיוק.</p>
+        <div class="qz-top"><span class="qz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="qz-back" id="qzBack" hidden>→ חזרה</button></div>
+        <div class="qz-step" data-step="0" role="group" aria-labelledby="qzQ0">
+          <h2 class="qz-q" id="qzQ0" tabindex="-1">מה התוכנית?</h2>
+          <div class="qz-opts"><button type="button" data-q="plan" data-v="movie" aria-pressed="false">ערב סרט</button><button type="button" data-q="plan" data-v="party" aria-pressed="false">חברים / מסיבה</button><button type="button" data-q="plan" data-v="night" aria-pressed="false">לילה לבן</button><button type="button" data-q="plan" data-v="snack" aria-pressed="false">נשנוש לעצמי</button><button type="button" data-q="plan" data-v="meal" aria-pressed="false">ארוחה מהירה</button></div>
+        </div>
+        <div class="qz-step" data-step="1" role="group" aria-labelledby="qzQ1" hidden>
+          <h2 class="qz-q" id="qzQ1" tabindex="-1">כמה אתם?</h2>
+          <div class="qz-opts"><button type="button" data-q="people" data-v="1" aria-pressed="false">לבד</button><button type="button" data-q="people" data-v="2" aria-pressed="false">שניים</button><button type="button" data-q="people" data-v="4" aria-pressed="false">3–5</button><button type="button" data-q="people" data-v="7" aria-pressed="false">6 ומעלה</button></div>
+        </div>
+        <div class="qz-step" data-step="2" role="group" aria-labelledby="qzQ2" hidden>
+          <h2 class="qz-q" id="qzQ2" tabindex="-1">מה בא לכם? <small>אפשר לבחור כמה</small></h2>
+          <div class="qz-opts"><button type="button" data-q="taste" data-v="sweet" aria-pressed="false">מתוק</button><button type="button" data-q="taste" data-v="salty" aria-pressed="false">מלוח</button><button type="button" data-q="taste" data-v="drinks" aria-pressed="false">הרבה שתייה</button><button type="button" data-q="taste" data-v="icecream" aria-pressed="false">גלידה</button><button type="button" data-q="taste" data-v="nosugar" aria-pressed="false">שתייה בלי סוכר</button></div>
+          <button type="button" class="btn-tag qz-next" id="qzNext">המשך</button>
+        </div>
+        <div class="qz-step" data-step="3" role="group" aria-labelledby="qzQ3" hidden>
+          <h2 class="qz-q" id="qzQ3" tabindex="-1">כמה להוציא?</h2>
+          <form class="budget" id="budgetForm" novalidate>
+            <label class="field" for="budget"><span aria-hidden="true">₪</span><span class="sr-only">תקציב בשקלים</span><input id="budget" inputmode="decimal" placeholder="100" maxlength="7" autocomplete="off" aria-describedby="budgetErr qzHint"></label>
+            <button class="btn-tag" type="submit">הרכיבו לי סל</button>
+          </form>
+          <p class="qz-hint" id="qzHint"></p>
+          <div class="quick" role="group" aria-label="סכומים מהירים"></div>
+        </div>
         <p class="err" id="budgetErr" role="alert"></p>
       </div>
     </section>

@@ -918,8 +918,117 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     }
     return { lines: [...picked].map(([id, q]) => ({ p: byId.get(id), q })), total, count };
   }
+  /* ---------- The quiz: plan, people, taste, budget → a basket that fits ---------- */
+  const PLANS = {
+    movie: { label: 'ערב סרט', per: 35, w: { salty: 3, soda: 3, choc: 2, candy: 1.5, icecream: 1, juice: 1 } },
+    party: { label: 'חברים', per: 40, w: { soda: 3, salty: 3, nuts: 2, mixer: 1, juice: 1, candy: 1, ice: 1.5 } },
+    night: { label: 'לילה לבן', per: 30, w: { energy: 3, coffee: 2, choc: 2, salty: 1.5, mint: 1, water: 1 } },
+    snack: { label: 'נשנוש', per: 30, w: { choc: 2.5, salty: 2, cookies: 1.5, soda: 1, juice: 1, candy: 1, icecream: 1 } },
+    meal: { label: 'ארוחה מהירה', per: 40, w: { instant: 3, soda: 2, canned: 1, crackers: 1, water: 1, choc: 1 } }
+  };
+  const FOR_WHOM = { 1: 'לאחד', 2: 'לשניים', 4: 'ל-3–5', 7: 'ל-6 ומעלה' };
+  const SALTY = new Set(['salty', 'nuts', 'crackers']);
+  const sugarFree = p => kindOf(p) === 'water' || ['p14', 'p20'].includes(p.id) || /ללא סוכר|זירו|zero|מקס|max|free|sugarfree|ultra/i.test(`${p.name} ${p.sub || ''}`);
+  const quizPool = products.filter(p => sellable(p) && hasPrice(p) && unit(p) > 0 && !isRestricted(p) && p.category !== ALCOHOL && (hasCut(p.id) || imgOf(p) !== FALLBACK));
+  const answers = { plan: null, people: 0, taste: new Set() };
+
+  function quizWeights(a) {
+    const w = { ...PLANS[a.plan].w };
+    const t = a.taste, sweet = t.has('sweet'), salty = t.has('salty');
+    const mul = (set, f) => { for (const k of Object.keys(w)) if (set.has(k)) w[k] *= f; };
+    if (sweet && !salty) { mul(SWEET, 1.8); mul(SALTY, 0.3); if (!w.choc) w.choc = 2; if (!w.cookies) w.cookies = 1; }
+    if (salty && !sweet) { mul(SALTY, 1.8); mul(SWEET, 0.3); if (!w.salty) w.salty = 2; }
+    if (sweet && salty) { mul(SWEET, 1.3); mul(SALTY, 1.3); }
+    if (t.has('drinks')) { mul(DRINK, 1.7); if (!w.water) w.water = 1; }
+    if (t.has('icecream')) w.icecream = Math.max(w.icecream || 0, 3);
+    if (t.has('nosugar')) { w.water = (w.water || 0) + 1.5; delete w.juice; }
+    if (a.people >= 6 && !w.ice) w.ice = 1;
+    return w;
+  }
+  // Big bottles for a crowd, single-serve for one
+  const sizeFit = (p, people) => {
+    if (!DRINK.has(kindOf(p))) return 1;
+    const big = /1\.5 ליטר|רביעיית/.test(p.name);
+    return people >= 3 ? (big ? 2.2 : 0.6) : people === 1 ? (big ? 0.5 : 1.4) : (big ? 1.5 : 0.9);
+  };
+  function quizBasket(a, limit) {
+    const w = quizWeights(a);
+    const maxItems = B.maxItems || 30, maxPer = B.maxPerProduct || 5;
+    const byKind = {};
+    for (const p of quizPool) {
+      const k = kindOf(p);
+      if (!w[k] || (a.taste.has('nosugar') && DRINK.has(k) && !sugarFree(p))) continue;
+      const score = (bestIds.has(p.id) ? 1.3 : 1) * (onSale(p) ? 1.2 : 1) * sizeFit(p, a.people) * (0.6 + Math.random() * 0.8);
+      (byKind[k] ||= []).push({ p, score });
+    }
+    for (const k in byKind) byKind[k] = byKind[k].sort((x, y) => y.score - x.score).map(x => x.p);
+    const picked = new Map(), taken = {};
+    const capOf = p => kindOf(p) === 'ice' ? Math.ceil(a.people / 5) : maxPer;
+    const fits = p => total + unit(p) <= limit && (picked.get(p.id) || 0) < capOf(p);
+    const newShare = a.people >= 3 ? 0.5 : 0.75;
+    let total = 0, count = 0;
+    while (count < maxItems) {
+      const kinds = Object.keys(byKind).filter(k => byKind[k].some(fits));
+      if (!kinds.length) break;
+      const ws = kinds.map(k => w[k] / (1 + (taken[k] || 0) * 1.2));
+      let k;
+      if (count < 3) k = kinds[ws.indexOf(Math.max(...ws))];
+      else { let r = Math.random() * ws.reduce((x, y) => x + y, 0); k = kinds.find((_, i) => (r -= ws[i]) <= 0) || kinds[0]; }
+      const list = byKind[k].filter(fits);
+      const fresh = list.find(p => !picked.has(p.id)), again = list.find(p => picked.has(p.id));
+      const p = fresh && (!again || Math.random() < newShare) ? fresh : again || fresh;
+      picked.set(p.id, (picked.get(p.id) || 0) + 1);
+      total += unit(p); count++; taken[k] = (taken[k] || 0) + 1;
+    }
+    return { lines: [...picked].map(([id, q]) => ({ p: byId.get(id), q })), total, count };
+  }
+  const suggestBudget = a => Math.max(40, Math.round(PLANS[a.plan].per * a.people / 10) * 10);
+
+  let qzStep = 0;
+  function showStep(n, focus) {
+    qzStep = n;
+    $('quiz').querySelectorAll('.qz-step').forEach(el => { el.hidden = +el.dataset.step !== n; });
+    $('quiz').querySelectorAll('.qz-dots i').forEach((d, i) => d.classList.toggle('on', i <= n));
+    $('qzBack').hidden = n === 0;
+    if (n === 3) {
+      const sug = suggestBudget(answers);
+      if (!$('budget').dataset.touched) $('budget').value = sug;
+      $('qzHint').textContent = `הצעה ל${PLANS[answers.plan].label} ${FOR_WHOM[answers.people]}: ${fmt(sug * 100)}. אפשר לשנות.`;
+      document.querySelector('#quiz .quick').innerHTML = [...new Set([Math.round(sug * 0.7 / 10) * 10, sug, Math.round(sug * 1.5 / 10) * 10])]
+        .filter(v => v >= 20).map(v => `<button type="button" data-amount="${v}">‏${v} ₪</button>`).join('');
+    }
+    if (focus) {
+      const q = $(`qzQ${n}`);
+      q.focus({ preventScroll: true });
+      const top = $('top').getBoundingClientRect().bottom;
+      if (q.getBoundingClientRect().top < top + 8) q.scrollIntoView({ block: 'start' });
+      announce(`שאלה ${n + 1} מתוך 4`);
+    }
+  }
+  $('quiz').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]');
+    if (b) {
+      const { q, v } = b.dataset;
+      if (q === 'taste') {
+        answers.taste.has(v) ? answers.taste.delete(v) : answers.taste.add(v);
+        b.setAttribute('aria-pressed', String(answers.taste.has(v)));
+        return;
+      }
+      b.parentElement.querySelectorAll('[data-q]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      if (q === 'plan') answers.plan = v; else answers.people = +v;
+      delete $('budget').dataset.touched;
+      showStep(qzStep + 1, true);
+      return;
+    }
+    if (e.target.closest('#qzNext')) showStep(3, true);
+    if (e.target.closest('#qzBack')) showStep(Math.max(0, qzStep - 1), true);
+  });
+  $('budget').addEventListener('input', () => { $('budget').dataset.touched = '1'; });
+  showStep(0, false);
+
   function renderBasket() {
-    $('basketBody').innerHTML = `<p class="note-box">בתקציב של <bdi>${fmt(budgetMinor)}</bdi> הרכבנו ${basket.count} פריטים. לא מתאים? אפשר לערבב שוב.</p>` +
+    const a = answers.plan ? `סל ל${PLANS[answers.plan].label} ${FOR_WHOM[answers.people]}${answers.taste.has('nosugar') ? ', שתייה בלי סוכר' : ''}, ` : '';
+    $('basketBody').innerHTML = `<p class="note-box">${esc(a)}בתקציב של <bdi>${fmt(budgetMinor)}</bdi>: הרכבנו ${basket.count} פריטים. לא מתאים? אפשר לערבב שוב.</p>` +
       basket.lines.map(({ p, q }) => lineHtml(p, q, false)).join('');
     $('basketFoot').innerHTML = `<div class="totals"><div class="row big"><span>סה״כ</span><bdi>${fmt(basket.total)}</bdi></div><div class="muted">נשארו <bdi>${fmt(budgetMinor - basket.total)}</bdi> מהתקציב.</div></div>
 <button class="primary" type="button" id="basketAdd">הוספת הכול לסל</button>
@@ -944,13 +1053,14 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (budgetMinor < cheapest) return fail(`המוצר הזול ביותר עולה ${fmt(cheapest)}. נסו סכום גבוה יותר.`);
     $('budgetErr').textContent = '';
     $('budget').removeAttribute('aria-invalid');
-    basket = buildBasket(budgetMinor);
+    basket = answers.plan ? quizBasket(answers, budgetMinor) : buildBasket(budgetMinor);
+    if (!basket.count) return fail('לא מצאנו מוצרים שמתאימים לבחירות בתקציב הזה. נסו סכום גבוה יותר.');
     renderBasket();
     openDialog('basket');
   });
   $('basketFoot').addEventListener('click', e => {
     if (e.target.closest('#basketShuffle')) {
-      basket = buildBasket(budgetMinor);
+      basket = answers.plan ? quizBasket(answers, budgetMinor) : buildBasket(budgetMinor);
       renderBasket();
       $('basketShuffle').focus();
       announce(`ערבבנו מחדש: ${basket.count} פריטים, ${fmt(basket.total)}.`);
