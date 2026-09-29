@@ -375,6 +375,7 @@ ul, ol { list-style: none; }
 .goal { padding: 8px 28px 8px 28px; }
 .goal:first-child { padding-right: 0; }
 .goal + .goal { border-right: 1px solid var(--line); }
+.goal-ico { display: block; width: 40px; height: 40px; margin-bottom: 16px; color: var(--gold); }
 .goal h3 { font: 700 2rem/1 var(--f-display); color: var(--gold); margin-bottom: 14px; }
 .goal p { margin: 0; color: rgba(242, 236, 224, .82); }
 
@@ -446,17 +447,18 @@ ul, ol { list-style: none; }
 .where { display: grid; grid-template-columns: 5fr 6fr; gap: clamp(32px, 6vw, 88px); align-items: stretch; }
 .places { margin-top: 32px; }
 .places > div { display: grid; grid-template-columns: 8.5em 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line-soft); }
-.places dt { font-weight: 600; color: var(--gold); }
+.places dt { display: flex; align-items: flex-start; gap: 10px; font-weight: 600; color: var(--gold); }
+.place-ico { flex: none; width: 24px; height: 24px; margin-top: 1px; }
 .places dd { color: rgba(242, 236, 224, .82); }
 /* כרטיס הסטודיו: חבלי זירה ברקע, כתובת גדולה וקישורי ניווט */
 .where-card {
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 380px; padding: clamp(28px, 4vw, 48px);
+  min-height: 380px; padding: 110px clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px);
   background:
-    linear-gradient(var(--line), var(--line)) 0 14% / 100% 1px no-repeat,
-    linear-gradient(var(--line), var(--line)) 0 22% / 100% 1px no-repeat,
-    linear-gradient(var(--line), var(--line)) 0 30% / 100% 1px no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 30px / 100% 1px no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 54px / 100% 1px no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 78px / 100% 1px no-repeat,
     radial-gradient(ellipse 70% 60% at 50% 0%, rgba(212, 162, 76, .18), transparent 70%),
     var(--bark-2);
   border: 1px solid var(--line);
@@ -601,6 +603,10 @@ ul, ol { list-style: none; }
 .more-card:hover { background: var(--bark-3); }
 .more-card:hover b { color: var(--gold); }
 .more { padding-bottom: var(--section-y); }
+
+/* אייקון לצד טקסט קצר (יצירת קשר) */
+.with-ico { display: inline-flex; align-items: center; gap: 8px; }
+.with-ico .ico { width: 18px; height: 18px; flex: none; color: var(--gold); }
 
 /* ---------- הורדת סיכון ליד כפתור ---------- */
 .assure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; font-size: .88rem; color: rgba(242, 236, 224, .8); }
