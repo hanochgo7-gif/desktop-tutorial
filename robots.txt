@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: להחליף example.com בדומיין האמיתי
 Sitemap: https://gotovski.co.il/sitemap.xml
