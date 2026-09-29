@@ -555,6 +555,20 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? '<span class="s-flag" aria-hidden="true">מבצע</span>' : ''}<span class="t-name"><bdi>${esc(p.name)}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
     return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${CUT.has(p.id) ? '' : ' box'}" data-open="${p.id}" aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(CUT.has(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
   }
+  // Glass-door cooler: one door per 3 columns, a frame between doors and a handle on each.
+  function doorsHtml() {
+    const per = Math.min(3, shelfCols);
+    let html = '<span class="glass" aria-hidden="true"></span>';
+    for (let k = 0; k < shelfCols; k += per) {
+      const end = Math.min(k + per, shelfCols);
+      if (k) html += `<span class="mullion" style="--k:${k}" aria-hidden="true"></span>`;
+      // LED strips glowing on both sides of every door
+      html += `<span class="led" style="--k:${k};--o:${k ? '2px' : '-7px'}" aria-hidden="true"></span>`;
+      html += `<span class="led" style="--k:${end};--o:-13px" aria-hidden="true"></span>`;
+      html += `<span class="handle" style="--k:${k};--o:${k ? '1px' : '-10px'}" aria-hidden="true"></span>`;
+    }
+    return html;
+  }
   function renderShelves() {
     const box = $('aisles');
     shelfCols = colsFor(($('catbar').clientWidth || 360) - 40);
@@ -567,7 +581,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       for (let r = 0; r < list.length; r += shelfCols) rows.push(list.slice(r, r + shelfCols));
       const kind = FRIDGE[c] || 'dry';
       const shelves = rows.map(row => `<div class="shelf">${row.map(slotHtml).join('')}${'<div class="slot empty" aria-hidden="true"><div class="prod"></div><span class="stag"></span></div>'.repeat(shelfCols - row.length)}</div>`).join('');
-      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : '<span class="glass" aria-hidden="true"></span>'}</div></section>`;
+      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : doorsHtml()}</div></section>`;
     }).join('') + (cat === ALL ? `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>` : '');
   }
   function applyView() {
