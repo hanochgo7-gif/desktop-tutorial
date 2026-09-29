@@ -264,23 +264,126 @@
     return `<div class="m"><img src="${esc(imgOf(p))}" alt="" loading="lazy"><div class="t"><bdi>${esc(p.name)}</bdi></div><div class="r"><bdi>${fmt(unit(p))}</bdi><button type="button" class="add" data-add="${p.id}" aria-label="הוספת ${esc(p.name)} לסל">${plusIcon}</button></div></div>`;
   }
 
-  function upsell() {
-    const inCart = new Set(Object.keys(cart));
-    const cats = new Set(lines().map(l => l.p.category));
-    const want = [];
-    if (cats.has(ALCOHOL)) want.push('p173', 'p16', 'p14');
-    if (cats.has('שתייה') && !cats.has('חטיפים')) want.push(...products.filter(p => p.category === 'חטיפים').map(p => p.id));
-    if ((cats.has('חטיפים') || cats.has('ממתקים')) && !cats.has('שתייה')) want.push('p1', 'p3', 'p17', 'p27');
-    if (!cats.has('גלידות')) want.push('p89', 'p92', 'p98');
-    want.push(...bestIds);
-    const out = [], seen = new Set();
-    for (const id of want) {
-      const p = byId.get(id);
-      if (!p || seen.has(id) || inCart.has(id) || !sellable(p) || isRestricted(p) || !hasPrice(p) || imgOf(p) === FALLBACK) continue;
-      seen.add(id); out.push(p);
-      if (out.length >= 8) break;
+  /* ---------- "ליד הקופה": what people usually also need ---------- */
+  // Every product gets a kind; a basket's kinds decide which other kinds it probably still needs.
+  const KIND_BY_SUB = {
+    'מוגזים': 'soda', 'ללא סוכר': 'soda', 'סודה': 'mixer', 'טוניק': 'mixer', 'מים מוגזים': 'mixer', 'מים': 'water',
+    'תה קר': 'juice', 'מיץ': 'juice', 'משקה קל': 'juice', 'מאלט': 'juice', 'אנרגיה': 'energy', 'קפה קר': 'coffee', 'משקה חלב': 'milk',
+    'סוכריות': 'candy', 'שימורים': 'canned', 'מהיר': 'instant', 'נשנוש': 'crackers', 'פיצוחים': 'nuts',
+    'מטען': 'charger', 'כבל': 'cable', 'רכב': 'car', 'מעמד': 'car', 'אוזניות': 'earphones', 'מתאם': 'adapter', 'סוללה': 'powerbank'
+  };
+  const KIND_BY_CAT = { 'חטיפים': 'salty', 'ממתקים': 'choc', 'עוגיות': 'cookies', 'גלידות': 'icecream', 'מזון': 'food' };
+  const KIND_BY_ID = { p173: 'ice', p176: 'game', p77: 'mint', p78: 'mint' };
+  function kindOf(p) {
+    if (p._k) return p._k;
+    let k = KIND_BY_ID[p.id];
+    if (!k && p.category === ALCOHOL) k = /ערק/.test(p.name) ? 'arak' : /לייבל|J&B|וויסקי/i.test(p.name) ? 'whisky' : 'vodka';
+    if (!k && isRestricted(p)) k = 'smoke';
+    return (p._k = k || KIND_BY_SUB[p.sub] || KIND_BY_CAT[p.category] || 'other');
+  }
+  // trigger kind → [kind it needs, weight, reason, preferred products]. {n} = the product in the basket.
+  // Smoking products never appear as suggestions (the law bans promoting them), and alcohol is never pushed.
+  const PAIRS = {
+    vodka: [['ice', 10, 'קרח ל{n}'], ['mixer', 9, 'לערבב עם {n}', ['p16', 'p14']], ['juice', 5, 'לערבב עם {n}', ['p32']], ['soda', 5, 'לערבב עם {n}', ['p5', 'p3']], ['nuts', 5, 'פיצוחים לשולחן', ['p111']], ['salty', 4, 'נשנוש לצד השתייה']],
+    whisky: [['ice', 10, 'קרח ל{n}'], ['soda', 8, 'וויסקי-קולה', ['p3', 'p1']], ['mixer', 5, 'סודה ל{n}', ['p14', 'p20']], ['nuts', 6, 'פיצוחים לשולחן', ['p111', 'p114']]],
+    arak: [['ice', 10, 'קרח לערק'], ['juice', 9, 'ערק אשכוליות', ['p33', 'p34']], ['mixer', 5, 'סודה לערק', ['p14', 'p20']], ['nuts', 7, 'גרעינים לערק', ['p112', 'p113', 'p111']]],
+    salty: [['soda', 8, 'שתייה מתוקה ל{n}', ['p3', 'p1']], ['juice', 4, 'משהו לשתות עם {n}'], ['choc', 4, 'משהו מתוק אחרי המלוח'], ['water', 3, 'מים ליד']],
+    nuts: [['soda', 6, 'שתייה ליד הפיצוחים', ['p3']], ['game', 6, 'שש-בש עם הפיצוחים'], ['water', 3, 'מים ליד']],
+    choc: [['milk', 6, 'שוקו קר ליד המתוק', ['p40']], ['coffee', 6, 'קפה קר ל{n}', ['p38']], ['water', 3, 'מים ליד', ['p18']], ['icecream', 3, 'וגם גלידה?']],
+    candy: [['soda', 4, 'שתייה ליד הממתקים'], ['water', 3, 'מים ליד', ['p18']], ['choc', 3, 'עוד משהו מתוק']],
+    cookies: [['milk', 8, 'שוקו ל{n}', ['p40']], ['coffee', 7, 'קפה קר ל{n}', ['p38']], ['icecream', 3, 'גלידה עם העוגיות']],
+    icecream: [['icecream', 5, 'עוד אחת למקפיא'], ['cookies', 4, 'עוגיות לגלידה', ['p79']], ['water', 3, 'מים ליד', ['p18']]],
+    energy: [['choc', 5, 'אנרגיה מתוקה'], ['salty', 4, 'חטיף ליד {n}'], ['mint', 3, 'לרענן'], ['water', 3, 'מים ליד', ['p18']]],
+    coffee: [['cookies', 6, 'עוגייה לקפה'], ['choc', 5, 'משהו מתוק לקפה']],
+    milk: [['cookies', 7, 'עוגיות לשוקו'], ['choc', 3, 'שוקולד ליד']],
+    soda: [['salty', 8, 'חטיף ליד {n}'], ['ice', 4, 'קרח לשתייה'], ['choc', 3, 'משהו מתוק']],
+    juice: [['salty', 6, 'חטיף ליד {n}'], ['choc', 3, 'משהו מתוק']],
+    water: [['salty', 3, 'משהו לנשנש'], ['mint', 3, 'משהו קטן לדרך']],
+    mixer: [['ice', 6, 'קרח לשתייה'], ['salty', 4, 'חטיף ליד']],
+    ice: [['soda', 6, 'משהו לקרר', ['p3']], ['mixer', 4, 'טוניק או סודה'], ['salty', 3, 'חטיף ליד']],
+    instant: [['soda', 5, 'שתייה לארוחה', ['p1']], ['water', 5, 'מים לארוחה', ['p18']], ['choc', 4, 'קינוח אחרי']],
+    canned: [['crackers', 7, 'קרקרים ל{n}', ['p109']], ['instant', 3, 'ארוחה חמה'], ['water', 3, 'מים ליד']],
+    crackers: [['canned', 6, 'טונה לקרקרים', ['p101']], ['juice', 3, 'משהו לשתות']],
+    food: [['soda', 4, 'שתייה לארוחה'], ['water', 4, 'מים לארוחה']],
+    charger: [['cable', 10, 'כבל ל{n}'], ['powerbank', 4, 'סוללה לדרך']],
+    cable: [['charger', 10, 'ראש מטען לכבל', ['p115']], ['powerbank', 4, 'סוללה לדרך']],
+    powerbank: [['cable', 10, 'כבל לסוללה']],
+    car: [['cable', 8, 'כבל לרכב'], ['car', 5, 'להשלים את הרכב']],
+    earphones: [['powerbank', 3, 'סוללה לדרך']],
+    adapter: [['earphones', 5, 'אוזניות למתאם', ['p125']]],
+    game: [['nuts', 8, 'פיצוחים לשש-בש', ['p112', 'p113']], ['soda', 5, 'שתייה למשחק', ['p3']], ['coffee', 3, 'קפה למשחק']],
+    smoke: [['mint', 6, 'משהו קטן לקופה'], ['coffee', 5, 'קפה ליד', ['p38']], ['water', 4, 'מים ליד', ['p18']], ['energy', 3, 'אנרגיה ליד']]
+  };
+  const TECH = new Set(['charger', 'cable', 'car', 'earphones', 'adapter', 'powerbank']);
+  const SWEET = new Set(['choc', 'candy', 'cookies', 'icecream']);
+  const DRINK = new Set(['soda', 'juice', 'water', 'mixer', 'energy', 'coffee', 'milk']);
+  const shortName = p => p.name.split(/\s[—–-]\s|\s\d|\s\(/)[0].split(' ').slice(0, 2).join(' ');
+  const reasonText = (r, p) => r.replace(/ל\{n\}/, () => { const n = shortName(p); return /^[A-Za-z0-9]/.test(n) ? `ל-${n}` : `ל${n}`; }).replace('{n}', () => shortName(p));
+
+  function basketType(kinds, items) {
+    const has = k => kinds.has(k), any = set => [...kinds].some(k => set.has(k));
+    if (has('vodka') || has('whisky') || has('arak')) return 'ערב שתייה';
+    if (items >= 8) return 'מסיבה';
+    if (any(TECH)) return 'סלולר';
+    if (has('salty') && (has('soda') || has('juice'))) return 'ערב סרט';
+    if (has('instant') || has('canned') || has('food') || has('crackers')) return 'ארוחה מהירה';
+    if (has('energy') || has('coffee')) return 'לילה לבן';
+    if (any(SWEET)) return 'מתוק';
+    if (any(DRINK)) return 'שתייה';
+    if (has('salty') || has('nuts')) return 'נשנושים';
+    return '';
+  }
+
+  // Four suggestions for a basket: [{ p, why }], plus the basket type.
+  function companions(ls, limit = 4) {
+    const inCart = new Set(ls.map(l => l.p.id));
+    const kinds = new Set(ls.map(l => kindOf(l.p)));
+    const items = ls.reduce((n, l) => n + l.q, 0);
+    const lightning = ls.some(l => /lightning/i.test(l.p.name));
+    const want = new Map();
+    const add = (kind, w, why, pref, from) => {
+      if (kinds.has(kind) && !(from && kindOf(from) === kind)) return;
+      const cur = want.get(kind) || { w: 0, top: 0 };
+      cur.w += w;
+      if (w > cur.top) Object.assign(cur, { top: w, why, pref: pref || [] });
+      want.set(kind, cur);
+    };
+    for (const { p, q } of ls) {
+      for (const [kind, w, why, pref] of PAIRS[kindOf(p)] || []) {
+        const cablePref = kind === 'cable' ? (lightning ? ['p119'] : ['p120', 'p118']) : pref;
+        add(kind, w * (1 + 0.15 * Math.min(q - 1, 3)), reasonText(why, p), cablePref, p);
+      }
     }
-    return out;
+    const h = jerusalemHour();
+    if (items >= 6 || kinds.has('vodka') || kinds.has('whisky')) { add('ice', 4, 'קרח למסיבה'); add('nuts', 3, 'פיצוחים לשולחן', ['p111']); add('soda', 2, 'בקבוק גדול לכולם', ['p3']); }
+    if (h >= 22 || h < 5) { add('energy', 3, 'ללילה ארוך', ['p27']); add('coffee', 2, 'קפה ללילה', ['p38']); }
+    // what people forget, as a last resort
+    add('water', 1.5, 'מים תמיד צריך', ['p18']); add('mint', 1.2, 'משהו קטן לקופה', ['p77']); add('choc', 1, 'משהו מתוק לדרך', ['p67']); add('ice', 0.8, 'קרח לשתייה');
+    const ok = x => x && !inCart.has(x.id) && sellable(x) && !isRestricted(x) && x.category !== ALCOHOL && hasPrice(x) && (hasCut(x.id) || imgOf(x) !== FALLBACK);
+    const out = [], used = new Set();
+    // a basket that already has a drink (or something sweet) needs another one less
+    const anyOf = set => [...kinds].some(k => set.has(k));
+    const damp = [[DRINK, anyOf(DRINK)], [SWEET, anyOf(SWEET)]];
+    for (const [kind, v] of want) for (const [set, on] of damp) if (on && set.has(kind) && !kinds.has(kind)) v.w *= 0.5;
+    for (const [kind, v] of [...want].sort((a, b) => b[1].w - a[1].w)) {
+      const pool = products.filter(x => kindOf(x) === kind && ok(x) && !used.has(x.id));
+      const pick = v.pref.map(id => pool.find(x => x.id === id)).find(Boolean) || pool.sort((a, b) => (bestIds.has(b.id) - bestIds.has(a.id)) || (onSale(b) - onSale(a)) || (unit(a) - unit(b)))[0];
+      if (!pick) continue;
+      used.add(pick.id);
+      out.push({ p: pick, why: v.why });
+      if (out.length >= limit) break;
+    }
+    return { list: out, type: basketType(kinds, items) };
+  }
+
+  function rackHtml(ls) {
+    const { list, type } = companions(ls);
+    if (!list.length) return '';
+    const card = ({ p, why }) => {
+      const src = hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p);
+      return `<div class="rk"><span class="rk-why">${esc(why)}</span><span class="rk-img"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span><div class="rk-t"><bdi>${esc(p.name)}</bdi></div><div class="rk-row"><span class="rk-price${onSale(p) ? ' sale' : ''}">${pm(unit(p))}</span><button type="button" class="add" data-add="${p.id}" aria-label="הוספת ${esc(p.name)} לסל (${esc(why)})">${plusIcon}</button></div></div>`;
+    };
+    return `<section class="rack" aria-labelledby="rackTitle"><div class="rack-head"><h3 id="rackTitle">ליד הקופה</h3>${type ? `<span>מתאים לסל ${esc(type)}</span>` : ''}</div><div class="rack-grid">${list.map(card).join('')}</div></section>`;
   }
 
   function renderCart() {
@@ -291,9 +394,7 @@
       $('cartFoot').innerHTML = `<button class="primary" type="button" data-close>לבחירת מוצרים</button>`;
       return;
     }
-    const ups = upsell();
-    $('cartBody').innerHTML = freeHtml(t.sub) + ls.map(({ p, q }) => lineHtml(p, q, true)).join('') +
-      (ups.length ? `<section class="upsell" aria-labelledby="upTitle"><h3 id="upTitle">שכחת משהו?</h3><div class="mini">${ups.map(miniHtml).join('')}</div></section>` : '');
+    $('cartBody').innerHTML = freeHtml(t.sub) + ls.map(({ p, q }) => lineHtml(p, q, true)).join('') + rackHtml(ls);
     $('cartFoot').innerHTML = `${t.blocked ? '<p class="warn-box">בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.</p>' : ''}
 <div class="totals">${totalsHtml(t)}</div>
 <button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>לתשלום · <bdi>${fmt(t.total)}</bdi></button>
@@ -332,7 +433,8 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     const p = byId.get(id);
     if (!p) return;
     const img = imgOf(p);
-    const related = isRestricted(p) ? [] : [...products.filter(x => x.category === p.category && x.id !== p.id), ...pick([...bestIds])]
+    const goes = isRestricted(p) ? [] : companions([{ p, q: 1 }], 4).list.map(c => c.p);
+    const related = isRestricted(p) ? [] : [...goes, ...products.filter(x => x.category === p.category && x.id !== p.id), ...pick([...bestIds])]
       .filter((x, i, a) => a.indexOf(x) === i && sellable(x) && !isRestricted(x) && imgOf(x) !== FALLBACK && x.id !== p.id).slice(0, 8);
     $('pdBody').dataset.id = id;
     $('pdBody').innerHTML = `${img ? `<div class="pd-img"><img src="${esc(img)}" alt="${img === FALLBACK ? '' : esc(p.name)}"></div>` : ''}
@@ -534,8 +636,10 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   /* ---------- Store shelves ---------- */
   // Photo back panel + CSS planks; drinks and alcohol sit in a fridge, ice cream in a freezer.
   const FRIDGE = { 'שתייה': 'fridge', 'אלכוהול 18+': 'fridge', 'גלידות': 'freezer' };
+  // Blister packs hang on pegboard hooks, like the phone-accessories wall in a real store
+  const PEG = new Set(['אביזרי סלולר']);
   let view = store.get('allenbis-view', 'shelf') === 'grid' ? 'grid' : 'shelf';
-  let shelfCols = 0;
+  let shelfCols = 0, shelfW = 0;
   const colsFor = w => Math.max(3, Math.min(8, Math.floor(w / 150)));
   const shelfMode = () => view === 'shelf' && !query && !RESTRICTED.has(cat);
 
@@ -545,7 +649,9 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const name = esc(p.name);
     return `<button type="button" class="qa${n ? ' on' : ''}" data-add="${p.id}" aria-label="${n ? `הוספת עוד ${name}, בסל ${n}` : `הוספת ${name} לסל`}">${n ? `<b>${n}</b>` : plusIcon}</button>`;
   }
-  const CUT = new Set(window.ALLENBIS_CUT || []);
+  // Cutout photos: id -> [width, height, real height in cm]. Sizes on the shelf follow the real product.
+  const CUT = window.ALLENBIS_CUT || {};
+  const hasCut = id => Array.isArray(CUT[id]);
   function slotHtml(p) {
     const flag = !canBuy(p) && p.buy ? '<span class="flag">אזל</span>' : isBlocked(p) ? '<span class="flag">06:00–23:00</span>' : '';
     const sale = onSale(p);
@@ -553,7 +659,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const up = unitPrice(p);
     const low = sale ? `<span class="s-was">במקום <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
     const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? '<span class="s-flag" aria-hidden="true">מבצע</span>' : ''}<span class="t-name"><bdi>${esc(p.name)}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
-    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${CUT.has(p.id) ? '' : ' box'}" data-open="${p.id}" aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(CUT.has(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
   }
   // Glass-door cooler: one door per 3 columns, a frame between doors and a handle on each.
   function doorsHtml() {
@@ -580,9 +686,48 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       const rows = [];
       for (let r = 0; r < list.length; r += shelfCols) rows.push(list.slice(r, r + shelfCols));
       const kind = FRIDGE[c] || 'dry';
-      const shelves = rows.map(row => `<div class="shelf">${row.map(slotHtml).join('')}${'<div class="slot empty" aria-hidden="true"><div class="prod"></div><span class="stag"></span></div>'.repeat(shelfCols - row.length)}</div>`).join('');
-      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : doorsHtml()}</div></section>`;
+      const shelves = rows.map(row => `<div class="shelf">${row.map(slotHtml).join('')}${'<div class="slot vacant" aria-hidden="true"><div class="prod"></div><span class="stag"></span></div>'.repeat(shelfCols - row.length)}</div>`).join('');
+      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}${PEG.has(c) ? ' peg' : ''}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : doorsHtml()}</div></section>`;
     }).join('') + (cat === ALL ? `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>` : '');
+    box.querySelectorAll('.unit').forEach(stockUnit);
+    shelfW = box.clientWidth;
+  }
+  // Stock a unit like a real shelf: every product at its real relative size, repeated side by side
+  // (bottles, cans) or piled up (flat bars and packs) to fill its space.
+  function stockUnit(u) {
+    const faces = [...u.querySelectorAll('.face.cut')];
+    if (!faces.length) return;
+    const peg = u.classList.contains('peg');
+    const fw = faces[0].clientWidth, fh = faces[0].clientHeight - (peg ? 16 : 0);
+    if (!fw || fh <= 0) return;
+    const tallest = Math.max(14, ...faces.map(f => CUT[f.dataset.cut][2]));
+    for (const f of faces) {
+      const [iw, ih, cm] = CUT[f.dataset.cut];
+      const ar = iw / ih;
+      let h = fh * Math.pow((cm || tallest * 0.8) / tallest, 0.85), w = h * ar;
+      if (w > fw * 0.92) { w = fw * 0.92; h = w / ar; }
+      const img = (cls, style) => `<img class="${cls}" src="images/cut/${f.dataset.cut}.webp" alt="" loading="lazy" decoding="async" style="width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;${style}">`;
+      let html = '';
+      if (peg) {
+        // front pack on the hook, the next one hanging just behind it
+        f.innerHTML = img('bk hang', `margin-inline-end:${(-w + 7).toFixed(1)}px;margin-top:-4px`) + img('fr', '');
+        continue;
+      }
+      if (ar >= 1.3) {
+        // flat products: a pile, top of the pile first so the front one is drawn last
+        const step = h * 0.56;
+        const n = Math.max(1, Math.min(4, Math.floor((fh * 0.82 - h) / step) + 1));
+        for (let i = n - 1; i >= 0; i--) html += img(i ? 'bk' : '', `bottom:${(i * step).toFixed(1)}px;left:calc(50% - ${(w / 2).toFixed(1)}px + ${i % 2 ? 2 : -1}px);transform:rotate(${i % 2 ? -1.2 : 0.8}deg)`);
+        f.innerHTML = `<span class="pile" style="height:${(h + (n - 1) * step).toFixed(1)}px">${html}</span>`;
+      } else {
+        const n = Math.max(1, Math.min(3, Math.floor(fw * 0.98 / (w * 0.9))));
+        const gap = -w * 0.1;
+        for (let i = 0; i < n; i++) html += img(i === Math.floor((n - 1) / 2) ? 'fr' : 'sd', `margin-inline:${(gap / 2).toFixed(1)}px`);
+        // one facing only and room left: a second unit peeks from behind
+        if (n === 1 && fw - w > w * 0.3) html = img('bk peek', `margin-inline-end:${(-w * 0.72).toFixed(1)}px`) + html;
+        f.innerHTML = html;
+      }
+    }
   }
   function applyView() {
     const shelves = shelfMode();
@@ -601,7 +746,9 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     announce(view === 'shelf' ? 'תצוגת מדפים' : 'תצוגת רשימה');
   });
   if ('ResizeObserver' in window) new ResizeObserver(() => {
-    if (shelfMode() && colsFor(($('catbar').clientWidth || 360) - 40) !== shelfCols) renderShelves();
+    if (!shelfMode()) return;
+    if (colsFor(($('catbar').clientWidth || 360) - 40) !== shelfCols) renderShelves();
+    else if (Math.abs($('aisles').clientWidth - shelfW) > 12) { shelfW = $('aisles').clientWidth; $('aisles').querySelectorAll('.unit').forEach(stockUnit); }
   }).observe($('catbar'));
 
   /* ---------- Home sections ---------- */
