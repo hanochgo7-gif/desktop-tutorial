@@ -621,18 +621,27 @@ ul, ol { list-style: none; }
   .h2 { max-width: none; }
 
   /* בנייד: הלוחם למעלה, הטקסט למטה */
-  .hero-stage { align-items: flex-end; padding-bottom: 36px; }
-  .hero-poster { object-fit: cover; object-position: 50% 0; height: 66%; -webkit-mask-image: none; mask-image: none; }
+  .hero-stage { align-items: flex-end; padding-bottom: 28px; }
+  .hero-poster {
+    top: 7.5%; height: 44%; object-fit: contain; object-position: 50% 0;
+    -webkit-mask-image: none; mask-image: none;
+  }
   .hero-shade {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, .35), transparent 16%, transparent 38%, rgba(0, 0, 0, .8) 58%, #000 70%);
+    background: radial-gradient(ellipse 80% 40% at 50% 28%, transparent 55%, rgba(12, 9, 6, .6)),
+      linear-gradient(to bottom, rgba(0, 0, 0, .3), transparent 12%, transparent 46%, #0c0906 54%);
   }
   .hero-content { width: 100%; }
   .hero-content .logo { display: none; }
-  .hero-title-a { font-size: 5rem; }
-  .hero-title-b { font-size: 3.6rem; }
-  .hero-lead { margin-top: 14px; font-size: 1rem; }
-  .hero-actions { width: 100%; margin-top: 20px; }
+  .hero-disciplines { margin-top: 0; font-size: .88rem; }
+  .hero-title { margin-top: 8px; }
+  .hero-title-a { font-size: 4.4rem; }
+  .hero-title-b { font-size: 3.2rem; }
+  .hero-lead { margin-top: 12px; font-size: .98rem; line-height: 1.6; }
+  .hero-actions { width: 100%; margin-top: 18px; }
   .hero-actions .btn { flex: 1 1 100%; }
+  .hero-content .hero-actions { flex-wrap: nowrap; gap: 10px; }
+  .hero-content .hero-actions .btn { flex: 1 1 auto; padding: 0 12px; font-size: .92rem; white-space: nowrap; }
+  .hero-content .hero-actions .btn-gold { flex-grow: 2; }
   .hero-where, .hero-cue { display: none !important; }
 
   .facts-list { grid-template-columns: 1fr 1fr; }

@@ -80,6 +80,11 @@
       }
     };
 
+    const content = hero.querySelector('.hero-content');
+    const stage = hero.querySelector('.hero-stage');
+    let textTop = 0;
+    const measure = () => { textTop = content.getBoundingClientRect().top - stage.getBoundingClientRect().top; };
+
     const fit = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(canvas.clientWidth * dpr);
@@ -115,9 +120,13 @@
         const s = H / ih;
         return { s, x: W * (canvas.clientWidth > 1100 ? 0.3 : 0.34) - iw * s * fx, y: 0 };
       }
-      // מסך צר: הלוחם למעלה, האגרוף נשאר בתוך המסך
-      const s = (W * 1.75) / iw;
-      return { s, x: W / 2 - iw * s * fx, y: H * 0.07 };
+      // מסך צר: הלוחם כולו, קטן ומעל הטקסט (כך גם התמונה חדה יותר), במרכז השטח הפנוי
+      const dpr = W / canvas.clientWidth;
+      const top = (header.offsetHeight + 6) * dpr;
+      const room = Math.max(H * 0.3, textTop * dpr - top - 10 * dpr);
+      const size = Math.min(H * 0.44, W, room);
+      const s = size / ih;
+      return { s, x: W / 2 - iw * s * fx, y: top + (room - size) / 2 };
     };
 
     const draw = (force) => {
@@ -166,6 +175,8 @@
 
     hero.classList.add('is-scrub');
     fit();
+    measure();
+    if (document.fonts) document.fonts.ready.then(() => { measure(); draw(true); });
     load();
     window.addEventListener('scroll', () => {
       request();
@@ -175,6 +186,7 @@
     window.addEventListener('resize', () => {
       const next = size();
       fit();
+      measure();
       if (next !== set) { set = next; frames.length = 0; current = -1; load(); }
       draw(true);
     });
