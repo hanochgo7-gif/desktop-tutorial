@@ -143,7 +143,7 @@ bdi{unicode-bidi:isolate}
 .again-btn{border:1.5px solid var(--sign);color:var(--sign);background:#fff;border-radius:999px;min-height:38px;padding:0 14px;font-weight:700;white-space:nowrap}
 
 /* Categories bar */
-.catbar{position:sticky;top:var(--top-h,67px);z-index:30;background:var(--paper);padding-block:10px 8px;margin-top:18px}
+.catbar{position:sticky;top:var(--top-h,67px);z-index:30;background:var(--paper);padding-block:8px}
 .cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
 .cats::-webkit-scrollbar{display:none}
 .cat{flex:none;min-height:42px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:0 16px;font-weight:600;white-space:nowrap}
@@ -151,7 +151,7 @@ bdi{unicode-bidi:isolate}
 .cat .c{color:var(--muted);font-weight:400;margin-inline-start:4px;font-size:.8125rem}
 .cat[aria-pressed="true"] .c{color:#b8c3d9}
 .count{color:var(--muted);font-size:.875rem;padding-top:8px}
-.catalog-title{font:400 1.375rem/1.2 var(--display);padding-top:6px}
+.catalog-title{font:400 1.375rem/1.2 var(--display);padding-top:24px}
 
 /* Product cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding-block:10px 40px}
@@ -196,6 +196,55 @@ bdi{unicode-bidi:isolate}
 .empty button{margin-top:12px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 18px;font-weight:700}
 .rail .card{height:100%}
 body.browsing .home,body.browsing .tiles,body.browsing .hero{display:none}
+
+/* Store shelves: aisle sign, gondola unit (photo back panel), CSS planks with a blue price rail and shelf tags */
+.countrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:8px}
+.countrow .count{padding-top:0}
+.viewtoggle{display:inline-flex;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:3px;gap:2px;flex:none}
+.viewtoggle button{border:0;background:transparent;border-radius:999px;min-height:34px;padding:0 12px;font-weight:700;font-size:.875rem;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.viewtoggle [aria-pressed="true"]{background:var(--ink);color:#fff}
+.aisles{display:grid;gap:30px;padding-block:6px 40px}
+.aisle{display:flex;flex-direction:column;align-items:center;min-width:0}
+.aisle-sign{position:relative;display:inline-flex;align-items:baseline;gap:10px;background:var(--sign);color:#fff;border-radius:9px;padding:7px 18px 6px;box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px #fff,0 12px 20px -12px rgba(20,32,58,.55);font:400 1.25rem/1.1 var(--display);margin:24px 0 -8px;z-index:4}
+.aisle-sign small{font:700 .75rem/1 var(--body);color:#cfdaf3}
+.aisle-sign::before,.aisle-sign::after{content:"";position:absolute;bottom:100%;width:2px;height:24px;background:linear-gradient(#9aa3b2,#6b7482)}
+.aisle-sign::before{inset-inline-start:22%}
+.aisle-sign::after{inset-inline-end:22%}
+.unit{--ih:84px;--pad:14px;position:relative;width:100%;border-radius:12px;padding:0 var(--pad);background:#dfe3ea;box-shadow:0 22px 36px -26px rgba(20,32,58,.6),inset 0 0 0 1px rgba(20,32,58,.08);overflow:hidden;isolation:isolate}
+.unit::before,.unit::after{content:"";position:absolute;top:0;bottom:0;width:10px;background:linear-gradient(90deg,#9ea6b3,#eef0f3 45%,#8f98a5);z-index:2}
+.unit::before{inset-inline-start:0}
+.unit::after{inset-inline-end:0}
+.shelf{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));column-gap:8px;padding-top:26px;margin-inline:calc(-1 * var(--pad));padding-inline:var(--pad);background:linear-gradient(rgba(240,243,247,.42),rgba(240,243,247,.42)),url(images/art/shelf-back.webp) center top/640px auto repeat-x}
+.shelf::before{content:"";position:absolute;inset-inline:calc(-1 * var(--pad));bottom:0;height:52px;background:linear-gradient(180deg,#fbfcfd 0,#d3d9e1 9px,transparent 9px),linear-gradient(180deg,transparent 12px,rgba(255,255,255,.28) 12px,rgba(255,255,255,.28) 13px,transparent 13px),linear-gradient(180deg,#2856b8,#163578);box-shadow:0 12px 14px -8px rgba(20,32,58,.5)}
+.slot{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0}
+.prod{position:relative;width:100%;height:calc(var(--ih) + 10px);display:flex;align-items:flex-end;justify-content:center}
+.prod::before{content:"";position:absolute;bottom:-2px;left:12%;right:12%;height:10px;background:radial-gradient(closest-side,rgba(20,32,58,.32),transparent)}
+.face{border:0;background:none;padding:0;width:100%;height:var(--ih);display:flex;align-items:flex-end;justify-content:center;cursor:pointer;position:relative}
+.face img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(-3px 6px 5px rgba(20,32,58,.28));transition:transform .25s ease-out}
+.face.box img{background:#fff;border-radius:8px 8px 3px 3px;padding:4px;box-shadow:0 8px 14px -8px rgba(20,32,58,.5);filter:none}
+.face:hover img,.face:focus-visible img{transform:translateY(-5px)}
+.qa{position:absolute;top:0;inset-inline-end:0;width:32px;height:32px;border-radius:50%;border:2px solid #fff;background:var(--sign);color:#fff;display:grid;place-items:center;box-shadow:0 4px 10px rgba(20,32,58,.3);z-index:3;padding:0}
+.qa svg{width:16px;height:16px}
+.qa.on{background:var(--tag);color:var(--tag-ink);font-weight:800;font-size:.875rem}
+.slot .flag{position:absolute;top:34%;inset-inline:6%;text-align:center;background:rgba(20,32,58,.82);color:#fff;border-radius:6px;font-size:.6875rem;font-weight:800;padding:2px 4px;z-index:3}
+.slot.oos .face img{filter:grayscale(1);opacity:.45}
+.stag{width:94%;height:36px;margin:16px 0 5px;background:var(--tag);color:var(--tag-ink);border-radius:3px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:0 4px;padding:2px 5px;box-shadow:0 1px 0 rgba(0,0,0,.25);position:relative}
+.t-name{font-size:.625rem;line-height:1.15;font-weight:700;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:start;overflow-wrap:anywhere}
+.stag b{font-size:.8125rem;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.stag.sale{background:#fff;color:var(--sale);box-shadow:inset 0 0 0 2px var(--sale)}
+.stag.sale .t-name{color:var(--ink)}
+.stag s{position:absolute;bottom:100%;inset-inline-end:0;margin-bottom:3px;font-size:.625rem;color:#fff;background:var(--sale);border-radius:4px;padding:0 5px;text-decoration:line-through}
+.stag.soft{background:#e9ecf1;color:var(--muted)}
+.slot.empty .stag{visibility:hidden}
+.unit.fridge,.unit.freezer{--pad:10px;background:#eef3f9 url(images/art/fridge-back.webp) center/cover;border:10px solid #2b313b;border-radius:16px;box-shadow:0 22px 36px -24px rgba(20,32,58,.7),inset 0 0 30px rgba(255,255,255,.6)}
+.unit.fridge::before,.unit.fridge::after,.unit.freezer::before,.unit.freezer::after{display:none}
+.unit.fridge .shelf,.unit.freezer .shelf{background:none}
+.unit.fridge .shelf::before,.unit.freezer .shelf::before{background:linear-gradient(180deg,rgba(255,255,255,.95) 0,#cdd4de 7px,transparent 7px),linear-gradient(180deg,#e6ebf1,#b8c0cb);box-shadow:0 10px 12px -8px rgba(20,32,58,.35)}
+.unit .glass{position:absolute;inset:0;pointer-events:none;z-index:3;background:linear-gradient(112deg,transparent 0 28%,rgba(255,255,255,.26) 36%,transparent 44% 60%,rgba(255,255,255,.16) 66%,transparent 72%)}
+.unit.freezer .glass{background-color:rgba(190,220,255,.14);box-shadow:inset 0 0 36px rgba(255,255,255,.85)}
+.unit .glass::after{content:"";position:absolute;top:28%;inset-inline-start:6px;width:6px;height:30%;border-radius:4px;background:linear-gradient(90deg,#b9c0ca,#fff,#9aa2ae);box-shadow:0 2px 6px rgba(0,0,0,.25)}
+@media (min-width:720px){.unit{--ih:118px;--pad:18px}.t-name{font-size:.6875rem}.stag b{font-size:.9375rem}}
+@media (prefers-reduced-motion:reduce){.face img{transition:none}}
 
 /* Footer */
 .foot{border-top:1px solid var(--line);color:var(--muted);font-size:.875rem;padding-block:22px calc(110px + env(safe-area-inset-bottom))}
@@ -365,6 +414,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <script src="catalog.js" defer></script>
 <script src="commerce-config.js" defer></script>
 <script src="demo-data.js" defer></script>
+<script src="shelf-cut.js" defer></script>
 <script src="store.js" defer></script>
 </head>
 <body>
@@ -417,12 +467,13 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 
     <div class="home" id="homeSections"></div>
 
+    <h2 class="catalog-title" id="catalogTitle">כל המוצרים</h2>
     <div class="catbar" id="catbar">
-      <h2 class="catalog-title" id="catalogTitle">כל המוצרים</h2>
       <nav class="cats" id="cats" aria-label="סינון לפי קטגוריה"></nav>
-      <p class="count" id="count" aria-hidden="true"></p>
     </div>
+    <div class="countrow"><p class="count" id="count" aria-hidden="true"></p><div class="viewtoggle" id="viewToggle" role="group" aria-label="תצוגת המוצרים"><button type="button" data-view="shelf" aria-pressed="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 4v16M21 4v16M3 10h18M3 16h18"/></svg>מדפים</button><button type="button" data-view="grid" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>רשימה</button></div></div>
     <section class="grid" id="catalog" tabindex="-1" aria-labelledby="catalogTitle"></section>
+    <div class="aisles" id="aisles" hidden></div>
   </div>
 </main>
 

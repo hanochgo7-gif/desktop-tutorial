@@ -144,6 +144,11 @@
 
   function refreshCards(id) {
     const p = byId.get(id);
+    document.querySelectorAll(`.slot[data-id="${CSS.escape(id)}"]`).forEach(slot => {
+      slot.querySelector('.qa')?.remove();
+      slot.querySelector('.prod').insertAdjacentHTML('beforeend', slotAdd(p));
+      slot.classList.toggle('in', !!cart[id]);
+    });
     document.querySelectorAll(`.card[data-id="${CSS.escape(id)}"]`).forEach(card => {
       card.querySelector('.buy').innerHTML = buyHtml(p);
       card.classList.toggle('in', !!cart[id]);
@@ -362,7 +367,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     $('cats').querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
   function scrollToCatalog() {
-    const y = window.scrollY + $('catbar').getBoundingClientRect().top - $('top').offsetHeight;
+    const y = window.scrollY + $('catalogTitle').getBoundingClientRect().top - $('top').offsetHeight;
     window.scrollTo({ top: Math.max(0, y) });
   }
   $('home').addEventListener('click', e => {
@@ -503,8 +508,65 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (hideRestricted) html += `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>`;
     $('catalog').innerHTML = shown.length ? html :
       `<div class="empty"><p>לא מצאנו מוצרים ל״${esc(query)}״${cat === ALL ? '' : ' בקטגוריה הזו'}.</p>${cat === ALL ? '' : `<button type="button" data-cat="${esc(ALL)}">חיפוש בכל המוצרים</button>`}</div>`;
+    applyView();
     if (speak) announce(`${where}: ${text}`);
   }
+
+  /* ---------- Store shelves ---------- */
+  // Photo back panel + CSS planks; drinks and alcohol sit in a fridge, ice cream in a freezer.
+  const FRIDGE = { 'שתייה': 'fridge', 'אלכוהול 18+': 'fridge', 'גלידות': 'freezer' };
+  let view = store.get('allenbis-view', 'shelf') === 'grid' ? 'grid' : 'shelf';
+  let shelfCols = 0;
+  const colsFor = w => Math.max(3, Math.min(8, Math.floor(w / 150)));
+  const shelfMode = () => view === 'shelf' && !query && !RESTRICTED.has(cat);
+
+  function slotAdd(p) {
+    if (!p.buy || !canBuy(p) || isBlocked(p)) return '';
+    const n = cart[p.id] || 0;
+    const name = esc(p.name);
+    return `<button type="button" class="qa${n ? ' on' : ''}" data-add="${p.id}" aria-label="${n ? `הוספת עוד ${name}, בסל ${n}` : `הוספת ${name} לסל`}">${n ? `<b>${n}</b>` : plusIcon}</button>`;
+  }
+  const CUT = new Set(window.ALLENBIS_CUT || []);
+  function slotHtml(p) {
+    const flag = !canBuy(p) && p.buy ? '<span class="flag">אזל</span>' : isBlocked(p) ? '<span class="flag">06:00–23:00</span>' : '';
+    const sale = onSale(p);
+    const tag = `<span class="stag${sale ? ' sale' : ''}${!p.buy || !hasPrice(p) ? ' soft' : ''}"><span class="t-name"><bdi>${esc(p.name)}</bdi></span><b><bdi>${esc(priceText(p))}</bdi></b>${sale ? `<s><bdi>${fmt(regular(p))}</bdi></s>` : ''}</span>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${CUT.has(p.id) ? '' : ' box'}" data-open="${p.id}" aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(CUT.has(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}</div>${tag}</div>`;
+  }
+  function renderShelves() {
+    const box = $('aisles');
+    shelfCols = colsFor(($('catbar').clientWidth || 360) - 40);
+    const groups = (cat === ALL ? cats.slice(1) : [cat])
+      .filter(c => !RESTRICTED.has(c))
+      .map(c => [c, products.filter(p => p.category === c)])
+      .filter(([, list]) => list.length);
+    box.innerHTML = groups.map(([c, list], i) => {
+      const rows = [];
+      for (let r = 0; r < list.length; r += shelfCols) rows.push(list.slice(r, r + shelfCols));
+      const kind = FRIDGE[c] || 'dry';
+      const shelves = rows.map(row => `<div class="shelf">${row.map(slotHtml).join('')}${'<div class="slot empty" aria-hidden="true"><div class="prod"></div><span class="stag"></span></div>'.repeat(shelfCols - row.length)}</div>`).join('');
+      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : '<span class="glass" aria-hidden="true"></span>'}</div></section>`;
+    }).join('') + (cat === ALL ? `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>` : '');
+  }
+  function applyView() {
+    const shelves = shelfMode();
+    $('aisles').hidden = !shelves;
+    $('catalog').hidden = shelves;
+    $('viewToggle').hidden = !!query || RESTRICTED.has(cat);
+    $('viewToggle').querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    if (shelves) renderShelves();
+  }
+  $('viewToggle').addEventListener('click', e => {
+    const b = e.target.closest('[data-view]');
+    if (!b || b.dataset.view === view) return;
+    view = b.dataset.view;
+    store.set('allenbis-view', view);
+    applyView();
+    announce(view === 'shelf' ? 'תצוגת מדפים' : 'תצוגת רשימה');
+  });
+  if ('ResizeObserver' in window) new ResizeObserver(() => {
+    if (shelfMode() && colsFor(($('catbar').clientWidth || 360) - 40) !== shelfCols) renderShelves();
+  }).observe($('catbar'));
 
   /* ---------- Home sections ---------- */
   function rail(id, title, list, demo, extra = '') {
