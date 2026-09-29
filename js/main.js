@@ -103,13 +103,14 @@
 
   /* ---------- הדמיה חיה: המודל התלת־ממדי כבד, לכן נטען רק בלחיצה ---------- */
   $$('[data-sim]').forEach(function (box) {
-    var play = $('.sim__play', box); if (!play) return;
+    var play = $('.sim__play, [data-sim-play]', box); if (!play) return;
     var label = box.getAttribute('title') || ''; box.removeAttribute('title');
     play.addEventListener('click', function () {
       var f = document.createElement('iframe');
       f.src = box.getAttribute('data-src'); f.title = label;
       f.setAttribute('allow', 'autoplay; fullscreen'); f.setAttribute('allowfullscreen', '');
-      box.appendChild(f); box.classList.add('is-live'); play.remove();
+      box.appendChild(f); box.classList.add('is-live'); play.blur();
+      box.scrollIntoView({ behavior: noMotion() ? 'auto' : 'smooth', block: 'center' });
       f.addEventListener('load', function () { try { f.contentWindow.focus(); } catch (e) {} });
     });
   });

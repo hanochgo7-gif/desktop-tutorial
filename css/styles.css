@@ -2180,3 +2180,13 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
 .sim__meta { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; margin-top: 16px; }
 .sim__meta p { margin: 0; max-width: 70ch; font-size: .9rem; color: var(--on-dark-muted); }
 @media (max-width: 720px) { .sim__frame { aspect-ratio: auto; height: min(80svh, 720px); border-radius: 14px; } .sim__btn { font-size: 1rem; padding: 14px 22px; } }
+/* הדמיה חיה בדף הבית: הפס עצמו הופך להדמיה, בלי להוסיף גובה לעמוד */
+.band--sim img { filter: none; object-position: center 45%; }
+.band__sub { margin: 0; max-width: 46ch; color: rgba(255,255,255,.88); font-size: clamp(.95rem, 1.4vw, 1.1rem); }
+.band__acts { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 4px; }
+.sim__go { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border: 0; border-radius: 999px; font: 600 1.02rem/1 var(--font); color: #fff; cursor: pointer; background: linear-gradient(180deg, #e0443a, #b52a21); box-shadow: 0 0 0 7px rgba(224,68,58,.22), 0 12px 32px rgba(0,0,0,.35); transition: transform .2s var(--ease), box-shadow .3s; }
+.sim__go svg { width: 20px; height: 20px; }
+.sim__go:hover { transform: scale(1.04); }
+.sim__go:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.band--sim > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; display: block; background: #0d1a26; }
+.band--sim.is-live .band__in, .band--sim.is-live .band__tag, .band--sim.is-live > img { visibility: hidden; }
