@@ -22,7 +22,7 @@ def wa(text):
 
 SERVICES = [
     {
-        'slug': 'muay-thai', 'menu': 'אגרוף תאילנדי', 'sub': 'טכניקה, כוח וביטחון עצמי',
+        'slug': 'muay-thai', 'cta': 'לתיאום אימון ניסיון', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף תאילנדי', 'sub': 'טכניקה, כוח וביטחון עצמי',
         'thumb': 'svc-muaythai.webp', 'hero': 'assets/hero/poster.webp', 'hero_wh': (1280, 1280), 'hero_pos': '50% 30%',
         'title': 'אגרוף תאילנדי באימון אישי',
         'lead': 'אימון אישי במואי תאי וקיקבוקס: טכניקה, כוח, כושר וביטחון עצמי, בקצב שמתאים לך. למתחילים ולמתקדמים.',
@@ -52,7 +52,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על אימון אישי באגרוף תאילנדי',
     },
     {
-        'slug': 'sports-nutrition', 'menu': 'תזונת ספורט ותפריטים', 'sub': 'ייעוץ ותפריט אישי לפי המטרה',
+        'slug': 'sports-nutrition', 'cta': 'לתיאום שיחת ייעוץ', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'תזונת ספורט ותפריטים', 'sub': 'ייעוץ ותפריט אישי לפי המטרה',
         'thumb': 'svc-nutrition.webp', 'hero': 'assets/img/nutrition-consult.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
         'title': 'ייעוץ תזונת ספורט ותפריטים',
         'lead': 'תזונה היא חצי מהאימון. ייעוץ מקצועי ותפריט אישי שנבנים סביב המטרה, האימונים והשגרה שלך, כדי להתחזק, להתאושש ולהתקדם.',
@@ -81,7 +81,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לייעוץ תזונת ספורט ותפריט אישי',
     },
     {
-        'slug': 'boxing-nutrition', 'menu': 'אגרוף + תזונה', 'sub': 'מסלול הדגל: אימון שבועי ותפריט חודשי', 'flag': 'מסלול הדגל',
+        'slug': 'boxing-nutrition', 'cta': 'להצטרפות למסלול', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף + תזונה', 'sub': 'מסלול הדגל: אימון שבועי ותפריט חודשי', 'flag': 'מסלול הדגל',
         'thumb': 'svc-flagship.webp', 'hero': 'assets/img/flagship.webp', 'hero_wh': (2000, 1131), 'hero_pos': '30% 50%',
         'title': 'אגרוף + תזונה',
         'lead': 'חודש של תנועה, תזונה והתקדמות. ייעוץ תזונה ותפריט חודשי, יחד עם אימון אגרוף שבועי ובליווי אישי מלא.',
@@ -106,7 +106,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על המסלול המשולב אגרוף + תזונה',
     },
     {
-        'slug': 'talks', 'menu': 'הרצאות וסדנאות', 'sub': 'לקבוצות, חברות, בתי ספר וארגונים',
+        'slug': 'talks', 'cta': 'לתיאום הרצאה', 'loc': '', 'menu': 'הרצאות וסדנאות', 'sub': 'לקבוצות, חברות, בתי ספר וארגונים',
         'thumb': 'svc-talks.webp', 'hero': 'assets/img/talks.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 40%',
         'title': 'הרצאות וסדנאות',
         'lead': 'הרצאות לקבוצות, חברות, בתי ספר וארגונים, על הקשר בין גוף, תזונה ותודעה. מה שלמדתי בזירה, באימונים ובתאילנד, מותאם לקהל ולמטרה.',
@@ -130,7 +130,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על הרצאה',
     },
     {
-        'slug': 'kids', 'menu': 'אימוני ילדים', 'sub': 'משמעת, כבוד וביטחון עצמי',
+        'slug': 'kids', 'cta': 'לתיאום אימון ניסיון לילד', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אימוני ילדים', 'sub': 'משמעת, כבוד וביטחון עצמי',
         'thumb': 'svc-kids.webp', 'hero': 'assets/img/kids.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
         'title': 'אימוני ילדים',
         'lead': 'מסגרת מקצועית ומהנה שמפתחת משמעת, כבוד, ביטחון עצמי וחוסן מנטלי. מותאם לגיל ולרמה.',
@@ -154,7 +154,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על אימוני ילדים',
     },
     {
-        'slug': 'body-mind', 'menu': 'גוף ותודעה', 'sub': 'נשימה, מדיטציה ועבודה מנטלית',
+        'slug': 'body-mind', 'cta': 'לתיאום שיחת היכרות', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'גוף ותודעה', 'sub': 'נשימה, מדיטציה ועבודה מנטלית',
         'thumb': 'svc-mind.webp', 'hero': 'assets/img/body-mind.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
         'title': 'גוף ותודעה',
         'lead': 'תהליך שמשלב נשימות, מדיטציה, תנועה ועבודה מנטלית, לפיתוח ריכוז, איזון פנימי וחוסן.',
@@ -204,7 +204,7 @@ def header(root, current=None):
     <span class="brand-sub">Mind &amp; Body Connection</span>
   </a>
   <div class="header-actions">
-    <a class="header-cta" href="{wa('היי אביב, אשמח לתאם שיחת היכרות')}" target="_blank" rel="noopener">{WA_ICON}<span>שליחת הודעה</span></a>
+    <a class="header-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="header">{WA_ICON}<span>אימון ניסיון</span></a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
       <span class="menu-btn-label">תפריט</span>
       <span class="menu-toggle-bars" aria-hidden="true"></span>
@@ -230,7 +230,7 @@ def header(root, current=None):
         <img src="{root}assets/img/flagship.webp" alt="" width="2000" height="1131" loading="lazy" data-menu-img>
         <figcaption><b data-menu-cap>שירותים</b><span data-menu-sub>שישה שירותים, מטרה אחת</span></figcaption>
       </figure>
-      <a class="btn btn-gold btn-block" href="{wa('היי אביב, אשמח לתאם שיחת היכרות')}" target="_blank" rel="noopener">{WA_ICON}שליחת הודעה ב־WhatsApp</a>
+      <a class="btn btn-gold btn-block" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="menu">{WA_ICON}לתיאום אימון ניסיון</a>
       <p class="menu-foot"><span>אורן 21, מזכרת בתיה</span><a href="{IG}" target="_blank" rel="noopener" dir="ltr">@aviv_shadmon</a></p>
     </aside>
   </div>
@@ -263,14 +263,14 @@ def footer(root):
   </div>
   <p class="footer-copy">© <span data-year>2026</span> AMS · אביב משה שדמון</p>
 </footer>
-<a class="sticky-cta" href="{wa('היי אביב, אשמח לתאם שיחת היכרות')}" target="_blank" rel="noopener">
+<a class="sticky-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="sticky">
   {WA_ICON}
-  שליחת הודעה לתיאום
+  לתיאום אימון ניסיון
 </a>
 <!-- END footer -->'''
 
 
-def head(title, desc, root, og):
+def head(title, desc, root, og, extra=''):
     return f'''<!doctype html>
 <html lang="he" dir="rtl">
 <head>
@@ -291,7 +291,33 @@ def head(title, desc, root, og):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;125,800&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}css/ams.css">
-</head>'''
+{extra}</head>'''
+
+
+def ld(s):
+    """נתונים מובנים לגוגל: שירות, פירורי לחם ושאלות נפוצות."""
+    import json
+    data = [
+        {'@context': 'https://schema.org', '@type': 'Service', 'name': s['title'], 'description': s['lead'],
+         'serviceType': s['menu'], 'areaServed': ['מזכרת בתיה', 'אזור המרכז'],
+         'provider': {'@type': 'Person', 'name': 'אביב משה שדמון', 'sameAs': [IG]}},
+        {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'ראשי', 'item': '../index.html'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'שירותים', 'item': '../index.html#services'},
+            {'@type': 'ListItem', 'position': 3, 'name': s['menu']}]},
+        {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]},
+    ]
+    return '<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + '\n</script>\n'
+
+
+def home_faq_ld(html):
+    """שאלות נפוצות בדף הבית -> נתונים מובנים (נקראות מה-HTML עצמו)."""
+    import json
+    qa = re.findall(r'<details>\s*<summary>(.*?)</summary>\s*<p>(.*?)</p>', html, flags=re.S)
+    data = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': q.strip(), 'acceptedAnswer': {'@type': 'Answer', 'text': a.strip()}} for q, a in qa]}
+    return '<!-- BEGIN faq-ld -->\n<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + '\n</script>\n<!-- END faq-ld -->'
 
 
 def service_page(s):
@@ -306,7 +332,7 @@ def service_page(s):
     intro = ''.join(f'      <p>{p}</p>\n' for p in s['intro'])
     flag = f'\n      <p class="svc-flag">{s["flag"]}</p>' if s.get('flag') else ''
     w, h = s['hero_wh']
-    return f'''{head(f'{s["title"]} | AMS · אביב משה שדמון', s['lead'], r, s['hero'])}
+    return f'''{head(f'{s["title"]}{(" " + s["loc"]) if s["loc"] else ""} | אביב משה שדמון – AMS', s['lead'], r, s['hero'], ld(s))}
 <body class="is-inner">
 <a class="skip" href="#main">דלג לתוכן</a>
 
@@ -324,9 +350,14 @@ def service_page(s):
         <h1 class="svc-title" id="svc-title">{s['title']}</h1>
         <p class="svc-lead">{s['lead']}</p>
         <div class="hero-actions">
-          <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener">{WA_ICON}לתיאום ב־WhatsApp</a>
+          <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-hero">{WA_ICON}{s['cta']}</a>
           <a class="btn btn-line" href="#includes">מה כולל</a>
         </div>
+        <ul class="assure" aria-label="מה חשוב לדעת">
+          <li>בלי התחייבות</li>
+          <li>{'מותאם לגיל ולרמה' if s['slug'] == 'kids' else 'מותאם לקהל ולמטרה' if s['slug'] == 'talks' else 'גם למתחילים'}</li>
+          <li>תשובה אישית מאביב</li>
+        </ul>
       </div>
       <figure class="svc-hero-img">
         <img src="{r}{s['hero']}" alt="" width="{w}" height="{h}" style="object-position:{s['hero_pos']}" fetchpriority="high">
@@ -354,6 +385,24 @@ def service_page(s):
 {steps}    </ol>
   </section>
 
+  <section class="section trainer" aria-labelledby="trainer-title">
+    <figure class="trainer-photo">
+      <img src="{r}assets/img/coach-thailand.webp" alt="אביב משה שדמון במחנה אימוני מואי תאי בתאילנד" width="858" height="1072" loading="lazy">
+    </figure>
+    <div class="trainer-body">
+      <p class="trainer-label">מי מלווה אותך</p>
+      <h2 class="h2" id="trainer-title">אביב משה שדמון</h2>
+      <p>מאמן גוף ונפש, מתמחה במואי תאי, קיקבוקס, כוח ותזונת ספורט. התאהב בתחום לפני כעשור, התאמן בתאילנד, ומלווה אנשים בתהליך שבו הלחימה היא הדרך.</p>
+      <ul class="creds">
+        <li>הכשרה מקצועית במכון וינגייט</li>
+        <li>אימונים ולמידה בתאילנד</li>
+        <li>הכשרה בתזונת ספורט</li>
+        <li>יותר מ־10 שנות ניסיון</li>
+      </ul>
+      <a class="trainer-link" href="{r}index.html#coach">עוד על אביב</a>
+    </div>
+  </section>
+
   <section class="section faq" aria-labelledby="faq-title">
     <h2 class="h2" id="faq-title">שאלות נפוצות</h2>
     <div class="faq-list">
@@ -366,7 +415,7 @@ def service_page(s):
       <h2 class="closing-title" id="closing-title"><span>{s['cta_h']}</span></h2>
       <p>{s['cta_p']}</p>
       <div class="hero-actions">
-        <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener">{WA_ICON}שליחת הודעה ב־WhatsApp</a>
+        <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-closing">{WA_ICON}{s['cta']}</a>
       </div>
     </div>
   </section>
@@ -397,6 +446,10 @@ def main():
     html = open(p, encoding='utf-8').read()
     html = re.sub(r'<!-- BEGIN header -->.*?<!-- END header -->', lambda m: header(''), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN footer -->.*?<!-- END footer -->', lambda m: footer(''), html, flags=re.S)
+    if '<!-- BEGIN faq-ld -->' in html:
+        html = re.sub(r'<!-- BEGIN faq-ld -->.*?<!-- END faq-ld -->', lambda m: home_faq_ld(html), html, flags=re.S)
+    else:
+        html = html.replace('</head>', home_faq_ld(html) + '\n</head>', 1)
     open(p, 'w', encoding='utf-8').write(html)
     print('built', len(SERVICES), 'service pages')
 

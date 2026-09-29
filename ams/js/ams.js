@@ -192,6 +192,31 @@
     });
   }
 
+  // התחלה מהירה: הבחירות נכנסות להודעת ה-WhatsApp
+  const quick = document.querySelector('[data-quick]');
+  if (quick) {
+    const send = quick.querySelector('[data-quick-send]');
+    const base = send.href.split('?')[0];
+    const update = () => {
+      const goal = quick.querySelector('input[name="goal"]:checked');
+      const place = quick.querySelector('input[name="place"]:checked');
+      let text = 'היי אביב, אשמח לתאם אימון ניסיון.';
+      if (goal) text += '\nהמטרה שלי: ' + goal.value;
+      if (place) text += '\nנוח לי: ' + place.value;
+      send.href = base + '?text=' + encodeURIComponent(text);
+    };
+    quick.addEventListener('change', update);
+  }
+
+  // מדידה: כל לחיצה על WhatsApp נרשמת (Google Tag Manager / GA4 / Meta Pixel אם הותקנו)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="https://wa.me"]');
+    if (!a) return;
+    const where = a.dataset.cta || (a.closest('section[id]') || {}).id || 'other';
+    (window.dataLayer = window.dataLayer || []).push({ event: 'whatsapp_click', cta: where, page: location.pathname });
+    if (typeof window.fbq === 'function') window.fbq('track', 'Contact', { cta: where });
+  });
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 })();

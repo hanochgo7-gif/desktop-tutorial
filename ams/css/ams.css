@@ -602,6 +602,48 @@ ul, ol { list-style: none; }
 .more-card:hover b { color: var(--gold); }
 .more { padding-bottom: var(--section-y); }
 
+/* ---------- הורדת סיכון ליד כפתור ---------- */
+.assure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; font-size: .88rem; color: rgba(242, 236, 224, .8); }
+.assure li { position: relative; padding-right: 20px; }
+.assure li::before {
+  content: ""; position: absolute; right: 0; top: .38em; width: 12px; height: 7px;
+  border: solid var(--gold); border-width: 0 0 2px 2px; transform: rotate(-45deg);
+}
+
+/* ---------- התחלה מהירה ---------- */
+.quick-box {
+  display: grid; grid-template-columns: 5fr 7fr; gap: 28px clamp(32px, 6vw, 88px); align-items: start;
+  padding: clamp(28px, 4vw, 48px);
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 0%, rgba(212, 162, 76, .14), transparent 70%),
+    var(--bark-2);
+  border: 1px solid var(--line);
+}
+.quick-head p { margin: 18px 0 0; color: rgba(242, 236, 224, .82); max-width: 26em; }
+.quick-form fieldset { margin: 0 0 22px; padding: 0; border: 0; }
+.quick-form legend { margin-bottom: 12px; font-weight: 600; color: var(--gold); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; cursor: pointer; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+  border: 1px solid var(--line); color: var(--bone); font-size: .95rem;
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.chip:hover span { border-color: var(--gold); }
+.chip input:checked + span { background: var(--gold); border-color: var(--gold); color: var(--night); font-weight: 600; }
+.chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 3px; }
+.quick-send { margin-top: 4px; }
+
+/* ---------- המאמן (בדפי שירות) ---------- */
+.trainer { display: grid; grid-template-columns: 4fr 7fr; gap: 32px clamp(32px, 6vw, 88px); align-items: center; }
+.trainer-photo { margin: 0; }
+.trainer-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--line); }
+.trainer-label { margin: 0 0 10px; font-weight: 600; color: var(--gold); }
+.trainer-body > p:not(.trainer-label) { max-width: 36em; margin-top: 20px; color: rgba(242, 236, 224, .86); }
+.trainer .creds { margin-top: 24px; }
+.trainer-link { display: inline-block; margin-top: 24px; color: var(--gold); font-weight: 600; text-underline-offset: 5px; }
+
 /* ---------- רספונסיביות ---------- */
 @media (max-width: 1020px) {
   .menu-in { grid-template-columns: 1fr; }
@@ -609,6 +651,8 @@ ul, ol { list-style: none; }
   .menu-fig { display: none; }
   .svc-hero-in, .svc-intro { grid-template-columns: 1fr; }
   .more-grid { grid-template-columns: repeat(3, 1fr); }
+  .quick-box, .trainer { grid-template-columns: 1fr; }
+  .trainer-photo { max-width: 420px; }
 
   .approach { grid-template-columns: 1fr; grid-template-areas: "head" "photo" "steps"; }
   .approach-photo img { min-height: 0; aspect-ratio: 4 / 3; }
@@ -643,6 +687,9 @@ ul, ol { list-style: none; }
   .hero-content .hero-actions .btn { flex: 1 1 auto; padding: 0 12px; font-size: .92rem; white-space: nowrap; }
   .hero-content .hero-actions .btn-gold { flex-grow: 2; }
   .hero-where, .hero-cue { display: none !important; }
+  .hero-content .assure { margin-top: 12px; font-size: .8rem; gap: 4px 14px; }
+  .chip span { padding: 0 12px; font-size: .9rem; }
+  .quick-send { width: 100%; }
 
   .facts-list { grid-template-columns: 1fr 1fr; }
   .facts-list li:nth-child(3) { border-right: 0; }
