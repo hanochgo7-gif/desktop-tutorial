@@ -41,25 +41,56 @@
 <body>
 <a class="skip" href="#main">דלג לתוכן</a>
 
+<!-- BEGIN header -->
 <header class="site-header" data-header>
-  <a class="brand" href="#top" aria-label="AMS – חזרה לראש העמוד">
+  <a class="brand" href="index.html" aria-label="AMS – לעמוד הראשי">
     <span class="brand-mark">AMS</span>
     <span class="brand-sub">Mind &amp; Body Connection</span>
   </a>
-  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
-    <span class="menu-toggle-bars" aria-hidden="true"></span>
-    <span class="visually-hidden">תפריט</span>
-  </button>
-  <nav class="site-nav" id="site-nav" aria-label="ניווט ראשי" data-nav>
-    <a href="#coach">מי אני</a>
-    <a href="#services">שירותים</a>
-    <a href="#nutrition">תזונה</a>
-    <a href="#talks">הרצאות</a>
-    <a href="#where">איפה מתאמנים</a>
-    <a href="#faq">שאלות</a>
-    <a class="nav-cta" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A9%D7%99%D7%97%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener">שליחת הודעה</a>
-  </nav>
+  <div class="header-actions">
+    <a class="header-cta" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A9%D7%99%D7%97%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg><span>שליחת הודעה</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+      <span class="menu-btn-label">תפריט</span>
+      <span class="menu-toggle-bars" aria-hidden="true"></span>
+    </button>
+  </div>
 </header>
+
+<div class="menu" id="site-menu" data-menu>
+  <div class="menu-in">
+    <nav class="menu-nav" aria-label="תפריט ראשי">
+      <ol class="menu-list">
+      <li><a class="menu-item" href="index.html" data-img="assets/hero/poster.webp" data-cap="AMS" data-sub="Mind &amp; Body Connection"><span class="menu-num">01</span><span class="menu-t">ראשי</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></li>
+      <li><a class="menu-item" href="index.html#coach" data-img="assets/img/coach-guard-duo.webp" data-cap="אביב משה שדמון" data-sub="מאמן גוף ונפש, יותר מ־10 שנות ניסיון"><span class="menu-num">02</span><span class="menu-t">מי אני</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></li>
+      <li class="menu-has-sub">
+        <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="assets/img/flagship.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
+          <span class="menu-num">03</span><span class="menu-t">שירותים</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <div class="menu-sub" id="menu-sub">
+        <a href="services/muay-thai.html" data-img="assets/img/svc-muaythai.webp" data-cap="אגרוף תאילנדי" data-sub="טכניקה, כוח וביטחון עצמי"><img src="assets/img/svc-muaythai.webp" alt="" width="480" height="360" loading="lazy"><span><b>אגרוף תאילנדי</b><small>טכניקה, כוח וביטחון עצמי</small></span></a>
+        <a href="services/sports-nutrition.html" data-img="assets/img/svc-nutrition.webp" data-cap="תזונת ספורט ותפריטים" data-sub="ייעוץ ותפריט אישי לפי המטרה"><img src="assets/img/svc-nutrition.webp" alt="" width="480" height="360" loading="lazy"><span><b>תזונת ספורט ותפריטים</b><small>ייעוץ ותפריט אישי לפי המטרה</small></span></a>
+        <a href="services/boxing-nutrition.html" data-img="assets/img/svc-flagship.webp" data-cap="אגרוף + תזונה" data-sub="מסלול הדגל: אימון שבועי ותפריט חודשי"><img src="assets/img/svc-flagship.webp" alt="" width="480" height="360" loading="lazy"><span><b>אגרוף + תזונה</b><small>מסלול הדגל: אימון שבועי ותפריט חודשי</small></span></a>
+        <a href="services/talks.html" data-img="assets/img/svc-talks.webp" data-cap="הרצאות וסדנאות" data-sub="לקבוצות, חברות, בתי ספר וארגונים"><img src="assets/img/svc-talks.webp" alt="" width="480" height="360" loading="lazy"><span><b>הרצאות וסדנאות</b><small>לקבוצות, חברות, בתי ספר וארגונים</small></span></a>
+        <a href="services/kids.html" data-img="assets/img/svc-kids.webp" data-cap="אימוני ילדים" data-sub="משמעת, כבוד וביטחון עצמי"><img src="assets/img/svc-kids.webp" alt="" width="480" height="360" loading="lazy"><span><b>אימוני ילדים</b><small>משמעת, כבוד וביטחון עצמי</small></span></a>
+        <a href="services/body-mind.html" data-img="assets/img/svc-mind.webp" data-cap="גוף ותודעה" data-sub="נשימה, מדיטציה ועבודה מנטלית"><img src="assets/img/svc-mind.webp" alt="" width="480" height="360" loading="lazy"><span><b>גוף ותודעה</b><small>נשימה, מדיטציה ועבודה מנטלית</small></span></a>
+        </div>
+      </li>
+      <li><a class="menu-item" href="index.html#where" data-img="assets/img/training-session-duo.webp" data-cap="איפה מתאמנים" data-sub="סטודיו פרטי, בבית, בחדר כושר או בחוץ"><span class="menu-num">04</span><span class="menu-t">איפה מתאמנים</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></li>
+      <li><a class="menu-item" href="index.html#faq" data-img="assets/img/coach-pads-duo.webp" data-cap="שאלות נפוצות" data-sub="מה כדאי לדעת לפני שמתחילים"><span class="menu-num">05</span><span class="menu-t">שאלות נפוצות</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></li>
+      <li><a class="menu-item" href="index.html#contact" data-img="assets/img/coach-pads-duo.webp" data-cap="יצירת קשר" data-sub="שיחת היכרות ב־WhatsApp"><span class="menu-num">06</span><span class="menu-t">יצירת קשר</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></li>
+      </ol>
+    </nav>
+    <aside class="menu-vis" aria-label="יצירת קשר">
+      <figure class="menu-fig" aria-hidden="true">
+        <img src="assets/img/flagship.webp" alt="" width="2000" height="1131" loading="lazy" data-menu-img>
+        <figcaption><b data-menu-cap>שירותים</b><span data-menu-sub>שישה שירותים, מטרה אחת</span></figcaption>
+      </figure>
+      <a class="btn btn-gold btn-block" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A9%D7%99%D7%97%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>שליחת הודעה ב־WhatsApp</a>
+      <p class="menu-foot"><span>אורן 21, מזכרת בתיה</span><a href="https://www.instagram.com/aviv_shadmon/" target="_blank" rel="noopener" dir="ltr">@aviv_shadmon</a></p>
+    </aside>
+  </div>
+</div>
+<!-- END header -->
 
 <main id="main">
 
@@ -165,7 +196,7 @@
     </div>
     <ul class="services-list">
       <li>
-        <a class="service" href="#approach">
+        <a class="service" href="services/muay-thai.html">
           <span class="service-img"><img src="assets/img/svc-muaythai.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">אימון אישי באגרוף תאילנדי</span>
@@ -175,7 +206,7 @@
         </a>
       </li>
       <li>
-        <a class="service" href="#nutrition">
+        <a class="service" href="services/sports-nutrition.html">
           <span class="service-img"><img src="assets/img/svc-nutrition.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">ייעוץ תזונת ספורט ותפריטים</span>
@@ -185,7 +216,7 @@
         </a>
       </li>
       <li>
-        <a class="service" href="#flagship">
+        <a class="service" href="services/boxing-nutrition.html">
           <span class="service-img"><img src="assets/img/svc-flagship.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">אגרוף + תזונה</span>
@@ -195,7 +226,7 @@
         </a>
       </li>
       <li>
-        <a class="service" href="#talks">
+        <a class="service" href="services/talks.html">
           <span class="service-img"><img src="assets/img/svc-talks.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">הרצאות וסדנאות</span>
@@ -205,7 +236,7 @@
         </a>
       </li>
       <li>
-        <a class="service" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%90%D7%99%D7%9E%D7%95%D7%A0%D7%99%20%D7%99%D7%9C%D7%93%D7%99%D7%9D" target="_blank" rel="noopener">
+        <a class="service" href="services/kids.html">
           <span class="service-img"><img src="assets/img/svc-kids.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">אימוני ילדים</span>
@@ -215,7 +246,7 @@
         </a>
       </li>
       <li>
-        <a class="service" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%AA%D7%94%D7%9C%D7%99%D7%9A%20%D7%92%D7%95%D7%A3%20%D7%95%D7%AA%D7%95%D7%93%D7%A2%D7%94" target="_blank" rel="noopener">
+        <a class="service" href="services/body-mind.html">
           <span class="service-img"><img src="assets/img/svc-mind.webp" alt="" width="480" height="360" loading="lazy"></span>
           <span class="service-body">
             <span class="service-title">גוף ותודעה</span>
@@ -259,114 +290,10 @@
       <p class="flagship-label">מסלול הדגל</p>
       <h2 class="flagship-title" id="flagship-title">אגרוף + תזונה</h2>
       <p class="flagship-lede">חודש של תנועה, תזונה והתקדמות. ייעוץ תזונה ותפריט חודשי, יחד עם אימון אגרוף שבועי.</p>
-      <ul class="flagship-points">
-        <li>שילוב מנצח של אימון ותזונה</li>
-        <li>שינוי פנימי שמוביל לשינוי חיצוני</li>
-        <li>ליווי אישי מלא, 360°</li>
-      </ul>
-      <a class="btn btn-gold" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9E%D7%A1%D7%9C%D7%95%D7%9C%20%D7%94%D7%9E%D7%A9%D7%95%D7%9C%D7%91%20%D7%90%D7%92%D7%A8%D7%95%D7%A3%20%2B%20%D7%AA%D7%96%D7%95%D7%A0%D7%94" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-        לפרטים על המסלול המשולב
-      </a>
-    </div>
-  </section>
-
-  <!-- ייעוץ תזונת ספורט ותפריטים -->
-  <section class="section nutrition" id="nutrition" aria-labelledby="nutrition-title">
-    <div class="nutrition-intro">
-      <div>
-        <h2 class="h2" id="nutrition-title">ייעוץ תזונת ספורט ותפריטים</h2>
-        <p class="lede">תזונה היא חצי מהאימון. ייעוץ מקצועי ותפריט אישי שנבנים סביב המטרה, האימונים והשגרה שלך, כדי להתחזק, להתאושש ולהתקדם.</p>
-        <p class="nutrition-note">שירות עצמאי: אפשר לקבל ייעוץ ותפריט בלי אימונים, או לשלב במסלול אגרוף + תזונה.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="services/boxing-nutrition.html">לפרטים על המסלול</a>
       </div>
-      <figure class="nutrition-photo">
-        <img src="assets/img/nutrition-consult.webp" alt="איור: אביב מסביר תפריט שבועי ליד שולחן עם קופסאות ארוחות מוכנות" width="1200" height="900" loading="lazy">
-      </figure>
     </div>
-
-    <ul class="offers">
-      <li>
-        <h3>ייעוץ תזונת ספורט</h3>
-        <p>מה לאכול לפני אימון ואחריו, התאוששות, שתייה ואנרגיה לאורך היום. מותאם לסוג האימונים ולעצימות שלהם.</p>
-      </li>
-      <li>
-        <h3>תפריט אישי</h3>
-        <p>ארוחות מסודרות, כמויות וחלופות, שמתאימות לשעות העבודה, לטעם שלך ולסופי השבוע.</p>
-      </li>
-      <li>
-        <h3>תפריטים לפי מטרה</h3>
-        <p>ירידה בשומן, בניית מסת שריר, שיפור ביצועים או שגרה מאוזנת. התפריט מתעדכן לפי ההתקדמות.</p>
-      </li>
-    </ul>
-
-    <div class="nutrition-grid">
-      <ol class="steps steps-tight">
-        <li>
-          <h3>מגדירים את המטרה</h3>
-          <p>ירידה במשקל, בניית מסת שריר, שיפור ביצועים או שגרה מאוזנת.</p>
-        </li>
-        <li>
-          <h3>לומדים את השגרה שלך</h3>
-          <p>הרגלי אכילה, שעות עבודה, זמני אימונים והאתגרים של היום־יום.</p>
-        </li>
-        <li>
-          <h3>בונים תפריט אישי</h3>
-          <p>ארוחות מסודרות, כמויות, חלופות וגמישות לסופי שבוע.</p>
-        </li>
-        <li>
-          <h3>עוקבים ומדייקים</h3>
-          <p>מעקב קבוע, מדידות ועדכון התפריט לפי ההתקדמות והשינויים בשגרה.</p>
-        </li>
-      </ol>
-      <aside class="nutrition-side" aria-labelledby="includes-title">
-        <h3 id="includes-title">מה כולל הליווי</h3>
-        <ul class="checks">
-          <li>תפריט אישי ומותאם למטרה</li>
-          <li>התאמה לסוג ולתדירות האימונים</li>
-          <li>מעקב ומדידות שוטפות</li>
-          <li>חלופות מגוונות לארוחות</li>
-          <li>כלים לבחירה נכונה במהלך היום</li>
-          <li>התאמות שוטפות לאורך התהליך</li>
-          <li>בניית הרגלים לטווח ארוך</li>
-        </ul>
-        <a class="btn btn-gold btn-block" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%99%D7%99%D7%A2%D7%95%D7%A5%20%D7%AA%D7%96%D7%95%D7%A0%D7%AA%20%D7%A1%D7%A4%D7%95%D7%A8%D7%98%20%D7%95%D7%AA%D7%A4%D7%A8%D7%99%D7%98%20%D7%90%D7%99%D7%A9%D7%99" target="_blank" rel="noopener">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-          לייעוץ ותפריט אישי
-        </a>
-      </aside>
-    </div>
-  </section>
-
-  <!-- הרצאות -->
-  <section class="section talks" id="talks" aria-labelledby="talks-title">
-    <div class="talks-head">
-      <div>
-        <h2 class="h2" id="talks-title">הרצאות וסדנאות</h2>
-        <p>הרצאות לקבוצות, חברות, בתי ספר וארגונים, על הקשר בין גוף, תזונה ותודעה. מה שלמדתי בזירה, באימונים ובתאילנד, מותאם לקהל ולמטרה.</p>
-      </div>
-      <figure class="talks-photo">
-        <img src="assets/img/talks.webp" alt="איור: אביב מרצה מול קהל באולם חשוך, באור זרקור" width="1200" height="900" loading="lazy">
-      </figure>
-    </div>
-    <ul class="talks-list">
-      <li>
-        <h3>תזונת ספורט</h3>
-        <p>איך לאכול כדי להתחזק, להתאושש ולהתקדם, בלי דיאטות קיצוניות.</p>
-      </li>
-      <li>
-        <h3>משמעת עצמית וחוסן מנטלי</h3>
-        <p>מה אומנויות לחימה מלמדות על התמדה, ריכוז ושליטה עצמית, ואיך לקחת את זה ליום־יום.</p>
-      </li>
-      <li>
-        <h3>גוף ונפש</h3>
-        <p>נשימה, תנועה ועבודה מנטלית ככלים לאיזון פנימי ולהתמודדות עם לחץ.</p>
-      </li>
-    </ul>
-    <p class="talks-note">אפשר לשלב חלק מעשי: אימון התנסות קצר באגרוף תאילנדי לכל המשתתפים.</p>
-    <a class="btn btn-gold" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%A8%D7%A6%D7%90%D7%94" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-      לתיאום הרצאה
-    </a>
   </section>
 
   <!-- איפה מתאמנים -->
@@ -444,10 +371,6 @@
         <p>בגדי ספורט נוחים, מים, מגבת ורצון להתחיל. את שאר הציוד מתאימים לפי סוג האימון.</p>
       </details>
       <details>
-        <summary>אפשר לקבל רק ייעוץ תזונה ותפריט, בלי אימונים?</summary>
-        <p>כן. ייעוץ תזונת ספורט ותפריט אישי הם שירות עצמאי. אפשר לקבל אותם בנפרד, או לשלב אותם עם אימונים במסלול אגרוף + תזונה.</p>
-      </details>
-      <details>
         <summary>אפשר לשלב אימוני לחימה ואימוני כוח?</summary>
         <p>כן. התוכנית יכולה לשלב מואי תאי, קיקבוקס, אימוני כוח ומשקל גוף, לפי המטרה האישית.</p>
       </details>
@@ -473,23 +396,40 @@
   </section>
 </main>
 
+<!-- BEGIN footer -->
 <footer class="site-footer">
-  <div class="logo logo-sm" role="img" aria-label="AMS – Mind and Body Connection">
-    <span class="logo-mark">AMS</span>
-    <span class="logo-tag">Mind &amp; Body Connection</span>
+  <div class="footer-top">
+    <div class="logo logo-sm" role="img" aria-label="AMS – Mind and Body Connection">
+      <span class="logo-mark">AMS</span>
+      <span class="logo-tag">Mind &amp; Body Connection</span>
+    </div>
+    <nav class="footer-nav" aria-label="שירותים">
+      <p class="footer-h">שירותים</p>
+      <ul>
+      <li><a href="services/muay-thai.html">אגרוף תאילנדי</a></li>
+      <li><a href="services/sports-nutrition.html">תזונת ספורט ותפריטים</a></li>
+      <li><a href="services/boxing-nutrition.html">אגרוף + תזונה</a></li>
+      <li><a href="services/talks.html">הרצאות וסדנאות</a></li>
+      <li><a href="services/kids.html">אימוני ילדים</a></li>
+      <li><a href="services/body-mind.html">גוף ותודעה</a></li>
+      </ul>
+    </nav>
+    <div class="footer-contact">
+      <p class="footer-h">יצירת קשר</p>
+      <ul>
+        <li><a href="https://wa.me/972509359222" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="https://www.instagram.com/aviv_shadmon/" target="_blank" rel="noopener">Instagram</a></li>
+        <li>אורן 21, מזכרת בתיה</li>
+      </ul>
+    </div>
   </div>
-  <ul class="footer-links">
-    <li><a href="https://wa.me/972509359222" target="_blank" rel="noopener">WhatsApp</a></li>
-    <li><a href="https://www.instagram.com/aviv_shadmon/" target="_blank" rel="noopener">Instagram</a></li>
-    <!-- להוסיף קישורים לפייסבוק ולטיקטוק כשיתקבלו הכתובות -->
-  </ul>
-  <p class="footer-copy">© <span data-year>2026</span> AMS · אביב משה שדמון · אורן 21, מזכרת בתיה</p>
+  <p class="footer-copy">© <span data-year>2026</span> AMS · אביב משה שדמון</p>
 </footer>
-
 <a class="sticky-cta" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%A9%D7%99%D7%97%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener">
   <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
   שליחת הודעה לתיאום
 </a>
+<!-- END footer -->
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41Z"/></symbol>

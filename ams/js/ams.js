@@ -7,24 +7,54 @@
   const onScroll = () => {
     const y = window.scrollY;
     header.classList.toggle('is-scrolled', y > 40);
-    if (sticky && hero) sticky.classList.toggle('is-visible', y > hero.offsetHeight - window.innerHeight * 0.5);
+    if (sticky) sticky.classList.toggle('is-visible', hero ? y > hero.offsetHeight - window.innerHeight * 0.5 : y > 480);
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // תפריט נייד
+  // תפריט מסך מלא
   const toggle = document.querySelector('[data-menu-toggle]');
-  const nav = document.querySelector('[data-nav]');
+  const menu = document.querySelector('[data-menu]');
   const setMenu = (open) => {
     toggle.setAttribute('aria-expanded', String(open));
-    nav.classList.toggle('is-open', open);
+    toggle.querySelector('.menu-btn-label').textContent = open ? 'סגירה' : 'תפריט';
+    menu.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
+    if (open) { const first = menu.querySelector('a, button'); if (first) first.focus({ preventScroll: true }); }
   };
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
-  nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+  menu.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('is-open')) { setMenu(false); toggle.focus(); }
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); }
   });
+
+  // תת־תפריט השירותים נפתח ונסגר
+  const subBtn = menu.querySelector('[data-sub-toggle]');
+  const sub = subBtn && document.getElementById(subBtn.getAttribute('aria-controls'));
+  if (subBtn && sub) {
+    subBtn.addEventListener('click', () => {
+      const open = subBtn.getAttribute('aria-expanded') !== 'true';
+      subBtn.setAttribute('aria-expanded', String(open));
+      sub.hidden = !open;
+    });
+  }
+
+  // התמונה בצד התפריט מתחלפת לפי הפריט שמצביעים עליו
+  const figImg = menu.querySelector('[data-menu-img]');
+  const figCap = menu.querySelector('[data-menu-cap]');
+  const figSub = menu.querySelector('[data-menu-sub]');
+  if (figImg) {
+    menu.querySelectorAll('[data-img]').forEach((el) => {
+      const show = () => {
+        if (figImg.getAttribute('src') !== el.dataset.img) figImg.src = el.dataset.img;
+        figCap.textContent = el.dataset.cap;
+        figSub.textContent = el.dataset.sub;
+      };
+      el.addEventListener('mouseenter', show);
+      el.addEventListener('focus', show);
+    });
+  }
 
   // HERO: רצף פריימים שמתקדם עם הגלילה. שמירה -> אגרוף -> חזרה לשמירה.
   // הפריים הראשון והאחרון זהים, כך שגלילה קדימה ואחורה נראית רציפה.
