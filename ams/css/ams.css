@@ -391,6 +391,15 @@ ul, ol { list-style: none; }
 .rounds h3 { font-size: 1.15rem; margin-bottom: 6px; }
 .rounds p { margin: 0; color: var(--ash); font-size: .97rem; }
 
+/* ---------- אינסטגרם ---------- */
+.insta-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 48px; }
+.insta-head p { margin: 0; color: var(--ash); }
+.insta-head a { color: var(--gold); text-underline-offset: 5px; }
+.insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 40px; }
+.insta-grid a { display: block; overflow: hidden; background: var(--night); }
+.insta-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: opacity .2s; }
+.insta-grid a:hover img { opacity: .75; }
+
 /* ---------- שאלות ---------- */
 .faq { display: grid; grid-template-columns: 4fr 7fr; gap: 32px clamp(32px, 6vw, 88px); align-items: start; }
 .faq-list { border-bottom: 1px solid var(--line-soft); }
@@ -461,6 +470,7 @@ ul, ol { list-style: none; }
   .approach-photo img { min-height: 0; aspect-ratio: 4 / 3; }
   .nutrition, .where, .faq { grid-template-columns: 1fr; }
   .coach { grid-template-columns: 1fr 1fr; }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 760px) {
@@ -489,6 +499,7 @@ ul, ol { list-style: none; }
   .track-img { aspect-ratio: 5 / 4; }
 
   .places > div { grid-template-columns: 1fr; gap: 2px; }
+  .insta-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; }
 
   .rounds { grid-template-columns: 1fr; gap: 0; padding: 0 60px 0 0; margin-top: 40px; }
   .rounds::before { inset: 0 auto 0 auto; right: 19px; width: 13px; height: auto; border-block: 0; border-inline: 1px solid var(--line);
