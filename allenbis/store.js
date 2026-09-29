@@ -1167,6 +1167,17 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     return { s: Math.min(s, STAGES.length - 1), left: Math.max(0, Math.ceil(ETA - mins)) };
   }
   const active = () => { const o = orders[orders.length - 1]; if (!o) return null; const st = stageOf(o); return st.s < STAGES.length - 1 || Date.now() - o.at < 3600e3 ? o : null; };
+  // One picture per stage: order received, basket being packed, courier riding, almost there, at the door
+  const STAGE_ICONS = {
+    received: '<path d="M9 3h6a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2V4a1 1 0 0 1 1-1z"/><path d="m9 13 2 2 4-4"/>',
+    collecting: '<path d="M5 8h14l-1.2 10.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/>',
+    on_the_way: '<circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>',
+    nearby: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    delivered: '<path d="m3 11 9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>'
+  };
+  const stageIcon = (id, i) => STAGE_ICONS[id]
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${STAGE_ICONS[id]}</svg>`
+    : String(i + 1);
   function renderTrack() {
     const o = orders[orders.length - 1];
     if (!o) { $('trackBody').innerHTML = '<p class="panel-empty">אין הזמנה פעילה.</p>'; return; }
@@ -1174,7 +1185,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const done = s >= STAGES.length - 1;
     $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.</p>
 <div class="eta">${done ? '<b>נמסר</b>' : `<b>${left}</b><span>דקות בערך עד שזה אצלך</span>`}</div>
-<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span>${i < s || done ? '✓' : i + 1}</span><p>${esc(st.label)}</p></li>`).join('')}</ol>
+<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(st.label)}</p></li>`).join('')}</ol>
 <div style="display:grid;gap:10px;margin-top:18px">${done ? '' : '<button class="secondary" type="button" id="trackNext">הדגמה: לשלב הבא</button>'}<button class="primary" type="button" data-close>חזרה לחנות</button></div>`;
   }
   let trackTimer;
