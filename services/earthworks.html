@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css?v=112">
+  <link rel="stylesheet" href="../css/styles.css?v=117">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,6 +38,9 @@
     ]
   }
   </script>
+  <link rel="alternate" hreflang="he" href="https://gotovski.co.il/services/earthworks.html">
+  <link rel="alternate" hreflang="en" href="https://gotovski.co.il/en/services/earthworks.html">
+  <link rel="alternate" hreflang="x-default" href="https://gotovski.co.il/services/earthworks.html">
 </head>
 <body data-root="../">
   <!-- אנימציית פתיחה: התחנה נבנית ב-6 שניות (פעם אחת בכל ביקור) -->
@@ -178,7 +181,7 @@
       <div class="mm__vis">
         <div class="mm__cap" aria-hidden="true"><span class="mm__stamp">הדמיה</span><b data-mm-cap>שישה תחומי ביצוע</b><span data-mm-sub>מהחפירה ועד המילוי הראשון</span></div>
         <div class="mm__office">
-          <div class="mm__hd"><span class="mm__ic"><img src="../images/contact-office.webp" alt="" width="256" height="256" loading="lazy" decoding="async"></span><span class="mm__clock" data-clock dir="ltr">--:--</span></div>
+          <div class="mm__hd"><span class="mm__ic"><img src="../images/contact-office.webp" alt="" width="256" height="256" loading="lazy" decoding="async"></span><span class="mm__clock" data-clock dir="ltr">--:--</span><span class="mm__greet" data-greet hidden></span></div>
           <div class="footer__office"><span class="footer__office-dot" data-office-dot aria-hidden="true"></span><span data-office>א׳–ה׳ 8:00–16:00 · ו׳ עד 12:00</span></div>
           <div class="mm__row">
             <a class="mm__btn mm__btn--cta" href="../contact.html">הצעת מחיר</a>
@@ -211,7 +214,7 @@
     <section class="section section--tight service-intro">
       <div class="container service-intro__grid">
         <figure class="service-figure">
-          <img src="../images/earthworks-cat.webp" alt="מחפרון קטרפילר ושני עובדים באפודים בחפירה לצד קיר תומך" width="900" height="675" fetchpriority="high">
+          <img src="../images/earthworks-cat.webp" srcset="../images/earthworks-cat-480.webp 480w, ../images/earthworks-cat.webp 900w" sizes="(max-width: 900px) 90vw, 488px" alt="מחפרון קטרפילר ושני עובדים באפודים בחפירה לצד קיר תומך" width="900" height="675" fetchpriority="high">
           <figcaption>עבודות עפר לצד קיר תומך</figcaption>
         </figure>
         <div class="service-intro__body">
@@ -279,11 +282,11 @@
         </div>
         <div class="gallery gallery--service">
           <button class="gallery__item lqip" type="button" data-full="../images/earthworks-excavator.webp" data-caption="מחפרון בעבודות עפר (הדמיה)" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAANABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAiEAACAQQCAQUAAAAAAAAAAAABAwIAERIxBAVBEzJRYXH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABgRAQEBAQEAAAAAAAAAAAAAAAEAEhMh/9oADAMBAAIRAxEAPwCW9otMJGxyiNH5oTzSuWUmyYWR9ttGkGqhOJMrk/ZvVHBYfVnkMvA/Kn0X2XMLdHbCAsxLAdi3kUUpxHTKd6JFFLbHBf/Z)"><img src="../images/earthworks-excavator.webp" alt="הדמיה: מחפרון בעבודות עפר באתר תחנת דלק" width="493" height="310" loading="lazy" decoding="async"><span class="gallery__caption">עבודות עפר (הדמיה)</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/earthworks-cat.webp" data-caption="מחפרון ושני עובדים בחפירה לצד קיר תומך" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACMQAAEDAgYDAQAAAAAAAAAAAAEAAgMEEgUREyIxQSFRYYH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAXEQADAQAAAAAAAAAAAAAAAAAAASFB/9oADAMBAAIRAxEAPwBVRHFTxwh941Nxt5A/VdHh7sm3kyAMORc7vpZmLz6lUD64WnhdXdRi9x2m0rNrRp4UimA8B5HwhCfchGlh/9k=)"><img src="../images/earthworks-cat.webp" alt="מחפרון ושני עובדים בחפירה לצד קיר תומך" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">חפירה לצד קיר תומך</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/pit-liner-workers.webp" data-caption="בור מיכלים מרופד ביריעת איטום" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUE/8QAIhAAAQMCBgMAAAAAAAAAAAAAAQACEQMEBRIUITFBIlGx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgME/8QAFhEAAwAAAAAAAAAAAAAAAAAAAAET/9oADAMBAAIRAxEAPwA7Eb4NaNO+eDNNYxdVzdahtpWNUz5ZTCtmAZjfpNp4WezLSRMbiV3lGemWn0W7/EVMkdgIldhkj//Z)"><img src="../images/pit-liner-workers.webp" alt="בור מיכלים מרופד ביריעת איטום" width="1400" height="1050" loading="lazy" decoding="async"><span class="gallery__caption">יריעת איטום בבור</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/paving-roller.webp" data-caption="מכבש מהדק רחבה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EACYQAAICAQMACwAAAAAAAAAAAAECAAMhERIxBAUTFCIkQVFhwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAAMBAAAAAAAAAAAAAAAAAAABEVH/2gAMAwEAAhEDEQA/ALN0hAq+axw2465+JzWdYWirwWWLr6g4MhYi7GPZh1I1IJmlSk1lFrzxyZJsaJ77LQHOSfdiTEd324+z+xBMY7p//9k=)"><img src="../images/paving-roller.webp" alt="מכבש מהדק רחבה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">הידוק רחבה</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/drainage-channel.webp" data-caption="תעלת ניקוז לפני יציקה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAeEAABBAIDAQAAAAAAAAAAAAABAAIDERIxBCFBYf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwBOLkeZOcb2QtuM7GTktppINGt+lKwtJkbbiRspzEtmk1qyR8KQWjM+AMYGJ7HaFDmucbBpCuVNj//Z)"><img src="../images/drainage-channel.webp" alt="תעלת ניקוז לפני יציקה" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">תעלת ניקוז</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/air-station-paving.webp" data-caption="ריצוף אבנים משתלבות" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAhEAACAgEEAgMAAAAAAAAAAAABAgADEQQSITEUcSJBwf/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABoRAAIDAQEAAAAAAAAAAAAAAAABAiFBErH/2gAMAwEAAhEDEQA/AM2mPk1Nk87sDniaq0FJG6tSv25GZGi0q1VbUYvzkN0Jt2oa9hUEHuDNzyxVyiprVJ+IrPs4iS2loY5ahc+omG5LPC0dJ1JH7ERwiwHiIiQp/9k=)"><img src="../images/air-station-paving.webp" alt="ריצוף אבנים משתלבות" width="900" height="900" loading="lazy" decoding="async"><span class="gallery__caption">ריצוף אבנים משתלבות</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/earthworks-cat.webp" data-caption="מחפרון ושני עובדים בחפירה לצד קיר תומך" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EACMQAAEDAgYDAQAAAAAAAAAAAAEAAgMEEgUREyIxQSFRYYH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAXEQADAQAAAAAAAAAAAAAAAAAAASFB/9oADAMBAAIRAxEAPwBVRHFTxwh941Nxt5A/VdHh7sm3kyAMORc7vpZmLz6lUD64WnhdXdRi9x2m0rNrRp4UimA8B5HwhCfchGlh/9k=)"><img src="../images/earthworks-cat.webp" srcset="../images/earthworks-cat-480.webp 480w, ../images/earthworks-cat.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="מחפרון ושני עובדים בחפירה לצד קיר תומך" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">חפירה לצד קיר תומך</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/pit-liner-workers.webp" data-caption="בור מיכלים מרופד ביריעת איטום" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUE/8QAIhAAAQMCBgMAAAAAAAAAAAAAAQACEQMEBRIUITFBIlGx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgME/8QAFhEAAwAAAAAAAAAAAAAAAAAAAAET/9oADAMBAAIRAxEAPwA7Eb4NaNO+eDNNYxdVzdahtpWNUz5ZTCtmAZjfpNp4WezLSRMbiV3lGemWn0W7/EVMkdgIldhkj//Z)"><img src="../images/pit-liner-workers.webp" srcset="../images/pit-liner-workers-480.webp 480w, ../images/pit-liner-workers-960.webp 960w, ../images/pit-liner-workers.webp 1400w" sizes="(max-width: 900px) 45vw, 352px" alt="בור מיכלים מרופד ביריעת איטום" width="1400" height="1050" loading="lazy" decoding="async"><span class="gallery__caption">יריעת איטום בבור</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/paving-roller.webp" data-caption="מכבש מהדק רחבה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EACYQAAICAQMACwAAAAAAAAAAAAECAAMhERIxBAUTFCIkQVFhwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAAMBAAAAAAAAAAAAAAAAAAABEVH/2gAMAwEAAhEDEQA/ALN0hAq+axw2465+JzWdYWirwWWLr6g4MhYi7GPZh1I1IJmlSk1lFrzxyZJsaJ77LQHOSfdiTEd324+z+xBMY7p//9k=)"><img src="../images/paving-roller.webp" srcset="../images/paving-roller-480.webp 480w, ../images/paving-roller.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="מכבש מהדק רחבה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">הידוק רחבה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/drainage-channel.webp" data-caption="תעלת ניקוז לפני יציקה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAeEAABBAIDAQAAAAAAAAAAAAABAAIDERIxBCFBYf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwBOLkeZOcb2QtuM7GTktppINGt+lKwtJkbbiRspzEtmk1qyR8KQWjM+AMYGJ7HaFDmucbBpCuVNj//Z)"><img src="../images/drainage-channel.webp" srcset="../images/drainage-channel-480.webp 480w, ../images/drainage-channel.webp 1200w" sizes="(max-width: 900px) 45vw, 352px" alt="תעלת ניקוז לפני יציקה" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery__caption">תעלת ניקוז</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/air-station-paving.webp" data-caption="ריצוף אבנים משתלבות" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAhEAACAgEEAgMAAAAAAAAAAAABAgADEQQSITEUcSJBwf/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/EABoRAAIDAQEAAAAAAAAAAAAAAAABAiFBErH/2gAMAwEAAhEDEQA/AM2mPk1Nk87sDniaq0FJG6tSv25GZGi0q1VbUYvzkN0Jt2oa9hUEHuDNzyxVyiprVJ+IrPs4iS2loY5ahc+omG5LPC0dJ1JH7ERwiwHiIiQp/9k=)"><img src="../images/air-station-paving.webp" srcset="../images/air-station-paving-480.webp 480w, ../images/air-station-paving.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="ריצוף אבנים משתלבות" width="900" height="900" loading="lazy" decoding="async"><span class="gallery__caption" aria-hidden="true">ריצוף אבנים משתלבות</span></button>
         </div>
       </div>
     </section>
@@ -354,7 +357,7 @@
           <p>תשתיות דלק מאז 1972. מתחנות דלק ועד חוות שרתים.</p>
         </div>
         <div class="reveal">
-          <h4>תחומי פעילות</h4>
+          <h2 class="footer__h">תחומי פעילות</h2>
           <ul>
             <li><a href="../services/station-construction.html">הקמת תחנות דלק</a></li>
             <li><a href="../services/station-renovation.html">שיפוץ ושדרוג תחנות</a></li>
@@ -365,7 +368,7 @@
           </ul>
         </div>
         <div class="reveal">
-          <h4>מאמרים</h4>
+          <h2 class="footer__h">מאמרים</h2>
           <ul>
             <li><a href="../articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
             <li><a href="../articles/environment-protection.html">איכות הסביבה בתחנות דלק</a></li>
@@ -373,7 +376,7 @@
           </ul>
         </div>
         <div class="reveal">
-          <h4>דברו איתנו</h4>
+          <h2 class="footer__h">דברו איתנו</h2>
           <ul>
             <li>משרד: <a href="tel:+97286229307" class="ltr">08-622-9307</a></li>
             <li>עוזי: <a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
@@ -391,10 +394,10 @@
     </div>
   </footer>
 
-  <a class="wa-float" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" aria-label="שליחת הודעת וואטסאפ">
+  <aside class="wa-float-wrap" aria-label="וואטסאפ"><a class="wa-float" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" aria-label="שליחת הודעת וואטסאפ">
     <img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async">
     <span>וואטסאפ</span>
-  </a>
+  </a></aside>
 
   <!-- פס פעולה תחתון (מובייל) -->
   <nav class="mobile-cta" aria-label="יצירת קשר מהירה">
@@ -402,7 +405,7 @@
     <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" class="mobile-cta__wa" aria-label="וואטסאפ"><img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async"><span>וואטסאפ</span></a>
   </nav>
 
-  <script src="../js/main.js?v=64" defer></script>
+  <script src="../js/main.js?v=66" defer></script>
   <script src="../js/a11y.js" defer></script>
 </body>
 </html>

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css?v=112">
+  <link rel="stylesheet" href="../css/styles.css?v=117">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,6 +38,9 @@
     ]
   }
   </script>
+  <link rel="alternate" hreflang="he" href="https://gotovski.co.il/services/station-renovation.html">
+  <link rel="alternate" hreflang="en" href="https://gotovski.co.il/en/services/station-renovation.html">
+  <link rel="alternate" hreflang="x-default" href="https://gotovski.co.il/services/station-renovation.html">
 </head>
 <body data-root="../">
   <!-- אנימציית פתיחה: התחנה נבנית ב-6 שניות (פעם אחת בכל ביקור) -->
@@ -178,7 +181,7 @@
       <div class="mm__vis">
         <div class="mm__cap" aria-hidden="true"><span class="mm__stamp">הדמיה</span><b data-mm-cap>שישה תחומי ביצוע</b><span data-mm-sub>מהחפירה ועד המילוי הראשון</span></div>
         <div class="mm__office">
-          <div class="mm__hd"><span class="mm__ic"><img src="../images/contact-office.webp" alt="" width="256" height="256" loading="lazy" decoding="async"></span><span class="mm__clock" data-clock dir="ltr">--:--</span></div>
+          <div class="mm__hd"><span class="mm__ic"><img src="../images/contact-office.webp" alt="" width="256" height="256" loading="lazy" decoding="async"></span><span class="mm__clock" data-clock dir="ltr">--:--</span><span class="mm__greet" data-greet hidden></span></div>
           <div class="footer__office"><span class="footer__office-dot" data-office-dot aria-hidden="true"></span><span data-office>א׳–ה׳ 8:00–16:00 · ו׳ עד 12:00</span></div>
           <div class="mm__row">
             <a class="mm__btn mm__btn--cta" href="../contact.html">הצעת מחיר</a>
@@ -211,7 +214,7 @@
     <section class="section section--tight service-intro">
       <div class="container service-intro__grid">
         <figure class="service-figure">
-          <img src="../images/station-forecourt.webp" alt="רחבת תדלוק פעילה של תחנת דור אלון במהלך עבודות שדרוג" width="800" height="600" fetchpriority="high">
+          <img src="../images/station-forecourt.webp" srcset="../images/station-forecourt-480.webp 480w, ../images/station-forecourt.webp 800w" sizes="(max-width: 900px) 90vw, 488px" alt="רחבת תדלוק פעילה של תחנת דור אלון במהלך עבודות שדרוג" width="800" height="600" fetchpriority="high">
           <figcaption>רחבת תדלוק פעילה במהלך עבודות שדרוג</figcaption>
         </figure>
         <div class="service-intro__body">
@@ -279,12 +282,12 @@
           <h2>שיפוצים <em>בתחנות פעילות</em></h2>
         </div>
         <div class="gallery gallery--service">
-          <button class="gallery__item lqip" type="button" data-full="../images/excavation-active-station.webp" data-caption="חפירה מגודרת מתחת לסככה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAABAv/EAB0QAAIDAQADAQAAAAAAAAAAAAECAxEhAAQSMWL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAERJh/9oADAMBAAIRAxEAPwBaysi4TEtYLFdscoMD7G0gIIPsCPvcqoBVau84jJ5yO5WJaDZo0cWBLcSObYKT+c64yp51fBu/R10Zate3/9k=)"><img src="../images/excavation-active-station.webp" alt="חפירה מגודרת מתחת לסככה בתחנה פעילה" width="800" height="600" loading="lazy" decoding="async"><span class="gallery__caption">חפירה בתחנה פעילה</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/night-works-fenced.webp" data-caption="עבודות לילה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEAf/EAB8QAAIDAAICAwAAAAAAAAAAAAECAAMRBBIhMSJhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAARUf/aAAwDAQACEQMRAD8AnSmp6i3fOp0EH3MWxa7XepgWb22ZEBRvOeYtnJ6A/EZ9QzCM3KsBzuv5CSNyWJ0Kp2EyKv/Z)"><img src="../images/night-works-fenced.webp" alt="עבודות לילה בתחנה פעילה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">עבודות לילה בתחנה פעילה</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/paving-roller.webp" data-caption="הידוק ריצוף בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EACYQAAICAQMACwAAAAAAAAAAAAECAAMhERIxBAUTFCIkQVFhwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAAMBAAAAAAAAAAAAAAAAAAABEVH/2gAMAwEAAhEDEQA/ALN0hAq+axw2465+JzWdYWirwWWLr6g4MhYi7GPZh1I1IJmlSk1lFrzxyZJsaJ77LQHOSfdiTEd324+z+xBMY7p//9k=)"><img src="../images/paving-roller.webp" alt="הידוק ריצוף בתחנה פעילה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">הידוק ריצוף</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/concrete-breaking.webp" data-caption="פירוק בטון ברחבה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUCBAb/xAAiEAACAgICAAcAAAAAAAAAAAABAgMRAAQhMQUTIiMyUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEx/9oADAMBAAIRAxEAPwBW7zyKrcsTyx7s5EJMAKB6sV3l3wlASRs+lCLBs39cVjDWh1H8yR29tB8gpuqs8YNITFOTZAP6MM0kWjpNEjPM4YqCQBhgj//Z)"><img src="../images/concrete-breaking.webp" alt="פירוק בטון ברחבה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">פירוק בטון ברחבה</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/floor-repair.webp" data-caption="תיקון רצפה ליד עמדת תדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAgMF/8QAHRAAAgMBAAMBAAAAAAAAAAAAAQIAAxEhBBIiE//EABUBAQEAAAAAAAAAAAAAAAAAAAMB/8QAGREAAwADAAAAAAAAAAAAAAAAAAERAhJR/9oADAMBAAIRAxEAPwCgtX1LtzO4OTL9NqJI+iQZHnXtdUSUClQOgxNbeQsJIh11nRrb4GkchFWfMxoS7oI//9k=)"><img src="../images/floor-repair.webp" alt="תיקון רצפה ליד עמדת תדלוק" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">תיקון רצפה ליד עמדה</span></button>
-          <button class="gallery__item lqip" type="button" data-full="../images/dispenser-service.webp" data-caption="טיפול במשאבת סולר" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgX/xAAhEAADAAIBBAMBAAAAAAAAAAABAgMAERIEITFBE1Fhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAMAwEAAhEDEQA/AJ7q5Y24fJvQ9A/n9yQlcNujoF39jHe614TZAqzbXYdu4JzHUU6duEkV+WwASBrzmHAKeuyvSknCzQEa35wzrp08LzWhiuyB7Iwwu7Iy/9k=)"><img src="../images/dispenser-service.webp" alt="טיפול במשאבת סולר" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">טיפול במשאבה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/excavation-active-station.webp" data-caption="חפירה מגודרת מתחת לסככה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAABAv/EAB0QAAIDAQADAQAAAAAAAAAAAAECAxEhAAQSMWL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABgRAQEAAwAAAAAAAAAAAAAAAAEAERJh/9oADAMBAAIRAxEAPwBaysi4TEtYLFdscoMD7G0gIIPsCPvcqoBVau84jJ5yO5WJaDZo0cWBLcSObYKT+c64yp51fBu/R10Zate3/9k=)"><img src="../images/excavation-active-station.webp" srcset="../images/excavation-active-station-480.webp 480w, ../images/excavation-active-station.webp 800w" sizes="(max-width: 900px) 45vw, 352px" alt="חפירה מגודרת מתחת לסככה בתחנה פעילה" width="800" height="600" loading="lazy" decoding="async"><span class="gallery__caption">חפירה בתחנה פעילה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/night-works-fenced.webp" data-caption="עבודות לילה בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEAf/EAB8QAAIDAAICAwAAAAAAAAAAAAECAAMRBBIhMSJhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABYRAQEBAAAAAAAAAAAAAAAAAAARUf/aAAwDAQACEQMRAD8AnSmp6i3fOp0EH3MWxa7XepgWb22ZEBRvOeYtnJ6A/EZ9QzCM3KsBzuv5CSNyWJ0Kp2EyKv/Z)"><img src="../images/night-works-fenced.webp" srcset="../images/night-works-fenced-480.webp 480w, ../images/night-works-fenced.webp 1200w" sizes="(max-width: 900px) 45vw, 352px" alt="עבודות לילה בתחנה פעילה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption" aria-hidden="true">עבודות לילה בתחנה פעילה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/paving-roller.webp" data-caption="הידוק ריצוף בתחנה פעילה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EACYQAAICAQMACwAAAAAAAAAAAAECAAMhERIxBAUTFCIkQVFhwdH/xAAVAQEBAAAAAAAAAAAAAAAAAAACA//EABcRAAMBAAAAAAAAAAAAAAAAAAABEVH/2gAMAwEAAhEDEQA/ALN0hAq+axw2465+JzWdYWirwWWLr6g4MhYi7GPZh1I1IJmlSk1lFrzxyZJsaJ77LQHOSfdiTEd324+z+xBMY7p//9k=)"><img src="../images/paving-roller.webp" srcset="../images/paving-roller-480.webp 480w, ../images/paving-roller.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="הידוק ריצוף בתחנה פעילה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">הידוק ריצוף</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/concrete-breaking.webp" data-caption="פירוק בטון ברחבה" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUCBAb/xAAiEAACAgICAAcAAAAAAAAAAAABAgMRAAQhMQUTIiMyUXH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEx/9oADAMBAAIRAxEAPwBW7zyKrcsTyx7s5EJMAKB6sV3l3wlASRs+lCLBs39cVjDWh1H8yR29tB8gpuqs8YNITFOTZAP6MM0kWjpNEjPM4YqCQBhgj//Z)"><img src="../images/concrete-breaking.webp" srcset="../images/concrete-breaking-480.webp 480w, ../images/concrete-breaking.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="פירוק בטון ברחבה" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption" aria-hidden="true">פירוק בטון ברחבה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/floor-repair.webp" data-caption="תיקון רצפה ליד עמדת תדלוק" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAgMF/8QAHRAAAgMBAAMBAAAAAAAAAAAAAQIAAxEhBBIiE//EABUBAQEAAAAAAAAAAAAAAAAAAAMB/8QAGREAAwADAAAAAAAAAAAAAAAAAAERAhJR/9oADAMBAAIRAxEAPwCgtX1LtzO4OTL9NqJI+iQZHnXtdUSUClQOgxNbeQsJIh11nRrb4GkchFWfMxoS7oI//9k=)"><img src="../images/floor-repair.webp" srcset="../images/floor-repair-480.webp 480w, ../images/floor-repair.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="תיקון רצפה ליד עמדת תדלוק" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">תיקון רצפה ליד עמדה</span></button>
+          <button class="gallery__item lqip" type="button" data-full="../images/dispenser-service.webp" data-caption="טיפול במשאבת סולר" style="--lqip:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABUOEBIQDRUSERIYFhUZHzQiHx0dH0AuMCY0TENQT0tDSUhUXnlmVFlyWkhJaY9qcnyAh4iHUWWUn5ODnXmEh4L/2wBDARYYGB8cHz4iIj6CVklWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoL/wAARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgX/xAAhEAADAAIBBAMBAAAAAAAAAAABAgMAERIEITFBE1Fhkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAMAwEAAhEDEQA/AJ7q5Y24fJvQ9A/n9yQlcNujoF39jHe614TZAqzbXYdu4JzHUU6duEkV+WwASBrzmHAKeuyvSknCzQEa35wzrp08LzWhiuyB7Iwwu7Iy/9k=)"><img src="../images/dispenser-service.webp" srcset="../images/dispenser-service-480.webp 480w, ../images/dispenser-service.webp 900w" sizes="(max-width: 900px) 45vw, 352px" alt="טיפול במשאבת סולר" width="900" height="675" loading="lazy" decoding="async"><span class="gallery__caption">טיפול במשאבה</span></button>
         </div>
       </div>
     </section>
@@ -355,7 +358,7 @@
           <p>תשתיות דלק מאז 1972. מתחנות דלק ועד חוות שרתים.</p>
         </div>
         <div class="reveal">
-          <h4>תחומי פעילות</h4>
+          <h2 class="footer__h">תחומי פעילות</h2>
           <ul>
             <li><a href="../services/station-construction.html">הקמת תחנות דלק</a></li>
             <li><a href="../services/station-renovation.html">שיפוץ ושדרוג תחנות</a></li>
@@ -366,7 +369,7 @@
           </ul>
         </div>
         <div class="reveal">
-          <h4>מאמרים</h4>
+          <h2 class="footer__h">מאמרים</h2>
           <ul>
             <li><a href="../articles/gas-station-construction-process.html">הקמת תחנת דלק – השלבים</a></li>
             <li><a href="../articles/environment-protection.html">איכות הסביבה בתחנות דלק</a></li>
@@ -374,7 +377,7 @@
           </ul>
         </div>
         <div class="reveal">
-          <h4>דברו איתנו</h4>
+          <h2 class="footer__h">דברו איתנו</h2>
           <ul>
             <li>משרד: <a href="tel:+97286229307" class="ltr">08-622-9307</a></li>
             <li>עוזי: <a href="tel:+972502703674" class="ltr">050-270-3674</a></li>
@@ -392,10 +395,10 @@
     </div>
   </footer>
 
-  <a class="wa-float" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" aria-label="שליחת הודעת וואטסאפ">
+  <aside class="wa-float-wrap" aria-label="וואטסאפ"><a class="wa-float" href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" aria-label="שליחת הודעת וואטסאפ">
     <img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async">
     <span>וואטסאפ</span>
-  </a>
+  </a></aside>
 
   <!-- פס פעולה תחתון (מובייל) -->
   <nav class="mobile-cta" aria-label="יצירת קשר מהירה">
@@ -403,7 +406,7 @@
     <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" class="mobile-cta__wa" aria-label="וואטסאפ"><img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async"><span>וואטסאפ</span></a>
   </nav>
 
-  <script src="../js/main.js?v=64" defer></script>
+  <script src="../js/main.js?v=66" defer></script>
   <script src="../js/a11y.js" defer></script>
 </body>
 </html>

@@ -140,7 +140,8 @@
   $$('[data-quick-video]').forEach(function (qv) {
     if (noMotion()) { qv.removeAttribute('autoplay'); qv.pause(); return; }
     if ('IntersectionObserver' in window) {
-      var qvIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var pl = qv.play(); if (pl && pl.catch) pl.catch(function () {}); } else qv.pause(); }); }, { threshold: 0.15 });
+      /* הסרטון לא יורד עם הדף: נטען ומתנגן רק כשמתקרבים אליו */
+      var qvIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { if (qv.preload === 'none') qv.preload = 'auto'; var pl = qv.play(); if (pl && pl.catch) pl.catch(function () {}); } else if (!qv.paused) qv.pause(); }); }, { threshold: 0.01, rootMargin: '200px 0px' });
       qvIO.observe(qv);
     }
   });
@@ -386,7 +387,63 @@
       }
       officeEls.forEach(function (el) { el.textContent = text; var li = el.closest('.footer__office'); if (li) li.classList.toggle('is-open', open); });
     }
-    tickClock(); setInterval(tickClock, 30000);
+    /* ברכה בתפריט: לפי השעה בישראל, שבת, חגים ותאריך עברי (בלי שרת). בימי זיכרון ובתשעה באב אין ברכה */
+    var greetEls = $$('[data-greet]'), hebFmt = null, greetKey = '';
+    try { hebFmt = new Intl.DateTimeFormat('en-u-ca-hebrew', { day: 'numeric', month: 'long', timeZone: 'Asia/Jerusalem' }); } catch (e) {}
+    function hdate(dt) { var o = {}; hebFmt.formatToParts(dt).forEach(function (p) { o[p.type] = p.value; }); return { m: o.month, d: parseInt(o.day, 10) }; }
+    function L(he, en) { return EN ? en : he; }
+    function greeting(now) {
+      var wd = now.day, h = now.h, g = null, sub = '';
+      if (hebFmt) {
+        var t = new Date(), hd = hdate(t), m = hd.m, d = hd.d;
+        var shoah = m === 'Nisan' && ((d === 27 && wd !== 5 && wd !== 0) || (d === 26 && wd === 4) || (d === 28 && wd === 1));
+        var zikaron = m === 'Iyar' && ((d === 4 && wd !== 5 && wd !== 0) || (d === 2 && wd === 3) || (d === 5 && wd === 1));
+        var atzmaut = m === 'Iyar' && ((d === 5 && wd !== 6 && wd !== 1) || (d === 3 && wd === 4) || (d === 6 && wd === 2));
+        var av9 = m === 'Av' && ((d === 9 && wd !== 6) || (d === 10 && wd === 0));
+        if (shoah || zikaron || av9) return null;
+        var chanukah = false;
+        if (m === 'Kislev' || m === 'Tevet') for (var k = 0; k < 8 && !chanukah; k++) { var x = hdate(new Date(t.getTime() - k * 86400000)); chanukah = x.m === 'Kislev' && x.d === 25; }
+        if ((m === 'Elul' && d === 29) || (m === 'Tishri' && d <= 2)) { g = L('שנה טובה', 'Shana Tova'); sub = m === 'Elul' ? L('ערב ראש השנה', 'Eve of Rosh Hashanah') : L('ראש השנה', 'Rosh Hashanah'); }
+        else if (m === 'Tishri' && d <= 10) { g = L('גמר חתימה טובה', "G'mar Chatima Tova"); sub = d === 9 ? L('ערב יום כיפור', 'Eve of Yom Kippur') : d === 10 ? L('יום כיפור', 'Yom Kippur') : ''; }
+        else if (m === 'Tishri' && d === 14) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב סוכות', 'Eve of Sukkot'); }
+        else if (m === 'Tishri' && d === 15) { g = L('חג שמח', 'Chag Sameach'); sub = L('סוכות', 'Sukkot'); }
+        else if (m === 'Tishri' && d >= 16 && d <= 21) { g = L('מועדים לשמחה', 'Moadim LeSimcha'); sub = d === 21 ? L('הושענא רבה', 'Hoshana Rabbah') : L('חול המועד סוכות', 'Sukkot'); }
+        else if (m === 'Tishri' && d === 22) { g = L('חג שמח', 'Chag Sameach'); sub = L('שמחת תורה', 'Simchat Torah'); }
+        else if (m === 'Nisan' && d === 14) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב פסח', 'Eve of Passover'); }
+        else if (m === 'Nisan' && d === 15) { g = L('חג שמח', 'Chag Sameach'); sub = L('פסח', 'Passover'); }
+        else if (m === 'Nisan' && d >= 16 && d <= 20) { g = L('מועדים לשמחה', 'Moadim LeSimcha'); sub = L('חול המועד פסח', 'Passover'); }
+        else if (m === 'Nisan' && d === 21) { g = L('חג שמח', 'Chag Sameach'); sub = L('שביעי של פסח', 'Passover'); }
+        else if (m === 'Sivan' && d === 5) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב שבועות', 'Eve of Shavuot'); }
+        else if (m === 'Sivan' && d === 6) { g = L('חג שמח', 'Chag Sameach'); sub = L('שבועות', 'Shavuot'); }
+        else if (atzmaut) { g = L('יום עצמאות שמח', 'Happy Independence Day'); }
+        else if (chanukah) { g = L('חג אורים שמח', 'Happy Hanukkah'); sub = L('חנוכה', ''); }
+        else if ((m === 'Adar' || m === 'Adar II') && d === 14) { g = L('פורים שמח', 'Happy Purim'); }
+      }
+      if (!g) {
+        if (wd === 5 || (wd === 6 && h < 19)) g = L('שבת שלום', 'Shabbat Shalom');
+        else if (wd === 6) g = L('שבוע טוב', 'Have a good week');
+        else if (h >= 5 && h < 11) g = L('בוקר טוב', 'Good morning');
+        else if (h >= 11 && h < 15) g = L('צהריים טובים', 'Good afternoon');
+        else if (h >= 15 && h < 18) g = L('אחר צהריים טובים', 'Good afternoon');
+        else if (h >= 18 && h < 22) g = L('ערב טוב', 'Good evening');
+        else g = L('לילה טוב', 'Good night');
+      }
+      return { g: g, sub: sub };
+    }
+    function tickGreet() {
+      if (!greetEls.length) return;
+      var now = israelNow(), key = now.day + ':' + now.h;
+      if (key === greetKey) return; greetKey = key;
+      var r = greeting(now);
+      greetEls.forEach(function (el) {
+        el.textContent = '';
+        if (!r) { el.hidden = true; return; }
+        var b = document.createElement('b'); b.textContent = r.g; el.appendChild(b);
+        if (r.sub) { var sm = document.createElement('small'); sm.textContent = r.sub; el.appendChild(sm); }
+        el.hidden = false;
+      });
+    }
+    tickClock(); tickGreet(); setInterval(function () { tickClock(); tickGreet(); }, 30000);
   }
 
   /* ---------- שאלות נפוצות: פתיחה וסגירה בגובה מונפש ---------- */
@@ -1032,6 +1089,11 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWords);
     window.addEventListener('resize', function () { clearTimeout(fitTimer); fitTimer = setTimeout(fitWords, 120); });
 
+    /* רקע התפריט: מתחילים לטעון ברגע שהאצבע או העכבר מתקרבים לכפתור */
+    $$('.navpill__btn, .nav-toggle').forEach(function (b) {
+      ['pointerenter', 'touchstart', 'focus'].forEach(function (ev) { b.addEventListener(ev, function () { root.classList.add('mm-warm'); }, { once: true, passive: true }); });
+    });
+
     /* גלולת הניווט: הכיתוב מתחלף בין "תפריט" ל"סגירה" */
     var pillBtn = $('.navpill__btn'), pillTxt = $('.navpill__txt');
     if (pillBtn && pillTxt) {
@@ -1056,7 +1118,10 @@
       nodes.forEach(function (n) {
         if (n.nodeType !== 3) return;
         var frag = document.createDocumentFragment();
-        Array.from(n.textContent).forEach(function (ch) {
+        /* בעברית התווית היא flex מימין לשמאל: מספרים ומילים לועזיות נשארים יחידה אחת, אחרת 1972 מוצג הפוך */
+        var rtl = getComputedStyle(el).direction === 'rtl';
+        var parts = rtl ? (n.textContent.match(/[A-Za-z0-9][A-Za-z0-9.,:\/+\-\u2013 ]*[A-Za-z0-9]|[A-Za-z0-9]|[\s\S]/g) || []) : Array.from(n.textContent);
+        parts.forEach(function (ch) {
           var s = document.createElement('span'); s.className = 'c'; s.textContent = ch;
           (function (sp, idx) { setTimeout(function () { sp.style.opacity = '1'; }, 40 * idx); })(s, k++);
           frag.appendChild(s);

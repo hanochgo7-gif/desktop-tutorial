@@ -14,14 +14,14 @@
   --black-3: #46403c;
   --ink: #1a1a1a;
   --ink-2: #3d3a37;
-  --muted: #6d6865;
+  --muted: #65605e;
   --on-dark: #ecebe6;
   --on-dark-muted: #9ea3ab;
   --line: #d1cec6;
   --line-dark: rgba(255,255,255,.12);
-  --accent: #1f8fbf;
+  --accent: #1c82ad;
   --accent-2: #4fbbea;
-  --accent-deep: #0c6b96;
+  --accent-deep: #0b668f;
   --radius: 12px;
   --radius-lg: 24px;
   --radius-xl: 40px;
@@ -504,12 +504,12 @@ html.hero-drift .hero__media img { animation: drone 22s ease-in-out infinite alt
 .map-panel__caption { margin: 4px 0 0; font-size: .92rem; font-weight: 700; color: var(--ink); text-align: center; min-height: 1.5em; transition: opacity .3s; }
 .map-panel__city:not(:empty)::after { content: " · "; color: var(--muted); }
 .case.is-active .case__title { color: var(--accent-deep); }
-.case { transition: opacity .4s; }
+.case__gallery .gallery__item { transition: opacity .4s; }
 @media (min-width: 1000px) {
   .projects__layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; align-items: start; }
   .map-panel { position: sticky; top: calc(var(--header-h) + 24px); }
   .ilmap { width: auto; max-width: 100%; height: min(600px, calc(100vh - 300px)); }
-  .cases.has-active .case:not(.is-active) { opacity: .55; }
+  .cases.has-active .case:not(.is-active) .case__gallery .gallery__item { opacity: .55; }
 }
 @media (max-width: 999px) {
   /* במובייל: המפה בעמודה צרה בצד, צמודה בגלילה, כמו במחשב */
@@ -1244,7 +1244,7 @@ html.a11y-no-motion .steps__bar { display: none; }
   --serif: "Frank Ruhl Libre", "David Libre", Georgia, serif;
   --char: #1c1c1c;
   --iron: #262626;
-  --smoke: #a29d98;
+  --smoke: #66615c;
   --g-ease: cubic-bezier(.16, 1, .3, 1);
 }
 body { font-weight: 400; }
@@ -1949,7 +1949,10 @@ html.a11y-no-motion .mm__bg::before { animation: none; }
 .band--site img { transform: none; object-position: center 58%; }
 @media (max-width: 760px) { .band--site img { transform: none; object-position: center 55%; } .band--site { min-height: 82svh; } }
 /* התפריט: רקע קבוע, הדמיית חוות השרתים בשוהם */
-.mm__bg { background: #0b1622 url(../images/datacenter-shoham.webp) center 52% / cover no-repeat; }
+.mm__bg { background: #0b1622 center 52% / cover no-repeat; }
+/* רקע התפריט נטען רק כשמתכוננים לפתוח אותו, ובנייד בגרסה קלה */
+html.mm-warm .mm__bg, .mobile-menu.is-open .mm__bg { background-image: url(../images/datacenter-shoham.webp); }
+@media (max-width: 900px) { html.mm-warm .mm__bg, .mobile-menu.is-open .mm__bg { background-image: url(../images/datacenter-shoham-960.webp); } }
 .mm__bg img { display: none; }
 @media (max-width: 900px) { .mm__bg { background-position: center 45%; } }
 .mm__stamp { position: absolute; top: calc(var(--header-h) + 8px); inset-inline-start: var(--gutter); z-index: 3; margin: 0; display: inline-block !important; }
@@ -2145,3 +2148,20 @@ html[lang="en"] #about-title .nowrap { white-space: normal; }
   .list { gap: 14px; }
   .row { scroll-margin-top: calc(var(--header-h) + 8px + 56.25vw + 24px); }
 }
+/* נגישות: כותרות הפוטר הן h2 (סדר כותרות תקין), במראה הקודם */
+.footer h2.footer__h { font-family: var(--font-mono); font-size: .76rem; line-height: 1.4; letter-spacing: .06em; color: var(--on-dark-muted); font-weight: 500; text-transform: none; margin: 0 0 14px; text-wrap: wrap; }
+/* אנגלית: התוויות ארוכות יותר, הצמתים מתכווצים ושוברים שורה במקום לחרוג מהמסך */
+@media (min-width: 1101px) { html[lang="en"] .pipe__node { flex: 0 1 auto; min-width: 0; white-space: normal; max-width: 200px; } html[lang="en"] .pipe__link { min-width: 18px; } }
+/* ברכה בתפריט, ליד שעת המשרד: לפי שעה, שבת וחגים */
+.mm__greet { margin-inline-start: auto; display: grid; justify-items: end; text-align: end; line-height: 1.2; }
+.mm__greet b { font-weight: 400; font-size: 1.12rem; letter-spacing: -.01em; color: #fff; }
+.mm__greet small { font-size: .76rem; color: rgba(255,255,255,.66); margin-top: 2px; }
+@media (max-width: 480px) { .mm__greet b { font-size: 1rem; } }
+/* תחומי הליבה: שלושה כרטיסים (תחנה חדשה, תחנה פעילה, חוות שרתים) */
+@media (min-width: 1100px) { .cards--3 { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 761px) and (max-width: 1099px) { .cards--3 > .card:last-child { grid-column: 1 / -1; min-height: 340px; } }
+.cards--3 .card--photo img[src*="hartuv-aerial-lift"] { object-position: center 60%; }
+/* בלי תנועה: פס הלקוחות עומד, מציגים רשימה אחת בלבד (בלי העותקים שמשמשים לגלילה) */
+@media (prefers-reduced-motion: reduce) { .hero__clients-track > .hero__clients-list ~ .hero__clients-list { display: none; } .hero__clients-track { justify-content: flex-start; } }
+html.a11y-no-motion .hero__clients-track { animation: none; flex-wrap: wrap; width: auto; }
+html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-list { display: none; }

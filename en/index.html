@@ -25,7 +25,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&amp;family=Frank+Ruhl+Libre:wght@400;500&amp;family=Cousine:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="../css/styles.css?v=112" rel="stylesheet"/>
+<link href="../css/styles.css?v=117" rel="stylesheet"/>
 <link as="image" href="../images/hero-tank-lift.webp" rel="preload"/>
 
 <script type="application/ld+json">{
@@ -50,6 +50,10 @@
     ],
     "knowsAbout": ["Fuel station construction", "Fuel station renovation", "LPG stations", "Fuel piping", "Earthworks", "Fuel infrastructure and emergency generators for data centers"]
   }</script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can a station be renovated without closing it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Most of our renovations take place at operating stations. We plan the work in phases, fence off each work zone, and keep some of the dispensers open throughout the project."}}, {"@type": "Question", "name": "How long does it take to build a new fuel station?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the scope, the permits and the ground conditions. In the first call we get to know the project and give a clear schedule estimate, and the quote breaks it down by stage."}}, {"@type": "Question", "name": "Which standards does the work meet?", "acceptedAnswer": {"@type": "Answer", "text": "The standards of the Ministry of Environmental Protection and the Ministry of Labor: Stage II vapor recovery, double-wall tanks and piping, 5-gallon spill containment, cathodic protection and static grounding, oil separators, and documented pressure and tightness testing."}}]}</script>
+
+
 
 <link href="https://gotovski.co.il/" hreflang="he" rel="alternate"/><link href="https://gotovski.co.il/en/" hreflang="en" rel="alternate"/><link href="https://gotovski.co.il/" hreflang="x-default" rel="alternate"/></head>
 <body class="has-hero" data-root="">
@@ -145,11 +149,11 @@
 </div>
 </div>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="ann" hidden="" id="ann">
+<aside aria-label="Announcement" class="ann" hidden="" id="ann">
 <span class="ann__text">Upgrading a fuel station without closing it, not even for a day</span>
 <a class="ann__link" href="services/station-renovation.html">Want to see how?</a>
 <button aria-label="Close message" class="ann__close" type="button">×</button>
-</div>
+</aside>
 <div aria-hidden="true" class="cursor" id="cursor"></div>
 <header class="header" data-theme="dark" id="top">
 <div class="navpill">
@@ -185,7 +189,7 @@
 <div class="mm__vis">
 <div aria-hidden="true" class="mm__cap"><span class="mm__stamp">Rendering</span><b data-mm-cap="">Six Fields of Work</b><span data-mm-sub="">From excavation to first fill</span></div>
 <div class="mm__office">
-<div class="mm__hd"><span class="mm__ic"><img alt="" decoding="async" height="256" loading="lazy" src="../images/contact-office.webp" width="256"/></span><span class="mm__clock" data-clock="" dir="ltr">--:--</span></div>
+<div class="mm__hd"><span class="mm__ic"><img alt="" decoding="async" height="256" loading="lazy" src="../images/contact-office.webp" width="256"/></span><span class="mm__clock" data-clock="" dir="ltr">--:--</span><span class="mm__greet" data-greet="" hidden=""></span></div>
 <div class="footer__office"><span aria-hidden="true" class="footer__office-dot" data-office-dot=""></span><span data-office="">Sun–Thu 8:00–16:00 · Fri until 12:00</span></div>
 <div class="mm__row">
 <a class="mm__btn mm__btn--cta" href="contact.html">Get a Quote</a>
@@ -201,7 +205,7 @@
 
 <section aria-labelledby="hero-title" class="hero hero--word hero--cl" data-theme="dark">
 <div aria-hidden="true" class="hero__media img-reveal">
-<img alt="" fetchpriority="high" height="1200" id="hero-img" src="../images/hero-tank-lift.webp" width="1600"/>
+<img alt="" fetchpriority="high" height="1200" id="hero-img" sizes="(max-width: 900px) 100vw, 100vw" src="../images/hero-tank-lift.webp" srcset="../images/hero-tank-lift-480.webp 480w, ../images/hero-tank-lift-960.webp 960w, ../images/hero-tank-lift.webp 1600w" width="1600"/>
 </div>
 <div aria-hidden="true" class="hero__shade"></div>
 <div class="container hero__in">
@@ -270,12 +274,12 @@
 <a class="row" href="services/data-center.html"><span class="n">06</span><span class="row__body"><h3>Fuel Infrastructure for Data Centers<span class="field__badge">New field</span></h3><small>Tanks, feed lines and emergency generators</small></span><span aria-hidden="true" class="arr"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></span></a>
 </div>
 <div aria-hidden="true" class="stage" id="stage">
-<img alt="" class="is-on" data-cap="Rendering" decoding="async" height="578" loading="lazy" src="../images/paz-station-construction.webp" width="1600"/>
-<img alt="" data-cap="Site photo" decoding="async" height="900" loading="lazy" src="../images/crane-dusk.webp" width="1200"/>
-<img alt="" data-cap="Rendering" decoding="async" height="600" loading="lazy" src="../images/svc-gas.webp" width="800"/>
-<img alt="" data-cap="Site photo" decoding="async" height="1400" loading="lazy" src="../images/pipe-fusion-site.webp" width="787"/>
-<img alt="" data-cap="Site photo" decoding="async" height="675" loading="lazy" src="../images/concrete-breaking.webp" width="900"/>
-<img alt="" data-cap="Rendering · Fuel infrastructure cross-section" decoding="async" height="848" loading="lazy" src="../images/datacenter-cutaway.webp" width="2000"/>
+<img alt="" class="is-on" data-cap="Rendering" decoding="async" height="578" loading="lazy" sizes="(max-width: 900px) 90vw, 457px" src="../images/paz-station-construction.webp" srcset="../images/paz-station-construction-480.webp 480w, ../images/paz-station-construction-960.webp 960w, ../images/paz-station-construction.webp 1600w" width="1600"/>
+<img alt="" data-cap="Site photo" decoding="async" height="900" loading="lazy" sizes="(max-width: 900px) 95vw, 480px" src="../images/crane-dusk.webp" srcset="../images/crane-dusk-480.webp 480w, ../images/crane-dusk.webp 1200w" width="1200"/>
+<img alt="" data-cap="Rendering" decoding="async" height="600" loading="lazy" sizes="(max-width: 900px) 95vw, 480px" src="../images/svc-gas.webp" srcset="../images/svc-gas-480.webp 480w, ../images/svc-gas.webp 800w" width="800"/>
+<img alt="" data-cap="Site photo" decoding="async" height="1400" loading="lazy" sizes="(max-width: 900px) 95vw, 480px" src="../images/pipe-fusion-site.webp" srcset="../images/pipe-fusion-site-480.webp 480w, ../images/pipe-fusion-site.webp 787w" width="787"/>
+<img alt="" data-cap="Site photo" decoding="async" height="675" loading="lazy" sizes="(max-width: 900px) 95vw, 480px" src="../images/concrete-breaking.webp" srcset="../images/concrete-breaking-480.webp 480w, ../images/concrete-breaking.webp 900w" width="900"/>
+<img alt="" data-cap="Rendering · Fuel infrastructure cross-section" decoding="async" height="848" loading="lazy" sizes="(max-width: 900px) 95vw, 480px" src="../images/datacenter-cutaway.webp" srcset="../images/datacenter-cutaway-480.webp 480w, ../images/datacenter-cutaway-960.webp 960w, ../images/datacenter-cutaway.webp 2000w" width="2000"/>
 <span class="cap">Rendering</span>
 </div>
 </div>
@@ -283,7 +287,7 @@
 </section>
 
 <section aria-label="From the Field" class="band band--gallery" data-theme="dark">
-<img alt="" data-parallax="0.08" decoding="async" height="1050" loading="lazy" src="../images/tanks-in-pit-liner.webp" width="1400"/>
+<img alt="" data-parallax="0.08" decoding="async" height="1050" loading="lazy" sizes="(max-width: 900px) 100vw, 100vw" src="../images/tanks-in-pit-liner.webp" srcset="../images/tanks-in-pit-liner-480.webp 480w, ../images/tanks-in-pit-liner-960.webp 960w, ../images/tanks-in-pit-liner.webp 1400w" width="1400"/>
 <span class="band__tag kicker">Site photo · Underground tanks in the pit, before backfill</span>
 <div class="container band__in">
 <div aria-hidden="true" class="band__rule"></div>
@@ -296,21 +300,27 @@
 <div class="container">
 <div class="section-head">
 <span class="kicker">Core Fields</span>
-<h2 data-split="" id="start-title">New construction or an upgrade <em>at an operating station</em></h2>
+<h2 data-split="" id="start-title">New stations, operating stations <em>and data centers</em></h2>
 </div>
-<div class="cards">
+<div class="cards cards--3">
 <a class="card card--plan reveal" href="services/station-construction.html">
-<img alt="" decoding="async" height="1600" loading="lazy" src="../images/plan-blueprint.webp" width="1195"/>
+<img alt="" decoding="async" height="1600" loading="lazy" sizes="(max-width: 900px) 90vw, 360px" src="../images/plan-blueprint.webp" srcset="../images/plan-blueprint-480.webp 480w, ../images/plan-blueprint.webp 1195w" width="1195"/>
 <span class="card__stamp">Rendering</span>
 <span class="kicker">New Station</span>
 <h3>Planning a new fuel station?</h3>
 <span class="card__foot"><span class="tbtn tbtn--dark">The construction process, from permit to handover <span aria-hidden="true" class="arr"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></span></span></span>
 </a>
 <a class="card card--photo reveal" href="services/station-renovation.html">
-<img alt="" decoding="async" height="600" loading="lazy" src="../images/station-forecourt.webp" width="800"/>
+<img alt="" decoding="async" height="600" loading="lazy" sizes="(max-width: 900px) 90vw, 360px" src="../images/station-forecourt.webp" srcset="../images/station-forecourt-480.webp 480w, ../images/station-forecourt.webp 800w" width="800"/>
 <span class="kicker">Operating Station</span>
 <h3>Renovating without closing the station?</h3>
 <span class="card__foot"><span class="tbtn tbtn--dark">How we work at an operating station <span aria-hidden="true" class="arr"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></span></span></span>
+</a>
+<a class="card card--photo reveal" href="services/data-center.html">
+<img alt="" decoding="async" height="900" loading="lazy" sizes="(max-width: 900px) 90vw, 360px" src="../images/hartuv-aerial-lift.webp" srcset="../images/hartuv-aerial-lift-480.webp 480w, ../images/hartuv-aerial-lift-960.webp 960w, ../images/hartuv-aerial-lift.webp 1600w" width="1600"/>
+<span class="kicker">Data Centers</span>
+<h3>Building backup for a data center?</h3>
+<span class="card__foot"><span class="tbtn tbtn--dark">Tanks, piping and emergency generators <span aria-hidden="true" class="arr"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></span></span></span>
 </a>
 </div>
 </div>
@@ -338,21 +348,21 @@
 </div>
 <div class="posts">
 <a class="post post--lead reveal" href="articles/gas-station-construction-process.html">
-<span class="post__media"><img alt="" decoding="async" height="900" loading="lazy" src="../images/concrete-pour-sumps.webp" width="1200"/></span>
+<span class="post__media"><img alt="" decoding="async" height="900" loading="lazy" sizes="(max-width: 900px) 90vw, 556px" src="../images/concrete-pour-sumps.webp" srcset="../images/concrete-pour-sumps-480.webp 480w, ../images/concrete-pour-sumps.webp 1200w" width="1200"/></span>
 <span class="post__meta"><span class="post__cat">Guide</span><span>About a 6-minute read</span></span>
 <h3>Building a fuel station: every stage from planning to opening</h3>
 <p>From the building permit through excavation, tanks and piping, to pressure testing and the first fill.</p>
 </a>
 <div class="posts__side">
 <a class="post post--sm reveal" href="articles/environment-protection.html">
-<span class="post__media"><img alt="" decoding="async" height="1050" loading="lazy" src="../images/pit-liner-workers.webp" width="1400"/></span>
+<span class="post__media"><img alt="" decoding="async" height="1050" loading="lazy" sizes="(max-width: 900px) 30vw, 150px" src="../images/pit-liner-workers.webp" srcset="../images/pit-liner-workers-480.webp 480w, ../images/pit-liner-workers-960.webp 960w, ../images/pit-liner-workers.webp 1400w" width="1400"/></span>
 <span class="post__body">
 <span class="post__meta"><span class="post__cat">Article</span><span>About 9 min</span></span>
 <h3>Environmental protection at fuel stations: the standards, and how we protect soil and water</h3>
 </span>
 </a>
 <a class="post post--sm reveal" href="articles/data-center-generator-farm.html">
-<span class="post__media"><img alt="" decoding="async" height="1400" loading="lazy" src="../images/day-tank-base.webp" width="1050"/></span>
+<span class="post__media"><img alt="" decoding="async" height="1400" loading="lazy" sizes="(max-width: 900px) 30vw, 150px" src="../images/day-tank-base.webp" srcset="../images/day-tank-base-480.webp 480w, ../images/day-tank-base.webp 1050w" width="1050"/></span>
 <span class="post__body">
 <span class="post__meta"><span class="post__cat">Guide</span><span>About 7 min</span></span>
 <h3>Emergency generators for data centers: N+1 configuration, fuel storage and control</h3>
@@ -392,7 +402,7 @@
 </section>
 
 <section aria-labelledby="quick-title" class="quick quick--photo" data-theme="dark">
-<div aria-hidden="true" class="quick__bg"><img alt="" decoding="async" height="540" loading="lazy" src="../images/hartuv-video-poster.webp" width="960"/><video autoplay="" class="quick__video" data-quick-video="" loop="" muted="" playsinline="" poster="../images/hartuv-video-poster.webp" preload="metadata"><source src="../video/hartuv-tank-lift.webm" type="video/webm"/><source src="../video/hartuv-tank-lift.mp4" type="video/mp4"/></video></div>
+<div aria-hidden="true" class="quick__bg"><img alt="" decoding="async" height="540" loading="lazy" sizes="(max-width: 900px) 90vw, 100vw" src="../images/hartuv-video-poster.webp" srcset="../images/hartuv-video-poster-480.webp 480w, ../images/hartuv-video-poster.webp 960w" width="960"/><video class="quick__video" data-quick-video="" loop="" muted="" playsinline="" poster="../images/hartuv-video-poster.webp" preload="none"><source src="../video/hartuv-tank-lift.webm" type="video/webm"/><source src="../video/hartuv-tank-lift.mp4" type="video/mp4"/></video></div>
 <div class="container quick__inner">
 <div>
 <h2 class="quick__title" id="quick-title">Planning to build or upgrade a fuel station?</h2>
@@ -420,7 +430,7 @@
 <p>Fuel infrastructure since 1972. From fuel stations to data centers.</p>
 </div>
 <div class="reveal">
-<h4>Fields of Work</h4>
+<h2 class="footer__h">Fields of Work</h2>
 <ul>
 <li><a href="services/station-construction.html">Fuel Station Construction</a></li>
 <li><a href="services/station-renovation.html">Station Renovation &amp; Upgrades</a></li>
@@ -431,7 +441,7 @@
 </ul>
 </div>
 <div class="reveal">
-<h4>Articles</h4>
+<h2 class="footer__h">Articles</h2>
 <ul>
 <li><a href="articles/gas-station-construction-process.html">Building a Fuel Station – The Stages</a></li>
 <li><a href="articles/environment-protection.html">Environmental Protection at Fuel Stations</a></li>
@@ -439,7 +449,7 @@
 </ul>
 </div>
 <div class="reveal">
-<h4>Talk to Us</h4>
+<h2 class="footer__h">Talk to Us</h2>
 <ul>
 <li>Office: <a class="ltr" href="tel:+97286229307">08-622-9307</a></li>
 <li>Uzi: <a class="ltr" href="tel:+972502703674">050-270-3674</a></li>
@@ -456,10 +466,10 @@
 </div>
 </div>
 </footer>
-<a aria-label="Send a WhatsApp message" class="wa-float" href="https://wa.me/972502703674?text=Hello%2C%20this%20is%20____.%20When%20would%20be%20a%20good%20time%20to%20talk%3F" rel="noopener" target="_blank">
+<aside aria-label="WhatsApp" class="wa-float-wrap"><a aria-label="Send a WhatsApp message" class="wa-float" href="https://wa.me/972502703674?text=Hello%2C%20this%20is%20____.%20When%20would%20be%20a%20good%20time%20to%20talk%3F" rel="noopener" target="_blank">
 <img alt="" decoding="async" height="415" loading="lazy" src="../images/wa-bubble.webp" width="372"/>
 <span>WhatsApp</span>
-</a>
+</a></aside>
 
 <nav aria-label="Quick contact" class="mobile-cta">
 <a class="mobile-cta__call" href="tel:+97286229307">Call</a>
@@ -476,7 +486,7 @@
 </dialog>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script defer="" src="../js/main.js?v=64"></script>
+<script defer="" src="../js/main.js?v=66"></script>
 <script defer="" src="../js/a11y.js"></script>
 </body>
 </html>
