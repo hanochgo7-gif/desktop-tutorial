@@ -804,7 +804,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const dealList = pick(Object.keys(deals)).filter(railable);
     const night = document.documentElement.classList.contains('night');
     $('homeSections').innerHTML =
-      (night ? rail('r-night', 'לבלייני הלילה', pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
+      (night ? rail('r-night', `הלילה עוד צעיר · אצלך תוך ${ETA} דק׳`, pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
       rail('r-again', 'קנה שוב', again.slice(0, 12), false, orders.length ? '<button type="button" class="again-btn" data-again>הזמנה חוזרת</button>' : '') +
       rail('r-deals', 'מבצעים', dealList, DEMO.deals?.example) +
       rail('r-best', 'הכי נמכרים', pick(DEMO.bestsellers?.ids).filter(railable), DEMO.bestsellers?.example) +
