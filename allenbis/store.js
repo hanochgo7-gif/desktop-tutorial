@@ -110,11 +110,30 @@
   /* ---------- Cards ---------- */
   const plusIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 
-  function priceHtml(p) {
-    const soft = !(p.buy && hasPrice(p));
-    const tag = `<span class="tag${soft ? ' soft' : onSale(p) ? ' sale' : ''}"><bdi>${esc(priceText(p))}</bdi></span>`;
-    return onSale(p) ? `<span class="price">${tag}<span class="was"><span class="sr-only">במקום </span><bdi>${fmt(regular(p))}</bdi></span></span>` : `<span class="price">${tag}</span>`;
+  /* Supermarket price: shekels big, agorot raised. Screen readers get the plain amount. */
+  const pm = minor => {
+    const sh = Math.floor(minor / 100), ag = minor % 100;
+    return `<span class="sr-only">${fmt(minor)}</span><span class="pm-v" aria-hidden="true"><span class="pm-s">${sh}</span>${ag ? `<span class="pm-a">${String(ag).padStart(2, '0')}</span>` : ''}<span class="pm-c">₪</span></span>`;
+  };
+  // Price per 100 ml / 100 g, only when the size is written in the product name or size field.
+  const SIZE = /(\d+(?:\.\d+)?)\s*(מ["״]?ל|ליטר|גרם|ג['׳]|ק["״]ג)/;
+  function unitPrice(p) {
+    if (!hasPrice(p) || isRestricted(p)) return '';
+    const m = `${p.name} ${p.size || ''}`.match(SIZE);
+    if (!m) return '';
+    const n = parseFloat(m[1]);
+    const liquid = /^מ|ליטר/.test(m[2]);
+    const base = /ליטר|ק/.test(m[2]) ? n * 1000 : n;
+    if (!base) return '';
+    return `${(Math.round(unit(p) / base * 100) / 100).toFixed(2)}₪ ל-100 ${liquid ? 'מ״ל' : 'גר׳'}`;
   }
+  function priceHtml(p) {
+    if (!(p.buy && hasPrice(p))) return `<span class="price"><span class="tag soft"><bdi>${esc(priceText(p))}</bdi></span></span>`;
+    const sale = onSale(p);
+    const up = unitPrice(p);
+    return `<span class="price"><span class="tag${sale ? ' sale' : ''}">${sale ? '<span class="tag-flag" aria-hidden="true">מבצע</span>' : ''}${pm(unit(p))}</span>${sale ? `<span class="was">במקום <s><bdi>${fmt(regular(p))}</bdi></s></span>` : up ? `<span class="unitp"><bdi>${up}</bdi></span>` : ''}</span>`;
+  }
+  const stickers = p => [onSale(p) ? '<span class="sticker sale">מבצע!</span>' : '', bestIds.has(p.id) ? '<span class="sticker hot">הכי<br>נמכר</span>' : ''].join('');
 
   function controlsHtml(p) {
     const name = esc(p.name);
@@ -134,7 +153,7 @@
       return `<article class="card plain${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><h3 class="name"><bdi>${name}</bdi></h3><p class="meta">${esc(metaText(p))}</p><div class="buy">${buyHtml(p)}</div></article>`;
     }
     const img = imgOf(p);
-    const badges = [onSale(p) ? '<span class="badge">מבצע</span>' : '', bestIds.has(p.id) ? '<span class="badge hot">נמכר ביותר</span>' : ''].join('');
+    const badges = stickers(p);
     return `<article class="card${cart[p.id] ? ' in' : ''}${canBuy(p) ? '' : ' oos'}" data-id="${p.id}">
 <div class="badges" aria-hidden="true">${badges}</div>
 <button type="button" class="pic" data-open="${p.id}" tabindex="-1" aria-hidden="true"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" width="640" height="480">${img === FALLBACK ? '<span class="note">תמונה בקרוב</span>' : ''}</button>
@@ -530,8 +549,11 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   function slotHtml(p) {
     const flag = !canBuy(p) && p.buy ? '<span class="flag">אזל</span>' : isBlocked(p) ? '<span class="flag">06:00–23:00</span>' : '';
     const sale = onSale(p);
-    const tag = `<span class="stag${sale ? ' sale' : ''}${!p.buy || !hasPrice(p) ? ' soft' : ''}"><span class="t-name"><bdi>${esc(p.name)}</bdi></span><b><bdi>${esc(priceText(p))}</bdi></b>${sale ? `<s><bdi>${fmt(regular(p))}</bdi></s>` : ''}</span>`;
-    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${CUT.has(p.id) ? '' : ' box'}" data-open="${p.id}" aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(CUT.has(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}</div>${tag}</div>`;
+    const priced = p.buy && hasPrice(p);
+    const up = unitPrice(p);
+    const low = sale ? `<span class="s-was">במקום <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
+    const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? '<span class="s-flag" aria-hidden="true">מבצע</span>' : ''}<span class="t-name"><bdi>${esc(p.name)}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${CUT.has(p.id) ? '' : ' box'}" data-open="${p.id}" aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(CUT.has(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
   }
   function renderShelves() {
     const box = $('aisles');
