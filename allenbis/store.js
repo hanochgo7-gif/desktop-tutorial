@@ -109,8 +109,7 @@
     const q = norm(query);
     const words = q ? q.split(' ') : [];
     return products.filter(p => {
-      if (cat === ALL) { if (isAdult(p.category) && !adultOk) return false; }
-      else if (p.category !== cat) return false;
+      if (cat !== ALL && p.category !== cat) return false;
       return words.every(w => p._s.includes(w));
     });
   }
