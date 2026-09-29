@@ -52,7 +52,7 @@ bdi{unicode-bidi:isolate}
 
 /* Header */
 .top{position:sticky;top:0;z-index:40;background:rgba(238,242,247,.94);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
-.top .wrap{display:grid;grid-template-columns:auto auto 1fr auto;align-items:center;gap:12px;padding-block:10px}
+.top .wrap{display:grid;grid-template-columns:auto auto 1fr auto auto;align-items:center;gap:12px;padding-block:10px}
 .sign{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sign);color:#fff;border-radius:9px;padding:5px 14px 4px;box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px #fff;text-decoration:none;line-height:1;min-width:112px}
 .sign b{font:400 1.625rem/1.05 var(--display);letter-spacing:.3px}
 .sign small{font:700 .625rem/1.3 var(--body);letter-spacing:.4px;direction:ltr;opacity:.92}
@@ -80,7 +80,7 @@ bdi{unicode-bidi:isolate}
 .opt .p{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .opt mark{background:none;color:var(--sign);font-weight:800}
 .suggest .none{padding:12px 8px;color:var(--muted)}
-.cartbtn{grid-column:4;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:999px;background:var(--sign);color:#fff;font-weight:700}
+.cartbtn{grid-column:5;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:999px;background:var(--sign);color:#fff;font-weight:700}
 .cartbtn .n{min-width:24px;height:24px;border-radius:999px;background:var(--tag);color:var(--tag-ink);display:grid;place-items:center;font-size:.8125rem;padding:0 6px}
 .cartbtn .sum{font-variant-numeric:tabular-nums}
 .track-pill{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--ok-soft);color:var(--ok);font-weight:700;border-radius:999px;padding:0 12px;min-height:36px;font-size:.875rem}
@@ -241,6 +241,8 @@ body.browsing .home,body.browsing .tiles,body.browsing .hero{display:none}
 .face.cut img.bk{filter:brightness(.8) saturate(.92)}
 .face.cut .pile{position:relative;display:block;width:100%}
 .face.cut .pile img{position:absolute}
+.face.cut img.taken{visibility:hidden}
+.flyer{position:fixed;z-index:60;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(20,32,58,.35));will-change:transform}
 .unit.peg .face.cut{align-items:flex-start;padding-top:16px}
 .unit.peg .prod::before{display:none}
 .unit.peg .prod::after{content:"";position:absolute;top:3px;left:calc(50% - 7px);width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#b7bec8 45%,#6f7784);box-shadow:0 2px 3px rgba(20,32,58,.45);z-index:2;pointer-events:none}
@@ -290,6 +292,9 @@ body.browsing .home,body.browsing .tiles,body.browsing .hero{display:none}
 .foot{border-top:1px solid var(--line);color:var(--muted);font-size:.875rem;padding-block:22px calc(110px + env(safe-area-inset-bottom))}
 .foot .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between;align-items:center}
 .linkbtn{border:0;background:none;padding:10px 0;text-decoration:underline;color:var(--sign);font-weight:600}
+.foot .legal{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px}
+.foot .legal a{color:var(--sign);font-weight:600;padding:10px 0}
+html.night .foot .legal a{color:#8fb4ff}
 
 /* Floating cart bar (mobile) */
 .bar{position:fixed;z-index:45;inset-inline:12px;bottom:calc(10px + env(safe-area-inset-bottom));display:none;flex-direction:column;gap:6px;background:var(--ink);color:#fff;border:0;border-radius:18px;padding:10px 16px 12px;font-weight:700;box-shadow:0 12px 30px rgba(20,32,58,.28);text-align:start}
@@ -384,6 +389,15 @@ fieldset.fld{border:0;padding:0;margin:0}
 .pay label{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;min-height:48px;font-weight:600;cursor:pointer}
 .pay label:has(input:checked){border-color:var(--sign);background:var(--sign-soft)}
 .pay input{accent-color:var(--sign);width:18px;height:18px}
+.form .hint{color:var(--muted);font-size:.8125rem;margin-top:6px}
+.fld.check label{display:flex;align-items:flex-start;gap:10px;font-weight:600;cursor:pointer}
+.fld.check input{accent-color:var(--sign);width:20px;height:20px;margin:2px 0 0;flex:none}
+.fld.check a{color:var(--sign)}
+.send-title{font:400 1.25rem/1.2 var(--display);margin-bottom:10px}
+.send-title:focus{outline:none}
+.wa-preview{white-space:pre-wrap;font:500 .875rem/1.55 var(--body);background:#e7f7ec;border-radius:12px 12px 12px 3px;padding:12px 14px;margin:0;max-height:46vh;overflow:auto;direction:rtl;text-align:start;box-shadow:0 1px 0 rgba(20,32,58,.12)}
+.primary.wa{display:flex;align-items:center;justify-content:center;gap:10px;background:#1a8f4c;text-decoration:none}
+.send-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* Tracking */
 .eta{display:flex;align-items:baseline;gap:8px;margin-top:10px}
@@ -413,6 +427,45 @@ body:not(.has-items) .a11y-fab{bottom:calc(16px + env(safe-area-inset-bottom))}
 html.hc{--paper:#fff;--line:#14203a;--muted:#14203a;--sign-soft:#dfe6f5}
 html.hc .card,html.hc .bundle{border-color:var(--ink)}
 html.ul a,html.ul button.linkbtn{text-decoration:underline}
+/* Night mode: 20:00–06:00, the street goes dark and the store glows */
+.nightbtn{grid-column:4;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--sign);display:grid;place-items:center;padding:0}
+.nightbtn .sun{display:none}
+html.night .nightbtn .moon{display:none}
+html.night .nightbtn .sun{display:block}
+.neon{display:none}
+html.night{color-scheme:dark;--paper:#0a0f1e;--card:#131b31;--ink:#eaf0ff;--muted:#9ba9c6;--line:#28334f;--sign-soft:#1c2a52}
+html.night body{background:radial-gradient(1100px 520px at 50% -160px,#1d2a58,transparent 70%),var(--paper)}
+html.night .top{background:rgba(10,15,30,.88);border-bottom-color:#1d2744}
+html.night .search input,html.night .chip,html.night .cat,html.night .viewtoggle,html.night .sec-head .nav button,html.night .again-btn,html.night .nightbtn{background:#131b31;color:var(--ink)}
+html.night .nightbtn{color:#ffd84d;border-color:#3a4568;box-shadow:0 0 14px rgba(255,216,77,.25)}
+html.night .promise b{color:#8fb4ff}
+html.night .cat[aria-pressed="true"],html.night .cat[aria-current="true"]{background:#ffd84d;color:#14203a;border-color:#ffd84d}
+html.night .linkbtn,html.night .again-btn{color:#8fb4ff}
+html.night .cat[aria-pressed="true"] .c{color:#5a4a00}
+html.night .viewtoggle [aria-pressed="true"]{background:#ffd84d;color:#14203a}
+html.night .tile .art.text,html.night .bundle .thumbs b{background:#1c2a52;color:#fff}
+html.night .card{background:var(--card);border-color:#1f2946}
+html.night .hero-art{background:#050810}
+html.night .hero-art img{filter:brightness(.3) saturate(1.1) blur(2px);transform:scale(1.03)}
+html.night .neon{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:none;background:radial-gradient(closest-side,rgba(4,6,14,.72),rgba(4,6,14,.35) 70%,transparent),radial-gradient(60% 50% at 50% 45%,rgba(255,62,165,.16),transparent)}
+.neon .n-name{font:400 clamp(2.6rem,7vw,4.6rem)/1 var(--display);color:#fff4fb;text-shadow:0 0 4px #fff,0 0 10px #ff3ea5,0 0 22px #ff3ea5,0 0 44px #ff1f8f,0 0 80px rgba(255,31,143,.7)}
+.neon .n-open{font:400 clamp(1.6rem,4.2vw,2.6rem)/1 var(--display);color:#eafff6;padding:4px 20px 2px;border:3px solid #eafff6;border-radius:14px;box-shadow:0 0 6px #39ffb0,0 0 18px #39ffb0,inset 0 0 12px rgba(57,255,176,.6);text-shadow:0 0 4px #fff,0 0 12px #39ffb0,0 0 28px #39ffb0;animation:flick 6s infinite}
+.neon .n-247{font:800 clamp(.95rem,2vw,1.2rem)/1 var(--body);color:#fff9df;letter-spacing:.14em;text-shadow:0 0 6px #ffd84d,0 0 16px #ffb800;margin-top:6px}
+@keyframes flick{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.35}}
+html.night .unit{box-shadow:0 0 0 1px rgba(255,255,255,.04),0 0 60px -6px rgba(255,236,190,.16),0 24px 40px -24px #000}
+html.night .unit.fridge,html.night .unit.freezer{box-shadow:0 0 0 1px rgba(160,210,255,.18),0 0 70px 4px rgba(110,180,255,.3),0 24px 40px -24px #000}
+html.night .unit .led{box-shadow:0 0 5px 2px #fff,0 0 16px 6px rgba(190,225,255,1),0 0 40px 16px rgba(120,190,255,.55)}
+html.night .aisle-sign{box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px #fff,0 0 22px rgba(90,140,255,.55)}
+html.night .aisle-sign::before,html.night .aisle-sign::after{background:linear-gradient(#56607a,#343c52)}
+html.night .foot{border-top-color:#1d2744}
+html.night .bar{background:#ffd84d;color:#14203a}
+html.night .bar .prog{color:#4a3d00}
+html.night .bar .sum{background:#14203a;color:#ffd84d}
+/* things that stay "in the light": dialogs, dropdowns and paper tags keep the day palette */
+html.night dialog,html.night .suggest,html.night .tag,html.night .stag,html.night .toast{--paper:#eef2f7;--card:#fff;--ink:#14203a;--muted:#56627a;--line:#d6deea;--sign-soft:#e3eaf7;color-scheme:light}
+html.night dialog{color:var(--ink)}
+html.night .night-rail h2{color:#ffd84d;text-shadow:0 0 14px rgba(255,216,77,.45)}
+@media (prefers-reduced-motion:reduce){.neon .n-open{animation:none}}
 html.nomo *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 
 @media (min-width:960px){
@@ -437,8 +490,9 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 }
 @media (max-width:640px){
   .top .wrap{grid-template-columns:auto 1fr auto;gap:10px;row-gap:10px}
-  .top .search{grid-column:1/-1;grid-row:2}
-  .cartbtn{grid-column:3}
+  .top .search{grid-column:1/3;grid-row:2}
+  .cartbtn{grid-column:3;grid-row:1}
+  .nightbtn{grid-column:3;grid-row:2;justify-self:end}
   .promise{justify-self:start}
   .promise b{font-size:1rem}
   .sign{min-width:0;padding:5px 11px 4px}
@@ -493,6 +547,11 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
       <button class="clear" id="clearQ" type="button" aria-label="ניקוי החיפוש">×</button>
       <div class="suggest" id="suggest" role="listbox" aria-label="הצעות חיפוש" hidden></div>
     </search>
+    <button class="nightbtn" id="nightBtn" type="button" aria-pressed="false" title="מצב לילה נדלק לבד מ-20:00 עד 06:00">
+      <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+      <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+      <span class="sr-only" id="nightLabel">מצב לילה</span>
+    </button>
     <button class="cartbtn" id="openCart" type="button" aria-haspopup="dialog" aria-controls="cart">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
       <span class="lbl">הסל</span><span class="n" id="cartCount">0</span><span class="sum" id="cartSum" hidden></span>
@@ -505,6 +564,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
   <div class="wrap">
     <section class="hero" aria-labelledby="heroTitle">
       <a class="hero-art" href="#catalog" tabindex="-1" aria-hidden="true">
+        <span class="neon"><span class="n-name">אלנביס</span><span class="n-open">פתוח</span><span class="n-247">24/7</span></span>
         <img src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(min-width: 960px) 760px, 100vw" width="1672" height="684" fetchpriority="high" decoding="async" alt="">
       </a>
       <div class="builder">
@@ -536,7 +596,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <footer class="foot">
   <div class="wrap">
     <span id="footInfo">אלנביס · Allenbis</span>
-    <button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y">התאמות נגישות</button>
+    <nav class="legal" aria-label="מידע משפטי"><a href="terms.html">תקנון</a><a href="returns.html">ביטולים והחזרות</a><a href="privacy.html">פרטיות</a><a href="accessibility.html">הצהרת נגישות</a><button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y">התאמות נגישות</button></nav>
   </div>
 </footer>
 
@@ -576,7 +636,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
   <div class="panel">
     <div class="panel-head"><h2 id="coTitle">פרטי משלוח</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
     <form class="panel-body form" id="coForm" novalidate>
-      <p class="note-box" style="margin:0">זו הזמנת דוגמה: שום פרט לא נשלח ולא נשמר. אפשר למלא פרטים מומצאים.</p>
+      <p class="note-box" style="margin:0" id="coIntro"></p>
       <div class="fld"><label for="coName">שם</label><input id="coName" autocomplete="name" aria-describedby="coNameErr"><span class="err" id="coNameErr"></span></div>
       <div class="fld"><label for="coPhone">טלפון</label><input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right" aria-describedby="coPhoneErr"><span class="err" id="coPhoneErr"></span></div>
       <div class="fld"><label for="coStreet">רחוב ומספר</label><input id="coStreet" autocomplete="street-address" placeholder="אלנבי 1" aria-describedby="coStreetErr"><span class="err" id="coStreetErr"></span></div>
@@ -587,14 +647,24 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
       <fieldset class="fld"><legend>תשלום</legend>
         <div class="pay">
           <label><input type="radio" name="pay" value="ביט" checked> Bit</label>
-          <label><input type="radio" name="pay" value="Apple Pay / Google Pay"> Apple / Google Pay</label>
           <label><input type="radio" name="pay" value="אשראי לשליח"> אשראי לשליח</label>
           <label><input type="radio" name="pay" value="מזומן"> מזומן</label>
         </div>
+        <p class="hint">בביט החנות שולחת בקשת תשלום אחרי שהיא מאשרת את ההזמנה.</p>
       </fieldset>
+      <div class="fld check"><label><input type="checkbox" id="coTerms" aria-describedby="coTermsErr"> <span>קראתי והסכמתי ל<a href="terms.html" target="_blank" rel="noopener">תקנון</a> ול<a href="returns.html" target="_blank" rel="noopener">מדיניות הביטולים</a></span></label><span class="err" id="coTermsErr"></span></div>
       <div class="totals" id="coTotals"></div>
     </form>
-    <div class="panel-foot"><button class="primary" type="submit" form="coForm" id="coSubmit">שליחת הזמנת דוגמה</button></div>
+    <div class="panel-body" id="coSend" hidden>
+      <h3 class="send-title" id="coSendTitle" tabindex="-1">ההזמנה מוכנה לשליחה</h3>
+      <p class="note-box" id="coSendNote"></p>
+      <pre class="wa-preview" id="coPreview"></pre>
+    </div>
+    <div class="panel-foot" id="coFoot"><button class="primary" type="submit" form="coForm" id="coSubmit">המשך</button></div>
+    <div class="panel-foot" id="coSendFoot" hidden>
+      <a class="primary wa" id="coWa" href="#" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.2l-.5-.3z"/></svg><span id="coWaText">שליחה בוואטסאפ</span></a>
+      <div class="send-row"><button class="secondary" type="button" id="coCopy">העתקת ההודעה</button><button class="secondary" type="button" id="coBack">חזרה לעריכה</button></div>
+    </div>
   </div>
 </dialog>
 

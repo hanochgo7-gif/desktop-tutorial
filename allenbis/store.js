@@ -167,6 +167,8 @@
       slot.querySelector('.qa')?.remove();
       slot.querySelector('.prod').insertAdjacentHTML('beforeend', slotAdd(p));
       slot.classList.toggle('in', !!cart[id]);
+      const f = slot.querySelector('.face.cut');
+      if (f) syncFacings(f);
     });
     document.querySelectorAll(`.card[data-id="${CSS.escape(id)}"]`).forEach(card => {
       card.querySelector('.buy').innerHTML = buyHtml(p);
@@ -717,7 +719,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
         // flat products: a pile, top of the pile first so the front one is drawn last
         const step = h * 0.56;
         const n = Math.max(1, Math.min(4, Math.floor((fh * 0.82 - h) / step) + 1));
-        for (let i = n - 1; i >= 0; i--) html += img(i ? 'bk' : '', `bottom:${(i * step).toFixed(1)}px;left:calc(50% - ${(w / 2).toFixed(1)}px + ${i % 2 ? 2 : -1}px);transform:rotate(${i % 2 ? -1.2 : 0.8}deg)`);
+        for (let i = n - 1; i >= 0; i--) html += img(i ? 'bk' : 'fr', `bottom:${(i * step).toFixed(1)}px;left:calc(50% - ${(w / 2).toFixed(1)}px + ${i % 2 ? 2 : -1}px);transform:rotate(${i % 2 ? -1.2 : 0.8}deg)`);
         f.innerHTML = `<span class="pile" style="height:${(h + (n - 1) * step).toFixed(1)}px">${html}</span>`;
       } else {
         const n = Math.max(1, Math.min(3, Math.floor(fw * 0.98 / (w * 0.9))));
@@ -727,7 +729,13 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
         if (n === 1 && fw - w > w * 0.3) html = img('bk peek', `margin-inline-end:${(-w * 0.72).toFixed(1)}px`) + html;
         f.innerHTML = html;
       }
+      syncFacings(f);
     }
+  }
+  // Units in the basket are gone from the shelf: the front one always stays, the rest leave a gap.
+  function syncFacings(f) {
+    const q = cart[f.dataset.cut] || 0;
+    f.querySelectorAll('img:not(.fr)').forEach((im, i) => im.classList.toggle('taken', i < q));
   }
   function applyView() {
     const shelves = shelfMode();
@@ -751,6 +759,30 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     else if (Math.abs($('aisles').clientWidth - shelfW) > 12) { shelfW = $('aisles').clientWidth; $('aisles').querySelectorAll('.unit').forEach(stockUnit); }
   }).observe($('catbar'));
 
+  /* ---------- Night mode ---------- */
+  // On by itself 20:00–06:00 Israel time; the moon button overrides it for this visit.
+  const nightHours = () => { const h = jerusalemHour(); return h >= 20 || h < 6; };
+  let nightPick = null;
+  try { const v = sessionStorage.getItem('allenbis-night'); if (v === '1' || v === '0') nightPick = v === '1'; } catch {}
+  const isNight = () => nightPick ?? nightHours();
+  function applyNight() {
+    const on = isNight() && !document.documentElement.classList.contains('hc');
+    const was = document.documentElement.classList.contains('night');
+    document.documentElement.classList.toggle('night', on);
+    $('nightBtn').setAttribute('aria-pressed', String(on));
+    $('nightLabel').textContent = on ? 'מצב לילה פעיל. מעבר למצב יום' : 'מעבר למצב לילה';
+    if (was !== on && $('homeSections').childElementCount) renderHome();
+  }
+  $('nightBtn').addEventListener('click', () => {
+    nightPick = !document.documentElement.classList.contains('night');
+    try { sessionStorage.setItem('allenbis-night', nightPick ? '1' : '0'); } catch {}
+    applyNight();
+    announce(nightPick ? 'מצב לילה' : 'מצב יום');
+  });
+  setInterval(applyNight, 5 * 60e3);
+  // Late-night picks: energy, coffee, munchies, ice, a charger for the dead phone. Never alcohol.
+  const NIGHT_IDS = ['p27', 'p29', 'p24', 'p38', 'p44', 'p49', 'p42', 'p104', 'p89', 'p173', 'p128', 'p118', 'p18', 'p77'];
+
   /* ---------- Home sections ---------- */
   function rail(id, title, list, demo, extra = '') {
     if (!list.length) return '';
@@ -770,7 +802,9 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     for (const o of orders.slice().reverse()) for (const [id] of o.lines) { const p = byId.get(id); if (p && railable(p) && !again.includes(p)) again.push(p); }
     const under10 = products.filter(p => railable(p) && hasPrice(p) && unit(p) <= 1000).sort((a, b) => unit(a) - unit(b));
     const dealList = pick(Object.keys(deals)).filter(railable);
+    const night = document.documentElement.classList.contains('night');
     $('homeSections').innerHTML =
+      (night ? rail('r-night', 'לבלייני הלילה', pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
       rail('r-again', 'קנה שוב', again.slice(0, 12), false, orders.length ? '<button type="button" class="again-btn" data-again>הזמנה חוזרת</button>' : '') +
       rail('r-deals', 'מבצעים', dealList, DEMO.deals?.example) +
       rail('r-best', 'הכי נמכרים', pick(DEMO.bestsellers?.ids).filter(railable), DEMO.bestsellers?.example) +
@@ -778,12 +812,51 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       rail('r-10', 'עד 10 ₪', under10);
   }
 
+  /* ---------- Taking a product off the shelf ---------- */
+  const calm = () => document.documentElement.classList.contains('nomo') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The picture that flies: the next unit on the shelf (or the product photo on a card).
+  function flySource(btn) {
+    if (btn.closest('dialog')) return null;
+    const host = btn.closest('.slot, .card');
+    const im = host && (host.querySelector('.face.cut img:not(.fr):not(.taken)') || host.querySelector('.face img.fr, .face img, .pic img'));
+    if (!im || !im.complete || !im.naturalWidth) return null;
+    const r = im.getBoundingClientRect();
+    return r.width && r.bottom > 0 && r.top < innerHeight ? { src: im.currentSrc || im.src, r } : null;
+  }
+  function cartTarget() {
+    const bar = $('bar'), b = bar.getBoundingClientRect();
+    return b.height && b.top < innerHeight ? bar : $('openCart');
+  }
+  function bump(el) { if (!calm()) el.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }, { transform: 'scale(1)' }], { duration: 320, easing: 'ease-out' }); }
+  function fly(from) {
+    const to = cartTarget();
+    if (!from || calm()) { bump(to); return; }
+    const t = to.getBoundingClientRect(), r = from.r;
+    const el = document.createElement('img');
+    el.src = from.src; el.alt = ''; el.className = 'flyer';
+    Object.assign(el.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+    document.body.append(el);
+    const dx = t.left + t.width / 2 - (r.left + r.width / 2), dy = t.top + t.height / 2 - (r.top + r.height / 2);
+    const k = Math.min(1, 34 / Math.max(r.width, r.height));
+    const lift = Math.min(120, 40 + Math.abs(dy) * 0.25);
+    el.animate([
+      { transform: 'translate(0,0) scale(1) rotate(0deg)', opacity: 1 },
+      { transform: `translate(${dx * 0.35}px,${dy * 0.35 - lift}px) scale(${(1 + k) / 1.6}) rotate(-10deg)`, opacity: 1, offset: 0.4 },
+      { transform: `translate(${dx}px,${dy}px) scale(${k}) rotate(6deg)`, opacity: 0.5 }
+    ], { duration: 680, easing: 'cubic-bezier(.4,0,.25,1)' }).finished.then(() => { el.remove(); bump(to); }, () => el.remove());
+  }
+
   /* ---------- Global clicks ---------- */
   document.addEventListener('click', e => {
     const t = e.target;
     const add = t.closest('[data-add]');
     const dec = t.closest('[data-dec]');
-    if (add) { change(add.dataset.add, 1); return; }
+    if (add) {
+      const id = add.dataset.add, before = cart[id] || 0, from = flySource(add);
+      change(id, 1);
+      if ((cart[id] || 0) > before) fly(from);
+      return;
+    }
     if (dec) { change(dec.dataset.dec, -1); return; }
     const open = t.closest('[data-open]');
     if (open) { closeSuggest(); pushRecent($('q').value); openProduct(open.dataset.open); return; }
@@ -889,11 +962,21 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     }
   });
 
-  /* ---------- Checkout (demo) ---------- */
+  /* ---------- Checkout: the order goes to the store as a WhatsApp message ---------- */
+  const WA = String(DEMO.order?.whatsapp || '').replace(/\D/g, '');
+  let pending = null;
+  function coStep(send) {
+    $('coForm').hidden = send; $('coFoot').hidden = send;
+    $('coSend').hidden = !send; $('coSendFoot').hidden = !send;
+  }
   function openCheckout() {
     const t = totals();
+    coStep(false);
+    $('coIntro').textContent = WA
+      ? 'ממלאים פרטים, ובלחיצה אחת ההזמנה נשלחת לחנות בוואטסאפ. החנות מאשרת את ההזמנה בהודעה חוזרת.'
+      : 'ממלאים פרטים, וההזמנה נפתחת כהודעה מוכנה בוואטסאפ. מספר החנות עוד לא הוגדר, אז אפשר לשלוח את ההודעה למי שרוצים (למשל לעצמכם, לבדיקה).';
     $('coTotals').innerHTML = totalsHtml(t);
-    $('coSubmit').innerHTML = `שליחת הזמנת דוגמה · <bdi>${fmt(t.total)}</bdi>`;
+    $('coSubmit').innerHTML = `המשך לשליחה · <bdi>${fmt(t.total)}</bdi>`;
     openDialog('checkout');
   }
   function fieldErr(id, msg) {
@@ -901,17 +984,51 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     $(id + 'Err').textContent = msg;
     return !msg;
   }
+  function orderMessage(t, f) {
+    const ls = lines().filter(l => !isBlocked(l.p));
+    const out = ['הזמנה חדשה מהאתר – אלנביס', ''];
+    for (const { p, q } of ls) out.push(`${q} × ${p.name} – ${hasPrice(p) ? fmt(unit(p) * q) : 'מחיר יעודכן'}`);
+    out.push('', `מוצרים: ${fmt(t.sub)}`);
+    if (t.welcome) out.push(`הנחת היכרות: −${fmt(t.welcome)}`);
+    out.push(`משלוח: ${t.fee ? fmt(t.fee) : 'חינם'}`, `סה״כ לתשלום: ${fmt(t.total)}`, `תשלום: ${f.pay}`, '');
+    out.push(`שם: ${f.name}`, `טלפון: ${f.phone}`, `כתובת: ${f.street}${f.apt ? `, ${f.apt}` : ''}`);
+    if (f.note) out.push(`הערה לשליח: ${f.note}`);
+    if (ls.some(l => isAdult(l.p.category))) out.push('', 'בהזמנה יש מוצרים מגיל 18: אציג תעודה מזהה לשליח.');
+    return out.join('\n');
+  }
   $('coForm').addEventListener('submit', e => {
     e.preventDefault();
     const phone = $('coPhone').value.replace(/[\s-]/g, '');
     const ok = [
       fieldErr('coName', $('coName').value.trim().length < 2 ? 'כתבו שם, כדי שהשליח ידע למי למסור.' : ''),
       fieldErr('coPhone', /^(05\d{8}|0[2-489]\d{7}|07\d{8})$/.test(phone) ? '' : 'כתבו מספר טלפון ישראלי, למשל 050-1234567.'),
-      fieldErr('coStreet', /\d/.test($('coStreet').value) && $('coStreet').value.trim().length > 3 ? '' : 'כתבו רחוב ומספר בית, למשל אלנבי 1.')
+      fieldErr('coStreet', /\d/.test($('coStreet').value) && $('coStreet').value.trim().length > 3 ? '' : 'כתבו רחוב ומספר בית, למשל אלנבי 1.'),
+      fieldErr('coTerms', $('coTerms').checked ? '' : 'כדי להזמין צריך לאשר את התקנון ואת מדיניות הביטולים.')
     ];
     if (ok.includes(false)) { $('coForm').querySelector('[aria-invalid="true"]').focus(); return; }
     const t = totals();
-    const order = { at: Date.now(), lines: lines().filter(l => !isBlocked(l.p)).map(({ p, q }) => [p.id, q]), total: t.total, items: t.items, pay: $('coForm').pay.value, advance: 0 };
+    const f = { name: $('coName').value.trim(), phone: $('coPhone').value.trim(), street: $('coStreet').value.trim(), apt: $('coApt').value.trim(), note: $('coNote').value.trim(), pay: $('coForm').pay.value };
+    const text = orderMessage(t, f);
+    pending = { at: Date.now(), lines: lines().filter(l => !isBlocked(l.p)).map(({ p, q }) => [p.id, q]), total: t.total, items: t.items, pay: f.pay, advance: 0, text };
+    $('coPreview').textContent = text;
+    $('coSendNote').textContent = WA ? 'זו ההודעה שתישלח לחנות. בלחיצה על הכפתור וואטסאפ נפתח עם ההודעה מוכנה, ונשאר רק ללחוץ על שליחה.'
+      : 'זו ההודעה שתישלח. מספר החנות עוד לא הוגדר, אז וואטסאפ ייפתח ותבחרו למי לשלוח אותה.';
+    $('coWa').href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+    $('coWaText').textContent = WA ? 'שליחה לחנות בוואטסאפ' : 'פתיחה בוואטסאפ';
+    coStep(true);
+    $('coSendTitle').focus();
+  });
+  $('coBack').addEventListener('click', () => { coStep(false); $('coSubmit').focus(); });
+  $('coCopy').addEventListener('click', async () => {
+    if (!pending) return;
+    try { await navigator.clipboard.writeText(pending.text); announce('ההודעה הועתקה.'); toast('ההודעה הועתקה'); }
+    catch { announce('לא הצלחנו להעתיק. אפשר לסמן את ההודעה ולהעתיק ידנית.'); }
+  });
+  // Sending: the link opens WhatsApp; the basket becomes the latest order.
+  $('coWa').addEventListener('click', () => {
+    if (!pending) return;
+    const { text, ...order } = pending;
+    pending = null;
     orders.push(order);
     orders = orders.slice(-10);
     store.set('allenbis-orders', orders);
@@ -921,11 +1038,13 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     ids.forEach(refreshCards);
     updateCartUi();
     $('coForm').reset();
-    $('checkout').close();
-    renderHome();
-    updateTrackPill();
-    openTrack();
-    announce('הזמנת הדוגמה התקבלה.');
+    setTimeout(() => {
+      $('checkout').close();
+      renderHome();
+      updateTrackPill();
+      openTrack();
+      announce('ההזמנה נפתחה בוואטסאפ. אחרי השליחה החנות תאשר אותה.');
+    }, 300);
   });
 
   /* ---------- Tracking (demo) ---------- */
@@ -943,7 +1062,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (!o) { $('trackBody').innerHTML = '<p class="panel-empty">אין הזמנה פעילה.</p>'; return; }
     const { s, left } = stageOf(o);
     const done = s >= STAGES.length - 1;
-    $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">הזמנת דוגמה: ${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. לא נשלחה לחנות.</p>
+    $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.</p>
 <div class="eta">${done ? '<b>נמסר</b>' : `<b>${left}</b><span>דקות בערך עד שזה אצלך</span>`}</div>
 <ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span>${i < s || done ? '✓' : i + 1}</span><p>${esc(st.label)}</p></li>`).join('')}</ol>
 <div style="display:grid;gap:10px;margin-top:18px">${done ? '' : '<button class="secondary" type="button" id="trackNext">הדגמה: לשלב הבא</button>'}<button class="primary" type="button" data-close>חזרה לחנות</button></div>`;
@@ -1003,6 +1122,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const root = document.documentElement;
     root.style.setProperty('--text-scale', sizes.includes(a11y.text) ? a11y.text / 100 : 1);
     for (const k of ['hc', 'ul', 'nomo']) root.classList.toggle(k, !!a11y[k]);
+    applyNight();
   }
   function renderA11y() {
     const sw = (k, t) => `<div class="a11y-row"><span id="l-${k}">${t}</span><button type="button" role="switch" aria-labelledby="l-${k}" aria-checked="${!!a11y[k]}" data-k="${k}">${a11y[k] ? 'פעיל' : 'כבוי'}</button></div>`;
