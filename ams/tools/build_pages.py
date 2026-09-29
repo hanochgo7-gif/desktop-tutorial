@@ -208,7 +208,7 @@ def header(root, current=None):
         f'<span class="menu-num">{n}</span><span class="menu-t">{t}</span>{CHEV}</a></li>\n')
     return f'''<!-- BEGIN header -->
 <header class="site-header" data-header>
-  <a class="brand" href="{home}" aria-label="AMS – לעמוד הראשי">
+  <a class="brand" href="{home}">
     <span class="brand-mark">AMS</span>
     <span class="brand-sub">Mind &amp; Body Connection</span>
   </a>
@@ -446,11 +446,54 @@ def service_page(s):
 '''
 
 
+def add_srcset(html):
+    """לכל תמונה שיש לה גרסה קטנה (שם-רוחב.webp) מוסיפים srcset ו-sizes לפי ההקשר."""
+    from PIL import Image
+    html = re.sub(r' srcset="[^"]*" sizes="[^"]*"', '', html)
+
+    def sizes_for(name, tag, before):
+        if name.startswith('svc-'):
+            if 'more-card' in before[-160:]:
+                return '(max-width: 760px) 45vw, 230px'
+            if 'service-img' in before[-80:]:
+                return '(max-width: 760px) 96px, 184px'
+            return '72px'
+        if 'closing-bg' in tag or 'flagship-bg' in tag:
+            return '100vw'
+        if name == 'poster.webp':
+            return '(max-width: 760px) 44vh, 100vh'
+        if name == 'coach-thailand.webp':
+            return '(max-width: 760px) 92vw, 440px'
+        return '(max-width: 1020px) 92vw, 560px'
+
+    def fix(m):
+        tag = m.group(0)
+        if 'data-menu-img' in tag:          # התמונה בתפריט מתחלפת ב-JS, בלי srcset
+            return tag
+        src = re.search(r'src="([^"]+\.webp)"', tag)
+        if not src:
+            return tag
+        src = src.group(1)
+        disk = os.path.join(ROOT, src.replace('../', ''))
+        folder, name = os.path.split(disk)
+        stem = name[:-5]
+        small = [f for f in os.listdir(folder) if re.fullmatch(re.escape(stem) + r'-(\d+)\.webp', f)]
+        if not small or not os.path.exists(disk):
+            return tag
+        w_small = int(re.search(r'-(\d+)\.webp$', small[0]).group(1))
+        w_big = Image.open(disk).width
+        src_small = src[: -len(name)] + small[0]
+        attrs = f' srcset="{src_small} {w_small}w, {src} {w_big}w" sizes="{sizes_for(name, tag, html[:m.start()])}"'
+        return tag.replace(f'src="{src}"', f'src="{src}"{attrs}', 1)
+
+    return re.sub(r'<img\b[^>]*>', fix, html)
+
+
 def main():
     os.makedirs(os.path.join(ROOT, 'services'), exist_ok=True)
     for s in SERVICES:
         with open(os.path.join(ROOT, 'services', s['slug'] + '.html'), 'w', encoding='utf-8') as f:
-            f.write(service_page(s))
+            f.write(add_srcset(service_page(s)))
     p = os.path.join(ROOT, 'index.html')
     html = open(p, encoding='utf-8').read()
     html = re.sub(r'<!-- BEGIN header -->.*?<!-- END header -->', lambda m: header(''), html, flags=re.S)
@@ -461,6 +504,7 @@ def main():
         html = html.replace('</head>', home_faq_ld(html) + '\n</head>', 1)
     html = re.sub(r'<!-- BEGIN sprite -->.*?<!-- END sprite -->',
                   lambda m: '<!-- BEGIN sprite -->\n' + SPRITE + '\n<!-- END sprite -->', html, flags=re.S)
+    html = add_srcset(html)
     open(p, 'w', encoding='utf-8').write(html)
     print('built', len(SERVICES), 'service pages')
 

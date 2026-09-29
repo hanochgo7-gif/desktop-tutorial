@@ -219,7 +219,7 @@ ul, ol { list-style: none; }
 /* ---------- HERO: שמירה, אגרוף, שמירה ---------- */
 /* בלי JS או עם "הפחתת תנועה": מסך אחד עם תמונת השמירה. עם JS: הסקשן גבוה והבמה נצמדת בזמן הגלילה */
 .hero { position: relative; background: var(--night); }
-.hero.is-scrub { height: 260vh; }
+.hero.is-scrub { height: 200vh; }
 .hero-stage {
   position: relative;
   min-height: 100svh;
@@ -641,6 +641,20 @@ ul, ol { list-style: none; }
 .chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 3px; }
 .quick-send { margin-top: 4px; }
 
+.quick-preview { margin: 14px 0 0; font-size: .88rem; color: var(--ash); }
+.quick-preview span { color: var(--gold); }
+.quick-preview q { quotes: "״" "״"; color: rgba(242, 236, 224, .85); }
+.quick-qr { display: none; align-items: center; gap: 16px; margin-top: 28px; position: relative; z-index: 71; }
+.quick-qr .qr { width: 128px; height: 128px; flex: none; image-rendering: pixelated; }
+.quick-qr p { margin: 0; max-width: 16em; font-size: .9rem; color: var(--ash); }
+@media (hover: hover) and (min-width: 1021px) {
+  .quick-qr { display: flex; }
+}
+
+/* מעבר רך בין הדפים (בדפדפנים שתומכים) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }
+
 /* ---------- המאמן (בדפי שירות) ---------- */
 .trainer { display: grid; grid-template-columns: 4fr 7fr; gap: 32px clamp(32px, 6vw, 88px); align-items: center; }
 .trainer-photo { margin: 0; }
@@ -693,6 +707,7 @@ ul, ol { list-style: none; }
   .hero-content .hero-actions .btn { flex: 1 1 auto; padding: 0 12px; font-size: .92rem; white-space: nowrap; }
   .hero-content .hero-actions .btn-gold { flex-grow: 2; }
   .hero-where, .hero-cue { display: none !important; }
+  .hero.is-scrub { height: 175vh; }
   .hero-content .assure { margin-top: 12px; font-size: .8rem; gap: 4px 14px; }
   .chip span { padding: 0 12px; font-size: .9rem; }
   .quick-send { width: 100%; }
@@ -754,5 +769,6 @@ ul, ol { list-style: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  @view-transition { navigation: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
 }

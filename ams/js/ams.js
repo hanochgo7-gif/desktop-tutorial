@@ -20,6 +20,7 @@
     toggle.querySelector('.menu-btn-label').textContent = open ? 'סגירה' : 'תפריט';
     menu.classList.toggle('is-open', open);
     document.body.classList.toggle('menu-open', open);
+    document.querySelectorAll('main, footer, .sticky-cta').forEach((el) => { el.inert = open; });
     document.body.style.overflow = open ? 'hidden' : '';
     if (open) { const first = menu.querySelector('a, button'); if (first) first.focus({ preventScroll: true }); }
   };
@@ -197,6 +198,7 @@
   if (quick) {
     const send = quick.querySelector('[data-quick-send]');
     const base = send.href.split('?')[0];
+    const preview = quick.querySelector('[data-quick-preview]');
     const update = () => {
       const goal = quick.querySelector('input[name="goal"]:checked');
       const place = quick.querySelector('input[name="place"]:checked');
@@ -204,6 +206,7 @@
       if (goal) text += '\nהמטרה שלי: ' + goal.value;
       if (place) text += '\nנוח לי: ' + place.value;
       send.href = base + '?text=' + encodeURIComponent(text);
+      if (preview) preview.textContent = text.replace(/\n/g, ', ').replace('., ', '. ');
     };
     quick.addEventListener('change', update);
   }
