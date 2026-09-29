@@ -738,7 +738,9 @@
     stage.dataset.mounted = '1'; stage.innerHTML = '<span class="qv-3d__load">טוען דגם תלת-ממדי…</span>';
     loadModelViewer().then(function () {
       var mv = document.createElement('model-viewer');
-      mv.setAttribute('src', stage.dataset.model);
+      /* בתצוגה המקדימה של claude.ai קבצי glb לא מוגשים, שם הדגם מפורסם בסיומת wasm */
+      var src = stage.dataset.model; if (/claude\.ai$/.test(location.hostname)) src = src.replace(/\.glb$/, '.glb.wasm');
+      mv.setAttribute('src', src);
       mv.setAttribute('camera-controls', ''); mv.setAttribute('auto-rotate', ''); mv.setAttribute('rotation-per-second', '18deg'); mv.setAttribute('shadow-intensity', '.6'); mv.setAttribute('exposure', '1'); mv.setAttribute('camera-orbit', '25deg 78deg auto'); mv.setAttribute('touch-action', 'pan-y'); mv.setAttribute('alt', 'דגם תלת-ממדי של המוצר, אפשר לסובב');
       stage.innerHTML = ''; stage.appendChild(mv);
     }).catch(function () { stage.innerHTML = '<span class="qv-3d__load">לא הצלחתי לטעון את הדגם. נסו שוב מאוחר יותר.</span>'; delete stage.dataset.mounted; });
