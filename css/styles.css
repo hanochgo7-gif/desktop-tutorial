@@ -2165,3 +2165,18 @@ html[lang="en"] #about-title .nowrap { white-space: normal; }
 @media (prefers-reduced-motion: reduce) { .hero__clients-track > .hero__clients-list ~ .hero__clients-list { display: none; } .hero__clients-track { justify-content: flex-start; } }
 html.a11y-no-motion .hero__clients-track { animation: none; flex-wrap: wrap; width: auto; }
 html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-list { display: none; }
+/* הדמיה חיה (עמוד חוות שרתים): תמונה עם כפתור, והמודל נטען בלחיצה בתוך מסגרת */
+.sim__frame { position: relative; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: #0d1a26; box-shadow: 0 40px 80px -50px rgba(0,0,0,.7); }
+.sim__frame > img, .sim__frame > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; object-fit: cover; }
+.sim__frame.is-live > img, .sim__frame.is-live > .sim__stamp { display: none; }
+.sim__stamp { position: absolute; top: 14px; inset-inline-end: 14px; z-index: 2; font-size: .72rem; letter-spacing: .04em; color: #fff; padding: 3px 10px; border-radius: 999px; background: rgba(15,26,36,.72); }
+.sim__play { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 12px; border: 0; margin: 0; padding: 20px; font: inherit; color: #fff; cursor: pointer; background: radial-gradient(60% 60% at 50% 55%, rgba(8,20,32,.55), rgba(8,20,32,.15)); }
+.sim__btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 999px; background: linear-gradient(180deg, #e0443a, #b52a21); font-weight: 600; font-size: 1.15rem; box-shadow: 0 0 0 8px rgba(224,68,58,.22), 0 14px 40px rgba(0,0,0,.35); transition: transform .2s var(--ease), box-shadow .3s; }
+.sim__btn svg { width: 22px; height: 22px; }
+.sim__play:hover .sim__btn, .sim__play:focus-visible .sim__btn { transform: scale(1.04); box-shadow: 0 0 0 12px rgba(224,68,58,.18), 0 14px 40px rgba(0,0,0,.35); }
+.sim__play:focus-visible { outline: none; }
+.sim__play:focus-visible .sim__btn { outline: 3px solid #fff; outline-offset: 4px; }
+.sim__play small { font-size: .85rem; color: rgba(255,255,255,.85); text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.sim__meta { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; margin-top: 16px; }
+.sim__meta p { margin: 0; max-width: 70ch; font-size: .9rem; color: var(--on-dark-muted); }
+@media (max-width: 720px) { .sim__frame { aspect-ratio: auto; height: min(80svh, 720px); border-radius: 14px; } .sim__btn { font-size: 1rem; padding: 14px 22px; } }

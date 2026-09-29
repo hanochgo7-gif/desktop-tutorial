@@ -101,6 +101,19 @@
     else if (mmHasSub) mmOn(mmHasSub);
   }
 
+  /* ---------- הדמיה חיה: המודל התלת־ממדי כבד, לכן נטען רק בלחיצה ---------- */
+  $$('[data-sim]').forEach(function (box) {
+    var play = $('.sim__play', box); if (!play) return;
+    var label = box.getAttribute('title') || ''; box.removeAttribute('title');
+    play.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = box.getAttribute('data-src'); f.title = label;
+      f.setAttribute('allow', 'autoplay; fullscreen'); f.setAttribute('allowfullscreen', '');
+      box.appendChild(f); box.classList.add('is-live'); play.remove();
+      f.addEventListener('load', function () { try { f.contentWindow.focus(); } catch (e) {} });
+    });
+  });
+
   /* ---------- חתך תשתית הדלק: נקודות, כרטיס, מעבר אוטומטי עד המגע הראשון ---------- */
   var cutStage = $('[data-cut-stage]');
   if (cutStage) {
