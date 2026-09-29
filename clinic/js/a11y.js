@@ -13,6 +13,7 @@
       list[i].setAttribute('aria-pressed', String(on));
     }
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    if (window.syncSiteVideos) window.syncSiteVideos();
   }
   function open(o) {
     panel.hidden = !o; btn.setAttribute('aria-expanded', String(o));

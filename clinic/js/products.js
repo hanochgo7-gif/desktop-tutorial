@@ -42,6 +42,7 @@ window.PRODUCTS = [
     name: "סרום לילה",
     category: "סרומים ובוסטרים",
     cut: "images/shelf/hz-night-serum.png",
+    model: "images/models/hz-night-serum.glb",
     pick: true,
     concerns: ["קמטים ומיצוק"],
     en: "Night Serum for Anti-Aging",
@@ -405,6 +406,7 @@ window.PRODUCTS = [
     price: null,
     image: "images/klapp-retinol-serum.jpg",
     cut: "images/shelf/klapp-retinol-serum.png",
+    model: "images/models/klapp-retinol-serum.glb",
     tall: true
   },
   {

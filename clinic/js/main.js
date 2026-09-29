@@ -52,6 +52,13 @@
     document.addEventListener('mouseover', function (e) { cursor.classList.toggle('is-hover', !!e.target.closest('a, button, summary, input, select, .product')); });
   }
 
+  /* וידאו ברקע: מכבדים הפחתת תנועה */
+  function syncVideos() {
+    var off = noMotion() || document.documentElement.classList.contains('a11y-motion');
+    $$('video[autoplay]').forEach(function (v) { if (off) { v.pause(); } else if (v.paused) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } });
+  }
+  syncVideos(); window.syncSiteVideos = syncVideos;
+
   /* תפריט נייד */
   var toggle = $('.nav-toggle'), menu = $('#mobile-menu');
   function setMenu(open) {
@@ -415,7 +422,7 @@
   function cardHtml(p, i) {
     var quick = '<button class="product-quick" type="button" data-qv="' + i + '">תצוגה מהירה</button>';
     var save = '<button class="product-save' + (saved.has(i) ? ' is-on' : '') + '" type="button" data-save="' + i + '" aria-label="הוספה לרשימה" aria-pressed="' + saved.has(i) + '">' + HEART + '</button>';
-    var badge = p.pick ? '<span class="product-badge">רותם ממליצה</span>' : '';
+    var badge = (p.pick ? '<span class="product-badge">רותם ממליצה</span>' : '') + (p.model ? '<span class="product-badge product-badge--3d">360°</span>' : '');
     var media = p.image
       ? '<figure class="product-media"><img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async">' + save + badge + quick + '</figure>'
       : '<figure class="product-media product-media-empty"><span aria-hidden="true">תמונה בקרוב</span>' + save + badge + quick + '</figure>';
@@ -427,7 +434,7 @@
   }
   function shelfItemHtml(p, i, k) {
     var save = '<button class="shelf-save' + (saved.has(i) ? ' is-on' : '') + '" type="button" data-save="' + i + '" aria-label="הוספה לרשימה" aria-pressed="' + saved.has(i) + '">' + HEART + '</button>';
-    var badge = p.pick ? '<span class="shelf-badge">רותם ממליצה</span>' : '';
+    var badge = (p.pick ? '<span class="shelf-badge">רותם ממליצה</span>' : '') + (p.model ? '<span class="shelf-badge shelf-badge--3d">360°</span>' : '');
     var media = p.cut ? '<img src="' + p.cut + '" alt="" loading="lazy" decoding="async">'
       : p.image ? '<img src="' + p.image + '" alt="" loading="lazy" decoding="async">'
       : '<span class="shelf-ph" aria-hidden="true">תמונה בקרוב</span>';
@@ -718,11 +725,49 @@
   }
 
   /* תצוגה מהירה */
+  /* מציג תלת-ממד: נטען רק כשלוחצים על 360° */
+  var mvReady = null;
+  function loadModelViewer() {
+    if (window.customElements && customElements.get('model-viewer')) return Promise.resolve();
+    if (mvReady) return mvReady;
+    mvReady = new Promise(function (res, rej) { var sc = document.createElement('script'); sc.type = 'module'; sc.src = 'js/model-viewer.min.js'; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc); });
+    return mvReady;
+  }
+  function mount3d(stage) {
+    if (!stage || stage.dataset.mounted) return;
+    stage.dataset.mounted = '1'; stage.innerHTML = '<span class="qv-3d__load">טוען דגם תלת-ממדי…</span>';
+    loadModelViewer().then(function () {
+      var mv = document.createElement('model-viewer');
+      mv.setAttribute('src', stage.dataset.model);
+      mv.setAttribute('camera-controls', ''); mv.setAttribute('auto-rotate', ''); mv.setAttribute('rotation-per-second', '18deg'); mv.setAttribute('shadow-intensity', '.6'); mv.setAttribute('exposure', '1'); mv.setAttribute('camera-orbit', '25deg 78deg auto'); mv.setAttribute('touch-action', 'pan-y'); mv.setAttribute('alt', 'דגם תלת-ממדי של המוצר, אפשר לסובב');
+      stage.innerHTML = ''; stage.appendChild(mv);
+    }).catch(function () { stage.innerHTML = '<span class="qv-3d__load">לא הצלחתי לטעון את הדגם. נסו שוב מאוחר יותר.</span>'; delete stage.dataset.mounted; });
+  }
+  var v3d = null, v3dPrev = null;
+  function open3d(model, poster, name) {
+    if (!v3d) {
+      v3d = document.createElement('div'); v3d.id = 'viewer3d'; v3d.className = 'viewer3d'; v3d.setAttribute('role', 'dialog'); v3d.setAttribute('aria-modal', 'true'); v3d.setAttribute('aria-label', 'תצוגה תלת-ממדית');
+      v3d.innerHTML = '<div class="viewer3d__box"><div class="viewer3d__head"><h2 id="v3d-title"></h2><button type="button" class="drawer-close" id="v3d-close" aria-label="סגירה">×</button></div><div class="viewer3d__stage" id="v3d-stage"></div><p class="viewer3d__hint">גוררים כדי לסובב, גוללים או צובטים כדי להתקרב</p></div>';
+      document.body.appendChild(v3d);
+    }
+    v3dPrev = document.activeElement;
+    $('#v3d-title').textContent = name || '';
+    var st = $('#v3d-stage'); st.innerHTML = ''; delete st.dataset.mounted; st.dataset.model = model; st.dataset.poster = poster || '';
+    v3d.hidden = false; body.classList.add('v3d-open'); requestAnimationFrame(function () { v3d.classList.add('is-on'); });
+    setTimeout(function () { mount3d(st); var c = $('#v3d-close'); if (c) c.focus(); }, 320);
+  }
+  function close3d() {
+    if (!v3d || v3d.hidden) return;
+    v3d.classList.remove('is-on'); body.classList.remove('v3d-open');
+    setTimeout(function () { v3d.hidden = true; $('#v3d-stage').innerHTML = ''; delete $('#v3d-stage').dataset.mounted; if (v3dPrev && v3dPrev.focus) v3dPrev.focus(); }, 250);
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && v3d && !v3d.hidden) close3d(); });
   var qv = $('#qv');
   function openQv(i) {
     var p = P[i]; if (!p) return;
     if (!qv) { location.href = 'shop.html?q=' + encodeURIComponent(p.name); return; }
-    $('#qv-media').innerHTML = p.image ? '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '">' : '<div class="product-media-empty" style="height:100%"><span>תמונה בקרוב</span></div>';
+    var imgHtml = p.image ? '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '">' : '<div class="product-media-empty" style="height:100%"><span>תמונה בקרוב</span></div>';
+    $('#qv-media').innerHTML = p.model ? '<div class="qv-3d">' + imgHtml + '<button type="button" class="qv-3d__open" data-open3d="' + p.model + '" data-poster="' + (p.cut || p.image || '') + '" data-name="' + escapeHtml(p.name) + '">סיבוב 360°</button></div>' : imgHtml;
     $('#qv-meta').textContent = [p.brand, p.category, p.size].filter(Boolean).join(' · ');
     $('#qv-title').textContent = p.name;
     $('#qv-desc').textContent = p.desc || '';
@@ -735,6 +780,9 @@
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-qv]'); if (b) { openQv(parseInt(b.dataset.qv, 10)); return; }
+    var o3 = e.target.closest('[data-open3d]');
+    if (o3) { if (qv && qv.open) qv.close(); open3d(o3.dataset.open3d, o3.dataset.poster, o3.dataset.name); return; }
+    if (e.target.closest('#v3d-close') || (e.target.id === 'viewer3d')) { close3d(); return; }
     var sv = e.target.closest('[data-save]'); if (sv) { toggleSave(parseInt(sv.dataset.save, 10), sv); return; }
     var us = e.target.closest('[data-unsave]'); if (us) { toggleSave(parseInt(us.dataset.unsave, 10)); return; }
     if (e.target.closest('[data-undo]')) { undoRemove(); return; }
