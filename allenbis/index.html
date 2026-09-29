@@ -3,117 +3,328 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f6f6f3">
-<title>Allenbis | אלנביס</title>
+<title>אלנביס | שתייה, חטיפים ומה שביניהם עד הבית</title>
+<meta name="description" content="אלנביס – מהחנות עד אליך. שתייה, חטיפים, ממתקים, גלידות ועוד, במשלוח עד הבית.">
+<meta name="theme-color" content="#1b4396">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="אלנביס | מהחנות עד אליך">
+<meta property="og:description" content="שתייה, חטיפים ומה שביניהם – עד הבית.">
+<meta property="og:image" content="images/hero/allenbis-approved-1672.webp">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="images/hero/allenbis-approved-1672.webp" imagesrcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" imagesizes="(min-width: 960px) 760px, 100vw" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="fonts/assistant-hebrew.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/secular-one-hebrew.woff2" crossorigin>
 <style>
-:root{--bg:#f6f6f3;--card:#fff;--ink:#151515;--muted:#595959;--line:#e6e6df}
-*{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-button,input{font:inherit} button{touch-action:manipulation}
-.app{max-width:820px;margin:auto;padding-bottom:calc(108px + env(safe-area-inset-bottom))}
-.top{position:sticky;top:0;z-index:30;background:rgba(246,246,243,.94);backdrop-filter:blur(18px);padding:calc(12px + env(safe-area-inset-top)) 14px 10px;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:end;justify-content:space-between} h1{margin:0;font-size:1.875rem;letter-spacing:-.5px}
-.sub{font-size:0.75rem;color:var(--muted)} .logo{font-weight:900;font-size:1.125rem}
-.search{margin-top:10px;background:white;border:1px solid var(--line);border-radius:16px;padding:11px 12px;display:flex;gap:8px}
-.search input{border:0;background:transparent;width:100%;font-size:1rem}
-.hero{margin:12px 14px 8px;height:225px;border-radius:26px;overflow:hidden;position:relative;background:none}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.05),rgba(0,0,0,.72))}
-.herotxt{position:absolute;z-index:2;right:18px;bottom:18px;color:#fff;max-width:65%}
-.herotxt h2{margin:0;font-size:1.75rem;line-height:1.05} .herotxt p{margin:7px 0 0;color:#eee;font-size:0.8125rem}
-.cats{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 5px;scrollbar-width:none} .cats::-webkit-scrollbar{display:none}
-.cat{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px}
-.cat.on{background:#111;color:#fff;border-color:#111}
-.line{padding:6px 14px 0;color:var(--muted);font-size:0.75rem}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px 14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:21px;padding:11px;display:flex;flex-direction:column;min-height:276px;box-shadow:0 1px 0 rgba(0,0,0,.02)}
-.pic{height:142px;border-radius:15px;background:#fafaf7;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.pic img{width:100%;height:100%;object-fit:contain}
-.badge{position:absolute;top:8px;right:8px;background:#111;color:#fff;border-radius:999px;padding:4px 7px;font-size:0.625rem}
-.name{font-weight:800;font-size:0.875rem;margin-top:9px;line-height:1.25}
-.meta{font-size:0.6875rem;color:var(--muted);margin-top:3px;min-height:24px}
-.price{font-weight:800;margin-top:auto;padding-top:7px}
-.qty{display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;border-radius:12px;overflow:hidden;margin-top:8px;background:#fff}
-.qty button{border:0;background:#f0f0ec;width:42px;height:41px;font-size:1.4375rem;font-weight:700}
-.qty output{min-width:28px;text-align:center;font-weight:700}
-.info{margin-top:8px;background:#f1f1ed;border-radius:11px;padding:9px;text-align:center;font-size:0.6875rem}
-.cartbar{position:fixed;z-index:35;left:12px;right:12px;bottom:calc(9px + env(safe-area-inset-bottom));max-width:796px;margin:auto;background:#111;color:#fff;border-radius:19px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.22)}
-.cartbar button{border:0;background:transparent;color:#fff;font-weight:800}
-.sheet{position:fixed;inset:0;background:#0007;z-index:60;display:none;align-items:flex-end} .sheet.open{display:flex}
-.panel{width:100%;max-width:820px;margin:auto;background:white;border-radius:26px 26px 0 0;max-height:82vh;overflow:auto;padding:18px 16px calc(22px + env(safe-area-inset-bottom))}
-.sheethead{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;padding-bottom:8px}
-.close{border:0;background:#eee;border-radius:999px;width:36px;height:36px;font-size:1.375rem}
-.row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
-.row .qty{margin:0} .empty{text-align:center;color:var(--muted);padding:36px 10px}
-.age{position:fixed;inset:0;background:#0008;z-index:70;display:none;align-items:flex-end} .age.open{display:flex}
-.agebox{width:100%;max-width:820px;margin:auto;background:#fff;border-radius:26px 26px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));text-align:center}
-.agebox button{width:100%;border:0;border-radius:13px;padding:12px;margin-top:8px;font-weight:800} .yes{background:#111;color:#fff} .no{background:#eee}
-@media(min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-.skip{position:fixed;top:8px;right:8px;z-index:100;background:white;color:#111;padding:12px;transform:translateY(-200%)}
+@font-face{font-family:"Assistant";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/assistant-hebrew.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Assistant";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/assistant-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Secular One";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/secular-one-hebrew.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Secular One";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/secular-one-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{
+  --sign:#1b4396;--sign-deep:#122e6b;--sign-soft:#e3eaf7;
+  --paper:#eef2f7;--card:#fff;--ink:#14203a;--muted:#56627a;--line:#d6deea;
+  --tag:#ffd84d;--tag-ink:#2b2100;--ok:#146c43;
+  --r-lg:22px;--r-md:14px;--r-sm:10px;
+  --display:"Secular One","Assistant",system-ui,sans-serif;
+  --body:"Assistant",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --text-scale:1;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;font-size:calc(100% * var(--text-scale))}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.5 var(--body)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+img{display:block;max-width:100%}
+h1,h2,h3,p{margin:0}
+bdi{unicode-bidi:isolate}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:fixed;top:8px;right:8px;z-index:200;background:#fff;padding:12px 16px;border-radius:var(--r-sm);transform:translateY(-200%)}
 .skip:focus{transform:none}
-:focus-visible{outline:3px solid #005fcc;outline-offset:3px}
-.qty button:focus-visible{outline-offset:-4px}
-.search:focus-within{outline:3px solid #005fcc;outline-offset:2px}
-.cartbar button:focus-visible{outline-color:#9bcaff}
-.qty button,.close{min-width:44px;min-height:44px}
-button[aria-disabled="true"]{color:#595959;cursor:default}
-.cat{min-height:44px}
-.name{margin-bottom:0}
-.herotxt{background:#000b;border-radius:12px;padding:10px}
-.sheet,.age{border:0;padding:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--ink)}
-.sheet[open],.age[open]{display:flex}
-dialog::backdrop{background:#0008}
-body:has(dialog[open]){overflow:hidden}
-.panel,.agebox{margin:auto auto 0}
-.agebox{max-height:100%;overflow:auto}
-#grid{scroll-margin-top:150px}
-.card,.row>div{min-width:0;overflow-wrap:anywhere}
-.meta,.info{font-size:0.75rem;line-height:1.4}
-.search input{min-width:0}
-.cartbar button{min-height:44px}
-.cats{padding-bottom:9px}
-.cat:focus-visible{outline-offset:-4px}
-.row{grid-template-columns:minmax(0,1fr) auto}
-.panel{scroll-padding-top:65px;scroll-padding-bottom:24px}
-button{scroll-margin-block:160px 120px}
-@media(max-width:360px){.grid{gap:8px;padding-inline:10px}.card{padding:8px}.herotxt{max-width:85%}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
-<link rel="stylesheet" href="v2.css">
-<link rel="stylesheet" href="local-ui.css">
-<link rel="icon" href="favicon.svg"><link rel="stylesheet" href="accessibility.css"><link rel="stylesheet" href="accessibility-menu.css"></head>
-<body>
-<a class="skip" href="#mainContent">דילוג לתוכן הראשי</a>
-<div id="status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
-<div class="app">
-<header class="top"><p id="previewBanner" role="note" style="margin:0;padding:10px 16px;text-align:center;background:#e8f1ff;color:#133b67;font-weight:600">Allenbis בתצוגה מקדימה — ההזמנות ייפתחו בקרוב</p>
-  <div class="brand"><div><h1>אלנביס</h1><div class="sub">Allenbis · הכול במקום אחד</div></div><div class="logo" aria-hidden="true">A.</div></div>
-  <search><div class="search"><span aria-hidden="true">🔎</span><label for="q" class="sr-only">חיפוש מוצר, מותג או קטגוריה</label><input id="q" type="search" aria-controls="grid" aria-describedby="searchHelp" placeholder="חיפוש מוצר, מותג או קטגוריה" autocomplete="off"><button id="clearSearch" type="button" aria-label="ניקוי החיפוש" disabled>×</button></div><p id="searchHelp" class="sr-only">התוצאות מתעדכנות בזמן ההקלדה לפי הקטגוריה שנבחרה.</p></search>
-</header>
-<main id="mainContent" tabindex="-1"><section class="hero v2-hero approved-hero" aria-labelledby="heroTitle">
-  <a class="approved-hero-art" href="#grid" aria-label="לקטלוג המוצרים של Allenbis">
-    <img id="approvedHero" src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(max-width: 1200px) calc(100vw - 28px), 1172px" width="1672" height="684" fetchpriority="high" alt="עובד Allenbis צעיר אוסף חטיפים לשקית בחנות; בחוץ שליח על אופניים עם ארגז Allenbis כחול ולבן">
-  </a>
-  <div class="approved-hero-caption"><div><h2 id="heroTitle">מהחנות עד אליך.</h2><p>שתייה, חטיפים וכל מה שביניהם.</p></div><a class="v2-primary" href="#grid" id="heroShop">יאללה, למוצרים <span aria-hidden="true">←</span></a></div>
-</section>
-<section class="v2-hub" aria-labelledby="v2Title"><div class="v2-heading"><h2 id="v2Title">עוד קצת Allenbis</h2><span>בדיוק בשבילך</span></div>
-  <form id="budgetQuick" class="v2-budget-quick"><label for="budgetQuickInput">יש לי <span aria-hidden="true">₪</span></label><input id="budgetQuickInput" inputmode="decimal" type="text" placeholder="250" maxlength="10" aria-label="התקציב שלי בשקלים" required><button class="v2-primary" type="submit">בנו לי סל</button><p id="budgetAvailability"></p></form>
-  <div class="v2-actions"><button data-feature="again" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">↺</span><strong>קנה שוב חכם</strong><small>הדברים שכבר אהבת</small></button><button data-feature="welcome" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">✦</span><strong>נעים להכיר</strong><small id="welcomeTeaser"></small></button><button data-feature="referral" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">♡</span><strong>חבר מביא חבר</strong><small id="referralTeaser"></small></button><button data-feature="wheel" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">◉</span><strong>גלגל Allenbis</strong><small>מוצר במתנה — בקרוב</small></button><button data-feature="delivery" aria-haspopup="dialog" aria-controls="featureDialog"><span aria-hidden="true">⌁</span><strong>המשלוח שלי</strong><small>כל שלב, במקום אחד</small></button></div>
-</section>
-<nav class="cats" id="cats" aria-label="קטגוריות מוצרים"></nav>
-<h2 id="catalogTitle" class="sr-only">קטלוג המוצרים</h2><p class="line" id="line"></p>
-<section class="grid" id="grid" tabindex="-1" aria-labelledby="catalogTitle"></section></main>
-</div>
-<footer class="cartbar" aria-label="סל הקניות"><button id="openCart" aria-haspopup="dialog" aria-controls="sheet">🛒 סל קניות</button><strong id="cnt">0 פריטים</strong></footer>
-<dialog class="sheet" id="sheet" aria-labelledby="cartTitle"><div class="panel"><div class="sheethead"><h2 id="cartTitle" style="margin:0">הסל שלי</h2><button class="close" id="close" aria-label="סגירת סל הקניות" autofocus>×</button></div><div id="cartRows"></div><div id="cartTotals" class="v2-cart-totals"></div><div id="cartPrizes"></div><div id="cartStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div></div></dialog>
-<dialog class="sheet v2-dialog" id="featureDialog" aria-labelledby="featureTitle"><div class="panel"><div class="sheethead"><h2 id="featureTitle">Allenbis</h2><button class="v2-secondary" id="featureRefresh" type="button" disabled aria-label="רענון פרטי החשבון">רענון</button><button class="close" id="featureClose" type="button" aria-label="סגירת החלון" autofocus>×</button></div><div id="featureBody"></div><p id="featureStatus" role="status" aria-live="polite" aria-atomic="true" class="v2-status"></p></div></dialog>
-<dialog class="age" id="age" aria-labelledby="ageTitle" aria-describedby="ageDescription"><div class="agebox"><h2 id="ageTitle">אלכוהול 18+</h2><p id="ageDescription">הכניסה לקטגוריית האלכוהול מיועדת לבני 18 ומעלה.</p><button class="yes" id="ageYes">אני בן/בת 18 ומעלה</button><button class="no" id="ageNo" autofocus>חזרה לחנות</button></div></dialog>
-<script src="catalog.js" defer></script>
+:focus-visible{outline:3px solid #0a6cff;outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:16px}
 
+/* Preview strip */
+.preview{background:var(--sign-deep);color:#fff;font-size:.875rem;text-align:center;padding:7px 16px}
+
+/* Header */
+.top{position:sticky;top:0;z-index:40;background:rgba(238,242,247,.92);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding-block:10px}
+.sign{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sign);color:#fff;border-radius:9px;padding:5px 14px 4px;box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px #fff;text-decoration:none;line-height:1;min-width:112px}
+.sign b{font:400 1.625rem/1.05 var(--display);letter-spacing:.3px}
+.sign small{font:700 .625rem/1.3 var(--body);letter-spacing:.4px;direction:ltr;opacity:.92}
+.search{position:relative}
+.search input{width:100%;height:46px;border:1.5px solid var(--line);border-radius:999px;background:#fff;padding:0 44px 0 42px;font-size:1rem;appearance:none}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{border-color:var(--sign);outline:none;box-shadow:0 0 0 3px rgba(27,67,150,.25)}
+.search svg{position:absolute;right:15px;top:50%;translate:0 -50%;color:var(--muted);pointer-events:none}
+.search .clear{position:absolute;left:5px;top:50%;translate:0 -50%;width:36px;height:36px;border:0;border-radius:50%;background:var(--paper);font-size:1.25rem;line-height:1;display:none}
+.search.has-q .clear{display:block}
+.cartbtn{grid-column:3;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:999px;background:var(--sign);color:#fff;font-weight:700}
+.cartbtn .n{min-width:24px;height:24px;border-radius:999px;background:var(--tag);color:var(--tag-ink);display:grid;place-items:center;font-size:.8125rem;padding:0 6px}
+.cartbtn .sum{font-variant-numeric:tabular-nums}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(300px,1fr);gap:16px;padding-block:18px 8px}
+.hero-art{position:relative;border-radius:var(--r-lg);overflow:hidden;background:#cfd8e6;aspect-ratio:1672/684}
+.hero-art img{width:100%;height:100%;object-fit:cover}
+.builder{background:var(--sign);color:#fff;border-radius:var(--r-lg);padding:22px 22px 20px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.builder::after{content:"";position:absolute;inset:6px;border:2px solid rgba(255,255,255,.85);border-radius:16px;pointer-events:none}
+.builder h1{font:400 clamp(1.75rem,2.7vw,2.25rem)/1.1 var(--display);text-wrap:balance}
+.builder p{color:#d8e2f6;font-size:1rem}
+.budget{display:flex;gap:8px;margin-top:auto;position:relative;z-index:1}
+.budget .field{flex:1;display:flex;align-items:center;background:#fff;color:var(--ink);border-radius:var(--r-md);padding-inline:14px 8px;min-width:0}
+.budget .field span{font-weight:800;font-size:1.125rem}
+.budget input{border:0;background:transparent;width:100%;min-width:0;height:50px;font-size:1.25rem;font-weight:700;padding-inline:6px;outline:none}
+.budget .field:focus-within{box-shadow:0 0 0 3px var(--tag)}
+.btn-tag{border:0;background:var(--tag);color:var(--tag-ink);font-weight:800;border-radius:var(--r-md);padding:0 18px;min-height:50px;white-space:nowrap}
+.builder .err:empty{min-height:0;margin:-6px 0 0}
+.quick{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.quick button{border:1.5px solid rgba(255,255,255,.55);background:transparent;color:#fff;border-radius:999px;min-height:40px;padding:0 16px;font-weight:700}
+.quick button:hover{background:rgba(255,255,255,.12)}
+.builder .err{min-height:1.2em;margin-top:-4px;font-size:.875rem;color:#ffe7a3;position:relative;z-index:1}
+
+/* Perks */
+.perks{display:flex;gap:10px;overflow-x:auto;padding-block:8px 4px;scrollbar-width:none;list-style:none;margin:0;padding-inline:0}
+.perks::-webkit-scrollbar{display:none}
+.perks li{flex:1 0 auto;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 14px;font-size:.9375rem}
+.perks svg{flex:none;color:var(--sign)}
+.perks b{display:block;font-weight:700}
+.perks small{color:var(--muted);font-size:.8125rem}
+
+/* Categories */
+.catbar{position:sticky;top:var(--top-h,67px);z-index:30;background:var(--paper);padding-block:10px 8px;margin-top:10px}
+.cats{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;min-height:42px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:0 16px;font-weight:600;white-space:nowrap}
+.cat[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.cat .c{color:var(--muted);font-weight:400;margin-inline-start:4px;font-size:.8125rem}
+.cat[aria-pressed="true"] .c{color:#b8c3d9}
+.count{color:var(--muted);font-size:.875rem;padding-top:8px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding-block:10px 40px}
+.card{background:var(--card);border-radius:var(--r-lg);padding:10px 10px 12px;display:flex;flex-direction:column;min-width:0;content-visibility:auto;contain-intrinsic-size:auto 300px;border:1px solid transparent}
+.card.in{border-color:var(--sign)}
+.pic{aspect-ratio:4/3;border-radius:var(--r-md);background:#fff;overflow:hidden;position:relative}
+.pic img{width:100%;height:100%;object-fit:contain;padding:6px}
+.pic .note{position:absolute;inset-inline-start:8px;bottom:8px;background:rgba(20,32,58,.78);color:#fff;font-size:.6875rem;border-radius:999px;padding:2px 8px}
+.card h3{font-size:.9375rem;font-weight:700;line-height:1.3;margin-top:10px;overflow-wrap:anywhere}
+.meta{color:var(--muted);font-size:.8125rem;margin-top:2px;min-height:1.2em}
+.buy{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:10px;min-height:54px}
+.tag{background:var(--tag);color:var(--tag-ink);font-weight:800;font-size:1rem;padding:4px 10px 3px;border-radius:6px 6px 6px 16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag.soft{background:var(--paper);color:var(--muted);font-weight:600;font-size:.8125rem}
+.add{width:44px;height:44px;border:0;border-radius:50%;background:var(--sign);color:#fff;display:grid;place-items:center;flex:none}
+.step{display:flex;align-items:center;background:var(--sign-soft);border-radius:999px;flex:none}
+.step button{width:40px;height:44px;border:0;background:transparent;color:var(--sign);font-size:1.375rem;font-weight:700;display:grid;place-items:center}
+.step output{min-width:22px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.empty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--muted)}
+.empty button{margin-top:12px;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:10px 18px;font-weight:700}
+
+/* Footer */
+.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.875rem;padding-block:22px calc(96px + env(safe-area-inset-bottom))}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between;align-items:center}
+.linkbtn{border:0;background:none;padding:10px 0;text-decoration:underline;color:var(--sign);font-weight:600}
+
+/* Floating cart bar (mobile) */
+.bar{position:fixed;z-index:45;inset-inline:12px;bottom:calc(10px + env(safe-area-inset-bottom));display:none;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;border:0;border-radius:18px;padding:0 18px;min-height:58px;font-weight:700;box-shadow:0 12px 30px rgba(20,32,58,.28);width:auto}
+.bar .sum{background:var(--tag);color:var(--tag-ink);border-radius:8px;padding:3px 10px;font-variant-numeric:tabular-nums}
+body.has-items .bar{display:flex}
+
+/* Dialogs */
+dialog{border:0;padding:0;color:var(--ink);background:transparent;max-width:none;max-height:none}
+dialog::backdrop{background:rgba(12,20,40,.55)}
+body:has(dialog[open]){overflow:hidden}
+.sheet{margin:auto 0 0;width:100%;height:auto}
+.panel{background:#fff;border-radius:var(--r-lg) var(--r-lg) 0 0;max-height:88vh;display:flex;flex-direction:column;width:100%}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px 12px;border-bottom:1px solid var(--line)}
+.panel-head h2{font:400 1.375rem/1.2 var(--display)}
+.x{width:44px;height:44px;border:0;border-radius:50%;background:var(--paper);font-size:1.5rem;line-height:1;flex:none}
+.panel-body{overflow:auto;padding:4px 18px;flex:1;overscroll-behavior:contain}
+.panel-foot{padding:14px 18px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:10px}
+.sheet[open] .panel{animation:rise .22s ease-out}
+@keyframes rise{from{transform:translateY(24px);opacity:.6}}
+.line{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.line:last-child{border-bottom:0}
+.line img{width:56px;height:56px;object-fit:contain;background:#f6f8fb;border-radius:var(--r-sm);padding:3px}
+.line .t{font-weight:700;font-size:.9375rem;line-height:1.3;overflow-wrap:anywhere}
+.line .p{color:var(--muted);font-size:.8125rem;font-variant-numeric:tabular-nums}
+.totals{display:grid;gap:4px;font-size:.9375rem}
+.totals .row{display:flex;justify-content:space-between;gap:12px}
+.totals .big{font-size:1.125rem;font-weight:800}
+.totals .hint{color:var(--ok);font-size:.875rem}
+.totals .muted{color:var(--muted);font-size:.8125rem}
+.primary{border:0;background:var(--sign);color:#fff;border-radius:var(--r-md);min-height:52px;font-weight:800;font-size:1.0625rem;width:100%}
+.secondary{border:1.5px solid var(--line);background:#fff;border-radius:var(--r-md);min-height:48px;font-weight:700;width:100%}
+.panel-empty{text-align:center;padding:36px 8px;color:var(--muted)}
+.panel-empty svg{color:var(--line);margin:0 auto 10px}
+.note-box{background:var(--sign-soft);border-radius:var(--r-md);padding:14px;margin-block:14px;font-size:.9375rem}
+.stages{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.stages li{display:flex;gap:10px;align-items:center}
+.stages span{width:26px;height:26px;border-radius:50%;background:var(--sign);color:#fff;display:grid;place-items:center;font-size:.8125rem;font-weight:700;flex:none}
+.a11y-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.a11y-row .seg{display:flex;gap:6px}
+.a11y-row .seg button,.a11y-row [role=switch]{min-width:48px;min-height:44px;border:1.5px solid var(--line);background:#fff;border-radius:var(--r-sm);font-weight:700}
+.a11y-row .seg [aria-pressed=true],.a11y-row [role=switch][aria-checked=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.a11y-fab{position:fixed;z-index:44;inset-inline-end:12px;bottom:calc(80px + env(safe-area-inset-bottom));width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:var(--sign);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(20,32,58,.25)}
+body:not(.has-items) .a11y-fab{bottom:calc(16px + env(safe-area-inset-bottom))}
+
+/* Accessibility preferences */
+html.hc{--paper:#fff;--line:#14203a;--muted:#14203a;--sign-soft:#dfe6f5}
+html.hc .card{border-color:var(--ink)}
+html.ul a,html.ul button.linkbtn{text-decoration:underline}
+html.nomo *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+
+@media (min-width:960px){
+  .sheet{margin:0 0 0 auto;height:100%;width:min(440px,100%)}
+  .sheet.center{margin:auto;height:auto;width:min(520px,calc(100% - 32px))}
+  .sheet .panel{border-radius:0;max-height:100vh;height:100%}
+  .sheet.center .panel{border-radius:var(--r-lg);height:auto;max-height:86vh}
+  @keyframes rise{from{transform:translateX(-24px);opacity:.6}}
+  .sheet.center[open] .panel{animation:none}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+  body.has-items .bar{display:none}
+  .a11y-fab{bottom:20px}
+  body:not(.has-items) .a11y-fab{bottom:20px}
+  .foot{padding-bottom:28px}
+}
+@media (max-width:959px){
+  .hero{grid-template-columns:1fr}
+  .cartbtn .sum,.cartbtn .lbl{display:none}
+  .cartbtn{padding:0 12px}
+}
+@media (max-width:640px){
+  .top .wrap{grid-template-columns:auto 1fr auto;gap:10px;row-gap:10px}
+  .top .search{grid-column:1/-1;grid-row:2}
+  .sign{min-width:0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{padding:8px 8px 10px;border-radius:18px}
+  .builder{padding:20px 18px 18px}
+  .budget{flex-wrap:wrap}
+  .budget .field{flex-basis:100%}
+  .btn-tag{flex:1}
+  .perks li{flex:0 0 auto}
+  .buy{flex-direction:column;align-items:stretch;gap:8px;min-height:0}
+  .buy .tag{align-self:flex-start}
+  .add{width:100%;height:42px;border-radius:999px}
+  .step{justify-content:space-between}
+  .step button{width:48px;height:42px}
+}
+@media (max-width:360px){
+  .wrap{padding-inline:10px}
+  .grid{gap:8px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sheet[open] .panel{animation:none}}
+</style>
+<script src="catalog.js" defer></script>
 <script src="commerce-config.js" defer></script>
-<script src="commerce-engine.js" defer></script>
-<script src="app.js" defer></script>
-<script src="v2.js" defer></script>
-<script src="preview.js" defer></script><script src="accessibility.js" defer></script>
-<script src="accessibility-menu.js" defer></script></body></html>
+<script src="store.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#catalog">דילוג לקטלוג המוצרים</a>
+<div id="status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<p class="preview">תצוגה מקדימה: אפשר כבר לבנות סל, ההזמנות ייפתחו בקרוב.</p>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="sign" href="#" aria-label="אלנביס, לראש העמוד"><b>אלנביס</b><small>Allenbis St.</small></a>
+    <search class="search" id="searchBox">
+      <label for="q" class="sr-only">חיפוש מוצר</label>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="מה בא לך? במבה, קולה, מטען…" autocomplete="off" enterkeyhint="search" aria-controls="catalog">
+      <button class="clear" id="clearQ" type="button" aria-label="ניקוי החיפוש">×</button>
+    </search>
+    <button class="cartbtn" id="openCart" type="button" aria-haspopup="dialog" aria-controls="cart">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+      <span class="lbl">הסל</span><span class="n" id="cartCount">0</span><span class="sum" id="cartSum" hidden></span>
+      <span class="sr-only" id="cartLabel">סל הקניות, 0 פריטים</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero" aria-labelledby="heroTitle">
+      <a class="hero-art" href="#catalog" tabindex="-1" aria-hidden="true">
+        <img src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(min-width: 960px) 760px, 100vw" width="1672" height="684" fetchpriority="high" decoding="async" alt="">
+      </a>
+      <div class="builder">
+        <h1 id="heroTitle">מהחנות, עד הדלת שלך.</h1>
+        <p>אין לך כוח לבחור? תגיד כמה בא לך להוציא, ונרכיב לך סל של שתייה, חטיפים וממתקים.</p>
+        <form class="budget" id="budgetForm" novalidate>
+          <label class="field" for="budget"><span aria-hidden="true">₪</span><span class="sr-only">תקציב בשקלים</span><input id="budget" inputmode="decimal" placeholder="100" maxlength="7" autocomplete="off" aria-describedby="budgetErr"></label>
+          <button class="btn-tag" type="submit">הרכיבו לי סל</button>
+        </form>
+        <div class="quick" role="group" aria-label="סכומים מהירים"><button type="button" data-amount="50">‏50 ₪</button><button type="button" data-amount="100">‏100 ₪</button><button type="button" data-amount="200">‏200 ₪</button></div>
+        <p class="err" id="budgetErr" role="alert"></p>
+      </div>
+    </section>
+
+    <ul class="perks" id="perks" aria-label="מה מקבלים"></ul>
+
+    <div class="catbar" id="catbar">
+      <nav class="cats" id="cats" aria-label="קטגוריות"></nav>
+      <p class="count" id="count" aria-hidden="true"></p>
+    </div>
+    <h2 class="sr-only">מוצרים</h2>
+    <section class="grid" id="catalog" tabindex="-1" aria-label="מוצרים"></section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>אלנביס · Allenbis</span>
+    <button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y">התאמות נגישות</button>
+  </div>
+</footer>
+
+<button class="bar" id="bar" type="button" aria-haspopup="dialog" aria-controls="cart"><span id="barText">לסל שלי</span><span class="sum" id="barSum"></span></button>
+<button class="a11y-fab" id="a11yFab" type="button" aria-haspopup="dialog" aria-controls="a11y" aria-label="התאמות נגישות">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M19 8.5c-2.2.6-4.6 1-7 1s-4.8-.4-7-1l-.5 1.9c1.9.5 3.8.9 5.8 1.1V14l-2.2 7.2 1.9.6L12 16l2 5.8 1.9-.6L13.7 14v-2.5c2-.2 3.9-.6 5.8-1.1Z"/></svg>
+</button>
+
+<dialog class="sheet" id="cart" aria-labelledby="cartTitle">
+  <div class="panel">
+    <div class="panel-head"><h2 id="cartTitle">הסל שלי</h2><button class="x" type="button" data-close aria-label="סגירת הסל">×</button></div>
+    <div class="panel-body" id="cartBody"></div>
+    <div class="panel-foot" id="cartFoot"></div>
+  </div>
+</dialog>
+
+<dialog class="sheet center" id="basket" aria-labelledby="basketTitle">
+  <div class="panel">
+    <div class="panel-head"><h2 id="basketTitle">הסל שהרכבנו</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-body" id="basketBody"></div>
+    <div class="panel-foot" id="basketFoot"></div>
+  </div>
+</dialog>
+
+<dialog class="sheet center" id="notice" aria-labelledby="noticeTitle">
+  <div class="panel">
+    <div class="panel-head"><h2 id="noticeTitle">ההזמנות ייפתחו בקרוב</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-body">
+      <p class="note-box">עדיין אי אפשר לשלוח הזמנה או לשלם באתר. הסל שלך שמור במכשיר ויחכה לך כשנפתח.</p>
+      <p><b>ככה זה יעבוד:</b></p>
+      <ol class="stages" id="stages"></ol>
+    </div>
+    <div class="panel-foot"><button class="primary" type="button" data-close>חזרה לחנות</button></div>
+  </div>
+</dialog>
+
+<dialog class="sheet center" id="age" aria-labelledby="ageTitle" aria-describedby="ageText">
+  <div class="panel">
+    <div class="panel-head"><h2 id="ageTitle">מגיל 18 ומעלה</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-body"><p id="ageText" class="note-box">הקטגוריה הזו מיועדת לבני 18 ומעלה בלבד.</p></div>
+    <div class="panel-foot"><button class="primary" type="button" id="ageYes">אני בן/בת 18 ומעלה</button><button class="secondary" type="button" data-close autofocus>חזרה</button></div>
+  </div>
+</dialog>
+
+<dialog class="sheet center" id="a11y" aria-labelledby="a11yTitle">
+  <div class="panel">
+    <div class="panel-head"><h2 id="a11yTitle">התאמות נגישות</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-body" id="a11yBody"></div>
+    <div class="panel-foot"><button class="secondary" type="button" id="a11yReset">איפוס ההתאמות</button></div>
+  </div>
+</dialog>
+</body>
+</html>
