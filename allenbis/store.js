@@ -259,7 +259,8 @@
     const ctl = controls ? `<span class="step"><button type="button" data-dec="${p.id}" aria-label="הפחתת ${esc(p.name)}">−</button><output aria-label="כמות: ${q}">${q}</output><button type="button" data-add="${p.id}" aria-label="הוספת עוד ${esc(p.name)}"${q >= MAX_QTY || !sellable(p) ? ' disabled' : ''}>+</button></span>` : `<b>×${q}</b>`;
     const pic = img ? `<img src="${esc(img)}" alt="" loading="lazy" width="56" height="56">` : '<span class="noimg" aria-hidden="true">18+</span>';
     const warn = isBlocked(p) ? '<div class="p" style="color:var(--warn)">לא ניתן לקנות עכשיו (23:00–06:00)</div>' : '';
-    return `<div class="line${isBlocked(p) ? ' blocked' : ''}" data-line="${p.id}">${pic}<div><div class="t"><bdi>${esc(p.name)}</bdi></div><div class="p"><bdi>${esc(price)}</bdi>${esc(each)}</div>${warn}</div>${ctl}</div>`;
+    const rm = controls ? `<button type="button" class="rm" data-rm="${p.id}">הסרת ${esc(p.name)} מהסל</button>` : '';
+    return `<div class="line${isBlocked(p) ? ' blocked' : ''}" data-line="${p.id}">${pic}<div><div class="t"><bdi>${esc(p.name)}</bdi></div><div class="p"><bdi>${esc(price)}</bdi>${esc(each)}</div>${warn}${rm}</div>${ctl}</div>`;
   }
 
   function miniHtml(p) {
@@ -391,12 +392,14 @@
   function renderCart() {
     const ls = lines();
     const t = totals();
+    const undoBar = undo ? `<div class="undo" id="cartUndo" role="status"><span><bdi>${esc(undo.name)}</bdi> הוסר מהסל</span><button type="button" id="undoBtn">ביטול</button></div>` : '';
     if (!ls.length) {
-      $('cartBody').innerHTML = ART.emptyCart ? `<div class="panel-empty"><img class="art-img" src="${esc(ART.emptyCart)}" alt=""><p>הסל עדיין ריק.</p></div>` : `<div class="panel-empty"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><p>הסל עדיין ריק.</p></div>`;
+      $('cartBody').innerHTML = undoBar + (ART.emptyCart ? `<div class="panel-empty"><img class="art-img" src="${esc(ART.emptyCart)}" alt=""><p>הסל עדיין ריק.</p></div>` : `<div class="panel-empty"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><p>הסל עדיין ריק.</p></div>`);
       $('cartFoot').innerHTML = `<button class="primary" type="button" data-close>לבחירת מוצרים</button>`;
       return;
     }
-    $('cartBody').innerHTML = freeHtml(t.sub) + ls.map(({ p, q }) => lineHtml(p, q, true)).join('') + rackHtml(ls);
+    const tip = store.get('allenbis-swiped', false) ? '' : '<p class="swipe-tip">אפשר להחליק מוצר הצידה כדי להוציא אותו מהסל.</p>';
+    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}הסרה</span><span>${trashIcon}הסרה</span></span>${lineHtml(p, q, true)}</div>`).join('') + tip + rackHtml(ls);
     $('cartFoot').innerHTML = `${t.blocked ? '<p class="warn-box">בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.</p>' : ''}
 <div class="totals">${totalsHtml(t)}</div>
 <button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>לתשלום · <bdi>${fmt(t.total)}</bdi></button>
@@ -427,6 +430,84 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     }
   });
   const openCart = () => { renderCart(); openDialog('cart'); };
+
+  /* ---------- Swipe a line out of the cart ---------- */
+  const trashIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
+  let undo = null, undoTimer;
+  function removeLine(id) {
+    const p = byId.get(id), q = cart[id];
+    if (!p || !q) return;
+    const at = Object.keys(cart).indexOf(id);
+    delete cart[id];
+    save();
+    refreshCards(id);
+    updateCartUi();
+    undo = { id, q, at, name: p.name };
+    clearTimeout(undoTimer);
+    undoTimer = setTimeout(() => { undo = null; $('cartUndo')?.remove(); }, 6000);
+    renderCart();
+    announce(`${p.name} הוסר מהסל. אפשר לבטל.`);
+  }
+  let sw = null;
+  const SWIPE_OUT = 0.35;
+  $('cartBody').addEventListener('pointerdown', e => {
+    const row = e.target.closest('.swipe');
+    if (!row || e.target.closest('button') || e.button > 0) return;
+    sw = { row, line: row.querySelector('.line'), x: e.clientX, y: e.clientY, dx: 0, on: false, pid: e.pointerId };
+  });
+  $('cartBody').addEventListener('pointermove', e => {
+    if (!sw || e.pointerId !== sw.pid) return;
+    const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+    if (!sw.on) {
+      if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { sw = null; return; }
+      if (Math.abs(dx) < 10) return;
+      sw.on = true;
+      sw.row.setPointerCapture(e.pointerId);
+      sw.row.classList.add('dragging');
+    }
+    sw.dx = dx;
+    sw.line.style.transform = `translateX(${dx}px)`;
+    sw.row.classList.toggle('arm', Math.abs(dx) > sw.row.clientWidth * SWIPE_OUT);
+  });
+  const endSwipe = e => {
+    if (!sw || e.pointerId !== sw.pid) return;
+    const { row, line, dx, on } = sw;
+    sw = null;
+    if (!on) return;
+    row.classList.remove('dragging');
+    if (e.type === 'pointerup' && Math.abs(dx) > row.clientWidth * SWIPE_OUT) {
+      line.style.transform = `translateX(${dx > 0 ? 110 : -110}%)`;
+      store.set('allenbis-swiped', true);
+      setTimeout(() => removeLine(row.dataset.swipe), calm() ? 0 : 180);
+    } else {
+      line.style.transform = '';
+      row.classList.remove('arm');
+    }
+  };
+  $('cartBody').addEventListener('pointerup', endSwipe);
+  $('cartBody').addEventListener('pointercancel', endSwipe);
+  $('cartBody').addEventListener('click', e => {
+    const rm = e.target.closest('[data-rm]');
+    if (rm) { removeLine(rm.dataset.rm); $('undoBtn')?.focus(); return; }
+    if (e.target.closest('#undoBtn') && undo) {
+      const { id, q, at, name } = undo;
+      undo = null;
+      clearTimeout(undoTimer);
+      if (canBuy(byId.get(id))) {
+        // back in its old place in the list
+        const rows = Object.entries(cart);
+        rows.splice(at, 0, [id, q]);
+        rows.forEach(([k]) => delete cart[k]);
+        rows.forEach(([k, v]) => { cart[k] = v; });
+      }
+      save();
+      refreshCards(id);
+      updateCartUi();
+      renderCart();
+      $('cart').querySelector('.x').focus();
+      announce(`${name} חזר לסל.`);
+    }
+  });
   $('openCart').addEventListener('click', openCart);
   $('bar').addEventListener('click', openCart);
 
