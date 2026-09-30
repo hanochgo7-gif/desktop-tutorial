@@ -923,7 +923,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     movie: { label: 'ערב סרט', per: 35, w: { salty: 3, soda: 3, choc: 2, candy: 1.5, icecream: 1, juice: 1 } },
     // A date is always for two: dessert to share, good chocolate, something bubbly and a mint for later
     date: { label: 'דייט', per: 45, people: 2, w: { icecream: 3, choc: 2.5, cookies: 1.5, mixer: 1.5, juice: 1, mint: 1 },
-      pref: ['p181', 'p89', 'p67', 'p88', 'p20', 'p62', 'p73', 'p77'] },
+      pref: ['p181', 'p89', 'p67', 'p88', 'p20', 'p62', 'p73', 'p77'], must: ['p181'] },
     party: { label: 'חברים', per: 40, w: { soda: 3, salty: 3, nuts: 2, mixer: 1, juice: 1, candy: 1, ice: 1.5 } },
     night: { label: 'לילה לבן', per: 30, w: { energy: 3, coffee: 2, choc: 2, salty: 1.5, mint: 1, water: 1 } },
     snack: { label: 'נשנוש', per: 30, w: { choc: 2.5, salty: 2, cookies: 1.5, soda: 1, juice: 1, candy: 1, icecream: 1 } },
@@ -971,6 +971,12 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const fits = p => total + unit(p) <= limit && (picked.get(p.id) || 0) < capOf(p);
     const newShare = a.people >= 3 ? 0.5 : 0.75;
     let total = 0, count = 0;
+    // the plan's signature product goes in first whenever it's in stock and fits the budget (Franui for a date)
+    for (const id of PLANS[a.plan].must || []) {
+      const p = quizPool.find(x => x.id === id);
+      if (!p || !fits(p)) continue;
+      picked.set(id, 1); total += unit(p); count++; taken[kindOf(p)] = (taken[kindOf(p)] || 0) + 1;
+    }
     while (count < maxItems) {
       const kinds = Object.keys(byKind).filter(k => byKind[k].some(fits));
       if (!kinds.length) break;
