@@ -921,6 +921,9 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   /* ---------- The quiz: plan, people, taste, budget → a basket that fits ---------- */
   const PLANS = {
     movie: { label: 'ערב סרט', per: 35, w: { salty: 3, soda: 3, choc: 2, candy: 1.5, icecream: 1, juice: 1 } },
+    // A date is always for two: dessert to share, good chocolate, something bubbly and a mint for later
+    date: { label: 'דייט', per: 45, people: 2, w: { icecream: 3, choc: 2.5, cookies: 1.5, mixer: 1.5, juice: 1, mint: 1 },
+      pref: ['p181', 'p89', 'p67', 'p88', 'p20', 'p62', 'p73', 'p77'] },
     party: { label: 'חברים', per: 40, w: { soda: 3, salty: 3, nuts: 2, mixer: 1, juice: 1, candy: 1, ice: 1.5 } },
     night: { label: 'לילה לבן', per: 30, w: { energy: 3, coffee: 2, choc: 2, salty: 1.5, mint: 1, water: 1 } },
     snack: { label: 'נשנוש', per: 30, w: { choc: 2.5, salty: 2, cookies: 1.5, soda: 1, juice: 1, candy: 1, icecream: 1 } },
@@ -958,7 +961,8 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     for (const p of quizPool) {
       const k = kindOf(p);
       if (!w[k] || (a.taste.has('nosugar') && DRINK.has(k) && !sugarFree(p))) continue;
-      const score = (bestIds.has(p.id) ? 1.3 : 1) * (onSale(p) ? 1.2 : 1) * sizeFit(p, a.people) * (0.6 + Math.random() * 0.8);
+      const special = PLANS[a.plan].pref?.includes(p.id) ? 2.5 : 1;
+      const score = special * (bestIds.has(p.id) ? 1.3 : 1) * (onSale(p) ? 1.2 : 1) * sizeFit(p, a.people) * (0.6 + Math.random() * 0.8);
       (byKind[k] ||= []).push({ p, score });
     }
     for (const k in byKind) byKind[k] = byKind[k].sort((x, y) => y.score - x.score).map(x => x.p);
@@ -1017,11 +1021,17 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       b.parentElement.querySelectorAll('[data-q]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
       if (q === 'plan') answers.plan = v; else answers.people = +v;
       delete $('budget').dataset.touched;
-      showStep(qzStep + 1, true);
+      // plans with a fixed number of people (a date) skip "how many"
+      const fixed = q === 'plan' && PLANS[v].people;
+      if (fixed) {
+        answers.people = fixed;
+        $('quiz').querySelectorAll('[data-q="people"]').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.v === fixed)));
+      }
+      showStep(qzStep + (fixed ? 2 : 1), true);
       return;
     }
     if (e.target.closest('#qzNext')) showStep(3, true);
-    if (e.target.closest('#qzBack')) showStep(Math.max(0, qzStep - 1), true);
+    if (e.target.closest('#qzBack')) showStep(qzStep === 2 && PLANS[answers.plan]?.people ? 0 : Math.max(0, qzStep - 1), true);
   });
   $('budget').addEventListener('input', () => { $('budget').dataset.touched = '1'; });
   showStep(0, false);
