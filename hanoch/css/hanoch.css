@@ -17,9 +17,10 @@
   --fg: #ede8de;
   --fg-dim: rgba(237, 232, 222, .56);
   --fg-faint: rgba(237, 232, 222, .14);
-  --ink-dim: rgba(10, 10, 11, .55);
+  --ink-dim: rgba(10, 10, 11, .64);
   --ink-faint: rgba(10, 10, 11, .14);
   --signal: #ff4f1a;
+  --signal-ink: #a8360a; /* כתום כהה לטקסט על נייר: ניגודיות 4.7:1 ומעלה */
   --blue: #3d7bff;
 
   --f-display: "Dragon", "Frank Ruhl Libre", "David Libre", Georgia, serif;
@@ -155,7 +156,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .manifesto-text .w { opacity: .14; transition: opacity .2s linear; }
 .manifesto-text .w.on { opacity: 1; }
-.manifesto-text .w.hl { color: var(--signal); font-style: italic; }
+.manifesto-text .w.hl { color: var(--signal-ink); font-style: italic; }
 .principles-wrap { border-top: 1px solid var(--ink-faint); padding-top: 1.6rem; }
 .principles-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.2rem; font-size: clamp(1.25rem, 1.8vw, 1.6rem); margin-bottom: 2.4rem; }
 .principles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
@@ -163,7 +164,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex; flex-direction: column; gap: .9rem; padding: clamp(22px, 2.4vw, 34px);
   background: var(--paper-2); border-radius: 18px; border: 1px solid var(--ink-faint);
 }
-.pr-num { color: var(--signal); font-size: .8rem; }
+.pr-num { color: var(--signal-ink); font-size: .8rem; }
 .principles h2 { font-family: var(--f-display); font-size: clamp(1.9rem, 2.6vw, 2.5rem); font-weight: 400; line-height: 1.05; text-wrap: balance; }
 .principles p {
   font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; line-height: 1.7;
@@ -197,7 +198,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .project:nth-child(even) .p-phone { inset-inline-start: auto; inset-inline-end: -5%; }
 .p-info { position: relative; display: grid; justify-items: start; gap: .6rem; }
-.p-num { color: var(--p); font-size: .85rem; }
+.p-num { color: color-mix(in srgb, var(--p) 72%, #fff); font-size: .85rem; }
 .p-name {
   font-family: var(--f-display); font-weight: 900; font-size: clamp(2.8rem, 6.2vw, 6.6rem); line-height: .9; letter-spacing: 0;
   transition: color .5s var(--ease);
@@ -225,7 +226,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .metric dd { display: flex; align-items: baseline; gap: 1rem; direction: ltr; }
 .metric s { font-family: var(--f-mono); font-size: .9rem; color: var(--ink-dim); text-decoration-thickness: 1px; }
 .metric b { font-family: var(--f-display); font-weight: 900; font-size: clamp(2rem, 3.6vw, 3.4rem); line-height: 1; color: var(--ink); min-width: 4.2ch; text-align: right; font-variant-numeric: tabular-nums; }
-.metric.done b { color: var(--signal); }
+.metric.done b { color: var(--signal-ink); }
 
 .ba-stage { display: grid; justify-items: center; gap: 1rem; }
 .phone { width: min(340px, 74vw, calc((100svh - 150px) * .46)); padding: 12px; border-radius: 48px; background: #0d0d0f; box-shadow: 0 60px 100px -40px rgba(10, 10, 11, .65), inset 0 0 0 1.5px #2a2a2e; }
@@ -586,7 +587,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .timeline::after { background: var(--signal); transform-origin: top; transform: scaleY(var(--fill)); }
 .timeline li { position: relative; display: grid; grid-template-columns: 3ch 1fr; gap: 1rem; }
 .timeline li::before { content: ""; position: absolute; inset-inline-start: -34px; top: .5rem; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 2px solid var(--signal); }
-.tl-num { color: var(--signal); padding-top: .55rem; }
+.tl-num { color: var(--signal-ink); padding-top: .55rem; }
 .timeline h3 { font-family: var(--f-display); font-size: clamp(1.7rem, 2.4vw, 2.3rem); font-weight: 400; line-height: 1.1; display: inline; margin-inline-end: .8rem; }
 .tl-time { display: inline-block; vertical-align: middle; padding: .3rem .7rem; border-radius: 99px; background: var(--ink); color: var(--paper); font-size: .7rem; }
 .timeline p { margin-top: .5rem; font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; line-height: 1.7; color: rgba(10, 10, 11, .78); max-width: 46ch; }
