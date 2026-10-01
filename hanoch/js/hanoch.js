@@ -837,7 +837,7 @@
       });
     }
     if (!motion) return;
-    [['.tier', 0.12], ['.upgrade, .promises li', 0.08], ['.addon-group', 0.06], ['.care-plan', 0.1], ['.faq-list details', 0.05]].forEach(function (g) {
+    [['.tier', 0.12], ['.upgrade, .promises li', 0.08], ['.sr-cat', 0.07], ['.sr-body', 0], ['.care-plan', 0.1], ['.faq-list details', 0.05]].forEach(function (g) {
       var els = $$(g[0]);
       if (!els.length) return;
       gsap.set(els, { autoAlpha: 0, y: 50 });
