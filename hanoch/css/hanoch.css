@@ -1,3 +1,10 @@
+/* הגופן Dragon של אלעד מזרחי: כתב עברי קליגרפי, משקל אחד, בלי אותיות לטיניות (אלה נופלות ל-Frank Ruhl Libre) */
+@font-face {
+  font-family: "Dragon";
+  src: url("../fonts/dragon.woff2") format("woff2"), url("../fonts/dragon.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
 /* חנוך גוטובסקי, אתר אישי
    שחור דיו, נייר חם, וצבע אחד שמסמן: כתום אות. הכחול שמור למצב רנטגן בלבד. */
 
@@ -15,8 +22,8 @@
   --signal: #ff4f1a;
   --blue: #3d7bff;
 
-  --f-display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
-  --f-body: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif;
+  --f-display: "Dragon", "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --f-body: "Dragon", "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", "IBM Plex Sans Hebrew", ui-monospace, monospace;
 
   --gutter: clamp(16px, 4vw, 56px);
@@ -35,8 +42,9 @@ body {
   background: var(--ink);
   color: var(--fg);
   font-family: var(--f-body);
-  font-size: clamp(16px, 1.05vw, 18px);
+  font-size: clamp(18px, 1.2vw, 21px);
   line-height: 1.6;
+  font-synthesis: none; /* לגופן יש משקל אחד: בלי הדגשה מלאכותית */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -48,7 +56,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .mono { font-family: var(--f-mono); font-size: .74rem; letter-spacing: .04em; font-weight: 400; }
 .label { font-family: var(--f-mono); font-size: .74rem; letter-spacing: .06em; color: var(--fg-dim); text-transform: uppercase; }
-.display { font-family: var(--f-display); font-weight: 900; line-height: .88; letter-spacing: -.012em; }
+.display { font-family: var(--f-display); font-weight: 400; line-height: .95; letter-spacing: 0; }
 .sr-only, .skip:not(:focus) { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip:focus { position: fixed; z-index: 200; top: 12px; right: 12px; background: var(--signal); color: var(--ink); padding: .6rem 1rem; border-radius: 8px; }
 
@@ -91,7 +99,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: fixed; z-index: 100; top: 0; inset-inline: 0; display: flex; align-items: center; gap: 2rem;
   padding: 18px var(--gutter); mix-blend-mode: difference; color: #ede8de;
 }
-.bar-mark { font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; text-decoration: none; letter-spacing: -.02em; }
+.bar-mark { font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; text-decoration: none; letter-spacing: 0; }
 .bar-mark span { color: var(--signal); mix-blend-mode: normal; }
 .bar-nav { display: flex; gap: 1.6rem; margin-inline-start: auto; }
 .bar-nav a { font-family: var(--f-mono); font-size: .78rem; text-decoration: none; position: relative; padding: .3rem 0; }
@@ -111,7 +119,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hero-title {
   font-family: var(--f-display); font-weight: 900; font-size: clamp(4.4rem, 17vw, 17rem); line-height: .84;
-  letter-spacing: -.02em; display: flex; flex-direction: column; padding-top: 12vh; user-select: none;
+  letter-spacing: 0; display: flex; flex-direction: column; padding-top: 12vh; user-select: none;
 }
 .hero-title span:last-child { align-self: flex-end; }
 .gl-on .hero-title { color: transparent; }
@@ -136,7 +144,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* מניפסט */
 .manifesto-text {
   font-family: var(--f-display); font-weight: 400; font-size: clamp(2rem, 5.2vw, 5.4rem); line-height: 1.04;
-  letter-spacing: -.01em; max-width: 19ch; margin: 2.4rem 0 clamp(80px, 10vw, 150px);
+  letter-spacing: 0; max-width: 19ch; margin: 2.4rem 0 clamp(80px, 10vw, 150px);
 }
 .manifesto-text .w { opacity: .14; transition: opacity .2s linear; }
 .manifesto-text .w.on { opacity: 1; }
@@ -151,7 +159,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .work-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 1rem 2rem; margin-bottom: clamp(70px, 10vw, 150px); }
 .work-head .label { grid-column: 1 / -1; }
 .work-head h2 { font-size: clamp(3.4rem, 10vw, 10.5rem); }
-.work-count { font-family: var(--f-display); font-size: clamp(3rem, 10vw, 10.5rem); font-weight: 300; line-height: .8; color: var(--signal); letter-spacing: -.04em; }
+.work-count { font-family: var(--f-display); font-size: clamp(3rem, 10vw, 10.5rem); font-weight: 300; line-height: .8; color: var(--signal); letter-spacing: 0; }
 
 .projects { list-style: none; display: grid; gap: clamp(110px, 16vw, 240px); }
 .project { display: grid; grid-template-columns: 7fr 5fr; align-items: center; gap: clamp(28px, 5vw, 90px); }
@@ -171,7 +179,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .p-info { position: relative; display: grid; justify-items: start; gap: .6rem; }
 .p-num { color: var(--p); font-size: .85rem; }
 .p-name {
-  font-family: var(--f-display); font-weight: 900; font-size: clamp(2.8rem, 6.2vw, 6.6rem); line-height: .9; letter-spacing: -.02em;
+  font-family: var(--f-display); font-weight: 900; font-size: clamp(2.8rem, 6.2vw, 6.6rem); line-height: .9; letter-spacing: 0;
   transition: color .5s var(--ease);
 }
 .project:hover .p-name { color: var(--p); }
@@ -309,7 +317,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: grid; grid-template-rows: auto 1fr auto auto auto; justify-items: center; text-align: center;
 }
 .contact > .label { align-self: start; }
-.contact-title { align-self: center; font-size: clamp(4.2rem, 15vw, 15rem); letter-spacing: -.025em; user-select: none; }
+.contact-title { align-self: center; font-size: clamp(4.2rem, 15vw, 15rem); letter-spacing: 0; user-select: none; }
 .gl-on .contact-title { color: transparent; }
 .contact-lead { font-family: var(--f-display); font-weight: 300; font-size: clamp(1.15rem, 1.8vw, 1.6rem); max-width: 30ch; margin-bottom: 2rem; }
 .contact-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 9vh; }

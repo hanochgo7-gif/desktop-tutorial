@@ -133,7 +133,7 @@
       var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
       return {
         text: el.textContent.trim(),
-        font: '900 ' + cs.fontSize + ' "Frank Ruhl Libre"',
+        font: cs.fontSize + ' "Dragon", "Frank Ruhl Libre"',
         letterSpacing: cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing,
         x: r.right - sr.left,
         y: r.top - sr.top + r.height * 0.5
@@ -158,7 +158,7 @@
     if (!P) return Promise.resolve();
     var fontReady = document.fonts && document.fonts.load
       ? Promise.race([
-          Promise.all([document.fonts.load('900 100px "Frank Ruhl Libre"', 'חנוך'), document.fonts.ready]),
+          Promise.all([document.fonts.load('100px "Dragon"', 'חנוך'), document.fonts.ready]),
           new Promise(function (r) { setTimeout(r, 2500); })
         ])
       : Promise.resolve();
