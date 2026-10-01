@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הדף לא נמצא | חנוך גוטובסקי</title>
+<meta name="robots" content="noindex">
+<link rel="preload" href="fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="css/hanoch.css">
+<style>
+  /* האות ח מזכוכית, שבורה לשניים */
+  .lost { min-height: 100svh; display: grid; place-items: center; text-align: center; padding: 40px var(--gutter); position: relative; overflow: hidden; }
+  .lost-het { position: relative; font-family: var(--f-display); font-size: clamp(14rem, 42vw, 34rem); line-height: .8; color: transparent; -webkit-text-stroke: 1.5px rgba(237, 232, 222, .55); user-select: none; }
+  .lost-het span { display: block; }
+  .lost-het span + span { position: absolute; inset: 0; }
+  .lost-het span:first-child { clip-path: polygon(0 0, 100% 0, 100% 38%, 58% 46%, 44% 62%, 0 70%); }
+  .lost-het span + span { clip-path: polygon(0 70%, 44% 62%, 58% 46%, 100% 38%, 100% 100%, 0 100%); transform: translate(-3%, 4%) rotate(-4deg); -webkit-text-stroke-color: var(--signal); }
+  .lost-het::after { content: ""; position: absolute; inset: 20% 10%; background: radial-gradient(closest-side, rgba(255, 79, 26, .25), transparent); filter: blur(20px); z-index: -1; }
+  .lost h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 4rem); margin: 2rem 0 .6rem; }
+  .lost p { color: var(--fg-dim); font-family: "IBM Plex Sans Hebrew", sans-serif; max-width: 36ch; margin: 0 auto 2rem; }
+  .lost .mono { color: var(--signal); display: block; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<main class="lost">
+  <div>
+    <div class="lost-het" aria-hidden="true"><span>ח</span><span>ח</span></div>
+    <span class="mono">שגיאה 404</span>
+    <h1>הדף הזה עוד לא נבנה.</h1>
+    <p>הכתובת שהגעתם אליה לא קיימת, או שעברה למקום אחר. כל השאר עדיין עומד במקום.</p>
+    <a class="btn btn-signal" href="./"><span>חזרה לדף הבית</span></a>
+  </div>
+</main>
+</body>
+</html>

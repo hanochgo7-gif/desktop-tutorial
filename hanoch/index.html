@@ -23,7 +23,9 @@
   (function () {
     var d = document.documentElement;
     d.classList.add('js');
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('motion');
+    var a11y = {};
+    try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
   })();
 </script>
 </head>
@@ -43,6 +45,7 @@
 
 <canvas class="gl" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i></i></div>
 <div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
 <header class="bar">
@@ -64,14 +67,19 @@
 
   <!-- 01 פתיחה: השם כחומר חי -->
   <section class="hero" aria-labelledby="hero-title">
-    <h1 class="hero-title" id="hero-title"><span>חנוך</span> <span>גוטובסקי</span></h1>
-    <p class="hero-role">בונה אתרים. עיצוב, קוד ותנועה, ביד אחת.</p>
-    <div class="hero-meta mono">
-      <span>ישראל · <time class="clock">--:--</time></span>
-      <span class="hero-hint">כל חפץ הוא לקוח. עברו עליו</span>
-      <span>זמין לפרויקטים · 2026</span>
+    <div class="hero-pin">
+      <h1 class="hero-title" id="hero-title"><span>חנוך</span> <span>גוטובסקי</span></h1>
+      <div class="hero-ui">
+        <p class="hero-role">בונה אתרים. עיצוב, קוד ותנועה, ביד אחת.</p>
+        <div class="hero-meta mono">
+          <span>ישראל · <time class="clock">--:--</time></span>
+          <span class="hero-hint">כל חפץ הוא לקוח. עברו עליו</span>
+          <span>זמין לפרויקטים · 2026</span>
+        </div>
+      </div>
+      <div class="scroll-cue mono" aria-hidden="true"><span>גללו</span><i></i></div>
+      <div class="hero-flash" aria-hidden="true"></div>
     </div>
-    <div class="scroll-cue mono" aria-hidden="true"><span>גללו</span><i></i></div>
   </section>
 
   <!-- 02 מניפסט -->
@@ -277,19 +285,69 @@
     </div>
   </section>
 
-  <!-- 06 קשר -->
-  <section class="contact" id="contact" aria-labelledby="contact-title">
-    <p class="label mono">(05) הפרויקט הבא</p>
-    <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
-    <p class="contact-lead">יש לכם עסק שמגיע לו אתר שאנשים זוכרים? ספרו לי עליו במשפט אחד.</p>
-    <!-- TODO: להחליף בפרטי הקשר האמיתיים של חנוך -->
-    <div class="contact-actions">
-      <a class="btn btn-signal magnetic" href="https://wa.me/972500000000" data-todo="whatsapp"><span>וואטסאפ</span></a>
-      <a class="btn btn-line magnetic" href="mailto:hello@example.com" data-todo="email"><span>מייל</span></a>
+  <!-- 06 איך עובדים איתי -->
+  <section class="sheet process" id="process" aria-labelledby="process-title">
+    <div class="process-head">
+      <p class="label mono">(05) איך עובדים איתי</p>
+      <h2 class="display" id="process-title">מהשיחה הראשונה<br>לאתר באוויר.</h2>
+      <p class="process-lead">שישה שלבים ברורים, ובכל שלב אתם יודעים מה קורה, מה מגיע אליכם ומתי.</p>
     </div>
+    <ol class="timeline">
+      <li><span class="tl-num mono">01</span><div><h3>שיחת היכרות</h3><span class="tl-time mono">כ-30 דקות</span><p>מדברים על העסק, על הלקוחות שלכם ועל המטרה. בסוף השיחה ברור אם ואיך נעבוד יחד.</p></div></li>
+      <li><span class="tl-num mono">02</span><div><h3>אפיון והצעה</h3><span class="tl-time mono">2–3 ימים</span><p>מבנה האתר, רשימת עמודים ולוח זמנים, בהצעה מסודרת אחת.</p></div></li>
+      <li><span class="tl-num mono">03</span><div><h3>עיצוב</h3><span class="tl-time mono">1–2 שבועות</span><p>כיוון עיצובי ראשון, ואחריו סבב תיקונים עד שזה מרגיש בדיוק אתם.</p></div></li>
+      <li><span class="tl-num mono">04</span><div><h3>בנייה ותנועה</h3><span class="tl-time mono">2–3 שבועות</span><p>קוד, אנימציות, התאמה לטלפון ובדיקות מהירות. אתם רואים את האתר מתקדם בקישור חי.</p></div></li>
+      <li><span class="tl-num mono">05</span><div><h3>עלייה לאוויר</h3><span class="tl-time mono">יום אחד</span><p>דומיין, חיבור לגוגל, הפניות מהאתר הישן אם יש, ובדיקה אחרונה מכל מכשיר.</p></div></li>
+      <li><span class="tl-num mono">06</span><div><h3>ליווי</h3><span class="tl-time mono">החודש הראשון</span><p>תיקונים קטנים ושאלות אחרי העלייה, כדי שתרגישו בטוחים עם האתר החדש.</p></div></li>
+    </ol>
+    <p class="process-note mono">הזמנים משוערים ותלויים בהיקף הפרויקט.</p>
+  </section>
+
+  <!-- 07 קשר -->
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <p class="label mono">(06) הפרויקט הבא</p>
+    <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
+    <p class="contact-lead">שלוש שאלות קצרות, ונפתחת לכם הודעת וואטסאפ מוכנה אליי. בלי טפסים ארוכים.</p>
+    <form class="brief" id="brief" novalidate>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">01 העסק</li><li>02 המטרה</li><li>03 תקציב</li></ol>
+      <fieldset class="brief-step on" data-step="0">
+        <legend>איזה עסק יש לכם?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="biz" value="חנות אונליין"><span>חנות אונליין</span></label><label class="chip"><input type="radio" name="biz" value="עסק שנותן שירות"><span>עסק שנותן שירות</span></label><label class="chip"><input type="radio" name="biz" value="עצמאי או פרילנסר"><span>עצמאי או פרילנסר</span></label><label class="chip"><input type="radio" name="biz" value="חברה או תעשייה"><span>חברה או תעשייה</span></label><label class="chip"><input type="radio" name="biz" value="משהו אחר"><span>משהו אחר</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="1" hidden>
+        <legend>מה האתר צריך לעשות? <small>אפשר לבחור כמה</small></legend>
+        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="להביא יותר פניות"><span>להביא יותר פניות</span></label><label class="chip"><input type="checkbox" name="goal" value="למכור אונליין"><span>למכור אונליין</span></label><label class="chip"><input type="checkbox" name="goal" value="להחליף אתר ישן"><span>להחליף אתר ישן</span></label><label class="chip"><input type="checkbox" name="goal" value="לבנות מותג חזק"><span>לבנות מותג חזק</span></label><label class="chip"><input type="checkbox" name="goal" value="עוד לא בטוח"><span>עוד לא בטוח</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="2" hidden>
+        <legend>מה טווח התקציב?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="budget" value="עד 5,000 ₪"><span>עד 5,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="5,000–12,000 ₪"><span>5,000–12,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="12,000–25,000 ₪"><span>12,000–25,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="מעל 25,000 ₪"><span>מעל 25,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="עוד לא יודע"><span>עוד לא יודע</span></label></div>
+        <div class="brief-fields">
+          <label for="brief-name">איך קוראים לכם? <small>לא חובה</small></label>
+          <input id="brief-name" name="name" type="text" autocomplete="name">
+          <label for="brief-about">משפט אחד על העסק <small>לא חובה</small></label>
+          <input id="brief-about" name="about" type="text">
+        </div>
+      </fieldset>
+      <p class="brief-error" role="alert"></p>
+      <div class="brief-nav">
+        <button class="brief-back" type="button" hidden>חזרה</button>
+        <button class="btn btn-signal brief-go" type="submit"><span>המשך</span></button>
+      </div>
+      <div class="brief-done" hidden>
+        <p class="brief-done-title">ההודעה מוכנה.</p>
+        <pre class="brief-preview" dir="rtl"></pre>
+        <div class="brief-actions">
+          <a class="btn btn-signal brief-wa" target="_blank" rel="noopener"><span>פתיחה בוואטסאפ</span></a>
+          <a class="btn btn-line brief-mail"><span>שליחה במייל</span></a>
+          <button class="brief-copy mono" type="button">העתקת ההודעה</button>
+        </div>
+        <button class="brief-restart mono" type="button">התחלה מחדש</button>
+      </div>
+    </form>
     <footer class="foot mono">
       <span>© 2026 חנוך גוטובסקי</span>
       <span>נבנה ביד, בלי תבנית</span>
+      <a href="accessibility.html">הצהרת נגישות</a>
       <button class="foot-xray" type="button">נסו את מצב הרנטגן ↑</button>
     </footer>
   </section>
@@ -299,10 +357,11 @@
 <div class="case" role="dialog" aria-modal="true" aria-labelledby="case-title" hidden data-lenis-prevent>
   <div class="case-bg"></div>
   <button class="case-close mono" type="button" aria-label="סגירה">סגירה ✕</button>
+  <div class="case-wipe" aria-hidden="true"></div>
   <div class="case-scroll">
     <div class="case-hero">
       <div class="browser case-browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono case-url"></span></div>
-        <div class="browser-view"><img class="case-poster" alt="" width="1200" height="750"></div>
+        <div class="browser-view"><img class="case-poster" alt="" width="1200" height="750"><video class="case-video" muted loop playsinline preload="none" aria-hidden="true"></video></div>
       </div>
     </div>
     <div class="case-body">
@@ -311,6 +370,7 @@
         <h2 class="case-title display" id="case-title"></h2>
         <p class="case-sub"></p>
         <p class="case-kind mono"></p>
+        <a class="case-live mono" target="_blank" rel="noopener" data-cursor="לאתר" hidden>לאתר החי <span aria-hidden="true">↗</span></a>
       </header>
       <div class="case-grid">
         <div class="case-main">
@@ -329,7 +389,7 @@
           <img class="case-phone" alt="" width="480" height="1039">
         </aside>
       </div>
-      <button class="case-next" type="button"><span class="label mono">הפרויקט הבא</span><span class="case-next-name display"></span></button>
+      <button class="case-next" type="button" data-cursor="הבא"><span class="label mono">הפרויקט הבא</span><span class="case-next-name display"></span></button>
     </div>
   </div>
 </div>
@@ -347,5 +407,6 @@
 <script src="js/hanoch.js" defer></script>
 <script type="module" src="js/stage.js"></script>
 <script src="js/gallery.js" defer></script>
+<script src="js/a11y.js" defer></script>
 </body>
 </html>

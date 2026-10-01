@@ -34,6 +34,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -113,10 +114,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .xray .xray-dot { background: currentColor; }
 
 /* ---------- פתיחה ---------- */
-.hero {
-  position: relative; z-index: 1; min-height: 100vh; min-height: 100svh; padding: 0 var(--gutter);
-  display: grid; grid-template-rows: 1fr auto auto; align-items: center;
+.hero { position: relative; z-index: 1; }
+.hero-pin {
+  position: relative; min-height: 100vh; min-height: 100svh; padding: 0 var(--gutter); overflow: hidden;
+  display: grid; grid-template-rows: 1fr auto; align-items: center;
 }
+/* הצלילה: הפתיחה נצמדת למסך והמצלמה עוברת דרך הזכוכית */
+.stage-on .hero { height: 240vh; height: 240svh; }
+.stage-on .hero-pin { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+.hero-ui { position: relative; z-index: 1; }
+.hero-flash { position: absolute; inset: 0; z-index: 2; background: var(--paper); opacity: 0; pointer-events: none; }
 .hero-title {
   font-family: var(--f-display); font-weight: 900; font-size: clamp(4.4rem, 17vw, 17rem); line-height: .84;
   letter-spacing: 0; display: flex; flex-direction: column; padding-top: 12vh; user-select: none;
@@ -327,12 +334,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ---------- קשר ---------- */
 .contact {
   position: relative; z-index: 1; min-height: 100vh; min-height: 100svh; padding: 110px var(--gutter) 28px;
-  display: grid; grid-template-rows: auto 1fr auto auto auto; justify-items: center; text-align: center;
+  display: grid; justify-items: center; align-content: start; gap: 0; text-align: center;
 }
+.contact-title { margin: 6vh 0 3vh; }
 .contact > .label { align-self: start; }
 .contact-title { align-self: center; font-size: clamp(4.2rem, 15vw, 15rem); letter-spacing: 0; user-select: none; }
 .gl-on .contact-title { color: transparent; }
-.contact-lead { font-family: var(--f-display); font-weight: 300; font-size: clamp(1.15rem, 1.8vw, 1.6rem); max-width: 30ch; margin-bottom: 2rem; }
+.contact-lead { font-family: var(--f-display); font-weight: 300; font-size: clamp(1.2rem, 1.9vw, 1.7rem); max-width: 34ch; margin-bottom: 2.4rem; }
 .contact-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 9vh; }
 .btn {
   display: inline-grid; place-items: center; min-width: 180px; padding: 1.15rem 2.2rem; border-radius: 99px; text-decoration: none;
@@ -548,3 +556,116 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .p-relic .relic-sprite { inset: -4%; }
 .case-relic .relic-sprite { inset: 2% 6% 8%; }
 .xray .relic-sprite { filter: grayscale(1) brightness(1.5) sepia(1) hue-rotate(185deg) saturate(6); }
+
+/* ---------- סרטונים חיים, אתר חי ומעבר "נשפך" ---------- */
+.p-video, .case-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top;
+  opacity: 0; transition: opacity .6s var(--ease); pointer-events: none;
+}
+.p-video.on, .case-video.on { opacity: 1; }
+.case-browser .browser-view { position: relative; }
+.case-wipe { position: fixed; inset: 0; z-index: 5; pointer-events: none; clip-path: circle(0% at 50% 50%); }
+.case-live, .p-live {
+  display: inline-flex; align-items: center; gap: .5rem; margin-top: 1rem; padding: .7rem 1.2rem; border-radius: 99px;
+  background: var(--p, var(--signal)); color: var(--ink); text-decoration: none; font-size: .8rem;
+}
+.case-live[hidden] { display: none; }
+.p-live { margin-top: .4rem; }
+
+/* ---------- פס התקדמות ---------- */
+.progress { position: fixed; top: 0; inset-inline: 0; height: 2px; z-index: 130; pointer-events: none; }
+.progress i { display: block; height: 100%; background: var(--signal); transform: scaleX(0); transform-origin: right; }
+
+/* ---------- איך עובדים איתי ---------- */
+.process { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 6vw, 110px); align-items: start; }
+.process-head { position: sticky; top: 120px; }
+.process h2 { font-size: clamp(2.8rem, 6.4vw, 6.4rem); margin: 1.4rem 0 1.2rem; }
+.process-lead { color: var(--ink-dim); max-width: 34ch; font-size: 1.1em; }
+.timeline { --fill: 0; list-style: none; position: relative; display: grid; gap: clamp(22px, 3vw, 40px); padding-inline-start: 34px; }
+.timeline::before, .timeline::after { content: ""; position: absolute; inset-inline-start: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--ink-faint); }
+.timeline::after { background: var(--signal); transform-origin: top; transform: scaleY(var(--fill)); }
+.timeline li { position: relative; display: grid; grid-template-columns: 3ch 1fr; gap: 1rem; }
+.timeline li::before { content: ""; position: absolute; inset-inline-start: -34px; top: .5rem; width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 2px solid var(--signal); }
+.tl-num { color: var(--signal); padding-top: .55rem; }
+.timeline h3 { font-family: var(--f-display); font-size: clamp(1.7rem, 2.4vw, 2.3rem); font-weight: 400; line-height: 1.1; display: inline; margin-inline-end: .8rem; }
+.tl-time { display: inline-block; vertical-align: middle; padding: .3rem .7rem; border-radius: 99px; background: var(--ink); color: var(--paper); font-size: .7rem; }
+.timeline p { margin-top: .5rem; font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; line-height: 1.7; color: rgba(10, 10, 11, .78); max-width: 46ch; }
+.process-note { grid-column: 2; color: var(--ink-dim); }
+
+/* ---------- בריף ---------- */
+.brief { width: min(760px, 100%); text-align: start; display: grid; gap: 1.4rem; margin-bottom: 10vh; }
+.brief-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.brief-steps li { padding-top: .7rem; border-top: 2px solid var(--fg-faint); color: var(--fg-dim); transition: border-color .4s, color .4s; }
+.brief-steps li.on { border-color: var(--signal); color: var(--fg); }
+.brief-step { border: 0; display: grid; gap: 1.1rem; }
+.brief-step legend { font-family: var(--f-display); font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1.1; margin-bottom: 1.1rem; }
+.brief-step legend small, .brief-fields small { font-family: var(--f-mono); font-size: .72rem; color: var(--fg-dim); margin-inline-start: .6rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+.chip { position: relative; cursor: pointer; }
+.chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.chip span {
+  display: inline-block; padding: .85rem 1.25rem; border-radius: 99px; border: 1px solid var(--fg-faint);
+  font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; transition: background .25s, color .25s, border-color .25s;
+}
+.chip:hover span { border-color: var(--fg); }
+.chip input:checked + span { background: var(--signal); border-color: var(--signal); color: var(--ink); }
+.chip input:focus-visible + span { outline: 2px solid var(--signal); outline-offset: 3px; }
+.brief-fields { display: grid; gap: .5rem; margin-top: .8rem; }
+.brief-fields label { font-size: 1rem; margin-top: .4rem; }
+.brief-fields input {
+  font: inherit; font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; color: var(--fg);
+  background: var(--ink-3); border: 1px solid var(--fg-faint); border-radius: 12px; padding: .9rem 1rem;
+}
+.brief-fields input:focus { outline: 2px solid var(--signal); outline-offset: 1px; }
+.brief-error { min-height: 1.4em; color: var(--signal); font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; }
+.brief-nav { display: flex; gap: 1rem; align-items: center; }
+.brief-back { font-family: var(--f-mono); font-size: .85rem; color: var(--fg-dim); text-decoration: underline; text-underline-offset: 4px; }
+.brief-done { display: grid; gap: 1.1rem; padding: clamp(20px, 3vw, 32px); border-radius: 22px; background: var(--ink-3); border: 1px solid var(--fg-faint); }
+.brief-done[hidden] { display: none; }
+.brief-done-title { font-family: var(--f-display); font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.brief-preview { white-space: pre-wrap; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; line-height: 1.7; color: var(--fg-dim); background: var(--ink-2); border-radius: 14px; padding: 1rem 1.2rem; }
+.brief-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.brief-actions .btn[hidden] { display: none; }
+.brief-copy, .brief-restart { font-size: .8rem; color: var(--fg); text-decoration: underline; text-underline-offset: 4px; justify-self: start; }
+.foot a { color: var(--fg); }
+
+/* ---------- תפריט נגישות ---------- */
+html.a11y-font-lg { font-size: 118%; }
+html.a11y-font-xl { font-size: 136%; }
+html.a11y-links a { text-decoration: underline !important; text-underline-offset: 3px; }
+html.a11y-readable body, html.a11y-readable button, html.a11y-readable input,
+html.a11y-readable .display, html.a11y-readable h1, html.a11y-readable h2, html.a11y-readable h3, html.a11y-readable p {
+  font-family: Arial, Helvetica, sans-serif !important; letter-spacing: .02em;
+}
+html.a11y-contrast { --fg-dim: #fff; --ink-dim: #000; --fg-faint: rgba(255, 255, 255, .5); --ink-faint: rgba(0, 0, 0, .5); }
+html.a11y-contrast .grain { display: none; }
+html.a11y-cursor, html.a11y-cursor * { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'><path d='M4 2l16 11h-7l4 8-3 1-4-8-6 6z' fill='%23000' stroke='%23fff' stroke-width='1.2'/></svg>") 4 2, auto !important; }
+html.a11y-cursor .cursor { display: none !important; }
+html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-offset: 2px !important; }
+.a11y { position: fixed; bottom: 18px; inset-inline-end: 18px; z-index: 125; }
+.a11y__btn { width: 48px; height: 48px; border-radius: 50%; background: var(--fg); color: var(--ink); display: grid; place-items: center; box-shadow: 0 10px 25px rgba(0, 0, 0, .4); }
+.a11y__btn svg { width: 26px; height: 26px; }
+.a11y__panel {
+  position: absolute; bottom: 60px; inset-inline-end: 0; width: min(320px, calc(100vw - 36px)); display: none;
+  background: var(--paper); color: var(--ink); border-radius: 18px; padding: 16px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7);
+  font-family: "IBM Plex Sans Hebrew", Arial, sans-serif;
+}
+.a11y__panel[data-open="true"] { display: block; }
+.a11y__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.a11y__head h2 { font-size: 1.05rem; font-family: inherit; }
+.a11y__close { width: 34px; height: 34px; border-radius: 50%; background: var(--paper-2); color: var(--ink); font-size: 1.2rem; }
+.a11y__list { list-style: none; display: grid; gap: 6px; }
+.a11y__list button { width: 100%; text-align: start; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--ink-faint); color: var(--ink); display: flex; justify-content: space-between; font-family: inherit; font-size: .95rem; }
+.a11y__list button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.a11y__list button[aria-pressed="true"]::after { content: "✓"; }
+.a11y__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: .9rem; }
+.a11y__foot a { color: var(--ink); }
+.a11y__reset { color: var(--ink); text-decoration: underline; font-family: inherit; }
+
+@media (max-width: 900px) {
+  .process { grid-template-columns: 1fr; }
+  .process-head { position: static; }
+  .process-note { grid-column: 1; }
+  .brief-steps { font-size: .65rem; }
+}
+@media (max-width: 700px) { .foot { padding-bottom: 64px; } }

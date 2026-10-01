@@ -86,7 +86,17 @@
       palette: ['#1e3a8a', '#fffdf9', '#f28c9b', '#fff0ad', '#1fae82'], fonts: ['Assistant', 'Amatic SC', 'Secular One']
     }
   };
+  // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
+  var LIVE = { gotovski: '', ams: '', allenbis: '', clinic: '', falafel: '', rachel: '' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
+  ORDER.forEach(function (id) {
+    if (!LIVE[id]) return;
+    var a = document.createElement('a');
+    a.className = 'p-live mono'; a.href = LIVE[id]; a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = 'לאתר החי <span aria-hidden="true">↗</span>';
+    var btn = $('.project[data-id="' + id + '"] .p-open');
+    btn.parentNode.insertBefore(a, btn.nextSibling);
+  });
 
   /* ---------- שעון ---------- */
   var clock = $('.clock');
@@ -320,6 +330,18 @@
       $('.p-open', li).addEventListener('click', function () { openCase(li.dataset.id, li); });
 
       if (!motion) return;
+      var v = document.createElement('video');
+      v.className = 'p-video'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+      v.setAttribute('aria-hidden', 'true');
+      v.innerHTML = '<source src="work/video/' + li.dataset.id + '.webm" type="video/webm"><source src="work/video/' + li.dataset.id + '.mp4" type="video/mp4">';
+      view.appendChild(v);
+      v.addEventListener('playing', function () { v.classList.add('on'); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) {
+          if (en[0].isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () { }); }
+          else v.pause();
+        }, { rootMargin: '100px 0px' }).observe(view);
+      }
       var browser = $('.browser', li), phone = $('.p-phone', li), info = $$('.p-info > *', li);
       gsap.set(browser, { clipPath: 'inset(100% 0% 0% 0% round 14px)' });
       gsap.set(img, { scale: 1.2, transformOrigin: '50% 0%' });
@@ -363,6 +385,17 @@
     var poster = $('.case-poster');
     poster.src = 'work/' + id + '-poster.webp';
     poster.alt = 'דף הבית של ' + d.name;
+    var vid = $('.case-video');
+    vid.pause();
+    vid.classList.remove('on');
+    if (motion) {
+      vid.innerHTML = '<source src="work/video/' + id + '.webm" type="video/webm"><source src="work/video/' + id + '.mp4" type="video/mp4">';
+      vid.load();
+      vid.oncanplay = function () { vid.classList.add('on'); var p = vid.play(); if (p && p.catch) p.catch(function () { }); };
+    }
+    var live = $('.case-live');
+    live.hidden = !LIVE[id];
+    if (LIVE[id]) live.href = LIVE[id];
     $('.case-num').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(ORDER.length).padStart(2, '0');
     $('#case-title').textContent = d.name;
     $('.case-sub').textContent = d.sub;
@@ -420,6 +453,7 @@
     document.body.style.overflow = 'hidden';
     $('.case-close').focus({ preventScroll: true });
     say('נפתח: ' + DATA[id].name);
+    setHash(id);
     if (!motion) return;
 
     var tgt = caseBrowser.getBoundingClientRect();
@@ -443,6 +477,8 @@
     clearInterval(framesTimer);
     function done() {
       caseEl.hidden = true;
+      $('.case-video').pause();
+      setHash('');
       if (window.gsap) gsap.set(caseEl, { clearProps: 'opacity,transform' });
       document.body.style.overflow = '';
       if (lenis) lenis.start();
@@ -455,17 +491,33 @@
   function nextCase() {
     var next = $('.case-next').dataset.next;
     opener = $('.project[data-id="' + next + '"]');
+    setHash(next);
     if (!motion) { fillCase(next); caseScroll.scrollTop = 0; return; }
-    var body = $$('.case-hero, .case-body');
-    gsap.to(body, {
-      autoAlpha: 0, y: -30, duration: 0.45, ease: 'power3.in', onComplete: function () {
+    var wipe = $('.case-wipe'), r = $('.case-next-name').getBoundingClientRect();
+    var at = Math.round(r.left + r.width / 2) + 'px ' + Math.round(r.top + r.height / 2) + 'px';
+    wipe.style.background = DATA[next].color;
+    gsap.timeline()
+      .fromTo(wipe, { clipPath: 'circle(0% at ' + at + ')' }, { clipPath: 'circle(150% at ' + at + ')', duration: 0.75, ease: 'expo.in' })
+      .call(function () {
         fillCase(next);
         caseScroll.scrollTop = 0;
-        gsap.fromTo(body, { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08 });
         say('נפתח: ' + DATA[next].name);
-      }
-    });
+        gsap.set($$('.case-hero, .case-body'), { autoAlpha: 1, y: 0 });
+      })
+      .to(wipe, { clipPath: 'circle(0% at 50% 0%)', duration: 0.9, ease: 'expo.out' })
+      .from($$('.case-head > *'), { y: 50, autoAlpha: 0, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, '-=0.6');
   }
+
+  function setHash(id) {
+    try { history.replaceState(null, '', id ? '#' + id : location.pathname + location.search); } catch (e) { }
+  }
+  function openFromHash() {
+    var id = (location.hash || '').slice(1);
+    if (!DATA[id] || (!caseEl.hidden && current === id)) return;
+    var li = $('.project[data-id="' + id + '"]');
+    if (li) openCase(id, li);
+  }
+  window.addEventListener('hashchange', openFromHash);
 
   $('.case-close').addEventListener('click', closeCase);
   $('.case-next').addEventListener('click', nextCase);
@@ -593,7 +645,9 @@
       cur.classList.toggle('is-view', !!view);
       cur.classList.toggle('is-drag', !view && !!drag);
       cur.classList.toggle('is-link', !view && !drag && !!link);
-      label.textContent = view ? 'פתיחה' : drag ? (drag.classList.contains('phone-screen') ? 'גררו' : 'סובבו') : '';
+      var tagged = !view && !drag && t.closest && t.closest('[data-cursor]');
+      if (tagged) { cur.classList.remove('is-link'); cur.classList.add('is-view'); }
+      label.textContent = view ? 'פתיחה' : drag ? (drag.classList.contains('phone-screen') ? 'גררו' : 'סובבו') : tagged ? tagged.dataset.cursor : '';
     }, { passive: true });
 
     $$('.magnetic').forEach(function (el) {
@@ -660,6 +714,104 @@
     window.addEventListener('pointermove', queue, { passive: true });
     window.addEventListener('pointerdown', queue, { passive: true });
     window.addEventListener('scroll', function () { if (root.classList.contains('xray') && px > -999 && !raf) raf = requestAnimationFrame(inspect); }, { passive: true });
+  }
+
+  /* ---------- בריף: שלוש שאלות והודעת וואטסאפ מוכנה ---------- */
+  // TODO: למלא את המספר (בפורמט 9725XXXXXXXX) והמייל של חנוך. בלי מספר, וואטסאפ נפתח ומבקש לבחור למי לשלוח
+  var CONTACT = { whatsapp: '', email: '' };
+  function initBrief() {
+    var form = $('#brief');
+    if (!form) return;
+    var steps = $$('.brief-step', form), dots = $$('.brief-steps li', form);
+    var back = $('.brief-back', form), go = $('.brief-go', form), err = $('.brief-error', form);
+    var done = $('.brief-done', form), nav = $('.brief-nav', form), stepsBar = $('.brief-steps', form);
+    var at = 0;
+    var need = ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו טווח תקציב.'];
+    function values(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.value; }); }
+    function show(n) {
+      steps.forEach(function (s, i) { s.hidden = i !== n; s.classList.toggle('on', i === n); });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i <= n); });
+      back.hidden = n === 0;
+      $('span', go).textContent = n === steps.length - 1 ? 'הכנת ההודעה' : 'המשך';
+      err.textContent = '';
+      at = n;
+      var first = $('input', steps[n]);
+      if (first && motion && window.gsap) gsap.fromTo($$('.chip', steps[n]), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.04, ease: 'expo.out' });
+    }
+    function message() {
+      var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
+      var lines = ['היי חנוך, הגעתי מהאתר שלך.', '', 'העסק: ' + values('biz').join(', '), 'מה האתר צריך לעשות: ' + values('goal').join(', '), 'תקציב: ' + values('budget').join(', ')];
+      if (about) lines.push('על העסק: ' + about);
+      if (name) lines.push('', name);
+      return lines.join('\n');
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var key = ['biz', 'goal', 'budget'][at];
+      if (!values(key).length) { err.textContent = need[at]; return; }
+      if (at < steps.length - 1) { show(at + 1); return; }
+      var text = message();
+      $('.brief-preview', form).textContent = text;
+      $('.brief-wa', form).href = 'https://wa.me/' + CONTACT.whatsapp + '?text=' + encodeURIComponent(text);
+      var mail = $('.brief-mail', form);
+      mail.hidden = !CONTACT.email;
+      if (CONTACT.email) mail.href = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('פרויקט חדש מהאתר') + '&body=' + encodeURIComponent(text);
+      steps.forEach(function (s) { s.hidden = true; });
+      nav.hidden = true; stepsBar.hidden = true; err.textContent = '';
+      done.hidden = false;
+      say('ההודעה מוכנה');
+      if (motion && window.gsap) gsap.from(done, { y: 30, autoAlpha: 0, duration: 0.7, ease: 'expo.out' });
+    });
+    back.addEventListener('click', function () { if (at > 0) show(at - 1); });
+    // בחירה ברדיו מתקדמת לבד לשלב הבא
+    form.addEventListener('change', function (e) {
+      if (e.target.type === 'radio' && at < steps.length - 1) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 260);
+    });
+    $('.brief-copy', form).addEventListener('click', function () {
+      var t = $('.brief-preview', form).textContent, b = this;
+      var ok = function () { b.textContent = 'הועתק'; setTimeout(function () { b.textContent = 'העתקת ההודעה'; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(ok, function () { selectPreview(); });
+      else selectPreview();
+    });
+    function selectPreview() {
+      var r = document.createRange(); r.selectNodeContents($('.brief-preview', form));
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    }
+    $('.brief-restart', form).addEventListener('click', function () {
+      form.reset(); done.hidden = true; nav.hidden = false; stepsBar.hidden = false; show(0);
+    });
+    show(0);
+  }
+
+  /* ---------- תהליך: הקו מתמלא והשלבים נכנסים ---------- */
+  function initProcess() {
+    var tl = $('.timeline');
+    if (!tl || !motion) return;
+    var items = $$('.timeline li', tl);
+    gsap.set(items, { autoAlpha: 0.15, y: 30 });
+    ScrollTrigger.create({
+      trigger: tl, start: 'top 75%', end: 'bottom 60%', scrub: true,
+      onUpdate: function (s) {
+        tl.style.setProperty('--fill', s.progress.toFixed(3));
+        var n = Math.ceil(s.progress * items.length + 0.2);
+        items.forEach(function (it, i) {
+          var on = i < n;
+          if (on !== it._on) { it._on = on; gsap.to(it, { autoAlpha: on ? 1 : 0.15, y: on ? 0 : 30, duration: 0.6, ease: 'expo.out' }); }
+        });
+      }
+    });
+  }
+
+  /* ---------- פס התקדמות בגלילה ---------- */
+  function initProgress() {
+    var bar = $('.progress i');
+    if (!bar) return;
+    var tick = function () {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0).toFixed(4) + ')';
+    };
+    window.addEventListener('scroll', tick, { passive: true });
+    tick();
   }
 
   /* ---------- צלילים: מסונתזים בדפדפן, כבויים עד שמבקשים ---------- */
@@ -734,6 +886,9 @@
 
   /* ---------- הפעלה ---------- */
   initManifesto();
+  initBrief();
+  initProcess();
+  initProgress();
   initProjects();
   initCompare();
   initCraft();
@@ -744,10 +899,13 @@
     gsap.ticker.add(frame);
     var introDone = runIntro();
     startParticles();
-    introDone.then(function () { ScrollTrigger.refresh(); });
+    introDone.then(function () { ScrollTrigger.refresh(); openFromHash(); });
+    // הבמה מאריכה את הפתיחה: מחשבים מחדש את כל נקודות הגלילה
+    window.addEventListener('hg:stage', function () { ScrollTrigger.refresh(); });
     // הצמדה משנה גבהים: מחשבים מחדש אחרי שהגופנים נטענו
     if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); }, function () { });
   } else {
     runIntro();
+    openFromHash();
   }
 })();
