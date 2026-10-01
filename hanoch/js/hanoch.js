@@ -333,7 +333,7 @@
       var v = document.createElement('video');
       v.className = 'p-video'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
       v.setAttribute('aria-hidden', 'true');
-      v.innerHTML = '<source src="work/video/' + li.dataset.id + '.webm" type="video/webm"><source src="work/video/' + li.dataset.id + '.mp4" type="video/mp4">';
+      v.innerHTML = '<source src="work/video/' + li.dataset.id + '.mp4" type="video/mp4">';
       view.appendChild(v);
       v.addEventListener('playing', function () { v.classList.add('on'); });
       if ('IntersectionObserver' in window) {
@@ -389,14 +389,13 @@
     vid.pause();
     vid.classList.remove('on');
     if (motion) {
-      vid.innerHTML = '<source src="work/video/' + id + '.webm" type="video/webm"><source src="work/video/' + id + '.mp4" type="video/mp4">';
+      vid.innerHTML = '<source src="work/video/' + id + '.mp4" type="video/mp4">';
       vid.load();
       vid.oncanplay = function () { vid.classList.add('on'); var p = vid.play(); if (p && p.catch) p.catch(function () { }); };
     }
     var live = $('.case-live');
     live.hidden = !LIVE[id];
     if (LIVE[id]) live.href = LIVE[id];
-    $('.case-num').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(ORDER.length).padStart(2, '0');
     $('#case-title').textContent = d.name;
     var logo = $('.project[data-id="' + id + '"] .logo-tile img'), cl = $('.case-logo');
     if (logo) { cl.src = logo.getAttribute('src'); cl.alt = logo.alt; }
@@ -617,7 +616,7 @@
       if (spec.dataset.stage === String(n)) return;
       spec.dataset.stage = n;
       steps.forEach(function (s, i) { s.classList.toggle('is-on', i === n); });
-      capN.textContent = '0' + (n + 1);
+      if (capN) capN.textContent = '0' + (n + 1);
       capT.textContent = names[n];
     }
     if (!motion) {

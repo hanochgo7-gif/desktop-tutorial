@@ -131,7 +131,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .hero-title span:last-child { align-self: flex-end; }
 .gl-on .hero-title { color: transparent; }
-.hero-role { font-family: var(--f-display); font-size: clamp(1.15rem, 2vw, 1.7rem); font-weight: 300; max-width: 22ch; margin-bottom: 4vh; }
+.hero-role { font-family: var(--f-display); font-size: clamp(1.15rem, 2vw, 1.7rem); font-weight: 300; white-space: nowrap; margin-bottom: 4vh; }
 .hero-meta { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 28px; color: var(--fg-dim); flex-wrap: wrap; }
 .hero-hint { color: var(--fg); }
 .scroll-cue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); display: grid; justify-items: center; gap: 8px; color: var(--fg-dim); }
@@ -717,3 +717,14 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .demo-full { color: var(--fg); text-underline-offset: 4px; }
 .p-demo { color: var(--p); font-size: .78rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .1rem; }
 @media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo-view { aspect-ratio: 4 / 5; } }
+
+/* כותרת התהליך: מילה אחת גדולה ושורת הסבר מתחתיה */
+.process-title { display: grid; gap: .7rem; margin: 0 0 1.4rem; font-weight: 400; }
+.pt-big { font-size: clamp(3.6rem, 8vw, 8rem); line-height: .9; }
+.pt-sub { font-family: var(--f-display); font-size: clamp(1.5rem, 2.6vw, 2.4rem); line-height: 1.15; color: var(--ink); }
+.process h2.process-title { font-size: inherit; }
+@media (max-width: 560px) { .hero-role { font-size: 4.6vw; } }
+
+/* בלי מספרים: השלבים, ציר הזמן והעקרונות בעמודה אחת */
+.step { grid-template-columns: 1fr; }
+.timeline li { grid-template-columns: 1fr; }

@@ -292,7 +292,7 @@ function start() {
       const li = document.querySelector('.project[data-id="' + p.userData.id + '"]');
       const num = String(p.userData.i + 1).padStart(2, '0');
       const name = li ? li.querySelector('.p-name').textContent : '';
-      label.innerHTML = '<b>' + num + '</b> ' + name + '<span>' + (fine ? 'לחצו לסיפור המלא' : 'הקישו לסיפור המלא') + '</span>';
+      label.innerHTML = name + '<span>' + (fine ? 'לחצו לסיפור המלא' : 'הקישו לסיפור המלא') + '</span>';
       if (window.HG && window.HG.sfx) window.HG.sfx.ting(p.userData.i);
     }
   }
