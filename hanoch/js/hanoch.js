@@ -398,6 +398,8 @@
     if (LIVE[id]) live.href = LIVE[id];
     $('.case-num').textContent = String(i + 1).padStart(2, '0') + ' / ' + String(ORDER.length).padStart(2, '0');
     $('#case-title').textContent = d.name;
+    var logo = $('.project[data-id="' + id + '"] .logo-tile img'), cl = $('.case-logo');
+    if (logo) { cl.src = logo.getAttribute('src'); cl.alt = logo.alt; }
     $('.case-sub').textContent = d.sub;
     $('.case-kind').textContent = d.kind;
     $('.case-story').textContent = d.story;
