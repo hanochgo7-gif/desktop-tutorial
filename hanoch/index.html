@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/hanoch.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
 <script>
   // מצב תנועה נקבע לפני הציור הראשון, כדי שלא יהיה הבהוב
   (function () {
@@ -50,6 +51,9 @@
     <a href="#craft">תהליך</a>
     <a href="#contact">קשר</a>
   </nav>
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="צלילים">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span>קול</span>
+  </button>
   <button class="xray-toggle" type="button" aria-pressed="false" title="מקש X">
     <span class="xray-dot" aria-hidden="true"></span><span>רנטגן</span>
   </button>
@@ -63,7 +67,7 @@
     <p class="hero-role">בונה אתרים. עיצוב, קוד ותנועה, ביד אחת.</p>
     <div class="hero-meta mono">
       <span>ישראל · <time class="clock">--:--</time></span>
-      <span class="hero-hint">הזיזו את העכבר על השם</span>
+      <span class="hero-hint">כל חפץ הוא לקוח. עברו עליו</span>
       <span>זמין לפרויקטים · 2026</span>
     </div>
     <div class="scroll-cue mono" aria-hidden="true"><span>גללו</span><i></i></div>
@@ -314,5 +318,6 @@
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
 <script src="js/particles.js" defer></script>
 <script src="js/hanoch.js" defer></script>
+<script type="module" src="js/stage.js"></script>
 </body>
 </html>

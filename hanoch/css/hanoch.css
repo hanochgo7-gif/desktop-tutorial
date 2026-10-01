@@ -445,3 +445,35 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .case-frames { margin-top: 2.6rem; display: grid; gap: .8rem; }
 .case-frames img { width: min(440px, 100%); aspect-ratio: 1; object-fit: cover; border-radius: 16px; background: #16110c; box-shadow: 0 0 0 1px var(--fg-faint); }
 .case-frames figcaption { color: var(--fg-dim); }
+
+/* ---------- הבמה התלת־ממדית ---------- */
+.hero { isolation: isolate; }
+.stage { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s var(--ease); }
+.stage-on .stage { opacity: 1; }
+.hero-title, .hero-role, .hero-meta { position: relative; z-index: 1; }
+.scroll-cue { z-index: 1; }
+.stage-on .hero-title { color: transparent; }
+.relic-hover { cursor: pointer; }
+.relic-label {
+  position: absolute; z-index: 3; top: 0; left: 0; pointer-events: none; display: grid; gap: .15rem;
+  padding: .7rem .95rem; border-radius: 12px; background: var(--paper); color: var(--ink);
+  font-size: .8rem; opacity: 0; scale: .9; transition: opacity .25s, scale .35s var(--ease);
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .7); white-space: nowrap;
+}
+.relic-label b { color: var(--signal); font-weight: 500; margin-inline-end: .4rem; }
+.relic-label span { color: var(--ink-dim); font-size: .68rem; }
+.relic-hover .relic-label { opacity: 1; scale: 1; }
+.xray .relic-label { background: var(--blue); color: #fff; }
+.xray .relic-label span, .xray .relic-label b { color: #fff; }
+
+.sound-toggle {
+  display: inline-flex; align-items: center; gap: .55rem; font-family: var(--f-mono); font-size: .78rem;
+  border: 1px solid currentColor; border-radius: 99px; padding: .45rem .9rem;
+}
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+.eq i { width: 2px; height: 3px; background: currentColor; transition: height .3s; }
+.sound-on .eq i { animation: eq 1s ease-in-out infinite; }
+.sound-on .eq i:nth-child(2) { animation-delay: -.3s; }
+.sound-on .eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes eq { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+@media (max-width: 900px) { .sound-toggle { margin-inline-start: auto; } .xray-toggle { margin-inline-start: 0; } }

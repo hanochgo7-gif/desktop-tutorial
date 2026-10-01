@@ -204,7 +204,7 @@
 
     var inContact = contactProg > 0;
     var scatter = inContact ? Math.pow(1 - contactProg, 1.4) : Math.max(st.intro, heroProg * 1.15);
-    var visible = heroProg < 1 || inContact;
+    var visible = root.classList.contains('stage-on') ? inContact : (heroProg < 1 || inContact);
     var k = st.xray ? 1 : 0;
     for (var i = 0; i < 3; i++) {
       colNow[i] += ((k ? blueCol : paperCol)[i] - colNow[i]) * 0.08;
@@ -272,6 +272,8 @@
       });
       // אחרי שהמסך נחשף, הגלילה פתוחה גם אם החלקיקים עוד מתיישבים
       tl.call(function () { if (lenis) lenis.start(); }, null, quick ? 1.2 : 2.5);
+      // הבמה התלת־ממדית נכנסת יחד עם החשיפה
+      tl.call(function () { HG.introDone = true; window.dispatchEvent(new Event('hg:intro')); }, null, quick ? 0.7 : 1.85);
     });
   }
 
@@ -582,7 +584,7 @@
     window.addEventListener('pointermove', function (e) {
       xTo(e.clientX); yTo(e.clientY);
       var t = e.target;
-      var view = t.closest && t.closest('.p-media');
+      var view = (t.closest && t.closest('.p-media')) || ($('.hero').classList.contains('relic-hover') && t.closest && t.closest('.hero'));
       var drag = t.closest && t.closest('.phone-screen');
       var link = t.closest && t.closest('a, button, input');
       cur.classList.toggle('is-view', !!view);
@@ -656,6 +658,76 @@
     window.addEventListener('pointerdown', queue, { passive: true });
     window.addEventListener('scroll', function () { if (root.classList.contains('xray') && px > -999 && !raf) raf = requestAnimationFrame(inspect); }, { passive: true });
   }
+
+  /* ---------- צלילים: מסונתזים בדפדפן, כבויים עד שמבקשים ---------- */
+  var sfx = (function () {
+    var ctx = null, master = null, on = false, drone = null;
+    var notes = [523.25, 587.33, 659.25, 783.99, 880, 1046.5]; // סולם פנטטוני
+    function ensure() {
+      if (ctx) return true;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+      return true;
+    }
+    function startDrone() {
+      if (drone) return;
+      var g = ctx.createGain(); g.gain.value = 0.05;
+      var f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 320;
+      [55, 82.41, 110.3].forEach(function (hz, i) {
+        var o = ctx.createOscillator(); o.type = i ? 'sine' : 'triangle'; o.frequency.value = hz; o.detune.value = i * 4;
+        o.connect(f); o.start();
+      });
+      f.connect(g); g.connect(master); drone = g;
+    }
+    function env(node, peak, decay) {
+      var t = ctx.currentTime;
+      node.gain.setValueAtTime(0.0001, t);
+      node.gain.exponentialRampToValueAtTime(peak, t + 0.008);
+      node.gain.exponentialRampToValueAtTime(0.0001, t + decay);
+    }
+    return {
+      toggle: function () {
+        if (!ensure()) return false;
+        on = !on;
+        if (ctx.state === 'suspended') ctx.resume();
+        if (on) startDrone();
+        master.gain.setTargetAtTime(on ? 0.9 : 0, ctx.currentTime, 0.25);
+        return on;
+      },
+      ting: function (i) {
+        if (!on) return;
+        var hz = notes[i % notes.length];
+        [1, 2.76, 5.4].forEach(function (m, k) { // צליל זכוכית: יסוד ועליונים לא הרמוניים
+          var o = ctx.createOscillator(), g = ctx.createGain();
+          o.frequency.value = hz * m; o.connect(g); g.connect(master);
+          env(g, [0.14, 0.05, 0.02][k], [1.6, 0.9, 0.5][k]);
+          o.start(); o.stop(ctx.currentTime + 1.7);
+        });
+      },
+      whoosh: function () {
+        if (!on) return;
+        var len = ctx.sampleRate * 0.9, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        var src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+        src.buffer = buf; f.type = 'bandpass'; f.Q.value = 1.4;
+        f.frequency.setValueAtTime(300, ctx.currentTime);
+        f.frequency.exponentialRampToValueAtTime(3200, ctx.currentTime + 0.7);
+        src.connect(f); f.connect(g); g.connect(master);
+        env(g, 0.22, 0.85); src.start();
+      }
+    };
+  })();
+  var soundBtn = $('.sound-toggle');
+  if (soundBtn) soundBtn.addEventListener('click', function () {
+    var on = sfx.toggle();
+    soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    root.classList.toggle('sound-on', on);
+    say(on ? 'צלילים פעילים' : 'צלילים כבויים');
+  });
+
+  var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx };
 
   /* ---------- הפעלה ---------- */
   initManifesto();
