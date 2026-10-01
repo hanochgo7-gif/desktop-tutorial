@@ -670,3 +670,6 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
   .brief-steps { font-size: .65rem; }
 }
 @media (max-width: 700px) { .foot { padding-bottom: 64px; } }
+
+.contact-direct { color: var(--fg-dim); margin: -1.2rem 0 2.2rem; font-size: .85rem; }
+.contact-direct a { color: var(--fg); text-underline-offset: 4px; }
