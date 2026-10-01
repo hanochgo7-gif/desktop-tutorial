@@ -149,10 +149,23 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .manifesto-text .w { opacity: .14; transition: opacity .2s linear; }
 .manifesto-text .w.on { opacity: 1; }
 .manifesto-text .w.hl { color: var(--signal); font-style: italic; }
-.principles { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 64px); border-top: 1px solid var(--ink-faint); padding-top: 2.2rem; }
-.principles h2 { font-family: var(--f-display); font-size: clamp(1.6rem, 2.4vw, 2.3rem); font-weight: 700; line-height: 1.05; margin: .7rem 0 .8rem; }
-.principles p { color: var(--ink-dim); max-width: 34ch; }
-.principles .mono { color: var(--signal); }
+.principles-wrap { border-top: 1px solid var(--ink-faint); padding-top: 1.6rem; }
+.principles-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.2rem; font-size: clamp(1.25rem, 1.8vw, 1.6rem); margin-bottom: 2.4rem; }
+.principles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+.principles li {
+  display: flex; flex-direction: column; gap: .9rem; padding: clamp(22px, 2.4vw, 34px);
+  background: var(--paper-2); border-radius: 18px; border: 1px solid var(--ink-faint);
+}
+.pr-num { color: var(--signal); font-size: .8rem; }
+.principles h2 { font-family: var(--f-display); font-size: clamp(1.9rem, 2.6vw, 2.5rem); font-weight: 400; line-height: 1.05; text-wrap: balance; }
+.principles p {
+  font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; line-height: 1.7;
+  color: rgba(10, 10, 11, .78); max-width: 38ch;
+}
+.pr-proof {
+  margin-top: auto; align-self: flex-start; padding: .45rem .8rem; border-radius: 99px;
+  background: var(--ink); color: var(--paper); font-size: .72rem;
+}
 
 /* ---------- עבודות ---------- */
 .work { padding-bottom: clamp(60px, 8vw, 120px); }
