@@ -1,251 +1,114 @@
-/* חפצי הלקוחות בתוך הפרויקטים: כל פרויקט מקבל את החפץ שלו בתלת־ממד, שאפשר לסובב בגרירה.
-   קנבס אחד קבוע מעל העמוד מצייר כל חפץ בתוך המשבצת שלו (scissor), כך שיש הקשר WebGL יחיד
-   וכל מודל נטען פעם אחת. בלי WebGL 2 או ב"הפחתת תנועה" המשבצות לא מוצגות. */
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+/* החפץ של כל פרויקט: סיבוב של 360° שצויר מראש (48 פריימים ברצועת תמונה אחת).
+   בשורת הפרויקט החפץ בחומרים אמיתיים, ובסיפור הפרויקט כהולוגרמה. בלי WebGL בכלל,
+   כך שזה עובד בכל מכשיר ובכל דפדפן, ולא מתחרה בבמה התלת־ממדית על כרטיס המסך. */
+(function () {
+  'use strict';
 
-const root = document.documentElement;
-const EXT = window.HG_MODEL_EXT || '.glb';
-const FILES = {
-  gotovski: { file: 'nozzle', holo: '#4fbbea' },
-  ams: { file: 'glove', holo: '#ffc35a' },
-  allenbis: { file: 'bag', holo: '#ffd84d' },
-  clinic: { file: 'bottle', glass: '#f3c9c3', holo: '#ffb3c1' },
-  falafel: { file: 'pita', holo: '#f2b705' },
-  rachel: { file: 'pi', holo: '#5aa8ff' }
-};
-
-/* הולוגרמה: קצוות זוהרים (פרנל), קווי סריקה שעולים, ריצוד, ותוספת אור במקום צבע אטום */
-const HOLO_VS = `
-  varying vec3 vN; varying vec3 vV; varying vec3 vW;
-  void main() {
-    vec4 w = modelMatrix * vec4(position, 1.0);
-    vW = w.xyz;
-    vN = normalize(mat3(modelMatrix) * normal);
-    vV = normalize(cameraPosition - w.xyz);
-    gl_Position = projectionMatrix * viewMatrix * w;
-  }`;
-const HOLO_FS = `
-  uniform vec3 uColor; uniform float uTime;
-  varying vec3 vN; varying vec3 vV; varying vec3 vW;
-  float hash(float n) { return fract(sin(n) * 43758.5453); }
-  void main() {
-    vec3 n = normalize(vN);
-    if (!gl_FrontFacing) n = -n;
-    float fr = pow(1.0 - abs(dot(n, normalize(vV))), 2.2);
-    float scan = smoothstep(0.35, 0.5, abs(fract(vW.y * 38.0 - uTime * 1.6) - 0.5));
-    float band = smoothstep(0.0, 0.08, abs(fract(vW.y * 1.2 - uTime * 0.35) - 0.5) - 0.42);
-    float flick = 0.86 + 0.14 * hash(floor(uTime * 18.0));
-    float a = (0.1 + fr * 0.95) * (0.55 + 0.45 * scan) * flick + band * 0.5;
-    vec3 col = mix(uColor, vec3(1.0), fr * 0.45 + band * 0.4);
-    gl_FragColor = vec4(col * a, a);
-  }`;
-
-function supported() {
-  if (!root.classList.contains('motion')) return false;
-  try { return !!document.createElement('canvas').getContext('webgl2'); } catch (e) { return false; }
-}
-if (supported()) start();
-
-function start() {
-  const canvas = document.createElement('canvas');
-  canvas.className = 'gallery';
-  canvas.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(canvas);
-
-  let renderer;
-  try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  } catch (e) { canvas.remove(); return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
-  renderer.setScissorTest(true);
-  renderer.autoClear = false;
-  renderer.setClearColor(0x000000, 0);
+  var root = document.documentElement;
+  var N = 48;
+  var motion = root.classList.contains('motion');
+  var caseEl = document.querySelector('.case');
+  var slots = [];
+  var running = false, last = 0;
   root.classList.add('gallery-on');
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
-  camera.position.set(0, 0.15, 3.4);
-  camera.lookAt(0, 0, 0);
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  new THREE.TextureLoader().load('3d/studio.jpg', (tex) => {
-    tex.mapping = THREE.EquirectangularReflectionMapping;
-    tex.colorSpace = THREE.SRGBColorSpace;
-    scene.environment = pmrem.fromEquirectangular(tex).texture;
-    tex.dispose();
-  });
-  scene.environmentIntensity = 1.2;
-  const key = new THREE.DirectionalLight(0xffffff, 1.6);
-  key.position.set(-2, 3, 4);
-  scene.add(key);
-  const rim = new THREE.PointLight(0xff4f1a, 6, 8, 1.6);
-  rim.position.set(1.8, -0.6, -1.6);
-  scene.add(rim);
-
-  /* ---------- מודלים ---------- */
-  const loader = new GLTFLoader();
-  loader.setMeshoptDecoder(MeshoptDecoder);
-  const models = {};
-  const wire = new THREE.MeshBasicMaterial({ color: 0x3d7bff, wireframe: true, transparent: true, opacity: 0.6 });
-  function load(id) {
-    if (models[id]) return models[id];
-    const holder = new THREE.Group();
-    holder.visible = false;
-    holder.userData.ready = false;
-    scene.add(holder);
-    models[id] = holder;
-    const f = FILES[id];
-    loader.load('3d/' + f.file + EXT, (gltf) => {
-      const obj = gltf.scene;
-      const box = new THREE.Box3().setFromObject(obj);
-      const size = box.getSize(new THREE.Vector3());
-      obj.position.sub(box.getCenter(new THREE.Vector3()));
-      const inner = new THREE.Group();
-      inner.add(obj);
-      inner.scale.setScalar(1.4 / Math.max(size.x, size.y, size.z));
-      obj.traverse((m) => {
-        if (!m.isMesh) return;
-        if (f.glass) {
-          // בלי transmission: במשבצות קטנות זכוכית שקופה למחצה נראית טוב ועולה פחות
-          m.material = new THREE.MeshPhysicalMaterial({
-            color: new THREE.Color(f.glass), roughness: 0.08, metalness: 0, transparent: true, opacity: 0.82,
-            clearcoat: 1, iridescence: 0.4, sheen: 0.4, sheenColor: new THREE.Color('#ffffff')
-          });
-        } else if (m.material) {
-          m.material.envMapIntensity = 1.25;
-        }
-        m.userData.mat = m.material;
-      });
-      holder.userData.holo = new THREE.ShaderMaterial({
-        vertexShader: HOLO_VS, fragmentShader: HOLO_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide,
-        blending: THREE.AdditiveBlending, uniforms: { uColor: { value: new THREE.Color(f.holo) }, uTime: { value: 0 } }
-      });
-      holder.add(inner);
-      holder.userData.ready = true;
-      xray();
-    });
-    return holder;
+  function setSrc(s) {
+    var id = s.getId();
+    if (!id || id === s.id) return;
+    s.id = id;
+    s.frame = -1;
+    s.sp.style.backgroundImage = 'url("work/relics/' + id + '-' + s.kind + '.webp")';
   }
 
-  function xray() {
-    const on = root.classList.contains('xray');
-    Object.values(models).forEach((h) => h.traverse((m) => { if (m.isMesh && m.userData.mat) m.material = on ? wire : m.userData.mat; }));
+  function show(s) {
+    var i = ((Math.floor(s.f) % N) + N) % N;
+    if (i === s.frame) return;
+    s.frame = i;
+    s.sp.style.backgroundPosition = (i / (N - 1) * 100) + '% 0';
   }
-  new MutationObserver(xray).observe(root, { attributes: true, attributeFilter: ['class'] });
 
-  /* ---------- משבצות ---------- */
-  const caseEl = document.querySelector('.case');
-  const slots = [];
-  function addSlot(el, getId, always) {
-    const s = { el, getId, ry: Math.random() * Math.PI * 2, vy: 0.55, rx: -0.12, drag: null, hover: 0, near: false, pop: 0 };
+  function make(el, kind, getId) {
+    var sp = document.createElement('i');
+    sp.className = 'relic-sprite relic-' + kind;
+    el.appendChild(sp);
+    var s = { el: el, sp: sp, kind: kind, getId: getId, f: Math.random() * N, v: 0, drag: null, hover: false, visible: false, id: null, frame: -1 };
     slots.push(s);
-    el.addEventListener('pointerdown', (e) => {
-      s.drag = { x: e.clientX, y: e.clientY, t: performance.now(), moved: false };
-      el.setPointerCapture(e.pointerId);
+
+    el.addEventListener('pointerdown', function (e) {
+      s.drag = { x: e.clientX, t: performance.now() };
+      s.v = 0;
+      try { el.setPointerCapture(e.pointerId); } catch (err) { }
       el.classList.add('is-dragging');
+      kick();
     });
-    el.addEventListener('pointermove', (e) => {
+    el.addEventListener('pointermove', function (e) {
       if (!s.drag) return;
-      const dx = e.clientX - s.drag.x, dy = e.clientY - s.drag.y;
-      if (Math.abs(dx) + Math.abs(dy) > 3) s.drag.moved = true;
-      const now = performance.now(), dt = Math.max(1, now - s.drag.t);
-      s.ry += dx * 0.012;
-      s.rx = THREE.MathUtils.clamp(s.rx + dy * 0.008, -0.9, 0.9);
-      s.vy = (dx * 0.012) / (dt / 1000);
-      s.drag.x = e.clientX; s.drag.y = e.clientY; s.drag.t = now;
+      var now = performance.now(), dt = Math.max(8, now - s.drag.t) / 1000;
+      var df = (e.clientX - s.drag.x) / Math.max(80, el.clientWidth) * N * 0.9;
+      s.f += df;
+      s.v = df / dt;
+      s.drag.x = e.clientX; s.drag.t = now;
+      show(s);
     });
-    const end = () => { s.drag = null; el.classList.remove('is-dragging'); };
+    function end() { s.drag = null; el.classList.remove('is-dragging'); }
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
-    el.addEventListener('pointerenter', () => { s.hoverTarget = 1; });
-    el.addEventListener('pointerleave', () => { s.hoverTarget = 0; });
+    el.addEventListener('pointerenter', function () { s.hover = true; });
+    el.addEventListener('pointerleave', function () { s.hover = false; });
     // גרירה היא לא לחיצה: לא פותחים את הפרויקט בטעות
-    el.addEventListener('click', (e) => { e.stopPropagation(); });
-    if (always) s.near = true;
-    else if ('IntersectionObserver' in window) {
-      new IntersectionObserver((en) => {
-        s.near = en[0].isIntersecting;
-        if (s.near) { const id = getId(); if (id) load(id); }
-      }, { rootMargin: '600px 0px' }).observe(el);
-    } else s.near = true;
-  }
-  document.querySelectorAll('.p-relic').forEach((el) => addSlot(el, () => el.dataset.relic));
-  const caseSlot = document.querySelector('.case-relic');
-  if (caseSlot) addSlot(caseSlot, () => caseEl && caseEl.dataset.id, true);
+    el.addEventListener('click', function (e) { e.stopPropagation(); });
 
-  /* ---------- ציור ---------- */
-  const clock = new THREE.Clock();
-  let t = 0, drew = false;
-  function size() {
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-  }
-  size();
-  window.addEventListener('resize', size);
-
-  function frame() {
-    requestAnimationFrame(frame);
-    if (document.hidden) return;
-    const dt = Math.min(clock.getDelta(), 0.05);
-    t += dt;
-    const vw = window.innerWidth, vh = window.innerHeight;
-    const caseOpen = caseEl && !caseEl.hidden;
-    root.classList.toggle('case-open', !!caseOpen);
-    const active = slots.some((s) => s.near && ((s.el === caseSlot) === !!caseOpen));
-    if (!active) {
-      if (drew) { renderer.setScissor(0, 0, vw, vh); renderer.setViewport(0, 0, vw, vh); renderer.clear(); drew = false; }
-      return;
+    if (kind === 'real' && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        s.visible = en[0].isIntersecting;
+        if (s.visible) { setSrc(s); show(s); kick(); }
+      }, { rootMargin: '300px 0px' }).observe(el);
+    } else if (kind === 'real') {
+      s.visible = true; setSrc(s); show(s);
     }
-    drew = true;
-    renderer.setScissor(0, 0, vw, vh);
-    renderer.setViewport(0, 0, vw, vh);
-    renderer.clear();
+    return s;
+  }
 
-    for (const s of slots) {
-      const inCase = s.el === caseSlot;
-      if (caseOpen !== inCase || !s.near) continue;
-      const r = s.el.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh || r.width < 4) continue;
-      // השקיפות שהאנימציה של הכניסה נתנה למשבצת
-      const st = s.el.style, pst = s.el.parentElement ? s.el.parentElement.style : {};
-      if (st.visibility === 'hidden') continue;
-      const op = Math.min(parseFloat(st.opacity || 1), parseFloat(pst.opacity || 1));
-      if (op < 0.04) continue;
-      const id = s.getId();
-      if (!id) continue;
-      const m = load(id);
-      if (!m.userData.ready) continue;
-
-      s.hover += ((s.hoverTarget || 0) - s.hover) * (1 - Math.exp(-dt * 6));
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    var any = false;
+    for (var i = 0; i < slots.length; i++) {
+      var s = slots[i];
+      if (!s.visible) continue;
+      any = true;
       if (!s.drag) {
-        const base = 0.55 + s.hover * 1.4;
-        s.vy += (base - s.vy) * (1 - Math.exp(-dt * 2.2));
-        s.ry += s.vy * dt;
-        s.rx += (-0.12 - s.rx) * (1 - Math.exp(-dt * 1.5));
+        var base = motion ? (s.hover ? 26 : 9) : 0;
+        s.v += (base - s.v) * (1 - Math.exp(-dt * 2.4));
+        s.f += s.v * dt;
       }
-      s.pop += (1 - s.pop) * (1 - Math.exp(-dt * 3));
-
-      m.visible = true;
-      m.rotation.set(s.rx, s.ry, Math.sin(t * 0.8 + r.top * 0.01) * 0.05);
-      m.position.y = Math.sin(t * 1.3 + r.left * 0.01) * 0.04 + (inCase ? 0.12 : 0);
-      const holo = inCase && !root.classList.contains('xray');
-      if (holo) {
-        m.userData.holo.uniforms.uTime.value = t;
-        m.traverse((o) => { if (o.isMesh) o.material = m.userData.holo; });
-      }
-      m.scale.setScalar((0.55 + 0.45 * Math.min(op, s.pop)) * (1 + s.hover * 0.08));
-
-      const x = r.left, y = vh - r.bottom;
-      renderer.setViewport(x, y, r.width, r.height);
-      renderer.setScissor(x, y, r.width, r.height);
-      camera.aspect = r.width / r.height;
-      camera.updateProjectionMatrix();
-      renderer.render(scene, camera);
-      if (holo) m.traverse((o) => { if (o.isMesh && o.userData.mat) o.material = o.userData.mat; });
-      m.visible = false;
+      show(s);
     }
+    if (any) requestAnimationFrame(frame);
+    else running = false;
   }
-  requestAnimationFrame(frame);
-}
+  function kick() {
+    if (running) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(frame);
+  }
+
+  document.querySelectorAll('.p-relic').forEach(function (el) {
+    make(el, 'real', function () { return el.dataset.relic; });
+  });
+
+  // ההולוגרמה בסיפור הפרויקט: פעילה כל עוד הסיפור פתוח
+  var caseSlot = document.querySelector('.case-relic');
+  if (caseSlot && caseEl) {
+    var cs = make(caseSlot, 'holo', function () { return caseEl.dataset.id; });
+    var sync = function () {
+      cs.visible = !caseEl.hidden;
+      if (cs.visible) { setSrc(cs); show(cs); kick(); }
+    };
+    new MutationObserver(sync).observe(caseEl, { attributes: true, attributeFilter: ['hidden', 'data-id'] });
+    sync();
+  }
+
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
+})();
