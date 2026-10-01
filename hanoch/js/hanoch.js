@@ -804,6 +804,25 @@
     });
   }
 
+  /* ---------- דוגמה חיה: ההדמיה נטענת רק כשלוחצים (מודל של 5MB וקול) ---------- */
+  function initDemo() {
+    var btn = $('.demo-play'), view = $('.demo-view');
+    if (!btn || !view) return;
+    btn.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.className = 'demo-iframe';
+      f.src = 'sim/data-center/index.html?embed=1';
+      f.title = 'הדמיה חיה: הפסקת חשמל בחוות שרתים';
+      f.allow = 'autoplay; fullscreen';
+      f.setAttribute('allowfullscreen', '');
+      view.appendChild(f);
+      view.classList.add('is-live');
+      btn.hidden = true;
+      f.addEventListener('load', function () { try { f.focus(); } catch (e) { } });
+      say('ההדמיה נטענת');
+    });
+  }
+
   /* ---------- פס התקדמות בגלילה ---------- */
   function initProgress() {
     var bar = $('.progress i');
@@ -891,6 +910,7 @@
   initBrief();
   initProcess();
   initProgress();
+  initDemo();
   initProjects();
   initCompare();
   initCraft();

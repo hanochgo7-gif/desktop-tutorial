@@ -690,3 +690,30 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .case-titlebar .case-title { margin: 0; }
 .xray .logo-tile img { filter: grayscale(1) sepia(1) hue-rotate(185deg) saturate(5); }
 .logo-tile img[src$="gotovski.svg"], .logo-tile img[src$="clinic.webp"] { padding: 6%; }
+
+/* ---------- דוגמה חיה ---------- */
+.demo { display: grid; grid-template-columns: 4fr 7fr; gap: clamp(32px, 5vw, 90px); align-items: center; }
+.demo h2 { font-size: clamp(3rem, 7vw, 7rem); margin: 1.4rem 0 1.2rem; }
+.demo-lead { color: var(--fg-dim); max-width: 38ch; font-family: "IBM Plex Sans Hebrew", "Assistant", sans-serif; font-size: 1.05rem; line-height: 1.75; }
+.demo-facts { list-style: none; display: grid; gap: .55rem; margin-top: 1.8rem; color: var(--fg); }
+.demo-facts li { display: flex; align-items: center; gap: .7rem; }
+.demo-facts li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--signal); flex: none; }
+.demo-stage { display: grid; gap: .9rem; justify-items: start; min-width: 0; }
+.demo-browser { width: 100%; }
+.demo-view { position: relative; aspect-ratio: 16 / 9; background: #0b0d10; overflow: hidden; }
+.demo-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease), filter .6s; }
+.demo-view:hover .demo-poster { transform: scale(1.03); }
+.demo-view.is-live .demo-poster { filter: blur(6px) brightness(.5); }
+.demo-play {
+  position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; display: inline-flex; align-items: center; gap: .7rem;
+  padding: 1rem 1.6rem; border-radius: 99px; background: #e5372b; color: #fff; font-family: var(--f-mono); font-size: .9rem;
+  box-shadow: 0 0 0 0 rgba(229, 55, 43, .55), 0 20px 40px -14px rgba(0, 0, 0, .8); transition: transform .3s var(--ease);
+}
+.motion .demo-play { animation: demo-pulse 2.2s ease-out infinite; }
+.demo-play:hover { transform: scale(1.05); }
+.demo-play svg { width: 1.3em; height: 1.3em; }
+@keyframes demo-pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 55, 43, .55), 0 20px 40px -14px rgba(0, 0, 0, .8); } 70% { box-shadow: 0 0 0 22px rgba(229, 55, 43, 0), 0 20px 40px -14px rgba(0, 0, 0, .8); } 100% { box-shadow: 0 0 0 0 rgba(229, 55, 43, 0), 0 20px 40px -14px rgba(0, 0, 0, .8); } }
+.demo-iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+.demo-full { color: var(--fg); text-underline-offset: 4px; }
+.p-demo { color: var(--p); font-size: .78rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .1rem; }
+@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo-view { aspect-ratio: 4 / 5; } }
