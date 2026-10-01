@@ -807,17 +807,51 @@
   function initDemo() {
     var btn = $('.demo-play'), view = $('.demo-view');
     if (!btn || !view) return;
-    btn.addEventListener('click', function () {
+    var small = window.matchMedia('(max-width: 900px)');
+    var title = 'הדמיה חיה: הפסקת חשמל בחוות שרתים';
+    function frameEl(q) {
       var f = document.createElement('iframe');
       f.className = 'demo-iframe';
-      f.src = 'sim/data-center/index.html?embed=1';
-      f.title = 'הדמיה חיה: הפסקת חשמל בחוות שרתים';
+      f.src = 'sim/data-center/index.html?' + q;
+      f.title = title;
       f.allow = 'autoplay; fullscreen';
       f.setAttribute('allowfullscreen', '');
-      view.appendChild(f);
+      f.addEventListener('load', function () { try { f.focus(); } catch (e) { } });
+      return f;
+    }
+    // בטלפון ההדמיה נפתחת על כל המסך: יש מקום לכל הנתונים, ואצבע אחת מסובבת את המודל בלי להילחם בגלילת הדף
+    var sheet = null;
+    function closeSheet() {
+      if (!sheet) return;
+      var s = sheet; sheet = null;
+      s.classList.remove('is-open');
+      document.documentElement.classList.remove('demo-lock');
+      if (lenis) lenis.start();
+      window.removeEventListener('keydown', onKey);
+      setTimeout(function () { s.remove(); }, 350);
+      btn.focus();
+    }
+    function onKey(e) { if (e.key === 'Escape') closeSheet(); }
+    window.addEventListener('message', function (e) { if (e.data === 'sim:close') closeSheet(); });
+    btn.addEventListener('click', function () {
+      if (small.matches) {
+        sheet = document.createElement('div');
+        sheet.className = 'demo-sheet';
+        sheet.setAttribute('role', 'dialog');
+        sheet.setAttribute('aria-modal', 'true');
+        sheet.setAttribute('aria-label', title);
+        sheet.appendChild(frameEl('embed=1&full=1'));
+        document.body.appendChild(sheet);
+        document.documentElement.classList.add('demo-lock');
+        if (lenis) lenis.stop();
+        window.addEventListener('keydown', onKey);
+        requestAnimationFrame(function () { requestAnimationFrame(function () { if (sheet) sheet.classList.add('is-open'); }); });
+        say('ההדמיה נפתחת על כל המסך');
+        return;
+      }
+      view.appendChild(frameEl('embed=1'));
       view.classList.add('is-live');
       btn.hidden = true;
-      f.addEventListener('load', function () { try { f.focus(); } catch (e) { } });
       say('ההדמיה נטענת');
     });
   }

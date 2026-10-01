@@ -203,8 +203,29 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .tog span { display: none; }
   .hot { width: 24px; height: 24px; margin: -12px 0 0 -12px; font-size: .66rem; }
   .holo { font-size: .64rem; }
-  .info { top: auto; bottom: 8px; inset-inline: 8px; width: auto; max-height: 58%; }
+  .info { top: auto; bottom: 8px; inset-inline: 8px; width: auto; max-height: 52%; }
+  /* phones: keep the model in view. Step labels collapse to bars, the round tools stack at the edge above the bar,
+     the scenario chips share one scrolling row, and the notch / home indicator are respected. */
+  .hud-top { top: max(8px, env(safe-area-inset-top)); }
+  .tl-sub { line-height: 1.4; }
+  .steps { margin-top: 7px; gap: 4px; }
+  .steps div { font-size: 0; gap: 0; }
+  .bar { bottom: max(8px, env(safe-area-inset-bottom)); gap: 6px; }
+  .ctrl { gap: 6px; }
+  .go { padding: 11px 16px; }
+  .more { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .more::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 6px 10px; }
+  .side { position: static; }
+  .tools { position: absolute; inset-inline-end: 0; bottom: calc(100% + 10px); flex-direction: column; flex-wrap: nowrap; gap: 8px; }
+  .tog { width: 40px; height: 40px; padding: 0; justify-content: center; }
+  .g { padding: 6px 8px; gap: 2px; }
+  .g b { font-size: .84rem; }
+  .full .stamp { display: none; }
 }
+.close { display: none; flex: none; pointer-events: auto; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(160,220,255,.3); background: rgba(8,24,38,.78); color: #fff; place-items: center; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.close svg { width: 18px; height: 18px; }
+.full .close { display: grid; }
 @media (prefers-reduced-motion: reduce) { .go.idle, .steps div.now::before, .holo, .holo::before, .holo::after, .hh .st i, .leads .halo, .ring .o, .hx::after { animation: none !important; } .holo::after { display: none; } }
 </style>
 </head>
@@ -222,6 +243,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
         <div class="steps" id="steps"><div>רשת</div><div>סוללות</div><div>התנעה</div><div>העברת עומס</div><div>הזנת דלק</div></div>
       </div>
       <span class="stamp">הדמיה</span>
+      <button class="close" type="button" id="simClose" aria-label="סגירת ההדמיה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <aside class="info hx" id="info" hidden aria-labelledby="cT">
       <button class="x" type="button" id="infoX" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -276,7 +298,9 @@ const $ = (s) => document.querySelector(s);
 const stage = $('#stage');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const phone = matchMedia('(max-width: 720px)').matches;
-const embed = new URLSearchParams(location.search).has('embed');
+const qs = new URLSearchParams(location.search);
+const embed = qs.has('embed'), full = qs.has('full');   // full: opened over the whole phone screen from the portfolio, so one finger may orbit
+if (full) { document.documentElement.classList.add('full'); $('#simClose').addEventListener('click', () => parent.postMessage('sim:close', '*')); }
 const touch = matchMedia('(pointer: coarse)').matches;
 
 /* ================= real dimensions (meters) ================= */
@@ -302,12 +326,13 @@ const DAY_CAP = 2000;
 
 /* ================= renderer / scene ================= */
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, phone ? 1.5 : 2));
+const DPR_MAX = Math.min(devicePixelRatio, phone ? 1.25 : 2);
+renderer.setPixelRatio(DPR_MAX);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.54;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = phone ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
 stage.prepend(renderer.domElement);
 const cv = renderer.domElement;
 
@@ -323,7 +348,7 @@ const pmrem = new THREE.PMREMGenerator(renderer);
 
 const camera = new THREE.PerspectiveCamera(phone ? 50 : 38, 1, 0.1, 1200);
 const controls = new OrbitControls(camera, cv);
-if (embed && touch) { controls.touches = { ONE: -1, TWO: THREE.TOUCH.DOLLY_ROTATE }; cv.style.touchAction = 'pan-y'; stage.style.touchAction = 'pan-y'; }
+if (embed && touch && !full) { controls.touches = { ONE: -1, TWO: THREE.TOUCH.DOLLY_ROTATE }; cv.style.touchAction = 'pan-y'; stage.style.touchAction = 'pan-y'; }
 controls.enableDamping = true; controls.dampingFactor = 0.07;
 controls.minDistance = 4; controls.maxDistance = 140; controls.maxPolarAngle = Math.PI * 0.485;
 const HOME = phone ? { pos: new THREE.Vector3(10, 48, 70), tgt: new THREE.Vector3(2, -2, -14) } : { pos: new THREE.Vector3(15, 25, 43), tgt: new THREE.Vector3(4, -3, -14) };
@@ -332,7 +357,7 @@ camera.position.copy(HOME.pos); controls.target.copy(HOME.tgt);
 const hemi = new THREE.HemisphereLight(0xdcecff, 0x8a7b66, 0.9); scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xfff3e2, 3.2);
 sun.position.copy(sunDir).multiplyScalar(80); sun.target.position.set(4, 0, -16); scene.add(sun.target);
-sun.castShadow = true; sun.shadow.mapSize.set(phone ? 2048 : 4096, phone ? 2048 : 4096);
+sun.castShadow = true; sun.shadow.mapSize.set(phone ? 1024 : 4096, phone ? 1024 : 4096);
 Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 55, bottom: -55, near: 10, far: 200 });
 sun.shadow.bias = -0.00025; sun.shadow.normalBias = 0.04; sun.shadow.radius = 3;
 scene.add(sun);
@@ -1025,7 +1050,7 @@ function hud(r) {
     cls[0] = 'done';
     if (S.leak) { text = 'התגלתה דליפה בבור הדלק'; sub = 'החיישן עצר את המשאבות ושלח התראה לבקרה. שום דלק לא יוצא מהבור.'; }
     else if (S.restoring) { text = 'החשמל חזר'; sub = 'השרתים חזרו לרשת. הגנרטורים מסתובבים עוד כמה דקות כדי להתקרר, ואז נכבים.'; }
-    else { text = 'רשת החשמל תקינה'; sub = touch && embed ? 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. שתי אצבעות מסובבות את המודל.' : 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. גררו כדי לסובב.'; }
+    else { text = 'רשת החשמל תקינה'; sub = touch && embed && !full ? 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. שתי אצבעות מסובבות את המודל.' : 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. גררו כדי לסובב.'; }
   }
   else if (S.t < S.startIn) { text = 'הרשת נפלה'; sub = 'סוללות ה־UPS מזינות את השרתים. אף שרת לא כבה.'; cls = ['bad', 'now', '', '', '']; }
   else if (S.t < S.ats) { text = 'הגנרטורים מתניעים'; sub = 'בעוד ' + Math.ceil(S.ats - S.t) + ' שניות הם יקבלו את העומס מהסוללות.' + maint; cls = ['bad', 'done', 'now', '', '']; }
@@ -1186,7 +1211,29 @@ const clock = new THREE.Clock(); const v3 = new THREE.Vector3(), v3b = new THREE
 const cGreen = new THREE.Color(0x49ff9e), cAmber = new THREE.Color(0xffb13b), cOff = new THREE.Color(0x0b0f12);
 let ledState = -1;
 function project(p, el) { v3.copy(p).project(camera); const w = cv.clientWidth, h = cv.clientHeight; const vis = v3.z < 1 && Math.abs(v3.x) < 1.02 && Math.abs(v3.y) < 1.02; el.style.left = ((v3.x * .5 + .5) * w) + 'px'; el.style.top = ((-v3.y * .5 + .5) * h) + 'px'; return vis; }
-function frame() {
+/* smooth on weaker phones: the frame time is watched and, if a device can't hold ~45 fps, the pixel ratio steps down,
+   then ambient occlusion goes and the glow pass drops to quarter size. Rendering pauses while the stage is off screen. */
+let tier = 0, glowDiv = phone ? 3 : 2, onScreen = true;
+const perf = { t0: 0, n: 0, wait: 2.5 };
+function adapt(now) {
+  if (!perf.t0) { perf.t0 = now; return; }
+  perf.n++; const span = (now - perf.t0) / 1000;
+  if (span < 1.5) return;
+  const avg = span / perf.n; perf.t0 = now; perf.n = 0;
+  if (perf.wait > 0) { perf.wait -= span; return; }            // let shaders compile and the model settle first
+  if (avg > 1 / 45 && tier < 3) {
+    tier++;
+    renderer.setPixelRatio(Math.max(0.7, DPR_MAX * [1, 0.8, 0.68, 0.6][tier]));
+    if (tier >= 2) { glowDiv = 4; if (gtao) gtao.enabled = false; }
+    resize();
+  }
+}
+new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; perf.t0 = 0; }).observe(stage);
+document.addEventListener('visibilitychange', () => { perf.t0 = 0; });
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (!onScreen) { clock.getDelta(); return; }
+  adapt(now);
   const dt = Math.min(0.05, clock.getDelta()), et = clock.elapsedTime;
   /* cinematic */
   if (cine) { cine.t += dt; const n = SHOTS.findLastIndex((s) => cine.t >= s.at); if (n !== cine.i && n >= 0) { cine.i = n; flyTo(V(...SHOTS[n].pos), V(...SHOTS[n].look), n === 0 ? 1.2 : 2.2); } if (cine.t > 38) cine = null; }
@@ -1212,19 +1259,19 @@ function frame() {
   if (onUps && !reduce) { const f = Math.sin(et * 6) > 0 ? 1 : 0.35; for (let i = 0; i < racks.count; i += 7) racks.leds.setColorAt(i, f > .5 ? cAmber : cOff); racks.leds.instanceColor.needsUpdate = true; }
   holo3dUpdate(r, et);
   if (showHolo || Object.values(flows).some((f) => f.m.visible)) glowComposer.render(); else { renderer.setRenderTarget(glowComposer.renderTarget2); renderer.setClearColor(0x000000, 1); renderer.clear(); renderer.setRenderTarget(null); }
-  renderer.shadowMap.needsUpdate = true; composer.render();
+  if (!phone || (frame.n || 0) % 8 === 0) renderer.shadowMap.needsUpdate = true;   // phones: the shadows barely move, refresh every 8th frame
+  composer.render();
   COMP.forEach((c) => c.el.classList.toggle('is-hidden', !project(c.at, c.el)));
   if (showHolo) layoutHolos(et);
   if (bannerT > 0) { bannerT -= dt; if (bannerT <= 0) $('#banner').classList.remove('show'); }
   hud(r); if ((frame.n = (frame.n || 0) + 1) % 6 === 0) holoUpdate(r);
   audio.distance(camera.position.distanceTo(V(14.5, 2, -9.3)));
-  requestAnimationFrame(frame);
 }
-function resize() { const w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(w, h); glowComposer.setPixelRatio(1); glowComposer.setSize(Math.ceil(w / 2), Math.ceil(h / 2)); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+function resize() { const w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(w, h); glowComposer.setPixelRatio(1); glowComposer.setSize(Math.ceil(w / glowDiv), Math.ceil(h / glowDiv)); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 toGlow(holo3d); Object.values(flows).forEach((f) => toGlow(f.m));
 new ResizeObserver(() => { resize(); measureHud(); }).observe(cv); resize(); measureHud();
 requestAnimationFrame(frame);
-window.__sim = { setMode, select, S, camera, controls, flyTo, V, gens, SHOTS, shot(i) { const s = SHOTS[i]; flyTo(V(...s.pos), V(...s.look)); } };
+window.__sim = { get tier() { return tier; }, setMode, select, S, camera, controls, flyTo, V, gens, SHOTS, shot(i) { const s = SHOTS[i]; flyTo(V(...s.pos), V(...s.look)); } };
 </script>
 </body>
 </html>
