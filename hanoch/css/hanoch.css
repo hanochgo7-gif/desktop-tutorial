@@ -499,3 +499,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .p-relic.is-dragging, .case-relic.is-dragging { cursor: grabbing; }
 .has-cursor .p-relic, .has-cursor .case-relic { cursor: none; }
 .xray .p-relic, .xray .case-relic { background: rgba(61, 123, 255, .08); }
+
+/* מקרן ההולוגרמה בסיפור הפרויקט: דיסקה זוהרת, אלומה עולה וקווי סריקה */
+.gallery-on .case-relic {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse 46% 9% at 50% 88%, color-mix(in srgb, var(--p, var(--signal)) 70%, transparent), transparent 70%),
+    linear-gradient(to top, color-mix(in srgb, var(--p, var(--signal)) 22%, transparent), transparent 75%),
+    #07080a;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--p, var(--signal)) 30%, transparent);
+}
+.gallery-on .case-relic::before {
+  content: ""; position: absolute; left: 18%; right: 18%; bottom: 10%; top: 6%; pointer-events: none;
+  clip-path: polygon(38% 100%, 62% 100%, 100% 0, 0 0);
+  background: linear-gradient(to top, color-mix(in srgb, var(--p, var(--signal)) 26%, transparent), transparent 85%);
+}
+.gallery-on .case-relic::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .05) 0 1px, transparent 1px 4px);
+}
+.motion.gallery-on .case-relic::after { animation: holo-scan 3s linear infinite; }
+@keyframes holo-scan { to { background-position: 0 40px; } }

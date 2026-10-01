@@ -8,13 +8,39 @@ import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 const root = document.documentElement;
 const EXT = window.HG_MODEL_EXT || '.glb';
 const FILES = {
-  gotovski: { file: 'nozzle' },
-  ams: { file: 'glove' },
-  allenbis: { file: 'bag' },
-  clinic: { file: 'bottle', glass: '#f3c9c3' },
-  falafel: { file: 'pita' },
-  rachel: { file: 'pi' }
+  gotovski: { file: 'nozzle', holo: '#4fbbea' },
+  ams: { file: 'glove', holo: '#ffc35a' },
+  allenbis: { file: 'bag', holo: '#ffd84d' },
+  clinic: { file: 'bottle', glass: '#f3c9c3', holo: '#ffb3c1' },
+  falafel: { file: 'pita', holo: '#f2b705' },
+  rachel: { file: 'pi', holo: '#5aa8ff' }
 };
+
+/* הולוגרמה: קצוות זוהרים (פרנל), קווי סריקה שעולים, ריצוד, ותוספת אור במקום צבע אטום */
+const HOLO_VS = `
+  varying vec3 vN; varying vec3 vV; varying vec3 vW;
+  void main() {
+    vec4 w = modelMatrix * vec4(position, 1.0);
+    vW = w.xyz;
+    vN = normalize(mat3(modelMatrix) * normal);
+    vV = normalize(cameraPosition - w.xyz);
+    gl_Position = projectionMatrix * viewMatrix * w;
+  }`;
+const HOLO_FS = `
+  uniform vec3 uColor; uniform float uTime;
+  varying vec3 vN; varying vec3 vV; varying vec3 vW;
+  float hash(float n) { return fract(sin(n) * 43758.5453); }
+  void main() {
+    vec3 n = normalize(vN);
+    if (!gl_FrontFacing) n = -n;
+    float fr = pow(1.0 - abs(dot(n, normalize(vV))), 2.2);
+    float scan = smoothstep(0.35, 0.5, abs(fract(vW.y * 38.0 - uTime * 1.6) - 0.5));
+    float band = smoothstep(0.0, 0.08, abs(fract(vW.y * 1.2 - uTime * 0.35) - 0.5) - 0.42);
+    float flick = 0.86 + 0.14 * hash(floor(uTime * 18.0));
+    float a = (0.1 + fr * 0.95) * (0.55 + 0.45 * scan) * flick + band * 0.5;
+    vec3 col = mix(uColor, vec3(1.0), fr * 0.45 + band * 0.4);
+    gl_FragColor = vec4(col * a, a);
+  }`;
 
 function supported() {
   if (!root.classList.contains('motion')) return false;
@@ -93,6 +119,10 @@ function start() {
         }
         m.userData.mat = m.material;
       });
+      holder.userData.holo = new THREE.ShaderMaterial({
+        vertexShader: HOLO_VS, fragmentShader: HOLO_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending, uniforms: { uColor: { value: new THREE.Color(f.holo) }, uTime: { value: 0 } }
+      });
       holder.add(inner);
       holder.userData.ready = true;
       xray();
@@ -109,7 +139,7 @@ function start() {
   /* ---------- משבצות ---------- */
   const caseEl = document.querySelector('.case');
   const slots = [];
-  function addSlot(el, getId) {
+  function addSlot(el, getId, always) {
     const s = { el, getId, ry: Math.random() * Math.PI * 2, vy: 0.55, rx: -0.12, drag: null, hover: 0, near: false, pop: 0 };
     slots.push(s);
     el.addEventListener('pointerdown', (e) => {
@@ -134,7 +164,8 @@ function start() {
     el.addEventListener('pointerleave', () => { s.hoverTarget = 0; });
     // גרירה היא לא לחיצה: לא פותחים את הפרויקט בטעות
     el.addEventListener('click', (e) => { e.stopPropagation(); });
-    if ('IntersectionObserver' in window) {
+    if (always) s.near = true;
+    else if ('IntersectionObserver' in window) {
       new IntersectionObserver((en) => {
         s.near = en[0].isIntersecting;
         if (s.near) { const id = getId(); if (id) load(id); }
@@ -143,7 +174,7 @@ function start() {
   }
   document.querySelectorAll('.p-relic').forEach((el) => addSlot(el, () => el.dataset.relic));
   const caseSlot = document.querySelector('.case-relic');
-  if (caseSlot) addSlot(caseSlot, () => caseEl && caseEl.dataset.id);
+  if (caseSlot) addSlot(caseSlot, () => caseEl && caseEl.dataset.id, true);
 
   /* ---------- ציור ---------- */
   const clock = new THREE.Clock();
@@ -198,7 +229,12 @@ function start() {
 
       m.visible = true;
       m.rotation.set(s.rx, s.ry, Math.sin(t * 0.8 + r.top * 0.01) * 0.05);
-      m.position.y = Math.sin(t * 1.3 + r.left * 0.01) * 0.04;
+      m.position.y = Math.sin(t * 1.3 + r.left * 0.01) * 0.04 + (inCase ? 0.12 : 0);
+      const holo = inCase && !root.classList.contains('xray');
+      if (holo) {
+        m.userData.holo.uniforms.uTime.value = t;
+        m.traverse((o) => { if (o.isMesh) o.material = m.userData.holo; });
+      }
       m.scale.setScalar((0.55 + 0.45 * Math.min(op, s.pop)) * (1 + s.hover * 0.08));
 
       const x = r.left, y = vh - r.bottom;
@@ -207,6 +243,7 @@ function start() {
       camera.aspect = r.width / r.height;
       camera.updateProjectionMatrix();
       renderer.render(scene, camera);
+      if (holo) m.traverse((o) => { if (o.isMesh && o.userData.mat) o.material = o.userData.mat; });
       m.visible = false;
     }
   }
