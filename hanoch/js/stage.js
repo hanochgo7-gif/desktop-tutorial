@@ -242,11 +242,11 @@ function start() {
     camera.aspect = S.w / S.h;
     camera.updateProjectionMatrix();
     const narrow = S.w < 700;
-    S.hetScale = narrow ? 2.15 : Math.min(3.1, 2.4 + (S.w / S.h - 1) * 0.8);
-    S.R = narrow ? 1.75 : Math.min(3.6, 2.4 * camera.aspect);
+    S.hetScale = narrow ? 1.45 : Math.min(3.1, 2.4 + (S.w / S.h - 1) * 0.8);
+    S.R = narrow ? 1.6 : Math.min(3.6, 2.4 * camera.aspect);
     S.Rz = narrow ? 1.1 : 1.7;
-    S.relicSize = narrow ? 0.7 : 1.1;
-    S.hetY = narrow ? 0.45 : 0.15;
+    S.relicSize = narrow ? 0.6 : 1.1;
+    S.hetY = narrow ? -0.62 : 0.15;
     drawType(S.w, S.h);
   }
 

@@ -455,7 +455,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .scroll-cue { display: none; }
 }
 @media (max-width: 560px) {
-  .hero-title { padding-top: 18vh; font-size: 21vw; }
+  .hero-title { align-self: start; padding-top: 12vh; font-size: 33vw; line-height: .9; } /* "גוטובסקי" כמעט ברוחב המסך, והח מזכוכית מתחתיו */
   .contact-title { font-size: 19vw; }
   .intro-meta span:nth-child(2) { display: none; }
   .work-head { grid-template-columns: 1fr; }
@@ -673,3 +673,5 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 
 .contact-direct { color: var(--fg-dim); margin: -1.2rem 0 2.2rem; font-size: .85rem; }
 .contact-direct a { color: var(--fg); text-underline-offset: 4px; }
+
+@media (min-width: 561px) and (max-width: 900px) { .hero-title { font-size: 25vw; } }
