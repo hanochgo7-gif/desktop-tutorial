@@ -414,7 +414,7 @@
   };
 
   D.sim = {
-    url: 'gotovski.co.il · הדמיה', hint: 'ההדמיה המלאה נמצאת למעלה בעמוד',
+    url: 'gotovski.co.il · הדמיה', hint: 'ההדמיה המלאה נמצאת בתיק העבודות',
     run(s) {
       s.innerHTML = `<div style="position:absolute;inset:0;background:#0b0d10 url('work/sim-poster-960.webp') center/cover"></div>
         <div class="d-wrap" style="justify-content:flex-end;background:linear-gradient(transparent 40%,rgba(10,10,11,.85))"><div style="color:#fff;display:grid;gap:10px;justify-items:start">
@@ -422,7 +422,7 @@
           <div class="d-h" style="font-size:1.5em">מה קורה כשהחשמל נופל?</div>
           <div style="opacity:.75;max-width:40ch">לקוחות של ש. גוטובסקי לוחצים על כפתור ורואים איך הגנרטורים מתניעים. ככה מסבירים מערכת מורכבת בלי מילה אחת.</div>
           <button class="d-btn hot d-go" type="button">לנסות את ההדמיה</button></div></div>`;
-      $('.d-go', s).addEventListener('click', () => { const a = document.querySelector('.p-demo'); if (a) a.click(); else location.hash = 'demo'; });
+      $('.d-go', s).addEventListener('click', () => { location.href = 'work.html#demo'; });
     }
   };
 

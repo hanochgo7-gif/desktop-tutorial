@@ -179,7 +179,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .work { padding-bottom: clamp(60px, 8vw, 120px); }
 .work-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 1rem 2rem; margin-bottom: clamp(70px, 10vw, 150px); }
 .work-head .label { grid-column: 1 / -1; }
-.work-head h2 { font-size: clamp(3.4rem, 10vw, 10.5rem); }
+.work-head h2, .work-head h1 { font-size: clamp(3.4rem, 10vw, 10.5rem); font-weight: 400; }
 .work-count { font-family: var(--f-display); font-size: clamp(3rem, 10vw, 10.5rem); font-weight: 300; line-height: .8; color: var(--signal); letter-spacing: 0; }
 
 .projects { list-style: none; display: grid; gap: clamp(110px, 16vw, 240px); }
@@ -1102,3 +1102,50 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .d-langs { display: flex; gap: 6px; flex-wrap: wrap; }
 
 @media (prefers-reduced-motion: reduce) { .sr-live::before { animation: none; } .sr-screen.is-in > * { animation: none; } }
+
+/* ---------- הצצה לעבודות בדף הבית: שש עבודות וכפתור כניסה ---------- */
+.teaser-head { display: grid; grid-template-columns: 7fr 5fr; gap: 1.6rem clamp(32px, 6vw, 110px); align-items: end; margin-bottom: clamp(40px, 5vw, 72px); }
+.teaser-head h2 { font-size: clamp(3.4rem, 8.4vw, 8.6rem); }
+.teaser-side { display: grid; gap: 1.6rem; justify-items: start; }
+.teaser-lead { color: var(--fg-dim); font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1.05rem; line-height: 1.75; max-width: 46ch; }
+.teaser-grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
+.tg { position: relative; display: block; overflow: hidden; border-radius: 18px; text-decoration: none; isolation: isolate; aspect-ratio: 16 / 10; border: 1px solid var(--fg-faint); background: var(--ink); transition: border-color .4s; }
+.tg-media, .tg-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+.tg-media { z-index: -1; }
+.tg-media img { transition: transform 1.2s var(--ease), filter .6s; filter: saturate(.9) brightness(.82); }
+.tg::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 40%, rgba(10, 10, 11, .88)); transition: opacity .5s; }
+.tg-info { position: absolute; inset-inline: clamp(14px, 1.4vw, 22px); bottom: clamp(14px, 1.4vw, 20px); display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: .8rem; align-items: center; }
+.tg-info .logo-tile { grid-row: span 2; }
+.tg-name { font-family: var(--f-display); font-size: clamp(1.35rem, 1.8vw, 1.8rem); line-height: 1.05; }
+.tg-kind { color: var(--fg-dim); font-size: .68rem; }
+.tg:hover, .tg:focus-visible { border-color: var(--p); }
+.tg:hover .tg-media img, .tg:focus-visible .tg-media img { transform: scale(1.05); filter: none; }
+.tg::before { content: ""; position: absolute; top: 14px; inset-inline-end: 14px; width: 10px; height: 10px; border-radius: 50%; background: var(--p); box-shadow: 0 0 0 4px rgba(10, 10, 11, .4); }
+
+/* ---------- דף תיק העבודות ---------- */
+.page-work .work-page { border-radius: 0; box-shadow: none; padding-top: clamp(120px, 13vw, 190px); }
+.page-work .work-head { grid-template-columns: 1fr; gap: 1.2rem; margin-bottom: clamp(56px, 8vw, 120px); }
+.work-back { color: var(--fg-dim); text-decoration: none; justify-self: start; transition: color .3s; }
+.work-back:hover { color: var(--signal); }
+.work-lead { color: var(--fg-dim); font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1.05rem; line-height: 1.75; max-width: 46ch; }
+.contact-mini { min-height: 0; padding-top: clamp(90px, 10vw, 150px); }
+.contact-mini .contact-title { margin: 0 0 3vh; font-size: clamp(4.2rem, 12vw, 12rem); }
+.contact-mini .contact-actions { margin-bottom: 1.6rem; }
+.contact-mini .contact-direct { margin: 0 0 clamp(60px, 8vh, 110px); }
+
+@media (max-width: 900px) {
+  .teaser-head { grid-template-columns: 1fr; }
+  .teaser-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .teaser-grid::-webkit-scrollbar { display: none; }
+  .teaser-grid li { flex: 0 0 78vw; scroll-snap-align: center; }
+  .teaser-cta { width: 100%; }
+}
+@media (max-width: 560px) { .contact-mini .contact-title { font-size: 19vw; } .contact-mini .contact-actions .btn { width: 100%; } }
+
+/* טלפון: החבילות ותוכניות התחזוקה בשורה שנגללת לצד, במקום מגדל של כרטיסים */
+@media (max-width: 900px) {
+  .tiers, .care-plans { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 8px; }
+  .tiers::-webkit-scrollbar, .care-plans::-webkit-scrollbar { display: none; }
+  .tiers > li { flex: 0 0 min(84vw, 420px); scroll-snap-align: center; }
+  .care-plans > * { flex: 0 0 min(78vw, 380px); scroll-snap-align: center; }
+}

@@ -105,7 +105,7 @@
       clock.textContent = new Intl.DateTimeFormat('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }).format(new Date());
     } catch (e) { clock.textContent = ''; }
   }
-  tick(); setInterval(tick, 20000);
+  if (clock) { tick(); setInterval(tick, 20000); }
 
   /* ---------- גלילה חלקה ---------- */
   var lenis = null;
@@ -163,7 +163,7 @@
   }
 
   function startParticles() {
-    if (!motion || !window.Particles) return Promise.resolve();
+    if (!motion || !window.Particles || !hero || !contact || !canvas) return Promise.resolve();
     P = Particles.create(canvas);
     if (!P) return Promise.resolve();
     var fontReady = document.fonts && document.fonts.load
@@ -236,7 +236,7 @@
   /* ---------- פתיח ---------- */
   function runIntro() {
     var intro = $('.intro');
-    if (!motion) { if (intro) intro.remove(); st.intro = 0; return Promise.resolve(); }
+    if (!motion || !intro) { if (intro) intro.remove(); st.intro = 0; return Promise.resolve(); }
     var quick = false;
     try { quick = sessionStorage.getItem('hg-intro') === '1'; sessionStorage.setItem('hg-intro', '1'); } catch (e) { }
     if (lenis) lenis.stop();
@@ -514,15 +514,28 @@
   }
   function openFromHash() {
     var id = (location.hash || '').slice(1);
-    if (!DATA[id] || (!caseEl.hidden && current === id)) return;
+    // קישור ישן לפרויקט בדף הבית: הפרויקטים נמצאים עכשיו בתיק העבודות
+    if (DATA[id] && !caseEl) { location.replace('work.html#' + id); return; }
+    if (!DATA[id]) { jumpToHash(id); return; }
+    if (!caseEl.hidden && current === id) return;
     var li = $('.project[data-id="' + id + '"]');
     if (li) openCase(id, li);
   }
+  // הגעה מדף אחר אל חלק מסוים (למשל index.html#pricing): קופצים אליו אחרי שההצמדות חושבו
+  function jumpToHash(id) {
+    var el = id && document.getElementById(id);
+    if (!el) return;
+    if (lenis) lenis.scrollTo(el, { immediate: true, force: true });
+    else el.scrollIntoView();
+  }
   window.addEventListener('hashchange', openFromHash);
 
-  $('.case-close').addEventListener('click', closeCase);
-  $('.case-next').addEventListener('click', nextCase);
+  if (caseEl) {
+    $('.case-close').addEventListener('click', closeCase);
+    $('.case-next').addEventListener('click', nextCase);
+  }
   document.addEventListener('keydown', function (e) {
+    if (!caseEl) return;
     if (e.key === 'Escape') closeCase();
     if (e.key === 'Tab' && !caseEl.hidden) {
       var f = $$('button, a[href]', caseEl).filter(function (el) { return el.offsetParent !== null; });
@@ -535,6 +548,7 @@
   /* ---------- לפני / אחרי ---------- */
   function initCompare() {
     var screen = $('.phone-screen'), after = $('.ba-after'), handle = $('.ba-handle'), range = $('.ba-range');
+    if (!screen) return;
     var s = { t: 50, c: 50, v: 0 }, dragging = false, running = false, visible = false;
 
     function render(time) {
@@ -612,6 +626,7 @@
   function initCraft() {
     var spec = $('.specimen'), steps = $$('.step'), capN = $('.cap-n'), capT = $('.cap-t');
     var names = ['שרטוט', 'שלד', 'חומר', 'תנועה'];
+    if (!spec) return;
     function stage(n) {
       if (spec.dataset.stage === String(n)) return;
       spec.dataset.stage = n;
@@ -634,13 +649,13 @@
   function initCursor() {
     if (!motion || !finePointer) return;
     root.classList.add('has-cursor');
-    var cur = $('.cursor'), label = $('.cursor-label');
+    var cur = $('.cursor'), label = $('.cursor-label'), heroEl = $('.hero');
     var xTo = gsap.quickTo(cur, 'x', { duration: 0.35, ease: 'power3' });
     var yTo = gsap.quickTo(cur, 'y', { duration: 0.35, ease: 'power3' });
     window.addEventListener('pointermove', function (e) {
       xTo(e.clientX); yTo(e.clientY);
       var t = e.target;
-      var view = (t.closest && t.closest('.p-media')) || ($('.hero').classList.contains('relic-hover') && t.closest && t.closest('.hero'));
+      var view = (t.closest && t.closest('.p-media')) || (heroEl && heroEl.classList.contains('relic-hover') && t.closest && t.closest('.hero'));
       var drag = t.closest && t.closest('.phone-screen, .p-relic, .case-relic');
       var link = t.closest && t.closest('a, button, input');
       cur.classList.toggle('is-view', !!view);
@@ -678,7 +693,8 @@
       say(on ? 'מצב רנטגן פעיל: רואים את השלד שמתחת לעיצוב' : 'מצב רנטגן כבוי');
     }
     btn.addEventListener('click', function () { setX(!root.classList.contains('xray')); });
-    $('.foot-xray').addEventListener('click', function () { setX(!root.classList.contains('xray')); });
+    var footX = $('.foot-xray');
+    if (footX) footX.addEventListener('click', function () { setX(!root.classList.contains('xray')); });
     document.addEventListener('keydown', function (e) {
       if ((e.key === 'x' || e.key === 'X' || e.key === 'ס') && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea|select/i.test(e.target.tagName)) {
         setX(!root.classList.contains('xray'));
