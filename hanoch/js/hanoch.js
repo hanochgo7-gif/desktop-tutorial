@@ -727,6 +727,25 @@
     var back = $('.brief-back', form), go = $('.brief-go', form), err = $('.brief-error', form);
     var done = $('.brief-done', form), nav = $('.brief-nav', form), stepsBar = $('.brief-steps', form);
     var at = 0;
+    // כפתור "מתחילים" בחבילה: החבילה נכנסת להודעה, והתקציב או המטרה שלה כבר מסומנים
+    var plan = document.createElement('p');
+    plan.className = 'brief-plan mono'; plan.hidden = true;
+    plan.innerHTML = '<span>חבילה: <b></b></span><button type="button" aria-label="הסרת החבילה">×</button>';
+    form.insertBefore(plan, form.firstChild);
+    function setPlan(name) {
+      if (name) form.dataset.plan = name; else delete form.dataset.plan;
+      $('b', plan).textContent = name || '';
+      plan.hidden = !name;
+    }
+    $('button', plan).addEventListener('click', function () { setPlan(''); });
+    $$('.tier-cta').forEach(function (a) {
+      a.addEventListener('click', function () {
+        setPlan(a.dataset.plan);
+        var pick = function (name, v) { if (!v) return; $$('input[name="' + name + '"]', form).forEach(function (i) { if (i.value === v) i.checked = true; }); };
+        pick('budget', a.dataset.budget); pick('goal', a.dataset.goal);
+        say('נבחרה חבילת ' + a.dataset.plan + '. ענו על שלוש השאלות וההודעה תהיה מוכנה.');
+      });
+    });
     var need = ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו טווח תקציב.'];
     function values(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.value; }); }
     function show(n) {
@@ -741,7 +760,9 @@
     }
     function message() {
       var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
-      var lines = ['היי חנוך, הגעתי מהאתר שלך.', '', 'העסק: ' + values('biz').join(', '), 'מה האתר צריך לעשות: ' + values('goal').join(', '), 'תקציב: ' + values('budget').join(', ')];
+      var lines = ['היי חנוך, הגעתי מהאתר שלך.', ''];
+      if (form.dataset.plan) lines.push('חבילה: ' + form.dataset.plan);
+      lines.push('העסק: ' + values('biz').join(', '), 'מה האתר צריך לעשות: ' + values('goal').join(', '), 'תקציב: ' + values('budget').join(', '));
       if (about) lines.push('על העסק: ' + about);
       if (name) lines.push('', name);
       return lines.join('\n');
@@ -800,6 +821,30 @@
           if (on !== it._on) { it._on = on; gsap.to(it, { autoAlpha: on ? 1 : 0.15, y: on ? 0 : 30, duration: 0.6, ease: 'expo.out' }); }
         });
       }
+    });
+  }
+
+  /* ---------- חבילות ושאלות: כניסה בגלילה ואור שעוקב אחרי העכבר ---------- */
+  function initPricing() {
+    var tiers = $$('.tier');
+    if (window.matchMedia('(hover: hover)').matches) {
+      tiers.forEach(function (t) {
+        t.addEventListener('pointermove', function (e) {
+          var r = t.getBoundingClientRect();
+          t.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          t.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+    }
+    if (!motion) return;
+    [['.tier', 0.12], ['.upgrade, .promises li', 0.08], ['.addon-group', 0.06], ['.care-plan', 0.1], ['.faq-list details', 0.05]].forEach(function (g) {
+      var els = $$(g[0]);
+      if (!els.length) return;
+      gsap.set(els, { autoAlpha: 0, y: 50 });
+      ScrollTrigger.batch(els, {
+        start: 'top 88%', once: true,
+        onEnter: function (b) { gsap.to(b, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: g[1], overwrite: true }); }
+      });
     });
   }
 
@@ -944,6 +989,7 @@
   initProcess();
   initProgress();
   initDemo();
+  initPricing();
   initProjects();
   initCompare();
   initCraft();
