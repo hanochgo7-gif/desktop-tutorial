@@ -355,6 +355,7 @@
   function fillCase(id) {
     var d = DATA[id], i = ORDER.indexOf(id);
     current = id;
+    caseEl.dataset.id = id;
     caseEl.style.setProperty('--p', d.color);
     $('.case-url').textContent = d.url;
     var poster = $('.case-poster');
@@ -585,12 +586,12 @@
       xTo(e.clientX); yTo(e.clientY);
       var t = e.target;
       var view = (t.closest && t.closest('.p-media')) || ($('.hero').classList.contains('relic-hover') && t.closest && t.closest('.hero'));
-      var drag = t.closest && t.closest('.phone-screen');
+      var drag = t.closest && t.closest('.phone-screen, .p-relic, .case-relic');
       var link = t.closest && t.closest('a, button, input');
       cur.classList.toggle('is-view', !!view);
       cur.classList.toggle('is-drag', !view && !!drag);
       cur.classList.toggle('is-link', !view && !drag && !!link);
-      label.textContent = view ? 'פתיחה' : drag ? 'גררו' : '';
+      label.textContent = view ? 'פתיחה' : drag ? (drag.classList.contains('phone-screen') ? 'גררו' : 'סובבו') : '';
     }, { passive: true });
 
     $$('.magnetic').forEach(function (el) {
