@@ -210,6 +210,8 @@
       colNow[i] += ((k ? blueCol : paperCol)[i] - colNow[i]) * 0.08;
       hotNow[i] += ((k ? whiteCol : hotCol)[i] - hotNow[i]) * 0.08;
     }
+    if (!visible && st.blank) return;
+    st.blank = !visible;
     P.draw({
       time: time, mx: st.mx, my: st.my, vx: clamp(st.vx, -260, 260), vy: clamp(st.vy, -260, 260),
       rad: Math.min(window.innerWidth, vh) * 0.13,

@@ -32,7 +32,7 @@ function start() {
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   } catch (e) { canvas.remove(); return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   renderer.setScissorTest(true);
@@ -147,7 +147,7 @@ function start() {
 
   /* ---------- ציור ---------- */
   const clock = new THREE.Clock();
-  let t = 0;
+  let t = 0, drew = false;
   function size() {
     renderer.setSize(window.innerWidth, window.innerHeight, false);
   }
@@ -162,6 +162,12 @@ function start() {
     const vw = window.innerWidth, vh = window.innerHeight;
     const caseOpen = caseEl && !caseEl.hidden;
     root.classList.toggle('case-open', !!caseOpen);
+    const active = slots.some((s) => s.near && ((s.el === caseSlot) === !!caseOpen));
+    if (!active) {
+      if (drew) { renderer.setScissor(0, 0, vw, vh); renderer.setViewport(0, 0, vw, vh); renderer.clear(); drew = false; }
+      return;
+    }
+    drew = true;
     renderer.setScissor(0, 0, vw, vh);
     renderer.setViewport(0, 0, vw, vh);
     renderer.clear();

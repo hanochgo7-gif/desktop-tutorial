@@ -35,6 +35,7 @@ function start() {
   canvas.className = 'stage';
   canvas.setAttribute('aria-hidden', 'true');
   hero.prepend(canvas);
+  const caseEl = document.querySelector('.case');
   const label = document.createElement('div');
   label.className = 'relic-label mono';
   label.setAttribute('aria-hidden', 'true');
@@ -44,7 +45,9 @@ function start() {
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   } catch (e) { canvas.remove(); return; }
-  let dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
+  // מתחילים ברזולוציה מתונה; עולים רק אם המכשיר עומד בזה, ויורדים אם לא
+  const maxDpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
+  let dpr = Math.min(maxDpr, 1);
   renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -136,6 +139,10 @@ function start() {
     clearcoat: 1, clearcoatRoughness: 0.03, specularIntensity: 1,
     attenuationColor: new THREE.Color('#fff1e8'), attenuationDistance: 9
   });
+  const lite = new THREE.MeshPhysicalMaterial({
+    color: 0x1a1412, metalness: 0.15, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.03,
+    iridescence: 0.5, iridescenceIOR: 1.3, transparent: true, opacity: 0.78, envMapIntensity: 1.6
+  });
   const het = new THREE.Mesh(hetGeo, glass);
   const hetEdges = new THREE.LineSegments(
     new THREE.EdgesGeometry(hetGeo, 28),
@@ -166,6 +173,10 @@ function start() {
   const orbit = new THREE.Group();
   world.add(orbit);
   const relics = [];
+  const hits = [];
+  const glassMeshes = [];
+  const hitGeo = new THREE.SphereGeometry(0.6, 12, 8);
+  const hitMat = new THREE.MeshBasicMaterial();
   const wire = new THREE.MeshBasicMaterial({ color: 0x3d7bff, wireframe: true, transparent: true, opacity: 0.55 });
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
@@ -175,6 +186,11 @@ function start() {
     pivot.userData = { i, id: r.id, hover: 0, scale: 0 };
     orbit.add(pivot);
     relics.push(pivot);
+    const hit = new THREE.Mesh(hitGeo, hitMat);
+    hit.visible = false;
+    hit.userData.relic = pivot;
+    pivot.add(hit);
+    hits.push(hit);
     loader.load(r.file, (gltf) => {
       const obj = gltf.scene;
       const box = new THREE.Box3().setFromObject(obj);
@@ -188,6 +204,10 @@ function start() {
         if (!m.isMesh) return;
         m.userData.relic = pivot;
         if (r.glass) {
+          m.userData.lite = new THREE.MeshPhysicalMaterial({
+            color: new THREE.Color(r.glass), roughness: 0.08, transparent: true, opacity: 0.82, clearcoat: 1, iridescence: 0.4
+          });
+          glassMeshes.push(m);
           m.material = new THREE.MeshPhysicalMaterial({
             color: new THREE.Color(r.glass), transmission: 1, thickness: 0.6, roughness: 0.08, ior: 1.45,
             iridescence: 0.3, clearcoat: 1, attenuationColor: new THREE.Color(r.glass), attenuationDistance: 0.8
@@ -242,9 +262,8 @@ function start() {
     if (!S.inside || S.px < 0) return null;
     ndc.set((S.px / S.w) * 2 - 1, -(S.py / S.h) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hits = ray.intersectObjects(relics, true);
-    for (const h of hits) if (h.object.userData.relic) return h.object.userData.relic;
-    return null;
+    const found = ray.intersectObjects(hits, false);
+    return found.length ? found[0].object.userData.relic : null;
   }
 
   hero.addEventListener('click', (e) => {
@@ -290,24 +309,41 @@ function start() {
   if (window.HG && window.HG.introDone) appear();
   else window.addEventListener('hg:intro', appear, { once: true });
 
+  // מצב קל: בלי transmission בכלל, כך שהסצנה מצוירת פעם אחת לכל פריים
+  function goLite() {
+    het.material = lite;
+    glassMeshes.forEach((m) => { m.userData.mat = m.userData.lite; if (!S.xray) m.material = m.userData.lite; });
+  }
   /* ---------- לולאה ---------- */
   const clock = new THREE.Clock();
-  let t = 0, frames = 0, slow = 0, first = true;
+  let t = 0, frames = 0, slow = 0, span = 0, first = true;
   const lerp = THREE.MathUtils.lerp;
 
   function frame() {
     if (!S.running) return;
     requestAnimationFrame(frame);
     if (!S.laid) return;
-    const dt = Math.min(clock.getDelta(), 0.05);
+    if (caseEl && !caseEl.hidden) { clock.getDelta(); return; }
+    const raw = clock.getDelta();
+    const dt = Math.min(raw, 0.05);
     t += dt;
 
     // איכות מסתגלת: אם הפריימים איטיים, מורידים רזולוציה פעם אחת
-    if (frames < 120) {
-      frames++;
-      if (dt > 0.03) slow++;
-      if (frames === 120 && slow > 50 && dpr > 1) { dpr = 1; renderer.setPixelRatio(1); layout(); }
+    // מדרגות איכות: רזולוציה ← זכוכית קלה ← 30 פריימים בשנייה. ומכשיר מהיר עולה ברזולוציה
+    frames++;
+    if (raw > 0.022) slow++;
+    span += raw;
+    if (span >= 1.2 && frames >= 4) {
+      if (slow / frames > 0.4) {
+        if (dpr > 0.75) { dpr = Math.max(0.75, dpr - 0.25); renderer.setPixelRatio(dpr); layout(); }
+        else if (het.material === glass) { goLite(); }
+        else S.half = true;
+      } else if (slow / frames < 0.05 && dpr < maxDpr && het.material === glass && !S.half) {
+        dpr = Math.min(maxDpr, dpr + 0.25); renderer.setPixelRatio(dpr); layout();
+      }
+      frames = 0; slow = 0; span = 0;
     }
+    if (S.half && (S.odd = !S.odd)) return;
 
     const hr = hero.getBoundingClientRect();
     S.prog = Math.min(1, Math.max(0, -hr.top / hr.height));
