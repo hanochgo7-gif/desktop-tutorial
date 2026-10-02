@@ -872,6 +872,21 @@
     });
   }
 
+  /* ---------- מגנט: האלמנט נמשך אחרי העכבר כשהוא מתקרב (הדמות בפתיחה) ---------- */
+  function initMagnet() {
+    if (!motion || !finePointer) return;
+    $$('[data-magnet]').forEach(function (el) {
+      var pad = +el.dataset.magnetPad || 150, k = +el.dataset.magnet || 3, on = false;
+      el.style.willChange = 'transform';
+      window.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var near = e.clientX > r.left - pad && e.clientX < r.right + pad && e.clientY > r.top - pad && e.clientY < r.bottom + pad;
+        if (near !== on) { on = near; el.style.transition = on ? 'transform .3s ease-out' : 'transform .6s ease-in-out'; }
+        el.style.transform = on ? 'translate3d(' + ((e.clientX - cx) / k).toFixed(1) + 'px,' + ((e.clientY - cy) / k).toFixed(1) + 'px,0)' : 'translate3d(0,0,0)';
+      }, { passive: true });
+    });
+  }
+
   /* ---------- חבילות ושאלות: כניסה בגלילה ואור שעוקב אחרי העכבר ---------- */
   function initPricing() {
     var tiers = $$('.tier');
@@ -1050,6 +1065,7 @@
   initDemo();
   initPricing();
   initFilm();
+  initMagnet();
   initProjects();
   initCompare();
   initCraft();
