@@ -9,7 +9,7 @@ const b64 = (f, mime) => mime + ";base64," + fs.readFileSync(f).toString("base64
 // ---------- palette ----------
 const INK = "0E1116", INK2 = "171C24", SAND = "D9B78C", SANDD = "B8925C", PAPER = "F6F3EE", PAPER2 = "ECE7DF";
 const TXT = "1C1F26", MUTED = "6B7280", MUTEDL = "A7ADB8", LINE_D = "2A313C", LINE_L = "E2DCD2", WHITE = "F6F3EE", BROWN = "5A4A30";
-const FH = "Arial", FB = "Arial";
+const FH = "Frank Ruhl Libre", FB = "Heebo";
 
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.333 x 7.5 in  (1920x1080 px @ 144 px/in)
@@ -48,6 +48,11 @@ function rect(s, x, y, w, h, fill) {
 function circle(s, cx, cy, d, fill, line) {
   s.addShape(pres.ShapeType.ellipse, { x: px(cx - d / 2), y: px(cy - d / 2), w: px(d), h: px(d), fill: { color: fill }, line: line ? { color: line, width: 3 } : { color: fill, width: 0 } });
 }
+function iconChip(s, cx, cy, d, name) {
+  circle(s, cx, cy, d, SAND);
+  const k = d * 0.5;
+  s.addImage({ path: path.join(__dirname, "icons", name + ".png"), x: px(cx - k / 2), y: px(cy - k / 2), w: px(k), h: px(k) });
+}
 function circleIcon(s, cx, cy, d, sym, bg = SAND, fg = INK) {
   circle(s, cx, cy, d, bg);
   text(s, sym, cx - d / 2, cy - d / 2, d, d, { fontSize: pt(d * 0.5), color: fg, align: "center", valign: "middle" });
@@ -55,16 +60,16 @@ function circleIcon(s, cx, cy, d, sym, bg = SAND, fg = INK) {
 function video(s, file, still, x, y, w, h) {
   s.addMedia({ type: "video", path: P(file), cover: b64(P(still), "image/jpeg"), x: px(x), y: px(y), w: px(w), h: px(h) });
 }
-const TOTAL = 38;
+const TOTAL = 39;
 let CUR_SEC = null;
 function pnum() {}
 function rule(s, x, y, w = 120, color = SAND) { rect(s, x, y, w, 6, color); }
 function chrome(s, dark, mark = 0, idx = n) {
   if (CUR_SEC) {
     rect(s, 1782, 66, 10, 10, SAND);
-    para(s, CUR_SEC[0] + "  ·  " + CUR_SEC[1], 128, 52, 1640, 40, 22, dark ? SAND : SANDD, { charSpacing: 1 });
+    para(s, CUR_SEC[0] + "  ·  " + CUR_SEC[1], 128, 48, 1640, 44, 28, dark ? SAND : SANDD, { charSpacing: 1 });
   }
-  para(s, idx + " / " + TOTAL, 128, 1000, 200, 40, 20, dark ? MUTEDL : MUTED, { align: "left", rtlMode: false, lang: "en-US" });
+  para(s, idx + " / " + TOTAL, 128, 1000, 200, 40, 24, dark ? MUTEDL : MUTED, { align: "left", rtlMode: false, lang: "en-US" });
   s.addShape(pres.ShapeType.rect, { x: 0, y: px(1076), w: W, h: px(4), fill: { color: dark ? "1B2028" : "E2DCD2" }, line: { color: dark ? "1B2028" : "E2DCD2", width: 0 } });
   const w = Math.round(1920 * idx / TOTAL);
   rect(s, 1920 - w, 1076, w, 4, SAND);
@@ -84,7 +89,7 @@ function sectionSlide(num, title, notes, tsize = 96) {
   const s = slide(INK, notes);
   text(s, num, 128, 60, 1664, 420, { fontSize: pt(400), bold: true, color: SAND, transparency: 91, fontFace: FH, align: "left", valign: "top" });
   rule(s, 1672, 430);
-  para(s, "פרק " + num, 128, 412, 1520, 44, 26, SAND, { charSpacing: 2 });
+  para(s, "פרק " + num, 128, 410, 1520, 48, 28, SAND, { charSpacing: 2 });
   heading(s, title, 128, 480, 1664, 260, tsize, WHITE);
   CUR_SEC = [num, title];
 }
@@ -131,7 +136,7 @@ sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפנ�
   rrect(s, 128, 266, 720, 654, INK, null, 24);
   text(s, "”", 184, 300, 600, 140, { fontSize: pt(110), color: SAND, fontFace: FH, align: "right" });
   heading(s, "״לא היה לי שום קשר לזה.״", 184, 470, 608, 120, 48, WHITE);
-  para(s, "והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 184, 610, 608, 150, 26, MUTEDL);
+  para(s, "והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 184, 610, 608, 150, 30, MUTEDL);
   // three words on the right, evenly spread
   const words = ["ההאשמה", "ההבנה", "ההחלטה"];
   words.forEach((w, i) => {
@@ -155,7 +160,7 @@ sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפנ�
   const s = slide(INK, "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.");
   text(s, "02", 128, 60, 1664, 420, { fontSize: pt(400), bold: true, color: SAND, transparency: 91, fontFace: FH, align: "left", valign: "top" });
   s.addImage({ path: path.join(__dirname, "nahal-sand.png"), x: px(128), y: px(365), w: px(640), h: px(351), sizing: { type: "contain", w: px(640), h: px(351) } });
-  rule(s, 1672, 430); para(s, "פרק 02", 832, 412, 816, 44, 26, SAND, { charSpacing: 2 });
+  rule(s, 1672, 430); para(s, "פרק 02", 832, 410, 816, 48, 28, SAND, { charSpacing: 2 });
   heading(s, "הבחירה", 832, 480, 960, 140, 96, WHITE);
   CUR_SEC = ["02", "הבחירה"];
 }
@@ -172,7 +177,7 @@ sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפנ�
   steps.forEach((st, i) => {
     circle(s, xs[i], y0 + 15, 30, i === 5 ? SAND : "FFFFFF", SAND);
     if (i > 0) text(s, "←", xs[i] + cw / 2 + 2, y0, gap - 4, 30, { fontSize: pt(30), color: SANDD, align: "center", valign: "middle" });
-    para(s, st, xs[i] - cw / 2, y0 + 44, cw, 90, 26, TXT, { bold: true, align: "center" });
+    para(s, st, xs[i] - cw / 2, y0 + 44, cw, 100, 28, TXT, { bold: true, align: "center" });
   });
   // three photos row (right to left): team 842, army 348, stretcher 390, gaps 32 → total 1644
   const py = 450, ph = 520;
@@ -204,25 +209,25 @@ sectionSlide("03", "7 באוקטובר", "7 באוקטובר – 15 דקות. ה
   const box = (cx, y, w, h, txt, sub, hot) => {
     rrect(s, cx - w / 2, y, w, h, hot ? SAND : INK2, hot ? SAND : LINE_D, 16);
     if (sub) {
-      para(s, txt, cx - w / 2 + 16, y + 10, w - 32, h / 2, 30, hot ? INK : WHITE, { bold: true, align: "center", valign: "bottom" });
-      para(s, sub, cx - w / 2 + 16, y + h / 2, w - 32, h / 2 - 10, 22, hot ? BROWN : MUTEDL, { align: "center", valign: "top" });
-    } else para(s, txt, cx - w / 2 + 16, y, w - 32, h, 30, hot ? INK : WHITE, { bold: true, align: "center", valign: "middle" });
+      para(s, txt, cx - w / 2 + 16, y + 6, w - 32, h / 2, 34, hot ? INK : WHITE, { bold: true, align: "center", valign: "bottom" });
+      para(s, sub, cx - w / 2 + 16, y + h / 2 + 4, w - 32, h / 2 - 8, 28, hot ? BROWN : MUTEDL, { align: "center", valign: "top" });
+    } else para(s, txt, cx - w / 2 + 16, y, w - 32, h, 34, hot ? INK : WHITE, { bold: true, align: "center", valign: "middle" });
   };
-  const vl = (y, h = 28) => rect(s, 958, y, 4, h, LINE_D);
+  const vl = (y, h = 18) => rect(s, 958, y, 4, h, LINE_D);
   const hb = (y) => rect(s, 410, y, 1100, 4, LINE_D);
-  let y = 200;
-  box(960, y, 900, 84, "סיירת נח״ל תפסה את הגזרה הדרומית", "", false); y += 84;
-  vl(y); y += 28; hb(y); y += 4;
-  vl(y, 20); rect(s, 958 - 276, y, 4, 20, LINE_D); rect(s, 958 + 276, y, 4, 20, LINE_D); y += 20;
-  box(960 + 276, y, 520, 110, "מוצב כרם שלום", "פלחה״ן", false); box(960 - 276, y, 520, 110, "מוצב סופה", "פלוגת נ״ט", false); y += 110;
-  vl(y); y += 28;
-  box(960, y, 900, 110, "פלס״ר – הפלוגה שלי", "מחולקת בין שני המוצבים", true); y += 110;
-  vl(y); y += 28; hb(y); y += 4;
-  [960 - 544, 960, 960 + 544].forEach((cx) => rect(s, cx - 2, y, 4, 20, LINE_D)); y += 20;
+  let y = 196;
+  box(960, y, 900, 76, "סיירת נח״ל תפסה את הגזרה הדרומית", "", false); y += 76;
+  vl(y); y += 18; hb(y); y += 4;
+  rect(s, 958 - 276, y, 4, 14, LINE_D); rect(s, 958 + 276, y, 4, 14, LINE_D); y += 14;
+  box(960 + 276, y, 520, 116, "מוצב כרם שלום", "פלחה״ן", false); box(960 - 276, y, 520, 116, "מוצב סופה", "פלוגת נ״ט", false); y += 116;
+  vl(y); y += 18;
+  box(960, y, 900, 116, "פלס״ר – הפלוגה שלי", "מחולקת בין שני המוצבים", true); y += 116;
+  vl(y); y += 18; hb(y); y += 4;
+  [960 - 544, 960, 960 + 544].forEach((cx) => rect(s, cx - 2, y, 4, 14, LINE_D)); y += 14;
   const bw = (1664 - 64) / 3;
-  box(1792 - bw / 2, y, bw, 110, "תורנות מטבח", "", false); box(960, y, bw, 110, "צוות עתודה", "זמין לכל אירוע בגזרה", true); box(128 + bw / 2, y, bw, 110, "כיתת כוננות", "", false); y += 110;
-  vl(y); y += 28;
-  box(960, y, 900, 84, "משמרת בוקר 05:30  ·  משמרת ערב 18:30", "", false);
+  box(1792 - bw / 2, y, bw, 116, "תורנות מטבח", "", false); box(960, y, bw, 116, "צוות עתודה", "זמין לכל אירוע בגזרה", true); box(128 + bw / 2, y, bw, 116, "כיתת כוננות", "", false); y += 116;
+  vl(y); y += 18;
+  box(960, y, 900, 76, "משמרת בוקר 05:30  ·  משמרת ערב 18:30", "", false);
   pnum(s, n);
 }
 // ============ 13 nagmash ============
@@ -255,16 +260,16 @@ function radio(when, title, sub, dur, notes, lines, file, still) {
   rrect(s, cx, cy, cw, ch, INK2, LINE_D, 24);
   s.addShape(pres.ShapeType.roundRect, { x: px(cx + cw - 64 - 620), y: px(cy + 36), w: px(620), h: px(52), rectRadius: px(26), fill: { color: "2B1A1D" }, line: { color: "6E2A2E", width: 1 } });
   circle(s, cx + cw - 64 - 30, cy + 62, 14, "E5484D");
-  para(s, "הקלטת קשר  ·  " + when, cx + cw - 64 - 610, cy + 42, 550, 40, 24, WHITE, { valign: "middle" });
-  para(s, dur, cx + 64, cy + 40, 300, 40, 26, MUTEDL, { align: "left" });
+  para(s, "הקלטת קשר  ·  " + when, cx + cw - 64 - 610, cy + 40, 550, 44, 28, WHITE, { valign: "middle" });
+  para(s, dur, cx + 64, cy + 40, 300, 44, 28, MUTEDL, { align: "left" });
   heading(s, title, cx + 64, cy + 90, cw - 128, 80, 52, WHITE);
   // recording video on the left, transcript on the right
   const vw = 560, vh = Math.round(vw * 480 / 852);
   video(s, file, still, cx + 64, cy + 200, vw, vh);
-  para(s, "▶ לחיצה על הסרטון משמיעה את ההקלטה", cx + 64, cy + 200 + vh + 12, vw, 40, 20, MUTEDL, { align: "center" });
-  para(s, sub, cx + 64 + vw + 48, cy + 200, cw - 128 - vw - 48, 44, 26, SAND);
+  para(s, "▶ לחיצה משמיעה את ההקלטה", cx + 64, cy + 200 + vh + 12, vw, 44, 26, MUTEDL, { align: "center" });
+  para(s, sub, cx + 64 + vw + 48, cy + 200, cw - 128 - vw - 48, 48, 30, SAND);
   const chars = lines.reduce((a, [sp, tx]) => a + sp.length + tx.length, 0);
-  const tsz = chars < 80 ? 44 : chars < 140 ? 38 : chars < 260 ? 32 : 27;
+  const tsz = chars < 80 ? 44 : chars < 140 ? 40 : chars < 260 ? 34 : 32;
   const runs = [];
   lines.forEach(([sp, tx], i) => {
     if (sp) runs.push({ text: sp + " ", options: { bold: true, color: SAND, breakLine: false } });
@@ -333,13 +338,13 @@ radio("7.10, 07:50", "קליין נותן פקודה. והיא מאפסת אות
   img(s, "rehab-00-soroka.jpg", 1792 - 464, 128, 464, 824);
   const cx = 128, cy = 128, cw = 1664 - 464 - 48, ch = 824;
   rrect(s, cx, cy, cw, ch, INK2, LINE_D, 24);
-  para(s, "סורוקה  ·  שעתיים אחרי הפינוי", cx + 48, cy + 36, 700, 36, 24, MUTEDL);
-  para(s, "0:28", cx + 48, cy + 36, 200, 36, 24, MUTEDL, { align: "left" });
+  para(s, "סורוקה  ·  שעתיים אחרי הפינוי", cx + 48, cy + 32, 700, 44, 28, MUTEDL);
+  para(s, "0:28", cx + 48, cy + 32, 200, 44, 28, MUTEDL, { align: "left" });
   heading(s, "ההודעה הקולית ששלחתי מהמיטה", cx + 48, cy + 80, cw - 96, 60, 40, WHITE);
   const vw = 440, vh = Math.round(vw * 480 / 852);
   video(s, "radio-05-soroka.mp4", "radio-05-still.jpg", cx + 48, cy + 160, vw, vh);
-  para(s, "▶ לחיצה משמיעה את ההודעה", cx + 48, cy + 160 + vh + 8, vw, 36, 20, MUTEDL, { align: "center" });
-  para(s, "״אני בסדר גמור.״ עוד לא ידעתי כלום", cx + 48 + vw + 40, cy + 160, cw - 96 - vw - 40, 44, 26, SAND);
+  para(s, "▶ לחיצה משמיעה את ההודעה", cx + 48, cy + 160 + vh + 8, vw, 44, 26, MUTEDL, { align: "center" });
+  para(s, "״אני בסדר גמור.״ עוד לא ידעתי כלום", cx + 48 + vw + 40, cy + 160, cw - 96 - vw - 40, 48, 30, SAND);
   const lines = [["חנוך:", "היי כולם, מה קורה, זה חנוך. מבקש לא להפיץ את ההקלטה, לא בא לי שכל העולם ישמע אותי מדבר."], ["", "הייתי בסופה, הותקלנו מחבלים. קיבלתי כדור ביד, חוץ מזה אני בסדר גמור."], ["", "בגדול דואגים לי, אמא פה, אבא תכף יגיע. כל הצבא עליי, כל הבי״ח עליי. אני בסדר גמור."], ["", "אוהב את כולם, נשיקות, נפגש."]];
   const runs = [];
   lines.forEach(([sp, tx], i) => {
@@ -347,9 +352,11 @@ radio("7.10, 07:50", "קליין נותן פקודה. והיא מאפסת אות
     runs.push({ text: tx, options: { breakLine: i < lines.length - 1 } });
     if (i < lines.length - 1) runs.push({ text: "", options: { breakLine: true } });
   });
-  s.addText(runs, T({ x: px(cx + 48 + vw + 40), y: px(cy + 215), w: px(cw - 96 - vw - 40), h: px(ch - 260), fontSize: pt(26), color: WHITE, valign: "top", paraSpaceAfter: 4 }));
+  s.addText(runs, T({ x: px(cx + 48 + vw + 40), y: px(cy + 215), w: px(cw - 96 - vw - 40), h: px(ch - 260), fontSize: pt(30), color: WHITE, valign: "top", paraSpaceAfter: 4 }));
   pnum(s, n);
 }
+// ============ 27a pause ============
+slide("000000", "שקופית שחורה. שתי שניות של שקט אחרי ההודעה הקולית. לנשום, ואז לעבור לטוויסט.", { chrome: false });
 // ============ 27 twist ============
 {
   const s = slide(SAND, "הטוויסט של ההרצאה. הקהל מצפה שהשיא היה 7 באוקטובר – ואתה אומר: הקרב היה החלק הקל. מכאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.");
@@ -361,11 +368,12 @@ radio("7.10, 07:50", "קליין נותן פקודה. והיא מאפסת אות
 sectionSlide("04", "ואז הכול נגמר", "ואז הכול נגמר – 8 דקות.");
 // ============ 29 numbers ============
 {
-  const s = slide(INK, "מעל 19 חברים באותו יום, ועוד כמעט עשרה במהלך המלחמה. זה הדבר שהיה לי הכי קשה אחרי השביעי – לא הפציעה. הדברים שהם לא יספיקו לעשות, והמשפחות השכולות. (אפשר להגיד שם אחד או שניים. לעצור. לא למהר לשקף הבא.)");
-  rule(s, 1672, 290);
-  heading(s, "הדבר הכי קשה לא היה הפציעה", 128, 330, 1664, 120, 72, WHITE);
-  para(s, "הדברים שהם לא יספיקו לעשות. המשפחות שנשארו.", 128, 480, 1664, 70, 32, MUTEDL);
-  heading(s, "זה מה שנשאר איתי", 128, 590, 1664, 80, 44, SAND);
+  const s = slide(INK, "התמונה: הצוות בסוף המסלול, בשחור לבן. מעל 19 חברים באותו יום, ועוד כמעט עשרה במהלך המלחמה. זה הדבר שהיה לי הכי קשה אחרי השביעי – לא הפציעה. הדברים שהם לא יספיקו לעשות, והמשפחות השכולות. (אפשר להגיד שם אחד או שניים. לעצור. לא למהר לשקף הבא.)");
+  img(s, "team-gray.jpg", 128, 287, 820, 506);
+  rule(s, 1672, 330);
+  heading(s, "הדבר הכי קשה לא היה הפציעה", 1028, 370, 764, 180, 64, WHITE);
+  para(s, "הדברים שהם לא יספיקו לעשות. המשפחות שנשארו.", 1028, 570, 764, 100, 32, MUTEDL);
+  heading(s, "זה מה שנשאר איתי", 1028, 690, 764, 70, 44, SAND);
   pnum(s, n);
 }
 // ============ 30 after ============
@@ -373,10 +381,10 @@ sectionSlide("04", "ואז הכול נגמר", "ואז הכול נגמר – 8 �
   const s = slide(PAPER, "הפציעה – יד (חוסם עורקים) ועין (רסיס). השיקום – ארוך ומתיש, לבד רוב הזמן, בלי משככי כאבים, 3 חודשים בתל השומר. (לא להיכנס לסיבה – זה אישי ולא חלק מההרצאה.) האובדן. החיים שאחרי – המעבר המהיר בין לוחם לפצוע לאזרח. כאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.", { mark: 74 });
   heading(s, "מה שאף אחד לא מכין אותך אליו", 128, 128, 1664, 90, 64, TXT);
   img(s, "rehab-01.jpg", 128, 258, 520, 640);
-  const items = [["✚", "הפציעה"], ["⌂", "השיקום"], ["♥", "האובדן"], ["→", "החיים שאחרי"]];
+  const items = [["warn", "הפציעה"], ["home", "השיקום"], ["heart", "האובדן"], ["growth", "החיים שאחרי"]];
   items.forEach(([sym, t], i) => {
     const y = 258 + (640 / 4) * i + 80;
-    circleIcon(s, 1792 - 36, y, 72, sym);
+    iconChip(s, 1792 - 36, y, 72, sym);
     heading(s, t, 712, y - 40, 1000, 80, 44, TXT, { valign: "middle" });
   });
   pnum(s, n, false);
@@ -389,7 +397,7 @@ sectionSlide("04", "ואז הכול נגמר", "ואז הכול נגמר – 8 �
   tiles.forEach(([f, cap], i) => {
     const x = 1792 - 304 - i * (304 + 36);
     img(s, f, x, 270, 304, 520);
-    para(s, cap, x, 802, 304, 40, 24, MUTEDL, { align: "center" });
+    para(s, cap, x, 800, 304, 48, 30, MUTEDL, { align: "center" });
   });
   pnum(s, n);
 }
@@ -397,15 +405,16 @@ sectionSlide("04", "ואז הכול נגמר", "ואז הכול נגמר – 8 �
 sectionSlide("05", "מה עושים כשהחיים לא חוזרים להיות מה שהיו?", "מה עושים כשהחיים לא חוזרים להיות מה שהיו – 10 דקות. החלק החדש. עליו הדגש.", 72);
 // ============ 33 principles ============
 {
-  const s = slide(PAPER, "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. רק את הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", { mark: 74 });
+  const s = slide(PAPER, "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. צריך לדעת רק מה הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", { mark: 74 });
   heading(s, "שלושה עקרונות", 128, 128, 1664, 90, 64, TXT);
   const Pz = [["אתה לא שולט במה שקורה לך", "אבל אתה כן שולט במה שאתה עושה עם זה.", false], ["לא חייבים לדעת את כל הדרך", "צריך לדעת רק מה הצעד הבא.", false], ["זהות לא מקבלים. בונים.", "הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה.", true]];
   const cw = (1664 - 80) / 3;
   Pz.forEach(([a, b, dark], i) => {
     const x = 1792 - cw - i * (cw + 40);
     rrect(s, x, 266, cw, 654, dark ? INK2 : "FFFFFF", dark ? LINE_D : LINE_L, 20);
-    heading(s, a, x + 48, 330, cw - 96, 200, 44, dark ? WHITE : TXT);
-    para(s, b, x + 48, 560, cw - 96, 300, 28, dark ? MUTEDL : MUTED);
+    circle(s, x + cw - 48 - 44, 266 + 56 + 44, 88, SAND);
+    text(s, String(i + 1), x + cw - 48 - 88, 266 + 56, 88, 88, { fontSize: pt(44), color: INK, align: "center", valign: "middle" });
+    heading(s, a, x + 48, 420, cw - 96, 300, 56, dark ? WHITE : TXT, { valign: "middle" });
   });
   pnum(s, n, false);
 }
@@ -413,17 +422,16 @@ sectionSlide("05", "מה עושים כשהחיים לא חוזרים להיות 
 sectionSlide("06", "להפוך כאב למשהו", "להפוך כאב למשהו – 7 דקות.");
 // ============ 35 today ============
 {
-  const s = slide(PAPER, "לימודים, עבודה, הרצאות, מטרות, בניית עתיד, הרצון להתפתח. המסר: לא תמיד אפשר לבחור את הסיפור שקיבלת. אפשר לבחור מה אתה עושה איתו.", { mark: 74 });
+  const s = slide(PAPER, "לימודים – הנדסאי בניין, ובקרוב יזמות וקיימות באוניברסיטת רייכמן. עבודה – עבדתי בכל מיני עבודות, כל אחת לימדה אותי משהו. הרצאות – לעמוד מול אנשים ולספר, לא בשביל רחמים. קורסים והתנסויות – מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר. שאיפות – יש לי שאיפות גדולות; אני לא יודע את כל הדרך, אני יודע מה הצעד הבא. הרצון להתפתח – לא לעצור, תמיד אפשר להיות יותר טוב. המסר: לא תמיד אפשר לבחור את הסיפור שקיבלת. אפשר לבחור מה אתה עושה איתו.", { mark: 74 });
   heading(s, "מה אני עושה עם זה היום", 128, 100, 1664, 90, 64, TXT);
-  const T6 = [["🎓", "לימודים", "הנדסאי בניין, ובקרוב – יזמות וקיימות באוניברסיטת רייכמן."], ["💼", "עבודה", "עבדתי בכל מיני עבודות – כל אחת לימדה אותי משהו."], ["🎤", "הרצאות", "לעמוד מול אנשים ולספר. לא בשביל רחמים."], ["🚀", "קורסים והתנסויות", "מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר."], ["◎", "שאיפות", "יש לי שאיפות גדולות. אני לא יודע את כל הדרך – אני יודע מה הצעד הבא."], ["📈", "הרצון להתפתח", "לא לעצור. תמיד אפשר להיות יותר טוב."]];
+  const T6 = [["grad", "לימודים", "הנדסאי בניין, ובקרוב – יזמות וקיימות באוניברסיטת רייכמן."], ["tool", "עבודה", "עבדתי בכל מיני עבודות – כל אחת לימדה אותי משהו."], ["users", "הרצאות", "לעמוד מול אנשים ולספר. לא בשביל רחמים."], ["bolt", "קורסים והתנסויות", "מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר."], ["star", "שאיפות", "יש לי שאיפות גדולות. אני לא יודע את כל הדרך – אני יודע מה הצעד הבא."], ["growth", "הרצון להתפתח", "לא לעצור. תמיד אפשר להיות יותר טוב."]];
   const cw = (1664 - 64) / 3, ch = 360;
   T6.forEach(([ic, a, b], i) => {
     const col = i % 3, row = Math.floor(i / 3);
     const x = 1792 - cw - col * (cw + 32), y = 220 + row * (ch + 32);
     rrect(s, x, y, cw, ch, "FFFFFF", LINE_L, 20);
-    circleIcon(s, x + cw - 40 - 36, y + 40 + 36, 72, ic);
-    heading(s, a, x + 40, y + 40, cw - 80 - 92, 72, 44, TXT, { valign: "middle" });
-    para(s, b, x + 40, y + 140, cw - 80, ch - 170, 28, MUTED);
+    iconChip(s, x + cw / 2, y + 120, 104, ic);
+    heading(s, a, x + 24, y + 200, cw - 48, 90, 48, TXT, { align: "center", valign: "middle" });
   });
   pnum(s, n, false);
 }
@@ -439,15 +447,14 @@ sectionSlide("06", "להפוך כאב למשהו", "להפוך כאב למשהו
 }
 // ============ 37 decision ============
 {
-  const s = slide(INK, "כאן סוגרים את המעגל מהפתיחה: 'ההחלטה' לא הייתה רק להמשיך להילחם. ההחלטה הייתה לקחת החלטות ולפעול בחיים של עצמי – כמו שעשיתי כילד, כמו שעשיתי בקרב, כמו שאני עושה היום.");
+  const s = slide(INK, "שלוש פעמים, אותה החלטה. כיתה י׳: כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי. 7.10: כשנפצעתי – החלטתי לתפקד ולהמשיך. היום: כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש. כאן סוגרים את המעגל מהפתיחה: 'ההחלטה' לא הייתה רק להמשיך להילחם. ההחלטה הייתה לקחת החלטות ולפעול בחיים של עצמי – כמו שעשיתי כילד, כמו שעשיתי בקרב, כמו שאני עושה היום.");
   heading(s, "ההחלטה הייתה לקחת את ההחלטות בחיים שלי בעצמי", 128, 128, 1664, 100, 60, WHITE, { align: "center" });
   const D = [["כיתה י׳", "כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי."], ["7.10", "כשנפצעתי – החלטתי לתפקד ולהמשיך."], ["היום", "כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש."]];
-  const cw = (1664 - 80) / 3, ch = 460, y = 330;
+  const cw = (1664 - 80) / 3, ch = 320, y = 400;
   D.forEach(([a, b], i) => {
     const x = 1792 - cw - i * (cw + 40);
     rrect(s, x, y, cw, ch, INK2, LINE_D, 20);
-    heading(s, a, x + 40, y + 70, cw - 80, 130, 80, SAND, { align: "center", valign: "middle" });
-    para(s, b, x + 40, y + 230, cw - 80, 180, 30, WHITE, { align: "center" });
+    heading(s, a, x + 40, y + 40, cw - 80, ch - 80, 110, SAND, { align: "center", valign: "middle" });
   });
   pnum(s, n);
 }

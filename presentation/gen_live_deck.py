@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=38
+TOTAL=39
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -20,8 +20,8 @@ def chrome(dark, mark=0):
         num,title=CUR_SEC
         h+=(f'<div style="position:absolute; left:128px; top:56px; width:1664px; display:flex; flex-direction:row-reverse; gap:14px; align-items:center">'
             f'<div style="width:10px; height:10px; background:{SAND}"></div>'
-            f'<p style="font-size:22px; letter-spacing:1px; color:{SAND if dark else SANDD}; text-align:right">{t(num+"  ·  "+title)}</p></div>')
-    h+=f'<p style="position:absolute; left:128px; bottom:40px; width:200px; font-size:20px; color:{MUTEDL if dark else MUTED}; text-align:left">{n} / {TOTAL}</p>'
+            f'<p style="font-size:28px; letter-spacing:1px; color:{SAND if dark else SANDD}; text-align:right">{t(num+"  ·  "+title)}</p></div>')
+    h+=f'<p style="position:absolute; left:128px; bottom:40px; width:200px; font-size:24px; color:{MUTEDL if dark else MUTED}; text-align:left">{n} / {TOTAL}</p>'
     w=int(1920*n/TOTAL)
     h+=(f'<div style="position:absolute; left:0px; bottom:0px; width:1920px; height:4px; background:{"rgba(255,255,255,0.08)" if dark else "rgba(0,0,0,0.08)"}"></div>'
         f'<div style="position:absolute; left:{1920-w}px; bottom:0px; width:{w}px; height:4px; background:{SAND}"></div>')
@@ -59,7 +59,7 @@ def section_slide(id_, num, title, sub, notes, n, tsize=96):
     CUR_SEC=None
     body=(f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">{num}</h1>'
           f'<div style="flex:1"></div>'
-          f'<div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק "+num, 26, SAND, "; letter-spacing:2px")}</div>'
+          f'<div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק "+num, 28, SAND, "; letter-spacing:2px")}</div>'
           f'{h2(title, tsize, "#F6F3EE")}'
           f'<div style="flex:1"></div>')
     sec(id_, INK, body, notes, pad="128px 128px 160px")
@@ -130,7 +130,7 @@ sec("grade10", PAPER,
     f'<div style="width:720px; background:{INK}; border-radius:24px; padding:56px; display:flex; flex-direction:column; gap:24px">'
     f'<p style="font-family:{H}; font-size:110px; color:{SAND}; line-height:0.8">”</p>'
     f'{h3("״לא היה לי שום קשר לזה.״", 48, "#F6F3EE")}'
-    f'{p("והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 26, MUTEDL)}</div></div>{pnum(n, False)}',
+    f'{p("והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 30, MUTEDL)}</div></div>{pnum(n, False)}',
     "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
 # 7 message
 n+=1
@@ -143,7 +143,7 @@ CUR_SEC=None
 sec("s02", INK,
     f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">02</h1>'
     f'<div style="display:flex; flex-direction:row; gap:64px; align-items:center; flex:1">'
-    f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 26, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
+    f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 28, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
     f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:640px; height:351px; object-fit:contain"></div>{pnum(n)}',
     "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.", pad="128px 128px 160px")
 CUR_SEC=("02","הבחירה")
@@ -164,7 +164,7 @@ for i,(a_,b_) in enumerate(steps):
                 f'<div style="height:30px; display:flex; align-items:center"><p style="font-size:30px; line-height:1; color:{SANDD}">←</p></div></div>')
     cells+=(f'<div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:14px">'
             f'<div style="width:30px; height:30px; border-radius:50%; background:{SAND if last else "#FFFFFF"}; border:4px solid {SAND}"></div>'
-            f'<p style="font-size:26px; font-weight:700; line-height:1.2; color:{TXT}; text-align:center">{t(a_)}</p></div>')
+            f'<p style="font-size:28px; font-weight:700; line-height:1.2; color:{TXT}; text-align:center">{t(a_)}</p></div>')
 def ph(key, w, h, label): return f'<img src="{PHOTOS[key]}" alt="{label}" style="width:{w}px; height:{h}px; object-fit:cover; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.10)">'
 sec("sayeret", PAPER,
     f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center; justify-content:space-between">{h2("השירות הצבאי", 60)}<img src="{DARK_IMG}" alt="סמל סיירת נח״ל" style="width:260px; height:143px; object-fit:contain"></div>'
@@ -196,10 +196,10 @@ sec("nagmash", INK,
 # 12a0 sector diagram
 n+=1
 def box(txt, hot=False, w=None, sub=""):
-    st=f"background:{SAND if hot else INK2}; border:1px solid {SAND if hot else HAIR_D}; border-radius:16px; padding:20px 28px; display:flex; flex-direction:column; align-items:center; gap:4px"+(f"; width:{w}px" if w else "; flex:1")
-    return (f'<div style="{st}"><p style="font-size:30px; font-weight:700; color:{INK if hot else "#F6F3EE"}; text-align:center">{t(txt)}</p>'
-            + (f'<p style="font-size:22px; color:{"#5A4A30" if hot else MUTEDL}; text-align:center">{t(sub)}</p>' if sub else '') + '</div>')
-vline=f'<div style="display:flex; flex-direction:row; justify-content:center"><div style="width:4px; height:28px; background:{LINE_D}"></div></div>'
+    st=f"background:{SAND if hot else INK2}; border:1px solid {SAND if hot else HAIR_D}; border-radius:16px; padding:12px 24px; display:flex; flex-direction:column; align-items:center; gap:0px"+(f"; width:{w}px" if w else "; flex:1")
+    return (f'<div style="{st}"><p style="font-size:34px; font-weight:700; color:{INK if hot else "#F6F3EE"}; text-align:center">{t(txt)}</p>'
+            + (f'<p style="font-size:28px; color:{"#5A4A30" if hot else MUTEDL}; text-align:center">{t(sub)}</p>' if sub else '') + '</div>')
+vline=f'<div style="display:flex; flex-direction:row; justify-content:center"><div style="width:4px; height:18px; background:{LINE_D}"></div></div>'
 hbar=f'<div style="display:flex; flex-direction:row; justify-content:center"><div style="width:1100px; height:4px; background:{LINE_D}"></div></div>'
 sec("sector", INK,
     f'{h2("איך זה עבד בגזרה", 52, "#F6F3EE")}'
@@ -212,7 +212,7 @@ sec("sector", INK,
     f'<div style="display:flex; flex-direction:row; gap:32px; justify-content:center">{box("תורנות מטבח")}{box("צוות עתודה", True, None, "זמין לכל אירוע בגזרה")}{box("כיתת כוננות")}</div>'
     f'{vline}'
     f'<div style="display:flex; flex-direction:row; justify-content:center">{box("משמרת בוקר 05:30  ·  משמרת ערב 18:30", False, 900)}</div>{pnum(n)}',
-    "להסביר את המבנה בשלושה משפטים: סיירת נח״ל תפסה את הגזרה הדרומית. שני מוצבים – כרם שלום (פלחה״ן) וסופה (פלוגת נ״ט). הפלס״ר, הפלוגה שלי, הייתה מחולקת בין שניהם. כל מוצב מחולק למשימות, והמשימה שלנו הייתה צוות עתודה – זמין לכל אירוע. משמרות: כל בוקר 05:30 וכל ערב 18:30. ומכאן – לשקף הבא: ערב חג.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:10px", mark=60)
+    "להסביר את המבנה בשלושה משפטים: סיירת נח״ל תפסה את הגזרה הדרומית. שני מוצבים – כרם שלום (פלחה״ן) וסופה (פלוגת נ״ט). הפלס״ר, הפלוגה שלי, הייתה מחולקת בין שניהם. כל מוצב מחולק למשימות, והמשימה שלנו הייתה צוות עתודה – זמין לכל אירוע. משמרות: כל בוקר 05:30 וכל ערב 18:30. ומכאן – לשקף הבא: ערב חג.", pad="128px 128px 128px", layout="display:flex; flex-direction:column; gap:6px", mark=60)
 # 12a before: holiday eve, morning shift, 06:29
 n+=1
 rows=[("6.10","ערב חג. ארוחת חג, אימון, ולישון."),("05:30","קמתי למשמרת בוקר."),("06:29","מטח רקטות. ואז –")]
@@ -236,17 +236,17 @@ def radio(id_, when, title, sub, dur, notes, seed, lines=()):
     global n
     n+=1
     random.seed(seed)
-    chars=sum(len(sp)+len(tx) for sp,tx in lines); tsz = 44 if chars<80 else 38 if chars<140 else 32 if chars<260 else 27
+    chars=sum(len(sp)+len(tx) for sp,tx in lines); tsz = 44 if chars<80 else 40 if chars<140 else 34 if chars<260 else 32
     bars="".join(f'<rect x="{i*14}" y="{60-h}" width="8" height="{2*h}" rx="4" fill="#D9B78C" opacity="{0.35+0.65*(h/56):.2f}"/>' for i,h in enumerate([max(4,int(56*abs(random.gauss(0.45,0.3)))) for _ in range(100)]))
     sec(id_, INK,
         f'<div style="flex:1"></div>'
         f'<div style="display:flex; flex-direction:column; gap:28px; background:{INK2}; border:1px solid {HAIR_D}; border-radius:24px; padding:56px 64px">'
-        f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center; justify-content:space-between">{p(dur, 26, MUTEDL, "; font-variant-numeric:tabular-nums")}'
-        f'<div style="display:flex; flex-direction:row-reverse; gap:14px; align-items:center; background:rgba(229,72,77,0.12); border:1px solid rgba(229,72,77,0.35); border-radius:50%; padding:8px 22px"><div style="width:14px; height:14px; border-radius:50%; background:#E5484D"></div>{p("הקלטת קשר  ·  "+when, 24, "#F6F3EE")}</div></div>'
+        f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center; justify-content:space-between">{p(dur, 28, MUTEDL, "; font-variant-numeric:tabular-nums")}'
+        f'<div style="display:flex; flex-direction:row-reverse; gap:14px; align-items:center; background:rgba(229,72,77,0.12); border:1px solid rgba(229,72,77,0.35); border-radius:50%; padding:8px 22px"><div style="width:14px; height:14px; border-radius:50%; background:#E5484D"></div>{p("הקלטת קשר  ·  "+when, 28, "#F6F3EE")}</div></div>'
         f'{h2(title, 52, "#F6F3EE")}'
         f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center"><div style="width:80px; height:80px; border-radius:50%; background:{SAND}; display:flex; align-items:center; justify-content:center"><p style="font-size:34px; color:{INK}; text-align:center">▶</p></div>'
         f'<svg viewBox="0 0 1400 120" width="1120" height="96" aria-label="גל קול של ההקלטה">{bars}</svg></div>'
-        f'{p(sub, 26, SAND)}'
+        f'{p(sub, 30, SAND)}'
         + "".join(f'<p style="font-size:{tsz}px; line-height:1.35; color:#F6F3EE; text-align:right"><span style="color:{SAND}"><b>{t(sp)}</b></span> {t(tx)}</p>' if sp else f'<p style="font-size:{tsz}px; line-height:1.35; color:#F6F3EE; text-align:right">{t(tx)}</p>' for sp,tx in lines)
         + '</div>'
         f'<div style="flex:1"></div>{pnum(n)}', notes, pad="128px 128px 160px")
@@ -308,17 +308,21 @@ n+=1
 random.seed(23)
 bars="".join(f'<rect x="{i*14}" y="{60-h}" width="8" height="{2*h}" rx="4" fill="#D9B78C" opacity="{0.35+0.65*(h/56):.2f}"/>' for i,h in enumerate([max(4,int(56*abs(random.gauss(0.45,0.3)))) for _ in range(64)]))
 lines=[("חנוך:","היי כולם, מה קורה, זה חנוך. מבקש לא להפיץ את ההקלטה, לא בא לי שכל העולם ישמע אותי מדבר."),("","הייתי בסופה, הותקלנו מחבלים. קיבלתי כדור ביד, חוץ מזה אני בסדר גמור."),("","בגדול דואגים לי, אמא פה, אבא תכף יגיע. כל הצבא עליי, כל הבי״ח עליי. אני בסדר גמור."),("","אוהב את כולם, נשיקות, נפגש.")]
-tr="".join(f'<p style="font-size:26px; line-height:1.35; color:#F6F3EE; text-align:right"><span style="color:{SAND}"><b>{t(sp)}</b></span> {t(tx)}</p>' if sp else f'<p style="font-size:26px; line-height:1.35; color:#F6F3EE; text-align:right">{t(tx)}</p>' for sp,tx in lines)
+tr="".join(f'<p style="font-size:30px; line-height:1.35; color:#F6F3EE; text-align:right"><span style="color:{SAND}"><b>{t(sp)}</b></span> {t(tx)}</p>' if sp else f'<p style="font-size:30px; line-height:1.35; color:#F6F3EE; text-align:right">{t(tx)}</p>' for sp,tx in lines)
 sec("soroka", INK,
     f'<div style="display:flex; flex-direction:row; gap:48px; flex:1; align-items:stretch">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:18px; background:{INK2}; border:1px solid {HAIR_D}; border-radius:24px; padding:40px 48px; justify-content:center">'
-    f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center; justify-content:space-between">{p("סורוקה  ·  שעתיים אחרי הפינוי", 24, MUTEDL)}{p("0:28", 24, MUTEDL)}</div>'
+    f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center; justify-content:space-between">{p("סורוקה  ·  שעתיים אחרי הפינוי", 28, MUTEDL)}{p("0:28", 28, MUTEDL)}</div>'
     f'{h2("ההודעה הקולית ששלחתי מהמיטה.", 40, "#F6F3EE")}'
     f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center"><div style="width:80px; height:80px; border-radius:50%; background:{SAND}; display:flex; align-items:center; justify-content:center"><p style="font-size:34px; color:{INK}; text-align:center">▶</p></div>'
     f'<svg viewBox="0 0 896 120" width="740" height="80" aria-label="גל קול של ההקלטה">{bars}</svg></div>'
-    f'{p("״אני בסדר גמור.״ עוד לא ידעתי כלום.", 26, SAND)}{tr}</div>'
+    f'{p("״אני בסדר גמור.״ עוד לא ידעתי כלום.", 30, SAND)}{tr}</div>'
     f'<img src="/_blob/fa2ed9bcf42af6840e8c4bbf27acd2ec" alt="חנוך על אלונקה במסדרון בסורוקה, שעתיים אחרי הפינוי" style="width:464px; height:824px; object-fit:cover; border-radius:24px"></div>{pnum(n)}',
     "סורוקה, שעתיים אחרי הפינוי. התמונה + ההודעה הקולית ששלחתי לכולם. להשמיע (עם קול בקובץ ה-PowerPoint). הקהל שומע 'אני בסדר גמור' – ואתה כבר יודע שזה לא היה נכון. משפט אחד אחרי: באותו רגע חשבתי שהחלק הקשה נגמר. ואז הנגמ״ש יום אחרי, ואז הטוויסט.", pad="128px 128px 160px")
+# 14z pause (black)
+n+=1
+sec("pause", "#000000", '<div style="flex:1"></div>',
+    "שקופית שחורה. שתי שניות של שקט אחרי ההודעה הקולית. לנשום, ואז לעבור לטוויסט.", chrome_on=False)
 # 15 twist
 n+=1
 sec("twist", SAND,
@@ -333,14 +337,15 @@ n+=1
 stats=[("19","חברים ויותר שאיבדתי באותו יום"),("10","חברים נוספים, כמעט, במהלך המלחמה"),("3","חודשי אשפוז בתל השומר"),("2","פציעות: יד ועין")]
 def statcard(a,b): return card(h1(a,110,SAND,extra="; text-align:center")+p(b,26,"#F6F3EE","; text-align:center"), True, "; align-items:center; justify-content:center; padding:40px 24px")
 sec("numbers", INK,
-    f'<div style="display:flex; flex-direction:row; gap:96px; flex:1; align-items:center">'
+    f'<div style="display:flex; flex-direction:row; gap:80px; flex:1; align-items:center">'
+    f'<img src="/_blob/2f3952cf0bfbdbeaf3a88e8567d5265e" alt="הצוות בסוף המסלול, בשחור לבן" style="width:820px; height:506px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:40px">'
     f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
-    f'{h2("הדבר הכי קשה לא היה הפציעה.", 72, "#F6F3EE")}'
+    f'{h2("הדבר הכי קשה לא היה הפציעה.", 64, "#F6F3EE")}'
     f'{p("הדברים שהם לא יספיקו לעשות. המשפחות שנשארו.", 32, MUTEDL)}'
     f'{h3("זה מה שנשאר איתי.", 44, SAND)}</div>'
     f'</div>{pnum(n)}',
-    "מספר אחד על המסך: 19. מעל 19 חברים באותו יום, ועוד כמעט עשרה במהלך המלחמה. זה הדבר שהיה לי הכי קשה אחרי השביעי – לא הפציעה. הדברים שהם לא יספיקו לעשות, והמשפחות השכולות. (אפשר להגיד שם אחד או שניים. לעצור. לא למהר לשקף הבא.)", pad="128px 128px 160px")
+    "התמונה: הצוות בסוף המסלול, בשחור לבן. מעל 19 חברים באותו יום, ועוד כמעט עשרה במהלך המלחמה. זה הדבר שהיה לי הכי קשה אחרי השביעי – לא הפציעה. הדברים שהם לא יספיקו לעשות, והמשפחות השכולות. (אפשר להגיד שם אחד או שניים. לעצור. לא למהר לשקף הבא.)", pad="128px 128px 160px")
 # 18 after
 n+=1
 items=[("Warning","הפציעה",""),
@@ -358,7 +363,7 @@ sec("after", PAPER,
 n+=1
 def tile(label, key, cap):
     return (f'<div style="flex:1; display:flex; flex-direction:column; gap:12px">{photo(label, 304, 520, True, "; border-radius:20px", key=key)}'
-            f'<p style="font-size:24px; color:{MUTEDL}; text-align:center">{t(cap)}</p></div>')
+            f'<p style="font-size:30px; color:{MUTEDL}; text-align:center">{t(cap)}</p></div>')
 sec("journey", INK,
     f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:baseline; justify-content:space-between">{h2("מאז.", 72, "#F6F3EE")}</div>'
     f'<div style="display:flex; flex-direction:row; gap:36px; flex:1">'
@@ -376,10 +381,10 @@ n+=1
 P=[("1","אתה לא שולט במה שקורה לך","אבל אתה כן שולט במה שאתה עושה עם זה.",False),
    ("2","לא חייבים לדעת את כל הדרך","צריך לדעת רק מה הצעד הבא.",False),
    ("3","זהות לא מקבלים. בונים.","הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה.",True)]
-ph="".join(card(f'{circle_icon(a,88)}{h3(b,44,"#F6F3EE" if d else TXT)}{p(c,28,MUTEDL if d else MUTED)}', d, "; gap:28px; padding:56px 48px") for a,b,c,d in P)
+ph="".join(card(f'{circle_icon(a,88)}<div style="flex:1"></div>{h3(b,56,"#F6F3EE" if d else TXT)}<div style="flex:1"></div>', d, "; gap:28px; padding:56px 48px") for a,b,c,d in P)
 sec("principles", PAPER,
     f'{h2("שלושה עקרונות", 64)}<div style="display:flex; flex-direction:row; gap:40px; flex:1">{ph}</div>{pnum(n, False)}',
-    "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. רק את הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
+    "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. צריך לדעת רק מה הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
 # 22 section 06
 n+=1
 section_slide("s06","06","להפוך כאב למשהו","","להפוך כאב למשהו – 7 דקות.", n)
@@ -391,12 +396,12 @@ T6=[("GraduationCap","לימודים","הנדסאי בניין, ובקרוב –
     ("Lightning","קורסים והתנסויות","מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר."),
     ("Star","שאיפות","יש לי שאיפות גדולות. אני לא יודע את כל הדרך – אני יודע מה הצעד הבא."),
     ("Activity","הרצון להתפתח","לא לעצור. תמיד אפשר להיות יותר טוב.")]
-def c6(a,b,c): return card(f'<div style="display:flex; flex-direction:row; gap:20px; align-items:center">{icon_chip(a,72)}{h3(b,44)}</div>{p(c,28,MUTED)}')
+def c6(a,b,c): return card(f'{icon_chip(a,104)}{h3(b,48,TXT,"; text-align:center")}', False, "; align-items:center; justify-content:center; gap:28px")
 sec("today", PAPER,
     f'{h2("מה אני עושה עם זה היום", 64)}'
     f'<div style="display:flex; flex-direction:row; gap:32px; flex:1">{c6(*T6[0])}{c6(*T6[1])}{c6(*T6[2])}</div>'
     f'<div style="display:flex; flex-direction:row; gap:32px; flex:1">{c6(*T6[3])}{c6(*T6[4])}{c6(*T6[5])}</div>{pnum(n, False)}',
-    "לימודים, עבודה, הרצאות, מטרות, בניית עתיד, הרצון להתפתח. המסר: לא תמיד אפשר לבחור את הסיפור שקיבלת. אפשר לבחור מה אתה עושה איתו.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:32px", mark=74)
+    "לימודים – הנדסאי בניין, ובקרוב יזמות וקיימות באוניברסיטת רייכמן. עבודה – עבדתי בכל מיני עבודות, כל אחת לימדה אותי משהו. הרצאות – לעמוד מול אנשים ולספר, לא בשביל רחמים. קורסים והתנסויות – מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר. שאיפות – יש לי שאיפות גדולות; אני לא יודע את כל הדרך, אני יודע מה הצעד הבא. הרצון להתפתח – לא לעצור, תמיד אפשר להיות יותר טוב. המסר: לא תמיד אפשר לבחור את הסיפור שקיבלת. אפשר לבחור מה אתה עושה איתו.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:32px", mark=74)
 # (why slide removed at the user's request)
 # (country slide removed at the user's request)
 # 26 callback
@@ -408,11 +413,11 @@ sec("callback", INK,
 # 27 decision x3
 n+=1
 D=[("כיתה י׳","כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי."),("7.10","כשנפצעתי – החלטתי לתפקד ולהמשיך."),("היום","כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש.")]
-dh="".join(card(f'{h1(a,80,SAND,extra="; text-align:center")}{p(b,30,"#F6F3EE","; text-align:center")}', True, "; align-items:center; padding:56px 40px; gap:24px") for a,b in D)
+dh="".join(card(f'{h1(a,110,SAND,extra="; text-align:center")}', True, "; align-items:center; justify-content:center; padding:72px 40px; gap:24px") for a,b in D)
 sec("decision", INK,
     f'{h2("ההחלטה הייתה לקחת את ההחלטות בחיים שלי בעצמי.", 60, "#F6F3EE", "; text-align:center")}<div style="flex:1"></div>'
     f'<div style="display:flex; flex-direction:row-reverse; gap:40px">{dh}</div><div style="flex:1"></div>{pnum(n)}',
-    "כאן סוגרים את המעגל מהפתיחה: 'ההחלטה' לא הייתה רק להמשיך להילחם. ההחלטה הייתה לקחת החלטות ולפעול בחיים של עצמי – כמו שעשיתי כילד, כמו שעשיתי בקרב, כמו שאני עושה היום.", pad="128px 128px 160px")
+    "שלוש פעמים, אותה החלטה. כיתה י׳: כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי. 7.10: כשנפצעתי – החלטתי לתפקד ולהמשיך. היום: כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש. כאן סוגרים את המעגל מהפתיחה: 'ההחלטה' לא הייתה רק להמשיך להילחם. ההחלטה הייתה לקחת החלטות ולפעול בחיים של עצמי – כמו שעשיתי כילד, כמו שעשיתי בקרב, כמו שאני עושה היום.", pad="128px 128px 160px")
 # 28 final
 n+=1
 sec("final", SAND,
