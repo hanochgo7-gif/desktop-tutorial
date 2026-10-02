@@ -3,8 +3,40 @@
 
   const $ = id => document.getElementById(id);
   // Language: Hebrew by default, English for visitors who pick EN (switching reloads the page)
-  const LANG = (() => { try { return localStorage.getItem('allenbis-lang') === 'en' ? 'en' : 'he'; } catch { return 'he'; } })();
+  const LANG = (() => {
+    const q = new URLSearchParams(location.search).get('lang');
+    try {
+      if (q === 'en' || q === 'he') localStorage.setItem('allenbis-lang', q);
+      return localStorage.getItem('allenbis-lang') === 'en' ? 'en' : 'he';
+    } catch { return q === 'en' ? 'en' : 'he'; }
+  })();
   const L = (he, en) => LANG === 'en' ? en : he;
+  // English names for products (catalog-en.js); Hebrew stays the source of truth
+  const EN = window.ALLENBIS_EN || {};
+  // The page is written in Hebrew; in English, swap every [data-en] text and [data-en-*] attribute
+  if (LANG === 'en') {
+    const root = document.documentElement;
+    root.lang = 'en';
+    root.dir = 'ltr';
+    document.title = 'Allenbis | Drinks, snacks & more to your door in 20 min · Tel Aviv 24/7';
+    document.querySelector('meta[name="description"]')?.setAttribute('content', 'Allenbis: a 24/7 convenience store in central Tel Aviv. Drinks, snacks, candy, ice cream and phone accessories delivered in up to 20 minutes.');
+    document.querySelectorAll('[data-en]').forEach(el => { el.innerHTML = el.dataset.en; });
+    for (const a of ['placeholder', 'aria-label', 'title']) document.querySelectorAll(`[data-en-${a}]`).forEach(el => el.setAttribute(a, el.getAttribute(`data-en-${a}`)));
+  }
+  {
+    const b = document.getElementById('langBtn');
+    if (b) {
+      b.textContent = LANG === 'en' ? 'עב' : 'EN';
+      b.lang = LANG === 'en' ? 'he' : 'en';
+      b.addEventListener('click', () => {
+        try { localStorage.setItem('allenbis-lang', LANG === 'en' ? 'he' : 'en'); } catch {}
+        const u = new URL(location.href);
+        u.searchParams.delete('lang');
+        if (LANG !== 'en') u.searchParams.set('lang', 'en');
+        location.replace(u);
+      });
+    }
+  }
   const CATALOG = window.ALLENBIS_CATALOG || { categories: [], products: [] };
   const CFG = window.ALLENBIS_COMMERCE_CONFIG || {};
   const DEMO = window.ALLENBIS_DEMO || {};
@@ -12,8 +44,8 @@
   const MAX_QTY = 99;
   const FALLBACK = 'fallback.svg';
   const cur = CATALOG.currency || 'ILS';
-  const money = new Intl.NumberFormat('he-IL', { style: 'currency', currency: cur });
-  const moneyWhole = new Intl.NumberFormat('he-IL', { style: 'currency', currency: cur, maximumFractionDigits: 0 });
+  const money = new Intl.NumberFormat(L('he-IL', 'en-IL'), { style: 'currency', currency: cur });
+  const moneyWhole = new Intl.NumberFormat(L('he-IL', 'en-IL'), { style: 'currency', currency: cur, maximumFractionDigits: 0 });
   const fmt = minor => (minor % 100 ? money : moneyWhole).format(minor / 100);
 
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -26,7 +58,7 @@
   const RESTRICTED = new Set(['אביזרי עישון', 'מידע בלבד']);
   const LABELS = { 'מידע בלבד': 'מוצרי עישון 18+', 'אביזרי עישון': 'אביזרי עישון 18+' };
   const ALCOHOL = 'אלכוהול 18+';
-  const label = c => LABELS[c] || c;
+  const label = c => (LANG === 'en' && window.ALLENBIS_EN?.cats?.[c]) || LABELS[c] || c;
   const labelHtml = c => esc(label(c)).replace('18+', '<span dir="ltr">18+</span>');
   const isAdult = c => label(c).includes('18+');
   const isRestricted = p => RESTRICTED.has(p.category);
@@ -44,18 +76,19 @@
   const canBuy = p => !!p && p.buy === true && p.availability !== 'out_of_stock' && !oos.has(p.id);
   const sellable = p => canBuy(p) && !isBlocked(p);
   const imgOf = p => isRestricted(p) ? null : (p.imageReview?.status === 'verified' && p.img ? p.img : FALLBACK);
-  const priceText = p => !p.buy ? 'ללא מכירה' : hasPrice(p) ? fmt(unit(p)) : 'מחיר יעודכן';
-  const metaText = p => !p.buy ? 'לא נמכר באתר' : [p.sub, p.size, p.variant].filter(Boolean).join(', ');
+  const priceText = p => !p.buy ? L('ללא מכירה', 'Not for sale') : hasPrice(p) ? fmt(unit(p)) : L('מחיר יעודכן', 'Price coming soon');
+  const metaText = p => !p.buy ? L('לא נמכר באתר', 'Not sold online') : [subOf(p), sizeOf(p), p.variant].filter(Boolean).join(', ');
   const ART = (window.ALLENBIS_DEMO || {}).art || {};
-  const demoTag = on => on ? ' <span class="demo">דוגמה</span>' : '';
+  const demoTag = on => on ? ` <span class="demo">${L('דוגמה', 'Example')}</span>` : '';
 
   const products = CATALOG.products.filter(p => p && p.active !== false);
   const byId = new Map(products.map(p => [p.id, p]));
-  products.forEach(p => { p._s = norm([p.name, p.sub, label(p.category), p.size, p.variant].filter(Boolean).join(' ')); p._w = p._s.split(' '); p._c = norm(label(p.category)); });
+  products.forEach(p => { p._s = norm([p.name, EN.names?.[p.id], p.sub, EN.subs?.[p.sub], LABELS[p.category] || p.category, EN.cats?.[p.category], p.size, p.variant].filter(Boolean).join(' ')); p._w = p._s.split(' '); p._c = norm(label(p.category)); });
   const pick = ids => (ids || []).map(id => byId.get(id)).filter(Boolean);
-  // English names for products (catalog-en.js); Hebrew stays the source of truth
-  const EN = window.ALLENBIS_EN || {};
   const nm = p => (LANG === 'en' && EN.names?.[p.id]) || p.name;
+  const subOf = p => p.sub && ((LANG === 'en' && EN.subs?.[p.sub]) || p.sub);
+  const sizeOf = p => p.size && ((LANG === 'en' && EN.sizes?.[p.size]) || p.size);
+  const UI = EN.ui || {};
 
   const store = {
     get(k, fallback) { try { const v = localStorage.getItem(k); return v == null ? fallback : JSON.parse(v); } catch { return fallback; } },
@@ -136,7 +169,8 @@
   /* Supermarket price: shekels big, agorot raised. Screen readers get the plain amount. */
   const pm = minor => {
     const sh = Math.floor(minor / 100), ag = minor % 100;
-    return `<span class="sr-only">${fmt(minor)}</span><span class="pm-v" aria-hidden="true"><span class="pm-s">${sh}</span>${ag ? `<span class="pm-a">${String(ag).padStart(2, '0')}</span>` : ''}<span class="pm-c">₪</span></span>`;
+    const c = '<span class="pm-c">₪</span>';
+    return `<span class="sr-only">${fmt(minor)}</span><span class="pm-v" aria-hidden="true">${LANG === 'en' ? c : ''}<span class="pm-s">${sh}</span>${ag ? `<span class="pm-a">${String(ag).padStart(2, '0')}</span>` : ''}${LANG === 'en' ? '' : c}</span>`;
   };
   // Price per 100 ml / 100 g, only when the size is written in the product name or size field.
   const SIZE = /(\d+(?:\.\d+)?)\s*(מ["״]?ל|ליטר|גרם|ג['׳]|ק["״]ג)/;
@@ -148,30 +182,31 @@
     const liquid = /^מ|ליטר/.test(m[2]);
     const base = /ליטר|ק/.test(m[2]) ? n * 1000 : n;
     if (!base) return '';
-    return `${(Math.round(unit(p) / base * 100) / 100).toFixed(2)}₪ ל-100 ${liquid ? 'מ״ל' : 'גר׳'}`;
+    const per = (Math.round(unit(p) / base * 100) / 100).toFixed(2);
+    return L(`${per}₪ ל-100 ${liquid ? 'מ״ל' : 'גר׳'}`, `₪${per} per 100 ${liquid ? 'ml' : 'g'}`);
   }
   function priceHtml(p) {
     if (!(p.buy && hasPrice(p))) return `<span class="price"><span class="tag soft"><bdi>${esc(priceText(p))}</bdi></span></span>`;
     const sale = onSale(p);
     const up = unitPrice(p);
-    return `<span class="price"><span class="tag${sale ? ' sale' : ''}">${sale ? '<span class="tag-flag" aria-hidden="true">מבצע</span>' : ''}${pm(unit(p))}</span>${sale ? `<span class="was">במקום <s><bdi>${fmt(regular(p))}</bdi></s></span>` : up ? `<span class="unitp"><bdi>${up}</bdi></span>` : ''}</span>`;
+    return `<span class="price"><span class="tag${sale ? ' sale' : ''}">${sale ? `<span class="tag-flag" aria-hidden="true">${L('מבצע', 'SALE')}</span>` : ''}${pm(unit(p))}</span>${sale ? `<span class="was">${L('במקום', 'was')} <s><bdi>${fmt(regular(p))}</bdi></s></span>` : up ? `<span class="unitp"><bdi>${up}</bdi></span>` : ''}</span>`;
   }
-  const stickers = p => [onSale(p) ? '<span class="sticker sale">מבצע!</span>' : '', bestIds.has(p.id) ? '<span class="sticker hot">הכי<br>נמכר</span>' : ''].join('');
+  const stickers = p => [onSale(p) ? `<span class="sticker sale">${L('מבצע!', 'SALE!')}</span>` : '', bestIds.has(p.id) ? `<span class="sticker hot">${L('הכי<br>נמכר', 'Best<br>seller')}</span>` : ''].join('');
 
   function controlsHtml(p) {
-    const name = esc(p.name);
+    const name = esc(nm(p));
     if (!p.buy) return '';
-    if (!canBuy(p)) return '<span class="oos-note">אזל במלאי</span>';
-    if (isBlocked(p)) return '<span class="hours-note">אלכוהול נמכר בין 06:00 ל-23:00</span>';
+    if (!canBuy(p)) return `<span class="oos-note">${L('אזל במלאי', 'Out of stock')}</span>`;
+    if (isBlocked(p)) return `<span class="hours-note">${L('אלכוהול נמכר בין 06:00 ל-23:00', 'Alcohol is sold 06:00–23:00')}</span>`;
     const n = cart[p.id] || 0;
-    if (!n) return `<button type="button" class="add" data-add="${p.id}" aria-label="הוספת ${name} לסל">${plusIcon}</button>`;
-    return `<span class="step"><button type="button" data-dec="${p.id}" aria-label="הפחתת ${name}">−</button><output aria-label="כמות ${name}: ${n}">${n}</output><button type="button" data-add="${p.id}" aria-label="הוספת עוד ${name}"${n >= MAX_QTY ? ' disabled' : ''}>+</button></span>`;
+    if (!n) return `<button type="button" class="add" data-add="${p.id}" aria-label="${L(`הוספת ${name} לסל`, `Add ${name} to cart`)}">${plusIcon}</button>`;
+    return `<span class="step"><button type="button" data-dec="${p.id}" aria-label="${L(`הפחתת ${name}`, `One less ${name}`)}">−</button><output aria-label="${L(`כמות ${name}: ${n}`, `${name} quantity: ${n}`)}">${n}</output><button type="button" data-add="${p.id}" aria-label="${L(`הוספת עוד ${name}`, `One more ${name}`)}"${n >= MAX_QTY ? ' disabled' : ''}>+</button></span>`;
   }
   const buyHtml = p => priceHtml(p) + controlsHtml(p);
 
   const bestIds = new Set(DEMO.bestsellers?.ids || []);
   function cardHtml(p) {
-    const name = esc(p.name);
+    const name = esc(nm(p));
     if (isRestricted(p)) {
       return `<article class="card plain${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><h3 class="name"><bdi>${name}</bdi></h3><p class="meta">${esc(metaText(p))}</p><div class="buy">${buyHtml(p)}</div></article>`;
     }
@@ -179,7 +214,7 @@
     const badges = stickers(p);
     return `<article class="card${cart[p.id] ? ' in' : ''}${canBuy(p) ? '' : ' oos'}" data-id="${p.id}">
 <div class="badges" aria-hidden="true">${badges}</div>
-<button type="button" class="pic" data-open="${p.id}" tabindex="-1" aria-hidden="true"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" width="640" height="480">${img === FALLBACK ? '<span class="note">תמונה בקרוב</span>' : ''}</button>
+<button type="button" class="pic" data-open="${p.id}" tabindex="-1" aria-hidden="true"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" width="640" height="480">${img === FALLBACK ? `<span class="note">${L('תמונה בקרוב', 'Photo coming soon')}</span>` : ''}</button>
 <h3><button type="button" class="name" data-open="${p.id}"><bdi>${name}</bdi></button></h3><p class="meta">${esc(metaText(p))}</p>
 <div class="buy">${buyHtml(p)}</div></article>`;
   }
@@ -243,7 +278,7 @@
     return { sub, savings: full - sub, items, unpriced, blocked, welcome, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
   }
   function save() {
-    if (!store.set('allenbis-cart', cart)) announce('לא ניתן לשמור את הסל במכשיר הזה. הוא יישמר עד סגירת הדף.');
+    if (!store.set('allenbis-cart', cart)) announce(L('לא ניתן לשמור את הסל במכשיר הזה. הוא יישמר עד סגירת הדף.', "Your cart can't be saved on this device. It stays until you close the page."));
   }
 
   function change(id, delta, quiet) {
@@ -260,7 +295,7 @@
     if ($('cart').open) renderCart();
     restoreFocus(focus, $('cart').open ? $('cart').querySelector('.x') : null);
     if (!quiet) {
-      const msg = after > before ? `${p.name} נוסף לסל` : after ? `${p.name}: ${after}` : `${p.name} הוסר מהסל`;
+      const msg = after > before ? L(`${nm(p)} נוסף לסל`, `${nm(p)} added to cart`) : after ? `${nm(p)}: ${after}` : L(`${nm(p)} הוסר מהסל`, `${nm(p)} removed from cart`);
       announce(msg + '.');
       if (after > before && !$('cart').open) toast(msg);
     }
@@ -270,7 +305,7 @@
     if (!FREE_FROM || !FEE) return '';
     const gap = FREE_FROM - sub;
     const pct = Math.min(100, Math.round(sub / FREE_FROM * 100));
-    const text = gap > 0 ? `עוד <bdi>${fmt(gap)}</bdi> למשלוח חינם` : 'המשלוח עליכם, חינם';
+    const text = gap > 0 ? L(`עוד <bdi>${fmt(gap)}</bdi> למשלוח חינם`, `<bdi>${fmt(gap)}</bdi> more for free delivery`) : L('המשלוח עליכם, חינם', 'Delivery is on us');
     return dark ? `${text}<span class="meter" aria-hidden="true"><i style="width:${pct}%"></i></span>`
       : `<div class="free">${text}${demoTag(D.example)}<div class="meter" aria-hidden="true"><i style="width:${pct}%"></i></div></div>`;
   }
@@ -280,26 +315,26 @@
     $('cartCount').textContent = t.items;
     $('cartSum').hidden = !t.items;
     $('cartSum').textContent = fmt(t.sub);
-    $('cartLabel').textContent = `סל הקניות, ${t.items} פריטים`;
+    $('cartLabel').textContent = L(`סל הקניות, ${t.items} פריטים`, `Cart, ${t.items} items`);
     document.body.classList.toggle('has-items', t.items > 0);
-    $('barText').textContent = t.items === 1 ? 'פריט אחד בסל' : `${t.items} פריטים בסל`;
+    $('barText').textContent = t.items === 1 ? L('פריט אחד בסל', '1 item in cart') : L(`${t.items} פריטים בסל`, `${t.items} items in cart`);
     $('barSum').textContent = fmt(t.sub);
     $('barProg').innerHTML = freeHtml(t.sub, true);
   }
 
   function lineHtml(p, q, controls) {
     const img = imgOf(p);
-    const price = hasPrice(p) ? fmt(unit(p) * q) : 'מחיר יעודכן';
-    const each = hasPrice(p) && q > 1 ? ` (${fmt(unit(p))} ליחידה)` : '';
-    const ctl = controls ? `<span class="step"><button type="button" data-dec="${p.id}" aria-label="הפחתת ${esc(p.name)}">−</button><output aria-label="כמות: ${q}">${q}</output><button type="button" data-add="${p.id}" aria-label="הוספת עוד ${esc(p.name)}"${q >= MAX_QTY || !sellable(p) ? ' disabled' : ''}>+</button></span>` : `<b>×${q}</b>`;
+    const price = hasPrice(p) ? fmt(unit(p) * q) : L('מחיר יעודכן', 'Price coming soon');
+    const each = hasPrice(p) && q > 1 ? ` (${fmt(unit(p))} ${L('ליחידה', 'each')})` : '';
+    const ctl = controls ? `<span class="step"><button type="button" data-dec="${p.id}" aria-label="${L('הפחתת', 'One less')} ${esc(nm(p))}">−</button><output aria-label="${L('כמות', 'Quantity')}: ${q}">${q}</output><button type="button" data-add="${p.id}" aria-label="${L('הוספת עוד', 'One more')} ${esc(nm(p))}"${q >= MAX_QTY || !sellable(p) ? ' disabled' : ''}>+</button></span>` : `<b>×${q}</b>`;
     const pic = img ? `<img src="${esc(img)}" alt="" loading="lazy" width="56" height="56">` : '<span class="noimg" aria-hidden="true">18+</span>';
-    const warn = isBlocked(p) ? '<div class="p" style="color:var(--warn)">לא ניתן לקנות עכשיו (23:00–06:00)</div>' : '';
-    const rm = controls ? `<button type="button" class="rm" data-rm="${p.id}">הסרת ${esc(p.name)} מהסל</button>` : '';
-    return `<div class="line${isBlocked(p) ? ' blocked' : ''}" data-line="${p.id}">${pic}<div><div class="t"><bdi>${esc(p.name)}</bdi></div><div class="p"><bdi>${esc(price)}</bdi>${esc(each)}</div>${warn}${rm}</div>${ctl}</div>`;
+    const warn = isBlocked(p) ? `<div class="p" style="color:var(--warn)">${L('לא ניתן לקנות עכשיו (23:00–06:00)', "Can't be bought now (23:00–06:00)")}</div>` : '';
+    const rm = controls ? `<button type="button" class="rm" data-rm="${p.id}">${L(`הסרת ${esc(nm(p))} מהסל`, `Remove ${esc(nm(p))} from cart`)}</button>` : '';
+    return `<div class="line${isBlocked(p) ? ' blocked' : ''}" data-line="${p.id}">${pic}<div><div class="t"><bdi>${esc(nm(p))}</bdi></div><div class="p"><bdi>${esc(price)}</bdi>${esc(each)}</div>${warn}${rm}</div>${ctl}</div>`;
   }
 
   function miniHtml(p) {
-    return `<div class="m"><img src="${esc(imgOf(p))}" alt="" loading="lazy"><div class="t"><bdi>${esc(p.name)}</bdi></div><div class="r"><bdi>${fmt(unit(p))}</bdi><button type="button" class="add" data-add="${p.id}" aria-label="הוספת ${esc(p.name)} לסל">${plusIcon}</button></div></div>`;
+    return `<div class="m"><img src="${esc(imgOf(p))}" alt="" loading="lazy"><div class="t"><bdi>${esc(nm(p))}</bdi></div><div class="r"><bdi>${fmt(unit(p))}</bdi><button type="button" class="add" data-add="${p.id}" aria-label="${esc(L(`הוספת ${nm(p)} לסל`, `Add ${nm(p)} to cart`))}">${plusIcon}</button></div></div>`;
   }
 
   /* ---------- "ליד הקופה": what people usually also need ---------- */
@@ -355,8 +390,33 @@
   const TECH = new Set(['charger', 'cable', 'car', 'earphones', 'adapter', 'powerbank']);
   const SWEET = new Set(['choc', 'candy', 'cookies', 'icecream']);
   const DRINK = new Set(['soda', 'juice', 'water', 'mixer', 'energy', 'coffee', 'milk']);
-  const shortName = p => p.name.split(/\s[—–-]\s|\s\d|\s\(/)[0].split(' ').slice(0, 2).join(' ');
-  const reasonText = (r, p) => r.replace(/ל\{n\}/, () => { const n = shortName(p); return /^[A-Za-z0-9]/.test(n) ? `ל-${n}` : `ל${n}`; }).replace('{n}', () => shortName(p));
+  const shortName = p => nm(p).split(/\s[—–-]\s|,|\s\d|\s\(/)[0].split(' ').slice(0, 2).join(' ');
+  // English for the reasons and basket types (Hebrew is the key)
+  const REASON_EN = {
+    'קרח ל{n}': 'Ice for the {n}', 'לערבב עם {n}': 'Mix with {n}', 'פיצוחים לשולחן': 'Nuts for the table', 'נשנוש לצד השתייה': 'A snack with the drinks',
+    'וויסקי-קולה': 'Whisky & cola', 'סודה ל{n}': 'Soda for the {n}', 'קרח לערק': 'Ice for the arak', 'ערק אשכוליות': 'Arak & grapefruit',
+    'סודה לערק': 'Soda for the arak', 'גרעינים לערק': 'Seeds with arak', 'שתייה מתוקה ל{n}': 'A sweet drink with the {n}',
+    'משהו לשתות עם {n}': 'Something to drink with the {n}', 'משהו מתוק אחרי המלוח': 'Something sweet after the salty', 'מים ליד': 'Water on the side',
+    'שתייה ליד הפיצוחים': 'A drink with the nuts', 'שש-בש עם הפיצוחים': 'Backgammon with the nuts', 'שוקו קר ליד המתוק': 'Cold chocolate milk with the sweets',
+    'קפה קר ל{n}': 'Iced coffee with the {n}', 'וגם גלידה?': 'Ice cream too?', 'שתייה ליד הממתקים': 'A drink with the candy', 'עוד משהו מתוק': 'Something else sweet',
+    'שוקו ל{n}': 'Chocolate milk with the {n}', 'גלידה עם העוגיות': 'Ice cream with the cookies', 'עוד אחת למקפיא': 'One more for the freezer',
+    'עוגיות לגלידה': 'Cookies with the ice cream', 'אנרגיה מתוקה': 'Sweet energy', 'חטיף ליד {n}': 'A snack with the {n}', 'לרענן': 'Freshen up',
+    'עוגייה לקפה': 'A cookie with the coffee', 'משהו מתוק לקפה': 'Something sweet with the coffee', 'עוגיות לשוקו': 'Cookies with the chocolate milk',
+    'שוקולד ליד': 'Chocolate on the side', 'קרח לשתייה': 'Ice for the drinks', 'משהו מתוק': 'Something sweet', 'משהו לנשנש': 'Something to snack on',
+    'משהו קטן לדרך': 'A little something for the road', 'חטיף ליד': 'A snack on the side', 'משהו לקרר': 'Something to chill', 'טוניק או סודה': 'Tonic or soda',
+    'שתייה לארוחה': 'A drink with the meal', 'מים לארוחה': 'Water with the meal', 'קינוח אחרי': 'Dessert after', 'קרקרים ל{n}': 'Crackers with the {n}',
+    'ארוחה חמה': 'A hot meal', 'טונה לקרקרים': 'Tuna for the crackers', 'משהו לשתות': 'Something to drink', 'כבל ל{n}': 'A cable for the {n}',
+    'סוללה לדרך': 'A power bank for the road', 'ראש מטען לכבל': 'A charger for the cable', 'כבל לסוללה': 'A cable for the power bank',
+    'כבל לרכב': 'A cable for the car', 'להשלים את הרכב': 'Complete the car kit', 'אוזניות למתאם': 'Earphones for the adapter',
+    'פיצוחים לשש-בש': 'Seeds for backgammon', 'שתייה למשחק': 'A drink for the game', 'קפה למשחק': 'Coffee for the game', 'משהו קטן לקופה': 'A little extra',
+    'קפה ליד': 'Coffee on the side', 'אנרגיה ליד': 'Energy on the side', 'קרח למסיבה': 'Ice for the party', 'בקבוק גדול לכולם': 'A big bottle for everyone',
+    'ללילה ארוך': 'For a long night', 'קפה ללילה': 'Coffee for the night', 'מים תמיד צריך': 'Water, always', 'משהו מתוק לדרך': 'Something sweet for the road'
+  };
+  const TYPE_EN = { 'ערב שתייה': 'a night of drinks', 'מסיבה': 'a party', 'סלולר': 'your phone', 'ערב סרט': 'a movie night', 'ארוחה מהירה': 'a quick meal',
+    'לילה לבן': 'an all-nighter', 'מתוק': 'a sweet tooth', 'שתייה': 'drinks', 'נשנושים': 'snacking' };
+  const tr = r => LANG === 'en' ? (REASON_EN[r] || r) : r;
+  const reasonText = (r, p) => LANG === 'en' ? tr(r).replace('{n}', () => shortName(p))
+    : r.replace(/ל\{n\}/, () => { const n = shortName(p); return /^[A-Za-z0-9]/.test(n) ? `ל-${n}` : `ל${n}`; }).replace('{n}', () => shortName(p));
 
   function basketType(kinds, items) {
     const has = k => kinds.has(k), any = set => [...kinds].some(k => set.has(k));
@@ -383,7 +443,7 @@
       if (kinds.has(kind) && !(from && kindOf(from) === kind)) return;
       const cur = want.get(kind) || { w: 0, top: 0 };
       cur.w += w;
-      if (w > cur.top) Object.assign(cur, { top: w, why, pref: pref || [] });
+      if (w > cur.top) Object.assign(cur, { top: w, why: from ? why : tr(why), pref: pref || [] });
       want.set(kind, cur);
     };
     for (const { p, q } of ls) {
@@ -453,41 +513,41 @@
     if (!list.length) return '';
     const card = ({ p, why }) => {
       const src = hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p);
-      return `<div class="rk"><span class="rk-why">${esc(why)}</span><span class="rk-img"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span><div class="rk-t"><bdi>${esc(p.name)}</bdi></div><div class="rk-row"><span class="rk-price${onSale(p) ? ' sale' : ''}">${pm(unit(p))}</span><button type="button" class="add" data-add="${p.id}" aria-label="הוספת ${esc(p.name)} לסל (${esc(why)})">${plusIcon}</button></div></div>`;
+      return `<div class="rk"><span class="rk-why">${esc(why)}</span><span class="rk-img"><img src="${esc(src)}" alt="" loading="lazy" decoding="async"></span><div class="rk-t"><bdi>${esc(nm(p))}</bdi></div><div class="rk-row"><span class="rk-price${onSale(p) ? ' sale' : ''}">${pm(unit(p))}</span><button type="button" class="add" data-add="${p.id}" aria-label="${L(`הוספת ${esc(nm(p))} לסל`, `Add ${esc(nm(p))} to cart`)} (${esc(why)})">${plusIcon}</button></div></div>`;
     };
-    return `<section class="rack" aria-labelledby="rackTitle"><div class="rack-head"><h3 id="rackTitle">ליד הקופה</h3>${type ? `<span>מתאים לסל ${esc(type)}</span>` : ''}</div><div class="rack-grid">${list.map(card).join('')}</div></section>`;
+    return `<section class="rack" aria-labelledby="rackTitle"><div class="rack-head"><h3 id="rackTitle">${L('ליד הקופה', 'At the checkout')}</h3>${type ? `<span>${L(`מתאים לסל ${esc(type)}`, `Made for ${esc(TYPE_EN[type] || type)}`)}</span>` : ''}</div><div class="rack-grid">${list.map(card).join('')}</div></section>`;
   }
 
   function renderCart() {
     const ls = lines();
     const t = totals();
-    const undoBar = undo ? `<div class="undo" id="cartUndo" role="status"><span><bdi>${esc(undo.name)}</bdi> הוסר מהסל</span><button type="button" id="undoBtn">ביטול</button></div>` : '';
+    const undoBar = undo ? `<div class="undo" id="cartUndo" role="status"><span><bdi>${esc(undo.name)}</bdi> ${L('הוסר מהסל', 'removed')}</span><button type="button" id="undoBtn">${L('ביטול', 'Undo')}</button></div>` : '';
     if (!ls.length) {
-      $('cartBody').innerHTML = undoBar + (ART.emptyCart ? `<div class="panel-empty"><img class="art-img" src="${esc(ART.emptyCart)}" alt=""><p>הסל עדיין ריק.</p></div>` : `<div class="panel-empty"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><p>הסל עדיין ריק.</p></div>`);
-      $('cartFoot').innerHTML = `<button class="primary" type="button" data-close>לבחירת מוצרים</button>`;
+      $('cartBody').innerHTML = undoBar + (ART.emptyCart ? `<div class="panel-empty"><img class="art-img" src="${esc(ART.emptyCart)}" alt=""><p>${L('הסל עדיין ריק.', 'Your cart is empty.')}</p></div>` : `<div class="panel-empty"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg><p>${L('הסל עדיין ריק.', 'Your cart is empty.')}</p></div>`);
+      $('cartFoot').innerHTML = `<button class="primary" type="button" data-close>${L('לבחירת מוצרים', 'Start shopping')}</button>`;
       return;
     }
-    const tip = store.get('allenbis-swiped', false) ? '' : '<p class="swipe-tip">אפשר להחליק מוצר הצידה כדי להוציא אותו מהסל.</p>';
+    const tip = store.get('allenbis-swiped', false) ? '' : `<p class="swipe-tip">${L('אפשר להחליק מוצר הצידה כדי להוציא אותו מהסל.', 'Swipe a product sideways to remove it.')}</p>`;
     const picks = gapPicks(FREE_FROM && FEE ? FREE_FROM - t.sub : 0, ls);
-    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + gapHtml(t, ls, picks) + wheelHtml(t) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}הסרה</span><span>${trashIcon}הסרה</span></span>${lineHtml(p, q, true)}</div>`).join('') + giftLineHtml(t) + tip + rackHtml(ls, new Set(picks.map(p => p.id)));
-    $('cartFoot').innerHTML = `${t.blocked ? '<p class="warn-box">בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.</p>' : ''}
+    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + gapHtml(t, ls, picks) + wheelHtml(t) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}${L('הסרה', 'Remove')}</span><span>${trashIcon}${L('הסרה', 'Remove')}</span></span>${lineHtml(p, q, true)}</div>`).join('') + giftLineHtml(t) + tip + rackHtml(ls, new Set(picks.map(p => p.id)));
+    $('cartFoot').innerHTML = `${t.blocked ? `<p class="warn-box">${L('בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.', 'Alcohol can\'t be sold 23:00–06:00. Remove the marked items to continue.')}</p>` : ''}
 <div class="totals">${totalsHtml(t)}</div>
-<button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>לתשלום · <bdi>${fmt(t.total)}</bdi></button>
-<button class="secondary" type="button" id="emptyCart">ריקון הסל</button>`;
+<button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>${L('לתשלום', 'Checkout')} · <bdi>${fmt(t.total)}</bdi></button>
+<button class="secondary" type="button" id="emptyCart">${L('ריקון הסל', 'Empty cart')}</button>`;
   }
 
   function totalsHtml(t) {
-    return `<div class="row"><span>מוצרים (${t.items})</span><bdi>${fmt(t.sub + t.savings)}</bdi></div>
-${t.savings ? `<div class="row good"><span>חסכת במבצעים</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
-${t.welcome ? `<div class="row good"><span>הנחת היכרות להזמנה ראשונה</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
+    return `<div class="row"><span>${L('מוצרים', 'Items')} (${t.items})</span><bdi>${fmt(t.sub + t.savings)}</bdi></div>
+${t.savings ? `<div class="row good"><span>${L('חסכת במבצעים', 'You saved')}</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
+${t.welcome ? `<div class="row good"><span>${L('הנחת היכרות להזמנה ראשונה', 'First-order discount')}</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
 ${t.wheelOff ? `<div class="row good"><span>${L('גלגל המזל', 'Lucky wheel')}</span><bdi>−${fmt(t.wheelOff)}</bdi></div>` : ''}
 ${t.prize?.type === 'gift' ? `<div class="row good"><span>${L('מתנה מהגלגל', 'Wheel gift')}: ${esc(prizeName(t.prize))}</span><bdi>${L('חינם', 'Free')}</bdi></div>` : ''}
 ${t.wheel === 'held' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) לא מצטרף להנחת ההיכרות, שגדולה ממנו.`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) doesn't combine with the first-order discount, which is worth more.`)}</div>` : ''}
 ${t.wheel === 'paused' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) יחזור כשהסל יגיע ל-`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) comes back at `)}<bdi>${fmt(WHEEL_MIN)}</bdi>.</div>` : ''}
-<div class="row"><span>משלוח${demoTag(D.example)}</span><bdi>${t.fee ? fmt(t.fee) : 'חינם'}</bdi></div>
-<div class="row big"><span>סה״כ</span><bdi>${fmt(t.total)}</bdi></div>
-${t.unpriced ? `<div class="muted">${t.unpriced === 1 ? 'למוצר אחד' : `ל-${t.unpriced} מוצרים`} בסל עדיין אין מחיר, והוא לא נכלל בסכום.</div>` : ''}
-${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">בהזמנה ראשונה מעל <bdi>${fmt(CFG.welcome.minimumOrderMinor)}</bdi> מקבלים <bdi>${fmt(CFG.welcome.amountMinor)}</bdi> הנחה.</div>` : ''}`;
+<div class="row"><span>${L('משלוח', 'Delivery')}${demoTag(D.example)}</span><bdi>${t.fee ? fmt(t.fee) : L('חינם', 'Free')}</bdi></div>
+<div class="row big"><span>${L('סה״כ', 'Total')}</span><bdi>${fmt(t.total)}</bdi></div>
+${t.unpriced ? `<div class="muted">${L(`${t.unpriced === 1 ? 'למוצר אחד' : `ל-${t.unpriced} מוצרים`} בסל עדיין אין מחיר, והוא לא נכלל בסכום.`, `${t.unpriced} item(s) in your cart have no price yet and aren't in the total.`)}</div>` : ''}
+${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">${L('בהזמנה ראשונה מעל', 'First order over')} <bdi>${fmt(CFG.welcome.minimumOrderMinor)}</bdi> ${L('מקבלים', 'gets')} <bdi>${fmt(CFG.welcome.amountMinor)}</bdi> ${L('הנחה.', 'off.')}</div>` : ''}`;
   }
 
   $('cartFoot').addEventListener('click', e => {
@@ -501,7 +561,7 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
       updateCartUi();
       renderCart();
       $('cart').querySelector('.x').focus();
-      announce('הסל רוקן.');
+      announce(L('הסל רוקן.', 'Cart emptied.'));
     }
   });
   const openCart = () => { renderCart(); openDialog('cart'); };
@@ -564,11 +624,11 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     save();
     refreshCards(id);
     updateCartUi();
-    undo = { id, q, at, name: p.name };
+    undo = { id, q, at, name: nm(p) };
     clearTimeout(undoTimer);
     undoTimer = setTimeout(() => { undo = null; $('cartUndo')?.remove(); }, 6000);
     renderCart();
-    announce(`${p.name} הוסר מהסל. אפשר לבטל.`);
+    announce(L(`${nm(p)} הוסר מהסל. אפשר לבטל.`, `${nm(p)} removed from cart. You can undo.`));
   }
   let sw = null;
   const SWIPE_OUT = 0.35;
@@ -628,7 +688,7 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
       updateCartUi();
       renderCart();
       $('cart').querySelector('.x').focus();
-      announce(`${name} חזר לסל.`);
+      announce(L(`${name} חזר לסל.`, `${name} is back in your cart.`));
     }
   });
   $('openCart').addEventListener('click', openCart);
@@ -643,11 +703,11 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     const related = isRestricted(p) ? [] : [...goes, ...products.filter(x => x.category === p.category && x.id !== p.id), ...pick([...bestIds])]
       .filter((x, i, a) => a.indexOf(x) === i && sellable(x) && !isRestricted(x) && imgOf(x) !== FALLBACK && x.id !== p.id).slice(0, 8);
     $('pdBody').dataset.id = id;
-    $('pdBody').innerHTML = `${img ? `<div class="pd-img"><img src="${esc(img)}" alt="${img === FALLBACK ? '' : esc(p.name)}"></div>` : ''}
-<h3><bdi>${esc(p.name)}</bdi></h3>
-<dl class="facts"><dt>קטגוריה</dt><dd>${labelHtml(p.category)}</dd>${p.sub && !isRestricted(p) ? `<dt>סוג</dt><dd>${esc(p.sub)}</dd>` : ''}${p.size ? `<dt>גודל</dt><dd>${esc(p.size)}</dd>` : ''}${onSale(p) ? `<dt>מחיר רגיל</dt><dd><bdi>${fmt(regular(p))}</bdi></dd>` : ''}</dl>
+    $('pdBody').innerHTML = `${img ? `<div class="pd-img"><img src="${esc(img)}" alt="${img === FALLBACK ? '' : esc(nm(p))}"></div>` : ''}
+<h3><bdi>${esc(nm(p))}</bdi></h3>
+<dl class="facts"><dt>${L('קטגוריה', 'Category')}</dt><dd>${labelHtml(p.category)}</dd>${p.sub && !isRestricted(p) ? `<dt>${L('סוג', 'Type')}</dt><dd>${esc(subOf(p))}</dd>` : ''}${p.size ? `<dt>${L('גודל', 'Size')}</dt><dd>${esc(sizeOf(p))}</dd>` : ''}${onSale(p) ? `<dt>${L('מחיר רגיל', 'Regular price')}</dt><dd><bdi>${fmt(regular(p))}</bdi></dd>` : ''}</dl>
 <div class="buy" id="pdBuy">${buyHtml(p)}</div>
-${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="relTitle">מתאים עם</h3><div class="mini">${related.map(miniHtml).join('')}</div></section>` : ''}`;
+${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="relTitle">${L('מתאים עם', 'Goes well with')}</h3><div class="mini">${related.map(miniHtml).join('')}</div></section>` : ''}`;
     openDialog('product');
   }
 
@@ -666,7 +726,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   }
 
   function renderCats() {
-    $('cats').innerHTML = cats.map(c => `<button type="button" class="cat" data-cat="${esc(c)}" aria-pressed="${c === cat}">${labelHtml(c)}${c === ALL ? '' : `<span class="c" aria-label="${counts[c]} מוצרים">${counts[c]}</span>`}</button>`).join('');
+    $('cats').innerHTML = cats.map(c => `<button type="button" class="cat" data-cat="${esc(c)}" aria-pressed="${c === cat}">${labelHtml(c)}${c === ALL ? '' : `<span class="c" aria-label="${counts[c]} ${L('מוצרים', 'products')}">${counts[c]}</span>`}</button>`).join('');
   }
 
   let pendingCat = null;
@@ -748,17 +808,17 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     $('q').removeAttribute('aria-activedescendant');
     if (!q) {
       const rec = recent();
-      box.innerHTML = (rec.length ? `<h3>חיפשת לאחרונה</h3><div class="chips">${rec.map(r => `<button type="button" class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : '') +
-        `<h3>מחפשים הרבה${demoTag(true)}</h3><div class="chips">${(DEMO.popularSearches || []).map(r => `<button type="button" class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>`;
+      box.innerHTML = (rec.length ? `<h3>${L('חיפשת לאחרונה', 'Recent searches')}</h3><div class="chips">${rec.map(r => `<button type="button" class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : '') +
+        `<h3>${L('מחפשים הרבה', 'Popular')}${demoTag(true)}</h3><div class="chips">${((LANG === 'en' && UI.popularSearches) || DEMO.popularSearches || []).map(r => `<button type="button" class="chip" data-q="${esc(r)}">${esc(r)}</button>`).join('')}</div>`;
     } else {
       const words = norm(q).split(' ').filter(Boolean);
       const hits = products.map(p => [p, score(p, words)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 6).map(x => x[0]);
       const catHits = cats.slice(1).filter(c => norm(label(c)).includes(norm(q)));
-      box.innerHTML = (catHits.length ? `<h3>קטגוריות</h3><div class="chips">${catHits.map(c => `<button type="button" class="chip" data-cat="${esc(c)}">${labelHtml(c)}</button>`).join('')}</div>` : '') +
-        (hits.length ? `<h3>מוצרים</h3>${hits.map((p, i) => {
+      box.innerHTML = (catHits.length ? `<h3>${L('קטגוריות', 'Categories')}</h3><div class="chips">${catHits.map(c => `<button type="button" class="chip" data-cat="${esc(c)}">${labelHtml(c)}</button>`).join('')}</div>` : '') +
+        (hits.length ? `<h3>${L('מוצרים', 'Products')}</h3>${hits.map((p, i) => {
           const img = imgOf(p);
-          return `<div class="opt" role="option" id="opt${i}" aria-selected="false" data-open="${p.id}">${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="noimg" aria-hidden="true">18+</span>'}<span><span class="t"><bdi>${esc(p.name)}</bdi></span><br><span class="c">${labelHtml(p.category)}</span></span><span class="p"><bdi>${esc(priceText(p))}</bdi></span></div>`;
-        }).join('')}` : `<p class="none">לא מצאנו מוצרים ל״${esc(q)}״. נסו מילה אחרת.</p>`);
+          return `<div class="opt" role="option" id="opt${i}" aria-selected="false" data-open="${p.id}">${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="noimg" aria-hidden="true">18+</span>'}<span><span class="t"><bdi>${esc(nm(p))}</bdi></span><br><span class="c">${labelHtml(p.category)}</span></span><span class="p"><bdi>${esc(priceText(p))}</bdi></span></div>`;
+        }).join('')}` : `<p class="none">${L(`לא מצאנו מוצרים ל״${esc(q)}״. נסו מילה אחרת.`, `Nothing found for “${esc(q)}”. Try another word.`)}</p>`);
     }
     box.hidden = false;
     $('q').setAttribute('aria-expanded', 'true');
@@ -825,16 +885,16 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (cat !== ALL) list = list.filter(p => p.category === cat);
     const hideRestricted = cat === ALL && !query;
     const shown = hideRestricted ? list.filter(p => !isRestricted(p)) : list;
-    const where = cat === ALL ? 'כל המוצרים' : label(cat);
-    $('catalogTitle').innerHTML = query ? 'תוצאות חיפוש' : cat === ALL ? where : labelHtml(cat);
+    const where = cat === ALL ? L('כל המוצרים', 'All products') : label(cat);
+    $('catalogTitle').innerHTML = query ? L('תוצאות חיפוש', 'Search results') : cat === ALL ? where : labelHtml(cat);
     $('catalog').classList.toggle('list', RESTRICTED.has(cat));
-    const text = query ? `${shown.length} תוצאות ל״${query}״${cat === ALL ? '' : ` ב${where}`}` : `${shown.length} מוצרים`;
+    const text = query ? L(`${shown.length} תוצאות ל״${query}״${cat === ALL ? '' : ` ב${where}`}`, `${shown.length} results for “${query}”${cat === ALL ? '' : ` in ${where}`}`) : L(`${shown.length} מוצרים`, `${shown.length} products`);
     $('count').textContent = text;
     let html = shown.map(cardHtml).join('');
-    if (RESTRICTED.has(cat) || (query && shown.some(isRestricted))) html = `<p class="legal">לפי החוק, מוצרי עישון מוצגים בשם ובמחיר בלבד, בלי תמונות ובלי מבצעים. מכירה מגיל 18 בלבד.</p>` + html;
-    if (hideRestricted) html += `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>`;
+    if (RESTRICTED.has(cat) || (query && shown.some(isRestricted))) html = `<p class="legal">${L('לפי החוק, מוצרי עישון מוצגים בשם ובמחיר בלבד, בלי תמונות ובלי מבצעים. מכירה מגיל 18 בלבד.', 'By Israeli law, smoking products are listed by name and price only, with no images or promotions. 18+ only.')}</p>` + html;
+    if (hideRestricted) html += `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>${L('מוצרי עישון ואביזרי עישון', 'Tobacco and smoking accessories')}<small>${L('מוצגים ברשימה נפרדת, מגיל 18', 'Listed separately, 18+')}</small></span><span aria-hidden="true">${L('←', '→')}</span></button>`;
     $('catalog').innerHTML = shown.length ? html :
-      `<div class="empty"><p>לא מצאנו מוצרים ל״${esc(query)}״${cat === ALL ? '' : ' בקטגוריה הזו'}.</p>${cat === ALL ? '' : `<button type="button" data-cat="${esc(ALL)}">חיפוש בכל המוצרים</button>`}</div>`;
+      `<div class="empty"><p>${L(`לא מצאנו מוצרים ל״${esc(query)}״${cat === ALL ? '' : ' בקטגוריה הזו'}.`, `Nothing found for “${esc(query)}”${cat === ALL ? '' : ' in this category'}.`)}</p>${cat === ALL ? '' : `<button type="button" data-cat="${esc(ALL)}">${L('חיפוש בכל המוצרים', 'Search all products')}</button>`}</div>`;
     applyView();
     if (speak) announce(`${where}: ${text}`);
   }
@@ -852,20 +912,20 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   function slotAdd(p) {
     if (!p.buy || !canBuy(p) || isBlocked(p)) return '';
     const n = cart[p.id] || 0;
-    const name = esc(p.name);
-    return `<button type="button" class="qa${n ? ' on' : ''}" data-add="${p.id}" aria-label="${n ? `הוספת עוד ${name}, בסל ${n}` : `הוספת ${name} לסל`}">${n ? `<b>${n}</b>` : plusIcon}</button>`;
+    const name = esc(nm(p));
+    return `<button type="button" class="qa${n ? ' on' : ''}" data-add="${p.id}" aria-label="${n ? L(`הוספת עוד ${name}, בסל ${n}`, `One more ${name}, ${n} in cart`) : L(`הוספת ${name} לסל`, `Add ${name} to cart`)}">${n ? `<b>${n}</b>` : plusIcon}</button>`;
   }
   // Cutout photos: id -> [width, height, real height in cm]. Sizes on the shelf follow the real product.
   const CUT = window.ALLENBIS_CUT || {};
   const hasCut = id => Array.isArray(CUT[id]);
   function slotHtml(p) {
-    const flag = !canBuy(p) && p.buy ? '<span class="flag">אזל</span>' : isBlocked(p) ? '<span class="flag">06:00–23:00</span>' : '';
+    const flag = !canBuy(p) && p.buy ? `<span class="flag">${L('אזל', 'Sold out')}</span>` : isBlocked(p) ? '<span class="flag">06:00–23:00</span>' : '';
     const sale = onSale(p);
     const priced = p.buy && hasPrice(p);
     const up = unitPrice(p);
-    const low = sale ? `<span class="s-was">במקום <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
-    const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? '<span class="s-flag" aria-hidden="true">מבצע</span>' : ''}<span class="t-name"><bdi>${esc(p.name)}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
-    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(p.name)}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
+    const low = sale ? `<span class="s-was">${L('במקום', 'was')} <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
+    const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? `<span class="s-flag" aria-hidden="true">${L('מבצע', 'SALE')}</span>` : ''}<span class="t-name"><bdi>${esc(nm(p))}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(nm(p))}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
   }
   // Glass-door cooler: one door per 3 columns, a frame between doors and a handle on each.
   function doorsHtml() {
@@ -893,8 +953,8 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       for (let r = 0; r < list.length; r += shelfCols) rows.push(list.slice(r, r + shelfCols));
       const kind = FRIDGE[c] || 'dry';
       const shelves = rows.map(row => `<div class="shelf">${row.map(slotHtml).join('')}${'<div class="slot vacant" aria-hidden="true"><div class="prod"></div><span class="stag"></span></div>'.repeat(shelfCols - row.length)}</div>`).join('');
-      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>מעבר ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}${PEG.has(c) ? ' peg' : ''}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : doorsHtml()}</div></section>`;
-    }).join('') + (cat === ALL ? `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>מוצרי עישון ואביזרי עישון<small>מוצגים ברשימה נפרדת, מגיל 18</small></span><span aria-hidden="true">←</span></button>` : '');
+      return `<section class="aisle" aria-label="${esc(label(c))}"><div class="aisle-sign" aria-hidden="true"><small>${L('מעבר', 'Aisle')} ${i + 1}</small>${labelHtml(c)}</div><div class="unit ${kind}${PEG.has(c) ? ' peg' : ''}" style="--n:${shelfCols}">${shelves}${kind === 'dry' ? '' : doorsHtml()}</div></section>`;
+    }).join('') + (cat === ALL ? `<button type="button" class="to-smoke" data-cat="מידע בלבד"><span>${L('מוצרי עישון ואביזרי עישון', 'Tobacco and smoking accessories')}<small>${L('מוצגים ברשימה נפרדת, מגיל 18', 'Listed separately, 18+')}</small></span><span aria-hidden="true">${L('←', '→')}</span></button>` : '');
     box.querySelectorAll('.unit').forEach(stockUnit);
     shelfW = box.clientWidth;
   }
@@ -955,7 +1015,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     view = b.dataset.view;
     store.set('allenbis-view', view);
     applyView();
-    announce(view === 'shelf' ? 'תצוגת מדפים' : 'תצוגת רשימה');
+    announce(view === 'shelf' ? L('תצוגת מדפים', 'Shelf view') : L('תצוגת רשימה', 'List view'));
   });
   if ('ResizeObserver' in window) new ResizeObserver(() => {
     if (!shelfMode()) return;
@@ -974,14 +1034,14 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const was = document.documentElement.classList.contains('night');
     document.documentElement.classList.toggle('night', on);
     $('nightBtn').setAttribute('aria-pressed', String(on));
-    $('nightLabel').textContent = on ? 'מצב לילה פעיל. מעבר למצב יום' : 'מעבר למצב לילה';
+    $('nightLabel').textContent = on ? L('מצב לילה פעיל. מעבר למצב יום', 'Night mode on. Switch to day mode') : L('מעבר למצב לילה', 'Switch to night mode');
     if (was !== on && $('homeSections').childElementCount) renderHome();
   }
   $('nightBtn').addEventListener('click', () => {
     nightPick = !document.documentElement.classList.contains('night');
     try { sessionStorage.setItem('allenbis-night', nightPick ? '1' : '0'); } catch {}
     applyNight();
-    announce(nightPick ? 'מצב לילה' : 'מצב יום');
+    announce(nightPick ? L('מצב לילה', 'Night mode') : L('מצב יום', 'Day mode'));
   });
   setInterval(applyNight, 5 * 60e3);
   // Late-night picks: energy, coffee, munchies, ice, a charger for the dead phone. Never alcohol.
@@ -990,7 +1050,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   /* ---------- Home sections ---------- */
   function rail(id, title, list, demo, extra = '') {
     if (!list.length) return '';
-    return `<section aria-labelledby="${id}-t"><div class="sec-head"><h2 id="${id}-t">${esc(title)}${demoTag(demo)}</h2>${extra}<div class="nav"><button type="button" data-scroll="${id}" data-dir="1" aria-label="הקודם">→</button><button type="button" data-scroll="${id}" data-dir="-1" aria-label="הבא">←</button></div></div><div class="rail" id="${id}">${list.map(cardHtml).join('')}</div></section>`;
+    return `<section aria-labelledby="${id}-t"><div class="sec-head"><h2 id="${id}-t">${esc(title)}${demoTag(demo)}</h2>${extra}<div class="nav"><button type="button" data-scroll="${id}" data-dir="1" aria-label="${L('הקודם', 'Previous')}">${L('→', '←')}</button><button type="button" data-scroll="${id}" data-dir="-1" aria-label="${L('הבא', 'Next')}">${L('←', '→')}</button></div></div><div class="rail" id="${id}">${list.map(cardHtml).join('')}</div></section>`;
   }
   const railable = p => !isRestricted(p) && canBuy(p) && imgOf(p) !== FALLBACK;
   const bundles = (DEMO.bundles?.items || []).map(b => ({ ...b, lines: b.items.map(([id, q]) => ({ p: byId.get(id), q })).filter(l => l.p && !isRestricted(l.p)) })).filter(b => b.lines.length);
@@ -998,7 +1058,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   function bundleHtml(b) {
     const total = b.lines.reduce((s, { p, q }) => s + (hasPrice(p) ? unit(p) * q : 0), 0);
     const count = b.lines.reduce((s, l) => s + l.q, 0);
-    return `<article class="bundle">${b.img ? `<img class="cover" src="${esc(b.img)}" alt="" loading="lazy">` : ''}<h3>${esc(b.title)}</h3><p>${esc(b.text)}</p><div class="thumbs" aria-hidden="true">${b.lines.slice(0, 5).map(({ p, q }) => `<span><img src="${esc(imgOf(p))}" alt="" loading="lazy">${q > 1 ? `<b>×${q}</b>` : ''}</span>`).join('')}</div><div class="row"><span><b><bdi>${fmt(total)}</bdi></b> · ${count} מוצרים</span><button type="button" data-bundle="${esc(b.id)}">הוספת החבילה</button></div></article>`;
+    return `<article class="bundle">${b.img ? `<img class="cover" src="${esc(b.img)}" alt="" loading="lazy">` : ''}<h3>${esc(LANG === 'en' && UI.bundles?.[b.id]?.title || b.title)}</h3><p>${esc(LANG === 'en' && UI.bundles?.[b.id]?.text || b.text)}</p><div class="thumbs" aria-hidden="true">${b.lines.slice(0, 5).map(({ p, q }) => `<span><img src="${esc(imgOf(p))}" alt="" loading="lazy">${q > 1 ? `<b>×${q}</b>` : ''}</span>`).join('')}</div><div class="row"><span><b><bdi>${fmt(total)}</bdi></b> · ${count} ${L('מוצרים', 'items')}</span><button type="button" data-bundle="${esc(b.id)}">${L('הוספת החבילה', 'Add bundle')}</button></div></article>`;
   }
 
   function renderHome() {
@@ -1008,12 +1068,12 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const dealList = pick(Object.keys(deals)).filter(railable);
     const night = document.documentElement.classList.contains('night');
     $('homeSections').innerHTML =
-      (night ? rail('r-night', `הלילה עוד צעיר · אצלך תוך ${ETA} דק׳`, pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
-      rail('r-again', 'קנה שוב', again.slice(0, 12), false, orders.length ? '<button type="button" class="again-btn" data-again>הזמנה חוזרת</button>' : '') +
-      rail('r-deals', 'מבצעים', dealList, DEMO.deals?.example) +
-      rail('r-best', 'הכי נמכרים', pick(DEMO.bestsellers?.ids).filter(railable), DEMO.bestsellers?.example) +
-      (bundles.length ? `<section aria-labelledby="b-t"><div class="sec-head"><h2 id="b-t">חבילות מוכנות${demoTag(DEMO.bundles?.example)}</h2></div><div class="bundles">${bundles.map(bundleHtml).join('')}</div></section>` : '') +
-      rail('r-10', 'עד 10 ₪', under10);
+      (night ? rail('r-night', L(`הלילה עוד צעיר · אצלך תוך ${ETA} דק׳`, `The night is young · at your door in ${ETA} min`), pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
+      rail('r-again', L('קנה שוב', 'Buy again'), again.slice(0, 12), false, orders.length ? `<button type="button" class="again-btn" data-again>${L('הזמנה חוזרת', 'Reorder')}</button>` : '') +
+      rail('r-deals', L('מבצעים', 'Deals'), dealList, DEMO.deals?.example) +
+      rail('r-best', L('הכי נמכרים', 'Best sellers'), pick(DEMO.bestsellers?.ids).filter(railable), DEMO.bestsellers?.example) +
+      (bundles.length ? `<section aria-labelledby="b-t"><div class="sec-head"><h2 id="b-t">${L('חבילות מוכנות', 'Ready-made bundles')}${demoTag(DEMO.bundles?.example)}</h2></div><div class="bundles">${bundles.map(bundleHtml).join('')}</div></section>` : '') +
+      rail('r-10', L('עד 10 ₪', 'Under ₪10'), under10);
   }
 
   /* ---------- Taking a product off the shelf ---------- */
@@ -1067,11 +1127,11 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const c = t.closest('[data-cat]');
     if (c && !t.closest('#suggest')) { requestCat(c.dataset.cat); return; }
     const sc = t.closest('[data-scroll]');
-    if (sc) { const r = $(sc.dataset.scroll); r.scrollBy({ left: -+sc.dataset.dir * r.clientWidth * 0.9, behavior: 'smooth' }); return; }
+    if (sc) { const r = $(sc.dataset.scroll); r.scrollBy({ left: -+sc.dataset.dir * r.clientWidth * 0.9 * (LANG === 'en' ? -1 : 1), behavior: 'smooth' }); return; }
     const b = t.closest('[data-bundle]');
-    if (b) { addLines(bundles.find(x => x.id === b.dataset.bundle).lines, 'החבילה נוספה לסל'); return; }
+    if (b) { addLines(bundles.find(x => x.id === b.dataset.bundle).lines, L('החבילה נוספה לסל', 'Bundle added to cart')); return; }
     if (t.closest('[data-again]') && orders.length) {
-      addLines(orders[orders.length - 1].lines.map(([id, q]) => ({ p: byId.get(id), q })).filter(l => l.p), 'ההזמנה האחרונה נוספה לסל');
+      addLines(orders[orders.length - 1].lines.map(([id, q]) => ({ p: byId.get(id), q })).filter(l => l.p), L('ההזמנה האחרונה נוספה לסל', 'Your last order was added to the cart'));
     }
   });
 
@@ -1084,7 +1144,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     }
     save();
     updateCartUi();
-    const note = skipped ? ` (${skipped} מוצרים לא זמינים כרגע)` : '';
+    const note = skipped ? L(` (${skipped} מוצרים לא זמינים כרגע)`, ` (${skipped} items unavailable right now)`) : '';
     toast(msg + note);
     announce(msg + note);
     if ($('cart').open) renderCart();
@@ -1124,16 +1184,17 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   }
   /* ---------- The quiz: plan, people, taste, budget → a basket that fits ---------- */
   const PLANS = {
-    movie: { label: 'ערב סרט', per: 35, w: { salty: 3, soda: 3, choc: 2, candy: 1.5, icecream: 1, juice: 1 } },
+    movie: { label: 'ערב סרט', en: 'a movie night', per: 35, w: { salty: 3, soda: 3, choc: 2, candy: 1.5, icecream: 1, juice: 1 } },
     // A date is always for two: dessert to share, good chocolate, something bubbly and a mint for later
-    date: { label: 'דייט', per: 45, people: 2, w: { icecream: 3, choc: 2.5, cookies: 1.5, mixer: 1.5, juice: 1, mint: 1 },
+    date: { label: 'דייט', en: 'a date', per: 45, people: 2, w: { icecream: 3, choc: 2.5, cookies: 1.5, mixer: 1.5, juice: 1, mint: 1 },
       pref: ['p181', 'p89', 'p67', 'p88', 'p20', 'p62', 'p73', 'p77'], must: ['p181'] },
-    party: { label: 'חברים', per: 40, w: { soda: 3, salty: 3, nuts: 2, mixer: 1, juice: 1, candy: 1, ice: 1.5 } },
-    night: { label: 'לילה לבן', per: 30, w: { energy: 3, coffee: 2, choc: 2, salty: 1.5, mint: 1, water: 1 } },
-    snack: { label: 'נשנוש', per: 30, w: { choc: 2.5, salty: 2, cookies: 1.5, soda: 1, juice: 1, candy: 1, icecream: 1 } },
-    meal: { label: 'ארוחה מהירה', per: 40, w: { instant: 3, soda: 2, canned: 1, crackers: 1, water: 1, choc: 1 } }
+    party: { label: 'חברים', en: 'friends', per: 40, w: { soda: 3, salty: 3, nuts: 2, mixer: 1, juice: 1, candy: 1, ice: 1.5 } },
+    night: { label: 'לילה לבן', en: 'an all-nighter', per: 30, w: { energy: 3, coffee: 2, choc: 2, salty: 1.5, mint: 1, water: 1 } },
+    snack: { label: 'נשנוש', en: 'a snack', per: 30, w: { choc: 2.5, salty: 2, cookies: 1.5, soda: 1, juice: 1, candy: 1, icecream: 1 } },
+    meal: { label: 'ארוחה מהירה', en: 'a quick meal', per: 40, w: { instant: 3, soda: 2, canned: 1, crackers: 1, water: 1, choc: 1 } }
   };
-  const FOR_WHOM = { 1: 'לאחד', 2: 'לשניים', 4: 'ל-3–5', 7: 'ל-6 ומעלה' };
+  const FOR_WHOM = LANG === 'en' ? { 1: 'for one', 2: 'for two', 4: 'for 3–5', 7: 'for 6+' } : { 1: 'לאחד', 2: 'לשניים', 4: 'ל-3–5', 7: 'ל-6 ומעלה' };
+  const planName = k => LANG === 'en' ? PLANS[k].en : PLANS[k].label;
   const SALTY = new Set(['salty', 'nuts', 'crackers']);
   const sugarFree = p => kindOf(p) === 'water' || ['p14', 'p20'].includes(p.id) || /ללא סוכר|זירו|zero|מקס|max|free|sugarfree|ultra/i.test(`${p.name} ${p.sub || ''}`);
   const quizPool = products.filter(p => sellable(p) && hasPrice(p) && unit(p) > 0 && !isRestricted(p) && p.category !== ALCOHOL && (hasCut(p.id) || imgOf(p) !== FALLBACK));
@@ -1207,16 +1268,16 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (n === 3) {
       const sug = suggestBudget(answers);
       if (!$('budget').dataset.touched) $('budget').value = sug;
-      $('qzHint').textContent = `הצעה ל${PLANS[answers.plan].label} ${FOR_WHOM[answers.people]}: ${fmt(sug * 100)}. אפשר לשנות.`;
+      $('qzHint').textContent = L(`הצעה ל${planName(answers.plan)} ${FOR_WHOM[answers.people]}: ${fmt(sug * 100)}. אפשר לשנות.`, `Suggested for ${planName(answers.plan)} ${FOR_WHOM[answers.people]}: ${fmt(sug * 100)}. Change it if you like.`);
       document.querySelector('#quiz .quick').innerHTML = [...new Set([Math.round(sug * 0.7 / 10) * 10, sug, Math.round(sug * 1.5 / 10) * 10])]
-        .filter(v => v >= 20).map(v => `<button type="button" data-amount="${v}">‏${v} ₪</button>`).join('');
+        .filter(v => v >= 20).map(v => `<button type="button" data-amount="${v}">${L(`‏${v} ₪`, `₪${v}`)}</button>`).join('');
     }
     if (focus) {
       const q = $(`qzQ${n}`);
       q.focus({ preventScroll: true });
       const top = $('top').getBoundingClientRect().bottom;
       if (q.getBoundingClientRect().top < top + 8) q.scrollIntoView({ block: 'start' });
-      announce(`שאלה ${n + 1} מתוך 4`);
+      announce(L(`שאלה ${n + 1} מתוך 4`, `Question ${n + 1} of 4`));
     }
   }
   $('quiz').addEventListener('click', e => {
@@ -1247,12 +1308,12 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   showStep(0, false);
 
   function renderBasket() {
-    const a = answers.plan ? `סל ל${PLANS[answers.plan].label} ${FOR_WHOM[answers.people]}${answers.taste.has('nosugar') ? ', שתייה בלי סוכר' : ''}, ` : '';
-    $('basketBody').innerHTML = `<p class="note-box">${esc(a)}בתקציב של <bdi>${fmt(budgetMinor)}</bdi>: הרכבנו ${basket.count} פריטים. לא מתאים? אפשר לערבב שוב.</p>` +
+    const a = !answers.plan ? '' : L(`סל ל${planName(answers.plan)} ${FOR_WHOM[answers.people]}${answers.taste.has('nosugar') ? ', שתייה בלי סוכר' : ''}, `, `A basket for ${planName(answers.plan)} ${FOR_WHOM[answers.people]}${answers.taste.has('nosugar') ? ', sugar-free drinks' : ''}, `);
+    $('basketBody').innerHTML = `<p class="note-box">${esc(a)}${L('בתקציב של', 'on a budget of')} <bdi>${fmt(budgetMinor)}</bdi>: ${L(`הרכבנו ${basket.count} פריטים. לא מתאים? אפשר לערבב שוב.`, `${basket.count} items. Not quite right? Shuffle again.`)}</p>` +
       basket.lines.map(({ p, q }) => lineHtml(p, q, false)).join('');
-    $('basketFoot').innerHTML = `<div class="totals"><div class="row big"><span>סה״כ</span><bdi>${fmt(basket.total)}</bdi></div><div class="muted">נשארו <bdi>${fmt(budgetMinor - basket.total)}</bdi> מהתקציב.</div></div>
-<button class="primary" type="button" id="basketAdd">הוספת הכול לסל</button>
-<button class="secondary" type="button" id="basketShuffle">ערבוב מחדש</button>`;
+    $('basketFoot').innerHTML = `<div class="totals"><div class="row big"><span>${L('סה״כ', 'Total')}</span><bdi>${fmt(basket.total)}</bdi></div><div class="muted">${L('נשארו', 'Left over:')} <bdi>${fmt(budgetMinor - basket.total)}</bdi>${L(' מהתקציב.', '')}</div></div>
+<button class="primary" type="button" id="basketAdd">${L('הוספת הכול לסל', 'Add all to cart')}</button>
+<button class="secondary" type="button" id="basketShuffle">${L('ערבוב מחדש', 'Shuffle again')}</button>`;
   }
   document.querySelector('.quick').addEventListener('click', e => {
     const b = e.target.closest('[data-amount]');
@@ -1265,16 +1326,16 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     e.preventDefault();
     const raw = $('budget').value.trim().replace(/[₪,\s]/g, '') || $('budget').placeholder;
     const fail = msg => { $('budgetErr').textContent = msg; $('budget').setAttribute('aria-invalid', 'true'); $('budget').focus(); };
-    if (!/^\d+(\.\d{1,2})?$/.test(raw)) return fail('כתבו סכום במספרים, למשל 100.');
+    if (!/^\d+(\.\d{1,2})?$/.test(raw)) return fail(L('כתבו סכום במספרים, למשל 100.', 'Enter an amount in numbers, e.g. 100.'));
     budgetMinor = Math.round(parseFloat(raw) * 100);
     const max = B.maxMinor || 100000;
-    if (budgetMinor > max) return fail(`אפשר להרכיב סל עד ${fmt(max)}.`);
-    if (!pool.length) return fail('בונה הסלים לא זמין כרגע.');
-    if (budgetMinor < cheapest) return fail(`המוצר הזול ביותר עולה ${fmt(cheapest)}. נסו סכום גבוה יותר.`);
+    if (budgetMinor > max) return fail(L(`אפשר להרכיב סל עד ${fmt(max)}.`, `Baskets go up to ${fmt(max)}.`));
+    if (!pool.length) return fail(L('בונה הסלים לא זמין כרגע.', 'The basket builder is unavailable right now.'));
+    if (budgetMinor < cheapest) return fail(L(`המוצר הזול ביותר עולה ${fmt(cheapest)}. נסו סכום גבוה יותר.`, `The cheapest item is ${fmt(cheapest)}. Try a higher amount.`));
     $('budgetErr').textContent = '';
     $('budget').removeAttribute('aria-invalid');
     basket = answers.plan ? quizBasket(answers, budgetMinor) : buildBasket(budgetMinor);
-    if (!basket.count) return fail('לא מצאנו מוצרים שמתאימים לבחירות בתקציב הזה. נסו סכום גבוה יותר.');
+    if (!basket.count) return fail(L('לא מצאנו מוצרים שמתאימים לבחירות בתקציב הזה. נסו סכום גבוה יותר.', 'Nothing matches your choices on this budget. Try a higher amount.'));
     renderBasket();
     openDialog('basket');
   });
@@ -1283,11 +1344,11 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       basket = answers.plan ? quizBasket(answers, budgetMinor) : buildBasket(budgetMinor);
       renderBasket();
       $('basketShuffle').focus();
-      announce(`ערבבנו מחדש: ${basket.count} פריטים, ${fmt(basket.total)}.`);
+      announce(L(`ערבבנו מחדש: ${basket.count} פריטים, ${fmt(basket.total)}.`, `Shuffled: ${basket.count} items, ${fmt(basket.total)}.`));
     }
     if (e.target.closest('#basketAdd')) {
       $('basket').close();
-      addLines(basket.lines, `${basket.count} פריטים נוספו לסל`);
+      addLines(basket.lines, L(`${basket.count} פריטים נוספו לסל`, `${basket.count} items added to cart`));
       openCart();
     }
   });
@@ -1295,7 +1356,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   /* ---------- Delivery area: is this street ours? ---------- */
   const AREA = DEMO.area || {};
   const streetKey = v => norm(v).replace(/^(רחוב|רח|שדרות|שד|sderot|rehov)\s+/, '').replace(/\s*\d.*$/, '').trim();
-  const STREETS = (AREA.streets || []).map(n => [n, streetKey(n)]);
+  const STREETS = [...(AREA.streets || []), ...(AREA.streets?.length ? UI.streets || [] : [])].map(n => [n, streetKey(n)]);
   function checkStreet(v) {
     const k = streetKey(v);
     if (k.length < 2 || !STREETS.length) return null;
@@ -1306,7 +1367,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const r = checkStreet(v);
     if (!r) return '';
     return r.ok ? `<span class="ok">✓ <bdi>${esc(r.name)}</bdi> · ${L('באזור המשלוחים', 'we deliver here')}</span>`
-      : `<span class="no">${L(`לא מצאנו את הרחוב באזור המשלוחים (${esc(D.area || '')}). אפשר עדיין לשלוח, והחנות תבדוק.`, `This street isn't on our delivery list (${esc(D.area || '')}). You can still send the order and the store will check.`)}</span>`;
+      : `<span class="no">${L(`לא מצאנו את הרחוב באזור המשלוחים (${esc(D.area || '')}). אפשר עדיין לשלוח, והחנות תבדוק.`, `This street isn't on our delivery list (${esc(AREA_NAME || '')}). You can still send the order and the store will check.`)}</span>`;
   }
   let areaTimer;
   $('coStreet').addEventListener('input', () => { clearTimeout(areaTimer); areaTimer = setTimeout(() => { $('coArea').innerHTML = areaHtml($('coStreet').value); }, 250); });
@@ -1322,10 +1383,10 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const t = totals();
     coStep(false);
     $('coIntro').textContent = WA
-      ? 'ממלאים פרטים, ובלחיצה אחת ההזמנה נשלחת לחנות בוואטסאפ. החנות מאשרת את ההזמנה בהודעה חוזרת.'
-      : 'ממלאים פרטים, וההזמנה נפתחת כהודעה מוכנה בוואטסאפ. מספר החנות עוד לא הוגדר, אז אפשר לשלוח את ההודעה למי שרוצים (למשל לעצמכם, לבדיקה).';
+      ? L('ממלאים פרטים, ובלחיצה אחת ההזמנה נשלחת לחנות בוואטסאפ. החנות מאשרת את ההזמנה בהודעה חוזרת.', 'Fill in your details and your order goes to the store on WhatsApp in one tap. The store confirms it in a reply.')
+      : L('ממלאים פרטים, וההזמנה נפתחת כהודעה מוכנה בוואטסאפ. מספר החנות עוד לא הוגדר, אז אפשר לשלוח את ההודעה למי שרוצים (למשל לעצמכם, לבדיקה).', "Fill in your details and your order opens as a ready WhatsApp message. The store's number isn't set yet, so you can send it to anyone (yourself, as a test).");
     $('coTotals').innerHTML = totalsHtml(t);
-    $('coSubmit').innerHTML = `המשך לשליחה · <bdi>${fmt(t.total)}</bdi>`;
+    $('coSubmit').innerHTML = `${L('המשך לשליחה', 'Continue')} · <bdi>${fmt(t.total)}</bdi>`;
     openDialog('checkout');
   }
   function fieldErr(id, msg) {
@@ -1353,10 +1414,10 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     e.preventDefault();
     const phone = $('coPhone').value.replace(/[\s-]/g, '');
     const ok = [
-      fieldErr('coName', $('coName').value.trim().length < 2 ? 'כתבו שם, כדי שהשליח ידע למי למסור.' : ''),
-      fieldErr('coPhone', /^(05\d{8}|0[2-489]\d{7}|07\d{8})$/.test(phone) ? '' : 'כתבו מספר טלפון ישראלי, למשל 050-1234567.'),
-      fieldErr('coStreet', /\d/.test($('coStreet').value) && $('coStreet').value.trim().length > 3 ? '' : 'כתבו רחוב ומספר בית, למשל אלנבי 1.'),
-      fieldErr('coTerms', $('coTerms').checked ? '' : 'כדי להזמין צריך לאשר את התקנון ואת מדיניות הביטולים.')
+      fieldErr('coName', $('coName').value.trim().length < 2 ? L('כתבו שם, כדי שהשליח ידע למי למסור.', 'Enter a name so the courier knows who to hand it to.') : ''),
+      fieldErr('coPhone', /^(05\d{8}|0[2-489]\d{7}|07\d{8})$/.test(phone) ? '' : L('כתבו מספר טלפון ישראלי, למשל 050-1234567.', 'Enter an Israeli phone number, e.g. 050-1234567.')),
+      fieldErr('coStreet', /\d/.test($('coStreet').value) && $('coStreet').value.trim().length > 3 ? '' : L('כתבו רחוב ומספר בית, למשל אלנבי 1.', 'Enter a street and number, e.g. Allenby 1.')),
+      fieldErr('coTerms', $('coTerms').checked ? '' : L('כדי להזמין צריך לאשר את התקנון ואת מדיניות הביטולים.', 'Please accept the terms and the cancellation policy to order.'))
     ];
     if (ok.includes(false)) { $('coForm').querySelector('[aria-invalid="true"]').focus(); return; }
     const t = totals();
@@ -1366,18 +1427,18 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const text = orderMessage(t, f);
     pending = { at: Date.now(), lines: lines().filter(l => !isBlocked(l.p)).map(({ p, q }) => [p.id, q]), total: t.total, items: t.items, pay: f.pay, advance: 0, text };
     $('coPreview').textContent = text;
-    $('coSendNote').textContent = WA ? 'זו ההודעה שתישלח לחנות. בלחיצה על הכפתור וואטסאפ נפתח עם ההודעה מוכנה, ונשאר רק ללחוץ על שליחה.'
-      : 'זו ההודעה שתישלח. מספר החנות עוד לא הוגדר, אז וואטסאפ ייפתח ותבחרו למי לשלוח אותה.';
+    $('coSendNote').textContent = WA ? L('זו ההודעה שתישלח לחנות. בלחיצה על הכפתור וואטסאפ נפתח עם ההודעה מוכנה, ונשאר רק ללחוץ על שליחה.', 'This is the message the store will get (in Hebrew, for the staff). The button opens WhatsApp with it ready; just tap send.')
+      : L('זו ההודעה שתישלח. מספר החנות עוד לא הוגדר, אז וואטסאפ ייפתח ותבחרו למי לשלוח אותה.', "This is the message that will be sent (in Hebrew, for the staff). The store's number isn't set yet, so WhatsApp opens and you choose who to send it to.");
     $('coWa').href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-    $('coWaText').textContent = WA ? 'שליחה לחנות בוואטסאפ' : 'פתיחה בוואטסאפ';
+    $('coWaText').textContent = WA ? L('שליחה לחנות בוואטסאפ', 'Send to the store on WhatsApp') : L('פתיחה בוואטסאפ', 'Open in WhatsApp');
     coStep(true);
     $('coSendTitle').focus();
   });
   $('coBack').addEventListener('click', () => { coStep(false); $('coSubmit').focus(); });
   $('coCopy').addEventListener('click', async () => {
     if (!pending) return;
-    try { await navigator.clipboard.writeText(pending.text); announce('ההודעה הועתקה.'); toast('ההודעה הועתקה'); }
-    catch { announce('לא הצלחנו להעתיק. אפשר לסמן את ההודעה ולהעתיק ידנית.'); }
+    try { await navigator.clipboard.writeText(pending.text); announce(L('ההודעה הועתקה.', 'Message copied.')); toast(L('ההודעה הועתקה', 'Message copied')); }
+    catch { announce(L('לא הצלחנו להעתיק. אפשר לסמן את ההודעה ולהעתיק ידנית.', "Couldn't copy. Select the message and copy it by hand.")); }
   });
   // Sending: the link opens WhatsApp; the basket becomes the latest order.
   $('coWa').addEventListener('click', () => {
@@ -1400,10 +1461,11 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       renderHome();
       updateTrackPill();
       openTrack();
-      announce('ההזמנה נפתחה בוואטסאפ. אחרי השליחה החנות תאשר אותה.');
+      announce(L('ההזמנה נפתחה בוואטסאפ. אחרי השליחה החנות תאשר אותה.', 'Your order opened in WhatsApp. Once you send it, the store will confirm.'));
     }, 300);
   });
 
+  const PAY_EN = { 'ביט': 'Bit', 'אשראי לשליח': 'card to the courier', 'מזומן': 'cash' };
   /* ---------- Tracking (demo) ---------- */
   const STAGES = CFG.deliveryStages || [];
   const stageAt = [0, 2, 6, 15, ETA]; // minutes after ordering (example timeline)
@@ -1427,13 +1489,13 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     : String(i + 1);
   function renderTrack() {
     const o = orders[orders.length - 1];
-    if (!o) { $('trackBody').innerHTML = '<p class="panel-empty">אין הזמנה פעילה.</p>'; return; }
+    if (!o) { $('trackBody').innerHTML = `<p class="panel-empty">${L('אין הזמנה פעילה.', 'No active order.')}</p>`; return; }
     const { s, left } = stageOf(o);
     const done = s >= STAGES.length - 1;
-    $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.</p>
-<div class="eta">${done ? '<b>נמסר</b>' : `<b>${left}</b><span>דקות בערך עד שזה אצלך</span>`}</div>
-<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(st.label)}</p></li>`).join('')}</ol>
-<div style="display:grid;gap:10px;margin-top:18px">${done ? '' : '<button class="secondary" type="button" id="trackNext">הדגמה: לשלב הבא</button>'}<button class="primary" type="button" data-close>חזרה לחנות</button></div>`;
+    $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${L(`${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.`, `${o.items} items, <bdi>${fmt(o.total)}</bdi>, paying by ${esc(PAY_EN[o.pay] || o.pay)}. Your order was sent on WhatsApp and the store confirms it there. Times here are estimates.`)}</p>
+<div class="eta">${done ? `<b>${L('נמסר', 'Delivered')}</b>` : `<b>${left}</b><span>${L('דקות בערך עד שזה אצלך', 'minutes, roughly, until it reaches you')}</span>`}</div>
+<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(LANG === 'en' && UI.stages?.[st.id] || st.label)}</p></li>`).join('')}</ol>
+<div style="display:grid;gap:10px;margin-top:18px">${done ? '' : `<button class="secondary" type="button" id="trackNext">${L('הדגמה: לשלב הבא', 'Demo: next step')}</button>`}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>`;
   }
   let trackTimer;
   function openTrack() { renderTrack(); openDialog('track'); clearInterval(trackTimer); trackTimer = setInterval(() => { if ($('track').open) renderTrack(); else clearInterval(trackTimer); }, 15000); }
@@ -1461,23 +1523,24 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       $('openInfo').after(pill);
     }
     const { s } = stageOf(o);
-    pill.innerHTML = `<i aria-hidden="true"></i>${esc(STAGES[s]?.label || 'המשלוח שלי')}`;
+    pill.innerHTML = `<i aria-hidden="true"></i>${esc((LANG === 'en' && UI.stages?.[STAGES[s]?.id]) || STAGES[s]?.label || L('המשלוח שלי', 'My delivery'))}`;
   }
   setInterval(updateTrackPill, 30000);
 
   /* ---------- Delivery info ---------- */
-  $('etaText').textContent = `עד ${ETA} דק׳`;
-  $('areaText').textContent = [D.hours, D.area].filter(Boolean).join(' · ');
-  $('footInfo').textContent = `אלנביס · ${[D.hours, D.area].filter(Boolean).join(' · ')}`;
-  $('openInfo').setAttribute('aria-label', `משלוח עד ${ETA} דקות, ${D.hours || ''} ${D.area || ''}. פרטים על משלוחים`);
+  const AREA_NAME = LANG === 'en' ? (UI.area || D.area) : D.area;
+  $('etaText').textContent = L(`עד ${ETA} דק׳`, `Up to ${ETA} min`);
+  $('areaText').textContent = [D.hours, AREA_NAME].filter(Boolean).join(' · ');
+  $('footInfo').textContent = `${L('אלנביס', 'Allenbis')} · ${[D.hours, AREA_NAME].filter(Boolean).join(' · ')}`;
+  $('openInfo').setAttribute('aria-label', L(`משלוח עד ${ETA} דקות, ${D.hours || ''} ${D.area || ''}. פרטים על משלוחים`, `Delivery in up to ${ETA} minutes, ${D.hours || ''} ${AREA_NAME || ''}. Delivery details`));
   $('openInfo').addEventListener('click', () => {
     $('infoBody').innerHTML = `<dl class="facts pd" style="font-size:1rem;margin-top:14px">
-<dt>זמן משלוח</dt><dd>עד ${ETA} דקות</dd>
-<dt>שעות</dt><dd>${esc(D.hours || '')}</dd>
-<dt>אזור</dt><dd>${esc(D.area || '')}</dd>
-<dt>דמי משלוח</dt><dd><bdi>${fmt(FEE)}</bdi>${demoTag(D.example)}</dd>
-<dt>משלוח חינם</dt><dd>מעל <bdi>${fmt(FREE_FROM)}</bdi>${demoTag(D.example)}</dd></dl>
-<p class="note-box">אלכוהול נמכר ונמסר רק בין 06:00 ל-23:00, לפי החוק. מוצרי עישון ואלכוהול נמכרים מגיל 18 בלבד.</p>
+<dt>${L('זמן משלוח', 'Delivery time')}</dt><dd>${L(`עד ${ETA} דקות`, `Up to ${ETA} minutes`)}</dd>
+<dt>${L('שעות', 'Hours')}</dt><dd>${esc(D.hours || '')}</dd>
+<dt>${L('אזור', 'Area')}</dt><dd>${esc(AREA_NAME || '')}</dd>
+<dt>${L('דמי משלוח', 'Delivery fee')}</dt><dd><bdi>${fmt(FEE)}</bdi>${demoTag(D.example)}</dd>
+<dt>${L('משלוח חינם', 'Free delivery')}</dt><dd>${L('מעל', 'over')} <bdi>${fmt(FREE_FROM)}</bdi>${demoTag(D.example)}</dd></dl>
+<p class="note-box">${L('אלכוהול נמכר ונמסר רק בין 06:00 ל-23:00, לפי החוק. מוצרי עישון ואלכוהול נמכרים מגיל 18 בלבד.', 'By law, alcohol is sold and delivered only 06:00–23:00. Tobacco and alcohol are 18+ only.')}</p>
 ${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מגיעים אליכם? בדקו את הרחוב', 'Do we deliver to you? Check your street')}${demoTag(AREA.example)}</label><input id="infoStreet" autocomplete="street-address" placeholder="${L('למשל: דיזנגוף 50', 'e.g. Dizengoff 50')}" aria-describedby="infoArea"><p class="addr-check" id="infoArea" aria-live="polite"></p></div>` : ''}`;
     openDialog('info');
   });
@@ -1500,9 +1563,9 @@ ${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מג�
     applyNight();
   }
   function renderA11y() {
-    const sw = (k, t) => `<div class="a11y-row"><span id="l-${k}">${t}</span><button type="button" role="switch" aria-labelledby="l-${k}" aria-checked="${!!a11y[k]}" data-k="${k}">${a11y[k] ? 'פעיל' : 'כבוי'}</button></div>`;
-    $('a11yBody').innerHTML = `<div class="a11y-row"><span id="l-text">גודל טקסט</span><div class="seg" role="group" aria-labelledby="l-text">${sizes.map(s => `<button type="button" data-size="${s}" aria-pressed="${a11y.text === s}">${s}%</button>`).join('')}</div></div>` +
-      sw('hc', 'ניגודיות גבוהה') + sw('ul', 'הדגשת קישורים') + sw('nomo', 'עצירת אנימציות');
+    const sw = (k, t) => `<div class="a11y-row"><span id="l-${k}">${t}</span><button type="button" role="switch" aria-labelledby="l-${k}" aria-checked="${!!a11y[k]}" data-k="${k}">${a11y[k] ? L('פעיל', 'On') : L('כבוי', 'Off')}</button></div>`;
+    $('a11yBody').innerHTML = `<div class="a11y-row"><span id="l-text">${L('גודל טקסט', 'Text size')}</span><div class="seg" role="group" aria-labelledby="l-text">${sizes.map(s => `<button type="button" data-size="${s}" aria-pressed="${a11y.text === s}">${s}%</button>`).join('')}</div></div>` +
+      sw('hc', L('ניגודיות גבוהה', 'High contrast')) + sw('ul', L('הדגשת קישורים', 'Underline links')) + sw('nomo', L('עצירת אנימציות', 'Stop animations'));
   }
   $('a11yBody').addEventListener('click', e => {
     const s = e.target.closest('[data-size]');
@@ -1516,7 +1579,7 @@ ${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מג�
     renderA11y();
     $('a11yBody').querySelector(sel).focus();
   });
-  $('a11yReset').addEventListener('click', () => { a11y = { ...a11yDefault }; store.set(A11Y_KEY, a11y); applyA11y(); renderA11y(); announce('ההתאמות אופסו.'); });
+  $('a11yReset').addEventListener('click', () => { a11y = { ...a11yDefault }; store.set(A11Y_KEY, a11y); applyA11y(); renderA11y(); announce(L('ההתאמות אופסו.', 'Settings reset.')); });
   const openA11y = () => { renderA11y(); openDialog('a11y'); };
   $('openA11y').addEventListener('click', openA11y);
   $('a11yFab').addEventListener('click', openA11y);

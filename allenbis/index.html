@@ -57,7 +57,7 @@ bdi{unicode-bidi:isolate}
 
 /* Header */
 .top{position:sticky;top:0;z-index:40;background:rgba(238,242,247,.94);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
-.top .wrap{display:grid;grid-template-columns:auto auto 1fr auto auto;align-items:center;gap:12px;padding-block:10px}
+.top .wrap{display:grid;grid-template-columns:auto auto 1fr auto auto auto;align-items:center;gap:12px;padding-block:10px}
 .sign{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:var(--sign);color:#fff;border-radius:9px;padding:5px 14px 4px;box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px #fff;text-decoration:none;line-height:1;min-width:112px}
 .sign b{font:400 1.625rem/1.05 var(--display);letter-spacing:.3px}
 .sign small{font:700 .625rem/1.3 var(--body);letter-spacing:.4px;direction:ltr;opacity:.92}
@@ -85,7 +85,7 @@ bdi{unicode-bidi:isolate}
 .opt .p{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .opt mark{background:none;color:var(--sign);font-weight:800}
 .suggest .none{padding:12px 8px;color:var(--muted)}
-.cartbtn{grid-column:5;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:999px;background:var(--sign);color:#fff;font-weight:700}
+.cartbtn{grid-column:6;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 16px;border:0;border-radius:999px;background:var(--sign);color:#fff;font-weight:700}
 .cartbtn .n{min-width:24px;height:24px;border-radius:999px;background:var(--tag);color:var(--tag-ink);display:grid;place-items:center;font-size:.8125rem;padding:0 6px}
 .cartbtn .sum{font-variant-numeric:tabular-nums}
 .track-pill{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--ok-soft);color:var(--ok);font-weight:700;border-radius:999px;padding:0 12px;min-height:36px;font-size:.875rem}
@@ -120,6 +120,7 @@ bdi{unicode-bidi:isolate}
 @keyframes qzIn{from{opacity:0;transform:translateX(-10px)}}
 .qz-q{font:400 1.25rem/1.25 var(--display);color:#fff}
 .qz-q:focus{outline:none}
+html[dir=ltr] #coPhone{text-align:left!important}
 .qz-q{scroll-margin-top:calc(var(--top-h,67px) + 110px)}
 .qz-q small{font:600 .8125rem var(--body);color:#c9d6f2;margin-inline-start:6px}
 .qz-opts{display:flex;flex-wrap:wrap;gap:8px}
@@ -206,6 +207,7 @@ bdi{unicode-bidi:isolate}
 .pm-v .pm-s{font-size:1.5rem}
 .pm-v .pm-a{font-size:.8125rem;margin-top:1px;margin-inline-start:1px;border-bottom:1.5px solid currentColor;line-height:1}
 .pm-v .pm-c{font-size:.75rem;margin-top:auto;margin-inline-start:2px;margin-bottom:1px}
+html[dir=ltr] .pm-v .pm-c{margin-inline:0 1px;margin-top:2px;margin-bottom:0}
 .add{width:44px;height:44px;border:0;border-radius:50%;background:var(--sign);color:#fff;display:grid;place-items:center;flex:none}
 .add:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
 .step{display:flex;align-items:center;background:var(--sign-soft);border-radius:999px;flex:none}
@@ -494,7 +496,9 @@ html.hc{--paper:#fff;--line:#14203a;--muted:#14203a;--sign-soft:#dfe6f5}
 html.hc .card,html.hc .bundle{border-color:var(--ink)}
 html.ul a,html.ul button.linkbtn{text-decoration:underline}
 /* Night mode: 20:00–06:00, the street goes dark and the store glows */
-.nightbtn{grid-column:4;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--sign);display:grid;place-items:center;padding:0}
+.langbtn{grid-column:4;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--sign);font-weight:800;font-size:.875rem;padding:0}
+html.night .langbtn{background:#131b31;color:var(--ink);border-color:#3a4568}
+.nightbtn{grid-column:5;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--sign);display:grid;place-items:center;padding:0}
 .nightbtn .sun{display:none}
 html.night .nightbtn .moon{display:none}
 html.night .nightbtn .sun{display:block}
@@ -555,10 +559,11 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
   .sec-head .nav{display:none}
 }
 @media (max-width:640px){
-  .top .wrap{grid-template-columns:auto 1fr auto;gap:10px;row-gap:10px}
+  .top .wrap{grid-template-columns:auto 1fr auto auto;gap:10px;row-gap:10px}
   .top .search{grid-column:1/3;grid-row:2}
-  .cartbtn{grid-column:3;grid-row:1}
-  .nightbtn{grid-column:3;grid-row:2;justify-self:end}
+  .cartbtn{grid-column:3/5;grid-row:1;justify-self:end}
+  .langbtn{grid-column:3;grid-row:2}
+  .nightbtn{grid-column:4;grid-row:2;justify-self:end}
   .promise{justify-self:start}
   .promise b{font-size:1rem}
   .sign{min-width:0;padding:5px 11px 4px}
@@ -591,36 +596,38 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <script src="commerce-config.js" defer></script>
 <script src="demo-data.js" defer></script>
 <script src="shelf-cut.js" defer></script>
+<script src="catalog-en.js" defer></script>
 <script src="store.js" defer></script>
 </head>
 <body>
-<a class="skip" href="#catalog">דילוג לקטלוג המוצרים</a>
+<a class="skip" href="#catalog" data-en="Skip to products">דילוג לקטלוג המוצרים</a>
 <div id="status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
-<p class="preview">תצוגה מקדימה: אפשר כבר לבנות סל, ההזמנות ייפתחו בקרוב.</p>
+<p class="preview" data-en="Preview: you can already build a cart; ordering opens soon.">תצוגה מקדימה: אפשר כבר לבנות סל, ההזמנות ייפתחו בקרוב.</p>
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="sign" href="#" id="home" aria-label="אלנביס, לדף הבית"><b>אלנביס</b><small>Allenbis St.</small></a>
+    <a class="sign" href="#" id="home" aria-label="אלנביס, לדף הבית" data-en-aria-label="Allenbis, home"><b>אלנביס</b><small>Allenbis St.</small></a>
     <button class="promise" id="openInfo" type="button" aria-haspopup="dialog" aria-controls="info">
       <b><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span id="etaText" style="all:unset">עד 20 דק׳</span></b>
       <span id="areaText">24/7 · מרכז תל אביב</span>
     </button>
     <search class="search" id="searchBox">
-      <label for="q" class="sr-only">חיפוש מוצר</label>
+      <label for="q" class="sr-only" data-en="Search products">חיפוש מוצר</label>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="מה בא לך? במבה, קולה, מטען…" autocomplete="off" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest">
-      <button class="clear" id="clearQ" type="button" aria-label="ניקוי החיפוש">×</button>
-      <div class="suggest" id="suggest" role="listbox" aria-label="הצעות חיפוש" hidden></div>
+      <input id="q" type="search" placeholder="מה בא לך? במבה, קולה, מטען…" data-en-placeholder="Cola, Bamba, a charger…" autocomplete="off" enterkeyhint="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest">
+      <button class="clear" id="clearQ" type="button" aria-label="ניקוי החיפוש" data-en-aria-label="Clear search">×</button>
+      <div class="suggest" id="suggest" role="listbox" aria-label="הצעות חיפוש" data-en-aria-label="Search suggestions" hidden></div>
     </search>
-    <button class="nightbtn" id="nightBtn" type="button" aria-pressed="false" title="מצב לילה נדלק לבד מ-20:00 עד 06:00">
+    <button class="langbtn" id="langBtn" type="button" lang="en" aria-label="English" data-en-aria-label="עברית">EN</button>
+    <button class="nightbtn" id="nightBtn" type="button" aria-pressed="false" title="מצב לילה נדלק לבד מ-20:00 עד 06:00" data-en-title="Night mode turns on by itself 20:00–06:00">
       <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
       <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
       <span class="sr-only" id="nightLabel">מצב לילה</span>
     </button>
     <button class="cartbtn" id="openCart" type="button" aria-haspopup="dialog" aria-controls="cart">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
-      <span class="lbl">הסל</span><span class="n" id="cartCount">0</span><span class="sum" id="cartSum" hidden></span>
+      <span class="lbl" data-en="Cart">הסל</span><span class="n" id="cartCount">0</span><span class="sum" id="cartSum" hidden></span>
       <span class="sr-only" id="cartLabel">סל הקניות, 0 פריטים</span>
     </button>
   </div>
@@ -630,48 +637,48 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
   <div class="wrap">
     <section class="hero" aria-labelledby="heroTitle">
       <a class="hero-art" href="#catalog" tabindex="-1" aria-hidden="true">
-        <span class="neon"><span class="n-name">אלנביס</span><span class="n-open">פתוח</span><span class="n-247">24/7</span></span>
+        <span class="neon"><span class="n-name" data-en="ALLENBIS">אלנביס</span><span class="n-open" data-en="OPEN">פתוח</span><span class="n-247">24/7</span></span>
         <img src="images/hero/allenbis-approved-1672.webp" srcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" sizes="(min-width: 960px) 760px, 100vw" width="1672" height="684" fetchpriority="high" decoding="async" alt="">
       </a>
       <div class="builder" id="quiz">
-        <h1 id="heroTitle">מהחנות, עד הדלת שלך.</h1>
-        <p>4 שאלות קצרות, ונרכיב לך סל שמתאים בדיוק.</p>
-        <div class="qz-top"><span class="qz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="qz-back" id="qzBack" hidden>→ חזרה</button></div>
+        <h1 id="heroTitle" data-en="From the store to your door.">מהחנות, עד הדלת שלך.</h1>
+        <p data-en="4 quick questions and we'll build the basket that fits.">4 שאלות קצרות, ונרכיב לך סל שמתאים בדיוק.</p>
+        <div class="qz-top"><span class="qz-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="qz-back" id="qzBack" hidden data-en="← Back">→ חזרה</button></div>
         <div class="qz-step" data-step="0" role="group" aria-labelledby="qzQ0">
-          <h2 class="qz-q" id="qzQ0" tabindex="-1">מה התוכנית?</h2>
-          <div class="qz-opts"><button type="button" data-q="plan" data-v="movie" aria-pressed="false">ערב סרט</button><button type="button" data-q="plan" data-v="date" aria-pressed="false">דייט</button><button type="button" data-q="plan" data-v="party" aria-pressed="false">חברים / מסיבה</button><button type="button" data-q="plan" data-v="night" aria-pressed="false">לילה לבן</button><button type="button" data-q="plan" data-v="snack" aria-pressed="false">נשנוש לעצמי</button><button type="button" data-q="plan" data-v="meal" aria-pressed="false">ארוחה מהירה</button></div>
+          <h2 class="qz-q" id="qzQ0" tabindex="-1" data-en="What's the plan?">מה התוכנית?</h2>
+          <div class="qz-opts"><button type="button" data-q="plan" data-v="movie" aria-pressed="false" data-en="Movie night">ערב סרט</button><button type="button" data-q="plan" data-v="date" aria-pressed="false" data-en="Date">דייט</button><button type="button" data-q="plan" data-v="party" aria-pressed="false" data-en="Friends / party">חברים / מסיבה</button><button type="button" data-q="plan" data-v="night" aria-pressed="false" data-en="All-nighter">לילה לבן</button><button type="button" data-q="plan" data-v="snack" aria-pressed="false" data-en="A snack for me">נשנוש לעצמי</button><button type="button" data-q="plan" data-v="meal" aria-pressed="false" data-en="Quick meal">ארוחה מהירה</button></div>
         </div>
         <div class="qz-step" data-step="1" role="group" aria-labelledby="qzQ1" hidden>
-          <h2 class="qz-q" id="qzQ1" tabindex="-1">כמה אתם?</h2>
-          <div class="qz-opts"><button type="button" data-q="people" data-v="1" aria-pressed="false">לבד</button><button type="button" data-q="people" data-v="2" aria-pressed="false">שניים</button><button type="button" data-q="people" data-v="4" aria-pressed="false">3–5</button><button type="button" data-q="people" data-v="7" aria-pressed="false">6 ומעלה</button></div>
+          <h2 class="qz-q" id="qzQ1" tabindex="-1" data-en="How many of you?">כמה אתם?</h2>
+          <div class="qz-opts"><button type="button" data-q="people" data-v="1" aria-pressed="false" data-en="Just me">לבד</button><button type="button" data-q="people" data-v="2" aria-pressed="false" data-en="Two">שניים</button><button type="button" data-q="people" data-v="4" aria-pressed="false">3–5</button><button type="button" data-q="people" data-v="7" aria-pressed="false" data-en="6+">6 ומעלה</button></div>
         </div>
         <div class="qz-step" data-step="2" role="group" aria-labelledby="qzQ2" hidden>
-          <h2 class="qz-q" id="qzQ2" tabindex="-1">מה בא לכם? <small>אפשר לבחור כמה</small></h2>
-          <div class="qz-opts"><button type="button" data-q="taste" data-v="sweet" aria-pressed="false">מתוק</button><button type="button" data-q="taste" data-v="salty" aria-pressed="false">מלוח</button><button type="button" data-q="taste" data-v="drinks" aria-pressed="false">הרבה שתייה</button><button type="button" data-q="taste" data-v="icecream" aria-pressed="false">גלידה</button><button type="button" data-q="taste" data-v="nosugar" aria-pressed="false">שתייה בלי סוכר</button></div>
-          <button type="button" class="btn-tag qz-next" id="qzNext">המשך</button>
+          <h2 class="qz-q" id="qzQ2" tabindex="-1"><span data-en="What do you feel like?">מה בא לכם?</span> <small data-en="pick as many as you like">אפשר לבחור כמה</small></h2>
+          <div class="qz-opts"><button type="button" data-q="taste" data-v="sweet" aria-pressed="false" data-en="Sweet">מתוק</button><button type="button" data-q="taste" data-v="salty" aria-pressed="false" data-en="Salty">מלוח</button><button type="button" data-q="taste" data-v="drinks" aria-pressed="false" data-en="Lots of drinks">הרבה שתייה</button><button type="button" data-q="taste" data-v="icecream" aria-pressed="false" data-en="Ice cream">גלידה</button><button type="button" data-q="taste" data-v="nosugar" aria-pressed="false" data-en="Sugar-free drinks">שתייה בלי סוכר</button></div>
+          <button type="button" class="btn-tag qz-next" id="qzNext" data-en="Next">המשך</button>
         </div>
         <div class="qz-step" data-step="3" role="group" aria-labelledby="qzQ3" hidden>
-          <h2 class="qz-q" id="qzQ3" tabindex="-1">כמה להוציא?</h2>
+          <h2 class="qz-q" id="qzQ3" tabindex="-1" data-en="How much to spend?">כמה להוציא?</h2>
           <form class="budget" id="budgetForm" novalidate>
-            <label class="field" for="budget"><span aria-hidden="true">₪</span><span class="sr-only">תקציב בשקלים</span><input id="budget" inputmode="decimal" placeholder="100" maxlength="7" autocomplete="off" aria-describedby="budgetErr qzHint"></label>
-            <button class="btn-tag" type="submit">הרכיבו לי סל</button>
+            <label class="field" for="budget"><span aria-hidden="true">₪</span><span class="sr-only" data-en="Budget in shekels">תקציב בשקלים</span><input id="budget" inputmode="decimal" placeholder="100" maxlength="7" autocomplete="off" aria-describedby="budgetErr qzHint"></label>
+            <button class="btn-tag" type="submit" data-en="Build my basket">הרכיבו לי סל</button>
           </form>
           <p class="qz-hint" id="qzHint"></p>
-          <div class="quick" role="group" aria-label="סכומים מהירים"></div>
+          <div class="quick" role="group" aria-label="סכומים מהירים" data-en-aria-label="Quick amounts"></div>
         </div>
         <p class="err" id="budgetErr" role="alert"></p>
       </div>
     </section>
 
-    <nav aria-label="קטגוריות"><ul class="tiles" id="tiles"></ul></nav>
+    <nav aria-label="קטגוריות" data-en-aria-label="Categories"><ul class="tiles" id="tiles"></ul></nav>
 
     <div class="home" id="homeSections"></div>
 
     <h2 class="catalog-title" id="catalogTitle">כל המוצרים</h2>
     <div class="catbar" id="catbar">
-      <nav class="cats" id="cats" aria-label="סינון לפי קטגוריה"></nav>
+      <nav class="cats" id="cats" aria-label="סינון לפי קטגוריה" data-en-aria-label="Filter by category"></nav>
     </div>
-    <div class="countrow"><p class="count" id="count" aria-hidden="true"></p><div class="viewtoggle" id="viewToggle" role="group" aria-label="תצוגת המוצרים"><button type="button" data-view="shelf" aria-pressed="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 4v16M21 4v16M3 10h18M3 16h18"/></svg>מדפים</button><button type="button" data-view="grid" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>רשימה</button></div></div>
+    <div class="countrow"><p class="count" id="count" aria-hidden="true"></p><div class="viewtoggle" id="viewToggle" role="group" aria-label="תצוגת המוצרים" data-en-aria-label="Product view"><button type="button" data-view="shelf" aria-pressed="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 4v16M21 4v16M3 10h18M3 16h18"/></svg><span data-en="Shelves">מדפים</span></button><button type="button" data-view="grid" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span data-en="List">רשימה</span></button></div></div>
     <section class="grid" id="catalog" tabindex="-1" aria-labelledby="catalogTitle"></section>
     <div class="aisles" id="aisles" hidden></div>
   </div>
@@ -680,23 +687,23 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <footer class="foot">
   <div class="wrap">
     <span id="footInfo">אלנביס · Allenbis</span>
-    <nav class="legal cats-links" aria-label="קטגוריות"><a href="c/drinks.html">שתייה</a><a href="c/snacks.html">חטיפים</a><a href="c/candy.html">ממתקים</a><a href="c/cookies.html">עוגיות</a><a href="c/ice-cream.html">גלידות</a><a href="c/food.html">מזון</a><a href="c/phone-accessories.html">אביזרי סלולר</a></nav>
-    <nav class="legal" aria-label="מידע משפטי"><a href="terms.html">תקנון</a><a href="returns.html">ביטולים והחזרות</a><a href="privacy.html">פרטיות</a><a href="accessibility.html">הצהרת נגישות</a><button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y">התאמות נגישות</button></nav>
+    <nav class="legal cats-links" aria-label="קטגוריות" data-en-aria-label="Categories"><a href="c/drinks.html" data-en="Drinks">שתייה</a><a href="c/snacks.html" data-en="Snacks">חטיפים</a><a href="c/candy.html" data-en="Candy">ממתקים</a><a href="c/cookies.html" data-en="Cookies">עוגיות</a><a href="c/ice-cream.html" data-en="Ice cream">גלידות</a><a href="c/food.html" data-en="Food">מזון</a><a href="c/phone-accessories.html" data-en="Phone accessories">אביזרי סלולר</a></nav>
+    <nav class="legal" aria-label="מידע משפטי" data-en-aria-label="Legal"><a href="terms.html" data-en="Terms (Hebrew)">תקנון</a><a href="returns.html" data-en="Returns (Hebrew)">ביטולים והחזרות</a><a href="privacy.html" data-en="Privacy (Hebrew)">פרטיות</a><a href="accessibility.html" data-en="Accessibility statement (Hebrew)">הצהרת נגישות</a><button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y" data-en="Accessibility settings">התאמות נגישות</button></nav>
   </div>
 </footer>
 
 <button class="bar" id="bar" type="button" aria-haspopup="dialog" aria-controls="cart">
-  <span class="row"><span id="barText">לסל שלי</span><span class="sum" id="barSum"></span></span>
+  <span class="row"><span id="barText" data-en="My cart">לסל שלי</span><span class="sum" id="barSum"></span></span>
   <span class="prog" id="barProg"></span>
 </button>
-<button class="a11y-fab" id="a11yFab" type="button" aria-haspopup="dialog" aria-controls="a11y" aria-label="התאמות נגישות">
+<button class="a11y-fab" id="a11yFab" type="button" aria-haspopup="dialog" aria-controls="a11y" aria-label="התאמות נגישות" data-en-aria-label="Accessibility settings">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M19 8.5c-2.2.6-4.6 1-7 1s-4.8-.4-7-1l-.5 1.9c1.9.5 3.8.9 5.8 1.1V14l-2.2 7.2 1.9.6L12 16l2 5.8 1.9-.6L13.7 14v-2.5c2-.2 3.9-.6 5.8-1.1Z"/></svg>
 </button>
 <div class="toast" id="toast" aria-hidden="true"></div>
 
 <dialog class="sheet" id="cart" aria-labelledby="cartTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="cartTitle">הסל שלי</h2><button class="x" type="button" data-close aria-label="סגירת הסל">×</button></div>
+    <div class="panel-head"><h2 id="cartTitle" data-en="My cart">הסל שלי</h2><button class="x" type="button" data-close aria-label="סגירת הסל" data-en-aria-label="Close cart">×</button></div>
     <div class="panel-body" id="cartBody"></div>
     <div class="panel-foot" id="cartFoot"></div>
   </div>
@@ -704,14 +711,14 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 
 <dialog class="sheet center" id="product" aria-labelledby="pdTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="pdTitle">פרטי מוצר</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="pdTitle" data-en="Product details">פרטי מוצר</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body pd" id="pdBody"></div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="basket" aria-labelledby="basketTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="basketTitle">הסל שהרכבנו</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="basketTitle" data-en="Your basket">הסל שהרכבנו</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body" id="basketBody"></div>
     <div class="panel-foot" id="basketFoot"></div>
   </div>
@@ -719,78 +726,78 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 
 <dialog class="sheet center" id="checkout" aria-labelledby="coTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="coTitle">פרטי משלוח</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="coTitle" data-en="Delivery details">פרטי משלוח</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <form class="panel-body form" id="coForm" novalidate>
       <p class="note-box" style="margin:0" id="coIntro"></p>
-      <div class="fld"><label for="coName">שם</label><input id="coName" autocomplete="name" aria-describedby="coNameErr"><span class="err" id="coNameErr"></span></div>
-      <div class="fld"><label for="coPhone">טלפון</label><input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right" aria-describedby="coPhoneErr"><span class="err" id="coPhoneErr"></span></div>
-      <div class="fld"><label for="coStreet">רחוב ומספר</label><input id="coStreet" autocomplete="street-address" placeholder="אלנבי 1" aria-describedby="coStreetErr coArea"><span class="err" id="coStreetErr"></span><p class="addr-check" id="coArea" aria-live="polite"></p></div>
+      <div class="fld"><label for="coName" data-en="Name">שם</label><input id="coName" autocomplete="name" aria-describedby="coNameErr"><span class="err" id="coNameErr"></span></div>
+      <div class="fld"><label for="coPhone" data-en="Phone">טלפון</label><input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right" aria-describedby="coPhoneErr"><span class="err" id="coPhoneErr"></span></div>
+      <div class="fld"><label for="coStreet" data-en="Street and number">רחוב ומספר</label><input id="coStreet" autocomplete="street-address" placeholder="אלנבי 1" data-en-placeholder="Allenby 1" aria-describedby="coStreetErr coArea"><span class="err" id="coStreetErr"></span><p class="addr-check" id="coArea" aria-live="polite"></p></div>
       <div class="two">
-        <div class="fld"><label for="coApt">דירה וקומה</label><input id="coApt" placeholder="דירה 4, קומה 2"></div>
-        <div class="fld"><label for="coNote">הערה לשליח</label><input id="coNote" placeholder="קוד לבניין, לא לצלצל…"></div>
+        <div class="fld"><label for="coApt" data-en="Apartment and floor">דירה וקומה</label><input id="coApt" placeholder="דירה 4, קומה 2" data-en-placeholder="Apt 4, floor 2"></div>
+        <div class="fld"><label for="coNote" data-en="Note for the courier">הערה לשליח</label><input id="coNote" placeholder="קוד לבניין, לא לצלצל…" data-en-placeholder="Door code, don't ring…"></div>
       </div>
-      <fieldset class="fld"><legend>תשלום</legend>
+      <fieldset class="fld"><legend data-en="Payment">תשלום</legend>
         <div class="pay">
           <label><input type="radio" name="pay" value="ביט" checked> Bit</label>
-          <label><input type="radio" name="pay" value="אשראי לשליח"> אשראי לשליח</label>
-          <label><input type="radio" name="pay" value="מזומן"> מזומן</label>
+          <label><input type="radio" name="pay" value="אשראי לשליח"> <span data-en="Card to the courier">אשראי לשליח</span></label>
+          <label><input type="radio" name="pay" value="מזומן"> <span data-en="Cash">מזומן</span></label>
         </div>
-        <p class="hint">בביט החנות שולחת בקשת תשלום אחרי שהיא מאשרת את ההזמנה.</p>
+        <p class="hint" data-en="With Bit, the store sends a payment request after it confirms your order.">בביט החנות שולחת בקשת תשלום אחרי שהיא מאשרת את ההזמנה.</p>
       </fieldset>
-      <div class="fld check"><label><input type="checkbox" id="coTerms" aria-describedby="coTermsErr"> <span>קראתי והסכמתי ל<a href="terms.html" target="_blank" rel="noopener">תקנון</a> ול<a href="returns.html" target="_blank" rel="noopener">מדיניות הביטולים</a></span></label><span class="err" id="coTermsErr"></span></div>
+      <div class="fld check"><label><input type="checkbox" id="coTerms" aria-describedby="coTermsErr"> <span data-en="I've read and accept the &lt;a href=&quot;terms.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;terms&lt;/a&gt; and the &lt;a href=&quot;returns.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;cancellation policy&lt;/a&gt; (in Hebrew)">קראתי והסכמתי ל<a href="terms.html" target="_blank" rel="noopener">תקנון</a> ול<a href="returns.html" target="_blank" rel="noopener">מדיניות הביטולים</a></span></label><span class="err" id="coTermsErr"></span></div>
       <div class="totals" id="coTotals"></div>
     </form>
     <div class="panel-body" id="coSend" hidden>
-      <h3 class="send-title" id="coSendTitle" tabindex="-1">ההזמנה מוכנה לשליחה</h3>
+      <h3 class="send-title" id="coSendTitle" tabindex="-1" data-en="Your order is ready to send">ההזמנה מוכנה לשליחה</h3>
       <p class="note-box" id="coSendNote"></p>
       <pre class="wa-preview" id="coPreview"></pre>
     </div>
-    <div class="panel-foot" id="coFoot"><button class="primary" type="submit" form="coForm" id="coSubmit">המשך</button></div>
+    <div class="panel-foot" id="coFoot"><button class="primary" type="submit" form="coForm" id="coSubmit" data-en="Continue">המשך</button></div>
     <div class="panel-foot" id="coSendFoot" hidden>
       <a class="primary wa" id="coWa" href="#" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.2l-.5-.3z"/></svg><span id="coWaText">שליחה בוואטסאפ</span></a>
-      <div class="send-row"><button class="secondary" type="button" id="coCopy">העתקת ההודעה</button><button class="secondary" type="button" id="coBack">חזרה לעריכה</button></div>
+      <div class="send-row"><button class="secondary" type="button" id="coCopy" data-en="Copy message">העתקת ההודעה</button><button class="secondary" type="button" id="coBack" data-en="Back to edit">חזרה לעריכה</button></div>
     </div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="wheel" aria-labelledby="wheelTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="wheelTitle">גלגל המזל</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="wheelTitle" data-en="Lucky wheel">גלגל המזל</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body wheel-body">
       <div class="wheel-wrap"><svg id="wheelSvg" viewBox="-110 -110 220 220" aria-hidden="true"></svg><span class="wheel-pin" aria-hidden="true"></span></div>
       <p class="wheel-msg" id="wheelMsg" role="status"></p>
     </div>
-    <div class="panel-foot"><button class="primary" type="button" id="spinBtn">סובבו!</button><button class="primary" type="button" id="wheelDone" data-close hidden>חזרה לסל</button></div>
+    <div class="panel-foot"><button class="primary" type="button" id="spinBtn" data-en="Spin!">סובבו!</button><button class="primary" type="button" id="wheelDone" data-close hidden data-en="Back to cart">חזרה לסל</button></div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="track" aria-labelledby="trackTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="trackTitle">המשלוח שלי</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="trackTitle" data-en="My delivery">המשלוח שלי</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body" id="trackBody"></div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="info" aria-labelledby="infoTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="infoTitle">משלוחים</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="infoTitle" data-en="Delivery">משלוחים</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body" id="infoBody"></div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="age" aria-labelledby="ageTitle" aria-describedby="ageText">
   <div class="panel">
-    <div class="panel-head"><h2 id="ageTitle">מגיל 18 ומעלה</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
-    <div class="panel-body"><p id="ageText" class="note-box">הקטגוריה הזו מיועדת לבני 18 ומעלה בלבד.</p></div>
-    <div class="panel-foot"><button class="primary" type="button" id="ageYes">אני בן/בת 18 ומעלה</button><button class="secondary" type="button" data-close autofocus>חזרה</button></div>
+    <div class="panel-head"><h2 id="ageTitle" data-en="18 and over">מגיל 18 ומעלה</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
+    <div class="panel-body"><p id="ageText" class="note-box" data-en="This category is for ages 18 and over only.">הקטגוריה הזו מיועדת לבני 18 ומעלה בלבד.</p></div>
+    <div class="panel-foot"><button class="primary" type="button" id="ageYes" data-en="I'm 18 or older">אני בן/בת 18 ומעלה</button><button class="secondary" type="button" data-close autofocus data-en="Back">חזרה</button></div>
   </div>
 </dialog>
 
 <dialog class="sheet center" id="a11y" aria-labelledby="a11yTitle">
   <div class="panel">
-    <div class="panel-head"><h2 id="a11yTitle">התאמות נגישות</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-head"><h2 id="a11yTitle" data-en="Accessibility settings">התאמות נגישות</h2><button class="x" type="button" data-close aria-label="סגירה" data-en-aria-label="Close">×</button></div>
     <div class="panel-body" id="a11yBody"></div>
-    <div class="panel-foot"><button class="secondary" type="button" id="a11yReset">איפוס ההתאמות</button></div>
+    <div class="panel-foot"><button class="secondary" type="button" id="a11yReset" data-en="Reset settings">איפוס ההתאמות</button></div>
   </div>
 </dialog>
 </body>
