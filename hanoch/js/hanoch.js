@@ -842,13 +842,17 @@
     });
   }
 
+  // בטלפון כל סרטון נטען בגרסה קלה (540p), שמספיקה למסך קטן ושוקלת כשליש
+  var smallScreen = window.matchMedia('(max-width: 900px)').matches;
+  function videoSrc(v) { return (smallScreen && v.dataset.srcM) || v.dataset.src; }
+
   /* ---------- סרט התדמית: לולאה שקטה ברקע, והסרט המלא בחלון על כל המסך ---------- */
   function initFilm() {
     $$('.film-bg video, .sheet-film video, .process-crystal video').forEach(function (v) {
       if (!motion || !('IntersectionObserver' in window)) return;
       new IntersectionObserver(function (en) {
         if (en[0].isIntersecting) {
-          if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          if (!v.src) { v.src = videoSrc(v); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
           var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
         } else if (v.src) v.pause();
       }, { rootMargin: '100px 0px' }).observe(v.parentNode);
@@ -895,9 +899,10 @@
       layer.dataset.mode = kind || '';
       Object.keys(vids).forEach(function (k) {
         var v = vids[k], on = k === kind;
+        if (on && v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
         v.classList.toggle('on', on);
         if (on && motion) {
-          if (!v.src) v.src = v.dataset.src;
+          if (!v.src) v.src = videoSrc(v);
           var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
         } else if (v.src) v.pause();
       });
@@ -928,15 +933,16 @@
   /* ---------- חבילות ושאלות: כניסה בגלילה ואור שעוקב אחרי העכבר ---------- */
   function initPricing() {
     var tiers = $$('.tier');
-    // הסמל של כל חבילה: סרטון לולאה קצר, נטען ומתנגן רק כשהחבילות על המסך
-    if (motion && 'IntersectionObserver' in window) {
-      $$('.tier-emblem video').forEach(function (v) {
-        new IntersectionObserver(function (en) {
-          if (en[0].isIntersecting) {
-            if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
-            var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
-          } else if (v.src) v.pause();
-        }, { rootMargin: '80px 0px' }).observe(v.parentNode);
+    // הסמל של כל חבילה מתעורר כשמצביעים על הכרטיס. בטלפון נשארת תמונה שקטה: הפחות תנועה, יותר מקום לתוכן
+    if (motion && finePointer) {
+      $$('.tier').forEach(function (t) {
+        var v = $('.tier-emblem video', t);
+        if (!v) return;
+        t.addEventListener('pointerenter', function () {
+          if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
+        });
+        t.addEventListener('pointerleave', function () { v.pause(); });
       });
     }
     if (window.matchMedia('(hover: hover)').matches) {
