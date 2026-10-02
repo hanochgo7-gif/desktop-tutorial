@@ -1280,6 +1280,32 @@
     window.matchMedia('(min-width: 901px)').addEventListener('change', function (m) { if (m.matches) set(false); });
   }
 
+  /* ---------- סיור בהדמיה: הסרט נטען רק כשלוחצים, ורק אחד מתנגן בכל רגע ---------- */
+  function initTours() {
+    var tours = $$('.tour');
+    if (!tours.length) return;
+    var vids = tours.map(function (t) { return $('video', t); });
+    tours.forEach(function (t, i) {
+      var v = vids[i], view = $('.tour-view', t), btn = $('.tour-play', t);
+      btn.addEventListener('click', function () {
+        vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); });
+        if (!v.src) setVideo(v, videoSrc(v));
+        v.controls = true;
+        view.classList.add('is-live');
+        playVideo(v);
+        v.focus({ preventScroll: true });
+      });
+      v.addEventListener('play', function () { vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); }); });
+    });
+    // גוללים הלאה: הסרט נעצר
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) { if (!e.isIntersecting) { var v = $('video', e.target); if (v && !v.paused) pauseVideo(v); } });
+      });
+      tours.forEach(function (t) { io.observe(t); });
+    }
+  }
+
   /* ---------- פס התקדמות בגלילה ---------- */
   function initProgress() {
     var bar = $('.progress i');
@@ -1366,6 +1392,7 @@
   initManifesto();
   initBrief();
   initMenu();
+  initTours();
   initProcess();
   initProgress();
   initDemo();
