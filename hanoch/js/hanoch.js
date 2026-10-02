@@ -928,7 +928,7 @@
       if (!motion || !('IntersectionObserver' in window)) return;
       new IntersectionObserver(function (en) {
         if (en[0].isIntersecting) {
-          if (!v.src) { v.src = videoSrc(v); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          if (!v.src) { if (v.dataset.poster) v.poster = v.dataset.poster; v.src = videoSrc(v); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
           var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
         } else if (v.src) v.pause();
       }, { rootMargin: '100px 0px' }).observe(v.parentNode);

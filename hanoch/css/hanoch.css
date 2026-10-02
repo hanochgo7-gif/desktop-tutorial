@@ -1379,3 +1379,11 @@ html[lang="en"] .hero-title { font-weight: 800; font-size: clamp(4rem, 13.5vw, 1
 @media (max-width: 560px) { html[lang="en"] .hero-title { font-size: 21vw; } }
 html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: balance; }
 @media (max-width: 560px) { html[lang="en"] .hero-role { font-size: 5vw; max-width: none; } }
+
+/* הרקע של "אני לא בונה אתרים" בטלפון: וידאו קבוע בתוך גיליון חתוך לא מוצג בספארי של אייפון,
+   אז בטלפון הסרט "נדבק" לראש המסך בתוך הגיליון. התמונה הקבועה מופיעה מיד, גם כשהטלפון חוסם הפעלה אוטומטית */
+@media (max-width: 900px) {
+  .sheet-film video { position: sticky; inset: auto; top: 0; display: block; height: 100vh; height: 100svh; }
+  .sheet-film video[poster] { opacity: 1; }
+  .sheet-film::after { background: linear-gradient(180deg, rgba(237, 232, 222, .74) 0%, rgba(237, 232, 222, .5) 30%, rgba(237, 232, 222, .22) 60%, rgba(237, 232, 222, .12) 100%); }
+}
