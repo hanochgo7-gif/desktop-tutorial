@@ -381,6 +381,8 @@
     current = id;
     caseEl.dataset.id = id;
     caseEl.style.setProperty('--p', d.color);
+    // כרזה קולנועית של הפרויקט (היגספילד) מאחורי המסך בראש הסיפור
+    caseEl.style.setProperty('--cine', 'url("' + new URL('work/cinema/' + id + '.webp', document.baseURI).href + '")');
     $('.case-url').textContent = d.url;
     var poster = $('.case-poster');
     poster.src = 'work/' + id + '-poster.webp';
@@ -840,9 +842,50 @@
     });
   }
 
+  /* ---------- סרט התדמית: לולאה שקטה ברקע, והסרט המלא בחלון על כל המסך ---------- */
+  function initFilm() {
+    $$('.film-bg video').forEach(function (v) {
+      if (!motion || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) {
+          if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
+        } else if (v.src) v.pause();
+      }, { rootMargin: '100px 0px' }).observe(v.parentNode);
+    });
+    var dlg = $('.film-dlg');
+    if (!dlg || !dlg.showModal) return;
+    var vid = $('.film-video', dlg), from = null;
+    function close() { if (dlg.open) dlg.close(); }
+    dlg.addEventListener('close', function () { vid.pause(); if (lenis) lenis.start(); if (from) from.focus(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    $('.film-close', dlg).addEventListener('click', close);
+    $$('[data-film]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        from = b;
+        if (!vid.src) vid.src = vid.dataset.src;
+        dlg.showModal();
+        if (lenis) lenis.stop();
+        vid.currentTime = 0;
+        var pr = vid.play(); if (pr && pr.catch) pr.catch(function () { });
+      });
+    });
+  }
+
   /* ---------- חבילות ושאלות: כניסה בגלילה ואור שעוקב אחרי העכבר ---------- */
   function initPricing() {
     var tiers = $$('.tier');
+    // הסמל של כל חבילה: סרטון לולאה קצר, נטען ומתנגן רק כשהחבילות על המסך
+    if (motion && 'IntersectionObserver' in window) {
+      $$('.tier-emblem video').forEach(function (v) {
+        new IntersectionObserver(function (en) {
+          if (en[0].isIntersecting) {
+            if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+            var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
+          } else if (v.src) v.pause();
+        }, { rootMargin: '80px 0px' }).observe(v.parentNode);
+      });
+    }
     if (window.matchMedia('(hover: hover)').matches) {
       tiers.forEach(function (t) {
         t.addEventListener('pointermove', function (e) {
@@ -1006,6 +1049,7 @@
   initProgress();
   initDemo();
   initPricing();
+  initFilm();
   initProjects();
   initCompare();
   initCraft();
