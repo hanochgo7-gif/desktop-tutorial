@@ -1290,6 +1290,8 @@
       btn.addEventListener('click', function () {
         vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); });
         if (!v.src) setVideo(v, videoSrc(v));
+        // לסיורים יש פסקול: נשמע רק אחרי לחיצה, כך שהדפדפן מרשה להפעיל עם קול
+        v.muted = false;
         v.controls = true;
         view.classList.add('is-live');
         playVideo(v);
