@@ -4,13 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>אלנביס | שתייה, חטיפים ומה שביניהם עד הבית</title>
-<meta name="description" content="אלנביס – מהחנות עד אליך. שתייה, חטיפים, ממתקים, גלידות ועוד, במשלוח עד הבית.">
+<meta name="description" content="אלנביס – פיצוציה עם משלוחים במרכז תל אביב, 24/7. שתייה, חטיפים, ממתקים, גלידות ואביזרי סלולר עד הדלת תוך 20 דקות.">
+<link rel="canonical" href="https://www.allenbis.co.il/">
+<link rel="alternate" hreflang="he" href="https://www.allenbis.co.il/">
+<link rel="alternate" hreflang="en" href="https://www.allenbis.co.il/?lang=en">
 <meta name="theme-color" content="#1b4396">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="אלנביס | מהחנות עד אליך">
 <meta property="og:description" content="שתייה, חטיפים ומה שביניהם – עד הבית.">
-<meta property="og:image" content="images/hero/allenbis-approved-1672.webp">
+<meta property="og:image" content="https://www.allenbis.co.il/images/hero/allenbis-approved-1672.webp">
+<meta property="og:url" content="https://www.allenbis.co.il/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ConvenienceStore","name":"אלנביס","alternateName":"Allenbis","url":"https://www.allenbis.co.il/","image":"https://www.allenbis.co.il/images/hero/allenbis-approved-1672.webp","description":"פיצוציה עם משלוחים במרכז תל אביב: שתייה, חטיפים, ממתקים, גלידות ואביזרי סלולר עד הדלת תוך 20 דקות.","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"areaServed":{"@type":"City","name":"תל אביב-יפו"},"priceRange":"₪","currenciesAccepted":"ILS"}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preload" as="image" href="images/hero/allenbis-approved-1672.webp" imagesrcset="images/hero/allenbis-approved-800.webp 800w, images/hero/allenbis-approved-1672.webp 1672w" imagesizes="(min-width: 960px) 760px, 100vw" fetchpriority="high">
@@ -343,6 +348,34 @@ body:has(dialog[open]){overflow:hidden}
 .line .t{font-weight:700;font-size:.9375rem;line-height:1.3;overflow-wrap:anywhere}
 .line .p{color:var(--muted);font-size:.8125rem;font-variant-numeric:tabular-nums}
 .line.blocked .t{color:var(--warn)}
+/* Free-delivery gap filler, lucky wheel, address check */
+.gapfill{margin:10px 0 4px}
+.gapfill h3{font-size:.875rem;font-weight:800;margin-bottom:6px}
+.gf-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.gf{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--paper);border-radius:12px;padding:8px 6px;text-align:center;position:relative}
+.gf img{height:54px;width:100%;object-fit:contain}
+.gf-t{display:flex;flex-direction:column;font-size:.75rem;line-height:1.25;font-weight:600;min-height:3.2em}
+.gf-t bdi:first-child{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.gf-t b{font-size:.8125rem;margin-top:2px}
+.gf .add{width:34px;height:34px}
+.wheel-cta{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1b4396,#2a5ac4);color:#fff;border-radius:14px;padding:10px 12px;margin:10px 0;font-size:.875rem;line-height:1.35}
+.wheel-cta svg{flex:none;color:#ffd84d}
+.wheel-cta span{flex:1}
+.wheel-cta .btn-tag{min-height:40px;padding:0 16px;flex:none}
+.wheel-cta.won{background:#e2f3ea;color:#0f5132}
+.wheel-cta.won svg{color:#146c43}
+.line.gift .free-tag{background:#e2f3ea;color:#146c43;border-radius:8px;padding:4px 10px;font-size:.8125rem}
+.wheel-body{display:flex;flex-direction:column;align-items:center;gap:14px}
+.wheel-wrap{position:relative;width:min(300px,78vw);aspect-ratio:1}
+.wheel-wrap svg{width:100%;height:100%;filter:drop-shadow(0 10px 18px rgba(20,32,58,.3))}
+.wheel-pin{position:absolute;top:-8px;left:calc(50% - 14px);width:28px;height:34px;background:#e4002b;clip-path:polygon(0 0,100% 0,50% 100%);filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.wheel-msg{text-align:center;font-weight:600;min-height:2.6em}
+.wheel-msg b{color:var(--sign)}
+.addr-check{font-size:.8125rem;font-weight:600;margin:4px 0 0;min-height:0}
+.addr-check .ok{color:var(--ok)}
+.addr-check .no{color:var(--warn)}
+.addr-fld{margin-top:14px}
+.addr-fld input{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;min-height:46px;width:100%}
 .swipe{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .swipe .line{position:relative;border-bottom:0;background:#fff;touch-action:pan-y;transition:transform .18s ease-out}
 .swipe.dragging .line{transition:none;cursor:grabbing}
@@ -647,6 +680,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <footer class="foot">
   <div class="wrap">
     <span id="footInfo">אלנביס · Allenbis</span>
+    <nav class="legal cats-links" aria-label="קטגוריות"><a href="c/drinks.html">שתייה</a><a href="c/snacks.html">חטיפים</a><a href="c/candy.html">ממתקים</a><a href="c/cookies.html">עוגיות</a><a href="c/ice-cream.html">גלידות</a><a href="c/food.html">מזון</a><a href="c/phone-accessories.html">אביזרי סלולר</a></nav>
     <nav class="legal" aria-label="מידע משפטי"><a href="terms.html">תקנון</a><a href="returns.html">ביטולים והחזרות</a><a href="privacy.html">פרטיות</a><a href="accessibility.html">הצהרת נגישות</a><button class="linkbtn" id="openA11y" type="button" aria-haspopup="dialog" aria-controls="a11y">התאמות נגישות</button></nav>
   </div>
 </footer>
@@ -690,7 +724,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
       <p class="note-box" style="margin:0" id="coIntro"></p>
       <div class="fld"><label for="coName">שם</label><input id="coName" autocomplete="name" aria-describedby="coNameErr"><span class="err" id="coNameErr"></span></div>
       <div class="fld"><label for="coPhone">טלפון</label><input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:right" aria-describedby="coPhoneErr"><span class="err" id="coPhoneErr"></span></div>
-      <div class="fld"><label for="coStreet">רחוב ומספר</label><input id="coStreet" autocomplete="street-address" placeholder="אלנבי 1" aria-describedby="coStreetErr"><span class="err" id="coStreetErr"></span></div>
+      <div class="fld"><label for="coStreet">רחוב ומספר</label><input id="coStreet" autocomplete="street-address" placeholder="אלנבי 1" aria-describedby="coStreetErr coArea"><span class="err" id="coStreetErr"></span><p class="addr-check" id="coArea" aria-live="polite"></p></div>
       <div class="two">
         <div class="fld"><label for="coApt">דירה וקומה</label><input id="coApt" placeholder="דירה 4, קומה 2"></div>
         <div class="fld"><label for="coNote">הערה לשליח</label><input id="coNote" placeholder="קוד לבניין, לא לצלצל…"></div>
@@ -716,6 +750,17 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
       <a class="primary wa" id="coWa" href="#" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.2l-.5-.3z"/></svg><span id="coWaText">שליחה בוואטסאפ</span></a>
       <div class="send-row"><button class="secondary" type="button" id="coCopy">העתקת ההודעה</button><button class="secondary" type="button" id="coBack">חזרה לעריכה</button></div>
     </div>
+  </div>
+</dialog>
+
+<dialog class="sheet center" id="wheel" aria-labelledby="wheelTitle">
+  <div class="panel">
+    <div class="panel-head"><h2 id="wheelTitle">גלגל המזל</h2><button class="x" type="button" data-close aria-label="סגירה">×</button></div>
+    <div class="panel-body wheel-body">
+      <div class="wheel-wrap"><svg id="wheelSvg" viewBox="-110 -110 220 220" aria-hidden="true"></svg><span class="wheel-pin" aria-hidden="true"></span></div>
+      <p class="wheel-msg" id="wheelMsg" role="status"></p>
+    </div>
+    <div class="panel-foot"><button class="primary" type="button" id="spinBtn">סובבו!</button><button class="primary" type="button" id="wheelDone" data-close hidden>חזרה לסל</button></div>
   </div>
 </dialog>
 

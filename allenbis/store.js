@@ -2,6 +2,9 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
+  // Language: Hebrew by default, English for visitors who pick EN (switching reloads the page)
+  const LANG = (() => { try { return localStorage.getItem('allenbis-lang') === 'en' ? 'en' : 'he'; } catch { return 'he'; } })();
+  const L = (he, en) => LANG === 'en' ? en : he;
   const CATALOG = window.ALLENBIS_CATALOG || { categories: [], products: [] };
   const CFG = window.ALLENBIS_COMMERCE_CONFIG || {};
   const DEMO = window.ALLENBIS_DEMO || {};
@@ -50,6 +53,9 @@
   const byId = new Map(products.map(p => [p.id, p]));
   products.forEach(p => { p._s = norm([p.name, p.sub, label(p.category), p.size, p.variant].filter(Boolean).join(' ')); p._w = p._s.split(' '); p._c = norm(label(p.category)); });
   const pick = ids => (ids || []).map(id => byId.get(id)).filter(Boolean);
+  // English names for products (catalog-en.js); Hebrew stays the source of truth
+  const EN = window.ALLENBIS_EN || {};
+  const nm = p => (LANG === 'en' && EN.names?.[p.id]) || p.name;
 
   const store = {
     get(k, fallback) { try { const v = localStorage.getItem(k); return v == null ? fallback : JSON.parse(v); } catch { return fallback; } },
@@ -68,6 +74,23 @@
     }
   }
   let orders = (store.get('allenbis-orders', []) || []).filter(o => o && Array.isArray(o.lines));
+
+  /* ---------- Lucky wheel state: one spin per order, every spin wins ---------- */
+  const WH = CFG.wheel || {};
+  const PRIZES = (WH.prizes?.length ? WH.prizes : DEMO.wheel?.prizes || []).filter(z => z && (z.type === 'off' ? z.minor > 0 : z.type === 'gift' && byId.get(z.product)));
+  const WHEEL_MIN = WH.minimumOrderMinor || 0;
+  const prizeName = z => z ? (LANG === 'en' && z.en ? z.en : z.label) : '';
+  const wonPrefix = z => L(/^\d/.test(z?.label || '') ? 'זכיתם ב-' : 'זכיתם ב', 'You won ');
+  let spin = store.get('allenbis-spin', null);
+  if (!spin || !PRIZES[spin.i] || PRIZES[spin.i].label !== spin.label) spin = null;
+  const setSpin = v => { spin = v; v ? store.set('allenbis-spin', v) : (() => { try { localStorage.removeItem('allenbis-spin'); } catch {} })(); };
+  // off: no wheel · need: below the minimum · ready: may spin · won: prize applies · paused: won, but the basket dropped below the minimum
+  // held: won, but the first-order discount is worth more and the two don't combine
+  function wheelState(sub) {
+    if (!WH.enabled || !PRIZES.length) return 'off';
+    if (spin) return sub >= WHEEL_MIN ? 'won' : 'paused';
+    return sub >= WHEEL_MIN ? 'ready' : 'need';
+  }
 
   const D = DEMO.delivery || {};
   const ETA = D.etaMinutes || 20;
@@ -203,9 +226,21 @@
     }
     const firstOrder = !orders.length;
     const w = CFG.welcome;
-    const welcome = w?.enabled && firstOrder && sub >= (w.minimumOrderMinor || 0) ? w.amountMinor : 0;
+    let welcome = w?.enabled && firstOrder && sub >= (w.minimumOrderMinor || 0) ? w.amountMinor : 0;
     const fee = items && FREE_FROM && sub >= FREE_FROM ? 0 : items ? FEE : 0;
-    return { sub, savings: full - sub, items, unpriced, blocked, welcome, fee, total: Math.max(0, sub - welcome) + fee };
+    const stack = !!CFG.stacking?.wheelWithMonetaryBenefit;
+    let wheel = items ? wheelState(sub) : 'off';
+    let prize = wheel === 'won' ? PRIZES[spin.i] : null;
+    if (welcome && !stack) {
+      if (wheel === 'need' || wheel === 'ready') wheel = 'off';
+      if (prize) {
+        // one benefit per order: keep whichever is worth more
+        const worth = prize.type === 'off' ? prize.minor : unit(byId.get(prize.product));
+        if (worth > welcome) welcome = 0; else { prize = null; wheel = 'held'; }
+      }
+    }
+    const wheelOff = prize?.type === 'off' ? Math.min(prize.minor, Math.max(0, sub - welcome)) : 0;
+    return { sub, savings: full - sub, items, unpriced, blocked, welcome, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
   }
   function save() {
     if (!store.set('allenbis-cart', cart)) announce('לא ניתן לשמור את הסל במכשיר הזה. הוא יישמר עד סגירת הדף.');
@@ -338,8 +373,8 @@
   }
 
   // Four suggestions for a basket: [{ p, why }], plus the basket type.
-  function companions(ls, limit = 4) {
-    const inCart = new Set(ls.map(l => l.p.id));
+  function companions(ls, limit = 4, skip = new Set()) {
+    const inCart = new Set([...ls.map(l => l.p.id), ...skip]);
     const kinds = new Set(ls.map(l => kindOf(l.p)));
     const items = ls.reduce((n, l) => n + l.q, 0);
     const lightning = ls.some(l => /lightning/i.test(l.p.name));
@@ -379,8 +414,42 @@
     return { list: out, type: basketType(kinds, items) };
   }
 
-  function rackHtml(ls) {
-    const { list, type } = companions(ls);
+  /* ---------- Free delivery: products that close the gap ---------- */
+  function gapPicks(gap, ls) {
+    if (gap <= 0 || gap > 4000) return [];
+    const inCart = new Set(ls.map(l => l.p.id));
+    const goes = new Set(companions(ls, 8).list.map(c => c.p.id));
+    const ok = p => !inCart.has(p.id) && sellable(p) && !isRestricted(p) && p.category !== ALCOHOL && hasPrice(p) && (hasCut(p.id) || imgOf(p) !== FALLBACK) && unit(p) >= gap;
+    const rank = (a, b) => (goes.has(b.id) - goes.has(a.id)) || (bestIds.has(b.id) - bestIds.has(a.id)) || (unit(a) - unit(b));
+    for (const slack of [1000, 2000, 3500]) {
+      const list = products.filter(p => ok(p) && unit(p) <= gap + slack).sort(rank).slice(0, 3);
+      if (list.length) return list;
+    }
+    return [];
+  }
+  function gapHtml(t, ls, picks) {
+    if (!picks.length) return '';
+    const both = t.wheel === 'need' && WHEEL_MIN === FREE_FROM;
+    const head = both ? L('הוסיפו אחד מאלה: משלוח חינם וגם סיבוב בגלגל המזל', 'Add one of these: free delivery plus a spin of the lucky wheel')
+      : L('הוסיפו אחד מאלה והמשלוח חינם', 'Add one of these and delivery is free');
+    const card = p => `<div class="gf"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy"><span class="gf-t"><bdi>${esc(nm(p))}</bdi><b><bdi>${fmt(unit(p))}</bdi></b></span><button type="button" class="add" data-add="${p.id}" aria-label="${esc(L(`הוספת ${nm(p)} לסל`, `Add ${nm(p)} to cart`))}">${plusIcon}</button></div>`;
+    return `<section class="gapfill" aria-label="${esc(head)}"><h3>${head}</h3><div class="gf-row">${picks.map(card).join('')}</div></section>`;
+  }
+  const wheelIcon = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/></svg>';
+  function wheelHtml(t) {
+    if (t.wheel === 'ready') return `<div class="wheel-cta">${wheelIcon}<span><b>${L('הגעתם ל-', 'You reached ')}<bdi>${fmt(WHEEL_MIN)}</bdi>!</b> ${L('מגיע לכם סיבוב בגלגל המזל. כל סיבוב זוכה.', 'You get a spin of the lucky wheel. Every spin wins.')}</span><button type="button" class="btn-tag" id="spinOpen">${L('לסובב', 'Spin')}</button></div>`;
+    if (t.wheel === 'won') return `<div class="wheel-cta won">${wheelIcon}<span>${wonPrefix(t.prize)}<b>${esc(prizeName(t.prize))}</b>. ${L('הפרס נוסף להזמנה.', 'It is added to your order.')}</span></div>`;
+    return '';
+  }
+  function giftLineHtml(t) {
+    if (t.prize?.type !== 'gift') return '';
+    const p = byId.get(t.prize.product);
+    const src = hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p);
+    return `<div class="line gift"><img src="${esc(src)}" alt="" loading="lazy" width="56" height="56"><div><div class="t"><bdi>${esc(nm(p))}</bdi></div><div class="p">${L('מתנה מגלגל המזל', 'Lucky wheel gift')}</div></div><b class="free-tag">${L('חינם', 'Free')}</b></div>`;
+  }
+
+  function rackHtml(ls, skip = new Set()) {
+    const { list, type } = companions(ls, 4, skip);
     if (!list.length) return '';
     const card = ({ p, why }) => {
       const src = hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p);
@@ -399,7 +468,8 @@
       return;
     }
     const tip = store.get('allenbis-swiped', false) ? '' : '<p class="swipe-tip">אפשר להחליק מוצר הצידה כדי להוציא אותו מהסל.</p>';
-    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}הסרה</span><span>${trashIcon}הסרה</span></span>${lineHtml(p, q, true)}</div>`).join('') + tip + rackHtml(ls);
+    const picks = gapPicks(FREE_FROM && FEE ? FREE_FROM - t.sub : 0, ls);
+    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + gapHtml(t, ls, picks) + wheelHtml(t) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}הסרה</span><span>${trashIcon}הסרה</span></span>${lineHtml(p, q, true)}</div>`).join('') + giftLineHtml(t) + tip + rackHtml(ls, new Set(picks.map(p => p.id)));
     $('cartFoot').innerHTML = `${t.blocked ? '<p class="warn-box">בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.</p>' : ''}
 <div class="totals">${totalsHtml(t)}</div>
 <button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>לתשלום · <bdi>${fmt(t.total)}</bdi></button>
@@ -410,6 +480,10 @@
     return `<div class="row"><span>מוצרים (${t.items})</span><bdi>${fmt(t.sub + t.savings)}</bdi></div>
 ${t.savings ? `<div class="row good"><span>חסכת במבצעים</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
 ${t.welcome ? `<div class="row good"><span>הנחת היכרות להזמנה ראשונה</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
+${t.wheelOff ? `<div class="row good"><span>${L('גלגל המזל', 'Lucky wheel')}</span><bdi>−${fmt(t.wheelOff)}</bdi></div>` : ''}
+${t.prize?.type === 'gift' ? `<div class="row good"><span>${L('מתנה מהגלגל', 'Wheel gift')}: ${esc(prizeName(t.prize))}</span><bdi>${L('חינם', 'Free')}</bdi></div>` : ''}
+${t.wheel === 'held' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) לא מצטרף להנחת ההיכרות, שגדולה ממנו.`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) doesn't combine with the first-order discount, which is worth more.`)}</div>` : ''}
+${t.wheel === 'paused' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) יחזור כשהסל יגיע ל-`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) comes back at `)}<bdi>${fmt(WHEEL_MIN)}</bdi>.</div>` : ''}
 <div class="row"><span>משלוח${demoTag(D.example)}</span><bdi>${t.fee ? fmt(t.fee) : 'חינם'}</bdi></div>
 <div class="row big"><span>סה״כ</span><bdi>${fmt(t.total)}</bdi></div>
 ${t.unpriced ? `<div class="muted">${t.unpriced === 1 ? 'למוצר אחד' : `ל-${t.unpriced} מוצרים`} בסל עדיין אין מחיר, והוא לא נכלל בסכום.</div>` : ''}
@@ -421,6 +495,7 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     if (e.target.closest('#emptyCart')) {
       const ids = Object.keys(cart);
       ids.forEach(id => delete cart[id]);
+      setSpin(null);
       save();
       ids.forEach(refreshCards);
       updateCartUi();
@@ -430,6 +505,53 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
     }
   });
   const openCart = () => { renderCart(); openDialog('cart'); };
+
+  /* ---------- Lucky wheel ---------- */
+  const WHEEL_COLORS = [['#1b4396', '#fff'], ['#ffd84d', '#14203a'], ['#e4002b', '#fff'], ['#fff', '#1b4396']];
+  function drawWheel() {
+    const n = PRIZES.length, a = 360 / n, r = 100;
+    const pt = deg => { const t = (deg - 90) * Math.PI / 180; return `${(r * Math.cos(t)).toFixed(2)} ${(r * Math.sin(t)).toFixed(2)}`; };
+    let g = '';
+    PRIZES.forEach((z, i) => {
+      const [bg, fg] = WHEEL_COLORS[i % WHEEL_COLORS.length];
+      g += `<path d="M0 0 L${pt(i * a - a / 2)} A${r} ${r} 0 0 1 ${pt(i * a + a / 2)} Z" fill="${bg}" stroke="#14203a" stroke-width="1.5"/>`;
+      const words = prizeName(z).split(' ');
+      const lines = words.length > 2 ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')] : [words.join(' ')];
+      g += `<g transform="rotate(${i * a}) translate(0 -64)"><text text-anchor="middle" fill="${fg}" font-size="10.5" font-weight="800" font-family="Assistant, sans-serif">${lines.map((l, k) => `<tspan x="0" dy="${k ? 12 : (lines.length - 1) * -6}">${esc(l)}</tspan>`).join('')}</text></g>`;
+    });
+    $('wheelSvg').innerHTML = `<g id="wheelRot">${g}</g><circle r="104" fill="none" stroke="#14203a" stroke-width="6"/><circle r="18" fill="#14203a"/><circle r="12" fill="#ffd84d"/>`;
+  }
+  function openWheel() {
+    if (spin) return;
+    drawWheel();
+    $('wheelMsg').textContent = L('כל סיבוב זוכה. סיבוב אחד להזמנה.', 'Every spin wins. One spin per order.');
+    $('spinBtn').hidden = false; $('spinBtn').disabled = false;
+    $('wheelDone').hidden = true;
+    openDialog('wheel');
+  }
+  $('spinBtn').addEventListener('click', () => {
+    if (spin) return;
+    const t = totals();
+    if (t.wheel !== 'ready') return;
+    const choices = PRIZES.map((z, i) => i).filter(i => PRIZES[i].type !== 'gift' || canBuy(byId.get(PRIZES[i].product)));
+    const i = choices[Math.random() * choices.length | 0];
+    const a = 360 / PRIZES.length;
+    const end = 360 * 5 + (360 - i * a) + (Math.random() - 0.5) * a * 0.6;
+    $('spinBtn').disabled = true;
+    const done = () => {
+      setSpin({ i, label: PRIZES[i].label });
+      $('wheelMsg').innerHTML = `${wonPrefix(PRIZES[i])}<b>${esc(prizeName(PRIZES[i]))}</b>! ${L('הפרס נוסף להזמנה.', 'It is added to your order.')}`;
+      $('spinBtn').hidden = true;
+      $('wheelDone').hidden = false;
+      $('wheelDone').focus();
+      updateCartUi();
+      if ($('cart').open) renderCart();
+      announce(`${wonPrefix(PRIZES[i])}${prizeName(PRIZES[i])}`);
+    };
+    const rot = $('wheelRot');
+    if (calm()) { rot.setAttribute('transform', `rotate(${end % 360})`); done(); return; }
+    rot.animate([{ transform: 'rotate(0deg)' }, { transform: `rotate(${end}deg)` }], { duration: 4200, easing: 'cubic-bezier(.12,.7,.12,1)', fill: 'forwards' }).finished.then(done);
+  });
 
   /* ---------- Swipe a line out of the cart ---------- */
   const trashIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
@@ -487,6 +609,7 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">ב�
   $('cartBody').addEventListener('pointerup', endSwipe);
   $('cartBody').addEventListener('pointercancel', endSwipe);
   $('cartBody').addEventListener('click', e => {
+    if (e.target.closest('#spinOpen')) { openWheel(); return; }
     const rm = e.target.closest('[data-rm]');
     if (rm) { removeLine(rm.dataset.rm); $('undoBtn')?.focus(); return; }
     if (e.target.closest('#undoBtn') && undo) {
@@ -1169,6 +1292,25 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     }
   });
 
+  /* ---------- Delivery area: is this street ours? ---------- */
+  const AREA = DEMO.area || {};
+  const streetKey = v => norm(v).replace(/^(רחוב|רח|שדרות|שד|sderot|rehov)\s+/, '').replace(/\s*\d.*$/, '').trim();
+  const STREETS = (AREA.streets || []).map(n => [n, streetKey(n)]);
+  function checkStreet(v) {
+    const k = streetKey(v);
+    if (k.length < 2 || !STREETS.length) return null;
+    const hit = STREETS.find(([, s]) => s === k) || (k.length >= 3 && STREETS.find(([, s]) => s.startsWith(k) || k.startsWith(s + ' '))) || (k.length >= 4 && STREETS.find(([, s]) => near(k, s)));
+    return hit ? { ok: true, name: hit[0] } : { ok: false };
+  }
+  function areaHtml(v) {
+    const r = checkStreet(v);
+    if (!r) return '';
+    return r.ok ? `<span class="ok">✓ <bdi>${esc(r.name)}</bdi> · ${L('באזור המשלוחים', 'we deliver here')}</span>`
+      : `<span class="no">${L(`לא מצאנו את הרחוב באזור המשלוחים (${esc(D.area || '')}). אפשר עדיין לשלוח, והחנות תבדוק.`, `This street isn't on our delivery list (${esc(D.area || '')}). You can still send the order and the store will check.`)}</span>`;
+  }
+  let areaTimer;
+  $('coStreet').addEventListener('input', () => { clearTimeout(areaTimer); areaTimer = setTimeout(() => { $('coArea').innerHTML = areaHtml($('coStreet').value); }, 250); });
+
   /* ---------- Checkout: the order goes to the store as a WhatsApp message ---------- */
   const WA = String(DEMO.order?.whatsapp || '').replace(/\D/g, '');
   let pending = null;
@@ -1197,9 +1339,13 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     for (const { p, q } of ls) out.push(`${q} × ${p.name} – ${hasPrice(p) ? fmt(unit(p) * q) : 'מחיר יעודכן'}`);
     out.push('', `מוצרים: ${fmt(t.sub)}`);
     if (t.welcome) out.push(`הנחת היכרות: −${fmt(t.welcome)}`);
+    if (t.wheelOff) out.push(`גלגל המזל: −${fmt(t.wheelOff)}`);
+    if (t.prize?.type === 'gift') out.push(`מתנה מגלגל המזל: ${byId.get(t.prize.product).name} (חינם)`);
     out.push(`משלוח: ${t.fee ? fmt(t.fee) : 'חינם'}`, `סה״כ לתשלום: ${fmt(t.total)}`, `תשלום: ${f.pay}`, '');
     out.push(`שם: ${f.name}`, `טלפון: ${f.phone}`, `כתובת: ${f.street}${f.apt ? `, ${f.apt}` : ''}`);
     if (f.note) out.push(`הערה לשליח: ${f.note}`);
+    if (f.area === false) out.push('לבדיקה: הרחוב לא ברשימת אזור המשלוחים.');
+    if (LANG === 'en') out.push('הלקוח הזמין באנגלית.');
     if (ls.some(l => isAdult(l.p.category))) out.push('', 'בהזמנה יש מוצרים מגיל 18: אציג תעודה מזהה לשליח.');
     return out.join('\n');
   }
@@ -1215,6 +1361,8 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (ok.includes(false)) { $('coForm').querySelector('[aria-invalid="true"]').focus(); return; }
     const t = totals();
     const f = { name: $('coName').value.trim(), phone: $('coPhone').value.trim(), street: $('coStreet').value.trim(), apt: $('coApt').value.trim(), note: $('coNote').value.trim(), pay: $('coForm').pay.value };
+    const area = checkStreet(f.street);
+    if (area) f.area = area.ok;
     const text = orderMessage(t, f);
     pending = { at: Date.now(), lines: lines().filter(l => !isBlocked(l.p)).map(({ p, q }) => [p.id, q]), total: t.total, items: t.items, pay: f.pay, advance: 0, text };
     $('coPreview').textContent = text;
@@ -1236,6 +1384,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (!pending) return;
     const { text, ...order } = pending;
     pending = null;
+    setSpin(null);
     orders.push(order);
     orders = orders.slice(-10);
     store.set('allenbis-orders', orders);
@@ -1245,6 +1394,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     ids.forEach(refreshCards);
     updateCartUi();
     $('coForm').reset();
+    $('coArea').innerHTML = '';
     setTimeout(() => {
       $('checkout').close();
       renderHome();
@@ -1327,8 +1477,15 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
 <dt>אזור</dt><dd>${esc(D.area || '')}</dd>
 <dt>דמי משלוח</dt><dd><bdi>${fmt(FEE)}</bdi>${demoTag(D.example)}</dd>
 <dt>משלוח חינם</dt><dd>מעל <bdi>${fmt(FREE_FROM)}</bdi>${demoTag(D.example)}</dd></dl>
-<p class="note-box">אלכוהול נמכר ונמסר רק בין 06:00 ל-23:00, לפי החוק. מוצרי עישון ואלכוהול נמכרים מגיל 18 בלבד.</p>`;
+<p class="note-box">אלכוהול נמכר ונמסר רק בין 06:00 ל-23:00, לפי החוק. מוצרי עישון ואלכוהול נמכרים מגיל 18 בלבד.</p>
+${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מגיעים אליכם? בדקו את הרחוב', 'Do we deliver to you? Check your street')}${demoTag(AREA.example)}</label><input id="infoStreet" autocomplete="street-address" placeholder="${L('למשל: דיזנגוף 50', 'e.g. Dizengoff 50')}" aria-describedby="infoArea"><p class="addr-check" id="infoArea" aria-live="polite"></p></div>` : ''}`;
     openDialog('info');
+  });
+
+  $('infoBody').addEventListener('input', e => {
+    if (e.target.id !== 'infoStreet') return;
+    clearTimeout(areaTimer);
+    areaTimer = setTimeout(() => { $('infoArea').innerHTML = areaHtml(e.target.value); }, 250);
   });
 
   /* ---------- Accessibility preferences ---------- */
@@ -1376,4 +1533,9 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   renderGrid(false);
   updateCartUi();
   updateTrackPill();
+
+  // Links from the product and category pages: ?p=<id> opens a product, ?c=<category> opens an aisle
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('c') && cats.includes(qs.get('c'))) requestCat(qs.get('c'));
+  if (qs.get('p') && byId.get(qs.get('p'))) openProduct(qs.get('p'));
 })();
