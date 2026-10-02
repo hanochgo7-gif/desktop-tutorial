@@ -187,7 +187,7 @@
   /* ---------- ממשק ---------- */
   var btn = document.createElement('button');
   btn.className = 'asst-btn'; btn.type = 'button'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'asst'); btn.setAttribute('aria-label', 'פתיחת צ\'אט עם העוזרת של רותם');
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9l-5 4z"/><path d="M8 9h8M8 13h5"/></svg><span>שאלה?</span>';
+  btn.innerHTML = '<span class="asst-btn__avatar"><img src="' + ROOT + 'images/logo.png" alt="" width="36" height="32"><i aria-hidden="true"></i></span><span class="asst-btn__text"><b>העוזרת האישית</b><small>שאלי אותי כל דבר</small></span>';
   var box = document.createElement('div');
   box.className = 'asst'; box.id = 'asst'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'צ\'אט עם העוזרת של רותם');
   box.innerHTML = '<div class="asst__head"><img src="' + ROOT + 'images/logo.png" alt="" width="40" height="36"><div><b>העוזרת של רותם</b><small id="asst-status">עונה מיד, מהידע באתר</small></div><button type="button" class="asst__close" id="asst-close" aria-label="סגירה">×</button></div>' +
