@@ -57,6 +57,13 @@
     var off = noMotion() || document.documentElement.classList.contains('a11y-motion');
     $$('video[autoplay]').forEach(function (v) { if (off) { v.pause(); } else if (v.paused) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } });
   }
+  // רקע פריחה: במובייל טוענים את הגרסה האנכית
+  (function () {
+    var bg = document.querySelector('.site-bg__video'); if (!bg || window.innerWidth > 760) return;
+    bg.poster = bg.poster.replace('bloom-wide', 'bloom-tall');
+    $$('source', bg).forEach(function (s) { s.src = s.src.replace('bloom-wide', 'bloom-tall'); });
+    bg.load();
+  })();
   syncVideos(); window.syncSiteVideos = syncVideos;
 
   /* תפריט נייד */
