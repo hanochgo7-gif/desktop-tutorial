@@ -1391,3 +1391,12 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
 /* ספארי מקפיא וידאו שיש עליו מסכה: שם הקצוות של סרט ההצצה נמסים בשכבת צבע במקום במסכה */
 .apple .film-bg { -webkit-mask: none; mask: none; }
 .apple .film-bg::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, var(--ink-2) 0%, transparent 18%, transparent 62%, var(--ink-2) 100%); }
+
+/* הפרח נושם גם כשהטלפון לא מנגן את הסרט (אייפון במצב חיסכון, דפדפן בתוך אפליקציה):
+   התמונה נפתחת ונסגרת לאט באותו קצב של הסרט. כשהסרט עצמו מתנגן הוא מכסה אותה והתנועה נעצרת */
+.motion .process-crystal img { transform-origin: 50% 42%; animation: crystal-bloom 8s ease-in-out infinite; will-change: transform, filter; }
+.process-crystal.is-live img { animation: none; }
+@keyframes crystal-bloom {
+  0%, 100% { transform: scale(.93) rotate(-1.5deg); filter: brightness(.88) saturate(.95); }
+  50% { transform: scale(1.05) rotate(1.5deg); filter: brightness(1.14) saturate(1.1); }
+}
