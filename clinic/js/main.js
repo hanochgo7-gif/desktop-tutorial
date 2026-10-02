@@ -447,11 +447,11 @@
   function shelfCols() { var w = window.innerWidth; return w <= 860 ? 2 : w <= 1024 ? 3 : 4; }
   /* קישוטי מדף: לא למכירה, אחד לכל מותג */
   var PROPS = {
-    'bud-vase': { src: 'images/props/bud-vase.png', h: .62 },
-    'pampas': { src: 'images/props/pampas.png', h: .98 },
-    'diffuser': { src: 'images/props/diffuser.png', h: .72 },
-    'shell': { src: 'images/props/shell-frame.png', h: .58 },
-    'sage': { src: 'images/props/sage.png', h: .3 }
+    'bud-vase': { src: 'images/props/bud-vase.webp', h: .62 },
+    'pampas': { src: 'images/props/pampas.webp', h: .98 },
+    'diffuser': { src: 'images/props/diffuser.webp', h: .72 },
+    'shell': { src: 'images/props/shell-frame.webp', h: .58 },
+    'sage': { src: 'images/props/sage.webp', h: .3 }
   };
   var PROP_BY_BRAND = { 'חוה זינגבוים': 'pampas', 'KLAPP': 'bud-vase', 'SQT': 'diffuser', 'Arkana': 'sage', 'Dr. Spicule': 'diffuser' };
   var propOrder = ['bud-vase', 'diffuser', 'pampas', 'sage'], propK = 0, rowN = 0;

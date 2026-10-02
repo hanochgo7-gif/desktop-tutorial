@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=55">
+  <link rel="stylesheet" href="css/style.css?v=56">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -92,14 +92,20 @@
         <a class="btn btn-solid magnet" href="#contact">קביעת תור לאבחון <span class="arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span></a>
         <a class="link-line" href="#finder">איזה טיפול מתאים לי</a>
       </div>
-      <ul class="hero-trust fade-up" style="animation-delay:.9s">
-        <li>אבחון לפני כל טיפול</li>
-        <li>מחיר ידוע מראש</li>
-        <li>מוצרים מקצועיים לבית</li>
-      </ul>
+      <nav class="hero-paths fade-up" style="animation-delay:.9s" aria-label="מה מפריע לך?">
+        <p>מה מפריע לך?</p>
+        <ul>
+          <li><a href="treatments/acne.html">אקנה ופצעונים</a></li>
+          <li><a href="treatments/pigmentation.html">כתמים ופיגמנטציה</a></li>
+          <li><a href="services.html#face-menu">קמטים ורפיון</a></li>
+          <li><a href="treatments/laser-hair-removal.html">שיער לא רצוי</a></li>
+          <li><a href="treatments/diabetic-pedicure.html">כפות רגליים וציפורניים</a></li>
+          <li><a href="#contact">לא בטוחה, אבחון</a></li>
+        </ul>
+      </nav>
     </div>
     <div class="hero-visual fade-up" style="animation-delay:.4s">
-      <video class="hero-video" poster="images/video/hero-crew.jpg" autoplay muted loop playsinline preload="metadata" width="720" height="894" aria-label="וידאו: צוות זעיר מלטש טיפת סרום ענקית"><source src="images/video/hero-crew.mp4" type="video/mp4"><source src="images/video/hero-crew.webm" type="video/webm"></video>
+      <video class="hero-video" poster="images/video/hero-crew.webp" autoplay muted loop playsinline preload="metadata" width="720" height="894" aria-label="וידאו: צוות זעיר מלטש טיפת סרום ענקית"><source src="images/video/hero-crew.mp4" type="video/mp4"><source src="images/video/hero-crew.webm" type="video/webm"></video>
     </div>
     <div class="hero-scroll" aria-hidden="true"><i></i><span>גללו</span></div>
   </section>
@@ -124,13 +130,6 @@
     </div>
   </div>
 
-  <!-- שלושת התחומים -->
-  <section class="numbers" data-stagger aria-label="בקצרה">
-    <div class="num reveal"><b data-count="11">0</b><span>טיפולי פנים שאני מתאימה לפי מטרה, לא לפי גיל</span></div>
-    <div class="num reveal"><b>I–VI</b><span>כל גווני העור, גם עור כהה מאוד, מטופלים אצלי בלייזר</span></div>
-    <div class="num reveal"><b data-count="100" data-suffix="%">0</b><span>כלים חד-פעמיים או מעוקרים בכל טיפול פדיקור</span></div>
-    <div class="num reveal"><b data-count="5">0</b><span>מותגים מקצועיים בחנות, אותם מוצרים שאני עובדת איתם</span></div>
-  </section>
 
   <section class="fields" data-stagger aria-label="תחומי הטיפול">
     <a href="#face" class="field reveal">
@@ -238,24 +237,26 @@
       <p>כל טיפול אצלי מתחיל בניקוי ואבחון. את הטכנולוגיה אני בוחרת לפי המטרה, ואת החומרים לפי סוג העור. את רוב הטיפולים אני בונה כסדרה, במרווח של שבועיים עד ארבעה שבועות.</p>
       <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת אבחון</a><a class="link-line" href="services.html#face-menu">לתפריט טיפולי הפנים</a></div>
       <div class="guide-links"><a href="treatments/acne.html">מדריך: טיפול באקנה</a><a href="treatments/pigmentation.html">מדריך: פיגמנטציה</a></div>
+    </div>
+    <div class="service-side reveal">
+      <ul class="treat-chips" aria-label="מה אני מטפלת בו">
+        <li><a href="services.html#face-menu">אקנה</a></li>
+        <li><a href="services.html#face-menu">צלקות פוסט-אקנה</a></li>
+        <li><a href="services.html#face-menu">פלזמה קרה</a></li>
+        <li><a href="services.html#face-menu">אנטי-אייג'ינג</a></li>
+        <li><a href="services.html#face-menu">פלזמה חמה</a></li>
+        <li><a href="services.html#face-menu">אולטרסאונד</a></li>
+        <li><a href="services.html#face-menu">כתמי פיגמנטציה</a></li>
+        <li><a href="services.html#face-menu">פילינגים חכמים</a></li>
+        <li><a href="services.html#face-menu">ביו-מיקרונידלינג</a></li>
+        <li><a href="services.html#face-menu">מיקרונידלינג</a></li>
+        <li><a href="services.html#face-menu">אקסוזומים</a></li>
+      </ul>
       <figure class="service-art">
-        <img src="images/face-crew.jpg" alt="איור: צוות זעיר מלטש טיפת סרום ענקית" width="1000" height="1250" loading="lazy">
+        <img src="images/face-crew.webp" alt="איור: צוות זעיר מלטש טיפת סרום ענקית" width="1000" height="1250" loading="lazy">
         <figcaption>טיפול מדויק, שכבה אחר שכבה.</figcaption>
       </figure>
     </div>
-    <ul class="treatments" data-stagger>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#face-dots"/></svg></i><h3>אקנה</h3><p>ניקוי עמוק, פלזמה קרה ופילינג חכם להרגעת דלקת והפחתת התפרצויות.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#needle-pen"/></svg></i><h3>צלקות פוסט-אקנה</h3><p>מיקרונידלינג ואקסוזומים לשיקום מרקם העור באזורי הצלקת.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#plasma-cold"/></svg></i><h3>פלזמה קרה</h3><p>נלחמת בפתוגנים על פני העור בלי חום, מתאימה לעור דלקתי ורגיש.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#lift"/></svg></i><h3>אנטי-אייג'ינג</h3><p>פרוטוקול משולב לקמטים, אובדן נפח ומתיחות.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#plasma-hot"/></svg></i><h3>פלזמה חמה</h3><p>אידוי העור למתיחת פנים ללא ניתוח: עפעפיים, קמטי הבעה, קווי צוואר.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#waves"/></svg></i><h3>אולטרסאונד</h3><p>מטפל בשרירי הפנים בשלוש שכבות עד לשריר התחתון ומגיע ל-SMAS. ממיס שומן ומחטב את הצוואר.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#sun"/></svg></i><h3>כתמי פיגמנטציה</h3><p>הבהרה הדרגתית בפילינג, החדרת חומרים ותוכנית הגנה לבית.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#dropper"/></svg></i><h3>פילינגים חכמים</h3><p>חומצות בריכוז 20% עד 60%, ריכוז ועומק שנקבעים לפי העור והמטרה.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#vial"/></svg></i><h3>ביו-מיקרונידלינג</h3><p>החדרת מחטים ננו-ביולוגיות (SQT) לעור, לפי מטרה טיפולית.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#needle-pen"/></svg></i><h3>מיקרונידלינג</h3><p>החדרת חומרים פעילים דרך תעלות זעירות בעור, לעידוד קולגן וספיגה עמוקה.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#exosome"/></svg></i><h3>אקסוזומים</h3><p>שיקום, הרגעה והאצת ריפוי. מותאם לפי מטרת הטיפול ומשולב עם מחטים.</p></li>
-    </ul>
   </section>
 
   <!-- תוצאות -->
@@ -267,18 +268,18 @@
     </div>
     <div class="ba-grid" data-stagger>
       <figure class="ba-pair reveal">
-        <div class="ba-frame"><img src="images/results/acne-before-1.jpg" alt="לחי עם צלקות אקנה פעילות ואדמומיות, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/acne-after-1.jpg" alt="אותה לחי אחרי סדרת טיפולים, עור רגוע ומרקם אחיד יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-frame"><img src="images/results/acne-before-1.webp" alt="לחי עם צלקות אקנה פעילות ואדמומיות, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
+        <div class="ba-frame"><img src="images/results/acne-after-1.webp" alt="אותה לחי אחרי סדרת טיפולים, עור רגוע ומרקם אחיד יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
         <figcaption>צלקות פוסט-אקנה, קו הלסת. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
       <figure class="ba-pair reveal">
-        <div class="ba-frame"><img src="images/results/acne-before-2.jpg" alt="לחי עם צלקות אקנה ופצעונים פעילים, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/acne-after-2.jpg" alt="אותה לחי אחרי סדרת טיפולים, פחות דלקת ומרקם חלק יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-frame"><img src="images/results/acne-before-2.webp" alt="לחי עם צלקות אקנה ופצעונים פעילים, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
+        <div class="ba-frame"><img src="images/results/acne-after-2.webp" alt="אותה לחי אחרי סדרת טיפולים, פחות דלקת ומרקם חלק יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
         <figcaption>צלקות פוסט-אקנה, הלחי ואזור האוזן. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
       <figure class="ba-pair ba-pair-square reveal">
-        <div class="ba-frame"><img src="images/results/wart-before.jpg" alt="יבלת בכף הרגל לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/wart-after.jpg" alt="אותו אזור אחרי טיפול, היבלת הוסרה והעור מחלים" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-frame"><img src="images/results/wart-before.webp" alt="יבלת בכף הרגל לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
+        <div class="ba-frame"><img src="images/results/wart-after.webp" alt="אותו אזור אחרי טיפול, היבלת הוסרה והעור מחלים" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
         <figcaption>יבלת בכף הרגל. פדיקור טיפולי, הסרה מבוקרת של היבלת.</figcaption>
       </figure>
     </div>
@@ -295,7 +296,7 @@
       <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת טיפול ניסיון</a><a class="link-line" href="services.html#laser-menu">לתפריט האזורים</a></div>
       <div class="guide-links"><a href="treatments/laser-hair-removal.html">מדריך: הסרת שיער בלייזר</a></div>
       <figure class="service-art">
-        <img src="images/laser-crew.jpg" alt="איור: צוות זעיר מכייל מכשיר לייזר ענקי" width="1000" height="1250" loading="lazy">
+        <img src="images/laser-crew.webp" alt="איור: צוות זעיר מכייל מכשיר לייזר ענקי" width="1000" height="1250" loading="lazy">
         <figcaption>מכוילים לעור שלך, לפני כל סדרה.</figcaption>
       </figure>
     </div>
@@ -328,17 +329,19 @@
       <p>טיפול רפואי-קוסמטי בכף הרגל, לא פדיקור יופי. אני עובדת רק עם כלים חד-פעמיים או מעוקרים, ועם חומרים שמותאמים גם לסוכרתיים.</p>
       <div class="intro-actions"><a class="btn btn-outline magnet" href="#contact">קביעת תור</a><a class="link-line" href="services.html#pedicure-menu">לתפריט הפדיקור</a></div>
       <div class="guide-links"><a href="treatments/diabetic-pedicure.html">מדריך: פדיקור לסוכרתיים</a></div>
+    </div>
+    <div class="service-side reveal">
+      <ul class="treat-chips" aria-label="מה אני מטפלת בו">
+        <li><a href="services.html#pedicure-menu">יבלות</a></li>
+        <li><a href="services.html#pedicure-menu">פטריות</a></li>
+        <li><a href="services.html#pedicure-menu">ציפורניים חודרניות</a></li>
+        <li><a href="services.html#pedicure-menu">מותאם לסוכרתיים</a></li>
+      </ul>
       <figure class="service-art">
-        <video class="art-video" poster="images/pedi-crew.jpg" autoplay muted loop playsinline preload="metadata" width="720" height="956" aria-label="וידאו: צוות זעיר מלטש ומייבש ציפורן ג'ל אדומה ענקית"><source src="images/video/pedi-crew.mp4" type="video/mp4"><source src="images/video/pedi-crew.webm" type="video/webm"></video>
+        <video class="art-video" poster="images/pedi-crew.webp" autoplay muted loop playsinline preload="metadata" width="720" height="956" aria-label="וידאו: צוות זעיר מלטש ומייבש ציפורן ג'ל אדומה ענקית"><source src="images/video/pedi-crew.mp4" type="video/mp4"><source src="images/video/pedi-crew.webm" type="video/webm"></video>
         <figcaption>עבודה מדויקת, עד הפרט האחרון.</figcaption>
       </figure>
     </div>
-    <ul class="treatments" data-stagger>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#foot"/></svg></i><h3>יבלות</h3><p>הסרה מבוקרת של יבלות ועיבוי עור, כולל טיפול בגורם הלחץ שיצר אותן.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#foot-fungus"/></svg></i><h3>פטריות</h3><p>ניקוי הציפורן והחדרת חומרים אנטי-פטרייתיים, עם הנחיות לתחזוקה בבית.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#ingrown"/></svg></i><h3>ציפורניים חודרניות</h3><p>שחרור הציפורן, ובמידת הצורך שילוב מגנט BS שמושך את הציפורן לצמיחה בריאה.</p></li>
-      <li class="reveal"><i><svg aria-hidden="true"><use href="images/icons/icons.svg#diabetes"/></svg></i><h3>מותאם לסוכרתיים</h3><p>חומרים עדינים, ללא חומצות אגרסיביות, ואני בודקת עור ותחושה לפני כל טיפול.</p></li>
-    </ul>
   </section>
 
   <!-- טיזר חנות -->
@@ -402,7 +405,7 @@
   <section class="about has-deco" id="rotem" aria-labelledby="about-title">
     <div class="deco deco-blossom" data-parallax="-.06" aria-hidden="true"><svg><use href="images/deco.svg#blossom"/></svg></div>
     <figure class="about-media reveal">
-      <img src="images/rotem.jpg" alt="רותם גוטובסקי" loading="lazy" width="800" height="1000">
+      <img src="images/rotem.webp" alt="רותם גוטובסקי" loading="lazy" width="800" height="1000">
       <figcaption>רותם גוטובסקי, קוסמטיקאית פרא-רפואית מוסמכת</figcaption>
     </figure>
     <div class="about-copy reveal">
@@ -429,58 +432,27 @@
     </div>
     <ul class="cert-list" data-stagger>
       <li class="cert reveal">
-        <button type="button" class="cert-open" data-cert="images/certs/pme-hava-zingboim.jpg" aria-label="הגדלת התעודה">
-          <img src="images/certs/pme-hava-zingboim.jpg" alt="תעודת סיום מסלול קוסמטיקאית פרא-רפואית P.M.E, בית הספר למדעי הקוסמטיקה חוה זינגבוים" loading="lazy">
+        <button type="button" class="cert-open" data-cert="images/certs/pme-hava-zingboim.webp" aria-label="הגדלת התעודה">
+          <img src="images/certs/pme-hava-zingboim.webp" alt="תעודת סיום מסלול קוסמטיקאית פרא-רפואית P.M.E, בית הספר למדעי הקוסמטיקה חוה זינגבוים" loading="lazy">
         </button>
         <h3>קוסמטיקאית פרא-רפואית מוסמכת P.M.E</h3>
         <p>בתי הספר למדעי הקוסמטיקה של חוה זינגבוים. מסלול עיוני-מעשי: האטת הזדקנות העור, פיגמנטציה, פילינגים, אקנה והכנת העור לפני ואחרי ניתוחים פלסטיים. ינואר 2022.</p>
       </li>
       <li class="cert reveal">
-        <button type="button" class="cert-open" data-cert="images/certs/professional-cosmetics-hava-zingboim.jpg" aria-label="הגדלת התעודה">
-          <img src="images/certs/professional-cosmetics-hava-zingboim.jpg" alt="דיפלומה: סיום קורס קוסמטיקה מקצועי, חוה זינגבוים, בפיקוח משרד העבודה והרווחה" loading="lazy">
+        <button type="button" class="cert-open" data-cert="images/certs/professional-cosmetics-hava-zingboim.webp" aria-label="הגדלת התעודה">
+          <img src="images/certs/professional-cosmetics-hava-zingboim.webp" alt="דיפלומה: סיום קורס קוסמטיקה מקצועי, חוה זינגבוים, בפיקוח משרד העבודה והרווחה" loading="lazy">
         </button>
         <h3>קורס קוסמטיקה מקצועי</h3>
         <p>דיפלומה מבית הספר של חוה זינגבוים, מחקר, פיתוח ולימודי קוסמטיקה מתקדמים. בפיקוח משרד העבודה והרווחה של מדינת ישראל. נובמבר 2021.</p>
       </li>
       <li class="cert reveal">
-        <button type="button" class="cert-open" data-cert="images/certs/advanced-technologies-hava-zingboim.jpg" aria-label="הגדלת התעודה">
-          <img src="images/certs/advanced-technologies-hava-zingboim.jpg" alt="דיפלומה: סיום קורס טכנולוגיות מתקדמות, חוה זינגבוים" loading="lazy">
+        <button type="button" class="cert-open" data-cert="images/certs/advanced-technologies-hava-zingboim.webp" aria-label="הגדלת התעודה">
+          <img src="images/certs/advanced-technologies-hava-zingboim.webp" alt="דיפלומה: סיום קורס טכנולוגיות מתקדמות, חוה זינגבוים" loading="lazy">
         </button>
         <h3>קורס טכנולוגיות מתקדמות</h3>
         <p>פוטותרפיה בטיפול הקוסמטי, טכנולוגיות RF ו-RF Fractional, מיקרונידלינג וטכנולוגיות לאבחון עור. בית הספר של חוה זינגבוים, פברואר 2022.</p>
       </li>
     </ul>
-  </section>
-
-  <!-- שאלות -->
-  <section class="faq has-deco">
-    <div class="deco deco-sprig sprig-faq s1" data-parallax=".04" aria-hidden="true"><svg><use href="images/deco.svg#sprig"/></svg></div><div class="deco deco-sprig sprig-faq s2" data-parallax=".04" aria-hidden="true"><svg><use href="images/deco.svg#sprig"/></svg></div><div class="deco deco-sprig sprig-faq s3" data-parallax=".04" aria-hidden="true"><svg><use href="images/deco.svg#sprig"/></svg></div>
-    <div class="section-head reveal">
-      <p class="kicker">שאלות</p>
-      <h2>שאלות שחוזרות</h2>
-    </div>
-    <div class="faq-list reveal">
-      <details>
-        <summary>אפשר לעשות לייזר על עור כהה? <span class="faq-icon" aria-hidden="true"></span></summary>
-        <p>כן. אני מכיילת את המכשיר לגוון העור, וגם עור כהה מאוד מטופל בבטחה. לפני הסדרה אני עושה טיפול ניסיון על אזור קטן.</p>
-      </details>
-      <details>
-        <summary>אני סוכרתי, מותר לי פדיקור טיפולי? <span class="faq-icon" aria-hidden="true"></span></summary>
-        <p>כן, וזה אפילו מומלץ. אני עובדת עם חומרים שמותאמים לסוכרתיים, בודקת תחושה וזרימת דם לפני הטיפול, ולא משתמשת בחומצות אגרסיביות.</p>
-      </details>
-      <details>
-        <summary>מה ההבדל בין מיקרונידלינג לביו-מיקרונידלינג? <span class="faq-icon" aria-hidden="true"></span></summary>
-        <p>במיקרונידלינג קלאסי מחטים מתכתיות פותחות תעלות זעירות בעור להחדרת חומרים. בביו-מיקרונידלינג (SQT) אני מחדירה מחטים ננו-ביולוגיות שנספגות בעור ומעוררות חידוש של האפידרמיס, בלי מכשיר.</p>
-      </details>
-      <details>
-        <summary>כמה זמן העור אדום אחרי פילינג חכם? <span class="faq-icon" aria-hidden="true"></span></summary>
-        <p>תלוי בריכוז. ב-20% האדמומיות חולפת תוך שעות. ב-60% ייתכן קילוף של שלושה עד חמישה ימים, ואני מתכננת אותו איתך מראש.</p>
-      </details>
-      <details>
-        <summary>איך מזמינים מוצרים מהחנות? <span class="faq-icon" aria-hidden="true"></span></summary>
-        <p>לוחצים על "הזמנה בוואטסאפ" ליד המוצר. אני מאשרת זמינות, מקבלת תשלום בביט או באשראי, ושולחת או מכינה לאיסוף מהקליניקה.</p>
-      </details>
-    </div>
   </section>
 
   <!-- יצירת קשר -->

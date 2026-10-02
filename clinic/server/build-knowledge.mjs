@@ -57,7 +57,7 @@ for (const f of readdirSync(join(root, "treatments")).filter((f) => f.endsWith("
   for (const m of html.matchAll(/<summary>(.*?)<span class="faq-icon"[^>]*><\/span><\/summary><p>(.*?)<\/p>/g)) add({ type: "faq", title: strip(m[1]), text: strip(m[2]), tags: [title], link });
 }
 // שאלות נפוצות מדף הבית
-const home = readFileSync(join(root, "index.html"), "utf8");
+const home = readFileSync(join(root, "index.html"), "utf8") + readFileSync(join(root, "services.html"), "utf8");
 for (const m of home.matchAll(/<summary>(.*?)<span class="faq-icon"[^>]*><\/span><\/summary>\s*<p>(.*?)<\/p>/gs)) add({ type: "faq", title: strip(m[1]), text: strip(m[2]), tags: ["שאלות"], link: "menu" });
 
 // מוצרים

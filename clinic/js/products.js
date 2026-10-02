@@ -10,7 +10,7 @@ window.PRODUCTS = [
     desc: "מחטים ננו-ביולוגיות לחידוש האפידרמיס. לשימוש בקליניקה.",
     size: "",
     price: null,
-    image: "images/sqt-vials.jpg",
+    image: "images/sqt-vials.webp",
     tall: false
   },
   {
@@ -21,27 +21,27 @@ window.PRODUCTS = [
     desc: "סרום ספיקולים לשימוש ביתי בין הטיפולים, ערכה עם ארבעה מילויים.",
     size: "",
     price: null,
-    image: "images/sqt-serum-box.jpg",
+    image: "images/sqt-serum-box.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "מסכת זהב מחממת",
     category: "מסכות",
-    cut: "images/shelf/hz-gold-heating-mask.png",
+    cut: "images/shelf/hz-gold-heating-mask.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
     en: "Gold Heating Mask",
     desc: "מסכה טיפולית מתחממת, מבוססת על המינרל זאוליט, למראה זוהר ובריא ולהעלאת רמת הלחות באופן מיידי.",
     size: "100 מ״ל",
     price: null,
-    image: "images/hz-gold-heating-mask.jpg",
+    image: "images/hz-gold-heating-mask.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "סרום לילה",
     category: "סרומים ובוסטרים",
-    cut: "images/shelf/hz-night-serum.png",
+    cut: "images/shelf/hz-night-serum.webp",
     model: "images/models/hz-night-serum.glb",
     pick: true,
     concerns: ["קמטים ומיצוק"],
@@ -49,272 +49,272 @@ window.PRODUCTS = [
     desc: "סרום לילה טיפולי לעידוד תהליכי חידוש, שיקום, תיקון וריפוי העור.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-night-serum.jpg",
+    image: "images/hz-night-serum.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "ברייט & פרוטקט דמי מייקאפ מינרלי SPF 50",
     category: "הגנה מהשמש",
-    cut: "images/shelf/hz-bright-protect-spf50.png",
+    cut: "images/shelf/hz-bright-protect-spf50.webp",
     concerns: ["שגרה יומית", "כתמים והבהרה"],
     en: "Bright & Protect Mineral SPF 50 Demi Make Up",
     desc: "מקדם הגנה מינרלי מפני השמש, זיהום אוויר וקרינת מסכים. מסייע במניעת הזדקנות מואצת, תומך בהבהרה ומכיל טינט בגוון אחיד וזוהר.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-bright-protect-spf50.jpg",
+    image: "images/hz-bright-protect-spf50.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם אייג' פרוטקשן",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-age-protection.png",
+    cut: "images/shelf/hz-age-protection.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
     en: "Age Protection Cream",
     desc: "תכשיר להעלאת רמת הלחות בעור ולשיקום המחסום העורי.",
     size: "60 מ״ל",
     price: null,
-    image: "images/hz-age-protection.jpg",
+    image: "images/hz-age-protection.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם פרופסי לייט",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-prophecy-light.png",
+    cut: "images/shelf/hz-prophecy-light.webp",
     concerns: ["לחות ויובש"],
     en: "Prophecy Light Cream",
     desc: "קרם במרקם קליל בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת, להעלאת רמת הלחות, הנפח וגמישות העור.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-prophecy-light.jpg",
+    image: "images/hz-prophecy-light.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "סרום פרוטקשן שילד",
     category: "סרומים ובוסטרים",
-    cut: "images/shelf/hz-protection-shield.png",
+    cut: "images/shelf/hz-protection-shield.webp",
     concerns: ["אקנה ועור שמן"],
     en: "Protection Shield Serum",
     desc: "סרום ג'ל נטול שומן לאיזון העור, המסייע במניעת הופעת קומדונים ושומנים תת-עוריים.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-protection-shield.jpg",
+    image: "images/hz-protection-shield.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם דרמה פיל",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-derma-fill.png",
+    cut: "images/shelf/hz-derma-fill.webp",
     pick: true,
     concerns: ["קמטים ומיצוק"],
     en: "Derma Fill Cream",
     desc: "תכשיר טיפולי עשיר בפורמולה מבוססת טכנולוגיית מיקרוקפסולציה ושילוב סינרגטי של פפטידים, לשיפור מראה הגמישות, לעידוד יצירת קולגן עצמוני ולמראה עור מוצק יותר.",
     size: "60 מ״ל",
     price: null,
-    image: "images/hz-derma-fill.jpg",
+    image: "images/hz-derma-fill.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "סרום פרופסי",
     category: "סרומים ובוסטרים",
-    cut: "images/shelf/hz-prophecy-serum.png",
+    cut: "images/shelf/hz-prophecy-serum.webp",
     pick: true,
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
     en: "Prophecy Serum",
     desc: "סרום לחות קליל, נספג במהירות, המעניק לעור זוהר מיידי ומראה קורן. ביוסטימולטור המעודד ייצור חומצה היאלורונית טבעית.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-prophecy-serum.jpg",
+    image: "images/hz-prophecy-serum.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "מסכת פנים רימיקרונייזד",
     category: "מסכות",
-    cut: "images/shelf/hz-remicronized-mask.png",
+    cut: "images/shelf/hz-remicronized-mask.webp",
     concerns: ["קמטים ומיצוק"],
     en: "Remicronized Mask",
     desc: "מסכה עשירה הנספגת בעור, בטכנולוגיית HZMT, מבוססת קולגן פברילי ממוזער, לתמיכה במיצוק והפחתת מראה קמטים וקמטוטים וללחות אינטנסיבית.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-remicronized-mask.jpg",
+    image: "images/hz-remicronized-mask.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם עיניים רימיקרונייזד",
     category: "עיניים",
-    cut: "images/shelf/hz-remicronized-eye.png",
+    cut: "images/shelf/hz-remicronized-eye.webp",
     concerns: ["קמטים ומיצוק"],
     en: "Remicronized Eye Cream",
     desc: "קרם עיניים חדשני מבוסס HZMT לטיפול עוצמתי המתמקד במיצוק ובשיפור מראה קמטוטים.",
     size: "30 מ״ל",
     price: null,
-    image: "images/hz-remicronized-eye.jpg",
+    image: "images/hz-remicronized-eye.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "ג'ל ניקוי מטהר",
     category: "ניקוי",
-    cut: "images/shelf/hz-purifying-gel.png",
+    cut: "images/shelf/hz-purifying-gel.webp",
     pick: true,
     concerns: ["אקנה ועור שמן", "שגרה יומית"],
     en: "Purifying Cleansing Gel",
     desc: "ג'ל ניקוי לטיהור, איזון והרגעת העור. מתאים במיוחד לעור עם נטייה לפצעונים.",
     size: "225 מ״ל",
     price: null,
-    image: "images/hz-purifying-gel.jpg",
+    image: "images/hz-purifying-gel.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "סבון אקטיב לעור בעייתי",
     category: "ניקוי",
-    cut: "images/shelf/racheli-active-soap.png",
+    cut: "images/shelf/racheli-active-soap.webp",
     concerns: ["אקנה ועור שמן"],
     en: "Active Gentle Soap",
     desc: "ג'ל ניקוי טיפולי לעור שמן, עבה ועם נקבוביות סתומות. מסדרת Acne Skin Platform.",
     size: "250 מ״ל",
     price: null,
-    image: "images/racheli-active-soap.jpg",
+    image: "images/racheli-active-soap.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "סבון פנים לעור עדין",
     category: "ניקוי",
-    cut: "images/shelf/racheli-gentle-soap.png",
+    cut: "images/shelf/racheli-gentle-soap.webp",
     concerns: ["שגרה יומית", "עור רגיש"],
     en: "Gentle Skin Soap",
     desc: "ג'ל ניקוי עדין לכל סוגי העור, מסדרת Preventec לסימני הזדקנות ראשונים.",
     size: "250 מ״ל",
     price: null,
-    image: "images/racheli-gentle-soap.jpg",
+    image: "images/racheli-gentle-soap.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "ג'ל ניקוי לחותי",
     category: "ניקוי",
-    cut: "images/shelf/hz-moisturizing-gel.png",
+    cut: "images/shelf/hz-moisturizing-gel.webp",
     concerns: ["שגרה יומית", "לחות ויובש"],
     en: "Moisturizing Cleansing Gel",
     desc: "ג'ל ניקוי לחותי, מנקה ומאזן את העור תוך תמיכה ושמירה על מחסום העור.",
     size: "225 מ״ל",
     price: null,
-    image: "images/hz-moisturizing-gel.jpg",
+    image: "images/hz-moisturizing-gel.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "סבון קצף עדין",
     category: "ניקוי",
-    cut: "images/shelf/hz-foaming-cleanser.png",
+    cut: "images/shelf/hz-foaming-cleanser.webp",
     concerns: ["עור רגיש", "שגרה יומית"],
     en: "Foaming Cleanser",
     desc: "קצף ניקוי עדין לניקוי יסודי, הרגעת אדמומיות ולתחושת נוחות מיידית, במיוחד לעור יבש או רגיש.",
     size: "225 מ״ל",
     price: null,
-    image: "images/hz-foaming-cleanser.jpg",
+    image: "images/hz-foaming-cleanser.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם לחות לעור שמן גרין לאב 23",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-moist-oily.png",
+    cut: "images/shelf/hz-moist-oily.webp",
     concerns: ["אקנה ועור שמן", "לחות ויובש"],
     en: "Moist Cream for Oily Skin",
     desc: "תכשיר לחות קליל, נספג במהירות, נטול שומן, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-moist-oily.jpg",
+    image: "images/hz-moist-oily.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "סילקי פילטר SPF50",
     category: "הגנה מהשמש",
-    cut: "images/shelf/hz-silky-filter.png",
+    cut: "images/shelf/hz-silky-filter.webp",
     pick: true,
     concerns: ["שגרה יומית", "אקנה ועור שמן"],
     en: "Silky Filter Clear SPF50",
     desc: "ג'ל הגנה שקוף בטכנולוגיית פריימר, המעניק מראה מט קטיפתי, הגנה רחבת טווח ובסיס לאיפור.",
     size: "80 מ״ל",
     price: null,
-    image: "images/hz-silky-filter.jpg",
+    image: "images/hz-silky-filter.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם פרופסי ריץ'",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-prophecy-rich.png",
+    cut: "images/shelf/hz-prophecy-rich.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
     en: "Prophecy Rich Cream",
     desc: "קרם במרקם עשיר בטכנולוגיית HZMT, מבוסס חומצה היאלורונית מצולבת ממוזערת, לשיפור מיידי במצבי יובש, להעלאת רמת הלחות, הנפח ולשיפור גמישות העור.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-prophecy-rich.jpg",
+    image: "images/hz-prophecy-rich.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם לחות לעור יבש גרין לאב 23",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-moist-dry.png",
+    cut: "images/shelf/hz-moist-dry.webp",
     concerns: ["לחות ויובש"],
     en: "Moist Cream for Dry Skin",
     desc: "תכשיר לחות במרקם עשיר, מבוסס תמצית ירוקה עשירה בכלורופיל המכילה 23 ויטמינים ומינרלים.",
     size: "50 מ״ל",
     price: null,
-    image: "images/hz-moist-dry.jpg",
+    image: "images/hz-moist-dry.webp",
     tall: true
   },
   {
     brand: "חוה זינגבוים",
     name: "קרם אקסטרים לצוואר ולמחשוף",
     category: "קרמים ולחות",
-    cut: "images/shelf/hz-extreme-cream.png",
+    cut: "images/shelf/hz-extreme-cream.webp",
     concerns: ["קמטים ומיצוק"],
     en: "Extreme Cream",
     desc: "קרם למיצוק עור הצוואר והמחשוף, להעלאת רמת הלחות ולטיפול ממוקד בסימני הזדקנות.",
     size: "60 מ״ל",
     price: null,
-    image: "images/hz-extreme-cream.jpg",
+    image: "images/hz-extreme-cream.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "מסכת אקסטרה סי",
     category: "מסכות",
-    cut: "images/shelf/hz-extra-c-mask.png",
+    cut: "images/shelf/hz-extra-c-mask.webp",
     pick: true,
     concerns: ["לחות ויובש", "כתמים והבהרה"],
     en: "Extra C Mask",
     desc: "מסכה טיפולית עוצמתית להעלאת רמת הלחות, הגנה אנטי-אוקסידנטית ותמיכה בתהליכי הבהרה.",
     size: "60 מ״ל",
     price: null,
-    image: "images/hz-extra-c-mask.jpg",
+    image: "images/hz-extra-c-mask.webp",
     tall: false
   },
   {
     brand: "חוה זינגבוים",
     name: "אקטיב טריטמנט לושן (מי פנים)",
     category: "ניקוי",
-    cut: "images/shelf/bebelle-treatment-lotion.png",
+    cut: "images/shelf/bebelle-treatment-lotion.webp",
     concerns: ["שגרה יומית"],
     en: "Active Treatment Lotion",
     desc: "מי פנים טיפוליים אקטיביים לשימוש אחרי הניקוי, להכנת העור לקליטת התכשירים הבאים.",
     size: "50 מ״ל",
     price: null,
-    image: "images/bebelle-treatment-lotion.jpg",
+    image: "images/bebelle-treatment-lotion.webp",
     tall: true
   },
   {
@@ -326,8 +326,8 @@ window.PRODUCTS = [
     desc: "סרום ליפטינג ממותג KLAPP Skin Care Science, מסדרת Cell Pro. זוכה מקום ראשון Beauty Forum Stars Award 2024 בקטגוריית טיפוח העור.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-cellpro-lifting.jpg",
-    cut: "images/shelf/klapp-cellpro-lifting-stack.png",
+    image: "images/klapp-cellpro-lifting.webp",
+    cut: "images/shelf/klapp-cellpro-lifting-stack.webp",
     tall: true
   },
   {
@@ -339,8 +339,8 @@ window.PRODUCTS = [
     desc: "קרם פנים ממצק מסדרת Cell Pro Lifting של KLAPP, להשלמת הסרום.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-cellpro-lifting.jpg",
-    cut: "images/shelf/klapp-cellpro-lifting-cream.png",
+    image: "images/klapp-cellpro-lifting.webp",
+    cut: "images/shelf/klapp-cellpro-lifting-cream.webp",
     tall: false
   },
   {
@@ -352,8 +352,8 @@ window.PRODUCTS = [
     desc: "קרם אנטי-אייג'ינג מקיף מסדרת Repagen Exclusive של KLAPP.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-repagen-cream.jpg",
-    cut: "images/shelf/klapp-repagen-cream.png",
+    image: "images/klapp-repagen-cream.webp",
+    cut: "images/shelf/klapp-repagen-cream.webp",
     tall: false
   },
   {
@@ -365,8 +365,8 @@ window.PRODUCTS = [
     desc: "קרם עיניים עשיר מסדרת Repagen Exclusive של KLAPP.",
     size: "20 מ״ל",
     price: null,
-    image: "images/klapp-repagen.jpg",
-    cut: "images/shelf/klapp-repagen-group.png",
+    image: "images/klapp-repagen.webp",
+    cut: "images/shelf/klapp-repagen-group.webp",
     tall: true
   },
   {
@@ -378,8 +378,8 @@ window.PRODUCTS = [
     desc: "פלואיד לחות לידיים מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-repagen-hand.jpg",
-    cut: "images/shelf/klapp-repagen-hand.png",
+    image: "images/klapp-repagen-hand.webp",
+    cut: "images/shelf/klapp-repagen-hand.webp",
     tall: true
   },
   {
@@ -391,8 +391,8 @@ window.PRODUCTS = [
     desc: "פלואיד פנים אנטי-אייג'ינג מסדרת Repagen Exclusive של KLAPP.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-repagen.jpg",
-    cut: "images/shelf/klapp-repagen-group.png",
+    image: "images/klapp-repagen.webp",
+    cut: "images/shelf/klapp-repagen-group.webp",
     tall: true
   },
   {
@@ -404,8 +404,8 @@ window.PRODUCTS = [
     desc: "סרום רטינול למיצוק עור יעיל ולאורך זמן, שיפור רמת הלחות, מראה עור חלק ואחיד וזוהר טבעי שנמשך כל היום. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-retinol-serum.jpg",
-    cut: "images/shelf/klapp-retinol-serum.png",
+    image: "images/klapp-retinol-serum.webp",
+    cut: "images/shelf/klapp-retinol-serum.webp",
     model: "images/models/klapp-retinol-serum.glb",
     tall: true
   },
@@ -418,8 +418,8 @@ window.PRODUCTS = [
     desc: "קרם יום ולילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-retinol-daynight.jpg",
-    cut: "images/shelf/klapp-retinol-daynight.png",
+    image: "images/klapp-retinol-daynight.webp",
+    cut: "images/shelf/klapp-retinol-daynight.webp",
     tall: false
   },
   {
@@ -431,8 +431,8 @@ window.PRODUCTS = [
     desc: "מסכת לילה. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "50 מ״ל",
     price: null,
-    image: "images/klapp-retinol-mask.jpg",
-    cut: "images/shelf/klapp-retinol-mask.png",
+    image: "images/klapp-retinol-mask.webp",
+    cut: "images/shelf/klapp-retinol-mask.webp",
     tall: false
   },
   {
@@ -444,8 +444,8 @@ window.PRODUCTS = [
     desc: "בוסטר חדש המעודד באופן פעיל את תהליך חידוש העור במהלך הלילה. התוצאה: עור מתוח ומראה צעיר בבוקר. סדרת Retinol Multi Level Performance של KLAPP, הדור הבא של הרטינול: מיצוק, הרמה, שיקום, הפחתת קמטים והבהרה. 100% טבעוני, מיוצר בגרמניה.",
     size: "30 מ״ל",
     price: null,
-    image: "images/klapp-retinol-booster.jpg",
-    cut: "images/shelf/klapp-retinol-booster.png",
+    image: "images/klapp-retinol-booster.webp",
+    cut: "images/shelf/klapp-retinol-booster.webp",
     tall: true
   },
   {
@@ -458,7 +458,7 @@ window.PRODUCTS = [
     size: "50 מ״ל",
     price: null,
     image: "images/klapp-cellpro-neck.webp",
-    cut: "images/shelf/klapp-cellpro-neck.png",
+    cut: "images/shelf/klapp-cellpro-neck.webp",
     tall: true
   },
   {
@@ -470,8 +470,8 @@ window.PRODUCTS = [
     desc: "פילינג עדין על בסיס חומצה לקטוביונית, מסדרת Neuro Sensi Therapy של Arkana, לעור רגיש.",
     size: "30 מ״ל",
     price: null,
-    image: "images/arkana-sensi-peel.jpg",
-    cut: "images/shelf/arkana-sensi-peel.png",
+    image: "images/arkana-sensi-peel.webp",
+    cut: "images/shelf/arkana-sensi-peel.webp",
     tall: false
   },
   {
@@ -483,8 +483,8 @@ window.PRODUCTS = [
     desc: "מסכה מרגיעה מסדרת Neuro Sensi Therapy של Arkana, להרגעת עור רגיש ומגורה.",
     size: "",
     price: null,
-    image: "images/arkana-neuro-sensi-mask.jpg",
-    cut: "images/shelf/arkana-neuro-sensi-mask.png",
+    image: "images/arkana-neuro-sensi-mask.webp",
+    cut: "images/shelf/arkana-neuro-sensi-mask.webp",
     tall: false
   },
   {
@@ -496,8 +496,8 @@ window.PRODUCTS = [
     desc: "מסכה מבהירה ומרגיעה מסדרת Skin Tone Neuro Therapy של Arkana, עם β-White וחומצה טרנקסמית, להפחתת כתמי פיגמנטציה.",
     size: "100 מ״ל",
     price: null,
-    image: "images/arkana-skintone-mask.jpg",
-    cut: "images/shelf/arkana-skintone-mask.png",
+    image: "images/arkana-skintone-mask.webp",
+    cut: "images/shelf/arkana-skintone-mask.webp",
     tall: true
   },
   {
@@ -509,8 +509,8 @@ window.PRODUCTS = [
     desc: "פילינג מבהיר מסדרת Skin Tone Neuro Therapy של Arkana, לטיפול בכתמי פיגמנטציה ולאיחוד גוון העור.",
     size: "30 מ״ל",
     price: null,
-    image: "images/arkana-skintone-peel.jpg",
-    cut: "images/shelf/arkana-skintone-peel.png",
+    image: "images/arkana-skintone-peel.webp",
+    cut: "images/shelf/arkana-skintone-peel.webp",
     tall: false
   },
   {
@@ -522,8 +522,8 @@ window.PRODUCTS = [
     desc: "קרם מבהיר לשימוש יומי מסדרת Skin Tone Neuro Therapy של Arkana, להשלמת הטיפול בפיגמנטציה.",
     size: "",
     price: null,
-    image: "images/arkana-skintone-cream.jpg",
-    cut: "images/shelf/arkana-skintone-cream.png",
+    image: "images/arkana-skintone-cream.webp",
+    cut: "images/shelf/arkana-skintone-cream.webp",
     tall: false
   },
   {
@@ -535,8 +535,8 @@ window.PRODUCTS = [
     desc: "בוסטר מסדרת Advanced Line של Arkana: PDRN Triple Fusion, תערובת 15 פפטידים וקומפלקס HA 16. עור מוצק וחלק, לחות עמוקה ומילוי.",
     size: "30 מ״ל",
     price: null,
-    image: "images/arkana-pdrn.jpg",
-    cut: "images/shelf/arkana-pdrn.png",
+    image: "images/arkana-pdrn.webp",
+    cut: "images/shelf/arkana-pdrn.webp",
     tall: true
   },
   {
@@ -548,8 +548,8 @@ window.PRODUCTS = [
     desc: "ערכה טיפולית מסדרת Advanced Therapy של Arkana: סרום אקסוזומים, סרום PRP ו-EXO Power, לחידוש עור ואפקט אנטי-אייג'ינג. מתאימה לטיפולי אקסוזומים ומיקרונידלינג.",
     size: "",
     price: null,
-    image: "images/arkana-exo-prp.jpg",
-    cut: "images/shelf/arkana-exo-prp.png",
+    image: "images/arkana-exo-prp.webp",
+    cut: "images/shelf/arkana-exo-prp.webp",
     tall: false
   },
   {
@@ -561,8 +561,8 @@ window.PRODUCTS = [
     desc: "מסכת בד מסדרת PRP Therapy של Arkana, עם פלמיטויל טריפפטיד-5, קופר טריפפטיד-1 וחומצה היאלורונית. אפקט דמוי PRP: התחדשות והרגעה.",
     size: "יחידה, 28 גרם סרום",
     price: null,
-    image: "images/arkana-prp-mask.jpg",
-    cut: "images/shelf/arkana-prp-mask.png",
+    image: "images/arkana-prp-mask.webp",
+    cut: "images/shelf/arkana-prp-mask.webp",
     tall: false
   },
   {
@@ -574,8 +574,8 @@ window.PRODUCTS = [
     desc: "תכשיר מחדש מסדרת PRP Therapy של Arkana, עם WH-Peptide ו-GHK-Cu, לאפקט ליפטינג ועיצוב מחדש של העור.",
     size: "100 מ״ל",
     price: null,
-    image: "images/arkana-prp-rejuvenator-100.jpg",
-    cut: "images/shelf/arkana-prp-rejuvenator-100.png",
+    image: "images/arkana-prp-rejuvenator-100.webp",
+    cut: "images/shelf/arkana-prp-rejuvenator-100.webp",
     tall: true
   },
   {
@@ -587,8 +587,8 @@ window.PRODUCTS = [
     desc: "קרם מחדש לשימוש ביתי מסדרת PRP Therapy של Arkana, להשלמת הטיפול בקליניקה.",
     size: "",
     price: null,
-    image: "images/arkana-prp-rejuvenator-50.jpg",
-    cut: "images/shelf/arkana-prp-rejuvenator-50.png",
+    image: "images/arkana-prp-rejuvenator-50.webp",
+    cut: "images/shelf/arkana-prp-rejuvenator-50.webp",
     tall: false
   },
   {
@@ -600,7 +600,7 @@ window.PRODUCTS = [
     desc: "ערכה טיפולית מלאה בארבעה שלבים: קרם ביו-מיקרונידלינג ממצק, תמצית התחדשות ממצקת, מסכת Firming Repair וקרם התחדשות. אנטי-אייג'ינג, החלקת קמטים, מיצוק והרמה, שיפור גמישות העור.",
     size: "ערכה",
     price: null,
-    image: "images/sqt-antiaging-set.jpg",
+    image: "images/sqt-antiaging-set.webp",
     tall: false
   },
   {
@@ -612,7 +612,7 @@ window.PRODUCTS = [
     desc: "טיפול באקנה וחידוש מרקם העור. סופחת את הזיהום והורגת את חיידקי האקנה, מתאימה לטיפול בצלקות פוסט-אקנתיות חדשות ובסימני מתיחה בגוף. מחדשת ומשפרת את מרקם העור, סוגרת נקבוביות. לעור שמן ומעורב.",
     size: "ערכה",
     price: null,
-    image: "images/sqt-resurfacing.jpg",
+    image: "images/sqt-resurfacing.webp",
     tall: false
   },
   {
@@ -624,7 +624,7 @@ window.PRODUCTS = [
     desc: "ערכה לעור אקנה: תמצית Resurfacing Repair (4 בקבוקונים, 20 מ״ל), אבקת ביו-מיקרונידלינג (4 בקבוקונים), תמיסת ביו-מיקרונידלינג (4 בקבוקונים) ומסכות (4 יח'). לשיפור אקנה, הבהרת סימני אקנה ושיפור עור אקנתי.",
     size: "ערכה",
     price: null,
-    image: "images/sqt-resurfacing.jpg",
+    image: "images/sqt-resurfacing.webp",
     tall: false
   },
   {
@@ -636,7 +636,7 @@ window.PRODUCTS = [
     desc: "מיצוק, חידוש והבהרת העור: תיקון ושמירה על אלסטיות, חיזוק מחסום העור, עיבוי האפידרמיס, הפחתת קמטוטים ומניעת צניחה. מכילה אקטואין, קרנוזין, פיברונקטין, בטא-גלוקן, פנטנול וחמישה שמנים צמחיים. 4 טיפולים, לכל סוגי העור כולל רגיש.",
     size: "ערכה, 4 טיפולים",
     price: null,
-    image: "images/drspicule-firming.jpg",
+    image: "images/drspicule-firming.webp",
     tall: false
   },
   {
@@ -648,7 +648,7 @@ window.PRODUCTS = [
     desc: "פתרונות אקנה: העלמת אקנה ופצעונים, צמצום צלקות אקנה, טיפול בנקבוביות גדולות וויסות מאזן שומן ומים. מכילה חומצה סליצילית, ביסבולול, בטא-גלוקן, פיברונקטין, צרמיד ותערובת של 10 'מכסחי אקנה'. 4 טיפולים, לעור מעורב או שמנוני.",
     size: "ערכה, 4 טיפולים",
     price: null,
-    image: "images/drspicule-acne.jpg",
+    image: "images/drspicule-acne.webp",
     tall: false
   },
   {
@@ -660,7 +660,7 @@ window.PRODUCTS = [
     desc: "אנטי-פיגמנטציה והבהרה: שיפור מראה עור דהוי, הבהרת כתמים כהים, היפרפיגמנטציה ומלזמה, ואיחוד גוון העור. מכילה ניאצין, חומצה טרנקסמית, פוליפפטידים וחומצות נוספות ותוצרי התססה. 4 טיפולים, לעור מעורב, יבש ושמן.",
     size: "ערכה, 4 טיפולים",
     price: null,
-    image: "images/drspicule-pigment.jpg",
+    image: "images/drspicule-pigment.webp",
     tall: false
   },
   {
@@ -672,7 +672,7 @@ window.PRODUCTS = [
     desc: "מערכת אנטי-אייג'ינג בחמישה ממדים: מטריצת קולגן-פפטיד, רכיבי תסס ביולוגיים, הגנה נגד חמצון וגליקציה, ותיקון תאי העור והמחסום העורי. הרמה ומיצוק תוך שיפור האלסטיות, לגוון עור חלק, תפוח וצעיר יותר. כוללת קרם וסרום. לכל סוגי העור כולל רגיש.",
     size: "ערכה: קרם + סרום",
     price: null,
-    image: "images/sqt-homecare-set.jpg",
+    image: "images/sqt-homecare-set.webp",
     tall: false
   },
   {
@@ -684,7 +684,7 @@ window.PRODUCTS = [
     desc: "חידוש והבהרת העור: מקנה גוון אחיד, משפרת את מרקם העור, מטפלת במשקעי המלנין ובכתמי פיגמנטציה ומדכאת את ייצור המלנין. משפרת צלקות פוסט-אקנתיות ישנות. לכל סוגי העור.",
     size: "ערכה",
     price: null,
-    image: "images/sqt-sets.jpg",
+    image: "images/sqt-sets.webp",
     tall: false
   },
   {
@@ -696,7 +696,7 @@ window.PRODUCTS = [
     desc: "סקין בוסטר ללא הזרקה: מתקנת ומחזקת את המחסום האפידרמלי, מחדירה בוסט של לחות ונועלת אותו בעור, ומקנה נפח. מתאימה לשיקום לאחר פלזמה, מיקרונידלינג ופילינג, לכל סוגי העור.",
     size: "ערכה",
     price: null,
-    image: "images/sqt-sets.jpg",
+    image: "images/sqt-sets.webp",
     tall: false
   }
 ];
