@@ -720,7 +720,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .demo-sheet .demo-iframe { z-index: auto; }
 .demo-lock, .demo-lock body { overflow: hidden; overscroll-behavior: none; }
 .p-demo { color: color-mix(in srgb, var(--p) 78%, #fff); font-size: .78rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .1rem; }
-@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo-view { aspect-ratio: 4 / 5; } }
+@media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo-play { inset: auto 0 14px; margin: 0 auto; padding: .75rem 1.2rem; font-size: .82rem; } } /* בטלפון ההדמיה נפתחת על כל המסך, אז כאן רואים את כל התמונה ביחס המקורי */
 
 /* כותרת התהליך: מילה אחת גדולה ושורת הסבר מתחתיה */
 .process-title { display: grid; gap: .7rem; margin: 0 0 1.4rem; font-weight: 400; }
@@ -1316,4 +1316,47 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
   /* הטלפון שליד כל פרויקט נשאר בתוך המסך */
   .p-phone { inset-inline-start: -1%; }
   .project:nth-child(even) .p-phone { inset-inline-end: -1%; }
+}
+
+/* ---------- השוואה בין החבילות: סגורה כברירת מחדל, נפתחת בלחיצה ---------- */
+.compare { margin-top: clamp(28px, 3vw, 44px); border-radius: 26px; border: 1px solid var(--fg-faint); background: rgba(18, 18, 20, .55); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+.compare-toggle {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: clamp(18px, 2vw, 26px) clamp(22px, 3vw, 46px); font-family: var(--f-display); font-size: clamp(1.35rem, 2vw, 1.8rem);
+}
+.compare-toggle::-webkit-details-marker { display: none; }
+.compare-toggle i { position: relative; flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--fg-faint); transition: background .3s, border-color .3s, transform .5s var(--ease); }
+.compare-toggle i::before, .compare-toggle i::after { content: ""; position: absolute; inset: 0; margin: auto; width: 14px; height: 1.5px; background: currentColor; }
+.compare-toggle i::after { transform: rotate(90deg); transition: transform .4s var(--ease); }
+.compare[open] .compare-toggle i { background: var(--signal); border-color: var(--signal); color: var(--ink); }
+.compare[open] .compare-toggle i::after { transform: rotate(0); }
+.compare-toggle:hover i { border-color: var(--signal); }
+.compare-wrap { padding: 0 clamp(14px, 3vw, 46px) clamp(20px, 2.6vw, 38px); }
+.compare[open] .compare-wrap { animation: sr-in .5s var(--ease) both; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.compare-table thead th { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.2rem, 1.8vw, 1.6rem); padding: .4rem .5rem 1rem; text-align: center; }
+.compare-table thead th.cmp-star { color: var(--signal); }
+.compare-table { table-layout: fixed; }
+.compare-table thead td { width: 40%; }
+.compare-table tbody th { text-align: start; font-weight: 400; color: var(--fg); padding: .8rem .5rem .8rem 0; line-height: 1.45; font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1rem; }
+.compare-table td { text-align: center; padding: .8rem .5rem; color: var(--fg-dim); white-space: nowrap; font-size: .8rem; }
+.compare-table tbody tr { border-top: 1px solid var(--fg-faint); }
+.compare-table td:nth-child(3), .compare-table thead th.cmp-star { background: rgba(255, 79, 26, .07); }
+.compare-table td:nth-child(3) { color: var(--fg); }
+.compare-table .cmp-group { border-top: 0; }
+.compare-table .cmp-group th { padding: 1.6rem 0 .6rem; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .04em; color: var(--signal); }
+.compare-table .cmp-group:first-child th { padding-top: .2rem; }
+.cmp-y, .cmp-n { display: inline-block; vertical-align: middle; }
+.cmp-y { width: 22px; height: 22px; border-radius: 50%; background: var(--fg); position: relative; }
+.cmp-y::after { content: ""; position: absolute; left: 7px; top: 5px; width: 5px; height: 9px; border: solid var(--ink); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.compare-table td:nth-child(3) .cmp-y { background: var(--signal); }
+.cmp-n { width: 12px; height: 1.5px; background: var(--fg-faint); }
+@media (max-width: 560px) {
+  .compare-table { font-size: .82rem; }
+  .compare-table thead th { font-size: 1.05rem; padding-inline: .2rem; }
+  .compare-table thead td { width: 38%; }
+  .compare-table tbody th { padding-inline-end: .4rem; font-size: .84rem; }
+  .compare-table td { padding: .7rem .15rem; font-size: .66rem; white-space: normal; }
+  .cmp-y { width: 19px; height: 19px; }
+  .cmp-y::after { left: 6px; top: 4px; width: 4px; height: 8px; }
 }
