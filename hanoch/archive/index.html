@@ -137,9 +137,10 @@ body.gridview .vig, body.lit .vig{ opacity:0; }
 #grid{
   position:fixed; inset:0; z-index:20; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
   padding:calc(var(--pad) * 3.4) var(--pad) calc(var(--pad) * 4);
-  background:#000; opacity:0; pointer-events:none; transition:opacity .6s var(--ease);
+  background:#000; opacity:0; pointer-events:none; transition:opacity .6s var(--ease), filter .6s var(--ease);
 }
 body.gridview #grid{ opacity:1; pointer-events:auto; }
+body.gridview.lit #grid{ opacity:.07; filter:blur(6px); pointer-events:none; }
 body.gridview #stage{ opacity:0; filter:blur(14px); pointer-events:none; }
 #grid .rows{
   display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
@@ -221,6 +222,7 @@ body.gridview .colophon, body.lit .colophon{ opacity:0; }
 .gridbtn b{ display:block; background:#f4f2ef; border-radius:2px; transition:transform .45s var(--ease), background .3s; }
 .gridbtn:hover b{ background:#fff; transform:scale(.86); }
 body.deep .gridbtn, body.gridview .gridbtn{ opacity:1; transform:none; pointer-events:auto; }
+body.lit .gridbtn{ opacity:0; pointer-events:none; }
 body.gridview .gridbtn b:nth-child(1){ transform:translate(3px, 3px); }
 body.gridview .gridbtn b:nth-child(4){ transform:translate(-3px, -3px); }
 
@@ -263,6 +265,8 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
   position:relative; width:min(72vw, 860px, (100vh - 230px) * 1.5);
   transition:transform .62s var(--ease), opacity .42s var(--ease); transform-origin:50% 50%;
 }
+.plate.tall{ width:min(46vw, 520px, (100vh - 250px) * .8); }
+.plate.tall .shot{ aspect-ratio:4/5; }
 .shot{ position:relative; width:100%; aspect-ratio:3/2; border-radius:2px; background:#0b0b0b; box-shadow:0 30px 90px rgba(0,0,0,.75); }
 .shot img{ width:100%; height:100%; object-fit:cover; border-radius:2px; }
 video.live{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; opacity:0; transition:opacity .7s ease; pointer-events:none; }
@@ -330,6 +334,7 @@ video.live.on{ opacity:1; }
   .colophon{ font-size:11px; }
   .meta{ grid-template-columns:1fr; gap:10px; padding-top:14px; }
   .plate{ width:min(92vw, (100dvh - 220px) * 1.5); }
+  .plate.tall{ width:min(80vw, (100dvh - 220px) * .8); }
   #grid .rows{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
   #grid{ padding-top:calc(var(--pad) * 2.8 + var(--safe-top)); }
 }
@@ -348,6 +353,7 @@ video.live.on{ opacity:1; }
   .cue{ display:none; }
   #lit{ display:block; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:calc(52px + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) + var(--safe-bottom)) calc(var(--pad) + var(--safe-left)); }
   .plate{ width:100%; max-width:560px; margin:0 auto; }
+  .plate.tall{ width:100%; max-width:420px; }
   #litTitle{ font-size:clamp(20px, 5.6vw, 26px); }
   .note{ font-size:12.5px; line-height:1.58; }
   .shot .close{ top:8px; left:8px; }
@@ -369,6 +375,7 @@ video.live.on{ opacity:1; }
   #lit{ padding-top:calc(36px + var(--safe-top)); }
   .meta{ padding-top:10px; }
   .plate{ width:min(58vw, (100dvh - 80px) * 1.5); }
+  .plate.tall{ width:min(40vw, (100dvh - 80px) * .8); }
   header.chrome{ padding-top:calc(8px + var(--safe-top)); }
 }
 @media (prefers-reduced-motion:reduce){
@@ -458,31 +465,41 @@ video.live.on{ opacity:1; }
   // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
   var SHOTS = [
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
+    ['gallery/vase.webp', 'לפני ואחרי', 'צילום מוצר · בינה מלאכותית', 'צילום טלפון של אגרטל על שיש המטבח הפך לצילום סטודיו: אור של חלון, צל של עלים ובמה מאבן. בלי צלם ובלי סטודיו.', '../index.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. שפה של קבוצת בנייה גדולה, ועכשיו גם סיור 360° בחוות גנרטורים, בעברית ובאנגלית.', '../work.html#gotovski'],
     ['live/cafe.webp', 'בוקר בבית הקפה', 'תמונה חיה · בתי קפה ומסעדות', 'אספרסו שנמזג ואדים שעולים מהכוס. במקום תמונה עומדת בראש האתר, רגע שכמעט מריחים דרך המסך.', '', 0, 'live/cafe'],
     ['sim-poster.webp', 'הפסקת חשמל', 'הדמיה חיה · ש. גוטובסקי', 'חוות שרתים בתלת־ממד. לוחצים על הכפתור האדום, הרשת נופלת, והגנרטורים מתניעים על מערכת הדלק. זה לא סרטון, זה רץ בדפדפן.', '../sim/data-center/index.html'],
+    ['gallery/pedi.webp', 'צוות הלכה', 'רותם גוטובסקי · אנימציה', 'צוות זעיר צובע ציפורן אדומה ענקית, עם סולם, מברשות ומלקחיים. ככה האתר מסביר פדיקור טיפולי, בחיוך.', '../work.html#clinic', 1, 'gallery/pedi'],
     ['cinema/ams.webp', 'AMS', 'אביב משה שדמון · אגרוף תאילנדי', 'האתר זז כמו שאביב זז. התנועה נלקחה מסרטון אמיתי שלו, הועברה לדמות מונפשת, והגלילה של המבקר היא שמניעה אותה.', '../work.html#ams'],
     ['cinema/allenbis.webp', 'אלנביס', 'חנות משלוחים · 199 מוצרים', 'אותה חנות ואותם מחירים, עם פי 24 פחות JavaScript. עכשיו היא גם מציעה מוצרים שסוגרים את הפער למשלוח חינם, מסובבת גלגל מזל ומדברת אנגלית.', '../work.html#allenbis'],
     ['live/home.webp', 'בית מול הים', 'תמונה חיה · נדל״ן ויזמות', 'הווילון זז ברוח והים מנצנץ בשקיעה. הקונה מרגיש את הדירה עוד לפני שהגיע אליה.', '', 0, 'live/home'],
+    ['gallery/screens.webp', 'הכול באור אחד', 'מתוך סרט התדמית', 'ארבעה מהאתרים שבניתי תלויים באולם חשוך באור כתום: ש. גוטובסקי, AMS, רותם גוטובסקי וקייטרינג 4X4.', '../work.html', 0, ''],
     ['tours/ext.webp', 'בניין שעוד לא נבנה', 'סיור וידאו · מבחוץ', 'סיור שיצרתי בבינה מלאכותית מתוך ההדמיות של פרויקט מגורים: הבניין, המעגנה והגג, עוד לפני שהונחה אבן.', '../work.html#tours'],
     ['tours/int.webp', 'הדירה מבפנים', 'סיור וידאו · מבפנים', 'מתוך תוכנית הדירה: סלון, מטבח ומרפסת באור של אחר הצהריים. הקונים רואים את הבית לפני שהוא קיים.', '../work.html#tours'],
+    ['gallery/courier.webp', 'בדרך אליך', 'אלנביס · איור', 'השליח של אלנביס רוכב בין הבניינים הלבנים של תל אביב. דמות אחת שמלווה את כל החנות, מהבאנר ועד המבצעים.', '../work.html#allenbis', 0, ''],
     ['cinema/clinic.webp', 'רותם גוטובסקי', 'קוסמטיקה טיפולית · אתר וחנות', 'האתר מתחיל מהבעיה של המטופלת ולא מרשימת טיפולים. ענפי דובדבן פורחים ברקע, ועוזרת אישית שעונה מכל מה שכתוב באתר וקובעת תור.', '../work.html#clinic'],
     ['live/serum.webp', 'טיפה אחת', 'תמונה חיה · קוסמטיקה וטיפוח', 'טיפת סרום נופלת ומשאירה אדווה עדינה. יוקרה שקטה לקליניקה או למותג טיפוח.', '', 0, 'live/serum'],
     ['bg/crystal.webp', 'שבועיים', 'תהליך העבודה · דף הבית', 'פרח קריסטל שנפתח ונסגר בקצב של נשימה, מעל חמשת השלבים: מהשיחה הראשונה ועד שהאתר באוויר.', '../index.html#process'],
+    ['gallery/trophy.webp', 'החתימה', 'סמל החבילה העליונה · דף הבית', 'גביע קריסטל עם הילה כתומה, הסמל של חבילת "חתימה". זכוכית, אור וזהב, כמו האתר שהיא מבטיחה.', '../index.html#pricing', 1, ''],
     ['cinema/falafel.webp', 'קייטרינג 4X4', 'פלאפל וסביח לאירועים', 'האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק, ומחשבון הצעה בצורת פתק הזמנה שנשלח לניסים בוואטסאפ.', '../work.html#falafel'],
     ['bg/dark.webp', 'לילה', 'רקע המצב הכהה · דף הבית', 'השמיים מסתחררים מעל דמות קטנה בשדה. זה הרקע שמופיע כשעוברים למצב כהה.', ''],
     ['live/gym.webp', 'רגע לפני הסט', 'תמונה חיה · סטודיו לכושר', 'אבק מגנזיום מרחף באלומת אור. האנרגיה של אימון, בלי להראות אף אחד.', '', 0, 'live/gym'],
+    ['gallery/crew.webp', 'צוות הסרום', 'רותם גוטובסקי · אנימציה', 'פועלים זעירים מלטשים טיפת סרום ענקית. הפתיחה של האתר, שמראה כמה עבודה נכנסת בכל טיפול.', '../work.html#clinic', 1, 'gallery/crew'],
     ['bg/light.webp', 'אור', 'רקע המצב הבהיר · דף הבית', 'אותה דמות, על צוק מעל העננים בשקיעה. הצד השני של אותו רגע.', ''],
     ['cinema/rachel.webp', 'רחלי הורנשטיין', 'שיעורי מתמטיקה בזום', 'האתר נראה כמו מחברת חשבון טובה. בדיקת רמה בדקה, שבה רחלי מסבירה כל תשובה בכתב יד, וערכת משחקים במתנה שעוברת מהורה להורה.', '../work.html#rachel'],
     ['systems/ai.webp', 'עוזר חכם', 'מערכות · בינה מלאכותית ותלת־ממד', 'כדור של אש בין קוביות זכוכית: הסמל של עוזר שעונה ללקוחות באתר, ביום ובלילה.', '../index.html#pricing'],
+    ['gallery/fighter.webp', 'הברך התאילנדית', 'AMS · פריים מתוך הפתיח', 'אביב בזירה, מצויר מתוך סרטון אמיתי שלו. אחד מ־13 הפריימים שהגלילה מניעה באתר.', '../work.html#ams', 1, ''],
     ['live/office.webp', 'שולחן של אמון', 'תמונה חיה · עורכי דין ורואי חשבון', 'אור של אחר הצהריים זז לאט על השולחן. משרד מקצועי שמשדר רוגע וביטחון.', '', 0, 'live/office'],
     ['systems/sell.webp', 'חנות אונליין', 'מערכות · מכירות ותשלומים', 'שקית קניות מזכוכית כתומה. קטלוג, עגלה ותשלום, בלי לצאת מהאתר.', '../index.html#pricing'],
     ['bg/meadow.webp', 'שדה', 'רקע המניפסט · דף הבית', 'פרחי בר ברוח, מאחורי "אני לא בונה אתרים". הדבר הראשון שרואים אחרי הצלילה דרך ה־ח.', '../index.html'],
+    ['gallery/movie.webp', 'ערב סרט', 'אלנביס · איור למבצע', 'פופקורן, קולה וספה. כל מבצע בחנות מקבל סצנה משלו, כדי שהלקוח יראה את הרגע ולא רק את המוצרים.', '../work.html#allenbis', 0, ''],
     ['systems/brand.webp', 'שפה מותגית', 'מערכות · מותג ותוכן', 'עט נובע שמטפטף כתום. לוגו, צבעים וגופנים שנבנים יחד עם האתר.', '../index.html#pricing'],
     ['live/ring.webp', 'ניצוץ', 'תמונה חיה · תכשיטים ואופנה', 'היהלום מנצנץ באור חם. התמונה הראשונה בחנות, זו שגורמת לעצור ולהסתכל.', '', 0, 'live/ring'],
+    ['gallery/bloom.webp', 'פריחה', 'רותם גוטובסקי · רקע חי', 'ענפי דובדבן פורחים שנעים ברכות מאחורי כל עמוד באתר של הקליניקה.', '../work.html#clinic', 0, 'gallery/bloom'],
     ['systems/grow.webp', 'צמיחה', 'מערכות · שיווק וצמיחה', 'עמודות שעולות אל האור. קידום, דפי נחיתה ומדידה של מה שבאמת מביא פניות.', '../index.html#pricing'],
     ['systems/ops.webp', 'ניהול', 'מערכות · ניהול ואוטומציה', 'קוביות שמתחברות לגלגל שיניים. תורים, חשבוניות ופאנל ניהול שעובדים לבד.', '../index.html#pricing'],
     ['me/character.webp', 'חנוך', 'הדמות שלי · דף הבית', 'הדמות שמחייכת בפתיחה של האתר. היא זזה, נושמת ומסתכלת אליכם. זה אני, בערך.', '../index.html', 1],
+    ['gallery/bodymind.webp', 'גוף ונפש', 'AMS · אימון אישי', 'אביב מודט על צוק מעל ים של עננים בזריחה. התמונה של שירות הגוף והנפש באתר.', '../work.html#ams', 0, ''],
     ['broken.webp', 'הדף שלא נמצא', 'עמוד 404', 'ח מזכוכית שהתנפצה. גם דף שלא קיים צריך להיראות כמו שאר האתר.', '']
   ];
   var N = SHOTS.length;
@@ -530,7 +547,7 @@ video.live.on{ opacity:1; }
     var floor = w <= 380 ? 108 : w <= 640 ? 120 : 155;
     R = Math.max(floor, Math.min(480, h * hr, w * wr));
     var sc = w <= 380 ? 0.44 : w <= 640 ? 0.46 : 0.47;
-    cw = Math.round(Math.max(72, R * sc));
+    cw = Math.round(Math.max(72, R * sc * Math.min(1, Math.sqrt(24 / N)))); // יותר עבודות, כרטיסים קטנים יותר, כדי שהכותרת תישאר נקייה
     persp = w <= 380 ? 620 : w <= 640 ? 760 : w <= 900 ? 920 : 1150;
     root.style.setProperty('--persp', persp + 'px');
     root.style.setProperty('--cw', cw + 'px');
@@ -802,6 +819,7 @@ video.live.on{ opacity:1; }
     litVid.classList.remove('on'); litVid.pause();
     if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
     else litVid.removeAttribute('src');
+    plate.classList.toggle('tall', !!s[5]);
     $('#litTitle').textContent = s[1];
     $('#litWhere').textContent = s[2];
     $('#litNote').textContent = s[3];
