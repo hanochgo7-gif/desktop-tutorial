@@ -51,14 +51,14 @@
   var DATA = {
     gotovski: {
       name: 'ש. גוטובסקי', sub: 'תשתיות דלק מאז 1972', kind: 'עיצוב ובנייה מחדש · עברית / English', url: 'gotovski.co.il', color: '#1c82ad',
-      story: 'חברה משפחתית שבונה תחנות דלק מאז 1972, עם לקוחות כמו פז, סונול ואמזון, ואתר שלא שידר שום דבר מזה. בניתי שפה שמרגישה כמו קבוצת בנייה גדולה: טיפוגרפיה כבדה, צילום על כל המסך, ותנועה בטוחה ושקולה כמו מנוף.',
+      story: 'חברה משפחתית שבונה תחנות דלק מאז 1972, עם לקוחות כמו פז, סונול ואמזון, ואתר שלא שידר שום דבר מזה. בניתי שפה שמרגישה כמו קבוצת בנייה גדולה: טיפוגרפיה כבדה, צילום על כל המסך, ותנועה בטוחה ושקולה כמו מנוף. בסבב האחרון נוסף סיור 360° בחוות גנרטורים, והאתר נעשה קל ונוח יותר בטלפון.',
       points: [
-        'הדמיה חיה של הפסקת חשמל בחוות שרתים: רואים בזמן אמת איך מערכת הדלק מחזיקה את הגנרטורים. בעברית ובאנגלית.',
-        'פרויקטים בגלילה אופקית מוצמדת, ורשימת תחומים עם תמונה שעוקבת אחרי העכבר.',
-        'מעבר דומיין בלי לאבד דירוג: כל כתובת ישנה שגוגל מכיר מופנית לעמוד המתאים באתר החדש.',
-        'תפריט נגישות עם עצירת אנימציות, ואתר בלי תנועה למי שביקש את זה ממערכת ההפעלה.'
+        'סיור 360° בחוות גנרטורים בעברית ובאנגלית: חמש נקודות מחצר הגנרטורים ועד חדר המשאבות, ותוכנית אתר שמראה לאן מסתכלים.',
+        'הדמיה חיה של הפסקת חשמל בחוות שרתים: רואים בזמן אמת איך מערכת הדלק מחזיקה את הגנרטורים.',
+        'דף היכרות באנגלית להורדה כ-PDF מעמוד חוות השרתים, שנבנה רק ממה שכבר כתוב באתר.',
+        'מעבר דומיין בלי לאבד דירוג: כל כתובת ישנה שגוגל מכיר מופנית לעמוד המתאים באתר החדש.'
       ],
-      metrics: [['טעינה בטלפון (LCP)', '2.9s', '1.7s'], ['משקל העמוד', '1.26MB', '0.9MB']],
+      metrics: [['טעינה בטלפון (LCP)', '2.9s', '1.7s'], ['משקל העמוד', '1.26MB', '0.9MB'], ['וידאו הפתיחה בטלפון', '1.3MB', '370KB']],
       palette: ['#111111', '#1c82ad', '#4fbbea', '#ede8de'], fonts: ['Heebo', 'Frank Ruhl Libre', 'Cousine']
     },
     ams: {
@@ -75,46 +75,47 @@
     },
     allenbis: {
       name: 'אלנביס', sub: 'שתייה, חטיפים ומה שביניהם עד הבית', kind: 'שיפור חנות קיימת · בלי ספריות', url: 'allenbis.co.il', color: '#ffd84d',
-      story: 'חנות משלוחים שכבר עבדה ומכרה, אבל רצה על שתי חבילות React כבדות, ולקוח בטלפון חיכה. בניתי אותה מחדש בלי ספריות בכלל: אותו קטלוג של 199 מוצרים ואותם מחירים, עם פי 24 פחות JavaScript.',
+      story: 'חנות משלוחים שכבר עבדה ומכרה, אבל רצה על שתי חבילות React כבדות, ולקוח בטלפון חיכה. בניתי אותה מחדש בלי ספריות בכלל: אותו קטלוג של 199 מוצרים ואותם מחירים, עם פי 24 פחות JavaScript. עכשיו היא גם מגדילה את הסל, מדברת אנגלית ומופיעה בגוגל.',
       points: [
         'בונה סל לפי תקציב: כותבים סכום ומקבלים סל מוכן.',
-        'מחליקים מוצר כדי להסיר אותו מהסל, עם אפשרות לבטל.',
-        'אימות גיל למוצרי 18+, וחיפוש שמבין מילים נרדפות.',
-        'שלט ניאון "פתוח 24/7" ומצב לילה, לחנות שעובדת גם בלילה.'
+        'כשחסר קצת למשלוח חינם הסל מציע מוצרים שסוגרים את הפער, ומעל 80 ₪ מסובבים גלגל מזל שבו כל סיבוב זוכה.',
+        'בטופס ההזמנה האתר בודק שהרחוב באזור המשלוחים, גם עם שגיאת כתיב קטנה, וההזמנה יוצאת לחנות בוואטסאפ.',
+        'כפתור EN מעביר את כל החנות לאנגלית בשביל תיירים, ולמוצרים ולקטגוריות יש עמודים נפרדים שגוגל מוצא.'
       ],
       metrics: [['JavaScript', '480KB', '20KB'], ['נתונים בטעינה', '950KB', '365KB'], ['בקשות לשרת', '32', '19'], ['הצגה ראשונה', '260ms', '75ms']],
       palette: ['#1b4396', '#ffd84d', '#c8102e', '#0a0f1e'], fonts: ['Secular One', 'Assistant']
     },
     clinic: {
-      name: 'רותם גוטובסקי', sub: 'קליניקה לקוסמטיקה טיפולית', kind: 'אתר וחנות · טיפול לפי מטרה', url: 'רותם גוטובסקי · p.m.e', color: '#c98f8a',
-      story: 'רותם מטפלת לפי מטרה ולא לפי מכשיר, אז גם האתר מתחיל מהבעיה של המטופלת ולא מרשימת טיפולים. נייר רך, סריף עדין, ואיורים של צוות זעיר שעובד על המוצרים.',
+      name: 'רותם גוטובסקי', sub: 'קליניקה לקוסמטיקה טיפולית', kind: 'אתר, חנות ועוזרת אישית · טיפול לפי מטרה', url: 'רותם גוטובסקי · p.m.e', color: '#c98f8a',
+      story: 'רותם מטפלת לפי מטרה ולא לפי מכשיר, ולכן גם האתר מתחיל מהבעיה של המטופלת ולא מרשימת טיפולים. מאחורי כל עמוד נעים ברכות ענפי דובדבן פורחים, ומעליהם זכוכית בגוון שמנת וסריף עדין. ועכשיו יש באתר גם עוזרת אישית שעונה מכל מה שכתוב בו ויודעת לקבוע תור.',
       points: [
-        'מאתר טיפול: בוחרים מה מפריע, אקנה, צלקות, פיגמנטציה או קמטים, ומגיעים לטיפול הנכון.',
-        'חנות מוצרים עם סינון לפי מותג וסוג, חיפוש, מיון ותצוגה מהירה.',
-        'הסרת שיער בלייזר ופדיקור טיפולי לסוכרתיים, כל אחד עם הסבר משלו.',
-        'לפני ואחרי, שאלות נפוצות וקביעת תור.'
+        'עוזרת אישית בכל עמוד, שעונה על טיפולים, מחירים, שעות ומוצרים מתוך התוכן של האתר ומבינה גם ניסוח חופשי ושאלות המשך.',
+        'קביעת תור בתוך הצ\'אט: שם, טלפון, מטרה ושעה נוחה, ובלחיצה אחת הבקשה נשלחת לרותם בוואטסאפ.',
+        '"מה מפריע לך?" כבר בפתיחה: אקנה, כתמים, קמטים, שיער או כפות רגליים, וכל בחירה מובילה ישר למדריך המתאים.',
+        'חנות מוצרים עם סינון, חיפוש ותצוגה מהירה, ותמונות קלות פי חמישה שנטענות מהר גם בנייד.'
       ],
-      palette: ['#fbf2ec', '#f0c7c2', '#c98f8a', '#000000'], fonts: ['Noto Serif Hebrew', 'Assistant']
+      palette: ['#fbf2ec', '#f0c7c2', '#c98f8a', '#000000'], fonts: ['Noto Serif Hebrew', 'Assistant'],
+      metrics: [['משקל התמונות', '14.9MB', '2.9MB']]
     },
     falafel: {
-      name: 'קייטרינג 4X4', sub: 'ניסים שרון · פלאפל וסביח לאירועים', kind: 'אתר חדש · שפה של דוכן רחוב', url: 'קייטרינג 4X4', color: '#f2b705',
-      story: 'ניסים שרון מגיע עם ג׳יפ 4X4 לכל מקום, ממצוקי דרגות ועד שולחן על חוף ים המלח. האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק, והאוכל בחזית.',
+      name: 'קייטרינג 4X4', sub: 'ניסים שרון · פלאפל וסביח לאירועים', kind: 'אתר חדש · דוכן רחוב עם מחשבון הצעה', url: 'קייטרינג 4X4', color: '#f2b705',
+      story: 'ניסים שרון מגיע עם ג׳יפ 4X4 לכל מקום, ממצוקי דרגות ועד שולחן על חוף ים המלח. האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק וקווי גובה של מפת שטח ברקע. ועכשיו אפשר לבנות בו את האירוע בדקה ולשלוח לניסים הצעה מסודרת בלחיצה.',
       points: [
-        'כותרות ענקיות בסגנון כרזה, וצבעים שנלקחו מהלוגו ומהאיור.',
-        'אירועים אמיתיים מהשטח: מצוקי דרגות, ים המלח, המכביה בחיפה.',
-        'מצב כהה מלא, לגלישה בערב שלפני האירוע.',
-        'וואטסאפ וטלפון בהישג יד מכל מקום בעמוד.'
+        'מחשבון הצעה בצורת פתק הזמנה: בוחרים אורחים, דוכנים ותוספות, ורואים מיד כמה כדורי פלאפל, פיתות וצ׳יפס צריך.',
+        'ההצעה נשלחת לניסים בוואטסאפ עם מספר הזמנה וכל הפרטים, ואפשר גם לשמור אותה כ-PDF.',
+        'התפריט בנוי משלושה כרטיסים גדולים שנערמים בגלילה, עם כפתור ״להוסיף להצעה״ ושלוש חבילות מוכנות.',
+        'תפריט נגישות והצהרת נגישות, מצב כהה מלא, ופס קבוע בנייד עם הצעת מחיר וטלפון.'
       ],
       palette: ['#151314', '#f2b705', '#22b8dc', '#f1e7d0'], fonts: ['Karantina', 'Rubik']
     },
     rachel: {
       name: 'רחלי הורנשטיין', sub: 'שיעורי מתמטיקה פרטיים בזום', kind: 'אתר חדש · מחברת משבצות', url: 'rachelimath', color: '#2d8cff',
-      story: 'הורה שמחפש מורה פרטית צריך להרגיש תוך חמש שניות שהילד בידיים טובות. לכן האתר נראה כמו מחברת חשבון טובה: נייר משבצות, כתב יד, ופנים אמיתיות של מורה עם 28 שנות ניסיון.',
+      story: 'הורה שמחפש מורה פרטית צריך להרגיש תוך חמש שניות שהילד בידיים טובות. לכן האתר נראה כמו מחברת חשבון טובה: נייר משבצות, כתב יד, ופנים אמיתיות של מורה עם 28 שנות ניסיון. עכשיו ההורה גם רואה איך רחלי מסבירה, עוד לפני שיחת ההיכרות.',
       points: [
-        'רקע של מחברת משבצות וכותרות בכתב יד.',
-        'שאלות נפוצות שעונות על החששות של ההורים: האם זום עובד, מה עם ילד ביישן, האם יש התחייבות.',
-        'מחירים שקופים לשיעור יחיד, לזוג ולקבוצה.',
-        'נתונים מובנים לגוגל (עסק מקומי ושאלות נפוצות), ושיעור ניסיון בלחיצה בוואטסאפ.'
+        'בדיקת רמה בדקה: שלוש שאלות לפי שכבת גיל, ואחרי כל תשובה רחלי מסבירה בכתב יד, שלב אחרי שלב.',
+        'התוצאה נשלחת לרחלי בוואטסאפ עם הנושאים שכדאי לחזק, כך ששיחת ההיכרות מתחילה מהמקום הנכון.',
+        'ערכת מתנה שהורים מבקשים בוואטסאפ: שישה משחקים ותרגילים לטלפון בלי הרשמה, מלוח הכפל ועד משוואות, דפי עבודה להדפסה וחידה חדשה כל יום.',
+        'כל משחק נגמר בקישור לאתגר חבר ובקישור לרחלי, כך שהמתנה עוברת מהורה להורה.'
       ],
       palette: ['#1e3a8a', '#fffdf9', '#f28c9b', '#fff0ad', '#1fae82'], fonts: ['Assistant', 'Amatic SC', 'Secular One']
     }
@@ -123,14 +124,14 @@
     var DATA_EN = {
       gotovski: {
         name: 'S. Gotovski', sub: 'Fuel infrastructure since 1972', kind: 'Redesign and rebuild · Hebrew / English', url: 'gotovski.co.il',
-        story: 'A family company building fuel stations since 1972, with clients like Paz, Sonol and Amazon, and a website that said none of it. I built a language that feels like a major construction group: heavy type, full-screen photography, and motion that is calm and certain, like a crane.',
+        story: 'A family company building fuel stations since 1972, with clients like Paz, Sonol and Amazon, and a website that said none of it. I built a language that feels like a major construction group: heavy type, full-screen photography, and motion that is calm and certain, like a crane. The latest round added a 360° tour of a generator farm and made the site lighter and easier to use on a phone.',
         points: [
-          'A live simulation of a power outage at a data center: watch in real time how the fuel system keeps the generators running. In Hebrew and English.',
-          'Projects in a pinned horizontal scroll, and a list of services with an image that follows the cursor.',
-          'A domain move without losing rank: every old address Google knows redirects to the matching page on the new site.',
-          'An accessibility menu that can stop animations, and a motion-free site for anyone who asked for it in their system settings.'
+          'A 360° tour of a generator farm in Hebrew and English: five stops from the generator yard to the pump room, with a site plan that shows where you are looking.',
+          'A live simulation of a power outage at a data center: watch in real time how the fuel system keeps the generators running.',
+          'An English capability statement to download as a PDF from the data center page, built only from what the site already says.',
+          'A domain move without losing rank: every old address Google knows redirects to the matching page on the new site.'
         ],
-        metrics: [['Mobile load (LCP)', '2.9s', '1.7s'], ['Page weight', '1.26MB', '0.9MB']]
+        metrics: [['Mobile load (LCP)', '2.9s', '1.7s'], ['Page weight', '1.26MB', '0.9MB'], ['Mobile intro video', '1.3MB', '370KB']]
       },
       ams: {
         sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'New site · real motion from video', url: 'ams · Aviv Moshe Shadmon',
@@ -144,43 +145,44 @@
       },
       allenbis: {
         name: 'Allenbis', sub: 'Drinks, snacks and everything between, delivered', kind: 'Upgrading a live store · no libraries', url: 'allenbis.co.il',
-        story: 'A delivery store that already worked and sold, but ran on two heavy React bundles, and customers on their phones were kept waiting. I rebuilt it with no libraries at all: the same 199-product catalog and the same prices, with 24 times less JavaScript.',
+        story: 'A delivery store that already worked and sold, but ran on two heavy React bundles, and customers on their phones were kept waiting. I rebuilt it with no libraries at all: the same 199-product catalog and the same prices, with 24 times less JavaScript. Now it also grows the basket, speaks English and shows up on Google.',
         points: [
           'A budget basket builder: type an amount and get a ready basket.',
-          'Swipe a product to remove it from the basket, with undo.',
-          'Age verification for 18+ products, and search that understands synonyms.',
-          'An "Open 24/7" neon sign and a night mode, for a store that works through the night.'
+          'When an order is a little short of free delivery, the cart suggests products that close the gap, and orders over ₪80 get a lucky wheel where every spin wins.',
+          'The order form checks that the street is in the delivery area, even with a small typo, and the order goes to the store on WhatsApp.',
+          'An EN button switches the whole store to English for tourists, and products and categories get their own pages that Google can find.'
         ],
         metrics: [['JavaScript', '480KB', '20KB'], ['Data on load', '950KB', '365KB'], ['Server requests', '32', '19'], ['First paint', '260ms', '75ms']]
       },
       clinic: {
-        name: 'Rotem Gotovski', sub: 'Therapeutic cosmetics clinic', kind: 'Site and shop · treatment by goal', url: 'Rotem Gotovski · p.m.e',
-        story: 'Rotem treats by goal, not by machine, so the site also starts from the client\'s problem rather than a list of treatments. Soft paper, a delicate serif, and illustrations of a tiny crew working on the products.',
+        name: 'Rotem Gotovski', sub: 'Therapeutic cosmetics clinic', kind: 'Site, shop and personal assistant · treatment by goal', url: 'Rotem Gotovski · p.m.e',
+        story: 'Rotem treats by goal, not by machine, so the site also starts from the client\'s problem rather than a list of treatments. Cherry-blossom branches sway softly behind every page, under cream-colored glass and a delicate serif. And now the site has a personal assistant that answers from everything on it and can book an appointment.',
         points: [
-          'A treatment finder: pick what bothers you, acne, scars, pigmentation or wrinkles, and land on the right treatment.',
-          'A product shop with brand and type filters, search, sorting and quick view.',
-          'Laser hair removal and medical pedicure for diabetics, each with its own explanation.',
-          'Before and after, FAQs and booking.'
-        ]
+          'A personal assistant on every page that answers questions about treatments, prices, hours and products from the site\'s own content, and understands loose wording and follow-up questions.',
+          'Booking inside the chat: name, phone, goal and a convenient time, then one tap sends the request to Rotem on WhatsApp.',
+          '"What bothers you?" right at the top: acne, spots, wrinkles, hair or feet, and each choice leads straight to the right guide.',
+          'A product shop with filters, search and quick view, and images five times lighter that load fast on a phone.'
+        ],
+        metrics: [['Image weight', '14.9MB', '2.9MB']]
       },
       falafel: {
-        name: '4X4 Catering', sub: 'Nissim Sharon · falafel and sabich for events', kind: 'New site · the language of a street stall', url: '4X4 Catering',
-        story: 'Nissim Sharon drives his 4X4 jeep anywhere, from the Dragot cliffs to a table on the Dead Sea shore. The site talks like a good street stall: sunshine yellow, market-poster headlines, and the food up front.',
+        name: '4X4 Catering', sub: 'Nissim Sharon · falafel and sabich for events', kind: 'New site · a street stall with a quote builder', url: '4X4 Catering',
+        story: 'Nissim Sharon drives his 4X4 jeep anywhere, from the Dragot cliffs to a table on the Dead Sea shore. The site talks like a good street stall: sunshine yellow, market-poster headlines, and the contour lines of a terrain map in the background. Now visitors can plan their event in a minute and send Nissim a tidy quote in one tap.',
         points: [
-          'Huge poster-style headlines, and colors taken from the logo and the illustration.',
-          'Real events from the field: the Dragot cliffs, the Dead Sea, the Maccabiah in Haifa.',
-          'A full dark mode, for browsing the evening before the event.',
-          'WhatsApp and phone within reach from anywhere on the page.'
+          'A quote builder shaped like an order slip: pick guests, stations and extras, and see right away how many falafel balls, pitas and fries it takes.',
+          'The quote goes to Nissim on WhatsApp with an order number and every detail, and can also be saved as a PDF.',
+          'The menu is three large cards that stack as you scroll, each with an "add to quote" button, plus three ready packages.',
+          'An accessibility menu and statement, a full dark mode, and a fixed mobile bar with the quote and a call button.'
         ]
       },
       rachel: {
         name: 'Racheli Hornstein', sub: 'Private math lessons on Zoom', kind: 'New site · a squared notebook', url: 'rachelimath',
-        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good math notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience.',
+        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good math notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience. Now parents also see how Racheli explains, before the first call.',
         points: [
-          'A squared-notebook background and handwritten headlines.',
-          'FAQs that answer parents\' worries: does Zoom work, what about a shy child, is there a commitment.',
-          'Clear prices for a single lesson, a pair and a group.',
-          'Structured data for Google (local business and FAQs), and a trial lesson in one tap on WhatsApp.'
+          'A one-minute level check: three questions by grade, and after each answer Racheli explains it in handwriting, step by step.',
+          'The result goes to Racheli on WhatsApp with the topics to work on, so the first call starts in the right place.',
+          'A free gift kit parents request on WhatsApp: six phone games and exercises with no sign-up, from times tables to equations, printable worksheets and a new riddle every day.',
+          'Every game ends with a link to challenge a friend and a link to Racheli, so the gift travels from parent to parent.'
         ]
       }
     };
