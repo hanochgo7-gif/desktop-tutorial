@@ -265,6 +265,10 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 }
 .shot{ position:relative; width:100%; aspect-ratio:3/2; border-radius:2px; background:#0b0b0b; box-shadow:0 30px 90px rgba(0,0,0,.75); }
 .shot img{ width:100%; height:100%; object-fit:cover; border-radius:2px; }
+video.live{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; opacity:0; transition:opacity .7s ease; pointer-events:none; }
+video.live.on{ opacity:1; }
+.live-tag{ position:absolute; top:10px; inset-inline-start:10px; width:8px; height:8px; border-radius:50%; background:#ff4f1a; box-shadow:0 0 0 0 rgba(255,79,26,.6); animation:livePulse 1.8s ease-out infinite; }
+@keyframes livePulse{ 0%{ box-shadow:0 0 0 0 rgba(255,79,26,.6); } 100%{ box-shadow:0 0 0 10px rgba(255,79,26,0); } }
 .shot .close{
   position:absolute; top:12px; left:14px; font-size:12.5px; min-width:44px; min-height:44px; padding:10px 14px;
   border:1px solid rgba(244,242,239,.78); border-radius:6px; background:rgba(0,0,0,.35); color:#f4f2ef;
@@ -422,7 +426,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 <div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true">
   <div class="scrim" data-close></div>
   <div class="plate">
-    <div class="shot"><img id="litImg" alt=""><button class="close" type="button" data-close>סגירה</button></div>
+    <div class="shot"><img id="litImg" alt=""><video id="litVid" class="live" muted loop playsinline aria-hidden="true"></video><button class="close" type="button" data-close>סגירה</button></div>
     <div class="meta">
       <div><h2 id="litTitle"></h2><p class="where" id="litWhere"></p></div>
       <div><p class="note" id="litNote"></p><a class="more" id="litMore" hidden>לסיפור המלא ←</a></div>
@@ -455,21 +459,27 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
   var SHOTS = [
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
     ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. שפה של קבוצת בנייה גדולה, ועכשיו גם סיור 360° בחוות גנרטורים, בעברית ובאנגלית.', '../work.html#gotovski'],
+    ['live/cafe.webp', 'בוקר בבית הקפה', 'תמונה חיה · בתי קפה ומסעדות', 'אספרסו שנמזג ואדים שעולים מהכוס. במקום תמונה עומדת בראש האתר, רגע שכמעט מריחים דרך המסך.', '', 0, 'live/cafe'],
     ['sim-poster.webp', 'הפסקת חשמל', 'הדמיה חיה · ש. גוטובסקי', 'חוות שרתים בתלת־ממד. לוחצים על הכפתור האדום, הרשת נופלת, והגנרטורים מתניעים על מערכת הדלק. זה לא סרטון, זה רץ בדפדפן.', '../sim/data-center/index.html'],
     ['cinema/ams.webp', 'AMS', 'אביב משה שדמון · אגרוף תאילנדי', 'האתר זז כמו שאביב זז. התנועה נלקחה מסרטון אמיתי שלו, הועברה לדמות מונפשת, והגלילה של המבקר היא שמניעה אותה.', '../work.html#ams'],
     ['cinema/allenbis.webp', 'אלנביס', 'חנות משלוחים · 199 מוצרים', 'אותה חנות ואותם מחירים, עם פי 24 פחות JavaScript. עכשיו היא גם מציעה מוצרים שסוגרים את הפער למשלוח חינם, מסובבת גלגל מזל ומדברת אנגלית.', '../work.html#allenbis'],
+    ['live/home.webp', 'בית מול הים', 'תמונה חיה · נדל״ן ויזמות', 'הווילון זז ברוח והים מנצנץ בשקיעה. הקונה מרגיש את הדירה עוד לפני שהגיע אליה.', '', 0, 'live/home'],
     ['tours/ext.webp', 'בניין שעוד לא נבנה', 'סיור וידאו · מבחוץ', 'סיור שיצרתי בבינה מלאכותית מתוך ההדמיות של פרויקט מגורים: הבניין, המעגנה והגג, עוד לפני שהונחה אבן.', '../work.html#tours'],
     ['tours/int.webp', 'הדירה מבפנים', 'סיור וידאו · מבפנים', 'מתוך תוכנית הדירה: סלון, מטבח ומרפסת באור של אחר הצהריים. הקונים רואים את הבית לפני שהוא קיים.', '../work.html#tours'],
     ['cinema/clinic.webp', 'רותם גוטובסקי', 'קוסמטיקה טיפולית · אתר וחנות', 'האתר מתחיל מהבעיה של המטופלת ולא מרשימת טיפולים. ענפי דובדבן פורחים ברקע, ועוזרת אישית שעונה מכל מה שכתוב באתר וקובעת תור.', '../work.html#clinic'],
+    ['live/serum.webp', 'טיפה אחת', 'תמונה חיה · קוסמטיקה וטיפוח', 'טיפת סרום נופלת ומשאירה אדווה עדינה. יוקרה שקטה לקליניקה או למותג טיפוח.', '', 0, 'live/serum'],
     ['bg/crystal.webp', 'שבועיים', 'תהליך העבודה · דף הבית', 'פרח קריסטל שנפתח ונסגר בקצב של נשימה, מעל חמשת השלבים: מהשיחה הראשונה ועד שהאתר באוויר.', '../index.html#process'],
     ['cinema/falafel.webp', 'קייטרינג 4X4', 'פלאפל וסביח לאירועים', 'האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק, ומחשבון הצעה בצורת פתק הזמנה שנשלח לניסים בוואטסאפ.', '../work.html#falafel'],
     ['bg/dark.webp', 'לילה', 'רקע המצב הכהה · דף הבית', 'השמיים מסתחררים מעל דמות קטנה בשדה. זה הרקע שמופיע כשעוברים למצב כהה.', ''],
+    ['live/gym.webp', 'רגע לפני הסט', 'תמונה חיה · סטודיו לכושר', 'אבק מגנזיום מרחף באלומת אור. האנרגיה של אימון, בלי להראות אף אחד.', '', 0, 'live/gym'],
     ['bg/light.webp', 'אור', 'רקע המצב הבהיר · דף הבית', 'אותה דמות, על צוק מעל העננים בשקיעה. הצד השני של אותו רגע.', ''],
     ['cinema/rachel.webp', 'רחלי הורנשטיין', 'שיעורי מתמטיקה בזום', 'האתר נראה כמו מחברת חשבון טובה. בדיקת רמה בדקה, שבה רחלי מסבירה כל תשובה בכתב יד, וערכת משחקים במתנה שעוברת מהורה להורה.', '../work.html#rachel'],
     ['systems/ai.webp', 'עוזר חכם', 'מערכות · בינה מלאכותית ותלת־ממד', 'כדור של אש בין קוביות זכוכית: הסמל של עוזר שעונה ללקוחות באתר, ביום ובלילה.', '../index.html#pricing'],
+    ['live/office.webp', 'שולחן של אמון', 'תמונה חיה · עורכי דין ורואי חשבון', 'אור של אחר הצהריים זז לאט על השולחן. משרד מקצועי שמשדר רוגע וביטחון.', '', 0, 'live/office'],
     ['systems/sell.webp', 'חנות אונליין', 'מערכות · מכירות ותשלומים', 'שקית קניות מזכוכית כתומה. קטלוג, עגלה ותשלום, בלי לצאת מהאתר.', '../index.html#pricing'],
     ['bg/meadow.webp', 'שדה', 'רקע המניפסט · דף הבית', 'פרחי בר ברוח, מאחורי "אני לא בונה אתרים". הדבר הראשון שרואים אחרי הצלילה דרך ה־ח.', '../index.html'],
     ['systems/brand.webp', 'שפה מותגית', 'מערכות · מותג ותוכן', 'עט נובע שמטפטף כתום. לוגו, צבעים וגופנים שנבנים יחד עם האתר.', '../index.html#pricing'],
+    ['live/ring.webp', 'ניצוץ', 'תמונה חיה · תכשיטים ואופנה', 'היהלום מנצנץ באור חם. התמונה הראשונה בחנות, זו שגורמת לעצור ולהסתכל.', '', 0, 'live/ring'],
     ['systems/grow.webp', 'צמיחה', 'מערכות · שיווק וצמיחה', 'עמודות שעולות אל האור. קידום, דפי נחיתה ומדידה של מה שבאמת מביא פניות.', '../index.html#pricing'],
     ['systems/ops.webp', 'ניהול', 'מערכות · ניהול ואוטומציה', 'קוביות שמתחברות לגלגל שיניים. תורים, חשבוניות ופאנל ניהול שעובדים לבד.', '../index.html#pricing'],
     ['me/character.webp', 'חנוך', 'הדמות שלי · דף הבית', 'הדמות שמחייכת בפתיחה של האתר. היא זזה, נושמת ומסתכלת אליכם. זה אני, בערך.', '../index.html', 1],
@@ -480,7 +490,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var root = document.documentElement, body = document.body;
   var stage = $('#stage'), world = $('#world'), orb = $('#orb'), headline = $('#headline');
-  var gridRows = $('#grid .rows'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg');
+  var gridRows = $('#grid .rows'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg'), litVid = $('#litVid');
   var intro = $('#intro'), film = $('#film'), splash = $('#splash'), bar = $('#bar');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // סרט הפתיחה רק בביקור הראשון. מי שחוזר מהתפריט נכנס ישר לכדור
@@ -498,12 +508,12 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
     var card = document.createElement('div');
     card.className = 'card' + (s[5] ? ' tall' : '');
     card.dataset.idx = i;
-    card.innerHTML = '<figure><img alt="' + s[1] + '" draggable="false"></figure>';
+    card.innerHTML = '<figure><img alt="' + s[1] + '" draggable="false">' + (s[6] ? '<video class="live" muted loop playsinline preload="none" aria-hidden="true"></video>' : '') + '</figure>';
     orb.appendChild(card);
-    cards.push({ el: card, img: card.querySelector('img'), x: x, y: y, z: z, lat: Math.asin(y) * 180 / Math.PI, lon: Math.atan2(x, z) * 180 / Math.PI, op: -1, d: -1 });
+    cards.push({ el: card, img: card.querySelector('img'), vid: card.querySelector('video'), live: s[6], playing: false, zf: 0, x: x, y: y, z: z, lat: Math.asin(y) * 180 / Math.PI, lon: Math.atan2(x, z) * 180 / Math.PI, op: -1, d: -1 });
     var fig = document.createElement('figure');
     fig.dataset.idx = i; fig.tabIndex = 0; fig.setAttribute('role', 'button');
-    fig.innerHTML = '<img alt="" loading="lazy" draggable="false"><figcaption>' + s[1] + '</figcaption>';
+    fig.innerHTML = '<img alt="" loading="lazy" draggable="false">' + (s[6] ? '<video class="live" muted loop playsinline preload="none" aria-hidden="true"></video><span class="live-tag" aria-hidden="true"></span>' : '') + '<figcaption>' + s[1] + '</figcaption>';
     fig.setAttribute('aria-label', s[1] + ', ' + s[2]);
     gridRows.appendChild(fig);
     gridFigs.push(fig);
@@ -684,10 +694,38 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
       var d = Math.round(dim * 1000) / 1000, o = Math.round(fade * 1000) / 1000;
       if (d !== c.d) { c.el.style.setProperty('--d', d); c.d = d; }
       if (o !== c.op) { c.el.style.opacity = o; c.op = o; }
+      c.zf = zf;
     }
+    if (++liveTick % 12 === 0) syncLive();
     requestAnimationFrame(frame);
   }
   frame();
+
+  /* ---------- תמונות חיות: מתנגנות רק כשהן פונות אליכם ---------- */
+  var liveTick = 0, small = matchMedia('(max-width: 900px)').matches;
+  function liveSrc(s) { return BASE + s + (small ? '-m' : '') + '.mp4'; }
+  function playLive(v, src) {
+    if (!v.src) { v.src = src; v.addEventListener('playing', function () { v.classList.add('on'); }); }
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  }
+  function syncLive() {
+    var stageOn = revealed && !isLit && !body.classList.contains('gridview') && !reduce;
+    cards.forEach(function (c) {
+      if (!c.vid) return;
+      var want = stageOn && c.zf > 0.18 && c.op > 0.5;
+      if (want && !c.playing) { c.playing = true; playLive(c.vid, liveSrc(c.live)); }
+      else if (!want && c.playing) { c.playing = false; c.vid.pause(); }
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var gio = window.gio = new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
+        var v = e.target.querySelector('video.live'); if (!v) return;
+        if (e.isIntersecting && body.classList.contains('gridview') && !reduce) playLive(v, liveSrc(SHOTS[+e.target.dataset.idx][6])); else v.pause();
+      });
+    }, { root: $('#grid'), threshold: 0.35 });
+    gridFigs.forEach(function (f) { if (f.querySelector('video.live')) gio.observe(f); });
+  }
 
   /* ---------- גרירה ---------- */
   var ptr = null;
@@ -728,6 +766,11 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
   var gridBtn = $('#gridBtn');
   function setGrid(on) {
     body.classList.toggle('gridview', on);
+    // ברשת: התמונות החיות שעל המסך מתנגנות, ביציאה הכול נעצר
+    gridFigs.forEach(function (f) {
+      var v = f.querySelector('video.live'); if (!v) return;
+      if (on && window.gio) { gio.unobserve(f); gio.observe(f); } else v.pause();
+    });
     gridBtn.setAttribute('aria-pressed', on);
     gridBtn.setAttribute('aria-label', on ? 'חזרה לכדור' : 'מעבר לתצוגת רשת');
   }
@@ -756,6 +799,9 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
     var full = new Image();
     full.onload = function () { if (my === token) litImg.src = full.src; };
     full.src = BASE + s[0];
+    litVid.classList.remove('on'); litVid.pause();
+    if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
+    else litVid.removeAttribute('src');
     $('#litTitle').textContent = s[1];
     $('#litWhere').textContent = s[2];
     $('#litNote').textContent = s[3];
@@ -779,6 +825,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
     if (!isLit) return;
     var my = ++token;
     focused = -1; isLit = false;
+    litVid.pause();
     body.classList.remove('lit');
     lit.setAttribute('aria-hidden', 'true');
     root.style.overflow = '';
