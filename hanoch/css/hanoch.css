@@ -242,7 +242,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ba-handle i::before { left: 11px; transform: rotate(45deg); }
 .ba-handle i::after { right: 11px; transform: rotate(-135deg); }
 .ba-range-label { color: var(--ink-dim); }
-.ba-range { width: min(340px, 74vw); accent-color: var(--signal); }
+.ba-range { width: min(340px, 74vw); accent-color: var(--signal); direction: ltr; } /* כמו הקו בתמונה: שמאל הוא 0 בשתי השפות */
 
 /* ---------- תהליך ---------- */
 .craft { padding-top: clamp(80px, 10vw, 140px); padding-bottom: clamp(80px, 10vw, 140px); }

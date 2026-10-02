@@ -95,7 +95,7 @@
         name: 'S. Gotovski', sub: 'Fuel infrastructure since 1972', kind: 'Redesign and rebuild · Hebrew / English', url: 'gotovski.co.il',
         story: 'A family company building fuel stations since 1972, with clients like Paz, Sonol and Amazon, and a website that said none of it. I built a language that feels like a major construction group: heavy type, full-screen photography, and motion that is calm and certain, like a crane.',
         points: [
-          'A live simulation of a power outage at a data centre: watch in real time how the fuel system keeps the generators running. In Hebrew and English.',
+          'A live simulation of a power outage at a data center: watch in real time how the fuel system keeps the generators running. In Hebrew and English.',
           'Projects in a pinned horizontal scroll, and a list of services with an image that follows the cursor.',
           'A domain move without losing rank: every old address Google knows redirects to the matching page on the new site.',
           'An accessibility menu that can stop animations, and a motion-free site for anyone who asked for it in their system settings.'
@@ -114,7 +114,7 @@
       },
       allenbis: {
         name: 'Allenbis', sub: 'Drinks, snacks and everything between, delivered', kind: 'Upgrading a live store · no libraries', url: 'allenbis.co.il',
-        story: 'A delivery store that already worked and sold, but ran on two heavy React bundles, and customers on their phones were kept waiting. I rebuilt it with no libraries at all: the same 199-product catalogue and the same prices, with 24 times less JavaScript.',
+        story: 'A delivery store that already worked and sold, but ran on two heavy React bundles, and customers on their phones were kept waiting. I rebuilt it with no libraries at all: the same 199-product catalog and the same prices, with 24 times less JavaScript.',
         points: [
           'A budget basket builder: type an amount and get a ready basket.',
           'Swipe a product to remove it from the basket, with undo.',
@@ -137,15 +137,15 @@
         name: '4X4 Catering', sub: 'Nissim Sharon · falafel and sabich for events', kind: 'New site · the language of a street stall', url: '4X4 Catering',
         story: 'Nissim Sharon drives his 4X4 jeep anywhere, from the Dragot cliffs to a table on the Dead Sea shore. The site talks like a good street stall: sunshine yellow, market-poster headlines, and the food up front.',
         points: [
-          'Huge poster-style headlines, and colours taken from the logo and the illustration.',
+          'Huge poster-style headlines, and colors taken from the logo and the illustration.',
           'Real events from the field: the Dragot cliffs, the Dead Sea, the Maccabiah in Haifa.',
           'A full dark mode, for browsing the evening before the event.',
           'WhatsApp and phone within reach from anywhere on the page.'
         ]
       },
       rachel: {
-        name: 'Racheli Hornstein', sub: 'Private maths lessons on Zoom', kind: 'New site · a squared notebook', url: 'rachelimath',
-        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good maths notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience.',
+        name: 'Racheli Hornstein', sub: 'Private math lessons on Zoom', kind: 'New site · a squared notebook', url: 'rachelimath',
+        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good math notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience.',
         points: [
           'A squared-notebook background and handwritten headlines.',
           'FAQs that answer parents\' worries: does Zoom work, what about a shy child, is there a commitment.',
@@ -1107,7 +1107,7 @@
     var btn = $('.demo-play'), view = $('.demo-view');
     if (!btn || !view) return;
     var small = window.matchMedia('(max-width: 900px)');
-    var title = T('הדמיה חיה: הפסקת חשמל בחוות שרתים', 'Live simulation: a power outage at a data centre');
+    var title = T('הדמיה חיה: הפסקת חשמל בחוות שרתים', 'Live simulation: a power outage at a data center');
     function frameEl(q) {
       var f = document.createElement('iframe');
       f.className = 'demo-iframe';
