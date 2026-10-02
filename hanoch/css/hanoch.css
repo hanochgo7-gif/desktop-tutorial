@@ -1283,7 +1283,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .hero-portrait > div { position: relative; }
 .hero-portrait.is-alive .portrait-anim { opacity: 1; }
 .hero-portrait.is-alive img { transition: opacity .6s; opacity: 0 !important; }
-@media (max-width: 560px) { .portrait-anim { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); } }
+@media (max-width: 560px) { video.portrait-anim { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); } }
 
 /* ---------- טלפון: כל תמונה נראית במלואה, בלי רצועות שנחתכות בקצה ---------- */
 @media (max-width: 900px) {
@@ -1360,3 +1360,5 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
   .cmp-y { width: 19px; height: 19px; }
   .cmp-y::after { left: 6px; top: 4px; width: 4px; height: 8px; }
 }
+/* מקור הסרט ה"מוערם" של ספארי: מתנגן בדף אבל לא נראה. הקנבס מציג את הדמות */
+.portrait-src { position: absolute; top: 0; left: 0; width: 2px; height: 2px; opacity: 0; pointer-events: none; }

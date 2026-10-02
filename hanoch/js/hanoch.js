@@ -882,14 +882,70 @@
     if (!el || !motion) return;
     var img = $('img', el);
     gsap.set(img, { autoAlpha: 0, y: 60 });
-    // הדמות חיה: וידאו עם רקע שקוף (WebM עם ערוץ אלפא). ספארי לא מציג שקיפות בווידאו, ושם נשארת התמונה
-    var anim = $('.portrait-anim', el);
+    // הדמות חיה: בכרום, אדג' ופיירפוקס וידאו WebM עם ערוץ שקיפות. ספארי לא מציג שקיפות כזו,
+    // אז שם מגיע סרט "מוערם": הצבע בחצי העליון והשקיפות בתחתון, ו-WebGL מרכיב אותם בכל פריים
+    var anim = $('.portrait-anim', el), media = null;
     var apple = /Apple/.test(navigator.vendor || '');
+    function alive() { el.classList.add('is-alive'); }
+    function play() { var pr = media.play(); if (pr && pr.catch) pr.catch(function () { }); }
     function wake() {
-      if (!anim || apple || !anim.canPlayType('video/webm; codecs="vp9"')) return;
-      anim.src = anim.dataset.src;
-      anim.addEventListener('playing', function () { el.classList.add('is-alive'); }, { once: true });
-      var pr = anim.play(); if (pr && pr.catch) pr.catch(function () { });
+      if (!anim) return;
+      if (apple) media = stacked();
+      else if (anim.canPlayType('video/webm; codecs="vp9"')) {
+        media = anim;
+        anim.src = anim.dataset.src;
+        anim.addEventListener('playing', alive, { once: true });
+      }
+      if (!media) return;
+      play();
+      // הדמות נעלמת כשגוללים: גם הסרט עוצר
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { if (en[0].isIntersecting) play(); else media.pause(); }).observe(el);
+    }
+    function stacked() {
+      var cv = document.createElement('canvas');
+      var gl = anim.dataset.stack && cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+      if (!gl) return null;
+      var v = document.createElement('video');
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+      v.className = 'portrait-src';
+      function sh(type, src) { var o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; }
+      var pg = gl.createProgram();
+      gl.attachShader(pg, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 u;void main(){u=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}'));
+      // הצבע כבר מוכפל בשקיפות; min שומר על פיקסל תקין גם אחרי דחיסה
+      gl.attachShader(pg, sh(gl.FRAGMENT_SHADER, 'precision mediump float;uniform sampler2D t;uniform float m;varying vec2 u;void main(){float y=clamp(u.y,.002,.998)*.5;float a=texture2D(t,vec2(u.x,y+.5)).r;gl_FragColor=vec4(min(texture2D(t,vec2(u.x,y)).rgb,vec3(a)),a)*(1.-m*clamp((u.y-.72)/.26,0.,1.));}'));
+      gl.linkProgram(pg); gl.useProgram(pg);
+      // בטלפון הדמות נמסה בתחתית. כאן ולא ב-CSS: ספארי מקפיא שכבה חיה שיש עליה מסכה
+      gl.uniform1f(gl.getUniformLocation(pg, 'm'), window.matchMedia('(max-width: 560px)').matches ? 1 : 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      var loc = gl.getAttribLocation(pg, 'p');
+      gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(function (k) { gl.texParameteri(gl.TEXTURE_2D, k, gl.CLAMP_TO_EDGE); });
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      var first = true, last = -1;
+      function draw() {
+        if (v.readyState < 2) return;
+        if (first) { cv.width = v.videoWidth; cv.height = v.videoHeight / 2; gl.viewport(0, 0, cv.width, cv.height); }
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v);
+        gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        if (first) { first = false; alive(); }
+      }
+      if (v.requestVideoFrameCallback) {
+        var onFrame = function () { draw(); v.requestVideoFrameCallback(onFrame); };
+        v.requestVideoFrameCallback(onFrame);
+      } else {
+        (function tick() { if (!v.paused && v.currentTime !== last) { last = v.currentTime; draw(); } requestAnimationFrame(tick); })();
+      }
+      cv.className = anim.className;
+      cv.setAttribute('aria-hidden', 'true');
+      anim.replaceWith(cv);
+      cv.parentNode.appendChild(v);
+      v.src = anim.dataset.stack;
+      return v;
     }
     var show = function () { gsap.to(img, { autoAlpha: 1, y: 0, duration: 1.4, delay: 0.6, ease: 'expo.out', onComplete: wake }); };
     if (HG.introDone) show(); else window.addEventListener('hg:intro', show, { once: true });
