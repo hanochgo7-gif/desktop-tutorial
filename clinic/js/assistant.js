@@ -199,7 +199,7 @@
   nav.appendChild(btn); document.body.appendChild(box);
   var log = $('#asst-log'), chips = $('#asst-chips'), form = $('#asst-form'), input = $('#asst-in'), status = $('#asst-status');
   var turns = [], sampleFn = null, sampleTried = false, busy = false, ctl = null;
-  var STARTERS = ['איזה טיפול מתאים לי?', 'מה המחירים?', 'לייזר על עור כהה?', 'שעות וכתובת', 'קביעת תור'];
+  var STARTERS = ['איזה טיפול מתאים לי?', 'מה המחירים?', 'מה כולל האבחון הראשון?', 'שעות וכתובת', 'קביעת תור'];
 
   function linkRow(keys, custom) {
     var row = document.createElement('div'); row.className = 'asst__links';
