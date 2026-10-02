@@ -1200,3 +1200,14 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .film-close { position: absolute; top: 18px; left: var(--gutter); padding: .6rem 1.1rem; border-radius: 99px; border: 1px solid var(--fg-faint); color: var(--fg); background: rgba(10, 10, 11, .6); }
 .film-close:hover { background: var(--fg); color: var(--ink); }
 @media (max-width: 900px) { .film-bg::after { background: linear-gradient(180deg, rgba(18, 18, 20, .55), rgba(18, 18, 20, .9)); } .teaser-actions .teaser-cta { width: 100%; } }
+
+/* ---------- הדמות בפתיחה (היגספילד) ---------- */
+.hero-portrait { position: absolute; z-index: 1; left: 50%; bottom: 0; width: clamp(240px, 27vw, 420px); transform: translateX(-50%); pointer-events: none; }
+.hero-portrait > div { will-change: transform; }
+.hero-portrait img { display: block; width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .55)); transform-origin: 50% 100%; }
+.motion .hero-portrait img { animation: portrait-idle 6s ease-in-out infinite; }
+@keyframes portrait-idle { 50% { translate: 0 -7px; rotate: -.6deg; } }
+@media (max-width: 560px) {
+  .hero-portrait { width: 58vw; bottom: 118px; }
+  .hero-portrait img { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); }
+}

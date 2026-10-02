@@ -872,6 +872,17 @@
     });
   }
 
+  /* ---------- הדמות בפתיחה: נכנסת עם החשיפה, ונעלמת כשהמצלמה צוללת לתוך ה-ח ---------- */
+  function initPortrait() {
+    var el = $('.hero-portrait');
+    if (!el || !motion) return;
+    var img = $('img', el);
+    gsap.set(img, { autoAlpha: 0, y: 60 });
+    var show = function () { gsap.to(img, { autoAlpha: 1, y: 0, duration: 1.4, delay: 0.6, ease: 'expo.out' }); };
+    if (HG.introDone) show(); else window.addEventListener('hg:intro', show, { once: true });
+    gsap.to(el, { autoAlpha: 0, yPercent: 18, scale: 0.92, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=35%', scrub: true } });
+  }
+
   /* ---------- מגנט: האלמנט נמשך אחרי העכבר כשהוא מתקרב (הדמות בפתיחה) ---------- */
   function initMagnet() {
     if (!motion || !finePointer) return;
@@ -1066,6 +1077,7 @@
   initPricing();
   initFilm();
   initMagnet();
+  initPortrait();
   initProjects();
   initCompare();
   initCraft();
