@@ -175,10 +175,53 @@
     text = (text || '').trim(); if (!text || busy) return;
     bubble('user', text); input.value = ''; setChips([]);
     var local = localAnswer(text);
+    if (window.ASSISTANT_API) return askRemote(text, local);
     if (sampleFn) return askClaude(text, local);
     if (local) { bubble('bot', local.text, local.links); }
     else { bubble('bot', 'על זה אין לי תשובה מהאתר. הכי טוב לשאול את רותם ישירות, היא עונה בשעות הפעילות.', ['wa', 'book']); }
     setChips(STARTERS.filter(function (s) { return s !== text; }).slice(0, 3));
+  }
+  /* מצב שרת: Claude דרך השרת הקטן (server/README.md), בכל אתר */
+  function askRemote(text, local) {
+    busy = true; form.classList.add('is-busy');
+    turns.push({ role: 'user', content: text });
+    var p = bubble('bot', 'חושבת…'); p.parentNode.classList.add('is-thinking');
+    ctl = new AbortController();
+    var acc = '', failed = false;
+    fetch(window.ASSISTANT_API.replace(/\/$/, '') + '/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: turns.slice(-10) }), signal: ctl.signal })
+      .then(function (res) {
+        if (!res.ok || !res.body) throw new Error('http ' + res.status);
+        var reader = res.body.getReader(), dec = new TextDecoder(), buf = '';
+        function pump() {
+          return reader.read().then(function (r) {
+            if (r.done) return;
+            buf += dec.decode(r.value, { stream: true });
+            var parts = buf.split('\n\n'); buf = parts.pop();
+            parts.forEach(function (part) {
+              var line = part.split('\n').filter(function (l) { return l.indexOf('data: ') === 0; })[0]; if (!line) return;
+              var d; try { d = JSON.parse(line.slice(6)); } catch (e) { return; }
+              if (d.error) { failed = true; return; }
+              if (d.replace) { acc = d.t; } else if (d.t) { acc += d.t; }
+              p.textContent = acc; p.parentNode.classList.remove('is-thinking'); log.scrollTop = log.scrollHeight;
+            });
+            return pump();
+          });
+        }
+        return pump();
+      })
+      .then(function () {
+        if (failed || !acc) throw new Error('empty');
+        turns.push({ role: 'assistant', content: acc });
+        var row = document.createElement('div'); row.className = 'asst__links';
+        linksFor(text).forEach(function (k) { var L = LINKS[k]; var a = document.createElement('a'); a.href = L.h; a.textContent = L.t; if (L.ext) { a.target = '_blank'; a.rel = 'noopener'; } row.appendChild(a); });
+        p.parentNode.appendChild(row);
+      })
+      .catch(function (e) {
+        turns.pop(); p.parentNode.remove();
+        if (e && e.name === 'AbortError') return;
+        if (local) bubble('bot', local.text, local.links); else bubble('bot', 'לא הצלחתי לענות עכשיו. אפשר לשאול את רותם בוואטסאפ.', ['wa']);
+      })
+      .then(function () { busy = false; form.classList.remove('is-busy'); setChips(STARTERS.slice(0, 3)); });
   }
   function askClaude(text, local) {
     busy = true; form.classList.add('is-busy');
@@ -212,6 +255,7 @@
         sampleTried = true;
         window.claude.use('sample').then(function (fn) { if (fn) { sampleFn = fn; status.textContent = 'עונה עם Claude, מהידע באתר'; } }).catch(function () {});
       }
+      if (window.ASSISTANT_API) status.textContent = 'עונה עם Claude, מהידע באתר';
     } else { if (ctl) ctl.abort(); btn.focus(); }
   }
   btn.addEventListener('click', function () { open(box.hidden); });
