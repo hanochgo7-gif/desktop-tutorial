@@ -391,7 +391,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 </main>
 
 <header class="chrome">
-  <a class="wordmark" href="#" aria-label="חנוך גוטובסקי">חנוך <em>גוטובסקי</em></a>
+  <a class="wordmark" href="../index.html" aria-label="חנוך גוטובסקי, לדף הבית">חנוך <em>גוטובסקי</em></a>
   <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="פתיחת התפריט">
     <span class="menu-label">תפריט</span>
     <span class="bars" aria-hidden="true"><i></i><i></i></span>
@@ -412,7 +412,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 <div id="menu" aria-hidden="true">
   <nav aria-label="ראשי">
     <a href="#" data-grid>הארכיון</a>
-    <a href="../work.html">כל העבודות</a>
+    <a href="../work.html">סיפורי הפרויקטים</a>
     <a href="../index.html">דף הבית</a>
     <a href="https://wa.me/972545522053" target="_blank" rel="noopener" data-close-menu>דברו איתי</a>
   </nav>
@@ -483,6 +483,9 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
   var gridRows = $('#grid .rows'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg');
   var intro = $('#intro'), film = $('#film'), splash = $('#splash'), bar = $('#bar');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // סרט הפתיחה רק בביקור הראשון. מי שחוזר מהתפריט נכנס ישר לכדור
+  var seen = false;
+  try { seen = localStorage.getItem('hg-archive-film') === '1'; localStorage.setItem('hg-archive-film', '1'); } catch (e) {}
   var coarse = matchMedia('(pointer: coarse)').matches;
   root.style.overflow = 'hidden';
 
@@ -605,11 +608,11 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
     intro.classList.add('novideo');
     if (splashDone) setTimeout(reveal, 1300);
   }
-  film.src = FILM;
-  film.load();
+  if (seen || reduce) filmReady();
+  else { film.src = FILM; film.load(); }
 
   function startFilm() {
-    if (reduce) return reveal();
+    if (reduce || seen) return reveal();
     if (filmFailed) return setTimeout(reveal, 1300);
     setTimeout(reveal, 14000);
     if (film.currentTime > 0.05) film.currentTime = 0;
@@ -805,7 +808,6 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
     if (a.hasAttribute('data-grid')) { e.preventDefault(); setMenu(false); setGrid(true); return; }
     setMenu(false);
   });
-  $('.wordmark').addEventListener('click', function (e) { e.preventDefault(); close(); setMenu(false); setGrid(false); scrollTo(0, 0); });
 
   addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
