@@ -2212,3 +2212,48 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
 @media (max-width: 480px) { .hero-dl span { display: none; } }
 .sim__frame.is-live > .sim__play { display: none; }
 .sim__frame > iframe { z-index: 2; }
+
+/* ===== מובייל: שטחי לחיצה של 44px, טקסט של 12px לפחות, שדה טלפון בלי זום ===== */
+@media (max-width: 760px) {
+  .navpill { height: 52px; padding: 4px 4px 4px 10px; }
+  .navpill__logo { height: 44px; padding: 4px 14px; }
+  .navpill__logo img { height: 30px; }
+  .navpill__btn, .navpill__btn:hover { height: 44px; }
+  .navpill__btn .nav-toggle__icon { width: 36px; height: 36px; }
+  .navpill .navpill__lang { height: 44px; min-width: 44px; }
+  .ann__close { width: 44px; height: 44px; inset-inline-end: 0; }
+  .ann__link { position: relative; }
+  .ann__link::after { content: ""; position: absolute; inset: -8px -4px; }
+  .crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
+  .aside-card li a, .service-case__more a { display: inline-flex; align-items: center; min-height: 44px; }
+  .waze { min-height: 44px; }
+  .cut__pin::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; }
+  .cut__nav button { width: 44px; height: 44px; }
+  .consent input { width: 24px; height: 24px; margin-top: 1px; }
+  .footer__bottom, .footer__bottom a { font-size: .8rem; }
+  .ann__link, .field__badge, .card__stamp, .steps__tag, .article-card__tag, .pipe__sub, .cut__card-n, .cut__stamp, .sim__stamp, .case__gallery-note, .card .n, figcaption { font-size: max(.75rem, 12px); }
+}
+.quick__form input[type="tel"] { font-size: max(1rem, 16px); }
+/* מובייל: ארבעת המספרים בדף הבית ברשת 2×2 במקום עמודה ארוכה */
+@media (max-width: 640px) {
+  .numbers { grid-template-columns: 1fr 1fr; column-gap: 18px; }
+  .number { padding: 20px 0; }
+  .number .num { font-size: clamp(2.4rem, 12vw, 3.2rem); }
+  .number p { font-size: .88rem; }
+}
+/* מובייל: מפת הפרויקטים נשארת צמודה בצד אבל צרה יותר, כדי שלפרויקטים יהיה רוחב לקריאה */
+@media (max-width: 999px) {
+  .projects__layout { grid-template-columns: minmax(0, 1fr) 62px; gap: 10px; }
+  .map-panel { min-width: 0; padding: 8px 4px 6px; }
+  .map-panel .ilmap { width: 100%; min-width: 0; }
+  .map-panel__caption { display: none; }
+}
+@media (max-width: 760px) {
+  .quick--photo .quick__form input[type="tel"] { font-size: max(1rem, 16px); }
+  .row .n, .row .field__badge, .cut__pin b, .cut__list button b, .contact-list strong, .article-body figcaption, .field-tile__name .field__badge { font-size: max(.75rem, 12px); }
+  .footer ul .waze, .waze { min-height: 44px; }
+  .contact-list a { display: inline-flex; align-items: center; min-height: 44px; }
+  .consent a, .quick__consent a { display: inline-block; padding-block: 12px; margin-block: -12px; }
+  .steps__ctrl button { width: 44px; height: 44px; flex: none; }
+  .crumbs a { min-width: 44px; justify-content: center; }
+}
