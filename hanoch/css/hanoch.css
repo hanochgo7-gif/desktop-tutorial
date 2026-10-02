@@ -1523,3 +1523,5 @@ a[href^="tel:"] { white-space: nowrap; }
   .d-prod .d-btn::before { content: ""; position: absolute; inset: -6px -4px; }
   .d-range { height: 34px; }
 }
+/* הצל של הגיליון הראשון מציץ מתחת לפתיחה עד שהתלת־ממד מאריך אותה, וזה נמדד כקפיצה. מופיע ברגע שהבמה מוכנה */
+.motion:not(.stage-on) .hero + .sheet { box-shadow: none; }
