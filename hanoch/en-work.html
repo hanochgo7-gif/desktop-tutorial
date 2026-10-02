@@ -30,6 +30,7 @@
   (function () {
     var d = document.documentElement;
     d.classList.add('js');
+    if (/Apple/.test(navigator.vendor || '')) d.classList.add('apple');
     var a11y = {};
     try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
@@ -324,7 +325,7 @@
 <!-- The showreel: opens full screen -->
 <dialog class="film-dlg" aria-label="Hanoch Gotovski's showreel">
   <button class="film-close mono" type="button" aria-label="Close">Close ✕</button>
-  <video class="film-video" controls playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4"></video>
+  <video class="film-video" controls muted playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
 </dialog>
 
 <!-- X-ray -->

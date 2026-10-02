@@ -972,7 +972,7 @@
     $$('[data-film]').forEach(function (b) {
       b.addEventListener('click', function () {
         from = b;
-        if (!vid.src) setVideo(vid, vid.dataset.src);
+        if (!vid.src) setVideo(vid, videoSrc(vid));
         dlg.showModal();
         if (lenis) lenis.stop();
         vid.currentTime = 0;

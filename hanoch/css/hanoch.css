@@ -1387,3 +1387,7 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
   .sheet-film video[poster] { opacity: 1; }
   .sheet-film::after { background: linear-gradient(180deg, rgba(237, 232, 222, .74) 0%, rgba(237, 232, 222, .5) 30%, rgba(237, 232, 222, .22) 60%, rgba(237, 232, 222, .12) 100%); }
 }
+
+/* ספארי מקפיא וידאו שיש עליו מסכה: שם הקצוות של סרט ההצצה נמסים בשכבת צבע במקום במסכה */
+.apple .film-bg { -webkit-mask: none; mask: none; }
+.apple .film-bg::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, var(--ink-2) 0%, transparent 18%, transparent 62%, var(--ink-2) 100%); }
