@@ -15,6 +15,36 @@
   // אותו קוד לעברית ולאנגלית: הדף האנגלי הוא <html lang="en" dir="ltr">
   var EN = root.lang === 'en';
   function T(he, en) { return EN ? en : he; }
+
+  /* ---------- וידאו שמתנגן בכל מצב ----------
+     1. שרת שלא שולח קובץ בחלקים (אייפון דורש את זה): אם הקובץ נכשל, מורידים אותו שלם ומנגנים מהזיכרון.
+     2. טלפון שחוסם הפעלה אוטומטית (מצב חיסכון, דפדפן בתוך אפליקציה): מנסים שוב במגע הראשון. */
+  var blocked = [];
+  function setVideo(v, url) {
+    if (v.src.indexOf('blob:') === 0) URL.revokeObjectURL(v.src);
+    delete v.dataset.blob;
+    v.src = url;
+    v.addEventListener('error', function () {
+      if (v.dataset.blob || !window.fetch) return;
+      v.dataset.blob = '1';
+      fetch(url).then(function (r) { if (!r.ok) throw r.status; return r.blob(); }).then(function (b) {
+        v.src = URL.createObjectURL(b.type ? b : new Blob([b], { type: 'video/mp4' }));
+        if (v.dataset.want) playVideo(v);
+      }).catch(function () { });
+    }, { once: true });
+  }
+  function playVideo(v) {
+    v.dataset.want = '1';
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function () { if (blocked.indexOf(v) < 0) blocked.push(v); });
+  }
+  function pauseVideo(v) { delete v.dataset.want; v.pause(); }
+  ['touchend', 'click', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, function () {
+      var list = blocked; blocked = [];
+      list.forEach(function (v) { if (v.dataset.want) playVideo(v); });
+    }, { passive: true, capture: true });
+  });
   function say(t) { live.textContent = ''; setTimeout(function () { live.textContent = t; }, 30); }
 
   /* ---------- נתוני הפרויקטים ---------- */
@@ -409,13 +439,13 @@
       var v = document.createElement('video');
       v.className = 'p-video'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
       v.setAttribute('aria-hidden', 'true');
-      v.innerHTML = '<source src="work/video/' + li.dataset.id + (smallScreen ? '-m' : '') + '.mp4" type="video/mp4">';
+      setVideo(v, 'work/video/' + li.dataset.id + (smallScreen ? '-m' : '') + '.mp4');
       view.appendChild(v);
       v.addEventListener('playing', function () { v.classList.add('on'); });
       if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (en) {
-          if (en[0].isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () { }); }
-          else v.pause();
+          if (en[0].isIntersecting) playVideo(v);
+          else pauseVideo(v);
         }, { rootMargin: '100px 0px' }).observe(view);
       }
       var browser = $('.browser', li), phone = $('.p-phone', li), info = $$('.p-info > *', li);
@@ -464,12 +494,11 @@
     poster.src = 'work/' + id + '-poster.webp';
     poster.alt = T('דף הבית של ', 'Home page of ') + d.name;
     var vid = $('.case-video');
-    vid.pause();
+    pauseVideo(vid);
     vid.classList.remove('on');
     if (motion) {
-      vid.innerHTML = '<source src="work/video/' + id + '.mp4" type="video/mp4">';
-      vid.load();
-      vid.oncanplay = function () { vid.classList.add('on'); var p = vid.play(); if (p && p.catch) p.catch(function () { }); };
+      setVideo(vid, 'work/video/' + id + (smallScreen ? '-m' : '') + '.mp4');
+      vid.oncanplay = function () { vid.classList.add('on'); playVideo(vid); };
     }
     var live = $('.case-live');
     live.hidden = !LIVE[id];
@@ -928,26 +957,26 @@
       if (!motion || !('IntersectionObserver' in window)) return;
       new IntersectionObserver(function (en) {
         if (en[0].isIntersecting) {
-          if (!v.src) { if (v.dataset.poster) v.poster = v.dataset.poster; v.src = videoSrc(v); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
-          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
-        } else if (v.src) v.pause();
+          if (!v.src) { if (v.dataset.poster) v.poster = v.dataset.poster; setVideo(v, videoSrc(v)); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          playVideo(v);
+        } else if (v.src) pauseVideo(v);
       }, { rootMargin: '100px 0px' }).observe(v.parentNode);
     });
     var dlg = $('.film-dlg');
     if (!dlg || !dlg.showModal) return;
     var vid = $('.film-video', dlg), from = null;
     function close() { if (dlg.open) dlg.close(); }
-    dlg.addEventListener('close', function () { vid.pause(); if (lenis) lenis.start(); if (from) from.focus(); });
+    dlg.addEventListener('close', function () { pauseVideo(vid); if (lenis) lenis.start(); if (from) from.focus(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
     $('.film-close', dlg).addEventListener('click', close);
     $$('[data-film]').forEach(function (b) {
       b.addEventListener('click', function () {
         from = b;
-        if (!vid.src) vid.src = vid.dataset.src;
+        if (!vid.src) setVideo(vid, vid.dataset.src);
         dlg.showModal();
         if (lenis) lenis.stop();
         vid.currentTime = 0;
-        var pr = vid.play(); if (pr && pr.catch) pr.catch(function () { });
+        playVideo(vid);
       });
     });
   }
@@ -963,13 +992,13 @@
     var anim = $('.portrait-anim', el), media = null;
     var apple = /Apple/.test(navigator.vendor || '');
     function alive() { el.classList.add('is-alive'); }
-    function play() { var pr = media.play(); if (pr && pr.catch) pr.catch(function () { }); }
+    function play() { playVideo(media); }
     function wake() {
       if (!anim) return;
       if (apple) media = stacked();
       else if (anim.canPlayType('video/webm; codecs="vp9"')) {
         media = anim;
-        anim.src = anim.dataset.src;
+        setVideo(anim, anim.dataset.src);
         anim.addEventListener('playing', alive, { once: true });
       }
       if (!media) return;
@@ -1020,7 +1049,7 @@
       cv.setAttribute('aria-hidden', 'true');
       anim.replaceWith(cv);
       cv.parentNode.appendChild(v);
-      v.src = anim.dataset.stack;
+      setVideo(v, anim.dataset.stack);
       return v;
     }
     var show = function () { gsap.to(img, { autoAlpha: 1, y: 0, duration: 1.4, delay: 0.6, ease: 'expo.out', onComplete: wake }); };
@@ -1043,9 +1072,9 @@
         if (on && v.dataset.poster && !v.poster) v.poster = v.dataset.poster;
         v.classList.toggle('on', on);
         if (on && motion) {
-          if (!v.src) v.src = videoSrc(v);
-          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
-        } else if (v.src) v.pause();
+          if (!v.src) setVideo(v, videoSrc(v));
+          playVideo(v);
+        } else if (v.src) pauseVideo(v);
       });
     }
     var io = new IntersectionObserver(function (en) {
@@ -1080,10 +1109,10 @@
         var v = $('.tier-emblem video', t);
         if (!v) return;
         t.addEventListener('pointerenter', function () {
-          if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
-          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
+          if (!v.src) { setVideo(v, v.dataset.src); v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true }); }
+          playVideo(v);
         });
-        t.addEventListener('pointerleave', function () { v.pause(); });
+        t.addEventListener('pointerleave', function () { pauseVideo(v); });
       });
     }
     if (window.matchMedia('(hover: hover)').matches) {
@@ -1240,7 +1269,7 @@
     say(on ? T('צלילים פעילים', 'Sound on') : T('צלילים כבויים', 'Sound off'));
   });
 
-  var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx };
+  var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx, setVideo: setVideo, playVideo: playVideo, pauseVideo: pauseVideo };
 
   /* ---------- הפעלה ---------- */
   initManifesto();

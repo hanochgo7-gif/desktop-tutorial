@@ -694,12 +694,12 @@
       const v = $('video', c);
       if (c === cat && motion && visible) {
         if (!v.src) {
-          v.src = v.dataset.src;
+          if (window.HG && HG.setVideo) HG.setVideo(v, v.dataset.src); else v.src = v.dataset.src;
           v.addEventListener('playing', () => c.classList.add('is-playing'), { once: true });
           v.addEventListener('error', () => c.classList.remove('is-playing'), { once: true });
         }
-        const p = v.play(); if (p && p.catch) p.catch(() => { });
-      } else if (v.src) { v.pause(); }
+        if (window.HG && HG.playVideo) HG.playVideo(v); else { const p = v.play(); if (p && p.catch) p.catch(() => { }); }
+      } else if (v.src) { if (window.HG && HG.pauseVideo) HG.pauseVideo(v); else v.pause(); }
     });
   }
 
