@@ -883,6 +883,33 @@
     gsap.to(el, { autoAlpha: 0, yPercent: 18, scale: 0.92, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=35%', scrub: true } });
   }
 
+  /* ---------- העולם שמאחורי האתר: הסרט של החלק שבאמצע המסך מתנגן, וכל השאר עוצר ---------- */
+  function initSiteFilm() {
+    var layer = $('.site-film');
+    if (!layer || !('IntersectionObserver' in window)) return;
+    var vids = {}, cur = null, active = new Map();
+    $$('video', layer).forEach(function (v) { vids[v.dataset.film] = v; });
+    function show(kind) {
+      if (kind === cur) return;
+      cur = kind;
+      layer.dataset.mode = kind || '';
+      Object.keys(vids).forEach(function (k) {
+        var v = vids[k], on = k === kind;
+        v.classList.toggle('on', on);
+        if (on && motion) {
+          if (!v.src) v.src = v.dataset.src;
+          var pr = v.play(); if (pr && pr.catch) pr.catch(function () { });
+        } else if (v.src) v.pause();
+      });
+    }
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) active.set(e.target, e.target.dataset.bg); else active.delete(e.target); });
+      var k = null; active.forEach(function (v) { k = v; });
+      show(k);
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    $$('[data-bg]').forEach(function (sec) { io.observe(sec); });
+  }
+
   /* ---------- מגנט: האלמנט נמשך אחרי העכבר כשהוא מתקרב (הדמות בפתיחה) ---------- */
   function initMagnet() {
     if (!motion || !finePointer) return;
@@ -1077,6 +1104,7 @@
   initPricing();
   initFilm();
   initMagnet();
+  initSiteFilm();
   initPortrait();
   initProjects();
   initCompare();

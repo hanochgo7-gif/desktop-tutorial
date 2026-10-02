@@ -39,6 +39,11 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"><i></i></div>
 <div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<!-- עולם קולנועי מאחורי האתר: מציץ רק דרך החלקים הכהים. לילה מאחורי החבילות והעבודות, שקיעה מאחורי "בואו נבנה." -->
+<div class="site-film" aria-hidden="true">
+  <video muted loop playsinline preload="none" data-film="dark" data-src="work/bg/dark.mp4" poster="work/bg/dark.webp"></video>
+  <video muted loop playsinline preload="none" data-film="light" data-src="work/bg/light.mp4" poster="work/bg/light.webp"></video>
+</div>
 
 <header class="bar">
   <a class="bar-mark" href="index.html" aria-label="חנוך גוטובסקי, לדף הבית">ח<span>·</span>ג</a>
@@ -59,7 +64,7 @@
 <main id="top">
 
   <!-- 03 עבודות -->
-  <section class="sheet sheet-ink work work-page" id="work" aria-labelledby="work-title">
+  <section class="sheet sheet-ink work work-page" id="work" data-bg="dark" aria-labelledby="work-title">
     <header class="work-head">
       <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4"></video></div>
       <a class="work-back mono" href="index.html">→ לדף הבית</a>
@@ -169,7 +174,7 @@
   </section>
 
   <!-- 04 דוגמה חיה: ההדמיה מהאתר של ש. גוטובסקי -->
-  <section class="sheet sheet-ink demo" id="demo" aria-labelledby="demo-title">
+  <section class="sheet sheet-ink demo" id="demo" data-bg="dark" aria-labelledby="demo-title">
     <div class="demo-head">
       <h2 class="display" id="demo-title">הפסקת חשמל.<br>בזמן אמת.</h2>
       <p class="demo-lead">מתוך האתר של ש. גוטובסקי: חוות שרתים בתלת־ממד. לוחצים על הכפתור האדום, הרשת נופלת, והגנרטורים מתניעים על מערכת הדלק. זה לא סרטון. זו הדמיה חיה שאפשר לשחק בה.</p>
@@ -222,7 +227,7 @@
   </section>
 
   <!-- 06 תהליך: הכרטיס נבנה מול העיניים -->
-  <section class="sheet sheet-ink craft" id="craft" aria-labelledby="craft-title">
+  <section class="sheet sheet-ink craft" id="craft" data-bg="dark" aria-labelledby="craft-title">
     <div class="craft-pin">
       <div class="craft-copy">
         <h2 class="display" id="craft-title">מקו<br>לתנועה.</h2>
@@ -254,7 +259,7 @@
   </section>
 
   <!-- קשר -->
-  <section class="contact contact-mini" id="contact" aria-labelledby="contact-title">
+  <section class="contact contact-mini" id="contact" data-bg="light" aria-labelledby="contact-title">
     <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
     <p class="contact-lead">אהבתם משהו מכאן? ספרו לי על העסק שלכם, והאתר הבא בתיק יכול להיות שלכם.</p>
     <div class="contact-actions">

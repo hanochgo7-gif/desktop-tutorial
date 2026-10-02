@@ -1211,3 +1211,14 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
   .hero-portrait { width: 58vw; bottom: 118px; }
   .hero-portrait img { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); }
 }
+
+/* ---------- העולם שמאחורי האתר (סרטי רקע) ----------
+   שכבה קבועה מתחת לכל התוכן. גיליונות הנייר אטומים ומחליקים מעליה, והחלקים הכהים
+   שקופים למחצה, כך שהסרט מציץ רק דרכם. */
+.site-film { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--ink); }
+.site-film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.1s var(--ease); }
+.site-film video.on { opacity: 1; }
+.site-film::after { content: ""; position: absolute; inset: 0; background: rgba(10, 10, 11, .3); transition: background .8s; }
+.site-film[data-mode="light"]::after { background: linear-gradient(180deg, rgba(10, 10, 11, .5) 0%, rgba(10, 10, 11, .62) 45%, rgba(10, 10, 11, .86) 100%); }
+.sheet-ink[data-bg="dark"] { background: rgba(18, 18, 20, .76); }
+.craft[data-bg="dark"] { background: rgba(18, 18, 20, .84); }
