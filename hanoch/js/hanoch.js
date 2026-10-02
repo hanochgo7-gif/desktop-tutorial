@@ -882,7 +882,16 @@
     if (!el || !motion) return;
     var img = $('img', el);
     gsap.set(img, { autoAlpha: 0, y: 60 });
-    var show = function () { gsap.to(img, { autoAlpha: 1, y: 0, duration: 1.4, delay: 0.6, ease: 'expo.out' }); };
+    // הדמות חיה: וידאו עם רקע שקוף (WebM עם ערוץ אלפא). ספארי לא מציג שקיפות בווידאו, ושם נשארת התמונה
+    var anim = $('.portrait-anim', el);
+    var apple = /Apple/.test(navigator.vendor || '');
+    function wake() {
+      if (!anim || apple || !anim.canPlayType('video/webm; codecs="vp9"')) return;
+      anim.src = anim.dataset.src;
+      anim.addEventListener('playing', function () { el.classList.add('is-alive'); }, { once: true });
+      var pr = anim.play(); if (pr && pr.catch) pr.catch(function () { });
+    }
+    var show = function () { gsap.to(img, { autoAlpha: 1, y: 0, duration: 1.4, delay: 0.6, ease: 'expo.out', onComplete: wake }); };
     if (HG.introDone) show(); else window.addEventListener('hg:intro', show, { once: true });
     gsap.to(el, { autoAlpha: 0, yPercent: 18, scale: 0.92, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=35%', scrub: true } });
   }

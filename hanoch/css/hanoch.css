@@ -706,7 +706,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .demo-view.is-live .demo-poster { filter: blur(6px) brightness(.5); }
 .demo-play {
   position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; display: inline-flex; align-items: center; gap: .7rem;
-  padding: 1rem 1.6rem; border-radius: 99px; background: #e5372b; color: #fff; font-family: var(--f-mono); font-size: .9rem;
+  padding: 1rem 1.6rem; border-radius: 99px; background: #d63027; color: #fff; font-family: var(--f-mono); font-size: .9rem;
   box-shadow: 0 0 0 0 rgba(229, 55, 43, .55), 0 20px 40px -14px rgba(0, 0, 0, .8); transition: transform .3s var(--ease);
 }
 .motion .demo-play { animation: demo-pulse 2.2s ease-out infinite; }
@@ -719,7 +719,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .demo-sheet.is-open { opacity: 1; transform: none; }
 .demo-sheet .demo-iframe { z-index: auto; }
 .demo-lock, .demo-lock body { overflow: hidden; overscroll-behavior: none; }
-.p-demo { color: var(--p); font-size: .78rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .1rem; }
+.p-demo { color: color-mix(in srgb, var(--p) 78%, #fff); font-size: .78rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .1rem; }
 @media (max-width: 900px) { .demo { grid-template-columns: 1fr; } .demo-view { aspect-ratio: 4 / 5; } }
 
 /* כותרת התהליך: מילה אחת גדולה ושורת הסבר מתחתיה */
@@ -1235,8 +1235,8 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 @media (prefers-reduced-motion: reduce) { .sheet-film { background: url("../work/bg/meadow.webp") center / cover; } }
 
 /* ---------- תהליך כהה: פרח קריסטל חי מאחורי הכותרת ----------
-   הרקע הוא בדיוק השחור של הסרט (#111), והקצוות נמסים במסכה עגולה, כך שהפרח מרחף בלי מסגרת. */
-.process-dark { background: #111; color: var(--fg); }
+   הרקע הוא בדיוק השחור של הסרט (#0c0c0c), והקצוות נמסים במסכה עגולה, כך שהפרח מרחף בלי מסגרת. */
+.process-dark { background: #0c0c0c; color: var(--fg); }
 .process-dark .process-head { isolation: isolate; }
 .process-crystal { position: absolute; z-index: -1; top: 50%; inset-inline-start: 50%; width: clamp(420px, 44vw, 720px); aspect-ratio: 1; transform: translate(50%, -50%); pointer-events: none;
   -webkit-mask: radial-gradient(closest-side, #000 62%, transparent 100%); mask: radial-gradient(closest-side, #000 62%, transparent 100%); }
@@ -1248,7 +1248,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .process-dark .process-lead { color: var(--fg-dim); text-shadow: 0 2px 18px rgba(17, 17, 17, .95); }
 .process-dark .timeline::before { background: var(--fg-faint); }
 .process-dark .timeline::after { box-shadow: 0 0 14px rgba(255, 79, 26, .6); }
-.process-dark .timeline li::before { background: #111; }
+.process-dark .timeline li::before { background: #0c0c0c; }
 .process-dark .timeline p { color: rgba(237, 232, 222, .68); }
 .process-dark .tl-time { background: rgba(237, 232, 222, .08); color: var(--fg); box-shadow: inset 0 0 0 1px var(--fg-faint); }
 .process-dark .tl-ico { background: radial-gradient(circle at 50% 40%, #232327, #151517 72%); box-shadow: inset 0 0 0 1px rgba(237, 232, 222, .08), 0 18px 34px -16px rgba(0, 0, 0, .9); }
@@ -1277,3 +1277,10 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .contact[data-bg="light"] .chip span { background: rgba(10, 10, 11, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .contact[data-bg="light"] .contact-lead, .contact[data-bg="light"] .contact-direct { text-shadow: 0 2px 18px rgba(10, 10, 11, .9); }
 .contact[data-bg="light"] .brief-fields input { background: rgba(10, 10, 11, .5); }
+
+/* הדמות החיה: הווידאו השקוף נכנס מעל התמונה ברגע שהוא מתנגן */
+.portrait-anim { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: 50% 100%; opacity: 0; transition: opacity .6s; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, .55)); pointer-events: none; }
+.hero-portrait > div { position: relative; }
+.hero-portrait.is-alive .portrait-anim { opacity: 1; }
+.hero-portrait.is-alive img { transition: opacity .6s; opacity: 0 !important; }
+@media (max-width: 560px) { .portrait-anim { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); } }
