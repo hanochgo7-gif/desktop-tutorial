@@ -2210,3 +2210,5 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
 .hero-dl span { font-size: .78rem; opacity: .75; font-weight: 400; }
 .hero-dl { white-space: nowrap; }
 @media (max-width: 480px) { .hero-dl span { display: none; } }
+.sim__frame.is-live > .sim__play { display: none; }
+.sim__frame > iframe { z-index: 2; }

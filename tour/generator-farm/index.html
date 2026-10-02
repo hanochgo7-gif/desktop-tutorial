@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-base="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../images/logo.png">
+<title>סיור 360° בחוות גנרטורים | ש.גוטובסקי בע״מ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap">
+<style>
+/* 360° tour: the panorama fills the screen; a side panel lists the stops, a single control bar sits at the bottom. */
+:root {
+  --onyx: #0f0e12; --paper: #f3f1ec; --muted: #a9adb4; --accent: #1c82ad; --accent-2: #4fbbea;
+  --glass: rgba(14, 16, 20, .72); --glass-2: rgba(14, 16, 20, .86); --line: rgba(255, 255, 255, .13);
+  --font: "Heebo", system-ui, "Segoe UI", Arial, sans-serif; --panel: 320px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--onyx); color: var(--paper); font-family: var(--font); overflow: hidden; -webkit-font-smoothing: antialiased; }
+#pano { position: absolute; inset: 0; }
+button { font: inherit; color: inherit; }
+button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.glass { background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
+
+/* side panel */
+.panel { position: absolute; z-index: 6; top: 14px; bottom: 14px; inset-inline-start: 14px; width: var(--panel); border-radius: 18px; display: flex; flex-direction: column; overflow: hidden; transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s; }
+.panel.is-closed { transform: translateX(calc(100% + 20px)); opacity: 0; pointer-events: none; }
+[dir="ltr"] .panel.is-closed { transform: translateX(calc(-100% - 20px)); }
+.p-head { padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 11px; letter-spacing: .14em; font-weight: 600; color: var(--accent-2); text-transform: uppercase; }
+.stamp { letter-spacing: .04em; text-transform: none; font-size: 11px; font-weight: 600; color: #0f0e12; background: #f2d27a; padding: 3px 9px; border-radius: 999px; }
+.p-head h1 { margin: 8px 0 0; font-size: 21px; font-weight: 600; line-height: 1.2; }
+.p-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 8px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+.step { width: 100%; display: grid; grid-template-columns: 26px 66px 1fr; gap: 10px; align-items: center; padding: 8px; border: 0; border-radius: 12px; background: none; text-align: start; cursor: pointer; position: relative; transition: background .2s; }
+.step:hover { background: rgba(255,255,255,.06); }
+.step .num { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; text-align: center; }
+.step img { width: 66px; height: 42px; object-fit: cover; border-radius: 8px; display: block; border: 1px solid var(--line); }
+.step b { display: block; font-size: 14px; font-weight: 500; line-height: 1.25; }
+.step small { display: block; font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+.step[aria-current="step"] { background: rgba(28,130,173,.22); }
+.step[aria-current="step"]::before { content: ""; position: absolute; inset-block: 10px; inset-inline-start: 0; width: 3px; border-radius: 3px; background: var(--accent-2); }
+.step[aria-current="step"] .num { color: var(--accent-2); }
+.step[aria-current="step"] img { border-color: var(--accent-2); }
+.about { margin: 0 12px 10px; padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid var(--line); }
+.about h2 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+.about p { margin: 0; font-size: 13px; line-height: 1.55; color: #d8d6d1; }
+.plan { margin: 0 12px 12px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid var(--line); }
+.plan svg { display: block; width: 100%; height: auto; }
+.plan .pt { cursor: pointer; }
+.plan .pt circle { fill: var(--onyx); stroke: var(--paper); stroke-width: 2; }
+.plan .pt text { font: 600 8px var(--font); fill: var(--paper); pointer-events: none; }
+.plan .pt.on circle { fill: var(--accent); stroke: var(--accent-2); }
+.plan .fov { fill: rgba(79,187,234,.32); }
+.p-foot { padding: 10px 16px 14px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); }
+
+/* bottom control bar */
+.bar { position: absolute; z-index: 6; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 16px; max-width: calc(100% - 28px); }
+.with-panel .bar { left: calc(50% + (var(--panel) + 14px) / 2); }
+[dir="ltr"] .with-panel .bar { left: calc(50% + (var(--panel) + 14px) / 2); }
+[dir="rtl"] .with-panel .bar { left: calc(50% - (var(--panel) + 14px) / 2); }
+.ctl { all: unset; box-sizing: border-box; cursor: pointer; display: inline-grid; place-items: center; height: 42px; min-width: 42px; padding: 0 10px; border-radius: 11px; color: var(--paper); transition: background .2s; }
+.ctl:hover { background: rgba(255,255,255,.1); }
+.ctl:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+.ctl[aria-pressed="true"] { background: var(--accent); }
+.ctl svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+[dir="rtl"] .flip svg { transform: scaleX(-1); }
+.ctl.nav { display: inline-flex; gap: 8px; font-size: 14px; font-weight: 500; }
+.now { display: grid; text-align: center; padding: 0 14px; min-width: 170px; line-height: 1.2; }
+.now small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.now b { font-size: 14px; font-weight: 600; white-space: nowrap; }
+.sep { width: 1px; height: 26px; background: var(--line); margin: 0 4px; }
+
+/* hint */
+.hint { position: absolute; z-index: 5; left: 50%; bottom: 82px; transform: translateX(-50%); font-size: 13px; padding: 8px 14px; border-radius: 999px; transition: opacity .6s; white-space: nowrap; pointer-events: none; }
+.with-panel .hint { left: calc(50% - (var(--panel) + 14px) / 2); }
+[dir="ltr"] .with-panel .hint { left: calc(50% + (var(--panel) + 14px) / 2); }
+.hint.gone { opacity: 0; }
+
+/* hotspots inside the panorama */
+.hs { width: 0; height: 0; cursor: pointer; }
+.hs .dot { position: absolute; left: -24px; top: -24px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: rgba(14,16,20,.55); border: 2px solid rgba(255,255,255,.9); box-shadow: 0 0 0 6px rgba(79,187,234,.22), 0 6px 18px rgba(0,0,0,.35); transition: transform .25s, background .25s; }
+.hs .dot svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hs:hover .dot { transform: scale(1.1); background: var(--accent); }
+.hs .lbl { position: absolute; top: 32px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 600 12.5px/1 var(--font); color: #fff; background: var(--glass-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; }
+.pnlm-load-box { background: var(--glass-2) !important; border-radius: 14px; font-family: var(--font) !important; }
+.pnlm-panorama-info, .pnlm-about-msg { display: none !important; }
+
+/* phones: the panel becomes a sheet under the control bar, collapsed to the list */
+@media (max-width: 760px) {
+  :root { --panel: 100%; }
+  .panel { top: auto; bottom: 74px; inset-inline: 10px; width: auto; max-height: 52svh; border-radius: 16px; }
+  .panel.is-closed { transform: translateY(calc(100% + 90px)); }
+  [dir="ltr"] .panel.is-closed { transform: translateY(calc(100% + 90px)); }
+  .p-head { padding: 12px 14px 10px; } .p-head h1 { font-size: 17px; } .p-head p { display: none; }
+  .plan, .p-foot { display: none; }
+  .about { margin: 0 8px 8px; }
+  .bar, .with-panel .bar, [dir="rtl"] .with-panel .bar, [dir="ltr"] .with-panel .bar { left: 10px; right: 10px; transform: none; bottom: 10px; justify-content: space-between; max-width: none; }
+  .now { min-width: 0; flex: 1; padding: 0 6px; } .now b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+  .ctl.nav span, .opt { display: none; }
+  .hint, .with-panel .hint, [dir="ltr"] .with-panel .hint { left: 50%; bottom: auto; top: 14px; }
+}
+/* short frames (the tour inside a page): drop the extras so the list of stops stays readable */
+@media (min-width: 761px) and (max-height: 780px) { .plan { display: none; } }
+@media (min-width: 761px) and (max-height: 600px) { .p-head p, .p-foot { display: none; } .about p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } }
+.now small, .now b { white-space: nowrap; }
+/* inside the site on a phone the page's own floating buttons sit at the bottom, so the controls move to the top */
+@media (max-width: 760px) {
+  .embed .bar, .embed.with-panel .bar { top: 10px; bottom: auto; }
+  .embed .panel { top: 74px; bottom: auto; }
+  .embed .panel.is-closed { transform: translateY(calc(-100% - 90px)); }
+  .embed .hint { top: auto; bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .panel, .hint { transition: none; } }
+/* Pannellum 2.5.6, https://github.com/mpetroff/pannellum */
+.pnlm-container{margin:0;padding:0;overflow:hidden;position:relative;cursor:default;width:100%;height:100%;font-family:Helvetica,"Nimbus Sans L","Liberation Sans",Arial,sans-serif;background:#f4f4f4 url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2267%22%20height%3D%22100%22%20viewBox%3D%220%200%2067%20100%22%3E%0A%3Cpath%20stroke%3D%22%23ccc%22%20fill%3D%22none%22%20d%3D%22M33.5%2C50%2C0%2C63%2C33.5%2C75%2C67%2C63%2C33.5%2C50m-33.5-50%2C67%2C25m-0.5%2C0%2C0%2C75m-66.5-75%2C67-25m-33.5%2C75%2C0%2C25m0-100%2C0%2C50%22%2F%3E%0A%3C%2Fsvg%3E%0A') repeat;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-o-user-select:none;-ms-user-select:none;user-select:none;outline:0;line-height:1.4;contain:content}.pnlm-container *{box-sizing:content-box}.pnlm-ui{position:absolute;width:100%;height:100%;z-index:1}.pnlm-grab{cursor:grab;cursor:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2226%22%20width%3D%2226%22%3E%0A%3Cpath%20stroke%3D%22%23000%22%20stroke-width%3D%221px%22%20fill%3D%22%23fff%22%20d%3D%22m15.3%2020.5s6.38-6.73%204.64-8.24-3.47%201.01-3.47%201.01%203.61-5.72%201.41-6.49c-2.2-0.769-3.33%204.36-3.33%204.36s0.873-5.76-1.06-5.76-1.58%205.39-1.58%205.39-0.574-4.59-2.18-4.12c-1.61%200.468-0.572%205.51-0.572%205.51s-1.58-4.89-2.93-3.79c-1.35%201.11%200.258%205.25%200.572%206.62%200.836%202.43%202.03%202.94%202.17%205.55%22%2F%3E%0A%3C%2Fsvg%3E%0A') 12 8,default}.pnlm-grabbing{cursor:grabbing;cursor:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2226%22%20width%3D%2226%22%3E%0A%3Cpath%20stroke%3D%22%23000%22%20stroke-width%3D%221px%22%20fill%3D%22%23fff%22%20d%3D%22m15.3%2020.5s5.07-5.29%203.77-6.74c-1.31-1.45-2.53%200.14-2.53%200.14s2.74-3.29%200.535-4.06c-2.2-0.769-2.52%201.3-2.52%201.3s0.81-2.13-1.12-2.13-1.52%201.77-1.52%201.77-0.261-1.59-1.87-1.12c-1.61%200.468-0.874%202.17-0.874%202.17s-0.651-1.55-2-0.445c-1.35%201.11-0.68%202.25-0.365%203.62%200.836%202.43%202.03%202.94%202.17%205.55%22%2F%3E%0A%3C%2Fsvg%3E%0A') 12 8,default}.pnlm-sprite{background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%22208%22%3E%0A%3Ccircle%20fill-opacity%3D%22.78%22%20cy%3D%22117%22%20cx%3D%2213%22%20r%3D%2211%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20fill-opacity%3D%22.78%22%20cy%3D%22143%22%20cx%3D%2213%22%20r%3D%2211%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cy%3D%22169%22%20cx%3D%2213%22%20r%3D%227%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%2F%3E%0A%3Ccircle%20cy%3D%22195%22%20cx%3D%2213%22%20r%3D%227%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%2F%3E%0A%3Ccircle%20cx%3D%2213%22%20cy%3D%22195%22%20r%3D%222.5%22%2F%3E%0A%3Cpath%20d%3D%22m5%2083v6h2v-4h4v-2zm10%200v2h4v4h2v-6zm-5%205v6h6v-6zm-5%205v6h6v-2h-4v-4zm14%200v4h-4v2h6v-6z%22%2F%3E%0A%3Cpath%20d%3D%22m13%20110a7%207%200%200%200%20-7%207%207%207%200%200%200%207%207%207%207%200%200%200%207%20-7%207%207%200%200%200%20-7%20-7zm-1%203h2v2h-2zm0%203h2v5h-2z%22%2F%3E%0A%3Cpath%20d%3D%22m5%2057v6h2v-4h4v-2zm10%200v2h4v4h2v-6zm-10%2010v6h6v-2h-4v-4zm14%200v4h-4v2h6v-6z%22%2F%3E%0A%3Cpath%20d%3D%22m17%2038v2h-8v-2z%22%2F%3E%0A%3Cpath%20d%3D%22m12%209v3h-3v2h3v3h2v-3h3v-2h-3v-3z%22%2F%3E%0A%3Cpath%20d%3D%22m13%20136-6.125%206.125h4.375v7.875h3.5v-7.875h4.375z%22%2F%3E%0A%3Cpath%20d%3D%22m10.428%20173.33v-5.77l5-2.89v5.77zm1-1.73%203-1.73-3.001-1.74z%22%2F%3E%0A%3C%2Fsvg%3E%0A')}.pnlm-container:-moz-full-screen{height:100%!important;width:100%!important;position:static!important}.pnlm-container:-webkit-full-screen{height:100%!important;width:100%!important;position:static!important}.pnlm-container:-ms-fullscreen{height:100%!important;width:100%!important;position:static!important}.pnlm-container:fullscreen{height:100%!important;width:100%!important;position:static!important}.pnlm-render-container{cursor:inherit;position:absolute;height:100%;width:100%}.pnlm-controls{margin-top:4px;background-color:#fff;border:1px solid #999;border-color:rgba(0,0,0,0.4);border-radius:3px;cursor:pointer;z-index:2;-webkit-transform:translateZ(9999px);transform:translateZ(9999px)}.pnlm-control:hover{background-color:#f8f8f8}.pnlm-controls-container{position:absolute;top:0;left:4px;z-index:1}.pnlm-zoom-controls{width:26px;height:52px}.pnlm-zoom-in{width:100%;height:50%;position:absolute;top:0;border-radius:3px 3px 0 0}.pnlm-zoom-out{width:100%;height:50%;position:absolute;bottom:0;background-position:0 -26px;border-top:1px solid #ddd;border-top-color:rgba(0,0,0,0.10);border-radius:0 0 3px 3px}.pnlm-fullscreen-toggle-button,.pnlm-orientation-button,.pnlm-hot-spot-debug-indicator{width:26px;height:26px}.pnlm-hot-spot-debug-indicator{position:absolute;top:50%;left:50%;width:26px;height:26px;margin:-13px 0 0 -13px;background-color:rgba(255,255,255,0.5);border-radius:13px;display:none}.pnlm-orientation-button-inactive{background-position:0 -156px}.pnlm-orientation-button-active{background-position:0 -182px}.pnlm-fullscreen-toggle-button-inactive{background-position:0 -52px}.pnlm-fullscreen-toggle-button-active{background-position:0 -78px}.pnlm-panorama-info{position:absolute;bottom:4px;background-color:rgba(0,0,0,0.7);border-radius:0 3px 3px 0;padding-right:10px;color:#fff;text-align:left;display:none;z-index:2;-webkit-transform:translateZ(9999px);transform:translateZ(9999px)}.pnlm-title-box{position:relative;font-size:20px;display:table;padding-left:5px;margin-bottom:3px}.pnlm-author-box{position:relative;font-size:12px;display:table;padding-left:5px}.pnlm-load-box{position:absolute;top:50%;left:50%;width:200px;height:150px;margin:-75px 0 0 -100px;background-color:rgba(0,0,0,0.7);border-radius:3px;text-align:center;font-size:20px;display:none;color:#fff}.pnlm-load-box p{margin:20px 0}.pnlm-lbox{position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;display:none}.pnlm-loading{animation-duration:1.5s;-webkit-animation-duration:1.5s;animation-name:pnlm-mv;-webkit-animation-name:pnlm-mv;animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite;animation-timing-function:linear;-webkit-animation-timing-function:linear;height:10px;width:10px;background-color:#fff;position:relative}@keyframes pnlm-mv{from{left:0;top:0}25%{left:10px;top:0}50%{left:10px;top:10px}75%{left:0;top:10px}to{left:0;top:0}}@-webkit-keyframes pnlm-mv{from{left:0;top:0}25%{left:10px;top:0}50%{left:10px;top:10px}75%{left:0;top:10px}to{left:0;top:0}}.pnlm-load-button{position:absolute;top:50%;left:50%;width:200px;height:100px;margin:-50px 0 0 -100px;background-color:rgba(0,0,0,.7);border-radius:3px;text-align:center;font-size:20px;display:table;color:#fff;cursor:pointer}.pnlm-load-button:hover{background-color:rgba(0,0,0,.8)}.pnlm-load-button p{display:table-cell;vertical-align:middle}.pnlm-info-box{font-size:15px;position:absolute;top:50%;left:50%;width:200px;height:150px;margin:-75px 0 0 -100px;background-color:#000;border-radius:3px;display:table;text-align:center;color:#fff;table-layout:fixed}.pnlm-info-box a,.pnlm-author-box a{color:#fff;word-wrap:break-word;overflow-wrap:break-word}.pnlm-info-box p{display:table-cell;vertical-align:middle;padding:0 5px 0 5px}.pnlm-error-msg{display:none}.pnlm-about-msg{font-size:11px;line-height:11px;color:#fff;padding:5px 8px 5px 8px;background:rgba(0,0,0,0.7);border-radius:3px;position:absolute;top:50px;left:50px;display:none;opacity:0;-moz-transition:opacity .3s ease-in-out;-webkit-transition:opacity .3s ease-in-out;-o-transition:opacity .3s ease-in-out;-ms-transition:opacity .3s ease-in-out;transition:opacity .3s ease-in-out;z-index:1}.pnlm-about-msg a:link,.pnlm-about-msg a:visited{color:#fff}.pnlm-about-msg a:hover,.pnlm-about-msg a:active{color:#eee}.pnlm-hotspot-base{position:absolute;visibility:hidden;cursor:default;vertical-align:middle;top:0;z-index:1}.pnlm-hotspot{height:26px;width:26px;border-radius:13px}.pnlm-hotspot:hover{background-color:rgba(255,255,255,0.2)}.pnlm-hotspot.pnlm-info{background-position:0 -104px}.pnlm-hotspot.pnlm-scene{background-position:0 -130px}div.pnlm-tooltip span{visibility:hidden;position:absolute;border-radius:3px;background-color:rgba(0,0,0,0.7);color:#fff;text-align:center;max-width:200px;padding:5px 10px;margin-left:-220px;cursor:default}div.pnlm-tooltip:hover span{visibility:visible}div.pnlm-tooltip:hover span:after{content:'';position:absolute;width:0;height:0;border-width:10px;border-style:solid;border-color:rgba(0,0,0,0.7) transparent transparent transparent;bottom:-20px;left:-10px;margin:0 50%}.pnlm-compass{position:absolute;width:50px;height:50px;right:4px;bottom:4px;border-radius:25px;background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%2250%22%20width%3D%2250%22%3E%0A%3Cpath%20d%3D%22m24.5078%206-3.2578%2018h7.5l-3.25781-18h-0.984376zm-3.2578%2020%203.2578%2018h0.9844l3.2578-18h-7.5zm1.19531%200.9941h5.10938l-2.5547%2014.1075-2.5547-14.1075z%22%2F%3E%0A%3C%2Fsvg%3E%0A');cursor:default;display:none}.pnlm-world{position:absolute;left:50%;top:50%}.pnlm-face{position:absolute;-webkit-transform-origin:0 0;transform-origin:0 0}.pnlm-dragfix,.pnlm-preview-img{position:absolute;height:100%;width:100%}.pnlm-preview-img{background-size:cover;background-position:center}.pnlm-lbar{width:150px;margin:0 auto;border:#fff 1px solid;height:6px}.pnlm-lbar-fill{background:#fff;height:100%;width:0}.pnlm-lmsg{font-size:12px}.pnlm-fade-img{position:absolute;top:0;left:0}.pnlm-pointer{cursor:pointer}
+</style>
+</head>
+<body>
+<main class="app with-panel" id="app">
+  <div id="pano" role="img"></div>
+  <aside class="panel glass" id="panel">
+    <div class="p-head">
+      <div class="brand"><span data-t="brand"></span><span class="stamp" data-t="stamp"></span></div>
+      <h1 data-t="title"></h1>
+      <p data-t="lead"></p>
+    </div>
+    <ol class="steps" id="steps"></ol>
+    <section class="about" aria-live="polite"><h2 id="aboutT"></h2><p id="aboutD"></p></section>
+    <div class="plan">
+      <svg viewBox="0 0 220 150" role="group" id="planSvg">
+        <rect x="6" y="6" width="208" height="138" rx="6" fill="none" stroke="rgba(255,255,255,.3)" stroke-dasharray="4 3"/>
+        <rect x="70" y="14" width="80" height="26" rx="2" fill="rgba(255,255,255,.12)"/><text x="110" y="31" text-anchor="middle" fill="#a9adb4" font-size="9" font-family="Heebo" data-t="planBld"></text>
+        <g fill="rgba(255,255,255,.2)"><rect x="40" y="52" width="40" height="8"/><rect x="40" y="66" width="40" height="8"/><rect x="40" y="80" width="40" height="8"/><rect x="140" y="52" width="40" height="8"/><rect x="140" y="66" width="40" height="8"/><rect x="140" y="80" width="40" height="8"/></g>
+        <rect x="20" y="104" width="72" height="32" rx="2" fill="none" stroke="rgba(255,255,255,.28)" stroke-dasharray="3 2"/><text x="56" y="132" text-anchor="middle" fill="#a9adb4" font-size="8" font-family="Heebo" data-t="planTanks"></text>
+        <rect x="150" y="104" width="34" height="24" rx="2" fill="rgba(255,255,255,.12)"/>
+        <path id="fov" class="fov" d=""/>
+        <g id="pts"></g>
+      </svg>
+    </div>
+    <div class="p-foot" data-t="note"></div>
+  </aside>
+  <div class="hint glass" id="hint" data-t="hint"></div>
+  <nav class="bar glass" id="bar">
+    <button class="ctl" type="button" id="tPanel" aria-pressed="true" aria-controls="panel"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <span class="sep" aria-hidden="true"></span>
+    <button class="ctl nav flip" type="button" id="prev"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg><span data-t="prev"></span></button>
+    <div class="now" aria-live="polite"><small id="nowN"></small><b id="nowT"></b></div>
+    <button class="ctl nav flip" type="button" id="next"><span data-t="next"></span><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    <span class="sep opt" aria-hidden="true"></span>
+    <button class="ctl opt" type="button" id="zOut"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M20 20l-4-4"/></svg></button>
+    <button class="ctl opt" type="button" id="zIn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M11 8v6M20 20l-4-4"/></svg></button>
+    <button class="ctl" type="button" id="tRot" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg></button>
+    <button class="ctl" type="button" id="tFull"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </nav>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
+<script>
+(() => {
+  const root = document.documentElement, EN = root.lang === 'en', BASE = root.dataset.base || '';
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const phone = matchMedia('(max-width: 760px)').matches;
+  if (new URLSearchParams(location.search).has('embed')) document.getElementById('app').classList.add('embed');
+  const T = EN ? {
+    brand: 'S. Gotovski Ltd. · Data center fuel systems', stamp: 'Rendering', title: '360° tour of a generator farm', lead: 'Five stops on a typical site, from the generator yard to the pump room.',
+    planBld: 'Data center', planTanks: 'Underground tanks', note: 'Computer rendering for illustration. Not an existing project.',
+    hint: 'Drag to look around · use the arrows to move', prev: 'Previous', next: 'Next', of: ' of ', stop: 'Stop ',
+    panel: 'Show the list of stops', zOut: 'Zoom out', zIn: 'Zoom in', rot: 'Auto rotate', full: 'Full screen', go: 'Go to ', plan: 'Site plan: select a stop',
+    alt: '360° rendering of a data center fuel system and generator yard',
+    S: {
+      yard: ['Generator yard', 'Containerized gensets, a line to every unit', 'Containerized backup generators, a supply and return line to every unit, and the data center building at the end of the service road.'],
+      tanks: ['Tank farm', 'Underground tanks in a concrete pit', 'The diesel tanks are buried in a concrete pit under the slab. Above every tank: sumps, vents, fill and gauge points and interstitial monitoring.'],
+      unload: ['Tanker unloading bay', 'Fill point, filtration and spill drainage', 'A covered fill point with dry-break couplers, a flow meter, filtration and grounding. From here the fuel drops into the underground tanks beneath the slab, and a drainage channel collects any spill.'],
+      pumps: ['Pump and filtration room', 'Transfer pumps, polishing and controls', 'A pair of transfer pumps, a fuel polishing and filtration system, valves, check valves and a control panel with leak detection.'],
+      hall: ['Generator hall', 'Genset, day tank and exhaust', 'A 2.5 MW diesel generator with its day tank, supply and return lines, and an exhaust silencer.']
+    }
+  } : {
+    brand: 'ש.גוטובסקי בע״מ · מערכות דלק לחוות שרתים', stamp: 'הדמיה', title: 'סיור 360° בחוות גנרטורים', lead: 'חמש נקודות באתר טיפוסי, מחצר הגנרטורים ועד חדר המשאבות.',
+    planBld: 'מבנה החווה', planTanks: 'מיכלים תת־קרקעיים', note: 'הדמיה ממוחשבת לצורכי המחשה. אינה פרויקט קיים.',
+    hint: 'גררו כדי להסתכל מסביב · לחצו על החצים כדי לעבור', prev: 'הקודם', next: 'הבא', of: ' מתוך ', stop: 'נקודה ',
+    panel: 'הצגת רשימת הנקודות', zOut: 'התרחקות', zIn: 'התקרבות', rot: 'סיבוב אוטומטי', full: 'מסך מלא', go: 'מעבר אל ', plan: 'תוכנית האתר: בחרו נקודה',
+    alt: 'הדמיית 360 מעלות של מערכת הדלק וחצר הגנרטורים בחוות שרתים',
+    S: {
+      yard: ['חצר הגנרטורים', 'גנרטורים במכולות, צנרת לכל יחידה', 'גנרטורי גיבוי במכולות, צנרת אספקה והחזרה לכל יחידה, ומבנה החווה בקצה הכביש.'],
+      tanks: ['חוות המכלים', 'מיכלים תת־קרקעיים בבור בטון', 'מיכלי הסולר קבורים בבור בטון מתחת לרחבה. מעל כל מיכל: שוחות, אוורור, נקודות מילוי ומדידה וניטור של החלל שבין הדפנות.'],
+      unload: ['עמדת פריקה למכליות', 'מילוי, סינון וניקוז דליפות', 'נקודת מילוי מקורה עם מצמדים מהירים, מד ספיקה, סינון והארקה. מכאן הדלק יורד למיכלים התת־קרקעיים שמתחת לרחבה, ותעלת ניקוז אוספת כל דליפה.'],
+      pumps: ['חדר המשאבות והסינון', 'משאבות העברה, ליטוש ובקרה', 'זוג משאבות העברה, מערכת ליטוש וסינון סולר, מגופים, אל־חוזרים ולוח בקרה עם גילוי דליפות.'],
+      hall: ['אולם גנרטור', 'גנרטור, מיכל יומי ופליטה', 'גנרטור דיזל 2.5 מגה־וואט עם מיכל יומי, צנרת אספקה והחזרה, ומשתיק פליטה.']
+    }
+  };
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = T[el.dataset.t]; });
+  document.getElementById('pano').setAttribute('aria-label', T.alt);
+  document.getElementById('planSvg').setAttribute('aria-label', T.plan);
+  [['tPanel', T.panel], ['zOut', T.zOut], ['zIn', T.zIn], ['tRot', T.rot], ['tFull', T.full], ['prev', T.prev], ['next', T.next]].forEach(([id, l]) => document.getElementById(id).setAttribute('aria-label', l));
+
+  // x, y: position on the site plan; north: plan heading of the panorama's yaw 0
+  const SC = {
+    yard:   { file: 'generator-yard', x: 110, y: 70, north: 0, links: [{ to: 'hall', yaw: 2, pitch: -3 }, { to: 'tanks', yaw: 160, pitch: -8 }] },
+    tanks:  { file: 'tank-farm', x: 56, y: 98, north: 0, links: [{ to: 'yard', yaw: -60, pitch: -6 }, { to: 'unload', yaw: 120, pitch: -8 }, { to: 'pumps', yaw: 175, pitch: -6 }] },
+    unload: { file: 'unloading-bay', x: 120, y: 132, north: 180, links: [{ to: 'tanks', yaw: -15, pitch: -6 }, { to: 'yard', yaw: 80, pitch: -6 }, { to: 'pumps', yaw: -110, pitch: -8 }] },
+    pumps:  { file: 'pump-room', x: 167, y: 116, north: 270, links: [{ to: 'unload', yaw: 0, pitch: -8 }, { to: 'hall', yaw: 178, pitch: -6 }] },
+    hall:   { file: 'generator-hall', x: 110, y: 27, north: 0, links: [{ to: 'yard', yaw: -150, pitch: -6 }, { to: 'pumps', yaw: 150, pitch: -6 }] }
+  };
+  const order = ['yard', 'tanks', 'unload', 'pumps', 'hall'];
+  const arrow = '<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  const tip = (div, a) => { div.classList.add('hs'); div.innerHTML = '<span class="dot">' + arrow + '</span><span class="lbl"></span>'; div.querySelector('.lbl').textContent = a.label; div.setAttribute('role', 'button'); div.setAttribute('aria-label', T.go + a.label); };
+  const scenes = {};
+  order.forEach((id) => {
+    scenes[id] = { type: 'equirectangular', panorama: BASE + SC[id].file + '.jpg', hfov: 100, minHfov: 50, maxHfov: 120, minPitch: -75, maxPitch: 90,
+      hotSpots: SC[id].links.map((l) => ({ type: 'scene', sceneId: l.to, yaw: l.yaw, pitch: l.pitch, createTooltipFunc: tip, createTooltipArgs: { label: T.S[l.to][0] }, targetYaw: 'sameAzimuth' })) };
+  });
+  const viewer = pannellum.viewer('pano', { default: { firstScene: order[0], sceneFadeDuration: 900, autoLoad: true, autoRotate: reduced ? 0 : -1.6, autoRotateInactivityDelay: 8000, showControls: false, compass: false, keyboardZoom: true }, scenes });
+  const go = (id) => { if (id !== viewer.getScene()) viewer.loadScene(id); };
+  const idx = () => order.indexOf(viewer.getScene());
+
+  // list of stops
+  const list = document.getElementById('steps');
+  order.forEach((id, i) => {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.className = 'step'; b.dataset.id = id;
+    b.innerHTML = '<span class="num">0' + (i + 1) + '</span><img alt="" src="' + BASE + 'thumb-' + SC[id].file + '.jpg"><span><b></b><small></small></span>';
+    b.querySelector('b').textContent = T.S[id][0]; b.querySelector('small').textContent = T.S[id][1];
+    b.addEventListener('click', () => { go(id); if (phone) setPanel(false); });
+    li.appendChild(b); list.appendChild(li);
+  });
+  // site plan
+  const NS = 'http://www.w3.org/2000/svg', pts = document.getElementById('pts');
+  order.forEach((id, i) => {
+    const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'pt'); g.dataset.id = id; g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', T.S[id][0]);
+    const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', SC[id].x); c.setAttribute('cy', SC[id].y); c.setAttribute('r', 6.5);
+    const t = document.createElementNS(NS, 'text'); t.setAttribute('x', SC[id].x); t.setAttribute('y', SC[id].y + 2.8); t.setAttribute('text-anchor', 'middle'); t.textContent = i + 1;
+    g.append(c, t); pts.appendChild(g);
+    g.addEventListener('click', () => go(id)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(id); } });
+  });
+  const fov = document.getElementById('fov');
+  (function drawFov() {
+    const sc = SC[viewer.getScene()];
+    if (sc) { const h = (sc.north + viewer.getYaw()) * Math.PI / 180, half = (viewer.getHfov() / 2) * Math.PI / 180, r = 26; const p = (a) => (sc.x + r * Math.sin(a)).toFixed(1) + ' ' + (sc.y - r * Math.cos(a)).toFixed(1); fov.setAttribute('d', 'M' + sc.x + ' ' + sc.y + ' L' + p(h - half) + ' A' + r + ' ' + r + ' 0 0 1 ' + p(h + half) + ' Z'); }
+    requestAnimationFrame(drawFov);
+  })();
+  const mark = () => {
+    const cur = viewer.getScene(), i = order.indexOf(cur);
+    list.querySelectorAll('.step').forEach((b) => { if (b.dataset.id === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    pts.querySelectorAll('.pt').forEach((g) => g.classList.toggle('on', g.dataset.id === cur));
+    document.getElementById('aboutT').textContent = T.S[cur][0]; document.getElementById('aboutD').textContent = T.S[cur][2];
+    document.getElementById('nowN').textContent = T.stop + (i + 1) + T.of + order.length; document.getElementById('nowT').textContent = T.S[cur][0];
+  };
+  viewer.on('load', mark); viewer.on('scenechange', mark);
+
+  // controls
+  document.getElementById('prev').addEventListener('click', () => go(order[(idx() - 1 + order.length) % order.length]));
+  document.getElementById('next').addEventListener('click', () => go(order[(idx() + 1) % order.length]));
+  document.getElementById('zIn').addEventListener('click', () => viewer.setHfov(viewer.getHfov() - 15));
+  document.getElementById('zOut').addEventListener('click', () => viewer.setHfov(viewer.getHfov() + 15));
+  const rot = document.getElementById('tRot');
+  if (reduced) rot.setAttribute('aria-pressed', 'false');
+  rot.addEventListener('click', () => { const on = rot.getAttribute('aria-pressed') !== 'true'; rot.setAttribute('aria-pressed', String(on)); if (on) viewer.startAutoRotate(-1.6); else viewer.stopAutoRotate(); });
+  document.getElementById('tFull').addEventListener('click', () => { const el = document.documentElement; if (document.fullscreenElement) document.exitFullscreen(); else if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); });
+  const panel = document.getElementById('panel'), app = document.getElementById('app'), tp = document.getElementById('tPanel');
+  function setPanel(on) { panel.classList.toggle('is-closed', !on); app.classList.toggle('with-panel', on && !phone); tp.setAttribute('aria-pressed', String(on)); panel.toggleAttribute('inert', !on); }
+  tp.addEventListener('click', () => setPanel(tp.getAttribute('aria-pressed') !== 'true'));
+  setPanel(!phone);
+  const hint = document.getElementById('hint');
+  ['mousedown', 'touchstart'].forEach((ev) => viewer.on(ev, () => hint.classList.add('gone')));
+  setTimeout(() => hint.classList.add('gone'), 7000);
+})();
+</script>
+</body>
+</html>
