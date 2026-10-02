@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hanoch Gotovski | Websites, designed and built</title>
+<meta name="description" content="Hanoch Gotovski builds websites: design, code and motion. Custom-designed, hand-coded sites that are as fast as they are beautiful.">
+<meta name="theme-color" content="#0a0a0b">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Hanoch Gotovski | Websites, designed and built">
+<meta property="og:description" content="Six websites, six design languages. Design, code and motion, in one pair of hands.">
+<!-- תמונת שיתוף: כשהאתר עולה לדומיין, להחליף לכתובת מלאה (https://…/work/og-home.jpg). וואטסאפ ופייסבוק לא קוראים כתובת יחסית -->
+<meta property="og:image" content="work/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hanoch Gotovski, web builder">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0b'/%3E%3Ctext x='32' y='46' font-family='serif' font-weight='900' font-size='40' text-anchor='middle' fill='%23ff4f1a'%3E%D7%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Fraunces:opsz,wght@9..144,300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="alternate" hreflang="he" href="index.html">
+<link rel="alternate" hreflang="en" href="en.html">
+<link rel="stylesheet" href="css/hanoch.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+<script>
+  // מצב תנועה נקבע לפני הציור הראשון, כדי שלא יהיה הבהוב
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    var a11y = {};
+    try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#work">Skip to the work</a>
+
+<!-- פתיח: השרטוט נמתח והשם מוקלד -->
+<div class="intro" aria-hidden="true">
+  <svg class="intro-grid" preserveAspectRatio="none"></svg>
+  <div class="intro-type"><span class="intro-text"></span><i class="caret"></i></div>
+  <div class="intro-meta mono">
+    <span>Drawing No. 01</span>
+    <span>Hanoch Gotovski — personal site</span>
+    <span class="intro-pct">000</span>
+  </div>
+</div>
+
+<canvas class="gl" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<!-- עולם קולנועי מאחורי האתר: מציץ רק דרך החלקים הכהים. לילה מאחורי החבילות והעבודות, שקיעה מאחורי "בואו נבנה." -->
+<div class="site-film" aria-hidden="true">
+  <video muted loop playsinline preload="none" data-film="dark" data-src="work/bg/dark.mp4" data-src-m="work/bg/dark-m.mp4" data-poster="work/bg/dark.webp"></video>
+  <video muted loop playsinline preload="none" data-film="light" data-src="work/bg/light.mp4" data-src-m="work/bg/light-m.mp4" data-poster="work/bg/light.webp"></video>
+</div>
+
+<header class="bar">
+  <a class="bar-mark" href="#top" aria-label="H·G – Hanoch Gotovski, back to top">H<span>·</span>G</a>
+  <nav class="bar-nav" aria-label="Main">
+    <a href="en-work.html">Work</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Packages</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="lang-switch mono" href="index.html" hreflang="he" lang="he" aria-label="עברית">עב</a>
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Sound – site sounds">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Sound</span>
+  </button>
+  <button class="xray-toggle" type="button" aria-pressed="false" title="X key">
+    <span class="xray-dot" aria-hidden="true"></span><span>X-ray</span>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- 01 פתיחה: השם כחומר חי -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-pin">
+      <h1 class="hero-title" id="hero-title"><span>Hanoch</span> <span>Gotovski</span></h1>
+      <!-- הדמות (היגספילד): עומדת בתוך הקשת של ה-ח ונמשכת אחרי העכבר -->
+      <div class="hero-portrait" aria-hidden="true"><div data-magnet="3" data-magnet-pad="150"><img src="work/me/character.webp" alt="" width="800" height="900" fetchpriority="high" decoding="async"><video class="portrait-anim" muted loop playsinline preload="none" data-src="work/me/character.webm" data-stack="work/me/character-stack.mp4"></video></div></div>
+      <div class="hero-ui">
+        <p class="hero-role">I build websites. Design, code and motion, in one pair of hands.</p>
+        <div class="hero-meta mono">
+          <span>Israel · <time class="clock">--:--</time></span>
+          <span>Available for projects · 2026</span>
+        </div>
+      </div>
+      <div class="scroll-cue mono" aria-hidden="true"><i></i></div>
+      <div class="hero-flash" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 02 מניפסט -->
+  <section class="sheet manifesto" aria-label="Approach">
+    <!-- רקע חי: פרחים מרחפים מעל גבעת טחב. קבוע במסך בזמן שהגיליון נגלל מעליו -->
+    <div class="sheet-film" aria-hidden="true"><video muted loop playsinline preload="none" data-src="work/bg/meadow.mp4" data-src-m="work/bg/meadow-m.mp4"></video></div>
+    <p class="manifesto-text" data-words>I don't build websites. I build the first second: the moment someone opens your site, and decides to stay.</p>
+    <div class="principles-wrap">
+      <p class="principles-title">Three principles behind every project</p>
+      <ol class="principles">
+        <li>
+          <h2>No templates</h2>
+          <p>Every site is built from scratch around your business, not around a ready-made theme. So every client gets a language of their own.</p>
+          <span class="pr-proof mono">6 sites · 6 design languages</span>
+        </li>
+        <li>
+          <h2>Speed you can feel</h2>
+          <p>Rich animation never comes at the cost of load time. Every site is tested on a phone, and whatever slows it down goes.</p>
+          <span class="pr-proof mono">Allenbis: 24× less JavaScript</span>
+        </li>
+        <li>
+          <h2>Language and access</h2>
+          <p>Right-to-left or left-to-right from the very first line, copy written in your customers' language, and a site that also works for people who ask for less motion.</p>
+          <span class="pr-proof mono">Full RTL support · Accessibility menu</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 03 עבודות: הצצה, והכניסה לתיק העבודות -->
+  <section class="sheet sheet-ink teaser" id="work" aria-labelledby="work-title">
+    <div class="teaser-head">
+      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
+      <h2 class="display" id="work-title">Six sites.<br>Six languages.</h2>
+      <div class="teaser-side">
+        <p class="teaser-lead">From a family fuel company to a maths tutor: every site is built around one business, with a language of its own. The portfolio holds the full story of each project, a live simulation, a before and after, and how it was all built.</p>
+        <div class="teaser-actions"><a class="btn btn-signal teaser-cta magnetic" href="en-work.html"><span>Enter the portfolio →</span></a><button class="film-play mono" type="button" data-film><span class="film-play-i" aria-hidden="true"></span>Watch the film · 22 seconds</button></div>
+      </div>
+    </div>
+    <ol class="teaser-grid" role="list">
+      <li><a class="tg" href="en-work.html#gotovski" style="--p:#1c82ad" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/gotovski-640.webp" srcset="work/cinema/gotovski-640.webp 640w, work/cinema/gotovski.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/gotovski-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/gotovski.svg" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">S. Gotovski</span><span class="tg-kind mono">Fuel infrastructure</span></span>
+      </a></li>
+      <li><a class="tg" href="en-work.html#ams" style="--p:#d4a24c" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/ams-640.webp" srcset="work/cinema/ams-640.webp 640w, work/cinema/ams.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/ams-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/ams.svg" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">AMS</span><span class="tg-kind mono">Thai boxing</span></span>
+      </a></li>
+      <li><a class="tg" href="en-work.html#allenbis" style="--p:#ffd84d" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/allenbis-640.webp" srcset="work/cinema/allenbis-640.webp 640w, work/cinema/allenbis.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/allenbis-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/allenbis.svg" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">Allenbis</span><span class="tg-kind mono">Delivery store</span></span>
+      </a></li>
+      <li><a class="tg" href="en-work.html#clinic" style="--p:#c98f8a" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/clinic-640.webp" srcset="work/cinema/clinic-640.webp 640w, work/cinema/clinic.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/clinic-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/clinic.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">Rotem Gotovski</span><span class="tg-kind mono">Therapeutic cosmetics</span></span>
+      </a></li>
+      <li><a class="tg" href="en-work.html#falafel" style="--p:#f2b705" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/falafel-640.webp" srcset="work/cinema/falafel-640.webp 640w, work/cinema/falafel.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/falafel-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/falafel.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">4X4 Catering</span><span class="tg-kind mono">Falafel catering</span></span>
+      </a></li>
+      <li><a class="tg" href="en-work.html#rachel" style="--p:#2d8cff" data-cursor="Story">
+        <span class="tg-media"><img src="work/cinema/rachel-640.webp" srcset="work/cinema/rachel-640.webp 640w, work/cinema/rachel.webp 1200w" sizes="(max-width: 900px) 46vw, 30vw" alt="" width="1200" height="800" loading="lazy" decoding="async"><img class="tg-site" src="work/rachel-poster.webp" alt="" width="1200" height="750" loading="lazy" decoding="async"></span>
+        <span class="tg-info"><span class="logo-tile"><img src="work/logos/rachel.svg" alt="" width="64" height="64" loading="lazy" decoding="async"></span><span class="tg-name">Racheli Hornstein</span><span class="tg-kind mono">Maths tutor</span></span>
+      </a></li>
+    </ol>
+  </section>
+
+  <!-- 07 איך עובדים איתי -->
+  <section class="sheet process process-dark" id="process" aria-labelledby="process-title">
+    <div class="process-head">
+      <!-- פרח קריסטל חי מאחורי "שבועיים.": נצמד לכותרת בזמן שהשלבים נגללים -->
+      <div class="process-crystal" aria-hidden="true"><img src="work/bg/crystal.webp" alt="" width="900" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/bg/crystal.mp4" data-src-m="work/bg/crystal-m.mp4"></video></div>
+      <h2 class="process-title" id="process-title"><span class="pt-big display">Two weeks.</span><span class="pt-sub">From the first call to a live site</span></h2>
+      <p class="process-lead">Clear stages. At every one you know what's happening, what you'll get and when.</p>
+    </div>
+    <ol class="timeline">
+      <li><img class="tl-ico" src="work/process/s1.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Intro call</h3><span class="tl-time mono">About 30 min</span><p>We talk about the business, your customers and the goal. By the end of the call it's clear whether, and how, we'll work together.</p></div></li>
+      <li><img class="tl-ico" src="work/process/s2.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Scope and proposal</h3><span class="tl-time mono">1–2 days</span><p>Site structure, page list and timeline, in one clear proposal.</p></div></li>
+      <li><img class="tl-ico" src="work/process/s3.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Design</h3><span class="tl-time mono">3–4 days</span><p>A first design direction, then a round of revisions until it feels exactly like you.</p></div></li>
+      <li><img class="tl-ico" src="work/process/s4.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Build and motion</h3><span class="tl-time mono">4–5 days</span><p>Code, animation, mobile and speed testing. You watch the site take shape on a live link.</p></div></li>
+      <li><img class="tl-ico" src="work/process/s5.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Launch</h3><span class="tl-time mono">1 day</span><p>Domain, Google setup, redirects from the old site if there is one, and a final check on every device.</p></div></li>
+      <li><img class="tl-ico" src="work/process/s6.webp" alt="" width="160" height="160" loading="lazy" decoding="async"><div><h3>Support</h3><span class="tl-time mono">After launch · first month</span><p>Small fixes and questions after launch, so you feel at home with your new site.</p></div></li>
+    </ol>
+    <p class="process-note mono">From the intro call to a live site: two weeks at most. Support carries on after.</p>
+  </section>
+
+  <!-- חבילות ומחירים -->
+  <section class="sheet sheet-ink pricing" id="pricing" data-bg="dark" aria-labelledby="pricing-title">
+    <header class="pricing-head">
+      <h2 class="pricing-title" id="pricing-title"><span class="pt-big display">Packages.</span><span class="pt-sub">Pick a starting point. Everything else is built around your business.</span></h2>
+      <p class="pricing-lead">Every site is designed and hand-coded from scratch, for one business. No ready-made templates, no site builders. The price is fixed up front in a written proposal, and every package goes live within two weeks at most.</p>
+    </header>
+
+    <ol class="tiers" role="list">
+      <li class="tier" data-plan="Presence">
+        <span class="tier-emblem" aria-hidden="true"><img src="work/tiers/t1.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/tiers/t1.mp4"></video></span>
+        <div class="tier-top">
+          <h3 class="tier-name display">Presence</h3>
+          <p class="tier-for">For freelancers, a product launch or a campaign. One page that does all the work.</p>
+        </div>
+        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">4,900</span></p>
+        <p class="tier-time mono">Live within a week</p>
+        <p class="tier-value">A business card that works for you even at night: visitors understand in seconds what you do, and tap WhatsApp.</p>
+        <ul class="tier-list">
+          <li>A custom-designed landing page, up to six sections</li>
+          <li>Fully mobile-ready and fast to load</li>
+          <li>Subtle motion and scroll animation</li>
+          <li>WhatsApp, call and a contact form that lands in your inbox</li>
+          <li>Titles and descriptions for Google, plus Search Console</li>
+          <li>A branded share image for WhatsApp and Facebook</li>
+          <li>Accessibility adjustments and an accessibility menu</li>
+          <li>One month of support after launch</li>
+        </ul>
+        <a class="btn btn-line tier-cta" href="#contact" data-plan="Presence" data-budget="Up to ₪5,000"><span>Start with Presence</span></a>
+      </li>
+
+      <li class="tier tier-star" data-plan="Business">
+        <span class="tier-emblem" aria-hidden="true"><img src="work/tiers/t2.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/tiers/t2.mp4"></video></span>
+        <div class="tier-top">
+          <span class="tier-badge mono">Recommended</span>
+          <h3 class="tier-name display">Business</h3>
+          <p class="tier-for">For a business that wants a full site that brings in leads, and that you can update yourself.</p>
+        </div>
+        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">9,900</span></p>
+        <p class="tier-time mono">Live within two weeks</p>
+        <p class="tier-value">The site becomes your best salesperson: it explains, persuades, shows up on Google and tracks every lead, so you know what works.</p>
+        <p class="tier-plus mono">Everything in Presence, plus:</p>
+        <ul class="tier-list">
+          <li>Up to eight pages: home, about, services, work, testimonials, contact</li>
+          <li>A content manager: update text, images and prices yourself</li>
+          <li>One system of your choice: bookings, a smart order form, a catalogue or a blog</li>
+          <li>SEO on every page, business markup for Google and a sitemap</li>
+          <li>Google Business Profile setup</li>
+          <li>Lead tracking: every WhatsApp tap, call and form</li>
+          <li>A motion language tailored to the brand</li>
+          <li>Migration from your old site with redirects, without losing your place on Google</li>
+        </ul>
+        <a class="btn btn-signal tier-cta" href="#contact" data-plan="Business" data-budget="₪5,000–12,000"><span>Start with Business</span></a>
+      </li>
+
+      <li class="tier" data-plan="Signature">
+        <span class="tier-emblem" aria-hidden="true"><img src="work/tiers/t3.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/tiers/t3.mp4"></video></span>
+        <div class="tier-top">
+          <h3 class="tier-name display">Signature</h3>
+          <p class="tier-for">For a brand that wants to be remembered. A flagship site with an experience no competitor has.</p>
+        </div>
+        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">19,900</span></p>
+        <p class="tier-time mono">Live within two weeks</p>
+        <p class="tier-value">A site customers send to their friends. It puts you above the market, and justifies a higher price before the first conversation.</p>
+        <p class="tier-plus mono">Everything in Business, plus:</p>
+        <ul class="tier-list">
+          <li>A unique concept and art direction, from sketch to motion</li>
+          <li>3D or an interactive simulation, like the one built for S. Gotovski</li>
+          <li>Studio-grade images and video, made with AI</li>
+          <li>An online store or a custom system, including payments</li>
+          <li>A smart assistant that answers customers from your own content</li>
+          <li>Two languages</li>
+          <li>Advanced speed optimisation, even with every effect</li>
+          <li>Three months of support after launch</li>
+        </ul>
+        <a class="btn btn-line tier-cta" href="#contact" data-plan="Signature" data-budget="₪12,000–25,000"><span>Start with Signature</span></a>
+      </li>
+    </ol>
+
+    <details class="compare">
+      <summary class="compare-toggle"><span>Compare the packages in full</span><i aria-hidden="true"></i></summary>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <caption class="sr-only">Comparison of the Presence, Business and Signature packages</caption>
+          <thead><tr><td></td><th scope="col">Presence</th><th scope="col" class="cmp-star">Business</th><th scope="col">Signature</th></tr></thead>
+          <tbody>
+          <tr class="cmp-group"><th scope="rowgroup" colspan="4">The basics</th></tr>
+          <tr><th scope="row">Price</th><td class="mono">₪4,900</td><td class="mono">₪9,900</td><td class="mono">₪19,900</td></tr>
+          <tr><th scope="row">Time to launch</th><td class="mono">Up to a week</td><td class="mono">Up to two weeks</td><td class="mono">Up to two weeks</td></tr>
+          <tr><th scope="row">Scope</th><td class="mono">One page</td><td class="mono">Up to 8 pages</td><td class="mono">Up to 8 pages</td></tr>
+          <tr><th scope="row">Custom design and code from scratch, no template</th><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Fully mobile-ready and fast</th><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">WhatsApp, call and contact form</th><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Accessibility and an accessibility menu</th><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Branded share image</th><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Support after launch</th><td class="mono">1 month</td><td class="mono">1 month</td><td class="mono">3 months</td></tr>
+          <tr class="cmp-group"><th scope="rowgroup" colspan="4">Growth</th></tr>
+          <tr><th scope="row">Motion and animation</th><td class="mono">Subtle</td><td class="mono">On-brand</td><td class="mono">Full concept</td></tr>
+          <tr><th scope="row">Update content and prices yourself</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">A system of your choice: bookings, orders, catalogue or blog</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">SEO and Google Business Profile</th><td class="mono">Basic</td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Tracking every lead from the site</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Moving from an old site without losing Google</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr class="cmp-group"><th scope="rowgroup" colspan="4">Experience</th></tr>
+          <tr><th scope="row">3D or an interactive simulation</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Studio-grade images and video</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Online store or custom system, with payments</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">A smart assistant that answers customers</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          <tr><th scope="row">Two languages</th><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-n" aria-hidden="true"></i><span class="sr-only">Not included</span></td><td><i class="cmp-y" aria-hidden="true"></i><span class="sr-only">Included</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <div class="upgrade">
+      <div>
+        <h3 class="display">Already have a site?</h3>
+        <p>An upgrade instead of starting over: redesign, speed, mobile and Google, on the site and content you already have. Like the "before / after" example <a href="en-work.html#ba">in the portfolio</a>.</p>
+      </div>
+      <a class="btn btn-line tier-cta" href="#contact" data-plan="Upgrade an existing site" data-goal="Replace an old site"><span>Get your site reviewed</span></a>
+    </div>
+
+    <ul class="promises" role="list">
+      <li><b class="display">Fixed price</b><span>What's in the proposal is what you pay. No VAT on top.</span></li>
+      <li><b class="display">Two weeks</b><span>From the first call to a live site</span></li>
+      <li><b class="display">It's all yours</b><span>The site, the code, the domain and the content</span></li>
+      <li><b class="display">Support included</b><span>I'm still here after launch</span></li>
+    </ul>
+
+    <div class="addons">
+      <header class="addons-head">
+        <h3 class="addons-title"><span class="display">Systems and add-ons.</span><span class="pt-sub">Everything you can plug into your site, with any package. Click a system and watch it work.</span></h3>
+      </header>
+      <div class="showroom" data-showroom>
+        <div class="sr-cats" role="tablist" aria-label="System categories">
+          <button class="sr-cat is-on" type="button" role="tab" id="sr-t-sell" aria-controls="sr-p-sell" aria-selected="true" data-cat="sell">
+            <span class="sr-media" aria-hidden="true"><img src="work/systems/sell.webp" alt="" width="600" height="800" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/systems/sell.mp4"></video></span>
+            <span class="sr-cat-text"><span class="sr-cat-name display">Sales and payments</span><span class="sr-cat-n mono">Four systems</span></span>
+          </button>
+          <button class="sr-cat" type="button" role="tab" id="sr-t-ops" aria-controls="sr-p-ops" aria-selected="false" data-cat="ops">
+            <span class="sr-media" aria-hidden="true"><img src="work/systems/ops.webp" alt="" width="600" height="800" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/systems/ops.mp4"></video></span>
+            <span class="sr-cat-text"><span class="sr-cat-name display">Automation</span><span class="sr-cat-n mono">Four systems</span></span>
+          </button>
+          <button class="sr-cat" type="button" role="tab" id="sr-t-ai" aria-controls="sr-p-ai" aria-selected="false" data-cat="ai">
+            <span class="sr-media" aria-hidden="true"><img src="work/systems/ai.webp" alt="" width="600" height="800" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/systems/ai.mp4"></video></span>
+            <span class="sr-cat-text"><span class="sr-cat-name display">AI and 3D</span><span class="sr-cat-n mono">Four systems</span></span>
+          </button>
+          <button class="sr-cat" type="button" role="tab" id="sr-t-grow" aria-controls="sr-p-grow" aria-selected="false" data-cat="grow">
+            <span class="sr-media" aria-hidden="true"><img src="work/systems/grow.webp" alt="" width="600" height="800" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/systems/grow.mp4"></video></span>
+            <span class="sr-cat-text"><span class="sr-cat-name display">Marketing</span><span class="sr-cat-n mono">Four systems</span></span>
+          </button>
+          <button class="sr-cat" type="button" role="tab" id="sr-t-brand" aria-controls="sr-p-brand" aria-selected="false" data-cat="brand">
+            <span class="sr-media" aria-hidden="true"><img src="work/systems/brand.webp" alt="" width="600" height="800" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/systems/brand.mp4"></video></span>
+            <span class="sr-cat-text"><span class="sr-cat-name display">Brand and content</span><span class="sr-cat-n mono">Four systems</span></span>
+          </button>
+        </div>
+        <div class="sr-body">
+          <div class="sr-panel" id="sr-p-sell" role="tabpanel" aria-labelledby="sr-t-sell" data-cat="sell">
+            <ul class="sr-items" role="list">
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="shop"><span class="sr-i-name">Online store</span><span class="sr-i-price mono">from ₪4,900</span><span class="sr-i-desc">Catalogue, cart, shipping, coupons and stock management.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="pay"><span class="sr-i-name">Israeli payments</span><span class="sr-i-price mono">from ₪1,200</span><span class="sr-i-desc">Credit cards, Bit and Apple Pay, through your payment provider.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="invoice"><span class="sr-i-name">Automatic invoices</span><span class="sr-i-price mono">from ₪900</span><span class="sr-i-desc">Every payment issues a receipt or invoice and sends it to the customer.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="quote"><span class="sr-i-name">Quote calculator</span><span class="sr-i-price mono">from ₪1,900</span><span class="sr-i-desc">Customers pick options and see a price. Perfect for events and services.</span></button></li>
+            </ul>
+          </div>
+          <div class="sr-panel" id="sr-p-ops" role="tabpanel" aria-labelledby="sr-t-ops" data-cat="ops">
+            <ul class="sr-items" role="list">
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="booking"><span class="sr-i-name">Appointments and lessons</span><span class="sr-i-price mono">from ₪2,900</span><span class="sr-i-desc">An availability calendar, online booking and automatic reminders.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="courses"><span class="sr-i-name">Client area and courses</span><span class="sr-i-price mono">from ₪5,900</span><span class="sr-i-desc">Personal login, recorded lessons, memberships and downloads.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="crm"><span class="sr-i-name">Connect your tools</span><span class="sr-i-price mono">from ₪1,400</span><span class="sr-i-desc">Every lead flows into your CRM, Google Sheets or Monday.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="dash"><span class="sr-i-name">Custom admin panel</span><span class="sr-i-price mono">from ₪4,900</span><span class="sr-i-desc">One screen for every order, customer and number in the business.</span></button></li>
+            </ul>
+          </div>
+          <div class="sr-panel" id="sr-p-ai" role="tabpanel" aria-labelledby="sr-t-ai" data-cat="ai">
+            <ul class="sr-items" role="list">
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="bot"><span class="sr-i-name">Smart site assistant</span><span class="sr-i-price mono">from ₪3,900</span><span class="sr-i-desc">Answers questions from your content, at any hour, and passes leads to WhatsApp.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="visuals"><span class="sr-i-name">AI images and video</span><span class="sr-i-price mono">from ₪1,500</span><span class="sr-i-desc">Product shots, mood images and short videos, without a photo shoot.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="object"><span class="sr-i-name">3D object</span><span class="sr-i-price mono">from ₪2,900</span><span class="sr-i-desc">Your product or symbol in 3D, turning and reacting to the mouse.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="sim"><span class="sr-i-name">Interactive simulation</span><span class="sr-i-price mono">from ₪7,900</span><span class="sr-i-desc">Explain a complex product or service through play, like the simulation in the portfolio.</span></button></li>
+            </ul>
+          </div>
+          <div class="sr-panel" id="sr-p-grow" role="tabpanel" aria-labelledby="sr-t-grow" data-cat="grow">
+            <ul class="sr-items" role="list">
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="seo"><span class="sr-i-name">Advanced SEO</span><span class="sr-i-price mono">from ₪2,400</span><span class="sr-i-desc">Keyword research, and landing pages for every service and every city.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="ads"><span class="sr-i-name">Campaign infrastructure</span><span class="sr-i-price mono">from ₪1,400</span><span class="sr-i-desc">Meta pixel, Google conversions and a landing page for every campaign.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="blog"><span class="sr-i-name">Blog and content</span><span class="sr-i-price mono">from ₪1,200</span><span class="sr-i-desc">An article system that brings in traffic from Google over time.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="news"><span class="sr-i-name">Newsletter and email</span><span class="sr-i-price mono">from ₪1,200</span><span class="sr-i-desc">Sign-up from the site, a branded email template and a mailing list.</span></button></li>
+            </ul>
+          </div>
+          <div class="sr-panel" id="sr-p-brand" role="tabpanel" aria-labelledby="sr-t-brand" data-cat="brand">
+            <ul class="sr-items" role="list">
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="brandkit"><span class="sr-i-name">Logo and brand language</span><span class="sr-i-price mono">from ₪2,900</span><span class="sr-i-desc">Logo, colours, fonts and short rules for using them.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="copy"><span class="sr-i-name">Marketing copywriting</span><span class="sr-i-price mono">from ₪1,900</span><span class="sr-i-desc">Every word on the site, in your business's voice and in language that sells.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="lang"><span class="sr-i-name">Another language</span><span class="sr-i-price mono">from ₪2,400</span><span class="sr-i-desc">Hebrew, Russian, Arabic or French, with the right writing direction.</span></button></li>
+              <li><button class="sr-item" type="button" aria-pressed="false" data-demo="migrate"><span class="sr-i-name">Moving from Wix or WordPress</span><span class="sr-i-price mono">from ₪900</span><span class="sr-i-desc">We move your content and keep your redirects and your place on Google.</span></button></li>
+            </ul>
+          </div>
+          <figure class="sr-stage">
+            <div class="sr-device">
+              <div class="sr-bar" aria-hidden="true"><i></i><i></i><i></i><span class="sr-url mono"></span><span class="sr-live mono">Live demo</span></div>
+              <div class="sr-screen" role="group" aria-label="Live demo"></div>
+            </div>
+            <figcaption class="sr-caption"><span class="sr-cap-title"></span><span class="sr-cap-hint mono"></span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="care">
+      <header class="care-head">
+        <h3 class="addons-title"><span class="display">After launch.</span><span class="pt-sub">Your site stays fast, secure and up to date. You run the business.</span></h3>
+      </header>
+      <div class="care-plans">
+        <article class="care-plan">
+          <h4 class="display">Calm</h4>
+          <p class="tier-price"><span class="tp-cur">₪</span><span class="tp-num">290</span><span class="tp-per mono">per month</span></p>
+          <ul class="tier-list">
+            <li>Fast hosting with an SSL certificate</li>
+            <li>Backups and security updates</li>
+            <li>Uptime monitoring: if the site goes down, I know first</li>
+            <li>Up to an hour of changes a month</li>
+          </ul>
+        </article>
+        <article class="care-plan care-star">
+          <h4 class="display">Growth</h4>
+          <p class="tier-price"><span class="tp-cur">₪</span><span class="tp-num">890</span><span class="tp-per mono">per month</span></p>
+          <p class="tier-plus mono">Everything in Calm, plus:</p>
+          <ul class="tier-list">
+            <li>Up to four hours of changes and additions</li>
+            <li>A monthly report: visits, leads and Google ranking</li>
+            <li>Ongoing SEO improvements</li>
+            <li>A new page or article every month</li>
+          </ul>
+        </article>
+      </div>
+      <p class="pricing-note mono">Prices are final, with no VAT on top (VAT-exempt business). They're a starting point: the exact price is set after the intro call, in a detailed written proposal.</p>
+    </div>
+  </section>
+
+  <!-- שאלות נפוצות -->
+  <section class="sheet faq" id="faq" aria-labelledby="faq-title">
+    <div class="faq-head">
+      <h2 class="process-title" id="faq-title"><span class="pt-big display">Questions.</span><span class="pt-sub">What people ask me before we start</span></h2>
+      <p class="process-lead">Didn't find your answer? <a href="https://wa.me/972545522053" target="_blank" rel="noopener">Send me a message</a> and I'll get back to you.</p>
+    </div>
+    <div class="faq-list">
+      <details name="faq"><summary><h3>How long does it really take?</h3></summary><div class="faq-a"><p>Two weeks at most, from the intro call to a live site. A landing page is usually ready within a week. To keep to schedule I need your content and images at the start, and if you don't have them, I'll help you prepare them.</p></div></details>
+      <details name="faq"><summary><h3>Why not build it myself on Wix?</h3></summary><div class="faq-a"><p>On Wix you get a template thousands of other businesses are using. With me, the site is designed around your business, loads faster, is ready for Google from day one, and is built to bring in leads. And you don't spend your evenings on it.</p></div></details>
+      <details name="faq"><summary><h3>Who writes the content and provides the images?</h3></summary><div class="faq-a"><p>You know the business best, so you bring the raw material: what you do, for whom, and what makes you different. I organise it, write it and design it. If there are no photos, we can produce images and video with AI, or add full copywriting.</p></div></details>
+      <details name="faq"><summary><h3>Can I update the site myself?</h3></summary><div class="faq-a"><p>Yes. From the Business package up there's a simple content manager where you change text, images and prices without touching code. After launch I'll show you how, in a short call.</p></div></details>
+      <details name="faq"><summary><h3>What about the domain and hosting?</h3></summary><div class="faq-a"><p>I take care of all of it: we register the domain in your name, connect fast and secure hosting, and set up business email if you need it. The domain and the site are registered to you, and stay yours.</p></div></details>
+      <details name="faq"><summary><h3>Will the site show up on Google?</h3></summary><div class="faq-a"><p>Every site is built on the right foundations for Google: speed, titles, descriptions, business markup and a sitemap. That way Google understands what you do and where. No one can promise first place, but we can build the strongest base, and keep improving it with ongoing SEO.</p></div></details>
+      <details name="faq"><summary><h3>Is the price here the final price?</h3></summary><div class="faq-a"><p>The prices here are a starting point. After the intro call you get a detailed written proposal, and what's in it is what you pay. I'm a VAT-exempt business, so there's no VAT on top. If you want to add something along the way, we agree on it first.</p></div></details>
+      <details name="faq"><summary><h3>What happens after the site goes live?</h3></summary><div class="faq-a"><p>For the first month I'm with you at no extra cost: small fixes, questions and guidance. After that you can continue with a monthly care plan, or carry on yourself. Either way, the site is yours.</p></div></details>
+      <details name="faq"><summary><h3>Will the site be accessible?</h3></summary><div class="faq-a"><p>Every site is built accessible from the start: contrast, keyboard navigation, alt text for images and an accessibility menu. If your business is legally required to publish an accessibility statement, we run a proper audit before launch.</p></div></details>
+      <details name="faq"><summary><h3>Don't 3D and animation slow a site down?</h3></summary><div class="faq-a"><p>Not if they're built right. The 3D loads only when it's needed, quality adapts to the device, and on a weak phone the site switches to a lighter version. This site is built the same way.</p></div></details>
+    </div>
+  </section>
+
+  <!-- 08 קשר -->
+  <section class="contact" id="contact" data-bg="light" aria-labelledby="contact-title">
+    <h2 class="contact-title display" id="contact-title">Let's build.</h2>
+    <p class="contact-lead">Three short questions, and a ready-made WhatsApp message to me opens up. No long forms.</p>
+    <p class="contact-direct mono">Or directly: <a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a> · <a href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a></p>
+    <form class="brief" id="brief" novalidate>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">Business</li><li>Goal</li><li>Budget</li></ol>
+      <fieldset class="brief-step on" data-step="0">
+        <legend>What kind of business do you have?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="biz" value="Online store"><span>Online store</span></label><label class="chip"><input type="radio" name="biz" value="Service business"><span>Service business</span></label><label class="chip"><input type="radio" name="biz" value="Freelancer or self-employed"><span>Freelancer or self-employed</span></label><label class="chip"><input type="radio" name="biz" value="Company or industry"><span>Company or industry</span></label><label class="chip"><input type="radio" name="biz" value="Something else"><span>Something else</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="1" hidden>
+        <legend>What should the site do? <small>Pick as many as you like</small></legend>
+        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="Bring in more leads"><span>Bring in more leads</span></label><label class="chip"><input type="checkbox" name="goal" value="Sell online"><span>Sell online</span></label><label class="chip"><input type="checkbox" name="goal" value="Replace an old site"><span>Replace an old site</span></label><label class="chip"><input type="checkbox" name="goal" value="Build a strong brand"><span>Build a strong brand</span></label><label class="chip"><input type="checkbox" name="goal" value="Not sure yet"><span>Not sure yet</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="2" hidden>
+        <legend>What's your budget range?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="budget" value="Up to ₪5,000"><span>Up to ₪5,000</span></label><label class="chip"><input type="radio" name="budget" value="₪5,000–12,000"><span>₪5,000–12,000</span></label><label class="chip"><input type="radio" name="budget" value="₪12,000–25,000"><span>₪12,000–25,000</span></label><label class="chip"><input type="radio" name="budget" value="Over ₪25,000"><span>Over ₪25,000</span></label><label class="chip"><input type="radio" name="budget" value="Don't know yet"><span>Don't know yet</span></label></div>
+        <div class="brief-fields">
+          <label for="brief-name">What's your name? <small>Optional</small></label>
+          <input id="brief-name" name="name" type="text" autocomplete="name">
+          <label for="brief-about">One sentence about the business <small>Optional</small></label>
+          <input id="brief-about" name="about" type="text">
+        </div>
+      </fieldset>
+      <p class="brief-error" role="alert"></p>
+      <div class="brief-nav">
+        <button class="brief-back" type="button" hidden>Back</button>
+        <button class="btn btn-signal brief-go" type="submit"><span>Next</span></button>
+      </div>
+      <div class="brief-done" hidden>
+        <p class="brief-done-title">Your message is ready.</p>
+        <pre class="brief-preview" dir="ltr"></pre>
+        <div class="brief-actions">
+          <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>Open in WhatsApp</span></a>
+          <a class="btn btn-line brief-mail" href="#contact"><span>Send by email</span></a>
+          <button class="brief-copy mono" type="button">Copy message</button>
+        </div>
+        <button class="brief-restart mono" type="button">Start over</button>
+      </div>
+    </form>
+    <footer class="foot mono">
+      <span>© 2026 Hanoch Gotovski</span>
+      <span>Custom website design and development</span>
+      <a href="accessibility.html" hreflang="he">Accessibility statement</a>
+      <button class="foot-xray" type="button">Try X-ray mode ↑</button>
+    </footer>
+  </section>
+</main>
+
+<!-- סרט התדמית: נפתח על כל המסך -->
+<dialog class="film-dlg" aria-label="Hanoch Gotovski's showreel">
+  <button class="film-close mono" type="button" aria-label="Close">Close ✕</button>
+  <video class="film-video" controls playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4"></video>
+</dialog>
+
+<!-- רנטגן -->
+<div class="lens" aria-hidden="true"></div>
+<div class="inspect" aria-hidden="true"><span class="inspect-label mono"></span></div>
+<div class="cursor" aria-hidden="true"><span class="cursor-label mono"></span></div>
+<p class="sr-only" aria-live="polite" id="live"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
+<script src="js/particles.js" defer></script>
+<script src="js/hanoch.js" defer></script>
+<script type="module" src="js/stage.js"></script>
+<script src="js/systems.js" defer></script>
+<script src="js/a11y.js" defer></script>
+</body>
+</html>

@@ -12,6 +12,9 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
   var live = $('#live');
+  // אותו קוד לעברית ולאנגלית: הדף האנגלי הוא <html lang="en" dir="ltr">
+  var EN = root.lang === 'en';
+  function T(he, en) { return EN ? en : he; }
   function say(t) { live.textContent = ''; setTimeout(function () { live.textContent = t; }, 30); }
 
   /* ---------- נתוני הפרויקטים ---------- */
@@ -86,6 +89,73 @@
       palette: ['#1e3a8a', '#fffdf9', '#f28c9b', '#fff0ad', '#1fae82'], fonts: ['Assistant', 'Amatic SC', 'Secular One']
     }
   };
+  if (EN) {
+    var DATA_EN = {
+      gotovski: {
+        name: 'S. Gotovski', sub: 'Fuel infrastructure since 1972', kind: 'Redesign and rebuild · Hebrew / English', url: 'gotovski.co.il',
+        story: 'A family company building fuel stations since 1972, with clients like Paz, Sonol and Amazon, and a website that said none of it. I built a language that feels like a major construction group: heavy type, full-screen photography, and motion that is calm and certain, like a crane.',
+        points: [
+          'A live simulation of a power outage at a data centre: watch in real time how the fuel system keeps the generators running. In Hebrew and English.',
+          'Projects in a pinned horizontal scroll, and a list of services with an image that follows the cursor.',
+          'A domain move without losing rank: every old address Google knows redirects to the matching page on the new site.',
+          'An accessibility menu that can stop animations, and a motion-free site for anyone who asked for it in their system settings.'
+        ],
+        metrics: [['Mobile load (LCP)', '2.9s', '1.7s'], ['Page weight', '1.26MB', '0.9MB']]
+      },
+      ams: {
+        sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'New site · real motion from video', url: 'ams · Mazkeret Batya',
+        story: 'Aviv teaches Muay Thai, and his language is movement, so the site had to move the way he does. I took real footage of Aviv, transferred his motion to an animated fighter in the ring, and the visitor\'s scroll is what drives him.',
+        points: [
+          'A pinned opening: 13 frames drawn on canvas. Scroll, and Aviv moves from guard to a Thai bow and back.',
+          'The motion is real, taken from footage of Aviv and transferred to the animated character with Higgsfield.',
+          'Fight-poster headlines, and a "how to start" section built on ring ropes.',
+          'A page for every service, and a full-screen menu with all of them.'
+        ]
+      },
+      allenbis: {
+        name: 'Allenbis', sub: 'Drinks, snacks and everything between, delivered', kind: 'Upgrading a live store · no libraries', url: 'allenbis.co.il',
+        story: 'A delivery store that already worked and sold, but ran on two heavy React bundles, and customers on their phones were kept waiting. I rebuilt it with no libraries at all: the same 199-product catalogue and the same prices, with 24 times less JavaScript.',
+        points: [
+          'A budget basket builder: type an amount and get a ready basket.',
+          'Swipe a product to remove it from the basket, with undo.',
+          'Age verification for 18+ products, and search that understands synonyms.',
+          'An "Open 24/7" neon sign and a night mode, for a store that works through the night.'
+        ],
+        metrics: [['JavaScript', '480KB', '20KB'], ['Data on load', '950KB', '365KB'], ['Server requests', '32', '19'], ['First paint', '260ms', '75ms']]
+      },
+      clinic: {
+        name: 'Rotem Gotovski', sub: 'Therapeutic cosmetics clinic', kind: 'Site and shop · treatment by goal', url: 'Rotem Gotovski · p.m.e',
+        story: 'Rotem treats by goal, not by machine, so the site also starts from the client\'s problem rather than a list of treatments. Soft paper, a delicate serif, and illustrations of a tiny crew working on the products.',
+        points: [
+          'A treatment finder: pick what bothers you, acne, scars, pigmentation or wrinkles, and land on the right treatment.',
+          'A product shop with brand and type filters, search, sorting and quick view.',
+          'Laser hair removal and medical pedicure for diabetics, each with its own explanation.',
+          'Before and after, FAQs and booking.'
+        ]
+      },
+      falafel: {
+        name: '4X4 Catering', sub: 'Nissim Sharon · falafel and sabich for events', kind: 'New site · the language of a street stall', url: '4X4 Catering',
+        story: 'Nissim Sharon drives his 4X4 jeep anywhere, from the Dragot cliffs to a table on the Dead Sea shore. The site talks like a good street stall: sunshine yellow, market-poster headlines, and the food up front.',
+        points: [
+          'Huge poster-style headlines, and colours taken from the logo and the illustration.',
+          'Real events from the field: the Dragot cliffs, the Dead Sea, the Maccabiah in Haifa.',
+          'A full dark mode, for browsing the evening before the event.',
+          'WhatsApp and phone within reach from anywhere on the page.'
+        ]
+      },
+      rachel: {
+        name: 'Racheli Hornstein', sub: 'Private maths lessons on Zoom', kind: 'New site · a squared notebook', url: 'rachelimath',
+        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good maths notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience.',
+        points: [
+          'A squared-notebook background and handwritten headlines.',
+          'FAQs that answer parents\' worries: does Zoom work, what about a shy child, is there a commitment.',
+          'Clear prices for a single lesson, a pair and a group.',
+          'Structured data for Google (local business and FAQs), and a trial lesson in one tap on WhatsApp.'
+        ]
+      }
+    };
+    Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
+  }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
   var LIVE = { gotovski: '', ams: '', allenbis: '', clinic: '', falafel: '', rachel: '' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
@@ -93,7 +163,7 @@
     if (!LIVE[id]) return;
     var a = document.createElement('a');
     a.className = 'p-live mono'; a.href = LIVE[id]; a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = 'לאתר החי <span aria-hidden="true">↗</span>';
+    a.innerHTML = T('לאתר החי', 'Live site') + ' <span aria-hidden="true">↗</span>';
     var btn = $('.project[data-id="' + id + '"] .p-open');
     btn.parentNode.insertBefore(a, btn.nextSibling);
   });
@@ -102,7 +172,7 @@
   var clock = $('.clock');
   function tick() {
     try {
-      clock.textContent = new Intl.DateTimeFormat('he-IL', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }).format(new Date());
+      clock.textContent = new Intl.DateTimeFormat(T('he-IL', 'en-GB'), { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }).format(new Date());
     } catch (e) { clock.textContent = ''; }
   }
   if (clock) { tick(); setInterval(tick, 20000); }
@@ -143,9 +213,10 @@
       var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
       return {
         text: el.textContent.trim(),
-        font: cs.fontSize + ' "Dragon", "Frank Ruhl Libre"',
+        font: cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily,
         letterSpacing: cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing,
-        x: r.right - sr.left,
+        dir: EN ? 'ltr' : 'rtl',
+        x: (EN ? r.left : r.right) - sr.left,
         y: r.top - sr.top + r.height * 0.5
       };
     });
@@ -168,7 +239,7 @@
     if (!P) return Promise.resolve();
     var fontReady = document.fonts && document.fonts.load
       ? Promise.race([
-          Promise.all([document.fonts.load('100px "Dragon"', 'חנוך'), document.fonts.ready]),
+          Promise.all([document.fonts.load(EN ? '100px "Fraunces"' : '100px "Dragon"', T('חנוך', 'Hanoch')), document.fonts.ready]),
           new Promise(function (r) { setTimeout(r, 2500); })
         ])
       : Promise.resolve();
@@ -258,7 +329,7 @@
     for (var r = 1; r < rows; r++) line(0, vh * r / rows, vw, vh * r / rows, r === rows / 2);
     line(0, 0, vw, vh, false); line(vw, 0, 0, vh, false);
 
-    var text = 'חנוך גוטובסקי', out = $('.intro-text'), pct = $('.intro-pct');
+    var text = T('חנוך גוטובסקי', 'Hanoch Gotovski'), out = $('.intro-text'), pct = $('.intro-pct');
     var counter = { n: 0, c: 0 };
     var tl = gsap.timeline();
     tl.to(lines, { strokeDashoffset: 0, duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0)
@@ -293,7 +364,7 @@
   function initManifesto() {
     var el = $('[data-words]');
     if (!el || !motion) return;
-    var hl = ['השנייה', 'הראשונה:'];
+    var hl = EN ? ['first', 'second:'] : ['השנייה', 'הראשונה:'];
     var words = el.textContent.trim().split(/\s+/);
     el.setAttribute('aria-label', el.textContent.trim());
     el.innerHTML = words.map(function (w) {
@@ -386,7 +457,7 @@
     $('.case-url').textContent = d.url;
     var poster = $('.case-poster');
     poster.src = 'work/' + id + '-poster.webp';
-    poster.alt = 'דף הבית של ' + d.name;
+    poster.alt = T('דף הבית של ', 'Home page of ') + d.name;
     var vid = $('.case-video');
     vid.pause();
     vid.classList.remove('on');
@@ -408,12 +479,12 @@
     $('.swatches').innerHTML = d.palette.map(function (c) { return '<li><i style="background:' + c + '"></i>' + c + '</li>'; }).join('');
     $('.case-fonts').innerHTML = d.fonts.map(function (f) { return '<li>' + f + '</li>'; }).join('');
     var m = $('.case-metrics');
-    m.innerHTML = d.metrics ? '<h3 class="label mono">לפני → אחרי</h3>' + d.metrics.map(function (r) {
+    m.innerHTML = d.metrics ? '<h3 class="label mono">' + T('לפני → אחרי', 'Before → after') + '</h3>' + d.metrics.map(function (r) {
       return '<div><span>' + r[0] + '</span><b><s>' + r[1] + '</s>' + r[2] + '</b></div>';
     }).join('') : '';
     var ph = $('.case-phone');
     ph.src = 'work/' + id + '-mob.webp';
-    ph.alt = d.name + ' בטלפון';
+    ph.alt = EN ? d.name + ' on a phone' : d.name + ' בטלפון';
     var next = ORDER[(i + 1) % ORDER.length];
     $('.case-next-name').textContent = DATA[next].name;
     $('.case-next').dataset.next = next;
@@ -425,7 +496,7 @@
     if (d.frames) {
       var box = document.createElement('figure');
       box.className = 'case-frames';
-      box.innerHTML = '<img alt="אביב בזירה, משמירה לברך תאילנדית" width="480" height="480"><figcaption class="mono">הזיזו את העכבר מצד לצד: אלה 13 הפריימים מהפתיח</figcaption>';
+      box.innerHTML = '<img alt="' + T('אביב בזירה, משמירה לברך תאילנדית', 'Aviv in the ring, from guard to a Thai bow') + '" width="480" height="480"><figcaption class="mono">' + T('הזיזו את העכבר מצד לצד: אלה 13 הפריימים מהפתיח', 'Move the mouse from side to side: these are the 13 frames of the opening') + '</figcaption>';
       $('.case-main').appendChild(box);
       var fimg = $('img', box), frames = [];
       for (var f = 1; f <= d.frames; f++) { frames.push('work/ams/f' + String(f).padStart(3, '0') + '.webp'); new Image().src = frames[f - 1]; }
@@ -434,7 +505,7 @@
       box.addEventListener('pointermove', function (e) {
         clearInterval(framesTimer);
         var r = box.getBoundingClientRect();
-        var p = clamp((r.right - e.clientX) / r.width, 0, 0.999);
+        var p = clamp((EN ? e.clientX - r.left : r.right - e.clientX) / r.width, 0, 0.999);
         fimg.src = frames[Math.floor(p * frames.length)];
       });
       if (motion) framesTimer = setInterval(function () {
@@ -455,7 +526,7 @@
     if (lenis) lenis.stop();
     document.body.style.overflow = 'hidden';
     $('.case-close').focus({ preventScroll: true });
-    say('נפתח: ' + DATA[id].name);
+    say(T('נפתח: ', 'Opened: ') + DATA[id].name);
     setHash(id);
     if (!motion) return;
 
@@ -504,7 +575,7 @@
       .call(function () {
         fillCase(next);
         caseScroll.scrollTop = 0;
-        say('נפתח: ' + DATA[next].name);
+        say(T('נפתח: ', 'Opened: ') + DATA[next].name);
         gsap.set($$('.case-hero, .case-body'), { autoAlpha: 1, y: 0 });
       })
       .to(wipe, { clipPath: 'circle(0% at 50% 0%)', duration: 0.9, ease: 'expo.out' })
@@ -517,7 +588,7 @@
   function openFromHash() {
     var id = (location.hash || '').slice(1);
     // קישור ישן לפרויקט בדף הבית: הפרויקטים נמצאים עכשיו בתיק העבודות
-    if (DATA[id] && !caseEl) { location.replace('work.html#' + id); return; }
+    if (DATA[id] && !caseEl) { location.replace(T('work.html#', 'en-work.html#') + id); return; }
     if (!DATA[id]) { jumpToHash(id); return; }
     if (!caseEl.hidden && current === id) return;
     var li = $('.project[data-id="' + id + '"]');
@@ -627,7 +698,7 @@
   /* ---------- תהליך: הכרטיס נבנה ---------- */
   function initCraft() {
     var spec = $('.specimen'), steps = $$('.step'), capN = $('.cap-n'), capT = $('.cap-t');
-    var names = ['שרטוט', 'שלד', 'חומר', 'תנועה'];
+    var names = EN ? ['Sketch', 'Skeleton', 'Material', 'Motion'] : ['שרטוט', 'שלד', 'חומר', 'תנועה'];
     if (!spec) return;
     function stage(n) {
       if (spec.dataset.stage === String(n)) return;
@@ -665,7 +736,7 @@
       cur.classList.toggle('is-link', !view && !drag && !!link);
       var tagged = !view && !drag && t.closest && t.closest('[data-cursor]');
       if (tagged) { cur.classList.remove('is-link'); cur.classList.add('is-view'); }
-      label.textContent = view ? 'פתיחה' : drag ? (drag.classList.contains('phone-screen') ? 'גררו' : 'סובבו') : tagged ? tagged.dataset.cursor : '';
+      label.textContent = view ? T('פתיחה', 'Open') : drag ? (drag.classList.contains('phone-screen') ? T('גררו', 'Drag') : T('סובבו', 'Spin')) : tagged ? tagged.dataset.cursor : '';
     }, { passive: true });
 
     $$('.magnetic').forEach(function (el) {
@@ -692,7 +763,7 @@
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       st.xray = on ? 1 : 0;
       if (!on) box.classList.remove('on');
-      say(on ? 'מצב רנטגן פעיל: רואים את השלד שמתחת לעיצוב' : 'מצב רנטגן כבוי');
+      say(on ? T('מצב רנטגן פעיל: רואים את השלד שמתחת לעיצוב', 'X-ray on: you can see the skeleton under the design') : T('מצב רנטגן כבוי', 'X-ray off'));
     }
     btn.addEventListener('click', function () { setX(!root.classList.contains('xray')); });
     var footX = $('.foot-xray');
@@ -748,7 +819,7 @@
     // כפתור "מתחילים" בחבילה: החבילה נכנסת להודעה, והתקציב או המטרה שלה כבר מסומנים
     var plan = document.createElement('p');
     plan.className = 'brief-plan mono'; plan.hidden = true;
-    plan.innerHTML = '<span>חבילה: <b></b></span><button type="button" aria-label="הסרת החבילה">×</button>';
+    plan.innerHTML = '<span>' + T('חבילה: ', 'Package: ') + '<b></b></span><button type="button" aria-label="' + T('הסרת החבילה', 'Remove package') + '">×</button>';
     form.insertBefore(plan, form.firstChild);
     function setPlan(name) {
       if (name) form.dataset.plan = name; else delete form.dataset.plan;
@@ -761,16 +832,16 @@
         setPlan(a.dataset.plan);
         var pick = function (name, v) { if (!v) return; $$('input[name="' + name + '"]', form).forEach(function (i) { if (i.value === v) i.checked = true; }); };
         pick('budget', a.dataset.budget); pick('goal', a.dataset.goal);
-        say('נבחרה חבילת ' + a.dataset.plan + '. ענו על שלוש השאלות וההודעה תהיה מוכנה.');
+        say(EN ? a.dataset.plan + ' package selected. Answer three questions and your message will be ready.' : 'נבחרה חבילת ' + a.dataset.plan + '. ענו על שלוש השאלות וההודעה תהיה מוכנה.');
       });
     });
-    var need = ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו טווח תקציב.'];
+    var need = EN ? ['Pick a type of business to continue.', 'Pick at least one goal.', 'Pick a budget range.'] : ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו טווח תקציב.'];
     function values(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.value; }); }
     function show(n) {
       steps.forEach(function (s, i) { s.hidden = i !== n; s.classList.toggle('on', i === n); });
       dots.forEach(function (d, i) { d.classList.toggle('on', i <= n); });
       back.hidden = n === 0;
-      $('span', go).textContent = n === steps.length - 1 ? 'הכנת ההודעה' : 'המשך';
+      $('span', go).textContent = n === steps.length - 1 ? T('הכנת ההודעה', 'Write my message') : T('המשך', 'Next');
       err.textContent = '';
       at = n;
       var first = $('input', steps[n]);
@@ -778,10 +849,10 @@
     }
     function message() {
       var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
-      var lines = ['היי חנוך, הגעתי מהאתר שלך.', ''];
-      if (form.dataset.plan) lines.push('חבילה: ' + form.dataset.plan);
-      lines.push('העסק: ' + values('biz').join(', '), 'מה האתר צריך לעשות: ' + values('goal').join(', '), 'תקציב: ' + values('budget').join(', '));
-      if (about) lines.push('על העסק: ' + about);
+      var lines = [T('היי חנוך, הגעתי מהאתר שלך.', 'Hi Hanoch, I found you through your website.'), ''];
+      if (form.dataset.plan) lines.push(T('חבילה: ', 'Package: ') + form.dataset.plan);
+      lines.push(T('העסק: ', 'Business: ') + values('biz').join(', '), T('מה האתר צריך לעשות: ', 'What the site should do: ') + values('goal').join(', '), T('תקציב: ', 'Budget: ') + values('budget').join(', '));
+      if (about) lines.push(T('על העסק: ', 'About the business: ') + about);
       if (name) lines.push('', name);
       return lines.join('\n');
     }
@@ -795,11 +866,11 @@
       $('.brief-wa', form).href = 'https://wa.me/' + CONTACT.whatsapp + '?text=' + encodeURIComponent(text);
       var mail = $('.brief-mail', form);
       mail.hidden = !CONTACT.email;
-      if (CONTACT.email) mail.href = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent('פרויקט חדש מהאתר') + '&body=' + encodeURIComponent(text);
+      if (CONTACT.email) mail.href = 'mailto:' + CONTACT.email + '?subject=' + encodeURIComponent(T('פרויקט חדש מהאתר', 'New project from your website')) + '&body=' + encodeURIComponent(text);
       steps.forEach(function (s) { s.hidden = true; });
       nav.hidden = true; stepsBar.hidden = true; err.textContent = '';
       done.hidden = false;
-      say('ההודעה מוכנה');
+      say(T('ההודעה מוכנה', 'Your message is ready'));
       if (motion && window.gsap) gsap.from(done, { y: 30, autoAlpha: 0, duration: 0.7, ease: 'expo.out' });
     });
     back.addEventListener('click', function () { if (at > 0) show(at - 1); });
@@ -809,7 +880,7 @@
     });
     $('.brief-copy', form).addEventListener('click', function () {
       var t = $('.brief-preview', form).textContent, b = this;
-      var ok = function () { b.textContent = 'הועתק'; setTimeout(function () { b.textContent = 'העתקת ההודעה'; }, 1800); };
+      var ok = function () { b.textContent = T('הועתק', 'Copied'); setTimeout(function () { b.textContent = T('העתקת ההודעה', 'Copy message'); }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(t).then(ok, function () { selectPreview(); });
       else selectPreview();
     });
@@ -1036,11 +1107,11 @@
     var btn = $('.demo-play'), view = $('.demo-view');
     if (!btn || !view) return;
     var small = window.matchMedia('(max-width: 900px)');
-    var title = 'הדמיה חיה: הפסקת חשמל בחוות שרתים';
+    var title = T('הדמיה חיה: הפסקת חשמל בחוות שרתים', 'Live simulation: a power outage at a data centre');
     function frameEl(q) {
       var f = document.createElement('iframe');
       f.className = 'demo-iframe';
-      f.src = 'sim/data-center/index.html?' + q;
+      f.src = 'sim/data-center/index.html?' + q + (EN ? '&lang=en' : '');
       f.title = title;
       f.allow = 'autoplay; fullscreen';
       f.setAttribute('allowfullscreen', '');
@@ -1074,13 +1145,13 @@
         if (lenis) lenis.stop();
         window.addEventListener('keydown', onKey);
         requestAnimationFrame(function () { requestAnimationFrame(function () { if (sheet) sheet.classList.add('is-open'); }); });
-        say('ההדמיה נפתחת על כל המסך');
+        say(T('ההדמיה נפתחת על כל המסך', 'The simulation opens full screen'));
         return;
       }
       view.appendChild(frameEl('embed=1'));
       view.classList.add('is-live');
       btn.hidden = true;
-      say('ההדמיה נטענת');
+      say(T('ההדמיה נטענת', 'Loading the simulation'));
     });
   }
 
@@ -1161,7 +1232,7 @@
     var on = sfx.toggle();
     soundBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
     root.classList.toggle('sound-on', on);
-    say(on ? 'צלילים פעילים' : 'צלילים כבויים');
+    say(on ? T('צלילים פעילים', 'Sound on') : T('צלילים כבויים', 'Sound off'));
   });
 
   var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx };
