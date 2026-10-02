@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Work | Hanoch Gotovski</title>
+<meta name="description" content="Hanoch Gotovski's portfolio: six websites in six design languages, the full story behind each project, a live simulation, a before and after, and how it all gets built.">
+<meta name="theme-color" content="#0a0a0b">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Work | Hanoch Gotovski">
+<meta property="og:description" content="Six websites, six design languages. Design, code and motion by one hand.">
+<!-- Share image: once the site is on its domain, switch to a full URL (https://…/work/og-work.jpg). WhatsApp and Facebook don't read relative URLs -->
+<meta property="og:image" content="work/og-work.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hanoch Gotovski's portfolio">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="he" href="work.html">
+<link rel="alternate" hreflang="en" href="en-work.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0b'/%3E%3Ctext x='32' y='46' font-family='serif' font-weight='900' font-size='40' text-anchor='middle' fill='%23ff4f1a'%3E%D7%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300..900&display=swap">
+<link rel="preload" href="fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/hanoch.css">
+<script>
+  // Motion mode is set before the first paint, so nothing flickers
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    var a11y = {};
+    try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
+  })();
+</script>
+</head>
+<body class="page-work">
+<a class="skip" href="#work">Skip to the work</a>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<!-- A cinematic world behind the site, seen only through the dark parts. Night behind the packages and the work, sunset behind "Let's build." -->
+<div class="site-film" aria-hidden="true">
+  <video muted loop playsinline preload="none" data-film="dark" data-src="work/bg/dark.mp4" data-src-m="work/bg/dark-m.mp4" data-poster="work/bg/dark.webp"></video>
+  <video muted loop playsinline preload="none" data-film="light" data-src="work/bg/light.mp4" data-src-m="work/bg/light-m.mp4" data-poster="work/bg/light.webp"></video>
+</div>
+
+<header class="bar">
+  <a class="bar-mark" href="en.html" aria-label="H·G – Hanoch Gotovski, home">H<span>·</span>G</a>
+  <nav class="bar-nav" aria-label="Main">
+    <a href="#work" aria-current="page">Work</a>
+    <a href="en.html#process">Process</a>
+    <a href="en.html#pricing">Packages</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Sound – site sounds">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Sound</span>
+  </button>
+  <button class="xray-toggle" type="button" aria-pressed="false" title="X key">
+    <span class="xray-dot" aria-hidden="true"></span><span>X-ray</span>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- 03 Work -->
+  <section class="sheet sheet-ink work work-page" id="work" data-bg="dark" aria-labelledby="work-title">
+    <header class="work-head">
+      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
+      <a class="work-back mono" href="en.html">← Home</a>
+      <h1 class="display" id="work-title">Six websites.<br>Six languages.</h1>
+      <p class="work-lead">Each site is built around one business, in a language of its own. Click a screen to read the full story.</p>
+      <button class="film-play mono" type="button" data-film><span class="film-play-i" aria-hidden="true"></span>Watch the film · 22 seconds</button>
+    </header>
+
+    <h2 class="sr-only">Projects</h2>
+    <ol class="projects">
+      <li class="project" data-id="gotovski" style="--p:#1c82ad">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">gotovski.co.il</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/gotovski-tall.webp" alt="The S. Gotovski home page, top to bottom" width="900" height="4632" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/gotovski-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="gotovski" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/gotovski.svg" alt="S. Gotovski logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">S. Gotovski</h3></div>
+          <p class="p-sub">Fuel infrastructure since 1972</p>
+          <p class="p-kind mono">Redesign and rebuild · Hebrew / English</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+          <a class="p-demo mono" href="#demo">Try the live simulation <span aria-hidden="true">↓</span></a>
+        </div>
+      </li>
+
+      <li class="project" data-id="ams" style="--p:#d4a24c">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">ams · Aviv Moshe Shadmon</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/ams-tall.webp" alt="The AMS home page, Thai boxing" width="900" height="5566" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/ams-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="ams" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/ams.svg" alt="AMS logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">AMS</h3></div>
+          <p class="p-sub">Thai boxing and personal training</p>
+          <p class="p-kind mono">New site · real motion, taken from video</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+        </div>
+      </li>
+
+      <li class="project" data-id="allenbis" style="--p:#ffd84d">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">allenbis.co.il</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/allenbis-tall.webp" alt="The Allenbis store, product catalog" width="900" height="4600" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/allenbis-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="allenbis" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/allenbis.svg" alt="Allenbis logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">Allenbis</h3></div>
+          <p class="p-sub">Drinks, snacks and everything in between, to your door</p>
+          <p class="p-kind mono">Existing store, made better · 24× less JavaScript</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+        </div>
+      </li>
+
+      <li class="project" data-id="clinic" style="--p:#c98f8a">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">Rotem Gotovski · Clinic</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/clinic-tall.webp" alt="Rotem Gotovski's clinic website" width="900" height="6000" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/clinic-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="clinic" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/clinic.webp" alt="Rotem Gotovski logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">Rotem Gotovski</h3></div>
+          <p class="p-sub">Therapeutic cosmetics clinic</p>
+          <p class="p-kind mono">Site and store · treatments by goal</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+        </div>
+      </li>
+
+      <li class="project" data-id="falafel" style="--p:#f2b705">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">4X4 Catering</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/falafel-tall.webp" alt="Nissim Sharon's 4X4 Catering website" width="900" height="4892" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/falafel-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="falafel" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/falafel.webp" alt="4X4 Catering logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">4X4 Catering</h3></div>
+          <p class="p-sub">Falafel and sabich for events, anywhere, any time</p>
+          <p class="p-kind mono">New site · the language of a street stall</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+        </div>
+      </li>
+
+      <li class="project" data-id="rachel" style="--p:#2d8cff">
+        <div class="p-media">
+          <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">rachelimath</span></div>
+            <div class="browser-view"><img class="p-tall" src="work/rachel-tall.webp" alt="Racheli Hornstein's math lessons website" width="900" height="1921" loading="lazy" decoding="async"></div>
+          </div>
+          <img class="p-phone" src="work/rachel-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
+        </div>
+        <div class="p-info">
+          <div class="p-relic" data-relic="rachel" aria-hidden="true"></div>
+          <div class="p-title"><span class="logo-tile"><img src="work/logos/rachel.svg" alt="Racheli Hornstein logo" width="64" height="64" loading="lazy" decoding="async"></span><h3 class="p-name">Racheli Hornstein</h3></div>
+          <p class="p-sub">Private math lessons on Zoom</p>
+          <p class="p-kind mono">New site · a graph-paper notebook</p>
+          <button class="p-open mono" type="button">The full story <span aria-hidden="true">→</span></button>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 04 Live demo: the simulation from the S. Gotovski site -->
+  <section class="sheet sheet-ink demo" id="demo" data-bg="dark" aria-labelledby="demo-title">
+    <div class="demo-head">
+      <h2 class="display" id="demo-title">Power outage.<br>In real time.</h2>
+      <p class="demo-lead">From the S. Gotovski site: a data center in 3D. Press the red button, the grid goes down, and the generators start up on the fuel system. It's not a video. It's a live simulation you can play with.</p>
+      <ul class="demo-facts mono">
+        <li>3D with advanced lighting and shadows</li>
+        <li>The real sound of a generator starting</li>
+        <li>Hebrew and English, works on phones too</li>
+      </ul>
+    </div>
+    <div class="demo-stage">
+      <div class="browser demo-browser">
+        <div class="browser-bar"><i></i><i></i><i></i><span class="mono">gotovski.co.il · live simulation</span></div>
+        <div class="demo-view">
+          <img class="demo-poster" src="work/sim-poster.webp" srcset="work/sim-poster-960.webp 960w, work/sim-poster.webp 1600w" sizes="(max-width: 900px) 100vw, 60vw" alt="Simulation of a data center with generators and a fuel system" width="1600" height="900" loading="lazy" decoding="async">
+          <button class="demo-play" type="button" data-cursor="Play">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg>
+            <span>Start the simulation</span>
+          </button>
+        </div>
+      </div>
+      <a class="demo-full mono" href="sim/data-center/index.html?lang=en" target="_blank" rel="noopener">Open full screen <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <!-- 05 Before / after -->
+  <section class="sheet ba" id="ba" aria-labelledby="ba-title">
+    <div class="ba-copy">
+      <h2 class="display" id="ba-title">Same store.<br>Different site.</h2>
+      <p class="ba-lead">Allenbis was already selling online. What it lacked was a site that doesn't keep customers waiting. Same catalog, same prices, everything new under the hood.</p>
+      <dl class="metrics">
+        <div class="metric" data-from="480" data-to="20" data-unit="KB"><dt>JavaScript</dt><dd><s>480KB</s> <b>20KB</b></dd></div>
+        <div class="metric" data-from="950" data-to="365" data-unit="KB"><dt>Data on first load</dt><dd><s>950KB</s> <b>365KB</b></dd></div>
+        <div class="metric" data-from="32" data-to="19" data-unit=""><dt>Server requests</dt><dd><s>32</s> <b>19</b></dd></div>
+        <div class="metric" data-from="260" data-to="75" data-unit="ms"><dt>First paint</dt><dd><s>260ms</s> <b>75ms</b></dd></div>
+      </dl>
+    </div>
+    <div class="ba-stage">
+      <div class="phone">
+        <div class="phone-screen">
+          <img class="ba-before" src="work/allenbis-old-mob.webp" alt="Allenbis before: the original site" width="480" height="1039" loading="lazy" decoding="async">
+          <img class="ba-after" src="work/allenbis-mob.webp" alt="Allenbis after: the new site" width="480" height="1039" loading="lazy" decoding="async">
+          <span class="ba-tag ba-tag-before mono">Before</span>
+          <span class="ba-tag ba-tag-after mono">After</span>
+          <span class="ba-handle" aria-hidden="true"><i></i></span>
+        </div>
+      </div>
+      <label class="ba-range-label mono" for="ba-range">Drag to compare</label>
+      <input class="ba-range" id="ba-range" type="range" min="0" max="100" value="50" aria-label="Compare the old site with the new one">
+    </div>
+  </section>
+
+  <!-- 06 Process: the card builds itself in front of you -->
+  <section class="sheet sheet-ink craft" id="craft" data-bg="dark" aria-labelledby="craft-title">
+    <div class="craft-pin">
+      <div class="craft-copy">
+        <h2 class="display" id="craft-title">From line<br>to motion.</h2>
+        <ol class="steps">
+          <li class="step is-on"><div><h3>Sketch</h3><p>We get to know the business, the customer and the moment they decide. Line before color.</p></div></li>
+          <li class="step"><div><h3>Structure</h3><p>Hierarchy, reading path and grid. What you see first, what comes second, and where you click.</p></div></li>
+          <li class="step"><div><h3>Material</h3><p>Type, color and photography, chosen for this business alone.</p></div></li>
+          <li class="step"><div><h3>Motion</h3><p>The site wakes up. Every movement explains something, and nothing moves just because it can.</p></div></li>
+        </ol>
+      </div>
+      <div class="specimen-wrap">
+        <div class="specimen" data-stage="0" aria-hidden="true">
+          <div class="sp-nav"><b class="sp-logo">Logo</b><i></i><i></i><i></i><span class="sp-pill">Contact</span></div>
+          <div class="sp-body">
+            <div class="sp-text">
+              <span class="sp-eyebrow">Ceramics studio · Jaffa</span>
+              <span class="sp-h"><b>Pottery</b> <b>made</b> <b>by hand</b></span>
+              <span class="sp-p"></span><span class="sp-p short"></span>
+              <span class="sp-btn">Next workshop</span>
+            </div>
+            <div class="sp-img"><span class="sp-blob"></span><span class="sp-blob b2"></span></div>
+          </div>
+          <span class="sp-dim d1 mono">1280</span><span class="sp-dim d2 mono">h1 · 96px</span><span class="sp-dim d3 mono">4 : 5</span>
+          <span class="sp-cursor"></span>
+        </div>
+        <p class="specimen-cap mono"><span class="cap-t">Sketch</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact contact-mini" id="contact" data-bg="light" aria-labelledby="contact-title">
+    <h2 class="contact-title display" id="contact-title">Let's build.</h2>
+    <p class="contact-lead">See something you like? Tell me about your business. The next site in this portfolio could be yours.</p>
+    <div class="contact-actions">
+      <a class="btn btn-signal magnetic" href="en.html#contact"><span>Build your site</span></a>
+      <a class="btn btn-line magnetic" href="en.html#pricing"><span>Packages and pricing</span></a>
+    </div>
+    <p class="contact-direct mono">Or reach me directly: <a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a> · <a href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a></p>
+    <footer class="foot mono">
+      <span>© 2026 Hanoch Gotovski</span>
+      <span>Custom web design and development</span>
+      <a href="accessibility.html">Accessibility statement</a>
+      <button class="foot-xray" type="button">Try X-ray mode ↑</button>
+    </footer>
+  </section>
+</main>
+
+<!-- Project story: opens out of the screen that was clicked -->
+<div class="case" role="dialog" aria-modal="true" aria-labelledby="case-title" hidden data-lenis-prevent>
+  <div class="case-bg"></div>
+  <button class="case-close mono" type="button" aria-label="Close">Close ✕</button>
+  <div class="case-wipe" aria-hidden="true"></div>
+  <div class="case-scroll">
+    <div class="case-hero">
+      <div class="browser case-browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono case-url"></span></div>
+        <div class="browser-view"><img class="case-poster" alt="" width="1200" height="750"><video class="case-video" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+      </div>
+    </div>
+    <div class="case-body">
+      <header class="case-head">
+        <div class="case-titlebar"><span class="logo-tile logo-tile-lg"><img class="case-logo" alt="" width="96" height="96"></span><h2 class="case-title display" id="case-title"></h2></div>
+        <p class="case-sub"></p>
+        <p class="case-kind mono"></p>
+        <a class="case-live mono" href="#work" target="_blank" rel="noopener" data-cursor="Visit" hidden>Visit the live site <span aria-hidden="true">↗</span></a>
+      </header>
+      <div class="case-grid">
+        <div class="case-main">
+          <p class="case-story"></p>
+          <h3 class="label mono">What I built</h3>
+          <ul class="case-points"></ul>
+        </div>
+        <aside class="case-side">
+          <div class="case-relic" aria-hidden="true"></div>
+          <p class="case-relic-cap mono">Hologram · drag to rotate</p>
+          <h3 class="label mono">Palette</h3>
+          <ul class="swatches"></ul>
+          <h3 class="label mono">Typography</h3>
+          <ul class="case-fonts mono"></ul>
+          <div class="case-metrics"></div>
+          <img class="case-phone" alt="" width="480" height="1039">
+        </aside>
+      </div>
+      <button class="case-next" type="button" data-cursor="Next"><span class="label mono">Next project</span><span class="case-next-name display"></span></button>
+    </div>
+  </div>
+</div>
+
+<!-- The showreel: opens full screen -->
+<dialog class="film-dlg" aria-label="Hanoch Gotovski's showreel">
+  <button class="film-close mono" type="button" aria-label="Close">Close ✕</button>
+  <video class="film-video" controls playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4"></video>
+</dialog>
+
+<!-- X-ray -->
+<div class="lens" aria-hidden="true"></div>
+<div class="inspect" aria-hidden="true"><span class="inspect-label mono"></span></div>
+<div class="cursor" aria-hidden="true"><span class="cursor-label mono"></span></div>
+<p class="sr-only" aria-live="polite" id="live"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
+<script src="js/hanoch.js" defer></script>
+<script src="js/gallery.js" defer></script>
+<script src="js/a11y.js" defer></script>
+</body>
+</html>

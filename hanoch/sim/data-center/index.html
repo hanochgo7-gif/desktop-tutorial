@@ -6,6 +6,14 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../images/logo.png">
 <title>מערכת הדלק של חוות שרתים</title>
+<script>
+  // ?lang=en: English, left to right. Set here, before anything renders; Hebrew (no param) is untouched
+  (function () {
+    if (new URLSearchParams(location.search).get('lang') !== 'en') return;
+    var d = document.documentElement; d.lang = 'en'; d.dir = 'ltr';
+    document.title = 'Data center fuel system';
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -163,6 +171,8 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .g b.ok { color: var(--ok); } .g b.warn { color: var(--warn); }
 .g .meter { height: 3px; border-radius: 2px; background: rgba(255,255,255,.12); overflow: hidden; }
 .g .meter i { display: block; height: 100%; width: 50%; background: var(--fuel); transition: width .4s, background .3s; margin-inline-start: auto; }
+/* English: the meters keep filling from the left, exactly as they do in Hebrew */
+[dir="ltr"] .g .meter i { margin-inline-start: 0; }
 .tl-sub { margin: 3px 0 0; font-size: .8rem; line-height: 1.4; color: rgba(233,247,255,.82); font-weight: 300; }
 .info { position: absolute; top: 132px; inset-inline-end: 12px; width: min(340px, calc(100% - 24px)); max-height: calc(100% - 250px); overflow: auto; padding: 16px 18px; color: #e9f7ff; display: flex; flex-direction: column; gap: 10px; z-index: 3; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .info[hidden] { display: none; }
@@ -232,52 +242,61 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 <body>
 <main class="app" dir="rtl" lang="he">
   <div class="stage" id="stage">
-    <div class="loading" id="loading">טוענים את ההדמיה…</div>
+    <div class="loading" id="loading" data-en="Loading the simulation…">טוענים את ההדמיה…</div>
     <div class="layer" id="holoLayer"></div>
     <div class="layer" id="hotLayer" hidden></div>
     <div class="banner hx" id="banner" role="status" aria-live="assertive"></div>
     <div class="hud-top">
       <div class="timeline hx" aria-live="polite">
-        <div class="tl-head"><b id="tlText">רשת החשמל תקינה</b><span id="tlClock">T 00:00</span></div>
-        <p class="tl-sub" id="tlSub">לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל.</p>
-        <div class="steps" id="steps"><div>רשת</div><div>סוללות</div><div>התנעה</div><div>העברת עומס</div><div>הזנת דלק</div></div>
+        <div class="tl-head"><b id="tlText" data-en="Grid power is normal">רשת החשמל תקינה</b><span id="tlClock">T 00:00</span></div>
+        <p class="tl-sub" id="tlSub" data-en="Press the red button to see what happens when the power goes out.">לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל.</p>
+        <div class="steps" id="steps"><div data-en="Grid">רשת</div><div data-en="Batteries">סוללות</div><div data-en="Start-up">התנעה</div><div data-en="Load transfer">העברת עומס</div><div data-en="Fuel supply">הזנת דלק</div></div>
       </div>
-      <span class="stamp">הדמיה</span>
-      <button class="close" type="button" id="simClose" aria-label="סגירת ההדמיה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <span class="stamp" data-en="Simulation">הדמיה</span>
+      <button class="close" type="button" id="simClose" aria-label="סגירת ההדמיה" data-en-label="Close the simulation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <aside class="info hx" id="info" hidden aria-labelledby="cT">
-      <button class="x" type="button" id="infoX" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <button class="x" type="button" id="infoX" aria-label="סגירה" data-en-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <span class="n" id="cN">01 / 14</span>
       <h2 id="cT">—</h2>
       <p id="cD">—</p>
       <dl class="spec" id="cS"></dl>
       <div class="stds" id="cStd"></div>
-      <div class="nav"><button type="button" id="prev">הקודם</button><span id="cPos"></span><button type="button" id="next">הבא</button></div>
+      <div class="nav"><button type="button" id="prev" data-en="Previous">הקודם</button><span id="cPos"></span><button type="button" id="next" data-en="Next">הבא</button></div>
     </aside>
     <div class="bar">
       <div class="ctrl">
-        <button class="go" type="button" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg><span id="goT">הפעילו הפסקת חשמל</span></button>
-        <div class="more" role="group" aria-label="תרחישים נוספים">
-          <button class="chip" type="button" data-mode="maint" aria-pressed="false">הפסקה עם גנרטור בתחזוקה</button>
-          <button class="chip" type="button" data-mode="leak" aria-pressed="false">גילוי דליפה</button>
+        <button class="go" type="button" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg><span id="goT" data-en="Cut the power">הפעילו הפסקת חשמל</span></button>
+        <div class="more" role="group" aria-label="תרחישים נוספים" data-en-label="More scenarios">
+          <button class="chip" type="button" data-mode="maint" aria-pressed="false" data-en="Outage with a generator in maintenance">הפסקה עם גנרטור בתחזוקה</button>
+          <button class="chip" type="button" data-mode="leak" aria-pressed="false" data-en="Leak detection">גילוי דליפה</button>
         </div>
       </div>
       <div class="side">
         <div class="gauges hx">
-          <div class="g"><small>החשמל לשרתים מגיע מ</small><b id="gSrc">הרשת</b><span class="meter"><i id="mSrc"></i></span></div>
-          <div class="g"><small>דלק באתר</small><b id="gMain">—</b><span class="meter"><i id="mMain"></i></span></div>
-          <div class="g"><small>הדלק מספיק ל</small><b id="gAuto">—</b><span class="meter"><i id="mAuto"></i></span></div>
+          <div class="g"><small data-en="Servers powered by">החשמל לשרתים מגיע מ</small><b id="gSrc" data-en="The grid">הרשת</b><span class="meter"><i id="mSrc"></i></span></div>
+          <div class="g"><small data-en="Fuel on site">דלק באתר</small><b id="gMain">—</b><span class="meter"><i id="mMain"></i></span></div>
+          <div class="g"><small data-en="Fuel lasts">הדלק מספיק ל</small><b id="gAuto">—</b><span class="meter"><i id="mAuto"></i></span></div>
         </div>
         <div class="tools">
-          <button class="tog" type="button" id="tSound" aria-pressed="true" aria-label="צליל"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><span>צליל</span></button>
-          <button class="tog" type="button" id="tHolo" aria-pressed="true" aria-label="נתונים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>נתונים</span></button>
-          <button class="tog" type="button" id="tComp" aria-pressed="false" aria-label="רכיבים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span>רכיבים</span></button>
-          <button class="tog" type="button" id="tHome" aria-label="מבט כללי"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>מבט כללי</span></button>
+          <button class="tog" type="button" id="tSound" aria-pressed="true" aria-label="צליל" data-en-label="Sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg><span data-en="Sound">צליל</span></button>
+          <button class="tog" type="button" id="tHolo" aria-pressed="true" aria-label="נתונים" data-en-label="Data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span data-en="Data">נתונים</span></button>
+          <button class="tog" type="button" id="tComp" aria-pressed="false" aria-label="רכיבים" data-en-label="Components"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span data-en="Components">רכיבים</span></button>
+          <button class="tog" type="button" id="tHome" aria-label="מבט כללי" data-en-label="Overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-en="Overview">מבט כללי</span></button>
         </div>
       </div>
     </div>
   </div>
 </main>
+<script>
+  // English: swap the static labels and turn the app left to right before the first frame
+  (function () {
+    if (document.documentElement.lang !== 'en') return;
+    var app = document.querySelector('.app'); app.lang = 'en'; app.dir = 'ltr';
+    document.querySelectorAll('[data-en]').forEach(function (el) { el.textContent = el.getAttribute('data-en'); });
+    document.querySelectorAll('[data-en-label]').forEach(function (el) { el.setAttribute('aria-label', el.getAttribute('data-en-label')); });
+  })();
+</script>
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
@@ -302,6 +321,8 @@ const qs = new URLSearchParams(location.search);
 const embed = qs.has('embed'), full = qs.has('full');   // full: opened over the whole phone screen from the portfolio, so one finger may orbit
 if (full) { document.documentElement.classList.add('full'); $('#simClose').addEventListener('click', () => parent.postMessage('sim:close', '*')); }
 const touch = matchMedia('(pointer: coarse)').matches;
+const EN = document.documentElement.lang === 'en';       // set from ?lang=en in the head
+const L = (he, en) => (EN ? en : he);                    // UI text: Hebrew by default, English with lang=en
 
 /* ================= real dimensions (meters) ================= */
 const FT = 0.3048, GAL = 3.78541;
@@ -825,20 +846,20 @@ gens.forEach((g) => { for (let k = 0; k < 10; k++) { const s = new THREE.Sprite(
 /* ================= components ================= */
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 const COMP = [
-  { t: 'נקודת מילוי מרחוק', at: V(-3.8, 1.7, -13.2), cam: [2, 5, -4], look: [-5, 0, -13], d: 'המכלית חונה על הכביש ומתחברת כאן, רחוק מהבור. ארון המילוי כולל מחבר מהיר, מאצרה לטפטופים וקו מילוי שיורד מתחת לקרקע אל המיכלים.', s: [['מאצרת שפיכה', '≥ 5 gal · 19 L'], ['מניעת מילוי יתר', 'סגירה ב־95%']], std: ['EPA 40 CFR 280', 'NFPA 30'] },
-  { t: 'שלושה מיכלים ראשיים', at: V(TANK_XS[1], TANK_Y + TANK_R + 0.7, TANK_Z + 1.5), cam: [-6, 3.5, 10], look: [-15, -2.5, -5], d: 'מיכלי פלדה שחורים, כמו שאנחנו מתקינים בשטח, מונחים על תושבות מעל מצע חול. שלושה מיכלים מאפשרים לרוקן, לבדוק או לתחזק אחד בלי להפסיק לספק דלק.', s: [['נפח ליחידה', '12,000 gal · 45,400 L'], ['קוטר', '10 ft · 3.05 m'], ['אורך גוף', (TANK_L / FT).toFixed(1) + ' ft · ' + TANK_L.toFixed(1) + ' m'], ['מספר מיכלים', '3']], std: ['UL 58', 'NFPA 30'] },
-  { t: 'בור מרופד ומצע חול', at: V(-7.2, PIT.y0 + SAND + 0.3, -1.5), cam: [-4, 1.5, 7], look: [-10, -3.5, -4], d: 'הבור מרופד ביריעת איטום שחורה, והמיכלים יושבים על מצע חול מהודק שמפזר את העומס ומגן על הצבע. במציאות הבור ממולא וסגור. כאן הוא מוצג פתוח.', s: [['עומק הבור', (-PIT.y0).toFixed(1) + ' m'], ['מצע', 'חול מהודק'], ['איטום', 'יריעה בכל הדפנות']], std: ['NFPA 30'] },
-  { t: 'פתחי מיכל, מד מפלס ואוורור', at: V(TANK_XS[0], 0.8, TANK_Z), cam: [-14, 5, 4], look: [-20, 0, -5], d: 'מכל מיכל עולה שוחת גישה אל פני הקרקע, צינור מדידה למד המפלס האוטומטי, וצינור אוורור שמסתיים גבוה מעל הקרקע כדי שאדים יתפזרו בבטחה.', s: [['גובה אוורור', '≥ 12 ft · 3.66 m'], ['ניטור', 'מפלס · מים · דליפה']], std: ['NFPA 30', 'EPA 40 CFR 280'] },
-  { t: 'בור הדלק: משאבות ושסתומים', at: V(-0.8, 0.9, -1.4), cam: [2.5, 1.8, 4.2], look: [-0.8, -1.4, -1.5], d: 'הלב של המערכת. זוג משאבות העברה, כל אחת עם מסנן Y, שסתום אל־חוזר, ברז כדורי ומד לחץ. משאבה אחת מספיקה; השנייה בכוננות (N+1). אחריהן מד זרימה ומסנן מפריד מים, ומשם לתעלה.', s: [['משאבות', '2 · אחת בכוננות'], ['ספיקה בהדמיה', '150 L/min'], ['לחץ עבודה', '≈ 3 bar']], std: ['NFPA 37', 'NFPA 30'] },
-  { t: 'חיישן דליפה בבור הדלק', at: V(FPIT.x0 + 0.5, FPIT.y0 + 0.6, -0.5), cam: [0.8, 0.2, 2.8], look: [FPIT.x0 + 0.5, FPIT.y0 + 0.2, -0.8], d: 'בנקודה הנמוכה של רצפת הבור יושב חיישן. כל נוזל שמגיע אליו עוצר את המשאבות ומפעיל התראה בבקרה.', s: [['פעולה', 'עצירת משאבות + התראה']], std: ['EPA 40 CFR 280'] },
-  { t: 'תעלת הצנרת', at: V(12, 0.5, -0.4), cam: [14, 2.2, 6], look: [11, -0.8, -0.6], d: 'מבור הדלק יוצאים קו הזנה וקו חזרה בתעלת בטון עם מכסים. מכל קונטיינר יוצאת הסתעפות משלה עם ברז ניתוק. הצנרת צבועה צהוב, צבע הסימון לנוזל דליק.', s: [['קווים', 'הזנה · חזרה'], ['סימון', 'צהוב, נוזל דליק']], std: ['ASME A13.1', 'NFPA 30'] },
-  { t: 'קונטיינר גנרטור', at: V(GENS[1].x, CONT_H + 1.3, GENS[1].z), cam: [GENS[1].x + 11, 7, GENS[1].z + 12], look: [GENS[1].x, 1.5, GENS[1].z], d: 'קונטיינר 40 רגל ובתוכו גנרטור של 2.5 מגה־וואט: מנוע דיזל V16, אלטרנטור, רדיאטור בקצה, משתיק ומפלט על הגג. ארבעה קונטיינרים, שלושה מספיקים לכל העומס.', s: [['הספק', '2.5 MW'], ['תצורה', 'N+1 · 3+1'], ['מידות', '40 ft · 12.2 m']], std: ['NFPA 110', 'NFPA 37'] },
-  { t: 'מיכל היום בתוך הקונטיינר', at: V(GENS[0].x, 2, GENS[0].z + CONT_L / 2 - 1.3), cam: [GENS[0].x + 4.5, 2.6, GENS[0].z + CONT_L / 2 + 2.5], look: [GENS[0].x - 0.3, 0.9, GENS[0].z + CONT_L / 2 - 1.4], d: 'כל גנרטור שואב ממיכל יום שבתוך הקונטיינר. מצופים מודדים את המפלס: כשהוא יורד, המשאבות בבור הדלק מתחילות למלא; כשהוא מלא, הן עוצרות. עודפים חוזרים בקו החזרה.', s: [['נפח בהדמיה', '2,000 L'], ['מילוי', 'אוטומטי לפי מצופים']], std: ['NFPA 37', 'UL 142'] },
-  { t: 'מפסק העברה ולוח חשמל', at: V(BLD.x0 + (BLD.x1 - BLD.x0) * 0.62 - 1.5, 2.8, BLD.z1 - 3), cam: [16, 5, -12], look: [18, 1.5, -24], d: 'מפסק ההעברה האוטומטי (ATS) מזהה שהרשת נפלה, מתניע את הגנרטורים, ומעביר אליהם את העומס ברגע שהמתח והתדר יציבים. לפי NFPA 110 זה צריך לקרות תוך 10 שניות.', s: [['זמן העברה', '≤ 10 s · Type 10'], ['חזרה לרשת', 'אוטומטית, עם צינון']], std: ['NFPA 110'] },
-  { t: 'UPS וסוללות', at: V(racks.upsX + 1.2, 2.8, racks.hall.z0 + 2.5), cam: [14, 4.5, -16], look: [racks.upsX + 1, 1.3, racks.hall.z0 + 3], d: 'בשניות שבין נפילת הרשת לכניסת הגנרטורים, ה־UPS מזין את השרתים מסוללות. בלי הדלק שמגיע אחר כך, הסוללות היו מחזיקות דקות בודדות.', s: [['מטרה', 'גישור של שניות'], ['זמינות הסוללות', 'דקות בודדות']], std: ['NFPA 110'] },
-  { t: 'אולם השרתים', at: V(8, 3.3, -31), cam: [6, 5, -12], look: [6, 1.4, -30], d: 'מה שכל המערכת שומרת עליו. הנורות על הארונות מראות את מצב ההזנה: ירוק מהרשת או מהגנרטורים, כתום על סוללות.', s: [['עומס IT בהדמיה', '5.6 MW · 75%'], ['הזנה', 'רשת · UPS · גנרטורים']], std: ['Uptime Tier'] },
-  { t: 'חיבור לרשת החשמל', at: V(33.5, 3.2, -16.5), cam: [38, 6, -6], look: [33, 1, -16], d: 'שנאי ולוח מיתוג שמזינים את האתר מחברת החשמל ביום רגיל. כשהרשת נופלת, הקשר הזה מתנתק והגנרטורים לוקחים את מקומו.', s: [['מצב רגיל', 'הזנה מהרשת']], std: ['NFPA 110'] },
-  { t: 'כמה דלק צריך באתר', at: V(-15, 4.2, -9), cam: [0, 40, 38], look: [0, -2, -14], d: 'הנפח נקבע לפי זמן הפעולה הנדרש בעומס מלא ולפי הסכמי אספקת דלק בחירום. מסגרת Tier של Uptime Institute דורשת לפחות 12 שעות דלק באתר; בפועל מתכננים בדרך כלל 24 עד 72.', s: [['דלק באתר', '36,000 gal · 136,300 L'], ['צריכה בעומס מלא', '≈ 675 L/h ליחידה']], std: ['Uptime Tier', 'NFPA 110'] },
+  { t: L('נקודת מילוי מרחוק', 'Remote fill point'), at: V(-3.8, 1.7, -13.2), cam: [2, 5, -4], look: [-5, 0, -13], d: L('המכלית חונה על הכביש ומתחברת כאן, רחוק מהבור. ארון המילוי כולל מחבר מהיר, מאצרה לטפטופים וקו מילוי שיורד מתחת לקרקע אל המיכלים.', 'The tanker parks on the road and connects here, away from the pit. The fill cabinet holds a quick coupling, a spill bucket for drips and a fill line that runs underground to the tanks.'), s: [[L('מאצרת שפיכה', 'Spill containment'), '≥ 5 gal · 19 L'], [L('מניעת מילוי יתר', 'Overfill prevention'), L('סגירה ב־95%', 'Shuts off at 95%')]], std: ['EPA 40 CFR 280', 'NFPA 30'] },
+  { t: L('שלושה מיכלים ראשיים', 'Three main tanks'), at: V(TANK_XS[1], TANK_Y + TANK_R + 0.7, TANK_Z + 1.5), cam: [-6, 3.5, 10], look: [-15, -2.5, -5], d: L('מיכלי פלדה שחורים, כמו שאנחנו מתקינים בשטח, מונחים על תושבות מעל מצע חול. שלושה מיכלים מאפשרים לרוקן, לבדוק או לתחזק אחד בלי להפסיק לספק דלק.', 'Black steel tanks, the kind we install in the field, resting on saddles over a sand bed. With three tanks, one can be emptied, inspected or serviced without stopping the fuel supply.'), s: [[L('נפח ליחידה', 'Capacity per tank'), '12,000 gal · 45,400 L'], [L('קוטר', 'Diameter'), '10 ft · 3.05 m'], [L('אורך גוף', 'Shell length'), (TANK_L / FT).toFixed(1) + ' ft · ' + TANK_L.toFixed(1) + ' m'], [L('מספר מיכלים', 'Number of tanks'), '3']], std: ['UL 58', 'NFPA 30'] },
+  { t: L('בור מרופד ומצע חול', 'Lined pit and sand bed'), at: V(-7.2, PIT.y0 + SAND + 0.3, -1.5), cam: [-4, 1.5, 7], look: [-10, -3.5, -4], d: L('הבור מרופד ביריעת איטום שחורה, והמיכלים יושבים על מצע חול מהודק שמפזר את העומס ומגן על הצבע. במציאות הבור ממולא וסגור. כאן הוא מוצג פתוח.', 'The pit is lined with a black membrane, and the tanks sit on a bed of compacted sand that spreads the load and protects the coating. In real life the pit is backfilled and sealed. Here it is shown open.'), s: [[L('עומק הבור', 'Pit depth'), (-PIT.y0).toFixed(1) + ' m'], [L('מצע', 'Bed'), L('חול מהודק', 'Compacted sand')], [L('איטום', 'Lining'), L('יריעה בכל הדפנות', 'Membrane on every wall')]], std: ['NFPA 30'] },
+  { t: L('פתחי מיכל, מד מפלס ואוורור', 'Tank openings, level gauge and vents'), at: V(TANK_XS[0], 0.8, TANK_Z), cam: [-14, 5, 4], look: [-20, 0, -5], d: L('מכל מיכל עולה שוחת גישה אל פני הקרקע, צינור מדידה למד המפלס האוטומטי, וצינור אוורור שמסתיים גבוה מעל הקרקע כדי שאדים יתפזרו בבטחה.', 'From each tank rise a manway to ground level, a gauge pipe for the automatic level gauge, and a vent pipe that ends high above the ground so vapors disperse safely.'), s: [[L('גובה אוורור', 'Vent height'), '≥ 12 ft · 3.66 m'], [L('ניטור', 'Monitoring'), L('מפלס · מים · דליפה', 'Level · water · leaks')]], std: ['NFPA 30', 'EPA 40 CFR 280'] },
+  { t: L('בור הדלק: משאבות ושסתומים', 'Fuel pit: pumps and valves'), at: V(-0.8, 0.9, -1.4), cam: [2.5, 1.8, 4.2], look: [-0.8, -1.4, -1.5], d: L('הלב של המערכת. זוג משאבות העברה, כל אחת עם מסנן Y, שסתום אל־חוזר, ברז כדורי ומד לחץ. משאבה אחת מספיקה; השנייה בכוננות (N+1). אחריהן מד זרימה ומסנן מפריד מים, ומשם לתעלה.', 'The heart of the system. Two transfer pumps, each with a Y-strainer, a check valve, a ball valve and a pressure gauge. One pump is enough; the other stands by (N+1). After them come a flow meter and a water-separating filter, then the trench.'), s: [[L('משאבות', 'Pumps'), L('2 · אחת בכוננות', '2 · one on standby')], [L('ספיקה בהדמיה', 'Flow in this simulation'), '150 L/min'], [L('לחץ עבודה', 'Working pressure'), '≈ 3 bar']], std: ['NFPA 37', 'NFPA 30'] },
+  { t: L('חיישן דליפה בבור הדלק', 'Leak sensor in the fuel pit'), at: V(FPIT.x0 + 0.5, FPIT.y0 + 0.6, -0.5), cam: [0.8, 0.2, 2.8], look: [FPIT.x0 + 0.5, FPIT.y0 + 0.2, -0.8], d: L('בנקודה הנמוכה של רצפת הבור יושב חיישן. כל נוזל שמגיע אליו עוצר את המשאבות ומפעיל התראה בבקרה.', 'A sensor sits at the lowest point of the pit floor. Any liquid that reaches it stops the pumps and raises an alarm in the control room.'), s: [[L('פעולה', 'Action'), L('עצירת משאבות + התראה', 'Pumps stop + alarm')]], std: ['EPA 40 CFR 280'] },
+  { t: L('תעלת הצנרת', 'Pipe trench'), at: V(12, 0.5, -0.4), cam: [14, 2.2, 6], look: [11, -0.8, -0.6], d: L('מבור הדלק יוצאים קו הזנה וקו חזרה בתעלת בטון עם מכסים. מכל קונטיינר יוצאת הסתעפות משלה עם ברז ניתוק. הצנרת צבועה צהוב, צבע הסימון לנוזל דליק.', 'A supply line and a return line leave the fuel pit through a covered concrete trench. Each container has its own branch with an isolation valve. The pipes are painted yellow, the marking color for flammable liquids.'), s: [[L('קווים', 'Lines'), L('הזנה · חזרה', 'Supply · return')], [L('סימון', 'Marking'), L('צהוב, נוזל דליק', 'Yellow, flammable liquid')]], std: ['ASME A13.1', 'NFPA 30'] },
+  { t: L('קונטיינר גנרטור', 'Generator container'), at: V(GENS[1].x, CONT_H + 1.3, GENS[1].z), cam: [GENS[1].x + 11, 7, GENS[1].z + 12], look: [GENS[1].x, 1.5, GENS[1].z], d: L('קונטיינר 40 רגל ובתוכו גנרטור של 2.5 מגה־וואט: מנוע דיזל V16, אלטרנטור, רדיאטור בקצה, משתיק ומפלט על הגג. ארבעה קונטיינרים, שלושה מספיקים לכל העומס.', 'A 40-foot container with a 2.5-megawatt generator inside: a V16 diesel engine, an alternator, a radiator at the end, and a silencer and exhaust on the roof. Four containers; three can carry the full load.'), s: [[L('הספק', 'Output'), '2.5 MW'], [L('תצורה', 'Configuration'), 'N+1 · 3+1'], [L('מידות', 'Size'), '40 ft · 12.2 m']], std: ['NFPA 110', 'NFPA 37'] },
+  { t: L('מיכל היום בתוך הקונטיינר', 'Day tank inside the container'), at: V(GENS[0].x, 2, GENS[0].z + CONT_L / 2 - 1.3), cam: [GENS[0].x + 4.5, 2.6, GENS[0].z + CONT_L / 2 + 2.5], look: [GENS[0].x - 0.3, 0.9, GENS[0].z + CONT_L / 2 - 1.4], d: L('כל גנרטור שואב ממיכל יום שבתוך הקונטיינר. מצופים מודדים את המפלס: כשהוא יורד, המשאבות בבור הדלק מתחילות למלא; כשהוא מלא, הן עוצרות. עודפים חוזרים בקו החזרה.', 'Each generator draws from a day tank inside its container. Floats track the level: when it drops, the pumps in the fuel pit start filling; when it is full, they stop. Any excess flows back on the return line.'), s: [[L('נפח בהדמיה', 'Volume in this simulation'), '2,000 L'], [L('מילוי', 'Filling'), L('אוטומטי לפי מצופים', 'Automatic, by float')]], std: ['NFPA 37', 'UL 142'] },
+  { t: L('מפסק העברה ולוח חשמל', 'Transfer switch and switchboard'), at: V(BLD.x0 + (BLD.x1 - BLD.x0) * 0.62 - 1.5, 2.8, BLD.z1 - 3), cam: [16, 5, -12], look: [18, 1.5, -24], d: L('מפסק ההעברה האוטומטי (ATS) מזהה שהרשת נפלה, מתניע את הגנרטורים, ומעביר אליהם את העומס ברגע שהמתח והתדר יציבים. לפי NFPA 110 זה צריך לקרות תוך 10 שניות.', 'The automatic transfer switch (ATS) senses that the grid is down, starts the generators, and hands them the load as soon as voltage and frequency are stable. Under NFPA 110 this has to happen within 10 seconds.'), s: [[L('זמן העברה', 'Transfer time'), '≤ 10 s · Type 10'], [L('חזרה לרשת', 'Return to grid'), L('אוטומטית, עם צינון', 'Automatic, with cool-down')]], std: ['NFPA 110'] },
+  { t: L('UPS וסוללות', 'UPS and batteries'), at: V(racks.upsX + 1.2, 2.8, racks.hall.z0 + 2.5), cam: [14, 4.5, -16], look: [racks.upsX + 1, 1.3, racks.hall.z0 + 3], d: L('בשניות שבין נפילת הרשת לכניסת הגנרטורים, ה־UPS מזין את השרתים מסוללות. בלי הדלק שמגיע אחר כך, הסוללות היו מחזיקות דקות בודדות.', 'In the seconds between the grid going down and the generators taking over, the UPS runs the servers on batteries. Without the fuel that comes next, the batteries would last only a few minutes.'), s: [[L('מטרה', 'Purpose'), L('גישור של שניות', 'Bridging a few seconds')], [L('זמינות הסוללות', 'Battery runtime'), L('דקות בודדות', 'A few minutes')]], std: ['NFPA 110'] },
+  { t: L('אולם השרתים', 'Server hall'), at: V(8, 3.3, -31), cam: [6, 5, -12], look: [6, 1.4, -30], d: L('מה שכל המערכת שומרת עליו. הנורות על הארונות מראות את מצב ההזנה: ירוק מהרשת או מהגנרטורים, כתום על סוללות.', 'What the whole system is there to protect. The lights on the racks show where the power comes from: green for the grid or the generators, amber for batteries.'), s: [[L('עומס IT בהדמיה', 'IT load in this simulation'), '5.6 MW · 75%'], [L('הזנה', 'Supply'), L('רשת · UPS · גנרטורים', 'Grid · UPS · generators')]], std: ['Uptime Tier'] },
+  { t: L('חיבור לרשת החשמל', 'Grid connection'), at: V(33.5, 3.2, -16.5), cam: [38, 6, -6], look: [33, 1, -16], d: L('שנאי ולוח מיתוג שמזינים את האתר מחברת החשמל ביום רגיל. כשהרשת נופלת, הקשר הזה מתנתק והגנרטורים לוקחים את מקומו.', 'A transformer and switchgear feed the site from the utility on a normal day. When the grid goes down, this link drops and the generators take its place.'), s: [[L('מצב רגיל', 'Normal state'), L('הזנה מהרשת', 'Fed from the grid')]], std: ['NFPA 110'] },
+  { t: L('כמה דלק צריך באתר', 'How much fuel the site needs'), at: V(-15, 4.2, -9), cam: [0, 40, 38], look: [0, -2, -14], d: L('הנפח נקבע לפי זמן הפעולה הנדרש בעומס מלא ולפי הסכמי אספקת דלק בחירום. מסגרת Tier של Uptime Institute דורשת לפחות 12 שעות דלק באתר; בפועל מתכננים בדרך כלל 24 עד 72.', 'The volume is set by the runtime required at full load and by emergency fuel-delivery contracts. The Uptime Institute Tier framework calls for at least 12 hours of fuel on site; in practice, designs usually plan for 24 to 72.'), s: [[L('דלק באתר', 'Fuel on site'), '36,000 gal · 136,300 L'], [L('צריכה בעומס מלא', 'Burn at full load'), L('≈ 675 L/h ליחידה', '≈ 675 L/h per unit')]], std: ['Uptime Tier', 'NFPA 110'] },
 ];
 const hotLayer = $('#hotLayer');
 COMP.forEach((c, i) => {
@@ -852,7 +873,7 @@ function select(i, fly, open = fly) {
   $('#cN').textContent = String(cur + 1).padStart(2, '0') + ' / ' + COMP.length; $('#cT').textContent = c.t; $('#cD').textContent = c.d;
   const dl = $('#cS'); dl.innerHTML = ''; c.s.forEach(([k, v]) => { const d = document.createElement('div'); const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.dir = 'auto'; dd.textContent = v; d.append(dt, dd); dl.appendChild(d); });
   const st = $('#cStd'); st.innerHTML = ''; c.std.forEach((s) => { const sp = document.createElement('span'); sp.textContent = s; st.appendChild(sp); });
-  $('#cPos').textContent = (cur + 1) + ' מתוך ' + COMP.length;
+  $('#cPos').textContent = (cur + 1) + L(' מתוך ', ' of ') + COMP.length;
   if (fly) { cine = null; flyTo(V(...c.cam), V(...c.look), 1.5); }
 }
 $('#prev').addEventListener('click', () => select(cur - 1, true)); $('#next').addEventListener('click', () => select(cur + 1, true));
@@ -956,11 +977,11 @@ function holoSet(h, d) {
   }
 }
 const H = {
-  tanks: holo({ id: 'T', title: 'מיכלי הדלק', base: V(TANK_XS[1], TANK_Y + TANK_R + 0.1, TANK_Z), h: 4.6, ring: 'מלאי', rows: ['דלק במיכלים', 'שואבים ממיכל'], prio: 2, disc: 3 }),
-  pit: holo({ id: 'P', title: 'בור הדלק', base: V(-0.8, 0.05, -1.3), h: 3.2, ring: 'ספיקה', rows: ['משאבה', 'ספיקה'], prio: 1, disc: 1.8 }),
-  gens: gens.map((g) => holo({ id: 'G' + (g.i + 1), title: 'גנרטור', base: V(g.x, 0.3 + CONT_H + 0.1, g.z + CONT_L / 2 - 1.6), h: 2.6 + (g.i % 2) * 1.4, ring: 'מיכל יום', rows: ['הספק', 'סל״ד'], spark: 'סיבובי המנוע', sparkMax: 1800, prio: 3 + g.i, disc: 1.8 })),
-  dc: holo({ id: 'DC', title: 'חוות השרתים', base: V(8, BLD.h + 0.05, -29), h: 3, ring: 'UPS', rows: ['שרתים פעילים', 'החשמל מגיע מ'], spark: 'חשמל לשרתים, בלי הפסקה', prio: 0, disc: 3 }),
-  grid: holo({ id: 'HV', title: 'חברת החשמל', base: V(33.5, 2.62, -16.5), h: 2.4, rows: ['מצב'], prio: 7, disc: 2.4 }),
+  tanks: holo({ id: 'T', title: L('מיכלי הדלק', 'Fuel tanks'), base: V(TANK_XS[1], TANK_Y + TANK_R + 0.1, TANK_Z), h: 4.6, ring: L('מלאי', 'Stock'), rows: [L('דלק במיכלים', 'Fuel in tanks'), L('שואבים ממיכל', 'Drawing from')], prio: 2, disc: 3 }),
+  pit: holo({ id: 'P', title: L('בור הדלק', 'Fuel pit'), base: V(-0.8, 0.05, -1.3), h: 3.2, ring: L('ספיקה', 'Flow'), rows: [L('משאבה', 'Pump'), L('ספיקה', 'Flow')], prio: 1, disc: 1.8 }),
+  gens: gens.map((g) => holo({ id: 'G' + (g.i + 1), title: L('גנרטור', 'Generator'), base: V(g.x, 0.3 + CONT_H + 0.1, g.z + CONT_L / 2 - 1.6), h: 2.6 + (g.i % 2) * 1.4, ring: L('מיכל יום', 'Day tank'), rows: [L('הספק', 'Output'), L('סל״ד', 'RPM')], spark: L('סיבובי המנוע', 'Engine speed'), sparkMax: 1800, prio: 3 + g.i, disc: 1.8 })),
+  dc: holo({ id: 'DC', title: L('חוות השרתים', 'Data center'), base: V(8, BLD.h + 0.05, -29), h: 3, ring: 'UPS', rows: [L('שרתים פעילים', 'Servers up'), L('החשמל מגיע מ', 'Powered by')], spark: L('חשמל לשרתים, בלי הפסקה', 'Power to the servers, no break'), prio: 0, disc: 3 }),
+  grid: holo({ id: 'HV', title: L('חברת החשמל', 'Utility'), base: V(33.5, 2.62, -16.5), h: 2.4, rows: [L('מצב', 'Status')], prio: 7, disc: 2.4 }),
 };
 H.dc.sparkMax = 3 * 2500 * 1.05;
 let showHolo = true;
@@ -973,17 +994,17 @@ function sfc(f) { return 0.27 + 0.06 * (1 - f); }
 function setMode(m) {
   S.mode = m; S.t = 0; S.spd = 1; S.saved = false;
   document.querySelectorAll('.chip').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
-  const go = $('#go'), off = m !== 'normal'; go.classList.toggle('back', off); go.classList.remove('idle'); $('#goT').textContent = off ? 'החזירו את החשמל' : 'הפעילו הפסקת חשמל';
+  const go = $('#go'), off = m !== 'normal'; go.classList.toggle('back', off); go.classList.remove('idle'); $('#goT').textContent = off ? L('החזירו את החשמל', 'Restore power') : L('הפעילו הפסקת חשמל', 'Cut the power');
   S.lock = m === 'maint' ? 3 : -1;
   S.leak = m === 'leak';
   const wasOut = !S.grid;
   S.grid = !(m === 'outage' || m === 'maint');
   S.startIn = 3.2; S.ats = 10;
   if (S.grid) { if (wasOut) S.restoring = 1; }
-  if (!S.grid) { S.ups = 1; gens.forEach((g) => { g.run = 0; g.rpm = 0; }); banner('הפסקת חשמל', 'סוללות ה־UPS מחזיקות את השרתים · הגנרטורים מתניעים', false); audio.start(); if (!freeCam) startCine(); }
+  if (!S.grid) { S.ups = 1; gens.forEach((g) => { g.run = 0; g.rpm = 0; }); banner(L('הפסקת חשמל', 'Power outage'), L('סוללות ה־UPS מחזיקות את השרתים · הגנרטורים מתניעים', 'UPS batteries carry the servers · generators starting'), false); audio.start(); if (!freeCam) startCine(); }
   else { audio.stop(); cine = null; }
-  if (m === 'leak') { select(5, true); banner('התראת דליפה בבור הדלק', 'המשאבות נעצרו · הבקרה קיבלה התראה', false); }
-  if (m === 'normal' && wasOut) banner('החשמל חזר', 'העומס עבר חזרה לרשת · הגנרטורים מצטננים', true);
+  if (m === 'leak') { select(5, true); banner(L('התראת דליפה בבור הדלק', 'Leak alarm in the fuel pit'), L('המשאבות נעצרו · הבקרה קיבלה התראה', 'Pumps stopped · control room alerted'), false); }
+  if (m === 'normal' && wasOut) banner(L('החשמל חזר', 'Power is back'), L('העומס עבר חזרה לרשת · הגנרטורים מצטננים', 'Load back on the grid · generators cooling down'), true);
 }
 document.querySelectorAll('.chip').forEach((b) => b.addEventListener('click', () => setMode(b.getAttribute('aria-pressed') === 'true' ? 'normal' : b.dataset.mode)));
 $('#go').addEventListener('click', () => setMode(S.mode === 'normal' ? 'outage' : 'normal'));
@@ -1027,11 +1048,11 @@ function step(dt) {
   const dayL = avail.reduce((a, g) => a + g.day * DAY_CAP, 0);
   const nRun = S.lock >= 0 ? 3 : 4, per = siteKW / nRun, fullBurn = nRun * per * sfc(per / 2500);
   const auto = (mainL + dayL) / fullBurn;
-  const src = S.grid ? 'הרשת' : onGen ? 'הגנרטורים' : 'סוללות UPS', gs = $('#gSrc');
+  const src = S.grid ? L('הרשת', 'The grid') : onGen ? L('הגנרטורים', 'Generators') : L('סוללות UPS', 'UPS batteries'), gs = $('#gSrc');
   if (gs.textContent !== src) { gs.textContent = src; gs.className = S.grid ? '' : onGen ? 'ok' : 'warn'; }
   const ms = $('#mSrc'); ms.style.width = (S.grid || onGen ? 100 : S.ups * 100) + '%'; ms.style.background = S.grid ? 'var(--holo)' : onGen ? 'var(--ok)' : 'var(--warn)';
   $('#gMain').textContent = nf(mainL) + ' L'; $('#mMain').style.width = (mainL / (TANK_N * TANK_CAP) * 100) + '%';
-  $('#gAuto').textContent = Math.floor(auto) + ' שעות'; $('#mAuto').style.width = Math.min(100, auto / 72 * 100) + '%';
+  $('#gAuto').textContent = Math.floor(auto) + L(' שעות', ' hours'); $('#mAuto').style.width = Math.min(100, auto / 72 * 100) + '%';
   /* flows */
   Object.values(flows).forEach((f) => { f.want = 0; });
   flows.grid.want = S.grid && !S.restoring ? 1 : (S.grid ? 1 : 0);
@@ -1045,41 +1066,41 @@ function step(dt) {
 const stepsEl = [...document.querySelectorAll('#steps div')];
 function hud(r) {
   const out = !S.grid; let text, sub, cls = ['', '', '', '', ''];
-  const maint = S.lock >= 0 ? ' גנרטור ' + (S.lock + 1) + ' בתחזוקה, ושלושה מספיקים לכל העומס.' : '';
+  const maint = S.lock >= 0 ? L(' גנרטור ' + (S.lock + 1) + ' בתחזוקה, ושלושה מספיקים לכל העומס.', ' Generator ' + (S.lock + 1) + ' is in maintenance, and three are enough for the full load.') : '';
   if (!out) {
     cls[0] = 'done';
-    if (S.leak) { text = 'התגלתה דליפה בבור הדלק'; sub = 'החיישן עצר את המשאבות ושלח התראה לבקרה. שום דלק לא יוצא מהבור.'; }
-    else if (S.restoring) { text = 'החשמל חזר'; sub = 'השרתים חזרו לרשת. הגנרטורים מסתובבים עוד כמה דקות כדי להתקרר, ואז נכבים.'; }
-    else { text = 'רשת החשמל תקינה'; sub = touch && embed && !full ? 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. שתי אצבעות מסובבות את המודל.' : 'לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. גררו כדי לסובב.'; }
+    if (S.leak) { text = L('התגלתה דליפה בבור הדלק', 'Leak detected in the fuel pit'); sub = L('החיישן עצר את המשאבות ושלח התראה לבקרה. שום דלק לא יוצא מהבור.', 'The sensor stopped the pumps and alerted the control room. No fuel leaves the pit.'); }
+    else if (S.restoring) { text = L('החשמל חזר', 'Power is back'); sub = L('השרתים חזרו לרשת. הגנרטורים מסתובבים עוד כמה דקות כדי להתקרר, ואז נכבים.', 'The servers are back on the grid. The generators run a few more minutes to cool down, then shut off.'); }
+    else { text = L('רשת החשמל תקינה', 'Grid power is normal'); sub = touch && embed && !full ? L('לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. שתי אצבעות מסובבות את המודל.', 'Press the red button to see what happens when the power goes out. Use two fingers to rotate the model.') : L('לחצו על הכפתור האדום כדי לראות מה קורה כשהחשמל נופל. גררו כדי לסובב.', 'Press the red button to see what happens when the power goes out. Drag to rotate.'); }
   }
-  else if (S.t < S.startIn) { text = 'הרשת נפלה'; sub = 'סוללות ה־UPS מזינות את השרתים. אף שרת לא כבה.'; cls = ['bad', 'now', '', '', '']; }
-  else if (S.t < S.ats) { text = 'הגנרטורים מתניעים'; sub = 'בעוד ' + Math.ceil(S.ats - S.t) + ' שניות הם יקבלו את העומס מהסוללות.' + maint; cls = ['bad', 'done', 'now', '', '']; }
-  else if (!S.transfer && r.running.length) { text = 'הגנרטורים מזינים את חוות השרתים'; sub = 'העומס עבר תוך ' + Math.round(S.ats) + ' שניות. כל מנוע שואב דלק ממיכל היום שבתוך הקונטיינר שלו.' + maint; cls = ['bad', 'done', 'done', 'done', '']; }
-  else { text = 'מערכת הדלק ממלאת את מיכלי היום'; sub = 'המשאבות בבור הדלק שואבות מהמיכלים הראשיים ושולחות דלק בתעלה לכל גנרטור.' + maint; cls = ['bad', 'done', 'done', 'done', 'now']; }
+  else if (S.t < S.startIn) { text = L('הרשת נפלה', 'The grid is down'); sub = L('סוללות ה־UPS מזינות את השרתים. אף שרת לא כבה.', 'UPS batteries are powering the servers. Not one server goes down.'); cls = ['bad', 'now', '', '', '']; }
+  else if (S.t < S.ats) { text = L('הגנרטורים מתניעים', 'Generators starting'); sub = L('בעוד ' + Math.ceil(S.ats - S.t) + ' שניות הם יקבלו את העומס מהסוללות.', 'In ' + Math.ceil(S.ats - S.t) + ' seconds they take the load from the batteries.') + maint; cls = ['bad', 'done', 'now', '', '']; }
+  else if (!S.transfer && r.running.length) { text = L('הגנרטורים מזינים את חוות השרתים', 'Generators are powering the data center'); sub = L('העומס עבר תוך ' + Math.round(S.ats) + ' שניות. כל מנוע שואב דלק ממיכל היום שבתוך הקונטיינר שלו.', 'The load moved over in ' + Math.round(S.ats) + ' seconds. Each engine draws fuel from the day tank inside its own container.') + maint; cls = ['bad', 'done', 'done', 'done', '']; }
+  else { text = L('מערכת הדלק ממלאת את מיכלי היום', 'The fuel system is refilling the day tanks'); sub = L('המשאבות בבור הדלק שואבות מהמיכלים הראשיים ושולחות דלק בתעלה לכל גנרטור.', 'Pumps in the fuel pit draw from the main tanks and send fuel along the trench to each generator.') + maint; cls = ['bad', 'done', 'done', 'done', 'now']; }
   if (out && S.t > S.ats + 20 && !S.transfer) cls[4] = 'done';
-  if (out && S.spd > 1.5) sub += ' השעון מואץ.';
+  if (out && S.spd > 1.5) sub += L(' השעון מואץ.', ' The clock is sped up.');
   setT('#tlText', text); setT('#tlSub', sub);
   stepsEl.forEach((el, i) => { if (el.className !== cls[i]) el.className = cls[i]; });
   const hh = Math.floor(S.t / 3600), mm = Math.floor(S.t % 3600 / 60), ss = Math.floor(S.t % 60);
   setT('#tlClock', (out ? 'T+ ' : 'T ') + (hh ? hh + ':' : '') + String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0') + (S.spd > 1.5 ? ' · ×' + Math.round(S.spd) : ''));
-  if (out && S.t >= S.ats && !S.saved) { S.saved = true; banner('חוות השרתים ניצלה', 'הגנרטורים קיבלו את העומס ' + Math.round(S.ats) + ' שניות אחרי שהרשת נפלה', true); }
+  if (out && S.t >= S.ats && !S.saved) { S.saved = true; banner(L('חוות השרתים ניצלה', 'Data center saved'), L('הגנרטורים קיבלו את העומס ' + Math.round(S.ats) + ' שניות אחרי שהרשת נפלה', 'The generators took the load ' + Math.round(S.ats) + ' seconds after the grid went down'), true); }
   COMP[5].el.classList.toggle('is-alarm', S.leak); COMP[4].el.classList.toggle('is-alarm', S.leak);
 }
 const tCache = {}; function setT(sel, v) { if (tCache[sel] !== v) { tCache[sel] = v; $(sel).textContent = v; } }
 function holoUpdate(r) {
   if (!showHolo) return;
   const cap = TANK_N * TANK_CAP;
-  holoSet(H.tanks, { st: S.transfer ? 'מזינים' : 'כוננות', cls: S.transfer ? 'on' : '', ring: r.mainL / cap, rows: [nf(r.mainL) + ' L', S.transfer ? 'מיכל ' + (S.src + 1) : '—'] });
+  holoSet(H.tanks, { st: S.transfer ? L('מזינים', 'Feeding') : L('כוננות', 'Standby'), cls: S.transfer ? 'on' : '', ring: r.mainL / cap, rows: [nf(r.mainL) + ' L', S.transfer ? L('מיכל ', 'Tank ') + (S.src + 1) : '—'] });
   const q = S.transfer ? 150 : 0;
-  holoSet(H.pit, { st: S.leak ? 'דליפה' : S.transfer ? 'שואב' : 'כוננות', cls: S.leak ? 'bad' : S.transfer ? 'on' : '', ring: q / 200, rows: [S.leak ? 'נעצרה' : S.transfer ? 'פועלת' : 'בכוננות', q + ' L/min'] });
+  holoSet(H.pit, { st: S.leak ? L('דליפה', 'Leak') : S.transfer ? L('שואב', 'Pumping') : L('כוננות', 'Standby'), cls: S.leak ? 'bad' : S.transfer ? 'on' : '', ring: q / 200, rows: [S.leak ? L('נעצרה', 'Stopped') : S.transfer ? L('פועלת', 'Running') : L('בכוננות', 'Standby'), q + ' L/min'] });
   gens.forEach((g, i) => {
     const locked = g.i === S.lock;
-    holoSet(H.gens[i], { st: locked ? 'בתחזוקה' : g.run ? (r.onGen ? 'בעומס' : 'מתניע') : 'כוננות', cls: locked ? 'warn' : g.run ? (r.onGen ? 'on' : 'warn') : '', ring: g.day, rows: [(g.kw / 1000 || 0).toFixed(2) + ' MW', nf(g.rpm)], spark: g.rpm });
+    holoSet(H.gens[i], { st: locked ? L('בתחזוקה', 'Maintenance') : g.run ? (r.onGen ? L('בעומס', 'On load') : L('מתניע', 'Starting')) : L('כוננות', 'Standby'), cls: locked ? 'warn' : g.run ? (r.onGen ? 'on' : 'warn') : '', ring: g.day, rows: [(g.kw / 1000 || 0).toFixed(2) + ' MW', nf(g.rpm)], spark: g.rpm });
   });
   const it = 3 * 2500 * S.load, powered = S.grid || r.onGen || S.ups > 0;
-  const src = S.grid ? 'הרשת' : (r.onGen ? 'הגנרטורים' : 'סוללות UPS');
-  holoSet(H.dc, { st: S.grid || r.onGen ? 'תקין' : 'על סוללות', cls: S.grid || r.onGen ? 'on' : 'warn', ring: S.ups, rows: [powered ? '100%' : '0%', src], spark: powered ? it : 0 });
-  holoSet(H.grid, { st: S.grid ? 'מחובר' : 'מנותק', cls: S.grid ? '' : 'bad', rows: [S.grid ? 'מחובר' : 'אין חשמל'] });
+  const src = S.grid ? L('הרשת', 'The grid') : (r.onGen ? L('הגנרטורים', 'Generators') : L('סוללות UPS', 'UPS batteries'));
+  holoSet(H.dc, { st: S.grid || r.onGen ? L('תקין', 'Normal') : L('על סוללות', 'On batteries'), cls: S.grid || r.onGen ? 'on' : 'warn', ring: S.ups, rows: [powered ? '100%' : '0%', src], spark: powered ? it : 0 });
+  holoSet(H.grid, { st: S.grid ? L('מחובר', 'Connected') : L('מנותק', 'Disconnected'), cls: S.grid ? '' : 'bad', rows: [S.grid ? L('מחובר', 'Connected') : L('אין חשמל', 'No power')] });
   HOLOS.forEach((h) => { h.w = h.el.offsetWidth; h.hh = h.el.offsetHeight; });
 }
 /* screen layout: each panel sits above its anchor, slides up or sideways until it clears the ones already placed */

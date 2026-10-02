@@ -82,10 +82,12 @@
     var ctx = c.getContext('2d', { willReadFrequently: true });
     ctx.scale(k, k);
     ctx.fillStyle = '#fff';
-    ctx.direction = 'rtl';
-    ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     items.forEach(function (it) {
+      // dir: 'ltr' anchors x at the LEFT edge of the line; anything else keeps rtl with x at the right edge
+      var ltr = it.dir === 'ltr';
+      ctx.direction = ltr ? 'ltr' : 'rtl';
+      ctx.textAlign = ltr ? 'left' : 'right';
       ctx.font = it.font;
       if ('letterSpacing' in ctx) ctx.letterSpacing = it.letterSpacing || '0px';
       ctx.fillText(it.text, it.x, it.y);

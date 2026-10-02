@@ -6,6 +6,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 const root = document.documentElement;
+const EN = root.lang === 'en';
+const T = (he, en) => (EN ? en : he);
 const hero = document.querySelector('.hero');
 // החלק שנצמד למסך בזמן הצלילה; כל מה שמצויר ונמדד יושב בתוכו
 const pin = hero ? (hero.querySelector('.hero-pin') || hero) : null;
@@ -15,11 +17,11 @@ const HET = [[[-0.4755,0.4975],[-0.4755,0.4949],[-0.4752,0.4919],[-0.4748,0.4885
 
 // סדר החפצים זהה לסדר הפרויקטים בעמוד
 const RELICS = [
-  { id: 'gotovski', file: '3d/nozzle' + EXT, label: 'אקדח תדלוק' },
-  { id: 'ams', file: '3d/glove' + EXT, label: 'כפפת אגרוף' },
-  { id: 'allenbis', file: '3d/bag' + EXT, label: 'שקית חטיפים' },
-  { id: 'clinic', file: '3d/bottle' + EXT, label: 'בקבוקון סרום', glass: '#f3c9c3' },
-  { id: 'falafel', file: '3d/pita' + EXT, label: 'פיתה פלאפל' },
+  { id: 'gotovski', file: '3d/nozzle' + EXT, label: T('אקדח תדלוק', 'fuel nozzle') },
+  { id: 'ams', file: '3d/glove' + EXT, label: T('כפפת אגרוף', 'boxing glove') },
+  { id: 'allenbis', file: '3d/bag' + EXT, label: T('שקית חטיפים', 'snack bag') },
+  { id: 'clinic', file: '3d/bottle' + EXT, label: T('בקבוקון סרום', 'serum bottle'), glass: '#f3c9c3' },
+  { id: 'falafel', file: '3d/pita' + EXT, label: T('פיתה פלאפל', 'falafel pita') },
   { id: 'rachel', file: '3d/pi' + EXT, label: 'π' }
 ];
 
@@ -116,14 +118,17 @@ function start() {
     for (let y = h % step / 2; y < h; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
     const hr = pin.getBoundingClientRect();
     ctx.fillStyle = '#ede8de';
-    ctx.direction = 'rtl';
-    ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     document.querySelectorAll('.hero-title span').forEach((s) => {
       const rr = s.getBoundingClientRect(), cs = getComputedStyle(s);
-      ctx.font = cs.fontSize + ' "Dragon", "Frank Ruhl Libre", serif';
+      // the canvas copy follows the span: its font, and its reading direction (rtl anchors right, ltr anchors left)
+      const ltr = cs.direction === 'ltr';
+      ctx.direction = ltr ? 'ltr' : 'rtl';
+      ctx.textAlign = ltr ? 'left' : 'right';
+      // Hebrew keeps the regular cut it always drew with; English draws the span's real weight so the widths match
+      ctx.font = (ltr ? cs.fontWeight + ' ' : '') + cs.fontSize + ' ' + cs.fontFamily;
       if ('letterSpacing' in ctx) ctx.letterSpacing = cs.letterSpacing === 'normal' ? '0px' : cs.letterSpacing;
-      ctx.fillText(s.textContent.trim(), rr.right - hr.left, rr.top - hr.top + rr.height * 0.5);
+      ctx.fillText(s.textContent.trim(), (ltr ? rr.left : rr.right) - hr.left, rr.top - hr.top + rr.height * 0.5);
     });
     typeTex.needsUpdate = true;
     const ph = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (camera.position.z - PLANE_Z);
@@ -292,7 +297,7 @@ function start() {
       const li = document.querySelector('.project[data-id="' + p.userData.id + '"]');
       const num = String(p.userData.i + 1).padStart(2, '0');
       const name = li ? li.querySelector('.p-name').textContent : '';
-      label.innerHTML = name + '<span>' + (fine ? 'לחצו לסיפור המלא' : 'הקישו לסיפור המלא') + '</span>';
+      label.innerHTML = name + '<span>' + (fine ? T('לחצו לסיפור המלא', 'Click for the full story') : T('הקישו לסיפור המלא', 'Tap for the full story')) + '</span>';
       if (window.HG && window.HG.sfx) window.HG.sfx.ting(p.userData.i);
     }
   }
