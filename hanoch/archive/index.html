@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>חנוך גוטובסקי — הארכיון</title>
+<meta name="description" content="הארכיון של חנוך גוטובסקי: אתרים, הדמיות, סרטים ותלת־ממד. כל עבודה עוצבה ונבנתה מאפס, סביב העסק שלה.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../images/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&display=swap">
+<style>
+:root{
+  --bg:#000;
+  --ink:#f4f2ef;
+  --dim:#8c8783;
+  --line:rgba(244,242,239,.28);
+  --pad:clamp(14px, 2.6vw, 34px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --hw:min(56vw, 640px);
+  --persp:1150px;
+  --safe-top:env(safe-area-inset-top, 0px);
+  --safe-right:env(safe-area-inset-right, 0px);
+  --safe-bottom:env(safe-area-inset-bottom, 0px);
+  --safe-left:env(safe-area-inset-left, 0px);
+  --tap:44px;
+  --serif:"Frank Ruhl Libre", "Times New Roman", serif;
+  --sans:"IBM Plex Sans Hebrew", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ background:#000; scrollbar-gutter:stable; }
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-weight:300;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden; min-height:100vh; min-height:100dvh;
+  overscroll-behavior-y:none;
+}
+body.locked{ overflow:hidden; height:100vh; height:100dvh; }
+img{ display:block; max-width:100%; }
+button{
+  font:inherit; color:inherit; background:none; border:0; cursor:pointer;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+}
+a{ -webkit-tap-highlight-color:transparent; }
+:focus-visible{ outline:1px solid rgba(244,242,239,.8); outline-offset:3px; }
+header.chrome{ pointer-events:none; }
+header.chrome a, header.chrome button{ pointer-events:auto; }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* ---------- 1. מסלול הגלילה: 16vh, וזה כל הזום ---------- */
+#scrolltrack{ height:116vh; pointer-events:none; }
+
+/* ---------- 2. הבמה ---------- */
+#stage{
+  position:fixed; inset:0; z-index:10;
+  perspective:var(--persp); perspective-origin:50% 50%;
+  overflow:hidden; touch-action:none;
+  transition:opacity .6s var(--ease), filter .6s var(--ease);
+}
+@media (pointer:coarse){ #stage{ touch-action:pan-y; } }
+#world{
+  position:absolute; top:50%; left:50%;
+  width:0; height:0;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+#orb{
+  position:absolute; top:0; left:0;
+  width:0; height:0;
+  transform-style:preserve-3d;
+  opacity:1;
+  transform:none;
+}
+#headline{
+  position:absolute; top:0; left:0;
+  width:var(--hw);
+  margin-left:calc(var(--hw) / -2);
+  text-align:center;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(25px, 3.7vw, 55px);
+  line-height:1.06;
+  letter-spacing:-.005em;
+  color:#fff;
+  text-shadow:0 2px 34px rgba(0,0,0,.55);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  transform-style:preserve-3d; /* לכותרת אין גובה משלה: השורה עצמה נכנסת לסידור העומק, אחרת הדפדפן חותך אותה באמצע */
+}
+#headline .inner{
+  position:absolute; top:0; left:0;
+  width:100%;
+  transform:translateY(-50%);
+}
+#headline .inner span{
+  display:inline-block; opacity:0; transform:translateY(.42em); filter:blur(7px);
+}
+body.revealed #headline .inner span{
+  opacity:1; transform:none; filter:blur(0);
+  transition:opacity 1.05s var(--ease), transform 1.15s var(--ease), filter 1.05s var(--ease);
+  transition-delay:calc(.9s + var(--i) * .085s);
+}
+
+.card{
+  position:absolute; top:0; left:0;
+  width:var(--cw, 200px); height:calc(var(--cw, 200px) / 1.5);
+  margin-left:calc(var(--cw, 200px) / -2); margin-top:calc(var(--cw, 200px) / -3);
+  cursor:pointer;
+}
+.card.tall{ height:calc(var(--cw, 200px) * 1.25); margin-top:calc(var(--cw, 200px) * -.625); }
+.card figure{
+  position:relative; width:100%; height:100%; overflow:hidden; border-radius:3px; background:#0a0a0a;
+  transition:transform .5s var(--ease);
+}
+.card:hover figure{ transform:scale(1.045); }
+.card img{ width:100%; height:100%; object-fit:cover; opacity:0; }
+.card img.in{ opacity:1; }
+body.revealed .card img{ transition:opacity .8s ease-out; }
+.card figure::after{
+  content:""; position:absolute; inset:0; border-radius:3px; pointer-events:none;
+  background:rgba(0,0,0,var(--d,0));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);
+}
+
+/* ---------- 3. ויניטה ---------- */
+.vig{
+  position:fixed; inset:0; z-index:12; pointer-events:none;
+  background:radial-gradient(ellipse 88% 92% at 50% 50%, transparent 48%, rgba(0,0,0,.26) 80%, rgba(0,0,0,.72) 100%);
+  transition:opacity .6s var(--ease);
+}
+body.gridview .vig, body.lit .vig{ opacity:0; }
+
+/* ---------- 4. רשת שטוחה ---------- */
+#grid{
+  position:fixed; inset:0; z-index:20; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+  padding:calc(var(--pad) * 3.4) var(--pad) calc(var(--pad) * 4);
+  background:#000; opacity:0; pointer-events:none; transition:opacity .6s var(--ease);
+}
+body.gridview #grid{ opacity:1; pointer-events:auto; }
+body.gridview #stage{ opacity:0; filter:blur(14px); pointer-events:none; }
+#grid .rows{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:clamp(10px, 1.4vw, 20px); max-width:1680px; margin:0 auto;
+}
+#grid figure{
+  position:relative; aspect-ratio:3/2; border-radius:3px; overflow:hidden; background:#0b0b0b; cursor:pointer;
+}
+#grid figure:focus-visible{ outline:1px solid var(--ink); outline-offset:3px; }
+#grid img{
+  width:100%; height:100%; object-fit:cover; opacity:.82;
+  transition:transform .8s var(--ease), opacity .8s var(--ease);
+}
+#grid figure:hover img{ transform:scale(1.05); opacity:1; }
+#grid figcaption{
+  position:absolute; inset:auto 0 0 0;
+  font-family:var(--serif); font-size:15px;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,.82));
+  padding:26px 14px 12px;
+  opacity:0; transform:translateY(6px); transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+#grid figure:hover figcaption, #grid figure:focus-visible figcaption{ opacity:1; transform:none; }
+
+/* ---------- 5. מעטפת ---------- */
+.chrome, .gridbtn{ opacity:0; }
+body.revealed .chrome{ opacity:1; transition:opacity 1.2s var(--ease) .15s, transform .6s var(--ease); }
+
+header.chrome{
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:calc(var(--pad) * .8 + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) * .35) calc(var(--pad) + var(--safe-left));
+  mix-blend-mode:difference;
+}
+.wordmark{
+  font-family:var(--serif); font-size:clamp(19px, 2.1vw, 27px); letter-spacing:.005em; line-height:1;
+  color:#fff; text-decoration:none; white-space:nowrap;
+}
+.wordmark em, .mark em{ font-style:normal; }
+.menu-btn{
+  display:flex; flex-direction:column; align-items:flex-end; gap:5px;
+  min-width:44px; min-height:44px; padding:8px 0 4px;
+}
+.menu-label{ font-size:clamp(12px, 1.25vw, 15px); letter-spacing:.01em; color:#fff; transition:opacity .35s var(--ease); }
+.bars{ position:relative; display:block; width:clamp(42px, 4.4vw, 62px); height:clamp(16px, 2vw, 22px); }
+.bars i{
+  position:absolute; left:0; right:0; top:50%; height:1px; background:#fff;
+  transform:translateY(-5px); transition:transform .5s var(--ease), width .5s var(--ease), background .35s;
+}
+.bars i:last-child{ left:auto; width:clamp(34px, 3.6vw, 50px); transform:translateY(5px); }
+.menu-btn:hover .bars i:last-child{ transform:translate(8px, 5px); }
+body.menu-open header.chrome{ z-index:90; mix-blend-mode:normal; }
+body.menu-open .wordmark{ color:#f4f2ef; }
+body.menu-open .menu-label{ opacity:0; }
+body.menu-open .bars i{ width:100%; background:#f4f2ef; }
+body.menu-open .bars i:first-child{ transform:translateY(0) rotate(45deg); }
+body.menu-open .bars i:last-child{ transform:translateY(0) rotate(-45deg); }
+
+.bio{
+  position:fixed; right:calc(var(--pad) + var(--safe-right)); bottom:calc(var(--pad) + var(--safe-bottom));
+  z-index:55; max-width:min(320px, 46vw);
+}
+.bio .who{ display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+#avatar{ width:52px; height:52px; border-radius:3px; object-fit:cover; filter:grayscale(.15); background:#111; }
+.bio b{ font-family:var(--serif); font-weight:400; font-size:19px; letter-spacing:.01em; }
+.bio p{ font-size:12.5px; line-height:1.62; color:rgba(244,242,239,.72); }
+body.deep .bio, body.gridview .bio, body.lit .bio{ opacity:0; transform:translateY(10px); pointer-events:none; }
+
+.colophon{
+  position:fixed; left:calc(var(--pad) + var(--safe-left)); bottom:calc(var(--pad) + var(--safe-bottom));
+  z-index:55; font-size:12.5px; color:rgba(244,242,239,.72);
+}
+body.gridview .colophon, body.lit .colophon{ opacity:0; }
+
+.gridbtn{
+  position:fixed; right:calc(var(--pad) + var(--safe-right)); bottom:calc(var(--pad) + var(--safe-bottom)); z-index:56;
+  width:44px; height:44px; padding:5px; display:grid; grid-template-columns:1fr 1fr; gap:4px;
+  transform:translateY(8px); pointer-events:none; transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.gridbtn b{ display:block; background:#f4f2ef; border-radius:2px; transition:transform .45s var(--ease), background .3s; }
+.gridbtn:hover b{ background:#fff; transform:scale(.86); }
+body.deep .gridbtn, body.gridview .gridbtn{ opacity:1; transform:none; pointer-events:auto; }
+body.gridview .gridbtn b:nth-child(1){ transform:translate(3px, 3px); }
+body.gridview .gridbtn b:nth-child(4){ transform:translate(-3px, -3px); }
+
+.cue{
+  position:fixed; left:50%; bottom:calc(var(--pad) + var(--safe-bottom) + 4px); transform:translateX(-50%); z-index:54;
+  display:flex; align-items:center; gap:10px; font-size:10px; text-transform:uppercase; letter-spacing:.24em;
+  color:rgba(244,242,239,.42); white-space:nowrap;
+}
+.cue s{ position:relative; display:block; width:44px; height:1px; background:rgba(244,242,239,.28); overflow:hidden; }
+.cue s::after{ content:""; position:absolute; inset:0; background:#f4f2ef; animation:sweep 2.6s var(--ease) infinite; }
+@keyframes sweep{ 0%{ transform:translateX(100%); } 55%{ transform:translateX(0); } 100%{ transform:translateX(-100%); } }
+body.deep .cue, body.gridview .cue, body.lit .cue{ opacity:0; }
+
+/* ---------- 6. תפריט ---------- */
+#menu{
+  position:fixed; inset:0; z-index:80; background:#050505; display:grid; place-items:center;
+  clip-path:inset(0 0 100% 0); transition:clip-path .85s var(--ease); pointer-events:none;
+}
+body.menu-open #menu{ clip-path:inset(0); pointer-events:auto; }
+#menu nav{ display:flex; flex-direction:column; gap:clamp(4px, 1vw, 10px); text-align:center; }
+#menu nav a{
+  font-family:var(--serif); font-size:clamp(34px, 7.6vw, 78px); line-height:1.08; color:#f4f2ef; text-decoration:none;
+  opacity:.55; transition:opacity .4s var(--ease), letter-spacing .5s var(--ease);
+}
+#menu nav a:hover, #menu nav a:focus-visible{ opacity:1; letter-spacing:.012em; }
+#menu .addr{
+  position:absolute; left:calc(var(--pad) + var(--safe-left)); right:calc(var(--pad) + var(--safe-right)); bottom:calc(var(--pad) + var(--safe-bottom));
+  font-size:12.5px; color:var(--dim); line-height:1.7;
+}
+#menu .addr a{ color:inherit; text-decoration:none; }
+
+/* ---------- 7. תמונה פתוחה ---------- */
+#lit{
+  position:fixed; inset:0; z-index:90; display:grid; place-items:center;
+  padding:clamp(56px, 8vh, 84px) var(--pad); opacity:0; pointer-events:none; transition:opacity .42s var(--ease);
+}
+body.lit #lit{ opacity:1; pointer-events:auto; }
+#lit .scrim{ position:absolute; inset:0; }
+.plate{
+  position:relative; width:min(72vw, 860px, (100vh - 230px) * 1.5);
+  transition:transform .62s var(--ease), opacity .42s var(--ease); transform-origin:50% 50%;
+}
+.shot{ position:relative; width:100%; aspect-ratio:3/2; border-radius:2px; background:#0b0b0b; box-shadow:0 30px 90px rgba(0,0,0,.75); }
+.shot img{ width:100%; height:100%; object-fit:cover; border-radius:2px; }
+.shot .close{
+  position:absolute; top:12px; left:14px; font-size:12.5px; min-width:44px; min-height:44px; padding:10px 14px;
+  border:1px solid rgba(244,242,239,.78); border-radius:6px; background:rgba(0,0,0,.35); color:#f4f2ef;
+  transition:border-color .3s, background .3s;
+}
+.shot .close:hover{ border-color:#fff; background:rgba(0,0,0,.55); }
+.meta{ display:grid; grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr); gap:clamp(22px, 3.2vw, 48px); padding-top:16px; }
+#litTitle{ font-family:var(--serif); font-weight:400; font-size:clamp(22px, 2.15vw, 32px); line-height:1.08; letter-spacing:-.01em; margin-bottom:6px; }
+.where{ font-size:13px; color:rgba(244,242,239,.62); }
+.note{ font-size:13.5px; line-height:1.55; color:rgba(244,242,239,.92); }
+.more{ display:inline-block; margin-top:10px; font-size:12.5px; color:#f4f2ef; text-underline-offset:4px; padding:8px 0; }
+.more[hidden]{ display:none; }
+
+/* ---------- 8. סרט הפתיחה ---------- */
+#intro{ position:fixed; inset:0; z-index:200; background:#000; display:grid; place-items:center; overflow:hidden; }
+#film{ width:100%; height:100%; object-fit:cover; }
+#intro .veil{ position:absolute; inset:0; background:#000; opacity:0; transition:opacity 1.15s ease; }
+#intro.closing .veil{ opacity:1; }
+#intro.gone{ opacity:0; pointer-events:none; transition:opacity .5s linear; }
+#intro .fallback{ position:absolute; inset:0; background:radial-gradient(circle at 50% 46%, #3a1a0c 0%, #0c0705 42%, #000 72%); opacity:0; transition:opacity .8s ease; }
+#intro.novideo .fallback{ opacity:1; }
+.skip{
+  position:absolute; left:calc(var(--pad) + var(--safe-left)); bottom:calc(var(--pad) + var(--safe-bottom));
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(244,242,239,.6);
+  min-height:44px; padding:10px 18px; border:1px solid rgba(244,242,239,.25); border-radius:999px;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); transition:color .3s, border-color .3s, opacity .4s;
+}
+.skip:hover{ color:#fff; border-color:rgba(255,255,255,.7); }
+#intro.closing .skip{ opacity:0; }
+
+/* ---------- 9. פתיח ---------- */
+#splash{
+  position:fixed; inset:0; z-index:250; background:#000;
+  display:grid; place-items:center; align-content:center; gap:26px; transition:opacity .6s ease;
+}
+#splash.out{ opacity:0; pointer-events:none; }
+#splash .mark{
+  font-family:var(--serif); font-size:clamp(28px, 4.4vw, 52px); letter-spacing:.005em; color:#f4f2ef;
+  opacity:0; animation:riseIn 1.25s ease .15s forwards;
+}
+#splash .bar{ width:clamp(120px, 17vw, 210px); height:1px; background:rgba(244,242,239,.16); }
+#bar{ display:block; width:100%; height:100%; background:#f4f2ef; transform:scaleX(0); transform-origin:right; transition:transform .55s ease; }
+#splash .tag{ font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:rgba(244,242,239,.38); opacity:0; animation:riseIn .9s ease .7s forwards; }
+@keyframes riseIn{ from{ opacity:0; transform:translateY(9px); } to{ opacity:1; transform:none; } }
+
+/* ---------- 10. סמן ---------- */
+#dot{
+  position:fixed; top:0; left:0; z-index:300; width:19px; height:19px; margin:-9.5px; border-radius:50%;
+  background:rgba(214,212,209,.9); mix-blend-mode:difference; border:1px solid transparent; pointer-events:none;
+  transition:width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+}
+#dot.wide{ width:52px; height:52px; margin:-26px; background:rgba(244,242,239,.14); border-color:rgba(244,242,239,.75); }
+@media (hover:none), (pointer:coarse){ #dot{ display:none; } }
+
+/* ---------- מסכים ---------- */
+@media (max-width:900px){
+  .bio{ max-width:min(420px, calc(100vw - var(--pad) * 2 - var(--safe-left) - var(--safe-right))); }
+  .bio p{ font-size:12px; }
+  .colophon{ font-size:11px; }
+  .meta{ grid-template-columns:1fr; gap:10px; padding-top:14px; }
+  .plate{ width:min(92vw, (100dvh - 220px) * 1.5); }
+  #grid .rows{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
+  #grid{ padding-top:calc(var(--pad) * 2.8 + var(--safe-top)); }
+}
+@media (max-width:768px){
+  .colophon{ display:none; }
+  .bio{ max-width:calc(100vw - var(--pad) * 2 - var(--safe-left) - var(--safe-right)); }
+  #headline{ font-size:clamp(22px, 6.4vw, 34px); }
+  #menu nav a{ font-size:clamp(28px, 9vw, 54px); }
+  #menu .addr{ font-size:11.5px; }
+}
+@media (max-width:640px){
+  :root{ --hw:min(84vw, 360px); --pad:clamp(12px, 4vw, 18px); }
+  #avatar{ width:42px; height:42px; }
+  .bio b{ font-size:17px; }
+  .bio p{ font-size:11.5px; line-height:1.55; }
+  .cue{ display:none; }
+  #lit{ display:block; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:calc(52px + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) + var(--safe-bottom)) calc(var(--pad) + var(--safe-left)); }
+  .plate{ width:100%; max-width:560px; margin:0 auto; }
+  #litTitle{ font-size:clamp(20px, 5.6vw, 26px); }
+  .note{ font-size:12.5px; line-height:1.58; }
+  .shot .close{ top:8px; left:8px; }
+  #grid .rows{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; }
+  #grid figcaption{ opacity:1; transform:none; font-size:13px; }
+  #grid{ padding:calc(var(--pad) * 2.8 + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) * 4 + var(--safe-bottom)) calc(var(--pad) + var(--safe-left)); }
+}
+@media (max-width:380px){
+  :root{ --hw:min(88vw, 320px); }
+  .bio .who{ gap:10px; margin-bottom:10px; }
+  .bio p{ display:none; }
+  #grid .rows{ grid-template-columns:1fr; }
+  #menu nav{ gap:2px; }
+  #menu nav a{ font-size:clamp(24px, 10vw, 40px); }
+}
+@media (max-height:520px) and (orientation:landscape){
+  .bio, .colophon, .cue{ display:none; }
+  #headline{ font-size:clamp(18px, 4.8vh, 28px); }
+  #lit{ padding-top:calc(36px + var(--safe-top)); }
+  .meta{ padding-top:10px; }
+  .plate{ width:min(58vw, (100dvh - 80px) * 1.5); }
+  header.chrome{ padding-top:calc(8px + var(--safe-top)); }
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.14s !important; transition-delay:0s !important; }
+}
+</style>
+</head>
+<body class="locked">
+
+<div id="scrolltrack" aria-hidden="true"></div>
+
+<main>
+  <div id="stage" role="region" aria-label="ארכיון העבודות: גררו כדי לסובב, לחצו על עבודה כדי לפתוח אותה">
+    <div id="world">
+      <div id="orb"></div>
+      <h1 id="headline"><span class="inner"><span style="--i:0">אני</span> <span style="--i:1">בונה</span> <span style="--i:2">את</span> <span style="--i:3">השנייה</span> <span style="--i:4">הראשונה</span></span></h1>
+    </div>
+  </div>
+  <div class="vig" aria-hidden="true"></div>
+
+  <section id="grid" aria-label="כל העבודות ברשת">
+    <div class="rows"></div>
+  </section>
+</main>
+
+<header class="chrome">
+  <a class="wordmark" href="#" aria-label="חנוך גוטובסקי">חנוך <em>גוטובסקי</em></a>
+  <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="פתיחת התפריט">
+    <span class="menu-label">תפריט</span>
+    <span class="bars" aria-hidden="true"><i></i><i></i></span>
+  </button>
+</header>
+
+<aside class="bio chrome">
+  <div class="who"><img id="avatar" alt="חנוך גוטובסקי" width="52" height="52"><b>חנוך גוטובסקי</b></div>
+  <p>אני לא בונה אתרים. אני בונה את השנייה הראשונה: הרגע שבו מישהו פותח את האתר שלכם ומחליט להישאר. כל עבודה בארכיון הזה עוצבה ונבנתה מאפס, סביב העסק שלה.</p>
+</aside>
+
+<div class="colophon chrome">עבודות 2026</div>
+
+<button id="gridBtn" class="gridbtn" type="button" aria-label="מעבר לתצוגת רשת" aria-pressed="false"><b></b><b></b><b></b><b></b></button>
+
+<div class="cue chrome" aria-hidden="true"><s></s>גררו כדי לסובב</div>
+
+<div id="menu" aria-hidden="true">
+  <nav aria-label="ראשי">
+    <a href="#" data-grid>הארכיון</a>
+    <a href="../work.html">כל העבודות</a>
+    <a href="../index.html">דף הבית</a>
+    <a href="https://wa.me/972545522053" target="_blank" rel="noopener" data-close-menu>דברו איתי</a>
+  </nav>
+  <p class="addr">עיצוב ופיתוח אתרים · ישראל<br><a href="tel:+972545522053" dir="ltr">054-5522053</a></p>
+</div>
+
+<div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true">
+  <div class="scrim" data-close></div>
+  <div class="plate">
+    <div class="shot"><img id="litImg" alt=""><button class="close" type="button" data-close>סגירה</button></div>
+    <div class="meta">
+      <div><h2 id="litTitle"></h2><p class="where" id="litWhere"></p></div>
+      <div><p class="note" id="litNote"></p><a class="more" id="litMore" hidden>לסיפור המלא ←</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="intro">
+  <video id="film" muted playsinline autoplay preload="auto" disablepictureinpicture aria-hidden="true"></video>
+  <div class="fallback"></div>
+  <div class="veil"></div>
+  <button class="skip" id="skip" type="button">דילוג</button>
+</div>
+
+<div id="splash" aria-hidden="true">
+  <div class="mark">חנוך <em>גוטובסקי</em></div>
+  <div class="bar"><s id="bar"></s></div>
+  <div class="tag">עבודות 2026</div>
+</div>
+
+<div id="dot" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+  var BASE = '../work/';
+  var FILM = matchMedia('(max-width: 900px)').matches ? BASE + 'film/reel-m.mp4' : BASE + 'film/reel.mp4';
+  var AVATAR = BASE + 'me/character-480.webp';
+  // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
+  var SHOTS = [
+    ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
+    ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. בניתי לה שפה של קבוצת בנייה גדולה: טיפוגרפיה כבדה, צילום על כל המסך ותנועה שקולה כמו מנוף.', '../work.html#gotovski'],
+    ['sim-poster.webp', 'הפסקת חשמל', 'הדמיה חיה · ש. גוטובסקי', 'חוות שרתים בתלת־ממד. לוחצים על הכפתור האדום, הרשת נופלת, והגנרטורים מתניעים על מערכת הדלק. זה לא סרטון, זה רץ בדפדפן.', '../sim/data-center/index.html'],
+    ['cinema/ams.webp', 'AMS', 'אביב משה שדמון · אגרוף תאילנדי', 'האתר זז כמו שאביב זז. התנועה נלקחה מסרטון אמיתי שלו, הועברה לדמות מונפשת, והגלילה של המבקר היא שמניעה אותה.', '../work.html#ams'],
+    ['cinema/allenbis.webp', 'אלנביס', 'חנות משלוחים · 199 מוצרים', 'אותה חנות ואותם מחירים, עם פי 24 פחות JavaScript. לקוח בטלפון כבר לא מחכה.', '../work.html#allenbis'],
+    ['tours/ext.webp', 'בניין שעוד לא נבנה', 'סיור וידאו · מבחוץ', 'סיור שיצרתי בבינה מלאכותית מתוך ההדמיות של פרויקט מגורים: הבניין, המעגנה והגג, עוד לפני שהונחה אבן.', '../work.html#tours'],
+    ['tours/int.webp', 'הדירה מבפנים', 'סיור וידאו · מבפנים', 'מתוך תוכנית הדירה: סלון, מטבח ומרפסת באור של אחר הצהריים. הקונים רואים את הבית לפני שהוא קיים.', '../work.html#tours'],
+    ['cinema/clinic.webp', 'רותם גוטובסקי', 'קוסמטיקה טיפולית · אתר וחנות', 'האתר מתחיל מהבעיה של המטופלת ולא מרשימת טיפולים: נייר רך, סריף עדין, ומאתר טיפול לפי מטרה.', '../work.html#clinic'],
+    ['bg/crystal.webp', 'שבועיים', 'תהליך העבודה · דף הבית', 'פרח קריסטל שנפתח ונסגר בקצב של נשימה, מעל חמשת השלבים: מהשיחה הראשונה ועד שהאתר באוויר.', '../index.html#process'],
+    ['cinema/falafel.webp', 'קייטרינג 4X4', 'פלאפל וסביח לאירועים', 'האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק, והאוכל בחזית.', '../work.html#falafel'],
+    ['bg/dark.webp', 'לילה', 'רקע המצב הכהה · דף הבית', 'השמיים מסתחררים מעל דמות קטנה בשדה. זה הרקע שמופיע כשעוברים למצב כהה.', ''],
+    ['bg/light.webp', 'אור', 'רקע המצב הבהיר · דף הבית', 'אותה דמות, על צוק מעל העננים בשקיעה. הצד השני של אותו רגע.', ''],
+    ['cinema/rachel.webp', 'רחלי הורנשטיין', 'שיעורי מתמטיקה בזום', 'הורה צריך להרגיש תוך חמש שניות שהילד בידיים טובות, ולכן האתר נראה כמו מחברת חשבון טובה.', '../work.html#rachel'],
+    ['systems/ai.webp', 'עוזר חכם', 'מערכות · בינה מלאכותית ותלת־ממד', 'כדור של אש בין קוביות זכוכית: הסמל של עוזר שעונה ללקוחות באתר, ביום ובלילה.', '../index.html#pricing'],
+    ['systems/sell.webp', 'חנות אונליין', 'מערכות · מכירות ותשלומים', 'שקית קניות מזכוכית כתומה. קטלוג, עגלה ותשלום, בלי לצאת מהאתר.', '../index.html#pricing'],
+    ['bg/meadow.webp', 'שדה', 'רקע המניפסט · דף הבית', 'פרחי בר ברוח, מאחורי "אני לא בונה אתרים". הדבר הראשון שרואים אחרי הצלילה דרך ה־ח.', '../index.html'],
+    ['systems/brand.webp', 'שפה מותגית', 'מערכות · מותג ותוכן', 'עט נובע שמטפטף כתום. לוגו, צבעים וגופנים שנבנים יחד עם האתר.', '../index.html#pricing'],
+    ['systems/grow.webp', 'צמיחה', 'מערכות · שיווק וצמיחה', 'עמודות שעולות אל האור. קידום, דפי נחיתה ומדידה של מה שבאמת מביא פניות.', '../index.html#pricing'],
+    ['systems/ops.webp', 'ניהול', 'מערכות · ניהול ואוטומציה', 'קוביות שמתחברות לגלגל שיניים. תורים, חשבוניות ופאנל ניהול שעובדים לבד.', '../index.html#pricing'],
+    ['me/character.webp', 'חנוך', 'הדמות שלי · דף הבית', 'הדמות שמחייכת בפתיחה של האתר. היא זזה, נושמת ומסתכלת אליכם. זה אני, בערך.', '../index.html', 1],
+    ['broken.webp', 'הדף שלא נמצא', 'עמוד 404', 'ח מזכוכית שהתנפצה. גם דף שלא קיים צריך להיראות כמו שאר האתר.', '']
+  ];
+  var N = SHOTS.length;
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var root = document.documentElement, body = document.body;
+  var stage = $('#stage'), world = $('#world'), orb = $('#orb'), headline = $('#headline');
+  var gridRows = $('#grid .rows'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg');
+  var intro = $('#intro'), film = $('#film'), splash = $('#splash'), bar = $('#bar');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = matchMedia('(pointer: coarse)').matches;
+  root.style.overflow = 'hidden';
+
+  /* ---------- כרטיסים על כדור פיבונאצ׳י ---------- */
+  var GA = Math.PI * (3 - Math.sqrt(5));
+  var cards = [], gridFigs = [], decoded = [];
+  SHOTS.forEach(function (s, i) {
+    var y = 1 - (i / (N - 1)) * 2, rad = Math.sqrt(Math.max(0, 1 - y * y)), th = i * GA;
+    var x = Math.cos(th) * rad, z = Math.sin(th) * rad;
+    var card = document.createElement('div');
+    card.className = 'card' + (s[5] ? ' tall' : '');
+    card.dataset.idx = i;
+    card.innerHTML = '<figure><img alt="' + s[1] + '" draggable="false"></figure>';
+    orb.appendChild(card);
+    cards.push({ el: card, img: card.querySelector('img'), x: x, y: y, z: z, lat: Math.asin(y) * 180 / Math.PI, lon: Math.atan2(x, z) * 180 / Math.PI, op: -1, d: -1 });
+    var fig = document.createElement('figure');
+    fig.dataset.idx = i; fig.tabIndex = 0; fig.setAttribute('role', 'button');
+    fig.innerHTML = '<img alt="" loading="lazy" draggable="false"><figcaption>' + s[1] + '</figcaption>';
+    fig.setAttribute('aria-label', s[1] + ', ' + s[2]);
+    gridRows.appendChild(fig);
+    gridFigs.push(fig);
+  });
+
+  /* ---------- מידות ---------- */
+  var R = 300, cw = 140, persp = 1150, lastW = 0, lastH = 0;
+  function layout(force) {
+    var w = innerWidth, h = innerHeight;
+    if (!force && Math.abs(w - lastW) < 20 && Math.abs(h - lastH) < 20) return;
+    lastW = w; lastH = h;
+    var hr = w <= 380 ? 0.38 : w <= 640 ? 0.42 : 0.46;
+    var wr = w <= 380 ? 0.48 : w <= 640 ? 0.52 : 0.58;
+    var floor = w <= 380 ? 108 : w <= 640 ? 120 : 155;
+    R = Math.max(floor, Math.min(480, h * hr, w * wr));
+    var sc = w <= 380 ? 0.44 : w <= 640 ? 0.46 : 0.47;
+    cw = Math.round(Math.max(72, R * sc));
+    persp = w <= 380 ? 620 : w <= 640 ? 760 : w <= 900 ? 920 : 1150;
+    root.style.setProperty('--persp', persp + 'px');
+    root.style.setProperty('--cw', cw + 'px');
+    cards.forEach(function (c) {
+      c.el.style.transform = 'translate3d(' + (c.x * R).toFixed(2) + 'px,' + (-c.y * R).toFixed(2) + 'px,' + (c.z * R).toFixed(2) + 'px) rotateY(' + c.lon.toFixed(3) + 'deg) rotateX(' + c.lat.toFixed(3) + 'deg)';
+    });
+  }
+  function relayout() { layout(true); }
+  addEventListener('resize', function () { layout(false); });
+  addEventListener('orientationchange', function () { setTimeout(relayout, 220); });
+  if (window.visualViewport) { visualViewport.addEventListener('resize', function () { layout(false); }); visualViewport.addEventListener('scroll', function () { layout(false); }); }
+  layout(true);
+
+  /* ---------- טעינה: כל תמונה מפוענחת פעם אחת ומוקטנת לגודל הכרטיס ---------- */
+  var total = N + 1, done = 0, born = performance.now(), splashDone = false;
+  function capFor(w) { return w <= 380 ? 420 : w <= 640 ? 520 : w <= 900 ? 640 : 760; }
+  function report() { done++; bar.style.transform = 'scaleX(' + Math.min(1, done / total).toFixed(3) + ')'; if (done >= total) maybeEndSplash(); }
+  function shrink(src, cap, cb) {
+    var im = new Image();
+    im.crossOrigin = 'anonymous';
+    im.decoding = 'async';
+    im.onload = function () {
+      if (im.naturalWidth <= cap) return cb(src);
+      try {
+        var cv = document.createElement('canvas'), k = cap / im.naturalWidth;
+        cv.width = cap; cv.height = Math.round(im.naturalHeight * k);
+        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+        cv.toBlob(function (b) { cb(b ? URL.createObjectURL(b) : src); }, 'image/webp', 0.88);
+      } catch (e) { cb(src); }
+    };
+    im.onerror = function () { cb(src); };
+    im.src = src;
+  }
+  var cap = capFor(innerWidth);
+  SHOTS.forEach(function (s, i) {
+    var src = BASE + s[0];
+    shrink(src, cap, function (url) {
+      decoded[i] = url;
+      var c = cards[i];
+      c.img.onload = function () { c.img.classList.add('in'); };
+      c.img.src = url;
+      gridFigs[i].querySelector('img').src = url;
+      report();
+    });
+  });
+  shrink(AVATAR, 160, function (url) { $('#avatar').src = url; });
+
+  /* ---------- פתיח ---------- */
+  function maybeEndSplash() {
+    if (splashDone) return;
+    var wait = Math.max(0, 1150 - (performance.now() - born));
+    setTimeout(endSplash, wait);
+  }
+  function endSplash() {
+    if (splashDone) return;
+    splashDone = true;
+    bar.style.transform = 'scaleX(1)';
+    setTimeout(function () {
+      splash.classList.add('out');
+      setTimeout(function () { splash.remove(); }, 950);
+      startFilm();
+    }, 260);
+  }
+  setTimeout(endSplash, 9000);
+
+  /* ---------- סרט הפתיחה במהירות כפולה ---------- */
+  var revealed = false, revealTimer = null, filmReported = false, filmFailed = false;
+  function filmReady() { if (!filmReported) { filmReported = true; report(); } }
+  film.muted = true; film.defaultMuted = true; film.playsInline = true; film.setAttribute('webkit-playsinline', '');
+  film.addEventListener('loadeddata', function () { filmReady(); if (!splashDone) film.pause(); });
+  film.addEventListener('canplay', filmReady);
+  film.addEventListener('play', function () { film.playbackRate = 2; if (!splashDone) film.pause(); });
+  film.addEventListener('playing', function () {
+    if (!splashDone) return;
+    clearTimeout(revealTimer);
+    var left = ((film.duration || 0) - film.currentTime - 0.45) / 2;
+    revealTimer = setTimeout(reveal, Math.max(300, left * 1000));
+  });
+  film.addEventListener('ended', reveal);
+  film.addEventListener('error', onFilmError);
+  function onFilmError() {
+    if (filmFailed) return;
+    filmFailed = true;
+    filmReady();
+    intro.classList.add('novideo');
+    if (splashDone) setTimeout(reveal, 1300);
+  }
+  film.src = FILM;
+  film.load();
+
+  function startFilm() {
+    if (reduce) return reveal();
+    if (filmFailed) return setTimeout(reveal, 1300);
+    setTimeout(reveal, 14000);
+    if (film.currentTime > 0.05) film.currentTime = 0;
+    film.playbackRate = 2;
+    var p = film.play();
+    var retry = function () { film.play().catch(function () {}); };
+    var arm = function () {
+      ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) { addEventListener(ev, retry, { once: true, passive: true }); });
+      setTimeout(function () { if (film.paused) reveal(); }, 2600);
+    };
+    if (p && p.catch) p.catch(arm);
+  }
+  $('#skip').addEventListener('click', reveal);
+
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    clearTimeout(revealTimer);
+    intro.classList.add('closing');
+    body.classList.remove('locked');
+    root.style.overflow = '';
+    relayout();
+    requestAnimationFrame(relayout);
+    setTimeout(function () {
+      relayout();
+      film.pause();
+      body.classList.add('revealed');
+      intro.classList.add('gone');
+      setTimeout(function () { intro.remove(); }, 700);
+    }, 1000);
+  }
+
+  /* ---------- מצלמה ---------- */
+  var spin = 0, tilt = -4, camZ = 0, dragX = 0, dragY = 0, velX = 0, velY = 0, PITCH = 32, focused = -1;
+  var dragging = false, isLit = false, p = 0;
+  function clampPitch() { var t = tilt + dragY; if (t > PITCH) dragY = PITCH - tilt; if (t < -PITCH) dragY = -PITCH - tilt; }
+  function frame() {
+    if (!dragging && !isLit) {
+      dragX += velX; dragY += velY;
+      velX *= 0.94; velY *= 0.94;
+      if (Math.abs(velX) < 0.002) velX = 0;
+      if (Math.abs(velY) < 0.002) velY = 0;
+      clampPitch();
+    }
+    var vh = innerHeight * 0.16;
+    if (scrollY > vh + 1) scrollTo(0, vh);
+    p = Math.min(1, Math.max(0, scrollY / vh));
+    body.classList.toggle('deep', p > 0.35);
+    var target = p * Math.min(64, R * 0.12);
+    camZ += (target - camZ) * 0.075;
+    var sx = tilt + dragY, sy = spin + dragX;
+    world.style.transform = 'translateZ(' + camZ.toFixed(2) + 'px) rotateY(' + sy.toFixed(3) + 'deg) rotateX(' + sx.toFixed(3) + 'deg)';
+    headline.style.transform = 'rotateX(' + (-sx).toFixed(3) + 'deg) rotateY(' + (-sy).toFixed(3) + 'deg) translateZ(' + (R * 0.62).toFixed(2) + 'px)';
+    headline.style.opacity = Math.max(0, 1 - p * 0.55).toFixed(3);
+
+    // עומק: מסובבים כל וקטור כמו העולם וקוראים את z
+    var ax = sx * Math.PI / 180, ay = sy * Math.PI / 180;
+    var cX = Math.cos(ax), sX = Math.sin(ax), cY = Math.cos(ay), sY = Math.sin(ay);
+    var shade = 1 - Math.min(1, p * 1.6), near = persp * 0.66;
+    for (var i = 0; i < N; i++) {
+      var c = cards[i], Y = -c.y;
+      var z1 = Y * sX + c.z * cX;
+      var zf = -c.x * sY + z1 * cY;
+      var base = 0.14 + 0.86 * Math.pow((zf + 1) / 2, 0.85);
+      var dim = shade * (1 - base);
+      var absZ = zf * R + camZ, fade = 1;
+      if (absZ > near) fade = Math.max(0, 1 - (absZ - near) / 190);
+      if (focused >= 0) { dim = Math.min(1, dim + 0.78); if (i === focused) fade = 0; }
+      var d = Math.round(dim * 1000) / 1000, o = Math.round(fade * 1000) / 1000;
+      if (d !== c.d) { c.el.style.setProperty('--d', d); c.d = d; }
+      if (o !== c.op) { c.el.style.opacity = o; c.op = o; }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  /* ---------- גרירה ---------- */
+  var ptr = null;
+  stage.addEventListener('pointerdown', function (e) {
+    if (isLit) return;
+    var hit = e.target.closest ? e.target.closest('.card') : null;
+    ptr = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, card: hit, type: e.pointerType, live: e.pointerType !== 'touch', moved: 0 };
+    velX = velY = 0;
+    if (ptr.live) { dragging = true; try { stage.setPointerCapture(e.pointerId); } catch (er) {} }
+  });
+  stage.addEventListener('pointermove', function (e) {
+    if (!ptr || e.pointerId !== ptr.id) return;
+    var tdx = e.clientX - ptr.x0, tdy = e.clientY - ptr.y0;
+    ptr.moved = Math.max(ptr.moved, Math.hypot(tdx, tdy));
+    if (!ptr.live) {
+      if (ptr.moved < 10) return;
+      if (Math.abs(tdy) > Math.abs(tdx) * 1.15) { ptr = null; return; } // גלילה אנכית: משאירים לדף
+      ptr.live = true; dragging = true;
+      try { stage.setPointerCapture(e.pointerId); } catch (er) {}
+    }
+    var dx = e.clientX - ptr.x, dy = e.clientY - ptr.y;
+    ptr.x = e.clientX; ptr.y = e.clientY;
+    velX = dx * 0.13; velY = -dy * 0.13;
+    dragX += velX; dragY += velY;
+    clampPitch();
+  });
+  function endPtr(e) {
+    if (!ptr || e.pointerId !== ptr.id) return;
+    var slop = ptr.type === 'touch' || coarse ? 14 : 6;
+    var card = ptr.card, moved = ptr.moved;
+    dragging = false; ptr = null;
+    if (moved <= slop && card && e.type === 'pointerup') { velX = velY = 0; open(+card.dataset.idx, card); }
+  }
+  stage.addEventListener('pointerup', endPtr);
+  stage.addEventListener('pointercancel', endPtr);
+
+  /* ---------- רשת ---------- */
+  var gridBtn = $('#gridBtn');
+  function setGrid(on) {
+    body.classList.toggle('gridview', on);
+    gridBtn.setAttribute('aria-pressed', on);
+    gridBtn.setAttribute('aria-label', on ? 'חזרה לכדור' : 'מעבר לתצוגת רשת');
+  }
+  gridBtn.addEventListener('click', function () { setGrid(!body.classList.contains('gridview')); });
+  gridRows.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) open(+f.dataset.idx, f); });
+  gridRows.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var f = e.target.closest('figure'); if (f) { e.preventDefault(); open(+f.dataset.idx, f); }
+  });
+
+  /* ---------- תמונה פתוחה: FLIP מהכרטיס למרכז ---------- */
+  var token = 0, source = null, lastFocus = null, closeTimer = null;
+  var litMore = $('#litMore');
+  function flipFrom(el) {
+    var a = el.getBoundingClientRect(), b = plate.getBoundingClientRect();
+    var dx = (a.left + a.width / 2) - (b.left + b.width / 2), dy = (a.top + a.height / 2) - (b.top + b.height / 2);
+    var s = Math.max(0.04, a.width / b.width);
+    return 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+  }
+  function open(i, el) {
+    var s = SHOTS[i], my = ++token;
+    clearTimeout(closeTimer);
+    source = el; lastFocus = document.activeElement;
+    litImg.src = decoded[i] || BASE + s[0];
+    litImg.alt = s[1];
+    var full = new Image();
+    full.onload = function () { if (my === token) litImg.src = full.src; };
+    full.src = BASE + s[0];
+    $('#litTitle').textContent = s[1];
+    $('#litWhere').textContent = s[2];
+    $('#litNote').textContent = s[3];
+    if (s[4]) { litMore.hidden = false; litMore.href = s[4]; } else litMore.hidden = true;
+    focused = body.classList.contains('gridview') ? -1 : i;
+    isLit = true;
+    root.style.overflow = 'hidden';
+    lit.scrollTop = 0;
+    lit.setAttribute('aria-hidden', 'false');
+    body.classList.add('lit');
+    plate.style.transition = 'none';
+    plate.style.transform = 'none';
+    plate.style.opacity = '';
+    plate.style.transform = flipFrom(el);
+    plate.style.opacity = '0';
+    void plate.offsetWidth;
+    plate.style.transition = ''; plate.style.transform = ''; plate.style.opacity = '';
+    setTimeout(function () { if (my === token) $('.close', lit).focus({ preventScroll: true }); }, 60);
+  }
+  function close() {
+    if (!isLit) return;
+    var my = ++token;
+    focused = -1; isLit = false;
+    body.classList.remove('lit');
+    lit.setAttribute('aria-hidden', 'true');
+    root.style.overflow = '';
+    if (source && document.contains(source)) { plate.style.transform = flipFrom(source); }
+    plate.style.opacity = '0';
+    closeTimer = setTimeout(function () {
+      if (my !== token) return;
+      plate.style.transition = 'none'; plate.style.transform = ''; plate.style.opacity = '';
+      void plate.offsetWidth; plate.style.transition = '';
+    }, 640);
+    if (lastFocus && lastFocus.focus && lastFocus !== document.body) lastFocus.focus({ preventScroll: true });
+  }
+  lit.addEventListener('click', function (e) { if (e.target.closest('[data-close]')) close(); });
+
+  /* ---------- תפריט ---------- */
+  var menu = $('#menu'), menuBtn = $('#menuBtn');
+  function setMenu(on) {
+    body.classList.toggle('menu-open', on);
+    menuBtn.setAttribute('aria-expanded', on);
+    menuBtn.setAttribute('aria-label', on ? 'סגירת התפריט' : 'פתיחת התפריט');
+    menu.setAttribute('aria-hidden', !on);
+    if (on) setTimeout(function () { var a = $('nav a', menu); if (a) a.focus({ preventScroll: true }); }, 120);
+  }
+  menuBtn.addEventListener('click', function () { setMenu(!body.classList.contains('menu-open')); });
+  menu.addEventListener('click', function (e) {
+    var a = e.target.closest('a'); if (!a) return;
+    if (a.hasAttribute('data-grid')) { e.preventDefault(); setMenu(false); setGrid(true); return; }
+    setMenu(false);
+  });
+  $('.wordmark').addEventListener('click', function (e) { e.preventDefault(); close(); setMenu(false); setGrid(false); scrollTo(0, 0); });
+
+  addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (isLit) return close();
+    if (body.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); return; }
+    if (body.classList.contains('gridview')) { setGrid(false); gridBtn.focus(); }
+  });
+
+  /* ---------- סמן ---------- */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var dot = $('#dot'), mx = -100, my2 = -100, dx2 = -100, dy2 = -100;
+    addEventListener('pointermove', function (e) {
+      mx = e.clientX; my2 = e.clientY;
+      var t = e.target;
+      dot.classList.toggle('wide', !!(t.closest && t.closest('.card, a, button, #grid figure')));
+    }, { passive: true });
+    (function loop() {
+      dx2 += (mx - dx2) * 0.2; dy2 += (my2 - dy2) * 0.2;
+      dot.style.transform = 'translate3d(' + dx2.toFixed(1) + 'px,' + dy2.toFixed(1) + 'px,0)';
+      requestAnimationFrame(loop);
+    })();
+  } else {
+    $('#dot').remove();
+  }
+})();
+</script>
+</body>
+</html>
