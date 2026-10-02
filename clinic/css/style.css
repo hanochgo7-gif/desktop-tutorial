@@ -4,13 +4,13 @@
   --paper: #fff9f5;
   --ink: #3f3a3d;
   --head: #6b6366;
-  --slate: #6a6265;
-  --muted: #645c5e;
+  --slate: #554e51;
+  --muted: #574f52;
   --line: #efd8d3;
   --blush: #f0c7c2;
   --blush-deep: #e6b0ab;
   --gold: #c9827e;
-  --gold-deep: #94514d;
+  --gold-deep: #7d4039;
   --gold-soft: #f8e1de;
   --dark: #3a3336;
   --serif: "Noto Serif Hebrew", "Frank Ruhl Libre", Georgia, serif;
@@ -1412,28 +1412,29 @@ html { background: #15161a; }
 body { background: transparent; }
 .site-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #15161a url(../images/bloom/bloom-wide.webp) center / cover no-repeat; }
 .site-bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.site-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(21,22,26,.12), rgba(21,22,26,.32)); }
+.site-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(21,22,26,.05), rgba(21,22,26,.18)); }
 @media (max-width: 760px) { .site-bg { background-image: url(../images/bloom/bloom-tall.webp); } }
-main > *, .site-footer { background-color: rgba(251,242,236,.93) !important; backdrop-filter: blur(22px) saturate(1.1); -webkit-backdrop-filter: blur(22px) saturate(1.1); }
-body.page-shop main > *, body.page-shop .site-footer { background-color: rgba(243,237,227,.93) !important; }
+main > *, .site-footer { background-color: rgba(251,242,236,.8) !important; backdrop-filter: blur(14px) saturate(1.15); -webkit-backdrop-filter: blur(14px) saturate(1.15); }
+body.page-shop main > *, body.page-shop .site-footer { background-color: rgba(243,237,227,.82) !important; }
 body.page-shop .shop-footer { background-color: rgba(43,36,32,.88) !important; }
 main > .hero { background: transparent !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .hero-bg, .hero > .deco { display: none; }
 .hero-copy { background: rgba(251,242,236,.94); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,.55); border-radius: 28px; padding: clamp(28px, 4vw, 48px); box-shadow: 0 40px 80px -40px rgba(0,0,0,.6); }
 .hero-visual { box-shadow: 0 40px 80px -40px rgba(0,0,0,.7); }
-main > .contact { background-color: rgba(43,36,38,.74) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+main > .contact { background-color: rgba(43,36,38,.6) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .site-header { background: rgba(251,242,236,.86); }
 html.a11y-contrast .site-bg, html.a11y-motion .site-bg video { display: none; }
 html.a11y-contrast body { background: #fff; }
 html.a11y-contrast main > *, html.a11y-contrast .site-footer, html.a11y-contrast .hero-copy, html.a11y-contrast main > .hero { background: #fff !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
 @media (prefers-reduced-motion: reduce) { .site-bg video { display: none; } }
 @media (max-width: 760px) {
-  main > *, .site-footer { background-color: rgba(251,242,236,.95) !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
-  body.page-shop main > *, body.page-shop .site-footer { background-color: rgba(243,237,227,.96) !important; }
+  main > *, .site-footer { background-color: rgba(251,242,236,.86) !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  body.page-shop main > *, body.page-shop .site-footer { background-color: rgba(243,237,227,.88) !important; }
   body.page-shop .shop-footer { background-color: rgba(43,36,32,.92) !important; }
   main > .hero { background: transparent !important; }
-  main > .contact { background-color: rgba(43,36,38,.84) !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  main > .contact { background-color: rgba(43,36,38,.7) !important; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .hero-copy { background: rgba(251,242,236,.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 24px 18px; border-radius: 22px; }
 }
 .hero-scroll, .hero-scroll span { color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
 .hero-scroll i, .hero-scroll::before { background: #fff; }
+body.page-shop { background: transparent; }
