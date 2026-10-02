@@ -1299,13 +1299,18 @@
       });
       v.addEventListener('play', function () { vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); }); });
     });
+    // התמונה של הסיור נטענת רק כשמתקרבים, ובטלפון בגודל שמתאים למסך
+    var setPoster = function (v) { if (!v.poster) v.poster = (smallScreen && v.dataset.posterM) || v.dataset.poster; };
     // גוללים הלאה: הסרט נעצר
     if ('IntersectionObserver' in window) {
+      var near = new IntersectionObserver(function (en) {
+        en.forEach(function (e) { if (e.isIntersecting) { setPoster($('video', e.target)); near.unobserve(e.target); } });
+      }, { rootMargin: '900px 0px' });
       var io = new IntersectionObserver(function (en) {
         en.forEach(function (e) { if (!e.isIntersecting) { var v = $('video', e.target); if (v && !v.paused) pauseVideo(v); } });
       });
-      tours.forEach(function (t) { io.observe(t); });
-    }
+      tours.forEach(function (t) { near.observe(t); io.observe(t); });
+    } else vids.forEach(setPoster);
   }
 
   /* ---------- פס התקדמות בגלילה ---------- */

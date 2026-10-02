@@ -190,6 +190,17 @@ function start() {
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
 
+  // בטלפון החפצים נטענים אחרי הפתיחה, כדי שהיא תקבל את כל רוחב הפס. הם ממילא צומחים פנימה כשהם מוכנים
+  const deferRelics = window.innerWidth < 700 && !(window.HG && window.HG.introDone);
+  const later = [];
+  const loadRelic = deferRelics ? (fn) => later.push(fn) : (fn) => fn();
+  if (deferRelics) {
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 200));
+    const flush = () => idle(() => later.splice(0).forEach((fn) => fn()), { timeout: 1200 });
+    window.addEventListener('hg:intro', flush, { once: true });
+    setTimeout(flush, 6000); // רשת ביטחון אם הפתיחה לא הגיעה
+  }
+
   RELICS.forEach((r, i) => {
     const pivot = new THREE.Group();
     pivot.userData = { i, id: r.id, hover: 0, scale: 0 };
@@ -200,7 +211,7 @@ function start() {
     hit.userData.relic = pivot;
     pivot.add(hit);
     hits.push(hit);
-    loader.load(r.file, (gltf) => {
+    loadRelic(() => loader.load(r.file, (gltf) => {
       const obj = gltf.scene;
       const box = new THREE.Box3().setFromObject(obj);
       const size = box.getSize(new THREE.Vector3());
@@ -229,7 +240,7 @@ function start() {
       pivot.add(holder);
       pivot.userData.ready = true;
       applyXray();
-    });
+    }));
   });
 
   /* ---------- מצב ---------- */

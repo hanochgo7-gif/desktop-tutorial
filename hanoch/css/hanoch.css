@@ -1483,3 +1483,17 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
   [dir="rtl"] .tour-play { inset: auto 12px 12px auto; }
 }
 html[lang="en"] .tours h2 { font-size: clamp(2.6rem, 5vw, 5.2rem); }
+
+/* ---------- מגע בטלפון: אזור לחיצה נוח (40px ומעלה) בלי לשנות את המראה ---------- */
+@media (max-width: 900px) {
+  .hero-avail, .work-back, .demo-full, .p-demo, .foot a, .foot-xray, .bar-mark, .lang-switch,
+  .brief-back, .brief-copy, .brief-restart { position: relative; }
+  .hero-avail::before, .work-back::before, .demo-full::before, .p-demo::before, .foot a::before, .foot-xray::before,
+  .bar-mark::before, .lang-switch::before, .brief-back::before, .brief-copy::before, .brief-restart::before {
+    content: ""; position: absolute; inset: -12px -8px;
+  }
+  .bar-mark::before { inset: -8px -10px; }
+  .lang-switch::before { inset: -4px -2px; }
+  .tg-kind { font-size: .72rem; }
+  .ba-range { height: 40px; }
+}
