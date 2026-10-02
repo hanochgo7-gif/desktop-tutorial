@@ -10,6 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="images/logo.png">
 <link rel="icon" type="image/png" href="images/logo.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FoodEstablishment","name":"קייטרינג 4X4 לאירועים","slogan":"בכל מקום, בכל שעה","description":"דוכן פלאפל ב-4 טעמים, סביח אורגינל ובר בורגר לאירועים, מוכן טרי במקום בכל הארץ.","telephone":"+972-50-911-2552","servesCuisine":"ישראלי","areaServed":{"@type":"Country","name":"ישראל"},"founder":{"@type":"Person","name":"ניסים שרון"},"sameAs":["https://www.facebook.com/profile.php?id=100063584353013"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
@@ -125,8 +126,8 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .badge-4{position:absolute;inset-inline-end:-6%;top:5%;width:118px;height:118px;border-radius:50%;background:var(--sky);color:var(--night);display:grid;place-content:center;text-align:center;font-weight:700;line-height:.9;transform:rotate(8deg);box-shadow:0 20px 40px -18px rgba(0,0,0,.8);animation:pop .8s .9s cubic-bezier(.3,1.4,.4,1) both}
 .badge-4 b{font-family:'Karantina',sans-serif;font-size:3.4rem;display:block}
 .badge-4 small{font-size:.85rem}
-.drip{position:absolute;bottom:-2px;inset-inline:0;width:100%;height:clamp(70px,9vw,130px);display:block}
-.drip path{fill:var(--paper)}
+.hero-edge{position:absolute;bottom:-2px;inset-inline:0;width:100%;height:clamp(70px,9vw,130px);display:block}
+.hero-edge path{fill:var(--paper)}
 @keyframes rise{from{transform:translateY(110%)}to{transform:none}}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:scale(.85) rotate(8deg)}to{opacity:1;transform:scale(1) rotate(8deg)}}
@@ -204,9 +205,8 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 @media (max-width:700px){.checks{grid-template-columns:1fr}}
 
 /* ---- field reel ---- */
-.field{background:var(--night);color:var(--sand);padding-bottom:clamp(48px,6vw,80px)}
-.field .h2{color:var(--sun)}
-.field .lead{color:rgba(241,231,208,.75)}
+.reel-sec{background:var(--night);color:var(--sand);padding-bottom:clamp(48px,6vw,80px)}
+.reel-sec .h2{color:var(--sun)}
 .reel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:1.8rem max(16px,calc((100% - 1180px)/2)) 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .reel::-webkit-scrollbar{display:none}
 .reel figure{flex:0 0 min(78vw,720px);aspect-ratio:3/2;margin:0;position:relative;border-radius:var(--r);overflow:hidden;scroll-snap-align:start;background:var(--night-2)}
@@ -216,6 +216,78 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(241,231,208,.35);background:transparent;color:var(--sand);font-size:1.8rem;line-height:1;cursor:pointer;font-family:inherit}
 .arrow:hover{background:var(--sun);color:var(--night);border-color:var(--sun)}
 .hint{color:rgba(241,231,208,.6);font-size:.9rem;margin-inline-start:.4rem}
+/* ---- quote builder ---- */
+.quote-sec{background:var(--sand)}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2rem 0 1.5rem}
+.pack{display:grid;gap:.2rem;text-align:start;background:var(--paper);color:var(--ink);border:2px solid var(--line);border-radius:var(--r);padding:1.05rem 1.2rem;cursor:pointer;font:inherit;transition:border-color .15s,background .15s}
+.pack:hover{border-color:var(--ink)}
+.pack b{font-family:'Karantina',sans-serif;font-size:2rem;line-height:1}
+.pack span{color:var(--muted);font-size:.95rem}
+.pack[aria-pressed="true"]{background:var(--night);border-color:var(--night);color:var(--sun)}
+.pack[aria-pressed="true"] span{color:rgba(241,231,208,.8)}
+.builder{display:grid;grid-template-columns:1.12fr .88fr;gap:2rem;align-items:start}
+.controls{background:var(--paper);color:var(--ink);padding:1.8rem;border-radius:var(--r-lg);box-shadow:var(--shadow)}
+.controls fieldset{border:0;margin:0 0 1.7rem}
+.controls fieldset:last-child{margin-bottom:0}
+.controls legend{font-family:'Karantina',sans-serif;font-weight:700;font-size:2rem;line-height:1;margin-bottom:.7rem}
+.guests{display:flex;align-items:center;gap:.6rem}
+.guests input[type=range]{flex:1;min-width:0;accent-color:var(--sun-2);height:34px}
+.guests input[type=number]{width:96px;padding:.7rem .6rem;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-weight:700;font-size:1.15rem;text-align:center;background:var(--sand);color:var(--ink)}
+.step-btn{width:42px;height:42px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--sand);color:var(--ink);font:inherit;font-size:1.4rem;line-height:1;cursor:pointer}
+.step-btn:hover{background:var(--sun);border-color:var(--sun);color:var(--night)}
+.opts{display:grid;gap:.6rem}
+.opt{display:flex;align-items:center;gap:.85rem;padding:.85rem 1rem;border:2px solid var(--line);border-radius:14px;background:var(--sand);cursor:pointer;transition:border-color .15s,background .15s}
+.opt input{width:22px;height:22px;flex:none;accent-color:var(--night)}
+.opt b{display:block;font-size:1.05rem}
+.opt small{color:var(--muted)}
+.opt:has(input:checked){border-color:var(--night);background:color-mix(in srgb,var(--sun) 22%,var(--sand))}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{position:relative}
+.chip input{position:absolute;inset:0;opacity:0;cursor:pointer;margin:0}
+.chip span{display:inline-block;padding:.6rem 1.05rem;border-radius:999px;border:1.5px solid var(--line);background:var(--sand);font-weight:500;transition:background .15s,color .15s}
+.chip input:checked+span{background:var(--night);border-color:var(--night);color:var(--sun)}
+.chip input:focus-visible+span{outline:3px solid var(--sky);outline-offset:2px}
+.receipt-wrap{position:sticky;top:96px;filter:drop-shadow(0 22px 26px rgba(21,19,20,.28))}
+.receipt{position:relative;background:#fffdf6;color:#1b1917;padding:1.6rem 1.5rem 2.6rem;border-radius:4px 4px 0 0;font-variant-numeric:tabular-nums;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
+  mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
+.stamp{position:absolute;top:1.1rem;inset-inline-end:1rem;border:2.5px solid #c8321b;color:#c8321b;border-radius:8px;padding:.15rem .55rem;font-weight:700;font-size:.78rem;transform:rotate(-7deg);opacity:.85}
+.r-head{display:flex;align-items:center;gap:.8rem;padding-bottom:1rem;margin-bottom:.6rem;border-bottom:2px dashed rgba(27,25,23,.25)}
+.r-head img{width:50px;height:50px;border-radius:50%}
+.r-head b{display:block;font-family:'Karantina',sans-serif;font-size:2rem;line-height:1}
+.r-head small{color:#6f6656}
+.r-line{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.45rem 0}
+.r-line+.r-line{border-top:1px dotted rgba(27,25,23,.25)}
+.r-line dt{color:#6f6656;flex:none}
+.r-line dd{font-weight:700;text-align:end}
+.r-sec{border-top:2px dashed rgba(27,25,23,.25);margin-top:.8rem;padding-top:.9rem}
+.r-sec h3{font-family:'Rubik',sans-serif;font-size:.9rem;font-weight:500;color:#6f6656;margin-bottom:.4rem}
+.qty{list-style:none;display:grid;gap:.15rem}
+.qty li{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.qty b{font-family:'Karantina',sans-serif;font-size:1.9rem;line-height:1.05}
+.qty .empty{color:#6f6656}
+.r-small{font-size:.82rem;color:#6f6656;margin-top:.4rem}
+.r-price{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.r-price span{color:#6f6656}
+.r-price b{font-family:'Karantina',sans-serif;font-size:2.3rem;line-height:1}
+.r-warn{margin-top:.9rem;background:#fff1c2;border-radius:10px;padding:.65rem .8rem;font-size:.92rem}
+.r-actions{display:grid;gap:.55rem;margin-top:1.1rem}
+.r-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.btn-ghost{background:transparent;border:1.5px solid rgba(27,25,23,.3);color:#1b1917;padding:.7rem .8rem;font-size:.95rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.bump{animation:bump .35s ease}
+@keyframes bump{40%{transform:scale(1.1)}}
+.r-line dd.bump,.r-price b.bump{display:inline-block}
+@media (max-width:900px){.packs{grid-template-columns:1fr}.builder{grid-template-columns:1fr}.receipt-wrap{position:static}.controls{padding:1.3rem}}
+@media print{
+  html.print-quote body>*:not(#quote){display:none!important}
+  html.print-quote #quote{padding:0;background:#fff}
+  html.print-quote #quote .h2,html.print-quote #quote .lead,html.print-quote .packs,html.print-quote #qb,html.print-quote .r-actions,html.print-quote .r-warn{display:none!important}
+  html.print-quote .builder{display:block}
+  html.print-quote .receipt-wrap{position:static;filter:none;max-width:440px;margin:0 auto}
+  html.print-quote body{padding:0}
+}
+
 /* ---- faq ---- */
 .faq details{border-bottom:1px solid var(--line);padding:1rem 0}
 .faq summary{cursor:pointer;font-weight:500;font-size:1.12rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
@@ -223,11 +295,14 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .faq summary::after{content:"+";font-family:'Karantina',sans-serif;font-size:2rem;color:var(--sun-2);transition:transform .2s;line-height:1}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{color:var(--muted);margin-top:.6rem;max-width:70ch}
+.faq p a{color:var(--ink);font-weight:500}
 
 /* ---- close ---- */
 .close{background:var(--sun);color:var(--night);position:relative;overflow:hidden}
 .close::before{content:"";position:absolute;inset:auto -10% -40% auto;width:60%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.18)}
-.close .wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.close .wrap{position:relative}
+.contact-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
+.contact-row .contact-card{margin-top:0}
 .close .h2{color:var(--night)}
 .close .lead{color:rgba(21,19,20,.75)}
 .contact-card{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.3rem;background:var(--night);color:var(--sand);border-radius:var(--r);text-decoration:none;margin-top:1rem;font-weight:700;font-size:1.15rem;transition:transform .18s}
@@ -236,15 +311,13 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 .contact-card .ic.wa{background:var(--wa);color:#fff}
 .contact-card .ic.fb{background:#1877f2;color:#fff}
 .contact-card small{display:block;font-weight:400;font-size:.88rem;color:rgba(241,231,208,.7)}
-form{background:var(--paper);color:var(--ink);padding:2rem;border-radius:var(--r-lg);box-shadow:0 30px 60px -30px rgba(21,19,20,.5)}
-form h3{font-size:2.3rem;margin-bottom:1rem}
 .field{margin-bottom:1rem}
 .field label{display:block;font-weight:500;margin-bottom:.35rem;font-size:.95rem}
 .field input,.field select,.field textarea{width:100%;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:12px;font:inherit;background:var(--sand);color:var(--ink)}
 .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--sky);border-color:transparent}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .form-note{font-size:.85rem;color:var(--muted);margin-top:.8rem}
-@media (max-width:900px){.close .wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+@media (max-width:900px){.contact-row{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
 
 /* ---- footer ---- */
 footer{background:var(--night);color:rgba(241,231,208,.75);padding:2.2rem 0 2.4rem;font-size:.95rem}
@@ -258,8 +331,9 @@ footer strong{color:var(--sand)}
 .bar{display:none}
 @media (max-width:900px){
   body{padding-bottom:78px}
-  .bar{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;position:fixed;bottom:0;inset-inline:0;z-index:60;padding:.6rem 12px calc(.6rem + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px)}
-  .bar .btn{padding:.85rem 1rem;font-size:1rem}
+  .bar{display:grid;grid-template-columns:1.25fr 1fr auto;gap:.5rem;position:fixed;bottom:0;inset-inline:0;z-index:60;padding:.6rem 12px calc(.6rem + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--night) 92%,transparent);backdrop-filter:blur(12px)}
+  .bar .btn{padding:.85rem .9rem;font-size:1rem}
+  .bar .bar-call{width:54px;padding:0}
   .fab{display:none}
 }
 .fab{position:fixed;bottom:22px;left:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-content:center;box-shadow:0 14px 30px -8px rgba(0,0,0,.5);text-decoration:none;transition:transform .18s}
@@ -312,6 +386,7 @@ footer strong{color:var(--sand)}
       <li><a href="#menu">מה על השולחן</a></li>
       <li><a href="#how">איך זה עובד</a></li>
       <li><a href="#included">מה כלול</a></li>
+      <li><a href="#quote">הצעת מחיר</a></li>
       <li><a href="#gallery">מהשטח</a></li>
       <li><a href="#faq">שאלות</a></li>
     </ul>
@@ -326,8 +401,8 @@ footer strong{color:var(--sand)}
       <div class="kicker"><svg class="van"><use href="#i-van"/></svg>קייטרינג 4X4 לאירועים · בהנהלת ניסים שרון</div>
       <h1><span class="line"><span>בכל מקום,</span></span><span class="line"><span>בכל שעה.</span></span></h1>
       <div class="cta">
-        <a class="btn btn-wa" href="https://wa.me/972509112552?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%99%D7%A1%D7%99%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%94%D7%A6%D7%A2%D7%AA%20%D7%9E%D7%97%D7%99%D7%A8%20%D7%9C%D7%90%D7%99%D7%A8%D7%95%D7%A2" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>קבלו הצעת מחיר בוואטסאפ</a>
-        <a class="btn btn-line" href="#menu">מה על השולחן</a>
+        <a class="btn btn-sun" href="#quote"><svg><use href="#i-menu"/></svg>בונים הצעה בדקה</a>
+        <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>וואטסאפ לניסים</a>
       </div>
       <div class="trust">
         <div><svg class="van"><use href="#i-van"/></svg>מגיעים לכל הארץ</div>
@@ -364,7 +439,7 @@ footer strong{color:var(--sand)}
       <div class="badge-4" aria-hidden="true"><b>4</b><small>טעמי פלאפל</small></div>
     </div>
   </div>
-  <svg class="drip" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+  <svg class="hero-edge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0,70 C120,70 160,30 260,32 C330,34 350,90 400,112 C430,125 450,80 470,62 C520,20 600,22 660,40 C720,58 740,110 790,112 C830,113 840,70 880,58 C940,40 1010,42 1060,60 C1100,75 1120,118 1160,116 C1200,114 1200,52 1260,44 C1330,36 1380,66 1440,70 L1440,120 L0,120 Z"/>
   </svg>
 </section>
@@ -452,11 +527,11 @@ footer strong{color:var(--sand)}
     <p class="lead">שלושה שלבים. הראשון לוקח דקה.</p>
     <div class="steps">
       <div class="step"><svg><use href="#i-chat"/></svg><h3>מספרים לניסים</h3><p>כמה אורחים, איפה ומתי. הודעת וואטסאפ או שיחה קצרה.</p></div>
-      <div class="step"><svg><use href="#i-menu"/></svg><h3>בונים תפריט והצעה</h3><p>בוחרים דוכנים ותוספות ומקבלים הצעת מחיר ברורה, בלי הפתעות.</p></div>
+      <div class="step"><svg><use href="#i-menu"/></svg><h3>בונים תפריט והצעה</h3><p>בוחרים דוכנים ותוספות במחשבון באתר, וניסים חוזר עם הצעה ברורה, בלי הפתעות.</p></div>
       <div class="step"><svg class="van"><use href="#i-van"/></svg><h3>אנחנו מגיעים ומכינים</h3><p>מקימים כשעה לפני, מגישים חי, ומשאירים את המקום נקי.</p></div>
     </div>
     <div class="steps-cta">
-      <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>להתחיל בוואטסאפ</a>
+      <a class="btn btn-sun" href="#quote"><svg><use href="#i-menu"/></svg>לבנות הצעה</a>
       <a class="btn btn-line" href="tel:0509112552"><svg><use href="#i-phone"/></svg>050-911-2552</a>
     </div>
   </div>
@@ -479,7 +554,7 @@ footer strong{color:var(--sand)}
   </div>
 </section>
 
-<section id="gallery" class="field">
+<section id="gallery" class="reel-sec">
   <div class="wrap">
     <h2 class="h2">מהשטח</h2>
   </div>
@@ -501,6 +576,86 @@ footer strong{color:var(--sand)}
   </div>
 </section>
 
+<section class="quote-sec" id="quote">
+  <div class="wrap">
+    <h2 class="h2">בונים הצעה בדקה</h2>
+    <p class="lead">בוחרים מה יהיה על השולחן ולכמה אורחים, ורואים מיד מה מגיע. בסוף שולחים לניסים בלחיצה, והוא חוזר עם מחיר סופי.</p>
+    <div class="packs" role="group" aria-label="חבילות מוכנות">
+      <button type="button" class="pack" data-pack="falafel" aria-pressed="false"><b>פלאפל בשטח</b><span>דוכן פלאפל ב-4 טעמים וצ'יפס</span></button>
+      <button type="button" class="pack" data-pack="classic" aria-pressed="false"><b>הקלאסי הישראלי</b><span>פלאפל, סביח אורגינל וצ'יפס</span></button>
+      <button type="button" class="pack" data-pack="all" aria-pressed="false"><b>הכול על השולחן</b><span>פלאפל, סביח, בר בורגר, צ'יפס ושתייה</span></button>
+    </div>
+    <div class="builder">
+      <form id="qb" class="controls" onsubmit="return false" novalidate>
+        <fieldset>
+          <legend>כמה אורחים?</legend>
+          <div class="guests">
+            <button type="button" class="step-btn" data-step="-10" aria-label="פחות 10 אורחים">−</button>
+            <input type="range" id="q-guests" min="20" max="500" step="10" value="100" aria-label="מספר אורחים">
+            <button type="button" class="step-btn" data-step="10" aria-label="עוד 10 אורחים">+</button>
+            <input type="number" id="q-guests-n" min="10" max="1000" value="100" inputmode="numeric" aria-label="מספר אורחים מדויק">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>מה על השולחן?</legend>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" name="st" value="falafel" checked><span><b>פלאפל ב-4 טעמים</b><small>קלאסי, חריף, ירוק עשבים ומזרחי</small></span></label>
+            <label class="opt"><input type="checkbox" name="st" value="sabich"><span><b>סביח אורגינל</b><small>חציל צלוי, ביצה, טחינה ועמבה</small></span></label>
+            <label class="opt"><input type="checkbox" name="st" value="burger"><span><b>בר בורגר עשיר</b><small>קציצות על הגריל ובר תוספות</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>תוספות</legend>
+          <div class="chips">
+            <label class="chip"><input type="checkbox" name="ex" value="fries"><span>צ'יפס חם</span></label>
+            <label class="chip"><input type="checkbox" name="ex" value="kids"><span>מנות ילדים</span></label>
+            <label class="chip"><input type="checkbox" name="ex" value="drinks"><span>שתייה קלה</span></label>
+            <label class="chip"><input type="checkbox" name="ex" value="vegan"><span>קציצה טבעונית</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>פרטי האירוע</legend>
+          <div class="row">
+            <div class="field"><label for="q-type">סוג האירוע</label>
+              <select id="q-type"><option>יום הולדת</option><option>בר/בת מצווה</option><option>חתונה / חינה</option><option>אירוע חברה</option><option>יום גיבוש</option><option>בסיס / יחידה</option><option>אחר</option></select>
+            </div>
+            <div class="field"><label for="q-place">איפה?</label><input id="q-place" placeholder="עיר, יישוב או שטח"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="q-date">תאריך</label><input id="q-date" type="date"></div>
+            <div class="field"><label for="q-time">שעת הגשה</label><input id="q-time" type="time"></div>
+          </div>
+          <div class="field"><label for="q-name">השם שלכם</label><input id="q-name" autocomplete="name" placeholder="כדי שניסים ידע למי לחזור"></div>
+        </fieldset>
+      </form>
+      <div class="receipt-wrap">
+        <aside class="receipt" aria-labelledby="r-title">
+          <span class="stamp" aria-hidden="true">ממתין לאישור ניסים</span>
+          <div class="r-head"><img src="images/logo.png" alt=""><div><b id="r-title">הצעה לאירוע</b><small>מס' <span id="r-no"></span> · <span id="r-today"></span></small></div></div>
+          <dl class="r-lines">
+            <div class="r-line"><dt>אורחים</dt><dd id="r-guests">100</dd></div>
+            <div class="r-line"><dt>על השולחן</dt><dd id="r-st"></dd></div>
+            <div class="r-line"><dt>תוספות</dt><dd id="r-ex"></dd></div>
+            <div class="r-line"><dt>האירוע</dt><dd id="r-event"></dd></div>
+            <div class="r-line"><dt>מתי</dt><dd id="r-when"></dd></div>
+          </dl>
+          <div class="r-sec">
+            <h3>הערכת כמויות</h3>
+            <ul class="qty" id="r-qty" aria-live="polite"></ul>
+            <p class="r-small">לפי מנה ורבע בממוצע לאורח. ניסים מאשר בהצעה הסופית.</p>
+          </div>
+          <div class="r-sec r-price"><span>מחיר</span><b id="r-price" aria-live="polite"></b></div>
+          <div class="r-warn" id="r-warn" role="status" hidden></div>
+          <div class="r-actions">
+            <button type="button" class="btn btn-wa" id="q-send"><svg><use href="#i-wa"/></svg>שליחת ההצעה לניסים</button>
+            <div class="r-row"><button type="button" class="btn btn-ghost" id="q-print">שמירה כ-PDF</button><button type="button" class="btn btn-ghost" id="q-reset">התחלה מחדש</button></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="wrap">
     <h2 class="h2">שאלות שכולם שואלים</h2>
@@ -509,18 +664,18 @@ footer strong{color:var(--sand)}
     <details><summary>לאילו אזורים אתם מגיעים?</summary><p>לכל הארץ, מהצפון ועד אילת, כולל שטחים פתוחים, בסיסים ואתרים מרוחקים.</p></details>
     <details><summary>יש אפשרויות טבעוניות?</summary><p>כן. הפלאפל טבעוני מטבעו, הסביח מוגש גם בלי ביצה, ובבר הבורגר יש קציצה טבעונית.</p></details>
     <details><summary>אפשר לשנות את התפריט?</summary><p>בטח. מוסיפים, מורידים ומתאימים לפי סוג האירוע, הקהל והתקציב. ספרו לנו מה אתם רוצים.</p></details>
-    <details><summary>כמה זה עולה?</summary><p>המחיר נקבע לפי מספר האורחים והדוכנים שבוחרים. שלחו לנו את הפרטים ותקבלו הצעה מסודרת, בלי הפתעות.</p></details>
+    <details><summary>כמה זה עולה?</summary><p>המחיר נקבע לפי מספר האורחים והדוכנים שבוחרים. בונים הצעה <a href="#quote">במחשבון באתר</a>, שולחים לניסים, והוא חוזר עם מחיר סופי, בלי הפתעות.</p></details>
   </div>
 </section>
 
 <section class="close" id="contact">
   <div class="wrap">
-    <div>
-      <h2 class="h2">נסגור את התפריט לאירוע שלכם?</h2>
-      <p class="lead">ניסים עונה אישית. ספרו כמה אורחים ומתי, ותקבלו הצעת מחיר מהר.</p>
+    <h2 class="h2">מעדיפים לדבר?</h2>
+    <p class="lead">ניסים עונה אישית, בטלפון ובוואטסאפ.</p>
+    <div class="contact-row">
       <a class="contact-card" href="https://wa.me/972509112552" target="_blank" rel="noopener">
         <span class="ic wa"><svg width="24" height="24"><use href="#i-wa"/></svg></span>
-        <span>שלחו וואטסאפ<small>הדרך הכי מהירה לקבל הצעה</small></span>
+        <span>שלחו וואטסאפ<small>הדרך הכי מהירה</small></span>
       </a>
       <a class="contact-card" href="tel:0509112552">
         <span class="ic"><svg width="24" height="24"><use href="#i-phone"/></svg></span>
@@ -531,41 +686,20 @@ footer strong{color:var(--sand)}
         <span>קייטרינג 4X4 בפייסבוק<small>עוד תמונות מאירועים</small></span>
       </a>
     </div>
-    <form id="quote" onsubmit="return sendWA(event)">
-      <h3>בקשת הצעת מחיר</h3>
-      <div class="row">
-        <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" required placeholder="השם שלך"></div>
-        <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" required placeholder="05X-XXXXXXX"></div>
-      </div>
-      <div class="row">
-        <div class="field"><label for="f-date">תאריך האירוע</label><input id="f-date" name="date" type="date"></div>
-        <div class="field"><label for="f-guests">מספר אורחים</label><input id="f-guests" name="guests" type="number" min="1" placeholder="למשל 120"></div>
-      </div>
-      <div class="row">
-        <div class="field"><label for="f-type">סוג האירוע</label>
-          <select id="f-type" name="type">
-            <option>יום הולדת</option><option>בר/בת מצווה</option><option>חתונה / חינה</option><option>אירוע חברה</option><option>יום גיבוש</option><option>בסיס / יחידה</option><option>אחר</option>
-          </select>
-        </div>
-        <div class="field"><label for="f-place">איפה האירוע?</label><input id="f-place" name="place" placeholder="עיר / יישוב"></div>
-      </div>
-      <div class="field"><label for="f-msg">מה תרצו בתפריט?</label><textarea id="f-msg" name="msg" rows="3" placeholder="פלאפל, סביח, בורגר, תוספות מיוחדות..."></textarea></div>
-      <button class="btn btn-wa" type="submit" style="width:100%"><svg><use href="#i-wa"/></svg>שלחו את הבקשה בוואטסאפ</button>
-      <p class="form-note">הלחיצה פותחת וואטסאפ עם הפרטים מוכנים לשליחה לניסים. לא נשמר מידע באתר.</p>
-    </form>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="brand"><img src="images/logo.png" alt=""><span><strong>קייטרינג 4X4 לאירועים</strong> · בהנהלת ניסים שרון · <a href="tel:0509112552">050-911-2552</a></span></div>
-    <div><a href="https://www.facebook.com/profile.php?id=100063584353013" target="_blank" rel="noopener">פייסבוק</a> · בכל מקום, בכל שעה © <span id="y"></span></div>
+    <div><a href="https://www.facebook.com/profile.php?id=100063584353013" target="_blank" rel="noopener">פייסבוק</a> · <a href="accessibility.html">הצהרת נגישות</a> · בכל מקום, בכל שעה © <span id="y"></span></div>
   </div>
 </footer>
 
 <div class="bar">
-  <a class="btn btn-sun" href="tel:0509112552"><svg><use href="#i-phone"/></svg>התקשרו</a>
+  <a class="btn btn-sun" href="#quote"><svg><use href="#i-menu"/></svg>הצעת מחיר</a>
   <a class="btn btn-wa" href="https://wa.me/972509112552" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>וואטסאפ</a>
+  <a class="btn btn-night bar-call" href="tel:0509112552" aria-label="התקשרו לניסים"><svg><use href="#i-phone"/></svg></a>
 </div>
 <a class="fab" href="https://wa.me/972509112552" target="_blank" rel="noopener" aria-label="וואטסאפ"><svg><use href="#i-wa"/></svg></a>
 
@@ -574,16 +708,8 @@ document.getElementById('y').textContent=new Date().getFullYear();
 const reel=document.getElementById('reel');
 document.querySelectorAll('.arrow').forEach(b=>b.addEventListener('click',()=>{const w=reel.querySelector('figure').getBoundingClientRect().width+14;reel.scrollBy({left:-1*b.dataset.dir*w,behavior:'smooth'});}));
 document.querySelectorAll('.nav ul a').forEach(a=>a.addEventListener('click',()=>document.querySelector('header').classList.remove('open')));
-function sendWA(e){
-  e.preventDefault();
-  const f=e.target, v=n=>f[n].value.trim();
-  const lines=['היי ניסים, אשמח להצעת מחיר מקייטרינג 4X4 לאירועים:',
-    'שם: '+v('name'),'טלפון: '+v('phone'),
-    v('date')&&'תאריך: '+v('date'), v('guests')&&'אורחים: '+v('guests'),
-    'סוג אירוע: '+v('type'), v('place')&&'מיקום: '+v('place'), v('msg')&&'תפריט: '+v('msg')].filter(Boolean);
-  window.open('https://wa.me/972509112552?text='+encodeURIComponent(lines.join('\n')),'_blank');
-  return false;
-}
 </script>
+<script src="quote.js" defer></script>
+<script src="a11y.js" defer></script>
 </body>
 </html>
