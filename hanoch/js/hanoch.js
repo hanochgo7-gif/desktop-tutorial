@@ -401,8 +401,9 @@
     if (!el || !motion) return;
     var hl = EN ? ['first', 'second:'] : ['השנייה', 'הראשונה:'];
     var words = el.textContent.trim().split(/\s+/);
-    el.setAttribute('aria-label', el.textContent.trim());
-    el.innerHTML = words.map(function (w) {
+    // קורא מסך שומע את המשפט השלם פעם אחת; המילים המונפשות מוסתרות ממנו
+    var full = el.textContent.trim();
+    el.innerHTML = '<span class="sr-only">' + full + '</span>' + words.map(function (w) {
       return '<span class="w' + (hl.indexOf(w) > -1 ? ' hl' : '') + '" aria-hidden="true">' + w + '</span>';
     }).join(' ');
     var spans = $$('.w', el);
@@ -933,7 +934,8 @@
     var tl = $('.timeline');
     if (!tl || !motion) return;
     var items = $$('.timeline li', tl);
-    gsap.set(items, { autoAlpha: 0.15, y: 30 });
+    // שלב שעוד לא הגיע נשאר קריא (ניגודיות תקינה); האייקון האפור והקו הכתום מספרים איפה אנחנו
+    gsap.set(items, { autoAlpha: 0.78, y: 30 });
     ScrollTrigger.create({
       trigger: tl, start: 'top 75%', end: 'bottom 60%', scrub: true,
       onUpdate: function (s) {
@@ -941,7 +943,7 @@
         var n = Math.ceil(s.progress * items.length + 0.2);
         items.forEach(function (it, i) {
           var on = i < n;
-          if (on !== it._on) { it._on = on; gsap.to(it, { autoAlpha: on ? 1 : 0.15, y: on ? 0 : 30, duration: 0.6, ease: 'expo.out' }); }
+          if (on !== it._on) { it._on = on; it.classList.toggle('is-on', on); gsap.to(it, { autoAlpha: on ? 1 : 0.78, y: on ? 0 : 30, duration: 0.6, ease: 'expo.out' }); }
         });
       }
     });
@@ -1189,6 +1191,95 @@
     });
   }
 
+  /* ---------- תפריט בטלפון ----------
+     בטלפון הקישורים של הסרגל מוסתרים. במקומם: כפתור "דברו איתי" שתמיד גלוי, ותפריט מסך מלא
+     עם כל החלקים, וואטסאפ וטלפון, וההגדרות (קול, רנטגן, שפה) שפינו מקום בסרגל */
+  function initMenu() {
+    var bar = $('.bar'), nav = $('.bar-nav');
+    if (!bar || !nav) return;
+    var contact = $('#contact');
+    var cta = document.createElement('a');
+    cta.className = 'bar-cta mono';
+    cta.href = contact ? '#contact' : T('index.html#contact', 'en.html#contact');
+    cta.textContent = T('דברו איתי', 'Talk to me');
+    var btn = document.createElement('button');
+    btn.className = 'menu-btn'; btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'menu');
+    btn.setAttribute('aria-label', T('תפריט', 'Menu'));
+    btn.innerHTML = '<i></i><i></i>';
+    bar.appendChild(cta); bar.appendChild(btn);
+
+    var menu = document.createElement('div');
+    menu.className = 'menu'; menu.id = 'menu'; menu.hidden = true;
+    menu.setAttribute('role', 'dialog'); menu.setAttribute('aria-modal', 'true'); menu.setAttribute('aria-label', T('תפריט', 'Menu'));
+    var links = $$('a', nav).map(function (a) {
+      return '<li><a class="menu-link display" href="' + a.getAttribute('href') + '">' + a.textContent + '</a></li>';
+    });
+    if ($('#faq')) links.splice(links.length - 1, 0, '<li><a class="menu-link display" href="#faq">' + T('שאלות', 'FAQ') + '</a></li>');
+    var lang = $('.lang-switch');
+    menu.innerHTML =
+      '<ul class="menu-links">' + links.join('') + '</ul>' +
+      '<div class="menu-foot">' +
+        '<a class="btn btn-signal menu-wa" href="https://wa.me/' + CONTACT.whatsapp + '" target="_blank" rel="noopener"><span>' + T('שלחו לי הודעה בוואטסאפ', 'Message me on WhatsApp') + '</span></a>' +
+        '<a class="menu-tel mono" href="tel:+' + CONTACT.whatsapp + '" dir="ltr">' + T('054-5522053', '+972 54-552-2053') + '</a>' +
+        '<div class="menu-tools mono">' +
+          '<button type="button" data-proxy=".sound-toggle">' + T('קול', 'Sound') + '</button>' +
+          '<button type="button" data-proxy=".xray-toggle">' + T('רנטגן', 'X-ray') + '</button>' +
+          (lang ? '<a href="' + lang.getAttribute('href') + '" hreflang="' + lang.getAttribute('hreflang') + '" lang="' + lang.getAttribute('lang') + '">' + T('English', 'עברית') + '</a>' : '') +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(menu);
+
+    var open = false;
+    function syncTools() {
+      $$('[data-proxy]', menu).forEach(function (b) { var t = $(b.dataset.proxy); b.setAttribute('aria-pressed', t ? t.getAttribute('aria-pressed') : 'false'); });
+    }
+    function set(on) {
+      if (on === open) return;
+      open = on;
+      btn.setAttribute('aria-expanded', on);
+      btn.setAttribute('aria-label', on ? T('סגירת התפריט', 'Close menu') : T('תפריט', 'Menu'));
+      root.classList.toggle('menu-open', on);
+      if (on) {
+        menu.hidden = false; syncTools();
+        if (lenis) lenis.stop();
+        requestAnimationFrame(function () { menu.classList.add('is-open'); });
+        if (motion) gsap.fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.05, delay: 0.12, ease: 'expo.out' });
+        var first = $('.menu-link', menu); if (first) first.focus({ preventScroll: true });
+      } else {
+        menu.classList.remove('is-open');
+        if (lenis) lenis.start();
+        setTimeout(function () { if (!open) menu.hidden = true; }, motion ? 450 : 0);
+      }
+    }
+    btn.addEventListener('click', function () { set(!open); if (!open) btn.focus(); });
+    function go(href, e) {
+      if (href.charAt(0) !== '#') { set(false); return; }
+      var el = $(href);
+      if (!el) return;
+      e.preventDefault();
+      set(false);
+      if (lenis) lenis.scrollTo(el, { duration: 1.4, force: true }); else el.scrollIntoView({ behavior: motion ? 'smooth' : 'auto' });
+    }
+    cta.addEventListener('click', function (e) { go(cta.getAttribute('href'), e); });
+    menu.addEventListener('click', function (e) {
+      var a = e.target.closest('a'), b = e.target.closest('[data-proxy]');
+      if (b) { var t = $(b.dataset.proxy); if (t) t.click(); syncTools(); return; }
+      if (a) go(a.getAttribute('href'), e);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!open) return;
+      if (e.key === 'Escape') { set(false); btn.focus(); }
+      if (e.key === 'Tab') {
+        var f = [btn].concat($$('a, button', menu));
+        var i = f.indexOf(document.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+      }
+    });
+    window.matchMedia('(min-width: 901px)').addEventListener('change', function (m) { if (m.matches) set(false); });
+  }
+
   /* ---------- פס התקדמות בגלילה ---------- */
   function initProgress() {
     var bar = $('.progress i');
@@ -1274,6 +1365,7 @@
   /* ---------- הפעלה ---------- */
   initManifesto();
   initBrief();
+  initMenu();
   initProcess();
   initProgress();
   initDemo();
