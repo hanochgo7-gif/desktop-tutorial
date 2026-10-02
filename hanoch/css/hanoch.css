@@ -1208,7 +1208,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .motion .hero-portrait img { animation: portrait-idle 6s ease-in-out infinite; }
 @keyframes portrait-idle { 50% { translate: 0 -7px; rotate: -.6deg; } }
 @media (max-width: 560px) {
-  .hero-portrait { width: 58vw; bottom: 118px; }
+  .hero-portrait { width: 52vw; bottom: 112px; }
   .hero-portrait img { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); }
 }
 
@@ -1284,3 +1284,36 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .hero-portrait.is-alive .portrait-anim { opacity: 1; }
 .hero-portrait.is-alive img { transition: opacity .6s; opacity: 0 !important; }
 @media (max-width: 560px) { .portrait-anim { -webkit-mask: linear-gradient(180deg, #000 72%, transparent 98%); mask: linear-gradient(180deg, #000 72%, transparent 98%); } }
+
+/* ---------- טלפון: כל תמונה נראית במלואה, בלי רצועות שנחתכות בקצה ---------- */
+@media (max-width: 900px) {
+  /* שישה אתרים ברשת אחת: כולם על המסך, כל תמונה ביחס המקורי שלה */
+  .teaser-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .teaser-grid li { flex: none; }
+  .tg { aspect-ratio: auto; border-radius: 16px; background: rgba(18, 18, 20, .72); }
+  .tg-media { position: relative; display: block; aspect-ratio: 3 / 2; overflow: hidden; }
+  .tg::after { display: none; }
+  .tg::before { top: 10px; inset-inline-end: 10px; width: 8px; height: 8px; z-index: 1; }
+  .tg-info { position: static; padding: 10px 10px 12px; column-gap: .55rem; }
+  .tg-info .logo-tile { width: clamp(30px, 5.6vw, 44px); border-radius: 8px; }
+  .tg-name { font-size: clamp(1.05rem, 3vw, 1.5rem); }
+  .tg-kind { font-size: clamp(.6rem, 1.4vw, .74rem); }
+
+  /* חמש קטגוריות המערכות: שלוש ושתיים, כל תמונה שלמה (3:4) */
+  .sr-cats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; height: auto; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .sr-cat, .sr-cat.is-on { grid-column: span 2; flex: none; height: auto; max-height: none; aspect-ratio: 3 / 4; border-radius: 16px; }
+  .sr-cat:nth-child(4) { grid-column: 2 / span 2; }
+  .sr-cat-text { top: 10px; inset-inline: 10px; gap: .25rem; }
+  .sr-cat-name { font-size: clamp(.9rem, 2.5vw, 1.35rem); line-height: 1.12; }
+  .sr-cat-n { font-size: clamp(.58rem, 1.3vw, .7rem); }
+  .sr-cat::after { background: linear-gradient(180deg, rgba(10, 10, 11, .82) 0%, transparent 46%); }
+  .sr-cat.is-on { box-shadow: 0 0 0 1px var(--signal); }
+  .sr-cat:not(.is-on) .sr-media img { transform: none; }
+
+  /* המערכות בכל קטגוריה: כולן גלויות, בשתי שורות במקום רצועה נגללת */
+  .sr-items { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding: 2px 0; }
+
+  /* הטלפון שליד כל פרויקט נשאר בתוך המסך */
+  .p-phone { inset-inline-start: -1%; }
+  .project:nth-child(even) .p-phone { inset-inline-end: -1%; }
+}
