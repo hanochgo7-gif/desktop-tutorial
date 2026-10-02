@@ -4,6 +4,9 @@
 (function () {
   'use strict';
 
+  const EN = document.documentElement.lang === 'en';
+  const T = (he, en) => (EN ? en : he);
+
   const root = document.querySelector('[data-showroom]');
   if (!root) return;
   const motion = document.documentElement.classList.contains('motion');
@@ -22,8 +25,15 @@
   const every = (fn, ms) => { timers.push(setInterval(fn, ms)); };
   // צעד אוטומטי: קורה רק אם המבקר עוד לא התחיל לשחק בעצמו
   const auto = (fn, ms) => later(() => { if (!touched) fn(); }, ms);
-  const nis = (n) => Math.round(n).toLocaleString('he-IL') + ' ₪';
-  const fmt = (n) => Math.round(n).toLocaleString('he-IL');
+  const LOC = EN ? 'en-US' : 'he-IL';
+  const nis = (n) => (EN ? '₪' + Math.round(n).toLocaleString(LOC) : Math.round(n).toLocaleString(LOC) + ' ₪');
+  const fmt = (n) => Math.round(n).toLocaleString(LOC);
+  // שעה לתצוגה: בעברית כמו שהיא, באנגלית בפורמט 12 שעות
+  const clock = (t) => {
+    if (!EN) return t;
+    const h = +t.slice(0, 2), m = t.slice(3, 5);
+    return (h % 12 || 12) + ':' + m + (h < 12 ? ' AM' : ' PM');
+  };
   function tween(from, to, ms, step, done) {
     if (!motion) { step(to); if (done) done(); return; }
     const t0 = performance.now();
@@ -53,7 +63,7 @@
     timers.forEach(clearTimeout); timers = [];
     frames.forEach(cancelAnimationFrame); frames.clear();
   }
-  const DAYS = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
+  const DAYS = EN ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] : ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ש׳'];
   function spark(vals, w, h) {
     const max = Math.max(...vals) * 1.1, min = Math.min(...vals) * 0.8;
     const pts = vals.map((v, i) => [(i / (vals.length - 1)) * w, h - ((v - min) / (max - min)) * h]);
@@ -65,15 +75,15 @@
   const D = {};
 
   D.shop = {
-    url: 'noy-ceramics.co.il', hint: 'נסו: הוסיפו מוצר לסל',
+    url: 'noy-ceramics.co.il', hint: T('נסו: הוסיפו מוצר לסל', 'Try it: add something to the cart'),
     run(s) {
-      const P = [['mug', 'ספל אבן חול', 149], ['vase', 'אגרטל גלים', 289], ['bowl', 'קערת הגשה', 219]];
+      const P = [['mug', T('ספל אבן חול', 'Sandstone mug'), 149], ['vase', T('אגרטל גלים', 'Wave vase'), 289], ['bowl', T('קערת הגשה', 'Serving bowl'), 219]];
       const FREE = 400;
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">נוי · קרמיקה בעבודת יד</span><span class="d-sp d-cart">סל <b>0</b></span></div>
-        <div class="d-shop-grid">${P.map((p, i) => `<div class="d-card d-prod"><div class="d-prod-img"><img src="work/systems/${p[0]}.webp" alt="" width="420" height="420"></div><div>${p[1]}</div><div class="d-row"><span class="d-num">${nis(p[2])}</span><button class="d-btn d-sp" type="button" data-i="${i}">הוספה</button></div></div>`).join('')}</div>
+        <div class="d-row"><span class="d-h">${T('נוי · קרמיקה בעבודת יד', 'Noy · Handmade ceramics')}</span><span class="d-sp d-cart">${T('סל', 'Cart')} <b>0</b></span></div>
+        <div class="d-shop-grid">${P.map((p, i) => `<div class="d-card d-prod"><div class="d-prod-img"><img src="work/systems/${p[0]}.webp" alt="" width="420" height="420"></div><div>${p[1]}</div><div class="d-row"><span class="d-num">${nis(p[2])}</span><button class="d-btn d-sp" type="button" data-i="${i}">${T('הוספה', 'Add')}</button></div></div>`).join('')}</div>
         <div class="d-card" style="padding:12px 14px;display:grid;gap:9px">
-          <div class="d-row"><span class="d-sub d-ship">עוד ${nis(FREE)} למשלוח חינם</span><span class="d-sp d-num d-total" style="font-size:1.3em">${nis(0)}</span><button class="d-btn hot d-checkout" type="button" disabled>לתשלום</button></div>
+          <div class="d-row"><span class="d-sub d-ship">${T(`עוד ${nis(FREE)} למשלוח חינם`, `${nis(FREE)} away from free shipping`)}</span><span class="d-sp d-num d-total" style="font-size:1.3em">${nis(0)}</span><button class="d-btn hot d-checkout" type="button" disabled>${T('לתשלום', 'Checkout')}</button></div>
           <div class="d-bar"><i></i></div>
         </div></div>`;
       let n = 0, total = 0;
@@ -97,7 +107,7 @@
           $('b', cart).textContent = n; cart.classList.remove('bump'); void cart.offsetWidth; cart.classList.add('bump');
           tween(from, total, 600, (v) => { $('.d-total', s).textContent = nis(v); });
           $('.d-bar i', s).style.width = Math.min(100, total / FREE * 100) + '%';
-          $('.d-ship', s).textContent = total >= FREE ? 'המשלוח עלינו ✓' : 'עוד ' + nis(FREE - total) + ' למשלוח חינם';
+          $('.d-ship', s).textContent = total >= FREE ? T('המשלוח עלינו ✓', 'Free shipping unlocked ✓') : T('עוד ' + nis(FREE - total) + ' למשלוח חינם', nis(FREE - total) + ' away from free shipping');
           $('.d-checkout', s).disabled = false;
         }, motion ? 760 : 0);
       };
@@ -109,20 +119,20 @@
   };
 
   D.pay = {
-    url: 'noy-ceramics.co.il/checkout', hint: 'נסו: בחרו אמצעי תשלום ושלמו',
+    url: 'noy-ceramics.co.il/checkout', hint: T('נסו: בחרו אמצעי תשלום ושלמו', 'Try it: pick a payment method and pay'),
     run(s) {
       s.innerHTML = `<div class="d-wrap"><div class="d-card d-pay">
-        <div class="d-row"><span class="d-h">תשלום מאובטח</span><span class="d-sp d-pill ok">מוצפן</span></div>
-        <div class="d-row"><span class="d-sub">אגרטל גלים · משלוח חינם</span><span class="d-sp d-num" style="font-size:1.7em">${nis(289)}</span></div>
-        <div class="d-methods"><button class="d-method on" type="button" data-m="card">כרטיס אשראי</button><button class="d-method" type="button" data-m="bit">ביט</button><button class="d-method" type="button" data-m="apple">Apple Pay</button></div>
+        <div class="d-row"><span class="d-h">${T('תשלום מאובטח', 'Secure checkout')}</span><span class="d-sp d-pill ok">${T('מוצפן', 'Encrypted')}</span></div>
+        <div class="d-row"><span class="d-sub">${T('אגרטל גלים · משלוח חינם', 'Wave vase · Free shipping')}</span><span class="d-sp d-num" style="font-size:1.7em">${nis(289)}</span></div>
+        <div class="d-methods"><button class="d-method on" type="button" data-m="card">${T('כרטיס אשראי', 'Credit card')}</button><button class="d-method" type="button" data-m="bit">${T('ביט', 'Bit')}</button><button class="d-method" type="button" data-m="apple">Apple Pay</button></div>
         <div class="d-fields"></div>
-        <button class="d-btn hot d-go" type="button">תשלום ${nis(289)}</button>
+        <button class="d-btn hot d-go" type="button">${T('תשלום', 'Pay')} ${nis(289)}</button>
       </div></div>`;
       const f = $('.d-fields', s);
       const views = {
         card: '<div class="d-cardnum"><div class="d-input"><span class="d-mono d-cn"></span></div><div class="d-row" style="gap:8px"><div class="d-input" style="flex:1"><span class="d-mono">08/29</span></div><div class="d-input" style="flex:1"><span class="d-mono">•••</span></div></div></div>',
-        bit: '<div class="d-input"><span class="d-sub">בקשת תשלום תישלח לטלפון</span><span class="d-sp d-mono">054-•••-••53</span></div>',
-        apple: '<div class="d-input" style="justify-content:center"><span class="d-sub">אישור מהיר עם Face ID או טביעת אצבע</span></div>'
+        bit: '<div class="d-input"><span class="d-sub">' + T('בקשת תשלום תישלח לטלפון', 'A payment request goes to your phone') + '</span><span class="d-sp d-mono">054-•••-••53</span></div>',
+        apple: '<div class="d-input" style="justify-content:center"><span class="d-sub">' + T('אישור מהיר עם Face ID או טביעת אצבע', 'Confirm in a tap with Face ID or Touch ID') + '</span></div>'
       };
       const show = (m) => {
         $$('.d-method', s).forEach((b) => b.classList.toggle('on', b.dataset.m === m));
@@ -132,9 +142,9 @@
       $$('.d-method', s).forEach((b) => b.addEventListener('click', () => show(b.dataset.m)));
       show('card');
       const pay = () => {
-        const g = $('.d-go', s); g.disabled = true; g.innerHTML = '<span class="d-spin"></span> מאשרים…';
+        const g = $('.d-go', s); g.disabled = true; g.innerHTML = '<span class="d-spin"></span> ' + T('מאשרים…', 'Processing…');
         later(() => {
-          s.innerHTML = `<div class="d-wrap"><div class="d-done d-pop"><span class="d-check"></span><div class="d-h">התשלום התקבל</div><div class="d-sub">${nis(289)} · קבלה נשלחה למייל של הלקוח</div><button class="d-btn alt d-inv" type="button">לראות את הקבלה</button></div></div>`;
+          s.innerHTML = `<div class="d-wrap"><div class="d-done d-pop"><span class="d-check"></span><div class="d-h">${T('התשלום התקבל', 'Payment received')}</div><div class="d-sub">${nis(289)} · ${T('קבלה נשלחה למייל של הלקוח', 'Receipt emailed to the customer')}</div><button class="d-btn alt d-inv" type="button">${T('לראות את הקבלה', 'View receipt')}</button></div></div>`;
           $('.d-inv', s).addEventListener('click', () => go('invoice'));
         }, motion ? 1500 : 200);
       };
@@ -144,15 +154,15 @@
   };
 
   D.invoice = {
-    url: 'noy-ceramics.co.il · קבלות', hint: 'הקבלה נוצרת לבד אחרי כל תשלום',
+    url: T('noy-ceramics.co.il · קבלות', 'noy-ceramics.co.il · receipts'), hint: T('הקבלה נוצרת לבד אחרי כל תשלום', 'A receipt is created automatically after every payment'),
     run(s) {
       const no = 1042 + Math.floor(Math.random() * 30);
       s.innerHTML = `<div class="d-wrap"><div class="d-card d-doc">
-        <div class="d-row"><span class="d-h">קבלה ${no}</span><span class="d-sp d-sub">${new Date().toLocaleDateString('he-IL')}</span></div>
-        <div class="d-sub">נוי קרמיקה · עוסק פטור</div>
+        <div class="d-row"><span class="d-h">${T('קבלה', 'Receipt')} ${no}</span><span class="d-sp d-sub">${new Date().toLocaleDateString(LOC)}</span></div>
+        <div class="d-sub">${T('נוי קרמיקה · עוסק פטור', 'Noy Ceramics · VAT-exempt business')}</div>
         <div class="d-lines"></div>
-      </div><div class="d-row" style="justify-content:center"><button class="d-btn alt d-again" type="button">תשלום נוסף לדוגמה</button></div></div>`;
-      const L = [['לקוחה', 'מיכל לוי'], ['אגרטל גלים', nis(289)], ['משלוח', 'חינם'], ['אמצעי תשלום', 'אשראי ••9012'], ['סה״כ שולם', nis(289), 'total']];
+      </div><div class="d-row" style="justify-content:center"><button class="d-btn alt d-again" type="button">${T('תשלום נוסף לדוגמה', 'Run another sample payment')}</button></div></div>`;
+      const L = [[T('לקוחה', 'Customer'), T('מיכל לוי', 'Michal Levi')], [T('אגרטל גלים', 'Wave vase'), nis(289)], [T('משלוח', 'Shipping'), T('חינם', 'Free')], [T('אמצעי תשלום', 'Payment method'), T('אשראי ••9012', 'Card ••9012')], [T('סה״כ שולם', 'Total paid'), nis(289), 'total']];
       const box = $('.d-lines', s);
       L.forEach((l, i) => later(() => {
         const d = document.createElement('div');
@@ -160,32 +170,34 @@
         box.appendChild(d);
       }, 350 + i * 380));
       later(() => {
-        const st = document.createElement('span'); st.className = 'd-stamp d-pop'; st.textContent = 'שולם';
+        const st = document.createElement('span'); st.className = 'd-stamp d-pop'; st.textContent = T('שולם', 'Paid');
         box.appendChild(st);
-        toast('הקבלה נשלחה ל-<b>michal@…</b> ונשמרה בהנהלת החשבונות', 3600);
+        toast(T('הקבלה נשלחה ל-<b>michal@…</b> ונשמרה בהנהלת החשבונות', 'Receipt sent to <b>michal@…</b> and filed in the books'), 3600);
       }, 350 + L.length * 380 + 200);
       $('.d-again', s).addEventListener('click', () => go('invoice', true));
     }
   };
 
   D.quote = {
-    url: 'taam-events.co.il/הצעת-מחיר', hint: 'נסו: הזיזו את מספר האורחים',
+    url: T('taam-events.co.il/הצעת-מחיר', 'taam-events.co.il/quote'), hint: T('נסו: הזיזו את מספר האורחים', 'Try it: change the guest count'),
     run(s) {
-      const MENU = { 'בסיסי': 65, 'מורחב': 89, 'פרימיום': 120 };
-      const EXTRA = { 'מלצרים': (g) => Math.ceil(g / 40) * 450, 'עמדת שתייה': (g) => g * 12, 'עמדת קינוחים': () => 1400 };
+      const MENU = EN ? { 'Basic': 65, 'Plus': 89, 'Premium': 120 } : { 'בסיסי': 65, 'מורחב': 89, 'פרימיום': 120 };
+      const EXTRA = EN
+        ? { 'Wait staff': (g) => Math.ceil(g / 40) * 450, 'Drinks bar': (g) => g * 12, 'Dessert station': () => 1400 }
+        : { 'מלצרים': (g) => Math.ceil(g / 40) * 450, 'עמדת שתייה': (g) => g * 12, 'עמדת קינוחים': () => 1400 };
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">כמה יעלה האירוע שלכם?</span><span class="d-sp d-pill hot">מחירים לדוגמה</span></div>
-        <div class="d-card" style="padding:14px 16px;display:grid;gap:8px"><div class="d-row"><span>מספר אורחים</span><span class="d-sp d-num d-g" style="font-size:1.4em">80</span></div><input class="d-range" type="range" min="20" max="300" step="10" value="80" aria-label="מספר אורחים"></div>
-        <div class="d-grid" style="gap:8px"><span class="d-sub">תפריט</span><div class="d-opts d-menu">${Object.keys(MENU).map((m, i) => `<button class="d-opt${i === 1 ? ' on' : ''}" type="button" data-m="${m}">${m} · ${MENU[m]} ₪ לאורח</button>`).join('')}</div></div>
-        <div class="d-grid" style="gap:8px"><span class="d-sub">תוספות</span><div class="d-opts d-extra">${Object.keys(EXTRA).map((m) => `<button class="d-opt" type="button" aria-pressed="false" data-x="${m}">${m}</button>`).join('')}</div></div>
-        <div class="d-row" style="margin-top:auto"><div><div class="d-price"><span class="d-num d-p">0</span><span>₪</span></div><div class="d-sub d-per"></div></div><button class="d-btn hot d-sp d-send" type="button">לקבל הצעה מסודרת</button></div>
+        <div class="d-row"><span class="d-h">${T('כמה יעלה האירוע שלכם?', 'What will your event cost?')}</span><span class="d-sp d-pill hot">${T('מחירים לדוגמה', 'Sample prices')}</span></div>
+        <div class="d-card" style="padding:14px 16px;display:grid;gap:8px"><div class="d-row"><span>${T('מספר אורחים', 'Guests')}</span><span class="d-sp d-num d-g" style="font-size:1.4em">80</span></div><input class="d-range" type="range" min="20" max="300" step="10" value="80" aria-label="${T('מספר אורחים', 'Number of guests')}"></div>
+        <div class="d-grid" style="gap:8px"><span class="d-sub">${T('תפריט', 'Menu')}</span><div class="d-opts d-menu">${Object.keys(MENU).map((m, i) => `<button class="d-opt${i === 1 ? ' on' : ''}" type="button" data-m="${m}">${T(`${m} · ${MENU[m]} ₪ לאורח`, `${m} · ${nis(MENU[m])}/guest`)}</button>`).join('')}</div></div>
+        <div class="d-grid" style="gap:8px"><span class="d-sub">${T('תוספות', 'Add-ons')}</span><div class="d-opts d-extra">${Object.keys(EXTRA).map((m) => `<button class="d-opt" type="button" aria-pressed="false" data-x="${m}">${m}</button>`).join('')}</div></div>
+        <div class="d-row" style="margin-top:auto"><div><div class="d-price">${EN ? '<span>₪</span><span class="d-num d-p">0</span>' : '<span class="d-num d-p">0</span><span>₪</span>'}</div><div class="d-sub d-per"></div></div><button class="d-btn hot d-sp d-send" type="button">${T('לקבל הצעה מסודרת', 'Get a detailed quote')}</button></div>
       </div>`;
-      const st = { g: 80, m: 'מורחב', x: new Set() };
+      const st = { g: 80, m: T('מורחב', 'Plus'), x: new Set() };
       let shown = 0;
       const calc = () => {
         let p = st.g * MENU[st.m]; st.x.forEach((k) => { p += EXTRA[k](st.g); });
         $('.d-g', s).textContent = st.g;
-        $('.d-per', s).textContent = 'כ-' + nis(p / st.g) + ' לאורח';
+        $('.d-per', s).textContent = T('כ-' + nis(p / st.g) + ' לאורח', 'About ' + nis(p / st.g) + ' per guest');
         const from = shown; shown = p;
         tween(from, p, 450, (v) => { $('.d-p', s).textContent = fmt(v); });
       };
@@ -193,7 +205,7 @@
       range.addEventListener('input', () => { st.g = +range.value; calc(); });
       $$('.d-menu .d-opt', s).forEach((b) => b.addEventListener('click', () => { st.m = b.dataset.m; $$('.d-menu .d-opt', s).forEach((o) => o.classList.toggle('on', o === b)); calc(); }));
       $$('.d-extra .d-opt', s).forEach((b) => b.addEventListener('click', () => { const k = b.dataset.x; st.x.has(k) ? st.x.delete(k) : st.x.add(k); b.classList.toggle('on', st.x.has(k)); b.setAttribute('aria-pressed', st.x.has(k)); calc(); }));
-      $('.d-send', s).addEventListener('click', () => toast(`ההצעה נשלחה לעסק: <b>${st.g} אורחים, תפריט ${st.m}</b>`));
+      $('.d-send', s).addEventListener('click', () => toast(T(`ההצעה נשלחה לעסק: <b>${st.g} אורחים, תפריט ${st.m}</b>`, `Quote request sent: <b>${st.g} guests, ${st.m} menu</b>`)));
       calc();
       auto(() => tween(80, 150, 1200, (v) => { st.g = Math.round(v / 10) * 10; range.value = st.g; calc(); }), 1300);
       auto(() => $$('.d-extra .d-opt', s)[0].click(), 3000);
@@ -201,31 +213,32 @@
   };
 
   D.booking = {
-    url: 'dana-clinic.co.il/תור', hint: 'נסו: בחרו יום ושעה',
+    url: T('dana-clinic.co.il/תור', 'dana-clinic.co.il/book'), hint: T('נסו: בחרו יום ושעה', 'Try it: pick a day and a time'),
     run(s) {
       const now = new Date(), days = [];
       for (let d = 1; days.length < 5; d++) { const t = new Date(now); t.setDate(now.getDate() + d); if (t.getDay() !== 6) days.push(t); }
       const SLOTS = ['09:00', '10:00', '11:30', '13:00', '15:00', '16:30', '18:00', '19:00'];
+      const dm = (t) => (EN ? t.toLocaleDateString(LOC, { month: 'short', day: 'numeric' }) : `${t.getDate()}.${t.getMonth() + 1}`);
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">דנה · קליניקה לקוסמטיקה</span><span class="d-sp d-pill">טיפול פנים · 60 דק׳</span></div>
-        <div class="d-days">${days.map((t, i) => `<button class="d-day" type="button" data-i="${i}">${DAYS[t.getDay()]}<small>${t.getDate()}.${t.getMonth() + 1}</small></button>`).join('')}</div>
+        <div class="d-row"><span class="d-h">${T('דנה · קליניקה לקוסמטיקה', 'Dana · Skin clinic')}</span><span class="d-sp d-pill">${T('טיפול פנים · 60 דק׳', 'Facial · 60 min')}</span></div>
+        <div class="d-days">${days.map((t, i) => `<button class="d-day" type="button" data-i="${i}">${DAYS[t.getDay()]}<small>${dm(t)}</small></button>`).join('')}</div>
         <div class="d-slots"></div>
-        <div class="d-row" style="margin-top:auto"><span class="d-sub d-sel">בחרו יום</span><button class="d-btn hot d-sp d-book" type="button" disabled>קביעת תור</button></div>
+        <div class="d-row" style="margin-top:auto"><span class="d-sub d-sel">${T('בחרו יום', 'Pick a day')}</span><button class="d-btn hot d-sp d-book" type="button" disabled>${T('קביעת תור', 'Book')}</button></div>
       </div>`;
       let day = -1, slot = null;
       const taken = (i, t) => ((i * 7 + t.charCodeAt(1) * 3 + t.charCodeAt(3)) % 3) === 0;
       const paint = () => {
-        $('.d-slots', s).innerHTML = SLOTS.map((t) => `<button class="d-slot${taken(day, t) ? ' taken' : ''}${slot === t ? ' on' : ''}" type="button" data-t="${t}">${t}</button>`).join('');
+        $('.d-slots', s).innerHTML = SLOTS.map((t) => `<button class="d-slot${taken(day, t) ? ' taken' : ''}${slot === t ? ' on' : ''}" type="button" data-t="${t}">${clock(t)}</button>`).join('');
         $$('.d-slot', s).forEach((b) => b.addEventListener('click', () => { slot = b.dataset.t; paint(); }));
-        $('.d-sel', s).textContent = slot ? `יום ${DAYS[days[day].getDay()]}, ${slot}` : 'בחרו שעה';
+        $('.d-sel', s).textContent = slot ? T(`יום ${DAYS[days[day].getDay()]}, ${slot}`, `${DAYS[days[day].getDay()]}, ${clock(slot)}`) : T('בחרו שעה', 'Pick a time');
         $('.d-book', s).disabled = !slot;
       };
       const pick = (i) => { day = i; slot = null; $$('.d-day', s).forEach((b) => b.classList.toggle('on', +b.dataset.i === i)); paint(); };
       $$('.d-day', s).forEach((b) => b.addEventListener('click', () => pick(+b.dataset.i)));
       $('.d-book', s).addEventListener('click', () => {
-        toast(`התור נקבע ל<b>יום ${DAYS[days[day].getDay()]} ב-${slot}</b>. תזכורת תישלח יום לפני`, 3800);
+        toast(T(`התור נקבע ל<b>יום ${DAYS[days[day].getDay()]} ב-${slot}</b>. תזכורת תישלח יום לפני`, `Booked for <b>${DAYS[days[day].getDay()]} at ${clock(slot)}</b>. A reminder goes out the day before`), 3800);
         const b = $(`.d-slot[data-t="${slot}"]`, s); if (b) b.classList.add('taken');
-        slot = null; $('.d-book', s).disabled = true; $('.d-sel', s).textContent = 'נשמר ביומן של דנה';
+        slot = null; $('.d-book', s).disabled = true; $('.d-sel', s).textContent = T('נשמר ביומן של דנה', 'Saved to Dana’s calendar');
       });
       auto(() => pick(1), 1200);
       auto(() => { const b = $$('.d-slot:not(.taken)', s)[2]; if (b) b.click(); }, 2300);
@@ -234,21 +247,23 @@
   };
 
   D.courses = {
-    url: 'rachel-math.co.il/אזור-אישי', hint: 'נסו: סמנו שיעור שסיימתם',
+    url: T('rachel-math.co.il/אזור-אישי', 'rachel-math.co.il/my-account'), hint: T('נסו: סמנו שיעור שסיימתם', 'Try it: tick off a lesson you finished'),
     run(s) {
       s.innerHTML = `<div class="d-wrap" style="justify-content:center;align-items:center"><div class="d-card d-up" style="width:min(320px,100%);padding:20px;display:grid;gap:10px">
-        <div class="d-h">כניסה לאזור האישי</div>
+        <div class="d-h">${T('כניסה לאזור האישי', 'Sign in to your account')}</div>
         <div class="d-input"><span class="d-mono d-em"></span></div>
         <div class="d-input"><span class="d-mono d-pw"></span></div>
-        <button class="d-btn d-login" type="button">כניסה</button></div></div>`;
+        <button class="d-btn d-login" type="button">${T('כניסה', 'Sign in')}</button></div></div>`;
       let entered = false;
       const dash = () => {
         if (entered) return; entered = true;
-        const L = ['משוואות ריבועיות', 'פונקציות וגרפים', 'סדרות חשבוניות', 'הסתברות', 'חדו״א: נגזרות'];
+        const L = EN
+          ? ['Quadratic equations', 'Functions and graphs', 'Arithmetic sequences', 'Probability', 'Calculus: derivatives']
+          : ['משוואות ריבועיות', 'פונקציות וגרפים', 'סדרות חשבוניות', 'הסתברות', 'חדו״א: נגזרות'];
         const done = new Set([0, 1]);
         s.innerHTML = `<div class="d-wrap">
-          <div class="d-row"><div class="d-ring"><span class="d-pc"></span></div><div><div class="d-h">היי נועה</div><div class="d-sub">מתמטיקה · 5 יחידות</div><span class="d-pill hot" style="margin-top:6px">השיעור הבא: מחר 17:00 בזום</span></div></div>
-          <div class="d-card d-scroll" style="flex:1">${L.map((l, i) => `<div class="d-lesson${done.has(i) ? ' done' : ''}" role="button" tabindex="0" data-i="${i}"><span class="d-tick"></span><span class="d-ln">${l}</span><span class="d-sp d-sub">${i < 3 ? 'שיעור מוקלט' : 'דף עבודה'}</span></div>`).join('')}</div>
+          <div class="d-row"><div class="d-ring"><span class="d-pc"></span></div><div><div class="d-h">${T('היי נועה', 'Hi Noa')}</div><div class="d-sub">${T('מתמטיקה · 5 יחידות', 'Math · Advanced track')}</div><span class="d-pill hot" style="margin-top:6px">${T('השיעור הבא: מחר 17:00 בזום', 'Next lesson: tomorrow, 5:00 PM on Zoom')}</span></div></div>
+          <div class="d-card d-scroll" style="flex:1">${L.map((l, i) => `<div class="d-lesson${done.has(i) ? ' done' : ''}" role="button" tabindex="0" data-i="${i}"><span class="d-tick"></span><span class="d-ln">${l}</span><span class="d-sp d-sub">${i < 3 ? T('שיעור מוקלט', 'Recorded lesson') : T('דף עבודה', 'Worksheet')}</span></div>`).join('')}</div>
         </div>`;
         const ring = $('.d-ring', s);
         let pc = 0;
@@ -270,13 +285,15 @@
   };
 
   D.crm = {
-    url: 'פניות מהאתר → Google Sheets', hint: 'נסו: שלחו פנייה לדוגמה',
+    url: T('פניות מהאתר → Google Sheets', 'Website leads → Google Sheets'), hint: T('נסו: שלחו פנייה לדוגמה', 'Try it: send a sample lead'),
     run(s) {
-      const N = [['יעל כהן', 'טיפול פנים'], ['אבי מזרחי', 'הצעת מחיר לאירוע'], ['רונית שושן', 'שיעור ניסיון'], ['דניאל פרץ', 'חנות אונליין'], ['מאיה אזולאי', 'שדרוג אתר']];
+      const N = EN
+        ? [['Yael Cohen', 'Facial'], ['Avi Mizrahi', 'Event quote'], ['Ronit Shoshan', 'Trial lesson'], ['Daniel Peretz', 'Online store'], ['Maya Azoulay', 'Website upgrade']]
+        : [['יעל כהן', 'טיפול פנים'], ['אבי מזרחי', 'הצעת מחיר לאירוע'], ['רונית שושן', 'שיעור ניסיון'], ['דניאל פרץ', 'חנות אונליין'], ['מאיה אזולאי', 'שדרוג אתר']];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-flow"><span class="d-pill">טופס באתר</span><span class="d-pipe"><i></i></span><span class="d-pill ok">Google Sheets</span><span class="d-pipe"><i></i></span><span class="d-pill hot">התראה אליכם</span></div>
-        <div class="d-card d-scroll" style="flex:1"><table class="d-table"><thead><tr><th>שם</th><th>מתעניין ב</th><th>טלפון</th><th>מקור</th><th>שעה</th></tr></thead><tbody></tbody></table></div>
-        <div class="d-row"><span class="d-sub d-count">0 פניות היום</span><button class="d-btn hot d-sp d-send" type="button">שליחת פנייה לדוגמה</button></div>
+        <div class="d-flow"><span class="d-pill">${T('טופס באתר', 'Website form')}</span><span class="d-pipe"><i></i></span><span class="d-pill ok">Google Sheets</span><span class="d-pipe"><i></i></span><span class="d-pill hot">${T('התראה אליכם', 'Alert to you')}</span></div>
+        <div class="d-card d-scroll" style="flex:1"><table class="d-table"><thead><tr><th>${T('שם', 'Name')}</th><th>${T('מתעניין ב', 'Interested in')}</th><th>${T('טלפון', 'Phone')}</th><th>${T('מקור', 'Source')}</th><th>${T('שעה', 'Time')}</th></tr></thead><tbody></tbody></table></div>
+        <div class="d-row"><span class="d-sub d-count">${T('0 פניות היום', '0 leads today')}</span><button class="d-btn hot d-sp d-send" type="button">${T('שליחת פנייה לדוגמה', 'Send a sample lead')}</button></div>
       </div>`;
       let k = 0;
       const tb = $('tbody', s);
@@ -285,10 +302,11 @@
         $$('.d-pipe', s).forEach((p, i) => { p.classList.remove('go'); void p.offsetWidth; later(() => p.classList.add('go'), i * 450); });
         later(() => {
           const t = new Date(); const tr = document.createElement('tr'); tr.className = 'new';
-          tr.innerHTML = `<td>${n[0]}</td><td>${n[1]}</td><td class="d-mono">05${k}-••••${(k * 37) % 90 + 10}</td><td>${['גוגל', 'אינסטגרם', 'וואטסאפ'][k % 3]}</td><td class="d-mono">${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}</td>`;
+          const hm = EN ? t.toLocaleTimeString(LOC, { hour: 'numeric', minute: '2-digit' }) : `${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`;
+          tr.innerHTML = `<td>${n[0]}</td><td>${n[1]}</td><td class="d-mono">05${k}-••••${(k * 37) % 90 + 10}</td><td>${(EN ? ['Google', 'Instagram', 'WhatsApp'] : ['גוגל', 'אינסטגרם', 'וואטסאפ'])[k % 3]}</td><td class="d-mono">${hm}</td>`;
           tb.prepend(tr);
-          $('.d-count', s).textContent = k + (k === 1 ? ' פנייה היום' : ' פניות היום');
-          toast(`פנייה חדשה: <b>${n[0]}</b> · ${n[1]}`, 2600);
+          $('.d-count', s).textContent = k + (k === 1 ? T(' פנייה היום', ' lead today') : T(' פניות היום', ' leads today'));
+          toast(T(`פנייה חדשה: <b>${n[0]}</b> · ${n[1]}`, `New lead: <b>${n[0]}</b> · ${n[1]}`), 2600);
         }, motion ? 950 : 0);
       };
       $('.d-send', s).addEventListener('click', send);
@@ -298,17 +316,19 @@
   };
 
   D.dash = {
-    url: 'admin · noy-ceramics.co.il', hint: 'הנתונים מתעדכנים בזמן אמת',
+    url: 'admin · noy-ceramics.co.il', hint: T('הנתונים מתעדכנים בזמן אמת', 'Numbers update in real time'),
     run(s) {
       const vals = [12, 15, 11, 18, 21, 17, 24, 22, 28, 26, 31, 29, 35, 38];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">הזמנות היום</span><span class="d-num d-k1">14</span></div><div class="d-card d-kpi"><span class="d-sub">הכנסות החודש</span><span class="d-num d-k2">${fmt(18420)}</span></div><div class="d-card d-kpi"><span class="d-sub">לקוחות חדשים</span><span class="d-num d-k3">63</span></div></div>
-        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">הזמנות · 14 ימים אחרונים</span><span class="d-sp d-pill ok d-trend">+24%</span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4f1a" stop-opacity=".28"/><stop offset="1" stop-color="#ff4f1a" stop-opacity="0"/></linearGradient></defs><path class="d-area" fill="url(#dg)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
+        <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">${T('הזמנות היום', 'Orders today')}</span><span class="d-num d-k1">14</span></div><div class="d-card d-kpi"><span class="d-sub">${T('הכנסות החודש', 'Revenue this month')}</span><span class="d-num d-k2">${fmt(18420)}</span></div><div class="d-card d-kpi"><span class="d-sub">${T('לקוחות חדשים', 'New customers')}</span><span class="d-num d-k3">63</span></div></div>
+        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('הזמנות · 14 ימים אחרונים', 'Orders · last 14 days')}</span><span class="d-sp d-pill ok d-trend">+24%</span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4f1a" stop-opacity=".28"/><stop offset="1" stop-color="#ff4f1a" stop-opacity="0"/></linearGradient></defs><path class="d-area" fill="url(#dg)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg></div>
         <div class="d-orders"></div>
       </div>`;
       const draw = () => { const p = spark(vals, 300, 104); $('.d-line', s).setAttribute('d', p.line); $('.d-area', s).setAttribute('d', p.area); };
       draw();
-      const ORD = [['מיכל ל.', 'אגרטל גלים', 289], ['אורי ב.', 'סט ספלים', 520], ['שירן ט.', 'קערת הגשה', 219], ['תומר ג.', 'ספל אבן חול', 149]];
+      const ORD = EN
+        ? [['Michal L.', 'Wave vase', 289], ['Ori B.', 'Mug set', 520], ['Shiran T.', 'Serving bowl', 219], ['Tomer G.', 'Sandstone mug', 149]]
+        : [['מיכל ל.', 'אגרטל גלים', 289], ['אורי ב.', 'סט ספלים', 520], ['שירן ט.', 'קערת הגשה', 219], ['תומר ג.', 'ספל אבן חול', 149]];
       const box = $('.d-orders', s);
       let k1 = 14, k2 = 18420, k3 = 63, o = 0;
       const tick = () => {
@@ -327,19 +347,24 @@
   };
 
   D.bot = {
-    url: 'dana-clinic.co.il', hint: 'נסו: בחרו שאלה או כתבו משהו',
+    url: 'dana-clinic.co.il', hint: T('נסו: בחרו שאלה או כתבו משהו', 'Try it: pick a question or type your own'),
     run(s) {
-      const QA = [
+      const QA = EN ? [
+        ['How much is a facial?', 'A classic facial is ₪380 and takes about an hour. There’s also a treatment for sensitive skin at ₪420.'],
+        ['Any openings this week?', 'Yes! There’s a spot on Tuesday at 11:30 AM and on Thursday at 6:00 PM. Want me to hold one for you?'],
+        ['Where are you located?', '12 Herzl St, Ramat Gan, 2nd floor. There’s street parking right across from the building.'],
+        ['Can I talk to Dana?', 'Of course. Tap below and I’ll move the chat to Dana’s WhatsApp, with everything you’ve already asked.']
+      ] : [
         ['כמה עולה טיפול פנים?', 'טיפול פנים קלאסי עולה 380 ₪ ונמשך כשעה. יש גם טיפול מותאם לעור רגיש, ב-420 ₪.'],
         ['יש תור פנוי השבוע?', 'כן! יש מקום ביום שלישי ב-11:30 וביום חמישי ב-18:00. לשריין לכם אחד?'],
         ['איפה אתם נמצאים?', 'רחוב הרצל 12, רמת גן, קומה 2. יש חניה כחולה־לבנה ממש מול הבניין.'],
         ['אפשר לדבר עם דנה?', 'בטח. לחצו כאן ואעביר את השיחה לוואטסאפ של דנה, עם כל מה שכבר שאלתם.']
       ];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-check" style="background:var(--signal)"></span><span class="d-h">העוזר של דנה</span><span class="d-sp d-pill ok">זמין 24/7</span></div>
+        <div class="d-row"><span class="d-check" style="background:var(--signal)"></span><span class="d-h">${T('העוזר של דנה', 'Dana’s assistant')}</span><span class="d-sp d-pill ok">${T('זמין 24/7', 'Available 24/7')}</span></div>
         <div class="d-chat"></div>
         <div class="d-sugg">${QA.map((q, i) => `<button class="d-opt" type="button" data-i="${i}">${q[0]}</button>`).join('')}</div>
-        <form class="d-row d-ask"><input class="d-input" style="flex:1;border:0;font:inherit" placeholder="כתבו שאלה…" aria-label="שאלה לעוזר"><button class="d-btn" type="submit">שליחה</button></form>
+        <form class="d-row d-ask"><input class="d-input" style="flex:1;border:0;font:inherit" placeholder="${T('כתבו שאלה…', 'Ask a question…')}" aria-label="${T('שאלה לעוזר', 'Question for the assistant')}"><button class="d-btn" type="submit">${T('שליחה', 'Send')}</button></form>
       </div>`;
       const chat = $('.d-chat', s);
       const msg = (who, html) => { const m = document.createElement('div'); m.className = 'd-msg ' + who; m.innerHTML = html; chat.appendChild(m); chat.scrollTop = chat.scrollHeight; return m; };
@@ -347,12 +372,12 @@
         const t = msg('bot', '<span class="d-typing"><i></i><i></i><i></i></span>');
         later(() => { t.innerHTML = html; if (extra) extra(t); chat.scrollTop = chat.scrollHeight; }, motion ? 1000 : 0);
       };
-      msg('bot', 'היי! אני העוזר של קליניקת דנה. אפשר לשאול אותי על טיפולים, מחירים ותורים.');
+      msg('bot', T('היי! אני העוזר של קליניקת דנה. אפשר לשאול אותי על טיפולים, מחירים ותורים.', 'Hi! I’m the assistant at Dana’s clinic. Ask me about treatments, prices and appointments.'));
       const ask = (i) => {
         msg('me', QA[i][0]);
         reply(QA[i][1], i === 3 ? (t) => {
-          const b = document.createElement('button'); b.type = 'button'; b.className = 'd-btn hot'; b.style.marginTop = '8px'; b.textContent = 'להמשיך בוואטסאפ';
-          b.addEventListener('click', () => toast('השיחה עברה לוואטסאפ של דנה, <b>עם כל ההקשר</b>'));
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'd-btn hot'; b.style.marginTop = '8px'; b.textContent = T('להמשיך בוואטסאפ', 'Continue on WhatsApp');
+          b.addEventListener('click', () => toast(T('השיחה עברה לוואטסאפ של דנה, <b>עם כל ההקשר</b>', 'The chat moved to Dana’s WhatsApp, <b>with the full context</b>')));
           t.appendChild(document.createElement('br')); t.appendChild(b);
         } : null);
       };
@@ -360,7 +385,7 @@
       $('.d-ask', s).addEventListener('submit', (e) => {
         e.preventDefault(); const inp = $('input', s), q = inp.value.trim(); if (!q) return; inp.value = '';
         msg('me', q.replace(/[<>&]/g, ''));
-        reply('בעוזר האמיתי, כאן תגיע תשובה לפי המידע של העסק שלכם: מחירים, שעות, שירותים ומדיניות. בדוגמה הזו אפשר לבחור אחת מהשאלות למטה.');
+        reply(T('בעוזר האמיתי, כאן תגיע תשובה לפי המידע של העסק שלכם: מחירים, שעות, שירותים ומדיניות. בדוגמה הזו אפשר לבחור אחת מהשאלות למטה.', 'In the real assistant, this is where an answer based on your business info appears: prices, hours, services and policies. In this demo, pick one of the questions below.'));
       });
       auto(() => ask(0), 1600);
       auto(() => ask(1), 5200);
@@ -368,12 +393,12 @@
   };
 
   D.visuals = {
-    url: 'צילום בטלפון → הפקת סטודיו', hint: 'נסו: גררו את הקו',
+    url: T('צילום בטלפון → הפקת סטודיו', 'Phone photo → studio shot'), hint: T('נסו: גררו את הקו', 'Try it: drag the line'),
     run(s) {
-      s.innerHTML = `<div class="d-ba" role="slider" tabindex="0" aria-label="לפני ואחרי" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-        <img src="work/systems/before.webp" alt="צילום טלפון רגיל של אגרטל במטבח" width="640" height="800">
-        <img class="d-ba-after" src="work/systems/after.webp" alt="אותו אגרטל בצילום סטודיו שהופק בבינה מלאכותית" width="640" height="800">
-        <span class="d-ba-line"></span><span class="d-ba-tag" style="left:14px">לפני: צילום בטלפון</span><span class="d-ba-tag" style="right:14px;background:var(--signal);color:#141416">אחרי: הפקה ב-AI</span></div>`;
+      s.innerHTML = `<div class="d-ba" role="slider" tabindex="0" aria-label="${T('לפני ואחרי', 'Before and after')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <img src="work/systems/before.webp" alt="${T('צילום טלפון רגיל של אגרטל במטבח', 'An ordinary phone photo of a vase in a kitchen')}" width="640" height="800">
+        <img class="d-ba-after" src="work/systems/after.webp" alt="${T('אותו אגרטל בצילום סטודיו שהופק בבינה מלאכותית', 'The same vase in an AI-generated studio shot')}" width="640" height="800">
+        <span class="d-ba-line"></span><span class="d-ba-tag" style="left:14px">${T('לפני: צילום בטלפון', 'Before: phone photo')}</span><span class="d-ba-tag" style="right:14px;background:var(--signal);color:#141416">${T('אחרי: הפקה ב-AI', 'After: AI studio shot')}</span></div>`;
       const ba = $('.d-ba', s);
       const set = (x) => { x = Math.max(0, Math.min(100, x)); ba.style.setProperty('--x', x + '%'); ba.setAttribute('aria-valuenow', Math.round(x)); };
       const at = (e) => { const r = ba.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
@@ -388,9 +413,9 @@
   };
 
   D.object = {
-    url: 'תלת־ממד מתוך האתרים שבניתי', hint: 'נסו: גררו כדי לסובב',
+    url: T('תלת־ממד מתוך האתרים שבניתי', '3D, from sites I’ve built'), hint: T('נסו: גררו כדי לסובב', 'Try it: drag to rotate'),
     run(s) {
-      const R = [['gotovski', 'ש. גוטובסקי'], ['ams', 'AMS'], ['allenbis', 'אלנביס'], ['clinic', 'רותם'], ['falafel', '4X4'], ['rachel', 'רחלי']];
+      const R = [['gotovski', T('ש. גוטובסקי', 'S. Gotovski')], ['ams', 'AMS'], ['allenbis', T('אלנביס', 'Allenbis')], ['clinic', T('רותם', 'Rotem')], ['falafel', '4X4'], ['rachel', T('רחלי', 'Racheli')]];
       s.innerHTML = `<div class="d-obj"><i></i><div class="d-opts">${R.map((r, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-id="${r[0]}">${r[1]}</button>`).join('')}</div></div>`;
       const box = $('.d-obj', s), sp = $('i', box), N = 48;
       let f = 0, v = motion ? 10 : 0, drag = null;
@@ -414,36 +439,36 @@
   };
 
   D.sim = {
-    url: 'gotovski.co.il · הדמיה', hint: 'ההדמיה המלאה נמצאת בתיק העבודות',
+    url: T('gotovski.co.il · הדמיה', 'gotovski.co.il · simulation'), hint: T('ההדמיה המלאה נמצאת בתיק העבודות', 'The full simulation is in the portfolio'),
     run(s) {
       s.innerHTML = `<div style="position:absolute;inset:0;background:#0b0d10 url('work/sim-poster-960.webp') center/cover"></div>
         <div class="d-wrap" style="justify-content:flex-end;background:linear-gradient(transparent 40%,rgba(10,10,11,.85))"><div style="color:#fff;display:grid;gap:10px;justify-items:start">
-          <span class="d-pill hot" style="background:var(--signal);color:#141416">הדמיה חיה בתלת־ממד</span>
-          <div class="d-h" style="font-size:1.5em">מה קורה כשהחשמל נופל?</div>
-          <div style="opacity:.75;max-width:40ch">לקוחות של ש. גוטובסקי לוחצים על כפתור ורואים איך הגנרטורים מתניעים. ככה מסבירים מערכת מורכבת בלי מילה אחת.</div>
-          <button class="d-btn hot d-go" type="button">לנסות את ההדמיה</button></div></div>`;
-      $('.d-go', s).addEventListener('click', () => { location.href = 'work.html#demo'; });
+          <span class="d-pill hot" style="background:var(--signal);color:#141416">${T('הדמיה חיה בתלת־ממד', 'Live 3D simulation')}</span>
+          <div class="d-h" style="font-size:1.5em">${T('מה קורה כשהחשמל נופל?', 'What happens when the power goes out?')}</div>
+          <div style="opacity:.75;max-width:40ch">${T('לקוחות של ש. גוטובסקי לוחצים על כפתור ורואים איך הגנרטורים מתניעים. ככה מסבירים מערכת מורכבת בלי מילה אחת.', 'S. Gotovski’s customers press a button and watch the generators kick in. A complex system, explained without a single word.')}</div>
+          <button class="d-btn hot d-go" type="button">${T('לנסות את ההדמיה', 'Try the simulation')}</button></div></div>`;
+      $('.d-go', s).addEventListener('click', () => { location.href = T('work.html#demo', 'en-work.html#demo'); });
     }
   };
 
   D.seo = {
-    url: 'google.com', hint: 'המחשה: איך האתר מטפס בגוגל עם תשתית נכונה',
+    url: 'google.com', hint: T('המחשה: איך האתר מטפס בגוגל עם תשתית נכונה', 'Illustration: how a site climbs Google on the right foundation'),
     run(s) {
-      const STEPS = [['חודש ראשון', 7], ['אחרי 3 חודשים', 4], ['אחרי 6 חודשים', 2]];
+      const STEPS = [[T('חודש ראשון', 'First month'), 7], [T('אחרי 3 חודשים', 'After 3 months'), 4], [T('אחרי 6 חודשים', 'After 6 months'), 2]];
       s.innerHTML = `<div class="d-wrap">
         <div class="d-input"><span style="font-size:1em"></span></div>
         <div class="d-opts d-when">${STEPS.map((t, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-i="${i}">${t[0]}</button>`).join('')}</div>
         <div class="d-serp" style="position:relative;flex:1"></div>
-        <div class="d-sub">המחשה בלבד. אף אחד לא יכול להבטיח מקום בגוגל, אבל אפשר לבנות את הבסיס הכי חזק.</div>
+        <div class="d-sub">${T('המחשה בלבד. אף אחד לא יכול להבטיח מקום בגוגל, אבל אפשר לבנות את הבסיס הכי חזק.', 'Illustration only. Nobody can guarantee a spot on Google, but you can build the strongest possible foundation.')}</div>
       </div>`;
-      type($('.d-input span', s), 'קרמיקה בעבודת יד תל אביב', 45);
+      type($('.d-input span', s), T('קרמיקה בעבודת יד תל אביב', 'handmade ceramics tel aviv'), 45);
       const serp = $('.d-serp', s), H = 58;
       const rows = [];
       for (let i = 0; i < 7; i++) {
         const me = i === 0;
         const r = document.createElement('div'); r.className = 'd-card d-res' + (me ? ' me' : ' ghost');
         r.style.cssText = 'position:absolute;inset-inline:0;top:0';
-        r.innerHTML = me ? '<div class="d-mono">noy-ceramics.co.il</div><div class="d-rt">נוי קרמיקה · כלים בעבודת יד מהסטודיו בתל אביב</div>' : '<div class="d-mono">&nbsp;</div><div class="d-rt">תוצאה אחרת בחיפוש</div>';
+        r.innerHTML = me ? '<div class="d-mono">noy-ceramics.co.il</div><div class="d-rt">' + T('נוי קרמיקה · כלים בעבודת יד מהסטודיו בתל אביב', 'Noy Ceramics · Handmade tableware from a Tel Aviv studio') + '</div>' : '<div class="d-mono">&nbsp;</div><div class="d-rt">' + T('תוצאה אחרת בחיפוש', 'Another search result') + '</div>';
         serp.appendChild(r); rows.push(r);
       }
       const place = (pos) => {
@@ -451,7 +476,7 @@
         let p = 1;
         rows.slice(1).forEach((r) => { if (p === vis) p++; r.style.transform = `translateY(${(p - 1) * H}px)`; r.style.opacity = p <= 5 ? 1 : 0; p++; });
         rows[0].style.transform = `translateY(${(vis - 1) * H}px)`;
-        rows[0].querySelector('.d-mono').textContent = 'noy-ceramics.co.il · ' + (pos > 5 ? 'עמוד 2 בגוגל' : 'מקום ' + pos);
+        rows[0].querySelector('.d-mono').textContent = 'noy-ceramics.co.il · ' + (pos > 5 ? T('עמוד 2 בגוגל', 'page 2 on Google') : T('מקום ' + pos, 'position ' + pos));
       };
       const pick = (i) => { $$('.d-when .d-opt', s).forEach((b) => b.classList.toggle('on', +b.dataset.i === i)); place(STEPS[i][1]); };
       $$('.d-when .d-opt', s).forEach((b) => b.addEventListener('click', () => pick(+b.dataset.i)));
@@ -462,25 +487,27 @@
   };
 
   D.ads = {
-    url: 'קמפיין קיץ · מדידה', hint: 'כל פנייה ורכישה נמדדות לפי המקור שלהן',
+    url: T('קמפיין קיץ · מדידה', 'Summer campaign · tracking'), hint: T('כל פנייה ורכישה נמדדות לפי המקור שלהן', 'Every lead and sale is tracked to its source'),
     run(s) {
       const st = { imp: 12400, clk: 620, lead: 41 };
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">קמפיין קיץ</span><span class="d-sp d-pill hot">מספרים לדוגמה</span></div>
+        <div class="d-row"><span class="d-h">${T('קמפיין קיץ', 'Summer campaign')}</span><span class="d-sp d-pill hot">${T('מספרים לדוגמה', 'Sample numbers')}</span></div>
         <div class="d-card d-funnel" style="padding:14px 16px">
-          <div class="d-fstep"><span>חשיפות</span><div class="d-bar"><i style="width:100%"></i></div><span class="d-num d-f1"></span></div>
-          <div class="d-fstep"><span>קליקים</span><div class="d-bar"><i class="d-b2"></i></div><span class="d-num d-f2"></span></div>
-          <div class="d-fstep"><span>פניות</span><div class="d-bar"><i class="d-b3"></i></div><span class="d-num d-f3"></span></div>
+          <div class="d-fstep"><span>${T('חשיפות', 'Impressions')}</span><div class="d-bar"><i style="width:100%"></i></div><span class="d-num d-f1"></span></div>
+          <div class="d-fstep"><span>${T('קליקים', 'Clicks')}</span><div class="d-bar"><i class="d-b2"></i></div><span class="d-num d-f2"></span></div>
+          <div class="d-fstep"><span>${T('פניות', 'Leads')}</span><div class="d-bar"><i class="d-b3"></i></div><span class="d-num d-f3"></span></div>
         </div>
-        <div class="d-row"><span class="d-sub">אירועים אחרונים</span><span class="d-sp d-sub d-cpl"></span></div>
+        <div class="d-row"><span class="d-sub">${T('אירועים אחרונים', 'Recent events')}</span><span class="d-sp d-sub d-cpl"></span></div>
         <div class="d-log"></div>
       </div>`;
       const paint = () => {
         $('.d-f1', s).textContent = fmt(st.imp); $('.d-f2', s).textContent = fmt(st.clk); $('.d-f3', s).textContent = st.lead;
         $('.d-b2', s).style.width = (st.clk / st.imp * 100 * 8) + '%'; $('.d-b3', s).style.width = (st.lead / st.clk * 100 * 3) + '%';
-        $('.d-cpl', s).textContent = 'עלות לפנייה: ' + nis(1850 / st.lead);
+        $('.d-cpl', s).textContent = T('עלות לפנייה: ', 'Cost per lead: ') + nis(1850 / st.lead);
       };
-      const EV = [['פנייה בוואטסאפ', 'אינסטגרם'], ['רכישה · 289 ₪', 'גוגל'], ['השארת פרטים', 'פייסבוק'], ['חיוג מהאתר', 'גוגל']];
+      const EV = EN
+        ? [['WhatsApp message', 'Instagram'], ['Purchase · ₪289', 'Google'], ['Form submitted', 'Facebook'], ['Call from the site', 'Google']]
+        : [['פנייה בוואטסאפ', 'אינסטגרם'], ['רכישה · 289 ₪', 'גוגל'], ['השארת פרטים', 'פייסבוק'], ['חיוג מהאתר', 'גוגל']];
       let e = 0;
       const tick = () => {
         const ev = EV[e++ % EV.length];
@@ -495,20 +522,22 @@
   };
 
   D.blog = {
-    url: 'noy-ceramics.co.il/מגזין', hint: 'נסו: פרסמו מאמר חדש',
+    url: T('noy-ceramics.co.il/מגזין', 'noy-ceramics.co.il/journal'), hint: T('נסו: פרסמו מאמר חדש', 'Try it: publish a new post'),
     run(s) {
       const vals = [120, 160, 150, 230, 290, 340, 420, 510, 560, 690, 780, 910];
-      const POSTS = ['איך בוחרים ספל שיחזיק שנים', 'חמישה רעיונות לשולחן חג', 'מה ההבדל בין אבן חול לפורצלן', 'מדריך: לטפל בכלי קרמיקה'];
+      const POSTS = EN
+        ? ['How to choose a mug that lasts for years', 'Five ideas for a holiday table', 'Sandstone vs. porcelain: what’s the difference?', 'Guide: caring for your ceramics']
+        : ['איך בוחרים ספל שיחזיק שנים', 'חמישה רעיונות לשולחן חג', 'מה ההבדל בין אבן חול לפורצלן', 'מדריך: לטפל בכלי קרמיקה'];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">כניסות מגוגל בחודש · 12 חודשים</span><span class="d-sp d-num d-v" style="font-size:1.3em"></span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path class="d-area" fill="rgba(255,79,26,.14)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
+        <div class="d-card d-chart"><div class="d-row"><span class="d-sub">${T('כניסות מגוגל בחודש · 12 חודשים', 'Monthly visits from Google · 12 months')}</span><span class="d-sp d-num d-v" style="font-size:1.3em"></span></div><svg viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"><path class="d-area" fill="rgba(255,79,26,.14)"/><path class="d-line" fill="none" stroke="#ff4f1a" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
         <div class="d-grid d-posts" style="gap:8px"></div>
-        <div class="d-row" style="margin-top:auto"><span class="d-sub">המחשה</span><button class="d-btn hot d-sp d-pub" type="button">פרסום מאמר חדש</button></div>
+        <div class="d-row" style="margin-top:auto"><span class="d-sub">${T('המחשה', 'Illustration')}</span><button class="d-btn hot d-sp d-pub" type="button">${T('פרסום מאמר חדש', 'Publish a new post')}</button></div>
       </div>`;
       const draw = () => { const p = spark(vals, 300, 104); $('.d-line', s).setAttribute('d', p.line); $('.d-area', s).setAttribute('d', p.area); $('.d-v', s).textContent = fmt(vals[vals.length - 1]); };
       let k = 0;
       const post = (fresh) => {
         const d = document.createElement('div'); d.className = 'd-card d-order' + (fresh ? ' d-up' : '');
-        d.innerHTML = `<span class="d-pill${fresh ? ' hot' : ''}">${fresh ? 'חדש' : 'מאמר'}</span><span>${POSTS[k++ % POSTS.length]}</span>`;
+        d.innerHTML = `<span class="d-pill${fresh ? ' hot' : ''}">${fresh ? T('חדש', 'New') : T('מאמר', 'Post')}</span><span>${POSTS[k++ % POSTS.length]}</span>`;
         const box = $('.d-posts', s); box.prepend(d); while (box.children.length > 3) box.lastChild.remove();
       };
       post(); post(); draw();
@@ -518,14 +547,18 @@
   };
 
   D.news = {
-    url: 'noy-ceramics.co.il', hint: 'ההרשמה נכנסת לרשימה, והמייל יוצא לבד',
+    url: 'noy-ceramics.co.il', hint: T('ההרשמה נכנסת לרשימה, והמייל יוצא לבד', 'Sign-ups land on your list, and the email sends itself'),
     run(s) {
       s.innerHTML = `<div class="d-wrap" style="justify-content:center"><div class="d-card d-up" style="padding:20px;display:grid;gap:10px;max-width:380px;margin:0 auto;width:100%">
-        <div class="d-h">10% הנחה להזמנה הראשונה</div><div class="d-sub">הצטרפו לרשימה וקבלו קודם את הסדרות החדשות.</div>
-        <div class="d-row"><div class="d-input" style="flex:1"><span class="d-mono d-em"></span></div><button class="d-btn hot d-join" type="button">הצטרפות</button></div></div></div>`;
+        <div class="d-h">${T('10% הנחה להזמנה הראשונה', '10% off your first order')}</div><div class="d-sub">${T('הצטרפו לרשימה וקבלו קודם את הסדרות החדשות.', 'Join the list and be first to see new collections.')}</div>
+        <div class="d-row"><div class="d-input" style="flex:1"><span class="d-mono d-em"></span></div><button class="d-btn hot d-join" type="button">${T('הצטרפות', 'Join')}</button></div></div></div>`;
       const join = () => {
         const em = $('.d-em', s).textContent || 'shira@gmail.com';
-        s.innerHTML = `<div class="d-wrap"><div class="d-row d-up"><span class="d-check"></span><span>נרשמת! המייל כבר בדרך ל-<span class="d-mono">${em}</span></span></div>
+        s.innerHTML = EN
+          ? `<div class="d-wrap"><div class="d-row d-up"><span class="d-check"></span><span>You’re in! The email is on its way to <span class="d-mono">${em}</span></span></div>
+          <div class="d-card d-up" style="flex:1;overflow:hidden;animation-delay:.5s"><div style="padding:12px 16px;border-bottom:1px solid rgba(20,20,22,.08)" class="d-sub">From: Noy Ceramics · Subject: Welcome, here’s your discount</div>
+          <div style="padding:18px 16px;display:grid;gap:10px"><div style="height:110px;border-radius:10px;background:#efe9de url('work/systems/after.webp') center 35%/cover"></div><div class="d-h">So glad you’re here</div><div class="d-sub">Your code for your first order:</div><span class="d-pill hot d-mono" style="justify-self:start;font-size:1em">NOY10</span></div></div></div>`
+          : `<div class="d-wrap"><div class="d-row d-up"><span class="d-check"></span><span>נרשמת! המייל כבר בדרך ל-<span class="d-mono">${em}</span></span></div>
           <div class="d-card d-up" style="flex:1;overflow:hidden;animation-delay:.5s"><div style="padding:12px 16px;border-bottom:1px solid rgba(20,20,22,.08)" class="d-sub">מאת: נוי קרמיקה · נושא: ברוכים הבאים, הנה ההנחה שלכם</div>
           <div style="padding:18px 16px;display:grid;gap:10px"><div style="height:110px;border-radius:10px;background:#efe9de url('work/systems/after.webp') center 35%/cover"></div><div class="d-h">שמחים שהצטרפתם</div><div class="d-sub">הקוד שלכם להזמנה הראשונה:</div><span class="d-pill hot d-mono" style="justify-self:start;font-size:1em">NOY10</span></div></div></div>`;
       };
@@ -536,14 +569,14 @@
   };
 
   D.brandkit = {
-    url: 'שפה מותגית · שלושה כיוונים', hint: 'נסו: עברו בין הכיוונים',
+    url: T('שפה מותגית · שלושה כיוונים', 'Brand identity · three directions'), hint: T('נסו: עברו בין הכיוונים', 'Try it: switch between directions'),
     run(s) {
       const B = [
-        { n: 'חם', bg: '#efe6d6', fg: '#3a2418', logo: '#c4552b', lc: '#fff', font: '"Frank Ruhl Libre", serif', sw: ['#c4552b', '#e9cba7', '#3a2418', '#8b9a7a'] },
-        { n: 'נקי', bg: '#ffffff', fg: '#111', logo: '#111', lc: '#fff', font: '"IBM Plex Sans Hebrew", sans-serif', sw: ['#111111', '#f2f2f2', '#9aa0a6', '#2f6bff'] },
-        { n: 'נועז', bg: '#121214', fg: '#ede8de', logo: '#ff4f1a', lc: '#121214', font: 'var(--f-display)', sw: ['#ff4f1a', '#ede8de', '#121214', '#ffb59c'] }
+        { n: T('חם', 'Warm'), bg: '#efe6d6', fg: '#3a2418', logo: '#c4552b', lc: '#fff', font: '"Frank Ruhl Libre", serif', sw: ['#c4552b', '#e9cba7', '#3a2418', '#8b9a7a'] },
+        { n: T('נקי', 'Clean'), bg: '#ffffff', fg: '#111', logo: '#111', lc: '#fff', font: '"IBM Plex Sans Hebrew", sans-serif', sw: ['#111111', '#f2f2f2', '#9aa0a6', '#2f6bff'] },
+        { n: T('נועז', 'Bold'), bg: '#121214', fg: '#ede8de', logo: '#ff4f1a', lc: '#121214', font: 'var(--f-display)', sw: ['#ff4f1a', '#ede8de', '#121214', '#ffb59c'] }
       ];
-      s.innerHTML = `<div class="d-brand"><div class="d-brand-hero"><div class="d-logo">נ</div><div class="d-bn" style="font-size:2.2em;line-height:1.1">נוי קרמיקה</div><div class="d-bt" style="opacity:.7">כלים שנוצרו ביד, לשולחן שמספר סיפור</div><div class="d-swatches"><i></i><i></i><i></i><i></i></div></div>
+      s.innerHTML = `<div class="d-brand"><div class="d-brand-hero"><div class="d-logo">${T('נ', 'N')}</div><div class="d-bn" style="font-size:2.2em;line-height:1.1">${T('נוי קרמיקה', 'Noy Ceramics')}</div><div class="d-bt" style="opacity:.7">${T('כלים שנוצרו ביד, לשולחן שמספר סיפור', 'Made by hand, for a table with a story')}</div><div class="d-swatches"><i></i><i></i><i></i><i></i></div></div>
         <div class="d-brand-bar">${B.map((b, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-i="${i}">${b.n}</button>`).join('')}</div></div>`;
       const br = $('.d-brand', s);
       let cur = 0;
@@ -562,17 +595,20 @@
   };
 
   D.copy = {
-    url: 'noy-ceramics.co.il', hint: 'אותו עסק, טקסט אחר',
+    url: 'noy-ceramics.co.il', hint: T('אותו עסק, טקסט אחר', 'Same business, different words'),
     run(s) {
-      const T = {
+      const TX = EN ? {
+        before: { h: 'Welcome to our website', p: 'We offer a wide range of quality ceramic products at attractive prices. Contact us for more details.', b: 'Contact us' },
+        after: { h: 'Made by hand, for a table with a story.', p: 'Every mug is thrown on the wheel in our Tel Aviv studio and fired twice. No two are alike, and that’s the whole point.', b: 'Find yours' }
+      } : {
         before: { h: 'ברוכים הבאים לאתר שלנו', p: 'אנחנו מציעים מגוון רחב של מוצרי קרמיקה איכותיים במחירים אטרקטיביים. צרו קשר לפרטים נוספים.', b: 'צור קשר' },
         after: { h: 'כלים שנוצרו ביד, לשולחן שמספר סיפור.', p: 'כל ספל נזרק על האבניים בסטודיו שלנו בתל אביב ונשרף פעמיים. אין שניים זהים, וזה בדיוק העניין.', b: 'לבחור את שלכם' }
       };
-      s.innerHTML = `<div class="d-wrap"><div class="d-opts"><button class="d-opt" type="button" data-k="before">לפני</button><button class="d-opt" type="button" data-k="after">אחרי</button></div>
+      s.innerHTML = `<div class="d-wrap"><div class="d-opts"><button class="d-opt" type="button" data-k="before">${T('לפני', 'Before')}</button><button class="d-opt" type="button" data-k="after">${T('אחרי', 'After')}</button></div>
         <div class="d-site"><h4 class="d-th"></h4><p class="d-sub d-tp" style="font-size:1em;max-width:40ch"></p><span class="d-btn d-tb" style="justify-self:start"></span></div></div>`;
       const set = (k) => {
         $$('.d-opt', s).forEach((b) => b.classList.toggle('on', b.dataset.k === k));
-        const t = T[k];
+        const t = TX[k];
         $('.d-tb', s).textContent = t.b; $('.d-tb', s).classList.toggle('hot', k === 'after');
         $('.d-th', s).style.fontFamily = k === 'after' ? 'var(--f-display)' : 'Arial, sans-serif';
         if (k === 'after') { type($('.d-th', s), t.h, 35); $('.d-tp', s).textContent = t.p; } else { $('.d-th', s).textContent = t.h; $('.d-tp', s).textContent = t.p; }
@@ -584,8 +620,9 @@
   };
 
   D.lang = {
-    url: 'noy-ceramics.co.il', hint: 'נסו: החליפו שפה. גם הכיוון מתהפך',
+    url: 'noy-ceramics.co.il', hint: T('נסו: החליפו שפה. גם הכיוון מתהפך', 'Try it: switch languages. The direction flips too'),
     run(s) {
+      // הדוגמה עצמה רב־לשונית בכוונה: העברית כאן היא אחת השפות להחלפה, גם בעמוד האנגלי
       const L = {
         he: ['עברית', 'rtl', 'כלים שנוצרו ביד.', 'קרמיקה מהסטודיו בתל אביב, ישר לשולחן שלכם.', 'לחנות'],
         en: ['English', 'ltr', 'Made by hand.', 'Ceramics from our Tel Aviv studio, straight to your table.', 'Shop now'],
@@ -593,7 +630,7 @@
         ar: ['العربية', 'rtl', 'صُنعت يدويًا.', 'خزف من الاستوديو في تل أبيب، مباشرة إلى مائدتكم.', 'إلى المتجر'],
         fr: ['Français', 'ltr', 'Fait à la main.', 'Céramiques de notre atelier de Tel-Aviv, directement à votre table.', 'Boutique']
       };
-      const keys = Object.keys(L);
+      const keys = EN ? ['en', 'he', 'ar', 'ru', 'fr'] : Object.keys(L);
       s.innerHTML = `<div class="d-wrap"><div class="d-langs">${keys.map((k) => `<button class="d-opt" type="button" data-k="${k}" lang="${k}">${L[k][0]}</button>`).join('')}</div>
         <div class="d-site"><div class="d-row" style="gap:14px"><img src="work/systems/vase.webp" alt="" width="420" height="420" style="width:120px;height:120px;object-fit:contain"><div style="display:grid;gap:10px"><h4 class="d-lh"></h4><p class="d-sub d-lp" style="font-size:1em"></p><span class="d-btn hot d-lb" style="justify-self:start"></span></div></div></div></div>`;
       let cur = 0;
@@ -614,14 +651,16 @@
   };
 
   D.migrate = {
-    url: 'wix → noy-ceramics.co.il', hint: 'העמודים עוברים, וגוגל ממשיך למצוא אתכם',
+    url: 'wix → noy-ceramics.co.il', hint: T('העמודים עוברים, וגוגל ממשיך למצוא אתכם', 'Your pages move over, and Google keeps finding you'),
     run(s) {
-      const P = [['/about-us', '/אודות'], ['/shop', '/חנות'], ['/blank-3', '/סדנאות'], ['/contact-1', '/צור-קשר'], ['/blog', '/מגזין'], ['/product-page/mug', '/חנות/ספל']];
+      const P = EN
+        ? [['/about-us', '/about'], ['/shop', '/shop'], ['/blank-3', '/workshops'], ['/contact-1', '/contact'], ['/blog', '/journal'], ['/product-page/mug', '/shop/mug']]
+        : [['/about-us', '/אודות'], ['/shop', '/חנות'], ['/blank-3', '/סדנאות'], ['/contact-1', '/צור-קשר'], ['/blog', '/מגזין'], ['/product-page/mug', '/חנות/ספל']];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">מעבר מוויקס</span><span class="d-sp d-pill d-st">מתחילים…</span></div>
+        <div class="d-row"><span class="d-h">${T('מעבר מוויקס', 'Moving from Wix')}</span><span class="d-sp d-pill d-st">${T('מתחילים…', 'Starting…')}</span></div>
         <div class="d-bar"><i class="d-pg"></i></div>
-        <div class="d-card d-scroll" style="flex:1"><table class="d-table"><thead><tr><th>כתובת ישנה</th><th>כתובת חדשה</th><th>הפניה</th></tr></thead><tbody></tbody></table></div>
-        <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">עמודים</span><span class="d-num d-m1">0</span></div><div class="d-card d-kpi"><span class="d-sub">הפניות 301</span><span class="d-num d-m2">0</span></div><div class="d-card d-kpi"><span class="d-sub">קישורים שבורים</span><span class="d-num">0</span></div></div>
+        <div class="d-card d-scroll" style="flex:1"><table class="d-table"><thead><tr><th>${T('כתובת ישנה', 'Old URL')}</th><th>${T('כתובת חדשה', 'New URL')}</th><th>${T('הפניה', 'Redirect')}</th></tr></thead><tbody></tbody></table></div>
+        <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">${T('עמודים', 'Pages')}</span><span class="d-num d-m1">0</span></div><div class="d-card d-kpi"><span class="d-sub">${T('הפניות 301', '301 redirects')}</span><span class="d-num d-m2">0</span></div><div class="d-card d-kpi"><span class="d-sub">${T('קישורים שבורים', 'Broken links')}</span><span class="d-num">0</span></div></div>
       </div>`;
       const tb = $('tbody', s);
       P.forEach((p, i) => later(() => {
@@ -630,8 +669,8 @@
         tb.appendChild(tr);
         $('.d-pg', s).style.width = ((i + 1) / P.length * 100) + '%';
         $('.d-m1', s).textContent = i + 1; $('.d-m2', s).textContent = (i + 1) * 3;
-        $('.d-st', s).textContent = i + 1 < P.length ? 'מעבירים…' : 'הושלם';
-        if (i + 1 === P.length) { $('.d-st', s).classList.add('ok'); toast('כל הכתובות הישנות מפנות לחדשות. <b>גוגל ממשיך למצוא אתכם</b>', 3600); }
+        $('.d-st', s).textContent = i + 1 < P.length ? T('מעבירים…', 'Moving…') : T('הושלם', 'Done');
+        if (i + 1 === P.length) { $('.d-st', s).classList.add('ok'); toast(T('כל הכתובות הישנות מפנות לחדשות. <b>גוגל ממשיך למצוא אתכם</b>', 'Every old URL now points to its new page. <b>Google keeps finding you</b>'), 3600); }
       }, 500 + i * 520));
     }
   };
@@ -646,7 +685,7 @@
     capTitle.textContent = it ? $('.sr-i-desc', it).textContent : '';
     capHint.textContent = D[id].hint;
     screen.classList.remove('is-in'); void screen.offsetWidth; screen.classList.add('is-in');
-    screen.setAttribute('aria-label', 'דוגמה חיה: ' + (it ? $('.sr-i-name', it).textContent : ''));
+    screen.setAttribute('aria-label', T('דוגמה חיה: ', 'Live demo: ') + (it ? $('.sr-i-name', it).textContent : ''));
     if (visible) D[id].run(screen); else screen.innerHTML = '';
   }
 
@@ -692,7 +731,9 @@
   cats.forEach((c, i) => {
     c.addEventListener('click', () => { if (!c.classList.contains('is-on')) selectCat(c); });
     c.addEventListener('keydown', (e) => {
-      const d = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0; // ימין לשמאל
+      const fwd = getComputedStyle(c).direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight'; // ימין לשמאל: שמאלה זה קדימה
+      const back = fwd === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
+      const d = e.key === fwd ? 1 : e.key === back ? -1 : 0;
       if (!d) return; e.preventDefault();
       const n = cats[(i + d + cats.length) % cats.length]; n.focus(); selectCat(n);
     });
