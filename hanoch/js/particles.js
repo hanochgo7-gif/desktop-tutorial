@@ -76,6 +76,10 @@
      items: [{ text, font, x, y, letterSpacing }] בקואורדינטות של התיבה (x הוא הקצה הימני של השורה). */
   function sample(items, w, h, count) {
     var k = 0.5; // דוגמים בחצי רזולוציה: מהיר פי 4, ועדיין מדויק
+    // רק הגובה שבו יש טקסט: הפתיחה גבוהה פי 2.4 מהמסך, והשם תופס רק את החלק העליון שלה
+    var bottom = 0;
+    items.forEach(function (it) { var px = parseFloat((/([\d.]+)px/.exec(it.font) || [0, 200])[1]); bottom = Math.max(bottom, it.y + px); });
+    h = Math.min(h, Math.ceil(bottom) + 20);
     var cw = Math.max(2, Math.ceil(w * k)), ch = Math.max(2, Math.ceil(h * k));
     var c = document.createElement('canvas');
     c.width = cw; c.height = ch;
@@ -93,14 +97,14 @@
       ctx.fillText(it.text, it.x, it.y);
     });
     var data = ctx.getImageData(0, 0, cw, ch).data;
-    var filled = [];
-    for (var y = 0; y < ch; y++) {
-      for (var x = 0; x < cw; x++) {
-        if (data[(y * cw + x) * 4 + 3] > 140) filled.push(x, y);
+    // מערך בגודל קבוע במקום push: בטלפון זה ההבדל בין עצירה מורגשת לרגע שלא מרגישים
+    var filled = new Int32Array(cw * ch * 2), n = 0;
+    for (var y = 0, p = 3; y < ch; y++) {
+      for (var x = 0; x < cw; x++, p += 4) {
+        if (data[p] > 140) { filled[n * 2] = x; filled[n * 2 + 1] = y; n++; }
       }
     }
     var out = new Float32Array(count * 2);
-    var n = filled.length / 2;
     for (var i = 0; i < count; i++) {
       if (n) {
         var j = (Math.random() * n) | 0;
@@ -158,12 +162,16 @@
         gl.viewport(0, 0, canvas.width, canvas.height);
       },
       setShapes: function (A, B) {
-        count = Math.min(A.length, B.length) / 2;
-        var R = new Float32Array(count * 4);
-        for (var i = 0; i < R.length; i++) R[i] = Math.random();
+        var n = Math.min(A.length, B.length) / 2;
         bind('aA', A, 2);
         bind('aB', B, 2);
-        bind('aR', R, 4);
+        // כשרק היעד השני מתעדכן, החלקיקים שומרים על הגודל והקצב שלהם, בלי הבהוב
+        if (n !== count) {
+          count = n;
+          var R = new Float32Array(count * 4);
+          for (var i = 0; i < R.length; i++) R[i] = Math.random();
+          bind('aR', R, 4);
+        }
       },
       draw: function (u) {
         gl.clear(gl.COLOR_BUFFER_BIT);

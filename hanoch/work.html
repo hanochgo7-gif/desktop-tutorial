@@ -21,7 +21,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0b'/%3E%3Ctext x='32' y='46' font-family='serif' font-weight='900' font-size='40' text-anchor='middle' fill='%23ff4f1a'%3E%D7%97%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 <link rel="preload" href="fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/hanoch.css">
 <script>
@@ -69,7 +70,7 @@
   <!-- 03 עבודות -->
   <section class="sheet sheet-ink work work-page" id="work" data-bg="dark" aria-labelledby="work-title">
     <header class="work-head">
-      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
+      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" srcset="work/film-poster-800.webp 800w, work/film-poster.webp 1600w" sizes="100vw" alt="" width="1600" height="900" fetchpriority="high" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
       <a class="work-back mono" href="index.html">→ לדף הבית</a>
       <h1 class="display" id="work-title">שישה אתרים.<br>שש שפות.</h1>
       <p class="work-lead">כל אתר נבנה סביב עסק אחד, עם שפה משלו. לחצו על מסך כדי לקרוא את הסיפור המלא.</p>
@@ -81,7 +82,7 @@
       <li class="project" data-id="gotovski" style="--p:#1c82ad">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">gotovski.co.il</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/gotovski-tall.webp" alt="דף הבית של ש. גוטובסקי, מלמעלה עד למטה" width="900" height="4632" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/gotovski-tall.webp" srcset="work/gotovski-tall-480.webp 480w, work/gotovski-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="דף הבית של ש. גוטובסקי, מלמעלה עד למטה" width="900" height="4632" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/gotovski-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>
@@ -98,7 +99,7 @@
       <li class="project" data-id="ams" style="--p:#d4a24c">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">ams · אביב משה שדמון</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/ams-tall.webp" alt="דף הבית של AMS, אגרוף תאילנדי" width="900" height="5566" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/ams-tall.webp" srcset="work/ams-tall-480.webp 480w, work/ams-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="דף הבית של AMS, אגרוף תאילנדי" width="900" height="5566" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/ams-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>
@@ -114,7 +115,7 @@
       <li class="project" data-id="allenbis" style="--p:#ffd84d">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">allenbis.co.il</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/allenbis-tall.webp" alt="חנות אלנביס, קטלוג המוצרים" width="900" height="4600" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/allenbis-tall.webp" srcset="work/allenbis-tall-480.webp 480w, work/allenbis-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="חנות אלנביס, קטלוג המוצרים" width="900" height="4600" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/allenbis-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>
@@ -130,7 +131,7 @@
       <li class="project" data-id="clinic" style="--p:#c98f8a">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">רותם גוטובסקי · קליניקה</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/clinic-tall.webp" alt="אתר הקליניקה של רותם גוטובסקי" width="900" height="6000" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/clinic-tall.webp" srcset="work/clinic-tall-480.webp 480w, work/clinic-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר הקליניקה של רותם גוטובסקי" width="900" height="6000" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/clinic-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>
@@ -146,7 +147,7 @@
       <li class="project" data-id="falafel" style="--p:#f2b705">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">קייטרינג 4X4</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/falafel-tall.webp" alt="אתר קייטרינג 4X4 של ניסים שרון" width="900" height="4892" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/falafel-tall.webp" srcset="work/falafel-tall-480.webp 480w, work/falafel-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר קייטרינג 4X4 של ניסים שרון" width="900" height="4892" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/falafel-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>
@@ -162,7 +163,7 @@
       <li class="project" data-id="rachel" style="--p:#2d8cff">
         <div class="p-media">
           <div class="browser"><div class="browser-bar"><i></i><i></i><i></i><span class="mono">rachelimath</span></div>
-            <div class="browser-view"><img class="p-tall" src="work/rachel-tall.webp" alt="אתר שיעורי המתמטיקה של רחלי הורנשטיין" width="900" height="1921" loading="lazy" decoding="async"></div>
+            <div class="browser-view"><img class="p-tall" src="work/rachel-tall.webp" srcset="work/rachel-tall-480.webp 480w, work/rachel-tall.webp 900w" sizes="(max-width: 900px) 40vw, 55vw" alt="אתר שיעורי המתמטיקה של רחלי הורנשטיין" width="900" height="1921" loading="lazy" decoding="async"></div>
           </div>
           <img class="p-phone" src="work/rachel-mob.webp" alt="" width="480" height="1039" loading="lazy" decoding="async">
         </div>

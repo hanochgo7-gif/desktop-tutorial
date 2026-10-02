@@ -19,7 +19,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0b'/%3E%3Ctext x='32' y='46' font-family='serif' font-weight='900' font-size='40' text-anchor='middle' fill='%23ff4f1a'%3E%D7%97%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 <link rel="preload" href="fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="alternate" hreflang="he" href="index.html">
 <link rel="alternate" hreflang="en" href="en.html">
@@ -84,7 +85,7 @@
     <div class="hero-pin">
       <h1 class="hero-title" id="hero-title"><span>חנוך</span> <span>גוטובסקי</span></h1>
       <!-- הדמות (היגספילד): עומדת בתוך הקשת של ה-ח ונמשכת אחרי העכבר -->
-      <div class="hero-portrait" aria-hidden="true"><div data-magnet="3" data-magnet-pad="150"><img src="work/me/character.webp" alt="" width="800" height="900" fetchpriority="high" decoding="async"><video class="portrait-anim" muted loop playsinline preload="none" data-src="work/me/character.webm" data-stack="work/me/character-stack.mp4"></video></div></div>
+      <div class="hero-portrait" aria-hidden="true"><div data-magnet="3" data-magnet-pad="150"><img src="work/me/character.webp" srcset="work/me/character-480.webp 480w, work/me/character.webp 800w" sizes="(max-width: 560px) 52vw, 27vw" alt="" width="800" height="900" fetchpriority="high" decoding="async"><video class="portrait-anim" muted loop playsinline preload="none" data-src="work/me/character.webm" data-stack="work/me/character-stack.mp4"></video></div></div>
       <div class="hero-ui">
         <p class="hero-role">בונה אתרים. עיצוב, קוד ותנועה, ביד אחת.</p>
         <div class="hero-meta mono">
@@ -127,7 +128,7 @@
   <!-- 03 עבודות: הצצה, והכניסה לתיק העבודות -->
   <section class="sheet sheet-ink teaser" id="work" aria-labelledby="work-title">
     <div class="teaser-head">
-      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
+      <div class="film-bg" aria-hidden="true"><img src="work/film-poster.webp" srcset="work/film-poster-800.webp 800w, work/film-poster.webp 1600w" sizes="100vw" alt="" width="1600" height="900" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/film/reel-loop.mp4" data-src-m="work/film/reel-loop-m.mp4"></video></div>
       <h2 class="display" id="work-title">שישה אתרים.<br>שש שפות.</h2>
       <div class="teaser-side">
         <p class="teaser-lead">מחברת דלק משפחתית ועד מורה למתמטיקה: כל אתר נבנה סביב עסק אחד, עם שפה משלו. בתיק העבודות מחכים הסיפור המלא של כל פרויקט, הדמיה חיה, לפני ואחרי, ואיך זה נבנה.</p>

@@ -228,9 +228,14 @@
     P.resize(w, h, dpr);
     var count = Math.round(clamp(w * h / 46, 9000, 26000));
     var A = Particles.sample(shapeItems(hero, $$('.hero-title span')), w, hero.offsetHeight, count);
-    var B = Particles.sample(shapeItems(contact, [$('.contact-title')]), w, contact.offsetHeight, count);
-    P.setShapes(A, B);
+    P.setShapes(A, A);
     lastW = w;
+    // "בואו נבנה." בתחתית הדף לא נחוץ בפתיחה: דוגמים אותו כשהדפדפן פנוי, כדי שהפתיחה תרוץ חלק
+    var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 1200); };
+    idle(function () {
+      if (lastW !== w) return;
+      P.setShapes(A, Particles.sample(shapeItems(contact, [$('.contact-title')]), w, contact.offsetHeight, count));
+    }, { timeout: 4000 });
   }
 
   function startParticles() {
@@ -404,7 +409,7 @@
       var v = document.createElement('video');
       v.className = 'p-video'; v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
       v.setAttribute('aria-hidden', 'true');
-      v.innerHTML = '<source src="work/video/' + li.dataset.id + '.mp4" type="video/mp4">';
+      v.innerHTML = '<source src="work/video/' + li.dataset.id + (smallScreen ? '-m' : '') + '.mp4" type="video/mp4">';
       view.appendChild(v);
       v.addEventListener('playing', function () { v.classList.add('on'); });
       if ('IntersectionObserver' in window) {
