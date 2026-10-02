@@ -173,6 +173,15 @@
     });
   });
 
+  document.querySelectorAll('[data-add]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.getAttribute('data-add');
+      var st = checked('st'); if (!has(st, k)) st.push(k);
+      setChecked('st', st); render();
+      document.getElementById('quote').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
   R.send.addEventListener('click', function () {
     if (R.send.disabled) return;
     window.open('https://wa.me/' + PHONE + '?text=' + encodeURIComponent(message(read())), '_blank', 'noopener');
