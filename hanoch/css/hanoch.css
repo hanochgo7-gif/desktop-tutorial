@@ -650,6 +650,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
   position: absolute; bottom: 60px; inset-inline-end: 0; width: min(320px, calc(100vw - 36px)); display: none;
   background: var(--paper); color: var(--ink); border-radius: 18px; padding: 16px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7);
   font-family: "IBM Plex Sans Hebrew", Arial, sans-serif;
+  max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px); overflow-y: auto; overscroll-behavior: contain; /* מסך נמוך (אייפון SE, טלפון לרוחב): הפאנל נגלל במקום לברוח מלמעלה */
 }
 .a11y__panel[data-open="true"] { display: block; }
 .a11y__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -1501,3 +1502,24 @@ html[lang="en"] .tours h2 { font-size: clamp(2.6rem, 5vw, 5.2rem); }
 .menu-open .a11y, .case-open .a11y { visibility: hidden; }
 html[lang="en"] .case-fonts { text-align: left; }
 a[href^="tel:"] { white-space: nowrap; }
+
+/* ---------- טלפון לרוחב: הפתיחה בפרופורציות של המחשב, לפי גובה המסך ---------- */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero-title, html[lang="en"] .hero-title { font-size: 26vh; line-height: .88; padding-top: 72px; }
+  html[lang="en"] .hero-title { font-size: 22vh; }
+  .hero-portrait { width: 46vh; bottom: 0; }
+  .hero-role, html[lang="en"] .hero-role { font-size: 1.05rem; margin-bottom: 1.5vh; }
+  .hero-meta { padding-bottom: 14px; }
+}
+/* הפרח הנושם גדל ומסתובב מעט, ובטלפון הוא כמעט ברוחב המסך: חותכים כדי שהדף לא יזוז הצידה */
+@media (max-width: 900px) { .process { overflow-x: clip; } }
+/* טלפון: אין טקסט תוכן קטן מ־11px, ואזורי מגע נוחים בהדגמות */
+@media (max-width: 900px) {
+  .sr-cat-n, .sr-url, .brief-steps { font-size: .72rem; }
+  .sr-live { font-size: .7rem; }
+  .compare-table td { font-size: .7rem; }
+  .brief-plan button, .d-prod .d-btn { position: relative; }
+  .brief-plan button::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; }
+  .d-prod .d-btn::before { content: ""; position: absolute; inset: -6px -4px; }
+  .d-range { height: 34px; }
+}

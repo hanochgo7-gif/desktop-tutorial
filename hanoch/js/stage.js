@@ -92,8 +92,11 @@ function start() {
 
   function drawType(w, h) {
     const r = Math.min(window.devicePixelRatio || 1, 2);
-    typeCanvas.width = Math.round(w * r);
-    typeCanvas.height = Math.round(h * r);
+    const cw = Math.round(w * r), ch = Math.round(h * r);
+    // גודל חדש (סיבוב הטלפון): הטקסטורה הישנה נזרקת, אחרת השם נמתח ונשבר
+    if (cw !== typeCanvas.width || ch !== typeCanvas.height) typeTex.dispose();
+    typeCanvas.width = cw;
+    typeCanvas.height = ch;
     const ctx = typeCanvas.getContext('2d');
     ctx.scale(r, r);
     // רקע אטום: הזכוכית שוברת רק מה שאטום, אז הטקסט והרקע הם משטח אחד

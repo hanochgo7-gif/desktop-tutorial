@@ -462,7 +462,7 @@
       gsap.to(phone, { yPercent: -22, ease: 'none', scrollTrigger: { trigger: li, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
-    if (!motion) return;
+    if (!motion || !$('.projects')) return;
     // הטיה לפי מהירות הגלילה
     var skew = { v: 0 };
     var set = gsap.quickSetter('.p-media', 'skewY', 'deg');

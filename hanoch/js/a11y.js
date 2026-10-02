@@ -32,7 +32,7 @@
     '<button class="a11y__btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="a11y-panel" aria-label="' + T('פתיחת תפריט נגישות', 'Open the accessibility menu') + '" title="' + T('נגישות', 'Accessibility') + '">' +
       '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M20 8.5a1 1 0 0 0-1.2-.8L13.5 9h-3L5.2 7.7A1 1 0 0 0 4 8.5a1 1 0 0 0 .8 1.2L10 11v3l-2.4 6.2a1 1 0 0 0 1.9.7L12 15.3l2.5 5.6a1 1 0 0 0 1.9-.7L14 14v-3l5.2-1.3A1 1 0 0 0 20 8.5z"/></svg>' +
     '</button>' +
-    '<div class="a11y__panel" id="a11y-panel" role="dialog" aria-labelledby="a11y-title" data-open="false">' +
+    '<div class="a11y__panel" id="a11y-panel" role="dialog" aria-labelledby="a11y-title" data-open="false" data-lenis-prevent>' +
       '<div class="a11y__head"><h2 id="a11y-title">' + T('התאמות נגישות', 'Accessibility') + '</h2><button class="a11y__close" type="button" aria-label="' + T('סגירת תפריט נגישות', 'Close the accessibility menu') + '">×</button></div>' +
       '<ul class="a11y__list">' + OPTIONS.map(function (o) {
         return '<li><button type="button" data-cls="' + o.cls + '" data-group="' + (o.group || '') + '" aria-pressed="false">' + o.label + '</button></li>';
