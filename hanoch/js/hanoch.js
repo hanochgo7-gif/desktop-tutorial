@@ -844,7 +844,7 @@
 
   /* ---------- סרט התדמית: לולאה שקטה ברקע, והסרט המלא בחלון על כל המסך ---------- */
   function initFilm() {
-    $$('.film-bg video, .sheet-film video').forEach(function (v) {
+    $$('.film-bg video, .sheet-film video, .process-crystal video').forEach(function (v) {
       if (!motion || !('IntersectionObserver' in window)) return;
       new IntersectionObserver(function (en) {
         if (en[0].isIntersecting) {
