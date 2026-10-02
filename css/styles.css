@@ -2177,3 +2177,36 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
 .sim__go:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 .band--sim > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 5; display: block; background: #0d1a26; }
 .band--sim.is-live .band__in, .band--sim.is-live .band__tag, .band--sim.is-live > img { visibility: hidden; }
+/* ניווט גלוי במחשב: חמישה קישורים וטלפון בגלולה כהה בין הלוגו לכפתור הצעת המחיר */
+.hnav { display: none; }
+@media (min-width: 1180px) {
+  .hnav { display: inline-flex; align-items: center; gap: 2px; height: 44px; padding: 4px; border-radius: 999px; background: var(--char); color: #fff; font-family: var(--font); font-size: .86rem; font-weight: 500; margin-inline: auto; }
+  .hnav ul { display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
+  .hnav a { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 999px; color: #fff; text-decoration: none; transition: background .25s; white-space: nowrap; }
+  .hnav a:hover { background: rgba(255,255,255,.12); }
+  .hnav a[aria-current="page"] { background: rgba(255,255,255,.16); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+  .hnav a:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+  .hnav__tel { margin-inline-start: 4px; background: var(--accent-deep); }
+  .hnav__tel:hover { background: #084f6f !important; }
+  .hnav__tel svg { width: 15px; height: 15px; }
+  .hnav__tel .ltr { direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+}
+@media (min-width: 1180px) and (max-width: 1320px) { .hnav a { padding: 0 11px; } .hnav__tel .ltr { display: none; } .hnav__tel { padding: 0 11px; } }
+/* מסכי מגע: כל קישור בתחתית הדף ובתחתית התפריט מקבל שטח לחיצה של 44 פיקסל */
+@media (pointer: coarse), (max-width: 900px) {
+  .footer ul { gap: 0; }
+  .footer ul a, .footer .legal-links a, .mm__links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .footer ul li { min-height: 44px; display: flex; align-items: center; flex-wrap: wrap; gap: 0 6px; }
+  .footer .legal-links { display: inline-flex; flex-wrap: wrap; gap: 0 18px; }
+  .footer .waze { min-height: 36px; }
+  .mm__links { gap: 0 16px; }
+}
+/* הורדת דף ההיכרות (באנגלית, דף חוות השרתים) */
+.service-hero__actions { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+.hero-dl { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border-radius: 999px; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.45); background: rgba(10,10,12,.35); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font-weight: 500; transition: background .25s, border-color .25s; }
+.hero-dl:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.hero-dl:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.hero-dl svg { width: 18px; height: 18px; }
+.hero-dl span { font-size: .78rem; opacity: .75; font-weight: 400; }
+.hero-dl { white-space: nowrap; }
+@media (max-width: 480px) { .hero-dl span { display: none; } }
