@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מתנה מרחלי | משחקים ותרגילים במתמטיקה</title>
+<meta name="description" content="ערכת מתנה חינם מרחלי הורנשטיין: משחקי מתמטיקה, חידות, דפי עבודה להדפסה ותרגול משוואות, ליסודי, חטיבה ותיכון.">
+<meta property="og:title" content="מתנה מרחלי: משחקים ותרגילים במתמטיקה">
+<meta property="og:description" content="מירוץ לוח הכפל, שברים, תעלומת ה-x, המכונה הסודית, דפי עבודה וחידת היום. חינם, ישר מהטלפון.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://hanochgo7-gif.github.io/rachelimath/gift.html">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/rachelimath/images/og-share.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1e3a8a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231e3a8a'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial' font-weight='700' fill='%23fff' text-anchor='middle'%3E%3D%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Assistant:wght@400;600;700;800&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1e3a8a;--ink-deep:#152a66;--zoom:#2d8cff;
+  --paper:#fffdf9;--line:#dbe7f3;--sky:#dcebff;--sky-strong:#b9d6ff;
+  --rose:#fbd8dc;--rose-strong:#f28c9b;--lemon:#fff0ad;--mint:#1fae82;--mint-bg:#d3f3e6;
+  --wa:#25d366;--red:#d93c44;--text:#22304a;--muted:#56657e;
+  --r-lg:28px;--r-md:18px;--r-sm:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Assistant",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.6;color:var(--text);background-color:var(--paper);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;text-align:right;overflow-x:hidden}
+h1,h2,h3{font-family:"Secular One","Assistant",sans-serif;font-weight:400;line-height:1.15;color:var(--ink);margin:0}
+p{margin:0 0 1em}
+a{color:var(--ink)}
+button{font:inherit}
+.container{width:min(1000px,100% - 32px);margin-inline:auto}
+:focus-visible{outline:3px solid var(--zoom);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.math{direction:ltr;unicode-bidi:isolate;font-family:"Secular One","Assistant",sans-serif;font-weight:400;white-space:nowrap}
+.hand{font-family:"Amatic SC",cursive;font-weight:700;color:var(--ink);line-height:1.1}
+.bsd{position:absolute;top:3px;right:8px;font-size:12px;font-weight:700;color:var(--muted);line-height:1}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .12s ease,background .12s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-wa{background:var(--wa);color:#073b1f}
+.btn-outline{background:#fff;color:var(--ink);border-color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:transparent;text-decoration:underline;min-height:44px;padding:8px 12px}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,253,249,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .container{display:flex;justify-content:space-between;align-items:center;min-height:60px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:"Secular One",sans-serif;color:var(--ink)}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.top .btn{min-height:42px;padding:6px 16px;font-size:.95rem}
+
+/* intro */
+.intro{padding:36px 0 18px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.intro img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid #fff;box-shadow:0 12px 26px -12px rgba(30,58,138,.5)}
+.intro h1{font-size:clamp(1.9rem,4.5vw,2.8rem)}
+.intro p{margin:6px 0 0;color:var(--muted);font-size:1.08rem}
+.intro .hand{font-size:1.7rem;display:block;margin-top:4px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 22px}
+.filters button{min-height:44px;padding:6px 18px;border-radius:999px;border:2px solid var(--ink);background:#fff;color:var(--ink);font-weight:700;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* cards */
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{display:flex}
+.card button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;width:100%;background:#fff;border:2px solid var(--line);border-radius:var(--r-md);padding:20px;transition:border-color .15s,transform .15s}
+.card button:hover{border-color:var(--ink);transform:translateY(-2px)}
+.card button:focus-visible{outline:3px solid var(--zoom);outline-offset:3px}
+.card .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-family:"Secular One",sans-serif;font-size:1.6rem;color:var(--ink);direction:ltr}
+.card h2{font-size:1.3rem}
+.card p{margin:0;color:var(--muted);font-size:1rem;flex:1}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px}
+.card .meta span{font-size:.85rem;font-weight:700;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink-deep)}
+.card[hidden]{display:none}
+
+/* activity panel */
+.panel{padding:20px 0 40px}
+.panel[hidden]{display:none}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.panel-head h2{font-size:clamp(1.6rem,4vw,2.2rem)}
+.stage{background:#fff;border:2px solid var(--line);border-radius:var(--r-lg);padding:24px;min-height:360px;position:relative}
+.stage .lead{color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;flex-wrap:wrap;gap:6px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:4px}
+.seg button{min-height:40px;padding:4px 14px;border-radius:999px;border:0;background:transparent;color:var(--ink);font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.label{font-weight:700;color:var(--ink-deep);margin-inline-end:4px}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700;color:var(--ink-deep);margin-bottom:10px;flex-wrap:wrap}
+.hud .pill{background:var(--sky);border-radius:999px;padding:4px 14px}
+.big{font-family:"Secular One",sans-serif;font-size:clamp(2.6rem,9vw,4rem);color:var(--ink);text-align:center;margin:10px 0;direction:ltr}
+.answer{font-family:"Secular One",sans-serif;font-size:2rem;text-align:center;min-height:64px;border:3px dashed var(--ink);border-radius:var(--r-sm);display:grid;place-items:center;max-width:240px;margin:0 auto 12px;direction:ltr;background:var(--paper)}
+.answer.ok{border-style:solid;border-color:var(--mint);background:var(--mint-bg)}
+.answer.no{border-style:solid;border-color:var(--rose-strong);background:var(--rose)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:320px;margin:0 auto;direction:ltr}
+.pad button{min-height:56px;border-radius:var(--r-sm);border:2px solid var(--line);background:#fff;font-family:"Secular One",sans-serif;font-size:1.5rem;color:var(--ink);cursor:pointer}
+.pad button:active{background:var(--sky)}
+.pad .go{background:var(--ink);color:#fff;border-color:var(--ink);font-family:"Assistant",sans-serif;font-weight:800;font-size:1.1rem}
+.feedback{text-align:center;font-weight:800;min-height:1.6em;margin:8px 0}
+.feedback.ok{color:var(--mint)}.feedback.no{color:var(--red)}
+.timerbar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-bottom:12px}
+.timerbar i{display:block;height:100%;background:var(--mint);width:100%;transition:width 1s linear}
+
+/* fractions */
+.fr-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.fr{all:unset;box-sizing:border-box;cursor:pointer;background:var(--paper);border:3px solid var(--line);border-radius:var(--r-md);padding:16px;text-align:center}
+.fr:focus-visible{outline:3px solid var(--zoom);outline-offset:3px}
+.fr.ok{border-color:var(--mint);background:var(--mint-bg)}.fr.no{border-color:var(--rose-strong);background:var(--rose)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:"Secular One",sans-serif;font-size:2.4rem;line-height:1;color:var(--ink)}
+.frac span:first-child{border-bottom:3px solid var(--ink);padding:0 8px 4px}
+.frac span:last-child{padding-top:4px}
+.bar{display:flex;height:26px;border:2px solid var(--ink);border-radius:6px;overflow:hidden;margin-top:14px;direction:ltr;visibility:hidden}
+.bar.show{visibility:visible}
+.bar i{flex:1;border-inline-end:1px solid var(--ink)}
+.bar i:last-child{border-inline-end:0}
+.bar i.on{background:var(--lemon)}
+.eqbtn{display:block;margin:4px auto 0}
+
+/* steps (Rachel explains) */
+.expl{margin-top:14px;background:var(--paper);border-radius:var(--r-sm);padding:12px 16px;border-inline-start:4px solid var(--lemon)}
+.expl .who{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:4px}
+.expl .who img{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center top}
+.expl ol{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.expl li{font-family:"Amatic SC",cursive;font-weight:700;font-size:1.6rem;line-height:1.2;color:var(--ink-deep)}
+.expl li .math{font-family:inherit}
+@media (prefers-reduced-motion:no-preference){.expl li{animation:write .4s ease both}@keyframes write{from{opacity:0;transform:translateY(5px)}}}
+
+.inrow{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.inrow input{font-family:"Secular One",sans-serif;font-size:1.6rem;width:140px;min-height:56px;text-align:center;border:3px dashed var(--ink);border-radius:var(--r-sm);background:var(--paper);color:var(--ink);direction:ltr}
+.inrow input:focus{outline:none;border-style:solid;border-color:var(--zoom)}
+
+/* machine */
+.machine{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:8px 0 6px;direction:ltr}
+.machine table{border-collapse:collapse;margin:0 auto;font-family:"Secular One",sans-serif;font-size:1.3rem}
+.machine th,.machine td{border:2px solid var(--line);padding:6px 16px;text-align:center}
+.machine th{background:var(--sky);color:var(--ink);font-weight:400}
+.machine td.q{background:var(--lemon)}
+.gear{width:110px;height:110px;border-radius:22px;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;font-weight:800;font-size:.95rem;line-height:1.2;position:relative;direction:rtl}
+.gear svg{width:46px;height:46px;display:block;margin:0 auto 4px}
+@media (prefers-reduced-motion:no-preference){.gear.spin svg{animation:spin 1s ease}@keyframes spin{to{transform:rotate(360deg)}}}
+
+/* worksheet */
+.ws-controls{display:grid;gap:12px;margin-bottom:14px}
+.sheet{background:#fff;border:1px solid var(--line);border-radius:6px;padding:28px;box-shadow:0 18px 40px -26px rgba(30,58,138,.45)}
+.sheet-head{display:flex;justify-content:space-between;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:16px;flex-wrap:wrap}
+.sheet-head h3{font-size:1.4rem}
+.sheet-head .fields{display:flex;gap:18px;font-weight:600;color:var(--muted)}
+.sheet ol{columns:2;column-gap:36px;margin:0;padding:0 22px 0 0}
+.sheet li{break-inside:avoid;padding:10px 0 18px;font-size:1.25rem}
+.sheet li .math{font-size:1.25rem}
+.sheet li .blank{display:inline-block;min-width:80px;border-bottom:2px dotted var(--muted);margin-inline-start:8px}
+.sheet-foot{margin-top:12px;border-top:1px dashed var(--line);padding-top:8px;font-size:.9rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.keys{margin-top:16px}
+.keys summary{cursor:pointer;font-weight:800;color:var(--ink);min-height:44px;display:flex;align-items:center}
+.keys ol{columns:3;padding:0 22px 0 0;margin:8px 0 0}
+.keys li{padding:2px 0}
+
+/* riddle */
+.riddle{font-size:1.35rem;font-weight:700;color:var(--ink-deep);margin:10px 0 16px}
+.daybadge{display:inline-block;background:var(--lemon);border-radius:999px;padding:4px 14px;font-weight:800;color:var(--ink-deep);margin-bottom:6px}
+
+/* end card + cta */
+.endcard{text-align:center}
+.endcard .score{font-family:"Amatic SC",cursive;font-weight:700;font-size:3.4rem;color:var(--red);border:4px solid var(--red);border-radius:50%;width:120px;height:120px;display:grid;place-items:center;margin:4px auto 10px;transform:rotate(-10deg);background:#fff;line-height:1}
+.endcard h3{font-size:1.5rem;margin-bottom:6px}
+.endcard .row{justify-content:center;margin-top:12px}
+.rachel-note{display:flex;gap:14px;align-items:center;background:var(--sky);border-radius:var(--r-md);padding:16px 18px;margin-top:22px}
+.rachel-note img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid #fff;flex:none}
+.rachel-note p{margin:0;font-size:1rem}
+.rachel-note .btn{margin-inline-start:auto}
+
+footer{padding:26px 0 40px;text-align:center;color:var(--muted);font-size:.95rem}
+footer a{display:inline-block;padding:10px 4px;font-weight:700}
+
+@media (max-width:820px){.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){
+  body{font-size:17px}
+  .cards{grid-template-columns:1fr}
+  .intro{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .stage{padding:18px 14px}
+  .sheet{padding:18px 14px}
+  .sheet ol{columns:1}
+  .keys ol{columns:2}
+  .machine{grid-template-columns:1fr;justify-items:center}
+  .gear{width:100%;height:auto;padding:10px;display:flex;gap:10px;justify-content:center}
+  .gear svg{margin:0;width:30px;height:30px}
+  .rachel-note{flex-wrap:wrap}
+  .rachel-note .btn{margin:0;width:100%}
+}
+
+/* print: only the worksheet */
+@media print{
+  body{background:#fff;font-size:14pt}
+  body *{visibility:hidden}
+  #ws-sheet,#ws-sheet *{visibility:visible}
+  #ws-sheet{position:absolute;inset:0 0 auto 0;border:0;box-shadow:none;padding:0}
+  #ws-sheet .keys{break-before:page}
+  #ws-sheet .keys[open] summary{display:none}
+  .bsd{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bsd">בס"ד</div>
+<header class="top">
+  <div class="container">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">=</span>רחלי הורנשטיין</a>
+    <a class="btn btn-wa" id="share-top" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.2 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.2.2 2 3.1 4.9 4.2 2.4.9 2.9.8 3.4.7.5 0 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.5-.3l-1.9-.9c-.3-.1-.5-.1-.6.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.4-.4-.6-.4h-.5z"/></svg>
+      שלחו לחבר
+    </a>
+  </div>
+</header>
+
+<main id="main" class="container">
+
+  <section id="home">
+    <div class="intro">
+      <img src="images/rachel.webp" alt="רחלי הורנשטיין" width="96" height="96">
+      <div>
+        <h1>מתנה ממני: משחקים ותרגילים במתמטיקה</h1>
+        <p>שישה דברים קטנים שאפשר לעשות כבר עכשיו מהטלפון. בלי הרשמה ובלי להוריד כלום.</p>
+        <span class="hand">שיהיה בכיף, רחלי ♥</span>
+      </div>
+    </div>
+
+    <div class="filters" role="group" aria-label="סינון לפי גיל">
+      <button type="button" data-f="all" aria-pressed="true">הכול</button>
+      <button type="button" data-f="y" aria-pressed="false">יסודי</button>
+      <button type="button" data-f="c" aria-pressed="false">חטיבה</button>
+      <button type="button" data-f="t" aria-pressed="false">תיכון</button>
+    </div>
+
+    <ul class="cards" id="cards">
+      <li class="card" data-age="y"><button type="button" data-open="sprint">
+        <span class="ic" style="background:var(--lemon)">×</span>
+        <h2>מירוץ לוח הכפל</h2>
+        <p>כמה תרגילים תפתרו בדקה? שוברים את השיא של עצמכם.</p>
+        <span class="meta"><span>ב'-ו'</span><span>דקה</span></span>
+      </button></li>
+      <li class="card" data-age="y"><button type="button" data-open="fractions">
+        <span class="ic" style="background:var(--rose)">½</span>
+        <h2>מי יותר גדול?</h2>
+        <p>משווים שברים, ורואים בציור למה התשובה נכונה.</p>
+        <span class="meta"><span>ד'-ז'</span><span>10 סיבובים</span></span>
+      </button></li>
+      <li class="card" data-age="c"><button type="button" data-open="xmystery">
+        <span class="ic" style="background:var(--sky)">x</span>
+        <h2>תעלומת ה-x</h2>
+        <p>משוואות בחמש דרגות קושי, עם רמזים שלב אחרי שלב.</p>
+        <span class="meta"><span>ז'-ט'</span><span>8 שלבים</span></span>
+      </button></li>
+      <li class="card" data-age="c t"><button type="button" data-open="machine">
+        <span class="ic" style="background:var(--mint-bg)">f</span>
+        <h2>המכונה הסודית</h2>
+        <p>מספר נכנס, מספר יוצא. מגלים מה הכלל של המכונה.</p>
+        <span class="meta"><span>ח'-י"ב</span><span>5 מכונות</span></span>
+      </button></li>
+      <li class="card" data-age="y c t"><button type="button" data-open="worksheet">
+        <span class="ic" style="background:#fff;border:2px solid var(--line)">✎</span>
+        <h2>דף עבודה להדפסה</h2>
+        <p>12 תרגילים בנושא שבוחרים, ודף תשובות נפרד להורים.</p>
+        <span class="meta"><span>כל הגילים</span><span>להדפסה</span></span>
+      </button></li>
+      <li class="card" data-age="y c t"><button type="button" data-open="riddle">
+        <span class="ic" style="background:var(--lemon)">?</span>
+        <h2>חידת היום</h2>
+        <p>חידה חדשה כל יום. מושלם לשולחן שבת או לנסיעה.</p>
+        <span class="meta"><span>כל המשפחה</span><span>מתחלפת כל יום</span></span>
+      </button></li>
+    </ul>
+
+    <div class="rachel-note">
+      <img src="images/rachel.webp" alt="">
+      <p>רוצים שאני אעבור עם הילד על מה שקשה לו? שיחת היכרות קצרה, בלי עלות ובלי התחייבות.</p>
+      <a class="btn btn-wa" href="https://wa.me/972502703670?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A8%D7%97%D7%9C%D7%99%2C%20%D7%A9%D7%99%D7%97%D7%A7%D7%A0%D7%95%20%D7%91%D7%9E%D7%AA%D7%A0%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%99%D7%97%D7%AA%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA" target="_blank" rel="noopener">לשיחה עם רחלי</a>
+    </div>
+  </section>
+
+  <section class="panel" id="panel" hidden aria-labelledby="panel-title">
+    <div class="panel-head">
+      <h2 id="panel-title" tabindex="-1"></h2>
+      <button type="button" class="btn btn-outline" id="back">חזרה לכל המתנות</button>
+    </div>
+    <div class="stage" id="stage"></div>
+    <p class="sr" aria-live="polite" id="live"></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    מתנה מרחלי הורנשטיין, שיעורי מתמטיקה פרטיים בזום · <a href="tel:0502703670">050-2703670</a> · <a href="index.html">לאתר</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var PHONE='972502703670';
+var GIFT_URL='https://hanochgo7-gif.github.io/rachelimath/gift.html';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var stage=$('#stage'), live=$('#live'), panel=$('#panel'), home=$('#home'), title=$('#panel-title');
+var M=function(t){return '<span class="math" dir="ltr">'+t+'</span>'};
+var rnd=function(a,b){return a+Math.floor(Math.random()*(b-a+1))};
+var pick=function(arr){return arr[Math.floor(Math.random()*arr.length)]};
+var gcd=function(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t}return a};
+var say=function(t){live.textContent='';setTimeout(function(){live.textContent=t},30)};
+var store={get:function(k){try{return localStorage.getItem('rm_'+k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem('rm_'+k,v)}catch(e){}}};
+var wa=function(text){return 'https://wa.me/'+PHONE+'?text='+encodeURIComponent(text)};
+var shareLink=function(text){return 'https://wa.me/?text='+encodeURIComponent(text+'\n'+GIFT_URL)};
+window.__ans=null; // read by automated tests only
+
+$('#share-top').href=shareLink('מצאתי ערכת משחקים ותרגילים במתמטיקה בחינם מרחלי הורנשטיין, מורה למתמטיקה:');
+
+function explain(steps,head){
+  return '<div class="expl"><div class="who"><img src="images/rachel.webp" alt="">'+(head||'ככה אני פותרת את זה:')+'</div><ol>'+
+    steps.map(function(s,i){return '<li style="animation-delay:'+(i*.35)+'s">'+s+'</li>'}).join('')+'</ol></div>';
+}
+function endCard(scoreTxt,head,body,lead,shareTxt){
+  return '<div class="endcard"><div class="score">'+scoreTxt+'</div><h3>'+head+'</h3><p>'+body+'</p>'+
+    '<div class="row"><button type="button" class="btn btn-primary" data-again>עוד סיבוב</button>'+
+    '<a class="btn btn-outline" target="_blank" rel="noopener" href="'+shareLink(shareTxt)+'">אתגרו חבר בוואטסאפ</a></div>'+
+    '<div class="rachel-note" style="text-align:right"><img src="images/rachel.webp" alt=""><p>'+lead+'</p>'+
+    '<a class="btn btn-wa" target="_blank" rel="noopener" href="'+wa('שלום רחלי, שיחקנו במתנה מהאתר ('+title.textContent+'). '+scoreTxt+'. אשמח לשיחת היכרות.')+'">לשיחה עם רחלי</a></div></div>';
+}
+
+/* ---------- navigation ---------- */
+var GAMES={};
+function open(id,push){
+  var g=GAMES[id]; if(!g) return;
+  home.hidden=true; panel.hidden=false; title.textContent=g.title;
+  stopTimers(); g.start();
+  if(push!==false && location.hash!=='#'+id) history.pushState(null,'','#'+id);
+  window.scrollTo(0,0); title.focus({preventScroll:true});
+}
+function goHome(push){
+  stopTimers(); panel.hidden=true; home.hidden=false; stage.innerHTML='';
+  if(push!==false && location.hash) history.pushState(null,'',location.pathname+location.search);
+}
+$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){open(b.dataset.open)})});
+$('#back').addEventListener('click',function(){goHome(); var c=$('[data-open]'); if(c) c.focus()});
+window.addEventListener('popstate',function(){var id=location.hash.slice(1); if(GAMES[id]) open(id,false); else goHome(false)});
+$$('.filters button').forEach(function(b){b.addEventListener('click',function(){
+  $$('.filters button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+  var f=b.dataset.f; $$('#cards .card').forEach(function(c){c.hidden=!(f==='all'||c.dataset.age.split(' ').indexOf(f)>-1)});
+})});
+var timers=[],cleanups=[]; function stopTimers(){timers.forEach(clearInterval);timers=[];cleanups.forEach(function(f){f()});cleanups=[]}
+stage.addEventListener('click',function(e){var a=e.target.closest('[data-again]'); if(a){var id=location.hash.slice(1)||cur; if(GAMES[id]){stopTimers();GAMES[id].start()}}});
+var cur=null;
+
+/* ---------- 1. multiplication sprint ---------- */
+GAMES.sprint={title:'מירוץ לוח הכפל',start:function(){
+  cur='sprint';
+  var range=store.get('sp_range')||'10', timed=store.get('sp_timed')!=='0';
+  stage.innerHTML='<p class="lead">פותרים כמה שיותר תרגילי כפל. מקלידים במקשים שעל המסך או במקלדת.</p>'+
+    '<div class="row" style="margin-bottom:10px"><span class="label">טווח:</span><span class="seg" id="sp-range">'+
+    [['5','עד 5'],['10','עד 10'],['12','עד 12']].map(function(o){return '<button type="button" data-v="'+o[0]+'" aria-pressed="'+(o[0]===range)+'">'+o[1]+'</button>'}).join('')+'</span></div>'+
+    '<div class="row" style="margin-bottom:18px"><span class="label">שעון:</span><span class="seg" id="sp-timed">'+
+    '<button type="button" data-v="1" aria-pressed="'+timed+'">דקה אחת</button><button type="button" data-v="0" aria-pressed="'+(!timed)+'">בלי לחץ, 15 תרגילים</button></span></div>'+
+    '<p>השיא שלכם: <b>'+(store.get('sp_best_'+range)||'עוד אין')+'</b></p><button type="button" class="btn btn-primary" id="sp-go">מתחילים!</button>';
+  function seg(id,key){$$('#'+id+' button').forEach(function(b){b.addEventListener('click',function(){store.set(key,b.dataset.v);GAMES.sprint.start()})})}
+  seg('sp-range','sp_range'); seg('sp-timed','sp_timed');
+  $('#sp-go').addEventListener('click',function(){play(+range,timed)});
+  function play(max,timed){
+    var score=0,tries=0,streak=0,best=0,left=60,input='',a,b,done=false,goal=15,lock=false;
+    stage.innerHTML='<div class="hud"><span class="pill" id="sp-s">נכונים: 0</span><span class="pill" id="sp-st">רצף: 0</span><span class="pill" id="sp-t">'+(timed?'60 שניות':'תרגיל 1 מתוך '+goal)+'</span></div>'+
+      (timed?'<div class="timerbar"><i id="sp-bar"></i></div>':'')+
+      '<div class="big" id="sp-q"></div><div class="answer" id="sp-a" aria-live="polite"></div><div class="feedback" id="sp-f"></div>'+
+      '<div class="pad" id="sp-pad">'+[7,8,9,4,5,6,1,2,3].map(function(n){return '<button type="button" data-k="'+n+'">'+n+'</button>'}).join('')+
+      '<button type="button" data-k="del" aria-label="מחיקה">⌫</button><button type="button" data-k="0">0</button><button type="button" class="go" data-k="ok">בדיקה</button></div>';
+    var q=$('#sp-q'),ans=$('#sp-a'),fb=$('#sp-f');
+    function next(){lock=false;a=rnd(2,max);b=rnd(2,max);window.__ans=a*b;input='';q.textContent=a+' × '+b;ans.textContent='?';ans.className='answer';say(a+' כפול '+b)}
+    function key(k){
+      if(done||lock) return;
+      if(k==='del'){input=input.slice(0,-1)}
+      else if(k==='ok'){ if(!input) return; check(); return }
+      else if(input.length<3){input+=k}
+      ans.textContent=input||'?';
+    }
+    function check(){
+      lock=true; tries++; var ok=+input===a*b;
+      if(ok){score++;streak++;best=Math.max(best,streak);fb.textContent=streak>=5?'בוער! רצף של '+streak:'נכון!';fb.className='feedback ok';ans.className='answer ok'}
+      else{streak=0;fb.textContent='לא נורא: '+a+' × '+b+' = '+(a*b);fb.className='feedback no';ans.className='answer no'}
+      $('#sp-s').textContent='נכונים: '+score; $('#sp-st').textContent='רצף: '+streak;
+      if(!timed){ if(tries>=goal){finish();return} $('#sp-t').textContent='תרגיל '+(tries+1)+' מתוך '+goal }
+      setTimeout(function(){if(!done)next()},ok?350:1100);
+    }
+    function finish(){
+      done=true; stopTimers(); document.removeEventListener('keydown',kb);
+      var k='sp_best_'+max, prev=+(store.get(k)||0), rec=score>prev; if(rec) store.set(k,score);
+      var head=rec&&prev?'שיא חדש!':!timed?(score===goal?'מושלם! אין טעויות':score>=12?'יפה מאוד!':'התחלה מצוינת'):score>=20?'מהירות של אלופים!':score>=10?'יפה מאוד!':'התחלה מצוינת';
+      stage.innerHTML=endCard(score+'',head,'פתרתם נכון '+score+' תרגילים'+(timed?' בדקה':' מתוך '+goal)+'. הרצף הכי ארוך: '+best+'.',
+        'לוח הכפל הוא הבסיס לשברים, משוואות ואחוזים. אם יש תרגילים שחוזרים על עצמם בטעויות, אני יודעת איך לסגור את זה.',
+        'שברתי '+score+' תרגילי כפל'+(timed?' בדקה':'')+' במירוץ לוח הכפל של רחלי. תצליחו יותר?');
+      say('סיום. '+score+' נכונים');
+    }
+    function kb(e){ if(/^[0-9]$/.test(e.key)) key(e.key); else if(e.key==='Backspace') key('del'); else if(e.key==='Enter'){ e.preventDefault(); key('ok') } }
+    $$('#sp-pad button').forEach(function(btn){btn.addEventListener('click',function(){key(btn.dataset.k)})});
+    document.addEventListener('keydown',kb);
+    cleanups.push(function(){document.removeEventListener('keydown',kb)});
+    if(timed){var bar=$('#sp-bar'); timers.push(setInterval(function(){left--; $('#sp-t').textContent=left+' שניות'; bar.style.width=(left/60*100)+'%'; if(left<=10) bar.style.background='var(--rose-strong)'; if(left<=0) finish()},1000))}
+    next(); $('#sp-pad [data-k="ok"]').focus({preventScroll:true});
+  }
+}};
+
+/* ---------- 2. fractions ---------- */
+GAMES.fractions={title:'מי יותר גדול?',start:function(){
+  cur='fractions';
+  var round=0,score=0,R=10,cur2;
+  function make(){
+    var d1,d2,n1,n2,guard=0;
+    do{ d1=rnd(2,10);d2=rnd(2,10);n1=rnd(1,d1-1);n2=rnd(1,d2-1); guard++ }
+    while(guard<50 && (d1===d2&&n1===n2));
+    if(round===4){ var k=rnd(2,3); d1=rnd(2,5);n1=rnd(1,d1-1); d2=d1*k;n2=n1*k } // one equal pair
+    var g1=gcd(n1,d1),g2=gcd(n2,d2); if(round!==4){n1/=g1;d1/=g1;n2/=g2;d2/=g2}
+    var c=n1*d2-n2*d1; return {n1:n1,d1:d1,n2:n2,d2:d2,cmp:c>0?1:c<0?2:0};
+  }
+  function frac(n,d){return '<span class="frac" aria-label="'+n+' חלקי '+d+'"><span>'+n+'</span><span>'+d+'</span></span>'}
+  function bar(n,d){var s='';for(var i=0;i<d;i++) s+='<i class="'+(i<n?'on':'')+'"></i>';return '<div class="bar" aria-hidden="true">'+s+'</div>'}
+  function show(){
+    cur2=make(); window.__ans=cur2.cmp; var F=cur2;
+    stage.innerHTML='<div class="hud"><span class="pill">סיבוב '+(round+1)+' מתוך '+R+'</span><span class="pill">נכונים: '+score+'</span></div>'+
+      '<p class="lead" style="text-align:center">איזה שבר גדול יותר? לחצו עליו.</p>'+
+      '<div class="fr-pair"><button type="button" class="fr" data-c="1">'+frac(F.n1,F.d1)+bar(F.n1,F.d1)+'</button>'+
+      '<button type="button" class="fr" data-c="2">'+frac(F.n2,F.d2)+bar(F.n2,F.d2)+'</button></div>'+
+      '<button type="button" class="btn btn-outline eqbtn" data-c="0">הם שווים</button><div id="fr-x"></div>';
+    $$('[data-c]',stage).forEach(function(b){b.addEventListener('click',function(){answer(+b.dataset.c)})});
+    say('איזה גדול יותר, '+F.n1+' חלקי '+F.d1+' או '+F.n2+' חלקי '+F.d2);
+  }
+  function answer(c){
+    var F=cur2, ok=c===F.cmp; if(ok) score++;
+    $$('[data-c]',stage).forEach(function(b){b.disabled=true});
+    $$('.bar',stage).forEach(function(b){b.classList.add('show')});
+    var frs=$$('.fr',stage);
+    if(F.cmp) frs[F.cmp-1].classList.add('ok'); if(!ok&&c) frs[c-1].classList.add('no');
+    var L=F.d1*F.d2/gcd(F.d1,F.d2), a=F.n1*L/F.d1, b=F.n2*L/F.d2;
+    var steps=F.d1===F.d2?['למכנה זהה משווים רק את המונים: '+M(F.n1+' ? '+F.n2)]:
+      ['מביאים למכנה משותף '+M(String(L)),M(F.n1+'/'+F.d1+' = '+a+'/'+L)+' ו- '+M(F.n2+'/'+F.d2+' = '+b+'/'+L)];
+    steps.push(F.cmp===0?'יצא אותו דבר: השברים שווים':'עכשיו רואים: '+M((F.cmp===1?F.n1+'/'+F.d1:F.n2+'/'+F.d2))+' גדול יותר');
+    $('#fr-x').innerHTML='<p class="feedback '+(ok?'ok':'no')+'">'+(ok?'✓ נכון!':'✗ לא הפעם')+'</p>'+explain(steps,ok?'נכון! והנה למה:':'בואו נראה למה:')+
+      '<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn btn-primary" id="fr-n">'+(round===R-1?'לתוצאה':'הבא')+'</button></div>';
+    $('#fr-n').addEventListener('click',function(){round++; if(round<R) show(); else end()}); $('#fr-n').focus({preventScroll:true});
+    say(ok?'נכון':'לא נכון');
+  }
+  function end(){
+    stage.innerHTML=endCard(score+'/'+R,score>=9?'אלופים בשברים!':score>=6?'יפה מאוד!':'יש כאן מקום לחיזוק, וזה בסדר',
+      'השוואת שברים היא אחת הנקודות שהכי הרבה תלמידים נתקעים בהן.',
+      'שברים לא חייבים להיות מפחידים. עם ציור והסבר נכון זה פתאום מתיישב.',
+      'קיבלתי '+score+'/'+R+' במשחק השברים של רחלי. נראה אתכם:');
+  }
+  show();
+}};
+
+/* ---------- 3. x mystery ---------- */
+GAMES.xmystery={title:'תעלומת ה-x',start:function(){
+  cur='xmystery';
+  var lvl=0,score=0,hints=0,TOTAL=8,eq;
+  var term=function(k,v){ // k*v as text, k integer
+    if(k===1) return v; if(k===-1) return '−'+v; return (k<0?'−':'')+Math.abs(k)+v };
+  var sgn=function(n){return n<0?' − '+(-n):' + '+n};
+  var num=function(n){return n<0?'−'+(-n):String(n)};
+  function gen(stage){
+    var x=rnd(-6,12); if(stage<2) x=rnd(1,12);
+    var a,b,c,d,s=[];
+    if(stage===0){a=rnd(2,15); b=x+a; return {t:'x + '+a+' = '+b,x:x,s:['מחסירים '+a+' משני האגפים',M('x = '+b+' − '+a),M('x = '+x)]}}
+    if(stage===1){a=rnd(2,9); return {t:a+'x = '+(a*x),x:x,s:['מחלקים את שני האגפים ב-'+a,M('x = '+(a*x)+' : '+a),M('x = '+x)]}}
+    if(stage<=3){a=rnd(2,7);b=rnd(-9,9)||4;c=a*x+b; return {t:a+'x'+sgn(b)+' = '+num(c),x:x,s:[(b>0?'מחסירים ':'מוסיפים ')+Math.abs(b)+' משני האגפים: '+M(a+'x = '+num(c-b)),'מחלקים ב-'+a+': '+M('x = '+num(x)),'בדיקה: '+M(a+'·'+(x<0?'('+num(x)+')':x)+sgn(b)+' = '+num(c)+' ✓')]}}
+    if(stage<=5){a=rnd(2,5);b=rnd(-6,6)||3;c=a*(x+b); return {t:a+'(x'+sgn(b)+') = '+num(c),x:x,s:['מחלקים ב-'+a+': '+M('x'+sgn(b)+' = '+num(c/a)),(b>0?'מחסירים ':'מוסיפים ')+Math.abs(b)+': '+M('x = '+num(x)),'אפשר גם לפתוח סוגריים קודם: '+M(a+'x'+sgn(a*b)+' = '+num(c))]}}
+    do{a=rnd(2,9);c=rnd(1,8);b=rnd(1,9)*pick([1,-1]);d=a*x+b-c*x}while(a===c||d===0);
+    return {t:a+'x'+sgn(b)+' = '+term(c,'x')+sgn(d),x:x,s:['מעבירים את ה-x לצד אחד: '+M(term(a-c,'x')+' = '+num(d-b)),'מחלקים ב-'+num(a-c)+': '+M('x = '+num(x)),'בדיקה: שני האגפים יוצאים '+M(num(a*x+b))+' ✓']};
+  }
+  var STAGES=[0,1,2,3,4,5,6,6];
+  var names=['חימום','כפל','שני צעדים','שני צעדים +','סוגריים','סוגריים +','x משני הצדדים','הבוס האחרון'];
+  function show(){
+    eq=gen(STAGES[lvl]); window.__ans=eq.x; hints=0;
+    stage.innerHTML='<div class="hud"><span class="pill">שלב '+(lvl+1)+' מתוך '+TOTAL+': '+names[lvl]+'</span><span class="pill">נקודות: '+score+'</span></div>'+
+      '<p class="lead" style="text-align:center">מה הערך של x?</p><div class="big">'+eq.t+'</div>'+
+      '<form class="inrow" id="xm-f" novalidate><label class="sr" for="xm-in">התשובה שלכם</label><input id="xm-in" inputmode="text" autocomplete="off" placeholder="x = ?"><button class="btn btn-primary" type="submit">בדיקה</button></form>'+
+      '<div class="row" style="justify-content:center"><button type="button" class="btn btn-ghost" id="xm-h">רמז מרחלי</button></div><p class="feedback" id="xm-fb"></p><div id="xm-x"></div>';
+    var inp=$('#xm-in'); inp.focus({preventScroll:true});
+    $('#xm-h').addEventListener('click',function(){hints=Math.min(hints+1,eq.s.length);render(false)});
+    $('#xm-f').addEventListener('submit',function(e){e.preventDefault();
+      var v=inp.value.replace(/[−–]/g,'-').replace(/\s|x|=/gi,''); if(v==='') return;
+      var ok=Number(v)===eq.x;
+      if(ok){ var pts=3-Math.min(hints,2); score+=pts; $('#xm-fb').textContent='✓ פתרתם! +'+pts; $('#xm-fb').className='feedback ok'; hints=eq.s.length; render(true); say('נכון') }
+      else { $('#xm-fb').textContent='✗ עוד לא. נסו שוב, או קחו רמז'; $('#xm-fb').className='feedback no'; inp.select(); say('לא נכון, נסו שוב') }
+    });
+  }
+  function render(solved){
+    $('#xm-x').innerHTML=(hints?explain(eq.s.slice(0,hints),solved?'הפתרון המלא:':'רמז '+hints+' מתוך '+eq.s.length+':'):'')+
+      (solved?'<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn btn-primary" id="xm-n">'+(lvl===TOTAL-1?'לתוצאה':'לשלב הבא')+'</button></div>':'');
+    if(solved){ $('#xm-n').addEventListener('click',function(){lvl++; if(lvl<TOTAL) show(); else end()}); $('#xm-n').focus({preventScroll:true}); $('#xm-h').hidden=true; $('#xm-in').disabled=true }
+  }
+  function end(){
+    var max=TOTAL*3;
+    stage.innerHTML=endCard(score+'/'+max,score>=20?'פותרי תעלומות מקצועיים!':score>=14?'כל הכבוד!':'פתרתם את כל השלבים, וזה העיקר',
+      'כל תשובה בלי רמז שווה 3 נקודות, ועם רמזים קצת פחות.','משוואות הן שפה. ברגע שמבינים את ההיגיון של "מה שעושים לצד אחד עושים גם לשני", הכול נפתח.',
+      'פתרתי את תעלומת ה-x של רחלי עם '+score+' נקודות. תנסו?');
+  }
+  show();
+}};
+
+/* ---------- 4. secret machine ---------- */
+GAMES.machine={title:'המכונה הסודית',start:function(){
+  cur='machine';
+  var r=0,score=0,R=5,m;
+  var gear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';
+  function make(i){
+    if(i<3){var a=rnd(2,6)*(i===2&&Math.random()<.5?-1:1), b=rnd(-6,9); return {f:function(x){return a*x+b},rule:'y = '+(a===1?'':a===-1?'−':String(a).replace('-','−'))+'x'+(b?(b<0?' − '+(-b):' + '+b):''),hint:'כל פעם ש-x גדל ב-1, התוצאה משתנה ב-'+String(a).replace('-','−')}}
+    var b2=rnd(-5,5), k=i===4?2:1; return {f:function(x){return k*x*x+b2},rule:'y = '+(k===1?'':k)+'x²'+(b2?(b2<0?' − '+(-b2):' + '+b2):''),hint:'השינויים לא קבועים. נסו להסתכל על '+M('x·x')};
+  }
+  function show(){
+    m=make(r); var xs=r<3?[1,2,3]:[1,2,3], qx=r<3?rnd(6,10):rnd(4,6), ans=m.f(qx); window.__ans=ans;
+    var rows=xs.map(function(x){return '<tr><td>'+x+'</td><td>'+String(m.f(x)).replace('-','−')+'</td></tr>'}).join('')+'<tr><td>'+qx+'</td><td class="q">?</td></tr>';
+    stage.innerHTML='<div class="hud"><span class="pill">מכונה '+(r+1)+' מתוך '+R+'</span><span class="pill">פיצחתם: '+score+'</span></div>'+
+      '<p class="lead" style="text-align:center">הכנסנו מספרים למכונה וזה מה שיצא. מה יצא עבור '+qx+'?</p>'+
+      '<div class="machine"><table aria-label="טבלת קלט ופלט"><thead><tr><th>נכנס x</th><th>יוצא y</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      '<div class="gear" id="mc-g" aria-hidden="true">'+gear+'מה הכלל?</div><div></div></div>'+
+      '<form class="inrow" id="mc-f" novalidate><label class="sr" for="mc-in">מה יוצא</label><input id="mc-in" inputmode="text" autocomplete="off" placeholder="y = ?"><button class="btn btn-primary" type="submit">הפעלה</button></form>'+
+      '<div class="row" style="justify-content:center"><button type="button" class="btn btn-ghost" id="mc-h">רמז</button><button type="button" class="btn btn-ghost" id="mc-s">גלו לי את הכלל</button></div>'+
+      '<p class="feedback" id="mc-fb"></p><div id="mc-x"></div>';
+    var inp=$('#mc-in'); inp.focus({preventScroll:true}); var tries=0;
+    $('#mc-h').addEventListener('click',function(){$('#mc-x').innerHTML=explain([m.hint],'רמז:')});
+    $('#mc-s').addEventListener('click',function(){reveal(false)});
+    $('#mc-f').addEventListener('submit',function(e){e.preventDefault();
+      var v=inp.value.replace(/[−–]/g,'-').replace(/\s|y|=/gi,''); if(v==='') return; tries++;
+      $('#mc-g').classList.remove('spin'); void $('#mc-g').offsetWidth; $('#mc-g').classList.add('spin');
+      if(Number(v)===ans){score++; $('#mc-fb').textContent='✓ פיצחתם את המכונה!'; $('#mc-fb').className='feedback ok'; reveal(true); say('נכון')}
+      else{$('#mc-fb').textContent=tries>=2?'✗ עוד לא. אולי רמז יעזור?':'✗ עוד לא, נסו שוב'; $('#mc-fb').className='feedback no'; inp.select(); say('לא נכון')}
+    });
+    function reveal(ok){
+      $('.machine td.q').textContent=String(ans).replace('-','−');
+      $('#mc-x').innerHTML=explain([m.hint,'הכלל של המכונה: '+M(m.rule.replace(/-/g,'−')),'ולכן עבור '+qx+' יוצא '+M(String(ans).replace('-','−'))],ok?'בדיוק! הכלל הוא:':'הנה הסוד:')+
+        '<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn btn-primary" id="mc-n">'+(r===R-1?'לתוצאה':'למכונה הבאה')+'</button></div>';
+      $('#mc-in').disabled=true; $('#mc-h').hidden=true; $('#mc-s').hidden=true;
+      $('#mc-n').addEventListener('click',function(){r++; if(r<R) show(); else end()}); $('#mc-n').focus({preventScroll:true});
+    }
+  }
+  function end(){
+    stage.innerHTML=endCard(score+'/'+R,score===R?'פיצחתם את כל המכונות!':score>=3?'חשיבה של מתמטיקאים!':'זה בדיוק מה שלומדים בפונקציות',
+      'המכונות האלה הן בעצם פונקציות. מכונות 1 עד 3 קוויות, ו-4 עד 5 ריבועיות.',
+      'פונקציות מפחידות הרבה תלמידים, אבל כשרואים אותן כמכונה הכול נהיה הגיוני.',
+      'פיצחתי '+score+' מתוך '+R+' מכונות סודיות במשחק של רחלי:');
+  }
+  show();
+}};
+
+/* ---------- 5. worksheet ---------- */
+var WS={
+  add:{age:'y',name:'חיבור וחיסור',g:function(){var a=rnd(120,899),b=rnd(30,499),p=Math.random()<.5;if(!p&&b>a){var t=a;a=b;b=t}return {q:a+(p?' + ':' − ')+b+' =',a:String(p?a+b:a-b)}}},
+  mul:{age:'y',name:'לוח הכפל וחילוק',g:function(){var a=rnd(2,10),b=rnd(2,10);return Math.random()<.6?{q:a+' × '+b+' =',a:String(a*b)}:{q:(a*b)+' : '+a+' =',a:String(b)}}},
+  frac:{age:'y',name:'שברים',g:function(){var d=pick([2,3,4,5,6,8,10]),d2=pick([d,d*2]),n1=rnd(1,d-1),n2=rnd(1,d2-1);var L=Math.max(d,d2),s=n1*(L/d)+n2*(L/d2),g=gcd(s,L);return {q:n1+'/'+d+' + '+n2+'/'+d2+' =',a:(s/g)+'/'+(L/g)}}},
+  eq:{age:'c',name:'משוואות',g:function(){var x=rnd(-5,10),a=rnd(2,7),b=rnd(-9,9)||5;var c=a*x+b;return {q:a+'x'+(b<0?' − '+(-b):' + '+b)+' = '+String(c).replace('-','−'),a:'x = '+String(x).replace('-','−')}}},
+  neg:{age:'c',name:'מספרים מכוונים',g:function(){var a=rnd(-12,12)||3,b=rnd(-12,12)||-4,op=pick(['+','−','×']);var v=op==='+'?a+b:op==='−'?a-b:a*b;var f=function(n){return n<0?'('+String(n).replace('-','−')+')':String(n)};return {q:f(a)+' '+op+' '+f(b)+' =',a:String(v).replace('-','−')}}},
+  fact:{age:'t',name:'פירוק טרינום',g:function(){var p=rnd(-7,7)||2,q=rnd(-7,7)||-3;var B=-(p+q),C=p*q;var t='x²'+(B?(B<0?' − '+(B===-1?'':-B)+'x':' + '+(B===1?'':B)+'x'):'')+(C?(C<0?' − '+(-C):' + '+C):'')+' = 0';return {q:t,a:'x = '+String(Math.min(p,q)).replace('-','−')+(p===q?'':', '+String(Math.max(p,q)).replace('-','−'))}}},
+  der:{age:'t',name:'נגזרות',g:function(){var a=rnd(1,6),n=rnd(2,4),b=rnd(-9,9)||2,c=rnd(-9,9);var sup={2:'²',3:'³',4:'⁴'};var dn=n-1===1?'x':'x'+sup[n-1];return {q:'f(x) = '+(a===1?'':a)+'x'+sup[n]+(b<0?' − '+(-b):' + '+b)+'x'+(c?(c<0?' − '+(-c):' + '+c):''),a:"f′(x) = "+(a*n)+dn+(b<0?' − '+(-b):' + '+b)}}}
+};
+GAMES.worksheet={title:'דף עבודה להדפסה',start:function(){
+  cur='worksheet';
+  var t=store.get('ws_t')||'mul';
+  stage.innerHTML='<div class="ws-controls"><div class="row"><span class="label">נושא:</span><span class="seg" id="ws-t">'+
+    Object.keys(WS).map(function(k){return '<button type="button" data-v="'+k+'" aria-pressed="'+(k===t)+'">'+WS[k].name+'</button>'}).join('')+'</span></div>'+
+    '<div class="row"><button type="button" class="btn btn-primary" id="ws-print">הדפסה</button><button type="button" class="btn btn-outline" id="ws-new">דף חדש</button><span style="color:var(--muted);font-size:.95rem">דף התשובות מודפס בעמוד נפרד</span></div></div><div id="ws-out"></div>';
+  $$('#ws-t button').forEach(function(b){b.addEventListener('click',function(){t=b.dataset.v;store.set('ws_t',t);$$('#ws-t button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});build()})});
+  $('#ws-new').addEventListener('click',build);
+  $('#ws-print').addEventListener('click',function(){var k=$('#ws-sheet .keys');if(k)k.open=true;window.print()});
+  function build(){
+    var T=WS[t], items=[], seen={};
+    for(var guard=0;items.length<12&&guard<200;guard++){var it=T.g(); if(seen[it.q]) continue; seen[it.q]=1; items.push(it)}
+    var today=new Date().toLocaleDateString('he-IL');
+    $('#ws-out').innerHTML='<article class="sheet" id="ws-sheet"><div class="sheet-head"><h3>דף עבודה: '+T.name+'</h3><div class="fields"><span>שם: ________</span><span>תאריך: '+today+'</span></div></div>'+
+      '<ol>'+items.map(function(it){return '<li>'+M(it.q)+'<span class="blank"></span></li>'}).join('')+'</ol>'+
+      '<div class="sheet-foot"><span>רחלי הורנשטיין, שיעורי מתמטיקה פרטיים בזום</span><span dir="ltr">050-2703670</span></div>'+
+      '<details class="keys"><summary>דף תשובות להורים</summary><ol>'+items.map(function(it){return '<li>'+M(it.a)+'</li>'}).join('')+'</ol>'+
+      '<div class="sheet-foot"><span>רחלי הורנשטיין, שיעורי מתמטיקה פרטיים בזום</span><span dir="ltr">050-2703670</span></div></details></article>';
+    window.__ans=items;
+  }
+  build();
+}};
+
+/* ---------- 6. riddle of the day ---------- */
+var RIDDLES=[
+  {q:'מחבט וכדור עולים יחד 110 ₪. המחבט יקר מהכדור ב-100 ₪. כמה עולה הכדור?',a:'5 ₪',s:['רוב האנשים עונים 10, אבל אז המחבט עולה 110 והיחד 120','אם הכדור עולה '+M('k')+', המחבט עולה '+M('k + 100'),M('2k + 100 = 110')+' ולכן '+M('k = 5')]},
+  {q:'במשפחה יש 5 בנות, ולכל אחת מהן יש אח אחד. כמה ילדים יש במשפחה?',a:'6',s:['האח הוא אותו אח לכל הבנות','5 בנות ועוד בן אחד: 6 ילדים']},
+  {q:'חילזון נמצא בתחתית בור בעומק 10 מטר. ביום הוא מטפס 3 מטר, ובלילה מחליק 2 מטר. באיזה יום הוא יוצא?',a:'ביום ה-8',s:['בכל יממה הוא מתקדם מטר אחד בסך הכול','אחרי 7 יממות הוא בגובה 7 מטר','ביום ה-8 הוא מטפס 3 מטר, מגיע ל-10 ויוצא לפני הלילה']},
+  {q:'מה המספר הבא בסדרה: 1, 1, 2, 3, 5, 8, ?',a:'13',s:['כל מספר הוא סכום שני הקודמים לו',M('5 + 8 = 13'),'זו סדרת פיבונאצ׳י, והיא מופיעה גם בטבע']},
+  {q:'כמה פעמים מופיעה הספרה 9 כשכותבים את כל המספרים מ-1 עד 100?',a:'20',s:['ספרת אחדות 9: 9, 19, 29... עד 99, כלומר 10 פעמים','ספרת עשרות 9: 90 עד 99, עוד 10 פעמים','ב-99 סופרים שתי ספרות. סך הכול 20']},
+  {q:'5 מכונות מייצרות 5 כפתורים ב-5 דקות. כמה זמן ייקח ל-100 מכונות לייצר 100 כפתורים?',a:'5 דקות',s:['כל מכונה מייצרת כפתור אחד ב-5 דקות','100 מכונות עובדות במקביל, כל אחת כפתור אחד','ולכן גם זה לוקח 5 דקות']},
+  {q:'מה סכום כל המספרים מ-1 עד 100?',a:'5050',s:['מצמידים זוגות: '+M('1 + 100')+', '+M('2 + 99')+', '+M('3 + 98')+'...','כל זוג שווה 101, ויש 50 זוגות',M('50 × 101 = 5050')+'. גאוס גילה את זה בגיל 9']},
+  {q:'בכיתה 30 תלמידים, ושני שלישים מהם בנות. כמה בנים בכיתה?',a:'10',s:['שליש מ-30 הוא 10','שני שלישים הם 20 בנות','30 פחות 20: 10 בנים']},
+  {q:'חשבתי על מספר, הכפלתי אותו ב-3 והוספתי 4. יצא 25. על איזה מספר חשבתי?',a:'7',s:['הולכים אחורה: מורידים 4 ומקבלים 21','מחלקים ב-3 ומקבלים 7','זו בעצם המשוואה '+M('3x + 4 = 25')]},
+  {q:'שעון מראה 3:00. מה הזווית בין המחוגים?',a:'90 מעלות',s:['השעון מחולק ל-12 חלקים של 30 מעלות',M('3 × 30 = 90'),'זווית ישרה, כמו פינה של דף']},
+  {q:'שלושה חברים נפגשים, וכל אחד לוחץ יד לכל אחד מהאחרים פעם אחת. כמה לחיצות ידיים יש? ומה אם היו 10 חברים?',a:'3, ועם 10 חברים: 45',s:['עם 3: א-ב, א-ג, ב-ג, כלומר 3','עם 10: כל אחד לוחץ ל-9, אבל כל לחיצה נספרת פעמיים',M('10 × 9 : 2 = 45')]},
+  {q:'אם מקפלים דף לחצי 3 פעמים ואז פותחים, לכמה מלבנים הוא מחולק?',a:'8',s:['כל קיפול מכפיל את מספר החלקים ב-2',M('2 × 2 × 2 = 8'),'זה '+M('2³')+', חזקה בפעולה']}
+];
+GAMES.riddle={title:'חידת היום',start:function(){
+  cur='riddle';
+  var day=Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000), i=day%RIDDLES.length, offset=0;
+  function show(){
+    var k=(i+offset)%RIDDLES.length, R=RIDDLES[k]; window.__ans=R.a;
+    stage.innerHTML='<span class="daybadge">'+(offset===0?'החידה של היום':'חידה נוספת')+'</span><p class="riddle">'+R.q+'</p>'+
+      '<p class="lead">חשבו רגע, אפשר גם יחד עם כל המשפחה.</p><div class="row"><button type="button" class="btn btn-primary" id="rd-s">לפתרון</button>'+
+      '<button type="button" class="btn btn-outline" id="rd-n">חידה נוספת</button>'+
+      '<a class="btn btn-ghost" target="_blank" rel="noopener" href="'+shareLink('חידה מרחלי: '+R.q+'\nהפתרון כאן:')+'">שלחו את החידה לחבר</a></div><div id="rd-x"></div>';
+    $('#rd-s').addEventListener('click',function(){$('#rd-x').innerHTML='<p class="feedback ok" style="text-align:right">התשובה: '+R.a+'</p>'+explain(R.s,'ככה מגיעים לזה:'); this.hidden=true; say('התשובה: '+R.a)});
+    $('#rd-n').addEventListener('click',function(){offset++;show();$('#rd-s').focus()});
+  }
+  show();
+}};
+
+/* deep link: gift.html#sprint */
+var start=location.hash.slice(1); if(GAMES[start]) open(start,false);
+})();
+</script>
+</body>
+</html>
