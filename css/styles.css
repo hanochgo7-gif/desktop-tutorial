@@ -2210,3 +2210,15 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
 .hero-dl span { font-size: .78rem; opacity: .75; font-weight: 400; }
 .hero-dl { white-space: nowrap; }
 @media (max-width: 480px) { .hero-dl span { display: none; } }
+
+/* ===== Data center page: 360° tour teaser ===== */
+.tour360 .section-head p { color: var(--on-dark-muted); }
+.tour360__card { position: relative; display: block; overflow: hidden; border-radius: var(--radius-lg); background: var(--onyx); color: var(--on-dark); text-decoration: none; }
+.tour360__card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.1,1); }
+.tour360__card:hover img { transform: scale(1.03); }
+.tour360__card:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 4px; }
+.tour360__badge { position: absolute; top: 18px; inset-inline-start: 18px; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(15,14,18,.62); border: 2px solid var(--on-dark); font-weight: 700; font-size: 1rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.tour360__cta { position: absolute; bottom: 18px; inset-inline-start: 18px; display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; font-size: 1.05rem; }
+.tour360__cta svg { width: 20px; height: 20px; }
+.tour360__note { margin: 14px 0 0; color: var(--on-dark-muted); font-size: .85rem; }
+@media (prefers-reduced-motion: reduce) { .tour360__card img { transition: none; } .tour360__card:hover img { transform: none; } }
