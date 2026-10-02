@@ -1320,6 +1320,40 @@
     } else vids.forEach(setPoster);
   }
 
+  /* ---------- שלושת העקרונות: כניסה מדורגת, הוכחה חיה, הטיה וברק במעבר עכבר ---------- */
+  function initPrinciples() {
+    var cards = $$('.principles > li');
+    if (!cards.length) return;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-on'); io.unobserve(e.target); } });
+      }, { threshold: 0.45 });
+      cards.forEach(function (c) { io.observe(c); });
+    } else cards.forEach(function (c) { c.classList.add('is-on'); });
+    if (!motion) return;
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.from(cards, {
+        y: 70, rotateX: 10, autoAlpha: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12, clearProps: 'transform,opacity,visibility',
+        scrollTrigger: { trigger: '.principles', start: 'top 85%', once: true }
+      });
+    }
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    cards.forEach(function (c) {
+      c.addEventListener('pointermove', function (e) {
+        var r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.classList.add('is-tilting');
+        c.style.setProperty('--ry', ((x - 0.5) * 9).toFixed(2) + 'deg');
+        c.style.setProperty('--rx', ((0.5 - y) * 7).toFixed(2) + 'deg');
+        c.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        c.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      });
+      c.addEventListener('pointerleave', function () {
+        c.classList.remove('is-tilting');
+        c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+
   /* ---------- פס התקדמות בגלילה ---------- */
   function initProgress() {
     var bar = $('.progress i');
@@ -1407,6 +1441,7 @@
   initBrief();
   initMenu();
   initTours();
+  initPrinciples();
   initProcess();
   initProgress();
   initDemo();
