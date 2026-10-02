@@ -236,6 +236,8 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .close { display: none; flex: none; pointer-events: auto; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(160,220,255,.3); background: rgba(8,24,38,.78); color: #fff; place-items: center; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .close svg { width: 18px; height: 18px; }
 .full .close { display: grid; }
+/* טלפון: אזור מגע נוח סביב הנקודות והכפתורים הקטנים, בלי לשנות את המראה */
+@media (max-width: 720px) { .hot::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; } .chip { position: relative; } .chip::before { content: ""; position: absolute; inset: -8px -3px; } }
 @media (prefers-reduced-motion: reduce) { .go.idle, .steps div.now::before, .holo, .holo::before, .holo::after, .hh .st i, .leads .halo, .ring .o, .hx::after { animation: none !important; } .holo::after { display: none; } }
 </style>
 </head>
@@ -319,7 +321,11 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const phone = matchMedia('(max-width: 720px)').matches;
 const qs = new URLSearchParams(location.search);
 const embed = qs.has('embed'), full = qs.has('full');   // full: opened over the whole phone screen from the portfolio, so one finger may orbit
-if (full) { document.documentElement.classList.add('full'); $('#simClose').addEventListener('click', () => parent.postMessage('sim:close', '*')); }
+if (full) {
+  document.documentElement.classList.add('full');
+  $('#simClose').addEventListener('click', () => parent.postMessage('sim:close', '*'));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') parent.postMessage('sim:close', '*'); });
+}
 const touch = matchMedia('(pointer: coarse)').matches;
 const EN = document.documentElement.lang === 'en';       // set from ?lang=en in the head
 const L = (he, en) => (EN ? en : he);                    // UI text: Hebrew by default, English with lang=en

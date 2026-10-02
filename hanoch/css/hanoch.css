@@ -472,7 +472,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .stop-motion *, .stop-motion *::before, .stop-motion *::after { animation: none !important; }
 
 /* הפריימים של AMS בתוך סיפור הפרויקט */
-.case-frames { margin-top: 2.6rem; display: grid; gap: .8rem; }
+.case-frames { margin-top: 2.6rem; display: grid; gap: .8rem; touch-action: pan-y; }
 .case-frames img { width: min(440px, 100%); aspect-ratio: 1; object-fit: cover; border-radius: 16px; background: #16110c; box-shadow: 0 0 0 1px var(--fg-faint); }
 .case-frames figcaption { color: var(--fg-dim); }
 
@@ -1497,3 +1497,7 @@ html[lang="en"] .tours h2 { font-size: clamp(2.6rem, 5vw, 5.2rem); }
   .tg-kind { font-size: .72rem; }
   .ba-range { height: 40px; }
 }
+/* כשתפריט או סיפור פרויקט פתוחים על כל המסך, כפתור הנגישות הצף לא מסתיר את מה שבתוכם */
+.menu-open .a11y, .case-open .a11y { visibility: hidden; }
+html[lang="en"] .case-fonts { text-align: left; }
+a[href^="tel:"] { white-space: nowrap; }

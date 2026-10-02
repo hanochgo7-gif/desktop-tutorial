@@ -62,7 +62,7 @@
       palette: ['#111111', '#1c82ad', '#4fbbea', '#ede8de'], fonts: ['Heebo', 'Frank Ruhl Libre', 'Cousine']
     },
     ams: {
-      name: 'AMS', sub: 'אביב משה שדמון · אגרוף תאילנדי ואימון אישי', kind: 'אתר חדש · תנועה אמיתית מתוך סרטון', url: 'ams · מזכרת בתיה', color: '#d4a24c',
+      name: 'AMS', sub: 'אביב משה שדמון · אגרוף תאילנדי ואימון אישי', kind: 'אתר חדש · תנועה אמיתית מתוך סרטון', url: 'ams · אביב משה שדמון', color: '#d4a24c',
       story: 'אביב מלמד מואי תאי, והשפה שלו היא תנועה, אז האתר היה צריך לזוז כמו שהוא זז. לקחתי סרטון אמיתי של אביב, העברתי את התנועה שלו לדמות מונפשת בזירה, והגלילה של המבקר היא שמניעה אותה.',
       points: [
         'פתיח מוצמד: 13 פריימים מצוירים על canvas. גוללים, ואביב עובר משמירה לברך תאילנדית וחוזר.',
@@ -133,7 +133,7 @@
         metrics: [['Mobile load (LCP)', '2.9s', '1.7s'], ['Page weight', '1.26MB', '0.9MB']]
       },
       ams: {
-        sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'New site · real motion from video', url: 'ams · Mazkeret Batya',
+        sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'New site · real motion from video', url: 'ams · Aviv Moshe Shadmon',
         story: 'Aviv teaches Muay Thai, and his language is movement, so the site had to move the way he does. I took real footage of Aviv, transferred his motion to an animated fighter in the ring, and the visitor\'s scroll is what drives him.',
         points: [
           'A pinned opening: 13 frames drawn on canvas. Scroll, and Aviv moves from guard to a Thai bow and back.',
@@ -531,7 +531,7 @@
     if (d.frames) {
       var box = document.createElement('figure');
       box.className = 'case-frames';
-      box.innerHTML = '<img alt="' + T('אביב בזירה, משמירה לברך תאילנדית', 'Aviv in the ring, from guard to a Thai bow') + '" width="480" height="480"><figcaption class="mono">' + T('הזיזו את העכבר מצד לצד: אלה 13 הפריימים מהפתיח', 'Move the mouse from side to side: these are the 13 frames of the opening') + '</figcaption>';
+      box.innerHTML = '<img alt="' + T('אביב בזירה, משמירה לברך תאילנדית', 'Aviv in the ring, from guard to a Thai bow') + '" width="480" height="480"><figcaption class="mono">' + (window.matchMedia('(hover: none)').matches ? T('גררו את האצבע על התמונה מצד לצד: אלה 13 הפריימים מהפתיח', 'Drag your finger across the image: these are the 13 frames of the opening') : T('הזיזו את העכבר מצד לצד: אלה 13 הפריימים מהפתיח', 'Move the mouse from side to side: these are the 13 frames of the opening')) + '</figcaption>';
       $('.case-main').appendChild(box);
       var fimg = $('img', box), frames = [];
       for (var f = 1; f <= d.frames; f++) { frames.push('work/ams/f' + String(f).padStart(3, '0') + '.webp'); new Image().src = frames[f - 1]; }
@@ -557,6 +557,7 @@
     var src = $('.browser', li).getBoundingClientRect();
     $('.p-tall', li).style.setProperty('--y', '0px');
     caseEl.hidden = false;
+    document.documentElement.classList.add('case-open');
     caseScroll.scrollTop = 0;
     if (lenis) lenis.stop();
     document.body.style.overflow = 'hidden';
@@ -577,7 +578,7 @@
       .fromTo(caseBrowser,
         { x: src.left - tgt.left, y: src.top - tgt.top, scale: s, transformOrigin: '0 0' },
         { x: 0, y: 0, scale: 1, duration: 1.1, ease: 'expo.inOut' }, 0)
-      .fromTo('.case-close', { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4 }, 0.6)
+      .fromTo('.case-close', { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.6)
       .to(reveal, { autoAlpha: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.06 }, 0.75);
   }
 
@@ -586,12 +587,18 @@
     clearInterval(framesTimer);
     function done() {
       caseEl.hidden = true;
+      document.documentElement.classList.remove('case-open');
       $('.case-video').pause();
       setHash('');
       if (window.gsap) gsap.set(caseEl, { clearProps: 'opacity,transform' });
       document.body.style.overflow = '';
       if (lenis) lenis.start();
-      if (opener) $('.p-open', opener).focus({ preventScroll: true });
+      if (opener) {
+        // פרויקט שעוד לא נחשף בגלילה מוסתר, ואי אפשר להחזיר אליו פוקוס
+        var back = $('.p-open', opener);
+        if (window.gsap && getComputedStyle(back).visibility === 'hidden') gsap.set(back, { autoAlpha: 1 });
+        back.focus({ preventScroll: true });
+      }
     }
     if (!motion) return done();
     gsap.to(caseEl, { autoAlpha: 0, scale: 0.98, duration: 0.45, ease: 'power3.in', onComplete: function () { gsap.set(caseEl, { autoAlpha: 1 }); done(); } });
@@ -733,7 +740,7 @@
   /* ---------- תהליך: הכרטיס נבנה ---------- */
   function initCraft() {
     var spec = $('.specimen'), steps = $$('.step'), capN = $('.cap-n'), capT = $('.cap-t');
-    var names = EN ? ['Sketch', 'Skeleton', 'Material', 'Motion'] : ['שרטוט', 'שלד', 'חומר', 'תנועה'];
+    var names = EN ? ['Sketch', 'Structure', 'Material', 'Motion'] : ['שרטוט', 'שלד', 'חומר', 'תנועה'];
     if (!spec) return;
     function stage(n) {
       if (spec.dataset.stage === String(n)) return;
@@ -1244,7 +1251,7 @@
         menu.hidden = false; syncTools();
         if (lenis) lenis.stop();
         requestAnimationFrame(function () { menu.classList.add('is-open'); });
-        if (motion) gsap.fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.05, delay: 0.12, ease: 'expo.out' });
+        if (motion) gsap.fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.05, delay: 0.12, ease: 'expo.out' });
         var first = $('.menu-link', menu); if (first) first.focus({ preventScroll: true });
       } else {
         menu.classList.remove('is-open');
@@ -1288,7 +1295,7 @@
     tours.forEach(function (t, i) {
       var v = vids[i], view = $('.tour-view', t), btn = $('.tour-play', t);
       btn.addEventListener('click', function () {
-        vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); });
+        vids.forEach(function (o) { if (o !== v) pauseVideo(o); });
         if (!v.src) setVideo(v, videoSrc(v));
         // לסיורים יש פסקול: נשמע רק אחרי לחיצה, כך שהדפדפן מרשה להפעיל עם קול
         v.muted = false;
@@ -1297,7 +1304,7 @@
         playVideo(v);
         v.focus({ preventScroll: true });
       });
-      v.addEventListener('play', function () { vids.forEach(function (o) { if (o !== v && !o.paused) pauseVideo(o); }); });
+      v.addEventListener('play', function () { vids.forEach(function (o) { if (o !== v) pauseVideo(o); }); });
     });
     // התמונה של הסיור נטענת רק כשמתקרבים, ובטלפון בגודל שמתאים למסך
     var setPoster = function (v) { if (!v.poster) v.poster = (smallScreen && v.dataset.posterM) || v.dataset.poster; };
