@@ -1235,11 +1235,11 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 @media (prefers-reduced-motion: reduce) { .sheet-film { background: url("../work/bg/meadow.webp") center / cover; } }
 
 /* ---------- תהליך כהה: פרח קריסטל חי מאחורי הכותרת ----------
-   הרקע הוא בדיוק השחור של הסרט (#0c0c0c), והקצוות נמסים במסכה עגולה, כך שהפרח מרחף בלי מסגרת. */
+   הרקע הוא בדיוק השחור של הסרט (#0c0c0c), והקצוות נמסים לשחור בתוך הסרט עצמו, כך שהפרח מרחף בלי מסגרת. */
 .process-dark { background: #0c0c0c; color: var(--fg); }
 .process-dark .process-head { isolation: isolate; }
-.process-crystal { position: absolute; z-index: -1; top: 50%; inset-inline-start: 50%; width: clamp(420px, 44vw, 720px); aspect-ratio: 1; transform: translate(50%, -50%); pointer-events: none;
-  -webkit-mask: radial-gradient(closest-side, #000 62%, transparent 100%); mask: radial-gradient(closest-side, #000 62%, transparent 100%); }
+.process-crystal { position: absolute; z-index: -1; top: 50%; inset-inline-start: 50%; width: clamp(420px, 44vw, 720px); aspect-ratio: 1; transform: translate(50%, -50%); pointer-events: none; }
+/* הקצוות הרכים צרובים בתוך הסרט עצמו: ספארי מקפיא וידאו שיש עליו מסכה */
 .process-crystal img, .process-crystal video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .process-crystal video { opacity: 0; transition: opacity 1.2s; }
 .process-crystal video.on { opacity: 1; }
