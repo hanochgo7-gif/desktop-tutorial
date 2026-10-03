@@ -23,8 +23,11 @@ def wa(text):
 SERVICES = [
     {
         'slug': 'muay-thai', 'cta': 'לתיאום אימון ניסיון', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף תאילנדי', 'sub': 'טכניקה, כוח וביטחון עצמי',
-        'thumb': 'svc-muaythai.webp', 'hero': 'assets/hero/poster.webp', 'hero_wh': (1280, 1280), 'hero_pos': '50% 30%',
-        'title': 'אגרוף תאילנדי באימון אישי',
+        'thumb': 'svc-muaythai.webp', 'hero': 'assets/img/muaythai.webp', 'hero_wh': (900, 1125), 'hero_pos': '50% 30%',
+        'hero_alt': 'אביב שדמון בעמידת שמירה עם כפפות אגרוף', 'closing': ('assets/img/ring-fist.webp', 941, 530),
+        'title': 'אגרוף תאילנדי באימון אישי', 'tagline': 'המסלול שלך לעוצמה',
+        'points': ['טכניקה, כוח וביטחון עצמי', 'אימונים בהתאמה אישית מלאה', 'שחרור מתחים ואנרגיה מחודשת'],
+        'reviews': ['t2', 't3'],
         'lead': 'אני מאמן אישית במואי תאי ובקיקבוקס: טכניקה, כוח, כושר וביטחון עצמי, בקצב שמתאים לך. למתחילים ולמתקדמים.',
         'intro_h': 'יותר מאימון כושר',
         'intro': ['אגרוף תאילנדי מחזק את הגוף, מלמד טכניקה ושליטה, ומשחרר מתחים. אני מתאים כל אימון לרמה, למטרה ולקצב שלך, כבר מהמפגש הראשון.',
@@ -53,8 +56,11 @@ SERVICES = [
     },
     {
         'slug': 'sports-nutrition', 'cta': 'לתיאום שיחת ייעוץ', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'תזונת ספורט ותפריטים', 'sub': 'ייעוץ ותפריט אישי לפי המטרה',
-        'thumb': 'svc-nutrition.webp', 'hero': 'assets/img/nutrition-consult.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
-        'title': 'ייעוץ תזונת ספורט ותפריטים',
+        'thumb': 'svc-nutrition.webp', 'hero': 'assets/img/nutrition.webp', 'hero_wh': (738, 602), 'hero_pos': '50% 40%', 'hero_ratio': '738 / 602',
+        'hero_alt': 'אביב שדמון נוגס בארוחה בחדר הכושר', 'closing': ('assets/img/focus.webp', 900, 1600),
+        'side_img': ('assets/img/bowl.webp', 620, 580, 'קערה עם חזה עוף בגריל, קינואה, ברוקולי ועגבניות שרי'),
+        'title': 'ייעוץ תזונת ספורט ותפריטים', 'tagline': 'בונים הרגלים. רואים תוצאות.',
+        'points': ['תפריט מותאם אישית', 'בניית שריר וירידה בשומן', 'מעקב וליווי צמוד לאורך הדרך'],
         'lead': 'תזונה היא חצי מהאימון. אני בונה לך ייעוץ ותפריט אישי סביב המטרה, האימונים והשגרה שלך, כדי להתחזק, להתאושש ולהתקדם.',
         'intro_h': 'תזונה שמתחברת לחיים שלך',
         'intro': ['תזונה מדויקת נותנת לגוף את האנרגיה להתחזק, להתאושש ולהתקדם. התהליך מותאם אישית למטרה, לשגרת החיים ולמערך האימונים שלך.',
@@ -82,8 +88,11 @@ SERVICES = [
     },
     {
         'slug': 'boxing-nutrition', 'cta': 'להצטרפות למסלול', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף + תזונה', 'sub': 'מסלול הדגל: אימון שבועי ותפריט חודשי', 'flag': 'מסלול הדגל',
-        'thumb': 'svc-flagship.webp', 'hero': 'assets/img/flagship.webp', 'hero_wh': (2000, 1131), 'hero_pos': '30% 50%',
-        'title': 'אגרוף + תזונה',
+        'thumb': 'svc-flagship.webp', 'hero': 'assets/img/pads-partner.webp', 'hero_wh': (1086, 1448), 'hero_pos': '50% 35%',
+        'hero_alt': 'אביב מחזיק כריות ומגן בטן, ומתאמן מכה בהן', 'closing': ('assets/img/corner.webp', 941, 532),
+        'title': 'אגרוף + תזונה', 'tagline': 'המסלול המקיף לשינוי אמיתי',
+        'points': ['שילוב מנצח של אימון ותזונה', 'שינוי פנימי שמוביל לחיצוני', 'ליווי אישי מלא 360°'],
+        'reviews': ['t1'],
         'lead': 'חודש של תנועה, תזונה והתקדמות: ייעוץ תזונה ותפריט חודשי, יחד עם אימון אגרוף שבועי, ואני מלווה אותך אישית לאורך כל הדרך.',
         'intro_h': 'שילוב מנצח של אימון ותזונה',
         'intro': ['האימון בונה כוח, כושר וביטחון, והתזונה נותנת לגוף את מה שהוא צריך כדי להתחזק ולהתאושש. כשהשניים עובדים יחד, השינוי מורגש יותר.',
@@ -107,7 +116,8 @@ SERVICES = [
     },
     {
         'slug': 'talks', 'cta': 'לתיאום הרצאה', 'loc': '', 'menu': 'הרצאות וסדנאות', 'sub': 'לקבוצות, חברות, בתי ספר וארגונים',
-        'thumb': 'svc-talks.webp', 'hero': 'assets/img/talks.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 40%',
+        'thumb': 'svc-talks.webp', 'hero': 'assets/img/ring.webp', 'hero_wh': (1325, 970), 'hero_pos': '50% 40%', 'hero_ratio': '1325 / 970',
+        'hero_alt': 'אביב שדמון בזירה מול קהל, ידיים פתוחות לצדדים', 'closing': ('assets/img/ring-back.webp', 941, 640),
         'title': 'הרצאות וסדנאות',
         'lead': 'הרצאות לקבוצות, חברות, בתי ספר וארגונים, על הקשר בין גוף, תזונה ותודעה. מה שלמדתי בזירה, באימונים ובתאילנד, מותאם לקהל ולמטרה.',
         'intro_h': 'מהזירה אל הקהל',
@@ -131,7 +141,9 @@ SERVICES = [
     },
     {
         'slug': 'kids', 'cta': 'לתיאום אימון ניסיון לילד', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אימוני ילדים', 'sub': 'משמעת, כבוד וביטחון עצמי',
-        'thumb': 'svc-kids.webp', 'hero': 'assets/img/kids.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
+        'thumb': 'svc-kids.webp', 'hero': 'assets/img/kids-coach.webp', 'hero_wh': (1066, 1515), 'hero_pos': '50% 12%',
+        'hero_alt': 'אביב שדמון מחייך עם מתאמן צעיר באולם האימונים', 'credit': 'צילום: אביהו רשף',
+        'closing': ('assets/img/kids-coach.webp', 1066, 1515), 'video': True,
         'title': 'אימוני ילדים',
         'lead': 'מסגרת מקצועית ומהנה שמפתחת משמעת, כבוד, ביטחון עצמי וחוסן מנטלי. מותאם לגיל ולרמה.',
         'intro_h': 'יותר מספורט',
@@ -155,7 +167,9 @@ SERVICES = [
     },
     {
         'slug': 'body-mind', 'cta': 'לתיאום שיחת היכרות', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'גוף ותודעה', 'sub': 'נשימה, מדיטציה ועבודה מנטלית',
-        'thumb': 'svc-mind.webp', 'hero': 'assets/img/body-mind.webp', 'hero_wh': (1600, 1195), 'hero_pos': '50% 50%',
+        'thumb': 'svc-mind.webp', 'hero': 'assets/img/wraps.webp', 'hero_wh': (941, 1211), 'hero_pos': '50% 30%',
+        'hero_alt': 'אביב שדמון מרוכז, מלפף תחבושות על הידיים לפני אימון', 'closing': ('assets/img/wraps-close.webp', 931, 529),
+        'reviews': ['t4'],
         'title': 'גוף ותודעה',
         'lead': 'תהליך שמשלב נשימות, מדיטציה, תנועה ועבודה מנטלית, לפיתוח ריכוז, איזון פנימי וחוסן.',
         'intro_h': 'לאמן גם את הראש',
@@ -177,6 +191,57 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על תהליך גוף ותודעה',
     },
 ]
+
+REVIEWS = {
+    't2': {'hl': 'גם כשאני בטוח שנגמר לי ואני לא יכול עוד, אתה לא מוותר לי',
+           'text': 'אח אני חייב להגיד לך שאני הכי מעריך אצלך זה שאתה תמיד יודע להוציא ממני יותר. גם כשאני בטוח שנגמר לי ואני לא יכול עוד, אתה לא מוותר לי. אתה דוחף, מעודד וגורם לי לגלות שאני יכול יותר. מבחינתי זה אחד הדברים הכי חזקים באימונים איתך זה לא רק להתחזק פיזית, אלא לגלות כל פעם מחדש שאני מסוגל ליותר ממה שחשבתי.',
+           'wh': (720, 452)},
+    't3': {'hl': 'כמעט שנתיים שאני מתאמן אצלך, והגוף שלי השתנה לגמרי',
+           'text': 'שמע כבר כמעט שנתיים שאני מתאמן אצלך, והגוף שלי השתנה לגמרי. נהייתי חזק יותר, גמיש יותר, עם הרבה יותר כוח מתפרץ וכושר. אני מרגיש הרבה יותר דינמי ומחובר לגוף שלי, משהו שלא הרגשתי באימונים רגילים בחדר כושר. וגם מעבר לכושר, פשוט כיף ללמוד איגרוף אצלך את כל הטכניקה והקומבואים ולהרגיש שאני כל הזמן מתקדם.',
+           'wh': (720, 443)},
+    't4': {'hl': 'זה בנה לי ממש שריר מנטלי',
+           'text': 'שמע אחי מאז שהתחלנו להתאמן ובמיוחד לעשות ספארינג הבנתי כמה הספורט הזה הוא מנטלי. למדתי להתמודד עם לחץ, להגיב מהר, להישאר חד גם כשלא נוח, לקבל מכה ולהמשיך קדימה. זה בנה לי ממש שריר מנטלי... יותר קור רוח, יותר ביטחון ועזרת לי לגלות על עצמי יכולות התמודדות גם כשקשה אז ממש תודה על זה ימלך',
+           'wh': (720, 411)},
+    't5': {'hl': 'בנית תוכניות אימון מאתגרות תוך שמירה על הגוף',
+           'text': 'אביב היקר, למרות שאתה צעיר מאד התרשמתי המקצועיות שלך ההבנה של המתאמנים ובנית תוכניות אימון מאתגרות תוך שמירה על הגוף. למרות החששות בהתחלה אני חייב לציין שאתה מאמן קשוב יצירתי והכי חשוב מאתגר באימון. ממליץ בחום. שמח שהכרנו בטוח שנמשיך עוד שנים יחד',
+           'wh': (695, 635)},
+    't1': {'hl': 'כל אימון מרגיש כמו מסיבה',
+           'text': 'שמע אביב מאז שהתחלתי להתאמן אצלך, אני מרגיש הרבה יותר ביטחון עצמי והכושר שלי עלה בכמה רמות. ממש כיף להתאמן אצלך כל אימון מרגיש כמו מסיבה, ואני מחכה לאימונים כל שבוע מחדש.',
+           'wh': (720, 447)},
+}
+HOME_REVIEWS = ['t2', 't3', 't4', 't5', 't1']
+
+
+def review_card(rid, root):
+    r = REVIEWS[rid]
+    w, h = r['wh']
+    return f'''      <figure class="review">
+        <blockquote>
+          <p class="review-hl">{r['hl']}</p>
+          <p class="review-text">{r['text']}</p>
+        </blockquote>
+        <figcaption>
+          <span>הודעת WhatsApp ממתאמן</span>
+          <details class="review-proof"><summary>להודעה המקורית</summary><img src="{root}assets/img/reviews/{rid}.webp" alt="צילום מסך של ההודעה המקורית ב־WhatsApp" width="{w}" height="{h}" loading="lazy"></details>
+        </figcaption>
+      </figure>
+'''
+
+
+def home_reviews():
+    cards = ''.join(review_card(r, '') for r in HOME_REVIEWS)
+    return f'''<!-- BEGIN reviews -->
+  <!-- המלצות: הודעות אמיתיות, מילה במילה, בלי שמות -->
+  <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
+    <div class="reviews-head">
+      <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
+      <p>הודעות אמיתיות שקיבלתי ב־WhatsApp, מילה במילה. בלי שמות, כדי לשמור על הפרטיות.</p>
+    </div>
+    <div class="reviews-grid">
+{cards}    </div>
+  </section>
+<!-- END reviews -->'''
+
 
 WA_ICON = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>'
 CHEV = '<svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'
@@ -209,8 +274,7 @@ def header(root, current=None):
     return f'''<!-- BEGIN header -->
 <header class="site-header" data-header>
   <a class="brand" href="{home}">
-    <span class="brand-mark">AMS</span>
-    <span class="brand-sub">Mind &amp; Body Connection</span>
+    <img src="{root}assets/brand/ams.svg" alt="AMS – Mind &amp; Body Connection" width="420" height="126">
   </a>
   <div class="header-actions">
     <a class="header-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="header">{WA_ICON}<span>אימון ניסיון</span></a>
@@ -225,18 +289,18 @@ def header(root, current=None):
   <div class="menu-in">
     <nav class="menu-nav" aria-label="תפריט ראשי">
       <ol class="menu-list">
-{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', home + '#coach', 'מי אני', 'assets/img/coach-thailand.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
-        <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="{root}assets/img/flagship.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
+{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', home + '#coach', 'מי אני', 'assets/img/coach.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
+        <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="{root}assets/img/pads-partner.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
           <span class="menu-num">03</span><span class="menu-t">שירותים</span>{CHEV}
         </button>
         <div class="menu-sub" id="menu-sub">
 {subs}        </div>
       </li>
-{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training-session-duo.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/coach-pads-duo.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', home + '#contact', 'יצירת קשר', 'assets/img/coach-pads-duo.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
+{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
     </nav>
     <aside class="menu-vis" aria-label="יצירת קשר">
       <figure class="menu-fig" aria-hidden="true">
-        <img src="{root}assets/img/flagship.webp" alt="" width="2000" height="1131" loading="lazy" data-menu-img>
+        <img src="{root}assets/img/pads-partner.webp" alt="" width="1086" height="1448" loading="lazy" data-menu-img>
         <figcaption><b data-menu-cap>שירותים</b><span data-menu-sub>שישה שירותים, מטרה אחת</span></figcaption>
       </figure>
       <a class="btn btn-gold btn-block" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="menu">{WA_ICON}לתיאום אימון ניסיון</a>
@@ -252,10 +316,7 @@ def footer(root):
     return f'''<!-- BEGIN footer -->
 <footer class="site-footer">
   <div class="footer-top">
-    <div class="logo logo-sm" role="img" aria-label="AMS – Mind and Body Connection">
-      <span class="logo-mark">AMS</span>
-      <span class="logo-tag">Mind &amp; Body Connection</span>
-    </div>
+    <p class="logo logo-sm"><img src="{root}assets/brand/logo.svg" alt="AMS – Mind &amp; Body Connection, Aviv Moshe Shadmon" width="430" height="205" loading="lazy"></p>
     <nav class="footer-nav" aria-label="שירותים">
       <p class="footer-h">שירותים</p>
       <ul>
@@ -298,7 +359,7 @@ def head(title, desc, root, og, extra=''):
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;125,800&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600&family=Karantina:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}css/ams.css">
 {extra}</head>'''
 
@@ -339,6 +400,42 @@ def service_page(s):
     steps = ''.join(f'      <li>\n        <h3>{k}</h3>\n        <p>{v}</p>\n      </li>\n' for k, v in s['steps'])
     faq = ''.join(f'      <details>\n        <summary>{q}</summary>\n        <p>{a}</p>\n      </details>\n' for q, a in s['faq'])
     intro = ''.join(f'      <p>{p}</p>\n' for p in s['intro'])
+    if s.get('points'):
+        intro += '      <ul class="checks svc-points">\n' + ''.join(f'        <li>{p}</li>\n' for p in s['points']) + '      </ul>\n'
+    tagline = f'\n        <p class="svc-tagline">{s["tagline"]}</p>' if s.get('tagline') else ''
+    ratio = f'aspect-ratio:{s["hero_ratio"]};' if s.get('hero_ratio') else ''
+    credit = f'\n        <figcaption>{s["credit"]}</figcaption>' if s.get('credit') else ''
+    cimg, cw, ch = s['closing']
+    side = ''
+    if s.get('side_img'):
+        si, sw, sh, sa = s['side_img']
+        side = f'      <figure class="svc-side-fig"><img src="{r}{si}" alt="{sa}" width="{sw}" height="{sh}" loading="lazy"></figure>\n'
+    reviews = ''
+    if s.get('reviews'):
+        reviews = f'''
+  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+    <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
+    <div class="reviews-grid">
+{''.join(review_card(x, r) for x in s['reviews'])}    </div>
+  </section>
+'''
+    video = ''
+    if s.get('video'):
+        video = f'''
+  <section class="section clip" aria-labelledby="clip-title">
+    <div class="clip-text">
+      <h2 class="h2" id="clip-title">ככה נראה אימון</h2>
+      <p>אימון קבוצתי של ילדים: חימום, עבודה בזוגות על כריות, והרבה אנרגיה. כל ילד מתקדם בקצב שלו, ונהנה מהדרך.</p>
+    </div>
+    <figure class="clip-media">
+      <video poster="{r}assets/video/kids-class.webp" width="464" height="832" muted loop playsinline preload="none" aria-label="סרטון קצר מאימון ילדים קבוצתי" data-clip>
+        <source src="{r}assets/video/kids-class.mp4" type="video/mp4">
+        <source src="{r}assets/video/kids-class.webm" type="video/webm">
+      </video>
+      <button class="clip-toggle" type="button" data-clip-toggle hidden>עצירה</button>
+    </figure>
+  </section>
+'''
     flag = f'\n      <p class="svc-flag">{s["flag"]}</p>' if s.get('flag') else ''
     w, h = s['hero_wh']
     return f'''{head(f'{s["title"]}{(" " + s["loc"]) if s["loc"] else ""} | אביב משה שדמון – AMS', s['lead'], r, s['hero'], ld(s))}
@@ -356,7 +453,7 @@ def service_page(s):
           <li><a href="{r}index.html#services">שירותים</a></li>
           <li aria-current="page">{s['menu']}</li>
         </ol>{flag}
-        <h1 class="svc-title" id="svc-title">{s['title']}</h1>
+        <h1 class="svc-title" id="svc-title">{s['title']}</h1>{tagline}
         <p class="svc-lead">{s['lead']}</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-hero">{WA_ICON}{s['cta']}</a>
@@ -369,7 +466,7 @@ def service_page(s):
         </ul>
       </div>
       <figure class="svc-hero-img">
-        <img src="{r}{s['hero']}" alt="" width="{w}" height="{h}" style="object-position:{s['hero_pos']}" fetchpriority="high">
+        <img src="{r}{s['hero']}" alt="{s['hero_alt']}" width="{w}" height="{h}" style="{ratio}object-position:{s['hero_pos']}" fetchpriority="high">{credit}
       </figure>
     </div>
   </section>
@@ -378,8 +475,10 @@ def service_page(s):
     <div class="svc-intro-body">
       <h2 class="h2" id="intro-title">{s['intro_h']}</h2>
 {intro}    </div>
-    <dl class="svc-facts">
-{facts}    </dl>
+    <div class="svc-side">
+      <dl class="svc-facts">
+{facts}      </dl>
+{side}    </div>
   </section>
 
   <section class="section" id="includes" aria-labelledby="inc-title">
@@ -387,7 +486,7 @@ def service_page(s):
     <ul class="svc-list">
 {inc}    </ul>
   </section>
-
+{video}{reviews}
   <section class="section" aria-labelledby="steps-title">
     <h2 class="h2" id="steps-title">איך זה עובד</h2>
     <ol class="steps svc-steps">
@@ -396,7 +495,7 @@ def service_page(s):
 
   <section class="section trainer" aria-labelledby="trainer-title">
     <figure class="trainer-photo">
-      <img src="{r}assets/img/coach-thailand.webp" alt="אביב משה שדמון במחנה אימוני מואי תאי בתאילנד" width="858" height="1072" loading="lazy">
+      <img src="{r}assets/img/coach.webp" alt="אביב משה שדמון עם כריות אימון" width="1086" height="1358" loading="lazy">
     </figure>
     <div class="trainer-body">
       <p class="trainer-label">נעים להכיר</p>
@@ -419,7 +518,7 @@ def service_page(s):
   </section>
 
   <section class="closing" aria-labelledby="closing-title">
-    <img class="closing-bg" src="{r}{s['hero']}" alt="" width="{w}" height="{h}" loading="lazy">
+    <img class="closing-bg" src="{r}{cimg}" alt="" width="{cw}" height="{ch}" loading="lazy">
     <div class="closing-inner">
       <h2 class="closing-title" id="closing-title"><span>{s['cta_h']}</span></h2>
       <p>{s['cta_p']}</p>
@@ -458,11 +557,13 @@ def add_srcset(html):
             if 'service-img' in before[-80:]:
                 return '(max-width: 760px) 96px, 184px'
             return '72px'
-        if 'closing-bg' in tag or 'flagship-bg' in tag:
+        if 'closing-bg' in tag or 'flagship-bg' in tag or 'facts-bg' in tag:
             return '100vw'
+        if 'trainer-photo' in before[-80:]:
+            return '(max-width: 1020px) 92vw, 420px'
         if name == 'poster.webp':
             return '(max-width: 760px) 44vh, 100vh'
-        if name == 'coach-thailand.webp':
+        if name == 'coach.webp':
             return '(max-width: 760px) 92vw, 440px'
         return '(max-width: 1020px) 92vw, 560px'
 
@@ -504,6 +605,7 @@ def main():
         html = html.replace('</head>', home_faq_ld(html) + '\n</head>', 1)
     html = re.sub(r'<!-- BEGIN sprite -->.*?<!-- END sprite -->',
                   lambda m: '<!-- BEGIN sprite -->\n' + SPRITE + '\n<!-- END sprite -->', html, flags=re.S)
+    html = re.sub(r'<!-- BEGIN reviews -->.*?<!-- END reviews -->', lambda m: home_reviews(), html, flags=re.S)
     html = add_srcset(html)
     open(p, 'w', encoding='utf-8').write(html)
     print('built', len(SERVICES), 'service pages')

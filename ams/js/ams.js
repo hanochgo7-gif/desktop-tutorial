@@ -220,6 +220,28 @@
     if (typeof window.fbq === 'function') window.fbq('track', 'Contact', { cta: where });
   });
 
+  // סרטון אימון: מתנגן בלי קול כשמגיעים אליו, עם כפתור עצירה; ב"הפחתת תנועה" רק בלחיצה
+  document.querySelectorAll('[data-clip]').forEach((video) => {
+    const btn = video.parentElement.querySelector('[data-clip-toggle]');
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let userPaused = still;
+    const label = () => { btn.textContent = video.paused ? 'הפעלה' : 'עצירה'; };
+    btn.hidden = false;
+    label();
+    btn.addEventListener('click', () => {
+      if (video.paused) { userPaused = false; video.play(); } else { userPaused = true; video.pause(); }
+    });
+    video.addEventListener('play', label);
+    video.addEventListener('pause', label);
+    if (!('IntersectionObserver' in window)) return;
+    new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting && !userPaused) video.play().catch(() => {});
+        else if (!en.isIntersecting && !video.paused) video.pause();
+      });
+    }, { threshold: 0.4 }).observe(video);
+  });
+
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 })();
