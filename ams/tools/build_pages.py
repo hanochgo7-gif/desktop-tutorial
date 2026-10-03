@@ -15,6 +15,11 @@ from content import ARTICLES, AREAS
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PHONE = '972509359222'
+# כתובת האתר בדומיין, בלי / בסוף (למשל 'https://www.ams-aviv.co.il').
+# כל עוד ריק: האתר מוסתר מגוגל (noindex). כשממלאים ומריצים את הסקריפט: מוסר ה-noindex,
+# נוספים canonical ו-og:url, תמונות השיתוף הופכות לכתובות מלאות, ונוצרים sitemap.xml ו-robots.txt.
+SITE_URL = ''
+GEO = (31.8554, 34.8489)   # רחוב אורן, מזכרת בתיה (לפי OpenStreetMap, ברמת הרחוב)
 IG = 'https://www.instagram.com/aviv_shadmon/'
 
 
@@ -24,7 +29,7 @@ def wa(text):
 
 SERVICES = [
     {
-        'slug': 'muay-thai', 'cta': 'לתיאום אימון ניסיון', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף תאילנדי', 'sub': 'טכניקה, כוח וביטחון עצמי',
+        'slug': 'muay-thai', 'seo_title': 'אגרוף תאילנדי (מואי תאי) באימון אישי במזכרת בתיה | אביב משה שדמון – AMS',  'cta': 'לתיאום אימון ניסיון', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף תאילנדי', 'sub': 'טכניקה, כוח וביטחון עצמי',
         'thumb': 'svc-muaythai.webp', 'hero': 'assets/img/muaythai.webp', 'hero_wh': (900, 1125), 'hero_pos': '50% 30%',
         'hero_alt': 'אביב שדמון בעמידת שמירה עם כפפות אגרוף', 'closing': ('assets/img/ring-fist.webp', 941, 530),
         'title': 'אגרוף תאילנדי באימון אישי', 'tagline': 'המסלול שלך לעוצמה',
@@ -53,12 +58,13 @@ SERVICES = [
                 ('מה להביא לאימון הראשון?', 'בגדי ספורט נוחים, מים, מגבת ורצון להתחיל. את שאר הציוד נתאים לפי סוג האימון.'),
                 ('אפשר לשלב אימוני לחימה ואימוני כוח?', 'כן. התוכנית יכולה לשלב מואי תאי, קיקבוקס, אימוני כוח ומשקל גוף, לפי המטרה האישית.'),
                 ('כמה זמן נמשך אימון?', '45 דקות: חימום, עבודה טכנית ואימון מלא.'),
+                ('מה ההבדל בין אגרוף תאילנדי, איגרוף תאילנדי ומואי תאי?', 'אין הבדל, זה אותו ספורט. מואי תאי הוא השם התאילנדי, ובעברית כותבים גם אגרוף וגם איגרוף. אצלי באימון לומדים מואי תאי וגם קיקבוקס, לפי המטרה שלך.'),
                 ('אפשר להתאמן בזוג או עם חברים?', 'כן. אפשר להתאמן בזוג או בקבוצה קטנה של עד ארבעה משתתפים. את המסגרת נבחר יחד בשיחת ההיכרות.')],
         'cta_h': 'רוצה להתחיל להתאמן?', 'cta_p': 'שולחים לי הודעה, ונקבע יחד שיחת היכרות ואימון ראשון.',
         'wa': 'היי אביב, אשמח לשמוע על אימון אישי באגרוף תאילנדי',
     },
     {
-        'slug': 'sports-nutrition', 'cta': 'לתיאום שיחת ייעוץ', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'תזונת ספורט ותפריטים', 'sub': 'ייעוץ ותפריט אישי לפי המטרה',
+        'slug': 'sports-nutrition', 'seo_title': 'ייעוץ תזונת ספורט ותפריט חיטוב אישי, גם בזום | אביב משה שדמון – AMS',  'cta': 'לתיאום שיחת ייעוץ', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'תזונת ספורט ותפריטים', 'sub': 'ייעוץ ותפריט אישי לפי המטרה',
         'thumb': 'svc-nutrition.webp', 'hero': 'assets/img/nutrition.webp', 'hero_wh': (738, 602), 'hero_pos': '50% 40%', 'hero_ratio': '738 / 602',
         'hero_alt': 'אביב שדמון נוגס בארוחה בחדר הכושר', 'closing': ('assets/img/focus.webp', 900, 1600),
         'side_img': ('assets/img/bowl.webp', 620, 580, 'קערה עם חזה עוף בגריל, קינואה, ברוקולי ועגבניות שרי'),
@@ -92,7 +98,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לייעוץ תזונת ספורט ותפריט אישי',
     },
     {
-        'slug': 'boxing-nutrition', 'cta': 'להצטרפות למסלול', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף + תזונה', 'sub': 'מסלול הדגל: אימון שבועי ותפריט חודשי', 'flag': 'מסלול הדגל',
+        'slug': 'boxing-nutrition', 'seo_title': 'אגרוף + תזונה: אימון אגרוף שבועי ותפריט חודשי | אביב משה שדמון – AMS',  'cta': 'להצטרפות למסלול', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אגרוף + תזונה', 'sub': 'מסלול הדגל: אימון שבועי ותפריט חודשי', 'flag': 'מסלול הדגל',
         'thumb': 'svc-flagship.webp', 'hero': 'assets/img/pads-partner.webp', 'hero_wh': (1086, 1448), 'hero_pos': '50% 35%',
         'hero_alt': 'אביב מחזיק כריות ומגן בטן, ומתאמן מכה בהן', 'closing': ('assets/img/corner.webp', 941, 532),
         'title': 'אגרוף + תזונה', 'tagline': 'המסלול המקיף לשינוי אמיתי',
@@ -120,7 +126,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על המסלול המשולב אגרוף + תזונה',
     },
     {
-        'slug': 'talks', 'cta': 'לתיאום הרצאה', 'loc': '', 'menu': 'הרצאות וסדנאות', 'sub': 'לקבוצות, חברות, בתי ספר וארגונים',
+        'slug': 'talks', 'seo_title': 'הרצאות וסדנאות אגרוף תאילנדי לחברות, בתי ספר וקבוצות | אביב משה שדמון – AMS',  'cta': 'לתיאום הרצאה', 'loc': '', 'menu': 'הרצאות וסדנאות', 'sub': 'לקבוצות, חברות, בתי ספר וארגונים',
         'thumb': 'svc-talks.webp', 'hero': 'assets/img/ring.webp', 'hero_wh': (1325, 970), 'hero_pos': '50% 40%', 'hero_ratio': '1325 / 970',
         'hero_alt': 'אביב שדמון בזירה מול קהל, ידיים פתוחות לצדדים', 'closing': ('assets/img/ring-back.webp', 941, 640),
         'title': 'הרצאות וסדנאות',
@@ -145,7 +151,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על הרצאה',
     },
     {
-        'slug': 'kids', 'cta': 'לתיאום אימון ניסיון לילד', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אימוני ילדים', 'sub': 'מגיל 4: משמעת, כבוד וביטחון עצמי',
+        'slug': 'kids', 'seo_title': 'אגרוף תאילנדי לילדים מגיל 4 | אביב משה שדמון – AMS',  'cta': 'לתיאום אימון ניסיון לילד', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'אימוני ילדים', 'sub': 'מגיל 4: משמעת, כבוד וביטחון עצמי',
         'thumb': 'svc-kids.webp', 'hero': 'assets/img/kids-coach.webp', 'hero_wh': (1066, 1515), 'hero_pos': '50% 12%',
         'hero_alt': 'אביב שדמון מחייך עם מתאמן צעיר באולם האימונים', 'credit': 'צילום: אביהו רשף',
         'closing': ('assets/img/kids-coach.webp', 1066, 1515), 'video': True,
@@ -172,7 +178,7 @@ SERVICES = [
         'wa': 'היי אביב, אשמח לשמוע על אימוני ילדים',
     },
     {
-        'slug': 'body-mind', 'cta': 'לתיאום שיחת היכרות', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'גוף ותודעה', 'sub': 'נשימה, מדיטציה ועבודה מנטלית',
+        'slug': 'body-mind', 'seo_title': 'גוף ותודעה: נשימות, מדיטציה וחוסן מנטלי | אביב משה שדמון – AMS',  'cta': 'לתיאום שיחת היכרות', 'loc': 'במזכרת בתיה ובמרכז', 'menu': 'גוף ותודעה', 'sub': 'נשימה, מדיטציה ועבודה מנטלית',
         'thumb': 'svc-mind.webp', 'hero': 'assets/img/wraps.webp', 'hero_wh': (941, 1211), 'hero_pos': '50% 30%',
         'hero_alt': 'אביב שדמון מרוכז, מלפף תחבושות על הידיים לפני אימון', 'closing': ('assets/img/wraps-close.webp', 931, 529),
         'reviews': ['t4'],
@@ -354,6 +360,8 @@ def footer(root):
 
 
 def head(title, desc, root, og, extra=''):
+    if not og.endswith(('.jpg', '.png')):   # תמונת שיתוף בפורמט שכל הרשתות קוראות
+        og = 'assets/img/og.jpg'
     return f'''<!doctype html>
 <html lang="he" dir="rtl">
 <head>
@@ -455,7 +463,7 @@ def service_page(s):
 '''
     flag = f'\n      <p class="svc-flag">{s["flag"]}</p>' if s.get('flag') else ''
     w, h = s['hero_wh']
-    return f'''{head(f'{s["title"]}{(" " + s["loc"]) if s["loc"] else ""} | אביב משה שדמון – AMS', s['lead'], r, s['hero'], ld(s))}
+    return f'''{head(s.get('seo_title') or f'{s["title"]} | אביב משה שדמון – AMS', s['lead'], r, s['hero'], ld(s))}
 <body class="is-inner">
 <a class="skip" href="#main">דלג לתוכן</a>
 
@@ -792,7 +800,7 @@ def area_page(ar):
     <div class="svc-intro-body">
       <h2 class="h2" id="intro-title">סטודיו פרטי, כ־{mins} דקות {ar['from']}</h2>
       <p>{ar['line']}</p>
-      <p>אני מתאים כל אימון למטרה, לרמה ולקצב שלך: אגרוף תאילנדי, כוח וכושר, ואם רוצים גם ליווי תזונתי. אפשר להתאמן אחד על אחד, בזוג או בקבוצה קטנה של עד ארבעה.</p>
+      <p>מחפש מאמן כושר אישי או אימוני אגרוף תאילנדי ליד {town}? אני מתאים כל אימון למטרה, לרמה ולקצב שלך: אגרוף תאילנדי (מואי תאי) וקיקבוקס, כוח וכושר, ואם רוצים גם ליווי תזונתי. אפשר להתאמן אחד על אחד, בזוג או בקבוצה קטנה של עד ארבעה.</p>
     </div>
     <div class="svc-side">
       <dl class="svc-facts">
@@ -836,6 +844,65 @@ def area_page(ar):
     return page(r, f'אגרוף תאילנדי ואימון אישי ליד {town} | אביב משה שדמון – AMS', lead, img, ld_html, main_html)
 
 
+def business_ld():
+    """נתוני העסק לגוגל (Local Business). נבנים מכאן כדי שיהיו זהים בכל מקום."""
+    base = SITE_URL or ''
+    data = {
+        '@context': 'https://schema.org',
+        '@type': 'SportsActivityLocation',
+        'name': 'AMS – Mind & Body Connection | אביב משה שדמון',
+        'alternateName': ['AMS', 'אביב שדמון – אגרוף תאילנדי'],
+        'description': 'אימון אישי באגרוף תאילנדי (מואי תאי) וקיקבוקס, כושר וחיטוב, תזונת ספורט ועבודה מנטלית, בסטודיו פרטי במזכרת בתיה.',
+        'image': (base + '/' if base else '') + 'assets/img/og.jpg',
+        'logo': (base + '/' if base else '') + 'assets/brand/logo.svg',
+        'telephone': '+972-50-935-9222',
+        'address': {'@type': 'PostalAddress', 'streetAddress': 'אורן 21', 'addressLocality': 'מזכרת בתיה', 'addressRegion': 'מחוז המרכז', 'addressCountry': 'IL'},
+        'geo': {'@type': 'GeoCoordinates', 'latitude': GEO[0], 'longitude': GEO[1]},
+        'hasMap': 'https://www.google.com/maps/search/?api=1&query=%D7%90%D7%95%D7%A8%D7%9F%2021%20%D7%9E%D7%96%D7%9B%D7%A8%D7%AA%20%D7%91%D7%AA%D7%99%D7%94',
+        'areaServed': ['מזכרת בתיה'] + [a['town'] for a in AREAS],
+        'sameAs': [IG],
+        'founder': {'@type': 'Person', 'name': 'אביב משה שדמון', 'jobTitle': 'מאמן אגרוף תאילנדי ומאמן כושר אישי',
+                    'knowsAbout': ['אגרוף תאילנדי', 'מואי תאי', 'קיקבוקס', 'אימוני כוח', 'תזונת ספורט', 'נשימות ומדיטציה'],
+                    'alumniOf': {'@type': 'EducationalOrganization', 'name': 'מכון וינגייט'}, 'sameAs': [IG]},
+        'makesOffer': [{'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': s['title'],
+                        'url': (base + '/' if base else '') + f'services/{s["slug"]}.html'}} for s in SERVICES],
+    }
+    if base:
+        data['url'] = base + '/'
+    return '<!-- BEGIN business-ld -->\n' + ld_json(data) + '<!-- END business-ld -->'
+
+
+def page_path(fp):
+    rel = os.path.relpath(fp, ROOT).replace(os.sep, '/')
+    return '' if rel == 'index.html' else ('articles/' if rel == 'articles/index.html' else rel)
+
+
+def seo_finalize(html, rel):
+    """מתג ההשקה: noindex כל עוד אין דומיין; canonical, og:url ותמונת שיתוף מלאה כשיש."""
+    html = re.sub(r'\n<link rel="canonical"[^>]*>|\n<meta property="og:url"[^>]*>', '', html)
+    if not SITE_URL:
+        if '<meta name="robots"' not in html:
+            html = html.replace('<meta name="theme-color"', '<meta name="robots" content="noindex">\n<meta name="theme-color"', 1)
+        return html
+    url = f'{SITE_URL}/{rel}'
+    html = re.sub(r'<!-- בסיס בפיתוח[^>]*-->\n<meta name="robots" content="noindex">\n', '', html)
+    html = html.replace('<meta property="og:type"', f'<link rel="canonical" href="{url}">\n<meta property="og:url" content="{url}">\n<meta property="og:type"', 1)
+    html = re.sub(r'<meta property="og:image" content="(?:\.\./)*([^"]+)">', lambda m: f'<meta property="og:image" content="{SITE_URL}/{m.group(1)}">', html)
+    return html
+
+
+def write_sitemap(paths):
+    if not SITE_URL:
+        for f in ('sitemap.xml', 'robots.txt'):
+            if os.path.exists(os.path.join(ROOT, f)):
+                os.remove(os.path.join(ROOT, f))
+        return
+    urls = ''.join(f'  <url><loc>{SITE_URL}/{p}</loc><lastmod>{DATE}</lastmod></url>\n' for p in paths)
+    open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write(
+        f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
+    open(os.path.join(ROOT, 'robots.txt'), 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n')
+
+
 def home_articles():
     cards = article_cards(ARTICLES[:3], '')
     return f"""<!-- BEGIN articles -->
@@ -851,32 +918,41 @@ def home_articles():
 
 
 def main():
-    os.makedirs(os.path.join(ROOT, 'services'), exist_ok=True)
-    for s in SERVICES:
-        with open(os.path.join(ROOT, 'services', s['slug'] + '.html'), 'w', encoding='utf-8') as f:
-            f.write(add_srcset(service_page(s)))
-    for sub, items, fn in (('articles', ARTICLES, article_page), ('areas', AREAS, area_page)):
+    written = []
+
+    def write(fp, html):
+        rel = page_path(fp)
+        with open(fp, 'w', encoding='utf-8') as f:
+            f.write(seo_finalize(add_srcset(html), rel))
+        written.append(rel)
+
+    for sub in ('services', 'articles', 'areas'):
         os.makedirs(os.path.join(ROOT, sub), exist_ok=True)
-        for x in items:
-            with open(os.path.join(ROOT, sub, x['slug'] + '.html'), 'w', encoding='utf-8') as f:
-                f.write(add_srcset(fn(x)))
-    with open(os.path.join(ROOT, 'articles', 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(add_srcset(articles_index()))
     p = os.path.join(ROOT, 'index.html')
     html = open(p, encoding='utf-8').read()
     html = re.sub(r'<!-- BEGIN header -->.*?<!-- END header -->', lambda m: header(''), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN footer -->.*?<!-- END footer -->', lambda m: footer(''), html, flags=re.S)
-    if '<!-- BEGIN faq-ld -->' in html:
-        html = re.sub(r'<!-- BEGIN faq-ld -->.*?<!-- END faq-ld -->', lambda m: home_faq_ld(html), html, flags=re.S)
-    else:
-        html = html.replace('</head>', home_faq_ld(html) + '\n</head>', 1)
     html = re.sub(r'<!-- BEGIN sprite -->.*?<!-- END sprite -->',
                   lambda m: '<!-- BEGIN sprite -->\n' + SPRITE + '\n<!-- END sprite -->', html, flags=re.S)
     html = re.sub(r'<!-- BEGIN reviews -->.*?<!-- END reviews -->', lambda m: home_reviews(), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN articles -->.*?<!-- END articles -->', lambda m: home_articles(), html, flags=re.S)
-    html = add_srcset(html)
-    open(p, 'w', encoding='utf-8').write(html)
-    print('built', len(SERVICES), 'service pages,', len(ARTICLES), 'articles,', len(AREAS), 'area pages')
+    if '<!-- BEGIN faq-ld -->' in html:
+        html = re.sub(r'<!-- BEGIN faq-ld -->.*?<!-- END faq-ld -->', lambda m: home_faq_ld(html), html, flags=re.S)
+    else:
+        html = html.replace('</head>', home_faq_ld(html) + '\n</head>', 1)
+    html = re.sub(r'<!-- BEGIN business-ld -->.*?<!-- END business-ld -->', lambda m: business_ld(), html, flags=re.S)
+    if not SITE_URL and '<meta name="robots"' not in html:   # חזרה למצב פיתוח
+        html = html.replace('<meta name="theme-color"', '<!-- בסיס בפיתוח: להסיר את noindex כשהאתר עולה לדומיין של AMS -->\n<meta name="robots" content="noindex">\n<meta name="theme-color"', 1)
+    write(p, html)
+    for s in SERVICES:
+        write(os.path.join(ROOT, 'services', s['slug'] + '.html'), service_page(s))
+    write(os.path.join(ROOT, 'articles', 'index.html'), articles_index())
+    for sub, items, fn in (('articles', ARTICLES, article_page), ('areas', AREAS, area_page)):
+        for x in items:
+            write(os.path.join(ROOT, sub, x['slug'] + '.html'), fn(x))
+    write_sitemap(written)
+    print('built', len(written), 'pages:', len(SERVICES), 'services,', len(ARTICLES), 'articles,', len(AREAS), 'areas',
+          '| SITE_URL =', SITE_URL or '(none – noindex)')
 
 
 if __name__ == '__main__':
