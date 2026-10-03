@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://hgpro.io/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/en.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/work.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/en-work.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/archive/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/archive/en.html</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/accessibility.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.3</priority>
+  </url>
+</urlset>

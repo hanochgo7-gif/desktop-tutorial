@@ -1594,3 +1594,12 @@ a[href^="tel:"] { white-space: nowrap; }
   .process-crystal { top: auto; width: min(78vw, 340px); transform: none; margin: 0 auto 4px; }
   .process-dark .process-head { padding-top: 8px; margin-bottom: 1rem; }
 }
+
+/* ---------- המותג: HGPRO ---------- */
+/* הסימן נכתב ב-Fraunces (בדף העברי נטענות רק חמש האותיות שלו), והכותרת נשארת באותה קומפוזיציה: HG למעלה, PRO למטה */
+.bar-mark, .hero-title, .intro-type { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; }
+.hero-title { direction: ltr; }
+.hero-title, html[lang="en"] .hero-title { font-weight: 800; font-size: clamp(4.4rem, 17vw, 17rem); line-height: .86; }
+@media (min-width: 561px) and (max-width: 900px) { .hero-title, html[lang="en"] .hero-title { font-size: 25vw; } }
+@media (max-width: 560px) { .hero-title, html[lang="en"] .hero-title { font-size: 32vw; } }
+@media (orientation: landscape) and (max-height: 520px) { .hero-title, html[lang="en"] .hero-title { font-size: 26vh; } }
