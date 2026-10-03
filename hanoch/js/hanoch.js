@@ -851,8 +851,7 @@
   }
 
   /* ---------- בריף: שלוש שאלות והודעת וואטסאפ מוכנה ---------- */
-  // TODO: להוסיף את המייל של חנוך (אז יופיע גם כפתור "שליחה במייל")
-  var CONTACT = { whatsapp: '972545522053', email: '' };
+  var CONTACT = { whatsapp: '972545522053', email: 'boss@hgpro.io' };
   function initBrief() {
     var form = $('#brief');
     if (!form) return;
