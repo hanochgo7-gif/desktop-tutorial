@@ -10,6 +10,8 @@ import os
 import re
 from urllib.parse import quote
 
+from content import ARTICLES, AREAS
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PHONE = '972509359222'
@@ -300,7 +302,7 @@ def header(root, current=None):
         <div class="menu-sub" id="menu-sub">
 {subs}        </div>
       </li>
-{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
+{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
     </nav>
     <aside class="menu-vis" aria-label="יצירת קשר">
       <figure class="menu-fig" aria-hidden="true">
@@ -317,6 +319,7 @@ def header(root, current=None):
 
 def footer(root):
     links = ''.join(f'      <li><a href="{root}services/{s["slug"]}.html">{s["menu"]}</a></li>\n' for s in SERVICES)
+    area_links = ''.join(f'      <li><a href="{root}areas/{a["slug"]}.html">ליד {a["town"]}</a></li>\n' for a in AREAS)
     return f'''<!-- BEGIN footer -->
 <footer class="site-footer">
   <div class="footer-top">
@@ -325,6 +328,12 @@ def footer(root):
       <p class="footer-h">שירותים</p>
       <ul>
 {links}      </ul>
+    </nav>
+    <nav class="footer-nav" aria-label="עוד באתר">
+      <p class="footer-h">עוד באתר</p>
+      <ul>
+      <li><a href="{root}articles/index.html">מאמרים</a></li>
+{area_links}      </ul>
     </nav>
     <div class="footer-contact">
       <p class="footer-h">יצירת קשר</p>
@@ -407,6 +416,9 @@ def service_page(s):
     if s.get('points'):
         intro += '      <ul class="checks svc-points">\n' + ''.join(f'        <li>{p}</li>\n' for p in s['points']) + '      </ul>\n'
     tagline = f'\n        <p class="svc-tagline">{s["tagline"]}</p>' if s.get('tagline') else ''
+    for a in ARTICLES:
+        if a['service'] == s['slug']:
+            intro += f'      <p class="svc-read"><a href="{r}articles/{a["slug"]}.html">לקריאה: {a["title"]}</a></p>\n'
     ratio = f'aspect-ratio:{s["hero_ratio"]};' if s.get('hero_ratio') else ''
     credit = f'\n        <figcaption>{s["credit"]}</figcaption>' if s.get('credit') else ''
     cimg, cw, ch = s['closing']
@@ -594,11 +606,261 @@ def add_srcset(html):
     return re.sub(r'<img\b[^>]*>', fix, html)
 
 
+SVC = {s['slug']: s for s in SERVICES}
+DATE = '2026-10-03'
+
+
+def reading_minutes(a):
+    words = 0
+    for b in a['body']:
+        if b[0] in ('p', 'h2'):
+            words += len(b[1].split())
+        elif b[0] == 'ul':
+            words += sum(len(x.split()) for x in b[1])
+        elif b[0] == 'quote':
+            words += len(b[1].split())
+    return max(2, round(words / 170))
+
+
+def cta_box(slug, r):
+    s = SVC[slug]
+    return f"""      <aside class="cta-box">
+        <p class="cta-box-t">{s['menu']}</p>
+        <p>{s['lead']}</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="article">{WA_ICON}{s['cta']}</a>
+          <a class="btn btn-line" href="{r}services/{slug}.html">לפרטים על השירות</a>
+        </div>
+      </aside>
+"""
+
+
+def render_blocks(blocks, r):
+    out = ''
+    for b in blocks:
+        if b[0] == 'p':
+            out += f'      <p>{b[1]}</p>\n'
+        elif b[0] == 'h2':
+            out += f'      <h2>{b[1]}</h2>\n'
+        elif b[0] == 'ul':
+            out += '      <ul class="checks">\n' + ''.join(f'        <li>{x}</li>\n' for x in b[1]) + '      </ul>\n'
+        elif b[0] == 'quote':
+            out += f'      <blockquote class="pull"><p>{b[1]}</p><footer>{b[2]}</footer></blockquote>\n'
+        elif b[0] == 'cta':
+            out += cta_box(b[1], r)
+    return out
+
+
+def article_cards(items, r, current=None):
+    return ''.join(
+        f'      <li><a class="more-card" href="{r}articles/{a["slug"]}.html"><img src="{r}{a["img"][0]}" alt="" width="{a["img"][1]}" height="{a["img"][2]}" style="object-position:{a["img"][3]}" loading="lazy"><span><b>{a["short"]}</b><small>{a["desc"]}</small></span></a></li>\n'
+        for a in items if a['slug'] != current)
+
+
+def page(r, title, desc, og, ld_html, main_html, body_class='is-inner'):
+    return f"""{head(title, desc, r, og, ld_html)}
+<body class="{body_class}">
+<a class="skip" href="#main">דלג לתוכן</a>
+
+{header(r)}
+
+<main id="main">
+{main_html}</main>
+
+{footer(r)}
+
+{SPRITE}
+
+<script src="{r}js/ams.js" defer></script>
+</body>
+</html>
+"""
+
+
+def ld_json(data):
+    import json
+    return '<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + '\n</script>\n'
+
+
+def crumbs(r, items):
+    li = ''.join(f'          <li><a href="{href}">{t}</a></li>\n' for t, href in items[:-1])
+    return f'        <ol class="crumbs" aria-label="פירורי לחם">\n          <li><a href="{r}index.html">ראשי</a></li>\n{li}          <li aria-current="page">{items[-1][0]}</li>\n        </ol>'
+
+
+def article_page(a):
+    r = '../'
+    img, w, h, pos, alt = a['img']
+    ld_html = ld_json([
+        {'@context': 'https://schema.org', '@type': 'Article', 'headline': a['title'], 'description': a['desc'],
+         'image': r + img, 'datePublished': DATE, 'inLanguage': 'he',
+         'author': {'@type': 'Person', 'name': 'אביב משה שדמון', 'sameAs': [IG]}},
+        {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'ראשי', 'item': '../index.html'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'מאמרים', 'item': 'index.html'},
+            {'@type': 'ListItem', 'position': 3, 'name': a['short']}]},
+    ])
+    main_html = f"""  <article class="art" aria-labelledby="art-title">
+    <header class="art-head">
+{crumbs(r, [('מאמרים', 'index.html'), (a['short'], '')])}
+      <h1 class="svc-title" id="art-title">{a['title']}</h1>
+      <p class="art-meta">אביב משה שדמון · {reading_minutes(a)} דקות קריאה</p>
+      <p class="svc-lead">{a['desc']}</p>
+    </header>
+    <figure class="art-fig">
+      <img src="{r}{img}" alt="{alt}" width="{w}" height="{h}" style="object-position:{pos}" fetchpriority="high">
+    </figure>
+    <div class="prose">
+{render_blocks(a['body'], r)}    </div>
+  </article>
+
+  <section class="section more" aria-labelledby="more-title">
+    <h2 class="h2" id="more-title">עוד מאמרים</h2>
+    <ul class="more-grid art-grid art-grid-4">
+{article_cards(ARTICLES, r, a['slug'])}    </ul>
+  </section>
+"""
+    return page(r, f'{a["title"]} | אביב משה שדמון – AMS', a['desc'], img, ld_html, main_html)
+
+
+def articles_index():
+    r = '../'
+    desc = 'מאמרים של אביב משה שדמון על אגרוף תאילנדי, אימון אישי, תזונת ספורט ועבודה מנטלית.'
+    main_html = f"""  <section class="svc-hero art-index-hero" aria-labelledby="svc-title">
+    <div class="art-head">
+{crumbs(r, [('מאמרים', '')])}
+      <h1 class="svc-title" id="svc-title">מאמרים</h1>
+      <p class="svc-lead">מה שאני מסביר למתאמנים שלי, גם לך: אימון, תזונה ועבודה מנטלית, בשפה פשוטה.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-label="כל המאמרים">
+    <ul class="more-grid art-grid">
+{article_cards(ARTICLES, r)}    </ul>
+  </section>
+"""
+    return page(r, 'מאמרים | אביב משה שדמון – AMS', desc, 'assets/img/og.jpg', '', main_html)
+
+
+def area_page(ar):
+    r = '../'
+    img, w, h, pos, alt = ar['img']
+    town, mins = ar['town'], ar['min']
+    msg = f'היי אביב, אני {ar["from"]} ואשמח לתאם אימון ניסיון'
+    waze = 'https://waze.com/ul?q=%D7%90%D7%95%D7%A8%D7%9F%2021%20%D7%9E%D7%96%D7%9B%D7%A8%D7%AA%20%D7%91%D7%AA%D7%99%D7%94&navigate=yes'
+    faq = [
+        (f'כמה זמן לוקח להגיע {ar["from"]}?', f'כ־{mins} דקות נסיעה, תלוי בתנועה. הסטודיו נמצא ברחוב אורן 21 במזכרת בתיה.'),
+        (f'אתה מגיע לאימונים בבית {ar["in"]}?', f'אימונים בבית אני עושה כרגע במזכרת בתיה. {ar["from"]} מגיעים לסטודיו, ואת ייעוץ התזונה אפשר לקבל גם בטלפון או בזום.'),
+        ('האימונים מתאימים למתחילים?', 'כן. הרבה מתאמנים מתחילים אצלי בלי שום ניסיון קודם. אני מתאים כל אימון לרמה ולקצב שלך, כבר מהמפגש הראשון.'),
+        ('יש אימונים לילדים?', 'כן, מגיל 4. האימון מותאם לגיל ולרמה. שולחים לי הודעה ואפרט על המסגרות.'),
+    ]
+    faq_html = ''.join(f'      <details>\n        <summary>{q}</summary>\n        <p>{x}</p>\n      </details>\n' for q, x in faq)
+    services = ''.join(
+        f'      <li><a class="more-card" href="{r}services/{o["slug"]}.html"><img src="{r}assets/img/{o["thumb"]}" alt="" width="480" height="360" loading="lazy"><span><b>{o["menu"]}</b><small>{o["sub"]}</small></span></a></li>\n'
+        for o in SERVICES)
+    ld_html = ld_json([
+        {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'ראשי', 'item': '../index.html'},
+            {'@type': 'ListItem', 'position': 2, 'name': f'ליד {town}'}]},
+        {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': x}} for q, x in faq]},
+    ])
+    lead = f'הסטודיו שלי נמצא באורן 21 במזכרת בתיה, כ־{mins} דקות נסיעה {ar["from"]}. אימון אישי באגרוף תאילנדי, כושר ותזונת ספורט, למתחילים ולמתקדמים.'
+    main_html = f"""  <section class="svc-hero" aria-labelledby="svc-title">
+    <div class="svc-hero-in">
+      <div class="svc-hero-text">
+{crumbs(r, [(f'ליד {town}', '')])}
+        <h1 class="svc-title" id="svc-title">אגרוף תאילנדי ואימון אישי ליד {town}</h1>
+        <p class="svc-lead">{lead}</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="area-hero">{WA_ICON}לתיאום אימון ניסיון</a>
+          <a class="btn btn-line" href="{waze}" target="_blank" rel="noopener">ניווט לסטודיו</a>
+        </div>
+        <ul class="assure" aria-label="מה חשוב לדעת">
+          <li>בלי התחייבות</li>
+          <li>גם למתחילים</li>
+          <li>אני עונה אישית</li>
+        </ul>
+      </div>
+      <figure class="svc-hero-img">
+        <img src="{r}{img}" alt="{alt}" width="{w}" height="{h}" style="object-position:{pos}" fetchpriority="high">
+      </figure>
+    </div>
+  </section>
+
+  <section class="section svc-intro" aria-labelledby="intro-title">
+    <div class="svc-intro-body">
+      <h2 class="h2" id="intro-title">סטודיו פרטי, כ־{mins} דקות {ar['from']}</h2>
+      <p>{ar['line']}</p>
+      <p>אני מתאים כל אימון למטרה, לרמה ולקצב שלך: אגרוף תאילנדי, כוח וכושר, ואם רוצים גם ליווי תזונתי. אפשר להתאמן אחד על אחד, בזוג או בקבוצה קטנה של עד ארבעה.</p>
+    </div>
+    <div class="svc-side">
+      <dl class="svc-facts">
+        <div><dt>הסטודיו</dt><dd>אורן 21, מזכרת בתיה</dd></div>
+        <div><dt>נסיעה {ar['from']}</dt><dd>כ־{mins} דקות, תלוי בתנועה</dd></div>
+        <div><dt>משך אימון</dt><dd>45 דקות</dd></div>
+        <div><dt>ייעוץ תזונה</dt><dd>בסטודיו, בטלפון או בזום</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section more" aria-labelledby="svc-list-title">
+    <h2 class="h2" id="svc-list-title">מה אפשר לעשות אצלי</h2>
+    <ul class="more-grid area-svcs">
+{services}    </ul>
+  </section>
+
+  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+    <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
+    <div class="reviews-grid">
+{review_card('t2', r)}{review_card('t3', r)}    </div>
+  </section>
+
+  <section class="section faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title">שאלות נפוצות</h2>
+    <div class="faq-list">
+{faq_html}    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <img class="closing-bg" src="{r}assets/img/ring-fist.webp" alt="" width="941" height="530" loading="lazy">
+    <div class="closing-inner">
+      <h2 class="closing-title" id="closing-title"><span>בחר את המסלול שלך.</span><span>תתחייב לעצמך.</span></h2>
+      <p>הצעד הראשון מתחיל בשיחה. שולחים לי הודעה, ונקבע אימון ניסיון.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="area-closing">{WA_ICON}לתיאום אימון ניסיון</a>
+      </div>
+    </div>
+  </section>
+"""
+    return page(r, f'אגרוף תאילנדי ואימון אישי ליד {town} | אביב משה שדמון – AMS', lead, img, ld_html, main_html)
+
+
+def home_articles():
+    cards = article_cards(ARTICLES[:3], '')
+    return f"""<!-- BEGIN articles -->
+  <section class="section" id="articles" aria-labelledby="articles-title">
+    <div class="services-head">
+      <h2 class="h2" id="articles-title">מאמרים</h2>
+      <a class="btn btn-line" href="articles/index.html">לכל המאמרים</a>
+    </div>
+    <ul class="more-grid art-grid">
+{cards}    </ul>
+  </section>
+<!-- END articles -->"""
+
+
 def main():
     os.makedirs(os.path.join(ROOT, 'services'), exist_ok=True)
     for s in SERVICES:
         with open(os.path.join(ROOT, 'services', s['slug'] + '.html'), 'w', encoding='utf-8') as f:
             f.write(add_srcset(service_page(s)))
+    for sub, items, fn in (('articles', ARTICLES, article_page), ('areas', AREAS, area_page)):
+        os.makedirs(os.path.join(ROOT, sub), exist_ok=True)
+        for x in items:
+            with open(os.path.join(ROOT, sub, x['slug'] + '.html'), 'w', encoding='utf-8') as f:
+                f.write(add_srcset(fn(x)))
+    with open(os.path.join(ROOT, 'articles', 'index.html'), 'w', encoding='utf-8') as f:
+        f.write(add_srcset(articles_index()))
     p = os.path.join(ROOT, 'index.html')
     html = open(p, encoding='utf-8').read()
     html = re.sub(r'<!-- BEGIN header -->.*?<!-- END header -->', lambda m: header(''), html, flags=re.S)
@@ -610,9 +872,10 @@ def main():
     html = re.sub(r'<!-- BEGIN sprite -->.*?<!-- END sprite -->',
                   lambda m: '<!-- BEGIN sprite -->\n' + SPRITE + '\n<!-- END sprite -->', html, flags=re.S)
     html = re.sub(r'<!-- BEGIN reviews -->.*?<!-- END reviews -->', lambda m: home_reviews(), html, flags=re.S)
+    html = re.sub(r'<!-- BEGIN articles -->.*?<!-- END articles -->', lambda m: home_articles(), html, flags=re.S)
     html = add_srcset(html)
     open(p, 'w', encoding='utf-8').write(html)
-    print('built', len(SERVICES), 'service pages')
+    print('built', len(SERVICES), 'service pages,', len(ARTICLES), 'articles,', len(AREAS), 'area pages')
 
 
 if __name__ == '__main__':
