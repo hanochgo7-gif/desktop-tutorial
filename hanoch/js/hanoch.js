@@ -976,14 +976,22 @@
     var dlg = $('.film-dlg');
     if (!dlg || !dlg.showModal) return;
     var vid = $('.film-video', dlg), from = null;
+    // אותו חלון מנגן גם את הפרסומת: כפתור עם data-film-src מחליף את הסרט, ועם data-film-sound הוא מתנגן עם קול
+    var reel = { src: vid.dataset.src, srcM: vid.dataset.srcM, poster: vid.getAttribute('poster'), label: dlg.getAttribute('aria-label') };
     function close() { if (dlg.open) dlg.close(); }
     dlg.addEventListener('close', function () { pauseVideo(vid); if (lenis) lenis.start(); if (from) from.focus(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
     $('.film-close', dlg).addEventListener('click', close);
-    $$('[data-film]').forEach(function (b) {
+    $$('button[data-film]').forEach(function (b) {
       b.addEventListener('click', function () {
         from = b;
-        if (!vid.src) setVideo(vid, videoSrc(vid));
+        var f = b.dataset.filmSrc ? { src: b.dataset.filmSrc, srcM: b.dataset.filmSrcM, poster: b.dataset.filmPoster, label: b.dataset.filmLabel } : reel;
+        if (vid.dataset.cur !== f.src) {
+          vid.dataset.src = f.src; vid.dataset.srcM = f.srcM || f.src; vid.setAttribute('poster', f.poster);
+          dlg.setAttribute('aria-label', f.label || reel.label);
+          setVideo(vid, videoSrc(vid)); vid.dataset.cur = f.src;
+        }
+        vid.muted = !('filmSound' in b.dataset);
         dlg.showModal();
         if (lenis) lenis.stop();
         vid.currentTime = 0;
