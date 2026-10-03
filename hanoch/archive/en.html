@@ -271,6 +271,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 .shot{ position:relative; width:100%; aspect-ratio:3/2; border-radius:2px; background:#0b0b0b; box-shadow:0 30px 90px rgba(0,0,0,.75); }
 .shot img{ width:100%; height:100%; object-fit:cover; border-radius:2px; }
 video.live{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; opacity:0; transition:opacity .7s ease; pointer-events:none; }
+#litVid[controls]{ pointer-events:auto; object-fit:contain; background:#000; }
 video.live.on{ opacity:1; }
 .live-tag{ position:absolute; top:10px; inset-inline-start:10px; width:8px; height:8px; border-radius:50%; background:#ff4f1a; box-shadow:0 0 0 0 rgba(255,79,26,.6); animation:livePulse 1.8s ease-out infinite; }
 @keyframes livePulse{ 0%{ box-shadow:0 0 0 0 rgba(255,79,26,.6); } 100%{ box-shadow:0 0 0 10px rgba(255,79,26,0); } }
@@ -466,6 +467,7 @@ video.live.on{ opacity:1; }
   // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
   var SHOTS = [
     ['film-poster.webp', 'The First Second', 'Brand film · 22 seconds', 'A glass ח, and around it one object from every project: a pita, a boxing glove, a fuel nozzle and a blue pi. This is the film that opens the home page.', '../en.html'],
+    ['film/ad.webp', 'Before the City Wakes', 'Commercial · 60 seconds', 'A short action film about a bakery owner and a courier in Tel Aviv before sunrise. Made entirely with AI: the characters, the cinematography, the sound and the Hebrew voiceover.', '', 0, 'film/ad', 1],
     ['gallery/vase.webp', 'Before and After', 'Product photography · AI', 'A phone snapshot of a vase on a kitchen counter became a studio shot: window light, leaf shadows and a stone plinth. No photographer, no studio.', '../en.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'S. Gotovski', 'Fuel infrastructure since 1972 · Hebrew / English', 'A family company that builds fuel stations for Paz, Sonol and Amazon. The language of a major construction group, and now a 360° tour of a generator farm, in Hebrew and English.', '../en-work.html#gotovski'],
     ['live/cafe.webp', 'Morning at the Café', 'Live image · cafés and restaurants', 'Espresso pouring and steam rising from the cup. Instead of a still photo at the top of the site, a moment you can almost smell.', '', 0, 'live/cafe'],
@@ -711,8 +713,8 @@ video.live.on{ opacity:1; }
   }
   function syncLive() {
     var stageOn = revealed && !isLit && !body.classList.contains('gridview') && !reduce;
-    cards.forEach(function (c) {
-      if (!c.vid) return;
+    cards.forEach(function (c, i) {
+      if (!c.vid || SHOTS[i][7]) return;
       var want = stageOn && c.zf > 0.18 && c.op > 0.5;
       if (want && !c.playing) { c.playing = true; playLive(c.vid, liveSrc(c.live)); }
       else if (!want && c.playing) { c.playing = false; c.vid.pause(); }
@@ -725,7 +727,7 @@ video.live.on{ opacity:1; }
         if (e.isIntersecting && body.classList.contains('gridview') && !reduce) playLive(v, liveSrc(SHOTS[+e.target.dataset.idx][6])); else v.pause();
       });
     }, { root: $('#grid'), threshold: 0.35 });
-    gridFigs.forEach(function (f) { if (f.querySelector('video.live')) gio.observe(f); });
+    gridFigs.forEach(function (f) { if (f.querySelector('video.live') && !SHOTS[+f.dataset.idx][7]) gio.observe(f); });
   }
 
   /* ---------- גרירה ---------- */
@@ -770,6 +772,7 @@ video.live.on{ opacity:1; }
     // ברשת: התמונות החיות שעל המסך מתנגנות, ביציאה הכול נעצר
     gridFigs.forEach(function (f) {
       var v = f.querySelector('video.live'); if (!v) return;
+      if (SHOTS[+f.dataset.idx][7]) return;
       if (on && window.gio) { gio.unobserve(f); gio.observe(f); } else v.pause();
     });
     gridBtn.setAttribute('aria-pressed', on);
@@ -797,7 +800,9 @@ video.live.on{ opacity:1; }
     full.onload = function () { if (my === token) litImg.src = full.src; };
     full.src = BASE + s[0];
     litVid.classList.remove('on'); litVid.pause();
-    if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
+    litVid.controls = !!s[7]; litVid.muted = !s[7]; litVid.loop = !s[7];
+    if (s[7]) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.classList.add('on'); litVid.play().catch(function () {}); }
+    else if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
     else litVid.removeAttribute('src');
     plate.classList.toggle('tall', !!s[5]);
     $('#litTitle').textContent = s[1];

@@ -271,6 +271,7 @@ body.lit #lit{ opacity:1; pointer-events:auto; }
 .shot{ position:relative; width:100%; aspect-ratio:3/2; border-radius:2px; background:#0b0b0b; box-shadow:0 30px 90px rgba(0,0,0,.75); }
 .shot img{ width:100%; height:100%; object-fit:cover; border-radius:2px; }
 video.live{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; opacity:0; transition:opacity .7s ease; pointer-events:none; }
+#litVid[controls]{ pointer-events:auto; object-fit:contain; background:#000; }
 video.live.on{ opacity:1; }
 .live-tag{ position:absolute; top:10px; inset-inline-start:10px; width:8px; height:8px; border-radius:50%; background:#ff4f1a; box-shadow:0 0 0 0 rgba(255,79,26,.6); animation:livePulse 1.8s ease-out infinite; }
 @keyframes livePulse{ 0%{ box-shadow:0 0 0 0 rgba(255,79,26,.6); } 100%{ box-shadow:0 0 0 10px rgba(255,79,26,0); } }
@@ -466,6 +467,7 @@ video.live.on{ opacity:1; }
   // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
   var SHOTS = [
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
+    ['film/ad.webp', 'לפני שהעיר מתעוררת', 'סרט פרסומת · 60 שניות', 'סרט אקשן קצר על בעלת מאפייה ושליח בתל אביב לפני הזריחה. כולו נוצר בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות בעברית.', '', 0, 'film/ad', 1],
     ['gallery/vase.webp', 'לפני ואחרי', 'צילום מוצר · בינה מלאכותית', 'צילום טלפון של אגרטל על שיש המטבח הפך לצילום סטודיו: אור של חלון, צל של עלים ובמה מאבן. בלי צלם ובלי סטודיו.', '../index.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. שפה של קבוצת בנייה גדולה, ועכשיו גם סיור 360° בחוות גנרטורים, בעברית ובאנגלית.', '../work.html#gotovski'],
     ['live/cafe.webp', 'בוקר בבית הקפה', 'תמונה חיה · בתי קפה ומסעדות', 'אספרסו שנמזג ואדים שעולים מהכוס. במקום תמונה עומדת בראש האתר, רגע שכמעט מריחים דרך המסך.', '', 0, 'live/cafe'],
@@ -711,8 +713,8 @@ video.live.on{ opacity:1; }
   }
   function syncLive() {
     var stageOn = revealed && !isLit && !body.classList.contains('gridview') && !reduce;
-    cards.forEach(function (c) {
-      if (!c.vid) return;
+    cards.forEach(function (c, i) {
+      if (!c.vid || SHOTS[i][7]) return;
       var want = stageOn && c.zf > 0.18 && c.op > 0.5;
       if (want && !c.playing) { c.playing = true; playLive(c.vid, liveSrc(c.live)); }
       else if (!want && c.playing) { c.playing = false; c.vid.pause(); }
@@ -725,7 +727,7 @@ video.live.on{ opacity:1; }
         if (e.isIntersecting && body.classList.contains('gridview') && !reduce) playLive(v, liveSrc(SHOTS[+e.target.dataset.idx][6])); else v.pause();
       });
     }, { root: $('#grid'), threshold: 0.35 });
-    gridFigs.forEach(function (f) { if (f.querySelector('video.live')) gio.observe(f); });
+    gridFigs.forEach(function (f) { if (f.querySelector('video.live') && !SHOTS[+f.dataset.idx][7]) gio.observe(f); });
   }
 
   /* ---------- גרירה ---------- */
@@ -770,6 +772,7 @@ video.live.on{ opacity:1; }
     // ברשת: התמונות החיות שעל המסך מתנגנות, ביציאה הכול נעצר
     gridFigs.forEach(function (f) {
       var v = f.querySelector('video.live'); if (!v) return;
+      if (SHOTS[+f.dataset.idx][7]) return;
       if (on && window.gio) { gio.unobserve(f); gio.observe(f); } else v.pause();
     });
     gridBtn.setAttribute('aria-pressed', on);
@@ -797,7 +800,9 @@ video.live.on{ opacity:1; }
     full.onload = function () { if (my === token) litImg.src = full.src; };
     full.src = BASE + s[0];
     litVid.classList.remove('on'); litVid.pause();
-    if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
+    litVid.controls = !!s[7]; litVid.muted = !s[7]; litVid.loop = !s[7];
+    if (s[7]) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.classList.add('on'); litVid.play().catch(function () {}); }
+    else if (s[6] && !reduce) { litVid.removeAttribute('src'); litVid.src = liveSrc(s[6]); litVid.onplaying = function () { if (my === token) litVid.classList.add('on'); }; litVid.play().catch(function () {}); }
     else litVid.removeAttribute('src');
     plate.classList.toggle('tall', !!s[5]);
     $('#litTitle').textContent = s[1];
