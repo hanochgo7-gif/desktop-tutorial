@@ -60,6 +60,7 @@
     later(() => t.remove(), ms || 3200);
   }
   function stop() {
+    screen.querySelectorAll('video').forEach((v) => v.pause());
     timers.forEach(clearTimeout); timers = [];
     frames.forEach(cancelAnimationFrame); frames.clear();
   }
@@ -71,7 +72,7 @@
     return { line, area: line + ` L${w} ${h} L0 ${h} Z` };
   }
 
-  /* ---------- 20 הדוגמאות ---------- */
+  /* ---------- 21 הדוגמאות ---------- */
   const D = {};
 
   D.shop = {
@@ -343,6 +344,24 @@
       };
       tick();
       every(tick, 2600);
+    }
+  };
+
+  D.film = {
+    url: T('hgpro.io · לפני שהעיר מתעוררת', 'hgpro.io · Before the City Wakes'), hint: T('נסו: הפעילו קול', 'Try it: turn the sound on'),
+    run(s) {
+      const small = matchMedia('(max-width: 700px)').matches;
+      const src = 'work/film/' + (EN ? 'ad-en' : 'ad') + (small ? '-m' : '') + '.mp4';
+      s.innerHTML = `<div class="d-film"><video muted playsinline loop preload="metadata" poster="work/film/ad.webp" src="${src}" aria-label="${T('סרט הפרסומת לפני שהעיר מתעוררת', 'The commercial Before the City Wakes')}"></video>
+        <div class="d-film-ui"><span class="d-film-tag">${T('סרט פרסומת · 60 שניות · נוצר כולו ב-AI', 'Commercial · 60 seconds · made entirely with AI')}</span>
+        <button class="d-btn hot d-film-snd" type="button" aria-pressed="false">${T('הפעלת קול', 'Sound on')}</button></div></div>`;
+      const v = $('video', s), b = $('.d-film-snd', s);
+      if (motion) v.play().catch(() => { });
+      b.addEventListener('click', () => {
+        touched = true; v.muted = !v.muted;
+        if (!v.muted) { v.currentTime = 0; v.play().catch(() => { }); }
+        b.setAttribute('aria-pressed', String(!v.muted)); b.textContent = v.muted ? T('הפעלת קול', 'Sound on') : T('השתקה', 'Mute');
+      });
     }
   };
 
