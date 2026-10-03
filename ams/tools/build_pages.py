@@ -378,9 +378,7 @@ def head(title, desc, root, og, extra=''):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{root}{og}">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="{root}fonts/plex/plex-hebrew-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{root}fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{root}css/ams.css">
 {extra}</head>'''
