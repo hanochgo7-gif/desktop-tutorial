@@ -826,19 +826,28 @@ ul, ol { list-style: none; }
 .reviews-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 48px; }
 .reviews-head p { max-width: 30em; margin: 0; color: var(--ash); }
 .reviews-grid { columns: 3 300px; column-gap: 20px; margin-top: 40px; }
-.review {
-  break-inside: avoid; margin: 0 0 20px; padding: 26px 24px 20px;
-  background: var(--bark-2); border-top: 2px solid var(--gold);
+.review { break-inside: avoid; margin: 0 0 24px; }
+/* הודעת טקסט נכנסת, כמו בווצאפ (בעברית: בצד ימין, עם "זנב" בפינה העליונה) */
+.bubble {
+  position: relative; margin: 0 0 0 18px; padding: 12px 14px 26px;
+  background: #202c33; color: #e9edef;
+  border-radius: 0 12px 12px 12px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+  font-size: .97rem; line-height: 1.65;
 }
-.review blockquote { margin: 0; }
-.review-hl { margin: 0; font: 400 clamp(1.7rem, 2.4vw, 2rem)/1.05 var(--f-display); color: var(--gold); }
-.review-hl::before { content: "”"; display: block; height: .5em; font-size: 2.4em; line-height: .9; color: rgba(212, 162, 76, .45); }
-.review-text { margin: 14px 0 0; font-size: .96rem; line-height: 1.75; color: rgba(242, 236, 224, .84); }
-.review figcaption { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: .85rem; color: var(--ash); }
-.review-proof summary { display: inline-block; margin-top: 6px; cursor: pointer; color: var(--bone); text-decoration: underline; text-underline-offset: 3px; list-style: none; }
+.bubble::before {
+  content: ""; position: absolute; top: 0; right: -9px; width: 9px; height: 13px;
+  background: #202c33; clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.bubble p { margin: 0; }
+.bubble strong { font-weight: 600; color: #f3d38c; }
+.bubble-meta { position: absolute; left: 12px; bottom: 6px; font-size: .7rem; color: #8696a0; letter-spacing: .02em; }
+.review figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 8px 0 0 18px; font-size: .82rem; color: var(--ash); }
+.review-proof { flex-basis: 100%; }
+.review-proof summary { display: inline-block; cursor: pointer; color: var(--bone); text-decoration: underline; text-underline-offset: 3px; list-style: none; }
 .review-proof summary::-webkit-details-marker { display: none; }
 .review-proof summary:hover { color: var(--gold); }
-.review-proof img { width: 100%; height: auto; margin-top: 12px; border: 1px solid var(--line-soft); }
+.review-proof img { width: 100%; height: auto; margin-top: 10px; border-radius: 8px; }
 .svc-reviews .reviews-grid { columns: 2 300px; }
 
 /* ---------- סרטון אימון (ילדים) ---------- */

@@ -228,16 +228,18 @@ HOME_REVIEWS = ['t2', 't3', 't4', 't5', 't1']
 
 
 def review_card(rid, root):
+    """ההמלצה מוצגת כהודעת טקסט, כמו בווצאפ. המשפט החזק מודגש בתוך ההודעה עצמה."""
     r = REVIEWS[rid]
     w, h = r['wh']
+    text = r['text'].replace(r['hl'], f'<strong>{r["hl"]}</strong>', 1)
     return f'''      <figure class="review">
-        <blockquote>
-          <p class="review-hl">{r['hl']}</p>
-          <p class="review-text">{r['text']}</p>
+        <blockquote class="bubble">
+          <p>{text}</p>
+          <span class="bubble-meta" aria-hidden="true">WhatsApp ✓✓</span>
         </blockquote>
         <figcaption>
-          <span>הודעת WhatsApp ממתאמן</span>
-          <details class="review-proof"><summary>להודעה המקורית</summary><img src="{root}assets/img/reviews/{rid}.webp" alt="צילום מסך של ההודעה המקורית ב־WhatsApp" width="{w}" height="{h}" loading="lazy"></details>
+          <span>הודעה ממתאמן</span>
+          <details class="review-proof"><summary>לצילום המסך המקורי</summary><img src="{root}assets/img/reviews/{rid}.webp" alt="צילום מסך של ההודעה המקורית ב־WhatsApp" width="{w}" height="{h}" loading="lazy"></details>
         </figcaption>
       </figure>
 '''
@@ -250,7 +252,7 @@ def home_reviews():
   <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
     <div class="reviews-head">
       <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-      <p>הודעות אמיתיות שקיבלתי ב־WhatsApp, מילה במילה. בלי שמות, כדי לשמור על הפרטיות.</p>
+      <p>הודעות אמיתיות שקיבלתי ממתאמנים ב־WhatsApp, כלשונן. השמות הוסרו לשמירה על פרטיותם.</p>
     </div>
     <div class="reviews-grid">
 {cards}    </div>
@@ -312,7 +314,7 @@ def header(root, current=None):
         <div class="menu-sub" id="menu-sub">
 {subs}        </div>
       </li>
-{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', root + 'trial.html', 'אימון ניסיון', 'assets/img/muaythai.webp', 'אימון ניסיון', '45 דקות, אחד על אחד, בלי התחייבות')}{item('08', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
+{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', root + 'trial.html', 'אימון ניסיון', 'assets/img/muaythai.webp', 'אימון ניסיון', '45 דקות, אחד על אחד, ללא התחייבות')}{item('08', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
     </nav>
     <aside class="menu-vis" aria-label="יצירת קשר">
       <figure class="menu-fig" aria-hidden="true">
@@ -490,9 +492,9 @@ def service_page(s):
           {booking_btn('svc-hero') or '<a class="btn btn-line" href="#includes">מה כולל</a>'}
         </div>
         <ul class="assure" aria-label="מה חשוב לדעת">
-          <li>בלי התחייבות</li>
-          <li>{'מותאם לגיל ולרמה' if s['slug'] == 'kids' else 'מותאם לקהל ולמטרה' if s['slug'] == 'talks' else 'גם למתחילים'}</li>
-          <li>אני עונה אישית</li>
+          <li>ללא התחייבות</li>
+          <li>{'מותאם לגיל ולרמה' if s['slug'] == 'kids' else 'מותאם לקהל ולמטרה' if s['slug'] == 'talks' else 'מתאים גם למתחילים'}</li>
+          <li>מענה אישי</li>
         </ul>
       </div>
       <figure class="svc-hero-img">
@@ -792,9 +794,9 @@ def area_page(ar):
           <a class="btn btn-line" href="{waze}" target="_blank" rel="noopener">ניווט לסטודיו</a>
         </div>
         <ul class="assure" aria-label="מה חשוב לדעת">
-          <li>בלי התחייבות</li>
-          <li>גם למתחילים</li>
-          <li>אני עונה אישית</li>
+          <li>ללא התחייבות</li>
+          <li>מתאים גם למתחילים</li>
+          <li>מענה אישי</li>
         </ul>
       </div>
       <figure class="svc-hero-img">
@@ -925,11 +927,11 @@ def guide_band(r='', where='guide'):
       <div class="guide-text">
         <p class="guide-label">מדריך חינם</p>
         <h2 class="h2" id="guide-title">מתחילים מהבית</h2>
-        <p>5 תרגילים לבית, נשימה של 2 דקות, ומה לאכול סביב אימון. שולחים לי הודעה, ואני שולח לך את המדריך ב־WhatsApp.</p>
+        <p>חמישה תרגילים ללא ציוד, תרגיל נשימה של שתי דקות ועקרונות תזונה סביב האימון. שולחים הודעה, והמדריך נשלח אליך ב־WhatsApp.</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="{where}">{WA_ICON}לקבלת המדריך ב־WhatsApp</a>
         </div>
-        <p class="guide-note">בלי התחייבות. אני שולח אישית, לא רשימת תפוצה.</p>
+        <p class="guide-note">ללא התחייבות וללא רשימת תפוצה.</p>
       </div>
     </div>
   </section>
@@ -1066,9 +1068,9 @@ def trial_page():
           {booking_btn('lp-hero')}
         </div>
         <ul class="assure" aria-label="מה חשוב לדעת">
-          <li>בלי התחייבות</li>
-          <li>גם למתחילים</li>
-          <li>אני עונה אישית</li>
+          <li>ללא התחייבות</li>
+          <li>מתאים גם למתחילים</li>
+          <li>מענה אישי</li>
         </ul>
       </div>
       <figure class="svc-hero-img">
