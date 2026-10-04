@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=39
+TOTAL=40
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -193,6 +193,14 @@ sec("nagmash", INK,
     f'{h1("מה זה נגמ״ש?", 80, "#F6F3EE", extra="; text-align:center")}'
     f'<div style="display:flex; flex-direction:row; justify-content:center"><img src="/_blob/f4908a91d351508c9a89909c3c3063cb" alt="נגמ״ש אכזרית" style="width:1220px; height:686px; object-fit:cover; border-radius:16px"></div>{pnum(n)}',
     "רגע לפני שמספרים על קו עזה: להסביר בעל פה מה זה נגמ״ש – נושא גייסות משוריין, כבד, הצוות בפנים, המפקד והמקלען למעלה. הקהל צריך לדעת מה הכלי הזה כדי להבין את מה שיקרה לו בהמשך.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:32px; align-items:center")
+# 12a-map Gaza envelope map (before the sector diagram)
+n+=1
+sec("gazamap", INK,
+    f'{h2("הגזרה הדרומית", 60, "#F6F3EE")}'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:64px; flex:1; align-items:center; justify-content:center">'
+    f'<img src="/_blob/6d8eaed9b06693fb8ec91822cdb524b3" alt="מפת רצועת עזה והעוטף, הגזרה הדרומית מסומנת: כרם שלום, חולית, סופה, ניר יצחק" style="width:648px; height:700px; object-fit:contain; border-radius:16px; border:1px solid {HAIR_D}">'
+    f'<img src="/_blob/b4733882c16d2b8e255e727bf3b086cb" alt="צילום אוויר של הגזרה: כרם שלום, סופה, ניר יצחק והגבול עם רפיח" style="width:604px; height:700px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}"></div>',
+    "מפת העוטף ואז צילום האוויר. מימין: איפה אנחנו ברצועה – הקצה הדרומי, ליד המשולש עם מצרים. משמאל: מקרוב – כרם שלום, סופה, ניר יצחק, והגבול עם רפיח במרחק קילומטרים ספורים. משפט אחד – ומשם לתרשים של איך הגזרה עבדה.", pad="128px 128px 128px", layout="display:flex; flex-direction:column; gap:40px", mark=70)
 # 12a0 sector diagram
 n+=1
 def box(txt, hot=False, w=None, sub=""):
@@ -432,7 +440,7 @@ sec("final", SAND,
     "המשפט האחרון. לעצור. לא להוסיף כלום אחריו. הקהל מצלם את ה-QR.")
 
 order=[i for i,_ in slides]
-_a,_b=order.index('nagmash'),order.index('sector'); order[_a],order[_b]=order[_b],order[_a]
+order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
 def fix_counter(i, h):
     # page counter / progress bar follow the FINAL order (sector & nagmash are swapped after generation)
     gen = [x for x,_ in slides].index(i)+1; fin = order.index(i)+1
