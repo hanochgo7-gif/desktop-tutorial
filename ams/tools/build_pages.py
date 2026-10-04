@@ -432,9 +432,11 @@ def service_page(s):
     if s.get('points'):
         intro += '      <ul class="checks svc-points">\n' + ''.join(f'        <li>{p}</li>\n' for p in s['points']) + '      </ul>\n'
     tagline = f'\n        <p class="svc-tagline">{s["tagline"]}</p>' if s.get('tagline') else ''
-    for a in ARTICLES:
-        if a['service'] == s['slug']:
-            intro += f'      <p class="svc-read"><a href="{r}articles/{a["slug"]}.html">לקריאה: {a["title"]}</a></p>\n'
+    related = [a for a in ARTICLES if a['service'] == s['slug']][:2]
+    if related:
+        intro += ('      <div class="svc-read"><p>לקריאה נוספת</p><ul>\n'
+                  + ''.join(f'        <li><a href="{r}articles/{a["slug"]}.html">{a["title"]}</a></li>\n' for a in related)
+                  + '      </ul></div>\n')
     ratio = f'aspect-ratio:{s["hero_ratio"]};' if s.get('hero_ratio') else ''
     credit = f'\n        <figcaption>{s["credit"]}</figcaption>' if s.get('credit') else ''
     cimg, cw, ch = s['closing']
