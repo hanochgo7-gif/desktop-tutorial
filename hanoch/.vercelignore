@@ -6,3 +6,4 @@ fonts/dragon-fontlog.txt
 tools/
 services/pages.json
 blog/posts.json
+__pycache__/
