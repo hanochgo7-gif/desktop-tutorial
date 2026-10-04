@@ -13,6 +13,7 @@ AUTHOR = {'@type': 'Person', '@id': D + '/#hanoch', 'name': 'חנוך גוטוב
 ORG = {'@type': 'Organization', '@id': D + '/#business', 'name': 'HGPRO', 'url': D + '/', 'logo': {'@type': 'ImageObject', 'url': D + '/images/icon-512.png'}}
 
 BLOG_CSS = '''
+.sv article > p:not(.bl-meta), .sv article > ul, .sv article > ol { margin-bottom: 1.1rem; }
 .bl-meta { font-family: var(--f-mono); font-size: .76rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
 .bl-meta b { color: var(--signal); font-weight: 400; }
 .bl-cover { margin: 2rem 0 0; border-radius: 18px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); }

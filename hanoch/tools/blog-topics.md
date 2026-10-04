@@ -4,7 +4,7 @@
 פורמט: [ ] slug | מילת מפתח ראשית | כיוון המאמר | עמודי שירות לקשר
 
 - [x] how-much-does-a-website-cost | כמה עולה לבנות אתר | טווחי מחירים, מה משפיע, עלויות חודשיות | website-building, landing-page, online-store (2026-10-04)
-- [ ] wix-vs-custom-website | וויקס או אתר בהתאמה אישית | השוואה כנה: מתי וויקס מספיק ומתי לא | wix-migration, website-building, web-design
+- [x] wix-vs-custom-website | וויקס או אתר בהתאמה אישית | השוואה כנה: מתי וויקס מספיק ומתי לא | wix-migration, website-building, web-design (2026-10-04)
 - [ ] landing-page-that-converts | דף נחיתה שממיר | 9 רכיבים שחייבים להיות בדף נחיתה, עם דוגמאות | landing-page, web-design
 - [ ] how-to-choose-web-designer | איך לבחור מעצב אתרים | 10 שאלות לשאול לפני שחותמים | website-building, web-design
 - [ ] seo-for-small-business | קידום אורגני לעסק קטן | מדריך מעשי: מה עושים בעצמכם ומה כדאי להעביר | seo

@@ -148,6 +148,12 @@
     <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://hgpro.io/blog/wix-vs-custom-website.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://hgpro.io/blog/img/wix-vs-custom-website.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://hgpro.io/accessibility.html</loc>
     <lastmod>2026-10-04</lastmod>
     <priority>0.2</priority>
