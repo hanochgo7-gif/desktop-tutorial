@@ -486,6 +486,7 @@ video.live.on{ opacity:1; }
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
     ['film/hg.webp', 'HG · Unforgettable', 'פרסומת בושם · 30 שניות', 'פרסומת טלוויזיה לבושם לגברים: הוא, היא, מכונית יוקרה וכביש צוקים בלילה. כולה נוצרה בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות. המוזיקה: נוקטורן של שופן.', '', 0, 'film/hg', 1],
     ['film/ad.webp', 'לפני שהעיר מתעוררת', 'סרט פרסומת · 60 שניות', 'סרט אקשן קצר על בעלת מאפייה ושליח בתל אביב לפני הזריחה. כולו נוצר בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות בעברית.', '', 0, 'film/ad', 1],
+    ['hero/space.webp', 'אני גיבור', 'פלטפורמת סרטים אישיים · anigibor.com', 'הורים שולחים תמונה אחת מהטלפון, והילד הופך לגיבור של סרט אנימציה ליום ההולדת, עם השם והגיל שלו. פלטפורמה מלאה: אתר, הזמנה, תשלום והפקה. הילדים בדוגמאות נוצרו בבינה מלאכותית.', 'https://anigibor.com', 1],
     ['gallery/vase.webp', 'לפני ואחרי', 'צילום מוצר · בינה מלאכותית', 'צילום טלפון של אגרטל על שיש המטבח הפך לצילום סטודיו: אור של חלון, צל של עלים ובמה מאבן. בלי צלם ובלי סטודיו.', '../index.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. שפה של קבוצת בנייה גדולה, ועכשיו גם סיור 360° בחוות גנרטורים, בעברית ובאנגלית.', '../work.html#gotovski'],
     ['live/cafe.webp', 'בוקר בבית הקפה', 'תמונה חיה · בתי קפה ומסעדות', 'אספרסו שנמזג ואדים שעולים מהכוס. במקום תמונה עומדת בראש האתר, רגע שכמעט מריחים דרך המסך.', '', 0, 'live/cafe'],
@@ -826,7 +827,7 @@ video.live.on{ opacity:1; }
     $('#litTitle').textContent = s[1];
     $('#litWhere').textContent = s[2];
     $('#litNote').textContent = s[3];
-    if (s[4]) { litMore.hidden = false; litMore.href = s[4]; } else litMore.hidden = true;
+    if (s[4]) { var ext = /^https?:/.test(s[4]); litMore.hidden = false; litMore.href = s[4]; litMore.textContent = ext ? 'לביקור באתר ↗' : 'לסיפור המלא ←'; if (ext) { litMore.target = '_blank'; litMore.rel = 'noopener'; } else { litMore.removeAttribute('target'); litMore.removeAttribute('rel'); } } else litMore.hidden = true;
     focused = body.classList.contains('gridview') ? -1 : i;
     isLit = true;
     root.style.overflow = 'hidden';
