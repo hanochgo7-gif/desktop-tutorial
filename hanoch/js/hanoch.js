@@ -1230,13 +1230,31 @@
     var menu = document.createElement('div');
     menu.className = 'menu'; menu.id = 'menu'; menu.hidden = true;
     menu.setAttribute('role', 'dialog'); menu.setAttribute('aria-modal', 'true'); menu.setAttribute('aria-label', T('תפריט', 'Menu'));
-    var links = $$('a', nav).map(function (a) {
-      return '<li><a class="menu-link display" href="' + a.getAttribute('href') + '">' + a.textContent + '</a></li>';
+    // תפריט "פורטל": נפתח דרך ה-ח מזכוכית, ולכל יעד יש תצוגה חיה של מה שמחכה שם
+    var HET_D = 'M0 2Q0 10 4 28Q10 48 19 71Q42 128 68 143Q84 198 84 215Q84 217 80 409Q76 665 76 688Q68 723 66 743Q66 759 66 770Q68 782 72 788Q88 808 91 811Q97 815 103 813Q111 811 117 803Q133 787 160 743Q172 725 181 708Q191 692 193 686Q195 678 193 674Q193 672 189 667Q183 661 183 651Q181 649 181 639Q179 627 177 620Q189 456 183 395Q179 362 164 274Q156 215 156 200Q160 161 160 129Q252 115 355 116Q451 118 562 182Q644 254 662 354Q662 366 664 391Q652 522 662 594V596Q660 643 656 678Q652 715 646 729Q638 749 609 776Q578 805 560 811V815Q595 811 633 807Q713 795 740 782Q763 770 768 762Q776 750 775 731Q773 725 766 682Q760 637 754 585Q742 474 732 379Q730 359 729 360Q706 196 637 133Q578 76 496 49Q486 47 451 43Q451 43 449 41Q447 41 445.0 41.0Q443 41 428 41Q352 35 228 30Q179 30 140 28Q105 28 95 30Q50 34 4 0V2Z';
+    var HET_IN = [[0.508,0.146],[0.622,0.175],[0.689,0.205],[0.737,0.234],[0.766,0.264],[0.791,0.293],[0.81,0.323],[0.827,0.352],[0.839,0.382],[0.848,0.411],[0.853,0.441],[0.854,0.47],[0.854,0.499],[0.852,0.529],[0.849,0.558],[0.848,0.588],[0.848,0.617],[0.848,0.647],[0.848,0.676],[0.85,0.706],[0.853,0.735],[0.852,0.764],[0.849,0.794],[0.847,0.823],[0.843,0.853],[0.836,0.882],[0.822,0.912],[0.796,0.941],[0.761,0.971],[0.741,1.0],[0.151,0.985],[0.175,0.956],[0.196,0.926],[0.215,0.897],[0.234,0.868],[0.249,0.838],[0.237,0.809],[0.232,0.779],[0.23,0.75],[0.231,0.72],[0.234,0.691],[0.235,0.661],[0.236,0.632],[0.237,0.603],[0.239,0.573],[0.239,0.544],[0.239,0.514],[0.236,0.485],[0.232,0.455],[0.227,0.426],[0.222,0.396],[0.217,0.367],[0.212,0.337],[0.208,0.308],[0.204,0.279],[0.201,0.249],[0.204,0.22],[0.205,0.19],[0.206,0.161]];
+    var PREV = [
+      [/archive|work\.html$/, 'work/film/reel-loop-m.mp4', 'work/film-poster-800.webp', T('אתרים, פרסומות ותלת־ממד', 'Sites, films and 3D')],
+      [/#films/, '', 'work/film/hg.webp', T('פרסומות שהפקתי ב-AI', 'Commercials made with AI')],
+      [/#process/, 'work/bg/crystal-m.mp4', 'work/bg/crystal.webp', T('מהשיחה הראשונה ועד שהאתר באוויר', 'From the first call to a live site')],
+      [/#pricing/, 'work/tiers/t3.mp4', 'work/tiers/t3.webp', T('שלוש חבילות, מחיר סגור מראש', 'Three packages, fixed prices')],
+      [/#faq/, 'work/systems/ai.mp4', 'work/systems/ai.webp', T('תשובות קצרות לפני שמתחילים', 'Short answers before we start')],
+      [/#contact/, '', 'work/me/character-480.webp', T('וואטסאפ, טלפון או מייל', 'WhatsApp, phone or email')]
+    ];
+    var navLinks = $$('a', nav).map(function (a) { return [a.getAttribute('href'), a.textContent]; });
+    var onHome = !!$('#films');
+    navLinks.splice(1, 0, [onHome ? '#films' : T('index.html#films', 'en.html#films'), T('פרסומות', 'Films')]);
+    if ($('#faq')) navLinks.splice(navLinks.length - 1, 0, ['#faq', T('שאלות', 'FAQ')]);
+    var links = navLinks.map(function (l, i) {
+      var pv = PREV.filter(function (p) { return p[0].test(l[0]); })[0] || ['', '', '', ''];
+      return '<li class="mp-item" style="--i:' + i + '"><a class="menu-link mp-link" href="' + l[0] + '" data-v="' + pv[1] + '" data-p="' + pv[2] + '">' +
+        '<span class="mp-num mono">0' + (i + 1) + '</span><span class="mp-txt"><span class="display">' + l[1] + '</span><small class="mono">' + pv[3] + '</small></span>' +
+        '<span class="mp-thumb" aria-hidden="true">' + (pv[2] ? '<img alt="" src="" data-src="' + pv[2] + '" width="160" height="100" decoding="async">' : '') + (pv[1] ? '<video muted loop playsinline preload="none"></video>' : '') + '</span></a></li>';
     });
-    if ($('#faq')) links.splice(links.length - 1, 0, '<li><a class="menu-link display" href="#faq">' + T('שאלות', 'FAQ') + '</a></li>');
     var lang = $('.lang-switch');
     menu.innerHTML =
-      '<ul class="menu-links">' + links.join('') + '</ul>' +
+      '<div class="mp-stage" aria-hidden="true"><img alt="" src=""><video muted loop playsinline preload="none"></video><span class="mp-stage-cap mono"></span></div>' +
+      '<div class="mp-side"><ul class="menu-links">' + links.join('') + '</ul>' +
       '<div class="menu-foot">' +
         '<a class="btn btn-signal menu-wa" href="https://wa.me/' + CONTACT.whatsapp + '" target="_blank" rel="noopener"><span>' + T('שלחו לי הודעה בוואטסאפ', 'Message me on WhatsApp') + '</span></a>' +
         '<a class="menu-tel mono" href="tel:+' + CONTACT.whatsapp + '" dir="ltr">' + T('054-5522053', '+972 54-552-2053') + '</a>' +
@@ -1245,8 +1263,54 @@
           '<button type="button" data-proxy=".xray-toggle">' + T('רנטגן', 'X-ray') + '</button>' +
           (lang ? '<a href="' + lang.getAttribute('href') + '" hreflang="' + lang.getAttribute('hreflang') + '" lang="' + lang.getAttribute('lang') + '">' + T('English', 'עברית') + '</a>' : '') +
         '</div>' +
-      '</div>';
+      '</div></div>';
     document.body.appendChild(menu);
+    // הזכוכית: ה-ח עצמה, שעפה קדימה ומתרחבת עד שהמסך כולו בתוכה
+    var glass = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    glass.setAttribute('class', 'mp-glass'); glass.setAttribute('aria-hidden', 'true'); glass.setAttribute('viewBox', '0 0 775 815');
+    glass.innerHTML = '<defs><linearGradient id="mpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#ede8de" stop-opacity=".12"/><stop offset="1" stop-color="#ff4f1a" stop-opacity=".5"/></linearGradient></defs>' +
+      '<path d="' + HET_D + '" fill="url(#mpg)" stroke="rgba(255,255,255,.7)" stroke-width="1.2" vector-effect="non-scaling-stroke"/>';
+    var dim = document.createElement('div'); dim.className = 'mp-dim'; dim.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dim); document.body.appendChild(glass);
+
+    var stage = $('.mp-stage', menu), stageImg = $('img', stage), stageVid = $('video', stage), stageCap = $('.mp-stage-cap', stage);
+    var wide = window.matchMedia('(min-width: 901px)');
+    var lite = !motion || (navigator.connection && navigator.connection.saveData);
+    function showStage(a) {
+      if (!a || !wide.matches) return;
+      $$('.mp-link', menu).forEach(function (x) { x.classList.toggle('is-on', x === a); });
+      stageCap.textContent = $('small', a).textContent;
+      stageImg.src = a.dataset.p || '';
+      var v = a.dataset.v;
+      if (v && !lite) { if (stageVid.getAttribute('src') !== v) { stageVid.src = v; } stage.classList.add('has-v'); var pr = stageVid.play(); if (pr && pr.catch) pr.catch(function () {}); }
+      else { stage.classList.remove('has-v'); stageVid.pause(); }
+    }
+    function mediaOn() {
+      $$('.mp-thumb img', menu).forEach(function (im) { if (!im.getAttribute('src')) im.src = im.dataset.src; });
+      if (wide.matches) { showStage($('.mp-link', menu)); return; }
+      if (lite) return;
+      $$('.mp-link', menu).forEach(function (a) {
+        var v = $('.mp-thumb video', a); if (!v || !a.dataset.v) return;
+        if (!v.getAttribute('src')) v.src = a.dataset.v;
+        v.addEventListener('playing', function () { v.classList.add('on'); }, { once: true });
+        var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      });
+    }
+    function mediaOff() { $$('video', menu).forEach(function (v) { v.pause(); }); }
+    menu.addEventListener('pointerover', function (e) { var a = e.target.closest('.mp-link'); if (a) showStage(a); });
+    menu.addEventListener('focusin', function (e) { var a = e.target.closest('.mp-link'); if (a) showStage(a); });
+
+    // גיאומטריית הפורטל: הפתח שבתוך ה-ח (מתחת לגג, בין הרגליים) הוא החלון אל התפריט
+    var CX = 0.53, CY = 0.57, AR = 775 / 815;
+    function portal(s, glassOp) {
+      var W = innerWidth, H = innerHeight, hb = s * H, wb = hb * AR, x0 = W / 2 - CX * wb, y0 = H / 2 - CY * hb;
+      var pts = HET_IN.map(function (p) { return (x0 + p[0] * wb).toFixed(1) + 'px ' + (y0 + p[1] * hb).toFixed(1) + 'px'; });
+      menu.style.clipPath = 'polygon(' + pts.join(',') + ')';
+      glass.style.transform = 'translate(' + x0.toFixed(1) + 'px,' + y0.toFixed(1) + 'px) scale(' + (hb / 815).toFixed(4) + ')';
+      glass.style.opacity = glassOp;
+    }
+    function endScale() { var W = innerWidth, H = innerHeight; return Math.max(1.3, 1.6 * W / H / AR) * 1.18; }
+    var tl = null;
 
     var open = false;
     function syncTools() {
@@ -1258,18 +1322,34 @@
       btn.setAttribute('aria-expanded', on);
       btn.setAttribute('aria-label', on ? T('סגירת התפריט', 'Close menu') : T('תפריט', 'Menu'));
       root.classList.toggle('menu-open', on);
+      if (tl) { tl.kill(); tl = null; }
       if (on) {
-        menu.hidden = false; syncTools();
+        menu.hidden = false; syncTools(); mediaOn();
         if (lenis) lenis.stop();
-        requestAnimationFrame(function () { menu.classList.add('is-open'); });
-        if (motion) gsap.fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.05, delay: 0.12, ease: 'expo.out' });
+        if (motion) {
+          var st = { s: 0.16, g: 0, d: 0 }, end = endScale();
+          menu.classList.add('is-open', 'is-portal'); glass.classList.add('on'); dim.classList.add('on');
+          portal(st.s, 0);
+          tl = gsap.timeline({ onComplete: function () { menu.style.clipPath = 'none'; menu.classList.remove('is-portal'); glass.classList.remove('on'); } });
+          tl.to(st, { g: 1, duration: 0.25, ease: 'power2.out', onUpdate: function () { portal(st.s, st.g); } }, 0)
+            .to(st, { s: end, duration: 1.15, ease: 'expo.inOut', onUpdate: function () { portal(st.s, st.g * Math.max(0, 1 - Math.pow((st.s - 0.16) / (end - 0.16), 2.2))); } }, 0.05)
+            .fromTo(menu, { '--mp-blur': '10px', '--mp-scale': 1.08 }, { '--mp-blur': '0px', '--mp-scale': 1, duration: 1.1, ease: 'expo.out' }, 0.15)
+            .fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.05, ease: 'expo.out' }, 0.55);
+        } else { menu.classList.add('is-open'); menu.style.clipPath = 'none'; }
         var first = $('.menu-link', menu); if (first) first.focus({ preventScroll: true });
       } else {
-        menu.classList.remove('is-open');
         if (lenis) lenis.start();
-        setTimeout(function () { if (!open) menu.hidden = true; }, motion ? 450 : 0);
+        var done = function () { if (!open) { menu.hidden = true; menu.classList.remove('is-open', 'is-portal'); glass.classList.remove('on'); dim.classList.remove('on'); mediaOff(); } };
+        if (motion) {
+          var st2 = { s: endScale(), g: 0 };
+          menu.classList.add('is-portal'); glass.classList.add('on'); dim.classList.remove('on');
+          tl = gsap.timeline({ onComplete: done });
+          tl.to(st2, { s: 0.12, g: 1, duration: 0.7, ease: 'expo.in', onUpdate: function () { portal(st2.s, Math.min(1, st2.g * 1.6)); } })
+            .to(glass, { opacity: 0, duration: 0.15 });
+        } else done();
       }
     }
+    addEventListener('resize', function () { if (open && menu.classList.contains('is-portal')) portal(endScale(), 0); });
     btn.addEventListener('click', function () { set(!open); if (!open) btn.focus(); });
     function go(href, e) {
       if (href.charAt(0) !== '#') { set(false); return; }
@@ -1295,7 +1375,6 @@
         else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
       }
     });
-    window.matchMedia('(min-width: 901px)').addEventListener('change', function (m) { if (m.matches) set(false); });
   }
 
   /* ---------- סיור בהדמיה: הסרט נטען רק כשלוחצים, ורק אחד מתנגן בכל רגע ---------- */
