@@ -306,6 +306,7 @@ def render(p):
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
 <script type="application/ld+json">{ld}</script>
+<script src="{up}js/ga.js" defer></script>
 </head>
 <body>
 <header class="sv-bar">
@@ -369,6 +370,7 @@ html[lang="en"] .sv-list b {{ font-family: "Fraunces", Georgia, serif; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
 <script type="application/ld+json">{ld}</script>
+<script src="{up}js/ga.js" defer></script>
 </head>
 <body>
 <header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a></nav></header>

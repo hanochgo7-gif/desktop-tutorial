@@ -164,6 +164,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
 {extra}
+<script src="../js/ga.js" defer></script>
 </head>
 <body>
 <header class="sv-bar">
