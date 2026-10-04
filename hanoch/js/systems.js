@@ -687,7 +687,7 @@
         ? [['/about-us', '/about'], ['/shop', '/shop'], ['/blank-3', '/workshops'], ['/contact-1', '/contact'], ['/blog', '/journal'], ['/product-page/mug', '/shop/mug']]
         : [['/about-us', '/אודות'], ['/shop', '/חנות'], ['/blank-3', '/סדנאות'], ['/contact-1', '/צור-קשר'], ['/blog', '/מגזין'], ['/product-page/mug', '/חנות/ספל']];
       s.innerHTML = `<div class="d-wrap">
-        <div class="d-row"><span class="d-h">${T('מעבר מוויקס', 'Moving from Wix')}</span><span class="d-sp d-pill d-st">${T('מתחילים…', 'Starting…')}</span></div>
+        <div class="d-row"><span class="d-h">${T('הגירה מ-Wix', 'Wix migration')}</span><span class="d-sp d-pill d-st">${T('מתחילים…', 'Starting…')}</span></div>
         <div class="d-bar"><i class="d-pg"></i></div>
         <div class="d-card d-scroll" style="flex:1"><table class="d-table"><thead><tr><th>${T('כתובת ישנה', 'Old URL')}</th><th>${T('כתובת חדשה', 'New URL')}</th><th>${T('הפניה', 'Redirect')}</th></tr></thead><tbody></tbody></table></div>
         <div class="d-kpis"><div class="d-card d-kpi"><span class="d-sub">${T('עמודים', 'Pages')}</span><span class="d-num d-m1">0</span></div><div class="d-card d-kpi"><span class="d-sub">${T('הפניות 301', '301 redirects')}</span><span class="d-num d-m2">0</span></div><div class="d-card d-kpi"><span class="d-sub">${T('קישורים שבורים', 'Broken links')}</span><span class="d-num">0</span></div></div>
