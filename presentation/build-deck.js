@@ -133,10 +133,10 @@ sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפנ�
   const s = slide(PAPER, "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", { mark: 74 });
   heading(s, "כיתה י׳: הרגע שבו הכול התהפך", 128, 128, 1664, 90, 64, TXT);
   // dark quote card on the left (720 wide)
-  rrect(s, 128, 266, 720, 654, INK, null, 24);
-  text(s, "”", 184, 300, 600, 140, { fontSize: pt(110), color: SAND, fontFace: FH, align: "right" });
-  heading(s, "״לא היה לי שום קשר לזה.״", 184, 470, 608, 120, 48, WHITE);
-  para(s, "והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 184, 610, 608, 150, 30, MUTEDL);
+  rrect(s, 128, 266, 760, 654, INK, null, 24);
+  rule(s, 888 - 64 - 120, 420);
+  heading(s, "לא היה לי שום קשר לזה", 192, 460, 632, 90, 60, WHITE);
+  para(s, "והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי", 192, 580, 632, 160, 34, MUTEDL);
   // three words on the right, evenly spread
   const words = ["ההאשמה", "ההבנה", "ההחלטה"];
   words.forEach((w, i) => {
@@ -256,7 +256,7 @@ sectionSlide("03", "7 באוקטובר", "7 באוקטובר – 15 דקות. ה
 // ============ 15 rockets ============
 {
   const s = slide(INK, "06:29 – מטח רקטות. הסרטון (17 שניות) מתחיל בלחיצה. להגיד: קמתי למשמרת, ובשש עשרים ותשע – ללחוץ. אחרי הסרטון עוברים להקלטת הקשר של הסמג״ד.");
-  video(s, "oct7-rockets-sm.mp4", "oct7-rockets-still.jpg", 128, 128, 466, 824);
+  video(s, "oct7-rockets-portrait.mp4", "oct7-rockets-portrait-still.jpg", 128, 128, 464, 824);
   heading(s, "06:29", 658, 330, 1134, 220, 150, SAND);
   heading(s, "מטח רקטות מעזה", 658, 570, 1134, 90, 48, WHITE);
   pnum(s, n);
@@ -264,7 +264,13 @@ sectionSlide("03", "7 באוקטובר", "7 באוקטובר – 15 דקות. ה
 // ============ radio helper ============
 function radio(when, title, sub, dur, notes, lines, file, still) {
   const s = slide(INK, notes);
-  const cx = 128, cy = 120, cw = 1664, ch = 840;
+  const chars0 = lines.reduce((a, [sp, tx]) => a + sp.length + tx.length, 0);
+  const tsz0 = chars0 < 80 ? 44 : chars0 < 140 ? 40 : chars0 < 260 ? 34 : 32;
+  const tw = 1664 - 128 - 560 - 48, perLine = Math.floor(tw / (0.52 * tsz0));
+  const nLines = lines.reduce((a, [sp, tx]) => a + Math.ceil((sp.length + tx.length + 1) / perLine), 0) + (lines.length - 1);
+  const textEnd = 260 + nLines * tsz0 * 1.35 + 20;
+  const ch = Math.max(620, Math.round(Math.max(200 + 315 + 60, textEnd) + 56));
+  const cx = 128, cw = 1664, cy = Math.max(116, Math.round((1080 - ch) / 2));
   rrect(s, cx, cy, cw, ch, INK2, LINE_D, 24);
   s.addShape(pres.ShapeType.roundRect, { x: px(cx + cw - 64 - 620), y: px(cy + 36), w: px(620), h: px(52), rectRadius: px(26), fill: { color: "2B1A1D" }, line: { color: "6E2A2E", width: 1 } });
   circle(s, cx + cw - 64 - 30, cy + 62, 14, "E5484D");
@@ -367,7 +373,7 @@ radio("7.10, 07:50", "קליין נותן פקודה. והיא מאפסת אות
 slide("000000", "שקופית שחורה. שתי שניות של שקט אחרי ההודעה הקולית. לנשום, ואז לעבור לטוויסט.", { chrome: false });
 // ============ 27 twist ============
 {
-  const s = slide(SAND, "הטוויסט של ההרצאה. הקהל מצפה שהשיא היה 7 באוקטובר – ואתה אומר: הקרב היה החלק הקל. מכאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.");
+  const s = slide(SAND, "הטוויסט של ההרצאה. הקהל מצפה שהשיא היה 7 באוקטובר – ואתה אומר: הקרב היה החלק הקל. מכאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.", { chrome: false });
   rule(s, 900, 260, 120, INK);
   heading(s, "האמת?", 128, 300, 1664, 180, 120, INK, { align: "center" });
   heading(s, "הקרב היה החלק הקל", 128, 500, 1664, 200, 130, INK, { align: "center" });

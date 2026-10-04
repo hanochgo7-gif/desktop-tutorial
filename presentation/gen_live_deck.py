@@ -34,6 +34,13 @@ def sec(id_, bg, body, notes, extra="", pad="128px", layout="display:flex; flex-
     html=f'<section id="{id_}" dir="rtl" data-transition="fade" style="background:{bg}; color:{"#F6F3EE" if dark else TXT}; font-family:{B}; padding:{pad}; {layout}; text-align:right{extra}">\n{pre}{body}\n<aside>{notes}</aside>\n</section>\n'
     slides.append((id_,html))
 
+def pin(tag, txt, top, size, color, h=None, build="", ff=None, weight=700, lh=1.15):
+    ff = ff or (H if tag in ("h1","h2") else B)
+    b = f' data-build-in="{build}"' if build else ''
+    return (f'<{tag}{b} style="position:absolute; left:128px; top:{top}px; width:1664px; font-family:{ff}; font-size:{size}px; '
+            f'font-weight:{weight}; line-height:{lh}; color:{color}; text-align:center">{t(nodot(txt))}</{tag}>')
+def pin_rule(top, color):
+    return f'<div style="position:absolute; left:900px; top:{top}px; width:120px; height:6px; background:{color}"></div>'
 def pnum(n, dark=True):
     return ''  # replaced by chrome()
 
@@ -125,18 +132,18 @@ steps=[("1","ההאשמה","האשימו אותי בסחר בסמים – ולא
 steps_html="".join(f'<div style="display:flex; flex-direction:row; gap:28px; align-items:center"><div style="width:40px; height:40px; border-radius:50%; background:{SAND}"></div>{h3(b,48)}</div>' for a,b,c in steps)
 sec("grade10", PAPER,
     f'{h2("כיתה י׳: הרגע שבו הכול התהפך", 64)}'
-    f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:start">'
-    f'<div style="flex:1; display:flex; flex-direction:column; justify-content:space-evenly; align-self:stretch">{steps_html}</div>'
-    f'<div style="width:720px; background:{INK}; border-radius:24px; padding:56px; display:flex; flex-direction:column; gap:24px">'
-    f'<p style="font-family:{H}; font-size:110px; color:{SAND}; line-height:0.8">”</p>'
-    f'{h3("״לא היה לי שום קשר לזה.״", 48, "#F6F3EE")}'
-    f'{p("והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי.", 30, MUTEDL)}</div></div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:stretch">'
+    f'<div style="flex:1; display:flex; flex-direction:column; justify-content:space-evenly">{steps_html}</div>'
+    f'<div style="width:760px; background:{INK}; border-radius:24px; padding:64px; display:flex; flex-direction:column; gap:36px; justify-content:center">'
+    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
+    f'{h2("לא היה לי שום קשר לזה", 60, "#F6F3EE")}'
+    f'{p("והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי", 34, MUTEDL)}</div></div>{pnum(n, False)}',
     "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
 # 7 message
 n+=1
 sec("msg1", INK,
-    f'<div style="flex:1"></div><div style="display:flex; flex-direction:row; justify-content:center"><div style="width:120px; height:6px; background:{SAND}"></div></div>{h2("העבר שלך מסביר אותך.", 88, MUTEDL, "; text-align:center")}{h2("אבל הוא לא חייב להגדיר אותך.", 96, SAND, "; text-align:center")}<div style="flex:1"></div>{pnum(n)}',
-    "המסר של הפרק. לעצור עליו רגע. הקהל צריך להבין: לא הגיבור שנולד גיבור – נער עם הרבה סימני שאלה.", pad="128px 128px 160px")
+    f'{pin_rule(400, SAND)}{pin("h2","העבר שלך מסביר אותך", 438, 88, MUTEDL)}{pin("h2","אבל הוא לא חייב להגדיר אותך", 571, 96, SAND, build="fade")}{pnum(n)}',
+    "השורה השנייה מופיעה בלחיצה. להגיד את הראשונה, לעצור, ללחוץ. המסר של הפרק. לעצור עליו רגע. הקהל צריך להבין: לא הגיבור שנולד גיבור – נער עם הרבה סימני שאלה.", pad="128px 128px 160px")
 # 8 section 02
 n+=1
 CUR_SEC=None
@@ -236,7 +243,7 @@ sec("rockets", INK,
     f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:center">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:28px">{h1("06:29", 150)}{h3("מטח רקטות מעזה.", 48, "#F6F3EE")}'
     f'</div>'
-    f'<img src="/_blob/696e54df30bc318d2e738de2f43080cc" data-video="/_blob/64459c0ba816aee5c43f7c0ad3533605" data-video-start="click" alt="מטח רקטות משוגר מעזה, 06:29" style="width:466px; height:824px; object-fit:cover; border-radius:16px"></div>{pnum(n)}',
+    f'<img src="/_blob/cc162b7b99397b54b939faefc89e8467" data-video="/_blob/6eae3faa1650218f2203457b7e9e689c" data-video-start="click" alt="מטח רקטות משוגר מעזה, 06:29" style="width:464px; height:824px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}"></div>{pnum(n)}',
     "06:29 – מטח רקטות. הסרטון (17 שניות) מתחיל בלחיצה. להגיד: קמתי למשמרת, ובשש עשרים ותשע – ללחוץ. אחרי הסרטון עוברים להקלטת הקשר של הסמג״ד.", pad="128px 128px 160px")
 # --- radio recording slides ---
 import random
@@ -334,9 +341,8 @@ sec("pause", "#000000", '<div style="flex:1"></div>',
 # 15 twist
 n+=1
 sec("twist", SAND,
-    f'<div style="flex:1"></div><div style="display:flex; flex-direction:row; justify-content:center"><div style="width:120px; height:6px; background:{INK}"></div></div>{h1("האמת?", 120, INK, extra="; text-align:center")}{h1("הקרב היה החלק הקל.", 130, INK, extra="; text-align:center")}'
-    f'<div style="flex:1"></div>',
-    "הטוויסט של ההרצאה. הקהל מצפה שהשיא היה 7 באוקטובר – ואתה אומר: הקרב היה החלק הקל. מכאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.")
+    f'{pin_rule(368, INK)}{pin("h1","האמת?", 406, 120, INK, lh=1.1)}{pin("h1","הקרב היה החלק הקל", 570, 130, INK, build="fade", lh=1.1)}',
+    "הטוויסט של ההרצאה. 'האמת?' – לעצור – ללחוץ, והשורה השנייה מופיעה. הקהל מצפה שהשיא היה 7 באוקטובר – ואתה אומר: הקרב היה החלק הקל. מכאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.", chrome_on=False)
 # 16 section 04
 n+=1
 section_slide("s04","04","ואז הכול נגמר","","ואז הכול נגמר – 8 דקות.", n)
@@ -415,9 +421,9 @@ sec("today", PAPER,
 # 26 callback
 n+=1
 sec("callback", INK,
-    f'<div style="flex:1"></div><div style="display:flex; flex-direction:row; justify-content:center"><div style="width:120px; height:6px; background:{SAND}"></div></div>{p("בהתחלה אמרתי לכם:", 40, MUTEDL, "; text-align:center")}{h2("ב־7 באוקטובר קיבלתי החלטה", 72, MUTEDL, "; text-align:center")}'
-    f'<div style="height:56px"></div>{p("האמת היא שאני מקבל אותה מחדש", 44, "#F6F3EE", "; text-align:center")}{h2("כל בוקר", 110, SAND, "; text-align:center")}<div style="flex:1"></div>{pnum(n)}',
-    "הסיום – 3 דקות. חוזרים למשפט מהפתיחה.", pad="128px 128px 160px")
+    f'{pin_rule(300, SAND)}{pin("p","בהתחלה אמרתי לכם:", 338, 40, MUTEDL, weight=400, lh=1.45)}{pin("h2","ב־7 באוקטובר קיבלתי החלטה", 410, 72, MUTEDL)}'
+    f'{pin("p","האמת היא שאני מקבל אותה מחדש", 566, 44, "#F6F3EE", build="fade 1", weight=400, lh=1.45)}{pin("h2","כל בוקר", 640, 110, SAND, build="fade 2")}{pnum(n)}',
+    "הסיום – 3 דקות. חוזרים למשפט מהפתיחה. 'האמת היא שאני מקבל אותה מחדש' מופיע בלחיצה, ו'כל בוקר' בלחיצה נוספת – לתת לו רגע לבד.", pad="128px 128px 160px")
 # 27 decision x3
 n+=1
 D=[("כיתה י׳","כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי."),("7.10","כשנפצעתי – החלטתי לתפקד ולהמשיך."),("היום","כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש.")]
