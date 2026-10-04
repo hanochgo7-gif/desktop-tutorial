@@ -1611,3 +1611,4 @@ a[href^="tel:"] { white-space: nowrap; }
 .d-film-tag { color: #ede8de; font-size: .86em; text-shadow: 0 1px 10px rgba(0,0,0,.6); }
 .d-film-snd { flex: none; }
 @media (max-width: 560px) { .d-film-ui { padding: 14px; } .d-film-tag { font-size: .78em; } }
+.d-film-opts { position: absolute; top: 14px; inset-inline-start: 14px; z-index: 2; }

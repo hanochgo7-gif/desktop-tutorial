@@ -348,20 +348,31 @@
   };
 
   D.film = {
-    url: T('hgpro.io · לפני שהעיר מתעוררת', 'hgpro.io · Before the City Wakes'), hint: T('נסו: הפעילו קול', 'Try it: turn the sound on'),
+    url: 'hgpro.io', hint: T('נסו: החליפו סרט והפעילו קול', 'Try it: switch films and turn the sound on'),
     run(s) {
       const small = matchMedia('(max-width: 700px)').matches;
-      const src = 'work/film/' + (EN ? 'ad-en' : 'ad') + (small ? '-m' : '') + '.mp4';
-      s.innerHTML = `<div class="d-film"><video muted playsinline loop preload="metadata" poster="work/film/ad.webp" src="${src}" aria-label="${T('סרט הפרסומת לפני שהעיר מתעוררת', 'The commercial Before the City Wakes')}"></video>
-        <div class="d-film-ui"><span class="d-film-tag">${T('סרט פרסומת · 60 שניות · נוצר כולו ב-AI', 'Commercial · 60 seconds · made entirely with AI')}</span>
+      const FILMS = [
+        ['hg', T('HG · פרסומת בושם', 'HG · Fragrance'), 'hg', T('פרסומת בושם · 30 שניות · נוצרה כולה ב-AI', 'Fragrance commercial · 30 seconds · made entirely with AI')],
+        ['ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), EN ? 'ad-en' : 'ad', T('סרט פרסומת · 60 שניות · נוצר כולו ב-AI', 'Commercial · 60 seconds · made entirely with AI')]];
+      s.innerHTML = `<div class="d-film"><video muted playsinline loop preload="metadata"></video>
+        <div class="d-opts d-film-opts">${FILMS.map((f, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-f="${i}">${f[1]}</button>`).join('')}</div>
+        <div class="d-film-ui"><span class="d-film-tag"></span>
         <button class="d-btn hot d-film-snd" type="button" aria-pressed="false">${T('הפעלת קול', 'Sound on')}</button></div></div>`;
-      const v = $('video', s), b = $('.d-film-snd', s);
-      if (motion) v.play().catch(() => { });
+      const v = $('video', s), b = $('.d-film-snd', s), tag = $('.d-film-tag', s);
+      const load = (i) => {
+        const f = FILMS[i];
+        v.poster = 'work/film/' + f[0] + '.webp'; v.src = 'work/film/' + f[2] + (small ? '-m' : '') + '.mp4';
+        v.setAttribute('aria-label', f[1]); tag.textContent = f[3];
+        $$('.d-film-opts .d-opt', s).forEach((o) => o.classList.toggle('on', +o.dataset.f === i));
+        if (motion || !v.muted) v.play().catch(() => { });
+      };
+      $$('.d-film-opts .d-opt', s).forEach((o) => o.addEventListener('click', (e) => { e.stopPropagation(); touched = true; load(+o.dataset.f); }));
       b.addEventListener('click', () => {
         touched = true; v.muted = !v.muted;
         if (!v.muted) { v.currentTime = 0; v.play().catch(() => { }); }
         b.setAttribute('aria-pressed', String(!v.muted)); b.textContent = v.muted ? T('הפעלת קול', 'Sound on') : T('השתקה', 'Mute');
       });
+      load(0);
     }
   };
 
