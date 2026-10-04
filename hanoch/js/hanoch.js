@@ -191,13 +191,13 @@
     Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
   }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
-  var LIVE = { gotovski: '', ams: '', allenbis: '', clinic: '', falafel: '', rachel: '' };
+  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
   ORDER.forEach(function (id) {
     if (!LIVE[id]) return;
     var a = document.createElement('a');
     a.className = 'p-live mono'; a.href = LIVE[id]; a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = T('לאתר החי', 'Live site') + ' <span aria-hidden="true">↗</span>';
+    a.innerHTML = T('לביקור באתר', 'Visit site') + ' <span aria-hidden="true">↗</span>';
     var btn = $('.project[data-id="' + id + '"] .p-open');
     btn.parentNode.insertBefore(a, btn.nextSibling);
   });
