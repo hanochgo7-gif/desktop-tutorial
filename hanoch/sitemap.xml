@@ -137,6 +137,17 @@
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
+    <loc>https://hgpro.io/blog/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://hgpro.io/blog/how-much-does-a-website-cost.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://hgpro.io/accessibility.html</loc>
     <lastmod>2026-10-04</lastmod>
     <priority>0.2</priority>

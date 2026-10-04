@@ -17,6 +17,10 @@ VID = {'/': [('HG · Unforgettable', 'פרסומת בושם של 30 שניות �
 PRI = {'/': '1.0', '/en.html': '0.9', '/work.html': '0.8', '/en-work.html': '0.7', '/archive/': '0.8', '/archive/en.html': '0.7', '/accessibility.html': '0.2'}
 paths = ['/', '/en.html', '/work.html', '/en-work.html', '/archive/', '/archive/en.html', '/services/', '/services/en/']
 paths += [p['url'][len(D):] for p in json.load(open(ROOT + '/services/pages.json'))]
+BLOG = json.load(open(ROOT + '/blog/posts.json')) if os.path.exists(ROOT + '/blog/posts.json') else []
+paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
+for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
+PRI['/blog/'] = '0.7'
 paths.append('/accessibility.html')
 out = []
 for p in paths:
@@ -27,7 +31,7 @@ for p in paths:
         alt = f'\n    <xhtml:link rel="alternate" hreflang="he" href="{D}{he}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="{D}{en}"/>\n    <xhtml:link rel="alternate" hreflang="x-default" href="{D}{he}"/>'
     imgs = ''.join(f'\n    <image:image><image:loc>{D}{i}</image:loc></image:image>' for i in IMG.get(p, []))
     vids = ''.join(f'\n    <video:video><video:thumbnail_loc>{D}{t}</video:thumbnail_loc><video:title>{html.escape(n)}</video:title><video:description>{html.escape(d)}</video:description><video:content_loc>{D}{c}</video:content_loc><video:duration>{s}</video:duration><video:family_friendly>yes</video:family_friendly></video:video>' for n, d, t, c, s in VID.get(p, []))
-    pr = PRI.get(p, '0.8' if p.startswith('/services/') else '0.5')
+    pr = PRI.get(p, '0.8' if p.startswith('/services/') else '0.6' if p.startswith('/blog/') else '0.5')
     out.append(f'  <url>\n    <loc>{D}{p}</loc>{alt}\n    <lastmod>{today}</lastmod>\n    <priority>{pr}</priority>{imgs}{vids}\n  </url>')
 xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"'
        ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n' + '\n'.join(out) + '\n</urlset>\n')

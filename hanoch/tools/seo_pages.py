@@ -310,7 +310,7 @@ def render(p):
 <body>
 <header class="sv-bar">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HGPRO, {T('לדף הבית', 'home')}">HG<span>·</span>PRO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="./">{T('שירותים', 'Services')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a><a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="./">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a><a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
 <main class="sv">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
@@ -371,7 +371,7 @@ html[lang="en"] .sv-list b {{ font-family: "Fraunces", Georgia, serif; }}
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a></nav></header>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a></nav></header>
 <main class="sv">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים', 'Services')}</h1>
@@ -384,11 +384,13 @@ html[lang="en"] .sv-list b {{ font-family: "Fraunces", Georgia, serif; }}
 </html>
 '''
 
-os.makedirs(ROOT + '/services/en', exist_ok=True)
-for p in P:
-    path = ROOT + ('/services/' if p['lang'] == 'he' else '/services/en/') + p['slug'] + '.html'
-    open(path, 'w', encoding='utf8').write(render(p))
-open(ROOT + '/services/index.html', 'w', encoding='utf8').write(hub('he'))
-open(ROOT + '/services/en/index.html', 'w', encoding='utf8').write(hub('en'))
-json.dump([{'url': url_of(p), 'lang': p['lang']} for p in P], open(ROOT + '/services/pages.json', 'w'), indent=1)
-print('pages', len(P) + 2)
+if __name__ == '__main__':
+    os.makedirs(ROOT + '/services/en', exist_ok=True)
+    for p in P:
+        path = ROOT + ('/services/' if p['lang'] == 'he' else '/services/en/') + p['slug'] + '.html'
+        open(path, 'w', encoding='utf8').write(render(p))
+    open(ROOT + '/services/index.html', 'w', encoding='utf8').write(hub('he'))
+    open(ROOT + '/services/en/index.html', 'w', encoding='utf8').write(hub('en'))
+    json.dump([{'url': url_of(p), 'lang': p['lang']} for p in P], open(ROOT + '/services/pages.json', 'w'), indent=1)
+    print('pages', len(P) + 2)
+
