@@ -62,16 +62,17 @@
       palette: ['#111111', '#1c82ad', '#4fbbea', '#ede8de'], fonts: ['Heebo', 'Frank Ruhl Libre', 'Cousine']
     },
     ams: {
-      name: 'AMS', sub: 'אביב משה שדמון · אגרוף תאילנדי ואימון אישי', kind: 'אתר חדש · תנועה אמיתית מתוך סרטון', url: 'ams · אביב משה שדמון', color: '#d4a24c',
-      story: 'אביב מלמד מואי תאי, והשפה שלו היא תנועה, אז האתר היה צריך לזוז כמו שהוא זז. לקחתי סרטון אמיתי של אביב, העברתי את התנועה שלו לדמות מונפשת בזירה, והגלילה של המבקר היא שמניעה אותה.',
+      name: 'AMS', sub: 'אביב משה שדמון · אגרוף תאילנדי ואימון אישי', kind: 'אתר מלא · תנועה אמיתית, תוכן וקידום', url: 'ams · אביב משה שדמון', color: '#d4a24c',
+      story: 'אביב מלמד מואי תאי, והשפה שלו היא תנועה, אז האתר זז כמו שהוא זז: התנועה האמיתית שלו מתוך סרטון הועברה לדמות מונפשת בזירה, והגלילה של המבקר מניעה אותה. בגרסה החדשה האתר גדל לעסק שלם: אביב מדבר בגוף ראשון, עם התמונות, ההמלצות והלוגו האמיתיים שלו, ועם מאמרים, דפי אזור ודף נחיתה שמביאים מתאמנים חדשים.',
       points: [
-        'פתיח מוצמד: 13 פריימים מצוירים על canvas. גוללים, ואביב עובר משמירה לברך תאילנדית וחוזר.',
-        'התנועה אמיתית, מתוך סרטון של אביב, והועברה לדמות המונפשת ב-Higgsfield.',
-        'כותרות בסגנון כרזת קרב, ו"איך מתחילים" בנוי על חבלי זירה.',
-        'דף נפרד לכל שירות, ותפריט מסך מלא עם כל השירותים.'
+        'פתיח מוצמד: 13 פריימים מצוירים על canvas. גוללים, ואביב עובר משמירה לברך תאילנדית וחוזר. התנועה נלקחה מסרטון אמיתי שלו.',
+        'רקע זירה קבוע לכל האתר, כותרות בגופן Dragon בסגנון כרזת קרב, ו"איך מתחילים" בנוי על חבלי זירה.',
+        'דף לכל שירות, "מי אני" מלא, חמישה מאמרים וארבעה דפי אזור (רחובות, גדרה, נס ציונה וקריית עקרון) שבנויים לקידום בגוגל.',
+        'דף נחיתה לאימון ניסיון לאינסטגרם ולמודעות, ומדריך חינם ב-PDF שנשלח בוואטסאפ. כל פנייה נמדדת.',
+        'בטלפון: כפתור וואטסאפ צף שלא מסתיר תוכן, המלצות בהחלקה, ותפריט שירותים מסודר.'
       ],
       frames: 13,
-      palette: ['#16110c', '#d4a24c', '#f2ece0', '#000000'], fonts: ['Karantina', 'IBM Plex Sans Hebrew', 'Archivo 125%']
+      palette: ['#16110c', '#d4a24c', '#f2ece0', '#000000'], fonts: ['Dragon', 'IBM Plex Sans Hebrew']
     },
     allenbis: {
       name: 'אלנביס', sub: 'שתייה, חטיפים ומה שביניהם עד הבית', kind: 'שיפור חנות קיימת · בלי ספריות', url: 'allenbis.co.il', color: '#ffd84d',
@@ -134,13 +135,14 @@
         metrics: [['Mobile load (LCP)', '2.9s', '1.7s'], ['Page weight', '1.26MB', '0.9MB'], ['Mobile intro video', '1.3MB', '370KB']]
       },
       ams: {
-        sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'New site · real motion from video', url: 'ams · Aviv Moshe Shadmon',
-        story: 'Aviv teaches Muay Thai, and his language is movement, so the site had to move the way he does. I took real footage of Aviv, transferred his motion to an animated fighter in the ring, and the visitor\'s scroll is what drives him.',
+        sub: 'Aviv Moshe Shadmon · Thai boxing and personal training', kind: 'Full site · real motion, content and SEO', url: 'ams · Aviv Moshe Shadmon',
+        story: 'Aviv teaches Muay Thai, and his language is movement, so the site moves the way he does: his real motion, taken from footage, was transferred to an animated fighter in the ring, and the visitor\'s scroll drives him. In the new version the site grew into a whole business: Aviv speaks in first person, with his real photos, testimonials and logo, plus articles, area pages and a landing page that bring in new trainees.',
         points: [
-          'A pinned opening: 13 frames drawn on canvas. Scroll, and Aviv moves from guard to a Thai bow and back.',
-          'The motion is real, taken from footage of Aviv and transferred to the animated character with Higgsfield.',
-          'Fight-poster headlines, and a "how to start" section built on ring ropes.',
-          'A page for every service, and a full-screen menu with all of them.'
+          'A pinned opening: 13 frames drawn on canvas. Scroll, and Aviv moves from guard to a Thai bow and back. The motion comes from real footage of him.',
+          'A fixed ring backdrop across the site, Dragon fight-poster headlines, and a "how to start" section built on ring ropes.',
+          'A page for every service, a full "about me", five articles and four area pages built to rank on Google.',
+          'A free-trial landing page for Instagram and ads, and a free PDF guide sent on WhatsApp. Every enquiry is measured.',
+          'On phones: a floating WhatsApp button that never covers content, swipeable testimonials and a tidy services menu.'
         ]
       },
       allenbis: {
