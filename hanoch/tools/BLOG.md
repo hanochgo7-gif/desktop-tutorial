@@ -25,5 +25,5 @@
 5. בונים: `python3 tools/blog.py && python3 tools/sitemap.py`. בודקים ש-`xmllint --noout blog/feed.xml sitemap.xml` עובר.
 6. מסמנים בתור `[x]` עם התאריך בסוגריים.
 7. שומרים ומעלים: `git add -A hanoch && git commit` (הודעה באנגלית: `Blog: <title>`) ואז `git push -u origin claude/determined-curie-2g8rm2`.
-8. עלייה לאוויר: Vercel מחובר לגיטהאב, ולכן הדחיפה מעלה את האתר לבד. אחרי 2 עד 4 דקות בודקים שהכתובת `https://hgpro.io/blog/<slug>.html` מחזירה 200. אם לא, ו-`vercel whoami` מחובר, מריצים `cd hanoch && vercel deploy --prod --yes`. אם גם זה לא עובד, מודיעים לחנוך מה חסר.
+8. עלייה לאוויר: Vercel מחובר לגיטהאב (ענף הייצור הוא claude/determined-curie-2g8rm2, ענפים אחרים לא נבנים), ולכן הדחיפה מעלה את האתר לבד. אחרי 2 עד 4 דקות בודקים שהכתובת `https://hgpro.io/blog/<slug>.html` מחזירה 200. אם לא, ו-`vercel whoami` מחובר, מריצים מתיקיית השורש של הריפו (לא מתוך hanoch, כי בפרויקט מוגדר Root Directory = hanoch): `vercel link --yes --project hgpro && vercel deploy --prod --yes`. אם גם זה לא עובד, מודיעים לחנוך מה חסר.
 9. מודיעים לחנוך בעברית, בהודעה קצרה: שם המאמר, הקישור, ונושא השבוע הבא. שולחים גם התראה לטלפון אם יש כלי התראות.
