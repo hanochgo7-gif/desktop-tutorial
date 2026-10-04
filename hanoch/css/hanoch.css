@@ -1612,3 +1612,8 @@ a[href^="tel:"] { white-space: nowrap; }
 .d-film-snd { flex: none; }
 @media (max-width: 560px) { .d-film-ui { padding: 14px; } .d-film-tag { font-size: .78em; } }
 .d-film-opts { position: absolute; top: 14px; inset-inline-start: 14px; z-index: 2; }
+
+/* קישורים שקטים לעמודי השירות (קידום אורגני) */
+.foot-sv { width: 100%; font-size: .72rem; line-height: 1.9; color: var(--fg-dim); }
+.foot .foot-sv a { color: var(--fg-dim); text-decoration: none; }
+.foot .foot-sv a:hover { color: var(--fg); }

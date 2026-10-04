@@ -1,0 +1,394 @@
+# מחולל עמודי השירות (קידום אורגני). מריצים: python3 tools/seo_pages.py
+# כל עמוד: תוכן ייחודי, מחירים אמיתיים מהאתר, דוגמאות מהתיק, שאלות נפוצות עם סימון לגוגל, וקישורים פנימיים.
+import json, os, html, urllib.parse
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+D = 'https://hgpro.io'
+WA = '972545522053'
+PROJ = {  # תמונה, שם, תיאור קצר, עוגן בתיק העבודות
+    'gotovski': ('work/cinema/gotovski-640.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972', 'S. Gotovski', 'Fuel infrastructure since 1972'),
+    'ams': ('work/cinema/ams-640.webp', 'AMS', 'אגרוף תאילנדי ואימון אישי', 'AMS', 'Thai boxing and personal training'),
+    'allenbis': ('work/cinema/allenbis-640.webp', 'אלנביס', 'חנות שתייה וחטיפים עם משלוחים', 'Allenbis', 'Drinks and snacks store with delivery'),
+    'clinic': ('work/cinema/clinic-640.webp', 'רותם גוטובסקי', 'קליניקה לקוסמטיקה טיפולית, עם חנות', 'Rotem Gotovski', 'Therapeutic cosmetics clinic with a shop'),
+    'falafel': ('work/cinema/falafel-640.webp', 'קייטרינג 4X4', 'פלאפל וסביח לאירועים, עם מחשבון הצעת מחיר', '4X4 Catering', 'Falafel catering with a quote builder'),
+    'rachel': ('work/cinema/rachel-640.webp', 'רחלי הורנשטיין', 'שיעורי מתמטיקה פרטיים בזום', 'Racheli Hornstein', 'Private math lessons on Zoom'),
+}
+PROCESS_HE = [('שיחת היכרות', 'מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.'),
+              ('הצעה כתובה', 'מחיר סגור ולוח זמנים. מה שכתוב בה הוא מה שמשלמים.'),
+              ('עיצוב', 'כיוון עיצובי שנבנה סביב העסק שלכם, לא תבנית מוכנה.'),
+              ('פיתוח', 'קוד נקי ומהיר, מותאם לטלפון, לגוגל ולנגישות.'),
+              ('עלייה לאוויר', 'דומיין, אחסון מהיר, Search Console ומדידת פניות.'),
+              ('ליווי', 'חודש ליווי אחרי העלייה, ואפשרות לחבילת תחזוקה חודשית.')]
+PROCESS_EN = [('Intro call', 'We learn the business, the customers and the goal. No commitment.'),
+              ('Written proposal', 'A fixed price and a schedule. What it says is what you pay.'),
+              ('Design', 'A design direction built around your business, not a template.'),
+              ('Build', 'Clean, fast code, ready for mobile, Google and accessibility.'),
+              ('Launch', 'Domain, fast hosting, Search Console and lead tracking.'),
+              ('Support', 'A month of support after launch, and an optional monthly care plan.')]
+
+P = []
+def page(**k): P.append(k)
+
+# ---------------------------------------------------------------- עברית
+page(slug='website-building', lang='he', name='בניית אתרים לעסקים',
+     title='בניית אתרים לעסקים בעיצוב אישי | HGPRO',
+     desc='בניית אתר לעסק מאפס, בלי תבניות: עיצוב אישי, קוד מהיר, התאמה לטלפון וקידום בגוגל. מחיר סגור מראש ואתר באוויר תוך שבועיים.',
+     h1='בניית אתרים לעסקים', kicker='שירות · בניית אתרים',
+     lead='אתר עסקי טוב הוא לא כרטיס ביקור. הוא איש מכירות שעובד גם בלילה: מסביר מה אתם עושים, משכנע שאתם הבחירה הנכונה, ומביא את הלקוח עד לוואטסאפ. אני בונה כל אתר מאפס, סביב העסק שלכם, עם עיצוב, קוד ותנועה ביד אחת.',
+     sections=[('למי זה מתאים', '<ul><li>עסקים קטנים ובינוניים שרוצים אתר שמביא פניות ולא רק "נמצא באינטרנט".</li><li>עסקים עם אתר ישן, איטי או מתבנית, שלא משקף את הרמה שלהם.</li><li>נותני שירות, קליניקות, חנויות, מאמנים ומורים פרטיים.</li></ul>'),
+               ('מה מקבלים', '<ul><li>עיצוב אישי לכל עמוד, בלי תבנית שעוד אלף עסקים משתמשים בה.</li><li>התאמה מלאה לטלפון וטעינה מהירה, כי רוב הגולשים מגיעים מהנייד.</li><li>כותרות, תיאורים, סימון עסקי ומפת אתר, כדי שגוגל יבין מה אתם עושים ואיפה.</li><li>וואטסאפ, חיוג וטופס פנייה, עם מדידה של כל לחיצה.</li><li>מערכת ניהול פשוטה לעדכון טקסטים, תמונות ומחירים בעצמכם.</li><li>נגישות ותפריט נגישות כבר מההתחלה.</li></ul>'),
+               ('למה לא תבנית', '<p>תבנית חוסכת זמן בהתחלה ועולה ביוקר אחר כך: היא נראית כמו של כולם, טוענת קוד שאתם לא צריכים, וקשה להתאים אותה לאופן שבו העסק שלכם באמת מוכר. אתר שנבנה מאפס מהיר יותר, נראה ייחודי, ובנוי מההתחלה למטרה אחת: להפוך גולש לפנייה.</p>')],
+     price='<p>שלוש חבילות, עם מחיר סגור מראש וללא מע״מ (עוסק פטור):</p><ul><li><strong>נוכחות</strong> מ־4,900 ₪: דף נחיתה בעיצוב אישי, עד שבוע לאוויר.</li><li><strong>עסק</strong> מ־8,900 ₪: אתר מלא עד שמונה עמודים עם מערכת ניהול וקידום אורגני, עד שבועיים לאוויר.</li><li><strong>חתימה</strong> מ־19,900 ₪: אתר דגל עם תלת־ממד, חנות או מערכת מותאמת ושתי שפות.</li></ul>',
+     examples=['gotovski', 'ams', 'rachel'],
+     faq=[('כמה זמן לוקחת בניית אתר?', 'עד שבועיים מהשיחה הראשונה ועד שהאתר באוויר. דף נחיתה בדרך כלל מוכן תוך שבוע. כדי לעמוד בלוח הזמנים אני צריך את התוכן והתמונות בהתחלה, ואם אין, אעזור להכין אותם.'),
+          ('כמה עולה לבנות אתר לעסק?', 'דף נחיתה מתחיל ב־4,900 ₪, אתר עסקי מלא ב־8,900 ₪ ואתר דגל ב־19,900 ₪. אחרי שיחת ההיכרות מקבלים הצעה כתובה עם מחיר סגור.'),
+          ('האם אוכל לעדכן את האתר בעצמי?', 'כן. מחבילת עסק ומעלה יש מערכת ניהול פשוטה לעדכון טקסטים, תמונות ומחירים, בלי לגעת בקוד.'),
+          ('האתר והדומיין שייכים לי?', 'כן. הדומיין נרשם על שמכם, והאתר והקוד שייכים לכם.')],
+     related=['web-design', 'landing-page', 'online-store', 'seo'],
+     service=('Website development', 'בניית אתרים', 4900))
+
+page(slug='web-design', lang='he', name='עיצוב אתרים',
+     title='עיצוב אתרים בהתאמה אישית ובלי תבניות | HGPRO',
+     desc='עיצוב אתרים שנבנה סביב העסק שלכם: שפה עיצובית ייחודית, תנועה, תלת־ממד ונגישות. שישה אתרים, שש שפות עיצוב. ראו את התיק.',
+     h1='עיצוב אתרים', kicker='שירות · עיצוב',
+     lead='לכל עסק יש אופי, והאתר צריך להרגיש כמוהו. חברת תשתיות דלק לא אמורה להיראות כמו קליניקה, ומאמן אגרוף לא אמור להיראות כמו מורה למתמטיקה. לכן כל אתר שאני מעצב מקבל שפה משלו: גופנים, צבעים, תנועה ואפילו התנהגות של הכפתורים.',
+     sections=[('איך נולד עיצוב', '<p>מתחילים מהשאלה מה הלקוח שלכם צריך להרגיש בחמש השניות הראשונות. משם בונים כיוון: מחברת משבצות למורה למתמטיקה, דוכן רחוב לקייטרינג פלאפל, ענפי דובדבן פורחים לקליניקה. העיצוב לא מקשט את התוכן, הוא מספר אותו.</p>'),
+               ('מה כולל העיצוב', '<ul><li>כיוון עיצובי ושפה חזותית מלאה: צבעים, גופנים, אייקונים ותמונות.</li><li>עיצוב לטלפון ולמחשב, לא רק "התאמה".</li><li>תנועה ואנימציות גלילה שמכוונות את העין, בלי להאט את האתר.</li><li>תלת־ממד, הדמיות ותמונות ברמת סטודיו בעזרת בינה מלאכותית, כשזה מתאים.</li><li>נגישות: ניגודיות, גדלי טקסט ומיקוד מקלדת כבר בשלב העיצוב.</li></ul>'),
+               ('עיצוב שמוכר', '<p>אתר יפה שלא מביא פניות הוא תמונה על הקיר. כל החלטה עיצובית נבחנת מול המטרה: האם ברור מה אתם עושים, האם קל לפנות, והאם יש סיבה לבחור דווקא בכם.</p>')],
+     price='<p>העיצוב כלול בכל החבילות: נוכחות מ־4,900 ₪, עסק מ־8,900 ₪, וחתימה מ־19,900 ₪ עם קונספט אמנותי ייחודי ותלת־ממד. אפשר להוסיף <a href="brand-identity.html">זהות מותגית</a> מ־600 ₪.</p>',
+     examples=['clinic', 'falafel', 'allenbis'],
+     faq=[('האם אתם עובדים עם תבניות?', 'לא. כל אתר מעוצב ונבנה מאפס סביב העסק, כך שאין לו תאום באינטרנט.'),
+          ('אני לא יודע מה אני רוצה. זה בסדר?', 'בהחלט. בשיחת ההיכרות נבין יחד את העסק והלקוחות, ואני אציע כיוון. אתם מאשרים לפני שממשיכים.'),
+          ('האם העיצוב יעבוד טוב בטלפון?', 'כן. אני מעצב לטלפון ולמחשב במקביל, ובודק על מכשירים אמיתיים לפני העלייה לאוויר.')],
+     related=['website-building', 'brand-identity', 'landing-page', 'ai-commercial'],
+     service=('Web design', 'עיצוב אתרים', 4900))
+
+page(slug='landing-page', lang='he', name='בניית דף נחיתה',
+     title='בניית דף נחיתה שממיר לפניות | HGPRO',
+     desc='בניית דף נחיתה לקמפיין, להשקה או לעצמאים: עיצוב אישי, טעינה מהירה, וואטסאפ ומדידת המרות. מ־4,900 ₪, באוויר תוך שבוע.',
+     h1='בניית דף נחיתה', kicker='שירות · דפי נחיתה',
+     lead='דף נחיתה עושה דבר אחד, ועושה אותו טוב: לוקח מישהו שלחץ על מודעה או על קישור, ומביא אותו לפנייה. בלי תפריטים שמסיחים את הדעת, בלי עשרה עמודים. מסר אחד ברור, הוכחה שאפשר לסמוך עליכם, וכפתור.',
+     sections=[('מתי צריך דף נחיתה', '<ul><li>כשמריצים קמפיין בגוגל, בפייסבוק או באינסטגרם ורוצים שכל שקל יעבוד.</li><li>כשמשיקים מוצר, סדנה או שירות חדש.</li><li>כשאתם עצמאים ורוצים נוכחות מקצועית מהר ובתקציב שפוי.</li></ul>'),
+               ('מה יש בדף', '<ul><li>כותרת שאומרת בדיוק מה מקבלים, ולמי.</li><li>עד שישה חלקים: הבעיה, הפתרון, איך זה עובד, הוכחות, שאלות ופנייה.</li><li>וואטסאפ, חיוג וטופס, עם מדידה של כל לחיצה.</li><li>טעינה מהירה, כי כל שנייה של המתנה מורידה פניות.</li><li>תמונת שיתוף ממותגת לוואטסאפ ולפייסבוק.</li></ul>'),
+               ('מדידה', '<p>אפשר לחבר פיקסל של מטא, המרות של גוגל ודפי נחיתה נפרדים לכל קמפיין, כדי לדעת בדיוק מה מביא לקוחות. ראו <a href="seo.html">קידום אורגני</a> ותשתית קמפיינים.</p>')],
+     price='<p>חבילת <strong>נוכחות</strong>: דף נחיתה בעיצוב אישי מ־4,900 ₪, עד שבוע לאוויר. תשתית מדידה וקמפיינים מ־1,400 ₪.</p>',
+     examples=['falafel', 'rachel', 'ams'],
+     faq=[('תוך כמה זמן הדף באוויר?', 'בדרך כלל תוך שבוע מרגע שיש תוכן ותמונות.'),
+          ('אפשר להפוך את הדף לאתר מלא בהמשך?', 'כן. הדף נבנה כך שאפשר להרחיב אותו לאתר מלא בלי להתחיל מאפס.'),
+          ('איך יודעים אם הדף עובד?', 'כל לחיצה על וואטסאפ, חיוג וטופס נמדדת, כך שרואים כמה פניות הגיעו ומאיזה מקור.')],
+     related=['website-building', 'seo', 'web-design', 'ai-commercial'],
+     service=('Landing page', 'בניית דף נחיתה', 4900))
+
+page(slug='online-store', lang='he', name='בניית חנות אינטרנטית',
+     title='בניית חנות אינטרנטית עם סליקה ישראלית | HGPRO',
+     desc='בניית חנות אונליין: קטלוג, עגלה, משלוחים, קופונים, סליקה באשראי, ביט ו-Apple Pay וחשבוניות אוטומטיות. בעיצוב אישי ובלי תבנית.',
+     h1='בניית חנות אינטרנטית', kicker='שירות · מסחר מקוון',
+     lead='חנות אונליין טובה מרגישה כמו המדף הכי מסודר בחנות הכי טובה: קל למצוא, קל להבין, וקל לשלם. אני בונה חנויות שמותאמות למוצרים שלכם ולאופן שבו הלקוחות שלכם קונים, עם סליקה ישראלית וחשבוניות אוטומטיות.',
+     sections=[('מה יש בחנות', '<ul><li>קטלוג מוצרים עם סינון לפי סוג, מותג או מטרה.</li><li>עגלה, משלוחים, איסוף עצמי וקופונים.</li><li>סליקה באשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם.</li><li>קבלה או חשבונית שנשלחת אוטומטית בכל תשלום.</li><li>ניהול מלאי ומחירים בעצמכם.</li></ul>'),
+               ('חנות שמוכרת', '<p>מעבר לעגלה ולתשלום, מה שמוכר הוא הדרך שבה המוצר מוצג: תמונות טובות, הסבר קצר למי זה מתאים, ושאלון קצר שעוזר ללקוח לבחור. בחנות של קליניקת רותם גוטובסקי, למשל, המוצרים עומדים על מדפים כמו בקליניקה, ואפשר לשלוח את הרשימה בוואטסאפ.</p>'),
+               ('תמונות מוצר בלי יום צילום', '<p>אפשר להפיק תמונות מוצר ואווירה ברמת סטודיו בעזרת בינה מלאכותית. ראו <a href="ai-commercial.html">הפקת פרסומת ב-AI</a>.</p>')],
+     price='<p>מערכת מסחר מקוון מ־3,900 ₪ כתוספת לאתר, סליקה ותשלומים מאובטחים מ־1,200 ₪, והפקת חשבוניות אוטומטית מ־500 ₪. בחבילת <strong>חתימה</strong> (מ־19,900 ₪) חנות או מערכת מותאמת כלולה.</p>',
+     examples=['allenbis', 'clinic', 'gotovski'],
+     faq=[('איזו סליקה אפשר לחבר?', 'אשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם או ספק שנבחר יחד.'),
+          ('האם אוכל לנהל את המוצרים לבד?', 'כן. מוסיפים מוצרים, משנים מחירים ומעדכנים מלאי בעצמכם.'),
+          ('יש לי חנות קיימת. אפשר לשפר אותה?', 'כן. באלנביס, למשל, שיפרתי חנות קיימת ומהירה יותר בלי להחליף את כל המערכת.')],
+     related=['website-building', 'web-design', 'seo', 'wix-migration'],
+     service=('E-commerce development', 'בניית חנות אינטרנטית', 3900))
+
+page(slug='seo', lang='he', name='קידום אתרים אורגני',
+     title='קידום אתרים אורגני (SEO) לעסקים | HGPRO',
+     desc='קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שמענישים.',
+     h1='קידום אתרים אורגני (SEO)', kicker='שירות · קידום בגוגל',
+     lead='קידום אורגני טוב מתחיל בבסיס: אתר מהיר, מסודר וברור, שגוגל מבין מה הוא עושה ולמי. אחר כך מגיעים התוכן, העמודים לכל שירות ועיר, והפרופיל העסקי. אני לא משתמש בטריקים שגוגל מעניש עליהם, כי הם עובדים חודש ואז מעלימים את האתר.',
+     sections=[('מה עושים בפועל', '<ul><li>מחקר מילות מפתח: מה הלקוחות שלכם באמת מחפשים.</li><li>כותרות, תיאורים ומבנה כותרות נכון בכל עמוד.</li><li>סימון עסקי (Schema) לשירותים, מחירים, שאלות נפוצות וסרטונים.</li><li>עמודי נחיתה לכל שירות ולכל אזור שבו אתם עובדים.</li><li>מהירות טעינה, מפת אתר, הפניות מאתר ישן ו-Search Console.</li><li>הגדרת פרופיל Google Business, שהוא הדרך הכי מהירה להופיע במפה.</li></ul>'),
+               ('כמה זמן לוקח לראות תוצאות', '<p>אף אחד לא יכול להבטיח מקום ראשון. בדרך כלל רואים תזוזה תוך שבועות עד חודשים, תלוי בתחום ובתחרות. מה שאפשר להבטיח הוא בסיס חזק שמשתפר עם הזמן, ומדידה שמראה מה עובד.</p>'),
+               ('עובד גם בחיפוש של בינה מלאכותית', '<p>יותר ויותר אנשים שואלים את ChatGPT, Gemini ו-Perplexity במקום לחפש. אתר עם תוכן ברור, נתונים מסודרים וקובץ llms.txt מקבל סיכוי טוב יותר להופיע גם שם.</p>')],
+     price='<p>אופטימיזציה לגוגל (SEO) מ־2,400 ₪, מרכז תוכן ובלוג מ־1,200 ₪. בחבילת <strong>עסק</strong> (מ־8,900 ₪) הבסיס כבר כלול: קידום בכל עמוד, סימון עסקי, מפת אתר ופרופיל Google Business.</p>',
+     examples=['gotovski', 'clinic', 'allenbis'],
+     faq=[('תוך כמה זמן אהיה בעמוד הראשון?', 'אי אפשר להבטיח מקום ראשון. בונים את הבסיס הכי חזק שאפשר, מודדים, וממשיכים לשפר.'),
+          ('מה זה פרופיל Google Business?', 'הכרטיס של העסק במפות ובחיפוש המקומי. הגדרה נכונה שלו היא אחת הדרכים המהירות להביא פניות מאזור העבודה שלכם.'),
+          ('אני עובר מאתר ישן. אאבד את הדירוג?', 'לא אם עושים את זה נכון: מעבירים את התוכן ומגדירים הפניה מכל כתובת ישנה לחדשה.')],
+     related=['website-building', 'landing-page', 'wix-migration', 'online-store'],
+     service=('Search engine optimization', 'קידום אתרים אורגני', 2400))
+
+page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
+     title='הפקת סרטון פרסומת ב-AI לעסקים | HGPRO',
+     desc='סרטון פרסומת ברמה קולנועית בלי צוות צילום: עלילה, דמויות, רכבים, קריינות ומוזיקה. 30 עד 60 שניות, כולל גרסאות 15 ו-6 שניות לרשתות.',
+     h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
+     lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
+     sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
+               ('דוגמאות', '<p>בתיק העבודות שתי פרסומות שהפקתי כך: <strong>HG · Unforgettable</strong>, פרסומת בושם עם דוגמנים, מכונית יוקרה וכביש צוקים בלילה, ו<strong>לפני שהעיר מתעוררת</strong>, סרט אקשן של דקה על מאפייה ושליח בתל אביב. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
+               ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
+     price='<p>הפקת פרסומת ב-AI מ־3,900 ₪ לסרט של 30 עד 60 שניות. סטודיו ויזואלי ב-AI (תמונות וסרטונים קצרים) מ־1,500 ₪.</p>',
+     examples=[], films=True,
+     faq=[('כמה זמן לוקחת הפקה?', 'בדרך כלל כמה ימים מאישור התסריט ועד סרט ערוך.'),
+          ('אפשר להשתמש במוצר האמיתי שלי?', 'כן. מצלמים את המוצר כרפרנס, והוא מופיע בסרט כמו שהוא.'),
+          ('האם זה נראה אמיתי?', 'הכלים של היום מגיעים לרמה קולנועית. אני בודק כל שוט ומצלם מחדש כל מה שנראה לא טבעי.')],
+     related=['website-building', 'web-design', 'landing-page', 'online-store'],
+     service=('Video production', 'הפקת סרטון פרסומת', 3900))
+
+page(slug='ai-chatbot', lang='he', name='נציג AI לשירות לקוחות',
+     title='צ׳אטבוט AI לאתר: נציג שירות 24/7 | HGPRO',
+     desc='נציג AI לשירות לקוחות באתר: עונה לפי התוכן שלכם, בכל שעה, בעברית ובאנגלית, ומעביר פניות חמות לוואטסאפ. מ־2,900 ₪.',
+     h1='נציג AI לשירות לקוחות', kicker='שירות · בינה מלאכותית',
+     lead='רוב השאלות שלקוחות שואלים חוזרות על עצמן: כמה זה עולה, יש תור פנוי, אתם מגיעים לאזור שלי. נציג AI באתר עונה עליהן מיד, בכל שעה, לפי המידע שלכם בלבד, ומעביר אליכם את מי שמוכן לסגור.',
+     sections=[('מה הנציג יודע לעשות', '<ul><li>לענות על שאלות לפי התוכן, המחירים והשירותים שלכם.</li><li>לדבר בעברית ובאנגלית.</li><li>להציע תור, הצעת מחיר או מוצר מתאים.</li><li>להעביר את השיחה לוואטסאפ שלכם, עם סיכום של מה שהלקוח צריך.</li></ul>'),
+               ('בלי לנחש', '<p>הנציג עונה רק לפי המידע שהגדרנו. כשהוא לא יודע, הוא אומר את זה ומעביר אליכם, במקום להמציא תשובה.</p>')],
+     price='<p>נציג AI לשירות לקוחות מ־2,900 ₪. בחבילת <strong>חתימה</strong> (מ־19,900 ₪) הוא כלול.</p>',
+     examples=['clinic'],
+     faq=[('הנציג יכול לטעות?', 'הוא עונה רק לפי המידע שלכם, וכשאין לו תשובה הוא מעביר אליכם.'),
+          ('צריך לעדכן אותו?', 'כשמשתנים מחירים או שירותים מעדכנים את המידע, והנציג מתעדכן איתו.')],
+     related=['website-building', 'online-store', 'seo', 'ai-commercial'],
+     service=('AI chatbot', 'נציג AI לשירות לקוחות', 2900))
+
+page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מקצועי',
+     title='מעבר מוויקס או וורדפרס בלי לאבד את גוגל | HGPRO',
+     desc='הגירה מ-Wix או WordPress לאתר מהיר ומעוצב בהתאמה אישית: מעבירים את התוכן, שומרים הפניות מכל כתובת ישנה ואת המקום בגוגל. מ־400 ₪.',
+     h1='מעבר מוויקס או וורדפרס', kicker='שירות · הגירה',
+     lead='ויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
+     sections=[('איך שומרים על הדירוג', '<ul><li>ממפים את כל הכתובות באתר הישן.</li><li>מעבירים את התוכן ששווה לשמור, ומשפרים אותו.</li><li>מגדירים הפניה קבועה (301) מכל כתובת ישנה לחדשה.</li><li>מגישים מפת אתר חדשה ל-Search Console ועוקבים אחרי שגיאות.</li></ul>'),
+               ('מה מרוויחים', '<p>אתר מהיר יותר, עיצוב שלא קיים אצל אף מתחרה, שליטה מלאה בקוד, ובלי מנוי חודשי לבונה האתרים. הדומיין והאתר שלכם.</p>')],
+     price='<p>הגירה מ-Wix או WordPress מ־400 ₪, כתוספת לבניית האתר החדש. בחבילת <strong>עסק</strong> המעבר כלול.</p>',
+     examples=['gotovski', 'allenbis'],
+     faq=[('אאבד את הדירוג בגוגל?', 'לא אם מגדירים הפניות מכל כתובת ישנה. זה חלק קבוע מהמעבר.'),
+          ('מה עם המייל של העסק?', 'המייל לא תלוי באתר ונשאר כמו שהוא. רק רשומות האתר משתנות.')],
+     related=['website-building', 'seo', 'web-design', 'online-store'],
+     service=('Website migration', 'מעבר מוויקס', 400))
+
+page(slug='brand-identity', lang='he', name='זהות מותגית',
+     title='עיצוב לוגו וזהות מותגית לעסקים | HGPRO',
+     desc='זהות מותגית לעסק: לוגו, צבעים, גופנים וכללים קצרים לשימוש, שמתאימים לאתר ולרשתות. מ־600 ₪, יחד עם האתר או בנפרד.',
+     h1='זהות מותגית', kicker='שירות · מיתוג',
+     lead='לפני שבונים אתר, כדאי לדעת איך העסק נראה ונשמע. זהות מותגית קצרה וברורה עושה סדר: לוגו, צבעים, גופנים וכמה כללים פשוטים, כך שהאתר, הרשתות והשלט נראים כמו אותו עסק.',
+     sections=[('מה כלול', '<ul><li>לוגו בכמה גרסאות: מלא, סמל, כהה ובהיר.</li><li>פלטת צבעים וגופנים לעברית ולאנגלית.</li><li>כללים קצרים לשימוש, ותבנית לפוסט ולסטורי.</li></ul>'),
+               ('משתלב באתר', '<p>הזהות נבנית יחד עם האתר, כך שהשפה העיצובית נמשכת מהלוגו ועד האנימציות. ראו <a href="web-design.html">עיצוב אתרים</a>.</p>')],
+     price='<p>זהות מותגית מ־600 ₪, וקופירייטינג שיווקי לכל הטקסטים באתר מ־1,900 ₪.</p>',
+     examples=['rachel', 'falafel'],
+     faq=[('צריך זהות מותגית לפני האתר?', 'לא חובה, אבל זה עוזר. אפשר לבנות את שתיהן יחד.')],
+     related=['web-design', 'website-building', 'landing-page', 'ai-commercial'],
+     service=('Brand identity design', 'זהות מותגית', 600))
+
+# ---------------------------------------------------------------- English
+page(slug='web-design-studio', lang='en', name='Custom web design studio',
+     title='Custom Web Design & Development Studio | HGPRO',
+     desc='HGPRO designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, live in two weeks.',
+     h1='Custom web design and development', kicker='Service · Web design',
+     lead='A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HGPRO designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.',
+     sections=[('What you get', '<ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul>'),
+               ('Work across languages', '<p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>')],
+     price='<p>Three packages with a fixed price agreed in advance: <strong>Presence</strong> from ₪4,900, <strong>Business</strong> from ₪8,900 and <strong>Signature</strong> from ₪19,900.</p>',
+     examples=['gotovski', 'clinic', 'ams'],
+     faq=[('How long does a website take?', 'Up to two weeks from the first call to a live site. A landing page is usually ready within a week.'),
+          ('Do you use templates?', 'No. Every site is designed and built from scratch around the business.'),
+          ('Do I own the site and the domain?', 'Yes. The domain is registered in your name, and the site and the code are yours.')],
+     related=['ai-commercial-production'],
+     service=('Website development', 'Custom web design', 4900))
+
+page(slug='ai-commercial-production', lang='en', name='AI commercial production',
+     title='AI Commercial & Video Ad Production | HGPRO',
+     desc='Cinematic TV-quality commercials made with AI: script, consistent characters, cars, voiceover and licensed music. 30 to 60 seconds, plus 15s and 6s cutdowns.',
+     h1='AI commercial production', kicker='Service · Video',
+     lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HGPRO writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
+     sections=[('What you get', '<ul><li>A short script and story that fits the brand.</li><li>Consistent characters, product and vehicles across the film.</li><li>Cinematic 1080p shots, an edit cut to the music, a color grade and widescreen framing.</li><li>Natural voiceover and legally licensed music.</li><li>30, 15 and 6 second versions for TV, YouTube and social.</li></ul>'),
+               ('Examples', '<p>The archive holds two commercials made this way: <strong>HG · Unforgettable</strong>, a fragrance spot with models, a luxury car and a cliff road at night, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>')],
+     price='<p>AI commercial production from ₪3,900 for a 30 to 60 second film. AI visual studio (images and short clips) from ₪1,500.</p>',
+     examples=[], films=True,
+     faq=[('How long does a production take?', 'Usually a few days from script approval to a finished edit.'),
+          ('Can my real product appear in it?', 'Yes. The product is photographed as a reference and appears as it is.')],
+     related=['web-design-studio'],
+     service=('Video production', 'AI commercial production', 3900))
+
+# ---------------------------------------------------------------- תבנית
+CSS = '''
+:root { --gutter: clamp(20px, 5vw, 64px); }
+body { background: var(--ink, #0a0a0b); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
+.sv-mark span { color: var(--signal); }
+.sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
+.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
+.sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
+.sv-crumbs a { color: var(--fg-dim); }
+.sv-kicker { font-family: var(--f-mono); font-size: .78rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
+.sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
+html[lang="en"] .sv h1 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.03em; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: #ede8de !important; }
+.sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
+html[lang="en"] .sv h2 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.02em; }
+.sv p, .sv li { font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
+.sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
+.sv a { color: var(--signal); }
+.sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
+.sv-steps li { counter-increment: s; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; padding: 16px 18px; background: rgba(237,232,222,.025); }
+.sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8rem; margin-bottom: .3rem; }
+.sv-steps b { display: block; color: #ede8de; font-weight: 500; }
+.sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
+.sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
+.sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.sv-card span { display: block; padding: 12px 14px; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .92rem; color: #ede8de; }
+.sv-card small { display: block; color: var(--fg-dim); font-size: .8rem; margin-top: 2px; }
+.sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 14px 0; }
+.sv-faq summary { cursor: pointer; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: 1.08rem; color: #ede8de; }
+.sv-faq summary h3 { display: inline; font: inherit; }
+.sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
+.sv-cta h2 { margin-top: 0; }
+.sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: "IBM Plex Sans Hebrew", sans-serif; font-weight: 500; }
+.sv-btn.ghost { background: transparent; color: #ede8de !important; border: 1px solid rgba(237,232,222,.3); }
+.sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: #ede8de; text-decoration: none; font-size: .92rem; }
+.sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .74rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
+.sv-foot a { color: var(--fg-dim); }
+'''
+FR = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,800&display=swap">'
+
+def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
+BY = {p['slug']: p for p in P}
+
+def render(p):
+    he = p['lang'] == 'he'; up = '../' if he else '../../'
+    U = url_of(p); esc = html.escape
+    T = (lambda a, b: a) if he else (lambda a, b: b)
+    home = D + ('/' if he else '/en.html'); hub = D + ('/services/' if he else '/services/en/')
+    wa_text = T(f'היי חנוך, הגעתי מהעמוד "{p["name"]}" באתר. אשמח לשמוע פרטים.', f'Hi Hanoch, I found your "{p["name"]}" page. I would like to hear more.')
+    wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(wa_text)
+    steps = PROCESS_HE if he else PROCESS_EN
+    ex = ''
+    if p.get('films'):
+        films = [('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 30 שניות', 'Fragrance commercial · 30 seconds')),
+                 ('film/ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), T('סרט פרסומת · 60 שניות', 'Commercial · 60 seconds'))]
+        ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f=="film/ad") else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
+    else:
+        for k in p['examples']:
+            img, nh, sh, ne, se = PROJ[k]
+            ex += f'<a class="sv-card" href="{up}{"work.html" if he else "en-work.html"}#{k}"><img src="{up}{img}" alt="{esc(T(nh, ne))}, {esc(T(sh, se))}" width="640" height="360" loading="lazy" decoding="async"><span>{esc(T(nh, ne))}<small>{esc(T(sh, se))}</small></span></a>'
+    rel = ''.join(f'<li><a href="{BY[r]["slug"]}.html">{esc(BY[r]["name"])}</a></li>' for r in p['related'] if r in BY)
+    faq = ''.join(f'<details><summary><h3>{esc(q)}</h3></summary><p>{esc(a)}</p></details>' for q, a in p['faq'])
+    secs = ''.join(f'<h2>{esc(h)}</h2>{body}' for h, body in p['sections'])
+    stype, sname, price = p['service']
+    org = {'@type': 'ProfessionalService', '@id': D + '/#business', 'name': 'HGPRO', 'url': D + '/', 'telephone': '+972-54-552-2053', 'email': 'boss@hgpro.io', 'image': D + '/work/og-home.jpg', 'areaServed': 'IL', 'priceRange': '₪400–₪19,900'}
+    graph = [
+        {'@type': 'WebPage', '@id': U + '#page', 'url': U, 'name': p['title'], 'description': p['desc'], 'inLanguage': 'he-IL' if he else 'en', 'isPartOf': {'@id': D + '/#website'}, 'breadcrumb': {'@id': U + '#crumbs'}},
+        {'@type': 'BreadcrumbList', '@id': U + '#crumbs', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'HGPRO', 'item': home},
+            {'@type': 'ListItem', 'position': 2, 'name': T('שירותים', 'Services'), 'item': hub},
+            {'@type': 'ListItem', 'position': 3, 'name': p['name'], 'item': U}]},
+        {'@type': 'Service', 'name': sname, 'serviceType': stype, 'url': U, 'description': p['desc'], 'provider': org, 'areaServed': {'@type': 'Country', 'name': 'Israel'},
+         'offers': {'@type': 'Offer', 'price': str(price), 'priceCurrency': 'ILS', 'url': U}},
+        {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in p['faq']]}]
+    if p.get('films'):
+        graph += [{'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HGPRO.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
+                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HGPRO.', 'A one minute commercial made with AI by HGPRO.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT58S'}]
+    ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
+    alt = ''
+    foot_links = ''.join(f'<a href="{("" if q["lang"] == p["lang"] else ("en/" if he else "../"))}{q["slug"]}.html">{esc(q["name"])}</a>' for q in P if q['lang'] == p['lang'])
+    return f'''<!doctype html>
+<html lang="{'he' if he else 'en'}" dir="{'rtl' if he else 'ltr'}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{esc(p['title'])}</title>
+<meta name="description" content="{esc(p['desc'])}">
+<link rel="canonical" href="{U}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="{'he_IL' if he else 'en_US'}">
+<meta property="og:title" content="{esc(p['title'])}">
+<meta property="og:description" content="{esc(p['desc'])}">
+<meta property="og:url" content="{U}">
+<meta property="og:image" content="{D}/work/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="{up}images/icon-180.png" type="image/png">
+<link rel="apple-touch-icon" href="{up}images/icon-180.png">
+<link rel="preload" href="{up}fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+{FR}
+<link rel="stylesheet" href="{up}css/hanoch.css">
+<style>{CSS}</style>
+<script type="application/ld+json">{ld}</script>
+</head>
+<body>
+<header class="sv-bar">
+  <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HGPRO, {T('לדף הבית', 'home')}">HG<span>·</span>PRO</a>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="./">{T('שירותים', 'Services')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a><a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+</header>
+<main class="sv">
+  <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
+  <p class="sv-kicker">{esc(p['kicker'])}</p>
+  <h1>{esc(p['h1'])}</h1>
+  <p class="sv-lead">{esc(p['lead'])}</p>
+  {secs}
+  <h2>{T('איך זה עובד', 'How it works')}</h2>
+  <ol class="sv-steps">{''.join(f'<li><b>{esc(a)}</b>{esc(b)}</li>' for a, b in steps)}</ol>
+  <h2>{T('כמה זה עולה', 'Pricing')}</h2>
+  {p['price']}
+  {f'<h2>{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>' if ex else ''}
+  <h2>{T('שאלות נפוצות', 'FAQ')}</h2>
+  <div class="sv-faq">{faq}</div>
+  <section class="sv-cta" aria-labelledby="cta-h">
+    <h2 id="cta-h">{T('בואו נדבר', "Let's talk")}</h2>
+    <p>{T('שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.', 'A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.')}</p>
+    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('שלחו הודעה בוואטסאפ', 'Message on WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+  </section>
+  {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
+</main>
+<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}<a href="{up}accessibility.html">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<script src="{up}js/a11y.js" defer></script>
+</body>
+</html>
+'''
+
+def hub(lang):
+    he = lang == 'he'; up = '../' if he else '../../'; T = (lambda a, b: a) if he else (lambda a, b: b)
+    items = [p for p in P if p['lang'] == lang]
+    U = D + ('/services/' if he else '/services/en/')
+    cards = ''.join(f'<li><a href="{p["slug"]}.html"><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></a></li>' for p in items)
+    ld = json.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': T('שירותי HGPRO', 'HGPRO services'),
+                     'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': url_of(p), 'name': p['name']} for i, p in enumerate(items)]}, ensure_ascii=False)
+    title = T('שירותים: בניית אתרים, עיצוב, חנויות, SEO ו-AI | HGPRO', 'Services: web design, development and AI video | HGPRO')
+    desc = T('כל השירותים של HGPRO: בניית אתרים לעסקים, עיצוב אתרים, דפי נחיתה, חנויות אינטרנטיות, קידום אורגני, פרסומות ונציגי AI.', 'All HGPRO services: custom web design and development, and AI commercial production.')
+    return f'''<!doctype html>
+<html lang="{lang}" dir="{'rtl' if he else 'ltr'}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{U}">
+<meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="{up}images/icon-180.png" type="image/png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+{FR}
+<link rel="stylesheet" href="{up}css/hanoch.css">
+<style>{CSS}
+.sv-list {{ list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }}
+.sv-list a {{ display: block; padding: 18px 20px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }}
+.sv-list b {{ display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
+html[lang="en"] .sv-list b {{ font-family: "Fraunces", Georgia, serif; }}
+.sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
+</style>
+<script type="application/ld+json">{ld}</script>
+</head>
+<body>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a></nav></header>
+<main class="sv">
+  <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
+  <h1>{T('שירותים', 'Services')}</h1>
+  <p class="sv-lead">{T('עיצוב, קוד ותנועה ביד אחת. כל שירות נבנה סביב העסק שלכם, עם מחיר סגור מראש.', 'Design, code and motion in one pair of hands. Every service is built around your business, at a fixed price.')}</p>
+  <ul class="sv-list">{cards}</ul>
+</main>
+<footer class="sv-foot"><span>© 2026 HGPRO</span><a href="{up}accessibility.html">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<script src="{up}js/a11y.js" defer></script>
+</body>
+</html>
+'''
+
+os.makedirs(ROOT + '/services/en', exist_ok=True)
+for p in P:
+    path = ROOT + ('/services/' if p['lang'] == 'he' else '/services/en/') + p['slug'] + '.html'
+    open(path, 'w', encoding='utf8').write(render(p))
+open(ROOT + '/services/index.html', 'w', encoding='utf8').write(hub('he'))
+open(ROOT + '/services/en/index.html', 'w', encoding='utf8').write(hub('en'))
+json.dump([{'url': url_of(p), 'lang': p['lang']} for p in P], open(ROOT + '/services/pages.json', 'w'), indent=1)
+print('pages', len(P) + 2)

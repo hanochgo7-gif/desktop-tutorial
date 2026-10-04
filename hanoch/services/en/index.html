@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services: web design, development and AI video | HGPRO</title>
+<meta name="description" content="All HGPRO services: custom web design and development, and AI commercial production.">
+<link rel="canonical" href="https://hgpro.io/services/en/">
+<meta property="og:title" content="Services: web design, development and AI video | HGPRO"><meta property="og:description" content="All HGPRO services: custom web design and development, and AI commercial production."><meta property="og:url" content="https://hgpro.io/services/en/"><meta property="og:image" content="https://hgpro.io/work/og-home.jpg">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="../../images/icon-180.png" type="image/png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,800&display=swap">
+<link rel="stylesheet" href="../../css/hanoch.css">
+<style>
+:root { --gutter: clamp(20px, 5vw, 64px); }
+body { background: var(--ink, #0a0a0b); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
+.sv-mark span { color: var(--signal); }
+.sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
+.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
+.sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
+.sv-crumbs a { color: var(--fg-dim); }
+.sv-kicker { font-family: var(--f-mono); font-size: .78rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
+.sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
+html[lang="en"] .sv h1 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.03em; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: #ede8de !important; }
+.sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
+html[lang="en"] .sv h2 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.02em; }
+.sv p, .sv li { font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
+.sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
+.sv a { color: var(--signal); }
+.sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
+.sv-steps li { counter-increment: s; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; padding: 16px 18px; background: rgba(237,232,222,.025); }
+.sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8rem; margin-bottom: .3rem; }
+.sv-steps b { display: block; color: #ede8de; font-weight: 500; }
+.sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
+.sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
+.sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.sv-card span { display: block; padding: 12px 14px; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .92rem; color: #ede8de; }
+.sv-card small { display: block; color: var(--fg-dim); font-size: .8rem; margin-top: 2px; }
+.sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 14px 0; }
+.sv-faq summary { cursor: pointer; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: 1.08rem; color: #ede8de; }
+.sv-faq summary h3 { display: inline; font: inherit; }
+.sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
+.sv-cta h2 { margin-top: 0; }
+.sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: "IBM Plex Sans Hebrew", sans-serif; font-weight: 500; }
+.sv-btn.ghost { background: transparent; color: #ede8de !important; border: 1px solid rgba(237,232,222,.3); }
+.sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: #ede8de; text-decoration: none; font-size: .92rem; }
+.sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .74rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
+.sv-foot a { color: var(--fg-dim); }
+
+.sv-list { list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }
+.sv-list a { display: block; padding: 18px 20px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }
+.sv-list b { display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }
+html[lang="en"] .sv-list b { font-family: "Fraunces", Georgia, serif; }
+.sv-list span { display: block; color: rgba(237,232,222,.7); font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; margin-top: 4px; line-height: 1.6; }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "HGPRO services", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://hgpro.io/services/en/web-design-studio.html", "name": "Custom web design studio"}, {"@type": "ListItem", "position": 2, "url": "https://hgpro.io/services/en/ai-commercial-production.html", "name": "AI commercial production"}]}</script>
+</head>
+<body>
+<header class="sv-bar"><a class="sv-mark" href="../../en.html">HG<span>·</span>PRO</a><nav><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Packages</a></nav></header>
+<main class="sv">
+  <nav class="sv-crumbs"><a href="../../en.html">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">Services</span></nav>
+  <h1>Services</h1>
+  <p class="sv-lead">Design, code and motion in one pair of hands. Every service is built around your business, at a fixed price.</p>
+  <ul class="sv-list"><li><a href="web-design-studio.html"><b>Custom web design studio</b><span>HGPRO designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, live in two weeks.</span></a></li><li><a href="ai-commercial-production.html"><b>AI commercial production</b><span>Cinematic TV-quality commercials made with AI: script, consistent characters, cars, voiceover and licensed music. 30 to 60 seconds, plus 15s and 6s cutdowns.</span></a></li></ul>
+</main>
+<footer class="sv-foot"><span>© 2026 HGPRO</span><a href="../../accessibility.html">Accessibility</a></footer>
+<script src="../../js/a11y.js" defer></script>
+</body>
+</html>

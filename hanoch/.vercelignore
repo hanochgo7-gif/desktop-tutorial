@@ -3,3 +3,5 @@ marketing/
 fonts/dragon-fontlog.txt
 .env*
 .vercel
+tools/
+services/pages.json
