@@ -19,6 +19,9 @@ PHONE = '972509359222'
 # כל עוד ריק: האתר מוסתר מגוגל (noindex). כשממלאים ומריצים את הסקריפט: מוסר ה-noindex,
 # נוספים canonical ו-og:url, תמונות השיתוף הופכות לכתובות מלאות, ונוצרים sitemap.xml ו-robots.txt.
 SITE_URL = ''
+# קישור ליומן לתיאום אימון ניסיון (Google Calendar – דף הזמנת תורים, או Cal.com). כל עוד ריק, הכפתור לא מוצג.
+BOOKING_URL = ''
+GUIDE_WA = 'היי אביב, אשמח לקבל את המדריך החינמי למתחילים'
 GEO = (31.8554, 34.8489)   # רחוב אורן, מזכרת בתיה (לפי OpenStreetMap, ברמת הרחוב)
 IG = 'https://www.instagram.com/aviv_shadmon/'
 
@@ -267,6 +270,7 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
   <symbol id="i-kettlebell" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 14.2V11a4.5 4.5 0 0 1 9 0v3.2"/><circle cx="16" cy="19.5" r="7"/><path d="M13 26.5h6"/></symbol>
   <symbol id="i-outdoor" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5.5c-4 0-7 2.9-7 6.4 0 3.6 3 6.3 7 6.3s7-2.7 7-6.3c0-3.5-3-6.4-7-6.4Z"/><path d="M16 18.2v8.3"/><path d="M16 21.5l-3-2.2"/><path d="M7 26.5h18"/></symbol>
   <symbol id="i-pin" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 28s8-7.5 8-14a8 8 0 1 0-16 0c0 6.5 8 14 8 14Z"/><circle cx="16" cy="14" r="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="7.5" width="21" height="19" rx="2"/><path d="M5.5 13h21"/><path d="M11 5v5"/><path d="M21 5v5"/><path d="M11 18h3"/><path d="M18 18h3"/><path d="M11 22h3"/></symbol>
   <symbol id="i-instagram" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="21" height="21" rx="6"/><circle cx="16" cy="16" r="5"/><circle cx="22.2" cy="9.8" r="1.1" fill="currentColor" stroke="none"/></symbol>
 </svg>'''
 
@@ -301,7 +305,7 @@ def header(root, current=None):
   <div class="menu-in">
     <nav class="menu-nav" aria-label="תפריט ראשי">
       <ol class="menu-list">
-{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', home + '#coach', 'מי אני', 'assets/img/coach.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
+{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', root + 'about.html', 'מי אני', 'assets/img/coach.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
         <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="{root}assets/img/pads-partner.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
           <span class="menu-num">03</span><span class="menu-t">שירותים</span>{CHEV}
         </button>
@@ -480,7 +484,7 @@ def service_page(s):
         <p class="svc-lead">{s['lead']}</p>
         <div class="hero-actions">
           <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-hero">{WA_ICON}{s['cta']}</a>
-          <a class="btn btn-line" href="#includes">מה כולל</a>
+          {booking_btn('svc-hero') or '<a class="btn btn-line" href="#includes">מה כולל</a>'}
         </div>
         <ul class="assure" aria-label="מה חשוב לדעת">
           <li>בלי התחייבות</li>
@@ -530,7 +534,7 @@ def service_page(s):
         <li>הכשרה בתזונת ספורט</li>
         <li>יותר מ־10 שנות ניסיון</li>
       </ul>
-      <a class="trainer-link" href="{r}index.html#coach">עוד עליי</a>
+      <a class="trainer-link" href="{r}about.html">הסיפור שלי</a>
     </div>
   </section>
 
@@ -598,7 +602,7 @@ def add_srcset(html):
         if not src:
             return tag
         src = src.group(1)
-        disk = os.path.join(ROOT, src.replace('../', ''))
+        disk = os.path.join(ROOT, src.replace('../', '').lstrip('/'))
         folder, name = os.path.split(disk)
         stem = name[:-5]
         small = [f for f in os.listdir(folder) if re.fullmatch(re.escape(stem) + r'-(\d+)\.webp', f)]
@@ -901,6 +905,258 @@ def write_sitemap(paths):
     open(os.path.join(ROOT, 'robots.txt'), 'w', encoding='utf-8').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n')
 
 
+
+def booking_btn(where):
+    if not BOOKING_URL:
+        return ''
+    return (f'<a class="btn btn-line" href="{BOOKING_URL}" target="_blank" rel="noopener" data-booking="{where}">'
+            '<svg class="ico" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-calendar"/></svg>בחירת מועד ביומן</a>')
+
+
+def guide_band(r='', where='guide'):
+    return f"""  <section class="section guide" id="guide" aria-labelledby="guide-title">
+    <div class="guide-box">
+      <figure class="guide-cover"><img src="{r}assets/img/guide-cover.webp" alt="עמוד השער של המדריך למתחילים" width="600" height="849" loading="lazy"></figure>
+      <div class="guide-text">
+        <p class="guide-label">מדריך חינם</p>
+        <h2 class="h2" id="guide-title">מתחילים מהבית</h2>
+        <p>5 תרגילים לבית, נשימה של 2 דקות, ומה לאכול סביב אימון. שולחים לי הודעה, ואני שולח לך את המדריך ב־WhatsApp.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="{where}">{WA_ICON}לקבלת המדריך ב־WhatsApp</a>
+        </div>
+        <p class="guide-note">בלי התחייבות. אני שולח אישית, לא רשימת תפוצה.</p>
+      </div>
+    </div>
+  </section>
+"""
+
+
+def about_page():
+    r = ''
+    gallery = ''.join(f'      <figure><img src="assets/img/{n}" alt="{a}" width="{w}" height="{h}" loading="lazy"></figure>\n' for n, a, w, h in [
+        ('ring.webp', 'אביב בזירה מול קהל, ידיים פתוחות לצדדים', 1325, 970),
+        ('corner.webp', 'אביב בזירה, ידיים מורמות, עם הצוות בפינה', 941, 532),
+        ('ring-back.webp', 'אביב בגב למצלמה בזירה, עם צמה', 941, 640)])
+    svc = ''.join(
+        f'      <li><a class="more-card" href="services/{o["slug"]}.html"><img src="assets/img/{o["thumb"]}" alt="" width="480" height="360" loading="lazy"><span><b>{o["menu"]}</b><small>{o["sub"]}</small></span></a></li>\n'
+        for o in SERVICES)
+    ld_html = ld_json({'@context': 'https://schema.org', '@type': 'ProfilePage', 'mainEntity': {
+        '@type': 'Person', 'name': 'אביב משה שדמון', 'alternateName': 'Aviv Moshe Shadmon',
+        'jobTitle': 'מאמן אגרוף תאילנדי ומאמן כושר אישי', 'image': 'assets/img/coach.webp',
+        'knowsAbout': ['אגרוף תאילנדי', 'מואי תאי', 'קיקבוקס', 'אימוני כוח', 'תזונת ספורט', 'נשימות ומדיטציה'],
+        'alumniOf': {'@type': 'EducationalOrganization', 'name': 'מכון וינגייט'},
+        'workLocation': {'@type': 'Place', 'name': 'AMS – סטודיו פרטי', 'address': 'אורן 21, מזכרת בתיה'},
+        'sameAs': [IG]}})
+    main_html = f"""  <section class="svc-hero" aria-labelledby="svc-title">
+    <div class="svc-hero-in">
+      <div class="svc-hero-text">
+{crumbs(r, [('מי אני', '')])}
+        <h1 class="svc-title" id="svc-title">נעים להכיר, אני אביב</h1>
+        <p class="svc-tagline">מאמן גוף ונפש</p>
+        <p class="svc-lead">אני מלווה אנשים בתהליך שבו הלחימה היא הדרך: אגרוף תאילנדי, כוח, תזונה ועבודה מנטלית. המטרה שלי היא לאמן לא רק את הגוף, אלא גם את הנשמה והתודעה.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="about-hero">{WA_ICON}לתיאום אימון ניסיון</a>
+          {booking_btn('about-hero')}
+        </div>
+      </div>
+      <figure class="svc-hero-img">
+        <img src="assets/img/coach.webp" alt="אביב שדמון עם כריות אימון, מסביר למתאמן" width="1086" height="1358" style="object-position:55% 30%" fetchpriority="high">
+      </figure>
+    </div>
+  </section>
+
+  <article class="section about-story" aria-labelledby="story-title">
+    <div class="prose about-prose">
+      <h2 id="story-title">איך הכל התחיל</h2>
+      <p>לפני כעשור התאהבתי באומנויות הלחימה. מה שהתחיל כאימון הפך לדרך: התאמנתי, למדתי, ועליתי שלב אחרי שלב. עם הזמן הבנתי שהדבר שהכי מעניין אותי הוא לא רק להשתפר בעצמי, אלא לעזור לאנשים אחרים לעבור את הדרך הזאת.</p>
+      <h2>בנגקוק</h2>
+      <p>התאמנתי במחנה אימונים בבנגקוק, תאילנד, בבית של המואי תאי. שם הבנתי מקרוב את הקושי האמיתי שבתהליך של להיות טוב יותר, ואת הכבוד שהספורט הזה דורש. את מה שלמדתי שם אני מביא לכל אימון, בקצב שמתאים לכל מתאמן.</p>
+      <blockquote class="pull"><p>המטרה שלי היא לאמן לא רק את הגוף, אלא גם את הנשמה והתודעה.</p></blockquote>
+      <h2>הגישה שלי</h2>
+      <p>כל אדם מגיע עם מטרה, ניסיון וקצב משלו. אני משלב אימון פיזי מדויק עם נשימה נכונה, תנועה ועבודה מנטלית, ובונה לכל מתאמן תוכנית שמתחברת לגוף, לשגרה ולאופי שלו. אני דוחף, אבל שומר על הגוף. ואני לא מוותר, גם כשנדמה לך שנגמר לך.</p>
+      <h2>הכשרות וניסיון</h2>
+      <ul class="checks">
+        <li>הכשרה מקצועית במכון וינגייט</li>
+        <li>מדריך מוסמך בכושר ובאמנויות לחימה</li>
+        <li>הכשרה בתזונת ספורט</li>
+        <li>מחנה אימונים בבנגקוק, תאילנד</li>
+        <li>ניסיון בהדרכת ילדים בבתי ספר</li>
+        <li>יותר מ־10 שנות ניסיון</li>
+      </ul>
+    </div>
+  </article>
+
+  <section class="section about-gallery" aria-labelledby="gallery-title">
+    <h2 class="h2" id="gallery-title">מהזירה</h2>
+    <div class="gallery">
+{gallery}    </div>
+  </section>
+
+  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+    <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
+    <div class="reviews-grid">
+{review_card('t2', r)}{review_card('t5', r)}    </div>
+  </section>
+
+  <section class="section more" aria-labelledby="svc-list-title">
+    <h2 class="h2" id="svc-list-title">במה אני יכול לעזור לך</h2>
+    <ul class="more-grid area-svcs">
+{svc}    </ul>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <img class="closing-bg" src="assets/img/ready.webp" alt="" width="941" height="1672" loading="lazy">
+    <div class="closing-inner">
+      <h2 class="closing-title" id="closing-title"><span>בחר את המסלול שלך.</span><span>תתחייב לעצמך.</span></h2>
+      <p>הצעד הראשון מתחיל בשיחה. שולחים לי הודעה, ונקבע אימון ניסיון.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="about-closing">{WA_ICON}לתיאום אימון ניסיון</a>
+        {booking_btn('about-closing')}
+      </div>
+    </div>
+  </section>
+"""
+    return page(r, 'אביב משה שדמון – מאמן אגרוף תאילנדי ומאמן כושר אישי | AMS',
+                'נעים להכיר: אביב משה שדמון, מאמן גוף ונפש. הכשרה בווינגייט, מחנה אימונים בבנגקוק ויותר מ־10 שנות ניסיון באגרוף תאילנדי, כושר ותזונת ספורט.',
+                'assets/img/og.jpg', ld_html, main_html)
+
+
+def trial_page():
+    """דף נחיתה לפרסום ולביו באינסטגרם: מטרה אחת, בלי תפריט. לא נכנס לגוגל."""
+    r = ''
+    msg = 'היי אביב, הגעתי מהדף של אימון הניסיון ואשמח לתאם'
+    steps = ''.join(f'      <li>\n        <h3>{k}</h3>\n        <p>{v}</p>\n      </li>\n' for k, v in [
+        ('שיחה קצרה', 'על המטרה, הניסיון ופציעות שחשוב לי לדעת.'),
+        ('חימום', 'מכינים את הגוף ומעלים דופק בהדרגה.'),
+        ('טכניקה', 'עמידה, שמירה, אגרופים ובעיטה.'),
+        ('כריות', 'אני מחזיק, ואתה עובד בקצב שלך.')])
+    faq = [('אני לא בכושר. זה מתאים לי?', 'כן. לא צריך להיות בכושר כדי להתחיל, מתחילים כדי להיכנס לכושר. אני מתאים את הקצב והעוצמה אליך מהדקה הראשונה.'),
+           ('כמה זמן נמשך האימון?', '45 דקות.'),
+           ('איפה?', 'בסטודיו הפרטי שלי, אורן 21 במזכרת בתיה. כ־5 דקות מקריית עקרון וכ־15 מרחובות וגדרה.'),
+           ('כמה זה עולה?', 'שולחים לי הודעה ב־WhatsApp, ואני שולח את כל האפשרויות, בלי התחייבות.'),
+           ('מה להביא?', 'בגדי ספורט נוחים, מים ומגבת. את שאר הציוד נתאים לפי סוג האימון.')]
+    faq_html = ''.join(f'      <details>\n        <summary>{q}</summary>\n        <p>{x}</p>\n      </details>\n' for q, x in faq)
+    head_html = head('אימון ניסיון באגרוף תאילנדי, 45 דקות, במזכרת בתיה | AMS',
+                     'אימון ניסיון אישי באגרוף תאילנדי עם אביב משה שדמון: 45 דקות, אחד על אחד, בסטודיו פרטי במזכרת בתיה. גם בלי ניסיון וגם בלי כושר.',
+                     r, 'assets/img/og.jpg')
+    return f"""{head_html}
+<body class="is-inner is-lp">
+<a class="skip" href="#main">דלג לתוכן</a>
+<header class="site-header" data-header>
+  <span class="brand"><img src="assets/brand/ams.svg" alt="AMS – Mind &amp; Body Connection" width="420" height="126"></span>
+  <div class="header-actions">
+    <a class="header-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-header">{WA_ICON}<span>אימון ניסיון</span></a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="svc-hero" aria-labelledby="svc-title">
+    <div class="svc-hero-in">
+      <div class="svc-hero-text">
+        <p class="svc-flag">אימון ניסיון</p>
+        <h1 class="svc-title" id="svc-title">45 דקות שיראו לך מה אתה מסוגל</h1>
+        <p class="svc-lead">אימון ניסיון אישי באגרוף תאילנדי, אחד על אחד, בסטודיו פרטי במזכרת בתיה. גם אם אף פעם לא התאמנת, וגם אם אתה לא בכושר.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-hero">{WA_ICON}לתיאום אימון ניסיון</a>
+          {booking_btn('lp-hero')}
+        </div>
+        <ul class="assure" aria-label="מה חשוב לדעת">
+          <li>בלי התחייבות</li>
+          <li>גם למתחילים</li>
+          <li>אני עונה אישית</li>
+        </ul>
+      </div>
+      <figure class="svc-hero-img">
+        <img src="assets/img/muaythai.webp" alt="אביב שדמון בעמידת שמירה עם כפפות אגרוף" width="900" height="1125" style="object-position:50% 30%" fetchpriority="high">
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="steps-title">
+    <h2 class="h2" id="steps-title">מה קורה באימון</h2>
+    <ol class="steps svc-steps">
+{steps}    </ol>
+  </section>
+
+  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+    <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
+    <div class="reviews-grid">
+{review_card('t2', r)}{review_card('t3', r)}{review_card('t1', r)}    </div>
+  </section>
+
+  <section class="section trainer" aria-labelledby="trainer-title">
+    <figure class="trainer-photo">
+      <img src="assets/img/coach.webp" alt="אביב משה שדמון עם כריות אימון" width="1086" height="1358" loading="lazy">
+    </figure>
+    <div class="trainer-body">
+      <p class="trainer-label">מי יאמן אותך</p>
+      <h2 class="h2" id="trainer-title">אביב משה שדמון</h2>
+      <p>מאמן גוף ונפש, עם יותר מ־10 שנות ניסיון באגרוף תאילנדי, כוח ותזונת ספורט. הכשרה מקצועית בווינגייט ומחנה אימונים בבנגקוק.</p>
+    </div>
+  </section>
+
+  <section class="section faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title">שאלות לפני שמתחילים</h2>
+    <div class="faq-list">
+{faq_html}    </div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <img class="closing-bg" src="assets/img/ring-fist.webp" alt="" width="941" height="530" loading="lazy">
+    <div class="closing-inner">
+      <h2 class="closing-title" id="closing-title"><span>מוכן לעשות שינוי?</span></h2>
+      <p>שולחים הודעה, ואני חוזר אליך אישית לקביעת מועד.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-closing">{WA_ICON}לתיאום אימון ניסיון</a>
+        {booking_btn('lp-closing')}
+      </div>
+      <p class="lp-alt">עוד לא מוכן? <a href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="lp-guide">קבל בחינם את המדריך למתחילים</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer lp-footer">
+  <p class="footer-copy">AMS · אביב משה שדמון · אורן 21, מזכרת בתיה · <a href="index.html">לאתר המלא</a></p>
+</footer>
+<a class="sticky-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-sticky">
+  {WA_ICON}
+  לתיאום אימון ניסיון
+</a>
+
+{SPRITE}
+
+<script src="js/ams.js" defer></script>
+</body>
+</html>
+"""
+
+
+def notfound_page():
+    """דף שגיאה 404. מוגש מכל עומק בכתובת, ולכן כל הנתיבים מתחילים מ-/ (שורש הדומיין)."""
+    r = '/'
+    main_html = f"""  <section class="svc-hero nf" aria-labelledby="svc-title">
+    <div class="art-head">
+      <p class="nf-code">404</p>
+      <h1 class="svc-title" id="svc-title">הדף הזה לא בזירה</h1>
+      <p class="svc-lead">יכול להיות שהקישור שבור, או שהדף עבר מקום. אבל אפשר להמשיך מכאן:</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="404">{WA_ICON}לתיאום אימון ניסיון</a>
+        <a class="btn btn-line" href="/">לדף הבית</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section more" aria-labelledby="svc-list-title">
+    <h2 class="h2" id="svc-list-title">אולי חיפשת</h2>
+    <ul class="more-grid area-svcs">
+""" + ''.join(
+        f'      <li><a class="more-card" href="/services/{o["slug"]}.html"><img src="/assets/img/{o["thumb"]}" alt="" width="480" height="360" loading="lazy"><span><b>{o["menu"]}</b><small>{o["sub"]}</small></span></a></li>\n'
+        for o in SERVICES) + """    </ul>
+  </section>
+"""
+    return page(r, 'הדף לא נמצא | AMS', 'הדף לא נמצא באתר של אביב משה שדמון – AMS.', 'assets/img/og.jpg', '', main_html)
+
+
 def home_articles():
     cards = article_cards(ARTICLES[:3], '')
     return f"""<!-- BEGIN articles -->
@@ -918,11 +1174,13 @@ def home_articles():
 def main():
     written = []
 
-    def write(fp, html):
+    def write(fp, html, index=True):
         rel = page_path(fp)
+        html = add_srcset(html)
         with open(fp, 'w', encoding='utf-8') as f:
-            f.write(seo_finalize(add_srcset(html), rel))
-        written.append(rel)
+            f.write(seo_finalize(html, rel) if index else html)
+        if index:
+            written.append(rel)
 
     for sub in ('services', 'articles', 'areas'):
         os.makedirs(os.path.join(ROOT, sub), exist_ok=True)
@@ -934,6 +1192,8 @@ def main():
                   lambda m: '<!-- BEGIN sprite -->\n' + SPRITE + '\n<!-- END sprite -->', html, flags=re.S)
     html = re.sub(r'<!-- BEGIN reviews -->.*?<!-- END reviews -->', lambda m: home_reviews(), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN articles -->.*?<!-- END articles -->', lambda m: home_articles(), html, flags=re.S)
+    html = re.sub(r'<!-- BEGIN guide -->.*?<!-- END guide -->', lambda m: '<!-- BEGIN guide -->\n' + guide_band('', 'home-guide') + '<!-- END guide -->', html, flags=re.S)
+    html = re.sub(r'<!-- BEGIN booking-closing -->.*?<!-- END booking-closing -->', lambda m: '<!-- BEGIN booking-closing -->' + booking_btn('closing') + '<!-- END booking-closing -->', html, flags=re.S)
     if '<!-- BEGIN faq-ld -->' in html:
         html = re.sub(r'<!-- BEGIN faq-ld -->.*?<!-- END faq-ld -->', lambda m: home_faq_ld(html), html, flags=re.S)
     else:
@@ -945,6 +1205,9 @@ def main():
     for s in SERVICES:
         write(os.path.join(ROOT, 'services', s['slug'] + '.html'), service_page(s))
     write(os.path.join(ROOT, 'articles', 'index.html'), articles_index())
+    write(os.path.join(ROOT, 'about.html'), about_page())
+    write(os.path.join(ROOT, 'trial.html'), trial_page(), index=False)
+    write(os.path.join(ROOT, '404.html'), notfound_page(), index=False)
     for sub, items, fn in (('articles', ARTICLES, article_page), ('areas', AREAS, area_page)):
         for x in items:
             write(os.path.join(ROOT, sub, x['slug'] + '.html'), fn(x))

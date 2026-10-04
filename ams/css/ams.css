@@ -896,3 +896,42 @@ ul, ol { list-style: none; }
 @media (max-width: 480px) {
   .art-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- מדריך חינם ---------- */
+.guide-box {
+  display: grid; grid-template-columns: 220px 1fr; gap: 24px clamp(28px, 5vw, 64px); align-items: center;
+  padding: clamp(24px, 4vw, 44px); background: var(--bark-2); border: 1px solid var(--line);
+}
+.guide-cover { margin: 0; }
+.guide-cover img { width: 100%; height: auto; box-shadow: 0 18px 40px rgba(0, 0, 0, .55); transform: rotate(-2deg); }
+.guide-label { display: inline-block; margin: 0 0 12px; padding: 5px 10px; background: var(--gold); color: var(--night); font-size: .8rem; font-weight: 600; }
+.guide-text > p:not(.guide-label) { max-width: 34em; margin-top: 14px; color: rgba(242, 236, 224, .86); }
+.guide-text .hero-actions { justify-content: flex-start; }
+.guide-note { font-size: .85rem; color: var(--ash) !important; }
+
+/* ---------- מי אני ---------- */
+.about-prose { padding-top: 0; }
+.gallery { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 12px; margin-top: 32px; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid var(--line-soft); }
+
+/* ---------- דף נחיתה ---------- */
+.is-lp .site-header .brand { opacity: 1; visibility: visible; }
+.lp-footer { padding: 24px var(--gutter) 96px; }
+.lp-footer .footer-copy { margin: 0 auto; text-align: center; }
+.lp-footer a { color: var(--ash); }
+.lp-alt { font-size: .95rem; }
+.lp-alt a { color: var(--gold); text-underline-offset: 3px; }
+
+/* ---------- 404 ---------- */
+.nf .art-head { padding: 0; }
+.nf-code { margin: 0; font: 400 clamp(5rem, 14vw, 9rem)/1 var(--f-display); color: var(--gold); }
+.nf .hero-actions { justify-content: flex-start; }
+
+@media (max-width: 760px) {
+  .guide-box { grid-template-columns: 1fr; }
+  .guide-cover { max-width: 180px; }
+  .guide-text .btn { width: 100%; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .gallery figure:first-child { grid-column: 1 / -1; }
+}

@@ -6,15 +6,16 @@
   // כותרת עליונה מקבלת רקע אחרי גלילה; כפתור וואטסאפ צף מופיע אחרי ה־hero
   const onScroll = () => {
     const y = window.scrollY;
-    header.classList.toggle('is-scrolled', y > 40);
+    if (header) header.classList.toggle('is-scrolled', y > 40);
     if (sticky) sticky.classList.toggle('is-visible', hero ? y > hero.offsetHeight - window.innerHeight * 0.5 : y > 480);
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // תפריט מסך מלא
+  // תפריט מסך מלא (בדף הנחיתה אין תפריט)
   const toggle = document.querySelector('[data-menu-toggle]');
   const menu = document.querySelector('[data-menu]');
+  if (toggle && menu) {
   const setMenu = (open) => {
     toggle.setAttribute('aria-expanded', String(open));
     toggle.querySelector('.menu-btn-label').textContent = open ? 'סגירה' : 'תפריט';
@@ -55,6 +56,8 @@
       el.addEventListener('mouseenter', show);
       el.addEventListener('focus', show);
     });
+  }
+
   }
 
   // HERO: רצף פריימים שמתקדם עם הגלילה. שמירה -> אגרוף -> חזרה לשמירה.
@@ -211,13 +214,22 @@
     quick.addEventListener('change', update);
   }
 
-  // מדידה: כל לחיצה על WhatsApp נרשמת (Google Tag Manager / GA4 / Meta Pixel אם הותקנו)
+  // מקור ההגעה (utm_source מהקישור באינסטגרם או במודעה) נשמר לסשן ומצורף לאירועים
+  let source = '';
+  try {
+    source = new URLSearchParams(location.search).get('utm_source') || sessionStorage.getItem('ams_src') || '';
+    if (source) sessionStorage.setItem('ams_src', source);
+  } catch (err) { /* בלי אחסון: ממשיכים בלי מקור */ }
+
+  // מדידה: לחיצות על WhatsApp ועל היומן נרשמות (Google Tag Manager / GA4 / Meta Pixel אם הותקנו)
   document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="https://wa.me"]');
+    const a = e.target.closest('a[href^="https://wa.me"], a[data-booking]');
     if (!a) return;
-    const where = a.dataset.cta || (a.closest('section[id]') || {}).id || 'other';
-    (window.dataLayer = window.dataLayer || []).push({ event: 'whatsapp_click', cta: where, page: location.pathname });
-    if (typeof window.fbq === 'function') window.fbq('track', 'Contact', { cta: where });
+    const booking = a.hasAttribute('data-booking');
+    const where = a.dataset.cta || a.dataset.booking || (a.closest('section[id]') || {}).id || 'other';
+    const event = booking ? 'booking_click' : (/guide/.test(where) ? 'guide_request' : 'whatsapp_click');
+    (window.dataLayer = window.dataLayer || []).push({ event, cta: where, page: location.pathname, source });
+    if (typeof window.fbq === 'function') window.fbq('track', event === 'guide_request' ? 'Lead' : (booking ? 'Schedule' : 'Contact'), { cta: where });
   });
 
   // סרטון אימון: מתנגן בלי קול כשמגיעים אליו, עם כפתור עצירה; ב"הפחתת תנועה" רק בלחיצה
