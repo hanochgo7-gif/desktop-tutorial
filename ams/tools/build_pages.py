@@ -254,7 +254,7 @@ def home_reviews():
       <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
       <p>הודעות אמיתיות שקיבלתי ממתאמנים ב־WhatsApp, כלשונן. השמות הוסרו לשמירה על פרטיותם.</p>
     </div>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {cards}    </div>
   </section>
 <!-- END reviews -->'''
@@ -334,6 +334,10 @@ def footer(root):
     area_links = ''.join(f'      <li><a href="{root}areas/{a["slug"]}.html">ליד {a["town"]}</a></li>\n' for a in AREAS)
     return f'''<!-- BEGIN footer -->
 <footer class="site-footer">
+  <div class="footer-cta">
+    <p class="footer-slogan">מוכן לעשות שינוי?</p>
+    <a class="btn btn-gold" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="footer">{WA_ICON}לתיאום אימון ניסיון</a>
+  </div>
   <div class="footer-top">
     <p class="logo logo-sm"><img src="{root}assets/brand/logo.svg" alt="AMS – Mind &amp; Body Connection, Aviv Moshe Shadmon" width="430" height="205" loading="lazy"></p>
     <nav class="footer-nav" aria-label="שירותים">
@@ -432,6 +436,15 @@ def service_page(s):
     if s.get('points'):
         intro += '      <ul class="checks svc-points">\n' + ''.join(f'        <li>{p}</li>\n' for p in s['points']) + '      </ul>\n'
     tagline = f'\n        <p class="svc-tagline">{s["tagline"]}</p>' if s.get('tagline') else ''
+    nav = [('#includes', 'מה כולל')]
+    if s.get('video'):
+        nav.append(('#clip', 'ככה נראה אימון'))
+    if s.get('reviews'):
+        nav.append(('#reviews', 'המלצות'))
+    nav += [('#how', 'איך זה עובד'), ('#trainer', 'המאמן'), ('#faq', 'שאלות')]
+    subnav = ('  <nav class="subnav" aria-label="בדף הזה" data-subnav>\n    <ul>\n'
+              + ''.join(f'      <li><a href="{h}">{t}</a></li>\n' for h, t in nav)
+              + f'    </ul>\n    <a class="subnav-cta" href="{wa(s["wa"])}" target="_blank" rel="noopener" data-cta="svc-subnav">{WA_ICON}<span>{s["cta"]}</span></a>\n  </nav>\n')
     related = [a for a in ARTICLES if a['service'] == s['slug']][:2]
     if related:
         intro += ('      <div class="svc-read"><p>לקריאה נוספת</p><ul>\n'
@@ -447,16 +460,16 @@ def service_page(s):
     reviews = ''
     if s.get('reviews'):
         reviews = f'''
-  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+  <section class="section reviews svc-reviews" id="reviews" aria-labelledby="reviews-title">
     <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {''.join(review_card(x, r) for x in s['reviews'])}    </div>
   </section>
 '''
     video = ''
     if s.get('video'):
         video = f'''
-  <section class="section clip" aria-labelledby="clip-title">
+  <section class="section clip" id="clip" aria-labelledby="clip-title">
     <div class="clip-text">
       <h2 class="h2" id="clip-title">ככה נראה אימון</h2>
       <p>אימון קבוצתי של ילדים: חימום, עבודה בזוגות על כריות, והרבה אנרגיה. כל ילד מתקדם בקצב שלו, ונהנה מהדרך.</p>
@@ -466,6 +479,7 @@ def service_page(s):
         <source src="{r}assets/video/kids-class.mp4" type="video/mp4">
         <source src="{r}assets/video/kids-class.webm" type="video/webm">
       </video>
+      <button class="clip-play" type="button" data-clip-play aria-label="הפעלת הסרטון"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
       <button class="clip-toggle" type="button" data-clip-toggle hidden>עצירה</button>
     </figure>
   </section>
@@ -505,6 +519,7 @@ def service_page(s):
     </div>
   </section>
 
+{subnav}
   <section class="section svc-intro" aria-labelledby="intro-title">
     <div class="svc-intro-body">
       <h2 class="h2" id="intro-title">{s['intro_h']}</h2>
@@ -521,20 +536,20 @@ def service_page(s):
 {inc}    </ul>
   </section>
 {video}{reviews}
-  <section class="section" aria-labelledby="steps-title">
+  <section class="section" id="how" aria-labelledby="steps-title">
     <h2 class="h2" id="steps-title">איך זה עובד</h2>
     <ol class="steps svc-steps">
 {steps}    </ol>
   </section>
 
-  <section class="section trainer" aria-labelledby="trainer-title">
+  <section class="section trainer" id="trainer" aria-labelledby="trainer-title">
     <figure class="trainer-photo">
       <img src="{r}assets/img/coach.webp" alt="אביב משה שדמון עם כריות אימון" width="1086" height="1358" loading="lazy">
     </figure>
     <div class="trainer-body">
       <p class="trainer-label">נעים להכיר</p>
       <h2 class="h2" id="trainer-title">אביב משה שדמון</h2>
-      <p>אני מאמן גוף ונפש, ומתמחה במואי תאי, קיקבוקס, כוח ותזונת ספורט. התאהבתי בתחום לפני כעשור, התאמנתי במחנה אימונים בבנגקוק, ומאז אני מלווה אנשים בתהליך שבו הלחימה היא הדרך.</p>
+      <p>אני מאמן גוף ונפש, המתמחה במואי תאי, קיקבוקס, כוח ותזונת ספורט. אני בתחום כבר כעשור, עברתי הכשרה במחנה אימונים בבנגקוק, ומלווה מתאמנים בתהליך שבו הלחימה היא הדרך.</p>
       <ul class="creds">
         <li>הכשרה מקצועית במכון וינגייט</li>
         <li>מחנה אימונים בבנגקוק, תאילנד</li>
@@ -545,8 +560,8 @@ def service_page(s):
     </div>
   </section>
 
-  <section class="section faq" aria-labelledby="faq-title">
-    <h2 class="h2" id="faq-title">שאלות נפוצות</h2>
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title">לפני שמתחילים</h2>
     <div class="faq-list">
 {faq}    </div>
   </section>
@@ -831,7 +846,7 @@ def area_page(ar):
 
   <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
     <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {review_card('t2', r)}{review_card('t3', r)}    </div>
   </section>
 
@@ -942,7 +957,7 @@ def guide_band(r='', where='guide'):
 
 def about_page():
     r = ''
-    gallery = ''.join(f'      <figure><img src="assets/img/{n}" alt="{a}" width="{w}" height="{h}" loading="lazy"></figure>\n' for n, a, w, h in [
+    gallery = ''.join(f'      <figure><button class="gallery-open" type="button" data-lightbox-src="assets/img/{n}" aria-label="הגדלה: {a}"><img src="assets/img/{n}" alt="{a}" width="{w}" height="{h}" loading="lazy"></button></figure>\n' for n, a, w, h in [
         ('ring.webp', 'אביב בזירה מול קהל, ידיים פתוחות לצדדים', 1325, 970),
         ('corner.webp', 'אביב בזירה, ידיים מורמות, עם הצוות בפינה', 941, 532),
         ('ring-back.webp', 'אביב בגב למצלמה בזירה, עם צמה', 941, 640)])
@@ -999,11 +1014,15 @@ def about_page():
     <h2 class="h2" id="gallery-title">מהזירה</h2>
     <div class="gallery">
 {gallery}    </div>
+    <dialog class="lightbox" data-lightbox aria-label="תמונה מוגדלת">
+      <img src="" alt="">
+      <button class="lightbox-close" type="button" data-lightbox-close>סגירה</button>
+    </dialog>
   </section>
 
   <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
     <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {review_card('t2', r)}{review_card('t5', r)}    </div>
   </section>
 
@@ -1089,7 +1108,7 @@ def trial_page():
 
   <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
     <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {review_card('t2', r)}{review_card('t3', r)}{review_card('t1', r)}    </div>
   </section>
 

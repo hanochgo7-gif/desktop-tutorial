@@ -376,7 +376,7 @@ ul, ol { list-style: none; }
   font-size: clamp(2.9rem, 6.4vw, 5rem);
   line-height: 1.05;
   color: var(--bone);
-  max-width: 18ch;
+  max-width: 24ch;
   text-wrap: balance;
 }
 .lede { font-size: 1.12rem; color: rgba(242, 236, 224, .86); }
@@ -971,3 +971,67 @@ ul, ol { list-style: none; }
 /* טקסט מעל רקע הזירה: צל עדין שומר על קריאוּת גם באזורים המוארים של התמונה */
 main .section { text-shadow: 0 1px 3px rgba(0, 0, 0, .6); }
 main .section .btn, main .section .chip span, .bubble { text-shadow: none; }
+
+/* ---------- ניווט פנימי בדפי שירות: נשאר למעלה בזמן הגלילה ---------- */
+.subnav {
+  position: sticky; top: var(--header-h); z-index: 30;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 var(--gutter);
+  background: rgba(12, 9, 6, .9); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.subnav ul { display: flex; gap: 4px; flex: 1; max-width: var(--max); margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+.subnav ul::-webkit-scrollbar { display: none; }
+.subnav a { display: block; padding: 14px 12px; white-space: nowrap; color: var(--ash); text-decoration: none; font-size: .92rem; border-bottom: 2px solid transparent; }
+.subnav a:hover { color: var(--bone); }
+.subnav a[aria-current="true"] { color: var(--gold); border-bottom-color: var(--gold); }
+.subnav-cta { display: inline-flex !important; align-items: center; gap: 8px; color: var(--gold) !important; font-weight: 600; border: 0 !important; }
+.subnav-cta .ico { width: 1.05em; height: 1.05em; }
+section[id] { scroll-margin-top: calc(var(--header-h) + 56px); }
+
+/* ---------- סרטון: כפתור הפעלה גדול כשהסרטון עומד ---------- */
+.clip-play {
+  position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+  display: grid; place-items: center; width: 74px; height: 74px; padding: 0;
+  border: 1px solid var(--gold); border-radius: 50%;
+  background: rgba(0, 0, 0, .6); color: var(--gold); cursor: pointer;
+  transition: transform .2s, background-color .2s;
+}
+.clip-play svg { width: 30px; height: 30px; margin-inline-start: -3px; }
+.clip-play:hover { transform: translate(-50%, -50%) scale(1.06); background: rgba(0, 0, 0, .75); }
+.clip-media.is-playing .clip-play { display: none; }
+
+/* ---------- גלריה עם הגדלה ---------- */
+.gallery-open { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.lightbox { max-width: min(92vw, 1100px); max-height: 90vh; padding: 0; border: 1px solid var(--line); background: #000; }
+.lightbox::backdrop { background: rgba(0, 0, 0, .85); }
+.lightbox img { display: block; max-width: 100%; max-height: calc(90vh - 52px); width: auto; height: auto; margin: 0 auto; }
+.lightbox-close { display: block; width: 100%; min-height: 52px; border: 0; background: var(--bark-2); color: var(--bone); font: inherit; cursor: pointer; }
+.lightbox-close:hover { color: var(--gold); }
+
+/* ---------- פוטר: סלוגן וקריאה לפעולה ---------- */
+.footer-cta {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px;
+  max-width: var(--max); margin: 0 auto 40px; padding-bottom: 36px; border-bottom: 1px solid var(--line-soft);
+}
+.footer-slogan { margin: 0; font: 400 clamp(2.4rem, 5vw, 3.8rem)/1.05 var(--f-display); color: var(--gold); }
+
+@media (max-width: 760px) {
+  /* הכפתור הצף לא מסתיר את סוף הדף */
+  body:not(.is-lp) .site-footer, .lp-footer { padding-bottom: 96px; }
+  .footer-cta .btn { width: 100%; }
+  .subnav-cta span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .subnav a { padding: 12px 10px; font-size: .88rem; }
+
+  /* המלצות: שורה שמחליקים הצידה, כרטיס אחד בכל פעם */
+  .reviews-grid, .svc-reviews .reviews-grid {
+    columns: auto; display: flex; gap: 14px;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 12px;
+    scrollbar-width: none;
+  }
+  .reviews-grid::-webkit-scrollbar { display: none; }
+  .reviews-grid .review { flex: 0 0 86%; margin: 0; scroll-snap-align: center; }
+  .reviews-hint { display: block !important; }
+}
+.reviews-hint { display: none; margin: 10px 0 0; font-size: .85rem; color: var(--ash); }

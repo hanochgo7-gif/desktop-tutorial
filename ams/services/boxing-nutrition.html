@@ -169,6 +169,17 @@
     </div>
   </section>
 
+  <nav class="subnav" aria-label="בדף הזה" data-subnav>
+    <ul>
+      <li><a href="#includes">מה כולל</a></li>
+      <li><a href="#reviews">המלצות</a></li>
+      <li><a href="#how">איך זה עובד</a></li>
+      <li><a href="#trainer">המאמן</a></li>
+      <li><a href="#faq">שאלות</a></li>
+    </ul>
+    <a class="subnav-cta" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%94%D7%9E%D7%A1%D7%9C%D7%95%D7%9C%20%D7%94%D7%9E%D7%A9%D7%95%D7%9C%D7%91%20%D7%90%D7%92%D7%A8%D7%95%D7%A3%20%2B%20%D7%AA%D7%96%D7%95%D7%A0%D7%94" target="_blank" rel="noopener" data-cta="svc-subnav"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg><span>להצטרפות למסלול</span></a>
+  </nav>
+
   <section class="section svc-intro" aria-labelledby="intro-title">
     <div class="svc-intro-body">
       <h2 class="h2" id="intro-title">שילוב מנצח של אימון ותזונה</h2>
@@ -201,9 +212,9 @@
     </ul>
   </section>
 
-  <section class="section reviews svc-reviews" aria-labelledby="reviews-title">
+  <section class="section reviews svc-reviews" id="reviews" aria-labelledby="reviews-title">
     <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-    <div class="reviews-grid">
+    <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
       <figure class="review">
         <blockquote class="bubble">
           <p>שמע אביב מאז שהתחלתי להתאמן אצלך, אני מרגיש הרבה יותר ביטחון עצמי והכושר שלי עלה בכמה רמות. ממש כיף להתאמן אצלך <strong>כל אימון מרגיש כמו מסיבה</strong>, ואני מחכה לאימונים כל שבוע מחדש.</p>
@@ -217,7 +228,7 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="steps-title">
+  <section class="section" id="how" aria-labelledby="steps-title">
     <h2 class="h2" id="steps-title">איך זה עובד</h2>
     <ol class="steps svc-steps">
       <li>
@@ -239,14 +250,14 @@
     </ol>
   </section>
 
-  <section class="section trainer" aria-labelledby="trainer-title">
+  <section class="section trainer" id="trainer" aria-labelledby="trainer-title">
     <figure class="trainer-photo">
       <img src="../assets/img/coach.webp" srcset="../assets/img/coach-540.webp 540w, ../assets/img/coach.webp 1086w" sizes="(max-width: 1020px) 92vw, 420px" alt="אביב משה שדמון עם כריות אימון" width="1086" height="1358" loading="lazy">
     </figure>
     <div class="trainer-body">
       <p class="trainer-label">נעים להכיר</p>
       <h2 class="h2" id="trainer-title">אביב משה שדמון</h2>
-      <p>אני מאמן גוף ונפש, ומתמחה במואי תאי, קיקבוקס, כוח ותזונת ספורט. התאהבתי בתחום לפני כעשור, התאמנתי במחנה אימונים בבנגקוק, ומאז אני מלווה אנשים בתהליך שבו הלחימה היא הדרך.</p>
+      <p>אני מאמן גוף ונפש, המתמחה במואי תאי, קיקבוקס, כוח ותזונת ספורט. אני בתחום כבר כעשור, עברתי הכשרה במחנה אימונים בבנגקוק, ומלווה מתאמנים בתהליך שבו הלחימה היא הדרך.</p>
       <ul class="creds">
         <li>הכשרה מקצועית במכון וינגייט</li>
         <li>מחנה אימונים בבנגקוק, תאילנד</li>
@@ -257,8 +268,8 @@
     </div>
   </section>
 
-  <section class="section faq" aria-labelledby="faq-title">
-    <h2 class="h2" id="faq-title">שאלות נפוצות</h2>
+  <section class="section faq" id="faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title">לפני שמתחילים</h2>
     <div class="faq-list">
       <details>
         <summary>למי מתאים המסלול?</summary>
@@ -296,6 +307,10 @@
 
 <!-- BEGIN footer -->
 <footer class="site-footer">
+  <div class="footer-cta">
+    <p class="footer-slogan">מוכן לעשות שינוי?</p>
+    <a class="btn btn-gold" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%90%D7%99%D7%9E%D7%95%D7%9F%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F" target="_blank" rel="noopener" data-cta="footer"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>לתיאום אימון ניסיון</a>
+  </div>
   <div class="footer-top">
     <p class="logo logo-sm"><img src="../assets/brand/logo.svg" alt="AMS – Mind &amp; Body Connection, Aviv Moshe Shadmon" width="430" height="205" loading="lazy"></p>
     <nav class="footer-nav" aria-label="שירותים">

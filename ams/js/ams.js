@@ -4,11 +4,24 @@
   const sticky = document.querySelector('.sticky-cta');
 
   // כותרת עליונה מקבלת רקע אחרי גלילה; כפתור וואטסאפ צף מופיע אחרי ה־hero
+  // הכפתור הצף מוסתר כשהסגירה או הפוטר על המסך (יש שם כבר כפתור), כדי לא לכסות תוכן
+  let nearEnd = false;
   const onScroll = () => {
     const y = window.scrollY;
     if (header) header.classList.toggle('is-scrolled', y > 40);
-    if (sticky) sticky.classList.toggle('is-visible', hero ? y > hero.offsetHeight - window.innerHeight * 0.5 : y > 480);
+    const past = hero ? y > hero.offsetHeight - window.innerHeight * 0.5 : y > 480;
+    if (sticky) sticky.classList.toggle('is-visible', past && !nearEnd);
   };
+  if (sticky && 'IntersectionObserver' in window) {
+    const ends = document.querySelectorAll('.closing, .site-footer');
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) seen.add(en.target); else seen.delete(en.target); });
+      nearEnd = seen.size > 0;
+      onScroll();
+    });
+    ends.forEach((el) => io.observe(el));
+  }
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -34,6 +47,10 @@
   // תת־תפריט השירותים נפתח ונסגר
   const subBtn = menu.querySelector('[data-sub-toggle]');
   const sub = subBtn && document.getElementById(subBtn.getAttribute('aria-controls'));
+  if (subBtn && sub && window.matchMedia('(max-width: 760px)').matches) {
+    subBtn.setAttribute('aria-expanded', 'false');   // בטלפון רשימת השירותים נפתחת רק בלחיצה
+    sub.hidden = true;
+  }
   if (subBtn && sub) {
     subBtn.addEventListener('click', () => {
       const open = subBtn.getAttribute('aria-expanded') !== 'true';
@@ -235,13 +252,18 @@
   // סרטון אימון: מתנגן בלי קול כשמגיעים אליו, עם כפתור עצירה; ב"הפחתת תנועה" רק בלחיצה
   document.querySelectorAll('[data-clip]').forEach((video) => {
     const btn = video.parentElement.querySelector('[data-clip-toggle]');
+    const big = video.parentElement.querySelector('[data-clip-play]');
+    const mark = () => video.parentElement.classList.toggle('is-playing', !video.paused);
+    video.addEventListener('play', mark);
+    video.addEventListener('pause', mark);
+    if (big) big.addEventListener('click', () => { video.play().catch(() => {}); });
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let userPaused = still;
     const label = () => { btn.textContent = video.paused ? 'הפעלה' : 'עצירה'; };
     btn.hidden = false;
     label();
     btn.addEventListener('click', () => {
-      if (video.paused) { userPaused = false; video.play(); } else { userPaused = true; video.pause(); }
+      if (video.paused) { userPaused = false; video.play().catch(() => {}); } else { userPaused = true; video.pause(); }
     });
     video.addEventListener('play', label);
     video.addEventListener('pause', label);
@@ -253,6 +275,48 @@
       });
     }, { threshold: 0.4 }).observe(video);
   });
+
+  // ניווט פנימי בדף שירות: מסמן את המקטע שעל המסך
+  const subnav = document.querySelector('[data-subnav]');
+  if (subnav && 'IntersectionObserver' in window) {
+    const links = [...subnav.querySelectorAll('a[href^="#"]')];
+    const map = new Map(links.map((a) => [document.querySelector(a.getAttribute('href')), a]).filter(([s]) => s));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        const a = map.get(en.target);
+        a.setAttribute('aria-current', 'true');
+        a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    map.forEach((a, s) => io.observe(s));
+  }
+
+  // המלצות בטלפון: רמז שאפשר להחליק הצידה
+  document.querySelectorAll('.reviews-grid').forEach((grid) => {
+    if (grid.children.length < 2) return;
+    const hint = document.createElement('p');
+    hint.className = 'reviews-hint';
+    const more = grid.children.length - 1;
+    hint.textContent = more === 1 ? 'החליקו הצידה להמלצה נוספת' : 'החליקו הצידה לעוד ' + more + ' המלצות';
+    grid.after(hint);
+  });
+
+  // הגדלת תמונות בגלריה
+  const box = document.querySelector('[data-lightbox]');
+  if (box && typeof box.showModal === 'function') {
+    const big = box.querySelector('img');
+    document.querySelectorAll('[data-lightbox-src]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const img = btn.querySelector('img');
+        big.src = btn.dataset.lightboxSrc;
+        big.alt = img ? img.alt : '';
+        box.showModal();
+      });
+    });
+    box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('[data-lightbox-close]')) box.close(); });
+  }
 
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
