@@ -85,12 +85,12 @@ n=0
 # 1 cover
 n+=1
 sec("cover", INK,
-    f'<img src="/_blob/8c0f023824b7256e166b5a0dcc9a06f4" alt="חנוך עם סיכת סיירת נח״ל בפה, בסוף המסלול" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; object-fit:cover">'
-    f'<div style="position:absolute; left:728px; top:404px; width:120px; height:6px; background:{SAND}"></div>'
-    f'<h1 style="position:absolute; left:128px; top:440px; width:720px; font-family:{H}; font-size:220px; font-weight:700; line-height:1; letter-spacing:-4px; color:{SAND}; text-align:right">{t("7.10")}</h1>'
-    f'<h2 style="position:absolute; left:128px; top:680px; width:720px; font-family:{H}; font-size:88px; font-weight:700; line-height:1.1; color:#F6F3EE; text-align:right">{t("הסיפור שלי")}</h2>'
-    f'<p style="position:absolute; left:128px; top:812px; width:720px; font-size:32px; color:{MUTEDL}; text-align:right">{t("חנוך  |  לוחם סיירת נח״ל, פצוע 7 באוקטובר")}</p>',
-    "שקף פתיחה. לא מדברים עליו. הוא נשאר על המסך כשהקהל נכנס. התמונה: סוף המסלול, הסיכה בפה. הקהל רואה בחור צעיר ומחייך, ועוד לא יודע מה יקרה לו. אפשר לחזור אליה בסוף: הבחור הזה לא ידע מה מחכה לו.", pad="0px", layout="display:flex; flex-direction:column", chrome_on=False)
+    f'<img src="/_blob/31a9a399f93f02cdeac047f2ede61f33" alt="חנוך עם סיכת סיירת נח״ל בפה, ודגל ישראל מתנופף בשחור לבן" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; object-fit:cover">'
+    f'<div style="position:absolute; left:728px; top:668px; width:120px; height:6px; background:{SAND}"></div>'
+    f'<h1 style="position:absolute; left:128px; top:696px; width:720px; font-family:{H}; font-size:170px; font-weight:700; line-height:1; letter-spacing:-4px; color:{SAND}; text-align:right">{t("7.10")}</h1>'
+    f'<h2 style="position:absolute; left:128px; top:872px; width:720px; font-family:{H}; font-size:80px; font-weight:700; line-height:1.1; color:#F6F3EE; text-align:right">{t("הסיפור שלי")}</h2>'
+    f'<p style="position:absolute; left:128px; top:976px; width:720px; font-size:30px; color:#C9CDD4; text-align:right">{t("חנוך  |  לוחם סיירת נח״ל, פצוע 7 באוקטובר")}</p>',
+    "שקף פתיחה. לא מדברים עליו. הוא נשאר על המסך כשהקהל נכנס. התמונה: סוף המסלול, הסיכה בפה, והדגל מתנופף מאחור. הקהל רואה בחור צעיר ומחייך, ועוד לא יודע מה יקרה לו. אפשר לחזור אליה בסוף: הבחור הזה לא ידע מה מחכה לו.", pad="0px", layout="display:flex; flex-direction:column", chrome_on=False)
 # 2 hook
 n+=1
 sec("hook", INK,
