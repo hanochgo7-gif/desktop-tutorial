@@ -312,7 +312,7 @@ def header(root, current=None):
         <div class="menu-sub" id="menu-sub">
 {subs}        </div>
       </li>
-{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
+{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', root + 'trial.html', 'אימון ניסיון', 'assets/img/muaythai.webp', 'אימון ניסיון', '45 דקות, אחד על אחד, בלי התחייבות')}{item('08', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
     </nav>
     <aside class="menu-vis" aria-label="יצירת קשר">
       <figure class="menu-fig" aria-hidden="true">
@@ -342,6 +342,9 @@ def footer(root):
     <nav class="footer-nav" aria-label="עוד באתר">
       <p class="footer-h">עוד באתר</p>
       <ul>
+      <li><a href="{root}about.html">מי אני</a></li>
+      <li><a href="{root}trial.html">אימון ניסיון</a></li>
+      <li><a href="{root}index.html#guide">מדריך חינם למתחילים</a></li>
       <li><a href="{root}articles/index.html">מאמרים</a></li>
 {area_links}      </ul>
     </nav>
@@ -724,6 +727,7 @@ def article_page(a):
 {render_blocks(a['body'], r)}    </div>
   </article>
 
+{guide_band(r, 'article-guide')}
   <section class="section more" aria-labelledby="more-title">
     <h2 class="h2" id="more-title">עוד מאמרים</h2>
     <ul class="more-grid art-grid art-grid-4">
@@ -748,7 +752,8 @@ def articles_index():
     <ul class="more-grid art-grid">
 {article_cards(ARTICLES, r)}    </ul>
   </section>
-"""
+
+{guide_band(r, 'articles-guide')}"""
     return page(r, 'מאמרים | אביב משה שדמון – AMS', desc, 'assets/img/og.jpg', '', main_html)
 
 

@@ -201,7 +201,7 @@ ul, ol { list-style: none; }
 .menu-list > li { border-bottom: 1px solid var(--line-soft); }
 .menu-item {
   display: flex; align-items: center; gap: 18px; width: 100%;
-  padding: 14px 0; border: 0; background: none; color: var(--bone);
+  padding: 11px 0; border: 0; background: none; color: var(--bone);
   text-align: right; text-decoration: none; cursor: pointer;
   font: 700 clamp(2.2rem, 4vw, 3.3rem)/1 var(--f-display);
   transition: color .2s;
