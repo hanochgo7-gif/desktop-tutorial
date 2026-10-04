@@ -10,8 +10,8 @@ IMG = {'/': ['/work/og-home.jpg', '/work/film-poster.webp', '/work/me/character.
 VID = {'/': [('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
              ('סרט התדמית של HGPRO', 'סרט תדמית של עבודות עיצוב ובניית אתרים.', '/work/film-poster.webp', '/work/film/reel.mp4', 22)],
        '/archive/': [('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
-                     ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 58)],
-       '/archive/en.html': [('Before the City Wakes', 'A one minute commercial made with AI.', '/work/film/ad.webp', '/work/film/ad-en.mp4', 58)],
+                     ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
+       '/archive/en.html': [('Before the City Wakes', 'A one minute commercial made with AI.', '/work/film/ad.webp', '/work/film/ad-en.mp4', 59)],
        '/services/ai-commercial.html': [('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)],
        '/services/en/ai-commercial-production.html': [('HG · Unforgettable', 'A fragrance commercial made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)]}
 PRI = {'/': '1.0', '/en.html': '0.9', '/work.html': '0.8', '/en-work.html': '0.7', '/archive/': '0.8', '/archive/en.html': '0.7', '/accessibility.html': '0.2'}

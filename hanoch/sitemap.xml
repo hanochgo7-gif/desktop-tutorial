@@ -57,7 +57,7 @@
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/ad.webp</image:loc></image:image>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>58</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/archive/en.html</loc>
@@ -67,7 +67,7 @@
     <lastmod>2026-10-04</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>Before the City Wakes</video:title><video:description>A one minute commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/ad-en.mp4</video:content_loc><video:duration>58</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>Before the City Wakes</video:title><video:description>A one minute commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/ad-en.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/</loc>

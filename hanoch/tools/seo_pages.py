@@ -278,7 +278,7 @@ def render(p):
         {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in p['faq']]}]
     if p.get('films'):
         graph += [{'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HGPRO.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
-                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HGPRO.', 'A one minute commercial made with AI by HGPRO.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT58S'}]
+                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HGPRO.', 'A one minute commercial made with AI by HGPRO.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
     alt = ''
     foot_links = ''.join(f'<a href="{("" if q["lang"] == p["lang"] else ("en/" if he else "../"))}{q["slug"]}.html">{esc(q["name"])}</a>' for q in P if q['lang'] == p['lang'])
