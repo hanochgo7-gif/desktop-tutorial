@@ -5,30 +5,27 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
-    <image:image><image:loc>https://hgpro.io/work/film-poster.webp</image:loc></image:image>
-    <image:image><image:loc>https://hgpro.io/work/me/character.webp</image:loc></image:image>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film-poster.webp</video:thumbnail_loc><video:title>סרט התדמית של HGPRO</video:title><video:description>סרט תדמית של עבודות עיצוב ובניית אתרים.</video:description><video:content_loc>https://hgpro.io/work/film/reel.mp4</video:content_loc><video:duration>22</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/en.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.9</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
-    <image:image><image:loc>https://hgpro.io/work/film-poster.webp</image:loc></image:image>
+    <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/work.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/gotovski.webp</image:loc></image:image>
@@ -37,13 +34,15 @@
     <image:image><image:loc>https://hgpro.io/work/cinema/clinic.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/falafel.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/rachel.webp</image:loc></image:image>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/en-work.html</loc>
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
   </url>
@@ -52,7 +51,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/ad.webp</image:loc></image:image>
@@ -64,98 +63,98 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/"/>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>Before the City Wakes</video:title><video:description>A one minute commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/ad-en.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/website-building.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/web-design.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/landing-page.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/online-store.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/seo.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-commercial.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-chatbot.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/wix-migration.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/brand-identity.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/web-design-studio.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ai-commercial-production.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/blog/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-much-does-a-website-cost.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/wix-vs-custom-website.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/wix-vs-custom-website.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/accessibility.html</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <priority>0.2</priority>
   </url>
 </urlset>
