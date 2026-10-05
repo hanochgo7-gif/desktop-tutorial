@@ -15,7 +15,8 @@
   canvas.className = 'cr-stage';
   canvas.setAttribute('aria-hidden', 'true');
   var gl = null;
-  try { gl = canvas.getContext('webgl2', { antialias: false, alpha: false }); } catch (e) { }
+  // השחור של הסרט שקוף: מתחת יושבת ה-ח מזכוכית (js/het.js)
+  try { gl = canvas.getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: true }); } catch (e) { }
   if (!gl) return;
   pin.prepend(canvas);
 
@@ -35,6 +36,18 @@
     '  if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) return vec3(0.0);',
     '  return mix(texture(uA, uv).rgb, texture(uB, uv).rgb, uMix);',
     '}',
+    // מסכה: איפה יש יד ואיפה רק שחור. נקודה כהה שיש יד משני צדדיה (מפרק בתוך היד) נחשבת יד,
+    // אבל הקצה החיצוני לא מתרחב, כך שאין הילה שחורה מסביב לידיים
+    'float lit(vec2 px){ vec3 c = img(px); return smoothstep(0.03, 0.11, max(c.r, max(c.g, c.b))); }',
+    'float matte(vec2 px){',
+    '  float rr = uCell * 1.4;',
+    '  float m = lit(px);',
+    '  m = max(m, min(lit(px + vec2(rr, 0.0)), lit(px - vec2(rr, 0.0))));',
+    '  m = max(m, min(lit(px + vec2(0.0, rr)), lit(px - vec2(0.0, rr))));',
+    '  m = max(m, min(lit(px + vec2(rr, rr)), lit(px - vec2(rr, rr))));',
+    '  m = max(m, min(lit(px + vec2(rr, -rr)), lit(px - vec2(rr, -rr))));',
+    '  return m;',
+    '}',
     'void main(){',
     '  vec2 px = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);',
     '  vec3 photo = img(px);',
@@ -46,16 +59,17 @@
     '  float m = (1.0 - smoothstep(uMouseR * 0.2, uMouseR, length(px - uMouse.xy))) * uMouse.z;',
     '  float r = uCell * 0.5 * (0.2 + 0.95 * sqrt(lum)) * (1.0 + m * 0.35);',
     '  float dotA = 1.0 - smoothstep(r - 1.0, r, length(px - c));',
-    '  vec3 dots = min(cc * 1.25, vec3(1.0)) * dotA * step(0.035, lum);',
+    '  float dA = dotA * step(0.035, lum);',
+    '  vec3 dots = min(cc * 1.25, vec3(1.0)) * dA;',
+    '  float pa = matte(px);',
     // איפה מתפרקים: קצוות המסך (הזרועות), העכבר, והיציאה
     '  float ex = clamp(px.x, max(uOff.x, 0.0), min(uOff.x + uSize.x, uRes.x));',
     '  float edge = 1.0 - smoothstep(0.0, uEdge, min(ex - max(uOff.x, 0.0), min(uOff.x + uSize.x, uRes.x) - ex) / min(uSize.x, uRes.x));',
     '  float d = clamp(max(max(edge, m), uOut), 0.0, 1.0);',
     '  float k = smoothstep(hash(cell) - 0.05, hash(cell) + 0.05, d);',
-    '  vec3 col = mix(photo, dots, k);',
-    '  vec2 q = px / uRes - 0.5;',
-    '  col *= 1.0 - dot(q, q) * 0.35;',
-    '  o = vec4(col * uFade, 1.0);',
+    '  vec3 col = mix(photo * pa, dots, k);',
+    '  float a = mix(pa, dA, k);',
+    '  o = vec4(col, a) * uFade;',
     '}'
   ].join('\n');
 
