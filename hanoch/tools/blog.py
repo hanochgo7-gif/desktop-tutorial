@@ -27,10 +27,10 @@ BLOG_CSS = '''
 .bl-toc a { color: #ede8de; text-decoration: none; }
 .bl-toc a:hover { color: var(--signal); }
 .sv ol { padding-inline-start: 1.6rem; display: grid; gap: .45rem; }
-.sv h3 { font-family: "IBM Plex Sans Hebrew", sans-serif; font-weight: 500; font-size: 1.18rem; color: #ede8de; margin: 2rem 0 .4rem; }
+.sv h3 { font-family: var(--f-body); font-weight: 500; font-size: 1.18rem; color: #ede8de; margin: 2rem 0 .4rem; }
 .sv strong { color: #ede8de; font-weight: 500; }
 .bl-table { overflow-x: auto; margin: 1.2rem 0; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; }
-.bl-table table { border-collapse: collapse; width: 100%; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .95rem; }
+.bl-table table { border-collapse: collapse; width: 100%; font-family: var(--f-body); font-size: .95rem; }
 .bl-table th, .bl-table td { text-align: start; padding: 12px 16px; border-bottom: 1px solid rgba(237,232,222,.08); color: rgba(237,232,222,.86); vertical-align: top; }
 .bl-table th { color: #ede8de; font-weight: 500; background: rgba(237,232,222,.04); }
 .bl-table tr:last-child td { border-bottom: 0; }
@@ -45,7 +45,7 @@ BLOG_CSS = '''
 .bl-list .tx { display: block; padding: 14px 16px 18px; }
 .bl-list time { font-family: var(--f-mono); font-size: .72rem; color: var(--fg-dim); }
 .bl-list b { display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.35rem; line-height: 1.25; margin: .3rem 0; }
-.bl-list .tx span { display: block; color: rgba(237,232,222,.7); font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .92rem; line-height: 1.6; }
+.bl-list .tx span { display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .92rem; line-height: 1.6; }
 '''
 
 
@@ -158,8 +158,7 @@ def head(title, desc, url, img, extra=''):
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../images/icon-180.png">
-<link rel="preload" href="../fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
 {FR}
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>

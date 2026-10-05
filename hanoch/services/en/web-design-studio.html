@@ -16,8 +16,7 @@
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="../../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../../images/icon-180.png">
-<link rel="preload" href="../../fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,800&display=swap">
 <link rel="stylesheet" href="../../css/hanoch.css">
 <style>
@@ -33,11 +32,11 @@ body { background: var(--ink, #0a0a0b); }
 .sv-crumbs a { color: var(--fg-dim); }
 .sv-kicker { font-family: var(--f-mono); font-size: .78rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
 .sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
-html[lang="en"] .sv h1 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.03em; }
+html[lang="en"] .sv h1 { letter-spacing: .005em; }
 .sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: #ede8de !important; }
 .sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
-html[lang="en"] .sv h2 { font-family: "Fraunces", Georgia, serif; letter-spacing: -.02em; }
-.sv p, .sv li { font-family: "IBM Plex Sans Hebrew", "Assistant", system-ui, sans-serif; font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
+html[lang="en"] .sv h2 { letter-spacing: .005em; }
+.sv p, .sv li { font-family: var(--f-body); font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
 .sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
 .sv a { color: var(--signal); }
 .sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
@@ -47,15 +46,15 @@ html[lang="en"] .sv h2 { font-family: "Fraunces", Georgia, serif; letter-spacing
 .sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
 .sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
 .sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-.sv-card span { display: block; padding: 12px 14px; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: .92rem; color: #ede8de; }
+.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: #ede8de; }
 .sv-card small { display: block; color: var(--fg-dim); font-size: .8rem; margin-top: 2px; }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 14px 0; }
-.sv-faq summary { cursor: pointer; font-family: "IBM Plex Sans Hebrew", sans-serif; font-size: 1.08rem; color: #ede8de; }
+.sv-faq summary { cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: #ede8de; }
 .sv-faq summary h3 { display: inline; font: inherit; }
 .sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
 .sv-cta h2 { margin-top: 0; }
 .sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
-.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: "IBM Plex Sans Hebrew", sans-serif; font-weight: 500; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
 .sv-btn.ghost { background: transparent; color: #ede8de !important; border: 1px solid rgba(237,232,222,.3); }
 .sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
 .sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: #ede8de; text-decoration: none; font-size: .92rem; }

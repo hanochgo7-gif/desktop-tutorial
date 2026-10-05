@@ -629,7 +629,7 @@
     run(s) {
       const B = [
         { n: T('חם', 'Warm'), bg: '#efe6d6', fg: '#3a2418', logo: '#c4552b', lc: '#fff', font: '"Frank Ruhl Libre", serif', sw: ['#c4552b', '#e9cba7', '#3a2418', '#8b9a7a'] },
-        { n: T('נקי', 'Clean'), bg: '#ffffff', fg: '#111', logo: '#111', lc: '#fff', font: '"IBM Plex Sans Hebrew", sans-serif', sw: ['#111111', '#f2f2f2', '#9aa0a6', '#2f6bff'] },
+        { n: T('נקי', 'Clean'), bg: '#ffffff', fg: '#111', logo: '#111', lc: '#fff', font: '"Rubik", sans-serif', sw: ['#111111', '#f2f2f2', '#9aa0a6', '#2f6bff'] },
         { n: T('נועז', 'Bold'), bg: '#121214', fg: '#ede8de', logo: '#ff4f1a', lc: '#121214', font: 'var(--f-display)', sw: ['#ff4f1a', '#ede8de', '#121214', '#ffb59c'] }
       ];
       s.innerHTML = `<div class="d-brand"><div class="d-brand-hero"><div class="d-logo">${T('נ', 'N')}</div><div class="d-bn" style="font-size:2.2em;line-height:1.1">${T('נוי קרמיקה', 'Noy Ceramics')}</div><div class="d-bt" style="opacity:.7">${T('כלים שנוצרו ביד, לשולחן שמספר סיפור', 'Made by hand, for a table with a story')}</div><div class="d-swatches"><i></i><i></i><i></i><i></i></div></div>
