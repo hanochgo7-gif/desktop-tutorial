@@ -1237,7 +1237,7 @@
       [/archive|work\.html$/, 'work/film/reel-loop-m.mp4', 'work/film-poster-800.webp', T('אתרים, פרסומות ותלת־ממד', 'Sites, films and 3D')],
       [/#films/, '', 'work/film/hg.webp', T('פרסומות שהפקתי ב-AI', 'Commercials made with AI')],
       [/#process/, 'work/bg/crystal-m.mp4', 'work/bg/crystal.webp', T('מהשיחה הראשונה ועד שהאתר באוויר', 'From the first call to a live site')],
-      [/#pricing/, 'work/tiers/t3.mp4', 'work/tiers/t3.webp', T('חבילות, 22 מערכות וליווי', 'Packages, 22 systems and care')],
+      [/#pricing/, '', 'work/menu-services.webp', T('חבילות, 22 מערכות וליווי', 'Packages, 22 systems and care')],
       [/blog/, '', 'blog/img/how-much-does-a-website-cost.webp', T('מדריכים לבעלי עסקים', 'Guides for business owners')],
       [/#faq/, 'work/systems/ai.mp4', 'work/systems/ai.webp', T('תשובות קצרות לפני שמתחילים', 'Short answers before we start')],
       [/#contact/, '', 'work/me/character-480.webp', T('וואטסאפ, טלפון או מייל', 'WhatsApp, phone or email')]
@@ -1248,12 +1248,12 @@
     var links = navLinks.map(function (l, i) {
       var pv = PREV.filter(function (p) { return p[0].test(l[0]); })[0] || ['', '', '', ''];
       return '<li class="mp-item" style="--i:' + i + '"><a class="menu-link mp-link" href="' + l[0] + '" data-v="' + pv[1] + '" data-p="' + pv[2] + '">' +
-        '<span class="mp-num mono">0' + (i + 1) + '</span><span class="mp-txt"><span class="display">' + l[1] + '</span><small class="mono">' + pv[3] + '</small></span>' +
+        '<span class="mp-num mono">0' + (i + 1) + '</span><span class="mp-txt"><span class="display">' + l[1] + '</span></span>' +
         '<span class="mp-thumb" aria-hidden="true">' + (pv[2] ? '<img alt="" src="" data-src="' + pv[2] + '" width="160" height="100" decoding="async">' : '') + (pv[1] ? '<video muted loop playsinline preload="none"></video>' : '') + '</span></a></li>';
     });
     var lang = $('.lang-switch');
     menu.innerHTML =
-      '<div class="mp-stage" aria-hidden="true"><img alt="" src=""><video muted loop playsinline preload="none"></video><span class="mp-stage-cap mono"></span></div>' +
+      '<div class="mp-stage" aria-hidden="true"><img alt="" src=""><video muted loop playsinline preload="none"></video></div>' +
       '<div class="mp-side"><ul class="menu-links">' + links.join('') + '</ul>' +
       '<div class="menu-foot">' +
         '<a class="btn btn-signal menu-wa" href="https://wa.me/' + CONTACT.whatsapp + '" target="_blank" rel="noopener"><span>' + T('שלחו לי הודעה בוואטסאפ', 'Message me on WhatsApp') + '</span></a>' +
@@ -1273,13 +1273,12 @@
     var dim = document.createElement('div'); dim.className = 'mp-dim'; dim.setAttribute('aria-hidden', 'true');
     document.body.appendChild(dim); document.body.appendChild(glass);
 
-    var stage = $('.mp-stage', menu), stageImg = $('img', stage), stageVid = $('video', stage), stageCap = $('.mp-stage-cap', stage);
+    var stage = $('.mp-stage', menu), stageImg = $('img', stage), stageVid = $('video', stage);
     var wide = window.matchMedia('(min-width: 901px)');
     var lite = !motion || (navigator.connection && navigator.connection.saveData);
     function showStage(a) {
       if (!a || !wide.matches) return;
       $$('.mp-link', menu).forEach(function (x) { x.classList.toggle('is-on', x === a); });
-      stageCap.textContent = $('small', a).textContent;
       stageImg.src = a.dataset.p || '';
       var v = a.dataset.v;
       if (v && !lite) { if (stageVid.getAttribute('src') !== v) { stageVid.src = v; } stage.classList.add('has-v'); var pr = stageVid.play(); if (pr && pr.catch) pr.catch(function () {}); }
