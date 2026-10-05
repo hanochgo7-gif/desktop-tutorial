@@ -8,7 +8,7 @@
 - Care plans: 290 or 890 per month.
 
 ## Key pages
-- [Home (Hebrew)](https://hgpro.io/): studio, packages, process, FAQ
+- [Home (Hebrew)](https://hgpro.io/): studio, packages, systems and care plans
 - [Home (English)](https://hgpro.io/en.html)
 - [Portfolio](https://hgpro.io/work.html): six client websites with full case stories
 - [Archive](https://hgpro.io/archive/): websites, AI commercials, simulations and 3D

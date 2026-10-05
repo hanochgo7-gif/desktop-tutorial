@@ -1237,13 +1237,13 @@
       [/archive|work\.html$/, 'work/film/reel-loop-m.mp4', 'work/film-poster-800.webp', T('אתרים, פרסומות ותלת־ממד', 'Sites, films and 3D')],
       [/#films/, '', 'work/film/hg.webp', T('פרסומות שהפקתי ב-AI', 'Commercials made with AI')],
       [/#process/, 'work/bg/crystal-m.mp4', 'work/bg/crystal.webp', T('מהשיחה הראשונה ועד שהאתר באוויר', 'From the first call to a live site')],
-      [/#pricing/, 'work/tiers/t3.mp4', 'work/tiers/t3.webp', T('שלוש חבילות, מחיר סגור מראש', 'Three packages, fixed prices')],
+      [/#pricing/, 'work/tiers/t3.mp4', 'work/tiers/t3.webp', T('חבילות, 22 מערכות וליווי', 'Packages, 22 systems and care')],
+      [/blog/, '', 'blog/img/how-much-does-a-website-cost.webp', T('מדריכים לבעלי עסקים', 'Guides for business owners')],
       [/#faq/, 'work/systems/ai.mp4', 'work/systems/ai.webp', T('תשובות קצרות לפני שמתחילים', 'Short answers before we start')],
       [/#contact/, '', 'work/me/character-480.webp', T('וואטסאפ, טלפון או מייל', 'WhatsApp, phone or email')]
     ];
     var navLinks = $$('a', nav).map(function (a) { return [a.getAttribute('href'), a.textContent]; });
-    var onHome = !!$('#films');
-    navLinks.splice(1, 0, [onHome ? '#films' : T('index.html#films', 'en.html#films'), T('פרסומות', 'Films')]);
+    if (!navLinks.some(function (l) { return /#films/.test(l[0]); })) navLinks.splice(1, 0, [$('#films') ? '#films' : T('work.html#films', 'en-work.html#films'), T('פרסומות', 'Films')]);
     if ($('#faq')) navLinks.splice(navLinks.length - 1, 0, ['#faq', T('שאלות', 'FAQ')]);
     var links = navLinks.map(function (l, i) {
       var pv = PREV.filter(function (p) { return p[0].test(l[0]); })[0] || ['', '', '', ''];

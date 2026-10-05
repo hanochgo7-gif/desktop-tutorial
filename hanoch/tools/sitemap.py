@@ -4,11 +4,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = 'https:/
 today = datetime.date.today().isoformat()
 PAIR = {'/': '/en.html', '/work.html': '/en-work.html', '/archive/': '/archive/en.html'}
 REV = {v: k for k, v in PAIR.items()}
-IMG = {'/': ['/work/og-home.jpg', '/work/film-poster.webp', '/work/me/character.webp'], '/en.html': ['/work/og-home.jpg', '/work/film-poster.webp'],
+IMG = {'/': ['/work/og-home.jpg', '/work/creation/poster.webp'], '/en.html': ['/work/og-home.jpg', '/work/creation/poster.webp'],
        '/work.html': ['/work/og-work.jpg'] + [f'/work/cinema/{k}.webp' for k in ('gotovski', 'ams', 'allenbis', 'clinic', 'falafel', 'rachel')],
        '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/hg.webp']}
-VID = {'/': [('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
-             ('סרט התדמית של HGPRO', 'סרט תדמית של עבודות עיצוב ובניית אתרים.', '/work/film-poster.webp', '/work/film/reel.mp4', 22)],
+VID = {'/work.html': [('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
+                       ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
        '/archive/': [('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
                      ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
        '/archive/en.html': [('Before the City Wakes', 'A one minute commercial made with AI.', '/work/film/ad.webp', '/work/film/ad-en.mp4', 59)],
