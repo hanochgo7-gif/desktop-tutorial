@@ -1,7 +1,8 @@
 /* ה-ח מזכוכית מאחורי לחיצת היד: האות של HGPRO, והידיים נפגשות בתוך הקשת שלה.
    שכבה נפרדת מתחת לסרט (js/creation.js), שהשחור שלו שקוף. כשהרובוט מרים את האצבע, ה-ח נדלקת בכתום.
-   Three.js כמודול מ-jsdelivr. בלי WebGL 2, או ב"הפחתת תנועה", לא נטען כלום. */
-import * as THREE from 'three';
+   Three.js נטען מ-jsdelivr רק אחרי שהדף נטען והדפדפן פנוי, כדי לא להאט את הפתיחה.
+   בלי WebGL 2, או ב"הפחתת תנועה", לא נטען כלום. */
+let THREE;
 
 const root = document.documentElement;
 const hero = document.querySelector('.cr');
@@ -13,7 +14,60 @@ function supported() {
   if (!pin || !root.classList.contains('motion')) return false;
   try { return !!document.createElement('canvas').getContext('webgl2'); } catch (e) { return false; }
 }
-if (supported()) start();
+// מחשב בלי כרטיס מסך (הדפדפן מצייר בתוכנה): בלי שבירת אור, ברזולוציה נמוכה, ומציירים רק כשמשהו זז באמת
+function softGL() {
+  try {
+    const g = document.createElement('canvas').getContext('webgl2');
+    const e = g.getExtension('WEBGL_debug_renderer_info');
+    const r = e ? String(g.getParameter(e.UNMASKED_RENDERER_WEBGL)) : '';
+    const lose = g.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+  } catch (e) { return false; }
+}
+const still = pin && pin.querySelector('.cr-het-img');
+if (supported()) {
+  placeStill();
+  window.addEventListener('resize', placeStill);
+  if (softGL()) staticHet();
+  else {
+    const go = () => {
+      const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300));
+      idle(() => import('three').then((m) => { THREE = m; start(); }).catch(staticHet), { timeout: 1500 });
+    };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  }
+}
+
+// אותה רצועה שבה יושבות הידיים (ראו creation.js): האות במרכזה, והידיים חוצות את הרגליים שלה
+function band() {
+  const w = pin.clientWidth, h = pin.clientHeight, narrow = w < 700;
+  const copy = pin.querySelector('.cr-copy');
+  const top = copy ? copy.offsetTop + copy.offsetHeight + (narrow ? 24 : 16) : h * 0.35;
+  const bottom = h - (narrow ? 80 : 56);
+  const ph = Math.min((bottom - top) * (narrow ? 1.05 : 1.08), w * (narrow ? 0.62 : 0.34));
+  // האות לא עולה על הכפתורים: הקצה העליון שלה מתחת לכותרת
+  return { w, h, ph, py: Math.max((top + bottom) / 2, top + ph / 2 + 8) };
+}
+
+// התמונה של ה-ח (בתוך ה-HTML, כדי שתופיע מיד) יושבת בדיוק איפה שתהיה הזכוכית החיה
+function placeStill() {
+  if (!still) return;
+  const b = band(), side = b.ph * 1.7;
+  still.style.transform = 'translate(' + (b.w - side) / 2 + 'px, ' + (b.py - side / 2) + 'px) scale(' + side / 100 + ')';
+}
+
+// בלי כרטיס מסך: נשארים עם התמונה (8KB) במקום ציור חי, כדי שהדף יישאר מהיר
+function staticHet() {
+  if (!still) return;
+  let raf = 0;
+  const fade = () => {
+    raf = 0;
+    const r = hero.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - window.innerHeight)));
+    still.style.opacity = String(1 - Math.min(1, Math.max(0, (p - 0.95) / 0.05)));
+  };
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(fade); }, { passive: true });
+}
 
 function start() {
   const canvas = document.createElement('canvas');
@@ -23,7 +77,7 @@ function start() {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  } catch (e) { canvas.remove(); return; }
+  } catch (e) { canvas.remove(); staticHet(); return; }
   let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -102,18 +156,13 @@ function start() {
     bg.scale.set(ph * camera.aspect, ph, 1);
   }
 
-  // אותה רצועה שבה יושבות הידיים (ראו creation.js): האות במרכזה, והידיים חוצות את הרגליים שלה
   function layout() {
     const w = pin.clientWidth, h = pin.clientHeight, narrow = w < 700;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    const copy = pin.querySelector('.cr-copy');
-    const top = copy ? copy.offsetTop + copy.offsetHeight + (narrow ? 24 : 16) : h * 0.35;
-    const bottom = h - (narrow ? 80 : 56);
-    L.ph = Math.min((bottom - top) * (narrow ? 1.05 : 1.08), w * (narrow ? 0.62 : 0.34));
-    // האות לא עולה על הכפתורים: הקצה העליון שלה מתחת לכותרת
-    L.py = Math.max((top + bottom) / 2, top + L.ph / 2 + 8);
+    const b = band();
+    L.ph = b.ph; L.py = b.py;
     L.y = (0.5 - L.py / h) * VIEW_H;
     L.size = L.ph / h * VIEW_H;
     drawBg(w, h);
@@ -157,7 +206,11 @@ function start() {
     rim.intensity = (14 + Math.sin(t * 0.9) * 5) * (1 + flip * 1.6);
     canvas.style.opacity = (grow * (1 - out)).toFixed(3);
     renderer.render(scene, camera);
-    if (!shown && grow > 0) { shown = true; root.classList.add('het-on'); }
+    if (!shown && grow > 0) {
+      shown = true; root.classList.add('het-on');
+      // הזכוכית החיה נכנסת, והתמונה נעלמת מעליה
+      if (still) { still.style.opacity = '0'; setTimeout(() => still.remove(), 800); }
+    }
 
     // מכשיר איטי: מוותרים על שבירת האור, ואחר כך על רזולוציה
     frames++;

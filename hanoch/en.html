@@ -25,9 +25,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://unpkg.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 <link rel="stylesheet" href="css/hanoch.css">
@@ -91,6 +89,7 @@
   <!-- 01 Opening: a handshake between a human and a robot that ends with the finger (js/creation.js) -->
   <section class="hero cr" aria-labelledby="hero-title" data-frames="78" data-path="work/creation/f/{w}/{n}.webp">
     <div class="cr-pin">
+      <img class="cr-het-img" src="work/creation/het.webp" alt="" aria-hidden="true" width="900" height="900" fetchpriority="high" decoding="async">
       <div class="cr-copy">
         <h1 class="cr-title" id="hero-title">A human hand.<br>A machine's precision.<strong class="sr-only"> HGPRO: custom web design and development studio</strong></h1>
         <div class="cr-cta">
@@ -120,7 +119,7 @@
           <h3 class="tier-name display">Presence</h3>
           <p class="tier-for">For freelancers, a product launch or a campaign. One page that does all the work.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">4,900</span></p>
+        <p class="tier-price"><span class="tp-cur">₪</span><span class="tp-num">4,900</span></p>
         <p class="tier-time mono">Live within a week</p>
         <p class="tier-value">A business card that works for you even at night: visitors understand in seconds what you do, and tap WhatsApp.</p>
         <ul class="tier-list">
@@ -143,7 +142,7 @@
           <h3 class="tier-name display">Business</h3>
           <p class="tier-for">For a business that wants a full site that brings in leads, and that you can update yourself.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">8,900</span></p>
+        <p class="tier-price"><span class="tp-cur">₪</span><span class="tp-num">8,900</span></p>
         <p class="tier-time mono">Live within two weeks</p>
         <p class="tier-value">The site becomes your best salesperson: it explains, persuades, shows up on Google and tracks every lead, so you know what works.</p>
         <p class="tier-plus mono">Everything in Presence, plus:</p>
@@ -166,7 +165,7 @@
           <h3 class="tier-name display">Signature</h3>
           <p class="tier-for">For a brand that wants to be remembered. A flagship site with an experience no competitor has.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">From</span><span class="tp-cur">₪</span><span class="tp-num">19,900</span></p>
+        <p class="tier-price"><span class="tp-cur">₪</span><span class="tp-num">19,900</span></p>
         <p class="tier-time mono">Live within two weeks</p>
         <p class="tier-value">A site customers send to their friends. It puts you above the market, and justifies a higher price before the first conversation.</p>
         <p class="tier-plus mono">Everything in Business, plus:</p>
@@ -410,9 +409,9 @@
 <div class="cursor" aria-hidden="true"><span class="cursor-label mono"></span></div>
 <p class="sr-only" aria-live="polite" id="live"></p>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/hanoch.js" defer></script>
 <script src="js/creation.js" defer></script>
 <script type="module" src="js/het.js"></script>

@@ -25,9 +25,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preconnect" href="https://unpkg.com">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=Heebo:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=IBM+Plex+Sans+Hebrew:wght@300;400;500&family=Heebo:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 <link rel="preload" href="fonts/dragon.woff2" as="font" type="font/woff2" crossorigin>
@@ -93,6 +91,7 @@
   <!-- 01 פתיחה: לחיצת יד בין אדם לרובוט, שנגמרת באצבע משולשת (js/creation.js) -->
   <section class="hero cr" aria-labelledby="hero-title" data-frames="78" data-path="work/creation/f/{w}/{n}.webp">
     <div class="cr-pin">
+      <img class="cr-het-img" src="work/creation/het.webp" alt="" aria-hidden="true" width="900" height="900" fetchpriority="high" decoding="async">
       <div class="cr-copy">
         <h1 class="cr-title" id="hero-title">יד של בן אדם.<br>דיוק של מכונה.<strong class="sr-only"> HGPRO: בניית אתרים ועיצוב אתרים לעסקים</strong></h1>
         <div class="cr-cta">
@@ -122,7 +121,7 @@
           <h3 class="tier-name display">נוכחות</h3>
           <p class="tier-for">לעצמאים, להשקה של מוצר או לקמפיין. דף אחד שעושה את כל העבודה.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">החל מ־</span><span class="tp-num">4,900</span><span class="tp-cur">₪</span></p>
+        <p class="tier-price"><span class="tp-num">4,900</span><span class="tp-cur">₪</span></p>
         <p class="tier-time mono">עד שבוע לאוויר</p>
         <p class="tier-value">כרטיס ביקור שעובד בשבילכם גם בלילה: מי שנכנס מבין תוך שניות מה אתם עושים, ולוחץ על וואטסאפ.</p>
         <ul class="tier-list">
@@ -145,7 +144,7 @@
           <h3 class="tier-name display">עסק</h3>
           <p class="tier-for">לעסק שרוצה אתר מלא שמביא פניות, ושאפשר לעדכן לבד.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">החל מ־</span><span class="tp-num">8,900</span><span class="tp-cur">₪</span></p>
+        <p class="tier-price"><span class="tp-num">8,900</span><span class="tp-cur">₪</span></p>
         <p class="tier-time mono">עד שבועיים לאוויר</p>
         <p class="tier-value">האתר הופך לאיש המכירות הכי טוב שלכם: מסביר, משכנע, מופיע בגוגל ומודד כל פנייה, כדי שתדעו מה עובד.</p>
         <p class="tier-plus mono">כל מה שבנוכחות, ובנוסף:</p>
@@ -168,7 +167,7 @@
           <h3 class="tier-name display">חתימה</h3>
           <p class="tier-for">למותג שרוצה שיזכרו אותו. אתר דגל עם חוויה שאין לאף מתחרה.</p>
         </div>
-        <p class="tier-price"><span class="tp-from mono">החל מ־</span><span class="tp-num">19,900</span><span class="tp-cur">₪</span></p>
+        <p class="tier-price"><span class="tp-num">19,900</span><span class="tp-cur">₪</span></p>
         <p class="tier-time mono">עד שבועיים לאוויר</p>
         <p class="tier-value">אתר שלקוחות שולחים לחברים. הוא מציב אתכם מעל השוק, ומצדיק מחיר גבוה יותר עוד לפני השיחה הראשונה.</p>
         <p class="tier-plus mono">כל מה שבעסק, ובנוסף:</p>
@@ -412,9 +411,9 @@
 <div class="cursor" aria-hidden="true"><span class="cursor-label mono"></span></div>
 <p class="sr-only" aria-live="polite" id="live"></p>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/hanoch.js" defer></script>
 <script src="js/creation.js" defer></script>
 <script type="module" src="js/het.js"></script>

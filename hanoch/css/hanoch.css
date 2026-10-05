@@ -1777,3 +1777,8 @@ html[lang="en"] .cr-title { font-weight: 500; letter-spacing: -.025em; }
 .d-site-scroll { height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .25) transparent; }
 .d-site-scroll img { display: block; width: 100%; height: auto; }
 .d-site-visit { position: absolute; bottom: 14px; inset-inline-start: 14px; z-index: 1; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+/* ה-ח כתמונה: מופיעה מהרגע הראשון; js/het.js ממקם אותה מדויק, ובמחשב עם כרטיס מסך מחליף אותה בזכוכית חיה */
+/* המיקום והגודל רק ב-transform, כדי שהיישור המדויק מ-JS לא ייחשב כקפיצה בעמוד */
+.cr-het-img { display: none; position: absolute; z-index: 0; left: 0; top: 0; width: 100px; height: 100px; transform-origin: 0 0; transform: translate(calc(50vw - 32vh), 30vh) scale(6.4); pointer-events: none; transition: opacity .7s var(--ease); }
+.motion .cr-het-img { display: block; }
+.motion .cr-pin { background-image: none !important; }

@@ -19,6 +19,9 @@
   try { gl = canvas.getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: true }); } catch (e) { }
   if (!gl) return;
   pin.prepend(canvas);
+  // מחשב בלי כרטיס מסך: רזולוציה נמוכה יותר, כדי שכל פריים יצא מהר
+  var SOFT = false;
+  try { var dbg = gl.getExtension('WEBGL_debug_renderer_info'); SOFT = /swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '')); } catch (e) { }
 
   /* ---------- שיידר: צילום שמתפרק לנקודות ---------- */
   var VS = '#version 300 es\nin vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
@@ -128,7 +131,8 @@
     im.decoding = 'async';
     im.onload = function () {
       if (i === 0) { iw = im.naturalWidth; ih = im.naturalHeight; layout(); }
-      dirty = true;
+      // מציירים מחדש רק אם הפריים שנטען הוא זה שצריך עכשיו (או קרוב יותר אליו ממה שמוצג)
+      if (Math.abs(i - pos) < 2 || onTex[0] < 0 || Math.abs(i - pos) < Math.abs(onTex[0] - pos)) dirty = true;
     };
     im.src = src(i);
     frames[i] = im;
@@ -150,7 +154,7 @@
   /* ---------- פריסה ---------- */
   var W = 1, H = 1, dpr = 1;
   function layout() {
-    dpr = Math.min(window.devicePixelRatio || 1, narrow ? 2 : 1.5);
+    dpr = SOFT ? 0.75 : Math.min(window.devicePixelRatio || 1, narrow ? 2 : 1.5);
     var w = pin.clientWidth, h = pin.clientHeight;
     W = Math.round(w * dpr); H = Math.round(h * dpr);
     canvas.width = W; canvas.height = H;
@@ -222,8 +226,8 @@
     if (Math.abs(target - pos) < 0.002) pos = target;
     ptr.x += (ptr.tx - ptr.x) * 0.14; ptr.y += (ptr.ty - ptr.y) * 0.14; ptr.on += (ptr.ton - ptr.on) * 0.08;
     if (ptr.on < 0.002) ptr.on = 0;
-    var fade = introAt === null ? 0 : clamp((now - introAt) / 1100, 0, 1);
-    fade = 1 - Math.pow(1 - fade, 3);
+    // הכניסה עצמה היא מעבר CSS על הקנבס (.cr-stage), כך שמציירים פריים אחד ולא שישים
+    var fade = introAt === null ? 0 : 1;
 
     // מציירים רק כשמשהו השתנה
     var key = pos.toFixed(3) + '|' + out.toFixed(3) + '|' + fade.toFixed(3) + '|' + (ptr.on ? ptr.x.toFixed(0) + ',' + ptr.y.toFixed(0) + ',' + ptr.on.toFixed(3) : 0);
