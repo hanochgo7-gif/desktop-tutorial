@@ -376,55 +376,30 @@
     }
   };
 
+  // הפלטפורמה האמיתית: צילום של כל האתר, שגולל לבד מלמעלה למטה וחוזר. אפשר לגלול בעצמכם או להיכנס לאתר
   D.hero = {
-    url: 'anigibor.com', hint: T('נסו: כתבו שם ובחרו עולם', 'Try it: type a name and pick a world'),
+    url: 'anigibor.com', hint: T('גללו בתוך המסך, או תנו לו לגלול לבד', 'Scroll inside the screen, or let it scroll by itself'),
     run(s) {
-      const W = [
-        ['kingdom', 'girl', T('נועה', 'Noa'), T('בממלכה הקסומה', 'in the Enchanted Kingdom'), T('ממלכה', 'Kingdom')],
-        ['space', 'boy', T('איתי', 'Itai'), T('במשימה לירח העוגה', 'on the Cake Moon Mission'), T('חלל', 'Space')],
-        ['superhero', 'girl', T('נועה', 'Noa'), T('גיבורת העיר', 'Hero of the City'), T('גיבורת־על', 'Superhero')],
-        ['firefighter', 'boy', T('איתי', 'Itai'), T('והכבאית האדומה', 'and the Red Fire Truck'), T('כבאים', 'Firefighter')]];
-      s.innerHTML = `<div class="d-hero">
-        <div class="d-hero-steps mono"><span class="on">1 · ${T('תמונה', 'Photo')}</span><span>2 · ${T('דמות', 'Character')}</span><span>3 · ${T('סרט', 'Film')}</span></div>
-        <div class="d-hero-main">
-          <div class="d-hero-face"><img class="ph" alt="" width="420" height="522"><img class="cg" alt="" width="420" height="522"><i class="scan"></i><span class="d-hero-tag mono"></span></div>
-          <div class="d-hero-poster"><img alt="" width="480" height="720"><div class="d-hero-title"><small>${T('סרט אנימציה אישי ליום הולדת', 'A personal birthday animation')}</small><b></b><span></span><em class="mono">${T('בכיכוב', 'Starring')} <u></u> · ${T('הקרנת בכורה במסיבה', 'Premiere at the party')}</em></div></div>
-        </div>
-        <div class="d-hero-bar">
-          <label class="d-input"><span class="mono" style="opacity:.55">${T('שם', 'Name')}</span><input type="text" maxlength="12" aria-label="${T('שם הילד או הילדה', 'Child’s name')}" spellcheck="false"></label>
-          <div class="d-opts">${W.map((w, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-i="${i}">${w[4]}</button>`).join('')}</div>
-          <button class="d-btn hot d-hero-buy" type="button">${T('להזמנת הסרט · 149 ₪', 'Order the film · ₪149')}</button>
-        </div></div>`;
-      const face = $('.d-hero-face', s), ph = $('.ph', s), cg = $('.cg', s), tag = $('.d-hero-tag', s);
-      const pimg = $('.d-hero-poster img', s), nameEl = $('.d-hero-title b', s), sub = $('.d-hero-title span', s), star = $('.d-hero-title u', s);
-      const inp = $('input', s), steps = $$('.d-hero-steps span', s);
-      let cur = 0, typed = '';
-      const step = (k) => steps.forEach((el, i) => el.classList.toggle('on', i <= k));
-      const nm = () => (typed.trim() || W[cur][2]);
-      const paint = () => { const n = nm(); nameEl.textContent = n; star.textContent = n; };
-      const world = (i, quiet) => {
-        cur = i; const w = W[i];
-        $$('.d-hero-bar .d-opt', s).forEach((o) => o.classList.toggle('on', +o.dataset.i === i));
-        pimg.src = 'work/hero/' + w[0] + '.webp'; sub.textContent = w[3];
-        ph.src = 'work/hero/' + w[1] + '.webp'; cg.src = 'work/hero/' + w[1] + '3d.webp';
-        if (!typed) inp.value = w[2];
-        paint(); if (!quiet) { s.querySelector('.d-hero-poster').classList.remove('pop'); void s.offsetWidth; s.querySelector('.d-hero-poster').classList.add('pop'); }
+      s.innerHTML = `<div class="d-site">
+        <div class="d-site-scroll" data-lenis-prevent tabindex="0" aria-label="${T('האתר של אני גיבור, מלמעלה עד למטה', 'The Ani Gibor site, top to bottom')}"><img src="work/hero/site.webp" alt="${T('אני גיבור: סרט יום הולדת אישי שבו הילד בתפקיד הראשי. דף הבית, הסרטים, איך זה עובד, כרטיסים ושאלות נפוצות', 'Ani Gibor: a personal birthday film starring the child. Home, films, how it works, tickets and FAQ')}" width="900" height="4952" decoding="async"></div>
+        <a class="d-btn hot d-site-visit" href="https://anigibor.com/" target="_blank" rel="noopener">${T('לביקור באתר', 'Visit the site')} <span aria-hidden="true">↗</span></a>
+      </div>`;
+      const sc = $('.d-site-scroll', s);
+      let y = 0, dir = 1, hold = 70, mine = false;
+      ['wheel', 'pointerdown', 'touchstart', 'keydown'].forEach((e) => sc.addEventListener(e, () => { mine = true; touched = true; }, { passive: true }));
+      const tick = () => {
+        if (!sc.isConnected) return; // הוחלפה דוגמה
+        requestAnimationFrame(tick);
+        if (mine || !motion) return;
+        const max = sc.scrollHeight - sc.clientHeight;
+        if (max <= 0) return;
+        if (hold > 0) { hold--; return; }
+        y += dir * Math.max(1.2, max / 2400);
+        if (y >= max) { y = max; dir = -1; hold = 110; }
+        if (y <= 0) { y = 0; dir = 1; hold = 110; }
+        sc.scrollTop = y;
       };
-      const morph = (done) => {
-        face.classList.remove('is-3d'); tag.textContent = T('התמונה מהטלפון', 'The phone photo'); step(0);
-        later(() => { face.classList.add('scanning'); tag.textContent = T('בונים דמות בתלת־ממד…', 'Building the 3D character…'); }, motion ? 900 : 0);
-        later(() => { face.classList.remove('scanning'); face.classList.add('is-3d'); tag.textContent = T('הדמות: אותו חיוך, אותם תלתלים', 'The character: same smile, same curls'); step(1); if (done) done(); }, motion ? 2300 : 0);
-      };
-      inp.addEventListener('input', () => { touched = true; typed = inp.value; paint(); step(2); });
-      $$('.d-hero-bar .d-opt', s).forEach((o) => o.addEventListener('click', () => { touched = true; world(+o.dataset.i); morph(() => step(2)); }));
-      $('.d-hero-buy', s).addEventListener('click', () => { touched = true; toast(T(`ההזמנה התקבלה. <b>הסרט של ${nm()}</b> יהיה מוכן תוך 5 ימי עסקים`, `Order received. <b>${nm()}’s film</b> will be ready within 5 business days`)); });
-      world(0, true);
-      morph(() => {
-        auto(() => { inp.value = ''; typed = ''; type({ set textContent(v) { inp.value = v; nameEl.textContent = v || ' '; star.textContent = v; }, classList: { add() { }, remove() { } } }, W[0][2], 140, () => step(2)); }, 700);
-        auto(() => { world(1); morph(() => step(2)); }, 4200);
-        auto(() => { world(2); morph(() => step(2)); }, 8600);
-        auto(() => toast(T(`ההזמנה התקבלה. <b>הסרט של ${nm()}</b> יהיה מוכן תוך 5 ימי עסקים`, `Order received. <b>${nm()}’s film</b> will be ready within 5 business days`)), 12000);
-      });
+      requestAnimationFrame(tick);
     }
   };
   D.bot = {

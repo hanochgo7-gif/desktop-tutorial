@@ -1771,3 +1771,9 @@ html[lang="en"] .cr-title { font-weight: 500; letter-spacing: -.025em; }
 .cr-caption { display: grid; justify-items: center; gap: .7rem; }
 .cr-caption .mono { color: var(--fg-dim); font-size: .74rem; }
 .motion .cr { height: 320vh; height: 320svh; }
+
+/* הדגמת הפלטפורמה: האתר האמיתי של אני גיבור, גולל בתוך המסך */
+.d-site { position: relative; height: 100%; background: #12102a; }
+.d-site-scroll { height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .25) transparent; }
+.d-site-scroll img { display: block; width: 100%; height: auto; }
+.d-site-visit { position: absolute; bottom: 14px; inset-inline-start: 14px; z-index: 1; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
