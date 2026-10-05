@@ -40,6 +40,20 @@ window.ALLENBIS_DEMO = {
       'הכרמל', 'גאולה', 'זמנהוף', 'שלמה המלך', 'מאפו', 'הס', 'בצלאל יפה', 'ריינס', 'פינסקר', 'מלצ׳ט', 'שד״ל', 'המגיד', 'כרמיה']
   },
 
+  // מבצעי כמות: קונים qty יחידות מתוך products (אפשר לערבב טעמים) ומשלמים price (באגורות) על כל קבוצה.
+  // המבצע מופעל לבד בסל, על היחידות היקרות קודם. בלי מוצרי עישון ואלכוהול. sign = הטקסט הקצר בשלט שעל המדף.
+  multibuy: {
+    example: true,
+    items: [
+      { id: 'bissli3', sign: '3 ב-20 ₪', signEn: '3 for ₪20', label: '3 ביסלי ב-20 ₪', en: '3 Bissli for ₪20', qty: 3, price: 2000, products: ['p44', 'p45', 'p46', 'p47', 'p48'] },
+      { id: 'doritos2', sign: '2 ב-13 ₪', signEn: '2 for ₪13', label: '2 דוריטוס ב-13 ₪', en: '2 Doritos for ₪13', qty: 2, price: 1300, products: ['p49', 'p50', 'p51'] },
+      { id: 'bigcola2', sign: '2 ב-24 ₪', signEn: '2 for ₪24', label: '2 בקבוקי 1.5 ליטר ב-24 ₪', en: '2 big bottles for ₪24', qty: 2, price: 2400, products: ['p3', 'p4', 'p8'] },
+      { id: 'energy3', sign: '3 ב-18 ₪', signEn: '3 for ₪18', label: '3 משקאות אנרגיה ב-18 ₪', en: '3 energy drinks for ₪18', qty: 3, price: 1800, products: ['p24', 'p25', 'p26'] },
+      { id: 'bars4', sign: '4 ב-25 ₪', signEn: '4 for ₪25', label: '4 חטיפי שוקולד ב-25 ₪', en: '4 chocolate bars for ₪25', qty: 4, price: 2500, products: ['p63', 'p65', 'p66', 'p69', 'p70', 'p71', 'p72'] },
+      { id: 'magnum2', sign: '2 ב-25 ₪', signEn: '2 for ₪25', label: '2 מגנום ב-25 ₪', en: '2 Magnums for ₪25', qty: 2, price: 2500, products: ['p89', 'p90', 'p91', 'p179'] }
+    ]
+  },
+
   // הכי נמכרים (דוגמה)
   bestsellers: { example: true, ids: ['p1', 'p42', 'p27', 'p89', 'p44', 'p67', 'p3', 'p79', 'p54', 'p38', 'p17', 'p128'] },
 

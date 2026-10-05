@@ -108,6 +108,27 @@
   }
   let orders = (store.get('allenbis-orders', []) || []).filter(o => o && Array.isArray(o.lines));
 
+  /* ---------- Multi-buy deals: "3 for ₪20" across the products of a group ---------- */
+  const MULTI = (DEMO.multibuy?.items || []).map(d => ({ ...d, products: d.products.filter(id => { const p = byId.get(id); return p && p.category !== ALCOHOL && !RESTRICTED.has(p.category); }) }))
+    .filter(d => d.qty > 1 && d.price > 0 && d.products.length);
+  const dealOf = new Map();
+  for (const d of MULTI) for (const id of d.products) if (!dealOf.has(id)) dealOf.set(id, d);
+  const dealName = d => (LANG === 'en' && d.en) || d.label;
+  // Groups of `qty` units pay `price`; the most expensive units go into groups first (the best deal for the customer).
+  function multibuy(ls) {
+    const out = [];
+    for (const d of MULTI) {
+      const units = [];
+      for (const { p, q } of ls) if (d.products.includes(p.id) && hasPrice(p) && !isBlocked(p)) for (let i = 0; i < q; i++) units.push(unit(p));
+      units.sort((a, b) => b - a);
+      const groups = Math.floor(units.length / d.qty);
+      let saving = 0;
+      for (let g = 0; g < groups; g++) saving += Math.max(0, units.slice(g * d.qty, (g + 1) * d.qty).reduce((a, b) => a + b, 0) - d.price);
+      out.push({ d, count: units.length, groups, saving, missing: units.length ? (d.qty - units.length % d.qty) % d.qty : d.qty });
+    }
+    return out;
+  }
+
   /* ---------- Lucky wheel state: one spin per order, every spin wins ---------- */
   const WH = CFG.wheel || {};
   const PRIZES = (WH.prizes?.length ? WH.prizes : DEMO.wheel?.prizes || []).filter(z => z && (z.type === 'off' ? z.minor > 0 : z.type === 'gift' && byId.get(z.product)));
@@ -216,6 +237,7 @@
 <div class="badges" aria-hidden="true">${badges}</div>
 <button type="button" class="pic" data-open="${p.id}" tabindex="-1" aria-hidden="true"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" width="640" height="480">${img === FALLBACK ? `<span class="note">${L('תמונה בקרוב', 'Photo coming soon')}</span>` : ''}</button>
 <h3><button type="button" class="name" data-open="${p.id}"><bdi>${name}</bdi></button></h3><p class="meta">${esc(metaText(p))}</p>
+${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p>` : ''}
 <div class="buy">${buyHtml(p)}</div></article>`;
   }
 
@@ -259,6 +281,9 @@
       if (isBlocked(p)) blocked += q;
       if (hasPrice(p)) { sub += unit(p) * q; full += regular(p) * q; } else unpriced += q;
     }
+    const deals = multibuy(lines());
+    const multi = deals.reduce((a, x) => a + x.saving, 0);
+    sub -= multi;
     const firstOrder = !orders.length;
     const w = CFG.welcome;
     let welcome = w?.enabled && firstOrder && sub >= (w.minimumOrderMinor || 0) ? w.amountMinor : 0;
@@ -275,7 +300,7 @@
       }
     }
     const wheelOff = prize?.type === 'off' ? Math.min(prize.minor, Math.max(0, sub - welcome)) : 0;
-    return { sub, savings: full - sub, items, unpriced, blocked, welcome, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
+    return { sub, savings: full - sub - multi, multi, deals, items, unpriced, blocked, welcome, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
   }
   function save() {
     if (!store.set('allenbis-cart', cart)) announce(L('לא ניתן לשמור את הסל במכשיר הזה. הוא יישמר עד סגירת הדף.', "Your cart can't be saved on this device. It stays until you close the page."));
@@ -476,10 +501,13 @@
 
   /* ---------- Free delivery: products that close the gap ---------- */
   function gapPicks(gap, ls) {
-    if (gap <= 0 || gap > 4000) return [];
+    if (gap <= 0 || gap > 2500) return [];
     const inCart = new Set(ls.map(l => l.p.id));
+    // impulse buys only, unless the basket is already about the phone
+    const tech = ls.some(l => TECH.has(kindOf(l.p)));
+    const IMPULSE = new Set(['שתייה', 'חטיפים', 'ממתקים', 'עוגיות', 'גלידות', 'מזון']);
     const goes = new Set(companions(ls, 8).list.map(c => c.p.id));
-    const ok = p => !inCart.has(p.id) && sellable(p) && !isRestricted(p) && p.category !== ALCOHOL && hasPrice(p) && (hasCut(p.id) || imgOf(p) !== FALLBACK) && unit(p) >= gap;
+    const ok = p => !inCart.has(p.id) && sellable(p) && !isRestricted(p) && p.category !== ALCOHOL && (tech || IMPULSE.has(p.category)) && hasPrice(p) && (hasCut(p.id) || imgOf(p) !== FALLBACK) && unit(p) >= gap;
     const rank = (a, b) => (goes.has(b.id) - goes.has(a.id)) || (bestIds.has(b.id) - bestIds.has(a.id)) || (unit(a) - unit(b));
     for (const slack of [1000, 2000, 3500]) {
       const list = products.filter(p => ok(p) && unit(p) <= gap + slack).sort(rank).slice(0, 3);
@@ -529,7 +557,19 @@
     }
     const tip = store.get('allenbis-swiped', false) ? '' : `<p class="swipe-tip">${L('אפשר להחליק מוצר הצידה כדי להוציא אותו מהסל.', 'Swipe a product sideways to remove it.')}</p>`;
     const picks = gapPicks(FREE_FROM && FEE ? FREE_FROM - t.sub : 0, ls);
-    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + gapHtml(t, ls, picks) + wheelHtml(t) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}${L('הסרה', 'Remove')}</span><span>${trashIcon}${L('הסרה', 'Remove')}</span></span>${lineHtml(p, q, true)}</div>`).join('') + giftLineHtml(t) + tip + rackHtml(ls, new Set(picks.map(p => p.id)));
+    const lastOfDeal = new Map();
+    ls.forEach(({ p }) => { const d = dealOf.get(p.id); if (d) lastOfDeal.set(d.id, p.id); });
+    const dealBar = p => {
+      const d = dealOf.get(p.id);
+      if (!d || lastOfDeal.get(d.id) !== p.id) return '';
+      const x = t.deals.find(z => z.d.id === d.id);
+      if (!x || !x.count) return '';
+      const done = x.groups && !x.missing;
+      const msg = done ? L(`✓ ${esc(dealName(d))} · חסכתם <bdi>${fmt(x.saving)}</bdi>`, `✓ ${esc(dealName(d))} · you save <bdi>${fmt(x.saving)}</bdi>`)
+        : L(`עוד ${x.missing} ומקבלים ${esc(dealName(d))}`, `${x.missing} more for ${esc(dealName(d))}`) + (x.groups ? L(` (כבר חסכתם <bdi>${fmt(x.saving)}</bdi>)`, ` (already saving <bdi>${fmt(x.saving)}</bdi>)`) : '');
+      return `<div class="dealbar${done ? ' done' : ''}"><span>${msg}</span>${done ? '' : `<button type="button" data-add="${p.id}" aria-label="${esc(L(`עוד ${nm(p)}`, `One more ${nm(p)}`))}">${L('+ עוד אחד', '+ one more')}</button>`}</div>`;
+    };
+    $('cartBody').innerHTML = undoBar + freeHtml(t.sub) + gapHtml(t, ls, picks) + wheelHtml(t) + ls.map(({ p, q }) => `<div class="swipe" data-swipe="${p.id}"><span class="swipe-bg" aria-hidden="true"><span>${trashIcon}${L('הסרה', 'Remove')}</span><span>${trashIcon}${L('הסרה', 'Remove')}</span></span>${lineHtml(p, q, true)}</div>${dealBar(p)}`).join('') + giftLineHtml(t) + tip + rackHtml(ls, new Set(picks.map(p => p.id)));
     $('cartFoot').innerHTML = `${t.blocked ? `<p class="warn-box">${L('בין 23:00 ל-06:00 אסור למכור אלכוהול. הסירו את המוצרים המסומנים כדי להמשיך.', 'Alcohol can\'t be sold 23:00–06:00. Remove the marked items to continue.')}</p>` : ''}
 <div class="totals">${totalsHtml(t)}</div>
 <button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>${L('לתשלום', 'Checkout')} · <bdi>${fmt(t.total)}</bdi></button>
@@ -537,8 +577,9 @@
   }
 
   function totalsHtml(t) {
-    return `<div class="row"><span>${L('מוצרים', 'Items')} (${t.items})</span><bdi>${fmt(t.sub + t.savings)}</bdi></div>
+    return `<div class="row"><span>${L('מוצרים', 'Items')} (${t.items})</span><bdi>${fmt(t.sub + t.savings + t.multi)}</bdi></div>
 ${t.savings ? `<div class="row good"><span>${L('חסכת במבצעים', 'You saved')}</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
+${t.multi ? `<div class="row good"><span>${L('מבצעי כמות', 'Multi-buy deals')}</span><bdi>−${fmt(t.multi)}</bdi></div>` : ''}
 ${t.welcome ? `<div class="row good"><span>${L('הנחת היכרות להזמנה ראשונה', 'First-order discount')}</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
 ${t.wheelOff ? `<div class="row good"><span>${L('גלגל המזל', 'Lucky wheel')}</span><bdi>−${fmt(t.wheelOff)}</bdi></div>` : ''}
 ${t.prize?.type === 'gift' ? `<div class="row good"><span>${L('מתנה מהגלגל', 'Wheel gift')}: ${esc(prizeName(t.prize))}</span><bdi>${L('חינם', 'Free')}</bdi></div>` : ''}
@@ -706,6 +747,7 @@ ${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">${L
     $('pdBody').innerHTML = `${img ? `<div class="pd-img"><img src="${esc(img)}" alt="${img === FALLBACK ? '' : esc(nm(p))}"></div>` : ''}
 <h3><bdi>${esc(nm(p))}</bdi></h3>
 <dl class="facts"><dt>${L('קטגוריה', 'Category')}</dt><dd>${labelHtml(p.category)}</dd>${p.sub && !isRestricted(p) ? `<dt>${L('סוג', 'Type')}</dt><dd>${esc(subOf(p))}</dd>` : ''}${p.size ? `<dt>${L('גודל', 'Size')}</dt><dd>${esc(sizeOf(p))}</dd>` : ''}${onSale(p) ? `<dt>${L('מחיר רגיל', 'Regular price')}</dt><dd><bdi>${fmt(regular(p))}</bdi></dd>` : ''}</dl>
+${dealOf.has(p.id) ? `<p class="deal-chip big">${L('מבצע', 'Deal')}: ${esc(dealName(dealOf.get(p.id)))}<small>${L('אפשר לערבב', 'Mix and match')}: ${dealOf.get(p.id).products.map(id => esc(nm(byId.get(id)))).join(' · ')}</small></p>` : ''}
 <div class="buy" id="pdBuy">${buyHtml(p)}</div>
 ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="relTitle">${L('מתאים עם', 'Goes well with')}</h3><div class="mini">${related.map(miniHtml).join('')}</div></section>` : ''}`;
     openDialog('product');
@@ -925,7 +967,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const up = unitPrice(p);
     const low = sale ? `<span class="s-was">${L('במקום', 'was')} <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
     const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? `<span class="s-flag" aria-hidden="true">${L('מבצע', 'SALE')}</span>` : ''}<span class="t-name"><bdi>${esc(nm(p))}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
-    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(nm(p))}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span></div>${tag}</div>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(nm(p))}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span>${dealOf.has(p.id) ? `<span class="wobbler" aria-hidden="true">${esc((LANG === 'en' ? dealOf.get(p.id).signEn : dealOf.get(p.id).sign) || dealName(dealOf.get(p.id)))}</span>` : ''}</div>${tag}</div>`;
   }
   // Glass-door cooler: one door per 3 columns, a frame between doors and a handle on each.
   function doorsHtml() {
@@ -1061,6 +1103,14 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     return `<article class="bundle">${b.img ? `<img class="cover" src="${esc(b.img)}" alt="" loading="lazy">` : ''}<h3>${esc(LANG === 'en' && UI.bundles?.[b.id]?.title || b.title)}</h3><p>${esc(LANG === 'en' && UI.bundles?.[b.id]?.text || b.text)}</p><div class="thumbs" aria-hidden="true">${b.lines.slice(0, 5).map(({ p, q }) => `<span><img src="${esc(imgOf(p))}" alt="" loading="lazy">${q > 1 ? `<b>×${q}</b>` : ''}</span>`).join('')}</div><div class="row"><span><b><bdi>${fmt(total)}</bdi></b> · ${count} ${L('מוצרים', 'items')}</span><button type="button" data-bundle="${esc(b.id)}">${L('הוספת החבילה', 'Add bundle')}</button></div></article>`;
   }
 
+  function multiCard(d) {
+    const ps = d.products.map(id => byId.get(id)).filter(p => sellable(p) && hasPrice(p));
+    if (!ps.length) return '';
+    const first = ps[0];
+    const was = ps.slice().sort((a, b) => unit(b) - unit(a)).slice(0, 1).map(p => unit(p) * d.qty)[0];
+    return `<article class="mb"><span class="mb-sign">${esc(dealName(d))}</span><div class="mb-pics">${ps.slice(0, 4).map(p => `<button type="button" data-open="${p.id}" aria-label="${esc(nm(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy"></button>`).join('')}</div>
+<p class="mb-t">${L('אפשר לערבב', 'Mix and match')} · ${L('עד', 'up to')} <bdi>${fmt(Math.max(0, was - d.price))}</bdi> ${L('הנחה', 'off')}</p><button type="button" class="mb-add" data-multi="${esc(d.id)}">${L(`הוספת ${d.qty} לסל`, `Add ${d.qty} to cart`)}</button></article>`;
+  }
   function renderHome() {
     const again = [];
     for (const o of orders.slice().reverse()) for (const [id] of o.lines) { const p = byId.get(id); if (p && railable(p) && !again.includes(p)) again.push(p); }
@@ -1071,6 +1121,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       (night ? rail('r-night', L(`הלילה עוד צעיר · אצלך תוך ${ETA} דק׳`, `The night is young · at your door in ${ETA} min`), pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
       rail('r-again', L('קנה שוב', 'Buy again'), again.slice(0, 12), false, orders.length ? `<button type="button" class="again-btn" data-again>${L('הזמנה חוזרת', 'Reorder')}</button>` : '') +
       rail('r-deals', L('מבצעים', 'Deals'), dealList, DEMO.deals?.example) +
+      (MULTI.length ? `<section aria-labelledby="mb-t"><div class="sec-head"><h2 id="mb-t">${L('מבצעי כמות', 'Multi-buy deals')}${demoTag(DEMO.multibuy?.example)}</h2></div><div class="mb-row">${MULTI.map(multiCard).join('')}</div></section>` : '') +
       rail('r-best', L('הכי נמכרים', 'Best sellers'), pick(DEMO.bestsellers?.ids).filter(railable), DEMO.bestsellers?.example) +
       (bundles.length ? `<section aria-labelledby="b-t"><div class="sec-head"><h2 id="b-t">${L('חבילות מוכנות', 'Ready-made bundles')}${demoTag(DEMO.bundles?.example)}</h2></div><div class="bundles">${bundles.map(bundleHtml).join('')}</div></section>` : '') +
       rail('r-10', L('עד 10 ₪', 'Under ₪10'), under10);
@@ -1128,6 +1179,8 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (c && !t.closest('#suggest')) { requestCat(c.dataset.cat); return; }
     const sc = t.closest('[data-scroll]');
     if (sc) { const r = $(sc.dataset.scroll); r.scrollBy({ left: -+sc.dataset.dir * r.clientWidth * 0.9 * (LANG === 'en' ? -1 : 1), behavior: 'smooth' }); return; }
+    const mb = t.closest('[data-multi]');
+    if (mb) { const d = MULTI.find(x => x.id === mb.dataset.multi); const p = d && d.products.map(id => byId.get(id)).find(x => sellable(x)); if (p) addLines([{ p, q: d.qty }], L(`${d.qty} × ${nm(p)} נוספו לסל`, `${d.qty} × ${nm(p)} added to cart`)); return; }
     const b = t.closest('[data-bundle]');
     if (b) { addLines(bundles.find(x => x.id === b.dataset.bundle).lines, L('החבילה נוספה לסל', 'Bundle added to cart')); return; }
     if (t.closest('[data-again]') && orders.length) {
@@ -1398,7 +1451,8 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const ls = lines().filter(l => !isBlocked(l.p));
     const out = ['הזמנה חדשה מהאתר – אלנביס', ''];
     for (const { p, q } of ls) out.push(`${q} × ${p.name} – ${hasPrice(p) ? fmt(unit(p) * q) : 'מחיר יעודכן'}`);
-    out.push('', `מוצרים: ${fmt(t.sub)}`);
+    out.push('', `מוצרים: ${fmt(t.sub + t.multi)}`);
+    for (const x of t.deals) if (x.saving) out.push(`${x.d.label}: −${fmt(x.saving)}`);
     if (t.welcome) out.push(`הנחת היכרות: −${fmt(t.welcome)}`);
     if (t.wheelOff) out.push(`גלגל המזל: −${fmt(t.wheelOff)}`);
     if (t.prize?.type === 'gift') out.push(`מתנה מגלגל המזל: ${byId.get(t.prize.product).name} (חינם)`);
