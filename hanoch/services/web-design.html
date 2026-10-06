@@ -22,11 +22,26 @@
 <style>
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
-.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
 .sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
-.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: #ede8de; }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
 .sv-crumbs a { color: var(--fg-dim); }
@@ -65,7 +80,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 <script src="../js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar">
+<header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HGPRO, לדף הבית">HG<span>·</span>PRO</a>
   <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="./">שירותים</a><a href="../blog/">מאמרים</a><a href="../#pricing">חבילות</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A2%D7%99%D7%A6%D7%95%D7%91%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
@@ -74,6 +89,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="sv-kicker">שירות · עיצוב</p>
   <h1>עיצוב אתרים</h1>
   <p class="sv-lead">לכל עסק יש אופי, והאתר צריך להרגיש כמוהו. חברת תשתיות דלק לא אמורה להיראות כמו קליניקה, ומאמן אגרוף לא אמור להיראות כמו מורה למתמטיקה. לכן כל אתר שאני מעצב מקבל שפה משלו: גופנים, צבעים, תנועה ואפילו התנהגות של הכפתורים.</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A2%D7%99%D7%A6%D7%95%D7%91%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">לקבלת הצעת מחיר בוואטסאפ</a></p>
   <h2>איך נולד עיצוב</h2><p>מתחילים מהשאלה מה הלקוח שלכם צריך להרגיש בחמש השניות הראשונות. משם בונים כיוון: מחברת משבצות למורה למתמטיקה, דוכן רחוב לקייטרינג פלאפל, ענפי דובדבן פורחים לקליניקה. העיצוב לא מקשט את התוכן, הוא מספר אותו.</p><h2>מה כולל העיצוב</h2><ul><li>כיוון עיצובי ושפה חזותית מלאה: צבעים, גופנים, אייקונים ותמונות.</li><li>עיצוב לטלפון ולמחשב, לא רק "התאמה".</li><li>תנועה ואנימציות גלילה שמכוונות את העין, בלי להאט את האתר.</li><li>תלת־ממד, הדמיות ותמונות ברמת סטודיו בעזרת בינה מלאכותית, כשזה מתאים.</li><li>נגישות: ניגודיות, גדלי טקסט ומיקוד מקלדת כבר בשלב העיצוב.</li></ul><h2>עיצוב שמוכר</h2><p>אתר יפה שלא מביא פניות הוא תמונה על הקיר. כל החלטה עיצובית נבחנת מול המטרה: האם ברור מה אתם עושים, האם קל לפנות, והאם יש סיבה לבחור דווקא בכם.</p>
   <h2>איך זה עובד</h2>
   <ol class="sv-steps"><li><b>שיחת היכרות</b>מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.</li><li><b>הצעה כתובה</b>מחיר סגור ולוח זמנים. מה שכתוב בה הוא מה שמשלמים.</li><li><b>עיצוב</b>כיוון עיצובי שנבנה סביב העסק שלכם, לא תבנית מוכנה.</li><li><b>פיתוח</b>קוד נקי ומהיר, מותאם לטלפון, לגוגל ולנגישות.</li><li><b>עלייה לאוויר</b>דומיין, אחסון מהיר, Search Console ומדידת פניות.</li><li><b>ליווי</b>חודש ליווי אחרי העלייה, ואפשרות לחבילת תחזוקה חודשית.</li></ol>
@@ -90,6 +106,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <h2>שירותים קשורים</h2><ul class="sv-rel"><li><a href="website-building.html">בניית אתרים לעסקים</a></li><li><a href="brand-identity.html">זהות מותגית</a></li><li><a href="landing-page.html">בניית דף נחיתה</a></li><li><a href="ai-commercial.html">הפקת פרסומת ב-AI</a></li></ul>
 </main>
 <footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="website-building.html">בניית אתרים לעסקים</a><a href="web-design.html">עיצוב אתרים</a><a href="landing-page.html">בניית דף נחיתה</a><a href="online-store.html">בניית חנות אינטרנטית</a><a href="seo.html">קידום אתרים אורגני</a><a href="ai-commercial.html">הפקת פרסומת ב-AI</a><a href="ai-chatbot.html">נציג AI לשירות לקוחות</a><a href="wix-migration.html">מעבר מוויקס לאתר מקצועי</a><a href="brand-identity.html">זהות מותגית</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A2%D7%99%D7%A6%D7%95%D7%91%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
 <script src="../js/a11y.js" defer></script>
 </body>
 </html>

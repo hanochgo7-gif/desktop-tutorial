@@ -677,8 +677,14 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 }
 @media (max-width: 700px) { .foot { padding-bottom: 64px; } }
 
-.contact-direct { color: var(--fg-dim); margin: -1.2rem 0 2.2rem; font-size: .85rem; }
-.contact-direct a { color: var(--fg); text-underline-offset: 4px; }
+.contact-direct { color: var(--fg-dim); margin: -1.2rem 0 2.2rem; font-size: .85rem; display: flex; flex-wrap: wrap; gap: 8px; }
+/* טלפון, וואטסאפ ומייל: גלולות בגובה 44px, על רקע כהה כדי שיהיו קריאים גם מעל תמונת הכוכבים */
+.contact-direct a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px;
+  color: var(--paper); background: rgba(10, 10, 11, .7); border: 1px solid rgba(237, 232, 222, .18); text-decoration: none;
+  transition: background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.contact-direct a:hover { background: rgba(10, 10, 11, .9); border-color: rgba(237, 232, 222, .5); }
 
 @media (min-width: 561px) and (max-width: 900px) { .hero-title { font-size: 25vw; } }
 
@@ -1409,7 +1415,11 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
 }
 
 /* ---------- טלפון: "דברו איתי" תמיד בסרגל, ותפריט מסך מלא ---------- */
-.bar-cta { display: none; }
+/* "דברו איתי": בסרגל בכל רוחב */
+.bar-cta {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem; border-radius: 99px; border: 1px solid currentColor;
+  font-size: .78rem; text-decoration: none; white-space: nowrap; flex: none;
+}
 /* כפתור התפריט: בטלפון במקום הניווט, ובמחשב ליד הניווט */
 .menu-btn { display: inline-grid; place-content: center; gap: 6px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid currentColor; flex: none; }
 .menu-btn i { display: block; width: 16px; height: 1.5px; background: currentColor; transition: transform .45s var(--ease); }
@@ -1419,10 +1429,7 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
 @media (max-width: 900px) {
   .bar .sound-toggle, .bar .xray-toggle { display: none; }
   .bar { gap: .7rem; }
-  .bar-cta {
-    display: inline-flex; align-items: center; padding: .5rem .95rem; border-radius: 99px; border: 1px solid currentColor;
-    font-size: .74rem; text-decoration: none; white-space: nowrap;
-  }
+  .bar-cta { min-height: 40px; padding: 0 .95rem; font-size: .74rem; }
 }
 
 /* ---------- תפריט פורטל: נפתח דרך ה-ח מזכוכית ---------- */
@@ -1746,7 +1753,8 @@ html[lang="en"] .d-hero-title b { font-family: "Fraunces", Georgia, serif; font-
 .cr-gone .cr-copy { pointer-events: none; }
 .cr-title { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.1rem, 4.4vw, 4.1rem); line-height: 1.06; letter-spacing: -.01em; color: var(--paper); text-wrap: balance; }
 html[lang="en"] .cr-title { letter-spacing: .005em; }
-.cr-sub { margin-top: 1.1rem; color: var(--fg-dim); font-size: .78rem; }
+.cr-sub { margin: 1rem auto 0; max-width: 34ch; font-family: var(--f-body); font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.5; color: rgba(237, 232, 222, .78); text-wrap: balance; }
+html[lang="en"] .cr-sub { max-width: 46ch; font-size: clamp(.92rem, 1.05vw, 1rem); }
 .cr-cta { margin-top: 1.7rem; display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
 .cr-btn {
   display: inline-flex; align-items: center; gap: .55rem; padding: .66rem 1.25rem; border-radius: 999px;
@@ -1787,3 +1795,7 @@ html[lang="en"] .cr-title { letter-spacing: .005em; }
 .cr-het-img { display: none; position: absolute; z-index: 0; left: 0; top: 0; width: 100px; height: 100px; transform-origin: 0 0; transform: translate(calc(50vw - 32vh), 30vh) scale(6.4); pointer-events: none; transition: opacity .7s var(--ease); }
 .motion .cr-het-img { display: block; }
 .motion .cr-pin { background-image: none !important; }
+
+/* אזורי מגע: הקישורים הקטנים מקבלים שטח לחיצה גדול יותר בלי לשנות את הפריסה */
+.hero-avail { padding-block: 12px; margin-block: -12px; }
+.foot a, .foot-xray { padding-block: 6px; margin-block: -6px; }

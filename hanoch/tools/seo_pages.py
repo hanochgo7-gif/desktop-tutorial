@@ -201,11 +201,26 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
 CSS = '''
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
-.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
 .sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
-.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: #ede8de; }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
 .sv-crumbs a { color: var(--fg-dim); }
@@ -240,6 +255,8 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .74rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
 .sv-foot a { color: var(--fg-dim); }
 '''
+GF_HE = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
+GF_EN = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap">'
 FR = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,800&display=swap">'
 
 def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
@@ -300,7 +317,7 @@ def render(p):
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
+{GF_HE if he else GF_EN}
 {FR}
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
@@ -308,7 +325,7 @@ def render(p):
 <script src="{up}js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar">
+<header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HGPRO, {T('לדף הבית', 'home')}">HG<span>·</span>PRO</a>
   <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="./">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a><a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
@@ -317,6 +334,7 @@ def render(p):
   <p class="sv-kicker">{esc(p['kicker'])}</p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{esc(p['lead'])}</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('לקבלת הצעת מחיר בוואטסאפ', 'Get a quote on WhatsApp')}</a></p>
   {secs}
   <h2>{T('איך זה עובד', 'How it works')}</h2>
   <ol class="sv-steps">{''.join(f'<li><b>{esc(a)}</b>{esc(b)}</li>' for a, b in steps)}</ol>
@@ -333,6 +351,7 @@ def render(p):
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
 <footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}<a href="{up}accessibility.html">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/a11y.js" defer></script>
 </body>
 </html>
@@ -358,7 +377,7 @@ def hub(lang):
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
+{GF_HE if he else GF_EN}
 {FR}
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}

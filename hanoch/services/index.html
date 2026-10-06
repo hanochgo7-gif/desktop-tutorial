@@ -15,11 +15,26 @@
 <style>
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
-.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
 .sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
-.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: #ede8de; }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
 .sv-crumbs a { color: var(--fg-dim); }

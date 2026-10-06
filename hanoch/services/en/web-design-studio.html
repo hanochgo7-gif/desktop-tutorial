@@ -22,11 +22,26 @@
 <style>
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
-.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 16px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
 .sv-mark { font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .78rem; }
-.sv-bar nav a { color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: #ede8de; }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .75rem; color: var(--fg-dim); display: flex; gap: .5rem; flex-wrap: wrap; }
 .sv-crumbs a { color: var(--fg-dim); }
@@ -65,7 +80,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 <script src="../../js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar">
+<header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../../en.html" aria-label="HGPRO, home">HG<span>·</span>PRO</a>
   <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="./">Services</a><a href="../../en.html#pricing">Packages</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a></nav>
 </header>
@@ -74,6 +89,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="sv-kicker">Service · Web design</p>
   <h1>Custom web design and development</h1>
   <p class="sv-lead">A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HGPRO designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Get a quote on WhatsApp</a></p>
   <h2>What you get</h2><ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul><h2>Work across languages</h2><p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>
   <h2>How it works</h2>
   <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch, and an optional monthly care plan.</li></ol>
@@ -90,6 +106,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <h2>Related services</h2><ul class="sv-rel"><li><a href="ai-commercial-production.html">AI commercial production</a></li></ul>
 </main>
 <footer class="sv-foot"><span>© 2026 HGPRO · Hanoch Gotovski</span><a href="web-design-studio.html">Custom web design studio</a><a href="ai-commercial-production.html">AI commercial production</a><a href="../../accessibility.html">Accessibility</a></footer>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
 <script src="../../js/a11y.js" defer></script>
 </body>
 </html>
