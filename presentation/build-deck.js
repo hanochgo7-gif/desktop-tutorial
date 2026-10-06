@@ -399,12 +399,12 @@ sectionSlide("04", "ואז הכול נגמר", "ואז הכול נגמר – 8 �
 {
   const s = slide(PAPER, "הפציעה – יד (חוסם עורקים) ועין (רסיס). השיקום – ארוך ומתיש, לבד רוב הזמן, בלי משככי כאבים, 3 חודשים בתל השומר. (לא להיכנס לסיבה – זה אישי ולא חלק מההרצאה.) האובדן. החיים שאחרי – המעבר המהיר בין לוחם לפצוע לאזרח. כאן ההרצאה עוברת מסיפור מלחמה לסיפור חיים.", { mark: 74 });
   heading(s, "מה שאף אחד לא מכין אותך אליו", 128, 128, 1664, 90, 64, TXT);
-  img(s, "rehab-01.jpg", 128, 258, 520, 640);
+  img(s, "rehab-01.jpg", 128, 250, 580, 740);
   const items = [["warn", "הפציעה"], ["home", "השיקום"], ["heart", "האובדן"], ["growth", "החיים שאחרי"]];
   items.forEach(([sym, t], i) => {
-    const y = 258 + (640 / 4) * i + 80;
-    iconChip(s, 1792 - 36, y, 72, sym);
-    heading(s, t, 712, y - 40, 1000, 80, 44, TXT, { valign: "middle" });
+    const y = 250 + (740 / 4) * i + 92;
+    iconChip(s, 1792 - 48, y, 96, sym);
+    heading(s, t, 740, y - 50, 924, 100, 60, TXT, { valign: "middle" });
   });
   pnum(s, n, false);
 }
@@ -499,10 +499,11 @@ sectionSlide("06", "להפוך כאב למשהו", "להפוך כאב למשהו
   const x = 128, w = 1664 - 620 - 64;
   rule(s, x + w - 120, 260, 120, INK);
   heading(s, "תודה", x, 300, w, 200, 160, INK);
-  s.addImage({ path: P("qr-instagram.png"), x: px(x + w - 200), y: px(660), w: px(200), h: px(200) });
-  para(s, "חנוך  |  054-5522053", x, 668, w - 232, 50, 30, BROWN);
-  para(s, "Instagram: hanoch234", x, 728, w - 232, 50, 30, BROWN);
-  para(s, "hanochgo@gmail.com", x, 788, w - 232, 50, 30, BROWN);
+  // contact flush right under the title, QR to its left
+  s.addImage({ path: P("qr-instagram.png"), x: px(x + w - 380 - 32 - 200), y: px(660), w: px(200), h: px(200) });
+  para(s, "חנוך  |  054-5522053", x + w - 380, 668, 380, 50, 30, BROWN);
+  para(s, "Instagram: hanoch234", x + w - 380, 728, 380, 50, 30, BROWN);
+  para(s, "hanochgo@gmail.com", x + w - 380, 788, 380, 50, 30, BROWN);
 }
 
 const OUT = path.join(__dirname, "hanoch-7-10.pptx");
