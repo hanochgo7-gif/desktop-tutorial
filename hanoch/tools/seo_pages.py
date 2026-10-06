@@ -180,8 +180,8 @@ page(slug='web-design-studio', lang='en', name='Custom web design studio',
      faq=[('How long does a website take?', 'Up to two weeks from the first call to a live site. A landing page is usually ready within a week.'),
           ('Do you use templates?', 'No. Every site is designed and built from scratch around the business.'),
           ('Do I own the site and the domain?', 'Yes. The domain is registered in your name, and the site and the code are yours.')],
-     related=['ai-commercial-production'],
-     service=('Website development', 'Custom web design', 4900))
+     related=['website-design', 'landing-page-design', 'ecommerce-store', 'seo-services'],
+     service=('Website development', 'Custom web design', 4900), alt='website-building')
 
 page(slug='ai-commercial-production', lang='en', name='AI commercial production',
      title='AI Commercial & Video Ad Production | HGPRO',
@@ -194,8 +194,113 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
      examples=[], films=True,
      faq=[('How long does a production take?', 'Usually a few days from script approval to a finished edit.'),
           ('Can my real product appear in it?', 'Yes. The product is photographed as a reference and appears as it is.')],
-     related=['web-design-studio'],
-     service=('Video production', 'AI commercial production', 3900))
+     related=['web-design-studio', 'website-design', 'landing-page-design', 'ecommerce-store'],
+     service=('Video production', 'AI commercial production', 3900), alt='ai-commercial')
+
+page(slug='website-design', lang='en', name='Website design',
+     title='Custom Website Design, No Templates | HGPRO',
+     desc='Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.',
+     h1='Website design', kicker='Service · Design',
+     lead='Every business has a character, and its website should feel like it. A fuel infrastructure company should not look like a clinic, and a boxing coach should not look like a math tutor. So every site I design gets a language of its own: typefaces, colors, motion, even the way the buttons behave.',
+     sections=[('How a design is born', '<p>It starts with one question: what should your customer feel in the first five seconds? From there comes a direction: a squared notebook for a math tutor, a street stall for a falafel caterer, cherry blossoms for a skin clinic. The design does not decorate the content. It tells it.</p>'),
+               ('What the design includes', '<ul><li>A design direction and a full visual language: colors, typefaces, icons and imagery.</li><li>Design for phone and desktop, not just "responsive".</li><li>Motion and scroll animation that guide the eye without slowing the site down.</li><li>3D, product renders and studio-grade images made with AI, where they fit.</li><li>Accessibility from the design stage: contrast, text sizes and keyboard focus.</li></ul>'),
+               ('Design that sells', '<p>A beautiful site that brings no leads is a picture on the wall. Every design decision is checked against the goal: is it clear what you do, is it easy to get in touch, and is there a reason to choose you.</p>')],
+     price='<p>Design is included in every package: <strong>Presence</strong> from ₪4,900, <strong>Business</strong> from ₪8,900, and <strong>Signature</strong> from ₪19,900 with a unique art concept and 3D. <a href="brand-identity-design.html">Brand identity</a> can be added from ₪600.</p>',
+     examples=['clinic', 'falafel', 'allenbis'],
+     faq=[('Do you work with templates?', 'No. Every site is designed and built from scratch around the business, so it has no twin on the internet.'),
+          ('I am not sure what I want. Is that OK?', 'Absolutely. In the intro call we work out the business and the customers together, and I propose a direction. You approve it before anything else happens.'),
+          ('Will the design work well on phones?', 'Yes. I design for phone and desktop side by side, and test on real devices before launch.')],
+     related=['web-design-studio', 'brand-identity-design', 'landing-page-design', 'ai-commercial-production'],
+     service=('Web design', 'Website design', 4900), alt='web-design')
+
+page(slug='landing-page-design', lang='en', name='Landing page design',
+     title='Landing Page Design That Converts | HGPRO',
+     desc='A landing page for a campaign, a launch or a freelancer: custom design, fast loading, WhatsApp and conversion tracking. From ₪4,900, live within a week.',
+     h1='Landing page design', kicker='Service · Landing pages',
+     lead='A landing page does one thing and does it well: it takes someone who clicked an ad or a link and turns them into an enquiry. No menus to distract them, no ten pages. One clear message, proof that you can be trusted, and a button.',
+     sections=[('When you need one', '<ul><li>When you run a campaign on Google, Facebook or Instagram and want every shekel to work.</li><li>When you launch a product, a workshop or a new service.</li><li>When you are a freelancer and want a professional presence quickly and on a sane budget.</li></ul>'),
+               ('What is on the page', '<ul><li>A headline that says exactly what people get, and who it is for.</li><li>Up to six sections: the problem, the solution, how it works, proof, questions and contact.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>Fast loading, because every second of waiting costs leads.</li><li>A branded share image for WhatsApp and Facebook.</li></ul>'),
+               ('Tracking', '<p>A Meta pixel, Google conversions and a separate page per campaign can be connected, so you know exactly what brings customers. See <a href="seo-services.html">SEO</a> and campaign tracking.</p>')],
+     price='<p>The <strong>Presence</strong> package: a custom landing page from ₪4,900, live within a week. Tracking and campaign setup from ₪1,400.</p>',
+     examples=['falafel', 'rachel', 'ams'],
+     faq=[('How soon is the page live?', 'Usually within a week of having the content and images.'),
+          ('Can the page grow into a full site later?', 'Yes. It is built so it can be extended into a full site without starting over.'),
+          ('How do I know the page works?', 'Every WhatsApp, call and form click is measured, so you see how many leads came in and from where.')],
+     related=['web-design-studio', 'seo-services', 'website-design', 'ai-commercial-production'],
+     service=('Landing page', 'Landing page design', 4900), alt='landing-page')
+
+page(slug='ecommerce-store', lang='en', name='Online store development',
+     title='Online Store Development with Israeli Payments | HGPRO',
+     desc='An online store with catalog, cart, delivery, coupons, card, Bit and Apple Pay payments, and automatic invoices. Custom designed, no template.',
+     h1='Online store development', kicker='Service · E-commerce',
+     lead='A good online store feels like the tidiest shelf in the best shop: easy to find, easy to understand, easy to pay. I build stores around your products and the way your customers buy, with Israeli payment providers and automatic invoices.',
+     sections=[('What the store includes', '<ul><li>A product catalog with filters by type, brand or need.</li><li>Cart, delivery, pickup and coupons.</li><li>Payment by card, Bit and Apple Pay, through your payment provider.</li><li>A receipt or invoice sent automatically with every payment.</li><li>Stock and prices you manage yourself.</li></ul>'),
+               ('A store that sells', '<p>Beyond the cart and the checkout, what sells is how the product is shown: good images, a short note on who it is for, and a short quiz that helps the customer choose. In the store for the Rotem Gotovski clinic, for example, products stand on shelves like in the clinic, and the list can be sent on WhatsApp.</p>'),
+               ('Product images without a shoot day', '<p>Studio-grade product and lifestyle images can be made with AI. See <a href="ai-commercial-production.html">AI commercial production</a>.</p>')],
+     price='<p>An e-commerce system from ₪3,900 as an add-on to the site, secure payments from ₪1,200, and automatic invoicing from ₪500. The <strong>Signature</strong> package (from ₪19,900) includes a store or custom system.</p>',
+     examples=['allenbis', 'clinic', 'gotovski'],
+     faq=[('Which payment methods can be connected?', 'Card, Bit and Apple Pay, through your payment provider or one we choose together.'),
+          ('Can I manage the products myself?', 'Yes. You add products, change prices and update stock yourself.'),
+          ('I already have a store. Can you improve it?', 'Yes. For Allenbis, for example, I improved an existing store and made it faster without replacing the whole system.')],
+     related=['web-design-studio', 'website-design', 'seo-services', 'wix-wordpress-migration'],
+     service=('E-commerce development', 'Online store development', 3900), alt='online-store')
+
+page(slug='seo-services', lang='en', name='SEO services',
+     title='Organic SEO for Businesses | HGPRO',
+     desc='Organic SEO on Google: keyword research, a landing page per service and area, speed, business markup and a Google Business profile. No tricks that get punished.',
+     h1='Organic SEO', kicker='Service · Google search',
+     lead='Good SEO starts with the basics: a fast, tidy, clear site that Google understands, for the right people. Then come the content, a page for each service and area, and the business profile. I do not use tricks Google punishes, because they work for a month and then make the site disappear.',
+     sections=[('What actually gets done', '<ul><li>Keyword research: what your customers really search for.</li><li>Titles, descriptions and a correct heading structure on every page.</li><li>Business markup (Schema) for services, prices, FAQs and videos.</li><li>A landing page for each service and each area you work in.</li><li>Loading speed, a sitemap, redirects from an old site, and Search Console.</li><li>A Google Business profile, the fastest way to show up on the map.</li></ul>'),
+               ('How long until results', '<p>Nobody can promise first place. Movement usually shows within weeks to months, depending on the field and the competition. What can be promised is a strong base that improves over time, and tracking that shows what works.</p>'),
+               ('Ready for AI search too', '<p>More and more people ask ChatGPT, Gemini and Perplexity instead of searching. A site with clear content, structured data and an llms.txt file has a better chance of showing up there as well.</p>')],
+     price='<p>Search engine optimization from ₪2,400, a content hub and blog from ₪1,200. The <strong>Business</strong> package (from ₪8,900) already includes the basics: SEO on every page, business markup, a sitemap and a Google Business profile.</p>',
+     examples=['gotovski', 'clinic', 'allenbis'],
+     faq=[('How soon will I be on the first page?', 'First place cannot be promised. We build the strongest base possible, measure, and keep improving.'),
+          ('What is a Google Business profile?', 'Your business card on Maps and in local search. Setting it up properly is one of the fastest ways to get leads from your area.'),
+          ('I am moving from an old site. Will I lose my ranking?', 'Not if it is done right: the content moves over and every old address redirects to its new one.')],
+     related=['web-design-studio', 'landing-page-design', 'wix-wordpress-migration', 'ecommerce-store'],
+     service=('Search engine optimization', 'SEO services', 2400), alt='seo')
+
+page(slug='ai-customer-agent', lang='en', name='AI customer service agent',
+     title='AI Chatbot for Your Website: a 24/7 Agent | HGPRO',
+     desc='An AI customer service agent on your site: answers from your own content, at any hour, in Hebrew and English, and hands warm leads to your WhatsApp. From ₪2,900.',
+     h1='AI customer service agent', kicker='Service · AI',
+     lead='Most questions customers ask repeat themselves: how much is it, is there a free slot, do you cover my area. An AI agent on your site answers them right away, at any hour, from your information only, and passes you the people who are ready to buy.',
+     sections=[('What the agent can do', '<ul><li>Answer questions from your content, prices and services.</li><li>Speak Hebrew and English.</li><li>Suggest a booking, a quote or a fitting product.</li><li>Hand the conversation to your WhatsApp, with a summary of what the customer needs.</li></ul>'),
+               ('No guessing', '<p>The agent answers only from the information we set up. When it does not know, it says so and passes the customer to you instead of making something up.</p>')],
+     price='<p>An AI customer service agent from ₪2,900. It is included in the <strong>Signature</strong> package (from ₪19,900).</p>',
+     examples=['clinic'],
+     faq=[('Can the agent get things wrong?', 'It answers only from your information, and when it has no answer it passes the customer to you.'),
+          ('Does it need updating?', 'When prices or services change, the information is updated and the agent follows.')],
+     related=['web-design-studio', 'ecommerce-store', 'seo-services', 'ai-commercial-production'],
+     service=('AI chatbot', 'AI customer service agent', 2900), alt='ai-chatbot')
+
+page(slug='wix-wordpress-migration', lang='en', name='Wix and WordPress migration',
+     title='Move from Wix or WordPress Without Losing Google | HGPRO',
+     desc='Migrate from Wix or WordPress to a fast, custom-designed site: the content moves over, every old address redirects, and your place on Google stays. From ₪400.',
+     h1='Moving from Wix or WordPress', kicker='Service · Migration',
+     lead='Wix and WordPress are fine for a start. As the business grows, the site slows down, looks like everyone else and starts to limit you. Moving to a custom-built site does not have to cost you your place on Google, if it is done right.',
+     sections=[('How the ranking is kept', '<ul><li>Every address on the old site is mapped.</li><li>The content worth keeping moves over, and gets better.</li><li>A permanent (301) redirect is set from every old address to its new one.</li><li>A new sitemap goes to Search Console, and errors are tracked.</li></ul>'),
+               ('What you gain', '<p>A faster site, a design no competitor has, full control of the code, and no monthly site-builder subscription. The domain and the site are yours.</p>')],
+     price='<p>Migration from Wix or WordPress from ₪400, as an add-on to building the new site. It is included in the <strong>Business</strong> package.</p>',
+     examples=['gotovski', 'allenbis'],
+     faq=[('Will I lose my Google ranking?', 'Not when every old address redirects. That is a standard part of the move.'),
+          ('What about my business email?', 'Email does not depend on the site and stays as it is. Only the website records change.')],
+     related=['web-design-studio', 'seo-services', 'website-design', 'ecommerce-store'],
+     service=('Website migration', 'Wix and WordPress migration', 400), alt='wix-migration')
+
+page(slug='brand-identity-design', lang='en', name='Brand identity design',
+     title='Logo and Brand Identity Design | HGPRO',
+     desc='A brand identity for your business: logo, colors, typefaces and short usage rules that work on the site and on social. From ₪600, with the site or on its own.',
+     h1='Brand identity', kicker='Service · Branding',
+     lead='Before building a site, it helps to know how the business looks and sounds. A short, clear brand identity sets things straight: a logo, colors, typefaces and a few simple rules, so the site, the social accounts and the sign all look like the same business.',
+     sections=[('What is included', '<ul><li>A logo in several versions: full, symbol, dark and light.</li><li>A color palette and typefaces for Hebrew and English.</li><li>Short usage rules, plus a template for a post and a story.</li></ul>'),
+               ('Built into the site', '<p>The identity is built together with the site, so the visual language runs from the logo to the animations. See <a href="website-design.html">website design</a>.</p>')],
+     price='<p>Brand identity from ₪600, and marketing copywriting for all the text on the site from ₪1,900.</p>',
+     examples=['rachel', 'falafel'],
+     faq=[('Do I need a brand identity before the site?', 'Not necessarily, but it helps. Both can be built together.')],
+     related=['website-design', 'web-design-studio', 'landing-page-design', 'ai-commercial-production'],
+     service=('Brand identity design', 'Brand identity design', 600), alt='brand-identity')
 
 # ---------------------------------------------------------------- תבנית
 CSS = '''
@@ -264,9 +369,17 @@ FR = ''
 def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
 BY = {p['slug']: p for p in P}
 
+def twin(p):
+    # הגרסה בשפה השנייה של אותו שירות (alt בעמוד האנגלי מצביע על העמוד העברי)
+    if p['lang'] == 'en': return BY.get(p.get('alt'))
+    return next((q for q in P if q['lang'] == 'en' and q.get('alt') == p['slug']), None)
+
 def render(p):
     he = p['lang'] == 'he'; up = '../' if he else '../../'
     U = url_of(p); esc = html.escape
+    tw = twin(p)
+    alts = (f'\n<link rel="alternate" hreflang="{p["lang"]}" href="{U}">\n<link rel="alternate" hreflang="{tw["lang"]}" href="{url_of(tw)}">') if tw else ''
+    lang_link = (f'<a href="{"en/" if he else "../"}{tw["slug"]}.html" hreflang="{tw["lang"]}" lang="{tw["lang"]}">{"English" if he else "עברית"}</a>') if tw else ''
     T = (lambda a, b: a) if he else (lambda a, b: b)
     home = D + ('/' if he else '/en.html'); hub = D + ('/services/' if he else '/services/en/')
     wa_text = T(f'היי חנוך, הגעתי מהעמוד "{p["name"]}" באתר. אשמח לשמוע פרטים.', f'Hi Hanoch, I found your "{p["name"]}" page. I would like to hear more.')
@@ -308,7 +421,7 @@ def render(p):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(p['title'])}</title>
 <meta name="description" content="{esc(p['desc'])}">
-<link rel="canonical" href="{U}">
+<link rel="canonical" href="{U}">{alts}
 <meta property="og:type" content="website">
 <meta property="og:locale" content="{'he_IL' if he else 'en_US'}">
 <meta property="og:title" content="{esc(p['title'])}">
@@ -352,7 +465,7 @@ def render(p):
   </section>
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/a11y.js" defer></script>
 </body>

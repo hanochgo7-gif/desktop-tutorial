@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom Website Design, No Templates | HGPRO</title>
+<meta name="description" content="Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.">
+<link rel="canonical" href="https://hgpro.io/services/en/website-design.html">
+<link rel="alternate" hreflang="en" href="https://hgpro.io/services/en/website-design.html">
+<link rel="alternate" hreflang="he" href="https://hgpro.io/services/web-design.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Custom Website Design, No Templates | HGPRO">
+<meta property="og:description" content="Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.">
+<meta property="og:url" content="https://hgpro.io/services/en/website-design.html">
+<meta property="og:image" content="https://hgpro.io/work/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="../../images/icon-180.png" type="image/png">
+<link rel="apple-touch-icon" href="../../images/icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="../../fonts/fraunces-mark.woff2" crossorigin>
+<link rel="stylesheet" href="../../css/hanoch.css">
+<style>
+:root { --gutter: clamp(20px, 5vw, 64px); }
+body { background: var(--ink, #0a0a0b); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "HG Mark", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
+.sv-mark span { color: var(--signal); }
+.sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: #ede8de; }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
+.sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
+.sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
+.sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+.sv-kicker { font-family: var(--f-mono); font-size: .8125rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
+.sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
+html[lang="en"] .sv h1 { letter-spacing: .005em; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: #ede8de !important; }
+.sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
+html[lang="en"] .sv h2 { letter-spacing: .005em; }
+.sv p, .sv li { font-family: var(--f-body); font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
+.sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
+.sv a { color: var(--signal); }
+.sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
+.sv-steps li { counter-increment: s; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; padding: 16px 18px; background: rgba(237,232,222,.025); }
+.sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8125rem; margin-bottom: .3rem; }
+.sv-steps b { display: block; color: #ede8de; font-weight: 500; }
+.sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
+.sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
+.sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: #ede8de; }
+.sv-card small { display: block; color: var(--fg-dim); font-size: .8125rem; margin-top: 2px; }
+.sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
+.sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: #ede8de; }
+.sv-faq summary h3 { display: inline; font: inherit; }
+.sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
+.sv-cta h2 { margin-top: 0; }
+.sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
+.sv-btn.ghost { background: transparent; color: #ede8de !important; border: 1px solid rgba(237,232,222,.3); }
+.sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: #ede8de; text-decoration: none; font-size: .92rem; }
+.sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
+.sv-foot a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+@media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://hgpro.io/services/en/website-design.html#page", "url": "https://hgpro.io/services/en/website-design.html", "name": "Custom Website Design, No Templates | HGPRO", "description": "Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.", "inLanguage": "en", "isPartOf": {"@id": "https://hgpro.io/#website"}, "breadcrumb": {"@id": "https://hgpro.io/services/en/website-design.html#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://hgpro.io/services/en/website-design.html#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HGPRO", "item": "https://hgpro.io/en.html"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://hgpro.io/services/en/"}, {"@type": "ListItem", "position": 3, "name": "Website design", "item": "https://hgpro.io/services/en/website-design.html"}]}, {"@type": "Service", "name": "Website design", "serviceType": "Web design", "url": "https://hgpro.io/services/en/website-design.html", "description": "Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.", "provider": {"@type": "ProfessionalService", "@id": "https://hgpro.io/#business", "name": "HGPRO", "url": "https://hgpro.io/", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "image": "https://hgpro.io/work/og-home.jpg", "areaServed": "IL", "priceRange": "₪400–₪19,900"}, "areaServed": {"@type": "Country", "name": "Israel"}, "offers": {"@type": "Offer", "price": "4900", "priceCurrency": "ILS", "url": "https://hgpro.io/services/en/website-design.html"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do you work with templates?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every site is designed and built from scratch around the business, so it has no twin on the internet."}}, {"@type": "Question", "name": "I am not sure what I want. Is that OK?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. In the intro call we work out the business and the customers together, and I propose a direction. You approve it before anything else happens."}}, {"@type": "Question", "name": "Will the design work well on phones?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. I design for phone and desktop side by side, and test on real devices before launch."}}]}]}</script>
+<script src="../../js/ga.js" defer></script>
+</head>
+<body>
+<header class="sv-bar sv-bar-cta">
+  <a class="sv-mark" href="../../en.html" aria-label="HG·PRO, home">HG<span>·</span>PRO</a>
+  <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Services</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a></nav>
+</header>
+<main class="sv">
+  <nav class="sv-crumbs" aria-label="Breadcrumb"><a href="../../en.html">HGPRO</a><span aria-hidden="true">/</span><a href="./">Services</a><span aria-hidden="true">/</span><span aria-current="page">Website design</span></nav>
+  <p class="sv-kicker">Service · Design</p>
+  <h1>Website design</h1>
+  <p class="sv-lead">Every business has a character, and its website should feel like it. A fuel infrastructure company should not look like a clinic, and a boxing coach should not look like a math tutor. So every site I design gets a language of its own: typefaces, colors, motion, even the way the buttons behave.</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Get a quote on WhatsApp</a></p>
+  <h2>How a design is born</h2><p>It starts with one question: what should your customer feel in the first five seconds? From there comes a direction: a squared notebook for a math tutor, a street stall for a falafel caterer, cherry blossoms for a skin clinic. The design does not decorate the content. It tells it.</p><h2>What the design includes</h2><ul><li>A design direction and a full visual language: colors, typefaces, icons and imagery.</li><li>Design for phone and desktop, not just "responsive".</li><li>Motion and scroll animation that guide the eye without slowing the site down.</li><li>3D, product renders and studio-grade images made with AI, where they fit.</li><li>Accessibility from the design stage: contrast, text sizes and keyboard focus.</li></ul><h2>Design that sells</h2><p>A beautiful site that brings no leads is a picture on the wall. Every design decision is checked against the goal: is it clear what you do, is it easy to get in touch, and is there a reason to choose you.</p>
+  <h2>How it works</h2>
+  <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch, and an optional monthly care plan.</li></ol>
+  <h2>Pricing</h2>
+  <p>Design is included in every package: <strong>Presence</strong> from ₪4,900, <strong>Business</strong> from ₪8,900, and <strong>Signature</strong> from ₪19,900 with a unique art concept and 3D. <a href="brand-identity-design.html">Brand identity</a> can be added from ₪600.</p>
+  <h2>From the portfolio</h2><div class="sv-cards"><a class="sv-card" href="../../en-work.html#clinic"><img src="../../work/cinema/clinic-640.webp" alt="Rotem Gotovski, Therapeutic cosmetics clinic with a shop" width="640" height="360" loading="lazy" decoding="async"><span>Rotem Gotovski<small>Therapeutic cosmetics clinic with a shop</small></span></a><a class="sv-card" href="../../en-work.html#falafel"><img src="../../work/cinema/falafel-640.webp" alt="4X4 Catering, Falafel catering with a quote builder" width="640" height="360" loading="lazy" decoding="async"><span>4X4 Catering<small>Falafel catering with a quote builder</small></span></a><a class="sv-card" href="../../en-work.html#allenbis"><img src="../../work/cinema/allenbis-640.webp" alt="Allenbis, Drinks and snacks store with delivery" width="640" height="360" loading="lazy" decoding="async"><span>Allenbis<small>Drinks and snacks store with delivery</small></span></a></div>
+  <h2>FAQ</h2>
+  <div class="sv-faq"><details><summary><h3>Do you work with templates?</h3></summary><p>No. Every site is designed and built from scratch around the business, so it has no twin on the internet.</p></details><details><summary><h3>I am not sure what I want. Is that OK?</h3></summary><p>Absolutely. In the intro call we work out the business and the customers together, and I propose a direction. You approve it before anything else happens.</p></details><details><summary><h3>Will the design work well on phones?</h3></summary><p>Yes. I design for phone and desktop side by side, and test on real devices before launch.</p></details></div>
+  <section class="sv-cta" aria-labelledby="cta-h">
+    <h2 id="cta-h">Let's talk</h2>
+    <p>A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.</p>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Message on WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+  </section>
+  <h2>Related services</h2><ul class="sv-rel"><li><a href="web-design-studio.html">Custom web design studio</a></li><li><a href="brand-identity-design.html">Brand identity design</a></li><li><a href="landing-page-design.html">Landing page design</a></li><li><a href="ai-commercial-production.html">AI commercial production</a></li></ul>
+</main>
+<footer class="sv-foot"><span>© 2026 HGPRO · Hanoch Gotovski</span><a href="web-design-studio.html">Custom web design studio</a><a href="ai-commercial-production.html">AI commercial production</a><a href="website-design.html">Website design</a><a href="landing-page-design.html">Landing page design</a><a href="ecommerce-store.html">Online store development</a><a href="seo-services.html">SEO services</a><a href="ai-customer-agent.html">AI customer service agent</a><a href="wix-wordpress-migration.html">Wix and WordPress migration</a><a href="brand-identity-design.html">Brand identity design</a><a href="../web-design.html" hreflang="he" lang="he">עברית</a><a href="../../en-accessibility.html">Accessibility</a></footer>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
+<script src="../../js/a11y.js" defer></script>
+</body>
+</html>
