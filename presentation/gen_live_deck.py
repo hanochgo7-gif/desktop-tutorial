@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=42
+TOTAL=43
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -359,10 +359,10 @@ sec("numbers", INK,
     "התמונה: הצוות בסוף המסלול, בשחור לבן. מעל 19 חברים באותו יום, ועוד כמעט עשרה במהלך המלחמה. זה הדבר שהיה לי הכי קשה אחרי השביעי – לא הפציעה. הדברים שהם לא יספיקו לעשות, והמשפחות השכולות. (אפשר להגיד שם אחד או שניים. לעצור. לא למהר לשקף הבא.)", pad="128px 128px 160px")
 # 18 after
 n+=1
-items=[("Warning","הפציעה",""),
-       ("Home","השיקום",""),
+items=[("Activity","הפציעה",""),
+       ("Clock","השיקום",""),
        ("Users","האובדן",""),
-       ("Activity","החיים שאחרי","")]
+       ("Home","החיים שאחרי","")]
 after_rows="".join('<div style="display:flex; flex-direction:row; gap:36px; align-items:center">'+icon_chip(a,96)+h3(b,60,TXT)+'</div>' for a,b,c in items)
 sec("after", PAPER,
     f'{h2("מה שאף אחד לא מכין אותך אליו", 64)}'
@@ -462,6 +462,10 @@ slides=[x for x in slides if x[0]!='s01']
 order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
 order.remove('map'); order.insert(order.index('nukhba'),'map')
+# order as arranged by the user in the live editor (incl. their copy of the battle map, "1ec90ba2")
+LIVE_ORDER=["cover","hook","who","label","grade10","msg1","s02","shomer","sayeret","commanders","s03","gazamap","sector","nagmash","before","rockets","radio1","map","nukhba","apc","radio2","1ec90ba2","outpost","moment","radio3","radio4","evac","soroka","twist","s04","numbers","after","journey","s05","principles","p1","p2","p3","s06","today","callback","decision","final"]
+assert sorted(set(LIVE_ORDER)-{"1ec90ba2"})==sorted(order), set(order)^set(LIVE_ORDER)
+order=LIVE_ORDER
 def fix_counter(i, h):
     # page counter / progress bar follow the FINAL order (sector & nagmash are swapped after generation)
     gen = GEN_IDS.index(i)+1; fin = order.index(i)+1
