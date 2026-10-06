@@ -18,7 +18,7 @@ BLOG_CSS = '''
 .sv-foot a[href$="feed.xml"] { padding-inline: 6px; }
 @media (max-width: 700px) { .bl-toc a { min-height: 44px; } .bl-toc ol { gap: 0 !important; } }
 .sv article > p:not(.bl-meta), .sv article > ul, .sv article > ol { margin-bottom: 1.1rem; }
-.bl-meta { font-family: var(--f-mono); font-size: .76rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
+.bl-meta { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
 .bl-meta b { color: var(--signal); font-weight: 400; }
 .bl-cover { margin: 2rem 0 0; border-radius: 18px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); }
 .bl-cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
@@ -26,7 +26,7 @@ BLOG_CSS = '''
 .bl-sum p { margin: 0; }
 .bl-sum p + p { margin-top: .6rem; }
 .bl-toc { margin: 2rem 0 0; padding: 18px 22px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); }
-.bl-toc b { font-family: var(--f-mono); font-size: .76rem; color: var(--fg-dim); font-weight: 400; }
+.bl-toc b { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); font-weight: 400; }
 .bl-toc ol { margin: .6rem 0 0; gap: .3rem !important; }
 .bl-toc a { color: #ede8de; text-decoration: none; }
 .bl-toc a:hover { color: var(--signal); }
@@ -47,7 +47,7 @@ BLOG_CSS = '''
 .bl-list a { display: block; height: 100%; text-decoration: none; border-radius: 16px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: rgba(237,232,222,.025); }
 .bl-list img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .bl-list .tx { display: block; padding: 14px 16px 18px; }
-.bl-list time { font-family: var(--f-mono); font-size: .72rem; color: var(--fg-dim); }
+.bl-list time { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); }
 .bl-list b { display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.35rem; line-height: 1.25; margin: .3rem 0; }
 .bl-list .tx span { display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .92rem; line-height: 1.6; }
 '''
