@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=39
+TOTAL=42
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -280,7 +280,7 @@ n+=1
 sec("map", INK,
     f'<h2 style="position:absolute; left:128px; top:88px; width:1664px; font-family:{H}; font-size:56px; font-weight:700; line-height:1.15; color:#F6F3EE; text-align:right">{t("מפת הקרב")}</h2>'
     f'<img src="/_blob/b2d5c939adf45f21bed252e1210ddef0" alt="מפת הקרב: מוצב סופה, קיבוץ סופה, נקודת המחבלים, הנגמ״ש ואנדרטת דנגור" style="position:absolute; left:0px; top:200px; width:1920px; height:656px; object-fit:cover">',
-    "מיד אחרי הסרטון: להסביר מה הם ראו. איפה המוצב, איפה הקיבוץ, מאיפה הגיעו המחבלים (הנקודה האדומה), ואיפה הנגמ״ש שהם ירו עליו. שני משפטים – הקהל צריך רק להבין את המרחב.", pad="0px", layout="display:flex; flex-direction:column", chrome_on=False)
+    "לפני הסרטון: להסביר את המרחב. איפה המוצב, איפה הקיבוץ, מאיפה הגיעו המחבלים (הנקודה האדומה), ואיפה הנגמ״ש. שני משפטים – הקהל צריך רק להבין את המרחב, ואז בסרטון הוא יזהה את הנקודה.", pad="0px", layout="display:flex; flex-direction:column", chrome_on=False)
 # (timeline slide removed at the user's request)
 # 13c outpost video
 n+=1
@@ -394,8 +394,22 @@ P=[("1","אתה לא שולט במה שקורה לך","אבל אתה כן שול
    ("3","זהות לא מקבלים. בונים.","הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה.",True)]
 ph="".join(card(f'{circle_icon(a,88)}<div style="flex:1"></div>{h3(b,56,"#F6F3EE" if d else TXT)}<div style="flex:1"></div>', d, "; gap:28px; padding:56px 48px") for a,b,c,d in P)
 sec("principles", PAPER,
-    f'{h2("שלושה עקרונות", 64)}<div style="display:flex; flex-direction:row; gap:40px; flex:1">{ph}</div>{pnum(n, False)}',
+    f'{h2("שלושה עקרונות לעבור משבר", 64)}<div style="display:flex; flex-direction:row; gap:40px; flex:1">{ph}</div>{pnum(n, False)}',
     "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. צריך לדעת רק מה הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
+# 21b one slide per principle
+PX=[("1","אתה לא שולט במה שקורה לך","אבל אתה כן שולט במה שאתה עושה עם זה", 96, 72,
+     "עיקרון 1. להגיד את השורה הראשונה, לעצור, ללחוץ: 'אבל אתה כן שולט במה שאתה עושה עם זה.' הדוגמה: אני לא בחרתי לחטוף כדור. אבל כששכבתי על הרצפה ורציתי להירדם, אני כן בחרתי לקום ולחזור לתפקד."),
+    ("2","לא חייבים לדעת את כל הדרך","צריך לדעת רק מה הצעד הבא", 96, 80,
+     "עיקרון 2. השורה השנייה בלחיצה. הדוגמה: אחרי השיקום לא היה לי מושג מה אני עושה עם החיים שלי. הצעד הראשון היה רק לנסוע לפנמה. משם הגיע הצעד הבא, ואחריו עוד אחד. היום אני לומד, עובד ומרצה."),
+    ("3","זהות לא מקבלים","בונים", 104, 140,
+     "עיקרון 3. 'זהות לא מקבלים' – לעצור – לחיצה: 'בונים.' הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה. הדוגמה: בגן הדביקו לי תווית של ילד בעייתי. אחרי השביעי יכולתי לקבל תווית חדשה: הפצוע. בשתי הפעמים בחרתי לבנות את מי שאני בעצמי.")]
+for num,a,b,sa,sb,notes in PX:
+    n+=1
+    sec("p"+num, INK,
+        f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">{num}</h1>'
+        f'{pin("p","עיקרון "+num+" מתוך 3", 330, 32, SAND, weight=400, lh=1.45)}{pin_rule(402, SAND)}'
+        f'{pin("h2", a, 440, sa, "#F6F3EE")}{pin("h2", b, 440+int(sa*1.15)+40, sb, SAND, build="fade")}{pnum(n)}',
+        notes, pad="128px 128px 160px")
 # 22 section 06
 n+=1
 section_slide("s06","06","להפוך כאב למשהו","","להפוך כאב למשהו – 7 דקות.", n)
@@ -446,6 +460,7 @@ GEN_IDS=[x[0] for x in slides]
 slides=[x for x in slides if x[0]!='s01']
 order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
+order.remove('map'); order.insert(order.index('nukhba'),'map')
 def fix_counter(i, h):
     # page counter / progress bar follow the FINAL order (sector & nagmash are swapped after generation)
     gen = GEN_IDS.index(i)+1; fin = order.index(i)+1
