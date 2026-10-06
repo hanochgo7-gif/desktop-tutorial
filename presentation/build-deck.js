@@ -164,8 +164,11 @@ CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed 
 {
   const s = slide(PAPER, "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", { mark: 70 });
   heading(s, "שנת שירות ב״שומר החדש״ – גרעין נח״ל", 128, 128, 1664, 90, 60, TXT, { valign: "middle" });
-  rrect(s, 128, 258, 1664, 662, "EFE9DD", "C9BFA8", 20, "dash");
-  para(s, "כאן ייכנסו התמונות מהשנה בשומר החדש", 128, 560, 1664, 60, 32, MUTED, { align: "center" });
+  // photo row, centered, right to left
+  const shomer = [["shomer-01.jpg", 436 / 712]], sh = 662, sg = 32;
+  const sw = shomer.map(([, ar]) => Math.round(sh * ar));
+  let sx = 960 + (sw.reduce((a, b) => a + b, 0) + sg * (shomer.length - 1)) / 2;
+  shomer.forEach(([f], i) => { sx -= sw[i]; img(s, f, sx, 258, sw[i], sh); sx -= sg; });
   pnum(s, n, false);
 }
 // ============ 9 sayeret ============

@@ -44,7 +44,8 @@ def pin_rule(top, color):
 def pnum(n, dark=True):
     return ''  # replaced by chrome()
 
-PHOTOS={"cover":"/_blob/3c210f43b01dea0bb26500a2a5dd89d2","childhood":"/_blob/dfe9e55caa210e20d4c7c0968b21f06a","kid":"/_blob/d6d402c02cab5266180f288c9c466487","army":"/_blob/d3046a280df4ba44b02d01bc37fe96ac","stretcher":"/_blob/395c117e6c3e672da5ef708629b0d409","team":"/_blob/d991b7912beba42f8c8de27d135e5b83","barnash":"/_blob/b09ed8b5d0d038226e899b4fdb1fb602","klein":"/_blob/2f032767334d561014a8d00d72cf0034","oct7":"/_blob/638b3cf092007ccd9568c41a3beda17e","rehab":"/_blob/a29333a0ac4c6ed87eac3b9479098405","panama":"/_blob/293cab8b9543fb3ca09eed6220298714","climb":"/_blob/c1b99dab8b0f1f5775a2257854725fb9","horses":"/_blob/27dbbac195293ebea914ffaf8e421e4e","journey4":"/_blob/cd6009f2931f23c5f145ca4a3ac932cd","lecture":"/_blob/7ead3731d703527d6be6f6c79ba70937"}
+SHOMER=[("shomer1", "רועה צאן בשומר החדש", 436/712)]
+PHOTOS={"cover":"/_blob/3c210f43b01dea0bb26500a2a5dd89d2","childhood":"/_blob/dfe9e55caa210e20d4c7c0968b21f06a","kid":"/_blob/d6d402c02cab5266180f288c9c466487","army":"/_blob/d3046a280df4ba44b02d01bc37fe96ac","stretcher":"/_blob/395c117e6c3e672da5ef708629b0d409","team":"/_blob/d991b7912beba42f8c8de27d135e5b83","barnash":"/_blob/b09ed8b5d0d038226e899b4fdb1fb602","klein":"/_blob/2f032767334d561014a8d00d72cf0034","oct7":"/_blob/638b3cf092007ccd9568c41a3beda17e","rehab":"/_blob/a29333a0ac4c6ed87eac3b9479098405","panama":"/_blob/293cab8b9543fb3ca09eed6220298714","climb":"/_blob/c1b99dab8b0f1f5775a2257854725fb9","horses":"/_blob/27dbbac195293ebea914ffaf8e421e4e","journey4":"/_blob/cd6009f2931f23c5f145ca4a3ac932cd","lecture":"/_blob/7ead3731d703527d6be6f6c79ba70937","shomer1":"/_blob/7b49752ada19d1dd077a7e6014c0081d"}
 def photo(label, w, h, dark=True, extra="", key=None):
     if key and key in PHOTOS:
         fx = "; border:1px solid "+HAIR_D if dark else "; box-shadow:0 8px 32px rgba(0,0,0,0.10)"
@@ -151,7 +152,7 @@ CUR_SEC=("02","הבחירה")
 n+=1
 sec("shomer", PAPER,
     f'{h2("שנת שירות ב״שומר החדש״ – גרעין נח״ל", 60)}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center; flex:1">{photo("כאן ייכנסו התמונות מהשנה בשומר החדש", 1664, 690, False)}</div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:row; justify-content:center; gap:32px; flex:1">{"".join(photo(lab, round(690*ar), 690, False, key=k) for k, lab, ar in SHOMER)}</div>{pnum(n, False)}',
     "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:40px", mark=70)
 # 9 sayeret cards
 n+=1
