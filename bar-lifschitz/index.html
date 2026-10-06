@@ -7,9 +7,10 @@
 <meta name="description" content="ארוחות שף בכל סוף שבוע: שולחן אחד ארוך בחצר במצפה מתת, או ארוחה פרטית אצלכם בבית. בישול על אש, חומרי גלם מהשוק ויין מיקבים קטנים.">
 <meta property="og:title" content="בר ליפשיץ | ארוחות שף בחצר">
 <meta property="og:description" content="שולחן אחד ארוך, אש, ותפריט שמשתנה כל שבוע. במצפה מתת או אצלכם.">
-<meta property="og:image" content="images/crudo.jpg">
-<meta name="theme-color" content="#d6d7cb">
+<meta property="og:image" content="images/yard.jpg">
+<meta name="theme-color" content="#2b1219">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1219'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f3f2ec' font-family='serif'%3Eב%3C/text%3E%3C/svg%3E">
+<link rel="preload" as="image" href="images/yard.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
@@ -54,100 +55,99 @@
     font: 700 1.05rem/1 var(--body);
     text-decoration: none; border: 1.5px solid var(--fig); border-radius: 999px;
     background: var(--fig); color: var(--linen); cursor: pointer;
-    transition: background-color .2s, color .2s;
+    transition: background-color .2s, color .2s, border-color .2s;
   }
   .btn:hover { background: var(--beet); border-color: var(--beet); }
   .btn.ghost { background: transparent; color: var(--fig); }
   .btn.ghost:hover { background: var(--fig); color: var(--linen); border-color: var(--fig); }
 
-  /* ---------- כותרת עליונה ---------- */
+  /* תמונה שממלאת את התא שלה עד הקצה */
+  .fill { width: 100%; object-fit: cover; }
+  .about-img, .evening-img { height: 100%; }
+
+  /* ---------- פתיח: החצר כרקע ---------- */
+  .hero {
+    position: relative; isolation: isolate;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column;
+    color: var(--linen);
+    background: var(--fig);
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: -2;
+    width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(to top, rgba(43,18,25,.92) 0%, rgba(43,18,25,.55) 38%, rgba(43,18,25,.08) 70%, rgba(43,18,25,.35) 100%);
+  }
   .top {
     display: flex; justify-content: space-between; align-items: center;
     padding-block: 22px;
     font-weight: 600;
+    width: 100%;
   }
   .top .mark { font-family: var(--display); font-size: 1.5rem; text-decoration: none; }
   .top nav { display: flex; gap: 28px; }
   .top nav a { text-decoration: none; }
-  .top nav a:hover { color: var(--beet); }
+  .top nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
   @media (max-width: 720px) { .top nav a:not(.book-link) { display: none; } }
 
-  /* ---------- פתיח ---------- */
-  .hero { padding-block: clamp(32px, 6vw, 72px) clamp(56px, 8vw, 110px); }
+  .hero-body { margin-top: auto; width: 100%; padding-bottom: clamp(40px, 7vw, 88px); }
   .hero-name {
     font-size: clamp(4.4rem, 20vw, 15rem);
     line-height: .86;
     letter-spacing: -0.02em;
     margin-inline-start: -0.04em;
   }
-  .hero-row {
-    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(28px, 5vw, 80px); align-items: end;
-    margin-top: clamp(28px, 4vw, 48px);
-  }
-  .hero-lede { font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.5; max-width: 22em; }
-  .hero-lede strong { font-weight: 700; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .hero-lede { font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.5; max-width: 26em; margin: clamp(20px, 3vw, 32px) 0 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .hero .btn { background: var(--linen); color: var(--fig); border-color: var(--linen); }
+  .hero .btn:hover { background: var(--beet); color: var(--linen); border-color: var(--beet); }
+  .hero .btn.ghost { background: transparent; color: var(--linen); border-color: rgba(243,242,236,.7); }
+  .hero .btn.ghost:hover { background: var(--linen); color: var(--fig); border-color: var(--linen); }
 
-  /* פס תמונות: שלושה רגעים מאותו ערב */
-  .strip {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px; align-items: end;
-  }
-  .strip figure { margin: 0; }
-  .strip img { width: 100%; aspect-ratio: 9 / 10; object-fit: cover; }
-  .strip figure:nth-child(2) img { aspect-ratio: 9 / 12; }
-  .strip figcaption { font-size: .9rem; color: var(--olive); margin-top: 8px; }
-
-  @media (max-width: 860px) {
-    .hero-row { grid-template-columns: 1fr; }
-    .strip { order: -1; }
-  }
-  @media (max-width: 520px) { .strip figcaption { display: none; } }
-
-  /* רגע התנועה היחיד בדף: התמונות עולות מתוך העשן */
+  /* רגע התנועה היחיד בדף: החצר מתבהרת מתוך העשן */
   @media (prefers-reduced-motion: no-preference) {
-    .strip figure { animation: smoke 1.4s cubic-bezier(.2,.7,.2,1) both; }
-    .strip figure:nth-child(2) { animation-delay: .18s; }
-    .strip figure:nth-child(3) { animation-delay: .36s; }
+    .hero-bg { animation: smoke 1.8s cubic-bezier(.2,.7,.2,1) both; }
     @keyframes smoke {
-      from { opacity: 0; filter: blur(14px) saturate(.4); transform: translateY(18px); }
+      from { opacity: 0; filter: blur(16px) saturate(.4); transform: scale(1.06); }
       to   { opacity: 1; filter: none; transform: none; }
     }
   }
 
-  /* ---------- מי מבשל ---------- */
-  .about {
-    display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
-    gap: clamp(28px, 6vw, 96px); align-items: center;
-    padding-block: clamp(56px, 8vw, 110px);
-    border-top: 1px solid rgba(43, 18, 25, .25);
+  /* ---------- מי מבשל: התמונה יוצאת לקצה ---------- */
+  .about { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .about-text {
+    padding: clamp(56px, 8vw, 120px) var(--gutter);
+    padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    display: flex; flex-direction: column; justify-content: center;
   }
-  .about img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .about-img { min-height: 520px; }
   .about blockquote {
     margin: 0 0 28px;
     font-family: var(--display);
-    font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+    font-size: clamp(1.9rem, 3.4vw, 2.9rem);
     line-height: 1.2;
-    max-width: 18em;
+    max-width: 16em;
   }
-  .about blockquote::before { content: "״"; color: var(--beet); }
-  .about blockquote::after { content: "״"; color: var(--beet); }
-  .about p { color: var(--fig); }
+  .about blockquote::before, .about blockquote::after { content: "״"; color: var(--beet); }
   @media (max-width: 760px) {
     .about { grid-template-columns: 1fr; }
-    .about img { max-width: 360px; }
+    .about-img { min-height: 0; height: auto; aspect-ratio: 4 / 5; order: -1; }
   }
 
   /* ---------- ערב אחד, לפי הסדר ---------- */
-  .evening { padding-block: clamp(56px, 8vw, 110px); background: var(--fig); color: var(--linen); }
-  .evening h2 { margin-bottom: 12px; }
-  .evening .sub { color: #cdbfc2; margin-bottom: clamp(32px, 5vw, 56px); }
-  .evening-grid {
-    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: clamp(32px, 6vw, 96px); align-items: start;
+  .evening { background: var(--fig); color: var(--linen); display: grid; grid-template-columns: 7fr 5fr; }
+  .evening-text {
+    padding: clamp(56px, 8vw, 110px) var(--gutter);
+    padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
   }
-  .timeline { list-style: none; margin: 0; padding: 0; }
+  .evening h2 { margin-bottom: 12px; }
+  .evening .sub { color: #cdbfc2; margin-bottom: clamp(32px, 5vw, 48px); }
+  .timeline { list-style: none; margin: 0; padding: 0; max-width: 40em; }
   .timeline li {
     display: grid; grid-template-columns: 5.5rem 1fr; gap: 20px;
     padding-block: 22px;
@@ -157,14 +157,16 @@
   .timeline time { font-family: var(--display); font-size: 1.9rem; line-height: 1; color: #e7a3ad; direction: ltr; text-align: right; }
   .timeline h3 { font-family: var(--body); font-weight: 700; font-size: 1.15rem; line-height: 1.4; margin-bottom: 4px; }
   .timeline p { margin: 0; color: #e2dcdc; }
-  .evening-photos { display: grid; gap: 10px; }
-  .evening-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-  .evening-photos img:first-child { aspect-ratio: 4 / 5; }
+  .evening-img { min-height: 480px; }
   @media (max-width: 860px) {
-    .evening-grid { grid-template-columns: 1fr; }
-    .evening-photos { grid-template-columns: 1fr 1fr; }
-    .evening-photos img, .evening-photos img:first-child { aspect-ratio: 4 / 5; }
+    .evening { grid-template-columns: 1fr; }
+    .evening-img { min-height: 0; height: auto; aspect-ratio: 488 / 565; }
   }
+
+  /* ---------- פס מנות מקצה לקצה ---------- */
+  .band { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .band img { aspect-ratio: 3 / 4; }
+  @media (max-width: 760px) { .band { grid-template-columns: 1fr 1fr; } }
 
   /* ---------- התפריט: כרטיס מודפס ---------- */
   .menu-section { padding-block: clamp(64px, 9vw, 130px); }
@@ -187,46 +189,27 @@
   .course + .course { border-top: 1px solid rgba(43, 18, 25, .14); }
   .course .dish { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 1.85rem); line-height: 1.2; margin: 0 0 4px; max-width: none; }
   .course .notes { color: var(--olive); font-size: 1rem; margin: 0 auto; }
-  .menu-card .fine {
-    margin: 30px auto 0; font-size: .95rem; color: var(--smoke); max-width: 28em;
-  }
+  .menu-card .fine { margin: 30px auto 0; font-size: .95rem; color: var(--smoke); max-width: 28em; }
 
   /* ---------- שתי דרכים ---------- */
-  .formats { padding-block: 0 clamp(64px, 9vw, 120px); }
-  .formats h2 { margin-bottom: clamp(28px, 4vw, 48px); }
-  .formats-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    border-top: 1.5px solid var(--fig);
-  }
-  .format { padding: 32px 0 8px; }
-  .format:first-child { padding-inline-end: clamp(24px, 4vw, 56px); border-inline-end: 1px solid rgba(43,18,25,.25); }
-  .format:last-child { padding-inline-start: clamp(24px, 4vw, 56px); }
+  .formats-head { padding-bottom: clamp(28px, 4vw, 48px); }
+  .formats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .format-img { aspect-ratio: 4 / 3; }
+  .format-text { padding: 36px var(--gutter) clamp(56px, 8vw, 96px); }
   .format h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 14px; }
-  .format ul { margin: 18px 0 26px; padding: 0; list-style: none; }
+  .format ul { margin: 18px 0 26px; padding: 0; list-style: none; max-width: 30em; }
   .format li { padding: 8px 0; border-bottom: 1px dashed rgba(43,18,25,.25); }
   .format li:first-child { border-top: 1px dashed rgba(43,18,25,.25); }
-  @media (max-width: 760px) {
-    .formats-grid { grid-template-columns: 1fr; }
-    .format:first-child { padding-inline-end: 0; border-inline-end: 0; border-bottom: 1px solid rgba(43,18,25,.25); padding-bottom: 32px; }
-    .format:last-child { padding-inline-start: 0; }
-  }
+  @media (max-width: 760px) { .formats-grid { grid-template-columns: 1fr; } }
 
-  /* ---------- מהדרכים ---------- */
-  .roads { padding-block: clamp(56px, 8vw, 110px); border-top: 1px solid rgba(43,18,25,.25); }
+  /* ---------- מהדרכים: פס תמונות מקצה לקצה ---------- */
+  .roads { padding-top: clamp(56px, 8vw, 110px); border-top: 1px solid rgba(43,18,25,.25); }
   .roads-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 40px; margin-bottom: 32px; }
   .roads-head p { margin: 0; max-width: 26em; color: var(--olive); }
-  .roads-grid {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 980px;
-  }
-  .roads-grid figure { margin: 0; }
-  .roads-grid img { width: 100%; aspect-ratio: 9 / 10; object-fit: cover; }
-  .roads-grid figure:nth-child(even) { margin-top: 48px; }
-  .roads-grid figcaption { font-size: .9rem; color: var(--olive); margin-top: 8px; }
-  @media (max-width: 760px) {
-    .roads-grid { grid-template-columns: 1fr 1fr; }
-    .roads-grid figure:nth-child(even) { margin-top: 32px; }
-    .roads-grid figure:nth-child(3) { display: none; }
-  }
+  .roads-grid { display: grid; grid-template-columns: repeat(6, 1fr); }
+  .roads-grid img { aspect-ratio: 3 / 4; }
+  @media (max-width: 960px) { .roads-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 520px) { .roads-grid { grid-template-columns: 1fr 1fr; } }
 
   /* ---------- הזמנה ---------- */
   .book { background: var(--linen); padding-block: clamp(64px, 9vw, 120px); }
@@ -270,103 +253,88 @@
   footer nav { display: flex; gap: 24px; align-items: center; }
 
   [hidden] { display: none !important; }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .skip { position: absolute; top: -60px; right: 16px; background: var(--fig); color: var(--linen); padding: 10px 16px; z-index: 10; }
+  .skip { position: absolute; top: -60px; right: 16px; background: var(--linen); color: var(--fig); padding: 10px 16px; z-index: 10; }
   .skip:focus { top: 12px; }
 </style>
 </head>
 <body>
 <a class="skip" href="#book">דילוג להזמנת מקום</a>
 
-<header class="wrap top">
-  <a class="mark" href="#">בר ליפשיץ</a>
-  <nav aria-label="ניווט ראשי">
-    <a href="#evening">איך נראה ערב</a>
-    <a href="#menu">תפריט</a>
-    <a href="#formats">בחצר או אצלכם</a>
-    <a class="book-link" href="#book">הזמנת מקום</a>
-  </nav>
-</header>
-
 <main>
-  <section class="wrap hero" aria-labelledby="hero-title">
-    <h1 class="hero-name" id="hero-title">בר ליפשיץ</h1>
-    <div class="hero-row">
-      <div>
-        <p class="hero-lede">מבשל ומארח. כל סוף שבוע אני עורך <strong>שולחן אחד ארוך</strong> בחצר שלי במצפה מתת, עם אש, יין ותפריט שנכתב מחדש לפי מה שהגיע מהשוק. אפשר גם להזמין אותי אליכם.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#book">הזמנת מקום לסוף השבוע</a>
-          <a class="btn ghost" href="#menu">לתפריט לדוגמה</a>
-        </div>
-      </div>
-      <div class="strip">
-        <figure>
-          <img src="images/crudo.jpg" width="301" height="335" alt="קרודו דג לבן ברוטב אדום עם צ'ילי ודובדבנים, מוגש בצלחות קרמיקה">
-          <figcaption>קרודו, רוטב סלק ודובדבנים</figcaption>
-        </figure>
-        <figure>
-          <img src="images/fire.jpg" width="301" height="335" alt="בר מבשל על אש פתוחה בלילה, עשן עולה מעל הסירים">
-          <figcaption>שבת בלילה, ליד הגחלים</figcaption>
-        </figure>
-        <figure>
-          <img src="images/wine.jpg" width="301" height="335" alt="בר בחולצה לבנה פותח בקבוק יין ליד דלי קרח בחצר">
-          <figcaption>היין נפתח לפני שמתיישבים</figcaption>
-        </figure>
+  <section class="hero" aria-labelledby="hero-title">
+    <img class="hero-bg" src="images/yard.jpg" width="488" height="695" alt="החצר של בר במצפה מתת: שולחן עץ ארוך ערוך עם פרחים, בצל עץ">
+    <header class="wrap top">
+      <a class="mark" href="#">בר ליפשיץ</a>
+      <nav aria-label="ניווט ראשי">
+        <a href="#evening">איך נראה ערב</a>
+        <a href="#menu">תפריט</a>
+        <a href="#formats">בחצר או אצלכם</a>
+        <a class="book-link" href="#book">הזמנת מקום</a>
+      </nav>
+    </header>
+    <div class="wrap hero-body">
+      <h1 class="hero-name" id="hero-title">בר ליפשיץ</h1>
+      <p class="hero-lede">מבשל ומארח. כל סוף שבוע אני עורך שולחן אחד ארוך כאן, בחצר שלי במצפה מתת, עם אש, יין ותפריט שנכתב מחדש לפי מה שהגיע מהשוק. אפשר גם להזמין אותי אליכם.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#book">הזמנת מקום לסוף השבוע</a>
+        <a class="btn ghost" href="#menu">לתפריט לדוגמה</a>
       </div>
     </div>
   </section>
 
-  <section class="wrap about" aria-label="על בר">
-    <img src="images/outdoor-prep.jpg" width="301" height="335" loading="lazy" alt="בר מכין מנות על שולחן עבודה בחוץ, ליד מעשנה, לימונים ובקבוק יין לבן">
-    <div>
+  <section class="about" aria-label="על בר">
+    <div class="about-text">
       <blockquote>האהבה שלי לבישול הגיעה מהאהבה לאירוח, ומהחיבור שזה מייצר בין אנשים.</blockquote>
       <p>אני מבשל לאנשים כי אני אוהב לראות שולחן מתמלא. רוב הבישול נעשה על אש פתוחה, עם חומרי גלם שאני בוחר בעצמי מדייגים, חקלאים ויקבים קטנים.</p>
-      <p>את מה שאני מגיש למדתי בדרכים: על גזייה בחופים של מערב אוסטרליה, ליד נהרות בניו זילנד, ובכרמים כאן בבית.</p>
+      <p>מעבר לחצר, אני עורך ארוחות בכרמים, כמו הערב בכרם של יקב תל שיפון. את מה שאני מגיש למדתי בדרכים, מחופים במערב אוסטרליה ועד נהרות בניו זילנד.</p>
     </div>
+    <img class="fill about-img" src="images/chef-plating.jpg" width="488" height="695" loading="lazy" alt="בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר">
   </section>
 
   <section class="evening" id="evening" aria-labelledby="evening-title">
-    <div class="wrap">
+    <div class="evening-text">
       <h2 id="evening-title">איך נראה ערב</h2>
       <p class="sub">בערך ארבע שעות, מהכוס הראשונה ועד הקפה. השעות משתנות קצת לפי העונה.</p>
-      <div class="evening-grid">
-        <ol class="timeline">
-          <li>
-            <time>19:30</time>
-            <div>
-              <h3>מגיעים לחצר</h3>
-              <p>האש כבר דולקת. כוס יין ביד ומשהו קטן ליד הגחלים, בזמן שכולם מכירים.</p>
-            </div>
-          </li>
-          <li>
-            <time>20:15</time>
-            <div>
-              <h3>מתיישבים לשולחן</h3>
-              <p>שולחן אחד ארוך לכל האורחים. המנות הראשונות קרות ורעננות: דג נא, ירקות מהשוק, לחם חם.</p>
-            </div>
-          </li>
-          <li>
-            <time>21:00</time>
-            <div>
-              <h3>העיקרית יוצאת מהאש</h3>
-              <p>בשר בבישול ארוך, ירקות שנצלו ישר על הגחלים, ופסטה שאני מגלגל באותו בוקר.</p>
-            </div>
-          </li>
-          <li>
-            <time>22:30</time>
-            <div>
-              <h3>קינוח וקפה</h3>
-              <p>ומי שלא ממהר נשאר ליד האש עם עוד כוס.</p>
-            </div>
-          </li>
-        </ol>
-        <div class="evening-photos">
-          <img src="images/vineyard-table.jpg" width="301" height="335" loading="lazy" alt="שולחן ארוך ערוך במפה לבנה בין שורות גפנים, עם פרחים ודלי מלא בקבוקי יין">
-          <img src="images/river-pan.jpg" width="301" height="335" loading="lazy" alt="בר מבשל במחבת על גזייה על הדשא">
-        </div>
-      </div>
+      <ol class="timeline">
+        <li>
+          <time>19:30</time>
+          <div>
+            <h3>מגיעים לחצר</h3>
+            <p>האש כבר דולקת. כוס יין ביד ומשהו קטן ליד הגחלים, בזמן שכולם מכירים.</p>
+          </div>
+        </li>
+        <li>
+          <time>20:15</time>
+          <div>
+            <h3>מתיישבים לשולחן</h3>
+            <p>שולחן אחד ארוך לכל האורחים. המנות הראשונות קרות ורעננות: דג נא, גבינות טריות, ירקות מהשוק ולחם חם.</p>
+          </div>
+        </li>
+        <li>
+          <time>21:00</time>
+          <div>
+            <h3>העיקרית יוצאת מהאש</h3>
+            <p>בשר בבישול ארוך, ירקות שנצלו ישר על הגחלים, ומה שעוד יצא מהמחבת באותו ערב.</p>
+          </div>
+        </li>
+        <li>
+          <time>22:30</time>
+          <div>
+            <h3>קינוח וקפה</h3>
+            <p>ומי שלא ממהר נשאר ליד האש עם עוד כוס.</p>
+          </div>
+        </li>
+      </ol>
     </div>
+    <img class="fill evening-img" src="images/sunset-plating.jpg" width="488" height="565" loading="lazy" alt="בר מחייך ומגיש מנות על שולחן ארוך בשקיעה, ליד חביות יין">
   </section>
+
+  <div class="band" role="group" aria-label="מנות מהערבים">
+    <img class="fill" src="images/crudo-line.jpg" width="488" height="695" loading="lazy" alt="שורת צלחות של סשימי האמצ'י בקונסומה דובדבנים">
+    <img class="fill" src="images/burrata.jpg" width="488" height="695" loading="lazy" alt="קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית">
+    <img class="fill" src="images/carpaccio.jpg" width="488" height="695" loading="lazy" alt="צלחות חרסינה עם פרושוטו וסטרצ'טלה">
+    <img class="fill" src="images/chef-pan.jpg" width="488" height="695" loading="lazy" alt="בר מבשל במחבת ומגיש לצלחות כחולות-לבנות">
+  </div>
 
   <section class="wrap menu-section" id="menu" aria-labelledby="menu-title">
     <div class="menu-card">
@@ -378,16 +346,16 @@
         <p class="notes">חמאה מעושנת, שמן זית מהגליל, מלח ים</p>
       </div>
       <div class="course">
-        <p class="dish">קרודו דג לבן</p>
-        <p class="notes">רוטב סלק ודובדבנים, צ'ילי אדום, בצל ירוק</p>
+        <p class="dish">סשימי האמצ'י</p>
+        <p class="notes">קונסומה דובדבנים, צ'ילי אדום, שמיר</p>
       </div>
       <div class="course">
-        <p class="dish">תאנים וגבינת עיזים</p>
-        <p class="notes">דבש, טימין, פלפל שחור גרוס</p>
+        <p class="dish">בוראטה</p>
+        <p class="notes">עלים ירוקים מהגינה, שמן זית, מלח גס</p>
       </div>
       <div class="course">
-        <p class="dish">פסטה בעבודת יד</p>
-        <p class="notes">עגבניות צלויות על גחלים, בזיליקום, פרמזן</p>
+        <p class="dish">פרושוטו וסטרצ'טלה</p>
+        <p class="notes">פלפל שחור, שמן זית, לחם קלוי</p>
       </div>
       <div class="course">
         <p class="dish">נתח בקר מהאש</p>
@@ -402,50 +370,52 @@
     </div>
   </section>
 
-  <section class="wrap formats" id="formats" aria-labelledby="formats-title">
-    <h2 id="formats-title">בחצר שלי, או אצלכם</h2>
+  <section id="formats" aria-labelledby="formats-title">
+    <div class="wrap formats-head">
+      <h2 id="formats-title">בחצר שלי, או אצלכם</h2>
+    </div>
     <div class="formats-grid">
       <div class="format">
-        <h3>בחצר שלי, במצפה מתת</h3>
-        <p>ארוחה פתוחה בכל סוף שבוע. מזמינים מקום לבד, בזוג או עם חברים, ויושבים לשולחן אחד עם שאר האורחים.</p>
-        <ul>
-          <li>שישי ושבת בערב</li>
-          <li>שולחן אחד לקבוצה קטנה</li>
-          <li>אפשר לסגור את כל השולחן לקבוצה שלכם</li>
-        </ul>
-        <a class="btn" href="#book" data-format="yard">הזמנת מקום בחצר</a>
+        <img class="fill format-img" src="images/table-set.jpg" width="488" height="475" loading="lazy" alt="שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין">
+        <div class="format-text">
+          <h3>בחצר שלי, במצפה מתת</h3>
+          <p>ארוחה פתוחה בכל סוף שבוע. מזמינים מקום לבד, בזוג או עם חברים, ויושבים לשולחן אחד עם שאר האורחים.</p>
+          <ul>
+            <li>שישי ושבת בערב</li>
+            <li>שולחן אחד לקבוצה קטנה</li>
+            <li>אפשר לסגור את כל השולחן לקבוצה שלכם</li>
+          </ul>
+          <a class="btn" href="#book" data-format="yard">הזמנת מקום בחצר</a>
+        </div>
       </div>
       <div class="format">
-        <h3>אצלכם בבית</h3>
-        <p>אני מגיע עם חומרי הגלם, הציוד והאש, מבשל בחצר או במטבח שלכם, מגיש, ומשאיר את המקום נקי.</p>
-        <ul>
-          <li>ימי הולדת, ארוחות משפחה וערבים עם חברים</li>
-          <li>תפריט שנבנה יחד איתכם</li>
-          <li>אפשר להוסיף התאמת יינות לכל מנה</li>
-        </ul>
-        <a class="btn ghost" href="#book" data-format="home">תיאום ארוחה אצלכם</a>
+        <img class="fill format-img" src="images/lunch.jpg" width="488" height="695" loading="lazy" alt="שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים">
+        <div class="format-text">
+          <h3>אצלכם בבית</h3>
+          <p>אני מגיע עם חומרי הגלם, הציוד והאש, מבשל בחצר או במטבח שלכם, מגיש, ומשאיר את המקום נקי.</p>
+          <ul>
+            <li>ימי הולדת, ארוחות משפחה ואירועי צהריים</li>
+            <li>תפריט שנבנה יחד איתכם</li>
+            <li>אפשר להוסיף התאמת יינות לכל מנה</li>
+          </ul>
+          <a class="btn ghost" href="#book" data-format="home">תיאום ארוחה אצלכם</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="wrap roads" aria-labelledby="roads-title">
-    <div class="roads-head">
-      <h2 id="roads-title">מהדרכים</h2>
-      <p>עוד מהבישול שלי, בבית ובחוץ, באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
+  <section class="roads" aria-labelledby="roads-title">
+    <div class="wrap roads-head">
+      <h2 id="roads-title">מהשולחנות האחרונים</h2>
+      <p>עוד מהבישול שלי, בחצר ובדרכים, באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
     </div>
     <div class="roads-grid">
-      <figure>
-        <img src="images/pasta.jpg" width="301" height="335" loading="lazy" alt="בר אוכל צלחת פסטה על חוף בניו זילנד">
-        <figcaption>פסטה על החוף, ניו זילנד</figcaption>
-      </figure>
-      <figure>
-        <img src="images/field-cook.jpg" width="301" height="335" loading="lazy" alt="בר יושב על בול עץ בשדה ירוק ומכין בצק ליד כיריים ניידות">
-        <figcaption>בצק על בול עץ</figcaption>
-      </figure>
-      <figure>
-        <img src="images/truck.jpg" width="301" height="335" loading="lazy" alt="בר ליד טנדר ישן על רקע הרים ונוף פתוח">
-        <figcaption>בדרך לחצר</figcaption>
-      </figure>
+      <img class="fill" src="images/vineyard.jpg" width="488" height="695" loading="lazy" alt="שולחן ארוך במפה לבנה בין שורות גפנים, תחת שמשיות">
+      <img class="fill" src="images/fire.jpg" width="300" height="335" loading="lazy" alt="בר מבשל על אש פתוחה בלילה, עשן עולה מעל הסירים">
+      <img class="fill" src="images/glasses.jpg" width="488" height="695" loading="lazy" alt="כוסות יין ודלי קרח עם בקבוקי יין לבן ופרחים">
+      <img class="fill" src="images/vineyard-guests.jpg" width="488" height="695" loading="lazy" alt="בר מדבר אל האורחים בשולחן הארוך בכרם">
+      <img class="fill" src="images/pasta.jpg" width="300" height="335" loading="lazy" alt="בר אוכל צלחת פסטה על חוף בניו זילנד">
+      <img class="fill" src="images/field-cook.jpg" width="301" height="337" loading="lazy" alt="בר יושב על בול עץ בשדה ירוק ומכין בצק ליד כיריים ניידות">
     </div>
   </section>
 
