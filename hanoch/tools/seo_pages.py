@@ -202,7 +202,7 @@ CSS = '''
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
 .sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
-.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
+.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "HG Mark", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
 .sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
@@ -257,8 +257,9 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
 '''
 GF_HE = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
-GF_EN = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap">'
-FR = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,800&display=swap">'
+GF_EN = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
+# הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/fraunces-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
+FR = ''
 
 def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
 BY = {p['slug']: p for p in P}
@@ -319,7 +320,7 @@ def render(p):
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
 {GF_HE if he else GF_EN}
-{FR}
+<link rel="preload" as="font" type="font/woff2" href="{up}fonts/fraunces-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
 <script type="application/ld+json">{ld}</script>
@@ -379,7 +380,7 @@ def hub(lang):
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 {GF_HE if he else GF_EN}
-{FR}
+<link rel="preload" as="font" type="font/woff2" href="{up}fonts/fraunces-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}
 .sv-list {{ list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }}

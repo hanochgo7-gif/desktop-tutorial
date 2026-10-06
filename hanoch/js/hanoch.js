@@ -1547,33 +1547,32 @@
   initManifesto();
   initBrief();
   initMenu();
-  initTours();
-  initPrinciples();
-  initProcess();
   initProgress();
-  initDemo();
-  initPricing();
-  initFilm();
   initMagnet();
-  initSiteFilm();
-  initPortrait();
-  initProjects();
-  initCompare();
-  initCraft();
   initCursor();
   initXray();
+  // כל מה שמתחת לפתיחה מתאתחל כשהדפדפן פנוי (או אחרי שנייה וחצי לכל המאוחר), כדי שהפתיחה תצויר ותגיב מהר
+  var lateDone = false;
+  function lateInit() {
+    if (lateDone) return; lateDone = true;
+    initTours(); initPrinciples(); initProcess(); initDemo(); initPricing(); initFilm();
+    initSiteFilm(); initPortrait(); initProjects(); initCompare(); initCraft();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+  if (window.requestIdleCallback) requestIdleCallback(lateInit, { timeout: 1500 }); else setTimeout(lateInit, 600);
 
   if (motion) {
     gsap.ticker.add(frame);
     var introDone = runIntro();
     startParticles();
-    introDone.then(function () { ScrollTrigger.refresh(); openFromHash(); });
+    introDone.then(function () { lateInit(); ScrollTrigger.refresh(); openFromHash(); });
     // הבמה מאריכה את הפתיחה: מחשבים מחדש את כל נקודות הגלילה
     window.addEventListener('hg:stage', function () { ScrollTrigger.refresh(); });
     // הצמדה משנה גבהים: מחשבים מחדש אחרי שהגופנים נטענו
     if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); }, function () { });
   } else {
     runIntro();
+    lateInit();
     openFromHash();
   }
 })();

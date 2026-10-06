@@ -22,7 +22,7 @@
 <link rel="icon" href="../images/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -198,7 +198,8 @@ header.chrome{
   color:#fff; text-decoration:none; white-space:nowrap;
 }
 .wordmark em, .mark em{ font-style:normal; }
-.wordmark, #splash .mark{ font-family:"Fraunces", Georgia, serif; font-weight:800; letter-spacing:-.035em; }
+@font-face{ font-family:"HG Mark"; src:url("../fonts/fraunces-mark.woff2") format("woff2"); font-weight:800; font-style:normal; font-display:swap; unicode-range:U+20, U+2E, U+47-48, U+4F-50, U+52, U+B7; }
+.wordmark, #splash .mark{ font-family:"HG Mark", "Fraunces", Georgia, serif; font-weight:800; letter-spacing:-.035em; }
 .wordmark em, #splash .mark em{ color:#ff4f1a; }
 .menu-btn{
   display:flex; flex-direction:column; align-items:flex-end; gap:5px;
@@ -417,7 +418,7 @@ video.live.on{ opacity:1; }
   *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.14s !important; transition-delay:0s !important; }
 }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800&text=HGPRO%C2%B7.%20&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/fraunces-mark.woff2" crossorigin>
 <script src="../js/ga.js" defer></script>
 </head>
 <body class="locked">

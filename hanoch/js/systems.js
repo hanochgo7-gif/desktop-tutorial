@@ -14,7 +14,15 @@
   // מקופל בהתחלה: רואים חמש קטגוריות, והמערכות עצמן נפתחות רק אחרי שבוחרים אחת (פחות החלטות לפני הפנייה)
   let closed = true;
   root.classList.add('sr-closed');
-  function open() { if (!closed) return; closed = false; root.classList.remove('sr-closed'); }
+  function open() {
+    if (!closed) return; closed = false; root.classList.remove('sr-closed');
+    // העמוד התארך: חושפים את המערכות ומחשבים מחדש את נקודות הגלילה של כל מה שמתחת
+    requestAnimationFrame(() => {
+      const body = $('.sr-body');
+      if (window.gsap && body) gsap.to(body, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'expo.out', overwrite: true });
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+  }
 
   const $ = (s, el) => (el || root).querySelector(s);
   const $$ = (s, el) => Array.from((el || root).querySelectorAll(s));

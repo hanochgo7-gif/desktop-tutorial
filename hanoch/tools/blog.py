@@ -163,7 +163,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="icon" href="../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../images/icon-180.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
-{FR}
+<link rel="preload" as="font" type="font/woff2" href="../fonts/fraunces-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
 {extra}

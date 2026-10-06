@@ -198,7 +198,8 @@ header.chrome{
   color:#fff; text-decoration:none; white-space:nowrap;
 }
 .wordmark em, .mark em{ font-style:normal; }
-.wordmark, #splash .mark{ font-family:"Fraunces", Georgia, serif; font-weight:800; letter-spacing:-.035em; }
+@font-face{ font-family:"HG Mark"; src:url("../fonts/fraunces-mark.woff2") format("woff2"); font-weight:800; font-style:normal; font-display:swap; unicode-range:U+20, U+2E, U+47-48, U+4F-50, U+52, U+B7; }
+.wordmark, #splash .mark{ font-family:"HG Mark", "Fraunces", Georgia, serif; font-weight:800; letter-spacing:-.035em; }
 .wordmark em, #splash .mark em{ color:#ff4f1a; }
 .menu-btn{
   display:flex; flex-direction:column; align-items:flex-end; gap:5px;
@@ -417,7 +418,7 @@ video.live.on{ opacity:1; }
   *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.14s !important; transition-delay:0s !important; }
 }
 </style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800&text=HGPRO%C2%B7.%20&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/fraunces-mark.woff2" crossorigin>
 <script src="../js/ga.js" defer></script>
 </head>
 <body class="locked">
