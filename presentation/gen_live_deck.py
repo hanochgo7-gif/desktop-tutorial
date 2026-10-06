@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=43
+TOTAL=41
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -193,7 +193,7 @@ sec("commanders", INK,
 # (msg2 slide removed; stretcher photo moved to the service slide)
 # 12 section 03
 n+=1
-section_slide("s03","03","7 באוקטובר","","7 באוקטובר – 15 דקות. הלב הרגשי של ההרצאה, אבל לא כל ההרצאה. לספר כמו סרט. לא רק מה קרה – מה חשבת בכל שלב.", n)
+section_slide("s03","03","קו עזה","","קו עזה – 15 דקות. הלב הרגשי של ההרצאה, אבל לא כל ההרצאה. לספר כמו סרט. לא רק מה קרה – מה חשבת בכל שלב.", n)
 # 12- what is an APC
 n+=1
 sec("nagmash", INK,
@@ -204,30 +204,31 @@ sec("nagmash", INK,
 n+=1
 sec("gazamap", INK,
     f'{h2("הגזרה הדרומית", 60, "#F6F3EE")}'
-    f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:center; justify-content:center">'
-    f'<img src="/_blob/6d8eaed9b06693fb8ec91822cdb524b3" alt="מפת רצועת עזה והעוטף, הגזרה הדרומית מסומנת: כרם שלום, חולית, סופה, ניר יצחק" style="width:648px; height:700px; object-fit:contain; border-radius:16px; border:1px solid {HAIR_D}">'
-    f'<img src="/_blob/b4733882c16d2b8e255e727bf3b086cb" alt="צילום אוויר של הגזרה: כרם שלום, סופה, ניר יצחק והגבול עם רפיח" style="width:604px; height:700px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}"></div>',
+    f'<img src="/_blob/b4733882c16d2b8e255e727bf3b086cb" alt="צילום אוויר של הגזרה: כרם שלום, סופה, ניר יצחק והגבול עם רפיח" style="position:absolute; left:238px; top:220px; width:681px; height:790px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}">'
+    f'<img src="/_blob/6d8eaed9b06693fb8ec91822cdb524b3" alt="מפת רצועת עזה והעוטף, הגזרה הדרומית מסומנת: כרם שלום, חולית, סופה, ניר יצחק" style="position:absolute; left:951px; top:220px; width:731px; height:790px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}">'
+    f'{pnum(n)}',
     "מפת העוטף ואז צילום האוויר. מימין: איפה אנחנו ברצועה – הקצה הדרומי, ליד המשולש עם מצרים. משמאל: מקרוב – כרם שלום, סופה, ניר יצחק, והגבול עם רפיח במרחק קילומטרים ספורים. משפט אחד – ומשם לתרשים של איך הגזרה עבדה.", pad="128px 128px 128px", layout="display:flex; flex-direction:column; gap:40px", mark=70)
 # 12a0 sector diagram
 n+=1
 def box(txt, hot=False, w=None, sub=""):
-    st=f"background:{SAND if hot else INK2}; border:1px solid {SAND if hot else HAIR_D}; border-radius:16px; padding:12px 24px; display:flex; flex-direction:column; align-items:center; gap:0px"+(f"; width:{w}px" if w else "; flex:1")
-    return (f'<div style="{st}"><p style="font-size:34px; font-weight:700; color:{INK if hot else "#F6F3EE"}; text-align:center">{t(txt)}</p>'
-            + (f'<p style="font-size:28px; color:{"#5A4A30" if hot else MUTEDL}; text-align:center">{t(sub)}</p>' if sub else '') + '</div>')
-vline=f'<div style="display:flex; flex-direction:row; justify-content:center"><div style="width:4px; height:18px; background:{LINE_D}"></div></div>'
-hbar=f'<div style="display:flex; flex-direction:row; justify-content:center"><div style="width:1100px; height:4px; background:{LINE_D}"></div></div>'
+    st=f"background:{SAND if hot else INK2}; border:2px solid {SAND if hot else 'rgba(217,183,140,0.35)'}; border-radius:16px; padding:12px 24px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:{w}px"
+    return (f'<div style="{st}"><p style="font-size:36px; font-weight:700; line-height:1.2; color:{INK if hot else "#F6F3EE"}; text-align:center">{t(txt)}</p>'
+            + (f'<p style="font-size:26px; line-height:1.3; color:{"#5A4A30" if hot else MUTEDL}; text-align:center">{t(sub)}</p>' if sub else '') + '</div>')
+LC="rgba(217,183,140,0.6)"
+def row(*items, gap=0): return f'<div style="display:flex; flex-direction:row; justify-content:center; gap:{gap}px">{"".join(items)}</div>'
+stem=row(f'<div style="width:4px; height:30px; background:{LC}"></div>')
+def split(w): return row(f'<div style="width:{w}px; height:30px; border-top:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"></div>')
+def merge(w): return row(f'<div style="width:{w}px; height:30px; border-bottom:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"></div>')
+def split3(w): return row(f'<div style="position:relative; width:{w}px; height:30px; border-top:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"><div style="position:absolute; left:{w//2-4}px; top:0px; width:4px; height:26px; background:{LC}"></div></div>')
 sec("sector", INK,
-    f'{h2("איך זה עבד בגזרה", 52, "#F6F3EE")}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center">{box("סיירת נח״ל תפסה את הגזרה הדרומית", False, 900)}</div>'
-    f'{vline}{hbar}'
-    f'<div style="display:flex; flex-direction:row; gap:32px; justify-content:center">{box("מוצב כרם שלום", False, 520, "פלחה״ן")}{box("מוצב סופה", False, 520, "פלוגת נ״ט")}</div>'
-    f'{vline}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center">{box("פלס״ר – הפלוגה שלי", True, 900, "מחולקת בין שני המוצבים")}</div>'
-    f'{vline}{hbar}'
-    f'<div style="display:flex; flex-direction:row; gap:32px; justify-content:center">{box("תורנות מטבח")}{box("צוות עתודה", True, None, "זמין לכל אירוע בגזרה")}{box("כיתת כוננות")}</div>'
-    f'{vline}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center">{box("משמרת בוקר 05:30  ·  משמרת ערב 18:30", False, 900)}</div>{pnum(n)}',
-    "להסביר את המבנה בשלושה משפטים: סיירת נח״ל תפסה את הגזרה הדרומית. שני מוצבים – כרם שלום (פלחה״ן) וסופה (פלוגת נ״ט). הפלס״ר, הפלוגה שלי, הייתה מחולקת בין שניהם. כל מוצב מחולק למשימות, והמשימה שלנו הייתה צוות עתודה – זמין לכל אירוע. משמרות: כל בוקר 05:30 וכל ערב 18:30. ומכאן – לשקף הבא: ערב חג.", pad="128px 128px 128px", layout="display:flex; flex-direction:column; gap:6px", mark=60)
+    f'<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between">{h2("איך זה עבד בגזרה", 52, "#F6F3EE")}<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:220px; height:121px; object-fit:contain"></div>'
+    f'{row(box("סיירת נח״ל", False, 760, "תפסה את הגזרה הדרומית"))}{stem}{split(644)}'
+    f'{row(box("מוצב כרם שלום", False, 520, "פלחה״ן"), box("מוצב סופה", False, 520, "פלוגת נ״ט"), gap=124)}'
+    f'{merge(644)}{stem}'
+    f'{row(box("פלס״ר – הפלוגה שלי", True, 760, "מחולקת בין שני המוצבים"))}{stem}{split3(1008)}'
+    f'{row(box("כיתת כוננות", False, 420), box("צוות עתודה", True, 420, "זמין לכל אירוע בגזרה"), box("תורנות מטבח", False, 420), gap=84)}'
+    f'{stem}{row(box("משמרת בוקר 05:30  ·  משמרת ערב 18:30", False, 760))}{pnum(n)}',
+    "להסביר את המבנה בשלושה משפטים: סיירת נח״ל תפסה את הגזרה הדרומית. שני מוצבים – כרם שלום (פלחה״ן) וסופה (פלוגת נ״ט). הפלס״ר, הפלוגה שלי, הייתה מחולקת בין שניהם. כל מוצב מחולק למשימות, והמשימה שלנו הייתה צוות עתודה – זמין לכל אירוע. משמרות: כל בוקר 05:30 וכל ערב 18:30. ומכאן – לשקף הבא: ערב חג.", pad="112px 128px 96px", layout="display:flex; flex-direction:column; gap:0px", mark=60)
 # 12a before: holiday eve, morning shift, 06:29
 n+=1
 rows=[("6.10","ערב חג. ארוחת חג, אימון, ולישון."),("05:30","קמתי למשמרת בוקר."),("06:29","מטח רקטות. ואז –")]
@@ -463,8 +464,8 @@ order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
 order.remove('map'); order.insert(order.index('nukhba'),'map')
 # order as arranged by the user in the live editor (incl. their copy of the battle map, "1ec90ba2")
-LIVE_ORDER=["cover","hook","who","label","grade10","msg1","s02","shomer","sayeret","commanders","s03","gazamap","sector","nagmash","before","rockets","radio1","map","nukhba","apc","radio2","1ec90ba2","outpost","moment","radio3","radio4","evac","soroka","twist","s04","numbers","after","journey","s05","principles","p1","p2","p3","s06","today","callback","decision","final"]
-assert sorted(set(LIVE_ORDER)-{"1ec90ba2"})==sorted(order), set(order)^set(LIVE_ORDER)
+LIVE_ORDER=["cover","hook","who","label","grade10","msg1","s02","shomer","sayeret","commanders","s03","gazamap","sector","nagmash","before","rockets","radio1","map","nukhba","apc","radio2","1ec90ba2","outpost","radio3","moment","evac","soroka","twist","s04","numbers","after","journey","s05","principles","p1","p2","p3","s06","callback","decision","final"]
+assert set(LIVE_ORDER)-{"1ec90ba2"} <= set(order)
 order=LIVE_ORDER
 def fix_counter(i, h):
     # page counter / progress bar follow the FINAL order (sector & nagmash are swapped after generation)
@@ -475,13 +476,14 @@ def fix_counter(i, h):
         h = h.replace(f'left:{1920-wg}px; bottom:0px; width:{wg}px', f'left:{1920-wf}px; bottom:0px; width:{wf}px')
     return h
 for i,h in slides:
+    if i not in order: continue  # dropped from the deck in the live editor
     open(os.path.join(ROOT,"slides",i+".html"),"w",encoding="utf-8").write(fix_counter(i,h))
 deck={"v":4,"createdOnFiles":{"v":1,"at":"2026-09-26T13:06:01Z"},
  "title":"7.10 – הסיפור שלי","order":order,
  "sections":{"open":{"description":"פתיחה: איפה הייתם ב־7 באוקטובר","start":"cover"},
   "s1":{"description":"מי הייתי לפני הכול: ילד בעייתי, כיתה י׳, ההחלטה הראשונה","start":"who"},
   "s2":{"description":"הבחירה: סיירת נח״ל והמפקדים","start":"s02"},
-  "s3":{"description":"7 באוקטובר: הזירה, שבעה שלבים, הסרטונים ורגע הפציעה","start":"s03"},
+  "s3":{"description":"קו עזה: הזירה, שבעה שלבים, הסרטונים ורגע הפציעה","start":"s03"},
   "s4":{"description":"ואז הכול נגמר: פציעה, שיקום, אובדן, פנמה","start":"s04"},
   "s5":{"description":"שלושה עקרונות לחיים שלא חוזרים למה שהיו","start":"s05"},
   "s6":{"description":"להפוך כאב למשהו, למה אני כאן, והסיום","start":"s06"}},
