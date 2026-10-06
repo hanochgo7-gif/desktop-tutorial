@@ -152,8 +152,8 @@ CUR_SEC=("02","הבחירה")
 n+=1
 sec("shomer", PAPER,
     f'{h2("שנת שירות ב״שומר החדש״ – גרעין נח״ל", 60)}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center; gap:32px; flex:1">{"".join(photo(lab, round(690*ar), 690, False, key=k) for k, lab, ar in SHOMER)}</div>{pnum(n, False)}',
-    "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:40px", mark=70)
+    f'<div style="display:flex; flex-direction:row; justify-content:center; gap:32px; flex:1">{"".join(photo(lab, round(810*ar), 810, False, key=k) for k, lab, ar in SHOMER)}</div>{pnum(n, False)}',
+    "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", pad="128px 128px 40px", layout="display:flex; flex-direction:column; gap:24px", mark=70)
 # 9 sayeret cards
 n+=1
 cards=[("▲","למה רציתי להגיע לשם","כי אני אוהב אתגרים. ורציתי להוכיח לעצמי שאני באמת תותח כמו שאני מרגיש – בניגוד למה שאמרו לי כל הזמן."),
