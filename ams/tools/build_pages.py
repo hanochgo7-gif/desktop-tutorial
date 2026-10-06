@@ -238,7 +238,6 @@ def review_card(rid, root):
           <span class="bubble-meta" aria-hidden="true">WhatsApp ✓✓</span>
         </blockquote>
         <figcaption>
-          <span>הודעה ממתאמן</span>
           <details class="review-proof"><summary>לצילום המסך המקורי</summary><img src="{root}assets/img/reviews/{rid}.webp" alt="צילום מסך של ההודעה המקורית ב־WhatsApp" width="{w}" height="{h}" loading="lazy"></details>
         </figcaption>
       </figure>
