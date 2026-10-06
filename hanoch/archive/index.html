@@ -235,6 +235,19 @@ body.deep .bio, body.gridview .bio, body.lit .bio{ opacity:0; transform:translat
 }
 body.gridview .colophon, body.lit .colophon{ opacity:0; }
 
+/* פנייה מהארכיון: גלולה כתומה קבועה למעלה במרכז, נעלמת כשעבודה פתוחה או כשהתפריט פתוח */
+.arch-cta{
+  position:fixed; top:calc(var(--pad) * .8 + var(--safe-top)); left:50%; transform:translateX(-50%); z-index:58;
+  display:inline-flex; align-items:center; min-height:44px; padding:0 20px; border-radius:99px;
+  background:#ff4f1a; color:#141416; font-size:14px; font-weight:500; text-decoration:none; white-space:nowrap;
+  box-shadow:0 10px 30px rgba(0,0,0,.45); transition:opacity .4s var(--ease), background .3s;
+}
+.arch-cta:hover{ background:#ff6a3d; }
+.arch-cta:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+.arch-cta .short{ display:none; }
+body.lit .arch-cta, body.menu-open .arch-cta{ opacity:0; pointer-events:none; }
+@media (max-width:560px){ .arch-cta .full{ display:none; } .arch-cta .short{ display:inline; } .arch-cta{ font-size:13px; padding:0 16px; } }
+
 .gridbtn{
   position:fixed; right:calc(var(--pad) + var(--safe-right)); bottom:calc(var(--pad) + var(--safe-bottom)); z-index:56;
   width:44px; height:44px; padding:5px; display:grid; grid-template-columns:1fr 1fr; gap:4px;
@@ -437,6 +450,8 @@ video.live.on{ opacity:1; }
   <div class="who"><img id="avatar" alt="חנוך גוטובסקי" width="52" height="52"><b>חנוך גוטובסקי</b></div>
   <p>עיצוב, קוד ותנועה, ביד אחת. כל עבודה בארכיון הזה עוצבה ונבנתה מאפס, בלי תבניות, כדי שהעסק ייראה במיטבו וגולשים יהפכו לפניות.</p>
 </aside>
+
+<a class="arch-cta" id="archive-cta" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%90%D7%A8%D7%9B%D7%99%D7%95%D7%9F%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%90%D7%AA%D7%A8%20%D7%9B%D7%96%D7%94%20%D7%9C%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99." target="_blank" rel="noopener"><span class="full">רוצים אתר כזה? דברו איתי</span><span class="short">דברו איתי</span></a>
 
 <div class="colophon chrome">עבודות 2026</div>
 

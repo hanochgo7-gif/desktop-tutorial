@@ -37,7 +37,7 @@
       '<ul class="a11y__list">' + OPTIONS.map(function (o) {
         return '<li><button type="button" data-cls="' + o.cls + '" data-group="' + (o.group || '') + '" aria-pressed="false">' + o.label + '</button></li>';
       }).join('') + '</ul>' +
-      '<div class="a11y__foot"><a href="' + (document.body.getAttribute('data-root') || '') + 'accessibility.html">' + T('הצהרת נגישות', 'Accessibility statement') + '</a><button class="a11y__reset" type="button">' + T('איפוס', 'Reset') + '</button></div>' +
+      '<div class="a11y__foot"><a href="' + (document.body.getAttribute('data-root') || '') + T('accessibility.html', 'en-accessibility.html') + '">' + T('הצהרת נגישות', 'Accessibility statement') + '</a><button class="a11y__reset" type="button">' + T('איפוס', 'Reset') + '</button></div>' +
     '</div>';
   document.body.appendChild(wrap);
 

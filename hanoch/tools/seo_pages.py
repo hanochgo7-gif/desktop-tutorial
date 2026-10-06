@@ -328,7 +328,7 @@ def render(p):
 <body>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·PRO, {T('לדף הבית', 'home')}">HG<span>·</span>PRO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="./">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a><a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
 <main class="sv">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
@@ -351,7 +351,7 @@ def render(p):
   </section>
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}<a href="{up}accessibility.html">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/a11y.js" defer></script>
 </body>
@@ -391,14 +391,14 @@ def hub(lang):
 <script src="{up}js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('חבילות', 'Packages')}</a></nav></header>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a></nav></header>
 <main class="sv">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים', 'Services')}</h1>
   <p class="sv-lead">{T('עיצוב, קוד ותנועה ביד אחת. כל שירות נבנה סביב העסק שלכם, עם מחיר סגור מראש.', 'Design, code and motion in one pair of hands. Every service is built around your business, at a fixed price.')}</p>
   <ul class="sv-list">{cards}</ul>
 </main>
-<footer class="sv-foot"><span>© 2026 HGPRO</span><a href="{up}accessibility.html">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HGPRO</span><a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
 <script src="{up}js/a11y.js" defer></script>
 </body>
 </html>

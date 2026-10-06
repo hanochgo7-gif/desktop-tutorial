@@ -172,13 +172,13 @@ def head(title, desc, url, img, extra=''):
 <body>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·PRO, לדף הבית">HG<span>·</span>PRO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#pricing">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 '''
 
 
 FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
-<footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/a11y.js" defer></script>
 </body>
 </html>

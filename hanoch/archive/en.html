@@ -235,6 +235,19 @@ body.deep .bio, body.gridview .bio, body.lit .bio{ opacity:0; transform:translat
 }
 body.gridview .colophon, body.lit .colophon{ opacity:0; }
 
+/* פנייה מהארכיון: גלולה כתומה קבועה למעלה במרכז, נעלמת כשעבודה פתוחה או כשהתפריט פתוח */
+.arch-cta{
+  position:fixed; top:calc(var(--pad) * .8 + var(--safe-top)); left:50%; transform:translateX(-50%); z-index:58;
+  display:inline-flex; align-items:center; min-height:44px; padding:0 20px; border-radius:99px;
+  background:#ff4f1a; color:#141416; font-size:14px; font-weight:500; text-decoration:none; white-space:nowrap;
+  box-shadow:0 10px 30px rgba(0,0,0,.45); transition:opacity .4s var(--ease), background .3s;
+}
+.arch-cta:hover{ background:#ff6a3d; }
+.arch-cta:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+.arch-cta .short{ display:none; }
+body.lit .arch-cta, body.menu-open .arch-cta{ opacity:0; pointer-events:none; }
+@media (max-width:560px){ .arch-cta .full{ display:none; } .arch-cta .short{ display:inline; } .arch-cta{ font-size:13px; padding:0 16px; } }
+
 .gridbtn{
   position:fixed; left:calc(var(--pad) + var(--safe-left)); bottom:calc(var(--pad) + var(--safe-bottom)); z-index:56;
   width:44px; height:44px; padding:5px; display:grid; grid-template-columns:1fr 1fr; gap:4px;
@@ -437,6 +450,8 @@ video.live.on{ opacity:1; }
   <div class="who"><img id="avatar" alt="Hanoch Gotovski" width="52" height="52"><b>Hanoch Gotovski</b></div>
   <p>Design, code and motion, in one pair of hands. Every piece in this archive was designed and built from scratch, without templates, so the business looks its best and visitors become leads.</p>
 </aside>
+
+<a class="arch-cta" id="archive-cta" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20saw%20your%20archive%20and%20I%27d%20like%20a%20site%20like%20this%20for%20my%20business." target="_blank" rel="noopener"><span class="full">Want a site like this? Talk to me</span><span class="short">Talk to me</span></a>
 
 <div class="colophon chrome">Work 2026</div>
 

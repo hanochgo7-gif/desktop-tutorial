@@ -1825,9 +1825,14 @@ html[lang="en"] .cr-sub { max-width: 46ch; font-size: clamp(.92rem, 1.05vw, 1rem
 .p-demo { position: relative; }
 .p-demo::after { content: ""; position: absolute; inset: -11px -4px; }
 /* תוכניות הליווי נגללות לרוחב בטלפון, ולכן מקבלות פוקוס מהמקלדת */
-.care-plans:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.tiers:focus-visible, .care-plans:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
 @media (max-width: 700px) {
   .foot { row-gap: 0; }
   .foot a, .foot-xray { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; margin-block: 0; }
   .foot .foot-sv { display: flex; flex-wrap: wrap; align-items: center; column-gap: .35rem; }
 }
+
+/* אולם התצוגה מקופל עד שבוחרים קטגוריה: כל הקטגוריות בצבע מלא, והמערכות נפתחות בלחיצה */
+.showroom.sr-closed .sr-body { display: none; }
+.showroom.sr-closed .sr-cat .sr-media img { filter: none; transform: none; }
+.showroom.sr-closed .sr-cat:hover { border-color: rgba(255, 79, 26, .75); }

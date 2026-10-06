@@ -11,6 +11,10 @@
   if (!root) return;
   const motion = document.documentElement.classList.contains('motion');
   root.classList.add('sr-js');
+  // מקופל בהתחלה: רואים חמש קטגוריות, והמערכות עצמן נפתחות רק אחרי שבוחרים אחת (פחות החלטות לפני הפנייה)
+  let closed = true;
+  root.classList.add('sr-closed');
+  function open() { if (!closed) return; closed = false; root.classList.remove('sr-closed'); }
 
   const $ = (s, el) => (el || root).querySelector(s);
   const $$ = (s, el) => Array.from((el || root).querySelectorAll(s));
@@ -760,6 +764,7 @@
   }
 
   function selectCat(cat, demo) {
+    open();
     cats.forEach((c) => { const on = c === cat; c.classList.toggle('is-on', on); c.setAttribute('aria-selected', on); c.tabIndex = on ? 0 : -1; });
     panels.forEach((p) => p.classList.toggle('is-on', p.dataset.cat === cat.dataset.cat));
     const panel = panels.find((p) => p.dataset.cat === cat.dataset.cat);
@@ -785,7 +790,7 @@
   }
 
   cats.forEach((c, i) => {
-    c.addEventListener('click', () => { if (!c.classList.contains('is-on')) selectCat(c); });
+    c.addEventListener('click', () => { if (closed || !c.classList.contains('is-on')) selectCat(c); });
     c.addEventListener('keydown', (e) => {
       const fwd = getComputedStyle(c).direction === 'rtl' ? 'ArrowLeft' : 'ArrowRight'; // ימין לשמאל: שמאלה זה קדימה
       const back = fwd === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
@@ -803,10 +808,10 @@
     const was = visible; visible = en[0].isIntersecting;
     if (visible === was) return;
     const cat = cats.find((c) => c.classList.contains('is-on'));
-    if (visible) { if (current) run(current, true); playVideo(cat); }
+    if (visible) { if (current && !closed) run(current, true); playVideo(cat); }
     else { stop(); playVideo(null); }
   }, { rootMargin: '120px 0px' }).observe(root);
 
-  cats.forEach((c) => { c.tabIndex = c.classList.contains('is-on') ? 0 : -1; });
-  selectCat(cats[0]);
+  // אף קטגוריה לא נבחרה עד שלוחצים; הראשונה מקבלת את הפוקוס של המקלדת
+  cats.forEach((c, i) => { c.classList.remove('is-on'); c.setAttribute('aria-selected', 'false'); c.tabIndex = i ? -1 : 0; });
 })();

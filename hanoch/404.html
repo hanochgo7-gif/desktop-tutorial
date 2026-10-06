@@ -6,10 +6,10 @@
 <title>הדף לא נמצא | HGPRO</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="icon" href="images/icon-180.png">
-<link rel="apple-touch-icon" href="images/icon-180.png">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="css/hanoch.css">
+<link rel="icon" href="/images/icon-180.png">
+<link rel="apple-touch-icon" href="/images/icon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/css/hanoch.css">
 <style>
   /* ה-ח מזכוכית, מנופצת: סרט לולאה מהיגספילד מאחורי הטקסט */
   .lost { min-height: 100svh; display: grid; place-items: end center; text-align: center; padding: 40px var(--gutter) clamp(48px, 9vh, 110px); position: relative; overflow: hidden; isolation: isolate; background: #050506 url("work/broken.webp") center 35% / cover no-repeat; }
@@ -19,17 +19,20 @@
   .lost h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 4rem); margin: 2rem 0 .6rem; }
   .lost p { color: var(--fg-dim); font-family: var(--f-body); max-width: 36ch; margin: 0 auto 2rem; }
   .lost .mono { color: var(--signal); display: block; margin-bottom: 1rem; }
+  .lost .lost-en { margin: 1.4rem auto 0; font-size: var(--fs-s); }
+  .lost .lost-en a { color: var(--paper); display: inline-flex; align-items: center; min-height: 44px; }
 </style>
 <script src="/js/ga.js" defer></script>
 </head>
 <body>
 <main class="lost">
-  <video class="lost-film" src="work/broken.mp4" poster="work/broken.webp" autoplay muted loop playsinline aria-hidden="true"></video>
+  <video class="lost-film" src="/work/broken.mp4" poster="/work/broken.webp" autoplay muted loop playsinline aria-hidden="true"></video>
   <div>
     <span class="mono">שגיאה 404</span>
     <h1>הדף הזה עוד לא נבנה.</h1>
     <p>הכתובת שהגעתם אליה לא קיימת, או שעברה למקום אחר. כל השאר עדיין עומד במקום.</p>
-    <a class="btn btn-signal" href="./"><span>חזרה לדף הבית</span></a>
+    <a class="btn btn-signal" href="/"><span>חזרה לדף הבית</span></a>
+    <p class="lost-en" lang="en" dir="ltr">This page doesn't exist. <a href="/en.html">Go to the English site</a></p>
   </div>
 </main>
 </body>
