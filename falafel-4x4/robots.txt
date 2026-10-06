@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hanochgo7-gif.github.io/desktop-tutorial/falafel-4x4/sitemap.xml

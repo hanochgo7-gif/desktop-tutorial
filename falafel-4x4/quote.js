@@ -121,6 +121,11 @@
 
     var p = price(s);
     setText(R.price, p ? '≈ ₪' + fmt(p) : 'בהצעה של ניסים');
+    var qg = document.getElementById('qb-guests'), qs = document.getElementById('qb-st');
+    if (qg) {
+      setText(qg, fmt(s.guests) + ' אורחים');
+      setText(qs, s.st.length ? s.st.map(function (k) { return STATIONS[k]; }).join(' + ') : 'בחרו דוכן');
+    }
 
     var warn = '';
     if (!s.st.length) warn = 'בחרו לפחות דוכן אחד כדי לשלוח הצעה.';
@@ -180,6 +185,11 @@
       setChecked('st', st); render();
       document.getElementById('quote').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+  });
+
+  var go = form.querySelector('.qbar-go');
+  if (go) go.addEventListener('click', function () {
+    document.getElementById('receipt').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   R.send.addEventListener('click', function () {
