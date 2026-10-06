@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=38
+TOTAL=39
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -147,6 +147,12 @@ sec("s02", INK,
     f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:640px; height:351px; object-fit:contain"></div>{pnum(n)}',
     "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.", pad="128px 128px 160px")
 CUR_SEC=("02","הבחירה")
+# 8b shomer: year of service (photos to come)
+n+=1
+sec("shomer", PAPER,
+    f'{h2("שנת שירות ב״שומר החדש״ – גרעין נח״ל", 60)}'
+    f'<div style="display:flex; flex-direction:row; justify-content:center; flex:1">{photo("כאן ייכנסו התמונות מהשנה בשומר החדש", 1664, 690, False)}</div>{pnum(n, False)}',
+    "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:40px", mark=70)
 # 9 sayeret cards
 n+=1
 cards=[("▲","למה רציתי להגיע לשם","כי אני אוהב אתגרים. ורציתי להוכיח לעצמי שאני באמת תותח כמו שאני מרגיש – בניגוד למה שאמרו לי כל הזמן."),
@@ -155,7 +161,7 @@ cards=[("▲","למה רציתי להגיע לשם","כי אני אוהב אתג
        ("◎","מה הצבא לימד אותי על עצמי","שהכול בראש. ושתמיד אפשר להשתפר ולהיות יותר ויותר טוב.")]
 def cardinner(a): return '<div style="display:flex; flex-direction:row; gap:20px; align-items:center">'+circle_icon(a[0],64)+h3(a[1],30)+'</div>'+p(a[2],24,MUTED)
 def cardrow(a,b): return '<div style="display:flex; flex-direction:row; gap:32px; flex:1">'+card(cardinner(a))+card(cardinner(b))+'</div>'
-steps=[("שנת שירות ב״שומר החדש״ – גרעין נח״ל",""),("מסלול בסיירת נח״ל",""),("קו יקיר",""),("אימון חורף",""),("מבצע ״בית וגן״",""),("קו עזה","")]
+steps=[("מסלול בסיירת נח״ל",""),("קו יקיר",""),("אימון חורף",""),("מבצע ״בית וגן״",""),("קו עזה","")]
 cells=""
 for i,(a_,b_) in enumerate(steps):
     last = i==len(steps)-1
@@ -168,9 +174,9 @@ for i,(a_,b_) in enumerate(steps):
 def ph(key, w, h, label): return f'<img src="{PHOTOS[key]}" alt="{label}" style="width:{w}px; height:{h}px; object-fit:cover; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.10)">'
 sec("sayeret", PAPER,
     f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center; justify-content:space-between">{h2("השירות הצבאי", 60)}<img src="{DARK_IMG}" alt="סמל סיירת נח״ל" style="width:260px; height:143px; object-fit:contain"></div>'
-    f'<div style="position:relative; display:flex; flex-direction:row-reverse; gap:8px"><div style="position:absolute; left:117px; top:13px; width:1430px; height:4px; background:{SAND}"></div>{cells}</div>'
+    f'<div style="position:relative; display:flex; flex-direction:row-reverse; gap:8px"><div style="position:absolute; left:146px; top:13px; width:1372px; height:4px; background:{SAND}"></div>{cells}</div>'
     f'<div style="display:flex; flex-direction:row-reverse; gap:32px; justify-content:center">{ph("team", 842, 520, "סוף מסלול – העלייה להר")}{ph("army", 348, 520, "הסיכה")}{ph("stretcher", 390, 520, "מסע אלונקות")}</div>{pnum(n, False)}',
-    "השירות בקצרה: שנת שירות ב'שומר החדש' – גרעין נח״ל, משם הגעתי לסיירת – מסלול של שנה וחודשיים. עליתי לקו יקיר, אחר כך אימון חורף, מבצע 'בית וגן' בג'נין, ואז עלינו לקו עזה. (לספר בעל פה: למה רציתי להגיע לסיירת – אוהב אתגרים, להוכיח לעצמי; המחיר – קושי פיזי ומנטלי וקשיים בבית; מה הצבא לימד אותי – שהכול בראש ושתמיד אפשר להשתפר. מוטיבציה מביאה אותך להתחלה, משמעת מביאה אותך לסוף.)", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:28px", mark=70)
+    "השירות בקצרה: מהשנה בשומר החדש הגעתי לסיירת – מסלול של שנה וחודשיים. עליתי לקו יקיר, אחר כך אימון חורף, מבצע 'בית וגן' בג'נין, ואז עלינו לקו עזה. (לספר בעל פה: למה רציתי להגיע לסיירת – אוהב אתגרים, להוכיח לעצמי; המחיר – קושי פיזי ומנטלי וקשיים בבית; מה הצבא לימד אותי – שהכול בראש ושתמיד אפשר להשתפר. מוטיבציה מביאה אותך להתחלה, משמעת מביאה אותך לסוף.)", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:28px", mark=70)
 # 10 commanders
 n+=1
 def cmd(name, role, big, small, key, label):

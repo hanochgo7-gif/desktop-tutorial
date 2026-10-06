@@ -60,7 +60,7 @@ function circleIcon(s, cx, cy, d, sym, bg = SAND, fg = INK) {
 function video(s, file, still, x, y, w, h) {
   s.addMedia({ type: "video", path: P(file), cover: b64(P(still), "image/jpeg"), x: px(x), y: px(y), w: px(w), h: px(h) });
 }
-const TOTAL = 38;
+const TOTAL = 39;
 let CUR_SEC = null;
 function pnum() {}
 function rule(s, x, y, w = 120, color = SAND) { rect(s, x, y, w, 6, color); }
@@ -160,18 +160,26 @@ CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed 
   heading(s, "הבחירה", 832, 480, 960, 140, 96, WHITE);
   CUR_SEC = ["02", "הבחירה"];
 }
+// ============ 9 shomer ============
+{
+  const s = slide(PAPER, "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", { mark: 70 });
+  heading(s, "שנת שירות ב״שומר החדש״ – גרעין נח״ל", 128, 128, 1664, 90, 60, TXT, { valign: "middle" });
+  rrect(s, 128, 258, 1664, 662, "EFE9DD", "C9BFA8", 20, "dash");
+  para(s, "כאן ייכנסו התמונות מהשנה בשומר החדש", 128, 560, 1664, 60, 32, MUTED, { align: "center" });
+  pnum(s, n, false);
+}
 // ============ 9 sayeret ============
 {
-  const s = slide(PAPER, "השירות בקצרה: שנת שירות ב'שומר החדש' – גרעין נח״ל, משם הגעתי לסיירת – מסלול של שנה וחודשיים. עליתי לקו יקיר, אחר כך אימון חורף, מבצע 'בית וגן' בג'נין, ואז עלינו לקו עזה. (לספר בעל פה: למה רציתי להגיע לסיירת – אוהב אתגרים, להוכיח לעצמי; המחיר – קושי פיזי ומנטלי וקשיים בבית; מה הצבא לימד אותי – שהכול בראש ושתמיד אפשר להשתפר. מוטיבציה מביאה אותך להתחלה, משמעת מביאה אותך לסוף.)", { mark: 70 });
+  const s = slide(PAPER, "השירות בקצרה: מהשנה בשומר החדש הגעתי לסיירת – מסלול של שנה וחודשיים. עליתי לקו יקיר, אחר כך אימון חורף, מבצע 'בית וגן' בג'נין, ואז עלינו לקו עזה. (לספר בעל פה: למה רציתי להגיע לסיירת – אוהב אתגרים, להוכיח לעצמי; המחיר – קושי פיזי ומנטלי וקשיים בבית; מה הצבא לימד אותי – שהכול בראש ושתמיד אפשר להשתפר. מוטיבציה מביאה אותך להתחלה, משמעת מביאה אותך לסוף.)", { mark: 70 });
   heading(s, "השירות הצבאי", 700, 128, 1092, 143, 60, TXT, { valign: "middle" });
   s.addImage({ path: path.join(__dirname, "nahal-dark.png"), x: px(128), y: px(128), w: px(260), h: px(143), sizing: { type: "contain", w: px(260), h: px(143) } });
-  // timeline: 6 steps right-to-left
-  const steps = ["שנת שירות ב״שומר החדש״ – גרעין נח״ל", "מסלול בסיירת נח״ל", "קו יקיר", "אימון חורף", "מבצע ״בית וגן״", "קו עזה"];
-  const y0 = 300, cw = 234, gap = 52; // 6 cells + 5 arrow gaps = 1664
+  // timeline: 5 steps right-to-left
+  const steps = ["מסלול בסיירת נח״ל", "קו יקיר", "אימון חורף", "מבצע ״בית וגן״", "קו עזה"];
+  const y0 = 300, gap = 52, cw = (1664 - 4 * gap) / 5; // 5 cells + 4 arrow gaps = 1664
   const xs = steps.map((_, i) => 1792 - cw / 2 - i * (cw + gap)); // centers, right to left
-  rect(s, xs[5] , y0 + 13, xs[0] - xs[5], 4, SAND);
+  rect(s, xs[4], y0 + 13, xs[0] - xs[4], 4, SAND);
   steps.forEach((st, i) => {
-    circle(s, xs[i], y0 + 15, 30, i === 5 ? SAND : "FFFFFF", SAND);
+    circle(s, xs[i], y0 + 15, 30, i === 4 ? SAND : "FFFFFF", SAND);
     if (i > 0) text(s, "←", xs[i] + cw / 2 + 2, y0, gap - 4, 30, { fontSize: pt(30), color: SANDD, align: "center", valign: "middle" });
     para(s, st, xs[i] - cw / 2, y0 + 44, cw, 100, 28, TXT, { bold: true, align: "center" });
   });
