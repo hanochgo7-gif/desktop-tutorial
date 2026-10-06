@@ -34,7 +34,7 @@
     <image:image><image:loc>https://hgpro.io/work/cinema/clinic.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/falafel.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/rachel.webp</image:loc></image:image>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HGPRO.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>

@@ -30,7 +30,7 @@ def page(**k): P.append(k)
 
 # ---------------------------------------------------------------- עברית
 page(slug='website-building', lang='he', name='בניית אתרים לעסקים',
-     title='בניית אתרים לעסקים בעיצוב אישי | HGPRO',
+     title='בניית אתרים לעסקים בעיצוב אישי | HG Studio',
      desc='בניית אתר לעסק מאפס, בלי תבניות: עיצוב אישי, קוד מהיר, התאמה לטלפון וקידום בגוגל. מחיר סגור מראש ואתר באוויר תוך שבועיים.',
      h1='בניית אתרים לעסקים', kicker='שירות · בניית אתרים',
      lead='אתר עסקי טוב הוא לא כרטיס ביקור. הוא איש מכירות שעובד גם בלילה: מסביר מה אתם עושים, משכנע שאתם הבחירה הנכונה, ומביא את הלקוח עד לוואטסאפ. אני בונה כל אתר מאפס, סביב העסק שלכם, עם עיצוב, קוד ותנועה ביד אחת.',
@@ -47,7 +47,7 @@ page(slug='website-building', lang='he', name='בניית אתרים לעסקי�
      service=('Website development', 'בניית אתרים', 4900))
 
 page(slug='web-design', lang='he', name='עיצוב אתרים',
-     title='עיצוב אתרים בהתאמה אישית ובלי תבניות | HGPRO',
+     title='עיצוב אתרים בהתאמה אישית ובלי תבניות | HG Studio',
      desc='עיצוב אתרים שנבנה סביב העסק שלכם: שפה עיצובית ייחודית, תנועה, תלת־ממד ונגישות. שישה אתרים, שש שפות עיצוב. ראו את התיק.',
      h1='עיצוב אתרים', kicker='שירות · עיצוב',
      lead='לכל עסק יש אופי, והאתר צריך להרגיש כמוהו. חברת תשתיות דלק לא אמורה להיראות כמו קליניקה, ומאמן אגרוף לא אמור להיראות כמו מורה למתמטיקה. לכן כל אתר שאני מעצב מקבל שפה משלו: גופנים, צבעים, תנועה ואפילו התנהגות של הכפתורים.',
@@ -63,7 +63,7 @@ page(slug='web-design', lang='he', name='עיצוב אתרים',
      service=('Web design', 'עיצוב אתרים', 4900))
 
 page(slug='landing-page', lang='he', name='בניית דף נחיתה',
-     title='בניית דף נחיתה שממיר לפניות | HGPRO',
+     title='בניית דף נחיתה שממיר לפניות | HG Studio',
      desc='בניית דף נחיתה לקמפיין, להשקה או לעצמאים: עיצוב אישי, טעינה מהירה, וואטסאפ ומדידת המרות. מ־4,900 ₪, באוויר תוך שבוע.',
      h1='בניית דף נחיתה', kicker='שירות · דפי נחיתה',
      lead='דף נחיתה עושה דבר אחד, ועושה אותו טוב: לוקח מישהו שלחץ על מודעה או על קישור, ומביא אותו לפנייה. בלי תפריטים שמסיחים את הדעת, בלי עשרה עמודים. מסר אחד ברור, הוכחה שאפשר לסמוך עליכם, וכפתור.',
@@ -79,7 +79,7 @@ page(slug='landing-page', lang='he', name='בניית דף נחיתה',
      service=('Landing page', 'בניית דף נחיתה', 4900))
 
 page(slug='online-store', lang='he', name='בניית חנות אינטרנטית',
-     title='בניית חנות אינטרנטית עם סליקה ישראלית | HGPRO',
+     title='בניית חנות אינטרנטית עם סליקה ישראלית | HG Studio',
      desc='בניית חנות אונליין: קטלוג, עגלה, משלוחים, קופונים, סליקה באשראי, ביט ו-Apple Pay וחשבוניות אוטומטיות. בעיצוב אישי ובלי תבנית.',
      h1='בניית חנות אינטרנטית', kicker='שירות · מסחר מקוון',
      lead='חנות אונליין טובה מרגישה כמו המדף הכי מסודר בחנות הכי טובה: קל למצוא, קל להבין, וקל לשלם. אני בונה חנויות שמותאמות למוצרים שלכם ולאופן שבו הלקוחות שלכם קונים, עם סליקה ישראלית וחשבוניות אוטומטיות.',
@@ -95,7 +95,7 @@ page(slug='online-store', lang='he', name='בניית חנות אינטרנטי�
      service=('E-commerce development', 'בניית חנות אינטרנטית', 3900))
 
 page(slug='seo', lang='he', name='קידום אתרים אורגני',
-     title='קידום אתרים אורגני (SEO) לעסקים | HGPRO',
+     title='קידום אתרים אורגני (SEO) לעסקים | HG Studio',
      desc='קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שמענישים.',
      h1='קידום אתרים אורגני (SEO)', kicker='שירות · קידום בגוגל',
      lead='קידום אורגני טוב מתחיל בבסיס: אתר מהיר, מסודר וברור, שגוגל מבין מה הוא עושה ולמי. אחר כך מגיעים התוכן, העמודים לכל שירות ועיר, והפרופיל העסקי. אני לא משתמש בטריקים שגוגל מעניש עליהם, כי הם עובדים חודש ואז מעלימים את האתר.',
@@ -111,7 +111,7 @@ page(slug='seo', lang='he', name='קידום אתרים אורגני',
      service=('Search engine optimization', 'קידום אתרים אורגני', 2400))
 
 page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
-     title='הפקת סרטון פרסומת ב-AI לעסקים | HGPRO',
+     title='הפקת סרטון פרסומת ב-AI לעסקים | HG Studio',
      desc='סרטון פרסומת ברמה קולנועית בלי צוות צילום: עלילה, דמויות, רכבים, קריינות ומוזיקה. 30 עד 60 שניות, כולל גרסאות 15 ו-6 שניות לרשתות.',
      h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
      lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
@@ -127,7 +127,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      service=('Video production', 'הפקת סרטון פרסומת', 3900))
 
 page(slug='ai-chatbot', lang='he', name='נציג AI לשירות לקוחות',
-     title='צ׳אטבוט AI לאתר: נציג שירות 24/7 | HGPRO',
+     title='צ׳אטבוט AI לאתר: נציג שירות 24/7 | HG Studio',
      desc='נציג AI לשירות לקוחות באתר: עונה לפי התוכן שלכם, בכל שעה, בעברית ובאנגלית, ומעביר פניות חמות לוואטסאפ. מ־2,900 ₪.',
      h1='נציג AI לשירות לקוחות', kicker='שירות · בינה מלאכותית',
      lead='רוב השאלות שלקוחות שואלים חוזרות על עצמן: כמה זה עולה, יש תור פנוי, אתם מגיעים לאזור שלי. נציג AI באתר עונה עליהן מיד, בכל שעה, לפי המידע שלכם בלבד, ומעביר אליכם את מי שמוכן לסגור.',
@@ -141,7 +141,7 @@ page(slug='ai-chatbot', lang='he', name='נציג AI לשירות לקוחות',
      service=('AI chatbot', 'נציג AI לשירות לקוחות', 2900))
 
 page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מקצועי',
-     title='מעבר מוויקס או וורדפרס בלי לאבד את גוגל | HGPRO',
+     title='מעבר מוויקס או וורדפרס בלי לאבד את גוגל | HG Studio',
      desc='הגירה מ-Wix או WordPress לאתר מהיר ומעוצב בהתאמה אישית: מעבירים את התוכן, שומרים הפניות מכל כתובת ישנה ואת המקום בגוגל. מ־400 ₪.',
      h1='מעבר מוויקס או וורדפרס', kicker='שירות · הגירה',
      lead='ויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
@@ -155,7 +155,7 @@ page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מק�
      service=('Website migration', 'מעבר מוויקס', 400))
 
 page(slug='brand-identity', lang='he', name='זהות מותגית',
-     title='עיצוב לוגו וזהות מותגית לעסקים | HGPRO',
+     title='עיצוב לוגו וזהות מותגית לעסקים | HG Studio',
      desc='זהות מותגית לעסק: לוגו, צבעים, גופנים וכללים קצרים לשימוש, שמתאימים לאתר ולרשתות. מ־600 ₪, יחד עם האתר או בנפרד.',
      h1='זהות מותגית', kicker='שירות · מיתוג',
      lead='לפני שבונים אתר, כדאי לדעת איך העסק נראה ונשמע. זהות מותגית קצרה וברורה עושה סדר: לוגו, צבעים, גופנים וכמה כללים פשוטים, כך שהאתר, הרשתות והשלט נראים כמו אותו עסק.',
@@ -169,10 +169,10 @@ page(slug='brand-identity', lang='he', name='זהות מותגית',
 
 # ---------------------------------------------------------------- English
 page(slug='web-design-studio', lang='en', name='Custom web design studio',
-     title='Custom Web Design & Development Studio | HGPRO',
-     desc='HGPRO designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, live in two weeks.',
+     title='Custom Web Design & Development | HG Studio',
+     desc='HG Studio designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, live in two weeks.',
      h1='Custom web design and development', kicker='Service · Web design',
-     lead='A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HGPRO designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.',
+     lead='A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HG Studio designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.',
      sections=[('What you get', '<ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul>'),
                ('Work across languages', '<p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>')],
      price='<p>Three packages with a fixed price agreed in advance: <strong>Presence</strong> from ₪4,900, <strong>Business</strong> from ₪8,900 and <strong>Signature</strong> from ₪19,900.</p>',
@@ -184,10 +184,10 @@ page(slug='web-design-studio', lang='en', name='Custom web design studio',
      service=('Website development', 'Custom web design', 4900), alt='website-building')
 
 page(slug='ai-commercial-production', lang='en', name='AI commercial production',
-     title='AI Commercial & Video Ad Production | HGPRO',
+     title='AI Commercial & Video Ad Production | HG Studio',
      desc='Cinematic TV-quality commercials made with AI: script, consistent characters, cars, voiceover and licensed music. 30 to 60 seconds, plus 15s and 6s cutdowns.',
      h1='AI commercial production', kicker='Service · Video',
-     lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HGPRO writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
+     lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HG Studio writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
      sections=[('What you get', '<ul><li>A short script and story that fits the brand.</li><li>Consistent characters, product and vehicles across the film.</li><li>Cinematic 1080p shots, an edit cut to the music, a color grade and widescreen framing.</li><li>Natural voiceover and legally licensed music.</li><li>30, 15 and 6 second versions for TV, YouTube and social.</li></ul>'),
                ('Examples', '<p>The archive holds two commercials made this way: <strong>HG · Unforgettable</strong>, a fragrance spot with models, a luxury car and a cliff road at night, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>')],
      price='<p>AI commercial production from ₪3,900 for a 30 to 60 second film. AI visual studio (images and short clips) from ₪1,500.</p>',
@@ -198,7 +198,7 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
      service=('Video production', 'AI commercial production', 3900), alt='ai-commercial')
 
 page(slug='website-design', lang='en', name='Website design',
-     title='Custom Website Design, No Templates | HGPRO',
+     title='Custom Website Design, No Templates | HG Studio',
      desc='Website design built around your business: a visual language of its own, motion, 3D and accessibility. Six sites, six design languages. See the work.',
      h1='Website design', kicker='Service · Design',
      lead='Every business has a character, and its website should feel like it. A fuel infrastructure company should not look like a clinic, and a boxing coach should not look like a math tutor. So every site I design gets a language of its own: typefaces, colors, motion, even the way the buttons behave.',
@@ -214,7 +214,7 @@ page(slug='website-design', lang='en', name='Website design',
      service=('Web design', 'Website design', 4900), alt='web-design')
 
 page(slug='landing-page-design', lang='en', name='Landing page design',
-     title='Landing Page Design That Converts | HGPRO',
+     title='Landing Page Design That Converts | HG Studio',
      desc='A landing page for a campaign, a launch or a freelancer: custom design, fast loading, WhatsApp and conversion tracking. From ₪4,900, live within a week.',
      h1='Landing page design', kicker='Service · Landing pages',
      lead='A landing page does one thing and does it well: it takes someone who clicked an ad or a link and turns them into an enquiry. No menus to distract them, no ten pages. One clear message, proof that you can be trusted, and a button.',
@@ -230,7 +230,7 @@ page(slug='landing-page-design', lang='en', name='Landing page design',
      service=('Landing page', 'Landing page design', 4900), alt='landing-page')
 
 page(slug='ecommerce-store', lang='en', name='Online store development',
-     title='Online Store Development with Israeli Payments | HGPRO',
+     title='Online Store Development with Israeli Payments | HG Studio',
      desc='An online store with catalog, cart, delivery, coupons, card, Bit and Apple Pay payments, and automatic invoices. Custom designed, no template.',
      h1='Online store development', kicker='Service · E-commerce',
      lead='A good online store feels like the tidiest shelf in the best shop: easy to find, easy to understand, easy to pay. I build stores around your products and the way your customers buy, with Israeli payment providers and automatic invoices.',
@@ -246,7 +246,7 @@ page(slug='ecommerce-store', lang='en', name='Online store development',
      service=('E-commerce development', 'Online store development', 3900), alt='online-store')
 
 page(slug='seo-services', lang='en', name='SEO services',
-     title='Organic SEO for Businesses | HGPRO',
+     title='Organic SEO for Businesses | HG Studio',
      desc='Organic SEO on Google: keyword research, a landing page per service and area, speed, business markup and a Google Business profile. No tricks that get punished.',
      h1='Organic SEO', kicker='Service · Google search',
      lead='Good SEO starts with the basics: a fast, tidy, clear site that Google understands, for the right people. Then come the content, a page for each service and area, and the business profile. I do not use tricks Google punishes, because they work for a month and then make the site disappear.',
@@ -262,7 +262,7 @@ page(slug='seo-services', lang='en', name='SEO services',
      service=('Search engine optimization', 'SEO services', 2400), alt='seo')
 
 page(slug='ai-customer-agent', lang='en', name='AI customer service agent',
-     title='AI Chatbot for Your Website: a 24/7 Agent | HGPRO',
+     title='AI Chatbot for Your Website: a 24/7 Agent | HG Studio',
      desc='An AI customer service agent on your site: answers from your own content, at any hour, in Hebrew and English, and hands warm leads to your WhatsApp. From ₪2,900.',
      h1='AI customer service agent', kicker='Service · AI',
      lead='Most questions customers ask repeat themselves: how much is it, is there a free slot, do you cover my area. An AI agent on your site answers them right away, at any hour, from your information only, and passes you the people who are ready to buy.',
@@ -276,7 +276,7 @@ page(slug='ai-customer-agent', lang='en', name='AI customer service agent',
      service=('AI chatbot', 'AI customer service agent', 2900), alt='ai-chatbot')
 
 page(slug='wix-wordpress-migration', lang='en', name='Wix and WordPress migration',
-     title='Move from Wix or WordPress Without Losing Google | HGPRO',
+     title='Move from Wix or WordPress Without Losing Google | HG Studio',
      desc='Migrate from Wix or WordPress to a fast, custom-designed site: the content moves over, every old address redirects, and your place on Google stays. From ₪400.',
      h1='Moving from Wix or WordPress', kicker='Service · Migration',
      lead='Wix and WordPress are fine for a start. As the business grows, the site slows down, looks like everyone else and starts to limit you. Moving to a custom-built site does not have to cost you your place on Google, if it is done right.',
@@ -290,7 +290,7 @@ page(slug='wix-wordpress-migration', lang='en', name='Wix and WordPress migratio
      service=('Website migration', 'Wix and WordPress migration', 400), alt='wix-migration')
 
 page(slug='brand-identity-design', lang='en', name='Brand identity design',
-     title='Logo and Brand Identity Design | HGPRO',
+     title='Logo and Brand Identity Design | HG Studio',
      desc='A brand identity for your business: logo, colors, typefaces and short usage rules that work on the site and on social. From ₪600, with the site or on its own.',
      h1='Brand identity', kicker='Service · Branding',
      lead='Before building a site, it helps to know how the business looks and sounds. A short, clear brand identity sets things straight: a logo, colors, typefaces and a few simple rules, so the site, the social accounts and the sign all look like the same business.',
@@ -314,6 +314,7 @@ body { background: var(--ink, #0a0a0b); }
 .sv-bar nav a:hover { color: #ede8de; }
 /* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
 @media (max-width: 560px) {
+  .sv-mark { font-size: 1.2rem; }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
   .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
 }
@@ -363,7 +364,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 '''
 GF_HE = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
 GF_EN = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
-# הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/fraunces-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
+# הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
 
 def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
@@ -398,19 +399,19 @@ def render(p):
     faq = ''.join(f'<details><summary><h3>{esc(q)}</h3></summary><p>{esc(a)}</p></details>' for q, a in p['faq'])
     secs = ''.join(f'<h2>{esc(h)}</h2>{body}' for h, body in p['sections'])
     stype, sname, price = p['service']
-    org = {'@type': 'ProfessionalService', '@id': D + '/#business', 'name': 'HGPRO', 'url': D + '/', 'telephone': '+972-54-552-2053', 'email': 'boss@hgpro.io', 'image': D + '/work/og-home.jpg', 'areaServed': 'IL', 'priceRange': '₪400–₪19,900'}
+    org = {'@type': 'ProfessionalService', '@id': D + '/#business', 'name': 'HG Studio', 'url': D + '/', 'telephone': '+972-54-552-2053', 'email': 'boss@hgpro.io', 'image': D + '/work/og-home.jpg', 'areaServed': 'IL', 'priceRange': '₪400–₪19,900'}
     graph = [
         {'@type': 'WebPage', '@id': U + '#page', 'url': U, 'name': p['title'], 'description': p['desc'], 'inLanguage': 'he-IL' if he else 'en', 'isPartOf': {'@id': D + '/#website'}, 'breadcrumb': {'@id': U + '#crumbs'}},
         {'@type': 'BreadcrumbList', '@id': U + '#crumbs', 'itemListElement': [
-            {'@type': 'ListItem', 'position': 1, 'name': 'HGPRO', 'item': home},
+            {'@type': 'ListItem', 'position': 1, 'name': 'HG Studio', 'item': home},
             {'@type': 'ListItem', 'position': 2, 'name': T('שירותים', 'Services'), 'item': hub},
             {'@type': 'ListItem', 'position': 3, 'name': p['name'], 'item': U}]},
         {'@type': 'Service', 'name': sname, 'serviceType': stype, 'url': U, 'description': p['desc'], 'provider': org, 'areaServed': {'@type': 'Country', 'name': 'Israel'},
          'offers': {'@type': 'Offer', 'price': str(price), 'priceCurrency': 'ILS', 'url': U}},
         {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in p['faq']]}]
     if p.get('films'):
-        graph += [{'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HGPRO.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
-                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HGPRO.', 'A one minute commercial made with AI by HGPRO.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'}]
+        graph += [{'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
+                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HG Studio.', 'A one minute commercial made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
     alt = ''
     foot_links = ''.join(f'<a href="{("" if q["lang"] == p["lang"] else ("en/" if he else "../"))}{q["slug"]}.html">{esc(q["name"])}</a>' for q in P if q['lang'] == p['lang'])
@@ -433,7 +434,7 @@ def render(p):
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
 {GF_HE if he else GF_EN}
-<link rel="preload" as="font" type="font/woff2" href="{up}fonts/fraunces-mark.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
 <script type="application/ld+json">{ld}</script>
@@ -441,11 +442,11 @@ def render(p):
 </head>
 <body>
 <header class="sv-bar sv-bar-cta">
-  <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·PRO, {T('לדף הבית', 'home')}">HG<span>·</span>PRO</a>
+  <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
   <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
 <main class="sv">
-  <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
+  <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
   <p class="sv-kicker">{esc(p['kicker'])}</p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{esc(p['lead'])}</p>
@@ -465,7 +466,7 @@ def render(p):
   </section>
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-<footer class="sv-foot"><span>© 2026 HGPRO · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 <script src="{up}js/a11y.js" defer></script>
 </body>
@@ -477,10 +478,10 @@ def hub(lang):
     items = [p for p in P if p['lang'] == lang]
     U = D + ('/services/' if he else '/services/en/')
     cards = ''.join(f'<li><a href="{p["slug"]}.html"><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></a></li>' for p in items)
-    ld = json.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': T('שירותי HGPRO', 'HGPRO services'),
+    ld = json.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': T('שירותי HG Studio', 'HG Studio services'),
                      'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': url_of(p), 'name': p['name']} for i, p in enumerate(items)]}, ensure_ascii=False)
-    title = T('שירותים: בניית אתרים, עיצוב, חנויות, SEO ו-AI | HGPRO', 'Services: web design, development and AI video | HGPRO')
-    desc = T('כל השירותים של HGPRO: בניית אתרים לעסקים, עיצוב אתרים, דפי נחיתה, חנויות אינטרנטיות, קידום אורגני, פרסומות ונציגי AI.', 'All HGPRO services: custom web design and development, and AI commercial production.')
+    title = T('שירותים: בניית אתרים, עיצוב, חנויות, SEO ו-AI | HG Studio', 'Services: web design, development and AI video | HG Studio')
+    desc = T('כל השירותים של HG Studio: בניית אתרים לעסקים, עיצוב אתרים, דפי נחיתה, חנויות אינטרנטיות, קידום אורגני, פרסומות ונציגי AI.', 'All HG Studio services: custom web design and development, and AI commercial production.')
     return f'''<!doctype html>
 <html lang="{lang}" dir="{'rtl' if he else 'ltr'}">
 <head>
@@ -493,7 +494,7 @@ def hub(lang):
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 {GF_HE if he else GF_EN}
-<link rel="preload" as="font" type="font/woff2" href="{up}fonts/fraunces-mark.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}
 .sv-list {{ list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }}
@@ -505,14 +506,14 @@ def hub(lang):
 <script src="{up}js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>PRO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a></nav></header>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a></nav></header>
 <main class="sv">
-  <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
+  <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים', 'Services')}</h1>
   <p class="sv-lead">{T('עיצוב, קוד ותנועה ביד אחת. כל שירות נבנה סביב העסק שלכם, עם מחיר סגור מראש.', 'Design, code and motion in one pair of hands. Every service is built around your business, at a fixed price.')}</p>
   <ul class="sv-list">{cards}</ul>
 </main>
-<footer class="sv-foot"><span>© 2026 HGPRO</span><a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio</span><a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
 <script src="{up}js/a11y.js" defer></script>
 </body>
 </html>

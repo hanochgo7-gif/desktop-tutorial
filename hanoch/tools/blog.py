@@ -10,7 +10,7 @@ OUT = ROOT + '/blog'
 esc = html.escape
 MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
 AUTHOR = {'@type': 'Person', '@id': D + '/#hanoch', 'name': 'חנוך גוטובסקי', 'alternateName': 'Hanoch Gotovski', 'url': D + '/', 'jobTitle': 'מעצב ומפתח אתרים'}
-ORG = {'@type': 'Organization', '@id': D + '/#business', 'name': 'HGPRO', 'url': D + '/', 'logo': {'@type': 'ImageObject', 'url': D + '/images/icon-512.png'}}
+ORG = {'@type': 'Organization', '@id': D + '/#business', 'name': 'HG Studio', 'url': D + '/', 'logo': {'@type': 'ImageObject', 'url': D + '/images/icon-512.png'}}
 
 BLOG_CSS = '''
 .sv article > p, .sv article > ul, .sv article > ol, .sv article li { max-width: 58ch; }
@@ -152,7 +152,7 @@ def head(title, desc, url, img, extra=''):
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
-<link rel="alternate" type="application/rss+xml" title="המאמרים של HGPRO" href="{D}/blog/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="המאמרים של HG Studio" href="{D}/blog/feed.xml">
 <meta property="og:locale" content="he_IL">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
@@ -163,7 +163,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="icon" href="../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../images/icon-180.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="preload" as="font" type="font/woff2" href="../fonts/fraunces-mark.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
 {extra}
@@ -171,14 +171,14 @@ def head(title, desc, url, img, extra=''):
 </head>
 <body>
 <header class="sv-bar sv-bar-cta">
-  <a class="sv-mark" href="../" aria-label="HG·PRO, לדף הבית">HG<span>·</span>PRO</a>
+  <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
   <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#pricing">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 '''
 
 
 FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
-<footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/a11y.js" defer></script>
 </body>
 </html>
@@ -194,7 +194,7 @@ def render(p, posts):
          'dateModified': (p.get('updated') or p['date']).isoformat(), 'inLanguage': 'he-IL', 'wordCount': p['words'], 'keywords': p.get('keyword', ''),
          'author': AUTHOR, 'publisher': ORG, 'mainEntityOfPage': U, 'isPartOf': {'@id': D + '/blog/#blog'}},
         {'@type': 'BreadcrumbList', 'itemListElement': [
-            {'@type': 'ListItem', 'position': 1, 'name': 'HGPRO', 'item': D + '/'},
+            {'@type': 'ListItem', 'position': 1, 'name': 'HG Studio', 'item': D + '/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'מאמרים', 'item': D + '/blog/'},
             {'@type': 'ListItem', 'position': 3, 'name': p['h1'], 'item': U}]}]
     if faq: graph.append({'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faq]})
@@ -205,7 +205,7 @@ def render(p, posts):
     more = [q for q in posts if q['slug'] != p['slug']][:3]
     morel = ''.join(card(q) for q in more)
     return head(p['title'], p['desc'], U, img, extra) + f'''<main class="sv">
-  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HGPRO</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['h1'])}</span></nav>
+  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['h1'])}</span></nav>
   <article>
   <p class="bl-meta"><b>{esc(p.get('kicker', 'מדריך'))}</b><span>חנוך גוטובסקי</span><time datetime="{p['date'].isoformat()}">{heb_date(p['date'])}</time><span>{mins} דקות קריאה</span></p>
   <h1>{esc(p['h1'])}</h1>
@@ -214,7 +214,7 @@ def render(p, posts):
   <figure class="bl-cover"><img src="../{p['cover']}" alt="{esc(p['cover_alt'])}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
   {tocs}
   {body}
-  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-480.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HGPRO. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
+  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-480.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HG Studio. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
   </article>
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">רוצים אתר כזה לעסק שלכם?</h2>
@@ -235,13 +235,13 @@ def card(p, first=False):
 
 def index(posts):
     U = D + '/blog/'
-    title = 'מאמרים על בניית אתרים, עיצוב, קידום ו-AI | HGPRO'
+    title = 'מאמרים על בניית אתרים, עיצוב, קידום ו-AI | HG Studio'
     desc = 'מדריכים מעשיים לבעלי עסקים: כמה עולה אתר, איך בוחרים מעצב, קידום אורגני בגוגל, דפי נחיתה שממירים ופרסומות AI. נכתב על ידי חנוך גוטובסקי.'
-    ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Blog', '@id': U + '#blog', 'name': 'המאמרים של HGPRO', 'url': U, 'inLanguage': 'he-IL',
+    ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Blog', '@id': U + '#blog', 'name': 'המאמרים של HG Studio', 'url': U, 'inLanguage': 'he-IL',
         'author': AUTHOR, 'publisher': ORG, 'blogPost': [{'@type': 'BlogPosting', 'headline': p['h1'], 'url': p['url'], 'datePublished': p['date'].isoformat(), 'image': D + '/' + p['cover']} for p in posts]}, ensure_ascii=False) + '</script>'
     img = D + '/' + posts[0]['cover'] if posts else D + '/work/og-home.jpg'
     return head(title, desc, U, img, '<meta property="og:type" content="website">\n' + ld) + f'''<main class="sv">
-  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HGPRO</a><span aria-hidden="true">/</span><span aria-current="page">מאמרים</span></nav>
+  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">מאמרים</span></nav>
   <h1>מאמרים</h1>
   <p class="sv-lead">מדריכים קצרים וישירים לבעלי עסקים: אתרים, עיצוב, גוגל ובינה מלאכותית. בלי מילים גבוהות, עם מספרים אמיתיים.</p>
   <ul class="bl-list">{''.join(card(p, i == 0) for i, p in enumerate(posts))}</ul>
@@ -255,7 +255,7 @@ def feed(posts):
     return f'''<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>המאמרים של HGPRO</title><link>{D}/blog/</link><language>he</language>
+  <title>המאמרים של HG Studio</title><link>{D}/blog/</link><language>he</language>
   <description>מדריכים לבעלי עסקים על בניית אתרים, עיצוב, קידום ובינה מלאכותית.</description>
   <atom:link href="{D}/blog/feed.xml" rel="self" type="application/rss+xml"/>{items}
 </channel>

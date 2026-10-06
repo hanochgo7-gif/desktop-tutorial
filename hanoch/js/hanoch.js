@@ -278,7 +278,7 @@
     if (!P) return Promise.resolve();
     var fontReady = document.fonts && document.fonts.load
       ? Promise.race([
-          Promise.all([document.fonts.load('800 100px "Fraunces"', 'HGPRO'), document.fonts.ready]),
+          Promise.all([document.fonts.load('800 100px "Fraunces"', 'HG Studio'), document.fonts.ready]),
           new Promise(function (r) { setTimeout(r, 2500); })
         ])
       : Promise.resolve();
@@ -368,7 +368,7 @@
     for (var r = 1; r < rows; r++) line(0, vh * r / rows, vw, vh * r / rows, r === rows / 2);
     line(0, 0, vw, vh, false); line(vw, 0, 0, vh, false);
 
-    var text = 'HGPRO', out = $('.intro-text'), pct = $('.intro-pct');
+    var text = 'HG Studio', out = $('.intro-text'), pct = $('.intro-pct');
     var counter = { n: 0, c: 0 };
     var tl = gsap.timeline();
     tl.to(lines, { strokeDashoffset: 0, duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0)
