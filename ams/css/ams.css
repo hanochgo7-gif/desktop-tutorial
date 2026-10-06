@@ -936,7 +936,7 @@ ul, ol { list-style: none; }
 }
 .guide-cover { margin: 0; }
 .guide-cover img { width: 100%; height: auto; box-shadow: 0 18px 40px rgba(0, 0, 0, .55); transform: rotate(-2deg); }
-.guide-label { display: inline-block; margin: 0 0 12px; padding: 5px 10px; background: var(--gold); color: var(--night); font-size: 0.96rem; font-weight: 600; }
+.guide-label { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 18px; background: var(--gold); color: var(--night); font: 400 1.6rem/1 var(--f-display); box-shadow: 0 0 0 4px rgba(212, 162, 76, .18), 0 10px 30px rgba(212, 162, 76, .25); transform: rotate(-2deg); }
 .guide-text > p:not(.guide-label) { max-width: 34em; margin-top: 14px; color: rgba(242, 236, 224, .86); }
 .guide-text .hero-actions { justify-content: flex-start; }
 .guide-note { font-size: 1.02rem; color: var(--ash) !important; }
