@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=40
+TOTAL=39
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -101,11 +101,9 @@ sec("cover", INK,
 # 2 hook
 n+=1
 sec("hook", INK,
-    f'<div style="flex:1"></div>'
-    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
-    f'{h2("ב־7 באוקטובר<br>קיבלתי החלטה.", 110, "#F6F3EE", "; letter-spacing:-1px")}'
-    f'<div style="flex:1"></div>{pnum(n)}',
-    "פתיחה – 3 דקות. לא מתחילים בילדות. לא מתחילים ב־7 באוקטובר. מתחילים מהרגע שבו הקהל כבר בתוך הסיפור. להגיד את המשפט. ואז לעצור. לא להסביר עדיין. המטרה: ליצור סקרנות.", pad="128px 128px 160px")
+    f'<div style="position:absolute; left:1672px; top:379px; width:120px; height:6px; background:{SAND}"></div>'
+    f'<h2 style="position:absolute; left:128px; top:413px; width:1664px; font-family:{H}; font-size:110px; font-weight:700; line-height:1.15; letter-spacing:-1px; color:#F6F3EE; text-align:right">{t("לא בחרתי<br>את 7 באוקטובר")}</h2>{pnum(n)}',
+    "פתיחה – 3 דקות. לא מתחילים בילדות. מתחילים מהמשפט הזה: 'לא בחרתי את 7 באוקטובר.' להגיד אותו, לעצור, ולא להסביר. הקהל יקבל את ההמשך רק בסוף ההרצאה: 'אבל כל מה שבא אחריו – בחרתי.' זה גם המוסר השכל: לא תמיד אנחנו בוחרים את מה שקורה לנו, אבל אנחנו כן בוחרים מה אנחנו עושים מכאן.", pad="128px 128px 160px")
 # 3 section 01
 n+=1
 section_slide("s01","01","מי הייתי לפני הכול","","מי הייתי לפני הכול – 7 דקות. לבחור 3–4 רגעים בלבד שהסבירו מי היית. הקהל צריך להבין שאתה לא 'הגיבור שנולד גיבור'.", n)
@@ -334,10 +332,7 @@ sec("soroka", INK,
     f'{p("״אני בסדר גמור.״ עוד לא ידעתי כלום.", 30, SAND)}{tr}</div>'
     f'<img src="/_blob/fa2ed9bcf42af6840e8c4bbf27acd2ec" alt="חנוך על אלונקה במסדרון בסורוקה, שעתיים אחרי הפינוי" style="width:464px; height:824px; object-fit:cover; border-radius:24px"></div>{pnum(n)}',
     "סורוקה, שעתיים אחרי הפינוי. התמונה + ההודעה הקולית ששלחתי לכולם. להשמיע (עם קול בקובץ ה-PowerPoint). הקהל שומע 'אני בסדר גמור' – ואתה כבר יודע שזה לא היה נכון. משפט אחד אחרי: באותו רגע חשבתי שהחלק הקשה נגמר. ואז הנגמ״ש יום אחרי, ואז הטוויסט.", pad="128px 128px 160px")
-# 14z pause (black)
-n+=1
-sec("pause", "#000000", '<div style="flex:1"></div>',
-    "שקופית שחורה. שתי שניות של שקט אחרי ההודעה הקולית. לנשום, ואז לעבור לטוויסט.", chrome_on=False)
+# (pause slide removed by the user)
 # 15 twist
 n+=1
 sec("twist", SAND,
@@ -421,9 +416,9 @@ sec("today", PAPER,
 # 26 callback
 n+=1
 sec("callback", INK,
-    f'{pin_rule(300, SAND)}{pin("p","בהתחלה אמרתי לכם:", 338, 40, MUTEDL, weight=400, lh=1.45)}{pin("h2","ב־7 באוקטובר קיבלתי החלטה", 410, 72, MUTEDL)}'
-    f'{pin("p","האמת היא שאני מקבל אותה מחדש", 566, 44, "#F6F3EE", build="fade 1", weight=400, lh=1.45)}{pin("h2","כל בוקר", 640, 110, SAND, build="fade 2")}{pnum(n)}',
-    "הסיום – 3 דקות. חוזרים למשפט מהפתיחה. 'האמת היא שאני מקבל אותה מחדש' מופיע בלחיצה, ו'כל בוקר' בלחיצה נוספת – לתת לו רגע לבד.", pad="128px 128px 160px")
+    f'{pin_rule(300, SAND)}{pin("p","בהתחלה אמרתי לכם:", 338, 40, MUTEDL, weight=400, lh=1.45)}{pin("h2","לא בחרתי את 7 באוקטובר", 410, 72, MUTEDL)}'
+    f'{pin("p","אבל כל מה שבא אחריו", 566, 44, "#F6F3EE", build="fade 1", weight=400, lh=1.45)}{pin("h2","בחרתי", 640, 110, SAND, build="fade 2")}{pnum(n)}',
+    "הסיום – 3 דקות. חוזרים למשפט מהפתיחה: 'לא בחרתי את 7 באוקטובר.' לעצור. לחיצה: 'אבל כל מה שבא אחריו' – ולחיצה נוספת: 'בחרתי.' לתת לו רגע לבד. מכאן לשקופית ההחלטה, ואז למשפט האחרון: לא תמיד אנחנו בוחרים את מה שקורה לנו, אבל אנחנו כן בוחרים מה אנחנו עושים מכאן.", pad="128px 128px 160px")
 # 27 decision x3
 n+=1
 D=[("כיתה י׳","כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי."),("7.10","כשנפצעתי – החלטתי לתפקד ולהמשיך."),("היום","כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש.")]
@@ -459,7 +454,7 @@ for i,h in slides:
     open(os.path.join(ROOT,"slides",i+".html"),"w",encoding="utf-8").write(fix_counter(i,h))
 deck={"v":4,"createdOnFiles":{"v":1,"at":"2026-09-26T13:06:01Z"},
  "title":"7.10 – הסיפור שלי","order":order,
- "sections":{"open":{"description":"פתיחה: ההחלטה שהקהל עוד לא מבין","start":"cover"},
+ "sections":{"open":{"description":"פתיחה: מה שלא בחרתי","start":"cover"},
   "s1":{"description":"מי הייתי לפני הכול: ילד בעייתי, כיתה י׳, ההחלטה הראשונה","start":"s01"},
   "s2":{"description":"הבחירה: סיירת נח״ל והמפקדים","start":"s02"},
   "s3":{"description":"7 באוקטובר: הזירה, שבעה שלבים, הסרטונים ורגע הפציעה","start":"s03"},
