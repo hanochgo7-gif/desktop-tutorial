@@ -252,7 +252,6 @@ def home_reviews():
   <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
     <div class="reviews-head">
       <h2 class="h2" id="reviews-title">מה המתאמנים כותבים לי</h2>
-      <p>הודעות אמיתיות שקיבלתי ממתאמנים ב־WhatsApp, כלשונן. השמות הוסרו לשמירה על פרטיותם.</p>
     </div>
     <div class="reviews-grid" role="region" aria-label="המלצות, אפשר לגלול לצדדים" tabindex="0">
 {cards}    </div>
