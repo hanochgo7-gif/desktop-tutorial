@@ -102,8 +102,8 @@ sec("cover", INK,
 n+=1
 sec("hook", INK,
     f'<div style="position:absolute; left:1672px; top:379px; width:120px; height:6px; background:{SAND}"></div>'
-    f'<h2 style="position:absolute; left:128px; top:413px; width:1664px; font-family:{H}; font-size:110px; font-weight:700; line-height:1.15; letter-spacing:-1px; color:#F6F3EE; text-align:right">{t("לא בחרתי<br>את 7 באוקטובר")}</h2>{pnum(n)}',
-    "פתיחה – 3 דקות. לא מתחילים בילדות. מתחילים מהמשפט הזה: 'לא בחרתי את 7 באוקטובר.' להגיד אותו, לעצור, ולא להסביר. הקהל יקבל את ההמשך רק בסוף ההרצאה: 'אבל כל מה שבא אחריו – בחרתי.' זה גם המוסר השכל: לא תמיד אנחנו בוחרים את מה שקורה לנו, אבל אנחנו כן בוחרים מה אנחנו עושים מכאן.", pad="128px 128px 160px")
+    f'<h2 style="position:absolute; left:128px; top:413px; width:1664px; font-family:{H}; font-size:110px; font-weight:700; line-height:1.15; letter-spacing:-1px; color:#F6F3EE; text-align:right">{t("איפה הייתם<br>ב־7 באוקטובר?")}</h2>{pnum(n)}',
+    "פתיחה – 3 דקות. לשאול את השאלה, ומיד להוסיף: 'אל תענו בקול, רק תחשבו רגע.' לתת חמש שניות של שקט – כל אחד באולם חוזר לבוקר ההוא. ואז, בשקט: 'אני הייתי במוצב סופה.' ומשם מתחילים. לא להסביר את השאלה. בסוף ההרצאה חוזרים אליה: אף אחד מאיתנו לא בחר את היום הזה – אבל כל אחד מאיתנו בוחר מה עושים מכאן.", pad="128px 128px 160px")
 # 3 section 01
 n+=1
 section_slide("s01","01","מי הייתי לפני הכול","","מי הייתי לפני הכול – 7 דקות. לבחור 3–4 רגעים בלבד שהסבירו מי היית. הקהל צריך להבין שאתה לא 'הגיבור שנולד גיבור'.", n)
@@ -416,9 +416,9 @@ sec("today", PAPER,
 # 26 callback
 n+=1
 sec("callback", INK,
-    f'{pin_rule(300, SAND)}{pin("p","בהתחלה אמרתי לכם:", 338, 40, MUTEDL, weight=400, lh=1.45)}{pin("h2","לא בחרתי את 7 באוקטובר", 410, 72, MUTEDL)}'
-    f'{pin("p","אבל כל מה שבא אחריו", 566, 44, "#F6F3EE", build="fade 1", weight=400, lh=1.45)}{pin("h2","בחרתי", 640, 110, SAND, build="fade 2")}{pnum(n)}',
-    "הסיום – 3 דקות. חוזרים למשפט מהפתיחה: 'לא בחרתי את 7 באוקטובר.' לעצור. לחיצה: 'אבל כל מה שבא אחריו' – ולחיצה נוספת: 'בחרתי.' לתת לו רגע לבד. מכאן לשקופית ההחלטה, ואז למשפט האחרון: לא תמיד אנחנו בוחרים את מה שקורה לנו, אבל אנחנו כן בוחרים מה אנחנו עושים מכאן.", pad="128px 128px 160px")
+    f'{pin_rule(300, SAND)}{pin("p","בהתחלה שאלתי אתכם איפה הייתם ב־7 באוקטובר", 338, 40, MUTEDL, weight=400, lh=1.45)}{pin("h2","אף אחד מאיתנו לא בחר את היום הזה", 410, 72, MUTEDL)}'
+    f'{pin("p","אבל כל אחד מאיתנו", 566, 44, "#F6F3EE", build="fade 1", weight=400, lh=1.45)}{pin("h2","בוחר מה עושים מכאן", 640, 110, SAND, build="fade 2")}{pnum(n)}',
+    "הסיום – 3 דקות. חוזרים לשאלה מהפתיחה: 'בהתחלה שאלתי אתכם איפה הייתם ב־7 באוקטובר. אף אחד מאיתנו לא בחר את היום הזה.' לעצור. לחיצה: 'אבל כל אחד מאיתנו' – ולחיצה נוספת: 'בוחר מה עושים מכאן.' לתת לו רגע לבד. זה המוסר השכל של כל ההרצאה.", pad="128px 128px 160px")
 # 27 decision x3
 n+=1
 D=[("כיתה י׳","כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי."),("7.10","כשנפצעתי – החלטתי לתפקד ולהמשיך."),("היום","כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש.")]
@@ -433,12 +433,12 @@ sec("final", SAND,
     f'<div style="display:flex; flex-direction:row-reverse; gap:64px; align-items:center; flex:1">'
     f'<img src="/_blob/48fe90cb8bb83ef0eba26362de16aad1" alt="חנוך רוכב על סוס" style="width:620px; height:824px; object-fit:cover; border-radius:24px">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:28px; justify-content:center">'
-    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{INK}"></div></div>{h2("לא תמיד אנחנו בוחרים את מה שקורה לנו", 52, "#5A4A30")}{h1("אבל אנחנו כן בוחרים מה אנחנו עושים מכאן", 76, INK)}'
-    f'<div style="height:24px"></div>{h3("תודה", 44, INK)}'
+    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{INK}"></div></div>{h1("תודה", 160, INK)}'
+    f'<div style="height:24px"></div>'
     f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center">'
     f'<img src="/_blob/41627163abc2d5db7ef9ee7c7df1f3ed" alt="QR לאינסטגרם hanoch234" style="width:200px; height:200px; border-radius:16px">'
     f'<div style="display:flex; flex-direction:column; gap:10px">{p("חנוך  |  054-5522053", 30, "#5A4A30")}{p("Instagram: hanoch234", 30, "#5A4A30")}{p("hanochgo@gmail.com", 30, "#5A4A30")}</div></div></div></div>',
-    "המשפט האחרון. לעצור. לא להוסיף כלום אחריו. הקהל מצלם את ה-QR.")
+    "תודה. לעצור, לא להוסיף כלום. הקהל מצלם את ה-QR.")
 
 order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
@@ -454,7 +454,7 @@ for i,h in slides:
     open(os.path.join(ROOT,"slides",i+".html"),"w",encoding="utf-8").write(fix_counter(i,h))
 deck={"v":4,"createdOnFiles":{"v":1,"at":"2026-09-26T13:06:01Z"},
  "title":"7.10 – הסיפור שלי","order":order,
- "sections":{"open":{"description":"פתיחה: מה שלא בחרתי","start":"cover"},
+ "sections":{"open":{"description":"פתיחה: איפה הייתם ב־7 באוקטובר","start":"cover"},
   "s1":{"description":"מי הייתי לפני הכול: ילד בעייתי, כיתה י׳, ההחלטה הראשונה","start":"s01"},
   "s2":{"description":"הבחירה: סיירת נח״ל והמפקדים","start":"s02"},
   "s3":{"description":"7 באוקטובר: הזירה, שבעה שלבים, הסרטונים ורגע הפציעה","start":"s03"},
