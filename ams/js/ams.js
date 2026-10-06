@@ -238,12 +238,23 @@
     if (source) sessionStorage.setItem('ams_src', source);
   } catch (err) { /* בלי אחסון: ממשיכים בלי מקור */ }
 
+  // "שלחו לחבר": משלימים להודעה המוכנה את כתובת העמוד (הכתובת הקנונית כשיש דומיין)
+  const canon = document.querySelector('link[rel="canonical"]');
+  const pageUrl = canon ? canon.href : location.origin + location.pathname;
+  document.querySelectorAll('[data-share]').forEach((a) => {
+    a.href = 'https://wa.me/?text=' + encodeURIComponent(a.dataset.share + ' ' + pageUrl + (a.dataset.shareAnchor || ''));
+  });
+
   // מדידה: לחיצות על WhatsApp ועל היומן נרשמות (Google Tag Manager / GA4 / Meta Pixel אם הותקנו)
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="https://wa.me"], a[data-booking]');
     if (!a) return;
     const booking = a.hasAttribute('data-booking');
     const where = a.dataset.cta || a.dataset.booking || (a.closest('section[id]') || {}).id || 'other';
+    if (a.hasAttribute('data-share')) {
+      (window.dataLayer = window.dataLayer || []).push({ event: 'share_click', cta: where, page: location.pathname, source });
+      return;
+    }
     const event = booking ? 'booking_click' : (/guide/.test(where) ? 'guide_request' : 'whatsapp_click');
     (window.dataLayer = window.dataLayer || []).push({ event, cta: where, page: location.pathname, source });
     if (typeof window.fbq === 'function') window.fbq('track', event === 'guide_request' ? 'Lead' : (booking ? 'Schedule' : 'Contact'), { cta: where });

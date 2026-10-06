@@ -292,6 +292,12 @@ def header(root, current=None):
   <a class="brand" href="{home}">
     <img src="{root}assets/brand/ams.svg" alt="AMS – Mind &amp; Body Connection" width="420" height="126">
   </a>
+  <nav class="header-nav" aria-label="ניווט מהיר">
+    <a href="{home}#services">שירותים</a>
+    <a href="{root}about.html"{' aria-current="page"' if current == 'about' else ''}>מי אני</a>
+    <a href="{root}articles/index.html"{' aria-current="page"' if current == 'articles' else ''}>מאמרים</a>
+    <a href="{root}trial.html">אימון ניסיון</a>
+  </nav>
   <div class="header-actions">
     <a class="header-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="header">{WA_ICON}<span>אימון ניסיון</span></a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
@@ -355,7 +361,7 @@ def footer(root):
     <div class="footer-contact">
       <p class="footer-h">יצירת קשר</p>
       <ul>
-        <li><a class="with-ico" href="https://wa.me/{PHONE}" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a></li>
+        <li><a class="with-ico" href="{wa('היי אביב, אשמח לפרטים')}" target="_blank" rel="noopener" data-cta="footer-contact"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp <span dir="ltr">{PHONE_SHOW}</span></a></li>
         <li><a class="with-ico" href="{IG}" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-instagram"/></svg>Instagram</a></li>
         <li class="with-ico"><svg class="ico" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-pin"/></svg>אורן 21, מזכרת בתיה</li>
       </ul>
@@ -571,7 +577,7 @@ def service_page(s):
       <div class="hero-actions">
         <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-closing">{WA_ICON}{s['cta']}</a>
       </div>
-    </div>
+{closing_extra('svc-closing')}    </div>
   </section>
 
   <section class="section more" aria-labelledby="more-title">
@@ -861,7 +867,7 @@ def area_page(ar):
       <div class="hero-actions">
         <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="area-closing">{WA_ICON}לתיאום אימון ניסיון</a>
       </div>
-    </div>
+{closing_extra('area-closing')}    </div>
   </section>
 """
     return page(r, f'אגרוף תאילנדי ואימון אישי ליד {town} | אביב משה שדמון – AMS', lead, img, ld_html, main_html)
@@ -934,6 +940,23 @@ def booking_btn(where):
             '<svg class="ico" viewBox="0 0 32 32" aria-hidden="true"><use href="#i-calendar"/></svg>בחירת מועד ביומן</a>')
 
 
+SHARE_TEXT = 'מצאתי מאמן אגרוף תאילנדי וכושר אישי במזכרת בתיה, אביב משה שדמון. שווה להציץ:'
+GUIDE_SHARE_TEXT = 'מצאתי מדריך חינם לאימון מהבית, בלי ציוד, מהמאמן אביב שדמון:'
+PHONE_SHOW = '050-935-9222'
+
+
+def share_link(where, label, text=SHARE_TEXT, anchor=''):
+    """קישור "שלחו לחבר": פותח WhatsApp עם הודעה מוכנה וכתובת העמוד (ה-JS משלים את הכתובת)."""
+    return (f'<a class="share-link" href="https://wa.me/?text={quote(text)}" target="_blank" rel="noopener" '
+            f'data-share="{text}" data-share-anchor="{anchor}" data-cta="{where}">{WA_ICON}{label}</a>')
+
+
+def closing_extra(where):
+    """מתחת לכפתור בסוף כל עמוד: המספר גלוי (למי שגולש במחשב), וקישור לשיתוף."""
+    return (f'      <p class="closing-more"><span>או ישירות ב־WhatsApp: <a href="{wa("היי אביב, אשמח לתאם אימון ניסיון")}" target="_blank" rel="noopener" data-cta="{where}-num"><span dir="ltr">{PHONE_SHOW}</span></a></span>'
+            f'<span>מכירים מישהו שמחפש מאמן? {share_link(where + "-share", "שלחו לו את האתר")}</span></p>\n')
+
+
 def guide_band(r='', where='guide'):
     return f"""  <section class="section guide" id="guide" aria-labelledby="guide-title">
     <div class="guide-box">
@@ -946,6 +969,7 @@ def guide_band(r='', where='guide'):
           <a class="btn btn-gold" href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="{where}">{WA_ICON}לקבלת המדריך ב־WhatsApp</a>
         </div>
         <p class="guide-note">ללא התחייבות וללא רשימת תפוצה.</p>
+        <p class="guide-share">{share_link(where + '-share', 'שלחו את המדריך לחבר', GUIDE_SHARE_TEXT, '#guide')}</p>
       </div>
     </div>
   </section>
@@ -1038,7 +1062,7 @@ def about_page():
         <a class="btn btn-gold" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="about-closing">{WA_ICON}לתיאום אימון ניסיון</a>
         {booking_btn('about-closing')}
       </div>
-    </div>
+{closing_extra('about-closing')}    </div>
   </section>
 """
     return page(r, 'אביב משה שדמון – מאמן אגרוף תאילנדי ומאמן כושר אישי | AMS',
@@ -1135,7 +1159,7 @@ def trial_page():
         <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-closing">{WA_ICON}לתיאום אימון ניסיון</a>
         {booking_btn('lp-closing')}
       </div>
-      <p class="lp-alt">עדיין מתלבט? <a href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="lp-guide">קבל את המדריך למתחילים, ללא עלות</a></p>
+{closing_extra('lp-closing')}      <p class="lp-alt">עדיין מתלבט? <a href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="lp-guide">קבל את המדריך למתחילים, ללא עלות</a></p>
     </div>
   </section>
 </main>
@@ -1218,6 +1242,7 @@ def main():
     html = re.sub(r'<!-- BEGIN reviews -->.*?<!-- END reviews -->', lambda m: home_reviews(), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN articles -->.*?<!-- END articles -->', lambda m: home_articles(), html, flags=re.S)
     html = re.sub(r'<!-- BEGIN guide -->.*?<!-- END guide -->', lambda m: '<!-- BEGIN guide -->\n' + guide_band('', 'home-guide') + '<!-- END guide -->', html, flags=re.S)
+    html = re.sub(r'<!-- BEGIN closing-extra -->.*?<!-- END closing-extra -->', lambda m: '<!-- BEGIN closing-extra -->\n' + closing_extra('closing') + '      <!-- END closing-extra -->', html, flags=re.S)
     html = re.sub(r'<!-- BEGIN booking-closing -->.*?<!-- END booking-closing -->', lambda m: '<!-- BEGIN booking-closing -->' + booking_btn('closing') + '<!-- END booking-closing -->', html, flags=re.S)
     if '<!-- BEGIN faq-ld -->' in html:
         html = re.sub(r'<!-- BEGIN faq-ld -->.*?<!-- END faq-ld -->', lambda m: home_faq_ld(html), html, flags=re.S)
