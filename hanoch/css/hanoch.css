@@ -106,10 +106,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: fixed; z-index: 100; top: 0; inset-inline: 0; display: flex; align-items: center; gap: 2rem;
   padding: 18px var(--gutter); mix-blend-mode: difference; color: #ede8de;
 }
-.bar-mark { font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; text-decoration: none; letter-spacing: 0; }
+.bar-mark { display: inline-flex; align-items: center; min-height: 44px; direction: ltr; font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; text-decoration: none; letter-spacing: 0; }
 .bar-mark span { color: var(--signal); mix-blend-mode: normal; }
-.bar-nav { display: flex; gap: 1.6rem; margin-inline-start: auto; }
-.bar-nav a { font-family: var(--f-mono); font-size: .78rem; text-decoration: none; position: relative; padding: .3rem 0; }
+.bar-nav { display: flex; gap: 1.2rem; margin-inline-start: auto; }
+.bar-nav a { font-family: var(--f-mono); font-size: .78rem; text-decoration: none; position: relative; padding: .3rem .2rem; }
 .bar-nav a::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); }
 .bar-nav a:hover::after { transform: scaleX(1); transform-origin: right; }
 .xray-toggle {
@@ -247,15 +247,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ba-handle i::before { left: 11px; transform: rotate(45deg); }
 .ba-handle i::after { right: 11px; transform: rotate(-135deg); }
 .ba-range-label { color: var(--ink-dim); }
-.ba-range { width: min(340px, 74vw); accent-color: var(--signal); direction: ltr; } /* כמו הקו בתמונה: שמאל הוא 0 בשתי השפות */
+.ba-range { width: min(340px, 74vw); height: 44px; accent-color: var(--signal); direction: ltr; } /* כמו הקו בתמונה: שמאל הוא 0 בשתי השפות */
 
 /* ---------- תהליך ---------- */
 .craft { padding-top: clamp(80px, 10vw, 140px); padding-bottom: clamp(80px, 10vw, 140px); }
 .craft-pin { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 6vw, 100px); align-items: center; min-height: calc(100vh - 160px); }
 .craft h2 { font-size: clamp(3rem, 8vw, 8rem); margin: 1.4rem 0 2.4rem; }
 .steps { list-style: none; display: grid; gap: .2rem; }
-.step { display: grid; grid-template-columns: 3ch 1fr; gap: 1rem; padding: .9rem 0; border-top: 1px solid var(--fg-faint); opacity: .32; transition: opacity .5s var(--ease); }
-.step.is-on { opacity: 1; }
+/* שלב שעוד לא הגיע: כותרת עמומה אבל קריאה (5.7:1). השלב הפעיל נדלק בצבע מלא ובקו כתום */
+.step { display: grid; grid-template-columns: 3ch 1fr; gap: 1rem; padding: .9rem 0; border-top: 1px solid var(--fg-faint); transition: border-color .5s var(--ease); }
+.step h3 { transition: color .5s var(--ease); }
+.step:not(.is-on) h3 { color: var(--fg-dim); }
+.step.is-on { border-top-color: var(--signal); }
 .step .mono { color: var(--signal); padding-top: .35rem; }
 .step h3 { font-family: var(--f-display); font-size: 1.6rem; font-weight: 700; line-height: 1.1; }
 .step p { color: var(--fg-dim); max-width: 38ch; font-size: .95em; }
@@ -576,7 +579,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--p, var(--signal)); color: var(--ink); text-decoration: none; font-size: .8rem;
 }
 .case-live[hidden] { display: none; }
-.p-live { margin-top: .4rem; }
+.p-live { margin-top: .4rem; min-height: 44px; }
 
 /* ---------- פס התקדמות ---------- */
 .progress { position: fixed; top: 0; inset-inline: 0; height: 2px; z-index: 130; pointer-events: none; }
@@ -1429,7 +1432,9 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
 @media (max-width: 900px) {
   .bar .sound-toggle, .bar .xray-toggle { display: none; }
   .bar { gap: .7rem; }
-  .bar-cta { min-height: 40px; padding: 0 .95rem; font-size: .74rem; }
+  .bar-cta { padding: 0 .95rem; font-size: .74rem; }
+  .menu-btn { width: 44px; height: 44px; }
+  .lang-switch { min-width: 44px; min-height: 44px; }
 }
 
 /* ---------- תפריט פורטל: נפתח דרך ה-ח מזכוכית ---------- */
@@ -1552,7 +1557,7 @@ html[lang="en"] .tours h2 { font-size: clamp(2.6rem, 5vw, 5.2rem); }
   .bar-mark::before { inset: -8px -10px; }
   .lang-switch::before { inset: -4px -2px; }
   .tg-kind { font-size: .72rem; }
-  .ba-range { height: 40px; }
+  .ba-range { height: 44px; }
 }
 /* כשתפריט או סיפור פרויקט פתוחים על כל המסך, כפתור הנגישות הצף לא מסתיר את מה שבתוכם */
 .menu-open .a11y, .case-open .a11y { visibility: hidden; }
@@ -1797,5 +1802,16 @@ html[lang="en"] .cr-sub { max-width: 46ch; font-size: clamp(.92rem, 1.05vw, 1rem
 .motion .cr-pin { background-image: none !important; }
 
 /* אזורי מגע: הקישורים הקטנים מקבלים שטח לחיצה גדול יותר בלי לשנות את הפריסה */
-.hero-avail { padding-block: 12px; margin-block: -12px; }
+.hero-avail { padding-block: 13px; margin-block: -13px; }
 .foot a, .foot-xray { padding-block: 6px; margin-block: -6px; }
+/* קישורים בודדים: שטח לחיצה של 44px בלי להזיז את הפריסה */
+.work-back, .demo-full { display: inline-block; padding-block: 13px; margin-block: -13px; }
+.p-demo { position: relative; }
+.p-demo::after { content: ""; position: absolute; inset: -11px -4px; }
+/* תוכניות הליווי נגללות לרוחב בטלפון, ולכן מקבלות פוקוס מהמקלדת */
+.care-plans:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+@media (max-width: 700px) {
+  .foot { row-gap: 0; }
+  .foot a, .foot-xray { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; margin-block: 0; }
+  .foot .foot-sv { display: flex; flex-wrap: wrap; align-items: center; column-gap: .35rem; }
+}

@@ -13,6 +13,10 @@ AUTHOR = {'@type': 'Person', '@id': D + '/#hanoch', 'name': 'חנוך גוטוב
 ORG = {'@type': 'Organization', '@id': D + '/#business', 'name': 'HGPRO', 'url': D + '/', 'logo': {'@type': 'ImageObject', 'url': D + '/images/icon-512.png'}}
 
 BLOG_CSS = '''
+.sv article > p, .sv article > ul, .sv article > ol, .sv article li { max-width: 58ch; }
+.bl-toc a { display: inline-flex; align-items: center; min-height: 32px; }
+.sv-foot a[href$="feed.xml"] { padding-inline: 6px; }
+@media (max-width: 700px) { .bl-toc a { min-height: 44px; } .bl-toc ol { gap: 0 !important; } }
 .sv article > p:not(.bl-meta), .sv article > ul, .sv article > ol { margin-bottom: 1.1rem; }
 .bl-meta { font-family: var(--f-mono); font-size: .76rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
 .bl-meta b { color: var(--signal); font-weight: 400; }
@@ -166,14 +170,15 @@ def head(title, desc, url, img, extra=''):
 <script src="../js/ga.js" defer></script>
 </head>
 <body>
-<header class="sv-bar">
-  <a class="sv-mark" href="../" aria-label="HGPRO, לדף הבית">HG<span>·</span>PRO</a>
+<header class="sv-bar sv-bar-cta">
+  <a class="sv-mark" href="../" aria-label="HG·PRO, לדף הבית">HG<span>·</span>PRO</a>
   <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 '''
 
 
-FOOT = '''<footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
+<footer class="sv-foot"><span>© 2026 HGPRO · חנוך גוטובסקי</span><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/a11y.js" defer></script>
 </body>
 </html>
@@ -205,6 +210,7 @@ def render(p, posts):
   <p class="bl-meta"><b>{esc(p.get('kicker', 'מדריך'))}</b><span>חנוך גוטובסקי</span><time datetime="{p['date'].isoformat()}">{heb_date(p['date'])}</time><span>{mins} דקות קריאה</span></p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{inline(p['lead'])}</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
   <figure class="bl-cover"><img src="../{p['cover']}" alt="{esc(p['cover_alt'])}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
   {tocs}
   {body}
