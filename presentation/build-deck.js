@@ -60,7 +60,7 @@ function circleIcon(s, cx, cy, d, sym, bg = SAND, fg = INK) {
 function video(s, file, still, x, y, w, h) {
   s.addMedia({ type: "video", path: P(file), cover: b64(P(still), "image/jpeg"), x: px(x), y: px(y), w: px(w), h: px(h) });
 }
-const TOTAL = 39;
+const TOTAL = 38;
 let CUR_SEC = null;
 function pnum() {}
 function rule(s, x, y, w = 120, color = SAND) { rect(s, x, y, w, 6, color); }
@@ -111,7 +111,7 @@ function sectionSlide(num, title, notes, tsize = 96) {
   pnum(s, n);
 }
 // ============ 3 section 01 ============
-sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפני הכול – 7 דקות. לבחור 3–4 רגעים בלבד שהסבירו מי היית. הקהל צריך להבין שאתה לא 'הגיבור שנולד גיבור'.");
+CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed by the user
 // ============ 4 who ============
 {
   const s = slide(PAPER, "אני חנוך, בן 24, מיישובי גדרות. ילדות מושבניקית. אח בכור לשלושה אחים – ארבעה ילדים כולל אותי. הרבה סימני שאלה – לא ילד שידעו לאן הוא הולך. (להוסיף פרט אחד קטן ומצחיק מהילדות שמחבר את הקהל.)");
@@ -133,16 +133,12 @@ sectionSlide("01", "מי הייתי לפני הכול", "מי הייתי לפנ�
   const s = slide(PAPER, "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", { mark: 74 });
   heading(s, "כיתה י׳: הרגע שבו הכול התהפך", 128, 128, 1664, 90, 64, TXT);
   // dark quote card on the left (720 wide)
-  rrect(s, 128, 266, 760, 654, INK, null, 24);
-  rule(s, 888 - 64 - 120, 420);
-  heading(s, "לא היה לי שום קשר לזה", 192, 460, 632, 90, 60, WHITE);
-  para(s, "והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי", 192, 580, 632, 160, 34, MUTEDL);
   // three words on the right, evenly spread
   const words = ["ההאשמה", "ההבנה", "ההחלטה"];
   words.forEach((w, i) => {
     const y = 266 + (654 / 3) * i + 654 / 6;
-    circle(s, 1792 - 20, y, 40, SAND);
-    heading(s, w, 912, y - 40, 812, 80, 48, TXT, { valign: "middle" });
+    circle(s, 1792 - 24, y, 48, SAND);
+    heading(s, w, 128, y - 60, 1600, 120, 72, TXT, { valign: "middle" });
   });
   pnum(s, n, false);
 }

@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=39
+TOTAL=38
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -127,15 +127,10 @@ n+=1
 steps=[("1","ההאשמה","האשימו אותי בסחר בסמים – ולא היה לי שום קשר לזה."),
        ("2","ההבנה","בסוף האמינו לי. אבל נשאר חותם: יכולים לחשוד בי בדבר כל כך חמור. אני לא ״ילד רע״ – זו תדמית, לא אני."),
        ("3","ההחלטה","לכתוב את הסיפור שלי בעצמי, ולשנות את התדמית.")]
-steps_html="".join(f'<div style="display:flex; flex-direction:row; gap:28px; align-items:center"><div style="width:40px; height:40px; border-radius:50%; background:{SAND}"></div>{h3(b,48)}</div>' for a,b,c in steps)
+steps_html="".join(f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center"><div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div>{h3(b,72)}</div>' for a,b,c in steps)
 sec("grade10", PAPER,
     f'{h2("כיתה י׳: הרגע שבו הכול התהפך", 64)}'
-    f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:stretch">'
-    f'<div style="flex:1; display:flex; flex-direction:column; justify-content:space-evenly">{steps_html}</div>'
-    f'<div style="width:760px; background:{INK}; border-radius:24px; padding:64px; display:flex; flex-direction:column; gap:36px; justify-content:center">'
-    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
-    f'{h2("לא היה לי שום קשר לזה", 60, "#F6F3EE")}'
-    f'{p("והבנתי: אם אני לא אכתוב את הסיפור שלי – מישהו אחר יכתוב אותו בשבילי", 34, MUTEDL)}</div></div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:column; flex:1; justify-content:space-evenly">{steps_html}</div>{pnum(n, False)}',
     "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
 # 7 message
 n+=1
@@ -440,11 +435,13 @@ sec("final", SAND,
     f'<div style="display:flex; flex-direction:column; gap:10px">{p("חנוך  |  054-5522053", 30, "#5A4A30")}{p("Instagram: hanoch234", 30, "#5A4A30")}{p("hanochgo@gmail.com", 30, "#5A4A30")}</div></div></div></div>',
     "תודה. לעצור, לא להוסיף כלום. הקהל מצלם את ה-QR.")
 
+GEN_IDS=[x[0] for x in slides]
+slides=[x for x in slides if x[0]!='s01']
 order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
 def fix_counter(i, h):
     # page counter / progress bar follow the FINAL order (sector & nagmash are swapped after generation)
-    gen = [x for x,_ in slides].index(i)+1; fin = order.index(i)+1
+    gen = GEN_IDS.index(i)+1; fin = order.index(i)+1
     if gen != fin:
         h = h.replace(f'>{gen} / {TOTAL}<', f'>{fin} / {TOTAL}<')
         wg, wf = int(1920*gen/TOTAL), int(1920*fin/TOTAL)
@@ -455,7 +452,7 @@ for i,h in slides:
 deck={"v":4,"createdOnFiles":{"v":1,"at":"2026-09-26T13:06:01Z"},
  "title":"7.10 – הסיפור שלי","order":order,
  "sections":{"open":{"description":"פתיחה: איפה הייתם ב־7 באוקטובר","start":"cover"},
-  "s1":{"description":"מי הייתי לפני הכול: ילד בעייתי, כיתה י׳, ההחלטה הראשונה","start":"s01"},
+  "s1":{"description":"מי הייתי לפני הכול: ילד בעייתי, כיתה י׳, ההחלטה הראשונה","start":"who"},
   "s2":{"description":"הבחירה: סיירת נח״ל והמפקדים","start":"s02"},
   "s3":{"description":"7 באוקטובר: הזירה, שבעה שלבים, הסרטונים ורגע הפציעה","start":"s03"},
   "s4":{"description":"ואז הכול נגמר: פציעה, שיקום, אובדן, פנמה","start":"s04"},
