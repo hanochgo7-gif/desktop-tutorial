@@ -2257,3 +2257,20 @@ html.a11y-no-motion .hero__clients-track > .hero__clients-list ~ .hero__clients-
   .steps__ctrl button { width: 44px; height: 44px; flex: none; }
   .crumbs a { min-width: 44px; justify-content: center; }
 }
+/* סיווג קבלן, מכתבי המלצה וסיפור פרויקט: מוצגים רק כשיש חומר אמיתי */
+.registry { margin: 18px 0 0; font-size: .95rem; color: var(--muted); }
+.registry b { color: var(--ink); font-weight: 600; }
+.registry a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+.letters { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+.letter { display: block; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; text-align: start; cursor: zoom-in; font: inherit; color: inherit; }
+.letter img { width: 100%; aspect-ratio: 1 / 1.414; object-fit: cover; object-position: top; border-radius: 6px; background: var(--paper); }
+.letter b { display: block; margin-top: 10px; font-weight: 600; }
+.letter span { display: block; font-size: .85rem; color: var(--muted); }
+.letter:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.case__story { display: grid; gap: 12px; margin: 16px 0 0; }
+.case__story div { border-inline-start: 2px solid var(--accent); padding-inline-start: 12px; }
+.case__story dt { font-weight: 600; }
+.case__story dd { margin: 2px 0 0; color: var(--ink-2); }
+.case__facts { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; margin: 14px 0 0; padding: 0; }
+.case__facts span { display: block; font-size: max(.75rem, 12px); color: var(--muted); }
+.case__facts b { font-weight: 600; font-variant-numeric: tabular-nums; }

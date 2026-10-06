@@ -768,7 +768,7 @@
       data.delete('_next');
       fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
-        .then(function () { form.reset(); showNotice(THANKS, true); })
+        .then(function () { form.reset(); showNotice(THANKS, true); trackEvent('form_submit', { form: 'contact' }); })
         .catch(function () { showNotice(EN ? 'Sending failed right now. You can write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a> or <a href="mailto:Office@gotovski.co.il">by email</a>.' : 'השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
         .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
     });
@@ -788,11 +788,48 @@
       var d = new FormData(qf); d.delete('_next');
       fetch(qf.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: d, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
-        .then(function () { qf.reset(); if (qnotice) { qnotice.textContent = EN ? 'Thank you! We will get back to you shortly.' : 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
+        .then(function () { qf.reset(); trackEvent('form_submit', { form: 'quick' }); if (qnotice) { qnotice.textContent = EN ? 'Thank you! We will get back to you shortly.' : 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
         .catch(function () { if (qnotice) { qnotice.innerHTML = EN ? 'Sending failed. Call <a href="tel:+97286229307">08-622-9307</a> or write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a>.' : 'השליחה לא הצליחה. התקשרו <a href="tel:+97286229307">08-622-9307</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
         .then(function () { if (b) { b.disabled = false; b.textContent = lbl; } });
     });
   }
+
+  /* ---------- מדידה לפי ערוץ: טלפון, וואטסאפ, מייל, טפסים, הורדות ----------
+     כל עוד המזהים ריקים לא נטען שום שירות חיצוני, והאירועים נשמרים רק בדף. */
+  var GA_ID = '', CLARITY_ID = '';
+  window.dataLayer = window.dataLayer || [];
+  function trackEvent(name, params) {
+    var p = { page: location.pathname, lang: EN ? 'en' : 'he' };
+    for (var k in params || {}) p[k] = params[k];
+    var ev = { event: name }; for (var j in p) ev[j] = p[j];
+    window.dataLayer.push(ev);
+    try { if (window.gtag) window.gtag('event', name, p); if (window.clarity) window.clarity('event', name); } catch (err) {}
+  }
+  function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+  if (GA_ID) {
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date()); window.gtag('config', GA_ID);
+    loadScript('https://www.googletagmanager.com/gtag/js?id=' + GA_ID);
+  }
+  if (CLARITY_ID) {
+    window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    loadScript('https://www.clarity.ms/tag/' + CLARITY_ID);
+  }
+  function trackArea(el) {
+    if (el.closest('.mobile-cta')) return 'mobile_bar';
+    if (el.closest('.mobile-menu, .mm')) return 'menu';
+    if (el.closest('.header, .navpill, .hnav')) return 'header';
+    if (el.closest('footer, .footer')) return 'footer';
+    if (el.closest('.wa-float')) return 'floating';
+    return 'content';
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    var name = /^tel:/.test(h) ? 'click_call' : /wa\.me\//.test(h) ? 'click_whatsapp' : /^mailto:/.test(h) ? 'click_email' : /\.pdf($|[?#])/.test(h) ? 'download_profile' : /waze\.com/.test(h) ? 'click_waze' : '';
+    if (name) trackEvent(name, { area: trackArea(a) });
+  });
 
   /* ---------- פרויקטים: מפה עם סיכות שנדלקות בגלילה ---------- */
   var mapPanel = $('#projects-map');
