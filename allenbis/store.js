@@ -108,6 +108,18 @@
   }
   let orders = (store.get('allenbis-orders', []) || []).filter(o => o && Array.isArray(o.lines));
 
+  /* ---------- Order system (api.js): live orders, "bring a friend", stock from the store screen ---------- */
+  const API = window.ALLENBIS_API || null;
+  const CODE = /^[A-Z2-9]{4,12}$/;
+  let myCode = store.get('allenbis-mycode', null);
+  if (!CODE.test(myCode || '')) myCode = null;
+  let myCredit = 0;
+  let refCode = store.get('allenbis-ref', null);
+  if (!CODE.test(refCode || '') || refCode === myCode) refCode = null;
+  const BENEFIT_HE = { welcome: 'הנחת היכרות להזמנה ראשונה', ref: 'הנחת חבר מביא חבר', credit: 'זיכוי חבר מביא חבר' };
+  const BENEFIT_EN = { welcome: 'First-order discount', ref: 'Friend discount', credit: 'Referral credit' };
+  const benefitName = b => b ? L(BENEFIT_HE[b.kind], BENEFIT_EN[b.kind]) : L('ההנחה', 'Discount');
+
   /* ---------- Multi-buy deals: "3 for ₪20" across the products of a group ---------- */
   const MULTI = (DEMO.multibuy?.items || []).map(d => ({ ...d, products: d.products.filter(id => { const p = byId.get(id); return p && p.category !== ALCOHOL && !RESTRICTED.has(p.category); }) }))
     .filter(d => d.qty > 1 && d.price > 0 && d.products.length);
@@ -284,9 +296,15 @@ ${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p
     const deals = multibuy(lines());
     const multi = deals.reduce((a, x) => a + x.saving, 0);
     sub -= multi;
+    // one money benefit per order: the biggest of the first-order discount, a friend's code and earned credit
     const firstOrder = !orders.length;
-    const w = CFG.welcome;
-    let welcome = w?.enabled && firstOrder && sub >= (w.minimumOrderMinor || 0) ? w.amountMinor : 0;
+    const w = CFG.welcome, R = CFG.referral;
+    const offers = [];
+    if (w?.enabled && firstOrder && sub >= (w.minimumOrderMinor || 0)) offers.push({ kind: 'welcome', amount: w.amountMinor });
+    if (R?.enabled && API && firstOrder && refCode && sub > 0 && sub >= (R.minimumOrderMinor || 0)) offers.push({ kind: 'ref', code: refCode, amount: Math.min(R.rewardMinor, sub) });
+    if (API && myCode && myCredit > 0 && sub > 0) offers.push({ kind: 'credit', code: myCode, amount: Math.min(myCredit, sub) });
+    const ben = offers.sort((a, b) => b.amount - a.amount)[0] || null;
+    let welcome = ben ? ben.amount : 0;
     const fee = items && FREE_FROM && sub >= FREE_FROM ? 0 : items ? FEE : 0;
     const stack = !!CFG.stacking?.wheelWithMonetaryBenefit;
     let wheel = items ? wheelState(sub) : 'off';
@@ -300,7 +318,7 @@ ${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p
       }
     }
     const wheelOff = prize?.type === 'off' ? Math.min(prize.minor, Math.max(0, sub - welcome)) : 0;
-    return { sub, savings: full - sub - multi, multi, deals, items, unpriced, blocked, welcome, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
+    return { sub, savings: full - sub - multi, multi, deals, items, unpriced, blocked, welcome, benefit: welcome ? ben : null, fee, wheel, prize, wheelOff, total: Math.max(0, sub - welcome - wheelOff) + fee };
   }
   function save() {
     if (!store.set('allenbis-cart', cart)) announce(L('לא ניתן לשמור את הסל במכשיר הזה. הוא יישמר עד סגירת הדף.', "Your cart can't be saved on this device. It stays until you close the page."));
@@ -580,15 +598,18 @@ ${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p
     return `<div class="row"><span>${L('מוצרים', 'Items')} (${t.items})</span><bdi>${fmt(t.sub + t.savings + t.multi)}</bdi></div>
 ${t.savings ? `<div class="row good"><span>${L('חסכת במבצעים', 'You saved')}</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
 ${t.multi ? `<div class="row good"><span>${L('מבצעי כמות', 'Multi-buy deals')}</span><bdi>−${fmt(t.multi)}</bdi></div>` : ''}
-${t.welcome ? `<div class="row good"><span>${L('הנחת היכרות להזמנה ראשונה', 'First-order discount')}</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
+${t.welcome ? `<div class="row good"><span>${benefitName(t.benefit)}</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
 ${t.wheelOff ? `<div class="row good"><span>${L('גלגל המזל', 'Lucky wheel')}</span><bdi>−${fmt(t.wheelOff)}</bdi></div>` : ''}
 ${t.prize?.type === 'gift' ? `<div class="row good"><span>${L('מתנה מהגלגל', 'Wheel gift')}: ${esc(prizeName(t.prize))}</span><bdi>${L('חינם', 'Free')}</bdi></div>` : ''}
-${t.wheel === 'held' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) לא מצטרף להנחת ההיכרות, שגדולה ממנו.`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) doesn't combine with the first-order discount, which is worth more.`)}</div>` : ''}
+${t.wheel === 'held' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) לא מצטרף ל${benefitName(t.benefit)}, ששווה יותר ממנו.`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) doesn't combine with your ${benefitName(t.benefit).toLowerCase()}, which is worth more.`)}</div>` : ''}
 ${t.wheel === 'paused' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) יחזור כשהסל יגיע ל-`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) comes back at `)}<bdi>${fmt(WHEEL_MIN)}</bdi>.</div>` : ''}
 <div class="row"><span>${L('משלוח', 'Delivery')}${demoTag(D.example)}</span><bdi>${t.fee ? fmt(t.fee) : L('חינם', 'Free')}</bdi></div>
 <div class="row big"><span>${L('סה״כ', 'Total')}</span><bdi>${fmt(t.total)}</bdi></div>
 ${t.unpriced ? `<div class="muted">${L(`${t.unpriced === 1 ? 'למוצר אחד' : `ל-${t.unpriced} מוצרים`} בסל עדיין אין מחיר, והוא לא נכלל בסכום.`, `${t.unpriced} item(s) in your cart have no price yet and aren't in the total.`)}</div>` : ''}
-${!t.welcome && CFG.welcome?.enabled && !orders.length ? `<div class="muted">${L('בהזמנה ראשונה מעל', 'First order over')} <bdi>${fmt(CFG.welcome.minimumOrderMinor)}</bdi> ${L('מקבלים', 'gets')} <bdi>${fmt(CFG.welcome.amountMinor)}</bdi> ${L('הנחה.', 'off.')}</div>` : ''}`;
+${refCode && API && !orders.length && t.benefit?.kind !== 'ref' && t.items ? `<div class="muted">${t.sub < (CFG.referral?.minimumOrderMinor || 0)
+  ? L(`הנחת החבר (<bdi>${fmt(CFG.referral.rewardMinor)}</bdi>) נכנסת בהזמנה מ-<bdi>${fmt(CFG.referral.minimumOrderMinor)}</bdi>. חסרים עוד <bdi>${fmt(CFG.referral.minimumOrderMinor - t.sub)}</bdi>.`, `Your friend discount (<bdi>${fmt(CFG.referral.rewardMinor)}</bdi>) applies from <bdi>${fmt(CFG.referral.minimumOrderMinor)}</bdi>. Add <bdi>${fmt(CFG.referral.minimumOrderMinor - t.sub)}</bdi> more.`)
+  : L('ההנחה מהחבר לא מצטרפת להנחה אחרת, ולכן נכנסה ההנחה הגדולה יותר.', "Your friend discount doesn't combine with other discounts, so the bigger one applies.")}</div>` : ''}
+${!t.welcome && !refCode && CFG.welcome?.enabled && !orders.length ? `<div class="muted">${L('בהזמנה ראשונה מעל', 'First order over')} <bdi>${fmt(CFG.welcome.minimumOrderMinor)}</bdi> ${L('מקבלים', 'gets')} <bdi>${fmt(CFG.welcome.amountMinor)}</bdi> ${L('הנחה.', 'off.')}</div>` : ''}`;
   }
 
   $('cartFoot').addEventListener('click', e => {
@@ -1117,7 +1138,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const under10 = products.filter(p => railable(p) && hasPrice(p) && unit(p) <= 1000).sort((a, b) => unit(a) - unit(b));
     const dealList = pick(Object.keys(deals)).filter(railable);
     const night = document.documentElement.classList.contains('night');
-    $('homeSections').innerHTML =
+    $('homeSections').innerHTML = friendHtml(false) +
       (night ? rail('r-night', L(`הלילה עוד צעיר · אצלך תוך ${ETA} דק׳`, `The night is young · at your door in ${ETA} min`), pick(NIGHT_IDS).filter(p => railable(p) && canBuy(p)), false).replace('<section ', '<section class="night-rail" ') : '') +
       rail('r-again', L('קנה שוב', 'Buy again'), again.slice(0, 12), false, orders.length ? `<button type="button" class="again-btn" data-again>${L('הזמנה חוזרת', 'Reorder')}</button>` : '') +
       rail('r-deals', L('מבצעים', 'Deals'), dealList, DEMO.deals?.example) +
@@ -1425,21 +1446,25 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   let areaTimer;
   $('coStreet').addEventListener('input', () => { clearTimeout(areaTimer); areaTimer = setTimeout(() => { $('coArea').innerHTML = areaHtml($('coStreet').value); }, 250); });
 
-  /* ---------- Checkout: the order goes to the store as a WhatsApp message ---------- */
+  /* ---------- Checkout: the order goes to the store (order system), or as a WhatsApp message ---------- */
   const WA = String(DEMO.order?.whatsapp || '').replace(/\D/g, '');
-  let pending = null;
+  const DEMO_STORE = API?.mode === 'local';
+  let pending = null, placing = false;
   function coStep(send) {
     $('coForm').hidden = send; $('coFoot').hidden = send;
     $('coSend').hidden = !send; $('coSendFoot').hidden = !send;
   }
+  const submitLabel = t => `${API ? L('שליחת ההזמנה לחנות', 'Send order to the store') : L('המשך לשליחה', 'Continue')} · <bdi>${fmt(t.total)}</bdi>`;
   function openCheckout() {
     const t = totals();
     coStep(false);
-    $('coIntro').textContent = WA
-      ? L('ממלאים פרטים, ובלחיצה אחת ההזמנה נשלחת לחנות בוואטסאפ. החנות מאשרת את ההזמנה בהודעה חוזרת.', 'Fill in your details and your order goes to the store on WhatsApp in one tap. The store confirms it in a reply.')
+    $('coIntro').textContent = DEMO_STORE
+      ? L('הדגמה: ההזמנה נשמרת בדפדפן הזה ומגיעה ל"מסך החנות", שם אפשר לאשר אותה ולראות את המעקב מתעדכן כאן. באתר האמיתי היא מגיעה לחנות.', 'Demo: the order is saved in this browser and reaches the "store screen", where you can accept it and watch tracking update here. On the live site it goes to the store.')
+      : API ? L('ממלאים פרטים, וההזמנה נשלחת ישר לחנות. אפשר לעקוב כאן אחרי כל שלב, עד שהיא אצלכם.', 'Fill in your details and your order goes straight to the store. You can follow every step here until it reaches you.')
+      : WA ? L('ממלאים פרטים, ובלחיצה אחת ההזמנה נשלחת לחנות בוואטסאפ. החנות מאשרת את ההזמנה בהודעה חוזרת.', 'Fill in your details and your order goes to the store on WhatsApp in one tap. The store confirms it in a reply.')
       : L('ממלאים פרטים, וההזמנה נפתחת כהודעה מוכנה בוואטסאפ. מספר החנות עוד לא הוגדר, אז אפשר לשלוח את ההודעה למי שרוצים (למשל לעצמכם, לבדיקה).', "Fill in your details and your order opens as a ready WhatsApp message. The store's number isn't set yet, so you can send it to anyone (yourself, as a test).");
     $('coTotals').innerHTML = totalsHtml(t);
-    $('coSubmit').innerHTML = `${L('המשך לשליחה', 'Continue')} · <bdi>${fmt(t.total)}</bdi>`;
+    $('coSubmit').innerHTML = submitLabel(t);
     openDialog('checkout');
   }
   function fieldErr(id, msg) {
@@ -1453,7 +1478,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     for (const { p, q } of ls) out.push(`${q} × ${p.name} – ${hasPrice(p) ? fmt(unit(p) * q) : 'מחיר יעודכן'}`);
     out.push('', `מוצרים: ${fmt(t.sub + t.multi)}`);
     for (const x of t.deals) if (x.saving) out.push(`${x.d.label}: −${fmt(x.saving)}`);
-    if (t.welcome) out.push(`הנחת היכרות: −${fmt(t.welcome)}`);
+    if (t.welcome) out.push(`${BENEFIT_HE[t.benefit.kind]}${t.benefit.code ? ` (קוד ${t.benefit.code})` : ''}: −${fmt(t.welcome)}`);
     if (t.wheelOff) out.push(`גלגל המזל: −${fmt(t.wheelOff)}`);
     if (t.prize?.type === 'gift') out.push(`מתנה מגלגל המזל: ${byId.get(t.prize.product).name} (חינם)`);
     out.push(`משלוח: ${t.fee ? fmt(t.fee) : 'חינם'}`, `סה״כ לתשלום: ${fmt(t.total)}`, `תשלום: ${f.pay}`, '');
@@ -1464,8 +1489,21 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (ls.some(l => isAdult(l.p.category))) out.push('', 'בהזמנה יש מוצרים מגיל 18: אציג תעודה מזהה לשליח.');
     return out.join('\n');
   }
+  // The WhatsApp step: the usual way without an order system, and the way out when it can't be reached
+  function showWa(failed) {
+    const text = pending.text;
+    $('coPreview').textContent = text;
+    $('coSendNote').textContent = failed ? L('לא הצלחנו להעביר את ההזמנה לחנות כרגע. אפשר לשלוח אותה בוואטסאפ, עם כל הפרטים:', "We couldn't reach the store just now. You can send the order on WhatsApp instead, with all the details:")
+      : WA ? L('זו ההודעה שתישלח לחנות. בלחיצה על הכפתור וואטסאפ נפתח עם ההודעה מוכנה, ונשאר רק ללחוץ על שליחה.', 'This is the message the store will get (in Hebrew, for the staff). The button opens WhatsApp with it ready; just tap send.')
+      : L('זו ההודעה שתישלח. מספר החנות עוד לא הוגדר, אז וואטסאפ ייפתח ותבחרו למי לשלוח אותה.', "This is the message that will be sent (in Hebrew, for the staff). The store's number isn't set yet, so WhatsApp opens and you choose who to send it to.");
+    $('coWa').href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+    $('coWaText').textContent = WA ? L('שליחה לחנות בוואטסאפ', 'Send to the store on WhatsApp') : L('פתיחה בוואטסאפ', 'Open in WhatsApp');
+    coStep(true);
+    $('coSendTitle').focus();
+  }
   $('coForm').addEventListener('submit', e => {
     e.preventDefault();
+    if (placing) return;
     const phone = $('coPhone').value.replace(/[\s-]/g, '');
     const ok = [
       fieldErr('coName', $('coName').value.trim().length < 2 ? L('כתבו שם, כדי שהשליח ידע למי למסור.', 'Enter a name so the courier knows who to hand it to.') : ''),
@@ -1480,27 +1518,40 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     if (area) f.area = area.ok;
     const text = orderMessage(t, f);
     pending = { at: Date.now(), lines: lines().filter(l => !isBlocked(l.p)).map(({ p, q }) => [p.id, q]), total: t.total, items: t.items, pay: f.pay, advance: 0, text };
-    $('coPreview').textContent = text;
-    $('coSendNote').textContent = WA ? L('זו ההודעה שתישלח לחנות. בלחיצה על הכפתור וואטסאפ נפתח עם ההודעה מוכנה, ונשאר רק ללחוץ על שליחה.', 'This is the message the store will get (in Hebrew, for the staff). The button opens WhatsApp with it ready; just tap send.')
-      : L('זו ההודעה שתישלח. מספר החנות עוד לא הוגדר, אז וואטסאפ ייפתח ותבחרו למי לשלוח אותה.', "This is the message that will be sent (in Hebrew, for the staff). The store's number isn't set yet, so WhatsApp opens and you choose who to send it to.");
-    $('coWa').href = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
-    $('coWaText').textContent = WA ? L('שליחה לחנות בוואטסאפ', 'Send to the store on WhatsApp') : L('פתיחה בוואטסאפ', 'Open in WhatsApp');
-    coStep(true);
-    $('coSendTitle').focus();
+    if (API) placeOrder(t, f); else showWa(false);
   });
+  async function placeOrder(t, f) {
+    const btn = $('coSubmit');
+    placing = true;
+    btn.disabled = true; btn.setAttribute('aria-busy', 'true');
+    btn.textContent = L('שולחים לחנות…', 'Sending to the store…');
+    try {
+      const r = await API.createOrder({ name: f.name, phone: f.phone, street: f.street, apt: f.apt, note: f.note, pay: f.pay, lang: LANG, lines: pending.lines, total: t.total, summary: pending.text,
+        benefit: t.benefit ? { kind: t.benefit.kind, code: t.benefit.code || null, amount: t.welcome } : null });
+      if (CODE.test(r.myCode || '')) { myCode = r.myCode; store.set('allenbis-mycode', myCode); }
+      if (refCode) { refCode = null; try { localStorage.removeItem('allenbis-ref'); } catch {} }
+      if (r.benefit === 'credit') myCredit = Math.max(0, myCredit - (r.benefitAmount || 0));
+      finishOrder({ id: r.id, token: r.token, total: r.total ?? t.total, status: 'received', updatedAt: Date.now(), rejected: r.rejected || 0 });
+    } catch {
+      showWa(true);
+    } finally {
+      placing = false;
+      btn.disabled = false; btn.removeAttribute('aria-busy');
+      btn.innerHTML = submitLabel(t);
+    }
+  }
   $('coBack').addEventListener('click', () => { coStep(false); $('coSubmit').focus(); });
   $('coCopy').addEventListener('click', async () => {
     if (!pending) return;
     try { await navigator.clipboard.writeText(pending.text); announce(L('ההודעה הועתקה.', 'Message copied.')); toast(L('ההודעה הועתקה', 'Message copied')); }
     catch { announce(L('לא הצלחנו להעתיק. אפשר לסמן את ההודעה ולהעתיק ידנית.', "Couldn't copy. Select the message and copy it by hand.")); }
   });
-  // Sending: the link opens WhatsApp; the basket becomes the latest order.
-  $('coWa').addEventListener('click', () => {
-    if (!pending) return;
+  // Sending: the basket becomes the latest order
+  function finishOrder(extra) {
     const { text, ...order } = pending;
     pending = null;
     setSpin(null);
-    orders.push(order);
+    orders.push({ ...order, ...extra });
     orders = orders.slice(-10);
     store.set('allenbis-orders', orders);
     const ids = Object.keys(cart);
@@ -1515,21 +1566,38 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       renderHome();
       updateTrackPill();
       openTrack();
-      announce(L('ההזמנה נפתחה בוואטסאפ. אחרי השליחה החנות תאשר אותה.', 'Your order opened in WhatsApp. Once you send it, the store will confirm.'));
-    }, 300);
-  });
+      announce(extra.id ? L(`ההזמנה נשלחה לחנות, מספר ${extra.id}. אפשר לעקוב אחריה כאן.`, `Your order reached the store, number ${extra.id}. You can follow it here.`)
+        : L('ההזמנה נפתחה בוואטסאפ. אחרי השליחה החנות תאשר אותה.', 'Your order opened in WhatsApp. Once you send it, the store will confirm.'));
+    }, extra.id ? 0 : 300);
+  }
+  $('coWa').addEventListener('click', () => { if (pending) finishOrder({}); });
 
   const PAY_EN = { 'ביט': 'Bit', 'אשראי לשליח': 'card to the courier', 'מזומן': 'cash' };
-  /* ---------- Tracking (demo) ---------- */
+  /* ---------- Tracking: live from the store screen, or an estimate for WhatsApp orders ---------- */
   const STAGES = CFG.deliveryStages || [];
   const stageAt = [0, 2, 6, 15, ETA]; // minutes after ordering (example timeline)
+  const stageIdx = id => Math.max(0, STAGES.findIndex(x => x.id === id));
+  const LIVE_STAGE = { received: 'received', accepted: 'received', collecting: 'collecting', on_the_way: 'on_the_way', delivered: 'delivered' };
   function stageOf(o) {
     const mins = (Date.now() - o.at) / 60000 + (o.advance || 0);
+    if (o.id) {
+      let s = stageIdx(LIVE_STAGE[o.status] || 'received');
+      // "almost there" isn't a button on the store screen: it shows a few minutes after the courier leaves
+      if (o.status === 'on_the_way' && STAGES.some(x => x.id === 'nearby') && Date.now() - (o.updatedAt || o.at) > 5 * 60000) s = stageIdx('nearby');
+      return { s, left: Math.max(1, Math.ceil(ETA - mins)), cancelled: o.status === 'cancelled' };
+    }
     let s = 0;
     stageAt.forEach((m, i) => { if (mins >= m) s = i; });
     return { s: Math.min(s, STAGES.length - 1), left: Math.max(0, Math.ceil(ETA - mins)) };
   }
-  const active = () => { const o = orders[orders.length - 1]; if (!o) return null; const st = stageOf(o); return st.s < STAGES.length - 1 || Date.now() - o.at < 3600e3 ? o : null; };
+  const liveEnded = o => o.status === 'delivered' || o.status === 'cancelled';
+  const active = () => {
+    const o = orders[orders.length - 1];
+    if (!o) return null;
+    if (o.id) return (liveEnded(o) ? Date.now() - (o.updatedAt || o.at) < 3600e3 : Date.now() - o.at < 6 * 3600e3) ? o : null;
+    const st = stageOf(o);
+    return st.s < STAGES.length - 1 || Date.now() - o.at < 3600e3 ? o : null;
+  };
   // One picture per stage: order received, basket being packed, courier riding, almost there, at the door
   const STAGE_ICONS = {
     received: '<path d="M9 3h6a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2V4a1 1 0 0 1 1-1z"/><path d="m9 13 2 2 4-4"/>',
@@ -1541,19 +1609,70 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
   const stageIcon = (id, i) => STAGE_ICONS[id]
     ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${STAGE_ICONS[id]}</svg>`
     : String(i + 1);
+  const stageName = id => (LANG === 'en' && UI.stages?.[id]) || STAGES.find(x => x.id === id)?.label || id;
+  function statusLine(o) {
+    if (o.status === 'received') return L('ההזמנה הגיעה לחנות ומחכה לאישור.', 'Your order reached the store and is waiting to be accepted.');
+    if (o.status === 'accepted') return L('החנות אישרה את ההזמנה.', 'The store accepted your order.');
+    return o.status === 'cancelled' ? '' : L('המצב כאן מתעדכן ישר מהחנות.', 'This updates straight from the store.');
+  }
   function renderTrack() {
     const o = orders[orders.length - 1];
     if (!o) { $('trackBody').innerHTML = `<p class="panel-empty">${L('אין הזמנה פעילה.', 'No active order.')}</p>`; return; }
-    const { s, left } = stageOf(o);
+    const { s, left, cancelled } = stageOf(o);
     const done = s >= STAGES.length - 1;
-    $('trackBody').innerHTML = `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${L(`${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${esc(o.pay)}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.`, `${o.items} items, <bdi>${fmt(o.total)}</bdi>, paying by ${esc(PAY_EN[o.pay] || o.pay)}. Your order was sent on WhatsApp and the store confirms it there. Times here are estimates.`)}</p>
+    const pay = L(esc(o.pay), esc(PAY_EN[o.pay] || o.pay));
+    const head = o.id
+      ? L(`הזמנה <b dir="ltr">${esc(o.id)}</b> · ${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${pay}. ${statusLine(o)}`, `Order <b>${esc(o.id)}</b> · ${o.items} items, <bdi>${fmt(o.total)}</bdi>, paying by ${pay}. ${statusLine(o)}`)
+      : L(`${o.items} פריטים, <bdi>${fmt(o.total)}</bdi>, תשלום ב${pay}. ההזמנה נשלחה בוואטסאפ, והחנות מאשרת אותה שם. הזמנים כאן משוערים.`, `${o.items} items, <bdi>${fmt(o.total)}</bdi>, paying by ${pay}. Your order was sent on WhatsApp and the store confirms it there. Times here are estimates.`);
+    const rejected = o.rejected ? `<p class="muted" style="margin:8px 0 0">${L(`ההנחה לא אושרה במלואה (למשל, הנחת היכרות והנחת חבר הן להזמנה ראשונה בלבד), ולכן הסכום עודכן ל-<bdi>${fmt(o.total)}</bdi>.`, `The discount wasn't fully approved (for example, the welcome and friend discounts are for a first order only), so the total is now <bdi>${fmt(o.total)}</bdi>.`)}</p>` : '';
+    const storeBtn = DEMO_STORE && o.id ? `<button class="secondary" type="button" id="openStoreScreen">${L('מסך החנות (הדגמה): לאשר ולעדכן', 'Store screen (demo): accept and update')}</button>` : '';
+    $('trackBody').innerHTML = cancelled
+      ? `<p class="note-box">${head}</p><div class="eta"><b>${L('ההזמנה בוטלה', 'Order cancelled')}</b></div><p>${L('החנות ביטלה את ההזמנה. אם זה לא ברור, כדאי לפנות לחנות.', 'The store cancelled this order. If that\'s unexpected, please contact the store.')}</p>
+<div style="display:grid;gap:10px;margin-top:18px">${storeBtn}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>`
+      : `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${head}</p>${rejected}
 <div class="eta">${done ? `<b>${L('נמסר', 'Delivered')}</b>` : `<b>${left}</b><span>${L('דקות בערך עד שזה אצלך', 'minutes, roughly, until it reaches you')}</span>`}</div>
-<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(LANG === 'en' && UI.stages?.[st.id] || st.label)}</p></li>`).join('')}</ol>
-<div style="display:grid;gap:10px;margin-top:18px">${done ? '' : `<button class="secondary" type="button" id="trackNext">${L('הדגמה: לשלב הבא', 'Demo: next step')}</button>`}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>`;
+<ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(stageName(st.id))}</p></li>`).join('')}</ol>
+${done ? friendHtml(true) : ''}
+<div style="display:grid;gap:10px;margin-top:18px">${done || o.id ? '' : `<button class="secondary" type="button" id="trackNext">${L('הדגמה: לשלב הבא', 'Demo: next step')}</button>`}${done ? '' : storeBtn}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>
+${done ? '' : friendHtml(true)}`;
   }
-  let trackTimer;
-  function openTrack() { renderTrack(); openDialog('track'); clearInterval(trackTimer); trackTimer = setInterval(() => { if ($('track').open) renderTrack(); else clearInterval(trackTimer); }, 15000); }
+  let trackTimer, unwatch = null;
+  function openTrack() {
+    renderTrack();
+    openDialog('track');
+    clearInterval(trackTimer);
+    trackTimer = setInterval(() => { if ($('track').open) renderTrack(); else clearInterval(trackTimer); }, 15000);
+    const o = orders[orders.length - 1];
+    if (API && o?.id && !liveEnded(o) && !unwatch) { unwatch = API.watch(refreshLive, DEMO_STORE ? 4000 : 8000); refreshLive(); }
+  }
+  $('track').addEventListener('close', () => { unwatch?.(); unwatch = null; });
+  const STATUS_SAY = {
+    accepted: () => L('החנות אישרה את ההזמנה', 'The store accepted your order'),
+    cancelled: () => L('החנות ביטלה את ההזמנה', 'The store cancelled your order'),
+    delivered: () => L('ההזמנה נמסרה. בתיאבון!', 'Delivered. Enjoy!')
+  };
+  let liveBusy = false;
+  async function refreshLive() {
+    const o = orders[orders.length - 1];
+    if (!API || !o?.id || !o.token || liveBusy) return;
+    liveBusy = true;
+    try {
+      const r = await API.getOrder(o.id, o.token);
+      if (r.status && r.status !== o.status) {
+        o.status = r.status; o.updatedAt = r.updatedAt || Date.now();
+        store.set('allenbis-orders', orders);
+        const say = (STATUS_SAY[o.status] || (() => stageName(o.status)))();
+        announce(say); toast(say);
+        if ($('track').open && !$('track').contains(document.activeElement)) renderTrack();
+        else if ($('track').open) { const id = document.activeElement.id; renderTrack(); ($(id) || $('track').querySelector('.primary'))?.focus(); }
+        if (liveEnded(o)) { unwatch?.(); unwatch = null; }
+        if (o.status === 'delivered' && myCode) refreshCredit();
+      }
+    } catch {} finally { liveBusy = false; }
+    updateTrackPill();
+  }
   $('trackBody').addEventListener('click', e => {
+    if (e.target.closest('#openStoreScreen')) { $('track').close(); openStoreScreen(true); return; }
     if (!e.target.closest('#trackNext')) return;
     const o = orders[orders.length - 1];
     const { s } = stageOf(o);
@@ -1563,7 +1682,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     renderTrack();
     updateTrackPill();
     ($('trackNext') || $('track').querySelector('.primary')).focus();
-    announce(STAGES[stageOf(o).s].label);
+    announce(stageName(STAGES[stageOf(o).s].id));
   });
   function updateTrackPill() {
     let pill = $('trackPill');
@@ -1576,10 +1695,81 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       pill.addEventListener('click', openTrack);
       $('openInfo').after(pill);
     }
-    const { s } = stageOf(o);
-    pill.innerHTML = `<i aria-hidden="true"></i>${esc((LANG === 'en' && UI.stages?.[STAGES[s]?.id]) || STAGES[s]?.label || L('המשלוח שלי', 'My delivery'))}`;
+    const { s, cancelled } = stageOf(o);
+    pill.classList.toggle('off', !!cancelled);
+    pill.innerHTML = `<i aria-hidden="true"></i>${esc(cancelled ? L('ההזמנה בוטלה', 'Order cancelled') : o.status === 'accepted' ? L('החנות אישרה', 'Accepted') : stageName(STAGES[s]?.id) || L('המשלוח שלי', 'My delivery'))}`;
   }
-  setInterval(updateTrackPill, 30000);
+  setInterval(() => { const o = active(); if (o?.id && !liveEnded(o) && !unwatch) refreshLive(); else updateTrackPill(); }, DEMO_STORE ? 5000 : 30000);
+
+  /* ---------- Store screen, demo only: the same page the store uses, over the site ---------- */
+  function openStoreScreen(back) {
+    const go = () => { window.ALLENBIS_STORE_SCREEN.mount($('ssRoot'), { embedded: true }); openDialog('storeScreen'); };
+    $('storeScreen').dataset.back = back ? '1' : '';
+    if (window.ALLENBIS_STORE_SCREEN) return go();
+    const sc = document.createElement('script');
+    sc.src = 'admin.js';
+    sc.onload = go;
+    sc.onerror = () => toast(L('מסך החנות לא נטען', "The store screen didn't load"));
+    document.head.append(sc);
+  }
+  $('storeScreen').addEventListener('close', () => {
+    window.ALLENBIS_STORE_SCREEN?.unmount?.();
+    refreshLive();
+    if ($('storeScreen').dataset.back && active()) setTimeout(openTrack, 50);
+  });
+
+  /* ---------- Bring a friend ---------- */
+  const R_REWARD = CFG.referral?.rewardMinor || 2500;
+  const shareUrl = () => `${CFG.referralBaseUrl || location.origin + location.pathname}?ref=${myCode}`;
+  const shareText = () => L(`קבלו ${fmt(R_REWARD)} הנחה על ההזמנה הראשונה באלנביס, משלוח עד הדלת תוך ${ETA} דקות: ${shareUrl()}`, `Get ${fmt(R_REWARD)} off your first Allenbis order, delivered in ${ETA} minutes: ${shareUrl()}`);
+  function friendHtml(compact) {
+    if (!API || !CFG.referral?.enabled) return '';
+    const min = CFG.referral.minimumOrderMinor;
+    if (!compact && refCode && !orders.length) return `<section class="friend got" aria-labelledby="fr-t"><h2 id="fr-t">${L(`חבר שלח לכם ${fmt(R_REWARD)} הנחה`, `A friend sent you ${fmt(R_REWARD)} off`)}</h2><p>${min ? L(`ההנחה נכנסת לבד להזמנה הראשונה שלכם מעל ${fmt(min)}.`, `It applies by itself to your first order over ${fmt(min)}.`) : L('ההנחה נכנסת לבד להזמנה הראשונה שלכם, בלי קוד ובלי מינימום.', 'It applies by itself to your first order. No code, no minimum.')}</p></section>`;
+    if (!myCode) return '';
+    return `<section class="friend${compact ? ' compact' : ''}" aria-labelledby="fr-t${compact ? 2 : ''}"><h2 id="fr-t${compact ? 2 : ''}">${L('חבר מביא חבר', 'Bring a friend')}</h2>
+<p>${L(`שלחו לחבר את הקישור שלכם: הוא מקבל ${fmt(R_REWARD)} הנחה על ההזמנה הראשונה, ואתם מקבלים ${fmt(R_REWARD)} זיכוי כשההזמנה שלו נמסרת.`, `Send a friend your link: they get ${fmt(R_REWARD)} off their first order, and you get ${fmt(R_REWARD)} credit once it's delivered.`)}</p>
+${myCredit ? `<p class="credit">${L('הזיכוי שלכם', 'Your credit')}: <b><bdi>${fmt(myCredit)}</bdi></b> · ${L('נכנס לבד להזמנה הבאה', 'applies to your next order')}</p>` : ''}
+<div class="friend-btns"><a class="primary wa" href="https://wa.me/?text=${encodeURIComponent(shareText())}" target="_blank" rel="noopener">${L('שליחה לחבר בוואטסאפ', 'Send on WhatsApp')}</a><button type="button" class="secondary" data-copyref>${L('העתקת הקישור', 'Copy link')}</button></div>
+<p class="code">${L('הקוד שלכם', 'Your code')}: <b dir="ltr">${esc(myCode)}</b></p></section>`;
+  }
+  document.addEventListener('click', async e => {
+    if (!e.target.closest('[data-copyref]')) return;
+    try { await navigator.clipboard.writeText(shareUrl()); toast(L('הקישור הועתק', 'Link copied')); announce(L('הקישור הועתק.', 'Link copied.')); }
+    catch { toast(shareUrl()); }
+  });
+  async function refreshCredit() {
+    if (!API || !myCode) return;
+    try {
+      const c = await API.credit(myCode);
+      if (Number.isInteger(c) && c !== myCredit) { myCredit = c; renderHome(); updateCartUi(); if ($('cart').open) renderCart(); }
+    } catch {}
+  }
+
+  /* ---------- Sold out and price changes from the store screen ---------- */
+  function applyStock(s) {
+    if (!s || typeof s !== 'object') return;
+    const gone = [];
+    let changed = false;
+    for (const [id, v] of Object.entries(s)) {
+      const p = byId.get(id);
+      if (!p || !v) continue;
+      if (v.oos && !oos.has(id)) { oos.add(id); changed = true; if (cart[id]) { gone.push(nm(p)); delete cart[id]; } }
+      if (Number.isInteger(v.price) && v.price > 0 && !(hasPrice(p) && regular(p) === v.price)) {
+        p.price = v.price / 100;
+        p.priceReview = { ...(p.priceReview || {}), status: 'owner-configured' };
+        delete deals[id];
+        changed = true;
+      }
+    }
+    if (!changed) return;
+    if (gone.length) { save(); toast(L(`אזל מהמלאי והוסר מהסל: ${gone.join(', ')}`, `Sold out, removed from your cart: ${gone.join(', ')}`)); }
+    renderHome();
+    renderGrid(false);
+    applyView();
+    updateCartUi();
+    if ($('cart').open) renderCart();
+  }
 
   /* ---------- Delivery info ---------- */
   const AREA_NAME = LANG === 'en' ? (UI.area || D.area) : D.area;
@@ -1653,6 +1843,23 @@ ${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מג�
 
   // Links from the product and category pages: ?p=<id> opens a product, ?c=<category> opens an aisle
   const qs = new URLSearchParams(location.search);
+  // A friend's link: ?ref=<code> gives a discount on the first order
+  const refIn = (qs.get('ref') || '').toUpperCase();
+  if (refIn) {
+    if (!API || !CFG.referral?.enabled || !CODE.test(refIn)) {}
+    else if (refIn === myCode) toast(L('זה הקישור שלכם. שלחו אותו לחברים', 'That\'s your own link. Send it to friends'));
+    else if (orders.length) toast(L('ההנחה מחבר היא להזמנה ראשונה', 'The friend discount is for a first order'));
+    else { refCode = refIn; store.set('allenbis-ref', refCode); renderHome(); updateCartUi(); toast(L(`קיבלתם ${fmt(R_REWARD)} הנחה מחבר`, `A friend sent you ${fmt(R_REWARD)} off`)); }
+    const u = new URL(location.href);
+    u.searchParams.delete('ref');
+    try { history.replaceState(history.state, '', u); } catch {}
+  }
+  if (API) {
+    API.stock().then(applyStock).catch(() => {});
+    refreshCredit();
+    const o = active();
+    if (o?.id && !liveEnded(o)) refreshLive();
+  }
   if (qs.get('c') && cats.includes(qs.get('c'))) requestCat(qs.get('c'));
   if (qs.get('p') && byId.get(qs.get('p'))) openProduct(qs.get('p'));
 })();

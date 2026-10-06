@@ -521,6 +521,24 @@ html.night .langbtn{background:#131b31;color:var(--ink);border-color:#3a4568}
 html.night .nightbtn .moon{display:none}
 html.night .nightbtn .sun{display:block}
 .neon{display:none}
+/* "Bring a friend" */
+.friend{background:linear-gradient(135deg,#1b4396,#2c5cc0);color:#fff;border-radius:var(--r-lg);padding:16px;display:grid;gap:8px;margin-bottom:6px}
+.friend h2{margin:0;font:400 1.25rem/1.2 var(--display)}
+.friend p{margin:0;line-height:1.45}
+.friend.got{background:linear-gradient(135deg,#ffd84d,#ffe98f);color:#2b2100}
+.friend .credit{background:rgba(255,255,255,.16);border-radius:10px;padding:6px 10px}
+.friend .code{font-size:.875rem;opacity:.85}
+.friend .code b{letter-spacing:.08em}
+.friend-btns{display:grid;grid-template-columns:1fr auto;gap:8px}
+.friend-btns .primary{display:flex;align-items:center;justify-content:center;text-decoration:none;background:#25d366;color:#0b2e17;min-height:48px}
+.friend-btns .secondary{width:auto;padding:0 16px;background:#fff;color:var(--sign);border-color:#fff}
+.friend.compact{margin:18px 0 0;padding:14px}
+.friend.compact h2{font-size:1.0625rem}
+.track-pill.off{background:var(--warn-soft);color:var(--warn)}
+/* Store screen in the demo: full screen over the site */
+#storeScreen{width:100%;height:100%;margin:0;background:#eef2f7}
+#storeScreen #ssRoot,#storeScreen .ss{min-height:100%}
+#storeScreen[open]{display:block;overflow:auto}
 html.night{color-scheme:dark;--paper:#0a0f1e;--card:#131b31;--ink:#eaf0ff;--muted:#9ba9c6;--line:#28334f;--sign-soft:#1c2a52}
 html.night body{background:radial-gradient(1100px 520px at 50% -160px,#1d2a58,transparent 70%),var(--paper)}
 html.night .top{background:rgba(10,15,30,.88);border-bottom-color:#1d2744}
@@ -615,6 +633,7 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
 <script src="demo-data.js" defer></script>
 <script src="shelf-cut.js" defer></script>
 <script src="catalog-en.js" defer></script>
+<script src="api.js" defer></script>
 <script src="store.js" defer></script>
 </head>
 <body>
@@ -795,6 +814,8 @@ html.nomo *{animation:none!important;transition:none!important;scroll-behavior:a
     <div class="panel-body" id="trackBody"></div>
   </div>
 </dialog>
+
+<dialog id="storeScreen" aria-label="מסך החנות (הדגמה)" data-en-aria-label="Store screen (demo)" dir="rtl" lang="he"><div id="ssRoot"></div></dialog>
 
 <dialog class="sheet center" id="info" aria-labelledby="infoTitle">
   <div class="panel">

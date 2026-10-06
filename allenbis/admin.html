@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>מסך החנות · אלנביס</title>
+<meta name="theme-color" content="#1b4396">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Assistant";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/assistant-hebrew.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Assistant";font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/assistant-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Secular One";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/secular-one-hebrew.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+html,body{margin:0;min-height:100%;background:#eef2f7}
+@media (prefers-color-scheme:dark){html,body{background:#0a0f1e}}
+#ssRoot{min-height:100vh}
+</style>
+</head>
+<body>
+<div id="ssRoot"><noscript>מסך החנות צריך JavaScript.</noscript></div>
+<script src="catalog.js" defer></script>
+<script src="commerce-config.js" defer></script>
+<script src="demo-data.js" defer></script>
+<script src="api.js" defer></script>
+<script src="admin.js" defer></script>
+<script>addEventListener('DOMContentLoaded', () => window.ALLENBIS_STORE_SCREEN.mount(document.getElementById('ssRoot')));</script>
+</body>
+</html>

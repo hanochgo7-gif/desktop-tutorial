@@ -1,0 +1,20 @@
+# Cloudflare Pages settings for the order system (see HANDOFF.md, "מערכת ההזמנות").
+name = "allenbis"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "allenbis"
+# After `npx wrangler d1 create allenbis`, paste the id it prints here:
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[vars]
+# Reward for "bring a friend", in agorot (2500 = ₪25). The store-screen PIN is a secret, not a var:
+#   npx wrangler pages secret put STORE_PIN
+REF_REWARD = "2500"
+# Smallest order (agorot) a friend's discount applies to, as referral.minimumOrderMinor in commerce-config.js
+REF_MIN = "6000"
+# First-order discount: amount and the order size it needs (agorot), as in commerce-config.js
+WELCOME_AMOUNT = "2000"
+WELCOME_MIN = "10000"
