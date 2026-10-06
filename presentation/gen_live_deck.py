@@ -112,7 +112,7 @@ n+=1
 sec("who", PAPER,
     f'{h2("חנוך, בן 24, מיישובי גדרות", 64, None, "; text-align:center")}'
     f'{photo("ילדות במושב – תמונה משפחתית או מהשדות", 570, 830, False, key="childhood")}{pnum(n, False)}',
-    "אני חנוך, בן 24, מיישובי גדרות. ילדות מושבניקית. אח בכור לארבעה. הרבה סימני שאלה – לא ילד שידעו לאן הוא הולך. (להוסיף פרט אחד קטן ומצחיק מהילדות שמחבר את הקהל.)", pad="64px 128px 64px", layout="display:flex; flex-direction:column; gap:28px; align-items:center")
+    "אני חנוך, בן 24, מיישובי גדרות. ילדות מושבניקית. אח בכור לשלושה אחים – ארבעה ילדים כולל אותי. הרבה סימני שאלה – לא ילד שידעו לאן הוא הולך. (להוסיף פרט אחד קטן ומצחיק מהילדות שמחבר את הקהל.)", pad="64px 128px 64px", layout="display:flex; flex-direction:column; gap:28px; align-items:center")
 # 5 problem child
 n+=1
 sec("label", INK,
