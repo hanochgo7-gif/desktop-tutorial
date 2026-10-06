@@ -7,7 +7,14 @@
 <meta name="description" content="ארוחות שף בכל סוף שבוע: שולחן אחד ארוך בחצר במצפה מתת, או ארוחה פרטית אצלכם בבית. בישול על אש, חומרי גלם מהשוק ויין מיקבים קטנים.">
 <meta property="og:title" content="בר ליפשיץ | ארוחות שף בחצר">
 <meta property="og:description" content="שולחן אחד ארוך, אש, ותפריט שמשתנה כל שבוע. במצפה מתת או אצלכם.">
-<meta property="og:image" content="images/yard.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://bar-lifschitz.vercel.app/">
+<meta property="og:image" content="https://bar-lifschitz.vercel.app/images/yard.jpg">
+<meta property="og:image:width" content="488">
+<meta property="og:image:height" content="695">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://bar-lifschitz.vercel.app/">
 <meta name="theme-color" content="#2b1219">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1219'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f3f2ec' font-family='serif'%3Eב%3C/text%3E%3C/svg%3E">
 <link rel="preload" as="image" href="images/yard.jpg">
@@ -426,7 +433,7 @@
         <p>ממלאים את הפרטים, והם נפתחים אצלכם כהודעת וואטסאפ מוכנה אליי. אני חוזר עם זמינות, מחיר ופרטי הגעה.</p>
         <p>המקומות לכל סוף שבוע מוגבלים, אז כדאי לכתוב כמה ימים מראש.</p>
         <div class="direct">
-          <a id="wa-direct" href="https://wa.me/" target="_blank" rel="noopener">כתיבה ישירה בוואטסאפ</a>
+          <a id="wa-direct" href="https://wa.me/" target="_blank" rel="noopener" hidden>כתיבה ישירה בוואטסאפ</a>
           <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">הודעה באינסטגרם ‎@barlif</a>
         </div>
       </div>
@@ -493,7 +500,12 @@
   const WHATSAPP_NUMBER = '';
 
   const waBase = 'https://wa.me/' + WHATSAPP_NUMBER;
-  document.getElementById('wa-direct').href = waBase;
+  // הקישור הישיר מוצג רק כשיש מספר. בלי מספר, הטופס עדיין פותח וואטסאפ עם ההודעה מוכנה.
+  if (WHATSAPP_NUMBER) {
+    const direct = document.getElementById('wa-direct');
+    direct.href = waBase;
+    direct.hidden = false;
+  }
 
   const form = document.getElementById('booking');
   const dateSelect = document.getElementById('date');
