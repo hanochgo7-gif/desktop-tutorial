@@ -9,7 +9,7 @@ RLM="‏"
 def t(s): return RLM+s+RLM
 
 slides=[]  # (id, html)
-TOTAL=41
+TOTAL=42
 CUR_SEC=None   # (num, title) of the current chapter, for the eyebrow
 HAIR_D="rgba(255,255,255,0.12)"; HAIR_L="#E2DCD2"
 def chrome(dark, mark=0):
@@ -144,7 +144,7 @@ sec("msg1", INK,
 n+=1
 CUR_SEC=None
 sec("s02", INK,
-    f'<img src="/_blob/a934f71e0647189e99341394f1db3fc8" alt="איור: אותו נער בשתי דרכים – משמאל ילד בעייתי בסמטה חשוכה, מימין ספורטאי חברותי עם חברים" style="position:absolute; left:128px; top:226px; width:1120px; height:627px; object-fit:cover; border-radius:20px; border:1px solid {HAIR_D}">'
+    f'<img src="/_blob/5fec8d2448c331628d68e4e288ce9697" alt="איור: אותו נער בשתי דרכים – משמאל ילד בעייתי בסמטה חשוכה, מימין ספורטאי חברותי עם חברים" style="position:absolute; left:128px; top:226px; width:1120px; height:627px; object-fit:cover; border-radius:20px; border:1px solid {HAIR_D}">'
     f'<div style="position:absolute; left:1672px; top:318px; width:120px; height:6px; background:{SAND}"></div>'
     f'<p style="position:absolute; left:1312px; top:298px; width:336px; font-size:28px; line-height:1.45; color:{SAND}; letter-spacing:2px; text-align:right">{t("פרק 02")}</p>'
     f'<h2 style="position:absolute; left:1312px; top:350px; width:480px; font-family:{H}; font-size:96px; font-weight:700; line-height:1.15; color:#F6F3EE; text-align:right">{t("הבחירה")}</h2>'
@@ -431,8 +431,8 @@ T6=[("GraduationCap","לימודים","הנדסאי בניין, ובקרוב –
 def c6(a,b,c): return card(f'{icon_chip(a,104)}{h3(b,48,TXT,"; text-align:center")}', False, "; align-items:center; justify-content:center; gap:28px")
 sec("today", PAPER,
     f'{h2("מה אני עושה עם זה היום", 64)}'
-    f'<div style="display:flex; flex-direction:row; gap:32px; flex:1">{c6(*T6[0])}{c6(*T6[1])}{c6(*T6[2])}</div>'
-    f'<div style="display:flex; flex-direction:row; gap:32px; flex:1">{c6(*T6[3])}{c6(*T6[4])}{c6(*T6[5])}</div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; flex:1">{c6(*T6[0])}{c6(*T6[1])}{c6(*T6[2])}</div>'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; flex:1">{c6(*T6[3])}{c6(*T6[4])}{c6(*T6[5])}</div>{pnum(n, False)}',
     "לימודים – הנדסאי בניין, ובקרוב יזמות וקיימות באוניברסיטת רייכמן. עבודה – עבדתי בכל מיני עבודות, כל אחת לימדה אותי משהו. הרצאות – לעמוד מול אנשים ולספר, לא בשביל רחמים. קורסים והתנסויות – מיציתי את עצמי עד הקצה: קורסים, טיולים בעולם, ניסיון בכל דבר. שאיפות – יש לי שאיפות גדולות; אני לא יודע את כל הדרך, אני יודע מה הצעד הבא. הרצון להתפתח – לא לעצור, תמיד אפשר להיות יותר טוב. המסר: לא תמיד אפשר לבחור את הסיפור שקיבלת. אפשר לבחור מה אתה עושה איתו.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:32px", mark=74)
 # (why slide removed at the user's request)
 # (country slide removed at the user's request)
@@ -470,7 +470,7 @@ order=[i for i,_ in slides]
 order.remove('nagmash'); order.insert(order.index('sector')+1,'nagmash')
 order.remove('map'); order.insert(order.index('nukhba'),'map')
 # order as arranged by the user in the live editor (incl. their copy of the battle map, "1ec90ba2")
-LIVE_ORDER=["cover","hook","who","label","grade10","msg1","s02","shomer","sayeret","commanders","s03","gazamap","sector","nagmash","before","rockets","radio1","map","nukhba","apc","radio2","1ec90ba2","outpost","radio3","moment","evac","soroka","twist","s04","numbers","after","journey","s05","principles","p1","p2","p3","s06","callback","decision","final"]
+LIVE_ORDER=["cover","hook","who","label","grade10","msg1","s02","shomer","sayeret","commanders","s03","gazamap","sector","nagmash","before","rockets","radio1","map","nukhba","apc","radio2","1ec90ba2","outpost","radio3","moment","evac","soroka","twist","s04","numbers","after","journey","s05","principles","p1","p2","p3","s06","today","callback","decision","final"]
 assert set(LIVE_ORDER)-{"1ec90ba2"} <= set(order)
 order=LIVE_ORDER
 def fix_counter(i, h):
