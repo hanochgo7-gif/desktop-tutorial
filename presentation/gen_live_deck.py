@@ -144,13 +144,14 @@ sec("msg1", INK,
 n+=1
 CUR_SEC=None
 sec("s02", INK,
-    f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">02</h1>'
-    f'<div style="display:flex; flex-direction:row; gap:64px; align-items:center; flex:1">'
-    f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 28, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
-    f'<div style="display:flex; flex-direction:row-reverse; gap:56px; align-items:center">'
-    f'<img src="/_blob/4bc039c613cc29bdb6c759eeea38cb2d" alt="לוגו השומר החדש" style="width:343px; height:440px; object-fit:contain">'
-    f'<div style="width:2px; height:320px; background:rgba(217,183,140,0.35)"></div>'
-    f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:520px; height:285px; object-fit:contain"></div></div>{pnum(n)}',
+    f'<img src="/_blob/a934f71e0647189e99341394f1db3fc8" alt="איור: אותו נער בשתי דרכים – משמאל ילד בעייתי בסמטה חשוכה, מימין ספורטאי חברותי עם חברים" style="position:absolute; left:128px; top:226px; width:1120px; height:627px; object-fit:cover; border-radius:20px; border:1px solid {HAIR_D}">'
+    f'<div style="position:absolute; left:1672px; top:318px; width:120px; height:6px; background:{SAND}"></div>'
+    f'<p style="position:absolute; left:1312px; top:298px; width:336px; font-size:28px; line-height:1.45; color:{SAND}; letter-spacing:2px; text-align:right">{t("פרק 02")}</p>'
+    f'<h2 style="position:absolute; left:1312px; top:350px; width:480px; font-family:{H}; font-size:96px; font-weight:700; line-height:1.15; color:#F6F3EE; text-align:right">{t("הבחירה")}</h2>'
+    f'<img src="/_blob/4bc039c613cc29bdb6c759eeea38cb2d" alt="לוגו השומר החדש" style="position:absolute; left:1636px; top:560px; width:156px; height:200px; object-fit:contain">'
+    f'<div style="position:absolute; left:1604px; top:590px; width:2px; height:140px; background:rgba(217,183,140,0.35)"></div>'
+    f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="position:absolute; left:1340px; top:594px; width:240px; height:132px; object-fit:contain">'
+    f'{pnum(n)}',
     "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.", pad="128px 128px 160px")
 CUR_SEC=("02","הבחירה")
 # 8b shomer: year of service (photos to come)

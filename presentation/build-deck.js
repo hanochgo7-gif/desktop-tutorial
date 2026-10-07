@@ -153,14 +153,15 @@ CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed 
 // ============ 8 s02 ============
 {
   CUR_SEC = null;
-  const s = slide(INK, "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.");
-  text(s, "02", 128, 60, 1664, 420, { fontSize: pt(400), bold: true, color: SAND, transparency: 91, fontFace: FH, align: "left", valign: "top" });
-  // Shomer HaHadash logo (right) | divider | Nahal emblem (left)
-  s.addImage({ path: P("shomer-logo-stack.png"), x: px(128 + 520 + 56 + 2 + 56), y: px(320), w: px(343), h: px(440), sizing: { type: "contain", w: px(343), h: px(440) } });
-  rect(s, 128 + 520 + 56, 380, 2, 320, "5A5040");
-  s.addImage({ path: path.join(__dirname, "nahal-sand.png"), x: px(128), y: px(397), w: px(520), h: px(285), sizing: { type: "contain", w: px(520), h: px(285) } });
-  rule(s, 1672, 430); para(s, "פרק 02", 832, 410, 816, 48, 28, SAND, { charSpacing: 2 });
-  heading(s, "הבחירה", 832, 480, 960, 140, 96, WHITE);
+  const s = slide(INK, "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות. האיור: אותו נער בשתי דרכים – הילד ה'בעייתי' שכולם ציפו לו, והילד שבחר להיות.");
+  img(s, "two-paths.jpg", 128, 226, 1120, 627);
+  rule(s, 1672, 318);
+  para(s, "פרק 02", 1312, 298, 336, 48, 28, SAND, { charSpacing: 2 });
+  heading(s, "הבחירה", 1312, 350, 480, 130, 96, WHITE);
+  s.addImage({ path: P("shomer-logo-stack.png"), x: px(1636), y: px(560), w: px(156), h: px(200), sizing: { type: "contain", w: px(156), h: px(200) } });
+  rect(s, 1604, 590, 2, 140, "5A5040");
+  s.addImage({ path: path.join(__dirname, "nahal-sand.png"), x: px(1340), y: px(594), w: px(240), h: px(132), sizing: { type: "contain", w: px(240), h: px(132) } });
+  pnum(s, n);
   CUR_SEC = ["02", "הבחירה"];
 }
 // ============ 9 shomer ============
