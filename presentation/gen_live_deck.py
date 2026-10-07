@@ -119,6 +119,7 @@ n+=1
 sec("label", INK,
     f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:center">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:32px">{h1("״ילד בעייתי״", 140)}'
+    f'{p("ככה הגדירו אותי כבר מהגן. ומאז הסתבכתי הרבה.", 40, "#F6F3EE")}'
     f'{p("כשאומרים לך משהו מספיק פעמים, אתה מתחיל להאמין לזה.", 30, MUTEDL)}</div>'
     f'{photo("חנוך ילד (גן / בית ספר יסודי)", 640, 824, key="kid")}</div>{pnum(n)}',
     "מהגן הגדירו אותי כ'ילד בעייתי' והייתי מסתבך הרבה. לתת דוגמה אחת קונקרטית – אירוע אחד, לא רשימה.", pad="128px 128px 160px")
