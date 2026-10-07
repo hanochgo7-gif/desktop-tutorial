@@ -1528,6 +1528,40 @@ html[lang="en"] .hero-role { white-space: normal; max-width: 34ch; text-wrap: ba
 .motion .timeline li:not(.is-on) .tl-ico { filter: grayscale(1) brightness(.6); transform: scale(.9); }
 .motion .timeline li:not(.is-on) h3 { color: var(--fg-dim); }
 
+/* ---------- אני גיבור: מוצר הדגל ---------- */
+/* דף הבית: רצועה קולנועית. לופ מהסרטים מאחור, וההסבר יושב למטה על רקע כהה */
+.ag-spot { overflow: hidden; display: grid; align-items: end; min-height: min(100svh, 940px); padding-top: clamp(120px, 22vw, 360px); }
+.ag-spot-film { position: absolute; inset: 0; z-index: 0; }
+.ag-spot-film video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ag-spot-film::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14, 14, 16, .5) 0%, rgba(14, 14, 16, .08) 26%, rgba(14, 14, 16, .78) 70%, rgba(14, 14, 16, .96) 100%); }
+/* במסך רחב ההסבר יושב בצד: מכהים גם את הצד שלו, כדי שהטקסט ייקרא על כל פריים */
+@media (min-width: 901px) {
+  .ag-spot-film::after { background: linear-gradient(to left, rgba(14, 14, 16, .7) 0%, rgba(14, 14, 16, .35) 38%, transparent 62%), linear-gradient(180deg, rgba(14, 14, 16, .5) 0%, rgba(14, 14, 16, .08) 26%, rgba(14, 14, 16, .78) 76%, rgba(14, 14, 16, .96) 100%); }
+  html[dir="ltr"] .ag-spot-film::after { background: linear-gradient(to right, rgba(14, 14, 16, .7) 0%, rgba(14, 14, 16, .35) 38%, transparent 62%), linear-gradient(180deg, rgba(14, 14, 16, .5) 0%, rgba(14, 14, 16, .08) 26%, rgba(14, 14, 16, .78) 76%, rgba(14, 14, 16, .96) 100%); }
+}
+.ag-spot-copy { position: relative; z-index: 1; max-width: 62rem; }
+.ag-spot h2 { font-size: var(--fs-d5); line-height: .92; color: var(--paper); }
+.ag-spot-sub { margin-top: 1.3rem; max-width: 46ch; font-family: var(--f-body); font-size: var(--fs-b); line-height: 1.75; color: var(--fg); }
+.ag-spot-meta { margin-top: 1.1rem; color: var(--fg-dim); }
+.ag-spot .cr-cta { justify-content: flex-start; }
+html[lang="en"] .ag-spot h2 { font-size: clamp(2.8rem, 6vw, 6.4rem); }
+/* סיפורי הפרויקטים: טריילר לצד ההפיכה מתמונה לדמות */
+.ag-stage { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: clamp(14px, 1.8vw, 26px); align-items: start; }
+.ag-morph { display: grid; gap: .9rem; margin: 0; }
+.ag-morph-view { position: relative; aspect-ratio: 720 / 894; border-radius: 18px; overflow: hidden; background: #0b0d10; box-shadow: 0 50px 90px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .06); }
+.ag-morph-view video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ag-morph figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: .4rem 1rem; flex-wrap: wrap; }
+.ag-morph figcaption b { font-size: var(--fs-d1); font-weight: 400; }
+.ag-morph figcaption span { color: var(--fg-dim); font-size: var(--fs-xs); }
+.ag-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .ag-spot { min-height: 0; padding-top: clamp(220px, 62vw, 420px); }
+  .ag-spot-film::after { background: linear-gradient(180deg, rgba(14, 14, 16, .45) 0%, rgba(14, 14, 16, .05) 18%, rgba(14, 14, 16, .86) 52%, rgba(14, 14, 16, .97) 100%); }
+  .ag-spot-film video { height: 62%; }
+  .ag-stage { grid-template-columns: 1fr; }
+  .ag-morph { max-width: 420px; }
+}
+
 /* ---------- סיור בהדמיה: שני סרטים, מבחוץ ומבפנים ---------- */
 .tours { display: grid; gap: clamp(36px, 5vw, 70px); }
 .tours-head { display: grid; grid-template-columns: 7fr 5fr; gap: 1.4rem clamp(32px, 6vw, 110px); align-items: end; }

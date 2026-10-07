@@ -166,6 +166,7 @@ body.gridview #stage{ opacity:0; filter:blur(14px); pointer-events:none; }
 #grid figure{
   position:relative; aspect-ratio:3/2; border-radius:3px; overflow:hidden; background:#0b0b0b; cursor:pointer;
 }
+#grid figure.feat{ grid-column:span 2; grid-row:span 2; aspect-ratio:auto; }
 #grid .gopen{ position:absolute; inset:0; z-index:2; border-radius:inherit; }
 #grid .gopen:focus-visible{ outline:1px solid var(--ink); outline-offset:3px; }
 #grid img{
@@ -440,6 +441,7 @@ video.live.on{ opacity:1; }
   .bio .who{ gap:10px; margin-bottom:10px; }
   .bio p{ display:none; }
   #grid .rows{ grid-template-columns:1fr; }
+  #grid figure.feat{ grid-column:auto; grid-row:auto; aspect-ratio:3/2; }
   #menu nav{ gap:2px; }
   #menu nav a{ font-size:clamp(24px, 10vw, 40px); }
 }
@@ -545,7 +547,7 @@ video.live.on{ opacity:1; }
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
     ['film/hg.webp', 'HG · Unforgettable', 'פרסומת בושם · 30 שניות', 'פרסומת טלוויזיה לבושם לגברים: הוא, היא, מכונית יוקרה וכביש צוקים בלילה. כולה נוצרה בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות. המוזיקה: נוקטורן של שופן.', '', 0, 'film/hg', 1],
     ['film/ad.webp', 'לפני שהעיר מתעוררת', 'סרט פרסומת · 60 שניות', 'סרט אקשן קצר על בעלת מאפייה ושליח בתל אביב לפני הזריחה. כולו נוצר בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות בעברית.', '', 0, 'film/ad', 1],
-    ['hero/space.webp', 'אני גיבור', 'פלטפורמת סרטים אישיים · anigibor.com', 'הורים שולחים תמונה אחת מהטלפון, והילד הופך לגיבור של סרט אנימציה ליום ההולדת, עם השם והגיל שלו. פלטפורמה מלאה: אתר, הזמנה, תשלום והפקה. הילדים בדוגמאות נוצרו בבינה מלאכותית.', 'https://anigibor.com', 1],
+    ['anigibor/loop.webp', 'אני גיבור', 'פלטפורמת סרטים אישיים · anigibor.com', 'הורים שולחים תמונה אחת מהטלפון, והילד הופך לגיבור של סרט אנימציה ליום ההולדת, עם השם והגיל שלו. פלטפורמה מלאה: אתר, הזמנה, תשלום והפקה. הילדים בדוגמאות נוצרו בבינה מלאכותית.', 'https://anigibor.com', 0, 'anigibor/arch'],
     ['gallery/vase.webp', 'לפני ואחרי', 'צילום מוצר · בינה מלאכותית', 'צילום טלפון של אגרטל על שיש המטבח הפך לצילום סטודיו: אור של חלון, צל של עלים ובמה מאבן. בלי צלם ובלי סטודיו.', '../index.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'ש. גוטובסקי', 'תשתיות דלק מאז 1972 · עברית / English', 'חברה משפחתית שבונה תחנות דלק לפז, לסונול ולאמזון. שפה של קבוצת בנייה גדולה, ועכשיו גם סיור 360° בחוות גנרטורים, בעברית ובאנגלית.', '../work.html#gotovski'],
     ['live/cafe.webp', 'בוקר בבית הקפה', 'תמונה חיה · בתי קפה ומסעדות', 'אספרסו שנמזג ואדים שעולים מהכוס. במקום תמונה עומדת בראש האתר, רגע שכמעט מריחים דרך המסך.', '', 0, 'live/cafe'],
@@ -589,7 +591,7 @@ video.live.on{ opacity:1; }
 
   /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
   var CATS = [
-    { k: 'sites', t: 'אתרים', d: 'אתרים מלאים שעיצבתי ובניתי מאפס לעסקים אמיתיים.', f: ['cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp', 'hero/space.webp'] },
+    { k: 'sites', t: 'אתרים', d: 'אתרים מלאים שעיצבתי ובניתי מאפס לעסקים אמיתיים.', f: ['anigibor/loop.webp', 'cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp'] },
     { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
     { k: 'live', t: 'תמונות חיות', d: 'תמונה שזזה בראש האתר במקום תמונה רגילה. דוגמה אחת לכל תחום.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
     { k: 'art', t: 'עיצוב ואיור', d: 'דמויות, איורים, רקעים חיים וצילומי מוצר שנעשו בשביל אתר מסוים.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
@@ -650,6 +652,7 @@ video.live.on{ opacity:1; }
     cards.push({ el: card, img: card.querySelector('img'), vid: card.querySelector('video'), live: s[6], playing: false, zf: 0, x: x, y: y, z: z, lat: Math.asin(y) * 180 / Math.PI, lon: Math.atan2(x, z) * 180 / Math.PI, op: -1, d: -1 });
     var fig = document.createElement('figure');
     fig.dataset.idx = i;
+    if (s[0] === 'anigibor/loop.webp') fig.className = 'feat';
     fig.innerHTML = '<img alt="" loading="lazy" draggable="false">' + (s[6] ? '<video class="live" muted loop playsinline preload="none" aria-hidden="true"></video><span class="live-tag" aria-hidden="true"></span>' : '') + '<figcaption>' + s[1] + '</figcaption>';
     var gb = document.createElement('button'); gb.type = 'button'; gb.className = 'gopen'; gb.setAttribute('aria-label', s[1] + ', ' + s[2]); fig.appendChild(gb);
     secRows[CAT_OF[i]].appendChild(fig);

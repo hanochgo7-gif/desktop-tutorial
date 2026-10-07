@@ -8,6 +8,9 @@
 - Care plans: two monthly plans (Quiet and Growth) for hosting, security, updates and ongoing improvements.
 - Pricing: no public price list. Every project gets a written proposal with a fixed price after a short intro call.
 
+## Flagship product
+- [Ani Gibor](https://anigibor.com) (אני גיבור): a personalized animated birthday film platform designed and built by HG Studio. Parents send one photo, and the child becomes a 3D animated character starring in a one or two minute film with their name, age and a message from the parents. 10 worlds; site, ordering, payment and production in one place. Case story: https://hgpro.io/work.html#anigibor
+
 ## Key pages
 - [Home (Hebrew)](https://hgpro.io/): studio, packages, systems and care plans
 - [Home (English)](https://hgpro.io/en.html)

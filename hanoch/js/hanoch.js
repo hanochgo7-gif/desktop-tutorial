@@ -1427,6 +1427,20 @@
     } else vids.forEach(setPoster);
   }
 
+  /* ---------- אני גיבור: לופים שקטים שמתנגנים רק כשרואים אותם ---------- */
+  function initLoops() {
+    var loops = $$('video.ag-loop');
+    if (!loops.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { if (!v.src) setVideo(v, videoSrc(v)); playVideo(v); } else if (v.src) pauseVideo(v);
+      });
+    }, { threshold: 0.2 });
+    loops.forEach(function (v) { io.observe(v); });
+  }
+
   /* ---------- שלושת העקרונות: כניסה מדורגת, הוכחה חיה, הטיה וברק במעבר עכבר ---------- */
   function initPrinciples() {
     var cards = $$('.principles > li');
@@ -1555,7 +1569,7 @@
   var lateDone = false;
   function lateInit() {
     if (lateDone) return; lateDone = true;
-    initTours(); initPrinciples(); initProcess(); initDemo(); initPricing(); initFilm();
+    initTours(); initLoops(); initPrinciples(); initProcess(); initDemo(); initPricing(); initFilm();
     initSiteFilm(); initPortrait(); initProjects(); initCompare(); initCraft();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }

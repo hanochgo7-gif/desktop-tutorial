@@ -166,6 +166,7 @@ body.gridview #stage{ opacity:0; filter:blur(14px); pointer-events:none; }
 #grid figure{
   position:relative; aspect-ratio:3/2; border-radius:3px; overflow:hidden; background:#0b0b0b; cursor:pointer;
 }
+#grid figure.feat{ grid-column:span 2; grid-row:span 2; aspect-ratio:auto; }
 #grid .gopen{ position:absolute; inset:0; z-index:2; border-radius:inherit; }
 #grid .gopen:focus-visible{ outline:1px solid var(--ink); outline-offset:3px; }
 #grid img{
@@ -440,6 +441,7 @@ video.live.on{ opacity:1; }
   .bio .who{ gap:10px; margin-bottom:10px; }
   .bio p{ display:none; }
   #grid .rows{ grid-template-columns:1fr; }
+  #grid figure.feat{ grid-column:auto; grid-row:auto; aspect-ratio:3/2; }
   #menu nav{ gap:2px; }
   #menu nav a{ font-size:clamp(24px, 10vw, 40px); }
 }
@@ -545,7 +547,7 @@ video.live.on{ opacity:1; }
     ['film-poster.webp', 'The First Second', 'Brand film · 22 seconds', 'A glass ח, and around it one object from every project: a pita, a boxing glove, a fuel nozzle and a blue pi. This is the film that opens the home page.', '../en.html'],
     ['film/hg.webp', 'HG · Unforgettable', 'Fragrance commercial · 30 seconds', 'A TV spot for a men’s fragrance: him, her, a luxury car and a cliff road at night. Made entirely with AI: the characters, the cinematography, the sound and the voiceover. Music: Chopin’s Nocturne.', '', 0, 'film/hg', 1],
     ['film/ad.webp', 'Before the City Wakes', 'Commercial · 60 seconds', 'A short action film about a bakery owner and a courier in Tel Aviv before sunrise. Made entirely with AI: the characters, the cinematography, the sound and the voiceover.', '', 0, 'film/ad-en', 1],
-    ['hero/space.webp', 'Ani Gibor', 'Personalized film platform · anigibor.com', 'Parents send one phone photo and their child becomes the hero of an animated birthday film, with their own name and age. A full platform: storefront, ordering, payment and production. The children in the examples are AI-generated.', 'https://anigibor.com', 1],
+    ['anigibor/loop.webp', 'Ani Gibor', 'Personalized film platform · anigibor.com', 'Parents send one phone photo and their child becomes the hero of an animated birthday film, with their own name and age. A full platform: storefront, ordering, payment and production. The children in the examples are AI-generated.', 'https://anigibor.com', 0, 'anigibor/arch'],
     ['gallery/vase.webp', 'Before and After', 'Product photography · AI', 'A phone snapshot of a vase on a kitchen counter became a studio shot: window light, leaf shadows and a stone plinth. No photographer, no studio.', '../en.html#pricing', 1, 'gallery/vase'],
     ['cinema/gotovski.webp', 'S. Gotovski', 'Fuel infrastructure since 1972 · Hebrew / English', 'A family company that builds fuel stations for Paz, Sonol and Amazon. The language of a major construction group, and now a 360° tour of a generator farm, in Hebrew and English.', '../en-work.html#gotovski'],
     ['live/cafe.webp', 'Morning at the Café', 'Live image · cafés and restaurants', 'Espresso pouring and steam rising from the cup. Instead of a still photo at the top of the site, a moment you can almost smell.', '', 0, 'live/cafe'],
@@ -589,7 +591,7 @@ video.live.on{ opacity:1; }
 
   /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
   var CATS = [
-    { k: 'sites', t: 'Websites', d: 'Complete websites I designed and built from scratch for real businesses.', f: ['cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp', 'hero/space.webp'] },
+    { k: 'sites', t: 'Websites', d: 'Complete websites I designed and built from scratch for real businesses.', f: ['anigibor/loop.webp', 'cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp'] },
     { k: 'films', t: 'Films & ads', d: 'A brand film, commercials and video tours made with AI.', f: ['film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
     { k: 'live', t: 'Living images', d: 'A moving picture at the top of the site instead of a still photo. One example per industry.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
     { k: 'art', t: 'Design & illustration', d: 'Characters, illustrations, living backgrounds and product shots made for a specific site.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
@@ -650,6 +652,7 @@ video.live.on{ opacity:1; }
     cards.push({ el: card, img: card.querySelector('img'), vid: card.querySelector('video'), live: s[6], playing: false, zf: 0, x: x, y: y, z: z, lat: Math.asin(y) * 180 / Math.PI, lon: Math.atan2(x, z) * 180 / Math.PI, op: -1, d: -1 });
     var fig = document.createElement('figure');
     fig.dataset.idx = i;
+    if (s[0] === 'anigibor/loop.webp') fig.className = 'feat';
     fig.innerHTML = '<img alt="" loading="lazy" draggable="false">' + (s[6] ? '<video class="live" muted loop playsinline preload="none" aria-hidden="true"></video><span class="live-tag" aria-hidden="true"></span>' : '') + '<figcaption>' + s[1] + '</figcaption>';
     var gb = document.createElement('button'); gb.type = 'button'; gb.className = 'gopen'; gb.setAttribute('aria-label', s[1] + ', ' + s[2]); fig.appendChild(gb);
     secRows[CAT_OF[i]].appendChild(fig);
