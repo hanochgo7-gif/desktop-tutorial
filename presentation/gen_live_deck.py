@@ -67,7 +67,7 @@ def section_slide(id_, num, title, sub, notes, n, tsize=96):
     CUR_SEC=None
     body=(f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">{num}</h1>'
           f'<div style="flex:1"></div>'
-          f'<div style="display:flex; flex-direction:row; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק "+num, 28, SAND, "; letter-spacing:2px")}</div>'
+          f'<div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק "+num, 28, SAND, "; letter-spacing:2px")}</div>'
           f'{h2(title, tsize, "#F6F3EE")}'
           f'<div style="flex:1"></div>')
     sec(id_, INK, body, notes, pad="128px 128px 160px")
@@ -128,7 +128,7 @@ n+=1
 steps=[("1","ההאשמה","האשימו אותי בסחר בסמים – ולא היה לי שום קשר לזה."),
        ("2","ההבנה","בסוף האמינו לי. אבל נשאר חותם: יכולים לחשוד בי בדבר כל כך חמור. אני לא ״ילד רע״ – זו תדמית, לא אני."),
        ("3","ההחלטה","לכתוב את הסיפור שלי בעצמי, ולשנות את התדמית.")]
-steps_html="".join(f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center"><div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div>{h3(b,72)}</div>' for a,b,c in steps)
+steps_html="".join(f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center"><div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div>{h3(b,72)}</div>' for a,b,c in steps)
 sec("grade10", PAPER,
     f'{h2("כיתה י׳: הרגע שבו הכול התהפך", 64)}'
     f'<div style="display:flex; flex-direction:column; flex:1; justify-content:space-evenly">{steps_html}</div>{pnum(n, False)}',
@@ -144,8 +144,8 @@ CUR_SEC=None
 sec("s02", INK,
     f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">02</h1>'
     f'<div style="display:flex; flex-direction:row; gap:64px; align-items:center; flex:1">'
-    f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 28, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
-    f'<div style="display:flex; flex-direction:row; gap:56px; align-items:center">'
+    f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row-reverse; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 28, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:56px; align-items:center">'
     f'<img src="/_blob/4bc039c613cc29bdb6c759eeea38cb2d" alt="לוגו השומר החדש" style="width:343px; height:440px; object-fit:contain">'
     f'<div style="width:2px; height:320px; background:rgba(217,183,140,0.35)"></div>'
     f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:520px; height:285px; object-fit:contain"></div></div>{pnum(n)}',
@@ -155,7 +155,7 @@ CUR_SEC=("02","הבחירה")
 n+=1
 sec("shomer", PAPER,
     f'{h2("שנת שירות ב״שומר החדש״ – גרעין נח״ל", 60)}'
-    f'<div style="display:flex; flex-direction:row; justify-content:center; gap:32px; flex:1">{"".join(photo(lab, round(810*ar), 810, False, key=k) for k, lab, ar in SHOMER)}</div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:row-reverse; justify-content:center; gap:32px; flex:1">{"".join(photo(lab, round(810*ar), 810, False, key=k) for k, lab, ar in SHOMER)}</div>{pnum(n, False)}',
     "בהתחלה החלטתי ללכת לשנת שירות ב'שומר החדש'. עבדתי שם בחקלאות, ובזכות זה, דרך גרעין נח״ל, התגייסתי לנח״ל. משם הגעתי לסיירת.", pad="128px 128px 40px", layout="display:flex; flex-direction:column; gap:24px", mark=70)
 # 9 sayeret cards
 n+=1
@@ -177,9 +177,9 @@ for i,(a_,b_) in enumerate(steps):
             f'<p style="font-size:28px; font-weight:700; line-height:1.2; color:{TXT}; text-align:center">{t(a_)}</p></div>')
 def ph(key, w, h, label): return f'<img src="{PHOTOS[key]}" alt="{label}" style="width:{w}px; height:{h}px; object-fit:cover; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.10)">'
 sec("sayeret", PAPER,
-    f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center; justify-content:space-between">{h2("השירות הצבאי", 60)}<img src="{DARK_IMG}" alt="סמל סיירת נח״ל" style="width:260px; height:143px; object-fit:contain"></div>'
-    f'<div style="position:relative; display:flex; flex-direction:row; gap:8px"><div style="position:absolute; left:146px; top:13px; width:1372px; height:4px; background:{SAND}"></div>{cells}</div>'
-    f'<div style="display:flex; flex-direction:row; gap:32px; justify-content:center">{ph("team", 842, 520, "סוף מסלול – העלייה להר")}{ph("army", 348, 520, "הסיכה")}{ph("stretcher", 390, 520, "מסע אלונקות")}</div>{pnum(n, False)}',
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center; justify-content:space-between">{h2("השירות הצבאי", 60)}<img src="{DARK_IMG}" alt="סמל סיירת נח״ל" style="width:260px; height:143px; object-fit:contain"></div>'
+    f'<div style="position:relative; display:flex; flex-direction:row-reverse; gap:8px"><div style="position:absolute; left:146px; top:13px; width:1372px; height:4px; background:{SAND}"></div>{cells}</div>'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; justify-content:center">{ph("team", 842, 520, "סוף מסלול – העלייה להר")}{ph("army", 348, 520, "הסיכה")}{ph("stretcher", 390, 520, "מסע אלונקות")}</div>{pnum(n, False)}',
     "השירות בקצרה: מהשנה בשומר החדש הגעתי לסיירת – מסלול של שנה וחודשיים. עליתי לקו יקיר, אחר כך אימון חורף, מבצע 'בית וגן' בג'נין, ואז עלינו לקו עזה. (לספר בעל פה: למה רציתי להגיע לסיירת – אוהב אתגרים, להוכיח לעצמי; המחיר – קושי פיזי ומנטלי וקשיים בבית; מה הצבא לימד אותי – שהכול בראש ושתמיד אפשר להשתפר. מוטיבציה מביאה אותך להתחלה, משמעת מביאה אותך לסוף.)", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:28px", mark=70)
 # 10 commanders
 n+=1
@@ -218,13 +218,13 @@ def box(txt, hot=False, w=None, sub=""):
     return (f'<div style="{st}"><p style="font-size:36px; font-weight:700; line-height:1.2; color:{INK if hot else "#F6F3EE"}; text-align:center">{t(txt)}</p>'
             + (f'<p style="font-size:26px; line-height:1.3; color:{"#5A4A30" if hot else MUTEDL}; text-align:center">{t(sub)}</p>' if sub else '') + '</div>')
 LC="rgba(217,183,140,0.6)"
-def row(*items, gap=0): return f'<div style="display:flex; flex-direction:row; justify-content:center; gap:{gap}px">{"".join(items)}</div>'
+def row(*items, gap=0): return f'<div style="display:flex; flex-direction:row-reverse; justify-content:center; gap:{gap}px">{"".join(items)}</div>'
 stem=row(f'<div style="width:4px; height:30px; background:{LC}"></div>')
 def split(w): return row(f'<div style="width:{w}px; height:30px; border-top:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"></div>')
 def merge(w): return row(f'<div style="width:{w}px; height:30px; border-bottom:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"></div>')
 def split3(w): return row(f'<div style="position:relative; width:{w}px; height:30px; border-top:4px solid {LC}; border-left:4px solid {LC}; border-right:4px solid {LC}"><div style="position:absolute; left:{w//2-4}px; top:0px; width:4px; height:26px; background:{LC}"></div></div>')
 sec("sector", INK,
-    f'<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between">{h2("איך זה עבד בגזרה", 52, "#F6F3EE")}<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:220px; height:121px; object-fit:contain"></div>'
+    f'<div style="display:flex; flex-direction:row-reverse; align-items:center; justify-content:space-between">{h2("איך זה עבד בגזרה", 52, "#F6F3EE")}<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:220px; height:121px; object-fit:contain"></div>'
     f'{row(box("סיירת נח״ל", False, 760, "תפסה את הגזרה הדרומית"))}{stem}{split(644)}'
     f'{row(box("מוצב כרם שלום", False, 520, "פלחה״ן"), box("מוצב סופה", False, 520, "פלוגת נ״ט"), gap=124)}'
     f'{merge(644)}{stem}'
@@ -355,7 +355,7 @@ sec("numbers", INK,
     f'<div style="display:flex; flex-direction:row; gap:80px; flex:1; align-items:center">'
     f'<img src="/_blob/2f3952cf0bfbdbeaf3a88e8567d5265e" alt="הצוות בסוף המסלול, בשחור לבן" style="width:820px; height:506px; object-fit:cover; border-radius:16px; border:1px solid {HAIR_D}">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:40px">'
-    f'<div style="display:flex; flex-direction:row"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
+    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{SAND}"></div></div>'
     f'{h2("הדבר הכי קשה לא היה הפציעה.", 64, "#F6F3EE")}'
     f'{p("הדברים שהם לא יספיקו לעשות. המשפחות שנשארו.", 32, MUTEDL)}'
     f'{h3("זה מה שנשאר איתי.", 44, SAND)}</div>'
@@ -367,7 +367,7 @@ items=[("Activity","הפציעה",""),
        ("Clock","השיקום",""),
        ("Users","האובדן",""),
        ("Home","החיים שאחרי","")]
-after_rows="".join('<div style="display:flex; flex-direction:row; gap:36px; align-items:center">'+icon_chip(a,96)+h3(b,60,TXT)+'</div>' for a,b,c in items)
+after_rows="".join('<div style="display:flex; flex-direction:row-reverse; gap:36px; align-items:center">'+icon_chip(a,96)+h3(b,60,TXT)+'</div>' for a,b,c in items)
 sec("after", PAPER,
     f'{h2("מה שאף אחד לא מכין אותך אליו", 64)}'
     f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:center">'
@@ -380,7 +380,7 @@ def tile(label, key, cap):
     return (f'<div style="flex:1; display:flex; flex-direction:column; gap:12px">{photo(label, 304, 520, True, "; border-radius:20px", key=key)}'
             f'<p style="font-size:30px; color:{MUTEDL}; text-align:center">{t(cap)}</p></div>')
 sec("journey", INK,
-    f'<div style="display:flex; flex-direction:row; gap:32px; align-items:baseline; justify-content:space-between">{h2("מאז.", 72, "#F6F3EE")}</div>'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:baseline; justify-content:space-between">{h2("מאז.", 72, "#F6F3EE")}</div>'
     f'<div style="display:flex; flex-direction:row; gap:36px; flex:1">'
     f'{tile("טיולים", "panama", "טיולים")}'
     f'{tile("סוסים", "horses", "סוסים")}'
@@ -398,7 +398,7 @@ P=[("1","אתה לא שולט במה שקורה לך","אבל אתה כן שול
    ("3","זהות לא מקבלים. בונים.","הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה.",True)]
 ph="".join(card(f'{circle_icon(a,88)}<div style="flex:1"></div>{h3(b,56,"#F6F3EE" if d else TXT)}<div style="flex:1"></div>', d, "; gap:28px; padding:56px 48px") for a,b,c,d in P)
 sec("principles", PAPER,
-    f'{h2("שלושה עקרונות לעבור משבר", 64)}<div style="display:flex; flex-direction:row; gap:40px; flex:1">{ph}</div>{pnum(n, False)}',
+    f'{h2("שלושה עקרונות לעבור משבר", 64)}<div style="display:flex; flex-direction:row-reverse; gap:40px; flex:1">{ph}</div>{pnum(n, False)}',
     "עיקרון 1 – אתה לא שולט במה שקורה לך, אבל אתה כן שולט במה שאתה עושה עם זה. עיקרון 2 – לא חייבים לדעת את כל הדרך. צריך לדעת רק מה הצעד הבא. עיקרון 3 – זהות לא מקבלים. בונים. הפציעה לא מגדירה אותך. העבר לא מגדיר אותך. גם מה שקרה לך לא מגדיר בהכרח את האדם שתהיה. לכל עיקרון: דוגמה אחת מהחיים שלך מאז הפציעה.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
 # 21b one slide per principle
 PX=[("1","אתה לא שולט במה שקורה לך","אבל אתה כן שולט במה שאתה עושה עם זה", 96, 72,
@@ -445,7 +445,7 @@ D=[("כיתה י׳","כשהאשימו אותי – החלטתי לכתוב את 
 dh="".join(card(f'{h1(a,110,SAND,extra="; text-align:center")}', True, "; align-items:center; justify-content:center; padding:72px 40px; gap:24px") for a,b in D)
 sec("decision", INK,
     f'{h2("ההחלטה הייתה לקחת את ההחלטות בחיים שלי בעצמי.", 60, "#F6F3EE", "; text-align:center")}<div style="flex:1"></div>'
-    f'<div style="display:flex; flex-direction:row; gap:40px">{dh}</div><div style="flex:1"></div>{pnum(n)}',
+    f'<div style="display:flex; flex-direction:row-reverse; gap:40px">{dh}</div><div style="flex:1"></div>{pnum(n)}',
     "שלוש פעמים, אותה החלטה. כיתה י׳: כשהאשימו אותי – החלטתי לכתוב את הסיפור שלי בעצמי. 7.10: כשנפצעתי – החלטתי לתפקד ולהמשיך. היום: כשהחיים לא חזרו למה שהיו – החלטתי לבנות אותם מחדש. כאן סוגרים את המעגל מהפתיחה: 'ההחלטה' לא הייתה רק להמשיך להילחם. ההחלטה הייתה לקחת החלטות ולפעול בחיים של עצמי – כמו שעשיתי כילד, כמו שעשיתי בקרב, כמו שאני עושה היום.", pad="128px 128px 160px")
 # 28 final
 n+=1
@@ -453,9 +453,9 @@ sec("final", SAND,
     f'<div style="display:flex; flex-direction:row-reverse; gap:64px; align-items:center; flex:1">'
     f'<img src="/_blob/48fe90cb8bb83ef0eba26362de16aad1" alt="חנוך רוכב על סוס" style="width:620px; height:824px; object-fit:cover; border-radius:24px">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:28px; justify-content:center">'
-    f'<div style="display:flex; flex-direction:row"><div style="width:120px; height:6px; background:{INK}"></div></div>{h1("תודה", 160, INK)}'
+    f'<div style="display:flex; flex-direction:row-reverse"><div style="width:120px; height:6px; background:{INK}"></div></div>{h1("תודה", 160, INK)}'
     f'<div style="height:24px"></div>'
-    f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center">'
+    f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center">'
     f'<div style="display:flex; flex-direction:column; gap:10px">{p("חנוך  |  054-5522053", 30, "#5A4A30")}{p("Instagram: hanoch234", 30, "#5A4A30")}{p("hanochgo@gmail.com", 30, "#5A4A30")}</div>'
     f'<img src="/_blob/41627163abc2d5db7ef9ee7c7df1f3ed" alt="QR לאינסטגרם hanoch234" style="width:200px; height:200px; border-radius:16px">'
     f'</div></div></div>',
