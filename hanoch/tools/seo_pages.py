@@ -344,8 +344,8 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-foot a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
 '''
-GF_HE = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
-GF_EN = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">'
+# גופנים באחסון עצמי (css/fonts.css, העתקים של Google Fonts): בלי חיבור לשרת חיצוני, והגופן של הטקסט נטען מראש
+def GF(up, he): return f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/g/{"rubik-hebrew-423ede.woff2" if he else "geist-mono-latin-b291d8.woff2"}" crossorigin>\n<link rel="stylesheet" href="{up}css/fonts.css">'
 # הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
 
@@ -414,7 +414,7 @@ def render(p):
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
-{GF_HE if he else GF_EN}
+{GF(up, he)}
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
@@ -474,7 +474,7 @@ def hub(lang):
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
 <meta name="theme-color" content="#0a0a0b">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
-{GF_HE if he else GF_EN}
+{GF(up, he)}
 <link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}

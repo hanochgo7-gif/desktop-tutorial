@@ -23,10 +23,8 @@
 <link rel="icon" href="images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&family=Geist+Mono:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="preload" as="font" type="font/woff2" href="fonts/hg-mark.woff2" crossorigin>
 <link rel="stylesheet" href="css/hanoch.css">
 <script>
@@ -205,7 +203,7 @@
       </figure>
       <figure class="ag-morph">
         <div class="ag-morph-view">
-          <video class="ag-loop" muted loop playsinline preload="none" poster="work/anigibor/morph-boy.webp" data-src="work/anigibor/morph-boy.mp4" aria-label="תמונה של ילד הופכת לדמות אנימציה"></video>
+          <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/morph-boy.webp" data-src="work/anigibor/morph-boy.mp4" aria-label="תמונה של ילד הופכת לדמות אנימציה"></video>
         </div>
         <figcaption><b class="display">מתמונה לדמות</b><span class="mono">התלתלים, החיוך והמבט נשמרים</span></figcaption>
       </figure>
@@ -424,7 +422,7 @@
 <!-- סרט התדמית: נפתח על כל המסך -->
 <dialog class="film-dlg" aria-label="סרט התדמית של HG Studio">
   <button class="film-close mono" type="button" aria-label="סגירה">סגירה ✕</button>
-  <video class="film-video" controls muted playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
+  <video class="film-video" controls muted playsinline preload="none" data-poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
 </dialog>
 
 <!-- רנטגן -->

@@ -20,9 +20,9 @@
 <link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="../images/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/g/geist-mono-latin-b291d8.woff2" crossorigin>
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/handjet-latin.woff2" crossorigin>
 <style>
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -541,7 +541,7 @@ video.live.on{ opacity:1; }
   'use strict';
   var BASE = '../work/';
   var FILM = matchMedia('(max-width: 900px)').matches ? BASE + 'film/reel-m.mp4' : BASE + 'film/reel.mp4';
-  var AVATAR = BASE + 'me/character-480.webp';
+  var AVATAR = BASE + 'me/character-156.webp';
   // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
   var SHOTS = [
     ['film-poster.webp', 'The First Second', 'Brand film · 22 seconds', 'A glass ח, and around it one object from every project: a pita, a boxing glove, a fuel nozzle and a blue pi. This is the film that opens the home page.', '../en.html'],
@@ -685,17 +685,19 @@ video.live.on{ opacity:1; }
   layout(true);
 
   /* ---------- טעינה: תמונה קטנה ומוכנה מראש לכל כרטיס (work/thumbs), המקור המלא רק בתמונה הפתוחה ---------- */
+  var smallThumbs = innerWidth <= 640, gridFilled = false;
   var total = N + 1, done = 0, born = performance.now(), splashDone = false;
   function report() { done++; bar.style.transform = 'scaleX(' + Math.min(1, done / total).toFixed(3) + ')'; if (done >= total) maybeEndSplash(); }
   SHOTS.forEach(function (s, i) {
-    var url = BASE + 'thumbs/' + s[0].replace(/\//g, '_'), c = cards[i], once = false;
+    // בטלפון הכרטיסים בכדור קטנים: תמונה של 360 פיקסלים מספיקה. הרשת מקבלת את הגדולה, ורק כשפותחים אותה
+    var name = s[0].replace(/\//g, '_'), url = BASE + 'thumbs/' + (smallThumbs ? 's/' : '') + name, c = cards[i], once = false;
     var fin = function () { if (once) return; once = true; report(); };
     decoded[i] = url;
     c.img.decoding = 'async';
     c.img.onload = function () { c.img.classList.add('in'); fin(); };
     c.img.onerror = function () { if (c.img.src.indexOf('/thumbs/') > -1) c.img.src = BASE + s[0]; else fin(); };
     c.img.src = url;
-    gridFigs[i].querySelector('img').src = url;
+    gridFigs[i].querySelector('img').dataset.src = BASE + 'thumbs/' + name;
   });
   $('#avatar').src = AVATAR;
 
@@ -894,6 +896,7 @@ video.live.on{ opacity:1; }
   /* ---------- רשת ---------- */
   var gridBtn = $('#gridBtn');
   function setGrid(on) {
+    if (on && !gridFilled) { gridFilled = true; gridFigs.forEach(function (f) { var im = f.querySelector('img'); im.src = im.dataset.src; }); }
     body.classList.toggle('gridview', on);
     // ברשת: התמונות החיות שעל המסך מתנגנות, ביציאה הכול נעצר
     gridFigs.forEach(function (f) {

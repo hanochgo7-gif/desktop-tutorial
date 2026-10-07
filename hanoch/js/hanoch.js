@@ -996,7 +996,7 @@
     if (!dlg || !dlg.showModal) return;
     var vid = $('.film-video', dlg), from = null;
     // אותו חלון מנגן גם את הפרסומת: כפתור עם data-film-src מחליף את הסרט, ועם data-film-sound הוא מתנגן עם קול
-    var reel = { src: vid.dataset.src, srcM: vid.dataset.srcM, poster: vid.getAttribute('poster'), label: dlg.getAttribute('aria-label') };
+    var reel = { src: vid.dataset.src, srcM: vid.dataset.srcM, poster: vid.getAttribute('poster') || vid.dataset.poster, label: dlg.getAttribute('aria-label') };
     function close() { if (dlg.open) dlg.close(); }
     dlg.addEventListener('close', function () { pauseVideo(vid); if (lenis) lenis.start(); if (from) from.focus(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
@@ -1430,8 +1430,13 @@
   /* ---------- אני גיבור: לופים שקטים שמתנגנים רק כשרואים אותם ---------- */
   function initLoops() {
     var loops = $$('video.ag-loop');
-    if (!loops.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!('IntersectionObserver' in window)) return;
+    if (!loops.length || !('IntersectionObserver' in window)) { loops.forEach(function (v) { v.poster = v.dataset.poster; }); return; }
+    // התמונה נטענת רק כשמתקרבים, כדי לא להתחרות בפתיחה של העמוד
+    var near = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.poster = e.target.dataset.poster; near.unobserve(e.target); } });
+    }, { rootMargin: '900px 0px' });
+    loops.forEach(function (v) { near.observe(v); });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var io = new IntersectionObserver(function (en) {
       en.forEach(function (e) {
         var v = e.target;
@@ -1559,19 +1564,26 @@
 
   /* ---------- הפעלה ---------- */
   initManifesto();
-  initBrief();
   initMenu();
   initProgress();
   initMagnet();
   initCursor();
   initXray();
   // כל מה שמתחת לפתיחה מתאתחל כשהדפדפן פנוי (או אחרי שנייה וחצי לכל המאוחר), כדי שהפתיחה תצויר ותגיב מהר
-  var lateDone = false;
+  // כל חלק מתאתחל במשימה נפרדת, כדי שהדפדפן יוכל לצייר ולהגיב לאצבע בין חלק לחלק
+  var lateDone = null;
   function lateInit() {
-    if (lateDone) return; lateDone = true;
-    initTours(); initLoops(); initPrinciples(); initProcess(); initDemo(); initPricing(); initFilm();
-    initSiteFilm(); initPortrait(); initProjects(); initCompare(); initCraft();
-    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    if (lateDone) return lateDone;
+    var steps = [initBrief, initTours, initLoops, initPrinciples, initProcess, initDemo, initPricing, initFilm,
+      initSiteFilm, initPortrait, initProjects, initCompare, initCraft];
+    lateDone = new Promise(function (done) {
+      (function next() {
+        var f = steps.shift();
+        if (!f) { if (window.ScrollTrigger) ScrollTrigger.refresh(); done(); return; }
+        f(); setTimeout(next, 0);
+      })();
+    });
+    return lateDone;
   }
   if (window.requestIdleCallback) requestIdleCallback(lateInit, { timeout: 1500 }); else setTimeout(lateInit, 600);
 
@@ -1579,14 +1591,13 @@
     gsap.ticker.add(frame);
     var introDone = runIntro();
     startParticles();
-    introDone.then(function () { lateInit(); ScrollTrigger.refresh(); openFromHash(); });
+    introDone.then(lateInit).then(function () { ScrollTrigger.refresh(); openFromHash(); });
     // הבמה מאריכה את הפתיחה: מחשבים מחדש את כל נקודות הגלילה
     window.addEventListener('hg:stage', function () { ScrollTrigger.refresh(); });
     // הצמדה משנה גבהים: מחשבים מחדש אחרי שהגופנים נטענו
     if (document.fonts) document.fonts.ready.then(function () { ScrollTrigger.refresh(); }, function () { });
   } else {
     runIntro();
-    lateInit();
-    openFromHash();
+    lateInit().then(openFromHash);
   }
 })();

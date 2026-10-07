@@ -23,12 +23,10 @@
 <link rel="icon" href="images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preload" as="font" type="font/woff2" href="fonts/hg-mark.woff2" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Rubik:wght@300;400;500&family=Frank+Ruhl+Libre:wght@400&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,800&display=swap"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="fonts/g/geist-mono-latin-b291d8.woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/hanoch.css">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ProfessionalService", "url": "https://hgpro.io/en.html", "image": "https://hgpro.io/work/og-home.jpg", "name": "HG Studio", "alternateName": ["HGPRO", "Hanoch Gotovski"], "description": "Custom website design and development: design, code and motion. Fast, accessible, mobile-first sites, live within two weeks.", "inLanguage": "en", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "areaServed": {"@type": "Country", "name": "Israel"}, "founder": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "Hanoch Gotovski", "alternateName": "חנוך גוטובסקי", "jobTitle": "Web designer and developer", "url": "https://hgpro.io/"}, "makesOffer": [{"@type": "Offer", "name": "Presence"}, {"@type": "Offer", "name": "Business"}, {"@type": "Offer", "name": "Signature"}], "@id": "https://hgpro.io/#business", "logo": "https://hgpro.io/images/icon-512.png", "knowsAbout": ["בניית אתרים", "עיצוב אתרים", "קידום אתרים", "SEO", "UX", "תלת־ממד", "בינה מלאכותית", "Web design", "Web development"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Add-on systems", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Personalized AI film platform"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "E-commerce platform", "url": "https://hgpro.io/services/en/ecommerce-store.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Secure payments"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automated invoicing"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Quote engine"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Online booking system"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Client & learning portal"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "CRM & integrations"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business dashboard"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI commercial production", "url": "https://hgpro.io/services/en/ai-commercial-production.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI customer concierge", "url": "https://hgpro.io/services/en/ai-customer-agent.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI visual studio"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "3D product showcase"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Interactive simulation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Search engine optimization", "url": "https://hgpro.io/services/en/seo-services.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tracking & campaign setup"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Content hub & blog"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Email marketing automation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brand identity", "url": "https://hgpro.io/services/en/brand-identity-design.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Marketing copywriting"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Multilingual website"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Wix / WordPress migration", "url": "https://hgpro.io/services/en/wix-wordpress-migration.html"}}]}}, {"@context": "https://schema.org", "@type": "WebSite", "@id": "https://hgpro.io/#website", "url": "https://hgpro.io/", "name": "HG Studio", "alternateName": "HGPRO", "inLanguage": ["he-IL", "en"], "publisher": {"@id": "https://hgpro.io/#business"}}]</script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
@@ -112,7 +110,7 @@
   <!-- Ani Gibor: the flagship. A loop from the films behind, the story and the link in front -->
   <section class="sheet sheet-ink ag-spot" id="anigibor" data-bg="dark" aria-labelledby="ag-spot-title">
     <div class="ag-spot-film" aria-hidden="true">
-      <video class="ag-loop" muted loop playsinline preload="none" poster="work/anigibor/loop.webp" data-src="work/anigibor/loop.mp4" data-src-m="work/anigibor/loop-m.mp4"></video>
+      <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/loop.webp" data-src="work/anigibor/loop.mp4" data-src-m="work/anigibor/loop-m.mp4"></video>
     </div>
     <div class="ag-spot-copy">
       <h2 class="display" id="ag-spot-title">Ani Gibor.</h2>
@@ -412,7 +410,7 @@
 <!-- סרט התדמית: נפתח על כל המסך -->
 <dialog class="film-dlg" aria-label="The HG Studio showreel">
   <button class="film-close mono" type="button" aria-label="Close">Close ✕</button>
-  <video class="film-video" controls muted playsinline preload="none" poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
+  <video class="film-video" controls muted playsinline preload="none" data-poster="work/film-poster.webp" data-src="work/film/reel.mp4" data-src-m="work/film/reel-m.mp4"></video>
 </dialog>
 
 <!-- רנטגן -->
