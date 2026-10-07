@@ -131,8 +131,10 @@ steps=[("1","ההאשמה","האשימו אותי בסחר בסמים – ולא
 steps_html="".join(f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center"><div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div>{h3(b,72)}</div>' for a,b,c in steps)
 sec("grade10", PAPER,
     f'{h2("כיתה י׳: הרגע שבו הכול התהפך", 64)}'
-    f'<div style="display:flex; flex-direction:column; flex:1; justify-content:space-evenly">{steps_html}</div>{pnum(n, False)}',
-    "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", pad="128px 128px 160px", layout="display:flex; flex-direction:column; gap:48px", mark=74)
+    f'<div style="display:flex; flex-direction:row-reverse; gap:64px; flex:1; align-items:center">'
+    f'<div style="display:flex; flex-direction:column; flex:1; align-self:stretch; justify-content:space-evenly">{steps_html}</div>'
+    f'<img src="/_blob/567f3204b30a5b592c5998eb972a0661" alt="איור: אני בחדר המנהל, המנהל מאשים והמורה עומדת עם ידיים שלובות" style="width:527px; height:700px; object-fit:cover; border-radius:24px; box-shadow:0 8px 32px rgba(0,0,0,0.10)"></div>{pnum(n, False)}',
+    "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", pad="128px 128px 104px", layout="display:flex; flex-direction:column; gap:40px", mark=74)
 # 7 message
 n+=1
 sec("msg1", INK,

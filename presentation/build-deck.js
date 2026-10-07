@@ -132,13 +132,13 @@ CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed 
 {
   const s = slide(PAPER, "אירוע אחד בכיתה י' ששינה לי את כל התפיסה. האשימו אותי בבית הספר בסחר בסמים ולא היה לי שום קשר לזה. בסוף השיחה הם האמינו לי – אבל זה השאיר בי חותם: שיכולים לחשוד בי בדבר כל כך חמור. זו הפעם הראשונה שהחלטתי לקחת את ההחלטות בחיים שלי בעצמי. מאותו רגע: חיפוש שנת שירות איכותית, שאיפה לשירות קרבי משמעותי.", { mark: 74 });
   heading(s, "כיתה י׳: הרגע שבו הכול התהפך", 128, 128, 1664, 90, 64, TXT);
-  // dark quote card on the left (720 wide)
-  // three words on the right, evenly spread
+  // illustration on the left, three words on the right
+  img(s, "grade10-office.jpg", 128, 258, 527, 700);
   const words = ["ההאשמה", "ההבנה", "ההחלטה"];
   words.forEach((w, i) => {
     const y = 266 + (654 / 3) * i + 654 / 6;
     circle(s, 1792 - 24, y, 48, SAND);
-    heading(s, w, 128, y - 60, 1600, 120, 72, TXT, { valign: "middle" });
+    heading(s, w, 720, y - 60, 984, 120, 72, TXT, { valign: "middle" });
   });
   pnum(s, n, false);
 }
