@@ -182,6 +182,44 @@ body.gridview #stage{ opacity:0; filter:blur(14px); pointer-events:none; }
 }
 #grid figure:hover figcaption, #grid figure:focus-within figcaption{ opacity:1; transform:none; }
 
+/* ---------- 4ב. קטגוריות: פס עליון קבוע, פלחים בכדור ומקטעים ברשת ---------- */
+#catbar{
+  position:fixed; top:0; left:0; right:0; z-index:57; display:flex; overflow-x:auto; scrollbar-width:none;
+  padding:calc(var(--pad) * .8 + var(--safe-top) + 50px) calc(var(--pad) + var(--safe-right)) 6px calc(var(--pad) + var(--safe-left));
+  pointer-events:none; transition:opacity .5s var(--ease), background .5s var(--ease);
+}
+#catbar::-webkit-scrollbar{ display:none; }
+body.gridview #catbar{ background:#000; pointer-events:auto; }
+body.lit #catbar, body.menu-open #catbar{ opacity:0; pointer-events:none; }
+.cats{ display:flex; gap:clamp(16px, 2.2vw, 34px); margin:0 auto; pointer-events:auto; }
+.cats button{
+  position:relative; min-height:44px; padding:0 1px; font:inherit; font-size:14px; letter-spacing:.01em; white-space:nowrap;
+  color:rgba(244,242,239,.62); text-shadow:0 1px 14px rgba(0,0,0,.95), 0 0 3px rgba(0,0,0,.8); cursor:pointer;
+  transition:color .3s var(--ease);
+}
+.cats button span{ margin-inline-start:6px; font-size:13px; color:rgba(244,242,239,.5); font-variant-numeric:tabular-nums; }
+.cats button::after{
+  content:""; position:absolute; left:0; right:0; bottom:8px; height:1px; background:#ff4f1a;
+  transform:scaleX(0); transition:transform .45s var(--ease);
+}
+.cats button:hover, .cats button[aria-pressed="true"]{ color:#f4f2ef; }
+.cats button[aria-pressed="true"]::after{ transform:none; }
+.cats button:focus-visible{ outline:1px solid var(--ink); outline-offset:4px; }
+body #grid{ padding-top:calc(var(--pad) * .8 + var(--safe-top) + 50px + 50px + clamp(18px, 3vw, 44px)); }
+#grid .gsec{ max-width:1680px; margin:0 auto; }
+#grid .gsec + .gsec{ margin-top:clamp(64px, 9vw, 128px); }
+body.one-cat #grid .gsec:not(.on){ display:none; }
+body.one-cat #grid .gsec{ margin-top:0; }
+#grid .ghead{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 32px; margin-bottom:clamp(16px, 2vw, 28px); }
+#grid .ghead h2{ font-family:var(--serif); font-weight:750; font-size:clamp(36px, 5vw, 68px); line-height:.92; letter-spacing:.005em; }
+#grid .ghead h2 span{ margin-inline-start:.35em; font-family:var(--sans); font-weight:300; font-size:15px; letter-spacing:0; color:var(--dim); vertical-align:.9em; }
+#grid .ghead p{ max-width:52ch; font-size:14px; line-height:1.6; color:rgba(244,242,239,.72); }
+@media (max-width:640px){
+  .cats button{ font-size:13px; }
+  #grid .ghead{ display:block; }
+  #grid .ghead p{ margin-top:10px; font-size:13px; }
+}
+
 /* ---------- 5. מעטפת ---------- */
 .chrome, .gridbtn{ opacity:0; }
 body.revealed .chrome{ opacity:1; transition:opacity 1.2s var(--ease) .15s, transform .6s var(--ease); }
@@ -434,9 +472,7 @@ video.live.on{ opacity:1; }
   </div>
   <div class="vig" aria-hidden="true"></div>
 
-  <section id="grid" aria-label="כל העבודות ברשת">
-    <div class="rows"></div>
-  </section>
+  <section id="grid" aria-label="כל העבודות לפי קטגוריות"></section>
 </main>
 
 <header class="chrome">
@@ -453,6 +489,8 @@ video.live.on{ opacity:1; }
 </aside>
 
 <a class="arch-cta" id="archive-cta" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%90%D7%A8%D7%9B%D7%99%D7%95%D7%9F%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%90%D7%AA%D7%A8%20%D7%9B%D7%96%D7%94%20%D7%9C%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99." target="_blank" rel="noopener"><span class="full">רוצים אתר כזה? דברו איתי</span><span class="short">דברו איתי</span></a>
+
+<nav id="catbar" class="chrome" aria-label="קטגוריות"><div class="cats"></div></nav>
 
 <div class="colophon chrome">עבודות 2026</div>
 
@@ -549,10 +587,25 @@ video.live.on{ opacity:1; }
   ];
   var N = SHOTS.length;
 
+  /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
+  var CATS = [
+    { k: 'sites', t: 'אתרים', d: 'אתרים מלאים שעיצבתי ובניתי מאפס לעסקים אמיתיים.', f: ['cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp', 'hero/space.webp'] },
+    { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
+    { k: 'live', t: 'תמונות חיות', d: 'תמונה שזזה בראש האתר במקום תמונה רגילה. דוגמה אחת לכל תחום.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
+    { k: 'art', t: 'עיצוב ואיור', d: 'דמויות, איורים, רקעים חיים וצילומי מוצר שנעשו בשביל אתר מסוים.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
+    { k: 'systems', t: 'מערכות ותלת־ממד', d: 'הדמיה תלת־ממדית שרצה בדפדפן, והמערכות שאפשר להוסיף לאתר.', f: ['sim-poster.webp', 'systems/ai.webp', 'systems/sell.webp', 'systems/brand.webp', 'systems/grow.webp', 'systems/ops.webp'] }
+  ];
+  var rank = {};
+  CATS.forEach(function (c, ci) { c.f.forEach(function (f, j) { rank[f] = [ci, j]; }); });
+  SHOTS.forEach(function (s, i) { if (!rank[s[0]]) rank[s[0]] = [3, 100 + i]; });
+  SHOTS.sort(function (a, b) { var A = rank[a[0]], B = rank[b[0]]; return A[0] - B[0] || A[1] - B[1]; });
+  var CAT_OF = SHOTS.map(function (s) { return CATS[rank[s[0]][0]].k; });
+  var catSel = 'all', aim = null;
+
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var root = document.documentElement, body = document.body;
   var stage = $('#stage'), world = $('#world'), orb = $('#orb'), headline = $('#headline');
-  var gridRows = $('#grid .rows'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg'), litVid = $('#litVid');
+  var gridEl = $('#grid'), lit = $('#lit'), plate = $('.plate', lit), litImg = $('#litImg'), litVid = $('#litVid');
   var intro = $('#intro'), film = $('#film'), splash = $('#splash'), bar = $('#bar');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // סרט הפתיחה רק בביקור הראשון. מי שחוזר מהתפריט נכנס ישר לכדור
@@ -564,9 +617,31 @@ video.live.on{ opacity:1; }
   /* ---------- כרטיסים על כדור פיבונאצ׳י ---------- */
   var GA = Math.PI * (3 - Math.sqrt(5));
   var cards = [], gridFigs = [], decoded = [];
+  // כל קטגוריה מקבלת אזור משלה בכדור, סביב נקודה על קו המשווה. האתרים פונים אליכם בפתיחה, והעבודה הראשונה בכל קטגוריה הכי קרובה למרכז שלה
+  var pts = [];
+  for (var q = 0; q < N; q++) {
+    var py = 1 - (q / (N - 1)) * 2, pr = Math.sqrt(Math.max(0, 1 - py * py)), pth = q * GA;
+    pts.push({ x: Math.cos(pth) * pr, y: py, z: Math.sin(pth) * pr });
+  }
+  var catN = CATS.map(function (c) { return CAT_OF.filter(function (k) { return k === c.k; }).length; });
+  var acc = 0, catLon = catN.map(function (n) { var m = (acc + n / 2 - catN[0] / 2) / N * 360; acc += n; return (m + 540) % 360 - 180; });
+  var pairs = [], cap = catN.slice(), slot = CATS.map(function () { return []; }), used = [];
+  pts.forEach(function (pt, pi) {
+    catLon.forEach(function (l, ci) { var a = l * Math.PI / 180; pairs.push([-(pt.x * Math.sin(a) + pt.z * Math.cos(a)), pi, ci]); });
+  });
+  pairs.sort(function (a, b) { return a[0] - b[0]; });
+  pairs.forEach(function (pr2) { if (!used[pr2[1]] && cap[pr2[2]] > 0) { used[pr2[1]] = 1; cap[pr2[2]]--; slot[pr2[2]].push(pts[pr2[1]]); } });
+  var secRows = {}, catBtns = [];
+  CATS.forEach(function (c) {
+    var sec = document.createElement('section');
+    sec.className = 'gsec'; sec.dataset.cat = c.k; sec.setAttribute('aria-labelledby', 'g-' + c.k);
+    var n = CAT_OF.filter(function (k) { return k === c.k; }).length;
+    sec.innerHTML = '<div class="ghead"><h2 id="g-' + c.k + '">' + c.t + '<span>' + n + '</span></h2><p>' + c.d + '</p></div><div class="rows"></div>';
+    $('#grid').appendChild(sec);
+    secRows[c.k] = sec.querySelector('.rows');
+  });
   SHOTS.forEach(function (s, i) {
-    var y = 1 - (i / (N - 1)) * 2, rad = Math.sqrt(Math.max(0, 1 - y * y)), th = i * GA;
-    var x = Math.cos(th) * rad, z = Math.sin(th) * rad;
+    var pt = slot[rank[s[0]][0]].shift(), x = pt.x, y = pt.y, z = pt.z;
     var card = document.createElement('div');
     card.className = 'card' + (s[5] ? ' tall' : '');
     card.dataset.idx = i;
@@ -577,7 +652,7 @@ video.live.on{ opacity:1; }
     fig.dataset.idx = i;
     fig.innerHTML = '<img alt="" loading="lazy" draggable="false">' + (s[6] ? '<video class="live" muted loop playsinline preload="none" aria-hidden="true"></video><span class="live-tag" aria-hidden="true"></span>' : '') + '<figcaption>' + s[1] + '</figcaption>';
     var gb = document.createElement('button'); gb.type = 'button'; gb.className = 'gopen'; gb.setAttribute('aria-label', s[1] + ', ' + s[2]); fig.appendChild(gb);
-    gridRows.appendChild(fig);
+    secRows[CAT_OF[i]].appendChild(fig);
     gridFigs.push(fig);
   });
 
@@ -693,6 +768,7 @@ video.live.on{ opacity:1; }
       relayout();
       film.pause();
       body.classList.add('revealed');
+      if (hashCat) setGrid(true);
       intro.classList.add('gone');
       setTimeout(function () { intro.remove(); }, 700);
     }, 1000);
@@ -703,6 +779,11 @@ video.live.on{ opacity:1; }
   var dragging = false, isLit = false, p = 0;
   function clampPitch() { var t = tilt + dragY; if (t > PITCH) dragY = PITCH - tilt; if (t < -PITCH) dragY = -PITCH - tilt; }
   function frame() {
+    if (aim !== null && !dragging && !isLit) {
+      var da = ((aim - spin - dragX) % 360 + 540) % 360 - 180;
+      dragX += da * 0.075; dragY += (0 - dragY) * 0.075; velX = velY = 0;
+      if (Math.abs(da) < 0.05 && Math.abs(dragY) < 0.05) aim = null;
+    }
     if (!dragging && !isLit) {
       dragX += velX; dragY += velY;
       velX *= 0.94; velY *= 0.94;
@@ -733,6 +814,7 @@ video.live.on{ opacity:1; }
       var dim = shade * (1 - base);
       var absZ = zf * R + camZ, fade = 1;
       if (absZ > near) fade = Math.max(0, 1 - (absZ - near) / 190);
+      if (catSel !== 'all' && CAT_OF[i] !== catSel) dim = Math.min(1, dim + 0.74);
       if (focused >= 0) { dim = Math.min(1, dim + 0.78); if (i === focused) fade = 0; }
       var d = Math.round(dim * 1000) / 1000, o = Math.round(fade * 1000) / 1000;
       if (d !== c.d) { c.el.style.setProperty('--d', d); c.d = d; }
@@ -775,6 +857,7 @@ video.live.on{ opacity:1; }
   stage.addEventListener('pointerdown', function (e) {
     if (isLit) return;
     var hit = e.target.closest ? e.target.closest('.card') : null;
+    aim = null;
     ptr = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, card: hit, type: e.pointerType, live: e.pointerType !== 'touch', moved: 0 };
     velX = velY = 0;
     if (ptr.live) { dragging = true; try { stage.setPointerCapture(e.pointerId); } catch (er) {} }
@@ -819,7 +902,39 @@ video.live.on{ opacity:1; }
     gridBtn.setAttribute('aria-label', on ? 'חזרה לכדור' : 'מעבר לתצוגת רשת');
   }
   gridBtn.addEventListener('click', function () { setGrid(!body.classList.contains('gridview')); });
-  gridRows.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) open(+f.dataset.idx, f); });
+  gridEl.addEventListener('click', function (e) { var f = e.target.closest('figure'); if (f) open(+f.dataset.idx, f); });
+
+  /* ---------- בחירת קטגוריה: בכדור הפלח מסתובב אליכם והשאר מתעמעם, ברשת מוצג רק המקטע ---------- */
+  var catWrap = $('#catbar .cats');
+  var catCenter = {};
+  CATS.forEach(function (c, ci) { catCenter[c.k] = catLon[ci]; });
+  [{ k: 'all', t: 'הכל' }].concat(CATS).forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.dataset.cat = c.k; b.setAttribute('aria-pressed', c.k === 'all');
+    b.innerHTML = c.t + '<span>' + (c.k === 'all' ? N : CAT_OF.filter(function (k) { return k === c.k; }).length) + '</span>';
+    catWrap.appendChild(b); catBtns.push(b);
+  });
+  function setCat(k, quiet) {
+    catSel = k;
+    catBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.cat === k); });
+    body.classList.toggle('one-cat', k !== 'all');
+    gridEl.querySelectorAll('.gsec').forEach(function (sec) { sec.classList.toggle('on', sec.dataset.cat === k); });
+    if (k !== 'all') {
+      aim = -catCenter[k];
+      if (reduce) { dragX = aim - spin; dragY = 0; aim = null; }
+    }
+    if (!quiet) {
+      gridEl.scrollTop = 0;
+      try { history.replaceState(null, '', k === 'all' ? location.pathname + location.search : '#' + k); } catch (er) {}
+    }
+  }
+  catWrap.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    setCat(b.dataset.cat);
+    b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+  var hashCat = CATS.some(function (c) { return '#' + c.k === location.hash; }) ? location.hash.slice(1) : '';
+  if (hashCat) setCat(hashCat, true);
 
   /* ---------- תמונה פתוחה: FLIP מהכרטיס למרכז ---------- */
   var token = 0, source = null, lastFocus = null, closeTimer = null;
