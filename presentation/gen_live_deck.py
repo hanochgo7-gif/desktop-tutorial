@@ -128,7 +128,7 @@ n+=1
 steps=[("1","ההאשמה","האשימו אותי בסחר בסמים – ולא היה לי שום קשר לזה."),
        ("2","ההבנה","בסוף האמינו לי. אבל נשאר חותם: יכולים לחשוד בי בדבר כל כך חמור. אני לא ״ילד רע״ – זו תדמית, לא אני."),
        ("3","ההחלטה","לכתוב את הסיפור שלי בעצמי, ולשנות את התדמית.")]
-steps_html="".join(f'<div style="display:flex; flex-direction:row-reverse; gap:32px; align-items:center"><div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div>{h3(b,72)}</div>' for a,b,c in steps)
+steps_html="".join(f'<div style="display:flex; flex-direction:row; gap:32px; align-items:center">{h3(b,72,None,"; flex:1; text-align:right")}<div style="width:48px; height:48px; border-radius:50%; background:{SAND}"></div></div>' for a,b,c in steps)
 sec("grade10", PAPER,
     f'{h2("כיתה י׳: הרגע שבו הכול התהפך", 64)}'
     f'<div style="display:flex; flex-direction:row-reverse; gap:64px; flex:1; align-items:center">'
@@ -369,7 +369,7 @@ items=[("Activity","הפציעה",""),
        ("Clock","השיקום",""),
        ("Users","האובדן",""),
        ("Home","החיים שאחרי","")]
-after_rows="".join('<div style="display:flex; flex-direction:row-reverse; gap:36px; align-items:center">'+icon_chip(a,96)+h3(b,60,TXT)+'</div>' for a,b,c in items)
+after_rows="".join('<div style="display:flex; flex-direction:row; gap:36px; align-items:center">'+h3(b,60,TXT,"; flex:1; text-align:right")+icon_chip(a,96)+'</div>' for a,b,c in items)
 sec("after", PAPER,
     f'{h2("מה שאף אחד לא מכין אותך אליו", 64)}'
     f'<div style="display:flex; flex-direction:row; gap:64px; flex:1; align-items:center">'
