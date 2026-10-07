@@ -145,7 +145,10 @@ sec("s02", INK,
     f'<h1 style="position:absolute; left:128px; top:60px; width:1664px; font-family:{H}; font-size:400px; font-weight:700; line-height:1; color:rgba(217,183,140,0.09); text-align:left">02</h1>'
     f'<div style="display:flex; flex-direction:row; gap:64px; align-items:center; flex:1">'
     f'<div style="flex:1; display:flex; flex-direction:column; gap:24px"><div style="display:flex; flex-direction:row; gap:24px; align-items:center"><div style="width:120px; height:6px; background:{SAND}"></div>{p("פרק 02", 28, SAND, "; letter-spacing:2px")}</div>{h2("הבחירה",96,"#F6F3EE")}</div>'
-    f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:640px; height:351px; object-fit:contain"></div>{pnum(n)}',
+    f'<div style="display:flex; flex-direction:row; gap:56px; align-items:center">'
+    f'<img src="/_blob/4bc039c613cc29bdb6c759eeea38cb2d" alt="לוגו השומר החדש" style="width:343px; height:440px; object-fit:contain">'
+    f'<div style="width:2px; height:320px; background:rgba(217,183,140,0.35)"></div>'
+    f'<img src="{SAND_IMG}" alt="סמל סיירת נח״ל" style="width:520px; height:285px; object-fit:contain"></div></div>{pnum(n)}',
     "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.", pad="128px 128px 160px")
 CUR_SEC=("02","הבחירה")
 # 8b shomer: year of service (photos to come)

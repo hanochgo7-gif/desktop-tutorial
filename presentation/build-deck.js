@@ -155,7 +155,10 @@ CUR_SEC = ["01", "מי הייתי לפני הכול"]; // chapter slide removed 
   CUR_SEC = null;
   const s = slide(INK, "הבחירה – 7 דקות. המעבר לסיירת נח״ל. לא להפוך את זה ל'סיפור צבאי'. הנושא: הפעם הראשונה שבה בחרת מי אתה רוצה להיות.");
   text(s, "02", 128, 60, 1664, 420, { fontSize: pt(400), bold: true, color: SAND, transparency: 91, fontFace: FH, align: "left", valign: "top" });
-  s.addImage({ path: path.join(__dirname, "nahal-sand.png"), x: px(128), y: px(365), w: px(640), h: px(351), sizing: { type: "contain", w: px(640), h: px(351) } });
+  // Shomer HaHadash logo (right) | divider | Nahal emblem (left)
+  s.addImage({ path: P("shomer-logo-stack.png"), x: px(128 + 520 + 56 + 2 + 56), y: px(320), w: px(343), h: px(440), sizing: { type: "contain", w: px(343), h: px(440) } });
+  rect(s, 128 + 520 + 56, 380, 2, 320, "5A5040");
+  s.addImage({ path: path.join(__dirname, "nahal-sand.png"), x: px(128), y: px(397), w: px(520), h: px(285), sizing: { type: "contain", w: px(520), h: px(285) } });
   rule(s, 1672, 430); para(s, "פרק 02", 832, 410, 816, 48, 28, SAND, { charSpacing: 2 });
   heading(s, "הבחירה", 832, 480, 960, 140, 96, WHITE);
   CUR_SEC = ["02", "הבחירה"];
