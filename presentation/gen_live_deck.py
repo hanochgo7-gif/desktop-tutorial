@@ -147,7 +147,7 @@ sec("msg1", INK,
 n+=1
 CUR_SEC=None
 sec("s02", INK,
-    f'<img src="/_blob/5fec8d2448c331628d68e4e288ce9697" alt="איור: אותו נער בשתי דרכים – משמאל ילד בעייתי בסמטה חשוכה, מימין ספורטאי חברותי עם חברים" style="position:absolute; left:128px; top:226px; width:1120px; height:627px; object-fit:cover; border-radius:20px; border:1px solid {HAIR_D}">'
+    f'<img src="/_blob/6926ad0044efe2436155537b8b80e106" alt="איור: אותו נער בשתי דרכים – משמאל ילד בעייתי בסמטה חשוכה, מימין מתאמן באימון MMA עם מאמן" style="position:absolute; left:128px; top:226px; width:1120px; height:627px; object-fit:cover; border-radius:20px; border:1px solid {HAIR_D}">'
     f'<div style="position:absolute; left:1672px; top:318px; width:120px; height:6px; background:{SAND}"></div>'
     f'<p style="position:absolute; left:1312px; top:298px; width:336px; font-size:28px; line-height:1.45; color:{SAND}; letter-spacing:2px; text-align:right">{t("פרק 02")}</p>'
     f'<h2 style="position:absolute; left:1312px; top:350px; width:480px; font-family:{H}; font-size:96px; font-weight:700; line-height:1.15; color:#F6F3EE; text-align:right">{t("הבחירה")}</h2>'
