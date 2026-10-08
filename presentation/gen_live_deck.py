@@ -103,8 +103,10 @@ sec("cover", INK,
 # 2 hook
 n+=1
 sec("hook", INK,
-    f'<div style="position:absolute; left:1672px; top:379px; width:120px; height:6px; background:{SAND}"></div>'
-    f'<h2 style="position:absolute; left:128px; top:413px; width:1664px; font-family:{H}; font-size:110px; font-weight:700; line-height:1.15; letter-spacing:-1px; color:#F6F3EE; text-align:right">{t("איפה הייתם<br>ב־7 באוקטובר?")}</h2>{pnum(n)}',
+    f'<img src="/_blob/7b33db871e380ac3b78d806bf5c33970" alt="איור: שחר של שבת חג בעיירה שקטה, יירוטים בשמיים, ודמות בחלון מסתכלת למעלה" style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; object-fit:cover">'
+    f'<div style="position:absolute; left:0px; top:0px; width:1920px; height:1080px; background:linear-gradient(90deg, rgba(14,17,22,0) 35%, rgba(14,17,22,0.55) 100%)"></div>'
+    f'<div style="position:absolute; left:1672px; top:170px; width:120px; height:6px; background:{SAND}"></div>'
+    f'<h2 style="position:absolute; left:128px; top:204px; width:1664px; font-family:{H}; font-size:110px; font-weight:700; line-height:1.15; letter-spacing:-1px; color:#F6F3EE; text-align:right">{t("איפה הייתם<br>ב־7 באוקטובר?")}</h2>{pnum(n)}',
     "פתיחה – 3 דקות. לשאול את השאלה, ומיד להוסיף: 'אל תענו בקול, רק תחשבו רגע.' לתת חמש שניות של שקט – כל אחד באולם חוזר לבוקר ההוא. ואז, בשקט: 'אני הייתי במוצב סופה.' ומשם מתחילים. לא להסביר את השאלה. בסוף ההרצאה חוזרים אליה: אף אחד מאיתנו לא בחר את היום הזה – אבל כל אחד מאיתנו בוחר מה עושים מכאן.", pad="128px 128px 160px")
 # 3 section 01
 n+=1
