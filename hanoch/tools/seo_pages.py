@@ -454,11 +454,22 @@ def render(p):
 </html>
 '''
 
+# תמונה לכל שירות בעמוד הריכוז: פרויקט אמיתי לסוגי האתרים, וסמל הזכוכית של המערכת לשאר
+HUB_IMG = {'website-building': 'work/cinema/gotovski-640.webp', 'web-design-studio': 'work/cinema/gotovski-640.webp',
+           'web-design': 'work/cinema/clinic-640.webp', 'website-design': 'work/cinema/clinic-640.webp',
+           'landing-page': 'work/cinema/falafel-640.webp', 'landing-page-design': 'work/cinema/falafel-640.webp',
+           'online-store': 'work/systems/sell.webp', 'ecommerce-store': 'work/systems/sell.webp',
+           'seo': 'work/systems/grow.webp', 'seo-services': 'work/systems/grow.webp',
+           'ai-commercial': 'work/film/ad.webp', 'ai-commercial-production': 'work/film/ad.webp',
+           'ai-chatbot': 'work/systems/ai.webp', 'ai-customer-agent': 'work/systems/ai.webp',
+           'wix-migration': 'work/systems/after.webp', 'wix-wordpress-migration': 'work/systems/after.webp',
+           'brand-identity': 'work/systems/brand.webp', 'brand-identity-design': 'work/systems/brand.webp'}
+
 def hub(lang):
     he = lang == 'he'; up = '../' if he else '../../'; T = (lambda a, b: a) if he else (lambda a, b: b)
     items = [p for p in P if p['lang'] == lang]
     U = D + ('/services/' if he else '/services/en/')
-    cards = ''.join(f'<li><a href="{p["slug"]}.html"><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></a></li>' for p in items)
+    cards = ''.join(f'<li><a href="{p["slug"]}.html">' + (f'<img src="{up}{HUB_IMG[p["slug"]]}" alt="" width="640" height="360" loading="lazy" decoding="async">' if p['slug'] in HUB_IMG else '') + f'<div><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></div></a></li>' for p in items)
     ld = json.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': T('שירותי HG Studio', 'HG Studio services'),
                      'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': url_of(p), 'name': p['name']} for i, p in enumerate(items)]}, ensure_ascii=False)
     title = T('שירותים: בניית אתרים, עיצוב, חנויות, SEO ו-AI | HG Studio', 'Services: web design, development and AI video | HG Studio')
@@ -479,7 +490,10 @@ def hub(lang):
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}
 .sv-list {{ list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }}
-.sv-list a {{ display: block; padding: 18px 20px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }}
+.sv-list a {{ display: grid; grid-template-columns: 176px 1fr; gap: 20px; align-items: center; padding: 14px 20px 14px 14px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }}
+[dir="rtl"] .sv-list a {{ padding: 14px 14px 14px 20px; }}
+.sv-list img {{ width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #111; }}
+@media (max-width: 560px) {{ .sv-list a {{ grid-template-columns: 104px 1fr; gap: 14px; }} .sv-list b {{ font-size: 1.25rem; }} }}
 .sv-list b {{ display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>

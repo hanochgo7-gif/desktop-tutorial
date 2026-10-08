@@ -1254,6 +1254,7 @@
     var PREV = [
       [/archive|work\.html$/, 'work/film/reel-loop-m.mp4', 'work/film-poster-800.webp', T('אתרים, פרסומות ותלת־ממד', 'Sites, films and 3D')],
       [/#films/, '', 'work/film/hg.webp', T('פרסומות שהפקתי ב-AI', 'Commercials made with AI')],
+      [/#anigibor/, 'work/anigibor/arch-m.mp4', 'work/anigibor/loop.webp', T('סרט יום הולדת שהילד מככב בו', 'A birthday film starring your child')],
       [/#process/, 'work/bg/crystal-m.mp4', 'work/bg/crystal.webp', T('מהשיחה הראשונה ועד שהאתר באוויר', 'From the first call to a live site')],
       [/#pricing/, '', 'work/menu-services.webp', T('חבילות, 22 מערכות וליווי', 'Packages, 22 systems and care')],
       [/blog/, '', 'blog/img/how-much-does-a-website-cost.webp', T('מדריכים לבעלי עסקים', 'Guides for business owners')],
