@@ -10,6 +10,9 @@
   if (!pin || !root.classList.contains('motion')) return;
 
   var COUNT = +hero.getAttribute('data-frames') || 60;
+  // בטלפון: כל פריים שני. השיידר ממזג בין פריימים, אז התנועה נשארת רציפה, וההורדה קטנה בחצי
+  var STEP = window.innerWidth <= 900 || (navigator.connection && navigator.connection.saveData) ? 2 : 1;
+  COUNT = Math.ceil(COUNT / STEP);
   var PATH = hero.getAttribute('data-path') || 'work/creation/f/{w}/{n}.webp';
   var canvas = document.createElement('canvas');
   canvas.className = 'cr-stage';
@@ -124,7 +127,7 @@
   var narrow = window.innerWidth < 700;
   var set = !narrow && window.innerWidth * Math.min(window.devicePixelRatio || 1, 2) > 1300 ? 1600 : 960;
   var frames = [], iw = 16, ih = 9, dirty = true;
-  function src(i) { return PATH.replace('{w}', set).replace('{n}', String(i + 1).padStart(3, '0')); }
+  function src(i) { return PATH.replace('{w}', set).replace('{n}', String(i * STEP + 1).padStart(3, '0')); }
   function want(i) {
     if (frames[i]) return;
     var im = new Image();
@@ -146,7 +149,7 @@
     return -1;
   }
   want(0);
-  for (var k = 4; k < COUNT; k += 4) want(k);
+  for (var k = 4 / STEP; k < COUNT; k += 4 / STEP) want(k);
   want(COUNT - 1);
   function rest() { for (var j = 0; j < COUNT; j++) want(j); }
   if ('requestIdleCallback' in window) requestIdleCallback(rest, { timeout: 2500 }); else setTimeout(rest, 1200);

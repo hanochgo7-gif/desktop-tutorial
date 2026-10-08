@@ -349,6 +349,8 @@
     if (!motion || !intro) { if (intro) intro.remove(); st.intro = 0; return Promise.resolve(); }
     var quick = false;
     try { quick = sessionStorage.getItem('hg-intro') === '1'; sessionStorage.setItem('hg-intro', '1'); } catch (e) { }
+    // בטלפון הפתיח תמיד בגרסה הקצרה: שנייה במקום שתיים וחצי
+    if (window.innerWidth <= 900) quick = true;
     if (lenis) lenis.stop();
 
     var svg = $('.intro-grid'), ns = 'http://www.w3.org/2000/svg';

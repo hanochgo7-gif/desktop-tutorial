@@ -28,7 +28,9 @@ const still = pin && pin.querySelector('.cr-het-img');
 if (supported()) {
   placeStill();
   window.addEventListener('resize', placeStill);
-  if (softGL()) staticHet();
+  // בטלפון (או במצב חיסכון בנתונים): ה-ח נשארת תמונה, בלי להוריד את Three.js ובלי ציור חי
+  const phone = window.matchMedia('(max-width: 900px)').matches || !!(navigator.connection && navigator.connection.saveData);
+  if (phone || softGL()) staticHet();
   else {
     const go = () => {
       const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300));
