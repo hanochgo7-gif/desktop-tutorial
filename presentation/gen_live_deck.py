@@ -21,7 +21,8 @@ def chrome(dark, mark=0):
         h+=(f'<div style="position:absolute; left:128px; top:56px; width:1664px; display:flex; flex-direction:row-reverse; gap:14px; align-items:center">'
             f'<div style="width:10px; height:10px; background:{SAND}"></div>'
             f'<p style="font-size:28px; letter-spacing:1px; color:{SAND if dark else SANDD}; text-align:right">{t(num+"  ·  "+title)}</p></div>')
-    h+=f'<p style="position:absolute; left:128px; bottom:40px; width:200px; font-size:24px; color:{MUTEDL if dark else MUTED}; text-align:left; direction:ltr">{n} / {TOTAL}</p>'
+    # page counter removed at the user's request
+    if False:     h+=f'<p style="position:absolute; left:128px; bottom:40px; width:200px; font-size:24px; color:{MUTEDL if dark else MUTED}; text-align:left; direction:ltr">{n} / {TOTAL}</p>'
     w=int(1920*n/TOTAL)
     h+=(f'<div style="position:absolute; left:0px; bottom:0px; width:1920px; height:4px; background:{"rgba(255,255,255,0.08)" if dark else "rgba(0,0,0,0.08)"}"></div>'
         f'<div style="position:absolute; left:{1920-w}px; bottom:0px; width:{w}px; height:4px; background:{SAND}"></div>')

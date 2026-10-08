@@ -69,7 +69,8 @@ function chrome(s, dark, mark = 0, idx = n) {
     rect(s, 1782, 66, 10, 10, SAND);
     para(s, CUR_SEC[0] + "  ·  " + CUR_SEC[1], 128, 48, 1640, 44, 28, dark ? SAND : SANDD, { charSpacing: 1 });
   }
-  para(s, idx + " / " + TOTAL, 128, 1000, 200, 40, 24, dark ? MUTEDL : MUTED, { align: "left", rtlMode: false, lang: "en-US" });
+  // page counter removed at the user's request
+  if (false) para(s, idx + " / " + TOTAL, 128, 1000, 200, 40, 24, dark ? MUTEDL : MUTED, { align: "left", rtlMode: false, lang: "en-US" });
   s.addShape(pres.ShapeType.rect, { x: 0, y: px(1076), w: W, h: px(4), fill: { color: dark ? "1B2028" : "E2DCD2" }, line: { color: dark ? "1B2028" : "E2DCD2", width: 0 } });
   const w = Math.round(1920 * idx / TOTAL);
   rect(s, 1920 - w, 1076, w, 4, SAND);
