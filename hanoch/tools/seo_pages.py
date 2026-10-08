@@ -454,22 +454,22 @@ def render(p):
 </html>
 '''
 
-# תמונה לכל שירות בעמוד הריכוז: פרויקט אמיתי לסוגי האתרים, וסמל הזכוכית של המערכת לשאר
-HUB_IMG = {'website-building': 'work/cinema/gotovski-640.webp', 'web-design-studio': 'work/cinema/gotovski-640.webp',
-           'web-design': 'work/cinema/clinic-640.webp', 'website-design': 'work/cinema/clinic-640.webp',
-           'landing-page': 'work/cinema/falafel-640.webp', 'landing-page-design': 'work/cinema/falafel-640.webp',
-           'online-store': 'work/systems/sell.webp', 'ecommerce-store': 'work/systems/sell.webp',
-           'seo': 'work/systems/grow.webp', 'seo-services': 'work/systems/grow.webp',
-           'ai-commercial': 'work/film/ad.webp', 'ai-commercial-production': 'work/film/ad.webp',
-           'ai-chatbot': 'work/systems/ai.webp', 'ai-customer-agent': 'work/systems/ai.webp',
-           'wix-migration': 'work/systems/after.webp', 'wix-wordpress-migration': 'work/systems/after.webp',
-           'brand-identity': 'work/systems/brand.webp', 'brand-identity-design': 'work/systems/brand.webp'}
+# תמונה לכל שירות בעמוד הריכוז: פרויקט אמיתי לסוגי האתרים, וסמל הזכוכית של המערכת לשאר (בגודל התצוגה, 352 על 198)
+HUB_IMG = {'website-building': 'work/thumbs/hub/gotovski.webp', 'web-design-studio': 'work/thumbs/hub/gotovski.webp',
+           'web-design': 'work/thumbs/hub/clinic.webp', 'website-design': 'work/thumbs/hub/clinic.webp',
+           'landing-page': 'work/thumbs/hub/falafel.webp', 'landing-page-design': 'work/thumbs/hub/falafel.webp',
+           'online-store': 'work/thumbs/hub/sell.webp', 'ecommerce-store': 'work/thumbs/hub/sell.webp',
+           'seo': 'work/thumbs/hub/grow.webp', 'seo-services': 'work/thumbs/hub/grow.webp',
+           'ai-commercial': 'work/thumbs/hub/ad.webp', 'ai-commercial-production': 'work/thumbs/hub/ad.webp',
+           'ai-chatbot': 'work/thumbs/hub/ai.webp', 'ai-customer-agent': 'work/thumbs/hub/ai.webp',
+           'wix-migration': 'work/thumbs/hub/after.webp', 'wix-wordpress-migration': 'work/thumbs/hub/after.webp',
+           'brand-identity': 'work/thumbs/hub/brand.webp', 'brand-identity-design': 'work/thumbs/hub/brand.webp'}
 
 def hub(lang):
     he = lang == 'he'; up = '../' if he else '../../'; T = (lambda a, b: a) if he else (lambda a, b: b)
     items = [p for p in P if p['lang'] == lang]
     U = D + ('/services/' if he else '/services/en/')
-    cards = ''.join(f'<li><a href="{p["slug"]}.html">' + (f'<img src="{up}{HUB_IMG[p["slug"]]}" alt="" width="640" height="360" loading="lazy" decoding="async">' if p['slug'] in HUB_IMG else '') + f'<div><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></div></a></li>' for p in items)
+    cards = ''.join(f'<li><a href="{p["slug"]}.html">' + (f'<img src="{up}{HUB_IMG[p["slug"]]}" alt="" width="352" height="198" loading="lazy" decoding="async">' if p['slug'] in HUB_IMG else '') + f'<div><b>{html.escape(p["name"])}</b><span>{html.escape(p["desc"])}</span></div></a></li>' for p in items)
     ld = json.dumps({'@context': 'https://schema.org', '@type': 'ItemList', 'name': T('שירותי HG Studio', 'HG Studio services'),
                      'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': url_of(p), 'name': p['name']} for i, p in enumerate(items)]}, ensure_ascii=False)
     title = T('שירותים: בניית אתרים, עיצוב, חנויות, SEO ו-AI | HG Studio', 'Services: web design, development and AI video | HG Studio')

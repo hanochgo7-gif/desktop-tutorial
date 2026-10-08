@@ -212,10 +212,10 @@ def render(p, posts):
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{inline(p['lead'])}</p>
   <p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
-  <figure class="bl-cover"><img src="../{p['cover']}" alt="{esc(p['cover_alt'])}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
+  <figure class="bl-cover"><img src="../{p['cover']}"{srcset(p['cover'], '(max-width: 900px) 100vw, 860px')} alt="{esc(p['cover_alt'])}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
   {tocs}
   {body}
-  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-480.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HG Studio. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
+  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-156.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HG Studio. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
   </article>
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">רוצים אתר כזה לעסק שלכם?</h2>
@@ -228,9 +228,28 @@ def render(p, posts):
 ''' + FOOT
 
 
+def small(cover):
+    # גרסה של 640 פיקסלים לטלפון ולכרטיסים. נוצרת אוטומטית אם יש Pillow, ואם אין, נשארת רק התמונה הגדולה
+    sm = cover[:-5] + '-640.webp'
+    path = os.path.join(ROOT, sm)
+    if not os.path.exists(path):
+        try:
+            from PIL import Image
+            im = Image.open(os.path.join(ROOT, cover)).convert('RGB')
+            im.resize((640, round(im.height * 640 / im.width)), Image.LANCZOS).save(path, 'WEBP', quality=78, method=6)
+        except Exception:
+            return ''
+    return sm
+
+
+def srcset(cover, sizes):
+    sm = small(cover)
+    return f' srcset="../{sm} 640w, ../{cover} 1200w" sizes="{sizes}"' if sm else ''
+
+
 def card(p, first=False):
     load = 'fetchpriority="high"' if first else 'loading="lazy"'
-    return (f'<li><a href="{p["slug"]}.html"><img src="../{p["cover"]}" alt="" width="1200" height="675" {load} decoding="async">'
+    return (f'<li><a href="{p["slug"]}.html"><img src="../{p["cover"]}"{srcset(p["cover"], "(max-width: 700px) 100vw, 420px")} alt="" width="1200" height="675" {load} decoding="async">'
             f'<span class="tx"><time datetime="{p["date"].isoformat()}">{heb_date(p["date"])}</time><b>{esc(p["h1"])}</b><span>{esc(p["desc"])}</span></span></a></li>')
 
 

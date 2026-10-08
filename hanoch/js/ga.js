@@ -1,5 +1,5 @@
 /* Google Analytics 4 של HG Studio.
-   רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי שהעמוד מוצג, כדי לא להאט את האתר.
+   רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי הפעולה הראשונה של הגולש או חמש שניות אחרי שהעמוד מוצג, כדי לא להאט את האתר.
    מודד גם פניות: וואטסאפ, טלפון ומייל (כאירוע generate_lead), צפייה בסרטונים וכניסה לאתרים של לקוחות. */
 (function () {
   'use strict';
@@ -19,9 +19,11 @@
     s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
     document.head.appendChild(s);
   }
-  function later() { ('requestIdleCallback' in window) ? requestIdleCallback(load, { timeout: 3000 }) : setTimeout(load, 1500); }
+  // הסקריפט של גוגל כבד (כ-180KB): נטען עם הפעולה הראשונה של הגולש (גלילה, מגע, מקלדת), ואם לא היתה כזו, חמש שניות אחרי שהעמוד נטען.
+  // כל מה שנמדד לפני כן מחכה בתור (dataLayer) ונשלח ברגע שהסקריפט מגיע, כך שאף צפייה לא הולכת לאיבוד
+  function later() { setTimeout(function () { ('requestIdleCallback' in window) ? requestIdleCallback(load, { timeout: 2000 }) : load(); }, 5000); }
   if (document.readyState === 'complete') later(); else addEventListener('load', later);
-  ['pointerdown', 'keydown', 'scroll'].forEach(function (t) { addEventListener(t, load, { once: true, passive: true }); });
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, load, { once: true, passive: true }); });
 
   // מאיזה חלק בעמוד הגיעה הלחיצה
   function where(el) {
