@@ -5,7 +5,8 @@
   --paper: #f1f2ed;     /* משטחים בהירים, שדות טופס */
   --ink: #1e2318;       /* שחור-זית: טקסט */
   --leaf: #59634f;      /* עלה זית: טקסט משני */
-  --line: #c3c8bb;      /* קווים */
+  --line: #c3c8bb;      /* קווים מפרידים */
+  --control: #767e6c;   /* מסגרות של שדות וכפתורי בחירה: ניגודיות 3:1 לפחות */
   --dawn: #1f2c38;      /* שעת הכחול: אזורים כהים */
   --dawn-2: #2a3a48;
   --oil: #c2a72e;       /* שמן טרי: הדגשה על רקע כהה */
@@ -47,8 +48,10 @@ a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 400; line-height: 1.15; }
 p { margin: 0 0 1em; }
-:focus-visible { outline: 2px solid var(--oil); outline-offset: 3px; }
-.on-light :focus-visible, .site-header.is-solid :focus-visible { outline-color: var(--press); }
+:focus-visible { outline: 2px solid var(--press); outline-offset: 3px; }
+/* על רקע כהה הטבעת בצבע השמן, שם היא בניגודיות 6:1 */
+.hero :focus-visible, .story :focus-visible, .visit :focus-visible, .film:focus-visible, .site-footer :focus-visible,
+.notice :focus-visible, .modal :focus-visible, .site-header[data-over-hero]:not(.is-solid):not(.menu-open) :focus-visible { outline-color: var(--oil); }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
 [hidden] { display: none !important; }
@@ -85,6 +88,7 @@ p { margin: 0 0 1em; }
   font-size: var(--t-xs); text-align: center; padding: 9px var(--gutter); margin: 0;
   position: relative; z-index: 41;
 }
+.notice p { margin: 0; }
 .notice a { color: var(--oil); }
 
 .site-header {
@@ -161,8 +165,22 @@ p { margin: 0 0 1em; }
 .hero h1 span + span { padding-inline-start: .9em; }
 .hero__lede { max-width: 34rem; margin: clamp(20px, 3vh, 32px) 0 28px; font-size: var(--t-l); line-height: 1.5; color: rgba(233, 235, 228, .9); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero__pause {
+  position: absolute; inset-inline-end: var(--gutter); top: calc(var(--header-h) + 16px);
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(233, 235, 228, .5);
+  background: rgba(31, 44, 56, .35); color: var(--on-dark); display: grid; place-items: center; cursor: pointer;
+}
+.hero__pause:hover { background: rgba(31, 44, 56, .6); }
+.hero__pause svg { width: 16px; height: 16px; }
 .hero__meta { position: absolute; inset-inline-end: var(--gutter); bottom: clamp(40px, 8vh, 88px); font-size: var(--t-xs); text-align: end; color: rgba(233, 235, 228, .75); max-width: 14rem; }
-@media (max-width: 860px) { .hero__meta { display: none; } }
+@media (max-width: 860px) { .hero__pause {
+  position: absolute; inset-inline-end: var(--gutter); top: calc(var(--header-h) + 16px);
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(233, 235, 228, .5);
+  background: rgba(31, 44, 56, .35); color: var(--on-dark); display: grid; place-items: center; cursor: pointer;
+}
+.hero__pause:hover { background: rgba(31, 44, 56, .6); }
+.hero__pause svg { width: 16px; height: 16px; }
+.hero__meta { display: none; } }
 
 /* רצף טעינה יחיד: ההילה הכחולה מתפוגגת, השורות עולות */
 .js .hero__veil { animation: veil 2.4s cubic-bezier(.4, 0, .2, 1) .2s both; }
@@ -193,7 +211,7 @@ p { margin: 0 0 1em; }
 .filters { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter {
   min-height: 40px; padding: 6px 16px; border-radius: 20px;
-  border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: var(--t-s);
+  border: 1px solid var(--control); background: transparent; cursor: pointer; font-size: var(--t-s);
 }
 .filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .filter:hover:not([aria-pressed="true"]) { border-color: var(--ink); }
@@ -219,7 +237,8 @@ p { margin: 0 0 1em; }
 .product__size { color: var(--leaf); font-size: var(--t-s); margin: 2px 0 8px; }
 .product__short { font-size: var(--t-s); margin-bottom: 16px; max-width: 40ch; }
 .product__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
-.product__price { font-size: var(--t-l); font-family: var(--display); font-weight: 500; }
+.product__price { font-size: var(--t-l); font-family: var(--display); font-weight: 500; font-variant-numeric: tabular-nums; }
+.line__end, .summary__rows, .drawer__row, .pdp__price { font-variant-numeric: tabular-nums; }
 
 /* ---------- מהעץ לבקבוק ---------- */
 .process { background: var(--paper); }
@@ -273,6 +292,7 @@ p { margin: 0 0 1em; }
 .modal { position: fixed; inset: 0; z-index: 80; background: rgba(10, 14, 18, .92); display: grid; place-items: center; padding: var(--gutter); }
 .modal[hidden] { display: none; }
 .modal video { width: min(100%, 1280px); max-height: 82vh; background: #000; }
+.modal video::cue { font-family: var(--body); font-size: 1.15em; background: rgba(0, 0, 0, .65); }
 .modal__close { position: absolute; top: 16px; inset-inline-end: 16px; color: var(--on-dark); }
 
 /* ---------- חנוכה ---------- */
@@ -374,7 +394,7 @@ p { margin: 0 0 1em; }
 .line__size { display: block; font-size: var(--t-xs); color: var(--leaf); }
 .line__end { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; font-weight: 700; }
 .line__remove { border: 0; background: none; padding: 4px 0; font-size: var(--t-xs); color: var(--leaf); text-decoration: underline; cursor: pointer; font-weight: 400; }
-.qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: var(--radius); margin-top: 8px; }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--control); border-radius: var(--radius); margin-top: 8px; }
 .qty button { width: 36px; height: 36px; border: 0; background: none; cursor: pointer; font-size: 1.1rem; }
 .qty button:hover { background: rgba(127, 135, 115, .14); }
 .qty output, .qty input { width: 36px; text-align: center; font-weight: 700; border: 0; background: none; -moz-appearance: textfield; }
@@ -383,6 +403,7 @@ p { margin: 0 0 1em; }
 .drawer__foot[hidden] { display: none; }
 .drawer__row { display: flex; justify-content: space-between; font-weight: 700; font-size: var(--t-l); margin-bottom: 4px; }
 .drawer__note { font-size: var(--t-xs); color: var(--leaf); margin-bottom: 14px; }
+.drawer__ship { display: flex; justify-content: space-between; font-size: var(--t-s); margin-bottom: 4px; }
 .cart-empty { text-align: center; padding: 64px 0; }
 
 .toast {
@@ -441,9 +462,10 @@ fieldset { border: 0; padding: 0; margin: 0 0 36px; }
 legend { font-family: var(--display); font-size: var(--t-l); font-weight: 500; margin-bottom: 16px; padding: 0; }
 .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .field { display: flex; flex-direction: column; gap: 6px; font-size: var(--t-s); }
+.field label small, .field > span small { color: var(--leaf); }
 .field--full { grid-column: 1 / -1; }
 .field input, .field select, .field textarea {
-  min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper);
+  min-height: 48px; padding: 10px 12px; border: 1px solid var(--control); border-radius: var(--radius); background: var(--paper);
 }
 .field textarea { min-height: 88px; resize: vertical; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--press); outline: 2px solid rgba(60, 74, 42, .2); outline-offset: 0; }
@@ -451,7 +473,7 @@ legend { font-family: var(--display); font-size: var(--t-l); font-weight: 500; m
 .field .err { color: #a3341f; font-size: var(--t-xs); min-height: 0; }
 @media (max-width: 560px) { .fields { grid-template-columns: 1fr; } }
 .options { display: grid; gap: 10px; }
-.option { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); cursor: pointer; font-size: var(--t-s); }
+.option { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--control); border-radius: var(--radius); background: var(--paper); cursor: pointer; font-size: var(--t-s); }
 .option:has(input:checked) { border-color: var(--press); box-shadow: inset 0 0 0 1px var(--press); }
 .option input { accent-color: var(--press); width: 18px; height: 18px; margin: 0; }
 .option small { display: block; color: var(--leaf); }

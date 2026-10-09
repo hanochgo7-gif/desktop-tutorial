@@ -18,7 +18,7 @@
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
-<p class="notice">קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="index.html#shop">לחנות</a></p>
+<aside class="notice" aria-label="עדכון משלוחים"><p>קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="index.html#shop">לחנות</a></p></aside>
 
 <header class="site-header">
   <div class="wrap">
@@ -202,7 +202,8 @@
     <div class="drawer__lines" data-cart-lines></div>
     <div class="drawer__foot" data-cart-foot hidden>
       <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
-      <p class="drawer__note">דמי המשלוח מחושבים בקופה. המחירים כוללים מע״מ.</p>
+      <div class="drawer__ship"><span>שליח עד הבית</span><span data-cart-ship>₪29</span></div>
+      <p class="drawer__note">אפשר לבחור בקופה גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). המחירים כוללים מע״מ.</p>
       <a class="btn btn--block" href="checkout.html">לקופה</a>
     </div>
   </div>
@@ -242,7 +243,8 @@
     var html = '';
     for (var i = 1; i <= 5; i++) html += '<i class="' + (i <= p.taste[k] ? 'on' : '') + '"></i>';
     m.innerHTML = html;
-    m.setAttribute('aria-label', p.taste[k] + ' מתוך 5');
+    var names = { bitter: 'מרירות', pungent: 'חריפות', fruity: 'פירותיות' };
+    m.setAttribute('aria-label', names[k] + ': ' + p.taste[k] + ' מתוך 5');
     m.setAttribute('role', 'img');
   });
 

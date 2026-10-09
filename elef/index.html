@@ -37,7 +37,7 @@
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<p class="notice">קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="#shop">לחנות</a></p>
+<aside class="notice" aria-label="עדכון משלוחים"><p>קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="#shop">לחנות</a></p></aside>
 
 <header class="site-header" data-over-hero>
   <div class="wrap">
@@ -79,6 +79,10 @@
       </video>
     </div>
     <div class="hero__veil" aria-hidden="true"></div>
+    <button class="hero__pause" type="button" data-hero-pause aria-label="עצירת הווידאו">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-icon-pause><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-icon-play hidden><path d="M4 2l10 6-10 6z"/></svg>
+    </button>
     <div class="hero__inner">
       <h1 id="hero-title"><span>אלף שנה</span><span>בטיפה אחת.</span></h1>
       <p class="hero__lede">שמן זית כתית מעולה מעצים עתיקים בגליל העליון. נקטף ביד, נכתש באותו יום.</p>
@@ -113,7 +117,8 @@
           <button class="filter" type="button" data-filter="gifts" aria-pressed="false">מארזים</button>
         </div>
       </div>
-      <div class="grid" data-grid aria-live="polite"></div>
+      <p class="sr-only" role="status" data-filter-status></p>
+      <div class="grid" data-grid></div>
     </div>
   </section>
 
@@ -225,17 +230,17 @@
       </div>
       <div class="quotes">
         <figure class="quote">
-          <span class="stars" aria-label="5 מתוך 5">★★★★★</span>
+          <span class="stars" role="img" aria-label="5 כוכבים מתוך 5">★★★★★</span>
           <p>הקטיף הראשון עוקץ בגרון בדיוק כמו שהשמן של סבתא שלי היה עוקץ. כבר שנה שנייה שאני מזמינה שלושה בקבוקים בבת אחת.</p>
           <footer>מיכל ש., תל אביב, קנתה קטיף ראשון</footer>
         </figure>
         <figure class="quote">
-          <span class="stars" aria-label="5 מתוך 5">★★★★★</span>
+          <span class="stars" role="img" aria-label="5 כוכבים מתוך 5">★★★★★</span>
           <p>לקחנו את הפח של ארבעה ליטר ונגמר לנו עד פברואר. השמן הסורי פשוט טעים, בלי הרבה מילים. הזמנו שוב.</p>
           <footer>יואב ד., קריית טבעון, קנה פח מבית הבד</footer>
         </figure>
         <figure class="quote">
-          <span class="stars" aria-label="4 מתוך 5">★★★★☆</span>
+          <span class="stars" role="img" aria-label="4 כוכבים מתוך 5">★★★★☆</span>
           <p>הזמנתי 60 מארזים לעובדים לראש השנה. הגיע בזמן, ארוז יפה, ושאלו אותי איפה אפשר להשיג עוד. רק הייתי שמחה לכרטיס ברכה גדול יותר.</p>
           <footer>רונית א., מודיעין, הזמנה לחברה</footer>
         </figure>
@@ -365,7 +370,8 @@
     <div class="drawer__lines" data-cart-lines></div>
     <div class="drawer__foot" data-cart-foot hidden>
       <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
-      <p class="drawer__note">דמי המשלוח מחושבים בקופה. המחירים כוללים מע״מ.</p>
+      <div class="drawer__ship"><span>שליח עד הבית</span><span data-cart-ship>₪29</span></div>
+      <p class="drawer__note">אפשר לבחור בקופה גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). המחירים כוללים מע״מ.</p>
       <a class="btn btn--block" href="checkout.html">לקופה</a>
     </div>
   </div>
@@ -377,6 +383,7 @@
   </button>
   <video controls playsinline preload="none" poster="images/dawn-valley-1000.webp">
     <source src="video/film.mp4" type="video/mp4">
+    <track kind="captions" src="video/film.he.vtt" srclang="he" label="עברית" default>
   </video>
 </div>
 
@@ -393,15 +400,26 @@
     btn.addEventListener('click', function () {
       var f = btn.getAttribute('data-filter');
       document.querySelectorAll('[data-filter]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      var shown = 0;
       grid.querySelectorAll('.product').forEach(function (card) {
         card.hidden = f !== 'all' && card.getAttribute('data-cat') !== f;
+        if (!card.hidden) shown++;
       });
+      document.querySelector('[data-filter-status]').textContent = 'מוצגים ' + shown + ' מוצרים';
     });
   });
 
   /* וידאו הפתיח: לא מתנגן כשמבקשים להפחית תנועה */
   var hv = document.querySelector('[data-hero-video]');
-  if (hv && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
+  var hp = document.querySelector('[data-hero-pause]');
+  function setPaused(paused) {
+    if (paused) hv.pause(); else { var pr = hv.play(); if (pr && pr.catch) pr.catch(function () {}); }
+    hp.setAttribute('aria-label', paused ? 'הפעלת הווידאו' : 'עצירת הווידאו');
+    hp.querySelector('[data-icon-pause]').hidden = paused;
+    hp.querySelector('[data-icon-play]').hidden = !paused;
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); setPaused(true); }
+  hp.addEventListener('click', function () { setPaused(!hv.paused); });
 
   /* סרט */
   var modal = document.getElementById('film-modal');
@@ -425,7 +443,16 @@
   document.querySelectorAll('[data-film]').forEach(function (b) { b.addEventListener('click', openFilm); });
   modal.querySelector('[data-film-close]').addEventListener('click', closeFilm);
   modal.addEventListener('click', function (e) { if (e.target === modal) closeFilm(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFilm(); });
+  document.addEventListener('keydown', function (e) {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') closeFilm();
+    if (e.key === 'Tab') {
+      var f = [modal.querySelector('[data-film-close]'), mv];
+      var i = f.indexOf(document.activeElement);
+      e.preventDefault();
+      f[(i + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+    }
+  });
 
 })();
 </script>

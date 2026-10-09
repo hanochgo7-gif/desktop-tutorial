@@ -133,7 +133,7 @@
   function card(p) {
     return '' +
       '<article class="product" data-cat="' + p.cat + '">' +
-        '<a class="product__media" href="product.html?p=' + p.id + '">' +
+        '<a class="product__media" href="product.html?p=' + p.id + '" tabindex="-1" aria-hidden="true">' +
           picture(p.img, p.alt, '(min-width: 1100px) 30vw, (min-width: 640px) 45vw, 92vw') +
           (p.badge ? '<span class="product__badge">' + p.badge + '</span>' : '') +
         '</a>' +
@@ -180,6 +180,8 @@
       }).join('');
       foot.hidden = false;
       document.querySelector('[data-cart-sub]').textContent = money(sub);
+      var shipEl = document.querySelector('[data-cart-ship]');
+      if (shipEl) shipEl.textContent = sub >= FREE_SHIPPING ? 'חינם' : '₪29';
     }
     var left = FREE_SHIPPING - sub;
     if (bar) bar.style.setProperty('--p', Math.min(1, sub / FREE_SHIPPING));

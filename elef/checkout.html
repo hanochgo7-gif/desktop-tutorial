@@ -59,10 +59,10 @@
         <fieldset>
           <legend>פרטי קשר</legend>
           <div class="fields">
-            <label class="field"><span>שם פרטי</span><input name="first" autocomplete="given-name" required><span class="err" aria-live="polite"></span></label>
-            <label class="field"><span>שם משפחה</span><input name="last" autocomplete="family-name" required><span class="err" aria-live="polite"></span></label>
-            <label class="field"><span>טלפון נייד</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required><span class="err" aria-live="polite"></span></label>
-            <label class="field"><span>אימייל</span><input name="email" type="email" autocomplete="email" dir="ltr" required><span class="err" aria-live="polite"></span></label>
+            <div class="field"><label for="f-first">שם פרטי</label><input id="f-first" name="first" autocomplete="given-name" required aria-describedby="f-first-err"><span class="err" id="f-first-err" aria-live="polite"></span></div>
+            <div class="field"><label for="f-last">שם משפחה</label><input id="f-last" name="last" autocomplete="family-name" required aria-describedby="f-last-err"><span class="err" id="f-last-err" aria-live="polite"></span></div>
+            <div class="field"><label for="f-phone">טלפון נייד</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required aria-describedby="f-phone-err"><span class="err" id="f-phone-err" aria-live="polite"></span></div>
+            <div class="field"><label for="f-email">אימייל</label><input id="f-email" name="email" type="email" autocomplete="email" dir="ltr" required aria-describedby="f-email-err"><span class="err" id="f-email-err" aria-live="polite"></span></div>
           </div>
         </fieldset>
 
@@ -78,8 +78,8 @@
         <fieldset data-address>
           <legend>כתובת למשלוח</legend>
           <div class="fields">
-            <label class="field"><span>עיר או יישוב</span><input name="city" autocomplete="address-level2" required><span class="err" aria-live="polite"></span></label>
-            <label class="field"><span>רחוב ומספר בית</span><input name="street" autocomplete="address-line1" required><span class="err" aria-live="polite"></span></label>
+            <div class="field"><label for="f-city">עיר או יישוב</label><input id="f-city" name="city" autocomplete="address-level2" required aria-describedby="f-city-err"><span class="err" id="f-city-err" aria-live="polite"></span></div>
+            <div class="field"><label for="f-street">רחוב ומספר בית</label><input id="f-street" name="street" autocomplete="address-line1" required aria-describedby="f-street-err"><span class="err" id="f-street-err" aria-live="polite"></span></div>
             <label class="field"><span>דירה, קומה, כניסה <small>(לא חובה)</small></span><input name="apt" autocomplete="address-line2"></label>
             <label class="field"><span>מיקוד <small>(לא חובה)</small></span><input name="zip" autocomplete="postal-code" inputmode="numeric" dir="ltr"></label>
             <label class="field field--full"><span>הערה לשליח או ברכה למארז <small>(לא חובה)</small></span><textarea name="note"></textarea></label>
@@ -89,13 +89,13 @@
         <fieldset>
           <legend>קוד הנחה</legend>
           <div class="fields">
-            <label class="field"><span>יש לכם קוד?</span><input name="coupon" dir="ltr" autocomplete="off"><span class="err" data-coupon-msg aria-live="polite"></span></label>
+            <div class="field"><label for="f-coupon">יש לכם קוד?</label><input id="f-coupon" name="coupon" dir="ltr" autocomplete="off" aria-describedby="f-coupon-msg"><span class="err" id="f-coupon-msg" data-coupon-msg aria-live="polite"></span></div>
             <div class="field" style="justify-content:flex-end"><button class="btn btn--ghost" type="button" data-apply>החלת הקוד</button></div>
           </div>
         </fieldset>
 
-        <label class="check"><input type="checkbox" name="terms" required><span>קראתי ואני מסכים/ה ל<a class="link" href="info.html#terms" target="_blank">תקנון האתר</a> ול<a class="link" href="info.html#privacy" target="_blank">מדיניות הפרטיות</a></span></label>
-        <p class="err" data-terms-err aria-live="polite" style="color:#a3341f;font-size:var(--t-xs)"></p>
+        <label class="check"><input type="checkbox" name="terms" required aria-describedby="terms-err"><span>קראתי ואני מסכים/ה ל<a class="link" href="info.html#terms" target="_blank">תקנון האתר</a> ול<a class="link" href="info.html#privacy" target="_blank">מדיניות הפרטיות</a></span></label>
+        <p class="err" id="terms-err" data-terms-err aria-live="polite" style="color:#a3341f;font-size:var(--t-xs)"></p>
         <label class="check" style="margin-bottom:28px"><input type="checkbox" name="news"><span>אשמח לקבל עדכון כשהקטיף מתחיל ולפני החגים</span></label>
 
         <button class="btn btn--block" type="submit">המשך לתשלום</button>
@@ -200,7 +200,8 @@
     <div class="drawer__lines" data-cart-lines></div>
     <div class="drawer__foot" data-cart-foot hidden>
       <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
-      <p class="drawer__note">דמי המשלוח מחושבים בקופה. המחירים כוללים מע״מ.</p>
+      <div class="drawer__ship"><span>שליח עד הבית</span><span data-cart-ship>₪29</span></div>
+      <p class="drawer__note">אפשר לבחור בקופה גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). המחירים כוללים מע״מ.</p>
       <a class="btn btn--block" href="checkout.html">לקופה</a>
     </div>
   </div>
