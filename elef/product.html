@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>שמן זית | אלף, שמן זית מהגליל</title>
+<meta name="description" content="שמן זית כתית מעולה מהגליל העליון. נקטף ביד ונכתש באותו יום.">
+<meta property="og:type" content="product">
+<meta property="og:locale" content="he_IL">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/elef/images/og.jpg">
+<meta name="theme-color" content="#1f2c38">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Alef:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+<p class="notice">קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="index.html#shop">לחנות</a></p>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="אלף, שמן זית מהגליל, לעמוד הבית">
+      <svg viewBox="0 0 26 34" aria-hidden="true"><path d="M13 1.5C13 1.5 2 14.8 2 21.8a11 11 0 0 0 22 0C24 14.8 13 1.5 13 1.5z" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="13" y="27.5" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-size="13" fill="currentColor">א</text></svg>
+      <span class="logo__word">אֶלֶף</span>
+      <span class="logo__sub">שמן זית<br>מהגליל</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="ניווט ראשי">
+      <ul>
+        <li><a href="index.html#shop">חנות</a></li>
+        <li><a href="index.html#process">מהעץ לבקבוק</a></li>
+        <li><a href="index.html#story">הכרם</a></li>
+        <li><a href="index.html#gifts">מארזים לחנוכה</a></li>
+        <li><a href="index.html#visit">ביקור בבית הבד</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <a class="icon-btn" href="info.html#contact" aria-label="צרו קשר">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+      </a>
+      <button class="icon-btn" type="button" data-open-cart data-cart-label aria-label="סל הקניות">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" data-cart-count hidden>0</span>
+      </button>
+      <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="on-light">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="מיקום בעמוד">
+      <ol>
+        <li><a href="index.html">בית</a></li>
+        <li><a href="index.html#shop">חנות</a></li>
+        <li aria-current="page" data-crumb>שמן זית</li>
+      </ol>
+    </nav>
+
+    <div class="pdp" data-pdp>
+      <div class="pdp__gallery" data-gallery></div>
+      <div class="pdp__info">
+        <span class="pdp__badge" data-badge hidden></span>
+        <h1 data-name></h1>
+        <p class="pdp__size" data-size></p>
+        <div class="pdp__rating"><span class="stars" aria-hidden="true">★★★★★</span><span data-rating></span></div>
+        <p class="pdp__price"><span data-price></span><small>כולל מע״מ</small></p>
+        <p data-long></p>
+
+        <div class="taste" aria-label="פרופיל טעם, מ-1 עד 5">
+          <div class="taste__row"><span>מרירות</span><span class="meter" data-meter="bitter"></span></div>
+          <div class="taste__row"><span>חריפות</span><span class="meter" data-meter="pungent"></span></div>
+          <div class="taste__row"><span>פירותיות</span><span class="meter" data-meter="fruity"></span></div>
+        </div>
+
+        <div class="pdp__buy">
+          <div class="qty">
+            <button type="button" data-step-qty="1" aria-label="הוספת יחידה">+</button>
+            <label class="sr-only" for="qty">כמות</label>
+            <input id="qty" type="number" min="1" max="20" value="1" inputmode="numeric" data-add-qty>
+            <button type="button" data-step-qty="-1" aria-label="הורדת יחידה">−</button>
+          </div>
+          <button class="btn" type="button" data-add data-use-qty>הוספה לסל</button>
+        </div>
+        <p class="pdp__ship">נשלח מבית הבד החל מ-2 בנובמבר. משלוח חינם בהזמנה מעל ₪250.</p>
+
+        <details open>
+          <summary>טעם והתאמות</summary>
+          <div>
+            <p><strong>בריח ובטעם:</strong> <span data-notes></span></p>
+            <p><strong>מתאים במיוחד ל:</strong> <span data-pair></span></p>
+          </div>
+        </details>
+        <details>
+          <summary>פרטי השמן</summary>
+          <div>
+            <table class="spec">
+              <tbody>
+                <tr><th scope="row">זן</th><td data-variety></td></tr>
+                <tr><th scope="row">קטיף</th><td data-harvest></td></tr>
+                <tr><th scope="row">חומציות חופשית</th><td data-acidity></td></tr>
+                <tr><th scope="row">פוליפנולים</th><td data-poly></td></tr>
+                <tr><th scope="row">מקור</th><td>כרם אלף, גליל עליון</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+        <details>
+          <summary>משלוחים והחזרות</summary>
+          <div>
+            <p>שליח עד הבית תוך 2–4 ימי עסקים מרגע היציאה מבית הבד, ₪29 (חינם מעל ₪250). איסוף עצמי מבית הבד בימי שישי, חינם.</p>
+            <p>בקבוק שלא נפתח אפשר להחזיר תוך 14 יום. הגיע שבור? צלמו ושלחו, ונשלח חדש. <a class="link" href="info.html#shipping">כל הפרטים</a></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section--tight process" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head"><h2 id="more-title">אולי תאהבו גם</h2></div>
+      <div class="grid" data-more></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="signup">
+      <div>
+        <h2>שמן חדש, פעם בשנה</h2>
+        <p>נכתוב כשהקטיף מתחיל, כשהמהדורה הממוספרת יוצאת ולפני החגים. 10% הנחה על ההזמנה הראשונה.</p>
+      </div>
+      <form data-signup novalidate>
+        <label class="sr-only" for="signup-email">כתובת אימייל</label>
+        <input id="signup-email" type="email" name="email" placeholder="כתובת אימייל" autocomplete="email" required>
+        <button class="btn btn--light" type="submit">הרשמה</button>
+      </form>
+      <p class="signup__msg" data-signup-msg role="status"></p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="logo" href="index.html" aria-label="אלף, לעמוד הבית">
+          <svg viewBox="0 0 26 34" aria-hidden="true"><path d="M13 1.5C13 1.5 2 14.8 2 21.8a11 11 0 0 0 22 0C24 14.8 13 1.5 13 1.5z" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="13" y="27.5" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-size="13" fill="currentColor">א</text></svg>
+          <span class="logo__word">אֶלֶף</span>
+        </a>
+        <p>שמן זית כתית מעולה מכרם משפחתי בגליל העליון, מאז 1931.</p>
+      </div>
+      <div>
+        <h3>חנות</h3>
+        <ul>
+          <li><a href="product.html?p=early">קטיף ראשון</a></li>
+          <li><a href="product.html?p=souri">סורי מהגליל</a></li>
+          <li><a href="product.html?p=ancient">עצים עתיקים</a></li>
+          <li><a href="product.html?p=tin">פח 4 ליטר</a></li>
+          <li><a href="product.html?p=gift">מארז חנוכה</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>מידע</h3>
+        <ul>
+          <li><a href="info.html#shipping">משלוחים</a></li>
+          <li><a href="info.html#returns">החזרות</a></li>
+          <li><a href="info.html#terms">תקנון</a></li>
+          <li><a href="info.html#privacy">פרטיות</a></li>
+          <li><a href="info.html#accessibility">הצהרת נגישות</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>דברו איתנו</h3>
+        <ul>
+          <li><a href="tel:+97246981000">04-698-1000</a></li>
+          <li><a href="mailto:shalom@elef-oil.co.il">shalom@elef-oil.co.il</a></li>
+          <li><a href="info.html#business">הזמנות לחברות</a></li>
+          <li><a href="https://www.instagram.com/" rel="noopener">אינסטגרם</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> אלף שמן זית מהגליל בע״מ</span>
+      <ul class="pay" aria-label="אמצעי תשלום">
+        <li>VISA</li><li>Mastercard</li><li>Amex</li><li>bit</li><li>Apple Pay</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="drawer" id="cart" hidden role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <button class="drawer__scrim" type="button" data-close-cart tabindex="-1" aria-label="סגירת הסל"></button>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <h2 id="cart-title">הסל שלכם</h2>
+      <button class="icon-btn drawer__close" type="button" data-close-cart aria-label="סגירה">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="ship"><span data-ship-msg>משלוח חינם בהזמנה מעל ₪250</span><div class="ship__bar" data-ship-bar></div></div>
+    <div class="drawer__lines" data-cart-lines></div>
+    <div class="drawer__foot" data-cart-foot hidden>
+      <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
+      <p class="drawer__note">דמי המשלוח מחושבים בקופה. המחירים כוללים מע״מ.</p>
+      <a class="btn btn--block" href="checkout.html">לקופה</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/store.js"></script>
+<script>
+(function () {
+  var E = window.Elef;
+  var id = new URLSearchParams(location.search).get('p');
+  var p = E.byId(id) || E.PRODUCTS[0];
+  function $(s) { return document.querySelector(s); }
+
+  document.title = p.name + ' ' + p.size + ' | אלף, שמן זית מהגליל';
+  var md = document.querySelector('meta[name="description"]');
+  md.setAttribute('content', p.short);
+  $('[data-crumb]').textContent = p.name;
+  $('[data-name]').textContent = p.name;
+  $('[data-size]').textContent = p.size;
+  $('[data-price]').textContent = E.money(p.price);
+  $('[data-long]').textContent = p.long;
+  $('[data-notes]').textContent = p.notes;
+  $('[data-pair]').textContent = p.pair;
+  $('[data-variety]').textContent = p.variety;
+  $('[data-harvest]').textContent = p.harvest;
+  $('[data-acidity]').textContent = p.acidity;
+  $('[data-poly]').textContent = p.poly;
+  var reviews = { early: 118, souri: 74, ancient: 29, daily: 52, tin: 23, gift: 16 };
+  $('[data-rating]').textContent = '4.9, ' + (reviews[p.id] || 12) + ' ביקורות';
+  if (p.badge) { var b = $('[data-badge]'); b.textContent = p.badge; b.hidden = false; }
+  $('[data-add]').setAttribute('data-add', p.id);
+
+  ['bitter', 'pungent', 'fruity'].forEach(function (k) {
+    var m = $('[data-meter="' + k + '"]');
+    var html = '';
+    for (var i = 1; i <= 5; i++) html += '<i class="' + (i <= p.taste[k] ? 'on' : '') + '"></i>';
+    m.innerHTML = html;
+    m.setAttribute('aria-label', p.taste[k] + ' מתוך 5');
+    m.setAttribute('role', 'img');
+  });
+
+  var g = $('[data-gallery]');
+  g.innerHTML = E.picture(p.img, p.alt, '(min-width: 900px) 56vw, 92vw').replace('loading="lazy"', 'loading="eager" fetchpriority="high"') +
+    p.gallery.map(function (src) { return E.picture(src, '', '(min-width: 900px) 28vw, 46vw'); }).join('');
+
+  $('[data-more]').innerHTML = E.PRODUCTS.filter(function (x) { return x.id !== p.id; }).slice(0, 3).map(E.card).join('');
+
+  var qty = $('[data-add-qty]');
+  document.querySelectorAll('[data-step-qty]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var v = (parseInt(qty.value, 10) || 1) + parseInt(btn.getAttribute('data-step-qty'), 10);
+      qty.value = Math.max(1, Math.min(20, v));
+    });
+  });
+  qty.addEventListener('change', function () { qty.value = Math.max(1, Math.min(20, parseInt(qty.value, 10) || 1)); });
+
+  var ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Product', name: 'אלף ' + p.name + ' ' + p.size,
+    description: p.short, brand: { '@type': 'Brand', name: 'אלף' },
+    offers: { '@type': 'Offer', priceCurrency: 'ILS', price: p.price, availability: 'https://schema.org/PreOrder' }
+  });
+  document.head.appendChild(ld);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>קופה | אלף, שמן זית מהגליל</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2c38">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Alef:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="אלף, שמן זית מהגליל, לעמוד הבית">
+      <svg viewBox="0 0 26 34" aria-hidden="true"><path d="M13 1.5C13 1.5 2 14.8 2 21.8a11 11 0 0 0 22 0C24 14.8 13 1.5 13 1.5z" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="13" y="27.5" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-size="13" fill="currentColor">א</text></svg>
+      <span class="logo__word">אֶלֶף</span>
+      <span class="logo__sub">שמן זית<br>מהגליל</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="ניווט ראשי">
+      <ul>
+        <li><a href="index.html#shop">חנות</a></li>
+        <li><a href="index.html#process">מהעץ לבקבוק</a></li>
+        <li><a href="index.html#story">הכרם</a></li>
+        <li><a href="index.html#gifts">מארזים לחנוכה</a></li>
+        <li><a href="index.html#visit">ביקור בבית הבד</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <a class="icon-btn" href="info.html#contact" aria-label="צרו קשר">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+      </a>
+      <button class="icon-btn" type="button" data-open-cart data-cart-label aria-label="סל הקניות">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" data-cart-count hidden>0</span>
+      </button>
+      <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="תפריט">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="on-light">
+  <div class="wrap">
+    <div class="checkout" data-checkout>
+      <form data-form novalidate>
+        <h1>קופה</h1>
+        <ol class="steps-bar">
+          <li><a href="index.html#shop">סל</a></li>
+          <li aria-current="step">פרטים ומשלוח</li>
+          <li>תשלום</li>
+        </ol>
+
+        <fieldset>
+          <legend>פרטי קשר</legend>
+          <div class="fields">
+            <label class="field"><span>שם פרטי</span><input name="first" autocomplete="given-name" required><span class="err" aria-live="polite"></span></label>
+            <label class="field"><span>שם משפחה</span><input name="last" autocomplete="family-name" required><span class="err" aria-live="polite"></span></label>
+            <label class="field"><span>טלפון נייד</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required><span class="err" aria-live="polite"></span></label>
+            <label class="field"><span>אימייל</span><input name="email" type="email" autocomplete="email" dir="ltr" required><span class="err" aria-live="polite"></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>איך לשלוח</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="ship" value="29" checked><span>שליח עד הבית<small>2–4 ימי עסקים מרגע היציאה מבית הבד</small></span><b data-ship-home>₪29</b></label>
+            <label class="option"><input type="radio" name="ship" value="19"><span>נקודת איסוף<small>מאות נקודות בכל הארץ, תקבלו הודעה כשהחבילה מחכה</small></span><b>₪19</b></label>
+            <label class="option"><input type="radio" name="ship" value="0"><span>איסוף עצמי מבית הבד<small>ימי שישי 8:00–13:00, גליל עליון</small></span><b>חינם</b></label>
+          </div>
+        </fieldset>
+
+        <fieldset data-address>
+          <legend>כתובת למשלוח</legend>
+          <div class="fields">
+            <label class="field"><span>עיר או יישוב</span><input name="city" autocomplete="address-level2" required><span class="err" aria-live="polite"></span></label>
+            <label class="field"><span>רחוב ומספר בית</span><input name="street" autocomplete="address-line1" required><span class="err" aria-live="polite"></span></label>
+            <label class="field"><span>דירה, קומה, כניסה <small>(לא חובה)</small></span><input name="apt" autocomplete="address-line2"></label>
+            <label class="field"><span>מיקוד <small>(לא חובה)</small></span><input name="zip" autocomplete="postal-code" inputmode="numeric" dir="ltr"></label>
+            <label class="field field--full"><span>הערה לשליח או ברכה למארז <small>(לא חובה)</small></span><textarea name="note"></textarea></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>קוד הנחה</legend>
+          <div class="fields">
+            <label class="field"><span>יש לכם קוד?</span><input name="coupon" dir="ltr" autocomplete="off"><span class="err" data-coupon-msg aria-live="polite"></span></label>
+            <div class="field" style="justify-content:flex-end"><button class="btn btn--ghost" type="button" data-apply>החלת הקוד</button></div>
+          </div>
+        </fieldset>
+
+        <label class="check"><input type="checkbox" name="terms" required><span>קראתי ואני מסכים/ה ל<a class="link" href="info.html#terms" target="_blank">תקנון האתר</a> ול<a class="link" href="info.html#privacy" target="_blank">מדיניות הפרטיות</a></span></label>
+        <p class="err" data-terms-err aria-live="polite" style="color:#a3341f;font-size:var(--t-xs)"></p>
+        <label class="check" style="margin-bottom:28px"><input type="checkbox" name="news"><span>אשמח לקבל עדכון כשהקטיף מתחיל ולפני החגים</span></label>
+
+        <button class="btn btn--block" type="submit">המשך לתשלום</button>
+        <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>פרטי האשראי מוזנים בעמוד המאובטח של חברת הסליקה. אנחנו לא שומרים אותם.</p>
+      </form>
+
+      <aside class="summary" aria-labelledby="sum-title">
+        <h2 id="sum-title">ההזמנה שלכם</h2>
+        <div data-sum-lines></div>
+        <div class="summary__rows">
+          <div><span>סכום ביניים</span><span data-sum-sub></span></div>
+          <div data-sum-disc-row hidden><span>הנחה (ELEF10)</span><span data-sum-disc></span></div>
+          <div><span>משלוח</span><span data-sum-ship></span></div>
+          <div class="summary__total"><span>סה״כ לתשלום</span><span data-sum-total></span></div>
+        </div>
+        <p class="secure">המחירים כוללים מע״מ. חשבונית תישלח למייל.</p>
+      </aside>
+    </div>
+
+    <div class="done" data-done hidden tabindex="-1">
+      <h1>כמעט סיימנו</h1>
+      <p data-done-text></p>
+      <div class="done__note">
+        <p style="margin:0"><strong>זהו אתר תדמית לדוגמה.</strong> באתר פעיל, בשלב הזה הייתם עוברים לעמוד התשלום המאובטח של חברת הסליקה. לא נשלחה הזמנה ולא בוצע חיוב.</p>
+      </div>
+      <p style="margin-top:28px"><a class="btn btn--ghost" href="index.html">חזרה לחנות</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="signup">
+      <div>
+        <h2>שמן חדש, פעם בשנה</h2>
+        <p>נכתוב כשהקטיף מתחיל, כשהמהדורה הממוספרת יוצאת ולפני החגים. 10% הנחה על ההזמנה הראשונה.</p>
+      </div>
+      <form data-signup novalidate>
+        <label class="sr-only" for="signup-email">כתובת אימייל</label>
+        <input id="signup-email" type="email" name="email" placeholder="כתובת אימייל" autocomplete="email" required>
+        <button class="btn btn--light" type="submit">הרשמה</button>
+      </form>
+      <p class="signup__msg" data-signup-msg role="status"></p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="logo" href="index.html" aria-label="אלף, לעמוד הבית">
+          <svg viewBox="0 0 26 34" aria-hidden="true"><path d="M13 1.5C13 1.5 2 14.8 2 21.8a11 11 0 0 0 22 0C24 14.8 13 1.5 13 1.5z" fill="none" stroke="currentColor" stroke-width="1.4"/><text x="13" y="27.5" text-anchor="middle" font-family="Frank Ruhl Libre, serif" font-size="13" fill="currentColor">א</text></svg>
+          <span class="logo__word">אֶלֶף</span>
+        </a>
+        <p>שמן זית כתית מעולה מכרם משפחתי בגליל העליון, מאז 1931.</p>
+      </div>
+      <div>
+        <h3>חנות</h3>
+        <ul>
+          <li><a href="product.html?p=early">קטיף ראשון</a></li>
+          <li><a href="product.html?p=souri">סורי מהגליל</a></li>
+          <li><a href="product.html?p=ancient">עצים עתיקים</a></li>
+          <li><a href="product.html?p=tin">פח 4 ליטר</a></li>
+          <li><a href="product.html?p=gift">מארז חנוכה</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>מידע</h3>
+        <ul>
+          <li><a href="info.html#shipping">משלוחים</a></li>
+          <li><a href="info.html#returns">החזרות</a></li>
+          <li><a href="info.html#terms">תקנון</a></li>
+          <li><a href="info.html#privacy">פרטיות</a></li>
+          <li><a href="info.html#accessibility">הצהרת נגישות</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>דברו איתנו</h3>
+        <ul>
+          <li><a href="tel:+97246981000">04-698-1000</a></li>
+          <li><a href="mailto:shalom@elef-oil.co.il">shalom@elef-oil.co.il</a></li>
+          <li><a href="info.html#business">הזמנות לחברות</a></li>
+          <li><a href="https://www.instagram.com/" rel="noopener">אינסטגרם</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> אלף שמן זית מהגליל בע״מ</span>
+      <ul class="pay" aria-label="אמצעי תשלום">
+        <li>VISA</li><li>Mastercard</li><li>Amex</li><li>bit</li><li>Apple Pay</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="drawer" id="cart" hidden role="dialog" aria-modal="true" aria-labelledby="cart-title">
+  <button class="drawer__scrim" type="button" data-close-cart tabindex="-1" aria-label="סגירת הסל"></button>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <h2 id="cart-title">הסל שלכם</h2>
+      <button class="icon-btn drawer__close" type="button" data-close-cart aria-label="סגירה">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="ship"><span data-ship-msg>משלוח חינם בהזמנה מעל ₪250</span><div class="ship__bar" data-ship-bar></div></div>
+    <div class="drawer__lines" data-cart-lines></div>
+    <div class="drawer__foot" data-cart-foot hidden>
+      <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
+      <p class="drawer__note">דמי המשלוח מחושבים בקופה. המחירים כוללים מע״מ.</p>
+      <a class="btn btn--block" href="checkout.html">לקופה</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/store.js"></script>
+<script>
+(function () {
+  var E = window.Elef;
+  var form = document.querySelector('[data-form]');
+  var discount = false;
+  function $(s) { return document.querySelector(s); }
+
+  function shipCost(sub) {
+    var v = parseInt(form.ship.value, 10);
+    if (v === 29 && sub >= E.FREE_SHIPPING) return 0;
+    return v;
+  }
+
+  function render() {
+    var lines = E.Cart.lines();
+    if (!lines.length) {
+      $('[data-checkout]').innerHTML = '<div class="done"><h1>הסל ריק</h1><p>עוד לא בחרתם שמן. אפשר להתחיל מהקטיף הראשון של השנה.</p><p><a class="btn" href="index.html#shop">לחנות</a></p></div>';
+      return;
+    }
+    var sub = E.Cart.subtotal();
+    var disc = discount ? Math.round(sub * 0.1) : 0;
+    var ship = shipCost(sub);
+    $('[data-sum-lines]').innerHTML = lines.map(function (l) {
+      var p = E.byId(l.id);
+      return '<div class="line"><img src="' + p.img + '-600.webp" alt="" width="64" height="80"><div><span class="line__name">' + p.name + '</span><span class="line__size">' + p.size + ' × ' + l.qty + '</span></div><div class="line__end"><span>' + E.money(p.price * l.qty) + '</span></div></div>';
+    }).join('');
+    $('[data-sum-sub]').textContent = E.money(sub);
+    $('[data-sum-disc-row]').hidden = !discount;
+    $('[data-sum-disc]').textContent = '−' + E.money(disc);
+    $('[data-sum-ship]').textContent = ship === 0 ? 'חינם' : E.money(ship);
+    $('[data-sum-total]').textContent = E.money(sub - disc + ship);
+    $('[data-ship-home]').textContent = sub >= E.FREE_SHIPPING ? 'חינם' : '₪29';
+    var pickup = form.ship.value === '0';
+    $('[data-address]').hidden = pickup;
+  }
+
+  form.addEventListener('change', function (e) { if (e.target.name === 'ship') render(); });
+  document.addEventListener('cart:change', render);
+
+  $('[data-apply]').addEventListener('click', function () {
+    var code = form.coupon.value.trim().toUpperCase();
+    var msg = $('[data-coupon-msg]');
+    if (code === 'ELEF10') { discount = true; msg.style.color = 'var(--press)'; msg.textContent = 'הקוד הוחל: 10% הנחה.'; }
+    else { discount = false; msg.style.color = ''; msg.textContent = code ? 'הקוד הזה לא מוכר לנו. בדקו שהוא הוקלד נכון.' : 'הקלידו קוד ואז לחצו על החלת הקוד.'; }
+    render();
+  });
+
+  var rules = {
+    first: function (v) { return v ? '' : 'כתבו שם פרטי'; },
+    last: function (v) { return v ? '' : 'כתבו שם משפחה'; },
+    phone: function (v) { return /^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test(v) ? '' : 'מספר נייד בן 10 ספרות, למשל 050-1234567'; },
+    email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'כתובת אימייל צריכה לכלול @ ונקודה'; },
+    city: function (v) { return v ? '' : 'לאיזה יישוב לשלוח?'; },
+    street: function (v) { return v ? '' : 'כתבו רחוב ומספר בית'; }
+  };
+
+  function check(name) {
+    var input = form[name];
+    if (name === 'city' || name === 'street') { if (form.ship.value === '0') { input.removeAttribute('aria-invalid'); input.parentNode.querySelector('.err').textContent = ''; return true; } }
+    var err = rules[name](input.value.trim());
+    input.setAttribute('aria-invalid', err ? 'true' : 'false');
+    input.parentNode.querySelector('.err').textContent = err;
+    return !err;
+  }
+  Object.keys(rules).forEach(function (n) { form[n].addEventListener('blur', function () { if (form[n].value) check(n); }); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var first = null;
+    Object.keys(rules).forEach(function (n) { if (!check(n) && !first) first = form[n]; });
+    var t = $('[data-terms-err]');
+    if (!form.terms.checked) { t.textContent = 'צריך לאשר את התקנון כדי להמשיך'; if (!first) first = form.terms; } else t.textContent = '';
+    if (first) { first.focus(); return; }
+    var sub = E.Cart.subtotal();
+    var total = sub - (discount ? Math.round(sub * 0.1) : 0) + shipCost(sub);
+    $('[data-checkout]').hidden = true;
+    var done = $('[data-done]');
+    $('[data-done-text]').textContent = 'תודה, ' + form.first.value.trim() + '. סכום ההזמנה הוא ' + E.money(total) + '.';
+    done.hidden = false;
+    done.focus();
+    window.scrollTo(0, 0);
+  });
+
+  document.addEventListener('DOMContentLoaded', render);
+  if (document.readyState !== 'loading') render();
+})();
+</script>
+</body>
+</html>
