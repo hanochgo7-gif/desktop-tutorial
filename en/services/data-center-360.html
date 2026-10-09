@@ -18,9 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../images/logo.png">
 <title>360° generator farm tour | S. Gotovski Ltd.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../css/fonts.css">
 <style>
 /* 360° tour: the panorama fills the screen; a side panel lists the stops, a single control bar sits at the bottom. */
 :root {
@@ -176,7 +174,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
     <button class="ctl" type="button" id="tFull"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   </nav>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
+<script src="../../vendor/pannellum/pannellum.js"></script>
 <script>
 (() => {
   const root = document.documentElement, EN = root.lang === 'en', BASE = root.dataset.base || '';

@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>S. Gotovski Ltd. | Fuel infrastructure since 1972</title>
-<meta content="Fuel station construction and renovation, LPG stations, fuel piping and earthworks since 1972, plus fuel systems for data center emergency generators." name="description"/>
+<meta content="Fuel station construction and renovation, LPG stations, fuel piping and earthworks since 1972, and fuel infrastructure for data center emergency generators." name="description"/>
 
 <link href="https://gotovski.co.il/en/" rel="canonical"/>
 <meta content="index, follow" name="robots"/>
@@ -20,11 +20,8 @@
 <meta content="https://gotovski.co.il/images/hero-tank-lift.webp" property="og:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="../images/logo.png" rel="icon" type="image/png"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://cdnjs.cloudflare.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&amp;family=Frank+Ruhl+Libre:wght@400;500&amp;family=Cousine:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="../css/styles.css?v=126" rel="stylesheet"/>
+<link href="../css/fonts.css" rel="stylesheet"/>
+<link href="../css/styles.css?v=132" rel="stylesheet"/>
 <link as="image" fetchpriority="high" href="../images/hero-tank-lift.webp" imagesizes="100vw" imagesrcset="../images/hero-tank-lift-480.webp 480w, ../images/hero-tank-lift-960.webp 960w, ../images/hero-tank-lift.webp 1600w" rel="preload"/>
 
 <script type="application/ld+json">{
@@ -49,7 +46,6 @@
     ],
     "knowsAbout": ["Fuel station construction", "Fuel station renovation", "LPG stations", "Fuel piping", "Earthworks", "Fuel infrastructure and emergency generators for data centers"]
   }</script>
-
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can a station be renovated without closing it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Most of our renovations take place at operating stations. We plan the work in phases, fence off each work zone, and keep some of the dispensers open throughout the project."}}, {"@type": "Question", "name": "How long does it take to build a new fuel station?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the scope, the permits and the ground conditions. In the first call we get to know the project and give a clear schedule estimate, and the quote breaks it down by stage."}}, {"@type": "Question", "name": "Which standards does the work meet?", "acceptedAnswer": {"@type": "Answer", "text": "The standards of the Ministry of Environmental Protection and the Ministry of Labor: Stage II vapor recovery, double-wall tanks and piping, 5-gallon spill containment, cathodic protection and static grounding, oil separators, and documented pressure and tightness testing."}}]}</script>
 
 
@@ -59,7 +55,7 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 <aside aria-label="Announcement" class="ann" hidden="" id="ann">
-<span class="ann__text">Upgrading a fuel station without closing it, not even for a day</span>
+<span class="ann__text">Upgrading a fuel station while it keeps fueling</span>
 <a class="ann__link" href="services/station-renovation.html">Want to see how?</a>
 <button aria-label="Close message" class="ann__close" type="button">×</button>
 </aside>
@@ -136,21 +132,18 @@
 <li><img alt="Paz" decoding="async" height="97" src="../images/logo-paz.png" width="102"/></li>
 <li><img alt="Sonol" decoding="async" height="97" src="../images/logo-sonol.png" width="82"/></li>
 <li><img alt="Dor Alon" decoding="async" height="97" src="../images/logo-dor-alon.png" width="69"/></li>
-<li><span class="hero__amz" lang="en">amazon</span></li>
 <li><img alt="Mega Or" decoding="async" height="180" src="../images/logo-mega-or.png" width="180"/></li>
 </ul>
 <ul aria-hidden="true" class="marquee__list marquee__list--dup hero__clients-list">
 <li><img alt="" decoding="async" height="97" src="../images/logo-paz.png" width="102"/></li>
 <li><img alt="" decoding="async" height="97" src="../images/logo-sonol.png" width="82"/></li>
 <li><img alt="" decoding="async" height="97" src="../images/logo-dor-alon.png" width="69"/></li>
-<li><span class="hero__amz" lang="en">amazon</span></li>
 <li><img alt="" decoding="async" height="180" src="../images/logo-mega-or.png" width="180"/></li>
 </ul>
 <ul aria-hidden="true" class="marquee__list marquee__list--dup hero__clients-list">
 <li><img alt="" decoding="async" height="97" src="../images/logo-paz.png" width="102"/></li>
 <li><img alt="" decoding="async" height="97" src="../images/logo-sonol.png" width="82"/></li>
 <li><img alt="" decoding="async" height="97" src="../images/logo-dor-alon.png" width="69"/></li>
-<li><span class="hero__amz" lang="en">amazon</span></li>
 <li><img alt="" decoding="async" height="180" src="../images/logo-mega-or.png" width="180"/></li>
 </ul>
 </div>
@@ -415,9 +408,9 @@
 <input data-quick-next="" name="_next" type="hidden" value=""/>
 <input aria-hidden="true" autocomplete="off" class="form__honey" name="_honey" tabindex="-1" type="text"/>
 <label class="quick__label" for="q-phone">Phone number for a call back</label>
-<input autocomplete="tel" id="q-phone" inputmode="tel" name="phone" pattern="[\d+\s\-\(\)]{9,16}" placeholder="050-0000000" required="" type="tel"/>
+<input autocomplete="tel" dir="ltr" enterkeyhint="send" id="q-phone" inputmode="tel" maxlength="20" name="phone" pattern="[\d+\s\-\(\)]{9,16}" placeholder="050-0000000" required="" type="tel"/>
 <button class="btn btn--primary" type="submit">Book a consultation call</button>
-<p class="quick__consent">By submitting you agree that we use the number only to call you back. <a href="privacy.html">Privacy Policy</a></p>
+<label class="consent quick__consent"><input name="consent" required="" type="checkbox"/><span>I have read the <a href="privacy.html">privacy policy</a> and agree that S. Gotovski Ltd. will use my details only to get back to me about my inquiry. You are not legally required to give your details, but without them we cannot get back to you.</span></label>
 <div aria-live="polite" class="form__notice" data-quick-notice="" hidden="" role="status"></div>
 </form>
 </div>
@@ -463,7 +456,7 @@
 </div>
 <div class="footer__bottom">
 <span>© <span id="year"></span> S. Gotovski Ltd. All rights reserved. Company no. 512635335</span>
-<span class="legal-links"><a href="accessibility.html">Accessibility Statement</a><a href="privacy.html">Privacy Policy</a></span>
+<span class="legal-links"><a href="accessibility.html">Accessibility Statement</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><button class="legal-links__btn" data-privacy-settings="" type="button">Privacy Settings</button></span>
 </div>
 </div>
 </footer>
@@ -485,9 +478,9 @@
 <p class="lightbox__caption" id="lightbox-caption"></p>
 <span aria-live="polite" class="lightbox__count" id="lightbox-count"></span>
 </dialog>
-<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script defer="" src="../js/main.js?v=72"></script>
-<script defer="" src="../js/a11y.js"></script>
+<script defer="" src="../vendor/gsap/gsap.min.js"></script>
+<script defer="" src="../vendor/gsap/ScrollTrigger.min.js"></script>
+<script defer="" src="../js/main.js?v=74"></script>
+<script defer="" src="../js/a11y.js?v=2"></script>
 </body>
 </html>

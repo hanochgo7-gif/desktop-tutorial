@@ -806,15 +806,86 @@
     try { if (window.gtag) window.gtag('event', name, p); if (window.clarity) window.clarity('event', name); } catch (err) {}
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
-  if (GA_ID) {
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date()); window.gtag('config', GA_ID);
-    loadScript('https://www.googletagmanager.com/gtag/js?id=' + GA_ID);
+
+  /* ---------- פרטיות והסכמה ----------
+     הכרחי בלבד כברירת מחדל. מדידה נטענת רק אחרי הסכמה, וההודעה מופיעה רק כשיש באתר מדידה מוגדרת. */
+  var CONSENT_KEY = 'gtv-consent-v1';
+  var HAS_STATS = !!(GA_ID || CLARITY_ID);
+  function readConsent() { try { return JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'); } catch (err) { return null; } }
+  function saveConsent(stats) { try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ stats: !!stats, at: new Date().toISOString() })); } catch (err) {} }
+  var statsOn = false;
+  function enableStats() {
+    if (statsOn || !HAS_STATS) return; statsOn = true;
+    if (GA_ID) {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date()); window.gtag('config', GA_ID, { anonymize_ip: true });
+      loadScript('https://www.googletagmanager.com/gtag/js?id=' + GA_ID);
+    }
+    if (CLARITY_ID) {
+      window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+      loadScript('https://www.clarity.ms/tag/' + CLARITY_ID);
+    }
   }
-  if (CLARITY_ID) {
-    window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
-    loadScript('https://www.clarity.ms/tag/' + CLARITY_ID);
+  var consent = readConsent();
+  if (HAS_STATS && consent && consent.stats) enableStats();
+
+  var T_PV = EN ? {
+    title: 'Privacy settings', lead: 'The site keeps only what it needs to work. Nothing is used for advertising.',
+    nec: 'Necessary', necState: 'Always on', necTxt: 'Saves your accessibility preferences, whether you closed the announcement bar, and this choice. Stored in your browser only.',
+    st: 'Usage statistics', stOff: 'Not used on the site', stTxt: HAS_STATS ? 'Anonymous statistics on which pages are viewed, so we can improve the site. Loaded only if you allow it.' : 'The site does not use statistics or tracking tools at the moment. If we add them, we will ask you first.',
+    ext: 'Outside services, on click only', extTxt: 'The Google map, WhatsApp, Waze and the form-sending service load or receive data only when you click them.',
+    save: 'Save', all: 'Allow statistics', nec2: 'Necessary only', more: 'Privacy policy', close: 'Close',
+    bar: 'We would like to use anonymous usage statistics to improve the site. Nothing is used for advertising.'
+  } : {
+    title: 'הגדרות פרטיות', lead: 'האתר שומר רק את מה שנדרש כדי שיעבוד. שום דבר לא משמש לפרסום.',
+    nec: 'הכרחי', necState: 'תמיד פעיל', necTxt: 'שמירת העדפות הנגישות שלכם, האם סגרתם את פס ההודעה, והבחירה הזו. נשמר בדפדפן שלכם בלבד.',
+    st: 'סטטיסטיקת שימוש', stOff: 'לא בשימוש באתר', stTxt: HAS_STATS ? 'סטטיסטיקה אנונימית על העמודים שנצפים, כדי לשפר את האתר. נטען רק אם תאשרו.' : 'כרגע האתר לא משתמש בכלי סטטיסטיקה או מעקב. אם נוסיף כאלה, נבקש את אישורכם מראש.',
+    ext: 'שירותים חיצוניים, רק בלחיצה', extTxt: 'מפת Google, וואטסאפ, Waze ושירות שליחת הטפסים נטענים או מקבלים מידע רק כשאתם לוחצים עליהם.',
+    save: 'שמירה', all: 'אישור סטטיסטיקה', nec2: 'רק הכרחי', more: 'מדיניות הפרטיות', close: 'סגירה',
+    bar: 'נשמח להשתמש בסטטיסטיקת שימוש אנונימית כדי לשפר את האתר. שום דבר לא משמש לפרסום.'
+  };
+  var privLink = document.querySelector('.legal-links a[href$="privacy.html"]');
+  var PRIV_HREF = privLink ? privLink.getAttribute('href') : 'privacy.html';
+  function closeBar() { var b = $('.pvbar'); if (b) b.remove(); }
+  function openPrivacy() {
+    var d = $('#pv-dialog');
+    if (!d) {
+      d = document.createElement('dialog'); d.id = 'pv-dialog'; d.className = 'pv'; d.setAttribute('aria-labelledby', 'pv-title');
+      d.innerHTML = '<div class="pv__in"><h2 id="pv-title">' + T_PV.title + '</h2><p>' + T_PV.lead + '</p>' +
+        '<div class="pv__row"><b>' + T_PV.nec + '</b><span class="pv__state">' + T_PV.necState + '</span><small>' + T_PV.necTxt + '</small></div>' +
+        '<div class="pv__row"><b id="pv-st">' + T_PV.st + '</b>' + (HAS_STATS ? '<label class="pv__switch"><input type="checkbox" id="pv-stats" aria-labelledby="pv-st"></label>' : '<span class="pv__state">' + T_PV.stOff + '</span>') + '<small>' + T_PV.stTxt + '</small></div>' +
+        '<div class="pv__row"><b>' + T_PV.ext + '</b><span></span><small>' + T_PV.extTxt + '</small></div>' +
+        '<div class="pv__acts">' + (HAS_STATS ? '<button type="button" class="btn btn--dark" data-pv-save>' + T_PV.save + '</button>' : '') + '<button type="button" class="btn btn--ghost" data-pv-close>' + T_PV.close + '</button></div>' +
+        '<p style="margin:14px 0 0"><a class="pv__link" href="' + PRIV_HREF + '">' + T_PV.more + '</a></p></div>';
+      document.body.appendChild(d);
+      d.addEventListener('click', function (e) {
+        if (e.target === d || e.target.closest('[data-pv-close]')) d.close();
+        if (e.target.closest('[data-pv-save]')) { var on = $('#pv-stats').checked; saveConsent(on); if (on) enableStats(); closeBar(); d.close(); if (!on && statsOn) location.reload(); }
+      });
+    }
+    var cb = $('#pv-stats'); if (cb) { var c = readConsent(); cb.checked = !!(c && c.stats); }
+    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
   }
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-privacy-settings]')) { e.preventDefault(); openPrivacy(); } });
+  if (HAS_STATS && !consent) {
+    var bar = document.createElement('div'); bar.className = 'pvbar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', T_PV.title);
+    bar.innerHTML = '<p>' + T_PV.bar + ' <a class="pv__link" href="' + PRIV_HREF + '">' + T_PV.more + '</a></p><div class="pv__acts"><button type="button" class="btn btn--ghost" data-pv-no>' + T_PV.nec2 + '</button><button type="button" class="btn btn--ghost" data-pv-yes>' + T_PV.all + '</button></div>';
+    document.body.appendChild(bar);
+    bar.addEventListener('click', function (e) {
+      if (e.target.closest('[data-pv-yes]')) { saveConsent(true); enableStats(); closeBar(); }
+      if (e.target.closest('[data-pv-no]')) { saveConsent(false); closeBar(); }
+    });
+  }
+
+  /* ---------- מפת Google: נטענת רק בלחיצה ---------- */
+  $$('[data-map-load]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.closest('.map__facade'); if (!f) return;
+      var ifr = document.createElement('iframe');
+      ifr.src = f.getAttribute('data-map-src'); ifr.title = f.getAttribute('data-map-title') || ''; ifr.loading = 'lazy'; ifr.referrerPolicy = 'no-referrer-when-downgrade'; ifr.allowFullscreen = true;
+      f.parentNode.insertBefore(ifr, f); f.remove(); ifr.focus();
+    });
+  });
   function trackArea(el) {
     if (el.closest('.mobile-cta')) return 'mobile_bar';
     if (el.closest('.mobile-menu, .mm')) return 'menu';

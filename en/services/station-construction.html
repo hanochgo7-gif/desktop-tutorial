@@ -16,10 +16,8 @@
 <meta content="https://gotovski.co.il/images/paz-station-construction.webp" property="og:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="../../images/logo.png" rel="icon" type="image/png"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&amp;family=Frank+Ruhl+Libre:wght@400;500&amp;family=Cousine:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="../../css/styles.css?v=126" rel="stylesheet"/>
+<link href="../../css/fonts.css" rel="stylesheet"/>
+<link href="../../css/styles.css?v=132" rel="stylesheet"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Fuel Station Construction", "serviceType": "Fuel station construction, ground to pump", "description": "Fuel station construction in Israel by a single contractor: earthworks and tank pit, double-wall tanks and piping, vapor recovery, sumps and concrete forecourts, canopy and service building, testing and handover. Coordination with the fuel company and the authorities. S. Gotovski, since 1972.", "areaServed": "IL", "provider": {"@type": "GeneralContractor", "name": "S. Gotovski", "url": "https://gotovski.co.il/en/", "telephone": "+972-50-270-3674"}, "url": "https://gotovski.co.il/en/services/station-construction.html", "image": "https://gotovski.co.il/images/paz-station-construction.webp"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://gotovski.co.il/en/"}, {"@type": "ListItem", "position": 2, "name": "Fields of Work", "item": "https://gotovski.co.il/en/#fields"}, {"@type": "ListItem", "position": 3, "name": "Fuel Station Construction"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How long does it take to build a new fuel station?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the scope, the permits and the ground conditions. In the first call we get to know the project and give a clear schedule estimate, and the quote breaks it down by stage."}}, {"@type": "Question", "name": "At what stage should the contractor come in?", "acceptedAnswer": {"@type": "Answer", "text": "Already at the planning stage. A contractor who knows the requirements of the fuel companies and the authorities spots early the details that are expensive to change once the plans are approved: tank pit depth, piping routes or drainage."}}, {"@type": "Question", "name": "What does handover include?", "acceptedAnswer": {"@type": "Answer", "text": "Documented pressure and tightness testing of all systems, equipment installation, approvals from the authorities and the fuel company, and first fill. The documentation is handed to the client."}}]}]}</script>
 
 
@@ -260,17 +258,17 @@
 <h3>Request a quote for station construction</h3>
 <p>Fill in the details and we will get back to you with a detailed quote, after reviewing the requirements and, if needed, a site visit.</p>
 <div class="form__row">
-<div class="field"><label for="f-name">Full name</label><input autocomplete="name" id="f-name" name="name" required="" type="text"/></div>
-<div class="field"><label for="f-phone">Phone</label><input autocomplete="tel" id="f-phone" inputmode="tel" name="phone" pattern="[\d+\s\-\(\)]{9,16}" required="" type="tel"/></div>
+<div class="field"><label for="f-name">Full name</label><input autocapitalize="words" autocomplete="name" enterkeyhint="next" id="f-name" maxlength="80" name="name" required="" type="text"/></div>
+<div class="field"><label for="f-phone">Phone</label><input autocomplete="tel" dir="ltr" enterkeyhint="next" id="f-phone" inputmode="tel" maxlength="20" name="phone" pattern="[\d+\s\-\(\)]{9,16}" required="" type="tel"/></div>
 </div>
-<div class="field"><label for="f-email">Email (optional)</label><input autocomplete="email" id="f-email" name="email" type="email"/></div>
-<div class="field"><label for="f-station">Site location and fuel company (if known, optional)</label><input id="f-station" name="station" type="text"/></div>
+<div class="field"><label for="f-email">Email (optional)</label><input autocapitalize="off" autocomplete="email" dir="ltr" enterkeyhint="next" id="f-email" inputmode="email" maxlength="120" name="email" spellcheck="false" type="email"/></div>
+<div class="field"><label for="f-station">Site location and fuel company (if known, optional)</label><input enterkeyhint="next" id="f-station" maxlength="120" name="station" type="text"/></div>
 <input name="type" type="hidden" value="Fuel station construction"/>
 <div class="field"><label for="f-msg">A few words about the project (optional)</label><textarea id="f-msg" name="message" placeholder="For example: number of dispensers, planning stage, requested schedule"></textarea></div>
-<label class="consent"><input name="consent" required="" type="checkbox"/><span>I have read the <a href="../privacy.html">privacy policy</a> and agree that my details will be used only to contact me.</span></label>
+<label class="consent"><input name="consent" required="" type="checkbox"/><span>I have read the <a href="../privacy.html">privacy policy</a> and agree that S. Gotovski Ltd. will use my details only to get back to me about my inquiry. You are not legally required to give your details, but without them we cannot get back to you.</span></label>
 <div class="form__foot">
 <button class="btn btn--primary btn--block" type="submit">Send me a quote</button>
-<small><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"></path><path d="m9 12 2 2 4-4"></path></svg>Your details go straight to our office and are not passed on to anyone else.</small>
+<small><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"></path><path d="m9 12 2 2 4-4"></path></svg>Your details are sent to the office mailbox through the FormSubmit delivery service, and are not used for advertising or any other purpose.</small>
 </div>
 <div aria-live="polite" class="form__notice" hidden="" id="form-notice" role="status"></div>
 </form>
@@ -325,7 +323,7 @@
 </div>
 <div class="footer__bottom">
 <span>© <span id="year"></span> S. Gotovski Ltd. All rights reserved. Company no. 512635335</span>
-<span class="legal-links"><a href="../accessibility.html">Accessibility Statement</a><a href="../privacy.html">Privacy Policy</a></span>
+<span class="legal-links"><a href="../accessibility.html">Accessibility Statement</a><a href="../privacy.html">Privacy Policy</a><a href="../terms.html">Terms of Use</a><button class="legal-links__btn" data-privacy-settings="" type="button">Privacy Settings</button></span>
 </div>
 </div>
 </footer>
@@ -338,7 +336,7 @@
 <a class="mobile-cta__call" href="tel:+97286229307">Call</a>
 <a aria-label="WhatsApp" class="mobile-cta__wa" href="https://wa.me/972502703674?text=Hello%2C%20this%20is%20____.%20When%20would%20be%20a%20good%20time%20to%20talk%3F" rel="noopener" target="_blank"><img alt="" decoding="async" height="415" loading="lazy" src="../../images/wa-bubble.webp" width="372"/><span>WhatsApp</span></a>
 </nav>
-<script defer="" src="../../js/main.js?v=72"></script>
-<script defer="" src="../../js/a11y.js"></script>
+<script defer="" src="../../js/main.js?v=74"></script>
+<script defer="" src="../../js/a11y.js?v=2"></script>
 </body>
 </html>

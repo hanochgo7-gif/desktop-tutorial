@@ -15,10 +15,8 @@
   <meta property="og:image" content="https://gotovski.co.il/images/crew-pipes-tanks.webp">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="../images/logo.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700&family=Frank+Ruhl+Libre:wght@400;500&family=Cousine:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/styles.css?v=126">
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="../css/styles.css?v=132">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -225,17 +223,17 @@
           <h3>בקשה להצעת מחיר לעבודות צנרת</h3>
           <p>מלאו את הפרטים ונחזור אליכם עם הצעת מחיר מפורטת, לאחר בחינת הדרישות ובמידת הצורך סיור באתר.</p>
           <div class="form__row">
-            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[\d+\s\-\(\)]{9,16}" required></div>
+            <div class="field"><label for="f-name">שם מלא</label><input id="f-name" name="name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" maxlength="80" required></div>
+            <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" enterkeyhint="next" maxlength="20" pattern="[\d+\s\-\(\)]{9,16}" required></div>
           </div>
-          <div class="field"><label for="f-email">מייל (לא חובה)</label><input id="f-email" name="email" type="email" autocomplete="email"></div>
-          <div class="field"><label for="f-station">התחנה או האתר (לא חובה)</label><input id="f-station" name="station" type="text"></div>
+          <div class="field"><label for="f-email">מייל (לא חובה)</label><input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" autocapitalize="off" spellcheck="false" enterkeyhint="next" maxlength="120"></div>
+          <div class="field"><label for="f-station">התחנה או האתר (לא חובה)</label><input id="f-station" name="station" type="text" enterkeyhint="next" maxlength="120"></div>
           <input type="hidden" name="type" value="עבודות צנרת דלק">
           <div class="field"><label for="f-msg">מה נדרש? (לא חובה)</label><textarea id="f-msg" name="message" placeholder="למשל: החלפת צנרת דלק, צנרת מישוב, צנרת הזנה לגנרטורים"></textarea></div>
-          <label class="consent"><input type="checkbox" name="consent" required><span>קראתי את <a href="../privacy.html">מדיניות הפרטיות</a> ואני מסכים/ה שהפרטים ישמשו לצורך חזרה אליי בלבד.</span></label>
+          <label class="consent"><input type="checkbox" name="consent" required><span>קראתי את <a href="../privacy.html">מדיניות הפרטיות</a> ואני מסכים/ה שש.גוטובסקי בע״מ תשתמש בפרטים רק כדי לחזור אליי בעניין הפנייה. אין חובה חוקית למסור את הפרטים, אך בלעדיהם לא נוכל לחזור אליכם.</span></label>
           <div class="form__foot">
             <button class="btn btn--primary btn--block" type="submit">שלחו לי הצעת מחיר</button>
-            <small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>הפרטים נשלחים ישירות למשרד ולא מועברים לאף גורם אחר.</small>
+            <small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>הפרטים נשלחים למייל המשרד דרך שירות השליחה FormSubmit, ולא משמשים לפרסום או לשום מטרה אחרת.</small>
           </div>
           <div class="form__notice" id="form-notice" hidden role="status" aria-live="polite"></div>
         </form>
@@ -292,7 +290,7 @@
       </div>
       <div class="footer__bottom">
         <span>© <span id="year"></span> ש.גוטובסקי בע״מ. כל הזכויות שמורות. ח.פ. 512635335</span>
-        <span class="legal-links"><a href="../accessibility.html">הצהרת נגישות</a><a href="../privacy.html">מדיניות פרטיות</a></span>
+        <span class="legal-links"><a href="../accessibility.html">הצהרת נגישות</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><button type="button" class="legal-links__btn" data-privacy-settings>הגדרות פרטיות</button></span>
       </div>
     </div>
   </footer>
@@ -308,7 +306,7 @@
     <a href="https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F" target="_blank" rel="noopener" class="mobile-cta__wa" aria-label="וואטסאפ"><img src="../images/wa-bubble.webp" alt="" width="372" height="415" loading="lazy" decoding="async"><span>וואטסאפ</span></a>
   </nav>
 
-  <script src="../js/main.js?v=72" defer></script>
-  <script src="../js/a11y.js" defer></script>
+  <script src="../js/main.js?v=74" defer></script>
+  <script src="../js/a11y.js?v=2" defer></script>
 </body>
 </html>
