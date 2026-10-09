@@ -105,6 +105,12 @@ p { margin: 0 0 1em; }
 
 .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
 .logo svg { width: 26px; height: 34px; flex: none; }
+/* הטיפה עם ה-א מהלוגו שעוצב בקנבה, כמסכה כדי שתקבל את הצבע של המקום */
+.logo__mark {
+  width: 23px; height: 34px; flex: none; background: var(--mark, #8a7a1e);
+  -webkit-mask: url(../images/mark.png) center / contain no-repeat; mask: url(../images/mark.png) center / contain no-repeat;
+}
+.site-header[data-over-hero]:not(.is-solid):not(.menu-open) .logo__mark, .site-footer .logo__mark { --mark: var(--oil); }
 .logo__word { font-family: var(--display); font-weight: 500; font-size: 1.85rem; line-height: 1; letter-spacing: .01em; }
 .logo__sub { font-size: var(--t-xs); line-height: 1.2; opacity: .8; border-inline-start: 1px solid currentColor; padding-inline-start: 10px; }
 
