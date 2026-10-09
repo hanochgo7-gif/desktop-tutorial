@@ -545,6 +545,7 @@ video.live.on{ opacity:1; }
   // [קובץ, כותרת, מקום, הערה, קישור, גבוה]
   var SHOTS = [
     ['film-poster.webp', 'השנייה הראשונה', 'סרט תדמית · 22 שניות', 'ח מזכוכית, וסביבו חפץ אחד מכל פרויקט: פיתה, כפפת אגרוף, משאבת דלק ופאי כחול. זה הסרט שנפתח בדף הבית.', '../index.html'],
+    ['film/elef.webp', 'אֶלֶף', 'פרסומת שמן זית · 60 שניות', 'פרסומת קולנועית למותג בדיוני של שמן זית מהגליל: איכר, מסיק, בית בד עתיק וטיפת שמן על לחם חם. כולה נוצרה בבינה מלאכותית: הדמות, הצילום, הסאונד והקריינות. המוזיקה: הסוויטה לצ׳לו של באך.', '', 0, 'film/elef', 1],
     ['film/hg.webp', 'HG · Unforgettable', 'פרסומת בושם · 30 שניות', 'פרסומת טלוויזיה לבושם לגברים: הוא, היא, מכונית יוקרה וכביש צוקים בלילה. כולה נוצרה בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות. המוזיקה: נוקטורן של שופן.', '', 0, 'film/hg', 1],
     ['film/ad.webp', 'לפני שהעיר מתעוררת', 'סרט פרסומת · 60 שניות', 'סרט אקשן קצר על בעלת מאפייה ושליח בתל אביב לפני הזריחה. כולו נוצר בבינה מלאכותית: הדמויות, הצילום, הסאונד והקריינות בעברית.', '', 0, 'film/ad', 1],
     ['anigibor/loop.webp', 'אני גיבור', 'פלטפורמת סרטים אישיים · anigibor.com', 'הורים שולחים תמונה אחת מהטלפון, והילד הופך לגיבור של סרט אנימציה ליום ההולדת, עם השם והגיל שלו. פלטפורמה מלאה: אתר, הזמנה, תשלום והפקה. הילדים בדוגמאות נוצרו בבינה מלאכותית.', 'https://anigibor.com', 0, 'anigibor/arch'],
@@ -592,7 +593,7 @@ video.live.on{ opacity:1; }
   /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
   var CATS = [
     { k: 'sites', t: 'אתרים', d: 'אתרים מלאים שעיצבתי ובניתי מאפס לעסקים אמיתיים.', f: ['anigibor/loop.webp', 'cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp'] },
-    { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
+    { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/elef.webp', 'film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
     { k: 'live', t: 'תמונות חיות', d: 'תמונה שזזה בראש האתר במקום תמונה רגילה. דוגמה אחת לכל תחום.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
     { k: 'art', t: 'עיצוב ואיור', d: 'דמויות, איורים, רקעים חיים וצילומי מוצר שנעשו בשביל אתר מסוים.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
     { k: 'systems', t: 'מערכות ותלת־ממד', d: 'הדמיה תלת־ממדית שרצה בדפדפן, והמערכות שאפשר להוסיף לאתר.', f: ['sim-poster.webp', 'systems/ai.webp', 'systems/sell.webp', 'systems/brand.webp', 'systems/grow.webp', 'systems/ops.webp'] }
