@@ -247,8 +247,9 @@ def srcset(cover, sizes):
     return f' srcset="../{sm} 640w, ../{cover} 1200w" sizes="{sizes}"' if sm else ''
 
 
-def card(p, first=False):
-    load = 'fetchpriority="high"' if first else 'loading="lazy"'
+def card(p, n=9):
+    # בעמוד המאמרים: התמונה הראשונה מקבלת עדיפות, והשורה הראשונה (עד שלוש) נטענת מיד כי היא כבר על המסך
+    load = 'fetchpriority="high"' if n == 0 else 'loading="eager"' if n < 3 else 'loading="lazy"'
     return (f'<li><a href="{p["slug"]}.html"><img src="../{p["cover"]}"{srcset(p["cover"], "(max-width: 700px) 100vw, 420px")} alt="" width="1200" height="675" {load} decoding="async">'
             f'<span class="tx"><time datetime="{p["date"].isoformat()}">{heb_date(p["date"])}</time><b>{esc(p["h1"])}</b><span>{esc(p["desc"])}</span></span></a></li>')
 
@@ -264,7 +265,7 @@ def index(posts):
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">מאמרים</span></nav>
   <h1>מאמרים</h1>
   <p class="sv-lead">מדריכים קצרים וישירים לבעלי עסקים: אתרים, עיצוב, גוגל ובינה מלאכותית. בלי מילים גבוהות, עם מספרים אמיתיים.</p>
-  <ul class="bl-list">{''.join(card(p, i == 0) for i, p in enumerate(posts))}</ul>
+  <ul class="bl-list">{''.join(card(p, i) for i, p in enumerate(posts))}</ul>
 </main>
 ''' + FOOT
 

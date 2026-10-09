@@ -103,44 +103,90 @@
   gl.uniform1i(U.uA, 0);
   gl.uniform1i(U.uB, 1);
 
-  function makeTex(unit) {
+  // מטמון קטן של טקסטורות לפי מספר פריים: כשהגלילה מתקדמת בפריים אחד, עולה לכרטיס המסך רק הפריים החדש
+  var CACHE = 4, cache = [];
+  function makeTex() {
     var t = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0 + unit);
     gl.bindTexture(gl.TEXTURE_2D, t);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
     return t;
   }
-  var tex = [makeTex(0), makeTex(1)], onTex = [-1, -1];
-  function upload(unit, i, im) {
-    if (onTex[unit] === i) return;
-    gl.activeTexture(gl.TEXTURE0 + unit);
-    gl.bindTexture(gl.TEXTURE_2D, tex[unit]);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, im);
-    onTex[unit] = i;
+  var tick = 0;
+  function texFor(i) {
+    for (var c = 0; c < cache.length; c++) if (cache[c].i === i) { cache[c].used = tick; return cache[c].t; }
+    var slot;
+    if (cache.length < CACHE) { slot = { t: makeTex() }; cache.push(slot); }
+    else { slot = cache[0]; for (c = 1; c < cache.length; c++) if (cache[c].used < slot.used) slot = cache[c]; }
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, slot.t);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, pix(i));
+    slot.i = i; slot.used = tick;
+    return slot.t;
   }
+  function cached(i) { for (var c = 0; c < cache.length; c++) if (cache[c].i === i) return true; return false; }
+  function bind(unit, t) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t); }
 
   /* ---------- הפריימים: קודם כל רביעי, ואז השאר ---------- */
   var narrow = window.innerWidth < 700;
   var set = !narrow && window.innerWidth * Math.min(window.devicePixelRatio || 1, 2) > 1300 ? 1600 : 960;
   var frames = [], iw = 16, ih = 9, dirty = true;
   function src(i) { return PATH.replace('{w}', set).replace('{n}', String(i * STEP + 1).padStart(3, '0')); }
+  // פענוח התמונה ברקע (createImageBitmap), כדי שהעלאה לכרטיס המסך לא תעצור את הגלילה.
+  // מחזיקים מפוענחים רק פריימים קרובים למקום בגלילה, כדי לא למלא את הזיכרון
+  var BM = typeof createImageBitmap === 'function', NEAR = 4, lo = 0, hi = 0, shownAt = -1;
   function want(i) {
     if (frames[i]) return;
-    var im = new Image();
+    var f = frames[i] = {};
+    if (BM && window.fetch) {
+      // הקובץ נשמר דחוס, והפענוח קורה ברקע רק כשהפריים מתקרב
+      fetch(src(i)).then(function (r) { if (!r.ok) throw r; return r.blob(); }).then(function (b) {
+        f.blob = b;
+        if (i === 0 || (i >= lo && i <= hi)) bitmap(i);
+      }).catch(function () { frames[i] = null; BM = false; want(i); });
+      return;
+    }
+    var im = f.im = new Image();
     im.decoding = 'async';
     im.onload = function () {
+      f.ok = true;
       if (i === 0) { iw = im.naturalWidth; ih = im.naturalHeight; layout(); }
-      // מציירים מחדש רק אם הפריים שנטען הוא זה שצריך עכשיו (או קרוב יותר אליו ממה שמוצג)
-      if (Math.abs(i - pos) < 2 || onTex[0] < 0 || Math.abs(i - pos) < Math.abs(onTex[0] - pos)) dirty = true;
+      arrived(i);
     };
     im.src = src(i);
-    frames[i] = im;
   }
-  function ready(i) { var f = frames[i]; return !!(f && f.complete && f.naturalWidth); }
+  function arrived(i) {
+    // מציירים מחדש רק אם הפריים שהגיע הוא זה שצריך עכשיו (או קרוב יותר אליו ממה שמוצג)
+    if (Math.abs(i - pos) < 2 || shownAt < 0 || Math.abs(i - pos) < Math.abs(shownAt - pos)) dirty = true;
+  }
+  function bitmap(i) {
+    var f = frames[i];
+    if (!f || !f.blob || f.bm || f.busy) return;
+    f.busy = true;
+    createImageBitmap(f.blob).then(function (bm) {
+      f.busy = false;
+      if (i === 0 && iw === 16) { iw = bm.width; ih = bm.height; layout(); }
+      if (i < lo - 2 || i > hi + 2) { bm.close(); return; }
+      f.bm = bm; arrived(i);
+    }, function () { f.busy = false; });
+  }
+  // החלון של הפריימים המפוענחים זז עם הגלילה (גם לכיוון שאליו היא הולכת)
+  function windowAt(a, b) {
+    var nlo = Math.max(0, Math.floor(Math.min(a, b)) - NEAR), nhi = Math.min(COUNT - 1, Math.ceil(Math.max(a, b)) + NEAR);
+    if (nhi - nlo > NEAR * 4) { if (b > a) nlo = nhi - NEAR * 4; else nhi = nlo + NEAR * 4; }
+    if (nlo === lo && nhi === hi) return;
+    lo = nlo; hi = nhi;
+    for (var j = 0; j < COUNT; j++) {
+      var f = frames[j];
+      if (!f) continue;
+      if (j >= lo && j <= hi) bitmap(j);
+      else if (f.bm) { f.bm.close(); f.bm = null; }
+    }
+  }
+  function pix(i) { return frames[i].bm || frames[i].im; }
+  function ready(i) { var f = frames[i]; return !!(f && (f.bm || f.ok || cached(i))); }
   function nearest(i) {
     for (var d = 0; d < COUNT; d++) {
       if (i - d >= 0 && ready(i - d)) return i - d;
@@ -153,6 +199,7 @@
   want(COUNT - 1);
   function rest() { for (var j = 0; j < COUNT; j++) want(j); }
   if ('requestIdleCallback' in window) requestIdleCallback(rest, { timeout: 2500 }); else setTimeout(rest, 1200);
+  windowAt(0, 0);
 
   /* ---------- פריסה ---------- */
   var W = 1, H = 1, dpr = 1;
@@ -227,6 +274,7 @@
     // הפריים רודף אחרי הגלילה עם השהיה קטנה, כדי שזה ירגיש כמו סרט
     pos += (target - pos) * 0.2;
     if (Math.abs(target - pos) < 0.002) pos = target;
+    windowAt(pos, target);
     ptr.x += (ptr.tx - ptr.x) * 0.14; ptr.y += (ptr.ty - ptr.y) * 0.14; ptr.on += (ptr.ton - ptr.on) * 0.08;
     if (ptr.on < 0.002) ptr.on = 0;
     // הכניסה עצמה היא מעבר CSS על הקנבס (.cr-stage), כך שמציירים פריים אחד ולא שישים
@@ -239,10 +287,14 @@
 
     var i0 = Math.floor(pos), i1 = Math.min(COUNT - 1, i0 + 1);
     var a = nearest(i0);
-    if (a < 0) return;
+    if (a < 0) { dirty = true; return; }
     var b = ready(i1) ? i1 : a;
-    upload(0, a, frames[a]);
-    upload(1, b, frames[b]);
+    // לכל היותר פריים חדש אחד לכרטיס המסך בכל ציור; השני יגיע בציור הבא
+    tick++;
+    if (b !== a && !cached(a) && !cached(b)) { b = a; dirty = true; }
+    bind(0, texFor(a));
+    bind(1, texFor(b));
+    shownAt = a;
     gl.uniform1f(U.uMix, b === a ? 0 : pos - i0);
     gl.uniform1f(U.uOut, out);
     gl.uniform1f(U.uFade, fade);
