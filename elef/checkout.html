@@ -91,13 +91,13 @@
           <legend>קוד הנחה</legend>
           <div class="fields">
             <div class="field"><label for="f-coupon">יש לכם קוד?</label><input id="f-coupon" name="coupon" dir="ltr" autocomplete="off" aria-describedby="f-coupon-msg"><span class="err" id="f-coupon-msg" data-coupon-msg aria-live="polite"></span></div>
-            <div class="field" style="justify-content:flex-end"><button class="btn btn--ghost" type="button" data-apply>החלת הקוד</button></div>
+            <div class="field field--action"><button class="btn btn--ghost" type="button" data-apply>החלת הקוד</button></div>
           </div>
         </fieldset>
 
         <label class="check"><input type="checkbox" name="terms" required aria-describedby="terms-err"><span>קראתי ואני מסכים/ה ל<a class="link" href="info.html#terms" target="_blank">תקנון האתר</a> ול<a class="link" href="info.html#privacy" target="_blank">מדיניות הפרטיות</a></span></label>
-        <p class="err" id="terms-err" data-terms-err aria-live="polite" style="color:#a3341f;font-size:var(--t-xs)"></p>
-        <label class="check" style="margin-bottom:28px"><input type="checkbox" name="news"><span>אשמח לקבל עדכון כשהקטיף מתחיל ולפני החגים</span></label>
+        <p class="form-error" id="terms-err" data-terms-err aria-live="polite"></p>
+        <label class="check check--last"><input type="checkbox" name="news"><span>אשמח לקבל עדכון כשהקטיף מתחיל ולפני החגים</span></label>
 
         <button class="btn btn--block" type="submit">המשך לתשלום</button>
         <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>פרטי האשראי מוזנים בעמוד המאובטח של חברת הסליקה. אנחנו לא שומרים אותם.</p>
@@ -120,9 +120,9 @@
       <h1>כמעט סיימנו</h1>
       <p data-done-text></p>
       <div class="done__note">
-        <p style="margin:0"><strong>זהו אתר תדמית לדוגמה.</strong> באתר פעיל, בשלב הזה הייתם עוברים לעמוד התשלום המאובטח של חברת הסליקה. לא נשלחה הזמנה ולא בוצע חיוב.</p>
+        <p><strong>זהו אתר תדמית לדוגמה.</strong> באתר פעיל, בשלב הזה הייתם עוברים לעמוד התשלום המאובטח של חברת הסליקה. לא נשלחה הזמנה ולא בוצע חיוב.</p>
       </div>
-      <p style="margin-top:28px"><a class="btn btn--ghost" href="index.html">חזרה לחנות</a></p>
+      <p class="done__back"><a class="btn btn--ghost" href="index.html">חזרה לחנות</a></p>
     </div>
   </div>
 </main>
@@ -202,7 +202,7 @@
     <div class="drawer__foot" data-cart-foot hidden>
       <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
       <div class="drawer__ship"><span>שליח עד הבית</span><span data-cart-ship>₪29</span></div>
-      <p class="drawer__note">אפשר לבחור בקופה גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). המחירים כוללים מע״מ.</p>
+      <p class="drawer__note">בקופה אפשר לבחור גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). בקבוק שמגיע שבור מוחלף בלי שאלות.</p>
       <a class="btn btn--block" href="checkout.html">לקופה</a>
     </div>
   </div>
@@ -261,7 +261,7 @@
   var rules = {
     first: function (v) { return v ? '' : 'כתבו שם פרטי'; },
     last: function (v) { return v ? '' : 'כתבו שם משפחה'; },
-    phone: function (v) { return /^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test(v) ? '' : 'מספר נייד בן 10 ספרות, למשל 050-1234567'; },
+    phone: function (v) { return /^(\+972[-\s]?|0)5\d[-\s]?\d{3}[-\s]?\d{4}$/.test(v) ? '' : 'מספר נייד בן 10 ספרות, למשל 050-1234567'; },
     email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'כתובת אימייל צריכה לכלול @ ונקודה'; },
     city: function (v) { return v ? '' : 'לאיזה יישוב לשלוח?'; },
     street: function (v) { return v ? '' : 'כתבו רחוב ומספר בית'; }
