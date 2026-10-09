@@ -646,7 +646,8 @@
   function jumpToHash(id) {
     var el = id && document.getElementById(id);
     if (!el) return;
-    if (lenis) lenis.scrollTo(el, { immediate: true, force: true });
+    // חלק שמוגדר לו scroll-margin-top (למשל #ads) נוחת מתחת לסרגל העליון
+    if (lenis) lenis.scrollTo(el, { immediate: true, force: true, offset: -(parseFloat(getComputedStyle(el).scrollMarginTop) || 0) });
     else el.scrollIntoView();
   }
   window.addEventListener('hashchange', openFromHash);
