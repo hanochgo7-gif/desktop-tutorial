@@ -14,12 +14,13 @@
   --press-hover: #2e3a20;
   --on-dark: #e9ebe4;
 
-  --display: "Frank Ruhl Libre", "David", serif;
-  --body: "Alef", "Arial Hebrew", Arial, sans-serif;
+  --display: "Bellefair", "Frank Ruhl Libre", "David", serif;   /* כותרות: דק ועדין, כמו תווית ישנה */
+  --body: "David Libre", "David", "Times New Roman", serif;      /* טקסט: פונט ספרותי קלאסי */
+  --wordmark: "Frank Ruhl Libre", "David", serif;                /* השם אֶלֶף, כמו בסיום הפרסומת */
 
   --t-xs: .8125rem;
   --t-s: .9375rem;
-  --t-m: 1.0625rem;
+  --t-m: 1.125rem;
   --t-l: 1.375rem;
   --t-xl: clamp(1.75rem, 1.2rem + 2vw, 2.375rem);
   --t-2xl: clamp(2.25rem, 1.3rem + 3.6vw, 3.5rem);
@@ -40,7 +41,7 @@ body {
   color: var(--ink);
   font-family: var(--body);
   font-size: var(--t-m);
-  line-height: 1.65;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 img, video { display: block; max-width: 100%; }
@@ -111,7 +112,7 @@ p { margin: 0 0 1em; }
   -webkit-mask: url(../images/mark.png) center / contain no-repeat; mask: url(../images/mark.png) center / contain no-repeat;
 }
 .site-header[data-over-hero]:not(.is-solid):not(.menu-open) .logo__mark, .site-footer .logo__mark { --mark: var(--oil); }
-.logo__word { font-family: var(--display); font-weight: 500; font-size: 1.85rem; line-height: 1; letter-spacing: .01em; }
+.logo__word { font-family: var(--wordmark); font-weight: 500; font-size: 1.85rem; line-height: 1; letter-spacing: .01em; }
 .logo__sub { font-size: var(--t-xs); line-height: 1.2; opacity: .8; border-inline-start: 1px solid currentColor; padding-inline-start: 10px; }
 
 .site-nav { margin-inline-start: auto; }
