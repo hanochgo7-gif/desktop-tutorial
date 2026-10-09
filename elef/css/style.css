@@ -280,10 +280,11 @@ p { margin: 0 0 1em; }
 
 /* ---------- סרט ---------- */
 .film { position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: pointer; color: var(--on-dark); background: var(--dawn); text-align: start; overflow: hidden; }
-.film img { width: 100%; height: clamp(360px, 62vw, 760px); object-fit: cover; object-position: 50% 60%; opacity: .9; transition: opacity .6s, transform 1.2s cubic-bezier(.2, .7, .2, 1); }
+.film img { width: 100%; height: auto; aspect-ratio: 1920 / 804; min-height: 300px; object-fit: cover; object-position: 30% 50%; opacity: .95; transition: opacity .6s, transform 1.2s cubic-bezier(.2, .7, .2, 1); }
 .film:hover img { opacity: .95; transform: scale(1.015); }
-.film::after { content: ""; position: absolute; inset: 40% 0 0 0; background: linear-gradient(to top, rgba(18, 26, 33, .7), rgba(18, 26, 33, 0)); pointer-events: none; }
-.film__label { position: absolute; z-index: 1; inset-inline: var(--gutter); bottom: clamp(32px, 6vw, 72px); display: flex; align-items: center; gap: 20px; }
+.film::after { content: ""; position: absolute; inset: 60% 0 0 0; background: linear-gradient(to top, rgba(18, 26, 33, .55), rgba(18, 26, 33, 0)); pointer-events: none; }
+/* הפרסומת נגמרת בלוגו שבצד ימין של הפריים, ולכן כפתור ההפעלה בצד שמאל */
+.film__label { position: absolute; z-index: 1; inset-inline: var(--gutter); bottom: clamp(28px, 5vw, 64px); display: flex; align-items: center; justify-content: flex-end; gap: 16px; }
 .film__play { width: 72px; height: 72px; flex: none; border-radius: 50%; border: 1px solid rgba(233, 235, 228, .8); display: grid; place-items: center; background: rgba(31, 44, 56, .35); backdrop-filter: blur(4px); }
 .film__play svg { width: 22px; height: 22px; margin-left: 4px; }
 .film__title { font-family: var(--display); font-size: var(--t-xl); font-weight: 300; line-height: 1.1; display: block; }
