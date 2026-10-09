@@ -5,6 +5,9 @@
   --paper: #f1f2ed;     /* משטחים בהירים, שדות טופס */
   --ink: #1e2318;       /* שחור-זית: טקסט */
   --leaf: #59634f;      /* עלה זית: טקסט משני */
+  --text-2: #3b4234;    /* טקסט רץ משני, כהה יותר מעלה הזית */
+  --gold-text: #8a7a1e; /* זהב כהה על רקע בהיר: הטיפה בכותרת, כוכבים */
+  --error: #a3341f;     /* שגיאות בטופס */
   --line: #c3c8bb;      /* קווים מפרידים */
   --control: #767e6c;   /* מסגרות של שדות וכפתורי בחירה: ניגודיות 3:1 לפחות */
   --dawn: #1f2c38;      /* שעת הכחול: אזורים כהים */
@@ -108,7 +111,7 @@ p { margin: 0 0 1em; }
 .logo svg { width: 26px; height: 34px; flex: none; }
 /* הטיפה עם ה-א מהלוגו שעוצב בקנבה, כמסכה כדי שתקבל את הצבע של המקום */
 .logo__mark {
-  width: 23px; height: 34px; flex: none; background: var(--mark, #8a7a1e);
+  width: 23px; height: 34px; flex: none; background: var(--mark, var(--gold-text));
   -webkit-mask: url(../images/mark.png) center / contain no-repeat; mask: url(../images/mark.png) center / contain no-repeat;
 }
 .site-header[data-over-hero]:not(.is-solid):not(.menu-open) .logo__mark, .site-footer .logo__mark { --mark: var(--oil); }
@@ -127,6 +130,8 @@ p { margin: 0 0 1em; }
 }
 .icon-btn svg { width: 22px; height: 22px; }
 .icon-btn:hover { background: rgba(127, 135, 115, .16); }
+@keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.cart-count.is-bumped { animation: bump .4s ease-out; }
 .cart-count {
   position: absolute; top: 4px; inset-inline-end: 2px;
   min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
@@ -241,7 +246,9 @@ p { margin: 0 0 1em; }
 .product__name { font-size: var(--t-l); font-weight: 500; }
 .product__name a { text-decoration: none; }
 .product__name a:hover { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
-.product__size { color: var(--leaf); font-size: var(--t-s); margin: 2px 0 8px; }
+.product__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; color: var(--leaf); font-size: var(--t-s); margin: 2px 0 8px; }
+/* פרופיל הטעם על הכרטיס: מה שעוזר לבחור בין השמנים בלי לפתוח כל מוצר */
+.product__profile { color: var(--press); font-weight: 700; padding-inline-start: 12px; border-inline-start: 1px solid var(--line); }
 .product__short { font-size: var(--t-s); margin-bottom: 16px; max-width: 40ch; }
 .product__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
 .product__price { font-size: var(--t-l); font-family: var(--display); font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -254,7 +261,7 @@ p { margin: 0 0 1em; }
 .steps img { aspect-ratio: 3 / 4; object-fit: cover; width: 100%; border-radius: var(--radius); margin-bottom: 18px; }
 .steps h3 { font-size: var(--t-l); font-weight: 500; display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
 .steps h3::before { content: counter(step); font-family: var(--display); font-weight: 300; font-size: 1.6em; color: var(--leaf); line-height: 1; }
-.steps p { font-size: var(--t-s); color: #3b4234; margin: 0; max-width: 34ch; }
+.steps p { font-size: var(--t-s); color: var(--text-2); margin: 0; max-width: 34ch; }
 @media (max-width: 900px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; } }
 @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } .steps img { aspect-ratio: 3 / 2; } }
 
@@ -319,7 +326,7 @@ p { margin: 0 0 1em; }
 .reviews { background: var(--paper); }
 .reviews__summary { display: flex; align-items: baseline; gap: 12px; }
 .reviews__summary strong { font-family: var(--display); font-size: var(--t-2xl); font-weight: 300; line-height: 1; }
-.stars { color: #9a8420; letter-spacing: 2px; font-size: var(--t-s); }
+.stars { color: var(--gold-text); letter-spacing: 2px; font-size: var(--t-s); }
 .quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
 .quote { margin: 0; padding-top: 20px; border-top: 1px solid var(--ink); }
 .quote p { font-family: var(--display); font-size: var(--t-l); line-height: 1.45; margin: 12px 0 16px; }
@@ -336,6 +343,8 @@ p { margin: 0 0 1em; }
 .visit dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; margin: 24px 0 32px; font-size: var(--t-s); max-width: 30rem; }
 .visit dt { color: var(--oil); }
 .visit dd { margin: 0; }
+.visit__book { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.visit .link { color: var(--oil); }
 
 /* ---------- שאלות ---------- */
 .faq { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
@@ -347,7 +356,7 @@ p { margin: 0 0 1em; }
 .qa summary::-webkit-details-marker { display: none; }
 .qa summary::after { content: "+"; font-family: var(--body); font-size: 1.4rem; line-height: 1; color: var(--leaf); transition: transform .25s; }
 .qa[open] summary::after { transform: rotate(45deg); }
-.qa div { padding: 0 0 22px; max-width: 60ch; color: #3b4234; }
+.qa div { padding: 0 0 22px; max-width: 60ch; color: var(--text-2); }
 @media (max-width: 860px) { .faq { grid-template-columns: 1fr; } }
 
 /* ---------- ניוזלטר ופוטר ---------- */
@@ -413,6 +422,9 @@ p { margin: 0 0 1em; }
 .drawer__note { font-size: var(--t-xs); color: var(--leaf); margin-bottom: 14px; }
 .drawer__ship { display: flex; justify-content: space-between; font-size: var(--t-s); margin-bottom: 4px; }
 .cart-empty { text-align: center; padding: 64px 0; }
+.line-undo { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; padding: 10px 14px; background: var(--paper); border-radius: var(--radius); font-size: var(--t-s); }
+.link-btn { border: 0; background: none; padding: 4px 0; color: var(--press); font-weight: 700; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+.link-btn:hover { text-decoration-thickness: 2px; }
 
 .toast {
   position: fixed; bottom: 24px; inset-inline-start: 50%; z-index: 90;
@@ -445,6 +457,7 @@ p { margin: 0 0 1em; }
 .pdp__buy .qty button, .pdp__buy .qty input { height: 46px; }
 .pdp__buy .btn { flex: 1; }
 .pdp__ship { font-size: var(--t-s); color: var(--leaf); margin-bottom: 28px; }
+.pdp__added { margin: 0 0 8px; font-size: var(--t-s); }
 .taste { margin: 28px 0; display: grid; gap: 12px; }
 .taste__row { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 12px; font-size: var(--t-s); }
 .meter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
@@ -458,7 +471,13 @@ p { margin: 0 0 1em; }
 .pdp details[open] summary::after { content: "−"; }
 .pdp details > div { padding-bottom: 18px; font-size: var(--t-s); }
 .pdp details .spec { margin-top: 0; }
-@media (max-width: 900px) { .pdp { grid-template-columns: 1fr; } .pdp__info { position: static; } }
+@media (max-width: 900px) {
+  .pdp { grid-template-columns: 1fr; } .pdp__info { position: static; }
+  /* בטלפון התמונות נגללות לצדדים, כדי שהמחיר וכפתור ההוספה יופיעו מיד אחרי התמונה הראשונה */
+  .pdp__gallery { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 8px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .pdp__gallery::-webkit-scrollbar { display: none; }
+  .pdp__gallery img, .pdp__gallery img:first-child { flex: 0 0 84%; height: auto; scroll-snap-align: center; }
+}
 
 /* ---------- קופה ---------- */
 .checkout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 72px); padding-block: 32px clamp(64px, 8vw, 112px); align-items: start; }
@@ -477,8 +496,13 @@ legend { font-family: var(--display); font-size: var(--t-l); font-weight: 500; m
 }
 .field textarea { min-height: 88px; resize: vertical; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--press); outline: 2px solid rgba(60, 74, 42, .2); outline-offset: 0; }
-.field [aria-invalid="true"] { border-color: #a3341f; }
-.field .err { color: #a3341f; font-size: var(--t-xs); min-height: 0; }
+.field [aria-invalid="true"] { border-color: var(--error); }
+.field .err, .form-error { color: var(--error); font-size: var(--t-xs); min-height: 0; }
+.form-error { margin: 6px 0 0; }
+.field--action { justify-content: flex-end; }
+.check--last { margin-block: 10px 28px; }
+.done__note p { margin: 0; }
+.done__back { margin-top: 28px; }
 @media (max-width: 560px) { .fields { grid-template-columns: 1fr; } }
 .options { display: grid; gap: 10px; }
 .option { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--control); border-radius: var(--radius); background: var(--paper); cursor: pointer; font-size: var(--t-s); }

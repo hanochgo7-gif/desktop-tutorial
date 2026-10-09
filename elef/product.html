@@ -19,7 +19,7 @@
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
-<aside class="notice" aria-label="עדכון משלוחים"><p>קטיף 2026 התחיל. הזמנות שנכנסות עכשיו יוצאות מבית הבד החל מ-2 בנובמבר. <a href="index.html#shop">לחנות</a></p></aside>
+<aside class="notice" aria-label="עדכון משלוחים"><p>קטיף 2026 התחיל. הזמנות חדשות נשלחות מבית הבד החל מ-2 בנובמבר. <a href="index.html#shop">לחנות</a></p></aside>
 
 <header class="site-header">
   <div class="wrap">
@@ -63,7 +63,7 @@
     </nav>
 
     <div class="pdp" data-pdp>
-      <div class="pdp__gallery" data-gallery></div>
+      <div class="pdp__gallery" data-gallery role="region" aria-label="תמונות המוצר" tabindex="0"></div>
       <div class="pdp__info">
         <span class="pdp__badge" data-badge hidden></span>
         <h1 data-name></h1>
@@ -87,6 +87,7 @@
           </div>
           <button class="btn" type="button" data-add data-use-qty>הוספה לסל</button>
         </div>
+        <p class="pdp__added" data-added-note hidden role="status">נוסף לסל. <button type="button" class="link-btn" data-open-cart>לסל ולקופה</button></p>
         <p class="pdp__ship">נשלח מבית הבד החל מ-2 בנובמבר. משלוח חינם בהזמנה מעל ₪250.</p>
 
         <details open>
@@ -204,7 +205,7 @@
     <div class="drawer__foot" data-cart-foot hidden>
       <div class="drawer__row"><span>סכום ביניים</span><span data-cart-sub>₪0</span></div>
       <div class="drawer__ship"><span>שליח עד הבית</span><span data-cart-ship>₪29</span></div>
-      <p class="drawer__note">אפשר לבחור בקופה גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). המחירים כוללים מע״מ.</p>
+      <p class="drawer__note">בקופה אפשר לבחור גם נקודת איסוף (₪19) או איסוף עצמי מבית הבד (חינם). בקבוק שמגיע שבור מוחלף בלי שאלות.</p>
       <a class="btn btn--block" href="checkout.html">לקופה</a>
     </div>
   </div>

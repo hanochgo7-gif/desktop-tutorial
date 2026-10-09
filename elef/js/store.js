@@ -6,7 +6,7 @@
 
   var PRODUCTS = [
     {
-      id: 'early', cat: 'bottles', name: 'קטיף ראשון', size: '500 מ״ל', price: 94,
+      id: 'early', profile: 'חריף ומר', cat: 'bottles', name: 'קטיף ראשון', size: '500 מ״ל', price: 94,
       badge: 'קטיף 2026',
       img: 'images/p-early', alt: 'בקבוק אלף קטיף ראשון על גדר אבן בזריחה',
       gallery: ['images/harvest-hands', 'images/olive-dew'],
@@ -18,7 +18,7 @@
       variety: 'סורי', harvest: '4–9 באוקטובר 2026', acidity: '0.19%', poly: '640 מ״ג/ק״ג'
     },
     {
-      id: 'souri', cat: 'bottles', name: 'סורי מהגליל', size: '750 מ״ל', price: 112,
+      id: 'souri', profile: 'מאוזן ופירותי', cat: 'bottles', name: 'סורי מהגליל', size: '750 מ״ל', price: 112,
       img: 'images/p-souri', alt: 'בקבוק אלף סורי מהגליל על גדר טרסה',
       gallery: ['images/grove-path', 'images/millstone'],
       short: 'הזן הוותיק של הגליל, בשיא הבשלות. ארטישוק וסיומת פלפלית.',
@@ -29,7 +29,7 @@
       variety: 'סורי', harvest: '12–30 באוקטובר 2026', acidity: '0.22%', poly: '480 מ״ג/ק״ג'
     },
     {
-      id: 'ancient', cat: 'bottles', name: 'עצים עתיקים', size: '375 מ״ל', price: 138,
+      id: 'ancient', profile: 'עגול ועמוק', cat: 'bottles', name: 'עצים עתיקים', size: '375 מ״ל', price: 138,
       badge: 'מהדורה ממוספרת',
       img: 'images/p-ancient', alt: 'בקבוק אלף עצים עתיקים על אבן מכוסה חזזית',
       gallery: ['images/bark', 'images/farmer-profile'],
@@ -41,7 +41,7 @@
       variety: 'סורי, עצים בני 600+ שנה', harvest: '20 באוקטובר 2026', acidity: '0.17%', poly: '590 מ״ג/ק״ג'
     },
     {
-      id: 'daily', cat: 'bottles', name: 'יום־יום', size: '1 ליטר', price: 86,
+      id: 'daily', profile: 'עדין ופירותי', cat: 'bottles', name: 'יום־יום', size: '1 ליטר', price: 86,
       badge: 'הכי נמכר',
       img: 'images/p-daily', alt: 'בקבוק אלף יום־יום ליטר על קיר אבן',
       gallery: ['images/bread-drop', 'images/bread-bowl'],
@@ -53,7 +53,7 @@
       variety: 'ברנע, קורונייקי', harvest: 'אוקטובר–נובמבר 2026', acidity: '0.28%', poly: '310 מ״ג/ק״ג'
     },
     {
-      id: 'tin', cat: 'tins', name: 'פח מבית הבד', size: '4 ליטר', price: 329,
+      id: 'tin', profile: 'מאוזן ופירותי', cat: 'tins', name: 'פח מבית הבד', size: '4 ליטר', price: 329,
       img: 'images/p-tin', alt: 'שמן זית טרי זורם מברז פליז לכד חרס',
       gallery: ['images/spout', 'images/pour-jug'],
       short: 'סורי ישר מהמיכל, כמו שקונים אצלנו בבית הבד. למשפחות שגומרות שמן מהר.',
@@ -64,7 +64,7 @@
       variety: 'סורי', harvest: 'אוקטובר 2026', acidity: '0.22%', poly: '480 מ״ג/ק״ג'
     },
     {
-      id: 'gift', cat: 'gifts', name: 'מארז חנוכה', size: '3 בקבוקים של 250 מ״ל', price: 189,
+      id: 'gift', profile: 'שלושה טעמים במארז', cat: 'gifts', name: 'מארז חנוכה', size: '3 בקבוקים של 250 מ״ל', price: 189,
       badge: 'חדש לחנוכה',
       img: 'images/p-gift', alt: 'ידיים בוצעות לחם כפרי לצד קערית שמן זית',
       gallery: ['images/p-gift-2', 'images/bread-drop'],
@@ -87,6 +87,7 @@
   /* ---------- סל ---------- */
   var KEY = 'elef-cart-v1';
   var memory = [];
+  var lastRemoved = null; /* לביטול הסרה מהסל */
 
   function read() {
     try {
@@ -139,7 +140,7 @@
         '</a>' +
         '<div class="product__body">' +
           '<h3 class="product__name"><a href="product.html?p=' + p.id + '">' + p.name + '</a></h3>' +
-          '<p class="product__size">' + p.size + '</p>' +
+          '<p class="product__meta"><span>' + p.size + '</span><span class="product__profile">' + p.profile + '</span></p>' +
           '<p class="product__short">' + p.short + '</p>' +
           '<div class="product__foot">' +
             '<span class="product__price">' + money(p.price) + '</span>' +
@@ -159,11 +160,12 @@
     var bar = document.querySelector('[data-ship-bar]');
     var msg = document.querySelector('[data-ship-msg]');
 
+    var undo = lastRemoved ? '<div class="line-undo" role="status"><span>' + byId(lastRemoved.id).name + ' הוסר מהסל.</span><button type="button" class="link-btn" data-undo>החזרה לסל</button></div>' : '';
     if (!lines.length) {
-      body.innerHTML = '<div class="cart-empty"><p>הסל ריק.</p><a class="btn btn--ghost" href="index.html#shop" data-close-cart>לבחירת שמן</a></div>';
+      body.innerHTML = undo + '<div class="cart-empty"><p>הסל ריק.</p><a class="btn btn--ghost" href="index.html#shop" data-close-cart>לבחירת שמן</a></div>';
       foot.hidden = true;
     } else {
-      body.innerHTML = lines.map(function (l) {
+      body.innerHTML = undo + lines.map(function (l) {
         var p = byId(l.id);
         return '<div class="line">' +
           '<img src="' + p.img + '-600.webp" alt="" width="72" height="90">' +
@@ -215,6 +217,7 @@
     var d = document.getElementById('cart');
     if (!d || d.hidden) return;
     d.classList.remove('is-open');
+    lastRemoved = null;
     document.documentElement.classList.remove('no-scroll');
     setTimeout(function () { d.hidden = true; }, 320);
     if (lastFocus) lastFocus.focus();
@@ -237,8 +240,14 @@
       var qty = add.hasAttribute('data-use-qty') && qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1;
       Cart.add(add.getAttribute('data-add'), qty);
       var p = byId(add.getAttribute('data-add'));
-      toast(p.name + ' נוסף לסל');
+      if (!document.querySelector('[data-added-note]')) toast(p.name + ' נוסף לסל');
       add.classList.add('is-added');
+      lastRemoved = null;
+      document.querySelectorAll('[data-cart-count]').forEach(function (b) {
+        b.classList.remove('is-bumped'); void b.offsetWidth; b.classList.add('is-bumped');
+      });
+      var note = document.querySelector('[data-added-note]');
+      if (note) note.hidden = false;
       var label = add.textContent;
       add.textContent = 'נוסף לסל';
       setTimeout(function () { add.textContent = label; add.classList.remove('is-added'); }, 1600);
@@ -250,12 +259,33 @@
     if (q) {
       var id = q.getAttribute('data-qty');
       var cur = Cart.lines().filter(function (l) { return l.id === id; })[0];
-      Cart.set(id, (cur ? cur.qty : 0) + parseInt(q.getAttribute('data-step'), 10));
+      var next = (cur ? cur.qty : 0) + parseInt(q.getAttribute('data-step'), 10);
+      lastRemoved = next <= 0 && cur ? { id: id, qty: cur.qty } : null;
+      Cart.set(id, next);
+      focusAfterChange(lastRemoved ? '[data-undo]' : '[data-qty="' + id + '"][data-step="' + q.getAttribute('data-step') + '"]');
       return;
     }
     var r = e.target.closest('[data-remove]');
-    if (r) { Cart.set(r.getAttribute('data-remove'), 0); }
+    if (r) {
+      var rid = r.getAttribute('data-remove');
+      var line = Cart.lines().filter(function (l) { return l.id === rid; })[0];
+      lastRemoved = line ? { id: rid, qty: line.qty } : null;
+      Cart.set(rid, 0);
+      focusAfterChange('[data-undo]');
+      return;
+    }
+    if (e.target.closest('[data-undo]') && lastRemoved) {
+      var back = lastRemoved; lastRemoved = null;
+      Cart.add(back.id, back.qty);
+      focusAfterChange('[data-remove="' + back.id + '"]');
+    }
   });
+
+  /* אחרי שהסל מצטייר מחדש, הפוקוס חוזר לכפתור הגיוני ולא נופל לראש העמוד */
+  function focusAfterChange(sel) {
+    var el = document.querySelector('#cart ' + sel);
+    if (el) el.focus();
+  }
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeCart();
