@@ -11,6 +11,12 @@ import re
 from urllib.parse import quote
 
 from content import ARTICLES, AREAS
+import legal
+
+# תמונות וסרטון שמופיעים בהם קטינים מוצגים רק אחרי שאביב קיבל הסכמה בכתב מההורים
+# (חוק הגנת הפרטיות, ס' 2(6): אסור להשתמש בתמונה של אדם לשם רווח בלי הסכמתו).
+# כשההסכמה מתקבלת: לשנות ל-True, לשחזר את הקבצים מההיסטוריה ולהריץ את הבנייה (ראו README, "פרטיות וחוקיות").
+MINORS_CONSENT = False
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -21,6 +27,9 @@ PHONE = '972509359222'
 SITE_URL = ''
 # קישור ליומן לתיאום אימון ניסיון (Google Calendar – דף הזמנת תורים, או Cal.com). כל עוד ריק, הכפתור לא מוצג.
 BOOKING_URL = ''
+# מדידה (Google Analytics 4 / Meta Pixel). כל עוד ריק: אין שום מעקב, אין עוגיות ואין באנר הסכמה.
+# כשממלאים מזהה: נטען רק אחרי שהגולש מאשר בבאנר, ויש לעדכן את מדיניות הפרטיות (tools/legal.py).
+ANALYTICS = {'ga4': '', 'meta_pixel': ''}
 GUIDE_WA = 'היי אביב, אשמח לקבל את המדריך החינמי למתחילים'
 GEO = (31.8554, 34.8489)   # רחוב אורן, מזכרת בתיה (לפי OpenStreetMap, ברמת הרחוב)
 IG = 'https://www.instagram.com/aviv_shadmon/'
@@ -258,6 +267,16 @@ def home_reviews():
 <!-- END reviews -->'''
 
 
+if not MINORS_CONSENT:
+    _kids = next(x for x in SERVICES if x['slug'] == 'kids')
+    _kids.update(hero='assets/img/ready.webp', hero_wh=(941, 1672), hero_pos='50% 18%',
+                 hero_alt='אביב שדמון עם כרית בטן, מוכן לאימון', closing=('assets/img/focus.webp', 900, 1600), video=False)
+    _kids.pop('credit', None)
+    for _a in ARTICLES:
+        if _a['img'][0] == 'assets/img/kids-coach.webp':
+            _a['img'] = ('assets/img/ready.webp', 941, 1672, '50% 18%', 'אביב שדמון עם כרית בטן, מוכן לאימון')
+
+
 WA_ICON = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>'
 CHEV = '<svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'
 SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -367,6 +386,7 @@ def footer(root):
       </ul>
     </div>
   </div>
+{legal_links(root)}
   <p class="footer-copy">© <span data-year>2026</span> AMS · אביב משה שדמון</p>
 </footer>
 <a class="sticky-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="sticky">
@@ -577,7 +597,7 @@ def service_page(s):
       <div class="hero-actions">
         <a class="btn btn-gold" href="{wa(s['wa'])}" target="_blank" rel="noopener" data-cta="svc-closing">{WA_ICON}{s['cta']}</a>
       </div>
-{closing_extra('svc-closing')}    </div>
+{closing_extra('svc-closing', r)}    </div>
   </section>
 
   <section class="section more" aria-labelledby="more-title">
@@ -867,7 +887,7 @@ def area_page(ar):
       <div class="hero-actions">
         <a class="btn btn-gold" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="area-closing">{WA_ICON}לתיאום אימון ניסיון</a>
       </div>
-{closing_extra('area-closing')}    </div>
+{closing_extra('area-closing', r)}    </div>
   </section>
 """
     return page(r, f'אגרוף תאילנדי ואימון אישי ליד {town} | אביב משה שדמון – AMS', lead, img, ld_html, main_html)
@@ -951,10 +971,54 @@ def share_link(where, label, text=SHARE_TEXT, anchor=''):
             f'data-share="{text}" data-share-anchor="{anchor}" data-cta="{where}">{WA_ICON}{label}</a>')
 
 
-def closing_extra(where):
+LEGAL = legal.pages()
+
+
+def privacy_note(root=''):
+    """הודעה ליד כל כפתור שפותח WhatsApp (חובת יידוע, ס' 11 לחוק הגנת הפרטיות)."""
+    return (f'<p class="privacy-note">ההודעה נשלחת מה־WhatsApp שלך, רק כשתלחץ "שלח". הפרטים ישמשו רק למענה ולתיאום. '
+            f'<a href="{root}privacy.html">מדיניות פרטיות</a></p>')
+
+
+def legal_links(root=''):
+    links = ''.join(f'<li><a href="{root}{x["slug"]}.html">{x["title"]}</a></li>' for x in LEGAL)
+    if ANALYTICS.get('ga4') or ANALYTICS.get('meta_pixel'):
+        links += '<li><button type="button" class="link-btn" data-consent-open>הגדרות עוגיות</button></li>'
+    return f'  <nav class="footer-legal" aria-label="מידע משפטי"><ul>{links}</ul></nav>'
+
+
+def legal_page(x):
+    r = ''
+    main_html = f"""  <article class="art legal" aria-labelledby="art-title">
+    <header class="art-head">
+{crumbs(r, [(x['title'], '')])}
+      <h1 class="svc-title" id="art-title">{x['title']}</h1>
+      <p class="svc-lead">{x['desc']}</p>
+    </header>
+    <div class="prose">
+{render_blocks(x['body'], r)}    </div>
+  </article>
+"""
+    return page(r, f'{x["title"]} | אביב משה שדמון – AMS', x['desc'], 'assets/img/og.jpg', '', main_html)
+
+
+A11Y_HEAD = ("<script>try{var a=JSON.parse(localStorage.getItem('ams_a11y')||'{}'),c=document.documentElement;"
+             "if(a.size)c.setAttribute('data-a11y-size',a.size);"
+             "['contrast','links','font','still'].forEach(function(k){if(a[k])c.classList.add('a11y-'+k)})}catch(e){}</script>")
+
+
+def analytics_tag():
+    if not (ANALYTICS.get('ga4') or ANALYTICS.get('meta_pixel')):
+        return ''
+    import json
+    return f'<script>window.AMS_ANALYTICS={json.dumps({"ga4": ANALYTICS.get("ga4", ""), "pixel": ANALYTICS.get("meta_pixel", "")})};</script>\n'
+
+
+def closing_extra(where, root=''):
     """מתחת לכפתור בסוף כל עמוד: המספר גלוי (למי שגולש במחשב), וקישור לשיתוף."""
     return (f'      <p class="closing-more"><span>או ישירות ב־WhatsApp: <a href="{wa("היי אביב, אשמח לתאם אימון ניסיון")}" target="_blank" rel="noopener" data-cta="{where}-num"><span dir="ltr">{PHONE_SHOW}</span></a></span>'
-            f'<span>מכירים מישהו שמחפש מאמן? {share_link(where + "-share", "שלחו לו את האתר")}</span></p>\n')
+            f'<span>מכירים מישהו שמחפש מאמן? {share_link(where + "-share", "שלחו לו את האתר")}</span></p>\n'
+            f'      {privacy_note(root)}\n')
 
 
 def guide_band(r='', where='guide'):
@@ -969,6 +1033,7 @@ def guide_band(r='', where='guide'):
           <a class="btn btn-gold" href="{wa(GUIDE_WA)}" target="_blank" rel="noopener" data-cta="{where}">{WA_ICON}לקבלת המדריך ב־WhatsApp</a>
         </div>
         <p class="guide-note">ללא התחייבות וללא רשימת תפוצה.</p>
+        {privacy_note(r)}
         <p class="guide-share">{share_link(where + '-share', 'שלחו את המדריך לחבר', GUIDE_SHARE_TEXT, '#guide')}</p>
       </div>
     </div>
@@ -1165,6 +1230,7 @@ def trial_page():
 </main>
 
 <footer class="site-footer lp-footer">
+{legal_links('')}
   <p class="footer-copy">AMS · אביב משה שדמון · אורן 21, מזכרת בתיה · <a href="index.html">לאתר המלא</a></p>
 </footer>
 <a class="sticky-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-sticky">
@@ -1226,6 +1292,10 @@ def main():
     def write(fp, html, index=True):
         rel = page_path(fp)
         html = add_srcset(html)
+        html = re.sub(r'\n<script>try\{var a=JSON\.parse\(localStorage\.getItem\(\'ams_a11y\'\).*?</script>', '', html)
+        html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + A11Y_HEAD, 1)
+        html = re.sub(r'<script>window\.AMS_ANALYTICS=.*?</script>\n', '', html)
+        html = re.sub(r'(<script src="[^"]*js/ams\.js" defer></script>)', lambda m: analytics_tag() + m.group(1), html, count=1)
         with open(fp, 'w', encoding='utf-8') as f:
             f.write(seo_finalize(html, rel) if index else html)
         if index:
@@ -1256,6 +1326,8 @@ def main():
         write(os.path.join(ROOT, 'services', s['slug'] + '.html'), service_page(s))
     write(os.path.join(ROOT, 'articles', 'index.html'), articles_index())
     write(os.path.join(ROOT, 'about.html'), about_page())
+    for x in LEGAL:
+        write(os.path.join(ROOT, x['slug'] + '.html'), legal_page(x))
     write(os.path.join(ROOT, 'trial.html'), trial_page(), index=False)
     write(os.path.join(ROOT, '404.html'), notfound_page(), index=False)
     for sub, items, fn in (('articles', ARTICLES, article_page), ('areas', AREAS, area_page)):

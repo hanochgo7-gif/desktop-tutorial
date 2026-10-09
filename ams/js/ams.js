@@ -80,7 +80,7 @@
   // HERO: רצף פריימים שמתקדם עם הגלילה. שמירה -> אגרוף -> חזרה לשמירה.
   // הפריים הראשון והאחרון זהים, כך שגלילה קדימה ואחורה נראית רציפה.
   const canvas = document.querySelector('[data-hero-canvas]');
-  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a11y-still');
   if (hero && canvas && !calm) {
     const count = +hero.dataset.frames;
     const fx = +hero.dataset.fx || 0.5;      // מרכז הלוחם בפריים, בין 0 ל־1
@@ -104,7 +104,16 @@
     const content = hero.querySelector('.hero-content');
     const stage = hero.querySelector('.hero-stage');
     let textTop = 0;
-    const measure = () => { textTop = content.getBoundingClientRect().top - stage.getBoundingClientRect().top; };
+    // טקסט מוגדל במסך צר: אין מקום ללוחם מעל הכותרת, אז מפנים לו מקום כדי שלא יישב מאחורי הטקסט
+    const measure = () => {
+      const top = () => content.getBoundingClientRect().top - stage.getBoundingClientRect().top;
+      hero.classList.remove('is-tall');
+      textTop = top();
+      if (stage.clientWidth < stage.clientHeight && textTop < header.offsetHeight + window.innerHeight * 0.3) {
+        hero.classList.add('is-tall');
+        textTop = top();
+      }
+    };
 
     const fit = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -144,8 +153,9 @@
       // מסך צר: הלוחם כולו, קטן ומעל הטקסט (כך גם התמונה חדה יותר), במרכז השטח הפנוי
       const dpr = W / canvas.clientWidth;
       const top = (header.offsetHeight + 6) * dpr;
-      const room = Math.max(H * 0.3, textTop * dpr - top - 10 * dpr);
-      const size = Math.min(H * 0.44, W, room);
+      const V = Math.min(H, window.innerHeight * dpr);   // כשהטקסט מוגדל הבמה גבוהה מהמסך
+      const room = Math.max(V * 0.3, textTop * dpr - top - 10 * dpr);
+      const size = Math.min(V * 0.44, W, room);
       const s = size / ih;
       return { s, x: W / 2 - iw * s * fx, y: top + (room - size) / 2 };
     };
@@ -231,12 +241,78 @@
     quick.addEventListener('change', update);
   }
 
-  // מקור ההגעה (utm_source מהקישור באינסטגרם או במודעה) נשמר לסשן ומצורף לאירועים
+  // מדידה והסכמה. כל עוד אין מזהה מדידה ב־build (window.AMS_ANALYTICS), לא נאסף ולא נשמר שום דבר.
+  // כשיש מזהה: שום סקריפט מדידה לא נטען ושום אירוע לא נרשם עד שהגולש מאשר בבאנר.
+  // נתיב השורש של האתר (לפי מיקום גיליון הסגנונות), לקישורים שנבנים כאן
+  const cssLink = document.querySelector('link[rel="stylesheet"][href$="css/ams.css"]');
+  const ROOT = cssLink ? cssLink.getAttribute('href').replace('css/ams.css', '') : '';
+  const cfg = window.AMS_ANALYTICS || null;
+  const store = {
+    get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* בלי אחסון */ } },
+  };
+  let consent = cfg ? store.get('ams_consent') : null;
+  const tracking = () => !!cfg && consent === 'granted';
   let source = '';
-  try {
-    source = new URLSearchParams(location.search).get('utm_source') || sessionStorage.getItem('ams_src') || '';
-    if (source) sessionStorage.setItem('ams_src', source);
-  } catch (err) { /* בלי אחסון: ממשיכים בלי מקור */ }
+  let loaded = false;
+
+  const loadAnalytics = () => {
+    if (loaded || !tracking()) return;
+    loaded = true;
+    // מקור ההגעה (utm_source מהקישור באינסטגרם או במודעה) נשמר לסשן ומצורף לאירועים
+    try {
+      source = new URLSearchParams(location.search).get('utm_source') || sessionStorage.getItem('ams_src') || '';
+      if (source) sessionStorage.setItem('ams_src', source);
+    } catch (e) { /* בלי אחסון */ }
+    if (cfg.ga4) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4);
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', cfg.ga4);
+    }
+    if (cfg.pixel && !window.fbq) {
+      const f = window.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); };
+      f.push = f; f.loaded = true; f.version = '2.0'; f.queue = [];
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(s);
+      window.fbq('init', cfg.pixel);
+      window.fbq('track', 'PageView');
+    }
+  };
+
+  const banner = () => {
+    let el = document.querySelector('[data-consent]');
+    if (el) { el.hidden = false; return; }
+    el = document.createElement('section');
+    el.className = 'consent';
+    el.setAttribute('data-consent', '');
+    el.setAttribute('aria-label', 'הסכמה לעוגיות');
+    el.innerHTML = '<p>האתר רוצה להשתמש בעוגיות מדידה כדי להבין מאיפה מגיעים אליו ומה עוזר לגולשים. זה יקרה רק אם תאשר. ' +
+      '<a href="' + ROOT + 'privacy.html">מדיניות פרטיות</a></p>' +
+      '<div class="consent-actions"><button type="button" class="btn btn-gold" data-consent-yes>אישור</button>' +
+      '<button type="button" class="btn btn-line" data-consent-no>דחייה</button></div>';
+    document.body.appendChild(el);
+    el.querySelector('[data-consent-yes]').addEventListener('click', () => {
+      consent = 'granted'; store.set('ams_consent', consent); el.hidden = true; loadAnalytics();
+    });
+    el.querySelector('[data-consent-no]').addEventListener('click', () => {
+      const was = consent;
+      consent = 'denied'; store.set('ams_consent', consent); el.hidden = true;
+      if (was === 'granted') location.reload();   // כדי לפרוק סקריפטים שכבר נטענו
+    });
+  };
+
+  if (cfg) {
+    if (consent === 'granted') loadAnalytics();
+    else if (consent !== 'denied') banner();
+    document.querySelectorAll('[data-consent-open]').forEach((b) => b.addEventListener('click', banner));
+  }
 
   // "שלחו לחבר": משלימים להודעה המוכנה את כתובת העמוד (הכתובת הקנונית כשיש דומיין)
   const canon = document.querySelector('link[rel="canonical"]');
@@ -245,20 +321,90 @@
     a.href = 'https://wa.me/?text=' + encodeURIComponent(a.dataset.share + ' ' + pageUrl + (a.dataset.shareAnchor || ''));
   });
 
-  // מדידה: לחיצות על WhatsApp ועל היומן נרשמות (Google Tag Manager / GA4 / Meta Pixel אם הותקנו)
+  // מדידת לחיצות על WhatsApp ועל היומן: רק אחרי הסכמה
   document.addEventListener('click', (e) => {
+    if (!tracking()) return;
     const a = e.target.closest('a[href^="https://wa.me"], a[data-booking]');
     if (!a) return;
     const booking = a.hasAttribute('data-booking');
     const where = a.dataset.cta || a.dataset.booking || (a.closest('section[id]') || {}).id || 'other';
-    if (a.hasAttribute('data-share')) {
-      (window.dataLayer = window.dataLayer || []).push({ event: 'share_click', cta: where, page: location.pathname, source });
-      return;
+    const event = a.hasAttribute('data-share') ? 'share_click'
+      : booking ? 'booking_click' : (/guide/.test(where) ? 'guide_request' : 'whatsapp_click');
+    if (typeof window.gtag === 'function') window.gtag('event', event, { cta: where, page: location.pathname, source });
+    if (typeof window.fbq === 'function' && event !== 'share_click') {
+      window.fbq('track', event === 'guide_request' ? 'Lead' : (booking ? 'Schedule' : 'Contact'), { cta: where });
     }
-    const event = booking ? 'booking_click' : (/guide/.test(where) ? 'guide_request' : 'whatsapp_click');
-    (window.dataLayer = window.dataLayer || []).push({ event, cta: where, page: location.pathname, source });
-    if (typeof window.fbq === 'function') window.fbq('track', event === 'guide_request' ? 'Lead' : (booking ? 'Schedule' : 'Contact'), { cta: where });
   });
+
+  // תפריט נגישות: הגדלת טקסט, ניגודיות גבוהה, הדגשת קישורים, גופן קריא, עצירת אנימציות.
+  // ההגדרות נשמרות בדפדפן בלבד (localStorage) ומוחלות כבר ב־<head> כדי שלא יהבהבו.
+  (() => {
+    const html = document.documentElement;
+    let prefs = {};
+    try { prefs = JSON.parse(store.get('ams_a11y') || '{}') || {}; } catch (e) { prefs = {}; }
+    const save = () => store.set('ams_a11y', JSON.stringify(prefs));
+    const apply = () => {
+      if (prefs.size) html.setAttribute('data-a11y-size', prefs.size); else html.removeAttribute('data-a11y-size');
+      ['contrast', 'links', 'font', 'still'].forEach((k) => html.classList.toggle('a11y-' + k, !!prefs[k]));
+      window.dispatchEvent(new Event('resize'));
+    };
+    const toggles = [['contrast', 'ניגודיות גבוהה'], ['links', 'הדגשת קישורים'], ['font', 'גופן קריא'], ['still', 'עצירת אנימציות']];
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'a11y-btn';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'a11y-panel');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" fill="currentColor"/>' +
+      '<path d="M4 8.5l8 1.5 8-1.5M12 10v5m0 0l-4 6m4-6l4 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<span>נגישות</span>';
+
+    const panel = document.createElement('div');
+    panel.className = 'a11y-panel';
+    panel.id = 'a11y-panel';
+    panel.hidden = true;
+    panel.setAttribute('role', 'group');
+    panel.setAttribute('aria-labelledby', 'a11y-title');
+    panel.innerHTML = '<p class="a11y-title" id="a11y-title">הגדרות נגישות</p>' +
+      '<div class="a11y-size" role="group" aria-label="גודל טקסט"><span>גודל טקסט</span>' +
+      '<button type="button" data-a11y-size="-1" aria-label="הקטנת טקסט">א−</button>' +
+      '<output data-a11y-level aria-live="polite">100%</output>' +
+      '<button type="button" data-a11y-size="1" aria-label="הגדלת טקסט">א+</button></div>' +
+      toggles.map(([k, t]) => '<button type="button" class="a11y-toggle" data-a11y="' + k + '" aria-pressed="false">' + t + '</button>').join('') +
+      '<button type="button" class="a11y-reset" data-a11y-reset>איפוס הגדרות</button>' +
+      '<a class="a11y-link" href="' + ROOT + 'accessibility.html">הצהרת נגישות</a>';
+
+    const levels = ['100%', '115%', '130%', '150%'];
+    const sync = () => {
+      panel.querySelector('[data-a11y-level]').textContent = levels[prefs.size || 0];
+      panel.querySelectorAll('[data-a11y]').forEach((b) => b.setAttribute('aria-pressed', prefs[b.dataset.a11y] ? 'true' : 'false'));
+    };
+    const close = (focus) => { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focus) btn.focus(); };
+    btn.addEventListener('click', () => {
+      const open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) panel.querySelector('button').focus();
+    });
+    panel.addEventListener('click', (e) => {
+      const t = e.target.closest('button');
+      if (!t) return;
+      if (t.dataset.a11ySize) prefs.size = Math.max(0, Math.min(3, (prefs.size || 0) + Number(t.dataset.a11ySize)));
+      else if (t.dataset.a11y) prefs[t.dataset.a11y] = !prefs[t.dataset.a11y];
+      else if (t.hasAttribute('data-a11y-reset')) prefs = {};
+      if (!prefs.size) delete prefs.size;
+      apply(); sync(); save();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) close(true); });
+    document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close(false); });
+    // הכפתור יושב בכותרת העליונה (תמיד גלוי ולא מסתיר טקסט); בדף בלי כותרת הוא צף בפינה
+    const slot = document.querySelector('.header-actions');
+    const wrap = document.createElement('div');
+    wrap.className = slot ? 'a11y a11y-in-header' : 'a11y';
+    wrap.append(btn, panel);
+    if (slot) slot.prepend(wrap); else document.body.appendChild(wrap);
+    apply(); sync();
+  })();
 
   // סרטון אימון: מתנגן בלי קול כשמגיעים אליו, עם כפתור עצירה; ב"הפחתת תנועה" רק בלחיצה
   document.querySelectorAll('[data-clip]').forEach((video) => {
