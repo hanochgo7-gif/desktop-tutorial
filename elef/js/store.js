@@ -6,7 +6,7 @@
 
   var PRODUCTS = [
     {
-      id: 'early', profile: 'חריף ומר', cat: 'bottles', name: 'קטיף ראשון', size: '500 מ״ל', price: 94,
+      id: 'early', slug: 'shemen-zait-katif-rishon', profile: 'חריף ומר', cat: 'bottles', name: 'קטיף ראשון', size: '500 מ״ל', price: 94,
       badge: 'קטיף 2026',
       img: 'images/p-early', alt: 'בקבוק אלף קטיף ראשון על גדר אבן בזריחה',
       gallery: ['images/harvest-hands', 'images/olive-dew'],
@@ -18,7 +18,7 @@
       variety: 'סורי', harvest: '4–9 באוקטובר 2026', acidity: '0.19%', poly: '640 מ״ג/ק״ג'
     },
     {
-      id: 'souri', profile: 'מאוזן ופירותי', cat: 'bottles', name: 'סורי מהגליל', size: '750 מ״ל', price: 112,
+      id: 'souri', slug: 'shemen-zait-souri', profile: 'מאוזן ופירותי', cat: 'bottles', name: 'סורי מהגליל', size: '750 מ״ל', price: 112,
       img: 'images/p-souri', alt: 'בקבוק אלף סורי מהגליל על גדר טרסה',
       gallery: ['images/grove-path', 'images/millstone'],
       short: 'הזן הוותיק של הגליל, בשיא הבשלות. ארטישוק וסיומת פלפלית.',
@@ -29,7 +29,7 @@
       variety: 'סורי', harvest: '12–30 באוקטובר 2026', acidity: '0.22%', poly: '480 מ״ג/ק״ג'
     },
     {
-      id: 'ancient', profile: 'עגול ועמוק', cat: 'bottles', name: 'עצים עתיקים', size: '375 מ״ל', price: 138,
+      id: 'ancient', slug: 'shemen-zait-atzim-atikim', profile: 'עגול ועמוק', cat: 'bottles', name: 'עצים עתיקים', size: '375 מ״ל', price: 138,
       badge: 'מהדורה ממוספרת',
       img: 'images/p-ancient', alt: 'בקבוק אלף עצים עתיקים על אבן מכוסה חזזית',
       gallery: ['images/bark', 'images/farmer-profile'],
@@ -41,7 +41,7 @@
       variety: 'סורי, עצים בני 600+ שנה', harvest: '20 באוקטובר 2026', acidity: '0.17%', poly: '590 מ״ג/ק״ג'
     },
     {
-      id: 'daily', profile: 'עדין ופירותי', cat: 'bottles', name: 'יום־יום', size: '1 ליטר', price: 86,
+      id: 'daily', slug: 'shemen-zait-yom-yom', profile: 'עדין ופירותי', cat: 'bottles', name: 'יום־יום', size: '1 ליטר', price: 86,
       badge: 'הכי נמכר',
       img: 'images/p-daily', alt: 'בקבוק אלף יום־יום ליטר על קיר אבן',
       gallery: ['images/bread-drop', 'images/bread-bowl'],
@@ -53,7 +53,7 @@
       variety: 'ברנע, קורונייקי', harvest: 'אוקטובר–נובמבר 2026', acidity: '0.28%', poly: '310 מ״ג/ק״ג'
     },
     {
-      id: 'tin', profile: 'מאוזן ופירותי', cat: 'tins', name: 'פח מבית הבד', size: '4 ליטר', price: 329,
+      id: 'tin', slug: 'pach-shemen-zait-4-liter', profile: 'מאוזן ופירותי', cat: 'tins', name: 'פח מבית הבד', size: '4 ליטר', price: 329,
       img: 'images/p-tin', alt: 'שמן זית טרי זורם מברז פליז לכד חרס',
       gallery: ['images/spout', 'images/pour-jug'],
       short: 'סורי ישר מהמיכל, כמו שקונים אצלנו בבית הבד. למשפחות שגומרות שמן מהר.',
@@ -64,7 +64,7 @@
       variety: 'סורי', harvest: 'אוקטובר 2026', acidity: '0.22%', poly: '480 מ״ג/ק״ג'
     },
     {
-      id: 'gift', profile: 'שלושה טעמים במארז', cat: 'gifts', name: 'מארז חנוכה', size: '3 בקבוקים של 250 מ״ל', price: 189,
+      id: 'gift', slug: 'maraz-shemen-zait-chanukah', profile: 'שלושה טעמים במארז', cat: 'gifts', name: 'מארז חנוכה', size: '3 בקבוקים של 250 מ״ל', price: 189,
       badge: 'חדש לחנוכה',
       img: 'images/p-gift', alt: 'ידיים בוצעות לחם כפרי לצד קערית שמן זית',
       gallery: ['images/p-gift-2', 'images/bread-drop'],
@@ -134,12 +134,12 @@
   function card(p) {
     return '' +
       '<article class="product" data-cat="' + p.cat + '">' +
-        '<a class="product__media" href="product.html?p=' + p.id + '" tabindex="-1" aria-hidden="true">' +
+        '<a class="product__media" href="' + p.slug + '.html" tabindex="-1" aria-hidden="true">' +
           picture(p.img, p.alt, '(min-width: 1100px) 30vw, (min-width: 640px) 45vw, 92vw') +
           (p.badge ? '<span class="product__badge">' + p.badge + '</span>' : '') +
         '</a>' +
         '<div class="product__body">' +
-          '<h3 class="product__name"><a href="product.html?p=' + p.id + '">' + p.name + '</a></h3>' +
+          '<h3 class="product__name"><a href="' + p.slug + '.html">' + p.name + '</a></h3>' +
           '<p class="product__meta"><span>' + p.size + '</span><span class="product__profile">' + p.profile + '</span></p>' +
           '<p class="product__short">' + p.short + '</p>' +
           '<div class="product__foot">' +
@@ -169,7 +169,7 @@
         var p = byId(l.id);
         return '<div class="line">' +
           '<img src="' + p.img + '-600.webp" alt="" width="72" height="90">' +
-          '<div class="line__info"><a href="product.html?p=' + p.id + '" class="line__name">' + p.name + '</a>' +
+          '<div class="line__info"><a href="' + p.slug + '.html" class="line__name">' + p.name + '</a>' +
           '<span class="line__size">' + p.size + '</span>' +
           '<div class="qty" aria-label="כמות ' + p.name + '">' +
             '<button type="button" data-qty="' + p.id + '" data-step="1" aria-label="הוספת יחידה">+</button>' +
