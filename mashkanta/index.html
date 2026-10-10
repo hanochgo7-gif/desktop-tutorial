@@ -417,7 +417,7 @@
   .form .btn { width: 100%; }
   .form .privacy { font-size: .86rem; color: var(--muted); margin: 14px 0 0; }
   .sent { display: none; text-align: center; padding: 30px 10px; }
-  .sent svg { width: 56px; height: 56px; margin: 0 auto 16px; color: var(--keep); }
+  .sent > svg { width: 56px; height: 56px; margin: 0 auto 16px; color: var(--keep); }
   .form.done form { display: none; }
   .form.done .sent { display: block; }
   @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
@@ -515,6 +515,38 @@
   .pill b { color: var(--keep-l); font-weight: 600; }
   .pill .btn { min-height: 42px; padding: 0 18px; font-size: .95rem; border-radius: 999px; }
   @media (max-width: 760px) { .pill { display: none; } }
+
+  /* ---------- התקדמות בדף והקטע הפעיל בתפריט ---------- */
+  .top::after { content: ""; position: absolute; inset-inline-start: 0; bottom: 0; height: 2px; width: calc(var(--progress, 0) * 100%); background: var(--keep-l); }
+  .nav a[aria-current="true"]:not(.btn) { box-shadow: inset 0 -2px 0 var(--keep-l); border-radius: 10px 10px 0 0; }
+  @media (max-width: 960px) { .nav a[aria-current="true"]:not(.btn) { box-shadow: none; color: var(--keep); font-weight: 600; } }
+
+  /* כותרת הפתיח עולה פעם אחת בטעינה */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero h1 span { animation: rise .9s cubic-bezier(.2,.8,.2,1) both; }
+    .hero h1 span + span { animation-delay: .14s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(.3em); } }
+  }
+
+  /* מה כבר בדקתם */
+  .journey { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 20px; }
+  .j-title { font-weight: 600; font-size: .95rem; margin: 0 0 8px; }
+  #journey-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  #journey-list li { display: grid; grid-template-columns: 6.5em 1fr; gap: 10px; font-size: .92rem; }
+  #journey-list b { color: var(--muted); font-weight: 500; }
+  .j-note { font-size: .82rem; color: var(--muted); margin: 8px 0 0; }
+
+  .v-alt { display: block; text-align: center; margin-top: 14px; color: rgba(246,247,244,.82); font-size: .95rem; }
+  .hint a { color: var(--petrol); font-weight: 500; }
+
+  /* אחרי השליחה */
+  .sent-lead { color: var(--muted); margin: 8px 0 18px; }
+  .next { list-style: none; padding: 0; margin: 0 0 6px; display: grid; gap: 12px; text-align: start; counter-reset: n; }
+  .next li { display: grid; grid-template-columns: 32px 1fr; gap: 0 12px; }
+  .next li::before { counter-increment: n; content: counter(n); grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--mist); color: var(--petrol); font-weight: 600; font-size: .9rem; }
+  .next b { font-size: 1rem; }
+  .next span { color: var(--muted); font-size: .92rem; }
+  .sent .btn { width: 100%; margin-top: 18px; }
 
   /* ---------- גרסת טלפון ---------- */
   .live, .dots { display: none; }
@@ -711,6 +743,7 @@
           <h3 id="v-title">סמנו את מה שמתאים לכם</h3>
           <p id="v-text">זה לוקח עשר שניות, ונותן תמונה ראשונית אם שווה לבדוק לעומק.</p>
           <a class="btn btn-keep" href="#contact" id="v-btn">לבדיקה מלאה ללא עלות</a>
+          <a class="v-alt" href="#contact" id="v-alt" hidden>או לשלוח דוח לבדיקה מלאה</a>
         </aside>
       </div>
     </div>
@@ -738,7 +771,7 @@
           </div>
           <div class="field">
             <div class="field-top"><label for="r-rate">ריבית ממוצעת היום</label><span class="field-val"><input id="n-rate" inputmode="decimal" aria-label="ריבית ממוצעת היום באחוזים"><small>%</small></span></div>
-            <span class="hint">מופיעה בדוח השנתי מהבנק, כממוצע משוקלל של כל המסלולים.</span>
+            <span class="hint">מופיעה בדוח השנתי מהבנק, כממוצע משוקלל של כל המסלולים. <a href="#howto">איך מוציאים את הדוח</a></span>
             <input type="range" id="r-rate" min="1" max="9" step="0.05" value="5.1">
           </div>
           <div class="field">
@@ -995,7 +1028,7 @@
         <p class="lead">לא מצאתם תשובה? <a href="#contact">כתבו לי</a> ואחזור אליכם.</p>
       </div>
       <div class="faq">
-        <details><summary>מה זה מחזור משכנתא, בשתי שורות?<i aria-hidden="true"></i></summary><div class="ans"><p>מחליפים את המשכנתא הקיימת, כולה או חלק ממנה, במשכנתא חדשה בתנאים טובים יותר. אפשר לעשות את זה באותו בנק או לעבור לבנק אחר.</p></div></details>
+        <details open><summary>מה זה מחזור משכנתא, בשתי שורות?<i aria-hidden="true"></i></summary><div class="ans"><p>מחליפים את המשכנתא הקיימת, כולה או חלק ממנה, במשכנתא חדשה בתנאים טובים יותר. אפשר לעשות את זה באותו בנק או לעבור לבנק אחר.</p></div></details>
         <details><summary>כמה עולה הבדיקה?<i aria-hidden="true"></i></summary><div class="ans"><p>בדיקת הכדאיות ללא עלות. אם מחליטים להתקדם, שכר הטרחה נקבע מראש ובכתב, לפני שמתחילים לעבוד.</p></div></details>
         <details><summary>יש קנס על יציאה מהמשכנתא הנוכחית?<i aria-hidden="true"></i></summary><div class="ans"><p>בחלק מהמסלולים הבנק גובה עמלת פירעון מוקדם. הגובה שלה תלוי בסוג המסלול, בריבית ובמועד היציאה. אני מחשב אותה מראש ומכניס אותה לחישוב, כך שהחיסכון שתראו הוא נטו.</p></div></details>
         <details><summary>אפשר למחזר רק חלק מהמשכנתא?<i aria-hidden="true"></i></summary><div class="ans"><p>כן, ולעיתים קרובות זה הפתרון הנכון. משאירים מסלולים שהיציאה מהם יקרה או שהריבית בהם טובה, ומחליפים רק את מה שמשתלם.</p></div></details>
@@ -1020,6 +1053,11 @@
       </div>
       <div class="form" id="form-box">
         <form id="lead" novalidate>
+          <div class="journey" id="journey" hidden>
+            <p class="j-title">מה כבר בדקתם באתר</p>
+            <ul id="journey-list"></ul>
+            <p class="j-note">זה יצורף לפנייה, כדי שלא תצטרכו להסביר מההתחלה.</p>
+          </div>
           <div class="funnel-top"><span id="st-label">שלב 1 מתוך 4</span><button type="button" class="back" id="st-back" hidden>חזרה</button></div>
           <div class="prog" aria-hidden="true"><i id="st-bar"></i></div>
 
@@ -1057,8 +1095,14 @@
         <div class="sent" role="status" tabindex="-1">
           <svg aria-hidden="true"><use href="#i-check"/></svg>
           <h3>הפרטים התקבלו</h3>
-          <p style="color:var(--muted);margin:8px 0 0">אחזור אליכם בהקדם. רוצים לקצר את הדרך? שלחו כבר עכשיו דוח יתרות בוואטסאפ.</p>
+          <p class="sent-lead">אחזור אליכם בזמן שבחרתם. ככה זה ימשיך:</p>
+          <ol class="next">
+            <li><b>שיחה קצרה</b><span>נכיר, ואבין מה חשוב לכם במשכנתא.</span></li>
+            <li><b>שליחת דוח יתרות</b><span>בוואטסאפ, כקובץ PDF או כצילום מסך.</span></li>
+            <li><b>תשובה בכתב</b><span>תוך יומיים: משתלם או לא, וכמה.</span></li>
+          </ol>
           <ul class="recap" id="recap"></ul>
+          <a class="btn btn-ink" data-wa="היי, השארתי פרטים באתר. מצרף/ת דוח יתרות לבדיקה." href="#contact"><svg aria-hidden="true"><use href="#i-wa"/></svg>שליחת הדוח כבר עכשיו</a>
         </div>
       </div>
     </div>
@@ -1130,9 +1174,35 @@
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const fmt = n => Math.round(n).toLocaleString('he-IL');
   const ils = n => '₪' + fmt(n);
+  const perMonth = n => n >= 0 ? 'עוד ' + ils(n) + ' בחודש' : ils(-n) + ' פחות בחודש';   // בלי סימן פלוס, שמתהפך בעברית
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a-still');
   const inView = el => { const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
   let last = null, touched = false;   // תוצאת המחשבון האחרונה, והאם הגולש שינה משהו
+  let stressTouched = false;
+  const journey = { signals: 0, calc: '', stress: '', items: [] };   // מה הגולש כבר בדק, כדי לצרף לפנייה
+  function renderJourney() {
+    const items = [];
+    if (journey.signals) items.push(['בדיקה עצמית', journey.signals + ' מתוך 5 סימנים מתאימים לכם']);
+    if (journey.calc) items.push(['מחשבון', journey.calc]);
+    if (journey.stress) items.push(['מבחן לחץ', journey.stress]);
+    journey.items = items;
+    $('#journey').hidden = !items.length;
+    $('#journey-list').innerHTML = items.map(([k, v]) => '<li><b>' + k + '</b><span>' + v + '</span></li>').join('');
+  }
+  // מספרים שמשתנים עוברים בהדרגה לערך החדש, כדי שיהיה ברור מה זז
+  function tween(el, to, f) {
+    const from = parseFloat(el.dataset.v);
+    el.dataset.v = to;
+    cancelAnimationFrame(el._raf);
+    if (reduced() || isNaN(from) || from === to) { el.textContent = f(to); return; }
+    const t0 = performance.now(), dur = 420;
+    const step = t => {
+      const q = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - q, 3);
+      el.textContent = f(from + (to - from) * e);
+      if (q < 1) el._raf = requestAnimationFrame(step);
+    };
+    el._raf = requestAnimationFrame(step);
+  }
 
   /* --- וואטסאפ וטלפון --- */
   const waLink = text => WHATSAPP_NUMBER ? 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text) : '#contact';
@@ -1157,6 +1227,17 @@
   }
   function y0() { return scrollY; }
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // פס התקדמות בכותרת, והקטע הנוכחי מסומן בתפריט
+  const navLinks = $$('a[href^="#"]:not(.btn)', nav).map(a => [a, $(a.getAttribute('href'))]).filter(x => x[1]);
+  function trackPage() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    top.style.setProperty('--progress', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+    let cur = null;
+    navLinks.forEach(([a, sec]) => { if (sec.getBoundingClientRect().top < innerHeight * 0.4) cur = a; });
+    navLinks.forEach(([a]) => a.toggleAttribute('aria-current', a === cur));
+    if (cur) cur.setAttribute('aria-current', 'true');
+  }
+  addEventListener('scroll', trackPage, { passive: true }); addEventListener('resize', trackPage); trackPage();
   const setMenu = open => {
     menuBtn.setAttribute('aria-expanded', open);
     nav.classList.toggle('open', open);
@@ -1258,7 +1339,7 @@
       '<text x="' + (x(H0.nNew) - 6) + '" y="' + (H - pb - 10) + '" fill="#5FD99A" font-size="13" font-weight="600" text-anchor="end">המשכנתא נגמרת ' + ((H0.n - H0.nNew) / 12).toFixed(1) + ' שנים קודם</text></g>';
     const tags = '<g class="' + (anim ? 'fade-in' : '') + '" font-size="12.5" font-weight="600">' +
       '<text x="' + (ex + 12) + '" y="' + (y1 - 10) + '" fill="#F2A541" text-anchor="end">בלי מחזור</text>' +
-      (W < 420 ? '' : '<text x="' + (W - ps - 64) + '" y="' + (y(cum(H0.rNew, 36)) + 24) + '" fill="#5FD99A" text-anchor="start">אחרי מחזור</text>') + '</g>';
+      (W < 370 ? '' : '<text x="' + (W - ps - 64) + '" y="' + (y(cum(H0.rNew, 36)) + 24) + '" fill="#5FD99A" text-anchor="start">אחרי מחזור</text>') + '</g>';
     el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '">' + grid + tags +
       '<path d="' + area + '" fill="rgba(95,217,154,.26)" class="' + (anim ? 'fade-in' : '') + '"/>' +
       '<path d="' + d(oldPts) + '" fill="none" stroke="#F2A541" stroke-width="3" stroke-linecap="round" class="' + (anim ? 'draw' : '') + '"/>' +
@@ -1296,7 +1377,11 @@
     $('#v-count').textContent = n + ' מתוך 5 סומנו';
     $('#v-title').textContent = verdicts[n][0];
     $('#v-text').textContent = verdicts[n][1];
-    $('#v-btn').textContent = verdicts[n][2];
+    const vb = $('#v-btn');
+    vb.textContent = n ? 'לחישוב החיסכון שלי' : verdicts[0][2];
+    vb.setAttribute('href', n ? '#calc' : '#contact');
+    $('#v-alt').hidden = !n;
+    journey.signals = n; renderJourney();
   }));
 
   /* --- מבחן לחץ: סימולציה חודשית של כל מסלול --- */
@@ -1345,11 +1430,11 @@
     const res = TR.map((t, i) => sim(t, last.B * shares[i], n, dP, infl, H));
     const now = res.reduce((a, r) => a + r.p0, 0), later = res.reduce((a, r) => a + r.pH, 0);
     const d = later - now, pct = now ? d / now * 100 : 0;
-    $('#s-now').textContent = ils(now);
-    $('#s-later').textContent = ils(later);
+    tween($('#s-now'), now, ils);
+    tween($('#s-later'), later, ils);
     $('#live2-k').textContent = 'ההחזר בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
-    $('#live2-sum').textContent = ils(later);
-    $('#live2-sub').textContent = (d >= 0 ? '+' : '−') + ils(Math.abs(d)) + ' בחודש';
+    tween($('#live2-sum'), later, ils);
+    $('#live2-sub').textContent = perMonth(d);
     $('.so-row div:last-child dt').textContent = 'ההחזר בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
     $('#s-delta').innerHTML = d >= 0
       ? '<strong class="num">+' + ils(d) + '</strong> בכל חודש, עלייה של ' + Math.round(pct) + '%'
@@ -1358,6 +1443,10 @@
     const risk = $('#s-risk');
     risk.dataset.level = lvl;
     risk.textContent = ['התמהיל יציב בתרחיש הזה', 'התמהיל רגיש לשינויים', 'התמהיל חשוף'][lvl];
+    if (stressTouched) {
+      journey.stress = ['תמהיל יציב', 'תמהיל רגיש', 'תמהיל חשוף'][lvl] + ', ' + perMonth(d) + ' בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
+      renderJourney();
+    }
     $('#s-risk-text').textContent = [
       'ההחזר כמעט לא זז. המחיר של היציבות הוא לרוב ריבית פתיחה גבוהה יותר.',
       'העלייה מורגשת אבל נשלטת. שווה לבדוק אם אפשר לאזן בלי לוותר על הריבית.',
@@ -1370,13 +1459,13 @@
       ? 'שימו לב: לפי הנחיות בנק ישראל, לפחות שליש מהמשכנתא צריך להיות בריבית קבועה.'
       : 'לפי יתרה של ' + ils(last.B) + ' ל-' + last.yrs + ' שנים, מהמחשבון למעלה.';
   }
-  TR.forEach(t => $('#t-' + t.k).addEventListener('input', stress));
+  TR.forEach(t => $('#t-' + t.k).addEventListener('input', () => { stressTouched = true; stress(); }));
   const scenBtns = $$('[data-scen]');
   const markScen = () => scenBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.scen === (+dp.value) + ',' + (+cpi.value)));
-  [dp, cpi].forEach(r => r.addEventListener('input', () => { markScen(); stress(); }));
+  [dp, cpi].forEach(r => r.addEventListener('input', () => { stressTouched = true; markScen(); stress(); }));
   scenBtns.forEach(b => b.addEventListener('click', () => {
     const [a, c] = b.dataset.scen.split(',');
-    dp.value = a; cpi.value = c; markScen(); stress();
+    dp.value = a; cpi.value = c; stressTouched = true; markScen(); stress();
   }));
 
   /* --- מחשבון --- */
@@ -1402,8 +1491,8 @@
     const net = intOld - intNew - fee;
     const main = $('#res-main');
 
-    $('#res-now').textContent = fmt(pOld);
-    $('#res-after').textContent = fmt(pNew);
+    tween($('#res-now'), pOld, fmt);
+    tween($('#res-after'), pNew, fmt);
     if (goal === 'short') {
       $('#res-3l').textContent = 'תקופה חדשה';
       const y = nNew / 12;
@@ -1416,12 +1505,13 @@
     if (rN >= rO || net <= 0) {
       main.classList.add('none');
       $('#res-label').textContent = rN >= rO ? 'לפי הנתונים האלה' : 'אחרי העמלה';
+      cancelAnimationFrame($('#res-sum')._raf); $('#res-sum').dataset.v = 0;
       $('#res-sum').textContent = rN >= rO ? 'אין חיסכון מהריבית' : 'החיסכון לא מכסה את העמלה';
       $('#res-tip-text').textContent = 'זה לא סוף הסיפור. בבדיקה מלאה בודקים גם את מבנה המסלולים, ההצמדה והחשיפה לפריים, ולפעמים שם נמצא השיפור.';
     } else {
       main.classList.remove('none');
       $('#res-label').textContent = goal === 'short' ? 'חיסכון משוער בריבית, נטו אחרי עמלה' : 'חיסכון משוער לאורך התקופה, נטו אחרי עמלה';
-      $('#res-sum').textContent = ils(net);
+      tween($('#res-sum'), net, ils);
       // רגישות: כמה שווה עוד עשירית אחוז
       const p2 = goal === 'short' ? pOld : pmt(B, rN - 0.1, n);
       const n2 = goal === 'short' ? nper(B, rN - 0.1, pOld) : n;
@@ -1446,7 +1536,12 @@
     share.href = waLink(msg);
     if (WHATSAPP_NUMBER) { share.target = '_blank'; share.rel = 'noopener'; }
     $('#pill-sum').textContent = ils(last.net);
-    $('#live-sum').textContent = last.net ? ils(last.net) : 'אין חיסכון';
+    if (last.net) tween($('#live-sum'), last.net, ils);
+    else { cancelAnimationFrame($('#live-sum')._raf); $('#live-sum').dataset.v = 0; $('#live-sum').textContent = 'אין חיסכון'; }
+    if (touched) {
+      journey.calc = last.net ? ils(last.net) + ' חיסכון משוער (' + last.sub + ')' : 'לפי הנתונים שהוזנו אין חיסכון מהריבית';
+      renderJourney();
+    }
     $('#live-sub').textContent = last.sub;
     $('#dock-text').textContent = touched && last.net > 0 ? 'לבדיקת חיסכון של ₪' + Math.round(last.net / 1000) + ' אלף' : 'בדיקה בוואטסאפ';
     stress();
@@ -1567,7 +1662,7 @@
     if (!okName) return name.focus();
     if (!okPhone) return phone.focus();
     const time = $('#f-time').value, topic = ans.topic || 'מחזור משכנתא';
-    const rows = [['נושא', topic], ['היקף', ans.amount], [$('#q3').textContent.replace('?', ''), ans.when], ['זמן נוח', time]].filter(r => r[1]);
+    const rows = [['נושא', topic], ['היקף', ans.amount], [$('#q3').textContent.replace('?', ''), ans.when], ['זמן נוח', time]].filter(r => r[1]).concat(journey.items);
     $('#recap').innerHTML = rows.map(r => '<li><b>' + r[0] + ':</b> ' + r[1] + '</li>').join('');
     // אין שרת: פותחים וואטסאפ עם הפרטים, אם הוגדר מספר
     if (WHATSAPP_NUMBER) window.open(waLink('שלום, אני ' + name.value.trim() + ', טלפון ' + phone.value + '. ' + rows.map(r => r[0] + ': ' + r[1]).join('. ') + '.'), '_blank', 'noopener');
