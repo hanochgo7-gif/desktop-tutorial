@@ -103,20 +103,26 @@ module.exports = async (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no' });
   const reader = upstream.body.getReader(), dec = new TextDecoder();
   let buf = '';
+  // אבחון זמני: רק ספירות וסיבת סיום, בלי תוכן השיחה
+  const dbg = req.headers['x-hg-debug'] === '1', diag = { t0: Date.now(), types: {}, stop: null, chunks: 0, end: 'done' };
   try {
     for (;;) {
       const { done, value } = await reader.read();
       if (done) break;
+      diag.chunks++;
       buf += dec.decode(value, { stream: true });
       let i;
       while ((i = buf.indexOf('\n')) >= 0) {
         const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
         if (!line.startsWith('data:')) continue;
-        let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+        let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { diag.bad = (diag.bad || 0) + 1; continue; }
+        diag.types[ev.type] = (diag.types[ev.type] || 0) + 1; if (ev.delta && ev.delta.stop_reason) diag.stop = ev.delta.stop_reason;
+        if (ev.type === 'content_block_delta' && ev.delta && ev.delta.type !== 'text_delta') diag.other = ev.delta.type;
         if (ev.type === 'content_block_delta' && ev.delta && ev.delta.type === 'text_delta') res.write(ev.delta.text);
         if (ev.type === 'error') { res.write('\n[[ERROR]]'); break; }
       }
     }
-  } catch (e) { res.write('\n[[ERROR]]'); }
+  } catch (e) { diag.end = 'catch:' + String(e && e.message).slice(0, 80); res.write('\n[[ERROR]]'); }
+  if (dbg) res.write('\n[[DEBUG ' + JSON.stringify(Object.assign(diag, { ms: Date.now() - diag.t0, rest: buf.length, node: process.version })) + ']]');
   res.end();
 };
