@@ -83,3 +83,36 @@ def test_kill_switch(tmp_path):
     b = FakeBroker({"AAA": entry_bars()})
     run_once(cfg(tmp_path, False), b)
     assert b.orders == []
+
+
+class FakeAnalyst:
+    def __init__(self, approved, mult=1.0):
+        self.approved, self.mult, self.calls = approved, mult, 0
+
+    def review(self, symbol, ind, qty, price, equity):
+        from agent.analyst import Review
+        self.calls += 1
+        return Review(self.approved, self.mult if self.approved else 0.0, 0.9, "test")
+
+
+def test_analyst_veto_blocks_buy(tmp_path):
+    b = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path, False), b, analyst=FakeAnalyst(False))
+    assert b.orders == []
+    assert journal(tmp_path)[0]["status"] == "refused"
+
+
+def test_analyst_scales_size_down(tmp_path):
+    full = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path / "a", False), full, analyst=FakeAnalyst(True, 1.0))
+    half = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path / "b", False), half, analyst=FakeAnalyst(True, 0.5))
+    assert half.orders[0][2] == full.orders[0][2] // 2
+
+
+def test_analyst_not_consulted_on_exits(tmp_path):
+    b = FakeBroker({"AAA": make_bars(np.linspace(120, 80, 120))}, positions={"AAA": 100})
+    State(tmp_path).add_managed("AAA", 100)
+    a = FakeAnalyst(False)
+    run_once(cfg(tmp_path, False), b, analyst=a)
+    assert a.calls == 0 and b.orders[0][1] == "SELL"

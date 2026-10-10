@@ -7,21 +7,26 @@ from .broker import IBKRBroker
 from .config import Config
 from .risk import AccountSnapshot, RiskManager
 from .state import State
-from .strategy import latest_signal
+from .strategy import compute, latest_signal
 
 log = logging.getLogger("agent")
 
 
-def run_once(cfg: Config, broker: IBKRBroker | None = None) -> None:
+def run_once(cfg: Config, broker: IBKRBroker | None = None, analyst=None) -> None:
     state = State(cfg.state_dir)
     if state.kill_switch:
         log.warning("kill switch %s exists - doing nothing", state.root / "STOP")
         return
 
+    if analyst is None and cfg.analyst.enabled:
+        from .analyst import ClaudeAnalyst
+
+        analyst = ClaudeAnalyst(cfg.analyst, audit_dir=state.root / "reviews")
+
     broker = broker or IBKRBroker(cfg)
     broker.connect()
     try:
-        _run(cfg, broker, state)
+        _run(cfg, broker, state, analyst)
     finally:
         broker.disconnect()
 
@@ -39,7 +44,7 @@ def _snapshot(broker: IBKRBroker, state: State) -> AccountSnapshot:
     )
 
 
-def _run(cfg: Config, broker: IBKRBroker, state: State) -> None:
+def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
     risk = RiskManager(cfg.risk, cfg.strategy.atr_stop_mult)
     tag = "DRY-RUN" if cfg.dry_run else cfg.mode.upper()
     # Records the day's starting equity on the first pass of the day.
@@ -50,7 +55,8 @@ def _run(cfg: Config, broker: IBKRBroker, state: State) -> None:
     for inst in cfg.universe:
         sym = inst.symbol
         try:
-            sig = latest_signal(broker.daily_bars(inst), cfg.strategy)
+            bars = broker.daily_bars(inst)
+            sig = latest_signal(bars, cfg.strategy)
         except Exception as e:  # one bad symbol must not stop the rest
             log.error("%s: data/signal error: %s", sym, e)
             state.log(symbol=sym, action="ERROR", status="skipped", reason=str(e))
@@ -71,6 +77,14 @@ def _run(cfg: Config, broker: IBKRBroker, state: State) -> None:
                 continue
             acct = _snapshot(broker, state)
             d = risk.size_buy(sig.close, sig.atr, acct)
+            if d.qty > 0 and analyst is not None:
+                # Claude reviews after the hard limits, and can only shrink or veto.
+                r = analyst.review(sym, compute(bars, cfg.strategy), d.qty, sig.close, acct.equity)
+                scaled = int(d.qty * r.size_multiplier) if r.approved else 0
+                verdict = "approved" if r.approved else "vetoed"
+                d.notes.append(f"claude {verdict} x{r.size_multiplier:.2f} -> {scaled}: {r.summary}")
+                log.info("%s: Claude %s (conf %.2f): %s", sym, verdict, r.confidence, r.summary)
+                d.qty = scaled
             _execute(cfg, broker, state, risk, inst, "BUY", d.qty, sig, "; ".join(d.notes))
         elif not sig.in_position and owned > 0:
             _execute(cfg, broker, state, risk, inst, "SELL", owned, sig, "")

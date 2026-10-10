@@ -34,4 +34,15 @@ risk:
   max_orders_per_day: 10
   limit_offset_pct: 0.2       # limit price = last +/- this %
 
+# Claude reviews each technical BUY before it is placed. It can approve, veto,
+# or shrink the size; it never enlarges a trade, starts one, or blocks a sell.
+# Errors and refusals count as a veto. Needs ANTHROPIC_API_KEY in the environment.
+analyst:
+  enabled: true
+  model: claude-opus-5-5
+  effort: high           # low | medium | high | xhigh | max
+  web_search: true       # look up earnings dates and recent news
+  max_searches: 5
+  min_confidence: 0.6    # approvals below this confidence become vetoes
+
 state_dir: state             # journal, daily state, kill switch file (state/STOP)

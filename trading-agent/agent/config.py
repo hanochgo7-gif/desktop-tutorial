@@ -43,6 +43,16 @@ class RiskConfig:
 
 
 @dataclass
+class AnalystConfig:
+    enabled: bool = False
+    model: str = "claude-opus-5-5"
+    effort: str = "high"
+    web_search: bool = True
+    max_searches: int = 5
+    min_confidence: float = 0.6
+
+
+@dataclass
 class Config:
     mode: str = "paper"
     dry_run: bool = True
@@ -50,6 +60,7 @@ class Config:
     universe: list[Instrument] = field(default_factory=list)
     strategy: StrategyConfig = field(default_factory=StrategyConfig)
     risk: RiskConfig = field(default_factory=RiskConfig)
+    analyst: AnalystConfig = field(default_factory=AnalystConfig)
     state_dir: Path = Path("state")
 
     def __post_init__(self):
@@ -71,5 +82,6 @@ def load_config(path: str | Path) -> Config:
         universe=[Instrument(**u) for u in raw.get("universe", [])],
         strategy=StrategyConfig(**raw.get("strategy", {})),
         risk=RiskConfig(**raw.get("risk", {})),
+        analyst=AnalystConfig(**raw.get("analyst", {})),
         state_dir=Path(raw.get("state_dir", "state")),
     )
