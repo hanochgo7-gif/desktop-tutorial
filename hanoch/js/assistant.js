@@ -306,7 +306,8 @@
     var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 25000);
     fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ messages: history, page: location.pathname + location.hash }), signal: ctl.signal })
       .then(function (r) {
-        if (!r.ok || !r.body) { if (r.status === 503 || r.status === 404 || r.status === 405 || r.status === 501) { S.offline = true; save(); } throw new Error('http ' + r.status); }
+        // תשובה תקינה היא טקסט בזרימה. JSON פירושו הודעת שגיאה מהשרת, ולא מציגים אותה כתשובה
+        if (!r.ok || !r.body || /json/i.test(r.headers.get('content-type') || '')) { if (r.status === 503 || r.status === 404 || r.status === 405 || r.status === 501) { S.offline = true; save(); } throw new Error('http ' + r.status); }
         var reader = r.body.getReader(), dec = new TextDecoder(), acc = '', node = null;
         function pump() {
           return reader.read().then(function (x) {
