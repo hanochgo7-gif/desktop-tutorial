@@ -131,6 +131,17 @@
         'קל ונגיש: תמונות בגדלים לפי מסך, וידאו שנטען רק כשהוא נראה, כתוביות לסרט, ומצב בלי אנימציות למי שמבקש.'
       ],
       palette: ['#11150c', '#3f4a2a', '#c9a227', '#8b8478', '#ece6d7'], fonts: ['Frank Ruhl Libre', 'Rubik']
+    },
+    mashkanta: {
+      name: 'יסוד', sub: 'יועץ משכנתאות · אתר הדגמה, מותג בדיוני', kind: 'אתר הדגמה ללקוח פוטנציאלי · מחשבונים חיים', url: 'github.io/mashkanta', color: '#5fd99a',
+      story: 'אתר הדגמה שבניתי לתחום ייעוץ המשכנתאות, כדי להראות איך אתר של יועץ יכול לעבוד בשבילו. השם "יסוד", המספרים והתרחישים בדויים. מי שמגיע לאתר כזה רוצה לדעת דבר אחד: כמה הוא יכול לחסוך. לכן כבר בפתיחה יש גרף חי שמראה את הפער לפני ואחרי מחזור, וכל העמוד בנוי סביב חישובים שהגולש עושה בעצמו, עד שהוא שולח אותם ליועץ בוואטסאפ.',
+      points: [
+        'מחשבון לפי לוח שפיצר בשני מצבים, קיצור תקופה או הורדת החזר, כולל עמלת פירעון מוקדם וחיסכון נטו.',
+        'מבחן לחץ לתמהיל: בוחרים מסלולים ותרחיש של פריים ומדד, ורואים מה יהיה ההחזר בעוד חמש שנים ומה רמת הסיכון.',
+        'דוח יתרות לדוגמה עם הסברים: כל הסבר מסמן את התא שהוא מדבר עליו, כך שקל להבין דוח שנראה מסובך.',
+        'טופס בשלבים שמתמלא מהנתונים של המחשבון, כפתור ששולח את החישוב בוואטסאפ, ותפריט נגישות מלא.'
+      ],
+      palette: ['#0c2731', '#13495b', '#5fd99a', '#f2a541', '#f6f7f4'], fonts: ['IBM Plex Sans Hebrew']
     }
   };
   if (EN) {
@@ -208,12 +219,22 @@
           '"Tree to bottle" in four steps, with a frame from the film for each, plus tasting notes and bottle details instead of a sales list.',
           'Light and accessible: images sized for each screen, video that loads only when it is in view, captions for the film, and a no-animation mode for anyone who asks.'
         ]
+      },
+      mashkanta: {
+        name: 'Yesod', sub: 'Mortgage advisor · demo site, fictional brand', kind: 'Demo for a prospective client · live calculators', url: 'github.io/mashkanta',
+        story: 'A demo site I built for mortgage advisors, to show how a site can do real work for an advisor. The name Yesod, the numbers and the scenarios are made up. Anyone landing on a site like this wants to know one thing: how much they could save. So the opening already has a live chart of the gap before and after refinancing, and the whole page is built around calculations visitors run themselves, until they send them to the advisor on WhatsApp. The site itself is in Hebrew.',
+        points: [
+          'An amortization calculator with two modes, shorter term or lower payment, including the early repayment fee and the net saving.',
+          'A stress test for the mortgage mix: pick the tracks and a rate scenario, and see the payment five years from now and the level of risk.',
+          'A sample balance statement with notes: each note highlights the cell it talks about, so a confusing statement becomes easy to read.',
+          'A step-by-step form pre-filled from the calculator, a button that sends the numbers on WhatsApp, and a full accessibility menu.'
+        ]
       }
     };
     Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
   }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
-  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/') };
+  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/'), mashkanta: 'https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
   ORDER.forEach(function (id) {
     if (!LIVE[id]) return;
