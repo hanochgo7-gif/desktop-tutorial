@@ -1,0 +1,16 @@
+{
+  "name": "rotem-social",
+  "private": true,
+  "type": "module",
+  "description": "פרסום ותזמון פוסטים לרשתות החברתיות של הקליניקה דרך Zernio",
+  "scripts": {
+    "accounts": "node zernio.mjs accounts",
+    "connect": "node zernio.mjs connect",
+    "post": "node zernio.mjs post",
+    "plan": "node zernio.mjs plan",
+    "list": "node zernio.mjs list"
+  },
+  "dependencies": {
+    "@zernio/node": "^0.2.1148"
+  }
+}
