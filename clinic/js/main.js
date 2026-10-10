@@ -65,6 +65,19 @@
     bg.load();
   })();
   syncVideos(); window.syncSiteVideos = syncVideos;
+  // לפני/אחרי: גרירה בין שתי התמונות
+  $$('.ba-compare').forEach(function (box) {
+    var range = $('.ba-range', box); if (!range) return;
+    var set = function (v) { box.style.setProperty('--pos', Math.max(0, Math.min(100, v))); };
+    range.addEventListener('input', function () { set(range.value); });
+    var drag = function (e) { var r = box.getBoundingClientRect(); var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left; var pct = (r.width - x) / r.width * 100; range.value = pct; set(pct); };
+    box.addEventListener('pointerdown', function (e) { if (e.pointerType === 'mouse' && e.button !== 0) return; box.setPointerCapture(e.pointerId); drag(e); var mv = function (ev) { drag(ev); }; var up = function () { box.removeEventListener('pointermove', mv); box.removeEventListener('pointerup', up); box.removeEventListener('pointercancel', up); }; box.addEventListener('pointermove', mv); box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up); });
+    // רמז עדין פעם אחת כשהבלוק נכנס למסך
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      var hinted = false; var io = new IntersectionObserver(function (en) { if (!en[0].isIntersecting || hinted) return; hinted = true; io.disconnect();
+        var t0 = performance.now(); (function tick(now) { var k = (now - t0) / 1600; if (k >= 1 || box.matches(':active')) { set(50); return; } set(50 + Math.sin(k * Math.PI * 2) * 14); requestAnimationFrame(tick); })(t0); }, { threshold: .6 }); io.observe(box);
+    }
+  });
 
   /* תפריט נייד */
   var toggle = $('.nav-toggle'), menu = $('#mobile-menu');

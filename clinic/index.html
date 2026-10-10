@@ -10,12 +10,12 @@
   <meta property="og:locale" content="he_IL">
   <meta property="og:title" content="רותם גוטובסקי | טיפול לפי מטרה, לא לפי גיל">
   <meta property="og:description" content="טיפולי פנים, הסרת שיער בלייזר ופדיקור טיפולי. חנות מוצרי טיפוח מקצועיים.">
-  <meta property="og:image" content="images/logo.png">
+  <meta property="og:image" content="images/og-image.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="icon" href="images/logo.png" type="image/png">
-  <link rel="stylesheet" href="css/style.css?v=58">
+  <link rel="icon" href="images/favicon.png" type="image/png"><link rel="apple-touch-icon" href="images/logo-mark.png">
+  <link rel="stylesheet" href="css/style.css?v=59">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,7 +38,8 @@
 
 <header class="site-header" id="top">
   <a class="brand" href="index.html" aria-label="רותם גוטובסקי, דף הבית">
-    <img src="images/logo.png" alt="רותם גוטובסקי p.m.e Cosmetics" width="540" height="480">
+    <img src="images/logo-mark.png" alt="" width="512" height="512">
+    <span class="brand__text"><b>Rotem Gotovski</b><small>p.m.e Cosmetics</small></span>
   </a>
   <nav class="nav" aria-label="ניווט ראשי">
     <ul class="menu">
@@ -58,7 +59,7 @@
 </header>
 
 <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="תפריט האתר">
-  <img class="mobile-menu__logo" src="images/logo.png" alt="" width="540" height="480">
+  <img class="mobile-menu__logo" src="images/logo.png" alt="" width="640" height="710">
   <p class="mobile-menu__brand">רותם גוטובסקי · p.m.e Cosmetics</p>
   <ul>
     <li><a href="#face"><small>01</small>טיפולי פנים</a></li>
@@ -269,18 +270,33 @@
     </div>
     <div class="ba-grid" data-stagger>
       <figure class="ba-pair reveal">
-        <div class="ba-frame"><img src="images/results/acne-before-1.webp" alt="לחי עם צלקות אקנה פעילות ואדמומיות, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/acne-after-1.webp" alt="אותה לחי אחרי סדרת טיפולים, עור רגוע ומרקם אחיד יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-compare" style="--pos:50">
+          <img class="ba-img ba-img-before" src="images/results/acne-before-1.webp" alt="לחי עם צלקות אקנה פעילות ואדמומיות, לפני הטיפול" loading="lazy">
+          <img class="ba-img ba-img-after" src="images/results/acne-after-1.webp" alt="אותה לחי אחרי סדרת טיפולים, עור רגוע ומרקם אחיד יותר" loading="lazy">
+          <span class="ba-tag">לפני</span><span class="ba-tag ba-tag-after">אחרי</span>
+          <div class="ba-handle" aria-hidden="true"><span></span></div>
+          <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="הזזה בין לפני לאחרי">
+        </div>
         <figcaption>צלקות פוסט-אקנה, קו הלסת. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
       <figure class="ba-pair reveal">
-        <div class="ba-frame"><img src="images/results/acne-before-2.webp" alt="לחי עם צלקות אקנה ופצעונים פעילים, לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/acne-after-2.webp" alt="אותה לחי אחרי סדרת טיפולים, פחות דלקת ומרקם חלק יותר" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-compare" style="--pos:50">
+          <img class="ba-img ba-img-before" src="images/results/acne-before-2.webp" alt="לחי עם צלקות אקנה ופצעונים פעילים, לפני הטיפול" loading="lazy">
+          <img class="ba-img ba-img-after" src="images/results/acne-after-2.webp" alt="אותה לחי אחרי סדרת טיפולים, פחות דלקת ומרקם חלק יותר" loading="lazy">
+          <span class="ba-tag">לפני</span><span class="ba-tag ba-tag-after">אחרי</span>
+          <div class="ba-handle" aria-hidden="true"><span></span></div>
+          <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="הזזה בין לפני לאחרי">
+        </div>
         <figcaption>צלקות פוסט-אקנה, הלחי ואזור האוזן. אחרי סדרת טיפולי ביו-מיקרונידלינג ופילינג.</figcaption>
       </figure>
       <figure class="ba-pair ba-pair-square reveal">
-        <div class="ba-frame"><img src="images/results/wart-before.webp" alt="יבלת בכף הרגל לפני הטיפול" loading="lazy"><span class="ba-tag">לפני</span></div>
-        <div class="ba-frame"><img src="images/results/wart-after.webp" alt="אותו אזור אחרי טיפול, היבלת הוסרה והעור מחלים" loading="lazy"><span class="ba-tag ba-tag-after">אחרי</span></div>
+        <div class="ba-compare" style="--pos:50">
+          <img class="ba-img ba-img-before" src="images/results/wart-before.webp" alt="יבלת בכף הרגל לפני הטיפול" loading="lazy">
+          <img class="ba-img ba-img-after" src="images/results/wart-after.webp" alt="אותו אזור אחרי טיפול, היבלת הוסרה והעור מחלים" loading="lazy">
+          <span class="ba-tag">לפני</span><span class="ba-tag ba-tag-after">אחרי</span>
+          <div class="ba-handle" aria-hidden="true"><span></span></div>
+          <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="הזזה בין לפני לאחרי">
+        </div>
         <figcaption>יבלת בכף הרגל. פדיקור טיפולי, הסרה מבוקרת של היבלת.</figcaption>
       </figure>
     </div>
@@ -544,11 +560,11 @@
 <dialog class="lightbox" id="lightbox" aria-label="תעודה מוגדלת"><img src="" alt=""><button class="qv-close" id="lightbox-close" type="button" aria-label="סגירה">×</button></dialog>
 
 <script src="js/products.js"></script>
-<script src="js/main.js?v=35"></script>
+<script src="js/main.js?v=36"></script>
 <script src="js/services.js?v=2"></script>
 <script src="js/a11y.js?v=2"></script>
 <script src="js/knowledge.js?v=1"></script>
 <script src="js/config.js"></script>
-<script src="js/assistant.js?v=5"></script>
+<script src="js/assistant.js?v=6"></script>
 </body>
 </html>

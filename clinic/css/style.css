@@ -135,8 +135,8 @@ button { font-family: inherit; }
 .site-header.is-scrolled { border-color: var(--line); background: rgba(251, 242, 236, .94); height: 88px; }
 .site-header.is-hidden { transform: translateY(-100%); }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand img { height: 112px; width: auto; transition: height .4s var(--ease); }
-.site-header.is-scrolled .brand img { height: 72px; }
+.brand img { height: 84px; width: auto; transition: height .4s var(--ease); }
+.site-header.is-scrolled .brand img { height: 60px; }
 .nav { margin-inline-start: auto; }
 .menu { display: flex; gap: 6px; }
 .menu a { position: relative; display: block; padding: 10px 14px; font-size: 15px; font-weight: 500; text-decoration: none; color: var(--slate); border-radius: 999px; transition: color .3s, background .3s; }
@@ -233,7 +233,7 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
 .marquee__logo img[alt="KLAPP"] { height: clamp(40px, 4.2vw, 56px); }
 .marquee__logo img[alt="Arkana"] { height: clamp(42px, 4.4vw, 58px); }
 .marquee__logo img[alt="Dr. Spicule"] { height: clamp(56px, 6vw, 78px); }
-.ba-pair-square .ba-frame img { aspect-ratio: 1 / 1; }
+.ba-pair-square .ba-frame img, .ba-pair-square .ba-img { aspect-ratio: 1 / 1; }
 
 /* ===== מספרים ===== */
 .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: clamp(48px, 7vh, 80px) var(--gutter); }
@@ -310,7 +310,7 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
 /* ===== לפני ואחרי ===== */
 .results { padding: clamp(64px, 10vh, 120px) var(--gutter); background: var(--paper); border-top: 1px solid var(--line); }
 .ba-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: clamp(28px, 4vw, 56px); }
-.ba-pair { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ba-pair { margin: 0; display: grid; grid-template-columns: 1fr; gap: 8px; }
 .ba-frame { position: relative; overflow: hidden; background: var(--bg); border-radius: 14px; }
 .ba-frame img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; transition: transform .8s var(--ease-out); }
 .ba-pair:hover .ba-frame img { transform: scale(1.05); }
@@ -535,9 +535,9 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
 }
 @media (max-width: 860px) {
   :root { --nav-h: 96px; }
-  .brand img { height: 80px; }
+  .brand img { height: 64px; }
   .site-header.is-scrolled { height: 76px; }
-  .site-header.is-scrolled .brand img { height: 60px; }
+  .site-header.is-scrolled .brand img { height: 52px; }
   .header-cta { display: none; }
   .nav-toggle__label { display: none; }
   .products { grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -843,8 +843,8 @@ body { background: var(--bg) radial-gradient(120% 80% at 50% 0%, #fff7f2 0%, var
 
 /* ===== החנות: עולם עיצובי נפרד ===== */
 .page-shop {
-  --bg: #e8dfd1; --paper: #f3ede3; --ink: #2b2420; --head: #2b2420; --slate: #554b42; --muted: #665e55; --line: #d3c6b3;
-  --blush: #d9c7ad; --blush-deep: #c9b28f; --gold: #a8865a; --gold-deep: #66503a; --gold-soft: #eadfcc; --dark: #2b2420;
+  --bg: #e8dfd1; --paper: #f3ede3; --ink: #2b2420; --head: #2b2420; --slate: #554b42; --muted: #524a42; --line: #d3c6b3;
+  --blush: #d9c7ad; --blush-deep: #c9b28f; --gold: #a8865a; --gold-deep: #5a4631; --gold-soft: #eadfcc; --dark: #2b2420;
   --serif: "Noto Serif Hebrew", Georgia, serif;
   background: var(--bg);
 }
@@ -1438,3 +1438,32 @@ html.a11y-contrast main > *, html.a11y-contrast .site-footer, html.a11y-contrast
 .hero-scroll, .hero-scroll span { color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
 .hero-scroll i, .hero-scroll::before { background: #fff; }
 body.page-shop { background: transparent; }
+
+/* ===== לפני/אחרי: השוואה בגרירה ===== */
+.ba-compare { position: relative; overflow: hidden; border-radius: 16px; background: var(--bg); isolation: isolate; user-select: none; -webkit-user-select: none; touch-action: pan-y; box-shadow: 0 24px 50px -30px rgba(63,58,61,.45); }
+.ba-img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.ba-img-after { position: absolute; inset: 0; height: 100%; clip-path: inset(0 0 0 calc(100% - var(--pos) * 1%)); }
+[dir="rtl"] .ba-img-after, .ba-img-after { clip-path: inset(0 calc(var(--pos) * 1%) 0 0); }
+.ba-compare .ba-tag { top: 12px; inset-inline-start: 12px; z-index: 2; }
+.ba-compare .ba-tag-after { inset-inline-start: auto; inset-inline-end: 12px; }
+.ba-handle { position: absolute; top: 0; bottom: 0; inset-inline-start: calc(var(--pos) * 1%); width: 2px; margin-inline-start: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.12); z-index: 2; pointer-events: none; }
+.ba-handle span { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); border-radius: 50%; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.25); display: grid; place-items: center; }
+.ba-handle span::before, .ba-handle span::after { content: ""; width: 7px; height: 7px; border-top: 2px solid var(--gold-deep); border-left: 2px solid var(--gold-deep); position: absolute; top: 50%; }
+.ba-handle span::before { left: 11px; transform: translateY(-50%) rotate(-45deg); }
+.ba-handle span::after { right: 11px; transform: translateY(-50%) rotate(135deg); }
+.ba-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 3; -webkit-appearance: none; appearance: none; background: transparent; }
+.ba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 44px; height: 100%; }
+.ba-range::-moz-range-thumb { width: 44px; height: 100%; border: 0; background: transparent; }
+.ba-compare:has(.ba-range:focus-visible) { outline: 3px solid var(--gold); outline-offset: 3px; }
+.ba-compare.is-hinting { animation: none; }
+@keyframes ba-hint { 0%, 100% { --pos: 50; } 35% { --pos: 62; } 70% { --pos: 42; } }
+.ba-pair:hover .ba-frame img { transform: none; }
+
+/* ===== לוגו חדש: מונוגרמה + שם ===== */
+.brand { gap: 10px; }
+.brand__text { display: grid; line-height: 1.05; color: #6b4f1d; direction: ltr; text-align: left; }
+.brand__text b { font: 400 clamp(17px, 1.5vw, 21px) var(--serif); letter-spacing: .02em; color: #6b4f1d; }
+.brand__text small { font: 600 10px var(--sans); letter-spacing: .22em; text-transform: lowercase; color: #6b4f1d; margin-top: 3px; }
+.site-header.is-scrolled .brand__text b { font-size: 16px; }
+@media (max-width: 760px) { .brand__text b { font-size: 15px; } .brand__text small { font-size: 9px; letter-spacing: .16em; } }
+html.a11y-contrast .brand__text, html.a11y-contrast .brand__text b, html.a11y-contrast .brand__text small { color: #000; }
