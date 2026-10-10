@@ -79,6 +79,8 @@
   const priceText = p => !p.buy ? L('ללא מכירה', 'Not for sale') : hasPrice(p) ? fmt(unit(p)) : L('מחיר יעודכן', 'Price coming soon');
   const metaText = p => !p.buy ? L('לא נמכר באתר', 'Not sold online') : [subOf(p), sizeOf(p), p.variant].filter(Boolean).join(', ');
   const ART = (window.ALLENBIS_DEMO || {}).art || {};
+  // signs catch the light one after another, not all at once
+  const shineDelay = p => ((parseInt(p.id.slice(1), 10) || 0) % 9) * 0.55;
   const demoTag = on => on ? ` <span class="demo">${L('דוגמה', 'Example')}</span>` : '';
 
   const products = CATALOG.products.filter(p => p && p.active !== false);
@@ -249,7 +251,7 @@
 <div class="badges" aria-hidden="true">${badges}</div>
 <button type="button" class="pic" data-open="${p.id}" tabindex="-1" aria-hidden="true"><img src="${esc(img)}" alt="" loading="lazy" decoding="async" width="640" height="480">${img === FALLBACK ? `<span class="note">${L('תמונה בקרוב', 'Photo coming soon')}</span>` : ''}</button>
 <h3><button type="button" class="name" data-open="${p.id}"><bdi>${name}</bdi></button></h3><p class="meta">${esc(metaText(p))}</p>
-${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p>` : ''}
+${dealOf.has(p.id) ? `<p class="deal-chip"><span class="shine" style="--d:${shineDelay(p)}s">${esc(dealName(dealOf.get(p.id)))}</span></p>` : ''}
 <div class="buy">${buyHtml(p)}</div></article>`;
   }
 
@@ -355,13 +357,13 @@ ${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p
 
   function updateCartUi() {
     const t = totals();
-    $('cartCount').textContent = t.items;
+    roll($('cartCount'), t.items);
     $('cartSum').hidden = !t.items;
-    $('cartSum').textContent = fmt(t.sub);
+    countTo($('cartSum'), t.sub, 'cartSum');
     $('cartLabel').textContent = L(`סל הקניות, ${t.items} פריטים`, `Cart, ${t.items} items`);
     document.body.classList.toggle('has-items', t.items > 0);
     $('barText').textContent = t.items === 1 ? L('פריט אחד בסל', '1 item in cart') : L(`${t.items} פריטים בסל`, `${t.items} items in cart`);
-    $('barSum').textContent = fmt(t.sub);
+    countTo($('barSum'), t.sub, 'barSum');
     $('barProg').innerHTML = freeHtml(t.sub, true);
   }
 
@@ -592,19 +594,20 @@ ${dealOf.has(p.id) ? `<p class="deal-chip">${esc(dealName(dealOf.get(p.id)))}</p
 <div class="totals">${totalsHtml(t)}</div>
 <button class="primary" type="button" id="toCheckout"${t.blocked ? ' disabled' : ''}>${L('לתשלום', 'Checkout')} · <bdi>${fmt(t.total)}</bdi></button>
 <button class="secondary" type="button" id="emptyCart">${L('ריקון הסל', 'Empty cart')}</button>`;
+    countAll($('cartFoot'), 'cart');
   }
 
   function totalsHtml(t) {
     return `<div class="row"><span>${L('מוצרים', 'Items')} (${t.items})</span><bdi>${fmt(t.sub + t.savings + t.multi)}</bdi></div>
-${t.savings ? `<div class="row good"><span>${L('חסכת במבצעים', 'You saved')}</span><bdi>−${fmt(t.savings)}</bdi></div>` : ''}
-${t.multi ? `<div class="row good"><span>${L('מבצעי כמות', 'Multi-buy deals')}</span><bdi>−${fmt(t.multi)}</bdi></div>` : ''}
-${t.welcome ? `<div class="row good"><span>${benefitName(t.benefit)}</span><bdi>−${fmt(t.welcome)}</bdi></div>` : ''}
+${t.savings ? `<div class="row good"><span>${L('חסכת במבצעים', 'You saved')}</span><bdi>−<span data-count="save" data-v="${t.savings}">${fmt(t.savings)}</span></bdi></div>` : ''}
+${t.multi ? `<div class="row good"><span>${L('מבצעי כמות', 'Multi-buy deals')}</span><bdi>−<span data-count="multi" data-v="${t.multi}">${fmt(t.multi)}</span></bdi></div>` : ''}
+${t.welcome ? `<div class="row good"><span>${benefitName(t.benefit)}</span><bdi>−<span data-count="ben" data-v="${t.welcome}">${fmt(t.welcome)}</span></bdi></div>` : ''}
 ${t.wheelOff ? `<div class="row good"><span>${L('גלגל המזל', 'Lucky wheel')}</span><bdi>−${fmt(t.wheelOff)}</bdi></div>` : ''}
 ${t.prize?.type === 'gift' ? `<div class="row good"><span>${L('מתנה מהגלגל', 'Wheel gift')}: ${esc(prizeName(t.prize))}</span><bdi>${L('חינם', 'Free')}</bdi></div>` : ''}
 ${t.wheel === 'held' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) לא מצטרף ל${benefitName(t.benefit)}, ששווה יותר ממנו.`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) doesn't combine with your ${benefitName(t.benefit).toLowerCase()}, which is worth more.`)}</div>` : ''}
 ${t.wheel === 'paused' ? `<div class="muted">${L(`הפרס מהגלגל (${esc(prizeName(PRIZES[spin.i]))}) יחזור כשהסל יגיע ל-`, `Your wheel prize (${esc(prizeName(PRIZES[spin.i]))}) comes back at `)}<bdi>${fmt(WHEEL_MIN)}</bdi>.</div>` : ''}
 <div class="row"><span>${L('משלוח', 'Delivery')}${demoTag(D.example)}</span><bdi>${t.fee ? fmt(t.fee) : L('חינם', 'Free')}</bdi></div>
-<div class="row big"><span>${L('סה״כ', 'Total')}</span><bdi>${fmt(t.total)}</bdi></div>
+<div class="row big"><span>${L('סה״כ', 'Total')}</span><bdi data-count="total" data-v="${t.total}">${fmt(t.total)}</bdi></div>
 ${t.unpriced ? `<div class="muted">${L(`${t.unpriced === 1 ? 'למוצר אחד' : `ל-${t.unpriced} מוצרים`} בסל עדיין אין מחיר, והוא לא נכלל בסכום.`, `${t.unpriced} item(s) in your cart have no price yet and aren't in the total.`)}</div>` : ''}
 ${refCode && API && !orders.length && t.benefit?.kind !== 'ref' && t.items ? `<div class="muted">${t.sub < (CFG.referral?.minimumOrderMinor || 0)
   ? L(`הנחת החבר (<bdi>${fmt(CFG.referral.rewardMinor)}</bdi>) נכנסת בהזמנה מ-<bdi>${fmt(CFG.referral.minimumOrderMinor)}</bdi>. חסרים עוד <bdi>${fmt(CFG.referral.minimumOrderMinor - t.sub)}</bdi>.`, `Your friend discount (<bdi>${fmt(CFG.referral.rewardMinor)}</bdi>) applies from <bdi>${fmt(CFG.referral.minimumOrderMinor)}</bdi>. Add <bdi>${fmt(CFG.referral.minimumOrderMinor - t.sub)}</bdi> more.`)
@@ -988,7 +991,7 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
     const up = unitPrice(p);
     const low = sale ? `<span class="s-was">${L('במקום', 'was')} <bdi>${fmt(regular(p))}</bdi></span>` : `${up ? `<bdi>${up}</bdi>` : ''}<span class="s-bar" aria-hidden="true"></span>`;
     const tag = `<span class="stag${sale ? ' sale' : ''}${priced ? '' : ' soft'}">${sale ? `<span class="s-flag" aria-hidden="true">${L('מבצע', 'SALE')}</span>` : ''}<span class="t-name"><bdi>${esc(nm(p))}</bdi></span><span class="s-price">${priced ? pm(unit(p)) : esc(priceText(p))}</span><span class="s-unit">${low}</span></span>`;
-    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(nm(p))}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span>${dealOf.has(p.id) ? `<span class="wobbler" aria-hidden="true">${esc((LANG === 'en' ? dealOf.get(p.id).signEn : dealOf.get(p.id).sign) || dealName(dealOf.get(p.id)))}</span>` : ''}</div>${tag}</div>`;
+    return `<div class="slot${canBuy(p) ? '' : ' oos'}${cart[p.id] ? ' in' : ''}" data-id="${p.id}"><div class="prod"><button type="button" class="face${hasCut(p.id) ? ' cut' : ' box'}" data-open="${p.id}"${hasCut(p.id) ? ` data-cut="${p.id}"` : ''} aria-label="${esc(nm(p))}, ${esc(priceText(p))}"><img src="${esc(hasCut(p.id) ? `images/cut/${p.id}.webp` : imgOf(p))}" alt="" loading="lazy" decoding="async"></button>${flag}${slotAdd(p)}<span class="stickers" aria-hidden="true">${stickers(p)}</span>${dealOf.has(p.id) ? `<span class="wobbler" aria-hidden="true"><span class="shine" style="--d:${shineDelay(p)}s">${esc((LANG === 'en' ? dealOf.get(p.id).signEn : dealOf.get(p.id).sign) || dealName(dealOf.get(p.id)))}</span></span>` : ''}</div>${tag}</div>`;
   }
   // Glass-door cooler: one door per 3 columns, a frame between doors and a handle on each.
   function doorsHtml() {
@@ -1150,6 +1153,149 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
 
   /* ---------- Taking a product off the shelf ---------- */
   const calm = () => document.documentElement.classList.contains('nomo') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Motion: counting sums, rolling digits, rotating words, a coupon you tear, a turning sign ----------
+   * Plain-JS ports of effects from React Bits (CountUp, Counter, RotatingText, TearTicket, CircularText, ShinyText),
+   * https://github.com/DavidHDev/react-bits, MIT + Commons Clause, see THIRD_PARTY_NOTICES.md.
+   * All of them stand still with "stop animations" or the system's reduced-motion setting. */
+  const counted = new Map();
+  function countTo(el, to, key, from = counted.has(key) ? counted.get(key) : to) {
+    counted.set(key, to);
+    cancelAnimationFrame(el._count);
+    if (calm() || from === to) { el.textContent = fmt(to); return; }
+    const t0 = performance.now(), dur = Math.min(900, 380 + Math.abs(to - from) / 6);
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = fmt(Math.round(from + (to - from) * (1 - (1 - k) ** 3)));
+      if (k < 1) el._count = requestAnimationFrame(tick);
+    };
+    el._count = requestAnimationFrame(tick);
+  }
+  // A sum that just appeared (a first saving) counts up from zero; one that went away starts from zero next time.
+  function countAll(root, scope) {
+    const seen = new Set();
+    root.querySelectorAll('[data-count]').forEach(el => {
+      const key = `${scope}-${el.dataset.count}`;
+      seen.add(key);
+      countTo(el, +el.dataset.v, key, counted.has(key) ? counted.get(key) : el.dataset.count === 'total' ? +el.dataset.v : 0);
+    });
+    for (const k of counted.keys()) if (k.startsWith(scope + '-') && !seen.has(k) && !k.endsWith('-total')) counted.set(k, 0);
+  }
+  // Digits that roll like a departure board
+  const DIGITS = '0123456789'.split('').map(d => `<span>${d}</span>`).join('');
+  function roll(el, n, from) {
+    const s = String(n);
+    if (calm()) { el.textContent = s; el._v = s; return; }
+    const prev = String(from ?? el._v ?? s);
+    let box = el.querySelector('.roll');
+    if (!box || box.children.length !== s.length) {
+      const start = prev.padStart(s.length, '0').slice(-s.length);
+      el.innerHTML = `<span class="sr-only">${s}</span><span class="roll" aria-hidden="true">${[...start].map(d => `<span class="rd"><span style="transform:translateY(-${d * 10}%)">${DIGITS}</span></span>`).join('')}</span>`;
+      box = el.querySelector('.roll');
+      void box.offsetWidth;
+    } else el.firstChild.textContent = s;
+    [...s].forEach((d, i) => { box.children[i].firstChild.style.transform = `translateY(-${d * 10}%)`; });
+    el._v = s;
+  }
+  // The hero line: "<Bamba> to your door."
+  const ROT_WORDS = LANG === 'en' ? ['Bamba', 'Cold Coke', 'Ice', 'A charger', 'Ice cream', 'Bissli', 'Red Bull'] : ['במבה', 'קולה קרה', 'קרח', 'מטען', 'גלידה', 'ביסלי', 'רד בול'];
+  function startRotator() {
+    const h = $('heroTitle');
+    if (!h || calm()) return;
+    h.innerHTML = `<span class="sr-only">${esc(h.textContent)}</span><span aria-hidden="true"><span class="rot"></span> ${L('עד הדלת שלך.', 'to your door.')}</span>`;
+    const box = h.querySelector('.rot');
+    let i = 0, cur = null;
+    const next = () => {
+      if (cur && (document.hidden || calm())) return;
+      const word = ROT_WORDS[i++ % ROT_WORDS.length];
+      const w = document.createElement('span');
+      w.className = 'rot-w';
+      w.innerHTML = [...word].map((c, k) => `<span class="rc" style="animation-delay:${k * 32}ms">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('');
+      if (cur) { const old = cur; old.classList.add('out'); old.querySelectorAll('.rc').forEach((c, k) => { c.style.animationDelay = `${k * 22}ms`; }); setTimeout(() => old.remove(), 600); }
+      box.append(w);
+      box.style.width = `${w.offsetWidth}px`;
+      cur = w;
+    };
+    next();
+    setInterval(next, 2600);
+  }
+  // Night: a round "open 24/7" sign turning slowly by the neon
+  function circleText() {
+    const n = document.querySelector('.neon');
+    if (!n) return;
+    const text = L('פתוח 24/7 • משלוחים עד הדלת • ', 'OPEN 24/7 • DELIVERY TO YOUR DOOR • ');
+    // Hebrew runs right to left around the circle; numbers inside it still read left to right
+    const chars = LANG === 'en' ? [...text] : text.split(/([0-9/]+)/).flatMap((part, i) => i % 2 ? [...part].reverse() : [...part]);
+    const step = 360 / chars.length, dir = LANG === 'en' ? 1 : -1;
+    n.insertAdjacentHTML('beforeend', `<span class="n-ring" aria-hidden="true"><span class="n-spin${dir < 0 ? ' ccw' : ''}">${chars.map((c, i) => `<span style="transform:rotate(${(dir * i * step).toFixed(2)}deg)">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</span><b>★</b></span>`);
+  }
+  // A friend's discount as a coupon: drag the stub (or tap it) and it tears off and falls
+  let tear = null;
+  const tearSide = () => (document.documentElement.dir === 'ltr' ? 1 : -1); // which way is "out" for the stub
+  function dropStub(stub, angle) {
+    const card = stub.closest('.ticket');
+    const done = () => {
+      stub.remove();
+      card.classList.add('torn');
+      store.set('allenbis-ref-torn', refCode);
+      card.querySelector('.tk-saved').textContent = L('✓ שמור לכם', '✓ Saved for you');
+      toast(L('ההנחה מחבר שמורה לכם', 'Your friend discount is saved'));
+      card.querySelector('h2').setAttribute('tabindex', '-1');
+      card.querySelector('h2').focus({ preventScroll: true });
+    };
+    if (calm()) return done();
+    card.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${-tearSide() * 4}px)` }, { transform: 'translateX(0)' }], { duration: 260, easing: 'ease-out' });
+    const t0 = performance.now(), side = tearSide(), spin = 140 + Math.random() * 120;
+    let x = 0, y = 0, vx = side * (90 + Math.random() * 80), vy = -120, last = t0;
+    const fall = now => {
+      const dt = Math.min(0.034, (now - last) / 1000), age = (now - t0) / 1000;
+      last = now;
+      vy += 2400 * dt; x += vx * dt; y += vy * dt; angle += -side * spin * dt;
+      stub.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${angle.toFixed(1)}deg)`;
+      stub.style.opacity = String(Math.max(0, 1 - Math.max(0, age - 0.18) / 0.45));
+      if (age < 0.65) requestAnimationFrame(fall); else done();
+    };
+    stub.classList.add('free');
+    requestAnimationFrame(fall);
+  }
+  document.addEventListener('pointerdown', e => {
+    const stub = e.target.closest('[data-tear]');
+    if (!stub || calm() || e.button) return;
+    tear = { stub, id: e.pointerId, x: e.clientX, y: e.clientY, a: 0, moved: false };
+    stub.dataset.dragged = '';
+    stub.setPointerCapture(e.pointerId);
+    stub.classList.add('held');
+  });
+  document.addEventListener('pointermove', e => {
+    if (!tear || e.pointerId !== tear.id) return;
+    const out = (e.clientX - tear.x) * tearSide(), down = e.clientY - tear.y;
+    const pull = Math.max(0, down * 0.55 + out * 0.85);
+    if (pull > 6) tear.moved = true;
+    tear.a = Math.min(34, pull / 2.4);
+    tear.stub.style.transform = `rotate(${(-tearSide() * tear.a).toFixed(2)}deg)`;
+    if (tear.a >= 24) { const { stub, a } = tear; tear = null; stub.classList.remove('held'); dropStub(stub, -tearSide() * a); }
+  });
+  const letGo = e => {
+    if (!tear || e.pointerId !== tear.id) return;
+    const { stub, moved } = tear;
+    tear = null;
+    stub.classList.remove('held');
+    stub.dataset.dragged = moved ? '1' : '';
+    stub.style.transition = 'transform .35s cubic-bezier(.3,1.6,.5,1)';
+    stub.style.transform = '';
+    setTimeout(() => { stub.style.transition = ''; }, 360);
+  };
+  document.addEventListener('pointerup', letGo);
+  document.addEventListener('pointercancel', letGo);
+  document.addEventListener('click', e => {
+    const stub = e.target.closest('[data-tear]');
+    if (!stub || stub.classList.contains('free')) return;
+    if (stub.dataset.dragged) { stub.dataset.dragged = ''; return; }
+    if (calm()) return dropStub(stub, 0);
+    // a tap tears it for you: the stub swings open, then lets go
+    const a = -tearSide() * 26;
+    stub.animate([{ transform: 'rotate(0deg)' }, { transform: `rotate(${a}deg)` }], { duration: 260, easing: 'cubic-bezier(.5,0,.7,1)' }).onfinish = () => dropStub(stub, a);
+  });
   // The picture that flies: the next unit on the shelf (or the product photo on a card).
   function flySource(btn) {
     if (btn.closest('dialog')) return null;
@@ -1630,12 +1776,15 @@ ${related.length ? `<section class="upsell" aria-labelledby="relTitle"><h3 id="r
       ? `<p class="note-box">${head}</p><div class="eta"><b>${L('ההזמנה בוטלה', 'Order cancelled')}</b></div><p>${L('החנות ביטלה את ההזמנה. אם זה לא ברור, כדאי לפנות לחנות.', 'The store cancelled this order. If that\'s unexpected, please contact the store.')}</p>
 <div style="display:grid;gap:10px;margin-top:18px">${storeBtn}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>`
       : `${ART.courier ? `<img class="art-img wide" src="${esc(ART.courier)}" alt="">` : ''}<p class="note-box" style="margin-bottom:0">${head}</p>${rejected}
-<div class="eta">${done ? `<b>${L('נמסר', 'Delivered')}</b>` : `<b>${left}</b><span>${L('דקות בערך עד שזה אצלך', 'minutes, roughly, until it reaches you')}</span>`}</div>
+<div class="eta">${done ? `<b>${L('נמסר', 'Delivered')}</b>` : `<b data-roll="${left}">${left}</b><span>${L('דקות בערך עד שזה אצלך', 'minutes, roughly, until it reaches you')}</span>`}</div>
 <ol class="stages">${STAGES.map((st, i) => `<li class="${i < s ? 'done' : i === s ? (done ? 'done' : 'now') : ''}"><span aria-hidden="true">${stageIcon(st.id, i)}</span><p>${esc(stageName(st.id))}</p></li>`).join('')}</ol>
 ${done ? friendHtml(true) : ''}
 <div style="display:grid;gap:10px;margin-top:18px">${done || o.id ? '' : `<button class="secondary" type="button" id="trackNext">${L('הדגמה: לשלב הבא', 'Demo: next step')}</button>`}${done ? '' : storeBtn}<button class="primary" type="button" data-close>${L('חזרה לחנות', 'Back to the store')}</button></div>
 ${done ? '' : friendHtml(true)}`;
+    const eta = $('trackBody').querySelector('[data-roll]');
+    if (eta) { roll(eta, +eta.dataset.roll, etaShown); etaShown = +eta.dataset.roll; }
   }
+  let etaShown = null;
   let trackTimer, unwatch = null;
   function openTrack() {
     renderTrack();
@@ -1725,7 +1874,11 @@ ${done ? '' : friendHtml(true)}`;
   function friendHtml(compact) {
     if (!API || !CFG.referral?.enabled) return '';
     const min = CFG.referral.minimumOrderMinor;
-    if (!compact && refCode && !orders.length) return `<section class="friend got" aria-labelledby="fr-t"><h2 id="fr-t">${L(`חבר שלח לכם ${fmt(R_REWARD)} הנחה`, `A friend sent you ${fmt(R_REWARD)} off`)}</h2><p>${min ? L(`ההנחה נכנסת לבד להזמנה הראשונה שלכם מעל ${fmt(min)}.`, `It applies by itself to your first order over ${fmt(min)}.`) : L('ההנחה נכנסת לבד להזמנה הראשונה שלכם, בלי קוד ובלי מינימום.', 'It applies by itself to your first order. No code, no minimum.')}</p></section>`;
+    if (!compact && refCode && !orders.length) {
+      const torn = store.get('allenbis-ref-torn', null) === refCode;
+      return `<section class="friend got ticket${torn ? ' torn' : ''}" aria-labelledby="fr-t"><div class="tk-body"><p class="tk-kick">${L('חבר שלח לכם', 'A friend sent you')}</p><h2 id="fr-t"><bdi>${fmt(R_REWARD)}</bdi> ${L('הנחה', 'off')}</h2><p>${min ? L(`להזמנה הראשונה מעל ${fmt(min)}. נכנסת לבד בקופה.`, `On your first order over ${fmt(min)}. Applied by itself at checkout.`) : L('להזמנה הראשונה. נכנסת לבד בקופה.', 'On your first order. Applied by itself at checkout.')}</p><p class="tk-saved" role="status">${torn ? L('✓ שמור לכם', '✓ Saved for you') : ''}</p></div>
+${torn ? '' : `<button type="button" class="tk-stub" data-tear aria-label="${L('קריעת הקופון ושמירת ההנחה', 'Tear off the coupon to save the discount')}"><span aria-hidden="true">${L('קרעו<br>ושמרו', 'Tear<br>to save')}</span></button>`}</section>`;
+    }
     if (!myCode) return '';
     return `<section class="friend${compact ? ' compact' : ''}" aria-labelledby="fr-t${compact ? 2 : ''}"><h2 id="fr-t${compact ? 2 : ''}">${L('חבר מביא חבר', 'Bring a friend')}</h2>
 <p>${L(`שלחו לחבר את הקישור שלכם: הוא מקבל ${fmt(R_REWARD)} הנחה על ההזמנה הראשונה, ואתם מקבלים ${fmt(R_REWARD)} זיכוי כשההזמנה שלו נמסרת.`, `Send a friend your link: they get ${fmt(R_REWARD)} off their first order, and you get ${fmt(R_REWARD)} credit once it's delivered.`)}</p>
@@ -1834,6 +1987,8 @@ ${STREETS.length ? `<div class="fld addr-fld"><label for="infoStreet">${L('מג�
   const setTop = () => document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
   if ('ResizeObserver' in window) new ResizeObserver(setTop).observe(top); else setTop();
 
+  startRotator();
+  circleText();
   renderTiles();
   renderHome();
   renderCats();
