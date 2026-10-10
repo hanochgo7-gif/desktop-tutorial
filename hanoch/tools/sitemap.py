@@ -3,11 +3,12 @@ import json, datetime, os, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = 'https://hgpro.io'
 today = datetime.date.today().isoformat()
 PAIR = {'/': '/en.html', '/work.html': '/en-work.html', '/archive/': '/archive/en.html',
-        '/privacy.html': '/en-privacy.html', '/terms.html': '/en-terms.html', '/refunds.html': '/en-refunds.html'}
+        '/privacy.html': '/en-privacy.html', '/terms.html': '/en-terms.html', '/refunds.html': '/en-refunds.html', '/elef/': '/elef/en.html'}
 REV = {v: k for k, v in PAIR.items()}
 IMG = {'/': ['/work/og-home.jpg', '/work/creation/poster.webp'], '/en.html': ['/work/og-home.jpg', '/work/creation/poster.webp'],
-       '/work.html': ['/work/og-work.jpg'] + [f'/work/cinema/{k}.webp' for k in ('gotovski', 'ams', 'allenbis', 'clinic', 'falafel', 'rachel')],
-       '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/elef.webp', '/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/elef.webp', '/work/film/hg.webp']}
+       '/work.html': ['/work/og-work.jpg'] + [f'/work/cinema/{k}.webp' for k in ('gotovski', 'ams', 'allenbis', 'clinic', 'falafel', 'rachel', 'elef')],
+       '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/elef.webp', '/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/elef.webp', '/work/film/hg.webp'],
+       '/elef/': ['/elef/media/s8-poster.webp', '/elef/media/s1-1600.webp', '/elef/media/s12-1600.webp'], '/elef/en.html': ['/elef/media/s8-poster.webp']}
 VID = {'/work.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנועית של דקה לשמן זית שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
                        ('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
                        ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
@@ -26,6 +27,7 @@ BLOG = json.load(open(ROOT + '/blog/posts.json')) if os.path.exists(ROOT + '/blo
 paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
 for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
 PRI['/blog/'] = '0.7'
+paths += ['/elef/', '/elef/en.html']; PRI['/elef/'] = '0.6'; PRI['/elef/en.html'] = '0.5'
 paths.append('/accessibility.html'); paths.append('/en-accessibility.html')
 for lp in ('privacy', 'terms', 'refunds'):
     paths += [f'/{lp}.html', f'/en-{lp}.html']; PRI[f'/{lp}.html'] = PRI[f'/en-{lp}.html'] = '0.2'

@@ -120,6 +120,17 @@
         'כל משחק נגמר בקישור לאתגר חבר ובקישור לרחלי, כך שהמתנה עוברת מהורה להורה.'
       ],
       palette: ['#1e3a8a', '#fffdf9', '#f28c9b', '#fff0ad', '#1fae82'], fonts: ['Assistant', 'Amatic SC', 'Secular One']
+    },
+    elef: {
+      name: 'אֶלֶף', sub: 'שמן זית מהגליל · מותג בדיוני', kind: 'פרויקט קונספט · אתר מותג וסרט', url: 'hgpro.io/elef', color: '#c9a227',
+      story: 'אֶלֶף הוא מותג בדיוני שבניתי מאפס כדי להראות מה אפשר לעשות למותג מזון פרימיום: שם, סמל, סרט של דקה ואתר. הרעיון אחד: סבלנות. לכן האתר נע לאט כמו טיפת שמן, מהשחר בחורשה, דרך המסיק ובית הבד, ועד הלחם על השולחן. האות א בזהב היא הסמל, וכל התמונות לקוחות מהסרט, שנוצר כולו בבינה מלאכותית.',
+      points: [
+        'סרט פרסומת של 60 שניות, גרסאות של 30 ו-15 שניות וגרסה לרילס, בעברית ובאנגלית, עם קריינות ומוזיקה בנחלת הכלל.',
+        'אתר מותג בעברית ובאנגלית: פתיחה עם וידאו של שמן זורם, ופס זהב שמטפטף לאורך הגלילה ומראה כמה נשאר.',
+        '"מהעץ לבקבוק" בארבעה שלבים, עם צילום מהסרט לכל שלב, ותווי טעם ופרטי בקבוק במקום רשימת מכירה.',
+        'קל ונגיש: תמונות בגדלים לפי מסך, וידאו שנטען רק כשהוא נראה, כתוביות לסרט, ומצב בלי אנימציות למי שמבקש.'
+      ],
+      palette: ['#11150c', '#3f4a2a', '#c9a227', '#8b8478', '#ece6d7'], fonts: ['Frank Ruhl Libre', 'Rubik']
     }
   };
   if (EN) {
@@ -187,12 +198,22 @@
           'A free gift kit parents request on WhatsApp: six phone games and exercises with no sign-up, from times tables to equations, printable worksheets and a new riddle every day.',
           'Every game ends with a link to challenge a friend and a link to Racheli, so the gift travels from parent to parent.'
         ]
+      },
+      elef: {
+        name: 'Elef', sub: 'Olive oil from the Galilee · a fictional brand', kind: 'Concept project · brand site and film', url: 'hgpro.io/elef',
+        story: 'Elef is a fictional brand I built from scratch to show what a premium food brand can get: a name, a mark, a one-minute film and a site. One idea runs through it: patience. So the site moves slowly, like a drop of oil, from dawn in the grove, through the harvest and the press, to the bread on the table. The golden letter aleph is the mark, and every image comes from the film, which was made entirely with AI.',
+        points: [
+          'A 60-second commercial, 30- and 15-second cuts and a Reels version, in Hebrew and English, with voiceover and public-domain music.',
+          'A brand site in Hebrew and English: an opening with flowing oil on video, and a gold line that drips down as you scroll and shows how much is left.',
+          '"Tree to bottle" in four steps, with a frame from the film for each, plus tasting notes and bottle details instead of a sales list.',
+          'Light and accessible: images sized for each screen, video that loads only when it is in view, captions for the film, and a no-animation mode for anyone who asks.'
+        ]
       }
     };
     Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
   }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
-  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '' };
+  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/') };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
   ORDER.forEach(function (id) {
     if (!LIVE[id]) return;
