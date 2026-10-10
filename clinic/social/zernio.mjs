@@ -73,7 +73,8 @@ function renderText(p) {
   return text;
 }
 
-async function createPost({ text, media, platforms, when, now, draft, hashtags, title }) {
+async function createPost({ text, media, platforms, when, now, draft, hashtags, title, story }) {
+  if (story) platforms = platforms.map((p) => p.platform === "instagram" || p.platform === "facebook" ? { ...p, platformSpecificData: { contentType: "story" } } : p);
   const body = { content: text, platforms, timezone: TZ };
   if (media?.length) body.mediaItems = media;
   if (hashtags?.length) body.hashtags = hashtags;
@@ -135,6 +136,24 @@ const commands = {
     if (dry) console.log(`${n} פוסטים. בלי --dry-run הם ייכנסו לתזמון ב-Zernio.`);
   },
 
+  // סטוריז: npm run stories -- --dir stories [--to instagram] [--when 2026-10-12T10:00] [--gap 5] [--now]
+  // מעלה כל תמונה בתיקייה (לפי סדר שם הקובץ) כסטורי. ברירת מחדל: טיוטות.
+  async stories() {
+    const dir = resolve(here, String(flag("dir") || "stories"));
+    const { readdirSync } = await import("node:fs");
+    const files = readdirSync(dir).filter((f) => /\.(png|jpe?g|webp|mp4)$/i.test(f)).sort();
+    if (!files.length) die("אין קבצים בתיקייה " + dir);
+    const platforms = await targets(flag("to") || "instagram");
+    const gap = Number(flag("gap") || 5); const start = flag("when") && flag("when") !== true ? new Date(flag("when")) : null;
+    let i = 0;
+    for (const f of files) {
+      const media = [await upload(resolve(dir, f))];
+      const when = start ? new Date(start.getTime() + i * gap * 60000) : null;
+      const post = await createPost({ text: f.replace(/\.[^.]+$/, ""), media, platforms, when, now: has("now"), draft: !has("now") && !when, title: "סטורי: " + f, story: true });
+      console.log(`${post.status.padEnd(10)} ${when ? when.toISOString().slice(0, 16) : "טיוטה"}  ${f}  (${post._id})`); i++;
+    }
+  },
+
   // רשימת פוסטים: npm run list -- [--status scheduled|draft|published|failed]
   async list() {
     const query = { limit: 50 }; const st = flag("status"); if (st && st !== true) query.status = st;
@@ -145,7 +164,7 @@ const commands = {
 };
 
 if (!commands[cmd]) {
-  console.log("פקודות: accounts | connect <platform> | post | plan | list\nדוגמאות:\n  npm run accounts\n  npm run connect -- instagram\n  npm run post -- --text \"טיפ ליום חם\" --image images/face-crew.webp --to instagram --when 2026-10-12T10:00\n  npm run plan -- --dry-run");
+  console.log("פקודות: accounts | connect <platform> | post | plan | stories | list\nדוגמאות:\n  npm run accounts\n  npm run connect -- instagram\n  npm run post -- --text \"טיפ ליום חם\" --image images/face-crew.webp --to instagram --when 2026-10-12T10:00\n  npm run plan -- --dry-run");
   process.exit(cmd ? 1 : 0);
 }
 commands[cmd]().catch((e) => { console.error("שגיאה:", e.message || e); process.exit(1); });

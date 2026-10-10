@@ -64,3 +64,13 @@ claude            # בתוך הריפו, מאשרים את שרת zernio כשנ�
 ```
 
 ההתחברות ב-OAuth, בלי מפתח API ובלי כותרת Authorization. אחרי החיבור `/mcp` מציג את zernio כמחובר, והכלים זמינים (חיפוש כלי: `search_tools`, הפעלה: `call_tool`).
+
+## סטוריז
+
+`stories/` מכילה את סדרת הסטוריז של תיק העבודות (עוצבה בקנבה, 1080×1920). להעלאה:
+
+```bash
+npm run stories                                  # טיוטות סטורי לאינסטגרם, לפי סדר הקבצים
+npm run stories -- --when 2026-10-12T10:00 --gap 5   # מתוזמן, סטורי כל 5 דקות
+npm run stories -- --dir stories --to instagram,facebook --now
+```

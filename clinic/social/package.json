@@ -8,6 +8,7 @@
     "connect": "node zernio.mjs connect",
     "post": "node zernio.mjs post",
     "plan": "node zernio.mjs plan",
+    "stories": "node zernio.mjs stories",
     "list": "node zernio.mjs list"
   },
   "dependencies": {
