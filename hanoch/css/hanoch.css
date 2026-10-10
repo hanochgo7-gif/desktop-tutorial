@@ -3,12 +3,6 @@
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin-ext.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-/* הגופן Dragon של אלעד מזרחי: כתב עברי קליגרפי, משקל אחד, בלי אותיות לטיניות (אלה נופלות ל-Frank Ruhl Libre) */
-@font-face {
-  font-family: "Dragon";
-  src: url("../fonts/dragon.woff2") format("woff2"), url("../fonts/dragon.woff") format("woff");
-  font-weight: 400; font-style: normal; font-display: swap;
-}
 
 /* חנוך גוטובסקי, אתר אישי
    שחור דיו, נייר חם, וצבע אחד שמסמן: כתום אות. הכחול שמור למצב רנטגן בלבד. */
@@ -643,6 +637,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background: var(--ink-3); border: 1px solid var(--fg-line); border-radius: 12px; padding: .9rem 1rem;
 }
 .brief-fields input:focus { outline: 2px solid var(--signal); outline-offset: 1px; }
+.brief-note { margin-top: .5rem; font-size: var(--fs-xs); line-height: 1.65; color: var(--fg-dim); max-width: 60ch; }
+.brief-note a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .brief-error { min-height: 1.4em; color: var(--signal); font-family: var(--f-body); font-size: var(--fs-b); }
 .brief-nav { display: flex; gap: 1rem; align-items: center; }
 .brief-back { font-family: var(--f-mono); font-size: var(--fs-xs); color: var(--fg-dim); text-decoration: underline; text-underline-offset: 4px; }

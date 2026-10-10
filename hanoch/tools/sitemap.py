@@ -2,18 +2,23 @@
 import json, datetime, os, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); D = 'https://hgpro.io'
 today = datetime.date.today().isoformat()
-PAIR = {'/': '/en.html', '/work.html': '/en-work.html', '/archive/': '/archive/en.html'}
+PAIR = {'/': '/en.html', '/work.html': '/en-work.html', '/archive/': '/archive/en.html',
+        '/privacy.html': '/en-privacy.html', '/terms.html': '/en-terms.html', '/refunds.html': '/en-refunds.html'}
 REV = {v: k for k, v in PAIR.items()}
 IMG = {'/': ['/work/og-home.jpg', '/work/creation/poster.webp'], '/en.html': ['/work/og-home.jpg', '/work/creation/poster.webp'],
        '/work.html': ['/work/og-work.jpg'] + [f'/work/cinema/{k}.webp' for k in ('gotovski', 'ams', 'allenbis', 'clinic', 'falafel', 'rachel')],
-       '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/hg.webp']}
-VID = {'/work.html': [('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
+       '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/elef.webp', '/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/elef.webp', '/work/film/hg.webp']}
+VID = {'/work.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנועית של דקה לשמן זית שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
+                       ('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
                        ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
-       '/archive/': [('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
+       '/archive/': [('אֶלֶף · שמן זית מהגליל', 'פרסומת שמן זית שנוצרה בבינה מלאכותית.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
+                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
                      ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
        '/archive/en.html': [('Before the City Wakes', 'A one minute commercial made with AI.', '/work/film/ad.webp', '/work/film/ad-en.mp4', 59)],
-       '/services/ai-commercial.html': [('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)],
-       '/services/en/ai-commercial-production.html': [('HG · Unforgettable', 'A fragrance commercial made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)]}
+       '/services/ai-commercial.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת שמן זית שנוצרה בבינה מלאכותית.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
+                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)],
+       '/services/en/ai-commercial-production.html': [('Elef · Galilee olive oil', 'A cinematic olive oil commercial made with AI.', '/work/film/elef.webp', '/work/film/elef-en.mp4', 60),
+                     ('HG · Unforgettable', 'A fragrance commercial made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)]}
 PRI = {'/': '1.0', '/en.html': '0.9', '/work.html': '0.8', '/en-work.html': '0.7', '/archive/': '0.8', '/archive/en.html': '0.7', '/accessibility.html': '0.2', '/en-accessibility.html': '0.2'}
 paths = ['/', '/en.html', '/work.html', '/en-work.html', '/archive/', '/archive/en.html', '/services/', '/services/en/']
 paths += [p['url'][len(D):] for p in json.load(open(ROOT + '/services/pages.json'))]
@@ -22,6 +27,8 @@ paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
 for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
 PRI['/blog/'] = '0.7'
 paths.append('/accessibility.html'); paths.append('/en-accessibility.html')
+for lp in ('privacy', 'terms', 'refunds'):
+    paths += [f'/{lp}.html', f'/en-{lp}.html']; PRI[f'/{lp}.html'] = PRI[f'/en-{lp}.html'] = '0.2'
 out = []
 for p in paths:
     alt = ''

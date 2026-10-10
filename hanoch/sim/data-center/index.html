@@ -14,9 +14,7 @@
     document.title = 'Data center fuel system';
   })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="../../fonts/sim/sim-fonts.css" rel="stylesheet">
 <style>
 /* Layout: one working screen. The site model fills the stage in daylight; a glass HUD rides on top (timeline, live readouts, floating labels), the component card sits beside it and moves below on phones. */
 :root {
@@ -240,6 +238,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 @media (max-width: 720px) { .hot::before { content: ""; position: absolute; inset: -9px; border-radius: 50%; } .chip { position: relative; } .chip::before { content: ""; position: absolute; inset: -8px -3px; } }
 @media (prefers-reduced-motion: reduce) { .go.idle, .steps div.now::before, .holo, .holo::before, .holo::after, .hh .st i, .leads .halo, .ring .o, .hx::after { animation: none !important; } .holo::after { display: none; } }
 </style>
+<script src="../../js/consent.js" defer></script>
 <script src="../../js/ga.js" defer></script>
 </head>
 <body>
@@ -301,7 +300,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   })();
 </script>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"../../js/vendor/three-0.160.0/three.module.min.js","three/addons/":"../../js/vendor/three-0.160.0/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';

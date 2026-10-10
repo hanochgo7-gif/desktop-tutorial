@@ -23,11 +23,16 @@
   .doc a { color: var(--signal); }
   .doc .back { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); }
   .todo { background: rgba(255, 79, 26, .12); border-inline-start: 3px solid var(--signal); padding: .8rem 1rem; border-radius: 8px; }
+  .doc-foot { max-width: 760px; margin: 0 auto; padding: 24px var(--gutter) 60px; border-top: 1px solid rgba(237, 232, 222, .1); display: flex; flex-wrap: wrap; gap: .2rem 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
+  .doc-foot a { color: var(--fg-dim); display: inline-flex; align-items: center; min-height: 44px; }
+  .doc-foot a:hover, .doc-foot a[aria-current] { color: #ede8de; }
 </style>
+<script src="js/consent.js" defer></script>
 <script src="js/ga.js" defer></script>
 </head>
 <body>
-<main class="doc">
+<a class="skip" href="#main">Skip to content</a>
+<main class="doc" id="main">
   <a class="back" href="en.html">← Back to the site</a>
   <h1>Accessibility statement</h1>
   <p>I want everyone to be able to use this site comfortably, including people with disabilities. The site follows WCAG 2.2 at level AA and the Israeli standard IS 5568, and I keep improving it.</p>
@@ -42,6 +47,9 @@
     <li>If your device is set to reduce motion, you get a quiet version of the site: no animation, no 3D and no smooth scrolling.</li>
     <li>Windows that open, such as the project stories, close with Esc, and focus returns to where it was.</li>
     <li>Messages that change on the page are announced to screen readers.</li>
+    <li>Commercials with voiceover have captions in Hebrew and English, shown automatically when the film plays with sound.</li>
+    <li>The cookie notice works with a keyboard and screen readers, and its two buttons are equal in size and prominence.</li>
+    <li>The 3D archive also has a plain grid view you can move through with a keyboard.</li>
   </ul>
 
   <h2>The accessibility menu</h2>
@@ -50,10 +58,17 @@
   <h2>What is not perfect yet</h2>
   <p>The opening animation (the hands and the glass ח) is decorative: everything it says also appears as plain text. The project videos are silent screen recordings shown for illustration. If any part is hard to use, I want to hear about it and fix it.</p>
 
+  <h2>How the site was tested</h2>
+  <p>In October 2026 the main pages in Hebrew and English were tested on desktop and phone with the automated tool axe-core against WCAG 2.2 level AA. Automated testing does not catch every issue, so I keep testing by hand as well.</p>
+
+  <h2>Another way to get the service</h2>
+  <p>If any part of the site is not accessible to you, you can get all the information and the service by phone, WhatsApp or email, using the details below.</p>
+
   <h2>Accessibility contact</h2>
   <p>Accessibility coordinator: Hanoch Gotovski. Phone and WhatsApp: <a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a>. Email: <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>.</p>
-  <p>Last updated: October 2026.</p>
+  <p>Last updated: October 9, 2026.</p>
 </main>
+<nav class="doc-foot" aria-label="Legal"><a href="en-privacy.html">Privacy policy</a><a href="en-terms.html">Terms of use</a><a href="en-refunds.html">Cancellations &amp; refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="en-accessibility.html" aria-current="page">Accessibility statement</a><a href="en.html">Home</a></nav>
 <script src="js/a11y.js" defer></script>
 </body>
 </html>

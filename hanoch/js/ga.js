@@ -1,11 +1,16 @@
 /* Google Analytics 4 של HG Studio.
+   נטען רק אחרי שהגולש אישר סטטיסטיקה בהודעת העוגיות (js/consent.js).
    רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי הפעולה הראשונה של הגולש או חמש שניות אחרי שהעמוד מוצג, כדי לא להאט את האתר.
    מודד גם פניות: וואטסאפ, טלפון ומייל (כאירוע generate_lead), צפייה בסרטונים וכניסה לאתרים של לקוחות. */
 (function () {
   'use strict';
   var ID = 'G-YKRG71FB41';
   if (!/(^|\.)hgpro\.io$/.test(location.hostname)) return;
+  // נטען רק אחרי הסכמה מפורשת לסטטיסטיקה (js/consent.js). בלי מנגנון ההסכמה, לא נטען בכלל.
+  if (!window.hgConsent) return;
+  window.hgConsent.onGrant(start);
 
+  function start() {
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
@@ -60,4 +65,5 @@
       gtag('event', 'video_play', { video_title: name.slice(0, 80) });
     }
   }, true);
+  }
 })();

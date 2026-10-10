@@ -459,9 +459,11 @@ video.live.on{ opacity:1; }
 }
 </style>
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
+<script src="../js/captions.js" defer></script>
+<script src="../js/consent.js" defer></script>
 <script src="../js/ga.js" defer></script>
 </head>
-<body class="locked">
+<body class="locked" data-root="../">
 
 <div id="scrolltrack" aria-hidden="true"></div>
 
@@ -508,6 +510,7 @@ video.live.on{ opacity:1; }
     <a href="https://wa.me/972545522053" target="_blank" rel="noopener" data-close-menu>Talk to me</a>
   </nav>
   <p class="addr">Web design and development · Israel<br><a href="tel:+972545522053">+972 54-552-2053</a> · <a href="index.html" lang="he" hreflang="he">עברית</a></p>
+  <p class="addr"><a href="../en-privacy.html">Privacy</a> · <a href="../en-terms.html">Terms</a> · <a href="../en-refunds.html">Cancellations &amp; refunds</a> · <a href="#" data-consent-open data-close-menu>Cookie settings</a> · <a href="../en-accessibility.html">Accessibility</a></p>
 </div>
 
 <div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true">
@@ -593,7 +596,7 @@ video.live.on{ opacity:1; }
   /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
   var CATS = [
     { k: 'sites', t: 'Websites', d: 'Complete websites I designed and built from scratch for real businesses.', f: ['anigibor/loop.webp', 'cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp'] },
-    { k: 'films', t: 'Films & ads', d: 'A brand film, commercials and video tours made with AI.', f: ['film/elef.webp', 'film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
+    { k: 'films', t: 'Films & ads', d: 'A brand film, commercials and video tours made with AI.', f: ['film/elef.webp', 'film/hg.webp', 'film/ad.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
     { k: 'live', t: 'Living images', d: 'A moving picture at the top of the site instead of a still photo. One example per industry.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
     { k: 'art', t: 'Design & illustration', d: 'Characters, illustrations, living backgrounds and product shots made for a specific site.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
     { k: 'systems', t: 'Systems & 3D', d: 'A 3D simulation that runs in the browser, and the systems you can add to a site.', f: ['sim-poster.webp', 'systems/ai.webp', 'systems/sell.webp', 'systems/brand.webp', 'systems/grow.webp', 'systems/ops.webp'] }

@@ -112,7 +112,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
                ('חבילות', '<p>אפשר להזמין פרסומת אחת, או חבילה: <strong>קמפיין</strong>, ארבע פרסומות של עד 30 שניות סביב מוצר או השקה אחת, ו<strong>עונה</strong>, שמונה פרסומות עם עולם ודמויות שחוזרים, כולל סרט דגל של עד דקה. <a href="../#ads">לפירוט החבילות</a>.</p>'),
-               ('דוגמאות', '<p>בתיק העבודות שתי פרסומות שהפקתי כך: <strong>HG · Unforgettable</strong>, פרסומת בושם עם דוגמנים, מכונית יוקרה וכביש צוקים בלילה, ו<strong>לפני שהעיר מתעוררת</strong>, סרט אקשן של דקה על מאפייה ושליח בתל אביב. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
+               ('דוגמאות', '<p>בתיק העבודות שלוש פרסומות שהפקתי כך: <strong>אֶלֶף</strong>, פרסומת קולנועית לשמן זית מהגליל, <strong>HG · Unforgettable</strong>, פרסומת בושם עם דוגמנים, מכונית יוקרה וכביש צוקים בלילה, ו<strong>לפני שהעיר מתעוררת</strong>, סרט אקשן של דקה על מאפייה ושליח בתל אביב. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
                ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
      examples=[], films=True,
      faq=[('כמה זמן לוקחת הפקה?', 'בדרך כלל כמה ימים מאישור התסריט ועד סרט ערוך.'),
@@ -140,7 +140,7 @@ page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מק�
      h1='מעבר מוויקס או וורדפרס', kicker='שירות · הגירה',
      lead='ויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
      sections=[('איך שומרים על הדירוג', '<ul><li>ממפים את כל הכתובות באתר הישן.</li><li>מעבירים את התוכן ששווה לשמור, ומשפרים אותו.</li><li>מגדירים הפניה קבועה (301) מכל כתובת ישנה לחדשה.</li><li>מגישים מפת אתר חדשה ל-Search Console ועוקבים אחרי שגיאות.</li></ul>'),
-               ('מה מרוויחים', '<p>אתר מהיר יותר, עיצוב שלא קיים אצל אף מתחרה, שליטה מלאה בקוד, ובלי מנוי חודשי לבונה האתרים. הדומיין והאתר שלכם.</p>')],
+               ('מה מרוויחים', '<p>אתר מהיר יותר, עיצוב שנבנה במיוחד לעסק שלכם, שליטה מלאה בקוד, ובלי מנוי חודשי לבונה האתרים. הדומיין והאתר שלכם.</p>')],
      examples=['gotovski', 'allenbis'],
      faq=[('אאבד את הדירוג בגוגל?', 'לא אם מגדירים הפניות מכל כתובת ישנה. זה חלק קבוע מהמעבר.'),
           ('מה עם המייל של העסק?', 'המייל לא תלוי באתר ונשאר כמו שהוא. רק רשומות האתר משתנות.')],
@@ -181,7 +181,8 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
      lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HG Studio writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
      sections=[('What you get', '<ul><li>A short script and story that fits the brand.</li><li>Consistent characters, product and vehicles across the film.</li><li>Cinematic 1080p shots, an edit cut to the music, a color grade and widescreen framing.</li><li>Natural voiceover and legally licensed music.</li><li>30, 15 and 6 second versions for TV, YouTube and social.</li></ul>'),
                ('Packages', '<p>Order a single commercial, or a package: <strong>Campaign</strong>, four commercials up to 30 seconds around one product or launch, and <strong>Season</strong>, eight commercials with a world and characters that return, including a flagship film up to a minute long. <a href="../../en.html#ads">See the packages</a>.</p>'),
-               ('Examples', '<p>The archive holds two commercials made this way: <strong>HG · Unforgettable</strong>, a fragrance spot with models, a luxury car and a cliff road at night, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>')],
+               ('Examples', '<p>The archive holds three commercials made this way: <strong>Elef</strong>, a cinematic spot for olive oil from the Galilee, <strong>HG · Unforgettable</strong>, a fragrance spot with models, a luxury car and a cliff road at night, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>'),
+               ('Good to know', '<p>All characters and brands are fictional, and the music and voices are used legally. Each film is labeled as made with AI, as is customary today.</p>')],
      examples=[], films=True,
      faq=[('How long does a production take?', 'Usually a few days from script approval to a finished edit.'),
           ('Can my real product appear in it?', 'Yes. The product is photographed as a reference and appears as it is.')],
@@ -267,7 +268,7 @@ page(slug='wix-wordpress-migration', lang='en', name='Wix and WordPress migratio
      h1='Moving from Wix or WordPress', kicker='Service · Migration',
      lead='Wix and WordPress are fine for a start. As the business grows, the site slows down, looks like everyone else and starts to limit you. Moving to a custom-built site does not have to cost you your place on Google, if it is done right.',
      sections=[('How the ranking is kept', '<ul><li>Every address on the old site is mapped.</li><li>The content worth keeping moves over, and gets better.</li><li>A permanent (301) redirect is set from every old address to its new one.</li><li>A new sitemap goes to Search Console, and errors are tracked.</li></ul>'),
-               ('What you gain', '<p>A faster site, a design no competitor has, full control of the code, and no monthly site-builder subscription. The domain and the site are yours.</p>')],
+               ('What you gain', '<p>A faster site, a design made for your business, full control of the code, and no monthly site-builder subscription. The domain and the site are yours.</p>')],
      examples=['gotovski', 'allenbis'],
      faq=[('Will I lose my Google ranking?', 'Not when every old address redirects. That is a standard part of the move.'),
           ('What about my business email?', 'Email does not depend on the site and stays as it is. Only the website records change.')],
@@ -359,6 +360,16 @@ def twin(p):
     if p['lang'] == 'en': return BY.get(p.get('alt'))
     return next((q for q in P if q['lang'] == 'en' and q.get('alt') == p['slug']), None)
 
+# קישורים משפטיים בכל כותרת תחתונה: פרטיות, תנאים, ביטול והחזרים, הגדרות עוגיות ונגישות
+def legal(up, he):
+    T = (lambda a, b: a) if he else (lambda a, b: b)
+    return (f'<a href="{up}{T("privacy.html", "en-privacy.html")}">{T("מדיניות פרטיות", "Privacy")}</a>'
+            f'<a href="{up}{T("terms.html", "en-terms.html")}">{T("תנאי שימוש", "Terms")}</a>'
+            f'<a href="{up}{T("refunds.html", "en-refunds.html")}">{T("ביטול והחזרים", "Cancellations & refunds")}</a>'
+            f'<a href="#" data-consent-open>{T("הגדרות עוגיות", "Cookie settings")}</a>'
+            f'<a href="{up}{T("accessibility.html", "en-accessibility.html")}">{T("הצהרת נגישות", "Accessibility")}</a>')
+
+
 def render(p):
     he = p['lang'] == 'he'; up = '../' if he else '../../'
     U = url_of(p); esc = html.escape
@@ -372,9 +383,10 @@ def render(p):
     steps = PROCESS_HE if he else PROCESS_EN
     ex = ''
     if p.get('films'):
-        films = [('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 30 שניות', 'Fragrance commercial · 30 seconds')),
+        films = [('film/elef', T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), T('פרסומת קולנועית · 60 שניות', 'Cinematic commercial · 60 seconds')),
+                 ('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 30 שניות', 'Fragrance commercial · 30 seconds')),
                  ('film/ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), T('סרט פרסומת · 60 שניות', 'Commercial · 60 seconds'))]
-        ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f=="film/ad") else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
+        ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f in ("film/ad", "film/elef")) else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
     else:
         for k in p['examples']:
             img, nh, sh, ne, se = PROJ[k]
@@ -393,7 +405,8 @@ def render(p):
         {'@type': 'Service', 'name': sname, 'serviceType': stype, 'url': U, 'description': p['desc'], 'provider': org, 'areaServed': {'@type': 'Country', 'name': 'Israel'}},
         {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in p['faq']]}]
     if p.get('films'):
-        graph += [{'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
+        graph += [{'@type': 'VideoObject', 'name': T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), 'description': T('פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.', 'A one minute cinematic commercial for a fictional olive oil brand, made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/elef.webp', 'contentUrl': D + ('/work/film/elef.mp4' if he else '/work/film/elef-en.mp4'), 'uploadDate': '2026-10-09', 'duration': 'PT60S'},
+                  {'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 30 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-04', 'duration': 'PT30S'},
                   {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HG Studio.', 'A one minute commercial made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
     alt = ''
@@ -421,14 +434,16 @@ def render(p):
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
 <script type="application/ld+json">{ld}</script>
+<script src="{up}js/consent.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
   <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
-<main class="sv">
+<main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
   <p class="sv-kicker">{esc(p['kicker'])}</p>
   <h1>{esc(p['h1'])}</h1>
@@ -449,9 +464,9 @@ def render(p):
   </section>
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-<footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}<a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}{legal(up, he)}</footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
-<script src="{up}js/a11y.js" defer></script>
+{f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/a11y.js" defer></script>
 </body>
 </html>
 '''
@@ -500,17 +515,19 @@ def hub(lang):
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
 <script type="application/ld+json">{ld}</script>
+<script src="{up}js/consent.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
 <header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a></nav></header>
-<main class="sv">
+<main class="sv" id="main">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים', 'Services')}</h1>
   <p class="sv-lead">{T('עיצוב, קוד ותנועה ביד אחת. כל שירות נבנה סביב העסק שלכם, עם מחיר סגור מראש.', 'Design, code and motion in one pair of hands. Every service is built around your business, at a fixed price.')}</p>
   <ul class="sv-list">{cards}</ul>
 </main>
-<footer class="sv-foot"><span>© 2026 HG Studio</span><a href="{up}{T('accessibility.html', 'en-accessibility.html')}">{T('הצהרת נגישות', 'Accessibility')}</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio</span>{legal(up, he)}</footer>
 <script src="{up}js/a11y.js" defer></script>
 </body>
 </html>

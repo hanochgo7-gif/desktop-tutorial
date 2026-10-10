@@ -168,9 +168,11 @@ def head(title, desc, url, img, extra=''):
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
 {extra}
+<script src="../js/consent.js" defer></script>
 <script src="../js/ga.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">דלגו לתוכן</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
   <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#pricing">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
@@ -179,7 +181,7 @@ def head(title, desc, url, img, extra=''):
 
 
 FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
-<footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/a11y.js" defer></script>
 </body>
 </html>
@@ -205,7 +207,7 @@ def render(p, posts):
     svc = ''.join(f'<li><a href="../services/{s}.html">{esc(BY[s]["name"])}</a></li>' for s in p.get('services', []) if s in BY)
     more = [q for q in posts if q['slug'] != p['slug']][:3]
     morel = ''.join(card(q) for q in more)
-    return head(p['title'], p['desc'], U, img, extra) + f'''<main class="sv">
+    return head(p['title'], p['desc'], U, img, extra) + f'''<main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['h1'])}</span></nav>
   <article>
   <p class="bl-meta"><b>{esc(p.get('kicker', 'מדריך'))}</b><span>חנוך גוטובסקי</span><time datetime="{p['date'].isoformat()}">{heb_date(p['date'])}</time><span>{mins} דקות קריאה</span></p>
@@ -261,7 +263,7 @@ def index(posts):
     ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Blog', '@id': U + '#blog', 'name': 'המאמרים של HG Studio', 'url': U, 'inLanguage': 'he-IL',
         'author': AUTHOR, 'publisher': ORG, 'blogPost': [{'@type': 'BlogPosting', 'headline': p['h1'], 'url': p['url'], 'datePublished': p['date'].isoformat(), 'image': D + '/' + p['cover']} for p in posts]}, ensure_ascii=False) + '</script>'
     img = D + '/' + posts[0]['cover'] if posts else D + '/work/og-home.jpg'
-    return head(title, desc, U, img, '<meta property="og:type" content="website">\n' + ld) + f'''<main class="sv">
+    return head(title, desc, U, img, '<meta property="og:type" content="website">\n' + ld) + f'''<main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">מאמרים</span></nav>
   <h1>מאמרים</h1>
   <p class="sv-lead">מדריכים קצרים וישירים לבעלי עסקים: אתרים, עיצוב, גוגל ובינה מלאכותית. בלי מילים גבוהות, עם מספרים אמיתיים.</p>

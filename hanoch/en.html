@@ -23,13 +23,12 @@
 <link rel="icon" href="images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link rel="preload" as="font" type="font/woff2" href="fonts/hg-mark.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="fonts/g/geist-mono-latin-b291d8.woff2" crossorigin>
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/hanoch.css">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ProfessionalService", "url": "https://hgpro.io/en.html", "image": "https://hgpro.io/work/og-home.jpg", "name": "HG Studio", "alternateName": ["HGPRO", "Hanoch Gotovski"], "description": "Custom website design and development: design, code and motion. Fast, accessible, mobile-first sites, live within two weeks.", "inLanguage": "en", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "areaServed": {"@type": "Country", "name": "Israel"}, "founder": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "Hanoch Gotovski", "alternateName": "חנוך גוטובסקי", "jobTitle": "Web designer and developer", "url": "https://hgpro.io/"}, "makesOffer": [{"@type": "Offer", "name": "Presence"}, {"@type": "Offer", "name": "Business"}, {"@type": "Offer", "name": "Signature"}], "@id": "https://hgpro.io/#business", "logo": "https://hgpro.io/images/icon-512.png", "knowsAbout": ["בניית אתרים", "עיצוב אתרים", "קידום אתרים", "SEO", "UX", "תלת־ממד", "בינה מלאכותית", "Web design", "Web development"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Add-on systems", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Personalized AI film platform"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "E-commerce platform", "url": "https://hgpro.io/services/en/ecommerce-store.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Secure payments"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automated invoicing"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Quote engine"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Online booking system"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Client & learning portal"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "CRM & integrations"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Business dashboard"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI commercial production", "url": "https://hgpro.io/services/en/ai-commercial-production.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI customer concierge", "url": "https://hgpro.io/services/en/ai-customer-agent.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI visual studio"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "3D product showcase"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Interactive simulation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Search engine optimization", "url": "https://hgpro.io/services/en/seo-services.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tracking & campaign setup"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Content hub & blog"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Email marketing automation"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Brand identity", "url": "https://hgpro.io/services/en/brand-identity-design.html"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Marketing copywriting"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Multilingual website"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Wix / WordPress migration", "url": "https://hgpro.io/services/en/wix-wordpress-migration.html"}}]}}, {"@context": "https://schema.org", "@type": "WebSite", "@id": "https://hgpro.io/#website", "url": "https://hgpro.io/", "name": "HG Studio", "alternateName": "HGPRO", "inLanguage": ["he-IL", "en"], "publisher": {"@id": "https://hgpro.io/#business"}}]</script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"./js/vendor/three-0.169.0/three.module.min.js"}}</script>
 <script>
   // מצב תנועה נקבע לפני הציור הראשון, כדי שלא יהיה הבהוב
   (function () {
@@ -41,6 +40,7 @@
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
   })();
 </script>
+<script src="js/consent.js" defer></script>
 <script src="js/ga.js" defer></script>
 </head>
 <body>
@@ -159,7 +159,7 @@
           <p class="tier-for">For a business that wants a full site that brings in leads, and that you can update yourself.</p>
         </div>
         <p class="tier-time mono">Live within two weeks</p>
-        <p class="tier-value">The site becomes your best salesperson: it explains, persuades, shows up on Google and tracks every lead, so you know what works.</p>
+        <p class="tier-value">The site works for you like a salesperson: it explains, persuades, shows up on Google and tracks every lead, so you know what works.</p>
         <p class="tier-plus mono">Everything in Presence, plus:</p>
         <ul class="tier-list">
           <li>Up to eight pages: home, about, services, work, testimonials, contact</li>
@@ -178,10 +178,10 @@
         <span class="tier-emblem" aria-hidden="true"><img src="work/tiers/t3.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="work/tiers/t3.mp4"></video></span>
         <div class="tier-top">
           <h3 class="tier-name display">Signature</h3>
-          <p class="tier-for">For a brand that wants to be remembered. A flagship site with an experience no competitor has.</p>
+          <p class="tier-for">For a brand that wants to be remembered. A flagship site with an experience built just for you.</p>
         </div>
         <p class="tier-time mono">Live within two weeks</p>
-        <p class="tier-value">A site customers send to their friends. It puts you above the market, and justifies a higher price before the first conversation.</p>
+        <p class="tier-value">A site built so customers want to send it to friends, and that positions you as a premium brand before the first conversation.</p>
         <p class="tier-plus mono">Everything in Business, plus:</p>
         <ul class="tier-list">
           <li>A unique concept and art direction, from sketch to motion</li>
@@ -259,7 +259,7 @@
             <li>Four commercials, up to 30 seconds each</li>
             <li>A script and concept for each one, in one brand voice</li>
             <li>The same characters and product in every film</li>
-            <li>Voice-over in English and royalty-free music</li>
+            <li>Voice-over in English and legally licensed music</li>
             <li>A vertical cut for Stories and Reels, and a wide cut</li>
             <li>Captions, so they work with the sound off</li>
           </ul>
@@ -328,7 +328,7 @@
           </div>
           <div class="sr-panel" id="sr-p-ai" role="tabpanel" aria-labelledby="sr-t-ai" data-cat="ai">
             <ul class="sr-items" role="list">
-              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="film"><span class="sr-i-name">AI commercial production</span><span class="sr-i-desc">A 30 to 60 second film with a story, characters, voiceover and original music. No film crew.</span></button></li>
+              <li><button class="sr-item is-on" type="button" aria-pressed="true" data-demo="film"><span class="sr-i-name">AI commercial production</span><span class="sr-i-desc">A 30 to 60 second film with a story, characters, voiceover and legally licensed music. No film crew.</span></button></li>
               <li><button class="sr-item" type="button" aria-pressed="false" data-demo="hero"><span class="sr-i-name">Personalized AI film platform</span><span class="sr-i-desc">Customers send one photo and star in an animated film with their own name. Storefront, ordering, payment and production in one place, as in Ani Gibor.</span></button></li>
               <li><button class="sr-item" type="button" aria-pressed="false" data-demo="bot"><span class="sr-i-name">AI customer concierge</span><span class="sr-i-desc">Answers questions from your content, at any hour, and passes leads to WhatsApp.</span></button></li>
               <li><button class="sr-item" type="button" aria-pressed="false" data-demo="visuals"><span class="sr-i-name">AI visual studio</span><span class="sr-i-desc">Product shots, mood images and short videos, without a photo shoot.</span></button></li>
@@ -411,9 +411,10 @@
         <div class="chips"><label class="chip"><input type="radio" name="budget" value="Up to ₪5,000"><span>Up to ₪5,000</span></label><label class="chip"><input type="radio" name="budget" value="₪5,000–12,000"><span>₪5,000–12,000</span></label><label class="chip"><input type="radio" name="budget" value="₪12,000–25,000"><span>₪12,000–25,000</span></label><label class="chip"><input type="radio" name="budget" value="Over ₪25,000"><span>Over ₪25,000</span></label><label class="chip"><input type="radio" name="budget" value="Don't know yet"><span>Don't know yet</span></label></div>
         <div class="brief-fields">
           <label for="brief-name">What's your name? <small>Optional</small></label>
-          <input id="brief-name" name="name" type="text" autocomplete="name">
+          <input id="brief-name" name="name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="80">
           <label for="brief-about">One sentence about the business <small>Optional</small></label>
-          <input id="brief-about" name="about" type="text">
+          <input id="brief-about" name="about" type="text" autocomplete="off" enterkeyhint="done" maxlength="200" aria-describedby="brief-note">
+          <p class="brief-note" id="brief-note">Sharing these details is optional. The site does not store them: they are sent only when you tap, straight to me on WhatsApp or by email, and used only to get back to you with a proposal. The <a href="en-privacy.html">privacy policy</a> explains what is kept and how to ask for deletion.</p>
         </div>
       </fieldset>
       <p class="brief-error" role="alert"></p>
@@ -439,6 +440,7 @@
       <button class="foot-xray" type="button">See how this site is built ↑</button>
     
       <nav class="foot-sv" aria-label="Services"><a href="services/en/">All services</a>: <a href="services/en/web-design-studio.html">Custom web design</a> · <a href="services/en/website-design.html">Website design</a> · <a href="services/en/landing-page-design.html">Landing pages</a> · <a href="services/en/ecommerce-store.html">Online stores</a> · <a href="services/en/seo-services.html">SEO</a> · <a href="services/en/ai-commercial-production.html">AI commercials</a> · <a href="services/en/ai-customer-agent.html">AI agent</a> · <a href="services/en/wix-wordpress-migration.html">Wix migration</a> · <a href="services/en/brand-identity-design.html">Brand identity</a> · <a href="services/" hreflang="he" lang="he">שירותים בעברית</a></nav>
+      <nav class="foot-sv foot-legal" aria-label="Legal"><a href="en-privacy.html">Privacy</a> · <a href="en-terms.html">Terms</a> · <a href="en-refunds.html">Cancellations &amp; refunds</a> · <a href="#" data-consent-open>Cookie settings</a></nav>
     </footer>
   </section>
 </main>

@@ -459,9 +459,11 @@ video.live.on{ opacity:1; }
 }
 </style>
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
+<script src="../js/captions.js" defer></script>
+<script src="../js/consent.js" defer></script>
 <script src="../js/ga.js" defer></script>
 </head>
-<body class="locked">
+<body class="locked" data-root="../">
 
 <div id="scrolltrack" aria-hidden="true"></div>
 
@@ -508,6 +510,7 @@ video.live.on{ opacity:1; }
     <a href="https://wa.me/972545522053" target="_blank" rel="noopener" data-close-menu>דברו איתי</a>
   </nav>
   <p class="addr">עיצוב ופיתוח אתרים · ישראל<br><a href="tel:+972545522053" dir="ltr">054-5522053</a> · <a href="en.html" lang="en" hreflang="en">English</a></p>
+  <p class="addr"><a href="../privacy.html">מדיניות פרטיות</a> · <a href="../terms.html">תנאי שימוש</a> · <a href="../refunds.html">ביטול והחזרים</a> · <a href="#" data-consent-open data-close-menu>הגדרות עוגיות</a> · <a href="../accessibility.html">הצהרת נגישות</a></p>
 </div>
 
 <div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true">
@@ -593,7 +596,7 @@ video.live.on{ opacity:1; }
   /* ---------- קטגוריות: כל עבודה שייכת לאחת, בסדר קבוע ---------- */
   var CATS = [
     { k: 'sites', t: 'אתרים', d: 'אתרים מלאים שעיצבתי ובניתי מאפס לעסקים אמיתיים.', f: ['anigibor/loop.webp', 'cinema/gotovski.webp', 'cinema/ams.webp', 'cinema/clinic.webp', 'cinema/allenbis.webp', 'cinema/falafel.webp', 'cinema/rachel.webp'] },
-    { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/elef.webp', 'film/ad.webp', 'film/hg.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
+    { k: 'films', t: 'סרטים ופרסומות', d: 'סרט תדמית, פרסומות וסיורי וידאו שנוצרו בבינה מלאכותית.', f: ['film/elef.webp', 'film/hg.webp', 'film/ad.webp', 'film-poster.webp', 'tours/ext.webp', 'tours/int.webp', 'gallery/screens.webp'] },
     { k: 'live', t: 'תמונות חיות', d: 'תמונה שזזה בראש האתר במקום תמונה רגילה. דוגמה אחת לכל תחום.', f: ['live/cafe.webp', 'live/bakery.webp', 'live/home.webp', 'live/zimmer.webp', 'live/events.webp', 'live/serum.webp', 'live/ring.webp', 'live/gym.webp', 'live/office.webp', 'live/car.webp'] },
     { k: 'art', t: 'עיצוב ואיור', d: 'דמויות, איורים, רקעים חיים וצילומי מוצר שנעשו בשביל אתר מסוים.', f: ['gallery/pedi.webp', 'gallery/crew.webp', 'gallery/bloom.webp', 'gallery/courier.webp', 'gallery/movie.webp', 'gallery/fighter.webp', 'gallery/bodymind.webp', 'gallery/vase.webp', 'live/site.webp', 'me/character.webp', 'bg/crystal.webp', 'bg/meadow.webp', 'gallery/trophy.webp'] },
     { k: 'systems', t: 'מערכות ותלת־ממד', d: 'הדמיה תלת־ממדית שרצה בדפדפן, והמערכות שאפשר להוסיף לאתר.', f: ['sim-poster.webp', 'systems/ai.webp', 'systems/sell.webp', 'systems/brand.webp', 'systems/grow.webp', 'systems/ops.webp'] }

@@ -23,6 +23,7 @@
   function setVideo(v, url) {
     if (v.src.indexOf('blob:') === 0) URL.revokeObjectURL(v.src);
     delete v.dataset.blob;
+    v.dataset.file = url; // הכתובת המקורית נשמרת גם אחרי מעבר ל-blob (בשביל הכתוביות ב-captions.js)
     v.src = url;
     v.addEventListener('error', function () {
       if (v.dataset.blob || !window.fetch) return;
@@ -932,7 +933,7 @@
       done.hidden = false;
       var title = $('.brief-done-title', form);
       title.tabIndex = -1; title.focus({ preventScroll: true });
-      track('brief_ready', { plan: form.dataset.plan || '', budget: values('budget').join(', ') });
+      track('brief_ready', { plan: form.dataset.plan || '' });
       say(T('ההודעה מוכנה', 'Your message is ready'));
       if (motion && window.gsap) gsap.from(done, { y: 30, autoAlpha: 0, duration: 0.7, ease: 'expo.out' });
     });
