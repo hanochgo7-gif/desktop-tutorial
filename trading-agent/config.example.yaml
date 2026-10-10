@@ -1,0 +1,37 @@
+# Copy to config.yaml and edit. config.yaml is git-ignored.
+
+mode: paper          # paper | live. "live" also requires env CONFIRM_LIVE_TRADING=yes
+dry_run: true        # true = compute and log orders without sending them to IBKR
+
+ibkr:
+  host: 127.0.0.1
+  port: 7497         # TWS paper=7497, live=7496 | IB Gateway paper=4002, live=4001
+  client_id: 17
+  account: ""        # empty = first managed account
+
+# Symbols the agent is allowed to trade. Anything else is refused.
+universe:
+  - {symbol: SPY,  exchange: SMART, currency: USD}
+  - {symbol: QQQ,  exchange: SMART, currency: USD}
+  - {symbol: AAPL, exchange: SMART, currency: USD}
+  - {symbol: MSFT, exchange: SMART, currency: USD}
+  # Tel Aviv example: {symbol: TEVA, exchange: TASE, currency: ILS}
+
+strategy:
+  fast_sma: 20
+  slow_sma: 50
+  rsi_period: 14
+  rsi_max_entry: 70      # skip entries when RSI is above this (overbought)
+  atr_period: 14
+  atr_stop_mult: 3.0     # trailing stop = highest close since entry - mult * ATR
+
+risk:
+  risk_per_trade_pct: 1.0     # equity lost if the ATR stop is hit
+  max_position_pct: 20.0      # cap per symbol, % of equity
+  max_gross_exposure_pct: 80  # cap on all positions together
+  min_cash_pct: 10            # always keep this much cash
+  max_daily_loss_pct: 3.0     # halt new buys for the day after this drawdown
+  max_orders_per_day: 10
+  limit_offset_pct: 0.2       # limit price = last +/- this %
+
+state_dir: state             # journal, daily state, kill switch file (state/STOP)
