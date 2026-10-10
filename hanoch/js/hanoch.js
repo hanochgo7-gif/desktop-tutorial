@@ -265,13 +265,18 @@
       gsap.ticker.lagSmoothing(0);
     }
   }
+  // משך הגלילה לפי המרחק: קפיצה קצרה מגיבה מהר, מסע ארוך לא נגרר
+  function travel(el) {
+    var d = el === 0 || el === document.body ? scrollY : Math.abs(el.getBoundingClientRect().top);
+    return Math.min(1.5, Math.max(0.55, 0.45 + 0.35 * Math.log2(1 + d / innerHeight)));
+  }
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');
       var el = id === '#top' ? document.body : $(id);
       if (!el) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(id === '#top' ? 0 : el, { duration: 1.6 });
+      if (lenis) lenis.scrollTo(id === '#top' ? 0 : el, { duration: travel(id === '#top' ? 0 : el) });
       else if (id === '#top') window.scrollTo({ top: 0, behavior: motion ? 'smooth' : 'auto' });
       else el.scrollIntoView({ behavior: motion ? 'smooth' : 'auto' });
       if (el.tabIndex < 0 && el !== document.body) { el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true }); }
@@ -600,8 +605,12 @@
     }
   }
 
-  function openCase(id, li) {
+  // מצב חלון הפרויקט: הטיימליין שרץ עכשיו, האם הוספנו שלב להיסטוריה (כדי שכפתור "חזרה" יסגור), והאם הסגירה כבר באמצע
+  var caseTl = null, pushed = false, caseClosing = false, skipHash = false;
+  function openCase(id, li, fromHash) {
     opener = li;
+    caseClosing = false;
+    if (caseTl) { caseTl.kill(); caseTl = null; }
     fillCase(id);
     var src = $('.browser', li).getBoundingClientRect();
     $('.p-tall', li).style.setProperty('--y', '0px');
@@ -612,7 +621,7 @@
     document.body.style.overflow = 'hidden';
     $('.case-close').focus({ preventScroll: true });
     say(T('נפתח: ', 'Opened: ') + DATA[id].name);
-    setHash(id);
+    setHash(id, !fromHash && !pushed);
     if (!motion) return;
 
     var tgt = caseBrowser.getBoundingClientRect();
@@ -620,7 +629,7 @@
     var s = src.width / tgt.width;
     var reveal = $$('.case-head > *, .case-grid, .case-next');
     gsap.set(reveal, { autoAlpha: 0, y: 40 });
-    gsap.timeline()
+    caseTl = gsap.timeline({ onComplete: function () { caseTl = null; } })
       .fromTo(caseBg,
         { clipPath: 'inset(' + src.top + 'px ' + (vw - src.right) + 'px ' + (vh - src.bottom) + 'px ' + src.left + 'px round 14px)' },
         { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1, ease: 'expo.inOut' }, 0)
@@ -631,15 +640,22 @@
       .to(reveal, { autoAlpha: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.06 }, 0.75);
   }
 
-  function closeCase() {
-    if (caseEl.hidden) return;
+  function closeCase(viaNav) {
+    if (caseEl.hidden || caseClosing) return;
+    caseClosing = true;
     clearInterval(framesTimer);
+    if (caseTl) { caseTl.kill(); caseTl = null; }
     function done() {
+      caseClosing = false;
       caseEl.hidden = true;
       document.documentElement.classList.remove('case-open');
       $('.case-video').pause();
-      setHash('');
+      // נסגר מכפתור "חזרה": ההיסטוריה כבר במקום. נסגר מהאיקס: מחזירים את ההיסטוריה צעד אחד אחורה
+      if (viaNav === true) pushed = false;
+      else if (pushed) { pushed = false; skipHash = true; history.back(); }
+      else setHash('');
       if (window.gsap) gsap.set(caseEl, { clearProps: 'opacity,transform' });
+      if (window.gsap) gsap.set([caseBg, caseBrowser], { clearProps: 'clipPath,transform' });
       document.body.style.overflow = '';
       if (lenis) lenis.start();
       if (opener) {
@@ -650,6 +666,22 @@
       }
     }
     if (!motion) return done();
+    // החלון חוזר לכרטיס שממנו נפתח, באותו מסלול, ומהמקום שבו הוא נמצא עכשיו (גם אם הפתיחה עוד לא נגמרה)
+    var card = opener && $('.browser', opener), dst = card && card.getBoundingClientRect();
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var onScreen = dst && dst.bottom > 0 && dst.top < vh && caseScroll.scrollTop < vh * 0.6;
+    if (onScreen) {
+      var r = caseBrowser.getBoundingClientRect(), x = gsap.getProperty(caseBrowser, 'x'), y = gsap.getProperty(caseBrowser, 'y'), sc = gsap.getProperty(caseBrowser, 'scale') || 1;
+      var L = { left: r.left - x, top: r.top - y, width: r.width / sc };
+      if (!caseBg.style.clipPath) caseBg.style.clipPath = 'inset(0px 0px 0px 0px round 0px)';
+      caseTl = gsap.timeline({ onComplete: function () { caseTl = null; done(); } })
+        .to($$('.case-head > *, .case-grid, .case-next, .case-close'), { autoAlpha: 0, duration: 0.2, ease: 'power2.out', overwrite: true }, 0)
+        .to(caseBg, { clipPath: 'inset(' + dst.top + 'px ' + (vw - dst.right) + 'px ' + (vh - dst.bottom) + 'px ' + dst.left + 'px round 14px)', duration: 0.75, ease: 'expo.inOut' }, 0)
+        .to(caseBrowser, { x: dst.left - L.left, y: dst.top - L.top, scale: dst.width / L.width, transformOrigin: '0 0', duration: 0.75, ease: 'expo.inOut' }, 0)
+        .set(caseEl, { autoAlpha: 0 });
+      caseTl.eventCallback('onComplete', function () { caseTl = null; gsap.set(caseEl, { autoAlpha: 1 }); gsap.set($$('.case-head > *, .case-grid, .case-next, .case-close'), { clearProps: 'opacity,visibility' }); done(); });
+      return;
+    }
     gsap.to(caseEl, { autoAlpha: 0, scale: 0.98, duration: 0.45, ease: 'power3.in', onComplete: function () { gsap.set(caseEl, { autoAlpha: 1 }); done(); } });
   }
 
@@ -673,17 +705,23 @@
       .from($$('.case-head > *'), { y: 50, autoAlpha: 0, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, '-=0.6');
   }
 
-  function setHash(id) {
-    try { history.replaceState(null, '', id ? '#' + id : location.pathname + location.search); } catch (e) { }
+  // פתיחה מלחיצה מוסיפה שלב להיסטוריה, כך שכפתור "חזרה" בטלפון ובדפדפן סוגר את הפרויקט במקום לצאת מהעמוד
+  function setHash(id, push) {
+    try {
+      if (push) { history.pushState({ hgCase: id }, '', '#' + id); pushed = true; }
+      else history.replaceState(history.state, '', id ? '#' + id : location.pathname + location.search);
+    } catch (e) { }
   }
   function openFromHash() {
+    if (skipHash) { skipHash = false; return; }
     var id = (location.hash || '').slice(1);
+    if (!DATA[id] && caseEl && !caseEl.hidden) { closeCase(true); return; }
     // קישור ישן לפרויקט בדף הבית: הפרויקטים נמצאים עכשיו בתיק העבודות
     if (DATA[id] && !caseEl) { location.replace(T('work.html#', 'en-work.html#') + id); return; }
     if (!DATA[id]) { jumpToHash(id); return; }
     if (!caseEl.hidden && current === id) return;
     var li = $('.project[data-id="' + id + '"]');
-    if (li) openCase(id, li);
+    if (li) openCase(id, li, true);
   }
   // הגעה מדף אחר אל חלק מסוים (למשל index.html#pricing): קופצים אליו אחרי שההצמדות חושבו
   function jumpToHash(id) {
@@ -696,7 +734,7 @@
   window.addEventListener('hashchange', openFromHash);
 
   if (caseEl) {
-    $('.case-close').addEventListener('click', closeCase);
+    $('.case-close').addEventListener('click', function () { closeCase(); });
     $('.case-next').addEventListener('click', nextCase);
   }
   document.addEventListener('keydown', function (e) {
@@ -953,6 +991,8 @@
       return Math.max(0, Math.min(steps.length - 1, d.at | 0));
     }
     function show(n, focus) {
+      // השלב החדש נכנס מהכיוון שאליו מתקדמים (קדימה: מכיוון הקריאה, אחורה: מהצד השני)
+      var dir = n === at ? 0 : (n > at ? 1 : -1) * (document.dir === 'rtl' || root.dir === 'rtl' ? -1 : 1);
       steps.forEach(function (s, i) { s.hidden = i !== n; s.classList.toggle('on', i === n); });
       dots.forEach(function (d, i) { d.classList.toggle('on', i <= n); });
       back.hidden = n === 0;
@@ -964,7 +1004,17 @@
       if (focus) $('legend', steps[n]).focus({ preventScroll: true });
       if (n > 0) track('brief_step', { step: n + 1 });
       var first = $('input', steps[n]);
-      if (first && motion && window.gsap) gsap.fromTo($$('.chip', steps[n]), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.04, ease: 'expo.out' });
+      if (first && motion && window.gsap) {
+        if (dir) gsap.fromTo([$('legend', steps[n])].concat($$('.chip', steps[n])), { x: 28 * dir, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.55, stagger: 0.03, ease: 'expo.out', overwrite: true });
+        else gsap.fromTo($$('.chip', steps[n]), { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.04, ease: 'expo.out', overwrite: true });
+      }
+    }
+    // תשובה חסרה: הודעה ברורה, ניעור עדין של האפשרויות, והפוקוס עובר אליהן
+    function nudge() {
+      var box = $('.chips', steps[at]), first = $('input', steps[at]);
+      if (first) first.focus({ preventScroll: true });
+      if (box && motion && window.gsap) gsap.fromTo(box, { x: 0 }, { keyframes: [{ x: -7 }, { x: 6 }, { x: -3 }, { x: 0 }], duration: 0.36, ease: 'power2.out', overwrite: true });
+      if (window.HGFluid) HGFluid.haptic(12);
     }
     function message() {
       var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
@@ -978,7 +1028,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var key = ['biz', 'goal', 'now'][at];
-      if (!values(key).length) { err.textContent = need[at]; return; }
+      if (!values(key).length) { err.textContent = need[at]; nudge(); return; }
       if (at < steps.length - 1) { show(at + 1, true); return; }
       var text = message();
       $('.brief-preview', form).textContent = text;
@@ -993,6 +1043,7 @@
       title.tabIndex = -1; title.focus({ preventScroll: true });
       track('brief_ready', { plan: form.dataset.plan || '' });
       say(T('ההודעה מוכנה', 'Your message is ready'));
+      if (window.HGFluid) HGFluid.haptic(10);
       if (motion && window.gsap) gsap.from(done, { y: 30, autoAlpha: 0, duration: 0.7, ease: 'expo.out' });
     });
     back.addEventListener('click', function () { if (at > 0) show(at - 1, true); });
@@ -1002,7 +1053,9 @@
     form.addEventListener('change', function (e) {
       if (!started) { started = true; track('brief_start', { plan: form.dataset.plan || '' }); }
       saveDraft();
-      if (e.target.type === 'radio' && at < steps.length - 1 && Date.now() - lastPointer < 800) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 260);
+      // ההודעה על תשובה חסרה נעלמת ברגע שבוחרים, בלי לחכות ל"המשך"
+      if (err.textContent && values(['biz', 'goal', 'now'][at]).length) err.textContent = '';
+      if (e.target.type === 'radio' && at < steps.length - 1 && Date.now() - lastPointer < 800) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 200);
     });
     $('.brief-copy', form).addEventListener('click', function () {
       var t = $('.brief-preview', form).textContent, b = this;
@@ -1063,8 +1116,28 @@
     var vid = $('.film-video', dlg), from = null;
     // אותו חלון מנגן גם את הפרסומת: כפתור עם data-film-src מחליף את הסרט, ועם data-film-sound הוא מתנגן עם קול
     var reel = { src: vid.dataset.src, srcM: vid.dataset.srcM, poster: vid.getAttribute('poster') || vid.dataset.poster, label: dlg.getAttribute('aria-label') };
-    function close() { if (dlg.open) dlg.close(); }
+    // הסרט גדל מתוך הכפתור שנלחץ וחוזר אליו בסגירה, על קפיץ שאפשר להפוך באמצע
+    var F = window.HGFluid, cls = $('.film-close', dlg), G = { x: 0, y: 0, s: 0.2 };
+    var mv = F && F.spring({ p: 0 }, { precision: { p: 0.001 }, onUpdate: function (v) {
+      var q = 1 - v.p;
+      vid.style.transform = 'translate3d(' + (G.x * q).toFixed(1) + 'px,' + (G.y * q).toFixed(1) + 'px,0) scale(' + (G.s + (1 - G.s) * v.p).toFixed(4) + ')';
+      dlg.style.backgroundColor = 'rgba(5,5,6,' + (0.94 * Math.min(1, v.p * 1.4)).toFixed(3) + ')';
+      cls.style.opacity = Math.max(0, v.p * 1.6 - 0.6).toFixed(3);
+    } });
+    function aim() {
+      vid.style.transform = '';
+      var R = vid.getBoundingClientRect(), B = from && from.getBoundingClientRect();
+      if (!B || !B.width || B.bottom < 0 || B.top > innerHeight) { G = { x: 0, y: 0, s: 0.9 }; return; }
+      G = { x: B.left + B.width / 2 - (R.left + R.width / 2), y: B.top + B.height / 2 - (R.top + R.height / 2), s: Math.max(0.12, Math.min(1, B.width / R.width)) };
+    }
+    function close() {
+      if (!dlg.open) return;
+      dlg.classList.remove('is-in');
+      var fin = function () { if (dlg.open && !dlg.classList.contains('is-in')) dlg.close(); };
+      if (mv && motion) mv.to({ p: 0 }, { damping: 1, response: 0.32, done: fin }); else fin();
+    }
     dlg.addEventListener('close', function () { pauseVideo(vid); if (lenis) lenis.start(); if (from) from.focus(); });
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
     $('.film-close', dlg).addEventListener('click', close);
     $$('button[data-film]').forEach(function (b) {
@@ -1078,10 +1151,35 @@
         }
         vid.muted = !('filmSound' in b.dataset);
         dlg.showModal();
+        dlg.classList.add('is-in');
+        if (mv && motion) { aim(); mv.set({ p: 0 }); mv.to({ p: 1 }, { damping: 1, response: 0.42 }); }
         if (lenis) lenis.stop();
         vid.currentTime = 0;
         playVideo(vid);
       });
+    });
+  }
+
+  /* ---------- נקודות מיקום לכרטיסים שנגללים לצד בטלפון: איפה אני, וכמה יש ---------- */
+  function initPagers() {
+    $$('.tiers, .care-plans').forEach(function (sc) {
+      var items = Array.prototype.slice.call(sc.children);
+      if (items.length < 2) return;
+      var pg = document.createElement('div');
+      pg.className = 'pager'; pg.setAttribute('aria-hidden', 'true');
+      pg.innerHTML = items.map(function () { return '<i></i>'; }).join('');
+      sc.insertAdjacentElement('afterend', pg);
+      var dots = $$('i', pg), cur = -1, raf = 0;
+      function sync() {
+        raf = 0;
+        var c = sc.getBoundingClientRect(), mid = c.left + c.width / 2, best = 0, dist = Infinity;
+        items.forEach(function (it, i) { var r = it.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - mid); if (d < dist) { dist = d; best = i; } });
+        if (best === cur) return;
+        cur = best; dots.forEach(function (d, i) { d.classList.toggle('on', i === best); });
+      }
+      sc.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(sync); }, { passive: true });
+      dots.forEach(function (d, i) { d.addEventListener('click', function () { items[i].scrollIntoView({ behavior: motion ? 'smooth' : 'auto', block: 'nearest', inline: 'center' }); }); });
+      sync();
     });
   }
 
@@ -1390,11 +1488,14 @@
       var W = innerWidth, H = innerHeight, hb = s * H, wb = hb * AR, x0 = W / 2 - CX * wb, y0 = H / 2 - CY * hb;
       var pts = HET_IN.map(function (p) { return (x0 + p[0] * wb).toFixed(1) + 'px ' + (y0 + p[1] * hb).toFixed(1) + 'px'; });
       menu.style.clipPath = 'polygon(' + pts.join(',') + ')';
+      PS.s = s;
       glass.style.transform = 'translate(' + x0.toFixed(1) + 'px,' + y0.toFixed(1) + 'px) scale(' + (hb / 815).toFixed(4) + ')';
       glass.style.opacity = glassOp;
     }
     function endScale() { var W = innerWidth, H = innerHeight; return Math.max(1.3, 1.6 * W / H / AR) * 1.18; }
     var tl = null;
+    // מצב הפורטל ברגע הזה: אם הופכים כיוון באמצע, ממשיכים מכאן ולא קופצים לערך ההתחלה
+    var PS = { s: 0.16 }, closing = false;
 
     var open = false;
     function syncTools() {
@@ -1411,13 +1512,17 @@
         menu.hidden = false; syncTools(); mediaOn();
         if (lenis) lenis.stop();
         if (motion) {
-          var st = { s: 0.16, g: 0, d: 0 }, end = endScale();
+          var mid = closing, end = endScale();
+          var st = { s: mid ? PS.s : 0.16, g: mid ? (parseFloat(glass.style.opacity) || 0) : 0 };
+          var left = Math.max(0.35, (end - st.s) / (end - 0.16));
+          closing = false;
           menu.classList.add('is-open', 'is-portal'); glass.classList.add('on'); dim.classList.add('on');
-          portal(st.s, 0);
+          portal(st.s, st.g);
           tl = gsap.timeline({ onComplete: function () { menu.style.clipPath = 'none'; menu.classList.remove('is-portal'); glass.classList.remove('on'); } });
           tl.to(st, { g: 1, duration: 0.25, ease: 'power2.out', onUpdate: function () { portal(st.s, st.g); } }, 0)
-            .to(st, { s: end, duration: 1.15, ease: 'expo.inOut', onUpdate: function () { portal(st.s, st.g * Math.max(0, 1 - Math.pow((st.s - 0.16) / (end - 0.16), 2.2))); } }, 0.05)
-            .fromTo(menu, { '--mp-blur': '10px', '--mp-scale': 1.08 }, { '--mp-blur': '0px', '--mp-scale': 1, duration: 1.1, ease: 'expo.out' }, 0.15)
+            .to(st, { s: end, duration: 1.15 * left, ease: mid ? 'expo.out' : 'expo.inOut', onUpdate: function () { portal(st.s, st.g * Math.max(0, 1 - Math.pow((st.s - 0.16) / (end - 0.16), 2.2))); } }, 0.05);
+          // בפתיחה רגילה התוכן נכנס; אם חוזרים באמצע סגירה, הוא כבר במקום
+          if (!mid) tl.fromTo(menu, { '--mp-blur': '10px', '--mp-scale': 1.08 }, { '--mp-blur': '0px', '--mp-scale': 1, duration: 1.1, ease: 'expo.out' }, 0.15)
             .fromTo($$('.menu-links li, .menu-foot > *', menu), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.05, ease: 'expo.out' }, 0.55);
         } else { menu.classList.add('is-open'); menu.style.clipPath = 'none'; }
         var first = $('.menu-link', menu); if (first) first.focus({ preventScroll: true });
@@ -1425,10 +1530,13 @@
         if (lenis) lenis.start();
         var done = function () { if (!open) { menu.hidden = true; menu.classList.remove('is-open', 'is-portal'); glass.classList.remove('on'); dim.classList.remove('on'); mediaOff(); } };
         if (motion) {
-          var st2 = { s: endScale(), g: 0 };
+          // אם הפתיחה עוד באמצע, נסגרים מהגודל של עכשיו
+          var from = menu.classList.contains('is-portal') ? PS.s : endScale();
+          var st2 = { s: from, g: 0 };
+          closing = true;
           menu.classList.add('is-portal'); glass.classList.add('on'); dim.classList.remove('on');
-          tl = gsap.timeline({ onComplete: done });
-          tl.to(st2, { s: 0.12, g: 1, duration: 0.7, ease: 'expo.in', onUpdate: function () { portal(st2.s, Math.min(1, st2.g * 1.6)); } })
+          tl = gsap.timeline({ onComplete: function () { closing = false; done(); } });
+          tl.to(st2, { s: 0.12, g: 1, duration: 0.7 * Math.max(0.4, (from - 0.12) / (endScale() - 0.12)), ease: 'expo.in', onUpdate: function () { portal(st2.s, Math.min(1, st2.g * 1.6)); } })
             .to(glass, { opacity: 0, duration: 0.15 });
         } else done();
       }
@@ -1441,7 +1549,7 @@
       if (!el) return;
       e.preventDefault();
       set(false);
-      if (lenis) lenis.scrollTo(el, { duration: 1.4, force: true }); else el.scrollIntoView({ behavior: motion ? 'smooth' : 'auto' });
+      if (lenis) lenis.scrollTo(el, { duration: travel(el), force: true }); else el.scrollIntoView({ behavior: motion ? 'smooth' : 'auto' });
     }
     cta.addEventListener('click', function (e) { go(cta.getAttribute('href'), e); });
     menu.addEventListener('click', function (e) {
@@ -1631,6 +1739,7 @@
 
   /* ---------- הפעלה ---------- */
   initManifesto();
+  initPagers();
   initMenu();
   initProgress();
   initMagnet();

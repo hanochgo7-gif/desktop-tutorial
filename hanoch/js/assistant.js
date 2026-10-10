@@ -81,7 +81,8 @@
     '.ht-hint button{margin-inline-start:.4rem;min-width:28px;min-height:28px;border-radius:50%;background:transparent;color:inherit;border:0;cursor:pointer;font-size:1rem}' +
     '.ht-dlg{position:fixed;inset:auto;bottom:18px;inset-inline-start:18px;margin:0;width:min(400px,calc(100vw - 36px));height:min(640px,calc(100dvh - 36px));max-height:none;max-width:none;padding:0;border:1px solid rgba(237,232,222,.2);border-radius:22px;' +
     'background:var(--ink-2,#121214);color:var(--fg,#ede8de);box-shadow:0 30px 70px rgba(0,0,0,.6);font-family:var(--f-body,system-ui,sans-serif);overflow:hidden}' +
-    '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(10,10,11,.45)}' +
+    '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(10,10,11,.45);opacity:0;transition:opacity .3s ease}.ht-dlg.ht-in::backdrop{opacity:1}' +
+    '.ht-grab{display:none}' +
     '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid rgba(237,232,222,.14)}' +
     '.ht-head h2{flex:1;margin:0;font:600 var(--fs-b,1rem)/1.2 var(--f-body,system-ui)}.ht-head small{display:block;margin-top:.2rem;font-weight:400;color:rgba(237,232,222,.62);font-size:var(--fs-xs,.8125rem)}' +
     '.ht-x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,232,222,.42);background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}' +
@@ -103,7 +104,8 @@
     '.ht-send{min-width:64px;min-height:44px;border-radius:14px;border:0;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:600 var(--fs-s,.9rem)/1 var(--f-body,system-ui);cursor:pointer}' +
     '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-foot a{color:inherit}' +
     '@media (max-width:600px){.ht-btn{min-height:52px;gap:.55rem;padding-inline-end:1rem}.ht-btn .ht-mark{width:40px;height:40px}' +
-    '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-hint{inset-inline-end:18px}}' +
+    '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-head{touch-action:none;padding-top:1.15rem;position:relative}' +
+    '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}';
 
   var btn, dlg, log, input, sr, hint, opener;
@@ -136,7 +138,7 @@
     dlg.className = 'ht-dlg';
     dlg.setAttribute('aria-labelledby', 'ht-title');
     dlg.innerHTML =
-      '<div class="ht-head"><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><h2 id="ht-title">' + T('המצפן · יועץ דיגיטלי', 'Compass · digital advisor') +
+      '<div class="ht-head"><span class="ht-grab" aria-hidden="true"></span><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><h2 id="ht-title">' + T('המצפן · יועץ דיגיטלי', 'Compass · digital advisor') +
       '<small>' + T('לא בן אדם · עונה מיד, ומעביר לחנוך כשצריך', 'Not a person · replies instantly, hands over to Hanoch when needed') + '</small></h2>' +
       '<button type="button" class="ht-x" aria-label="' + T('סגירת השיחה', 'Close chat') + '">✕</button></div>' +
       '<div class="ht-log"></div>' +
@@ -151,7 +153,10 @@
     sr.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
     dlg.querySelector('.ht-x').addEventListener('click', close);
     dlg.addEventListener('close', function () { document.documentElement.classList.remove('ht-open'); if (opener) opener.focus(); });
-    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    // לחיצה על הרקע סוגרת, אבל לא כשהיא בעצם סוף של גרירה (הדפדפן מדווח עליה כלחיצה על הרקע)
+    dlg.addEventListener('click', function (e) { if (e.target === dlg && !dragged) close(); dragged = false; });
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+    drag(dlg.querySelector('.ht-head'));
     dlg.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); ask(input.value); } });
     input.addEventListener('input', function () { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; });
@@ -174,17 +179,80 @@
     chips(START);
   }
 
-  function open() {
-    panel(); opener = document.activeElement;
-    if (hint) { hint.remove(); hint = null; }
-    document.documentElement.classList.add('ht-open');
-    if (innerWidth <= 600 && window.visualViewport) dlg.style.height = visualViewport.height + 'px';
-    dlg.showModal();
-    (log.querySelector('.ht-chips button') || input).focus();
-    log.scrollTop = log.scrollHeight;
-    track('chat_open');
+  /* ---------- תנועה: החלון יוצא מהכפתור וחוזר אליו. בטלפון הוא גיליון שגוררים למטה כדי לסגור ---------- */
+  var F = window.HGFluid, mv = null, mob = false, H = 0, dragged = false;
+  function apply(v) {
+    if (mob) { dlg.style.transform = 'translate3d(0,' + v.y.toFixed(1) + 'px,0)'; dlg.style.opacity = ''; dlg.style.filter = ''; return; }
+    dlg.style.transform = 'scale(' + (0.35 + 0.65 * v.p).toFixed(4) + ')';
+    dlg.style.opacity = Math.min(1, v.p * 1.8).toFixed(3);
+    dlg.style.filter = v.p < 0.995 ? 'blur(' + ((1 - v.p) * 6).toFixed(2) + 'px)' : '';
   }
-  function close() { if (dlg && dlg.open) dlg.close(); }
+  function motion() { if (!mv && F) mv = F.spring({ p: 1, y: 0 }, { onUpdate: apply, precision: { p: 0.001, y: 0.3 } }); return mv; }
+  // לפני הפריים הראשון: החלון יושב "בתוך" הכפתור (במחשב) או מתחת למסך (בטלפון)
+  function prime() {
+    mob = innerWidth <= 600; H = innerHeight;
+    dlg.style.transform = ''; dlg.style.filter = ''; dlg.style.opacity = '';
+    if (!mob) {
+      var r = dlg.getBoundingClientRect(), b = btn.getBoundingClientRect();
+      dlg.style.transformOrigin = (b.left + b.width / 2 - r.left).toFixed(1) + 'px ' + (b.top + b.height / 2 - r.top).toFixed(1) + 'px';
+    } else dlg.style.transformOrigin = '';
+    if (motion()) mv.set({ p: 0, y: H });
+  }
+  function open() {
+    panel();
+    var again = dlg.open; // נפתח שוב באמצע סגירה: ממשיכים מהמקום שבו הוא נמצא
+    if (!again) {
+      opener = document.activeElement;
+      if (hint) { hint.remove(); hint = null; }
+      document.documentElement.classList.add('ht-open');
+      if (innerWidth <= 600 && window.visualViewport) dlg.style.height = visualViewport.height + 'px';
+      dlg.showModal();
+      prime();
+    }
+    dlg.classList.add('ht-in');
+    if (motion()) mv.to({ p: 1, y: 0 }, { damping: 1, response: mob ? 0.38 : 0.32 });
+    if (!again) {
+      (log.querySelector('.ht-chips button') || input).focus();
+      log.scrollTop = log.scrollHeight;
+      track('chat_open');
+    }
+  }
+  function close(o) {
+    if (!dlg || !dlg.open) return;
+    dlg.classList.remove('ht-in');
+    var fin = function () { if (dlg.open && !dlg.classList.contains('ht-in')) dlg.close(); };
+    if (!motion()) return fin();
+    mv.to(mob ? { p: 1, y: H } : { p: 0, y: 0 }, { damping: 1, response: mob ? 0.3 : 0.26, velocity: o && o.v != null ? { y: o.v } : null, done: fin });
+  }
+  // גרירה מהכותרת: עוקבת אחרי האצבע 1:1, מתנגדת למעלה, וזורקת לפי המהירות
+  function drag(el) {
+    if (!el || !F) return;
+    var id = null, y0 = 0, base = 0, on = false, vt = F.tracker();
+    el.addEventListener('pointerdown', function (e) {
+      if (!mob || e.button > 0 || e.target.closest('button,a')) return;
+      id = e.pointerId; y0 = e.clientY; base = mv.get('y'); on = false; vt.reset(); vt.add(base);
+      mv.stop(); el.setPointerCapture(id);
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (e.pointerId !== id) return;
+      var dy = e.clientY - y0;
+      if (!on && Math.abs(dy) < 8) return; // סף קטן לפני שמחליטים שזו גרירה
+      on = true;
+      var y = base + dy; if (y < 0) y = F.rubber(y, H);
+      mv.set({ y: y }); vt.add(y);
+    });
+    function end(e) {
+      if (e.pointerId !== id) return;
+      id = null;
+      if (!on) return;
+      dragged = true; setTimeout(function () { dragged = false; }, 50);
+      var v = vt.velocity(), y = mv.get('y'), land = y + F.project(v, 0.99);
+      if (land > H * 0.4) { F.haptic(6); close({ v: v }); }
+      else mv.to({ y: 0 }, { damping: 0.85, response: 0.3, velocity: { y: v } });
+    }
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  }
 
   /* ---------- הודעות ---------- */
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }

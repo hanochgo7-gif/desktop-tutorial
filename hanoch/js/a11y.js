@@ -45,8 +45,26 @@
   var panel = wrap.querySelector('.a11y__panel');
   var closeBtn = wrap.querySelector('.a11y__close');
 
-  function open() { panel.setAttribute('data-open', 'true'); btn.setAttribute('aria-expanded', 'true'); panel.querySelector('[data-cls]').focus(); }
-  function close() { panel.setAttribute('data-open', 'false'); btn.setAttribute('aria-expanded', 'false'); btn.focus(); }
+  // הפאנל צומח מתוך הכפתור וחוזר אליו, ואפשר להפוך כיוון באמצע (קפיץ מתוך js/fluid.js, אם נטען)
+  var F = window.HGFluid, mv = F && F.spring({ p: 0 }, { precision: { p: 0.001 }, onUpdate: function (v) {
+    panel.style.opacity = v.p.toFixed(3);
+    panel.style.transform = 'translateY(' + ((1 - v.p) * 10).toFixed(1) + 'px) scale(' + (0.9 + 0.1 * v.p).toFixed(4) + ')';
+  } });
+  function origin() {
+    var r = panel.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    panel.style.transformOrigin = (b.left + b.width / 2 - r.left).toFixed(1) + 'px ' + (b.top + b.height / 2 - r.top).toFixed(1) + 'px';
+  }
+  function open() {
+    var fresh = !panel.classList.contains('is-shown');
+    panel.classList.add('is-shown'); panel.setAttribute('data-open', 'true'); btn.setAttribute('aria-expanded', 'true');
+    if (mv) { if (fresh) { panel.style.transform = ''; origin(); mv.set({ p: 0 }); } mv.to({ p: 1 }, { damping: 1, response: 0.3 }); }
+    panel.querySelector('[data-cls]').focus();
+  }
+  function close() {
+    panel.setAttribute('data-open', 'false'); btn.setAttribute('aria-expanded', 'false'); btn.focus();
+    var hide = function () { if (panel.getAttribute('data-open') !== 'true') panel.classList.remove('is-shown'); };
+    if (mv) mv.to({ p: 0 }, { damping: 1, response: 0.24, done: hide }); else hide();
+  }
 
   btn.addEventListener('click', function () { panel.getAttribute('data-open') === 'true' ? close() : open(); });
   closeBtn.addEventListener('click', close);

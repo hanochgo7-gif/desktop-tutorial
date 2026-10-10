@@ -474,6 +474,7 @@
       ba.addEventListener('pointerdown', (e) => { drag = true; touched = true; try { ba.setPointerCapture(e.pointerId); } catch (err) { } at(e); });
       ba.addEventListener('pointermove', (e) => { if (drag) at(e); });
       ba.addEventListener('pointerup', () => { drag = false; });
+      ba.addEventListener('pointercancel', () => { drag = false; }); // הדפדפן לקח את המגע לגלילה: לא נשארים תקועים במצב גרירה
       ba.addEventListener('keydown', (e) => { const x = parseFloat(ba.style.getPropertyValue('--x')) || 50; if (e.key === 'ArrowLeft') set(x - 5); if (e.key === 'ArrowRight') set(x + 5); });
       set(50);
       auto(() => tween(50, 88, 1100, set, () => auto(() => tween(88, 12, 1800, set, () => auto(() => tween(12, 50, 900, set), 500)), 400)), 900);

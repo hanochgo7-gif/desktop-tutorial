@@ -81,6 +81,7 @@ def page(lang, file, other, title, desc, h1, body):
   <p class="updated">{T('עודכן לאחרונה', 'Last updated')}: {UPDATED[lang]} · <a href="{other}" hreflang="{'en' if he else 'he'}" lang="{'en' if he else 'he'}">{T('English', 'עברית')}</a></p>
 </main>
 {foot(he, file)}
+<script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
 <script src="js/assistant.js" defer></script>
 </body>

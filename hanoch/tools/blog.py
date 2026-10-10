@@ -182,6 +182,7 @@ def head(title, desc, url, img, extra=''):
 
 FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
 <footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
 <script src="../js/assistant.js" defer></script>
 </body>
