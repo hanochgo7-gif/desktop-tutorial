@@ -1,4 +1,4 @@
-/* ח׳: העוזר הדיגיטלי של HG Studio. בלי תלויות.
+/* המצפן: העוזר הדיגיטלי של HG Studio, להתייעצות ולמציאת דברים באתר. בלי תלויות.
    שני מצבים: מסלול מודרך שעובד תמיד (שאלות קצרות, המלצה, הוכחה מהתיק ובריף לוואטסאפ),
    ושאלות חופשיות שעוברות לפונקציה /api/chat (Claude). אם השרת לא זמין, המסלול המודרך ממשיך לעבוד.
    השיחה נשמרת רק בלשונית הזו (sessionStorage) ונמחקת כשסוגרים אותה. שום דבר לא נשלח לחנוך בלי לחיצה של הגולש. */
@@ -57,7 +57,7 @@
   var FAQ = [
     [/מחיר|עולה|עלות|תקציב|כמה זה|זול|יקר|price|cost|budget|expensive|cheap|how much/i, T('המחיר נקבע לפי מה שהעסק צריך, וההצעה מגיעה בכתב, עם מחיר סגור, לפני שמשהו מתחיל. רוצים שאכין לחנוך בריף קצר כדי שתקבלו הצעה מדויקת?', 'The price depends on what your business needs, and you get a written, fixed-price proposal before anything starts. Want me to prepare a short brief for Hanoch so you get an accurate quote?'), 'brief'],
     [/כמה זמן|מתי|זמנים|לוח זמנים|how long|when|timeline/i, T('דף אחד (נוכחות) עולה לאוויר תוך עד שבוע, ואתר מלא תוך עד שבועיים מהשיחה. פרסומת לוקחת בדרך כלל כמה ימים מאישור התסריט. מה אתם צריכים?', 'A one-page site (Presence) goes live within a week, and a full site within two weeks of the first call. A commercial usually takes a few days from script approval. What do you need?'), 'diag'],
-    [/בן אדם|אדם אמיתי|רובוט|בוט|מי אתה|human|robot|bot|who are you|real person/i, T('אני ח׳, עוזר דיגיטלי ולא בן אדם. אני עוזר להבין מה מתאים לעסק שלכם ומכין לחנוך בריף. רוצים לדבר איתו ישירות? הוא בוואטסאפ.', 'I’m Het, a digital assistant, not a person. I help you figure out what fits your business and prepare a brief for Hanoch. Want to talk to him directly? He’s on WhatsApp.'), 'wa'],
+    [/בן אדם|אדם אמיתי|רובוט|בוט|מי אתה|human|robot|bot|who are you|real person/i, T('אני המצפן, עוזר דיגיטלי ולא בן אדם. אני עוזר להתייעץ על מה שמתאים לעסק שלכם, למצוא דברים באתר, ומכין לחנוך בריף. רוצים לדבר איתו ישירות? הוא בוואטסאפ.', 'I’m Compass, a digital assistant, not a person. I help you think through what fits your business, find things on the site, and prepare a brief for Hanoch. Want to talk to him directly? He’s on WhatsApp.'), 'wa'],
     [/נגיש|accessib/i, T('כל אתר נבנה לפי WCAG 2.2 ברמה AA ות"י 5568, עם תפריט נגישות. גם האתר הזה: ', 'Every site is built to WCAG 2.2 AA and the Israeli standard 5568, with an accessibility menu. This one too: ') + (EN ? '/en-accessibility.html' : '/accessibility.html'), 'diag'],
     [/פרטיות|מידע|נשמר|privacy|data|stored/i, T('השיחה הזו לא נשמרת באתר, ושום דבר לא מגיע לחנוך בלי שתלחצו. הפרטים: ', 'This chat isn’t stored on the site, and nothing reaches Hanoch unless you tap send. Details: ') + (EN ? '/en-privacy.html' : '/privacy.html'), 'diag'],
     [/וויקס|ויקס|וורדפרס|wix|wordpress/i, T('אפשר לעבור מוויקס או מוורדפרס לאתר מהיר שבנוי בשבילכם, ולשמור על המקום בגוגל: ', 'You can move from Wix or WordPress to a fast site built for you and keep your place on Google: ') + sv('wix'), 'brief'],
@@ -113,8 +113,8 @@
     btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'ht-btn';
     btn.setAttribute('aria-haspopup', 'dialog');
-    btn.setAttribute('aria-label', T('שיחה עם ח׳, העוזר הדיגיטלי', 'Chat with Het, the digital assistant'));
-    btn.innerHTML = '<span class="ht-mark" aria-hidden="true">ח</span><span class="ht-lbl" aria-hidden="true">' + T('שאלו את ח׳', 'Ask Het') + '</span>';
+    btn.setAttribute('aria-label', T('שיחה עם המצפן, העוזר הדיגיטלי', 'Chat with Compass, the digital assistant'));
+    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l3.2 9L12 21l-3.2-9z" fill="#0a0a0b"/><path d="M12 3l3.2 9H8.8z" fill="#ede8de"/><circle cx="12" cy="12" r="1.6" fill="#ff4f1a"/></svg></span><span class="ht-lbl" aria-hidden="true">' + T('שאלו את המצפן', 'Ask Compass') + '</span>';
     btn.addEventListener('click', open);
     document.body.appendChild(btn);
   }
@@ -133,13 +133,13 @@
     dlg.className = 'ht-dlg';
     dlg.setAttribute('aria-labelledby', 'ht-title');
     dlg.innerHTML =
-      '<div class="ht-head"><span class="ht-mark" aria-hidden="true">ח</span><h2 id="ht-title">' + T('ח׳, העוזר של HG Studio', 'Het, the HG Studio assistant') +
+      '<div class="ht-head"><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l3.2 9L12 21l-3.2-9z" fill="#0a0a0b"/><path d="M12 3l3.2 9H8.8z" fill="#ede8de"/><circle cx="12" cy="12" r="1.6" fill="#ff4f1a"/></svg></span><h2 id="ht-title">' + T('המצפן של HG Studio', 'Compass, the HG Studio assistant') +
       '<small>' + T('עוזר דיגיטלי, לא בן אדם', 'A digital assistant, not a person') + '</small></h2>' +
       '<button type="button" class="ht-x" aria-label="' + T('סגירת השיחה', 'Close chat') + '">✕</button></div>' +
       '<div class="ht-log"></div>' +
       '<p class="sr-only ht-sr" aria-live="polite"></p>' +
       '<form class="ht-form"><label class="sr-only" for="ht-in">' + T('ההודעה שלכם', 'Your message') + '</label>' +
-      '<textarea id="ht-in" rows="1" maxlength="1000" enterkeyhint="send" placeholder="' + T('כתבו שאלה על העסק שלכם', 'Ask about your business') + '"></textarea>' +
+      '<textarea id="ht-in" rows="1" maxlength="1000" enterkeyhint="send" placeholder="' + T('שאלו, התייעצו או חפשו משהו באתר', 'Ask, get advice or find something') + '"></textarea>' +
       '<button class="ht-send" type="submit">' + T('שליחה', 'Send') + '</button></form>' +
       '<p class="ht-foot">' + T('השיחה לא נשמרת באתר. ', 'This chat isn’t stored on the site. ') + '<a href="' + (EN ? '/en-privacy.html' : '/privacy.html') + '">' + T('פרטיות', 'Privacy') + '</a> · ' +
       '<a href="https://wa.me/' + WA + '" target="_blank" rel="noopener">' + T('לדבר עם חנוך בוואטסאפ', 'Talk to Hanoch on WhatsApp') + '</a></p>';
@@ -163,10 +163,11 @@
   var START = [
     [T('מה מתאים לעסק שלי?', 'What fits my business?'), function () { diag(false); }],
     [T('להראות לי עבודות', 'Show me work'), showWork],
-    [T('לבנות בריף לחנוך', 'Build a brief for Hanoch'), function () { diag(true); }]
+    [T('לבנות בריף לחנוך', 'Build a brief for Hanoch'), function () { diag(true); }],
+    [T('למצוא משהו באתר', 'Find something on the site'), function () { say(T('מה תרצו למצוא? למשל: עמוד שירות, עבודה מסוימת, נגישות או מדיניות הפרטיות. כתבו כאן למטה.', 'What would you like to find? For example a service page, a specific project, accessibility or the privacy policy. Type it below.')); input.focus(); }]
   ];
   function greet() {
-    say(T('היי, אני ח׳, העוזר הדיגיטלי של HG Studio (לא בן אדם). אני יכול לעזור להבין מה מתאים לעסק שלכם, להראות עבודות דומות ולהכין לחנוך בריף מוכן לוואטסאפ.', 'Hi, I’m Het, the HG Studio digital assistant (not a person). I can help you figure out what fits your business, show similar work and prepare a ready brief for Hanoch on WhatsApp.'));
+    say(T('היי, אני המצפן, העוזר הדיגיטלי של HG Studio (לא בן אדם). אפשר להתייעץ איתי על מה שמתאים לעסק שלכם, לבקש שאמצא לכם משהו באתר, או להכין לחנוך בריף מוכן לוואטסאפ.', 'Hi, I’m Compass, the HG Studio digital assistant (not a person). Think through what fits your business with me, ask me to find something on the site, or let me prepare a ready brief for Hanoch on WhatsApp.'));
     chips(START);
   }
 
@@ -253,17 +254,17 @@
     focusFirstChip();
   }
   function briefText(extra) {
-    var a = S.answers, lines = [T('היי חנוך, הגעתי מהאתר (דרך ח׳).', 'Hi Hanoch, I came from your website (via Het).'), ''];
+    var a = S.answers, lines = [T('היי חנוך, הגעתי מהאתר (דרך המצפן).', 'Hi Hanoch, I came from your website (via Compass).'), ''];
     if (a.biz) lines.push(T('העסק: ', 'Business: ') + label('biz', a.biz));
     if (a.goal) lines.push(T('מה חשוב עכשיו: ', 'What matters now: ') + label('goal', a.goal));
     if (a.now) lines.push(T('מה יש היום: ', 'What we have today: ') + label('now', a.now));
     var SVN = { ad: T('פרסומת ב-AI', 'AI commercial'), site: T('אתר לעסק', 'A business site'), landing: T('דף נחיתה (נוכחות)', 'A landing page (Presence)'), store: T('חנות אונליין', 'An online store'), wix: T('מעבר מוויקס או מוורדפרס', 'Moving from Wix or WordPress'), brand: T('זהות מותגית ואתר דגל', 'Brand identity and a flagship site') };
-    if (a.goal) lines.push(T('ח׳ הציע: ', 'Het suggested: ') + SVN[recommend(a).s]);
+    if (a.goal) lines.push(T('המצפן הציע: ', 'Compass suggested: ') + SVN[recommend(a).s]);
     if (extra) lines.push(extra);
     return lines.join('\n');
   }
   function brief(textFromModel) {
-    var text = typeof textFromModel === 'string' ? T('היי חנוך, הגעתי מהאתר (דרך ח׳).', 'Hi Hanoch, I came from your website (via Het).') + '\n\n' + textFromModel.trim() : briefText();
+    var text = typeof textFromModel === 'string' ? T('היי חנוך, הגעתי מהאתר (דרך המצפן).', 'Hi Hanoch, I came from your website (via Compass).') + '\n\n' + textFromModel.trim() : briefText();
     if (typeof textFromModel !== 'string' && !S.answers.biz) { say(T('כדי שהבריף יהיה שימושי, שלוש שאלות קצרות:', 'Three quick questions so the brief is useful:')); return diag(true); }
     // בריף מהמודל כבר מגיע עם משפט פתיחה משלו
     if (typeof textFromModel !== 'string') say(T('זה הבריף שהכנתי. בדקו שהוא נכון, ואפשר להוסיף שם ומשפט על העסק.', 'Here’s the brief. Check that it’s right; you can add a name and a line about the business.'));
@@ -294,13 +295,13 @@
   function ask(raw) {
     var text = String(raw || '').trim();
     if (!text) return;
-    // הודעה שנכתבה בזמן שח׳ עוד עונה נשלחת מיד כשהוא מסיים, ולא הולכת לאיבוד
+    // הודעה שנכתבה בזמן שהמצפן עוד עונה נשלחת מיד כשהוא מסיים, ולא הולכת לאיבוד
     if (busy) { pending = text; input.value = ''; input.style.height = ''; return; }
     input.value = ''; input.style.height = '';
     clearChips(); me(text);
     if (S.offline) return local(text);
     busy = true;
-    var typing = document.createElement('p'); typing.className = 'ht-typing'; typing.textContent = T('ח׳ כותב…', 'Het is typing…');
+    var typing = document.createElement('p'); typing.className = 'ht-typing'; typing.textContent = T('המצפן מחפש…', 'Compass is looking…');
     log.appendChild(typing); log.scrollTop = log.scrollHeight;
     var history = S.msgs.filter(function (m) { return m.role === 'user' || m.role === 'assistant'; }).slice(-20);
     var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 25000);
@@ -362,7 +363,7 @@
       removeEventListener('scroll', onScroll);
       try { sessionStorage.setItem('hg-chat-hint', '1'); } catch (e) {}
       hint = document.createElement('div'); hint.className = 'ht-hint';
-      hint.innerHTML = '<span>' + T('שאלה על העסק שלכם? ח׳ עונה מיד, ואם צריך מכין לחנוך בריף.', 'A question about your business? Het answers right away, and can prepare a brief for Hanoch.') + '</span>' +
+      hint.innerHTML = '<span>' + T('מחפשים משהו באתר, או רוצים להתייעץ? המצפן עונה מיד, ואם צריך מכין לחנוך בריף.', 'Looking for something on the site, or want advice? Compass answers right away, and can prepare a brief for Hanoch.') + '</span>' +
         '<button type="button" aria-label="' + T('סגירת ההזמנה', 'Dismiss') + '">✕</button>';
       hint.querySelector('button').addEventListener('click', function () { hint.remove(); hint = null; btn.focus(); });
       document.body.appendChild(hint); place();
