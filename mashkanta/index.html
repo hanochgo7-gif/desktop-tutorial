@@ -10,6 +10,11 @@
 <meta property="og:description" content="המשכנתא נחתמה פעם אחת. הריבית משתנה כל הזמן. בדיקת כדאיות למחזור ללא עלות.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#13495B">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2313495B'/%3E%3Cpath d='M14 44 L32 18 L50 44' fill='none' stroke='%23F6F7F4' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 44 Q32 30 50 44' fill='none' stroke='%235FD99A' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -293,26 +298,25 @@
 
   /* ---------- איך מוציאים דוח ---------- */
   .howto { background: var(--mist); }
-  .howto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: h; }
-  .howto-grid li { list-style: none; padding: 8px 28px 8px 0; border-inline-start: 2px solid var(--petrol); margin-inline-start: -2px; }
-  .howto-grid li:first-child { border-inline-start: 0; padding-inline-start: 0; margin: 0; }
-  .howto-grid li { padding-inline: 28px; }
-  .howto-grid li:first-child { padding-inline-start: 0; }
-  .howto-grid b { display: flex; align-items: center; gap: 12px; font-size: 1.2rem; margin-bottom: 8px; }
-  .howto-grid b::before { counter-increment: h; content: counter(h); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--petrol); color: var(--paper); font-size: 1rem; }
+  .howto-wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+  .howto-wrap > * { min-width: 0; }
+  .howto-grid { display: grid; gap: 26px; margin: 0; padding: 0; counter-reset: h; }
+  .howto-grid li { list-style: none; display: grid; grid-template-columns: 40px 1fr; gap: 2px 16px; }
+  .howto-grid li::before { counter-increment: h; content: counter(h); grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--petrol); color: var(--paper); font-weight: 600; }
+  .howto-grid b { font-size: 1.2rem; }
   .howto-grid p { color: var(--muted); margin: 0; }
-  .names { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .names { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .names span { background: var(--white); border-radius: 999px; padding: 8px 16px; font-weight: 500; font-size: .95rem; }
   .names p { margin: 0 0 0 8px; color: var(--muted); }
-  @media (max-width: 860px) {
-    .howto-grid { grid-template-columns: 1fr; gap: 24px; padding: 0; }
-    .howto-grid li, .howto-grid li:first-child { border: 0; padding: 0; margin: 0; }
-  }
+  .photo { margin: 0; border-radius: 24px; overflow: hidden; background: var(--petrol); box-shadow: 0 30px 60px -30px rgba(12,39,49,.45); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .howto .photo { aspect-ratio: 4 / 5; }
+  @media (max-width: 860px) { .howto-wrap { grid-template-columns: 1fr; } .howto .photo { aspect-ratio: 4 / 3; } }
 
   /* ---------- עליי ---------- */
   .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
   .portrait { aspect-ratio: 4 / 5; border-radius: 28px; background: var(--petrol); position: relative; overflow: hidden; }
-  .portrait svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .about-text .quote { color: var(--ink); }
   .quote { font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 500; line-height: 1.3; letter-spacing: -0.015em; margin: 0 0 28px; text-wrap: balance; }
   .about-text p { color: var(--muted); max-width: 36em; }
@@ -370,13 +374,23 @@
   .f input[aria-invalid="true"] { border-color: #B3261E; }
   .f .err { color: #B3261E; font-size: .9rem; margin-top: 6px; display: none; }
   .f input[aria-invalid="true"] + .err { display: block; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0 0 18px; }
-  .chips legend { font-weight: 600; margin-bottom: 8px; padding: 0; }
-  .chips label { cursor: pointer; }
-  .chips input { position: absolute; opacity: 0; pointer-events: none; }
-  .chips span { display: inline-block; padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--white); font-weight: 500; transition: background-color .15s, border-color .15s, color .15s; }
-  .chips input:checked + span { background: var(--petrol); border-color: var(--petrol); color: var(--paper); }
-  .chips input:focus-visible + span { outline: 3px solid var(--keep-l); outline-offset: 2px; }
+  .funnel-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 40px; font-size: .92rem; color: var(--muted); }
+  .back { background: none; border: 0; color: var(--petrol); font-weight: 600; cursor: pointer; padding: 6px 2px; min-height: 40px; text-decoration: underline; text-underline-offset: 3px; }
+  .back[hidden] { display: none; }
+  .prog { height: 6px; border-radius: 3px; background: var(--line); margin: 6px 0 24px; overflow: hidden; }
+  .prog i { display: block; height: 100%; width: 25%; background: var(--keep); border-radius: 3px; transition: width .35s; }
+  .stp { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .stp[hidden] { display: none; }
+  .stp legend { font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 600; line-height: 1.25; padding: 0; margin-bottom: 18px; }
+  .stp:focus { outline: none; }
+  .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .opts button { min-height: 62px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--white); font-weight: 600; font-size: 1rem; cursor: pointer; padding: 10px 16px; text-align: start; line-height: 1.3; transition: border-color .15s, background-color .15s; }
+  .opts button:hover { border-color: var(--petrol); }
+  .opts button[aria-pressed="true"] { border-color: var(--petrol); background: var(--mist); }
+  .opts button small { display: block; font-weight: 400; color: var(--muted); font-size: .86rem; margin-top: 2px; }
+  @media (max-width: 420px) { .opts { grid-template-columns: 1fr; } }
+  .recap { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 6px; text-align: start; background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; font-size: .95rem; }
+  .recap b { color: var(--muted); font-weight: 500; }
   .form .btn { width: 100%; }
   .form .privacy { font-size: .86rem; color: var(--muted); margin: 14px 0 0; }
   .sent { display: none; text-align: center; padding: 30px 10px; }
@@ -401,6 +415,74 @@
   .dock .btn-keep { background: var(--petrol); color: var(--paper); }
   .dock .call { flex: 0 0 54px; border: 1.5px solid var(--petrol); color: var(--petrol); }
   @media (max-width: 760px) { .dock { display: flex; } }
+
+  /* ---------- כפתור שיתוף במחשבון ---------- */
+  .btn-share { border-color: var(--petrol); color: var(--petrol); background: transparent; }
+  .btn-share:hover { background: var(--mist); }
+  .result .btn-share { margin-top: 10px; }
+
+  /* ---------- מבחן לחץ ---------- */
+  .stress-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  .stress-grid > * { min-width: 0; }
+  .subhead { font-size: 1.15rem; font-weight: 600; margin: 0 0 6px; }
+  .subnote { color: var(--muted); font-size: .92rem; margin: 0 0 16px; }
+  .mixbar { display: flex; height: 16px; border-radius: 8px; overflow: hidden; margin: 0 0 22px; background: var(--line); gap: 2px; }
+  .mixbar i { display: block; height: 100%; transition: width .25s; }
+  .track { display: grid; grid-template-columns: 14px 1fr auto; gap: 2px 12px; align-items: center; margin-bottom: 14px; }
+  .track .sw { width: 14px; height: 14px; border-radius: 4px; }
+  .track label { font-weight: 600; }
+  .track output { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .track small { grid-column: 2 / -1; color: var(--muted); font-size: .86rem; margin-top: -2px; }
+  .track input[type="range"] { grid-column: 1 / -1; }
+  .scen { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+  .scen button { border: 1.5px solid var(--line); background: var(--white); border-radius: 999px; padding: 8px 16px; font-weight: 500; cursor: pointer; min-height: 44px; }
+  .scen button:hover { border-color: var(--ink); }
+  .scen button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .stress-controls hr { border: 0; border-top: 1px solid var(--line); margin: 30px 0 26px; }
+  .stress-out { background: var(--ink); color: var(--paper); border-radius: 24px; padding: clamp(22px, 3vw, 36px); position: sticky; top: 100px; }
+  .so-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(220,233,234,.16); border-radius: 16px; overflow: hidden; margin: 0 0 20px; }
+  .so-row div { background: var(--petrol-2); padding: 16px 18px; }
+  .so-row dt { font-size: .88rem; color: rgba(246,247,244,.72); }
+  .so-row dd { margin: 4px 0 0; font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 600; letter-spacing: -0.01em; }
+  .so-row dd.up { color: var(--cost-l); }
+  .so-delta { font-size: 1.05rem; margin: 0 0 14px; color: rgba(246,247,244,.85); }
+  .so-delta strong { color: var(--cost-l); font-size: 1.5rem; font-weight: 600; }
+  .risk { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: .95rem; margin: 0 0 18px; }
+  .risk::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .risk[data-level="0"] { background: rgba(95,217,154,.15); color: var(--keep-l); }
+  .risk[data-level="1"] { background: rgba(242,165,65,.15); color: var(--cost-l); }
+  .risk[data-level="2"] { background: rgba(255,140,120,.16); color: #FFA594; }
+  .risk-text { color: rgba(246,247,244,.8); margin: -6px 0 20px; }
+  .bars { display: grid; gap: 12px; margin: 0 0 14px; }
+  .bars .b { display: grid; grid-template-columns: 8.5em 1fr; gap: 12px; align-items: center; font-size: .9rem; }
+  .bars .b > span { color: rgba(246,247,244,.82); }
+  .bars .lines { display: grid; gap: 3px; }
+  .bars .lines i { display: block; height: 8px; border-radius: 4px; min-width: 2px; transition: width .3s; }
+  .bars .lines i:first-child { background: rgba(220,233,234,.4); }
+  .bars .lines i:last-child { background: var(--cost-l); }
+  .stress-out .legend { color: rgba(246,247,244,.75); margin-bottom: 20px; }
+  .stress-out .btn { width: 100%; }
+  .stress-out .fine { color: rgba(246,247,244,.6); }
+  @media (max-width: 960px) { .stress-grid { grid-template-columns: 1fr; } .stress-out { position: static; } }
+  @media (max-width: 420px) { .bars .b { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- פס וידאו ---------- */
+  .film { position: relative; isolation: isolate; min-height: clamp(440px, 72vh, 760px); display: flex; align-items: flex-end; color: var(--paper); padding: 0; overflow: hidden; background: var(--ink); }
+  .film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .film::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(12,39,49,.9) 0%, rgba(12,39,49,.45) 42%, rgba(12,39,49,0) 72%); }
+  .film .wrap { width: 100%; padding-block: clamp(40px, 6vw, 84px); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 40px; flex-wrap: wrap; }
+  .film h2 { font-size: clamp(2.1rem, 4.8vw, 3.8rem); max-width: 13em; }
+  .film p { color: rgba(246,247,244,.88); margin: 16px 0 0; max-width: 30em; font-size: 1.12rem; }
+  .film-toggle { position: absolute; top: 96px; inset-inline-end: var(--gutter); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246,247,244,.4); background: rgba(12,39,49,.4); color: var(--paper); cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(6px); }
+  .film-toggle svg { width: 18px; height: 18px; }
+  .film-toggle[hidden] { display: none; }
+
+  /* ---------- תגית חיסכון צפה ---------- */
+  .pill { position: fixed; bottom: 18px; inset-inline-start: 18px; z-index: 44; display: flex; align-items: center; gap: 14px; background: var(--ink); color: var(--paper); border-radius: 999px; padding-block: 7px; padding-inline: 20px 7px; box-shadow: 0 14px 34px rgba(12,39,49,.32); transform: translateY(160%); transition: transform .35s; font-size: .98rem; }
+  .pill.show { transform: none; }
+  .pill b { color: var(--keep-l); font-weight: 600; }
+  .pill .btn { min-height: 42px; padding: 0 18px; font-size: .95rem; border-radius: 999px; }
+  @media (max-width: 760px) { .pill { display: none; } }
 
   /* ---------- נגישות ---------- */
   .a11y-btn { position: fixed; inset-inline-end: 16px; bottom: 16px; z-index: 45; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(12,39,49,.3); }
@@ -455,9 +537,9 @@
     <button class="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="תפריט"><span></span><span></span><span></span></button>
     <nav class="nav" id="nav" aria-label="ניווט ראשי">
       <a href="#calc">מחשבון חיסכון</a>
+      <a href="#stress">מבחן לחץ</a>
       <a href="#report">מה בודקים</a>
       <a href="#process">איך זה עובד</a>
-      <a href="#about">מי אני</a>
       <a href="#faq">שאלות</a>
       <a class="btn btn-keep" href="#contact">לבדיקה ללא עלות</a>
     </nav>
@@ -587,7 +669,55 @@
           </div>
           <p class="tip" id="res-tip"><svg aria-hidden="true"><use href="#i-info"/></svg><span id="res-tip-text"></span></p>
           <a class="btn btn-ink" href="#contact">לבדיקה מדויקת לפי הדוח שלי</a>
+          <a class="btn btn-share" id="share-calc" href="#contact"><svg aria-hidden="true"><use href="#i-wa"/></svg>שליחת החישוב בוואטסאפ</a>
           <p class="fine">הערכה בלבד, לפי לוח שפיצר. לא כוללת הצמדה למדד ושינויים עתידיים בפריים. הריבית בפועל תלויה בבנק, בתמהיל ובפרופיל שלכם.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== מבחן לחץ ===== -->
+  <section id="stress" aria-labelledby="stress-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="stress-title">ומה יקרה להחזר אם הריבית תעלה?</h2>
+        <p class="lead">החיסכון הוא חצי מהסיפור. החצי השני הוא כמה המשכנתא שלכם רגישה לשינויים. בנו את התמהיל, בחרו תרחיש, וראו מה קורה להחזר החודשי בעוד חמש שנים.</p>
+      </div>
+      <div class="stress-grid">
+        <form class="stress-controls" onsubmit="return false" aria-label="תמהיל ותרחיש">
+          <p class="subhead">התמהיל שלכם</p>
+          <p class="subnote" id="mix-note">לפי היתרה והתקופה שבמחשבון למעלה.</p>
+          <div class="mixbar" aria-hidden="true" id="mixbar"></div>
+          <div id="tracks"></div>
+          <hr>
+          <p class="subhead">התרחיש</p>
+          <div class="scen" role="group" aria-label="תרחישים מוכנים">
+            <button type="button" data-scen="0,2" aria-pressed="false">שקט</button>
+            <button type="button" data-scen="1.5,3" aria-pressed="true">הריבית עולה</button>
+            <button type="button" data-scen="3,5" aria-pressed="false">סערה</button>
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="r-dp">שינוי בריבית הפריים</label><span class="field-val"><output id="o-dp" for="r-dp"></output><small>%</small></span></div>
+            <input type="range" id="r-dp" min="-2" max="4" step="0.25" value="1.5">
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="r-cpi">מדד מחירים שנתי</label><span class="field-val"><output id="o-cpi" for="r-cpi"></output><small>%</small></span></div>
+            <input type="range" id="r-cpi" min="0" max="6" step="0.25" value="3">
+          </div>
+        </form>
+
+        <div class="stress-out" aria-live="polite">
+          <dl class="so-row">
+            <div><dt>ההחזר היום</dt><dd><span class="num" id="s-now">0</span></dd></div>
+            <div><dt>ההחזר בעוד 5 שנים</dt><dd class="up"><span class="num" id="s-later">0</span></dd></div>
+          </dl>
+          <p class="so-delta" id="s-delta"></p>
+          <p class="risk" id="s-risk" data-level="0"></p>
+          <p class="risk-text" id="s-risk-text"></p>
+          <div class="bars" id="s-bars" aria-hidden="true"></div>
+          <ul class="legend" aria-hidden="true"><li><i style="border-color:rgba(220,233,234,.5)"></i>היום</li><li><i style="border-color:#F2A541"></i>בעוד 5 שנים, בתרחיש</li></ul>
+          <a class="btn btn-keep" href="#contact">לבניית תמהיל שעומד בכל תרחיש</a>
+          <p class="fine">סימולציה להמחשה. ריביות הפתיחה לדוגמה: פריים 5.5%, קבועה לא צמודה 5.2%, קבועה צמודה 3.6%, משתנה כל 5 שנים 3.9%. במשתנה כל 5 הריבית מתעדכנת בשנה השישית לפי כ-70% משינוי הפריים.</p>
         </div>
       </div>
     </div>
@@ -643,6 +773,24 @@
     </div>
   </section>
 
+  <!-- ===== פס וידאו ===== -->
+  <section class="film" aria-labelledby="film-title">
+    <video id="film-video" muted loop playsinline preload="none" aria-hidden="true" poster="img/balcony-1920.jpg">
+      <source src="media/balcony.webm" type="video/webm">
+      <source src="media/balcony.mp4" type="video/mp4">
+    </video>
+    <button class="film-toggle" type="button" id="film-toggle" aria-label="עצירת הווידאו" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path id="film-icon" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
+    </button>
+    <div class="wrap">
+      <div>
+        <h2 id="film-title">הבית כבר שלכם. עכשיו תורם של התנאים.</h2>
+        <p>המשכנתא תלווה אתכם עוד שנים רבות. שווה לוודא שהיא עובדת בשבילכם, ולא בשביל הבנק.</p>
+      </div>
+      <a class="btn btn-keep" data-wa="היי, אשמח לבדיקת כדאיות למחזור המשכנתא שלי" href="#contact"><svg aria-hidden="true"><use href="#i-wa"/></svg>שליחת דוח יתרות בוואטסאפ</a>
+    </div>
+  </section>
+
   <!-- ===== תרחיש ===== -->
   <section id="case" aria-labelledby="case-title">
     <div class="wrap case-grid">
@@ -680,26 +828,33 @@
         <h2 id="howto-title">הכול מתחיל במסמך אחד</h2>
         <p class="lead">דוח יתרות לסילוק מראה את כל המסלולים, הריביות והעמלות. מוציאים אותו בכמה דקות, בלי לדבר עם אף אחד בבנק.</p>
       </div>
-      <ol class="howto-grid">
-        <li><b>נכנסים לאתר או לאפליקציה</b><p>של הבנק שבו נמצאת המשכנתא. בחלק מהבנקים יש אתר נפרד למשכנתאות.</p></li>
-        <li><b>מחפשים את הדוח</b><p>בדרך כלל תחת "מסמכים" או "אישורים". לפעמים הוא מוסתר בשם אחר.</p></li>
-        <li><b>שולחים לי בוואטסאפ</b><p>קובץ PDF או צילום מסך. תוך יומיים חוזרת אליכם תשובה בכתב.</p></li>
-      </ol>
-      <div class="names"><p>שמות נפוצים לאותו מסמך:</p><span>דוח יתרות לסילוק</span><span>אישור יתרות</span><span>דוח לסילוק מוקדם</span><span>מכתב כוונות לסילוק</span></div>
+      <div class="howto-wrap">
+        <div>
+          <ol class="howto-grid">
+            <li><b>נכנסים לאתר או לאפליקציה</b><p>של הבנק שבו נמצאת המשכנתא. בחלק מהבנקים יש אתר נפרד למשכנתאות.</p></li>
+            <li><b>מחפשים את הדוח</b><p>בדרך כלל תחת "מסמכים" או "אישורים". לפעמים הוא מופיע בשם אחר.</p></li>
+            <li><b>שולחים לי בוואטסאפ</b><p>קובץ PDF או צילום מסך. תוך יומיים חוזרת אליכם תשובה בכתב.</p></li>
+          </ol>
+          <div class="names"><p>שמות נפוצים לאותו מסמך:</p><span>דוח יתרות לסילוק</span><span>אישור יתרות</span><span>דוח לסילוק מוקדם</span><span>מכתב כוונות לסילוק</span></div>
+        </div>
+        <figure class="photo">
+          <picture>
+            <source type="image/webp" srcset="img/statement-720.webp 720w, img/statement-1200.webp 1200w" sizes="(max-width: 860px) 92vw, 40vw">
+            <img src="img/statement-720.jpg" srcset="img/statement-720.jpg 720w, img/statement-1200.jpg 1200w" sizes="(max-width: 860px) 92vw, 40vw" alt="דוח יתרות מודפס על שולחן, עם שורה אחת מסומנת במרקר ירוק" loading="lazy" width="720" height="900">
+          </picture>
+        </figure>
+      </div>
     </div>
   </section>
 
   <!-- ===== מי אני ===== -->
   <section id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
-      <div class="portrait" role="img" aria-label="מקום לתמונה של היועץ">
-        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs><pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(220,233,234,.09)"/></pattern></defs>
-          <rect width="400" height="500" fill="url(#g)"/>
-          <circle cx="200" cy="190" r="72" fill="#1E6075"/>
-          <path d="M70 500c0-96 58-160 130-160s130 64 130 160z" fill="#1E6075"/>
-          <path d="M40 420 Q200 330 360 420" fill="none" stroke="#5FD99A" stroke-width="6" stroke-linecap="round" opacity=".9"/>
-        </svg>
+      <div class="portrait">
+        <picture>
+          <source type="image/webp" srcset="img/desk-720.webp 720w, img/desk-1200.webp 1200w" sizes="(max-width: 860px) 92vw, 36vw">
+          <img src="img/desk-720.jpg" srcset="img/desk-720.jpg 720w, img/desk-1200.jpg 1200w" sizes="(max-width: 860px) 92vw, 36vw" alt="שולחן עבודה ליד חלון: לוח סילוקין עם עקומה ירוקה יורדת, מחברת, עט ומפתחות" loading="lazy" width="720" height="900">
+        </picture>
       </div>
       <div class="about-text">
         <h2 id="about-title" class="sr">מי אני</h2>
@@ -765,26 +920,45 @@
       </div>
       <div class="form" id="form-box">
         <form id="lead" novalidate>
-          <h3>השארת פרטים</h3>
-          <fieldset class="chips">
+          <div class="funnel-top"><span id="st-label">שלב 1 מתוך 4</span><button type="button" class="back" id="st-back" hidden>חזרה</button></div>
+          <div class="prog" aria-hidden="true"><i id="st-bar"></i></div>
+
+          <fieldset class="stp" data-step="1">
             <legend>במה אפשר לעזור?</legend>
-            <label><input type="radio" name="topic" value="מחזור משכנתא" checked><span>מחזור משכנתא</span></label>
-            <label><input type="radio" name="topic" value="משכנתא לדירה חדשה"><span>דירה חדשה</span></label>
-            <label><input type="radio" name="topic" value="סירוב מהבנק"><span>סירוב מהבנק</span></label>
-            <label><input type="radio" name="topic" value="איחוד הלוואות"><span>איחוד הלוואות</span></label>
-            <label><input type="radio" name="topic" value="משכנתא לכל מטרה"><span>לכל מטרה</span></label>
+            <div class="opts" data-key="topic">
+              <button type="button" data-v="מחזור משכנתא">מחזור משכנתא<small>יש לי משכנתא ורוצה לבדוק</small></button>
+              <button type="button" data-v="משכנתא לדירה חדשה">משכנתא לדירה חדשה<small>קונים דירה</small></button>
+              <button type="button" data-v="סירוב מהבנק">אחרי סירוב מהבנק<small>הבנק אמר לא</small></button>
+              <button type="button" data-v="איחוד הלוואות">איחוד הלוואות<small>כמה הלוואות, תשלום אחד</small></button>
+              <button type="button" data-v="משכנתא לכל מטרה">משכנתא לכל מטרה<small>מימון בשעבוד דירה</small></button>
+            </div>
           </fieldset>
-          <div class="f"><label for="f-name">שם מלא</label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name"><p class="err" id="e-name">כתבו את השם שלכם כדי שאדע למי לחזור.</p></div>
-          <div class="f"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required aria-describedby="e-phone"><p class="err" id="e-phone">כתבו מספר טלפון ישראלי, למשל 050-1234567.</p></div>
-          <div class="f"><label for="f-time">מתי נוח לחזור אליכם?</label>
-            <select id="f-time" name="time"><option>בכל שעה</option><option>בבוקר</option><option>בצהריים</option><option>בערב</option></select></div>
-          <button class="btn btn-ink" type="submit">חזרו אליי</button>
-          <p class="privacy">הפרטים משמשים רק כדי לחזור אליכם בנוגע למשכנתא, ולא מועברים לאף גורם אחר.</p>
+
+          <fieldset class="stp" data-step="2" hidden>
+            <legend id="q2">מה גובה המשכנתא, בערך?</legend>
+            <div class="opts" data-key="amount" id="q2-opts"></div>
+          </fieldset>
+
+          <fieldset class="stp" data-step="3" hidden>
+            <legend id="q3">מתי נלקחה המשכנתא?</legend>
+            <div class="opts" data-key="when" id="q3-opts"></div>
+          </fieldset>
+
+          <fieldset class="stp" data-step="4" hidden>
+            <legend>לאן לחזור אליכם?</legend>
+            <div class="f"><label for="f-name">שם מלא</label><input id="f-name" name="name" autocomplete="name" required aria-describedby="e-name"><p class="err" id="e-name">כתבו את השם שלכם כדי שאדע למי לחזור.</p></div>
+            <div class="f"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required aria-describedby="e-phone"><p class="err" id="e-phone">כתבו מספר טלפון ישראלי, למשל 050-1234567.</p></div>
+            <div class="f"><label for="f-time">מתי נוח לחזור אליכם?</label>
+              <select id="f-time" name="time"><option>בכל שעה</option><option>בבוקר</option><option>בצהריים</option><option>בערב</option></select></div>
+            <button class="btn btn-ink" type="submit">חזרו אליי</button>
+            <p class="privacy">הפרטים משמשים רק כדי לחזור אליכם בנוגע למשכנתא, ולא מועברים לאף גורם אחר.</p>
+          </fieldset>
         </form>
         <div class="sent" role="status" tabindex="-1">
           <svg aria-hidden="true"><use href="#i-check"/></svg>
           <h3>הפרטים התקבלו</h3>
           <p style="color:var(--muted);margin:8px 0 0">אחזור אליכם בהקדם. רוצים לקצר את הדרך? שלחו כבר עכשיו דוח יתרות בוואטסאפ.</p>
+          <ul class="recap" id="recap"></ul>
         </div>
       </div>
     </div>
@@ -803,8 +977,13 @@
   </div>
 </footer>
 
+<div class="pill" id="pill" aria-hidden="true">
+  <span>החיסכון המשוער שלכם: <b class="num" id="pill-sum"></b></span>
+  <a class="btn btn-keep" href="#contact" tabindex="-1">לבדיקה ללא עלות</a>
+</div>
+
 <div class="dock" id="dock">
-  <a class="btn btn-keep" data-wa="היי, אשמח לבדיקת כדאיות למחזור המשכנתא שלי" href="#contact"><svg aria-hidden="true"><use href="#i-wa"/></svg>בדיקה בוואטסאפ</a>
+  <a class="btn btn-keep" data-wa="היי, אשמח לבדיקת כדאיות למחזור המשכנתא שלי" href="#contact"><svg aria-hidden="true"><use href="#i-wa"/></svg><span id="dock-text">בדיקה בוואטסאפ</span></a>
   <a class="btn call" data-tel href="#contact" aria-label="התקשרו"><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
 </div>
 
@@ -836,6 +1015,8 @@
   const fmt = n => Math.round(n).toLocaleString('he-IL');
   const ils = n => '₪' + fmt(n);
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.classList.contains('a-still');
+  const inView = el => { const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; };
+  let last = null, touched = false;   // תוצאת המחשבון האחרונה, והאם הגולש שינה משהו
 
   /* --- וואטסאפ וטלפון --- */
   const waLink = text => WHATSAPP_NUMBER ? 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text) : '#contact';
@@ -851,8 +1032,14 @@
   const onScroll = () => {
     const y = scrollY;
     top.classList.toggle('solid', y > 40);
-    dock.classList.toggle('show', y > innerHeight * 0.8);
+    dock.classList.toggle('show', y > innerHeight * 0.8 && !inView($('#contact')));
+    updatePill();
   };
+  function updatePill() {
+    const show = touched && last && last.net > 0 && y0() > innerHeight && !inView($('#calc')) && !inView($('#stress')) && !inView($('#contact'));
+    $('#pill').classList.toggle('show', !!show);
+  }
+  function y0() { return scrollY; }
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
   const setMenu = open => {
     menuBtn.setAttribute('aria-expanded', open);
@@ -993,6 +1180,83 @@
     $('#v-btn').textContent = verdicts[n][2];
   }));
 
+  /* --- מבחן לחץ: סימולציה חודשית של כל מסלול --- */
+  const TR = [
+    { k: 'prime', name: 'פריים', note: 'צמוד לריבית בנק ישראל. כל שינוי מגיע מיד להחזר.', base: 5.5, linked: false, kind: 'prime', color: '#F2A541', v: 40 },
+    { k: 'fix', name: 'קבועה לא צמודה', note: 'ההחזר ידוע מראש, עד התשלום האחרון.', base: 5.2, linked: false, kind: 'fixed', color: '#13495B', v: 30 },
+    { k: 'lnk', name: 'קבועה צמודה', note: 'הריבית קבועה, אבל הקרן עולה יחד עם המדד.', base: 3.6, linked: true, kind: 'fixed', color: '#5E8C99', v: 15 },
+    { k: 'v5', name: 'משתנה כל 5, צמודה', note: 'הריבית מתעדכנת כל חמש שנים, והקרן צמודה למדד.', base: 3.9, linked: true, kind: 'v5', color: '#A9CDD2', v: 15 },
+  ];
+  $('#tracks').innerHTML = TR.map(t =>
+    '<div class="track"><span class="sw" style="background:' + t.color + '"></span><label for="t-' + t.k + '">' + t.name + '</label>' +
+    '<output id="o-' + t.k + '" for="t-' + t.k + '"></output><small>' + t.note + '</small>' +
+    '<input type="range" id="t-' + t.k + '" min="0" max="100" step="5" value="' + t.v + '"></div>').join('');
+  $('#mixbar').innerHTML = TR.map(t => '<i style="background:' + t.color + '"></i>').join('');
+  const dp = $('#r-dp'), cpi = $('#r-cpi');
+
+  function sim(t, amount, n, dP, infl, H) {
+    const g = Math.pow(1 + infl / 100, 1 / 12);
+    let b = amount, m = n, r = t.base;
+    const p0 = pmt(amount, t.base, n);
+    for (let k = 1; k <= H && m > 0; k++) {
+      if (t.kind === 'prime') r = Math.max(0.1, t.base + dP);
+      const pay = pmt(b, r, m);
+      b = b * (1 + r / 1200) - pay; m--;
+      if (t.linked) b *= g;
+    }
+    if (t.kind === 'v5') r = Math.max(0.1, t.base + 0.7 * dP);
+    return { p0, pH: m > 0 ? pmt(b, r, m) : 0 };
+  }
+
+  function stress() {
+    if (!last) return;
+    const vals = TR.map(t => +$('#t-' + t.k).value);
+    const sum = vals.reduce((a, b) => a + b, 0) || 1;
+    const shares = vals.map(v => v / sum);
+    TR.forEach((t, i) => {
+      $('#o-' + t.k).textContent = Math.round(shares[i] * 100) + '%';
+      $('#mixbar').children[i].style.width = (shares[i] * 100) + '%';
+      fill($('#t-' + t.k));
+    });
+    const n = Math.round(last.yrs * 12), hy = Math.min(5, Math.max(1, Math.floor(last.yrs) - 1)), H = hy * 12;
+    const dP = +dp.value, infl = +cpi.value;
+    $('#o-dp').textContent = (dP > 0 ? '+' : '') + dP.toFixed(2);
+    $('#o-cpi').textContent = infl.toFixed(2);
+    fill(dp); fill(cpi);
+    const res = TR.map((t, i) => sim(t, last.B * shares[i], n, dP, infl, H));
+    const now = res.reduce((a, r) => a + r.p0, 0), later = res.reduce((a, r) => a + r.pH, 0);
+    const d = later - now, pct = now ? d / now * 100 : 0;
+    $('#s-now').textContent = ils(now);
+    $('#s-later').textContent = ils(later);
+    $('.so-row div:last-child dt').textContent = 'ההחזר בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
+    $('#s-delta').innerHTML = d >= 0
+      ? '<strong class="num">+' + ils(d) + '</strong> בכל חודש, עלייה של ' + Math.round(pct) + '%'
+      : 'ההחזר יורד ב-<strong class="num">' + ils(-d) + '</strong> בכל חודש';
+    const lvl = pct < 8 ? 0 : pct < 20 ? 1 : 2;
+    const risk = $('#s-risk');
+    risk.dataset.level = lvl;
+    risk.textContent = ['התמהיל יציב בתרחיש הזה', 'התמהיל רגיש לשינויים', 'התמהיל חשוף'][lvl];
+    $('#s-risk-text').textContent = [
+      'ההחזר כמעט לא זז. המחיר של היציבות הוא לרוב ריבית פתיחה גבוהה יותר.',
+      'העלייה מורגשת אבל נשלטת. שווה לבדוק אם אפשר לאזן בלי לוותר על הריבית.',
+      'בתרחיש כזה ההחזר קופץ משמעותית. כדאי לבנות תמהיל עם יותר ודאות.'][lvl];
+    const max = Math.max(...res.map(r => Math.max(r.p0, r.pH)), 1);
+    $('#s-bars').innerHTML = TR.map((t, i) => shares[i] === 0 ? '' :
+      '<div class="b"><span>' + t.name + '</span><span class="lines"><i style="width:' + (res[i].p0 / max * 100) + '%"></i><i style="width:' + (res[i].pH / max * 100) + '%"></i></span></div>').join('');
+    const fixedShare = shares[1] + shares[2];
+    $('#mix-note').textContent = fixedShare < 1 / 3 - 0.001
+      ? 'שימו לב: לפי הנחיות בנק ישראל, לפחות שליש מהמשכנתא צריך להיות בריבית קבועה.'
+      : 'לפי יתרה של ' + ils(last.B) + ' ל-' + last.yrs + ' שנים, מהמחשבון למעלה.';
+  }
+  TR.forEach(t => $('#t-' + t.k).addEventListener('input', stress));
+  const scenBtns = $$('[data-scen]');
+  const markScen = () => scenBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.scen === (+dp.value) + ',' + (+cpi.value)));
+  [dp, cpi].forEach(r => r.addEventListener('input', () => { markScen(); stress(); }));
+  scenBtns.forEach(b => b.addEventListener('click', () => {
+    const [a, c] = b.dataset.scen.split(',');
+    dp.value = a; cpi.value = c; markScen(); stress();
+  }));
+
   /* --- מחשבון --- */
   let goal = 'short';
   const F = {
@@ -1044,22 +1308,38 @@
     }
 
     chart($('#calc-chart'), { B, months: n, rOld: rO, rNew: Math.min(rN, rO), pOld, pNew: rN >= rO ? pOld : pNew, nOld: n, nNew: rN >= rO ? n : Math.min(nNew, n), area: false, cOld: '#9A5A0C', cNew: '#1A7F4B', grid: '#C9D6D8', label: '#4A6169', anim: false, h: 220 });
+
+    last = { B, rO, yrs: n / 12, rN, net: rN < rO && net > 0 ? net : 0 };
+    afterCalc();
+  }
+
+  // שיתוף החישוב, תגית החיסכון והסרגל בנייד
+  function afterCalc() {
+    const msg = 'היי, עשיתי חישוב באתר: יתרה של ' + ils(last.B) + ', ריבית ממוצעת ' + last.rO.toFixed(2) + '%, ' + last.yrs + ' שנים שנותרו. ' +
+      (last.net > 0 ? 'לפי המחשבון החיסכון המשוער הוא ' + ils(last.net) + '. ' : '') + 'אשמח לבדיקה מדויקת לפי הדוח שלי.';
+    const share = $('#share-calc');
+    share.href = waLink(msg);
+    if (WHATSAPP_NUMBER) { share.target = '_blank'; share.rel = 'noopener'; }
+    $('#pill-sum').textContent = ils(last.net);
+    $('#dock-text').textContent = touched && last.net > 0 ? 'לבדיקת חיסכון של ₪' + Math.round(last.net / 1000) + ' אלף' : 'בדיקה בוואטסאפ';
+    stress();
+    updatePill();
   }
 
   Object.values(F).forEach(o => {
     o.n.value = o.f(o.r.value); fill(o.r);
-    o.r.addEventListener('input', () => { o.n.value = o.f(o.r.value); fill(o.r); calc(); });
+    o.r.addEventListener('input', () => { touched = true; o.n.value = o.f(o.r.value); fill(o.r); calc(); });
     const commit = () => {
       let v = parseFloat(o.n.value.replace(/[^\d.]/g, ''));
       if (isNaN(v)) v = +o.r.value;
       v = Math.min(+o.r.max, Math.max(+o.r.min, v));
-      o.r.value = v; o.n.value = o.f(v); fill(o.r); calc();
+      touched = true; o.r.value = v; o.n.value = o.f(v); fill(o.r); calc();
     };
     o.n.addEventListener('change', commit);
     o.n.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commit(); } });
   });
   $$('.goal button').forEach(b => b.addEventListener('click', () => {
-    goal = b.dataset.goal;
+    goal = b.dataset.goal; touched = true;
     $$('.goal button').forEach(x => x.setAttribute('aria-pressed', x === b));
     calc();
   }));
@@ -1074,30 +1354,94 @@
     ['mouseleave', 'blur'].forEach(e => li.addEventListener(e, () => on(false)));
   });
 
-  /* --- שירותים: בחירת נושא בטופס --- */
-  $$('[data-topic]').forEach(a => a.addEventListener('click', () => {
-    const r = $('#lead input[value="' + a.dataset.topic + '"]'); if (r) r.checked = true;
-  }));
+  /* --- טופס בשלבים --- */
+  const form = $('#lead'), steps = $$('.stp', form), ans = {};
+  steps.forEach(f => f.tabIndex = -1);   // מעבר שלב מעביר את הפוקוס לקבוצה, וקורא המסך מקריא את השאלה
+  const AMOUNTS = {
+    loans: ['מה סך ההלוואות, בערך?', [['עד ₪100 אלף', 100000], ['₪100 עד 300 אלף', 300000], ['₪300 עד 600 אלף', 600000], ['מעל ₪600 אלף', 1e9]]],
+    mortgage: [null, [['עד ₪500 אלף', 500000], ['₪500 אלף עד מיליון', 1000000], ['₪1 עד 2 מיליון', 2000000], ['מעל ₪2 מיליון', 1e9]]],
+  };
+  const Q = {
+    'מחזור משכנתא': ['מה יתרת המשכנתא, בערך?', 'מתי נלקחה המשכנתא?', ['בשנתיים האחרונות', 'לפני 2 עד 5 שנים', 'לפני 5 עד 10 שנים', 'לפני יותר מ-10 שנים']],
+    'משכנתא לדירה חדשה': ['כמה משכנתא אתם צריכים?', 'מתי אתם צריכים את הכסף?', ['בחודש הקרוב', 'תוך שלושה חודשים', 'תוך חצי שנה', 'עוד לא חתמנו על דירה']],
+    'סירוב מהבנק': ['על איזה סכום ביקשתם משכנתא?', 'מתי התקבל הסירוב?', ['בחודש האחרון', 'לפני כמה חודשים', 'לפני יותר משנה', 'קיבלנו כמה סירובים']],
+    'איחוד הלוואות': [null, 'כמה הלוואות פתוחות יש לכם?', ['שתיים', 'שלוש או ארבע', 'חמש ומעלה', 'לא בטוחים']],
+    'משכנתא לכל מטרה': ['כמה כסף אתם צריכים?', 'למה מיועד הכסף?', ['שיפוץ', 'עזרה לילדים', 'עסק', 'מטרה אחרת']],
+  };
+  const btns = items => items.map(([label, max]) => '<button type="button" data-v="' + label + '"' + (max ? ' data-max="' + max + '"' : '') + '>' + label + '</button>').join('');
+  function setTopic(t) {
+    ans.topic = t; delete ans.amount; delete ans.when;
+    const q = Q[t], am = t === 'איחוד הלוואות' ? AMOUNTS.loans : AMOUNTS.mortgage;
+    $('#q2').textContent = q[0] || am[0];
+    $('#q2-opts').innerHTML = btns(am[1]);
+    $('#q3').textContent = q[1];
+    $('#q3-opts').innerHTML = btns(q[2].map(x => [x]));
+    // מי שכבר שיחק במחשבון מקבל הצעה מסומנת לפי היתרה שהזין
+    if (touched && t !== 'איחוד הלוואות') {
+      const hit = $$('#q2-opts button').find(b => +b.dataset.max >= last.B);
+      if (hit) hit.setAttribute('aria-pressed', 'true');
+    }
+    $$('[data-key="topic"] button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === t));
+  }
+  function go(n, focus = true) {
+    steps.forEach(f => f.hidden = +f.dataset.step !== n);
+    $('#st-label').textContent = 'שלב ' + n + ' מתוך 4';
+    $('#st-bar').style.width = (n * 25) + '%';
+    $('#st-back').hidden = n === 1;
+    form.dataset.step = n;
+    if (focus) $('[data-step="' + n + '"]', form).focus({ preventScroll: true });
+  }
+  form.addEventListener('click', e => {
+    const b = e.target.closest('.opts button'); if (!b) return;
+    const key = b.parentElement.dataset.key;
+    if (key === 'topic') setTopic(b.dataset.v);
+    else { ans[key] = b.dataset.v; $$('button', b.parentElement).forEach(x => x.setAttribute('aria-pressed', x === b)); }
+    const n = +b.closest('.stp').dataset.step;
+    setTimeout(() => go(n + 1), reduced() ? 0 : 160);
+  });
+  $('#st-back').addEventListener('click', () => go(Math.max(1, +form.dataset.step - 1)));
+  setTopic('מחזור משכנתא'); $$('[data-key="topic"] button').forEach(b => b.setAttribute('aria-pressed', 'false')); delete ans.topic;
+  go(1, false);
 
-  /* --- טופס --- */
-  const form = $('#lead');
+  // קישורי השירותים פותחים את הטופס כשהנושא כבר נבחר
+  $$('[data-topic]').forEach(a => a.addEventListener('click', () => { setTopic(a.dataset.topic); go(2, false); }));
+
   form.addEventListener('submit', e => {
     e.preventDefault();
     const name = $('#f-name'), phone = $('#f-phone');
     const okName = name.value.trim().length > 1;
-    const okPhone = /^0\d{8,9}$/.test(phone.value.replace(/[\s-]/g, '')) || /^\+?972\d{8,9}$/.test(phone.value.replace(/[\s-]/g, ''));
+    const ph = phone.value.replace(/[\s-]/g, '');
+    const okPhone = /^0\d{8,9}$/.test(ph) || /^\+?972\d{8,9}$/.test(ph);
     name.setAttribute('aria-invalid', !okName); phone.setAttribute('aria-invalid', !okPhone);
     if (!okName) return name.focus();
     if (!okPhone) return phone.focus();
-    const topic = form.topic.value, time = $('#f-time').value;
+    const time = $('#f-time').value, topic = ans.topic || 'מחזור משכנתא';
+    const rows = [['נושא', topic], ['היקף', ans.amount], [$('#q3').textContent.replace('?', ''), ans.when], ['זמן נוח', time]].filter(r => r[1]);
+    $('#recap').innerHTML = rows.map(r => '<li><b>' + r[0] + ':</b> ' + r[1] + '</li>').join('');
     // אין שרת: פותחים וואטסאפ עם הפרטים, אם הוגדר מספר
-    if (WHATSAPP_NUMBER) window.open(waLink('שלום, אני ' + name.value.trim() + '. אשמח שתחזור אליי בנושא ' + topic + '. טלפון: ' + phone.value + '. זמן נוח: ' + time + '.'), '_blank', 'noopener');
+    if (WHATSAPP_NUMBER) window.open(waLink('שלום, אני ' + name.value.trim() + ', טלפון ' + phone.value + '. ' + rows.map(r => r[0] + ': ' + r[1]).join('. ') + '.'), '_blank', 'noopener');
     $('#form-box').classList.add('done');
     $('.sent').focus();
   });
   ['#f-name', '#f-phone'].forEach(s => $(s).addEventListener('input', e => e.target.removeAttribute('aria-invalid')));
 
-  /* --- נגישות --- */
+  /* --- פס וידאו: מתנגן רק כשהוא על המסך, ונעצר בהעדפת הפחתת תנועה --- */
+  const film = $('.film'), video = $('#film-video'), tog = $('#film-toggle');
+  let userPaused = false, filmVisible = false;
+  function filmSync() {
+    const may = filmVisible && !userPaused && !reduced();
+    tog.hidden = reduced();
+    if (may) {
+      if (video.preload !== 'auto') { video.preload = 'auto'; video.load(); }
+      video.play().catch(() => {});
+    } else video.pause();
+    $('#film-icon').setAttribute('d', userPaused ? 'M8 5l11 7-11 7z' : 'M7 5h3.5v14H7zM13.5 5H17v14h-3.5z');
+    tog.setAttribute('aria-label', userPaused ? 'הפעלת הווידאו' : 'עצירת הווידאו');
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { filmVisible = es[0].isIntersecting; filmSync(); }, { rootMargin: '200px' }).observe(film);
+  tog.addEventListener('click', () => { userPaused = !userPaused; filmSync(); });
+
+  /* --- נגישות --- */  /* --- נגישות --- */
   const root = document.documentElement, aBtn = $('.a11y-btn'), panel = $('#a11y');
   let st = { size: 0, cls: [] };
   try { st = JSON.parse(localStorage.getItem('yesod-a11y')) || st; } catch (e) {}
@@ -1106,6 +1450,7 @@
     ['a-contrast', 'a-links', 'a-readable', 'a-still'].forEach(c => root.classList.toggle(c, st.cls.includes(c)));
     $$('[data-a]', panel).forEach(b => b.setAttribute('aria-pressed', st.cls.includes(b.dataset.a)));
     try { localStorage.setItem('yesod-a11y', JSON.stringify(st)); } catch (e) {}
+    filmSync();
   };
   apply();
   function openA11y() { panel.hidden = false; aBtn.setAttribute('aria-expanded', 'true'); $('button', panel).focus(); }
