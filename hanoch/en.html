@@ -397,7 +397,7 @@
     <p class="contact-lead">Three short questions, and a ready-made WhatsApp message to me opens up. No long forms.</p>
     <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
     <form class="brief" id="brief" novalidate>
-      <ol class="brief-steps mono" aria-hidden="true"><li class="on">Business</li><li>Goal</li><li>Budget</li></ol>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">Business</li><li>Goal</li><li>Today</li></ol>
       <fieldset class="brief-step on" data-step="0">
         <legend>What kind of business do you have?</legend>
         <div class="chips"><label class="chip"><input type="radio" name="biz" value="Online store"><span>Online store</span></label><label class="chip"><input type="radio" name="biz" value="Service business"><span>Service business</span></label><label class="chip"><input type="radio" name="biz" value="Freelancer or self-employed"><span>Freelancer or self-employed</span></label><label class="chip"><input type="radio" name="biz" value="Company or industry"><span>Company or industry</span></label><label class="chip"><input type="radio" name="biz" value="Something else"><span>Something else</span></label></div>
@@ -407,14 +407,14 @@
         <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="Bring in more leads"><span>Bring in more leads</span></label><label class="chip"><input type="checkbox" name="goal" value="Sell online"><span>Sell online</span></label><label class="chip"><input type="checkbox" name="goal" value="Replace an old site"><span>Replace an old site</span></label><label class="chip"><input type="checkbox" name="goal" value="Build a strong brand"><span>Build a strong brand</span></label><label class="chip"><input type="checkbox" name="goal" value="Not sure yet"><span>Not sure yet</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="2" hidden>
-        <legend>What's your budget range?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="budget" value="Up to ₪5,000"><span>Up to ₪5,000</span></label><label class="chip"><input type="radio" name="budget" value="₪5,000–12,000"><span>₪5,000–12,000</span></label><label class="chip"><input type="radio" name="budget" value="₪12,000–25,000"><span>₪12,000–25,000</span></label><label class="chip"><input type="radio" name="budget" value="Over ₪25,000"><span>Over ₪25,000</span></label><label class="chip"><input type="radio" name="budget" value="Don't know yet"><span>Don't know yet</span></label></div>
+        <legend>And what do you have today?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="now" value="No site yet"><span>No site yet</span></label><label class="chip"><input type="radio" name="now" value="A site that brings no leads"><span>A site that brings no leads</span></label><label class="chip"><input type="radio" name="now" value="A Wix or WordPress site"><span>A Wix or WordPress site</span></label><label class="chip"><input type="radio" name="now" value="A store that needs an upgrade"><span>A store that needs an upgrade</span></label><label class="chip"><input type="radio" name="now" value="Not sure yet"><span>Not sure yet</span></label></div>
         <div class="brief-fields">
           <label for="brief-name">What's your name? <small>Optional</small></label>
           <input id="brief-name" name="name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="80">
           <label for="brief-about">One sentence about the business <small>Optional</small></label>
           <input id="brief-about" name="about" type="text" autocomplete="off" enterkeyhint="done" maxlength="200" aria-describedby="brief-note">
-          <p class="brief-note" id="brief-note">Sharing these details is optional. The site does not store them: they are sent only when you tap, straight to me on WhatsApp or by email, and used only to get back to you with a proposal. The <a href="en-privacy.html">privacy policy</a> explains what is kept and how to ask for deletion.</p>
+          <p class="brief-note" id="brief-note">Sharing these details is optional. The site sends them nowhere: until you send, your answers are kept only in your browser, so you never have to start over. The message goes out only when you tap, straight to me on WhatsApp or by email, and used only to get back to you with a proposal. The <a href="en-privacy.html">privacy policy</a> explains what is kept and how to ask for deletion.</p>
         </div>
       </fieldset>
       <p class="brief-error" role="alert"></p>
@@ -423,11 +423,12 @@
         <button class="btn btn-signal brief-go" type="submit"><span>Next</span></button>
       </div>
       <div class="brief-done" hidden>
-        <p class="brief-done-title">Your message is ready.</p>
+        <p class="brief-done-title">Your message is ready. One tap and it’s with me.</p>
+        <p class="brief-done-next">Once you send it, I’ll come back to you with a written, fixed-price proposal. No commitment.</p>
         <pre class="brief-preview" dir="ltr"></pre>
         <div class="brief-actions">
-          <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>Open in WhatsApp</span></a>
-          <a class="btn btn-line brief-mail" href="#contact"><span>Send by email</span></a>
+          <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>Send to me on WhatsApp</span></a>
+          <a class="btn btn-line brief-mail" href="#contact"><span>Send to me by email</span></a>
           <button class="brief-copy mono" type="button">Copy message</button>
         </div>
         <button class="brief-restart mono" type="button">Start over</button>
@@ -465,5 +466,6 @@
 <script type="module" src="js/het.js"></script>
 <script src="js/systems.js" defer></script>
 <script src="js/a11y.js" defer></script>
+<script src="js/assistant.js" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UPDATED = {'he': '9 באוקטובר 2026', 'en': 'October 9, 2026'}
+UPDATED = {'he': '10 באוקטובר 2026', 'en': 'October 10, 2026'}
 TEL, TEL_HE, TEL_EN, MAIL = '+972545522053', '054-5522053', '+972 54-552-2053', 'boss@hgpro.io'
 
 STYLE = '''<style>
@@ -82,6 +82,7 @@ def page(lang, file, other, title, desc, h1, body):
 </main>
 {foot(he, file)}
 <script src="js/a11y.js" defer></script>
+<script src="js/assistant.js" defer></script>
 </body>
 </html>
 '''
@@ -105,7 +106,10 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
   <p>חנוך גוטובסקי, HG Studio. לכל שאלה על פרטיות אפשר לפנות במייל {CONTACT_HE}.</p>
 
   <h2>מידע שאתם מוסרים לי</h2>
-  <p>כשאתם פונים אליי אני מקבל את מה שבחרתם לשלוח: שם, מספר טלפון או כתובת מייל (לפי הערוץ שבחרתם), ותוכן ההודעה. אם מילאתם את טופס הבריף בדף הבית, התשובות שבחרתם (סוג העסק, מטרות, טווח תקציב, ואם רציתם גם שם ומשפט על העסק) נכנסות להודעה מוכנה. הטופס לא שולח דבר לשרת: ההודעה יוצאת רק אם תלחצו "פתיחה בוואטסאפ" או "שליחה במייל".</p>
+  <p>כשאתם פונים אליי אני מקבל את מה שבחרתם לשלוח: שם, מספר טלפון או כתובת מייל (לפי הערוץ שבחרתם), ותוכן ההודעה. אם מילאתם את טופס הבריף בדף הבית, התשובות שבחרתם (סוג העסק, מטרות, מה יש לכם היום, ואם רציתם גם שם ומשפט על העסק) נכנסות להודעה מוכנה. הטופס לא שולח דבר לשרת: ההודעה יוצאת רק אם תלחצו "לשלוח לי בוואטסאפ" או "לשלוח לי במייל". עד אז התשובות נשמרות רק בדפדפן שלכם, כדי שתוכלו להמשיך מאיפה שעצרתם.</p>
+  <h2 id="assistant">ח׳, העוזר הדיגיטלי</h2>
+  <p>ח׳ הוא עוזר דיגיטלי, לא בן אדם. כשבוחרים בו תשובות מוכנות (כמו סוג העסק), שום דבר לא יוצא מהדפדפן. כשכותבים לו שאלה חופשית, הטקסט של השיחה נשלח לשרת של האתר ב-Vercel, ומשם ל-Anthropic, החברה שמפעילה את מודל הבינה המלאכותית Claude, רק כדי לנסח תשובה. העיבוד יכול להיות מחוץ לישראל. האתר לא שומר את השיחה ולא מתעד את התוכן שלה. היא נשמרת רק בלשונית שלכם, ונמחקת כשסוגרים אותה. אל תכתבו לח׳ מידע רגיש, כמו פרטי אשראי, תעודת זהות או מידע רפואי.</p>
+  <p>שום דבר מהשיחה לא מגיע אליי בלי שתלחצו "לשלוח לחנוך בוואטסאפ". רק אז נפתחת הודעה עם הבריף שאישרתם, ואתם מחליטים אם לשלוח אותה.</p>
   <p>מסירת הפרטים אינה חובה לפי חוק, אבל בלי דרך ליצור איתכם קשר לא אוכל לחזור אליכם. אני משתמש במידע כדי לענות לפנייה, להכין הצעת מחיר, לתת את השירות שהוזמן, להוציא קבלות וחשבוניות ולעמוד בחובות שהחוק מטיל עליי.</p>
 
   <h2 id="analytics">סטטיסטיקת גלישה (Google Analytics)</h2>
@@ -123,6 +127,8 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
       <tr><td><code>hanoch-a11y</code></td><td>האתר, זיכרון מקומי</td><td>זוכר את ההגדרות שבחרתם בתפריט הנגישות</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
       <tr><td><code>hg-intro</code></td><td>האתר, זיכרון זמני</td><td>פתיחה קצרה יותר בביקור חוזר</td><td>עד סגירת הלשונית</td><td>הכרחי</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>האתר, זיכרון מקומי</td><td>הסרט בארכיון מתנגן רק בביקור הראשון</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
+      <tr><td><code>hg-brief</code></td><td>האתר, זיכרון מקומי</td><td>טיוטת טופס הבריף, כדי להמשיך מאיפה שעצרתם</td><td>עד שליחה או "התחלה מחדש"</td><td>הכרחי</td></tr>
+      <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>האתר, זיכרון זמני</td><td>השיחה עם ח׳, וזה שההזמנה אליו כבר הוצגה</td><td>עד סגירת הלשונית</td><td>הכרחי</td></tr>
     </tbody>
   </table></div>
   <p>הזיכרון המקומי של האתר נשאר במכשיר שלכם ולא נשלח לאף אחד. אפשר למחוק את כל אלה בהגדרות הדפדפן.</p>
@@ -180,7 +186,10 @@ PRIVACY_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business o
   <p>Hanoch Gotovski, HG Studio. For any privacy question, write to {CONTACT_EN}.</p>
 
   <h2>Information you give me</h2>
-  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, budget range, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Open in WhatsApp" or "Send by email".</p>
+  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off.</p>
+  <h2 id="assistant">Het, the digital assistant</h2>
+  <p>Het is a digital assistant, not a person. When you pick ready-made answers (like your type of business), nothing leaves your browser. When you type a free question, the text of the conversation is sent to the site’s server at Vercel, and from there to Anthropic, the company that runs the Claude AI model, only to write an answer. Processing may take place outside Israel. The site does not store the conversation or log its content. It is kept only in your browser tab, and deleted when you close it. Please don’t share sensitive information with Het, such as card details, ID numbers or medical information.</p>
+  <p>Nothing from the chat reaches me unless you tap "Send to Hanoch on WhatsApp". Only then does a message open with the brief you approved, and you decide whether to send it.</p>
   <p>You are not legally required to share these details, but without a way to reach you I cannot get back to you. I use the information to answer you, prepare a proposal, provide the service you ordered, issue receipts and invoices, and meet my legal obligations.</p>
 
   <h2 id="analytics">Analytics (Google Analytics)</h2>
@@ -198,6 +207,8 @@ PRIVACY_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business o
       <tr><td><code>hanoch-a11y</code></td><td>This site, local storage</td><td>Remembers your accessibility menu settings</td><td>Until you delete it</td><td>Necessary</td></tr>
       <tr><td><code>hg-intro</code></td><td>This site, session storage</td><td>A shorter intro on a repeat visit</td><td>Until the tab is closed</td><td>Necessary</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>This site, local storage</td><td>The archive film plays only on the first visit</td><td>Until you delete it</td><td>Necessary</td></tr>
+      <tr><td><code>hg-brief</code></td><td>This site, local storage</td><td>The brief form draft, so you can pick up where you left off</td><td>Until you send or start over</td><td>Necessary</td></tr>
+      <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>This site, session storage</td><td>Your chat with Het, and whether its invitation was already shown</td><td>Until you close the tab</td><td>Necessary</td></tr>
     </tbody>
   </table></div>
   <p>The site's local storage stays on your device and is not sent to anyone. You can delete all of it in your browser settings.</p>

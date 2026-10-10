@@ -467,6 +467,7 @@ def render(p):
 <footer class="sv-foot"><span>© 2026 HG Studio · {T('חנוך גוטובסקי', 'Hanoch Gotovski')}</span>{foot_links}{lang_link}{legal(up, he)}</footer>
 <div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/a11y.js" defer></script>
+<script src="{up}js/assistant.js" defer></script>
 </body>
 </html>
 '''
@@ -529,6 +530,7 @@ def hub(lang):
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio</span>{legal(up, he)}</footer>
 <script src="{up}js/a11y.js" defer></script>
+<script src="{up}js/assistant.js" defer></script>
 </body>
 </html>
 '''

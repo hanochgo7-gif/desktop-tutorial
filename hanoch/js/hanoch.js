@@ -931,12 +931,27 @@
       a.addEventListener('click', function () {
         setPlan(a.dataset.plan);
         var pick = function (name, v) { if (!v) return; $$('input[name="' + name + '"]', form).forEach(function (i) { if (i.value === v) i.checked = true; }); };
-        pick('budget', a.dataset.budget); pick('goal', a.dataset.goal);
+        pick('goal', a.dataset.goal);
         say(EN ? a.dataset.plan + ' package selected. Answer three questions and your message will be ready.' : 'נבחרה חבילת ' + a.dataset.plan + '. ענו על שלוש השאלות וההודעה תהיה מוכנה.');
       });
     });
-    var need = EN ? ['Pick a type of business to continue.', 'Pick at least one goal.', 'Pick a budget range.'] : ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו טווח תקציב.'];
+    var need = EN ? ['Pick a type of business to continue.', 'Pick at least one goal.', 'Pick what you have today.'] : ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו מה יש לכם היום.'];
     function values(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.value; }); }
+    // טיוטה: התשובות נשמרות רק בדפדפן של הגולש, כדי שמי שחוזר ימשיך מאיפה שעצר. נמחקת בשליחה או ב"התחלה מחדש"
+    var DRAFT = 'hg-brief';
+    function saveDraft() {
+      try { localStorage.setItem(DRAFT, JSON.stringify({ biz: values('biz'), goal: values('goal'), now: values('now'), name: $('#brief-name').value, about: $('#brief-about').value, at: at, plan: form.dataset.plan || '' })); } catch (e) { /* אחסון חסום: פשוט בלי טיוטה */ }
+    }
+    function dropDraft() { try { localStorage.removeItem(DRAFT); } catch (e) {} }
+    function loadDraft() {
+      var d; try { d = JSON.parse(localStorage.getItem(DRAFT) || 'null'); } catch (e) { d = null; }
+      if (!d) return 0;
+      ['biz', 'goal', 'now'].forEach(function (k) { $$('input[name="' + k + '"]', form).forEach(function (i) { i.checked = (d[k] || []).indexOf(i.value) >= 0; }); });
+      $('#brief-name').value = d.name || ''; $('#brief-about').value = d.about || '';
+      if (d.plan) setPlan(d.plan);
+      started = true;
+      return Math.max(0, Math.min(steps.length - 1, d.at | 0));
+    }
     function show(n, focus) {
       steps.forEach(function (s, i) { s.hidden = i !== n; s.classList.toggle('on', i === n); });
       dots.forEach(function (d, i) { d.classList.toggle('on', i <= n); });
@@ -944,6 +959,7 @@
       $('span', go).textContent = n === steps.length - 1 ? T('הכנת ההודעה', 'Write my message') : T('המשך', 'Next');
       err.textContent = '';
       at = n;
+      if (started) saveDraft();
       // הפוקוס עובר לשאלה החדשה, כדי שמשתמש מקלדת וקורא מסך לא יאבדו את המקום
       if (focus) $('legend', steps[n]).focus({ preventScroll: true });
       if (n > 0) track('brief_step', { step: n + 1 });
@@ -954,14 +970,14 @@
       var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
       var lines = [T('היי חנוך, הגעתי מהאתר שלך.', 'Hi Hanoch, I found you through your website.'), ''];
       if (form.dataset.plan) lines.push(T('חבילה: ', 'Package: ') + form.dataset.plan);
-      lines.push(T('העסק: ', 'Business: ') + values('biz').join(', '), T('מה האתר צריך לעשות: ', 'What the site should do: ') + values('goal').join(', '), T('תקציב: ', 'Budget: ') + values('budget').join(', '));
+      lines.push(T('העסק: ', 'Business: ') + values('biz').join(', '), T('מה האתר צריך לעשות: ', 'What the site should do: ') + values('goal').join(', '), T('מה יש היום: ', 'What I have today: ') + values('now').join(', '));
       if (about) lines.push(T('על העסק: ', 'About the business: ') + about);
       if (name) lines.push('', name);
       return lines.join('\n');
     }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var key = ['biz', 'goal', 'budget'][at];
+      var key = ['biz', 'goal', 'now'][at];
       if (!values(key).length) { err.textContent = need[at]; return; }
       if (at < steps.length - 1) { show(at + 1, true); return; }
       var text = message();
@@ -985,6 +1001,7 @@
     form.addEventListener('pointerdown', function () { lastPointer = Date.now(); });
     form.addEventListener('change', function (e) {
       if (!started) { started = true; track('brief_start', { plan: form.dataset.plan || '' }); }
+      saveDraft();
       if (e.target.type === 'radio' && at < steps.length - 1 && Date.now() - lastPointer < 800) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 260);
     });
     $('.brief-copy', form).addEventListener('click', function () {
@@ -997,10 +1014,13 @@
       var r = document.createRange(); r.selectNodeContents($('.brief-preview', form));
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
     }
+    form.addEventListener('input', function (e) { if (e.target.type === 'text') saveDraft(); });
+    $$('.brief-wa, .brief-mail', form).forEach(function (l) { l.addEventListener('click', dropDraft); });
     $('.brief-restart', form).addEventListener('click', function () {
-      form.reset(); done.hidden = true; nav.hidden = false; stepsBar.hidden = false; show(0, true);
+      dropDraft(); setPlan(''); started = false; form.reset(); done.hidden = true; nav.hidden = false; stepsBar.hidden = false; show(0, true);
     });
-    show(0);
+    var resume = loadDraft();
+    show(resume);
   }
 
   /* ---------- תהליך: הקו מתמלא והשלבים נכנסים ---------- */

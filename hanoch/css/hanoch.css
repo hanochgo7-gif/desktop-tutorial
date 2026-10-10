@@ -645,6 +645,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .brief-done { display: grid; gap: 1.1rem; padding: clamp(20px, 3vw, 32px); border-radius: 22px; background: var(--ink-3); border: 1px solid var(--fg-faint); }
 .brief-done[hidden] { display: none; }
 .brief-done-title { font-family: var(--f-display); font-size: var(--fs-d2); }
+.brief-done-next { color: var(--fg-dim); margin-top: -.4rem; max-width: 52ch; }
 .brief-preview { white-space: pre-wrap; font-family: var(--f-body); font-size: var(--fs-b); line-height: 1.7; color: var(--fg-dim); background: var(--ink-2); border-radius: 14px; padding: 1rem 1.2rem; }
 .brief-actions { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
 .brief-actions .btn[hidden] { display: none; }

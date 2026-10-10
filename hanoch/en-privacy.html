@@ -55,7 +55,10 @@
   <p>Hanoch Gotovski, HG Studio. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
 
   <h2>Information you give me</h2>
-  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, budget range, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Open in WhatsApp" or "Send by email".</p>
+  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off.</p>
+  <h2 id="assistant">Het, the digital assistant</h2>
+  <p>Het is a digital assistant, not a person. When you pick ready-made answers (like your type of business), nothing leaves your browser. When you type a free question, the text of the conversation is sent to the site’s server at Vercel, and from there to Anthropic, the company that runs the Claude AI model, only to write an answer. Processing may take place outside Israel. The site does not store the conversation or log its content. It is kept only in your browser tab, and deleted when you close it. Please don’t share sensitive information with Het, such as card details, ID numbers or medical information.</p>
+  <p>Nothing from the chat reaches me unless you tap "Send to Hanoch on WhatsApp". Only then does a message open with the brief you approved, and you decide whether to send it.</p>
   <p>You are not legally required to share these details, but without a way to reach you I cannot get back to you. I use the information to answer you, prepare a proposal, provide the service you ordered, issue receipts and invoices, and meet my legal obligations.</p>
 
   <h2 id="analytics">Analytics (Google Analytics)</h2>
@@ -73,6 +76,8 @@
       <tr><td><code>hanoch-a11y</code></td><td>This site, local storage</td><td>Remembers your accessibility menu settings</td><td>Until you delete it</td><td>Necessary</td></tr>
       <tr><td><code>hg-intro</code></td><td>This site, session storage</td><td>A shorter intro on a repeat visit</td><td>Until the tab is closed</td><td>Necessary</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>This site, local storage</td><td>The archive film plays only on the first visit</td><td>Until you delete it</td><td>Necessary</td></tr>
+      <tr><td><code>hg-brief</code></td><td>This site, local storage</td><td>The brief form draft, so you can pick up where you left off</td><td>Until you send or start over</td><td>Necessary</td></tr>
+      <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>This site, session storage</td><td>Your chat with Het, and whether its invitation was already shown</td><td>Until you close the tab</td><td>Necessary</td></tr>
     </tbody>
   </table></div>
   <p>The site's local storage stays on your device and is not sent to anyone. You can delete all of it in your browser settings.</p>
@@ -115,9 +120,10 @@
 
   <h2>Changes to this policy</h2>
   <p>If this policy changes, the updated version will be published on this page with its date.</p>
-  <p class="updated">Last updated: October 9, 2026 · <a href="privacy.html" hreflang="he" lang="he">עברית</a></p>
+  <p class="updated">Last updated: October 10, 2026 · <a href="privacy.html" hreflang="he" lang="he">עברית</a></p>
 </main>
 <nav class="doc-foot" aria-label="Legal"><a href="en-privacy.html" aria-current="page">Privacy policy</a><a href="en-terms.html">Terms of use</a><a href="en-refunds.html">Cancellations & refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="en-accessibility.html">Accessibility statement</a><a href="en.html">Home</a></nav>
 <script src="js/a11y.js" defer></script>
+<script src="js/assistant.js" defer></script>
 </body>
 </html>

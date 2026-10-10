@@ -397,7 +397,7 @@
     <p class="contact-lead">שלוש שאלות קצרות, ונפתחת לכם הודעת וואטסאפ מוכנה אליי. בלי טפסים ארוכים.</p>
     <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a><a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a></p>
     <form class="brief" id="brief" novalidate>
-      <ol class="brief-steps mono" aria-hidden="true"><li class="on">העסק</li><li>המטרה</li><li>תקציב</li></ol>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">העסק</li><li>המטרה</li><li>היום</li></ol>
       <fieldset class="brief-step on" data-step="0">
         <legend>איזה עסק יש לכם?</legend>
         <div class="chips"><label class="chip"><input type="radio" name="biz" value="חנות אונליין"><span>חנות אונליין</span></label><label class="chip"><input type="radio" name="biz" value="עסק שנותן שירות"><span>עסק שנותן שירות</span></label><label class="chip"><input type="radio" name="biz" value="עצמאי או פרילנסר"><span>עצמאי או פרילנסר</span></label><label class="chip"><input type="radio" name="biz" value="חברה או תעשייה"><span>חברה או תעשייה</span></label><label class="chip"><input type="radio" name="biz" value="משהו אחר"><span>משהו אחר</span></label></div>
@@ -407,14 +407,14 @@
         <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="להביא יותר פניות"><span>להביא יותר פניות</span></label><label class="chip"><input type="checkbox" name="goal" value="למכור אונליין"><span>למכור אונליין</span></label><label class="chip"><input type="checkbox" name="goal" value="להחליף אתר ישן"><span>להחליף אתר ישן</span></label><label class="chip"><input type="checkbox" name="goal" value="לבנות מותג חזק"><span>לבנות מותג חזק</span></label><label class="chip"><input type="checkbox" name="goal" value="עוד לא בטוח"><span>עוד לא בטוח</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="2" hidden>
-        <legend>מה טווח התקציב?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="budget" value="עד 5,000 ₪"><span>עד 5,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="5,000–12,000 ₪"><span>5,000–12,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="12,000–25,000 ₪"><span>12,000–25,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="מעל 25,000 ₪"><span>מעל 25,000 ₪</span></label><label class="chip"><input type="radio" name="budget" value="עוד לא יודע"><span>עוד לא יודע</span></label></div>
+        <legend>ומה יש לכם היום?</legend>
+        <div class="chips"><label class="chip"><input type="radio" name="now" value="עוד אין אתר"><span>עוד אין אתר</span></label><label class="chip"><input type="radio" name="now" value="יש אתר שלא מביא פניות"><span>יש אתר שלא מביא פניות</span></label><label class="chip"><input type="radio" name="now" value="אתר בוויקס או בוורדפרס"><span>אתר בוויקס או בוורדפרס</span></label><label class="chip"><input type="radio" name="now" value="חנות שצריך לשדרג"><span>חנות שצריך לשדרג</span></label><label class="chip"><input type="radio" name="now" value="עוד לא בטוח"><span>עוד לא בטוח</span></label></div>
         <div class="brief-fields">
           <label for="brief-name">איך קוראים לכם? <small>לא חובה</small></label>
           <input id="brief-name" name="name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="80">
           <label for="brief-about">משפט אחד על העסק <small>לא חובה</small></label>
           <input id="brief-about" name="about" type="text" autocomplete="off" enterkeyhint="done" maxlength="200" aria-describedby="brief-note">
-          <p class="brief-note" id="brief-note">מסירת הפרטים אינה חובה. האתר לא שומר אותם: הם נשלחים רק כשתלחצו, ישירות אליי בוואטסאפ או במייל, ומשמשים רק כדי לחזור אליכם עם הצעה. <a href="privacy.html">מדיניות הפרטיות</a> מסבירה מה נשמר ואיך לבקש מחיקה.</p>
+          <p class="brief-note" id="brief-note">מסירת הפרטים אינה חובה. האתר לא שולח אותם לשום מקום: עד שתשלחו, התשובות נשמרות רק בדפדפן שלכם, כדי שלא תצטרכו להתחיל מחדש. ההודעה יוצאת רק כשתלחצו, ישירות אליי בוואטסאפ או במייל, ומשמשים רק כדי לחזור אליכם עם הצעה. <a href="privacy.html">מדיניות הפרטיות</a> מסבירה מה נשמר ואיך לבקש מחיקה.</p>
         </div>
       </fieldset>
       <p class="brief-error" role="alert"></p>
@@ -423,11 +423,12 @@
         <button class="btn btn-signal brief-go" type="submit"><span>המשך</span></button>
       </div>
       <div class="brief-done" hidden>
-        <p class="brief-done-title">ההודעה מוכנה.</p>
+        <p class="brief-done-title">ההודעה מוכנה. לחיצה אחת, והיא אצלי.</p>
+        <p class="brief-done-next">אחרי שתשלחו, אחזור אליכם עם הצעה כתובה ומחיר סגור. בלי התחייבות.</p>
         <pre class="brief-preview" dir="rtl"></pre>
         <div class="brief-actions">
-          <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>פתיחה בוואטסאפ</span></a>
-          <a class="btn btn-line brief-mail" href="#contact"><span>שליחה במייל</span></a>
+          <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>לשלוח לי בוואטסאפ</span></a>
+          <a class="btn btn-line brief-mail" href="#contact"><span>לשלוח לי במייל</span></a>
           <button class="brief-copy mono" type="button">העתקת ההודעה</button>
         </div>
         <button class="brief-restart mono" type="button">התחלה מחדש</button>
@@ -465,5 +466,6 @@
 <script type="module" src="js/het.js"></script>
 <script src="js/systems.js" defer></script>
 <script src="js/a11y.js" defer></script>
+<script src="js/assistant.js" defer></script>
 </body>
 </html>
