@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#13495B">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2313495B'/%3E%3Cpath d='M14 44 L32 18 L50 44' fill='none' stroke='%23F6F7F4' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 44 Q32 30 50 44' fill='none' stroke='%235FD99A' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2313495B'/%3E%3Csvg x='6' y='17' width='52' height='30' viewBox='38 32 869 374'%3E%3Cpath fill='%23F6F7F4' d='M42.2 394.8C42.4 394.3 123.1 313.4 221.5 214.9L400.5 35.9L406.0 41.7C414.2 50.3 482.2 122.1 508.0 149.4C520.4 162.4 530.6 173.7 530.8 174.4C531.1 175.7 505.9 200.3 503.7 200.8C502.6 201.0 480.5 178.7 434.5 131.0C426.8 123.0 415.9 111.8 410.3 106.0L400.0 95.5L296.8 198.7C240.0 255.4 172.4 322.8 146.6 348.4L99.7 395.0L91.6 395.0C87.1 395.0 74.2 395.2 62.7 395.3C51.3 395.5 42.1 395.2 42.2 394.8Z'/%3E%3Cpath fill='%235FD99A' d='M845.5 401.9C813.8 400.0 770.8 390.9 744.2 380.6C739.4 378.8 734.4 376.9 733.0 376.5C717.0 371.6 671.9 347.9 649.0 332.5C624.6 316.0 587.6 285.8 568.9 267.1C567.9 266.2 553.2 251.6 536.1 234.5C519.0 217.5 505.0 203.1 505.0 202.4C505.0 200.3 531.7 175.9 533.3 176.6C534.1 176.9 537.8 180.6 541.5 184.8C567.9 214.8 613.3 260.3 639.0 282.4C661.4 301.7 695.2 326.3 711.0 334.7C714.0 336.4 721.5 340.5 727.5 343.9C771.3 368.7 836.6 388.4 882.0 390.6C888.3 390.8 895.9 391.3 898.8 391.6L904.1 392.2L903.8 396.8L903.5 401.5L897.0 402.1C888.3 403.0 860.4 402.9 845.5 401.9Z'/%3E%3C/svg%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -92,7 +92,7 @@
   .top.solid { background: rgba(246,247,244,.94); color: var(--ink); box-shadow: 0 1px 0 var(--line); backdrop-filter: blur(10px); }
   .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 76px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
-  .brand svg { width: 38px; height: 38px; }
+  .brand svg { width: 70px; height: 30px; }
   .brand b { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
   .brand small { display: block; font-size: .8rem; opacity: .75; font-weight: 400; margin-top: 3px; }
   .nav { display: flex; align-items: center; gap: 4px; }
@@ -122,14 +122,10 @@
   /* ---------- פתיח ---------- */
   .hero {
     position: relative; isolation: isolate; color: var(--paper);
-    background: var(--petrol); padding: 140px 0 72px; overflow: hidden;
-  }
-  /* נייר משבצות, כמו לוח סילוקין */
-  .hero::before {
-    content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
-    background-image: linear-gradient(rgba(220,233,234,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(220,233,234,.07) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: linear-gradient(180deg, #000 40%, transparent);
+    background-color: #0F4057; padding: 140px 0 72px; overflow: hidden;
+    background-image: url(img/hero-blueprint.jpg);
+    background-image: image-set(url(img/hero-blueprint.webp) type("image/webp"), url(img/hero-blueprint.jpg) type("image/jpeg"));
+    background-size: cover; background-position: left bottom; background-repeat: no-repeat;
   }
   .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
   .hero h1 { font-size: clamp(2.4rem, 5vw, 3.9rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.025em; }
@@ -141,7 +137,7 @@
   .promises svg { width: 18px; height: 18px; color: var(--keep-l); }
 
   .gap-card {
-    background: var(--petrol-2); border: 1px solid rgba(220,233,234,.14); border-radius: 24px;
+    background: rgba(13,55,71,.82); border: 1px solid rgba(220,233,234,.16); border-radius: 24px; backdrop-filter: blur(6px);
     padding: clamp(20px, 2.6vw, 32px); box-shadow: 0 40px 80px -30px rgba(0,0,0,.45);
   }
   .gap-figure { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; }
@@ -359,7 +355,10 @@
   @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; } .faq-grid .sec-head { position: static; } }
 
   /* ---------- יצירת קשר ---------- */
-  .contact { background: var(--petrol); color: var(--paper); }
+  .contact { background-color: #0F4057; color: var(--paper);
+    background-image: url(img/hero-blueprint.jpg);
+    background-image: image-set(url(img/hero-blueprint.webp) type("image/webp"), url(img/hero-blueprint.jpg) type("image/jpeg"));
+    background-size: cover; background-position: left bottom; background-repeat: no-repeat; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: start; }
   .contact .lead { color: rgba(246,247,244,.8); }
   .wa-big { margin-top: 32px; display: grid; gap: 14px; justify-items: start; }
@@ -525,7 +524,7 @@
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.3 6.3l1.4-2.2L20 15.5V19a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.2v.1" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="i-mark" viewBox="0 0 48 48"><path d="M8 36 L24 12 L40 36" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 36 Q24 24 40 36" fill="none" stroke="#5FD99A" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="i-mark" viewBox="38 32 869 374"><path fill="currentColor" d="M42.2 394.8C42.4 394.3 123.1 313.4 221.5 214.9L400.5 35.9L406.0 41.7C414.2 50.3 482.2 122.1 508.0 149.4C520.4 162.4 530.6 173.7 530.8 174.4C531.1 175.7 505.9 200.3 503.7 200.8C502.6 201.0 480.5 178.7 434.5 131.0C426.8 123.0 415.9 111.8 410.3 106.0L400.0 95.5L296.8 198.7C240.0 255.4 172.4 322.8 146.6 348.4L99.7 395.0L91.6 395.0C87.1 395.0 74.2 395.2 62.7 395.3C51.3 395.5 42.1 395.2 42.2 394.8Z"/><path fill="#5FD99A" d="M845.5 401.9C813.8 400.0 770.8 390.9 744.2 380.6C739.4 378.8 734.4 376.9 733.0 376.5C717.0 371.6 671.9 347.9 649.0 332.5C624.6 316.0 587.6 285.8 568.9 267.1C567.9 266.2 553.2 251.6 536.1 234.5C519.0 217.5 505.0 203.1 505.0 202.4C505.0 200.3 531.7 175.9 533.3 176.6C534.1 176.9 537.8 180.6 541.5 184.8C567.9 214.8 613.3 260.3 639.0 282.4C661.4 301.7 695.2 326.3 711.0 334.7C714.0 336.4 721.5 340.5 727.5 343.9C771.3 368.7 836.6 388.4 882.0 390.6C888.3 390.8 895.9 391.3 898.8 391.6L904.1 392.2L903.8 396.8L903.5 401.5L897.0 402.1C888.3 403.0 860.4 402.9 845.5 401.9Z"/></symbol>
 </svg>
 
 <header class="top" id="top">
