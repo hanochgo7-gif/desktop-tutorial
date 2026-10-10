@@ -117,6 +117,11 @@
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
+    <loc>https://hgpro.io/services/social-media.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://hgpro.io/services/ai-chatbot.html</loc>
     <lastmod>2026-10-10</lastmod>
     <priority>0.8</priority>
@@ -142,6 +147,11 @@
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>Elef · Galilee olive oil</video:title><video:description>A cinematic olive oil commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/elef-en.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+  </url>
+  <url>
+    <loc>https://hgpro.io/services/en/social-media-for-business.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/website-design.html</loc>

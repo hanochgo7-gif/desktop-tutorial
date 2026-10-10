@@ -6,6 +6,7 @@
 - Website packages: Presence (landing page, live within a week); Business (full site, up to 8 pages, CMS, SEO); Signature (flagship site with 3D, store or custom system, two languages).
 - Add-ons: e-commerce platform; secure payments; automated invoicing; quote engine; online booking; client & learning portal; CRM & integrations; business dashboard; AI commercial production; personalized AI film platform (customer photo → animated film starring them, with storefront, ordering and payment, as in anigibor.com); AI customer concierge; AI visual studio; 3D product showcase; interactive simulation; SEO; tracking & campaigns; content hub & blog; email automation; brand identity; marketing copywriting; multilingual site; Wix/WordPress migration.
 - Care plans: two monthly plans (Quiet and Growth) for hosting, security, updates and ongoing improvements.
+- Echo (Instagram and Facebook for businesses): Launch (one-off setup of the pages, design kit, first nine posts, one AI commercial), Steady (monthly: weekly content, an AI commercial every month, publishing, replies, Google Business profile, monthly report) and Full (adds Meta paid ads management, a shoot day at the business, two AI commercials a month and campaign landing pages). AI commercials are part of these packages. Ad budgets are paid directly to the platform.
 - Pricing: no public price list. Every project gets a written proposal with a fixed price after a short intro call.
 
 ## Flagship product
@@ -16,8 +17,8 @@
 - [Home (English)](https://hgpro.io/en.html)
 - [Portfolio](https://hgpro.io/work.html): six client websites with full case stories
 - [Archive](https://hgpro.io/archive/): websites, AI commercials, simulations and 3D
-- [Services (Hebrew)](https://hgpro.io/services/): website building, web design, landing pages, online stores, SEO, AI commercials, AI chatbot, Wix migration, brand identity
-- [Services (English)](https://hgpro.io/services/en/): custom web design, website design, landing pages, online stores, SEO, AI commercials, AI customer service agent, Wix and WordPress migration, brand identity
+- [Services (Hebrew)](https://hgpro.io/services/): website building, web design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses: content, shoot days and paid ads), AI chatbot, Wix migration, brand identity
+- [Services (English)](https://hgpro.io/services/en/): custom web design, website design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses), AI customer service agent, Wix and WordPress migration, brand identity
 - [Articles (Hebrew)](https://hgpro.io/blog/): practical guides for business owners on website costs, design, SEO and AI; new article every week
 
 ## Contact

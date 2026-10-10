@@ -111,15 +111,38 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
      lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
-               ('חבילות', '<p>אפשר להזמין פרסומת אחת, או חבילה שכוללת גם את הדרך אל הקהל: <strong>קמפיין</strong>, ארבע פרסומות של עד 30 שניות סביב מוצר או השקה אחת, עם העלאה לאינסטגרם ולפייסבוק לפי לוח זמנים ומענה למגיבים, ו<strong>עונה</strong>, שמונה פרסומות עם עולם ודמויות שחוזרים, סרט דגל של עד דקה, פוסטים וסטוריז בכל שבוע וניהול מודעות ממומנות. <a href="../#ads">לפירוט החבילות</a>.</p>'),
+               ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="../#ads">לפירוט החבילות</a>.</p>'),
                ('דוגמאות', '<p>בתיק העבודות שלוש פרסומות שהפקתי כך: <strong>אֶלֶף</strong>, פרסומת קולנועית לשמן זית מהגליל, <strong>HG · Unforgettable</strong>, פרסומת בושם עם דוגמנים, מכונית יוקרה וכביש צוקים בלילה, ו<strong>לפני שהעיר מתעוררת</strong>, סרט אקשן של דקה על מאפייה ושליח בתל אביב. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
                ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
      examples=[], films=True,
      faq=[('כמה זמן לוקחת הפקה?', 'בדרך כלל כמה ימים מאישור התסריט ועד סרט ערוך.'),
           ('אפשר להשתמש במוצר האמיתי שלי?', 'כן. מצלמים את המוצר כרפרנס, והוא מופיע בסרט כמו שהוא.'),
           ('האם זה נראה אמיתי?', 'הכלים של היום מגיעים לרמה קולנועית. אני בודק כל שוט ומצלם מחדש כל מה שנראה לא טבעי.')],
-     related=['website-building', 'web-design', 'landing-page', 'online-store'],
+     related=['social-media', 'website-building', 'landing-page', 'online-store'],
      service=('Video production', 'הפקת סרטון פרסומת'))
+
+page(slug='social-media', lang='he', name='הד: אינסטגרם ופייסבוק לעסקים',
+     title='הד: אינסטגרם ופייסבוק לעסקים, תוכן, ימי צילום ופרסום ממומן | HG Studio',
+     desc='מקימים ומנהלים לעסק את העמודים באינסטגרם ובפייסבוק: תוכן בכל שבוע, פרסומות AI, ימי צילום, פרסום ממומן ומענה ללקוחות. כדי שלקוחות יכירו אתכם, ויכתבו לכם.',
+     h1='הד: העסק שלכם באינסטגרם ובפייסבוק', kicker='שירות · רשתות',
+     lead='הרבה לקוחות מכירים עסק קודם ברשתות, ורק אחר כך באתר. "הד" הוא ליווי שמקים לכם עמודים מסודרים באינסטגרם ובפייסבוק, ממלא אותם בתוכן שעוצר את הגלילה, ומביא את מי שמתעניין עד לוואטסאפ. מאותן ידיים שבונות את האתרים ומפיקות את הפרסומות.',
+     sections=[('מה עושים', '<ul><li>בדיקה ותוכנית: איך העמודים שלכם נראים היום, מה עושים המתחרים, ומה הלקוחות שלכם מחפשים.</li><li>הקמה: ביו, כפתורי וואטסאפ וחיוג, היילייטס עם כריכות, ותבניות עיצוב בשפה של המותג.</li><li>תוכן בכל שבוע: רילס, פוסטים, קרוסלות וסטוריז, עם טקסטים בעברית ובאנגלית לפי הצורך.</li><li>פרסומות AI: סרטים קצרים עם עלילה, דמויות וקריינות, בלי צוות צילום.</li><li>ימי צילום בעסק: תמונות ווידאו אמיתיים של המקום, האנשים והמוצרים.</li><li>פרסום ממומן במטא: קהלים, מודעות, תקציב ומעקב אחרי כל פנייה.</li><li>מענה: תגובות, הודעות, ותשובה אוטומטית שמעבירה פניות לוואטסאפ.</li></ul>'),
+               ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="../#ads">לפירוט החבילות</a>.</p>'),
+               ('מה ההבדל', '<p>מי שבונה את האתר כבר מכיר את העסק, ולא צריך להסביר הכול מחדש. הפרסומות נוצרות בבינה מלאכותית ברמה קולנועית, ולכן אפשר להפיק סרט חדש בכל חודש בלי יום צילום. ובסוף כל חודש מסתכלים על פניות, הודעות ולחיצות לוואטסאפ, ולא רק על לייקים.</p>'),
+               ('חשוב לדעת', '<p>העמודים, החשבונות והתוכן שייכים לכם. כל תוכן עולה רק אחרי שאישרתם אותו. תקציב הפרסום הממומן משולם ישירות לפלטפורמה, בנפרד מהליווי. אי אפשר להבטיח מספר עוקבים, מכירות או פניות, אבל אפשר למדוד כל דבר ולשפר בכל חודש.</p>')],
+     examples=[], films=True,
+     faq=[('אני צריך להופיע מול המצלמה?', 'לא חייבים. אפשר לבנות את התוכן מפרסומות AI, מצילומים של המקום והמוצרים ומטקסטים. מי שמוכן להופיע, בונה אמון מהר יותר.'),
+          ('מתי רואים תוצאות?', 'אי אפשר להבטיח לוח זמנים. החודש הראשון מוקדש להקמה וללמידה, ומשם מודדים בכל חודש ומשנים את מה שלא עובד.'),
+          ('מה עם תקציב הפרסום הממומן?', 'התקציב נקבע יחד איתכם ומשולם ישירות למטא, בנפרד מהליווי. אפשר להתחיל בקטן, ולהגדיל רק את מה שמביא פניות.'),
+          ('מי מאשר את התוכן?', 'אתם. בתחילת כל חודש מקבלים תוכנית תוכן, ושום דבר לא עולה לפני שאישרתם.')],
+     process=[('שיחת היכרות', 'מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.'),
+              ('בדיקה ותוכנית', 'מסתכלים על העמודים שלכם ועל המתחרים, ובונים תוכנית תוכן.'),
+              ('הקמה', 'ביו, כפתורים, היילייטס, תבניות עיצוב ותשעה פוסטים ראשונים.'),
+              ('תוכן בכל שבוע', 'רילס, פוסטים וסטוריז, שעולים רק אחרי שאישרתם.'),
+              ('פרסום ומענה', 'תזמון, מענה להודעות, ופרסום ממומן בחבילה המלאה.'),
+              ('מדידה', 'בכל חודש: מה הביא פניות, ומה משנים בחודש הבא.')],
+     related=['ai-commercial', 'landing-page', 'ai-chatbot', 'website-building'],
+     service=('Social media management', 'הד: אינסטגרם ופייסבוק לעסקים'))
 
 page(slug='ai-chatbot', lang='he', name='נציג AI לשירות לקוחות',
      title='צ׳אטבוט AI לאתר: נציג שירות 24/7 | HG Studio',
@@ -180,14 +203,37 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
      h1='AI commercial production', kicker='Service · Video',
      lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HG Studio writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
      sections=[('What you get', '<ul><li>A short script and story that fits the brand.</li><li>Consistent characters, product and vehicles across the film.</li><li>Cinematic 1080p shots, an edit cut to the music, a color grade and widescreen framing.</li><li>Natural voiceover and legally licensed music.</li><li>30, 15 and 6 second versions for TV, YouTube and social.</li></ul>'),
-               ('Packages', '<p>Order a single commercial, or a package that also gets it to your audience: <strong>Campaign</strong>, four commercials up to 30 seconds around one product or launch, published to Instagram and Facebook on a schedule with replies to comments, and <strong>Season</strong>, eight commercials with a world and characters that return, a flagship film up to a minute long, weekly posts and Stories, and paid ads management. <a href="../../en.html#ads">See the packages</a>.</p>'),
+               ('Packages', '<p>Order a single commercial. If you want the commercials to reach an audience too, they come as part of <a href="social-media-for-business.html">Echo</a>: Instagram and Facebook done for you, with an AI commercial every month, publishing, replies and paid ads. <a href="../../en.html#ads">See the packages</a>.</p>'),
                ('Examples', '<p>The archive holds three commercials made this way: <strong>Elef</strong>, a cinematic spot for olive oil from the Galilee, <strong>HG · Unforgettable</strong>, a fragrance spot with models, a luxury car and a cliff road at night, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>'),
                ('Good to know', '<p>All characters and brands are fictional, and the music and voices are used legally. Each film is labeled as made with AI, as is customary today.</p>')],
      examples=[], films=True,
      faq=[('How long does a production take?', 'Usually a few days from script approval to a finished edit.'),
           ('Can my real product appear in it?', 'Yes. The product is photographed as a reference and appears as it is.')],
-     related=['web-design-studio', 'website-design', 'landing-page-design', 'ecommerce-store'],
+     related=['social-media-for-business', 'website-design', 'landing-page-design', 'ecommerce-store'],
      service=('Video production', 'AI commercial production'), alt='ai-commercial')
+
+page(slug='social-media-for-business', lang='en', name='Echo: Instagram and Facebook for businesses',
+     title='Echo: Instagram & Facebook for Businesses, Content, Shoot Days and Paid Ads | HG Studio',
+     desc='We set up and run your business pages on Instagram and Facebook: weekly content, AI commercials, shoot days, paid ads and replies to customers. So customers get to know you, and message you.',
+     h1='Echo: your business on Instagram and Facebook', kicker='Service · Social',
+     lead='Many customers meet a business on social media first, and only then on its website. Echo sets up tidy Instagram and Facebook pages, fills them with content that stops the scroll, and brings interested people all the way to WhatsApp. From the same hands that build the websites and make the commercials.',
+     sections=[('What we do', '<ul><li>Audit and plan: how your pages look today, what competitors do, and what your customers look for.</li><li>Setup: bio, WhatsApp and call buttons, highlights with covers, and design templates in your brand language.</li><li>Content every week: Reels, posts, carousels and Stories, with captions in English and Hebrew as needed.</li><li>AI commercials: short films with a story, characters and voice-over, without a film crew.</li><li>Shoot days at your business: real photos and video of the place, the people and the products.</li><li>Meta paid ads: audiences, ads, budget and tracking of every lead.</li><li>Replies: comments, messages, and an auto-reply that sends leads to WhatsApp.</li></ul>'),
+               ('Packages', '<p><strong>Launch</strong>: your pages set up or rebuilt, a design kit, the first nine posts and one AI commercial. <strong>Steady</strong>: content every week, an AI commercial every month, publishing, replies and a monthly report. <strong>Full</strong>: all of that, plus paid ads, a shoot day at your business, two AI commercials a month and a landing page for every campaign. <a href="../../en.html#ads">See the packages</a>.</p>'),
+               ('What is different', '<p>Whoever builds your website already knows the business, so nothing needs explaining twice. The commercials are made with AI at a cinematic level, so a new film every month needs no shoot day. And at the end of each month we look at leads, messages and WhatsApp clicks, not just likes.</p>'),
+               ('Good to know', '<p>The pages, accounts and content belong to you. Nothing goes live before you approve it. The paid ad budget is paid directly to the platform, separately. No one can promise a number of followers, sales or leads, but everything can be measured and improved every month.</p>')],
+     examples=[], films=True,
+     faq=[('Do I need to be on camera?', 'No. Content can be built from AI commercials, photos of the place and the products, and text. People who do appear tend to build trust faster.'),
+          ('When will I see results?', 'No one can promise a timeline. The first month goes into setup and learning, and from there we measure every month and change what does not work.'),
+          ('What about the paid ad budget?', 'You set it with us, and it is paid directly to Meta, separately from the service. You can start small and grow only what brings leads.'),
+          ('Who approves the content?', 'You do. At the start of each month you get a content plan, and nothing goes live before you approve it.')],
+     process=[('Intro call', 'We learn the business, the customers and the goal. No commitment.'),
+              ('Audit and plan', 'We look at your pages and your competitors, and build a content plan.'),
+              ('Setup', 'Bio, buttons, highlights, design templates and the first nine posts.'),
+              ('Content every week', 'Reels, posts and Stories, published only after you approve them.'),
+              ('Publish and reply', 'Scheduling, replies to messages, and paid ads in the Full package.'),
+              ('Measure', 'Every month: what brought leads, and what changes next month.')],
+     related=['ai-commercial-production', 'landing-page-design', 'ai-customer-agent', 'website-design'],
+     service=('Social media management', 'Echo: Instagram and Facebook for businesses'), alt='social-media')
 
 page(slug='website-design', lang='en', name='Website design',
      title='Custom Website Design, No Templates | HG Studio',
@@ -380,7 +426,7 @@ def render(p):
     home = D + ('/' if he else '/en.html'); hub = D + ('/services/' if he else '/services/en/')
     wa_text = T(f'היי חנוך, הגעתי מהעמוד "{p["name"]}" באתר. אשמח לשמוע פרטים.', f'Hi Hanoch, I found your "{p["name"]}" page. I would like to hear more.')
     wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(wa_text)
-    steps = PROCESS_HE if he else PROCESS_EN
+    steps = p.get('process') or (PROCESS_HE if he else PROCESS_EN)
     ex = ''
     if p.get('films'):
         films = [('film/elef', T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), T('פרסומת קולנועית · 60 שניות', 'Cinematic commercial · 60 seconds')),
@@ -481,7 +527,8 @@ HUB_IMG = {'website-building': 'work/thumbs/hub/gotovski.webp', 'web-design-stud
            'ai-commercial': 'work/thumbs/hub/ad.webp', 'ai-commercial-production': 'work/thumbs/hub/ad.webp',
            'ai-chatbot': 'work/thumbs/hub/ai.webp', 'ai-customer-agent': 'work/thumbs/hub/ai.webp',
            'wix-migration': 'work/thumbs/hub/after.webp', 'wix-wordpress-migration': 'work/thumbs/hub/after.webp',
-           'brand-identity': 'work/thumbs/hub/brand.webp', 'brand-identity-design': 'work/thumbs/hub/brand.webp'}
+           'brand-identity': 'work/thumbs/hub/brand.webp', 'brand-identity-design': 'work/thumbs/hub/brand.webp',
+           'social-media': 'work/thumbs/hub/echo.webp', 'social-media-for-business': 'work/thumbs/hub/echo.webp'}
 
 def hub(lang):
     he = lang == 'he'; up = '../' if he else '../../'; T = (lambda a, b: a) if he else (lambda a, b: b)

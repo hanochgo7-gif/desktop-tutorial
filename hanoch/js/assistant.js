@@ -17,7 +17,8 @@
     site: ['website-building.html', 'en/website-design.html'], landing: ['landing-page.html', 'en/landing-page-design.html'],
     store: ['online-store.html', 'en/ecommerce-store.html'], seo: ['seo.html', 'en/seo-services.html'],
     ad: ['ai-commercial.html', 'en/ai-commercial-production.html'], bot: ['ai-chatbot.html', 'en/ai-customer-agent.html'],
-    wix: ['wix-migration.html', 'en/wix-wordpress-migration.html'], brand: ['brand-identity.html', 'en/brand-identity-design.html']
+    wix: ['wix-migration.html', 'en/wix-wordpress-migration.html'], brand: ['brand-identity.html', 'en/brand-identity-design.html'],
+    social: ['social-media.html', 'en/social-media-for-business.html']
   };
   var sv = function (k) { return '/services/' + SV[k][EN ? 1 : 0]; };
   var work = function (id) { return (EN ? '/en-work.html#' : '/work.html#') + id; };
@@ -35,7 +36,7 @@
     biz: { q: T('איזה עסק יש לכם?', 'What kind of business do you have?'),
       o: [['store', T('חנות או מוצרים', 'A shop or products')], ['service', T('עסק שנותן שירות', 'A service business')], ['solo', T('עצמאי או פרילנסר', 'Freelancer')], ['company', T('חברה או תעשייה', 'A company')], ['other', T('משהו אחר', 'Something else')]] },
     goal: { q: T('מה הכי חשוב לכם עכשיו?', 'What matters most right now?'),
-      o: [['leads', T('יותר פניות', 'More leads')], ['sell', T('למכור אונליין', 'Sell online')], ['brand', T('מותג שזוכרים', 'A brand people remember')], ['ads', T('פרסומות וסרטים', 'Commercials and video')], ['unsure', T('עוד לא בטוח', 'Not sure yet')]] },
+      o: [['leads', T('יותר פניות', 'More leads')], ['sell', T('למכור אונליין', 'Sell online')], ['brand', T('מותג שזוכרים', 'A brand people remember')], ['social', T('לקוחות מאינסטגרם ופייסבוק', 'Customers from Instagram and Facebook')], ['ads', T('פרסומות וסרטים', 'Commercials and video')], ['unsure', T('עוד לא בטוח', 'Not sure yet')]] },
     now: { q: T('ומה יש לכם היום?', 'And what do you have today?'),
       o: [['none', T('עוד אין אתר', 'No site yet')], ['weak', T('יש אתר שלא מביא פניות', 'A site that brings no leads')], ['wix', T('אתר בוויקס או בוורדפרס', 'A Wix or WordPress site')], ['shop', T('חנות שצריך לשדרג', 'A store that needs an upgrade')], ['unsure', T('לא בטוח', 'Not sure')]] }
   };
@@ -43,7 +44,8 @@
 
   function recommend(a) {
     var r;
-    if (a.goal === 'ads') r = { s: 'ad', why: T('פרסומת קולנועית ב-AI: עלילה, דמויות, קריינות ומוזיקה, בלי יום צילום. אפשר פרסומת אחת, או חבילה שכוללת גם את הפרסום שלהן: קמפיין של ארבע או עונה של שמונה.', 'An AI cinematic commercial: story, characters, voiceover and music, with no shoot day. One film, or a package that also publishes them: a campaign of four or a season of eight.'), p: ['elef'], films: true };
+    if (a.goal === 'social') r = { s: 'social', why: T('"הד": מקימים ומנהלים לכם את העמודים באינסטגרם ובפייסבוק, עם תוכן בכל שבוע, פרסומות AI, ימי צילום ופרסום ממומן. שלוש חבילות: התנעה, קבוע ומלא.', 'Echo: we set up and run your Instagram and Facebook pages, with weekly content, AI commercials, shoot days and paid ads. Three packages: Launch, Steady and Full.'), p: ['elef'], films: true };
+    else if (a.goal === 'ads') r = { s: 'ad', why: T('פרסומת קולנועית ב-AI: עלילה, דמויות, קריינות ומוזיקה, בלי יום צילום. אפשר פרסומת אחת, ובחבילות "הד" הפרסומות מגיעות יחד עם פרסום, מענה ופרסום ממומן.', 'An AI cinematic commercial: story, characters, voiceover and music, with no shoot day. One film, or as part of the Echo packages, together with publishing, replies and paid ads.'), p: ['elef'], films: true };
     else if (a.goal === 'sell' || a.biz === 'store' || a.now === 'shop') r = { s: 'store', why: a.now === 'shop' ? T('שדרוג החנות שכבר יש לכם: מהירות, טלפון וחוויית קנייה, בלי להתחיל מאפס.', 'Upgrading the store you already have: speed, mobile and the buying experience, without starting over.') : T('חנות אונליין עם קטלוג, עגלה וסליקה, שנבנית סביב איך שאתם מוכרים.', 'An online store with a catalog, cart and payments, built around how you sell.'), p: ['allenbis', 'clinic'] };
     else if (a.now === 'wix') r = { s: 'wix', why: T('מעבר מוויקס או מוורדפרס לאתר מהיר שבנוי בשבילכם, ששומר על המקום בגוגל.', 'Moving from Wix or WordPress to a fast site built for you, keeping your place on Google.'), p: ['gotovski', 'allenbis'] };
     else if (a.goal === 'brand') r = { s: 'brand', why: T('זהות מותגית ואתר דגל (חבילת "חתימה"): קונספט, תנועה ותמונות ברמת סטודיו.', 'A brand identity and a flagship site (the "Signature" package): concept, motion and studio-grade images.'), p: ['gotovski', 'elef'] };
@@ -61,6 +63,7 @@
     [/נגיש|accessib/i, T('כל אתר נבנה לפי WCAG 2.2 ברמה AA ות"י 5568, עם תפריט נגישות. גם האתר הזה: ', 'Every site is built to WCAG 2.2 AA and the Israeli standard 5568, with an accessibility menu. This one too: ') + (EN ? '/en-accessibility.html' : '/accessibility.html'), 'diag'],
     [/פרטיות|מידע|נשמר|privacy|data|stored/i, T('השיחה הזו לא נשמרת באתר, ושום דבר לא מגיע לחנוך בלי שתלחצו. הפרטים: ', 'This chat isn’t stored on the site, and nothing reaches Hanoch unless you tap send. Details: ') + (EN ? '/en-privacy.html' : '/privacy.html'), 'diag'],
     [/וויקס|ויקס|וורדפרס|wix|wordpress/i, T('אפשר לעבור מוויקס או מוורדפרס לאתר מהיר שבנוי בשבילכם, ולשמור על המקום בגוגל: ', 'You can move from Wix or WordPress to a fast site built for you and keep your place on Google: ') + sv('wix'), 'brief'],
+    [/אינסטגרם|פייסבוק|טיקטוק|רשתות|סושיאל|שיווק|ממומן|קמפיין|עוקבים|instagram|facebook|tiktok|social|marketing|paid ads|followers/i, T('"הד" הוא ליווי שמקים ומנהל לעסק את העמודים באינסטגרם ובפייסבוק: תוכן בכל שבוע, פרסומות AI, ימי צילום ופרסום ממומן. החבילות והפירוט: ', 'Echo sets up and runs your Instagram and Facebook pages: weekly content, AI commercials, shoot days and paid ads. Packages and details: ') + sv('social'), 'brief'],
     [/פרסומת|סרט|וידאו|commercial|video|film|\bad\b/i, T('חנוך מפיק פרסומות קולנועיות ב-AI, עם עלילה, דמויות, קריינות ומוזיקה, ובחבילות גם מעלה אותן לאינסטגרם ולפייסבוק ועונה למגיבים. אפשר לראות שלוש בארכיון: ', 'Hanoch makes cinematic AI commercials with a story, characters, voiceover and music, and in the packages he also publishes them to Instagram and Facebook and answers comments. Three are in the archive: ') + (EN ? '/archive/en.html' : '/archive/'), 'brief'],
     [/חנות|למכור|store|shop|ecommerce|sell/i, T('חנות אונליין נבנית סביב איך שאתם מוכרים: קטלוג, עגלה, משלוחים וסליקה. דוגמה מהתיק: ', 'An online store is built around how you sell: catalog, cart, shipping and payments. An example: ') + work('allenbis'), 'brief'],
     [/גוגל|קידום|seo|google/i, T('קידום אורגני כולל מחקר מילים, עמוד לכל שירות, סימון לגוגל ופרופיל Google Business. לא מבטיחים מקום ראשון, אבל בונים את כל מה שגוגל צריך: ', 'SEO covers keyword research, a page per service, markup and a Google Business profile. No one can promise first place, but everything Google needs gets built: ') + sv('seo'), 'brief'],
@@ -258,7 +261,7 @@
     if (a.biz) lines.push(T('העסק: ', 'Business: ') + label('biz', a.biz));
     if (a.goal) lines.push(T('מה חשוב עכשיו: ', 'What matters now: ') + label('goal', a.goal));
     if (a.now) lines.push(T('מה יש היום: ', 'What we have today: ') + label('now', a.now));
-    var SVN = { ad: T('פרסומת ב-AI', 'AI commercial'), site: T('אתר לעסק', 'A business site'), landing: T('דף נחיתה (נוכחות)', 'A landing page (Presence)'), store: T('חנות אונליין', 'An online store'), wix: T('מעבר מוויקס או מוורדפרס', 'Moving from Wix or WordPress'), brand: T('זהות מותגית ואתר דגל', 'Brand identity and a flagship site') };
+    var SVN = { social: T('הד: אינסטגרם ופייסבוק לעסק', 'Echo: Instagram and Facebook'), ad: T('פרסומת ב-AI', 'AI commercial'), site: T('אתר לעסק', 'A business site'), landing: T('דף נחיתה (נוכחות)', 'A landing page (Presence)'), store: T('חנות אונליין', 'An online store'), wix: T('מעבר מוויקס או מוורדפרס', 'Moving from Wix or WordPress'), brand: T('זהות מותגית ואתר דגל', 'Brand identity and a flagship site') };
     if (a.goal) lines.push(T('המצפן הציע: ', 'Compass suggested: ') + SVN[recommend(a).s]);
     if (extra) lines.push(extra);
     return lines.join('\n');

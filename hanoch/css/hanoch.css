@@ -849,6 +849,11 @@ html[lang="en"] .promises span { font-family: var(--f-mono); font-size: var(--fs
 .care-plan .tp-num { font-size: var(--fs-d4); }
 .care-plan .tp-per { margin-inline-start: .3rem; }
 .care-star { border-color: rgba(255, 79, 26, .55); background: linear-gradient(180deg, rgba(255, 79, 26, .07), transparent 70%); }
+/* הד: שלוש חבילות, אז הכותרת עולה מעל הכרטיסים במקום לשבת לצידם */
+.care-wide { grid-template-columns: 1fr; }
+.care-wide .addons-title { max-width: 44ch; }
+.care-wide .care-plans { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.care-plan .tier-time { margin-top: -.4rem; }
 .pricing-note { grid-column: 1 / -1; color: var(--fg-dim); margin-top: .6rem; }
 
 /* ---------- שאלות נפוצות ---------- */

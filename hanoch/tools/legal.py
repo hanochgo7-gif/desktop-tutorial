@@ -266,6 +266,11 @@ TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העס
   <h2>בעלות על מה שאני בונה</h2>
   <p>אחרי התשלום המלא, האתר, הקוד, הדומיין והתוכן שנבנו לפרויקט שייכים ללקוח, לפי ההצעה או ההסכם. רכיבים של צד שלישי, כמו גופנים, ספריות קוד וכלים, ממשיכים להיות כפופים לרישיונות שלהם.</p>
 
+  <h2 id="echo">ליווי באינסטגרם ובפייסבוק ("הד")</h2>
+  <p>בחבילות "הד" העמודים, החשבונות והתוכן שייכים ללקוח. הגישה שלי אליהם היא כשותף או כמנהל, לפי ההרשאות שהלקוח נותן, והוא יכול לבטל אותן בכל עת. תוכן עולה לפרסום רק אחרי שהלקוח אישר אותו.</p>
+  <p>תקציב הפרסום הממומן משולם על ידי הלקוח ישירות לפלטפורמה (למשל מטא), ואינו חלק מהמחיר שבהצעה. הודעות וואטסאפ נשלחות רק לאנשים שהסכימו לקבל אותן, כפי שהחוק דורש. בימי צילום, הלקוח אחראי לקבל הסכמה מעובדים ומלקוחות שמופיעים בצילומים.</p>
+  <p>אי אפשר להבטיח מספר עוקבים, צפיות, פניות או מכירות, כי הם תלויים גם בפלטפורמות, בשוק ובעסק עצמו. היקף העבודה, משך ההתקשרות ותנאי הביטול נקבעים בהצעה.</p>
+
   <h2>זכויות יוצרים באתר</h2>
   <p>העיצוב, הקוד, הטקסטים, התמונות והסרטונים באתר שייכים ל-HG Studio, אלא אם צוין אחרת. הלוגואים, צילומי המסך והתכנים של לקוחות בתיק העבודות שייכים ללקוחות, ומוצגים כדוגמאות לעבודה שעשיתי עבורם. אין להעתיק או להשתמש בתכני האתר בלי אישור בכתב.</p>
 
@@ -307,6 +312,11 @@ TERMS_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business of 
 
   <h2>Ownership of what I build</h2>
   <p>After full payment, the site, code, domain and content built for the project belong to the client, as set in the proposal or agreement. Third-party components, such as fonts, code libraries and tools, remain subject to their own licenses.</p>
+
+  <h2 id="echo">Instagram and Facebook service ("Echo")</h2>
+  <p>In the Echo packages, the pages, accounts and content belong to the client. My access is as a partner or admin, through permissions the client grants and can revoke at any time. Content is published only after the client approves it.</p>
+  <p>The paid ad budget is paid by the client directly to the platform (for example Meta), and is not part of the price in the proposal. WhatsApp messages go only to people who agreed to receive them, as the law requires. On shoot days, the client is responsible for getting consent from staff and customers who appear in the footage.</p>
+  <p>No one can promise a number of followers, views, leads or sales, because they also depend on the platforms, the market and the business itself. The scope of work, the length of the engagement and the cancellation terms are set in the proposal.</p>
 
   <h2>Copyright on the site</h2>
   <p>The design, code, text, images and videos on the site belong to HG Studio unless stated otherwise. Client logos, screenshots and content in the portfolio belong to the clients and are shown as examples of work I did for them. Do not copy or use the site's content without written permission.</p>
