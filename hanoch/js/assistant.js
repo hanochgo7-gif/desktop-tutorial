@@ -1,4 +1,4 @@
-/* המצפן: העוזר הדיגיטלי של HG Studio, להתייעצות ולמציאת דברים באתר. בלי תלויות.
+/* המצפן: היועץ הדיגיטלי של HG Studio, להתייעצות ולמציאת דברים באתר. בלי תלויות.
    שני מצבים: מסלול מודרך שעובד תמיד (שאלות קצרות, המלצה, הוכחה מהתיק ובריף לוואטסאפ),
    ושאלות חופשיות שעוברות לפונקציה /api/chat (Claude). אם השרת לא זמין, המסלול המודרך ממשיך לעבוד.
    השיחה נשמרת רק בלשונית הזו (sessionStorage) ונמחקת כשסוגרים אותה. שום דבר לא נשלח לחנוך בלי לחיצה של הגולש. */
@@ -57,7 +57,7 @@
   var FAQ = [
     [/מחיר|עולה|עלות|תקציב|כמה זה|זול|יקר|price|cost|budget|expensive|cheap|how much/i, T('המחיר נקבע לפי מה שהעסק צריך, וההצעה מגיעה בכתב, עם מחיר סגור, לפני שמשהו מתחיל. רוצים שאכין לחנוך בריף קצר כדי שתקבלו הצעה מדויקת?', 'The price depends on what your business needs, and you get a written, fixed-price proposal before anything starts. Want me to prepare a short brief for Hanoch so you get an accurate quote?'), 'brief'],
     [/כמה זמן|מתי|זמנים|לוח זמנים|how long|when|timeline/i, T('דף אחד (נוכחות) עולה לאוויר תוך עד שבוע, ואתר מלא תוך עד שבועיים מהשיחה. פרסומת לוקחת בדרך כלל כמה ימים מאישור התסריט. מה אתם צריכים?', 'A one-page site (Presence) goes live within a week, and a full site within two weeks of the first call. A commercial usually takes a few days from script approval. What do you need?'), 'diag'],
-    [/בן אדם|אדם אמיתי|רובוט|בוט|מי אתה|human|robot|bot|who are you|real person/i, T('אני המצפן, עוזר דיגיטלי ולא בן אדם. אני עוזר להתייעץ על מה שמתאים לעסק שלכם, למצוא דברים באתר, ומכין לחנוך בריף. רוצים לדבר איתו ישירות? הוא בוואטסאפ.', 'I’m Compass, a digital assistant, not a person. I help you think through what fits your business, find things on the site, and prepare a brief for Hanoch. Want to talk to him directly? He’s on WhatsApp.'), 'wa'],
+    [/בן אדם|אדם אמיתי|רובוט|בוט|מי אתה|human|robot|bot|who are you|real person/i, T('אני המצפן, יועץ דיגיטלי ולא בן אדם. אני עוזר להתייעץ על מה שמתאים לעסק שלכם, למצוא דברים באתר, ומכין לחנוך בריף. רוצים לדבר איתו ישירות? הוא בוואטסאפ.', 'I’m Compass, a digital advisor, not a person. I help you think through what fits your business, find things on the site, and prepare a brief for Hanoch. Want to talk to him directly? He’s on WhatsApp.'), 'wa'],
     [/נגיש|accessib/i, T('כל אתר נבנה לפי WCAG 2.2 ברמה AA ות"י 5568, עם תפריט נגישות. גם האתר הזה: ', 'Every site is built to WCAG 2.2 AA and the Israeli standard 5568, with an accessibility menu. This one too: ') + (EN ? '/en-accessibility.html' : '/accessibility.html'), 'diag'],
     [/פרטיות|מידע|נשמר|privacy|data|stored/i, T('השיחה הזו לא נשמרת באתר, ושום דבר לא מגיע לחנוך בלי שתלחצו. הפרטים: ', 'This chat isn’t stored on the site, and nothing reaches Hanoch unless you tap send. Details: ') + (EN ? '/en-privacy.html' : '/privacy.html'), 'diag'],
     [/וויקס|ויקס|וורדפרס|wix|wordpress/i, T('אפשר לעבור מוויקס או מוורדפרס לאתר מהיר שבנוי בשבילכם, ולשמור על המקום בגוגל: ', 'You can move from Wix or WordPress to a fast site built for you and keep your place on Google: ') + sv('wix'), 'brief'],
@@ -69,14 +69,14 @@
 
   /* ---------- סגנון ---------- */
   var CSS =
-    '.ht-btn{position:fixed;z-index:124;bottom:78px;inset-inline-end:18px;display:flex;align-items:center;gap:.55rem;height:48px;padding:0 1rem 0 .4rem;border-radius:99px;' +
-    'background:var(--ink,#0a0a0b);color:var(--fg,#ede8de);border:1px solid rgba(237,232,222,.42);box-shadow:0 10px 25px rgba(0,0,0,.4);font:500 var(--fs-s,.9rem)/1 var(--f-body,system-ui,sans-serif);cursor:pointer}' +
-    '[dir=rtl] .ht-btn{padding:0 .4rem 0 1rem}' +
-    '.ht-btn:hover{border-color:var(--signal,#ff4f1a)}.ht-btn:focus-visible,.ht-dlg :focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
-    '.ht-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:700 1.2rem/1 var(--f-body,system-ui,sans-serif)}' +
-    '.ht-hint{position:fixed;z-index:124;bottom:136px;inset-inline-end:18px;max-width:250px;padding:.7rem .9rem;border-radius:14px;background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);font:var(--fs-s,.9rem)/1.45 var(--f-body,system-ui);box-shadow:0 14px 30px rgba(0,0,0,.45)}' +
+    '.ht-btn{position:fixed;z-index:124;bottom:18px;inset-inline-start:18px;display:flex;align-items:center;gap:.65rem;min-height:56px;padding:.35rem .45rem;padding-inline-end:1.15rem;border-radius:99px;' +
+    'background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);border:0;box-shadow:0 12px 30px rgba(0,0,0,.45);font-family:var(--f-body,system-ui,sans-serif);text-align:start;cursor:pointer;transition:box-shadow .2s,transform .15s}' +
+    '.ht-btn:hover{box-shadow:0 0 0 2px var(--signal,#ff4f1a),0 12px 30px rgba(0,0,0,.45)}.ht-btn:active{transform:scale(.98)}.ht-btn:focus-visible,.ht-dlg :focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
+    '.ht-lbl{display:grid;gap:3px}.ht-lbl b{font:700 1rem/1.1 var(--f-body,system-ui,sans-serif)}.ht-lbl small{font:500 var(--fs-xs,.8125rem)/1.1 var(--f-body,system-ui,sans-serif);color:rgba(10,10,11,.68)}' +
+    '.ht-mark{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:700 1.2rem/1 var(--f-body,system-ui,sans-serif)}' +
+    '.ht-hint{position:fixed;z-index:124;bottom:86px;inset-inline-start:18px;max-width:250px;padding:.7rem .9rem;border-radius:14px;background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);font:var(--fs-s,.9rem)/1.45 var(--f-body,system-ui);box-shadow:0 14px 30px rgba(0,0,0,.45)}' +
     '.ht-hint button{margin-inline-start:.4rem;min-width:28px;min-height:28px;border-radius:50%;background:transparent;color:inherit;border:0;cursor:pointer;font-size:1rem}' +
-    '.ht-dlg{position:fixed;inset:auto;bottom:18px;inset-inline-end:18px;margin:0;width:min(400px,calc(100vw - 36px));height:min(640px,calc(100dvh - 36px));max-height:none;max-width:none;padding:0;border:1px solid rgba(237,232,222,.2);border-radius:22px;' +
+    '.ht-dlg{position:fixed;inset:auto;bottom:18px;inset-inline-start:18px;margin:0;width:min(400px,calc(100vw - 36px));height:min(640px,calc(100dvh - 36px));max-height:none;max-width:none;padding:0;border:1px solid rgba(237,232,222,.2);border-radius:22px;' +
     'background:var(--ink-2,#121214);color:var(--fg,#ede8de);box-shadow:0 30px 70px rgba(0,0,0,.6);font-family:var(--f-body,system-ui,sans-serif);overflow:hidden}' +
     '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(10,10,11,.45)}' +
     '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid rgba(237,232,222,.14)}' +
@@ -99,8 +99,8 @@
     '.ht-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:.65rem .85rem;border-radius:14px;border:1px solid rgba(237,232,222,.42);background:var(--ink,#0a0a0b);color:inherit;font:inherit;font-size:1rem;line-height:1.4}' +
     '.ht-send{min-width:64px;min-height:44px;border-radius:14px;border:0;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:600 var(--fs-s,.9rem)/1 var(--f-body,system-ui);cursor:pointer}' +
     '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-foot a{color:inherit}' +
-    '@media (max-width:600px){.ht-btn{bottom:78px}.ht-btn .ht-lbl{display:none}.ht-btn{width:48px;padding:0;justify-content:center}' +
-    '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-hint{bottom:134px}}' +
+    '@media (max-width:600px){.ht-btn{min-height:52px;gap:.55rem;padding-inline-end:1rem}.ht-btn .ht-mark{width:40px;height:40px}' +
+    '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-hint{inset-inline-end:18px}}' +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}';
 
   var btn, dlg, log, input, sr, hint, opener;
@@ -113,18 +113,18 @@
     btn = document.createElement('button');
     btn.type = 'button'; btn.className = 'ht-btn';
     btn.setAttribute('aria-haspopup', 'dialog');
-    btn.setAttribute('aria-label', T('שיחה עם המצפן, העוזר הדיגיטלי', 'Chat with Compass, the digital assistant'));
-    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l3.2 9L12 21l-3.2-9z" fill="#0a0a0b"/><path d="M12 3l3.2 9H8.8z" fill="#ede8de"/><circle cx="12" cy="12" r="1.6" fill="#ff4f1a"/></svg></span><span class="ht-lbl" aria-hidden="true">' + T('שאלו את המצפן', 'Ask Compass') + '</span>';
+    btn.setAttribute('aria-label', T('יועץ דיגיטלי, המצפן: פתיחת שיחה', 'Digital advisor, Compass: open chat'));
+    btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><span class="ht-lbl" aria-hidden="true"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b><small>' + T('המצפן · עונה מיד', 'Compass · replies instantly') + '</small></span>';
     btn.addEventListener('click', open);
     document.body.appendChild(btn);
   }
-  // הכפתור יושב תמיד מעל כפתור הנגישות, שגובהו משתנה בין העמודים (בעמודי השירות בטלפון יש פס וואטסאפ בתחתית)
+  // הכפתור יושב באותה שורה עם כפתור הנגישות, בצד השני. הגובה משתנה בין העמודים (בעמודי השירות בטלפון יש פס וואטסאפ בתחתית)
   function place() {
     var a = document.querySelector('.a11y__btn'), r = a && a.getBoundingClientRect();
     if (!r || !r.height) return;
-    var b = Math.round(innerHeight - r.top + 10);
+    var b = Math.max(12, Math.round(innerHeight - r.bottom - (btn.offsetHeight - r.height) / 2));
     btn.style.bottom = b + 'px';
-    if (hint) hint.style.bottom = (b + 58) + 'px';
+    if (hint) hint.style.bottom = (b + btn.offsetHeight + 12) + 'px';
   }
 
   function panel() {
@@ -133,8 +133,8 @@
     dlg.className = 'ht-dlg';
     dlg.setAttribute('aria-labelledby', 'ht-title');
     dlg.innerHTML =
-      '<div class="ht-head"><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3l3.2 9L12 21l-3.2-9z" fill="#0a0a0b"/><path d="M12 3l3.2 9H8.8z" fill="#ede8de"/><circle cx="12" cy="12" r="1.6" fill="#ff4f1a"/></svg></span><h2 id="ht-title">' + T('המצפן של HG Studio', 'Compass, the HG Studio assistant') +
-      '<small>' + T('עוזר דיגיטלי, לא בן אדם', 'A digital assistant, not a person') + '</small></h2>' +
+      '<div class="ht-head"><span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><h2 id="ht-title">' + T('המצפן · יועץ דיגיטלי', 'Compass · digital advisor') +
+      '<small>' + T('לא בן אדם · עונה מיד, ומעביר לחנוך כשצריך', 'Not a person · replies instantly, hands over to Hanoch when needed') + '</small></h2>' +
       '<button type="button" class="ht-x" aria-label="' + T('סגירת השיחה', 'Close chat') + '">✕</button></div>' +
       '<div class="ht-log"></div>' +
       '<p class="sr-only ht-sr" aria-live="polite"></p>' +
@@ -167,7 +167,7 @@
     [T('למצוא משהו באתר', 'Find something on the site'), function () { say(T('מה תרצו למצוא? למשל: עמוד שירות, עבודה מסוימת, נגישות או מדיניות הפרטיות. כתבו כאן למטה.', 'What would you like to find? For example a service page, a specific project, accessibility or the privacy policy. Type it below.')); input.focus(); }]
   ];
   function greet() {
-    say(T('היי, אני המצפן, העוזר הדיגיטלי של HG Studio (לא בן אדם). אפשר להתייעץ איתי על מה שמתאים לעסק שלכם, לבקש שאמצא לכם משהו באתר, או להכין לחנוך בריף מוכן לוואטסאפ.', 'Hi, I’m Compass, the HG Studio digital assistant (not a person). Think through what fits your business with me, ask me to find something on the site, or let me prepare a ready brief for Hanoch on WhatsApp.'));
+    say(T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). אפשר להתייעץ איתי על מה שמתאים לעסק שלכם, לבקש שאמצא לכם משהו באתר, או להכין לחנוך בריף מוכן לוואטסאפ.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Think through what fits your business with me, ask me to find something on the site, or let me prepare a ready brief for Hanoch on WhatsApp.'));
     chips(START);
   }
 
