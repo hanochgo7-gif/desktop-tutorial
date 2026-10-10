@@ -83,9 +83,11 @@ module.exports = async (req, res) => {
   try {
     upstream = await fetch((process.env.ANTHROPIC_BASE_URL || 'https://api.anthropic.com') + '/v1/messages', {
       method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+      // בטא של מודל גיבוי: אם מסנן הבטיחות דוחה בטעות שאלה תמימה, השרת עונה במודל אחר במקום לסרב
+      headers: { 'content-type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-beta': 'server-side-fallback-2026-07-01' },
       body: JSON.stringify({
-        model: MODEL, max_tokens: 600, stream: true,
+        // מאמץ נמוך: תשובות צ'אט קצרות בלי חשיבה ארוכה מראש. התקרה גבוהה כדי שתשובה לעולם לא תיחתך באמצע
+        model: MODEL, max_tokens: 4000, stream: true, output_config: { effort: 'low' }, fallbacks: 'default',
         // הידע ארוך וקבוע, ולכן נשמר במטמון בין פניות (זול ומהיר יותר)
         system: [
           { type: 'text', text: SYSTEM + '\n\n<site_knowledge>\n' + KNOWLEDGE + '\n</site_knowledge>', cache_control: { type: 'ephemeral' } },
