@@ -1179,3 +1179,9 @@ h1, h2, h3, h4, p, li, dt, dd, strong, .btn, .chip span, .menu-t { overflow-wrap
 .menu-foot a, .footer-col a { overflow-wrap: anywhere; }
 .btn { text-align: center; }
 .btn, .chip span { line-height: 1.2; padding-block: 8px; }
+
+/* ---------- גלילה חלקה (Lenis) ---------- */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }

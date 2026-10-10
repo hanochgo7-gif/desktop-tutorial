@@ -2,6 +2,44 @@
   const header = document.querySelector('[data-header]');
   const hero = document.querySelector('[data-hero]');
   const sticky = document.querySelector('.sticky-cta');
+  const root = document.documentElement;
+
+  // גלילה חלקה בגלגלת העכבר (Lenis, הקובץ מאוחסן באתר, בלי צד שלישי).
+  // במגע נשארת הגלילה הרגילה של המכשיר. לא פועלת עם "הפחתת תנועה" או "עצירת אנימציות".
+  let lenis = null;
+  const motionOff = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const smooth = () => {
+    const want = !!window.Lenis && !motionOff.matches && !root.classList.contains('a11y-still');
+    if (want && !lenis) {
+      lenis = new window.Lenis({
+        autoRaf: true,
+        lerp: 0.1,
+        allowNestedScroll: true,
+        prevent: (node) => node.matches('.menu, .a11y-panel'),
+      });
+      if (document.body.classList.contains('menu-open')) lenis.stop();
+    } else if (!want && lenis) {
+      lenis.destroy();
+      lenis = null;
+    }
+  };
+  smooth();
+  motionOff.addEventListener('change', smooth);
+  new MutationObserver(smooth).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+  // קישור לסעיף באותו דף: גלילה חלקה, והפוקוס עובר לסעיף (כמו בקישור רגיל) למי שמשתמש במקלדת
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!lenis || !a || a.classList.contains('skip') || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const id = decodeURIComponent(a.getAttribute('href').slice(1));
+    const target = id && document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    lenis.scrollTo(target);
+    history.pushState(null, '', '#' + id);
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
 
   // כותרת עליונה מקבלת רקע אחרי גלילה; כפתור וואטסאפ צף מופיע אחרי ה־hero
   // הכפתור הצף מוסתר כשהסגירה או הפוטר על המסך (יש שם כבר כפתור), כדי לא לכסות תוכן
@@ -36,6 +74,7 @@
     document.body.classList.toggle('menu-open', open);
     document.querySelectorAll('main, footer, .sticky-cta').forEach((el) => { el.inert = open; });
     document.body.style.overflow = open ? 'hidden' : '';
+    if (lenis) { if (open) lenis.stop(); else lenis.start(); }
     if (open) { const first = menu.querySelector('a, button'); if (first) first.focus({ preventScroll: true }); }
   };
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));

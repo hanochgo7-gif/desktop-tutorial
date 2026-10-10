@@ -1295,7 +1295,9 @@ def main():
         html = re.sub(r'\n<script>try\{var a=JSON\.parse\(localStorage\.getItem\(\'ams_a11y\'\).*?</script>', '', html)
         html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + A11Y_HEAD, 1)
         html = re.sub(r'<script>window\.AMS_ANALYTICS=.*?</script>\n', '', html)
-        html = re.sub(r'(<script src="[^"]*js/ams\.js" defer></script>)', lambda m: analytics_tag() + m.group(1), html, count=1)
+        html = re.sub(r'<script src="[^"]*js/vendor/lenis\.min\.js" defer></script>\n', '', html)
+        html = re.sub(r'(<script src="([^"]*)js/ams\.js" defer></script>)',
+                      lambda m: analytics_tag() + f'<script src="{m.group(2)}js/vendor/lenis.min.js" defer></script>\n' + m.group(1), html, count=1)
         with open(fp, 'w', encoding='utf-8') as f:
             f.write(seo_finalize(html, rel) if index else html)
         if index:
