@@ -70,6 +70,7 @@ TPL = read('product.html')
 CHROME_TOP = TPL[TPL.index('<a class="skip"'):TPL.index('</header>') + len('</header>')]
 CHROME_BOTTOM = TPL[TPL.index('<footer class="site-footer">'):TPL.index('<div class="toast"')]
 CHROME_BOTTOM += '<div class="toast" id="toast" role="status" aria-live="polite"></div>\n'
+CHROME_BOTTOM += '<aside class="ai-credit" aria-label="קרדיט">האתר כולו נוצר בבינה מלאכותית על ידי HG Studio</aside>\n'
 
 
 def head(title, desc, path, og_type='website', image='images/og.jpg', ld=None, extra=''):

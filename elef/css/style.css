@@ -33,6 +33,7 @@
   --max: 1320px;
   --radius: 3px;
   --header-h: 72px;
+  --credit-h: calc(28px + env(safe-area-inset-bottom, 0px)); /* פס הקרדיט הקבוע בתחתית */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -602,3 +603,15 @@ legend { font-family: var(--display); font-size: var(--t-l); font-weight: 500; m
 .article__body ol.steps-list { padding-inline-start: 1.4em; margin: 0 0 1.2em; }
 .article__body ol.steps-list li { margin-bottom: .6em; padding-inline-start: 4px; }
 .article__body ol.steps-list li::marker { font-family: var(--display); color: var(--leaf); }
+
+/* ---------- קרדיט קבוע: מופיע בכל רגע של הביקור, מעל הכול, ולא מסתיר תוכן ---------- */
+body { padding-bottom: var(--credit-h); }
+.ai-credit {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 100; margin: 0;
+  min-height: var(--credit-h); padding: 5px 16px calc(5px + env(safe-area-inset-bottom, 0px));
+  background: var(--dawn); color: var(--on-dark); border-top: 1px solid rgba(233, 235, 228, .18);
+  font-size: .8125rem; line-height: 18px; text-align: center; letter-spacing: .01em;
+}
+.drawer__panel { bottom: var(--credit-h); }
+.toast { bottom: calc(var(--credit-h) + 16px); }
+.modal { padding-bottom: calc(var(--gutter) + var(--credit-h)); }
