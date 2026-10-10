@@ -516,6 +516,79 @@
   .pill .btn { min-height: 42px; padding: 0 18px; font-size: .95rem; border-radius: 999px; }
   @media (max-width: 760px) { .pill { display: none; } }
 
+  /* ---------- גרסת טלפון ---------- */
+  .live, .dots { display: none; }
+  @media (max-width: 960px) {
+    /* פתיח: הכרטיס עם הגרף עולה מתחת לכותרת */
+    .hero-grid { gap: 22px; }
+    .hero h1 { order: 0; font-size: clamp(2.2rem, 9.4vw, 3rem); }
+    .gap-card { order: 1; padding: 18px 18px 14px; border-radius: 22px; }
+    .hero-copy { order: 2; }
+    .gap-figure strong { font-size: clamp(2.3rem, 11vw, 3rem); }
+    .gap-figure span { font-size: .95rem; }
+    .gap-chart { margin: 12px 0 6px; }
+    .hero .lead { font-size: 1.05rem; margin-bottom: 22px; }
+    .hero-cta .btn { flex: 1 1 100%; }
+    .promises { margin-top: 22px; gap: 8px 18px; font-size: .92rem; }
+    .banks { margin-top: 36px; font-size: .88rem; gap: 6px 16px; }
+
+    /* תוצאה חיה שנשארת למעלה בזמן שמזיזים את הסמנים */
+    .live {
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 12px;
+      position: sticky; top: calc(var(--bar) + 76px + env(safe-area-inset-top, 0px) + 8px); z-index: 5;
+      margin: 0 0 22px; padding: 12px 16px; border-radius: 16px;
+      background: var(--ink); color: var(--paper); box-shadow: 0 14px 30px -14px rgba(12,39,49,.55);
+    }
+    .live-k { font-size: .82rem; color: rgba(246,247,244,.7); }
+    .live b { grid-row: span 2; font-size: 1.55rem; font-weight: 600; color: var(--keep-l); letter-spacing: -0.01em; }
+    .live-s { font-size: .86rem; font-weight: 500; }
+    .live-dark b { color: var(--cost-l); }
+    .goal { display: grid; width: 100%; }
+
+    /* בדיקה עצמית: שורה אחת לכל סימן */
+    .signals { gap: 8px; }
+    .signal { padding: 14px 16px; gap: 14px; border-radius: 14px; align-items: center; }
+    .signal b { font-size: 1rem; margin: 0; }
+    .signal span span { display: none; }
+    .signal .box { width: 24px; height: 24px; margin: 0; }
+    .verdict { padding: 22px; border-radius: 20px; }
+  }
+  @media (max-width: 760px) {
+    /* התהליך: כרטיסים להחלקה */
+    .steps {
+      display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+      margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 6px; scroll-padding-inline: var(--gutter); scrollbar-width: none;
+    }
+    .steps::-webkit-scrollbar { display: none; }
+    .steps::before, .steps::after { display: none; }
+    .step {
+      flex: 0 0 82%; scroll-snap-align: start; padding: 22px 20px 10px; border-radius: 22px;
+      background: rgba(220,233,234,.06); border: 1px solid rgba(220,233,234,.14);
+    }
+    .step::before { position: static; margin-bottom: 16px; }
+    .dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+    .dots i { width: 8px; height: 8px; border-radius: 4px; background: rgba(220,233,234,.25); transition: width .25s, background-color .25s; }
+    .dots i.on { width: 24px; background: var(--keep-l); }
+
+    /* הדוח נכנס לרוחב המסך */
+    .doc { padding: 16px 14px; font-size: .84rem; }
+    .doc table { min-width: 0; }
+    .doc th, .doc td { padding: 9px 4px; }
+    .doc .c-idx { display: none; }
+    .doc-head span { font-size: .75rem; }
+    .pin { width: 18px; height: 18px; font-size: .68rem; margin-inline-start: 3px; }
+
+    /* סרגל פעולה צף ומעוגל, כמו באפליקציה */
+    .dock { inset: auto 12px calc(12px + env(safe-area-inset-bottom, 0px)); padding: 8px; border-radius: 20px; background: rgba(12,39,49,.88); box-shadow: 0 18px 40px -12px rgba(12,39,49,.55); transform: translateY(140%); transition: transform .45s cubic-bezier(.2,1.3,.4,1); }
+    .dock .btn-keep { background: var(--keep-l); color: var(--ink); border-radius: 14px; }
+    .dock .call { border-color: rgba(246,247,244,.35); color: var(--paper); border-radius: 14px; }
+    footer { padding-bottom: 130px; }
+  }
+  @media (hover: none) {
+    .btn:active, .signal:active, .opts button:active, .scen button:active, .svc a:active, .goal button:active { transform: scale(.97); }
+    .btn, .signal, .opts button, .scen button, .svc a, .goal button { transition: transform .12s, background-color .18s, border-color .18s, color .18s; -webkit-tap-highlight-color: transparent; }
+  }
+
   /* ---------- נגישות ---------- */
   .a11y-btn { position: fixed; inset-inline-end: 16px; bottom: 16px; z-index: 45; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(12,39,49,.3); }
   .a11y-btn svg { width: 28px; height: 28px; }
@@ -653,6 +726,7 @@
 
       <div class="calc-grid">
         <form class="calc-form" onsubmit="return false" aria-label="נתוני המשכנתא">
+          <div class="live" aria-hidden="true"><span class="live-k">חיסכון נטו</span><b class="num" id="live-sum">₪0</b><span class="live-s" id="live-sub"></span></div>
           <div class="goal" role="group" aria-label="מה המטרה">
             <button type="button" data-goal="short" aria-pressed="true">לקצר את התקופה</button>
             <button type="button" data-goal="pay" aria-pressed="false">להוריד את ההחזר</button>
@@ -717,6 +791,7 @@
       </div>
       <div class="stress-grid">
         <form class="stress-controls" onsubmit="return false" aria-label="תמהיל ותרחיש">
+          <div class="live live-dark" aria-hidden="true"><span class="live-k" id="live2-k">ההחזר בעוד 5 שנים</span><b class="num" id="live2-sum">₪0</b><span class="live-s" id="live2-sub"></span></div>
           <p class="subhead">התמהיל שלכם</p>
           <p class="subnote" id="mix-note">לפי היתרה והתקופה שבמחשבון למעלה.</p>
           <div class="mixbar" aria-hidden="true" id="mixbar"></div>
@@ -797,14 +872,14 @@
           <div class="doc-head"><b>דוח יתרות לסילוק</b><span>דוגמה להמחשה<br>תאריך הפקה: 01/10/2026</span></div>
           <div class="doc-scroll">
             <table>
-              <thead><tr><th>מסלול</th><th>יתרה</th><th>ריבית</th><th>הצמדה</th><th>עמלת פירעון</th></tr></thead>
+              <thead><tr><th>מסלול</th><th>יתרה</th><th>ריבית</th><th class="c-idx">הצמדה</th><th>עמלת פירעון</th></tr></thead>
               <tbody>
-                <tr><td data-note="2">פריים<span class="pin" aria-hidden="true">2</span></td><td class="num">₪310,400</td><td class="num"><bdi dir="ltr">P+0.4%</bdi></td><td>ללא</td><td class="num">₪0</td></tr>
-                <tr><td>קבועה לא צמודה</td><td class="num">₪265,900</td><td class="num">5.85%</td><td>ללא</td><td class="num" data-note="3">₪4,120<span class="pin" aria-hidden="true">3</span></td></tr>
-                <tr><td>קבועה צמודה</td><td class="num" data-note="1">₪238,700<span class="pin" aria-hidden="true">1</span></td><td class="num">3.40%</td><td>מדד</td><td class="num">₪7,860</td></tr>
-                <tr><td>משתנה כל 5</td><td class="num">₪121,600</td><td class="num">4.10%</td><td>מדד</td><td class="num">₪310</td></tr>
+                <tr><td data-note="2">פריים<span class="pin" aria-hidden="true">2</span></td><td class="num">₪310,400</td><td class="num"><bdi dir="ltr">P+0.4%</bdi></td><td class="c-idx">ללא</td><td class="num">₪0</td></tr>
+                <tr><td>קבועה לא צמודה</td><td class="num">₪265,900</td><td class="num">5.85%</td><td class="c-idx">ללא</td><td class="num" data-note="3">₪4,120<span class="pin" aria-hidden="true">3</span></td></tr>
+                <tr><td>קבועה צמודה</td><td class="num" data-note="1">₪238,700<span class="pin" aria-hidden="true">1</span></td><td class="num">3.40%</td><td class="c-idx">מדד</td><td class="num">₪7,860</td></tr>
+                <tr><td>משתנה כל 5</td><td class="num">₪121,600</td><td class="num">4.10%</td><td class="c-idx">מדד</td><td class="num">₪310</td></tr>
               </tbody>
-              <tfoot><tr><td data-note="4">סה״כ<span class="pin" aria-hidden="true">4</span></td><td class="num">₪936,600</td><td></td><td></td><td class="num">₪12,290</td></tr></tfoot>
+              <tfoot><tr><td data-note="4">סה״כ<span class="pin" aria-hidden="true">4</span></td><td class="num">₪936,600</td><td></td><td class="c-idx"></td><td class="num">₪12,290</td></tr></tfoot>
             </table>
           </div>
         </figure>
@@ -832,6 +907,7 @@
         <li class="step"><h3>משא ומתן</h3><p class="who"><b>אתם</b>מקבלים השוואה ברורה בין ההצעות ובוחרים.</p><p class="who"><b>אני</b>מתמקח על הריביות והתנאים עם הנתונים ביד.</p></li>
         <li class="step"><h3>חתימה וסגירה</h3><p class="who"><b>אתם</b>מגיעים לחתימה אחת.</p><p class="who"><b>אני</b>מלווה עד שהמשכנתא הישנה נסגרת והחדשה פעילה.</p></li>
       </ol>
+      <div class="dots" id="step-dots" aria-hidden="true"></div>
       <div class="start" id="howto">
         <figure class="photo">
           <picture>
@@ -1155,7 +1231,7 @@
 
   function heroChart(anim) {
     const el = $('#gap-chart');
-    const W = Math.max(280, Math.round(el.clientWidth || 520)), H = W < 420 ? 210 : 250;
+    const W = Math.max(280, Math.round(el.clientWidth || 520)), H = W < 420 ? 185 : 250;
     const pt = 30, pb = 30, ps = 8, pe = 8;
     const x = m => W - ps - (m / H0.n) * (W - ps - pe);
     const y = v => pt + (1 - v / H0.totOld) * (H - pt - pb);
@@ -1182,7 +1258,7 @@
       '<text x="' + (x(H0.nNew) - 6) + '" y="' + (H - pb - 10) + '" fill="#5FD99A" font-size="13" font-weight="600" text-anchor="end">המשכנתא נגמרת ' + ((H0.n - H0.nNew) / 12).toFixed(1) + ' שנים קודם</text></g>';
     const tags = '<g class="' + (anim ? 'fade-in' : '') + '" font-size="12.5" font-weight="600">' +
       '<text x="' + (ex + 12) + '" y="' + (y1 - 10) + '" fill="#F2A541" text-anchor="end">בלי מחזור</text>' +
-      '<text x="' + (W - ps - 64) + '" y="' + (y(cum(H0.rNew, 36)) + 24) + '" fill="#5FD99A" text-anchor="start">אחרי מחזור</text></g>';
+      (W < 420 ? '' : '<text x="' + (W - ps - 64) + '" y="' + (y(cum(H0.rNew, 36)) + 24) + '" fill="#5FD99A" text-anchor="start">אחרי מחזור</text>') + '</g>';
     el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '">' + grid + tags +
       '<path d="' + area + '" fill="rgba(95,217,154,.26)" class="' + (anim ? 'fade-in' : '') + '"/>' +
       '<path d="' + d(oldPts) + '" fill="none" stroke="#F2A541" stroke-width="3" stroke-linecap="round" class="' + (anim ? 'draw' : '') + '"/>' +
@@ -1271,6 +1347,9 @@
     const d = later - now, pct = now ? d / now * 100 : 0;
     $('#s-now').textContent = ils(now);
     $('#s-later').textContent = ils(later);
+    $('#live2-k').textContent = 'ההחזר בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
+    $('#live2-sum').textContent = ils(later);
+    $('#live2-sub').textContent = (d >= 0 ? '+' : '−') + ils(Math.abs(d)) + ' בחודש';
     $('.so-row div:last-child dt').textContent = 'ההחזר בעוד ' + (hy === 1 ? 'שנה' : hy + ' שנים');
     $('#s-delta').innerHTML = d >= 0
       ? '<strong class="num">+' + ils(d) + '</strong> בכל חודש, עלייה של ' + Math.round(pct) + '%'
@@ -1353,6 +1432,9 @@
     chart($('#calc-chart'), { B, months: n, rOld: rO, rNew: Math.min(rN, rO), pOld, pNew: rN >= rO ? pOld : pNew, nOld: n, nNew: rN >= rO ? n : Math.min(nNew, n), area: false, cOld: '#9A5A0C', cNew: '#1A7F4B', grid: '#C9D6D8', label: '#4A6169', anim: false, h: 220 });
 
     last = { B, rO, yrs: n / 12, rN, net: rN < rO && net > 0 ? net : 0 };
+    last.sub = !last.net ? 'בבדיקה מלאה בודקים גם את המבנה' : goal === 'short'
+      ? (nNew / 12).toFixed(1).replace('.0', '') + ' שנים במקום ' + n / 12
+      : ils(pOld - pNew) + ' פחות בחודש';
     afterCalc();
   }
 
@@ -1364,6 +1446,8 @@
     share.href = waLink(msg);
     if (WHATSAPP_NUMBER) { share.target = '_blank'; share.rel = 'noopener'; }
     $('#pill-sum').textContent = ils(last.net);
+    $('#live-sum').textContent = last.net ? ils(last.net) : 'אין חיסכון';
+    $('#live-sub').textContent = last.sub;
     $('#dock-text').textContent = touched && last.net > 0 ? 'לבדיקת חיסכון של ₪' + Math.round(last.net / 1000) + ' אלף' : 'בדיקה בוואטסאפ';
     stress();
     updatePill();
@@ -1399,8 +1483,19 @@
       f = Math.min(1, Math.max(0, (innerHeight * 0.7 - r.top) / Math.max(r.height, 1)));
     }
     stepsEl.style.setProperty('--fill', f.toFixed(3));
-    stepEls.forEach((el, i) => el.classList.toggle('on', f >= i / stepEls.length - 0.001 && f > 0));
+    stepEls.forEach((el, i) => el.classList.toggle('on', carousel() || (f >= i / stepEls.length - 0.001 && f > 0)));
   }
+  // בטלפון התהליך הוא כרטיסים להחלקה, עם נקודות שמראות איפה אתם
+  const carousel = () => matchMedia('(max-width: 760px)').matches;
+  const dots = $('#step-dots');
+  dots.innerHTML = stepEls.map(() => '<i></i>').join('');
+  function syncDots() {
+    const box = stepsEl.getBoundingClientRect(), mid = box.left + box.width / 2;
+    let best = 0, bd = Infinity;
+    stepEls.forEach((el, i) => { const r = el.getBoundingClientRect(), dd = Math.abs(r.left + r.width / 2 - mid); if (dd < bd) { bd = dd; best = i; } });
+    [...dots.children].forEach((d, i) => d.classList.toggle('on', i === best));
+  }
+  stepsEl.addEventListener('scroll', syncDots, { passive: true }); syncDots();
   addEventListener('scroll', fillSteps, { passive: true }); addEventListener('resize', fillSteps); fillSteps();
 
   /* --- הדוח: חיבור בין ההערות לתאים --- */
