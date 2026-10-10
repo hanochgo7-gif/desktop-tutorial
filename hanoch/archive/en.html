@@ -932,7 +932,17 @@ video.live.on{ opacity:1; }
     b.innerHTML = c.t + '<span>' + (c.k === 'all' ? N : CAT_OF.filter(function (k) { return k === c.k; }).length) + '</span>';
     catWrap.appendChild(b); catBtns.push(b);
   });
+  // סינון ברשת עם Flip: המקטע שנבחר מחליק מהמקום שבו היה אל ראש הרשת, ומקטעים שנכנסים מתגלים בעדינות.
+  // הספריות (GSAP ו-Flip) נטענות רק אחרי שהעמוד מוכן, כדי לא להאט את הטעינה. עד אז הסינון פשוט מיידי
+  var flipOn = false;
+  function loadFlip() {
+    if (reduce || window.Flip) return;
+    var add = function (src, done) { var sc = document.createElement('script'); sc.src = src; sc.onload = done; document.head.appendChild(sc); };
+    add('../js/vendor/gsap-3.15.0/gsap.min.js', function () { add('../js/vendor/gsap-3.15.0/Flip.min.js', function () { gsap.registerPlugin(Flip); flipOn = true; }); });
+  }
+  addEventListener('load', function () { (window.requestIdleCallback || function (f) { setTimeout(f, 1200); })(loadFlip); });
   function setCat(k, quiet) {
+    var fs = flipOn && !quiet && body.classList.contains('gridview') ? Flip.getState(gridEl.querySelectorAll('.gsec')) : null;
     catSel = k;
     catBtns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.cat === k); });
     body.classList.toggle('one-cat', k !== 'all');
@@ -941,6 +951,12 @@ video.live.on{ opacity:1; }
       aim = -catCenter[k];
       if (reduce) { dragX = aim - spin; dragY = 0; aim = null; }
     }
+    // קודם גוללים לראש הרשת, ורק אז Flip מחשב מאיפה כל מקטע צריך לצאת: הוא יוצא בדיוק מהמקום שבו נראה
+    if (fs) gridEl.scrollTop = 0;
+    if (fs) Flip.from(fs, {
+      duration: 0.7, ease: 'expo.inOut', absolute: false,
+      onEnter: function (els) { return gsap.fromTo(els, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'expo.out', stagger: 0.06, delay: 0.15 }); }
+    });
     if (!quiet) {
       gridEl.scrollTop = 0;
       try { history.replaceState(null, '', k === 'all' ? location.pathname + location.search : '#' + k); } catch (er) {}

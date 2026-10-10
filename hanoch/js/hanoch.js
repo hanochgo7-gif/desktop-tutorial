@@ -248,16 +248,29 @@
   /* ---------- שעון ---------- */
   var clock = $('.clock');
   function tick() {
-    try {
-      clock.textContent = new Intl.DateTimeFormat(T('he-IL', 'en-GB'), { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }).format(new Date());
-    } catch (e) { clock.textContent = ''; }
+    var now = '';
+    try { now = new Intl.DateTimeFormat(T('he-IL', 'en-GB'), { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }).format(new Date()); } catch (e) { }
+    if (now === clock.textContent) return;
+    // כשהדקה מתחלפת, הספרות מתערבלות לרגע ונוחתות על השעה החדשה
+    if (clock.textContent && motion && window.ScrambleTextPlugin && window.gsap) gsap.to(clock, { duration: 0.7, ease: 'none', scrambleText: { text: now, chars: '0123456789', speed: 0.8 } });
+    else clock.textContent = now;
   }
   if (clock) { tick(); setInterval(tick, 20000); }
 
   /* ---------- גלילה חלקה ---------- */
   var lenis = null;
+  // עקומת התנועה של האתר: קפיץ בלי קפיצה (כמו ב-js/fluid.js), כדי שכל מה שנכנס לגלילה ירגיש אותו דבר
+  var EASE = 'expo.out';
+  function springPath(w) {
+    var pts = [], end = 1 - (1 + w) * Math.exp(-w);
+    for (var i = 0; i <= 50; i++) { var t = i / 50, y = (1 - (1 + w * t) * Math.exp(-w * t)) / end; pts.push(t.toFixed(3) + ',' + y.toFixed(4)); }
+    return 'M' + pts.join(' L');
+  }
   if (motion) {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin.apply(gsap, [window.ScrollTrigger, window.CustomEase, window.SplitText, window.DrawSVGPlugin, window.ScrambleTextPlugin].filter(Boolean));
+    if (window.CustomEase) {
+      try { CustomEase.create('hg', 'M0,0 C0.2,0.7 0.1,1 1,1'); CustomEase.create('hg.spring', springPath(7)); EASE = 'hg.spring'; } catch (e) { }
+    }
     if (window.Lenis) {
       lenis = new Lenis({ lerp: 0.085, smoothWheel: true });
       lenis.on('scroll', ScrollTrigger.update);
@@ -409,8 +422,7 @@
       var l = document.createElementNS(ns, 'line');
       l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
       if (major) l.setAttribute('class', 'major');
-      var len = Math.hypot(x2 - x1, y2 - y1);
-      l.style.strokeDasharray = len; l.style.strokeDashoffset = len;
+      if (!window.DrawSVGPlugin) { var len = Math.hypot(x2 - x1, y2 - y1); l.style.strokeDasharray = len; l.style.strokeDashoffset = len; }
       svg.appendChild(l); lines.push(l);
     }
     var cols = vw < 700 ? 4 : 12, rows = vw < 700 ? 8 : 6;
@@ -421,11 +433,15 @@
     var text = 'HG Studio', out = $('.intro-text'), pct = $('.intro-pct');
     var counter = { n: 0, c: 0 };
     var tl = gsap.timeline();
-    tl.to(lines, { strokeDashoffset: 0, duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0)
-      .to(counter, {
+    // DrawSVG: כל קו נמתח מהמרכז שלו החוצה. ScrambleText: השם מתגבש מתוך אותיות מתחלפות
+    if (window.DrawSVGPlugin) { gsap.set(lines, { drawSVG: '50% 50%' }); tl.to(lines, { drawSVG: '0% 100%', duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0); }
+    else tl.to(lines, { strokeDashoffset: 0, duration: quick ? 0.4 : 1.1, ease: 'expo.inOut', stagger: quick ? 0.01 : 0.035 }, 0);
+    if (window.ScrambleTextPlugin) tl.to(out, { duration: quick ? 0.45 : 1, ease: 'none', scrambleText: { text: text, chars: 'HGSTUDIO0123456789', revealDelay: quick ? 0.1 : 0.3, speed: 0.6 } }, quick ? 0.05 : 0.3);
+    else tl.to(counter, {
         c: text.length, duration: quick ? 0.3 : 0.75, ease: 'none',
         onUpdate: function () { out.textContent = text.slice(0, Math.round(counter.c)); }
-      }, quick ? 0.05 : 0.3)
+      }, quick ? 0.05 : 0.3);
+    tl
       .to(counter, {
         n: 100, duration: quick ? 0.5 : 1.5, ease: 'power2.inOut',
         onUpdate: function () { pct.textContent = String(Math.round(counter.n)).padStart(3, '0'); }
@@ -1160,6 +1176,37 @@
     });
   }
 
+  /* ---------- אותיות מתחלפות במעבר עכבר על הקישורים בסרגל העליון (רק עם עכבר אמיתי, ובעדינות) ---------- */
+  function initScramble() {
+    if (!motion || !finePointer || !window.ScrambleTextPlugin) return;
+    var CH = T('אבגדהוזחטיכלמנסעפצקרשת', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    $$('.bar-nav a').forEach(function (a) {
+      var txt = a.textContent.trim();
+      if (!txt || a.children.length) return;
+      a.setAttribute('aria-label', txt); // השם הנגיש נשאר יציב גם בזמן הערבול
+      a.addEventListener('mouseenter', function () { gsap.to(a, { duration: 0.45, ease: 'none', overwrite: true, scrambleText: { text: txt, chars: CH, speed: 0.9, revealDelay: 0.05 } }); });
+    });
+  }
+
+  /* ---------- כותרות שנחשפות שורה אחר שורה (SplitText): כל שורה עולה מתוך מסכה, ואחרי זה הטקסט חוזר להיות רגיל ---------- */
+  function initHeads() {
+    if (!motion || !window.SplitText) return;
+    var heads = $$('.pt-big, .addons-title .display, #ag-spot-title, #work-title, #ag-title, #demo-title, #tours-title, #films-title, #ba-title, #craft-title');
+    if (!heads.length) return;
+    // מפצלים רק אחרי שהגופן נטען, אחרת השורות נחתכות במקום הלא נכון
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+      heads.forEach(function (h) {
+        var split = SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'hg-line', aria: 'auto' });
+        gsap.from(split.lines, {
+          yPercent: 108, duration: 1.15, ease: EASE, stagger: 0.09,
+          scrollTrigger: { trigger: h, start: 'top 88%', once: true },
+          onComplete: function () { split.revert(); }
+        });
+      });
+      ScrollTrigger.refresh();
+    });
+  }
+
   /* ---------- נקודות מיקום לכרטיסים שנגללים לצד בטלפון: איפה אני, וכמה יש ---------- */
   function initPagers() {
     $$('.tiers, .care-plans').forEach(function (sc) {
@@ -1333,7 +1380,7 @@
       gsap.set(els, { autoAlpha: 0, y: 50 });
       ScrollTrigger.batch(els, {
         start: 'top 88%', once: true,
-        onEnter: function (b) { gsap.to(b, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: g[1], overwrite: true }); }
+        onEnter: function (b) { gsap.to(b, { autoAlpha: 1, y: 0, duration: 1.1, ease: EASE, stagger: g[1], overwrite: true }); }
       });
     });
   }
@@ -1740,6 +1787,8 @@
   /* ---------- הפעלה ---------- */
   initManifesto();
   initPagers();
+  initScramble();
+  initHeads();
   initMenu();
   initProgress();
   initMagnet();

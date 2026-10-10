@@ -1930,3 +1930,6 @@ a, button, label, summary, [role="button"] { touch-action: manipulation; -webkit
   .tier, .care-plan, .compare, .upgrade, .btn-line, .chip span, .faq-list details, .promises { border-color: rgba(237, 232, 222, .8) !important; }
   .tier-star, .care-star { border-color: var(--signal) !important; }
 }
+
+/* כותרות שנחשפות שורה אחר שורה: המסכה גבוהה מעט מהשורה, כדי שאותיות כמו ל, ק ו-ך לא ייחתכו בזמן החשיפה */
+.hg-line-mask { padding-block: .16em; margin-block: -.16em; }
