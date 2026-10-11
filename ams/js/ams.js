@@ -25,13 +25,16 @@
   };
   smooth();
   motionOff.addEventListener('change', smooth);
-  new MutationObserver(smooth).observe(root, { attributes: true, attributeFilter: ['class'] });
+  window.addEventListener('ams:a11y', smooth);   // נשלח מתפריט הנגישות כשההגדרות משתנות
 
   // קישור לסעיף באותו דף: גלילה חלקה, והפוקוס עובר לסעיף (כמו בקישור רגיל) למי שמשתמש במקלדת
   document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="#"]');
+    const a = e.target.closest('a[href*="#"]');
     if (!lenis || !a || a.classList.contains('skip') || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
-    const id = decodeURIComponent(a.getAttribute('href').slice(1));
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+    let id;
+    try { id = decodeURIComponent(url.hash.slice(1)); } catch (err) { return; }
     const target = id && document.getElementById(id);
     if (!target) return;
     e.preventDefault();
@@ -386,6 +389,7 @@
       if (prefs.size) html.setAttribute('data-a11y-size', prefs.size); else html.removeAttribute('data-a11y-size');
       ['contrast', 'links', 'font', 'still'].forEach((k) => html.classList.toggle('a11y-' + k, !!prefs[k]));
       window.dispatchEvent(new Event('resize'));
+      window.dispatchEvent(new Event('ams:a11y'));
     };
     const toggles = [['contrast', 'ניגודיות גבוהה'], ['links', 'הדגשת קישורים'], ['font', 'גופן קריא'], ['still', 'עצירת אנימציות']];
 

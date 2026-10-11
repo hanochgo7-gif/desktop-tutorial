@@ -232,7 +232,6 @@ ul, ol { list-style: none; }
   transition: color .2s;
 }
 .menu-item:hover, .menu-item:focus-visible { color: var(--gold); }
-.menu-num { min-width: 2.2em; font: 600 1.25rem/1 var(--f-body); color: var(--gold); letter-spacing: .08em; }
 .menu-t { flex: 1; }
 .menu-chev { width: 22px; height: 22px; color: var(--gold); opacity: .6; transition: transform .25s, opacity .2s; }
 .menu-item:hover .menu-chev { opacity: 1; transform: translateX(-4px); }
@@ -361,10 +360,6 @@ ul, ol { list-style: none; }
   background:
     linear-gradient(to left, transparent 0, transparent 38%, rgba(0, 0, 0, .45) 100%),
     linear-gradient(to bottom, var(--night) 0, transparent 14%, transparent 58%, rgba(22, 17, 12, .55) 82%, rgba(22, 17, 12, .2) 100%);
-}
-.facts-cap {
-  max-width: var(--max); margin: 0 auto 14px;
-  font-size: 1.25rem; font-weight: 600; letter-spacing: .24em; color: var(--gold);
 }
 .facts-list {
   max-width: var(--max); margin: 0 auto;
@@ -859,8 +854,6 @@ ul, ol { list-style: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
 }
 
-/* ---------- מספרי מסלולים (כמו בפלייאר) ---------- */
-.service-num { display: block; margin-bottom: 4px; font-size: 1.25rem; font-weight: 600; letter-spacing: .14em; color: var(--gold); }
 
 /* ---------- המלצות ---------- */
 .reviews-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 48px; }

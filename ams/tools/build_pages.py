@@ -303,9 +303,9 @@ def header(root, current=None):
         subs += (f'        <a href="{root}services/{s["slug"]}.html"{cur} data-img="{root}assets/img/{s["thumb"]}" data-cap="{s["menu"]}" data-sub="{s["sub"]}">'
                  f'<img src="{root}assets/img/{s["thumb"]}" alt="" width="480" height="360" loading="lazy">'
                  f'<span><b>{s["menu"]}</b><small>{s["sub"]}</small></span></a>\n')
-    item = lambda n, href, t, img, cap, sub: (
+    item = lambda href, t, img, cap, sub: (
         f'      <li><a class="menu-item" href="{href}" data-img="{root}{img}" data-cap="{cap}" data-sub="{sub}">'
-        f'<span class="menu-num">{n}</span><span class="menu-t">{t}</span>{CHEV}</a></li>\n')
+        f'<span class="menu-t">{t}</span>{CHEV}</a></li>\n')
     return f'''<!-- BEGIN header -->
 <header class="site-header" data-header>
   <a class="brand" href="{home}">
@@ -329,15 +329,15 @@ def header(root, current=None):
 <div class="menu" id="site-menu" data-menu>
   <div class="menu-in">
     <nav class="menu-nav" aria-label="תפריט ראשי">
-      <ol class="menu-list">
-{item('01', home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item('02', root + 'about.html', 'מי אני', 'assets/img/coach.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
+      <ul class="menu-list">
+{item(home, 'ראשי', 'assets/hero/poster.webp', 'AMS', 'Mind &amp; Body Connection')}{item(root + 'about.html', 'מי אני', 'assets/img/coach.webp', 'אביב משה שדמון', 'מאמן גוף ונפש, יותר מ־10 שנות ניסיון')}      <li class="menu-has-sub">
         <button class="menu-item" type="button" aria-expanded="true" aria-controls="menu-sub" data-sub-toggle data-img="{root}assets/img/pads-partner.webp" data-cap="שירותים" data-sub="שישה שירותים, מטרה אחת">
-          <span class="menu-num">03</span><span class="menu-t">שירותים</span>{CHEV}
+          <span class="menu-t">שירותים</span>{CHEV}
         </button>
         <div class="menu-sub" id="menu-sub">
 {subs}        </div>
       </li>
-{item('04', home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item('05', home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item('06', root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item('07', root + 'trial.html', 'אימון ניסיון', 'assets/img/muaythai.webp', 'אימון ניסיון', '45 דקות, אחד על אחד, ללא התחייבות')}{item('08', home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ol>
+{item(home + '#where', 'איפה מתאמנים', 'assets/img/training.webp', 'איפה מתאמנים', 'סטודיו פרטי, בבית, בחדר כושר או בחוץ')}{item(home + '#faq', 'שאלות נפוצות', 'assets/img/focus.webp', 'שאלות נפוצות', 'מה כדאי לדעת לפני שמתחילים')}{item(root + 'articles/index.html', 'מאמרים', 'assets/img/bowl.webp', 'מאמרים', 'אימון, תזונה ותודעה')}{item(root + 'trial.html', 'אימון ניסיון', 'assets/img/muaythai.webp', 'אימון ניסיון', '45 דקות, אחד על אחד, ללא התחייבות')}{item(home + '#contact', 'יצירת קשר', 'assets/img/ready.webp', 'יצירת קשר', 'שיחת היכרות ב־WhatsApp')}      </ul>
     </nav>
     <aside class="menu-vis" aria-label="יצירת קשר">
       <figure class="menu-fig" aria-hidden="true">
@@ -387,7 +387,7 @@ def footer(root):
     </div>
   </div>
 {legal_links(root)}
-  <p class="footer-copy">© <span data-year>2026</span> AMS · אביב משה שדמון</p>
+  <p class="footer-copy">© <span data-year>2026</span> אביב משה שדמון, AMS</p>
 </footer>
 <a class="sticky-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="sticky">
   {WA_ICON}
@@ -759,7 +759,7 @@ def article_page(a):
     <header class="art-head">
 {crumbs(r, [('מאמרים', 'index.html'), (a['short'], '')])}
       <h1 class="svc-title" id="art-title">{a['title']}</h1>
-      <p class="art-meta">אביב משה שדמון · {reading_minutes(a)} דקות קריאה</p>
+      <p class="art-meta">מאת אביב משה שדמון, {reading_minutes(a)} דקות קריאה</p>
       <p class="svc-lead">{a['desc']}</p>
     </header>
     <figure class="art-fig">
@@ -1231,7 +1231,7 @@ def trial_page():
 
 <footer class="site-footer lp-footer">
 {legal_links('')}
-  <p class="footer-copy">AMS · אביב משה שדמון · אורן 21, מזכרת בתיה · <a href="index.html">לאתר המלא</a></p>
+  <p class="footer-copy">אביב משה שדמון, AMS. אורן 21, מזכרת בתיה. <a href="index.html">לאתר המלא</a></p>
 </footer>
 <a class="sticky-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-sticky">
   {WA_ICON}

@@ -25,7 +25,7 @@ def contact_line():
     if b['email']:
         parts.append(f'דוא"ל: <a href="mailto:{b["email"]}">{b["email"]}</a>')
     parts.append(f'כתובת: {b["address"]}')
-    return ' · '.join(parts)
+    return '; '.join(parts)
 
 
 def owner_line():
