@@ -1365,7 +1365,7 @@
       });
     }
     if (window.matchMedia('(hover: hover)').matches) {
-      tiers.forEach(function (t) {
+      tiers.concat($$('.care-plan')).forEach(function (t) {
         t.addEventListener('pointermove', function (e) {
           var r = t.getBoundingClientRect();
           t.style.setProperty('--mx', (e.clientX - r.left) + 'px');
@@ -1782,6 +1782,90 @@
     say(on ? T('צלילים פעילים', 'Sound on') : T('צלילים כבויים', 'Sound off'));
   });
 
+  /* ---------- סרגל שמפנה מקום ----------
+     בגלילה למטה הסרגל זז החוצה כדי שלא יעלה על הכותרות והטקסט, ובגלילה הקטנה ביותר למעלה הוא חוזר.
+     הוא נשאר גלוי למעלה בעמוד, כשהתפריט פתוח וכשהפוקוס של המקלדת בתוכו */
+  function initBarHide() {
+    var bar = $('.bar');
+    if (!bar) return;
+    var last = scrollY, acc = 0, up = false, queued = false;
+    function set(on) { if (on === up) return; up = on; bar.classList.toggle('is-up', on); }
+    function check() {
+      queued = false;
+      var y = scrollY, d = y - last; last = y;
+      if (document.querySelector('dialog[open]') || root.classList.contains('case-open')) return;
+      if (y < 140 || root.classList.contains('menu-open') || bar.contains(document.activeElement)) { acc = 0; set(false); return; }
+      acc = (d > 0) === (acc > 0) ? acc + d : d;
+      if (acc > 24) set(true);
+      else if (acc < -6) set(false);
+    }
+    addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(check); } }, { passive: true });
+    bar.addEventListener('focusin', function () { set(false); });
+  }
+
+  /* ---------- "בואו נבנה." חי (VariableProximity מ-React Bits, על הצירים של Handjet) ----------
+     כל אות בנויה מיחידות קטנות. כשהעכבר מתקרב, היחידות של האותיות הקרובות גדלות עד שהן מתחברות לקו מלא, וחוזרות כשהוא מתרחק.
+     בטלפון: גל אחד עובר על האותיות כשמגיעים לכותרת, ועוד גל מהמקום שנוגעים בו. במנוחה המראה זהה לגמרי למה שהיה */
+  function initLiveType() {
+    var el = $('.contact-title');
+    if (!el || !motion || !window.gsap || !document.fonts || !window.IntersectionObserver) return;
+    var REST = 400, PEAK = 880;
+    var io = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting) return;
+      io.disconnect();
+      var text = el.textContent.trim();
+      document.fonts.load('400 100px "HG Handjet Live"', text).then(function (f) { if (f && f.length) build(text); }, function () { });
+    }, { rootMargin: '700px 0px' });
+    io.observe(el);
+
+    function build(text) {
+      el.innerHTML = '<span class="sr-only">' + text + '</span>' + Array.from(text).map(function (c) {
+        return c === ' ' ? ' ' : '<span class="lt" aria-hidden="true">' + c + '</span>';
+      }).join('');
+      el.classList.add('is-live');
+      var L = $$('.lt', el).map(function (n) {
+        var st = { w: REST, n: n };
+        var paint = function () { n.style.setProperty('--w', st.w.toFixed(0)); };
+        st.qw = gsap.quickTo(st, 'w', { duration: 0.55, ease: 'power3.out', onUpdate: paint });
+        st.paint = paint;
+        return st;
+      });
+      function centers() { return L.map(function (l) { var r = l.n.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; }); }
+      // גל: כל אות מתעבה וחוזרת, לפי המרחק מנקודת ההתחלה
+      function wave(x0) {
+        if (window.HGFluid && HGFluid.reduce()) return;
+        var c = centers(), size = parseFloat(getComputedStyle(el).fontSize) || 100;
+        L.forEach(function (l, i) {
+          var d = x0 == null ? i : Math.abs(c[i][0] - x0) / (size * 0.5);
+          gsap.timeline({ delay: d * 0.06 })
+            .to(l, { w: PEAK - 80, duration: 0.42, ease: 'power2.out', onUpdate: l.paint })
+            .to(l, { w: REST, duration: 0.9, ease: EASE, onUpdate: l.paint });
+        });
+      }
+      ScrollTrigger.create({ trigger: el, start: 'top 78%', once: true, onEnter: function () { wave(); } });
+      if (finePointer) {
+        var on = false, raf = 0, px = 0, py = 0;
+        var near = function () {
+          raf = 0;
+          var r = el.getBoundingClientRect(), size = parseFloat(getComputedStyle(el).fontSize) || 100, R = size * 1.25;
+          var inside = px > r.left - R && px < r.right + R && py > r.top - R && py < r.bottom + R;
+          if (!inside && !on) return;
+          on = inside;
+          var c = centers();
+          L.forEach(function (l, i) {
+            var t = inside ? Math.max(0, 1 - Math.hypot(c[i][0] - px, (c[i][1] - py) * 1.3) / R) : 0;
+            t = t * t * (3 - 2 * t);
+            l.qw(REST + (PEAK - REST) * t);
+          });
+        };
+        addEventListener('pointermove', function (e) { px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(near); }, { passive: true });
+        document.addEventListener('pointerleave', function () { px = py = -9999; if (!raf) raf = requestAnimationFrame(near); });
+      } else {
+        el.addEventListener('pointerdown', function (e) { wave(e.clientX); }, { passive: true });
+      }
+    }
+  }
+
   var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx, setVideo: setVideo, playVideo: playVideo, pauseVideo: pauseVideo };
 
   /* ---------- הפעלה ---------- */
@@ -1790,6 +1874,8 @@
   initScramble();
   initHeads();
   initMenu();
+  initBarHide();
+  initLiveType();
   initProgress();
   initMagnet();
   initCursor();

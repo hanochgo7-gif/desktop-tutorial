@@ -754,7 +754,7 @@
     capTitle.textContent = it ? $('.sr-i-desc', it).textContent : '';
     capHint.textContent = D[id].hint;
     screen.classList.remove('is-in'); void screen.offsetWidth; screen.classList.add('is-in');
-    screen.setAttribute('aria-label', T('דוגמה חיה: ', 'Live demo: ') + (it ? $('.sr-i-name', it).textContent : ''));
+    screen.setAttribute('aria-label', T('עסק בדיוני, דוגמה חיה: ', 'Fictional business, live demo: ') + (it ? $('.sr-i-name', it).textContent : ''));
     if (visible) D[id].run(screen); else screen.innerHTML = '';
   }
 

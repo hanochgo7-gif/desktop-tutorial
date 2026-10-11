@@ -83,29 +83,31 @@
     'background:var(--ink-2,#121214);color:var(--fg,#ede8de);box-shadow:0 30px 70px rgba(0,0,0,.6);font-family:var(--f-body,system-ui,sans-serif);overflow:hidden}' +
     '.ht-dlg[open]{display:flex;flex-direction:column}.ht-dlg::backdrop{background:rgba(10,10,11,.45);opacity:0;transition:opacity .3s ease}.ht-dlg.ht-in::backdrop{opacity:1}' +
     '.ht-grab{display:none}' +
-    '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid rgba(237,232,222,.14)}' +
+    '.ht-head{display:flex;align-items:center;gap:.7rem;padding:.85rem 1rem;border-bottom:1px solid var(--fg-faint,rgba(237,232,222,.14))}' +
     '.ht-head h2{flex:1;margin:0;font:600 var(--fs-b,1rem)/1.2 var(--f-body,system-ui)}.ht-head small{display:block;margin-top:.2rem;font-weight:400;color:rgba(237,232,222,.62);font-size:var(--fs-xs,.8125rem)}' +
-    '.ht-x{width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,232,222,.42);background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}' +
+    '.ht-x{width:44px;height:44px;border-radius:50%;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font-size:1.1rem;cursor:pointer}' +
     '.ht-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:1rem;display:flex;flex-direction:column;gap:.7rem}' +
     '.ht-m{max-width:88%;padding:.7rem .9rem;border-radius:16px;line-height:1.55;font-size:var(--fs-b,1rem);white-space:pre-wrap;overflow-wrap:anywhere}' +
     '.ht-a{align-self:flex-start;background:var(--ink-3,#1c1c1f);border-start-start-radius:4px}.ht-u{align-self:flex-end;background:var(--paper,#ede8de);color:var(--ink,#0a0a0b);border-start-end-radius:4px}' +
-    '.ht-m a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}.ht-u a{color:#a8360a}' +
+    '.ht-m a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}.ht-u a{color:var(--signal-ink,#a8360a)}' +
     '.ht-chips{display:flex;flex-wrap:wrap;gap:.45rem;align-self:flex-start}' +
-    '.ht-chip{min-height:44px;padding:.5rem .95rem;border-radius:99px;border:1px solid rgba(237,232,222,.42);background:transparent;color:inherit;font:inherit;font-size:var(--fs-s,.9rem);cursor:pointer;text-align:start}' +
+    '.ht-chip{min-height:44px;padding:.5rem .95rem;border-radius:99px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit;font-size:var(--fs-s,.9rem);cursor:pointer;text-align:start}' +
     '.ht-chip:hover{border-color:var(--signal,#ff4f1a)}.ht-chip.is-main{background:var(--signal,#ff4f1a);border-color:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font-weight:600;text-decoration:none;display:inline-flex;align-items:center}' +
     '.ht-card{align-self:stretch;border:1px solid rgba(237,232,222,.2);border-radius:16px;padding:.9rem;display:grid;gap:.6rem;background:var(--ink,#0a0a0b)}' +
     '.ht-card pre{margin:0;white-space:pre-wrap;font:var(--fs-s,.9rem)/1.55 var(--f-body,system-ui)}' +
     '.ht-card label{font-size:var(--fs-s,.9rem);color:rgba(237,232,222,.75)}' +
-    '.ht-card input{min-height:44px;padding:.5rem .8rem;border-radius:10px;border:1px solid rgba(237,232,222,.42);background:transparent;color:inherit;font:inherit}' +
+    '.ht-card input{min-height:44px;padding:.5rem .8rem;border-radius:10px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit}' +
     '.ht-note{margin:0;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.7);line-height:1.5}.ht-note a{color:inherit;text-decoration:underline}' +
     '.ht-typing{align-self:flex-start;color:rgba(237,232,222,.62);font-size:var(--fs-s,.9rem)}' +
-    '.ht-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid rgba(237,232,222,.14)}' +
-    '.ht-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:.65rem .85rem;border-radius:14px;border:1px solid rgba(237,232,222,.42);background:var(--ink,#0a0a0b);color:inherit;font:inherit;font-size:1rem;line-height:1.4}' +
+    '.ht-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--fg-faint,rgba(237,232,222,.14))}' +
+    '.ht-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:.65rem .85rem;border-radius:14px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:var(--ink,#0a0a0b);color:inherit;font:inherit;font-size:1rem;line-height:1.4}' +
     '.ht-send{min-width:64px;min-height:44px;border-radius:14px;border:0;background:var(--signal,#ff4f1a);color:var(--ink,#0a0a0b);font:600 var(--fs-s,.9rem)/1 var(--f-body,system-ui);cursor:pointer}' +
     '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-foot a{color:inherit}' +
     '@media (max-width:600px){.ht-btn{min-height:52px;gap:.55rem;padding-inline-end:1rem}.ht-btn .ht-mark{width:40px;height:40px}' +
     '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-head{touch-action:none;padding-top:1.15rem;position:relative}' +
     '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
+    // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
+    '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}}' +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}';
 
   var btn, dlg, log, input, sr, hint, opener;
@@ -431,12 +433,32 @@
     if (!home || seen || !decided || S.msgs.length) return;
     var onScroll = function () {
       if (scrollY < (document.documentElement.scrollHeight - innerHeight) * 0.45) return;
+      // ליד טופס הפנייה לא מפריעים: ההזמנה מחכה עד שיוצאים ממנו
+      var c0 = document.getElementById('contact'), r0 = c0 && c0.getBoundingClientRect();
+      if (r0 && r0.top < innerHeight && r0.bottom > 0) return;
       removeEventListener('scroll', onScroll);
       try { sessionStorage.setItem('hg-chat-hint', '1'); } catch (e) {}
       hint = document.createElement('div'); hint.className = 'ht-hint';
       hint.innerHTML = '<span>' + T('מחפשים משהו באתר, או רוצים להתייעץ? המצפן עונה מיד, ואם צריך מכין לחנוך בריף.', 'Looking for something on the site, or want advice? Compass answers right away, and can prepare a brief for Hanoch.') + '</span>' +
         '<button type="button" aria-label="' + T('סגירת ההזמנה', 'Dismiss') + '">✕</button>';
-      hint.querySelector('button').addEventListener('click', function () { hint.remove(); hint = null; btn.focus(); });
+      // ההזמנה לא נשארת על המסך: היא נעלמת לבד אחרי כמה שניות, אחרי עוד מסך של גלילה, או כשמגיעים לטופס הפנייה
+      var at = null, timer = 0;
+      var away = function (o) {
+        clearTimeout(timer); removeEventListener('scroll', far);
+        if (!hint) return; var h = hint; hint = null;
+        if (o && o.focus) btn.focus();
+        if (!reduce && h.animate) h.animate([{ opacity: 1 }, { opacity: 0, transform: 'translateY(6px)' }], { duration: 220, easing: 'ease-in' }).onfinish = function () { h.remove(); };
+        else h.remove();
+      };
+      var far = function () {
+        var c = document.getElementById('contact'), r = c && c.getBoundingClientRect();
+        if (at !== null && Math.abs(scrollY - at) > innerHeight || (r && r.top < innerHeight && r.bottom > 0)) away();
+      };
+      // הגלילה החלקה ממשיכה עוד רגע אחרי שעוצרים, אז סופרים את המסך הנוסף רק משנייה וחצי אחרי שההזמנה הופיעה
+      setTimeout(function () { at = scrollY; }, 1500);
+      timer = setTimeout(away, 9000);
+      addEventListener('scroll', far, { passive: true });
+      hint.querySelector('button').addEventListener('click', function () { away({ focus: true }); });
       document.body.appendChild(hint); place();
       if (!reduce && hint.animate) hint.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 300, easing: 'ease-out' });
     };

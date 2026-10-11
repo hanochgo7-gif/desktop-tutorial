@@ -338,16 +338,16 @@ CSS = '''
 :root { --gutter: clamp(20px, 5vw, 64px); }
 body { background: var(--ink, #0a0a0b); }
 .sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
-.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "HG Mark", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: #ede8de; direction: ltr; }
+.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "HG Mark", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: var(--fg, #ede8de); direction: ltr; }
 .sv-mark span { color: var(--signal); }
 .sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
 .sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
-.sv-bar nav a:hover { color: #ede8de; }
+.sv-bar nav a:hover { color: var(--fg, #ede8de); }
 /* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
 @media (max-width: 560px) {
   .sv-mark { font-size: 1.2rem; }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
-  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: #ede8de; }
+  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
 }
 .sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
 /* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
@@ -364,7 +364,7 @@ body { background: var(--ink, #0a0a0b); }
 .sv-kicker { font-family: var(--f-mono); font-size: .8125rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
 .sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
 html[lang="en"] .sv h1 { letter-spacing: .005em; }
-.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: #ede8de !important; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: var(--fg, #ede8de) !important; }
 .sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
 html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv p, .sv li { font-family: var(--f-body); font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
@@ -373,22 +373,22 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
 .sv-steps li { counter-increment: s; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; padding: 16px 18px; background: rgba(237,232,222,.025); }
 .sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8125rem; margin-bottom: .3rem; }
-.sv-steps b { display: block; color: #ede8de; font-weight: 500; }
+.sv-steps b { display: block; color: var(--fg, #ede8de); font-weight: 500; }
 .sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
 .sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
 .sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
-.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: #ede8de; }
+.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: var(--fg, #ede8de); }
 .sv-card small { display: block; color: var(--fg-dim); font-size: .8125rem; margin-top: 2px; }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
-.sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: #ede8de; }
+.sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
 .sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
 .sv-cta h2 { margin-top: 0; }
 .sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
 .sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
-.sv-btn.ghost { background: transparent; color: #ede8de !important; border: 1px solid rgba(237,232,222,.3); }
+.sv-btn.ghost { background: transparent; color: var(--fg, #ede8de) !important; border: 1px solid rgba(237,232,222,.3); }
 .sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
-.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: #ede8de; text-decoration: none; font-size: .92rem; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: var(--fg, #ede8de); text-decoration: none; font-size: .92rem; }
 .sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
 .sv-foot a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
@@ -560,7 +560,7 @@ def hub(lang):
 [dir="rtl"] .sv-list a {{ padding: 14px 14px 14px 20px; }}
 .sv-list img {{ width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #111; }}
 @media (max-width: 560px) {{ .sv-list a {{ grid-template-columns: 104px 1fr; gap: 14px; }} .sv-list b {{ font-size: 1.25rem; }} }}
-.sv-list b {{ display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
+.sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
 <script type="application/ld+json">{ld}</script>

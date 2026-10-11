@@ -64,5 +64,30 @@
   // רטט קצר רק לרגעים שיש להם משמעות (Android; באייפון הדפדפן מתעלם)
   function haptic(ms) { try { if (navigator.vibrate && !reduce()) navigator.vibrate(ms || 8); } catch (e) { } }
 
-  window.HGFluid = { spring: spring, project: project, rubber: rubber, tracker: tracker, haptic: haptic, reduce: reduce };
+  // ניצוץ קטן מהנקודה שלחצו בה (ClickSpark מ-React Bits): אישור שהלחיצה נקלטה, רק על כפתורי הפעולה הראשיים
+  var SPARK = '.btn-signal, .bar-cta, .sv-btn:not(.ghost)';
+  function spark(x, y) {
+    if (reduce()) return;
+    var n = 8, svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '120'); svg.setAttribute('height', '120'); svg.setAttribute('aria-hidden', 'true');
+    svg.style.cssText = 'position:fixed;left:' + (x - 60) + 'px;top:' + (y - 60) + 'px;pointer-events:none;z-index:2147483000;overflow:visible';
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2, c = Math.cos(a), s = Math.sin(a), l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l.setAttribute('x1', 60 + c * 26); l.setAttribute('y1', 60 + s * 26); l.setAttribute('x2', 60 + c * 40); l.setAttribute('y2', 60 + s * 40);
+      l.setAttribute('stroke', '#ede8de'); l.setAttribute('stroke-width', '2.4'); l.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(l);
+      if (l.animate) l.animate([{ transform: 'translate(0,0)', opacity: 1, strokeDasharray: '14 14', strokeDashoffset: 0 }, { transform: 'translate(' + c * 16 + 'px,' + s * 16 + 'px)', opacity: 0, strokeDasharray: '14 14', strokeDashoffset: -14 }], { duration: 520, easing: 'cubic-bezier(.2,.7,.1,1)', fill: 'forwards' });
+    }
+    document.body.appendChild(svg);
+    setTimeout(function () { svg.remove(); }, 580);
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest(SPARK);
+    if (!t) return;
+    var x = e.clientX, y = e.clientY;
+    if (!x && !y) { var r = t.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top + r.height / 2; } // מקלדת: מהמרכז של הכפתור
+    spark(x, y);
+  }, true);
+
+  window.HGFluid = { spring: spring, project: project, rubber: rubber, tracker: tracker, haptic: haptic, reduce: reduce, spark: spark };
 })();
