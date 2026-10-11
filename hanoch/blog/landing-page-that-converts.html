@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו | HG Studio</title>
+<meta name="description" content="מה הופך דף נחיתה לדף שמביא פניות: 9 רכיבים שחייבים להיות בו, מהכותרת ועד הכפתור, עם דוגמאות, טעויות נפוצות ורשימת בדיקה קצרה לפני שעולים לאוויר.">
+<link rel="canonical" href="https://hgpro.io/blog/landing-page-that-converts.html">
+<link rel="alternate" type="application/rss+xml" title="המאמרים של HG Studio" href="https://hgpro.io/blog/feed.xml">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו | HG Studio">
+<meta property="og:description" content="מה הופך דף נחיתה לדף שמביא פניות: 9 רכיבים שחייבים להיות בו, מהכותרת ועד הכפתור, עם דוגמאות, טעויות נפוצות ורשימת בדיקה קצרה לפני שעולים לאוויר.">
+<meta property="og:url" content="https://hgpro.io/blog/landing-page-that-converts.html">
+<meta property="og:image" content="https://hgpro.io/blog/img/landing-page-that-converts.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="../images/icon-180.png" type="image/png">
+<link rel="apple-touch-icon" href="../images/icon-180.png">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
+<link rel="stylesheet" href="../css/hanoch.css">
+<style>
+:root { --gutter: clamp(20px, 5vw, 64px); }
+body { background: var(--ink, #0a0a0b); }
+.sv-bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 8px var(--gutter); background: rgba(10,10,11,.82); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(237,232,222,.08); }
+.sv-mark { display: inline-flex; align-items: center; min-height: 44px; font-family: "HG Mark", "Fraunces", Georgia, serif; font-weight: 800; letter-spacing: -.035em; font-size: 1.45rem; text-decoration: none; color: var(--fg, #ede8de); direction: ltr; }
+.sv-mark span { color: var(--signal); }
+.sv-bar nav { display: flex; gap: 1.2rem; font-family: var(--f-mono); font-size: .8125rem; }
+.sv-bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-dim); text-decoration: none; }
+.sv-bar nav a:hover { color: var(--fg, #ede8de); }
+/* טלפון: בסרגל נשאר רק וואטסאפ, כגלולה, כדי שהעמוד לא יהיה רחב מהמסך */
+@media (max-width: 560px) {
+  .sv-mark { font-size: 1.2rem; }
+  .sv-bar-cta nav a:not(:last-child) { display: none; }
+  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
+}
+.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
+.sv-dock { display: none; }
+@media (max-width: 700px) {
+  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
+  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+}
+.sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
+.sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
+.sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+.sv-kicker { font-family: var(--f-mono); font-size: .8125rem; color: var(--signal); margin-top: 2rem; letter-spacing: .04em; }
+.sv h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.6rem, 7vw, 4.8rem); line-height: 1.02; margin: .6rem 0 1.4rem; }
+html[lang="en"] .sv h1 { letter-spacing: .005em; }
+.sv-lead { font-size: 1.22rem !important; line-height: 1.75 !important; color: var(--fg, #ede8de) !important; }
+.sv h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 3rem 0 .9rem; }
+html[lang="en"] .sv h2 { letter-spacing: .005em; }
+.sv p, .sv li { font-family: var(--f-body); font-size: 1.04rem; line-height: 1.85; color: rgba(237,232,222,.84); }
+.sv ul { padding-inline-start: 1.2rem; display: grid; gap: .45rem; }
+.sv a { color: var(--signal); }
+.sv-steps { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px !important; counter-reset: s; }
+.sv-steps li { counter-increment: s; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; padding: 16px 18px; background: rgba(237,232,222,.025); }
+.sv-steps li::before { content: "0" counter(s); display: block; font-family: var(--f-mono); color: var(--signal); font-size: .8125rem; margin-bottom: .3rem; }
+.sv-steps b { display: block; color: var(--fg, #ede8de); font-weight: 500; }
+.sv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1rem; }
+.sv-card { display: block; text-decoration: none; border-radius: 14px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: #111; }
+.sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: var(--fg, #ede8de); }
+.sv-card small { display: block; color: var(--fg-dim); font-size: .8125rem; margin-top: 2px; }
+.sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
+.sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
+.sv-faq summary h3 { display: inline; font: inherit; }
+.sv-cta { margin: 3.2rem 0 1rem; padding: 28px; border-radius: 18px; background: linear-gradient(135deg, rgba(255,79,26,.16), rgba(255,79,26,.04)); border: 1px solid rgba(255,79,26,.28); }
+.sv-cta h2 { margin-top: 0; }
+.sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
+.sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
+.sv-btn.ghost { background: transparent; color: var(--fg, #ede8de) !important; border: 1px solid rgba(237,232,222,.3); }
+.sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
+.sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: var(--fg, #ede8de); text-decoration: none; font-size: .92rem; }
+.sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }
+.sv-foot a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
+@media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
+
+.sv article > p, .sv article > ul, .sv article > ol, .sv article li { max-width: 58ch; }
+.bl-toc a { display: inline-flex; align-items: center; min-height: 32px; }
+.sv-foot a[href$="feed.xml"] { padding-inline: 6px; }
+@media (max-width: 700px) { .bl-toc a { min-height: 44px; } .bl-toc ol { gap: 0 !important; } }
+.sv article > p:not(.bl-meta), .sv article > ul, .sv article > ol { margin-bottom: 1.1rem; }
+.bl-meta { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 2rem; }
+.bl-meta b { color: var(--signal); font-weight: 400; }
+.bl-cover { margin: 2rem 0 0; border-radius: 18px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); }
+.bl-cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.bl-sum { margin: 2rem 0 0; padding: 20px 22px; border-radius: 14px; border-inline-start: 3px solid var(--signal); background: rgba(237,232,222,.035); }
+.bl-sum p { margin: 0; }
+.bl-sum p + p { margin-top: .6rem; }
+.bl-toc { margin: 2rem 0 0; padding: 18px 22px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); }
+.bl-toc b { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); font-weight: 400; }
+.bl-toc ol { margin: .6rem 0 0; gap: .3rem !important; }
+.bl-toc a { color: #ede8de; text-decoration: none; }
+.bl-toc a:hover { color: var(--signal); }
+.sv ol { padding-inline-start: 1.6rem; display: grid; gap: .45rem; }
+.sv h3 { font-family: var(--f-body); font-weight: 500; font-size: 1.18rem; color: #ede8de; margin: 2rem 0 .4rem; }
+.sv strong { color: #ede8de; font-weight: 500; }
+.bl-table { overflow-x: auto; margin: 1.2rem 0; border: 1px solid rgba(237,232,222,.1); border-radius: 14px; }
+.bl-table table { border-collapse: collapse; width: 100%; font-family: var(--f-body); font-size: .95rem; }
+.bl-table th, .bl-table td { text-align: start; padding: 12px 16px; border-bottom: 1px solid rgba(237,232,222,.08); color: rgba(237,232,222,.86); vertical-align: top; }
+.bl-table th { color: #ede8de; font-weight: 500; background: rgba(237,232,222,.04); }
+.bl-table tr:last-child td { border-bottom: 0; }
+.bl-author { display: flex; gap: 16px; align-items: center; margin: 3rem 0 0; padding: 20px; border-radius: 16px; border: 1px solid rgba(237,232,222,.1); }
+.bl-author img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; background: #1a1a1c; }
+.bl-author p { margin: 0; font-size: .95rem !important; line-height: 1.7 !important; }
+.bl-author b { color: #ede8de; font-weight: 500; }
+.sv-lead + .bl-list { margin-top: 2.2rem; }
+.bl-list { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px !important; }
+.bl-list a { display: block; height: 100%; text-decoration: none; border-radius: 16px; overflow: hidden; border: 1px solid rgba(237,232,222,.1); background: rgba(237,232,222,.025); }
+.bl-list img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.bl-list .tx { display: block; padding: 14px 16px 18px; }
+.bl-list time { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); }
+.bl-list b { display: block; color: #ede8de; font-family: var(--f-display); font-weight: 400; font-size: 1.35rem; line-height: 1.25; margin: .3rem 0; }
+.bl-list .tx span { display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .92rem; line-height: 1.6; }
+</style>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-10-11">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BlogPosting", "@id": "https://hgpro.io/blog/landing-page-that-converts.html#article", "headline": "דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו", "description": "מה הופך דף נחיתה לדף שמביא פניות: 9 רכיבים שחייבים להיות בו, מהכותרת ועד הכפתור, עם דוגמאות, טעויות נפוצות ורשימת בדיקה קצרה לפני שעולים לאוויר.", "image": "https://hgpro.io/blog/img/landing-page-that-converts.webp", "datePublished": "2026-10-11", "dateModified": "2026-10-11", "inLanguage": "he-IL", "wordCount": 1123, "keywords": "דף נחיתה שממיר", "author": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "חנוך גוטובסקי", "alternateName": "Hanoch Gotovski", "url": "https://hgpro.io/", "jobTitle": "מעצב ומפתח אתרים"}, "publisher": {"@type": "Organization", "@id": "https://hgpro.io/#business", "name": "HG Studio", "url": "https://hgpro.io/", "logo": {"@type": "ImageObject", "url": "https://hgpro.io/images/icon-512.png"}}, "mainEntityOfPage": "https://hgpro.io/blog/landing-page-that-converts.html", "isPartOf": {"@id": "https://hgpro.io/blog/#blog"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HG Studio", "item": "https://hgpro.io/"}, {"@type": "ListItem", "position": 2, "name": "מאמרים", "item": "https://hgpro.io/blog/"}, {"@type": "ListItem", "position": 3, "name": "דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו", "item": "https://hgpro.io/blog/landing-page-that-converts.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "כמה ארוך צריך להיות דף נחיתה?", "acceptedAnswer": {"@type": "Answer", "text": "כמה שצריך כדי לענות על השאלות של הלקוח, ולא יותר. שירות פשוט ומוכר מסתדר עם דף קצר. שירות יקר או חדש לקהל צריך יותר הסבר, יותר דוגמאות ויותר תשובות לשאלות."}}, {"@type": "Question", "name": "עדיף טופס או כפתור וואטסאפ?", "acceptedAnswer": {"@type": "Answer", "text": "בישראל, הרבה לקוחות מעדיפים וואטסאפ כי זה מהיר ומוכר. טופס מתאים כשצריך לאסוף פרטים מסודרים או כשהפניות מגיעות לצוות. אפשר לבדוק את שתי האפשרויות ולמדוד מה מביא יותר פניות."}}, {"@type": "Question", "name": "צריך דף נחיתה נפרד לכל קמפיין?", "acceptedAnswer": {"@type": "Answer", "text": "אם הקמפיינים מדברים על הצעות או קהלים שונים, כן. דף שממשיך בדיוק את המודעה ממיר טוב יותר מדף כללי. אם ההבדל קטן, מספיק לשנות את הכותרת."}}, {"@type": "Question", "name": "אפשר לעדכן את הדף לבד אחרי שהוא עולה?", "acceptedAnswer": {"@type": "Answer", "text": "כן, אם הדף בנוי עם מערכת ניהול שמאפשרת לשנות טקסטים ותמונות בלי לגעת בקוד. כדאי לוודא את זה מראש, כי דף נחיתה טוב משתפר עם הזמן לפי מה שמודדים."}}, {"@type": "Question", "name": "תוך כמה זמן אפשר לעלות לאוויר?", "acceptedAnswer": {"@type": "Answer", "text": "דף נחיתה הוא הפרויקט המהיר ביותר בבניית אתרים. כשהטקסטים והתמונות מוכנים, הוא יכול לעלות לאוויר בתוך שבוע עד שבועיים."}}]}]}</script>
+<script src="../js/consent.js" defer></script>
+<script src="../js/ga.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">דלגו לתוכן</a>
+<header class="sv-bar sv-bar-cta">
+  <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#pricing">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a></nav>
+</header>
+<main class="sv" id="main">
+  <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו</span></nav>
+  <article>
+  <p class="bl-meta"><b>מדריך</b><span>חנוך גוטובסקי</span><time datetime="2026-10-11">11 באוקטובר 2026</time><span>6 דקות קריאה</span></p>
+  <h1>דף נחיתה שממיר: 9 רכיבים שחייבים להיות בו</h1>
+  <p class="sv-lead">דף נחיתה טוב לא צריך להיות ארוך או מתוחכם. הוא צריך לענות מהר על שלוש שאלות: מה אתם מציעים, למה לסמוך עליכם, ומה עושים עכשיו. הנה הרכיבים שעושים את זה.</p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%90%D7%9E%D7%A8%20%22%D7%93%D7%A3%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%A9%D7%9E%D7%9E%D7%99%D7%A8%3A%209%20%D7%A8%D7%9B%D7%99%D7%91%D7%99%D7%9D%20%D7%A9%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%D7%9C%D7%94%D7%99%D7%95%D7%AA%20%D7%91%D7%95%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
+  <figure class="bl-cover"><img src="../blog/img/landing-page-that-converts.webp" srcset="../blog/img/landing-page-that-converts-640.webp 640w, ../blog/img/landing-page-that-converts.webp 1200w" sizes="(max-width: 900px) 100vw, 860px" alt="טלפון שמציג דף נחיתה מונח על משטח כהה, לצד מחברת סקיצות ועט" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
+  <nav class="bl-toc" aria-labelledby="toc-h"><b id="toc-h">במאמר הזה</b><ol><li><a href="#מה-זה-בעצם-דף-נחיתה-שממיר">מה זה בעצם "דף נחיתה שממיר"</a></li><li><a href="#9-הרכיבים-שחייבים-להיות-בדף">9 הרכיבים שחייבים להיות בדף</a></li><li><a href="#איך-זה-נראה-בפועל-דוגמה-לפני-ואחרי">איך זה נראה בפועל: דוגמה לפני ואחרי</a></li><li><a href="#הטעויות-שהכי-הרבה-פוגעות-בפניות">הטעויות שהכי הרבה פוגעות בפניות</a></li><li><a href="#רשימת-בדיקה-לפני-שעולים-לאוויר">רשימת בדיקה לפני שעולים לאוויר</a></li><li><a href="#מתי-דף-נחיתה-מספיק-ומתי-כדאי-אתר">מתי דף נחיתה מספיק, ומתי כדאי אתר</a></li></ol></nav>
+  <div class="bl-sum"><p><strong>בקצרה:</strong> דף נחיתה שממיר הוא דף עם מטרה אחת ברורה. הוא פותח בכותרת שאומרת מה מקבלים, מראה מיד למי זה מתאים, נותן סיבות אמיתיות לסמוך עליכם, ומסתיים בפעולה אחת פשוטה כמו וואטסאפ או טופס קצר.</p><p>רוב הדפים שלא מביאים פניות נופלים על אותם דברים: כותרת כללית מדי, יותר מדי אפשרויות, טעינה איטית בטלפון, וכפתור שלא ברור מה קורה כשלוחצים עליו.</p></div>
+<h2 id="מה-זה-בעצם-דף-נחיתה-שממיר">מה זה בעצם "דף נחיתה שממיר"</h2>
+<p>"להמיר" פירושו שמי שנכנס לדף עושה את הפעולה שרציתם: שולח הודעה, משאיר פרטים, קובע תור או קונה. דף נחיתה הוא עמוד שנבנה בשביל הפעולה הזאת בלבד. אין בו תפריט עמוס, אין בו עשרה נושאים, ואין בו קישורים שמוציאים את הגולשים החוצה.</p>
+<p>ההבדל בין דף נחיתה לדף הבית של אתר הוא המיקוד. דף הבית מציג את כל העסק. דף נחיתה מדבר עם קהל אחד, על הצעה אחת, ומבקש פעולה אחת. בגלל זה הוא מתאים במיוחד לקמפיינים ממומנים, להשקה של מוצר או שירות חדש, ולעצמאים שרוצים נוכחות ברורה בלי אתר שלם.</p>
+<p>אם אתם עוד מתלבטים בין דף נחיתה לאתר מלא, כתבתי על ההבדלים ועל מה שמשפיע על ההיקף במאמר <a href="../blog/how-much-does-a-website-cost.html">כמה עולה לבנות אתר לעסק</a>.</p>
+<h2 id="9-הרכיבים-שחייבים-להיות-בדף">9 הרכיבים שחייבים להיות בדף</h2>
+<p>אלה הרכיבים לפי הסדר שבו הם מופיעים בדרך כלל, מלמעלה למטה. לא כל דף צריך את כולם באותו גודל, אבל דף שחסר בו אחד מהם מרגיש חסר.</p>
+<ol><li><strong>כותרת שאומרת מה מקבלים.</strong> לא שם העסק ולא סיסמה. משפט אחד שאומר מה אתם עושים ובשביל מי. "סטודיו לפילאטיס בכפר סבא" עדיף על "התנועה שלך, הדרך שלך".</li><li><strong>משפט משנה שמוסיף פרט חשוב.</strong> איפה, תוך כמה זמן, או מה מיוחד בדרך שלכם. זה המקום להוריד את השאלה הראשונה שעולה לגולשים.</li><li><strong>כפתור פעולה אחד, בולט, כבר במסך הראשון.</strong> "שלחו הודעה בוואטסאפ" ברור יותר מ"צרו קשר". מי שכבר החליט לא צריך לגלול כדי למצוא איך פונים אליכם.</li><li><strong>תמונה או סרטון שמראים את הדבר האמיתי.</strong> את המקום, את המוצר, את התוצאה או אתכם. תמונות מאגר כלליות נראות כמו כל דף אחר ולא מוסיפות אמון.</li><li><strong>למי זה מתאים, ולמי פחות.</strong> שתיים או שלוש שורות שעוזרות לגולשים לזהות את עצמם. דווקא לכתוב למי זה לא מתאים בונה אמון, כי זה מראה שאתם לא מנסים למכור לכולם.</li><li><strong>מה מקבלים בפועל.</strong> רשימה קצרה וקונקרטית של מה כלול, במילים של הלקוח ולא במונחים מקצועיים. "תוכנית אימון לשמונה שבועות" ברור יותר מ"מעטפת ליווי הוליסטית".</li><li><strong>סיבות לסמוך עליכם.</strong> המלצות אמיתיות עם שם, עבודות קודמות, תעודות או ניסיון. רק דברים אמיתיים. המלצה מומצאת מזיקה יותר מהיעדר המלצות.</li><li><strong>תשובות לשאלות שעוצרות אנשים.</strong> כמה זמן זה לוקח, מה קורה אם זה לא מתאים, איך מתחילים. שלוש עד חמש שאלות קצרות מורידות חלק גדול מההיסוס.</li><li><strong>סיום עם אותה פעולה.</strong> בסוף הדף חוזרים על הכפתור, עם משפט קצר שמזכיר מה קורה אחרי הלחיצה. מי שקרא עד הסוף הוא בדיוק מי שאתם רוצים שיפנה.</li></ol>
+<h2 id="איך-זה-נראה-בפועל-דוגמה-לפני-ואחרי">איך זה נראה בפועל: דוגמה לפני ואחרי</h2>
+<p>כדי שזה יהיה מוחשי, הנה דוגמה לעסק בדיוני, קליניקה לפיזיותרפיה. אותו עסק, שני ניסוחים של החלק העליון בדף:</p>
+<div class="bl-table"><table><thead><tr><th scope="col">רכיב</th><th scope="col">לפני</th><th scope="col">אחרי</th></tr></thead><tbody><tr><td>כותרת</td><td>ברוכים הבאים לקליניקה שלנו</td><td>פיזיותרפיה לכאבי גב וצוואר, בלי רשימת המתנה</td></tr><tr><td>משפט משנה</td><td>אנחנו מאמינים בטיפול אישי</td><td>טיפול ראשון כבר השבוע, בהרצליה או בבית שלכם</td></tr><tr><td>כפתור</td><td>צור קשר</td><td>קביעת טיפול ראשון בוואטסאפ</td></tr><tr><td>תמונה</td><td>אישה מחייכת מתמונת מאגר</td><td>חדר הטיפולים האמיתי, עם המטפלת</td></tr><tr><td>אמון</td><td>"שירות מקצועי ואמין"</td><td>שלוש המלצות עם שם פרטי ועיר</td></tr></tbody></table></div>
+<p>בעמודת "לפני" אין שום דבר לא נכון, אבל אין בה גם שום דבר שגורם להשאיר פרטים. בעמודת "אחרי", מי שנכנס יודע תוך כמה שניות אם זה בשבילו ומה לעשות עכשיו.</p>
+<h2 id="הטעויות-שהכי-הרבה-פוגעות-בפניות">הטעויות שהכי הרבה פוגעות בפניות</h2>
+<p><strong>יותר מדי אפשרויות.</strong> כפתור לוואטסאפ, טופס, טלפון, מייל, אינסטגרם ופייסבוק, הכול באותו גודל. כשיש שש דרכים לפנות, הרבה אנשים לא בוחרים באף אחת. בחרו פעולה ראשית אחת, ותנו לשאר להופיע בקטן.</p>
+<p><strong>טופס ארוך.</strong> כל שדה נוסף הוא עוד סיבה לוותר. ברוב העסקים מספיקים שם וטלפון, או הודעה מוכנה בוואטסאפ. את שאר הפרטים אפשר לשאול בשיחה.</p>
+<p><strong>דף שנבנה למחשב.</strong> רוב הכניסות לדפי נחיתה, במיוחד מפרסום ברשתות, מגיעות מהטלפון. אם הכפתור קטן, הטקסט צפוף או התמונה כבדה, הדף מפסיד את רוב הגולשים לפני שהם בכלל קראו.</p>
+<p><strong>טעינה איטית.</strong> מי שלחץ על מודעה מחכה שניות ספורות, לא יותר. תמונות לא דחוסות, סרטון כבד בראש הדף ותוספים מיותרים הם הסיבות הנפוצות.</p>
+<p><strong>הבטחה שלא מתאימה למודעה.</strong> אם המודעה מדברת על משהו אחד והדף פותח במשהו אחר, הגולשים חוזרים אחורה. הכותרת בדף צריכה להמשיך בדיוק את מה שהביא אותם.</p>
+<h2 id="רשימת-בדיקה-לפני-שעולים-לאוויר">רשימת בדיקה לפני שעולים לאוויר</h2>
+<p>לפני שמפנים לדף תנועה, ובמיוחד לפני שמשלמים על פרסום, כדאי לעבור על הרשימה הבאה בטלפון, לא במחשב:</p>
+<ul><li>האם מבינים מה אתם מציעים בלי לגלול?</li><li>האם הכפתור הראשי נראה במסך הראשון, וגדול מספיק לאגודל?</li><li>האם לחיצה על הכפתור עובדת, ופותחת בדיוק את מה שצריך?</li><li>האם הדף נטען מהר גם ברשת סלולרית?</li><li>האם כל הטקסטים קריאים, בלי לעשות זום?</li><li>האם יש לפחות סיבה אמיתית אחת לסמוך עליכם?</li><li>האם מודדים כמה אנשים לוחצים על הכפתור, כדי לדעת אם שינוי עוזר?</li></ul>
+<p>הסעיף האחרון חשוב יותר ממה שנראה. בלי מדידה אי אפשר לדעת אם הכותרת החדשה עובדת טוב יותר מהקודמת, או שזה רק נראה ככה.</p>
+<h2 id="מתי-דף-נחיתה-מספיק-ומתי-כדאי-אתר">מתי דף נחיתה מספיק, ומתי כדאי אתר</h2>
+<p>דף נחיתה מספיק כשיש לכם הצעה אחת ברורה וקהל אחד. עצמאים, נותני שירות בתחום אחד, קמפיין לתקופה מוגבלת או השקה של מוצר. הוא מהיר לבנייה, קל למדוד, וקל לשנות.</p>
+<p>כשיש כמה שירותים שונים, קהלים שונים, או שאתם רוצים להופיע בגוגל על הרבה חיפושים, דף אחד כבר לא מספיק. אז נכון לבנות אתר עם עמוד נפרד לכל שירות. אם אתם כבר באתר בבנייה עצמית ושוקלים לעבור, כדאי לקרוא את ההשוואה <a href="../blog/wix-vs-custom-website.html">וויקס או אתר בהתאמה אישית</a>.</p>
+<p>את הדרך שבה אני בונה דפי נחיתה, עם עיצוב אישי, מדידת פניות וחיבור לוואטסאפ, אפשר לראות בעמוד <a href="../services/landing-page.html">דף נחיתה</a>. את הגישה לעיצוב באופן כללי תמצאו בעמוד <a href="../services/web-design.html">עיצוב אתרים</a>. המחיר אצלי נקבע בהצעה כתובה עם מחיר סגור, אחרי שיחת היכרות קצרה.</p>
+<h2 id="שאלות-נפוצות">שאלות נפוצות</h2><div class="sv-faq">
+<details><summary><h3>כמה ארוך צריך להיות דף נחיתה?</h3></summary><p>כמה שצריך כדי לענות על השאלות של הלקוח, ולא יותר. שירות פשוט ומוכר מסתדר עם דף קצר. שירות יקר או חדש לקהל צריך יותר הסבר, יותר דוגמאות ויותר תשובות לשאלות.</p></details>
+<details><summary><h3>עדיף טופס או כפתור וואטסאפ?</h3></summary><p>בישראל, הרבה לקוחות מעדיפים וואטסאפ כי זה מהיר ומוכר. טופס מתאים כשצריך לאסוף פרטים מסודרים או כשהפניות מגיעות לצוות. אפשר לבדוק את שתי האפשרויות ולמדוד מה מביא יותר פניות.</p></details>
+<details><summary><h3>צריך דף נחיתה נפרד לכל קמפיין?</h3></summary><p>אם הקמפיינים מדברים על הצעות או קהלים שונים, כן. דף שממשיך בדיוק את המודעה ממיר טוב יותר מדף כללי. אם ההבדל קטן, מספיק לשנות את הכותרת.</p></details>
+<details><summary><h3>אפשר לעדכן את הדף לבד אחרי שהוא עולה?</h3></summary><p>כן, אם הדף בנוי עם מערכת ניהול שמאפשרת לשנות טקסטים ותמונות בלי לגעת בקוד. כדאי לוודא את זה מראש, כי דף נחיתה טוב משתפר עם הזמן לפי מה שמודדים.</p></details>
+<details><summary><h3>תוך כמה זמן אפשר לעלות לאוויר?</h3></summary><p>דף נחיתה הוא הפרויקט המהיר ביותר בבניית אתרים. כשהטקסטים והתמונות מוכנים, הוא יכול לעלות לאוויר בתוך שבוע עד שבועיים.</p></details></div>
+  <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-156.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HG Studio. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
+  </article>
+  <section class="sv-cta" aria-labelledby="cta-h">
+    <h2 id="cta-h">רוצים אתר כזה לעסק שלכם?</h2>
+    <p>שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.</p>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%90%D7%9E%D7%A8%20%22%D7%93%D7%A3%20%D7%A0%D7%97%D7%99%D7%AA%D7%94%20%D7%A9%D7%9E%D7%9E%D7%99%D7%A8%3A%209%20%D7%A8%D7%9B%D7%99%D7%91%D7%99%D7%9D%20%D7%A9%D7%97%D7%99%D7%99%D7%91%D7%99%D7%9D%20%D7%9C%D7%94%D7%99%D7%95%D7%AA%20%D7%91%D7%95%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+  </section>
+  <h2>שירותים קשורים</h2><ul class="sv-rel"><li><a href="../services/landing-page.html">בניית דף נחיתה</a></li><li><a href="../services/web-design.html">עיצוב אתרים</a></li><li><a href="../services/website-building.html">בניית אתרים לעסקים</a></li></ul>
+  <h2>עוד מאמרים</h2><ul class="bl-list"><li><a href="how-much-does-a-website-cost.html"><img src="../blog/img/how-much-does-a-website-cost.webp" srcset="../blog/img/how-much-does-a-website-cost-640.webp 640w, ../blog/img/how-much-does-a-website-cost.webp 1200w" sizes="(max-width: 700px) 100vw, 420px" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="tx"><time datetime="2026-10-04">4 באוקטובר 2026</time><b>כמה עולה לבנות אתר לעסק ב-2026?</b><span>כמה עולה אתר לעסק בישראל: מה ההבדל בין דף נחיתה, אתר תדמית וחנות אינטרנטית, מה מעלה את המחיר, אילו עלויות ממשיכות אחרי העלייה ואיך לא לשלם פעמיים.</span></span></a></li><li><a href="wix-vs-custom-website.html"><img src="../blog/img/wix-vs-custom-website.webp" srcset="../blog/img/wix-vs-custom-website-640.webp 640w, ../blog/img/wix-vs-custom-website.webp 1200w" sizes="(max-width: 700px) 100vw, 420px" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="tx"><time datetime="2026-10-04">4 באוקטובר 2026</time><b>וויקס או אתר בהתאמה אישית: מה עדיף לעסק שלכם?</b><span>השוואה כנה בין וויקס לאתר שנבנה בהתאמה אישית: עלות, זמן, עיצוב, מהירות, גוגל ובעלות על האתר. מתי וויקס מספיק לגמרי, ומתי הוא כבר עוצר את העסק שלכם.</span></span></a></li></ul>
+</main>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
+<footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
+<script src="../js/fluid.js" defer></script>
+<script src="../js/a11y.js" defer></script>
+<script src="../js/assistant.js" defer></script>
+</body>
+</html>
