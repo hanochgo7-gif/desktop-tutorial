@@ -4,7 +4,7 @@
 window.PRODUCTS = [
   {
     brand: "SQT",
-    name: "SQT ביו-מיקרונידלינג, אבקה",
+    name: "SQT ביו-מיקרונידלינג, אבקה", slug: "product-1",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק", "אקנה ועור שמן"],
     desc: "מחטים ננו-ביולוגיות לחידוש האפידרמיס. לשימוש בקליניקה.",
@@ -15,7 +15,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "SQT Refine Spicule Serum",
+    name: "SQT Refine Spicule Serum", slug: "product-2",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק", "לחות ויובש"],
     desc: "סרום ספיקולים לשימוש ביתי בין הטיפולים, ערכה עם ארבעה מילויים.",
@@ -26,7 +26,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "מסכת זהב מחממת",
+    name: "מסכת זהב מחממת", slug: "gold-heating-mask",
     category: "מסכות",
     cut: "images/shelf/hz-gold-heating-mask.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
@@ -39,7 +39,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סרום לילה",
+    name: "סרום לילה", slug: "night-serum-for-anti-aging",
     category: "סרומים ובוסטרים",
     cut: "images/shelf/hz-night-serum.webp",
     model: "images/models/hz-night-serum.glb",
@@ -54,7 +54,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "ברייט & פרוטקט דמי מייקאפ מינרלי SPF 50",
+    name: "ברייט & פרוטקט דמי מייקאפ מינרלי SPF 50", slug: "bright-protect-mineral-spf-50-demi-make-up",
     category: "הגנה מהשמש",
     cut: "images/shelf/hz-bright-protect-spf50.webp",
     concerns: ["שגרה יומית", "כתמים והבהרה"],
@@ -67,7 +67,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם אייג' פרוטקשן",
+    name: "קרם אייג' פרוטקשן", slug: "age-protection-cream",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-age-protection.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
@@ -80,7 +80,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם פרופסי לייט",
+    name: "קרם פרופסי לייט", slug: "prophecy-light-cream",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-prophecy-light.webp",
     concerns: ["לחות ויובש"],
@@ -93,7 +93,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סרום פרוטקשן שילד",
+    name: "סרום פרוטקשן שילד", slug: "protection-shield-serum",
     category: "סרומים ובוסטרים",
     cut: "images/shelf/hz-protection-shield.webp",
     concerns: ["אקנה ועור שמן"],
@@ -106,7 +106,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם דרמה פיל",
+    name: "קרם דרמה פיל", slug: "derma-fill-cream",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-derma-fill.webp",
     pick: true,
@@ -120,7 +120,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סרום פרופסי",
+    name: "סרום פרופסי", slug: "prophecy-serum",
     category: "סרומים ובוסטרים",
     cut: "images/shelf/hz-prophecy-serum.webp",
     pick: true,
@@ -134,7 +134,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "מסכת פנים רימיקרונייזד",
+    name: "מסכת פנים רימיקרונייזד", slug: "remicronized-mask",
     category: "מסכות",
     cut: "images/shelf/hz-remicronized-mask.webp",
     concerns: ["קמטים ומיצוק"],
@@ -147,7 +147,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם עיניים רימיקרונייזד",
+    name: "קרם עיניים רימיקרונייזד", slug: "remicronized-eye-cream",
     category: "עיניים",
     cut: "images/shelf/hz-remicronized-eye.webp",
     concerns: ["קמטים ומיצוק"],
@@ -160,7 +160,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "ג'ל ניקוי מטהר",
+    name: "ג'ל ניקוי מטהר", slug: "purifying-cleansing-gel",
     category: "ניקוי",
     cut: "images/shelf/hz-purifying-gel.webp",
     pick: true,
@@ -174,7 +174,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סבון אקטיב לעור בעייתי",
+    name: "סבון אקטיב לעור בעייתי", slug: "active-gentle-soap",
     category: "ניקוי",
     cut: "images/shelf/racheli-active-soap.webp",
     concerns: ["אקנה ועור שמן"],
@@ -187,7 +187,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סבון פנים לעור עדין",
+    name: "סבון פנים לעור עדין", slug: "gentle-skin-soap",
     category: "ניקוי",
     cut: "images/shelf/racheli-gentle-soap.webp",
     concerns: ["שגרה יומית", "עור רגיש"],
@@ -200,7 +200,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "ג'ל ניקוי לחותי",
+    name: "ג'ל ניקוי לחותי", slug: "moisturizing-cleansing-gel",
     category: "ניקוי",
     cut: "images/shelf/hz-moisturizing-gel.webp",
     concerns: ["שגרה יומית", "לחות ויובש"],
@@ -213,7 +213,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סבון קצף עדין",
+    name: "סבון קצף עדין", slug: "foaming-cleanser",
     category: "ניקוי",
     cut: "images/shelf/hz-foaming-cleanser.webp",
     concerns: ["עור רגיש", "שגרה יומית"],
@@ -226,7 +226,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם לחות לעור שמן גרין לאב 23",
+    name: "קרם לחות לעור שמן גרין לאב 23", slug: "moist-cream-for-oily-skin",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-moist-oily.webp",
     concerns: ["אקנה ועור שמן", "לחות ויובש"],
@@ -239,7 +239,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "סילקי פילטר SPF50",
+    name: "סילקי פילטר SPF50", slug: "silky-filter-clear-spf50",
     category: "הגנה מהשמש",
     cut: "images/shelf/hz-silky-filter.webp",
     pick: true,
@@ -253,7 +253,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם פרופסי ריץ'",
+    name: "קרם פרופסי ריץ'", slug: "prophecy-rich-cream",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-prophecy-rich.webp",
     concerns: ["לחות ויובש", "קמטים ומיצוק"],
@@ -266,7 +266,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם לחות לעור יבש גרין לאב 23",
+    name: "קרם לחות לעור יבש גרין לאב 23", slug: "moist-cream-for-dry-skin",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-moist-dry.webp",
     concerns: ["לחות ויובש"],
@@ -279,7 +279,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "קרם אקסטרים לצוואר ולמחשוף",
+    name: "קרם אקסטרים לצוואר ולמחשוף", slug: "extreme-cream",
     category: "קרמים ולחות",
     cut: "images/shelf/hz-extreme-cream.webp",
     concerns: ["קמטים ומיצוק"],
@@ -292,7 +292,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "מסכת אקסטרה סי",
+    name: "מסכת אקסטרה סי", slug: "extra-c-mask",
     category: "מסכות",
     cut: "images/shelf/hz-extra-c-mask.webp",
     pick: true,
@@ -306,7 +306,7 @@ window.PRODUCTS = [
   },
   {
     brand: "חוה זינגבוים",
-    name: "אקטיב טריטמנט לושן (מי פנים)",
+    name: "אקטיב טריטמנט לושן (מי פנים)", slug: "active-treatment-lotion",
     category: "ניקוי",
     cut: "images/shelf/bebelle-treatment-lotion.webp",
     concerns: ["שגרה יומית"],
@@ -319,7 +319,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "סרום ליפטינג Cell Pro",
+    name: "סרום ליפטינג Cell Pro", slug: "cell-pro-lifting-serum",
     category: "סרומים ובוסטרים",
     concerns: ["קמטים ומיצוק"],
     en: "Cell Pro Lifting Serum",
@@ -332,7 +332,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "קרם פנים ליפטינג Cell Pro",
+    name: "קרם פנים ליפטינג Cell Pro", slug: "cell-pro-lifting-face-cream",
     category: "קרמים ולחות",
     concerns: ["קמטים ומיצוק"],
     en: "Cell Pro Lifting Face Cream",
@@ -345,7 +345,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "קרם אנטי-אייג'ינג גלובלי Repagen Exclusive",
+    name: "קרם אנטי-אייג'ינג גלובלי Repagen Exclusive", slug: "repagen-exclusive-global-anti-age-cream",
     category: "קרמים ולחות",
     concerns: ["קמטים ומיצוק"],
     en: "Repagen Exclusive Global Anti-Age Cream",
@@ -358,7 +358,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "קרם עיניים עשיר Repagen Exclusive",
+    name: "קרם עיניים עשיר Repagen Exclusive", slug: "repagen-exclusive-rich-eye-care-cream",
     category: "עיניים",
     concerns: ["קמטים ומיצוק"],
     en: "Repagen Exclusive Rich Eye Care Cream",
@@ -371,7 +371,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "פלואיד לחות לידיים Repagen Exclusive",
+    name: "פלואיד לחות לידיים Repagen Exclusive", slug: "repagen-exclusive-hand-moisture-fluid",
     category: "קרמים ולחות",
     concerns: ["לחות ויובש"],
     en: "Repagen Exclusive Hand Moisture Fluid",
@@ -384,7 +384,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "פלואיד פנים Repagen Exclusive",
+    name: "פלואיד פנים Repagen Exclusive", slug: "repagen-exclusive-face-fluid",
     category: "סרומים ובוסטרים",
     concerns: ["קמטים ומיצוק"],
     en: "Repagen Exclusive Face Fluid",
@@ -397,7 +397,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "סרום רטינול Triple Action PRO AGE",
+    name: "סרום רטינול Triple Action PRO AGE", slug: "retinol-multi-level-performance-serum",
     category: "סרומים ובוסטרים",
     concerns: ["קמטים ומיצוק", "כתמים והבהרה"],
     en: "Retinol Multi Level Performance Serum",
@@ -411,7 +411,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "קרם יום ולילה רטינול Triple Action PRO AGE",
+    name: "קרם יום ולילה רטינול Triple Action PRO AGE", slug: "retinol-multi-level-performance-day-night-cream",
     category: "קרמים ולחות",
     concerns: ["קמטים ומיצוק", "כתמים והבהרה"],
     en: "Retinol Multi Level Performance Day + Night Cream",
@@ -424,7 +424,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "מסכת לילה רטינול Triple Action PRO AGE",
+    name: "מסכת לילה רטינול Triple Action PRO AGE", slug: "retinol-multi-level-performance-overnight-mask",
     category: "מסכות",
     concerns: ["קמטים ומיצוק", "כתמים והבהרה"],
     en: "Retinol Multi Level Performance Overnight Mask",
@@ -437,7 +437,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "בוסטר רטינול Triple Action PRO AGE",
+    name: "בוסטר רטינול Triple Action PRO AGE", slug: "retinol-multi-level-performance-booster",
     category: "סרומים ובוסטרים",
     concerns: ["קמטים ומיצוק", "כתמים והבהרה"],
     en: "Retinol Multi Level Performance Booster",
@@ -450,7 +450,7 @@ window.PRODUCTS = [
   },
   {
     brand: "KLAPP",
-    name: "קרם צוואר ומחשוף Cell Pro Firming",
+    name: "קרם צוואר ומחשוף Cell Pro Firming", slug: "cell-pro-firming-neck-d-collet-cream",
     category: "קרמים ולחות",
     concerns: ["קמטים ומיצוק"],
     en: "Cell Pro Firming Neck & Décolleté Cream",
@@ -463,7 +463,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "פילינג לקטוביוני Sensi Peel",
+    name: "פילינג לקטוביוני Sensi Peel", slug: "lactobionic-sensi-peel",
     category: "ערכות וטיפול מקצועי",
     concerns: ["עור רגיש"],
     en: "Lactobionic Sensi Peel",
@@ -476,7 +476,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "מסכת Neuro Sensi",
+    name: "מסכת Neuro Sensi", slug: "neuro-sensi-mask",
     category: "ערכות וטיפול מקצועי",
     concerns: ["עור רגיש"],
     en: "Neuro Sensi Mask",
@@ -489,7 +489,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "מסכת Skin Tone Neuro",
+    name: "מסכת Skin Tone Neuro", slug: "skin-tone-neuro-mask",
     category: "מסכות",
     concerns: ["כתמים והבהרה"],
     en: "Skin Tone Neuro Mask",
@@ -502,7 +502,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "פילינג Skin Tone Neuro",
+    name: "פילינג Skin Tone Neuro", slug: "skin-tone-neuro-peel",
     category: "ערכות וטיפול מקצועי",
     concerns: ["כתמים והבהרה"],
     en: "Skin Tone Neuro Peel",
@@ -515,7 +515,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "קרם Skin Tone Neuro",
+    name: "קרם Skin Tone Neuro", slug: "skin-tone-neuro-cream",
     category: "קרמים ולחות",
     concerns: ["כתמים והבהרה"],
     en: "Skin Tone Neuro Cream",
@@ -528,7 +528,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "בוסטר PDRN Rederm",
+    name: "בוסטר PDRN Rederm", slug: "pdrn-rederm-booster",
     category: "סרומים ובוסטרים",
     concerns: ["קמטים ומיצוק", "לחות ויובש"],
     en: "PDRN Rederm Booster",
@@ -541,7 +541,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "ערכת EXO + PRP Advanced Treat",
+    name: "ערכת EXO + PRP Advanced Treat", slug: "exo-prp-advanced-treat",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "EXO + PRP Advanced Treat",
@@ -554,7 +554,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "מסכת PRP",
+    name: "מסכת PRP", slug: "prp-mask",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "PRP Mask",
@@ -567,7 +567,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "PRP Rejuvenator (שפופרת)",
+    name: "PRP Rejuvenator (שפופרת)", slug: "prp-rejuvenator",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "PRP Rejuvenator",
@@ -580,7 +580,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Arkana",
-    name: "PRP Rejuvenator (צנצנת)",
+    name: "PRP Rejuvenator (צנצנת)", slug: "prp-rejuvenator-cream",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "PRP Rejuvenator Cream",
@@ -593,7 +593,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Anti-Aging Rejuvenation",
+    name: "ערכת SQT Anti-Aging Rejuvenation", slug: "sqt-anti-aging-rejuvenation-set",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "SQT Anti-Aging Rejuvenation Set",
@@ -605,7 +605,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Resurfacing Repair",
+    name: "ערכת SQT Resurfacing Repair", slug: "sqt-resurfacing-repair-set",
     category: "ערכות וטיפול מקצועי",
     concerns: ["אקנה ועור שמן"],
     en: "SQT Resurfacing Repair Set",
@@ -617,7 +617,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Resurfacing Repair Set II",
+    name: "ערכת SQT Resurfacing Repair Set II", slug: "sqt-resurfacing-repair-set-ii",
     category: "ערכות וטיפול מקצועי",
     concerns: ["אקנה ועור שמן"],
     en: "SQT Resurfacing Repair Set II",
@@ -629,7 +629,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Dr. Spicule",
-    name: "ערכת Firming Revitalizing",
+    name: "ערכת Firming Revitalizing", slug: "dr-spicule-firming-revitalizing-system",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק", "כתמים והבהרה"],
     en: "Dr. Spicule Firming Revitalizing System",
@@ -641,7 +641,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Dr. Spicule",
-    name: "ערכת Acne Solutions",
+    name: "ערכת Acne Solutions", slug: "dr-spicule-acne-solutions-system",
     category: "ערכות וטיפול מקצועי",
     concerns: ["אקנה ועור שמן"],
     en: "Dr. Spicule Acne Solutions System",
@@ -653,7 +653,7 @@ window.PRODUCTS = [
   },
   {
     brand: "Dr. Spicule",
-    name: "ערכת Pigmentation & Brightening",
+    name: "ערכת Pigmentation & Brightening", slug: "dr-spicule-anti-pigmentation-brightening-system",
     category: "ערכות וטיפול מקצועי",
     concerns: ["כתמים והבהרה"],
     en: "Dr. Spicule Anti-Pigmentation & Brightening System",
@@ -665,7 +665,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Anti-Aging לטיפול ביתי",
+    name: "ערכת SQT Anti-Aging לטיפול ביתי", slug: "sqt-anti-aging-homecare-set",
     category: "ערכות וטיפול מקצועי",
     concerns: ["קמטים ומיצוק"],
     en: "SQT Anti-Aging Homecare Set",
@@ -677,7 +677,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Revitalizing Beauty",
+    name: "ערכת SQT Revitalizing Beauty", slug: "sqt-revitalizing-beauty-set",
     category: "ערכות וטיפול מקצועי",
     concerns: ["כתמים והבהרה"],
     en: "SQT Revitalizing Beauty Set",
@@ -689,7 +689,7 @@ window.PRODUCTS = [
   },
   {
     brand: "SQT",
-    name: "ערכת SQT Skin Booster (Hydrating)",
+    name: "ערכת SQT Skin Booster (Hydrating)", slug: "sqt-nourishing-hydrating-set",
     category: "ערכות וטיפול מקצועי",
     concerns: ["לחות ויובש", "עור רגיש"],
     en: "SQT Nourishing Hydrating Set",

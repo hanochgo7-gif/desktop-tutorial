@@ -57,12 +57,15 @@
     var off = noMotion() || document.documentElement.classList.contains('a11y-motion');
     $$('video[autoplay]').forEach(function (v) { if (off) { v.pause(); } else if (v.paused) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } });
   }
-  // רקע פריחה: במובייל טוענים את הגרסה האנכית
+  // רקע פריחה: מקור אחד בלבד (רחב או אנכי), נטען אחרי שהעמוד מוכן כדי לא להתחרות בתוכן
   (function () {
-    var bg = document.querySelector('.site-bg__video'); if (!bg || window.innerWidth > 760) return;
-    bg.poster = bg.poster.replace('bloom-wide', 'bloom-tall');
-    $$('source', bg).forEach(function (s) { s.src = s.src.replace('bloom-wide', 'bloom-tall'); });
-    bg.load();
+    var bg = document.querySelector('.site-bg__video'); if (!bg) return;
+    if (noMotion() || root.classList.contains('a11y-motion') || (navigator.connection && navigator.connection.saveData)) return;
+    var base = window.innerWidth <= 760 ? bg.dataset.tall : bg.dataset.wide; if (!base) return;
+    if (window.innerWidth <= 760) bg.poster = bg.poster.replace('bloom-wide', 'bloom-tall');
+    var start = function () { var webm = bg.canPlayType('video/webm; codecs="vp9"'); bg.src = base + (webm ? '.webm' : '.mp4'); bg.autoplay = true; bg.load(); var pr = bg.play(); if (pr && pr.catch) pr.catch(function () {}); };
+    var go = function () { if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2500 }); else setTimeout(start, 600); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
   })();
   syncVideos(); window.syncSiteVideos = syncVideos;
   // לפני/אחרי: גרירה בין שתי התמונות
@@ -106,6 +109,7 @@
   /* טופס הרשמה לתור: נפתח בוואטסאפ עם הפרטים */
   var bookForm = $('#book-form');
   if (bookForm) {
+    (function () { var g = new URLSearchParams(location.search).get('goal'); if (!g) return; var r = $$('input[name="goal"]', bookForm).filter(function (i) { return i.value === g; })[0]; if (r) { r.checked = true; } })();
     bookForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var ok = true;
@@ -116,6 +120,7 @@
       if (!ok) { showToast('חסרים שם וטלפון'); return; }
       var d = new FormData(bookForm);
       var lines = ['היי, אשמח לקבוע תור.', 'שם: ' + d.get('name'), 'טלפון: ' + d.get('phone'), 'מטרה: ' + d.get('goal'), 'מתי נוח: ' + d.get('when')];
+      if (window.track) window.track('generate_lead', { method: 'form', goal: d.get('goal') });
       if ((d.get('message') || '').trim()) lines.push('הערה: ' + d.get('message').trim());
       window.open('https://wa.me/972545779379?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
       var done = $('.spa-form__done', bookForm); if (done) done.hidden = false;
@@ -389,6 +394,7 @@
 
   /* ===== מוצרים ===== */
   var P = window.PRODUCTS || [];
+  var ROOTP = (document.body && document.body.dataset.root) || '';
   function waLink(p) { return WA + '?text=' + encodeURIComponent('היי, התעניינתי במוצר ' + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : '')); }
   var HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10A4 4 0 0 1 12 7.6 4 4 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>';
   var LS = 'rotem-list', lastRemoved = null, undoT;
@@ -400,6 +406,7 @@
   function qtyOf(i) { return Math.max(1, parseInt(saved.qty[i], 10) || 1); }
   function persist() { try { localStorage.setItem(LS, JSON.stringify(saved.ids)); localStorage.setItem(LS + '-qty', JSON.stringify(saved.qty)); } catch (e) {} }
   function listMessage() {
+    if (window.track && saved.ids.length) { /* נשלח בלחיצה, לא בכל רינדור */ }
     var lines = saved.ids.map(function (i) { var p = P[i], q = qtyOf(i); return '• ' + (q > 1 ? q + ' × ' : '') + p.name + (p.size ? ' (' + p.size + ')' : '') + (p.brand && p.name.indexOf(p.brand) < 0 ? ' של ' + p.brand : ''); });
     var ship = $('input[name="list-ship"]:checked'), note = $('#list-note');
     var tail = '\n\n' + (ship ? ship.value : 'איסוף מהקליניקה') + (note && note.value.trim() ? '\nהערה: ' + note.value.trim() : '') + '\n\nאפשר לקבל מחירים וזמינות?';
@@ -410,7 +417,7 @@
     $$('[data-save]').forEach(function (b) { var i = parseInt(b.dataset.save, 10), on = saved.has(i); b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); if (b.id === 'qv-save') b.textContent = on ? 'ברשימה ✓' : 'הוספה לרשימה'; });
     if (bar) { bar.hidden = !n; if (cnt) cnt.textContent = n; }
     var nc = $('#nav-count'); if (nc) { nc.hidden = !n; nc.textContent = n; }
-    ['#list-send', '#list-send-2'].forEach(function (s) { var a = $(s); if (a) a.href = listMessage(); });
+    ['#list-send', '#list-send-2'].forEach(function (s) { var a = $(s); if (a) { a.href = listMessage(); a.dataset.track = 'list_send'; a.dataset.items = saved.ids.length; } });
     var sub = $('#list-sub'), opts = $('#list-opts');
     var units = saved.ids.reduce(function (a, i) { return a + qtyOf(i); }, 0);
     if (sub) sub.textContent = n ? (n === 1 ? 'מוצר אחד' : n + ' מוצרים') + (units > n ? ', ' + units + ' יחידות' : '') : 'עדיין ריקה';
@@ -419,7 +426,7 @@
       var undoRow = lastRemoved ? '<li class="list-undo"><span>הוסר: ' + escapeHtml(P[lastRemoved.i].name) + '</span><button type="button" data-undo="1">ביטול</button></li>' : '';
       items.innerHTML = undoRow + (n ? saved.ids.map(function (i) {
         var p = P[i], q = qtyOf(i);
-        return '<li>' + (p.image ? '<img src="' + p.image + '" alt="">' : '<span class="list-ph">תמונה בקרוב</span>') +
+        return '<li>' + (p.image ? '<img src="' + ROOTP + p.image + '" alt="">' : '<span class="list-ph">תמונה בקרוב</span>') +
           '<div><button type="button" class="list-name" data-qv="' + i + '">' + escapeHtml(p.name) + '</button><small>' + escapeHtml([p.brand, p.size].filter(Boolean).join(' · ')) + '</small>' +
           '<span class="list-qty" role="group" aria-label="כמות"><button type="button" data-qty="' + i + '" data-d="-1" aria-label="פחות">−</button><b>' + q + '</b><button type="button" data-qty="' + i + '" data-d="1" aria-label="יותר">+</button></span></div>' +
           '<button type="button" class="list-remove" data-unsave="' + i + '" aria-label="הסרה מהרשימה">×</button></li>';
@@ -429,6 +436,8 @@
   document.addEventListener('change', function (e) { if (e.target.closest('#list-opts')) syncList(); });
   document.addEventListener('input', function (e) { if (e.target.id === 'list-note') syncList(); });
   function toggleSave(i, btn) {
+    var onProductPage = !!document.querySelector('.product-page');
+    if (window.track) window.track(saved.has(i) ? 'remove_from_list' : 'add_to_list', { item: (P[i] || {}).name });
     var k = saved.ids.indexOf(i);
     if (k >= 0) {
       saved.ids.splice(k, 1); lastRemoved = { i: i, k: k };
@@ -436,7 +445,7 @@
       var inDrawer = $('#list') && $('#list').open;
       if (!inDrawer) showToast('הוסר מהרשימה', 'ביטול', undoRemove);
     }
-    else { saved.ids.push(i); showToast('נוסף לרשימה. אפשר להמשיך לבחור ולשלוח הכול יחד'); if (btn) { btn.classList.add('is-pop'); setTimeout(function () { btn.classList.remove('is-pop'); }, 500); } }
+    else { saved.ids.push(i); if (onProductPage) showToast('נוסף לרשימה', 'לרשימה ולשליחה', function () { location.href = (document.body.dataset.root || '') + 'shop.html#list'; }); else showToast('נוסף לרשימה. אפשר להמשיך לבחור ולשלוח הכול יחד'); if (btn) { btn.classList.add('is-pop'); setTimeout(function () { btn.classList.remove('is-pop'); }, 500); } }
     persist(); syncList();
   }
   function cardHtml(p, i) {
@@ -456,7 +465,7 @@
     var save = '<button class="shelf-save' + (saved.has(i) ? ' is-on' : '') + '" type="button" data-save="' + i + '" aria-label="הוספה לרשימה" aria-pressed="' + saved.has(i) + '">' + HEART + '</button>';
     var badge = (p.pick ? '<span class="shelf-badge">רותם ממליצה</span>' : '') + (p.model ? '<span class="shelf-badge shelf-badge--3d">360°</span>' : '');
     var media = p.cut ? '<img src="' + p.cut + '" alt="" loading="lazy" decoding="async">'
-      : p.image ? '<img src="' + p.image + '" alt="" loading="lazy" decoding="async">'
+      : p.image ? '<img src="' + ROOTP + p.image + '" alt="" loading="lazy" decoding="async">'
       : '<span class="shelf-ph" aria-hidden="true">תמונה בקרוב</span>';
     var cls = 'shelf-item' + (p.cut ? '' : p.image ? ' is-box' : ' is-empty');
     var price = p.price ? '<span class="price">₪ ' + p.price + '</span>' : '<span class="price-ask">מחיר בוואטסאפ</span>';
@@ -522,6 +531,7 @@
     $('#sc-wa').href = waLink(p);
     var sv = $('#sc-save'); if (sv) sv.dataset.save = String(i);
     var mo = $('#sc-more'); if (mo) mo.dataset.qv = String(i);
+    var pg = $('#sc-page'); if (pg) { pg.href = p.slug ? 'shop/p/' + p.slug + '.html' : '#'; pg.hidden = !p.slug; }
     shelfCard.hidden = false; placeCard(li);
     requestAnimationFrame(function () { shelfCard.classList.add('is-on'); });
     syncList();
@@ -620,16 +630,28 @@
     pillBox(brandBox, brands, 'brand', function (v) { return P.filter(function (p) { return p.brand === v; }).length; });
     pillBox(catBox, cats, 'cat', function (v) { return P.filter(function (p) { return p.category === v; }).length; });
     function norm(s) { return String(s || '').toLowerCase().replace(/[\u0591-\u05c7]/g, '').replace(/[\-_.,'"()\/]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+    function grams(s) { var g = {}; s = ' ' + s + ' '; for (var i = 0; i < s.length - 1; i++) g[s.substr(i, 2)] = (g[s.substr(i, 2)] || 0) + 1; return g; }
+    function dice(a, b) { var ga = grams(a), gb = grams(b), n = 0, ta = 0, tb = 0, k; for (k in ga) { ta += ga[k]; if (gb[k]) n += Math.min(ga[k], gb[k]); } for (k in gb) tb += gb[k]; return ta && tb ? 2 * n / (ta + tb) : 0; }
+    // חיפוש סלחני: כשאין התאמה מדויקת, מתאימים לפי דמיון (שגיאות כתיב, חלק ממילה)
+    function fuzzyMatch(words, hay) {
+      var hw = hay.split(' ');
+      return words.every(function (w) { if (hay.indexOf(w) >= 0) return true; if (w.length < 3) return false; return hw.some(function (h) { return h.indexOf(w) >= 0 || dice(w, h) >= 0.62; }); });
+    }
     function filtered() {
       var words = norm(state.q).split(' ').filter(Boolean);
+      var strict = filterWith(words, false);
+      return strict.length || !words.length ? strict : filterWith(words, true);
+    }
+    function filterWith(words, fuzzy) {
       return P.map(function (p, i) { return { p: p, i: i }; }).filter(function (x) {
         var p = x.p;
         if (state.brand && p.brand !== state.brand) return false;
         if (state.cat && p.category !== state.cat) return false;
         if (state.goal && (p.concerns || []).indexOf(state.goal) < 0) return false;
         if (words.length) {
-          var hay = norm(p.name + ' ' + (p.en || '') + ' ' + (p.desc || '') + ' ' + p.brand + ' ' + p.category + ' ' + (p.size || ''));
-          for (var k = 0; k < words.length; k++) if (hay.indexOf(words[k]) < 0) return false;
+          var hay = norm(p.name + ' ' + (p.en || '') + ' ' + (p.desc || '') + ' ' + p.brand + ' ' + p.category + ' ' + (p.size || '') + ' ' + (p.concerns || []).join(' '));
+          if (fuzzy) { if (!fuzzyMatch(words, hay)) return false; }
+          else for (var k = 0; k < words.length; k++) if (hay.indexOf(words[k]) < 0) return false;
         }
         return true;
       });
@@ -669,7 +691,7 @@
       if (top < barH - 4 || top > window.innerHeight * .7) window.scrollTo({ top: window.scrollY + top - barH - 8, behavior: noMotion() ? 'auto' : 'smooth' });
     }
     var st; if (search) {
-      search.addEventListener('input', function () { clearTimeout(st); st = setTimeout(function () { state.q = search.value; live = true; render(); keepResultsVisible(); }, 160); });
+      search.addEventListener('input', function () { clearTimeout(st); st = setTimeout(function () { state.q = search.value; live = true; render(); if (window.track && state.q.length > 2) window.track('search', { term: state.q }); keepResultsVisible(); }, 160); });
       search.addEventListener('keydown', function (e) { if (e.key === 'Enter') search.blur(); if (e.key === 'Escape') { search.value = ''; state.q = ''; live = true; render(); } });
     }
     if (clearBtn) clearBtn.addEventListener('click', function () { search.value = ''; state.q = ''; live = true; render(); search.focus(); });
@@ -687,6 +709,7 @@
     }
     rerenderFns.push(function () { render(); });
     ['#nav-quiz', '#m-nav-quiz'].forEach(function (sel) { var a = $(sel); if (a) a.addEventListener('click', function (e) { e.preventDefault(); body.classList.remove('menu-open'); var q = $('#quiz-open'); if (q) q.click(); }); });
+    (function () { var h = location.hash; if (h === '#list') { var l = $('#nav-list'); if (l) setTimeout(function () { l.click(); }, 50); } if (h === '#quiz') { var q = $('#nav-quiz'); if (q) setTimeout(function () { q.click(); }, 50); } })();
     ['#nav-list', '#m-nav-list'].forEach(function (sel) { var a = $(sel); if (a) a.addEventListener('click', function (e) { e.preventDefault(); body.classList.remove('menu-open'); var l = $('#list-open'); if (l) l.click(); }); });
     if (sort) sort.addEventListener('change', function () { state.sort = sort.value; render(); });
     render();
@@ -750,7 +773,7 @@
   function loadModelViewer() {
     if (window.customElements && customElements.get('model-viewer')) return Promise.resolve();
     if (mvReady) return mvReady;
-    mvReady = new Promise(function (res, rej) { var sc = document.createElement('script'); sc.type = 'module'; sc.src = 'js/model-viewer.min.js'; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc); });
+    mvReady = new Promise(function (res, rej) { var sc = document.createElement('script'); sc.type = 'module'; sc.src = ROOTP + 'js/model-viewer.min.js'; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc); });
     return mvReady;
   }
   function mount3d(stage) {
@@ -788,7 +811,7 @@
   function openQv(i) {
     var p = P[i]; if (!p) return;
     if (!qv) { location.href = 'shop.html?q=' + encodeURIComponent(p.name); return; }
-    var imgHtml = p.image ? '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '">' : '<div class="product-media-empty" style="height:100%"><span>תמונה בקרוב</span></div>';
+    var imgHtml = p.image ? '<img src="' + ROOTP + p.image + '" alt="' + escapeHtml(p.name) + '">' : '<div class="product-media-empty" style="height:100%"><span>תמונה בקרוב</span></div>';
     $('#qv-media').innerHTML = p.model ? '<div class="qv-3d">' + imgHtml + '<button type="button" class="qv-3d__open" data-open3d="' + p.model + '" data-poster="' + (p.cut || p.image || '') + '" data-name="' + escapeHtml(p.name) + '">סיבוב 360°</button></div>' : imgHtml;
     $('#qv-meta').textContent = [p.brand, p.category, p.size].filter(Boolean).join(' · ');
     $('#qv-title').textContent = p.name;
@@ -796,6 +819,8 @@
     $('#qv-tags').innerHTML = [p.en, p.category].filter(Boolean).map(function (t) { return '<span>' + escapeHtml(t) + '</span>'; }).join('');
     $('#qv-price').textContent = p.price ? '₪ ' + p.price : 'המחיר נמסר בוואטסאפ';
     $('#qv-wa').href = waLink(p);
+    var pl = $('#qv-page'); if (pl) { pl.href = p.slug ? 'shop/p/' + p.slug + '.html' : '#'; pl.hidden = !p.slug; }
+    if (window.track) window.track('view_item', { item: p.name, brand: p.brand });
     var qs = $('#qv-save'); if (qs) qs.dataset.save = String(i);
     syncList();
     if (typeof qv.showModal === 'function') qv.showModal(); else qv.setAttribute('open', '');

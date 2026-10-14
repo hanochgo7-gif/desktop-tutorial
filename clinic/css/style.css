@@ -316,7 +316,7 @@ body.menu-open .site-header .header-cta { opacity: 0; pointer-events: none; }
 .ba-pair:hover .ba-frame img { transform: scale(1.05); }
 .ba-tag { position: absolute; top: 12px; inset-inline-start: 12px; font: 600 12px var(--sans); letter-spacing: .04em; color: var(--ink); background: rgba(255,255,255,.92); padding: 6px 12px; border-radius: 999px; }
 .ba-tag-after { color: #fff; background: var(--gold-deep); }
-.ba-pair figcaption { grid-column: 1 / -1; margin-top: 12px; color: var(--slate); font-size: 15px; }
+.ba-pair figcaption { grid-column: 1 / -1; margin-top: 12px; color: #463f41; font-size: 15px; }
 .ba-note { margin-top: 28px; color: var(--muted); font-size: 14px; max-width: 40em; }
 
 /* ===== לייזר: עובדות ===== */
@@ -1467,3 +1467,58 @@ body.page-shop { background: transparent; }
 .site-header.is-scrolled .brand__text b { font-size: 16px; }
 @media (max-width: 760px) { .brand__text b { font-size: 15px; } .brand__text small { font-size: 9px; letter-spacing: .16em; } }
 html.a11y-contrast .brand__text, html.a11y-contrast .brand__text b, html.a11y-contrast .brand__text small { color: #000; }
+
+/* ===== שטחי מגע (WCAG 2.2, יעד 44px במובייל) ===== */
+@media (max-width: 760px) {
+  .link-line, .site-footer nav a, .guide-links a, .article__crumbs a, .article__related a, .lux-ask, .a11y-foot a, .hero-paths a, .treat-chips a { min-height: 44px; display: inline-flex; align-items: center; }
+  .site-footer nav { gap: 6px 18px; }
+  .shelf-save { width: 44px; height: 44px; }
+  .shelf-save svg { width: 20px; height: 20px; }
+  .nav-toggle { min-width: 44px; min-height: 44px; }
+  .list-qty button, .search-clear, .qv-close, .drawer-close { min-width: 44px; min-height: 44px; }
+}
+
+/* ===== עמוד מוצר ===== */
+.product-page { max-width: 1120px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) var(--gutter) 80px; }
+.product-page .article__crumbs { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.product-page .article__crumbs a { color: inherit; }
+.pp { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.pp__media { position: relative; margin: 0; border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(43,36,32,.4); }
+.pp__media img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; padding: 8%; }
+.pp__media .qv-3d__open { position: absolute; bottom: 14px; inset-inline-start: 14px; }
+.pp__body h1 { font-size: clamp(30px, 4vw, 44px); margin: 4px 0 6px; }
+.pp__en { color: var(--muted); font-size: 14px; letter-spacing: .04em; margin: 0 0 18px; direction: ltr; text-align: start; }
+.pp__body .desc { font-size: 18px; font-weight: 300; max-width: 32em; margin: 0 0 18px; }
+.pp__body .qv-tags { margin-bottom: 18px; }
+.pp__body .qv-tags a { font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.pp__body .qv-tags a:hover { background: var(--gold-soft); }
+.pp__price { display: block; margin: 0 0 14px; font-size: 14px; }
+.pp__body .qv-actions { margin-top: 0; }
+.pp__note { margin: 18px 0 0; font-size: 14px; color: var(--muted); }
+.pp__pro { margin: 14px 0 0; padding: 12px 16px; border-radius: 12px; background: var(--gold-soft); font-size: 14px; }
+.pp__faq { margin-top: 28px; border-top: 1px solid var(--line); }
+.pp__faq details { border-bottom: 1px solid var(--line); }
+.pp__faq summary { cursor: pointer; padding: 14px 0; font-weight: 500; list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+.pp__faq summary::-webkit-details-marker { display: none; }
+.pp__faq summary::after { content: "+"; font: 300 22px var(--serif); color: var(--gold-deep); }
+.pp__faq details[open] summary::after { content: "−"; }
+.pp__faq p { margin: 0 0 14px; color: var(--slate); font-size: 15px; }
+.pp__related { margin-top: clamp(40px, 6vw, 72px); }
+.pp__related h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 18px; }
+.pp__related ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+.pp__related a { display: block; text-decoration: none; color: inherit; }
+.pp__related figure { margin: 0 0 10px; aspect-ratio: 1 / 1; border-radius: 14px; background: #fff; border: 1px solid var(--line); overflow: hidden; display: grid; place-items: center; }
+.pp__related img { width: 100%; height: 100%; object-fit: contain; padding: 10%; transition: transform .5s var(--ease-out); }
+.pp__related a:hover img { transform: scale(1.05); }
+.pp__related b { display: block; font: 400 16px var(--serif); line-height: 1.25; }
+.pp__related small { color: var(--muted); font-size: 13px; }
+.pp__noimg { font-size: 13px; color: var(--muted); }
+.pp__back { margin-top: 32px; font-size: 14px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+.qv-page { margin-inline-start: auto; font-size: 14px; }
+@media (max-width: 860px) { .pp { grid-template-columns: 1fr; } .pp__media { max-width: 420px; margin: 0 auto; width: 100%; } }
+
+.shop-footer p a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 760px) {
+  .a11y-page li a, .a11y-page p a, .map-link, .qv-3d__open, .pp__back a, .article__crumbs a, .pp__faq summary { min-height: 44px; display: inline-flex; align-items: center; }
+  .pp__media .qv-3d__open { min-height: 44px; }
+}

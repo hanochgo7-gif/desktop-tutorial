@@ -3,9 +3,11 @@
 (function () {
   'use strict';
   var $ = function (s, r) { return (r || document).querySelector(s); };
-  var ROOT = (function () { var s = document.currentScript && document.currentScript.getAttribute('src') || ''; return s.indexOf('../') === 0 ? '../' : ''; })();
+  var ROOT = (function () { var s = document.currentScript && document.currentScript.getAttribute('src') || ''; var m = s.match(/^(\.\.\/)+/); return (document.body && document.body.dataset.root) || (m ? m[0] : ''); })();
   var WA = 'https://wa.me/972545779379';
   var KB = window.KB || [];
+  // מאגר הידע נטען רק כשפותחים את הצ'אט (חוסך ~60KB בטעינת כל עמוד)
+  function loadKB(cb) { if (window.KB && window.KB.length) { KB = window.KB; cb(); return; } var sc = document.createElement('script'); sc.src = ROOT + 'js/knowledge.js?v=1'; sc.onload = function () { KB = window.KB || []; cb(); }; sc.onerror = function () { cb(); }; document.head.appendChild(sc); }
   var LINKS = {
     book: { t: 'קביעת תור', h: ROOT + 'index.html#contact' },
     wa: { t: 'וואטסאפ לרותם', h: WA + '?text=' + encodeURIComponent('היי, יש לי שאלה'), ext: true },
@@ -187,10 +189,10 @@
   /* ---------- ממשק ---------- */
   var btn = document.createElement('button');
   btn.className = 'asst-btn'; btn.type = 'button'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'asst'); btn.setAttribute('aria-label', 'פתיחת צ\'אט עם העוזרת של רותם');
-  btn.innerHTML = '<span class="asst-btn__avatar"><img src="' + ROOT + 'images/logo-mark.png" alt="" width="36" height="32"><i aria-hidden="true"></i></span><span class="asst-btn__text"><b>העוזרת האישית</b><small>שאלי אותי כל דבר</small></span>';
+  btn.innerHTML = '<span class="asst-btn__avatar"><img src="' + ROOT + 'images/logo-mark.webp" alt="" width="36" height="32"><i aria-hidden="true"></i></span><span class="asst-btn__text"><b>העוזרת האישית</b><small>שאלי אותי כל דבר</small></span>';
   var box = document.createElement('div');
   box.className = 'asst'; box.id = 'asst'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'צ\'אט עם העוזרת של רותם');
-  box.innerHTML = '<div class="asst__head"><img src="' + ROOT + 'images/logo-mark.png" alt="" width="40" height="36"><div><b>העוזרת של רותם</b><small id="asst-status">עונה מיד, מהידע באתר</small></div><button type="button" class="asst__close" id="asst-close" aria-label="סגירה">×</button></div>' +
+  box.innerHTML = '<div class="asst__head"><img src="' + ROOT + 'images/logo-mark.webp" alt="" width="40" height="36"><div><b>העוזרת של רותם</b><small id="asst-status">עונה מיד, מהידע באתר</small></div><button type="button" class="asst__close" id="asst-close" aria-label="סגירה">×</button></div>' +
     '<div class="asst__log" id="asst-log" aria-live="polite"></div>' +
     '<div class="asst__chips" id="asst-chips"></div>' +
     '<form class="asst__form" id="asst-form"><input type="text" id="asst-in" autocomplete="off" placeholder="מה תרצי לדעת?" aria-label="השאלה שלך" maxlength="300"><button type="submit" aria-label="שליחה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button></form>' +
@@ -235,8 +237,8 @@
     setChips(nextChips(a, text));
     return a;
   }
-  function ask(text) {
-    text = (text || '').trim(); if (!text || busy) return;
+  function ask(text) { text = (text || '').trim(); if (!text || busy) return; loadKB(function () { askNow(text); }); }
+  function askNow(text) {
     bubble('user', text); input.value = ''; setChips([]);
     if (flow) return showLocal(text);
     var local = answer(text);
@@ -304,6 +306,7 @@
   function open(o) {
     box.hidden = !o; btn.setAttribute('aria-expanded', String(o)); document.body.classList.toggle('asst-open', o);
     if (o) {
+      loadKB(function () {}); if (window.track) window.track('assistant_open');
       if (!log.children.length) { bubble('bot', 'היי, אני העוזרת של רותם. אפשר לשאול אותי על הטיפולים, המחירים, השעות או המוצרים, או לקבוע תור כאן בצ\'אט.', []); setChips(STARTERS); }
       setTimeout(function () { input.focus(); }, 60);
       if (!sampleTried && window.claude && typeof window.claude.use === 'function') {
