@@ -139,10 +139,14 @@
   // הכפתור יושב באותה שורה עם כפתור הנגישות, בצד השני. הגובה משתנה בין העמודים (בעמודי השירות בטלפון יש פס וואטסאפ בתחתית)
   function place() {
     var a = document.querySelector('.a11y__btn'), r = a && a.getBoundingClientRect();
-    if (!r || !r.height) return;
-    var b = Math.max(12, Math.round(innerHeight - r.bottom - (btn.offsetHeight - r.height) / 2));
-    btn.style.bottom = b + 'px';
-    if (hint) hint.style.bottom = (b + btn.offsetHeight + 12) + 'px';
+    if (r && r.height) {
+      var b = Math.max(12, Math.round(innerHeight - r.bottom - (btn.offsetHeight - r.height) / 2));
+      btn.style.bottom = b + 'px';
+      if (hint) hint.style.bottom = (b + btn.offsetHeight + 12) + 'px';
+    }
+    // הודעת העוגיות יושבת באותה פינה, אז היא עולה מעל כפתור הצ'אט (גם כשהוא מורם מעל פס הוואטסאפ בעמודי השירות)
+    var c = document.querySelector('.consent');
+    if (c && btn.offsetHeight) c.style.bottom = Math.round((parseFloat(btn.style.bottom) || parseFloat(getComputedStyle(btn).bottom) || 18) + btn.offsetHeight + 12) + 'px';
   }
 
   function panel() {
@@ -604,7 +608,7 @@
       if (shown) return;
       t = setTimeout(function () {
         var done = form.querySelector('.brief-done'), r = form.getBoundingClientRect();
-        if ((done && !done.hidden) || (dlg && dlg.open) || hint || r.bottom < 0 || r.top > innerHeight) return;
+        if ((done && !done.hidden) || (dlg && dlg.open) || hint || document.querySelector('.consent:not([hidden])') || r.bottom < 0 || r.top > innerHeight) return;
         shown = true; try { sessionStorage.setItem('hg-chat-help', '1'); } catch (e) { }
         hint = document.createElement('div'); hint.className = 'ht-hint';
         hint.innerHTML = '<span>' + T('מתלבטים מה לבחור? המצפן יכול לעזור להחליט, או לענות על שאלה לפני שממשיכים.', 'Not sure what to pick? Compass can help you decide, or answer a question before you continue.') + '</span>' +
