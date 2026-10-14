@@ -194,8 +194,9 @@ ul, ol { list-style: none; }
   text-decoration: none; cursor: pointer;
   transition: border-color .2s, color .2s, background-color .2s;
 }
-.header-cta { border-color: var(--gold); color: var(--gold); }
-.header-cta:hover { background: var(--gold); color: var(--night); }
+/* הפעולה הראשית תמיד מלאה בזהב, גם בכותרת: קל למצוא אותה מכל נקודה בדף */
+.header-cta { border-color: var(--gold); background: var(--gold); color: var(--night); }
+.header-cta:hover { background: #e2b866; border-color: #e2b866; color: var(--night); }
 .menu-btn:hover, .menu-btn[aria-expanded="true"] { border-color: var(--gold); }
 .menu-toggle-bars, .menu-toggle-bars::before, .menu-toggle-bars::after {
   display: block; width: 20px; height: 2px; background: currentColor;
@@ -216,7 +217,7 @@ ul, ol { list-style: none; }
   background: #0c0906;
   opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s;
 }
-.menu.is-open { opacity: 1; visibility: visible; }
+.menu.is-open { opacity: 1; visibility: visible; transition: opacity .3s, visibility 0s; }   /* גלוי מיד, כדי שהפוקוס יעבור לתפריט */
 .menu-in {
   display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 32px clamp(32px, 6vw, 96px);
   max-width: calc(var(--max) + 2 * var(--gutter)); min-height: 100%; margin: 0 auto;
@@ -1178,3 +1179,31 @@ html.lenis, html.lenis body { height: auto; }
 html.lenis { scroll-behavior: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ---------- המסך הראשון: הכפתור "לתיאום אימון ניסיון" נראה בלי לגלול גם במסכים נמוכים ---------- */
+@media (min-width: 761px) and (max-height: 860px) {
+  .hero-content .logo img { width: clamp(150px, 25vh, 300px); }
+  .hero-disciplines { margin-top: 2vh; }
+  .hero-title { margin-top: 1.4vh; }
+  .hero-title-a { font-size: clamp(4.4rem, 14.5vh, 10rem); }
+  .hero-title-b { font-size: clamp(3.2rem, 10vh, 7rem); }
+  .hero-offer { margin-top: 2vh; }
+  .hero-lead { margin-top: 1.6vh; }
+  .hero-actions { margin-top: 2.6vh; }
+  .hero-stage { padding-top: calc(var(--header-h) + 8px); padding-bottom: 48px; }
+}
+@media (max-width: 760px) and (max-height: 760px) {
+  .hero-title { margin-top: 4px; }
+  .hero-title-a { font-size: 3.7rem; }
+  .hero-title-b { font-size: 2.7rem; }
+  .hero-offer { margin-top: 8px; font-size: 1.3rem; }
+  .hero-lead { margin-top: 6px; font-size: 1.25rem; line-height: 1.45; }
+  .hero-content .hero-actions { margin-top: 12px; }
+  .hero-content .hero-actions .btn { min-height: 48px; }
+  .hero-content .assure { margin-top: 8px; }
+}
+
+/* כרטיס הסטודיו בטלפון: חבלי הזירה נשארים, בלי שטח ריק גדול מעליהם */
+@media (max-width: 760px) {
+  .where-card { min-height: 0; padding-top: 104px; }
+}

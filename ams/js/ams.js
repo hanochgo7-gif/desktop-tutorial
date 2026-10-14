@@ -6,10 +6,25 @@
 
   // גלילה חלקה בגלגלת העכבר (Lenis, הקובץ מאוחסן באתר, בלי צד שלישי).
   // במגע נשארת הגלילה הרגילה של המכשיר. לא פועלת עם "הפחתת תנועה" או "עצירת אנימציות".
+  // הספרייה נטענת רק במחשב עם עכבר, אחרי שהדף נטען, כדי לא להכביד על הטלפון ועל הטעינה הראשונה
   let lenis = null;
+  let lenisLoading = false;
   const motionOff = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mouse = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const lenisSrc = document.currentScript ? new URL('vendor/lenis.min.js', document.currentScript.src).href : '';
   const smooth = () => {
-    const want = !!window.Lenis && !motionOff.matches && !root.classList.contains('a11y-still');
+    if (document.readyState !== 'complete') return;   // נקרא שוב באירוע load
+    const want = mouse.matches && !motionOff.matches && !root.classList.contains('a11y-still');
+    if (want && !lenis && !window.Lenis) {
+      if (!lenisLoading && lenisSrc) {
+        lenisLoading = true;
+        const s = document.createElement('script');
+        s.src = lenisSrc;
+        s.onload = smooth;
+        document.head.appendChild(s);
+      }
+      return;
+    }
     if (want && !lenis) {
       lenis = new window.Lenis({
         autoRaf: true,
@@ -23,8 +38,9 @@
       lenis = null;
     }
   };
-  smooth();
+  if (document.readyState === 'complete') smooth(); else window.addEventListener('load', smooth, { once: true });
   motionOff.addEventListener('change', smooth);
+  mouse.addEventListener('change', smooth);
   window.addEventListener('ams:a11y', smooth);   // נשלח מתפריט הנגישות כשההגדרות משתנות
 
   // קישור לסעיף באותו דף: גלילה חלקה, והפוקוס עובר לסעיף (כמו בקישור רגיל) למי שמשתמש במקלדת
@@ -170,13 +186,15 @@
       return run > 0 ? Math.min(1, Math.max(0, -r.top / run)) : 0;
     };
 
+    const poster = hero.querySelector('[data-hero-poster]');
     const nearestLoaded = (i) => {
       for (let d = 0; d < count; d++) {
         const a = frames[i - d], b = frames[i + d];
         if (a && a.complete && a.naturalWidth) return a;
         if (b && b.complete && b.naturalWidth) return b;
       }
-      return null;
+      // עד שהפריימים נטענים מציירים את תמונת הפתיחה (זה הפריים הראשון), באותו מיקום בדיוק
+      return poster && poster.complete && poster.naturalWidth ? poster : null;
     };
 
     // ההתקדמות בגלילה -> מספר פריים (לא שלם). רגע קצר של שמירה בהתחלה ובסוף.
@@ -250,7 +268,21 @@
     fit();
     measure();
     if (document.fonts) document.fonts.ready.then(() => { measure(); draw(true); });
-    load();
+    if (poster && !poster.complete) poster.addEventListener('load', () => draw(true), { once: true });
+    requestAnimationFrame(() => draw(true));   // במשימה נפרדת, כדי לא להאריך את טעינת הסקריפט
+    // הפריימים נטענים רק כשמתחילים לגלול או לגעת, או כשהדף כבר נח. עד אז רואים את תמונת הפתיחה (אותו פריים),
+    // כך שהטעינה הראשונה בטלפון קלה ומהירה
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((t) => window.removeEventListener(t, start));
+      load();
+    };
+    ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((t) => window.addEventListener(t, start, { passive: true }));
+    const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1));
+    const later = () => setTimeout(() => idle(start, { timeout: 2000 }), 1500);
+    if (document.readyState === 'complete') later(); else window.addEventListener('load', later, { once: true });
     window.addEventListener('scroll', () => {
       request();
       const cue = hero.querySelector('[data-hero-cue]');
@@ -260,7 +292,7 @@
       const next = size();
       fit();
       measure();
-      if (next !== set) { set = next; frames.length = 0; current = -1; load(); }
+      if (next !== set) { set = next; frames.length = 0; current = -1; if (started) load(); }
       draw(true);
     });
   }
@@ -393,12 +425,14 @@
     };
     const toggles = [['contrast', 'ניגודיות גבוהה'], ['links', 'הדגשת קישורים'], ['font', 'גופן קריא'], ['still', 'עצירת אנימציות']];
 
-    const btn = document.createElement('button');
+    // הכפתור כבר בכותרת (נבנה בסקריפט הבנייה, כדי שהכותרת לא תזוז בטעינה); אם אין, יוצרים אותו
+    const ready = document.querySelector('.a11y-btn');
+    const btn = ready || document.createElement('button');
     btn.type = 'button';
     btn.className = 'a11y-btn';
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-controls', 'a11y-panel');
-    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" fill="currentColor"/>' +
+    if (!ready) btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" fill="currentColor"/>' +
       '<path d="M4 8.5l8 1.5 8-1.5M12 10v5m0 0l-4 6m4-6l4 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
       '<span>נגישות</span>';
 
@@ -442,10 +476,10 @@
     document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close(false); });
     // הכפתור יושב בכותרת העליונה (תמיד גלוי ולא מסתיר טקסט); בדף בלי כותרת הוא צף בפינה
     const slot = document.querySelector('.header-actions');
-    const wrap = document.createElement('div');
-    wrap.className = slot ? 'a11y a11y-in-header' : 'a11y';
+    const wrap = ready ? ready.parentElement : document.createElement('div');
+    if (!ready) wrap.className = slot ? 'a11y a11y-in-header' : 'a11y';
     wrap.append(btn, panel);
-    if (slot) slot.prepend(wrap); else document.body.appendChild(wrap);
+    if (!ready) { if (slot) slot.prepend(wrap); else document.body.appendChild(wrap); }
     apply(); sync();
   })();
 

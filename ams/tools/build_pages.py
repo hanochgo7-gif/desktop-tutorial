@@ -294,6 +294,9 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 </svg>'''
 
 
+A11Y_BTN = '    <div class="a11y a11y-in-header"><button class="a11y-btn" type="button" aria-expanded="false" aria-controls="a11y-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" fill="currentColor"/><path d="M4 8.5l8 1.5 8-1.5M12 10v5m0 0l-4 6m4-6l4 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>נגישות</span></button></div>\n'
+
+
 def header(root, current=None):
     """כותרת עליונה + תפריט מסך מלא. root = '' לדף הבית, '../' לדפי שירות."""
     home = f'{root}index.html'
@@ -318,7 +321,7 @@ def header(root, current=None):
     <a href="{root}trial.html">אימון ניסיון</a>
   </nav>
   <div class="header-actions">
-    <a class="header-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="header">{WA_ICON}<span>אימון ניסיון</span></a>
+{A11Y_BTN}    <a class="header-cta" href="{wa('היי אביב, אשמח לתאם אימון ניסיון')}" target="_blank" rel="noopener" data-cta="header">{WA_ICON}<span>אימון ניסיון</span></a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
       <span class="menu-btn-label">תפריט</span>
       <span class="menu-toggle-bars" aria-hidden="true"></span>
@@ -1159,7 +1162,7 @@ def trial_page():
 <header class="site-header" data-header>
   <span class="brand"><img src="assets/brand/ams.svg" alt="AMS – Mind &amp; Body Connection" width="420" height="126"></span>
   <div class="header-actions">
-    <a class="header-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-header">{WA_ICON}<span>אימון ניסיון</span></a>
+{A11Y_BTN}    <a class="header-cta" href="{wa(msg)}" target="_blank" rel="noopener" data-cta="lp-header">{WA_ICON}<span>אימון ניסיון</span></a>
   </div>
 </header>
 
@@ -1295,9 +1298,9 @@ def main():
         html = re.sub(r'\n<script>try\{var a=JSON\.parse\(localStorage\.getItem\(\'ams_a11y\'\).*?</script>', '', html)
         html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + A11Y_HEAD, 1)
         html = re.sub(r'<script>window\.AMS_ANALYTICS=.*?</script>\n', '', html)
+        # Lenis נטען מתוך ams.js רק כשצריך (עכבר), לא כתגית בדף
         html = re.sub(r'<script src="[^"]*js/vendor/lenis\.min\.js" defer></script>\n', '', html)
-        html = re.sub(r'(<script src="([^"]*)js/ams\.js" defer></script>)',
-                      lambda m: analytics_tag() + f'<script src="{m.group(2)}js/vendor/lenis.min.js" defer></script>\n' + m.group(1), html, count=1)
+        html = re.sub(r'(<script src="[^"]*js/ams\.js" defer></script>)', lambda m: analytics_tag() + m.group(1), html, count=1)
         with open(fp, 'w', encoding='utf-8') as f:
             f.write(seo_finalize(html, rel) if index else html)
         if index:
