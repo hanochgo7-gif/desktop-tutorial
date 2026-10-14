@@ -294,7 +294,7 @@ TERMS_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העס
   <ul>
     <li>גופנים: Rubik, ‏Geist Mono, ‏JetBrains Mono, ‏Frank Ruhl Libre, ‏Fraunces, ‏Handjet, ‏Heebo ו-IBM Plex Mono, ברישיון SIL Open Font License 1.1, מאוחסנים בשרת של האתר.</li>
     <li>ספריית התלת־ממד three.js, ברישיון MIT.</li>
-    <li>מוזיקה בסרטים: הפרלוד מהסוויטה לצ׳לו מס׳ 1 של באך (הקלטה בנחלת הכלל, מוויקישיתוף); הנוקטורן אופ׳ 9 מס׳ 2 של שופן (הקלטה של Peter Johnston, ברישיון CC0); הפתיחה ל"וילהלם טל" של רוסיני (התזמורת של חיל הנחתים האמריקאי, בנחלת הכלל).</li>
+    <li>מוזיקה בסרטים: הפרלוד מהסוויטה לצ׳לו מס׳ 1 של באך (הקלטה בנחלת הכלל, מוויקישיתוף); הנוקטורן אופ׳ 9 מס׳ 2 של שופן (הקלטה של Peter Johnston, ברישיון CC0); הפתיחה ל"וילהלם טל" של רוסיני (התזמורת של חיל הנחתים האמריקאי, בנחלת הכלל); "מצב רוח של בוקר" מתוך "פר גינט" של גריג (Musopen, בנחלת הכלל, מוויקישיתוף).</li>
     <li>התמונות, הסרטים והקולות שמסומנים כנוצרים בבינה מלאכותית נוצרו בכלים בתשלום, לפי תנאי השימוש שלהם.</li>
   </ul>
 
@@ -341,7 +341,7 @@ TERMS_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business of 
   <ul>
     <li>Fonts: Rubik, Geist Mono, JetBrains Mono, Frank Ruhl Libre, Fraunces, Handjet, Heebo and IBM Plex Mono, under the SIL Open Font License 1.1, hosted on the site's own server.</li>
     <li>The three.js 3D library, under the MIT license.</li>
-    <li>Music in the films: the Prelude from Bach's Cello Suite No. 1 (a public domain recording, from Wikimedia Commons); Chopin's Nocturne Op. 9 No. 2 (recorded by Peter Johnston, CC0); the overture to Rossini's William Tell (the United States Marine Corps Band, public domain).</li>
+    <li>Music in the films: the Prelude from Bach's Cello Suite No. 1 (a public domain recording, from Wikimedia Commons); Chopin's Nocturne Op. 9 No. 2 (recorded by Peter Johnston, CC0); the overture to Rossini's William Tell (the United States Marine Corps Band, public domain); Morning Mood from Grieg's Peer Gynt (Musopen, public domain, from Wikimedia Commons).</li>
     <li>Images, films and voices labeled as made with AI were created with paid tools, under their terms of use.</li>
   </ul>
 

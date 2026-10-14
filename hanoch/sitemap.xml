@@ -37,7 +37,7 @@
     <image:image><image:loc>https://hgpro.io/work/cinema/elef.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/mashkanta.webp</image:loc></image:image>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת קולנועית של דקה לשמן זית שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 20 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
@@ -60,7 +60,7 @@
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/ad.webp</image:loc></image:image>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת שמן זית שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
@@ -114,7 +114,7 @@
     <lastmod>2026-10-11</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת שמן זית שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/social-media.html</loc>
@@ -146,7 +146,7 @@
     <lastmod>2026-10-11</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>Elef · Galilee olive oil</video:title><video:description>A cinematic olive oil commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/elef-en.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
-    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/social-media-for-business.html</loc>

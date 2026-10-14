@@ -10,16 +10,16 @@ IMG = {'/': ['/work/og-home.jpg', '/work/creation/poster.webp'], '/en.html': ['/
        '/en-work.html': ['/work/og-work.jpg'], '/archive/': ['/work/film/elef.webp', '/work/film/hg.webp', '/work/film/ad.webp'], '/archive/en.html': ['/work/film/elef.webp', '/work/film/hg.webp'],
        '/elef/': ['/elef/media/s8-poster.webp', '/elef/media/s1-1600.webp', '/elef/media/s12-1600.webp'], '/elef/en.html': ['/elef/media/s8-poster.webp']}
 VID = {'/work.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת קולנועית של דקה לשמן זית שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
-                       ('HG · Unforgettable', 'פרסומת בושם של 30 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
+                       ('HG · Unforgettable', 'פרסומת בושם של 20 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 20),
                        ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
        '/archive/': [('אֶלֶף · שמן זית מהגליל', 'פרסומת שמן זית שנוצרה בבינה מלאכותית.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
-                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30),
+                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 20),
                      ('לפני שהעיר מתעוררת', 'סרט פרסומת של דקה שנוצר בבינה מלאכותית.', '/work/film/ad.webp', '/work/film/ad.mp4', 59)],
        '/archive/en.html': [('Before the City Wakes', 'A one minute commercial made with AI.', '/work/film/ad.webp', '/work/film/ad-en.mp4', 59)],
        '/services/ai-commercial.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת שמן זית שנוצרה בבינה מלאכותית.', '/work/film/elef.webp', '/work/film/elef.mp4', 60),
-                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)],
+                     ('HG · Unforgettable', 'פרסומת בושם שנוצרה בבינה מלאכותית.', '/work/film/hg.webp', '/work/film/hg.mp4', 20)],
        '/services/en/ai-commercial-production.html': [('Elef · Galilee olive oil', 'A cinematic olive oil commercial made with AI.', '/work/film/elef.webp', '/work/film/elef-en.mp4', 60),
-                     ('HG · Unforgettable', 'A fragrance commercial made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 30)]}
+                     ('HG · Unforgettable', 'A fragrance commercial made with AI.', '/work/film/hg.webp', '/work/film/hg.mp4', 20)]}
 PRI = {'/': '1.0', '/en.html': '0.9', '/work.html': '0.8', '/en-work.html': '0.7', '/archive/': '0.8', '/archive/en.html': '0.7', '/accessibility.html': '0.2', '/en-accessibility.html': '0.2'}
 paths = ['/', '/en.html', '/work.html', '/en-work.html', '/archive/', '/archive/en.html', '/services/', '/services/en/']
 paths += [p['url'][len(D):] for p in json.load(open(ROOT + '/services/pages.json'))]
