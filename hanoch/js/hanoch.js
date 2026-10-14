@@ -774,9 +774,11 @@
   });
 
   /* ---------- לפני / אחרי ---------- */
-  function initCompare() {
-    var screen = $('.phone-screen'), after = $('.ba-after'), handle = $('.ba-handle'), range = $('.ba-range');
-    if (!screen) return;
+  // כל קטע לפני/אחרי בעמוד (אלנביס, גוטובסקי) מקבל השוואה משלו
+  function initCompare() { $$('.ba').forEach(compare); }
+  function compare(sec) {
+    var screen = $('.phone-screen', sec), after = $('.ba-after', sec), handle = $('.ba-handle', sec), range = $('.ba-range', sec), stage = $('.ba-stage', sec);
+    if (!screen || !after || !range) return;
     var s = { t: 50, c: 50, v: 0 }, dragging = false, running = false, visible = false;
 
     function render(time) {
@@ -823,7 +825,7 @@
 
     if (!motion) return;
     ScrollTrigger.create({
-      trigger: '.ba-stage', start: 'top 70%', once: true,
+      trigger: stage, start: 'top 70%', once: true,
       onEnter: function () {
         gsap.timeline()
           .to(s, { t: 88, duration: 1.1, ease: 'power3.inOut' })
@@ -833,16 +835,16 @@
     });
 
     // המספרים מתכווצים מול העיניים
-    $$('.metric').forEach(function (m, i) {
-      var b = $('b', m), from = +m.dataset.from, to = +m.dataset.to, unit = m.dataset.unit;
+    $$('.metric', sec).forEach(function (m, i) {
+      var b = $('b', m), from = +m.dataset.from, to = +m.dataset.to, unit = m.dataset.unit, dec = +(m.dataset.dec || 0);
       var o = { n: from };
-      b.textContent = from + unit;
+      b.textContent = from.toFixed(dec) + unit;
       ScrollTrigger.create({
         trigger: m, start: 'top 85%', once: true,
         onEnter: function () {
           gsap.to(o, {
             n: to, duration: 1.8, delay: i * 0.12, ease: 'expo.inOut',
-            onUpdate: function () { b.textContent = Math.round(o.n) + unit; },
+            onUpdate: function () { b.textContent = o.n.toFixed(dec) + unit; },
             onComplete: function () { m.classList.add('done'); }
           });
         }
@@ -1316,7 +1318,7 @@
   /* ---------- כותרות שנחשפות שורה אחר שורה (SplitText): כל שורה עולה מתוך מסכה, ואחרי זה הטקסט חוזר להיות רגיל ---------- */
   function initHeads() {
     if (!motion || !window.SplitText) return;
-    var heads = $$('.pt-big, .addons-title .display, #ag-spot-title, #work-title, #ag-title, #demo-title, #tours-title, #films-title, #ba-title, #craft-title');
+    var heads = $$('.pt-big, .addons-title .display, #ag-spot-title, #work-title, #ag-title, #demo-title, #tours-title, #films-title, #ba-title, #bag-title, #craft-title');
     if (!heads.length) return;
     // מפצלים רק אחרי שהגופן נטען, אחרת השורות נחתכות במקום הלא נכון
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {

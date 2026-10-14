@@ -270,7 +270,15 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
 .ba-handle i::before { left: 11px; transform: rotate(45deg); }
 .ba-handle i::after { right: 11px; transform: rotate(-135deg); }
 .ba-range-label { color: var(--ink-dim); }
-.ba-range { width: min(340px, 74vw); height: 44px; accent-color: var(--signal); direction: ltr; } /* כמו הקו בתמונה: שמאל הוא 0 בשתי השפות */
+.ba-range { width: min(340px, 74vw); height: 44px; accent-color: var(--signal); direction: ltr; }
+/* השוואה שנייה (גוטובסקי): הטלפון בצד השני, כדי ששני הקטעים לא ייראו כמו אותו מסך פעמיים */
+.ba--flip { grid-template-columns: .9fr 1.1fr; }
+.ba--flip .ba-stage { order: -1; }
+.ba-lead a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.ba-points { margin: 2rem 0 0; padding: 0; list-style: none; display: grid; gap: .9rem; max-width: 52ch; }
+.ba-points li { position: relative; padding-inline-start: 1.4rem; }
+.ba-points li::before { content: ""; position: absolute; inset-inline-start: 0; top: .62em; width: .5rem; height: .5rem; border-radius: 50%; background: var(--signal); }
+.ba-note { margin-top: 1.6rem; font-size: var(--fs-xs); } /* כמו הקו בתמונה: שמאל הוא 0 בשתי השפות */
 
 /* ---------- תהליך ---------- */
 .craft { padding-top: clamp(80px, 10vw, 140px); padding-bottom: clamp(80px, 10vw, 140px); }
@@ -480,6 +488,7 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
   .project:nth-child(even) .p-media { order: 0; }
   .p-phone { width: 26%; bottom: -16%; }
   .ba { grid-template-columns: 1fr; }
+  .ba--flip .ba-stage { order: 0; }
   .craft-pin { grid-template-columns: 1fr; gap: 28px; min-height: 0; }
   .craft h2 { margin-bottom: 1rem; font-size: var(--fs-d4); }
   .step { display: none; border: 0; padding: 0; }
@@ -1833,6 +1842,7 @@ html[lang="en"] .d-hero-title b { font-family: "Fraunces", Georgia, serif; font-
 @media (hover: hover) { .tier-star .btn-signal:hover { background: var(--fg); color: var(--ink); } }
 /* לפני ואחרי (אלנביס): גם הוא על רקע הלילה */
 .ba.sheet-ink .ba-lead, .ba.sheet-ink .metric dt, .ba.sheet-ink .metric s, .ba.sheet-ink .ba-range-label { color: var(--fg-dim); }
+.ba.sheet-ink .ba-points, .ba.sheet-ink .ba-note { color: var(--fg-dim); }
 .ba.sheet-ink .metrics, .ba.sheet-ink .metric { border-color: var(--fg-faint); }
 .ba.sheet-ink .metric b { color: var(--fg); }
 .ba.sheet-ink .metric.done b { color: var(--signal); }
