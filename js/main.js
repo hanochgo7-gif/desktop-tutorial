@@ -48,12 +48,13 @@
   }
 
   /* ---------- תפריט מסך מלא ---------- */
+  var EN = root.lang === 'en';
   var toggle = $('.nav-toggle');
   var menu = $('#mobile-menu');
   function setMenu(open) {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'סגירת תפריט' : 'פתיחת תפריט');
+    toggle.setAttribute('aria-label', open ? (EN ? 'Close menu' : 'סגירת תפריט') : (EN ? 'Open menu' : 'פתיחת תפריט'));
     menu.classList.toggle('is-open', open);
     body.classList.toggle('menu-open', open);
     body.style.overflow = open ? 'hidden' : '';
@@ -64,6 +65,100 @@
     $$('a', menu).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
   }
+
+  /* ---------- התפריט החדש: רקע מתחלף, תחומי ביצוע נפתחים ---------- */
+  var mm = $('#mobile-menu.mm');
+  if (mm) {
+    var mmImgs = $$('.mm__bg img', mm), mmCap = $('[data-mm-cap]', mm), mmSub = $('[data-mm-sub]', mm), mmStamp = $('[data-mm-stamp]', mm);
+    var mmItems = $$('.mm__list > li', mm), mmHasSub = $('.mm__has-sub', mm), mmSubBtn = mmHasSub ? $('.mm__item', mmHasSub) : null;
+    function mmShow(el) {
+      if (!el) return;
+      var i = +el.getAttribute('data-bg');
+      if (mmImgs.length) mmImgs.forEach(function (im, j) { im.classList.toggle('is-on', i === j); });
+      if (mmCap) mmCap.textContent = el.getAttribute('data-cap') || '';
+      if (mmSub) mmSub.textContent = el.getAttribute('data-sub') || '';
+      if (mmStamp) mmStamp.hidden = !(mmImgs[i] && mmImgs[i].getAttribute('data-stamp'));
+    }
+    function mmOn(li) { mmItems.forEach(function (x) { x.classList.remove('is-on'); }); li.classList.add('is-on'); mmShow($('[data-bg]', li)); }
+    mmItems.forEach(function (li) {
+      var it = $('.mm__item', li);
+      if (!it) return;
+      it.addEventListener('mouseenter', function () { mmOn(li); });
+      it.addEventListener('focus', function () { mmOn(li); });
+      $$('.mm__sub a', li).forEach(function (a) {
+        var f = function () { mmShow(a); };
+        a.addEventListener('mouseenter', f); a.addEventListener('focus', f);
+      });
+    });
+    if (mmSubBtn) {
+      var setMmSub = function (open) { mmHasSub.classList.toggle('is-open', open); mmSubBtn.setAttribute('aria-expanded', String(open)); };
+      mmSubBtn.addEventListener('click', function () { setMmSub(!mmHasSub.classList.contains('is-open')); if (mmHasSub.classList.contains('is-open')) mmOn(mmHasSub); });
+      /* במחשב תחומי הביצוע פתוחים כברירת מחדל, במובייל סגורים */
+      setMmSub(window.innerWidth > 900);
+    }
+    var mmCur = $('.mm__item[aria-current="page"], .mm__sub a[aria-current="page"]', mm);
+    if (mmCur) { var curLi = mmCur.closest('.mm__list > li'); if (curLi) mmOn(curLi); if (mmCur.hasAttribute('data-bg') && !mmCur.classList.contains('mm__item')) mmShow(mmCur); }
+    else if (mmHasSub) mmOn(mmHasSub);
+  }
+
+  /* ---------- הדמיה חיה: המודל התלת־ממדי כבד, לכן נטען רק בלחיצה ---------- */
+  $$('[data-sim]').forEach(function (box) {
+    var play = $('.sim__play, [data-sim-play]', box); if (!play) return;
+    var label = box.getAttribute('title') || ''; box.removeAttribute('title');
+    play.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = box.getAttribute('data-src'); f.title = label;
+      f.setAttribute('allow', 'autoplay; fullscreen'); f.setAttribute('allowfullscreen', '');
+      box.appendChild(f); box.classList.add('is-live'); play.blur();
+      box.scrollIntoView({ behavior: noMotion() ? 'auto' : 'smooth', block: 'center' });
+      f.addEventListener('load', function () { try { f.contentWindow.focus(); } catch (e) {} });
+    });
+  });
+
+  /* ---------- חתך תשתית הדלק: נקודות, כרטיס, מעבר אוטומטי עד המגע הראשון ---------- */
+  var cutStage = $('[data-cut-stage]');
+  if (cutStage) {
+    var cutData = [];
+    try { cutData = JSON.parse($('[data-cut-data]', cutStage).textContent); } catch (e) {}
+    var cutPins = $$('.cut__pin', cutStage), cutItems = $$('.cut__list li'), cutCard = $('#cut-card');
+    var cutN = $('[data-cut-n]', cutCard), cutT = $('[data-cut-title]', cutCard), cutL = $('[data-cut-lead]', cutCard), cutUl = $('[data-cut-list]', cutCard), cutC = $('[data-cut-count]', cutCard);
+    var cutCur = 0, cutTimer = null, cutTouched = false;
+    function cutShow(i) {
+      i = (i + cutData.length) % cutData.length; cutCur = i;
+      var d = cutData[i]; if (!d) return;
+      cutPins.forEach(function (p, j) { p.classList.toggle('is-on', i === j); p.setAttribute('aria-expanded', String(i === j)); });
+      cutItems.forEach(function (li, j) { li.classList.toggle('is-on', i === j); });
+      cutN.textContent = (i < 9 ? '0' : '') + (i + 1); cutT.textContent = d.t; cutL.textContent = d.l;
+      cutUl.innerHTML = d.b.map(function (b) { return '<li>' + b + '</li>'; }).join('');
+      if (cutC) cutC.textContent = (i + 1) + ' / ' + cutData.length;
+      cutCard.classList.remove('is-swap'); void cutCard.offsetWidth; cutCard.classList.add('is-swap');
+    }
+    function cutStop() { cutTouched = true; clearInterval(cutTimer); cutTimer = null; }
+    $$('[data-cut]', document).forEach(function (el) {
+      var i = +el.getAttribute('data-cut');
+      el.addEventListener('click', function () { cutStop(); cutShow(i); });
+      el.addEventListener('mouseenter', function () { if (el.classList.contains('cut__pin')) { cutStop(); cutShow(i); } });
+      el.addEventListener('focus', function () { cutStop(); cutShow(i); });
+    });
+    $$('[data-cut-step]', cutCard).forEach(function (b) { b.addEventListener('click', function () { cutStop(); cutShow(cutCur + (+b.getAttribute('data-cut-step'))); }); });
+    /* מעבר אוטומטי כשהחתך נראה, עד שהמבקר נוגע במשהו */
+    if (!noMotion()) {
+      whenVisible(cutStage, function () {
+        if (cutTouched) return;
+        cutTimer = setInterval(function () { if (!cutTouched) cutShow(cutCur + 1); }, 4500);
+      }, '0px 0px -20% 0px');
+    }
+  }
+
+  /* וידאו הרקע של הטופס המהיר: מתנגן רק כשהקטע על המסך, חוסך סוללה ורוחב פס */
+  $$('[data-quick-video]').forEach(function (qv) {
+    if (noMotion()) { qv.removeAttribute('autoplay'); qv.pause(); return; }
+    if ('IntersectionObserver' in window) {
+      /* הסרטון לא יורד עם הדף: נטען ומתנגן רק כשמתקרבים אליו */
+      var qvIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { if (qv.preload === 'none') qv.preload = 'auto'; var pl = qv.play(); if (pl && pl.catch) pl.catch(function () {}); } else if (!qv.paused) qv.pause(); }); }, { threshold: 0.01, rootMargin: '200px 0px' });
+      qvIO.observe(qv);
+    }
+  });
 
   /* ---------- תפריט נפתח: תחומי פעילות ---------- */
   $$('.nav__item--sub').forEach(function (li) {
@@ -184,7 +279,7 @@
     });
     if (auto && list) {
       var ctrl = document.createElement('div'); ctrl.className = 'steps__ctrl';
-      ctrl.innerHTML = '<button type="button" data-step="-1" aria-label="השלב הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" data-step="1" aria-label="השלב הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span>השלבים מתחלפים לבד. העכבר מעליהם עוצר.</span>';
+      ctrl.innerHTML = '<button type="button" data-step="-1" aria-label="' + (EN ? 'Previous step' : 'השלב הקודם') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" data-step="1" aria-label="' + (EN ? 'Next step' : 'השלב הבא') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span>' + (EN ? 'Steps advance on their own. ' + (matchMedia('(hover: none)').matches ? 'A tap pauses them.' : 'Hovering pauses them.') : 'השלבים מתחלפים לבד. ' + (matchMedia('(hover: none)').matches ? 'נגיעה עוצרת אותם.' : 'העכבר מעליהם עוצר.')) + '</span>';
       list.appendChild(ctrl);
       $$('[data-step]', ctrl).forEach(function (b) { b.addEventListener('click', function () { openStep(cur + parseInt(b.dataset.step, 10)); }); });
       function pause() { paused = true; clearTimeout(timer); box.classList.remove('is-running'); var bar = $('.steps__bar', items[cur]); if (bar) { bar.style.transition = 'none'; bar.style.transform = 'scaleX(0)'; } }
@@ -212,6 +307,27 @@
     var pIO = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { pipe.classList.add('is-in'); pIO.disconnect(); } }); }, { threshold: 0.3 });
     pIO.observe(pipe);
   });
+
+  /* לוגואי הלקוחות בהירו: כל סט נפרש על כל רוחב הסרגל, כך שכל לוגו מופיע פעם אחת על המסך */
+  var clVp = $('.hero__clients-viewport');
+  if (clVp) {
+    var sizeClients = function () {
+      var lists = $$('.hero__clients-list', clVp);
+      lists.forEach(function (l) { l.style.width = ''; l.style.setProperty('--cl-gap', '0px'); });
+      var w = clVp.clientWidth;
+      lists.forEach(function (l) {
+        var items = $$('li', l), sum = 0;
+        items.forEach(function (li) { sum += li.getBoundingClientRect().width; });
+        /* רווח שווה בין כל הלוגואים, כולל בין סט לסט: (הרוחב פחות הלוגואים) חלקי מספר הלוגואים */
+        var gap = Math.max(14, (w - sum) / items.length);
+        l.style.setProperty('--cl-gap', gap + 'px');
+        l.style.width = Math.max(w, sum + gap * items.length) + 'px';
+      });
+    };
+    sizeClients();
+    window.addEventListener('resize', sizeClients);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeClients);
+  }
 
   /* ---------- לוגואי לקוחות: מרקיזה שמאיצה ומחליפה כיוון לפי הגלילה ---------- */
   var mqTrack = $('.marquee__track');
@@ -256,7 +372,7 @@
   if (clocks.length || officeEls.length) {
     /* שעות המשרד: א׳–ה׳ 8:00–16:00, ו׳ עד 12:00 (שעון ישראל) */
     var HOURS = { 0: [8, 16], 1: [8, 16], 2: [8, 16], 3: [8, 16], 4: [8, 16], 5: [8, 12] };
-    var DAY_NAMES = ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'שבת'];
+    var DAY_NAMES = EN ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] : ['א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'שבת'];
     var partsFmt = null;
     try { partsFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jerusalem' }); } catch (e) {}
     var WD = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
@@ -275,17 +391,73 @@
       if (!officeEls.length) return;
       var hrs = HOURS[now.day], cur = now.h + now.m / 60, open = !!hrs && cur >= hrs[0] && cur < hrs[1], text;
       if (open) {
-        text = 'המשרד פתוח עכשיו · עונים עד ' + pad(hrs[1]) + ':00';
+        text = EN ? 'The office is open now · until ' + pad(hrs[1]) + ':00' : 'המשרד פתוח עכשיו · עונים עד ' + pad(hrs[1]) + ':00';
       } else if (hrs && cur < hrs[0]) {
-        text = 'המשרד סגור · נפתח היום ב-' + pad(hrs[0]) + ':00';
+        text = EN ? 'The office is closed · opens today at ' + pad(hrs[0]) + ':00' : 'המשרד סגור · נפתח היום ב-' + pad(hrs[0]) + ':00';
       } else {
         var nd = (now.day + 1) % 7, steps = 1;
         while (!HOURS[nd]) { nd = (nd + 1) % 7; steps++; }
-        text = 'המשרד סגור · ' + (steps === 1 ? 'נפתח מחר' : 'נפתח ביום ' + DAY_NAMES[nd]) + ' ב-' + pad(HOURS[nd][0]) + ':00';
+        text = EN ? 'The office is closed · opens ' + (steps === 1 ? 'tomorrow' : 'on ' + DAY_NAMES[nd]) + ' at ' + pad(HOURS[nd][0]) + ':00' : 'המשרד סגור · ' + (steps === 1 ? 'נפתח מחר' : 'נפתח ביום ' + DAY_NAMES[nd]) + ' ב-' + pad(HOURS[nd][0]) + ':00';
       }
       officeEls.forEach(function (el) { el.textContent = text; var li = el.closest('.footer__office'); if (li) li.classList.toggle('is-open', open); });
     }
-    tickClock(); setInterval(tickClock, 30000);
+    /* ברכה בתפריט: לפי השעה בישראל, שבת, חגים ותאריך עברי (בלי שרת). בימי זיכרון ובתשעה באב אין ברכה */
+    var greetEls = $$('[data-greet]'), hebFmt = null, greetKey = '';
+    try { hebFmt = new Intl.DateTimeFormat('en-u-ca-hebrew', { day: 'numeric', month: 'long', timeZone: 'Asia/Jerusalem' }); } catch (e) {}
+    function hdate(dt) { var o = {}; hebFmt.formatToParts(dt).forEach(function (p) { o[p.type] = p.value; }); return { m: o.month, d: parseInt(o.day, 10) }; }
+    function L(he, en) { return EN ? en : he; }
+    function greeting(now) {
+      var wd = now.day, h = now.h, g = null, sub = '';
+      if (hebFmt) {
+        var t = new Date(), hd = hdate(t), m = hd.m, d = hd.d;
+        var shoah = m === 'Nisan' && ((d === 27 && wd !== 5 && wd !== 0) || (d === 26 && wd === 4) || (d === 28 && wd === 1));
+        var zikaron = m === 'Iyar' && ((d === 4 && wd !== 5 && wd !== 0) || (d === 2 && wd === 3) || (d === 5 && wd === 1));
+        var atzmaut = m === 'Iyar' && ((d === 5 && wd !== 6 && wd !== 1) || (d === 3 && wd === 4) || (d === 6 && wd === 2));
+        var av9 = m === 'Av' && ((d === 9 && wd !== 6) || (d === 10 && wd === 0));
+        if (shoah || zikaron || av9) return null;
+        var chanukah = false;
+        if (m === 'Kislev' || m === 'Tevet') for (var k = 0; k < 8 && !chanukah; k++) { var x = hdate(new Date(t.getTime() - k * 86400000)); chanukah = x.m === 'Kislev' && x.d === 25; }
+        if ((m === 'Elul' && d === 29) || (m === 'Tishri' && d <= 2)) { g = L('שנה טובה', 'Shana Tova'); sub = m === 'Elul' ? L('ערב ראש השנה', 'Eve of Rosh Hashanah') : L('ראש השנה', 'Rosh Hashanah'); }
+        else if (m === 'Tishri' && d <= 10) { g = L('גמר חתימה טובה', "G'mar Chatima Tova"); sub = d === 9 ? L('ערב יום כיפור', 'Eve of Yom Kippur') : d === 10 ? L('יום כיפור', 'Yom Kippur') : ''; }
+        else if (m === 'Tishri' && d === 14) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב סוכות', 'Eve of Sukkot'); }
+        else if (m === 'Tishri' && d === 15) { g = L('חג שמח', 'Chag Sameach'); sub = L('סוכות', 'Sukkot'); }
+        else if (m === 'Tishri' && d >= 16 && d <= 21) { g = L('מועדים לשמחה', 'Moadim LeSimcha'); sub = d === 21 ? L('הושענא רבה', 'Hoshana Rabbah') : L('חול המועד סוכות', 'Sukkot'); }
+        else if (m === 'Tishri' && d === 22) { g = L('חג שמח', 'Chag Sameach'); sub = L('שמחת תורה', 'Simchat Torah'); }
+        else if (m === 'Nisan' && d === 14) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב פסח', 'Eve of Passover'); }
+        else if (m === 'Nisan' && d === 15) { g = L('חג שמח', 'Chag Sameach'); sub = L('פסח', 'Passover'); }
+        else if (m === 'Nisan' && d >= 16 && d <= 20) { g = L('מועדים לשמחה', 'Moadim LeSimcha'); sub = L('חול המועד פסח', 'Passover'); }
+        else if (m === 'Nisan' && d === 21) { g = L('חג שמח', 'Chag Sameach'); sub = L('שביעי של פסח', 'Passover'); }
+        else if (m === 'Sivan' && d === 5) { g = L('חג שמח', 'Chag Sameach'); sub = L('ערב שבועות', 'Eve of Shavuot'); }
+        else if (m === 'Sivan' && d === 6) { g = L('חג שמח', 'Chag Sameach'); sub = L('שבועות', 'Shavuot'); }
+        else if (atzmaut) { g = L('יום עצמאות שמח', 'Happy Independence Day'); }
+        else if (chanukah) { g = L('חג אורים שמח', 'Happy Hanukkah'); sub = L('חנוכה', ''); }
+        else if ((m === 'Adar' || m === 'Adar II') && d === 14) { g = L('פורים שמח', 'Happy Purim'); }
+      }
+      if (!g) {
+        if (wd === 5 || (wd === 6 && h < 19)) g = L('שבת שלום', 'Shabbat Shalom');
+        else if (wd === 6) g = L('שבוע טוב', 'Have a good week');
+        else if (h >= 5 && h < 11) g = L('בוקר טוב', 'Good morning');
+        else if (h >= 11 && h < 15) g = L('צהריים טובים', 'Good afternoon');
+        else if (h >= 15 && h < 18) g = L('אחר צהריים טובים', 'Good afternoon');
+        else if (h >= 18 && h < 22) g = L('ערב טוב', 'Good evening');
+        else g = L('לילה טוב', 'Good night');
+      }
+      return { g: g, sub: sub };
+    }
+    function tickGreet() {
+      if (!greetEls.length) return;
+      var now = israelNow(), key = now.day + ':' + now.h;
+      if (key === greetKey) return; greetKey = key;
+      var r = greeting(now);
+      greetEls.forEach(function (el) {
+        el.textContent = '';
+        if (!r) { el.hidden = true; return; }
+        var b = document.createElement('b'); b.textContent = r.g; el.appendChild(b);
+        if (r.sub) { var sm = document.createElement('small'); sm.textContent = r.sub; el.appendChild(sm); }
+        el.hidden = false;
+      });
+    }
+    tickClock(); tickGreet(); setInterval(function () { tickClock(); tickGreet(); }, 30000);
   }
 
   /* ---------- שאלות נפוצות: פתיחה וסגירה בגובה מונפש ---------- */
@@ -482,8 +654,17 @@
       lbIndex = (i + lbItems.length) % lbItems.length;
       var btn = lbItems[lbIndex];
       var img = btn.querySelector('img');
-      lbImg.src = btn.dataset.full || (img && img.src) || '';
-      lbImg.alt = img ? img.alt : '';
+      var lbVid = $('#lightbox-video');
+      if (lbVid) { lbVid.pause(); lbVid.innerHTML = ''; lbVid.removeAttribute('src'); lbVid.load(); lbVid.hidden = true; }
+      if (btn.dataset.video && lbVid) {
+        lbImg.hidden = true; lbImg.src = '';
+        lbVid.poster = btn.dataset.full || ''; lbVid.innerHTML = ''; [btn.dataset.video.replace(/\.mp4$/, '.webm') + '|video/webm', btn.dataset.video + '|video/mp4'].forEach(function (d) { var pr = d.split('|'), so = document.createElement('source'); so.src = pr[0]; so.type = pr[1]; lbVid.appendChild(so); }); lbVid.load(); lbVid.hidden = false;
+        var pl = lbVid.play(); if (pl && pl.catch) pl.catch(function () {});
+      } else {
+        lbImg.hidden = false;
+        lbImg.src = btn.dataset.full || (img && img.src) || '';
+        lbImg.alt = img ? img.alt : '';
+      }
       if (lbCap) lbCap.textContent = btn.dataset.caption || '';
       if (lbCount) lbCount.textContent = (lbIndex + 1) + ' / ' + lbItems.length;
       /* טעינה מוקדמת של השכנות */
@@ -516,16 +697,16 @@
     var lbClose = $('#lightbox-close');
     if (lbClose) lbClose.addEventListener('click', function () { lightbox.close(); });
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) lightbox.close(); });
-    lightbox.addEventListener('close', function () { lbImg.src = ''; var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
+    lightbox.addEventListener('close', function () { lbImg.src = ''; var lv = $('#lightbox-video'); if (lv) { lv.pause(); lv.innerHTML = ''; lv.removeAttribute('src'); lv.load(); lv.hidden = true; } var cur = lbItems[lbIndex]; if (cur && cur.offsetParent) cur.focus({ preventScroll: true }); });
   }
 
   /* ---------- אימות שדות בטופס (הודעה ליד השדה) ---------- */
   function fieldMessage(input) {
     var v = input.validity;
-    if (v.valueMissing) return input.type === 'checkbox' ? 'יש לאשר כדי שנוכל לחזור אליכם' : 'שדה חובה';
-    if (input.type === 'email' && (v.typeMismatch || v.patternMismatch)) return 'כתובת המייל לא תקינה';
-    if (input.type === 'tel' && (v.patternMismatch || v.typeMismatch)) return 'מספר הטלפון לא תקין';
-    return 'הערך לא תקין';
+    if (v.valueMissing) return input.type === 'checkbox' ? (EN ? 'Please confirm so we can get back to you' : 'יש לאשר כדי שנוכל לחזור אליכם') : (EN ? 'Required field' : 'שדה חובה');
+    if (input.type === 'email' && (v.typeMismatch || v.patternMismatch)) return EN ? 'The email address is not valid' : 'כתובת המייל לא תקינה';
+    if (input.type === 'tel' && (v.patternMismatch || v.typeMismatch)) return EN ? 'The phone number is not valid' : 'מספר הטלפון לא תקין';
+    return EN ? 'The value is not valid' : 'הערך לא תקין';
   }
   function initValidation(formEl) {
     var fields = $$('input:not([type="hidden"]):not(.form__honey), select, textarea', formEl);
@@ -560,7 +741,7 @@
   var form = $('#contact-form');
   var notice = $('#form-notice');
   var WA = 'https://wa.me/972502703674?text=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A2%D7%95%D7%96%D7%99%2C%20%D7%9E%D7%93%D7%91%D7%A8%20____%20.%20%D7%9E%D7%AA%D7%99%20%D7%AA%D7%94%D7%99%D7%94%20%D7%A4%D7%A0%D7%95%D7%99%20%D7%9C%D7%A9%D7%99%D7%97%D7%94%3F';
-  var THANKS = 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
+  var THANKS = EN ? 'Thank you! We received your inquiry and will get back to you shortly.' : 'תודה! הפנייה התקבלה ונחזור אליכם בהקדם.';
   function showNotice(html, ok) {
     if (!notice) return;
     notice.innerHTML = html;
@@ -582,13 +763,13 @@
       e.preventDefault();
       var btn = form.querySelector('[type="submit"]');
       var label = btn ? btn.textContent : '';
-      if (btn) { btn.disabled = true; btn.textContent = 'שולח…'; }
+      if (btn) { btn.disabled = true; btn.textContent = EN ? 'Sending…' : 'שולח…'; }
       var data = new FormData(form);
       data.delete('_next');
       fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
-        .then(function () { form.reset(); showNotice(THANKS, true); })
-        .catch(function () { showNotice('השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
+        .then(function () { form.reset(); showNotice(THANKS, true); trackEvent('form_submit', { form: 'contact' }); })
+        .catch(function () { showNotice(EN ? 'Sending failed right now. You can write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a> or <a href="mailto:Office@gotovski.co.il">by email</a>.' : 'השליחה לא הצליחה כרגע. אפשר לכתוב לנו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a> או <a href="mailto:Office@gotovski.co.il">במייל</a>.', false); })
         .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
     });
   }
@@ -603,15 +784,123 @@
       if (!window.fetch || !window.FormData) return;
       e.preventDefault();
       var b = qf.querySelector('[type="submit"]'); var lbl = b ? b.textContent : '';
-      if (b) { b.disabled = true; b.textContent = 'שולח…'; }
+      if (b) { b.disabled = true; b.textContent = EN ? 'Sending…' : 'שולח…'; }
       var d = new FormData(qf); d.delete('_next');
       fetch(qf.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), { method: 'POST', body: d, headers: { 'Accept': 'application/json' } })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
-        .then(function () { qf.reset(); if (qnotice) { qnotice.textContent = 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
-        .catch(function () { if (qnotice) { qnotice.innerHTML = 'השליחה לא הצליחה. התקשרו <a href="tel:+972502703674">050-270-3674</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
+        .then(function () { qf.reset(); trackEvent('form_submit', { form: 'quick' }); if (qnotice) { qnotice.textContent = EN ? 'Thank you! We will get back to you shortly.' : 'תודה! נחזור אליכם בהקדם.'; qnotice.classList.add('form__notice--ok'); qnotice.hidden = false; } })
+        .catch(function () { if (qnotice) { qnotice.innerHTML = EN ? 'Sending failed. Call <a href="tel:+97286229307">08-622-9307</a> or write to us <a href="' + WA + '" target="_blank" rel="noopener">on WhatsApp</a>.' : 'השליחה לא הצליחה. התקשרו <a href="tel:+97286229307">08-622-9307</a> או כתבו <a href="' + WA + '" target="_blank" rel="noopener">בוואטסאפ</a>.'; qnotice.classList.remove('form__notice--ok'); qnotice.hidden = false; } })
         .then(function () { if (b) { b.disabled = false; b.textContent = lbl; } });
     });
   }
+
+  /* ---------- מדידה לפי ערוץ: טלפון, וואטסאפ, מייל, טפסים, הורדות ----------
+     כל עוד המזהים ריקים לא נטען שום שירות חיצוני, והאירועים נשמרים רק בדף. */
+  var GA_ID = '', CLARITY_ID = '';
+  window.dataLayer = window.dataLayer || [];
+  function trackEvent(name, params) {
+    var p = { page: location.pathname, lang: EN ? 'en' : 'he' };
+    for (var k in params || {}) p[k] = params[k];
+    var ev = { event: name }; for (var j in p) ev[j] = p[j];
+    window.dataLayer.push(ev);
+    try { if (window.gtag) window.gtag('event', name, p); if (window.clarity) window.clarity('event', name); } catch (err) {}
+  }
+  function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+
+  /* ---------- פרטיות והסכמה ----------
+     הכרחי בלבד כברירת מחדל. מדידה נטענת רק אחרי הסכמה, וההודעה מופיעה רק כשיש באתר מדידה מוגדרת. */
+  var CONSENT_KEY = 'gtv-consent-v1';
+  var HAS_STATS = !!(GA_ID || CLARITY_ID);
+  function readConsent() { try { return JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null'); } catch (err) { return null; } }
+  function saveConsent(stats) { try { localStorage.setItem(CONSENT_KEY, JSON.stringify({ stats: !!stats, at: new Date().toISOString() })); } catch (err) {} }
+  var statsOn = false;
+  function enableStats() {
+    if (statsOn || !HAS_STATS) return; statsOn = true;
+    if (GA_ID) {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date()); window.gtag('config', GA_ID, { anonymize_ip: true });
+      loadScript('https://www.googletagmanager.com/gtag/js?id=' + GA_ID);
+    }
+    if (CLARITY_ID) {
+      window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+      loadScript('https://www.clarity.ms/tag/' + CLARITY_ID);
+    }
+  }
+  var consent = readConsent();
+  if (HAS_STATS && consent && consent.stats) enableStats();
+
+  var T_PV = EN ? {
+    title: 'Privacy settings', lead: 'The site keeps only what it needs to work. Nothing is used for advertising.',
+    nec: 'Necessary', necState: 'Always on', necTxt: 'Saves your accessibility preferences, whether you closed the announcement bar, and this choice. Stored in your browser only.',
+    st: 'Usage statistics', stOff: 'Not used on the site', stTxt: HAS_STATS ? 'Anonymous statistics on which pages are viewed, so we can improve the site. Loaded only if you allow it.' : 'The site does not use statistics or tracking tools at the moment. If we add them, we will ask you first.',
+    ext: 'Outside services, on click only', extTxt: 'The Google map, WhatsApp, Waze and the form-sending service load or receive data only when you click them.',
+    save: 'Save', all: 'Allow statistics', nec2: 'Necessary only', more: 'Privacy policy', close: 'Close',
+    bar: 'We would like to use anonymous usage statistics to improve the site. Nothing is used for advertising.'
+  } : {
+    title: 'הגדרות פרטיות', lead: 'האתר שומר רק את מה שנדרש כדי שיעבוד. שום דבר לא משמש לפרסום.',
+    nec: 'הכרחי', necState: 'תמיד פעיל', necTxt: 'שמירת העדפות הנגישות שלכם, האם סגרתם את פס ההודעה, והבחירה הזו. נשמר בדפדפן שלכם בלבד.',
+    st: 'סטטיסטיקת שימוש', stOff: 'לא בשימוש באתר', stTxt: HAS_STATS ? 'סטטיסטיקה אנונימית על העמודים שנצפים, כדי לשפר את האתר. נטען רק אם תאשרו.' : 'כרגע האתר לא משתמש בכלי סטטיסטיקה או מעקב. אם נוסיף כאלה, נבקש את אישורכם מראש.',
+    ext: 'שירותים חיצוניים, רק בלחיצה', extTxt: 'מפת Google, וואטסאפ, Waze ושירות שליחת הטפסים נטענים או מקבלים מידע רק כשאתם לוחצים עליהם.',
+    save: 'שמירה', all: 'אישור סטטיסטיקה', nec2: 'רק הכרחי', more: 'מדיניות הפרטיות', close: 'סגירה',
+    bar: 'נשמח להשתמש בסטטיסטיקת שימוש אנונימית כדי לשפר את האתר. שום דבר לא משמש לפרסום.'
+  };
+  var privLink = document.querySelector('.legal-links a[href$="privacy.html"]');
+  var PRIV_HREF = privLink ? privLink.getAttribute('href') : 'privacy.html';
+  function closeBar() { var b = $('.pvbar'); if (b) b.remove(); }
+  function openPrivacy() {
+    var d = $('#pv-dialog');
+    if (!d) {
+      d = document.createElement('dialog'); d.id = 'pv-dialog'; d.className = 'pv'; d.setAttribute('aria-labelledby', 'pv-title');
+      d.innerHTML = '<div class="pv__in"><h2 id="pv-title">' + T_PV.title + '</h2><p>' + T_PV.lead + '</p>' +
+        '<div class="pv__row"><b>' + T_PV.nec + '</b><span class="pv__state">' + T_PV.necState + '</span><small>' + T_PV.necTxt + '</small></div>' +
+        '<div class="pv__row"><b id="pv-st">' + T_PV.st + '</b>' + (HAS_STATS ? '<label class="pv__switch"><input type="checkbox" id="pv-stats" aria-labelledby="pv-st"></label>' : '<span class="pv__state">' + T_PV.stOff + '</span>') + '<small>' + T_PV.stTxt + '</small></div>' +
+        '<div class="pv__row"><b>' + T_PV.ext + '</b><span></span><small>' + T_PV.extTxt + '</small></div>' +
+        '<div class="pv__acts">' + (HAS_STATS ? '<button type="button" class="btn btn--dark" data-pv-save>' + T_PV.save + '</button>' : '') + '<button type="button" class="btn btn--ghost" data-pv-close>' + T_PV.close + '</button></div>' +
+        '<p style="margin:14px 0 0"><a class="pv__link" href="' + PRIV_HREF + '">' + T_PV.more + '</a></p></div>';
+      document.body.appendChild(d);
+      d.addEventListener('click', function (e) {
+        if (e.target === d || e.target.closest('[data-pv-close]')) d.close();
+        if (e.target.closest('[data-pv-save]')) { var on = $('#pv-stats').checked; saveConsent(on); if (on) enableStats(); closeBar(); d.close(); if (!on && statsOn) location.reload(); }
+      });
+    }
+    var cb = $('#pv-stats'); if (cb) { var c = readConsent(); cb.checked = !!(c && c.stats); }
+    if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+  }
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-privacy-settings]')) { e.preventDefault(); openPrivacy(); } });
+  if (HAS_STATS && !consent) {
+    var bar = document.createElement('div'); bar.className = 'pvbar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', T_PV.title);
+    bar.innerHTML = '<p>' + T_PV.bar + ' <a class="pv__link" href="' + PRIV_HREF + '">' + T_PV.more + '</a></p><div class="pv__acts"><button type="button" class="btn btn--ghost" data-pv-no>' + T_PV.nec2 + '</button><button type="button" class="btn btn--ghost" data-pv-yes>' + T_PV.all + '</button></div>';
+    document.body.appendChild(bar);
+    bar.addEventListener('click', function (e) {
+      if (e.target.closest('[data-pv-yes]')) { saveConsent(true); enableStats(); closeBar(); }
+      if (e.target.closest('[data-pv-no]')) { saveConsent(false); closeBar(); }
+    });
+  }
+
+  /* ---------- מפת Google: נטענת רק בלחיצה ---------- */
+  $$('[data-map-load]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.closest('.map__facade'); if (!f) return;
+      var ifr = document.createElement('iframe');
+      ifr.src = f.getAttribute('data-map-src'); ifr.title = f.getAttribute('data-map-title') || ''; ifr.loading = 'lazy'; ifr.referrerPolicy = 'no-referrer-when-downgrade'; ifr.allowFullscreen = true;
+      f.parentNode.insertBefore(ifr, f); f.remove(); ifr.focus();
+    });
+  });
+  function trackArea(el) {
+    if (el.closest('.mobile-cta')) return 'mobile_bar';
+    if (el.closest('.mobile-menu, .mm')) return 'menu';
+    if (el.closest('.header, .navpill, .hnav')) return 'header';
+    if (el.closest('footer, .footer')) return 'footer';
+    if (el.closest('.wa-float')) return 'floating';
+    return 'content';
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    var name = /^tel:/.test(h) ? 'click_call' : /wa\.me\//.test(h) ? 'click_whatsapp' : /^mailto:/.test(h) ? 'click_email' : /\.pdf($|[?#])/.test(h) ? 'download_profile' : /waze\.com/.test(h) ? 'click_waze' : '';
+    if (name) trackEvent(name, { area: trackArea(a) });
+  });
 
   /* ---------- פרויקטים: מפה עם סיכות שנדלקות בגלילה ---------- */
   var mapPanel = $('#projects-map');
@@ -635,7 +924,7 @@
           var city = (t && t.querySelector('em')) ? t.querySelector('em').textContent.replace(/^[\s–-]+/, '') : '';
           var name = t ? t.childNodes[0].textContent.trim() : '';
           if (cityEl) cityEl.textContent = city; if (nameEl) nameEl.textContent = name;
-        } else { if (cityEl) cityEl.textContent = ''; if (nameEl) nameEl.textContent = 'גללו בין הפרויקטים'; }
+        } else { if (cityEl) cityEl.textContent = ''; if (nameEl) nameEl.textContent = EN ? 'Scroll through the projects' : 'גללו בין הפרויקטים'; }
       }
     }
     if ('IntersectionObserver' in window) {
@@ -875,6 +1164,13 @@
       ls.className = 'wordmark__ltd'; lb.textContent = ltd; lb.style.setProperty('--i', String(word.length)); ls.appendChild(lb); el.appendChild(ls);
     });
 
+    /* ציור בניית התחנה בדף הבית: מתחיל כשהוא נכנס למסך */
+    var scene = $('[data-scene]');
+    if (scene) {
+      if (still || !('IntersectionObserver' in window)) scene.classList.add('is-in');
+      else { var sio = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { scene.classList.add('is-in'); sio.disconnect(); } }, { threshold: .35 }); sio.observe(scene); }
+    }
+
     /* המילה נמדדת ומותאמת לרוחב הפנוי (הגופן הדק משתנה בין דפדפנים) */
     var fitTimer = null;
     function fitWords() {
@@ -893,10 +1189,15 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitWords);
     window.addEventListener('resize', function () { clearTimeout(fitTimer); fitTimer = setTimeout(fitWords, 120); });
 
+    /* רקע התפריט: מתחילים לטעון ברגע שהאצבע או העכבר מתקרבים לכפתור */
+    $$('.navpill__btn, .nav-toggle').forEach(function (b) {
+      ['pointerenter', 'touchstart', 'focus'].forEach(function (ev) { b.addEventListener(ev, function () { root.classList.add('mm-warm'); }, { once: true, passive: true }); });
+    });
+
     /* גלולת הניווט: הכיתוב מתחלף בין "תפריט" ל"סגירה" */
     var pillBtn = $('.navpill__btn'), pillTxt = $('.navpill__txt');
     if (pillBtn && pillTxt) {
-      var syncPill = function () { pillTxt.textContent = pillBtn.getAttribute('aria-expanded') === 'true' ? 'סגירה' : 'תפריט'; };
+      var syncPill = function () { pillTxt.textContent = pillBtn.getAttribute('aria-expanded') === 'true' ? (EN ? 'Close' : 'סגירה') : (EN ? 'Menu' : 'תפריט'); };
       pillBtn.addEventListener('click', function () { setTimeout(syncPill, 0); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setTimeout(syncPill, 0); });
       $$('#mobile-menu a').forEach(function (a) { a.addEventListener('click', function () { setTimeout(syncPill, 0); }); });
@@ -917,7 +1218,10 @@
       nodes.forEach(function (n) {
         if (n.nodeType !== 3) return;
         var frag = document.createDocumentFragment();
-        Array.from(n.textContent).forEach(function (ch) {
+        /* בעברית התווית היא flex מימין לשמאל: מספרים ומילים לועזיות נשארים יחידה אחת, אחרת 1972 מוצג הפוך */
+        var rtl = getComputedStyle(el).direction === 'rtl';
+        var parts = rtl ? (n.textContent.match(/[A-Za-z0-9][A-Za-z0-9.,:\/+\-\u2013 ]*[A-Za-z0-9]|[A-Za-z0-9]|[\s\S]/g) || []) : Array.from(n.textContent);
+        parts.forEach(function (ch) {
           var s = document.createElement('span'); s.className = 'c'; s.textContent = ch;
           (function (sp, idx) { setTimeout(function () { sp.style.opacity = '1'; }, 40 * idx); })(s, k++);
           frag.appendChild(s);
@@ -981,6 +1285,20 @@
         r.addEventListener('mouseenter', function () { pick(i); });
         r.addEventListener('focus', function () { pick(i); });
       });
+      /* מסכים צרים: התמונה דבוקה למעלה והשורה שמתחתיה נבחרת תוך כדי גלילה */
+      var narrowMQ = window.matchMedia('(max-width: 860px)'), stageEl = $('#stage'), rowTick = false;
+      function pickByScroll() {
+        rowTick = false;
+        if (!narrowMQ.matches || !stageEl) return;
+        var line = stageEl.getBoundingClientRect().bottom + 18, best = -1, bestD = Infinity;
+        rows.forEach(function (r, i) {
+          var b = r.getBoundingClientRect(); if (b.top + 14 < line) return; /* שורה שכבר נכנסה מתחת לתמונה */
+          var d = b.top - line; if (d < bestD) { bestD = d; best = i; }
+        });
+        if (best < 0) best = rows.length - 1;
+        if (!rows[best].classList.contains('is-on')) pick(best);
+      }
+      window.addEventListener('scroll', function () { if (!rowTick) { rowTick = true; requestAnimationFrame(pickByScroll); } }, { passive: true });
     }
 
     /* מפה שמדפדפת לבד: סיכה נדלקת, כרטיס מתחלף, פס מתמלא */
@@ -1018,26 +1336,6 @@
       }
     }
 
-    /* מעבר בין דפים: וילון כהה קצר בכניסה וביציאה */
-    if (!still) {
-      var veil = document.createElement('div'); veil.className = 'veil on'; veil.setAttribute('aria-hidden', 'true');
-      body.appendChild(veil);
-      requestAnimationFrame(function () { requestAnimationFrame(function () { veil.classList.remove('on'); }); });
-      window.addEventListener('pageshow', function () { veil.classList.remove('on'); });
-      document.addEventListener('click', function (e) {
-        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        var a = e.target.closest('a[href]');
-        if (!a || a.hasAttribute('download') || (a.target && a.target !== '_self')) return;
-        var href = a.getAttribute('href') || '';
-        if (!href || href.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(href)) return;
-        var url; try { url = new URL(a.href, location.href); } catch (err) { return; }
-        if (url.origin !== location.origin) return;
-        if (url.pathname === location.pathname && url.search === location.search && url.hash) return;
-        e.preventDefault();
-        veil.classList.add('on');
-        setTimeout(function () { location.href = a.href; }, 340);
-      });
-    }
   })();
 
   function boot() {
@@ -1045,9 +1343,13 @@
     heroIntroStatic();
   }
   /* GSAP נטען עם defer לפני הקובץ הזה; ליתר ביטחון ממתינים לטעינה אם עדיין לא זמין */
-  if (hasGsap() || noMotion()) boot();
+  /* כשאנימציית הפתיחה רצה, כניסת ההירו מחכה לסיומה */
+  function startBoot() {
+    boot();
+  }
+  if (hasGsap() || noMotion()) startBoot();
   else {
     var tries = 0;
-    var wait = setInterval(function () { if (hasGsap() || ++tries > 20) { clearInterval(wait); boot(); } }, 50);
+    var wait = setInterval(function () { if (hasGsap() || ++tries > 20) { clearInterval(wait); startBoot(); } }, 50);
   }
 })();

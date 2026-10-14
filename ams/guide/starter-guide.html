@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מתחילים מהבית – המדריך למתחילים | AMS</title>
+<!-- מקור ה-PDF שאביב שולח בווצאפ. נבנה מחדש עם: node tools/make_guide.js (ראו README) -->
+<style>
+@font-face { font-family: "Dragon"; src: url("../fonts/dragon.woff2") format("woff2"); }
+@font-face { font-family: "Plex"; font-weight: 400; src: url("../fonts/plex/plex-hebrew-400.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Plex"; font-weight: 600; src: url("../fonts/plex/plex-hebrew-600.woff2") format("woff2"); unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Plex"; font-weight: 400; src: url("../fonts/plex/plex-latin-400.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: "Plex"; font-weight: 600; src: url("../fonts/plex/plex-latin-600.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+@page { size: A4; margin: 0; }
+:root { --night: #000; --bark: #16110c; --bark-2: #211911; --gold: #d4a24c; --bone: #f2ece0; --ash: #a89c8c; --line: rgba(212, 162, 76, .35); }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bark); color: var(--bone); font: 400 11.5pt/1.65 "Plex", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.page { position: relative; width: 210mm; height: 297mm; padding: 14mm 18mm 16mm; overflow: hidden; page-break-after: always; background: var(--bark); }
+.page:last-child { page-break-after: auto; }
+h1, h2, h3 { font-family: "Dragon", "Plex", serif; font-weight: 400; margin: 0; line-height: 1.05; }
+h2 { font-size: 26pt; color: var(--bone); margin: 0 0 3mm; }
+h3 { font-size: 17pt; color: var(--gold); }
+p { margin: 0 0 3mm; }
+.gold { color: var(--gold); }
+.small { font-size: 9.5pt; color: var(--ash); }
+
+/* שער */
+.cover { padding: 0; background: var(--night); }
+.cover img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; filter: brightness(.62); }
+.cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.55) 0, transparent 30%, transparent 45%, rgba(0,0,0,.92) 72%, #000 100%); }
+.cover-in { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16mm 18mm 18mm; }
+.cover .logo { width: 62mm; align-self: flex-start; }
+.cover .label { display: inline-block; padding: 1.5mm 4mm; background: var(--gold); color: #000; font-weight: 600; font-size: 10.5pt; }
+.cover h1 { margin-top: 5mm; font-size: 64pt; }
+.cover .sub { margin-top: 4mm; font-size: 17pt; color: var(--gold); font-family: "Dragon", serif; }
+.cover .by { margin-top: 8mm; font-size: 10.5pt; color: var(--ash); }
+
+/* תוכן */
+.intro { padding: 5mm 6mm; background: var(--bark-2); border-top: 2px solid var(--gold); margin: 0 0 5mm; font-size: 10.5pt; }
+.plan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 0 0 5mm; }
+.plan div { padding: 4mm; border: 1px solid var(--line); text-align: center; }
+.plan b { display: block; font: 400 24pt/1 "Dragon", serif; color: var(--gold); }
+.plan span { font-size: 9.5pt; color: var(--ash); }
+.ex { display: grid; grid-template-columns: 13mm 1fr; gap: 4mm; padding: 2.6mm 0; font-size: 10.5pt; line-height: 1.55; border-top: 1px solid rgba(242,236,224,.14); }
+.ex .n { font: 400 30pt/1 "Dragon", serif; color: var(--gold); }
+.ex ul { margin: 1.5mm 0 0; padding: 0 5mm 0 0; }
+.ex li { margin: 0 0 1mm; }
+.ex li::marker { color: var(--gold); }
+.box { padding: 5mm 6mm; border: 1px solid var(--line); margin: 0 0 6mm; }
+.rules { display: grid; gap: 4mm; }
+.rules div { padding: 4mm 5mm; background: var(--bark-2); }
+.cta { margin-top: 8mm; padding: 8mm; background: var(--gold); color: #000; }
+.cta h2 { color: #000; font-size: 30pt; }
+.cta p { margin: 0; font-size: 12pt; }
+.cta .wa { display: inline-block; margin-top: 4mm; padding: 2.5mm 6mm; background: #000; color: var(--gold); font-weight: 600; text-decoration: none; }
+.foot { position: absolute; left: 18mm; right: 18mm; bottom: 9mm; display: flex; justify-content: space-between; font-size: 8.5pt; color: var(--ash); }
+.foot img { height: 4mm; }
+</style>
+</head>
+<body>
+
+<!-- 1. שער -->
+<section class="page cover">
+  <img class="bg" src="../assets/img/muaythai.webp" alt="">
+  <div class="cover-in">
+    <img class="logo" src="../assets/brand/logo.svg" alt="AMS – Mind &amp; Body Connection">
+    <div>
+      <span class="label">מדריך חינם</span>
+      <h1>מתחילים מהבית</h1>
+      <p class="sub">5 תרגילים, נשימה של 2 דקות, ומה לאכול סביב אימון</p>
+      <p class="by">אביב משה שדמון · מאמן אגרוף תאילנדי ומאמן כושר אישי</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. האימון -->
+<section class="page">
+  <div class="intro">
+    <p><b class="gold">היי, כאן אביב.</b> הרבה אנשים מחכים לרגע שבו "יהיו בכושר" כדי להתחיל. אבל זה עובד הפוך: מתחילים כדי להיכנס לכושר. המדריך הזה הוא נקודת התחלה פשוטה, בלי ציוד, בבית.</p>
+    <p class="small" style="margin:0">לפני שמתחילים: המדריך כללי ולא מחליף ייעוץ רפואי. אם יש לך מצב רפואי, פציעה או הריון, כדאי להתייעץ קודם עם רופא. מרגישים כאב? עוצרים.</p>
+  </div>
+
+  <div class="plan">
+    <div><b>3</b><span>פעמים בשבוע, עם יום מנוחה ביניהן</span></div>
+    <div><b>40/20</b><span>שניות עבודה / שניות מנוחה לכל תרגיל</span></div>
+    <div><b>3</b><span>סבבים, דקת מנוחה בין סבב לסבב</span></div>
+  </div>
+
+  <h2>חימום, 3 דקות</h2>
+  <p>הליכה במקום עם הרמת ברכיים, סיבובי ידיים קדימה ואחורה, סיבובי אגן, וקפיצות פיסוק קלות. המטרה: להעלות דופק בהדרגה ולהכין את המפרקים.</p>
+
+  <h2 style="margin-top:4mm">האימון</h2>
+  <div class="ex"><span class="n">1</span><div><h3>עמידת לחימה וג'אב־קרוס</h3><ul>
+    <li>רגל אחת קדימה, ידיים בשמירה ליד הסנטר, מרפקים צמודים לגוף.</li>
+    <li>ג'אב ביד הקדמית, קרוס ביד האחורית עם סיבוב של האגן וכף הרגל.</li>
+    <li>היד חוזרת לשמירה מיד אחרי כל מכה. נושפים עם כל מכה.</li></ul></div></div>
+  <div class="ex"><span class="n">2</span><div><h3>סקוואט</h3><ul>
+    <li>רגליים ברוחב הכתפיים, יורדים עם הישבן אחורה כאילו מתיישבים.</li>
+    <li>הברכיים בכיוון האצבעות, הגב ישר, המשקל על העקבים.</li></ul></div></div>
+  <div class="ex"><span class="n">3</span><div><h3>שכיבות סמיכה</h3><ul>
+    <li>ידיים מעט רחב מהכתפיים, הגוף ישר מהראש ועד הרגליים.</li>
+    <li>קשה? עושים על הברכיים. העיקר תנועה מלאה ואיטית.</li></ul></div></div>
+  <div class="ex"><span class="n">4</span><div><h3>ברכיים מהמקום</h3><ul>
+    <li>הידיים קדימה, כאילו אוחזים ביריב, ומושכים אותן למטה.</li>
+    <li>באותו רגע מרימים ברך בעוצמה למעלה. מחליפים צד בכל פעם.</li></ul></div></div>
+  <div class="ex"><span class="n">5</span><div><h3>פלאנק</h3><ul>
+    <li>על האמות, הגוף ישר מהראש ועד העקבים, הבטן אסופה.</li>
+    <li>נושמים לאט. אם הגב התחתון שוקע, מורידים ברכיים לרצפה.</li></ul></div></div>
+
+  <div class="foot"><span>מתחילים מהבית · AMS</span><span>2</span></div>
+</section>
+
+<!-- 3. נשימה ותזונה -->
+<section class="page">
+  <h2>נשימה של 2 דקות</h2>
+  <div class="box">
+    <p>אחרי האימון, או בכל רגע של לחץ:</p>
+    <p><b class="gold">שאיפה דרך האף, 4 שניות · נשיפה ארוכה דרך הפה, 6 שניות.</b></p>
+    <p style="margin:0">חוזרים 10 עד 12 פעמים. הנשיפה הארוכה מרגיעה את הגוף ומחזירה את הדופק למקום.</p>
+  </div>
+
+  <h2>מה לאכול סביב אימון</h2>
+  <div class="rules">
+    <div><h3>לפני</h3><p style="margin:0">ארוחה כשעה וחצי עד שלוש שעות לפני: פחמימה, כמו אורז, לחם או תפוח אדמה, עם קצת חלבון. נשארה רק חצי שעה? משהו קטן וקל, כמו בננה.</p></div>
+    <div><h3>אחרי</h3><p style="margin:0">חלבון כדי לבנות שריר, ופחמימה כדי למלא אנרגיה. למשל חזה עוף עם אורז וירקות, חביתה עם לחם וסלט, או יוגורט עם פרי.</p></div>
+    <div><h3>מים</h3><p style="margin:0">שותים לאורך כל היום, ולוקחים לגימות בין הסבבים. ביום חם או מזיע במיוחד, שותים יותר.</p></div>
+  </div>
+
+  <div class="cta">
+    <h2>רוצה תוכנית שבנויה בשבילך?</h2>
+    <p>אימון אישי באגרוף תאילנדי, כושר ותזונה, בסטודיו פרטי במזכרת בתיה. אימון ניסיון של 45 דקות, בלי התחייבות.</p>
+    <a class="wa" href="https://wa.me/972509359222?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%91%2C%20%D7%A7%D7%A8%D7%90%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%9E%D7%93%D7%A8%D7%99%D7%9A%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%90%D7%99%D7%9E%D7%95%D7%9F%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F">לתיאום אימון ניסיון ב־WhatsApp ←</a>
+    <p class="small" style="color:#000;margin-top:4mm">050-935-9222 · אורן 21, מזכרת בתיה · instagram.com/aviv_shadmon</p>
+  </div>
+
+  <div class="foot"><span>מתחילים מהבית · AMS</span><span>3</span></div>
+</section>
+
+</body>
+</html>
