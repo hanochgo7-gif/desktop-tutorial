@@ -197,7 +197,9 @@ module.exports = async (req, res) => {
   if (!messages) return res.status(400).json({ error: 'bad_request' });
   const page = typeof body.page === 'string' ? body.page.slice(0, 120).replace(/[^\w\/.#-]/g, '') : '';
 
-  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 26000);
+  // שני שעונים: 20 שניות בלי שום נתון מ-Claude (תקוע), או 50 שניות בסך הכול. תשובה שזורמת לא נחתכת באמצע
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 50000);
+  let idle = 0; const poke = () => { clearTimeout(idle); idle = setTimeout(() => ctl.abort(), 20000); }; poke();
   const m = { ev: 'chat', model: MODEL, rounds: 0, in: 0, cr: 0, cw: 0, out: 0, stop: '', tools: [], stage: '', objection: '', unanswered: false, err: '' };
   const convo = messages.slice();
   let started = false, text = '';
@@ -220,7 +222,7 @@ module.exports = async (req, res) => {
       const { r, err } = await upstream(req2, ctl.signal);
       if (!r || !r.ok || !r.body) {
         m.err = err ? 'network' : 'http_' + (r ? r.status : 0);
-        if (!started) { clearTimeout(timer); log(m, t0); return res.status(502).json({ error: 'upstream', status: r ? r.status : 0 }); }
+        if (!started) { clearTimeout(timer); clearTimeout(idle); log(m, t0); return res.status(502).json({ error: 'upstream', status: r ? r.status : 0 }); }
         send({ t: 'err' }); break;
       }
       // קוראים את הזרימה: טקסט עובר מיד לדפדפן, בלוקים אחרים (חשיבה, כלים) נאספים בשלמותם
@@ -228,6 +230,7 @@ module.exports = async (req, res) => {
       const reader = r.body.getReader(), dec = new TextDecoder(); let buf = '';
       for (;;) {
         const { done, value } = await reader.read();
+        poke();
         if (done) break;
         buf += dec.decode(value, { stream: true });
         let k;
@@ -282,10 +285,10 @@ module.exports = async (req, res) => {
     if (started) send({ t: 'end' });
   } catch (e) {
     m.err = ctl.signal.aborted ? 'timeout' : 'exception';
-    if (!started) { clearTimeout(timer); log(m, t0); return res.status(502).json({ error: m.err }); }
+    if (!started) { clearTimeout(timer); clearTimeout(idle); log(m, t0); return res.status(502).json({ error: m.err }); }
     send({ t: 'err' });
   }
-  clearTimeout(timer);
+  clearTimeout(timer); clearTimeout(idle);
   log(m, t0);
   res.end();
 };

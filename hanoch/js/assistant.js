@@ -432,6 +432,8 @@
         function pump() {
           return reader.read().then(function (x) {
             if (x.done) { if (buf.trim()) line(buf); return; }
+            // כל עוד מגיע מידע, השעון מתאפס: נחתך רק חיבור שתקוע 30 שניות
+            clearTimeout(timer); timer = setTimeout(function () { ctl.abort(); }, 30000);
             buf += dec.decode(x.value, { stream: true });
             var k; while ((k = buf.indexOf('\n')) >= 0) { line(buf.slice(0, k)); buf = buf.slice(k + 1); }
             return pump();
