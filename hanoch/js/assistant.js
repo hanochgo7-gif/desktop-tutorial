@@ -108,7 +108,17 @@
     '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
     // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
     '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}}' +
-    '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}';
+    '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}' +
+    // כרטיס חבילה, קישורים, משוב וניסיון חוזר: אותה שפה של הצ'אט
+    '.ht-pkg{align-self:stretch;border:1px solid var(--signal,#ff4f1a);border-radius:16px;padding:.9rem;display:grid;gap:.55rem;background:var(--ink,#0a0a0b)}' +
+    '.ht-pkg small{font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-pkg b{font:400 1.6rem/1 var(--f-display,system-ui);color:var(--signal,#ff4f1a)}' +
+    '.ht-pkg ul{margin:0;padding-inline-start:1.1rem;display:grid;gap:.3rem;font-size:var(--fs-s,.9rem);line-height:1.5}.ht-pkg .ht-chips{margin-top:.2rem}' +
+    '.ht-chip[href]{text-decoration:none;display:inline-flex;align-items:center}' +
+    '.ht-fb{align-self:flex-start;display:flex;gap:.4rem;align-items:center;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}' +
+    '.ht-fb button{min-height:32px;padding:.2rem .7rem;border-radius:99px;border:1px solid var(--fg-line,rgba(237,232,222,.42));background:transparent;color:inherit;font:inherit;cursor:pointer}' +
+    '.ht-send[disabled]{opacity:.55;cursor:wait}' +
+    '.ht-typing i{display:inline-block;width:5px;height:5px;margin-inline-start:3px;border-radius:50%;background:currentColor;animation:htdot 1s infinite}.ht-typing i:nth-child(2){animation-delay:.15s}.ht-typing i:nth-child(3){animation-delay:.3s}' +
+    '@keyframes htdot{0%,80%,100%{opacity:.25}40%{opacity:1}}@media (prefers-reduced-motion:reduce){.ht-typing i{animation:none}}';
 
   var btn, dlg, log, input, sr, hint, opener;
   var S = store.get() || { msgs: [], answers: {}, offline: false };
@@ -173,13 +183,31 @@
 
   var START = [
     [T('מה מתאים לעסק שלי?', 'What fits my business?'), function () { diag(false); }],
+    [T('כמה זה עולה?', 'How much does it cost?'), function () { ask(T('כמה זה עולה?', 'How much does it cost?'), { already: true }); }],
     [T('להראות לי עבודות', 'Show me work'), showWork],
     [T('לבנות בריף לחנוך', 'Build a brief for Hanoch'), function () { diag(true); }],
     [T('למצוא משהו באתר', 'Find something on the site'), function () { say(T('מה תרצו למצוא? למשל: עמוד שירות, עבודה מסוימת, נגישות או מדיניות הפרטיות. כתבו כאן למטה.', 'What would you like to find? For example a service page, a specific project, accessibility or the privacy policy. Type it below.')); input.focus(); }]
   ];
   function greet() {
-    say(T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). אפשר להתייעץ איתי על מה שמתאים לעסק שלכם, לבקש שאמצא לכם משהו באתר, או להכין לחנוך בריף מוכן לוואטסאפ.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Think through what fits your business with me, ask me to find something on the site, or let me prepare a ready brief for Hanoch on WhatsApp.'));
+    var path = location.pathname, h1 = document.querySelector('main h1, h1'), title = h1 ? h1.textContent.replace(/\s+/g, ' ').trim().slice(0, 60) : '';
+    var b = briefDraft(), first;
+    if (b && b.biz) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ראיתי שהתחלתם את הבריף (' + b.biz + '). אפשר להמשיך כאן: לשאול על מה שלא ברור, לבדוק מה מתאים, או לסכם הכול לחנוך.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). I see you started the brief (' + b.biz + '). We can continue here: ask about anything unclear, check what fits, or wrap it all up for Hanoch.');
+    else if (/\/services\/./.test(path) && title) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). אתם בעמוד "' + title + '". רוצים לבדוק אם זה מתאים לעסק שלכם, או לשאול על מה שכלול, על הזמנים ועל המחיר?', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). You’re on "' + title + '". Want to check if it fits your business, or ask about what’s included, timing or price?');
+    else if (/work|archive/.test(path)) first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ספרו לי איזה עסק יש לכם, ואמצא בתיק את העבודה הכי דומה, ומה היא עושה בשביל העסק.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Tell me what business you have, and I’ll find the closest project and what it does for that business.');
+    else first = T('היי, אני המצפן, היועץ הדיגיטלי של HG Studio (לא בן אדם). ספרו לי על העסק ומה הייתם רוצים שהאתר יעשה, ואגיד לכם מה מתאים ולמה. אפשר גם לשאול על מחיר, זמנים או עבודות.', 'Hi, I’m Compass, the HG Studio digital advisor (not a person). Tell me about your business and what you want the site to do, and I’ll tell you what fits and why. You can also ask about price, timing or work.');
+    say(first);
     chips(START);
+  }
+  // הבריף בדף הבית: רק התשובות שנבחרו (בלי שם ובלי טקסט חופשי), כדי שהיועץ לא ישאל שוב מה שכבר ענו
+  function briefDraft() {
+    var d = null; try { d = JSON.parse(localStorage.getItem('hg-brief') || 'null'); } catch (e) { }
+    if (!d) return null;
+    var j = function (a) { return Array.isArray(a) ? a.join(', ') : ''; };
+    return { biz: j(d.biz), goal: j(d.goal), pain: j(d.pain), now: j(d.now) };
+  }
+  function ctx() {
+    var b = briefDraft() || {}, rec = document.querySelector('.rec-pkg'), form = document.getElementById('brief');
+    return { brief: b, rec: rec ? rec.textContent.trim() : '', calc: form && form.dataset.calc ? form.dataset.calc : '', shown: S.shown || [] };
   }
 
   /* ---------- תנועה: החלון יוצא מהכפתור וחוזר אליו. בטלפון הוא גיליון שגוררים למטה כדי לסגור ---------- */
@@ -364,49 +392,147 @@
     nm.focus();
   }
 
-  /* ---------- שאלות חופשיות ---------- */
-  var busy = false, pending = '';
-  function ask(raw) {
+  /* ---------- שאלות חופשיות: יועץ המכירות (/api/chat) ---------- */
+  // השרת מחזיר שורות JSON: טקסט בחתיכות, רכיבי ממשק (כפתורים, קישורים, חבילה, בריף), אות מדידה וסוף
+  var busy = false, pending = '', answers = 0;
+  function ask(raw, o) {
+    o = o || {};
     var text = String(raw || '').trim();
     if (!text) return;
     // הודעה שנכתבה בזמן שהמצפן עוד עונה נשלחת מיד כשהוא מסיים, ולא הולכת לאיבוד
     if (busy) { pending = text; input.value = ''; input.style.height = ''; return; }
     input.value = ''; input.style.height = '';
-    clearChips(); me(text);
+    clearChips();
+    // already: הכפתור שנלחץ כבר הוסיף את התשובה לשיחה. retry: אותה שאלה נשלחת שוב
+    if (!o.retry && !o.already) me(text);
     if (S.offline) return local(text);
-    busy = true;
-    var typing = document.createElement('p'); typing.className = 'ht-typing'; typing.textContent = T('המצפן מחפש…', 'Compass is looking…');
+    busy = true; sending(true);
+    var typing = document.createElement('p'); typing.className = 'ht-typing'; typing.innerHTML = esc(T('המצפן חושב', 'Compass is thinking')) + '<i></i><i></i><i></i>';
     log.appendChild(typing); log.scrollTop = log.scrollHeight;
     var history = S.msgs.filter(function (m) { return m.role === 'user' || m.role === 'assistant'; }).slice(-20);
-    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 25000);
-    fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ messages: history, page: location.pathname + location.hash }), signal: ctl.signal })
+    var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 30000), t0 = Date.now();
+    track('chat_message', { n: history.filter(function (m) { return m.role === 'user'; }).length });
+    fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ messages: history, page: location.pathname + location.hash, ctx: ctx() }), signal: ctl.signal })
       .then(function (r) {
-        // תשובה תקינה היא טקסט בזרימה. JSON פירושו הודעת שגיאה מהשרת, ולא מציגים אותה כתשובה
-        if (!r.ok || !r.body || /json/i.test(r.headers.get('content-type') || '')) { if (r.status === 503 || r.status === 404 || r.status === 405 || r.status === 501) { S.offline = true; save(); } throw new Error('http ' + r.status); }
-        var reader = r.body.getReader(), dec = new TextDecoder(), acc = '', node = null;
+        if (!r.ok || !r.body || !/ndjson/i.test(r.headers.get('content-type') || '')) {
+          if (r.status === 503 || r.status === 404 || r.status === 405 || r.status === 501) { S.offline = true; save(); }
+          throw new Error('http ' + r.status);
+        }
+        var reader = r.body.getReader(), dec = new TextDecoder(), buf = '', acc = '', node = null, ui = [], failed = false;
+        function line(l) {
+          var ev; try { ev = JSON.parse(l); } catch (e) { return; }
+          if (ev.t === 'd') {
+            acc += ev.v;
+            if (!node) { typing.remove(); node = document.createElement('div'); node.className = 'ht-m ht-a'; log.appendChild(node); track('chat_first_token', { ms: Date.now() - t0 }); }
+            node.innerHTML = rich(acc); log.scrollTop = log.scrollHeight;
+          } else if (ev.t === 'ui') ui.push(ev);
+          else if (ev.t === 'sig') signal(ev.i);
+          else if (ev.t === 'err') failed = true;
+        }
         function pump() {
           return reader.read().then(function (x) {
-            if (x.done) return acc;
-            acc += dec.decode(x.value, { stream: true });
-            if (!node) { typing.remove(); node = document.createElement('div'); node.className = 'ht-m ht-a'; log.appendChild(node); }
-            node.innerHTML = rich(acc.replace(/\[\[\/?BRIEF\]\]/g, '').replace(/\n?\[\[ERROR\]\]/, ''));
-            log.scrollTop = log.scrollHeight;
+            if (x.done) { if (buf.trim()) line(buf); return; }
+            buf += dec.decode(x.value, { stream: true });
+            var k; while ((k = buf.indexOf('\n')) >= 0) { line(buf.slice(0, k)); buf = buf.slice(k + 1); }
             return pump();
           });
         }
-        return pump().then(function (full) {
-          if (/\[\[ERROR\]\]/.test(full) || !full.trim()) throw new Error('stream');
-          var m = full.match(/\[\[BRIEF\]\]([\s\S]*?)\[\[\/BRIEF\]\]/);
-          var shown = full.replace(/\[\[BRIEF\]\][\s\S]*?\[\[\/BRIEF\]\]/, '').trim();
-          if (node) { if (shown) node.innerHTML = rich(shown); else node.remove(); }
-          S.msgs.push({ role: 'assistant', content: full.trim() }); save();
-          announce(shown || T('הבריף מוכן', 'The brief is ready'));
-          if (m) brief(m[1]);
-          else chips([[T('לבנות בריף לחנוך', 'Build a brief for Hanoch'), function () { ask(T('אפשר לבנות בריף לחנוך?', 'Can you build a brief for Hanoch?')); }], [T('לדבר עם חנוך', 'Talk to Hanoch'), toWa]]);
+        return pump().then(function () {
+          if (!acc.trim()) throw new Error(failed ? 'stream' : 'empty');
+          S.msgs.push({ role: 'assistant', content: acc.trim() }); save();
+          announce(acc.trim());
+          answers++;
+          track('chat_reply', { ms: Date.now() - t0, partial: failed ? 1 : 0 });
+          var handled = false;
+          ui.forEach(function (ev) { if (render(ev)) handled = true; });
+          if (failed) retryChip(text, T('התשובה נקטעה. ', 'The reply was cut off. '));
+          else if (!handled) chips([[T('לסכם לבריף לחנוך', 'Wrap it up for Hanoch'), function () { ask(T('אפשר לסכם את מה שדיברנו לבריף לחנוך?', 'Can you sum this up into a brief for Hanoch?'), { already: true }); }], [T('לדבר עם חנוך', 'Talk to Hanoch'), toWa]]);
+          if (answers === 2 && !S.fb) feedback();
         });
       })
-      .catch(function () { typing.remove(); local(text, true); })
-      .then(function () { clearTimeout(timer); busy = false; if (pending) { var t = pending; pending = ''; ask(t); } });
+      .catch(function (e) {
+        typing.remove();
+        track('chat_error', { kind: String(e && e.message || e).slice(0, 40) });
+        local(text, true);
+        if (!S.offline) retryChip(text);
+      })
+      .then(function () { clearTimeout(timer); busy = false; sending(false); if (pending) { var t = pending; pending = ''; ask(t); } });
+  }
+  function sending(on) { var b = dlg && dlg.querySelector('.ht-send'); if (b) b.disabled = on; }
+  // ניסיון חוזר שולח את אותה שאלה בלי להוסיף אותה שוב לשיחה
+  function retryChip(text, lead) {
+    var w = chips([[T('לנסות שוב', 'Try again'), function () {
+      // מורידים את השאלה הכפולה שנוספה כשהכפתור נלחץ, ואת תשובת הגיבוי
+      S.msgs.pop(); while (S.msgs.length && S.msgs[S.msgs.length - 1].role === 'assistant') S.msgs.pop(); save();
+      var us = log.querySelectorAll('.ht-u'); if (us.length) us[us.length - 1].remove();
+      ask(text, { retry: true });
+    }], [T('לדבר עם חנוך', 'Talk to Hanoch'), toWa]], true);
+    if (lead) { var p = document.createElement('p'); p.className = 'ht-typing'; p.textContent = lead; w.parentNode.insertBefore(p, w); }
+  }
+  function signal(i) {
+    if (!i) return;
+    if (i.stage && i.stage !== S.stage) { S.stage = i.stage; save(); track('chat_stage', { stage: i.stage }); }
+    if (i.objection && i.objection !== 'none') track('chat_objection', { type: i.objection });
+    if (i.unanswered_topic) track('chat_unanswered', { topic: i.unanswered_topic.slice(0, 60) });
+  }
+  function remember(x) { S.shown = (S.shown || []).filter(function (y) { return y !== x; }).concat([x]).slice(-6); save(); }
+  // רכיבי הממשק שהשרת אישר. כל אחד עובד באמת: כפתור שולח את התשובה, קישור פותח עמוד, הבריף נפתח בוואטסאפ
+  function render(ev) {
+    var i = ev.i || {};
+    if (ev.n === 'show_options') {
+      chips(i.options.map(function (o) { return [o, function () { track('chat_option', {}); ask(o, { already: true }); }]; }));
+      return true;
+    }
+    if (ev.n === 'show_links') {
+      var w = document.createElement('div'); w.className = 'ht-chips';
+      i.links.forEach(function (l) {
+        var a = document.createElement('a'); a.className = 'ht-chip'; a.href = l.url; a.textContent = l.label;
+        if (!/^https:\/\/(www\.)?hgpro\.io/.test(l.url)) { a.target = '_blank'; a.rel = 'noopener'; }
+        a.addEventListener('click', function () { track('chat_link', { url: l.url.replace(/^https:\/\/(www\.)?/, '').slice(0, 80) }); });
+        w.appendChild(a);
+      });
+      log.appendChild(w); log.scrollTop = log.scrollHeight;
+      return false;
+    }
+    if (ev.n === 'recommend_package') {
+      remember(i.package);
+      var c = document.createElement('div'); c.className = 'ht-pkg';
+      c.innerHTML = '<small>' + T('ההמלצה של המצפן', 'Compass recommends') + '</small><b>' + esc(i.package) + '</b>' +
+        (i.reasons.length ? '<ul>' + i.reasons.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>' : '') +
+        (i.addons.length ? '<small>' + T('ומערכות שמתאימות: ', 'Fitting systems: ') + esc(i.addons.join(', ')) + '</small>' : '');
+      var row = document.createElement('div'); row.className = 'ht-chips';
+      [[T('לסכם לבריף עם החבילה', 'Brief with this package'), T('כן, בואו נסכם לבריף לחנוך עם חבילת ' + i.package, 'Yes, let’s sum it up into a brief for Hanoch with the ' + i.package + ' package'), true],
+       [T('מה כלול בה?', 'What’s included?'), T('מה בדיוק כלול בחבילת ' + i.package + '?', 'What exactly is included in ' + i.package + '?'), false]].forEach(function (x) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'ht-chip' + (x[2] ? ' is-main' : ''); b.textContent = x[0];
+        b.addEventListener('click', function () { ask(x[1]); });
+        row.appendChild(b);
+      });
+      c.appendChild(row); log.appendChild(c); log.scrollTop = log.scrollHeight;
+      track('chat_package', { pkg: i.package });
+      return true;
+    }
+    if (ev.n === 'handoff_to_hanoch') {
+      remember('handoff');
+      var t = i.summary;
+      if (i.package && i.package !== 'לא נקבע') t += '\n' + T('החבילה שדיברנו עליה: ', 'Package we discussed: ') + i.package;
+      if (i.concerns.length) t += '\n' + T('מה עוד מטריד אותי: ', 'What still concerns me: ') + i.concerns.join('; ');
+      if (i.open_questions.length) t += '\n' + T('שאלות פתוחות: ', 'Open questions: ') + i.open_questions.join('; ');
+      brief(t);
+      track('chat_handoff', { pkg: i.package });
+      return true;
+    }
+    return false;
+  }
+  // משוב קצר פעם אחת בשיחה, אחרי התשובה השנייה. נשמר רק כאירוע סטטיסטיקה (אם אושרה)
+  function feedback() {
+    var w = document.createElement('div'); w.className = 'ht-fb';
+    w.innerHTML = '<span>' + T('השיחה עוזרת?', 'Is this helpful?') + '</span>';
+    [[T('כן', 'Yes'), 1], [T('לא ממש', 'Not really'), 0]].forEach(function (x) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = x[0];
+      b.addEventListener('click', function () { S.fb = 1; save(); track('chat_feedback', { helpful: x[1] }); w.textContent = T('תודה.', 'Thanks.'); if (!x[1]) say(T('תודה שאמרתם. מה חסר לכם? אפשר גם לשאול את חנוך ישירות בוואטסאפ: ', 'Thanks for telling me. What’s missing? You can also ask Hanoch directly on WhatsApp: ') + 'https://wa.me/' + WA); });
+      w.appendChild(b);
+    });
+    log.appendChild(w); log.scrollTop = log.scrollHeight;
   }
   function toWa() { say(T('חנוך זמין בוואטסאפ: ', 'Hanoch is on WhatsApp: ') + 'https://wa.me/' + WA); }
   function local(text, failed) {
@@ -466,9 +592,36 @@
     addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ---------- היסוס בבריף: מי שנתקע בשלב יותר מ-45 שניות מקבל הצעת עזרה אחת, בלי לקפוץ לו באמצע ---------- */
+  function hesitation() {
+    var form = document.getElementById('brief');
+    if (!form) return;
+    var t = 0, shown = false; try { shown = !!sessionStorage.getItem('hg-chat-help'); } catch (e) { shown = true; }
+    var arm = function () {
+      clearTimeout(t);
+      if (shown) return;
+      t = setTimeout(function () {
+        var done = form.querySelector('.brief-done'), r = form.getBoundingClientRect();
+        if ((done && !done.hidden) || (dlg && dlg.open) || hint || r.bottom < 0 || r.top > innerHeight) return;
+        shown = true; try { sessionStorage.setItem('hg-chat-help', '1'); } catch (e) { }
+        hint = document.createElement('div'); hint.className = 'ht-hint';
+        hint.innerHTML = '<span>' + T('מתלבטים מה לבחור? המצפן יכול לעזור להחליט, או לענות על שאלה לפני שממשיכים.', 'Not sure what to pick? Compass can help you decide, or answer a question before you continue.') + '</span>' +
+          '<button type="button" aria-label="' + T('סגירת ההצעה', 'Dismiss') + '">✕</button>';
+        hint.querySelector('button').addEventListener('click', function (e) { e.stopPropagation(); hint.remove(); hint = null; });
+        hint.addEventListener('click', function () { if (hint) { hint.remove(); hint = null; } track('chat_hesitation_open'); open(); });
+        hint.style.cursor = 'pointer';
+        document.body.appendChild(hint); place();
+        track('chat_hesitation_hint');
+        setTimeout(function () { if (hint) { hint.remove(); hint = null; } }, 12000);
+      }, 45000);
+    };
+    form.addEventListener('change', arm);
+    form.addEventListener('focusin', arm, { once: true });
+  }
+
   // מגיעים מקישור #chat (למשל מהתפריט או ממייל): השיחה נפתחת
   function init() {
-    build(); place(); invite();
+    build(); place(); invite(); hesitation();
     addEventListener('resize', place, { passive: true });
     if (location.hash === '#chat') open();
     document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('[data-chat-open]'); if (a) { e.preventDefault(); open(); } });

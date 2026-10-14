@@ -78,11 +78,22 @@ FACTS = '''## עובדות קבועות
 '''
 
 
+def policies():
+    # תנאי השימוש וביטול והחזרים: מקור האמת לתשלום, בעלות, זמנים וביטולים, כדי שהיועץ יענה מהם ולא ינחש
+    out = []
+    for f, title in (('terms.html', 'תנאי שימוש'), ('refunds.html', 'ביטול והחזרים')):
+        s = main_of(f)
+        s = re.sub(r'<nav[\s\S]*?</nav>', '', s)
+        out.append('### ' + title + ' (' + D + '/' + f + ')\n' + text(s))
+    return '\n\n'.join(out)
+
+
 def build():
     parts = ['# הידע של האתר hgpro.io', FACTS,
              '## דף הבית: שירותים, חבילות ומערכות\n' + home(),
              '## תיק העבודות\n' + projects(),
-             '## עמודי השירות\n' + services()]
+             '## עמודי השירות\n' + services(),
+             '## תנאים, תשלום וביטולים\n' + policies()]
     k = '\n\n'.join(parts)
     # שורות שחוזרות על עצמן (תפריטים, כפתורים) רק מנפחות את הידע
     seen, lines = set(), []
