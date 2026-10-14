@@ -38,10 +38,15 @@
     var a11y = {};
     try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
+    // No intro on phones or on a repeat visit: the site shows up right away
+    var seen = false; try { seen = sessionStorage.getItem('hg-intro') === '1'; } catch (e) { }
+    // לפני הציור הראשון innerWidth עוד יכול להיות 980, לכן בודקים גם את רוחב המסך עצמו
+    if (Math.min(window.innerWidth, screen.width) <= 900 || seen) d.classList.add('no-intro');
   })();
 </script>
 <script src="js/consent.js" defer></script>
 <script src="js/ga.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "en", "mainEntity": [{"@type": "Question", "name": "Why are there no prices on the site?", "acceptedAnswer": {"@type": "Answer", "text": "Because every business needs something different. After a short call you get a written proposal with a fixed price and a timeline, and what the proposal says is what you pay. No surprises."}}, {"@type": "Question", "name": "How long until the site is live?", "acceptedAnswer": {"@type": "Answer", "text": "A landing page (Presence) goes live within a week at most. A full site (Business or Signature) goes live within two weeks at most, from our call to launch."}}, {"@type": "Question", "name": "Who owns the site in the end?", "acceptedAnswer": {"@type": "Answer", "text": "You do. The site, the code, the domain and the content all belong to you."}}, {"@type": "Question", "name": "My site is on Wix or WordPress. Will I lose my place on Google?", "acceptedAnswer": {"@type": "Answer", "text": "You shouldn’t. The content moves over, and every old address Google knows is redirected to the matching page on the new site. The move is included in the Business package."}}, {"@type": "Question", "name": "Can I update the site myself?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The Business and Signature packages include a content system where you update text, images and prices yourself."}}, {"@type": "Question", "name": "Do I have to write all the text myself?", "acceptedAnswer": {"@type": "Answer", "text": "No. You can bring existing text, or I can write it in your business’s voice. Marketing copywriting is an add-on that works with any package."}}, {"@type": "Question", "name": "What happens after launch?", "acceptedAnswer": {"@type": "Answer", "text": "Support is included: one month with Presence and Business, three months with Signature. After that you can continue with the Quiet plan (hosting, backups, monitoring and up to an hour of changes a month) or the Growth plan (up to four hours a month, a monthly report and SEO improvements)."}}, {"@type": "Question", "name": "Will the site be accessible?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Accessibility adjustments and an accessibility menu are included in every package."}}]}</script>
 </head>
 <body>
 <a class="skip" href="#pricing">Skip to services</a>
@@ -91,11 +96,11 @@
     <div class="cr-pin">
       <img class="cr-het-img" src="work/creation/het.webp" alt="" aria-hidden="true" width="900" height="900" fetchpriority="high" decoding="async">
       <div class="cr-copy">
-        <h1 class="cr-title" id="hero-title">A human hand.<br>A machine's precision.<strong class="sr-only"> HG Studio: custom web design and development studio</strong></h1>
-        <p class="cr-sub">A studio for websites and digital platforms. Fixed price, live in two weeks.</p>
+        <h1 class="cr-title" id="hero-title">Websites that work<br>for your business.<strong class="sr-only"> HG Studio: custom web design and development studio</strong></h1>
+        <p class="cr-sub">I design and build websites and systems that bring in leads, answer customers while you’re busy, and cut manual work. Fixed price, live in two weeks.</p>
         <div class="cr-cta">
-          <a class="cr-btn" href="#contact">Get a quote <span aria-hidden="true">→</span></a>
-          <a class="cr-btn cr-btn-ghost" href="archive/en.html">Work</a>
+          <a class="cr-btn" href="#contact">Get a plan for your business <span aria-hidden="true">→</span></a>
+          <a class="cr-btn cr-btn-ghost" href="#work">See what my sites do</a>
         </div>
       </div>
       <p class="cr-caption" aria-hidden="true"><span class="display">A machine alone isn't enough.</span><span class="mono">It takes a human hand. HG Studio</span></p>
@@ -108,6 +113,58 @@
   </section>
 
   <!-- Ani Gibor: the flagship. A loop from the films behind, the story and the link in front -->
+  <!-- Proof: real work, and what each site does for the business -->
+  <section class="sheet sheet-ink proof" id="work" data-bg="dark" aria-labelledby="proof-title">
+    <header class="proof-head">
+      <h2 class="pricing-title" id="proof-title"><span class="pt-big display">Work that works.</span><span class="pt-sub">Six real businesses, and what the site does for each of them.</span></h2>
+    </header>
+    <ul class="pf-list" role="list" tabindex="0" aria-label="Work">
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#gotovski" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-gotovski-480.webp" srcset="work/thumbs/proof-gotovski-480.webp 480w, work/thumbs/proof-gotovski-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Fuel infrastructure · since 1972</p>
+        <h3 class="pf-name display">S. Gotovski</h3>
+        <p class="pf-does">Shows large clients what they are buying: a live simulation of a data-center power outage, and a 360° tour in Hebrew and English.</p>
+        <p class="pf-links mono"><a href="en-work.html#gotovski">The full story</a> <a href="https://hanochgo7-gif.github.io/desktop-tutorial/" target="_blank" rel="noopener">Live site <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#ams" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-ams-480.webp" srcset="work/thumbs/proof-ams-480.webp 480w, work/thumbs/proof-ams-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Thai boxing coach</p>
+        <h3 class="pf-name display">AMS</h3>
+        <p class="pf-does">Brings in new trainees: a trial-session landing page, local pages for Google, and a PDF guide sent over WhatsApp. Every lead is measured.</p>
+        <p class="pf-links mono"><a href="en-work.html#ams">The full story</a> <a href="https://ams.hgpro.io/" target="_blank" rel="noopener">Live site <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#allenbis" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-allenbis-480.webp" srcset="work/thumbs/proof-allenbis-480.webp 480w, work/thumbs/proof-allenbis-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Delivery store</p>
+        <h3 class="pf-name display">Allenbis</h3>
+        <p class="pf-does">Grows the basket: builds a cart to a budget and suggests what is missing for free delivery. With 24 times less JavaScript, it loads fast on phones.</p>
+        <p class="pf-links mono"><a href="en-work.html#allenbis">The full story</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#clinic" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-clinic-480.webp" srcset="work/thumbs/proof-clinic-480.webp 480w, work/thumbs/proof-clinic-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Therapeutic cosmetics clinic</p>
+        <h3 class="pf-name display">Rotem Gotovski</h3>
+        <p class="pf-does">A personal assistant answers questions from the site’s own content, and books appointments that go to Rotem on WhatsApp.</p>
+        <p class="pf-links mono"><a href="en-work.html#clinic">The full story</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#falafel" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-falafel-480.webp" srcset="work/thumbs/proof-falafel-480.webp 480w, work/thumbs/proof-falafel-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Falafel and sabich for events</p>
+        <h3 class="pf-name display">4X4 Catering</h3>
+        <p class="pf-does">Customers build an event in a minute, see how much falafel and pita it takes, and send Nissim a tidy request on WhatsApp.</p>
+        <p class="pf-links mono"><a href="en-work.html#falafel">The full story</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="en-work.html#rachel" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-rachel-480.webp" srcset="work/thumbs/proof-rachel-480.webp 480w, work/thumbs/proof-rachel-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">Math lessons on Zoom</p>
+        <h3 class="pf-name display">Racheli Hornstein</h3>
+        <p class="pf-does">Parents run a one-minute level check, and the result reaches Racheli on WhatsApp with the topics to work on.</p>
+        <p class="pf-links mono"><a href="en-work.html#rachel">The full story</a></p>
+      </li>
+    </ul>
+    <p class="proof-foot mono"><a href="archive/en.html">All the work, films and designs</a><span>The portfolio also has “Yesod” and “Elef”: two fictional brands I built as demos.</span></p>
+  </section>
+
   <section class="sheet sheet-ink ag-spot" id="anigibor" data-bg="dark" aria-labelledby="ag-spot-title">
     <div class="ag-spot-film" aria-hidden="true">
       <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/loop.webp" data-src="work/anigibor/loop.mp4" data-src-m="work/anigibor/loop-m.mp4"></video>
@@ -411,24 +468,53 @@
     </div>
   </section>
 
+  <!-- מחשבון זמן ושאלות נפוצות: ערך אמיתי לפני הקשר. החישוב רץ בדפדפן בלבד -->
+  <section class="sheet hours" id="hours" aria-labelledby="hours-title">
+    <header class="hours-head">
+      <h2 class="pricing-title" id="hours-title"><span class="pt-big display">How much time does it take you?</span><span class="pt-sub">A quick sum: how many hours a month go into work a system could do for you.</span></h2>
+      <p class="hours-lead">Change the numbers to fit your business. Everything is calculated in your browser, and nothing is sent anywhere.</p>
+    </header>
+    <div class="hours-grid">
+      <form class="hours-calc" id="hours-calc" novalidate><fieldset class="hc-group" data-k="faq"><legend><b>Leads and questions</b><span class="mono">AI agent and CRM</span></legend><div class="hc-in"><label for="hc-leads">New leads per week</label><output for="hc-leads" data-unit="">10</output><input type="range" id="hc-leads" data-v="leads" min="0" max="60" step="1" value="10"></div><div class="hc-in"><label for="hc-leadmin">Minutes per lead: first reply and repeat questions</label><output for="hc-leadmin" data-unit="min">15</output><input type="range" id="hc-leadmin" data-v="leadmin" min="0" max="45" step="1" value="15"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="faq">0</span> hours a month</p></fieldset><fieldset class="hc-group" data-k="book"><legend><b>Appointments and meetings</b><span class="mono">Appointment booking</span></legend><div class="hc-in"><label for="hc-appts">Bookings per week</label><output for="hc-appts" data-unit="">8</output><input type="range" id="hc-appts" data-v="appts" min="0" max="60" step="1" value="8"></div><div class="hc-in"><label for="hc-apptmin">Minutes per booking</label><output for="hc-apptmin" data-unit="min">5</output><input type="range" id="hc-apptmin" data-v="apptmin" min="0" max="20" step="1" value="5"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="book">0</span> hours a month</p></fieldset><fieldset class="hc-group" data-k="quote"><legend><b>Price quotes</b><span class="mono">Quote builder</span></legend><div class="hc-in"><label for="hc-quotes">Quotes per month</label><output for="hc-quotes" data-unit="">4</output><input type="range" id="hc-quotes" data-v="quotes" min="0" max="40" step="1" value="4"></div><div class="hc-in"><label for="hc-quotemin">Minutes per quote</label><output for="hc-quotemin" data-unit="min">30</output><input type="range" id="hc-quotemin" data-v="quotemin" min="0" max="120" step="5" value="30"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="quote">0</span> hours a month</p></fieldset><fieldset class="hc-group hc-share"><legend><b>How much of it a system can take</b></legend><div class="hc-in"><label for="hc-share" class="sr-only">How much of it a system can take</label><output for="hc-share" data-unit="%">50</output><input type="range" id="hc-share" data-v="share" min="20" max="80" step="5" value="50"></div><p class="hc-note">My assumption: a system does not replace you. It handles what repeats, schedules and organizes, and you step in when a decision is needed. Change it to what feels right.</p></fieldset></form>
+      <div class="hours-out">
+        <p class="hours-est mono">Estimate</p>
+        <p class="hours-big" aria-live="polite"><b class="display" id="hours-saved">0</b> <span>hours a month</span></p>
+        <p class="hours-of">Out of about <b id="hours-total">0</b> hours a month that go into leads, scheduling and quotes today.</p>
+        <p class="hours-fine">This is an estimate based on the numbers you entered, not a promise. On a call we will check what you can really hand over to a system.</p>
+        <a class="btn btn-signal hours-go" href="#contact"><span>Add this to my request</span></a>
+      </div>
+    </div>
+    <div class="faq" id="faq">
+      <header class="faq-head">
+        <h2 class="display">Questions people ask before we start.</h2>
+        <p class="process-lead">Didn’t find your answer? <a href="#contact">Write to me</a>, or ask the digital advisor in the corner of the screen.</p>
+      </header>
+      <div class="faq-list"><details><summary><h3>Why are there no prices on the site?</h3></summary><div class="faq-a"><p>Because every business needs something different. After a short call you get a written proposal with a fixed price and a timeline, and what the proposal says is what you pay. No surprises.</p></div></details><details><summary><h3>How long until the site is live?</h3></summary><div class="faq-a"><p>A landing page (Presence) goes live within a week at most. A full site (Business or Signature) goes live within two weeks at most, from our call to launch.</p></div></details><details><summary><h3>Who owns the site in the end?</h3></summary><div class="faq-a"><p>You do. The site, the code, the domain and the content all belong to you.</p></div></details><details><summary><h3>My site is on Wix or WordPress. Will I lose my place on Google?</h3></summary><div class="faq-a"><p>You shouldn’t. The content moves over, and every old address Google knows is redirected to the matching page on the new site. The move is included in the Business package.</p></div></details><details><summary><h3>Can I update the site myself?</h3></summary><div class="faq-a"><p>Yes. The Business and Signature packages include a content system where you update text, images and prices yourself.</p></div></details><details><summary><h3>Do I have to write all the text myself?</h3></summary><div class="faq-a"><p>No. You can bring existing text, or I can write it in your business’s voice. Marketing copywriting is an add-on that works with any package.</p></div></details><details><summary><h3>What happens after launch?</h3></summary><div class="faq-a"><p>Support is included: one month with Presence and Business, three months with Signature. After that you can continue with the Quiet plan (hosting, backups, monitoring and up to an hour of changes a month) or the Growth plan (up to four hours a month, a monthly report and SEO improvements).</p></div></details><details><summary><h3>Will the site be accessible?</h3></summary><div class="faq-a"><p>Yes. Accessibility adjustments and an accessibility menu are included in every package.</p></div></details></div>
+    </div>
+  </section>
+
   <!-- 08 קשר -->
   <section class="contact" id="contact" data-bg="dark" aria-labelledby="contact-title">
     <h2 class="contact-title display" id="contact-title">Let's build.</h2>
-    <p class="contact-lead">Three short questions, and a ready-made WhatsApp message to me opens up. No long forms.</p>
+    <p class="contact-lead">Four short questions, and you get a recommendation for what your business needs, plus a ready-made WhatsApp message to me. No long forms.</p>
     <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a href="https://wa.me/972545522053" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
     <form class="brief" id="brief" novalidate>
-      <ol class="brief-steps mono" aria-hidden="true"><li class="on">Business</li><li>Goal</li><li>Today</li></ol>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">Business</li><li>Goal</li><li>Time</li><li>Today</li></ol>
       <fieldset class="brief-step on" data-step="0">
         <legend>What kind of business do you have?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="biz" value="Online store"><span>Online store</span></label><label class="chip"><input type="radio" name="biz" value="Service business"><span>Service business</span></label><label class="chip"><input type="radio" name="biz" value="Freelancer or self-employed"><span>Freelancer or self-employed</span></label><label class="chip"><input type="radio" name="biz" value="Company or industry"><span>Company or industry</span></label><label class="chip"><input type="radio" name="biz" value="Something else"><span>Something else</span></label></div>
+        <div class="chips"><label class="chip"><input type="radio" name="biz" value="Online store" data-k="shop"><span>Online store</span></label><label class="chip"><input type="radio" name="biz" value="Service business" data-k="service"><span>Service business</span></label><label class="chip"><input type="radio" name="biz" value="Freelancer or self-employed" data-k="solo"><span>Freelancer or self-employed</span></label><label class="chip"><input type="radio" name="biz" value="Company or industry" data-k="company"><span>Company or industry</span></label><label class="chip"><input type="radio" name="biz" value="Something else" data-k="other"><span>Something else</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="1" hidden>
         <legend>What should the site do? <small>Pick as many as you like</small></legend>
-        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="Bring in more leads"><span>Bring in more leads</span></label><label class="chip"><input type="checkbox" name="goal" value="Sell online"><span>Sell online</span></label><label class="chip"><input type="checkbox" name="goal" value="Replace an old site"><span>Replace an old site</span></label><label class="chip"><input type="checkbox" name="goal" value="Build a strong brand"><span>Build a strong brand</span></label><label class="chip"><input type="checkbox" name="goal" value="Not sure yet"><span>Not sure yet</span></label></div>
+        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="Bring in more leads" data-k="leads"><span>Bring in more leads</span></label><label class="chip"><input type="checkbox" name="goal" value="Sell online" data-k="sell"><span>Sell online</span></label><label class="chip"><input type="checkbox" name="goal" value="Replace an old site" data-k="replace"><span>Replace an old site</span></label><label class="chip"><input type="checkbox" name="goal" value="Build a strong brand" data-k="brand"><span>Build a strong brand</span></label><label class="chip"><input type="checkbox" name="goal" value="Not sure yet" data-k="unsure"><span>Not sure yet</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="2" hidden>
+        <legend>What takes up most of your time today? <small>Pick as many as you like</small></legend>
+        <div class="chips"><label class="chip"><input type="checkbox" name="pain" value="Answering the same questions again and again" data-k="faq"><span>Answering the same questions again and again</span></label><label class="chip"><input type="checkbox" name="pain" value="Scheduling appointments and meetings" data-k="book"><span>Scheduling appointments and meetings</span></label><label class="chip"><input type="checkbox" name="pain" value="Preparing price quotes" data-k="quote"><span>Preparing price quotes</span></label><label class="chip"><input type="checkbox" name="pain" value="Collecting payments and issuing invoices" data-k="pay"><span>Collecting payments and issuing invoices</span></label><label class="chip"><input type="checkbox" name="pain" value="Chasing leads that get lost" data-k="crm"><span>Chasing leads that get lost</span></label><label class="chip"><input type="checkbox" name="pain" value="Updating the website" data-k="cms"><span>Updating the website</span></label><label class="chip"><input type="checkbox" name="pain" value="None of these" data-k="none"><span>None of these</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="3" hidden>
         <legend>And what do you have today?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="now" value="No site yet"><span>No site yet</span></label><label class="chip"><input type="radio" name="now" value="A site that brings no leads"><span>A site that brings no leads</span></label><label class="chip"><input type="radio" name="now" value="A Wix or WordPress site"><span>A Wix or WordPress site</span></label><label class="chip"><input type="radio" name="now" value="A store that needs an upgrade"><span>A store that needs an upgrade</span></label><label class="chip"><input type="radio" name="now" value="Not sure yet"><span>Not sure yet</span></label></div>
+        <div class="chips"><label class="chip"><input type="radio" name="now" value="No site yet" data-k="none"><span>No site yet</span></label><label class="chip"><input type="radio" name="now" value="A site that brings no leads" data-k="weak"><span>A site that brings no leads</span></label><label class="chip"><input type="radio" name="now" value="A Wix or WordPress site" data-k="wix"><span>A Wix or WordPress site</span></label><label class="chip"><input type="radio" name="now" value="A store that needs an upgrade" data-k="shopup"><span>A store that needs an upgrade</span></label><label class="chip"><input type="radio" name="now" value="Not sure yet" data-k="unsure"><span>Not sure yet</span></label></div>
         <div class="brief-fields">
           <label for="brief-name">What's your name? <small>Optional</small></label>
           <input id="brief-name" name="name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="80">
@@ -443,8 +529,9 @@
         <button class="btn btn-signal brief-go" type="submit"><span>Next</span></button>
       </div>
       <div class="brief-done" hidden>
+        <div class="brief-rec" aria-live="polite"></div>
         <p class="brief-done-title">Your message is ready. One tap and it’s with me.</p>
-        <p class="brief-done-next">Once you send it, I’ll come back to you with a written, fixed-price proposal. No commitment.</p>
+        <ol class="brief-next" aria-label="What happens after you send"><li>You send the message, and it comes straight to me.</li><li>I get back to you for a short intro call. No commitment.</li><li>You get a written proposal with a fixed price and a timeline, and decide in your own time.</li></ol>
         <pre class="brief-preview" dir="ltr"></pre>
         <div class="brief-actions">
           <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>Send to me on WhatsApp</span></a>

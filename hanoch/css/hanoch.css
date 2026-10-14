@@ -100,6 +100,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ---------- פתיח ---------- */
 .intro { display: none; }
+.no-intro .intro { display: none !important; }
 .motion .intro {
   display: grid; place-items: center; position: fixed; inset: 0; z-index: 150; background: var(--ink);
   clip-path: inset(0 0 0 0);
@@ -628,7 +629,7 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
 
 /* ---------- בריף ---------- */
 .brief { width: min(760px, 100%); text-align: start; display: grid; gap: 1.4rem; margin-bottom: 10vh; }
-.brief-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.brief-steps { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
 .brief-steps li { padding-top: .7rem; border-top: 2px solid var(--fg-faint); color: rgba(237, 232, 222, .72); transition: border-color .4s, color .4s; }
 .brief-steps li.on { border-color: var(--signal); color: var(--fg); }
 .brief-step { border: 0; display: grid; gap: 1.1rem; }
@@ -1958,3 +1959,77 @@ a, button, label, summary, [role="button"] { touch-action: manipulation; -webkit
 
 /* כותרות שנחשפות שורה אחר שורה: המסכה גבוהה מעט מהשורה, כדי שאותיות כמו ל, ק ו-ך לא ייחתכו בזמן החשיפה */
 .hg-line-mask { padding-block: .16em; margin-block: -.16em; }
+
+/* ---------- עבודות שעובדות: הוכחה בדף הבית ---------- */
+/* כל כרטיס אומר מה האתר עושה בשביל העסק, לא רק איך הוא נראה. הצילום מוביל לסיפור המלא */
+.proof-head { margin-bottom: clamp(40px, 5vw, 72px); max-width: 980px; }
+.pf-list { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 3vw, 44px) clamp(18px, 2vw, 28px); }
+.pf { display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
+.pf-shot { display: block; aspect-ratio: 16 / 10; border-radius: var(--radius-m); overflow: hidden; background: var(--ink-3); box-shadow: 0 0 0 1px var(--fg-faint); margin-bottom: .45rem; }
+.pf-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .9s var(--ease); }
+@media (hover: hover) { .pf:hover .pf-shot img { transform: scale(1.035); } }
+.pf-kind { font-size: var(--fs-xs); color: var(--fg-dim); }
+.pf-name { font-size: var(--fs-d1); font-weight: 400; line-height: 1.1; }
+.pf-does { font-size: var(--fs-b); line-height: 1.7; color: rgba(237, 232, 222, .82); max-width: 46ch; }
+.pf-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: var(--fs-s); margin-top: auto; padding-top: .3rem; }
+.pf-links a, .proof-foot a { color: var(--fg); text-decoration: underline; text-decoration-color: rgba(255, 79, 26, .7); text-underline-offset: 5px; text-decoration-thickness: 1px; }
+.pf-links a:hover, .proof-foot a:hover { color: var(--signal); }
+.proof-foot { display: flex; flex-wrap: wrap; gap: .6rem 2rem; align-items: baseline; margin-top: clamp(40px, 5vw, 64px); padding-top: 1.4rem; border-top: 1px solid var(--fg-faint); font-size: var(--fs-s); color: var(--fg-dim); }
+@media (max-width: 900px) {
+  /* בטלפון: שורה שגוללים לצדדים, כרטיס וחצי במסך, כדי שיהיה ברור שיש עוד */
+  .pf-list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; contain: paint; }
+  .pf-list::-webkit-scrollbar { display: none; }
+  .pf { flex: 0 0 80%; scroll-snap-align: center; }
+}
+.pf-list:focus-visible { outline: 2px solid var(--signal); outline-offset: 6px; border-radius: var(--radius-s); }
+
+/* ---------- ההמלצה בסוף הבריף: חבילה, מערכות שחוסכות זמן ודוגמה מהעבודות ---------- */
+.brief-rec:empty { display: none; }
+.brief-rec { display: grid; gap: .7rem; padding-bottom: 1.3rem; margin-bottom: .2rem; border-bottom: 1px solid var(--fg-faint); }
+.rec-kicker, .rec-sub { font-size: var(--fs-xs); color: var(--fg-dim); }
+.rec-sub { margin-top: .4rem; }
+.rec-pkg { font-size: var(--fs-d2); font-weight: 400; line-height: 1.05; color: var(--signal); }
+.rec-why, .rec-note, .rec-ex { font-size: var(--fs-b); line-height: 1.7; color: rgba(237, 232, 222, .86); max-width: 60ch; }
+.rec-sys { list-style: none; display: grid; gap: .55rem; }
+.rec-sys li { display: grid; gap: .15rem; padding: .75rem 1rem; border-radius: var(--radius-s); background: var(--ink-2); border: 1px solid var(--fg-faint); }
+.rec-sys b { font-weight: 500; color: var(--fg); }
+.rec-sys span { font-size: var(--fs-s); line-height: 1.6; color: var(--fg-dim); }
+.rec-ex a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+.rec-fine { font-size: var(--fs-xs); line-height: 1.6; color: var(--fg-dim); }
+
+/* ---------- כמה זמן זה לוקח לכם: מחשבון שעות על נייר ---------- */
+.hours-head { max-width: 980px; margin-bottom: clamp(36px, 4vw, 56px); }
+.hours-lead { margin-top: 1rem; font-size: var(--fs-l); line-height: 1.7; color: var(--ink-dim); max-width: 60ch; }
+.hours-grid { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 64px); align-items: start; margin-bottom: clamp(80px, 10vw, 150px); }
+.hours-calc { display: grid; gap: 14px; }
+.hc-group { border: 1px solid var(--ink-faint); border-radius: var(--radius-l); padding: clamp(16px, 2vw, 24px); display: grid; gap: .9rem; background: rgba(255, 255, 255, .28); }
+.hc-group legend { display: contents; }
+.hc-group legend b { font-family: var(--f-display); font-weight: 400; font-size: var(--fs-d1); line-height: 1.1; }
+.hc-group legend span { display: block; font-size: var(--fs-xs); color: var(--ink-dim); margin-top: -.5rem; }
+.hc-in { display: grid; grid-template-columns: 1fr auto; gap: .2rem 1rem; align-items: center; }
+.hc-in label { font-size: var(--fs-s); line-height: 1.5; color: var(--ink); }
+.hc-in output { font-family: var(--f-mono); font-size: var(--fs-s); color: var(--ink); min-width: 4.5ch; text-align: end; font-variant-numeric: tabular-nums; }
+.hc-in input[type="range"] { grid-column: 1 / -1; width: 100%; height: 32px; accent-color: var(--signal-ink); cursor: pointer; }
+.hc-sub { font-size: var(--fs-xs); color: var(--ink-dim); }
+.hc-sub .hc-h { color: var(--signal-ink); font-weight: 600; }
+.hc-note { font-size: var(--fs-s); line-height: 1.65; color: var(--ink-dim); max-width: 60ch; }
+.hc-share { background: transparent; border-style: dashed; }
+.hours-out { position: sticky; top: 110px; display: grid; gap: .9rem; padding: clamp(22px, 3vw, 36px); border-radius: var(--radius-l); background: var(--ink); color: var(--fg); box-shadow: var(--shadow-float); }
+.hours-est { font-size: var(--fs-xs); color: var(--fg-dim); }
+.hours-big { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; font-size: var(--fs-l); }
+.hours-big b { font-weight: 400; font-size: clamp(4.2rem, 8vw, 7rem); line-height: .85; color: var(--signal); font-variant-numeric: tabular-nums; }
+.hours-of { font-size: var(--fs-b); line-height: 1.7; color: rgba(237, 232, 222, .82); }
+.hours-of b { font-weight: 500; color: var(--fg); }
+.hours-fine { font-size: var(--fs-xs); line-height: 1.6; color: var(--fg-dim); }
+.hours-go { justify-self: start; margin-top: .3rem; }
+.hours .faq-head h2 { font-weight: 400; font-size: var(--fs-d3); line-height: 1; margin-bottom: 1rem; }
+.hours .process-lead { font-size: var(--fs-b); line-height: 1.7; color: var(--ink-dim); }
+.hours .process-lead a { color: var(--signal-ink); text-underline-offset: 4px; }
+@media (max-width: 900px) {
+  .hours-grid { grid-template-columns: 1fr; }
+  .hours-out { position: static; }
+}
+/* מה קורה אחרי ששולחים: שלושה צעדים קצרים ברגע ההחלטה, כדי שלא יהיה ניחוש */
+.brief-next { list-style: none; counter-reset: bn; display: grid; gap: .45rem; margin-top: -.3rem; }
+.brief-next li { counter-increment: bn; display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: baseline; font-size: var(--fs-s); line-height: 1.6; color: rgba(237, 232, 222, .82); }
+.brief-next li::before { content: counter(bn); font-family: var(--f-mono); font-size: var(--fs-xs); color: var(--signal); }

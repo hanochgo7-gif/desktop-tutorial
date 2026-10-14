@@ -1,7 +1,8 @@
 /* Google Analytics 4 של HG Studio.
    נטען רק אחרי שהגולש אישר סטטיסטיקה בהודעת העוגיות (js/consent.js).
    רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי הפעולה הראשונה של הגולש או חמש שניות אחרי שהעמוד מוצג, כדי לא להאט את האתר.
-   מודד גם פניות: וואטסאפ, טלפון ומייל (כאירוע generate_lead), צפייה בסרטונים וכניסה לאתרים של לקוחות. */
+   מודד גם פניות: וואטסאפ, טלפון ומייל (כאירוע generate_lead), צפייה בסרטונים, כניסה לאתרים של לקוחות,
+   לחיצות על העבודות בדף הבית ושאלות נפוצות שנפתחות. אירועי הבריף והמחשבון נשלחים מ-hanoch.js. */
 (function () {
   'use strict';
   var ID = 'G-YKRG71FB41';
@@ -53,6 +54,14 @@
         gtag('event', 'generate_lead', { method: lead, link_location: from });
         return;
       }
+      // עבודות בדף הבית: איזו עבודה מושכת, ואם נכנסים לסיפור או לאתר החי
+      var pf = a.closest('.pf');
+      if (pf) {
+        var nm = pf.querySelector('.pf-name');
+        gtag('event', 'proof_click', { project: nm ? nm.textContent.trim() : '', target: a.target === '_blank' ? 'live_site' : 'case_story' });
+        if (a.target === '_blank') gtag('event', 'visit_client_site', { link_url: a.href });
+        return;
+      }
       if (a.classList.contains('p-live') || a.classList.contains('case-live')) {
         gtag('event', 'visit_client_site', { link_url: a.href });
         return;
@@ -64,6 +73,11 @@
       var name = (fig && fig.querySelector('figcaption b') && fig.querySelector('figcaption b').textContent.trim()) || v.getAttribute('data-film-label') || v.textContent.trim();
       gtag('event', 'video_play', { video_title: name.slice(0, 80) });
     }
+  }, true);
+  // שאלה נפוצה שנפתחת: מה מעסיק את מי שעוד לא פנה
+  document.addEventListener('toggle', function (e) {
+    var d = e.target;
+    if (d.tagName === 'DETAILS' && d.open && d.closest('.faq')) { var h = d.querySelector('h3'); gtag('event', 'faq_open', { question: h ? h.textContent.trim().slice(0, 90) : '' }); }
   }, true);
   }
 })();

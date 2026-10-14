@@ -38,10 +38,15 @@
     var a11y = {};
     try { a11y = JSON.parse(localStorage.getItem('hanoch-a11y') || '{}'); } catch (e) { }
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !a11y['a11y-no-motion']) d.classList.add('motion');
+    // בטלפון ובביקור חוזר אין פתיח: האתר מופיע מיד
+    var seen = false; try { seen = sessionStorage.getItem('hg-intro') === '1'; } catch (e) { }
+    // לפני הציור הראשון innerWidth עוד יכול להיות 980, לכן בודקים גם את רוחב המסך עצמו
+    if (Math.min(window.innerWidth, screen.width) <= 900 || seen) d.classList.add('no-intro');
   })();
 </script>
 <script src="js/consent.js" defer></script>
 <script src="js/ga.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "he", "mainEntity": [{"@type": "Question", "name": "למה אין מחירים באתר?", "acceptedAnswer": {"@type": "Answer", "text": "כי כל עסק צריך משהו אחר. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים. בלי הפתעות ובלי מע״מ."}}, {"@type": "Question", "name": "כמה זמן לוקח עד שהאתר באוויר?", "acceptedAnswer": {"@type": "Answer", "text": "דף נחיתה (חבילת נוכחות) עולה תוך שבוע לכל היותר. אתר מלא (עסק או חתימה) עולה תוך שבועיים לכל היותר, מהשיחה ועד שהוא באוויר."}}, {"@type": "Question", "name": "של מי האתר בסוף?", "acceptedAnswer": {"@type": "Answer", "text": "שלכם. האתר, הקוד, הדומיין והתוכן שייכים לכם."}}, {"@type": "Question", "name": "יש לי אתר בוויקס או בוורדפרס. אאבד את המקום בגוגל?", "acceptedAnswer": {"@type": "Answer", "text": "לא אמורים. מעבירים את התוכן ומפנים כל כתובת ישנה שגוגל מכיר לעמוד המתאים באתר החדש. המעבר כלול בחבילת עסק."}}, {"@type": "Question", "name": "אוכל לעדכן את האתר לבד?", "acceptedAnswer": {"@type": "Answer", "text": "כן. בחבילות עסק וחתימה יש מערכת ניהול, ומעדכנים בה טקסטים, תמונות ומחירים בעצמכם."}}, {"@type": "Question", "name": "צריך לכתוב לבד את כל הטקסטים?", "acceptedAnswer": {"@type": "Answer", "text": "לא חובה. אפשר להביא טקסטים קיימים, ואפשר שאכתוב אותם בקול של העסק. קופירייטינג שיווקי הוא תוספת שאפשר לחבר לכל חבילה."}}, {"@type": "Question", "name": "מה קורה אחרי שהאתר עולה?", "acceptedAnswer": {"@type": "Answer", "text": "הליווי כלול: חודש בנוכחות ובעסק, ושלושה חודשים בחתימה. אחר כך אפשר להמשיך בתוכנית שקט (אחסון, גיבויים, ניטור ועד שעה של שינויים בחודש) או בתוכנית צמיחה (עד ארבע שעות בחודש, דוח חודשי ושיפורי קידום)."}}, {"@type": "Question", "name": "האתר יהיה נגיש?", "acceptedAnswer": {"@type": "Answer", "text": "כן. התאמות נגישות ותפריט נגישות כלולים בכל חבילה."}}]}</script>
 </head>
 <body>
 <a class="skip" href="#pricing">דלגו לשירותים</a>
@@ -91,11 +96,11 @@
     <div class="cr-pin">
       <img class="cr-het-img" src="work/creation/het.webp" alt="" aria-hidden="true" width="900" height="900" fetchpriority="high" decoding="async">
       <div class="cr-copy">
-        <h1 class="cr-title" id="hero-title">יד של בן אדם.<br>דיוק של מכונה.<strong class="sr-only"> HG Studio: בניית אתרים ועיצוב אתרים לעסקים</strong></h1>
-        <p class="cr-sub">סטודיו לאתרים ופלטפורמות דיגיטליות. מחיר סגור, באוויר תוך שבועיים.</p>
+        <h1 class="cr-title" id="hero-title">אתרים שעובדים<br>בשביל העסק.<strong class="sr-only"> HG Studio: בניית אתרים ועיצוב אתרים לעסקים</strong></h1>
+        <p class="cr-sub">אני מעצב ובונה לעסקים אתרים ומערכות שמביאים פניות, עונים ללקוחות גם כשאתם עסוקים, וחוסכים עבודה ידנית. מחיר סגור, באוויר תוך שבועיים.</p>
         <div class="cr-cta">
-          <a class="cr-btn" href="#contact">לקבלת הצעת מחיר <span aria-hidden="true">←</span></a>
-          <a class="cr-btn cr-btn-ghost" href="archive/index.html">לעבודות</a>
+          <a class="cr-btn" href="#contact">לתוכנית לעסק שלכם <span aria-hidden="true">←</span></a>
+          <a class="cr-btn cr-btn-ghost" href="#work">מה האתרים שלי עושים</a>
         </div>
       </div>
       <p class="cr-caption" aria-hidden="true"><span class="display">מכונה לבד זה לא מספיק.</span><span class="mono">צריך גם יד של בן אדם. HG Studio</span></p>
@@ -108,6 +113,58 @@
   </section>
 
   <!-- אני גיבור: מוצר הדגל. לופ מהסרטים מאחור, ההסבר והקישור מלפנים -->
+  <!-- הוכחה: עבודות אמיתיות, ומה כל אתר עושה בשביל העסק -->
+  <section class="sheet sheet-ink proof" id="work" data-bg="dark" aria-labelledby="proof-title">
+    <header class="proof-head">
+      <h2 class="pricing-title" id="proof-title"><span class="pt-big display">עבודות שעובדות.</span><span class="pt-sub">שישה עסקים אמיתיים, ומה האתר עושה בשביל כל אחד מהם.</span></h2>
+    </header>
+    <ul class="pf-list" role="list" tabindex="0" aria-label="עבודות">
+      <li class="pf">
+        <a class="pf-shot" href="work.html#gotovski" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-gotovski-480.webp" srcset="work/thumbs/proof-gotovski-480.webp 480w, work/thumbs/proof-gotovski-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">תשתיות דלק · מאז 1972</p>
+        <h3 class="pf-name display">ש. גוטובסקי</h3>
+        <p class="pf-does">מסביר ללקוחות גדולים מה הם קונים: הדמיה חיה של הפסקת חשמל בחוות שרתים, וסיור 360° בעברית ובאנגלית.</p>
+        <p class="pf-links mono"><a href="work.html#gotovski">הסיפור המלא</a> <a href="https://hanochgo7-gif.github.io/desktop-tutorial/" target="_blank" rel="noopener">לאתר החי <span aria-hidden="true">↗</span><span class="sr-only"> (נפתח בחלון חדש)</span></a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="work.html#ams" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-ams-480.webp" srcset="work/thumbs/proof-ams-480.webp 480w, work/thumbs/proof-ams-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">מאמן אגרוף תאילנדי</p>
+        <h3 class="pf-name display">AMS</h3>
+        <p class="pf-does">מביא מתאמנים חדשים: דף נחיתה לאימון ניסיון, דפי אזור לגוגל ומדריך PDF שנשלח בוואטסאפ. כל פנייה נמדדת.</p>
+        <p class="pf-links mono"><a href="work.html#ams">הסיפור המלא</a> <a href="https://ams.hgpro.io/" target="_blank" rel="noopener">לאתר החי <span aria-hidden="true">↗</span><span class="sr-only"> (נפתח בחלון חדש)</span></a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="work.html#allenbis" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-allenbis-480.webp" srcset="work/thumbs/proof-allenbis-480.webp 480w, work/thumbs/proof-allenbis-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">חנות משלוחים</p>
+        <h3 class="pf-name display">אלנביס</h3>
+        <p class="pf-does">מגדילה את הסל: בונה סל לפי תקציב ומציעה את מה שחסר למשלוח חינם. עם פי 24 פחות JavaScript, היא נטענת מהר בטלפון.</p>
+        <p class="pf-links mono"><a href="work.html#allenbis">הסיפור המלא</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="work.html#clinic" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-clinic-480.webp" srcset="work/thumbs/proof-clinic-480.webp 480w, work/thumbs/proof-clinic-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">קליניקה לקוסמטיקה טיפולית</p>
+        <h3 class="pf-name display">רותם גוטובסקי</h3>
+        <p class="pf-does">עוזרת אישית עונה על שאלות מתוך התוכן של האתר, וקובעת תור שנשלח לרותם בוואטסאפ.</p>
+        <p class="pf-links mono"><a href="work.html#clinic">הסיפור המלא</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="work.html#falafel" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-falafel-480.webp" srcset="work/thumbs/proof-falafel-480.webp 480w, work/thumbs/proof-falafel-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">פלאפל וסביח לאירועים</p>
+        <h3 class="pf-name display">קייטרינג 4X4</h3>
+        <p class="pf-does">הלקוח בונה אירוע בדקה, רואה כמה פלאפל ופיתות צריך, ושולח לניסים הצעה מסודרת בוואטסאפ.</p>
+        <p class="pf-links mono"><a href="work.html#falafel">הסיפור המלא</a></p>
+      </li>
+      <li class="pf">
+        <a class="pf-shot" href="work.html#rachel" tabindex="-1" aria-hidden="true"><img src="work/thumbs/proof-rachel-480.webp" srcset="work/thumbs/proof-rachel-480.webp 480w, work/thumbs/proof-rachel-720.webp 720w" sizes="(max-width: 900px) 80vw, 31vw" width="720" height="450" loading="lazy" decoding="async" alt=""></a>
+        <p class="pf-kind mono">שיעורי מתמטיקה בזום</p>
+        <h3 class="pf-name display">רחלי הורנשטיין</h3>
+        <p class="pf-does">הורה עושה בדיקת רמה בדקה, והתוצאה מגיעה לרחלי בוואטסאפ עם הנושאים שצריך לחזק.</p>
+        <p class="pf-links mono"><a href="work.html#rachel">הסיפור המלא</a></p>
+      </li>
+    </ul>
+    <p class="proof-foot mono"><a href="archive/index.html">לכל העבודות, הסרטים והעיצובים</a><span>גם "יסוד" ו"אֶלֶף" בתיק: שני מותגים בדיוניים שבניתי להדגמה.</span></p>
+  </section>
+
   <section class="sheet sheet-ink ag-spot" id="anigibor" data-bg="dark" aria-labelledby="ag-spot-title">
     <div class="ag-spot-film" aria-hidden="true">
       <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/loop.webp" data-src="work/anigibor/loop.mp4" data-src-m="work/anigibor/loop-m.mp4"></video>
@@ -411,24 +468,53 @@
     </div>
   </section>
 
+  <!-- מחשבון זמן ושאלות נפוצות: ערך אמיתי לפני הקשר. החישוב רץ בדפדפן בלבד -->
+  <section class="sheet hours" id="hours" aria-labelledby="hours-title">
+    <header class="hours-head">
+      <h2 class="pricing-title" id="hours-title"><span class="pt-big display">כמה זמן זה לוקח לכם?</span><span class="pt-sub">חשבון קצר: כמה שעות בחודש הולכות על עבודה שמערכת יכולה לעשות במקומכם.</span></h2>
+      <p class="hours-lead">שנו את המספרים לפי העסק שלכם. החישוב קורה רק בדפדפן שלכם, ושום דבר לא נשלח.</p>
+    </header>
+    <div class="hours-grid">
+      <form class="hours-calc" id="hours-calc" novalidate><fieldset class="hc-group" data-k="faq"><legend><b>פניות ושאלות</b><span class="mono">נציג AI ו-CRM</span></legend><div class="hc-in"><label for="hc-leads">פניות חדשות בשבוע</label><output for="hc-leads" data-unit="">10</output><input type="range" id="hc-leads" data-v="leads" min="0" max="60" step="1" value="10"></div><div class="hc-in"><label for="hc-leadmin">דקות על כל פנייה: מענה ראשון ושאלות חוזרות</label><output for="hc-leadmin" data-unit="דק׳">15</output><input type="range" id="hc-leadmin" data-v="leadmin" min="0" max="45" step="1" value="15"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="faq">0</span> שעות בחודש</p></fieldset><fieldset class="hc-group" data-k="book"><legend><b>תורים ופגישות</b><span class="mono">מערכת זימון תורים</span></legend><div class="hc-in"><label for="hc-appts">תיאומים בשבוע</label><output for="hc-appts" data-unit="">8</output><input type="range" id="hc-appts" data-v="appts" min="0" max="60" step="1" value="8"></div><div class="hc-in"><label for="hc-apptmin">דקות לכל תיאום</label><output for="hc-apptmin" data-unit="דק׳">5</output><input type="range" id="hc-apptmin" data-v="apptmin" min="0" max="20" step="1" value="5"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="book">0</span> שעות בחודש</p></fieldset><fieldset class="hc-group" data-k="quote"><legend><b>הצעות מחיר</b><span class="mono">מחולל הצעות מחיר</span></legend><div class="hc-in"><label for="hc-quotes">הצעות מחיר בחודש</label><output for="hc-quotes" data-unit="">4</output><input type="range" id="hc-quotes" data-v="quotes" min="0" max="40" step="1" value="4"></div><div class="hc-in"><label for="hc-quotemin">דקות לכל הצעה</label><output for="hc-quotemin" data-unit="דק׳">30</output><input type="range" id="hc-quotemin" data-v="quotemin" min="0" max="120" step="5" value="30"></div><p class="hc-sub mono" aria-hidden="true"><span class="hc-h" data-g="quote">0</span> שעות בחודש</p></fieldset><fieldset class="hc-group hc-share"><legend><b>כמה מזה מערכת יכולה לקחת</b></legend><div class="hc-in"><label for="hc-share" class="sr-only">כמה מזה מערכת יכולה לקחת</label><output for="hc-share" data-unit="%">50</output><input type="range" id="hc-share" data-v="share" min="20" max="80" step="5" value="50"></div><p class="hc-note">ההנחה שלי: מערכת לא מחליפה אתכם. היא עונה על מה שחוזר, מתאמת ומסדרת, ואתם נכנסים כשצריך החלטה. שנו לפי מה שנראה לכם.</p></fieldset></form>
+      <div class="hours-out">
+        <p class="hours-est mono">הערכה</p>
+        <p class="hours-big" aria-live="polite"><b class="display" id="hours-saved">0</b> <span>שעות בחודש</span></p>
+        <p class="hours-of">מתוך כ-<b id="hours-total">0</b> שעות בחודש שהולכות היום על פניות, תיאומים והצעות מחיר.</p>
+        <p class="hours-fine">זו הערכה לפי המספרים שהזנתם, לא הבטחה. בשיחה נבדוק מה באמת אפשר להעביר אצלכם למערכת.</p>
+        <a class="btn btn-signal hours-go" href="#contact"><span>לצרף את החישוב לבקשה</span></a>
+      </div>
+    </div>
+    <div class="faq" id="faq">
+      <header class="faq-head">
+        <h2 class="display">שאלות שעולות לפני שמתחילים.</h2>
+        <p class="process-lead">לא מצאתם תשובה? <a href="#contact">כתבו לי</a>, או שאלו את היועץ הדיגיטלי בפינת המסך.</p>
+      </header>
+      <div class="faq-list"><details><summary><h3>למה אין מחירים באתר?</h3></summary><div class="faq-a"><p>כי כל עסק צריך משהו אחר. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים. בלי הפתעות ובלי מע״מ.</p></div></details><details><summary><h3>כמה זמן לוקח עד שהאתר באוויר?</h3></summary><div class="faq-a"><p>דף נחיתה (חבילת נוכחות) עולה תוך שבוע לכל היותר. אתר מלא (עסק או חתימה) עולה תוך שבועיים לכל היותר, מהשיחה ועד שהוא באוויר.</p></div></details><details><summary><h3>של מי האתר בסוף?</h3></summary><div class="faq-a"><p>שלכם. האתר, הקוד, הדומיין והתוכן שייכים לכם.</p></div></details><details><summary><h3>יש לי אתר בוויקס או בוורדפרס. אאבד את המקום בגוגל?</h3></summary><div class="faq-a"><p>לא אמורים. מעבירים את התוכן ומפנים כל כתובת ישנה שגוגל מכיר לעמוד המתאים באתר החדש. המעבר כלול בחבילת עסק.</p></div></details><details><summary><h3>אוכל לעדכן את האתר לבד?</h3></summary><div class="faq-a"><p>כן. בחבילות עסק וחתימה יש מערכת ניהול, ומעדכנים בה טקסטים, תמונות ומחירים בעצמכם.</p></div></details><details><summary><h3>צריך לכתוב לבד את כל הטקסטים?</h3></summary><div class="faq-a"><p>לא חובה. אפשר להביא טקסטים קיימים, ואפשר שאכתוב אותם בקול של העסק. קופירייטינג שיווקי הוא תוספת שאפשר לחבר לכל חבילה.</p></div></details><details><summary><h3>מה קורה אחרי שהאתר עולה?</h3></summary><div class="faq-a"><p>הליווי כלול: חודש בנוכחות ובעסק, ושלושה חודשים בחתימה. אחר כך אפשר להמשיך בתוכנית שקט (אחסון, גיבויים, ניטור ועד שעה של שינויים בחודש) או בתוכנית צמיחה (עד ארבע שעות בחודש, דוח חודשי ושיפורי קידום).</p></div></details><details><summary><h3>האתר יהיה נגיש?</h3></summary><div class="faq-a"><p>כן. התאמות נגישות ותפריט נגישות כלולים בכל חבילה.</p></div></details></div>
+    </div>
+  </section>
+
   <!-- 08 קשר -->
   <section class="contact" id="contact" data-bg="dark" aria-labelledby="contact-title">
     <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
-    <p class="contact-lead">שלוש שאלות קצרות, ונפתחת לכם הודעת וואטסאפ מוכנה אליי. בלי טפסים ארוכים.</p>
+    <p class="contact-lead">ארבע שאלות קצרות, ותקבלו המלצה למה שהעסק שלכם צריך, והודעת וואטסאפ מוכנה אליי. בלי טפסים ארוכים.</p>
     <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a><a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a></p>
     <form class="brief" id="brief" novalidate>
-      <ol class="brief-steps mono" aria-hidden="true"><li class="on">העסק</li><li>המטרה</li><li>היום</li></ol>
+      <ol class="brief-steps mono" aria-hidden="true"><li class="on">העסק</li><li>המטרה</li><li>הזמן</li><li>היום</li></ol>
       <fieldset class="brief-step on" data-step="0">
         <legend>איזה עסק יש לכם?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="biz" value="חנות אונליין"><span>חנות אונליין</span></label><label class="chip"><input type="radio" name="biz" value="עסק שנותן שירות"><span>עסק שנותן שירות</span></label><label class="chip"><input type="radio" name="biz" value="עצמאי או פרילנסר"><span>עצמאי או פרילנסר</span></label><label class="chip"><input type="radio" name="biz" value="חברה או תעשייה"><span>חברה או תעשייה</span></label><label class="chip"><input type="radio" name="biz" value="משהו אחר"><span>משהו אחר</span></label></div>
+        <div class="chips"><label class="chip"><input type="radio" name="biz" value="חנות אונליין" data-k="shop"><span>חנות אונליין</span></label><label class="chip"><input type="radio" name="biz" value="עסק שנותן שירות" data-k="service"><span>עסק שנותן שירות</span></label><label class="chip"><input type="radio" name="biz" value="עצמאי או פרילנסר" data-k="solo"><span>עצמאי או פרילנסר</span></label><label class="chip"><input type="radio" name="biz" value="חברה או תעשייה" data-k="company"><span>חברה או תעשייה</span></label><label class="chip"><input type="radio" name="biz" value="משהו אחר" data-k="other"><span>משהו אחר</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="1" hidden>
         <legend>מה האתר צריך לעשות? <small>אפשר לבחור כמה</small></legend>
-        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="להביא יותר פניות"><span>להביא יותר פניות</span></label><label class="chip"><input type="checkbox" name="goal" value="למכור אונליין"><span>למכור אונליין</span></label><label class="chip"><input type="checkbox" name="goal" value="להחליף אתר ישן"><span>להחליף אתר ישן</span></label><label class="chip"><input type="checkbox" name="goal" value="לבנות מותג חזק"><span>לבנות מותג חזק</span></label><label class="chip"><input type="checkbox" name="goal" value="עוד לא בטוח"><span>עוד לא בטוח</span></label></div>
+        <div class="chips"><label class="chip"><input type="checkbox" name="goal" value="להביא יותר פניות" data-k="leads"><span>להביא יותר פניות</span></label><label class="chip"><input type="checkbox" name="goal" value="למכור אונליין" data-k="sell"><span>למכור אונליין</span></label><label class="chip"><input type="checkbox" name="goal" value="להחליף אתר ישן" data-k="replace"><span>להחליף אתר ישן</span></label><label class="chip"><input type="checkbox" name="goal" value="לבנות מותג חזק" data-k="brand"><span>לבנות מותג חזק</span></label><label class="chip"><input type="checkbox" name="goal" value="עוד לא בטוח" data-k="unsure"><span>עוד לא בטוח</span></label></div>
       </fieldset>
       <fieldset class="brief-step" data-step="2" hidden>
+        <legend>על מה הולך לכם הכי הרבה זמן היום? <small>אפשר לבחור כמה</small></legend>
+        <div class="chips"><label class="chip"><input type="checkbox" name="pain" value="לענות שוב ושוב על אותן שאלות" data-k="faq"><span>לענות שוב ושוב על אותן שאלות</span></label><label class="chip"><input type="checkbox" name="pain" value="לתאם תורים ופגישות" data-k="book"><span>לתאם תורים ופגישות</span></label><label class="chip"><input type="checkbox" name="pain" value="להכין הצעות מחיר" data-k="quote"><span>להכין הצעות מחיר</span></label><label class="chip"><input type="checkbox" name="pain" value="לגבות תשלומים ולהוציא חשבוניות" data-k="pay"><span>לגבות תשלומים ולהוציא חשבוניות</span></label><label class="chip"><input type="checkbox" name="pain" value="לעקוב אחרי פניות שהולכות לאיבוד" data-k="crm"><span>לעקוב אחרי פניות שהולכות לאיבוד</span></label><label class="chip"><input type="checkbox" name="pain" value="לעדכן את האתר" data-k="cms"><span>לעדכן את האתר</span></label><label class="chip"><input type="checkbox" name="pain" value="שום דבר מזה" data-k="none"><span>שום דבר מזה</span></label></div>
+      </fieldset>
+      <fieldset class="brief-step" data-step="3" hidden>
         <legend>ומה יש לכם היום?</legend>
-        <div class="chips"><label class="chip"><input type="radio" name="now" value="עוד אין אתר"><span>עוד אין אתר</span></label><label class="chip"><input type="radio" name="now" value="יש אתר שלא מביא פניות"><span>יש אתר שלא מביא פניות</span></label><label class="chip"><input type="radio" name="now" value="אתר בוויקס או בוורדפרס"><span>אתר בוויקס או בוורדפרס</span></label><label class="chip"><input type="radio" name="now" value="חנות שצריך לשדרג"><span>חנות שצריך לשדרג</span></label><label class="chip"><input type="radio" name="now" value="עוד לא בטוח"><span>עוד לא בטוח</span></label></div>
+        <div class="chips"><label class="chip"><input type="radio" name="now" value="עוד אין אתר" data-k="none"><span>עוד אין אתר</span></label><label class="chip"><input type="radio" name="now" value="יש אתר שלא מביא פניות" data-k="weak"><span>יש אתר שלא מביא פניות</span></label><label class="chip"><input type="radio" name="now" value="אתר בוויקס או בוורדפרס" data-k="wix"><span>אתר בוויקס או בוורדפרס</span></label><label class="chip"><input type="radio" name="now" value="חנות שצריך לשדרג" data-k="shopup"><span>חנות שצריך לשדרג</span></label><label class="chip"><input type="radio" name="now" value="עוד לא בטוח" data-k="unsure"><span>עוד לא בטוח</span></label></div>
         <div class="brief-fields">
           <label for="brief-name">איך קוראים לכם? <small>לא חובה</small></label>
           <input id="brief-name" name="name" type="text" autocomplete="name" autocapitalize="words" spellcheck="false" enterkeyhint="next" maxlength="80">
@@ -443,8 +529,9 @@
         <button class="btn btn-signal brief-go" type="submit"><span>המשך</span></button>
       </div>
       <div class="brief-done" hidden>
+        <div class="brief-rec" aria-live="polite"></div>
         <p class="brief-done-title">ההודעה מוכנה. לחיצה אחת, והיא אצלי.</p>
-        <p class="brief-done-next">אחרי שתשלחו, אחזור אליכם עם הצעה כתובה ומחיר סגור. בלי התחייבות.</p>
+        <ol class="brief-next" aria-label="מה קורה אחרי ששולחים"><li>שולחים את ההודעה, והיא מגיעה ישר אליי.</li><li>אני חוזר אליכם לשיחת היכרות קצרה. בלי התחייבות.</li><li>מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומחליטים בנחת.</li></ol>
         <pre class="brief-preview" dir="rtl"></pre>
         <div class="brief-actions">
           <a class="btn btn-signal brief-wa" href="#contact" target="_blank" rel="noopener"><span>לשלוח לי בוואטסאפ</span></a>

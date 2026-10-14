@@ -408,6 +408,15 @@
   function runIntro() {
     var intro = $('.intro');
     if (!motion || !intro) { if (intro) intro.remove(); st.intro = 0; return Promise.resolve(); }
+    // בלי פתיח (טלפון או ביקור חוזר): החלקיקים מתיישבים לבד, והתוכן זמין מהרגע הראשון
+    if (window.innerWidth <= 900) document.documentElement.classList.add('no-intro');
+    if (document.documentElement.classList.contains('no-intro')) {
+      intro.remove();
+      try { sessionStorage.setItem('hg-intro', '1'); } catch (e) { }
+      gsap.to(st, { intro: 0, duration: 1.6, ease: 'expo.out' });
+      HG.introDone = true; window.dispatchEvent(new Event('hg:intro'));
+      return Promise.resolve();
+    }
     var quick = false;
     try { quick = sessionStorage.getItem('hg-intro') === '1'; sessionStorage.setItem('hg-intro', '1'); } catch (e) { }
     // בטלפון הפתיח תמיד בגרסה הקצרה: שנייה במקום שתיים וחצי
@@ -989,18 +998,26 @@
         say(EN ? a.dataset.plan + ' package selected. Answer three questions and your message will be ready.' : 'נבחרה חבילת ' + a.dataset.plan + '. ענו על שלוש השאלות וההודעה תהיה מוכנה.');
       });
     });
-    var need = EN ? ['Pick a type of business to continue.', 'Pick at least one goal.', 'Pick what you have today.'] : ['בחרו סוג עסק כדי להמשיך.', 'בחרו לפחות מטרה אחת.', 'בחרו מה יש לכם היום.'];
+    // שם השדה של כל שלב נקרא מהדף, כך שאותו קוד עובד גם כשיש שלב "זמן" וגם בלעדיו
+    var KEYS = steps.map(function (s) { var i = $('input', s); return i ? i.name : ''; });
+    var NEED = {
+      biz: T('בחרו סוג עסק כדי להמשיך.', 'Pick a type of business to continue.'),
+      goal: T('בחרו לפחות מטרה אחת.', 'Pick at least one goal.'),
+      pain: T('בחרו לפחות תשובה אחת. אם אין, בחרו "שום דבר מזה".', 'Pick at least one. If none apply, pick "None of these".'),
+      now: T('בחרו מה יש לכם היום.', 'Pick what you have today.')
+    };
     function values(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.value; }); }
+    function keys(name) { return $$('input[name="' + name + '"]:checked', form).map(function (i) { return i.dataset.k || i.value; }); }
     // טיוטה: התשובות נשמרות רק בדפדפן של הגולש, כדי שמי שחוזר ימשיך מאיפה שעצר. נמחקת בשליחה או ב"התחלה מחדש"
     var DRAFT = 'hg-brief';
     function saveDraft() {
-      try { localStorage.setItem(DRAFT, JSON.stringify({ biz: values('biz'), goal: values('goal'), now: values('now'), name: $('#brief-name').value, about: $('#brief-about').value, at: at, plan: form.dataset.plan || '' })); } catch (e) { /* אחסון חסום: פשוט בלי טיוטה */ }
+      try { localStorage.setItem(DRAFT, JSON.stringify({ biz: values('biz'), goal: values('goal'), pain: values('pain'), now: values('now'), name: $('#brief-name').value, about: $('#brief-about').value, at: at, plan: form.dataset.plan || '' })); } catch (e) { /* אחסון חסום: פשוט בלי טיוטה */ }
     }
     function dropDraft() { try { localStorage.removeItem(DRAFT); } catch (e) {} }
     function loadDraft() {
       var d; try { d = JSON.parse(localStorage.getItem(DRAFT) || 'null'); } catch (e) { d = null; }
       if (!d) return 0;
-      ['biz', 'goal', 'now'].forEach(function (k) { $$('input[name="' + k + '"]', form).forEach(function (i) { i.checked = (d[k] || []).indexOf(i.value) >= 0; }); });
+      ['biz', 'goal', 'pain', 'now'].forEach(function (k) { $$('input[name="' + k + '"]', form).forEach(function (i) { i.checked = (d[k] || []).indexOf(i.value) >= 0; }); });
       $('#brief-name').value = d.name || ''; $('#brief-about').value = d.about || '';
       if (d.plan) setPlan(d.plan);
       started = true;
@@ -1032,21 +1049,85 @@
       if (box && motion && window.gsap) gsap.fromTo(box, { x: 0 }, { keyframes: [{ x: -7 }, { x: 6 }, { x: -3 }, { x: 0 }], duration: 0.36, ease: 'power2.out', overwrite: true });
       if (window.HGFluid) HGFluid.haptic(12);
     }
-    function message() {
+    /* מנוע ההמלצה: מהתשובות לחבילה, למערכות שחוסכות זמן ולדוגמה מהעבודות. הכל מתוך מה שכתוב באתר, בלי הבטחות */
+    var PKG = {
+      solo: { n: T('נוכחות', 'Presence'), why: T('דף אחד שעושה את כל העבודה: מי שנכנס מבין תוך שניות מה אתם עושים, ולוחץ על וואטסאפ. עד שבוע לאוויר.', 'One page that does the whole job: visitors get what you do in seconds and tap WhatsApp. Live within a week.') },
+      biz: { n: T('עסק', 'Business'), why: T('אתר מלא שמביא פניות, שאפשר לעדכן לבד, ושמודד כל פנייה כדי שתדעו מה עובד. עד שבועיים לאוויר.', 'A full site that brings in leads, that you can update yourself, and that measures every lead so you know what works. Live within two weeks.') },
+      sig: { n: T('חתימה', 'Signature'), why: T('אתר דגל עם חוויה שנבנית במיוחד בשבילכם: חנות או מערכת מותאמת עם סליקה, נציג AI ושתי שפות.', 'A flagship site with an experience built just for you: a store or custom system with payments, an AI agent and two languages.') }
+    };
+    var SYS = {
+      faq: [T('נציג AI לשירות לקוחות', 'AI customer service agent'), T('עונה על השאלות החוזרות בכל שעה, רק לפי המידע שלכם, ומעביר אליכם את מי שמוכן לסגור.', 'Answers the repeat questions at any hour, only from your own information, and passes ready buyers to you.')],
+      book: [T('מערכת זימון תורים', 'Appointment booking'), T('יומן זמינות, קביעה אונליין ותזכורות אוטומטיות, בלי טלפונים הלוך ושוב.', 'An availability calendar, online booking and automatic reminders, without the phone tag.')],
+      quote: [T('מחולל הצעות מחיר', 'Quote builder'), T('הלקוח בוחר אפשרויות ורואה מחיר, ואתם מקבלים פנייה מסודרת. כמו המחשבון של קייטרינג 4X4.', 'Customers pick options and see a price, and you get a tidy request. Like the 4X4 Catering calculator.')],
+      pay: [T('סליקה וחשבוניות אוטומטיות', 'Payments and automatic invoices'), T('אשראי, ביט או Apple Pay דרך ספק הסליקה שלכם, וכל תשלום מפיק קבלה ושולח אותה ללקוח.', 'Card, Bit or Apple Pay through your payment provider, and every payment issues a receipt to the customer.')],
+      crm: [T('אינטגרציות ו-CRM', 'Integrations and CRM'), T('כל פנייה נכנסת למקום אחד (CRM, Google Sheets או Monday), כך ששום פנייה לא הולכת לאיבוד.', 'Every lead lands in one place (a CRM, Google Sheets or Monday), so none get lost.')],
+      cms: [T('מערכת ניהול תוכן', 'Content management'), T('מעדכנים טקסטים, תמונות ומחירים בעצמכם, בלי לחכות לאף אחד.', 'Update text, images and prices yourself, without waiting for anyone.')],
+      shop: [T('מערכת מסחר מקוון', 'E-commerce'), T('קטלוג, עגלה, משלוחים, קופונים וניהול מלאי.', 'Catalog, cart, shipping, coupons and stock management.')]
+    };
+    var EX = {
+      gotovski: [T('ש. גוטובסקי', 'S. Gotovski'), T('הדמיה חיה מסבירה ללקוחות גדולים מה הם קונים.', 'A live simulation shows large clients what they are buying.')],
+      ams: [T('AMS', 'AMS'), T('דף נחיתה לאימון ניסיון ודפי אזור לגוגל מביאים מתאמנים חדשים.', 'A trial-session landing page and local pages for Google bring in new trainees.')],
+      allenbis: [T('אלנביס', 'Allenbis'), T('החנות בונה סל לפי תקציב ונטענת מהר בטלפון.', 'The store builds a cart to a budget and loads fast on phones.')],
+      clinic: [T('רותם גוטובסקי', 'Rotem Gotovski'), T('עוזרת אישית עונה על שאלות וקובעת תור בוואטסאפ.', 'A personal assistant answers questions and books appointments over WhatsApp.')],
+      falafel: [T('קייטרינג 4X4', '4X4 Catering'), T('לקוח בונה אירוע בדקה ושולח הצעה מסודרת בוואטסאפ.', 'Customers build an event in a minute and send a tidy request over WhatsApp.')],
+      rachel: [T('רחלי הורנשטיין', 'Racheli Hornstein'), T('בדיקת רמה בדקה, והתוצאה מגיעה לרחלי בוואטסאפ.', 'A one-minute level check, with the result sent to Racheli on WhatsApp.')]
+    };
+    function recommend() {
+      var biz = keys('biz')[0] || '', goal = keys('goal'), pain = keys('pain').filter(function (k) { return k !== 'none'; }), now = keys('now')[0] || '';
+      var has = function (a, k) { return a.indexOf(k) > -1; };
+      var pk = 'biz';
+      if ((has(goal, 'brand') && (biz === 'company' || biz === 'shop')) || (has(goal, 'sell') && has(goal, 'brand'))) pk = 'sig';
+      else if (biz === 'solo' && now === 'none' && !pain.length && goal.every(function (g) { return g === 'leads' || g === 'unsure'; })) pk = 'solo';
+      // מי שבחר חבילה בכפתור "מתחילים" מקבל אותה, ההמלצה לא מתווכחת איתו
+      var chosen = form.dataset.plan;
+      Object.keys(PKG).forEach(function (k) { if (PKG[k].n === chosen) pk = k; });
+      var sys = pain.slice();
+      if ((biz === 'shop' || has(goal, 'sell')) && pk !== 'sig') sys.unshift('shop');
+      if (pk !== 'solo') sys = sys.filter(function (k) { return k !== 'cms'; }); // מערכת ניהול כבר כלולה בעסק ובחתימה
+      var ex = has(pain, 'quote') ? 'falafel' : has(pain, 'book') || has(pain, 'faq') ? 'clinic' : biz === 'shop' || has(goal, 'sell') ? 'allenbis' : biz === 'company' ? 'gotovski' : biz === 'solo' ? 'rachel' : 'ams';
+      var note = now === 'wix' ? T('מעבר מוויקס או מוורדפרס עם הפניות, בלי לאבד את המקום בגוגל.', 'Moving off Wix or WordPress with redirects, without losing your place on Google.')
+        : now === 'weak' ? T('אפשר גם לשדרג את האתר הקיים במקום להתחיל מאפס.', 'You can also upgrade your current site instead of starting from scratch.')
+        : now === 'shopup' ? T('שדרוג החנות הקיימת, כמו באלנביס: אותו קטלוג, עם פי 24 פחות JavaScript.', 'An upgrade of your current store, like Allenbis: same catalog, 24 times less JavaScript.') : '';
+      return { pk: pk, sys: sys.slice(0, 3), ex: ex, note: note };
+    }
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function renderRec(r) {
+      var box = $('.brief-rec', form); if (!box) return;
+      var P = PKG[r.pk], E = EX[r.ex];
+      var h = '<p class="rec-kicker mono">' + T('ההמלצה לעסק שלכם', 'Our recommendation for your business') + '</p>' +
+        '<h3 class="rec-pkg display">' + T('חבילת ', '') + esc(P.n) + (EN ? ' package' : '') + '</h3><p class="rec-why">' + esc(P.why) + '</p>';
+      if (r.sys.length) h += '<p class="rec-sub mono">' + T('מה יחסוך לכם זמן', 'What would save you time') + '</p><ul class="rec-sys" role="list">' + r.sys.map(function (k) { return '<li><b>' + esc(SYS[k][0]) + '</b><span>' + esc(SYS[k][1]) + '</span></li>'; }).join('') + '</ul>';
+      if (r.note) h += '<p class="rec-note">' + esc(r.note) + '</p>';
+      h += '<p class="rec-ex">' + T('דוגמה מהעבודות: ', 'From my work: ') + '<a href="work.html#' + r.ex + '">' + esc(E[0]) + '</a>. ' + esc(E[1]) + '</p>';
+      h += '<p class="rec-fine">' + T('זו המלצה ראשונית לפי התשובות שלכם. בשיחה נדייק, וההצעה הכתובה תגיע עם מחיר סגור.', 'This is a first recommendation based on your answers. We will refine it together, and the written proposal comes with a fixed price.') + '</p>';
+      box.innerHTML = h;
+    }
+    // מאיפה הגיע הגולש (קמפיין או אתר מפנה), כדי שבהודעה יהיה ברור איזה ערוץ עובד. מוצג בתצוגה המקדימה לפני השליחה
+    function source() {
+      try { return sessionStorage.getItem('hg-src') || ''; } catch (e) { return ''; }
+    }
+    function message(r) {
       var name = $('#brief-name').value.trim(), about = $('#brief-about').value.trim();
       var lines = [T('היי חנוך, הגעתי מהאתר שלך.', 'Hi Hanoch, I found you through your website.'), ''];
       if (form.dataset.plan) lines.push(T('חבילה: ', 'Package: ') + form.dataset.plan);
-      lines.push(T('העסק: ', 'Business: ') + values('biz').join(', '), T('מה האתר צריך לעשות: ', 'What the site should do: ') + values('goal').join(', '), T('מה יש היום: ', 'What I have today: ') + values('now').join(', '));
+      lines.push(T('העסק: ', 'Business: ') + values('biz').join(', '), T('מה האתר צריך לעשות: ', 'What the site should do: ') + values('goal').join(', '));
+      if (values('pain').length) lines.push(T('על מה הולך לי זמן: ', 'What takes my time: ') + values('pain').join(', '));
+      lines.push(T('מה יש היום: ', 'What I have today: ') + values('now').join(', '));
+      if (r) lines.push(T('ההמלצה שקיבלתי באתר: ', 'The site recommended: ') + PKG[r.pk].n + (r.sys.length ? ' + ' + r.sys.map(function (k) { return SYS[k][0]; }).join(', ') : ''));
+      if (form.dataset.calc) lines.push(form.dataset.calc);
       if (about) lines.push(T('על העסק: ', 'About the business: ') + about);
+      var src = source(); if (src) lines.push(T('הגעתי דרך: ', 'Came via: ') + src);
       if (name) lines.push('', name);
       return lines.join('\n');
     }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var key = ['biz', 'goal', 'now'][at];
-      if (!values(key).length) { err.textContent = need[at]; nudge(); return; }
+      var key = KEYS[at];
+      if (!values(key).length) { err.textContent = NEED[key] || ''; nudge(); return; }
       if (at < steps.length - 1) { show(at + 1, true); return; }
-      var text = message();
+      var rec = recommend(); renderRec(rec);
+      track('brief_plan', { pkg: rec.pk, systems: rec.sys.join(','), example: rec.ex });
+      var text = message(rec);
       $('.brief-preview', form).textContent = text;
       $('.brief-wa', form).href = 'https://wa.me/' + CONTACT.whatsapp + '?text=' + encodeURIComponent(text);
       var mail = $('.brief-mail', form);
@@ -1068,9 +1149,10 @@
     form.addEventListener('pointerdown', function () { lastPointer = Date.now(); });
     form.addEventListener('change', function (e) {
       if (!started) { started = true; track('brief_start', { plan: form.dataset.plan || '' }); }
+      if (e.target.name === 'pain' && e.target.checked) $$('input[name="pain"]', form).forEach(function (i) { if (i !== e.target && ((e.target.dataset.k === 'none') !== (i.dataset.k === 'none'))) i.checked = false; });
       saveDraft();
       // ההודעה על תשובה חסרה נעלמת ברגע שבוחרים, בלי לחכות ל"המשך"
-      if (err.textContent && values(['biz', 'goal', 'now'][at]).length) err.textContent = '';
+      if (err.textContent && values(KEYS[at]).length) err.textContent = '';
       if (e.target.type === 'radio' && at < steps.length - 1 && Date.now() - lastPointer < 800) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 200);
     });
     $('.brief-copy', form).addEventListener('click', function () {
@@ -1090,6 +1172,49 @@
     });
     var resume = loadDraft();
     show(resume);
+  }
+
+  /* ---------- מחשבון שעות: כמה זמן הולך על עבודה שמערכת יכולה לעשות. רץ בדפדפן בלבד ---------- */
+  function initHours() {
+    var calc = $('#hours-calc');
+    if (!calc) return;
+    var R = {}; $$('input[type="range"]', calc).forEach(function (i) { R[i.dataset.v] = i; });
+    var fmt = function (h) { return h > 0 && h < 10 ? (Math.round(h * 10) / 10).toLocaleString(EN ? 'en' : 'he') : Math.round(h).toLocaleString(EN ? 'en' : 'he'); };
+    var WEEKS = 52 / 12, used = false, last = null;
+    function v(k) { return +R[k].value; }
+    function update() {
+      $$('output', calc).forEach(function (o) {
+        var i = $('#' + o.htmlFor.value) || document.getElementById(o.getAttribute('for'));
+        o.textContent = i.value + (o.dataset.unit ? (o.dataset.unit === '%' ? '%' : ' ' + o.dataset.unit) : '');
+      });
+      var g = { faq: v('leads') * v('leadmin') * WEEKS / 60, book: v('appts') * v('apptmin') * WEEKS / 60, quote: v('quotes') * v('quotemin') / 60 };
+      var share = v('share') / 100, total = g.faq + g.book + g.quote;
+      $$('.hc-h', calc).forEach(function (el) { el.textContent = fmt(g[el.dataset.g] * share); });
+      $('#hours-saved').textContent = fmt(total * share);
+      $('#hours-total').textContent = fmt(total);
+      last = { g: g, total: total, saved: total * share, share: v('share') };
+    }
+    calc.addEventListener('input', function () {
+      update();
+      if (!used) { used = true; if (window.gtag) gtag('event', 'calc_used'); }
+    });
+    calc.addEventListener('submit', function (e) { e.preventDefault(); });
+    update();
+    // "לצרף את החישוב": החישוב נכנס להודעה בבריף, והתשובה "על מה הולך לכם זמן" כבר מסומנת לפי מה שהזנתם
+    var go = $('.hours-go');
+    if (go) go.addEventListener('click', function () {
+      var form = $('#brief'); if (!form || !last) return;
+      form.dataset.calc = T('חישוב מהאתר (הערכה): כ-' + fmt(last.saved) + ' שעות בחודש של עבודה שאפשר להעביר למערכת, מתוך כ-' + fmt(last.total) + ' (פניות: ' + v('leads') + ' בשבוע, ' + v('leadmin') + ' דק׳ לכל אחת. תיאומים: ' + v('appts') + ' בשבוע, ' + v('apptmin') + ' דק׳. הצעות מחיר: ' + v('quotes') + ' בחודש, ' + v('quotemin') + ' דק׳. חלק למערכת: ' + last.share + '%)',
+        'Calculated on the site (estimate): about ' + fmt(last.saved) + ' hours a month of work a system could take, out of about ' + fmt(last.total) + ' (leads: ' + v('leads') + ' a week, ' + v('leadmin') + ' min each. Bookings: ' + v('appts') + ' a week, ' + v('apptmin') + ' min. Quotes: ' + v('quotes') + ' a month, ' + v('quotemin') + ' min. Share for a system: ' + last.share + '%)');
+      var map = { faq: last.g.faq, book: last.g.book, quote: last.g.quote }, any = false;
+      $$('input[name="pain"]', form).forEach(function (i) {
+        if (map[i.dataset.k] > 0) { i.checked = true; any = true; }
+        if (i.dataset.k === 'none' && any) i.checked = false;
+      });
+      form.dispatchEvent(new Event('change', { bubbles: true }));
+      if (window.gtag) gtag('event', 'calc_to_brief', { hours: Math.round(last.saved) });
+      say(T('החישוב צורף לבקשה. ענו על השאלות, והוא יופיע בהודעה.', 'Your estimate was added. Answer the questions and it will appear in your message.'));
+    });
   }
 
   /* ---------- תהליך: הקו מתמלא והשלבים נכנסים ---------- */
@@ -1196,7 +1321,8 @@
     // מפצלים רק אחרי שהגופן נטען, אחרת השורות נחתכות במקום הלא נכון
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
       heads.forEach(function (h) {
-        var split = SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'hg-line', aria: 'auto' });
+        // על span אסור aria-label: שם הטקסט נשאר קריא כמו שהוא, בלי תווית
+        var split = SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'hg-line', aria: /^H\d$/.test(h.tagName) ? 'auto' : 'none' });
         gsap.from(split.lines, {
           yPercent: 108, duration: 1.15, ease: EASE, stagger: 0.09,
           scrollTrigger: { trigger: h, start: 'top 88%', once: true },
@@ -1868,6 +1994,17 @@
 
   var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx, setVideo: setVideo, playVideo: playVideo, pauseVideo: pauseVideo };
 
+  /* ---------- מקור הגעה: קמפיין (utm) או אתר מפנה. נשמר רק בדפדפן, ונכנס להודעה שהגולש רואה לפני ששולח ---------- */
+  (function () {
+    try {
+      if (sessionStorage.getItem('hg-src')) return;
+      var q = new URLSearchParams(location.search), src = q.get('utm_source');
+      if (src) src += q.get('utm_campaign') ? ' / ' + q.get('utm_campaign') : '';
+      else if (document.referrer) { var h = new URL(document.referrer).hostname.replace(/^www\./, ''); if (h && h !== location.hostname.replace(/^www\./, '')) src = h; }
+      if (src) sessionStorage.setItem('hg-src', src.slice(0, 80));
+    } catch (e) { }
+  })();
+
   /* ---------- הפעלה ---------- */
   initManifesto();
   initPagers();
@@ -1885,7 +2022,7 @@
   var lateDone = null;
   function lateInit() {
     if (lateDone) return lateDone;
-    var steps = [initBrief, initTours, initLoops, initPrinciples, initProcess, initDemo, initPricing, initFilm,
+    var steps = [initBrief, initHours, initTours, initLoops, initPrinciples, initProcess, initDemo, initPricing, initFilm,
       initSiteFilm, initPortrait, initProjects, initCompare, initCraft];
     lateDone = new Promise(function (done) {
       (function next() {
