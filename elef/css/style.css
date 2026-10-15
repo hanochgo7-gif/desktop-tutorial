@@ -281,6 +281,16 @@ p { margin: 0 0 1em; }
 .spec tr:last-child th, .spec tr:last-child td { border-bottom: 1px solid var(--line); }
 @media (max-width: 860px) { .batch { grid-template-columns: 1fr; } }
 
+/* ---------- קמפיין ---------- */
+.campaign { background: var(--paper); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; min-height: min(96vh, 980px); }
+.campaign__img { position: relative; min-height: 560px; overflow: hidden; }
+.campaign__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+.campaign__text { padding: clamp(56px, 8vw, 120px) var(--gutter); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 600px; }
+.campaign__kicker { margin: 0 0 18px; font-size: var(--t-s); letter-spacing: .04em; color: var(--leaf); }
+.campaign h2 { font-size: var(--t-2xl); font-weight: 300; line-height: 1.1; margin: 0 0 24px; }
+.campaign__text > p:not(.campaign__kicker) { color: var(--text-2); max-width: 40ch; margin: 0 0 32px; }
+@media (max-width: 860px) { .campaign { grid-template-columns: 1fr; min-height: 0; } .campaign__img { min-height: 0; aspect-ratio: 4 / 5; } }
+
 /* ---------- סיפור ---------- */
 .story { background: var(--dawn); color: var(--on-dark); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 88vh; }
 .story__img { position: relative; min-height: 420px; }
