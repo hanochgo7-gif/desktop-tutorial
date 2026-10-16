@@ -10,8 +10,9 @@ import { commerce } from '../config/site';
 interface Props {
   current?: string; // slug of the product being viewed (marked, not linked)
   headingLevel?: 'h2' | 'h3';
+  eager?: boolean; // the grid opens the page: load its packshots up front (they are the LCP)
 }
-const { current, headingLevel = 'h3' } = Astro.props;
+const { current, headingLevel = 'h3', eager = false } = Astro.props;
 const H = headingLevel;
 const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
 const items = bySeason();
@@ -25,7 +26,7 @@ const items = bySeason();
       return (
         <li class:list={['season-card', { 'is-current': isCurrent }]} style={`--accent:${p.accent}`}>
           <a class="season-card__link" href={`/fragrances/${p.slug}`} aria-current={isCurrent ? 'page' : undefined} data-cursor="Discover">
-            <Media name={p.packshot} alt={`${p.name} — the HG bottle`} ratio="4 / 5" sizes="(min-width: 1000px) 23vw, 70vw" />
+            <Media name={p.packshot} alt={`${p.name} — the HG bottle`} ratio="4 / 5" sizes="(min-width: 1000px) 23vw, 70vw" priority={eager} reveal={!eager} />
             <span class="season-card__meta">
               <span class="label season-card__season">
                 <span class="season-card__dot" aria-hidden="true" />

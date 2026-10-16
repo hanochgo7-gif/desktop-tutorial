@@ -58,6 +58,37 @@ export function initMenu() {
   );
 }
 
+/* ---------- video posters load only as they approach the viewport (keeps them off the LCP path) ---------- */
+export function initLazyPosters() {
+  const vids = [...document.querySelectorAll<HTMLVideoElement>('video[data-poster]')];
+  if (!vids.length) return;
+  const portrait = window.matchMedia('(max-aspect-ratio: 4/5)');
+  const apply = (v: HTMLVideoElement) => {
+    v.poster = (portrait.matches && v.dataset.posterPortrait) || v.dataset.poster!;
+    delete v.dataset.poster;
+  };
+  // The film modal is laid out even while closed, so its poster waits for the first "play the film" instead.
+  const modal = vids.filter((v) => v.closest('[data-film-modal]'));
+  if (modal.length)
+    document.querySelectorAll('[data-open-film]').forEach((t) =>
+      ['pointerenter', 'focus'].forEach((type) =>
+        t.addEventListener(type, () => modal.forEach((v) => v.dataset.poster && apply(v)), { once: true }),
+      ),
+    );
+  const inPage = vids.filter((v) => !modal.includes(v));
+  if (!('IntersectionObserver' in window)) return inPage.forEach(apply);
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        apply(e.target as HTMLVideoElement);
+        io.unobserve(e.target);
+      }),
+    { rootMargin: '600px 0px' },
+  );
+  inPage.forEach((v) => io.observe(v));
+}
+
 /* ---------- ambient videos: play only while visible, never under reduced motion / save-data ---------- */
 export function initAmbientVideo() {
   const vids = document.querySelectorAll<HTMLVideoElement>('video[data-ambient]');
@@ -221,6 +252,73 @@ export function initChapters() {
   });
 }
 
+/* ---------- "one flacon, four lights": the block in mid-viewport re-lights the pinned bottle ---------- */
+export function initFourLights() {
+  document.querySelectorAll<HTMLElement>('[data-fl]').forEach((root) => {
+    const stage = root.querySelector<HTMLElement>('[data-fl-stage]')!;
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-fl-step]')];
+    const groups = ['[data-fl-frame]', '[data-fl-word]', '[data-fl-tick]'].map((sel) => [...root.querySelectorAll<HTMLElement>(sel)]);
+    const activate = (i: number) => {
+      groups.forEach((els) => els.forEach((el, j) => el.classList.toggle('is-active', i === j)));
+      stage.style.setProperty('--fl-accent', steps[i].dataset.accent!);
+    };
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && activate(steps.indexOf(e.target as HTMLElement))),
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    steps.forEach((s) => io.observe(s));
+  });
+}
+
+/* ---------- light through glass: a specular point and a faint spectral band that follow the pointer ----------
+   Fine pointers steer it; on touch the band drifts with scroll; under reduced motion it stays put. */
+export function initGlass() {
+  const els = [...document.querySelectorAll<HTMLElement>('[data-glass]')];
+  if (!els.length || reducedMotion()) return;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  els.forEach((el) => {
+    const area = el.closest<HTMLElement>('[data-glass-area]') || el;
+    let tx = 62, ty = 38, x = tx, y = ty, raf = 0, visible = false;
+    const paint = () => {
+      x += (tx - x) * 0.08;
+      y += (ty - y) * 0.08;
+      el.style.setProperty('--gx', `${x.toFixed(2)}%`);
+      el.style.setProperty('--gy', `${y.toFixed(2)}%`);
+      el.style.setProperty('--gs', `${(x * 0.9 + 5).toFixed(2)}%`);
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.05 ? requestAnimationFrame(paint) : 0;
+    };
+    const kick = () => {
+      if (!raf && visible) raf = requestAnimationFrame(paint);
+    };
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible && !fine) onScroll();
+      kick();
+    }).observe(el);
+    if (fine) {
+      area.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        tx = Math.max(-10, Math.min(110, ((e.clientX - r.left) / r.width) * 100));
+        ty = Math.max(-10, Math.min(110, ((e.clientY - r.top) / r.height) * 100));
+        kick();
+      });
+      area.addEventListener('pointerleave', () => {
+        tx = 62;
+        ty = 38;
+        kick();
+      });
+    }
+    function onScroll() {
+      const r = el.getBoundingClientRect();
+      const p = 1 - (r.top + r.height / 2) / (window.innerHeight + r.height); // 0 → 1 as it crosses
+      tx = 15 + p * 75;
+      ty = 30 + p * 20;
+      kick();
+    }
+    if (!fine) window.addEventListener('scroll', () => visible && onScroll(), { passive: true });
+  });
+}
+
 /* ---------- product gallery (mobile carousel dots + thumbnails) ---------- */
 export function initGallery() {
   document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
@@ -246,13 +344,77 @@ export function initGallery() {
 /* ---------- size selector updates the displayed price ---------- */
 export function initVariantPicker() {
   document.querySelectorAll<HTMLFormElement>('form[data-add-to-bag]').forEach((form) => {
-    const out = document.querySelector<HTMLElement>('[data-variant-price]');
+    const outs = document.querySelectorAll<HTMLElement>('[data-variant-price]');
     const update = () => {
       const checked = form.querySelector<HTMLInputElement>('input[name="variant"]:checked');
-      if (checked && out) out.textContent = checked.dataset.price || '';
+      if (checked) outs.forEach((o) => (o.textContent = checked.dataset.price || ''));
     };
     form.addEventListener('change', update);
     update();
+  });
+}
+
+/* ---------- product page: compact purchase bar once the main purchase block has scrolled away (mobile) ---------- */
+export function initPdpBar() {
+  const bar = document.querySelector<HTMLElement>('[data-pdp-bar]');
+  const buy = document.querySelector<HTMLElement>('[data-pdp-buy]');
+  if (!bar || !buy) return;
+  bar.hidden = false;
+  bar.inert = true;
+  // A scroll check (not an IntersectionObserver) so jumps past the block — anchors, restored scroll — count too.
+  let queued = false;
+  const check = () => {
+    queued = false;
+    const on = buy.getBoundingClientRect().bottom < 0;
+    if (on === bar.classList.contains('is-on')) return;
+    bar.classList.toggle('is-on', on);
+    bar.inert = !on;
+  };
+  const queue = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(check);
+    }
+  };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  check();
+  bar.querySelector<HTMLAnchorElement>('[data-pdp-notify]')?.addEventListener('click', (e) => {
+    const input = document.querySelector<HTMLInputElement>(new URL((e.currentTarget as HTMLAnchorElement).href).hash);
+    if (!input) return;
+    e.preventDefault();
+    input.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+    input.focus({ preventScroll: true });
+  });
+}
+
+/* ---------- site-level "still" mode (WCAG 2.3.3): saved per device, applied before first paint ---------- */
+export function initMotionToggle() {
+  document.querySelectorAll<HTMLButtonElement>('[data-motion-toggle]').forEach((btn) => {
+    let byChoice = false;
+    try {
+      byChoice = localStorage.getItem('hg.motion') === 'off';
+    } catch {
+      /* storage blocked: the toggle cannot persist */
+    }
+    const on = !reducedMotion();
+    const state = btn.querySelector('[data-motion-state]');
+    if (state) state.textContent = on ? 'On' : 'Off';
+    btn.setAttribute('aria-pressed', String(!on));
+    if (!on && !byChoice) {
+      btn.disabled = true;
+      btn.title = 'Motion is reduced by your system settings';
+      return;
+    }
+    btn.addEventListener('click', () => {
+      try {
+        if (on) localStorage.setItem('hg.motion', 'off');
+        else localStorage.removeItem('hg.motion');
+      } catch {
+        return;
+      }
+      location.reload();
+    });
   });
 }
 

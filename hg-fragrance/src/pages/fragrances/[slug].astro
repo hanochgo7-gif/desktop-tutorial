@@ -26,6 +26,19 @@ const variants = p.variants.filter((v) => v.available);
 const first = variants[0];
 
 const share = await getImage({ src: img(p.packshot), width: 1200, format: 'jpg', quality: 80 });
+const zoom = await Promise.all(p.gallery.map((g) => getImage({ src: img(g.name), width: 2000, format: 'webp', quality: 82 })));
+const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+const countries = commerce.shippingCountries.map((c) => countryNames.of(c) ?? c);
+const formId = `buy-${p.slug}`;
+const notifyId = `notify-${p.slug}`;
+const crumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'The Collection', item: new URL('/fragrances', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: p.name, item: new URL(`/fragrances/${p.slug}`, Astro.site).toString() },
+  ],
+};
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -50,7 +63,7 @@ const ld = {
 };
 ---
 
-<Base title={p.name} description={`${p.name} — ${p.season.toLowerCase()} fragrance by HG. ${p.shortLine}`} image={share.src} jsonLd={ld}>
+<Base title={p.name} description={`${p.name} — ${p.season.toLowerCase()} fragrance by HG. ${p.shortLine}`} image={share.src} jsonLd={[ld, crumbs]}>
   <section class="pdp" aria-labelledby="pdp-title" style={`--accent:${p.accent}`}>
     <div class="wrap grid">
       <div class="pdp__gallery" data-gallery>
@@ -58,7 +71,20 @@ const ld = {
           {
             p.gallery.map((g, i) => (
               <li class="pdp__slide">
-                <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" priority={i === 0} reveal={i !== 0} />
+                <button
+                  type="button"
+                  class="pdp__zoom"
+                  data-lightbox={`pdp-${p.slug}`}
+                  data-full={zoom[i].src}
+                  data-alt={g.alt}
+                  data-caption={g.alt}
+                  data-cursor="Zoom"
+                  data-glass={i === 0 ? '' : undefined}
+                  aria-label={`Enlarge image ${i + 1} of ${p.gallery.length}: ${g.alt}`}
+                >
+                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" priority={i === 0} reveal={i !== 0} />
+                  <span class="pdp__zoom-hint label" aria-hidden="true">Zoom</span>
+                </button>
               </li>
             ))
           }
@@ -76,6 +102,12 @@ const ld = {
 
       <div class="pdp__info">
         <div class="pdp__sticky">
+          <nav class="pdp__crumbs label" aria-label="Breadcrumb">
+            <ol role="list">
+              <li><a class="link" href="/fragrances">The Collection</a></li>
+              <li aria-current="page">{p.name}</li>
+            </ol>
+          </nav>
           <p class="label pdp__season" data-reveal="fade" data-immediate>
             <span class="pdp__dot-accent" aria-hidden="true"></span>
             {p.season} <span class="faint">· {p.number}</span>
@@ -86,7 +118,7 @@ const ld = {
 
           {
             purchasable ? (
-              <form class="pdp__buy" data-add-to-bag data-reveal="fade" data-immediate data-delay="0.55">
+              <form class="pdp__buy" id={formId} data-add-to-bag data-pdp-buy data-reveal="fade" data-immediate data-delay="0.55">
                 <p class="pdp__price serif" data-variant-price aria-live="polite">{fmt.format(first.price)}</p>
                 <fieldset class="pdp__sizes">
                   <legend class="label faint">{t('product.size', lang)}</legend>
@@ -107,22 +139,65 @@ const ld = {
                   {t('product.add', lang)}<span class="arrow" aria-hidden="true"></span>
                 </button>
                 {!commerce.pricesConfirmed && <p class="notice">{t('product.pricingNote', lang)}</p>}
+                <ul class="pdp__assure" role="list">
+                  <li>Secure payment on Stripe’s checkout page</li>
+                  <li>Shipping and any taxes shown before you pay</li>
+                  <li>Delivery to {countries.length} countries — <a class="link" href="#pdp-delivery">see where</a></li>
+                </ul>
               </form>
             ) : (
-              <div class="pdp__soon" data-reveal="fade" data-immediate data-delay="0.55">
+              <div class="pdp__soon" data-pdp-buy data-reveal="fade" data-immediate data-delay="0.55">
                 <p class="label pdp__soon-label">Coming soon</p>
                 <Newsletter
-                  id={`notify-${p.slug}`}
-                  heading="Be the first to know"
+                  id={notifyId}
+                  heading={`Tell me when ${p.name} is ready`}
                   text={`${p.name} is still being composed. Leave your email and we will write once, when it is ready.`}
                 />
               </div>
             )
           }
+
+          <div class="pdp__details">
+            <details>
+              <summary class="label">The flacon</summary>
+              <p>{p.bottle}</p>
+            </details>
+            <details>
+              <summary class="label">Concentration{variants.length > 0 && ' & formats'}</summary>
+              <p>{p.concentration}.{variants.length > 0 ? <> Available as {variants.map((v) => `${v.label} (${fmt.format(v.price)})`).join(' and ')}.</> : <> Formats and prices will be announced with the launch.</>}</p>
+            </details>
+            <details id="pdp-delivery">
+              <summary class="label">Delivery &amp; returns</summary>
+              <p>We deliver to {countries.join(', ')}. Shipping and any taxes are calculated on the checkout page, before you pay.</p>
+              <p>Our returns window will be confirmed before launch; your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
+            </details>
+            <details>
+              <summary class="label">Payment &amp; your bag</summary>
+              <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
+            </details>
+            <details>
+              <summary class="label">About the imagery</summary>
+              <p>{site.aiDisclosure}</p>
+            </details>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="pdp-bar" data-pdp-bar hidden style={`--accent:${p.accent}`}>
+    <div class="pdp-bar__info">
+      <span class="serif pdp-bar__name">{p.name}</span>
+      {purchasable ? <span class="label faint" data-variant-price>{fmt.format(first.price)}</span> : <span class="label faint">Coming soon</span>}
+    </div>
+    {
+      purchasable ? (
+        <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
+      ) : (
+        <a class="btn" href={`#${notifyId}-email`} data-pdp-notify>Notify me</a>
+      )
+    }
+  </div>
 
   <section class="section pdp-story" aria-labelledby="story-title" style={`--accent:${p.accent}`}>
     <div class="wrap grid">
@@ -141,29 +216,35 @@ const ld = {
   {
     p.notes && (
       <section class="section pdp-notes" aria-labelledby="notes-title" style={`--accent:${p.accent}`}>
-        <div class="wrap">
-          <header class="pdp-notes__head grid">
+        <div class="wrap grid">
+          <div class="pdp-notes__visual">
+            <Media name={(p.gallery[1] ?? p.gallery[0]).name} alt="" ratio="3 / 4" sizes="(min-width: 900px) 24vw, 50vw" parallax={6} />
+          </div>
+          <div class="pdp-notes__body">
             <p class="label faint" data-reveal="fade">Composition</p>
             <h2 class="h2" id="notes-title" data-reveal="lines">
               Three movements, <em>one skin</em>
             </h2>
-          </header>
-          <dl class="pdp-notes__list">
-            {(
-              [
-                ['Top', p.notes.top],
-                ['Heart', p.notes.heart],
-                ['Base', p.notes.base],
-              ] as const
-            ).map(([label, list]) => (
-              <div class="pdp-notes__col" data-reveal="fade">
-                <dt class="label">{label}</dt>
-                {list.map((n) => (
-                  <dd class="serif">{n}</dd>
-                ))}
-              </div>
-            ))}
-          </dl>
+            <dl class="pdp-notes__list">
+              {(
+                [
+                  ['Top', 'The opening', p.notes.top],
+                  ['Heart', 'The heart', p.notes.heart],
+                  ['Base', 'What stays', p.notes.base],
+                ] as const
+              ).map(([label, line, list], i) => (
+                <div class="pdp-notes__col" data-reveal="fade" style={`--step:${i}`}>
+                  <dt>
+                    <span class="label">{label}</span>
+                    <span class="it muted serif">{line}</span>
+                  </dt>
+                  {list.map((n) => (
+                    <dd class="serif">{n}</dd>
+                  ))}
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </section>
     )
@@ -339,6 +420,158 @@ const ld = {
     font-size: var(--step-1);
   }
 
+  .pdp__crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--c-faint);
+  }
+  .pdp__crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    opacity: 0.6;
+  }
+  .pdp__crumbs [aria-current] {
+    color: var(--c-muted);
+  }
+  .pdp__zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+  .pdp__zoom-hint {
+    position: absolute;
+    inset-block-end: 0.9rem;
+    inset-inline-end: 0.9rem;
+    z-index: 3;
+    padding: 0.35rem 0.6rem;
+    background: rgb(10 9 8 / 0.55);
+    backdrop-filter: blur(6px);
+    color: var(--c-ivory);
+    opacity: 0;
+    transition: opacity var(--dur-2);
+  }
+  .pdp__zoom:hover .pdp__zoom-hint,
+  .pdp__zoom:focus-visible .pdp__zoom-hint {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .pdp__zoom-hint {
+      opacity: 0.85;
+    }
+  }
+  .pdp__assure {
+    display: grid;
+    gap: 0.45rem;
+    font-size: var(--step--1);
+    color: var(--c-muted);
+  }
+  .pdp__assure li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .pdp__assure li::before {
+    content: '';
+    flex: none;
+    width: 0.9rem;
+    height: 1px;
+    background: var(--accent);
+    transform: translateY(-0.25em);
+  }
+  .pdp__details {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--c-line);
+  }
+  .pdp__details details {
+    border-bottom: 1px solid var(--c-line);
+  }
+  .pdp__details summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 3rem;
+    cursor: pointer;
+    transition: color var(--dur-2);
+  }
+  .pdp__details summary::-webkit-details-marker {
+    display: none;
+  }
+  .pdp__details summary::after {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    background:
+      linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .pdp__details details[open] summary::after {
+    transform: rotate(45deg);
+  }
+  .pdp__details summary:hover {
+    color: var(--accent);
+  }
+  .pdp__details details p {
+    font-size: var(--step--1);
+    color: var(--c-muted);
+    line-height: 1.6;
+    padding-bottom: 1.1rem;
+    max-width: 34rem;
+  }
+  .pdp__details details p + p {
+    margin-top: -0.4rem;
+  }
+  .pdp-bar {
+    position: fixed;
+    z-index: 40;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgb(10 9 8 / 0.86);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--c-line);
+    transform: translateY(105%);
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .pdp-bar.is-on {
+    transform: none;
+  }
+  .pdp-bar__info {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+  .pdp-bar__name {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pdp-bar .btn {
+    min-height: 2.9rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 900px) {
+    .pdp-bar {
+      display: none;
+    }
+  }
+  @media (max-width: 899px) {
+    /* keep the end of the page clear of the purchase bar */
+    body:has(.pdp-bar) .site-footer {
+      padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    }
+  }
+
   .pdp-story .grid {
     row-gap: 2rem;
   }
@@ -364,43 +597,51 @@ const ld = {
   .pdp-notes {
     padding-top: 0;
   }
-  .pdp-notes__head {
-    row-gap: 1.25rem;
-    margin-bottom: 2.5rem;
+  .pdp-notes .grid {
+    row-gap: 2.5rem;
+    align-items: end;
   }
-  .pdp-notes__head > * {
+  .pdp-notes__visual {
+    grid-column: 1 / span 7;
+  }
+  .pdp-notes__body {
     grid-column: 1 / -1;
+    display: grid;
+    gap: 1.25rem;
   }
   .pdp-notes__list {
     display: grid;
     gap: var(--gap);
+    margin-top: 1.5rem;
   }
   .pdp-notes__col {
     display: grid;
-    gap: 0.5rem;
+    gap: 0.45rem;
     align-content: start;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--c-line);
     position: relative;
   }
+  /* one continuous rule that deepens from opening to base: the "accord" read left to right */
   .pdp-notes__col::before {
     content: '';
     position: absolute;
-    top: -1px;
-    inset-inline-start: 0;
-    width: 3rem;
+    top: 0;
+    inset-inline: 0;
     height: 1px;
-    background: var(--accent);
+    background: color-mix(in oklab, var(--accent) calc(35% + var(--step) * 30%), transparent);
   }
   .pdp-notes__col dt {
+    display: grid;
+    gap: 0.2rem;
+    margin-bottom: 0.6rem;
+  }
+  .pdp-notes__col dt .label {
     color: var(--accent);
-    margin-bottom: 0.5rem;
   }
   .pdp-notes__col dd {
     font-size: var(--step-2);
     line-height: 1.15;
   }
-
   .pdp-campaign__head,
   .pdp-more__head {
     row-gap: 1.25rem;
@@ -454,16 +695,18 @@ const ld = {
       grid-column: 10 / span 3;
       align-self: end;
     }
-    .pdp-notes__head > p {
+    .pdp-notes__visual {
       grid-column: 1 / span 3;
-      padding-top: 1rem;
     }
-    .pdp-notes__head > h2 {
-      grid-column: 4 / -1;
+    .pdp-notes__body {
+      grid-column: 5 / -1;
     }
     .pdp-notes__list {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-inline-start: calc((100% - 11 * var(--gap)) / 12 * 3 + 3 * var(--gap));
+      gap: 0;
+    }
+    .pdp-notes__col {
+      padding-inline-end: var(--gap);
     }
     .pdp-campaign__head > p,
     .pdp-more__head > p {
