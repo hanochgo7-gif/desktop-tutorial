@@ -2,6 +2,8 @@
 import Newsletter from './Newsletter.astro';
 import { site } from '../config/site';
 import { bySeason } from '../data/catalog';
+import { t } from '../i18n/ui';
+const lang = site.locale.lang;
 const year = new Date().getFullYear();
 const socials = Object.entries(site.social).filter(([, url]) => Boolean(url)) as [string, string][];
 const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube' };
@@ -49,6 +51,9 @@ const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok'
     <div class="footer-base label">
       <span>© {year} {site.legalEntity ?? site.fullName}</span>
       <span>{site.aiDisclosure}</span>
+      <button class="motion-toggle label" type="button" data-motion-toggle aria-pressed="false">
+        {t('motion.label', lang)}: <span data-motion-state>{t('motion.on', lang)}</span>
+      </button>
       <span>Unforgettable.</span>
     </div>
   </div>

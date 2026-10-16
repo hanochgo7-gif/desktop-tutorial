@@ -90,6 +90,14 @@ node scripts/rebase-static.mjs dist/client /desktop-tutorial/perfume https://han
 # then replace ../perfume with dist/client
 ```
 
+## Signature experiences (October 2026 pass)
+
+- **One flacon, four lights** (`src/components/FourLights.astro`, `initFourLights`): the homepage collection. The four packshots share one framing, so the bottle stays anchored while the season in mid-viewport re-lights it — juice colour, light and the season word. The stage is CSS `position: sticky`; the copy scrolls normally (no scroll hijacking). Without JS the first season shows; under reduced motion changes are instant.
+- **Light through glass** (`[data-glass]` in `global.css`, `initGlass`): a specular point and a faint warm-to-cool band, as light breaking in a bevel. Fine pointers steer it; on touch it drifts with scroll; off under reduced motion. Used on the hero, the anchored bottle and the product hero image.
+- **Motion switch** in the footer (WCAG 2.3.3): saved per device (`localStorage['hg.motion']`), applied before first paint; disabled when the OS already asks for reduced motion.
+- **Product page**: breadcrumb (+ BreadcrumbList JSON-LD), zoomable gallery (lightbox), verified purchase assurances next to the button, progressive-disclosure details (flacon, formats, delivery & returns, payment, imagery), a compact purchase bar on mobile once the main block scrolls away, and the composition read as one deepening line.
+- **Performance**: video posters below the fold (and in the film modal) load only when needed, which took the homepage's simulated mobile LCP from 5.2 s to about 2.5 s.
+
 ## Quality checks (October 2026, production build)
 
 - Lighthouse mobile with compression: Performance 85 home · 91 product · 92 film · 97 collection. Accessibility, Best Practices and SEO 100 on every page tested; CLS ≈ 0. Desktop home: Performance 92, LCP 0.5 s.

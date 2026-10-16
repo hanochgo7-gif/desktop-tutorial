@@ -85,7 +85,11 @@ const boot = {
     <script is:inline>
       // Enable motion styles only when JS runs and the visitor has not asked for reduced motion.
       // `?motion=off` gives the same still experience on request (useful for QA and for visitors).
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=off/.test(location.search)) {
+      var stillByChoice = false;
+      try {
+        stillByChoice = localStorage.getItem('hg.motion') === 'off';
+      } catch (e) {}
+      if (!stillByChoice && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=off/.test(location.search)) {
         document.documentElement.classList.add('motion');
         // Safety net: never leave content hidden if the motion bundle fails to load.
         setTimeout(function () {

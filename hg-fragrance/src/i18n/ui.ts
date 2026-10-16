@@ -20,6 +20,7 @@ const en = {
   'bag.discover': 'Discover Unforgettable',
   'bag.subtotal': 'Subtotal',
   'bag.shippingNote': 'Shipping and taxes are calculated at checkout.',
+  'bag.secure': 'Payment is taken on Stripe’s secure checkout page.',
   'bag.checkout': 'Checkout',
   'bag.remove': 'Remove',
   'bag.increase': 'Increase quantity',
@@ -53,6 +54,10 @@ const en = {
   'film.mute': 'Mute',
   'film.unmute': 'Sound on',
   'film.close': 'Close film',
+
+  'motion.label': 'Motion',
+  'motion.on': 'On',
+  'motion.off': 'Off',
 } as const;
 
 export type UIKey = keyof typeof en;

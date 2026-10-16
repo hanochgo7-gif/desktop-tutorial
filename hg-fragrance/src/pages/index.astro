@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Media from '../components/Media.astro';
-import SeasonsGrid from '../components/SeasonsGrid.astro';
+import FourLights from '../components/FourLights.astro';
 import { getProduct } from '../data/catalog';
 import { commerce } from '../config/site';
 import { campaigns } from '../data/campaigns';
@@ -53,8 +53,8 @@ const chapters = [
 
 <Base>
   <!-- ============ HERO ============ -->
-  <section class="home-hero" data-hero aria-labelledby="hero-title">
-    <div class="home-hero__media" data-hero-media>
+  <section class="home-hero" data-hero data-glass-area aria-labelledby="hero-title">
+    <div class="home-hero__media" data-hero-media data-glass>
       <picture>
         <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.webp" type="image/webp" />
         <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.jpg" />
@@ -157,7 +157,7 @@ const chapters = [
 
         <figure class="cg cg--f" data-speed="0.06">
           <div class="media" data-reveal="mask" style="aspect-ratio:4/5">
-            <video data-ambient data-src="/media/macro.mp4" poster="/media/macro-poster.jpg" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+            <video data-ambient data-src="/media/macro.mp4" data-poster="/media/macro-poster.jpg" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
           </div>
           <figcaption class="media-cap label"><span>05</span><span>Bevel, in motion</span></figcaption>
         </figure>
@@ -205,17 +205,8 @@ const chapters = [
     </div>
   </section>
 
-  <!-- ============ THE FOUR SEASONS ============ -->
-  <section class="section home-seasons" aria-labelledby="seasons-home-title">
-    <div class="wrap">
-      <header class="home-seasons__head grid">
-        <p class="label faint" data-reveal="fade">The collection</p>
-        <h2 class="h1" id="seasons-home-title" data-reveal="lines">Four seasons, <em>one house</em></h2>
-        <a class="link label home-seasons__all" href="/fragrances" data-reveal="fade">The collection</a>
-      </header>
-      <SeasonsGrid />
-    </div>
-  </section>
+  <!-- ============ ONE FLACON, FOUR LIGHTS (signature sequence) ============ -->
+  <FourLights />
 
   <!-- ============ SENSORY CHAPTERS (ivory) ============ -->
   <section class="section home-hours theme-ivory" aria-labelledby="hours-title" data-chapters>
@@ -258,7 +249,7 @@ const chapters = [
   <!-- ============ THE HOUSE ============ -->
   <section class="home-house" aria-labelledby="house-title">
     <div class="home-house__knockout" aria-hidden="true">
-      <video data-ambient data-src="/media/macro.mp4" poster="/media/macro-poster.jpg" muted playsinline loop preload="none" tabindex="-1"></video>
+      <video data-ambient data-src="/media/macro.mp4" data-poster="/media/macro-poster.jpg" muted playsinline loop preload="none" tabindex="-1"></video>
       <p class="home-house__letters">HG</p>
     </div>
     <div class="wrap grid home-house__copy">
@@ -315,7 +306,7 @@ const chapters = [
                     id={`camp-loop-${c.id}`}
                     data-ambient
                     data-src={c.loop.src}
-                    poster={c.loop.poster}
+                    data-poster={c.loop.poster}
                     muted
                     playsinline
                     loop
@@ -859,34 +850,6 @@ const chapters = [
   }
 
   /* ---------- four seasons ---------- */
-  .home-seasons {
-    padding-top: 0;
-  }
-  .home-seasons__head {
-    row-gap: 1rem;
-    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
-    align-items: end;
-  }
-  .home-seasons__head > * {
-    grid-column: 1 / -1;
-  }
-  .home-seasons__all {
-    justify-self: start;
-  }
-  @media (min-width: 900px) {
-    .home-seasons__head > p {
-      grid-column: 1 / span 3;
-      padding-top: 1.4rem;
-      align-self: start;
-    }
-    .home-seasons__head > h2 {
-      grid-column: 4 / span 7;
-    }
-    .home-seasons__all {
-      grid-column: 11 / -1;
-      justify-self: end;
-    }
-  }
 
   /* ---------- more campaigns ---------- */
   .home-camps__head {

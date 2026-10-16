@@ -514,6 +514,11 @@ em,
 .hide-sm {
   display: inline-flex;
 }
+@media (max-width: 1180px) {
+  .hide-md {
+    display: none !important;
+  }
+}
 @media (max-width: 760px) {
   .hide-sm {
     display: none !important;
@@ -1192,6 +1197,7 @@ video::cue {
   -webkit-text-stroke: 1px rgb(239 231 216 / 0.2);
   user-select: none;
   white-space: nowrap;
+  pointer-events: none; /* decorative: never sit on top of the links below it */
 }
 .footer-base {
   display: flex;
@@ -1245,4 +1251,50 @@ html.motion [data-reveal='mask'] {
   .grain {
     animation: none;
   }
+}
+
+/* ---------- light through glass (signature material detail) ----------
+   A soft specular point plus a thin warm-to-cool band, as light breaking in a bevel.
+   Positions come from initGlass(); the defaults below are the resting light. */
+:where([data-glass]) {
+  position: relative;
+  isolation: isolate;
+}
+[data-glass]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at var(--gx, 62%) var(--gy, 38%), rgb(255 236 206 / 0.2), transparent 24%),
+    linear-gradient(
+      104deg,
+      transparent calc(var(--gs, 61%) - 13%),
+      rgb(255 208 160 / 0.05) calc(var(--gs, 61%) - 5%),
+      rgb(255 250 240 / 0.11) var(--gs, 61%),
+      rgb(176 214 255 / 0.06) calc(var(--gs, 61%) + 3%),
+      rgb(214 182 255 / 0.04) calc(var(--gs, 61%) + 7%),
+      transparent calc(var(--gs, 61%) + 14%)
+    );
+}
+
+.motion-toggle {
+  /* 44px hit area without changing the row's height */
+  padding-block: 0.8rem;
+  margin-block: -0.8rem;
+  color: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--c-line-strong);
+  text-underline-offset: 0.35em;
+  transition: color var(--dur-2);
+}
+.motion-toggle:hover {
+  color: var(--c-text);
+}
+.motion-toggle[disabled] {
+  text-decoration: none;
+  opacity: 0.7;
 }

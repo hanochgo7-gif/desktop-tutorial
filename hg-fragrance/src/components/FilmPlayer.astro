@@ -27,7 +27,7 @@ const lang = site.locale.lang;
 ---
 
 <div class="player" data-player>
-  <video id={id} preload="none" playsinline poster={poster} aria-label={label} muted={!sound}>
+  <video id={id} preload="none" playsinline data-poster={poster} aria-label={label} muted={!sound}>
     <source src={src} type="video/mp4" />
     {captions && <track kind="captions" src={captions} srclang="en" label="English" default />}
   </video>
