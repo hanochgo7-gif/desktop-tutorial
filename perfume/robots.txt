@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /bag
+
+Sitemap: https://hanochgo7-gif.github.io/desktop-tutorial/perfume/sitemap-index.xml

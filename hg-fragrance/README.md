@@ -80,6 +80,16 @@ The Node adapter runs anywhere Node 20+ runs (Render, Fly.io, Railway, a VPS). P
 
 On Vercel the build switches to `@astrojs/vercel` automatically (it checks the `VERCEL` environment variable in `astro.config.mjs`); set the project's Root Directory to this folder. Use `NEWSLETTER_WEBHOOK_URL` there (serverless file systems are not persistent).
 
+### GitHub Pages copy (static)
+
+`/perfume/` at the repo root is a static copy served by GitHub Pages at https://hanochgo7-gif.github.io/desktop-tutorial/perfume/. Pages has no server, so the bag works but checkout and the newsletter cannot. To refresh it after a change:
+
+```bash
+SITE_URL=https://hanochgo7-gif.github.io/desktop-tutorial/perfume npm run build
+node scripts/rebase-static.mjs dist/client /desktop-tutorial/perfume https://hanochgo7-gif.github.io
+# then replace ../perfume with dist/client
+```
+
 ## Quality checks (October 2026, production build)
 
 - Lighthouse mobile with compression: Performance 85 home · 91 product · 92 film · 97 collection. Accessibility, Best Practices and SEO 100 on every page tested; CLS ≈ 0. Desktop home: Performance 92, LCP 0.5 s.
