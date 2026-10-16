@@ -1,0 +1,97 @@
+---
+/**
+ * Stripe returns here with ?session_id=…. We ask Stripe whether that session is paid
+ * before confirming anything; otherwise we say we could not confirm the order.
+ */
+import Base from '../../layouts/Base.astro';
+import { stripe, stripeKey } from '../../lib/stripe';
+
+export const prerender = false;
+
+const id = Astro.url.searchParams.get('session_id') || '';
+let paid = false;
+let email: string | null = null;
+if (stripeKey() && /^cs_[A-Za-z0-9_]+$/.test(id)) {
+  try {
+    const session = await stripe<{ payment_status: string; customer_details?: { email?: string | null } }>(
+      `/checkout/sessions/${encodeURIComponent(id)}`,
+    );
+    paid = session.payment_status === 'paid';
+    email = session.customer_details?.email ?? null;
+  } catch (err) {
+    console.error('[checkout/success]', err instanceof Error ? err.message : err);
+  }
+}
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<Base title={paid ? 'Order confirmed' : 'Order status'} noindex>
+  <section class="success" aria-labelledby="success-title">
+    <div class="wrap grid">
+      <div class="success__body">
+        <p class="label faint">HG</p>
+        {
+          paid ? (
+            <>
+              <h1 class="h1" id="success-title">
+                Order <em>confirmed.</em>
+              </h1>
+              <p class="lead muted">
+                Thank you. Your payment has been received{email ? <> and a receipt is on its way to {email}</> : null}.
+              </p>
+              <p class="prose">We will write again when your order leaves us.</p>
+            </>
+          ) : (
+            <>
+              <h1 class="h1" id="success-title">
+                We could not <em>confirm</em> this order.
+              </h1>
+              <p class="lead muted">
+                If you completed a payment, your receipt from Stripe is the record of it. Your bag is still saved on this
+                device.
+              </p>
+            </>
+          )
+        }
+        <div class="success__ctas">
+          <a class="btn btn--solid" href="/fragrances">The collection<span class="arrow" aria-hidden="true"></span></a>
+          {!paid && <a class="btn" href="/bag">Back to your bag</a>}
+        </div>
+      </div>
+    </div>
+  </section>
+  {
+    paid && (
+      <script>
+        import { bag } from '../../scripts/bag';
+        bag.clear();
+      </script>
+    )
+  }
+</Base>
+
+<style is:global>
+  .success {
+    padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 7rem));
+    padding-bottom: var(--section);
+    min-height: 70svh;
+  }
+  .success__body {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+    max-width: 44rem;
+  }
+  .success__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 900px) {
+    .success__body {
+      grid-column: 4 / span 7;
+    }
+  }
+</style>

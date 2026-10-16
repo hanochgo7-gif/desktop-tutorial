@@ -1,0 +1,481 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import SeasonsGrid from '../../components/SeasonsGrid.astro';
+import StillsGrid from '../../components/StillsGrid.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { products, isPurchasable, type Product } from '../../data/catalog';
+import { img } from '../../assets/images';
+import { commerce, site } from '../../config/site';
+import { t } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const lang = site.locale.lang;
+const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
+const purchasable = isPurchasable(p);
+const variants = p.variants.filter((v) => v.available);
+const first = variants[0];
+
+const share = await getImage({ src: img(p.packshot), width: 1200, format: 'jpg', quality: 80 });
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `HG ${p.name}`,
+  description: p.story[0],
+  image: new URL(share.src, Astro.site).toString(),
+  brand: { '@type': 'Brand', name: site.fullName },
+  category: `Fragrance — ${p.concentration}`,
+  ...(purchasable && commerce.pricesConfirmed
+    ? {
+        offers: variants.map((v) => ({
+          '@type': 'Offer',
+          sku: v.id,
+          name: `${p.name} ${v.label}`,
+          price: v.price,
+          priceCurrency: commerce.currency,
+          availability: 'https://schema.org/InStock',
+          url: new URL(`/fragrances/${p.slug}`, Astro.site).toString(),
+        })),
+      }
+    : {}),
+};
+---
+
+<Base title={p.name} description={`${p.name} — ${p.season.toLowerCase()} fragrance by HG. ${p.shortLine}`} image={share.src} jsonLd={ld}>
+  <section class="pdp" aria-labelledby="pdp-title" style={`--accent:${p.accent}`}>
+    <div class="wrap grid">
+      <div class="pdp__gallery" data-gallery>
+        <ul class="pdp__track" role="list" data-gallery-track>
+          {
+            p.gallery.map((g, i) => (
+              <li class="pdp__slide">
+                <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" priority={i === 0} reveal={i !== 0} />
+              </li>
+            ))
+          }
+        </ul>
+        {
+          p.gallery.length > 1 && (
+            <div class="pdp__dots" role="group" aria-label="Gallery">
+              {p.gallery.map((_, i) => (
+                <button type="button" class="pdp__dot" data-gallery-dot aria-current={i === 0 ? 'true' : 'false'} aria-label={`Image ${i + 1} of ${p.gallery.length}`} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="pdp__info">
+        <div class="pdp__sticky">
+          <p class="label pdp__season" data-reveal="fade" data-immediate>
+            <span class="pdp__dot-accent" aria-hidden="true"></span>
+            {p.season} <span class="faint">· {p.number}</span>
+          </p>
+          <h1 class="h1 pdp__title" id="pdp-title" data-reveal="lines" data-immediate data-delay="0.1">{p.name}</h1>
+          <p class="lead it muted" data-reveal="fade" data-immediate data-delay="0.35">{p.concentration}</p>
+          <p class="serif pdp__line" data-reveal="fade" data-immediate data-delay="0.45">{p.shortLine}</p>
+
+          {
+            purchasable ? (
+              <form class="pdp__buy" data-add-to-bag data-reveal="fade" data-immediate data-delay="0.55">
+                <p class="pdp__price serif" data-variant-price aria-live="polite">{fmt.format(first.price)}</p>
+                <fieldset class="pdp__sizes">
+                  <legend class="label faint">{t('product.size', lang)}</legend>
+                  <div class="pdp__options">
+                    {variants.map((v, i) => (
+                      <label class="pdp__option">
+                        <input type="radio" name="variant" value={v.id} data-price={fmt.format(v.price)} checked={i === 0} />
+                        <span class="pdp__option-box">
+                          <span class="label">{v.label}</span>
+                          <span class="faint">{fmt.format(v.price)}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <input type="hidden" name="qty" value="1" />
+                <button class="btn btn--solid btn--block" type="submit" data-magnetic>
+                  {t('product.add', lang)}<span class="arrow" aria-hidden="true"></span>
+                </button>
+                {!commerce.pricesConfirmed && <p class="notice">{t('product.pricingNote', lang)}</p>}
+              </form>
+            ) : (
+              <div class="pdp__soon" data-reveal="fade" data-immediate data-delay="0.55">
+                <p class="label pdp__soon-label">Coming soon</p>
+                <Newsletter
+                  id={`notify-${p.slug}`}
+                  heading="Be the first to know"
+                  text={`${p.name} is still being composed. Leave your email and we will write once, when it is ready.`}
+                />
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pdp-story" aria-labelledby="story-title" style={`--accent:${p.accent}`}>
+    <div class="wrap grid">
+      <p class="label faint pdp-story__label" data-reveal="fade">The story</p>
+      <h2 class="h2 pdp-story__title" id="story-title" data-reveal="lines">{p.shortLine}</h2>
+      <div class="prose pdp-story__text" data-reveal="fade">
+        {p.story.map((para) => <p>{para}</p>)}
+      </div>
+      <div class="pdp-story__bottle" data-reveal="fade">
+        <p class="label faint">The flacon</p>
+        <p class="serif">{p.bottle}</p>
+      </div>
+    </div>
+  </section>
+
+  {
+    p.notes && (
+      <section class="section pdp-notes" aria-labelledby="notes-title" style={`--accent:${p.accent}`}>
+        <div class="wrap">
+          <header class="pdp-notes__head grid">
+            <p class="label faint" data-reveal="fade">Composition</p>
+            <h2 class="h2" id="notes-title" data-reveal="lines">
+              Three movements, <em>one skin</em>
+            </h2>
+          </header>
+          <dl class="pdp-notes__list">
+            {(
+              [
+                ['Top', p.notes.top],
+                ['Heart', p.notes.heart],
+                ['Base', p.notes.base],
+              ] as const
+            ).map(([label, list]) => (
+              <div class="pdp-notes__col" data-reveal="fade">
+                <dt class="label">{label}</dt>
+                {list.map((n) => (
+                  <dd class="serif">{n}</dd>
+                ))}
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section pdp-campaign" aria-labelledby="campaign-title">
+    <div class="wrap">
+      <header class="pdp-campaign__head grid">
+        <p class="label faint" data-reveal="fade">The campaign · {p.season}</p>
+        <h2 class="h2" id="campaign-title" data-reveal="lines">{p.name}, <em>elsewhere</em></h2>
+        <a class="link label pdp-campaign__all" href="/campaigns" data-reveal="fade">All campaigns</a>
+      </header>
+      <StillsGrid items={p.campaign} group={p.slug} />
+      <p class="faint label pdp-campaign__note">{site.aiDisclosure}</p>
+    </div>
+  </section>
+
+  <section class="section pdp-more" aria-labelledby="more-title">
+    <div class="wrap">
+      <header class="pdp-more__head grid">
+        <p class="label faint" data-reveal="fade">The collection</p>
+        <h2 class="h2" id="more-title" data-reveal="lines">Four seasons, <em>one house</em></h2>
+      </header>
+      <SeasonsGrid current={p.slug} />
+    </div>
+  </section>
+
+  <Lightbox />
+</Base>
+
+<style is:global>
+  .pdp {
+    padding-top: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem));
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .pdp .grid {
+    row-gap: 2.5rem;
+    align-items: start;
+  }
+  .pdp__gallery,
+  .pdp__info {
+    grid-column: 1 / -1;
+  }
+  .pdp__gallery {
+    position: relative;
+  }
+  .pdp__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 88%;
+    gap: var(--gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .pdp__track::-webkit-scrollbar {
+    display: none;
+  }
+  .pdp__slide {
+    scroll-snap-align: start;
+  }
+  .pdp__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+  .pdp__dot {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+  }
+  .pdp__dot::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background: var(--c-line-strong);
+    transition: background-color var(--dur-2);
+  }
+  .pdp__dot[aria-current='true']::before {
+    background: var(--accent);
+  }
+  .pdp__sticky {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+  .pdp__season {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .pdp__dot-accent {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .pdp__title {
+    font-size: clamp(3rem, 1.2rem + 4.4vw, 6.25rem);
+  }
+  .pdp__line {
+    font-size: var(--step-1);
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--c-line);
+    width: 100%;
+  }
+  .pdp__buy,
+  .pdp__soon {
+    display: grid;
+    gap: 1.25rem;
+    width: 100%;
+  }
+  .pdp__price {
+    font-size: var(--step-2);
+    line-height: 1;
+  }
+  .pdp__sizes {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .pdp__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0.6rem;
+  }
+  .pdp__option {
+    position: relative;
+    cursor: pointer;
+  }
+  .pdp__option input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .pdp__option-box {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--c-line-strong);
+    border-radius: var(--radius);
+    transition:
+      border-color var(--dur-2),
+      background-color var(--dur-2);
+  }
+  .pdp__option-box .faint {
+    font-size: var(--step--1);
+  }
+  .pdp__option:hover .pdp__option-box {
+    border-color: var(--c-text);
+  }
+  .pdp__option input:checked + .pdp__option-box {
+    border-color: var(--accent);
+    background: rgb(239 231 216 / 0.04);
+  }
+  .pdp__option input:focus-visible + .pdp__option-box {
+    outline: 1px solid var(--c-focus);
+    outline-offset: 3px;
+  }
+  .pdp__soon-label {
+    color: var(--accent);
+  }
+  .pdp__soon .newsletter .h3 {
+    font-size: var(--step-1);
+  }
+
+  .pdp-story .grid {
+    row-gap: 2rem;
+  }
+  .pdp-story__label,
+  .pdp-story__title,
+  .pdp-story__text,
+  .pdp-story__bottle {
+    grid-column: 1 / -1;
+  }
+  .pdp-story__bottle {
+    display: grid;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--c-line);
+    max-width: 30rem;
+  }
+  .pdp-story__bottle .serif {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--c-muted);
+  }
+
+  .pdp-notes {
+    padding-top: 0;
+  }
+  .pdp-notes__head {
+    row-gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .pdp-notes__head > * {
+    grid-column: 1 / -1;
+  }
+  .pdp-notes__list {
+    display: grid;
+    gap: var(--gap);
+  }
+  .pdp-notes__col {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--c-line);
+    position: relative;
+  }
+  .pdp-notes__col::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    inset-inline-start: 0;
+    width: 3rem;
+    height: 1px;
+    background: var(--accent);
+  }
+  .pdp-notes__col dt {
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .pdp-notes__col dd {
+    font-size: var(--step-2);
+    line-height: 1.15;
+  }
+
+  .pdp-campaign__head,
+  .pdp-more__head {
+    row-gap: 1.25rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    align-items: end;
+  }
+  .pdp-campaign__head > *,
+  .pdp-more__head > * {
+    grid-column: 1 / -1;
+  }
+  .pdp-campaign__note {
+    margin-top: 2rem;
+  }
+  .pdp-more {
+    padding-top: 0;
+  }
+
+  @media (min-width: 900px) {
+    .pdp__gallery {
+      grid-column: 1 / span 7;
+    }
+    .pdp__info {
+      grid-column: 9 / span 4;
+      align-self: stretch;
+    }
+    .pdp__sticky {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+    .pdp__track {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      overflow: visible;
+      margin: 0;
+      padding: 0;
+    }
+    .pdp__dots {
+      display: none;
+    }
+    .pdp-story__label {
+      grid-column: 1 / span 3;
+      padding-top: 1rem;
+    }
+    .pdp-story__title {
+      grid-column: 4 / span 8;
+    }
+    .pdp-story__text {
+      grid-column: 4 / span 5;
+    }
+    .pdp-story__bottle {
+      grid-column: 10 / span 3;
+      align-self: end;
+    }
+    .pdp-notes__head > p {
+      grid-column: 1 / span 3;
+      padding-top: 1rem;
+    }
+    .pdp-notes__head > h2 {
+      grid-column: 4 / -1;
+    }
+    .pdp-notes__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-inline-start: calc((100% - 11 * var(--gap)) / 12 * 3 + 3 * var(--gap));
+    }
+    .pdp-campaign__head > p,
+    .pdp-more__head > p {
+      grid-column: 1 / span 3;
+    }
+    .pdp-campaign__head > h2,
+    .pdp-more__head > h2 {
+      grid-column: 4 / span 7;
+    }
+    .pdp-campaign__all {
+      grid-column: 11 / span 2;
+      justify-self: end;
+    }
+  }
+</style>

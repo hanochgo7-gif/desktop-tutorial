@@ -1,0 +1,50 @@
+---
+import Media from './Media.astro';
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+const lang = site.locale.lang;
+
+const items = [
+  { href: '/', label: 'Home', em: '' },
+  { href: '/fragrances/unforgettable', label: 'Unforgettable', em: 'N°01' },
+  { href: '/fragrances', label: 'The Collection', em: '' },
+  { href: '/film', label: 'The Film', em: '' },
+  { href: '/campaigns', label: 'Campaigns', em: '' },
+  { href: '/house', label: 'The House', em: '' },
+];
+---
+
+<div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-menu inert>
+  <div class="menu__top">
+    <button class="close-btn label" type="button" data-menu-close>
+      <span class="close-btn__x" aria-hidden="true"></span>
+      {t('nav.close', lang)}
+    </button>
+    <a class="logo" href="/" aria-label={`${site.name} — home`}>HG</a>
+    <a class="label" href="/bag" data-open-bag>{t('nav.bag', lang)}</a>
+  </div>
+  <div class="menu__inner">
+    <ol class="menu__list" role="list">
+      {
+        items.map((item, i) => (
+          <li>
+            <a href={item.href}>
+              <span class="num">0{i + 1}</span>
+              <span>
+                {item.label}
+                {item.em && <em class="brass"> {item.em}</em>}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="menu__aside" aria-hidden="true">
+      <Media name="film-signature-vertical" alt="" sizes="30vw" reveal={false} />
+    </div>
+    <div class="menu__foot label">
+      <span>HG — {site.tagline}</span>
+      <span>Leave the room. Stay in it.</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+---
+/**
+ * Editorial grid of campaign stills. Each opens in the page lightbox.
+ * `group` keeps lightbox navigation inside one grid; items carry data-campaign for filters.
+ */
+import { getImage } from 'astro:assets';
+import Media from './Media.astro';
+import { img } from '../assets/images';
+import type { Still } from '../data/campaigns';
+
+interface Props {
+  id?: string;
+  items: (Still & { campaign?: string })[];
+  group?: string;
+  numbered?: boolean;
+}
+const { id, items, group = 'all', numbered = true } = Astro.props;
+const full = await Promise.all(items.map((s) => getImage({ src: img(s.name), width: 2000, format: 'webp', quality: 82 })));
+---
+
+<ul class="stills" id={id} role="list">
+  {
+    items.map((s, i) => (
+      <li class:list={['stills__item', { 'stills__item--wide': s.wide }]} data-campaign={s.campaign}>
+        <button
+          type="button"
+          class="stills__btn"
+          data-lightbox={group}
+          data-full={full[i].src}
+          data-alt={s.alt}
+          data-caption={s.caption}
+          data-cursor="View"
+          aria-label={`Open image: ${s.caption}`}
+        >
+          <Media
+            name={s.name}
+            alt={s.alt}
+            ratio={s.wide ? '16 / 9' : '4 / 5'}
+            sizes={s.wide ? '(min-width: 900px) 64vw, 92vw' : '(min-width: 900px) 31vw, 46vw'}
+          />
+        </button>
+        <p class="media-cap label">
+          {numbered && <span class="num">{String(i + 1).padStart(2, '0')}</span>}
+          <span>{s.caption}</span>
+        </p>
+      </li>
+    ))
+  }
+</ul>
+
+<style is:global>
+  .stills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.75rem) var(--gap);
+    grid-auto-flow: dense;
+    align-items: start;
+  }
+  .stills__item--wide {
+    grid-column: 1 / -1;
+  }
+  .stills__btn {
+    display: block;
+    width: 100%;
+  }
+  .stills__btn img {
+    transition: transform 1.4s var(--ease-out);
+  }
+  .stills__btn:hover img {
+    transform: scale(1.04);
+  }
+  @media (min-width: 900px) {
+    .stills {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .stills__item--wide {
+      grid-column: span 2;
+    }
+    .stills__item:nth-child(3n + 2):not(.stills__item--wide) {
+      margin-top: 4rem;
+    }
+  }
+</style>
