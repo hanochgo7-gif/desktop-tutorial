@@ -1,0 +1,211 @@
+---
+import Base from '../layouts/Base.astro';
+import FilmPlayer from '../components/FilmPlayer.astro';
+import StillsGrid from '../components/StillsGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { campaigns } from '../data/campaigns';
+import { site } from '../config/site';
+
+const total = campaigns.reduce((n, c) => n + c.stills.length, 0);
+const withFilm = campaigns.filter((c) => c.film);
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'HG campaign films',
+  itemListElement: withFilm.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'VideoObject',
+      name: `HG — ${c.title}`,
+      description: c.intro,
+      thumbnailUrl: new URL(c.film!.poster, Astro.site).toString(),
+      contentUrl: new URL(c.film!.src, Astro.site).toString(),
+      uploadDate: '2026-10-14',
+    },
+  })),
+};
+---
+
+<Base title="Campaigns" description={`HG campaigns: ${campaigns.map((c) => c.title).join(', ')} — films and stills.`} jsonLd={ld}>
+  <section class="camp-hero" aria-labelledby="camp-title">
+    <div class="wrap grid">
+      <p class="label faint camp-hero__label" data-reveal="fade" data-immediate>The campaigns</p>
+      <h1 class="display camp-hero__title" id="camp-title" data-reveal="lines" data-immediate data-delay="0.1">
+        Every night, <em>one bottle.</em>
+      </h1>
+      <nav class="camp-index" aria-label="Campaigns" data-reveal="fade" data-immediate data-delay="0.5">
+        <ol role="list">
+          {
+            campaigns.map((c) => (
+              <li>
+                <a href={`#${c.id}`} class="camp-index__link">
+                  <span class="num">{c.number}</span>
+                  <span class="serif">{c.title}</span>
+                  <span class="faint label">{c.stills.length} stills</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+      <p class="faint label camp-hero__meta">{total} stills · {withFilm.length} films · {site.aiDisclosure}</p>
+    </div>
+  </section>
+
+  {
+    campaigns.map((c) => (
+      <section class="section camp" id={c.id} aria-labelledby={`${c.id}-title`}>
+        <div class="wrap">
+          <header class="camp__head grid">
+            <p class="label brass camp__num" data-reveal="fade">
+              Chapter {c.number}
+            </p>
+            <div class="camp__titles">
+              <h2 class="h1" id={`${c.id}-title`} data-reveal="lines">
+                {c.title}
+              </h2>
+              <p class="lead it muted" data-reveal="fade">
+                {c.line}
+              </p>
+            </div>
+            <p class="prose camp__intro" data-reveal="fade">
+              {c.intro}
+            </p>
+          </header>
+          {c.film && (
+            <div class="camp__film" data-reveal="fade">
+              <FilmPlayer
+                id={`film-${c.id}`}
+                src={c.film.src}
+                poster={c.film.poster}
+                label={c.film.label}
+                captions={c.film.sound ? '/media/hg-unforgettable.en.vtt' : null}
+                sound={c.film.sound}
+                duration={c.film.duration}
+              />
+              <p class="media-cap label">
+                <span>{c.film.sound ? 'Film — sound on, captions available' : 'Reel — silent'}</span>
+                {c.film.href ? <a class="link" href={c.film.href}>The film page</a> : <span>HG — {c.title}</span>}
+              </p>
+            </div>
+          )}
+          <div class="camp__stills">
+            <StillsGrid items={c.stills} group={c.id} />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section camp-end" aria-label="Discover">
+    <div class="wrap grid">
+      <p class="h2 camp-end__line" data-reveal="lines">Every film ends the same way: <em>with the bottle.</em></p>
+      <a class="btn btn--solid camp-end__cta" href="/fragrances/unforgettable" data-reveal="fade" data-magnetic>Discover Unforgettable<span class="arrow" aria-hidden="true"></span></a>
+    </div>
+  </section>
+
+  <Lightbox />
+</Base>
+
+<style is:global>
+  .camp-hero {
+    padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 7rem));
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .camp-hero .grid {
+    row-gap: 2rem;
+  }
+  .camp-hero__label,
+  .camp-hero__title,
+  .camp-index,
+  .camp-hero__meta {
+    grid-column: 1 / -1;
+  }
+  .camp-hero__title {
+    font-size: clamp(3.4rem, 1rem + 10vw, 13rem);
+  }
+  .camp-index ol {
+    border-top: 1px solid var(--c-line);
+  }
+  .camp-index__link {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--c-line);
+    transition: padding var(--dur-3) var(--ease-out), color var(--dur-2);
+  }
+  .camp-index__link .serif {
+    font-size: var(--step-2);
+    line-height: 1;
+  }
+  .camp-index__link:hover {
+    padding-inline-start: 0.75rem;
+    color: var(--c-brass);
+  }
+  @media (min-width: 900px) {
+    .camp-hero__label {
+      grid-column: 1 / span 3;
+      padding-top: 2rem;
+    }
+    .camp-hero__title {
+      grid-column: 4 / -1;
+    }
+    .camp-index {
+      grid-column: 4 / -1;
+    }
+    .camp-hero__meta {
+      grid-column: 4 / -1;
+    }
+  }
+
+  .camp {
+    border-top: 1px solid var(--c-line);
+    scroll-margin-top: var(--header-h);
+  }
+  .camp__head {
+    row-gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 6vw, 5rem);
+    align-items: end;
+  }
+  .camp__head > * {
+    grid-column: 1 / -1;
+  }
+  .camp__titles .lead {
+    margin-top: 0.75rem;
+  }
+  .camp__film {
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+  }
+  @media (min-width: 900px) {
+    .camp__num {
+      grid-column: 1 / span 3;
+      align-self: start;
+      padding-top: 1.4rem;
+    }
+    .camp__titles {
+      grid-column: 4 / span 5;
+    }
+    .camp__intro {
+      grid-column: 9 / span 4;
+    }
+  }
+  .camp-end .grid {
+    row-gap: 2rem;
+    justify-items: start;
+  }
+  .camp-end__line,
+  .camp-end__cta {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 900px) {
+    .camp-end__line {
+      grid-column: 4 / span 8;
+    }
+    .camp-end__cta {
+      grid-column: 4 / span 8;
+    }
+  }
+</style>

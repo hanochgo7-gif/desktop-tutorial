@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+---
+
+<Base title="Your bag" noindex>
+  <section class="bag-page" aria-labelledby="bag-page-title">
+    <div class="wrap grid">
+      <header class="bag-page__head">
+        <p class="label faint">HG</p>
+        <h1 class="h1" id="bag-page-title">{t('bag.title')}</h1>
+      </header>
+      <div class="bag-page__lines" data-bag-lines aria-live="polite">
+        <noscript><p class="muted">Your bag needs JavaScript enabled to work.</p></noscript>
+      </div>
+      <aside class="bag-page__summary" aria-label="Order summary">
+        <div class="drawer__foot bag-page__foot" data-bag-foot hidden>
+          <div class="summary-row">
+            <span class="label">{t('bag.subtotal')}</span>
+            <span class="serif" style="font-size:1.8rem" data-bag-subtotal></span>
+          </div>
+          <p class="faint" style="font-size:var(--step--1)">{t('bag.shippingNote')}</p>
+          <p class="notice" data-checkout-status hidden></p>
+          <button class="btn btn--solid btn--block" type="button" data-checkout>
+            {t('bag.checkout')}<span class="arrow" aria-hidden="true"></span>
+          </button>
+          <a class="link label" href="/fragrances">Continue browsing</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .bag-page {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+    padding-bottom: var(--section);
+    min-height: 70svh;
+  }
+  .bag-page .grid {
+    row-gap: 2rem;
+    align-items: start;
+  }
+  .bag-page__head,
+  .bag-page__lines,
+  .bag-page__summary {
+    grid-column: 1 / -1;
+  }
+  .bag-page__head {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .bag-page__foot {
+    padding: 0;
+    border: 0;
+  }
+  @media (min-width: 900px) {
+    .bag-page__lines {
+      grid-column: 1 / span 7;
+      border-top: 1px solid var(--c-line);
+    }
+    .bag-page__summary {
+      grid-column: 9 / span 4;
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+</style>

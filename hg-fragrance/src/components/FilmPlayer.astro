@@ -1,0 +1,45 @@
+---
+/**
+ * Campaign film / reel player with minimal, keyboard-accessible controls.
+ * Nothing plays until asked. Silent reels hide the sound control.
+ */
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+interface Props {
+  id?: string;
+  label?: string;
+  src?: string;
+  poster?: string;
+  captions?: string | null;
+  sound?: boolean;
+  duration?: string;
+}
+const {
+  id = 'film',
+  label = 'HG — Unforgettable. Campaign film, 20 seconds.',
+  src = '/media/hg-unforgettable-film.mp4',
+  poster = '/media/film-poster.jpg',
+  captions = '/media/hg-unforgettable.en.vtt',
+  sound = true,
+  duration = '0:20',
+} = Astro.props;
+const lang = site.locale.lang;
+---
+
+<div class="player" data-player>
+  <video id={id} preload="none" playsinline poster={poster} aria-label={label} muted={!sound}>
+    <source src={src} type="video/mp4" />
+    {captions && <track kind="captions" src={captions} srclang="en" label="English" default />}
+  </video>
+  <button class="player__cover" type="button" data-player-play aria-label={t('film.play', lang)} data-cursor="Play">
+    <span class="play-disc" aria-hidden="true">
+      <svg viewBox="0 0 20 24" fill="currentColor"><path d="M0 0l20 12L0 24z"></path></svg>
+    </span>
+  </button>
+  <div class="player__bar">
+    <button class="player__btn" type="button" data-player-toggle>{t('film.pause', lang)}</button>
+    <div class="player__progress" aria-hidden="true"><span data-player-progress></span></div>
+    <span class="player__time" data-player-time>0:00 / {duration}</span>
+    {sound ? <button class="player__btn" type="button" data-player-mute>{t('film.mute', lang)}</button> : <span class="player__btn faint">Silent</span>}
+  </div>
+</div>

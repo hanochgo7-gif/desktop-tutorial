@@ -1,0 +1,49 @@
+---
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+import { getImage } from 'astro:assets';
+import { img } from '../assets/images';
+import { products, isPurchasable } from '../data/catalog';
+const lang = site.locale.lang;
+// One thumbnail per purchasable product, keyed by slug, for the bag lines.
+const thumbs = Object.fromEntries(
+  await Promise.all(
+    products
+      .filter(isPurchasable)
+      .map(async (p) => [p.slug, (await getImage({ src: img(p.packshot), width: 240, format: 'webp', quality: 75 })).src]),
+  ),
+);
+---
+
+<div class="scrim" data-bag-scrim></div>
+<aside
+  class="drawer"
+  id="bag-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="bag-title"
+  data-bag-drawer
+  data-thumbs={JSON.stringify(thumbs)}
+  inert
+>
+  <div class="drawer__head">
+    <h2 class="label" id="bag-title">{t('bag.title', lang)} <span class="faint" data-bag-count-inline></span></h2>
+    <button class="close-btn label" type="button" data-bag-close>
+      <span class="close-btn__x" aria-hidden="true"></span>
+      <span class="visually-hidden">{t('nav.close', lang)}</span>
+    </button>
+  </div>
+  <div class="drawer__body" data-bag-lines aria-live="polite"></div>
+  <div class="drawer__foot" data-bag-foot hidden>
+    <div class="summary-row">
+      <span class="label">{t('bag.subtotal', lang)}</span>
+      <span class="serif" style="font-size:1.6rem" data-bag-subtotal></span>
+    </div>
+    <p class="faint" style="font-size:var(--step--1)">{t('bag.shippingNote', lang)}</p>
+    <p class="notice" data-checkout-status hidden></p>
+    <button class="btn btn--solid btn--block" type="button" data-checkout>
+      {t('bag.checkout', lang)}
+      <span class="arrow" aria-hidden="true"></span>
+    </button>
+  </div>
+</aside>

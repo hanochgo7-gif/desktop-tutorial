@@ -1,0 +1,117 @@
+---
+import '../styles/global.css';
+import { site } from '../config/site';
+import { clientCatalog } from '../data/catalog';
+import { clientStrings, t } from '../i18n/ui';
+import { commerce } from '../config/site';
+import Header from '../components/Header.astro';
+import Menu from '../components/Menu.astro';
+import BagDrawer from '../components/BagDrawer.astro';
+import Footer from '../components/Footer.astro';
+import FilmModal from '../components/FilmModal.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  footer?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/og-image.jpg',
+  jsonLd,
+  noindex = false,
+  footer = true,
+} = Astro.props;
+
+const { lang, dir } = site.locale;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline.replace(/\.$/, '')}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.fullName,
+  url: Astro.site?.toString(),
+  logo: new URL('/favicon.svg', Astro.site).toString(),
+  ...(site.contact.email ? { email: site.contact.email } : {}),
+  sameAs: Object.values(site.social).filter(Boolean),
+};
+const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+
+const boot = {
+  catalog: clientCatalog(),
+  strings: clientStrings(lang),
+  currency: commerce.currency,
+  locale: lang,
+  maxQty: commerce.maxQuantityPerLine,
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0a0908" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.fullName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preload" href="/fonts/cormorant-garamond-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-sans-wght.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script is:inline>
+      // Enable motion styles only when JS runs and the visitor has not asked for reduced motion.
+      // `?motion=off` gives the same still experience on request (useful for QA and for visitors).
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !/[?&]motion=off/.test(location.search)) {
+        document.documentElement.classList.add('motion');
+        // Safety net: never leave content hidden if the motion bundle fails to load.
+        setTimeout(function () {
+          if (!window.__hgMotion) document.documentElement.classList.remove('motion');
+        }, 4000);
+      }
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('nav.skip', lang)}</a>
+    <Header />
+    <Menu />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {footer && <Footer />}
+    <BagDrawer />
+    <FilmModal />
+    <div class="cursor" aria-hidden="true" data-cursor-el><span class="cursor__label" data-cursor-label></span></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <script type="application/json" id="hg-boot" set:html={JSON.stringify(boot)} />
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

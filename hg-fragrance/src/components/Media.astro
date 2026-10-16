@@ -1,0 +1,60 @@
+---
+/**
+ * Art-directed responsive image. Generates WebP at several widths and
+ * wraps it in a `.media` frame that the motion system can reveal.
+ */
+import { Picture } from 'astro:assets';
+import { img, type ImageName } from '../assets/images';
+
+interface Props {
+  name: ImageName;
+  alt: string;
+  sizes?: string;
+  ratio?: string; // CSS aspect-ratio for the frame, e.g. "4 / 5"
+  position?: string; // object-position
+  priority?: boolean;
+  reveal?: boolean;
+  parallax?: number; // inner image drift in %, e.g. 8
+  class?: string;
+  cursor?: string; // label for the desktop cursor
+}
+
+const {
+  name,
+  alt,
+  sizes = '100vw',
+  ratio,
+  position = '50% 50%',
+  priority = false,
+  reveal = true,
+  parallax = 0,
+  class: className = '',
+  cursor,
+} = Astro.props;
+
+const src = img(name);
+const widths = [480, 800, 1200, 1600, 2000].filter((w) => w <= src.width);
+if (!widths.includes(src.width) && src.width < 2000) widths.push(src.width);
+---
+
+<div
+  class:list={['media', className]}
+  style={ratio ? `aspect-ratio:${ratio}` : undefined}
+  data-reveal={reveal ? 'mask' : undefined}
+  data-cursor={cursor}
+>
+  <Picture
+    src={src}
+    alt={alt}
+    formats={['webp']}
+    fallbackFormat="jpg"
+    widths={widths}
+    sizes={sizes}
+    quality={78}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding={priority ? 'sync' : 'async'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    style={`object-position:${position}`}
+    data-parallax={parallax || undefined}
+  />
+</div>

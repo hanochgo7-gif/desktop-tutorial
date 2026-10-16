@@ -1,0 +1,55 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import { site, commerce } from '../../config/site';
+const contact = site.contact.email;
+---
+
+<LegalPage title="Terms of sale" updated="October 2026">
+  <p>
+    These terms apply to orders placed on this website with {site.legalEntity ?? site.fullName} ("HG", "we"). By placing
+    an order you agree to them.
+  </p>
+
+  <h2>Products and prices</h2>
+  <p>
+    We describe our fragrances as accurately as we can. Campaign imagery is created with AI and is illustrative. Prices are
+    shown in {commerce.currency} and are confirmed on the secure checkout page before you pay. Shipping and any taxes are
+    calculated at checkout.
+  </p>
+
+  <h2>Orders and payment</h2>
+  <p>
+    Payment is taken by Stripe at checkout. Your order is accepted when payment succeeds and you see the order confirmation.
+    If an item cannot be supplied, we will tell you and refund you in full.
+  </p>
+
+  <h2>Delivery</h2>
+  <p>
+    We currently ship to the countries offered at checkout. Delivery times are estimates; risk passes to you on delivery.
+  </p>
+
+  <h2>Returns</h2>
+  <p>
+    Our returns window and process will be confirmed before launch. Nothing in these terms limits the rights you have under
+    the consumer law of the country you live in.
+  </p>
+
+  <h2>Use of the site</h2>
+  <p>
+    The site, the HG name and monogram, the films and the imagery belong to HG. Please do not reuse them without
+    permission.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    {
+      contact ? (
+        <>
+          Questions about an order: <a class="link" href={`mailto:${contact}`}>{contact}</a>.
+        </>
+      ) : (
+        <>Contact details will be published here before launch.</>
+      )
+    }
+  </p>
+</LegalPage>

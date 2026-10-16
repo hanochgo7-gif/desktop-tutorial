@@ -1,0 +1,55 @@
+---
+import Newsletter from './Newsletter.astro';
+import { site } from '../config/site';
+import { bySeason } from '../data/catalog';
+const year = new Date().getFullYear();
+const socials = Object.entries(site.social).filter(([, url]) => Boolean(url)) as [string, string][];
+const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube' };
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-news">
+        <Newsletter id="footer-news" />
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h2 class="label">Fragrance</h2>
+          <ul role="list">
+            {bySeason().map((p) => <li><a href={`/fragrances/${p.slug}`}>{p.name} <span class="faint">· {p.season}</span></a></li>)}
+            <li><a href="/fragrances">The Collection</a></li>
+            <li><a href="/bag">Your bag</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="label">The House</h2>
+          <ul role="list">
+            <li><a href="/house">The HG world</a></li>
+            <li><a href="/film">The film</a></li>
+            <li><a href="/campaigns">Campaigns</a></li>
+            <li><a href="/film#gallery">Campaign gallery</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="label">Client care</h2>
+          <ul role="list">
+            {site.contact.email && <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>}
+            {site.contact.phone && <li><a href={`tel:${site.contact.phone.replace(/\s/g, '')}`}>{site.contact.phone}</a></li>}
+            {socials.map(([key, url]) => <li><a href={url} rel="noopener" target="_blank">{label[key] ?? key}</a></li>)}
+            <li><a href="/legal/privacy">Privacy</a></li>
+            <li><a href="/legal/terms">Terms of sale</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-mark" aria-hidden="true" data-footer-mark>HG</p>
+
+    <div class="footer-base label">
+      <span>© {year} {site.legalEntity ?? site.fullName}</span>
+      <span>{site.aiDisclosure}</span>
+      <span>Unforgettable.</span>
+    </div>
+  </div>
+</footer>

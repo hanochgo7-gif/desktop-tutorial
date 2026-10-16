@@ -1,0 +1,29 @@
+---
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+const lang = site.locale.lang;
+const path = Astro.url.pathname;
+const current = (href: string) => (path === href || path === href + '/' ? 'page' : undefined);
+---
+
+<header class="site-header" data-header>
+  <nav class="site-header__nav" aria-label="Primary">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-open>
+      <span class="menu-toggle__bars" aria-hidden="true"></span>
+      <span>{t('nav.menu', lang)}</span>
+    </button>
+    <a class="hide-sm link" href="/fragrances/unforgettable" aria-current={current('/fragrances/unforgettable')}>{t('nav.unforgettable', lang)}</a>
+    <a class="hide-sm link" href="/film" aria-current={current('/film')}>{t('nav.film', lang)}</a>
+  </nav>
+
+  <a class="logo" href="/" aria-label={`${site.name} — home`}>HG</a>
+
+  <nav class="site-header__nav site-header__nav--end" aria-label="Shop">
+    <a class="hide-sm link" href="/campaigns" aria-current={current('/campaigns')}>{t('nav.campaigns', lang)}</a>
+    <a class="hide-sm link" href="/house" aria-current={current('/house')}>{t('nav.house', lang)}</a>
+    <a class="bag-toggle" href="/bag" data-open-bag aria-haspopup="dialog">
+      <span>{t('nav.bag', lang)}</span>
+      <span class="bag-count" data-bag-count aria-label="items">0</span>
+    </a>
+  </nav>
+</header>

@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+interface Props {
+  title: string;
+  updated: string;
+}
+const { title, updated } = Astro.props;
+---
+
+<Base title={title}>
+  <article class="legal">
+    <div class="wrap grid">
+      <header class="legal__head">
+        <p class="label faint">Legal</p>
+        <h1 class="h1">{title}</h1>
+        <p class="faint label">Last updated {updated}</p>
+        <p class="notice">
+          Draft for review. This text is a starting structure and must be reviewed by qualified counsel for the
+          jurisdictions HG sells into before launch.
+        </p>
+      </header>
+      <div class="legal__body prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style is:global>
+  .legal {
+    padding-block: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem)) var(--section);
+  }
+  .legal .grid {
+    row-gap: 3rem;
+  }
+  .legal__head,
+  .legal__body {
+    grid-column: 1 / -1;
+  }
+  .legal__head {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+  .legal__body {
+    max-width: 42rem;
+  }
+  .legal__body h2 {
+    font-family: var(--f-serif);
+    font-weight: 400;
+    font-size: var(--step-2);
+    color: var(--c-text);
+    margin: 2.5rem 0 1rem;
+  }
+  @media (min-width: 900px) {
+    .legal__head {
+      grid-column: 1 / span 4;
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+    .legal__body {
+      grid-column: 6 / span 7;
+    }
+  }
+</style>
