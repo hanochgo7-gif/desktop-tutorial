@@ -78,7 +78,7 @@ Reduced motion (OS setting, or `?motion=off`) skips GSAP entirely, never autopla
 
 The Node adapter runs anywhere Node 20+ runs (Render, Fly.io, Railway, a VPS). Put it behind a CDN or proxy that **compresses responses** (gzip/brotli): Lighthouse mobile scores below were measured that way.
 
-To deploy on Vercel instead, swap the adapter: `npm i @astrojs/vercel` and use `adapter: vercel()` in `astro.config.mjs`. Use `NEWSLETTER_WEBHOOK_URL` there (serverless file systems are not persistent).
+On Vercel the build switches to `@astrojs/vercel` automatically (it checks the `VERCEL` environment variable in `astro.config.mjs`); set the project's Root Directory to this folder. Use `NEWSLETTER_WEBHOOK_URL` there (serverless file systems are not persistent).
 
 ## Quality checks (October 2026, production build)
 
