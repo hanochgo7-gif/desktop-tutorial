@@ -3,6 +3,8 @@
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-hebrew.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-latin-ext.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+/* תווי ASCII של הכותרות: פיסוק, ספרות ואותיות לטיניות (3KB, נטען מראש בעמודים בעברית), למשל SEO או AI בתוך כותרת בעברית, כדי שכותרת בעברית תצויר מההתחלה בגופן הסופי. אחרי הלטיני: כשטווחים חופפים, האחרון קובע */
+@font-face { font-family: "HG Handjet"; src: url("../fonts/handjet-ascii.woff2") format("woff2"); font-weight: 750; font-style: normal; font-display: swap; unicode-range: U+0020-007E, U+00A0, U+00AB, U+00BB, U+00D7, U+2010-2027, U+2030, U+2039-203A; }
 /* אותו Handjet עם ציר המשקל פעיל, רק לכותרת "בואו נבנה." שמגיבה לעכבר. נטען רק כשמתקרבים אליה */
 @font-face { font-family: "HG Handjet Live"; src: url("../fonts/handjet-live-hebrew.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
 @font-face { font-family: "HG Handjet Live"; src: url("../fonts/handjet-live-latin.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -493,6 +495,10 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
   .craft h2 { margin-bottom: 1rem; font-size: var(--fs-d4); }
   .step { display: none; border: 0; padding: 0; }
   .step.is-on { display: grid; }
+  /* בגלילה מוצג שלב אחד בכל פעם. כל השלבים יושבים באותו תא, כך שגובה הרשימה הוא של השלב הארוך ביותר
+     ולא משתנה בין שלב לשלב. אחרת הכרטיס שמתחת קפץ למעלה ולמטה בכל מעבר */
+  .motion .step { display: grid; grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .45s var(--ease), visibility 0s .45s; }
+  .motion .step.is-on { visibility: visible; opacity: 1; transition: opacity .45s var(--ease); }
   .case-grid { grid-template-columns: 1fr; }
   .hero-hint { display: none; }
   .scroll-cue { display: none; }
@@ -1984,6 +1990,10 @@ a, button, label, summary, [role="button"] { touch-action: manipulation; -webkit
 .pf-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: var(--fs-s); margin-top: auto; padding-top: .3rem; }
 .pf-links a, .proof-foot a { color: var(--fg); text-decoration: underline; text-decoration-color: rgba(255, 79, 26, .7); text-underline-offset: 5px; text-decoration-thickness: 1px; }
 .pf-links a:hover, .proof-foot a:hover { color: var(--signal); }
+/* קישורי טקסט בגובה 23px: אזור לחיצה שקוף של 44px סביבם, בלי לשנות את העימוד */
+.pf-links a, .proof-foot a, .doc .back { position: relative; }
+.pf-links a::after, .proof-foot a::after, .doc .back::after { content: ""; position: absolute; inset: -11px -6px; }
+.doc .back::after { inset: -15px -8px; } /* הקישור עצמו בגובה 15px */
 .proof-foot { display: flex; flex-wrap: wrap; gap: .6rem 2rem; align-items: baseline; margin-top: clamp(40px, 5vw, 64px); padding-top: 1.4rem; border-top: 1px solid var(--fg-faint); font-size: var(--fs-s); color: var(--fg-dim); }
 @media (max-width: 900px) {
   /* בטלפון: שורה שגוללים לצדדים, כרטיס וחצי במסך, כדי שיהיה ברור שיש עוד */

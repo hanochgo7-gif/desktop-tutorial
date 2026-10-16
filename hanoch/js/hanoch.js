@@ -1323,12 +1323,16 @@
     // מפצלים רק אחרי שהגופן נטען, אחרת השורות נחתכות במקום הלא נכון
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
       heads.forEach(function (h) {
+        // שורות עם מסכה יוצאות בגובה קצת שונה מהטקסט הרגיל, וכשהן חוזרות לטקסט רגיל הגובה משתנה שוב.
+        // נועלים את הגובה של הכותרת (או של הבלוק שמכיל אותה) עד סוף החשיפה, כדי שמה שמתחתיה לא יקפוץ
+        var box = getComputedStyle(h).display === 'inline' ? h.parentElement : h;
+        box.style.height = box.getBoundingClientRect().height + 'px';
         // על span אסור aria-label: שם הטקסט נשאר קריא כמו שהוא, בלי תווית
         var split = SplitText.create(h, { type: 'lines', mask: 'lines', linesClass: 'hg-line', aria: /^H\d$/.test(h.tagName) ? 'auto' : 'none' });
         gsap.from(split.lines, {
           yPercent: 108, duration: 1.15, ease: EASE, stagger: 0.09,
           scrollTrigger: { trigger: h, start: 'top 88%', once: true },
-          onComplete: function () { split.revert(); }
+          onComplete: function () { split.revert(); box.style.height = ''; }
         });
       });
       ScrollTrigger.refresh();

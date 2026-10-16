@@ -47,6 +47,8 @@
     '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:2px solid var(--signal,#ff4f1a);outline-offset:3px}' +
     '@media (max-width:600px){.consent{bottom:80px;padding:.85rem .95rem;font-size:.875rem;line-height:1.55}.consent__text{margin-bottom:.7rem}' +
     '.consent__btn{min-width:0;padding:.5rem .7rem;font-size:.8rem;white-space:nowrap}}' +
+    // טלפון קטן (רוחב עד 400 או גובה עד 700): אותו נוסח בדיוק, בעימוד צפוף יותר, כדי שההודעה לא תסתיר את הכפתורים של המסך הראשון
+    '@media (max-width:400px),(max-width:600px) and (max-height:700px){.consent{padding:.7rem .8rem;font-size:.8125rem;line-height:1.45;border-radius:14px}.consent__text{margin-bottom:.55rem}.consent__actions{gap:.45rem}.consent__btn{font-size:.78rem;padding:.4rem .6rem}}' +
     '.menu-open .consent,.case-open .consent{visibility:hidden}';
 
   var box = null;
@@ -70,7 +72,13 @@
     });
     document.body.appendChild(box);
   }
-  function show() { if (!box) build(); box.hidden = false; }
+  // יושבת מעל כפתור הצ'אט, באותה פינה. המיקום נקבע לפני שההודעה מוצגת, כדי שלא תזוז מול העיניים
+  function lift() {
+    var b = document.querySelector('.ht-btn');
+    if (!b || !b.offsetHeight) return;
+    box.style.bottom = Math.round((parseFloat(b.style.bottom) || parseFloat(getComputedStyle(b).bottom) || 18) + b.offsetHeight + 12) + 'px';
+  }
+  function show() { if (!box) build(); lift(); box.hidden = false; }
   function hide() { if (box) box.hidden = true; }
 
   function choose(yes) {
@@ -91,7 +99,15 @@
   });
 
   function init() {
-    if (!state && !embedded) show();
+    if (!state && !embedded) {
+      // בעמודים עם כפתור הצ'אט, ההודעה מופיעה רק אחרי שהכפתור במקומו (עד 3 שניות). כך היא לא קופצת למעלה אחרי שכבר נראתה
+      var chat = document.querySelector('script[src*="assistant.js"]');
+      if (!chat || document.documentElement.hasAttribute('data-launcher')) show();
+      else {
+        var t = setTimeout(show, 3000);
+        document.addEventListener('hg:launcher', function () { clearTimeout(t); show(); }, { once: true });
+      }
+    }
     document.addEventListener('click', function (e) {
       var o = e.target.closest && e.target.closest('[data-consent-open]');
       if (!o) return;

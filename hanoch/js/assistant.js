@@ -108,6 +108,8 @@
     '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
     // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
     '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}}' +
+    // באנגלית שורת המשנה בגופן המונו רחבה (288px), ובטלפון צר הכפתור נגע בכפתור הנגישות שבצד השני. נשארת רק הכותרת
+    "@media (max-width:400px){html[lang='en'] .ht-lbl small{display:none}}" +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}' +
     // כרטיס חבילה, קישורים, משוב וניסיון חוזר: אותה שפה של הצ'אט
     '.ht-pkg{align-self:stretch;border:1px solid var(--signal,#ff4f1a);border-radius:16px;padding:.9rem;display:grid;gap:.55rem;background:var(--ink,#0a0a0b)}' +
@@ -628,6 +630,9 @@
   // מגיעים מקישור #chat (למשל מהתפריט או ממייל): השיחה נפתחת
   function init() {
     build(); place(); invite(); hesitation();
+    // הודעת העוגיות מחכה לכפתור הזה, כדי להופיע ישר במקומה הסופי ולא לקפוץ מעליו אחר כך
+    document.documentElement.setAttribute('data-launcher', '');
+    document.dispatchEvent(new Event('hg:launcher'));
     addEventListener('resize', place, { passive: true });
     if (location.hash === '#chat') open();
     document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('[data-chat-open]'); if (a) { e.preventDefault(); open(); } });
