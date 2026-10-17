@@ -21,9 +21,84 @@ import FilmPlayer from '../components/FilmPlayer.astro';
       </div>
     </div>
   </section>
+
+  <section class="section film-night" aria-labelledby="night-title">
+    <div class="wrap grid">
+      <div class="film-night__frame" data-reveal="fade">
+        <picture>
+          <source srcset="/media/night-film-poster.webp" type="image/webp" />
+          <img src="/media/night-film-poster.jpg" alt="Night on a red-lit street: the HG bottle glowing on wet stone, a man walking toward the camera, then a couple sharing the fragrance" width="720" height="1280" loading="lazy" decoding="async" />
+        </picture>
+        <video id="night-film" data-ambient data-src="/media/night-film.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+        <button class="film-night__pause label" type="button" data-ambient-toggle aria-controls="night-film">Pause</button>
+      </div>
+      <div class="film-night__copy">
+        <p class="label faint">After dark</p>
+        <h2 class="h2" id="night-title" data-reveal="lines">The night <em>is just starting.</em></h2>
+        <p class="lead it muted" data-reveal="fade">A red street after the rain, a warm glass in the hand.</p>
+      </div>
+    </div>
+  </section>
 </Base>
 
 <style is:global>
+  .film-night .grid {
+    row-gap: 2.5rem;
+    align-items: center;
+  }
+  .film-night__frame,
+  .film-night__copy {
+    grid-column: 1 / -1;
+  }
+  .film-night__copy {
+    display: grid;
+    gap: 1.25rem;
+    align-content: center;
+  }
+  .film-night__frame {
+    position: relative;
+    width: min(100%, calc(84svh * 9 / 16));
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .film-night__frame img,
+  .film-night__frame video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .film-night__frame video {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-soft);
+  }
+  .film-night__frame video.is-playing {
+    opacity: 1;
+  }
+  .film-night__pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.8);
+    background: rgb(10 9 8 / 0.35);
+    transition: color var(--dur-2);
+  }
+  .film-night__pause:hover {
+    color: var(--c-ivory);
+  }
+  @media (min-width: 900px) {
+    .film-night__frame {
+      grid-column: 2 / span 5;
+    }
+    .film-night__copy {
+      grid-column: 8 / span 4;
+    }
+  }
   .film-hero {
     padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
   }
