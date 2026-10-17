@@ -1,6 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
 import FilmPlayer from '../components/FilmPlayer.astro';
+
+/** Short vertical films made in Higgsfield (October 2026). Each plays on request, with sound where it has any. */
+const reels = [
+  { file: 'the-edit', title: 'The edit', length: '0:13', sound: true, alt: 'A fast edit: men in linen in black and white, the bottle in blue light, a red-lit street, a couple, the bottle on black' },
+  { file: 'the-fall', title: 'The fall', length: '0:19', sound: false, alt: 'A man in a black suit falls through the sky over a city, lands in a cloud of dust beside a grey CUPRA with the HG bottle on its roof, and walks away' },
+  { file: 'the-bag', title: 'The bag', length: '0:12', sound: true, alt: 'A woman in sunglasses breaks a car window, takes the HG shopping bag from the back seat and walks off down the street' },
+  { file: 'flash', title: 'Flash', length: '0:08', sound: false, alt: 'Night, camera flash: a man on a wet road, a woman laughing with the bottle, a man spraying it at his collar, the bottle on a car dashboard' },
+  { file: 'scent-check', title: 'Scent check', length: '0:12', sound: true, alt: 'Scent check: three men, three HG bottles, and the man in the black coat picks Nocturne' },
+  { file: 'pick-one', title: 'Pick one', length: '0:12', sound: true, alt: 'Which one? The man in the black coat walks a sunlit street with Nocturne; pick one' },
+  { file: 'by-the-fire', title: 'By the fire', length: '0:05', sound: false, alt: 'A man in a black coat holds Nocturne by a mountain fireplace, then stands at a window over the snow' },
+  { file: 'the-tower', title: 'The tower', length: '0:04', sound: false, alt: 'Under a glass tower and a blue sky, a man in a long black coat touches his collar and walks away' },
+];
 ---
 
 <Base title="The Film" description="HG Unforgettable — the 20-second campaign film.">
@@ -19,6 +31,30 @@ import FilmPlayer from '../components/FilmPlayer.astro';
           <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section films" aria-labelledby="films-title">
+    <div class="wrap">
+      <header class="films__head">
+        <p class="label faint">More films</p>
+        <h2 class="h2" id="films-title" data-reveal="lines">The reels</h2>
+      </header>
+      <ul class="films__grid" role="list">
+        {
+          reels.map((r) => (
+            <li class="films__item">
+              <video class="films__video" controls playsinline preload="none" poster={`/media/films/${r.file}-poster.webp`} width="720" height="1280" aria-label={r.alt}>
+                <source src={`/media/films/${r.file}.mp4`} type="video/mp4" />
+              </video>
+              <p class="films__cap">
+                <span class="films__name">{r.title}</span>
+                <span class="label muted">{r.length}{r.sound ? ' · Sound' : ''}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -42,6 +78,44 @@ import FilmPlayer from '../components/FilmPlayer.astro';
 </Base>
 
 <style is:global>
+  .films__head {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .films__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.75rem, 4vw, 2.5rem) clamp(0.75rem, 2.5vw, var(--gap));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .films__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background: var(--c-ink-2);
+  }
+  .films__cap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    margin-top: 0.85rem;
+  }
+  .films__name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  }
+  @media (min-width: 900px) {
+    .films__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
   .film-night .grid {
     row-gap: 2.5rem;
     align-items: center;
