@@ -26,6 +26,7 @@ const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok'
         <a href="/legal/privacy">Privacy</a>
         <a href="/legal/terms">Terms of sale</a>
       </span>
+      {site.demo && <span class="footer-demo">{site.demo.notice}</span>}
       <span class="footer-ai">{site.aiDisclosure}</span>
       <span class="footer-copy">© {year} {site.legalEntity ?? site.fullName}</span>
       <button class="motion-toggle label" type="button" data-motion-toggle aria-pressed="false">
