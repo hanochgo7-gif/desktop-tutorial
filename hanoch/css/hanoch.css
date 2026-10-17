@@ -1993,6 +1993,7 @@ a, button, label, summary, [role="button"] { touch-action: manipulation; -webkit
 /* קישורי טקסט בגובה 23px: אזור לחיצה שקוף של 44px סביבם, בלי לשנות את העימוד */
 .pf-links a, .proof-foot a, .doc .back { position: relative; }
 .pf-links a::after, .proof-foot a::after, .doc .back::after { content: ""; position: absolute; inset: -11px -6px; }
+.proof-foot span a::after { inset: -11px -2px; }
 .doc .back::after { inset: -15px -8px; } /* הקישור עצמו בגובה 15px */
 .proof-foot { display: flex; flex-wrap: wrap; gap: .6rem 2rem; align-items: baseline; margin-top: clamp(40px, 5vw, 64px); padding-top: 1.4rem; border-top: 1px solid var(--fg-faint); font-size: var(--fs-s); color: var(--fg-dim); }
 @media (max-width: 900px) {
