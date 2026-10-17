@@ -14,20 +14,11 @@ type Frame = { name: string; alt: string; position?: string };
 type Row = { kind: 'wide'; frame: Frame } | { kind: 'pair'; flip?: boolean; frames: [Frame, Frame] };
 
 const rows: Row[] = [
-  { kind: 'wide', frame: { name: 'cupra-night', alt: 'A grey-beige CUPRA Leon on a wet cobbled street at night, its copper emblem and triangular headlights lit', position: '55% 50%' } },
+  { kind: 'wide', frame: { name: 'cupra-promenade', alt: 'Unforgettable on the balustrade of a seafront promenade at night, the CUPRA Leon parked under the iron lamps behind', position: '40% 50%' } },
   {
     kind: 'pair',
     frames: [
       { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it and the sea gold beyond', position: '50% 50%' },
-      { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of the CUPRA Leon, beside its copper emblem, the city lit behind', position: '50% 40%' },
-    ],
-  },
-  { kind: 'wide', frame: { name: 'cupra-promenade', alt: 'Unforgettable on the balustrade of a seafront promenade at night, the CUPRA Leon parked under the iron lamps behind', position: '40% 50%' } },
-  {
-    kind: 'pair',
-    flip: true,
-    frames: [
-      { name: 'cupra-villa', alt: 'At dusk the CUPRA Leon stands with its door open outside a stone villa with bougainvillea, Unforgettable on the door sill', position: '55% 55%' },
       { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', position: '55% 40%' },
     ],
   },

@@ -79,7 +79,7 @@ export const products: Product[] = [
     storyTitle: 'Worn once, |at the collar.',
     portrait: { name: 'fashion-unforgettable', alt: 'In a black tuxedo and silk shirt at a rain-streaked window high above the city, he holds Unforgettable at his collar', focus: '50% 25%' },
     campaign: [
-      { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', caption: 'The bonnet', focus: '50% 40%' },
+      { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it', caption: 'The road', focus: '50% 55%' },
       { name: 'cupra-interior', alt: 'Unforgettable on the copper-stitched seat of a CUPRA Leon at night, rain and city lights on the window', caption: 'The seat', focus: '50% 55%' },
       { name: 'unf-empty-study', alt: 'The empty study, mist still hanging in the lamplight', caption: 'The room after', focus: '60% 50%' },
     ],
@@ -115,6 +115,7 @@ export const products: Product[] = [
       { name: 'ow-packshot', alt: 'Open Window — the HG bottle with pale green-gold juice and a silver collar, front view' },
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone sill of an open window, a rain-washed garden and a lifting linen curtain' },
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window' },
+      { name: 'fashion-open-window-b', alt: 'In an ivory linen suit in a sunlit orangery, curtains blowing in, a man holds Open Window to his chest', focus: '50% 30%' },
     ],
     storyTitle: 'The same room, |curtains drawn back.',
     portrait: { name: 'fashion-open-window', alt: 'In a sage silk shirt he sits on the sill of an open villa window, wisteria around it and a linen curtain blowing out, holding Open Window', focus: '50% 35%' },
@@ -185,6 +186,7 @@ export const products: Product[] = [
     gallery: [
       { name: 'nc-packshot', alt: 'Nocturne — the HG bottle with garnet-black juice and a satin black collar, front view' },
       { name: 'nc-velvet', alt: 'The Nocturne bottle on black velvet dusted with snow, a snowy window behind' },
+      { name: 'fashion-nocturne-c', alt: 'In a long black coat by a mountain window, a fire behind him, a man holds Nocturne at his chest', focus: '50% 30%' },
     ],
     storyTitle: 'The closest |to the skin.',
     storyFilm: {
