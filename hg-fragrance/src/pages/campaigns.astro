@@ -18,33 +18,34 @@ const rows: Row[] = [
     kind: 'pair',
     frames: [
       { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', position: '50% 30%' },
-      { name: 'face-w3', alt: 'A woman in black satin rests the Unforgettable bottle against her cheek', position: '50% 30%' },
-    ],
-  },
-  { kind: 'wide', frame: { name: 'riv-two', alt: 'On a candlelit terrace above the sea, a woman in crimson silk leans into him, eyes closed', position: '62% 40%' } },
-  {
-    kind: 'pair',
-    flip: true,
-    frames: [
       { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', position: '50% 30%' },
-      { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', position: '58% 40%' },
     ],
   },
   { kind: 'wide', frame: { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', position: '60% 45%' } },
   {
     kind: 'pair',
+    flip: true,
     frames: [
-      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', position: '50% 30%' },
-      { name: 'face-w1', alt: 'Against black velvet, a woman in a charcoal-and-brass jacket holds the bottle at her cheek', position: '50% 30%' },
+      { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window', position: '50% 35%' },
+      { name: 'face-m3', alt: 'Leaning on a black marble bar, a man in a black shirt raises the bottle', position: '50% 25%' },
     ],
   },
-  { kind: 'wide', frame: { name: 'riv-terrace', alt: 'On a candlelit terrace she looks back over her shoulder as he walks toward her', position: '50% 40%' } },
+  { kind: 'wide', frame: { name: 'riv-car-interior', alt: 'At the wheel at night, the coastal lights behind him', position: '45% 40%' } },
+  {
+    kind: 'pair',
+    frames: [
+      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', position: '50% 30%' },
+      { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', position: '58% 40%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', position: '55% 40%' } },
+  { kind: 'wide', frame: { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', position: '70% 45%' } },
   {
     kind: 'pair',
     flip: true,
     frames: [
       { name: 'drv-reflection', alt: 'His profile through the side window, the street lamps and the village across the bay reflected over him', position: '45% 40%' },
-      { name: 'face-m3', alt: 'Leaning on a black marble bar, a man in a black shirt raises the bottle', position: '50% 30%' },
+      { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', position: '50% 30%' },
     ],
   },
   { kind: 'wide', frame: { name: 'unf-empty-study', alt: 'The empty study after he has gone: the bottle on the desk, mist in the lamplight', position: '58% 50%' } },
@@ -56,7 +57,7 @@ const full = Object.fromEntries(
 );
 ---
 
-<Base title="The Campaign" description="HG Unforgettable — the campaign.">
+<Base title="The Campaign" description="The HG campaign.">
   <section class="cp" aria-labelledby="cp-title">
     <div class="wrap">
       <header class="cp__head">
@@ -87,7 +88,7 @@ const full = Object.fromEntries(
       </div>
 
       <footer class="cp__end">
-        <p class="h2" data-reveal="lines">Unforgettable</p>
+        <p class="h2" data-reveal="lines">HG</p>
         <div class="cp__ctas" data-reveal="fade">
           <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
           <a class="link label" href="/film" data-open-film>Watch the film</a>

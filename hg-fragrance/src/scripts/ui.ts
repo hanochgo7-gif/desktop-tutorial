@@ -233,6 +233,25 @@ export function initNewsletter() {
   });
 }
 
+/* ---------- "one flacon, four lights": the block in mid-viewport re-lights the pinned bottle ---------- */
+export function initFourLights() {
+  document.querySelectorAll<HTMLElement>('[data-fl]').forEach((root) => {
+    const stage = root.querySelector<HTMLElement>('[data-fl-stage]')!;
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-fl-step]')];
+    const groups = ['[data-fl-frame]', '[data-fl-word]', '[data-fl-tick]'].map((sel) => [...root.querySelectorAll<HTMLElement>(sel)]);
+    const activate = (i: number) => {
+      groups.forEach((els) => els.forEach((el, j) => el.classList.toggle('is-active', i === j)));
+      stage.style.setProperty('--fl-accent', steps[i].dataset.accent!);
+    };
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && activate(steps.indexOf(e.target as HTMLElement))),
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    steps.forEach((s) => io.observe(s));
+  });
+}
+
+
 /* ---------- product gallery (mobile carousel dots + thumbnails) ---------- */
 export function initGallery() {
   document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {

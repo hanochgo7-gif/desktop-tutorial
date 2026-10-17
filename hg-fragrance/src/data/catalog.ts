@@ -45,7 +45,9 @@ export interface Product {
   status: 'available' | 'coming-soon';
   packshot: string; // product card + bag thumbnail
   gallery: { name: string; alt: string; focus?: string }[]; // product page gallery (first = hero)
-  campaign: Still[]; // the season's campaign stills
+  campaign: Still[]; // the season's campaign stills (shown on the product page when there are three)
+  portrait: { name: string; alt: string; focus?: string }; // the model image beside the story
+  storyTitle: string; // story heading; text after '|' is set in italics
   variants: Variant[];
 }
 
@@ -74,6 +76,8 @@ export const products: Product[] = [
       { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', focus: '50% 30%' },
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
+    storyTitle: 'Worn once, |at the collar.',
+    portrait: { name: 'riv-spray', alt: 'Eyes closed, he wears Unforgettable once, at the collar' },
     campaign: [
       { name: 'drv-window', alt: 'Through the lowered window of a black vintage car at night, a man holds Unforgettable at his collar, rain on the glass', caption: 'The window', focus: '62% 35%' },
       { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', caption: 'The study', focus: '50% 30%' },
@@ -112,6 +116,8 @@ export const products: Product[] = [
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone sill of an open window, a rain-washed garden and a lifting linen curtain' },
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window' },
     ],
+    storyTitle: 'The same room, |curtains drawn back.',
+    portrait: { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', focus: '55% 40%' },
     campaign: [
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe on a wet gravel drive, wisteria and cypresses behind, holding Open Window', caption: 'The drive' },
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone windowsill, curtain lifting, the garden wet with rain', caption: 'The sill' },
@@ -147,8 +153,9 @@ export const products: Product[] = [
       { name: 'll-rock', alt: 'The Last Light bottle on a sun-bleached rock by the sea at golden hour, sea spray on the glass' },
       { name: 'll-pier', alt: 'A man in an open white linen shirt on a stone pier above turquoise water, holding Last Light' },
     ],
+    storyTitle: 'The night is coming, |but not yet.',
+    portrait: { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', focus: '50% 30%' },
     campaign: [
-      { name: 'll-coast', alt: 'At sunset a woman in white linen sits in the open door of a white wedge-shaped supercar above the sea, holding Last Light', caption: 'The coast road', wide: true, focus: '46% 50%' },
       { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', caption: 'After the swim' },
       { name: 'll-rock', alt: 'The Last Light bottle on a white rock, salt crystals and spray, the sea gold behind', caption: 'Salt' },
     ],
@@ -180,11 +187,11 @@ export const products: Product[] = [
     gallery: [
       { name: 'nc-packshot', alt: 'Nocturne — the HG bottle with garnet-black juice and a satin black collar, front view' },
       { name: 'nc-velvet', alt: 'The Nocturne bottle on black velvet dusted with snow, a snowy window behind' },
-      { name: 'nc-fire', alt: 'A woman in black velvet by a stone fireplace in an alpine chalet, holding Nocturne' },
     ],
+    storyTitle: 'The closest |to the skin.',
+    portrait: { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', focus: '70% 45%' },
     campaign: [
       { name: 'nc-village', alt: 'A man in a black overcoat beside a matte black supercar on a snowy alpine street at night, holding Nocturne', caption: 'The village', wide: true, focus: '68% 50%' },
-      { name: 'nc-fire', alt: 'A woman in a black velvet gown by the fire, Nocturne glowing red in her hand', caption: 'Firelight' },
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },
     ],
     variants: [],

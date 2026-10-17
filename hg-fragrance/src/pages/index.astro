@@ -2,11 +2,9 @@
 import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Media from '../components/Media.astro';
-import Purchase from '../components/Purchase.astro';
-import { getProduct } from '../data/catalog';
+import FourLights from '../components/FourLights.astro';
 import { img } from '../assets/images';
 
-const product = getProduct('unforgettable')!;
 
 // Hero: one photograph, art-directed — the landscape frame on wide screens, the portrait frame on tall ones.
 const wide = img('drv-sill');
@@ -26,8 +24,8 @@ const srcset = (set: { src: string; attributes: Record<string, unknown> }[]) =>
 const campaign = [
   { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', ratio: '3 / 4', cls: 'a' },
   { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', ratio: '3 / 4', cls: 'b' },
-  { name: 'riv-two', alt: 'On a candlelit terrace above the sea, a woman in crimson silk leans into him, eyes closed', ratio: '16 / 9', cls: 'c', position: '62% 40%' },
-  { name: 'face-w3', alt: 'A woman in black satin rests the Unforgettable bottle against her cheek', ratio: '4 / 5', cls: 'd', position: '50% 30%' },
+  { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', ratio: '16 / 9', cls: 'c', position: '60% 45%' },
+  { name: 'face-m3', alt: 'Leaning on a black marble bar, a man in a black shirt raises the bottle', ratio: '4 / 5', cls: 'd', position: '50% 25%' },
   { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', ratio: '4 / 5', cls: 'e', position: '58% 40%' },
 ] as const;
 ---
@@ -104,21 +102,8 @@ const campaign = [
     </div>
   </section>
 
-  <!-- ============ THE FRAGRANCE ============ -->
-  <section class="section theme-ivory scent" aria-labelledby="scent-title">
-    <div class="wrap grid">
-      <div class="scent__visual">
-        <Media name="still-packshot" alt="The Unforgettable bottle: faceted clear glass, amber juice, a square black cap and a brass collar" ratio="4 / 5" sizes="(min-width: 900px) 46vw, 100vw" />
-      </div>
-      <div class="scent__info">
-        <h2 class="h1 scent__name" id="scent-title" data-reveal="lines">{product.name}</h2>
-        <p class="lead it muted">{product.concentration}</p>
-        <p class="scent__text">{product.story[2]}</p>
-        <Purchase product={product} id="buy-home" />
-        <a class="link label" href="/fragrances/unforgettable">The fragrance in full</a>
-      </div>
-    </div>
-  </section>
+  <!-- ============ THE FRAGRANCES ============ -->
+  <FourLights />
 
   <!-- ============ CLOSING ============ -->
   <section class="close" aria-labelledby="close-title">
@@ -330,42 +315,6 @@ const campaign = [
     }
     .camp__item--e {
       grid-column: 7 / span 6;
-    }
-  }
-
-  /* ---------- the fragrance ---------- */
-  .scent .grid {
-    row-gap: 2.5rem;
-    align-items: center;
-  }
-  .scent__visual {
-    grid-column: 1 / -1;
-    margin-inline: calc(var(--gutter) * -1);
-  }
-  .scent__info {
-    grid-column: 1 / -1;
-    display: grid;
-    gap: 1.25rem;
-    justify-items: start;
-    max-width: 28rem;
-  }
-  .scent__name {
-    font-size: clamp(3rem, 1.6rem + 4vw, 6rem);
-  }
-  .scent__text {
-    color: var(--c-muted);
-    margin-bottom: 0.75rem;
-  }
-  .scent .buy {
-    width: 100%;
-  }
-  @media (min-width: 900px) {
-    .scent__visual {
-      grid-column: 1 / span 6;
-      margin-inline: 0;
-    }
-    .scent__info {
-      grid-column: 8 / span 4;
     }
   }
 

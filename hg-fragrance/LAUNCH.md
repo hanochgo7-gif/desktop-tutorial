@@ -12,11 +12,11 @@ Everything below is either unknown or unverified. The site was built so that not
 
 ## The Four Seasons — `src/data/catalog.ts`
 
-Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N°03 Last Light** (Summer), **N°04 Nocturne** (Winter). Since the October 2026 redesign they are **not shown on the site**: only fragrances on sale get a page, and the old collection and concept URLs redirect to Unforgettable (`astro.config.mjs`). Their imagery is kept in `archive/`.
+Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N°03 Last Light** (Summer), **N°04 Nocturne** (Winter). They appear on the home page ("One flacon, four lights") and on their own pages as **Coming soon**, with no purchase option.
 
 - [ ] **Compositions are creative briefs, not formulas.** The top/heart/base notes were written to define each scent's character. Develop them with a perfumer and update the notes to match the final juices before selling.
 - [ ] **Concentrations** (Open Window and Last Light: Eau de Parfum; Nocturne: Extrait de Parfum) — confirm.
-- [ ] **Formats and prices** — the three new products have no variants, so they have no page and cannot be bought. To put one on sale: add variants (`{ id, label, price, available: true }`), set `status: 'available'`, remove its redirect from `astro.config.mjs`, and move its images back from `archive/img/`.
+- [ ] **Formats and prices** — the three new products have no variants, so they show "Coming soon" and cannot be bought. To put one on sale: add variants (`{ id, label, price, available: true }`) and set `status: 'available'`.
 - [ ] **Bottle variants** (juice colour and collar finish: silver, rose gold, satin black) exist only as campaign imagery — confirm with packaging suppliers.
 - [ ] **Cars in the campaigns** are unbadged classic and modern sports cars; no manufacturer logos appear. Keep it that way unless you have a licence or partnership.
 
@@ -49,7 +49,7 @@ Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N
 
 ## Imagery
 
-- [ ] The site uses the photographs in `src/assets/img/` (19 masters). The campaign page sequence is in `src/pages/campaigns.astro`; the home campaign in `src/pages/index.astro`.
+- [ ] The site uses the photographs in `src/assets/img/` — male models only, plus the Open Window image of a woman beside the sage-green coupe. The campaign page sequence is in `src/pages/campaigns.astro`; the home campaign in `src/pages/index.astro`.
 - [ ] Everything else (the earlier Riviera / Night Drive / Rosso / Studio chapters, editorial bottle stills, loops and reels, `campaigns.ts`) is in `archive/`, not deployed.
 - [ ] The hero and several campaign images show a vintage car; no badges are visible. Confirm you are happy to publish them as HG brand imagery.
 

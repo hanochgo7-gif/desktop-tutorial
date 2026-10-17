@@ -3,6 +3,7 @@ import {
   initAmbientVideo,
   initAmbientToggles,
   initFilm,
+  initFourLights,
   initGallery,
   initLazyPosters,
   initHeader,
@@ -22,6 +23,7 @@ initBag();
 initFilm();
 initAmbientVideo();
 initNewsletter();
+initFourLights();
 initGallery();
 initVariantPicker();
 initPdpBar();
