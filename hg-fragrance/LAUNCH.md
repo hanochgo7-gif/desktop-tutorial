@@ -50,6 +50,7 @@ Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N
 ## Imagery
 
 - [ ] The site uses the photographs in `src/assets/img/` — male models only, plus the Open Window image of a woman beside the sage-green coupe. The campaign page sequence is in `src/pages/campaigns.astro`; the home campaign in `src/pages/index.astro`.
+- [ ] Four seasons fashion portraits (October 2026): `fashion-unforgettable`, `fashion-open-window`, `fashion-last-light`, `fashion-nocturne` — one Higgsfield editorial per fragrance, made from each fragrance's own packshot. They sit beside the story on each product page and in "The four seasons" on the campaign page. Alternates are in `archive/img/fashion-*-b.jpg`.
 - [ ] Everything else (the earlier Riviera / Night Drive / Rosso / Studio chapters, editorial bottle stills, loops and reels, `campaigns.ts`) is in `archive/`, not deployed.
 - [ ] The hero and several campaign images show a vintage car; no badges are visible. Confirm you are happy to publish them as HG brand imagery.
 
