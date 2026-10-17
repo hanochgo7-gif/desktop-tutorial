@@ -23,24 +23,26 @@ const campaign = [
 
 <Base description="HG Unforgettable, Eau de Parfum. Leave the room. Stay in it.">
   <Fragment slot="head">
-    <link rel="preload" as="image" type="image/webp" media="(max-aspect-ratio: 4/5)" href="/media/hero-vertical-poster.webp" fetchpriority="high" />
-    <link rel="preload" as="image" type="image/webp" media="(min-aspect-ratio: 401/500)" href="/media/hero-desk-poster.webp" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" media="(max-aspect-ratio: 4/5)" imagesrcset="/media/hero-vertical-poster.webp 893w, /media/hero-vertical-poster-1440.webp 1440w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" media="(min-aspect-ratio: 401/500)" imagesrcset="/media/hero-desk-poster.webp 1600w, /media/hero-desk-poster-2400.webp 2400w" imagesizes="116vw" fetchpriority="high" />
   </Fragment>
   <!-- ============ HERO ============ -->
   <section class="hero" aria-labelledby="hero-title">
     <!-- The opening film: the bottle on the desk, rain on the window behind (portrait cut on tall screens). -->
     <div class="hero__media">
       <picture>
-        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.webp" type="image/webp" />
-        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.jpg" />
-        <source srcset="/media/hero-desk-poster.webp" type="image/webp" />
-        <img src="/media/hero-desk-poster.jpg" alt="The Unforgettable bottle on a walnut desk at night, a lamp beside it and rain running down the window behind" width="1600" height="893" fetchpriority="high" decoding="async" />
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.webp 893w, /media/hero-vertical-poster-1440.webp 1440w" sizes="100vw" type="image/webp" />
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.jpg 893w, /media/hero-vertical-poster-1440.jpg 1440w" sizes="100vw" />
+        <source srcset="/media/hero-desk-poster.webp 1600w, /media/hero-desk-poster-2400.webp 2400w" sizes="116vw" type="image/webp" />
+        <img src="/media/hero-desk-poster.jpg" srcset="/media/hero-desk-poster.jpg 1600w, /media/hero-desk-poster-2400.jpg 2400w" sizes="116vw" alt="The Unforgettable bottle on a walnut desk at night, a lamp beside it and rain running down the window behind" width="1600" height="893" fetchpriority="high" decoding="async" />
       </picture>
       <video
         id="hero-video"
         data-ambient
         data-src="/media/hero-desk.mp4"
         data-src-portrait="/media/hero-vertical.mp4"
+        data-src-large="/media/hero-desk-2k.mp4"
+        data-src-portrait-large="/media/hero-vertical-2k.mp4"
         muted
         playsinline
         loop
@@ -55,7 +57,10 @@ const campaign = [
         <span class="hero__line"><span>Leave the room.</span></span>
         <span class="hero__line"><span><em>Stay in it.</em></span></span>
       </h1>
-      <a class="btn btn--solid hero__cta" href="/fragrances/unforgettable">Discover Unforgettable</a>
+      <div class="hero__actions">
+        <a class="btn btn--solid hero__cta" href="/fragrances/unforgettable">Discover Unforgettable</a>
+        <a class="link label hero__shop" href="/fragrances">All fragrances</a>
+      </div>
     </div>
     <button class="hero__pause label" type="button" data-ambient-toggle aria-controls="hero-video">Pause</button>
   </section>
@@ -212,8 +217,15 @@ const campaign = [
   .hero__line > span {
     display: block;
   }
-  .hero__cta {
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.1rem 2rem;
     animation: hero-fade 1.2s var(--ease-out) 0.5s both;
+  }
+  .hero__shop {
+    color: var(--c-ivory);
   }
   .hero__kicker {
     animation: hero-fade 1.2s var(--ease-out) 0.2s both;
@@ -229,7 +241,7 @@ const campaign = [
     }
   }
   html:not(.motion) .hero__media,
-  html:not(.motion) .hero__cta,
+  html:not(.motion) .hero__actions,
   html:not(.motion) .hero__kicker {
     animation: none;
   }
@@ -250,7 +262,7 @@ const campaign = [
       align-items: start;
       padding-top: calc(var(--header-h) + 1.75rem);
     }
-    .hero__cta {
+    .hero__actions {
       grid-row: 4;
       align-self: end;
     }

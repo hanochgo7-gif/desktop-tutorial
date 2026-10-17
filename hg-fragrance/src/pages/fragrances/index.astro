@@ -1,0 +1,187 @@
+---
+/**
+ * The collection: every fragrance in the catalogue. The ones on sale lead, with
+ * their sizes and an add-to-bag form; the others follow as "Coming soon".
+ * Nothing here is invented — names, prices, sizes and notes come from the catalogue.
+ */
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import Purchase from '../../components/Purchase.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { bySeason, isPurchasable, type Product } from '../../data/catalog';
+
+const all = bySeason();
+const onSale = all.filter(isPurchasable);
+const soon = all.filter((p) => !isPurchasable(p));
+const sizes = (p: Product) => p.variants.filter((v) => v.available).map((v) => v.label).join(' · ');
+---
+
+<Base title="The fragrances" description="The HG fragrances: Unforgettable, available now, and the three seasonal fragrances to come.">
+  <section class="shop" aria-labelledby="shop-title">
+    <div class="wrap">
+      <header class="shop__head">
+        <p class="label faint">The collection</p>
+        <h1 class="display shop__title" id="shop-title"><span>One flacon,</span> <span><em>four lights.</em></span></h1>
+        <p class="lead muted shop__intro">
+          {onSale.length === 1 ? 'One fragrance available now.' : `${onSale.length} fragrances available now.`}
+          {soon.length > 0 && ` ${soon.length === 1 ? 'One more' : soon.length === 3 ? 'Three more' : soon.length} to come, one for each season.`}
+        </p>
+      </header>
+
+      {
+        onSale.map((p) => (
+          <article class="feature" aria-labelledby={`f-${p.slug}`}>
+            <a class="feature__media card-img" href={`/fragrances/${p.slug}`} tabindex="-1" aria-hidden="true">
+              <Media name={p.packshot} alt="" ratio="4 / 5" sizes="(min-width: 900px) 50vw, 100vw" priority reveal={false} />
+              <Media name={p.portrait.name} alt="" ratio="4 / 5" sizes="(min-width: 900px) 50vw, 100vw" position={p.portrait.focus ?? '50% 35%'} reveal={false} class="card-img__alt" />
+            </a>
+            <div class="feature__info">
+              <p class="label feature__meta">
+                <span class="dot" style={`--accent:${p.accent}`} aria-hidden="true" />
+                {p.number} · {p.season} · Available now
+              </p>
+              <h2 class="h1 feature__name" id={`f-${p.slug}`}>
+                <a href={`/fragrances/${p.slug}`}>{p.name}</a>
+              </h2>
+              <p class="lead it muted">{p.concentration} · {sizes(p)}</p>
+              <p class="serif feature__line">{p.shortLine}</p>
+              <p class="feature__story muted">{p.story[0]}</p>
+              <Purchase product={p} id={`buy-${p.slug}`} />
+              <a class="link label feature__more" href={`/fragrances/${p.slug}`}>
+                The fragrance, the flacon and delivery
+              </a>
+            </div>
+          </article>
+        ))
+      }
+
+      {
+        soon.length > 0 && (
+          <section class="soon" aria-labelledby="soon-title">
+            <header class="soon__head">
+              <h2 class="h2" id="soon-title">Coming soon</h2>
+              <p class="muted">Not yet available to order.</p>
+            </header>
+            <ul class="soon__grid" role="list">
+              {soon.map((p) => (
+                <li>
+                  <ProductCard product={p} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .shop {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+    padding-bottom: var(--section);
+  }
+  .shop__head {
+    display: grid;
+    gap: 1rem;
+    max-width: 52rem;
+    margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+  .shop__title {
+    font-size: clamp(3rem, 1.4rem + 6.4vw, 8.5rem);
+  }
+  /* one line each, whatever font has loaded: no reflow when the web font arrives */
+  .shop__title > span {
+    display: block;
+    white-space: nowrap;
+  }
+  .shop__intro {
+    max-width: 30rem;
+  }
+
+  /* the fragrance on sale */
+  .feature {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 2.5rem);
+    padding-block: clamp(2rem, 4vw, 3rem) var(--section);
+    border-top: 1px solid var(--c-line);
+  }
+  .feature__media {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .feature__info {
+    display: grid;
+    gap: 1rem;
+    align-content: center;
+  }
+  .feature__meta {
+    color: var(--c-muted);
+  }
+  .feature__name {
+    font-size: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+  .feature__name a {
+    text-decoration: none;
+  }
+  .feature__line {
+    font-size: var(--step-2);
+    line-height: 1.15;
+  }
+  .feature__story {
+    max-width: var(--measure);
+    margin-bottom: 0.5rem;
+  }
+  .feature .buy {
+    max-width: 28rem;
+  }
+  .feature__more {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+  @media (min-width: 900px) {
+    .feature {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: center;
+    }
+    .feature__media {
+      grid-column: 1 / span 6;
+      margin-inline: 0;
+    }
+    .feature__info {
+      grid-column: 8 / span 5;
+    }
+  }
+
+  /* coming soon */
+  .soon__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--c-line);
+  }
+  .soon__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 4rem) var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 600px) {
+    .soon__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .soon__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .soon__grid > :nth-child(2) {
+      margin-top: 12%;
+    }
+  }
+</style>

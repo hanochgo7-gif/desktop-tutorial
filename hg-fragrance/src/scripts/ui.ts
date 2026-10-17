@@ -99,7 +99,11 @@ export function initAmbientVideo() {
 
   vids.forEach((v) => {
     if (!allow) return; // poster stays
-    const src = (portrait.matches && v.dataset.srcPortrait) || v.dataset.src;
+    // Big screens (in device pixels) get the 2K cut where one exists.
+    const px = window.innerWidth * (window.devicePixelRatio || 1);
+    const src = portrait.matches
+      ? (px > 1000 && v.dataset.srcPortraitLarge) || v.dataset.srcPortrait || v.dataset.src
+      : (px > 1800 && v.dataset.srcLarge) || v.dataset.src;
     if (!src) return;
     if (portrait.matches && v.dataset.posterPortrait) v.poster = v.dataset.posterPortrait;
     v.src = src;
@@ -277,7 +281,10 @@ export function initGallery() {
 /* ---------- size selector updates the displayed price ---------- */
 export function initVariantPicker() {
   document.querySelectorAll<HTMLFormElement>('form[data-add-to-bag]').forEach((form) => {
-    const outs = document.querySelectorAll<HTMLElement>('[data-variant-price]');
+    const outs = [
+      ...form.querySelectorAll<HTMLElement>('[data-variant-price]'),
+      ...(form.id ? document.querySelectorAll<HTMLElement>(`[data-variant-price-for="${CSS.escape(form.id)}"]`) : []),
+    ];
     const update = () => {
       const checked = form.querySelector<HTMLInputElement>('input[name="variant"]:checked');
       if (checked) outs.forEach((o) => (o.textContent = checked.dataset.price || ''));

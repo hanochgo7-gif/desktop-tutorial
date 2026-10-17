@@ -7,8 +7,8 @@ const [dir, baseArg, origin] = process.argv.slice(2);
 const base = baseArg.replace(/\/$/, '');
 const roots = ['fragrances', 'film', 'house', 'campaigns', 'bag', 'legal', 'media', 'fonts', '_astro', 'og-image.jpg', 'favicon.svg', 'api', 'checkout', 'sitemap-index.xml', 'sitemap-0.xml', 'robots.txt', '404'];
 const rootAlt = roots.map((r) => r.replace(/\./g, '\\.')).join('|');
-// a root-relative path right after a quote, backtick, paren, comma-space (srcset) or "url("
-const rel = new RegExp(`(["'\`(]|, )/(${rootAlt})(?=[/"'\`)?#\\s,]|$)`, 'g');
+// a root-relative path right after a quote (also an HTML-escaped &quot; or &#34; inside JSON attributes), backtick, paren, comma-space (srcset) or "url("
+const rel = new RegExp(`(&quot;|&#34;|["'\`(]|, )/(${rootAlt})(?=[/"'\`)?#\\s,&]|$)`, 'g');
 // the bare home link: href="/"
 const home = /(href=)(["'])\/\2/g;
 // absolute URLs on the origin that miss the base (canonical, og:image, sitemap, JSON-LD)

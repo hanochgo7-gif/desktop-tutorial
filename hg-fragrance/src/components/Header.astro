@@ -12,6 +12,7 @@ const current = (href: string) => (path === href ? 'page' : undefined);
       <span class="menu-toggle__bars" aria-hidden="true"></span>
       <span>{t('nav.menu', lang)}</span>
     </button>
+    <a class="hide-sm link" href="/fragrances" aria-current={current('/fragrances')}>{t('nav.fragrances', lang)}</a>
     <a class="hide-sm link" href="/fragrances/unforgettable" aria-current={current('/fragrances/unforgettable')}>{t('nav.unforgettable', lang)}</a>
     <a class="hide-sm link" href="/campaigns" aria-current={current('/campaigns')}>{t('nav.campaigns', lang)}</a>
     <a class="hide-sm link" href="/film" aria-current={current('/film')}>{t('nav.film', lang)}</a>

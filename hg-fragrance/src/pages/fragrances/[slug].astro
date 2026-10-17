@@ -5,7 +5,8 @@ import Media from '../../components/Media.astro';
 import StillsGrid from '../../components/StillsGrid.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import Purchase from '../../components/Purchase.astro';
-import { products, isPurchasable, type Product } from '../../data/catalog';
+import ProductCard from '../../components/ProductCard.astro';
+import { products, bySeason, isPurchasable, type Product } from '../../data/catalog';
 import { img } from '../../assets/images';
 import { commerce, site } from '../../config/site';
 import { t } from '../../i18n/ui';
@@ -30,6 +31,7 @@ const zoom = await Promise.all(p.gallery.map((g) => getImage({ src: img(g.name),
 const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 const countries = commerce.shippingCountries.map((c) => countryNames.of(c) ?? c);
 const formId = `buy-${p.slug}`;
+const others = bySeason().filter((o) => o.slug !== p.slug);
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -112,15 +114,24 @@ const ld = {
             {
               purchasable && (
                 <>
-                  <details id="pdp-delivery">
-                    <summary class="label">Delivery &amp; returns</summary>
-                    <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
-                    <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
-                  </details>
-                  <details>
-                    <summary class="label">Payment</summary>
-                    <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
-                  </details>
+                  {site.demo ? (
+                    <details id="pdp-delivery">
+                      <summary class="label">Delivery, returns &amp; payment</summary>
+                      <p>This is a demonstration site: checkout is switched off, so no order is placed, nothing is shipped and nothing is charged. You can still choose a size and use the bag, which stays saved on this device.</p>
+                    </details>
+                  ) : (
+                    <>
+                      <details id="pdp-delivery">
+                        <summary class="label">Delivery &amp; returns</summary>
+                        <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
+                        <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
+                      </details>
+                      <details>
+                        <summary class="label">Payment</summary>
+                        <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
+                      </details>
+                    </>
+                  )}
                 </>
               )
             }
@@ -135,7 +146,7 @@ const ld = {
   <div class="pdp-bar" data-pdp-bar hidden>
       <div class="pdp-bar__info">
         <span class="serif pdp-bar__name">{p.name}</span>
-        <span class="label faint" data-variant-price>{fmt.format(first.price)}</span>
+        <span class="label faint" data-variant-price-for={formId}>{fmt.format(first.price)}</span>
       </div>
       <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
     </div>
@@ -150,7 +161,7 @@ const ld = {
             <div class="pdp-story__film" data-reveal="fade">
               <picture>
                 <source srcset={`${p.storyFilm.poster}.webp`} type="image/webp" />
-                <img src={`${p.storyFilm.poster}.jpg`} alt={p.storyFilm.alt} width="720" height="1280" loading="lazy" decoding="async" />
+                <img src={`${p.storyFilm.poster}.jpg`} alt={p.storyFilm.alt} width="1080" height="1920" loading="lazy" decoding="async" />
               </picture>
               <video id="story-film" data-ambient data-src={p.storyFilm.src} muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" />
               <button class="pdp-story__pause label" type="button" data-ambient-toggle aria-controls="story-film">Pause</button>
@@ -177,6 +188,18 @@ const ld = {
     </div>
   </section>
   )}
+
+  <section class="section pdp-more" aria-labelledby="more-title">
+    <div class="wrap">
+      <header class="pdp-more__head">
+        <h2 class="h2" id="more-title">The collection</h2>
+        <a class="link label" href="/fragrances">All fragrances</a>
+      </header>
+      <ul class="pdp-more__grid" role="list">
+        {others.map((o) => <li><ProductCard product={o} /></li>)}
+      </ul>
+    </div>
+  </section>
 
   <Lightbox />
 </Base>
@@ -413,6 +436,36 @@ const ld = {
   }
   .pdp-campaign {
     padding-top: 0;
+  }
+  .pdp-more {
+    padding-top: 0;
+  }
+  .pdp-more__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--c-line);
+  }
+  .pdp-more__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 4rem) var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 600px) {
+    .pdp-more__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .pdp-more__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
   @media (max-width: 899px) {
     /* three stills: one full width, then a pair */

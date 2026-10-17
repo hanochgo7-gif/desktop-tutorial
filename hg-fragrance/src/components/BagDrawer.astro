@@ -39,11 +39,12 @@ const thumbs = Object.fromEntries(
       <span class="label">{t('bag.subtotal', lang)}</span>
       <span class="serif" style="font-size:1.6rem" data-bag-subtotal></span>
     </div>
-    <p class="faint" style="font-size:var(--step--1)">{t('bag.shippingNote', lang)} {t('bag.secure', lang)}</p>
+    <p class="faint" style="font-size:var(--step--1)">{site.demo ? t('bag.demoNote', lang) : `${t('bag.shippingNote', lang)} ${t('bag.secure', lang)}`}</p>
     <p class="notice" data-checkout-status hidden></p>
     <button class="btn btn--solid btn--block" type="button" data-checkout>
       {t('bag.checkout', lang)}
       <span class="arrow" aria-hidden="true"></span>
     </button>
+    <a class="link label drawer__continue" href="/fragrances">{t('bag.continue', lang)}</a>
   </div>
 </aside>

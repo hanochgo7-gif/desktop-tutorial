@@ -706,6 +706,10 @@ em,
   display: grid;
   gap: 1rem;
 }
+.drawer__continue {
+  justify-self: center;
+  padding-block: 0.6rem;
+}
 .close-btn {
   display: inline-flex;
   align-items: center;

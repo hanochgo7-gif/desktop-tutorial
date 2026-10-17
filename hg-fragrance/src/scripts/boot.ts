@@ -13,6 +13,7 @@ export interface Boot {
   currency: string;
   locale: string;
   maxQty: number;
+  demo?: boolean; // demonstration site: checkout is switched off
 }
 
 const el = document.getElementById('hg-boot');
