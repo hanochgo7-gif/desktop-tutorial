@@ -48,6 +48,7 @@ export interface Product {
   campaign: Still[]; // the season's campaign stills (shown on the product page when there are three)
   portrait: { name: string; alt: string; focus?: string }; // the season's fashion portrait: beside the story, and on the campaign page
   storyTitle: string; // story heading; text after '|' is set in italics
+  storyFilm?: { src: string; poster: string; alt: string }; // optional looping film beside the story (poster path without extension: .webp + .jpg)
   variants: Variant[];
 }
 
@@ -186,6 +187,11 @@ export const products: Product[] = [
       { name: 'nc-velvet', alt: 'The Nocturne bottle on black velvet dusted with snow, a snowy window behind' },
     ],
     storyTitle: 'The closest |to the skin.',
+    storyFilm: {
+      src: '/media/nocturne-walk.mp4',
+      poster: '/media/nocturne-walk-poster',
+      alt: 'At sunrise a man in a long black coat walks down an empty city street, then holds Nocturne up to the light',
+    },
     portrait: { name: 'fashion-nocturne', alt: 'In a black velvet tuxedo jacket and rollneck by a mountain fireplace, snow falling outside, he holds Nocturne so it glows garnet', focus: '50% 30%' },
     campaign: [
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },
