@@ -77,9 +77,9 @@ export const products: Product[] = [
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     storyTitle: 'Worn once, |at the collar.',
-    portrait: { name: 'fashion-unforgettable', alt: 'In an untied black tuxedo he sits on a walnut desk at night, Unforgettable in his hand, rain and city lights on the window behind', focus: '50% 30%' },
+    portrait: { name: 'fashion-unforgettable', alt: 'In a black tuxedo and silk shirt at a rain-streaked window high above the city, he holds Unforgettable at his collar', focus: '50% 25%' },
     campaign: [
-      { name: 'drv-window', alt: 'Through the lowered window of a black vintage car at night, a man holds Unforgettable at his collar, rain on the glass', caption: 'The window', focus: '62% 35%' },
+      { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', caption: 'The bonnet', focus: '50% 40%' },
       { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', caption: 'The study', focus: '50% 30%' },
       { name: 'unf-empty-study', alt: 'The empty study, mist still hanging in the lamplight', caption: 'The room after', focus: '60% 50%' },
     ],
@@ -191,7 +191,7 @@ export const products: Product[] = [
       { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', focus: '70% 45%' },
     ],
     storyTitle: 'The closest |to the skin.',
-    portrait: { name: 'fashion-nocturne', alt: 'In a black velvet tuxedo jacket by a mountain fireplace, snow falling outside, he holds Nocturne to the fire so it glows garnet', focus: '50% 30%' },
+    portrait: { name: 'fashion-nocturne', alt: 'Snow on his shoulders, a man in a long black coat holds Nocturne to his chest in a snowy alpine street at night, a red lantern far behind', focus: '50% 30%' },
     campaign: [
       { name: 'nc-village', alt: 'A man in a black overcoat beside a matte black supercar on a snowy alpine street at night, holding Nocturne', caption: 'The village', wide: true, focus: '68% 50%' },
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },

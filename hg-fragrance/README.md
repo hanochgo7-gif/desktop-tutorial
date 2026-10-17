@@ -1,6 +1,6 @@
 # HG — digital flagship
 
-The official website for **HG**, built around its first fragrance, **Unforgettable**, and the campaign film that introduced it.
+The official website for **HG**, built around its first fragrance, **Unforgettable**, and the 20-second campaign film that introduced it.
 
 > Leave the room. Stay in it.
 
@@ -98,7 +98,7 @@ node scripts/static-redirects.mjs dist/client /desktop-tutorial/perfume   # reti
 - **Product pages** — gallery, name, concentration, sizes and prices with add to bag (Unforgettable), or "Coming soon" with a link to Unforgettable (Open Window, Last Light, Nocturne); the story beside a model image (`portrait` in `catalog.ts`); campaign stills on the purchasable product. A compact purchase bar on mobile.
 - **Campaign** — one curated sequence of model photography (pairs of portraits broken by full-width frames; no two neighbours share a model or pose). Every image opens full screen.
 - **Imagery rule** — male models only; the one woman shown is the Open Window image beside the sage-green classic coupe (`ow-coupe`).
-- **Film** — the campaign film (11 seconds, no model on screen: the bottle, the empty room, the end card), one line, one call to action.
+- **Film** — the 20-second film, one line, one call to action.
 - Retired routes redirect (`astro.config.mjs`): `/fragrances` → Unforgettable, `/house` → the campaign.
 - Removed: the custom cursor, magnetic buttons, the glass glow, animated grain, the bottle collage, chapter numbers in the interface and "launch pricing to be confirmed".
 - `Media` asks for a larger file when a wide image is cropped into a taller frame (`scaleSizes`), so crops stay sharp on phones.
@@ -113,7 +113,7 @@ node scripts/static-redirects.mjs dist/client /desktop-tutorial/perfume   # reti
 
 ## Asset provenance
 
-- **Campaign film and frames** — HG's own "Unforgettable" film, re-cut in October 2026 to 11 seconds without the model: the bottle macro, the empty study, the bottle on the desk (the opening loop) and the end card, over the last 11 seconds of the original VO and score. Captions are re-timed to match.
+- **Campaign film and frames** — HG's own "Unforgettable" 20-second film (clips, end card, VO and score from the HG campaign files). Captions were timed against the voice-over.
 - **Campaign photography** — HG's Higgsfield generation history (October 2026) plus the casting portraits and the through-the-window stills made from the campaign's own model, car and bottle. Originals are kept in `_source/hf/` with a `manifest.json` of prompts and IDs.
 - **Campaign stills** (`still-*`) — generated with Higgsfield (Nano Banana 2.1) using frames of the film's bottle as references, so the bottle, palette and lighting stay consistent.
 - The footer carries the disclosure "Campaign film and imagery created with AI.", matching the film's end card.
