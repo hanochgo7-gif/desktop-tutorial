@@ -145,7 +145,20 @@ const ld = {
   <section class="section pdp-story" aria-labelledby="story-title">
     <div class="wrap grid">
       <div class="pdp-story__visual">
-        <Media name={p.portrait.name} alt={p.portrait.alt} ratio="4 / 5" sizes="(min-width: 900px) 42vw, 100vw" position={p.portrait.focus ?? '50% 40%'} />
+        {
+          p.storyFilm ? (
+            <div class="pdp-story__film" data-reveal="fade">
+              <picture>
+                <source srcset={`${p.storyFilm.poster}.webp`} type="image/webp" />
+                <img src={`${p.storyFilm.poster}.jpg`} alt={p.storyFilm.alt} width="720" height="1280" loading="lazy" decoding="async" />
+              </picture>
+              <video id="story-film" data-ambient data-src={p.storyFilm.src} muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" />
+              <button class="pdp-story__pause label" type="button" data-ambient-toggle aria-controls="story-film">Pause</button>
+            </div>
+          ) : (
+            <Media name={p.portrait.name} alt={p.portrait.alt} ratio="4 / 5" sizes="(min-width: 900px) 42vw, 100vw" position={p.portrait.focus ?? '50% 40%'} />
+          )
+        }
       </div>
       <div class="pdp-story__copy">
         <h2 class="h2" id="story-title">{storyTitle[0]}<em>{storyTitle[1]}</em></h2>
@@ -361,6 +374,42 @@ const ld = {
   }
   .pdp-story__visual {
     margin-inline: calc(var(--gutter) * -1);
+  }
+  .pdp-story__film {
+    position: relative;
+    width: min(100%, calc(88svh * 9 / 16));
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .pdp-story__film img,
+  .pdp-story__film video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pdp-story__film video {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-soft);
+  }
+  .pdp-story__film video.is-playing {
+    opacity: 1;
+  }
+  .pdp-story__pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.8);
+    background: rgb(10 9 8 / 0.35);
+    transition: color var(--dur-2);
+  }
+  .pdp-story__pause:hover {
+    color: var(--c-ivory);
   }
   .pdp-campaign {
     padding-top: 0;
