@@ -287,7 +287,7 @@ export function initVariantPicker() {
   });
 }
 
-/* ---------- product page: compact purchase bar once the main purchase block has scrolled away (mobile) ---------- */
+/* ---------- product page: compact purchase bar while the main purchase button is out of view (mobile) ---------- */
 export function initPdpBar() {
   const bar = document.querySelector<HTMLElement>('[data-pdp-bar]');
   const buy = document.querySelector<HTMLElement>('[data-pdp-buy]');
@@ -298,7 +298,9 @@ export function initPdpBar() {
   let queued = false;
   const check = () => {
     queued = false;
-    const on = buy.getBoundingClientRect().bottom < 0;
+    // Shown whenever the main "Add to bag" button is off screen (above or below).
+    const btn = (buy.querySelector<HTMLElement>('[type="submit"]') || buy).getBoundingClientRect();
+    const on = btn.bottom < 0 || btn.top > window.innerHeight - 72;
     if (on === bar.classList.contains('is-on')) return;
     bar.classList.toggle('is-on', on);
     bar.inert = !on;
