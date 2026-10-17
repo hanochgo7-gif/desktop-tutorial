@@ -103,6 +103,7 @@ const boot = {
   <body>
     <a class="skip-link" href="#main">{t('nav.skip', lang)}</a>
     <Header />
+    {site.demo && <p class="demo-badge label" role="note">{site.demo.badge}</p>}
     <Menu />
     <main id="main" tabindex="-1">
       <slot />

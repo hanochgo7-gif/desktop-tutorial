@@ -40,5 +40,5 @@ const first = variants[0];
   <button class="btn btn--solid btn--block" type="submit">
     {t('product.add', lang)} — <span data-variant-price>{fmt.format(first.price)}</span>
   </button>
-  <p class="buy__note">{t('bag.secure', lang)}</p>
+  <p class="buy__note">{site.demo ? site.demo.purchase : t('bag.secure', lang)}</p>
 </form>

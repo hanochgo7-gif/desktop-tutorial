@@ -33,6 +33,13 @@ export const site = {
   /** Disclosure shown with campaign imagery (the film's end card carries the same note). */
   aiDisclosure: 'Campaign film and imagery created with AI.',
 
+  /** Demonstration site: a badge on every page, a line in the footer and a note at the purchase box. Set to null to remove. */
+  demo: {
+    badge: 'Demo site',
+    notice: 'This is a demonstration website. HG Fragrance and its products are a design concept — nothing here is for sale and no orders are taken.',
+    purchase: 'Demo site — orders are not taken.',
+  } as { badge: string; notice: string; purchase: string } | null,
+
   legalEntity: null as string | null, // TODO(launch): registered company name for the footer
 } as const;
 
