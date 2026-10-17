@@ -94,14 +94,13 @@ node scripts/static-redirects.mjs dist/client /desktop-tutorial/perfume   # reti
 
 ## The site (October 2026 redesign)
 
-One fragrance is on sale, so the site is built around it and nothing competes with it.
-
-- **Home** — five sections, one story: the hero (a model through the car window with the bottle; landscape frame on wide screens, portrait frame on tall ones), *the feeling* (he leaves, the lamp stays on, link to the film), *the campaign* (five large model portraits), *the fragrance* (packshot, concentration, sizes, prices, add to bag) and a closing image, "The room remembers."
-- **Product page** — gallery (packshot, a model with the bottle, the bottle at night), name, concentration, sizes and prices, add to bag, three short details (flacon, delivery & returns, payment), the story with one image, three campaign images. A compact purchase bar on mobile.
+- **Home** — the hero (a model through the car window with the bottle; landscape frame on wide screens, portrait frame on tall ones), *the feeling* (he leaves, the lamp stays on, link to the film), *the campaign* (five large portraits of male models), **the four fragrances** shown as before in "One flacon, four lights" (`FourLights.astro`: the pinned bottle re-lit by the season in view), and a closing image, "The room remembers."
+- **Product pages** — gallery, name, concentration, sizes and prices with add to bag (Unforgettable), or "Coming soon" with a link to Unforgettable (Open Window, Last Light, Nocturne); the story beside a model image (`portrait` in `catalog.ts`); campaign stills on the purchasable product. A compact purchase bar on mobile.
 - **Campaign** — one curated sequence of model photography (pairs of portraits broken by full-width frames; no two neighbours share a model or pose). Every image opens full screen.
+- **Imagery rule** — male models only; the one woman shown is the Open Window image beside the sage-green classic coupe (`ow-coupe`).
 - **Film** — the 20-second film, one line, one call to action.
-- Retired routes redirect (`astro.config.mjs`): `/fragrances` (collection), the three seasonal concepts and `/house` point to Unforgettable or the campaign. The concepts stay in `catalog.ts` with `status: 'coming-soon'`; they get no page until they have formats and prices.
-- Removed: the custom cursor, magnetic buttons, the glass glow, animated grain, the pinned four-season sequence, the bottle collage, chapter numbers and catalogue numbers in the interface.
+- Retired routes redirect (`astro.config.mjs`): `/fragrances` → Unforgettable, `/house` → the campaign.
+- Removed: the custom cursor, magnetic buttons, the glass glow, animated grain, the bottle collage, chapter numbers in the interface and "launch pricing to be confirmed".
 - `Media` asks for a larger file when a wide image is cropped into a taller frame (`scaleSizes`), so crops stay sharp on phones.
 - On a static host (GitHub Pages) the bag works and checkout says "Online payment is not enabled yet… nothing has been charged."
 

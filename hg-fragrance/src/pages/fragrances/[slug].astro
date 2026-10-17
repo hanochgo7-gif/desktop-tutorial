@@ -10,9 +10,8 @@ import { img } from '../../assets/images';
 import { commerce, site } from '../../config/site';
 import { t } from '../../i18n/ui';
 
-// Only fragrances on sale get a page; retired concept URLs redirect (astro.config.mjs).
 export function getStaticPaths() {
-  return products.filter(isPurchasable).map((product) => ({ params: { slug: product.slug }, props: { product } }));
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
 }
 
 interface Props {
@@ -21,8 +20,10 @@ interface Props {
 const { product: p } = Astro.props;
 const lang = site.locale.lang;
 const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
+const purchasable = isPurchasable(p);
 const variants = p.variants.filter((v) => v.available);
 const first = variants[0];
+const storyTitle = p.storyTitle.split('|');
 
 const share = await getImage({ src: img(p.packshot), width: 1200, format: 'jpg', quality: 80 });
 const zoom = await Promise.all(p.gallery.map((g) => getImage({ src: img(g.name), width: 2000, format: 'webp', quality: 82 })));
@@ -37,7 +38,7 @@ const ld = {
   image: new URL(share.src, Astro.site).toString(),
   brand: { '@type': 'Brand', name: site.fullName },
   category: `Fragrance — ${p.concentration}`,
-  ...(commerce.pricesConfirmed
+  ...(purchasable && commerce.pricesConfirmed
     ? {
         offers: variants.map((v) => ({
           '@type': 'Offer',
@@ -53,7 +54,7 @@ const ld = {
 };
 ---
 
-<Base title={p.name} description={`HG ${p.name}, ${p.concentration}. ${p.shortLine}`} image={share.src} jsonLd={ld}>
+<Base title={p.name} description={`HG ${p.name}, ${p.concentration}${purchasable ? '' : ', coming soon'}. ${p.shortLine}`} image={share.src} jsonLd={ld}>
   <section class="pdp" aria-labelledby="pdp-title">
     <div class="wrap grid">
       <div class="pdp__gallery" data-gallery>
@@ -92,42 +93,62 @@ const ld = {
           <h1 class="h1 pdp__title" id="pdp-title">{p.name}</h1>
           <p class="lead it muted">{p.concentration}</p>
           <p class="serif pdp__line">{p.shortLine}</p>
-          <Purchase product={p} id={formId} pdp />
+          {
+            purchasable ? (
+              <Purchase product={p} id={formId} pdp />
+            ) : (
+              <div class="pdp__soon">
+                <p class="label">Coming soon</p>
+                <p class="muted">{p.name} is not available yet. Unforgettable is available now.</p>
+                <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
+              </div>
+            )
+          }
           <div class="pdp__details">
             <details>
               <summary class="label">The flacon</summary>
               <p>{p.bottle}</p>
             </details>
-            <details id="pdp-delivery">
-              <summary class="label">Delivery &amp; returns</summary>
-              <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
-              <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
-            </details>
-            <details>
-              <summary class="label">Payment</summary>
-              <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
-            </details>
+            {
+              purchasable && (
+                <>
+                  <details id="pdp-delivery">
+                    <summary class="label">Delivery &amp; returns</summary>
+                    <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
+                    <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
+                  </details>
+                  <details>
+                    <summary class="label">Payment</summary>
+                    <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
+                  </details>
+                </>
+              )
+            }
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  {
+    purchasable && (
   <div class="pdp-bar" data-pdp-bar hidden>
-    <div class="pdp-bar__info">
-      <span class="serif pdp-bar__name">{p.name}</span>
-      <span class="label faint" data-variant-price>{fmt.format(first.price)}</span>
+      <div class="pdp-bar__info">
+        <span class="serif pdp-bar__name">{p.name}</span>
+        <span class="label faint" data-variant-price>{fmt.format(first.price)}</span>
+      </div>
+      <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
     </div>
-    <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
-  </div>
+    )
+  }
 
   <section class="section pdp-story" aria-labelledby="story-title">
     <div class="wrap grid">
       <div class="pdp-story__visual">
-        <Media name="riv-spray" alt="Eyes closed, he wears Unforgettable once, at the collar" ratio="4 / 3" sizes="(min-width: 900px) 42vw, 100vw" position="50% 40%" />
+        <Media name={p.portrait.name} alt={p.portrait.alt} ratio="4 / 3" sizes="(min-width: 900px) 42vw, 100vw" position={p.portrait.focus ?? '50% 40%'} />
       </div>
       <div class="pdp-story__copy">
-        <h2 class="h2" id="story-title">Worn once, <em>at the collar.</em></h2>
+        <h2 class="h2" id="story-title">{storyTitle[0]}<em>{storyTitle[1]}</em></h2>
         <div class="prose">
           {p.story.slice(0, 2).map((para) => <p>{para}</p>)}
         </div>
@@ -135,12 +156,14 @@ const ld = {
     </div>
   </section>
 
+  {purchasable && p.campaign.length >= 3 && (
   <section class="section pdp-campaign" aria-label="The campaign">
     <div class="wrap">
       <StillsGrid items={p.campaign} group={p.slug} numbered={false} />
       <p class="pdp-campaign__more"><a class="link label" href="/campaigns">The campaign</a></p>
     </div>
   </section>
+  )}
 
   <Lightbox />
 </Base>
@@ -313,6 +336,17 @@ const ld = {
     }
   }
 
+  .pdp__soon {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    width: 100%;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .pdp__soon .label {
+    color: var(--c-brass);
+  }
   .pdp-story .grid {
     row-gap: 2.5rem;
     align-items: center;
