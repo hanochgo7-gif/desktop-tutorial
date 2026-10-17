@@ -13,33 +13,23 @@ type Frame = { name: string; alt: string; position?: string };
 type Row = { kind: 'wide'; frame: Frame } | { kind: 'pair'; flip?: boolean; frames: [Frame, Frame] };
 
 const rows: Row[] = [
-  { kind: 'wide', frame: { name: 'drv-rain-glass', alt: 'Seen through the rain-beaded window of a black car, he sits at the wheel while the lit bay reflects across the glass', position: '62% 45%' } },
+  { kind: 'wide', frame: { name: 'rosso-night', alt: 'Night in the city: he stands by the red car on a wet street, the bottle in his hand', position: '55% 45%' } },
   {
     kind: 'pair',
     frames: [
-      { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', position: '50% 30%' },
-      { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', position: '50% 30%' },
+      { name: 'rosso-golden', alt: 'On a coastal road at golden hour, a man in a black suit leans on a red sports car, holding Unforgettable', position: '50% 35%' },
+      { name: 'rosso-closeup', alt: 'His hand sets the Unforgettable bottle on the glossy red roof of the car, the bottle reflected in the paint', position: '50% 40%' },
     ],
   },
-  { kind: 'wide', frame: { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', position: '70% 45%' } },
+  { kind: 'wide', frame: { name: 'rosso-promenade', alt: 'On a seafront promenade lit by lamps he leans on the red car, holding the bottle', position: '55% 45%' } },
   {
     kind: 'pair',
     flip: true,
     frames: [
-      { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window', position: '50% 35%' },
-      { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', position: '50% 30%' },
+      { name: 'rosso-villa', alt: 'At dusk he sits in the open door of the red car outside a stone villa with bougainvillea, the bottle in his hand', position: '55% 50%' },
+      { name: 'rosso-hand', alt: 'He leans over the red car and sets the bottle on the bodywork, its reflection in the paint', position: '50% 35%' },
     ],
   },
-  { kind: 'wide', frame: { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', position: '60% 45%' } },
-  {
-    kind: 'pair',
-    frames: [
-      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', position: '50% 30%' },
-      { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', position: '58% 40%' },
-    ],
-  },
-  { kind: 'wide', frame: { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', position: '55% 40%' } },
-  { kind: 'wide', frame: { name: 'unf-empty-study', alt: 'The empty study after he has gone: the bottle on the desk, mist in the lamplight', position: '58% 50%' } },
 ];
 
 const frames = rows.flatMap((r) => (r.kind === 'wide' ? [r.frame] : r.frames));

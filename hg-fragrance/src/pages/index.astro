@@ -16,11 +16,11 @@ const srcset = (set: { src: string; attributes: Record<string, unknown> }[]) =>
   set.map((s) => `${s.src} ${s.attributes.width}w`).join(', ');
 
 const campaign = [
-  { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', ratio: '3 / 4', cls: 'a' },
-  { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', ratio: '3 / 4', cls: 'b' },
-  { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', ratio: '16 / 9', cls: 'c', position: '60% 45%' },
-  { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', ratio: '4 / 5', cls: 'd', position: '50% 30%' },
-  { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', ratio: '4 / 5', cls: 'e', position: '58% 40%' },
+  { name: 'rosso-golden', alt: 'On a coastal road at golden hour, a man in a black suit leans on a red sports car, holding Unforgettable', ratio: '3 / 4', cls: 'a', position: '50% 35%' },
+  { name: 'rosso-closeup', alt: 'His hand sets the Unforgettable bottle on the glossy red roof of the car, the bottle reflected in the paint', ratio: '3 / 4', cls: 'b', position: '50% 40%' },
+  { name: 'rosso-night', alt: 'Night in the city: he stands by the red car on a wet street, the bottle in his hand', ratio: '16 / 9', cls: 'c', position: '55% 45%' },
+  { name: 'rosso-hand', alt: 'He leans over the red car and sets the bottle on the bodywork, its reflection in the paint', ratio: '4 / 5', cls: 'd', position: '50% 35%' },
+  { name: 'rosso-villa', alt: 'At dusk he sits in the open door of the red car outside a stone villa with bougainvillea, the bottle in his hand', ratio: '4 / 5', cls: 'e', position: '55% 50%' },
 ] as const;
 ---
 
