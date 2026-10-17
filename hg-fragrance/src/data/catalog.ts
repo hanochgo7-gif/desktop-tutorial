@@ -49,6 +49,7 @@ export interface Product {
   portrait: { name: string; alt: string; focus?: string }; // the season's fashion portrait: beside the story, and on the campaign page
   storyTitle: string; // story heading; text after '|' is set in italics
   storyFilm?: { src: string; poster: string; alt: string }; // optional looping film beside the story (poster path without extension: .webp + .jpg)
+  galleryFilm?: { src: string; poster: string; alt: string }; // optional looping product film, second in the gallery (same poster convention)
   variants: Variant[];
 }
 
@@ -79,6 +80,11 @@ export const products: Product[] = [
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     storyTitle: 'Worn once, |at the collar.',
+    galleryFilm: {
+      src: '/media/unforgettable-turn.mp4',
+      poster: '/media/unforgettable-turn-poster',
+      alt: 'The Unforgettable bottle turning slowly in a white studio, a close look at the cap and brass collar, then the bottle from above',
+    },
     portrait: { name: 'fashion-unforgettable', alt: 'In a black tuxedo and silk shirt at a rain-streaked window high above the city, he holds Unforgettable at his collar', focus: '50% 25%' },
     campaign: [
       { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it', caption: 'The road', focus: '50% 55%' },

@@ -32,6 +32,10 @@ const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 const countries = commerce.shippingCountries.map((c) => countryNames.of(c) ?? c);
 const formId = `buy-${p.slug}`;
 const others = bySeason().filter((o) => o.slug !== p.slug);
+// Gallery slides: the images, with the product film (if any) second.
+type Slide = { kind: 'img'; i: number } | { kind: 'film' };
+const slides: Slide[] = p.gallery.map((_, i) => ({ kind: 'img' as const, i }));
+if (p.galleryFilm) slides.splice(1, 0, { kind: 'film' });
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -62,7 +66,25 @@ const ld = {
       <div class="pdp__gallery" data-gallery>
         <ul class="pdp__track" role="list" data-gallery-track>
           {
-            p.gallery.map((g, i) => (
+            slides.map((sl, n) => {
+              if (sl.kind === 'film' && p.galleryFilm) {
+                return (
+                  <li class="pdp__slide">
+                    <div class="pdp__film">
+                      <picture>
+                        <source srcset={`${p.galleryFilm.poster}.webp`} type="image/webp" />
+                        <img src={`${p.galleryFilm.poster}.jpg`} alt={p.galleryFilm.alt} width="1440" height="1800" loading="lazy" decoding="async" />
+                      </picture>
+                      <video id="gallery-film" data-ambient data-src={p.galleryFilm.src} muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" />
+                      <button class="pdp__film-pause label" type="button" data-ambient-toggle aria-controls="gallery-film">Pause</button>
+                    </div>
+                  </li>
+                );
+              }
+              if (sl.kind !== 'img') return null;
+              const i = sl.i;
+              const g = p.gallery[i];
+              return (
               <li class="pdp__slide">
                 <button
                   type="button"
@@ -71,19 +93,20 @@ const ld = {
                   data-full={zoom[i].src}
                   data-alt={g.alt}
                   data-caption={g.alt}
-                  aria-label={`Enlarge image ${i + 1} of ${p.gallery.length}: ${g.alt}`}
+                  aria-label={`Enlarge image ${n + 1} of ${slides.length}: ${g.alt}`}
                 >
                   <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" position={g.focus ?? '50% 40%'} priority={i === 0} reveal={false} />
                 </button>
               </li>
-            ))
+              );
+            })
           }
         </ul>
         {
-          p.gallery.length > 1 && (
+          slides.length > 1 && (
             <div class="pdp__dots" role="group" aria-label="Gallery">
-              {p.gallery.map((_, i) => (
-                <button type="button" class="pdp__dot" data-gallery-dot aria-current={i === 0 ? 'true' : 'false'} aria-label={`Image ${i + 1} of ${p.gallery.length}`} />
+              {slides.map((_, n) => (
+                <button type="button" class="pdp__dot" data-gallery-dot aria-current={n === 0 ? 'true' : 'false'} aria-label={`Slide ${n + 1} of ${slides.length}`} />
               ))}
             </div>
           )
@@ -273,6 +296,41 @@ const ld = {
     padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--c-line);
     width: 100%;
+  }
+  .pdp__film {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #d9d7d3;
+  }
+  .pdp__film img,
+  .pdp__film video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+  }
+  .pdp__film video {
+    opacity: 0;
+    transition: opacity 1s var(--ease-soft);
+  }
+  .pdp__film video.is-playing {
+    opacity: 1;
+  }
+  .pdp__film-pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.9);
+    background: rgb(10 9 8 / 0.45);
+    transition: color var(--dur-2);
+  }
+  .pdp__film-pause:hover {
+    color: var(--c-ivory);
   }
   .pdp__zoom {
     position: relative;
