@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Media from '../components/Media.astro';
 import Lightbox from '../components/Lightbox.astro';
 import { img } from '../assets/images';
+import { bySeason } from '../data/catalog';
 
 /**
  * The campaign: one curated sequence. Rows pair two portraits (large + small, alternating sides)
@@ -32,7 +33,10 @@ const rows: Row[] = [
   },
 ];
 
-const frames = rows.flatMap((r) => (r.kind === 'wide' ? [r.frame] : r.frames));
+/** The four seasons: one fashion portrait per fragrance, spring → winter. */
+const seasons = bySeason().map((p) => ({ ...p.portrait, slug: p.slug, number: p.number, product: p.name, season: p.season }));
+
+const frames = [...rows.flatMap((r) => (r.kind === 'wide' ? [r.frame] : r.frames)), ...seasons];
 const full = Object.fromEntries(
   await Promise.all(frames.map(async (f) => [f.name, (await getImage({ src: img(f.name), width: 2000, format: 'webp', quality: 82 })).src])),
 );
@@ -67,6 +71,28 @@ const full = Object.fromEntries(
           )
         }
       </div>
+
+      <section class="cp__seasons" aria-labelledby="cp-seasons">
+        <header class="cp__seasons-head">
+          <p class="label muted">One flacon, four lights</p>
+          <h2 class="h2" id="cp-seasons" data-reveal="lines">The four seasons</h2>
+        </header>
+        <ul class="cp__quartet" role="list">
+          {
+            seasons.map((f) => (
+              <li class="cp__season">
+                <button type="button" class="cp__btn" data-lightbox="campaign" data-full={full[f.name]} data-alt={f.alt} data-caption={`${f.number} ${f.product} — ${f.season}`} aria-label={`View: ${f.alt}`}>
+                  <Media name={f.name} alt={f.alt} ratio="3 / 4" sizes="(min-width: 900px) 23vw, 46vw" position={f.focus} />
+                </button>
+                <a class="cp__season-cap" href={`/fragrances/${f.slug}`}>
+                  <span class="label muted">{f.number} · {f.season}</span>
+                  <span class="cp__season-name">{f.product}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
 
       <footer class="cp__end">
         <p class="h2" data-reveal="lines">HG</p>
@@ -149,6 +175,48 @@ const full = Object.fromEntries(
     .cp__pair--flip .cp__small {
       grid-column: 1 / span 4;
       grid-row: 1;
+    }
+  }
+  .cp__seasons {
+    margin-top: var(--section);
+  }
+  .cp__seasons-head {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .cp__quartet {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 3rem) clamp(0.75rem, 3vw, var(--gap));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cp__season {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .cp__season-cap {
+    display: grid;
+    gap: 0.35rem;
+    text-decoration: none;
+  }
+  .cp__season-name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    line-height: 1.1;
+  }
+  .cp__season-cap:hover .cp__season-name {
+    font-style: italic;
+  }
+  @media (min-width: 900px) {
+    .cp__quartet {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .cp__season:nth-child(even) {
+      margin-top: 18%;
     }
   }
   .cp__end {
