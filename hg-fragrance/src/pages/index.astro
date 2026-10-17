@@ -17,9 +17,7 @@ const srcset = (set: { src: string; attributes: Record<string, unknown> }[]) =>
 
 const campaign = [
   { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it and the sea gold beyond', ratio: '3 / 4', cls: 'a', position: '50% 50%' },
-  { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', ratio: '3 / 4', cls: 'b', position: '50% 40%' },
-  { name: 'cupra-night', alt: 'A grey-beige CUPRA Leon on a wet cobbled street at night, its copper emblem and triangular headlights lit', ratio: '16 / 9', cls: 'c', position: '55% 50%' },
-  { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', ratio: '4 / 5', cls: 'd', position: '55% 40%' },
+  { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', ratio: '3 / 4', cls: 'b', position: '55% 40%' },
 ] as const;
 ---
 
@@ -94,8 +92,7 @@ const campaign = [
                 alt={c.alt}
                 ratio={c.ratio}
                 position={'position' in c ? c.position : '50% 35%'}
-                sizes={c.cls === 'c' ? '(min-width: 600px) 100vw, 222vw' : c.cls === 'a' ? '(min-width: 900px) 56vw, 100vw' : c.cls === 'd' ? '(min-width: 900px) 44vw, 82vw' : '(min-width: 900px) 32vw, 82vw'}
-                scaleSizes={c.cls !== 'c'}
+                sizes={c.cls === 'a' ? '(min-width: 900px) 56vw, 100vw' : '(min-width: 900px) 32vw, 82vw'}
               />
             </figure>
           ))
