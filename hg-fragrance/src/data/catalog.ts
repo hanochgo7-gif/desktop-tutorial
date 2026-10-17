@@ -73,11 +73,10 @@ export const products: Product[] = [
     packshot: 'still-packshot',
     gallery: [
       { name: 'still-packshot', alt: 'Unforgettable — the HG bottle, front view' },
-      { name: 'drv-window', alt: 'Through the lowered window of a black vintage car at night, a man holds Unforgettable at his collar, rain on the glass', focus: '62% 35%' },
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     storyTitle: 'Worn once, |at the collar.',
-    portrait: { name: 'fashion-unforgettable', alt: 'In an untied black tuxedo he sits on a walnut desk at night, Unforgettable in his hand, rain and city lights on the window behind', focus: '50% 30%' },
+    portrait: { name: 'fashion-unforgettable', alt: 'In a black tuxedo and silk shirt at a rain-streaked window high above the city, he holds Unforgettable at his collar', focus: '50% 25%' },
     campaign: [
       { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', caption: 'The bonnet', focus: '50% 40%' },
       { name: 'cupra-interior', alt: 'Unforgettable on the copper-stitched seat of a CUPRA Leon at night, rain and city lights on the window', caption: 'The seat', focus: '50% 55%' },
@@ -187,7 +186,7 @@ export const products: Product[] = [
       { name: 'nc-velvet', alt: 'The Nocturne bottle on black velvet dusted with snow, a snowy window behind' },
     ],
     storyTitle: 'The closest |to the skin.',
-    portrait: { name: 'fashion-nocturne', alt: 'In a black velvet tuxedo jacket by a mountain fireplace, snow falling outside, he holds Nocturne to the fire so it glows garnet', focus: '50% 30%' },
+    portrait: { name: 'fashion-nocturne', alt: 'In a black velvet tuxedo jacket and rollneck by a mountain fireplace, snow falling outside, he holds Nocturne so it glows garnet', focus: '50% 30%' },
     campaign: [
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },
     ],
