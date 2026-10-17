@@ -73,14 +73,14 @@ export const products: Product[] = [
     packshot: 'still-packshot',
     gallery: [
       { name: 'still-packshot', alt: 'Unforgettable — the HG bottle, front view' },
-      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', focus: '50% 30%' },
+      { name: 'drv-window', alt: 'Through the lowered window of a black vintage car at night, a man holds Unforgettable at his collar, rain on the glass', focus: '62% 35%' },
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     storyTitle: 'Worn once, |at the collar.',
-    portrait: { name: 'fashion-unforgettable', alt: 'In a black tuxedo and silk shirt at a rain-streaked window high above the city, he holds Unforgettable at his collar', focus: '50% 25%' },
+    portrait: { name: 'fashion-unforgettable', alt: 'In an untied black tuxedo he sits on a walnut desk at night, Unforgettable in his hand, rain and city lights on the window behind', focus: '50% 30%' },
     campaign: [
       { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', caption: 'The bonnet', focus: '50% 40%' },
-      { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', caption: 'The study', focus: '50% 30%' },
+      { name: 'cupra-interior', alt: 'Unforgettable on the copper-stitched seat of a CUPRA Leon at night, rain and city lights on the window', caption: 'The seat', focus: '50% 55%' },
       { name: 'unf-empty-study', alt: 'The empty study, mist still hanging in the lamplight', caption: 'The room after', focus: '60% 50%' },
     ],
     variants: [
@@ -115,14 +115,12 @@ export const products: Product[] = [
       { name: 'ow-packshot', alt: 'Open Window — the HG bottle with pale green-gold juice and a silver collar, front view' },
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone sill of an open window, a rain-washed garden and a lifting linen curtain' },
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window' },
-      { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', focus: '55% 40%' },
     ],
     storyTitle: 'The same room, |curtains drawn back.',
     portrait: { name: 'fashion-open-window', alt: 'In a sage silk shirt he sits on the sill of an open villa window, wisteria around it and a linen curtain blowing out, holding Open Window', focus: '50% 35%' },
     campaign: [
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe on a wet gravel drive, wisteria and cypresses behind, holding Open Window', caption: 'The drive' },
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone windowsill, curtain lifting, the garden wet with rain', caption: 'The sill' },
-      { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', caption: 'The morning', wide: true, focus: '55% 50%' },
     ],
     variants: [],
   },
@@ -152,12 +150,11 @@ export const products: Product[] = [
     gallery: [
       { name: 'll-packshot', alt: 'Last Light — the HG bottle with blush rosé-gold juice and a rose-gold collar, front view' },
       { name: 'll-rock', alt: 'The Last Light bottle on a sun-bleached rock by the sea at golden hour, sea spray on the glass' },
-      { name: 'll-pier', alt: 'A man in an open white linen shirt on a stone pier above turquoise water, holding Last Light' },
+      { name: 'fashion-last-light-b', alt: 'Barefoot on whitewashed steps above the sea at sunset, a man in cream linen holds Last Light on his knee', focus: '50% 45%' },
     ],
     storyTitle: 'The night is coming, |but not yet.',
     portrait: { name: 'fashion-last-light', alt: 'Sea-wet, in an open terracotta shirt, he leans on the mast of a sailing yacht at sunset and holds Last Light up to the sun', focus: '50% 30%' },
     campaign: [
-      { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', caption: 'After the swim' },
       { name: 'll-rock', alt: 'The Last Light bottle on a white rock, salt crystals and spray, the sea gold behind', caption: 'Salt' },
     ],
     variants: [],
@@ -188,12 +185,10 @@ export const products: Product[] = [
     gallery: [
       { name: 'nc-packshot', alt: 'Nocturne — the HG bottle with garnet-black juice and a satin black collar, front view' },
       { name: 'nc-velvet', alt: 'The Nocturne bottle on black velvet dusted with snow, a snowy window behind' },
-      { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', focus: '70% 45%' },
     ],
     storyTitle: 'The closest |to the skin.',
-    portrait: { name: 'fashion-nocturne', alt: 'Snow on his shoulders, a man in a long black coat holds Nocturne to his chest in a snowy alpine street at night, a red lantern far behind', focus: '50% 30%' },
+    portrait: { name: 'fashion-nocturne', alt: 'In a black velvet tuxedo jacket by a mountain fireplace, snow falling outside, he holds Nocturne to the fire so it glows garnet', focus: '50% 30%' },
     campaign: [
-      { name: 'nc-village', alt: 'A man in a black overcoat beside a matte black supercar on a snowy alpine street at night, holding Nocturne', caption: 'The village', wide: true, focus: '68% 50%' },
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },
     ],
     variants: [],

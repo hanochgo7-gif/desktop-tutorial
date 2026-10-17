@@ -16,11 +16,11 @@ const srcset = (set: { src: string; attributes: Record<string, unknown> }[]) =>
   set.map((s) => `${s.src} ${s.attributes.width}w`).join(', ');
 
 const campaign = [
-  { name: 'rosso-golden', alt: 'On a coastal road at golden hour, a man in a black suit leans on a red sports car, holding Unforgettable', ratio: '3 / 4', cls: 'a', position: '50% 35%' },
-  { name: 'rosso-closeup', alt: 'His hand sets the Unforgettable bottle on the glossy red roof of the car, the bottle reflected in the paint', ratio: '3 / 4', cls: 'b', position: '50% 40%' },
-  { name: 'rosso-night', alt: 'Night in the city: he stands by the red car on a wet street, the bottle in his hand', ratio: '16 / 9', cls: 'c', position: '55% 45%' },
-  { name: 'rosso-hand', alt: 'He leans over the red car and sets the bottle on the bodywork, its reflection in the paint', ratio: '4 / 5', cls: 'd', position: '50% 35%' },
-  { name: 'rosso-villa', alt: 'At dusk he sits in the open door of the red car outside a stone villa with bougainvillea, the bottle in his hand', ratio: '4 / 5', cls: 'e', position: '55% 50%' },
+  { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it and the sea gold beyond', ratio: '3 / 4', cls: 'a', position: '50% 50%' },
+  { name: 'cupra-bonnet', alt: 'Unforgettable on the rain-beaded bonnet of a grey-beige CUPRA Leon, beside its copper emblem, the city lit behind', ratio: '3 / 4', cls: 'b', position: '50% 40%' },
+  { name: 'cupra-night', alt: 'A grey-beige CUPRA Leon on a wet cobbled street at night, its copper emblem and triangular headlights lit', ratio: '16 / 9', cls: 'c', position: '55% 50%' },
+  { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', ratio: '4 / 5', cls: 'd', position: '55% 40%' },
+  { name: 'cupra-villa', alt: 'At dusk the CUPRA Leon stands with its door open outside a stone villa with bougainvillea, Unforgettable on the door sill', ratio: '4 / 5', cls: 'e', position: '55% 55%' },
 ] as const;
 ---
 
