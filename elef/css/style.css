@@ -55,7 +55,7 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--display); font-weight: 400; line-
 p { margin: 0 0 1em; }
 :focus-visible { outline: 2px solid var(--press); outline-offset: 3px; }
 /* על רקע כהה הטבעת בצבע השמן, שם היא בניגודיות 6:1 */
-.hero :focus-visible, .story :focus-visible, .visit :focus-visible, .film:focus-visible, .site-footer :focus-visible,
+.hero :focus-visible, .story :focus-visible, .visit :focus-visible, .pour :focus-visible, .film:focus-visible, .site-footer :focus-visible,
 .notice :focus-visible, .modal :focus-visible, .site-header[data-over-hero]:not(.is-solid):not(.menu-open) :focus-visible { outline-color: var(--oil); }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
@@ -343,6 +343,15 @@ p { margin: 0 0 1em; }
 .quote p { font-family: var(--display); font-size: var(--t-l); line-height: 1.45; margin: 12px 0 16px; }
 .quote footer { font-size: var(--t-s); color: var(--leaf); }
 @media (max-width: 860px) { .quotes { grid-template-columns: 1fr; } }
+
+/* ---------- השולחן בכרם ---------- */
+.pour { position: relative; background: var(--dawn); color: var(--on-dark); overflow: hidden; }
+.pour video { display: block; width: 100%; aspect-ratio: 16 / 9; max-height: 88vh; min-height: 420px; object-fit: cover; }
+.pour::after { content: ""; position: absolute; inset: 45% 0 0 0; background: linear-gradient(to top, rgba(18, 26, 33, .72), rgba(18, 26, 33, 0)); pointer-events: none; }
+.pour__pause { top: 20px; z-index: 2; }
+.pour__caption { position: absolute; z-index: 1; inset-inline: var(--gutter); bottom: clamp(28px, 5vw, 64px); max-width: 36rem; text-shadow: 0 1px 12px rgba(18, 26, 33, .55); }
+.pour__caption h2 { font-size: var(--t-2xl); font-weight: 300; line-height: 1.1; margin: 0 0 10px; }
+.pour__caption p { margin: 0; color: rgba(233, 235, 228, .9); }
 
 /* ---------- ביקור ---------- */
 .visit { position: relative; color: var(--on-dark); background: var(--dawn); isolation: isolate; overflow: hidden; }
