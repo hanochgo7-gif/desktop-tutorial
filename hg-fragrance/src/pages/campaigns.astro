@@ -21,16 +21,16 @@ const rows: Row[] = [
       { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', position: '50% 30%' },
     ],
   },
-  { kind: 'wide', frame: { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', position: '60% 45%' } },
+  { kind: 'wide', frame: { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', position: '70% 45%' } },
   {
     kind: 'pair',
     flip: true,
     frames: [
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe at a lakeside villa, holding Open Window', position: '50% 35%' },
-      { name: 'face-m3', alt: 'Leaning on a black marble bar, a man in a black shirt raises the bottle', position: '50% 25%' },
+      { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', position: '50% 30%' },
     ],
   },
-  { kind: 'wide', frame: { name: 'riv-car-interior', alt: 'At the wheel at night, the coastal lights behind him', position: '45% 40%' } },
+  { kind: 'wide', frame: { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', position: '60% 45%' } },
   {
     kind: 'pair',
     frames: [
@@ -39,15 +39,6 @@ const rows: Row[] = [
     ],
   },
   { kind: 'wide', frame: { name: 'ow-morning', alt: 'A man in a cream knit at tall open French windows above a misty lake, holding Open Window', position: '55% 40%' } },
-  { kind: 'wide', frame: { name: 'nc-village', alt: 'A man in a black overcoat beside a black sports car on a snowy alpine street at night, holding Nocturne', position: '70% 45%' } },
-  {
-    kind: 'pair',
-    flip: true,
-    frames: [
-      { name: 'drv-reflection', alt: 'His profile through the side window, the street lamps and the village across the bay reflected over him', position: '45% 40%' },
-      { name: 'll-pier', alt: 'A man with sea-wet hair on a stone pier, a wooden boat behind, holding Last Light', position: '50% 30%' },
-    ],
-  },
   { kind: 'wide', frame: { name: 'unf-empty-study', alt: 'The empty study after he has gone: the bottle on the desk, mist in the lamplight', position: '58% 50%' } },
 ];
 
@@ -61,8 +52,8 @@ const full = Object.fromEntries(
   <section class="cp" aria-labelledby="cp-title">
     <div class="wrap">
       <header class="cp__head">
-        <h1 class="display cp__title" id="cp-title" data-reveal="lines" data-immediate>The campaign</h1>
-        <p class="lead it muted" data-reveal="fade" data-immediate data-delay="0.3">Leave the room. Stay in it.</p>
+        <h1 class="display cp__title" id="cp-title">The campaign</h1>
+        <p class="lead it muted">Leave the room. Stay in it.</p>
       </header>
 
       <div class="cp__rows">

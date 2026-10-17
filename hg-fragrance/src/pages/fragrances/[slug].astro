@@ -71,7 +71,7 @@ const ld = {
                   data-caption={g.alt}
                   aria-label={`Enlarge image ${i + 1} of ${p.gallery.length}: ${g.alt}`}
                 >
-                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" position={g.focus ?? '50% 40%'} priority={i === 0} reveal={i !== 0} />
+                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" position={g.focus ?? '50% 40%'} priority={i === 0} reveal={false} />
                 </button>
               </li>
             ))

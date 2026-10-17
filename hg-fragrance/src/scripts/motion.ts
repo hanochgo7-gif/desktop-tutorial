@@ -96,8 +96,9 @@ function initReveals() {
       queued = true;
       setTimeout(() => {
         queued = false;
-        pending.forEach((el) => el.getBoundingClientRect().bottom < 0 && fire(el));
-      }, 250);
+        // Fast scrolls and anchor jumps can skip an observer callback: reveal anything on or above the screen.
+        pending.forEach((el) => el.getBoundingClientRect().top < window.innerHeight * 0.92 && fire(el));
+      }, 150);
     },
     { passive: true },
   );
