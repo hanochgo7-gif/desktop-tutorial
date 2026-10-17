@@ -5,3 +5,5 @@ Rosso, Studio), the editorial bottle stills, the film frames and the three seaso
 (Open Window, Last Light, Nocturne). They live outside `src/` so they are not shipped with the build.
 
 To use one again, move it back to `src/assets/img/` and reference it by name.
+
+October 2026: every image and clip of the model from the campaign film was removed at the owner's request, so some entries in `campaigns.ts` point at files that no longer exist.
