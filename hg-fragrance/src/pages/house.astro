@@ -8,14 +8,14 @@ import { site } from '../config/site';
 
 /** The HG casting: the faces every campaign is built from (AI-generated). */
 const faces = [
-  { name: 'face-m1', alt: 'Casting portrait: a man with dark swept hair and light eyes, black shirt open at the collar' },
-  { name: 'face-w1', alt: 'Casting portrait: a woman with long brown hair in a structured grey-and-brass jacket' },
-  { name: 'face-m2', alt: 'Casting portrait: a man with dark wavy hair and a beard, black shirt open at the collar' },
-  { name: 'face-w2', alt: 'Casting portrait: a woman with long dark hair in a black tailored blazer dress' },
-  { name: 'face-m3', alt: 'Casting portrait: a man with slicked-back dark hair and stubble, black shirt unbuttoned' },
-  { name: 'face-w3', alt: 'Casting portrait: a woman with long wavy brown hair in black with a bronze bodice' },
-  { name: 'face-m4', alt: 'Casting portrait: a man with a trimmed beard in a black shirt, hands in his pockets' },
-  { name: 'face-w4', alt: 'Casting portrait: a woman with long waves in a draped black-and-gold dress' },
+  { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds the HG Unforgettable bottle at his chest' },
+  { name: 'face-w1', alt: 'Against black velvet, a woman with long brown hair in a charcoal-and-brass jacket holds the HG bottle at her cheek' },
+  { name: 'face-m2', alt: 'A bearded man in a black shirt holds the HG bottle beside his face in warm low light' },
+  { name: 'face-w2', alt: 'A woman with long dark hair in black satin holds the HG bottle beside her face, the amber glass catching the light' },
+  { name: 'face-m3', alt: 'Leaning on a black marble bar, a man with slicked-back hair raises the HG bottle' },
+  { name: 'face-w3', alt: 'A woman with long brown waves in a black satin dress rests the HG bottle against her cheek' },
+  { name: 'face-m4', alt: 'A man with a trimmed beard in a black shirt holds the HG bottle up in front of him, warm side light' },
+  { name: 'face-w4', alt: 'A woman with long dark waves in black holds the HG bottle beside her face, a soft golden rim light on her hair' },
 ];
 const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
 const facesFull = await Promise.all(faces.map((f) => getImage({ src: img(f.name), width: 1400, format: 'webp', quality: 82 })));
@@ -85,8 +85,8 @@ const principles = [
         <p class="label faint" data-reveal="fade">The faces</p>
         <h2 class="h1" id="faces-title" data-reveal="lines">Eight faces, <em>one night</em></h2>
         <p class="muted house-faces__intro" data-reveal="fade">
-          The casting every HG campaign is built from — four men and four women, seen as themselves before the lights go
-          down. {site.aiDisclosure.replace('Campaign film and imagery', 'Like the campaigns, they are')}
+          The casting every HG campaign is built from — four men and four women, each with Unforgettable, in the light the
+          house was made for. {site.aiDisclosure.replace('Campaign film and imagery', 'Like the campaigns, they are')}
         </p>
       </header>
       <ol class="house-faces__grid" role="list">
@@ -103,7 +103,7 @@ const principles = [
                 data-cursor="View"
                 aria-label={`Open face ${roman[i]}: ${f.alt}`}
               >
-                <Media name={f.name} alt={f.alt} ratio="3 / 4" position="50% 18%" sizes="(min-width: 900px) 23vw, 46vw" />
+                <Media name={f.name} alt={f.alt} ratio="3 / 4" sizes="(min-width: 900px) 23vw, 46vw" />
               </button>
               <p class="media-cap label"><span class="num">{roman[i]}</span><span>Face</span></p>
             </li>
@@ -155,16 +155,11 @@ const principles = [
     display: block;
     width: 100%;
   }
-  /* a quiet casting grade that lifts to full colour on attention */
   .house-faces__btn img {
-    filter: grayscale(0.55) contrast(1.06) brightness(0.9);
-    transition:
-      filter var(--dur-3) var(--ease-out),
-      transform 1.4s var(--ease-out);
+    transition: transform 1.4s var(--ease-out);
   }
   .house-faces__btn:hover img,
   .house-faces__btn:focus-visible img {
-    filter: none;
     transform: scale(1.03);
   }
   @media (min-width: 900px) {
