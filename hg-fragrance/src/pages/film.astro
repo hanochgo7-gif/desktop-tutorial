@@ -13,6 +13,12 @@ const reels = [
   { file: 'by-the-fire', title: 'By the fire', length: '0:05', sound: false, alt: 'A man in a black coat holds Nocturne by a mountain fireplace, then stands at a window over the snow' },
   { file: 'the-tower', title: 'The tower', length: '0:04', sound: false, alt: 'Under a glass tower and a blue sky, a man in a long black coat touches his collar and walks away' },
 ];
+
+/** Creator-style films, 3:4, with sound. */
+const feed = [
+  { file: 'the-entrance', title: 'The entrance', length: '0:13', alt: 'Seen on a hallway camera, a man in a navy suit sprays Unforgettable at his collar; a friend walks in and stops: "Whoa, wait, what are you wearing?"' },
+  { file: 'one-spray', title: 'One spray', length: '0:12', alt: 'A man takes the HG bottle from a shelf, talks to the camera, sprays it at his collar in the mirror, and sets it down by a lamp' },
+];
 ---
 
 <Base title="The Film" description="HG Unforgettable — the 20-second campaign film.">
@@ -59,18 +65,27 @@ const reels = [
   </section>
 
   <section class="section feed" aria-labelledby="feed-title">
-    <div class="wrap grid">
-      <div class="feed__frame" data-reveal="fade">
-        <video class="feed__video" controls playsinline preload="none" data-poster="/media/films/one-spray-poster.webp" width="834" height="1112" aria-label="A man takes the HG bottle from a shelf, talks to the camera, sprays it at his collar in the mirror, and sets it down by a lamp">
-          <source src="/media/films/one-spray.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="feed__copy">
+    <div class="wrap">
+      <header class="feed__head">
         <p class="label faint">On the feed</p>
         <h2 class="h2" id="feed-title" data-reveal="lines">One spray. <em>At the collar.</em></h2>
-        <p class="lead it muted" data-reveal="fade">From the shelf to the mirror to the desk lamp, in twelve seconds.</p>
-        <p class="label muted">0:12 · Sound · AI-generated creator content</p>
-      </div>
+        <p class="lead it muted" data-reveal="fade">Two short films, made for the phone. AI-generated creator content.</p>
+      </header>
+      <ul class="feed__grid" role="list">
+        {
+          feed.map((f) => (
+            <li>
+              <video class="feed__video" controls playsinline preload="none" data-poster={`/media/films/${f.file}-poster.webp`} width="834" height="1112" aria-label={f.alt}>
+                <source src={`/media/films/${f.file}.mp4`} type="video/mp4" />
+              </video>
+              <p class="films__cap">
+                <span class="films__name">{f.title}</span>
+                <span class="label muted">{f.length} · Sound</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -132,17 +147,18 @@ const reels = [
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
-  .feed .grid {
-    row-gap: 2.5rem;
-    align-items: center;
+  .feed__head {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 36rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
   }
-  .feed__frame,
-  .feed__copy {
-    grid-column: 1 / -1;
-  }
-  .feed__frame {
-    width: min(100%, calc(80svh * 3 / 4));
-    margin-inline: auto;
+  .feed__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3rem) var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
   .feed__video {
     display: block;
@@ -152,18 +168,10 @@ const reels = [
     object-fit: cover;
     background: var(--c-ink-2);
   }
-  .feed__copy {
-    display: grid;
-    gap: 1.25rem;
-    align-content: center;
-  }
-  @media (min-width: 900px) {
-    .feed__copy {
-      grid-column: 2 / span 4;
-      grid-row: 1;
-    }
-    .feed__frame {
-      grid-column: 7 / span 5;
+  @media (min-width: 600px) {
+    .feed__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 60rem;
     }
   }
   .film-night .grid {
