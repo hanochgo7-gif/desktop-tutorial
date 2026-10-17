@@ -60,7 +60,9 @@ Part of the project did not finish uploading, so these files were rebuilt. Revie
 - [ ] `src/pages/fragrances/index.astro` — rebuilt from the built HTML of the collection page.
 - [ ] `src/pages/fragrances/[slug].astro`, `src/pages/legal/*`, `src/pages/checkout/success.astro`, `src/pages/api/*` — rewritten to the behaviour described in README (product page, legal drafts, Stripe confirmation, checkout and newsletter endpoints).
 - [ ] `public/media/campaigns/*` — loops, posters and the Riviera / Night Drive reels re-cut from the original Higgsfield clips listed in `_source/hf/manifest.json`. The reels are new edits (≈2.9 s and 3 s per shot, hard cuts), not the original cuts.
-- [ ] New stills from Higgsfield added to the campaigns: `unf-portrait`, `unf-lamp`, `riv-coupe`, `drv-glance`, `drv-parked`, `rosso-night`, `rosso-hand`, `rosso-passenger`, `rosso-promenade`.
+- [ ] New stills from Higgsfield added to the campaigns: `unf-portrait`, `unf-lamp`, `riv-coupe`, `rosso-night`, `rosso-hand`, `rosso-passenger`, `rosso-promenade`.
+- [ ] Night Drive re-curated (October 2026): new through-the-window stills `drv-window`, `drv-rain-glass`, `drv-reflection`, `drv-sill` (generated in Higgsfield from the campaign's own man, car and bottle). Removed `drv-driver` (a Ferrari-style badge on the steering wheel), `drv-spray` (a copy of `riv-spray`), `drv-coupe` / `drv-parked` (duplicates with rounded black corners baked in), `drv-glance` (lower resolution, same pose as `drv-sill`) and `drv-driveway` (off-story setting). Unforgettable's first campaign still is now `drv-window` instead of `rosso-golden`.
+- [ ] Brand-likeness check: some car stills echo real models — the red car in Rosso, the white wedge in `ll-coast`, the black supercar in `nc-village`, the classic coupe in `ow-coupe`. No badges are visible, but have them cleared before paid media.
 
 ## Optional next steps
 

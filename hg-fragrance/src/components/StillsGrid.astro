@@ -36,6 +36,7 @@ const full = await Promise.all(items.map((s) => getImage({ src: img(s.name), wid
             name={s.name}
             alt={s.alt}
             ratio={s.wide ? '16 / 9' : '4 / 5'}
+            position={s.wide ? undefined : s.focus}
             sizes={s.wide ? '(min-width: 900px) 64vw, 92vw' : '(min-width: 900px) 31vw, 46vw'}
           />
         </button>
