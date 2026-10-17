@@ -155,7 +155,7 @@ function bindPlayer(root: HTMLElement) {
   video.addEventListener('click', () => (video.paused ? play() : video.pause()));
   ['play', 'pause', 'ended', 'volumechange'].forEach((ev) => video.addEventListener(ev, sync));
   video.addEventListener('timeupdate', () => {
-    const d = video.duration || 20;
+    const d = video.duration || 11;
     bar.style.transform = `scaleX(${video.currentTime / d})`;
     time.textContent = `${fmtTime(video.currentTime)} / ${fmtTime(d)}`;
   });
