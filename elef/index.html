@@ -255,6 +255,21 @@
     </div>
   </section>
 
+  <section class="pour" aria-labelledby="pour-title">
+    <video muted loop playsinline preload="none" poster="images/pour-poster-2000.webp" aria-hidden="true" data-pour-video>
+      <source src="video/pour-960.mp4" type="video/mp4" media="(max-width: 760px)">
+      <source src="video/pour.mp4" type="video/mp4">
+    </video>
+    <button class="hero__pause pour__pause" type="button" data-pour-pause aria-label="הפעלת הווידאו">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-icon-pause hidden><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-icon-play><path d="M4 2l10 6-10 6z"/></svg>
+    </button>
+    <div class="pour__caption">
+      <h2 id="pour-title">חומוס חם, שמן מהבקבוק.</h2>
+      <p>ככה נגמר אצלנו יום קטיף, ליד השולחן שבין העצים.</p>
+    </div>
+  </section>
+
   <section class="visit" id="visit" aria-labelledby="visit-title">
     <img src="images/hills-dawn-1000.webp" srcset="images/hills-dawn-1000.webp 1000w, images/hills-dawn-2000.webp 2000w" sizes="100vw" alt="" loading="lazy" decoding="async">
     <div class="wrap visit__inner">
@@ -437,6 +452,23 @@
   }
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); setPaused(true); }
   hp.addEventListener('click', function () { setPaused(!hv.paused); });
+
+  /* וידאו השולחן בכרם: מתנגן רק כשהוא על המסך, ולא מתנגן כשמבקשים להפחית תנועה */
+  var pv = document.querySelector('[data-pour-video]');
+  var pp = document.querySelector('[data-pour-pause]');
+  var pourStopped = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function setPour(paused) {
+    if (paused) pv.pause(); else { var pr = pv.play(); if (pr && pr.catch) pr.catch(function () {}); }
+    pp.setAttribute('aria-label', paused ? 'הפעלת הווידאו' : 'עצירת הווידאו');
+    pp.querySelector('[data-icon-pause]').hidden = paused;
+    pp.querySelector('[data-icon-play]').hidden = !paused;
+  }
+  pp.addEventListener('click', function () { pourStopped = !pv.paused; setPour(pourStopped); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (!pourStopped) setPour(!en.isIntersecting); });
+    }, { threshold: .25 }).observe(pv);
+  }
 
   /* סרט */
   var modal = document.getElementById('film-modal');
