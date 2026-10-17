@@ -114,25 +114,6 @@ button {
   }
 }
 
-/* film grain over everything — very quiet */
-.grain {
-  position: fixed;
-  inset: -50%;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.055;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 1.2s steps(6) infinite;
-}
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -1%); }
-  80% { transform: translate(3%, 3%); }
-  100% { transform: translate(0, 0); }
-}
-
 /* ---------- typography ---------- */
 .display,
 .h1,
@@ -514,6 +495,9 @@ em,
 .hide-sm {
   display: inline-flex;
 }
+.show-sm {
+  display: none !important;
+}
 @media (max-width: 1180px) {
   .hide-md {
     display: none !important;
@@ -522,6 +506,9 @@ em,
 @media (max-width: 760px) {
   .hide-sm {
     display: none !important;
+  }
+  .show-sm {
+    display: inline-flex !important;
   }
   .logo {
     font-size: 1.55rem;
@@ -1032,65 +1019,6 @@ video::cue {
   text-shadow: 0 1px 12px rgb(0 0 0 / 0.8);
 }
 
-/* ---------- cursor ---------- */
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-cursor);
-  pointer-events: none;
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: -0.25rem 0 0 -0.25rem;
-  border-radius: 50%;
-  background: var(--c-ivory);
-  mix-blend-mode: difference;
-  opacity: 0;
-  transition:
-    width 500ms var(--ease-out),
-    height 500ms var(--ease-out),
-    margin 500ms var(--ease-out),
-    opacity 300ms,
-    background-color 300ms;
-  display: grid;
-  place-items: center;
-}
-.cursor.is-visible {
-  opacity: 1;
-}
-.cursor.is-media {
-  width: 5.5rem;
-  height: 5.5rem;
-  margin: -2.75rem 0 0 -2.75rem;
-  mix-blend-mode: normal;
-  background: rgb(239 231 216 / 0.92);
-}
-.cursor.is-link {
-  width: 2.8rem;
-  height: 2.8rem;
-  margin: -1.4rem 0 0 -1.4rem;
-  background: transparent;
-  border: 1px solid rgb(239 231 216 / 0.7);
-  mix-blend-mode: difference;
-}
-.cursor__label {
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--c-ink);
-  font-weight: 600;
-  opacity: 0;
-  transition: opacity 300ms;
-}
-.cursor.is-media .cursor__label {
-  opacity: 1;
-}
-@media (hover: none), (pointer: coarse) {
-  .cursor {
-    display: none;
-  }
-}
-
 /* ---------- forms ---------- */
 .field {
   position: relative;
@@ -1152,69 +1080,73 @@ video::cue {
 /* ---------- footer ---------- */
 .site-footer {
   position: relative;
-  padding-top: var(--section);
-  padding-bottom: calc(var(--gutter) + env(safe-area-inset-bottom));
+  padding-top: clamp(3.5rem, 7vw, 6rem);
+  padding-bottom: calc(clamp(1.5rem, 3vw, 2.5rem) + env(safe-area-inset-bottom));
   border-top: 1px solid var(--c-line);
-  overflow: hidden;
 }
-.footer-grid {
-  display: grid;
-  gap: 3.5rem var(--gap);
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
-.footer-news {
-  grid-column: 1 / -1;
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem clamp(1.5rem, 3vw, 2.75rem);
 }
-.footer-cols {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.5rem var(--gap);
-}
-.footer-col h2 {
-  margin-bottom: 1.1rem;
-  color: var(--c-faint);
-}
-.footer-col li + li {
-  margin-top: 0.45rem;
-}
-.footer-col a {
+.footer-links a {
+  display: inline-block;
+  padding-block: 0.5rem;
+  font-family: var(--f-serif);
+  font-size: var(--step-1);
   color: var(--c-muted);
   transition: color var(--dur-2);
 }
-.footer-col a:hover {
+.footer-links a:hover {
   color: var(--c-text);
 }
-.footer-mark {
-  margin-top: clamp(4rem, 10vw, 9rem);
-  font-family: var(--f-serif);
-  font-weight: 300;
-  font-size: clamp(7rem, 34vw, 34rem);
-  line-height: 0.74;
-  letter-spacing: -0.04em;
-  text-align: center;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(239 231 216 / 0.2);
-  user-select: none;
-  white-space: nowrap;
-  pointer-events: none; /* decorative: never sit on top of the links below it */
-}
 .footer-base {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem 2rem;
-  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1.1rem 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-line);
   color: var(--c-faint);
 }
+.footer-legal {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 2rem;
+}
+.footer-ai {
+  grid-column: 1 / -1;
+}
 @media (min-width: 900px) {
-  .footer-news {
-    grid-column: 1 / span 5;
+  .footer-base {
+    display: flex;
+    flex-wrap: wrap;
   }
-  .footer-cols {
-    grid-column: 7 / -1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .footer-copy {
+    order: -2;
   }
+  .footer-legal {
+    order: -1;
+  }
+}
+.footer-base a {
+  padding-block: 0.6rem;
+  margin-block: -0.6rem;
+  transition: color var(--dur-2);
+}
+.footer-base a:hover {
+  color: var(--c-text);
+}
+.footer-base .motion-toggle {
+  margin-inline-start: auto;
 }
 
 /* ---------- motion helpers (only when JS motion is active) ---------- */
@@ -1248,36 +1180,6 @@ html.motion [data-reveal='mask'] {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .grain {
-    animation: none;
-  }
-}
-
-/* ---------- light through glass (signature material detail) ----------
-   A soft specular point plus a thin warm-to-cool band, as light breaking in a bevel.
-   Positions come from initGlass(); the defaults below are the resting light. */
-:where([data-glass]) {
-  position: relative;
-  isolation: isolate;
-}
-[data-glass]::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background:
-    radial-gradient(circle at var(--gx, 62%) var(--gy, 38%), rgb(255 236 206 / 0.2), transparent 24%),
-    linear-gradient(
-      104deg,
-      transparent calc(var(--gs, 61%) - 13%),
-      rgb(255 208 160 / 0.05) calc(var(--gs, 61%) - 5%),
-      rgb(255 250 240 / 0.11) var(--gs, 61%),
-      rgb(176 214 255 / 0.06) calc(var(--gs, 61%) + 3%),
-      rgb(214 182 255 / 0.04) calc(var(--gs, 61%) + 7%),
-      transparent calc(var(--gs, 61%) + 14%)
-    );
 }
 
 .motion-toggle {
@@ -1297,4 +1199,71 @@ html.motion [data-reveal='mask'] {
 .motion-toggle[disabled] {
   text-decoration: none;
   opacity: 0.7;
+}
+
+/* ---------- purchase block ---------- */
+.buy {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+}
+.buy__sizes {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.buy__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.buy__option {
+  position: relative;
+  cursor: pointer;
+}
+.buy__option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.buy__box {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--radius);
+  transition:
+    border-color var(--dur-2),
+    background-color var(--dur-2);
+}
+.buy__ml {
+  font-family: var(--f-serif);
+  font-size: var(--step-1);
+  line-height: 1;
+}
+.buy__price {
+  font-size: var(--step--1);
+  color: var(--c-muted);
+}
+.buy__option:hover .buy__box {
+  border-color: var(--c-text);
+}
+.buy__option input:checked + .buy__box {
+  border-color: var(--c-text);
+  box-shadow: inset 0 0 0 1px var(--c-text);
+}
+.buy__option input:focus-visible + .buy__box {
+  outline: 1px solid var(--c-focus);
+  outline-offset: 3px;
+}
+.buy__note {
+  font-size: var(--step--1);
+  color: var(--c-faint);
 }

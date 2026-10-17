@@ -30,7 +30,7 @@ const contact = site.contact.email;
 
   <h2>Returns</h2>
   <p>
-    Our returns window and process will be confirmed before launch. Nothing in these terms limits the rights you have under
+    Nothing in these terms limits the rights you have under
     the consumer law of the country you live in.
   </p>
 
@@ -40,16 +40,16 @@ const contact = site.contact.email;
     permission.
   </p>
 
-  <h2>Contact</h2>
-  <p>
-    {
-      contact ? (
-        <>
+  {
+    contact && (
+      <>
+        <h2>Contact</h2>
+        <p>
+          <>
           Questions about an order: <a class="link" href={`mailto:${contact}`}>{contact}</a>.
         </>
-      ) : (
-        <>Contact details will be published here before launch.</>
-      )
-    }
-  </p>
+        </p>
+      </>
+    )
+  }
 </LegalPage>

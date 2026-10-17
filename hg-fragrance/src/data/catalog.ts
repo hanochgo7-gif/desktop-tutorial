@@ -44,7 +44,7 @@ export interface Product {
   notes: { top: string[]; heart: string[]; base: string[] } | null;
   status: 'available' | 'coming-soon';
   packshot: string; // product card + bag thumbnail
-  gallery: { name: string; alt: string }[]; // product page gallery (first = hero)
+  gallery: { name: string; alt: string; focus?: string }[]; // product page gallery (first = hero)
   campaign: Still[]; // the season's campaign stills
   variants: Variant[];
 }
@@ -71,18 +71,15 @@ export const products: Product[] = [
     packshot: 'still-packshot',
     gallery: [
       { name: 'still-packshot', alt: 'Unforgettable — the HG bottle, front view' },
-      { name: 'stu-lily', alt: 'The HG bottle tilted on a dark burgundy calla lily, warm light on an ivory wall' },
-      { name: 'film-signature-vertical', alt: 'The bottle on a walnut desk at night, a lamp and the rain-blurred city behind' },
-      { name: 'stu-marble-front', alt: 'The HG bottle on wet black marble, front view' },
-      { name: 'still-monogram', alt: 'The engraved HG monogram seen through the amber juice' },
+      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', focus: '50% 30%' },
+      { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     campaign: [
       { name: 'drv-window', alt: 'Through the lowered window of a black vintage car at night, a man holds Unforgettable at his collar, rain on the glass', caption: 'The window', focus: '62% 35%' },
-      { name: 'unf-spray', alt: 'Backlit, he sprays the fragrance at the collar; the mist catches the lamp', caption: 'The ritual' },
-      { name: 'unf-empty-study', alt: 'The empty study, mist still hanging in the lamplight', caption: 'The room after' },
+      { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', caption: 'The study', focus: '50% 30%' },
+      { name: 'unf-empty-study', alt: 'The empty study, mist still hanging in the lamplight', caption: 'The room after', focus: '60% 50%' },
     ],
     variants: [
-      // TODO(launch): confirm formats and prices
       { id: 'unforgettable-100', label: '100 ml', price: 245, available: true },
       { id: 'unforgettable-50', label: '50 ml', price: 175, available: true },
     ],

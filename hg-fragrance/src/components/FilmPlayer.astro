@@ -31,7 +31,7 @@ const lang = site.locale.lang;
     <source src={src} type="video/mp4" />
     {captions && <track kind="captions" src={captions} srclang="en" label="English" default />}
   </video>
-  <button class="player__cover" type="button" data-player-play aria-label={t('film.play', lang)} data-cursor="Play">
+  <button class="player__cover" type="button" data-player-play aria-label={t('film.play', lang)}>
     <span class="play-disc" aria-hidden="true">
       <svg viewBox="0 0 20 24" fill="currentColor"><path d="M0 0l20 12L0 24z"></path></svg>
     </span>

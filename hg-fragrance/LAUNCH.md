@@ -6,17 +6,17 @@ Everything below is either unknown or unverified. The site was built so that not
 
 - [ ] **Concentration** — currently "Eau de Parfum" (assumed). Confirm or change.
 - [ ] **Formats** — currently 100 ml and 50 ml (assumed). Add, remove or rename variants.
-- [ ] **Prices** — $245 / $175 are placeholders. While `commerce.pricesConfirmed` is `false`, the site shows "Launch pricing to be confirmed" and leaves prices out of structured data. Set it to `true` once prices are final.
+- [ ] **Prices** — $245 (100 ml) / $175 (50 ml) come from the catalogue and are shown on the site without a caveat (October 2026 redesign). Confirm them. While `commerce.pricesConfirmed` is `false` they stay out of the structured data for search engines; set it to `true` once final.
 - [ ] **Olfactive notes** — intentionally empty (`notes: null`). Add verified top/heart/base notes and a "Composition" section appears on the product page automatically.
 - [ ] Story copy (`story`, `bottle`) — written from what the film and bottle actually show. Review the tone.
 
 ## The Four Seasons — `src/data/catalog.ts`
 
-Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N°03 Last Light** (Summer), **N°04 Nocturne** (Winter). Unforgettable is positioned as **Autumn**.
+Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N°03 Last Light** (Summer), **N°04 Nocturne** (Winter). Since the October 2026 redesign they are **not shown on the site**: only fragrances on sale get a page, and the old collection and concept URLs redirect to Unforgettable (`astro.config.mjs`). Their imagery is kept in `archive/`.
 
 - [ ] **Compositions are creative briefs, not formulas.** The top/heart/base notes were written to define each scent's character. Develop them with a perfumer and update the notes to match the final juices before selling.
 - [ ] **Concentrations** (Open Window and Last Light: Eau de Parfum; Nocturne: Extrait de Parfum) — confirm.
-- [ ] **Formats and prices** — the three new products have no variants, so they show "Coming soon" with a notify-me form and cannot be added to the bag or checked out. Add variants (`{ id, label, price, available: true }`) and set `status: 'available'` to put one on sale.
+- [ ] **Formats and prices** — the three new products have no variants, so they have no page and cannot be bought. To put one on sale: add variants (`{ id, label, price, available: true }`), set `status: 'available'`, remove its redirect from `astro.config.mjs`, and move its images back from `archive/img/`.
 - [ ] **Bottle variants** (juice colour and collar finish: silver, rose gold, satin black) exist only as campaign imagery — confirm with packaging suppliers.
 - [ ] **Cars in the campaigns** are unbadged classic and modern sports cars; no manufacturer logos appear. Keep it that way unless you have a licence or partnership.
 
@@ -32,12 +32,13 @@ Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N
 - [ ] `SITE_URL` — the production origin (canonicals, sitemap, Stripe redirects).
 - [ ] `STRIPE_SECRET_KEY` — start with `sk_test_…`, place a test order end to end (bag → Stripe → `/checkout/success` shows "Order confirmed"), then switch to live.
 - [ ] Stripe dashboard: shipping rates, tax settings, receipt emails, brand colours/logo on the Checkout page.
-- [ ] `NEWSLETTER_WEBHOOK_URL` (Klaviyo / Mailchimp / Make / Zapier) — or `SUBSCRIBERS_FILE` on a persistent server. Make sure the provider handles double opt-in and unsubscribe.
+- [ ] Newsletter — the sign-up form was taken off the pages in the October 2026 redesign (it cannot work on the static GitHub Pages copy). `/api/subscribe` and `src/components/Newsletter.astro` remain; to bring it back, set `NEWSLETTER_WEBHOOK_URL` (or `SUBSCRIBERS_FILE`) on a server host, place `<Newsletter />` in the footer, and restore the newsletter paragraphs in `/legal/privacy`.
 
 ## Legal
 
 - [ ] `/legal/privacy` and `/legal/terms` are marked **Draft** on the page. Have counsel review them for each selling jurisdiction, then remove the draft notice in `src/components/LegalPage.astro`.
-- [ ] Returns window and process (terms page says it will be confirmed).
+- [ ] Returns window and process — not stated on the site yet (the terms only refer to the customer's statutory rights). Add it to `/legal/terms` and the product page's "Delivery & returns" once decided.
+- [ ] Contact sections in the legal pages appear automatically once `contact.email` is set.
 - [ ] If analytics are added later, add a consent banner (the site currently sets no cookies and uses no trackers).
 
 ## Hosting
@@ -46,11 +47,11 @@ Three new fragrances were added as concepts: **N°02 Open Window** (Spring), **N
 - [ ] Long cache headers for `/_astro/*`, `/fonts/*`, `/media/*`.
 - [ ] Submit `https://<domain>/sitemap-index.xml` in Google Search Console.
 
-## Campaigns — `src/data/campaigns.ts`
+## Imagery
 
-- [ ] "Riviera", "Night Drive" and "Studio" are working titles — rename if the campaigns have official names.
-- [ ] The Riviera and Night Drive reels are silent edits. If there is a score or voice-over for them, add it and set `sound: true`.
-- [ ] Night Drive shows a vintage car with an "HG" emblem; Riviera shows an unbadged coupe. Confirm you are happy to publish both as HG brand imagery.
+- [ ] The site uses the photographs in `src/assets/img/` (19 masters). The campaign page sequence is in `src/pages/campaigns.astro`; the home campaign in `src/pages/index.astro`.
+- [ ] Everything else (the earlier Riviera / Night Drive / Rosso / Studio chapters, editorial bottle stills, loops and reels, `campaigns.ts`) is in `archive/`, not deployed.
+- [ ] The hero and several campaign images show a vintage car; no badges are visible. Confirm you are happy to publish them as HG brand imagery.
 
 ## Restored after the Drive transfer (October 2026)
 

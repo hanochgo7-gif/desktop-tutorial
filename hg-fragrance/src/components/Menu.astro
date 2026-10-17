@@ -5,12 +5,9 @@ import { site } from '../config/site';
 const lang = site.locale.lang;
 
 const items = [
-  { href: '/', label: 'Home', em: '' },
-  { href: '/fragrances/unforgettable', label: 'Unforgettable', em: 'N°01' },
-  { href: '/fragrances', label: 'The Collection', em: '' },
-  { href: '/film', label: 'The Film', em: '' },
-  { href: '/campaigns', label: 'Campaigns', em: '' },
-  { href: '/house', label: 'The House', em: '' },
+  { href: '/fragrances/unforgettable', label: t('nav.unforgettable', lang) },
+  { href: '/campaigns', label: t('nav.campaigns', lang) },
+  { href: '/film', label: t('nav.film', lang) },
 ];
 ---
 
@@ -24,27 +21,12 @@ const items = [
     <a class="label" href="/bag" data-open-bag>{t('nav.bag', lang)}</a>
   </div>
   <div class="menu__inner">
-    <ol class="menu__list" role="list">
-      {
-        items.map((item, i) => (
-          <li>
-            <a href={item.href}>
-              <span class="num">0{i + 1}</span>
-              <span>
-                {item.label}
-                {item.em && <em class="brass"> {item.em}</em>}
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ol>
+    <ul class="menu__list" role="list">
+      {items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    </ul>
     <div class="menu__aside" aria-hidden="true">
-      <Media name="film-signature-vertical" alt="" sizes="30vw" reveal={false} />
+      <Media name="face-m1" alt="" sizes="30vw" reveal={false} position="50% 30%" />
     </div>
-    <div class="menu__foot label">
-      <span>HG — {site.tagline}</span>
-      <span>Leave the room. Stay in it.</span>
-    </div>
+    <p class="menu__foot label">Leave the room. Stay in it.</p>
   </div>
 </div>
