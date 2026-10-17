@@ -21,10 +21,6 @@ const contact = site.contact.email;
     still there when you return. They are not sent to us until you choose to check out.
   </p>
   <p>
-    <strong>Newsletter and "notify me".</strong> If you subscribe, we receive your email address and the date you signed
-    up. We use it only to write to you about HG. Every email includes a way to unsubscribe.
-  </p>
-  <p>
     <strong>Orders.</strong> Payment is handled by Stripe on its secure checkout page. Stripe receives your payment,
     billing and shipping details; we receive the order details needed to fulfil and support your order. We never see or
     store your full card number.
@@ -32,19 +28,18 @@ const contact = site.contact.email;
 
   <h2>Why we use it</h2>
   <p>
-    To provide the site and keep it secure, to take and deliver orders, and, only if you asked for it, to send you our
-    letters. We do not sell your personal data.
+    To provide the site and keep it secure, and to take and deliver orders. We do not sell your personal data.
   </p>
 
   <h2>Who we share it with</h2>
   <p>
-    Service providers that act on our behalf: our hosting provider, Stripe for payments, and our email provider for the
-    newsletter. Each may process data outside your country under appropriate safeguards.
+    Service providers that act on our behalf: our hosting provider and Stripe for payments. Each may process data outside
+    your country under appropriate safeguards.
   </p>
 
   <h2>How long we keep it</h2>
   <p>
-    Newsletter addresses until you unsubscribe. Order records for as long as the law requires for accounting and tax.
+    Order records for as long as the law requires for accounting and tax.
     Server logs for a short period.
   </p>
 
@@ -54,16 +49,16 @@ const contact = site.contact.email;
     also complain to your local data protection authority.
   </p>
 
-  <h2>Contact</h2>
-  <p>
-    {
-      contact ? (
-        <>
+  {
+    contact && (
+      <>
+        <h2>Contact</h2>
+        <p>
+          <>
           Write to us at <a class="link" href={`mailto:${contact}`}>{contact}</a>.
         </>
-      ) : (
-        <>Contact details will be published here before launch.</>
-      )
-    }
-  </p>
+        </p>
+      </>
+    )
+  }
 </LegalPage>

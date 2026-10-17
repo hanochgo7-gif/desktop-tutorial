@@ -233,92 +233,6 @@ export function initNewsletter() {
   });
 }
 
-/* ---------- sensory chapters: sticky image follows the chapter being read ---------- */
-export function initChapters() {
-  document.querySelectorAll<HTMLElement>('[data-chapters]').forEach((root) => {
-    const chapters = [...root.querySelectorAll<HTMLElement>('[data-chapter]')];
-    const frames = [...root.querySelectorAll<HTMLElement>('[data-chapter-frame]')];
-    const counter = root.querySelector<HTMLElement>('[data-chapter-index]');
-    const activate = (i: string) => {
-      frames.forEach((f) => f.classList.toggle('is-active', f.dataset.chapterFrame === i));
-      chapters.forEach((c) => c.classList.toggle('is-active', c.dataset.chapter === i));
-      if (counter) counter.textContent = `0${Number(i) + 1}`;
-    };
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && activate((e.target as HTMLElement).dataset.chapter!)),
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    chapters.forEach((c) => io.observe(c));
-  });
-}
-
-/* ---------- "one flacon, four lights": the block in mid-viewport re-lights the pinned bottle ---------- */
-export function initFourLights() {
-  document.querySelectorAll<HTMLElement>('[data-fl]').forEach((root) => {
-    const stage = root.querySelector<HTMLElement>('[data-fl-stage]')!;
-    const steps = [...root.querySelectorAll<HTMLElement>('[data-fl-step]')];
-    const groups = ['[data-fl-frame]', '[data-fl-word]', '[data-fl-tick]'].map((sel) => [...root.querySelectorAll<HTMLElement>(sel)]);
-    const activate = (i: number) => {
-      groups.forEach((els) => els.forEach((el, j) => el.classList.toggle('is-active', i === j)));
-      stage.style.setProperty('--fl-accent', steps[i].dataset.accent!);
-    };
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && activate(steps.indexOf(e.target as HTMLElement))),
-      { rootMargin: '-50% 0px -50% 0px' },
-    );
-    steps.forEach((s) => io.observe(s));
-  });
-}
-
-/* ---------- light through glass: a specular point and a faint spectral band that follow the pointer ----------
-   Fine pointers steer it; on touch the band drifts with scroll; under reduced motion it stays put. */
-export function initGlass() {
-  const els = [...document.querySelectorAll<HTMLElement>('[data-glass]')];
-  if (!els.length || reducedMotion()) return;
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  els.forEach((el) => {
-    const area = el.closest<HTMLElement>('[data-glass-area]') || el;
-    let tx = 62, ty = 38, x = tx, y = ty, raf = 0, visible = false;
-    const paint = () => {
-      x += (tx - x) * 0.08;
-      y += (ty - y) * 0.08;
-      el.style.setProperty('--gx', `${x.toFixed(2)}%`);
-      el.style.setProperty('--gy', `${y.toFixed(2)}%`);
-      el.style.setProperty('--gs', `${(x * 0.9 + 5).toFixed(2)}%`);
-      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.05 ? requestAnimationFrame(paint) : 0;
-    };
-    const kick = () => {
-      if (!raf && visible) raf = requestAnimationFrame(paint);
-    };
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible && !fine) onScroll();
-      kick();
-    }).observe(el);
-    if (fine) {
-      area.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        tx = Math.max(-10, Math.min(110, ((e.clientX - r.left) / r.width) * 100));
-        ty = Math.max(-10, Math.min(110, ((e.clientY - r.top) / r.height) * 100));
-        kick();
-      });
-      area.addEventListener('pointerleave', () => {
-        tx = 62;
-        ty = 38;
-        kick();
-      });
-    }
-    function onScroll() {
-      const r = el.getBoundingClientRect();
-      const p = 1 - (r.top + r.height / 2) / (window.innerHeight + r.height); // 0 → 1 as it crosses
-      tx = 15 + p * 75;
-      ty = 30 + p * 20;
-      kick();
-    }
-    if (!fine) window.addEventListener('scroll', () => visible && onScroll(), { passive: true });
-  });
-}
-
 /* ---------- product gallery (mobile carousel dots + thumbnails) ---------- */
 export function initGallery() {
   document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
@@ -461,30 +375,6 @@ export function initLightbox() {
   });
 }
 
-/* ---------- gallery filters ---------- */
-export function initFilters() {
-  document.querySelectorAll<HTMLElement>('[data-filters]').forEach((bar) => {
-    const target = document.getElementById(bar.dataset.filters!);
-    if (!target) return;
-    const items = [...target.querySelectorAll<HTMLElement>('[data-campaign]')];
-    const status = bar.querySelector<HTMLElement>('[data-filter-status]');
-    bar.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
-      if (!btn) return;
-      const f = btn.dataset.filter!;
-      bar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-      let n = 0;
-      items.forEach((it) => {
-        const show = f === 'all' || it.dataset.campaign === f;
-        it.hidden = !show;
-        if (show) n++;
-      });
-      if (status) status.textContent = `${n} images`;
-      window.dispatchEvent(new Event('resize')); // let ScrollTrigger re-measure
-    });
-  });
-}
-
 /* ---------- ambient video pause control (WCAG 2.2.2) ---------- */
 export function initAmbientToggles() {
   document.querySelectorAll<HTMLButtonElement>('[data-ambient-toggle]').forEach((btn) => {
@@ -514,50 +404,3 @@ export function initAmbientToggles() {
   });
 }
 
-/* ---------- desktop cursor + magnetic CTAs ---------- */
-export function initPointer() {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches || reducedMotion()) return;
-  const cursor = document.querySelector<HTMLElement>('[data-cursor-el]');
-  const label = document.querySelector<HTMLElement>('[data-cursor-label]');
-  if (!cursor || !label) return;
-  let x = -100,
-    y = -100,
-    cx = x,
-    cy = y;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      x = e.clientX;
-      y = e.clientY;
-      cursor.classList.add('is-visible');
-    },
-    { passive: true },
-  );
-  document.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
-  const loop = () => {
-    cx += (x - cx) * 0.2;
-    cy += (y - cy) * 0.2;
-    cursor.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
-  document.addEventListener('pointerover', (e) => {
-    const t = e.target as HTMLElement;
-    const media = t.closest<HTMLElement>('[data-cursor]');
-    const link = t.closest('a, button, label, input, select');
-    cursor.classList.toggle('is-media', !!media);
-    cursor.classList.toggle('is-link', !media && !!link);
-    label.textContent = media?.dataset.cursor || '';
-  });
-
-  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-    el.style.transition = 'transform 600ms cubic-bezier(.16,1,.3,1)';
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-      const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      el.style.transform = `translate(${dx * 10}px, ${dy * 8}px)`;
-    });
-    el.addEventListener('pointerleave', () => (el.style.transform = ''));
-  });
-}

@@ -18,7 +18,7 @@ npm run build
 npm run preview      # node ./dist/server/entry.mjs — set PORT / HOST / SITE_URL as needed
 ```
 
-Copy `.env.example` to `.env` and fill in what you have. Nothing is required to browse the site; checkout and the newsletter answer honestly when they are not connected.
+Copy `.env.example` to `.env` and fill in what you have. Nothing is required to browse the site; checkout answers honestly when it is not connected.
 
 ## Stack
 
@@ -38,14 +38,15 @@ src/
   config/site.ts        brand, contact, social, commerce settings  ← edit before launch
   data/catalog.ts       products, formats, prices, notes          ← edit before launch
   i18n/ui.ts            every interface string (Hebrew/RTL-ready)
-  assets/img/           image masters (film stills + campaign stills)
+  assets/img/           image masters used by the site (unused ones live in archive/)
   styles/tokens.css     colour, type, spacing, motion tokens
   styles/global.css     base, components (header, menu, drawer, player, forms)
   layouts/Base.astro    <head>, SEO, header/menu/bag/film modal, boot data
-  components/           Media, Header, Menu, BagDrawer, FilmPlayer, FilmModal, Footer, Newsletter, LegalPage
+  components/           Media, Purchase, StillsGrid, Header, Menu, BagDrawer, FilmPlayer, FilmModal, Footer, Lightbox, LegalPage
   scripts/              main (wiring), motion, bag, overlay (focus trap), ui
-  pages/                index, fragrances/, film, house, bag, checkout/, legal/, api/, 404, robots.txt
-public/media/           web-encoded film loops, the full film, captions (.vtt), posters
+  pages/                index, fragrances/[slug], campaigns, film, bag, checkout/, legal/, api/, 404, robots.txt
+public/media/           the film, its captions (.vtt) and poster
+archive/                image masters, loops, reels and campaign data not used by the current site (not deployed)
 _source/                original campaign files and generation outputs (not deployed)
 ```
 
@@ -59,7 +60,7 @@ Declarative attributes, handled in `src/scripts/motion.ts`:
 
 - `data-reveal="lines"` words rise from a mask · `"fade"` soft rise · `"mask"` image wipe + settle
 - `data-parallax="8"` image drift inside its frame · `data-speed="0.15"` layered depth · `data-drift="-30"` oversized type drift
-- The hero headline animates in pure CSS so it paints before any JavaScript (fast LCP)
+- The hero headline is static (it is the LCP element); only the hero photograph settles in, in pure CSS
 
 Reduced motion (OS setting, or `?motion=off`) skips GSAP entirely, never autoplays video, and shows every element in its final state. A 4-second safety net removes hidden states if the motion bundle ever fails to load.
 
@@ -82,56 +83,38 @@ On Vercel the build switches to `@astrojs/vercel` automatically (it checks the `
 
 ### GitHub Pages copy (static)
 
-`/perfume/` at the repo root is a static copy served by GitHub Pages at https://hanochgo7-gif.github.io/desktop-tutorial/perfume/. Pages has no server, so the bag works but checkout and the newsletter cannot. To refresh it after a change:
+`/perfume/` at the repo root is a static copy served by GitHub Pages at https://hanochgo7-gif.github.io/desktop-tutorial/perfume/. Pages has no server, so the bag works but checkout cannot (the bag says so, honestly). To refresh it after a change:
 
 ```bash
 SITE_URL=https://hanochgo7-gif.github.io/desktop-tutorial/perfume npm run build
 node scripts/rebase-static.mjs dist/client /desktop-tutorial/perfume https://hanochgo7-gif.github.io
+node scripts/static-redirects.mjs dist/client /desktop-tutorial/perfume   # retired URLs → static redirect pages
 # then replace ../perfume with dist/client
 ```
 
-## Signature experiences (October 2026 pass)
+## The site (October 2026 redesign)
 
-- **One flacon, four lights** (`src/components/FourLights.astro`, `initFourLights`): the homepage collection. The four packshots share one framing, so the bottle stays anchored while the season in mid-viewport re-lights it — juice colour, light and the season word. The stage is CSS `position: sticky`; the copy scrolls normally (no scroll hijacking). Without JS the first season shows; under reduced motion changes are instant.
-- **Light through glass** (`[data-glass]` in `global.css`, `initGlass`): a specular point and a faint warm-to-cool band, as light breaking in a bevel. Fine pointers steer it; on touch it drifts with scroll; off under reduced motion. Used on the hero, the anchored bottle and the product hero image.
-- **Motion switch** in the footer (WCAG 2.3.3): saved per device (`localStorage['hg.motion']`), applied before first paint; disabled when the OS already asks for reduced motion.
-- **Product page**: breadcrumb (+ BreadcrumbList JSON-LD), zoomable gallery (lightbox), verified purchase assurances next to the button, progressive-disclosure details (flacon, formats, delivery & returns, payment, imagery), a compact purchase bar on mobile once the main block scrolls away, and the composition read as one deepening line.
-- **Performance**: video posters below the fold (and in the film modal) load only when needed, which took the homepage's simulated mobile LCP from 5.2 s to about 2.5 s.
+One fragrance is on sale, so the site is built around it and nothing competes with it.
 
-## Quality checks (October 2026, production build)
+- **Home** — five sections, one story: the hero (a model through the car window with the bottle; landscape frame on wide screens, portrait frame on tall ones), *the feeling* (he leaves, the lamp stays on, link to the film), *the campaign* (five large model portraits), *the fragrance* (packshot, concentration, sizes, prices, add to bag) and a closing image, "The room remembers."
+- **Product page** — gallery (packshot, a model with the bottle, the bottle at night), name, concentration, sizes and prices, add to bag, three short details (flacon, delivery & returns, payment), the story with one image, three campaign images. A compact purchase bar on mobile.
+- **Campaign** — one curated sequence of model photography (pairs of portraits broken by full-width frames; no two neighbours share a model or pose). Every image opens full screen.
+- **Film** — the 20-second film, one line, one call to action.
+- Retired routes redirect (`astro.config.mjs`): `/fragrances` (collection), the three seasonal concepts and `/house` point to Unforgettable or the campaign. The concepts stay in `catalog.ts` with `status: 'coming-soon'`; they get no page until they have formats and prices.
+- Removed: the custom cursor, magnetic buttons, the glass glow, animated grain, the pinned four-season sequence, the bottle collage, chapter numbers and catalogue numbers in the interface.
+- `Media` asks for a larger file when a wide image is cropped into a taller frame (`scaleSizes`), so crops stay sharp on phones.
+- On a static host (GitHub Pages) the bag works and checkout says "Online payment is not enabled yet… nothing has been charged."
 
-- Lighthouse mobile with compression: Performance 85 home · 91 product · 92 film · 97 collection. Accessibility, Best Practices and SEO 100 on every page tested; CLS ≈ 0. Desktop home: Performance 92, LCP 0.5 s.
-- Playwright + Chrome: 34 interaction checks pass (menu focus trap and Escape, size selection, bag add/qty/remove/persistence, checkout honest state, newsletter validation/success, film modal playback and captions, lightbox keyboard navigation, skip link, focus outline, reduced motion).
-- Viewports checked: 390×844, 412×823, 820×1180, 1280×720, 1440×900 — no horizontal overflow, no hidden content, no broken images, no console errors.
+## Quality checks (October 2026 redesign, production build)
+
+- Lighthouse mobile with compression: Performance 95–99 home (LCP 2.3–2.9 s simulated, varies by run) · 100 product · 98 campaign · 98 film. Accessibility, Best Practices and SEO 100 on every page; CLS 0.
+- Playwright + Chrome, 20 functional checks: size picker and price, add to bag, drawer, persistence, honest checkout state, film modal, mobile menu, lightbox, mobile purchase bar, skip link, redirects.
+- Automated layout pass on 8 pages at 1440×900, 1280×800, 1024×768, 820×1180, 390×844, 360×740 and 844×390: no horizontal overflow, no broken images, no console errors, no clipped text, CLS under 0.05, and every visible image at or above display resolution (up to 2× density).
 - `astro check`: 0 errors, 0 warnings.
-
-## The Four Seasons collection
-
-`src/data/catalog.ts` holds all four products (season, accent colour, story, notes, packshot, gallery, campaign stills, variants). `SeasonsGrid.astro` renders the collection on the homepage, the collection page and every product page. A product without purchasable variants renders as "Coming soon" with a notify-me form; the bag and `/api/checkout` only ever accept priced, available variants.
-
-| Season | Product | Bottle |
-| --- | --- | --- |
-| Spring | N°02 Open Window | pale green-gold juice, brushed silver collar |
-| Summer | N°03 Last Light | blush rosé-gold juice, rose-gold collar |
-| Autumn | N°01 Unforgettable (flagship) | amber juice, gold/brass collar |
-| Winter | N°04 Nocturne | garnet-black juice, satin black collar |
-
-Packshots and the nine seasonal campaign images were generated with Higgsfield (Nano Banana 2.1) from the flagship packshot and HG's existing campaign models as references; originals are in `_source/seasons/`.
-
-## Campaign library
-
-`src/data/campaigns.ts` drives `/campaigns`, the homepage "Elsewhere, the same night" section and the filtered gallery on `/film`. Each campaign has a film or reel, a short loop for cards, and its stills (alt text and captions included). Add a still by dropping a JPEG into `src/assets/img/` and adding one line to the campaign.
-
-| Campaign | Film | Stills |
-| --- | --- | --- |
-| I · Unforgettable | the 20 s film, sound + captions | 10 + 7 film frames |
-| II · Riviera | 26 s silent reel cut from 9 Higgsfield clips | 11 |
-| III · Night Drive | 24 s silent reel cut from 8 Higgsfield clips | 10 |
-| IV · Studio | 4 s product film (black marble) | 3 + 9 editorial stills |
 
 ## Asset provenance
 
 - **Campaign film and frames** — HG's own "Unforgettable" 20-second film (clips, end card, VO and score from the HG campaign files). Captions were timed against the voice-over.
-- **Riviera, Night Drive, Studio and extra Unforgettable stills/clips** — taken from HG's Higgsfield generation history (October 2026). Originals are kept in `_source/hf/` with a `manifest.json` of prompts and IDs; the reels were edited and re-encoded to H.264 for the web.
+- **Campaign photography** — HG's Higgsfield generation history (October 2026) plus the casting portraits and the through-the-window stills made from the campaign's own model, car and bottle. Originals are kept in `_source/hf/` with a `manifest.json` of prompts and IDs.
 - **Campaign stills** (`still-*`) — generated with Higgsfield (Nano Banana 2.1) using frames of the film's bottle as references, so the bottle, palette and lighting stay consistent.
-- The footer and film page carry the disclosure "Campaign film and imagery created with AI.", matching the film's end card.
+- The footer carries the disclosure "Campaign film and imagery created with AI.", matching the film's end card.

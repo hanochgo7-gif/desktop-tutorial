@@ -4,11 +4,9 @@
  * edition only needs a second dictionary plus translated pages.
  */
 const en = {
-  'nav.collection': 'Collection',
   'nav.unforgettable': 'Unforgettable',
-  'nav.film': 'The Film',
-  'nav.house': 'The House',
-  'nav.campaigns': 'Campaigns',
+  'nav.film': 'Film',
+  'nav.campaigns': 'Campaign',
   'nav.menu': 'Menu',
   'nav.close': 'Close',
   'nav.bag': 'Bag',
@@ -32,7 +30,6 @@ const en = {
   'product.adding': 'Adding…',
   'product.size': 'Size',
   'product.unavailable': 'Unavailable',
-  'product.pricingNote': 'Launch pricing to be confirmed.',
 
   'checkout.redirecting': 'Opening secure payment…',
   'checkout.notConfigured':

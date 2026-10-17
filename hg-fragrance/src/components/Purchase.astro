@@ -1,0 +1,44 @@
+---
+/**
+ * The purchase block: size, price and "Add to bag". One per page
+ * (the size picker updates every [data-variant-price] on the page).
+ */
+import type { Product } from '../data/catalog';
+import { commerce, site } from '../config/site';
+import { t } from '../i18n/ui';
+
+interface Props {
+  product: Product;
+  id: string;
+  pdp?: boolean; // marks the block the mobile purchase bar watches
+}
+const { product: p, id, pdp = false } = Astro.props;
+const lang = site.locale.lang;
+const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
+const variants = p.variants.filter((v) => v.available);
+const first = variants[0];
+---
+
+<form class="buy" id={id} data-add-to-bag data-pdp-buy={pdp || undefined}>
+  <fieldset class="buy__sizes">
+    <legend class="label faint">{t('product.size', lang)}</legend>
+    <div class="buy__options">
+      {
+        variants.map((v, i) => (
+          <label class="buy__option">
+            <input type="radio" name="variant" value={v.id} data-price={fmt.format(v.price)} checked={i === 0} />
+            <span class="buy__box">
+              <span class="buy__ml">{v.label}</span>
+              <span class="buy__price">{fmt.format(v.price)}</span>
+            </span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+  <input type="hidden" name="qty" value="1" />
+  <button class="btn btn--solid btn--block" type="submit">
+    {t('product.add', lang)} — <span data-variant-price>{fmt.format(first.price)}</span>
+  </button>
+  <p class="buy__note">{t('bag.secure', lang)}</p>
+</form>

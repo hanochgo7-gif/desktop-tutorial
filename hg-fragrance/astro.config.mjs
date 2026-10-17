@@ -15,6 +15,14 @@ export default defineConfig({
   site,
   // Pages are prerendered (static); only /api/* and /checkout/success run on the server.
   output: 'static',
+  // One fragrance is on sale; the retired collection, concept and house pages point to it.
+  redirects: {
+    '/fragrances': '/fragrances/unforgettable',
+    '/fragrances/open-window': '/fragrances/unforgettable',
+    '/fragrances/last-light': '/fragrances/unforgettable',
+    '/fragrances/nocturne': '/fragrances/unforgettable',
+    '/house': '/campaigns',
+  },
   // Vercel builds use its serverless adapter; everywhere else the standalone Node server.
   adapter: process.env.VERCEL ? vercel() : node({ mode: 'standalone' }),
   integrations: [

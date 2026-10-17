@@ -39,8 +39,8 @@ export const site = {
 export const commerce = {
   currency: 'USD',
   /**
-   * While `pricesConfirmed` is false, product pages show a quiet
-   * "launch pricing to be confirmed" note and structured data omits offers.
+   * Prices show on the site as set in the catalogue. Only when this is true does the product's
+   * structured data (Google) carry them as offers — set it once the prices are final.
    */
   pricesConfirmed: false,
   /** Countries Stripe Checkout may ship to (ISO 3166-1 alpha-2). TODO(launch). */

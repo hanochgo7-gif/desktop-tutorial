@@ -92,7 +92,6 @@ function lineHTML(l: Line, thumbs: Record<string, string>) {
     <div>
       <div class="line-item__top">
         <div>
-          <p class="label faint">${esc(p.number)}</p>
           <h3 class="line-item__name"><a href="/fragrances/${esc(p.slug)}">${esc(p.name)}</a></h3>
           <p class="line-item__meta">${esc(p.label)}</p>
         </div>
@@ -159,8 +158,10 @@ async function startCheckout(button: HTMLButtonElement, status: HTMLElement) {
       window.location.assign(data.url);
       return;
     }
-    status.textContent = res.status === 503 ? s('checkout.notConfigured') : s('checkout.error');
-    if (res.status !== 503) status.dataset.tone = 'error';
+    // 503: not configured; 404/405: a static host with no checkout endpoint (e.g. GitHub Pages).
+    const off = [503, 404, 405].includes(res.status);
+    status.textContent = off ? s('checkout.notConfigured') : s('checkout.error');
+    if (!off) status.dataset.tone = 'error';
   } catch {
     status.textContent = s('checkout.error');
     status.dataset.tone = 'error';

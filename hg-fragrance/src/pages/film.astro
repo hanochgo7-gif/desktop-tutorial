@@ -1,104 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
 import FilmPlayer from '../components/FilmPlayer.astro';
-import StillsGrid from '../components/StillsGrid.astro';
-import Lightbox from '../components/Lightbox.astro';
-import { campaigns, type Still } from '../data/campaigns';
-import { bySeason } from '../data/catalog';
-import { site } from '../config/site';
-
-// Frames of the Unforgettable film + the editorial stills made for this site.
-const filmFrames: Still[] = [
-  { name: 'film-window', alt: 'A man at a tall rain-streaked window at night, the HG bottle on the desk', caption: 'The window', wide: true },
-  { name: 'film-ritual', alt: 'He sprays Unforgettable at the collar under a brass lamp', caption: 'The ritual' },
-  { name: 'film-look', alt: 'A man’s face in low amber light, looking back', caption: 'The look' },
-  { name: 'film-exit', alt: 'He leaves through a lit doorway; the lamp stays on', caption: 'The door' },
-  { name: 'film-empty-room', alt: 'The empty room: lamp, chair, bottle, mist', caption: 'The room after', wide: true },
-  { name: 'film-macro', alt: 'Extreme close-up of amber through faceted glass', caption: 'Glass' },
-  { name: 'film-signature', alt: 'The bottle on the desk, the city blurred in the rain behind', caption: 'Signature' },
-];
-const editorial: Still[] = [
-  { name: 'still-basalt', alt: 'The HG bottle on a block of basalt in raking light', caption: 'Basalt' },
-  { name: 'still-monogram', alt: 'The engraved HG monogram through amber juice', caption: 'Monogram' },
-  { name: 'still-amber', alt: 'Amber light refracted through the bevelled base', caption: 'Amber', wide: true },
-  { name: 'still-rain', alt: 'Rain on a dark window with amber reflections', caption: 'Rain' },
-  { name: 'still-cap', alt: 'Black cap, brass collar and bevelled shoulder in macro', caption: 'Cap & collar' },
-  { name: 'still-skin', alt: 'An open white collar lit amber from behind', caption: 'Collar' },
-  { name: 'still-mist', alt: 'Mist drifting through a beam of warm light', caption: 'What stays', wide: true },
-  { name: 'still-travertine', alt: 'The bottle on travertine in morning light', caption: 'Morning' },
-  { name: 'still-mirror', alt: 'The bottle mirrored on black lacquer', caption: 'Reflection' },
-];
-
-const byId = Object.fromEntries(campaigns.map((c) => [c.id, c]));
-const items = [
-  ...filmFrames.map((s) => ({ ...s, campaign: 'unforgettable' })),
-  ...byId['unforgettable'].stills.map((s) => ({ ...s, campaign: 'unforgettable' })),
-  ...byId['riviera'].stills.map((s) => ({ ...s, campaign: 'riviera' })),
-  ...byId['night-drive'].stills.map((s) => ({ ...s, campaign: 'night-drive' })),
-  ...byId['rosso'].stills.map((s) => ({ ...s, campaign: 'rosso' })),
-  ...byId['studio'].stills.map((s) => ({ ...s, campaign: 'studio' })),
-  ...editorial.map((s) => ({ ...s, campaign: 'studio' })),
-];
-// The seasonal fragrances: each campaign plus its packshot.
-const seasonal = bySeason().filter((p) => p.slug !== 'unforgettable');
-seasonal.forEach((p) =>
-  items.push(
-    ...p.campaign.map((s) => ({ ...s, caption: `${p.name} — ${s.caption}`, campaign: p.slug })),
-    { name: p.packshot, alt: `${p.name} — the HG bottle, front view`, caption: `${p.name} — Packshot`, campaign: p.slug },
-  ),
-);
-const filters = [
-  { id: 'all', label: 'All' },
-  { id: 'unforgettable', label: 'Unforgettable' },
-  { id: 'riviera', label: 'Riviera' },
-  { id: 'night-drive', label: 'Night Drive' },
-  { id: 'rosso', label: 'Rosso' },
-  { id: 'studio', label: 'Studio & editorial' },
-  ...seasonal.map((p) => ({ id: p.slug, label: `${p.name} · ${p.season}` })),
-];
 ---
 
-<Base title="The Film" description="HG — Unforgettable. The 20-second campaign film and the full HG campaign gallery.">
+<Base title="The Film" description="HG Unforgettable — the 20-second campaign film.">
   <section class="film-hero" aria-labelledby="film-title">
     <div class="wrap">
       <header class="film-hero__head grid">
-        <p class="label faint" data-reveal="fade" data-immediate>Campaign film — 0:20</p>
-        <h1 class="display film-hero__title" id="film-title" data-reveal="lines" data-immediate data-delay="0.1">
-          Unforgettable
-        </h1>
+        <p class="label faint" data-reveal="fade" data-immediate>The film</p>
+        <h1 class="display film-hero__title" id="film-title" data-reveal="lines" data-immediate>Unforgettable</h1>
       </header>
-      <div class="film-hero__player" data-reveal="fade" data-immediate data-delay="0.5">
+      <div class="film-hero__player" data-reveal="fade" data-immediate data-delay="0.3">
         <FilmPlayer id="film-page-video" />
       </div>
       <div class="film-hero__meta grid">
-        <dl class="film-hero__script" data-reveal="fade">
-          <div><dt class="label faint num">0:10</dt><dd class="serif">“Leave the room.”</dd></div>
-          <div><dt class="label faint num">0:13</dt><dd class="serif">“Stay in it.”</dd></div>
-          <div><dt class="label faint num">0:17</dt><dd class="serif">“HG. Unforgettable.”</dd></div>
-        </dl>
-        <div class="prose film-hero__note" data-reveal="fade">
-          <p>A man, a window, a lamp left on. He wears it once and leaves; the film stays behind with the room. Captions are available in the player. {site.aiDisclosure}</p>
-          <p><a class="link label" href="/campaigns">All four HG campaigns</a></p>
+        <p class="lead it muted film-hero__line" data-reveal="fade">A man, a window, a lamp left on. He wears it once, and leaves.</p>
+        <div class="film-hero__note" data-reveal="fade">
+          <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
-    <div class="wrap">
-      <header class="gallery__head grid">
-        <p class="label faint" data-reveal="fade">Campaign gallery</p>
-        <h2 class="h1" id="gallery-title" data-reveal="lines">{items.length} frames <em>of HG</em></h2>
-      </header>
-      <div class="filters" role="group" aria-label="Filter the gallery" data-filters="gallery-grid">
-        {filters.map((f, i) => <button type="button" class="filters__btn" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>)}
-        <span class="faint label filters__status" role="status" aria-live="polite" data-filter-status>{items.length} images</span>
-      </div>
-      <StillsGrid id="gallery-grid" items={items} group="gallery" numbered={false} />
-    </div>
-  </section>
-
-  <Lightbox />
 </Base>
 
 <style is:global>
@@ -120,88 +42,28 @@ const filters = [
     row-gap: 2rem;
     margin-top: 2.5rem;
   }
-  .film-hero__script {
+  .film-hero__line {
     grid-column: 1 / -1;
-    display: grid;
-    gap: 0.75rem;
+    max-width: 30rem;
   }
-  .film-hero__script div {
-    display: flex;
-    gap: 1.25rem;
-    align-items: baseline;
-  }
-  .film-hero__script dd {
-    font-size: var(--step-1);
-    font-style: italic;
+  .film-hero {
+    padding-bottom: var(--section);
   }
   .film-hero__note {
     grid-column: 1 / -1;
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+    align-content: start;
   }
   @media (min-width: 900px) {
-    .film-hero__head > p {
-      grid-column: 1 / span 3;
-      align-self: end;
-      padding-bottom: 2rem;
-    }
-    .film-hero__head > h1 {
-      grid-column: 4 / -1;
-    }
-    .film-hero__script {
-      grid-column: 1 / span 5;
+    .film-hero__line {
+      grid-column: 1 / span 6;
     }
     .film-hero__note {
-      grid-column: 8 / span 5;
+      grid-column: 9 / span 4;
+      justify-items: end;
     }
   }
 
-  .gallery__head {
-    row-gap: 1rem;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
-  }
-  .gallery__head > * {
-    grid-column: 1 / -1;
-  }
-  @media (min-width: 900px) {
-    .gallery__head > p {
-      grid-column: 1 / span 3;
-      padding-top: 1.4rem;
-    }
-    .gallery__head > h2 {
-      grid-column: 4 / -1;
-    }
-  }
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
-    padding-block: 1rem;
-    border-block: 1px solid var(--c-line);
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: var(--c-bg);
-  }
-  .filters__btn {
-    min-height: 2.5rem;
-    padding: 0 1rem;
-    border: 1px solid var(--c-line);
-    border-radius: 999px;
-    font-size: var(--step--2);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    transition: background-color var(--dur-2), color var(--dur-2), border-color var(--dur-2);
-  }
-  .filters__btn:hover {
-    border-color: var(--c-line-strong);
-  }
-  .filters__btn[aria-pressed='true'] {
-    background: var(--c-ivory);
-    color: var(--c-ink);
-    border-color: var(--c-ivory);
-  }
-  .filters__status {
-    margin-inline-start: auto;
-  }
 </style>

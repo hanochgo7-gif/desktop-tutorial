@@ -1,7 +1,5 @@
 ---
-import Newsletter from './Newsletter.astro';
 import { site } from '../config/site';
-import { bySeason } from '../data/catalog';
 import { t } from '../i18n/ui';
 const lang = site.locale.lang;
 const year = new Date().getFullYear();
@@ -11,51 +9,28 @@ const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok'
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-news">
-        <Newsletter id="footer-news" />
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <h2 class="label">Fragrance</h2>
-          <ul role="list">
-            {bySeason().map((p) => <li><a href={`/fragrances/${p.slug}`}>{p.name} <span class="faint">· {p.season}</span></a></li>)}
-            <li><a href="/fragrances">The Collection</a></li>
-            <li><a href="/bag">Your bag</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h2 class="label">The House</h2>
-          <ul role="list">
-            <li><a href="/house">The HG world</a></li>
-            <li><a href="/film">The film</a></li>
-            <li><a href="/house#faces">The faces</a></li>
-            <li><a href="/campaigns">Campaigns</a></li>
-            <li><a href="/film#gallery">Campaign gallery</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h2 class="label">Client care</h2>
-          <ul role="list">
-            {site.contact.email && <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>}
-            {site.contact.phone && <li><a href={`tel:${site.contact.phone.replace(/\s/g, '')}`}>{site.contact.phone}</a></li>}
-            {socials.map(([key, url]) => <li><a href={url} rel="noopener" target="_blank">{label[key] ?? key}</a></li>)}
-            <li><a href="/legal/privacy">Privacy</a></li>
-            <li><a href="/legal/terms">Terms of sale</a></li>
-          </ul>
-        </div>
-      </div>
+    <div class="footer-top">
+      <a class="logo" href="/" aria-label={`${site.name} — home`}>HG</a>
+      <nav aria-label="Footer">
+        <ul class="footer-links" role="list">
+          <li><a href="/fragrances/unforgettable">{t('nav.unforgettable', lang)}</a></li>
+          <li><a href="/campaigns">{t('nav.campaigns', lang)}</a></li>
+          <li><a href="/film">{t('nav.film', lang)}</a></li>
+          {site.contact.email && <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>}
+          {socials.map(([key, url]) => <li><a href={url} rel="noopener" target="_blank">{label[key] ?? key}</a></li>)}
+        </ul>
+      </nav>
     </div>
-
-    <p class="footer-mark" aria-hidden="true" data-footer-mark>HG</p>
-
     <div class="footer-base label">
-      <span>© {year} {site.legalEntity ?? site.fullName}</span>
-      <span>{site.aiDisclosure}</span>
+      <span class="footer-legal">
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms of sale</a>
+      </span>
+      <span class="footer-ai">{site.aiDisclosure}</span>
+      <span class="footer-copy">© {year} {site.legalEntity ?? site.fullName}</span>
       <button class="motion-toggle label" type="button" data-motion-toggle aria-pressed="false">
         {t('motion.label', lang)}: <span data-motion-state>{t('motion.on', lang)}</span>
       </button>
-      <span>Unforgettable.</span>
     </div>
   </div>
 </footer>

@@ -2,17 +2,17 @@
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Media from '../../components/Media.astro';
-import SeasonsGrid from '../../components/SeasonsGrid.astro';
 import StillsGrid from '../../components/StillsGrid.astro';
 import Lightbox from '../../components/Lightbox.astro';
-import Newsletter from '../../components/Newsletter.astro';
+import Purchase from '../../components/Purchase.astro';
 import { products, isPurchasable, type Product } from '../../data/catalog';
 import { img } from '../../assets/images';
 import { commerce, site } from '../../config/site';
 import { t } from '../../i18n/ui';
 
+// Only fragrances on sale get a page; retired concept URLs redirect (astro.config.mjs).
 export function getStaticPaths() {
-  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+  return products.filter(isPurchasable).map((product) => ({ params: { slug: product.slug }, props: { product } }));
 }
 
 interface Props {
@@ -21,7 +21,6 @@ interface Props {
 const { product: p } = Astro.props;
 const lang = site.locale.lang;
 const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
-const purchasable = isPurchasable(p);
 const variants = p.variants.filter((v) => v.available);
 const first = variants[0];
 
@@ -30,15 +29,6 @@ const zoom = await Promise.all(p.gallery.map((g) => getImage({ src: img(g.name),
 const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
 const countries = commerce.shippingCountries.map((c) => countryNames.of(c) ?? c);
 const formId = `buy-${p.slug}`;
-const notifyId = `notify-${p.slug}`;
-const crumbs = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'The Collection', item: new URL('/fragrances', Astro.site).toString() },
-    { '@type': 'ListItem', position: 2, name: p.name, item: new URL(`/fragrances/${p.slug}`, Astro.site).toString() },
-  ],
-};
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -47,7 +37,7 @@ const ld = {
   image: new URL(share.src, Astro.site).toString(),
   brand: { '@type': 'Brand', name: site.fullName },
   category: `Fragrance — ${p.concentration}`,
-  ...(purchasable && commerce.pricesConfirmed
+  ...(commerce.pricesConfirmed
     ? {
         offers: variants.map((v) => ({
           '@type': 'Offer',
@@ -63,8 +53,8 @@ const ld = {
 };
 ---
 
-<Base title={p.name} description={`${p.name} — ${p.season.toLowerCase()} fragrance by HG. ${p.shortLine}`} image={share.src} jsonLd={[ld, crumbs]}>
-  <section class="pdp" aria-labelledby="pdp-title" style={`--accent:${p.accent}`}>
+<Base title={p.name} description={`HG ${p.name}, ${p.concentration}. ${p.shortLine}`} image={share.src} jsonLd={ld}>
+  <section class="pdp" aria-labelledby="pdp-title">
     <div class="wrap grid">
       <div class="pdp__gallery" data-gallery>
         <ul class="pdp__track" role="list" data-gallery-track>
@@ -78,12 +68,9 @@ const ld = {
                   data-full={zoom[i].src}
                   data-alt={g.alt}
                   data-caption={g.alt}
-                  data-cursor="Zoom"
-                  data-glass={i === 0 ? '' : undefined}
                   aria-label={`Enlarge image ${i + 1} of ${p.gallery.length}: ${g.alt}`}
                 >
-                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" priority={i === 0} reveal={i !== 0} />
-                  <span class="pdp__zoom-hint label" aria-hidden="true">Zoom</span>
+                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" position={g.focus ?? '50% 40%'} priority={i === 0} reveal={i !== 0} />
                 </button>
               </li>
             ))
@@ -102,173 +89,56 @@ const ld = {
 
       <div class="pdp__info">
         <div class="pdp__sticky">
-          <nav class="pdp__crumbs label" aria-label="Breadcrumb">
-            <ol role="list">
-              <li><a class="link" href="/fragrances">The Collection</a></li>
-              <li aria-current="page">{p.name}</li>
-            </ol>
-          </nav>
-          <p class="label pdp__season" data-reveal="fade" data-immediate>
-            <span class="pdp__dot-accent" aria-hidden="true"></span>
-            {p.season} <span class="faint">· {p.number}</span>
-          </p>
-          <h1 class="h1 pdp__title" id="pdp-title" data-reveal="lines" data-immediate data-delay="0.1">{p.name}</h1>
-          <p class="lead it muted" data-reveal="fade" data-immediate data-delay="0.35">{p.concentration}</p>
-          <p class="serif pdp__line" data-reveal="fade" data-immediate data-delay="0.45">{p.shortLine}</p>
-
-          {
-            purchasable ? (
-              <form class="pdp__buy" id={formId} data-add-to-bag data-pdp-buy data-reveal="fade" data-immediate data-delay="0.55">
-                <p class="pdp__price serif" data-variant-price aria-live="polite">{fmt.format(first.price)}</p>
-                <fieldset class="pdp__sizes">
-                  <legend class="label faint">{t('product.size', lang)}</legend>
-                  <div class="pdp__options">
-                    {variants.map((v, i) => (
-                      <label class="pdp__option">
-                        <input type="radio" name="variant" value={v.id} data-price={fmt.format(v.price)} checked={i === 0} />
-                        <span class="pdp__option-box">
-                          <span class="label">{v.label}</span>
-                          <span class="faint">{fmt.format(v.price)}</span>
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-                <input type="hidden" name="qty" value="1" />
-                <button class="btn btn--solid btn--block" type="submit" data-magnetic>
-                  {t('product.add', lang)}<span class="arrow" aria-hidden="true"></span>
-                </button>
-                {!commerce.pricesConfirmed && <p class="notice">{t('product.pricingNote', lang)}</p>}
-                <ul class="pdp__assure" role="list">
-                  <li>Secure payment on Stripe’s checkout page</li>
-                  <li>Shipping and any taxes shown before you pay</li>
-                  <li>Delivery to {countries.length} countries — <a class="link" href="#pdp-delivery">see where</a></li>
-                </ul>
-              </form>
-            ) : (
-              <div class="pdp__soon" data-pdp-buy data-reveal="fade" data-immediate data-delay="0.55">
-                <p class="label pdp__soon-label">Coming soon</p>
-                <Newsletter
-                  id={notifyId}
-                  heading={`Tell me when ${p.name} is ready`}
-                  text={`${p.name} is still being composed. Leave your email and we will write once, when it is ready.`}
-                />
-              </div>
-            )
-          }
-
+          <h1 class="h1 pdp__title" id="pdp-title">{p.name}</h1>
+          <p class="lead it muted">{p.concentration}</p>
+          <p class="serif pdp__line">{p.shortLine}</p>
+          <Purchase product={p} id={formId} pdp />
           <div class="pdp__details">
             <details>
               <summary class="label">The flacon</summary>
               <p>{p.bottle}</p>
             </details>
-            <details>
-              <summary class="label">Concentration{variants.length > 0 && ' & formats'}</summary>
-              <p>{p.concentration}.{variants.length > 0 ? <> Available as {variants.map((v) => `${v.label} (${fmt.format(v.price)})`).join(' and ')}.</> : <> Formats and prices will be announced with the launch.</>}</p>
-            </details>
             <details id="pdp-delivery">
               <summary class="label">Delivery &amp; returns</summary>
-              <p>We deliver to {countries.join(', ')}. Shipping and any taxes are calculated on the checkout page, before you pay.</p>
-              <p>Our returns window will be confirmed before launch; your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
+              <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
+              <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
             </details>
             <details>
-              <summary class="label">Payment &amp; your bag</summary>
+              <summary class="label">Payment</summary>
               <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
             </details>
-            <details>
-              <summary class="label">About the imagery</summary>
-              <p>{site.aiDisclosure}</p>
-            </details>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="pdp-bar" data-pdp-bar hidden style={`--accent:${p.accent}`}>
+  <div class="pdp-bar" data-pdp-bar hidden>
     <div class="pdp-bar__info">
       <span class="serif pdp-bar__name">{p.name}</span>
-      {purchasable ? <span class="label faint" data-variant-price>{fmt.format(first.price)}</span> : <span class="label faint">Coming soon</span>}
+      <span class="label faint" data-variant-price>{fmt.format(first.price)}</span>
     </div>
-    {
-      purchasable ? (
-        <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
-      ) : (
-        <a class="btn" href={`#${notifyId}-email`} data-pdp-notify>Notify me</a>
-      )
-    }
+    <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
   </div>
 
-  <section class="section pdp-story" aria-labelledby="story-title" style={`--accent:${p.accent}`}>
+  <section class="section pdp-story" aria-labelledby="story-title">
     <div class="wrap grid">
-      <p class="label faint pdp-story__label" data-reveal="fade">The story</p>
-      <h2 class="h2 pdp-story__title" id="story-title" data-reveal="lines">{p.shortLine}</h2>
-      <div class="prose pdp-story__text" data-reveal="fade">
-        {p.story.map((para) => <p>{para}</p>)}
+      <div class="pdp-story__visual">
+        <Media name="riv-spray" alt="Eyes closed, he wears Unforgettable once, at the collar" ratio="4 / 3" sizes="(min-width: 900px) 42vw, 100vw" position="50% 40%" />
       </div>
-      <div class="pdp-story__bottle" data-reveal="fade">
-        <p class="label faint">The flacon</p>
-        <p class="serif">{p.bottle}</p>
-      </div>
-    </div>
-  </section>
-
-  {
-    p.notes && (
-      <section class="section pdp-notes" aria-labelledby="notes-title" style={`--accent:${p.accent}`}>
-        <div class="wrap grid">
-          <div class="pdp-notes__visual">
-            <Media name={(p.gallery[1] ?? p.gallery[0]).name} alt="" ratio="3 / 4" sizes="(min-width: 900px) 24vw, 50vw" parallax={6} />
-          </div>
-          <div class="pdp-notes__body">
-            <p class="label faint" data-reveal="fade">Composition</p>
-            <h2 class="h2" id="notes-title" data-reveal="lines">
-              Three movements, <em>one skin</em>
-            </h2>
-            <dl class="pdp-notes__list">
-              {(
-                [
-                  ['Top', 'The opening', p.notes.top],
-                  ['Heart', 'The heart', p.notes.heart],
-                  ['Base', 'What stays', p.notes.base],
-                ] as const
-              ).map(([label, line, list], i) => (
-                <div class="pdp-notes__col" data-reveal="fade" style={`--step:${i}`}>
-                  <dt>
-                    <span class="label">{label}</span>
-                    <span class="it muted serif">{line}</span>
-                  </dt>
-                  {list.map((n) => (
-                    <dd class="serif">{n}</dd>
-                  ))}
-                </div>
-              ))}
-            </dl>
-          </div>
+      <div class="pdp-story__copy">
+        <h2 class="h2" id="story-title">Worn once, <em>at the collar.</em></h2>
+        <div class="prose">
+          {p.story.slice(0, 2).map((para) => <p>{para}</p>)}
         </div>
-      </section>
-    )
-  }
-
-  <section class="section pdp-campaign" aria-labelledby="campaign-title">
-    <div class="wrap">
-      <header class="pdp-campaign__head grid">
-        <p class="label faint" data-reveal="fade">The campaign · {p.season}</p>
-        <h2 class="h2" id="campaign-title" data-reveal="lines">{p.name}, <em>elsewhere</em></h2>
-        <a class="link label pdp-campaign__all" href="/campaigns" data-reveal="fade">All campaigns</a>
-      </header>
-      <StillsGrid items={p.campaign} group={p.slug} />
-      <p class="faint label pdp-campaign__note">{site.aiDisclosure}</p>
+      </div>
     </div>
   </section>
 
-  <section class="section pdp-more" aria-labelledby="more-title">
+  <section class="section pdp-campaign" aria-label="The campaign">
     <div class="wrap">
-      <header class="pdp-more__head grid">
-        <p class="label faint" data-reveal="fade">The collection</p>
-        <h2 class="h2" id="more-title" data-reveal="lines">Four seasons, <em>one house</em></h2>
-      </header>
-      <SeasonsGrid current={p.slug} />
+      <StillsGrid items={p.campaign} group={p.slug} numbered={false} />
+      <p class="pdp-campaign__more"><a class="link label" href="/campaigns">The campaign</a></p>
     </div>
   </section>
 
@@ -329,23 +199,12 @@ const ld = {
     transition: background-color var(--dur-2);
   }
   .pdp__dot[aria-current='true']::before {
-    background: var(--accent);
+    background: var(--c-text);
   }
   .pdp__sticky {
     display: grid;
     gap: 1.25rem;
     justify-items: start;
-  }
-  .pdp__season {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-  .pdp__dot-accent {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--accent);
   }
   .pdp__title {
     font-size: clamp(3rem, 1.2rem + 4.4vw, 6.25rem);
@@ -356,129 +215,11 @@ const ld = {
     border-bottom: 1px solid var(--c-line);
     width: 100%;
   }
-  .pdp__buy,
-  .pdp__soon {
-    display: grid;
-    gap: 1.25rem;
-    width: 100%;
-  }
-  .pdp__price {
-    font-size: var(--step-2);
-    line-height: 1;
-  }
-  .pdp__sizes {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: 0.75rem;
-  }
-  .pdp__options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-    gap: 0.6rem;
-  }
-  .pdp__option {
-    position: relative;
-    cursor: pointer;
-  }
-  .pdp__option input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-  .pdp__option-box {
-    display: grid;
-    gap: 0.3rem;
-    padding: 0.9rem 1rem;
-    border: 1px solid var(--c-line-strong);
-    border-radius: var(--radius);
-    transition:
-      border-color var(--dur-2),
-      background-color var(--dur-2);
-  }
-  .pdp__option-box .faint {
-    font-size: var(--step--1);
-  }
-  .pdp__option:hover .pdp__option-box {
-    border-color: var(--c-text);
-  }
-  .pdp__option input:checked + .pdp__option-box {
-    border-color: var(--accent);
-    background: rgb(239 231 216 / 0.04);
-  }
-  .pdp__option input:focus-visible + .pdp__option-box {
-    outline: 1px solid var(--c-focus);
-    outline-offset: 3px;
-  }
-  .pdp__soon-label {
-    color: var(--accent);
-  }
-  .pdp__soon .newsletter .h3 {
-    font-size: var(--step-1);
-  }
-
-  .pdp__crumbs ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    color: var(--c-faint);
-  }
-  .pdp__crumbs li + li::before {
-    content: '/';
-    margin-inline-end: 0.5rem;
-    opacity: 0.6;
-  }
-  .pdp__crumbs [aria-current] {
-    color: var(--c-muted);
-  }
   .pdp__zoom {
     position: relative;
     display: block;
     width: 100%;
     cursor: zoom-in;
-  }
-  .pdp__zoom-hint {
-    position: absolute;
-    inset-block-end: 0.9rem;
-    inset-inline-end: 0.9rem;
-    z-index: 3;
-    padding: 0.35rem 0.6rem;
-    background: rgb(10 9 8 / 0.55);
-    backdrop-filter: blur(6px);
-    color: var(--c-ivory);
-    opacity: 0;
-    transition: opacity var(--dur-2);
-  }
-  .pdp__zoom:hover .pdp__zoom-hint,
-  .pdp__zoom:focus-visible .pdp__zoom-hint {
-    opacity: 1;
-  }
-  @media (hover: none) {
-    .pdp__zoom-hint {
-      opacity: 0.85;
-    }
-  }
-  .pdp__assure {
-    display: grid;
-    gap: 0.45rem;
-    font-size: var(--step--1);
-    color: var(--c-muted);
-  }
-  .pdp__assure li {
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
-  }
-  .pdp__assure li::before {
-    content: '';
-    flex: none;
-    width: 0.9rem;
-    height: 1px;
-    background: var(--accent);
-    transform: translateY(-0.25em);
   }
   .pdp__details {
     width: 100%;
@@ -513,7 +254,7 @@ const ld = {
     transform: rotate(45deg);
   }
   .pdp__details summary:hover {
-    color: var(--accent);
+    color: var(--c-brass);
   }
   .pdp__details details p {
     font-size: var(--step--1);
@@ -573,90 +314,32 @@ const ld = {
   }
 
   .pdp-story .grid {
-    row-gap: 2rem;
-  }
-  .pdp-story__label,
-  .pdp-story__title,
-  .pdp-story__text,
-  .pdp-story__bottle {
-    grid-column: 1 / -1;
-  }
-  .pdp-story__bottle {
-    display: grid;
-    gap: 0.75rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--c-line);
-    max-width: 30rem;
-  }
-  .pdp-story__bottle .serif {
-    font-size: var(--step-1);
-    line-height: 1.45;
-    color: var(--c-muted);
-  }
-
-  .pdp-notes {
-    padding-top: 0;
-  }
-  .pdp-notes .grid {
     row-gap: 2.5rem;
-    align-items: end;
+    align-items: center;
   }
-  .pdp-notes__visual {
-    grid-column: 1 / span 7;
-  }
-  .pdp-notes__body {
-    grid-column: 1 / -1;
-    display: grid;
-    gap: 1.25rem;
-  }
-  .pdp-notes__list {
-    display: grid;
-    gap: var(--gap);
-    margin-top: 1.5rem;
-  }
-  .pdp-notes__col {
-    display: grid;
-    gap: 0.45rem;
-    align-content: start;
-    padding-top: 1.25rem;
-    position: relative;
-  }
-  /* one continuous rule that deepens from opening to base: the "accord" read left to right */
-  .pdp-notes__col::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    inset-inline: 0;
-    height: 1px;
-    background: color-mix(in oklab, var(--accent) calc(35% + var(--step) * 30%), transparent);
-  }
-  .pdp-notes__col dt {
-    display: grid;
-    gap: 0.2rem;
-    margin-bottom: 0.6rem;
-  }
-  .pdp-notes__col dt .label {
-    color: var(--accent);
-  }
-  .pdp-notes__col dd {
-    font-size: var(--step-2);
-    line-height: 1.15;
-  }
-  .pdp-campaign__head,
-  .pdp-more__head {
-    row-gap: 1.25rem;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
-    align-items: end;
-  }
-  .pdp-campaign__head > *,
-  .pdp-more__head > * {
+  .pdp-story__visual,
+  .pdp-story__copy {
     grid-column: 1 / -1;
   }
-  .pdp-campaign__note {
-    margin-top: 2rem;
+  .pdp-story__copy {
+    display: grid;
+    gap: 1.5rem;
   }
-  .pdp-more {
+  .pdp-story__visual {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .pdp-campaign {
     padding-top: 0;
+  }
+  @media (max-width: 899px) {
+    /* three stills: one full width, then a pair */
+    .pdp-campaign .stills__item:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+  .pdp-campaign__more {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    text-align: center;
   }
 
   @media (min-width: 900px) {
@@ -681,44 +364,12 @@ const ld = {
     .pdp__dots {
       display: none;
     }
-    .pdp-story__label {
-      grid-column: 1 / span 3;
-      padding-top: 1rem;
+    .pdp-story__visual {
+      grid-column: 1 / span 6;
+      margin-inline: 0;
     }
-    .pdp-story__title {
-      grid-column: 4 / span 8;
-    }
-    .pdp-story__text {
-      grid-column: 4 / span 5;
-    }
-    .pdp-story__bottle {
-      grid-column: 10 / span 3;
-      align-self: end;
-    }
-    .pdp-notes__visual {
-      grid-column: 1 / span 3;
-    }
-    .pdp-notes__body {
-      grid-column: 5 / -1;
-    }
-    .pdp-notes__list {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-    }
-    .pdp-notes__col {
-      padding-inline-end: var(--gap);
-    }
-    .pdp-campaign__head > p,
-    .pdp-more__head > p {
-      grid-column: 1 / span 3;
-    }
-    .pdp-campaign__head > h2,
-    .pdp-more__head > h2 {
-      grid-column: 4 / span 7;
-    }
-    .pdp-campaign__all {
-      grid-column: 11 / span 2;
-      justify-self: end;
+    .pdp-story__copy {
+      grid-column: 7 / span 5;
     }
   }
 </style>

@@ -1,211 +1,186 @@
 ---
+import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import FilmPlayer from '../components/FilmPlayer.astro';
-import StillsGrid from '../components/StillsGrid.astro';
+import Media from '../components/Media.astro';
 import Lightbox from '../components/Lightbox.astro';
-import { campaigns } from '../data/campaigns';
-import { site } from '../config/site';
+import { img } from '../assets/images';
 
-const total = campaigns.reduce((n, c) => n + c.stills.length, 0);
-const withFilm = campaigns.filter((c) => c.film);
-const ld = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'HG campaign films',
-  itemListElement: withFilm.map((c, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: {
-      '@type': 'VideoObject',
-      name: `HG — ${c.title}`,
-      description: c.intro,
-      thumbnailUrl: new URL(c.film!.poster, Astro.site).toString(),
-      contentUrl: new URL(c.film!.src, Astro.site).toString(),
-      uploadDate: '2026-10-14',
-    },
-  })),
-};
+/**
+ * The campaign: one curated sequence. Rows pair two portraits (large + small, alternating sides)
+ * and break with a full-width frame; no two neighbours share a model or a pose.
+ */
+type Frame = { name: string; alt: string; position?: string };
+type Row = { kind: 'wide'; frame: Frame } | { kind: 'pair'; flip?: boolean; frames: [Frame, Frame] };
+
+const rows: Row[] = [
+  { kind: 'wide', frame: { name: 'drv-rain-glass', alt: 'Seen through the rain-beaded window of a black car, he sits at the wheel while the lit bay reflects across the glass', position: '62% 45%' } },
+  {
+    kind: 'pair',
+    frames: [
+      { name: 'face-m1', alt: 'In a dark study by a rain-streaked window, a man in a black shirt holds Unforgettable at his chest', position: '50% 30%' },
+      { name: 'face-w3', alt: 'A woman in black satin rests the Unforgettable bottle against her cheek', position: '50% 30%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'riv-two', alt: 'On a candlelit terrace above the sea, a woman in crimson silk leans into him, eyes closed', position: '62% 40%' } },
+  {
+    kind: 'pair',
+    flip: true,
+    frames: [
+      { name: 'face-m4', alt: 'A man in a black silk shirt holds Unforgettable up to the light', position: '50% 30%' },
+      { name: 'riv-dressing', alt: 'In a dim dressing room he holds Unforgettable, his reflection in the mirror behind', position: '58% 40%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'film-window', alt: 'In the study at night he stands at a tall rain-streaked window, the bottle on the desk beside the lamp', position: '60% 45%' } },
+  {
+    kind: 'pair',
+    frames: [
+      { name: 'unf-portrait', alt: 'A man in a black jacket holds Unforgettable up to the light', position: '50% 30%' },
+      { name: 'face-w1', alt: 'Against black velvet, a woman in a charcoal-and-brass jacket holds the bottle at her cheek', position: '50% 30%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'riv-terrace', alt: 'On a candlelit terrace she looks back over her shoulder as he walks toward her', position: '50% 40%' } },
+  {
+    kind: 'pair',
+    flip: true,
+    frames: [
+      { name: 'drv-reflection', alt: 'His profile through the side window, the street lamps and the village across the bay reflected over him', position: '45% 40%' },
+      { name: 'face-m3', alt: 'Leaning on a black marble bar, a man in a black shirt raises the bottle', position: '50% 30%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'unf-empty-study', alt: 'The empty study after he has gone: the bottle on the desk, mist in the lamplight', position: '58% 50%' } },
+];
+
+const frames = rows.flatMap((r) => (r.kind === 'wide' ? [r.frame] : r.frames));
+const full = Object.fromEntries(
+  await Promise.all(frames.map(async (f) => [f.name, (await getImage({ src: img(f.name), width: 2000, format: 'webp', quality: 82 })).src])),
+);
 ---
 
-<Base title="Campaigns" description={`HG campaigns: ${campaigns.map((c) => c.title).join(', ')} — films and stills.`} jsonLd={ld}>
-  <section class="camp-hero" aria-labelledby="camp-title">
-    <div class="wrap grid">
-      <p class="label faint camp-hero__label" data-reveal="fade" data-immediate>The campaigns</p>
-      <h1 class="display camp-hero__title" id="camp-title" data-reveal="lines" data-immediate data-delay="0.1">
-        Every night, <em>one bottle.</em>
-      </h1>
-      <nav class="camp-index" aria-label="Campaigns" data-reveal="fade" data-immediate data-delay="0.5">
-        <ol role="list">
-          {
-            campaigns.map((c) => (
-              <li>
-                <a href={`#${c.id}`} class="camp-index__link">
-                  <span class="num">{c.number}</span>
-                  <span class="serif">{c.title}</span>
-                  <span class="faint label">{c.stills.length} stills</span>
-                </a>
-              </li>
-            ))
-          }
-        </ol>
-      </nav>
-      <p class="faint label camp-hero__meta">{total} stills · {withFilm.length} films · {site.aiDisclosure}</p>
-    </div>
-  </section>
+<Base title="The Campaign" description="HG Unforgettable — the campaign.">
+  <section class="cp" aria-labelledby="cp-title">
+    <div class="wrap">
+      <header class="cp__head">
+        <h1 class="display cp__title" id="cp-title" data-reveal="lines" data-immediate>The campaign</h1>
+        <p class="lead it muted" data-reveal="fade" data-immediate data-delay="0.3">Leave the room. Stay in it.</p>
+      </header>
 
-  {
-    campaigns.map((c) => (
-      <section class="section camp" id={c.id} aria-labelledby={`${c.id}-title`}>
-        <div class="wrap">
-          <header class="camp__head grid">
-            <p class="label brass camp__num" data-reveal="fade">
-              Chapter {c.number}
-            </p>
-            <div class="camp__titles">
-              <h2 class="h1" id={`${c.id}-title`} data-reveal="lines">
-                {c.title}
-              </h2>
-              <p class="lead it muted" data-reveal="fade">
-                {c.line}
-              </p>
-            </div>
-            <p class="prose camp__intro" data-reveal="fade">
-              {c.intro}
-            </p>
-          </header>
-          {c.film && (
-            <div class="camp__film" data-reveal="fade">
-              <FilmPlayer
-                id={`film-${c.id}`}
-                src={c.film.src}
-                poster={c.film.poster}
-                label={c.film.label}
-                captions={c.film.sound ? '/media/hg-unforgettable.en.vtt' : null}
-                sound={c.film.sound}
-                duration={c.film.duration}
-              />
-              <p class="media-cap label">
-                <span>{c.film.sound ? 'Film — sound on, captions available' : 'Reel — silent'}</span>
-                {c.film.href ? <a class="link" href={c.film.href}>The film page</a> : <span>HG — {c.title}</span>}
-              </p>
-            </div>
-          )}
-          <div class="camp__stills">
-            <StillsGrid items={c.stills} group={c.id} />
-          </div>
+      <div class="cp__rows">
+        {
+          rows.map((r) =>
+            r.kind === 'wide' ? (
+              <div class="cp__wide">
+                <button type="button" class="cp__btn" data-lightbox="campaign" data-full={full[r.frame.name]} data-alt={r.frame.alt} data-caption="" aria-label={`View: ${r.frame.alt}`}>
+                  <Media name={r.frame.name} alt={r.frame.alt} ratio="16 / 9" sizes="(min-width: 600px) 100vw, 222vw" scaleSizes={false} position={r.frame.position} />
+                </button>
+              </div>
+            ) : (
+              <div class:list={['cp__pair', { 'cp__pair--flip': r.flip }]}>
+                {r.frames.map((f, i) => (
+                  <button type="button" class:list={['cp__btn', i === 0 ? 'cp__big' : 'cp__small']} data-lightbox="campaign" data-full={full[f.name]} data-alt={f.alt} data-caption="" aria-label={`View: ${f.alt}`}>
+                    <Media name={f.name} alt={f.alt} ratio={i === 0 ? '4 / 5' : '3 / 4'} sizes={i === 0 ? '(min-width: 900px) 52vw, 100vw' : '(min-width: 900px) 32vw, 78vw'} position={f.position} />
+                  </button>
+                ))}
+              </div>
+            ),
+          )
+        }
+      </div>
+
+      <footer class="cp__end">
+        <p class="h2" data-reveal="lines">Unforgettable</p>
+        <div class="cp__ctas" data-reveal="fade">
+          <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
+          <a class="link label" href="/film" data-open-film>Watch the film</a>
         </div>
-      </section>
-    ))
-  }
-
-  <section class="section camp-end" aria-label="Discover">
-    <div class="wrap grid">
-      <p class="h2 camp-end__line" data-reveal="lines">Every film ends the same way: <em>with the bottle.</em></p>
-      <a class="btn btn--solid camp-end__cta" href="/fragrances/unforgettable" data-reveal="fade" data-magnetic>Discover Unforgettable<span class="arrow" aria-hidden="true"></span></a>
+      </footer>
     </div>
   </section>
-
   <Lightbox />
 </Base>
 
 <style is:global>
-  .camp-hero {
-    padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 7rem));
-    padding-bottom: clamp(2rem, 5vw, 4rem);
+  .cp {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 7vw, 6rem));
+    padding-bottom: var(--section);
   }
-  .camp-hero .grid {
-    row-gap: 2rem;
-  }
-  .camp-hero__label,
-  .camp-hero__title,
-  .camp-index,
-  .camp-hero__meta {
-    grid-column: 1 / -1;
-  }
-  .camp-hero__title {
-    font-size: clamp(3.4rem, 1rem + 10vw, 13rem);
-  }
-  .camp-index ol {
-    border-top: 1px solid var(--c-line);
-  }
-  .camp-index__link {
+  .cp__head {
     display: grid;
-    grid-template-columns: 3rem 1fr auto;
-    align-items: baseline;
     gap: 1rem;
-    padding-block: 1.1rem;
-    border-bottom: 1px solid var(--c-line);
-    transition: padding var(--dur-3) var(--ease-out), color var(--dur-2);
-  }
-  .camp-index__link .serif {
-    font-size: var(--step-2);
-    line-height: 1;
-  }
-  .camp-index__link:hover {
-    padding-inline-start: 0.75rem;
-    color: var(--c-brass);
-  }
-  @media (min-width: 900px) {
-    .camp-hero__label {
-      grid-column: 1 / span 3;
-      padding-top: 2rem;
-    }
-    .camp-hero__title {
-      grid-column: 4 / -1;
-    }
-    .camp-index {
-      grid-column: 4 / -1;
-    }
-    .camp-hero__meta {
-      grid-column: 4 / -1;
-    }
-  }
-
-  .camp {
-    border-top: 1px solid var(--c-line);
-    scroll-margin-top: var(--header-h);
-  }
-  .camp__head {
-    row-gap: 1.25rem;
-    margin-bottom: clamp(2.5rem, 6vw, 5rem);
-    align-items: end;
-  }
-  .camp__head > * {
-    grid-column: 1 / -1;
-  }
-  .camp__titles .lead {
-    margin-top: 0.75rem;
-  }
-  .camp__film {
     margin-bottom: clamp(3rem, 7vw, 6rem);
   }
+  .cp__title {
+    font-size: clamp(3.4rem, 1.2rem + 8vw, 11rem);
+  }
+  .cp__rows {
+    display: grid;
+    gap: clamp(1.5rem, 6vw, 7rem);
+  }
+  .cp__btn {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+  .cp__btn img {
+    transition: transform 1.6s var(--ease-out);
+  }
+  .cp__btn:hover img {
+    transform: scale(1.025);
+  }
+  .cp__wide {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .cp__pair {
+    display: grid;
+    gap: clamp(1.5rem, 6vw, 3rem);
+  }
+  .cp__small {
+    width: 78%;
+    justify-self: end;
+  }
+  @media (max-width: 599px) {
+    .cp__wide .media {
+      aspect-ratio: 4 / 5 !important;
+    }
+  }
   @media (min-width: 900px) {
-    .camp__num {
-      grid-column: 1 / span 3;
-      align-self: start;
-      padding-top: 1.4rem;
+    .cp__wide {
+      margin-inline: 0;
     }
-    .camp__titles {
-      grid-column: 4 / span 5;
+    .cp__pair {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      align-items: end;
     }
-    .camp__intro {
+    .cp__big {
+      grid-column: 1 / span 7;
+    }
+    .cp__small {
       grid-column: 9 / span 4;
+      width: 100%;
+      align-self: start;
+      margin-top: 22%;
+    }
+    .cp__pair--flip .cp__big {
+      grid-column: 6 / span 7;
+      grid-row: 1;
+    }
+    .cp__pair--flip .cp__small {
+      grid-column: 1 / span 4;
+      grid-row: 1;
     }
   }
-  .camp-end .grid {
-    row-gap: 2rem;
-    justify-items: start;
+  .cp__end {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 1.75rem;
+    margin-top: var(--section);
   }
-  .camp-end__line,
-  .camp-end__cta {
-    grid-column: 1 / -1;
-  }
-  @media (min-width: 900px) {
-    .camp-end__line {
-      grid-column: 4 / span 8;
-    }
-    .camp-end__cta {
-      grid-column: 4 / span 8;
-    }
+  .cp__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem 2rem;
   }
 </style>

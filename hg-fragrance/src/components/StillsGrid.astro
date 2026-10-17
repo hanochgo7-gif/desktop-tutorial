@@ -6,7 +6,7 @@
 import { getImage } from 'astro:assets';
 import Media from './Media.astro';
 import { img } from '../assets/images';
-import type { Still } from '../data/campaigns';
+import type { Still } from '../data/catalog';
 
 interface Props {
   id?: string;
@@ -29,7 +29,7 @@ const full = await Promise.all(items.map((s) => getImage({ src: img(s.name), wid
           data-full={full[i].src}
           data-alt={s.alt}
           data-caption={s.caption}
-          data-cursor="View"
+         
           aria-label={`Open image: ${s.caption}`}
         >
           <Media
@@ -37,7 +37,7 @@ const full = await Promise.all(items.map((s) => getImage({ src: img(s.name), wid
             alt={s.alt}
             ratio={s.wide ? '16 / 9' : '4 / 5'}
             position={s.wide ? undefined : s.focus}
-            sizes={s.wide ? '(min-width: 900px) 64vw, 92vw' : '(min-width: 900px) 31vw, 46vw'}
+            sizes={s.wide ? '(min-width: 900px) 64vw, 92vw' : i === 0 ? '(min-width: 900px) 31vw, 92vw' : '(min-width: 900px) 31vw, 46vw'}
           />
         </button>
         <p class="media-cap label">

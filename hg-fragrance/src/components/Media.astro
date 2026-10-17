@@ -17,6 +17,8 @@ interface Props {
   parallax?: number; // inner image drift in %, e.g. 8
   class?: string;
   cursor?: string; // label for the desktop cursor
+  /** Scale the vw values in `sizes` by how much a cover crop enlarges the image (default on). */
+  scaleSizes?: boolean;
 }
 
 const {
@@ -30,11 +32,18 @@ const {
   parallax = 0,
   class: className = '',
   cursor,
+  scaleSizes = true,
 } = Astro.props;
 
 const src = img(name);
-const widths = [480, 800, 1200, 1600, 2000].filter((w) => w <= src.width);
-if (!widths.includes(src.width) && src.width < 2000) widths.push(src.width);
+const widths = [480, 800, 1200, 1600, 2000, 2400].filter((w) => w <= src.width);
+if (!widths.includes(src.width) && src.width < 2400) widths.push(src.width);
+
+// A wide image cropped into a taller frame renders wider than the frame: ask for a larger file.
+const box = ratio?.match(/^\s*([\d.]+)\s*\/\s*([\d.]+)\s*$/);
+const crop = box ? Math.max(1, src.width / src.height / (Number(box[1]) / Number(box[2]))) : 1;
+const finalSizes =
+  scaleSizes && crop > 1.05 ? sizes.replace(/([\d.]+)vw/g, (_, n) => `${Math.round(Number(n) * crop)}vw`) : sizes;
 ---
 
 <div
@@ -49,7 +58,7 @@ if (!widths.includes(src.width) && src.width < 2000) widths.push(src.width);
     formats={['webp']}
     fallbackFormat="jpg"
     widths={widths}
-    sizes={sizes}
+    sizes={finalSizes}
     quality={78}
     loading={priority ? 'eager' : 'lazy'}
     decoding={priority ? 'sync' : 'async'}
