@@ -26,16 +26,16 @@ import FilmPlayer from '../components/FilmPlayer.astro';
     <div class="wrap grid">
       <div class="film-night__frame" data-reveal="fade">
         <picture>
-          <source srcset="/media/night-film-poster.webp" type="image/webp" />
-          <img src="/media/night-film-poster.jpg" alt="Night on a red-lit street: the HG bottle glowing on wet stone, a man walking toward the camera, then a couple sharing the fragrance" width="720" height="1280" loading="lazy" decoding="async" />
+          <source srcset="https://d2ol7oe51mr4n9.cloudfront.net/user_3JdIkl9vrERqvCO7CTovBE9raHA/74cd9522-1d42-4e1e-84fa-b5506a492954.webp" type="image/webp" />
+          <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JdIkl9vrERqvCO7CTovBE9raHA/5c818d59-bb60-43c7-b5ba-ee4f014c1083.jpg" alt="The night film: flash bulbs in black and white, the HG bottle on a dashboard in a blue tunnel, then a red-lit street where a couple share the fragrance" width="720" height="1280" loading="lazy" decoding="async" />
         </picture>
-        <video id="night-film" data-ambient data-src="/media/night-film.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+        <video id="night-film" data-ambient data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3JdIkl9vrERqvCO7CTovBE9raHA/13ae7c51-6100-40ea-9547-b99a0dad38f0.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
         <button class="film-night__pause label" type="button" data-ambient-toggle aria-controls="night-film">Pause</button>
       </div>
       <div class="film-night__copy">
         <p class="label faint">After dark</p>
         <h2 class="h2" id="night-title" data-reveal="lines">The night <em>is just starting.</em></h2>
-        <p class="lead it muted" data-reveal="fade">A red street after the rain, a warm glass in the hand.</p>
+        <p class="lead it muted" data-reveal="fade">Flash bulbs, a blue tunnel, a red street after the rain — and a warm glass in every hand.</p>
       </div>
     </div>
   </section>
