@@ -97,7 +97,7 @@ node scripts/static-redirects.mjs dist/client /desktop-tutorial/perfume   # reti
 - **Home** — the hero (a model through the car window with the bottle; landscape frame on wide screens, portrait frame on tall ones), *the feeling* (he leaves, the lamp stays on, link to the film), *the campaign* (five large portraits of male models), **the four fragrances** shown as before in "One flacon, four lights" (`FourLights.astro`: the pinned bottle re-lit by the season in view), and a closing image, "The room remembers."
 - **Product pages** — gallery, name, concentration, sizes and prices with add to bag (Unforgettable), or "Coming soon" with a link to Unforgettable (Open Window, Last Light, Nocturne); the story beside a model image (`portrait` in `catalog.ts`); campaign stills on the purchasable product. A compact purchase bar on mobile.
 - **Campaign** — one curated sequence of model photography (pairs of portraits broken by full-width frames; no two neighbours share a model or pose). Every image opens full screen.
-- **Imagery rule** — male models only; the one woman shown is the Open Window image beside the sage-green classic coupe (`ow-coupe`).
+- **Imagery rule** — mostly male models; women may appear too (the owner approved the Open Window coupe image and the night film on `/film`). No images of the red-car (Rosso) model.
 - **Film** — the 20-second film, one line, one call to action.
 - Retired routes redirect (`astro.config.mjs`): `/fragrances` → Unforgettable, `/house` → the campaign.
 - Removed: the custom cursor, magnetic buttons, the glass glow, animated grain, the bottle collage, chapter numbers in the interface and "launch pricing to be confirmed".
