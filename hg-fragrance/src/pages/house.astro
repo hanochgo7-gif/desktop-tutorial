@@ -1,6 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import Media from '../components/Media.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { getImage } from 'astro:assets';
+import { img } from '../assets/images';
+import { site } from '../config/site';
+
+/** The HG casting: the faces every campaign is built from (AI-generated). */
+const faces = [
+  { name: 'face-m1', alt: 'Casting portrait: a man with dark swept hair and light eyes, black shirt open at the collar' },
+  { name: 'face-w1', alt: 'Casting portrait: a woman with long brown hair in a structured grey-and-brass jacket' },
+  { name: 'face-m2', alt: 'Casting portrait: a man with dark wavy hair and a beard, black shirt open at the collar' },
+  { name: 'face-w2', alt: 'Casting portrait: a woman with long dark hair in a black tailored blazer dress' },
+  { name: 'face-m3', alt: 'Casting portrait: a man with slicked-back dark hair and stubble, black shirt unbuttoned' },
+  { name: 'face-w3', alt: 'Casting portrait: a woman with long wavy brown hair in black with a bronze bodice' },
+  { name: 'face-m4', alt: 'Casting portrait: a man with a trimmed beard in a black shirt, hands in his pockets' },
+  { name: 'face-w4', alt: 'Casting portrait: a woman with long waves in a draped black-and-gold dress' },
+];
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+const facesFull = await Promise.all(faces.map((f) => getImage({ src: img(f.name), width: 1400, format: 'webp', quality: 82 })));
 
 const principles = [
   {
@@ -61,6 +79,40 @@ const principles = [
     </div>
   </section>
 
+  <section class="section house-faces" id="faces" aria-labelledby="faces-title">
+    <div class="wrap">
+      <header class="house-faces__head grid">
+        <p class="label faint" data-reveal="fade">The faces</p>
+        <h2 class="h1" id="faces-title" data-reveal="lines">Eight faces, <em>one night</em></h2>
+        <p class="muted house-faces__intro" data-reveal="fade">
+          The casting every HG campaign is built from — four men and four women, seen as themselves before the lights go
+          down. {site.aiDisclosure.replace('Campaign film and imagery', 'Like the campaigns, they are')}
+        </p>
+      </header>
+      <ol class="house-faces__grid" role="list">
+        {
+          faces.map((f, i) => (
+            <li class="house-faces__item">
+              <button
+                type="button"
+                class="house-faces__btn"
+                data-lightbox="faces"
+                data-full={facesFull[i].src}
+                data-alt={f.alt}
+                data-caption={`Face ${roman[i]}`}
+                data-cursor="View"
+                aria-label={`Open face ${roman[i]}: ${f.alt}`}
+              >
+                <Media name={f.name} alt={f.alt} ratio="3 / 4" position="50% 18%" sizes="(min-width: 900px) 23vw, 46vw" />
+              </button>
+              <p class="media-cap label"><span class="num">{roman[i]}</span><span>Face</span></p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
   <section class="section house-pair" aria-label="Details">
     <div class="wrap grid">
       <figure class="house-pair__a">
@@ -76,9 +128,66 @@ const principles = [
       </figure>
     </div>
   </section>
+
+  <Lightbox />
 </Base>
 
 <style is:global>
+  .house-faces__head {
+    row-gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .house-faces__head > * {
+    grid-column: 1 / -1;
+  }
+  .house-faces__intro {
+    max-width: 34rem;
+  }
+  .house-faces__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem) var(--gap);
+  }
+  .house-faces__item:nth-child(even) {
+    margin-top: clamp(2rem, 6vw, 5rem);
+  }
+  .house-faces__btn {
+    display: block;
+    width: 100%;
+  }
+  /* a quiet casting grade that lifts to full colour on attention */
+  .house-faces__btn img {
+    filter: grayscale(0.55) contrast(1.06) brightness(0.9);
+    transition:
+      filter var(--dur-3) var(--ease-out),
+      transform 1.4s var(--ease-out);
+  }
+  .house-faces__btn:hover img,
+  .house-faces__btn:focus-visible img {
+    filter: none;
+    transform: scale(1.03);
+  }
+  @media (min-width: 900px) {
+    .house-faces__head > p.label {
+      grid-column: 1 / span 3;
+      padding-top: 1.2rem;
+    }
+    .house-faces__head > h2,
+    .house-faces__head > .house-faces__intro {
+      grid-column: 4 / -1;
+    }
+    .house-faces__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      row-gap: clamp(2rem, 4vw, 3.5rem);
+    }
+    .house-faces__item:nth-child(even) {
+      margin-top: 0;
+    }
+    .house-faces__item:nth-child(4n + 2),
+    .house-faces__item:nth-child(4n + 4) {
+      margin-top: clamp(3rem, 6vw, 6rem);
+    }
+  }
   .house-hero {
     padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 7rem));
   }
