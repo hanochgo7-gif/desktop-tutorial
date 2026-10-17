@@ -6,12 +6,6 @@ import FourLights from '../components/FourLights.astro';
 import { img } from '../assets/images';
 
 
-// Hero: one photograph, art-directed — the landscape frame on wide screens, the portrait frame on tall ones.
-const wide = img('drv-sill');
-const tall = img('drv-window');
-const wideSet = await Promise.all([960, 1440, 1920, wide.width].map((w) => getImage({ src: wide, width: w, format: 'webp', quality: 80 })));
-const tallSet = await Promise.all([640, 960, 1280, tall.width].map((w) => getImage({ src: tall, width: w, format: 'webp', quality: 78 })));
-const wideJpg = await getImage({ src: wide, width: 1600, format: 'jpg', quality: 80 });
 // Closing: the empty study on wide screens, the bottle alone under the lamp on tall ones.
 const room = img('unf-empty-study');
 const roomTall = img('unf-packshot-vertical');
@@ -32,23 +26,31 @@ const campaign = [
 
 <Base description="HG Unforgettable, Eau de Parfum. Leave the room. Stay in it.">
   <Fragment slot="head">
-    <link rel="preload" as="image" type="image/webp" media="(max-aspect-ratio: 4/5)" imagesrcset={srcset(tallSet)} imagesizes="max(100vw, 75vh)" fetchpriority="high" />
-    <link rel="preload" as="image" type="image/webp" media="(min-aspect-ratio: 401/500)" imagesrcset={srcset(wideSet)} imagesizes="max(100vw, 178vh)" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" media="(max-aspect-ratio: 4/5)" href="/media/hero-vertical-poster.webp" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" media="(min-aspect-ratio: 401/500)" href="/media/hero-desk-poster.webp" fetchpriority="high" />
   </Fragment>
   <!-- ============ HERO ============ -->
   <section class="hero" aria-labelledby="hero-title">
-    <picture class="hero__media">
-      <source media="(max-aspect-ratio: 4/5)" srcset={srcset(tallSet)} sizes="max(100vw, 75vh)" type="image/webp" />
-      <source srcset={srcset(wideSet)} sizes="max(100vw, 178vh)" type="image/webp" />
-      <img
-        src={wideJpg.src}
-        alt="Through the open window of a black car at night, a man looks into the camera, the Unforgettable bottle in his hand"
-        width={wide.width}
-        height={wide.height}
-        fetchpriority="high"
-        decoding="async"
-      />
-    </picture>
+    <!-- The opening film: the bottle on the desk, rain on the window behind (portrait cut on tall screens). -->
+    <div class="hero__media">
+      <picture>
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.webp" type="image/webp" />
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.jpg" />
+        <source srcset="/media/hero-desk-poster.webp" type="image/webp" />
+        <img src="/media/hero-desk-poster.jpg" alt="The Unforgettable bottle on a walnut desk at night, a lamp beside it and rain running down the window behind" width="1600" height="893" fetchpriority="high" decoding="async" />
+      </picture>
+      <video
+        id="hero-video"
+        data-ambient
+        data-src="/media/hero-desk.mp4"
+        data-src-portrait="/media/hero-vertical.mp4"
+        muted
+        playsinline
+        loop
+        preload="none"
+        aria-hidden="true"
+        tabindex="-1"></video>
+    </div>
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="hero__content wrap">
       <p class="label hero__kicker">Unforgettable <span aria-hidden="true">·</span> Eau de Parfum</p>
@@ -58,6 +60,7 @@ const campaign = [
       </h1>
       <a class="btn btn--solid hero__cta" href="/fragrances/unforgettable">Discover Unforgettable</a>
     </div>
+    <button class="hero__pause label" type="button" data-ambient-toggle aria-controls="hero-video">Pause</button>
   </section>
 
   <!-- ============ THE FEELING ============ -->
@@ -137,17 +140,44 @@ const campaign = [
     overflow: hidden;
     background: var(--c-ink);
   }
-  .hero__media,
-  .hero__media img {
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    animation: hero-in 1.6s var(--ease-out) both;
+  }
+  /* Wide screens: the frame reaches past the right edge so the bottle sits clear of the type. */
+  @media (min-aspect-ratio: 4/5) {
+    .hero__media {
+      inset-inline-end: -16%;
+    }
+  }
+  .hero__media img,
+  .hero__media video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-  }
-  .hero__media img {
     object-fit: cover;
-    object-position: 64% 42%;
-    animation: hero-in 1.6s var(--ease-out) both;
+    object-position: 58% 50%;
+  }
+  .hero__media video {
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-soft);
+  }
+  .hero__media video.is-playing {
+    opacity: 1;
+  }
+  .hero__pause {
+    position: absolute;
+    right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    bottom: clamp(2.5rem, 8svh, 5.5rem);
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
+    color: rgb(239 231 216 / 0.75);
+    transition: color var(--dur-2);
+  }
+  .hero__pause:hover {
+    color: var(--c-ivory);
   }
   .hero__shade {
     position: absolute;
@@ -202,19 +232,31 @@ const campaign = [
       opacity: 0;
     }
   }
-  html:not(.motion) .hero__media img,
+  html:not(.motion) .hero__media,
   html:not(.motion) .hero__cta,
   html:not(.motion) .hero__kicker {
     animation: none;
   }
   @media (max-aspect-ratio: 4/5) {
-    .hero__media img {
-      object-position: 60% 30%;
+    .hero__media img,
+    .hero__media video {
+      object-position: 50% 50%;
     }
+    /* tall screens: the bottle stands in the lower half, so the headline moves to the top */
     .hero__shade {
       background:
-        linear-gradient(to bottom, rgb(10 9 8 / 0.55) 0%, transparent 14%),
-        linear-gradient(to top, rgb(10 9 8 / 0.9) 0%, rgb(10 9 8 / 0.55) 30%, transparent 55%);
+        linear-gradient(to bottom, rgb(10 9 8 / 0.82) 0%, rgb(10 9 8 / 0.45) 30%, transparent 50%),
+        linear-gradient(to top, rgb(10 9 8 / 0.75) 0%, transparent 22%);
+    }
+    .hero__content {
+      top: 0;
+      grid-template-rows: auto auto 1fr auto;
+      align-items: start;
+      padding-top: calc(var(--header-h) + 1.75rem);
+    }
+    .hero__cta {
+      grid-row: 4;
+      align-self: end;
     }
   }
 
