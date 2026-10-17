@@ -30,7 +30,8 @@
     falafel: T('קייטרינג 4X4: אתר עם מחשבון הצעה לאירועים', '4X4 Catering: a site with an event quote builder'),
     rachel: T('רחלי הורנשטיין: מורה פרטית, בדיקת רמה ומשחקים', 'Racheli Hornstein: a private tutor, level check and games'),
     mashkanta: T('יסוד: אתר הדגמה ליועץ משכנתאות (מותג בדוי)', 'Yesod: a demo site for a mortgage advisor (fictional brand)'),
-    elef: T('אֶלֶף: מותג בדוי של שמן זית, אתר וסרט', 'Elef: a fictional olive oil brand, site and film')
+    elef: T('אֶלֶף: מותג בדוי של שמן זית, אתר וסרט', 'Elef: a fictional olive oil brand, site and film'),
+    fragrance: T('HG Fragrance: בית בשמים בדוי לגברים, אתר דגל וחנות', 'HG Fragrance: a fictional men’s fragrance house, flagship site and shop')
   };
   var Q = {
     biz: { q: T('איזה עסק יש לכם?', 'What kind of business do you have?'),

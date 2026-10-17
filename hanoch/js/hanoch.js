@@ -132,6 +132,17 @@
       ],
       palette: ['#11150c', '#3f4a2a', '#c9a227', '#8b8478', '#ece6d7'], fonts: ['Frank Ruhl Libre', 'Rubik']
     },
+    fragrance: {
+      name: 'HG Fragrance', sub: 'בית בשמים לגברים · מותג בדיוני', kind: 'פרויקט קונספט · אתר דגל וחנות', url: 'github.io/perfume', color: '#c8a66b',
+      story: 'HG הוא בית בשמים בדיוני שבניתי סביב ניחוח אחד, Unforgettable, והסרט של 20 שניות שהשיק אותו. משפט אחד מחזיק את הכול: "לצאת מהחדר. להישאר בו." לכן האתר עשוי מלילה: שחור חם, זכוכית של חצות, אור ענבר וקו פליז אחד, עם גבר, מכונית אדומה ובקבוק שנשאר בחדר אחרי שהוא יוצא. כל הצילומים והסרט נוצרו בבינה מלאכותית. האתר עצמו באנגלית.',
+      points: [
+        '"בקבוק אחד, ארבעה אורות": הבקבוק נשאר במקום בזמן הגלילה, והאור עליו מתחלף לפי העונה של כל אחד מארבעת הניחוחות.',
+        'עמוד לכל ניחוח: גלריה, ריכוז, גדלים ומחירים, הוספה לסל, ופס רכישה קבוע בנייד.',
+        'סל קניות שנשמר במכשיר ותשלום ב-Stripe שמחשב את המחיר מחדש בשרת. בגרסת ההדגמה התשלום לא מחובר, והאתר אומר את זה במפורש.',
+        'תנועה ב-GSAP שנכבית אוטומטית למי שביקש הפחתת תנועה, תמונות בגדלים לפי מסך, וכתוביות לסרט.'
+      ],
+      palette: ['#0a0908', '#0b121a', '#c27a2e', '#c8a66b', '#efe7d8'], fonts: ['Cormorant Garamond', 'Instrument Sans']
+    },
     mashkanta: {
       name: 'יסוד', sub: 'יועץ משכנתאות · אתר הדגמה, מותג בדיוני', kind: 'אתר הדגמה ללקוח פוטנציאלי · מחשבונים חיים', url: 'github.io/mashkanta', color: '#5fd99a',
       story: 'אתר הדגמה שבניתי לתחום ייעוץ המשכנתאות, כדי להראות איך אתר של יועץ יכול לעבוד בשבילו. השם "יסוד", המספרים והתרחישים בדויים. מי שמגיע לאתר כזה רוצה לדעת דבר אחד: כמה הוא יכול לחסוך. לכן כבר בפתיחה יש גרף חי שמראה את הפער לפני ואחרי מחזור, וכל העמוד בנוי סביב חישובים שהגולש עושה בעצמו, עד שהוא שולח אותם ליועץ בוואטסאפ.',
@@ -220,6 +231,16 @@
           'Light and accessible: images sized for each screen, video that loads only when it is in view, captions for the film, and a no-animation mode for anyone who asks.'
         ]
       },
+      fragrance: {
+        name: 'HG Fragrance', sub: 'A house of men’s fragrance · a fictional brand', kind: 'Concept project · flagship site and shop', url: 'github.io/perfume',
+        story: 'HG is a fictional fragrance house I built around one scent, Unforgettable, and the 20-second film that launched it. One line holds it together: "Leave the room. Stay in it." So the site is made of night: warm black, midnight glass, amber light and a single line of brass, with a man, a red car and a bottle that stays in the room after he leaves. Every photograph and the film were made with AI.',
+        points: [
+          '"One flacon, four lights": the bottle stays in place as you scroll, and the light on it changes with the season of each of the four fragrances.',
+          'A page for each fragrance: gallery, concentration, sizes and prices, add to bag, and a purchase bar that stays on screen on phones.',
+          'A bag saved on the device and Stripe checkout that re-prices every line on the server. In the demo, payment is not connected, and the site says so plainly.',
+          'GSAP motion that switches off for anyone who asks for reduced motion, images sized for each screen, and captions for the film.'
+        ]
+      },
       mashkanta: {
         name: 'Yesod', sub: 'Mortgage advisor · demo site, fictional brand', kind: 'Demo for a prospective client · live calculators', url: 'github.io/mashkanta',
         story: 'A demo site I built for mortgage advisors, to show how a site can do real work for an advisor. The name Yesod, the numbers and the scenarios are made up. Anyone landing on a site like this wants to know one thing: how much they could save. So the opening already has a live chart of the gap before and after refinancing, and the whole page is built around calculations visitors run themselves, until they send them to the advisor on WhatsApp. The site itself is in Hebrew.',
@@ -234,7 +255,7 @@
     Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
   }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
-  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/'), mashkanta: 'https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/' };
+  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/'), fragrance: 'https://hanochgo7-gif.github.io/desktop-tutorial/perfume/', mashkanta: 'https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
   ORDER.forEach(function (id) {
     if (!LIVE[id]) return;
