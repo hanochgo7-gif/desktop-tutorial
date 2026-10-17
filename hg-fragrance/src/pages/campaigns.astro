@@ -14,12 +14,29 @@ type Frame = { name: string; alt: string; position?: string };
 type Row = { kind: 'wide'; frame: Frame } | { kind: 'pair'; flip?: boolean; frames: [Frame, Frame] };
 
 const rows: Row[] = [
-  { kind: 'wide', frame: { name: 'cupra-promenade', alt: 'Unforgettable on the balustrade of a seafront promenade at night, the CUPRA Leon parked under the iron lamps behind', position: '40% 50%' } },
+  { kind: 'wide', frame: { name: 'rosso-promenade', alt: 'On a seafront promenade lit by lamps he leans on the red car, holding the bottle', position: '55% 45%' } },
   {
     kind: 'pair',
     frames: [
+      { name: 'rosso-golden', alt: 'On a coastal road at golden hour, a man in a black suit leans on a red sports car, holding Unforgettable', position: '50% 35%' },
+      { name: 'rosso-closeup', alt: 'His hand sets the Unforgettable bottle on the glossy red roof of the car, the bottle reflected in the paint', position: '50% 40%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'cupra-promenade', alt: 'Unforgettable on the balustrade of a seafront promenade at night, the CUPRA Leon parked under the iron lamps behind', position: '40% 50%' } },
+  {
+    kind: 'pair',
+    flip: true,
+    frames: [
       { name: 'cupra-golden', alt: 'Unforgettable on the stone kerb of a coastal road at golden hour, a grey-beige CUPRA Leon behind it and the sea gold beyond', position: '50% 50%' },
       { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', position: '55% 40%' },
+    ],
+  },
+  { kind: 'wide', frame: { name: 'rosso-night', alt: 'Night in the city: he stands by the red car on a wet street, the bottle in his hand', position: '55% 45%' } },
+  {
+    kind: 'pair',
+    frames: [
+      { name: 'rosso-villa', alt: 'At dusk he sits in the open door of the red car outside a stone villa with bougainvillea, the bottle in his hand', position: '55% 50%' },
+      { name: 'rosso-hand', alt: 'He leans over the red car and sets the bottle on the bodywork, its reflection in the paint', position: '50% 35%' },
     ],
   },
   { kind: 'wide', frame: { name: 'cupra-coast', alt: 'The grey-beige CUPRA Leon on a cliff road above the sea at sunset', position: '55% 50%' } },
