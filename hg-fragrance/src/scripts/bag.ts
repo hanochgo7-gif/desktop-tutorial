@@ -114,7 +114,7 @@ function emptyHTML() {
   <div class="bag-empty">
     <p class="h3">${esc(s('bag.empty'))}</p>
     <p class="muted">${esc(s('bag.emptyHint'))}</p>
-    <a class="btn" href="/fragrances/unforgettable">${esc(s('bag.discover'))}<span class="arrow" aria-hidden="true"></span></a>
+    <a class="btn" href="/fragrances">${esc(s('bag.explore'))}<span class="arrow" aria-hidden="true"></span></a>
   </div>`;
 }
 
@@ -142,6 +142,13 @@ function bindLines(root: HTMLElement) {
 
 async function startCheckout(button: HTMLButtonElement, status: HTMLElement) {
   if (!lines.length) return;
+  if (boot.demo) {
+    // A demonstration site never calls the payment endpoint: say so plainly.
+    status.textContent = s('checkout.demo');
+    status.removeAttribute('data-tone');
+    status.hidden = false;
+    return;
+  }
   const label = button.innerHTML;
   button.disabled = true;
   button.textContent = s('checkout.redirecting');

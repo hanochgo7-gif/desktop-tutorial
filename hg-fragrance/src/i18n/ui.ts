@@ -5,6 +5,7 @@
  */
 const en = {
   'nav.unforgettable': 'Unforgettable',
+  'nav.fragrances': 'Fragrances',
   'nav.film': 'Film',
   'nav.campaigns': 'Campaign',
   'nav.menu': 'Menu',
@@ -34,6 +35,11 @@ const en = {
   'checkout.redirecting': 'Opening secure payment…',
   'checkout.notConfigured':
     'Online payment is not enabled yet. Your bag is saved on this device, and nothing has been charged.',
+  'checkout.demo':
+    'This is a demonstration site, so checkout is switched off: no order is placed and nothing is charged. Your bag stays saved on this device.',
+  'bag.demoNote': 'Demo site — checkout is switched off.',
+  'bag.continue': 'Continue shopping',
+  'bag.explore': 'Explore the fragrances',
   'checkout.error': 'We could not start checkout. Nothing has been charged. Please try again.',
 
   'newsletter.label': 'Email address',

@@ -43,7 +43,7 @@ const reels = [
         {
           reels.map((r) => (
             <li class="films__item">
-              <video class="films__video" controls playsinline preload="none" poster={`/media/films/${r.file}-poster.webp`} width="720" height="1280" aria-label={r.alt}>
+              <video class="films__video" controls playsinline preload="none" data-poster={`/media/films/${r.file}-poster.webp`} width="720" height="1280" aria-label={r.alt}>
                 <source src={`/media/films/${r.file}.mp4`} type="video/mp4" />
               </video>
               <p class="films__cap">
@@ -62,7 +62,7 @@ const reels = [
       <div class="film-night__frame" data-reveal="fade">
         <picture>
           <source srcset="/media/night-film-poster.webp" type="image/webp" />
-          <img src="/media/night-film-poster.jpg" alt="Night on a red-lit street: the HG bottle glowing on wet stone, a man walking toward the camera, then a couple sharing the fragrance" width="720" height="1280" loading="lazy" decoding="async" />
+          <img src="/media/night-film-poster.jpg" alt="Night on a red-lit street: the HG bottle glowing on wet stone, a man walking toward the camera, then a couple sharing the fragrance" width="1080" height="1920" loading="lazy" decoding="async" />
         </picture>
         <video id="night-film" data-ambient data-src="/media/night-film.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
         <button class="film-night__pause label" type="button" data-ambient-toggle aria-controls="night-film">Pause</button>

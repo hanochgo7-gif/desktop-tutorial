@@ -74,6 +74,8 @@ export const products: Product[] = [
     packshot: 'still-packshot',
     gallery: [
       { name: 'still-packshot', alt: 'Unforgettable — the HG bottle, front view' },
+      { name: 'still-monogram', alt: 'Close detail: the HG monogram engraved in the faceted glass, amber juice behind it' },
+      { name: 'still-travertine', alt: 'The Unforgettable bottle in morning light on a travertine ledge by a window' },
       { name: 'unf-packshot-vertical', alt: 'The bottle on a walnut desk under the lamp, rain on the window behind' },
     ],
     storyTitle: 'Worn once, |at the collar.',

@@ -17,7 +17,6 @@ export default defineConfig({
   output: 'static',
   // Retired pages: the collection list and the house page.
   redirects: {
-    '/fragrances': '/fragrances/unforgettable',
     '/house': '/campaigns',
   },
   // Vercel builds use its serverless adapter; everywhere else the standalone Node server.

@@ -1,0 +1,135 @@
+---
+/**
+ * A fragrance in a list: packshot (the campaign portrait fades in on hover), number and season,
+ * name, line, three notes, and availability — "from" price and sizes, or "Coming soon".
+ */
+import Media from './Media.astro';
+import { isPurchasable, fromPrice, type Product } from '../data/catalog';
+import { commerce } from '../config/site';
+
+interface Props {
+  product: Product;
+  sizes?: string;
+}
+const { product: p, sizes = '(min-width: 900px) 30vw, (min-width: 600px) 46vw, 100vw' } = Astro.props;
+const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
+const onSale = isPurchasable(p);
+const from = fromPrice(p);
+const labels = p.variants.filter((v) => v.available).map((v) => v.label).join(' · ');
+const accord = p.notes ? [p.notes.top[0], p.notes.heart[0], p.notes.base[0]].join(' · ') : null;
+const status = onSale && from !== null ? `${labels} · from ${fmt.format(from)}` : 'Coming soon';
+---
+
+<a class="card__link" href={`/fragrances/${p.slug}`} aria-labelledby={`c-${p.slug}`} aria-describedby={`c-${p.slug}-s`}>
+  <span class="card-img">
+    <Media name={p.packshot} alt="" ratio="4 / 5" sizes={sizes} reveal={false} />
+    <Media name={p.portrait.name} alt="" ratio="4 / 5" sizes={sizes} position={p.portrait.focus ?? '50% 35%'} reveal={false} class="card-img__alt" />
+  </span>
+  <span class="label card__meta">
+    <span class="dot" style={`--accent:${p.accent}`} aria-hidden="true"></span>
+    {p.number} · {p.season} · {p.concentration}
+  </span>
+  <span class="card__name" id={`c-${p.slug}`}>{p.name}</span>
+  <span class="card__line it muted">{p.shortLine}</span>
+  {accord && <span class="card__notes">{accord}</span>}
+  <span class="card__foot">
+    <span class:list={['label', onSale ? 'card__price' : 'faint']} id={`c-${p.slug}-s`}>{status}</span>
+    <span class="label card__cta">{onSale ? 'Shop' : 'Discover'}<span class="arrow" aria-hidden="true"></span></span>
+  </span>
+</a>
+
+<style is:global>
+  .dot {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-inline-end: 0.55rem;
+    border-radius: 50%;
+    background: var(--accent);
+    vertical-align: 0.08em;
+  }
+  /* two stacked images: the packshot, and the campaign portrait on hover */
+  .card-img {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--c-ink-2);
+  }
+  .card-img .media img {
+    transition: transform 1.4s var(--ease-out);
+  }
+  .card-img__alt {
+    position: absolute !important;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s var(--ease-soft);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    a:hover > .card-img .card-img__alt,
+    a.card-img:hover .card-img__alt,
+    a:focus-visible .card-img__alt {
+      opacity: 1;
+    }
+    a:hover > .card-img .media img,
+    a.card-img:hover .media img {
+      transform: scale(1.03);
+    }
+  }
+
+  .card__link {
+    display: grid;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card__link .card-img {
+    margin-bottom: 0.65rem;
+  }
+  .card__meta {
+    color: var(--c-muted);
+  }
+  .card__name {
+    font-family: var(--f-serif);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.75rem);
+    line-height: 1;
+  }
+  .card__notes {
+    font-size: var(--step--1);
+    color: var(--c-muted);
+  }
+  .card__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--c-line);
+  }
+  .card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .card__cta .arrow {
+    position: relative;
+    width: 1.1rem;
+    height: 1px;
+    background: currentColor;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .card__link:hover .card__cta .arrow,
+  .card__link:focus-visible .card__cta .arrow {
+    transform: translateX(0.3rem);
+  }
+  .card__link:focus-visible {
+    outline: none;
+  }
+  .card__link:focus-visible .card-img {
+    outline: 1px solid var(--c-focus);
+    outline-offset: 4px;
+  }
+  .card__price {
+    color: var(--c-ivory);
+  }
+</style>
