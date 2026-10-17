@@ -58,6 +58,22 @@ const reels = [
     </div>
   </section>
 
+  <section class="section feed" aria-labelledby="feed-title">
+    <div class="wrap grid">
+      <div class="feed__frame" data-reveal="fade">
+        <video class="feed__video" controls playsinline preload="none" data-poster="/media/films/one-spray-poster.webp" width="834" height="1112" aria-label="A man takes the HG bottle from a shelf, talks to the camera, sprays it at his collar in the mirror, and sets it down by a lamp">
+          <source src="/media/films/one-spray.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="feed__copy">
+        <p class="label faint">On the feed</p>
+        <h2 class="h2" id="feed-title" data-reveal="lines">One spray. <em>At the collar.</em></h2>
+        <p class="lead it muted" data-reveal="fade">From the shelf to the mirror to the desk lamp, in twelve seconds.</p>
+        <p class="label muted">0:12 · Sound · AI-generated creator content</p>
+      </div>
+    </div>
+  </section>
+
   <section class="section film-night" aria-labelledby="night-title">
     <div class="wrap grid">
       <div class="film-night__frame" data-reveal="fade">
@@ -114,6 +130,40 @@ const reels = [
   @media (min-width: 900px) {
     .films__grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .feed .grid {
+    row-gap: 2.5rem;
+    align-items: center;
+  }
+  .feed__frame,
+  .feed__copy {
+    grid-column: 1 / -1;
+  }
+  .feed__frame {
+    width: min(100%, calc(80svh * 3 / 4));
+    margin-inline: auto;
+  }
+  .feed__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background: var(--c-ink-2);
+  }
+  .feed__copy {
+    display: grid;
+    gap: 1.25rem;
+    align-content: center;
+  }
+  @media (min-width: 900px) {
+    .feed__copy {
+      grid-column: 2 / span 4;
+      grid-row: 1;
+    }
+    .feed__frame {
+      grid-column: 7 / span 5;
     }
   }
   .film-night .grid {
