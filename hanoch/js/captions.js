@@ -13,6 +13,9 @@
     if (/film\/hg(-m)?\.mp4/.test(src)) return EN
       ? [['en', 'English', 'hg.en.vtt', 'captions']]
       : [['he', 'עברית', 'hg.he.vtt', 'subtitles'], ['en', 'English', 'hg.en.vtt', 'captions']];
+    // הפרסומות של הסטודיו: הכתוביות בעברית צרובות בסרט, אז רק באנגלית מתווספת רצועה
+    var studio = /film\/(studio-night|studio-host)(-m)?\.mp4/.exec(src);
+    if (studio) return EN ? [['en', 'English', studio[1] + '.en.vtt', 'subtitles']] : null;
     return null;
   }
   function srcOf(v) { return v.getAttribute('data-file') || v.getAttribute('data-src') || v.getAttribute('src') || v.currentSrc || ''; }

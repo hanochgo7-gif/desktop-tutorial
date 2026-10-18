@@ -1653,11 +1653,16 @@ html[lang="en"] .ag-spot h2 { font-size: clamp(2.8rem, 6vw, 6.4rem); }
 .tour figcaption b { font-size: var(--fs-d1); font-weight: 400; }
 .tour figcaption span { color: var(--fg-dim); font-size: var(--fs-xs); }
 .tours-note { color: var(--fg-dim); font-size: var(--fs-xs); }
+/* הפרסומות של הסטודיו: אנכיות, 9:16 */
+.tours-sub { margin: clamp(2.4rem, 5vw, 4rem) 0 1.2rem; font-size: var(--fs-d1); font-weight: 400; }
+.tours-grid-tall { grid-template-columns: repeat(2, minmax(0, 340px)); }
+.tour-tall .tour-view { aspect-ratio: 9 / 16; }
 @media (max-width: 900px) {
   .tours-head { grid-template-columns: 1fr; }
   .tours h2 { grid-row: auto; }
   .tours-grid { grid-template-columns: 1fr; }
   .tour-wide .tour-view { aspect-ratio: 16 / 9; }
+  .tours-grid-tall { grid-template-columns: minmax(0, 400px); }
   .tour-play { inset: auto auto 12px 12px; padding: .65rem 1rem .65rem .85rem; font-size: var(--fs-xs); }
   [dir="rtl"] .tour-play { inset: auto 12px 12px auto; }
 }

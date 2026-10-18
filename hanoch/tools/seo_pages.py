@@ -379,6 +379,9 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-card img, .sv-card video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
 .sv-card span { display: block; padding: 12px 14px; font-family: var(--f-body); font-size: .92rem; color: var(--fg, #ede8de); }
 .sv-card small { display: block; color: var(--fg-dim); font-size: .8125rem; margin-top: 2px; }
+.sv-cards-tall { grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); }
+.sv-cards-tall video { aspect-ratio: 9 / 16; }
+.sv-note { color: var(--fg-dim); font-size: .8125rem; margin-top: .6rem; }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -394,7 +397,11 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
 '''
 # גופנים באחסון עצמי (css/fonts.css, העתקים של Google Fonts): בלי חיבור לשרת חיצוני, והגופן של הטקסט נטען מראש
-def GF(up, he): return f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/g/{"rubik-hebrew-423ede.woff2" if he else "geist-mono-latin-b291d8.woff2"}" crossorigin>\n<link rel="stylesheet" href="{up}css/fonts.css">'
+def GF(up, he):
+    # הגופן הראשי, ותתי־הקבוצות הקטנות (סימני פיסוק ו-ASCII) כדי שהטקסט לא יקפוץ כשהגופן מתחלף
+    pre = lambda f: f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/{f}" crossorigin>\n'
+    fonts = ['g/rubik-hebrew-423ede.woff2', 'g/rubik-punct.woff2', 'handjet-ascii.woff2', 'handjet-hebrew.woff2'] if he else ['g/geist-mono-latin-b291d8.woff2', 'handjet-ascii.woff2']
+    return ''.join(pre(f) for f in fonts) + f'<link rel="stylesheet" href="{up}css/fonts.css">'
 # הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
 
@@ -427,12 +434,18 @@ def render(p):
     wa_text = T(f'היי חנוך, הגעתי מהעמוד "{p["name"]}" באתר. אשמח לשמוע פרטים.', f'Hi Hanoch, I found your "{p["name"]}" page. I would like to hear more.')
     wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(wa_text)
     steps = p.get('process') or (PROCESS_HE if he else PROCESS_EN)
-    ex = ''
+    ex = ''; ex_after = ''
     if p.get('films'):
         films = [('film/elef', T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), T('פרסומת קולנועית · 60 שניות', 'Cinematic commercial · 60 seconds')),
                  ('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 20 שניות', 'Fragrance commercial · 20 seconds')),
                  ('film/ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), T('סרט פרסומת · 60 שניות', 'Commercial · 60 seconds'))]
         ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f in ("film/ad", "film/elef")) else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
+        # הפרסומות של הסטודיו עצמו: אנכיות, לרילס. בעברית עם כתוביות צרובות, ובאנגלית עם כתוביות באנגלית
+        studio = [('film/studio-night', T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), T('פרסומת ל-HG Studio · 32 שניות', 'HG Studio commercial · 32 seconds')),
+                  ('film/studio-host', T('העסק נסגר בשבע. האתר? לא.', 'The business closes at seven. The website? No.'), T('פרסומת מציגה ל-HG Studio · 21 שניות', 'HG Studio presenter ad · 21 seconds'))]
+        ex_after = '<h3>' + T('הפרסומות של הסטודיו עצמו', 'The studio\'s own ads') + '</h3><div class="sv-cards sv-cards-tall">'
+        ex_after += ''.join(f'<div class="sv-card"><video controls preload="none" playsinline poster="{up}work/{f}.webp" aria-label="{esc(n)}"><source src="{up}work/{f}-m.mp4" type="video/mp4" media="(max-width: 700px)"><source src="{up}work/{f}.mp4" type="video/mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></div>' for f, n, s in studio)
+        ex_after += '</div><p class="sv-note">' + T('הסצנות, הדמויות והקול נוצרו בבינה מלאכותית. מסכי האתרים בפרסומות אמיתיים.', 'The scenes, characters and voices were made with AI. The website screens in the ads are real.' + ' The ads are in Hebrew, with English subtitles.') + '</p>'
     else:
         for k in p['examples']:
             img, nh, sh, ne, se = PROJ[k]
@@ -453,7 +466,9 @@ def render(p):
     if p.get('films'):
         graph += [{'@type': 'VideoObject', 'name': T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), 'description': T('פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.', 'A one minute cinematic commercial for a fictional olive oil brand, made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/elef.webp', 'contentUrl': D + ('/work/film/elef.mp4' if he else '/work/film/elef-en.mp4'), 'uploadDate': '2026-10-09', 'duration': 'PT60S'},
                   {'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 20 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-14', 'duration': 'PT20S'},
-                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HG Studio.', 'A one minute commercial made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'}]
+                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HG Studio.', 'A one minute commercial made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'},
+                  {'@type': 'VideoObject', 'name': T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), 'description': T('פרסומת אנכית של 32 שניות ל-HG Studio, שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', 'A 32 second vertical commercial for HG Studio, made with AI, with real screens from client sites.'), 'thumbnailUrl': D + '/work/film/studio-night.webp', 'contentUrl': D + '/work/film/studio-night.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT32S'},
+                  {'@type': 'VideoObject', 'name': T('העסק נסגר בשבע. האתר? לא.', 'The business closes at seven. The website? No.'), 'description': T('פרסומת מציגה של 21 שניות ל-HG Studio. המציגה והקול נוצרו בבינה מלאכותית, והמסכים אמיתיים.', 'A 21 second presenter ad for HG Studio. The presenter and voice were made with AI, and the screens are real.'), 'thumbnailUrl': D + '/work/film/studio-host.webp', 'contentUrl': D + '/work/film/studio-host.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT22S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
     alt = ''
     foot_links = ''.join(f'<a href="{("" if q["lang"] == p["lang"] else ("en/" if he else "../"))}{q["slug"]}.html">{esc(q["name"])}</a>' for q in P if q['lang'] == p['lang'])
@@ -500,7 +515,7 @@ def render(p):
   <ol class="sv-steps">{''.join(f'<li><b>{esc(a)}</b>{esc(b)}</li>' for a, b in steps)}</ol>
   <h2>{T('איך נקבע המחיר', 'How pricing works')}</h2>
   <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
-  {f'<h2>{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>' if ex else ''}
+  {f'<h2>{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>{ex_after}' if ex else ''}
   <h2>{T('שאלות נפוצות', 'FAQ')}</h2>
   <div class="sv-faq">{faq}</div>
   <section class="sv-cta" aria-labelledby="cta-h">
