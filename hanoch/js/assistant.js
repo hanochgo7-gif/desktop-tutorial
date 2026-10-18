@@ -134,7 +134,8 @@
     btn.type = 'button'; btn.className = 'ht-btn';
     btn.setAttribute('aria-haspopup', 'dialog');
     // השם הנגיש מתחיל בטקסט שרואים על הכפתור (WCAG 2.5.3), ואחריו מה הכפתור עושה
-    btn.setAttribute('aria-label', T('יועץ דיגיטלי, המצפן, עונה מיד: פתיחת שיחה', 'Digital advisor, Compass, replies instantly: open chat'));
+    // השם שנשמע כולל את הטקסט שרואים, באותו סדר (שליטה קולית: "לחץ על יועץ דיגיטלי")
+    btn.setAttribute('aria-label', T('יועץ דיגיטלי המצפן · עונה מיד. פתיחת שיחה', 'Digital advisor Compass · replies instantly. Open chat'));
     btn.innerHTML = '<span class="ht-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5h16v10.5H11l-4.5 3.5V16H4z" fill="none" stroke="#0a0a0b" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="12" cy="10.8" r="1.2" fill="#0a0a0b"/><circle cx="15" cy="10.8" r="1.2" fill="#0a0a0b"/></svg></span><span class="ht-lbl" aria-hidden="true"><b>' + T('יועץ דיגיטלי', 'Digital advisor') + '</b><small>' + T('המצפן · עונה מיד', 'Compass · replies instantly') + '</small></span>';
     btn.addEventListener('click', open);
     document.body.appendChild(btn);

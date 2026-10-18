@@ -170,3 +170,29 @@
     } else root.classList.add('dock-on');
   }
 })();
+
+/* טלפון: כרטיסי החבילות מציגים ארבע שורות ראשונות, והשאר נפתח בלחיצה. התוכן כולו בדף, רק מקופל */
+(function () {
+  'use strict';
+  if (!window.matchMedia('(max-width: 900px)').matches) return;
+  var EN = document.documentElement.lang === 'en';
+  var n = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('.tier .tier-list, .care-plan .tier-list'), function (ul) {
+    var extra = ul.children.length - 4;
+    if (extra < 2) return;
+    ul.id = ul.id || 'tl-' + (++n);
+    ul.classList.add('is-clamped');
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'tl-more mono';
+    b.setAttribute('aria-controls', ul.id); b.setAttribute('aria-expanded', 'false');
+    var label = function (open) { b.textContent = open ? (EN ? 'Show less' : 'פחות') : (EN ? '+ ' + extra + ' more included' : '+ עוד ' + extra + ' שכלולים'); };
+    label(false);
+    b.addEventListener('click', function () {
+      var open = ul.classList.toggle('is-clamped') === false;
+      b.setAttribute('aria-expanded', open ? 'true' : 'false'); label(open);
+      if (open) { var li = ul.children[4]; if (li) { li.tabIndex = -1; li.focus({ preventScroll: true }); } }
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+    ul.insertAdjacentElement('afterend', b);
+  });
+})();
