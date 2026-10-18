@@ -106,6 +106,7 @@
     '.ht-foot{margin:0;padding:0 .9rem .7rem;font-size:var(--fs-xs,.8125rem);color:rgba(237,232,222,.62)}.ht-foot a{color:inherit}' +
     '@media (max-width:600px){.ht-btn{min-height:52px;gap:.55rem;padding-inline-end:1rem}.ht-btn .ht-mark{width:40px;height:40px}' +
     '.ht-dlg{inset:0;width:100%;height:100%;border-radius:0;border:0}.ht-head{touch-action:none;padding-top:1.15rem;position:relative}' +
+    '.ht-dlg.ht-kb .ht-head{padding-top:.55rem;padding-bottom:.55rem}.ht-dlg.ht-kb .ht-head small,.ht-dlg.ht-kb .ht-foot,.ht-dlg.ht-kb .ht-grab{display:none}.ht-dlg.ht-kb .ht-log{padding-top:.6rem;padding-bottom:.6rem}' +
     '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
     // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
     '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}}' +
@@ -173,7 +174,11 @@
     log = dlg.querySelector('.ht-log'); input = dlg.querySelector('textarea'); sr = dlg.querySelector('.ht-sr');
     sr.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
     dlg.querySelector('.ht-x').addEventListener('click', close);
-    dlg.addEventListener('close', function () { document.documentElement.classList.remove('ht-open'); if (opener) opener.focus(); });
+    dlg.addEventListener('close', function () {
+      document.documentElement.classList.remove('ht-open');
+      dlg.style.top = dlg.style.bottom = dlg.style.height = ''; dlg.classList.remove('ht-kb');
+      if (opener) opener.focus();
+    });
     // לחיצה על הרקע סוגרת, אבל לא כשהיא בעצם סוף של גרירה (הדפדפן מדווח עליה כלחיצה על הרקע)
     dlg.addEventListener('click', function (e) { if (e.target === dlg && !dragged) close(); dragged = false; });
     dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
@@ -181,12 +186,27 @@
     dlg.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); });
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); ask(input.value); } });
     input.addEventListener('input', function () { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 120) + 'px'; });
-    // מקלדת בטלפון: החלון מתכווץ לגובה הנראה, כדי ששדה הכתיבה לא יוסתר
-    if (window.visualViewport) visualViewport.addEventListener('resize', function () { if (dlg.open && innerWidth <= 600) dlg.style.height = visualViewport.height + 'px'; });
+    // מקלדת בטלפון: החלון יושב בדיוק על החלק שרואים מעל המקלדת (גובה ומיקום), כדי שרואים גם את השיחה וגם את שדה הכתיבה.
+    // באייפון הדפדפן גם גולל את הדף כשהמקלדת נפתחת, ולכן לא מספיק לקצר את החלון: צריך גם להזיז אותו לאן שהמסך גלל
+    if (window.visualViewport) { visualViewport.addEventListener('resize', fit); visualViewport.addEventListener('scroll', fit); }
+    input.addEventListener('focus', function () { fit(); setTimeout(fit, 120); setTimeout(fit, 420); });
+    input.addEventListener('blur', function () { setTimeout(fit, 120); });
     // משחזרים את השיחה מהלשונית, או פותחים חדשה
     if (S.msgs.length) S.msgs.forEach(function (m) { bubble(m.role, m.content, true); });
     else greet();
     if (S.msgs.length) chips(START);
+  }
+
+  // מתאים את החלון לאזור הנראה בטלפון. השיחה נשארת על ההודעה האחרונה אם הייתם בסוף שלה
+  function fit() {
+    if (!dlg || !dlg.open || innerWidth > 600 || !window.visualViewport) return;
+    var vv = visualViewport, end = log.scrollHeight - log.scrollTop - log.clientHeight < 60;
+    dlg.style.height = Math.round(vv.height) + 'px';
+    dlg.style.top = Math.round(vv.offsetTop) + 'px';
+    dlg.style.bottom = 'auto';
+    // מקלדת פתוחה: כותרת קומפקטית ובלי שורת התחתית, כדי שיישאר מקום לשיחה
+    dlg.classList.toggle('ht-kb', vv.height < innerHeight * 0.78);
+    if (end) log.scrollTop = log.scrollHeight;
   }
 
   var START = [
@@ -244,8 +264,8 @@
       opener = document.activeElement;
       if (hint) { hint.remove(); hint = null; }
       document.documentElement.classList.add('ht-open');
-      if (innerWidth <= 600 && window.visualViewport) dlg.style.height = visualViewport.height + 'px';
       dlg.showModal();
+      fit();
       prime();
     }
     dlg.classList.add('ht-in');
