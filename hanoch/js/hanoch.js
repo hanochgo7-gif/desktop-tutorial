@@ -1143,6 +1143,21 @@
       if (name) lines.push('', name);
       return lines.join('\n');
     }
+    // תצוגה חיה לצד השאלות: ההודעה נבנית מהתשובות. תשובה שעוד לא ניתנה מסומנת בשלוש נקודות, ואין המלצה עד הסוף
+    var liveBox = $('.bl-text'), wrap = form.closest('.brief-wrap');
+    function livePreview() {
+      if (!liveBox) return;
+      var dash = '…';
+      var row = function (label, v) { return label + (v.length ? v.join(', ') : dash); };
+      var lines = [T('היי חנוך, הגעתי מהאתר שלך.', 'Hi Hanoch, I found you through your website.'), ''];
+      if (form.dataset.plan) lines.push(T('חבילה: ', 'Package: ') + form.dataset.plan);
+      lines.push(row(T('העסק: ', 'Business: '), values('biz')), row(T('מה האתר צריך לעשות: ', 'What the site should do: '), values('goal')),
+        row(T('על מה הולך לי זמן: ', 'What takes my time: '), values('pain')), row(T('מה יש היום: ', 'What I have today: '), values('now')));
+      var about = $('#brief-about').value.trim(), name = $('#brief-name').value.trim();
+      if (about) lines.push(T('על העסק: ', 'About the business: ') + about);
+      if (name) lines.push('', name);
+      liveBox.textContent = lines.join('\n');
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var key = KEYS[at];
@@ -1159,6 +1174,7 @@
       steps.forEach(function (s) { s.hidden = true; });
       nav.hidden = true; stepsBar.hidden = true; err.textContent = '';
       done.hidden = false;
+      if (wrap) wrap.classList.add('is-done');
       var title = $('.brief-done-title', form);
       title.tabIndex = -1; title.focus({ preventScroll: true });
       track('brief_ready', { plan: form.dataset.plan || '' });
@@ -1173,7 +1189,7 @@
     form.addEventListener('change', function (e) {
       if (!started) { started = true; track('brief_start', { plan: form.dataset.plan || '' }); }
       if (e.target.name === 'pain' && e.target.checked) $$('input[name="pain"]', form).forEach(function (i) { if (i !== e.target && ((e.target.dataset.k === 'none') !== (i.dataset.k === 'none'))) i.checked = false; });
-      saveDraft();
+      saveDraft(); livePreview();
       // ההודעה על תשובה חסרה נעלמת ברגע שבוחרים, בלי לחכות ל"המשך"
       if (err.textContent && values(KEYS[at]).length) err.textContent = '';
       if (e.target.type === 'radio' && at < steps.length - 1 && Date.now() - lastPointer < 800) setTimeout(function () { form.requestSubmit ? form.requestSubmit() : go.click(); }, 200);
@@ -1188,13 +1204,19 @@
       var r = document.createRange(); r.selectNodeContents($('.brief-preview', form));
       var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
     }
-    form.addEventListener('input', function (e) { if (e.target.type === 'text') saveDraft(); });
+    form.addEventListener('input', function (e) { if (e.target.type === 'text') { saveDraft(); livePreview(); } });
     $$('.brief-wa, .brief-mail', form).forEach(function (l) { l.addEventListener('click', dropDraft); });
     $('.brief-restart', form).addEventListener('click', function () {
       dropDraft(); setPlan(''); started = false; form.reset(); done.hidden = true; nav.hidden = false; stepsBar.hidden = false; show(0, true);
+      if (wrap) wrap.classList.remove('is-done');
+      livePreview();
     });
     var resume = loadDraft();
     show(resume);
+    livePreview();
+    // בחירת חבילה בכפתור "מתחילים" נכנסת גם לתצוגה החיה
+    $$('.tier-cta').forEach(function (a) { a.addEventListener('click', function () { setTimeout(livePreview, 0); }); });
+    $('button', plan).addEventListener('click', livePreview);
   }
 
   /* ---------- מחשבון שעות: כמה זמן הולך על עבודה שמערכת יכולה לעשות. רץ בדפדפן בלבד ---------- */
