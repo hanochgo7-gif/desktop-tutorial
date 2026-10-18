@@ -87,6 +87,17 @@
       items.forEach(function (it) { it.classList.add('is-in'); });
     }
 
+    // פס ההתקדמות בשעון: כמה מהלילה כבר עבר
+    var clockBox = $('.night-clock', night), ticking = false;
+    function progress() {
+      ticking = false;
+      var r = night.getBoundingClientRect(), vh = window.innerHeight;
+      var p = Math.min(1, Math.max(0, (vh * 0.5 - r.top) / (r.height - vh * 0.5)));
+      clockBox.style.setProperty('--nt-p', p.toFixed(3));
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
+    progress();
+
     /* הפרסומת המלאה: נפתחת בחלון, עם קול */
     var ad = $('.nt-ad', night), dlg = null, opener = null;
     if (ad) ad.addEventListener('click', function () {
@@ -141,17 +152,21 @@
   /* ---------- פס פנייה בטלפון: אחרי הפתיחה, ולא ליד הטופס ---------- */
   var dockEl = $('.hm-dock');
   if (dockEl) {
-    var wa = $('[data-wa]', dockEl);
     try {
       var from = sessionStorage.getItem('hg-src');
-      if (from && wa) wa.href += encodeURIComponent('\n' + T('הגעתי דרך: ', 'Came via: ') + from);
+      if (from) $$('[data-wa]').forEach(function (a) { a.href += encodeURIComponent('\n' + T('הגעתי דרך: ', 'Came via: ') + from); });
     } catch (e) { }
     var hero = $('.hero'), contact = $('#contact');
     var heroIn = true, contactIn = false;
     var sync = function () { root.classList.toggle('dock-on', !heroIn && !contactIn); };
-    if (IO && hero && contact) {
-      new IntersectionObserver(function (en) { heroIn = en[0].isIntersecting; sync(); }, { rootMargin: '0px 0px -60% 0px' }).observe(hero);
+    if (IO && contact) {
       new IntersectionObserver(function (en) { contactIn = en[0].isIntersecting; sync(); }, { rootMargin: '0px 0px -30% 0px' }).observe(contact);
+      // בעמוד הבית: אחרי הפתיחה. בעמודים בלי פתיחה: אחרי חצי מסך של גלילה
+      if (hero) new IntersectionObserver(function (en) { heroIn = en[0].isIntersecting; sync(); }, { rootMargin: '0px 0px -60% 0px' }).observe(hero);
+      else {
+        var past = function () { var v = window.scrollY < window.innerHeight * 0.5; if (v !== heroIn) { heroIn = v; sync(); } };
+        window.addEventListener('scroll', past, { passive: true }); past();
+      }
     } else root.classList.add('dock-on');
   }
 })();
