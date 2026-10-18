@@ -6,7 +6,7 @@
 - [x] how-much-does-a-website-cost | כמה עולה לבנות אתר | טווחי מחירים, מה משפיע, עלויות חודשיות | website-building, landing-page, online-store (2026-10-04)
 - [x] wix-vs-custom-website | וויקס או אתר בהתאמה אישית | השוואה כנה: מתי וויקס מספיק ומתי לא | wix-migration, website-building, web-design (2026-10-04)
 - [x] landing-page-that-converts | דף נחיתה שממיר | 9 רכיבים שחייבים להיות בדף נחיתה, עם דוגמאות | landing-page, web-design (2026-10-11)
-- [ ] how-to-choose-web-designer | איך לבחור מעצב אתרים | 10 שאלות לשאול לפני שחותמים | website-building, web-design
+- [x] how-to-choose-web-designer | איך לבחור מעצב אתרים | 10 שאלות לשאול לפני שחותמים | website-building, web-design (2026-10-18)
 - [ ] seo-for-small-business | קידום אורגני לעסק קטן | מדריך מעשי: מה עושים בעצמכם ומה כדאי להעביר | seo
 - [ ] website-speed | מהירות אתר | למה אתר איטי מפסיד לקוחות ואיך בודקים | seo, website-building
 - [ ] google-business-profile | פרופיל עסק בגוגל | פתיחה ואופטימיזציה של Google Business Profile צעד אחר צעד | seo
