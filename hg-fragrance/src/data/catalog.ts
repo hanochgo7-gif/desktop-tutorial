@@ -6,8 +6,9 @@
  *   N°01 Unforgettable (Autumn) — the flagship, verified from HG's own campaign.
  *   N°02 Open Window (Spring), N°03 Last Light (Summer), N°04 Nocturne (Winter) —
  *   new fragrance concepts. Their compositions are creative briefs to develop with a
- *   perfumer; they have no price and are not purchasable ("Coming soon") until
- *   formats and prices are set here. See LAUNCH.md.
+ *   perfumer. On the demo site they are on sale in the house flacon at the same sizes
+ *   and prices as Unforgettable, so a visitor can choose between the four; set their
+ *   real formats and prices here before launch. See LAUNCH.md.
  *
  * NOT yet verified — edit before launch:
  *   - Unforgettable: concentration, sizes, prices, notes (left empty on purpose)
@@ -117,7 +118,7 @@ export const products: Product[] = [
       heart: ['Iris', 'Neroli', 'Violet leaf'],
       base: ['White musk', 'Cedarwood', 'Vetiver'],
     },
-    status: 'coming-soon',
+    status: 'available',
     packshot: 'ow-packshot',
     gallery: [
       { name: 'ow-packshot', alt: 'Open Window — the HG bottle with pale green-gold juice and a silver collar, front view' },
@@ -131,7 +132,10 @@ export const products: Product[] = [
       { name: 'ow-coupe', alt: 'A woman in an ivory silk dress beside a pale sage-green classic coupe on a wet gravel drive, wisteria and cypresses behind, holding Open Window', caption: 'The drive' },
       { name: 'ow-window', alt: 'The Open Window bottle on a limestone windowsill, curtain lifting, the garden wet with rain', caption: 'The sill' },
     ],
-    variants: [],
+    variants: [
+      { id: 'open-window-100', label: '100 ml', price: 245, available: true },
+      { id: 'open-window-50', label: '50 ml', price: 175, available: true },
+    ],
   },
   {
     slug: 'last-light',
@@ -154,7 +158,7 @@ export const products: Product[] = [
       heart: ['Fig', 'Neroli', 'Jasmine sambac'],
       base: ['Ambrette', 'Driftwood accord', 'Skin musk'],
     },
-    status: 'coming-soon',
+    status: 'available',
     packshot: 'll-packshot',
     gallery: [
       { name: 'll-packshot', alt: 'Last Light — the HG bottle with blush rosé-gold juice and a rose-gold collar, front view' },
@@ -166,7 +170,10 @@ export const products: Product[] = [
     campaign: [
       { name: 'll-rock', alt: 'The Last Light bottle on a white rock, salt crystals and spray, the sea gold behind', caption: 'Salt' },
     ],
-    variants: [],
+    variants: [
+      { id: 'last-light-100', label: '100 ml', price: 245, available: true },
+      { id: 'last-light-50', label: '50 ml', price: 175, available: true },
+    ],
   },
   {
     slug: 'nocturne',
@@ -189,7 +196,7 @@ export const products: Product[] = [
       heart: ['Smoked black tea', 'Leather', 'Rose absolute'],
       base: ['Oud accord', 'Labdanum', 'Tonka bean', 'Vanilla'],
     },
-    status: 'coming-soon',
+    status: 'available',
     packshot: 'nc-packshot',
     gallery: [
       { name: 'nc-packshot', alt: 'Nocturne — the HG bottle with garnet-black juice and a satin black collar, front view' },
@@ -206,7 +213,10 @@ export const products: Product[] = [
     campaign: [
       { name: 'nc-velvet', alt: 'Nocturne on black velvet with fine snow, a window of falling snow behind', caption: 'Velvet' },
     ],
-    variants: [],
+    variants: [
+      { id: 'nocturne-100', label: '100 ml', price: 245, available: true },
+      { id: 'nocturne-50', label: '50 ml', price: 175, available: true },
+    ],
   },
 ];
 

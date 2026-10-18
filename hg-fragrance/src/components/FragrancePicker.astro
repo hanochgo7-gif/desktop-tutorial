@@ -1,0 +1,164 @@
+---
+/**
+ * Choose a fragrance: the four flacons side by side.
+ * mode "links" (product page) — each tile opens that fragrance's page.
+ * mode "tabs" (collection page) — each tile shows that fragrance's panel ([data-pick-panel]) in place,
+ *   via html[data-pick]; without JavaScript the tiles are anchors to the panels, which are all visible.
+ */
+import Media from './Media.astro';
+import { bySeason } from '../data/catalog';
+
+interface Props {
+  current: string;
+  mode: 'links' | 'tabs';
+  label?: string;
+}
+const { current, mode, label = 'Choose your fragrance' } = Astro.props;
+const all = bySeason();
+---
+
+<nav class="pick" aria-label={label} data-pick={mode === 'tabs' || undefined}>
+  <p class="label faint pick__label">{label}</p>
+  <ul class="pick__list" role="list">
+    {
+      all.map((p) => (
+        <li>
+          <a
+            class="pick__item"
+            href={mode === 'tabs' ? `#${p.slug}` : `/fragrances/${p.slug}`}
+            data-pick-item={mode === 'tabs' ? p.slug : undefined}
+            aria-controls={mode === 'tabs' ? p.slug : undefined}
+            aria-current={p.slug === current ? (mode === 'tabs' ? 'true' : 'page') : undefined}
+            style={`--accent:${p.accent}`}
+          >
+            <span class="pick__img">
+              <Media name={p.packshot} alt="" ratio="4 / 5" sizes="(min-width: 900px) 9rem, 22vw" reveal={false} />
+            </span>
+            <span class="pick__name">{p.name}</span>
+            <span class="label faint pick__meta">
+              <span class="pick__dot" aria-hidden="true" />
+              {p.season}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+{
+  mode === 'tabs' && (
+    <>
+      {/* Before first paint: pick the fragrance from the URL hash (or the default) so only its panel shows. */}
+      <script is:inline define:vars={{ slugs: all.map((p) => p.slug), fallback: current }}>
+        (function () {
+          var h = decodeURIComponent(location.hash.slice(1));
+          var slug = slugs.indexOf(h) > -1 ? h : fallback;
+          document.documentElement.dataset.pick = slug;
+          document.querySelectorAll('[data-pick-item]').forEach(function (a) {
+            if (a.getAttribute('data-pick-item') === slug) a.setAttribute('aria-current', 'true');
+            else a.removeAttribute('aria-current');
+          });
+        })();
+      </script>
+      <style set:html={all.map((p) => `html[data-pick="${p.slug}"] [data-pick-panel]:not([data-pick-panel="${p.slug}"]){display:none}`).join('')} />
+    </>
+  )
+}
+
+<script>
+  // Collection page: switch the fragrance in place and keep it in the URL hash.
+  const nav = document.querySelector<HTMLElement>('[data-pick]');
+  if (nav) {
+    const items = [...nav.querySelectorAll<HTMLAnchorElement>('[data-pick-item]')];
+    const slugs = items.map((a) => a.dataset.pickItem!);
+    const show = (slug: string) => {
+      document.documentElement.dataset.pick = slug;
+      items.forEach((a) => (a.dataset.pickItem === slug ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    };
+    items.forEach((a) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const slug = a.dataset.pickItem!;
+        show(slug);
+        history.replaceState(null, '', `#${slug}`);
+      }),
+    );
+    addEventListener('hashchange', () => {
+      const h = decodeURIComponent(location.hash.slice(1));
+      if (slugs.includes(h)) show(h);
+    });
+  }
+</script>
+
+<style is:global>
+  .pick {
+    display: grid;
+    gap: 0.85rem;
+    container-type: inline-size;
+  }
+  .pick__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.5rem, 1.6vw, 1rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pick__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem;
+    align-content: start;
+    height: 100%;
+    padding: 0.4rem 0.4rem 0.65rem;
+    color: var(--c-muted);
+    text-decoration: none;
+    border: 1px solid var(--c-line);
+    transition:
+      border-color var(--dur-2),
+      color var(--dur-2);
+  }
+  .pick__item:hover {
+    color: var(--c-ivory);
+    border-color: rgb(239 231 216 / 0.35);
+  }
+  .pick__item[aria-current] {
+    color: var(--c-ivory);
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+  .pick__img {
+    display: block;
+    overflow: hidden;
+  }
+  .pick__name {
+    font-family: var(--f-serif);
+    /* sized to the row, so "Unforgettable" always fits its tile on one line */
+    font-size: min(1.2rem, 3.1cqi);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pick__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.62rem;
+  }
+  .pick__dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  @container (max-width: 400px) {
+    .pick__item {
+      padding: 0.3rem 0.3rem 0.5rem;
+    }
+    .pick__meta {
+      display: none;
+    }
+  }
+</style>

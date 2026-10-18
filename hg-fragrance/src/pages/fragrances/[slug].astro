@@ -1,4 +1,5 @@
 ---
+import FragrancePicker from '../../components/FragrancePicker.astro';
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Media from '../../components/Media.astro';
@@ -115,6 +116,7 @@ const ld = {
 
       <div class="pdp__info">
         <div class="pdp__sticky">
+          <FragrancePicker current={p.slug} mode="links" />
           <h1 class="h1 pdp__title" id="pdp-title">{p.name}</h1>
           <p class="lead it muted">{p.concentration}</p>
           <p class="serif pdp__line">{p.shortLine}</p>
@@ -287,6 +289,11 @@ const ld = {
     display: grid;
     gap: 1.25rem;
     justify-items: start;
+  }
+  .pdp__sticky > .pick {
+    justify-self: stretch;
+    max-width: 30rem;
+    margin-bottom: 0.75rem;
   }
   .pdp__title {
     font-size: clamp(3rem, 1.2rem + 4.4vw, 6.25rem);
