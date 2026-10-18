@@ -2215,3 +2215,15 @@ html[dir="rtl"] .night-clock { --nt-o: right; }
 @media (max-width: 900px) {
   .night-list { gap: 72px; margin-top: 56px; }
 }
+
+/* HG Fragrance: כל הסרטים מהקמפיין. רשת במחשב, פס שנגלל הצידה בטלפון */
+.reels-lead { max-width: 70ch; margin-top: -.4rem; margin-bottom: 1.4rem; }
+.reels-lead a { color: var(--fg); text-decoration: underline; text-decoration-color: rgba(255, 79, 26, .7); text-underline-offset: 4px; white-space: nowrap; }
+.tours-grid-reels { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px 14px; }
+.tours-grid-reels .tour-play { padding: .5rem .85rem .5rem .7rem; font-size: var(--fs-xs); }
+.tours-grid-reels figcaption b { font-size: var(--fs-b); }
+@media (max-width: 900px) {
+  .tours-grid-reels { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .tours-grid-reels::-webkit-scrollbar { display: none; }
+  .tours-grid-reels .tour { flex: 0 0 58vw; max-width: 260px; scroll-snap-align: center; }
+}

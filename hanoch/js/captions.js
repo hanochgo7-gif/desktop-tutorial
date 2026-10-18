@@ -16,6 +16,10 @@
     // הפרסומות של הסטודיו: הכתוביות בעברית צרובות בסרט, אז רק באנגלית מתווספת רצועה
     var studio = /film\/(studio-night|studio-host)(-m)?\.mp4/.exec(src);
     if (studio) return EN ? [['en', 'English', studio[1] + '.en.vtt', 'subtitles']] : null;
+    // HG Fragrance: שני סרטוני היוצרים מדברים באנגלית. בעברית מוצג תרגום, ובאנגלית הכתוביות המקוריות
+    var reel = /film\/hgr-(the-entrance|one-spray)\.mp4/.exec(src);
+    if (reel) return EN ? [['en', 'English', 'hgr-' + reel[1] + '.en.vtt', 'captions']]
+      : [['he', 'עברית', 'hgr-' + reel[1] + '.he.vtt', 'subtitles'], ['en', 'English', 'hgr-' + reel[1] + '.en.vtt', 'captions']];
     return null;
   }
   function srcOf(v) { return v.getAttribute('data-file') || v.getAttribute('data-src') || v.getAttribute('src') || v.currentSrc || ''; }
