@@ -56,6 +56,20 @@ class State:
     def trip_kill_switch(self, reason: str) -> None:
         (self.root / "STOP").write_text(reason + "\n")
 
+    # --- Claude vetoes (so a vetoed buy is not re-asked every day) -------------
+    def record_veto(self, symbol: str) -> None:
+        path = self.root / "vetoes.json"
+        v = json.loads(path.read_text()) if path.exists() else {}
+        v[symbol] = date.today().isoformat()
+        path.write_text(json.dumps(v, indent=2))
+
+    def vetoed_recently(self, symbol: str, days: int) -> bool:
+        path = self.root / "vetoes.json"
+        if not path.exists():
+            return False
+        when = json.loads(path.read_text()).get(symbol)
+        return bool(when) and (date.today() - date.fromisoformat(when)).days < days
+
     # --- per-day counters ----------------------------------------------------
     def daily(self, equity_now: float) -> dict:
         today = date.today().isoformat()

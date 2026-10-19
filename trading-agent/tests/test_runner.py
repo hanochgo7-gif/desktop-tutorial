@@ -216,3 +216,27 @@ def test_partial_exit_restores_stop_on_remainder(tmp_path):
     State(tmp_path).add_managed("AAA", 100)
     run_once(cfg(tmp_path, False), b)
     assert b.stops["AAA"] == (50, 70.0) and State(tmp_path).managed() == {"AAA": 50}
+
+
+def test_trend_mode_enters_after_entry_day(tmp_path):
+    from dataclasses import replace
+    up = make_bars(np.r_[np.linspace(120, 80, 80), np.linspace(80, 130, 80)])  # long for a while
+    c = cfg(tmp_path, False)
+    cross = replace(c, strategy=replace(c.strategy, entry_mode="cross"))
+    trend = replace(c, state_dir=tmp_path / "t", strategy=replace(c.strategy, entry_mode="trend"))
+    b1, b2 = FakeBroker({"AAA": up}), FakeBroker({"AAA": up})
+    run_once(cross, b1)
+    run_once(trend, b2)
+    assert b1.orders == []                       # missed the cross day: cross mode waits
+    assert b2.orders and b2.orders[0][1] == "BUY"
+
+
+def test_veto_is_remembered(tmp_path):
+    from dataclasses import replace
+    up = make_bars(np.r_[np.linspace(120, 80, 80), np.linspace(80, 130, 80)])
+    c = cfg(tmp_path, False)
+    c = replace(c, strategy=replace(c.strategy, entry_mode="trend"))
+    a = FakeAnalyst(False)
+    run_once(c, FakeBroker({"AAA": up}), analyst=a)
+    run_once(c, FakeBroker({"AAA": up}), analyst=a)
+    assert a.calls == 1  # second day: not re-asked

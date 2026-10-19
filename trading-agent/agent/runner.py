@@ -17,6 +17,8 @@ from .strategy import compute, latest_signal, regime_filter
 
 log = logging.getLogger("agent")
 
+VETO_DAYS = 7  # after a Claude veto, do not ask again about the same symbol for this long
+
 
 def run_once(cfg: Config, broker: IBKRBroker | None = None, analyst=None) -> None:
     state = State(cfg.state_dir)
@@ -171,9 +173,11 @@ class Pass:
         elif sig.in_position and owned > 0:
             if sig.stop:
                 self.trail_stop(inst, owned, sig.stop)
-        elif sig.in_position and owned == 0 and "entry" in sig.reason:
-            # Only on the entry bar: never chase a trend that is already running.
-            self.buy(inst, sig, bars, regime, buys_blocked)
+        elif sig.in_position and owned == 0:
+            # "cross" mode buys only on the entry bar (never chase). "trend" mode buys any day
+            # the strategy is long, which is what its backtest assumes.
+            if "entry" in sig.reason or self.cfg.strategy.entry_mode == "trend":
+                self.buy(inst, sig, bars, regime, buys_blocked)
 
     def buy(self, inst: Instrument, sig, bars, regime, buys_blocked: str) -> None:
         sym = inst.symbol
@@ -183,7 +187,10 @@ class Pass:
             return
         acct = self.snapshot()
         d = self.risk.size_buy(sig.close, sig.atr, acct)
-        if d.qty > 0 and self.analyst is not None:
+        if d.qty > 0 and self.analyst is not None and self.state.vetoed_recently(sym, VETO_DAYS):
+            d.notes.append(f"claude vetoed within the last {VETO_DAYS} days")
+            d.qty = 0
+        elif d.qty > 0 and self.analyst is not None:
             # Claude reviews after the hard limits, and can only shrink or veto.
             from .fundamentals import fetch as fetch_fundamentals
 
@@ -193,6 +200,8 @@ class Pass:
             verdict = "approved" if r.approved else "vetoed"
             d.notes.append(f"claude {verdict} x{r.size_multiplier:.2f} -> {scaled}: {r.summary}")
             log.info("%s: Claude %s (conf %.2f): %s", sym, verdict, r.confidence, r.summary)
+            if not r.approved:
+                self.state.record_veto(sym)
             d.qty = scaled
         filled = self.execute(inst, "BUY", d.qty, sig.close, sig.reason, "; ".join(d.notes))
         if filled > 0:
