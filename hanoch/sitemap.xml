@@ -253,6 +253,11 @@
     <image:image><image:loc>https://hgpro.io/elef/media/s8-poster.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://hgpro.io/refer.html</loc>
+    <lastmod>2026-10-19</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://hgpro.io/accessibility.html</loc>
     <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>

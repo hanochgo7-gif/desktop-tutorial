@@ -43,6 +43,7 @@ paths += ['/blog/'] + [b['url'][len(D):] for b in BLOG]
 for b in BLOG: IMG[b['url'][len(D):]] = ['/' + b['cover']]
 PRI['/blog/'] = '0.7'
 paths += ['/elef/', '/elef/en.html']; PRI['/elef/'] = '0.6'; PRI['/elef/en.html'] = '0.5'
+paths.append('/refer.html'); PRI['/refer.html'] = '0.3'
 paths.append('/accessibility.html'); paths.append('/en-accessibility.html')
 for lp in ('privacy', 'terms', 'refunds'):
     paths += [f'/{lp}.html', f'/en-{lp}.html']; PRI[f'/{lp}.html'] = PRI[f'/en-{lp}.html'] = '0.2'
