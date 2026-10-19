@@ -17,14 +17,19 @@ universe:
   - {symbol: MSFT, exchange: SMART, currency: USD}
   # Tel Aviv example: {symbol: TEVA, exchange: TASE, currency: ILS}
 
+# 50/200 in trend mode: best of the variants tested over 2007-2026 on 28 symbols
+# (Sharpe 0.61 vs 0.64 buy&hold and 0.59 for 60/40, max drawdown -18% vs -45%,
+# but CAGR 6.3% vs 11.6%). It reduces risk, it does not beat the market.
+# Chosen out of ~10 variants on the same data, so expect somewhat worse live.
+# The original 20/50 cross scored Sharpe 0.34 on the same test.
 strategy:
-  fast_sma: 20
-  slow_sma: 50
+  fast_sma: 50
+  slow_sma: 200
   rsi_period: 14
   rsi_max_entry: 70      # skip entries when RSI is above this (overbought)
   atr_period: 14
   atr_stop_mult: 3.0     # trailing stop = highest close since entry - mult * ATR
-  entry_mode: cross      # cross = only on the crossover day | trend = any day fast > slow
+  entry_mode: trend      # cross = only on the crossover day | trend = any day fast > slow
   cooldown_bars: 5       # trend mode: wait this many bars after an exit
   # Optional filters (0 / false / "" = off). Backtest before enabling.
   trend_sma: 0           # e.g. 150: close above a rising SMA150 (stage-2 style)
