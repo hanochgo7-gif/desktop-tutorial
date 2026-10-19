@@ -54,17 +54,6 @@
 <body>
 <a class="skip" href="#pricing">דלגו לשירותים</a>
 
-<!-- פתיח: השרטוט נמתח והשם מוקלד -->
-<div class="intro" aria-hidden="true">
-  <svg class="intro-grid" preserveAspectRatio="none"></svg>
-  <div class="intro-type"><span class="intro-text"></span><i class="caret"></i></div>
-  <div class="intro-meta mono">
-    <span>שרטוט מס׳ 01</span>
-    <span>HG Studio — חנוך גוטובסקי</span>
-    <span class="intro-pct">000</span>
-  </div>
-</div>
-
 <div class="grain" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"><i></i></div>
 <div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -94,25 +83,25 @@
 
 <main id="top">
 
-  <!-- 01 פתיחה: לחיצת יד בין אדם לרובוט, שנגמרת באצבע משולשת (js/creation.js) -->
-  <section class="hero cr" aria-labelledby="hero-title" data-frames="78" data-path="work/creation/f/{w}/{n}.webp">
-    <div class="cr-pin">
-      <img class="cr-het-img" src="work/creation/het.webp" alt="" aria-hidden="true" width="900" height="900" fetchpriority="high" decoding="async">
-      <div class="cr-copy">
-        <h1 class="cr-title" id="hero-title">אתרים שעובדים<br>בשביל העסק.<strong class="sr-only"> HG Studio: בניית אתרים ועיצוב אתרים לעסקים</strong></h1>
-        <p class="cr-sub">גם כשהעסק סגור, האתר עונה ללקוחות, מחשב הצעות, קובע תורים ושולח לכם את הכול מסודר בוואטסאפ. מחיר סגור, באוויר תוך שבועיים.</p>
-        <div class="cr-cta">
+  <!-- 01 פתיחה פשוטה: כותרת, שני כפתורים, ויד של אדם ויד של רובוט שכמעט נוגעות -->
+  <section class="hero hs" aria-labelledby="hero-title">
+    <div class="hs-copy">
+      <p class="hs-kicker mono">HG Studio · חנוך גוטובסקי</p>
+      <h1 class="hs-title display" id="hero-title">אתרים שעובדים<br>בשביל העסק.<strong class="sr-only"> HG Studio: בניית אתרים ועיצוב אתרים לעסקים</strong></h1>
+      <p class="hs-sub">גם כשהעסק סגור, האתר עונה ללקוחות, מחשב הצעות, קובע תורים ושולח לכם את הכול מסודר בוואטסאפ. מחיר סגור, באוויר תוך שבועיים.</p>
+      <div class="cr-cta">
           <a class="cr-btn" href="#contact">לתוכנית לעסק שלכם <span aria-hidden="true">←</span></a>
           <a class="cr-btn cr-btn-ghost" href="#night">מה קורה בלילה</a>
         </div>
-      </div>
-      <p class="cr-caption" aria-hidden="true"><span class="display">מכונה לבד זה לא מספיק.</span><span class="mono">צריך גם יד של בן אדם. HG Studio</span></p>
-      <div class="cr-meta hero-meta mono">
+    </div>
+    <figure class="hs-art">
+      <div class="hs-stage"><picture><source media="(max-width: 700px)" srcset="work/hero/hands-m.webp" width="900" height="540"><img src="work/hero/hands.webp" srcset="work/hero/hands-960.webp 960w, work/hero/hands.webp 1600w" sizes="(max-width: 1400px) 100vw, 1400px" width="1600" height="520" alt="יד של אדם ויד של רובוט מושטות זו לזו, כמעט נוגעות" fetchpriority="high" decoding="async"></picture><i class="hs-spark" aria-hidden="true"></i></div>
+      <figcaption class="hs-cap mono">מכונה לבד זה לא מספיק. צריך גם יד של בן אדם.</figcaption>
+    </figure>
+    <div class="hs-meta hero-meta mono">
         <span>חנוך גוטובסקי · ישראל · <time class="clock">--:--</time></span>
         <a class="hero-avail" href="#contact"><i aria-hidden="true"></i>זמין לפרויקטים · 2026</a>
       </div>
-      <div class="scroll-cue mono" aria-hidden="true"><i></i></div>
-    </div>
   </section>
 
   <!-- הלילה: מה האתר עושה בזמן שהעסק סגור. שעון שרק מתקדם, סצנה שנוצרה ב-AI ולידה מסך אמיתי מאתר של לקוח (js/night.js) -->
@@ -623,8 +612,6 @@
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/hanoch.js" defer></script>
 <script src="js/night.js" defer></script>
-<script src="js/creation.js" defer></script>
-<script type="module" src="js/het.js"></script>
 <script src="js/systems.js" defer></script>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>

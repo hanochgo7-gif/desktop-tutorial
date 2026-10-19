@@ -428,7 +428,8 @@
   /* ---------- פתיח ---------- */
   function runIntro() {
     var intro = $('.intro');
-    if (!motion || !intro) { if (intro) intro.remove(); st.intro = 0; return Promise.resolve(); }
+    // בלי פתיח בדף (או בלי תנועה): מודיעים מיד שהפתיחה הסתיימה, כדי שמה שמחכה לה יתחיל
+    if (!motion || !intro) { if (intro) intro.remove(); st.intro = 0; HG.introDone = true; window.dispatchEvent(new Event('hg:intro')); return Promise.resolve(); }
     // בלי פתיח (טלפון או ביקור חוזר): החלקיקים מתיישבים לבד, והתוכן זמין מהרגע הראשון
     if (window.innerWidth <= 900) document.documentElement.classList.add('no-intro');
     if (document.documentElement.classList.contains('no-intro')) {

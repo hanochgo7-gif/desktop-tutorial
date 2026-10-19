@@ -2227,3 +2227,45 @@ html[dir="rtl"] .night-clock { --nt-o: right; }
   .tours-grid-reels::-webkit-scrollbar { display: none; }
   .tours-grid-reels .tour { flex: 0 0 58vw; max-width: 260px; scroll-snap-align: center; }
 }
+
+/* ---------- פתיחה פשוטה: כותרת, שני כפתורים, ויד אדם ויד רובוט שכמעט נוגעות ----------
+   בלי גלילה מונפשת ובלי פתיח. נקודת אור קטנה בין קצות האצבעות, וכניסה עדינה אחת בטעינה */
+.hs { min-height: 100vh; min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; padding: clamp(88px, 11vh, 120px) var(--gutter) 0; background: #000; text-align: center; overflow: hidden; }
+.hs-copy { position: relative; z-index: 2; max-width: 920px; margin: 0 auto; }
+.hs-kicker { font-size: var(--fs-xs); color: var(--fg-dim); letter-spacing: .06em; margin-bottom: 1.1rem; }
+.hs-title { font-size: var(--fs-d5); font-weight: 400; line-height: .98; letter-spacing: 0; }
+.hs-sub { max-width: 48ch; margin: 1.2rem auto 0; font-size: var(--fs-l); line-height: 1.65; color: rgba(237, 232, 222, .8); }
+.hs .cr-cta { margin-top: 1.8rem; }
+.hs .cr-btn { min-height: 48px; padding-inline: 1.4rem; }
+.hs-art { position: relative; align-self: center; width: min(1400px, 100%, calc((100svh - 500px) * 3.08)); min-width: min(100%, 720px); margin: clamp(8px, 2vh, 28px) auto 0; --sx: 50.3%; --sy: 51.9%; }
+.hs-stage { position: relative; }
+.hs-art img { display: block; width: 100%; height: auto;
+  /* הקצוות של התמונה נמסים לשחור, כדי שלא ייראה מלבן */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent), linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent), linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent); mask-composite: intersect; }
+.hs-spark { position: absolute; left: var(--sx); top: var(--sy); width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; pointer-events: none;
+  background: rgba(255, 196, 140, .95); box-shadow: 0 0 18px 6px rgba(255, 130, 60, .6), 0 0 70px 26px rgba(255, 79, 26, .28); }
+.motion .hs-spark { animation: hs-spark 3.4s ease-in-out infinite; }
+@keyframes hs-spark { 50% { transform: scale(1.4); opacity: .7; } }
+.hs-cap { margin-top: .4rem; font-size: var(--fs-xs); color: var(--fg-dim); }
+.hs-meta { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 14px 0 24px; font-size: var(--fs-xs); color: var(--fg-dim); border-top: 1px solid var(--fg-faint); }
+/* כניסה אחת: הטקסט עולה, הידיים מתקרבות מעט ונעצרות לפני המגע */
+.motion .hs-copy > * { animation: hs-up .9s var(--ease) both; }
+.motion .hs-copy > :nth-child(2) { animation-delay: .08s; }
+.motion .hs-copy > :nth-child(3) { animation-delay: .16s; }
+.motion .hs-copy > :nth-child(4) { animation-delay: .24s; }
+.motion .hs-art img { animation: hs-art 1.6s var(--ease) .15s both; }
+.motion .hs-spark { animation: hs-spark-in 1s var(--ease) 1.2s both, hs-spark 3.4s ease-in-out 2.2s infinite; }
+@keyframes hs-up { from { opacity: 0; transform: translateY(18px); } }
+@keyframes hs-art { from { opacity: 0; transform: scale(1.04); } }
+@keyframes hs-spark-in { from { opacity: 0; transform: scale(0); } }
+@media (max-width: 700px) {
+  .hs { padding-top: 92px; }
+  .hs-title { font-size: clamp(2.6rem, 11.5vw, 3.6rem); }
+  .hs-sub { font-size: var(--fs-b); }
+  .hs .cr-cta { flex-direction: column; align-items: stretch; max-width: 340px; margin-inline: auto; }
+  .hs .cr-btn { justify-content: center; }
+  .hs-art { width: calc(100% + var(--gutter) * 2); min-width: 0; margin-inline: calc(var(--gutter) * -1); --sx: 50%; --sy: 50%; }
+  .hs-meta { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .hs-copy > *, .hs-art img, .hs-spark { animation: none !important; } }
