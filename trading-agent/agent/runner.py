@@ -5,6 +5,7 @@ import logging
 
 from .broker import IBKRBroker
 from .config import Config
+from .data import BarStore, clean_bars
 from .risk import AccountSnapshot, RiskManager
 from .state import State
 from .strategy import compute, latest_signal
@@ -46,6 +47,7 @@ def _snapshot(broker: IBKRBroker, state: State) -> AccountSnapshot:
 
 def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
     risk = RiskManager(cfg.risk, cfg.strategy.atr_stop_mult)
+    store = BarStore(state.root / "bars.db")
     tag = "DRY-RUN" if cfg.dry_run else cfg.mode.upper()
     # Records the day's starting equity on the first pass of the day.
     start = _snapshot(broker, state)
@@ -55,7 +57,12 @@ def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
     for inst in cfg.universe:
         sym = inst.symbol
         try:
-            bars = broker.daily_bars(inst)
+            bars, quality = clean_bars(broker.daily_bars(inst))
+            store.save(sym, bars)  # point-in-time record of what this decision saw
+            for issue in quality.issues:
+                log.warning("%s: data: %s", sym, issue)
+            if not quality.ok:
+                raise ValueError("bad data: " + "; ".join(quality.fatal))
             sig = latest_signal(bars, cfg.strategy)
         except Exception as e:  # one bad symbol must not stop the rest
             log.error("%s: data/signal error: %s", sym, e)

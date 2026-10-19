@@ -116,3 +116,14 @@ def test_analyst_not_consulted_on_exits(tmp_path):
     a = FakeAnalyst(False)
     run_once(cfg(tmp_path, False), b, analyst=a)
     assert a.calls == 0 and b.orders[0][1] == "SELL"
+
+
+def test_bad_data_skips_symbol_and_records_pit(tmp_path):
+    bad = entry_bars()
+    bad.iloc[-3:, :4] /= 2  # split-like gap
+    b = FakeBroker({"AAA": bad})
+    run_once(cfg(tmp_path, False), b)
+    assert b.orders == []
+    row = journal(tmp_path)[0]
+    assert row["action"] == "ERROR" and "split" in row["reason"]
+    assert (tmp_path / "bars.db").exists()

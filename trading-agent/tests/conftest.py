@@ -8,9 +8,11 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
-def make_bars(closes) -> pd.DataFrame:
+def make_bars(closes, end=None) -> pd.DataFrame:
+    """Daily bars ending on the last business day before `end` (default: today)."""
     close = pd.Series(np.asarray(closes, dtype=float))
-    idx = pd.bdate_range("2020-01-01", periods=len(close))
+    end = pd.Timestamp(end or pd.Timestamp.today().normalize()) - pd.offsets.BDay(1)
+    idx = pd.bdate_range(end=end, periods=len(close))
     return pd.DataFrame(
         {"open": close.values, "high": close.values * 1.01, "low": close.values * 0.99,
          "close": close.values, "volume": 1_000_000},
