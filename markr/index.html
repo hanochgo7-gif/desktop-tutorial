@@ -1338,7 +1338,7 @@ function draftsHtml(){
     .sort((a,b)=>(b[1].date||'').localeCompare(a[1].date||'')).slice(0,3);
   if(!ds.length)return '';
   return `<section class="block"><h2 class="sec-h">להמשיך מאיפה שעצרת</h2><div class="list">${ds.map(([id,l])=>{const c=courseById(l.courseId);
-    return `<button class="item" style="--c:${c.color}" data-act="edit-lesson" data-id="${id}"><span class="dot"></span><span class="grow"><strong>${esc(l.topic||'סיכום בלי נושא')}</strong><span class="small">${esc(c.name)}, טיוטה מ-${shortDate(l.date)}</span></span><span class="go">להמשיך</span></button>`}).join('')}</div></section>`;
+    return `<button class="item" style="--c:${c.color}" data-act="edit-lesson" data-id="${id}"><span class="dot"></span><span class="grow"><strong>${esc(l.topic||'סיכום בלי נושא')}</strong><span class="small">${esc(c.name)} · טיוטה מ־${T(shortDate(l.date))}</span></span><span class="go">להמשיך</span></button>`}).join('')}</div></section>`;
 }
 function localNote(){return store&&store.kind==='local'?`<p class="note">מרקר שומר את המחברת שלך במכשיר הזה בלבד, ורק אתה רואה אותה. כדאי לעבוד תמיד מאותו מכשיר ואותו דפדפן, ולהוריד מדי פעם גיבוי מההגדרות.</p>`:''}
 
@@ -1434,7 +1434,7 @@ function vCourse(){
     </div>
     <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">העלאת מצגת</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length&&downloadsNs?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
   </header>
-  <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','למידה')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
+  <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','תרגול')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
   <div class="tabpanel" id="cpanel" role="tabpanel" aria-labelledby="tab-${courseTab}">${panel}</div>`;
 }
 
@@ -1592,7 +1592,7 @@ function vTasks(){
 }
 function taskSheetHtml(){
   const d=taskDraft,isNew=!d.id,st=d.steps,t=todayKey();
-  const quick=[[t,'היום'],[addDays(t,1),'מחר'],...[2,3,4,5,6].map(k=>{const d=addDays(t,k);return[d,DAYS[keyToDate(d).getDay()]]}),[addDays(t,7),'בעוד שבוע']];
+  const quick=[[t,'היום'],[addDays(t,1),'מחר'],...[2,3,4,5,6].map(k=>{const d=addDays(t,k);return[d,DAYS[keyToDate(d).getDay()]+' '+shortDate(d)]}),[addDays(t,7),'בעוד שבוע']];
   const pc=!isNew&&d.courseId&&(d.kind==='exam'||d.planFor)?courseById(d.courseId):null,pl=d.lessonId&&S.lessons[d.lessonId]&&!isEmptyLesson(S.lessons[d.lessonId])?d.lessonId:'';
   const dd=d.due?daysBetween(t,d.due):null;
   return `<h2>${isNew?(d.kind==='exam'?'מבחן חדש':'משימה חדשה'):d.kind==='exam'?esc(d.title||'מבחן'):'עריכה'}</h2>
@@ -1612,12 +1612,12 @@ function taskSheetHtml(){
     ${sampleFn?`<button class="ai" style="margin-top:8px;width:100%" data-act="td-ai" ${d.title.trim()?'':'disabled'}>✨ לחלק לי לצעדים</button>`:''}
   </div>
   <p id="td-err" class="danger" role="alert"></p>
-  <div class="sheet-foot"><button class="primary" data-act="td-save">${isNew?'הוספה':'שמירה'}</button><button class="ghost" data-act="modal-close">ביטול</button>${isNew?'':'<button class="link danger" data-act="td-del">מחיקה</button>'}</div>`;
+  <div class="sheet-foot"><button class="${pc?'ghost':'primary'}" data-act="td-save">${isNew?'הוספה':pc?'שמירת שינויים':'שמירה'}</button><button class="ghost" data-act="modal-close">ביטול</button>${isNew?'':'<button class="link danger" data-act="td-del">מחיקה</button>'}</div>`;
 }
 function openTask(id,preset){
   const x=id&&S.tasks.find(t=>t.id===id);
   taskDraft=x?{...clone(x),steps:clone(x.steps||[])}:{id:null,title:'',kind:'task',courseId:view.name==='course'?view.id:'',due:'',steps:[],lessonId:'',...(preset||{})};
-  setOrOpen(taskSheetHtml());if(!x){const i=$('#sheet [data-td=title]');i&&i.focus()}
+  setOrOpen(taskSheetHtml());const i=x?$('#sheet [data-act=exam-practice]')||$('#sheet .x-close'):$('#sheet [data-td=title]');i&&i.focus({preventScroll:true})
 }
 function saveTaskDraft(){
   const d=taskDraft;if(!d)return;const title=(d.title||'').trim();
@@ -1850,7 +1850,7 @@ function onbHtml(){
     <div class="onb-courses">${cs.map(c=>`<div class="item course-card" style="--c:${c.color};padding:10px 12px"><span class="grow"><strong style="font-size:1rem">${esc(c.name)}</strong>${(c.sessions||[]).map(s=>`<span class="small">${sessLine(s)}</span>`).join('')}</span></div>`).join('')}</div>
     ${TEMPLATE&&!cs.length?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים עם הימים, השעות והכיתות. לחיצה אחת וזה אצלך.</span></button>`:''}
     ${cs.length?'<button class="add" data-act="onb-add-course">+ הוספת עוד קורס</button>':''}${dots}</div>
-    <div class="sheet-foot">${cs.length?'<button class="primary" data-act="onb-next">המשך</button>':`<button class="primary" data-act="onb-add-course">${ic('plus')}הוספת קורס${TEMPLATE?' אחר':''}</button><button class="ghost" data-act="onb-next">אוסיף אחר כך</button>`}</div>`}
+    <div class="sheet-foot">${cs.length?'<button class="primary" data-act="onb-next">המשך</button>':`<button class="primary" data-act="onb-add-course">${ic('plus')}הוספת קורס${TEMPLATE?' אחר':''}</button><button class="ghost" data-act="onb-next">אחר כך</button>`}</div>`}
   return `<div class="onb">${ill('onboard')}<h2>ככה זה עובד</h2>
     <ol><li>אחרי כל שיעור כותבים מה למדנו, אפילו מבולגן.</li><li>בסוף כותבים משפט אחד: הנקודה הכי חשובה.</li><li>לוחצים “סיימתי” ומקבלים בוחן קצר על השיעור.</li><li>כל יום מסך הבית מראה מה הצעד הבא, ומחזיר שאלות מהעבר בדיוק כשמתחילים לשכוח.</li></ol>${dots}</div>
     <div class="sheet-foot"><button class="primary" data-act="onb-done">בוא נתחיל${S.profile.name?', '+esc(S.profile.name):''}</button></div>`;
