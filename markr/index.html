@@ -4,6 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>מרקר – המחברת שמסמנת לך מה חשוב</title>
+<meta name="description" content="מרקר היא מחברת לימודים לסטודנטים: סיכום מסודר לכל שיעור, משימות ודדליינים במקום אחד, וחזרה יומית קצרה שמקבעת את החומר.">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="brand/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171F1C" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="מרקר">
+<meta property="og:locale" content="he_IL">
+<meta property="og:title" content="מרקר – המחברת שמסמנת לך מה חשוב">
+<meta property="og:description" content="סיכום מסודר לכל שיעור, משימות ודדליינים במקום אחד, וחזרה יומית קצרה שמקבעת את החומר.">
+<meta property="og:image" content="brand/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="מרקר: המחברת שמסמנת לך מה חשוב">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,7 +37,7 @@
   --rule:#D2DEE9; --margin:#E8B0A6;
   --primary:#1D5240; --primary-ink:#FFFFFF; --blue:#3C6CA3;
   --sun:#F5D13D; --sun-soft:#FBF1C4; --sun-ink:#493A00; --hl:rgba(245,209,61,.8);
-  --danger:#B3361F; --ok:#2C8A64; --focus:#2C6BD1; --logo-bg:#1D5240; --spark:#A88300;
+  --danger:#B3361F; --ok:#2C8A64; --focus:#2C6BD1; --logo-bg:#1D5240; --logo-hl:#F5D13D; --logo-ink:#1D5240; --spark:#A88300;
   --tint:color-mix(in srgb,var(--primary) 8%,var(--surface));
   --tint2:color-mix(in srgb,var(--primary) 15%,var(--surface));
   --serif:"Frank Ruhl Libre","Noto Serif Hebrew","Times New Roman",serif;
@@ -37,7 +55,7 @@
   --rule:#26364A; --margin:#6B3D37;
   --primary:#86CDAA; --primary-ink:#0D1A14; --blue:#8DB4E2;
   --sun:#E8C93E; --sun-soft:#363015; --sun-ink:#F5E5A0; --hl:rgba(232,201,62,.34);
-  --danger:#F08A78; --ok:#7FD0A8; --focus:#8DB4FF; --logo-bg:#245F49; --spark:#E3C14B;
+  --danger:#F08A78; --ok:#7FD0A8; --focus:#8DB4FF; --logo-bg:#245F49; --logo-hl:#E8C93E; --logo-ink:#173F31; --spark:#E3C14B;
   --sh-1:0 1px 0 rgba(0,0,0,.25); --sh-2:0 12px 30px -14px rgba(0,0,0,.7); color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0F1513; --surface:#171F1C; --surface2:#1E2824; --sunk:#141B18;
@@ -45,7 +63,7 @@
   --rule:#26364A; --margin:#6B3D37;
   --primary:#86CDAA; --primary-ink:#0D1A14; --blue:#8DB4E2;
   --sun:#E8C93E; --sun-soft:#363015; --sun-ink:#F5E5A0; --hl:rgba(232,201,62,.34);
-  --danger:#F08A78; --ok:#7FD0A8; --focus:#8DB4FF; --logo-bg:#245F49; --spark:#E3C14B;
+  --danger:#F08A78; --ok:#7FD0A8; --focus:#8DB4FF; --logo-bg:#245F49; --logo-hl:#E8C93E; --logo-ink:#173F31; --spark:#E3C14B;
   --sh-1:0 1px 0 rgba(0,0,0,.25); --sh-2:0 12px 30px -14px rgba(0,0,0,.7); color-scheme:dark}
 
 /* ---------- base ---------- */
@@ -87,7 +105,6 @@ html[data-easy="1"] .r-body,html[data-easy="1"] #f-rich{max-width:64ch}
 .brand svg{width:34px;height:34px;flex:none;border-radius:10px}
 .brand-txt{display:flex;flex-direction:column;line-height:1}
 .wordmark{font-family:var(--serif);font-weight:700;font-size:1.45rem;line-height:1}
-.hdr-by{font-family:var(--serif);font-style:italic;font-size:.72rem;letter-spacing:.03em;color:var(--muted);margin-top:4px}
 .status{display:inline-flex;align-items:center;gap:6px;margin-inline-start:auto;font-size:.8rem;font-weight:500;color:var(--muted);background:var(--surface2);border-radius:999px;padding:6px 11px;white-space:nowrap}
 .status:empty{display:none}
 .status .ic{margin:0;width:1.15em;height:1.15em}
@@ -512,7 +529,7 @@ details.opt>.in{padding:0 18px 18px}
 .qa-courses{display:flex;flex-direction:column}
 /* onboarding */
 .onb{text-align:center;padding:8px 4px}
-.onb svg{width:80px;height:80px;margin:4px auto 14px;display:block;border-radius:20px}
+.onb .logo{width:80px;height:80px;margin:4px auto 14px;display:block}
 .onb h2{font-size:1.6rem;padding:0}
 .onb p{font-size:1.06rem;margin:.4rem auto 0;max-width:30em}
 .onb input[type=text]{margin-top:14px;font-size:1.15rem;text-align:center}
@@ -520,7 +537,27 @@ details.opt>.in{padding:0 18px 18px}
 .onb ol li{counter-increment:o;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
 .onb ol li:first-child{border-top:0}
 .onb ol li::before{content:counter(o);flex:none;width:28px;height:28px;border-radius:50%;background:var(--tint2);color:var(--primary);font-weight:700;display:grid;place-items:center;font-size:.9rem}
-.byline{font-family:var(--serif);font-style:italic;font-size:1rem;letter-spacing:.03em;color:var(--primary);margin:2px auto 8px!important}
+.m-bg{fill:var(--logo-bg)}.m-hl{fill:var(--logo-hl)}.m-ink{fill:var(--logo-ink)}
+/* the creator: one quiet line, never a second brand */
+.credit{font-family:var(--serif);font-style:italic;font-size:.84rem;letter-spacing:.02em;color:var(--muted);text-align:center;margin:14px 0 0}
+.onb .credit{margin:-6px 0 14px}
+/* line illustrations follow the theme */
+.ill{display:block;width:132px;height:auto;margin:0 auto 12px}
+.ill .i-ink{fill:var(--primary)}.ill .i-hl{fill:var(--sun)}.ill .i-pg{fill:var(--surface)}
+.ill .i-st{stroke:var(--primary);stroke-width:2;stroke-linejoin:round}
+.onb .ill{width:170px;margin-bottom:6px}
+.focus .ill{width:104px;margin:2px 0 10px;margin-inline-start:-4px}
+/* boot: the marker draws its line once while the notebook opens */
+.boot{min-height:62vh;display:grid;place-items:center;align-content:center;gap:12px}
+.boot svg{width:64px;height:64px}
+.boot .boot-word{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:var(--ink)}
+.boot .m-hl{transform-box:fill-box;transform-origin:100% 50%}
+@media (prefers-reduced-motion:no-preference){
+  .boot .m-hl{animation:draw .7s cubic-bezier(.6,.05,.3,1) .15s both}
+  .boot .m-ink{animation:fade .3s ease-out .65s both}
+  .boot .boot-word{animation:fade .4s ease-out .3s both}
+  @keyframes draw{from{transform:scaleX(0)}}
+}
 .steps{display:flex;justify-content:center;gap:6px;margin-top:18px}
 .steps i{width:8px;height:8px;border-radius:50%;background:var(--line2);display:block}
 .steps i.on{background:var(--primary);width:22px;border-radius:4px}
@@ -658,8 +695,8 @@ details.opt>.in{padding:0 18px 18px}
 <header class="top">
   <div class="top-in">
     <button class="brand" data-act="nav" data-to="home" aria-label="מרקר, מסך הבית">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="var(--logo-bg)"/><rect x="14" y="12.5" width="23" height="3.2" rx="1.6" fill="#fff" opacity=".9"/><rect x="8.5" y="19.5" width="31" height="9.5" rx="2.5" fill="#F4D23C" transform="rotate(-6 24 24.2)"/><rect x="11" y="22.6" width="26" height="3.2" rx="1.6" fill="#1F4D3D"/><rect x="22" y="32.8" width="15" height="3.2" rx="1.6" fill="#fff" opacity=".9"/></svg>
-      <span class="brand-txt"><span class="wordmark">מרקר</span><span class="hdr-by" dir="ltr">by Omer Ezri</span></span>
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" class="m-bg"/><path d="M10.82 18.56L38.81 15.12C39.35 15.05 39.84 15.54 39.79 16.08L38.38 30.21C38.33 30.76 37.73 31.37 37.18 31.44L9.19 34.88C8.65 34.95 8.16 34.46 8.21 33.92L9.62 19.79C9.67 19.24 10.27 18.63 10.82 18.56Z" class="m-hl"/><rect x="11.5" y="22.2" width="25" height="5.6" rx="2.8" class="m-ink"/><rect x="21" y="10.2" width="15" height="4.6" rx="2.3" fill="#fff" opacity=".9"/></svg>
+      <span class="wordmark">מרקר</span>
     </button>
     <span id="status" class="status" aria-live="polite"></span>
     <button id="tbadge" class="tbadge" data-act="timer" hidden></button>
@@ -673,7 +710,7 @@ details.opt>.in{padding:0 18px 18px}
     <button data-act="nav" data-to="search">חיפוש</button>
   </nav>
 </header>
-<main id="app" tabindex="-1"><p class="loading">פותח את מרקר…</p></main>
+<main id="app" tabindex="-1"><div class="boot" role="status"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" class="m-bg"/><path d="M10.82 18.56L38.81 15.12C39.35 15.05 39.84 15.54 39.79 16.08L38.38 30.21C38.33 30.76 37.73 31.37 37.18 31.44L9.19 34.88C8.65 34.95 8.16 34.46 8.21 33.92L9.62 19.79C9.67 19.24 10.27 18.63 10.82 18.56Z" class="m-hl"/><rect x="11.5" y="22.2" width="25" height="5.6" rx="2.8" class="m-ink"/><rect x="21" y="10.2" width="15" height="4.6" rx="2.3" fill="#fff" opacity=".9"/></svg><span class="boot-word">מרקר</span><span class="sr">פותח את המחברת</span></div></main>
 <div id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
 <div id="draw" hidden role="dialog" aria-label="ציור וכתב יד">
   <div class="dtb" id="dtb"></div>
@@ -761,7 +798,10 @@ const PLAIN='Language: easy, everyday Israeli Hebrew (שפה עממית ופשו
 const NOTESFMT='- Right after each section header line, add one line that starts with "בקיצור:" and sums up that section in one easy sentence. When a memory trick helps, add a line that starts with "טיפ לזכירה:".';
 const PLAINQ='Write questions, options and explanations in easy, everyday Hebrew (שפה עממית). When a formal term is needed, explain it briefly in parentheses.';
 const KINDS={task:'משימה',sub:'הגשה',exam:'מבחן'};
-const LOGO=`<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="var(--logo-bg)"/><rect x="14" y="12.5" width="23" height="3.2" rx="1.6" fill="#fff" opacity=".9"/><rect x="8.5" y="19.5" width="31" height="9.5" rx="2.5" fill="#F4D23C" transform="rotate(-6 24 24.2)"/><rect x="11" y="22.6" width="26" height="3.2" rx="1.6" fill="#1F4D3D"/><rect x="22" y="32.8" width="15" height="3.2" rx="1.6" fill="#fff" opacity=".9"/></svg>`;
+const BOOT=`<div class="boot" role="status"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" class="m-bg"/><path d="M10.82 18.56L38.81 15.12C39.35 15.05 39.84 15.54 39.79 16.08L38.38 30.21C38.33 30.76 37.73 31.37 37.18 31.44L9.19 34.88C8.65 34.95 8.16 34.46 8.21 33.92L9.62 19.79C9.67 19.24 10.27 18.63 10.82 18.56Z" class="m-hl"/><rect x="11.5" y="22.2" width="25" height="5.6" rx="2.8" class="m-ink"/><rect x="21" y="10.2" width="15" height="4.6" rx="2.3" fill="#fff" opacity=".9"/></svg><span class="boot-word">מרקר</span><span class="sr">פותח את המחברת</span></div>`;
+const ILL={courses:`<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false"><path d="M80.0 32.0C66.0 25.0 48.0 24.0 30.0 27.0L30.0 94.0C48.0 91.0 66.0 92.0 80.0 99.0Z" class="i-pg i-st"/><path d="M80.0 32.0C94.0 25.0 112.0 24.0 130.0 27.0L130.0 94.0C112.0 91.0 94.0 92.0 80.0 99.0Z" class="i-pg i-st"/><path d="M88.99 51.21L125.5 48.66C126.05 48.62 126.52 49.13 126.44 49.67L125.27 57.62C125.18 58.17 124.56 58.75 124.01 58.79L87.5 61.34C86.95 61.38 86.48 60.87 86.56 60.33L87.73 52.38C87.82 51.83 88.44 51.25 88.99 51.21Z" class="i-hl"/><path d="M93.6 41.4L120.4 41.4C121.28 41.4 122.0 42.12 122.0 43.0L122.0 43.0C122.0 43.88 121.28 44.6 120.4 44.6L93.6 44.6C92.72 44.6 92.0 43.88 92.0 43.0L92.0 43.0C92.0 42.12 92.72 41.4 93.6 41.4Z" class="i-ink" opacity="0.55"/><path d="M91.6 53.4L120.4 53.4C121.28 53.4 122.0 54.12 122.0 55.0L122.0 55.0C122.0 55.88 121.28 56.6 120.4 56.6L91.6 56.6C90.72 56.6 90.0 55.88 90.0 55.0L90.0 55.0C90.0 54.12 90.72 53.4 91.6 53.4Z" class="i-ink"/><path d="M93.6 65.4L120.4 65.4C121.28 65.4 122.0 66.12 122.0 67.0L122.0 67.0C122.0 67.88 121.28 68.6 120.4 68.6L93.6 68.6C92.72 68.6 92.0 67.88 92.0 67.0L92.0 67.0C92.0 66.12 92.72 65.4 93.6 65.4Z" class="i-ink" opacity="0.55"/><path d="M105.6 77.4L120.4 77.4C121.28 77.4 122.0 78.12 122.0 79.0L122.0 79.0C122.0 79.88 121.28 80.6 120.4 80.6L105.6 80.6C104.72 80.6 104.0 79.88 104.0 79.0L104.0 79.0C104.0 78.12 104.72 77.4 105.6 77.4Z" class="i-ink" opacity="0.55"/><path d="M41.6 41.4L68.4 41.4C69.28 41.4 70.0 42.12 70.0 43.0L70.0 43.0C70.0 43.88 69.28 44.6 68.4 44.6L41.6 44.6C40.72 44.6 40.0 43.88 40.0 43.0L40.0 43.0C40.0 42.12 40.72 41.4 41.6 41.4Z" class="i-ink" opacity="0.3"/><path d="M41.6 53.4L68.4 53.4C69.28 53.4 70.0 54.12 70.0 55.0L70.0 55.0C70.0 55.88 69.28 56.6 68.4 56.6L41.6 56.6C40.72 56.6 40.0 55.88 40.0 55.0L40.0 55.0C40.0 54.12 40.72 53.4 41.6 53.4Z" class="i-ink" opacity="0.3"/><path d="M49.6 65.4L68.4 65.4C69.28 65.4 70.0 66.12 70.0 67.0L70.0 67.0C70.0 67.88 69.28 68.6 68.4 68.6L49.6 68.6C48.72 68.6 48.0 67.88 48.0 67.0L48.0 67.0C48.0 66.12 48.72 65.4 49.6 65.4Z" class="i-ink" opacity="0.3"/></svg>`,tasks:`<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false"><path d="M52.0 18.0L108.0 18.0C112.42 18.0 116.0 21.58 116.0 26.0L116.0 96.0C116.0 100.42 112.42 104.0 108.0 104.0L52.0 104.0C47.58 104.0 44.0 100.42 44.0 96.0L44.0 26.0C44.0 21.58 47.58 18.0 52.0 18.0Z" class="i-pg i-st"/><path d="M104.0 33.0L104.0 33.0C107.87 33.0 111.0 36.13 111.0 40.0L111.0 40.0C111.0 43.87 107.87 47.0 104.0 47.0L104.0 47.0C100.13 47.0 97.0 43.87 97.0 40.0L97.0 40.0C97.0 36.13 100.13 33.0 104.0 33.0Z" class="i-ink"/><path d="M100.78 39.72L102.52 37.98C102.66 37.84 102.94 37.84 103.08 37.98L103.92 38.82C104.06 38.96 104.34 38.96 104.48 38.82L107.72 35.58C107.86 35.44 108.14 35.44 108.28 35.58L110.02 37.32C110.16 37.46 110.16 37.74 110.02 37.88L104.48 43.42C104.34 43.56 104.06 43.56 103.92 43.42L100.78 40.28C100.64 40.14 100.64 39.86 100.78 39.72Z" class="i-pg"/><path d="M57.6 38.4L89.4 38.4C90.28 38.4 91.0 39.12 91.0 40.0L91.0 40.0C91.0 40.88 90.28 41.6 89.4 41.6L57.6 41.6C56.72 41.6 56.0 40.88 56.0 40.0L56.0 40.0C56.0 39.12 56.72 38.4 57.6 38.4Z" class="i-ink" opacity="0.4"/><path d="M104.0 54.0L104.0 54.0C107.87 54.0 111.0 57.13 111.0 61.0L111.0 61.0C111.0 64.87 107.87 68.0 104.0 68.0L104.0 68.0C100.13 68.0 97.0 64.87 97.0 61.0L97.0 61.0C97.0 57.13 100.13 54.0 104.0 54.0Z" class="i-ink"/><path d="M100.78 60.72L102.52 58.98C102.66 58.84 102.94 58.84 103.08 58.98L103.92 59.82C104.06 59.96 104.34 59.96 104.48 59.82L107.72 56.58C107.86 56.44 108.14 56.44 108.28 56.58L110.02 58.32C110.16 58.46 110.16 58.74 110.02 58.88L104.48 64.42C104.34 64.56 104.06 64.56 103.92 64.42L100.78 61.28C100.64 61.14 100.64 60.86 100.78 60.72Z" class="i-pg"/><path d="M57.6 59.4L89.4 59.4C90.28 59.4 91.0 60.12 91.0 61.0L91.0 61.0C91.0 61.88 90.28 62.6 89.4 62.6L57.6 62.6C56.72 62.6 56.0 61.88 56.0 61.0L56.0 61.0C56.0 60.12 56.72 59.4 57.6 59.4Z" class="i-ink" opacity="0.4"/><path d="M104.0 75.0L104.0 75.0C107.87 75.0 111.0 78.13 111.0 82.0L111.0 82.0C111.0 85.87 107.87 89.0 104.0 89.0L104.0 89.0C100.13 89.0 97.0 85.87 97.0 82.0L97.0 82.0C97.0 78.13 100.13 75.0 104.0 75.0Z" class="i-ink"/><path d="M100.78 81.72L102.52 79.98C102.66 79.84 102.94 79.84 103.08 79.98L103.92 80.82C104.06 80.96 104.34 80.96 104.48 80.82L107.72 77.58C107.86 77.44 108.14 77.44 108.28 77.58L110.02 79.32C110.16 79.46 110.16 79.74 110.02 79.88L104.48 85.42C104.34 85.56 104.06 85.56 103.92 85.42L100.78 82.28C100.64 82.14 100.64 81.86 100.78 81.72Z" class="i-pg"/><path d="M57.6 80.4L89.4 80.4C90.28 80.4 91.0 81.12 91.0 82.0L91.0 82.0C91.0 82.88 90.28 83.6 89.4 83.6L57.6 83.6C56.72 83.6 56.0 82.88 56.0 82.0L56.0 82.0C56.0 81.12 56.72 80.4 57.6 80.4Z" class="i-ink" opacity="0.4"/><path d="M54.83 78.79L93.54 76.09C94.09 76.05 94.55 76.56 94.47 77.1L93.43 84.04C93.35 84.58 92.72 85.17 92.17 85.21L53.46 87.91C52.91 87.95 52.45 87.44 52.53 86.9L53.57 79.96C53.65 79.42 54.28 78.83 54.83 78.79Z" class="i-hl" opacity="0.9"/><path d="M57.6 80.4L89.4 80.4C90.28 80.4 91.0 81.12 91.0 82.0L91.0 82.0C91.0 82.88 90.28 83.6 89.4 83.6L57.6 83.6C56.72 83.6 56.0 82.88 56.0 82.0L56.0 82.0C56.0 81.12 56.72 80.4 57.6 80.4Z" class="i-ink" opacity="0.9"/></svg>`,clear:`<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false"><path d="M52.0 16.0L106.0 16.0C109.31 16.0 112.0 18.69 112.0 22.0L112.0 98.0C112.0 101.31 109.31 104.0 106.0 104.0L52.0 104.0C48.69 104.0 46.0 101.31 46.0 98.0L46.0 22.0C46.0 18.69 48.69 16.0 52.0 16.0Z" class="i-pg i-st"/><path d="M56.8 16.0L56.8 16.0C57.24 16.0 57.6 16.36 57.6 16.8L57.6 103.2C57.6 103.64 57.24 104.0 56.8 104.0L56.8 104.0C56.36 104.0 56.0 103.64 56.0 103.2L56.0 16.8C56.0 16.36 56.36 16.0 56.8 16.0Z" class="i-ink" opacity="0.25"/><path d="M100.0 16.0L104.0 16.0C104.0 16.0 104.0 16.0 104.0 16.0L104.0 104.0C104.0 104.0 104.0 104.0 104.0 104.0L100.0 104.0C100.0 104.0 100.0 104.0 100.0 104.0L100.0 16.0C100.0 16.0 100.0 16.0 100.0 16.0Z" class="i-ink" opacity="0.7"/><path d="M68.0 40.0L90.0 40.0C91.1 40.0 92.0 40.9 92.0 42.0L92.0 42.0C92.0 43.1 91.1 44.0 90.0 44.0L68.0 44.0C66.9 44.0 66.0 43.1 66.0 42.0L66.0 42.0C66.0 40.9 66.9 40.0 68.0 40.0Z" class="i-ink" opacity="0.6"/><path d="M76.0 50.0L90.0 50.0C91.1 50.0 92.0 50.9 92.0 52.0L92.0 52.0C92.0 53.1 91.1 54.0 90.0 54.0L76.0 54.0C74.9 54.0 74.0 53.1 74.0 52.0L74.0 52.0C74.0 50.9 74.9 50.0 76.0 50.0Z" class="i-ink" opacity="0.35"/><path d="M58.97 90.82L88.91 67.42C90.66 66.06 93.17 66.37 94.53 68.11L96.99 71.26C98.35 73.0 98.04 75.52 96.3 76.88L66.36 100.27C64.62 101.63 62.1 101.32 60.74 99.58L58.28 96.43C56.92 94.69 57.23 92.18 58.97 90.82Z" class="i-pg i-st"/><path d="M58.18 91.43L62.91 87.74C64.22 86.72 66.1 86.95 67.12 88.26L70.81 92.98C71.83 94.29 71.6 96.17 70.3 97.19L65.57 100.89C64.26 101.91 62.38 101.68 61.36 100.37L57.66 95.64C56.64 94.34 56.88 92.45 58.18 91.43Z" class="i-ink"/><path d="M93.42 65.44L100.57 62.48C100.94 62.33 101.56 62.49 101.81 62.81L103.9 65.49C104.15 65.8 104.15 66.44 103.92 66.76L99.31 72.98C99.08 73.31 98.59 73.31 98.35 73.0L93.17 66.38C92.93 66.06 93.05 65.59 93.42 65.44Z" class="i-hl i-st"/></svg>`,onboard:`<svg class="ill" viewBox="0 0 160 120" aria-hidden="true" focusable="false"><path d="M41.0 14.0L119.0 14.0C122.87 14.0 126.0 17.13 126.0 21.0L126.0 99.0C126.0 102.87 122.87 106.0 119.0 106.0L41.0 106.0C37.13 106.0 34.0 102.87 34.0 99.0L34.0 21.0C34.0 17.13 37.13 14.0 41.0 14.0Z" class="i-pg i-st"/><path d="M69.17 47.12L117.45 43.74C118.0 43.7 118.47 44.21 118.39 44.75L117.08 53.72C117.0 54.26 116.38 54.84 115.83 54.88L67.55 58.26C67.0 58.3 66.53 57.79 66.61 57.25L67.92 48.28C68.0 47.74 68.62 47.16 69.17 47.12Z" class="i-hl"/><path d="M65.8 32.2L112.2 32.2C113.19 32.2 114.0 33.01 114.0 34.0L114.0 34.0C114.0 34.99 113.19 35.8 112.2 35.8L65.8 35.8C64.81 35.8 64.0 34.99 64.0 34.0L64.0 34.0C64.0 33.01 64.81 32.2 65.8 32.2Z" class="i-ink" opacity="0.45"/><path d="M73.8 49.2L112.2 49.2C113.19 49.2 114.0 50.01 114.0 51.0L114.0 51.0C114.0 51.99 113.19 52.8 112.2 52.8L73.8 52.8C72.81 52.8 72.0 51.99 72.0 51.0L72.0 51.0C72.0 50.01 72.81 49.2 73.8 49.2Z" class="i-ink"/><path d="M59.8 66.2L112.2 66.2C113.19 66.2 114.0 67.01 114.0 68.0L114.0 68.0C114.0 68.99 113.19 69.8 112.2 69.8L59.8 69.8C58.81 69.8 58.0 68.99 58.0 68.0L58.0 68.0C58.0 67.01 58.81 66.2 59.8 66.2Z" class="i-ink" opacity="0.45"/><path d="M85.8 83.2L112.2 83.2C113.19 83.2 114.0 84.01 114.0 85.0L114.0 85.0C114.0 85.99 113.19 86.8 112.2 86.8L85.8 86.8C84.81 86.8 84.0 85.99 84.0 85.0L84.0 85.0C84.0 84.01 84.81 83.2 85.8 83.2Z" class="i-ink" opacity="0.45"/><path d="M21.38 72.81L55.3 51.61C57.17 50.44 59.64 51.01 60.81 52.89L63.46 57.13C64.63 59.0 64.06 61.47 62.19 62.64L28.27 83.83C26.39 85.0 23.93 84.43 22.76 82.56L20.11 78.32C18.94 76.45 19.51 73.98 21.38 72.81Z" class="i-pg i-st"/><path d="M20.53 73.34L26.47 69.63C27.87 68.75 29.72 69.18 30.6 70.58L34.31 76.52C35.19 77.93 34.76 79.78 33.36 80.65L27.42 84.36C26.01 85.24 24.16 84.81 23.29 83.41L19.58 77.47C18.7 76.07 19.13 74.22 20.53 73.34Z" class="i-ink"/><path d="M59.99 50.11L67.41 47.92C67.8 47.81 68.39 48.03 68.6 48.37L70.94 52.1C71.15 52.44 71.09 53.08 70.82 53.37L65.59 59.08C65.32 59.37 64.84 59.33 64.63 58.99L59.65 51.02C59.44 50.68 59.61 50.23 59.99 50.11Z" class="i-hl i-st"/></svg>`};
+const ill=n=>ILL[n]||'';
+const LOGO=`<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" class="m-bg"/><path d="M10.82 18.56L38.81 15.12C39.35 15.05 39.84 15.54 39.79 16.08L38.38 30.21C38.33 30.76 37.73 31.37 37.18 31.44L9.19 34.88C8.65 34.95 8.16 34.46 8.21 33.92L9.62 19.79C9.67 19.24 10.27 18.63 10.82 18.56Z" class="m-hl"/><rect x="11.5" y="22.2" width="25" height="5.6" rx="2.8" class="m-ink"/><rect x="21" y="10.2" width="15" height="4.6" rx="2.3" fill="#fff" opacity=".9"/></svg>`;
 function todayKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function keyToDate(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
 function addDays(k,n){const d=keyToDate(k);d.setDate(d.getDate()+n);return todayKey(d)}
@@ -1023,7 +1063,7 @@ function render(){
     if((map[view.name]||view.name)===b.dataset.to)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
   });
   const app=$('#app');
-  if(!loaded){app.innerHTML='<p class="loading">פותח את מרקר…</p>';return}
+  if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;return}
   const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen}[view.name]||vHome;
   app.innerHTML=iconize(fn());
   app.querySelectorAll('textarea').forEach(grow);
@@ -1090,7 +1130,7 @@ function stepsLine(x){const st=x.steps||[];if(!st.length)return '';const d=st.fi
   return `<p class="why">${nx?`הצעד הבא: <b>${esc(nx.t)}</b>`:'כל הצעדים בוצעו'} <span class="small">(${d} מתוך ${st.length})</span></p>`}
 function focusHtml(f){
   const t=todayKey();
-  const card=(c,kicker,title,meta,body,acts)=>`<article class="focus" style="--c:${c||'var(--primary)'}" aria-labelledby="focus-h"><div class="kicker">${kicker}</div><h2 id="focus-h"><span class="hl">${title}</span></h2>${meta?`<div class="meta">${meta}</div>`:''}${body||''}<div class="actions">${acts}</div></article>`;
+  const card=(c,kicker,title,meta,body,acts)=>`<article class="focus" style="--c:${c||'var(--primary)'}" aria-labelledby="focus-h">${f.type==='clear'?ill('clear'):''}<div class="kicker">${kicker}</div><h2 id="focus-h"><span class="hl">${title}</span></h2>${meta?`<div class="meta">${meta}</div>`:''}${body||''}<div class="actions">${acts}</div></article>`;
   const sm=s=>`<span>${ic('clock')}${T(s.start+'–'+s.end)}</span>${s.room?`<span>${ic('pin')}${esc(s.room)}</span>`:''}`;
   switch(f.type){
     case 'live':{const {c,s}=f.r;return card(c.color,'<span class="live">עכשיו בשיעור</span>',esc(c.name),sm(s),recallHtml(c),
@@ -1153,7 +1193,7 @@ function vHome(){
   const t=todayKey(),nm=(S.profile.name||'').trim();
   let h=`<div class="home-head"><div><p class="greet">${greeting()}${nm?', '+esc(nm):''}</p><h1>${esc(longDate(t))}</h1></div></div>`;
   if(!activeCourses().length&&!S.tasks.length){
-    return h+`<div class="empty"><b>בוא נסדר את הסמסטר</b>מוסיפים כל קורס פעם אחת: שם, מרצה ומתי הוא מתקיים. משם מרקר יודע מה לסכם, מתי לחזור ומה דחוף.
+    return h+`<div class="empty">${ill('courses')}<b>בוא נסדר את הסמסטר</b>מוסיפים כל קורס פעם אחת: שם, מרצה ומתי הוא מתקיים. משם מרקר יודע מה לסכם, מתי לחזור ומה דחוף.
       <div class="actions">${TEMPLATE?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים מוכנים עם ימים, שעות וכיתות</span></button>`:''}<button class="primary" data-act="new-course">${ic('plus')}הוספת קורס</button></div></div>`+localNote();
   }
   const plan=todayPlan(),f=pickFocus(plan),dn=plan.filter(r=>r.done).length;
@@ -1176,7 +1216,7 @@ function vCourses(){
       <span class="cc-sess">${(c.sessions||[]).map(sessBlock).join('')}</span></span></button>`};
   let body;
   if(!act.length){
-    body=`<div class="empty" style="margin-top:16px"><b>עוד אין קורסים</b>מוסיפים כל קורס פעם אחת: שם, מרצה ומתי הוא מתקיים.
+    body=`<div class="empty" style="margin-top:16px">${ill('courses')}<b>עוד אין קורסים</b>מוסיפים כל קורס פעם אחת: שם, מרצה ומתי הוא מתקיים.
       <div class="actions">${TEMPLATE?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים מוכנים עם ימים, שעות וכיתות</span></button>`:''}<button class="primary" data-act="new-course">${ic('plus')}הוספת קורס</button></div></div>`;
   }else if(courseMode==='week'){
     const dow=new Date().getDay();
@@ -1404,7 +1444,7 @@ function vTasks(){
   ${chips}
   <button class="add" style="margin-top:14px" data-act="task-new">${ic('plus')}משימה, הגשה או מבחן</button>
   ${grp('באיחור',g.late)}${grp('היום',g.today)}${grp('בשבוע הקרוב',g.week)}${grp('בהמשך',g.later)}${grp('בלי תאריך',g.none)}
-  ${!open.length?`<div class="empty" style="margin-top:20px"><b>${S.tasks.length?'אין משימות פתוחות':'עוד אין משימות'}</b>כשיש הגשה, מבחן או פרק לקרוא, מוסיפים אותו כאן עם תאריך. אפשר לחלק כל משימה לצעדים קטנים.</div>`:''}
+  ${!open.length?`<div class="empty" style="margin-top:20px">${ill('tasks')}<b>${S.tasks.length?'אין משימות פתוחות':'עוד אין משימות'}</b>כשיש הגשה, מבחן או פרק לקרוא, מוסיפים אותו כאן עם תאריך. אפשר לחלק כל משימה לצעדים קטנים.</div>`:''}
   ${done.length?`<section class="block"><details class="gloss"><summary>בוצעו (${done.length})</summary><div class="list">${done.slice().reverse().map(x=>taskRow(x)).join('')}</div></details></section>`:''}`;
 }
 function taskSheetHtml(){
@@ -1530,10 +1570,13 @@ function openModal(html){
   const f=$('#sheet input[type=text]');(f||$('#sheet .x-close')).focus({preventScroll:true});
 }
 function setSheet(html){$('#sheet').innerHTML=CLOSE_X+iconize(html);labelSheet()}
+function hideModal(){
+  $('#modal').classList.remove('open');modalOpen=false;
+  document.body.style.overflow='';['.top','#app'].forEach(q=>{const el=$(q);if(el)el.inert=false});
+}
 function closeModal(){
   if(aiCtl){aiCtl.abort();aiCtl=null}
-  $('#modal').classList.remove('open');modalOpen=false;practice=null;formDraft=null;aiResult=null;taskDraft=null;
-  document.body.style.overflow='';['.top','#app'].forEach(q=>{const el=$(q);if(el)el.inert=false});
+  hideModal();practice=null;formDraft=null;aiResult=null;taskDraft=null;
   if(wizard)finishOnboarding();
   quiz=null;chat=null;planDraft=null;exam=null;clearInterval(examTick);
   render();
@@ -1554,8 +1597,7 @@ function openOnboarding(){wizard=true;onbStep=0;openModal(onbHtml());const i=$('
 function finishOnboarding(){wizard=false;S.profile.onboarded=true;if(!S.profile.since)S.profile.since=todayKey();saveDoc('profile',0)}
 function onbHtml(){
   const dots=`<div class="steps">${[0,1,2].map(i=>`<i class="${i===onbStep?'on':''}"></i>`).join('')}</div>`;
-  if(onbStep===0)return `<div class="onb">${LOGO}<h2>ברוך הבא למרקר</h2>
-    <p class="byline" dir="ltr">by Omer Ezri</p>
+  if(onbStep===0)return `<div class="onb">${LOGO}<p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p><h2>ברוך הבא למרקר</h2>
     <p>המחברת שעוזרת לזכור. כל שיעור מקבל דף מסודר, ואחריו מבחן קצר שמקבע את החומר.</p>
     <label for="onb-name" class="hint" style="display:block;margin-top:16px">איך קוראים לך?</label>
     <input type="text" id="onb-name" data-pf="name" value="${esc(S.profile.name||'')}" placeholder="השם שלך" autocomplete="given-name">${dots}</div>
@@ -1567,7 +1609,7 @@ function onbHtml(){
     ${TEMPLATE&&!cs.length?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים עם הימים, השעות והכיתות. לחיצה אחת וזה אצלך.</span></button>`:''}
     <button class="add" data-act="onb-add-course">+ הוספת קורס${TEMPLATE&&!cs.length?' אחר':''}</button>${dots}</div>
     <div class="sheet-foot"><button class="primary" data-act="onb-next">${cs.length?'המשך':'אוסיף אחר כך'}</button></div>`}
-  return `<div class="onb">${LOGO}<h2>ככה זה עובד</h2>
+  return `<div class="onb">${ill('onboard')}<h2>ככה זה עובד</h2>
     <ol><li>אחרי כל שיעור כותבים מה למדנו, אפילו מבולגן.</li><li>בסוף כותבים משפט אחד: הנקודה הכי חשובה.</li><li>לוחצים “סיימתי” ומקבלים מבחן קצר על השיעור.</li><li>כל יום מסך הבית מראה מה הצעד הבא, ומחזיר שאלות מהעבר בדיוק כשמתחילים לשכוח.</li></ol>${dots}</div>
     <div class="sheet-foot"><button class="primary" data-act="onb-done">בוא נתחיל${S.profile.name?', '+esc(S.profile.name):''}</button></div>`;
 }
@@ -1591,6 +1633,7 @@ function settingsHtml(){
     <div class="actions" style="margin-top:0">${downloadsNs?'<button class="ghost" data-act="backup">📥 הורדת גיבוי</button>':''}
     <label class="ghost" style="cursor:pointer">📤 שחזור מגיבוי<input type="file" id="restore-file" accept=".json,application/json" hidden></label></div>
     <p id="restore-msg" class="hint" role="status"></p></div>
+  <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
   <div class="sheet-foot"><button class="ghost" data-act="show-onb">להציג שוב את ההסבר</button><button class="primary" data-act="modal-close">סגירה</button></div>`;
 }
 function applyPrefs(){
@@ -1682,7 +1725,7 @@ function aiApply(){
   const have=new Set((l.terms||[]).map(x=>(x.t||'').trim()));
   l.terms=(l.terms||[]).filter(x=>x.t||x.d).concat(aiResult.terms.filter(x=>!have.has(x.t.trim())));
   if(!(l.key||'').trim()&&aiResult.key)l.key=aiResult.key;
-  saveDoc(view.id,0);aiResult=null;$('#modal').classList.remove('open');modalOpen=false;render();
+  saveDoc(view.id,0);aiResult=null;hideModal();render();
 }
 async function makeQuiz(lid,force){
   const l=S.lessons[lid];if(!l)return false;const c=courseById(l.courseId);
@@ -2600,7 +2643,7 @@ function applyPlan(){
   const d=planDraft;if(!d)return;const task=S.tasks.find(x=>x.id===d.taskId);if(!task)return;
   S.tasks=S.tasks.filter(x=>x.planFor!==d.taskId||x.done);
   d.items.forEach(x=>S.tasks.push({id:uid(),title:x.title,due:x.due,courseId:task.courseId,lessonId:'',kind:'task',done:false,planFor:d.taskId}));
-  saveDoc('tasks',0);planDraft=null;$('#modal').classList.remove('open');modalOpen=false;go('tasks');
+  saveDoc('tasks',0);planDraft=null;hideModal();go('tasks');
 }
 
 /* ---------- upload ---------- */
@@ -2768,7 +2811,7 @@ async function applyUpload(){
     lid=newLesson(d.cid,d.date);Object.assign(S.lessons[lid],{topic:r.topic,notes:r.notes,notesHtml:fmtNotes(r.notes),terms:r.terms,key:r.key,source:d.mode==='learn'?'learn':'upload'});
   }
   S.lessons[lid].files=S.lessons[lid].files||[];
-  saveDoc(lid,0);upResult=null;upDraft=null;$('#modal').classList.remove('open');modalOpen=false;go('read',lid);
+  saveDoc(lid,0);upResult=null;upDraft=null;hideModal();go('read',lid);
   {const cc=courseById(S.lessons[lid].courseId);toast(`נשמר ב${cc?cc.name:'קורס'}, שיעור ${lessonNo(lid)}`)}
   if(assetsNs&&r.keep.length){
     for(const k of r.keep.slice(0,12)){
@@ -2873,7 +2916,7 @@ document.addEventListener('click',e=>{
     case 'exam-go':if(exam&&!exam.done){exam.i=+b.dataset.k;setSheet(examHtml());$('#sheet').scrollTop=0}break;
     case 'exam-submit':examSubmit(false);break;
     case 'weak':openModal(weakHtml(id));break;
-    case 'weak-open':modalOpen=false;$('#modal').classList.remove('open');go('read',id);break;
+    case 'weak-open':hideModal();go('read',id);break;
     case 'mindmap':mindMap(id,false);break;
     case 'mindmap-new':mindMap(id,true);break;
     case 'cards':if(sampleFn)lessonCards(id);break;
@@ -2938,10 +2981,10 @@ document.addEventListener('click',e=>{
       const fw=d.fromWizard;delete d.fromWizard;delete d._dirty;
       if(!d.id){d.id=uid();S.courses.push(d)}else{const i=S.courses.findIndex(c=>c.id===d.id);S.courses[i]=d}
       saveDoc('courses',0);formDraft=null;
-      if(fw){setSheet(onbHtml());break}modalOpen=false;$('#modal').classList.remove('open');go('course',d.id);break}
+      if(fw){setSheet(onbHtml());break}hideModal();go('course',d.id);break}
     case 'del-course':{const d=formDraft;if(!confirm(`למחוק את “${d.name}” ואת כל הסיכומים שלו? אי אפשר לבטל.\nאם הקורס רק הסתיים, עדיף לסמן “הקורס הסתיים”.`))return;
       lessonsOf(d.id).forEach(l=>removeDoc(l.id));S.courses=S.courses.filter(c=>c.id!==d.id);S.tasks=S.tasks.filter(t=>t.courseId!==d.id);
-      saveDoc('courses',0);saveDoc('tasks',0);formDraft=null;modalOpen=false;$('#modal').classList.remove('open');go('courses');break}
+      saveDoc('courses',0);saveDoc('tasks',0);formDraft=null;hideModal();go('courses');break}
     case 'modal-close':requestClose(false);break;
     case 'practice':startPractice(id);if(modalOpen)setSheet(practiceHtml());else openModal(practiceHtml());break;
     case 'flip':practice.flip=true;setSheet(practiceHtml());break;
