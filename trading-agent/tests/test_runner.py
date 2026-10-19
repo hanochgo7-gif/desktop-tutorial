@@ -2,7 +2,7 @@ import csv
 
 import numpy as np
 
-from agent.config import Config, Instrument, StrategyConfig
+from agent.config import Config, Instrument, RiskConfig, StrategyConfig
 from agent.runner import run_once
 from agent.state import State
 from conftest import make_bars
@@ -11,7 +11,7 @@ from conftest import make_bars
 class FakeBroker:
     def __init__(self, bars, positions=None, equity=100_000):
         self.bars, self.positions, self.equity = bars, positions or {}, equity
-        self.account, self.orders = "DU000001", []
+        self.account, self.orders, self.stops = "DU000001", [], {}
 
     def connect(self): pass
     def disconnect(self): pass
@@ -25,12 +25,17 @@ class FakeBroker:
     def place_limit(self, inst, side, qty, price, wait_s=30):
         self.orders.append((inst.symbol, side, qty, price))
         self.positions[inst.symbol] = self.positions.get(inst.symbol, 0) + (qty if side == "BUY" else -qty)
-        return qty
+        return qty, price
+
+    def protective_stop(self, sym): return self.stops.get(sym)
+    def set_protective_stop(self, inst, qty, price): self.stops[inst.symbol] = (qty, price)
+    def cancel_protective_stop(self, inst): self.stops.pop(inst.symbol, None)
 
 
-def cfg(tmp_path, dry_run):
+def cfg(tmp_path, dry_run, **risk):
     return Config(dry_run=dry_run, universe=[Instrument("AAA")], state_dir=tmp_path,
-                  strategy=StrategyConfig(rsi_max_entry=100))
+                  strategy=StrategyConfig(rsi_max_entry=100),
+                  risk=RiskConfig(**{"circuit_symbol": "", **risk}))
 
 
 def entry_bars():
@@ -139,3 +144,75 @@ def test_regime_filter_in_runner(tmp_path):
     bull = FakeBroker({"AAA": entry_bars(), "SPY": make_bars(np.linspace(100, 150, 150))})
     run_once(replace(c, state_dir=tmp_path / "b"), bull)
     assert bull.orders and bull.orders[0][1] == "BUY"
+
+
+def test_buy_places_broker_stop_and_trails_it_up(tmp_path):
+    b = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path, False), b)
+    qty, first = b.stops["AAA"]
+    assert qty == b.orders[0][2] and first < b.orders[0][3]
+    # Next day the trend continues: stop moves up, never down.
+    closes = np.r_[entry_bars()["close"].to_numpy(), entry_bars()["close"].iloc[-1] * 1.05]
+    b.bars["AAA"] = make_bars(closes)
+    run_once(cfg(tmp_path, False), b)
+    assert b.stops["AAA"][1] >= first and len(b.orders) == 1
+
+
+def test_exit_cancels_broker_stop(tmp_path):
+    b = FakeBroker({"AAA": make_bars(np.linspace(120, 80, 120))}, positions={"AAA": 100})
+    b.stops["AAA"] = (100, 70.0)
+    State(tmp_path).add_managed("AAA", 100)
+    run_once(cfg(tmp_path, False), b)
+    assert "AAA" not in b.stops and b.orders[0][1] == "SELL"
+
+
+def test_stop_filled_at_broker_reconciles_managed(tmp_path):
+    b = FakeBroker({"AAA": make_bars(np.linspace(120, 80, 120))}, positions={"AAA": 0})
+    State(tmp_path).add_managed("AAA", 100)
+    run_once(cfg(tmp_path, False), b)
+    assert State(tmp_path).managed() == {} and b.orders == []
+
+
+def test_max_drawdown_liquidates_and_trips_kill_switch(tmp_path):
+    import json
+    (tmp_path / "peak.json").write_text(json.dumps({"peak": 150_000}))
+    b = FakeBroker({"AAA": entry_bars()}, positions={"AAA": 50}, equity=100_000)  # -33%
+    State(tmp_path).add_managed("AAA", 50)
+    run_once(cfg(tmp_path, False, max_drawdown_pct=20), b)
+    assert b.orders == [("AAA", "SELL", 50, b.orders[0][3])]
+    assert State(tmp_path).kill_switch
+    run_once(cfg(tmp_path, False), b)  # stays stopped
+    assert len(b.orders) == 1
+
+
+def test_circuit_breaker_blocks_buys(tmp_path):
+    spy_crash = make_bars(np.r_[np.linspace(100, 110, 100), 103.0])  # -6.4% last session
+    b = FakeBroker({"AAA": entry_bars(), "SPY": spy_crash})
+    run_once(cfg(tmp_path, False, circuit_symbol="SPY", circuit_drop_pct=5), b)
+    assert b.orders == []
+    assert "circuit breaker" in journal(tmp_path)[0]["notes"]
+
+
+def test_circuit_breaker_fails_closed_without_data(tmp_path):
+    b = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path, False, circuit_symbol="SPY"), b)
+    assert b.orders == []
+
+
+def test_slippage_recorded(tmp_path):
+    b = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path, False), b)
+    row = journal(tmp_path)[0]
+    assert row["fill_price"] and float(row["slippage_bps"]) > 0  # limit is 0.2% above close
+
+
+def test_partial_exit_restores_stop_on_remainder(tmp_path):
+    class HalfFill(FakeBroker):
+        def place_limit(self, inst, side, qty, price, wait_s=30):
+            return super().place_limit(inst, side, qty // 2, price)
+
+    b = HalfFill({"AAA": make_bars(np.linspace(120, 80, 120))}, positions={"AAA": 100})
+    b.stops["AAA"] = (100, 70.0)
+    State(tmp_path).add_managed("AAA", 100)
+    run_once(cfg(tmp_path, False), b)
+    assert b.stops["AAA"] == (50, 70.0) and State(tmp_path).managed() == {"AAA": 50}

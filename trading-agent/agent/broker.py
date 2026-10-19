@@ -89,10 +89,47 @@ class IBKRBroker:
         return int(sum(p.position for p in self.ib.positions(self.account) if p.contract.symbol == symbol))
 
     def has_open_order(self, symbol: str) -> bool:
-        return any(t.contract.symbol == symbol for t in self.ib.openTrades())
+        """Open orders other than our protective stop."""
+        return any(t.contract.symbol == symbol and t.order.orderType != "STP"
+                   for t in self.ib.openTrades())
 
-    def place_limit(self, inst: Instrument, side: str, qty: int, price: float, wait_s: float = 30) -> int:
-        """Place a DAY limit order, wait for fills, cancel the remainder. Returns filled qty."""
+    def _stop_trades(self, symbol: str) -> list:
+        return [t for t in self.ib.openTrades()
+                if t.contract.symbol == symbol and t.order.orderType == "STP" and t.order.action == "SELL"]
+
+    def protective_stop(self, symbol: str) -> tuple[int, float] | None:
+        """(qty, stop price) of the resting GTC stop for `symbol`, if any."""
+        trades = self._stop_trades(symbol)
+        if not trades:
+            return None
+        o = trades[0].order
+        return int(o.totalQuantity), float(o.auxPrice)
+
+    def set_protective_stop(self, inst: Instrument, qty: int, price: float) -> None:
+        """Create or modify the GTC stop that protects the position if the agent is offline."""
+        from ib_async import StopOrder
+
+        trades = self._stop_trades(inst.symbol)
+        for extra in trades[1:]:
+            self.ib.cancelOrder(extra.order)
+        if trades:
+            o = trades[0].order
+            o.totalQuantity, o.auxPrice = qty, price
+        else:
+            o = StopOrder("SELL", qty, price, tif="GTC", account=self.account)
+        self.ib.placeOrder(self.contract(inst), o)
+        self.ib.sleep(1)
+
+    def cancel_protective_stop(self, inst: Instrument) -> None:
+        for t in self._stop_trades(inst.symbol):
+            self.ib.cancelOrder(t.order)
+        self.ib.sleep(1)
+
+    def place_limit(self, inst: Instrument, side: str, qty: int, price: float,
+                    wait_s: float = 30) -> tuple[int, float]:
+        """Place a DAY limit order, wait for fills, cancel the remainder.
+
+        Returns (filled qty, average fill price)."""
         from ib_async import LimitOrder
 
         order = LimitOrder(side, qty, price, tif="DAY", account=self.account)
@@ -104,4 +141,4 @@ class IBKRBroker:
         if not trade.isDone():
             self.ib.cancelOrder(order)
             self.ib.sleep(2)
-        return int(trade.orderStatus.filled)
+        return int(trade.orderStatus.filled), float(trade.orderStatus.avgFillPrice or 0.0)

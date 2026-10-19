@@ -50,6 +50,10 @@ class RiskConfig:
     max_daily_loss_pct: float = 3.0
     max_orders_per_day: int = 10
     limit_offset_pct: float = 0.2
+    broker_stop: bool = True         # resting GTC stop at IBKR, trailed up daily
+    max_drawdown_pct: float = 20.0   # from account peak: sell everything managed, trip kill switch
+    circuit_symbol: str = "SPY"      # "" = off
+    circuit_drop_pct: float = 5.0    # no buys the day after the benchmark falls this much
 
 
 @dataclass

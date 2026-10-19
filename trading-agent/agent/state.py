@@ -36,6 +36,26 @@ class State:
             m.pop(symbol)
         self._managed_path.write_text(json.dumps(m, indent=2))
 
+    def set_managed(self, symbol: str, qty: int) -> None:
+        m = self.managed()
+        if qty > 0:
+            m[symbol] = qty
+        else:
+            m.pop(symbol, None)
+        self._managed_path.write_text(json.dumps(m, indent=2))
+
+    # --- account high-water mark (for the max drawdown limit) -----------------
+    def peak_equity(self, equity_now: float) -> float:
+        path = self.root / "peak.json"
+        peak = json.loads(path.read_text())["peak"] if path.exists() else 0.0
+        if equity_now > peak:
+            peak = equity_now
+            path.write_text(json.dumps({"peak": peak}))
+        return peak
+
+    def trip_kill_switch(self, reason: str) -> None:
+        (self.root / "STOP").write_text(reason + "\n")
+
     # --- per-day counters ----------------------------------------------------
     def daily(self, equity_now: float) -> dict:
         today = date.today().isoformat()
@@ -53,7 +73,8 @@ class State:
     # --- journal -------------------------------------------------------------
     def log(self, **row) -> None:
         row = {"time": datetime.now(timezone.utc).isoformat(timespec="seconds"), **row}
-        fields = ["time", "symbol", "action", "qty", "price", "status", "reason", "notes"]
+        fields = ["time", "symbol", "action", "qty", "price", "fill_price", "slippage_bps",
+                  "status", "reason", "notes"]
         new = not self.journal_path.exists()
         with self.journal_path.open("a", newline="") as f:
             w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
