@@ -97,3 +97,21 @@ def test_resumes_pause_turn(ind):
 def test_prompt_has_indicators(ind):
     text = describe_setup("AAA", ind, 100, 130.0, 100_000)
     assert "BUY 100 AAA" in text and "RSI14" in text and "52w high" in text
+
+
+def test_prompt_includes_fundamentals(ind):
+    f = {"name": "Acme", "pe_trailing": 25.3, "revenue_growth_yoy": 0.12, "free_cash_flow": -2.5e9,
+         "next_earnings": "2026-10-28", "days_to_earnings": 9}
+    text = describe_setup("AAA", ind, 100, 130.0, 100_000, f)
+    assert "pe_trailing: 25.30" in text and "+12.0%" in text and "-2.5B" in text
+    assert "days_to_earnings: 9" in text
+    assert "unavailable" in describe_setup("AAA", ind, 100, 130.0, 100_000, {})
+
+
+def test_fundamentals_fetch_fails_soft(monkeypatch):
+    import sys
+    from agent.config import Instrument
+    from agent.fundamentals import fetch, yahoo_symbol
+    monkeypatch.setitem(sys.modules, "yfinance", None)  # import fails
+    assert fetch(Instrument("AAA")) == {}
+    assert yahoo_symbol(Instrument("TEVA", "TASE", "ILS")) == "TEVA.TA"

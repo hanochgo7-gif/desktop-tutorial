@@ -17,6 +17,7 @@ from pathlib import Path
 import pandas as pd
 
 from .config import AnalystConfig
+from .fundamentals import describe as describe_fundamentals
 
 log = logging.getLogger("agent.analyst")
 
@@ -26,6 +27,9 @@ trading system. A technical strategy (SMA 20/50 crossover, RSI filter, ATR \
 trailing stop, daily bars) has proposed a BUY. Your job is to catch reasons \
 NOT to take this specific trade right now. You cannot increase size or \
 propose other trades.
+
+You also get a fundamental snapshot. Use it to spot red flags (e.g. heavy \
+debt with negative free cash flow, collapsing revenue), not to value the stock.
 
 Check, using web search when available:
 - scheduled events in the next ~2 weeks: earnings, FDA/court rulings, index \
@@ -82,7 +86,8 @@ class Review:
         return cls(False, 0.0, 0.0, why)
 
 
-def describe_setup(symbol: str, ind: pd.DataFrame, qty: int, price: float, equity: float) -> str:
+def describe_setup(symbol: str, ind: pd.DataFrame, qty: int, price: float, equity: float,
+                   fundamentals: dict | None = None) -> str:
     """Compact, numeric description of the trade for the prompt."""
     last = ind.iloc[-1]
     close = ind["close"]
@@ -99,7 +104,10 @@ def describe_setup(symbol: str, ind: pd.DataFrame, qty: int, price: float, equit
         f"RSI14 {last['rsi']:.1f}, ATR14 {last['atr']:.2f} ({last['atr'] / last['close']:.1%} of price)\n"
         f"- returns: 5d {ret(5)}, 20d {ret(20)}, 60d {ret(60)}, 250d {ret(250)}\n"
         f"- 52w high {close.tail(250).max():.2f}, 52w low {close.tail(250).min():.2f}\n"
-        f"Last 10 sessions:\n{recent.to_string()}"
+        f"- MACD hist {last['macd_hist']:.2f}, volume vs 20d avg {last['vol_ratio']:.2f}x, "
+        f"SMA150 {last['sma150']:.2f}, SMA200 {last['sma200']:.2f}\n"
+        f"Last 10 sessions:\n{recent.to_string()}\n\n"
+        f"{describe_fundamentals(fundamentals or {})}"
     )
 
 
@@ -113,8 +121,9 @@ class ClaudeAnalyst:
             client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY
         self.client = client
 
-    def review(self, symbol: str, ind: pd.DataFrame, qty: int, price: float, equity: float) -> Review:
-        prompt = describe_setup(symbol, ind, qty, price, equity)
+    def review(self, symbol: str, ind: pd.DataFrame, qty: int, price: float, equity: float,
+               fundamentals: dict | None = None) -> Review:
+        prompt = describe_setup(symbol, ind, qty, price, equity, fundamentals)
         try:
             review, raw = self._ask(prompt)
         except Exception as e:  # fail closed on anything unexpected

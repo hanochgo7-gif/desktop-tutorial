@@ -94,7 +94,7 @@ class FakeAnalyst:
     def __init__(self, approved, mult=1.0):
         self.approved, self.mult, self.calls = approved, mult, 0
 
-    def review(self, symbol, ind, qty, price, equity):
+    def review(self, symbol, ind, qty, price, equity, fundamentals=None):
         from agent.analyst import Review
         self.calls += 1
         return Review(self.approved, self.mult if self.approved else 0.0, 0.9, "test")

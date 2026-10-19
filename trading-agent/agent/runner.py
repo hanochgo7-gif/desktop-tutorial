@@ -185,8 +185,10 @@ class Pass:
         d = self.risk.size_buy(sig.close, sig.atr, acct)
         if d.qty > 0 and self.analyst is not None:
             # Claude reviews after the hard limits, and can only shrink or veto.
+            from .fundamentals import fetch as fetch_fundamentals
+
             r = self.analyst.review(sym, compute(bars, self.cfg.strategy, regime), d.qty,
-                                    sig.close, acct.equity)
+                                    sig.close, acct.equity, fetch_fundamentals(inst))
             scaled = int(d.qty * r.size_multiplier) if r.approved else 0
             verdict = "approved" if r.approved else "vetoed"
             d.notes.append(f"claude {verdict} x{r.size_multiplier:.2f} -> {scaled}: {r.summary}")
