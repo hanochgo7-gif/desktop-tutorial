@@ -5,7 +5,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
@@ -15,7 +15,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.9</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
@@ -25,7 +25,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/gotovski.webp</image:loc></image:image>
@@ -42,6 +42,7 @@
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/ad.webp</video:thumbnail_loc><video:title>לפני שהעיר מתעוררת</video:title><video:description>סרט פרסומת של דקה שנוצר בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/ad.mp4</video:content_loc><video:duration>59</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/studio-night.webp</video:thumbnail_loc><video:title>אתר שלא נסגר בשבע</video:title><video:description>פרסומת אנכית ל-HG Studio שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.</video:description><video:content_loc>https://hgpro.io/work/film/studio-night.mp4</video:content_loc><video:duration>32</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/studio-host.webp</video:thumbnail_loc><video:title>העסק נסגר בשבע. האתר? לא.</video:title><video:description>פרסומת מציגה ל-HG Studio. המציגה והקול נוצרו בבינה מלאכותית, והמסכים אמיתיים.</video:description><video:content_loc>https://hgpro.io/work/film/studio-host.mp4</video:content_loc><video:duration>22</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/gluckski.webp</video:thumbnail_loc><video:title>GLUCKSKI · פרסומת לביגוד סקי</video:title><video:description>פרסומת אנכית לביגוד סקי שנוצרה בבינה מלאכותית על ידי HG Studio: גלישה, סנובורד וחברים בבקתה.</video:description><video:content_loc>https://hgpro.io/work/film/gluckski.mp4</video:content_loc><video:duration>13</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-fall.webp</video:thumbnail_loc><video:title>HG Fragrance · הנפילה</video:title><video:description>גבר בחליפה שחורה נופל מהשמיים מעל העיר, נוחת בענן אבק ליד מכונית עם הבקבוק על הגג, והולך.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-fall.mp4</video:content_loc><video:duration>19</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-collision.webp</video:thumbnail_loc><video:title>HG Fragrance · ההתנגשות</video:title><video:description>רחוב ריק עם שחר: גבר מתנגש בעוברת אורח, הבקבוק וצעיף משי עפים בהילוך איטי.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-collision.mp4</video:content_loc><video:duration>11</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-entrance.webp</video:thumbnail_loc><video:title>HG Fragrance · הכניסה</video:title><video:description>מצלמת מסדרון: גבר מרסס בצווארון, חבר נכנס ונעצר: &quot;רגע, מה אתה שם?&quot;</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-entrance.mp4</video:content_loc><video:duration>13</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
@@ -59,7 +60,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
   </url>
@@ -68,7 +69,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/film/elef.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
@@ -84,7 +85,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/archive/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/archive/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/archive/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.7</priority>
     <image:image><image:loc>https://hgpro.io/work/film/elef.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/film/hg.webp</image:loc></image:image>
@@ -94,144 +95,144 @@
   </url>
   <url>
     <loc>https://hgpro.io/services/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/website-building.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/web-design.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/landing-page.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/online-store.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/seo.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-commercial.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת שמן זית שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/social-media.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-chatbot.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/wix-migration.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/brand-identity.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/web-design-studio.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ai-commercial-production.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>Elef · Galilee olive oil</video:title><video:description>A cinematic olive oil commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/elef-en.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A fragrance commercial made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/social-media-for-business.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/website-design.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/landing-page-design.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ecommerce-store.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/seo-services.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ai-customer-agent.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/wix-wordpress-migration.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/brand-identity-design.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/blog/</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-to-choose-web-designer.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-to-choose-web-designer.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/landing-page-that-converts.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/landing-page-that-converts.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-much-does-a-website-cost.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/wix-vs-custom-website.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/wix-vs-custom-website.webp</image:loc></image:image>
   </url>
@@ -240,7 +241,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/elef/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/elef/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/elef/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/elef/media/s8-poster.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/elef/media/s1-1600.webp</image:loc></image:image>
@@ -251,18 +252,18 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/elef/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/elef/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/elef/"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.5</priority>
     <image:image><image:loc>https://hgpro.io/elef/media/s8-poster.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/accessibility.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://hgpro.io/en-accessibility.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -270,7 +271,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/privacy.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -278,7 +279,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/privacy.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -286,7 +287,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-terms.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/terms.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -294,7 +295,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/terms.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-terms.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/terms.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -302,7 +303,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/refunds.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-refunds.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/refunds.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
   <url>
@@ -310,7 +311,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/refunds.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-refunds.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/refunds.html"/>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-19</lastmod>
     <priority>0.2</priority>
   </url>
 </urlset>
