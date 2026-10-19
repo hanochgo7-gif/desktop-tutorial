@@ -1,4 +1,4 @@
-/* כתוביות לפרסומות עם קריינות ("אלף", HG ו"לפני שהעיר מתעוררת"), בכל נגן באתר.
+/* כתוביות לפרסומות עם קריינות ("אלף" ו-HG), בכל נגן באתר.
    כשסרט כזה מתנגן עם קול, מתווספת לו רצועת כתוביות בשפת הדף ומוצגת. לולאות שקטות נשארות בלי כתוביות. */
 (function () {
   'use strict';
@@ -8,8 +8,6 @@
   function tracksFor(src) {
     if (/film\/elef-en(-m)?\.mp4/.test(src)) return [['en', 'English', 'elef.en.vtt', 'captions']];
     if (/film\/elef(-m)?\.mp4/.test(src)) return [['he', 'עברית', 'elef.he.vtt', 'captions']];
-    if (/film\/ad-en(-m)?\.mp4/.test(src)) return [['en', 'English', 'ad.en.vtt', 'captions']];
-    if (/film\/ad(-m)?\.mp4/.test(src)) return [['he', 'עברית', 'ad.he.vtt', 'captions']];
     if (/film\/hg(-m)?\.mp4/.test(src)) return EN
       ? [['en', 'English', 'hg.en.vtt', 'captions']]
       : [['he', 'עברית', 'hg.he.vtt', 'subtitles'], ['en', 'English', 'hg.en.vtt', 'captions']];

@@ -365,7 +365,7 @@
       const small = matchMedia('(max-width: 700px)').matches;
       const FILMS = [
         ['hg', T('HG · פרסומת בושם', 'HG · Fragrance'), 'hg', T('פרסומת בושם · 20 שניות · נוצרה כולה ב-AI', 'Fragrance commercial · 20 seconds · made entirely with AI')],
-        ['ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), EN ? 'ad-en' : 'ad', T('סרט פרסומת · 60 שניות · נוצר כולו ב-AI', 'Commercial · 60 seconds · made entirely with AI')]];
+        ['elef', T('אֶלֶף · שמן זית', 'Elef · olive oil'), EN ? 'elef-en' : 'elef', T('פרסומת קולנועית · 60 שניות · נוצרה כולה ב-AI', 'Cinematic commercial · 60 seconds · made entirely with AI')]];
       s.innerHTML = `<div class="d-film"><video muted playsinline loop preload="metadata"></video>
         <div class="d-opts d-film-opts">${FILMS.map((f, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-f="${i}">${f[1]}</button>`).join('')}</div>
         <div class="d-film-ui"><span class="d-film-tag"></span>

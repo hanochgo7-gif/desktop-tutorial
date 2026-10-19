@@ -112,7 +112,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
                ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="../#ads">לפירוט החבילות</a>.</p>'),
-               ('דוגמאות', '<p>בתיק העבודות שלוש פרסומות שהפקתי כך: <strong>אֶלֶף</strong>, פרסומת קולנועית לשמן זית מהגליל, <strong>HG · Unforgettable</strong>, פרסומת בושם של 20 שניות: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא, ו<strong>לפני שהעיר מתעוררת</strong>, סרט אקשן של דקה על מאפייה ושליח בתל אביב. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
+               ('דוגמאות', '<p>בתיק העבודות פרסומות שהפקתי כך, ביניהן <strong>אֶלֶף</strong>, פרסומת קולנועית לשמן זית מהגליל, ו<strong>HG · Unforgettable</strong>, פרסומת בושם של 20 שניות: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
                ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
      examples=[], films=True,
      faq=[('כמה זמן לוקחת הפקה?', 'בדרך כלל כמה ימים מאישור התסריט ועד סרט ערוך.'),
@@ -204,7 +204,7 @@ page(slug='ai-commercial-production', lang='en', name='AI commercial production'
      lead='A TV-grade commercial used to need a crew, actors, a location and a shoot day. Today a cinematic film can be produced with AI in days, for a fraction of the cost. HG Studio writes the script, creates consistent characters, shoots every frame, cuts to the music and records the voiceover.',
      sections=[('What you get', '<ul><li>A short script and story that fits the brand.</li><li>Consistent characters, product and vehicles across the film.</li><li>Cinematic 1080p shots, an edit cut to the music, a color grade and widescreen framing.</li><li>Natural voiceover and legally licensed music.</li><li>30, 15 and 6 second versions for TV, YouTube and social.</li></ul>'),
                ('Packages', '<p>Order a single commercial. If you want the commercials to reach an audience too, they come as part of <a href="social-media-for-business.html">Echo</a>: Instagram and Facebook done for you, with an AI commercial every month, publishing, replies and paid ads. <a href="../../en.html#ads">See the packages</a>.</p>'),
-               ('Examples', '<p>The archive holds three commercials made this way: <strong>Elef</strong>, a cinematic spot for olive oil from the Galilee, <strong>HG · Unforgettable</strong>, a 20-second fragrance spot: a man, a rainy night in the city, and a scent that stays in the room after he leaves, and <strong>Before the City Wakes</strong>, a one-minute action film about a bakery and a courier in Tel Aviv. <a href="../../archive/en.html">Watch in the archive</a>.</p>'),
+               ('Examples', '<p>The archive holds commercials made this way, among them <strong>Elef</strong>, a cinematic spot for olive oil from the Galilee, and <strong>HG · Unforgettable</strong>, a 20-second fragrance spot: a man, a rainy night in the city, and a scent that stays in the room after he leaves. <a href="../../archive/en.html">Watch in the archive</a>.</p>'),
                ('Good to know', '<p>All characters and brands are fictional, and the music and voices are used legally. Each film is labeled as made with AI, as is customary today.</p>')],
      examples=[], films=True,
      faq=[('How long does a production take?', 'Usually a few days from script approval to a finished edit.'),
@@ -437,8 +437,7 @@ def render(p):
     ex = ''; ex_after = ''
     if p.get('films'):
         films = [('film/elef', T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), T('פרסומת קולנועית · 60 שניות', 'Cinematic commercial · 60 seconds')),
-                 ('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 20 שניות', 'Fragrance commercial · 20 seconds')),
-                 ('film/ad', T('לפני שהעיר מתעוררת', 'Before the City Wakes'), T('סרט פרסומת · 60 שניות', 'Commercial · 60 seconds'))]
+                 ('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 20 שניות', 'Fragrance commercial · 20 seconds'))]
         ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f in ("film/ad", "film/elef")) else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
         # הפרסומות של הסטודיו עצמו: אנכיות, לרילס. בעברית עם כתוביות צרובות, ובאנגלית עם כתוביות באנגלית
         studio = [('film/studio-night', T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), T('פרסומת ל-HG Studio · 32 שניות', 'HG Studio commercial · 32 seconds')),
@@ -466,7 +465,6 @@ def render(p):
     if p.get('films'):
         graph += [{'@type': 'VideoObject', 'name': T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), 'description': T('פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.', 'A one minute cinematic commercial for a fictional olive oil brand, made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/elef.webp', 'contentUrl': D + ('/work/film/elef.mp4' if he else '/work/film/elef-en.mp4'), 'uploadDate': '2026-10-09', 'duration': 'PT60S'},
                   {'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 20 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-14', 'duration': 'PT20S'},
-                  {'@type': 'VideoObject', 'name': T('לפני שהעיר מתעוררת', 'Before the City Wakes'), 'description': T('סרט פרסומת של דקה שנוצר בבינה מלאכותית על ידי HG Studio.', 'A one minute commercial made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/ad.webp', 'contentUrl': D + ('/work/film/ad.mp4' if he else '/work/film/ad-en.mp4'), 'uploadDate': '2026-10-02', 'duration': 'PT59S'},
                   {'@type': 'VideoObject', 'name': T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), 'description': T('פרסומת אנכית של 32 שניות ל-HG Studio, שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', 'A 32 second vertical commercial for HG Studio, made with AI, with real screens from client sites.'), 'thumbnailUrl': D + '/work/film/studio-night.webp', 'contentUrl': D + '/work/film/studio-night.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT32S'},
                   {'@type': 'VideoObject', 'name': T('העסק נסגר בשבע. האתר? לא.', 'The business closes at seven. The website? No.'), 'description': T('פרסומת מציגה של 21 שניות ל-HG Studio. המציגה והקול נוצרו בבינה מלאכותית, והמסכים אמיתיים.', 'A 21 second presenter ad for HG Studio. The presenter and voice were made with AI, and the screens are real.'), 'thumbnailUrl': D + '/work/film/studio-host.webp', 'contentUrl': D + '/work/film/studio-host.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT22S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
@@ -540,7 +538,7 @@ HUB_IMG = {'website-building': 'work/thumbs/hub/gotovski.webp', 'web-design-stud
            'landing-page': 'work/thumbs/hub/falafel.webp', 'landing-page-design': 'work/thumbs/hub/falafel.webp',
            'online-store': 'work/thumbs/hub/sell.webp', 'ecommerce-store': 'work/thumbs/hub/sell.webp',
            'seo': 'work/thumbs/hub/grow.webp', 'seo-services': 'work/thumbs/hub/grow.webp',
-           'ai-commercial': 'work/thumbs/hub/ad.webp', 'ai-commercial-production': 'work/thumbs/hub/ad.webp',
+           'ai-commercial': 'work/thumbs/hub/elef.webp', 'ai-commercial-production': 'work/thumbs/hub/elef.webp',
            'ai-chatbot': 'work/thumbs/hub/ai.webp', 'ai-customer-agent': 'work/thumbs/hub/ai.webp',
            'wix-migration': 'work/thumbs/hub/after.webp', 'wix-wordpress-migration': 'work/thumbs/hub/after.webp',
            'brand-identity': 'work/thumbs/hub/brand.webp', 'brand-identity-design': 'work/thumbs/hub/brand.webp',
