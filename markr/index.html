@@ -35,10 +35,10 @@
    Apple's type ramp. The brand stays: forest green tint, one marker yellow.
    ===================================================================== */
 :root{
-  --base:#F2F2F7; --surface:#FFFFFF; --card:rgba(255,255,255,.84); --surface2:#F2F2F7;
+  --base:#F2F2F7; --surface:#FFFFFF; --card:#FFFFFF; --surface2:#F2F2F7;
   --fill:rgba(118,118,128,.12); --fill2:rgba(118,118,128,.08); --fill3:rgba(118,118,128,.2);
   --ink:#000000; --ink2:#2C2C2E; --muted:#58585D; --line:rgba(60,60,67,.14); --line2:rgba(60,60,67,.26);
-  --glass:rgba(250,250,252,.66); --glass-strong:rgba(250,250,252,.82); --glass-edge:rgba(255,255,255,.7);
+  --glass:rgba(250,250,252,.86); --glass-strong:rgba(250,250,252,.95); --glass-edge:rgba(255,255,255,.7);
   --glass-shine:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(0,0,0,.03);
   --primary:#1D5240; --primary-ink:#FFFFFF; --link:#1A6B4F; --blue:#0A60C9;
   --sun:#F5D13D; --sun-soft:#FBF1C4; --sun-ink:#493A00; --hl:rgba(245,209,61,.85);
@@ -49,34 +49,34 @@
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Hebrew","IBM Plex Sans Hebrew","Heebo",system-ui,"Segoe UI",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Hebrew","IBM Plex Sans Hebrew","Heebo",system-ui,sans-serif;
   --r-xl:28px; --r-lg:22px; --r:18px; --r-sm:12px;
-  --sh-1:0 1px 2px rgba(0,0,0,.04),0 4px 14px -8px rgba(0,0,0,.12);
+  --sh-1:none;
   --sh-2:0 2px 6px rgba(0,0,0,.04),0 18px 40px -22px rgba(0,0,0,.28);
   --spring:cubic-bezier(.32,.72,0,1); --ease:cubic-bezier(.25,.1,.25,1);
   --side:268px; --nav-h:76px;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --base:#000000; --surface:#1C1C1E; --card:rgba(28,28,30,.78); --surface2:#2C2C2E;
+  --base:#000000; --surface:#1C1C1E; --card:#1C1C1E; --surface2:#2C2C2E;
   --fill:rgba(118,118,128,.24); --fill2:rgba(118,118,128,.16); --fill3:rgba(118,118,128,.32);
   --ink:#FFFFFF; --ink2:#E5E5EA; --muted:#98989F; --line:rgba(84,84,88,.45); --line2:rgba(84,84,88,.65);
-  --glass:rgba(30,30,32,.6); --glass-strong:rgba(30,30,32,.8); --glass-edge:rgba(255,255,255,.1);
+  --glass:rgba(30,30,32,.86); --glass-strong:rgba(30,30,32,.95); --glass-edge:rgba(255,255,255,.1);
   --glass-shine:inset 0 1px 0 rgba(255,255,255,.08);
-  --primary:#86CDAA; --primary-ink:#06140E; --link:#8FD3B2; --blue:#4DA3FF;
-  --sun:#E8C93E; --sun-soft:#3A3315; --sun-ink:#F5E5A0; --hl:rgba(232,201,62,.38);
+  --primary:#2E7D5F; --primary-ink:#FFFFFF; --link:#8FD3B2; --blue:#4DA3FF;
+  --sun:#E8C93E; --sun-soft:#3A3315; --sun-ink:#F5E5A0; --hl:#5C4B12;
   --danger:#FF6961; --ok:#30D158; --focus:#4DA3FF; --margin:#6B3D37; --rule:#26364A;
   --logo-bg:#245F49; --logo-hl:#E8C93E; --logo-ink:#173F31; --spark:#E3C14B;
-  --sh-1:0 1px 0 rgba(255,255,255,.04); --sh-2:0 18px 40px -20px rgba(0,0,0,.8); color-scheme:dark}}
+  --sh-1:none; --sh-2:0 18px 40px -20px rgba(0,0,0,.8); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --base:#000000; --surface:#1C1C1E; --card:rgba(28,28,30,.78); --surface2:#2C2C2E;
+  --base:#000000; --surface:#1C1C1E; --card:#1C1C1E; --surface2:#2C2C2E;
   --fill:rgba(118,118,128,.24); --fill2:rgba(118,118,128,.16); --fill3:rgba(118,118,128,.32);
   --ink:#FFFFFF; --ink2:#E5E5EA; --muted:#98989F; --line:rgba(84,84,88,.45); --line2:rgba(84,84,88,.65);
-  --glass:rgba(30,30,32,.6); --glass-strong:rgba(30,30,32,.8); --glass-edge:rgba(255,255,255,.1);
+  --glass:rgba(30,30,32,.86); --glass-strong:rgba(30,30,32,.95); --glass-edge:rgba(255,255,255,.1);
   --glass-shine:inset 0 1px 0 rgba(255,255,255,.08);
-  --primary:#86CDAA; --primary-ink:#06140E; --link:#8FD3B2; --blue:#4DA3FF;
-  --sun:#E8C93E; --sun-soft:#3A3315; --sun-ink:#F5E5A0; --hl:rgba(232,201,62,.38);
+  --primary:#2E7D5F; --primary-ink:#FFFFFF; --link:#8FD3B2; --blue:#4DA3FF;
+  --sun:#E8C93E; --sun-soft:#3A3315; --sun-ink:#F5E5A0; --hl:#5C4B12;
   --danger:#FF6961; --ok:#30D158; --focus:#4DA3FF; --margin:#6B3D37; --rule:#26364A;
   --logo-bg:#245F49; --logo-hl:#E8C93E; --logo-ink:#173F31; --spark:#E3C14B;
-  --sh-1:0 1px 0 rgba(255,255,255,.04); --sh-2:0 18px 40px -20px rgba(0,0,0,.8); color-scheme:dark}
+  --sh-1:none; --sh-2:0 18px 40px -20px rgba(0,0,0,.8); color-scheme:dark}
 
 /* ---------- wallpaper: a soft, still background behind the glass ---------- */
 :root{--wp:radial-gradient(70% 55% at 92% -8%,rgba(134,205,170,.55),transparent 70%),radial-gradient(55% 50% at -6% 34%,rgba(245,209,61,.30),transparent 70%),radial-gradient(70% 60% at 72% 108%,rgba(122,170,228,.32),transparent 70%),radial-gradient(40% 35% at 30% 70%,rgba(134,205,170,.18),transparent 70%)}
@@ -113,11 +113,14 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 button:disabled{opacity:.45;cursor:default}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .t{unicode-bidi:isolate;direction:ltr;display:inline-block}
-.nw{white-space:nowrap}
+.nw{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:inline-block;vertical-align:bottom}
+/* long words and links never widen the page */
+h1,h2,h3,.grow,.tt,.open,.cc-teacher,.keyline,.recall,.gcard,.live-item,.mc-q,.mc-opt,#toast .msg{overflow-wrap:anywhere}
+.grow,.open{min-width:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .skip{position:fixed;top:8px;inset-inline-start:8px;z-index:100;background:var(--primary);color:var(--primary-ink);padding:10px 16px;border-radius:999px;transform:translateY(-200%)}
 .skip:focus-visible{transform:none}
-mark{background:var(--sun-soft);color:inherit;border-radius:4px;padding:0 2px}
+mark{background:var(--sun-soft);color:var(--ink);border-radius:4px;padding:0 2px}
 .ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none;display:inline-block;margin-inline-end:.35em}
 .i-spark{color:var(--spark)}.i-starf{color:#D9A400}.i-flame{color:#E8822B}.i-sprout{color:var(--ok)}
 html[data-easy="1"] body{line-height:1.9;letter-spacing:.012em;word-spacing:.14em}
@@ -126,7 +129,7 @@ html[data-easy="1"] .r-body p,html[data-easy="1"] .rich p{margin-bottom:1rem}
 html[data-easy="1"] i,html[data-easy="1"] em{font-style:normal;font-weight:500}
 html[data-easy="1"] .r-body,html[data-easy="1"] #f-rich{max-width:64ch}
 /* glass material: the blur lives on a pseudo-element so fixed children keep the viewport */
-.glass,.top::before,nav#nav,.sheet,#toast,.tabs{-webkit-backdrop-filter:saturate(1.8) blur(24px);backdrop-filter:saturate(1.8) blur(24px)}
+.glass,.top::before,nav#nav,.sheet,#toast.on{-webkit-backdrop-filter:saturate(1.8) blur(24px);backdrop-filter:saturate(1.8) blur(24px)}
 
 /* ---------- navigation bar (phone) / sidebar (desktop) ---------- */
 .top{position:sticky;top:0;z-index:5;padding-top:env(safe-area-inset-top,0px)}
@@ -164,7 +167,7 @@ main{max-width:860px;margin:0 auto;padding:22px 16px 56px;outline:none}
   nav#nav button{flex-direction:column;gap:2px;padding:6px 2px;font-size:.6875rem;font-weight:600;border-radius:24px;min-height:52px;letter-spacing:0}
   nav#nav button .ic{width:1.5em;height:1.5em}
   nav#nav button[aria-current="page"]{background:var(--fill)}
-  nav#nav .nav-add{width:52px;height:52px;min-height:0;border-radius:50%;padding:0;margin:0 4px;box-shadow:0 6px 16px -6px color-mix(in srgb,var(--primary) 85%,transparent)}
+  nav#nav .nav-add{width:52px;height:52px;min-height:0;border-radius:50%;padding:0;margin:0 4px}
   nav#nav .nav-add .ic{width:1.6em;height:1.6em;stroke-width:2.2}
   nav#nav .nav-add .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   main{padding-bottom:calc(var(--nav-h) + 56px + env(safe-area-inset-bottom,0px))}
@@ -202,18 +205,20 @@ main{max-width:860px;margin:0 auto;padding:22px 16px 56px;outline:none}
 .count{font-size:.8125rem;font-weight:600;color:var(--link);background:var(--fill);border-radius:999px;padding:4px 12px;white-space:nowrap}
 section.block{margin-top:30px}
 section.block>h2,.sec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:1.25rem;margin:0 4px .6rem}
-.sec-h .link{font-family:var(--sans);font-size:.9375rem;font-weight:400;text-decoration:none}
+.sec-h .link{font-family:var(--sans);font-size:.9375rem;font-weight:400;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .crumb{margin-bottom:14px}
-.crumb .link{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:1rem;font-weight:400;padding:6px 0;color:var(--link)}
+.crumb .link{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:1rem;font-weight:400;padding:6px 0;min-height:44px;color:var(--link)}
 
 /* ---------- controls ---------- */
 .primary,.ghost,.ai{display:inline-flex;align-items:center;justify-content:center;gap:.45em;min-height:44px;border-radius:999px;padding:10px 20px;font-weight:600;font-size:1.0625rem;transition:background-color .2s,box-shadow .2s,transform .25s var(--spring),filter .2s;text-align:center;border:0}
 .primary{background:var(--primary);color:var(--primary-ink)}
 .primary:hover{filter:brightness(1.1)}
-.primary.big{width:100%;min-height:52px;padding:14px 22px;box-shadow:0 8px 20px -12px color-mix(in srgb,var(--primary) 90%,transparent)}
+.primary.big{width:100%;min-height:52px;padding:14px 22px}
+@media (min-width:700px){.primary.big{width:auto;min-width:260px;max-width:440px}.actions .primary.big{flex-basis:auto}}
 .ghost{background:var(--fill);color:var(--link);font-weight:500}
 .ghost:hover{background:var(--fill3)}
-.ai{background:var(--sun-soft);color:var(--sun-ink)}
+.ai{background:var(--fill);color:var(--link);font-weight:500}
+.ai:hover{background:var(--fill3)}
 .primary .ic,.ghost .ic,.ai .ic{margin:0}
 .primary:active,.ghost:active,.ai:active,.tool:active,.item:active,.slot:active,.agenda-row:active,.course-card:active,.qtiles button:active{transform:scale(.97)}
 .link{background:none;border:0;padding:6px 0;color:var(--link);font-weight:500;text-decoration:none}
@@ -227,8 +232,8 @@ section.block>h2,.sec-h{display:flex;align-items:center;justify-content:space-be
 .actions .primary.big{flex-basis:100%}
 /* segmented control */
 .seg{display:flex;background:var(--fill);border-radius:10px;padding:2px;gap:2px}
-.seg button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.35em;border:0;background:none;border-radius:8px;padding:7px 8px;min-height:36px;font-weight:500;font-size:.9375rem;color:var(--ink);transition:background .25s var(--spring)}
-.seg button[aria-pressed="true"]{background:var(--surface);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+.seg button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.35em;border:0;background:none;border-radius:8px;padding:7px 8px;min-height:44px;font-weight:500;font-size:.9375rem;color:var(--ink);transition:background .25s var(--spring)}
+.seg button[aria-pressed="true"]{background:var(--thumb);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
 .seg button .ic{margin:0}
 /* switch */
 .switch{position:relative;display:inline-block;width:51px;height:31px;flex:none}
@@ -246,15 +251,16 @@ input:focus,textarea:focus,select:focus{outline:none;box-shadow:inset 0 0 0 1.5p
 textarea{resize:vertical;min-height:3em;line-height:1.5}
 select{-webkit-appearance:none;appearance:none;padding-inline-end:36px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2358585D' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 6.5L8 10l3.5-3.5'/%3E%3C/svg%3E") no-repeat left 12px center/14px}
 input[type=search]{padding-inline-start:40px;background:var(--fill) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2358585D' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4.5 4.5'/%3E%3C/svg%3E") no-repeat right 12px center/18px;box-shadow:none;border-radius:12px;min-height:44px;font-size:1.0625rem}
-.chip{display:inline-block;background:var(--c,var(--primary));color:#fff;border-radius:999px;padding:3px 12px;font-weight:600;font-size:.8125rem}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--fill);color:var(--ink);border-radius:999px;padding:3px 12px;font-weight:600;font-size:.8125rem}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--primary));flex:none}
 .badge{display:inline-block;font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 8px;margin-inline-end:6px;background:var(--fill);color:var(--muted);vertical-align:.08em}
 .badge.k-exam{background:var(--sun-soft);color:var(--sun-ink)}
 .badge.k-sub{background:color-mix(in srgb,var(--blue) 13%,transparent);color:color-mix(in srgb,var(--blue) 75%,var(--ink))}
 .src{display:inline-block;font-size:.75rem;font-weight:600;border-radius:999px;padding:1px 8px;background:var(--fill);color:var(--muted);margin-inline-start:6px}
 .fchips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:14px -16px 0;padding:2px 16px}
 .fchips::-webkit-scrollbar{display:none}
-.fchips button{flex:none;border:0;background:var(--card);border-radius:999px;padding:7px 15px;min-height:36px;font-weight:500;font-size:.9375rem;color:var(--ink);box-shadow:var(--sh-1)}
-.fchips button[aria-pressed="true"]{background:var(--primary);color:var(--primary-ink)}
+.fchips button{flex:none;border:0;background:var(--fill);border-radius:999px;padding:7px 15px;min-height:44px;font-weight:500;font-size:.9375rem;color:var(--ink)}
+.fchips button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:var(--tint2);color:var(--link);font-weight:600}
 .fchips button .n{opacity:.65;margin-inline-start:5px;font-variant-numeric:tabular-nums}
 
 /* ---------- inset grouped lists ---------- */
@@ -297,8 +303,8 @@ ol.keys li{margin-bottom:.5rem}
 .home-grid{display:grid;gap:0 28px}
 @media (min-width:1180px){.home-grid{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);align-items:start}.home-grid>aside>section.block:first-child{margin-top:0}}
 .focus{position:relative;border-radius:var(--r-xl);padding:20px 20px 18px;overflow:hidden;
-  background:linear-gradient(160deg,color-mix(in srgb,var(--c,var(--primary)) 14%,transparent),transparent 58%),var(--glass-strong);
-  border:.5px solid var(--glass-edge);box-shadow:var(--glass-shine),var(--sh-2)}
+  background:var(--card)}
+.focus::before,.hero::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:4px;background:var(--c,var(--primary))}
 .focus .kicker{display:flex;align-items:center;gap:8px;font-size:.8125rem;font-weight:600;color:var(--muted);margin-bottom:8px}
 .focus .kicker .live{display:inline-flex;align-items:center;gap:6px;color:var(--danger)}
 .focus .kicker .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--danger)}
@@ -314,7 +320,6 @@ ol.keys li{margin-bottom:.5rem}
 .recall b{display:block;font-size:.8125rem;color:var(--muted);font-weight:600;margin-bottom:2px}
 .recall.keypt{border-inline-start-color:var(--sun)}
 .recall ul{margin:.2rem 0 0;padding-inline-start:1.2rem}
-@media (prefers-reduced-motion:no-preference){.focus .kicker .live::before{animation:ping 1.6s infinite}@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--danger) 50%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}}
 .agenda{display:flex;flex-direction:column}
 .agenda.list{--sep:96px}
 .agenda-row{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:transparent;border:0;padding:11px 16px;min-height:60px;color:var(--ink)}
@@ -361,16 +366,17 @@ ol.keys li{margin-bottom:.5rem}
 @media (min-width:700px){.cgrid{grid-template-columns:1fr 1fr}}
 .course-card{position:relative;display:flex;align-items:flex-start;gap:12px;width:100%;text-align:start;background:var(--card);border:0;border-radius:var(--r-lg);padding:14px 16px;box-shadow:var(--sh-1);color:var(--ink);transition:transform .25s var(--spring),background .2s}
 .course-card:hover{background:var(--surface)}
-.cc-ico{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;box-shadow:0 4px 10px -4px var(--c)}
-.cc-ico .ic{margin:0;width:1.25em;height:1.25em;stroke-width:2}
+.cc-ico{flex:none;width:12px;height:12px;border-radius:50%;margin-top:6px;background:var(--c)}
+.cc-ico .ic{display:none}
 .course-card .grow{flex:1;min-width:0}
 .course-card strong{font-weight:700;font-size:1.0625rem;line-height:1.3}
 .cc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .cnt{flex:none;font-size:.75rem;font-weight:600;border-radius:999px;padding:3px 9px;margin-top:1px;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--ink);white-space:nowrap}
-.cnt.zero{background:var(--fill);color:var(--muted);font-weight:500}
+.cnt.zero{background:var(--fill);color:var(--ink2);font-weight:500}
 .cc-teacher{display:block;margin-top:2px;font-size:.875rem;color:var(--muted)}
 .cc-sess{display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:8px}
 .sl{display:inline-flex;align-items:center;gap:5px;font-size:.875rem;color:var(--muted)}
+.sl{max-width:100%;min-width:0}.cgrid>*,.cgrid{min-width:0}.course-card .grow{display:block;overflow:hidden}.cc-head strong{min-width:0;overflow-wrap:anywhere}.cc-sess{min-width:0}
 .sl .ic{margin:0;width:1.05em;height:1.05em;color:var(--c,var(--muted))}
 .onb-courses{display:flex;flex-direction:column;gap:8px;margin:12px 0;text-align:start}
 .onb-courses .course-card{padding:10px 12px;box-shadow:none;background:var(--surface)}
@@ -383,21 +389,22 @@ ol.keys li{margin-bottom:.5rem}
 .slot .tm{color:var(--muted);font-size:.875rem;min-width:92px;font-variant-numeric:tabular-nums}
 .slot b{font-weight:600}
 .hero{position:relative;border-radius:var(--r-xl);padding:22px 20px 18px;overflow:hidden;
-  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 16%,transparent),transparent 60%),var(--glass-strong);border:.5px solid var(--glass-edge);box-shadow:var(--glass-shine),var(--sh-2)}
-.hero .cc-ico{width:52px;height:52px;margin-bottom:12px}
-.hero .cc-ico .ic{width:1.5em;height:1.5em}
+  background:var(--card)}
+.hero .cc-ico{display:none}
 .hero h1{font-size:2rem}
 .hero .sub{color:var(--ink2)}
 .hero .cc-sess{margin-top:10px}
 .hero-links{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:8px}
-.hero-links .link{font-size:.9375rem}
-.tabs{position:sticky;top:calc(var(--hdr-h,62px) + 8px);z-index:4;display:flex;gap:2px;margin:18px 0 0;padding:3px;overflow-x:auto;scrollbar-width:none;border-radius:999px;background:var(--glass-strong);border:.5px solid var(--glass-edge);box-shadow:var(--glass-shine),var(--sh-1)}
+.hero-links .link{font-size:.9375rem;min-height:44px;display:inline-flex;align-items:center}
+.exam-note{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;background:var(--fill2);border-radius:14px;padding:8px 14px;margin-top:12px;font-size:.9375rem}
+.exam-note b{font-weight:600}
+.exam-note .link{min-height:44px;margin-inline-start:auto}
+.tabs{display:flex;gap:2px;margin:18px 0 0;padding:2px;overflow-x:auto;scrollbar-width:none;border-radius:10px;background:var(--fill)}
 .tabs::-webkit-scrollbar{display:none}
-@media (min-width:1024px){.tabs{top:12px}}
-.tabs button{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;background:none;border-radius:999px;padding:8px 14px;min-height:38px;font-weight:500;font-size:.9375rem;color:var(--ink);transition:background .25s var(--spring)}
-.tabs button[aria-selected="true"]{background:var(--primary);color:var(--primary-ink);font-weight:600}
+.tabs button{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;background:none;border-radius:8px;padding:8px 10px;min-height:44px;font-weight:500;font-size:.9375rem;color:var(--ink);transition:background .25s var(--spring)}
+.tabs button[aria-selected="true"]{background:var(--thumb);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.14)}
 .tabs .n{font-size:.6875rem;background:var(--fill);border-radius:999px;padding:0 7px;color:inherit;opacity:.8;font-variant-numeric:tabular-nums}
-.tabs button[aria-selected="true"] .n{background:rgba(255,255,255,.2)}
+
 .tabpanel{padding-top:6px}
 .tgroup{margin-top:22px}
 .tgroup h3{font-family:var(--sans);font-size:.8125rem;font-weight:600;color:var(--muted);margin:0 4px 8px}
@@ -405,7 +412,7 @@ ol.keys li{margin-bottom:.5rem}
 .tool{display:flex;align-items:center;gap:12px;background:var(--card);border:0;border-radius:var(--r);padding:12px;min-height:62px;text-align:start;font-weight:600;color:var(--ink);box-shadow:var(--sh-1);line-height:1.3;transition:transform .25s var(--spring),background .2s}
 .tool:hover{background:var(--surface)}
 .tool .ic{margin:0;width:2.3em;height:2.3em;padding:.45em;border-radius:50%;background:var(--tint2);color:var(--link)}
-.tool .ic.i-spark{background:var(--sun-soft);color:var(--spark)}
+.tool .ic.i-spark{color:var(--link)}
 .tool small{display:block;color:var(--muted);font-weight:400;font-size:.8125rem;margin-top:1px}
 
 /* ---------- tasks ---------- */
@@ -439,7 +446,8 @@ ol.keys li{margin-bottom:.5rem}
 .editor .ed-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:8px}
 .editor .ed-head h1{margin-top:8px}
 .ed-head .date{display:inline-flex;align-items:center;gap:4px;margin-inline-start:auto;background:var(--fill);border-radius:999px;padding:0 10px;color:var(--ink)}
-.ed-head .date input{background:transparent;min-height:40px;padding:4px 6px;width:auto;box-shadow:none;font-weight:500}
+.ed-head .date input{background:transparent;min-height:44px;padding:4px 6px;width:auto;box-shadow:none;font-weight:500}
+.ed-head .date input:focus-visible{box-shadow:0 0 0 3px var(--focus);border-radius:8px}
 .field{background:var(--card);border-radius:var(--r-lg);padding:16px;margin-top:14px;box-shadow:var(--sh-1)}
 .field>label,.field>h2,.field .lbl{display:block;font-family:var(--display);font-weight:700;font-size:1.0625rem;margin-bottom:.35rem;letter-spacing:-.01em}
 .field.key{background:linear-gradient(var(--sun-soft),var(--card) 75%)}
@@ -527,11 +535,11 @@ details.opt>.in{padding:0 16px 16px}
 .gcard{background:var(--card);border-radius:var(--r);padding:12px 14px;box-shadow:var(--sh-1)}
 .gcard b{display:block;font-family:var(--serif);font-size:1.0625rem;margin-bottom:2px}
 .gcard span{color:var(--ink2);font-size:.9375rem;line-height:1.5}
-.cta{display:flex;align-items:center;gap:14px;margin-top:20px;background:var(--primary);color:var(--primary-ink);border-radius:var(--r-xl);padding:16px 18px;box-shadow:var(--sh-2)}
+.cta{display:flex;align-items:center;gap:14px;margin-top:20px;background:var(--card);color:var(--ink);border-radius:var(--r-xl);padding:16px 18px}
 .cta .grow{flex:1}
 .cta b{display:block;font-size:1.125rem}
-.cta span{opacity:.85;font-size:.9375rem}
-.cta .primary{background:var(--sun);color:#2B2300;white-space:nowrap}
+.cta span{color:var(--muted);font-size:.9375rem}
+.cta .primary{white-space:nowrap}
 @media (max-width:520px){.cta{flex-direction:column;align-items:stretch;text-align:center}}
 .reader .actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .reader .actions>*{justify-content:flex-start;border-radius:var(--r);background:var(--card);box-shadow:var(--sh-1);color:var(--ink)}
@@ -553,8 +561,10 @@ details.opt>.in{padding:0 16px 16px}
 @media (min-width:701px){.sheet{border-radius:34px;border-bottom:.5px solid var(--glass-edge);padding:22px 24px;box-shadow:var(--glass-shine),0 30px 80px -24px rgba(0,0,0,.45)}}
 @media (max-width:700px){.sheet::before{content:"";display:block;width:36px;height:5px;border-radius:3px;background:var(--fill3);margin:0 auto 12px}}
 .sheet h2{font-size:1.375rem;margin-bottom:10px;padding-inline-end:48px}
-.sheet .x-close{position:absolute;top:12px;inset-inline-end:12px;z-index:3;min-width:32px;height:32px;font-size:1.1rem;background:var(--fill);color:var(--muted);font-weight:600}
-@media (max-width:700px){.sheet .x-close{top:18px}}
+.sheet .x-close{position:absolute;top:8px;inset-inline-end:8px;z-index:3;min-width:44px;height:44px;font-size:1.1rem;background:var(--fill);color:var(--muted);font-weight:600}
+@media (max-width:700px){.sheet .x-close{top:14px}}
+.sheet{scroll-padding-bottom:110px}
+.sheet-foot .danger{margin-inline-start:auto}
 .sheet-foot{position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:10px;margin:18px -18px calc(-20px - env(safe-area-inset-bottom,0px));padding:12px 18px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--glass-strong) 30%);z-index:2}
 @media (min-width:701px){.sheet-foot{bottom:-22px;margin:18px -24px -22px;padding:12px 24px 22px}}
 .sheet-foot .primary{flex:1}
@@ -564,16 +574,20 @@ details.opt>.in{padding:0 16px 16px}
 .swatches{display:flex;flex-wrap:wrap;gap:10px}
 .sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--surface);background:var(--c);box-shadow:0 0 0 1px var(--line2)}
 .sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
-.sess-row{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:6px;margin-bottom:10px;align-items:center}
-.sess-row .room{grid-column:1/4}
+.sess-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:14px;align-items:center}
+.sess-row select{grid-column:1/3;grid-row:1}
+.sess-row .x{grid-column:3;grid-row:1}
+.sess-row [data-k=start]{grid-column:1;grid-row:2}
+.sess-row [data-k=end]{grid-column:2;grid-row:2}
+.sess-row .room{grid-column:1/-1;grid-row:3}
 .check{display:flex;align-items:center;gap:10px}
 .check input{width:22px;height:22px;accent-color:var(--ok)}
 .preview{background:var(--surface);border-radius:var(--r);padding:14px;white-space:pre-wrap;margin-bottom:10px;max-height:40vh;overflow:auto}
 .thinking{display:flex;align-items:center;gap:12px;padding:24px 0;color:var(--muted)}
 .pulse{width:16px;height:16px;border-radius:50%;background:var(--sun);flex:none}
 @media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.1s ease-in-out infinite}@keyframes pulse{50%{transform:scale(.6);opacity:.5}}}
-.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
-.qa-grid .tool{flex-direction:column;align-items:flex-start;gap:8px;min-height:100px;padding:14px;background:var(--surface)}
+.qa-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px}
+.qa-grid .tool{min-height:60px;background:var(--surface)}
 /* background picker */
 .bgpick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .bgpick button{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;font-size:.8125rem;color:var(--ink2)}
@@ -644,9 +658,9 @@ details.opt>.in{padding:0 16px 16px}
 .mm-br h3{font-size:1rem;margin-bottom:6px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .chips span{background:var(--fill);border-radius:999px;padding:4px 10px;font-size:.875rem}
-.chips button{background:var(--fill);border:0;border-radius:999px;padding:7px 14px;min-height:36px;font-size:.9375rem;color:var(--ink)}
+.chips button{background:var(--fill);border:0;border-radius:999px;padding:7px 14px;min-height:44px;font-size:.9375rem;color:var(--ink)}
 .chips button:hover{background:var(--fill3)}
-.chips button[aria-pressed="true"]{background:var(--primary);color:var(--primary-ink)}
+
 .mm-links li{margin-bottom:6px}
 .chat{display:flex;flex-direction:column;gap:6px;max-height:52vh;overflow:auto;padding:4px 0}
 .bub{max-width:85%;padding:9px 14px;border-radius:20px;white-space:pre-wrap;line-height:1.45}
@@ -658,7 +672,7 @@ details.opt>.in{padding:0 16px 16px}
 .drop input{margin-top:8px;max-width:100%}
 .filelist{font-size:.875rem;color:var(--muted);margin-top:6px}
 .pl-card{position:relative;border-radius:var(--r-xl);padding:22px 20px;margin-top:14px;text-align:center;overflow:hidden;
-  background:linear-gradient(170deg,color-mix(in srgb,var(--c) 18%,transparent),transparent 60%),var(--glass-strong);border:.5px solid var(--glass-edge);box-shadow:var(--glass-shine),var(--sh-2)}
+  background:var(--card)}
 .pl-title{font-weight:700;font-size:1.35rem;margin:8px 0}
 .pl-now{font-family:var(--serif);font-size:1.3rem;line-height:1.65;min-height:5.5em;margin:14px 0;color:var(--ink)}
 .pl-btns{display:grid;grid-template-columns:1fr 1fr 1.5fr 1fr;gap:10px;align-items:center;margin-top:12px}
@@ -677,11 +691,12 @@ details.opt>.in{padding:0 16px 16px}
 .live-item{background:var(--card);border-radius:14px;padding:9px 12px;display:flex;gap:10px;align-items:baseline;box-shadow:var(--sh-1)}
 .live-item .tm{color:var(--muted);font-size:.75rem;direction:ltr;flex:none;font-variant-numeric:tabular-nums}
 .live-item.star{background:var(--sun-soft);color:var(--sun-ink);font-weight:600}
-.live-item.q{box-shadow:inset 0 0 0 1.5px var(--danger)}
+.live-item.q{background:var(--fill)}
 .live-bar{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);padding:8px 0}
 @media (max-width:1023px){.live-bar{bottom:calc(env(safe-area-inset-bottom,0px) + var(--nav-h) + 8px)}}
 .live-bar textarea{font-size:1.1rem}
-.live-btns{display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;margin-top:6px}
+.live-btns{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:6px}
+.live-btns button{min-width:0;padding-inline:8px;white-space:normal;line-height:1.2}
 .live-cta{width:100%;justify-content:flex-start}
 
 /* ---------- drawing ---------- */
@@ -703,13 +718,13 @@ details.opt>.in{padding:0 16px 16px}
 .dmore{display:block;margin:12px auto 30px}
 
 /* ---------- toast: a glass capsule ---------- */
-#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + var(--nav-h) + 22px);transform:translate(-50%,16px) scale(.96);opacity:0;pointer-events:none;display:flex;align-items:center;gap:12px;background:rgba(28,28,30,.82);color:#fff;padding:10px 12px 10px 18px;padding-inline:18px 10px;border-radius:999px;font-weight:500;font-size:.9375rem;z-index:60;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:opacity .25s,transform .4s var(--spring);max-width:min(92vw,460px)}
-#toast.on{opacity:1;transform:translate(-50%,0) scale(1);pointer-events:auto}
+#toast{position:fixed;left:0;right:0;margin-inline:auto;width:max-content;bottom:calc(env(safe-area-inset-bottom,0px) + var(--nav-h) + 22px);transform:translateY(16px) scale(.96);opacity:0;pointer-events:none;display:flex;align-items:center;gap:12px;background:rgba(28,28,30,.82);color:#fff;padding:10px 12px 10px 18px;padding-inline:18px 10px;border-radius:999px;font-weight:500;font-size:.9375rem;z-index:60;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:opacity .25s,transform .4s var(--spring);max-width:min(92vw,460px)}
+#toast.on{opacity:1;transform:none;pointer-events:auto}
 #toast .msg{line-height:1.4}
 #toast .ic{color:var(--sun);margin:0}
-#toast button{flex:none;background:rgba(255,255,255,.14);border:0;color:var(--sun);font-weight:600;padding:6px 12px;border-radius:999px;min-height:32px}
+#toast button{flex:none;background:rgba(255,255,255,.14);border:0;color:var(--sun);font-weight:600;padding:6px 14px;border-radius:999px;min-height:40px}
 #toast button:hover{background:rgba(255,255,255,.22)}
-@media (min-width:1024px){#toast{bottom:28px;left:calc(50% + (var(--side) + 12px)/2)}}
+@media (min-width:1024px){#toast{bottom:28px;left:calc(var(--side) + 12px)}}
 
 /* ---------- brand ---------- */
 .m-bg{fill:var(--logo-bg)}.m-hl{fill:var(--logo-hl)}.m-ink{fill:var(--logo-ink)}
@@ -729,7 +744,6 @@ details.opt>.in{padding:0 16px 16px}
 @media (prefers-reduced-motion:no-preference){
   #modal.open{animation:fade .25s ease-out}
   #modal.open .sheet{animation:sheetUp .5s var(--spring)}
-  #app.enter>*{animation:rise .4s var(--spring) both}
   .boot .m-hl{animation:draw .7s cubic-bezier(.6,.05,.3,1) .15s both}
   .boot .m-ink{animation:fade .3s ease-out .65s both}
   .boot .boot-word{animation:fade .4s ease-out .3s both}
@@ -740,11 +754,25 @@ details.opt>.in{padding:0 16px 16px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media (prefers-reduced-transparency:reduce){:root{--glass:var(--surface);--glass-strong:var(--surface);--card:var(--surface)}.glass,.top::before,nav#nav,.sheet,#toast,.tabs{-webkit-backdrop-filter:none;backdrop-filter:none}}
+:root{--thumb:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--thumb:#636366}}
+:root[data-theme="dark"]{--thumb:#636366}
+.ckw{display:grid;place-items:center;width:44px;height:44px;margin:-10px;flex:none;cursor:pointer}
+.item .go{flex:none;font-size:.9375rem;font-weight:500;color:var(--link);white-space:nowrap}
+.badge.k-draft{background:var(--fill);color:var(--muted)}
+.ai-err{display:flex;gap:10px;align-items:flex-start}.ai-err .ic{color:var(--danger);margin:3px 0 0;flex:none}
+.wk-day{margin-top:14px}.wk-day h3{font-family:var(--sans);font-size:.8125rem;font-weight:600;color:var(--muted);margin:0 4px 6px}
+.wk-day .tm{color:var(--muted);font-size:.875rem;min-width:3.4em;font-variant-numeric:tabular-nums}
+h1:focus{outline:none}
+.settling .top,.settling #app,.settling nav#nav{pointer-events:none}
+@media (max-width:1023px){html{scroll-padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 24px)}}
+@media (forced-colors:active){[aria-pressed=true],[aria-current=page],[aria-selected=true]{outline:2px solid Highlight;outline-offset:-2px}button{border:1px solid ButtonText}.nav-add{forced-color-adjust:none}}
 @media print{.top,nav#nav,#toast,.crumb,.actions,.cta,.tabs{display:none!important}body{padding:0}body::after,body::before{display:none}.r-body,.field,.list{box-shadow:none}}
 </style>
 </head>
 <body>
 <a class="skip" href="#app">דילוג לתוכן</a>
+<div id="toast" role="status" aria-live="polite"></div>
 <header class="top">
   <div class="top-in">
     <button class="brand" data-act="nav" data-to="home" aria-label="מרקר, מסך הבית">
@@ -954,7 +982,7 @@ function restoreDocs(docs){
 async function downloadBackup(){
   if(!downloadsNs)return;
   const data=JSON.stringify({app:'nekuda',version:1,exportedAt:new Date().toISOString(),docs:allDocs()});
-  try{await downloadsNs.save({filename:'marker-backup-'+todayKey()+'.json',data})}catch(e){}
+  try{await downloadsNs.save({filename:'marker-backup-'+todayKey()+'.json',data});toast('קובץ הגיבוי ירד למכשיר')}catch(e){}
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
 function removeDoc(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
@@ -998,6 +1026,9 @@ function lessonNo(id){const l=S.lessons[id];if(!l)return 0;return lessonsOf(l.co
 function sessLine(s){return `יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}${s.room?', <span class="nw">'+esc(s.room)+'</span>':''}`}
 function sessBlock(s){return `<span class="sl">${ic('clock')}יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}</span>${s.room?`<span class="sl">${ic('pin')}<span class="nw">${esc(s.room)}</span></span>`:''}`}
 function isEmptyLesson(l){return !l.topic&&!l.notes&&!l.key&&!(l.terms||[]).some(t=>t.t||t.d)&&!(l.questions||[]).some(q=>q.t)}
+/* a summary is finished once the student pressed "done", wrote the key point, took its quiz, or it came from an upload */
+function isDone(l){return !!(l.finished||(l.key||'').trim()||(l.quiz&&l.quiz.last!=null)||l.source==='upload')}
+function isDraft(l){return !isEmptyLesson(l)&&!isDone(l)}
 function nowNext(){
   const now=new Date(),dow=now.getDay(),m=now.getHours()*60+now.getMinutes();let best=null;
   for(const c of activeCourses())for(const s of (c.sessions||[])){
@@ -1009,7 +1040,8 @@ function nowNext(){
   }
   return best;
 }
-function dueInfo(due){
+function dueInfo(due,x){
+  if(x&&x.done)return{txt:'בוצע'+(x.doneAt?' '+shortDate(x.doneAt):''),cls:''};
   if(!due)return{txt:'בלי תאריך',cls:''};
   const diff=daysBetween(todayKey(),due);
   if(diff<0)return{txt:`באיחור (${shortDate(due)})`,cls:'due-late'};
@@ -1098,11 +1130,12 @@ function streakInfo(){
   return{s,week,n:week.filter(x=>x.on).length,goal:+(S.profile.goal||4),today:set.has(t)};
 }
 function courseHash(cid){const s=courseText(cid);let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return String(h)}
-function toast(t,opt={}){let el=$('#toast');if(!el){el=document.createElement('div');el.id='toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el)}
+function toast(t,opt={}){const el=$('#toast');if(!el)return;
   el.innerHTML=`${ic(opt.icon||'okc')}<span class="msg">${esc(t)}</span>${opt.undo?'<button type="button" data-toast="undo">ביטול</button>':''}`;
-  el._undo=opt.undo||null;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>{el.classList.remove('on');el._undo=null},opt.undo?6500:3600)}
+  el._undo=opt.undo||null;el.classList.add('on');const hide=ms=>{clearTimeout(el._t);el._t=setTimeout(()=>{if(el.matches(':hover,:focus-within'))return hide(1500);el.classList.remove('on');el._undo=null},ms)};
+  hide(opt.undo?7000:3600)}
 function setOrOpen(html){if(modalOpen)setSheet(html);else openModal(html)}
-const noContent=t=>`<h2>${t}</h2><p>זה נבנה מהסיכומים שלך. כתוב או העלה לפחות סיכום אחד בקורס, ואז נסה שוב.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`;
+const noContent=t=>`<h2>${t}</h2><p>זה נבנה מהסיכומים שלך. כתוב או העלה לפחות סיכום אחד בקורס, ואז נסה שוב.</p><div class="sheet-foot"><button class="ghost" data-act="modal-close">הבנתי</button></div>`;
 function greeting(){const h=new Date().getHours();return h<5?'לילה טוב':h<12?'בוקר טוב':h<17?'צהריים טובים':h<22?'ערב טוב':'לילה טוב'}
 function weekProgress(){
   const t=todayKey(),dow=new Date().getDay(),m=new Date().getHours()*60+new Date().getMinutes();
@@ -1110,43 +1143,76 @@ function weekProgress(){
   activeCourses().forEach(c=>(c.sessions||[]).forEach(s=>{
     if(s.day>dow||(s.day===dow&&toMin(s.start)>m))return;
     const date=addDays(t,s.day-dow);if(S.profile.since&&date<S.profile.since)return;
-    out.push({c,s,date,done:lessonsOf(c.id).some(l=>l.date===date&&!isEmptyLesson(l))});
+    const l=lessonsOf(c.id).find(l=>l.date===date&&!isEmptyLesson(l));
+    out.push({c,s,date,done:!!l&&isDone(l),draft:!!l&&!isDone(l)});
   }));
   return out.sort((a,b)=>a.date.localeCompare(b.date)||toMin(a.s.start)-toMin(b.s.start));
 }
 
 /* ---------- views ---------- */
+/* keep keyboard focus on "the same" control when a screen re-renders */
+function focusKey(el){
+  if(!el||el===document.body)return null;if(el.id&&!/^tab-/.test(el.id))return '#'+CSS.escape(el.id);
+  const a=['act','id','v','m','to','chg','k','qi','i','l','s','td','ts','tsd'].filter(k=>el.dataset&&el.dataset[k]!=null).map(k=>`[data-${k}="${CSS.escape(el.dataset[k])}"]`).join('');
+  return a?el.tagName.toLowerCase()+a:null;
+}
 function render(){
-  const map={course:'courses',lesson:'courses',read:'courses',readall:'courses',live:'courses',listen:'home'};
+  const app=$('#app');
+  if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;markNav();return}
+  const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
+  const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen}[view.name]||vHome;
+  app.innerHTML=iconize(fn());
+  markNav();
+  app.querySelectorAll('textarea').forEach(grow);
+  if(fk){const n=app.querySelector(fk);if(n)n.focus({preventScroll:true})}
+}
+/* the tab bar follows the screen actually shown (a view can fall back to another) */
+function markNav(){
+  const map={course:'courses',lesson:'courses',read:'courses',readall:'courses',live:'courses',listen:LSN.from==='home'?'home':'courses'};
   document.querySelectorAll('#nav button').forEach(b=>{
     if((map[view.name]||view.name)===b.dataset.to)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
   });
-  const app=$('#app');
-  if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;return}
-  const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen}[view.name]||vHome;
-  app.innerHTML=iconize(fn());
-  app.querySelectorAll('textarea').forEach(grow);
 }
-function go(name,id){
+/* browser Back and swipe-back move between the app's own screens and close dialogs */
+const VIEWS=['home','courses','course','lesson','tasks','search','read','readall','live','listen'];
+const hashOf=v=>'#'+v.name+(v.id?'/'+encodeURIComponent(v.id):'');
+let navBack=false,navQueue=null,inPop=false;
+function pushNav(st){
+  if(navBack){navQueue=st;return}
+  const cur=history.state;if(cur&&!st.modal&&!cur.modal&&cur.name===st.name&&cur.id===st.id)return;
+  try{history.pushState(st,'',st.modal?location.hash:hashOf(st))}catch(e){}
+}
+function readHash(){const m=(location.hash||'').match(/^#([a-z]+)(?:\/(.+))?$/);if(!m||!VIEWS.includes(m[1]))return null;return{name:m[1],id:m[2]?decodeURIComponent(m[2]):undefined}}
+window.addEventListener('popstate',e=>{
+  if(navBack){navBack=false;if(navQueue){const q=navQueue;navQueue=null;try{history.pushState(q,'',q.modal?location.hash:hashOf(q))}catch(_){}}return}
+  if(modalOpen){
+    if(formDraft&&formDraft.fromWizard){formDraft=null;setSheet(onbHtml());pushNav({name:view.name,id:view.id,modal:1});return}
+    if(((exam&&!exam.done)||sheetDirty())&&!confirm(exam&&!exam.done?'לצאת מהמבחן? התשובות לא יישמרו.':'לסגור בלי לשמור את השינויים?')){pushNav({name:view.name,id:view.id,modal:1});return}
+    inPop=true;try{closeModal()}finally{inPop=false}return}
+  const st=e.state&&e.state.name?e.state:(readHash()||{name:'home'});
+  go(st.name,st.id,{pop:true});
+});
+function go(name,id,o={}){
   stopSpeak();
   if(view.name==='live'&&S.lessons[view.id])S.lessons[view.id].liveOpen=false;
   if(view.name==='lesson'||view.name==='live'){
-    const l=S.lessons[view.id];
-    if(l&&isEmptyLesson(l)&&!S.tasks.some(t=>t.lessonId===view.id))removeDoc(view.id);
+    const l=S.lessons[view.id],stay=(name==='lesson'||name==='live')&&id===view.id;
+    if(!stay&&l&&isEmptyLesson(l)&&!S.tasks.some(t=>t.lessonId===view.id))removeDoc(view.id);
     flushAll();
   }
+  if(name==='listen'&&view.name!=='listen')LSN.from=view.name;
   view={name,id};render();window.scrollTo(0,0);
-  document.title=(({home:'היום',courses:'הקורסים שלי',tasks:'משימות',search:'חיפוש',listen:'האזנה',live:'מצב שיעור'})[name]||(courseById(id)||{}).name||(S.lessons[id]&&S.lessons[id].topic)||'מרקר')+' – מרקר';
-  const a=$('#app');a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter');clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('enter'),500);
+  if(!o.pop)pushNav({name:view.name,id:view.id});
+  document.title=(({home:'היום',courses:'הקורסים שלי',tasks:'משימות',search:'חיפוש',listen:'האזנה',live:'מצב שיעור'})[view.name]||(courseById(view.id)||{}).name||(S.lessons[view.id]&&S.lessons[view.id].topic)||'מרקר')+' – מרקר';
+  const h=$('#app h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
 }
 
 function taskRow(t,showCourse=true){
   const c=courseById(t.courseId),d=dueInfo(t.due),k=t.kind||'task',st=t.steps||[],sd=st.filter(x=>x.done).length;
   return `<div class="task ${t.done?'done':''}">
-    <input type="checkbox" class="ck" aria-label="${t.done?'בוצע':'לסמן כבוצע'}: ${esc(t.title)}" data-chg="task" data-id="${t.id}" ${t.done?'checked':''}>
+    <label class="ckw"><input type="checkbox" class="ck" aria-label="${t.done?'בוצע':'לסמן כבוצע'}: ${esc(t.title)}" data-chg="task" data-id="${t.id}" ${t.done?'checked':''}></label>
     <button class="open" data-act="task-edit" data-id="${t.id}"><span class="tt">${k!=='task'?`<span class="badge k-${k}">${KINDS[k]}</span>`:''}${esc(t.title)}</span>
-      <span class="meta">${showCourse&&c?`<span>${esc(c.name)}</span>`:''}<span class="${t.done?'':d.cls}">${d.txt}</span>${st.length?`<span class="steps-mini"><i><b style="width:${Math.round(sd/st.length*100)}%"></b></i>${sd}/${st.length}</span>`:''}</span></button>
-    <button class="x" data-act="del-task" data-id="${t.id}" aria-label="מחיקה: ${esc(t.title)}">×</button></div>`;
+      <span class="meta">${showCourse&&c?`<span>${esc(c.name)}</span>`:''}<span class="${t.done?'':d.cls}">${dueInfo(t.due,t).txt}</span>${st.length?`<span class="steps-mini"><i><b style="width:${Math.round(sd/st.length*100)}%"></b></i>${sd}/${st.length}</span>`:''}</span></button></div>`;
 }
 const kindSelect=id=>`<select id="${id}" aria-label="סוג">${Object.entries(KINDS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>`;
 
@@ -1159,7 +1225,7 @@ function todayPlan(){
   else if(S.profile.revDay===t)rows.push({k:'review',n:0,done:true,sort:-2});
   activeCourses().forEach(c=>(c.sessions||[]).forEach(s=>{if(+s.day!==dow)return;
     const st=toMin(s.start),en=toMin(s.end),l=lessonsOf(c.id).find(x=>x.date===t&&!isEmptyLesson(x));
-    rows.push({k:'lesson',c,s,l,done:!!l,live:m>=st-15&&m<=en,ended:m>en,sort:st});
+    rows.push({k:'lesson',c,s,l,done:!!l&&isDone(l),draft:!!l&&!isDone(l),live:m>=st-15&&m<=en,ended:m>en,sort:st});
   }));
   S.tasks.filter(x=>x.due&&x.due<=t&&(!x.done||x.doneAt===t)).sort(sortTasks)
     .forEach(x=>rows.push({k:'task',x,done:!!x.done,late:!x.done&&x.due<t,sort:3000}));
@@ -1170,9 +1236,11 @@ function pickFocus(plan){
   const t=todayKey();
   const live=plan.find(r=>r.k==='lesson'&&r.live&&!r.done);if(live)return{type:'live',r:live};
   const fresh=plan.filter(r=>r.k==='lesson'&&r.ended&&!r.done).pop();if(fresh)return{type:'fresh',r:fresh};
+  const exams=S.tasks.filter(x=>!x.done&&x.kind==='exam'&&x.due&&x.due>=t&&daysBetween(t,x.due)<=7).sort(sortTasks);
+  if(exams[0]&&daysBetween(t,exams[0].due)<=2)return{type:'exam',x:exams[0]};
   const rv=plan.find(r=>r.k==='review'&&!r.done);if(rv)return{type:'review',r:rv};
   const late=plan.find(r=>r.k==='task'&&r.late);if(late)return{type:'late',x:late.x};
-  const exam=S.tasks.filter(x=>!x.done&&x.kind==='exam'&&x.due&&x.due>=t&&daysBetween(t,x.due)<=7).sort(sortTasks)[0];if(exam)return{type:'exam',x:exam};
+  if(exams[0])return{type:'exam',x:exams[0]};
   const today=plan.find(r=>r.k==='task'&&!r.done);if(today)return{type:'task',x:today.x};
   const nx=nowNext();if(nx)return{type:'next',nx};
   return{type:'clear'};
@@ -1180,9 +1248,9 @@ function pickFocus(plan){
 function recallHtml(c){
   const t=todayKey(),ls=lessonsOf(c.id),last=ls.filter(l=>l.date!==t&&!isEmptyLesson(l)).pop();
   const openQ=ls.flatMap(l=>(l.questions||[]).filter(q=>q.t&&!q.done)).slice(0,3);let h='';
-  if(last&&last.key)h+=`<div class="recall keypt"><b>הנקודה מהשיעור הקודם (${shortDate(last.date)})</b>${esc(last.key)}</div>`;
+  if(last&&last.key)h+=`<div class="recall keypt"><b>הנקודה החשובה מהשיעור הקודם (${shortDate(last.date)})</b>${esc(last.key)}</div>`;
   else if(last&&last.topic)h+=`<div class="recall"><b>בשיעור הקודם (${shortDate(last.date)})</b>${esc(last.topic)}</div>`;
-  if(openQ.length)h+=`<div class="recall"><b>שאלות שרצית לשאול</b><ul>${openQ.map(q=>`<li>${esc(q.t)}</li>`).join('')}</ul></div>`;
+  if(openQ.length)h+=`<div class="recall"><b>שאלות לשיעור הבא</b><ul>${openQ.map(q=>`<li>${esc(q.t)}</li>`).join('')}</ul></div>`;
   return h;
 }
 function stepsLine(x){const st=x.steps||[];if(!st.length)return '';const d=st.filter(s=>s.done).length,nx=st.find(s=>!s.done);
@@ -1204,7 +1272,7 @@ function focusHtml(f){
       `<button class="primary big" data-act="task-done" data-id="${x.id}">${ic('check')}סיימתי את זה</button><div class="alt"><button class="link" data-act="task-edit" data-id="${x.id}">${(x.steps||[]).length?'לראות את הצעדים':'לחלק לצעדים קטנים'}</button></div>`)}
     case 'exam':{const x=f.x,c=courseById(x.courseId),d=daysBetween(t,x.due);
       return card(c?c.color:'',d===0?'המבחן היום':d===1?'המבחן מחר':`המבחן בעוד ${d} ימים`,esc(x.title),(c?`<span>${ic('book')}${esc(c.name)}</span>`:'')+`<span>${ic('cal')}${shortDate(x.due)}</span>`,stepsLine(x),
-      c?`<button class="primary big" data-act="plan" data-id="${x.id}">${ic('cal')}תוכנית חזרה עד המבחן</button><div class="alt"><button class="link" data-act="open-course" data-id="${c.id}" data-tab="learn">לתרגל את הקורס</button></div>`
+      c?`<button class="primary big" data-act="exam-practice" data-id="${c.id}">${ic('zap')}לתרגל עכשיו</button><div class="alt"><button class="link" data-act="plan" data-id="${x.id}">תוכנית חזרה עד המבחן</button></div>`
        :`<button class="primary big" data-act="task-edit" data-id="${x.id}">לפרטי המבחן</button>`)}
     case 'next':{const {c,s,dd}=f.nx,ls=lessonsOf(c.id).filter(l=>!isEmptyLesson(l)),last=ls[ls.length-1];
       const when=dd===0?`השיעור הבא, היום ב-${T(s.start)}`:dd===1?`השיעור הבא, מחר ב-${T(s.start)}`:`השיעור הבא, יום ${DAYS[s.day]} ב-${T(s.start)}`;
@@ -1219,14 +1287,14 @@ function agendaRow(r){
   if(r.k==='review')return `<${r.done?'div':'button'} class="agenda-row ${r.done?'done':''}" ${r.done?'':'data-act="review"'} style="--c:var(--spark)"><span class="when"></span><span class="mk">${ic(r.done?'check':'zap')}</span>
     <span class="grow"><strong>חזרה יומית</strong><span class="small">${r.done?'בוצעה היום':`${r.n} שאלות, בערך ${Math.max(1,Math.round(r.n/3))} דק׳`}</span></span>${r.done?'':'<span class="go">להתחיל</span>'}</${r.done?'div':'button'}>`;
   if(r.k==='lesson'){const {c,s,l}=r;
-    const act=r.done?`data-act="open-lesson" data-id="${l.id}"`:r.live?`data-act="live-course" data-id="${c.id}"`:`data-act="today-lesson" data-id="${c.id}"`;
-    const st=r.done?'יש סיכום':r.live?'עכשיו':r.ended?'עוד אין סיכום':'בהמשך היום';
-    const go=r.done?'לקרוא':r.live?'לרשום':r.ended?'לסכם':'';
+    const act=r.done?`data-act="open-lesson" data-id="${l.id}"`:r.live?`data-act="live-course" data-id="${c.id}"`:r.draft?`data-act="edit-lesson" data-id="${l.id}"`:`data-act="today-lesson" data-id="${c.id}"`;
+    const st=r.done?'יש סיכום':r.live?'עכשיו':r.draft?'טיוטה, עוד לא סיימת':r.ended?'עוד אין סיכום':'בהמשך היום';
+    const go=r.done?'לקרוא':r.live?'לרשום':r.draft?'להמשיך':r.ended?'לסכם':'';
     return `<button class="agenda-row ${r.done?'done':''}" style="--c:${c.color}" ${act}><span class="when">${T(s.start)}</span><span class="mk">${ic(r.done?'check':'pencil')}</span>
       <span class="grow"><strong>${esc(c.name)}</strong><span class="small">${st}${s.room?', '+esc(s.room):''}</span></span>${go?`<span class="go">${go}</span>`:''}</button>`}
   const x=r.x,c=courseById(x.courseId),d=dueInfo(x.due),k=x.kind||'task';
   return `<div class="agenda-row ${r.done?'done':''} ${r.late?'late':''}"><span class="when"></span>
-    <input type="checkbox" class="ck" data-chg="task" data-id="${x.id}" ${x.done?'checked':''} aria-label="${x.done?'בוצע':'לסמן כבוצע'}: ${esc(x.title)}">
+    <label class="ckw"><input type="checkbox" class="ck" data-chg="task" data-id="${x.id}" ${x.done?'checked':''} aria-label="${x.done?'בוצע':'לסמן כבוצע'}: ${esc(x.title)}"></label>
     <button class="open" data-act="task-edit" data-id="${x.id}"><strong>${k!=='task'?`<span class="badge k-${k}">${KINDS[k]}</span>`:''}${esc(x.title)}</strong><span class="small">${c?esc(c.name)+', ':''}${r.done?'בוצע':d.txt}</span></button></div>`;
 }
 function progressHtml(){
@@ -1237,14 +1305,14 @@ function progressHtml(){
     <div class="txt"><b>${wp.length?(miss.length?`${n} מתוך ${wp.length} שיעורים סוכמו`:'כל השיעורים של השבוע סוכמו'):'השבוע עוד לא היו שיעורים'}</b>
     <span>${sk.s?`${sk.s} ${sk.s===1?'יום':'ימים'} ברצף. `:''}${sk.n} מתוך ${sk.goal} ימי לימוד ביעד השבועי</span></div></div>
     <div class="wk" role="img" aria-label="ימי לימוד השבוע: ${sk.n}">${sk.week.map((x,i)=>`<i class="${x.on?'on':''} ${x.today?'today':''}">${'אבגדהוש'[i]}</i>`).join('')}</div>
-    ${miss.length?`<p class="small" style="margin:12px 0 0">חסר סיכום: ${miss.slice(0,3).map(x=>`<button class="link" style="padding:0" data-act="lesson-on" data-id="${x.c.id}" data-date="${x.date}">${esc(x.c.name)} (${shortDate(x.date)})</button>`).join(', ')}</p>`:''}
+    ${miss.length?`<p class="small" style="margin:12px 0 0">עוד לא סוכמו:</p><div class="chips" style="margin:6px 0 0">${miss.slice(0,3).map(x=>`<button data-act="lesson-on" data-id="${x.c.id}" data-date="${x.date}">${esc(x.c.name)} (${shortDate(x.date)}${x.draft?', טיוטה':''})</button>`).join('')}</div>`:''}
   </div></section>`;
 }
 function upcomingHtml(){
   const t=todayKey(),up=S.tasks.filter(x=>!x.done&&x.due&&x.due>t&&daysBetween(t,x.due)<=14).sort(sortTasks).slice(0,5);
   return `<section class="block"><h2 class="sec-h"><span>בשבועיים הקרובים</span><button class="link" data-act="nav" data-to="tasks">כל המשימות</button></h2>
   ${up.length?`<div class="list">${up.map(x=>{const c=courseById(x.courseId),d=daysBetween(t,x.due),k=x.kind||'task';
-    return `<button class="exam item" data-act="task-edit" data-id="${x.id}"><span class="days ${k==='exam'?'':'n'}">${d}<small>${d===1?'יום':'ימים'}</small></span>
+    return `<button class="exam item" data-act="task-edit" data-id="${x.id}" ${k==='exam'?`aria-label="${esc(x.title)}, ${dueInfo(x.due).txt}. פתיחה ותרגול"`:''}><span class="days ${k==='exam'?'':'n'}">${d}<small>${d===1?'יום':'ימים'}</small></span>
       <span class="grow"><strong>${k!=='task'?`<span class="badge k-${k}">${KINDS[k]}</span>`:''}${esc(x.title)}</strong><span class="small">${c?esc(c.name)+', ':''}${dueInfo(x.due).txt}</span></span></button>`}).join('')}</div>`
     :'<p class="hint">אין דדליינים בשבועיים הקרובים.</p>'}</section>`;
 }
@@ -1256,13 +1324,21 @@ function vHome(){
       <div class="actions">${TEMPLATE?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים מוכנים עם ימים, שעות וכיתות</span></button>`:''}<button class="primary" data-act="new-course">${ic('plus')}הוספת קורס</button></div></div>`+localNote();
   }
   const plan=todayPlan(),f=pickFocus(plan),dn=plan.filter(r=>r.done).length;
-  h+=`<div class="home-grid"><div class="home-main">${focusHtml(f)}
+  h+=`<div class="home-grid"><div class="home-main">${focusHtml(f)}${draftsHtml()}
     <section class="block"><h2 class="sec-h"><span>התוכנית להיום</span>${plan.length?`<span class="plan-sum">${dn} מתוך ${plan.length} בוצעו</span>`:''}</h2>
     ${plan.length?`<div class="list agenda">${plan.map(agendaRow).join('')}</div>`:'<p class="hint">אין היום שיעורים, חזרות או משימות.</p>'}</section></div>
     <aside>${progressHtml()}
-    <div class="qtiles" role="group" aria-label="כלים" style="margin-top:14px">${sampleFn?`<button data-act="upload">📷 העלאה</button>`:''}<button data-act="listen">🎧 האזנה</button><button data-act="timer">⏱ ריכוז</button><button data-act="weekly">📅 השבוע</button></div>
+    <div class="qtiles" role="group" aria-label="כלים" style="margin-top:14px"><button data-act="weekly">📅 השבוע</button><button data-act="listen">🎧 האזנה</button><button data-act="timer">⏱ ריכוז</button></div>
     ${upcomingHtml()}</aside></div>`;
   return h+localNote();
+}
+/* summaries that were started and not finished: one tap back into the editor */
+function draftsHtml(){
+  const t=todayKey(),ds=Object.entries(S.lessons).filter(([,l])=>{const c=courseById(l.courseId);return c&&!c.archived&&isDraft(l)&&(l.date||'')>=addDays(t,-21)})
+    .sort((a,b)=>(b[1].date||'').localeCompare(a[1].date||'')).slice(0,3);
+  if(!ds.length)return '';
+  return `<section class="block"><h2 class="sec-h">להמשיך מאיפה שעצרת</h2><div class="list">${ds.map(([id,l])=>{const c=courseById(l.courseId);
+    return `<button class="item" style="--c:${c.color}" data-act="edit-lesson" data-id="${id}"><span class="dot"></span><span class="grow"><strong>${esc(l.topic||'סיכום בלי נושא')}</strong><span class="small">${esc(c.name)}, טיוטה מ-${shortDate(l.date)}</span></span><span class="go">להמשיך</span></button>`}).join('')}</div></section>`;
 }
 function localNote(){return store&&store.kind==='local'?`<p class="note">מרקר שומר את המחברת שלך במכשיר הזה בלבד, ורק אתה רואה אותה. כדאי לעבוד תמיד מאותו מכשיר ואותו דפדפן, ולהוריד מדי פעם גיבוי מההגדרות.</p>`:''}
 
@@ -1299,12 +1375,22 @@ function vCourse(){
   const keys=filled.map((l,i)=>({k:l.key,no:i+1})).filter(x=>x.k);
   const openQ=ls.flatMap(l=>(l.questions||[]).map((q,qi)=>({...q,lid:l.id,qi}))).filter(q=>q.t&&!q.done);
   const tasks=S.tasks.filter(x=>x.courseId===c.id).sort(sortTasks),openT=tasks.filter(x=>!x.done),doneT=tasks.filter(x=>x.done);
-  const nx=nowNext(),liveHere=nx&&nx.live&&nx.c.id===c.id;
+  const nx=nowNext(),liveHere=nx&&nx.live&&nx.c.id===c.id,dow=new Date().getDay(),meetsToday=(c.sessions||[]).some(s=>+s.day===dow);
+  const draft=filled.filter(l=>isDraft(l)).pop();
+  const ex=S.tasks.filter(x=>!x.done&&x.kind==='exam'&&x.courseId===c.id&&x.due&&x.due>=t&&daysBetween(t,x.due)<=21).sort(sortTasks)[0],exD=ex?daysBetween(t,ex.due):99;
+  let miss=null;for(let k=1;k<=7&&!miss;k++){const d=addDays(t,-k);if(S.profile.since&&d<S.profile.since)break;if((c.sessions||[]).some(s=>+s.day===keyToDate(d).getDay())&&!all.some(l=>l.date===d&&!isEmptyLesson(l)))miss=d}
+  const main=todayL&&!isEmptyLesson(todayL)?`<button class="primary big" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}להמשיך את הסיכום של היום</button>`
+    :meetsToday?`<button class="primary big" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}סיכום לשיעור של היום</button>`
+    :ex&&exD<=7?`<button class="primary big" data-act="exam-practice" data-id="${c.id}">${ic('zap')}לתרגל למבחן</button>`
+    :draft?`<button class="primary big" data-act="edit-lesson" data-id="${draft.id}">${ic('pencil')}להמשיך את הטיוטה${draft.topic?': '+esc(draft.topic):''}</button>`
+    :miss?`<button class="primary big" data-act="lesson-on" data-id="${c.id}" data-date="${miss}">${ic('pencil')}לסכם את השיעור מיום ${DAYS[keyToDate(miss).getDay()]} (${shortDate(miss)})</button>`
+    :filled.length?`<button class="primary big" data-act="course-tab" data-v="learn">${ic('zap')}לחזור על החומר</button>`
+    :`<button class="primary big" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}לכתוב סיכום ראשון</button>`;
   if(courseTab==='terms'&&!terms.length)courseTab='notes';
-  const tab=(k,label,n)=>`<button role="tab" id="tab-${k}" aria-controls="cpanel" aria-selected="${courseTab===k}" data-act="course-tab" data-v="${k}">${label}${n?`<span class="n">${n}</span>`:''}</button>`;
+  const tab=(k,label,n)=>`<button role="tab" id="tab-${k}" aria-controls="cpanel" aria-selected="${courseTab===k}" tabindex="${courseTab===k?0:-1}" data-act="course-tab" data-v="${k}">${label}${n?`<span class="n">${n}</span>`:''}</button>`;
   const lessonRow=l=>`<button class="item lesson-item" data-act="open-lesson" data-id="${l.id}"><span class="grow">
-      <span class="no">${l.star?'⭐ ':''}שיעור ${ls.indexOf(l)+1}, ${esc(shortDate(l.date))}${l.source==='upload'?'<span class="src">מקובץ</span>':''}</span><br><strong>${esc(l.topic||'בלי נושא')}</strong>
-      ${l.key?`<span class="keyline">${esc(l.key)}</span>`:''}${l.quiz&&l.quiz.last!=null?`<span class="small" style="margin-top:4px">מבחן: ${l.quiz.last} מתוך ${(l.quiz.qs||[]).length}</span>`:''}</span></button>`;
+      <span class="no">${l.star?'⭐ ':''}שיעור ${ls.indexOf(l)+1}, ${esc(shortDate(l.date))}${l.source==='upload'?'<span class="src">מקובץ</span>':''}${isDraft(l)?' <span class="badge k-draft">טיוטה</span>':''}</span><br><strong>${esc(l.topic||'בלי נושא')}</strong>
+      ${l.key?`<span class="keyline">${esc(l.key)}</span>`:''}${l.quiz&&l.quiz.last!=null?`<span class="small" style="margin-top:4px">בוחן: ${l.quiz.last} מתוך ${(l.quiz.qs||[]).length}</span>`:''}</span></button>`;
   let panel='';
   if(courseTab==='learn'){
     panel=!filled.length?`<div class="empty" style="margin-top:16px"><b>עוד אין על מה לתרגל</b>אחרי הסיכום הראשון יופיעו כאן קריאה רציפה, האזנה, כרטיסיות ומבחנים.<div class="actions"><button class="primary" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}לכתוב סיכום</button></div></div>`
@@ -1316,11 +1402,11 @@ function vCourse(){
       ${sampleFn?`<button class="tool" data-act="ask" data-id="${c.id}">💬 <span>שאלה על החומר<small>תשובה לפי הסיכומים שלך</small></span></button>`:''}
     </div></div>
     <div class="tgroup"><h3>לבדוק את עצמי</h3><div class="trow">
-      ${sampleFn?`<button class="tool" data-act="course-quiz" data-id="${c.id}">✅ <span>מבחן אמריקאי<small>15 שאלות מכל השיעורים</small></span></button>`:''}
+      ${sampleFn?`<button class="tool" data-act="course-quiz" data-id="${c.id}">✅ <span>בוחן על כל הקורס<small>15 שאלות, תשובה מיד אחרי כל אחת</small></span></button>`:''}
       ${sampleFn?`<button class="tool" data-act="exam-setup" data-id="${c.id}">⏱ <span>סימולציית מבחן<small>עם שעון, כמו באמת</small></span></button>`:''}
       <button class="tool" data-act="weak" data-id="${c.id}">📉 <span>נקודות חולשה<small>על מה כדאי לחזור</small></span></button>
     </div></div>
-    ${keys.length>1?`<section class="block"><details class="gloss"><summary>חזרה מהירה: כל הנקודות החשובות (${keys.length})</summary><ol class="keys">${keys.map(x=>`<li value="${x.no}">${esc(x.k)}</li>`).join('')}</ol></details></section>`:''}`;
+    ${keys.length>1?`<section class="block"><details class="gloss"><summary>הנקודות החשובות של הקורס (${keys.length})</summary><ol class="keys">${keys.map(x=>`<li value="${x.no}">${esc(x.k)}</li>`).join('')}</ol></details></section>`:''}`;
   }else if(courseTab==='tasks'){
     panel=`<div style="margin-top:16px">${openT.length?`<div class="list">${openT.map(x=>taskRow(x,false)).join('')}</div>`:'<p class="hint">אין משימות פתוחות בקורס הזה.</p>'}
       <button class="add" style="margin-top:10px" data-act="task-new" data-cid="${c.id}">${ic('plus')}משימה, הגשה או מבחן</button></div>
@@ -1329,13 +1415,10 @@ function vCourse(){
     panel=`<div class="actions"><button class="ghost" data-act="practice" data-id="${c.id}">🃏 לתרגל את המושגים</button></div>
       <div class="gg" style="margin-top:12px">${terms.map(x=>`<div class="gcard"><b>${esc(x.t)}</b><span>${esc(x.d||'')}</span><span class="small" style="display:block;margin-top:4px">שיעור ${x.no}</span></div>`).join('')}</div>`;
   }else{
-    panel=`<div class="trow" style="margin-top:16px">
-      <button class="tool" data-act="new-lesson" data-id="${c.id}">✏️ <span>סיכום לתאריך אחר<small>שיעור שפספסתי לסכם</small></span></button>
-      ${sampleFn?`<button class="tool" data-act="upload" data-id="${c.id}">📷 <span>העלאת מצגת או דף<small>לסכם, להעתיק או ללמוד מאפס</small></span></button>`:''}</div>
-    ${openQ.length?`<section class="block"><h2 class="sec-h">לשאול בשיעור הבא</h2><div class="list">${openQ.map(q=>`<label class="task"><input type="checkbox" class="ck" data-chg="q" data-lid="${q.lid}" data-qi="${q.qi}" aria-label="קיבלתי תשובה"><span class="grow">${esc(q.t)}<span class="small">מסמנים כשמקבלים תשובה</span></span></label>`).join('')}</div></section>`:''}
-    <section class="block"><h2 class="sec-h">כל הסיכומים</h2>
+    panel=`${openQ.length?`<section class="block"><h2 class="sec-h">שאלות לשיעור הבא</h2><div class="list">${openQ.map(q=>`<label class="task"><input type="checkbox" class="ck" data-chg="q" data-lid="${q.lid}" data-qi="${q.qi}" aria-label="קיבלתי תשובה"><span class="grow">${esc(q.t)}<span class="small">מסמנים כשמקבלים תשובה</span></span></label>`).join('')}</div></section>`:''}
+    <section class="block" ${openQ.length?'':'style="margin-top:16px"'}><h2 class="sec-h">כל הסיכומים</h2>
       ${ls.length?`<div class="list">${ls.slice().reverse().map(lessonRow).join('')}</div>`
-        :`<div class="empty"><b>עוד אין סיכומים</b>אחרי כל שיעור לוחצים “סיכום לשיעור של היום” וכותבים, אפילו בקצרה.</div>`}
+        :`<div class="empty"><b>עוד אין סיכומים</b>אחרי כל שיעור לוחצים על הכפתור הירוק למעלה וכותבים, אפילו בקצרה.</div>`}
     </section>`;
   }
   return `<div class="crumb"><button class="link" data-act="nav" data-to="courses">→ כל הקורסים</button></div>
@@ -1344,13 +1427,14 @@ function vCourse(){
     <h1>${esc(c.name)}</h1>
     ${c.teacher?`<p class="sub">${esc(c.teacher)}</p>`:''}
     <div class="cc-sess">${(c.sessions||[]).map(sessBlock).join('')}</div>
+    ${ex?`<div class="exam-note"><span>${ic('cal')}<b>${esc(ex.title)}</b> ${exD===0?'היום':exD===1?'מחר':`בעוד ${exD} ימים`}</span>${/exam-practice/.test(main)?`<button class="link" data-act="task-edit" data-id="${ex.id}">פרטים</button>`:`<button class="link" data-act="exam-practice" data-id="${c.id}">לתרגל עכשיו</button>`}</div>`:''}
     <div class="actions">
-      <button class="primary big" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}${todayL&&!isEmptyLesson(todayL)?'להמשיך את הסיכום של היום':'סיכום לשיעור של היום'}</button>
+      ${main}
       ${liveHere?`<button class="ghost" style="flex:1" data-act="live-course" data-id="${c.id}">✍️ רישום מהיר בזמן השיעור</button>`:''}
     </div>
-    <div class="hero-links"><button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length&&downloadsNs?`<button class="link" data-act="export" data-id="${c.id}">הורדת כל הסיכומים</button>`:''}</div>
+    <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">העלאת מצגת</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length&&downloadsNs?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
   </header>
-  <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','תרגול')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
+  <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','למידה')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
   <div class="tabpanel" id="cpanel" role="tabpanel" aria-labelledby="tab-${courseTab}">${panel}</div>`;
 }
 
@@ -1367,7 +1451,7 @@ function vLesson(){
       <div><span class="chip">${esc(c.name)}</span><h1>שיעור ${no}</h1></div>
       <label class="date"><span class="sr">תאריך השיעור</span><input type="date" data-f="date" value="${esc(l.date)}"></label>
     </div>
-    <p class="hint">הכול נשמר לבד. ממלאים מלמעלה למטה, ובסוף לוחצים “סיימתי” ומקבלים מבחן קצר על השיעור.</p>
+    <p class="hint">הכול נשמר לבד. ממלאים מלמעלה למטה, ובסוף לוחצים “סיימתי” ומקבלים בוחן קצר על השיעור.</p>
     <button class="ghost" style="width:100%;margin-top:6px;justify-content:flex-start" data-act="live" data-id="${view.id}">✍️ מצב שיעור: רישום מהיר תוך כדי ההרצאה</button>
     ${ai&&isEmptyLesson(l)?`<button class="ghost" style="width:100%;margin-top:6px" data-act="upload-missed" data-id="${view.id}">📷 פספסתי את השיעור? להעלות את המצגת וללמוד מאפס</button>`:''}
     <div class="field">
@@ -1375,7 +1459,7 @@ function vLesson(){
       <input type="text" id="f-topic" data-f="topic" value="${esc(l.topic)}" placeholder="למשל: היצע וביקוש">
     </div>
     <div class="field">
-      <span class="lbl">מה למדנו</span>
+      <h2 class="lbl">מה למדנו</h2>
       <p class="hint">כתוב חופשי, אפילו מבולגן. אפשר גם להכתיב עם המיקרופון במקלדת.${ai?' אחר כך Claude יעזור לסדר.':''}</p>
       <div class="rtb-wrap"><div class="rtb" role="toolbar" aria-label="עיצוב טקסט">
         <button data-fmt="h" data-v="h2" title="כותרת">כותרת</button>
@@ -1396,31 +1480,31 @@ function vLesson(){
         ${ai?'<button class="ai-b" data-fmt="explain" title="סמן מילה או משפט ולחץ">✨ הסבר לי</button>':''}
       </div></div>
       <div id="f-rich" class="rich" contenteditable="true" role="textbox" aria-multiline="true" aria-label="מה למדנו" data-ph="כותבים כאן מה למדנו.&#10;סמן טקסט כדי להדגיש, לשנות גודל או להפוך לכותרת.">${notesHtmlOf(l)}</div>
-      ${ai?`<div class="tools"><button class="ai" data-act="ai-organize">✨ לסדר לי את הסיכום</button>${(l.notes||l.terms?.length)?'<button class="ai" data-act="ai-quiz">✨ מבחן אמריקאי על השיעור</button>':''}</div>`:''}
+      ${ai?`<div class="tools"><button class="ai" data-act="ai-organize">✨ לסדר לי את הסיכום</button></div>`:''}
       ${l.prevNotes!=null?`<button class="link" data-act="undo-ai">להחזיר את הגרסה שכתבתי</button>`:''}
     </div>
-    <details class="opt" ${terms.length?'open':''}><summary>${ic('cards')}<b>מושגים חדשים</b><span class="small">${terms.filter(x=>x.t).length||'לא חובה'}</span></summary><div class="in">
+    <details class="opt" ${terms.length?'open':''}><summary>${ic('cards')}<b>מושגים</b><span class="small">${terms.filter(x=>x.t).length||'לא חובה'}</span></summary><div class="in">
       <p class="hint">המושג, ומה הוא אומר במילים שלך. מכאן נבנים המילון והכרטיסיות.</p>
       <div class="rows">${terms.map((x,i)=>`<div class="row">
-        <input type="text" data-l="terms" data-i="${i}" data-k="t" value="${esc(x.t)}" placeholder="מושג">
-        <textarea data-l="terms" data-i="${i}" data-k="d" rows="1" placeholder="מה זה אומר">${esc(x.d)}</textarea>
+        <input type="text" data-l="terms" data-i="${i}" data-k="t" value="${esc(x.t)}" placeholder="מושג" aria-label="מושג ${i+1}">
+        <textarea data-l="terms" data-i="${i}" data-k="d" rows="1" placeholder="מה זה אומר" aria-label="הסבר למושג ${i+1}">${esc(x.d)}</textarea>
         <button class="x" data-act="rm-row" data-l="terms" data-i="${i}" aria-label="מחק מושג">×</button></div>`).join('')}</div>
       <button class="add" data-act="add-row" data-l="terms">+ מושג</button>
     </div></details>
-    <details class="opt" ${qs.length?'open':''}><summary>${ic('help')}<b>מה לא הבנתי</b><span class="small">${qs.filter(x=>x.t).length||'לא חובה'}</span></summary><div class="in">
+    <details class="opt" ${qs.length?'open':''}><summary>${ic('help')}<b>שאלות לשיעור הבא</b><span class="small">${qs.filter(x=>x.t).length||'לא חובה'}</span></summary><div class="in">
       <p class="hint">השאלות יופיעו לך לפני השיעור הבא, כדי לא לשכוח לשאול.</p>
       <div class="rows">${qs.map((q,i)=>`<div class="row q ${q.done?'answered':''}">
         <input type="checkbox" data-l="questions" data-i="${i}" data-k="done" ${q.done?'checked':''} aria-label="קיבלתי תשובה">
-        <input type="text" data-l="questions" data-i="${i}" data-k="t" value="${esc(q.t)}" placeholder="השאלה">
+        <input type="text" data-l="questions" data-i="${i}" data-k="t" value="${esc(q.t)}" placeholder="השאלה" aria-label="שאלה ${i+1}">
         <button class="x" data-act="rm-row" data-l="questions" data-i="${i}" aria-label="מחק שאלה">×</button></div>`).join('')}</div>
       <button class="add" data-act="add-row" data-l="questions">+ שאלה</button>
     </div></details>
     <details class="opt" ${myTasks.length?'open':''}><summary>${ic('check')}<b>משימות מהשיעור</b><span class="small">${myTasks.length||'לא חובה'}</span></summary><div class="in">
       ${myTasks.length?`<div class="list" style="margin-bottom:10px">${myTasks.map(x=>taskRow(x,false)).join('')}</div>`:''}
-      <div class="addrow"><input type="text" id="lt-title" placeholder="למשל: להגיש תרגיל 1" aria-label="משימה חדשה">${kindSelect('lt-kind')}<input type="date" id="lt-due" aria-label="עד מתי"><button class="primary" data-act="add-task-lesson">הוספה</button></div>
+      <button class="add" data-act="task-new" data-cid="${c.id}" data-lid="${view.id}">${ic('plus')}משימה מהשיעור</button>
     </div></details>
     <div class="field key">
-      <label for="f-key">הנקודה: הדבר הכי חשוב מהשיעור, במשפט אחד</label>
+      <label for="f-key">הנקודה החשובה: הדבר הכי חשוב מהשיעור, במשפט אחד</label>
       <p class="hint" style="color:var(--sun-ink)">זה המשפט שמרקר יזכיר לך לפני השיעור הבא.</p>
       <textarea id="f-key" data-f="key" rows="2" placeholder="אם הייתי זוכר רק דבר אחד…">${esc(l.key)}</textarea>
     </div>
@@ -1441,11 +1525,11 @@ function lessonReadHtml(id,l,no,full){
   const imgs=(l.files||[]).filter(f=>f.kind==='image');
   const d=l.notes?decorateNotes(notesHtmlOf(l)):{html:'',toc:[]};
   const terms=(l.terms||[]).filter(x=>x.t);
-  return `${l.key?`<div class="r-key"><b>השורה התחתונה</b><span class="hl">${esc(l.key)}</span></div>`:''}
+  return `${l.key?`<div class="r-key"><b>הנקודה החשובה</b><span class="hl">${esc(l.key)}</span></div>`:''}
     ${full&&d.toc.length>=3?`<nav class="toc" aria-label="תוכן השיעור"><b>בשיעור הזה</b><ol>${d.toc.map((t,i)=>`<li><button data-act="toc" data-v="sec-${i+1}">${esc(t)}</button></li>`).join('')}</ol></nav>`:''}
-    ${l.notes?`<div class="r-body rich numbered">${d.html}</div>`:''}
-    ${terms.length?`<section class="gloss-grid"><h3>מילון מושגים <span>${terms.length}</span></h3><div class="gg">${terms.map(x=>`<div class="gcard"><b>${esc(x.t)}</b><span>${esc(x.d||'')}</span></div>`).join('')}</div></section>`:''}
-    ${full&&(l.questions||[]).some(x=>x.t)?`<div class="r-body"><h3>שאלות ששאלתי</h3><ul>${l.questions.filter(x=>x.t).map(x=>`<li>${esc(x.t)}${x.done?' ✓':''}</li>`).join('')}</ul></div>`:''}
+    ${l.notes?`<h2 class="sr">הסיכום</h2><div class="r-body rich numbered">${d.html}</div>`:''}
+    ${terms.length?`<section class="gloss-grid"><h3>מושגים <span>${terms.length}</span></h3><div class="gg">${terms.map(x=>`<div class="gcard"><b>${esc(x.t)}</b><span>${esc(x.d||'')}</span></div>`).join('')}</div></section>`:''}
+    ${full&&(l.questions||[]).some(x=>x.t)?`<div class="r-body"><h3>שאלות לשיעור הבא</h3><ul>${l.questions.filter(x=>x.t).map(x=>`<li>${esc(x.t)}${x.done?' ✓':''}</li>`).join('')}</ul></div>`:''}
     ${imgs.length?`<div class="r-imgs">${imgs.map(f=>`<img src="/_blob/${esc(f.id)}" alt="${esc(f.name||'תמונה מקורית')}" loading="lazy">`).join('')}</div>`:''}
     ${(l.files||[]).filter(f=>f.kind!=='image').map(f=>`<p class="hint">מקור: ${esc(f.name)}</p>`).join('')}`;
 }
@@ -1459,21 +1543,20 @@ function vRead(){
   return `<div class="crumb"><button class="link" data-act="open-course" data-id="${c.id}">→ חזרה ל${esc(c.name)}</button></div>
   <article class="reader" style="--c:${c.color}">
     <header class="r-hero">
-      <div class="r-meta"><span class="chip">${esc(c.name)}</span><span>שיעור ${lessonNo(view.id)}</span><span>${esc(shortDate(l.date))}</span><span>${readMinutes(l)} דק׳ קריאה</span>${done?`<span class="r-score">מבחן: ${l.quiz.last}/${qn}</span>`:''}</div>
+      <div class="r-meta"><span class="chip">${esc(c.name)}</span><span>שיעור ${lessonNo(view.id)}</span><span>${esc(shortDate(l.date))}</span><span>${readMinutes(l)} דק׳ קריאה</span>${done?`<span class="r-score">בוחן: ${l.quiz.last}/${qn}</span>`:''}</div>
       <h1>${esc(l.topic||'בלי נושא')}</h1>
       <button class="star" data-act="star" aria-pressed="${!!l.star}">${l.star?'⭐ מסומן כחשוב':'☆ לסמן כחשוב'}</button>
     </header>
     ${lessonReadHtml(view.id,l,lessonNo(view.id),true)}
-    ${canQuiz?`<div class="cta"><div class="grow"><b>${done?'רוצה לבדוק שוב?':'מוכן לבדוק את עצמך?'}</b><span>${qn>=8?`${qn} שאלות אמריקאיות, כ-${Math.max(3,Math.round(qn*0.4))} דקות`:'מבחן אמריקאי על כל החומר בשיעור'}</span></div><button class="primary" data-act="ai-quiz">${done?'מבחן שוב':'להתחיל מבחן'}</button></div>`:''}
+    ${canQuiz?`<div class="cta"><div class="grow"><b>${done?'רוצה לבדוק שוב?':'מוכן לבדוק את עצמך?'}</b><span>${qn>=8?`${qn} שאלות אמריקאיות, כ-${Math.max(3,Math.round(qn*0.4))} דקות`:'בוחן אמריקאי על כל החומר בשיעור'}</span></div><button class="primary" data-act="ai-quiz">${done?'בוחן שוב':'להתחיל בוחן'}</button></div>`:''}
     <div class="actions">
-      ${sampleFn?`<button class="ghost" data-act="ask" data-id="${c.id}">💬 לא הבנתי משהו</button>`:''}
+      ${sampleFn?`<button class="ghost" data-act="ask" data-id="${c.id}">💬 שאלה על החומר</button>`:''}
       <button class="ghost" data-act="listen-lesson" data-id="${view.id}">🎧 להאזין</button>
-      <button class="ghost" data-act="speak" id="speak-btn">🔊 הקראה</button>
       ${sampleFn?`<button class="ghost" data-act="cards" data-id="${view.id}">🃏 כרטיסיות</button>`:''}
       ${sampleFn?`<button class="ghost" data-act="fey" data-id="${view.id}">🧑‍🏫 להסביר במילים שלי${l.fey?` (${l.fey.score})`:''}</button>`:''}
       <button class="ghost" data-act="edit-lesson" data-id="${view.id}">✏️ עריכה</button>
     </div>
-    <div class="r-nav">${next?`<button class="ghost" data-act="open-lesson" data-id="${next.id}">→ השיעור הבא</button>`:'<span></span>'}${prev?`<button class="ghost" data-act="open-lesson" data-id="${prev.id}">השיעור הקודם ←</button>`:''}</div>
+    <div class="r-nav">${prev?`<button class="ghost" data-act="open-lesson" data-id="${prev.id}">→ השיעור הקודם</button>`:'<span></span>'}${next?`<button class="ghost" data-act="open-lesson" data-id="${next.id}">השיעור הבא ←</button>`:''}</div>
   </article>`;
 }
 
@@ -1484,7 +1567,7 @@ function vReadAll(){
   return `<div class="crumb"><button class="link" data-act="open-course" data-id="${c.id}">→ חזרה ל${esc(c.name)}</button></div>
   <h1>${esc(c.name)}</h1><p class="sub">כל החומר לפי הסדר, לקריאה רציפה</p>
   <div class="seg" style="margin-top:12px"><button data-act="read-filter" data-v="0" aria-pressed="${!readStarOnly}">הכול (${all.length})</button><button data-act="read-filter" data-v="1" aria-pressed="${readStarOnly}">⭐ רק חשובים (${all.filter(l=>l.star).length})</button></div>
-  ${sampleFn&&all.length?`<div class="actions"><button class="ai" data-act="course-quiz" data-id="${c.id}" style="flex:1">✨ מבחן אמריקאי על כל החומר</button></div>`:''}
+  ${sampleFn&&all.length?`<div class="actions"><button class="ai" data-act="course-quiz" data-id="${c.id}" style="flex:1">✨ בוחן על כל הקורס</button></div>`:''}
   ${ls.length?ls.map(l=>`<section class="r-lesson reader"><div class="r-head"><div class="grow"><p class="hint" style="margin:0">שיעור ${all.indexOf(l)+1}, ${esc(shortDate(l.date))}${l.star?' ⭐':''}</p><h2 style="font-size:1.4rem">${esc(l.topic||'בלי נושא')}</h2></div>
     <button class="ghost" data-act="open-lesson" data-id="${l.id}">לפתוח</button></div>${lessonReadHtml(l.id,l,0,false)}</section>`).join('')
     :`<div class="empty" style="margin-top:16px">${readStarOnly?'עוד לא סימנת סיכומים כחשובים. פותחים סיכום ולוחצים “לסמן כחשוב”.':'עוד אין סיכומים.'}</div>`}`;
@@ -1498,7 +1581,7 @@ function vTasks(){
   const open=allOpen.filter(match).sort(sortTasks),done=S.tasks.filter(x=>x.done&&match(x));
   const g={late:[],today:[],week:[],later:[],none:[]};
   open.forEach(x=>{if(!x.due)g.none.push(x);else{const d=daysBetween(t,x.due);(d<0?g.late:d===0?g.today:d<=7?g.week:g.later).push(x)}});
-  const grp=(title,arr)=>arr.length?`<section class="block"><h2 class="sec-h"><span>${title}</span><span class="plan-sum">${arr.length}</span></h2><div class="list">${arr.map(x=>taskRow(x)).join('')}</div></section>`:'';
+  const grp=(title,arr)=>arr.length?`<section class="block"><h2 class="sec-h"><span>${title}</span>${arr.length>1?`<span class="plan-sum">${arr.length}</span>`:''}</h2><div class="list">${arr.map(x=>taskRow(x)).join('')}</div></section>`:'';
   const chips=allOpen.length?`<div class="fchips" role="group" aria-label="סינון לפי סוג">${[['all','הכול',allOpen.length],['task','משימות',cnt('task')],['sub','הגשות',cnt('sub')],['exam','מבחנים',cnt('exam')]].filter(([k,,n])=>k==='all'||n).map(([k,l,n])=>`<button data-act="task-filter" data-v="${k}" aria-pressed="${taskFilter===k}">${l}<span class="n">${n}</span></button>`).join('')}</div>`:'';
   return `<div class="page-head"><h1>משימות</h1>${allOpen.length?`<span class="count">${allOpen.length} פתוחות</span>`:''}</div>
   ${chips}
@@ -1509,9 +1592,15 @@ function vTasks(){
 }
 function taskSheetHtml(){
   const d=taskDraft,isNew=!d.id,st=d.steps,t=todayKey();
-  const quick=[[t,'היום'],[addDays(t,1),'מחר'],[addDays(t,7),'בעוד שבוע']];
-  return `<h2>${isNew?(d.kind==='exam'?'מבחן חדש':'משימה חדשה'):'עריכה'}</h2>
-  <label class="f"><span>${d.kind==='exam'?'איזה מבחן?':'מה צריך לעשות?'}</span><input type="text" data-td="title" value="${esc(d.title)}" placeholder="${d.kind==='exam'?'למשל: בוחן אמצע':'למשל: להגיש תרגיל 3'}" autocomplete="off"></label>
+  const quick=[[t,'היום'],[addDays(t,1),'מחר'],...[2,3,4,5,6].map(k=>{const d=addDays(t,k);return[d,DAYS[keyToDate(d).getDay()]]}),[addDays(t,7),'בעוד שבוע']];
+  const pc=!isNew&&d.courseId&&(d.kind==='exam'||d.planFor)?courseById(d.courseId):null,pl=d.lessonId&&S.lessons[d.lessonId]&&!isEmptyLesson(S.lessons[d.lessonId])?d.lessonId:'';
+  const dd=d.due?daysBetween(t,d.due):null;
+  return `<h2>${isNew?(d.kind==='exam'?'מבחן חדש':'משימה חדשה'):d.kind==='exam'?esc(d.title||'מבחן'):'עריכה'}</h2>
+  ${pc?`<div class="exam-note" style="margin:0 0 12px"><span>${ic('book')}${esc(pc.name)}${d.kind==='exam'&&dd!=null&&dd>=0?`, ${dd===0?'היום':dd===1?'מחר':`בעוד ${dd} ימים`}`:''}</span></div>
+    <button class="primary big" style="width:100%;max-width:none" data-act="exam-practice" data-id="${pc.id}">${ic('zap')}לתרגל עכשיו</button>
+    <div class="alt" style="display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;margin:2px 0 8px">${pl?`<button class="link" data-act="open-lesson" data-id="${pl}">לפתוח את הסיכום</button>`:''}${d.kind==='exam'&&d.due&&dd>=1?`<button class="link" data-act="plan" data-id="${d.id}">תוכנית חזרה עד המבחן</button>`:''}</div>`
+   :pl?`<p style="margin:0 0 10px"><button class="link" data-act="open-lesson" data-id="${pl}">לפתוח את הסיכום של השיעור</button></p>`:''}
+  <label class="f"><span>${d.kind==='exam'?'איזה מבחן?':'מה צריך לעשות?'}</span><input type="text" data-td="title" enterkeyhint="done" value="${esc(d.title)}" placeholder="${d.kind==='exam'?'למשל: בוחן אמצע':'למשל: להגיש תרגיל 3'}" autocomplete="off"></label>
   <div class="f"><span>סוג</span><div class="seg" role="group" aria-label="סוג">${Object.entries(KINDS).map(([k,v])=>`<button data-act="td-kind" data-v="${k}" aria-pressed="${d.kind===k}">${v}</button>`).join('')}</div></div>
   <div class="tf-row" style="grid-template-columns:1fr 1fr">
     <label class="f full"><span>קורס</span><select data-td="courseId"><option value="">בלי קורס</option>${activeCourses().map(c=>`<option value="${c.id}" ${c.id===d.courseId?'selected':''}>${esc(c.name)}</option>`).join('')}</select></label>
@@ -1519,10 +1608,9 @@ function taskSheetHtml(){
   <div class="chips" style="margin-top:-8px">${quick.map(([k,v])=>`<button data-act="td-due" data-v="${k}" aria-pressed="${d.due===k}">${v}</button>`).join('')}${d.due?'<button data-act="td-due" data-v="">בלי תאריך</button>':''}</div>
   <div class="f" style="margin-top:16px"><span>צעדים קטנים</span><p class="hint">משימה גדולה נהיית קלה יותר כשמחלקים אותה לצעדים של רבע שעה.</p>
     ${st.length?`<div class="steps-list">${st.map((x,i)=>`<div class="step ${x.done?'done':''}"><input type="checkbox" class="ck" data-tsd="${i}" ${x.done?'checked':''} aria-label="צעד ${i+1} בוצע"><input type="text" data-ts="${i}" value="${esc(x.t)}" aria-label="צעד ${i+1}"><button class="x" data-act="td-rm" data-i="${i}" aria-label="מחיקת צעד ${i+1}">×</button></div>`).join('')}</div>`:''}
-    <div class="step-add"><input type="text" id="step-new" placeholder="צעד חדש" aria-label="צעד חדש" autocomplete="off"><button class="ghost" data-act="td-add">הוספה</button></div>
+    <div class="step-add"><input type="text" id="step-new" placeholder="צעד חדש" aria-label="צעד חדש" autocomplete="off" enterkeyhint="enter"><button class="ghost" data-act="td-add">הוספת צעד</button></div>
     ${sampleFn?`<button class="ai" style="margin-top:8px;width:100%" data-act="td-ai" ${d.title.trim()?'':'disabled'}>✨ לחלק לי לצעדים</button>`:''}
   </div>
-  ${!isNew&&d.kind==='exam'&&d.due&&d.courseId?`<button class="ghost" style="width:100%" data-act="plan" data-id="${d.id}">📅 תוכנית חזרה עד המבחן</button>`:''}
   <p id="td-err" class="danger" role="alert"></p>
   <div class="sheet-foot"><button class="primary" data-act="td-save">${isNew?'הוספה':'שמירה'}</button><button class="ghost" data-act="modal-close">ביטול</button>${isNew?'':'<button class="link danger" data-act="td-del">מחיקה</button>'}</div>`;
 }
@@ -1539,7 +1627,7 @@ function saveTaskDraft(){
     steps:d.steps.filter(s=>(s.t||'').trim()).map(s=>({t:s.t.trim(),done:!!s.done}))};
   if(d.planFor)x.planFor=d.planFor;
   const i=S.tasks.findIndex(t=>t.id===x.id);if(i>=0)S.tasks[i]=x;else S.tasks.push(x);
-  saveDoc('tasks',0);taskDraft=null;closeModal();toast(i>=0?'השינויים נשמרו':(x.kind==='exam'?'המבחן נוסף':'המשימה נוספה'));
+  saveDoc('tasks',0);taskDraft=null;closeModal();toast(i>=0?'השינויים נשמרו':(x.kind==='exam'?'המבחן נוסף':'המשימה נוספה'));return x;
 }
 function setTaskDone(x,done){
   x.done=done;x.doneAt=done?todayKey():'';saveDoc('tasks',0);if(done)try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
@@ -1582,9 +1670,35 @@ function qaSumHtml(){
   <div class="sheet-foot"><button class="ghost" data-act="quick-add">חזרה</button></div>`;
 }
 
+/* tools are findable by name: "כרטיסיות", "בוחן", "גיבוי"... */
+const TOOLS=[
+  {n:'כרטיסיות',k:'כרטיסיות כרטיסים כרטיס מושגים לשנן flashcards',e:'🃏',act:'practice',per:c=>courseTerms(c.id)>0},
+  {n:'בוחן על כל הקורס',k:'בוחן מבחן אמריקאי שאלות לתרגל תרגול quiz',e:'✅',act:'course-quiz',ai:1,per:c=>hasNotes(c.id)},
+  {n:'סימולציית מבחן',k:'סימולציה מבחן שעון exam',e:'⏱',act:'exam-setup',ai:1,per:c=>hasNotes(c.id)},
+  {n:'האזנה',k:'האזנה להאזין הקראה לשמוע listen',e:'🎧',act:'listen',per:c=>hasNotes(c.id)},
+  {n:'קריאה רציפה',k:'קריאה רציפה לקרוא כל הקורס',e:'📖',act:'read-all',per:c=>hasNotes(c.id)},
+  {n:'מפת מושגים',k:'מפה מפת מושגים map',e:'🗺',act:'mindmap',ai:1,per:c=>hasNotes(c.id)},
+  {n:'שאלה על החומר',k:'שאלה לשאול צאט chat עזרה הסבר לא הבנתי',e:'💬',act:'ask',ai:1,per:c=>hasNotes(c.id)},
+  {n:'נקודות חולשה',k:'חולשה חולשות טעויות weak',e:'📉',act:'weak',per:c=>hasNotes(c.id)},
+  {n:'חזרה יומית',k:'חזרה יומית review',e:'⚡',act:'review'},
+  {n:'זמן ריכוז',k:'טיימר ריכוז שעון פומודורו timer',e:'⏱',act:'timer'},
+  {n:'השבוע שלי',k:'שבוע שבועי השבוע תוכנית לוח',e:'📅',act:'weekly'},
+  {n:'העלאת מצגת',k:'העלאה מצגת קובץ pdf תמונה צילום',e:'📷',act:'upload',ai:1},
+  {n:'הגדרות וגיבוי',k:'הגדרות גיבוי שחזור נמחקו גודל טקסט מראה כהה רקע settings',e:'⚙️',act:'settings'},
+];
+const hasNotes=cid=>lessonsOf(cid).some(l=>!isEmptyLesson(l));
+const courseTerms=cid=>lessonsOf(cid).reduce((a,l)=>a+(l.terms||[]).filter(x=>x.t).length+((l.cards&&l.cards.list)||[]).length,0);
+function toolResults(ql){
+  const out=[];
+  TOOLS.filter(x=>(!x.ai||sampleFn)&&(x.n+' '+x.k).toLowerCase().split(/\s+/).some(w=>w.startsWith(ql)||ql.startsWith(w)&&w.length>=3)).forEach(x=>{
+    if(!x.per){out.push(`<button class="item" data-act="${x.act}">${x.e} <span class="grow"><strong>${x.n}</strong></span></button>`);return}
+    activeCourses().filter(x.per).slice(0,4).forEach(c=>out.push(`<button class="item" data-act="${x.act}" data-id="${c.id}">${x.e} <span class="grow"><strong>${x.n}</strong><span class="small">${esc(c.name)}</span></span></button>`));
+  });
+  return out.slice(0,8);
+}
 function vSearch(){
-  return `<h1>חיפוש</h1><p class="sub">בקורסים, בסיכומים, במושגים ובמשימות</p>
-  <input type="search" id="search-q" style="margin-top:16px" placeholder="מה לחפש?" aria-label="חיפוש" value="${esc(lastQ)}" autocomplete="off">
+  return `<h1>חיפוש</h1><p class="sub">בקורסים, בסיכומים, במושגים, במשימות ובכלים</p>
+  <input type="search" id="search-q" style="margin-top:16px" placeholder="נושא, מושג, משימה או כלי" aria-label="חיפוש" value="${esc(lastQ)}" autocomplete="off" enterkeyhint="search">
   <div id="search-res" style="margin-top:18px">${searchResults(lastQ)}</div>`;
 }
 function snippet(text,q){
@@ -1615,6 +1729,7 @@ function searchResults(q){
   if(tm.length)out.push(sec('מושגים',tm.length,tm.slice(0,25).map(([[id,l],x])=>{const c=courseById(l.courseId);return `<button class="item" style="--c:${c.color}" data-act="open-lesson" data-id="${id}"><span class="dot"></span><span class="grow"><strong>${snippet(x.t,q)||esc(x.t)}</strong><span class="small">${x.d?(snippet(x.d,q)||esc(x.d)):''}</span><span class="small">${esc(c.name)}, שיעור ${lessonNo(id)}</span></span></button>`}).join(''),!out.length));
   const ts=S.tasks.filter(x=>(x.title||'').toLowerCase().includes(ql));
   if(ts.length)out.push(sec('משימות',ts.length,ts.map(x=>taskRow(x)).join(''),!out.length));
+  const tr=toolResults(ql);if(tr.length)out.push(sec('כלים',tr.length,tr.join(''),!out.length));
   return out.length?out.join(''):`<div class="empty"><b>לא נמצא “${esc(q)}”</b>נסה מילה קצרה יותר, או רק חלק ממנה.</div>`;
 }
 
@@ -1680,20 +1795,25 @@ async function snapRestore(k){
 window.addEventListener('beforeunload',e=>{if(statusErr||(store&&store.kind==='db'&&dirty.size)){flushAll();e.preventDefault();e.returnValue=''}});
 
 /* ---------- modals ---------- */
-const CLOSE_X='<button class="x x-close" data-act="modal-close" aria-label="סגירה">×</button>';
-let lastFocus=null;
+const CLOSE_X='<button class="x x-close" data-act="modal-x" aria-label="סגירה">×</button>';
+let lastFocus=null,lastFocusKey=null;
 function labelSheet(){const h=$('#sheet h2');if(h){h.id='sheet-title';$('#modal').setAttribute('aria-labelledby','sheet-title')}else $('#modal').removeAttribute('aria-labelledby')}
 function openModal(html){
-  if(!modalOpen)lastFocus=document.activeElement;
+  if(!modalOpen){lastFocus=document.activeElement;lastFocusKey=focusKey(lastFocus);pushNav({name:view.name,id:view.id,modal:1})}
   $('#sheet').innerHTML=CLOSE_X+iconize(html);labelSheet();$('#sheet').scrollTop=0;
   $('#modal').classList.add('open');modalOpen=true;document.body.style.overflow='hidden';
   ['.top','#app'].forEach(q=>{const el=$(q);if(el)el.inert=true});
-  const f=$('#sheet input[type=text]');(f||$('#sheet .x-close')).focus({preventScroll:true});
+  const f=$('#sheet input[type=text]:not([data-pf])');(f||$('#sheet .x-close')).focus({preventScroll:true});
 }
-function setSheet(html){$('#sheet').innerHTML=CLOSE_X+iconize(html);labelSheet()}
+function setSheet(html){const sh=$('#sheet'),ae=document.activeElement,fk=ae&&sh.contains(ae)?focusKey(ae):null;
+  sh.innerHTML=CLOSE_X+iconize(html);labelSheet();if(fk){const n=sh.querySelector(fk);if(n)n.focus({preventScroll:true})}}
 function hideModal(){
+  if(!modalOpen)return;
   $('#modal').classList.remove('open');modalOpen=false;
   document.body.style.overflow='';['.top','#app'].forEach(q=>{const el=$(q);if(el)el.inert=false});
+  /* a second tap on the dialog's button must not land on the page behind it */
+  document.body.classList.add('settling');clearTimeout(hideModal._t);hideModal._t=setTimeout(()=>document.body.classList.remove('settling'),350);
+  if(!inPop&&history.state&&history.state.modal){navBack=true;try{history.back()}catch(e){navBack=false}}
 }
 function closeModal(){
   if(aiCtl){aiCtl.abort();aiCtl=null}
@@ -1701,7 +1821,8 @@ function closeModal(){
   if(wizard)finishOnboarding();
   quiz=null;chat=null;planDraft=null;exam=null;clearInterval(examTick);
   render();
-  if(lastFocus&&document.contains(lastFocus))lastFocus.focus({preventScroll:true});lastFocus=null;
+  const back=lastFocus&&document.contains(lastFocus)?lastFocus:(lastFocusKey&&document.querySelector('#app '+lastFocusKey));
+  if(back)back.focus({preventScroll:true});lastFocus=null;lastFocusKey=null;
 }
 function sheetDirty(){
   if((taskDraft&&taskDraft._dirty)||(formDraft&&formDraft._dirty))return true;
@@ -1711,7 +1832,7 @@ function sheetDirty(){
 function requestClose(soft){
   if(exam&&!exam.done&&!confirm('לצאת מהמבחן? התשובות לא יישמרו.'))return;
   if(formDraft&&formDraft.fromWizard){formDraft=null;setSheet(onbHtml());return}
-  if(soft&&sheetDirty()){toast('יש שינויים שלא נשמרו. בוחרים שמירה או ביטול.',{icon:'alert'});return}
+  if(soft&&sheetDirty()&&!confirm('לסגור בלי לשמור את השינויים?'))return;
   closeModal();
 }
 function openOnboarding(){wizard=true;onbStep=0;openModal(onbHtml());const i=$('#onb-name');i&&i.focus()}
@@ -1719,7 +1840,7 @@ function finishOnboarding(){wizard=false;S.profile.onboarded=true;if(!S.profile.
 function onbHtml(){
   const dots=`<div class="steps">${[0,1,2].map(i=>`<i class="${i===onbStep?'on':''}"></i>`).join('')}</div>`;
   if(onbStep===0)return `<div class="onb">${LOGO}<p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p><h2>ברוך הבא למרקר</h2>
-    <p>המחברת שעוזרת לזכור. כל שיעור מקבל דף מסודר, ואחריו מבחן קצר שמקבע את החומר.</p>
+    <p>המחברת שעוזרת לזכור. כל שיעור מקבל דף מסודר, ואחריו בוחן קצר שמקבע את החומר.</p>
     <label for="onb-name" class="hint" style="display:block;margin-top:16px">איך קוראים לך?</label>
     <input type="text" id="onb-name" data-pf="name" value="${esc(S.profile.name||'')}" placeholder="השם שלך" autocomplete="given-name">${dots}</div>
     <div class="sheet-foot"><button class="primary" data-act="onb-next">המשך</button></div>`;
@@ -1728,18 +1849,18 @@ function onbHtml(){
     <p>${cs.length?'אלה הקורסים שכבר במחברת. אפשר להוסיף עוד עכשיו או בכל זמן.':'מוסיפים כל קורס פעם אחת: שם, מרצה, ומתי הוא מתקיים.'}</p>
     <div class="onb-courses">${cs.map(c=>`<div class="item course-card" style="--c:${c.color};padding:10px 12px"><span class="grow"><strong style="font-size:1rem">${esc(c.name)}</strong>${(c.sessions||[]).map(s=>`<span class="small">${sessLine(s)}</span>`).join('')}</span></div>`).join('')}</div>
     ${TEMPLATE&&!cs.length?`<button class="tpl" data-act="tpl-add"><b>📚 ${esc(TEMPLATE.title||'הקורסים של התואר')}</b><span>${TEMPLATE.courses.length} קורסים עם הימים, השעות והכיתות. לחיצה אחת וזה אצלך.</span></button>`:''}
-    <button class="add" data-act="onb-add-course">+ הוספת קורס${TEMPLATE&&!cs.length?' אחר':''}</button>${dots}</div>
-    <div class="sheet-foot"><button class="primary" data-act="onb-next">${cs.length?'המשך':'אוסיף אחר כך'}</button></div>`}
+    ${cs.length?'<button class="add" data-act="onb-add-course">+ הוספת עוד קורס</button>':''}${dots}</div>
+    <div class="sheet-foot">${cs.length?'<button class="primary" data-act="onb-next">המשך</button>':`<button class="primary" data-act="onb-add-course">${ic('plus')}הוספת קורס${TEMPLATE?' אחר':''}</button><button class="ghost" data-act="onb-next">אוסיף אחר כך</button>`}</div>`}
   return `<div class="onb">${ill('onboard')}<h2>ככה זה עובד</h2>
-    <ol><li>אחרי כל שיעור כותבים מה למדנו, אפילו מבולגן.</li><li>בסוף כותבים משפט אחד: הנקודה הכי חשובה.</li><li>לוחצים “סיימתי” ומקבלים מבחן קצר על השיעור.</li><li>כל יום מסך הבית מראה מה הצעד הבא, ומחזיר שאלות מהעבר בדיוק כשמתחילים לשכוח.</li></ol>${dots}</div>
+    <ol><li>אחרי כל שיעור כותבים מה למדנו, אפילו מבולגן.</li><li>בסוף כותבים משפט אחד: הנקודה הכי חשובה.</li><li>לוחצים “סיימתי” ומקבלים בוחן קצר על השיעור.</li><li>כל יום מסך הבית מראה מה הצעד הבא, ומחזיר שאלות מהעבר בדיוק כשמתחילים לשכוח.</li></ol>${dots}</div>
     <div class="sheet-foot"><button class="primary" data-act="onb-done">בוא נתחיל${S.profile.name?', '+esc(S.profile.name):''}</button></div>`;
 }
-const BGS=[['marker','מרקר','radial-gradient(80% 60% at 90% 0%,rgba(134,205,170,.7),transparent 70%),radial-gradient(70% 60% at 0% 40%,rgba(245,209,61,.45),transparent 70%),radial-gradient(80% 70% at 70% 110%,rgba(122,170,228,.45),transparent 70%)'],
+const BGS=[['plain','נקי','none'],['marker','מרקר','radial-gradient(80% 60% at 90% 0%,rgba(134,205,170,.7),transparent 70%),radial-gradient(70% 60% at 0% 40%,rgba(245,209,61,.45),transparent 70%),radial-gradient(80% 70% at 70% 110%,rgba(122,170,228,.45),transparent 70%)'],
  ['sea','ים','radial-gradient(80% 60% at 90% 0%,rgba(116,196,236,.75),transparent 70%),radial-gradient(70% 60% at 0% 40%,rgba(134,205,170,.45),transparent 70%),radial-gradient(80% 70% at 70% 110%,rgba(94,129,224,.5),transparent 70%)'],
  ['dusk','שקיעה','radial-gradient(80% 60% at 90% 0%,rgba(255,183,150,.75),transparent 70%),radial-gradient(70% 60% at 0% 40%,rgba(245,209,61,.45),transparent 70%),radial-gradient(80% 70% at 70% 110%,rgba(190,150,230,.55),transparent 70%)'],
- ['plain','נקי','none']];
+];
 function settingsHtml(){
-  const size=pref('size')||'m',theme=pref('theme')||'auto',easy=pref('easy')==='1',rate=pref('rate')||'1',goal=String(S.profile.goal||4),bg=pref('bg')||'marker';
+  const size=pref('size')||'m',theme=pref('theme')||'auto',easy=pref('easy')==='1',rate=pref('rate')||'1',goal=String(S.profile.goal||4),bg=pref('bg')||'plain';
   return `<h2>הגדרות</h2>
   <label class="f"><span>השם שלך</span><input type="text" data-pf="name" value="${esc(S.profile.name||'')}" placeholder="השם שלך"></label>
   <div class="f"><span>גודל טקסט</span><div class="seg">${[['m','רגיל'],['l','גדול'],['xl','גדול מאוד']].map(([k,v])=>`<button data-act="set-size" data-v="${k}" aria-pressed="${size===k}">${v}</button>`).join('')}</div></div>
@@ -1762,14 +1883,14 @@ function settingsHtml(){
     <div id="snaps"></div></div>
   ${trashHtml()}
   <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
-  <div class="sheet-foot"><button class="ghost" data-act="show-onb">להציג שוב את ההסבר</button><button class="primary" data-act="modal-close">סגירה</button></div>`;
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button><button class="link" data-act="show-onb">להציג שוב את ההסבר</button></div>`;
 }
 function applyPrefs(){
   const size=pref('size')||'m',theme=pref('theme')||'auto',r=document.documentElement;
   if(size==='m')r.removeAttribute('data-size');else r.dataset.size=size;
   if(theme==='auto')r.removeAttribute('data-theme');else r.dataset.theme=theme;
   if(pref('easy')==='1')r.dataset.easy='1';else r.removeAttribute('data-easy');
-  const bg=pref('bg')||'marker';if(bg==='marker')r.removeAttribute('data-bg');else r.dataset.bg=bg;
+  r.dataset.bg=pref('bg')||'plain';
 }
 function courseFormHtml(){
   const d=formDraft,isNew=!d.id;
@@ -1807,14 +1928,16 @@ function practiceHtml(){
   <div class="sheet-foot">${p.flip?`<button class="primary" data-act="card-yes">ידעתי</button><button class="ghost" data-act="card-no">עוד לא</button>`:`<button class="primary" data-act="flip">${p.quiz?'הצג תשובה':'הצג פירוש'}</button><button class="ghost" data-act="modal-close">סגירה</button>`}</div>`;
 }
 function thinkingHtml(msg){return `<h2>✨ Claude עוזר</h2><div class="thinking"><span class="pulse"></span><span>${msg}</span></div><div class="sheet-foot"><button class="ghost" data-act="modal-close">עצור</button></div>`}
+let aiRetry=null;
 function aiErr(e){
   const m={not_granted:'צריך לאשר ל-Claude לעזור. אפשר לנסות שוב ולאשר.',rate_limited:'יותר מדי בקשות כרגע. נסה שוב בעוד דקה.',prompt_too_large:'הסיכום ארוך מדי. נסה לחלק אותו.',refused:'Claude לא יכול לעזור עם הטקסט הזה.'};
-  return `<h2>✨ Claude עוזר</h2><p>${m[e&&e.code]||'משהו לא עבד. נסה שוב בעוד רגע.'}</p><div class="sheet-foot"><button class="primary" data-act="modal-close">סגירה</button></div>`;
+  const again=aiRetry&&!(e&&(e.code==='refused'||e.code==='prompt_too_large'));
+  return `<h2>✨ Claude עוזר</h2><p class="ai-err">${ic('alert')}<span>${m[e&&e.code]||'משהו לא עבד. נסה שוב בעוד רגע.'}</span></p><div class="sheet-foot">${again?'<button class="primary" data-act="ai-retry">לנסות שוב</button>':''}<button class="ghost" data-act="modal-close">סגירה</button></div>`;
 }
 
 /* ---------- AI ---------- */
 async function aiOrganize(){
-  const l=S.lessons[view.id],c=courseById(l.courseId);
+  const l=S.lessons[view.id],c=courseById(l.courseId);aiRetry=()=>aiOrganize();
   if((l.notes||'').trim().length<20){openModal(`<h2>✨ Claude עוזר</h2><p>כתוב קודם כמה שורות ב“מה למדנו”, ואז Claude יסדר אותן.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return}
   openModal(thinkingHtml('Claude מסדר את הסיכום…'));
   aiCtl=new AbortController();
@@ -1854,16 +1977,16 @@ function aiApply(){
   const have=new Set((l.terms||[]).map(x=>(x.t||'').trim()));
   l.terms=(l.terms||[]).filter(x=>x.t||x.d).concat(aiResult.terms.filter(x=>!have.has(x.t.trim())));
   if(!(l.key||'').trim()&&aiResult.key)l.key=aiResult.key;
-  saveDoc(view.id,0);aiResult=null;hideModal();render();
+  saveDoc(view.id,0);aiResult=null;hideModal();render();toast('הסיכום עודכן');
 }
 async function makeQuiz(lid,force){
   const l=S.lessons[lid];if(!l)return false;const c=courseById(l.courseId);
   const hash=hashLesson(l);
   if(!force&&l.quiz&&l.quiz.hash===hash&&(l.quiz.qs||[]).length>=8)return true;
   const content=lessonText(l);
-  if(content.length<40){setSheet(`<h2>מבחן על השיעור</h2><p>צריך עוד קצת תוכן בסיכום כדי לבנות מבחן. כתוב עוד כמה שורות ב“מה למדנו”.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return false}
+  if(content.length<40){setSheet(`<h2>בוחן על השיעור</h2><p>צריך עוד קצת תוכן בסיכום כדי לבנות בוחן. כתוב עוד כמה שורות ב“מה למדנו”.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return false}
   const nQ=Math.max(8,Math.min(15,Math.round(content.length/200)));
-  setSheet(thinkingHtml('מכין לך מבחן על כל מה שלמדת בשיעור…'));
+  setSheet(thinkingHtml('מכין לך בוחן על כל מה שלמדת בשיעור…'));
   aiCtl=new AbortController();
   const prompt=`Write a short multiple-choice quiz in simple, clear Hebrew for a university student with memory difficulties. Use ONLY the lecture notes below. The goal is to help them remember the lesson. ${PLAINQ}
 Course: ${c?c.name:''}
@@ -1890,7 +2013,8 @@ Rules:
   }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return false;if(modalOpen)setSheet(aiErr(e));return false}
 }
 async function lessonQuiz(lid,force){
-  if(!modalOpen)openModal(thinkingHtml('מכין לך מבחן על כל מה שלמדת בשיעור…'));
+  aiRetry=()=>lessonQuiz(lid,force);
+  if(!modalOpen)openModal(thinkingHtml('מכין לך בוחן על כל מה שלמדת בשיעור…'));
   const ok=await makeQuiz(lid,force);if(!ok||!modalOpen)return;
   const l=S.lessons[lid];
   quiz={mode:'lesson',lid,items:l.quiz.qs.map((_,qi)=>({doc:lid,qi})),i:0,pick:null,right:0,wrong:[]};
@@ -1929,7 +2053,8 @@ Rules:
   }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return null;if(modalOpen)setSheet(aiErr(e));return null}
 }
 async function courseQuiz(cid){
-  const items=await genCourseQs(cid,15,'מכין מבחן על כל החומר של הקורס…','מבחן על כל החומר');
+  aiRetry=()=>courseQuiz(cid);
+  const items=await genCourseQs(cid,15,'מכין בוחן על כל החומר של הקורס…','בוחן על כל הקורס');
   if(!items||!modalOpen)return;
   quiz={mode:'course',cid,items,i:0,pick:null,right:0,wrong:[]};setSheet(mcHtml());
 }
@@ -1938,10 +2063,11 @@ async function courseQuiz(cid){
 let exam=null,examTick=null;
 function examSetupHtml(cid){
   return `<h2>⏱ סימולציית מבחן</h2><p>מבחן אמריקאי על כל החומר של הקורס, עם שעון, כמו במבחן אמיתי. התשובות והציון מופיעים רק בסוף.</p>
-  <div class="actions"><button class="primary" style="flex:1" data-act="exam-start" data-id="${cid}" data-n="10">10 שאלות · 15 דק׳</button><button class="primary" style="flex:1" data-act="exam-start" data-id="${cid}" data-n="20">20 שאלות · 30 דק׳</button></div>
+  <div class="list" style="margin-top:14px">${[[10,15],[20,30]].map(([n,m])=>`<button class="item" data-act="exam-start" data-id="${cid}" data-n="${n}"><span class="grow"><strong>${n} שאלות</strong><span class="small">${m} דקות</span></span><span class="go">להתחיל</span></button>`).join('')}</div>
   <div class="sheet-foot"><button class="ghost" data-act="modal-close">ביטול</button></div>`;
 }
 async function examStart(cid,n){
+  aiRetry=()=>examStart(cid,n);
   const items=await genCourseQs(cid,n,`מכין מבחן של ${n} שאלות…`,'סימולציית מבחן');
   if(!items||!modalOpen)return;
   exam={cid,items,ans:items.map(()=>null),i:0,end:Date.now()+n*90000,done:false};
@@ -2006,7 +2132,7 @@ function weakHtml(cid){
 }
 
 /* ---------- mind map ---------- */
-async function mindMap(cid,force){
+async function mindMap(cid,force){aiRetry=()=>mindMap(cid,force);
   const c=courseById(cid);if(!c)return;
   const hsh=courseHash(cid);
   if(!force&&c.map&&c.map.hash===hsh){setOrOpen(mapHtml(c));return}
@@ -2039,7 +2165,7 @@ function mapHtml(c){
 }
 
 /* ---------- auto flashcards ---------- */
-async function lessonCards(lid){
+async function lessonCards(lid){aiRetry=()=>lessonCards(lid);
   const l=S.lessons[lid];if(!l)return;const hsh=hashLesson(l);
   if(l.cards&&l.cards.hash===hsh&&l.cards.list.length){startPractice(l.courseId,lid);setOrOpen(practiceHtml());return}
   const content=lessonText(l);if(content.length<40){setOrOpen(noContent('🃏 כרטיסיות'));return}
@@ -2060,15 +2186,16 @@ Return ONLY a JSON array of 6-10 objects: [{"q": string, "a": string}]. "q" is a
 }
 
 /* ---------- explain in your own words ---------- */
-function feyHtml(lid,txt){
+function feyHtml(lid,txt,err){
   const l=S.lessons[lid];
   return `<h2>🧑‍🏫 להסביר במילים שלי</h2><p>תסביר את השיעור “${esc(l.topic||'')}” כאילו אתה מלמד חבר שלא היה בשיעור. בלי להציץ בסיכום. אפשר גם להכתיב עם המיקרופון.</p>
-  <textarea id="fey-in" rows="7" placeholder="אז בשיעור הזה למדנו ש…">${esc(txt||'')}</textarea>
+  <textarea id="fey-in" rows="7" aria-label="ההסבר שלי" placeholder="אז בשיעור הזה למדנו ש…">${esc(txt||'')}</textarea>
+  <p id="fey-err" class="danger" role="alert">${err?esc(err):''}</p>
   <div class="sheet-foot"><button class="primary" data-act="fey-check" data-id="${lid}">לבדוק את ההסבר שלי</button><button class="ghost" data-act="modal-close">ביטול</button></div>`;
 }
 async function feyCheck(lid){
   const l=S.lessons[lid];const txt=($('#fey-in').value||'').trim();
-  if(txt.length<20){$('#fey-in').focus();return}
+  if(txt.length<20){$('#fey-err').textContent='צריך עוד קצת: כמה משפטים על מה שלמדת.';$('#fey-in').focus();return}
   setSheet(thinkingHtml('בודק את ההסבר שלך…'));aiCtl=new AbortController();
   try{
     const r=await sampleFn.json(`A university student with learning and memory difficulties explained a lesson in their own words, as if teaching a friend. Compare it to their lesson notes and give kind, honest feedback in simple Hebrew.
@@ -2083,7 +2210,8 @@ ${txt}
 Return ONLY JSON: {"score": number (0-100, how complete and correct the explanation is), "good": [string], "wrong": [string], "missing": [string], "tip": string}
 - "good": 1-3 things they explained well. "wrong": mistakes, each with the correct version (empty if none). "missing": up to 4 important ideas they left out. "tip": one short encouraging tip for remembering.`,{signal:aiCtl.signal,modelTier:'default'});
     aiCtl=null;
-    const sc=Math.max(0,Math.min(100,Math.round(+r.score||0)));
+    if(!r||typeof r!=='object'||!Number.isFinite(+r.score))throw{code:'invalid_json'};
+    const sc=Math.max(0,Math.min(100,Math.round(+r.score)));
     const L=S.lessons[lid];if(L){L.fey={score:sc,d:todayKey()};saveDoc(lid,0)}markActive();
     const li=a=>(Array.isArray(a)?a:[]).map(x=>`<li>${esc(x)}</li>`).join('');
     if(!modalOpen)return;
@@ -2093,25 +2221,35 @@ Return ONLY JSON: {"score": number (0-100, how complete and correct the explanat
       ${li(r.missing)?`<b>➕ מה חסר</b><ul>${li(r.missing)}</ul>`:''}
       ${r.tip?`<div class="recall keypt"><b>טיפ</b>${esc(r.tip)}</div>`:''}</div>
       <div class="sheet-foot"><button class="primary" data-act="modal-close">סיום</button><button class="ghost" data-act="fey-again" data-id="${lid}" data-t="${esc(txt)}">לנסות שוב</button></div>`);
-  }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return;if(modalOpen)setSheet(aiErr(e))}
+  }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return;if(modalOpen)setSheet(feyHtml(lid,txt,'הבדיקה לא הצליחה הפעם. ההסבר שלך נשמר כאן, אפשר לנסות שוב.'))}
 }
 
 /* ---------- weekly summary ---------- */
+function weekAheadHtml(){
+  const t=todayKey(),days=[];
+  for(let k=0;k<7;k++){const d=addDays(t,k),dw=keyToDate(d).getDay(),rows=[];
+    activeCourses().forEach(c=>(c.sessions||[]).filter(s=>+s.day===dw).forEach(s=>rows.push({m:toMin(s.start),h:`<button class="item" style="--c:${c.color}" data-act="open-course" data-id="${c.id}"><span class="tm">${T(s.start)}</span><span class="dot"></span><span class="grow"><strong>${esc(c.name)}</strong>${s.room?`<span class="small">${esc(s.room)}</span>`:''}</span></button>`})));
+    S.tasks.filter(x=>!x.done&&x.due===d).forEach(x=>{const c=courseById(x.courseId),kd=x.kind||'task';rows.push({m:2000,h:`<button class="item" data-act="task-edit" data-id="${x.id}"><span class="tm">${KINDS[kd]}</span><span class="grow"><strong>${esc(x.title)}</strong>${c?`<span class="small">${esc(c.name)}</span>`:''}</span></button>`})});
+    if(rows.length)days.push(`<div class="wk-day"><h3>${k===0?'היום':k===1?'מחר':'יום '+DAYS[dw]}, ${shortDate(d)}</h3><div class="list">${rows.sort((a,b)=>a.m-b.m).map(r=>r.h).join('')}</div></div>`);
+  }
+  return days.length?days.join(''):'<p class="hint">אין שיעורים או דדליינים בשבוע הקרוב.</p>';
+}
 function weeklyHtml(){
-  const t=todayKey(),from=addDays(t,-6);
+  const t=todayKey(),from=addDays(t,-new Date().getDay());
   const ls=Object.entries(S.lessons).map(([id,l])=>({id,...l})).filter(l=>l.date>=from&&l.date<=t&&!isEmptyLesson(l)).sort((a,b)=>a.date.localeCompare(b.date));
   const by={};ls.forEach(l=>{(by[l.courseId]=by[l.courseId]||[]).push(l)});
-  const sk=streakInfo(),days=(S.profile.days||[]).filter(d=>d>=from).length;
-  const doneT=S.tasks.filter(x=>x.done&&x.due&&x.due>=from&&x.due<=t).length;
-  return `<h2>📅 השבוע שלי</h2><p class="hint">${T(shortDate(from)+"–"+shortDate(t))}</p>
-  <div class="stat3"><div><b>${ls.length}</b>סיכומים</div><div><b>${days}</b>ימי לימוד</div><div><b>${sk.s}</b>ימים ברצף</div></div>
+  const sk=streakInfo();
+  return `<h2>📅 השבוע שלי</h2>
+  <h3 class="sec-h" style="margin-top:14px">מה מחכה ב-7 הימים הקרובים</h3>${weekAheadHtml()}
+  <h3 class="sec-h" style="margin-top:22px">מה כבר עשית השבוע <span class="small">(${T(shortDate(from)+"–"+shortDate(t))})</span></h3>
+  <div class="stat3"><div><b>${ls.length}</b>סיכומים</div><div><b>${sk.n}</b>ימי לימוד מתוך ${sk.goal}</div><div><b>${sk.s}</b>ימים ברצף</div></div>
   ${ls.length?Object.entries(by).map(([cid,arr])=>{const c=courseById(cid)||{name:'',color:'#888'};return `<div class="mm-br" style="--c:${c.color};margin-top:10px"><h3>${esc(c.name)}</h3><ul style="margin:0;padding-inline-start:1.2rem">${arr.map(l=>`<li><b>${esc(l.topic||'בלי נושא')}</b>${l.key?`: ${esc(l.key)}`:''}</li>`).join('')}</ul></div>`}).join('')
     :'<p style="margin-top:12px">השבוע עוד לא נכתבו סיכומים. גם סיכום קצר אחד הוא התחלה טובה.</p>'}
   ${sampleFn&&ls.length?`<div id="wk-ai" style="margin-top:12px"><button class="ai" data-act="weekly-ai">✨ מה הכי חשוב לזכור מהשבוע?</button></div>`:''}
-  <div class="sheet-foot"><button class="primary" data-act="modal-close">סגירה</button></div>`;
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`;
 }
 async function weeklyAi(){
-  const t=todayKey(),from=addDays(t,-6);
+  const t=todayKey(),from=addDays(t,-new Date().getDay());
   const ls=Object.values(S.lessons).filter(l=>l.date>=from&&l.date<=t&&!isEmptyLesson(l));
   const txt=ls.map(l=>{const c=courseById(l.courseId);return `### ${c?c.name:''}: ${l.topic||''}\n`+lessonText(l).slice(0,6000)}).join('\n\n');
   const box=$('#wk-ai');if(box)box.innerHTML='<div class="preview" id="wk-live"><span class="pulse" style="display:inline-block"></span></div>';
@@ -2120,8 +2258,8 @@ async function weeklyAi(){
 <<<
 ${txt}
 >>>`,{signal:aiCtl.signal,modelTier:'default',onText:({text})=>{const el=$('#wk-live');if(el)el.textContent=text}});
-    aiCtl=null;const el=$('#wk-live');if(el){el.className='r-body rich';el.innerHTML=fmtNotes(r.text||'')}
-  }catch(e){aiCtl=null;const el=$('#wk-live');if(el&&!(e&&e.code==='cancelled'))el.textContent='לא הצלחתי כרגע. נסה שוב בעוד רגע.'}
+    aiCtl=null;if(!(r&&(r.text||'').trim()))throw{code:'empty'};const el=$('#wk-live');if(el){el.className='r-body rich';el.innerHTML=fmtNotes(r.text)}
+  }catch(e){aiCtl=null;const b=$('#wk-ai');if(b&&!(e&&e.code==='cancelled'))b.innerHTML=iconize('<p class="hint" role="alert">לא הצלחתי כרגע.</p><button class="ai" data-act="weekly-ai">✨ לנסות שוב</button>')}
 }
 
 /* ---------- voice engine ---------- */
@@ -2189,11 +2327,11 @@ function vLive(){
   const l=S.lessons[view.id];if(!l){view={name:'home'};return vHome()}
   const c=courseById(l.courseId)||{id:'',name:'',color:'#888'};
   return `<div class="crumb"><button class="link" data-act="live-done" data-id="${view.id}">→ סיום מצב שיעור</button></div>
-  <div style="--c:${c.color}"><span class="chip">${esc(c.name)}</span><h1>✍️ מצב שיעור</h1>
+  <div style="--c:${c.color}"><span class="chip">${esc(c.name)}</span><h1>מצב שיעור</h1>
   <p class="hint">כותבים נקודה קצרה ולוחצים Enter. לא צריך לנסח יפה, את זה מסדרים אחרי השיעור.</p></div>
   <div class="live-list" id="live-list">${liveItems.map(liveItemHtml).join('')||'<div class="empty">עוד אין נקודות. מה המרצה אומר עכשיו?</div>'}</div>
-  <div class="live-bar"><textarea id="live-in" rows="2" placeholder="מה נאמר עכשיו?"></textarea>
-    <div class="live-btns"><button class="primary" data-act="live-add" data-k="n">➕ הוספה</button><button class="ai" data-act="live-add" data-k="star">⭐ חשוב</button><button class="ghost" data-act="live-add" data-k="q" style="border-color:var(--danger)">❓ לא הבנתי</button></div>
+  <div class="live-bar"><textarea id="live-in" rows="2" placeholder="מה נאמר עכשיו?" aria-label="נקודה מהשיעור" enterkeyhint="enter"></textarea>
+    <div class="live-btns"><button class="primary" data-act="live-add" data-k="n">➕ הוספה</button><button class="ghost" data-act="live-add" data-k="star">🖍 להדגיש</button><button class="ghost" data-act="live-add" data-k="q">❓ לא הבנתי</button></div>
     <button class="ghost" style="width:100%;margin-top:6px" data-act="live-done" data-id="${view.id}">סיימתי את השיעור, לסדר את הסיכום</button></div>`;
 }
 function liveItemHtml(x){return `<div class="live-item ${x.k==='star'?'star':x.k==='q'?'q':''}"><span class="tm">${x.tm}</span><span>${x.k==='star'?'⭐ ':x.k==='q'?'❓ ':''}${esc(x.t)}</span></div>`}
@@ -2250,15 +2388,15 @@ function vListen(){
   if(PL.tracks.length)return listenPlayerHtml(c);
   const qn=ls.reduce((a,l)=>a+((l.quiz&&l.quiz.qs)||[]).length,0)+((S.cquiz['Q_'+c.id]||{}).qs||[]).length;
   const opt=(m,t,s,dis)=>`<button data-act="lsn-mode" data-v="${m}" aria-pressed="${LSN.mode===m}" ${dis?'disabled':''}><b>${t}</b><small>${s}</small></button>`;
-  return `<h1>🎧 ללמוד בהאזנה</h1><p class="sub">לנסיעה, לאימון או להליכה. בוחרים לפני שיוצאים לדרך, לוחצים ▶, והטלפון מקריא.</p>
+  return `${LSN.from&&LSN.from!=='home'?`<div class="crumb"><button class="link" data-act="open-course" data-id="${c.id}">→ חזרה ל${esc(c.name)}</button></div>`:''}<h1>ללמוד בהאזנה</h1><p class="sub">לנסיעה, לאימון או להליכה. בוחרים לפני שיוצאים לדרך, לוחצים ▶, והטלפון מקריא.</p>
   <label class="f" style="margin-top:14px"><span>איזה קורס?</span><select id="lsn-course">${cs.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select></label>
   ${ls.length?`<div class="f"><span>מה לשמוע?</span><div class="pl-opt">
     ${opt('lesson','📘 שיעור אחד','בוחרים שיעור ושומעים אותו מההתחלה')}
-    ${LSN.mode==='lesson'?`<select id="lsn-lesson">${ls.slice().reverse().map(l=>`<option value="${l.id}" ${LSN.lid===l.id?'selected':''}>שיעור ${ls.indexOf(l)+1}, ${shortDate(l.date)}${l.topic?': '+esc(l.topic):''}</option>`).join('')}</select>`:''}
+    ${LSN.mode==='lesson'?`<select id="lsn-lesson" aria-label="איזה שיעור">${ls.slice().reverse().map(l=>`<option value="${l.id}" ${LSN.lid===l.id?'selected':''}>שיעור ${ls.indexOf(l)+1}, ${shortDate(l.date)}${l.topic?': '+esc(l.topic):''}</option>`).join('')}</select>`:''}
     ${opt('all','📚 כל הקורס לפי הסדר',`${ls.length} שיעורים, אחד אחרי השני`)}
     ${opt('star','⭐ רק החשובים',`${ls.filter(l=>l.star).length} שיעורים מסומנים`,!ls.some(l=>l.star))}
     ${opt('keys','⚡ חזרה מהירה','רק הנקודה החשובה מכל שיעור, כמה דקות')}
-    ${opt('quiz','🧠 בוחן בקול',qn?'שאלה, 4 תשובות, רגע לחשוב, ואז התשובה הנכונה':'צריך קודם לעשות מבחן על שיעור',!qn)}
+    ${opt('quiz','🧠 בוחן בקול',qn?'שאלה, 4 תשובות, רגע לחשוב, ואז התשובה הנכונה':'צריך קודם לעשות בוחן על שיעור',!qn)}
   </div></div>
   ${(!LSN.ver&&(LSN.ver=sampleFn?'ai':'mine'),'')}${(LSN.mode==='lesson'||LSN.mode==='all'||LSN.mode==='star')&&sampleFn?`<div class="f"><span>איך להקריא?</span><div class="seg"><button data-act="lsn-ver" data-v="mine" aria-pressed="${LSN.ver==='mine'}">הסיכום שלי</button><button data-act="lsn-ver" data-v="ai" aria-pressed="${LSN.ver==='ai'}">✨ שיעור מוסבר</button></div>
     <p class="hint" style="margin-top:4px">“שיעור מוסבר”: Claude מלמד אותך את השיעור בחלקים, מההתחלה, עם דוגמאות מהחיים, שאלה קטנה לחשוב עליה אחרי כל חלק, וסיכום של שלושה דברים לזכור.</p></div>`:''}
@@ -2413,7 +2551,7 @@ function startReview(){
   quiz={mode:'review',items,i:0,pick:null,right:0,wrong:[]};openModal(mcHtml());
 }
 function mcHtml(){
-  const z=quiz,title=z.mode==='review'?'חזרה יומית':z.mode==='course'?'מבחן על כל החומר':'מבחן על השיעור';
+  const z=quiz,title=z.mode==='review'?'חזרה יומית':z.mode==='course'?'בוחן על כל הקורס':'בוחן על השיעור';
   if(z.i>=z.items.length){
     const n=z.items.length,pct=z.right/n;
     const msg=pct===1?'מושלם! החומר יושב טוב.':pct>=.6?'יפה מאוד! מה שטעית בו יחזור אליך בחזרה היומית.':'זה בדיוק בשביל זה. השאלות שטעית בהן יחזרו מחר בחזרה היומית.';
@@ -2421,14 +2559,14 @@ function mcHtml(){
     if(z.mode==='review'&&S.profile.revDay!==todayKey()){S.profile.revDay=todayKey();saveDoc('profile',0)}
     return `<h2>${title}</h2><div class="score">${z.right}/${n}</div><p style="text-align:center">${msg}</p>
     ${z.wrong.length?`<div class="mc-explain"><b>כדאי לזכור:</b><ul style="margin:.3rem 0 0;padding-inline-start:1.2rem">${z.wrong.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>`:''}
-    <div class="sheet-foot"><button class="primary" data-act="modal-close">סיום</button>${z.mode==='lesson'?`<button class="ghost" data-act="quiz-again">שוב</button>`:''}${z.mode==='course'?`<button class="ghost" data-act="course-quiz" data-id="${z.cid}">מבחן חדש</button>`:''}</div>`;
+    <div class="sheet-foot"><button class="primary" data-act="modal-close">סיום</button>${z.mode==='lesson'?`<button class="ghost" data-act="quiz-again">שוב</button>`:''}${z.mode==='course'?`<button class="ghost" data-act="course-quiz" data-id="${z.cid}">בוחן חדש</button>`:''}</div>`;
   }
   const it=z.items[z.i],q=qOf(it);
   if(!q){z.i++;return mcHtml()}
   const c=courseOfDoc(it.doc)||{name:''};
   const where=it.doc.startsWith('Q_')?(q.lno?`שיעור ${q.lno}`:'כל החומר'):`שיעור ${lessonNo(it.doc)}`;
   const answered=z.pick!=null;
-  return `<h2>${title}</h2><div class="bar"><i style="width:${Math.round(z.i/z.items.length*100)}%"></i></div>
+  return `<h2>${title}</h2><div class="bar"><i style="width:${Math.round((z.i+1)/z.items.length*100)}%"></i></div>
   <p class="hint">שאלה ${z.i+1} מתוך ${z.items.length}${z.mode==='review'?`, ${esc(c.name)}, ${where}`:z.mode==='course'&&q.lno?`, משיעור ${q.lno}`:''}</p>
   <div class="mc-q">${esc(q.q)}</div>
   <div class="mc-opts">${q.o.map((o,oi)=>{let cls='';if(answered){if(oi===q.a)cls='right';else if(oi===z.pick)cls='wrong'}
@@ -2663,7 +2801,7 @@ function drawAct(a,v){
 }
 
 /* ---------- explain ---------- */
-async function explainText(txt){
+async function explainText(txt){aiRetry=()=>explainText(txt);
   if(!sampleFn)return;
   if(!txt){openModal(`<h2>✨ הסבר לי</h2><p>סמן קודם בטקסט מילה או משפט שלא ברורים לך, ואז לחץ שוב על “הסבר לי”.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return}
   const l=S.lessons[view.id],c=l&&courseById(l.courseId);
@@ -2715,7 +2853,7 @@ ${courseText(chat.cid)}
   try{
     const input=[{role:'user',content:rules},{role:'assistant',content:'הבנתי. אני כאן לעזור עם החומר.'},...chat.turns];
     const r=await sampleFn(input,{signal:aiCtl.signal,cache:false,modelTier:'default',onText:({text})=>{const el=$('#chat-live');if(el)el.textContent=text;const b=$('#chat-box');if(b)b.scrollTop=b.scrollHeight}});
-    aiCtl=null;chat.turns.push({role:'assistant',content:(r.text||'').trim()});
+    aiCtl=null;chat.turns.push({role:'assistant',content:(r&&(r.text||'').trim())||'לא הצלחתי לענות כרגע. נסה שוב בעוד רגע.'});
   }catch(e){aiCtl=null;if(e&&e.code==='cancelled'){chat&&chat.turns.pop();return}chat.turns.push({role:'assistant',content:'לא הצלחתי לענות כרגע. נסה שוב בעוד רגע.'})}
   if(!chat)return;chat.busy=false;if(modalOpen){setSheet(chatHtml());const b=$('#chat-box');if(b)b.scrollTop=b.scrollHeight;$('#chat-q')&&$('#chat-q').focus()}
 }
@@ -2726,7 +2864,7 @@ const fmtT=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padSt
 function timerLeft(){return timer?(timer.paused?timer.left:(timer.end-Date.now())/1000):0}
 function timerHtml(){
   if(!timer)return `<h2>⏱ זמן ריכוז</h2><p>בוחרים כמה זמן ללמוד. הטלפון בצד, רק דבר אחד. בסוף מקבלים הפסקה.</p>
-    <div class="actions">${[15,25,45].map(m=>`<button class="primary" style="flex:1" data-act="timer-start" data-m="${m}">${m} דק׳</button>`).join('')}</div>
+    <div class="actions">${[15,25,45].map(m=>`<button class="ghost" style="flex:1" data-act="timer-start" data-m="${m}">${m} דק׳</button>`).join('')}</div>
     <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`;
   return `<h2>${timer.mode==='focus'?'⏱ זמן ריכוז':'☕ הפסקה'}</h2><div class="tbig" id="t-big">${fmtT(timerLeft())}</div>
     <p style="text-align:center" class="hint">${timer.mode==='focus'?'אפשר לסגור את החלון ולהמשיך לכתוב. הזמן ממשיך למעלה.':'קום, תשתה מים, תזוז קצת.'}</p>
@@ -2755,24 +2893,24 @@ function buildPlan(task){
   const chunks=Math.min(studyDays,ls.length);
   for(let k=0;k<chunks;k++){
     const a=Math.floor(k*ls.length/chunks),b=Math.floor((k+1)*ls.length/chunks)-1;
-    items.push({due:addDays(t,k),title:a===b?`חזרה למבחן: שיעור ${a+1}${ls[a].topic?' ('+ls[a].topic.slice(0,25)+')':''}`:`חזרה למבחן: שיעורים ${a+1}–${b+1}`});
+    items.push({due:addDays(t,k),lid:ls[a].id,title:a===b?`חזרה למבחן: שיעור ${a+1}${ls[a].topic?' ('+ls[a].topic.slice(0,25)+')':''}`:`חזרה למבחן: שיעורים ${a+1}–${b+1}`});
   }
   for(let k=chunks;k<studyDays;k++)items.push({due:addDays(t,k),title:'חזרה למבחן: תרגול מושגים וחזרה יומית'});
-  if(days>=2)items.push({due:addDays(t,days-1),title:'חזרה למבחן: מבחן תרגול על כל החומר + הנקודות החשובות'});
+  if(days>=2)items.push({due:addDays(t,days-1),title:'חזרה למבחן: בוחן על כל החומר + הנקודות החשובות'});
   return {items};
 }
 function openPlan(taskId){
   const task=S.tasks.find(x=>x.id===taskId);if(!task)return;const c=courseById(task.courseId);
   const r=buildPlan(task);planDraft={taskId,items:r.items||[]};
-  openModal(`<h2>📅 תוכנית חזרה: ${esc(task.title)}</h2><p class="hint">${c?esc(c.name)+', ':''}המבחן ב-${shortDate(task.due)}. כל יום חלק קטן, וביום האחרון מבחן תרגול.</p>
+  openModal(`<h2>📅 תוכנית חזרה: ${esc(task.title)}</h2><p class="hint">${c?esc(c.name)+', ':''}המבחן ב-${shortDate(task.due)}. כל יום חלק קטן, וביום האחרון בוחן על כל החומר.</p>
   ${r.err?`<p>${r.err}</p>`:`<div class="list">${r.items.map(x=>`<div class="task"><div class="grow"><span class="tt">${esc(x.title)}</span><span class="small">${dueInfo(x.due).txt}</span></div></div>`).join('')}</div>`}
   <div class="sheet-foot">${r.err?'':'<button class="primary" data-act="plan-apply">להוסיף למשימות</button>'}<button class="ghost" data-act="modal-close">${r.err?'סגירה':'ביטול'}</button></div>`);
 }
 function applyPlan(){
   const d=planDraft;if(!d)return;const task=S.tasks.find(x=>x.id===d.taskId);if(!task)return;
   S.tasks=S.tasks.filter(x=>x.planFor!==d.taskId||x.done);
-  d.items.forEach(x=>S.tasks.push({id:uid(),title:x.title,due:x.due,courseId:task.courseId,lessonId:'',kind:'task',done:false,planFor:d.taskId}));
-  saveDoc('tasks',0);planDraft=null;hideModal();go('tasks');
+  d.items.forEach(x=>S.tasks.push({id:uid(),title:x.title,due:x.due,courseId:task.courseId,lessonId:x.lid||'',kind:'task',done:false,planFor:d.taskId}));
+  saveDoc('tasks',0);planDraft=null;hideModal();go('tasks');toast(`נוספו ${d.items.length} משימות חזרה`);
 }
 
 /* ---------- upload ---------- */
@@ -2816,7 +2954,7 @@ function linkHelpHtml(url,cid){
   <div class="sheet-foot"><button class="primary" data-act="upload" data-id="${cid}">חזרה להעלאת קובץ</button><button class="ghost" data-act="modal-close">סגירה</button></div>`;
 }
 function openUpload(cid,lid,mode){
-  const cs=activeCourses();if(!cs.length){openModal(`<h2>העלאת קובץ</h2><p>צריך קודם להוסיף קורס.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return}
+  const cs=activeCourses();if(!cs.length){setOrOpen(`<h2>העלאת קובץ</h2><p>כל סיכום שייך לקורס. מוסיפים קורס פעם אחת, ואז מעלים.</p><div class="sheet-foot"><button class="primary" data-act="new-course">הוספת קורס</button><button class="ghost" data-act="modal-close">ביטול</button></div>`);return}
   const def=cid||(view.name==='course'||view.name==='readall'?view.id:null)||(nowNext()?.c.id)||cs[0].id;
   const todayL=lid?null:lessonsOf(def).find(l=>l.date===todayKey()&&!isEmptyLesson(l));
   const tSel=lid&&S.lessons[lid]&&!isEmptyLesson(S.lessons[lid])?lid:(todayL?todayL.id:'new');
@@ -2836,7 +2974,7 @@ function openUpload(cid,lid,mode){
     <button data-act="up-mode" data-v="learn" aria-pressed="${M==='learn'}">🎓 ללמוד מאפס</button>
     <button data-act="up-mode" data-v="sum" aria-pressed="${M==='sum'}">לסכם לי</button>
     <button data-act="up-mode" data-v="copy" aria-pressed="${M==='copy'}">להעתיק בדיוק</button></div>
-    <p class="hint" style="margin-top:6px">פספסת שיעור? בחר “ללמוד מאפס” ותקבל הסבר צעד אחר צעד עם דוגמאות, מושגים ומבחן בסוף.</p></div>
+    <p class="hint" style="margin-top:6px">פספסת שיעור? בחר “ללמוד מאפס” ותקבל הסבר צעד אחר צעד עם דוגמאות, מושגים ובוחן בסוף.</p></div>
   <p id="up-err" class="danger" role="alert"></p>
   <div class="sheet-foot"><button class="primary" data-act="up-start">לשמור כשיעור</button><button class="ghost" data-act="modal-close">ביטול</button></div>`);
   $('#up-date-wrap').hidden=tSel!=='new';
@@ -2961,7 +3099,7 @@ async function exportCourse(cid){
     const tm=(l.terms||[]).filter(x=>x.t);if(tm.length)md+='**מושגים**\n'+tm.map(x=>`- ${x.t}: ${x.d||''}`).join('\n')+'\n\n';
     const q=(l.questions||[]).filter(x=>x.t);if(q.length)md+='**שאלות**\n'+q.map(x=>`- ${x.t}${x.done?' (נענתה)':''}`).join('\n')+'\n\n';
   });
-  try{await downloadsNs.save({filename:(c.name.replace(/[\\/:*?"<>|]/g,' ').trim()||'summaries')+'.md',data:md})}catch(e){}
+  try{await downloadsNs.save({filename:(c.name.replace(/[\\/:*?"<>|]/g,' ').trim()||'summaries')+'.md',data:md});toast('הסיכומים ירדו למכשיר')}catch(e){}
 }
 
 /* ---------- actions ---------- */
@@ -2975,12 +3113,29 @@ function addTask(title,due,courseId,lessonId,kind){
   S.tasks.push({id:uid(),title,due:due||'',courseId:courseId||'',lessonId:lessonId||'',kind:kind||'task',done:false});
   saveDoc('tasks',0);return true;
 }
+function otherDateHtml(cid){
+  const c=courseById(cid),t=todayKey(),rows=[];if(!c)return '';
+  for(let k=1;k<=28&&rows.length<5;k++){const d=addDays(t,-k);if(S.profile.since&&d<S.profile.since)break;const dw=keyToDate(d).getDay();
+    if((c.sessions||[]).some(s=>+s.day===dw)){const l=lessonsOf(cid).find(x=>x.date===d&&!isEmptyLesson(x));rows.push({d,dw,l})}}
+  return `<h2>סיכום לאיזה שיעור?</h2><p class="hint">${esc(c.name)}</p>
+  ${rows.length?`<div class="list">${rows.map(r=>`<button class="item" data-act="lesson-on" data-id="${cid}" data-date="${r.d}"><span class="grow"><strong>יום ${DAYS[r.dw]}, ${shortDate(r.d)}</strong><span class="small">${r.l?(isDraft(r.l)?'טיוטה':'יש סיכום'):'עוד אין סיכום'}</span></span><span class="go">${r.l?(isDraft(r.l)?'להמשיך':'לפתוח'):'לסכם'}</span></button>`).join('')}</div>`:''}
+  <label class="f" style="margin-top:14px"><span>${rows.length?'או תאריך אחר':'תאריך השיעור'}</span><input type="date" id="nl-date" value="${addDays(t,-1)}" max="${t}"></label>
+  <div class="sheet-foot"><button class="primary" data-act="nl-go" data-id="${cid}">לכתוב סיכום לתאריך הזה</button><button class="ghost" data-act="modal-close">ביטול</button></div>`;
+}
+/* the daily-review-free way to practise for an exam: a quiz on the whole course (or flashcards without Claude) */
+function examPractice(cid){
+  taskDraft=null;
+  if(sampleFn&&hasNotes(cid)){courseQuiz(cid);return}
+  if(courseTerms(cid)){startPractice(cid);setOrOpen(practiceHtml());return}
+  if(modalOpen)closeModal();courseTab='learn';go('course',cid);
+}
 function startPractice(cid,lid){
   const ls=lessonsOf(cid);const src=lid?ls.filter(l=>l.id===lid):ls;
   const cards=src.flatMap(l=>{const no=ls.indexOf(l)+1;return [...((l.cards&&l.cards.list)||[]).map(x=>({t:x.q,d:x.a,no})),...(l.terms||[]).filter(x=>x.t).map(x=>({...x,no}))]});
   for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}
   practice={cid,cards,i:0,flip:false,known:0,total:cards.length};
 }
+const ONCE=new Set(['exam-go','card-yes','card-no','flip','mc-next','td-save','td-del','save-course','task-done','plan-apply','del-lesson','nl-go','exam-practice']);let lastAct={a:'',t:0};
 document.addEventListener('click',e=>{
   const tb=e.target.closest('[data-toast]');if(tb){const el=$('#toast');const fn=el&&el._undo;if(el){el.classList.remove('on');el._undo=null}if(fn)fn();return}
   if(e.target.id==='modal'){requestClose(true);return}
@@ -2990,14 +3145,19 @@ document.addEventListener('click',e=>{
   if(di){const id=(di.getAttribute('src')||'').replace('/_blob/','');const l=S.lessons[view.id];if(l&&l.drawings&&l.drawings[id]){openDraw(id);return}}
   const b=e.target.closest('[data-act]');if(!b)return;
   const act=b.dataset.act,id=b.dataset.id;
+  if(ONCE.has(act)){const now=Date.now();if(lastAct.a===act&&now-lastAct.t<450)return;lastAct={a:act,t:now}}
   const L=view.name==='lesson'?S.lessons[view.id]:null;
   switch(act){
-    case 'nav':go(b.dataset.to);break;
+    case 'nav':go(b.dataset.to);if(b.dataset.to==='search')setTimeout(()=>$('#search-q')&&$('#search-q').focus(),30);break;
     case 'open-course':courseTab=b.dataset.tab||'notes';if(modalOpen)closeModal();go('course',id);break;
     case 'course-tab':courseTab=b.dataset.v;render();{const tb=$('#tab-'+courseTab);tb&&tb.focus({preventScroll:true})}break;
     case 'quick-add':setOrOpen(quickAddHtml());break;
     case 'qa-sum':setSheet(qaSumHtml());break;
-    case 'task-new':openTask(null,{kind:b.dataset.k||'task',...(b.dataset.cid?{courseId:b.dataset.cid}:{})});break;
+    case 'task-new':openTask(null,{kind:b.dataset.k||'task',...(b.dataset.cid?{courseId:b.dataset.cid}:{}),...(b.dataset.lid?{lessonId:b.dataset.lid}:{})});break;
+    case 'exam-practice':examPractice(id);break;
+    case 'ai-retry':{const f=aiRetry;if(f)f();break}
+    case 'modal-x':requestClose(true);break;
+    case 'nl-go':{const d=($('#nl-date')||{}).value||todayKey();closeModal();const ex=lessonsOf(id).find(l=>l.date===d);go('lesson',ex?ex.id:newLesson(id,d));break}
     case 'task-edit':openTask(id);break;
     case 'task-done':{const x=S.tasks.find(t=>t.id===id);if(x){setTaskDone(x,true);render()}break}
     case 'task-filter':taskFilter=b.dataset.v;render();break;
@@ -3008,11 +3168,11 @@ document.addEventListener('click',e=>{
     case 'td-ai':taskSteps();break;
     case 'td-save':saveTaskDraft();break;
     case 'td-del':{const x=taskDraft;taskDraft=null;closeModal();if(x&&x.id)deleteTask(x.id);break}
-    case 'open-lesson':{const l=S.lessons[id];go(l&&!isEmptyLesson(l)?'read':'lesson',id);break}
+    case 'open-lesson':{const l=S.lessons[id];if(modalOpen)closeModal();go(l&&!isEmptyLesson(l)&&!isDraft(l)?'read':'lesson',id);break}
     case 'today-lesson':{if(modalOpen)closeModal();const ex=lessonsOf(id).find(l=>l.date===todayKey());go('lesson',ex?ex.id:newLesson(id));break}
-    case 'lesson-on':{const d=b.dataset.date,ex=lessonsOf(id).find(l=>l.date===d);go('lesson',ex?ex.id:newLesson(id,d));break}
-    case 'new-lesson':go('lesson',newLesson(id));break;
-    case 'done-lesson':{const lid=view.id,l=S.lessons[lid];go('course',id);
+    case 'lesson-on':{const d=b.dataset.date,ex=lessonsOf(id).find(l=>l.date===d);if(modalOpen)closeModal();go('lesson',ex?ex.id:newLesson(id,d));break}
+    case 'new-lesson':openModal(otherDateHtml(id));break;
+    case 'done-lesson':{const lid=view.id,l=S.lessons[lid];if(l&&!isEmptyLesson(l)){l.finished=true;saveDoc(lid,0)}go('course',id);
       if(sampleFn&&l&&!isEmptyLesson(l)&&lessonText(l).length>=40&&!(l.quiz&&l.quiz.hash===hashLesson(l)&&l.quiz.last!=null))lessonQuiz(lid,false);break}
     case 'del-lesson':if(confirm('למחוק את הסיכום? אפשר יהיה לשחזר אותו מההגדרות במשך 30 יום.')){const cid=L.courseId,lid=view.id,tid=trashPut('lesson',{id:lid,lesson:L});removeDoc(lid);view={name:'course',id:cid};render();window.scrollTo(0,0);
       toast('הסיכום הועבר לנמחקו לאחרונה',{icon:'trash',undo:()=>trashRestore(tid)})}break;
@@ -3055,12 +3215,10 @@ document.addEventListener('click',e=>{
     case 'fey-check':feyCheck(id);break;
     case 'weekly':openModal(weeklyHtml());break;
     case 'weekly-ai':if(sampleFn)weeklyAi();break;
-    case 'speak':{const l=S.lessons[view.id];if(l)speakLesson(l);break}
     case 'live':liveItems=[];go('live',id);setTimeout(()=>$('#live-in')&&$('#live-in').focus(),50);break;
     case 'live-course':{const ex=lessonsOf(id).find(l=>l.date===todayKey());liveItems=[];go('live',ex?ex.id:newLesson(id));setTimeout(()=>$('#live-in')&&$('#live-in').focus(),50);break}
     case 'live-add':liveAdd(b.dataset.k);break;
     case 'live-done':go('lesson',id);break;
-    case 'set-easy':pref('easy',b.dataset.v);applyPrefs();setSheet(settingsHtml());break;
     case 'set-bg':pref('bg',b.dataset.v);applyPrefs();document.querySelectorAll('[data-act=set-bg]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===b.dataset.v));break;
     case 'trash-restore':trashRestore(b.dataset.id);setSheet(settingsHtml());loadSnaps();break;
     case 'snap-restore':snapRestore(b.dataset.k);break;
@@ -3081,11 +3239,11 @@ document.addEventListener('click',e=>{
     case 'timer-break':timerStart(5,'break');setSheet(timerHtml());break;
     case 'timer-pause':if(timer){if(timer.paused){timer.end=Date.now()+timer.left*1000;timer.paused=false}else{timer.left=timerLeft();timer.paused=true}timerUpdate();setSheet(timerHtml())}break;
     case 'timer-stop':timer=null;timerUpdate();setSheet(timerHtml());break;
-    case 'plan':openPlan(id);break;
+    case 'plan':{if(taskDraft&&taskDraft.id&&taskDraft._dirty&&!saveTaskDraft())break;taskDraft=null;openPlan(id);break}
     case 'plan-apply':applyPlan();break;
     case 'read-all':readStarOnly=false;go('readall',id);break;
     case 'read-filter':readStarOnly=b.dataset.v==='1';render();break;
-    case 'edit-lesson':go('lesson',id);break;
+    case 'edit-lesson':if(modalOpen)closeModal();go('lesson',id);break;
     case 'star':{const l=S.lessons[view.id];if(l){l.star=!l.star;saveDoc(view.id,0);render()}break}
     case 'upload':openUpload(id);break;
     case 'upload-missed':{const l=S.lessons[id];if(l)openUpload(l.courseId,id,'learn');break}
@@ -3098,9 +3256,6 @@ document.addEventListener('click',e=>{
     case 'onb-done':finishOnboarding();closeModal();break;
     case 'onb-add-course':formDraft={id:null,name:'',teacher:'',color:PALETTE[S.courses.length%PALETTE.length],sessions:[{day:0,start:'10:00',end:'11:30',room:''}],archived:false,fromWizard:true};setSheet(courseFormHtml());$('#sheet input[type=text]').focus();break;
     case 'ai-apply':aiApply();break;
-    case 'add-task-lesson':{if(addTask($('#lt-title').value,$('#lt-due').value,L.courseId,view.id,$('#lt-kind').value)){render();$('#lt-title').focus()}break}
-    case 'add-task-course':{if(addTask($('#ct-title').value,$('#ct-due').value,id,'',$('#ct-kind').value)){render();$('#ct-title').focus()}break}
-    case 'add-task':{const c=$('#t-course').value,k=$('#t-kind').value;if(addTask($('#t-title').value,$('#t-due').value,c,'',k)){render();$('#t-course').value=c;$('#t-kind').value=k;$('#t-title').focus()}break}
     case 'del-task':deleteTask(id);break;
     case 'course-mode':courseMode=b.dataset.m;render();break;
     case 'new-course':formDraft={id:null,name:'',teacher:'',color:PALETTE[S.courses.length%PALETTE.length],sessions:[{day:0,start:'10:00',end:'11:30',room:''}],archived:false};openModal(courseFormHtml());break;
@@ -3109,7 +3264,8 @@ document.addEventListener('click',e=>{
     case 'add-session':{formDraft._dirty=1;const last=formDraft.sessions[formDraft.sessions.length-1];formDraft.sessions.push(last?{...last}:{day:0,start:'10:00',end:'11:30',room:''});setSheet(courseFormHtml());break}
     case 'rm-session':formDraft._dirty=1;formDraft.sessions.splice(+b.dataset.i,1);setSheet(courseFormHtml());break;
     case 'save-course':{const d=formDraft;d.name=(d.name||'').trim();
-      if(!d.name){$('#cf-err').textContent='צריך לכתוב שם לקורס.';return}
+      if(!d.name){$('#cf-err').textContent='צריך לכתוב שם לקורס.';$('#sheet [data-cf=name]').focus();return}
+      {const bad=d.sessions.findIndex(s=>s.start&&s.end&&toMin(s.end)<=toMin(s.start));if(bad>=0){$('#cf-err').textContent='שעת הסיום צריכה להיות אחרי שעת ההתחלה.';const el=$(`#sheet [data-s="${bad}"][data-k=end]`);el&&el.focus();return}}
       d.sessions=d.sessions.map(s=>({...s,day:+s.day}));
       const fw=d.fromWizard;delete d.fromWizard;delete d._dirty;
       if(!d.id){d.id=uid();S.courses.push(d)}else{const i=S.courses.findIndex(c=>c.id===d.id);S.courses[i]=d}
@@ -3137,7 +3293,7 @@ document.addEventListener('click',e=>{
 function onField(e){
   const el=e.target;
   if(el.tagName==='TEXTAREA')grow(el);
-  if(el.id==='search-q'){lastQ=el.value;$('#search-res').innerHTML=searchResults(lastQ);return}
+  if(el.id==='search-q'){lastQ=el.value;$('#search-res').innerHTML=iconize(searchResults(lastQ));return}
   if(el.dataset.pf){S.profile[el.dataset.pf]=el.value;saveDoc('profile');return}
   if(el.dataset.cf&&formDraft){formDraft[el.dataset.cf]=el.type==='checkbox'?el.checked:el.value;formDraft._dirty=1;return}
   if(el.dataset.s!=null&&formDraft){formDraft.sessions[+el.dataset.s][el.dataset.k]=el.value;formDraft._dirty=1;return}
@@ -3180,6 +3336,10 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('keydown',e=>{
   if((e.metaKey||e.ctrlKey)&&(e.key==='k'||e.key==='ל')){e.preventDefault();if(modalOpen)closeModal();go('search');setTimeout(()=>$('#search-q')&&$('#search-q').focus(),30);return}
+  if(e.target.getAttribute&&e.target.getAttribute('role')==='tab'&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
+    const tabs=[...e.target.parentNode.querySelectorAll('[role=tab]')],i=tabs.indexOf(e.target),rtl=getComputedStyle(e.target).direction==='rtl';
+    const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+((e.key==='ArrowLeft')===rtl?1:-1)+tabs.length)%tabs.length;
+    e.preventDefault();tabs[n].click();return}
   if((e.metaKey||e.ctrlKey)&&e.key==='Enter'&&view.name==='lesson'){e.preventDefault();const b=$('[data-act=done-lesson]');b&&b.click();return}
   if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='live-in'&&!e.isComposing){e.preventDefault();liveAdd('n');return}
   if(e.key==='Escape'&&D.open){drawAct('close');return}
@@ -3191,14 +3351,12 @@ document.addEventListener('keydown',e=>{
     if(e.target.id==='chat-q'){e.preventDefault();chatSend(e.target.value);return}
     if(e.target.id==='step-new'){e.preventDefault();$('[data-act=td-add]').click();return}
     if(e.target.dataset.td==='title'){e.preventDefault();saveTaskDraft();return}
-    const m={'lt-title':'add-task-lesson','ct-title':'add-task-course','t-title':'add-task'}[e.target.id];
-    if(m){e.preventDefault();document.querySelector(`[data-act="${m}"]`).click()}
   }
 });
 function grow(el){el.style.height='auto';el.style.height=(el.scrollHeight+4)+'px'}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushAll()});
 window.addEventListener('pagehide',()=>flushAll());
-setInterval(()=>{if(view.name==='home'&&!modalOpen&&loaded&&document.visibilityState==='visible'&&!document.activeElement.matches('input,textarea,select'))render()},60000);
+setInterval(()=>{if((view.name==='home'||view.name==='tasks')&&!modalOpen&&loaded&&document.visibilityState==='visible'&&!document.activeElement.matches('input,textarea,select'))render()},60000);
 
 /* ---------- start ---------- */
 applyPrefs();
@@ -3207,6 +3365,7 @@ document.querySelector('[data-act=settings]').innerHTML=ic('sliders')+'<span cla
 document.querySelector('.nav-add').innerHTML=ic('plus')+'<span class="lbl">הוספה</span>';
 function setHdr(){const t=document.querySelector('.top');if(t)document.documentElement.style.setProperty('--hdr-h',(innerWidth>=1024?0:t.offsetHeight)+'px')}
 window.addEventListener('resize',setHdr);setHdr();
+{const h0=readHash();if(h0)view=h0;try{history.replaceState({name:view.name,id:view.id},'',hashOf(view))}catch(e){}}
 (async function init(){
   render();
   let db=null,id=null;
