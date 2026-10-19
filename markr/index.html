@@ -13,6 +13,7 @@
 <meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="מרקר">
 <meta property="og:type" content="website">
@@ -224,6 +225,8 @@ section.block>h2,.sec-h{display:flex;align-items:center;justify-content:space-be
 .link{background:none;border:0;padding:6px 0;color:var(--link);font-weight:500;text-decoration:none}
 .link:hover{text-decoration:underline;text-underline-offset:3px}
 .link.danger{color:var(--danger)}
+a.ghost,a.primary{text-decoration:none}
+.note .ic{margin-inline-end:.2em}
 .add{display:flex;align-items:center;justify-content:center;gap:.4em;width:100%;min-height:48px;background:var(--card);border:0;border-radius:var(--r);padding:10px 16px;color:var(--link);font-weight:600;box-shadow:var(--sh-1)}
 .add:hover{background:var(--surface)}
 .x{display:inline-grid;place-items:center;min-width:44px;height:44px;background:none;border:0;color:var(--muted);font-size:1.35rem;line-height:1;border-radius:999px;flex:none}
@@ -863,6 +866,8 @@ music:'<path d="M9 17.5V6.25l10-2v11"/><circle cx="6.75" cy="17.5" r="2.25"/><ci
 pin:'<path d="M12 20.75s-6.25-5.6-6.25-10.5a6.25 6.25 0 0 1 12.5 0c0 4.9-6.25 10.5-6.25 10.5z"/><circle cx="12" cy="10.25" r="2.25"/>',
 clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.75"/>',
 voice:'<circle cx="9" cy="8.75" r="3.25"/><path d="M3.75 19.75c.55-3 2.6-5 5.25-5s4.7 2 5.25 5"/><path d="M16.5 7a3.75 3.75 0 0 1 0 5M19 4.75a7 7 0 0 1 0 9.5"/>',
+phone:'<rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M10.5 18h3"/>',
+share:'<path d="M12 3.5v11M8.25 7.25 12 3.5l3.75 3.75"/><path d="M8.5 10.5H7a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6.5a2 2 0 0 0-2-2h-1.5"/>',
 chevr:'<path d="M9.5 5.75L15.75 12 9.5 18.25"/>',
 chevl:'<path d="M14.5 5.75L8.25 12l6.25 6.25"/>',
 tick:'<path d="M5.5 12.75l4.25 4.25L18.5 7.5"/>',
@@ -906,6 +911,11 @@ const dirty=new Map(),timers={},deletedIds=new Set();
 const DEFAULT_PACK={"title": "קיימות ויזמות, שנה א׳ (סמסטר א׳)", "courses": [{"id": "micro", "name": "מבוא למיקרו כלכלה", "teacher": "ד״ר צמח שמיר שירי", "color": "#E0A800", "sessions": [{"day": 0, "start": "11:30", "end": "14:45", "room": "ארזי עופר C.108"}]}, {"id": "ecology", "name": "יסודות באקולוגיה", "teacher": "ד״ר פלביץ׳ אורי", "color": "#2F8F6B", "sessions": [{"day": 1, "start": "08:00", "end": "09:30", "room": "אריסון לאודר A207"}]}, {"id": "earth", "name": "מערכות כדור-הארץ", "teacher": "פרופ׳ יאיר יואב", "color": "#3D74B8", "sessions": [{"day": 1, "start": "09:45", "end": "11:15", "room": "רדזינר קיימות SL102"}]}, {"id": "failure", "name": "סדנאות: התמודדות עם כישלון", "teacher": "ד״ר לאו ארמון ליסה", "color": "#8E5BB5", "sessions": [{"day": 2, "start": "13:45", "end": "15:15", "room": "ארזי עופר C.B01"}]}, {"id": "stats", "name": "סטטיסטיקה ושיטות מחקר", "teacher": "מר הלר נגב בן", "color": "#D2553F", "sessions": [{"day": 2, "start": "15:45", "end": "19:00", "room": "אריסון לאודר A208"}]}, {"id": "food", "name": "תזונה פלנטרית, מזון וטק בעידן החדש", "teacher": "פרופ׳ שי איריס", "color": "#6E8B2A", "sessions": [{"day": 3, "start": "09:45", "end": "13:00", "room": "אריסון לאודר A110"}]}, {"id": "entre", "name": "יזמות, יצירתיות וחדשנות – מאפס לאחת", "teacher": "גב׳ לוקץ יסמין", "color": "#E07B2A", "sessions": [{"day": 3, "start": "13:45", "end": "17:00", "room": "אדלסון EL03"}]}]};
 let TEMPLATE=DEFAULT_PACK;
 let taskFilter='all',taskDraft=null,courseTab='notes',formDraft=null,practice=null,quiz=null,wizard=false,lastQ='',courseMode='list',aiCtl=null,aiResult=null,onbStep=0;
+/* outside claude.ai (installed on the phone's home screen) there is no Claude runtime: the notebook lives on the device */
+const STANDALONE=(()=>{try{return window.top===window}catch(e){return false}})()&&!(window.claude&&typeof window.claude.use==='function');
+const INSTALLED=(()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}})();
+const IOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const CLAUDE_URL='https://claude.ai/artifact/YDh9LaKWKN3erUvL8ZR4jH';
 let sampleFn=null,downloadsNs=null,assetsNs=null,imgCaps=null,upDraft=null,upResult=null,readStarOnly=false;
 
 /* ---------- storage ---------- */
@@ -973,6 +983,7 @@ function switchToLocal(){
 function storageNote(){
   if(!store)return '';
   return store.kind==='db'?'✅ הכול נשמר בחשבון ה-Claude שלך: השם, הקורסים, הסיכומים והמבחנים. פרטי רק לך, ומסונכרן בין הטלפון למחשב.'
+    :STANDALONE?ic('phone')+'המחברת נשמרת בטלפון הזה ועובדת גם בלי אינטרנט. כדאי להוריד גיבוי מדי פעם, למשל לקבצים או ל-iCloud.'
     :'⚠️ כרגע הכול נשמר רק בדפדפן הזה. כדאי להוריד גיבוי מדי פעם.';
 }
 function restoreDocs(docs){
@@ -985,10 +996,15 @@ function restoreDocs(docs){
   }
   ['courses','tasks','profile',...Object.keys(docs).filter(k=>k.startsWith('L_')||k.startsWith('Q_'))].forEach(id=>saveDoc(id,0));
 }
+async function saveFile(filename,data,type){
+  if(downloadsNs){await downloadsNs.save({filename,data});return true}
+  const f=new File([data],filename,{type});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:filename});return true}catch(e){if(e&&e.name==='AbortError')return false}}
+  const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);return true;
+}
 async function downloadBackup(){
-  if(!downloadsNs)return;
   const data=JSON.stringify({app:'nekuda',version:1,exportedAt:new Date().toISOString(),docs:allDocs()});
-  try{await downloadsNs.save({filename:'marker-backup-'+todayKey()+'.json',data});toast('קובץ הגיבוי ירד למכשיר')}catch(e){}
+  try{if(await saveFile('marker-backup-'+todayKey()+'.json',data,'application/json'))toast('קובץ הגיבוי מוכן')}catch(e){}
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
 function removeDoc(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
@@ -1346,7 +1362,11 @@ function draftsHtml(){
   return `<section class="block"><h2 class="sec-h">להמשיך מאיפה שעצרת</h2><div class="list">${ds.map(([id,l])=>{const c=courseById(l.courseId);
     return `<button class="item" style="--c:${c.color}" data-act="edit-lesson" data-id="${id}"><span class="dot"></span><span class="grow"><strong>${esc(l.topic||'סיכום בלי נושא')}</strong><span class="small">${esc(c.name)} · טיוטה מ־${T(shortDate(l.date))}</span></span><span class="go">להמשיך</span></button>`}).join('')}</div></section>`;
 }
-function localNote(){return store&&store.kind==='local'?`<p class="note">מרקר שומר את המחברת שלך במכשיר הזה בלבד, ורק אתה רואה אותה. כדאי לעבוד תמיד מאותו מכשיר ואותו דפדפן, ולהוריד מדי פעם גיבוי מההגדרות.</p>`:''}
+function installNote(){
+  if(!STANDALONE||INSTALLED||!IOS)return '';
+  return `<p class="note">${ic('phone')}<b>להתקנה כאפליקציה:</b> לוחצים על כפתור השיתוף של Safari ${ic('share')} ואז “הוספה למסך הבית”.</p>`;
+}
+function localNote(){if(STANDALONE)return installNote();return store&&store.kind==='local'?`<p class="note">מרקר שומר את המחברת שלך במכשיר הזה בלבד, ורק אתה רואה אותה. כדאי לעבוד תמיד מאותו מכשיר ואותו דפדפן, ולהוריד מדי פעם גיבוי מההגדרות.</p>`:''}
 
 function vCourses(){
   const act=activeCourses(),arch=S.courses.filter(c=>c.archived);
@@ -1438,7 +1458,7 @@ function vCourse(){
       ${main}
       ${liveHere?`<button class="ghost" style="flex:1" data-act="live-course" data-id="${c.id}">✍️ רישום מהיר בזמן השיעור</button>`:''}
     </div>
-    <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">העלאת מצגת</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length&&downloadsNs?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
+    <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">העלאת מצגת</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
   </header>
   <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','תרגול')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
   <div class="tabpanel" id="cpanel" role="tabpanel" aria-labelledby="tab-${courseTab}">${panel}</div>`;
@@ -1883,11 +1903,15 @@ function settingsHtml(){
   <div class="f"><span>מהירות הקראה</span><div class="seg">${[['0.8','איטית'],['1','רגילה'],['1.2','מהירה']].map(([k,v])=>`<button data-act="set-rate" data-v="${k}" aria-pressed="${rate===k}">${v}</button>`).join('')}</div></div>
   <div class="f"><span>יעד שבועי: ימי לימוד</span><div class="seg">${['2','3','4','5','6'].map(k=>`<button data-act="set-goal" data-v="${k}" aria-pressed="${goal===k}">${k}</button>`).join('')}</div></div>
   <div class="f"><span>שמירה וגיבוי</span><p class="note" style="margin:0 0 8px">${storageNote()}</p>
-    <div class="actions" style="margin-top:0">${downloadsNs?'<button class="ghost" data-act="backup">📥 הורדת גיבוי</button>':''}
+    <div class="actions" style="margin-top:0"><button class="ghost" data-act="backup">📥 הורדת גיבוי</button>
     <label class="ghost" style="cursor:pointer">📤 שחזור מגיבוי<input type="file" id="restore-file" accept=".json,application/json" hidden></label></div>
     <p id="restore-msg" class="hint" role="status"></p>
     <div id="snaps"></div></div>
   ${trashHtml()}
+  ${STANDALONE?`<div class="f"><span>Claude</span><p class="note" style="margin:0">סידור סיכומים, בוחנים, כרטיסיות חכמות ושאלות על החומר עובדים בגרסה של מרקר ב-claude.ai.
+    המחברות לא מסונכרנות ביניהן: מעבירים עם “הורדת גיבוי” כאן ו“שחזור מגיבוי” שם (השחזור רק מוסיף, לא מוחק).</p>
+    <div class="actions" style="margin-top:8px"><a class="ghost" href="${CLAUDE_URL}" target="_blank" rel="noopener">לפתוח את מרקר ב-claude.ai</a></div></div>`:''}
+  ${STANDALONE&&!INSTALLED&&IOS?`<div class="f"><span>התקנה</span><p class="note" style="margin:0">ב-Safari: כפתור השיתוף ${ic('share')} ← “הוספה למסך הבית”. מרקר ייפתח כאפליקציה במסך מלא.</p></div>`:''}
   <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
   <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button><button class="link" data-act="show-onb">להציג שוב את ההסבר</button></div>`;
 }
@@ -3105,7 +3129,7 @@ async function exportCourse(cid){
     const tm=(l.terms||[]).filter(x=>x.t);if(tm.length)md+='**מושגים**\n'+tm.map(x=>`- ${x.t}: ${x.d||''}`).join('\n')+'\n\n';
     const q=(l.questions||[]).filter(x=>x.t);if(q.length)md+='**שאלות**\n'+q.map(x=>`- ${x.t}${x.done?' (נענתה)':''}`).join('\n')+'\n\n';
   });
-  try{await downloadsNs.save({filename:(c.name.replace(/[\\/:*?"<>|]/g,' ').trim()||'summaries')+'.md',data:md});toast('הסיכומים ירדו למכשיר')}catch(e){}
+  try{if(await saveFile((c.name.replace(/[\\/:*?"<>|]/g,' ').trim()||'summaries')+'.md',md,'text/markdown'))toast('קובץ הסיכומים מוכן')}catch(e){}
 }
 
 /* ---------- actions ---------- */
@@ -3372,6 +3396,10 @@ document.querySelector('.nav-add').innerHTML=ic('plus')+'<span class="lbl">הו�
 function setHdr(){const t=document.querySelector('.top');if(t)document.documentElement.style.setProperty('--hdr-h',(innerWidth>=1024?0:t.offsetHeight)+'px')}
 window.addEventListener('resize',setHdr);setHdr();
 {const h0=readHash();if(h0)view=h0;try{history.replaceState({name:view.name,id:view.id},'',hashOf(view))}catch(e){}}
+if(STANDALONE&&(location.protocol==='https:'||location.hostname==='localhost')){
+  try{if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}catch(e){}
+  try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(()=>{})}catch(e){}
+}
 (async function init(){
   render();
   let db=null,id=null;
