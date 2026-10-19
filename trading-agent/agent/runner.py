@@ -83,6 +83,7 @@ class Pass:
             log.warning("%s: position %d < managed %d (broker stop filled or manual sale)",
                         symbol, held, managed)
             self.state.set_managed(symbol, held)
+            self.state.record_exit(symbol)  # cooldown applies to broker-side stop exits too
             self.state.log(symbol=symbol, action="RECONCILE", qty=held, status="managed reduced",
                            reason=f"position {held} < managed {managed}")
             managed = held
@@ -196,8 +197,14 @@ class Pass:
         elif sig.in_position and owned == 0:
             # "cross" mode buys only on the entry bar (never chase). "trend" mode buys any day
             # the strategy is long, which is what its backtest assumes.
-            if "entry" in sig.reason or self.cfg.strategy.entry_mode == "trend":
+            s = self.cfg.strategy
+            if "entry" in sig.reason:
                 self.buy(inst, sig, bars, regime, buys_blocked)
+            elif s.entry_mode == "trend":
+                if self.state.exited_within(sym, s.cooldown_bars):
+                    log.info("%s: exited within %d sessions, cooling down", sym, s.cooldown_bars)
+                else:
+                    self.buy(inst, sig, bars, regime, buys_blocked)
 
     def buy(self, inst: Instrument, sig, bars, regime, buys_blocked: str) -> None:
         sym = inst.symbol
@@ -265,6 +272,8 @@ class Pass:
         filled, avg = self.broker.place_limit(inst, side, qty, px)
         self.state.count_order()
         self.state.add_managed(sym, filled if side == "BUY" else -filled)
+        if side == "SELL" and filled:
+            self.state.record_exit(sym)
         if side == "SELL" and filled < qty and prev_stop:
             # Partial exit: put the old stop back on what is left; the next pass sells it.
             self.broker.set_protective_stop(inst, qty - filled, prev_stop[1])

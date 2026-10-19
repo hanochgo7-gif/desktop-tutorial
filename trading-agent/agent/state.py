@@ -70,6 +70,23 @@ class State:
         when = json.loads(path.read_text()).get(symbol)
         return bool(when) and (date.today() - date.fromisoformat(when)).days < days
 
+    # --- last exit per symbol (cooldown before re-entering) ----------------------
+    def record_exit(self, symbol: str) -> None:
+        path = self.root / "exits.json"
+        v = json.loads(path.read_text()) if path.exists() else {}
+        v[symbol] = date.today().isoformat()
+        path.write_text(json.dumps(v, indent=2))
+
+    def exited_within(self, symbol: str, business_days: int) -> bool:
+        path = self.root / "exits.json"
+        if not path.exists() or business_days <= 0:
+            return False
+        when = json.loads(path.read_text()).get(symbol)
+        if not when:
+            return False
+        import numpy as np
+        return int(np.busday_count(date.fromisoformat(when), date.today())) < business_days
+
     # --- per-day counters ----------------------------------------------------
     def daily(self, equity_now: float) -> dict:
         today = date.today().isoformat()

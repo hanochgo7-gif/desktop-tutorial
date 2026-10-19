@@ -258,3 +258,14 @@ def test_drawdown_alert_is_critical(tmp_path):
     n = Notifier(enabled=False)
     run_once(cfg(tmp_path, False), FakeBroker({"AAA": entry_bars()}), notifier=n)
     assert any("max drawdown" in m for m in n.sent)
+
+
+def test_no_rebuy_right_after_broker_stop_in_trend_mode(tmp_path):
+    from dataclasses import replace
+    up = make_bars(np.r_[np.linspace(120, 80, 80), np.linspace(80, 130, 80)])
+    c = cfg(tmp_path, False)
+    c = replace(c, strategy=replace(c.strategy, entry_mode="trend", cooldown_bars=5))
+    State(tmp_path).add_managed("AAA", 100)
+    b = FakeBroker({"AAA": up}, positions={"AAA": 0})  # the broker stop sold everything intraday
+    run_once(c, b)
+    assert b.orders == [] and State(tmp_path).managed() == {}
