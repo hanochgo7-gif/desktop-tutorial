@@ -82,20 +82,19 @@
 <main id="top">
 
   <!-- 01 A simple opening: the headline, two buttons, and a human hand and a robot hand that almost touch -->
-  <section class="hero hs" aria-labelledby="hero-title">
-    <div class="hs-copy">
-      <p class="hs-kicker mono">HG Studio · Hanoch Gotovski</p>
-      <h1 class="hs-title display" id="hero-title">Websites that work<br>for your business.<strong class="sr-only"> HG Studio: custom web design and development studio</strong></h1>
-      <p class="hs-sub">Even when you’re closed, the site answers customers, prices requests, books appointments and sends it all to your WhatsApp. Fixed price, live in two weeks.</p>
-      <div class="cr-cta">
+  <!-- הפתיחה: "Welcome to HG Studio" מאלפי נקודות אור (js/welcome.js). הכותרת עצמה נשארת טקסט רגיל -->
+  <section class="hero hw" aria-labelledby="hero-title">
+    <canvas class="hw-canvas" aria-hidden="true"></canvas>
+    <div class="hw-copy">
+      <p class="hw-kicker mono hw-reveal" style="--i:0">HG Studio · Hanoch Gotovski</p>
+      <h1 class="hw-title display" id="hero-title"><span class="hw-line">Welcome to</span> <span class="hw-line"><b>HG</b> Studio</span><strong class="sr-only">: custom web design and development studio</strong></h1>
+      <p class="hw-sub hw-reveal" style="--i:1">Websites, ad films and smart systems for businesses. Every detail built by hand, point by point, so your site works for you even when you’re closed.</p>
+      <div class="cr-cta hw-reveal" style="--i:2">
           <a class="cr-btn" href="#contact">Get a plan for your business <span aria-hidden="true">→</span></a>
           <a class="cr-btn cr-btn-ghost" href="#night">What happens at night</a>
         </div>
     </div>
-    <figure class="hs-art">
-      <div class="hs-stage"><picture><source media="(max-width: 700px)" srcset="work/hero/hands-m.webp" width="900" height="540"><img src="work/hero/hands.webp" srcset="work/hero/hands-960.webp 960w, work/hero/hands.webp 1600w" sizes="(max-width: 1400px) 100vw, 1400px" width="1600" height="520" alt="A human hand and a robot hand reaching toward each other, almost touching" fetchpriority="high" decoding="async"></picture><i class="hs-spark" aria-hidden="true"></i></div>
-      <figcaption class="hs-cap mono">A machine alone isn’t enough. It takes a human hand.</figcaption>
-    </figure>
+    <p class="hw-hint mono hw-reveal" style="--i:3" aria-hidden="true"><span class="hw-hint-fine">Move your mouse over the title</span><span class="hw-hint-touch">Tap the title</span></p>
     <div class="hs-meta hero-meta mono">
         <span>Hanoch Gotovski · Israel · <time class="clock">--:--</time></span>
         <a class="hero-avail" href="#contact"><i aria-hidden="true"></i>Available for projects · 2026</a>
@@ -610,6 +609,7 @@
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/hanoch.js" defer></script>
 <script src="js/night.js" defer></script>
+<script src="js/welcome.js" defer></script>
 <script src="js/systems.js" defer></script>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
