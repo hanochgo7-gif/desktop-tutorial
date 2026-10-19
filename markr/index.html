@@ -549,6 +549,28 @@ details.opt>.in{padding:0 16px 16px}
 .reader .actions .ic{color:var(--link);width:1.25em;height:1.25em}
 .r-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
 .r-imgs img{width:100%;border-radius:14px;display:block}
+/* attached photos and files */
+.atts{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
+.att-w{position:relative}
+.att{display:block;width:100%;aspect-ratio:3/4;border:0;padding:0;border-radius:12px;overflow:hidden;background:var(--fill);cursor:zoom-in}
+.att img{width:100%;height:100%;object-fit:cover;display:block}
+.att-file{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;font-size:.8125rem;color:var(--ink2);cursor:pointer;text-align:center;overflow-wrap:anywhere}
+.att-file .ic{width:1.8em;height:1.8em;margin:0;color:var(--link)}
+.att-rm{position:absolute;top:4px;inset-inline-end:4px;min-width:44px;height:44px;display:grid;place-items:center;background:none;border:0;padding:0}
+.att-rm span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff}
+.att-rm .ic{margin:0;width:1em;height:1em}
+.att-add{margin-top:10px;cursor:pointer}
+.att-add input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.att-add:focus-within{outline:2px solid var(--focus);outline-offset:2px}
+#viewer{position:fixed;inset:0;z-index:70;background:#000;display:flex;flex-direction:column;color:#fff}
+#viewer[hidden]{display:none}
+#viewer .vbar{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px}
+#viewer .vbar .grow{flex:1;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+#viewer button{min-width:44px;min-height:44px;border:0;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;padding:0 12px}
+#viewer button .ic{margin:0}
+#viewer .vimg{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;touch-action:pinch-zoom pan-x pan-y}
+#viewer .vimg img{max-width:100%;max-height:100%;object-fit:contain}
+#viewer .vnav{display:flex;justify-content:space-between;padding:8px 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
 .r-nav{display:flex;justify-content:space-between;gap:8px;margin-top:22px}
 .r-lesson{border-top:.5px solid var(--line2);padding-top:20px;margin-top:24px}
 .r-lesson:first-of-type{border-top:0;margin-top:10px}
@@ -1002,8 +1024,23 @@ async function saveFile(filename,data,type){
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:filename});return true}catch(e){if(e&&e.name==='AbortError')return false}}
   const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);return true;
 }
+async function filesForBackup(){
+  const out={};for(const l of Object.values(S.lessons))for(const f of (l.files||[])){if(out[f.id])continue;
+    const b=await fileBlob(f);if(!b)continue;
+    out[f.id]=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=()=>r(null);fr.readAsDataURL(b)})}
+  for(const k of Object.keys(out))if(!out[k])delete out[k];return out;
+}
+async function importFiles(files){
+  if(!files)return;let moved=false;
+  for(const [id,url] of Object.entries(files)){try{const b=await (await fetch(url)).blob();if(!(await FDB.get(id)))await FDB.put(id,b)}catch(e){}}
+  for(const [lid,l] of Object.entries(S.lessons))for(const f of (l.files||[])){if(!files[f.id])continue;
+    if(assetsNs&&f.local){try{const b=await FDB.get(f.id);const up=b&&await assetsNs.upload(b);if(up&&up.id){f.id=up.id;delete f.local;delete f.type;saveDoc(lid,0);moved=true}}catch(e){}}
+    else if(!assetsNs&&!f.local){f.local=1;saveDoc(lid,0);moved=true}}
+  if(moved)render();
+}
 async function downloadBackup(){
-  const data=JSON.stringify({app:'nekuda',version:1,exportedAt:new Date().toISOString(),docs:allDocs()});
+  const files=await filesForBackup();
+  const data=JSON.stringify({app:'nekuda',version:1,exportedAt:new Date().toISOString(),docs:allDocs(),...(Object.keys(files).length?{files}:{})});
   try{if(await saveFile('marker-backup-'+todayKey()+'.json',data,'application/json'))toast('קובץ הגיבוי מוכן')}catch(e){}
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
@@ -1047,9 +1084,9 @@ function lessonsOf(cid){
 function lessonNo(id){const l=S.lessons[id];if(!l)return 0;return lessonsOf(l.courseId).findIndex(x=>x.id===id)+1}
 function sessLine(s){return `יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}${s.room?', <span class="nw">'+esc(s.room)+'</span>':''}`}
 function sessBlock(s){return `<span class="sl">${ic('clock')}יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}</span>${s.room?`<span class="sl">${ic('pin')}<span class="nw">${esc(s.room)}</span></span>`:''}`}
-function isEmptyLesson(l){return !l.topic&&!l.notes&&!l.key&&!(l.terms||[]).some(t=>t.t||t.d)&&!(l.questions||[]).some(q=>q.t)}
+function isEmptyLesson(l){return !l.topic&&!l.notes&&!l.key&&!(l.terms||[]).some(t=>t.t||t.d)&&!(l.questions||[]).some(q=>q.t)&&!(l.files||[]).length}
 /* a summary is finished once the student pressed "done", wrote the key point, took its quiz, or it came from an upload */
-function isDone(l){return !!(l.finished||(l.key||'').trim()||(l.quiz&&l.quiz.last!=null)||l.source==='upload')}
+function isDone(l){return !!(l.finished||(l.key||'').trim()||(l.quiz&&l.quiz.last!=null)||l.source==='upload'||(l.files||[]).length)}
 function isDraft(l){return !isEmptyLesson(l)&&!isDone(l)}
 function nowNext(){
   const now=new Date(),dow=now.getDay(),m=now.getHours()*60+now.getMinutes();let best=null;
@@ -1185,7 +1222,7 @@ function render(){
   const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen}[view.name]||vHome;
   app.innerHTML=iconize(fn());
   markNav();
-  app.querySelectorAll('textarea').forEach(grow);
+  app.querySelectorAll('textarea').forEach(grow);hydrateFiles(app);
   if(fk){const n=app.querySelector(fk);if(n)n.focus({preventScroll:true})}
 }
 /* the tab bar follows the screen actually shown (a view can fall back to another) */
@@ -1206,6 +1243,7 @@ function pushNav(st){
 }
 function readHash(){const m=(location.hash||'').match(/^#([a-z]+)(?:\/(.+))?$/);if(!m||!VIEWS.includes(m[1]))return null;return{name:m[1],id:m[2]?decodeURIComponent(m[2]):undefined}}
 window.addEventListener('popstate',e=>{
+  {const v=$('#viewer');if(v&&!v.hidden&&!navBack){viewerClose();pushNav({name:view.name,id:view.id});return}}
   if(navBack){navBack=false;if(navQueue){const q=navQueue;navQueue=null;try{history.pushState(q,'',q.modal?location.hash:hashOf(q))}catch(_){}}return}
   if(modalOpen){
     if(formDraft&&formDraft.fromWizard){formDraft=null;setSheet(onbHtml());pushNav({name:view.name,id:view.id,modal:1});return}
@@ -1458,7 +1496,7 @@ function vCourse(){
       ${main}
       ${liveHere?`<button class="ghost" style="flex:1" data-act="live-course" data-id="${c.id}">✍️ רישום מהיר בזמן השיעור</button>`:''}
     </div>
-    <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">העלאת מצגת</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
+    <div class="hero-links"><button class="link" data-act="new-lesson" data-id="${c.id}">סיכום לתאריך אחר</button><button class="link" data-act="qa-photos" data-id="${c.id}">צילומי מחברת</button>${sampleFn?`<button class="link" data-act="upload" data-id="${c.id}">מצגת לסיכום</button>`:''}<button class="link" data-act="edit-course" data-id="${c.id}">עריכת הקורס</button>${filled.length?`<button class="link" data-act="export" data-id="${c.id}">הורדת הסיכומים</button>`:''}</div>
   </header>
   <div class="tabs" role="tablist" aria-label="חלקי הקורס">${tab('notes','סיכומים',filled.length)}${tab('learn','תרגול')}${tab('tasks','משימות',openT.length)}${terms.length?tab('terms','מושגים',terms.length):''}</div>
   <div class="tabpanel" id="cpanel" role="tabpanel" aria-labelledby="tab-${courseTab}">${panel}</div>`;
@@ -1483,6 +1521,12 @@ function vLesson(){
     <div class="field">
       <label for="f-topic">על מה היה השיעור?</label>
       <input type="text" id="f-topic" data-f="topic" value="${esc(l.topic)}" placeholder="למשל: היצע וביקוש">
+    </div>
+    <div class="field">
+      <h2 class="lbl">צילומים וקבצים</h2>
+      <p class="hint">צילום של מחברת, דף מהמרצה או קובץ PDF. נשמרים בתוך הסיכום.</p>
+      ${filesHtml(view.id,true)}
+      ${ai&&imgCaps&&(l.files||[]).some(f=>f.kind==='image')?`<div class="tools"><button class="ai" data-act="att-ai" data-id="${view.id}">✨ להעתיק את הכתוב בצילומים לסיכום</button></div>`:''}
     </div>
     <div class="field">
       <h2 class="lbl">מה למדנו</h2>
@@ -1548,7 +1592,6 @@ function decorateNotes(html){
 }
 function readMinutes(l){const w=String(l.notes||'').split(/\s+/).filter(Boolean).length+(l.terms||[]).length*12;return Math.max(1,Math.round(w/170))}
 function lessonReadHtml(id,l,no,full){
-  const imgs=(l.files||[]).filter(f=>f.kind==='image');
   const d=l.notes?decorateNotes(notesHtmlOf(l)):{html:'',toc:[]};
   const terms=(l.terms||[]).filter(x=>x.t);
   return `${l.key?`<div class="r-key"><b>הנקודה החשובה</b><span class="hl">${esc(l.key)}</span></div>`:''}
@@ -1556,8 +1599,7 @@ function lessonReadHtml(id,l,no,full){
     ${l.notes?`<h2 class="sr">הסיכום</h2><div class="r-body rich numbered">${d.html}</div>`:''}
     ${terms.length?`<section class="gloss-grid"><h3>מושגים <span>${terms.length}</span></h3><div class="gg">${terms.map(x=>`<div class="gcard"><b>${esc(x.t)}</b><span>${esc(x.d||'')}</span></div>`).join('')}</div></section>`:''}
     ${full&&(l.questions||[]).some(x=>x.t)?`<div class="r-body"><h3>שאלות לשיעור הבא</h3><ul>${l.questions.filter(x=>x.t).map(x=>`<li>${esc(x.t)}${x.done?' ✓':''}</li>`).join('')}</ul></div>`:''}
-    ${imgs.length?`<div class="r-imgs">${imgs.map(f=>`<img src="/_blob/${esc(f.id)}" alt="${esc(f.name||'תמונה מקורית')}" loading="lazy">`).join('')}</div>`:''}
-    ${(l.files||[]).filter(f=>f.kind!=='image').map(f=>`<p class="hint">מקור: ${esc(f.name)}</p>`).join('')}`;
+    ${(l.files||[]).length?`<section class="gloss-grid"><h3>צילומים וקבצים <span>${l.files.length}</span></h3>${filesHtml(id,false)}</section>`:''}`;
 }
 function vRead(){
   const l=S.lessons[view.id];if(!l){view={name:'home'};return vHome()}
@@ -1577,7 +1619,7 @@ function vRead(){
     ${canQuiz?`<div class="cta"><div class="grow"><b>${done?'רוצה לבדוק שוב?':'מוכן לבדוק את עצמך?'}</b><span>${qn>=8?`${qn} שאלות אמריקאיות, כ-${Math.max(3,Math.round(qn*0.4))} דקות`:'בוחן אמריקאי על כל החומר בשיעור'}</span></div><button class="primary" data-act="ai-quiz">${done?'בוחן שוב':'להתחיל בוחן'}</button></div>`:''}
     <div class="actions">
       ${sampleFn?`<button class="ghost" data-act="ask" data-id="${c.id}">💬 שאלה על החומר</button>`:''}
-      <button class="ghost" data-act="listen-lesson" data-id="${view.id}">🎧 להאזין</button>
+      ${l.notes||l.key?`<button class="ghost" data-act="listen-lesson" data-id="${view.id}">🎧 להאזין</button>`:''}
       ${sampleFn?`<button class="ghost" data-act="cards" data-id="${view.id}">🃏 כרטיסיות</button>`:''}
       ${sampleFn?`<button class="ghost" data-act="fey" data-id="${view.id}">🧑‍🏫 להסביר במילים שלי${l.fey?` (${l.fey.score})`:''}</button>`:''}
       <button class="ghost" data-act="edit-lesson" data-id="${view.id}">✏️ עריכה</button>
@@ -1683,7 +1725,8 @@ function quickAddHtml(){
   <button class="tool" data-act="qa-sum">✏️ <span>סיכום שיעור<small>להיום או לתאריך אחר</small></span></button>
   <button class="tool" data-act="task-new">${ic('check')}<span>משימה או הגשה<small>עם תאריך וצעדים</small></span></button>
   <button class="tool" data-act="task-new" data-k="exam">📅 <span>מבחן<small>ותוכנית חזרה עד אליו</small></span></button>
-  ${sampleFn?`<button class="tool" data-act="upload">📷 <span>מצגת או דף<small>Claude מסכם בשבילך</small></span></button>`:''}
+  <button class="tool" data-act="qa-photos">📷 <span>צילומי מחברת<small>תמונות או PDF לתוך הסיכום</small></span></button>
+  ${sampleFn?`<button class="tool" data-act="upload">✨ <span>מצגת לסיכום<small>Claude מסכם בשבילך</small></span></button>`:''}
   <button class="tool" data-act="new-course">📚 <span>קורס חדש<small>שם, מרצה ושעות</small></span></button>
   </div>`;
 }
@@ -2649,6 +2692,122 @@ document.addEventListener('paste',e=>{
     document.execCommand('insertHTML',false,html?sanitize(html):esc(txt).replace(/\n/g,'<br>'));}
 });
 
+/* ---------- attached photos and files (a friend's notebook, a handout, a slide) ----------
+   In claude.ai a file goes to the artifact's file store (/_blob/<id>); in the phone app, or if that fails,
+   it stays on the device in IndexedDB ("markr-files"). The lesson keeps only the reference. */
+const FDB={db:null,open(){return new Promise(res=>{try{const r=indexedDB.open('markr-files',1);r.onupgradeneeded=()=>r.result.createObjectStore('blobs');r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)}catch(e){res(null)}})},
+  async run(mode,fn){const db=this.db||(this.db=await this.open());if(!db)return null;return new Promise(res=>{try{const t=db.transaction('blobs',mode),r=fn(t.objectStore('blobs'));t.oncomplete=()=>res(r?r.result:true);t.onerror=t.onabort=()=>res(null)}catch(e){res(null)}})},
+  put(id,b){return this.run('readwrite',s=>s.put(b,id))},get(id){return this.run('readonly',s=>s.get(id))}};
+const fileURLs={};
+async function fileBlob(f){if(f.local)return await FDB.get(f.id);try{const r=await fetch('/_blob/'+f.id);return r.ok?await r.blob():null}catch(e){return null}}
+async function fileURL(f){if(!f.local)return '/_blob/'+f.id;if(fileURLs[f.id])return fileURLs[f.id];const b=await FDB.get(f.id);return b?(fileURLs[f.id]=URL.createObjectURL(b)):''}
+/* files kept on the device get their address after the HTML is on screen */
+function hydrateFiles(root){(root||document).querySelectorAll('img[data-fid]').forEach(async im=>{const u=await fileURL({id:im.dataset.fid,local:1});if(u)im.src=u;else im.closest('.att')&&im.closest('.att').classList.add('att-missing')})}
+const isImgFile=f=>/^image\//.test(f.type||'')||/\.(jpe?g|png|webp|gif|heic|heif)$/i.test(f.name||'');
+const isPdfFile=f=>f.type==='application/pdf'||/\.pdf$/i.test(f.name||'');
+function filesHtml(lid,edit){
+  const l=S.lessons[lid];if(!l)return '';const fs=l.files||[];
+  const src=f=>f.local?`data-fid="${esc(f.id)}"`:`src="/_blob/${esc(f.id)}"`;
+  const item=(f,i)=>{const name=esc(f.name||(f.kind==='image'?'צילום':'קובץ'));
+    const b=f.kind==='image'?`<button class="att" data-act="att-view" data-id="${lid}" data-i="${i}" aria-label="להגדיל: ${name}"><img ${src(f)} alt="${name}" loading="lazy"></button>`
+      :`<button class="att att-file" data-act="att-open" data-id="${lid}" data-i="${i}">${ic('file')}<span>${name}</span></button>`;
+    return `<div class="att-w">${b}${edit?`<button class="att-rm" data-act="att-rm" data-id="${lid}" data-i="${i}" aria-label="להסיר: ${name}"><span>${ic('x')}</span></button>`:''}</div>`};
+  return `${fs.length?`<div class="atts">${fs.map(item).join('')}</div>`:''}
+  ${edit?`<label class="add att-add">${ic('camera')}${fs.length?'עוד צילום או קובץ':'להוסיף צילום או קובץ'}<input type="file" id="att-in" data-lid="${lid}" accept="image/*,application/pdf,.pdf" multiple></label>`:''}`;
+}
+async function addAttachments(lid,files){
+  const l=S.lessons[lid];if(!l)return 0;l.files=l.files||[];let n=0,bad=0;
+  const st=$('#status');if(st){st.className='status saving';st.textContent='שומר את הקבצים…'}
+  for(const f of files){
+    const img=isImgFile(f);if(!img&&!isPdfFile(f)){bad++;continue}
+    const blob=img?await shrinkImage(f,2000):f,kind=img?'image':'pdf',name=f.name||(img?'צילום':'קובץ');let ref=null;
+    if(assetsNs){try{const up=await assetsNs.upload(blob);if(up&&up.id)ref={id:up.id,name,kind}}catch(e){}}
+    if(!ref){const id='F_'+uid();if(await FDB.put(id,blob))ref={id,local:1,name,kind,type:blob.type||''}}
+    if(ref){(S.lessons[lid]||l).files.push(ref);n++}else bad++;
+  }
+  if(n){markActive();saveDoc(lid,0)}
+  updateStatus();if(view.id===lid&&(view.name==='lesson'||view.name==='read'))render();
+  toast(n?(n===1?'הקובץ נוסף לסיכום':`נוספו ${n} קבצים לסיכום`)+(bad?`, ${bad} לא נשמרו`:''):'לא הצלחתי לשמור. אפשר להוסיף תמונות או PDF.',{icon:n?'okc':'alert'});
+  return n;
+}
+function removeAttachment(lid,i){
+  const l=S.lessons[lid];if(!l||!l.files||!l.files[i])return;
+  if(!confirm('להסיר את הקובץ מהסיכום?'))return;
+  const [f]=l.files.splice(i,1);saveDoc(lid,0);render();
+  toast('הקובץ הוסר',{icon:'trash',undo:()=>{const L=S.lessons[lid];if(!L)return;L.files=L.files||[];L.files.splice(Math.min(i,L.files.length),0,f);saveDoc(lid,0);render()}});
+}
+/* full-screen viewer for photos: pinch to zoom, arrows to move between pages */
+const VW={lid:null,i:0,list:[]};
+async function openViewer(lid,i){
+  const l=S.lessons[lid];if(!l)return;VW.lid=lid;VW.list=(l.files||[]).filter(f=>f.kind==='image');VW.i=Math.max(0,VW.list.indexOf((l.files||[])[i]));
+  let v=$('#viewer');if(!v){v=document.createElement('div');v.id='viewer';v.setAttribute('role','dialog');v.setAttribute('aria-modal','true');v.setAttribute('aria-label','צילום מהסיכום');document.body.appendChild(v)}
+  v.hidden=false;VW.prevFocus=document.activeElement;document.body.style.overflow='hidden';await viewerDraw();$('#viewer [data-v=close]').focus();
+}
+async function viewerDraw(){
+  const v=$('#viewer'),f=VW.list[VW.i];if(!v||!f)return;const n=VW.list.length;
+  v.innerHTML=iconize(`<div class="vbar"><button data-v="close" aria-label="סגירה">${ic('x')}</button><span class="grow">${n>1?`${VW.i+1} מתוך ${n}`:esc(f.name||'')}</span><button data-v="save" aria-label="שמירה או שיתוף">${ic('share')}</button></div>
+    <div class="vimg"><img alt="${esc(f.name||'צילום')}"></div>
+    ${n>1?`<div class="vnav"><button data-v="prev" aria-label="הקודם">${ic('chevr')}</button><button data-v="next" aria-label="הבא">${ic('chevl')}</button></div>`:''}`);
+  const u=await fileURL(f);if(u)v.querySelector('.vimg img').src=u;
+}
+function viewerClose(){const v=$('#viewer');if(!v||v.hidden)return;v.hidden=true;v.innerHTML='';if(!modalOpen)document.body.style.overflow='';if(VW.prevFocus&&document.contains(VW.prevFocus))VW.prevFocus.focus({preventScroll:true})}
+document.addEventListener('click',async e=>{
+  const b=e.target.closest&&e.target.closest('#viewer [data-v]');if(!b)return;const a=b.dataset.v,n=VW.list.length;
+  if(a==='close')viewerClose();
+  if(a==='next'&&n){VW.i=(VW.i+1)%n;viewerDraw()}
+  if(a==='prev'&&n){VW.i=(VW.i-1+n)%n;viewerDraw()}
+  if(a==='save'){const f=VW.list[VW.i];const bl=f&&await fileBlob(f);if(bl)saveFile(f.name&&/\.\w+$/.test(f.name)?f.name:'markr-photo.jpg',bl,bl.type||'image/jpeg')}
+});
+async function openAttachment(lid,i){
+  const f=((S.lessons[lid]||{}).files||[])[i];if(!f)return;
+  if(f.kind==='image'){openViewer(lid,i);return}
+  const u=await fileURL(f);if(!u){toast('הקובץ לא נמצא במכשיר הזה',{icon:'alert'});return}
+  const w=window.open(u,'_blank');if(!w){const bl=await fileBlob(f);if(bl)saveFile(f.name||'file.pdf',bl,bl.type||'application/pdf')}
+}
+/* "someone photographed their notebook for me": pick course + date, then the photos */
+function photosSheetHtml(cid){
+  const cs=activeCourses();
+  if(!cs.length)return `<h2>צילומי מחברת</h2><p>כל סיכום שייך לקורס. מוסיפים קורס פעם אחת, ואז מכניסים את הצילומים.</p><div class="sheet-foot"><button class="primary" data-act="new-course">הוספת קורס</button><button class="ghost" data-act="modal-close">ביטול</button></div>`;
+  const def=cid&&courseById(cid)?cid:(view.name==='course'?view.id:null)||(nowNext()?.c.id)||cs[0].id;
+  return `<h2>צילומי מחברת או דפים</h2><p class="hint">מישהו צילם לך את הסיכום? בוחרים קורס ותאריך, ואז את התמונות. הן נשמרות בתוך הסיכום של אותו שיעור.</p>
+  <label class="f" style="margin-top:12px"><span>קורס</span><select id="ph-course">${cs.map(c=>`<option value="${c.id}" ${c.id===def?'selected':''}>${esc(c.name)}</option>`).join('')}</select></label>
+  <label class="f"><span>תאריך השיעור</span><input type="date" id="ph-date" value="${todayKey()}" max="${todayKey()}"></label>
+  <label class="primary big att-add" style="width:100%;max-width:none">${ic('camera')}לבחור צילומים או קבצים<input type="file" id="ph-in" accept="image/*,application/pdf,.pdf" multiple></label>
+  <p class="hint" style="margin-top:8px">${IOS?'אפשר לצלם עכשיו, לבחור מהתמונות או מהקבצים.':'אפשר לבחור כמה תמונות או קובצי PDF בבת אחת.'}</p>
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">ביטול</button></div>`;
+}
+async function photosToLesson(files){
+  const cid=($('#ph-course')||{}).value,d=($('#ph-date')||{}).value||todayKey();if(!cid||!files.length)return;
+  setSheet(`<h2>שומר את הצילומים…</h2><div class="thinking"><span class="pulse"></span><span>${files.length===1?'קובץ אחד':files.length+' קבצים'}</span></div>`);
+  const ex=lessonsOf(cid).find(l=>l.date===d),lid=ex?ex.id:newLesson(cid,d);
+  const n=await addAttachments(lid,files);
+  if(n&&S.lessons[lid]&&!S.lessons[lid].topic){S.lessons[lid].topic='צילומי מחברת';saveDoc(lid,0)}
+  closeModal();if(n||ex)go('lesson',lid);
+}
+/* with Claude: turn the handwriting in the attached photos into editable text */
+async function aiFromPhotos(lid){
+  const l=S.lessons[lid];if(!l||!sampleFn||!imgCaps)return;aiRetry=()=>aiFromPhotos(lid);
+  const fs=(l.files||[]).filter(f=>f.kind==='image').slice(0,imgCaps.maxCount||8);if(!fs.length)return;
+  setOrOpen(thinkingHtml(fs.length===1?'Claude קורא את הכתוב בצילום…':`Claude קורא את הכתוב ב-${fs.length} צילומים…`));
+  aiCtl=new AbortController();
+  try{
+    const images=[];for(const f of fs){const b=await fileBlob(f);if(b)images.push(await shrinkImage(b,1600))}
+    if(!images.length)throw{code:'no_files'};
+    const c=courseById(l.courseId);
+    const r=await sampleFn(`These photos are pages from a student's (or a classmate's) handwritten or printed lecture notes (course: ${c?c.name:''}). Transcribe them EXACTLY as written, in order, for the student's notebook.
+Rules:
+- Do NOT summarize, shorten, translate or add anything. Keep the original language and wording.
+- Keep the structure: headings on their own line ending with ":", bullet points as lines starting with "- ", paragraphs as plain lines.
+- Write [לא ברור] for words you cannot read. For drawings, diagrams or charts, write a short Hebrew description in its place, in the form [תרשים: ...].
+- Output only the transcription, nothing else.`,{signal:aiCtl.signal,images,modelTier:'default'});
+    aiCtl=null;const txt=((r&&r.text)||'').trim();if(!txt)throw{code:'empty'};
+    const L=S.lessons[lid];if(!L)return;
+    L.prevNotes=L.notes||'';L.prevHtml=L.notesHtml!=null?L.notesHtml:null;
+    L.notesHtml=notesHtmlOf(L)+`<h3>מהצילומים</h3>`+fmtNotes(txt);L.notes=htmlToText(L.notesHtml);saveDoc(lid,0);
+    if(modalOpen)closeModal();render();toast('הטקסט מהצילומים נוסף לסיכום. כדאי לעבור עליו ולתקן.');
+  }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return;if(modalOpen)setSheet(aiErr(e))}
+}
+
 /* ---------- images inside notes ---------- */
 async function insertImages(files){
   const ed=$('#f-rich');if(!ed)return;const lid=view.id;
@@ -3183,6 +3342,11 @@ document.addEventListener('click',e=>{
     case 'course-tab':courseTab=b.dataset.v;render();{const tb=$('#tab-'+courseTab);tb&&tb.focus({preventScroll:true})}break;
     case 'quick-add':setOrOpen(quickAddHtml());break;
     case 'qa-sum':setSheet(qaSumHtml());break;
+    case 'qa-photos':setOrOpen(photosSheetHtml(id));break;
+    case 'att-view':openViewer(id,+b.dataset.i);break;
+    case 'att-open':openAttachment(id,+b.dataset.i);break;
+    case 'att-rm':removeAttachment(id,+b.dataset.i);break;
+    case 'att-ai':aiFromPhotos(id);break;
     case 'task-new':openTask(null,{kind:b.dataset.k||'task',...(b.dataset.cid?{courseId:b.dataset.cid}:{}),...(b.dataset.lid?{lessonId:b.dataset.lid}:{})});break;
     case 'exam-practice':examPractice(id);break;
     case 'ai-retry':{const f=aiRetry;if(f)f();break}
@@ -3351,8 +3515,11 @@ document.addEventListener('change',e=>{
       if(!j||j.app!=='nekuda'||!j.docs){if(msg)msg.textContent='זה לא קובץ גיבוי של מרקר.';return}
       if(!confirm('להחזיר מהגיבוי את כל מה שחסר עכשיו? שום דבר קיים לא יימחק ולא ישתנה.'))return;
       const n=mergeDocs(j.docs);if(msg)msg.textContent=n?`הוחזרו ${n} פריטים מהגיבוי.`:'לא היה מה להחזיר, הכול כבר כאן.';
+      importFiles(j.files);
     });return}
   if(el.id==='img-in'&&el.files.length){insertImages([...el.files]);return}
+  if(el.id==='att-in'&&el.files.length){const fs=[...el.files];el.value='';addAttachments(el.dataset.lid,fs);return}
+  if(el.id==='ph-in'&&el.files.length){const fs=[...el.files];el.value='';photosToLesson(fs);return}
   if(el.id==='voice-sel'){pref('voice',el.value);sampleVoice();return}
   if(el.id==='lsn-course'){LSN.cid=el.value;LSN.lid=null;render();return}
   if(el.id==='lsn-lesson'){LSN.lid=el.value;return}
@@ -3372,6 +3539,8 @@ document.addEventListener('keydown',e=>{
     e.preventDefault();tabs[n].click();return}
   if((e.metaKey||e.ctrlKey)&&e.key==='Enter'&&view.name==='lesson'){e.preventDefault();const b=$('[data-act=done-lesson]');b&&b.click();return}
   if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='live-in'&&!e.isComposing){e.preventDefault();liveAdd('n');return}
+  {const v=$('#viewer');if(v&&!v.hidden){if(e.key==='Escape'){viewerClose();e.preventDefault()}else if(e.key==='ArrowLeft'){v.querySelector('[data-v=next]')&&v.querySelector('[data-v=next]').click()}else if(e.key==='ArrowRight'){v.querySelector('[data-v=prev]')&&v.querySelector('[data-v=prev]').click()}
+    else if(e.key==='Tab'){const f=[...v.querySelectorAll('button')];if(f.length){const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}}return}}
   if(e.key==='Escape'&&D.open){drawAct('close');return}
   if(e.key==='Escape'&&modalOpen){requestClose(true);return}
   if(e.key==='Tab'&&modalOpen){const sh=$('#sheet'),f=[...sh.querySelectorAll('button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),summary,[href],[contenteditable=true]')].filter(x=>x.offsetParent!==null);
