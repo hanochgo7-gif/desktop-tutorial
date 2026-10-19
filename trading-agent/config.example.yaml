@@ -62,4 +62,14 @@ analyst:
   max_searches: 5
   min_confidence: 0.6    # approvals below this confidence become vetoes
 
+# Alerts: always logged; also sent to Telegram when TELEGRAM_BOT_TOKEN and
+# TELEGRAM_CHAT_ID are set. Drift warnings fire when live results stop looking
+# like the backtest.
+monitor:
+  alerts: true
+  expected_max_drawdown_pct: 18   # the backtest's worst drawdown
+  min_sharpe_60d: -1.0
+  max_avg_slippage_bps: 15
+  max_recent_errors: 5
+
 state_dir: state             # journal, daily state, kill switch file (state/STOP)

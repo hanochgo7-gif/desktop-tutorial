@@ -67,6 +67,15 @@ class AnalystConfig:
 
 
 @dataclass
+class MonitorConfig:
+    alerts: bool = True                    # Telegram, if TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID are set
+    expected_max_drawdown_pct: float = 18  # backtest's worst drawdown; warn beyond it
+    min_sharpe_60d: float = -1.0
+    max_avg_slippage_bps: float = 15
+    max_recent_errors: int = 5
+
+
+@dataclass
 class Config:
     mode: str = "paper"
     dry_run: bool = True
@@ -75,6 +84,7 @@ class Config:
     strategy: StrategyConfig = field(default_factory=StrategyConfig)
     risk: RiskConfig = field(default_factory=RiskConfig)
     analyst: AnalystConfig = field(default_factory=AnalystConfig)
+    monitor: MonitorConfig = field(default_factory=MonitorConfig)
     state_dir: Path = Path("state")
 
     def __post_init__(self):
@@ -99,5 +109,6 @@ def load_config(path: str | Path) -> Config:
         strategy=StrategyConfig(**raw.get("strategy", {})),
         risk=RiskConfig(**raw.get("risk", {})),
         analyst=AnalystConfig(**raw.get("analyst", {})),
+        monitor=MonitorConfig(**raw.get("monitor", {})),
         state_dir=Path(raw.get("state_dir", "state")),
     )

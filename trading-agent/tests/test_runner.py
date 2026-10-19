@@ -240,3 +240,21 @@ def test_veto_is_remembered(tmp_path):
     run_once(c, FakeBroker({"AAA": up}), analyst=a)
     run_once(c, FakeBroker({"AAA": up}), analyst=a)
     assert a.calls == 1  # second day: not re-asked
+
+
+def test_alerts_and_equity_recorded(tmp_path):
+    from agent.monitor import Notifier, load_equity
+    n = Notifier(enabled=False)
+    b = FakeBroker({"AAA": entry_bars()})
+    run_once(cfg(tmp_path, False), b, notifier=n)
+    assert any(m.startswith("BUY AAA") for m in n.sent)
+    assert len(load_equity(tmp_path)) == 1
+
+
+def test_drawdown_alert_is_critical(tmp_path):
+    import json
+    from agent.monitor import Notifier
+    (tmp_path / "peak.json").write_text(json.dumps({"peak": 150_000}))
+    n = Notifier(enabled=False)
+    run_once(cfg(tmp_path, False), FakeBroker({"AAA": entry_bars()}), notifier=n)
+    assert any("max drawdown" in m for m in n.sent)

@@ -11,6 +11,7 @@ import logging
 from .broker import IBKRBroker
 from .config import Config, Instrument
 from .data import BarStore, clean_bars
+from . import monitor
 from .risk import AccountSnapshot, RiskManager
 from .state import State
 from .strategy import compute, latest_signal, regime_filter
@@ -20,7 +21,7 @@ log = logging.getLogger("agent")
 VETO_DAYS = 7  # after a Claude veto, do not ask again about the same symbol for this long
 
 
-def run_once(cfg: Config, broker: IBKRBroker | None = None, analyst=None) -> None:
+def run_once(cfg: Config, broker: IBKRBroker | None = None, analyst=None, notifier=None) -> None:
     state = State(cfg.state_dir)
     if state.kill_switch:
         log.warning("kill switch %s exists - doing nothing", state.root / "STOP")
@@ -34,14 +35,15 @@ def run_once(cfg: Config, broker: IBKRBroker | None = None, analyst=None) -> Non
     broker = broker or IBKRBroker(cfg)
     broker.connect()
     try:
-        Pass(cfg, broker, state, analyst).run()
+        Pass(cfg, broker, state, analyst, notifier).run()
     finally:
         broker.disconnect()
 
 
 class Pass:
-    def __init__(self, cfg: Config, broker, state: State, analyst):
+    def __init__(self, cfg: Config, broker, state: State, analyst, notifier=None):
         self.cfg, self.broker, self.state, self.analyst = cfg, broker, state, analyst
+        self.alert = (notifier or monitor.Notifier(cfg.monitor.alerts)).send
         self.risk = RiskManager(cfg.risk, cfg.strategy.atr_stop_mult)
         self.store = BarStore(state.root / "bars.db")
         self._bars: dict[str, object] = {}
@@ -94,10 +96,13 @@ class Pass:
                  tag, self.broker.account, start.equity, start.daily_pnl_pct, start.orders_today)
 
         if self.drawdown_breached(start.equity):
+            self.finish()
             return
 
         regime = self.regime()
         buys_blocked = self.circuit_breaker()
+        if buys_blocked:
+            self.alert(buys_blocked)
 
         for inst in self.cfg.universe:
             try:
@@ -105,6 +110,20 @@ class Pass:
             except Exception as e:  # one bad symbol must not stop the rest
                 log.error("%s: %s", inst.symbol, e)
                 self.state.log(symbol=inst.symbol, action="ERROR", status="skipped", reason=str(e))
+                self.alert(f"{inst.symbol}: skipped: {e}")
+        self.finish()
+
+    def finish(self) -> None:
+        """Record today's equity and warn if live results drift from the backtest."""
+        try:
+            v = self.broker.account_values()
+            monitor.record_equity(self.state.root, v["NetLiquidation"], v.get("TotalCashValue", 0.0),
+                                  v.get("GrossPositionValue", 0.0), self.state.managed())
+            for w in monitor.drift_warnings(self.cfg, monitor.load_equity(self.state.root),
+                                            monitor.load_journal(self.state.root)):
+                self.alert(w)
+        except Exception as e:
+            log.error("monitoring failed: %s", e)
 
     def drawdown_breached(self, equity: float) -> bool:
         limit = self.cfg.risk.max_drawdown_pct
@@ -114,6 +133,7 @@ class Pass:
             return False
         reason = f"max drawdown hit: equity {equity:,.0f} is {dd:.1f}% below peak {peak:,.0f}"
         log.critical(reason + " - liquidating managed positions and stopping")
+        self.alert(reason + " - liquidating managed positions and stopping the agent", logging.CRITICAL)
         for sym in list(self.state.managed()):
             inst = self.cfg.instrument(sym) or Instrument(sym)
             try:
@@ -202,6 +222,7 @@ class Pass:
             log.info("%s: Claude %s (conf %.2f): %s", sym, verdict, r.confidence, r.summary)
             if not r.approved:
                 self.state.record_veto(sym)
+                self.alert(f"{sym}: Claude vetoed BUY {d.qty}: {r.summary}", logging.INFO)
             d.qty = scaled
         filled = self.execute(inst, "BUY", d.qty, sig.close, sig.reason, "; ".join(d.notes))
         if filled > 0:
@@ -249,6 +270,7 @@ class Pass:
             self.broker.set_protective_stop(inst, qty - filled, prev_stop[1])
         slip = ((avg / ref_price - 1) * 1e4 * (1 if side == "BUY" else -1)) if filled and avg else ""
         log.info("%s: %s %d/%d @ %.2f filled (avg %.2f)", sym, side, filled, qty, px, avg)
+        self.alert(f"{side} {sym} {filled}/{qty} @ {avg:.2f} ({reason})", logging.INFO)
         self.state.log(symbol=sym, action=side, qty=filled, price=px,
                        fill_price=round(avg, 4) if avg else "",
                        slippage_bps=round(slip, 1) if slip != "" else "",
