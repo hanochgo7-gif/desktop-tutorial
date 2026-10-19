@@ -86,7 +86,7 @@
   <!-- 01 פתיחה פשוטה: כותרת, שני כפתורים, ויד של אדם ויד של רובוט שכמעט נוגעות -->
   <!-- הפתיחה: "ברוכים הבאים ל-HG Studio" מאלפי נקודות אור שנאספות לאותיות, נרתעות מהעכבר ומתפזרות בגלילה (js/welcome.js).
        הכותרת עצמה נשארת טקסט רגיל, ומי שביקש פחות תנועה רואה אותה בלי האנימציה -->
-  <section class="hero hw" aria-labelledby="hero-title">
+  <section class="hero hw" aria-labelledby="hero-title" data-chapter="יציאה לדרך">
     <canvas class="hw-canvas" aria-hidden="true"></canvas>
     <div class="hw-copy">
       <p class="hw-kicker mono hw-reveal" style="--i:0">HG Studio · חנוך גוטובסקי</p>
@@ -105,7 +105,7 @@
   </section>
 
   <!-- הלילה: מה האתר עושה בזמן שהעסק סגור. שעון שרק מתקדם, סצנה שנוצרה ב-AI ולידה מסך אמיתי מאתר של לקוח (js/night.js) -->
-  <section class="sheet sheet-ink night" id="night" data-bg="dark" data-phase="dusk" aria-labelledby="night-title">
+  <section class="sheet sheet-ink night" id="night" data-bg="dark" data-phase="dusk" aria-labelledby="night-title" data-chapter="הלילה">
     <div class="night-clock" aria-hidden="true"><span class="nc-time display">19:00</span><span class="nc-state mono">העסק נסגר</span></div>
     <header class="night-head">
       <p class="night-kicker mono">המשמרת השנייה</p>
@@ -138,7 +138,7 @@
 
   <!-- אני גיבור: מוצר הדגל. לופ מהסרטים מאחור, ההסבר והקישור מלפנים -->
   <!-- הוכחה: עבודות אמיתיות, ומה כל אתר עושה בשביל העסק -->
-  <section class="sheet sheet-ink proof" id="work" data-bg="dark" aria-labelledby="proof-title">
+  <section class="sheet sheet-ink proof" id="work" data-bg="dark" aria-labelledby="proof-title" data-chapter="עבודות">
     <header class="proof-head">
       <h2 class="pricing-title" id="proof-title"><span class="pt-big display">עבודות שעובדות.</span><span class="pt-sub">שישה עסקים אמיתיים, ומה האתר עושה בשביל כל אחד מהם.</span></h2>
     </header>
@@ -191,7 +191,7 @@
     <p class="proof-foot mono"><a href="archive/index.html">לכל העבודות, הסרטים והעיצובים</a><span>גם <a href="work.html#elef">"אֶלֶף"</a>, <a href="work.html#fragrance">"HG Fragrance"</a> ו<a href="work.html#mashkanta">"יסוד"</a> בתיק: שלושה מותגים בדיוניים שבניתי להדגמה.</span></p>
   </section>
 
-  <section class="sheet sheet-ink ag-spot" id="anigibor" data-bg="dark" aria-labelledby="ag-spot-title">
+  <section class="sheet sheet-ink ag-spot" id="anigibor" data-bg="dark" aria-labelledby="ag-spot-title" data-chapter="אני גיבור">
     <div class="ag-spot-film" aria-hidden="true">
       <video class="ag-loop" muted loop playsinline preload="none" data-poster="work/anigibor/loop.webp" data-src="work/anigibor/loop.mp4" data-src-m="work/anigibor/loop-m.mp4"></video>
     </div>
@@ -207,7 +207,7 @@
   </section>
 
   <!-- חבילות ומחירים -->
-  <section class="sheet sheet-ink pricing" id="pricing" data-bg="dark" aria-labelledby="pricing-title">
+  <section class="sheet sheet-ink pricing" id="pricing" data-bg="dark" aria-labelledby="pricing-title" data-chapter="שירותים">
     <header class="pricing-head">
       <h2 class="pricing-title" id="pricing-title"><span class="pt-big display">שירותים.</span><span class="pt-sub">אתר שנבנה סביב העסק שלכם, ומערכות שגורמות לו לעבוד.</span></h2>
     </header>
@@ -500,7 +500,7 @@
   </section>
 
   <!-- מחשבון זמן ושאלות נפוצות: ערך אמיתי לפני הקשר. החישוב רץ בדפדפן בלבד -->
-  <section class="sheet hours" id="hours" aria-labelledby="hours-title">
+  <section class="sheet hours" id="hours" aria-labelledby="hours-title" data-chapter="הזמן שלכם">
     <header class="hours-head">
       <h2 class="pricing-title" id="hours-title"><span class="pt-big display">כמה זמן זה לוקח לכם?</span><span class="pt-sub">חשבון קצר: כמה שעות בחודש הולכות על עבודה שמערכת יכולה לעשות במקומכם.</span></h2>
       <p class="hours-lead">שנו את המספרים לפי העסק שלכם. החישוב קורה רק בדפדפן שלכם, ושום דבר לא נשלח.</p>
@@ -525,7 +525,7 @@
   </section>
 
   <!-- 08 קשר -->
-  <section class="contact" id="contact" data-bg="dark" aria-labelledby="contact-title">
+  <section class="contact" id="contact" data-bg="dark" aria-labelledby="contact-title" data-chapter="היעד">
     <h2 class="contact-title display" id="contact-title">בואו נבנה.</h2>
     <p class="contact-lead">ארבע שאלות קצרות, ותקבלו המלצה למה שהעסק שלכם צריך, והודעת וואטסאפ מוכנה אליי. בלי טפסים ארוכים.</p>
     <p class="contact-direct mono"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%9A." target="_blank" rel="noopener" data-wa>וואטסאפ</a><a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a></p>
@@ -613,6 +613,7 @@
 <script src="js/hanoch.js" defer></script>
 <script src="js/night.js" defer></script>
 <script src="js/welcome.js" defer></script>
+<script src="js/journey.js" defer></script>
 <script src="js/systems.js" defer></script>
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>

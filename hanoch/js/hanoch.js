@@ -2042,7 +2042,9 @@
     }
   }
 
-  var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx, setVideo: setVideo, playVideo: playVideo, pauseVideo: pauseVideo };
+  var HG = window.HG = { openCase: function (id, li) { openCase(id, li); }, introDone: !motion, sfx: sfx, setVideo: setVideo, playVideo: playVideo, pauseVideo: pauseVideo,
+    // גלילה חלקה אל אלמנט, באותה תנועה כמו הקישורים בתפריט (משמש את המסלול ב-js/journey.js)
+    go: function (el) { if (!el) return; if (lenis) lenis.scrollTo(el, { duration: travel(el) }); else el.scrollIntoView({ behavior: motion ? 'smooth' : 'auto' }); } };
 
   /* ---------- מקור הגעה: קמפיין (utm) או אתר מפנה. נשמר רק בדפדפן, ונכנס להודעה שהגולש רואה לפני ששולח ---------- */
   (function () {

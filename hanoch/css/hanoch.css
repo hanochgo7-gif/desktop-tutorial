@@ -2269,3 +2269,50 @@ html[dir="rtl"] .night-clock { --nt-o: right; }
   .hs-meta { justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) { .hw-reveal, .hw-line, .hw-title b { animation: none !important; transition: none !important; } }
+
+/* ---------- המסע (js/journey.js): מסלול פרקים, ניצוץ שנוסע, כרזות ומספרי פרק ---------- */
+.jr { position: fixed; z-index: 121; inset-inline-end: 20px; top: 50%; transform: translateY(-50%); display: none; opacity: 0; pointer-events: none; transition: opacity .6s var(--ease); }
+@media (min-width: 1100px) and (hover: hover) { .jr { display: block; } }
+html.jr-on .jr { opacity: 1; pointer-events: auto; }
+.jr-count { font-size: 11px; letter-spacing: .1em; color: var(--fg-dim); text-align: center; margin-bottom: 12px; direction: ltr; }
+.jr-count b { color: var(--fg); font-weight: 500; }
+.jr-track, .jr-stops { position: relative; height: min(46vh, 380px); width: 14px; margin-inline: auto; }
+.jr-track { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); }
+.jr-track::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: var(--fg-faint); }
+.jr-fill { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; transform: translateX(-50%) scaleY(var(--p, 0)); transform-origin: top; background: linear-gradient(var(--signal), rgba(255, 79, 26, .5)); }
+.jr-spark { position: absolute; left: 50%; top: calc(var(--p, 0) * 100%); width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #ffd2b0;
+  box-shadow: 0 0 0 3px rgba(255, 79, 26, .25), 0 0 14px 4px rgba(255, 79, 26, .55); }
+.motion .jr-spark { animation: jr-pulse 2.4s ease-in-out infinite; }
+@keyframes jr-pulse { 50% { box-shadow: 0 0 0 5px rgba(255, 79, 26, .12), 0 0 22px 7px rgba(255, 79, 26, .45); } }
+.jr-stops { list-style: none; margin: 0 auto; padding: 0; }
+.jr-stops a { position: absolute; left: 50%; top: calc(var(--t) * 100%); width: 28px; height: 28px; margin: -14px 0 0 -14px; display: grid; place-items: center; border-radius: 50%; }
+.jr-stops a i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-2); border: 1px solid var(--fg-dim); transition: background .35s, border-color .35s, transform .35s var(--ease); }
+.jr-stops a.is-past i { background: var(--signal); border-color: var(--signal); }
+.jr-stops a:hover i, .jr-stops a:focus-visible i { transform: scale(1.5); }
+.jr-stops a span { position: absolute; inset-inline-end: 30px; top: 50%; transform: translate(0, -50%); white-space: nowrap; font: 500 var(--fs-xs)/1 var(--f-mono, monospace); letter-spacing: .04em; color: var(--fg);
+  padding: 7px 11px; border-radius: 99px; background: rgba(10, 10, 11, .86); border: 1px solid var(--fg-faint); opacity: 0; pointer-events: none; transition: opacity .25s, transform .3s var(--ease); }
+.jr:hover .jr-stops a span, .jr-stops a:focus-visible span { opacity: 1; }
+.jr-stops a[aria-current] span { color: var(--signal); }
+
+.jr-banner { position: fixed; z-index: 124; left: 50%; bottom: clamp(28px, 6vh, 60px); transform: translate(-50%, 10px); display: grid; justify-items: center; gap: 6px; padding: 14px 30px 16px;
+  border-radius: 18px; background: rgba(10, 10, 11, .78); border: 1px solid var(--fg-faint); color: var(--fg); text-align: center; pointer-events: none; opacity: 0; visibility: hidden; }
+.jr-banner::before, .jr-banner::after { content: ""; position: absolute; top: 50%; width: 0; height: 1px; background: var(--signal); transition: width .9s var(--ease) .15s; }
+.jr-banner::before { right: 100%; } .jr-banner::after { left: 100%; }
+.jr-b-k { font-size: 11px; letter-spacing: .18em; color: var(--signal); }
+.jr-b-t { font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: .95; }
+.jr-banner.is-on { visibility: visible; animation: jr-in 1.9s var(--ease) both; }
+.jr-banner.is-on::before, .jr-banner.is-on::after { width: clamp(30px, 8vw, 110px); }
+.jr-banner.is-final.is-on { animation-duration: 2.6s; border-color: rgba(255, 79, 26, .5); box-shadow: 0 0 60px -10px rgba(255, 79, 26, .5); }
+@keyframes jr-in { 0% { opacity: 0; transform: translate(-50%, 16px) scale(.96); } 14% { opacity: 1; transform: translate(-50%, 0) scale(1); } 80% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 8px); } }
+
+.jr-burst { position: fixed; z-index: 122; width: 0; height: 0; pointer-events: none; }
+.jr-burst i { position: absolute; width: 4px; height: 4px; margin: -2px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px rgba(255, 79, 26, .8); animation: jr-dust 1.2s var(--ease) forwards; }
+@keyframes jr-dust { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
+
+/* מספר פרק ענק ברקע: נקודות, כמעט שקופות, ונעות לאט יותר מהדף */
+.jr-num { position: absolute; z-index: -1; top: clamp(16px, 3vw, 48px); inset-inline-end: var(--gutter); font-size: clamp(7rem, 19vw, 19rem); line-height: .8; color: rgba(237, 232, 222, .05); pointer-events: none; user-select: none;
+  transform: translateY(var(--jr-y, 0px)); }
+.sheet:not(.sheet-ink) .jr-num { color: rgba(10, 10, 11, .06); }
+@media (max-width: 900px) { .jr-num { font-size: 34vw; } .jr-banner { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); padding: 10px 20px 12px; max-width: calc(100vw - 32px); } .jr-b-t { font-size: 1.7rem; } }
+@media (prefers-reduced-motion: reduce) { .jr-banner { display: none; } .jr-num { transform: none; } .jr-fill, .jr-spark { transition: none; } }
+.jr-ch:not(.sheet) { position: relative; isolation: isolate; }
