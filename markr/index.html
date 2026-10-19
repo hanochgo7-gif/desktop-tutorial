@@ -543,6 +543,150 @@ section.block>h2::before{content:"";width:.42em;height:.42em;border-radius:50%;b
 .qtiles{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:1fr}
 .trow{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .sheet-foot{position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom,0px));margin-bottom:calc(-20px - env(safe-area-inset-bottom,0px));padding:12px 0 calc(20px + env(safe-area-inset-bottom,0px));background:var(--bg);box-shadow:0 -12px 12px -12px rgba(0,0,0,.18);z-index:2}
+
+/* ================= design v3: calmer, tidier, one system ================= */
+:root{--r:16px;--r-sm:12px;--tint:color-mix(in srgb,var(--primary) 9%,var(--surface));--tint2:color-mix(in srgb,var(--primary) 16%,var(--surface));
+  --shadow:0 1px 2px rgba(26,36,33,.05),0 8px 24px -14px rgba(26,36,33,.22);--ease:cubic-bezier(.2,.7,.2,1)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nw{white-space:nowrap}
+body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+h1{font-size:2rem;letter-spacing:-.01em}
+/* header */
+/* no backdrop-filter on .top: it would trap the fixed bottom nav inside the header */
+.top{background:color-mix(in srgb,var(--surface) 96%,transparent)}
+.top-in{gap:8px;padding:9px 16px}
+.brand{gap:10px}
+.brand svg{width:34px;height:34px;border-radius:10px;box-shadow:0 2px 6px -2px rgba(31,77,61,.45)}
+.brand-txt{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.wordmark{font-size:1.5rem;line-height:1}
+.hdr-by{position:static;transform:none;font-size:.72rem;letter-spacing:.04em;color:var(--muted);margin-top:3px;opacity:1}
+.status{display:inline-flex;align-items:center;gap:5px;margin-inline-start:auto;font-size:.8rem;font-weight:500;color:var(--muted);background:var(--surface2);border-radius:999px;padding:5px 10px;max-width:none;transition:color .2s,background .2s}
+.status:empty{display:none}
+.status .ic{margin:0;width:1.15em;height:1.15em}
+.status.ok{color:var(--primary)}
+.status.err{background:color-mix(in srgb,var(--danger) 12%,var(--surface));color:var(--danger)}
+@media (max-width:480px){.status:not(.err) span{display:none}.status{padding:7px;font-size:.8rem}.status.err{max-width:150px;overflow:hidden;white-space:nowrap}.status.err span{overflow:hidden;text-overflow:ellipsis}}
+.icon-btn{border-radius:12px;width:42px;height:42px;background:var(--surface2);transition:background .2s}
+.icon-btn:hover{background:var(--tint2)}
+/* nav */
+nav#nav button{transition:color .2s,background .2s;font-weight:500}
+nav#nav button[aria-current="page"]{background:var(--tint);color:var(--primary);font-weight:600}
+@media (max-width:700px){
+  nav#nav{background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -1px 0 var(--line)}
+  nav#nav button{gap:3px;padding:4px 2px 6px;font-size:.76rem;border-radius:14px}
+  nav#nav button .ic{width:3.6em;height:2em;padding:.3em 1.15em;border-radius:999px;transition:background .25s var(--ease)}
+  nav#nav button[aria-current="page"]{background:none}
+  nav#nav button[aria-current="page"] .ic{background:var(--tint2)}
+}
+/* buttons & fields */
+.primary,.ghost,.ai,.tool,.item,.slot,.mc-opt,.seg button,.add,.tpl{transition:background-color .2s,border-color .2s,box-shadow .2s,transform .12s var(--ease),filter .2s}
+.primary:active,.ghost:active,.ai:active,.tool:active,.item:active,.slot:active{transform:scale(.985)}
+.primary{display:inline-flex;align-items:center;justify-content:center;gap:.4em}
+.primary .ic{margin:0}
+.primary.big{border-radius:14px;padding:15px 20px;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 18px -10px color-mix(in srgb,var(--primary) 80%,transparent)}
+.ghost{border-color:var(--line)}
+input[type=text],input[type=date],input[type=time],input[type=search],textarea,select{border:1.5px solid var(--line);border-radius:var(--r-sm);min-height:46px;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none}
+input[type=search]{padding-inline-start:40px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2366706A' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4.5 4.5'/%3E%3C/svg%3E") no-repeat right 12px center/20px}
+.seg{border-radius:14px;padding:4px}
+.seg button{border-radius:10px;font-weight:500}
+.seg button[aria-pressed="true"]{font-weight:600;color:var(--primary);box-shadow:0 1px 2px rgba(0,0,0,.08),0 2px 8px -4px rgba(0,0,0,.18)}
+/* round checkboxes */
+.task input[type=checkbox],.row.q input[type=checkbox]{-webkit-appearance:none;appearance:none;width:24px;height:24px;border:2px solid color-mix(in srgb,var(--muted) 60%,transparent);border-radius:50%;background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none;margin:0;transition:background .2s,border-color .2s}
+.task input[type=checkbox]:checked,.row.q input[type=checkbox]:checked{background:var(--primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/16px no-repeat;border-color:var(--primary)}
+.task input[type=checkbox]:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+/* cards: one radius, one shadow, colour as a clean stripe */
+.next,.hero,.field,.r-body,.pl-card,.streak,.week,.card,.list,.empty,details.gloss,.toc,.r-key,.gcard,.task-form{border-radius:var(--r)}
+.next,.hero,.streak,.week,.list,.r-key,.toc,.task-form{box-shadow:var(--shadow)}
+.next,.hero,.cgrid>.item{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--r)}
+.next::before,.hero::before,.cgrid>.item::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:5px;background:var(--c)}
+.next,.hero{background:linear-gradient(170deg,color-mix(in srgb,var(--c) 9%,var(--surface)) 0,var(--surface) 55%);padding:20px 20px 20px 22px;padding-inline-start:24px}
+.next .when{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.next .when.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#D2553F;box-shadow:0 0 0 0 rgba(210,85,63,.5)}
+@media (prefers-reduced-motion:no-preference){.next .when.live::before{animation:ping 1.6s infinite}@keyframes ping{70%{box-shadow:0 0 0 8px rgba(210,85,63,0)}100%{box-shadow:0 0 0 0 rgba(210,85,63,0)}}}
+.next h2{font-size:1.7rem;margin:.25rem 0 .2rem}
+.next .meta{font-size:.95rem}
+.hero h1{font-size:1.9rem}
+.hero .sub{font-weight:500;color:var(--ink);opacity:.8}
+.hero .sess{font-size:.95rem}
+.cgrid{gap:10px}
+.list.cgrid{background:none;border:0;box-shadow:none;overflow:visible}
+@media (min-width:701px){.list.cgrid,.list.cgrid[class]{display:grid;grid-template-columns:1fr 1fr}}
+.cgrid>.item{padding:14px 16px 14px 14px;padding-inline-start:20px;box-shadow:var(--shadow)}
+.cgrid>.item:hover{border-color:color-mix(in srgb,var(--c) 55%,var(--line))}
+.cc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.cc-head strong{line-height:1.25}
+.cnt{flex:none;font-size:.74rem;font-weight:600;border-radius:999px;padding:3px 9px;margin-top:2px;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--ink);white-space:nowrap}
+.cnt.zero{background:var(--surface2);color:var(--muted);font-weight:500}
+.item .cc-teacher{margin-top:3px;font-size:.88rem}
+.cc-sess{display:flex;flex-wrap:wrap;gap:2px 14px;margin-top:8px}
+.sl{display:inline-flex;align-items:center;gap:5px;font-size:.86rem;color:var(--muted)}
+.sl .ic{margin:0;width:1.05em;height:1.05em;color:color-mix(in srgb,var(--c) 75%,var(--muted))}
+/* lists */
+.list>.item,.list>.task,.list>label.task{padding:13px 16px}
+.item .dot{width:10px;height:10px;box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 18%,transparent)}
+section.block{margin-top:30px}
+section.block>h2{font-size:1.2rem;margin-bottom:.6rem}
+.page-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.count{font-size:.85rem;font-weight:600;color:var(--primary);background:var(--tint);border-radius:999px;padding:3px 12px;white-space:nowrap}
+/* home */
+.greet{font-size:.95rem;font-weight:500;color:var(--muted)}
+.streak{padding:14px 16px;gap:14px}
+.streak .fire{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--tint);flex:none}
+.streak .fire .ic{width:1.5em;height:1.5em}
+.streak .wk{gap:6px;margin-top:8px}
+.streak .wk i{width:26px;height:26px;font-size:.72rem;font-weight:600}
+.qtiles{gap:10px;margin-top:14px}
+.qtiles button{padding:14px 4px 12px;gap:8px;font-weight:500;color:var(--ink);box-shadow:var(--shadow);border-radius:var(--r)}
+.qtiles .ic{width:2.5em;height:2.5em;padding:.5em;border-radius:12px;background:var(--tint)}
+.review{border-radius:var(--r);padding:16px 18px;background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 78%,#000));box-shadow:var(--shadow)}
+.exam .days{border-radius:12px}
+/* course tools */
+.tgroup{margin-top:22px}
+.tgroup h3{font-size:.82rem;letter-spacing:.02em;text-transform:none}
+.trow{gap:10px}
+.tool{border-radius:14px;padding:12px;gap:12px;box-shadow:var(--shadow);border-color:var(--line)}
+.tool .ic{width:2.3em;height:2.3em;padding:.45em;border-radius:10px;background:var(--tint)}
+.tool .ic.i-spark{background:var(--sun-soft)}
+.tool:hover{border-color:color-mix(in srgb,var(--primary) 40%,var(--line))}
+.crumb .link{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:.95rem;padding:6px 12px 6px 14px;margin-inline-start:-4px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.crumb .link:hover{background:var(--tint)}
+/* editor */
+.editor .ed-head{align-items:flex-end;justify-content:space-between;gap:10px}
+.editor .ed-head h1{margin-top:6px}
+.ed-head .date{display:inline-flex;align-items:center;gap:4px;margin-inline-start:auto;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 10px;color:var(--primary);box-shadow:var(--shadow)}
+.ed-head .date .ic{margin:0}
+.ed-head .date input{border:0;background:transparent;min-height:40px;padding:4px 6px;width:auto;box-shadow:none;color:var(--ink);font-weight:500}
+.field{padding:18px;border-radius:var(--r)}
+.field>label,.field>h2,.field .lbl{font-size:1.15rem}
+.rtb-wrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hdr,60px));z-index:3;background:var(--surface);margin:0 -18px 8px;padding:0 18px;border-bottom:1px solid var(--line)}
+.rtb{position:static;border-bottom:0;margin:0;padding:8px 0;gap:6px;scrollbar-width:none}
+.rtb::-webkit-scrollbar{display:none}
+.rtb button{height:38px;min-width:38px;border-radius:10px}
+.rtb button .ic{margin:0}
+@media (max-width:700px){.rtb{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 36px);mask-image:linear-gradient(to right,transparent 0,#000 36px);padding-inline-end:36px}}
+#f-rich{border-radius:var(--r-sm);padding:14px 16px}
+.field.key{box-shadow:var(--shadow)}
+/* tasks */
+.new-task{margin-top:16px}
+.task-form{display:grid;gap:10px;margin-top:16px;background:var(--surface);border:1px solid var(--line);padding:14px}
+.tf-row{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:8px}
+.tf-foot{display:flex;justify-content:flex-end;gap:8px}
+.tf-foot .primary{min-width:120px}
+@media (max-width:560px){.tf-row{grid-template-columns:1fr 1fr}.tf-row #t-course{grid-column:1/-1}.tf-foot>*{flex:1}}
+@media (prefers-reduced-motion:no-preference){.task-form{animation:rise .25s var(--ease)}}
+/* empty states & notes */
+.empty{padding:22px 18px;line-height:1.6}
+.note{border-style:solid;background:transparent;font-size:.86rem}
+/* sheets */
+#modal{background:rgba(10,20,15,.42);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+@media (max-width:700px){.sheet{padding-top:12px}.sheet::before{content:"";display:block;width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}}
+@media (min-width:701px){.sheet{box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}}
+@media (prefers-reduced-motion:no-preference){#modal.open .sheet{animation:sheetUp .32s var(--ease)}@keyframes sheetUp{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+  #app.enter>*{animation:rise .3s var(--ease) both}#app.enter>*:nth-child(2){animation-delay:.03s}#app.enter>*:nth-child(3){animation-delay:.06s}#app.enter>*:nth-child(4){animation-delay:.09s}}
+.onb svg{border-radius:20px;box-shadow:0 10px 24px -12px rgba(31,77,61,.6)}
+.tpl{border-radius:var(--r);padding:14px 16px}
 </style>
 </head>
 <body>
@@ -550,9 +694,8 @@ section.block>h2::before{content:"";width:.42em;height:.42em;border-radius:50%;b
   <div class="top-in">
     <button class="brand" data-act="nav" data-to="home" aria-label="מרקר, מסך הבית">
       <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="var(--logo-bg)"/><rect x="14" y="12.5" width="23" height="3.2" rx="1.6" fill="#fff" opacity=".9"/><rect x="8.5" y="19.5" width="31" height="9.5" rx="2.5" fill="#F4D23C" transform="rotate(-6 24 24.2)"/><rect x="11" y="22.6" width="26" height="3.2" rx="1.6" fill="#1F4D3D"/><rect x="22" y="32.8" width="15" height="3.2" rx="1.6" fill="#fff" opacity=".9"/></svg>
-      <span class="wordmark">מרקר</span>
+      <span class="brand-txt"><span class="wordmark">מרקר</span><span class="hdr-by" dir="ltr">by Omer Ezri</span></span>
     </button>
-    <span class="hdr-by" dir="ltr">by Omer Ezri</span>
     <span id="status" class="status" aria-live="polite"></span>
     <button id="tbadge" class="tbadge" data-act="timer" hidden></button>
     <button class="icon-btn" data-act="settings" aria-label="הגדרות">⚙︎</button>
@@ -630,6 +773,10 @@ search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
 link:'<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',
 copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
 music:'<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+cloud:'<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.6A3.3 3.3 0 0 0 7 18.5z"/>',
+cloudok:'<path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.5 1.6A3.3 3.3 0 0 0 7 18.5z"/><path d="M9.5 13.8l1.8 1.8 3.4-3.6"/>',
+pin:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
 voice:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6"/><path d="M17.5 6.5a4 4 0 0 1 0 5M20 4.5a7 7 0 0 1 0 9"/>'
 };
 const ic=(n)=>ICONS[n]?`<svg class="ic i-${n}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`:'';
@@ -665,7 +812,7 @@ let view={name:'home'},store=null,loaded=false,modalOpen=false,statusErr=false;
 const dirty=new Map(),timers={},deletedIds=new Set();
 const DEFAULT_PACK={"title": "קיימות ויזמות, שנה א׳ (סמסטר א׳)", "courses": [{"id": "micro", "name": "מבוא למיקרו כלכלה", "teacher": "ד״ר צמח שמיר שירי", "color": "#E0A800", "sessions": [{"day": 0, "start": "11:30", "end": "14:45", "room": "ארזי עופר C.108"}]}, {"id": "ecology", "name": "יסודות באקולוגיה", "teacher": "ד״ר פלביץ׳ אורי", "color": "#2F8F6B", "sessions": [{"day": 1, "start": "08:00", "end": "09:30", "room": "אריסון לאודר A207"}]}, {"id": "earth", "name": "מערכות כדור-הארץ", "teacher": "פרופ׳ יאיר יואב", "color": "#3D74B8", "sessions": [{"day": 1, "start": "09:45", "end": "11:15", "room": "רדזינר קיימות SL102"}]}, {"id": "failure", "name": "סדנאות: התמודדות עם כישלון", "teacher": "ד״ר לאו ארמון ליסה", "color": "#8E5BB5", "sessions": [{"day": 2, "start": "13:45", "end": "15:15", "room": "ארזי עופר C.B01"}]}, {"id": "stats", "name": "סטטיסטיקה ושיטות מחקר", "teacher": "מר הלר נגב בן", "color": "#D2553F", "sessions": [{"day": 2, "start": "15:45", "end": "19:00", "room": "אריסון לאודר A208"}]}, {"id": "food", "name": "תזונה פלנטרית, מזון וטק בעידן החדש", "teacher": "פרופ׳ שי איריס", "color": "#6E8B2A", "sessions": [{"day": 3, "start": "09:45", "end": "13:00", "room": "אריסון לאודר A110"}]}, {"id": "entre", "name": "יזמות, יצירתיות וחדשנות – מאפס לאחת", "teacher": "גב׳ לוקץ יסמין", "color": "#E07B2A", "sessions": [{"day": 3, "start": "13:45", "end": "17:00", "room": "אדלסון EL03"}]}]};
 let TEMPLATE=DEFAULT_PACK;
-let formDraft=null,practice=null,quiz=null,wizard=false,lastQ='',courseMode='list',aiCtl=null,aiResult=null,onbStep=0;
+let taskFormOpen=false,formDraft=null,practice=null,quiz=null,wizard=false,lastQ='',courseMode='list',aiCtl=null,aiResult=null,onbStep=0;
 let sampleFn=null,downloadsNs=null,assetsNs=null,imgCaps=null,upDraft=null,upResult=null,readStarOnly=false;
 
 /* ---------- storage ---------- */
@@ -765,16 +912,14 @@ function applyDocs(docs){
   const first=!loaded;loaded=true;
   if(first||(view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
   updateStatus();
-  if(first&&!S.courses.length&&!S.profile.packApplied&&TEMPLATE&&TEMPLATE.courses){
-    S.courses=TEMPLATE.courses.map(c=>({...clone(c),archived:false}));S.profile.packApplied=true;saveDoc('courses',0);saveDoc('profile',0);render();
-  }
   if(first&&!S.profile.onboarded)openOnboarding();
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
-  if(statusErr){el.textContent='לא נשמר, בדוק חיבור';el.className='status err';return}
-  el.className='status';
-  el.textContent=!loaded?'':(dirty.size?'שומר…':'הכול שמור');
+  if(statusErr){el.innerHTML=ic('alert')+'<span>לא נשמר, בדוק חיבור</span>';el.className='status err';el.title='לא נשמר, בדוק חיבור';return}
+  const t=!loaded?'':(dirty.size?'שומר…':'הכול שמור');
+  el.className='status'+(dirty.size?' saving':' ok');el.title=t;
+  el.innerHTML=t?ic(dirty.size?'cloud':'cloudok')+'<span>'+t+'</span>':'';
 }
 
 /* ---------- helpers ---------- */
@@ -785,7 +930,8 @@ function lessonsOf(cid){
     .sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.createdAt||0)-(b.createdAt||0));
 }
 function lessonNo(id){const l=S.lessons[id];if(!l)return 0;return lessonsOf(l.courseId).findIndex(x=>x.id===id)+1}
-function sessLine(s){return `יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}${s.room?', '+esc(s.room):''}`}
+function sessLine(s){return `יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}${s.room?', <span class="nw">'+esc(s.room)+'</span>':''}`}
+function sessBlock(s){return `<span class="sl">${ic('clock')}יום ${DAYS[s.day]} · ${T(s.start+'–'+s.end)}</span>${s.room?`<span class="sl">${ic('pin')}<span class="nw">${esc(s.room)}</span></span>`:''}`}
 function isEmptyLesson(l){return !l.topic&&!l.notes&&!l.key&&!(l.terms||[]).some(t=>t.t||t.d)&&!(l.questions||[]).some(q=>q.t)}
 function nowNext(){
   const now=new Date(),dow=now.getDay(),m=now.getHours()*60+now.getMinutes();let best=null;
@@ -923,6 +1069,7 @@ function go(name,id){
     flushAll();
   }
   view={name,id};render();window.scrollTo(0,0);
+  const a=$('#app');a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter');clearTimeout(a._t);a._t=setTimeout(()=>a.classList.remove('enter'),500);
 }
 
 function taskRow(t,showCourse=true){
@@ -1004,10 +1151,9 @@ function vCourses(){
   const act=activeCourses(),arch=S.courses.filter(c=>c.archived);
   const card=c=>{const n=lessonsOf(c.id).filter(l=>!isEmptyLesson(l)).length;
     return `<button class="item course-card" style="--c:${c.color}" data-act="open-course" data-id="${c.id}">
-      <span class="grow"><strong>${esc(c.name)}</strong>
-      ${c.teacher?`<span class="small">${esc(c.teacher)}</span>`:''}
-      ${(c.sessions||[]).map(s=>`<span class="small">${sessLine(s)}</span>`).join('')}</span>
-      <span class="small">${n?n+' סיכומים':'אין סיכומים'}</span></button>`};
+      <span class="grow"><span class="cc-head"><strong>${esc(c.name)}</strong><span class="cnt${n?'':' zero'}">${n?n+' '+(n===1?'סיכום':'סיכומים'):'אין סיכומים'}</span></span>
+      ${c.teacher?`<span class="small cc-teacher">${esc(c.teacher)}</span>`:''}
+      <span class="cc-sess">${(c.sessions||[]).map(sessBlock).join('')}</span></span></button>`};
   let body;
   if(courseMode==='week'){
     const dow=new Date().getDay();
@@ -1090,7 +1236,7 @@ function vLesson(){
   <section class="editor" style="--c:${c.color}">
     <div class="ed-head">
       <div><span class="chip">${esc(c.name)}</span><h1>שיעור ${no}</h1></div>
-      <label class="date">תאריך <input type="date" data-f="date" value="${esc(l.date)}"></label>
+      <label class="date"><span class="sr">תאריך השיעור</span><input type="date" data-f="date" value="${esc(l.date)}"></label>
     </div>
     <p class="hint">הכול נשמר לבד. ממלאים מלמעלה למטה, ובסוף לוחצים “סיימתי” ומקבלים מבחן קצר על השיעור.</p>
     <button class="ai" style="width:100%;margin-top:6px" data-act="live" data-id="${view.id}">✍️ מצב שיעור: רישום מהיר תוך כדי ההרצאה</button>
@@ -1102,7 +1248,7 @@ function vLesson(){
     <div class="field">
       <span class="lbl">מה למדנו</span>
       <p class="hint">כתוב חופשי, אפילו מבולגן. אפשר גם להכתיב עם המיקרופון במקלדת.${ai?' אחר כך Claude יעזור לסדר.':''}</p>
-      <div class="rtb" role="toolbar" aria-label="עיצוב טקסט">
+      <div class="rtb-wrap"><div class="rtb" role="toolbar" aria-label="עיצוב טקסט">
         <button data-fmt="h" data-v="h2" title="כותרת">כותרת</button>
         <button data-fmt="h" data-v="h3" title="תת-כותרת">תת־כותרת</button>
         <span class="sep"></span>
@@ -1119,7 +1265,7 @@ function vLesson(){
         ${assetsNs?'<button data-fmt="image" title="תמונה, צילום מסך או שרטוט">🖼 תמונה</button><input type="file" id="img-in" accept="image/*" multiple hidden>':''}
         <button data-fmt="clear" title="ניקוי עיצוב">ניקוי</button>
         ${ai?'<button class="ai-b" data-fmt="explain" title="סמן מילה או משפט ולחץ">✨ הסבר לי</button>':''}
-      </div>
+      </div></div>
       <div id="f-rich" class="rich" contenteditable="true" role="textbox" aria-multiline="true" aria-label="מה למדנו" data-ph="כותבים כאן מה למדנו.&#10;סמן טקסט כדי להדגיש, לשנות גודל או להפוך לכותרת.">${notesHtmlOf(l)}</div>
       ${ai?`<div class="tools"><button class="ai" data-act="ai-organize">✨ לסדר לי את הסיכום</button>${(l.notes||l.terms?.length)?'<button class="ai" data-act="ai-quiz">✨ מבחן אמריקאי על השיעור</button>':''}</div>`:''}
       ${l.prevNotes!=null?`<button class="link" data-act="undo-ai">להחזיר את הגרסה שכתבתי</button>`:''}
@@ -1224,12 +1370,14 @@ function vTasks(){
   const late=open.filter(x=>x.due&&x.due<t),week=open.filter(x=>x.due&&x.due>=t&&daysBetween(t,x.due)<=7),
         later=open.filter(x=>x.due&&daysBetween(t,x.due)>7),none=open.filter(x=>!x.due);
   const grp=(title,arr)=>arr.length?`<section class="block"><h2>${title}</h2><div class="list">${arr.map(x=>taskRow(x)).join('')}</div></section>`:'';
-  return `<h1>משימות ומבחנים</h1>
-  <div class="addrow wide" style="margin-top:14px">
-    <input type="text" id="t-title" placeholder="מה צריך לעשות?">
-    <select id="t-course" class="full" aria-label="קורס"><option value="">בלי קורס</option>${activeCourses().map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
-    ${kindSelect('t-kind')}<input type="date" id="t-due" aria-label="עד מתי"><button class="primary" data-act="add-task">הוסף</button>
-  </div>
+  const form=taskFormOpen?`<div class="task-form">
+    <input type="text" id="t-title" placeholder="מה צריך לעשות?" aria-label="המשימה">
+    <div class="tf-row"><select id="t-course" aria-label="קורס"><option value="">בלי קורס</option>${activeCourses().map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+    ${kindSelect('t-kind')}<input type="date" id="t-due" aria-label="עד מתי"></div>
+    <div class="tf-foot"><button class="ghost" data-act="task-form" data-v="0">ביטול</button><button class="primary" data-act="add-task">הוספה</button></div>
+  </div>`:`<button class="primary big new-task" data-act="task-form" data-v="1">${ic('plus')}משימה חדשה</button>`;
+  return `<div class="page-head"><h1>משימות ומבחנים</h1>${open.length?`<span class="count">${open.length} פתוחות</span>`:''}</div>
+  ${form}
   ${grp('באיחור',late)}${grp('השבוע',week)}${grp('בהמשך',later)}${grp('בלי תאריך',none)}
   ${!open.length?'<div class="empty" style="margin-top:20px">אין משימות פתוחות. כל הכבוד.</div>':''}
   ${done.length?`<section class="block"><details class="gloss"><summary>בוצעו (${done.length})</summary><div class="list" style="margin-top:8px">${done.map(x=>taskRow(x)).join('')}</div></details></section>`:''}`;
@@ -2629,6 +2777,7 @@ document.addEventListener('click',e=>{
     case 'add-task-course':{if(addTask($('#ct-title').value,$('#ct-due').value,id,'',$('#ct-kind').value)){render();$('#ct-title').focus()}break}
     case 'add-task':{const c=$('#t-course').value,k=$('#t-kind').value;if(addTask($('#t-title').value,$('#t-due').value,c,'',k)){render();$('#t-course').value=c;$('#t-kind').value=k;$('#t-title').focus()}break}
     case 'del-task':S.tasks=S.tasks.filter(t=>t.id!==id);saveDoc('tasks',0);render();break;
+    case 'task-form':taskFormOpen=b.dataset.v==='1';render();if(taskFormOpen)$('#t-title').focus();break;
     case 'course-mode':courseMode=b.dataset.m;render();break;
     case 'new-course':formDraft={id:null,name:'',teacher:'',color:PALETTE[S.courses.length%PALETTE.length],sessions:[{day:0,start:'10:00',end:'11:30',room:''}],archived:false};openModal(courseFormHtml());break;
     case 'edit-course':formDraft=clone(courseById(id));formDraft.sessions=formDraft.sessions||[];openModal(courseFormHtml());break;
