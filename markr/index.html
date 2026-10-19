@@ -549,6 +549,40 @@ details.opt>.in{padding:0 16px 16px}
 .reader .actions .ic{color:var(--link);width:1.25em;height:1.25em}
 .r-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
 .r-imgs img{width:100%;border-radius:14px;display:block}
+/* calculator */
+.calc-seg button{white-space:nowrap;font-size:.875rem;padding-inline:4px}
+.calc-screen{background:var(--fill2);border-radius:18px;padding:8px 14px;margin-top:14px}
+#calc-in{font-size:1.9rem;font-weight:500;border:0;background:transparent;box-shadow:none;padding:4px 0;text-align:left;font-variant-numeric:tabular-nums;width:100%;min-height:52px}
+#calc-in:focus-visible{box-shadow:none;outline:none}
+.calc-screen:focus-within{box-shadow:0 0 0 2px var(--focus)}
+.calc-out{min-height:1.6em;text-align:left;direction:ltr;color:var(--muted);font-size:1.15rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.calc-out.done{color:var(--ink);font-weight:600}
+.calc-out.err{color:var(--danger);direction:rtl;text-align:right;font-size:1rem}
+.calc-fn{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px -18px 0;padding:2px 18px}
+.calc-fn::-webkit-scrollbar{display:none}
+.calc-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.ckey{border:0;border-radius:14px;min-height:56px;font-size:1.3rem;font-weight:500;background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 .5px var(--line2);font-variant-numeric:tabular-nums;display:grid;place-items:center;transition:transform .2s var(--spring)}
+.ckey:active{transform:scale(.95)}
+.ckey .ic{margin:0}
+.ckey.fn{flex:none;min-width:54px;min-height:44px;font-size:1rem;background:var(--fill);box-shadow:none}
+.ckey.op{background:var(--tint2);color:var(--link);font-weight:600;box-shadow:none}
+.ckey.eq{grid-column:span 2;background:var(--primary);color:var(--primary-ink);font-weight:700;box-shadow:none}
+.calc-acts{display:flex;flex-wrap:wrap;gap:0 18px;margin-top:8px}
+.calc-acts .link{min-height:44px;display:inline-flex;align-items:center}
+.calc-hist{display:flex;flex-direction:column;margin-top:6px}
+.calc-hist .small{margin:4px 2px}
+.calc-hist button{display:flex;justify-content:space-between;gap:12px;border:0;background:none;padding:8px 2px;border-bottom:.5px solid var(--line);color:var(--ink2);font-variant-numeric:tabular-nums;min-height:44px;text-align:left;overflow-wrap:anywhere}
+.calc-formula{background:var(--fill2);border-radius:12px;padding:10px 12px;font-size:1.05rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;margin:6px 0;text-align:left}
+.calc-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.calc-fields input{font-variant-numeric:tabular-nums;text-align:left}
+.calc-outf input{background:var(--tint)}
+.calc-fields input.solved::placeholder{color:var(--link);font-weight:700;opacity:1}
+.calc-fres{min-height:58px;background:var(--tint);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;justify-content:center;gap:2px;margin-top:2px}
+.calc-fres b{font-size:1.35rem;text-align:left;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.sym{color:var(--muted);font-size:.8125rem;font-weight:500}
+.calc-area{font-size:.8125rem;color:var(--muted);margin:12px 4px 6px;font-weight:600}
+.badge.k-seen{background:var(--sun-soft);color:var(--sun-ink)}
+.calc-stats .rec b{font-variant-numeric:tabular-nums}
 /* attached photos and files */
 .atts{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-top:10px}
 .att-w{position:relative}
@@ -888,6 +922,8 @@ music:'<path d="M9 17.5V6.25l10-2v11"/><circle cx="6.75" cy="17.5" r="2.25"/><ci
 pin:'<path d="M12 20.75s-6.25-5.6-6.25-10.5a6.25 6.25 0 0 1 12.5 0c0 4.9-6.25 10.5-6.25 10.5z"/><circle cx="12" cy="10.25" r="2.25"/>',
 clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.75"/>',
 voice:'<circle cx="9" cy="8.75" r="3.25"/><path d="M3.75 19.75c.55-3 2.6-5 5.25-5s4.7 2 5.25 5"/><path d="M16.5 7a3.75 3.75 0 0 1 0 5M19 4.75a7 7 0 0 1 0 9.5"/>',
+del:'<path d="M9.25 5.5h9.25a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9.25L3.5 12z"/><path d="M11.75 9.5l5 5M16.75 9.5l-5 5"/>',
+calc:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7h7"/><path d="M8.75 11.5h.01M12 11.5h.01M15.25 11.5h.01M8.75 14.75h.01M12 14.75h.01M15.25 14.75h.01M8.75 18h.01M12 18h.01M15.25 18h.01" stroke-width="2.3"/>',
 phone:'<rect x="6.5" y="3" width="11" height="18" rx="2.5"/><path d="M10.5 18h3"/>',
 share:'<path d="M12 3.5v11M8.25 7.25 12 3.5l3.75 3.75"/><path d="M8.5 10.5H7a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6.5a2 2 0 0 0-2-2h-1.5"/>',
 chevr:'<path d="M9.5 5.75L15.75 12 9.5 18.25"/>',
@@ -896,7 +932,7 @@ tick:'<path d="M5.5 12.75l4.25 4.25L18.5 7.5"/>',
 x:'<path d="M7 7l10 10M17 7L7 17"/>'
 };
 const ic=(n)=>ICONS[n]?`<svg class="ic i-${n}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`:'';
-const EMAP=[['🧑\u200d🏫','teach'],['📷','camera'],['⏱','timer'],['📅','cal'],['🎧','phones'],['✍','pen'],['✨','spark'],['📖','bookopen'],['💬','chat'],['🗺','map'],['📉','chart'],['🃏','cards'],['🔊','vol'],['⏹','stop'],['✏','pencil'],['⭐','starf'],['☆','star'],['🖼','image'],['📥','down'],['📤','up'],['📘','book'],['📚','library'],['⚡','zap'],['🧠','bulb'],['🎓','cap'],['🔥','flame'],['🌱','sprout'],['🎉',''],['🚗','car'],['⚙','sliders'],['🖍','marker'],['🧽','eraser'],['🗑','trash'],['✋','hand'],['↶','undo'],['↷','redo'],['❓','help'],['➕','plus'],['📝','file'],['⬜','page'],['☰','lines'],['▦','grid'],['⁙','dots'],['☕','coffee'],['⚠','alert'],['✅','okc'],['⏸','pause'],['▶','play'],['⏮','skipl'],['⏭','skipr'],['↺','back'],['🎵','music'],['🗣','voice'],['🔗','link'],['📋','copy'],['→','chevr'],['←','chevl'],['✓','tick'],['✗','x']];
+const EMAP=[['🧑\u200d🏫','teach'],['📷','camera'],['⏱','timer'],['📅','cal'],['🎧','phones'],['✍','pen'],['✨','spark'],['📖','bookopen'],['💬','chat'],['🗺','map'],['📉','chart'],['🃏','cards'],['🔊','vol'],['⏹','stop'],['✏','pencil'],['⭐','starf'],['☆','star'],['🖼','image'],['📥','down'],['📤','up'],['📘','book'],['📚','library'],['⚡','zap'],['🧠','bulb'],['🎓','cap'],['🔥','flame'],['🌱','sprout'],['🎉',''],['🚗','car'],['⚙','sliders'],['🖍','marker'],['🧽','eraser'],['🗑','trash'],['✋','hand'],['↶','undo'],['↷','redo'],['❓','help'],['➕','plus'],['📝','file'],['⬜','page'],['☰','lines'],['▦','grid'],['⁙','dots'],['☕','coffee'],['⚠','alert'],['✅','okc'],['⏸','pause'],['▶','play'],['⏮','skipl'],['⏭','skipr'],['↺','back'],['🎵','music'],['🗣','voice'],['🔗','link'],['📋','copy'],['🧮','calc'],['→','chevr'],['←','chevl'],['✓','tick'],['✗','x']];
 function iconize(html){
   html=String(html);
   for(const [e,n] of EMAP){if(html.indexOf(e)<0)continue;const r=n?ic(n):'';html=html.split(e+'\uFE0F ').join(r).split(e+'\uFE0E ').join(r).split(e+'\uFE0F').join(r).split(e+'\uFE0E').join(r).split(e+' ').join(r).split(e).join(r)}
@@ -1388,7 +1424,7 @@ function vHome(){
     <section class="block"><h2 class="sec-h"><span>התוכנית להיום</span>${plan.length?`<span class="plan-sum">${dn} מתוך ${plan.length} בוצעו</span>`:''}</h2>
     ${plan.length?`<div class="list agenda">${plan.map(agendaRow).join('')}</div>`:'<p class="hint">אין היום שיעורים, חזרות או משימות.</p>'}</section></div>
     <aside>${progressHtml()}
-    <div class="qtiles" role="group" aria-label="כלים" style="margin-top:14px"><button data-act="weekly">📅 השבוע</button><button data-act="listen">🎧 האזנה</button><button data-act="timer">⏱ ריכוז</button></div>
+    <div class="qtiles" role="group" aria-label="כלים" style="margin-top:14px"><button data-act="weekly">📅 השבוע</button><button data-act="calc">🧮 מחשבון</button><button data-act="listen">🎧 האזנה</button><button data-act="timer">⏱ ריכוז</button></div>
     ${upcomingHtml()}</aside></div>`;
   return h+localNote();
 }
@@ -1457,7 +1493,7 @@ function vCourse(){
       ${l.key?`<span class="keyline">${esc(l.key)}</span>`:''}${l.quiz&&l.quiz.last!=null?`<span class="small" style="margin-top:4px">בוחן: ${l.quiz.last} מתוך ${(l.quiz.qs||[]).length}</span>`:''}</span></button>`;
   let panel='';
   if(courseTab==='learn'){
-    panel=!filled.length?`<div class="empty" style="margin-top:16px"><b>עוד אין על מה לתרגל</b>אחרי הסיכום הראשון יופיעו כאן קריאה רציפה, האזנה, כרטיסיות ומבחנים.<div class="actions"><button class="primary" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}לכתוב סיכום</button></div></div>`
+    panel=!filled.length?`<div class="empty" style="margin-top:16px"><b>עוד אין על מה לתרגל</b>אחרי הסיכום הראשון יופיעו כאן קריאה רציפה, האזנה, כרטיסיות ומבחנים.<div class="actions"><button class="primary" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}לכתוב סיכום</button><button class="ghost" data-act="calc" data-id="${c.id}" data-v="f">🧮 מחשבון ונוסחאות</button></div></div>`
     :`<div class="tgroup"><h3>ללמוד ולחזור</h3><div class="trow">
       <button class="tool" data-act="read-all" data-id="${c.id}">📖 <span>לקרוא את כל הקורס<small>${filled.length} סיכומים ברצף</small></span></button>
       <button class="tool" data-act="listen" data-id="${c.id}">🎧 <span>להאזין<small>בדרך, באימון, בהליכה</small></span></button>
@@ -1469,6 +1505,7 @@ function vCourse(){
       ${sampleFn?`<button class="tool" data-act="course-quiz" data-id="${c.id}">✅ <span>בוחן על כל הקורס<small>15 שאלות, תשובה מיד אחרי כל אחת</small></span></button>`:''}
       ${sampleFn?`<button class="tool" data-act="exam-setup" data-id="${c.id}">⏱ <span>סימולציית מבחן<small>עם שעון, כמו באמת</small></span></button>`:''}
       <button class="tool" data-act="weak" data-id="${c.id}">📉 <span>נקודות חולשה<small>על מה כדאי לחזור</small></span></button>
+      <button class="tool" data-act="calc" data-id="${c.id}" data-v="f">🧮 <span>מחשבון ונוסחאות<small>נוסחאות שמתאימות לקורס</small></span></button>
     </div></div>
     ${keys.length>1?`<section class="block"><details class="gloss"><summary>הנקודות החשובות של הקורס (${keys.length})</summary><ol class="keys">${keys.map(x=>`<li value="${x.no}">${esc(x.k)}</li>`).join('')}</ol></details></section>`:''}`;
   }else if(courseTab==='tasks'){
@@ -1547,6 +1584,7 @@ function vLesson(){
         ${assetsNs?'<button data-fmt="draw" title="ציור וכתב יד עם עט">✍️ ציור</button>':''}
         ${assetsNs?'<button data-fmt="image" title="תמונה, צילום מסך או שרטוט">🖼 תמונה</button><input type="file" id="img-in" accept="image/*" multiple hidden>':''}
         <button data-fmt="clear" title="ניקוי עיצוב">ניקוי</button>
+        <button data-act="calc" data-id="${c.id}" title="מחשבון" aria-label="מחשבון">🧮</button>
         ${ai?'<button class="ai-b" data-fmt="explain" title="סמן מילה או משפט ולחץ">✨ הסבר לי</button>':''}
       </div></div>
       <div id="f-rich" class="rich" contenteditable="true" role="textbox" aria-multiline="true" aria-label="מה למדנו" data-ph="כותבים כאן מה למדנו.&#10;סמן טקסט כדי להדגיש, לשנות גודל או להפוך לכותרת.">${notesHtmlOf(l)}</div>
@@ -1750,6 +1788,7 @@ const TOOLS=[
   {n:'שאלה על החומר',k:'שאלה לשאול צאט chat עזרה הסבר לא הבנתי',e:'💬',act:'ask',ai:1,per:c=>hasNotes(c.id)},
   {n:'נקודות חולשה',k:'חולשה חולשות טעויות weak',e:'📉',act:'weak',per:c=>hasNotes(c.id)},
   {n:'חזרה יומית',k:'חזרה יומית review',e:'⚡',act:'review'},
+  {n:'מחשבון ונוסחאות',k:'מחשבון חישוב נוסחה נוסחאות calculator ממוצע סטיית תקן אחוזים ריבית גמישות',e:'🧮',act:'calc'},
   {n:'זמן ריכוז',k:'טיימר ריכוז שעון פומודורו timer',e:'⏱',act:'timer'},
   {n:'השבוע שלי',k:'שבוע שבועי השבוע תוכנית לוח',e:'📅',act:'weekly'},
   {n:'העלאת מצגת',k:'העלאה מצגת קובץ pdf תמונה צילום',e:'📷',act:'upload',ai:1},
@@ -1895,7 +1934,7 @@ function closeModal(){
 }
 function sheetDirty(){
   if((taskDraft&&taskDraft._dirty)||(formDraft&&formDraft._dirty))return true;
-  return [...$('#sheet').querySelectorAll('input[type=text],textarea')].some(el=>el.value!==el.defaultValue&&!el.dataset.pf);
+  return [...$('#sheet').querySelectorAll('input[type=text],textarea')].some(el=>el.value!==el.defaultValue&&!el.dataset.pf&&(!el.closest('#calc-body')||el.id==='cf-e'));
 }
 /* every way out of a dialog goes through here, so nothing typed is lost by a stray tap */
 function requestClose(soft){
@@ -2692,6 +2731,319 @@ document.addEventListener('paste',e=>{
     document.execCommand('insertHTML',false,html?sanitize(html):esc(txt).replace(/\n/g,'<br>'));}
 });
 
+/* ---------- calculator: a small safe math parser (no eval) ----------
+   Supports + − × ÷ ^ ( ), unary minus, x% (= x/100), n!, implicit multiplication (2π, 3(4), 2x),
+   functions and named variables, so the same engine runs free calculations and course formulas. */
+const CALC_FN={sqrt:Math.sqrt,'√':Math.sqrt,cbrt:Math.cbrt,abs:Math.abs,ln:Math.log,log:Math.log10,log2:Math.log2,exp:Math.exp,
+  sin:Math.sin,cos:Math.cos,tan:Math.tan,asin:Math.asin,acos:Math.acos,atan:Math.atan,floor:Math.floor,ceil:Math.ceil,
+  round:(x,d)=>{const f=10**(d||0);return Math.round(x*f)/f},min:Math.min,max:Math.max,
+  fact:x=>calcFact(x),nCr:(n,k)=>calcComb(n,k),comb:(n,k)=>calcComb(n,k),nPr:(n,k)=>calcFact(n)/calcFact(n-k)};
+const CALC_CONST={pi:Math.PI,'π':Math.PI,e:Math.E};
+function calcFact(n){if(n<0||!Number.isInteger(n))return NaN;if(n>170)return Infinity;let r=1;for(let i=2;i<=n;i++)r*=i;return r}
+function calcComb(n,k){if(!Number.isInteger(n)||!Number.isInteger(k)||k<0||n<0||k>n)return NaN;k=Math.min(k,n-k);let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return Math.round(r)}
+const CALC_ID=/[A-Za-z_Ͱ-Ͽ֐-׿]/;
+function calcTokens(src){
+  const s=String(src).replace(/[×✕]/g,'*').replace(/[÷:]/g,'/').replace(/[−–]/g,'-').replace(/\s+/g,' ');
+  const out=[];let i=0;
+  while(i<s.length){const c=s[i];
+    if(c===' '){i++;continue}
+    if(/[0-9.]/.test(c)){let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;
+      if(/[eE]/.test(s[j]||'')&&/[0-9+-]/.test(s[j+1]||'')&&!(CALC_ID.test(s[j+2]||'')&&/[+-]/.test(s[j+1]))){j++;if(/[+-]/.test(s[j]))j++;while(j<s.length&&/[0-9]/.test(s[j]))j++}
+      const v=+s.slice(i,j);if(isNaN(v))throw{msg:'מספר לא תקין'};out.push({t:'n',v});i=j;continue}
+    if(c==='√'||c==='π'){out.push({t:'id',v:c});i++;continue}
+    if(CALC_ID.test(c)){let j=i+1;while(j<s.length&&(CALC_ID.test(s[j])||/[0-9]/.test(s[j])))j++;out.push({t:'id',v:s.slice(i,j)});i=j;continue}
+    if('+-*/^%!(),'.includes(c)){out.push({t:c});i++;continue}
+    throw{msg:`לא מכיר את “${c}”`};
+  }
+  /* implicit multiplication: 2x, 2(…), )(…), )x, x(… only for non-functions */
+  const r=[];for(let k=0;k<out.length;k++){const a=r[r.length-1],b=out[k];
+    const aEnd=a&&(a.t==='n'||a.t===')'||(a.t==='id'&&!(CALC_FN[a.v]&&b.t==='(')&&a.v!=='√')||a.t==='!'||a.t==='%');
+    const bStart=b.t==='n'||b.t==='('||b.t==='id';
+    if(aEnd&&bStart&&!(a.t==='n'&&b.t==='n'))r.push({t:'*'});r.push(b)}
+  return r;
+}
+function calcCompile(src){
+  const tk=calcTokens(src);let p=0;const vars=new Set();
+  const peek=()=>tk[p],eat=t=>{if(tk[p]&&tk[p].t===t){p++;return true}return false};
+  const expr=()=>{let f=term();for(;;){if(eat('+')){const a=f,b=term();f=v=>a(v)+b(v)}else if(eat('-')){const a=f,b=term();f=v=>a(v)-b(v)}else return f}};
+  const term=()=>{let f=unary();for(;;){if(eat('*')){const a=f,b=unary();f=v=>a(v)*b(v)}else if(eat('/')){const a=f,b=unary();f=v=>a(v)/b(v)}else return f}};
+  const unary=()=>{if(eat('-')){const a=unary();return v=>-a(v)}if(eat('+'))return unary();return power()};
+  const power=()=>{const a=postfix();if(eat('^')){const b=unary();return v=>Math.pow(a(v),b(v))}return a};
+  const postfix=()=>{let f=primary();for(;;){if(eat('!')){const a=f;f=v=>calcFact(a(v))}else if(eat('%')){const a=f;f=v=>a(v)/100}else return f}};
+  const primary=()=>{const t=peek();if(!t)throw{msg:'עוד לא שלם'};
+    if(t.t==='n'){p++;return()=>t.v}
+    if(eat('(')){const f=expr();if(!eat(')'))throw{msg:'חסר סוגר )'};return f}
+    if(t.t==='id'){p++;const fn=(t.v==='√'||(peek()&&peek().t==='('))?CALC_FN[t.v]:null;
+      if(fn){if(t.v==='√'&&!(peek()&&peek().t==='(')){const a=postfix();return v=>Math.sqrt(a(v))}
+        if(!eat('('))throw{msg:`אחרי ${t.v} צריך סוגריים`};const args=[];if(!eat(')')){do{args.push(expr())}while(eat(','));if(!eat(')'))throw{msg:'חסר סוגר )'}}
+        return v=>fn(...args.map(a=>a(v)))}
+      if(t.v in CALC_CONST&&!(peek()&&peek().t==='(')){const c=CALC_CONST[t.v];return()=>c}
+      vars.add(t.v);return v=>{if(!(t.v in v)||v[t.v]===''||v[t.v]==null)throw{msg:`חסר ערך ל-${t.v}`,missing:t.v};return +v[t.v]}}
+    throw{msg:'עוד לא שלם'}};
+  const f=expr();if(p<tk.length)throw{msg:tk[p].t===')'?'יש סוגר ) מיותר':'משהו לא מסתדר בתרגיל'};
+  return {f,vars:[...vars]};
+}
+/* the empty field of a formula is the unknown: solve out = expr(vars) for it numerically */
+function calcSolve(fx,known,u,target){
+  const h=x=>{try{const r=fx({...known,[u]:x})-target;return Number.isFinite(r)?r:NaN}catch(e){return NaN}};
+  const ok=(x,y)=>Number.isFinite(y)&&Math.abs(y)<=1e-12*(1+Math.abs(target));
+  for(const x0 of [1,10,0.5,100,0.1,1000,-1,-10,1e4,1e-3,1e5]){let x=x0;
+    for(let i=0;i<80;i++){const y=h(x);if(ok(x,y))return x;const d=Math.max(1e-7,Math.abs(x)*1e-7),g=(h(x+d)-h(x-d))/(2*d);if(!Number.isFinite(g)||g===0)break;
+      const nx=x-y/g;if(!Number.isFinite(nx))break;if(Math.abs(nx-x)<1e-13*(1+Math.abs(x))){if(ok(nx,h(nx)))return nx;break}x=nx}}
+  const xs=[];for(let k=-6;k<=9;k++){xs.push(10**k,-(10**k))}for(let k=1;k<=200;k++)xs.push(k/2,-k/2);xs.push(0);xs.sort((a,b)=>a-b);
+  for(let i=0;i<xs.length-1;i++){let a=xs[i],b=xs[i+1],ya=h(a),yb=h(b);if(!Number.isFinite(ya)||!Number.isFinite(yb)||ya*yb>0)continue;
+    for(let k=0;k<200;k++){const m=(a+b)/2,ym=h(m);if(ok(m,ym)||Math.abs(b-a)<1e-14*(1+Math.abs(m)))return m;if(ya*ym<=0){b=m;yb=ym}else{a=m;ya=ym}}}
+  return NaN;
+}
+function calcFmt(x){
+  if(typeof x!=='number'||Number.isNaN(x))return 'לא מוגדר';if(!Number.isFinite(x))return x>0?'∞':'−∞';
+  const a=Math.abs(x);if(a!==0&&(a>=1e15||a<1e-7))return x.toExponential(6).replace(/\.?0+e/,'e');
+  return Number(x.toPrecision(10)).toLocaleString('en-US',{maximumFractionDigits:10});
+}
+/* statistics of a list: "3, 5, 7" or "90:3, 85:4" (value:weight) */
+function calcListStats(src){
+  const parts=String(src).split(/[\s,;\n]+/).map(x=>x.trim()).filter(Boolean),vals=[],w=[];let weighted=false;
+  for(const p of parts){const m=p.split(/[:×*]/);const v=parseFloat(m[0]);if(Number.isNaN(v))continue;vals.push(v);if(m.length>1){const ww=parseFloat(m[1]);w.push(Number.isNaN(ww)?1:ww);weighted=true}else w.push(1)}
+  const n=vals.length;if(!n)return null;
+  const s=[...vals].sort((a,b)=>a-b),sum=vals.reduce((a,b)=>a+b,0),mean=sum/n;
+  const q=t=>{const pos=(n-1)*t,lo=Math.floor(pos),hi=Math.ceil(pos);return s[lo]+(s[hi]-s[lo])*(pos-lo)};
+  const cnt={};vals.forEach(v=>cnt[v]=(cnt[v]||0)+1);const top=Math.max(...Object.values(cnt));const modes=top>1?Object.keys(cnt).filter(k=>cnt[k]===top).map(Number):[];
+  const ss=vals.reduce((a,v)=>a+(v-mean)**2,0),ws=w.reduce((a,b)=>a+b,0);
+  return {n,sum,mean,median:q(.5),q1:q(.25),q3:q(.75),min:s[0],max:s[n-1],range:s[n-1]-s[0],modes,
+    varS:n>1?ss/(n-1):NaN,varP:ss/n,sdS:n>1?Math.sqrt(ss/(n-1)):NaN,sdP:Math.sqrt(ss/n),weighted,wmean:weighted&&ws?vals.reduce((a,v,i)=>a+v*w[i],0)/ws:NaN,wsum:ws};
+}
+
+/* formula library: each course gets the areas its name points to, and formulas that show up in its notes come first.
+   o = result key, ol = result label, e = expression, v = [key, label, unit], kw = words to look for in the notes */
+const CALC_AREAS={
+  stats:{n:'סטטיסטיקה',re:/סטטיס|הסתבר|שיטות מחקר|מחקר|פסיכולוג|statist|probab|data/i},
+  econ:{n:'כלכלה',re:/כלכל|מיקרו|מאקרו|מימון|חשבונא|econ|financ|account/i},
+  biz:{n:'יזמות ועסקים',re:/יזמ|עסק|ניהול|שיווק|מנהל|business|entrepren|startup|marketing/i},
+  eco:{n:'אקולוגיה וביולוגיה',re:/אקולוג|ביולוג|סביב|קיימות|ecolog|biolog|environment|sustain/i},
+  earth:{n:'כדור הארץ ופיזיקה',re:/כדור.?הארץ|גאולוג|פיזיק|אקלים|מטאורולוג|earth|geolog|physic|climate/i},
+  chem:{n:'כימיה',re:/כימ|chem/i},
+  gen:{n:'כללי',re:/$^/}};
+const FORMULAS=[
+  {id:'pct',a:'gen',n:'אחוז מתוך מספר',o:'y',ol:'התוצאה',e:'p/100*x',v:[['p','האחוז','%'],['x','המספר']],kw:'אחוז'},
+  {id:'pchg',a:'gen',n:'שינוי באחוזים',o:'c',ol:'השינוי',ou:'%',e:'(b-a)/a*100',v:[['a','ערך קודם'],['b','ערך חדש']],kw:'שינוי באחוזים|עלייה של|ירידה של'},
+  {id:'rule3',a:'gen',n:'יחס ישר (כלל שלושה)',o:'x',ol:'הערך החסר',e:'b*c/a',v:[['a','a'],['b','b (מה ש-a שווה)'],['c','c']],d:'אם a שווה ל-b, כמה שווה c?'},
+  {id:'z',a:'stats',n:'ציון תקן (z)',o:'z',ol:'z',e:'(x-m)/s',v:[['x','הערך'],['m','ממוצע μ'],['s','סטיית תקן σ']],kw:'ציון תקן|ציון z|התפלגות נורמלית'},
+  {id:'se',a:'stats',n:'טעות תקן של הממוצע',o:'SE',ol:'טעות תקן',e:'s/sqrt(n)',v:[['s','סטיית תקן'],['n','גודל המדגם']],kw:'טעות תקן'},
+  {id:'moe',a:'stats',n:'מרווח טעות (רווח סמך)',o:'E',ol:'מרווח הטעות',e:'z*s/sqrt(n)',v:[['z','z (‏1.96 ל-95%)'],['s','סטיית תקן'],['n','גודל המדגם']],kw:'רווח סמך|מרווח טעות|סמך'},
+  {id:'nreq',a:'stats',n:'גודל מדגם נדרש',o:'n',ol:'גודל המדגם',e:'(z*s/E)^2',v:[['z','z (‏1.96 ל-95%)'],['s','סטיית תקן'],['E','מרווח טעות רצוי']],kw:'גודל מדגם'},
+  {id:'t1',a:'stats',n:'סטטיסטי t למדגם אחד',o:'t',ol:'t',e:'(x-m)/(s/sqrt(n))',v:[['x','ממוצע המדגם'],['m','הממוצע בהשערת האפס'],['s','סטיית תקן של המדגם'],['n','גודל המדגם']],kw:'מבחן t|השערת האפס|השערות'},
+  {id:'binom',a:'stats',n:'הסתברות בינומית',o:'Pk',ol:'P(X=k)',e:'nCr(n,k)*p^k*(1-p)^(n-k)',v:[['n','מספר ניסיונות'],['k','מספר הצלחות'],['p','הסתברות להצלחה (0–1)']],kw:'בינומ'},
+  {id:'cv',a:'stats',n:'מקדם השתנות',o:'CV',ol:'מקדם השתנות',ou:'%',e:'s/m*100',v:[['s','סטיית תקן'],['m','ממוצע']],kw:'מקדם השתנות|פיזור'},
+  {id:'elmid',a:'econ',n:'גמישות מחיר (שיטת נקודת האמצע)',o:'E',ol:'הגמישות',e:'((Q2-Q1)/((Q2+Q1)/2))/((P2-P1)/((P2+P1)/2))',v:[['Q1','כמות לפני'],['Q2','כמות אחרי'],['P1','מחיר לפני'],['P2','מחיר אחרי']],kw:'גמישות',d:'|E| גדול מ-1: ביקוש גמיש. קטן מ-1: קשיח.'},
+  {id:'elpct',a:'econ',n:'גמישות לפי אחוזי שינוי',o:'E',ol:'הגמישות',e:'dQ/dP',v:[['dQ','שינוי בכמות','%'],['dP','שינוי במחיר','%']],kw:'גמישות'},
+  {id:'eqp',a:'econ',n:'מחיר שיווי משקל (ביקוש והיצע ליניאריים)',o:'P',ol:'מחיר שיווי משקל',e:'(a-c)/(b+d)',v:[['a','ביקוש: a'],['b','ביקוש: b'],['c','היצע: c'],['d','היצע: d']],d:'ביקוש: Qd = a − b·P. היצע: Qs = c + d·P.',kw:'שיווי משקל|היצע|ביקוש'},
+  {id:'eqq',a:'econ',n:'כמות שיווי משקל (ביקוש והיצע ליניאריים)',o:'Q',ol:'כמות שיווי משקל',e:'a-b*(a-c)/(b+d)',v:[['a','ביקוש: a'],['b','ביקוש: b'],['c','היצע: c'],['d','היצע: d']],d:'ביקוש: Qd = a − b·P. היצע: Qs = c + d·P.',kw:'שיווי משקל|היצע|ביקוש'},
+  {id:'tr',a:'econ',n:'פדיון כולל',o:'TR',ol:'פדיון',e:'P*Q',v:[['P','מחיר'],['Q','כמות']],kw:'פדיון|הכנסה כוללת'},
+  {id:'prof',a:'econ',n:'רווח',o:'Pr',ol:'רווח',e:'TR-TC',v:[['TR','פדיון (הכנסות)'],['TC','עלות כוללת']],kw:'רווח'},
+  {id:'ac',a:'econ',n:'עלות ממוצעת',o:'AC',ol:'עלות ממוצעת',e:'TC/Q',v:[['TC','עלות כוללת'],['Q','כמות']],kw:'עלות ממוצעת|עלויות'},
+  {id:'fv',a:'econ',n:'ריבית דריבית',o:'FV',ol:'ערך עתידי',e:'PV*(1+r/100)^n',v:[['PV','סכום התחלתי'],['r','ריבית לתקופה','%'],['n','מספר תקופות']],kw:'ריבית|ערך נוכחי|ערך עתידי',d:'משאירים ריק את מה שרוצים: ערך נוכחי, ריבית או מספר שנים.'},
+  {id:'real',a:'econ',n:'ריבית ריאלית',o:'rr',ol:'ריבית ריאלית',ou:'%',e:'((1+i/100)/(1+inf/100)-1)*100',v:[['i','ריבית נומינלית','%'],['inf','אינפלציה','%']],kw:'אינפלציה|ריאלי'},
+  {id:'mult',a:'econ',n:'המכפיל',o:'k',ol:'המכפיל',e:'1/(1-c)',v:[['c','נטייה שולית לצרוך (0–1)']],kw:'מכפיל|נטייה שולית'},
+  {id:'be',a:'biz',n:'נקודת איזון',o:'Q',ol:'יחידות לאיזון',e:'FC/(P-VC)',v:[['FC','עלויות קבועות'],['P','מחיר ליחידה'],['VC','עלות משתנה ליחידה']],kw:'נקודת איזון|איזון'},
+  {id:'roi',a:'biz',n:'תשואה על השקעה (ROI)',o:'ROI',ol:'ROI',ou:'%',e:'(G-I)/I*100',v:[['G','מה שההשקעה הכניסה'],['I','ההשקעה']],kw:'ROI|תשואה|השקעה'},
+  {id:'margin',a:'biz',n:'שיעור רווח גולמי',o:'m',ol:'שיעור רווח',ou:'%',e:'(P-C)/P*100',v:[['P','מחיר מכירה'],['C','עלות']],kw:'רווח גולמי|מרווח'},
+  {id:'cagr',a:'biz',n:'צמיחה שנתית ממוצעת (CAGR)',o:'g',ol:'צמיחה שנתית',ou:'%',e:'((B/A)^(1/n)-1)*100',v:[['A','ערך התחלתי'],['B','ערך סופי'],['n','מספר שנים']],kw:'צמיחה|CAGR'},
+  {id:'ltv',a:'biz',n:'ערך לקוח לאורך זמן (LTV)',o:'LTV',ol:'LTV',e:'A*(m/100)/(ch/100)',v:[['A','הכנסה חודשית מלקוח'],['m','שיעור רווח','%'],['ch','נטישה חודשית','%']],kw:'LTV|נטישה|לקוח'},
+  {id:'expg',a:'eco',n:'גידול מעריכי',o:'N',ol:'גודל האוכלוסייה',e:'N0*e^(r*t)',v:[['N0','גודל התחלתי'],['r','קצב גידול'],['t','זמן']],kw:'גידול מעריכי|אקספוננ|גידול אוכלוסי'},
+  {id:'logi',a:'eco',n:'גידול לוגיסטי (קצב הגידול)',o:'G',ol:'dN/dt',e:'r*N*(1-N/K)',v:[['r','קצב גידול'],['N','גודל האוכלוסייה'],['K','כושר נשיאה']],kw:'לוגיסט|כושר נשיאה'},
+  {id:'lp',a:'eco',n:'גודל אוכלוסייה (סימון ולכידה חוזרת)',o:'N',ol:'גודל האוכלוסייה',e:'M*C/R',v:[['M','סומנו בפעם הראשונה'],['C','נלכדו בפעם השנייה'],['R','מסומנים מתוכם']],kw:'לכידה|סימון'},
+  {id:'troph',a:'eco',n:'העברת אנרגיה לרמה הבאה',o:'E2',ol:'אנרגיה ברמה הבאה',e:'E1*f/100',v:[['E1','אנרגיה ברמה הנוכחית'],['f','יעילות ההעברה','%']],d:'בדרך כלל עוברים כ-10% מהאנרגיה.',kw:'רמה טרופית|שרשרת מזון|יצרנים|צרכנים|אנרגיה'},
+  {id:'dbl',a:'eco',n:'זמן הכפלה',o:'T',ol:'זמן הכפלה',e:'ln(2)/r',v:[['r','קצב גידול']],kw:'הכפלה'},
+  {id:'pdens',a:'eco',n:'צפיפות אוכלוסייה',o:'D',ol:'צפיפות',e:'N/A',v:[['N','מספר פרטים'],['A','שטח']],kw:'צפיפות אוכלוסי'},
+  {id:'rho',a:'earth',n:'צפיפות (מסה לנפח)',o:'rho',ol:'ρ',e:'m/V',v:[['m','מסה'],['V','נפח']],kw:'צפיפות'},
+  {id:'speed',a:'earth',n:'מהירות',o:'v',ol:'מהירות',e:'d/t',v:[['d','מרחק'],['t','זמן']],kw:'מהירות'},
+  {id:'half',a:'earth',n:'זמן מחצית חיים',o:'N',ol:'כמות שנשארה',e:'N0*0.5^(t/T)',v:[['N0','כמות התחלתית'],['t','זמן שעבר'],['T','זמן מחצית חיים']],kw:'מחצית חיים|רדיואקטיב|תיארוך'},
+  {id:'scale',a:'earth',n:'קנה מידה במפה',o:'D',ol:'מרחק אמיתי',e:'d*s',v:[['d','מרחק במפה'],['s','קנה מידה (המספר אחרי 1:)']],kw:'קנה מידה|מפה'},
+  {id:'grad',a:'earth',n:'שיפוע',o:'g',ol:'שיפוע',ou:'%',e:'h/d*100',v:[['h','הפרש גובה'],['d','מרחק אופקי']],kw:'שיפוע|גרדיאנט'},
+  {id:'cf',a:'earth',n:'צלזיוס ופרנהייט',o:'F',ol:'פרנהייט',e:'C*9/5+32',v:[['C','צלזיוס']],kw:'טמפרטורה'},
+  {id:'press',a:'earth',n:'לחץ',o:'p',ol:'לחץ',e:'F/A',v:[['F','כוח'],['A','שטח']],kw:'לחץ'},
+  {id:'molar',a:'chem',n:'ריכוז מולרי',o:'M',ol:'ריכוז (M)',e:'n/V',v:[['n','מולים'],['V','נפח בליטרים']],kw:'ריכוז|מולר'},
+  {id:'moles',a:'chem',n:'מספר מולים',o:'n',ol:'מולים',e:'m/MM',v:[['m','מסה בגרמים'],['MM','מסה מולרית']],kw:'מול'},
+  {id:'dil',a:'chem',n:'מיהול',o:'C2',ol:'ריכוז סופי',e:'C1*V1/V2',v:[['C1','ריכוז התחלתי'],['V1','נפח התחלתי'],['V2','נפח סופי']],d:'C1·V1 = C2·V2',kw:'מיהול'},
+  {id:'ph',a:'chem',n:'pH',o:'pH',ol:'pH',e:'-log(H)',v:[['H','ריכוז יוני מימן [H+]']],kw:'pH|חומצ|בסיס'}];
+let CALC=null;
+const KEYIN={'√':'√(','x²':'^2','ln':'ln(','log':'log(','sin':'sin(','cos':'cos(','tan':'tan(','÷':'÷','×':'×','−':'−'};
+function calcCtxCourse(){
+  if(view.name==='course'||view.name==='readall')return view.id;
+  if((view.name==='lesson'||view.name==='read'||view.name==='live')&&S.lessons[view.id])return S.lessons[view.id].courseId;
+  const nx=nowNext();return nx?nx.c.id:'';
+}
+function openCalc(cid,tab){
+  const c=courseById(cid||calcCtxCourse());
+  CALC={tab:tab||'calc',cid:c?c.id:'',lid:view.name==='lesson'?view.id:null,expr:'',ans:0,fid:null,vals:{},list:(CALC&&CALC.list)||'',q:'',kbd:false};
+  openModal(calcHtml());if(!matchMedia('(pointer:coarse)').matches){const i=$('#calc-in');i&&i.focus()}
+  calcPreview();
+}
+/* the formulas this course should see first: its areas, formulas its notes mention, the student's own */
+function calcLists(){
+  const c=courseById(CALC.cid),txt=c?courseText(c.id):Object.values(S.lessons).map(lessonText).join('\n');
+  const areas=new Set((c?[c]:activeCourses()).flatMap(x=>Object.entries(CALC_AREAS).filter(([,a])=>a.re.test(x.name+' '+(x.teacher||''))).map(([k])=>k)));
+  const seen=f=>f.kw&&new RegExp(f.kw,'i').test(txt);
+  const all=FORMULAS.map(f=>({...f,seen:seen(f)}));
+  const own=(c&&c.formulas||[]).concat(S.profile.formulas||[]).map(f=>({...f,own:1}));
+  const fit=all.filter(f=>areas.has(f.a)||f.seen).sort((a,b)=>(b.seen?1:0)-(a.seen?1:0));
+  return {own,fit,all,areas};
+}
+function calcFind(id){const L=calcLists();return L.own.concat(L.all).find(f=>f.id===id)}
+const calcPretty=f=>`${f.o} = ${f.e.replace(/\*/g,'·').replace(/sqrt\(/g,'√(').replace(/nCr\(/g,'C(')}`;
+function calcHtml(){
+  const c=courseById(CALC.cid),t=CALC.tab;
+  return `<h2>🧮 מחשבון${c?`<span class="small" style="display:block;font-weight:400;margin-top:2px">${esc(c.name)}</span>`:''}</h2>
+  <div class="seg calc-seg" role="group" aria-label="מה לחשב" style="margin-top:10px">${[['calc','חישוב'],['f','נוסחאות'],['list','סטטיסטיקה']].map(([k,v])=>`<button data-act="calc-tab" data-v="${k}" aria-pressed="${t===k}">${v}</button>`).join('')}</div>
+  <div id="calc-body">${t==='f'?calcFormulasHtml():t==='list'?calcListHtml():calcPadHtml()}</div>
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`;
+}
+function calcPadHtml(){
+  const touch=matchMedia('(pointer:coarse)').matches,hist=(S.profile.calcHist||[]).slice(-6).reverse();
+  const k=(x,cls,lbl)=>`<button class="ckey ${cls||''}" data-act="calc-key" data-k="${x}" ${lbl?`aria-label="${lbl}"`:''}>${x==='⌫'?ic('del'):x}</button>`;
+  return `<div class="calc-screen"><input id="calc-in" dir="ltr" autocomplete="off" spellcheck="false" enterkeyhint="done" inputmode="${touch&&!CALC.kbd?'none':'text'}" value="${esc(CALC.expr)}" aria-label="תרגיל" placeholder="0">
+    <div id="calc-out" class="calc-out" aria-live="polite"></div></div>
+  <div class="calc-fn" dir="ltr">${['√','x²','^','(',')','π','e','ln','log','!','sin','cos','ans'].map(x=>k(x,'fn',x==='x²'?'בריבוע':x==='√'?'שורש':x==='^'?'בחזקה':'')).join('')}</div>
+  <div class="calc-keys" dir="ltr">${k('AC','op','ניקוי')}${k('⌫','op','מחיקה')}${k('%','op','אחוז')}${k('÷','op','חילוק')}
+    ${k('7')}${k('8')}${k('9')}${k('×','op','כפל')}${k('4')}${k('5')}${k('6')}${k('−','op','חיסור')}${k('1')}${k('2')}${k('3')}${k('+','op','חיבור')}
+    ${k('0','zero')}${k('.','','נקודה עשרונית')}${k('=','eq','שווה')}</div>
+  <div class="calc-acts">${touch?`<button class="link" data-act="calc-kbd">${CALC.kbd?'להשתמש בכפתורים':'להקליד במקלדת'}</button>`:''}<button class="link" data-act="calc-copy">העתקה</button>${CALC.lid?'<button class="link" data-act="calc-insert">להכניס לסיכום</button>':''}</div>
+  ${hist.length?`<div class="calc-hist"><span class="small">אחרונים</span>${hist.map((h,i)=>`<button data-act="calc-hist" data-i="${i}" dir="ltr"><span>${esc(h.e)}</span><b>= ${esc(calcFmt(h.r))}</b></button>`).join('')}</div>`:''}`;
+}
+function calcPreview(final){
+  const out=$('#calc-out');if(!out)return null;const s=(CALC.expr||'').trim();
+  if(!s){out.textContent='';out.className='calc-out';return null}
+  try{const r=calcCompile(s).f({ans:CALC.ans});out.textContent='= '+calcFmt(r);out.className='calc-out'+(final?' done':'');return r}
+  catch(e){out.textContent=final?(e.msg||'משהו לא מסתדר בתרגיל'):'';out.className='calc-out'+(final?' err':'');return null}
+}
+function calcKey(k){
+  const inp=$('#calc-in');if(!inp)return;let v=inp.value,a=inp.selectionStart??v.length,b=inp.selectionEnd??v.length;
+  if(document.activeElement!==inp&&inp.dataset.touched!=='1'){a=b=v.length}
+  if(k==='='){calcEquals();return}
+  if(k==='AC'){v='';a=0}
+  else if(k==='⌫'){if(a===b&&a>0){v=v.slice(0,a-1)+v.slice(b);a--}else{v=v.slice(0,a)+v.slice(b)}}
+  else{const ins=KEYIN[k]||k;v=v.slice(0,a)+ins+v.slice(b);a+=ins.length}
+  inp.value=v;CALC.expr=v;try{inp.setSelectionRange(a,a)}catch(e){}inp.dataset.touched='1';
+  if(!matchMedia('(pointer:coarse)').matches||CALC.kbd)inp.focus();
+  calcPreview();
+}
+function calcEquals(){
+  const r=calcPreview(true);if(r==null||!Number.isFinite(r))return;
+  const h=S.profile.calcHist=(S.profile.calcHist||[]);h.push({e:CALC.expr.trim(),r});if(h.length>20)h.splice(0,h.length-20);saveDoc('profile',1500);
+  CALC.ans=r;CALC.last=`${CALC.expr.trim()} = ${calcFmt(r)}`;CALC.expr=String(Number(r.toPrecision(12)));
+  $('#calc-body').innerHTML=iconize(calcPadHtml());const o=$('#calc-out');if(o){o.textContent=CALC.last;o.className='calc-out done'}
+  if(!matchMedia('(pointer:coarse)').matches){const i=$('#calc-in');i&&i.focus()}
+}
+function calcFormulasHtml(){
+  if(CALC.fid){const f=calcFind(CALC.fid);if(f)return calcFormulaHtml(f);CALC.fid=null}
+  const L=calcLists(),q=(CALC.q||'').trim().toLowerCase(),c=courseById(CALC.cid);
+  const match=f=>!q||(f.n+' '+(f.kw||'')+' '+f.e+' '+CALC_AREAS[f.a||'gen'].n).toLowerCase().includes(q);
+  const row=f=>`<button class="item" data-act="calc-f" data-v="${f.id}"><span class="grow"><strong>${esc(f.n)}${f.seen?' <span class="badge k-seen">מופיע בסיכומים</span>':''}</strong><span class="small" dir="ltr" style="text-align:start">${esc(calcPretty(f))}</span></span></button>`;
+  const own=L.own.filter(match),fit=L.fit.filter(match);
+  const rest=Object.entries(CALC_AREAS).map(([k,a])=>[a.n,L.all.filter(f=>f.a===k&&match(f)&&!fit.some(x=>x.id===f.id))]).filter(([,fs])=>fs.length);
+  return `<input type="search" id="calc-q" style="margin-top:14px" placeholder="לחפש נוסחה: גמישות, ריבית, ציון תקן…" aria-label="חיפוש נוסחה" value="${esc(CALC.q)}" autocomplete="off">
+  <p class="hint" style="margin-top:8px">בוחרים נוסחה, ממלאים את מה שידוע, והשדה שנשאר ריק מחושב לבד.</p>
+  ${own.length?`<h3 class="sec-h" style="margin-top:14px">הנוסחאות שלי</h3><div class="list">${own.map(row).join('')}</div>`:''}
+  ${fit.length?`<h3 class="sec-h" style="margin-top:14px">${c?`מתאים ל${esc(c.name)}`:'מתאים לקורסים שלך'}</h3><div class="list">${fit.map(row).join('')}</div>`:''}
+  ${rest.length?`<details class="gloss" style="margin-top:14px" ${q?'open':''}><summary>${fit.length?'עוד נוסחאות':'כל הנוסחאות'}</summary><div style="padding:0 12px 12px">${rest.map(([n,fs])=>`<h4 class="calc-area">${n}</h4><div class="list">${fs.map(row).join('')}</div>`).join('')}</div></details>`:''}
+  ${!own.length&&!fit.length&&!rest.length?`<p class="hint" style="margin-top:12px">לא נמצאה נוסחה כזו. אפשר להוסיף אותה כאן למטה.</p>`:''}
+  <details class="gloss" style="margin-top:14px"><summary>+ נוסחה משלי</summary><div style="padding:0 12px 12px">
+    <label class="f"><span>שם</span><input type="text" id="cf-n" placeholder="למשל: עקומת ביקוש"></label>
+    <label class="f"><span>הנוסחה</span><input type="text" id="cf-e" dir="ltr" placeholder="Q = a - b*P" autocomplete="off" spellcheck="false"></label>
+    <p class="hint">כותבים את התוצאה, סימן =, ואז החישוב. אפשר להשתמש ב- + − * / ^ ובסוגריים, וגם ב- sqrt, ln, log.</p>
+    <p id="cf-err" class="danger" role="alert"></p>
+    <button class="ghost" data-act="calc-fsave">שמירת הנוסחה${c?` ל${esc(c.name)}`:''}</button></div></details>
+  ${sampleFn&&c&&hasNotes(c.id)?`<div class="tools"><button class="ai" data-act="calc-ai">✨ למצוא נוסחאות בסיכומים של הקורס</button></div>`:''}`;
+}
+function calcFormulaHtml(f){
+  const keys=[...f.v.map(x=>x[0]),f.o],lab=k=>k===f.o?(f.ol||f.o):((f.v.find(x=>x[0]===k)||[])[1]||k),unit=k=>k===f.o?(f.ou||''):((f.v.find(x=>x[0]===k)||[])[2]||'');
+  return `<button class="link" data-act="calc-fback" style="margin-top:8px">${ic('chevr')}כל הנוסחאות</button>
+  <h3 style="margin:6px 0 2px">${esc(f.n)}</h3>
+  <div class="calc-formula" dir="ltr">${esc(calcPretty(f))}</div>
+  ${f.d?`<p class="hint">${esc(f.d)}</p>`:''}
+  <p class="hint">ממלאים את מה שידוע. השדה שנשאר ריק יחושב.</p>
+  <div class="calc-fields">${keys.map(k=>`<label class="f ${k===f.o?'calc-outf':''}"><span>${esc(lab(k))}${lab(k)!==k?` <span class="sym" dir="ltr">${esc(k)}</span>`:''}${unit(k)?` <span class="small">(${esc(unit(k))})</span>`:''}</span>
+    <input type="text" inputmode="decimal" dir="ltr" data-cv="${esc(k)}" value="${esc(CALC.vals[k]??'')}" autocomplete="off"></label>`).join('')}</div>
+  <div id="calc-fres" class="calc-fres" aria-live="polite"></div>
+  <div class="calc-acts"><button class="link" data-act="calc-copy">העתקה</button>${CALC.lid?'<button class="link" data-act="calc-insert">להכניס לסיכום</button>':''}<button class="link" data-act="calc-fclear">ניקוי</button>${f.own?`<button class="link danger" data-act="calc-fdel" data-v="${f.id}">מחיקת הנוסחה</button>`:''}</div>`;
+}
+function calcFormulaSolve(){
+  const f=calcFind(CALC.fid),box=$('#calc-fres');if(!f||!box)return;
+  const keys=[...f.v.map(x=>x[0]),f.o],vals={},empty=[];let bad='';
+  for(const k of keys){const raw=String(CALC.vals[k]??'').trim();if(raw===''){empty.push(k);continue}
+    try{vals[k]=calcCompile(raw).f({ans:CALC.ans})}catch(e){bad=k}}
+  document.querySelectorAll('#calc-body [data-cv]').forEach(i=>{i.placeholder='';i.classList.remove('solved')});
+  const lab=k=>k===f.o?(f.ol||f.o):((f.v.find(x=>x[0]===k)||[])[1]||k),unit=k=>k===f.o?(f.ou||''):((f.v.find(x=>x[0]===k)||[])[2]||'');
+  CALC.last='';
+  if(bad){box.innerHTML=`<span class="danger">הערך ב“${esc(lab(bad))}” לא מספר.</span>`;return}
+  if(empty.length>1){box.innerHTML=`<span class="small">חסרים עוד ${empty.length-1===1?'ערך אחד':(empty.length-1)+' ערכים'}. משאירים ריק רק את מה שרוצים לחשב.</span>`;return}
+  if(!empty.length){box.innerHTML=`<span class="small">כל השדות מלאים. מוחקים את השדה שרוצים לחשב.</span>`;return}
+  const u=empty[0];let r;
+  try{const fx=calcCompile(f.e).f;if(u===f.o)r=fx(vals);else{const known={...vals};delete known[f.o];r=calcSolve(fx,known,u,vals[f.o])}}catch(e){r=NaN}
+  if(!Number.isFinite(r)){box.innerHTML=`<span class="danger">אין פתרון עם הערכים האלה. כדאי לבדוק אותם.</span>`;return}
+  const txt=calcFmt(r);const inp=document.querySelector(`#calc-body [data-cv="${CSS.escape(u)}"]`);if(inp){inp.placeholder=txt;inp.classList.add('solved')}
+  box.innerHTML=`<span class="small">${esc(lab(u))}</span><b dir="ltr">${esc(u)} = ${esc(txt)}${unit(u)?' '+esc(unit(u)):''}</b>`;
+  CALC.last=`${f.n}: ${u} = ${txt}${unit(u)?' '+unit(u):''} (${keys.filter(k=>k!==u).map(k=>`${k}=${CALC.vals[k]}`).join(', ')})`;
+}
+function calcListHtml(){
+  return `<label class="f" style="margin-top:14px"><span>המספרים</span><textarea id="calc-list" rows="3" dir="ltr" placeholder="85, 90, 72, 64" aria-describedby="calc-list-h">${esc(CALC.list)}</textarea></label>
+  <p class="hint" id="calc-list-h">מפרידים בפסיק או ברווח. לממוצע משוקלל, למשל ציונים לפי נקודות זכות, כותבים ערך:משקל, כמו 90:4 85:3.</p>
+  <div id="calc-stats">${calcStatsHtml()}</div>`;
+}
+function calcStatsHtml(){
+  const st=calcListStats(CALC.list);if(!st)return '';CALC.last='';
+  const rows=[['מספר ערכים',st.n],['סכום',st.sum],...(st.weighted?[['ממוצע משוקלל',st.wmean],['סך המשקלים',st.wsum]]:[]),['ממוצע',st.mean],['חציון',st.median],['שכיח',st.modes.length?st.modes.slice(0,3).map(calcFmt).join(', '):'אין'],
+    ['מינימום',st.min],['מקסימום',st.max],['טווח',st.range],['רבעון תחתון (Q1)',st.q1],['רבעון עליון (Q3)',st.q3],['סטיית תקן (מדגם)',st.sdS],['סטיית תקן (אוכלוסייה)',st.sdP],['שונות (מדגם)',st.varS],['שונות (אוכלוסייה)',st.varP]];
+  CALC.last=rows.map(([k,v])=>`${k}: ${typeof v==='number'?calcFmt(v):v}`).join('\n');
+  return `<div class="list calc-stats">${rows.map(([k,v])=>`<div class="rec"><span class="grow">${k}</span><b dir="ltr">${typeof v==='number'?esc(calcFmt(v)):esc(v)}</b></div>`).join('')}</div>
+  <div class="calc-acts"><button class="link" data-act="calc-copy">העתקה</button>${CALC.lid?'<button class="link" data-act="calc-insert">להכניס לסיכום</button>':''}</div>`;
+}
+function calcText(){
+  if(CALC.tab==='calc')return CALC.last||((CALC.expr||'').trim()&&(()=>{try{return `${CALC.expr.trim()} = ${calcFmt(calcCompile(CALC.expr).f({ans:CALC.ans}))}`}catch(e){return ''}})())||'';
+  return CALC.last||'';
+}
+function calcCopy(){const t=calcText();if(!t){toast('אין עדיין תוצאה להעתיק',{icon:'alert'});return}
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('הועתק')).catch(()=>toast('לא הצלחתי להעתיק. אפשר לסמן ולהעתיק ידנית.',{icon:'alert'}))}
+function calcInsert(){const t=calcText(),L=S.lessons[CALC.lid];if(!t||!L){toast('אין עדיין תוצאה להכניס',{icon:'alert'});return}
+  L.notesHtml=notesHtmlOf(L)+t.split('\n').map(x=>`<p>${esc(x)}</p>`).join('');L.notes=htmlToText(L.notesHtml);saveDoc(CALC.lid,0);toast('נוסף לסוף הסיכום')}
+function calcSaveFormula(){
+  const n=($('#cf-n').value||'').trim(),src=($('#cf-e').value||'').trim(),err=$('#cf-err');
+  const m=src.match(/^\s*([A-Za-z_Ͱ-Ͽ֐-׿][\wͰ-Ͽ֐-׿]*)\s*=\s*(.+)$/);
+  const out=m?m[1]:'y',e=m?m[2]:src;if(!e){err.textContent='צריך לכתוב נוסחה, למשל Q = a - b*P';return}
+  let c;try{c=calcCompile(e)}catch(x){err.textContent='הנוסחה לא תקינה: '+(x.msg||'');return}
+  if(!c.vars.length){err.textContent='בנוסחה צריך להיות לפחות משתנה אחד.';return}
+  const f={id:'U_'+uid(),n:n||out,o:out,ol:out,e,v:c.vars.filter(k=>k!==out&&k!=='ans').map(k=>[k,k])};
+  const crs=courseById(CALC.cid);if(crs){crs.formulas=(crs.formulas||[]).concat(f);saveDoc('courses',0)}else{S.profile.formulas=(S.profile.formulas||[]).concat(f);saveDoc('profile',0)}
+  CALC.fid=f.id;CALC.vals={};calcBody();toast('הנוסחה נשמרה');
+}
+function calcDelFormula(id){
+  if(!confirm('למחוק את הנוסחה?'))return;const crs=courseById(CALC.cid);
+  if(crs&&(crs.formulas||[]).some(f=>f.id===id)){crs.formulas=crs.formulas.filter(f=>f.id!==id);saveDoc('courses',0)}
+  else{S.profile.formulas=(S.profile.formulas||[]).filter(f=>f.id!==id);saveDoc('profile',0)}
+  CALC.fid=null;calcBody();toast('הנוסחה נמחקה');
+}
+async function calcAiFormulas(){
+  const c=courseById(CALC.cid);if(!c||!sampleFn)return;aiRetry=()=>calcAiFormulas();const keep=CALC;
+  setSheet(thinkingHtml('מחפש נוסחאות בסיכומים של הקורס…'));aiCtl=new AbortController();
+  try{
+    const r=await sampleFn.json(`Find the mathematical formulas a university student needs from these course notes (course: ${c.name}). Include only real formulas that appear or are clearly implied in the notes.
+<<<
+${courseText(c.id).slice(0,40000)}
+>>>
+Return ONLY a JSON array (max 10) of {"name": string (short Hebrew name), "out": string (result symbol, ASCII letters/digits only), "outLabel": string (Hebrew), "expr": string (right-hand side using ASCII variable names, + - * / ^, parentheses, sqrt(), ln(), log(), e for Euler's number), "vars": [{"k": string (ASCII symbol used in expr), "label": string (short Hebrew meaning), "unit": string}]}. Return [] if there are none.`,{signal:aiCtl.signal,modelTier:'default'});
+    aiCtl=null;let n=0;const have=new Set((c.formulas||[]).map(f=>f.e.replace(/\s/g,'')));
+    for(const x of (Array.isArray(r)?r:[])){try{if(!x||!x.expr||!x.out||!/^[A-Za-z]\w*$/.test(x.out))continue;const cc=calcCompile(x.expr);const vs=(x.vars||[]).filter(v=>v&&v.k);
+      const keys=cc.vars.filter(k=>k!==x.out);if(!keys.length||have.has(String(x.expr).replace(/\s/g,'')))continue;
+      c.formulas=(c.formulas||[]).concat({id:'U_'+uid(),n:String(x.name||x.out).slice(0,60),o:x.out,ol:String(x.outLabel||x.out).slice(0,40),e:String(x.expr),
+        v:keys.map(k=>{const m=vs.find(v=>v.k===k);return [k,m&&m.label?String(m.label).slice(0,40):k,m&&m.unit?String(m.unit).slice(0,12):'']})});n++}catch(e){}}
+    if(n)saveDoc('courses',0);
+    CALC=keep;CALC.tab='f';CALC.fid=null;if(modalOpen){setSheet(calcHtml())}
+    toast(n?`נמצאו ${n} נוסחאות. הן ברשימה “הנוסחאות שלי”.`:'לא מצאתי נוסחאות בסיכומים של הקורס.',{icon:n?'okc':'alert'});
+  }catch(e){aiCtl=null;if(e&&e.code==='cancelled')return;if(modalOpen)setSheet(aiErr(e))}
+}
+function calcBody(){const b=$('#calc-body');if(!b)return;b.innerHTML=iconize(CALC.tab==='f'?calcFormulasHtml():CALC.tab==='list'?calcListHtml():calcPadHtml());
+  if(CALC.tab==='calc')calcPreview();if(CALC.tab==='f'&&CALC.fid)calcFormulaSolve()}
+
 /* ---------- attached photos and files (a friend's notebook, a handout, a slide) ----------
    In claude.ai a file goes to the artifact's file store (/_blob/<id>); in the phone app, or if that fails,
    it stays on the device in IndexedDB ("markr-files"). The lesson keeps only the reference. */
@@ -3342,6 +3694,19 @@ document.addEventListener('click',e=>{
     case 'course-tab':courseTab=b.dataset.v;render();{const tb=$('#tab-'+courseTab);tb&&tb.focus({preventScroll:true})}break;
     case 'quick-add':setOrOpen(quickAddHtml());break;
     case 'qa-sum':setSheet(qaSumHtml());break;
+    case 'calc':openCalc(id,b.dataset.v==='f'?'f':'calc');break;
+    case 'calc-tab':if(CALC){CALC.tab=b.dataset.v;setSheet(calcHtml());if(CALC.tab==='calc')calcPreview();if(CALC.tab==='f'&&CALC.fid)calcFormulaSolve()}break;
+    case 'calc-key':calcKey(b.dataset.k);break;
+    case 'calc-hist':{const h=(S.profile.calcHist||[]).slice(-6).reverse()[+b.dataset.i];if(h&&CALC){CALC.expr=h.e;calcBody()}break}
+    case 'calc-kbd':if(CALC){CALC.kbd=!CALC.kbd;calcBody();const i=$('#calc-in');if(i&&CALC.kbd)i.focus()}break;
+    case 'calc-copy':calcCopy();break;
+    case 'calc-insert':calcInsert();break;
+    case 'calc-f':if(CALC){CALC.fid=b.dataset.v;CALC.vals={};calcBody();$('#sheet').scrollTop=0;const i=$('#calc-body [data-cv]');if(i&&!matchMedia('(pointer:coarse)').matches)i.focus()}break;
+    case 'calc-fback':if(CALC){CALC.fid=null;calcBody()}break;
+    case 'calc-fclear':if(CALC){CALC.vals={};calcBody()}break;
+    case 'calc-fsave':calcSaveFormula();break;
+    case 'calc-fdel':calcDelFormula(b.dataset.v);break;
+    case 'calc-ai':calcAiFormulas();break;
     case 'qa-photos':setOrOpen(photosSheetHtml(id));break;
     case 'att-view':openViewer(id,+b.dataset.i);break;
     case 'att-open':openAttachment(id,+b.dataset.i);break;
@@ -3486,6 +3851,13 @@ document.addEventListener('click',e=>{
 });
 function onField(e){
   const el=e.target;
+  if(CALC&&el.closest&&el.closest('#calc-body')){
+    if(el.id==='calc-in'){CALC.expr=el.value;el.dataset.touched='1';calcPreview();return}
+    if(el.id==='calc-q'){CALC.q=el.value;const pos=el.selectionStart;calcBody();const n=$('#calc-q');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}return}
+    if(el.dataset.cv!=null){CALC.vals[el.dataset.cv]=el.value;calcFormulaSolve();return}
+    if(el.id==='calc-list'){CALC.list=el.value;$('#calc-stats').innerHTML=iconize(calcStatsHtml());return}
+    if(el.id==='cf-e'||el.id==='cf-n'){const er=$('#cf-err');if(er)er.textContent='';return}
+  }
   if(el.tagName==='TEXTAREA')grow(el);
   if(el.id==='search-q'){lastQ=el.value;$('#search-res').innerHTML=iconize(searchResults(lastQ));return}
   if(el.dataset.pf){S.profile[el.dataset.pf]=el.value;saveDoc('profile');return}
@@ -3538,6 +3910,8 @@ document.addEventListener('keydown',e=>{
     const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+((e.key==='ArrowLeft')===rtl?1:-1)+tabs.length)%tabs.length;
     e.preventDefault();tabs[n].click();return}
   if((e.metaKey||e.ctrlKey)&&e.key==='Enter'&&view.name==='lesson'){e.preventDefault();const b=$('[data-act=done-lesson]');b&&b.click();return}
+  if(e.key==='Enter'&&e.target.id==='calc-in'){e.preventDefault();calcEquals();return}
+  if(e.key==='Enter'&&e.target.id==='cf-e'){e.preventDefault();calcSaveFormula();return}
   if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='live-in'&&!e.isComposing){e.preventDefault();liveAdd('n');return}
   {const v=$('#viewer');if(v&&!v.hidden){if(e.key==='Escape'){viewerClose();e.preventDefault()}else if(e.key==='ArrowLeft'){v.querySelector('[data-v=next]')&&v.querySelector('[data-v=next]').click()}else if(e.key==='ArrowRight'){v.querySelector('[data-v=prev]')&&v.querySelector('[data-v=prev]').click()}
     else if(e.key==='Tab'){const f=[...v.querySelectorAll('button')];if(f.length){const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}}return}}
