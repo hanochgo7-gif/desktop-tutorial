@@ -36,8 +36,9 @@ def _max_dd(equity: pd.Series) -> float:
     return float((equity / equity.cummax() - 1).min())
 
 
-def backtest(df: pd.DataFrame, cfg: StrategyConfig, symbol: str = "", cost_bps: float = 5) -> Result:
-    sig = compute(df, cfg)
+def backtest(df: pd.DataFrame, cfg: StrategyConfig, symbol: str = "", cost_bps: float = 5,
+             regime: pd.Series | None = None) -> Result:
+    sig = compute(df, cfg, regime)
     ret = sig["close"].pct_change().fillna(0)
     # Decision at close t is held over bar t+1: no look-ahead.
     pos = sig["position"].shift(1).fillna(0)

@@ -127,3 +127,15 @@ def test_bad_data_skips_symbol_and_records_pit(tmp_path):
     row = journal(tmp_path)[0]
     assert row["action"] == "ERROR" and "split" in row["reason"]
     assert (tmp_path / "bars.db").exists()
+
+
+def test_regime_filter_in_runner(tmp_path):
+    from dataclasses import replace
+    c = cfg(tmp_path, False)
+    c = replace(c, strategy=replace(c.strategy, regime_symbol="SPY", regime_sma=50))
+    no_spy = FakeBroker({"AAA": entry_bars()})          # benchmark missing -> no entries
+    run_once(c, no_spy)
+    assert no_spy.orders == []
+    bull = FakeBroker({"AAA": entry_bars(), "SPY": make_bars(np.linspace(100, 150, 150))})
+    run_once(replace(c, state_dir=tmp_path / "b"), bull)
+    assert bull.orders and bull.orders[0][1] == "BUY"

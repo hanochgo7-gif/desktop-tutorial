@@ -24,6 +24,14 @@ strategy:
   rsi_max_entry: 70      # skip entries when RSI is above this (overbought)
   atr_period: 14
   atr_stop_mult: 3.0     # trailing stop = highest close since entry - mult * ATR
+  entry_mode: cross      # cross = only on the crossover day | trend = any day fast > slow
+  cooldown_bars: 5       # trend mode: wait this many bars after an exit
+  # Optional filters (0 / false / "" = off). Backtest before enabling.
+  trend_sma: 0           # e.g. 150: close above a rising SMA150 (stage-2 style)
+  macd_confirm: false    # MACD histogram > 0
+  min_volume_ratio: 0    # e.g. 1.2: volume >= 1.2x its 20-day average
+  regime_symbol: ""      # e.g. SPY: buy only while SPY is above its SMA
+  regime_sma: 200
 
 risk:
   risk_per_trade_pct: 1.0     # equity lost if the ATR stop is hit

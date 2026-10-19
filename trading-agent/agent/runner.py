@@ -4,11 +4,11 @@ from __future__ import annotations
 import logging
 
 from .broker import IBKRBroker
-from .config import Config
+from .config import Config, Instrument
 from .data import BarStore, clean_bars
 from .risk import AccountSnapshot, RiskManager
 from .state import State
-from .strategy import compute, latest_signal
+from .strategy import compute, latest_signal, regime_filter
 
 log = logging.getLogger("agent")
 
@@ -54,6 +54,8 @@ def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
     log.info("[%s] account %s equity=%.2f day P&L=%.2f%% orders today=%d",
              tag, broker.account, start.equity, start.daily_pnl_pct, start.orders_today)
 
+    regime = _regime(cfg, broker)
+
     for inst in cfg.universe:
         sym = inst.symbol
         try:
@@ -63,7 +65,7 @@ def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
                 log.warning("%s: data: %s", sym, issue)
             if not quality.ok:
                 raise ValueError("bad data: " + "; ".join(quality.fatal))
-            sig = latest_signal(bars, cfg.strategy)
+            sig = latest_signal(bars, cfg.strategy, regime)
         except Exception as e:  # one bad symbol must not stop the rest
             log.error("%s: data/signal error: %s", sym, e)
             state.log(symbol=sym, action="ERROR", status="skipped", reason=str(e))
@@ -86,7 +88,7 @@ def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
             d = risk.size_buy(sig.close, sig.atr, acct)
             if d.qty > 0 and analyst is not None:
                 # Claude reviews after the hard limits, and can only shrink or veto.
-                r = analyst.review(sym, compute(bars, cfg.strategy), d.qty, sig.close, acct.equity)
+                r = analyst.review(sym, compute(bars, cfg.strategy, regime), d.qty, sig.close, acct.equity)
                 scaled = int(d.qty * r.size_multiplier) if r.approved else 0
                 verdict = "approved" if r.approved else "vetoed"
                 d.notes.append(f"claude {verdict} x{r.size_multiplier:.2f} -> {scaled}: {r.summary}")
@@ -95,6 +97,23 @@ def _run(cfg: Config, broker: IBKRBroker, state: State, analyst) -> None:
             _execute(cfg, broker, state, risk, inst, "BUY", d.qty, sig, "; ".join(d.notes))
         elif not sig.in_position and owned > 0:
             _execute(cfg, broker, state, risk, inst, "SELL", owned, sig, "")
+
+
+def _regime(cfg: Config, broker):
+    """Market regime series, or None (which blocks entries) if it cannot be computed."""
+    s = cfg.strategy
+    if not s.regime_symbol:
+        return None
+    try:
+        bench, q = clean_bars(broker.daily_bars(cfg.instrument(s.regime_symbol) or Instrument(s.regime_symbol)))
+        if not q.ok:
+            raise ValueError("; ".join(q.fatal))
+        r = regime_filter(bench, s.regime_sma)
+        log.info("regime %s > SMA%d: %s", s.regime_symbol, s.regime_sma, bool(r.iloc[-1]))
+        return r
+    except Exception as e:
+        log.error("regime data for %s unavailable, blocking entries: %s", s.regime_symbol, e)
+        return None
 
 
 def _execute(cfg, broker, state, risk, inst, side, qty, sig, notes) -> None:

@@ -13,6 +13,7 @@ from dataclasses import replace
 
 from agent.backtest import Result, backtest, load_yahoo
 from agent.config import load_config
+from agent.strategy import regime_filter
 
 
 def main() -> int:
@@ -32,10 +33,13 @@ def main() -> int:
 
     if args.cmd == "backtest":
         symbols = args.symbols or [i.symbol for i in cfg.universe]
+        regime = None
+        if cfg.strategy.regime_symbol:
+            regime = regime_filter(load_yahoo(cfg.strategy.regime_symbol, args.years + 1), cfg.strategy.regime_sma)
         print(Result.HEADER)
         for s in symbols:
             try:
-                print(backtest(load_yahoo(s, args.years), cfg.strategy, s, args.cost_bps).row())
+                print(backtest(load_yahoo(s, args.years), cfg.strategy, s, args.cost_bps, regime).row())
             except Exception as e:
                 print(f"{s:<8} error: {e}")
         return 0

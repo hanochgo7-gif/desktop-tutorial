@@ -29,6 +29,16 @@ class StrategyConfig:
     rsi_max_entry: float = 70
     atr_period: int = 14
     atr_stop_mult: float = 3.0
+    # Entry trigger: "cross" = only on the day SMA fast crosses above slow;
+    # "trend" = any day fast > slow (after `cooldown_bars` since the last exit).
+    entry_mode: str = "cross"
+    cooldown_bars: int = 5
+    # Optional filters, all off by default (0 / False / ""):
+    trend_sma: int = 0            # e.g. 150: close above a rising SMA150 (stage-2 style)
+    macd_confirm: bool = False    # MACD histogram > 0
+    min_volume_ratio: float = 0   # volume / 20-day average volume, e.g. 1.2
+    regime_symbol: str = ""       # e.g. "SPY": only buy when it is above its SMA
+    regime_sma: int = 200
 
 
 @dataclass
@@ -68,6 +78,8 @@ class Config:
             raise ValueError(f"mode must be 'paper' or 'live', got {self.mode!r}")
         if self.strategy.fast_sma >= self.strategy.slow_sma:
             raise ValueError("fast_sma must be smaller than slow_sma")
+        if self.strategy.entry_mode not in ("cross", "trend"):
+            raise ValueError("entry_mode must be 'cross' or 'trend'")
 
     def instrument(self, symbol: str) -> Instrument | None:
         return next((i for i in self.universe if i.symbol == symbol), None)
