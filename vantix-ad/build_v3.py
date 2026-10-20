@@ -270,7 +270,7 @@ class Gfx:
         d.rounded_rectangle([30, Y, 1050, Y + 580], 32, fill=NAVY9 + (255,), outline=BLUE + (255,), width=3)
         lab = font(F_INTER, 34)
         x = 96
-        for ch in "LIMITED-TIME SPECIAL":
+        for ch in getattr(self, "offer_label", "LIMITED-TIME SPECIAL"):
             d.text((x, Y + 34), ch, font=lab, fill=AMBER); x += text_w(lab, ch) + 3
         p = price_img(150, AMBER)
         card.alpha_composite(p, (96, Y + 92))
@@ -332,7 +332,8 @@ class Gfx:
         c.alpha_composite(self.end_bg)
         # technician (decorative, bottom-right)
         e = ent(0.5, 0.3)
-        paste(c, self.tech.resize((420, 507), Image.LANCZOS), 870, 1666, e * 0.95)
+        if getattr(self, "show_tech", True):
+            paste(c, self.tech.resize((420, 507), Image.LANCZOS), 870, 1666, e * 0.95)
         # logo, small
         e = ent(0.0, 0.25)
         lw = int(300 * (0.92 + 0.08 * e))
@@ -366,14 +367,30 @@ class Gfx:
             pulse = 1 + 0.05 * (0.5 - 0.5 * math.cos(2 * math.pi * max(0.0, tt - 1.0))) if tt > 1.0 else 1.0
             tmp = Image.new("RGBA", (980, 120), (0, 0, 0, 0))
             ImageDraw.Draw(tmp).text((490, 60), "BOOK NOW FOR $97", font=font(F_ANTON, 100), fill=BLUE, anchor="mm")
-            paste_scaled(c, tmp, 490, 1182, pulse, e)
+            y_cta, y_tap, y_arrow, s_arrow = getattr(self, "cta_layout", (1182, 1283, 1395, 1.0))
+            paste_scaled(c, tmp, 490, y_cta, pulse, e)
             tmp = Image.new("RGBA", (980, 70), (0, 0, 0, 0))
             ImageDraw.Draw(tmp).text((490, 35), "TAP THE BUTTON BELOW", font=font(F_OSW, 52), fill=NAVY9, anchor="mm")
-            paste(c, tmp, 490, 1283, e)
+            paste(c, tmp, 490, y_tap, e)
             bob = 22 * (0.5 - 0.5 * math.cos(2 * math.pi * tt / 0.8))
             ar = Image.new("RGBA", (140, 130), (0, 0, 0, 0))
             ImageDraw.Draw(ar).polygon([(45, 0), (95, 0), (95, 58), (135, 58), (70, 128), (5, 58), (45, 58)], fill=BLUE + (255,))
-            paste(c, ar, 470, 1395 + bob, e)
+            paste_scaled(c, ar, 470, y_arrow + bob, s_arrow, e)
+        fp = getattr(self, "fine_print", None)
+        if fp:   # FTC: terms clear and conspicuous, on screen for the whole end card
+            e = ent(0.3, 0.25)
+            ff = font("/usr/share/fonts/opentype/inter/Inter-Medium.otf", 24)
+            words, lines, cur = fp.split(" "), [], ""
+            for w in words:
+                if text_w(ff, (cur + " " + w).strip()) > 840:
+                    lines.append(cur); cur = w
+                else:
+                    cur = (cur + " " + w).strip()
+            lines.append(cur)
+            tmp = Image.new("RGBA", (W, 34 * len(lines) + 10), (0, 0, 0, 0))
+            for k, ln in enumerate(lines):
+                ImageDraw.Draw(tmp).text((490, 17 + 34 * k), ln, font=ff, fill=(52, 64, 84), anchor="mm")
+            c.alpha_composite(fade_img(tmp, e), (0, 1404))
 
     # ---- per frame ----
     def frame(self, i):
