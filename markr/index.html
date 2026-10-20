@@ -3138,7 +3138,7 @@ async function syncReceive(file){
   if(!j||j.app!=='nekuda'||!j.docs){if(box)box.textContent='זה לא קובץ סנכרון או גיבוי של מרקר.';return}
   if(!confirm('לקבל את העדכונים מהקובץ? מה שחסר יתווסף, ומה שהשתנה שם מאוחר יותר יתעדכן. שום דבר לא יימחק.'))return;
   const r=syncMerge(j.docs);await importFiles(j.files);pref('syncGot',String(Date.now()));
-  const pl=n=>n===1?'פריט אחד':`${n} פריטים`;const msg=r.added||r.updated?[r.added&&`נוספו ${pl(r.added)}`,r.updated&&`עודכנו ${pl(r.updated)}`].filter(Boolean).join(', ')+'.':'הכול כבר היה מעודכן.';
+  const msg=r.added||r.updated?[r.added&&(r.added===1?'נוסף פריט אחד':`נוספו ${r.added} פריטים`),r.updated&&(r.updated===1?'עודכן פריט אחד':`עודכנו ${r.updated} פריטים`)].filter(Boolean).join(', ')+'.':'הכול כבר היה מעודכן.';
   toast(msg);if(modalOpen&&$('#sync-box')){$('#sync-box').innerHTML=iconize(syncBoxHtml());const m=$('#sync-msg');if(m)m.textContent=msg}
 }
 function syncAgo(k){const t=+pref(k);if(!t)return '';const m=Math.round((Date.now()-t)/60000);return m<1?'עכשיו':m<60?`לפני ${m} דק׳`:m<1440?`לפני ${Math.round(m/60)} שע׳`:`לפני ${Math.round(m/1440)} ימים`}
