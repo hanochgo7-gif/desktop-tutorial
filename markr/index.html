@@ -549,6 +549,29 @@ details.opt>.in{padding:0 16px 16px}
 .reader .actions .ic{color:var(--link);width:1.25em;height:1.25em}
 .r-imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
 .r-imgs img{width:100%;border-radius:14px;display:block}
+/* grades */
+.gpa-big{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--tint);border-radius:18px;padding:14px;margin-top:12px;text-align:center}
+.gpa-big b{font-size:2.2rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.gpa-row{display:flex;align-items:center;gap:10px;padding:10px 14px;min-height:64px}
+.gpa-row .grow{display:flex;flex-direction:column;align-items:flex-start}
+.gpa-row .grow .link{font-size:.875rem;min-height:36px;padding:2px 0}
+.gpa-in{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.75rem;color:var(--muted);flex:none}
+.gpa-in input{width:64px;text-align:center;padding:8px 4px;font-variant-numeric:tabular-nums}
+.parts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.part-row{display:flex;align-items:flex-end;gap:8px}
+.part-row>input{flex:1;min-width:0}
+.ph-acts{display:flex;gap:8px}
+/* formula sheet */
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.fs-card{background:var(--card);border-radius:var(--r);padding:12px 14px}
+.fs-card h3{font-size:1rem;margin:0 0 4px}
+.fs-legend{list-style:none;margin:6px 0 0;padding:0;font-size:.875rem;color:var(--ink2)}
+.fs-legend li{margin:2px 0}
+.fs-keys li{margin-bottom:.4rem}
+/* viewer caption */
+#viewer .vcap{padding:0 12px 6px}
+#viewer .vcap input{width:100%;background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:12px;padding:10px 12px;min-height:44px}
+#viewer .vcap input::placeholder{color:rgba(255,255,255,.65)}
 /* calculator */
 .calc-seg button{white-space:nowrap;font-size:.875rem;padding-inline:4px}
 .calc-screen{background:var(--fill2);border-radius:18px;padding:8px 14px;margin-top:14px}
@@ -826,7 +849,8 @@ h1:focus{outline:none}
 .settling .top,.settling #app,.settling nav#nav{pointer-events:none}
 @media (max-width:1023px){html{scroll-padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 24px)}}
 @media (forced-colors:active){[aria-pressed=true],[aria-current=page],[aria-selected=true]{outline:2px solid Highlight;outline-offset:-2px}button{border:1px solid ButtonText}.nav-add{forced-color-adjust:none}}
-@media print{.top,nav#nav,#toast,.crumb,.actions,.cta,.tabs{display:none!important}body{padding:0}body::after,body::before{display:none}.r-body,.field,.list{box-shadow:none}}
+@media print{.no-print,.fs-card .link{display:none!important}.fs-card,.calc-formula{break-inside:avoid;background:#fff!important;border:1px solid #ccc}main{padding:0!important}
+  .top,nav#nav,#toast,.crumb,.actions,.cta,.tabs{display:none!important}body{padding:0}body::after,body::before{display:none}.r-body,.field,.list{box-shadow:none}}
 </style>
 </head>
 <body>
@@ -1000,14 +1024,20 @@ function makeLocalStore(){
   return{kind:'local',subscribe(cb){cb(docs)},put(id,d){docs[id]=d;return Promise.resolve(persist())},remove(id){delete docs[id];return Promise.resolve(persist())}};
 }
 function docData(id){
-  if(id==='courses')return{type:'courses',list:S.courses};
-  if(id==='tasks')return{type:'tasks',list:S.tasks};
+  if(id==='courses')return{type:'courses',list:S.courses,_u:STAMP.courses||undefined};
+  if(id==='tasks')return{type:'tasks',list:S.tasks,_u:STAMP.tasks||undefined};
   if(id==='profile')return{...S.profile,type:'profile'};
   if(id.startsWith('Q_'))return S.cquiz[id]||null;
   if(id.startsWith('T_'))return S.trash[id]||null;
   return S.lessons[id]||null;
 }
+const STAMP={courses:0,tasks:0},LISTPREV={courses:new Map(),tasks:new Map()};
+const itemSig=it=>{const {_u,...rest}=it||{};return JSON.stringify(rest)};
+function primeList(kind){const m=LISTPREV[kind]=new Map();(kind==='courses'?S.courses:S.tasks).forEach(it=>it&&it.id&&m.set(it.id,itemSig(it)))}
+/* tasks and courses are lists: each item gets its own change time, so a newer list never undoes an older edit */
+function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[id]=t;const m=LISTPREV[id];(id==='courses'?S.courses:S.tasks).forEach(it=>{if(!it||!it.id)return;const sg=itemSig(it);if(m.get(it.id)!==sg){it._u=t;m.set(it.id,sg)}})}else if(id==='profile')S.profile._u=t;else{const d=docData(id);if(d&&typeof d==='object'&&!Array.isArray(d))d._u=t}}
 function saveDoc(id,delay=700){
+  if(!saveDoc.quiet)stampDoc(id);
   dirty.set(id,(dirty.get(id)||0)+1);updateStatus();
   clearTimeout(timers[id]);timers[id]=setTimeout(()=>flush(id),delay);
 }
@@ -1058,7 +1088,7 @@ async function saveFile(filename,data,type){
   if(downloadsNs){await downloadsNs.save({filename,data});return true}
   const f=new File([data],filename,{type});
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:filename});return true}catch(e){if(e&&e.name==='AbortError')return false}}
-  const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);return true;
+  const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=/[^\x20-\x7E]/.test(filename)?'markr-'+todayKey()+'-'+Date.now().toString(36)+(filename.match(/\.\w+$/)||[''])[0]:filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);return true;
 }
 async function filesForBackup(){
   const out={};for(const l of Object.values(S.lessons))for(const f of (l.files||[])){if(out[f.id])continue;
@@ -1082,8 +1112,8 @@ async function downloadBackup(){
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
 function removeDoc(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
 function applyDocs(docs){
-  if(!dirty.has('courses'))S.courses=clone(docs.courses?.list||[]);
-  if(!dirty.has('tasks'))S.tasks=clone(docs.tasks?.list||[]);
+  if(!dirty.has('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses')}
+  if(!dirty.has('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks')}
   if(!dirty.has('profile'))S.profile=clone(docs.profile||{});
   const L={};
   for(const [id,d] of Object.entries(docs)){if(d&&d.type==='lesson'&&!deletedIds.has(id))L[id]=clone(d)}
@@ -1255,7 +1285,7 @@ function render(){
   const app=$('#app');
   if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;markNav();return}
   const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
-  const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen}[view.name]||vHome;
+  const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen,fsheet:vFsheet}[view.name]||vHome;
   app.innerHTML=iconize(fn());
   markNav();
   app.querySelectorAll('textarea').forEach(grow);hydrateFiles(app);
@@ -1263,13 +1293,13 @@ function render(){
 }
 /* the tab bar follows the screen actually shown (a view can fall back to another) */
 function markNav(){
-  const map={course:'courses',lesson:'courses',read:'courses',readall:'courses',live:'courses',listen:LSN.from==='home'?'home':'courses'};
+  const map={course:'courses',lesson:'courses',read:'courses',readall:'courses',live:'courses',fsheet:'courses',listen:LSN.from==='home'?'home':'courses'};
   document.querySelectorAll('#nav button').forEach(b=>{
     if((map[view.name]||view.name)===b.dataset.to)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
   });
 }
 /* browser Back and swipe-back move between the app's own screens and close dialogs */
-const VIEWS=['home','courses','course','lesson','tasks','search','read','readall','live','listen'];
+const VIEWS=['home','courses','course','lesson','tasks','search','read','readall','live','listen','fsheet'];
 const hashOf=v=>'#'+v.name+(v.id?'/'+encodeURIComponent(v.id):'');
 let navBack=false,navQueue=null,inPop=false;
 function pushNav(st){
@@ -1316,8 +1346,8 @@ const kindSelect=id=>`<select id="${id}" aria-label="סוג">${Object.entries(KI
 function todayPlan(){
   const t=todayKey(),now=new Date(),dow=now.getDay(),m=now.getHours()*60+now.getMinutes();
   const rows=[];
-  const rv=dueReview();
-  if(rv.length)rows.push({k:'review',n:rv.length,done:false,sort:-2});
+  const rv=dueReview(),dc=dueCards();
+  if(rv.length||dc.length)rows.push({k:'review',n:rv.length+dc.length,nq:rv.length,nc:dc.length,done:false,sort:-2});
   else if(S.profile.revDay===t)rows.push({k:'review',n:0,done:true,sort:-2});
   activeCourses().forEach(c=>(c.sessions||[]).forEach(s=>{if(+s.day!==dow)return;
     const st=toMin(s.start),en=toMin(s.end),l=lessonsOf(c.id).find(x=>x.date===t&&!isEmptyLesson(x));
@@ -1341,6 +1371,7 @@ function pickFocus(plan){
   const nx=nowNext();if(nx)return{type:'next',nx};
   return{type:'clear'};
 }
+const revLabel=r=>r.nq&&r.nc?`${r.nq} שאלות ו-${r.nc} כרטיסיות`:r.nc?(r.nc===1?'כרטיסייה אחת':`${r.nc} כרטיסיות`):(r.n===1?'שאלה אחת':`${r.n} שאלות`);
 function recallHtml(c){
   const t=todayKey(),ls=lessonsOf(c.id),last=ls.filter(l=>l.date!==t&&!isEmptyLesson(l)).pop();
   const openQ=ls.flatMap(l=>(l.questions||[]).filter(q=>q.t&&!q.done)).slice(0,3);let h='';
@@ -1360,7 +1391,7 @@ function focusHtml(f){
       `<button class="primary big" data-act="live-course" data-id="${c.id}">${ic('pen')}רישום מהיר בזמן השיעור</button><div class="alt"><button class="link" data-act="today-lesson" data-id="${c.id}">לכתוב סיכום רגיל</button></div>`)}
     case 'fresh':{const {c,s}=f.r;return card(c.color,`השיעור נגמר ב-${T(s.end)}`,`לסכם את ${esc(c.name)}`,'',`<p class="why">כמה דקות עכשיו, כשהחומר עוד טרי, חוסכות שעה של חזרה לפני המבחן.</p>`,
       `<button class="primary big" data-act="today-lesson" data-id="${c.id}">${ic('pencil')}לכתוב סיכום</button>${sampleFn?`<div class="alt"><button class="link" data-act="upload" data-id="${c.id}">להעלות את המצגת במקום</button></div>`:''}`)}
-    case 'review':{const n=f.r.n;return card('','חזרה יומית',`${n} ${n===1?'שאלה מחכה':'שאלות מחכות'} לך`,`<span>${ic('timer')}בערך ${Math.max(1,Math.round(n/3))} דק׳</span>`,
+    case 'review':{const n=f.r.n;return card('','חזרה יומית',`${revLabel(f.r)} ${n===1?'מחכה':'מחכות'} לך`,`<span>${ic('timer')}בערך ${Math.max(1,Math.round(n/3))} דק׳</span>`,
       `<p class="why">שאלות משיעורים קודמים, בדיוק כשמתחילים לשכוח. זה הצעד שהכי עוזר לזכור לאורך זמן.</p>`,
       `<button class="primary big" data-act="review">${ic('zap')}להתחיל חזרה</button>`)}
     case 'late':case 'task':{const x=f.x,c=courseById(x.courseId),d=dueInfo(x.due);
@@ -1381,7 +1412,7 @@ function focusHtml(f){
 }
 function agendaRow(r){
   if(r.k==='review')return `<${r.done?'div':'button'} class="agenda-row ${r.done?'done':''}" ${r.done?'':'data-act="review"'} style="--c:var(--spark)"><span class="when"></span><span class="mk">${ic(r.done?'tick':'zap')}</span>
-    <span class="grow"><strong>חזרה יומית</strong><span class="small">${r.done?'בוצעה היום':`${r.n} שאלות, בערך ${Math.max(1,Math.round(r.n/3))} דק׳`}</span></span>${r.done?'':'<span class="go">להתחיל</span>'}</${r.done?'div':'button'}>`;
+    <span class="grow"><strong>חזרה יומית</strong><span class="small">${r.done?'בוצעה היום':`${revLabel(r)}, בערך ${Math.max(1,Math.round(r.n/3))} דק׳`}</span></span>${r.done?'':'<span class="go">להתחיל</span>'}</${r.done?'div':'button'}>`;
   if(r.k==='lesson'){const {c,s,l}=r;
     const act=r.done?`data-act="open-lesson" data-id="${l.id}"`:r.live?`data-act="live-course" data-id="${c.id}"`:r.draft?`data-act="edit-lesson" data-id="${l.id}"`:`data-act="today-lesson" data-id="${c.id}"`;
     const st=r.done?'יש סיכום':r.live?'עכשיו':r.draft?'טיוטה, עוד לא סיימת':r.ended?'עוד אין סיכום':'בהמשך היום';
@@ -1460,7 +1491,7 @@ function vCourses(){
       ${x.slots.map(({c,s})=>`<button class="slot" style="--c:${c.color}" data-act="open-course" data-id="${c.id}"><span class="tm">${T(s.start+'–'+s.end)}</span><span class="grow"><b>${esc(c.name)}</b>${s.room?`<span class="small" style="display:block">${esc(s.room)}</span>`:''}</span></button>`).join('')}
       </div></div>`).join('')}</div>`:'<div class="empty" style="margin-top:16px"><b>עוד אין שעות במערכת</b>פותחים קורס, לוחצים “עריכת הקורס” ומוסיפים מתי הוא מתקיים.</div>';
   }else body=`<div class="cgrid">${act.map(card).join('')}</div>`;
-  return `<div class="page-head"><h1>הקורסים שלי</h1>${act.length?`<button class="ghost" data-act="new-course">${ic('plus')}קורס</button>`:''}</div>
+  return `<div class="page-head"><h1>הקורסים שלי</h1>${act.length?`<span class="ph-acts"><button class="ghost" data-act="grades">ממוצע</button><button class="ghost" data-act="new-course">${ic('plus')}קורס</button></span>`:''}</div>
     ${act.length?`<div class="seg" style="margin-top:16px" role="group" aria-label="תצוגה">
       <button data-act="course-mode" data-m="list" aria-pressed="${courseMode==='list'}">${ic('book')}רשימה</button>
       <button data-act="course-mode" data-m="week" aria-pressed="${courseMode==='week'}">${ic('cal')}מערכת שבועית</button></div>`:''}
@@ -1506,6 +1537,7 @@ function vCourse(){
       ${sampleFn?`<button class="tool" data-act="exam-setup" data-id="${c.id}">⏱ <span>סימולציית מבחן<small>עם שעון, כמו באמת</small></span></button>`:''}
       <button class="tool" data-act="weak" data-id="${c.id}">📉 <span>נקודות חולשה<small>על מה כדאי לחזור</small></span></button>
       <button class="tool" data-act="calc" data-id="${c.id}" data-v="f">🧮 <span>מחשבון ונוסחאות<small>נוסחאות שמתאימות לקורס</small></span></button>
+      <button class="tool" data-act="fsheet" data-id="${c.id}">📝 <span>דף נוסחאות למבחן<small>נוסחאות ונקודות חשובות, להדפסה</small></span></button>
     </div></div>
     ${keys.length>1?`<section class="block"><details class="gloss"><summary>הנקודות החשובות של הקורס (${keys.length})</summary><ol class="keys">${keys.map(x=>`<li value="${x.no}">${esc(x.k)}</li>`).join('')}</ol></details></section>`:''}`;
   }else if(courseTab==='tasks'){
@@ -1660,6 +1692,7 @@ function vRead(){
       ${l.notes||l.key?`<button class="ghost" data-act="listen-lesson" data-id="${view.id}">🎧 להאזין</button>`:''}
       ${sampleFn?`<button class="ghost" data-act="cards" data-id="${view.id}">🃏 כרטיסיות</button>`:''}
       ${sampleFn?`<button class="ghost" data-act="fey" data-id="${view.id}">🧑‍🏫 להסביר במילים שלי${l.fey?` (${l.fey.score})`:''}</button>`:''}
+      <button class="ghost" data-act="share" data-id="${view.id}">📤 שיתוף</button>
       <button class="ghost" data-act="edit-lesson" data-id="${view.id}">✏️ עריכה</button>
     </div>
     <div class="r-nav">${prev?`<button class="ghost" data-act="open-lesson" data-id="${prev.id}">→ השיעור הקודם</button>`:'<span></span>'}${next?`<button class="ghost" data-act="open-lesson" data-id="${next.id}">השיעור הבא ←</button>`:''}</div>
@@ -1704,7 +1737,7 @@ function taskSheetHtml(){
   return `<h2>${isNew?(d.kind==='exam'?'מבחן חדש':'משימה חדשה'):d.kind==='exam'?esc(d.title||'מבחן'):'עריכה'}</h2>
   ${pc?`<div class="exam-note" style="margin:0 0 12px"><span>${ic('book')}${esc(pc.name)}${d.kind==='exam'&&dd!=null&&dd>=0?`, ${dd===0?'היום':dd===1?'מחר':`בעוד ${dd} ימים`}`:''}</span></div>
     <button class="primary big" style="width:100%;max-width:none" data-act="exam-practice" data-id="${pc.id}">${ic('zap')}לתרגל עכשיו</button>
-    <div class="alt" style="display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;margin:2px 0 8px">${pl?`<button class="link" data-act="open-lesson" data-id="${pl}">לפתוח את הסיכום</button>`:''}${d.kind==='exam'&&d.due&&dd>=1?`<button class="link" data-act="plan" data-id="${d.id}">תוכנית חזרה עד המבחן</button>`:''}</div>`
+    <div class="alt" style="display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;margin:2px 0 8px">${pl?`<button class="link" data-act="open-lesson" data-id="${pl}">לפתוח את הסיכום</button>`:''}${d.kind==='exam'&&d.due&&dd>=1?`<button class="link" data-act="plan" data-id="${d.id}">תוכנית חזרה עד המבחן</button>`:''}${d.kind==='exam'?`<button class="link" data-act="fsheet" data-id="${pc.id}">דף נוסחאות</button>`:''}</div>`
    :pl?`<p style="margin:0 0 10px"><button class="link" data-act="open-lesson" data-id="${pl}">לפתוח את הסיכום של השיעור</button></p>`:''}
   <label class="f"><span>${d.kind==='exam'?'איזה מבחן?':'מה צריך לעשות?'}</span><input type="text" data-td="title" enterkeyhint="done" value="${esc(d.title)}" placeholder="${d.kind==='exam'?'למשל: בוחן אמצע':'למשל: להגיש תרגיל 3'}" autocomplete="off"></label>
   <div class="f"><span>סוג</span><div class="seg" role="group" aria-label="סוג">${Object.entries(KINDS).map(([k,v])=>`<button data-act="td-kind" data-v="${k}" aria-pressed="${d.kind===k}">${v}</button>`).join('')}</div></div>
@@ -1789,10 +1822,12 @@ const TOOLS=[
   {n:'נקודות חולשה',k:'חולשה חולשות טעויות weak',e:'📉',act:'weak',per:c=>hasNotes(c.id)},
   {n:'חזרה יומית',k:'חזרה יומית review',e:'⚡',act:'review'},
   {n:'מחשבון ונוסחאות',k:'מחשבון חישוב נוסחה נוסחאות calculator ממוצע סטיית תקן אחוזים ריבית גמישות',e:'🧮',act:'calc'},
+  {n:'ציונים וממוצע',k:'ממוצע ציונים ציון נקודות זכות נז תואר כמה אני צריך במבחן gpa',e:'🎓',act:'grades'},
+  {n:'דף נוסחאות למבחן',k:'דף נוסחאות נוסחאות למבחן הדפסה',e:'📝',act:'fsheet',per:c=>true},
   {n:'זמן ריכוז',k:'טיימר ריכוז שעון פומודורו timer',e:'⏱',act:'timer'},
   {n:'השבוע שלי',k:'שבוע שבועי השבוע תוכנית לוח',e:'📅',act:'weekly'},
   {n:'העלאת מצגת',k:'העלאה מצגת קובץ pdf תמונה צילום',e:'📷',act:'upload',ai:1},
-  {n:'הגדרות וגיבוי',k:'הגדרות גיבוי שחזור נמחקו גודל טקסט מראה כהה רקע settings',e:'⚙️',act:'settings'},
+  {n:'הגדרות וגיבוי',k:'הגדרות גיבוי שחזור סנכרון העברה מכשיר נמחקו גודל טקסט מראה כהה רקע settings',e:'⚙️',act:'settings'},
 ];
 const hasNotes=cid=>lessonsOf(cid).some(l=>!isEmptyLesson(l));
 const courseTerms=cid=>lessonsOf(cid).reduce((a,l)=>a+(l.terms||[]).filter(x=>x.t).length+((l.cards&&l.cards.list)||[]).length,0);
@@ -1803,6 +1838,20 @@ function toolResults(ql){
     activeCourses().filter(x.per).slice(0,4).forEach(c=>out.push(`<button class="item" data-act="${x.act}" data-id="${c.id}">${x.e} <span class="grow"><strong>${x.n}</strong><span class="small">${esc(c.name)}</span></span></button>`));
   });
   return out.slice(0,8);
+}
+function vFsheet(){
+  const c=courseById(view.id);if(!c){view={name:'courses'};return vCourses()}
+  const L=calcLists(c.id),own=L.own,fit=L.fit,keys=lessonsOf(c.id).filter(l=>!isEmptyLesson(l)&&l.key);
+  const card=f=>`<article class="fs-card"><h3>${esc(f.n)}${f.seen?' <span class="badge k-seen">מופיע בסיכומים</span>':''}</h3><div class="calc-formula" dir="ltr">${esc(calcPretty(f))}</div>
+    <ul class="fs-legend">${[[f.o,f.ol||f.o,f.ou||''],...f.v].map(([k,lab,u])=>`<li><span dir="ltr" class="sym">${esc(k)}</span> ${esc(lab)}${u?` (${esc(u)})`:''}</li>`).join('')}</ul>${f.d?`<p class="small">${esc(f.d)}</p>`:''}
+    <button class="link no-print" data-act="fs-open" data-id="${c.id}" data-v="${f.id}">לחשב עם הנוסחה</button></article>`;
+  return `<div class="crumb no-print"><button class="link" data-act="open-course" data-id="${c.id}" data-tab="learn">→ חזרה ל${esc(c.name)}</button></div>
+  <h1>דף נוסחאות</h1><p class="sub">${esc(c.name)}${keys.length?', עם הנקודות החשובות מכל שיעור':''}</p>
+  <div class="actions no-print"><button class="ghost" data-act="print">${ic('file')}הדפסה או PDF</button><button class="ghost" data-act="calc" data-id="${c.id}" data-v="f">🧮 למחשבון</button></div>
+  ${own.length?`<section class="block"><h2 class="sec-h">הנוסחאות שלי</h2><div class="fs-grid">${own.map(card).join('')}</div></section>`:''}
+  ${fit.length?`<section class="block"><h2 class="sec-h">נוסחאות הקורס</h2><div class="fs-grid">${fit.map(card).join('')}</div></section>`
+    :own.length?'':`<div class="empty" style="margin-top:16px"><b>עוד אין נוסחאות לקורס הזה</b>מוסיפים נוסחה משלך במחשבון, בלשונית “נוסחאות”, והיא תופיע כאן.<div class="actions"><button class="primary" data-act="calc" data-id="${c.id}" data-v="f">🧮 לפתוח את המחשבון</button></div></div>`}
+  ${keys.length?`<section class="block"><h2 class="sec-h">הנקודות החשובות</h2><ol class="keys fs-keys">${keys.map(l=>`<li><b>${esc(l.topic||'שיעור '+lessonNo(l.id))}:</b> ${esc(l.key)}</li>`).join('')}</ol></section>`:''}`;
 }
 function vSearch(){
   return `<h1>חיפוש</h1><p class="sub">בקורסים, בסיכומים, במושגים, במשימות ובכלים</p>
@@ -1829,7 +1878,8 @@ function searchResults(q){
   if(cs.length)out.push(sec('קורסים',cs.length,cs.map(c=>`<button class="item" style="--c:${c.color}" data-act="open-course" data-id="${c.id}"><span class="dot"></span><span class="grow"><strong>${esc(c.name)}</strong>${c.teacher?`<span class="small">${esc(c.teacher)}</span>`:''}</span></button>`).join(''),!out.length));
   const ls=[],tm=[];
   for(const e of live){const l=e[1];
-    for(const p of [l.topic,l.key,l.notes,...(l.questions||[]).map(x=>x.t)].filter(Boolean)){const sn=snippet(p,q);if(sn){ls.push([e,sn]);break}}
+    let hit=false;for(const p of [l.topic,l.key,l.notes,...(l.questions||[]).map(x=>x.t)].filter(Boolean)){const sn=snippet(p,q);if(sn){ls.push([e,sn]);hit=true;break}}
+    if(!hit)for(const f of (l.files||[])){const sn=snippet([f.cap,f.text,f.name].filter(Boolean).join(' · '),q);if(sn){ls.push([e,`${ic('image')}בצילום: ${sn}`]);break}}
     (l.terms||[]).forEach(x=>{if(x.t&&(x.t+' '+(x.d||'')).toLowerCase().includes(ql))tm.push([e,x])});
   }
   ls.sort((a,b)=>(b[0][1].date||'').localeCompare(a[0][1].date||''));
@@ -1989,9 +2039,10 @@ function settingsHtml(){
     <label class="ghost" style="cursor:pointer">📤 שחזור מגיבוי<input type="file" id="restore-file" accept=".json,application/json" hidden></label></div>
     <p id="restore-msg" class="hint" role="status"></p>
     <div id="snaps"></div></div>
+  <div class="f"><span>סנכרון בין הטלפון ל-claude.ai</span><div id="sync-box">${syncBoxHtml()}</div></div>
   ${trashHtml()}
   ${STANDALONE?`<div class="f"><span>Claude</span><p class="note" style="margin:0">סידור סיכומים, בוחנים, כרטיסיות חכמות ושאלות על החומר עובדים בגרסה של מרקר ב-claude.ai.
-    המחברות לא מסונכרנות ביניהן: מעבירים עם “הורדת גיבוי” כאן ו“שחזור מגיבוי” שם (השחזור רק מוסיף, לא מוחק).</p>
+    כדי שיהיה אותו דבר בשתיהן משתמשים ב“סנכרון בין הטלפון ל-claude.ai” למעלה.</p>
     <div class="actions" style="margin-top:8px"><a class="ghost" href="${CLAUDE_URL}" target="_blank" rel="noopener">לפתוח את מרקר ב-claude.ai</a></div></div>`:''}
   ${STANDALONE&&!INSTALLED&&IOS?`<div class="f"><span>התקנה</span><p class="note" style="margin:0">ב-Safari: כפתור השיתוף ${ic('share')} ← “הוספה למסך הבית”. מרקר ייפתח כאפליקציה במסך מלא.</p></div>`:''}
   <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
@@ -2030,13 +2081,14 @@ function courseFormHtml(){
 }
 function practiceHtml(){
   const p=practice,c=courseById(p.cid)||{color:'#888'};
-  const title=p.quiz?'בוחן על השיעור':'🃏 כרטיסיות';
-  if(p.i>=p.cards.length)return `<h2>${title}</h2><div class="card" style="--c:${c.color}"><div class="term">סיימת!</div><div class="def">${p.known} ידעת מתוך ${p.total}.${p.known<p.total?' כדאי לחזור על השאר מחר.':''}</div></div>
-    <div class="sheet-foot">${p.quiz?'':`<button class="primary" data-act="practice" data-id="${p.cid}">עוד סיבוב</button>`}<button class="ghost" data-act="modal-close">סגירה</button></div>`;
-  const x=p.cards[p.i];
+  const title=p.review?'חזרה יומית: כרטיסיות':p.quiz?'בוחן על השיעור':'🃏 כרטיסיות';
+  if(p.i>=p.cards.length){if(p.review&&S.profile.revDay!==todayKey()){S.profile.revDay=todayKey();saveDoc('profile',0)}
+    return `<h2>${title}</h2><div class="card" style="--c:${c.color}"><div class="term">סיימת!</div><div class="def">${p.known} ידעת מתוך ${p.total}.${p.known<p.total?' מה שעוד לא ידעת יחזור אליך מחר.':' הן יחזרו אליך בעוד כמה ימים, כדי שלא תשכח.'}</div></div>
+    <div class="sheet-foot">${p.quiz||p.review?'':`<button class="primary" data-act="practice" data-id="${p.cid}">עוד סיבוב</button>`}<button class="${p.review?'primary':'ghost'}" data-act="modal-close">סגירה</button></div>`}
+  const x=p.cards[p.i];const xc=courseById(x.cid)||c;
   return `<h2>${title}</h2><p class="hint">נשארו ${p.cards.length-p.i}. נסה להיזכר לבד, ואז הצג.</p>
-  <div class="card" style="--c:${c.color}"><div class="term">${esc(x.t)}</div>
-    ${p.flip?`<div class="def">${esc(x.d||'אין פירוש')}</div>${x.no?`<div class="from">משיעור ${x.no}</div>`:''}`:''}</div>
+  <div class="card" style="--c:${xc.color}"><div class="term">${esc(x.t)}</div>
+    ${p.flip?`<div class="def">${esc(x.d||'אין פירוש')}</div>${x.no?`<div class="from">${p.review?esc(xc.name||'')+', ':''}משיעור ${x.no}</div>`:''}`:''}</div>
   <div class="sheet-foot">${p.flip?`<button class="primary" data-act="card-yes">ידעתי</button><button class="ghost" data-act="card-no">עוד לא</button>`:`<button class="primary" data-act="flip">${p.quiz?'הצג תשובה':'הצג פירוש'}</button><button class="ghost" data-act="modal-close">סגירה</button>`}</div>`;
 }
 function thinkingHtml(msg){return `<h2>✨ Claude עוזר</h2><div class="thinking"><span class="pulse"></span><span>${msg}</span></div><div class="sheet-foot"><button class="ghost" data-act="modal-close">עצור</button></div>`}
@@ -2659,7 +2711,7 @@ function plJump(dt,dc){const was=PL.playing;plPause();
 function plStop(){plPause();PL.tracks=[];PL.now='';render()}
 
 function startReview(){
-  const items=dueReview().map(x=>({doc:x.doc,qi:x.qi}));if(!items.length)return;
+  const items=dueReview().map(x=>({doc:x.doc,qi:x.qi}));if(!items.length){startCardReview();return}
   quiz={mode:'review',items,i:0,pick:null,right:0,wrong:[]};openModal(mcHtml());
 }
 function mcHtml(){
@@ -2668,10 +2720,11 @@ function mcHtml(){
     const n=z.items.length,pct=z.right/n;
     const msg=pct===1?'מושלם! החומר יושב טוב.':pct>=.6?'יפה מאוד! מה שטעית בו יחזור אליך בחזרה היומית.':'זה בדיוק בשביל זה. השאלות שטעית בהן יחזרו מחר בחזרה היומית.';
     if(z.mode==='lesson'){const l=S.lessons[z.lid];if(l&&l.quiz){l.quiz.last=z.right;saveDoc(z.lid,0)}}
-    if(z.mode==='review'&&S.profile.revDay!==todayKey()){S.profile.revDay=todayKey();saveDoc('profile',0)}
+    const dcn=z.mode==='review'?dueCards().length:0;
+    if(z.mode==='review'&&!dcn&&S.profile.revDay!==todayKey()){S.profile.revDay=todayKey();saveDoc('profile',0)}
     return `<h2>${title}</h2><div class="score">${z.right}/${n}</div><p style="text-align:center">${msg}</p>
     ${z.wrong.length?`<div class="mc-explain"><b>כדאי לזכור:</b><ul style="margin:.3rem 0 0;padding-inline-start:1.2rem">${z.wrong.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>`:''}
-    <div class="sheet-foot"><button class="primary" data-act="modal-close">סיום</button>${z.mode==='lesson'?`<button class="ghost" data-act="quiz-again">שוב</button>`:''}${z.mode==='course'?`<button class="ghost" data-act="course-quiz" data-id="${z.cid}">בוחן חדש</button>`:''}</div>`;
+    <div class="sheet-foot">${dcn?`<button class="primary" data-act="review-cards">עוד ${dcn===1?'כרטיסייה אחת':dcn+' כרטיסיות'}</button><button class="ghost" data-act="modal-close">אחר כך</button>`:'<button class="primary" data-act="modal-close">סיום</button>'}${z.mode==='lesson'?`<button class="ghost" data-act="quiz-again">שוב</button>`:''}${z.mode==='course'?`<button class="ghost" data-act="course-quiz" data-id="${z.cid}">בוחן חדש</button>`:''}</div>`;
   }
   const it=z.items[z.i],q=qOf(it);
   if(!q){z.i++;return mcHtml()}
@@ -2880,8 +2933,8 @@ function openCalc(cid,tab){
   calcPreview();
 }
 /* the formulas this course should see first: its areas, formulas its notes mention, the student's own */
-function calcLists(){
-  const c=courseById(CALC.cid),txt=c?courseText(c.id):Object.values(S.lessons).map(lessonText).join('\n');
+function calcLists(cid){
+  if(cid===undefined)cid=CALC&&CALC.cid;const c=courseById(cid),txt=c?courseText(c.id):Object.values(S.lessons).map(lessonText).join('\n');
   const areas=new Set((c?[c]:activeCourses()).flatMap(x=>Object.entries(CALC_AREAS).filter(([,a])=>a.re.test(x.name+' '+(x.teacher||''))).map(([k])=>k)));
   const seen=f=>f.kw&&new RegExp(f.kw,'i').test(txt);
   const all=FORMULAS.map(f=>({...f,seen:seen(f)}));
@@ -2942,7 +2995,7 @@ function calcFormulasHtml(){
   const own=L.own.filter(match),fit=L.fit.filter(match);
   const rest=Object.entries(CALC_AREAS).map(([k,a])=>[a.n,L.all.filter(f=>f.a===k&&match(f)&&!fit.some(x=>x.id===f.id))]).filter(([,fs])=>fs.length);
   return `<input type="search" id="calc-q" style="margin-top:14px" placeholder="לחפש נוסחה: גמישות, ריבית, ציון תקן…" aria-label="חיפוש נוסחה" value="${esc(CALC.q)}" autocomplete="off">
-  <p class="hint" style="margin-top:8px">בוחרים נוסחה, ממלאים את מה שידוע, והשדה שנשאר ריק מחושב לבד.</p>
+  <p class="hint" style="margin-top:8px">בוחרים נוסחה, ממלאים את מה שידוע, והשדה שנשאר ריק מחושב לבד.${c?` <button class="link" data-act="fsheet" data-id="${c.id}" style="min-height:0;padding:0">דף נוסחאות למבחן</button>`:''}</p>
   ${own.length?`<h3 class="sec-h" style="margin-top:14px">הנוסחאות שלי</h3><div class="list">${own.map(row).join('')}</div>`:''}
   ${fit.length?`<h3 class="sec-h" style="margin-top:14px">${c?`מתאים ל${esc(c.name)}`:'מתאים לקורסים שלך'}</h3><div class="list">${fit.map(row).join('')}</div>`:''}
   ${rest.length?`<details class="gloss" style="margin-top:14px" ${q?'open':''}><summary>${fit.length?'עוד נוסחאות':'כל הנוסחאות'}</summary><div style="padding:0 12px 12px">${rest.map(([n,fs])=>`<h4 class="calc-area">${n}</h4><div class="list">${fs.map(row).join('')}</div>`).join('')}</div></details>`:''}
@@ -2987,7 +3040,7 @@ function calcFormulaSolve(){
 }
 function calcListHtml(){
   return `<label class="f" style="margin-top:14px"><span>המספרים</span><textarea id="calc-list" rows="3" dir="ltr" placeholder="85, 90, 72, 64" aria-describedby="calc-list-h">${esc(CALC.list)}</textarea></label>
-  <p class="hint" id="calc-list-h">מפרידים בפסיק או ברווח. לממוצע משוקלל, למשל ציונים לפי נקודות זכות, כותבים ערך:משקל, כמו 90:4 85:3.</p>
+  <p class="hint" id="calc-list-h">מפרידים בפסיק או ברווח. לממוצע משוקלל כותבים ערך:משקל, כמו 90:4 85:3. <button class="link" data-act="grades" style="min-height:0;padding:0">לממוצע התואר לפי הקורסים</button></p>
   <div id="calc-stats">${calcStatsHtml()}</div>`;
 }
 function calcStatsHtml(){
@@ -3044,6 +3097,147 @@ Return ONLY a JSON array (max 10) of {"name": string (short Hebrew name), "out":
 function calcBody(){const b=$('#calc-body');if(!b)return;b.innerHTML=iconize(CALC.tab==='f'?calcFormulasHtml():CALC.tab==='list'?calcListHtml():calcPadHtml());
   if(CALC.tab==='calc')calcPreview();if(CALC.tab==='f'&&CALC.fid)calcFormulaSolve()}
 
+/* ---------- sync between devices (phone app <-> claude.ai) through a file ----------
+   Each side sends everything it has. On the receiving side: what is missing is added, and when both sides
+   have the same item, the one changed more recently wins. Nothing is deleted by a sync; deletions stay in
+   "recently deleted" on the device where they happened, and a deleted item does not come back if it was
+   deleted after the other copy was last changed. */
+async function syncSend(){
+  const b=$('[data-act=sync-send]');if(b){b.disabled=true;b.textContent='מכין…'}
+  try{const files=await filesForBackup();
+    const data=JSON.stringify({app:'nekuda',version:1,sync:1,from:STANDALONE?'phone':'claude',exportedAt:new Date().toISOString(),docs:allDocs(),...(Object.keys(files).length?{files}:{})});
+    if(await saveFile('markr-sync-'+todayKey()+'.json',data,'application/json')){pref('syncSent',String(Date.now()));toast('קובץ הסנכרון מוכן. פותחים אותו בגרסה השנייה ב“קבלת עדכונים”.')}}
+  catch(e){toast('לא הצלחתי להכין את הקובץ',{icon:'alert'})}
+  if(modalOpen&&$('#sync-box'))$('#sync-box').innerHTML=iconize(syncBoxHtml());
+}
+function trashedAt(kind,id){let at=0;for(const t of Object.values(S.trash)){const d=t.data||{};
+  const hit=kind==='lesson'?(d.id===id||Object.keys(d.lessons||{}).includes(id)):kind==='task'?((d.task&&d.task.id===id)||(d.tasks||[]).some(x=>x.id===id)):(d.course&&d.course.id===id);if(hit)at=Math.max(at,t.at||0)}return at}
+function syncMerge(docs){
+  let added=0,updated=0;const touched=new Set();
+  const mergeList=(kind,doc,tk)=>{if(!doc||!Array.isArray(doc.list))return;const loc=kind==='courses'?S.courses:S.tasks;
+    for(const it of doc.list){if(!it||!it.id)continue;const i=loc.findIndex(x=>x.id===it.id);
+      if(i<0){if(trashedAt(tk,it.id)>(it._u||doc._u||0))continue;loc.push(clone(it));added++;touched.add(kind)}
+      else if((it._u||0)>(loc[i]._u||0)&&itemSig(loc[i])!==itemSig(it)){loc[i]=clone(it);updated++;touched.add(kind)}}
+    if((doc._u||0)>(STAMP[kind]||0))STAMP[kind]=doc._u;if(touched.has(kind))primeList(kind)};
+  mergeList('courses',docs.courses,'course');mergeList('tasks',docs.tasks,'task');
+  for(const [id,d] of Object.entries(docs)){
+    if(d&&d.type==='lesson'){const mine=S.lessons[id];
+      if(!mine){if(deletedIds.has(id)||trashedAt('lesson',id)>(d._u||0))continue;S.lessons[id]=clone(d);added++;touched.add(id)}
+      else if((d._u||0)>(mine._u||0)&&JSON.stringify(mine)!==JSON.stringify(d)){const files=[...(d.files||[])];(mine.files||[]).forEach(f=>{if(!files.some(x=>x.id===f.id))files.push(f)});
+        S.lessons[id]={...clone(d),files:clone(files)};updated++;touched.add(id)}}
+    if(d&&d.type==='cquiz'){const mine=S.cquiz[id];if(!mine||(d._u||0)>(mine._u||0)){S.cquiz[id]=clone(d);touched.add(id)}}
+  }
+  if(docs.profile){const p=docs.profile;S.profile.days=[...new Set([...(S.profile.days||[]),...(p.days||[])])].sort().slice(-200);
+    const fs=(S.profile.formulas||[]).slice();(p.formulas||[]).forEach(f=>{if(f&&f.id&&!fs.some(x=>x.id===f.id))fs.push(f)});S.profile.formulas=fs;
+    if(!S.profile.name&&p.name)S.profile.name=p.name;touched.add('profile')}
+  saveDoc.quiet=true;try{touched.forEach(id=>saveDoc(id,0))}finally{saveDoc.quiet=false}
+  render();return {added,updated};
+}
+async function syncReceive(file){
+  const box=$('#sync-msg');let j;try{j=JSON.parse(await file.text())}catch(e){}
+  if(!j||j.app!=='nekuda'||!j.docs){if(box)box.textContent='זה לא קובץ סנכרון או גיבוי של מרקר.';return}
+  if(!confirm('לקבל את העדכונים מהקובץ? מה שחסר יתווסף, ומה שהשתנה שם מאוחר יותר יתעדכן. שום דבר לא יימחק.'))return;
+  const r=syncMerge(j.docs);await importFiles(j.files);pref('syncGot',String(Date.now()));
+  const pl=n=>n===1?'פריט אחד':`${n} פריטים`;const msg=r.added||r.updated?[r.added&&`נוספו ${pl(r.added)}`,r.updated&&`עודכנו ${pl(r.updated)}`].filter(Boolean).join(', ')+'.':'הכול כבר היה מעודכן.';
+  toast(msg);if(modalOpen&&$('#sync-box')){$('#sync-box').innerHTML=iconize(syncBoxHtml());const m=$('#sync-msg');if(m)m.textContent=msg}
+}
+function syncAgo(k){const t=+pref(k);if(!t)return '';const m=Math.round((Date.now()-t)/60000);return m<1?'עכשיו':m<60?`לפני ${m} דק׳`:m<1440?`לפני ${Math.round(m/60)} שע׳`:`לפני ${Math.round(m/1440)} ימים`}
+function syncBoxHtml(){const other=STANDALONE?'הגרסה ב-claude.ai':'האפליקציה בטלפון';
+  return `<p class="note" style="margin:0 0 8px">כדי שהטלפון ו-claude.ai יכילו אותו דבר: “שליחת עדכונים” כאן, ואז “קבלת עדכונים” ב${other} עם אותו קובץ (אפשר דרך AirDrop, קבצים או iCloud). אחר כך אותו דבר בכיוון השני.</p>
+  <div class="actions" style="margin-top:0"><button class="ghost" data-act="sync-send">${ic('up')}שליחת עדכונים</button>
+  <label class="ghost" style="cursor:pointer">${ic('down')}קבלת עדכונים<input type="file" id="sync-file" accept=".json,application/json" hidden></label></div>
+  <p class="hint" id="sync-msg" role="status">${[syncAgo('syncSent')&&'נשלח '+syncAgo('syncSent'),syncAgo('syncGot')&&'התקבל '+syncAgo('syncGot')].filter(Boolean).join(' · ')}</p>`}
+
+/* ---------- sharing a summary: quick text for WhatsApp, or one file with everything including the photos ---------- */
+function shareHtml(lid){const l=S.lessons[lid];if(!l)return '';const nimg=(l.files||[]).filter(f=>f.kind==='image').length;
+  return `<h2>שיתוף הסיכום</h2><p class="hint">${esc(l.topic||'בלי נושא')}</p>
+  <div class="list" style="margin-top:12px">
+    <button class="item" data-act="share-text" data-id="${lid}"><span class="grow"><strong>טקסט</strong><span class="small">הודעה אחת עם הסיכום, הנקודה החשובה והמושגים. מתאים לוואטסאפ.</span></span></button>
+    <button class="item" data-act="share-file" data-id="${lid}"><span class="grow"><strong>קובץ מלא${nimg?' עם הצילומים':''}</strong><span class="small">דף מסודר שנפתח בכל טלפון ומחשב${nimg?`, כולל ${nimg===1?'הצילום':nimg+' הצילומים'}`:''}.</span></span></button>
+  </div><div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`}
+function lessonShareText(l){const c=courseById(l.courseId);
+  return [`${l.topic||'סיכום'}`,`${c?c.name+', ':''}${shortDate(l.date)}`,l.key?`\nהנקודה החשובה: ${l.key}`:'',l.notes?`\n${l.notes}`:'',
+    (l.terms||[]).filter(x=>x.t).length?`\nמושגים:\n`+(l.terms||[]).filter(x=>x.t).map(x=>`- ${x.t}: ${x.d||''}`).join('\n'):'','\n(נשלח ממרקר)'].filter(Boolean).join('\n')}
+async function shareText(lid){const l=S.lessons[lid];if(!l)return;const text=lessonShareText(l);
+  if(navigator.share&&STANDALONE){try{await navigator.share({title:l.topic||'סיכום',text});closeModal();return}catch(e){if(e&&e.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(text);closeModal();toast('הסיכום הועתק. עכשיו מדביקים בהודעה.')}catch(e){toast('לא הצלחתי להעתיק',{icon:'alert'})}}
+async function shareFile(lid){
+  const l=S.lessons[lid];if(!l)return;const c=courseById(l.courseId);setSheet(`<h2>מכין את הקובץ…</h2><div class="thinking"><span class="pulse"></span><span>אוסף את הסיכום והצילומים</span></div>`);
+  const imgs=[];for(const f of (l.files||[]).filter(f=>f.kind==='image')){const b=await fileBlob(f);if(!b)continue;
+    imgs.push({url:await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.onerror=()=>r('');fr.readAsDataURL(b)}),cap:f.cap||''})}
+  const terms=(l.terms||[]).filter(x=>x.t),qs=(l.questions||[]).filter(x=>x.t);
+  const html=`<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(l.topic||'סיכום')}</title>
+<style>body{font-family:-apple-system,"SF Hebrew","Segoe UI",Arial,sans-serif;max-width:720px;margin:0 auto;padding:28px 18px 48px;line-height:1.75;color:#1b1b1b;background:#fff}
+h1{font-family:"Frank Ruhl Libre","Times New Roman",serif;font-size:2rem;line-height:1.25;margin:.2em 0 .5em}.meta{color:#666;font-size:.95rem}
+.key{background:#FBF1C4;border-radius:12px;padding:12px 16px;margin:16px 0}.key b{display:block;font-size:.85rem;color:#493A00}
+mark{background:#F5D13D99;padding:0 2px}h2,h3{margin:1.2em 0 .3em}img{max-width:100%;border-radius:10px;display:block;margin:10px 0 2px}figure{margin:0 0 12px}figcaption{color:#666;font-size:.9rem}
+dt{font-weight:700;margin-top:6px}dd{margin:0 0 4px}footer{margin-top:40px;color:#999;font-size:.85rem}</style></head><body>
+<p class="meta">${esc(c?c.name:'')} · ${esc(shortDate(l.date))}</p><h1>${esc(l.topic||'סיכום')}</h1>
+${l.key?`<div class="key"><b>הנקודה החשובה</b>${esc(l.key)}</div>`:''}
+${l.notes?notesHtmlOf(l):''}
+${terms.length?`<h2>מושגים</h2><dl>${terms.map(x=>`<dt>${esc(x.t)}</dt><dd>${esc(x.d||'')}</dd>`).join('')}</dl>`:''}
+${qs.length?`<h2>שאלות</h2><ul>${qs.map(x=>`<li>${esc(x.t)}</li>`).join('')}</ul>`:''}
+${imgs.length?`<h2>צילומים</h2>${imgs.map(x=>`<figure><img src="${x.url}" alt="${esc(x.cap||'צילום')}">${x.cap?`<figcaption>${esc(x.cap)}</figcaption>`:''}</figure>`).join('')}`:''}
+<footer>נשלח ממרקר</footer></body></html>`;
+  const name=(String(l.topic||'סיכום').replace(/[\\/:*?"<>|]/g,' ').trim().slice(0,60)||'סיכום')+'.html';
+  try{if(await saveFile(name,html,'text/html')){closeModal();toast('הקובץ מוכן לשליחה')}else setSheet(shareHtml(lid))}catch(e){setSheet(shareHtml(lid));toast('לא הצלחתי ליצור את הקובץ',{icon:'alert'})}
+}
+
+/* ---------- grades: course credits, final-grade parts, degree average and "what do I need" ---------- */
+const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return Number.isFinite(x)?x:null};
+function partsGrade(c){const ps=(c.parts||[]).filter(p=>num(p.w));if(!ps.length)return null;const tw=ps.reduce((a,p)=>a+num(p.w),0);
+  const done=ps.filter(p=>num(p.g)!=null),dw=done.reduce((a,p)=>a+num(p.w),0);
+  return {tw,dw,sofar:done.reduce((a,p)=>a+num(p.g)*num(p.w),0)/100,complete:done.length===ps.length&&Math.abs(tw-100)<.01,left:ps.filter(p=>num(p.g)==null)}}
+function courseGrade(c){const pg=partsGrade(c);if(pg&&pg.complete)return Math.round(pg.sofar*100)/100;return num(c.grade)}
+function gpaInfo(){
+  const cs=S.courses.filter(c=>num(c.credits));let w=0,sum=0,openCr=0;
+  cs.forEach(c=>{const g=courseGrade(c);if(g!=null){w+=num(c.credits);sum+=g*num(c.credits)}else openCr+=num(c.credits)});
+  return {avg:w?sum/w:null,w,openCr,sum};
+}
+function gpaNeedHtml(){
+  const t=num(pref('gpaTarget'));const g=gpaInfo();if(t==null)return '';
+  if(!g.openCr)return `<p class="hint">אין קורסים עם נקודות זכות ובלי ציון, אז אין מה לחשב קדימה.</p>`;
+  const need=(t*(g.w+g.openCr)-g.sum)/g.openCr;
+  return `<div class="calc-fres"><span class="small">כדי להגיע לממוצע ${calcFmt(t)}, צריך בממוצע בקורסים שעוד אין להם ציון (${calcFmt(g.openCr)} נ״ז)</span><b>${need>100?'מעל 100, היעד הזה כבר לא אפשרי':need<=0?'כבר הגעת ליעד':calcFmt(Math.round(need*100)/100)}</b></div>`;
+}
+function gradesHtml(){
+  const g=gpaInfo(),cs=S.courses.slice().sort((a,b)=>(a.archived?1:0)-(b.archived?1:0));
+  return `<h2>ציונים וממוצע</h2>
+  <div class="gpa-big" id="gpa-sum">${gpaSumHtml()}</div>
+  <p class="hint">ממלאים נקודות זכות (נ״ז) וציון לכל קורס. אפשר גם לפרק ציון לרכיבים (מבחן, עבודות) ולחשב כמה צריך במבחן.</p>
+  ${cs.length?`<div class="list gpa-list">${cs.map(c=>{const pg=partsGrade(c),cg=courseGrade(c);return `<div class="gpa-row" style="--c:${c.color}"><span class="dot"></span>
+    <span class="grow"><strong>${esc(c.name)}</strong>${c.archived?'<span class="small">הסתיים</span>':''}<button class="link" data-act="grade-parts" data-id="${c.id}">${pg?`רכיבים: ${pg.complete?'ציון '+calcFmt(cg):`יש ציון ל-${calcFmt(pg.dw)}% מהקורס`}`:'לפרק לרכיבים'}</button></span>
+    <label class="gpa-in"><span>נ״ז</span><input type="text" inputmode="decimal" data-gr="credits" data-id="${c.id}" value="${esc(c.credits??'')}" aria-label="נקודות זכות: ${esc(c.name)}"></label>
+    <label class="gpa-in"><span>ציון</span><input type="text" inputmode="decimal" data-gr="grade" data-id="${c.id}" value="${esc(pg&&pg.complete?cg:(c.grade??''))}" ${pg&&pg.complete?'readonly':''} aria-label="ציון: ${esc(c.name)}"></label></div>`}).join('')}</div>`
+  :'<div class="empty">עוד אין קורסים.</div>'}
+  <label class="f" style="margin-top:16px"><span>יעד ממוצע</span><input type="text" inputmode="decimal" id="gpa-target" value="${esc(pref('gpaTarget')||'')}" placeholder="למשל 90"></label>
+  <div id="gpa-need">${gpaNeedHtml()}</div>
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`;
+}
+function gpaSumHtml(){const g=gpaInfo();return g.avg==null?'<span class="small">הממוצע יופיע כאן אחרי שיהיו נקודות זכות וציון לפחות לקורס אחד.</span>':`<span class="small">ממוצע משוקלל</span><b>${calcFmt(Math.round(g.avg*100)/100)}</b><span class="small">על פני ${calcFmt(g.w)} נ״ז${g.openCr?`, ועוד ${calcFmt(g.openCr)} נ״ז בלי ציון`:''}</span>`}
+function partsHtml(cid){
+  const c=courseById(cid);if(!c)return '';const ps=c.parts||[];const pg=partsGrade(c);
+  return `<button class="link" data-act="grades">${ic('chevr')}ציונים וממוצע</button>
+  <h2 style="margin-top:6px">ציון סופי: ${esc(c.name)}</h2>
+  <p class="hint">כל רכיב והמשקל שלו באחוזים, למשל מבחן 70% ועבודות 30%. רכיב בלי ציון הוא מה שעוד לפנייך.</p>
+  ${ps.length?`<div class="parts">${ps.map((p,i)=>`<div class="part-row"><input type="text" data-gp="n" data-id="${cid}" data-i="${i}" value="${esc(p.n||'')}" placeholder="רכיב" aria-label="שם רכיב ${i+1}">
+    <label class="gpa-in"><span>משקל %</span><input type="text" inputmode="decimal" data-gp="w" data-id="${cid}" data-i="${i}" value="${esc(p.w??'')}" aria-label="משקל רכיב ${i+1}"></label>
+    <label class="gpa-in"><span>ציון</span><input type="text" inputmode="decimal" data-gp="g" data-id="${cid}" data-i="${i}" value="${esc(p.g??'')}" aria-label="ציון רכיב ${i+1}"></label>
+    <button class="x" data-act="part-rm" data-id="${cid}" data-i="${i}" aria-label="מחיקת רכיב ${i+1}">${ic('x')}</button></div>`).join('')}</div>`:''}
+  <button class="add" data-act="part-add" data-id="${cid}">${ic('plus')}רכיב</button>
+  <div id="parts-res">${partsResHtml(cid)}</div>
+  <label class="f" style="margin-top:14px"><span>איזה ציון סופי אני רוצה?</span><input type="text" inputmode="decimal" id="part-target" data-id="${cid}" value="${esc(c.target??'')}" placeholder="למשל 85"></label>
+  <div id="parts-need">${partsNeedHtml(cid)}</div>
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`;
+}
+function partsResHtml(cid){const c=courseById(cid),pg=c&&partsGrade(c);if(!pg)return '';
+  return `<p class="small" style="margin-top:10px">${Math.abs(pg.tw-100)>.01?`<span class="danger">סך המשקלים ${calcFmt(pg.tw)}%, צריך שיהיה 100%.</span> `:''}${pg.dw?`עד עכשיו צברת ${calcFmt(Math.round(pg.sofar*100)/100)} נקודות מתוך ${calcFmt(pg.dw)}.`:''}${pg.complete?` הציון הסופי: <b>${calcFmt(Math.round(pg.sofar*100)/100)}</b>`:''}</p>`}
+function partsNeedHtml(cid){
+  const c=courseById(cid),pg=c&&partsGrade(c),t=num(c&&c.target);if(!pg||t==null||!pg.left.length)return '';
+  const lw=pg.left.reduce((a,p)=>a+num(p.w),0);if(!lw)return '';const need=(t-pg.sofar)/(lw/100);
+  return `<div class="calc-fres"><span class="small">כדי לקבל ${calcFmt(t)}, צריך ב${pg.left.map(p=>esc(p.n||'רכיב')).join(' ובמקביל ב')}${pg.left.length>1?' (בממוצע)':''}</span><b>${need>100?'מעל 100, לא אפשרי':need<=0?'כבר הבטחת את זה':calcFmt(Math.round(need*100)/100)}</b></div>`;
+}
+
 /* ---------- attached photos and files (a friend's notebook, a handout, a slide) ----------
    In claude.ai a file goes to the artifact's file store (/_blob/<id>); in the phone app, or if that fails,
    it stays on the device in IndexedDB ("markr-files"). The lesson keeps only the reference. */
@@ -3075,12 +3269,16 @@ async function addAttachments(lid,files){
     const blob=img?await shrinkImage(f,2000):f,kind=img?'image':'pdf',name=f.name||(img?'צילום':'קובץ');let ref=null;
     if(assetsNs){try{const up=await assetsNs.upload(blob);if(up&&up.id)ref={id:up.id,name,kind}}catch(e){}}
     if(!ref){const id='F_'+uid();if(await FDB.put(id,blob))ref={id,local:1,name,kind,type:blob.type||''}}
-    if(ref){(S.lessons[lid]||l).files.push(ref);n++}else bad++;
+    if(ref){(S.lessons[lid]||l).files.push(ref);n++;if(img&&sampleFn&&imgCaps)photoText(lid,ref,blob)}else bad++;
   }
   if(n){markActive();saveDoc(lid,0)}
   updateStatus();if(view.id===lid&&(view.name==='lesson'||view.name==='read'))render();
   toast(n?(n===1?'הקובץ נוסף לסיכום':`נוספו ${n} קבצים לסיכום`)+(bad?`, ${bad} לא נשמרו`:''):'לא הצלחתי לשמור. אפשר להוסיף תמונות או PDF.',{icon:n?'okc':'alert'});
   return n;
+}
+async function photoText(lid,ref,blob){
+  try{const r=await sampleFn('Transcribe the text in this photo of study material (handwritten or printed) as plain text, in its original language. If it is mostly a drawing or diagram, describe it in one short Hebrew sentence. Plain text only, at most 1500 characters.',{images:[await shrinkImage(blob,1400)],modelTier:'quick'});
+    const t=((r&&r.text)||'').trim().slice(0,1500);if(!t)return;const L=S.lessons[lid],f=L&&(L.files||[]).find(x=>x.id===ref.id);if(f){f.text=t;saveDoc(lid)}}catch(e){}
 }
 function removeAttachment(lid,i){
   const l=S.lessons[lid];if(!l||!l.files||!l.files[i])return;
@@ -3098,7 +3296,8 @@ async function openViewer(lid,i){
 async function viewerDraw(){
   const v=$('#viewer'),f=VW.list[VW.i];if(!v||!f)return;const n=VW.list.length;
   v.innerHTML=iconize(`<div class="vbar"><button data-v="close" aria-label="סגירה">${ic('x')}</button><span class="grow">${n>1?`${VW.i+1} מתוך ${n}`:esc(f.name||'')}</span><button data-v="save" aria-label="שמירה או שיתוף">${ic('share')}</button></div>
-    <div class="vimg"><img alt="${esc(f.name||'צילום')}"></div>
+    <div class="vimg"><img alt="${esc(f.cap||f.name||'צילום')}"></div>
+    <div class="vcap"><input type="text" id="v-cap" value="${esc(f.cap||'')}" placeholder="כיתוב לתמונה, כדי למצוא אותה בחיפוש" aria-label="כיתוב לתמונה" autocomplete="off" enterkeyhint="done"></div>
     ${n>1?`<div class="vnav"><button data-v="prev" aria-label="הקודם">${ic('chevr')}</button><button data-v="next" aria-label="הבא">${ic('chevl')}</button></div>`:''}`);
   const u=await fileURL(f);if(u)v.querySelector('.vimg img').src=u;
 }
@@ -3670,12 +3869,25 @@ function examPractice(cid){
   if(courseTerms(cid)){startPractice(cid);setOrOpen(practiceHtml());return}
   if(modalOpen)closeModal();courseTab='learn';go('course',cid);
 }
+/* every card remembers how well it is known (box + next due day), like the quiz questions */
+const cardKey=t=>String(t||'').trim().slice(0,80);
+function lessonCardsAll(l,no){return [...((l.cards&&l.cards.list)||[]).map(x=>({t:x.q,d:x.a})),...(l.terms||[]).filter(x=>x.t).map(x=>({t:x.t,d:x.d}))].map(x=>({...x,no,lid:l.id,cid:l.courseId,key:cardKey(x.t)}))}
+function dueCards(){
+  const t=todayKey(),out=[];
+  for(const c of activeCourses()){const ls=lessonsOf(c.id);ls.forEach((l,i)=>{const sr=l.srs||{};lessonCardsAll(l,i+1).forEach(x=>{const st=sr[x.key];if(st&&st.due&&st.due<=t)out.push({...x,due:st.due})})})}
+  return out.sort((a,b)=>a.due.localeCompare(b.due)).slice(0,20);
+}
+function srMark(x,ok){
+  const l=x&&S.lessons[x.lid];if(!l)return;l.srs=l.srs||{};const st=l.srs[x.key]=l.srs[x.key]||{box:0,n:0};
+  st.n++;st.box=ok?Math.min((st.box||0)+1,GAPS.length-1):0;st.due=addDays(todayKey(),ok?GAPS[st.box]:1);saveDoc(x.lid);markActive();
+}
 function startPractice(cid,lid){
   const ls=lessonsOf(cid);const src=lid?ls.filter(l=>l.id===lid):ls;
-  const cards=src.flatMap(l=>{const no=ls.indexOf(l)+1;return [...((l.cards&&l.cards.list)||[]).map(x=>({t:x.q,d:x.a,no})),...(l.terms||[]).filter(x=>x.t).map(x=>({...x,no}))]});
+  const cards=src.flatMap(l=>lessonCardsAll(l,ls.indexOf(l)+1));
   for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}
-  practice={cid,cards,i:0,flip:false,known:0,total:cards.length};
+  practice={cid,cards,i:0,flip:false,known:0,total:cards.length,seen:new Set()};
 }
+function startCardReview(){const cards=dueCards();if(!cards.length)return false;practice={cid:cards[0].cid,cards,i:0,flip:false,known:0,total:cards.length,seen:new Set(),review:true};setOrOpen(practiceHtml());return true}
 const ONCE=new Set(['exam-go','card-yes','card-no','flip','mc-next','td-save','td-del','save-course','task-done','plan-apply','del-lesson','nl-go','exam-practice']);let lastAct={a:'',t:0};
 document.addEventListener('click',e=>{
   const tb=e.target.closest('[data-toast]');if(tb){const el=$('#toast');const fn=el&&el._undo;if(el){el.classList.remove('on');el._undo=null}if(fn)fn();return}
@@ -3695,6 +3907,18 @@ document.addEventListener('click',e=>{
     case 'quick-add':setOrOpen(quickAddHtml());break;
     case 'qa-sum':setSheet(qaSumHtml());break;
     case 'calc':openCalc(id,b.dataset.v==='f'?'f':'calc');break;
+    case 'review-cards':startCardReview();break;
+    case 'grades':setOrOpen(gradesHtml());break;
+    case 'grade-parts':setSheet(partsHtml(id));break;
+    case 'part-add':{const c=courseById(id);if(c){c.parts=(c.parts||[]).concat({n:'',w:'',g:''});saveDoc('courses',0);setSheet(partsHtml(id));const ins=document.querySelectorAll('#sheet [data-gp=n]');ins.length&&ins[ins.length-1].focus()}break}
+    case 'part-rm':{const c=courseById(id);if(c&&c.parts){c.parts.splice(+b.dataset.i,1);saveDoc('courses',0);setSheet(partsHtml(id))}break}
+    case 'fsheet':if(modalOpen)closeModal();go('fsheet',id);break;
+    case 'fs-open':openCalc(id,'f');CALC.fid=b.dataset.v;calcBody();break;
+    case 'print':window.print();break;
+    case 'share':openModal(shareHtml(id));break;
+    case 'sync-send':syncSend();break;
+    case 'share-text':shareText(id);break;
+    case 'share-file':shareFile(id);break;
     case 'calc-tab':if(CALC){CALC.tab=b.dataset.v;setSheet(calcHtml());if(CALC.tab==='calc')calcPreview();if(CALC.tab==='f'&&CALC.fid)calcFormulaSolve()}break;
     case 'calc-key':calcKey(b.dataset.k);break;
     case 'calc-hist':{const h=(S.profile.calcHist||[]).slice(-6).reverse()[+b.dataset.i];if(h&&CALC){CALC.expr=h.e;calcBody()}break}
@@ -3838,8 +4062,8 @@ document.addEventListener('click',e=>{
     case 'modal-close':requestClose(false);break;
     case 'practice':startPractice(id);if(modalOpen)setSheet(practiceHtml());else openModal(practiceHtml());break;
     case 'flip':practice.flip=true;setSheet(practiceHtml());break;
-    case 'card-yes':markActive();practice.known++;practice.i++;practice.flip=false;setSheet(practiceHtml());break;
-    case 'card-no':practice.cards.push(practice.cards[practice.i]);practice.i++;practice.flip=false;
+    case 'card-yes':{markActive();const x=practice.cards[practice.i];if(x&&!practice.seen.has(x.key+x.lid)){practice.seen.add(x.key+x.lid);srMark(x,true)}practice.known++;practice.i++;practice.flip=false;setSheet(practiceHtml());break}
+    case 'card-no':{const x=practice.cards[practice.i];if(x&&!practice.seen.has(x.key+x.lid)){practice.seen.add(x.key+x.lid);srMark(x,false)}}practice.cards.push(practice.cards[practice.i]);practice.i++;practice.flip=false;
       if(practice.cards.length>practice.total*3)practice.cards.length=practice.i;setSheet(practiceHtml());break;
     case 'export':exportCourse(id);break;
     case 'settings':openModal(settingsHtml());loadSnaps();break;
@@ -3851,6 +4075,11 @@ document.addEventListener('click',e=>{
 });
 function onField(e){
   const el=e.target;
+  if(el.id==='v-cap'){const f=VW.list[VW.i];if(f){f.cap=el.value.slice(0,200);saveDoc(VW.lid)}return}
+  if(el.dataset.gr){const c=courseById(el.dataset.id);if(c){const v=el.value.trim();if(v==='')delete c[el.dataset.gr];else c[el.dataset.gr]=v;saveDoc('courses');$('#gpa-sum').innerHTML=gpaSumHtml();$('#gpa-need').innerHTML=gpaNeedHtml()}return}
+  if(el.id==='gpa-target'){pref('gpaTarget',el.value.trim());$('#gpa-need').innerHTML=gpaNeedHtml();return}
+  if(el.dataset.gp){const c=courseById(el.dataset.id),p=c&&(c.parts||[])[+el.dataset.i];if(p){p[el.dataset.gp]=el.value;saveDoc('courses');$('#parts-res').innerHTML=partsResHtml(c.id);$('#parts-need').innerHTML=partsNeedHtml(c.id)}return}
+  if(el.id==='part-target'){const c=courseById(el.dataset.id);if(c){c.target=el.value.trim();saveDoc('courses');$('#parts-need').innerHTML=partsNeedHtml(c.id)}return}
   if(CALC&&el.closest&&el.closest('#calc-body')){
     if(el.id==='calc-in'){CALC.expr=el.value;el.dataset.touched='1';calcPreview();return}
     if(el.id==='calc-q'){CALC.q=el.value;const pos=el.selectionStart;calcBody();const n=$('#calc-q');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}return}
@@ -3890,6 +4119,7 @@ document.addEventListener('change',e=>{
       importFiles(j.files);
     });return}
   if(el.id==='img-in'&&el.files.length){insertImages([...el.files]);return}
+  if(el.id==='sync-file'&&el.files[0]){const f=el.files[0];el.value='';syncReceive(f);return}
   if(el.id==='att-in'&&el.files.length){const fs=[...el.files];el.value='';addAttachments(el.dataset.lid,fs);return}
   if(el.id==='ph-in'&&el.files.length){const fs=[...el.files];el.value='';photosToLesson(fs);return}
   if(el.id==='voice-sel'){pref('voice',el.value);sampleVoice();return}
