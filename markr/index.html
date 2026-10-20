@@ -3557,7 +3557,8 @@ Rules:
 /* ---------- images inside notes ---------- */
 async function insertImages(files){
   const ed=$('#f-rich');if(!ed)return;const lid=view.id;
-  if(!assetsNs){openModal(`<h2>תמונות</h2><p>אי אפשר לשמור תמונות כאן. פתח את מרקר מהקישור ב-Claude.</p><div class="sheet-foot"><button class="primary" data-act="modal-close">הבנתי</button></div>`);return}
+  /* without Claude's file storage (the phone app) a picture joins the summary's photos, saved on the device */
+  if(!assetsNs){const imgs=files.filter(isImgFile);if(imgs.length)addAttachments(lid,imgs);return}
   const st=$('#status');
   for(const f of files){
     if(!f.type.startsWith('image/'))continue;
