@@ -1076,11 +1076,65 @@ function makeDbStore(col){
     remove(id){return chain(id,()=>col.doc(id).delete())}
   };
 }
-function makeLocalStore(){
-  const KEY='mahberet:v1';let docs={};
-  try{docs=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){docs={}}
-  const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(docs));return true}catch(e){return false}};
-  return{kind:'local',subscribe(cb){cb(docs)},put(id,d){docs[id]=d;return Promise.resolve(persist())},remove(id){delete docs[id];return Promise.resolve(persist())}};
+/* On the device the notebook lives in IndexedDB, one record per document: a save writes only what changed,
+   there is room for years of notes, and two open windows see each other's changes.
+   The first time, what older versions kept in localStorage (mahberet:v1) is copied over in one step and
+   kept aside in the same database. Each save first goes to a small journal in localStorage, so closing
+   the app in the middle of a save loses nothing: the next launch finishes it. */
+const LKEY='mahberet:v1',JKEY='mahberet:journal';
+const isQuota=e=>!!e&&(e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED'||e.code===22||e.code===1014);
+const jseq=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function journal(id,sq,d){try{const j=JSON.parse(localStorage.getItem(JKEY)||'{}')||{};
+  if(d===undefined){if(!j[id]||j[id].s!==sq)return;delete j[id]}else j[id]={s:sq,d};
+  Object.keys(j).length?localStorage.setItem(JKEY,JSON.stringify(j)):localStorage.removeItem(JKEY)}catch(e){}}
+const idbReq=r=>new Promise((res,rej)=>{r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+const idbDone=t=>new Promise((res,rej)=>{t.oncomplete=()=>res(true);t.onabort=t.onerror=()=>rej(t.error||new Error('aborted'))});
+function openDocsDb(){return new Promise((res,rej)=>{let r;try{r=indexedDB.open('markr-docs',1)}catch(e){return rej(e)}
+  r.onupgradeneeded=()=>{r.result.createObjectStore('docs');r.result.createObjectStore('meta')};
+  r.onsuccess=()=>{const d=r.result;d.onversionchange=()=>d.close();res(d)};r.onerror=()=>rej(r.error);setTimeout(()=>rej(new Error('timeout')),4000)})}
+function makeIdbStore(db0){
+  let db=db0,docs={},cb=null,rt=0;db.onclose=()=>{db=null};
+  const bc=(()=>{try{return new BroadcastChannel('markr-docs')}catch(e){return null}})();
+  /* iPhone closes the database connection when the app sits in the background; reopen and try once more */
+  const write=async fn=>{for(let i=0;;i++){try{if(!db){db=await openDocsDb();db.onclose=()=>{db=null}}
+    const t=db.transaction('docs','readwrite');fn(t.objectStore('docs'));return await idbDone(t)}catch(e){if(isQuota(e)||i)throw e;db=null}}};
+  const ready=(async()=>{
+    const t=db.transaction(['docs','meta']),st=t.objectStore('docs');
+    const [keys,vals,mig]=await Promise.all([idbReq(st.getAllKeys()),idbReq(st.getAll()),idbReq(t.objectStore('meta').get('migrated'))]);
+    keys.forEach((k,i)=>{docs[k]=vals[i]});
+    let raw=null,old={},jr={};
+    if(!mig){try{raw=localStorage.getItem(LKEY)}catch(e){}try{old=JSON.parse(raw||'{}')||{}}catch(e){old={}}}
+    try{jr=JSON.parse(localStorage.getItem(JKEY)||'{}')||{}}catch(e){}
+    const w=db.transaction(['docs','meta'],'readwrite'),wd=w.objectStore('docs');
+    if(!mig){for(const [id,d] of Object.entries(old))if(d&&typeof d==='object'&&!(id in docs)){docs[id]=d;wd.put(d,id)}
+      if(raw)w.objectStore('meta').put(raw,'legacy');w.objectStore('meta').put(Date.now(),'migrated')}
+    for(const [id,e] of Object.entries(jr)){if(!e)continue;
+      if(e.d===null){delete docs[id];wd.delete(id)}else if(e.d&&(!docs[id]||(e.d._u||0)>=(docs[id]._u||0))){docs[id]=e.d;wd.put(e.d,id)}}
+    await idbDone(w);
+    try{localStorage.removeItem(JKEY);if(raw)localStorage.removeItem(LKEY)}catch(e){}
+    pref('idb','1');return docs;
+  })();
+  if(bc)bc.onmessage=ev=>{const m=ev.data||{};if(!m.id)return;if(m.d===null)delete docs[m.id];else docs[m.id]=m.d;
+    clearTimeout(rt);rt=setTimeout(()=>cb&&cb(docs),150)};
+  const send=(id,d)=>{const sq=jseq();journal(id,sq,d);if(d===null)delete docs[id];else docs[id]=d;
+    return ready.then(()=>write(o=>d===null?o.delete(id):o.put(d,id))).then(()=>{journal(id,sq);try{bc&&bc.postMessage({id,d})}catch(e){}return true},
+      e=>{console.warn(e);return isQuota(e)?'quota':false})};
+  return{kind:'local',ready,peek:()=>docs,subscribe(f,onErr){cb=f;ready.then(f,e=>onErr&&onErr(e))},put:(id,d)=>send(id,d),remove:id=>send(id,null)};
+}
+/* fallback when IndexedDB is not available: everything under one localStorage key, as before */
+function makeLsStore(){
+  let docs={},cb=null;
+  try{docs=JSON.parse(localStorage.getItem(LKEY)||'{}')||{}}catch(e){docs={}}
+  const persist=()=>{try{localStorage.setItem(LKEY,JSON.stringify(docs));return true}catch(e){return isQuota(e)?'quota':false}};
+  window.addEventListener('storage',e=>{if(e.key!==LKEY||!e.newValue)return;try{docs=JSON.parse(e.newValue)||{};cb&&cb(docs)}catch(_){}});
+  return{kind:'local',ready:Promise.resolve(docs),peek:()=>docs,subscribe(f){cb=f;f(docs)},put(id,d){docs[id]=d;return Promise.resolve(persist())},remove(id){delete docs[id];return Promise.resolve(persist())}};
+}
+async function makeLocalStore(){
+  if(typeof indexedDB!=='undefined'){
+    for(let i=0;i<(pref('idb')==='1'?3:1);i++){try{const st=makeIdbStore(await openDocsDb());await st.ready;return st}catch(e){console.warn(e)}}
+    if(pref('idb')==='1')setTimeout(()=>toast('לא הצלחתי לפתוח את המחברת השמורה במכשיר. סוגרים את האפליקציה לגמרי ופותחים שוב.',{icon:'alert'}),1500);
+  }
+  return makeLsStore();
 }
 function docData(id){
   if(id==='courses')return{type:'courses',list:S.courses,_u:STAMP.courses||undefined};
@@ -1096,20 +1150,36 @@ function primeList(kind){const m=LISTPREV[kind]=new Map();(kind==='courses'?S.co
 /* tasks and courses are lists: each item gets its own change time, so a newer list never undoes an older edit */
 function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[id]=t;const m=LISTPREV[id];(id==='courses'?S.courses:S.tasks).forEach(it=>{if(!it||!it.id)return;const sg=itemSig(it);if(m.get(it.id)!==sg){it._u=t;m.set(it.id,sg)}})}else if(id==='profile')S.profile._u=t;else{const d=docData(id);if(d&&typeof d==='object'&&!Array.isArray(d))d._u=t}}
 function saveDoc(id,delay=700){
-  if(!saveDoc.quiet)stampDoc(id);
+  memoClear();if(!saveDoc.quiet)stampDoc(id);
   dirty.set(id,(dirty.get(id)||0)+1);updateStatus();
   clearTimeout(timers[id]);timers[id]=setTimeout(()=>flush(id),delay);
 }
+const RETRY={};
 function flush(id){
   clearTimeout(timers[id]);delete timers[id];
   const v=dirty.get(id);if(v==null||!store)return Promise.resolve();
   const data=docData(id);if(!data){dirty.delete(id);updateStatus();return Promise.resolve()}
   return store.put(id,clone(data)).then(ok=>{
     if(ok==='denied'){switchToLocal();return}
-    if(ok){statusErr=false;if(dirty.get(id)===v)dirty.delete(id)}
-    else{statusErr=true;timers[id]=setTimeout(()=>flush(id),5000)}
+    if(ok===true){RETRY[id]=0;if(dirty.get(id)===v)dirty.delete(id);if(![...dirty.keys()].some(k=>RETRY[k]))statusErr=false}
+    else{statusErr=ok==='quota'?'quota':true;const n=RETRY[id]=(RETRY[id]||0)+1;
+      if(!timers[id])timers[id]=setTimeout(()=>flush(id),Math.min(60000,5000*2**Math.min(n-1,4)));if(ok==='quota')storageFull()}
     updateStatus();
   });
+}
+let fullAt=0;
+function storageFull(force){
+  if(!force&&Date.now()-fullAt<600000)return;fullAt=Date.now();
+  if(modalOpen&&!force){toast('אין מקום לשמור במכשיר. כדאי להוריד גיבוי מההגדרות.',{icon:'alert'});return}
+  openModal(`<h2>${ic('alert')}אין מקום לשמור</h2>
+  <p style="margin-top:8px">האחסון במכשיר מלא, ולכן השינויים האחרונים עוד לא נשמרו. הם עדיין פתוחים כאן, אז לא לסגור את האפליקציה לפני הגיבוי.</p>
+  <p class="note">מורידים גיבוי עכשיו, ואז מפנים מקום במכשיר (למשל תמונות או סרטונים ישנים). מרקר ינסה לשמור שוב לבד.</p>
+  <div class="actions"><button class="primary" data-act="backup">${ic('down')}הורדת גיבוי</button><button class="ghost" data-act="retry-save">לנסות לשמור שוב</button></div>
+  <div class="sheet-foot"><button class="ghost" data-act="modal-close">סגירה</button></div>`);
+}
+function retrySave(){
+  for(const k of Object.keys(RETRY))RETRY[k]=0;
+  Promise.all([...dirty.keys()].map(flush)).then(()=>{updateStatus();if(!statusErr){if(modalOpen)closeModal();toast('הכול נשמר',{icon:'okc'})}else toast('עדיין אין מקום. מפנים מקום במכשיר ומנסים שוב.',{icon:'alert'})});
 }
 function allDocs(){
   const d={courses:docData('courses'),tasks:docData('tasks'),profile:docData('profile')};
@@ -1118,9 +1188,10 @@ function allDocs(){
   for(const [id,t] of Object.entries(S.trash))d[id]=t;
   return clone(d);
 }
-function switchToLocal(){
-  if(!store||store.kind==='local')return;pref('forceLocal','1');
-  const ls=makeLocalStore();let old={};ls.subscribe(d=>{old=d});
+let switching=false;
+async function switchToLocal(){
+  if(!store||store.kind==='local'||switching)return;switching=true;pref('forceLocal','1');
+  const ls=await makeLocalStore(),old={...ls.peek()};switching=false;
   const cur=allDocs();
   for(const [id,d] of Object.entries(old)){if(!cur[id])cur[id]=d}
   for(const [id,d] of Object.entries(cur))ls.put(id,d);
@@ -1153,8 +1224,8 @@ function restoreDocs(docs){
   ['courses','tasks','profile',...Object.keys(docs).filter(k=>k.startsWith('L_')||k.startsWith('Q_'))].forEach(id=>saveDoc(id,0));
 }
 async function saveFile(filename,data,type){
-  if(downloadsNs){await downloadsNs.save({filename,data});return true}
-  const f=new File([data],filename,{type});
+  if(downloadsNs){await downloadsNs.save({filename,data:Array.isArray(data)?data.join(''):data});return true}
+  const f=new File(Array.isArray(data)?data:[data],filename,{type});
   if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:filename});return true}catch(e){if(e&&e.name==='AbortError')return false}}
   const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=/[^\x20-\x7E]/.test(filename)?'markr-'+todayKey()+'-'+Date.now().toString(36)+(filename.match(/\.\w+$/)||[''])[0]:filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);return true;
 }
@@ -1172,14 +1243,21 @@ async function importFiles(files){
     else if(!assetsNs&&!f.local){f.local=1;saveDoc(lid,0);moved=true}}
   if(moved)render();
 }
+/* the export file as a list of pieces (each photo its own piece) */
+function exportParts(head,files){
+  const p=[JSON.stringify({...head,docs:allDocs()}).slice(0,-1)],ids=Object.keys(files);
+  if(ids.length){p.push(',"files":{');ids.forEach((id,i)=>p.push((i?',':'')+JSON.stringify(id)+':'+JSON.stringify(files[id])));p.push('}')}
+  p.push('}');return p;
+}
 async function downloadBackup(){
   const files=await filesForBackup();
-  const data=JSON.stringify({app:'nekuda',version:1,exportedAt:new Date().toISOString(),docs:allDocs(),...(Object.keys(files).length?{files}:{})});
+  const data=exportParts({app:'nekuda',version:1,exportedAt:new Date().toISOString()},files);
   try{if(await saveFile('marker-backup-'+todayKey()+'.json',data,'application/json'))toast('קובץ הגיבוי מוכן')}catch(e){}
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
-function removeDoc(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
+function removeDoc(id){memoClear();clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
 function applyDocs(docs){
+  memoClear();
   if(!dirty.has('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses')}
   if(!dirty.has('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks')}
   if(!dirty.has('profile'))S.profile=clone(docs.profile||{});
@@ -1202,7 +1280,7 @@ function applyDocs(docs){
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
-  if(statusErr){el.innerHTML=ic('alert')+'<span>לא נשמר, בדוק חיבור</span>';el.className='status err';el.title='לא נשמר, בדוק חיבור';return}
+  if(statusErr){const m=statusErr==='quota'?'אין מקום במכשיר':store&&store.kind==='local'?'לא נשמר במכשיר':'לא נשמר, בדוק חיבור';el.innerHTML=ic('alert')+'<span>'+m+'</span>';el.className='status err';el.title=m;return}
   const t=!loaded?'':(dirty.size?'שומר…':'הכול שמור');
   el.className='status'+(dirty.size?' saving':' ok');el.title=t;
   el.innerHTML=t?ic(dirty.size?'cloud':'cloudok')+'<span>'+t+'</span>':'';
@@ -1211,11 +1289,15 @@ function updateStatus(){
 /* ---------- helpers ---------- */
 const courseById=id=>S.courses.find(c=>c.id===id);
 const activeCourses=()=>S.courses.filter(c=>!c.archived);
+/* sorted lesson lists are kept until something changes (any save, sync, delete, or the next screen) */
+let MEMO={};const memoClear=()=>{MEMO={}};
 function lessonsOf(cid){
-  return Object.entries(S.lessons).filter(([,l])=>l.courseId===cid).map(([id,l])=>({id,...l}))
+  const k='L'+cid;if(!MEMO[k])MEMO[k]=Object.entries(S.lessons).filter(([,l])=>l.courseId===cid).map(([id,l])=>({id,...l}))
     .sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.createdAt||0)-(b.createdAt||0));
+  return MEMO[k].slice();
 }
-function lessonNo(id){const l=S.lessons[id];if(!l)return 0;return lessonsOf(l.courseId).findIndex(x=>x.id===id)+1}
+function lessonNo(id){const l=S.lessons[id];if(!l)return 0;const k='N'+l.courseId;
+  if(!MEMO[k]){const m=new Map();lessonsOf(l.courseId).forEach((x,i)=>m.set(x.id,i+1));MEMO[k]=m}return MEMO[k].get(id)||0}
 function sessLine(s){return `יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}${s.room?', <span class="nw">'+esc(s.room)+'</span>':''}`}
 function sessBlock(s){return `<span class="sl">${ic('clock')}יום ${DAYS[s.day]}, ${T(s.start+'–'+s.end)}</span>${s.room?`<span class="sl">${ic('pin')}<span class="nw">${esc(s.room)}</span></span>`:''}`}
 function isEmptyLesson(l){return !l.topic&&!l.notes&&!l.key&&!(l.terms||[]).some(t=>t.t||t.d)&&!(l.questions||[]).some(q=>q.t)&&!(l.files||[]).length}
@@ -1353,10 +1435,10 @@ function render(){
   const app=$('#app');
   if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;markNav();return}
   const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
-  const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen,fsheet:vFsheet}[view.name]||vHome;
+  memoClear();const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen,fsheet:vFsheet}[view.name]||vHome;
   app.innerHTML=iconize(fn());
   markNav();updateTopBar();
-  app.querySelectorAll('textarea').forEach(grow);hydrateFiles(app);
+  app.querySelectorAll('textarea').forEach(grow);hydrateFiles(app);if(view.name==='readall')setTimeout(raMore,40);
   if(fk){const n=app.querySelector(fk);if(n)n.focus({preventScroll:true})}
 }
 /* phone header: a back button where the screen has one, and the screen title once its large title scrolls away */
@@ -1783,6 +1865,17 @@ function vRead(){
   </article>`;
 }
 
+const RA_FIRST=6;
+const raSection=(l,all)=>`<section class="r-lesson reader"><div class="r-head"><div class="grow"><p class="hint" style="margin:0">שיעור ${all.indexOf(l)+1}, ${esc(shortDate(l.date))}${l.star?' ⭐':''}</p><h2 style="font-size:1.4rem">${esc(l.topic||'בלי נושא')}</h2></div>
+    <button class="ghost" data-act="open-lesson" data-id="${l.id}">לפתוח</button></div>${lessonReadHtml(l.id,l,0,false)}</section>`;
+/* adds the remaining lessons a few at a time, while the first ones are already readable */
+function raMore(){
+  const box=$('#ra-more');if(!box||view.name!=='readall')return;const c=courseById(view.id);if(!c)return;
+  const all=lessonsOf(c.id).filter(l=>!isEmptyLesson(l)),ls=readStarOnly?all.filter(l=>l.star):all;
+  const done=document.querySelectorAll('#app .r-lesson').length,next=ls.slice(done,done+4);
+  box.insertAdjacentHTML('beforebegin',iconize(next.map(l=>raSection(l,all)).join('')));hydrateFiles($('#app'));
+  if(done+next.length>=ls.length)box.remove();else{box.textContent=`טוען עוד ${ls.length-done-next.length} סיכומים…`;setTimeout(raMore,60)}
+}
 function vReadAll(){
   const c=courseById(view.id);if(!c){view={name:'courses'};return vCourses()}
   const all=lessonsOf(c.id).filter(l=>!isEmptyLesson(l));
@@ -1791,8 +1884,7 @@ function vReadAll(){
   <h1>${esc(c.name)}</h1><p class="sub">כל החומר לפי הסדר, לקריאה רציפה</p>
   <div class="seg" style="margin-top:12px"><button data-act="read-filter" data-v="0" aria-pressed="${!readStarOnly}">הכול (${all.length})</button><button data-act="read-filter" data-v="1" aria-pressed="${readStarOnly}">⭐ רק חשובים (${all.filter(l=>l.star).length})</button></div>
   ${sampleFn&&all.length?`<div class="actions"><button class="ai" data-act="course-quiz" data-id="${c.id}" style="flex:1">✨ בוחן על כל הקורס</button></div>`:''}
-  ${ls.length?ls.map(l=>`<section class="r-lesson reader"><div class="r-head"><div class="grow"><p class="hint" style="margin:0">שיעור ${all.indexOf(l)+1}, ${esc(shortDate(l.date))}${l.star?' ⭐':''}</p><h2 style="font-size:1.4rem">${esc(l.topic||'בלי נושא')}</h2></div>
-    <button class="ghost" data-act="open-lesson" data-id="${l.id}">לפתוח</button></div>${lessonReadHtml(l.id,l,0,false)}</section>`).join('')
+  ${ls.length?ls.slice(0,RA_FIRST).map(l=>raSection(l,all)).join('')+(ls.length>RA_FIRST?`<div id="ra-more" class="hint" style="text-align:center;padding:24px 0">טוען עוד ${ls.length-RA_FIRST} סיכומים…</div>`:'')
     :`<div class="empty" style="margin-top:16px">${readStarOnly?'עוד לא סימנת סיכומים כחשובים. פותחים סיכום ולוחצים “לסמן כחשוב”.':'עוד אין סיכומים.'}</div>`}`;
 }
 
@@ -3036,13 +3128,14 @@ function openCalc(cid,tab){
 }
 /* the formulas this course should see first: its areas, formulas its notes mention, the student's own */
 function calcLists(cid){
-  if(cid===undefined)cid=CALC&&CALC.cid;const c=courseById(cid),txt=c?courseText(c.id):Object.values(S.lessons).map(lessonText).join('\n');
+  if(cid===undefined)cid=CALC&&CALC.cid;const mk='C'+(cid||'');if(MEMO[mk])return MEMO[mk];
+  const c=courseById(cid),txt=c?courseText(c.id):Object.values(S.lessons).map(l=>[l.topic,l.key,(l.terms||[]).map(x=>x.t).join(' '),(l.notes||'').slice(0,3000)].join(' ')).join('\n');
   const areas=new Set((c?[c]:activeCourses()).flatMap(x=>Object.entries(CALC_AREAS).filter(([,a])=>a.re.test(x.name+' '+(x.teacher||''))).map(([k])=>k)));
   const seen=f=>f.kw&&new RegExp(f.kw,'i').test(txt);
   const all=FORMULAS.map(f=>({...f,seen:seen(f)}));
   const own=(c&&c.formulas||[]).concat(S.profile.formulas||[]).map(f=>({...f,own:1}));
   const fit=all.filter(f=>areas.has(f.a)||f.seen).sort((a,b)=>(b.seen?1:0)-(a.seen?1:0));
-  return {own,fit,all,areas};
+  return MEMO[mk]={own,fit,all,areas};
 }
 function calcFind(id){const L=calcLists();return L.own.concat(L.all).find(f=>f.id===id)}
 const calcPretty=f=>`${f.o} = ${f.e.replace(/\*/g,'·').replace(/sqrt\(/g,'√(').replace(/nCr\(/g,'C(')}`;
@@ -3207,7 +3300,7 @@ function calcBody(){const b=$('#calc-body');if(!b)return;b.innerHTML=iconize(CAL
 async function syncSend(){
   const b=$('[data-act=sync-send]');if(b){b.disabled=true;b.textContent='מכין…'}
   try{const files=await filesForBackup();
-    const data=JSON.stringify({app:'nekuda',version:1,sync:1,from:STANDALONE?'phone':'claude',exportedAt:new Date().toISOString(),docs:allDocs(),...(Object.keys(files).length?{files}:{})});
+    const data=exportParts({app:'nekuda',version:1,sync:1,from:STANDALONE?'phone':'claude',exportedAt:new Date().toISOString()},files);
     if(await saveFile('markr-sync-'+todayKey()+'.json',data,'application/json')){pref('syncSent',String(Date.now()));toast('קובץ הסנכרון מוכן. פותחים אותו בגרסה השנייה ב“קבלת עדכונים”.')}}
   catch(e){toast('לא הצלחתי להכין את הקובץ',{icon:'alert'})}
   if(modalOpen&&$('#sync-box'))$('#sync-box').innerHTML=iconize(syncBoxHtml());
@@ -3375,7 +3468,7 @@ async function addAttachments(lid,files){
   }
   if(n){markActive();saveDoc(lid,0)}
   updateStatus();if(view.id===lid&&(view.name==='lesson'||view.name==='read'))render();
-  toast(n?(n===1?'הקובץ נוסף לסיכום':`נוספו ${n} קבצים לסיכום`)+(bad?`, ${bad} לא נשמרו`:''):'לא הצלחתי לשמור. אפשר להוסיף תמונות או PDF.',{icon:n?'okc':'alert'});
+  toast(n?(n===1?'הקובץ נוסף לסיכום':`נוספו ${n} קבצים לסיכום`)+(bad?`, ${bad} לא נשמרו`:''):(bad&&files.every(f=>!isImgFile(f)&&!isPdfFile(f))?'אפשר להוסיף רק תמונות או PDF':'לא הצלחתי לשמור את הקבצים. ייתכן שאין מקום במכשיר.'),{icon:n?'okc':'alert'});
   return n;
 }
 async function photoText(lid,ref,blob){
@@ -3773,7 +3866,8 @@ function loadPdf(){
 async function shrinkImage(file,max=2000){
   try{const bmp=await createImageBitmap(file,{imageOrientation:'from-image'});const s=Math.min(1,max/Math.max(bmp.width,bmp.height));
     const c=document.createElement('canvas');c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
-    return await new Promise(r=>c.toBlob(b=>r(b||file),'image/jpeg',.85));}catch(e){return file}
+    const b=await new Promise(r=>c.toBlob(b=>r(b||file),'image/jpeg',.85));
+    return s===1&&/^image\/(jpeg|png|webp)$/.test(file.type)&&b.size>=file.size?file:b;}catch(e){return file}
 }
 function upTargets(cid,sel){
   const ls=lessonsOf(cid).filter(l=>!isEmptyLesson(l));
@@ -4125,6 +4219,7 @@ document.addEventListener('click',e=>{
     case 'bgm':{const on=pref('bgm')!=='1';pref('bgm',on?'1':'0');if(on&&PL.playing)bgmStart();else bgmStop();b.setAttribute('aria-pressed',on);b.innerHTML=iconize(on?'🎵 מוזיקה ברקע: פועלת':'🎵 מוזיקה ברקע');break}
     case 'set-goal':S.profile.goal=+b.dataset.v;saveDoc('profile',0);setSheet(settingsHtml());break;
     case 'backup':downloadBackup();break;
+    case 'retry-save':retrySave();break;
     case 'ex-add':{const l=S.lessons[view.id];if(l){l.terms=l.terms||[];l.terms.push({t:b.dataset.t,d:b.dataset.d});saveDoc(view.id,0)}closeModal();break}
     case 'ask':openChat(id);break;
     case 'chat-send':chatSend($('#chat-q').value);break;
@@ -4200,7 +4295,7 @@ function onField(e){
     if(el.id==='cf-e'||el.id==='cf-n'){const er=$('#cf-err');if(er)er.textContent='';return}
   }
   if(el.tagName==='TEXTAREA')grow(el);
-  if(el.id==='search-q'){lastQ=el.value;$('#search-res').innerHTML=iconize(searchResults(lastQ));return}
+  if(el.id==='search-q'){lastQ=el.value;clearTimeout(onField.st);onField.st=setTimeout(()=>{const r=$('#search-res');if(r&&view.name==='search')r.innerHTML=iconize(searchResults(lastQ))},lastQ.trim().length<2?0:120);return}
   if(el.dataset.pf){S.profile[el.dataset.pf]=el.value;saveDoc('profile');return}
   if(el.dataset.cf&&formDraft){formDraft[el.dataset.cf]=el.type==='checkbox'?el.checked:el.value;formDraft._dirty=1;return}
   if(el.dataset.s!=null&&formDraft){formDraft.sessions[+el.dataset.s][el.dataset.k]=el.value;formDraft._dirty=1;return}
@@ -4346,7 +4441,7 @@ setTimeout(()=>{try{const t=JSON.parse(pref('timer')||'null');if(t&&!timer&&t.en
     }
   }catch(e){}
   if(db&&id){try{store=makeDbStore(db.collection('data/users/'+id))}catch(e){store=null}}
-  if(!store)store=makeLocalStore();
+  if(!store)store=await makeLocalStore();
   if(window.__dbRaw){try{const sn=await window.__dbRaw.doc('public/template').get();if(sn&&sn.exists){const t=sn.data();if(t&&Array.isArray(t.courses)&&t.courses.length){TEMPLATE=clone(t);if(modalOpen&&wizard)setSheet(onbHtml());else if(loaded&&view.name==='home')render()}}}catch(e){}}
   store.subscribe(applyDocs,()=>{statusErr=true;updateStatus()});
 })();
