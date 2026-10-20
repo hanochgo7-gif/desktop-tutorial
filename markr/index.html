@@ -48,7 +48,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap">
+<link id="gfonts" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet" media="print">
+<script>(function(){var l=document.getElementById('gfonts');function on(){l.media='all'}if(l.sheet)on();else{l.addEventListener('load',on);setTimeout(on,3000)}})()</script>
 <style>
 /* =====================================================================
    Markr, Apple style (Human Interface Guidelines, iOS/macOS 26)
@@ -562,6 +564,10 @@ details.opt>.in{padding:0 16px 16px}
 .gloss-grid h3 span{font-family:var(--sans);font-size:.75rem;background:var(--fill);color:var(--muted);border-radius:999px;padding:2px 8px}
 .gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
 .gcard{background:var(--card);border-radius:var(--r);padding:12px 14px;box-shadow:var(--sh-1)}
+/* long lists: rows far from the screen are skipped by layout and paint until they scroll near */
+.gg>.gcard{content-visibility:auto;contain-intrinsic-size:auto 110px}
+.list>.task,.list>.lesson-item,#search-res .list>.item{content-visibility:auto;contain-intrinsic-size:auto 64px}
+.r-lesson{content-visibility:auto;contain-intrinsic-size:auto 1200px}
 .gcard b{display:block;font-family:var(--serif);font-size:1.0625rem;margin-bottom:2px}
 .gcard span{color:var(--ink2);font-size:.9375rem;line-height:1.5}
 .cta{display:flex;align-items:center;gap:14px;margin-top:20px;background:var(--card);color:var(--ink);border-radius:var(--r-xl);padding:16px 18px}
@@ -877,6 +883,7 @@ nav#nav,nav#nav button,.ckey,.item,.tool,.agenda-row,.task .open,.qtiles button{
 .ill .i-st{stroke:var(--link);stroke-width:2;stroke-linejoin:round}
 .onb .ill{width:170px;margin-bottom:6px}
 .focus .ill{width:104px;margin:2px 0 10px;margin-inline-start:-4px}
+#app[data-shell]{pointer-events:none}
 .boot{min-height:62vh;display:grid;place-items:center;align-content:center;gap:12px}
 .boot svg{width:68px;height:68px;filter:drop-shadow(0 12px 22px rgba(29,82,64,.3))}
 .boot .boot-word{font-family:var(--serif);font-weight:700;font-size:1.5rem;color:var(--ink)}
@@ -1026,7 +1033,7 @@ function iconize(html){
 }
 const ICON_CH=new RegExp(EMAP.map(x=>x[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'gu');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])).replace(ICON_CH,m=>[...m].map(c=>'&#'+c.codePointAt(0)+';').join(''));
-const clone=o=>JSON.parse(JSON.stringify(o??null));
+const clone=o=>JSON.parse(JSON.stringify(o??null));window.clone=clone;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const DAYS=['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
 const PALETTE=['#E0A800','#2F8F6B','#3D74B8','#8E5BB5','#D2553F','#1A9A9A','#E07B2A','#6E8B2A','#C2457A'];
@@ -1193,12 +1200,12 @@ function retrySave(){
   for(const k of Object.keys(RETRY))RETRY[k]=0;
   Promise.all([...dirty.keys()].map(flush)).then(()=>{updateStatus();if(!statusErr){if(modalOpen)closeModal();toast('הכול נשמר',{icon:'okc'})}else toast('עדיין אין מקום. מפנים מקום במכשיר ומנסים שוב.',{icon:'alert'})});
 }
-function allDocs(){
+function allDocs(raw){
   const d={courses:docData('courses'),tasks:docData('tasks'),profile:docData('profile')};
   for(const [id,l] of Object.entries(S.lessons))if(!isEmptyLesson(l)||(l.files||[]).length)d[id]=l;
   for(const [id,q] of Object.entries(S.cquiz))d[id]=q;
   for(const [id,t] of Object.entries(S.trash))d[id]=t;
-  return clone(d);
+  return raw?d:clone(d);
 }
 let switching=false;
 async function switchToLocal(){
@@ -1257,7 +1264,7 @@ async function importFiles(files){
 }
 /* the export file as a list of pieces (each photo its own piece) */
 function exportParts(head,files){
-  const p=[JSON.stringify({...head,docs:allDocs()}).slice(0,-1)],ids=Object.keys(files);
+  const p=[JSON.stringify({...head,docs:allDocs(true)}).slice(0,-1)],ids=Object.keys(files);
   if(ids.length){p.push(',"files":{');ids.forEach((id,i)=>p.push((i?',':'')+JSON.stringify(id)+':'+JSON.stringify(files[id])));p.push('}')}
   p.push('}');return p;
 }
@@ -1269,7 +1276,7 @@ async function downloadBackup(){
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
 function removeDoc(id){memoClear();clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus();syncMark(id)}
 function applyDocs(docs){
-  memoClear();
+  memoClear();const clone=typeof structuredClone==='function'?structuredClone:window.clone;
   if(!dirty.has('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses')}
   if(!dirty.has('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks')}
   if(!dirty.has('profile'))S.profile=clone(docs.profile||{});
@@ -1288,7 +1295,7 @@ function applyDocs(docs){
   if(first||(view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
   updateStatus();
   if(first&&!S.profile.onboarded)openOnboarding();
-  if(first){trashPurge();setTimeout(snapshotToday,4000);setTimeout(syncStart,1200)}
+  if(first){trashPurge();setTimeout(snapshotToday,15000);setTimeout(syncStart,1200)}
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
@@ -1445,12 +1452,17 @@ function focusKey(el){
 }
 function render(){
   const app=$('#app');
-  if(!loaded){if(!app.querySelector('.boot'))app.innerHTML=BOOT;markNav();return}
+  if(!loaded){
+    /* instant start: the home screen exactly as it looked last time, shown until the notebook has loaded */
+    const sh=view.name==='home'&&!app.dataset.shell&&pref('shell');
+    if(sh){app.innerHTML=sh;app.dataset.shell='1';app.setAttribute('aria-busy','true')}else if(!app.dataset.shell&&!app.querySelector('.boot'))app.innerHTML=BOOT;
+    markNav();return}
+  if(app.dataset.shell){delete app.dataset.shell;app.removeAttribute('aria-busy')}
   const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
   memoClear();const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen,fsheet:vFsheet}[view.name]||vHome;
   app.innerHTML=iconize(fn());
   markNav();updateTopBar();
-  app.querySelectorAll('textarea').forEach(grow);hydrateFiles(app);if(view.name==='readall')setTimeout(raMore,40);
+  growAll(app);hydrateFiles(app);if(view.name==='home')saveShell(app);if(view.name==='readall')setTimeout(raMore,40);
   if(fk){const n=app.querySelector(fk);if(n)n.focus({preventScroll:true})}
 }
 /* phone header: a back button where the screen has one, and the screen title once its large title scrolls away */
@@ -1887,9 +1899,9 @@ const raSection=(l,all)=>`<section class="r-lesson reader"><div class="r-head"><
 function raMore(){
   const box=$('#ra-more');if(!box||view.name!=='readall')return;const c=courseById(view.id);if(!c)return;
   const all=lessonsOf(c.id).filter(l=>!isEmptyLesson(l)),ls=readStarOnly?all.filter(l=>l.star):all;
-  const done=document.querySelectorAll('#app .r-lesson').length,next=ls.slice(done,done+4);
+  const done=document.querySelectorAll('#app .r-lesson').length,next=ls.slice(done,done+2);
   box.insertAdjacentHTML('beforebegin',iconize(next.map(l=>raSection(l,all)).join('')));hydrateFiles($('#app'));
-  if(done+next.length>=ls.length)box.remove();else{box.textContent=`טוען עוד ${ls.length-done-next.length} סיכומים…`;setTimeout(raMore,60)}
+  if(done+next.length>=ls.length)box.remove();else{box.textContent=`טוען עוד ${ls.length-done-next.length} סיכומים…`;window.requestIdleCallback?requestIdleCallback(raMore,{timeout:300}):setTimeout(raMore,60)}
 }
 function vReadAll(){
   const c=courseById(view.id);if(!c){view={name:'courses'};return vCourses()}
@@ -2049,8 +2061,9 @@ function vSearch(){
   <input type="search" id="search-q" style="margin-top:16px" placeholder="נושא, מושג, משימה או כלי" aria-label="חיפוש" value="${esc(lastQ)}" autocomplete="off" enterkeyhint="search">
   <div id="search-res" style="margin-top:18px">${searchResults(lastQ)}</div>`;
 }
+const caseless=q=>q.toLowerCase()===q.toUpperCase();
 function snippet(text,q){
-  const i=text.toLowerCase().indexOf(q.toLowerCase());if(i<0)return null;
+  const i=caseless(q)?text.indexOf(q):text.toLowerCase().indexOf(q.toLowerCase());if(i<0)return null;
   const s=Math.max(0,i-50),e=Math.min(text.length,i+q.length+70);
   return (s>0?'…':'')+esc(text.slice(s,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length,e))+(e<text.length?'…':'');
 }
@@ -2129,8 +2142,9 @@ function mergeDocs(docs){
 const SNAP={db:null,open(){return new Promise(res=>{try{const r=indexedDB.open('markr-safety',1);r.onupgradeneeded=()=>r.result.createObjectStore('snaps');r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)}catch(e){res(null)}})},
   async run(mode,fn){const db=this.db||(this.db=await this.open());if(!db)return null;return new Promise(res=>{try{const t=db.transaction('snaps',mode),r=fn(t.objectStore('snaps'));t.oncomplete=()=>res(r?r.result:null);t.onerror=t.onabort=()=>res(null)}catch(e){res(null)}})}};
 async function snapshotToday(){
-  try{const docs=allDocs();if(!(docs.courses&&docs.courses.list||[]).length&&!Object.keys(docs).some(k=>k.startsWith('L_')))return;
-    const k=todayKey(),keys=(await SNAP.run('readonly',s=>s.getAllKeys()))||[];if(keys.includes(k))return;
+  try{const k=todayKey(),keys=(await SNAP.run('readonly',s=>s.getAllKeys()))||[];if(keys.includes(k))return;
+    await new Promise(r=>window.requestIdleCallback?requestIdleCallback(r,{timeout:8000}):setTimeout(r,200));
+    const docs=allDocs(true);if(!(docs.courses&&docs.courses.list||[]).length&&!Object.keys(docs).some(k=>k.startsWith('L_')))return;
     await SNAP.run('readwrite',s=>s.put({at:Date.now(),docs},k));
     for(const o of keys.concat(k).sort().slice(0,-7))await SNAP.run('readwrite',s=>s.delete(o));
   }catch(e){}
@@ -2169,10 +2183,10 @@ let lastFocus=null,lastFocusKey=null;
 function labelSheet(){const h=$('#sheet h2');if(h){h.id='sheet-title';$('#modal').setAttribute('aria-labelledby','sheet-title')}else $('#modal').removeAttribute('aria-labelledby')}
 function openModal(html){
   if(!modalOpen){lastFocus=document.activeElement;lastFocusKey=focusKey(lastFocus);pushNav({name:view.name,id:view.id,modal:1})}
-  $('#sheet').innerHTML=CLOSE_X+iconize(html);labelSheet();$('#sheet').scrollTop=0;
   $('#modal').classList.add('open');modalOpen=true;document.body.style.overflow='hidden';
   ['.top','#app'].forEach(q=>{const el=$(q);if(el)el.inert=true});
-  const f=$('#sheet input[type=text]:not([data-pf])');(f||$('#sheet .x-close')).focus({preventScroll:true});
+  $('#sheet').innerHTML=CLOSE_X+iconize(html);labelSheet();
+  const f=$('#sheet input[type=text]:not([data-pf])');(f||$('#sheet .x-close')).focus({preventScroll:true});$('#sheet').scrollTop=0;
 }
 function setSheet(html){const sh=$('#sheet'),ae=document.activeElement,fk=ae&&sh.contains(ae)?focusKey(ae):null;
   sh.innerHTML=CLOSE_X+iconize(html);labelSheet();if(fk){const n=sh.querySelector(fk);if(n)n.focus({preventScroll:true})}}
@@ -4647,7 +4661,7 @@ document.addEventListener('keydown',e=>{
     if(dy>130||(v>.6&&dy>40)){s.style.transform='translateY(110%)';setTimeout(()=>{s.style.transition='none';s.style.transform='';requestClose(true)},200)}
     else s.style.transform='';},{passive:true});
 })();
-if(window.visualViewport){const vv=visualViewport,kb=()=>document.documentElement.style.setProperty('--kb',Math.max(0,Math.round(innerHeight-vv.height-vv.offsetTop))+'px');vv.addEventListener('resize',kb);vv.addEventListener('scroll',kb);kb()}
+if(window.visualViewport){const vv=visualViewport;let last=0;const kb=()=>{const v=Math.max(0,Math.round(innerHeight-vv.height-vv.offsetTop));if(v!==last){last=v;document.documentElement.style.setProperty('--kb',v+'px')}};vv.addEventListener('resize',kb);vv.addEventListener('scroll',kb);kb()}
 
 /* ---------- task rows: swipe to complete or delete, long-press for actions (like iOS lists) ---------- */
 (()=>{let row=null,x0=0,y0=0,dx=0,mode='',bg=null,lp=null,id='';
@@ -4678,6 +4692,8 @@ function taskActionsHtml(id){const t=S.tasks.find(x=>x.id===id);if(!t)return '<h
   <div class="sheet-foot"><button class="ghost" data-act="modal-close">ביטול</button></div>`}
 
 function grow(el){el.style.height='auto';el.style.height=(el.scrollHeight+4)+'px'}
+function saveShell(app){clearTimeout(saveShell.t);saveShell.t=setTimeout(()=>{if(view.name!=='home'||!loaded)return;const h=app.innerHTML;if(h.length<200000&&h!==saveShell.last){saveShell.last=h;pref('shell',h)}},1200)}
+function growAll(root){const ts=[...root.querySelectorAll('textarea')];if(!ts.length)return;ts.forEach(t=>{t.style.height='auto'});const hs=ts.map(t=>t.scrollHeight);ts.forEach((t,i)=>{t.style.height=(hs[i]+4)+'px'})}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushAll()});
 window.addEventListener('pagehide',()=>flushAll());
 setInterval(()=>{if((view.name==='home'||view.name==='tasks')&&!modalOpen&&loaded&&document.visibilityState==='visible'&&!document.activeElement.matches('input,textarea,select'))render()},60000);
@@ -4687,11 +4703,15 @@ applyPrefs();
 document.querySelectorAll('#nav button[data-to]').forEach(b=>{b.innerHTML=ic({home:'home',courses:'book',tasks:'check',search:'search'}[b.dataset.to])+'<span>'+b.textContent+'</span>'});
 document.querySelector('[data-act=settings]').innerHTML=ic('sliders')+'<span class="lbl-d">הגדרות</span>';
 document.querySelector('.nav-add').innerHTML=ic('plus')+'<span class="lbl">הוספה</span>';
-function setHdr(){const t=document.querySelector('.top');if(t)document.documentElement.style.setProperty('--hdr-h',(innerWidth>=1024?0:t.offsetHeight)+'px')}
+function setHdr(){const t=document.querySelector('.top');if(!t)return;const v=(innerWidth>=1024?0:t.offsetHeight)+'px';if(v!==setHdr.v){setHdr.v=v;document.documentElement.style.setProperty('--hdr-h',v)}}
 window.addEventListener('resize',setHdr);setHdr();
 {const h0=readHash();if(h0)view=h0;try{history.replaceState({name:view.name,id:view.id},'',hashOf(view))}catch(e){}}
 if(STANDALONE&&(location.protocol==='https:'||location.hostname==='localhost')){
-  try{if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}catch(e){}
+  try{if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    /* a new version arrived in the background: switch to it the next time the app is hidden with nothing open or unsaved */
+    const calm=()=>document.visibilityState==='hidden'&&!modalOpen&&!dirty.size&&!statusErr&&!/^(lesson|live|listen)$/.test(view.name)&&!(typeof timer!=='undefined'&&timer);
+    document.addEventListener('visibilitychange',async()=>{if(!calm())return;try{const r=await (await caches.open('markr-meta')).match('updated');const t=r?+(await r.text()):0;
+      if(t>performance.timeOrigin&&calm())setTimeout(()=>{if(calm())location.reload()},300)}catch(e){}})}}catch(e){}
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(()=>{})}catch(e){}
 }
 /* a focus session that was running when the app closed continues (or finishes) on return */
