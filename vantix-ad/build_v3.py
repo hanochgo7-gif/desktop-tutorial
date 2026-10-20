@@ -415,6 +415,8 @@ class Gfx:
                 a = (t - (ft - tin)) / tin if t < ft else 1 - (t - ft) / tout
                 d.rectangle([0, 0, W, H], fill=(255, 255, 255, int(255 * peak * clamp(a))))
         # progress bar
+        if not getattr(self, "progress", True):
+            return c
         k = t / self.end_t
         d.rounded_rectangle([60, 240, 920, 248], 4, fill=(255, 255, 255, 56))
         xe = 60 + int(860 * k)
@@ -452,7 +454,8 @@ class Gfx:
         short = any(a <= t < b for a, b in self.short_w)
         cy = 1307 if short else 1378
         f = font(F_OSW, 84)
-        while max(text_w(f, ln) for ln in lines) > 824:
+        maxw = self.cap_maxw(t) if hasattr(self, "cap_maxw") else 824
+        while max(text_w(f, ln) for ln in lines) > maxw:
             f = font(F_OSW, f.size - 4)
         lh = int(f.size * 1.05)
         ytop = cy - lh * len(lines) / 2
@@ -460,7 +463,7 @@ class Gfx:
         for li, ln in enumerate(lines):
             x = 96
             for wd in ln.split(" "):
-                st = t0 + 0.06 * idx
+                st = t0 + 0.06 * idx if t0 > 0.01 else -1.0   # opening caption is complete on frame 0 (thumbnail)
                 p = clamp((t - st) / 0.1)
                 if p > 0:
                     spoken = wt.get(wd)

@@ -2,15 +2,17 @@
 python3 build_before_after.py before.mp4 after.mp4 out.mp4
 Full-bleed footage, "Before." / "After." labels, a hairline wipe that 'cleans' the frame,
 small "Dramatization." disclosure. Timing: 2.2s before, 0.7s wipe, 2.1s after = 5.0s."""
-import subprocess, sys
+import os, subprocess, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H, FPS = 1080, 1920, 30
-T_BEFORE, T_WIPE, T_AFTER = 2.2, 0.7, 2.1
+T_BEFORE, T_WIPE, T_AFTER = [float(v) for v in (sys.argv[4:7] if len(sys.argv) >= 7 else (2.2, 0.7, 2.1))]
 DUR = T_BEFORE + T_WIPE + T_AFTER
 DISPLAY = "/usr/share/fonts/opentype/inter/InterDisplay-SemiBold.otf"   # SF Pro Display stand-in
 TEXT = "/usr/share/fonts/opentype/inter/Inter-Medium.otf"
+DISCLOSE = os.environ.get("BA_DISCLOSE", "1") == "1"   # off when the host edit draws its own pill
+LABEL_Y = 1270          # clear ceiling below the vent, above the platform UI zone
 
 
 def ease(x):
@@ -83,13 +85,14 @@ def main(before, after, out):
         # labels: "Before." fades out as the wipe starts, "After." fades in as it ends
         ab = 1 - ease((t - T_BEFORE + 0.1) / 0.3)
         aa = ease((t - T_BEFORE - T_WIPE + 0.15) / 0.3)
-        col = ink(frame, (72, 330, 560, 450))
+        col = ink(frame, (72, LABEL_Y + 30, 560, LABEL_Y + 150))
         if ab > 0:
-            frame.alpha_composite(label("Before.", 120, ab, col), (72, 300))
+            frame.alpha_composite(label("Before.", 120, ab, col), (72, LABEL_Y))
         if aa > 0:
-            frame.alpha_composite(label("After.", 120, aa, col), (72, 300))
-        dcol = ink(frame, (72, 1460, 300, 1490))
-        ImageDraw.Draw(frame).text((72, 1460), "Dramatization.", font=small, fill=dcol + (150,))
+            frame.alpha_composite(label("After.", 120, aa, col), (72, LABEL_Y))
+        if DISCLOSE:
+            dcol = ink(frame, (72, 1460, 300, 1490))
+            ImageDraw.Draw(frame).text((72, 1460), "Dramatization.", font=small, fill=dcol + (150,))
         p.stdin.write(frame.convert("RGB").tobytes())
     p.stdin.close()
     sys.exit(p.wait())
