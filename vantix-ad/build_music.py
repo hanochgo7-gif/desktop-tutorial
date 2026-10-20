@@ -9,7 +9,8 @@ N = int(DUR * SR)
 BEAT = 60 / 112
 BAR = 4 * BEAT
 # section marks follow the picture edit (v4.py)
-PROBLEM, BRAND, RISER, PRICE, ENDCARD, OUTRO = 2.95, 10.95, 15.6, 17.6, 24.0, 29.9
+import os
+PROBLEM, BRAND, RISER, PRICE, ENDCARD, OUTRO = [float(v) for v in os.environ.get("MUSIC_MARKS", "2.95,10.95,15.6,17.6,24.0,29.9").split(",")]
 rng = np.random.default_rng(11)
 
 CHORDS = [[62, 66, 69], [57, 61, 64], [59, 62, 66], [55, 59, 62]]   # D  A  Bm  G
