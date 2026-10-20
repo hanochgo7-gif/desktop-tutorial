@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>מיפתח פרויקטים · שאלון לאתר החדש</title>
+<link rel="stylesheet" href="/css/fonts.css">
+<style>
+/* שאלון לקוח: מיפתח פרויקטים. כל התשובות נשמרות אוטומטית (Supabase, פרויקט hg-forms) לפי המפתח שבקישור. */
+:root {
+  --bg: #f5f2ec; --card: #fffdf9; --ink: #1c1b18; --ink2: #5d584f; --line: #e3ddd2;
+  --acc: #2f6b4f; --acc-soft: #e4efe8; --warn: #a3551d; --hg: #ff4f1a;
+  --r: 16px; --sh: 0 1px 2px rgba(40,30,10,.05), 0 8px 24px -12px rgba(40,30,10,.12);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.6 Rubik, system-ui, sans-serif; }
+button, input, textarea { font: inherit; color: inherit; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 16px 140px; }
+
+header.top { position: sticky; top: 0; z-index: 20; background: rgba(245,242,236,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top .in { max-width: 720px; margin: 0 auto; padding: 10px 16px 0; }
+.top .row { display: flex; align-items: center; gap: 12px; }
+.brand { font: 500 15px/1.2 Rubik; color: var(--ink2); }
+.brand b { color: var(--ink); font-weight: 600; }
+.save { margin-inline-start: auto; font-size: 13px; color: var(--ink2); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.save i { width: 8px; height: 8px; border-radius: 50%; background: #9bb8a7; }
+.save.busy i { background: #d6a54a; } .save.off i { background: var(--warn); }
+.prog { height: 4px; background: var(--line); border-radius: 4px; margin: 10px 0 0; overflow: hidden; }
+.prog span { display: block; height: 100%; width: 0; background: var(--acc); transition: width .4s; }
+nav.steps { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0 10px; scrollbar-width: none; }
+nav.steps::-webkit-scrollbar { display: none; }
+nav.steps button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 13px; font-size: 14px; cursor: pointer; color: var(--ink2); }
+nav.steps button[aria-current="step"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+nav.steps button small { opacity: .75; margin-inline-start: 4px; font-size: 12px; }
+
+h1 { font: 400 clamp(30px, 7vw, 42px)/1.15 'Frank Ruhl Libre', serif; margin: 34px 0 10px; letter-spacing: -.01em; }
+h2 { font: 400 clamp(26px, 6vw, 34px)/1.2 'Frank Ruhl Libre', serif; margin: 30px 0 6px; }
+h3 { font: 600 15px/1.3 Rubik; color: var(--acc); margin: 34px 0 10px; letter-spacing: .02em; }
+.lead { color: var(--ink2); margin: 0 0 18px; }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 20px; box-shadow: var(--sh); margin: 14px 0; }
+.box ul { margin: 6px 0 0; padding-inline-start: 20px; } .box li { margin: 4px 0; }
+.box h4 { margin: 0 0 4px; font: 600 16px/1.4 Rubik; }
+
+.q { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 18px 14px; margin: 12px 0; box-shadow: var(--sh); transition: border-color .2s; }
+.q.done { border-color: #b9d3c3; }
+.q.talk { border-color: #e6c89d; background: #fffaf2; }
+.qh { display: flex; gap: 10px; align-items: flex-start; }
+.qn { flex: none; min-width: 30px; height: 30px; border-radius: 9px; background: var(--acc-soft); color: var(--acc); font: 600 14px/30px Rubik; text-align: center; padding: 0 6px; }
+.q.done .qn { background: var(--acc); color: #fff; }
+.qt { font: 500 17px/1.5 Rubik; margin: 2px 0 0; }
+.qw { font-size: 14px; color: var(--ink2); margin: 6px 0 0; }
+.lv { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 99px; margin-inline-start: 6px; vertical-align: 2px; border: 1px solid var(--line); color: var(--ink2); font-weight: 400; }
+.lv.must { border-color: #e9c3a2; color: var(--warn); }
+.qb { margin-top: 12px; }
+textarea, input[type=text], input[type=url] { width: 100%; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 12px 14px; font-size: 17px; line-height: 1.5; outline: none; resize: none; transition: border-color .15s, box-shadow .15s; }
+textarea { min-height: 90px; }
+textarea:focus, input:focus { border-color: var(--acc); box-shadow: 0 0 0 3px rgba(47,107,79,.15); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 9px 16px; cursor: pointer; font-size: 16px; line-height: 1.3; transition: all .15s; -webkit-tap-highlight-color: transparent; }
+.chip:hover { border-color: #c9c1b3; }
+.chip[aria-pressed="true"] { background: var(--acc); border-color: var(--acc); color: #fff; }
+.other { margin-top: 10px; }
+.qf { display: flex; justify-content: flex-end; margin-top: 10px; }
+.talkbtn { border: 0; background: none; color: var(--ink2); font-size: 13px; cursor: pointer; padding: 4px 2px; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line); }
+.q.talk .talkbtn { color: var(--warn); text-decoration-color: currentColor; }
+.hint { font-size: 13px; color: var(--ink2); margin-top: 6px; }
+
+.grid .gr { padding: 12px 0; border-top: 1px solid var(--line); }
+.grid .gr:first-child { border-top: 0; padding-top: 2px; }
+.grid .gl { font-weight: 500; margin-bottom: 8px; }
+.grid .chip { padding: 7px 13px; font-size: 15px; }
+.grid input { margin-top: 8px; padding: 9px 12px; font-size: 15px; }
+
+details.svc { border: 1px solid var(--line); border-radius: 12px; background: #fff; margin: 8px 0; }
+details.svc summary { cursor: pointer; padding: 12px 14px; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+details.svc summary::-webkit-details-marker { display: none; }
+details.svc summary::after { content: '＋'; color: var(--ink2); }
+details.svc[open] summary::after { content: '－'; }
+details.svc .f { padding: 0 14px 14px; }
+.f label { display: block; font-size: 14px; color: var(--ink2); margin: 10px 0 4px; }
+.f input, .f textarea { font-size: 16px; padding: 10px 12px; }
+.f textarea { min-height: 60px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--acc); display: inline-block; margin-inline-start: 6px; vertical-align: 2px; }
+
+.proj { border: 1px solid var(--line); border-radius: 14px; background: #fff; padding: 6px 14px 14px; margin: 12px 0; }
+.proj .ph { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; }
+.proj .ph b { font-weight: 600; }
+.proj .del { border: 0; background: none; color: var(--ink2); font-size: 13px; cursor: pointer; text-decoration: underline; }
+.proj .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+@media (max-width: 520px) { .proj .two { grid-template-columns: 1fr; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 14px 26px; font: 500 17px/1 Rubik; cursor: pointer; background: var(--ink); color: #fff; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn.acc { background: var(--acc); }
+.btn.small { padding: 10px 18px; font-size: 15px; }
+.navbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 20; background: rgba(245,242,236,.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); }
+.navbar .in { max-width: 720px; margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+.navbar .sp { flex: 1; font-size: 13px; color: var(--ink2); text-align: center; }
+.who { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.toast { position: fixed; bottom: 86px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 15px; opacity: 0; transition: all .25s; pointer-events: none; z-index: 30; white-space: nowrap; }
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+.done-hero { text-align: center; padding: 30px 0 10px; }
+.done-hero .big { font-size: 54px; }
+.foot { text-align: center; color: var(--ink2); font-size: 13px; margin-top: 40px; }
+.foot b { color: var(--hg); }
+.view .ans { white-space: pre-wrap; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
+.view .none { color: #b0a898; font-style: italic; }
+a { color: var(--acc); }
+.box li a { text-decoration-color: rgba(47,107,79,.35); text-underline-offset: 3px; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="row">
+      <div class="brand"><b>מיפתח פרויקטים</b> · שאלון לאתר החדש</div>
+      <div class="save" id="save" aria-live="polite"><i></i><span>נשמר</span></div>
+    </div>
+    <div class="prog" aria-hidden="true"><span id="bar"></span></div>
+    <nav class="steps" id="steps" aria-label="חלקי השאלון"></nav>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+<div class="navbar" id="navbar"><div class="in">
+  <button class="btn ghost small" id="prev">הקודם</button>
+  <div class="sp" id="navinfo"></div>
+  <button class="btn small" id="next">הבא</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SB = 'https://ewddzunakbaxtonysgrd.supabase.co/rest/v1/rpc/';
+const KEY = 'sb_publishable_gQV6w1bIQz5-84ZhsBrG9Q_gkKi341s';
+const FORM = 'miftah-2026';
+const params = new URLSearchParams(location.search);
+const TOKEN = (params.get('k') || '').replace(/[^A-Za-z0-9_-]/g, '');
+const VIEW = params.get('view') === '1';
+const LS = 'miftah-q-' + TOKEN;
+
+// ---------- השאלות ----------
+// סוגים: p טקסט ארוך, t טקסט קצר, c בחירה אחת, m בחירה מרובה, grid טבלת Turnkey, svc שירותים, proj פרויקטים
+const MUST = 'חובה', REC = 'מומלצת', OPT = 'אופציונלית';
+const STEPS = [
+ { id: 'a', name: 'חלק א', title: 'השאלות החשובות ביותר', lead: 'בלי התשובות האלה אי אפשר להחליט מה האתר אומר, אילו עמודים יהיו בו ואילו שירותים יוצגו. אם קשה לכתוב, אפשר לסמן "נעבור על זה בשיחה" ונעשה את זה יחד.', groups: [
+  { h: 'מה החברה מוכרת היום', qs: [
+   { id: 'q1', n: 1, lv: MUST, type: 'p', t: 'איך הייתם מתארים את החברה היום במשפט אחד?', w: 'באתר הנוכחי מיפתח מוצגת כחברה שמתכננת ומקימה בתי רשת והצללה. סיפרתם שהיעד הוא ניהול ותפעול של נכסים וחוות. זו תהיה הכותרת של האתר, וממנה נגזר כל השאר.' },
+   { id: 'q2', n: 2, lv: MUST, type: 'p', t: 'בערך איזה חלק מהעבודה היום הוא הקמה (בתי רשת, סככות, תשתיות), ואיזה חלק הוא ניהול ותפעול שוטף? ומה היחס שהייתם רוצים בעוד 3 שנים?', w: 'קובע מה מופיע ראשון באתר ומה שני.' },
+   { id: 'q3', n: 3, lv: MUST, type: 'grid', t: 'כשאתם אומרים Turnkey לחווה, מה הלקוח מקבל? לכל שלב סמנו מי מבצע.', w: 'זו השאלה הכי חשובה בשאלון: אי אפשר לכתוב עמוד Turnkey בלי לדעת מה בתוכו. שלב שלא רלוונטי, אפשר לדלג עליו. בשורה הקטנה אפשר לכתוב באיזה פרויקט זה קרה.',
+     rows: ['בדיקת קרקע והתאמת גידול', 'תוכנית עסקית ותקציב למשקיע', 'רישוי והיתרים מקומיים', 'תכנון החווה (מבנים, השקיה, דרכים)', 'הקמת מבנים ובתי רשת', 'הקמת מערכות השקיה', 'רכש ולוגיסטיקה', 'שתילה והקמת המטע', 'גיוס וניהול עובדים מקומיים', 'ניהול גידול שוטף ואגרונומיה', 'תחזוקת מבנים ומערכות', 'קטיף ושיווק היבול', 'דיווח שוטף לבעלים (תקציב, התקדמות)'],
+     cols: ['אנחנו', 'דרך שותף שאנחנו מנהלים', 'לא אצלנו'] },
+   { id: 'q3x', n: '3א', lv: REC, type: 'p', t: 'יש שלב שלא מופיע בטבלה, או משהו שחשוב להוסיף על Turnkey?', w: '' },
+   { id: 'q4', n: 4, lv: MUST, type: 'c', t: 'הצללה אזרחית (בריכות, מגרשים, גני ילדים): עדיין מציעים?', w: 'זה קהל שונה לגמרי (רשויות ומוסדות), וזה קובע אם יש לזה עמוד באתר.', opts: ['כן, ורוצים לקדם את זה', 'כן, אבל לא באתר', 'כבר לא מציעים'], other: true },
+   { id: 'q5', n: 5, lv: MUST, type: 'p', t: 'אילו 3 שירותים אתם רוצים להגדיל הכי הרבה בשנים הקרובות? ויש שירות שאתם כבר לא רוצים לקדם?', w: 'השירותים האלה מקבלים את המקום הראשי באתר.' } ] },
+  { h: 'לקוחות בחו״ל', qs: [
+   { id: 'q6', n: 6, lv: MUST, type: 'm', t: 'מי שילם ומי החליט בפרויקטים בפורטוגל?', w: 'משקיע רוצה לשמוע על שקיפות ותקציב, חקלאי רוצה לשמוע על פתרון בשטח. אפשר לבחור כמה.', opts: ['משקיע פרטי', 'קרן', 'בעל קרקע', 'חברה חקלאית', 'יזם'], other: true },
+   { id: 'q7', n: 7, lv: MUST, type: 'm', t: 'באילו מדינות אתם רוצים לקוחות חדשים בשנתיים הקרובות?', w: 'קובע אם האתר מציג אתכם כמומחים לפורטוגל או כחברה בינלאומית, ומה מחפשים עליכם בגוגל.', opts: ['פורטוגל', 'מדינות נוספות באירופה', 'ישראל', 'שווקים אחרים'], other: true },
+   { id: 'q8', n: 8, lv: MUST, type: 't', t: 'מה הגודל המינימלי של פרויקט שמעניין אתכם?', w: 'בהקטרים או בהיקף כספי. כדי לסנן מראש פניות קטנות מדי.' },
+   { id: 'q9', n: 9, lv: MUST, type: 'm', t: 'מאיפה הגיעו הלקוחות בפורטוגל?', w: 'מי שמגיע מהמלצה צריך לשמוע דברים אחרים ממי שמגיע מגוגל.', opts: ['המלצה', 'תערוכה', 'שותף', 'חיפוש באינטרנט'], other: true },
+   { id: 'q10', n: 10, lv: MUST, type: 'p', t: 'מה החשש הכי גדול של לקוח מחו״ל לפני שהוא חותם?', w: 'אם אפשר, כדאי לשאול את הלקוח בפורטוגל. האתר צריך לענות על החשש הזה כבר במסך הראשון.' },
+   { id: 'q11', n: 11, lv: MUST, type: 'm', t: 'מה יש לחברה בפורטוגל?', w: 'נוכחות מקומית מרגיעה מאוד לקוח זר.', opts: ['ישות משפטית', 'כתובת או משרד', 'צוות קבוע', 'אין כרגע'], other: true },
+   { id: 'q12', n: 12, lv: MUST, type: 'c', t: 'סיפרתם שאנגלית מספיקה בשלב הראשון. מה לגבי החקלאים בישראל?', w: 'משפיע על היקף העבודה.', opts: ['אנגלית בלבד מתאימה גם להם', 'צריך לפחות עמוד אחד בעברית', 'צריך בהמשך אתר מלא בעברית', 'לא בטוחים'], other: true } ] },
+  { h: 'הוכחות', qs: [
+   { id: 'q13', n: 13, lv: MUST, type: 'p', t: 'מה מותר לפרסם על הפרויקטים בפורטוגל: שם לקוח, מיקום, היקף, תמונות? מי צריך לאשר?', w: 'זה הסיפור המרכזי של האתר. בלי אישור נציג אותו בלי שמות.' },
+   { id: 'q14', n: 14, lv: MUST, type: 'p', t: 'אילו 5 פרויקטים הכי חשוב לכם להציג, ומה כל אחד מוכיח?', w: 'שם ושורה אחת לכל פרויקט מספיקים. את הפרטים ממלאים אחר כך בחלק "פרויקטים".' },
+   { id: 'q15', n: 15, lv: MUST, type: 'c', t: 'יש לקוח, בפורטוגל או בישראל, שיסכים לתת המלצה חדשה באנגלית, אולי גם בסרטון קצר?', w: 'ההמלצות שיש היום הן מ-2015 ובעברית בלבד. אם כן, כתבו מי.', opts: ['כן', 'אולי, צריך לבדוק', 'לא כרגע'], other: true, otherLabel: 'מי?' } ] },
+  { h: 'פניות ואישורים', qs: [
+   { id: 'q16', n: 16, lv: MUST, type: 'p', t: 'יש כתובת מייל עסקית ללקוחות בחו״ל? מי עונה על פניות באנגלית, ותוך כמה זמן בדרך כלל?', w: 'באתר הנוכחי אין מייל. אם נכתוב זמן מענה, הוא חייב להיות אמיתי.' },
+   { id: 'q17', n: 17, lv: MUST, type: 'p', t: 'מה הופך פנייה לפנייה טובה? אילו 3 פרטים חייבים להופיע בטופס כדי שתוכלו לענות עניינית?', w: 'כך נבנה טופס קצר, בלי שדות מיותרים.' },
+   { id: 'q18', n: 18, lv: MUST, type: 't', t: 'אצל איזה ספק רשומים הדומיין miftah.co.il והאחסון?', w: 'שם הספק בלבד, בלי סיסמאות. נדרש כדי להעביר את האתר בלי לאבד את הקישורים הקיימים.' },
+   { id: 'q19', n: 19, lv: MUST, type: 'c', t: 'מי מאשר את התוכן הסופי?', w: 'כדי לחסוך סבבי תיקונים כפולים.', opts: ['מרב', 'יפתח', 'שניכם'], other: true } ] } ] },
+ { id: 'b', name: 'חלק ב', title: 'שאלות העמקה', lead: 'השאלות האלה קובעות כמה האתר ישכנע. אפשר לענות בכתב, או לסמן "נעבור על זה בשיחה" ואנחנו נכתוב בראיון. לכל תשובה בחלק הזה נשמח לדוגמה אמיתית אחת: דוגמה מהשטח משכנעת יותר מכל תיאור.', groups: [
+  { h: 'יעדים', qs: [
+   { id: 'q20', n: 20, lv: REC, type: 'p', t: 'כמה פניות מתאימות מחו״ל בשנה ייחשבו הצלחה? וכמה מהן צריכות להפוך לשיחה רצינית?', w: 'כך נדע אם האתר עובד, אחרי 3 חודשים ואחרי שנה.' },
+   { id: 'q21', n: 21, lv: REC, type: 'm', t: 'איזה סוג פנייה מבזבז לכם זמן היום?', w: 'האתר יכול לסנן אותן מראש.', opts: ['פרויקט קטן מדי', 'שואלים רק על מחיר', 'מדינה לא רלוונטית', 'מחפשי עבודה'], other: true },
+   { id: 'q22', n: 22, lv: REC, type: 'm', t: 'מלבד פניות, מה עוד האתר צריך לעשות?', w: 'אתר שמשמש ככרטיס ביקור אחרי פגישה בנוי אחרת מאתר שצריך להימצא בגוגל.', opts: ['להראות למשקיע אחרי פגישה', 'לצרף להצעת מחיר', 'גיוס עובדים', 'שותפויות'], other: true } ] },
+  { h: 'מה מייחד אתכם', qs: [
+   { id: 'q23', n: 23, lv: MUST, type: 'p', t: 'באחד ממכתבי ההמלצה כתבו על עשור של עבודה משותפת. למה לקוחות נשארים איתכם שנים? ספרו מקרה אחד.', w: 'מכאן יגיע המסר "למה אנחנו".' },
+   { id: 'q24', n: 24, lv: MUST, type: 'p', t: 'ספרו על בעיה שפתרתם, שחברה אחרת לא הצליחה או לא הייתה מצליחה לפתור.', w: 'זה הסיפור הכי משכנע שיכול להיות באתר.' },
+   { id: 'q25', n: 25, lv: MUST, type: 'p', t: 'מה הלקוח מרוויח כשהוא עובד איתכם, במקום לשכור לבד קבלן, אגרונום ומנהל עבודה?', w: 'זה הטיעון המרכזי בעד Turnkey.' },
+   { id: 'q26', n: 26, lv: REC, type: 'p', t: 'מה למדתם בפורטוגל שלא ידעתם קודם? (אקלים, רשויות, כוח אדם, ספקים)', w: 'ידע מקומי מבדל אתכם, והוא גם בסיס למאמרים.' },
+   { id: 'q27', n: 27, lv: REC, type: 'p', t: 'יש הסמכות, רישיונות, ביטוחים, תקנים או חברות בארגונים מקצועיים?', w: 'לקוח עסקי בודק את זה.' },
+   { id: 'q28', n: 28, lv: MUST, type: 'p', t: 'בעמוד ההנהלה באתר הנוכחי מוזכרים מכרזים עבור צדיק בינו ופרויקט בבלארוס. מותר ורצוי להשאיר את שניהם?', w: 'שמות של אנשים ולקוחות נכנסים רק באישור מפורש.' },
+   { id: 'q29', n: 29, lv: REC, type: 'p', t: 'מי בצוות היום, בישראל ובפורטוגל, ומי מוכן להופיע באתר בשם ובתמונה?', w: 'פנים של אנשים בונות אמון. הפרטים באתר הנוכחי כבר לא מעודכנים.' } ] },
+  { h: 'השירותים בפירוט', qs: [
+   { id: 'svc', n: 'ש', lv: REC, type: 'svc', t: 'לכל שירות שבחרתם בשאלה 5, ספרו בקצרה מה הוא כולל.', w: 'פותחים שירות בלחיצה. שירות לא רלוונטי משאירים סגור.',
+     items: ['ניהול ותפעול חווה (Turnkey)', 'הקמת בתי רשת ומבנים חקלאיים', 'ייעוץ ותכנון בלבד', 'שיפור חווה קיימת', 'תחזוקה שוטפת', 'הצללה אזרחית (אם נשארת)', 'שירות שלא מופיע כאן'],
+     fields: [['get', 'מה הלקוח מקבל בסוף'], ['not', 'מה לא כלול'], ['who', 'למי זה מתאים'], ['time', 'כמה זמן זה לוקח בדרך כלל'], ['ex', 'פרויקט לדוגמה']] } ] },
+  { h: 'לקוחות ופניות', qs: [
+   { id: 'q30', n: 30, lv: REC, type: 'p', t: 'מה שונה בין חקלאי ישראלי לבין לקוח בפורטוגל, במה שהם שואלים ובמה שמשכנע אותם?', w: 'אולי צריך שני מסלולים שונים בדף הבית.' },
+   { id: 'q31', n: 31, lv: REC, type: 'm', t: 'איך פונים אליכם היום? ומה עובד הכי טוב?', w: 'קובע אילו כפתורים יבלטו באתר. את מה שעובד הכי טוב אפשר לכתוב ב"אחר".', opts: ['טלפון', 'מייל', 'וואטסאפ', 'טופס באתר', 'מכרים והמלצות'], other: true, otherLabel: 'מה עובד הכי טוב?' },
+   { id: 'q32', n: 32, lv: REC, type: 'p', t: 'מה קורה אחרי שמגיעה פנייה: שיחה, ביקור בשטח, הצעה? יש מערכת או טבלה למעקב פניות?', w: 'האתר יסביר מה הצעד הבא, וזה מקל על הפנייה.' },
+   { id: 'q33', n: 33, lv: OPT, type: 'c', t: 'יש שפה נוספת שתצטרך תוך שנה?', w: 'משפיע על הבנייה כבר עכשיו.', opts: ['לא', 'פורטוגזית', 'ספרדית'], other: true } ] },
+  { h: 'סגנון ושפה', qs: [
+   { id: 'q34', n: 34, lv: REC, type: 'm', max: 2, t: 'איך אתם רוצים להישמע? בחרו עד שניים.', w: 'קובע את סגנון הכתיבה והעיצוב.', opts: ['הנדסי', 'תפעולי', 'יזמי', 'משפחתי ואישי', 'שמרני'] },
+   { id: 'q35', n: 35, lv: REC, type: 'p', t: 'יש מונחים שחייבים להופיע בצורה מסוימת? (שם החברה באנגלית, סוגי מבנים, שמות שירותים)', w: 'באתר הנוכחי יש כמה כתיבים שונים לאותו דבר.' },
+   { id: 'q36', n: 36, lv: REC, type: 'p', t: 'יש הבטחות או מילים שלא רוצים שיופיעו באתר?', w: 'כדי שהאתר לא יתחייב למשהו שאי אפשר לעמוד בו.' },
+   { id: 'q37', n: 37, lv: OPT, type: 't', t: 'יש מישהו, לקוח או שותף שאנגלית היא שפת האם שלו, שיכול לקרוא את הטקסטים לפני שהם עולים?', w: '' } ] },
+  { h: 'ידע מקצועי', qs: [
+   { id: 'q38', n: 38, lv: REC, type: 'p', t: 'מה 3 השאלות שלקוחות שואלים הכי הרבה לפני שמתחילים?', w: 'כל שאלה כזו יכולה להיות מאמר או שאלה בעמוד שאלות נפוצות.' },
+   { id: 'q39', n: 39, lv: REC, type: 'p', t: 'אילו טעויות אתם רואים שוב ושוב אצל משקיעים או בעלי קרקע שמתחילים חווה?', w: 'תוכן כזה מראה ניסיון במקום רק לטעון לו.' },
+   { id: 'q40', n: 40, lv: REC, type: 't', t: 'מי בחברה יכול לתת ראיון של שעה לכתיבת מאמרים, ומי מאשר אותם מקצועית?', w: '' },
+   { id: 'q41', n: 41, lv: MUST, type: 'p', t: 'יש נושאים מסחריים או משפטיים שאסור לכתוב עליהם? (מחירים, תשואות, לקוחות מסוימים)', w: 'כדי שלא נפרסם משהו שאסור.' } ] } ] },
+ { id: 'c', name: 'חלק ג', title: 'אפשר לענות בהמשך', lead: 'על אלה אפשר לענות תוך כדי עבודה, או אחרי שהאתר עולה.', groups: [
+  { h: '', qs: [
+   { id: 'q42', n: 42, lv: REC, type: 't', t: 'מי ישלח פרויקטים ותמונות חדשות אחרי ההשקה, ובאיזו תדירות?', w: 'אתר שמתעדכן נשאר חי ומשכנע.' },
+   { id: 'q43', n: 43, lv: REC, type: 'c', t: 'רוצים לעדכן את האתר בעצמכם, או שהכול יעבור דרכנו?', w: 'משפיע על המערכת שעליה נבנה את האתר.', opts: ['בעצמנו', 'דרככם', 'שילוב'] },
+   { id: 'q44', n: 44, lv: REC, type: 'p', t: 'יש תערוכות, כנסים או פגישות בחו״ל שהאתר צריך להיות מוכן לקראתם? מתי?', w: 'זה קובע תאריך יעד אמיתי להשקה.' },
+   { id: 'q45', n: 45, lv: OPT, type: 'm', t: 'יש לחברה או למנהלים עמודים ברשתות?', w: 'לקוח עסקי מחו״ל בודק גם בלינקדאין.', opts: ['לינקדאין', 'יוטיוב', 'פייסבוק', 'אינסטגרם', 'אין'], other: true },
+   { id: 'q46', n: 46, lv: OPT, type: 't', t: 'יש לכם פרופיל עסק בגוגל? מי מנהל אותו?', w: '' },
+   { id: 'q47', n: 47, lv: OPT, type: 'c', t: 'רוצים דוח חודשי על הפניות והכניסות לאתר?', w: '', opts: ['כן', 'לא', 'אולי בהמשך'] },
+   { id: 'q48', n: 48, lv: OPT, type: 't', t: 'רוצים שנמשיך לכתוב מאמרים אחרי ההשקה? כמה בחודש ריאלי לכם לאשר?', w: '' },
+   { id: 'q49', n: 49, lv: OPT, type: 'm', t: 'רוצים בהמשך עמודים נוספים?', w: 'נשאיר להם מקום במבנה, בלי לבנות עכשיו.', opts: ['גיוס עובדים', 'שותפים', 'אזור ללקוחות'], other: true } ] } ] },
+ { id: 'p', name: 'פרויקטים וחומרים', title: 'פרויקטים וחומרים', lead: 'ממה שתכתבו כאן נבנה את עמודי הפרויקטים באתר. מספיק להתחיל ב-5 הפרויקטים משאלה 14 ולהוסיף אחרים בהמשך. שדה שאין לו מידע נשאר ריק, וזה בסדר: אנחנו לא נשלים מספרים או תוצאות שלא אישרתם.', groups: [
+  { h: 'הפרויקטים', qs: [ { id: 'projects', n: 'פ', lv: MUST, type: 'proj', t: 'פרויקט אחרי פרויקט', w: 'לוחצים "הוספת פרויקט" לכל פרויקט נוסף.' } ] },
+  { h: 'תמונות וחומרים', qs: [
+   { id: 'm1', n: 'ח1', lv: MUST, type: 't', t: 'קישור לתיקיית התמונות והסרטונים (דרייב או דרופבוקס)', w: 'קבצים מקוריים, לא מוואטסאפ, כולל צילומי רחפן וקטעים שלא נערכו. תיקייה לכל פרויקט בשם "מדינה – פרויקט – שנה", ובכל תיקייה קובץ טקסט קצר: אילו 3 תמונות הכי אהובות עליכם, מה רואים בהן, מי צילם ומה אסור לפרסם. אנחנו נמיין, ורק אחר כך נגיד אם צריך צילום משלים.' },
+   { id: 'm2', n: 'ח2', lv: REC, type: 'm', t: 'מה אתם יכולים לשלוח כבר עכשיו?', w: 'את השאר נבקש בהמשך.', opts: ['לוגו בקובץ איכותי (SVG, AI או PDF)', 'תמונות של הפרויקטים', 'צילומי רחפן וסרטונים', 'תמונות של הצוות', 'נתונים כלליים (סך השטח שהוקם, מספר מדינות, עובדים, לקוחות קבועים)', 'המלצות חדשות או אישור לפרסם את הישנות', 'תעודות, רישיונות, ביטוחים או תקנים', 'המצגת הישנה וקטלוגים (לרקע בלבד, לא לפרסום)'] },
+   { id: 'm3', n: 'ח3', lv: OPT, type: 'p', t: 'משהו נוסף שחשוב לכם שנדע?', w: '' } ] } ] },
+];
+const PROJ_FIELDS = [['name', 'שם הפרויקט', 't'], ['where', 'מדינה ואזור', 't'], ['years', 'שנים', 't', 'משנה עד שנה, או "עד היום"'], ['size', 'היקף', 't', 'דונם, הקטרים, מספר מבנים'], ['did', 'מה עשיתם בפועל', 'p', 'תכנון, הקמה, ניהול, תחזוקה...'], ['challenge', 'האתגר העיקרי', 'p'], ['result', 'התוצאה', 'p', 'מה השתנה אצל הלקוח'], ['photos', 'צילומים (שם התיקייה)', 't'], ['publish', 'מותר לפרסם את שם הלקוח?', 'c', ['כן', 'לא', 'בלי שם']]];
+
+// ---------- מצב ושמירה ----------
+let D = {}; // כל התשובות
+let pending = {}; let timer = null; let online = true;
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (v !== null && v !== undefined && v !== false) e.setAttribute(k, v === true ? '' : v); } for (const k of kids.flat()) if (k !== null && k !== undefined) e.append(k.nodeType ? k : document.createTextNode(k)); return e; };
+function lsGet() { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch (e) { return {}; } }
+function lsSet() { try { localStorage.setItem(LS, JSON.stringify({ D, pending })); } catch (e) {} }
+function setSave(state, txt) { const s = $('#save'); s.className = 'save ' + state; s.querySelector('span').textContent = txt; }
+async function rpc(fn, body) {
+  const r = await fetch(SB + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(await r.text()); return r.json();
+}
+function put(key, val) {
+  D[key] = val; pending[key] = val; lsSet(); refreshMeta();
+  setSave('busy', 'שומר…'); clearTimeout(timer); timer = setTimeout(flush, 700);
+}
+async function flush(submit = false) {
+  const body = Object.assign({}, pending, { _who: D._who || null, _ts: new Date().toISOString() });
+  const sent = Object.keys(pending);
+  try {
+    await rpc('save_response', { p_form: FORM, p_token: TOKEN, p_data: body, p_submit: submit });
+    for (const k of sent) if (pending[k] === body[k]) delete pending[k];
+    lsSet(); online = true; setSave('', 'נשמר');
+    return true;
+  } catch (e) {
+    online = false; setSave('off', 'אין חיבור · נשמר במכשיר'); clearTimeout(timer); timer = setTimeout(flush, 5000);
+    return false;
+  }
+}
+window.addEventListener('beforeunload', e => { if (Object.keys(pending).length) { flush(); } });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && Object.keys(pending).length) flush(); });
+
+// ---------- תשובה קיימת? ----------
+const filled = v => {
+  if (v === undefined || v === null) return false;
+  if (typeof v === 'string') return v.trim().length > 0;
+  if (Array.isArray(v)) return v.some(filled);
+  if (typeof v === 'object') return Object.values(v).some(filled);
+  return !!v;
+};
+const allQs = () => STEPS.flatMap(s => s.groups.flatMap(g => g.qs));
+function qState(q) { return { done: filled(D[q.id]), talk: !!(D._talk || {})[q.id] }; }
+function refreshMeta() {
+  const qs = allQs(); let n = 0;
+  for (const q of qs) { const s = qState(q); if (s.done || s.talk) n++; }
+  $('#bar').style.width = Math.round(100 * n / qs.length) + '%';
+  document.querySelectorAll('#steps button[data-i]').forEach(b => {
+    const st = STEPS[+b.dataset.i]; if (!st) return;
+    const sq = st.groups.flatMap(g => g.qs); const k = sq.filter(q => { const s = qState(q); return s.done || s.talk; }).length;
+    b.querySelector('small').textContent = k + '/' + sq.length;
+  });
+  for (const q of qs) { const c = document.getElementById('c-' + q.id); if (c) { const s = qState(q); c.classList.toggle('done', s.done); c.classList.toggle('talk', s.talk && !s.done); } }
+}
+
+// ---------- רכיבי שאלות ----------
+function autosize(t) { t.style.height = 'auto'; t.style.height = Math.max(t.scrollHeight + 2, 60) + 'px'; }
+function textInput(type, value, onInput, ph) {
+  if (type === 'p') { const t = el('textarea', { rows: 3, placeholder: ph || 'כתבו כאן…' }); t.value = value || ''; t.addEventListener('input', () => { autosize(t); onInput(t.value); }); requestAnimationFrame(() => autosize(t)); return t; }
+  const i = el('input', { type: 'text', placeholder: ph || '' }); i.value = value || ''; i.addEventListener('input', () => onInput(i.value)); return i;
+}
+function chips(opts, isSel, onTap) {
+  const box = el('div', { class: 'chips' });
+  for (const o of opts) { const b = el('button', { type: 'button', class: 'chip', 'aria-pressed': String(isSel(o)) }, o); b.addEventListener('click', () => onTap(o, b, box)); box.append(b); }
+  return box;
+}
+function renderQ(q) {
+  const card = el('section', { class: 'q', id: 'c-' + q.id });
+  const lv = el('span', { class: 'lv' + (q.lv === MUST ? ' must' : '') }, q.lv);
+  card.append(el('div', { class: 'qh' }, el('div', { class: 'qn' }, String(q.n)), el('div', {}, el('p', { class: 'qt' }, q.t, ' ', lv), q.w ? el('p', { class: 'qw' }, q.w) : null)));
+  const body = el('div', { class: 'qb' });
+  const v = D[q.id];
+  if (q.type === 'p' || q.type === 't') body.append(textInput(q.type, v, x => put(q.id, x)));
+  else if (q.type === 'c' || q.type === 'm') {
+    const cur = Object.assign({ sel: [], other: '' }, v || {});
+    const multi = q.type === 'm';
+    body.append(chips(q.opts, o => cur.sel.includes(o), (o, b, box) => {
+      if (multi) {
+        if (cur.sel.includes(o)) cur.sel = cur.sel.filter(x => x !== o);
+        else { if (q.max && cur.sel.length >= q.max) { toast('אפשר לבחור עד ' + q.max); return; } cur.sel = cur.sel.concat(o); }
+      } else cur.sel = cur.sel.includes(o) ? [] : [o];
+      box.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(cur.sel.includes(c.textContent))));
+      put(q.id, { sel: cur.sel.slice(), other: cur.other });
+    }));
+    if (q.other) { const o = textInput('t', cur.other, x => { cur.other = x; put(q.id, { sel: cur.sel.slice(), other: x }); }, q.otherLabel || 'אחר / הערה'); o.classList.add('other'); body.append(o); }
+    if (multi && !q.max) body.append(el('p', { class: 'hint' }, 'אפשר לבחור כמה.'));
+  }
+  else if (q.type === 'grid') {
+    const cur = Object.assign({}, v || {}); const g = el('div', { class: 'grid' });
+    q.rows.forEach((row, ri) => {
+      const r = Object.assign({ v: '', p: '' }, cur['r' + ri] || {});
+      const line = el('div', { class: 'gr' }, el('div', { class: 'gl' }, row));
+      line.append(chips(q.cols, o => r.v === o, (o, b, box) => { r.v = r.v === o ? '' : o; box.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.textContent === r.v))); cur['r' + ri] = { v: r.v, p: r.p, row }; put(q.id, Object.assign({}, cur)); }));
+      line.append(textInput('t', r.p, x => { r.p = x; cur['r' + ri] = { v: r.v, p: x, row }; put(q.id, Object.assign({}, cur)); }, 'באיזה פרויקט? (לא חובה)'));
+      g.append(line);
+    });
+    body.append(g);
+  }
+  else if (q.type === 'svc') {
+    const cur = Object.assign({}, v || {});
+    q.items.forEach((name, si) => {
+      const sv = Object.assign({}, cur['s' + si] || {});
+      const d = el('details', { class: 'svc' }); const sum = el('summary', {}, el('span', {}, name, filled(sv) ? el('span', { class: 'dot', title: 'יש תשובה' }) : null));
+      d.append(sum); const f = el('div', { class: 'f' });
+      if (si === q.items.length - 1) f.append(el('label', {}, 'שם השירות'), textInput('t', sv.name, x => { sv.name = x; cur['s' + si] = Object.assign({ svc: name }, sv); put(q.id, Object.assign({}, cur)); }));
+      for (const [k, lab] of q.fields) { f.append(el('label', {}, lab), textInput(k === 'get' || k === 'not' ? 'p' : 't', sv[k], x => { sv[k] = x; cur['s' + si] = Object.assign({ svc: name }, sv); put(q.id, Object.assign({}, cur)); })); }
+      d.append(f); body.append(d);
+    });
+  }
+  else if (q.type === 'proj') body.append(renderProjects());
+  card.append(body);
+  const tb = el('button', { type: 'button', class: 'talkbtn' }, 'נעבור על זה בשיחה');
+  const syncTalk = () => { const on = !!(D._talk || {})[q.id]; tb.textContent = on ? '✓ סומן לשיחה · לחצו לביטול' : 'נעבור על זה בשיחה'; };
+  tb.addEventListener('click', () => { const t = Object.assign({}, D._talk || {}); t[q.id] = !t[q.id]; if (!t[q.id]) delete t[q.id]; put('_talk', t); syncTalk(); });
+  syncTalk(); if (q.type !== 'proj') card.append(el('div', { class: 'qf' }, tb));
+  return card;
+}
+function renderProjects() {
+  const wrap = el('div', {});
+  let list = Array.isArray(D.projects) && D.projects.length ? D.projects.map(p => Object.assign({}, p)) : [{}];
+  const save = () => put('projects', list.map(p => Object.assign({}, p)));
+  const draw = () => {
+    wrap.textContent = '';
+    list.forEach((p, i) => {
+      const box = el('div', { class: 'proj' });
+      const del = list.length > 1 ? el('button', { type: 'button', class: 'del' }, 'מחיקה') : null;
+      if (del) del.addEventListener('click', () => { if (!filled(p) || confirm('למחוק את הפרויקט "' + (p.name || (i + 1)) + '"?')) { list.splice(i, 1); save(); draw(); } });
+      box.append(el('div', { class: 'ph' }, el('b', {}, 'פרויקט ' + (i + 1) + (p.name ? ' · ' + p.name : '')), del));
+      const f = el('div', { class: 'f' }); const two = el('div', { class: 'two' });
+      for (const [k, lab, type, extra] of PROJ_FIELDS) {
+        let input;
+        if (type === 'c') { input = chips(extra, o => p[k] === o, (o, b, bx) => { p[k] = p[k] === o ? '' : o; bx.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.textContent === p[k]))); save(); }); }
+        else input = textInput(type, p[k], x => { p[k] = x; save(); if (k === 'name') box.querySelector('.ph b').textContent = 'פרויקט ' + (i + 1) + (x ? ' · ' + x : ''); }, extra);
+        const cell = el('div', {}, el('label', {}, lab), input);
+        (type === 't' && k !== 'photos' ? two : f).append(cell);
+        if (k === 'size') f.append(two);
+      }
+      box.append(f); wrap.append(box);
+    });
+    const add = el('button', { type: 'button', class: 'btn ghost small' }, '＋ הוספת פרויקט');
+    add.addEventListener('click', () => { list.push({}); draw(); const last = wrap.querySelectorAll('.proj'); last[last.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    wrap.append(add);
+  };
+  draw(); return wrap;
+}
+
+// ---------- מסכים ----------
+let cur = 0; // 0 פתיחה, 1..STEPS.length חלקים, STEPS.length+1 סיום
+const LAST = STEPS.length + 1;
+function nav() {
+  const n = $('#steps'); n.textContent = '';
+  const names = ['פתיחה', ...STEPS.map(s => s.name), 'שליחה'];
+  names.forEach((nm, i) => {
+    const b = el('button', { type: 'button', 'aria-current': i === cur ? 'step' : null, 'data-i': i >= 1 && i <= STEPS.length ? i - 1 : null }, nm, i >= 1 && i <= STEPS.length ? el('small', {}) : null);
+    b.addEventListener('click', () => go(i)); n.append(b);
+  });
+  refreshMeta();
+  $('#prev').hidden = cur === 0; $('#next').textContent = cur === 0 ? 'מתחילים' : cur === LAST - 1 ? 'לשליחה' : cur === LAST ? 'סיום' : 'הבא';
+  $('#next').hidden = cur === LAST;
+  $('#navinfo').textContent = cur >= 1 && cur <= STEPS.length ? (STEPS[cur - 1].name === STEPS[cur - 1].title ? STEPS[cur - 1].name : STEPS[cur - 1].name + ' · ' + STEPS[cur - 1].title) : '';
+}
+function go(i) { cur = Math.max(0, Math.min(LAST, i)); render(); window.scrollTo(0, 0); try { sessionStorage.setItem(LS + '-step', cur); } catch (e) {} }
+$('#prev').addEventListener('click', () => go(cur - 1));
+$('#next').addEventListener('click', () => go(cur + 1));
+
+function welcome() {
+  const m = $('#main'); m.textContent = '';
+  m.append(el('h1', {}, 'שלום מרב ויפתח'),
+    el('p', { class: 'lead' }, 'השאלון הזה עוזר לנו לבנות אתר שמציג את מיפתח כמו שהיא היום, ומביא פניות מתאימות מלקוחות בחו״ל ובישראל. כל תשובה כאן הופכת לטקסט, לעמוד או להחלטה באתר.'));
+  const whoBox = el('div', { class: 'box' }, el('h4', {}, 'מי ממלא עכשיו?'), el('p', { class: 'qw' }, 'כדי שנדע ממי הגיעה כל תשובה. אפשר למלא יחד, או כל אחד בזמן שלו מאותו קישור.'));
+  whoBox.append(el('div', { class: 'who' }, chips(['מרב', 'יפתח', 'שנינו יחד'], o => D._who === o, (o, b, box) => { D._who = o; box.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.textContent === o))); put('_who', o); })));
+  m.append(whoBox,
+    el('div', { class: 'box' }, el('h4', {}, 'איך זה עובד'), el('ul', {},
+      el('li', {}, 'כל מה שכותבים נשמר אוטומטית. אפשר לסגור ולחזור מתי שרוצים, גם מהטלפון וגם מהמחשב, דרך אותו קישור.'),
+      el('li', {}, 'מספיק משפט או שניים. נקודות זה בסדר גמור.'),
+      el('li', {}, 'שאלה שאין לה תשובה עדיין, משאירים ריקה. עדיף ריק מאשר ניחוש.'),
+      el('li', {}, 'לא בא לכתוב? לוחצים "נעבור על זה בשיחה" ואנחנו נעשה את זה יחד.'),
+      el('li', {}, 'חלק א הוא החשוב ביותר, בערך 20 דקות. את השאר אפשר להשלים בהמשך.'),
+      el('li', {}, 'אין צורך לכתוב כאן סיסמאות או פרטי גישה.'))),
+    el('div', { class: 'box' }, el('h4', {}, 'מה כבר סיפרתם לנו, ולא נשאל שוב'), el('ul', {},
+      el('li', {}, 'אתם רוצים שהאתר ייראה רציני ומקצועי, יציג יותר פרויקטים ויביא פניות מתאימות.'),
+      el('li', {}, 'חקלאים בישראל הם קהל חשוב, ואתם רוצים להתרחב ללקוחות חדשים בחו״ל.'),
+      el('li', {}, 'יעד עסקי מרכזי: פרויקטי Turnkey לניהול ותפעול של נכסים וחוות חקלאיות.'),
+      el('li', {}, 'החברה פועלת מ-2003. רוב הפרויקטים היו בישראל, ובשש השנים האחרונות היו פרויקטים גדולים בפורטוגל ובמדינות נוספות.'),
+      el('li', {}, 'אנגלית מספיקה בשלב הראשון. את הפניות מקבלים הבעלים או מירי.'),
+      el('li', {}, 'יש יותר מ-15 פרויקטים, צילומים מקצועיים, צילומי רחפן ואולי גם סרטונים. את התוכן נכתוב יחד, והמצגת הקיימת לא עדכנית.'))));
+  m.append(el('p', { class: 'foot' }, 'הוכן על ידי ', el('b', {}, 'HG Studio'), ' · שאלות? חנוך בוואטסאפ 054-5522053'));
+}
+function stepView(s) {
+  const m = $('#main'); m.textContent = '';
+  m.append(el('h2', {}, s.name + ': ' + s.title), el('p', { class: 'lead' }, s.lead));
+  for (const g of s.groups) { if (g.h) m.append(el('h3', {}, g.h)); for (const q of g.qs) m.append(renderQ(q)); }
+}
+function finish() {
+  const m = $('#main'); m.textContent = '';
+  const qs = allQs(); const mustLeft = qs.filter(q => q.lv === MUST && !qState(q).done && !qState(q).talk);
+  const talk = qs.filter(q => qState(q).talk && !qState(q).done);
+  m.append(el('h2', {}, 'כמעט סיימנו'));
+  if (D._submitted) m.append(el('div', { class: 'box' }, el('h4', {}, '✓ התשובות נשלחו'), el('p', { class: 'qw' }, 'אפשר להמשיך לעדכן מתי שרוצים. כל שינוי נשמר אוטומטית ומגיע אלינו.')));
+  if (mustLeft.length) {
+    const ul = el('ul', {}); for (const q of mustLeft.slice(0, 12)) { const a = el('a', { href: '#' }, String(q.n) + '. ' + q.t); a.addEventListener('click', e => { e.preventDefault(); const si = STEPS.findIndex(s => s.groups.some(g => g.qs.includes(q))); go(si + 1); setTimeout(() => document.getElementById('c-' + q.id)?.scrollIntoView({ block: 'center' }), 60); }); ul.append(el('li', {}, a)); }
+    if (mustLeft.length > 12) ul.append(el('li', {}, 'ועוד ' + (mustLeft.length - 12)));
+    m.append(el('div', { class: 'box' }, el('h4', {}, 'שאלות חשובות שעדיין פתוחות (' + mustLeft.length + ')'), el('p', { class: 'qw' }, 'אפשר לשלוח גם ככה. כל שאלה כאן אפשר גם לסמן "נעבור על זה בשיחה".'), ul));
+  } else m.append(el('div', { class: 'box' }, el('h4', {}, 'כל השאלות החשובות טופלו. תודה!')));
+  if (talk.length) m.append(el('div', { class: 'box' }, el('h4', {}, 'נעבור עליהן בשיחה (' + talk.length + ')'), el('p', { class: 'qw' }, talk.map(q => q.n).join(' · '))));
+  const send = el('button', { type: 'button', class: 'btn acc' }, D._submitted ? 'עדכון ושליחה מחדש' : 'שליחה לחנוך');
+  send.addEventListener('click', async () => {
+    send.disabled = true; send.textContent = 'שולח…';
+    D._submitted = new Date().toISOString(); pending._submitted = D._submitted; lsSet();
+    const ok = await flush(true);
+    send.disabled = false;
+    if (ok) { thanks(); } else { send.textContent = 'נסו שוב'; toast('אין חיבור כרגע. התשובות שמורות במכשיר, נסו שוב בעוד רגע.'); }
+  });
+  m.append(el('div', { style: 'margin-top:22px;text-align:center' }, send));
+}
+function thanks() {
+  const m = $('#main'); m.textContent = '';
+  m.append(el('div', { class: 'done-hero' }, el('div', { class: 'big' }, '🌿'), el('h2', {}, 'תודה רבה!'),
+    el('p', { class: 'lead' }, 'קיבלנו את התשובות. נעבור עליהן ונחזור אליכם עם שאלות קצרות על מה שלא ברור, ואחר כך עם הצעה למבנה האתר.'),
+    el('p', { class: 'lead' }, 'רוצים להוסיף משהו? אפשר לחזור לקישור הזה בכל זמן.')));
+  const back = el('button', { type: 'button', class: 'btn ghost small' }, 'חזרה לשאלון'); back.addEventListener('click', () => go(1));
+  m.append(el('div', { style: 'text-align:center' }, back));
+  $('#next').hidden = true;
+}
+function render() { nav(); if (cur === 0) welcome(); else if (cur === LAST) finish(); else stepView(STEPS[cur - 1]); }
+
+// ---------- תצוגת סיכום לחנוך: ?view=1 ----------
+function fmt(q, v) {
+  if (!filled(v)) return null;
+  if (q.type === 'p' || q.type === 't') return v;
+  if (q.type === 'c' || q.type === 'm') return [v.sel && v.sel.join(', '), v.other].filter(Boolean).join(' · ');
+  if (q.type === 'grid') return q.rows.map((r, i) => { const x = v['r' + i]; return x && (x.v || x.p) ? r + ': ' + (x.v || '—') + (x.p ? ' (' + x.p + ')' : '') : null; }).filter(Boolean).join('\n');
+  if (q.type === 'svc') return q.items.map((n, i) => { const x = v['s' + i]; if (!filled(x)) return null; return (x.name || n) + '\n' + q.fields.map(([k, l]) => x[k] ? '  ' + l + ': ' + x[k] : null).filter(Boolean).join('\n'); }).filter(Boolean).join('\n\n');
+  if (q.type === 'proj') return v.filter(filled).map((p, i) => (i + 1) + '. ' + PROJ_FIELDS.map(([k, l]) => p[k] ? l + ': ' + p[k] : null).filter(Boolean).join('\n   ')).join('\n\n');
+  return JSON.stringify(v);
+}
+function viewAll(meta) {
+  document.body.classList.add('view'); $('#navbar').hidden = true; $('#steps').hidden = true;
+  const m = $('#main'); m.textContent = '';
+  m.append(el('h1', {}, 'תשובות: מיפתח פרויקטים'), el('p', { class: 'lead' }, (meta.status === 'submitted' ? 'נשלח' : 'טיוטה') + (meta.updated_at ? ' · עודכן ' + new Date(meta.updated_at).toLocaleString('he-IL') : '') + (D._who ? ' · מילא/ה לאחרונה: ' + D._who : '')));
+  for (const s of STEPS) { m.append(el('h2', {}, s.name + ': ' + s.title)); for (const g of s.groups) { if (g.h) m.append(el('h3', {}, g.h)); for (const q of g.qs) { const a = fmt(q, D[q.id]); const talk = (D._talk || {})[q.id]; m.append(el('section', { class: 'q' + (a ? ' done' : talk ? ' talk' : '') }, el('div', { class: 'qh' }, el('div', { class: 'qn' }, String(q.n)), el('p', { class: 'qt' }, q.t)), a ? el('div', { class: 'ans' }, a) : el('div', { class: 'ans none' }, talk ? 'סומן: נעבור על זה בשיחה' : 'אין תשובה עדיין'))); } } }
+}
+
+function toast(t) { const x = $('#toast'); x.textContent = t; x.classList.add('on'); clearTimeout(x._t); x._t = setTimeout(() => x.classList.remove('on'), 2600); }
+
+// ---------- טעינה ----------
+(async function init() {
+  if (!/^[A-Za-z0-9_-]{20,64}$/.test(TOKEN)) { $('#main').append(el('h2', {}, 'הקישור לא שלם'), el('p', { class: 'lead' }, 'נראה שחסר חלק מהקישור. פתחו שוב את הקישור המלא שקיבלתם, או כתבו לחנוך בוואטסאפ 054-5522053.')); $('#navbar').hidden = true; return; }
+  const local = lsGet(); let meta = {};
+  setSave('busy', 'טוען…');
+  try { meta = (await rpc('get_response', { p_form: FORM, p_token: TOKEN })) || {}; D = Object.assign({}, meta.data || {}); setSave('', 'נשמר'); }
+  catch (e) { D = Object.assign({}, local.D || {}); setSave('off', 'אין חיבור · עובדים מהמכשיר'); }
+  // שינויים שלא הספיקו לעלות בפעם הקודמת
+  if (local.pending && Object.keys(local.pending).length) { Object.assign(D, local.pending); pending = Object.assign({}, local.pending); flush(); }
+  if (VIEW) { viewAll(meta); return; }
+  let s = 0; try { s = +sessionStorage.getItem(LS + '-step') || 0; } catch (e) {}
+  if (!s && Object.keys(D).some(k => !k.startsWith('_'))) s = 1;
+  cur = s; render();
+})();
+</script>
+</body>
+</html>

@@ -46,5 +46,11 @@
     "api/chat.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/ping-forms",
+      "schedule": "17 6 * * *"
+    }
+  ]
 }
