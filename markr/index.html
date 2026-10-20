@@ -245,6 +245,8 @@ section.block>h2,.sec-h{display:flex;align-items:center;justify-content:space-be
 .link{background:none;border:0;padding:6px 0;color:var(--link);font-weight:500;text-decoration:none}
 .link:hover{text-decoration:underline;text-underline-offset:3px}
 .link.danger{color:var(--danger)}
+.sync-code{font:600 1.15rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;background:var(--fill2);border-radius:12px;padding:12px 14px;margin-top:4px;word-break:break-all;user-select:all;-webkit-user-select:all}
+#sync-auto-st svg{width:1em;height:1em;vertical-align:-2px;margin-inline-end:4px}
 input[aria-invalid=true]{border-color:var(--danger)!important;box-shadow:inset 0 0 0 1px var(--danger)}
 a.ghost,a.primary{text-decoration:none}
 .note .ic{margin-inline-end:.2em}
@@ -1160,7 +1162,7 @@ function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[
 /* saves a change that came from another device: it keeps that device's change times */
 function quietSave(id){saveDoc.quiet=true;try{saveDoc(id,0)}finally{saveDoc.quiet=false}if(S.lessons[id])LSIG.set(id,lessonSigs(S.lessons[id]))}
 function saveDoc(id,delay=700){
-  memoClear();if(!saveDoc.quiet)stampDoc(id);
+  memoClear();if(!saveDoc.quiet){stampDoc(id);syncMark(id)}
   dirty.set(id,(dirty.get(id)||0)+1);updateStatus();
   clearTimeout(timers[id]);timers[id]=setTimeout(()=>flush(id),delay);
 }
@@ -1265,7 +1267,7 @@ async function downloadBackup(){
   try{if(await saveFile('marker-backup-'+todayKey()+'.json',data,'application/json'))toast('קובץ הגיבוי מוכן')}catch(e){}
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
-function removeDoc(id){memoClear();clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus()}
+function removeDoc(id){memoClear();clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus();syncMark(id)}
 function applyDocs(docs){
   memoClear();
   if(!dirty.has('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses')}
@@ -1286,7 +1288,7 @@ function applyDocs(docs){
   if(first||(view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
   updateStatus();
   if(first&&!S.profile.onboarded)openOnboarding();
-  if(first){trashPurge();setTimeout(snapshotToday,4000)}
+  if(first){trashPurge();setTimeout(snapshotToday,4000);setTimeout(syncStart,1200)}
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
@@ -2086,7 +2088,7 @@ function searchResults(q){
    in "recently deleted", the device keeps a daily copy of the notebook, and restoring only adds. */
 const TRASH_DAYS=30;
 function trashPut(kind,data){const id='T_'+uid();S.trash[id]={type:'trashitem',kind,at:Date.now(),data:clone(data)};saveDoc(id,0);return id}
-function trashDrop(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);delete S.trash[id];store&&store.remove(id);updateStatus()}
+function trashDrop(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);delete S.trash[id];store&&store.remove(id);updateStatus();syncMark(id)}
 function trashPurge(){const lim=Date.now()-TRASH_DAYS*864e5;let n=0;
   for(const [id,t] of Object.entries(S.trash))if((t.at||0)<lim){const d=t.data||{};
     [d.id,d.task&&d.task.id,d.course&&d.course.id,...Object.keys(d.lessons||{}),...(d.tasks||[]).map(x=>x.id)].filter(Boolean).forEach(x=>{goneMark(x,t.at||Date.now(),true);n++});trashDrop(id)}
@@ -2185,6 +2187,7 @@ function hideModal(){
 function closeModal(){
   if(aiCtl){aiCtl.abort();aiCtl=null}
   hideModal();practice=null;formDraft=null;aiResult=null;taskDraft=null;
+  if(SY.needR)setTimeout(()=>{if(!modalOpen)syncRender()},0);
   if(wizard)finishOnboarding();
   quiz=null;chat=null;planDraft=null;exam=null;clearInterval(examTick);
   render();
@@ -2250,10 +2253,11 @@ function settingsHtml(){
     <label class="ghost" style="cursor:pointer">📤 שחזור מגיבוי<input type="file" id="restore-file" accept=".json,application/json" hidden></label></div>
     <p id="restore-msg" class="hint" role="status"></p>
     <div id="snaps"></div></div>
-  <div class="f"><span>סנכרון בין הטלפון ל-claude.ai</span><div id="sync-box">${syncBoxHtml()}</div></div>
+  <div class="f"><span>סנכרון אוטומטי בין הטלפון ל-claude.ai</span><div id="sync-auto">${syncAutoHtml()}</div></div>
+  <details class="gloss" style="margin-top:10px"><summary>סנכרון ידני דרך קובץ</summary><div style="padding:0 12px 12px" id="sync-box">${syncBoxHtml()}</div></details>
   ${trashHtml()}
   ${STANDALONE?`<div class="f"><span>Claude</span><p class="note" style="margin:0">סידור סיכומים, בוחנים, כרטיסיות חכמות ושאלות על החומר עובדים בגרסה של מרקר ב-claude.ai.
-    כדי שיהיה אותו דבר בשתיהן משתמשים ב“סנכרון בין הטלפון ל-claude.ai” למעלה.</p>
+    כדי שיהיה אותו דבר בשתיהן מפעילים את “סנכרון אוטומטי” למעלה.</p>
     <div class="actions" style="margin-top:8px"><a class="ghost" href="${CLAUDE_URL}" target="_blank" rel="noopener">לפתוח את מרקר ב-claude.ai</a></div></div>`:''}
   ${STANDALONE&&!INSTALLED&&IOS?`<div class="f"><span>התקנה</span><p class="note" style="margin:0">ב-Safari: כפתור השיתוף ${ic('share')} ← “הוספה למסך הבית”. מרקר ייפתח כאפליקציה במסך מלא.</p></div>`:''}
   <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
@@ -3353,7 +3357,7 @@ async function syncSend(){
 }
 function trashedAt(kind,id){let at=(S.profile.gone||{})[id]||0;for(const t of Object.values(S.trash)){const d=t.data||{};
   const hit=kind==='lesson'?(d.id===id||Object.keys(d.lessons||{}).includes(id)):kind==='task'?((d.task&&d.task.id===id)||(d.tasks||[]).some(x=>x.id===id)):(d.course&&d.course.id===id);if(hit)at=Math.max(at,t.at||0)}return at}
-function syncMerge(docs){
+function syncMerge(docs,auto){
   let added=0,updated=0;const touched=new Set();
   /* an item that is not here: added, unless it was deleted here after it was last changed there,
      or it belongs to a course that was deleted here */
@@ -3378,7 +3382,7 @@ function syncMerge(docs){
     const h=[...(me.calcHist||[]),...(p.calcHist||[])],seen=new Set();me.calcHist=h.filter(x=>{const k=x&&x.e+'='+x.r;if(!x||seen.has(k))return false;seen.add(k);return true}).slice(-20);
     me._u=Math.max(me._u||0,p._u||0);touched.add('profile')}
   touched.forEach(quietSave);
-  render();return {added,updated};
+  if(!auto)render();return {added,updated};
 }
 /* same lesson on both sides: what was written follows the side that wrote last, study state follows the side
    that studied last (each card keeps the copy that was practised more), and no photo is lost or doubled */
@@ -3413,6 +3417,185 @@ function syncBoxHtml(){const other=STANDALONE?'הגרסה ב-claude.ai':'האפ�
   <div class="actions" style="margin-top:0"><button class="ghost" data-act="sync-send">${ic('up')}שליחת עדכונים</button>
   <label class="ghost" style="cursor:pointer">${ic('down')}קבלת עדכונים<input type="file" id="sync-file" accept=".json,application/json" hidden></label></div>
   <p class="hint" id="sync-msg" role="status">${[syncAgo('syncSent')&&'נשלח '+syncAgo('syncSent'),syncAgo('syncGot')&&'התקבל '+syncAgo('syncGot')].filter(Boolean).join(' · ')}</p>`}
+
+/* ---------- automatic sync (phone app <-> claude.ai) through the student's Supabase project ----------
+   Each device keeps working on its own copy. A change goes up a few seconds after it is saved, and what the
+   other devices changed comes down every few seconds while the app is open; both sides merge with the same
+   rules as the sync file. The phone talks to Supabase directly; claude.ai goes through the Supabase
+   connector, because a page on claude.ai cannot reach other servers. A secret code made on claude.ai is the
+   only key to the data, and the server keeps only its hash. */
+const SB={url:'https://ewddzunakbaxtonysgrd.supabase.co',key:'sb_publishable_gQV6w1bIQz5-84ZhsBrG9Q_gkKi341s',ref:'ewddzunakbaxtonysgrd'};
+let mcpNs=null;
+const SY={busy:false,timer:0,pend:new Map(),since:+(pref('syncSeq')||0),dev:pref('syncDev')||'',state:'',err:'',at:+(pref('syncAt')||0),fails:0,halt:false,show:false,applying:false,okF:new Set(),failF:{},fAt:0};
+if(!SY.dev){SY.dev=uid();pref('syncDev',SY.dev)}
+try{JSON.parse(pref('syncPend')||'[]').forEach(id=>SY.pend.set(id,1))}catch(e){}
+const syncCode=()=>pref('syncCode')||'';
+const syncOn=()=>!!syncCode()&&(STANDALONE||!!mcpNs);
+const syncFmt=c=>String(c||'').replace(/(.{4})(?=.)/g,'$1-');
+const syncNorm=c=>String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+function syncNewCode(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=crypto.getRandomValues(new Uint8Array(26));return 'MK'+[...b].map(x=>A[x%32]).join('')}
+function syncSavePend(){pref('syncPend',JSON.stringify([...SY.pend.keys()]))}
+function syncMarkRaw(id){SY.pend.set(id,(SY.pend.get(id)||0)+1);syncSavePend()}
+function syncMark(id){if(!syncCode()||SY.applying)return;syncMarkRaw(id);if(!SY.busy){clearTimeout(SY.timer);SY.timer=setTimeout(syncNow,4000)}}
+const sqlLit=s=>{let t;do{t='mk'+Math.random().toString(36).slice(2,9)}while(s.includes('$'+t+'$'));return '$'+t+'$'+s+'$'+t+'$'};
+/* claude.ai: one SQL call through the Supabase connector; its answer comes back wrapped in a text block */
+async function syncSql(q){
+  const res=await mcpNs.callTool('Supabase','execute_sql',{project_id:SB.ref,query:q},{cache:false});
+  let t=res&&res.payload!==undefined?res.payload:res;if(t&&typeof t==='object'&&!Array.isArray(t)&&'result' in t)t=t.result;
+  /* the rows sit inside a tag with a random id: named first in the warning text, then opened around the data
+     and closed after it; text inside the notes cannot know that id */
+  let rows=t;if(typeof t==='string'){const m=t.match(/<untrusted-data-([\w-]+)>/);
+    if(m){const open='<untrusted-data-'+m[1]+'>',close='</untrusted-data-'+m[1]+'>',i=t.indexOf(open,m.index+open.length),j=t.lastIndexOf(close);rows=JSON.parse(t.slice((i>=0?i:m.index)+open.length,j).trim())}else rows=JSON.parse(t)}
+  return Array.isArray(rows)&&rows[0]?rows[0].r:null;
+}
+async function syncRpc(p){
+  p={...p,code:syncCode(),src:SY.dev};let r;
+  if(STANDALONE||!mcpNs){
+    let res;try{res=await fetch(SB.url+'/rest/v1/rpc/markr_sync',{method:'POST',headers:{apikey:SB.key,'content-type':'application/json'},body:JSON.stringify({p})})}catch(e){throw{code:'offline'}}
+    if(!res.ok)throw{code:res.status>=500||res.status===0?'server':'http',message:String(res.status)};
+    r=await res.json();
+  }else r=await syncSql(`select public.markr_sync(${sqlLit(JSON.stringify(p))}::jsonb) as r`);
+  if(r&&r.error==='unknown_code')throw{code:'unknown_code'};
+  return r||{};
+}
+function syncErrText(e){const c=e&&e.code||'';return ({
+  unknown_code:'הקוד לא נמצא. בודקים שהוא הועתק במלואו, כמו שהוא מופיע ב-claude.ai.',
+  offline:'אין חיבור לאינטרנט. השינויים נשמרים כאן ויעלו כשיחזור החיבור.',
+  server:'השרת לא זמין כרגע (אולי הפרויקט ב-Supabase מושהה). מנסה שוב לבד.',server_unavailable:'השרת לא זמין כרגע. מנסה שוב לבד.',
+  server_not_connected:'מחבר Supabase לא מחובר ב-claude.ai. מוסיפים אותו ב-Settings ← Connectors.',
+  needs_reauth:'צריך לחבר מחדש את Supabase ב-claude.ai, ב-Settings ← Connectors.',
+  selection_required:'יש יותר ממחבר Supabase אחד. בוחרים אחד בחלון של claude.ai.',
+  approval_required:'צריך לאשר למרקר להשתמש ב-Supabase. לוחצים “לסנכרן עכשיו” ומאשרים.',not_in_manifest:'מרקר לא קיבל אישור להשתמש ב-Supabase. לוחצים “לסנכרן עכשיו” ומאשרים.',consent_required:'צריך לאשר למרקר להשתמש ב-Supabase. לוחצים “לסנכרן עכשיו” ומאשרים.',
+  blocked_by_policy:'הארגון ב-claude.ai חוסם את מחבר Supabase.'}[c])||'הסנכרון לא הצליח הפעם. מנסה שוב לבד.'}
+const SYNC_STOP=new Set(['unknown_code','server_not_connected','needs_reauth','selection_required','approval_required','not_in_manifest','consent_required','blocked_by_policy','not_granted','capability_disabled']);
+function allDocIds(){return ['profile','courses','tasks',...Object.keys(S.lessons).filter(k=>!isEmptyLesson(S.lessons[k])),...Object.keys(S.cquiz),...Object.keys(S.trash)]}
+/* a document here has something the server's copy lacks: send it back up */
+function syncLocalNewer(id,d){
+  if(id==='courses'||id==='tasks'){const inc=new Map(((d&&d.list)||[]).map(x=>[x&&x.id,x]));
+    return (id==='courses'?S.courses:S.tasks).some(x=>{if(!x||!x.id)return false;const y=inc.get(x.id);return !y||(x._u||0)>(y._u||0)})}
+  if(id==='profile')return (S.profile._u||0)>(d._u||0);
+  const l=S.lessons[id];if(l)return (l._u||0)>(d._u||0)||(l._us||0)>(d._us||0)||(l.files||[]).some(f=>!(d.files||[]).some(g=>fKey(g)===fKey(f)));
+  const q=S.cquiz[id];if(q)return (q._u||0)>(d._u||0);return false;
+}
+function syncDel(r){const id=r.id;
+  if(id.startsWith('T_')){if(S.trash[id]){trashDrop(id);return true}return false}
+  if(id.startsWith('Q_')){if(S.cquiz[id]){delete S.cquiz[id];store&&store.remove(id);return true}return false}
+  const l=S.lessons[id];if(!l||dirty.has(id)||(view.id===id&&/^(lesson|live|listen)$/.test(view.name)))return false;
+  if((l._u||0)>(r.at||0)+1000){syncMarkRaw(id);return false}
+  removeDoc(id);return true}
+function syncApply(rows){
+  const docs={};let changed=false;SY.applying=true;
+  try{
+    for(const r of rows){if(r.del){if(syncDel(r))changed=true}else if(r.data)docs[r.id]=r.data}
+    for(const [id,d] of Object.entries(docs))if(d&&d.type==='trashitem'){if(!S.trash[id]){S.trash[id]=clone(d);quietSave(id);changed=true}delete docs[id]}
+    if(Object.keys(docs).length){syncMerge(docs,true);changed=true}
+    /* what another device moved to its trash leaves this device too */
+    const keep=(x,k)=>!(x&&x.id&&trashedAt(k,x.id)>(x._u||0));
+    if(S.tasks.some(x=>!keep(x,'task'))){S.tasks=S.tasks.filter(x=>keep(x,'task'));primeList('tasks');quietSave('tasks');changed=true}
+    if(S.courses.some(x=>!keep(x,'course'))){S.courses=S.courses.filter(x=>keep(x,'course'));primeList('courses');quietSave('courses');changed=true}
+    for(const [id,d] of Object.entries(docs))if(syncLocalNewer(id,d))syncMarkRaw(id);
+  }finally{SY.applying=false}
+  if(changed)syncRender();
+}
+function syncRender(){if(!loaded)return;const ae=document.activeElement;
+  if(/^(lesson|live|listen)$/.test(view.name)||modalOpen||(ae&&ae.matches&&ae.matches('input,textarea,select,[contenteditable]'))){SY.needR=true;return}SY.needR=false;render()}
+async function syncPull(seen){const lim=STANDALONE?150:25;
+  for(let i=0;i<400;i++){const r=await syncRpc({op:'pull',since:SY.since,limit:lim}),rows=r.rows||[];
+    if(seen)rows.forEach(x=>{if(!x.del)seen.add(x.id)});
+    const ext=rows.filter(x=>!x.own);if(ext.length)syncApply(ext);
+    SY.since=Math.max(SY.since,+r.max||0);pref('syncSeq',String(SY.since));if(rows.length<lim)break}}
+async function syncPush(){
+  const all=[...SY.pend.entries()];if(!all.length)return;const cap=STANDALONE?1500000:450000;let batch=[],vers=[],size=0;
+  const send=async()=>{if(!batch.length)return;await syncRpc({op:'push',docs:batch});vers.forEach(([id,v])=>{if(SY.pend.get(id)===v)SY.pend.delete(id)});syncSavePend();batch=[];vers=[];size=0};
+  for(const [id,v] of all){const d=docData(id),it=d?{id,data:clone(d)}:{id,del:true},n=JSON.stringify(it).length;
+    if(batch.length&&size+n>cap)await send();batch.push(it);vers.push([id,v]);size+=n}
+  await send();
+}
+/* photos travel separately, in pieces, a few per round: each device uploads what the server lacks and
+   downloads what it lacks itself */
+const blobB64=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]||'');r.onerror=()=>rej(r.error);r.readAsDataURL(b)});
+async function syncFilePut(k,b){const CH=400000,parts=Math.max(1,Math.ceil(b.size/CH));
+  for(let i=0;i<parts;i++)await syncRpc({op:'fput',key:k,part:i,parts,mime:b.type||'application/octet-stream',b64:await blobB64(b.slice(i*CH,(i+1)*CH))})}
+async function syncFileGet(lid,k){let parts=1,mime='';const bufs=[];
+  for(let i=0;i<parts;i++){const r=await syncRpc({op:'fget',key:k,part:i});if(!r||r.error||r.b64==null)throw{code:'missing'};parts=r.parts||1;mime=r.mime||mime;
+    const bin=atob(r.b64);const u=new Uint8Array(bin.length);for(let j=0;j<bin.length;j++)u[j]=bin.charCodeAt(j);bufs.push(u)}
+  const blob=new Blob(bufs,{type:mime});let up=null;
+  if(assetsNs){up=await assetsNs.upload(blob);if(!up||!up.id)throw{code:'upload'}}else if(!(await FDB.put(k,blob)))throw{code:'device'};
+  for(const [id,l] of Object.entries(S.lessons)){let ch=false;(l.files||[]).forEach(f=>{if(fKey(f)!==k)return;
+    if(up){f.orig=k;f.id=up.id;delete f.local;delete f.type}else{if(f.id!==k)f.orig=f.orig||f.id;f.id=k;f.local=1;f.type=blob.type}ch=true});if(ch)quietSave(id)}
+}
+async function syncFiles(){
+  if(!syncOn()||Date.now()-SY.fAt<45000)return;SY.fAt=Date.now();
+  const refs=[];Object.entries(S.lessons).forEach(([lid,l])=>(l.files||[]).forEach(f=>refs.push([lid,f])));if(!refs.length)return;
+  const keys=[...new Set(refs.map(([,f])=>fKey(f)))].filter(k=>!SY.okF.has(k)),have=new Set();if(!keys.length)return;
+  for(let i=0;i<keys.length;i+=200){const r=await syncRpc({op:'fhave',keys:keys.slice(i,i+200)});(r.keys||[]).forEach(k=>have.add(k))}
+  let up=0,down=0;const now=Date.now(),done=new Set();
+  for(const [lid,f] of refs){const k=fKey(f);if(done.has(k)||SY.okF.has(k)||(SY.failF[k]&&now-SY.failF[k]<600000))continue;done.add(k);
+    try{const b=await fileBlob(f);
+      if(b){if(!have.has(k)){if(up>=3)continue;await syncFilePut(k,b);up++}SY.okF.add(k)}
+      else if(have.has(k)){if(down>=3)continue;await syncFileGet(lid,k);down++;SY.okF.add(k)}}
+    catch(e){SY.failF[k]=now}}
+  if(up>=3||down>=3)SY.fAt=0;if(down)syncRender();
+}
+async function syncNow(manual){
+  clearTimeout(SY.timer);if(!syncOn())return;if(SY.busy){SY.again=true;return}
+  SY.busy=true;SY.state='run';syncUI();
+  try{
+    const seen=SY.since===0?new Set():null;
+    await syncPull(seen);
+    if(seen)allDocIds().forEach(id=>{if(!seen.has(id))syncMarkRaw(id)});
+    await syncPush();
+    SY.state='ok';SY.err='';SY.fails=0;SY.at=Date.now();pref('syncAt',String(SY.at));
+    syncFiles().catch(()=>{});
+  }catch(e){SY.state='err';SY.err=e&&e.code||'error';SY.fails++;if(SYNC_STOP.has(SY.err))SY.halt=true;console.warn('sync',e)}
+  finally{SY.busy=false;syncUI();if(SY.again){SY.again=false;SY.timer=setTimeout(syncNow,500)}else syncSchedule()}
+}
+function syncSchedule(){clearTimeout(SY.timer);if(!syncOn()||SY.halt||document.visibilityState!=='visible')return;
+  const ms=SY.state==='err'?Math.min(300000,30000*2**Math.min(SY.fails,3)):SY.pend.size?4000:STANDALONE?20000:30000;SY.timer=setTimeout(syncNow,ms)}
+function syncStart(){
+  if(!syncCode()&&!STANDALONE&&mcpNs&&S.profile.syncCode&&pref('syncOff')!=='1'){pref('syncCode',S.profile.syncCode)}
+  if(syncOn())syncNow();
+}
+document.addEventListener('visibilitychange',()=>{if(!syncOn())return;if(document.visibilityState==='visible'){SY.halt=SY.halt&&SYNC_STOP.has(SY.err);clearTimeout(SY.timer);SY.timer=setTimeout(syncNow,800)}else if(SY.pend.size)syncNow()});
+window.addEventListener('online',()=>{if(syncOn())syncNow()});
+async function syncCreate(){
+  const msg=$('#sync-auto-msg'),code=syncNewCode();if(msg)msg.textContent='מחבר…';
+  try{await syncSql(`select public.markr_register(${sqlLit(code)}) as r`);
+    pref('syncCode',code);pref('syncOff','');S.profile.syncCode=code;saveDoc('profile',0);SY.since=0;pref('syncSeq','0');SY.halt=false;SY.show=true;
+    await syncNow(true);if(SY.state==='ok')toast('הסנכרון האוטומטי פועל')}
+  catch(e){console.warn(e);if(msg)msg.textContent=syncErrText(e)}
+}
+async function syncJoin(){
+  const inp=$('#sync-code-in'),msg=$('#sync-auto-msg'),code=syncNorm(inp&&inp.value);
+  if(!/^MK[A-Z0-9]{20,}$/.test(code)){if(msg)msg.textContent='זה לא נראה כמו קוד סנכרון. הוא מתחיל ב-MK.';return}
+  if(msg)msg.textContent='בודק את הקוד…';const old=syncCode();pref('syncCode',code);
+  try{await syncRpc({op:'pull',since:0,limit:1})}catch(e){pref('syncCode',old);if(msg)msg.textContent=syncErrText(e);return}
+  pref('syncOff','');SY.since=0;pref('syncSeq','0');SY.halt=false;syncUI();await syncNow(true);if(SY.state==='ok')toast('מחובר. מעכשיו הכול מתעדכן לבד.')
+}
+async function syncOff(){
+  if(!(await askConfirm('לכבות את הסנכרון האוטומטי במכשיר הזה? מה שכבר כאן נשאר, והמכשירים האחרים ממשיכים כרגיל.',{ok:'לכבות'})))return;
+  pref('syncCode','');pref('syncOff','1');pref('syncSeq','0');SY.since=0;SY.pend.clear();syncSavePend();clearTimeout(SY.timer);SY.state='';syncUI();
+}
+function syncUI(){const b=$('#sync-auto');if(b&&modalOpen)b.innerHTML=iconize(syncAutoHtml())}
+function syncAutoHtml(){
+  const c=syncCode();
+  if(!c){
+    if(STANDALONE)return `<p class="note" style="margin:0 0 8px">כך הטלפון ו-claude.ai מתעדכנים לבד, בלי קבצים. את הקוד יוצרים פעם אחת בגרסה של claude.ai (הגדרות ← סנכרון אוטומטי), ומדביקים אותו כאן.</p>
+    <label class="f" style="margin-top:0"><span>קוד סנכרון</span><input type="text" id="sync-code-in" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MKXX-XXXX-XXXX-…"></label>
+    <div class="actions" style="margin-top:8px"><button class="primary" data-act="sync-join">חיבור</button></div><p class="hint" id="sync-auto-msg" role="status"></p>`;
+    if(!mcpNs)return `<p class="note" style="margin:0">כדי שהגרסה ב-claude.ai תסתנכרן לבד עם הטלפון, צריך את מחבר Supabase ב-claude.ai (Settings ← Connectors). אחרי שמחברים אותו, פותחים את מרקר מחדש.</p>`;
+    return `<p class="note" style="margin:0 0 8px">הטלפון ו-claude.ai יתעדכנו לבד, כמה שניות אחרי כל שינוי. העותק המשותף נשמר בפרויקט Supabase שלך, נעול בקוד סודי שרק אצלך.</p>
+    <div class="actions" style="margin-top:0"><button class="primary" data-act="sync-create">להפעיל סנכרון אוטומטי</button></div><p class="hint" id="sync-auto-msg" role="status"></p>`;
+  }
+  const ago=SY.at?syncAgoT(SY.at):'';
+  const st=SY.state==='run'?'מסנכרן…':SY.state==='err'?`<span class="danger">${esc(syncErrText({code:SY.err}))}</span>`:ago?`מסונכרן, ${ago}${SY.pend.size?` · ${SY.pend.size} שינויים ממתינים`:''}`:'עוד לא סונכרן';
+  return `<p class="hint" style="margin:0 0 8px" role="status" id="sync-auto-st">${ic(SY.state==='err'?'alert':'cloudok')}${st}</p>
+  <div class="actions" style="margin-top:0"><button class="ghost" data-act="sync-now">לסנכרן עכשיו</button><button class="ghost" data-act="sync-show">${SY.show?'להסתיר את הקוד':'הקוד לחיבור הטלפון'}</button></div>
+  ${SY.show?`<div class="sync-code" dir="ltr">${esc(syncFmt(c))}</div><p class="hint">${STANDALONE?'הקוד הזה מחבר מכשירים נוספים.':'בטלפון: הגדרות ← סנכרון אוטומטי ← מדביקים את הקוד ← חיבור.'} כמו סיסמה: לא לשתף.</p>
+    <div class="actions" style="margin-top:0"><button class="link" data-act="sync-copy">העתקת הקוד</button></div>`:''}
+  <button class="link danger" data-act="sync-off" style="margin-top:6px">לכבות במכשיר הזה</button>`;
+}
+function syncAgoT(t){const m=Math.round((Date.now()-t)/60000);return m<1?'עכשיו':m<60?`לפני ${m} דק׳`:m<1440?`לפני ${Math.round(m/60)} שע׳`:`לפני ${Math.round(m/1440)} ימים`}
 
 /* ---------- sharing a summary: quick text for WhatsApp, or one file with everything including the photos ---------- */
 function shareHtml(lid){const l=S.lessons[lid];if(!l)return '';const nimg=(l.files||[]).filter(f=>f.kind==='image').length;
@@ -4203,6 +4386,12 @@ document.addEventListener('click',e=>{
     case 'print':window.print();break;
     case 'share':openModal(shareHtml(id));break;
     case 'sync-send':syncSend();break;
+    case 'sync-create':syncCreate();break;
+    case 'sync-join':syncJoin();break;
+    case 'sync-now':SY.halt=false;SY.fails=0;syncNow(true);break;
+    case 'sync-show':SY.show=!SY.show;syncUI();break;
+    case 'sync-copy':(navigator.clipboard?navigator.clipboard.writeText(syncFmt(syncCode())):Promise.reject()).then(()=>toast('הקוד הועתק')).catch(()=>toast('לא הצלחתי להעתיק. אפשר לסמן ולהעתיק ידנית.',{icon:'alert'}));break;
+    case 'sync-off':syncOff();break;
     case 'share-text':shareText(id);break;
     case 'share-file':shareFile(id);break;
     case 'calc-tab':if(CALC){CALC.tab=b.dataset.v;setSheet(calcHtml());if(CALC.tab==='calc')calcPreview();if(CALC.tab==='f'&&CALC.fid)calcFormulaSolve()}break;
@@ -4512,8 +4701,8 @@ setTimeout(()=>{try{const t=JSON.parse(pref('timer')||'null');if(t&&!timer&&t.en
   let db=null,id=null;
   try{
     if(window.claude&&typeof claude.use==='function'){
-      const [d,u,s,dl,as]=await Promise.all([claude.use('db'),claude.use('user'),claude.use('sample'),claude.use('downloads'),claude.use('assets')]);
-      db=d;window.__dbRaw=d;id=u?await u.id():null;sampleFn=s||null;downloadsNs=dl||null;assetsNs=as||null;
+      const [d,u,s,dl,as,mc]=await Promise.all([claude.use('db'),claude.use('user'),claude.use('sample'),claude.use('downloads'),claude.use('assets'),claude.use('mcp')]);
+      db=d;window.__dbRaw=d;id=u?await u.id():null;sampleFn=s||null;downloadsNs=dl||null;assetsNs=as||null;mcpNs=mc||null;
       let canW=null;if(u&&typeof u.can==='function'){try{canW=await u.can('data.write');if(canW===false)db=null}catch(e){}}
       if(db&&pref('forceLocal')==='1')db=null;
       if(db&&id&&canW!==true){
