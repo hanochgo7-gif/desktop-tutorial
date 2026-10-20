@@ -245,6 +245,7 @@ section.block>h2,.sec-h{display:flex;align-items:center;justify-content:space-be
 .link{background:none;border:0;padding:6px 0;color:var(--link);font-weight:500;text-decoration:none}
 .link:hover{text-decoration:underline;text-underline-offset:3px}
 .link.danger{color:var(--danger)}
+input[aria-invalid=true]{border-color:var(--danger)!important;box-shadow:inset 0 0 0 1px var(--danger)}
 a.ghost,a.primary{text-decoration:none}
 .note .ic{margin-inline-end:.2em}
 .add{display:flex;align-items:center;justify-content:center;gap:.4em;width:100%;min-height:48px;background:var(--card);border:0;border-radius:var(--r);padding:10px 16px;color:var(--link);font-weight:600;box-shadow:var(--sh-1)}
@@ -1148,7 +1149,16 @@ const STAMP={courses:0,tasks:0},LISTPREV={courses:new Map(),tasks:new Map()};
 const itemSig=it=>{const {_u,...rest}=it||{};return JSON.stringify(rest)};
 function primeList(kind){const m=LISTPREV[kind]=new Map();(kind==='courses'?S.courses:S.tasks).forEach(it=>it&&it.id&&m.set(it.id,itemSig(it)))}
 /* tasks and courses are lists: each item gets its own change time, so a newer list never undoes an older edit */
-function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[id]=t;const m=LISTPREV[id];(id==='courses'?S.courses:S.tasks).forEach(it=>{if(!it||!it.id)return;const sg=itemSig(it);if(m.get(it.id)!==sg){it._u=t;m.set(it.id,sg)}})}else if(id==='profile')S.profile._u=t;else{const d=docData(id);if(d&&typeof d==='object'&&!Array.isArray(d))d._u=t}}
+/* a lesson has two change times: _u for what was written (notes, terms, photos) and _us for study state
+   (card boxes, quiz), so practising on the phone never undoes an edit made on the computer */
+const LSIG=new Map(),LBASE={};
+const lessonSigs=l=>{const {srs,quiz,_u,_us,...c}=l||{};return {c:JSON.stringify(c),s:JSON.stringify([srs||null,quiz||null])}};
+function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[id]=t;const m=LISTPREV[id];(id==='courses'?S.courses:S.tasks).forEach(it=>{if(!it||!it.id)return;const sg=itemSig(it);if(m.get(it.id)!==sg){it._u=t;m.set(it.id,sg)}})}else if(id==='profile')S.profile._u=t;
+  else if(S.lessons[id]){const l=S.lessons[id],now=lessonSigs(l),was=LSIG.get(id)||(LBASE[id]?lessonSigs(LBASE[id]):null);
+    if(!was||was.c!==now.c)l._u=t;if(was?was.s!==now.s:(l.srs||l.quiz))l._us=t;LSIG.set(id,now)}
+  else{const d=docData(id);if(d&&typeof d==='object'&&!Array.isArray(d))d._u=t}}
+/* saves a change that came from another device: it keeps that device's change times */
+function quietSave(id){saveDoc.quiet=true;try{saveDoc(id,0)}finally{saveDoc.quiet=false}if(S.lessons[id])LSIG.set(id,lessonSigs(S.lessons[id]))}
 function saveDoc(id,delay=700){
   memoClear();if(!saveDoc.quiet)stampDoc(id);
   dirty.set(id,(dirty.get(id)||0)+1);updateStatus();
@@ -1236,11 +1246,11 @@ async function filesForBackup(){
   for(const k of Object.keys(out))if(!out[k])delete out[k];return out;
 }
 async function importFiles(files){
-  if(!files)return;let moved=false;
-  for(const [id,url] of Object.entries(files)){try{const b=await (await fetch(url)).blob();if(!(await FDB.get(id)))await FDB.put(id,b)}catch(e){}}
+  if(!files)return;let moved=false;const used=new Set();Object.values(S.lessons).forEach(l=>(l.files||[]).forEach(f=>used.add(f.id)));
+  for(const [id,url] of Object.entries(files)){if(!used.has(id))continue;try{const b=await (await fetch(url)).blob();if(!(await FDB.get(id)))await FDB.put(id,b)}catch(e){}}
   for(const [lid,l] of Object.entries(S.lessons))for(const f of (l.files||[])){if(!files[f.id])continue;
-    if(assetsNs&&f.local){try{const b=await FDB.get(f.id);const up=b&&await assetsNs.upload(b);if(up&&up.id){f.id=up.id;delete f.local;delete f.type;saveDoc(lid,0);moved=true}}catch(e){}}
-    else if(!assetsNs&&!f.local){f.local=1;saveDoc(lid,0);moved=true}}
+    if(assetsNs&&f.local){try{const b=await FDB.get(f.id);const up=b&&await assetsNs.upload(b);if(up&&up.id){f.orig=f.orig||f.id;f.id=up.id;delete f.local;delete f.type;quietSave(lid);moved=true}}catch(e){}}
+    else if(!assetsNs&&!f.local){f.local=1;quietSave(lid);moved=true}}
   if(moved)render();
 }
 /* the export file as a list of pieces (each photo its own piece) */
@@ -1262,7 +1272,7 @@ function applyDocs(docs){
   if(!dirty.has('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks')}
   if(!dirty.has('profile'))S.profile=clone(docs.profile||{});
   const L={};
-  for(const [id,d] of Object.entries(docs)){if(d&&d.type==='lesson'&&!deletedIds.has(id))L[id]=clone(d)}
+  for(const [id,d] of Object.entries(docs)){if(d&&d.type==='lesson'&&!deletedIds.has(id)){L[id]=clone(d);if(!dirty.has(id)){LBASE[id]=d;LSIG.delete(id)}}}
   for(const id of dirty.keys()){if(S.lessons[id])L[id]=S.lessons[id]}
   const CQ={};for(const [id,d] of Object.entries(docs)){if(d&&d.type==='cquiz')CQ[id]=clone(d)}
   for(const id of dirty.keys()){if(S.cquiz[id])CQ[id]=S.cquiz[id]}
@@ -1476,6 +1486,9 @@ window.addEventListener('popstate',async e=>{
   if(navBack){navBack=false;if(navQueue){const q=navQueue;navQueue=null;try{history.pushState(q,'',q.modal?location.hash:hashOf(q))}catch(_){}}return}
   if(modalOpen){
     if(formDraft&&formDraft.fromWizard){formDraft=null;setSheet(onbHtml());pushNav({name:view.name,id:view.id,modal:1});return}
+    /* Back inside a sheet steps back one level (a formula to the list, a course's grade parts to the grades) */
+    {const sub=CALC&&CALC.fid&&$('#calc-body')?()=>{CALC.fid=null;calcBody()}:$('#sheet #parts-res')?()=>setSheet(gradesHtml()):null;
+      if(sub){sub();pushNav({name:view.name,id:view.id,modal:1});return}}
     if(((exam&&!exam.done)||sheetDirty())&&!(await askConfirm(exam&&!exam.done?'לצאת מהמבחן? התשובות לא יישמרו.':'לסגור בלי לשמור את השינויים?',{ok:exam&&!exam.done?'לצאת':'לסגור',danger:true}))){pushNav({name:view.name,id:view.id,modal:1});return}
     inPop=true;try{closeModal()}finally{inPop=false}return}
   const st=e.state&&e.state.name?e.state:(readHash()||{name:'home'});
@@ -2074,7 +2087,12 @@ function searchResults(q){
 const TRASH_DAYS=30;
 function trashPut(kind,data){const id='T_'+uid();S.trash[id]={type:'trashitem',kind,at:Date.now(),data:clone(data)};saveDoc(id,0);return id}
 function trashDrop(id){clearTimeout(timers[id]);delete timers[id];dirty.delete(id);delete S.trash[id];store&&store.remove(id);updateStatus()}
-function trashPurge(){const lim=Date.now()-TRASH_DAYS*864e5;for(const [id,t] of Object.entries(S.trash))if((t.at||0)<lim)trashDrop(id)}
+function trashPurge(){const lim=Date.now()-TRASH_DAYS*864e5;let n=0;
+  for(const [id,t] of Object.entries(S.trash))if((t.at||0)<lim){const d=t.data||{};
+    [d.id,d.task&&d.task.id,d.course&&d.course.id,...Object.keys(d.lessons||{}),...(d.tasks||[]).map(x=>x.id)].filter(Boolean).forEach(x=>{goneMark(x,t.at||Date.now(),true);n++});trashDrop(id)}
+  if(n)saveDoc('profile',0)}
+function goneMark(id,at,noSave){const g=S.profile.gone=S.profile.gone||{};g[id]=Math.max(g[id]||0,at||Date.now());
+  const ks=Object.keys(g);if(ks.length>3000)ks.sort((a,b)=>g[a]-g[b]).slice(0,ks.length-3000).forEach(k=>delete g[k]);if(!noSave)saveDoc('profile',0)}
 function trashRestore(id){
   const t=S.trash[id];if(!t)return;const d=t.data||{};
   const putLesson=(lid,l)=>{if(!S.lessons[lid]){S.lessons[lid]=clone(l);deletedIds.delete(lid);saveDoc(lid,0)}};
@@ -2277,7 +2295,7 @@ function practiceHtml(){
   const p=practice,c=courseById(p.cid)||{color:'#888'};
   const title=p.review?'חזרה יומית: כרטיסיות':p.quiz?'בוחן על השיעור':'🃏 כרטיסיות';
   if(p.i>=p.cards.length){if(p.review&&S.profile.revDay!==todayKey()){S.profile.revDay=todayKey();saveDoc('profile',0)}
-    return `<h2>${title}</h2><div class="card" style="--c:${c.color}"><div class="term">סיימת!</div><div class="def">${p.known} ידעת מתוך ${p.total}.${p.known<p.total?' מה שעוד לא ידעת יחזור אליך מחר.':' הן יחזרו אליך בעוד כמה ימים, כדי שלא תשכח.'}</div></div>
+    return `<h2>${title}</h2><div class="card" style="--c:${c.color}"><div class="term">סיימת!</div><div class="def">${(()=>{const miss=p.missed?p.missed.size:0,k=Math.max(0,p.total-miss);return `${k} ידעת מתוך ${p.total} בפעם הראשונה.${miss?' מה שעוד לא ידעת יחזור אליך מחר.':' הן יחזרו אליך בעוד כמה ימים, כדי שלא תשכח.'}`})()}</div></div>
     <div class="sheet-foot">${p.quiz||p.review?'':`<button class="primary" data-act="practice" data-id="${p.cid}">עוד סיבוב</button>`}<button class="${p.review?'primary':'ghost'}" data-act="modal-close">סגירה</button></div>`}
   const x=p.cards[p.i];const xc=courseById(x.cid)||c;
   return `<h2>${title}</h2><p class="hint">נשארו ${p.cards.length-p.i}. נסה להיזכר לבד, ואז הצג.</p>
@@ -2981,8 +2999,12 @@ document.addEventListener('paste',e=>{
 /* ---------- calculator: a small safe math parser (no eval) ----------
    Supports + − × ÷ ^ ( ), unary minus, x% (= x/100), n!, implicit multiplication (2π, 3(4), 2x),
    functions and named variables, so the same engine runs free calculations and course formulas. */
+/* angles in degrees by default, like a school calculator (switch to radians on the keypad) */
+let CALC_DEG=pref('calcRad')!=='1';const toR=x=>CALC_DEG?x*Math.PI/180:x,fromR=x=>CALC_DEG?x*180/Math.PI:x;
+const trigR=x=>{const r=Number(x.toPrecision(15));return Math.abs(r)<1e-15?0:r};
 const CALC_FN={sqrt:Math.sqrt,'√':Math.sqrt,cbrt:Math.cbrt,abs:Math.abs,ln:Math.log,log:Math.log10,log2:Math.log2,exp:Math.exp,
-  sin:Math.sin,cos:Math.cos,tan:Math.tan,asin:Math.asin,acos:Math.acos,atan:Math.atan,floor:Math.floor,ceil:Math.ceil,
+  sin:x=>trigR(Math.sin(toR(x))),cos:x=>trigR(Math.cos(toR(x))),tan:x=>{if(CALC_DEG&&Math.abs(((x%180)+180)%180-90)<1e-12)return NaN;return trigR(Math.tan(toR(x)))},
+  asin:x=>fromR(Math.asin(x)),acos:x=>fromR(Math.acos(x)),atan:x=>fromR(Math.atan(x)),floor:Math.floor,ceil:Math.ceil,
   round:(x,d)=>{const f=10**(d||0);return Math.round(x*f)/f},min:Math.min,max:Math.max,
   fact:x=>calcFact(x),nCr:(n,k)=>calcComb(n,k),comb:(n,k)=>calcComb(n,k),nPr:(n,k)=>calcFact(n)/calcFact(n-k)};
 const CALC_CONST={pi:Math.PI,'π':Math.PI,e:Math.E};
@@ -2991,19 +3013,23 @@ function calcComb(n,k){if(!Number.isInteger(n)||!Number.isInteger(k)||k<0||n<0||
 const CALC_ID=/[A-Za-z_Ͱ-Ͽ֐-׿]/;
 function calcTokens(src){
   const s=String(src).replace(/[×✕]/g,'*').replace(/[÷:]/g,'/').replace(/[−–]/g,'-').replace(/\s+/g,' ');
-  const out=[];let i=0;
+  const out=[];let i=0,depth=0;
   while(i<s.length){const c=s[i];
     if(c===' '){i++;continue}
-    if(/[0-9.]/.test(c)){let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;
+    if(/[0-9.]/.test(c)){let j=i;while(j<s.length&&/[0-9.]/.test(s[j]))j++;let txt=s.slice(i,j);
+      if(!depth&&!txt.includes('.'))while(s[j]===','&&/[0-9]/.test(s[j+1]||'')){let k=j+1;while(/[0-9]/.test(s[k]||''))k++;const g=s.slice(j+1,k);j=k;
+        if(g.length===3){txt+=g;if(s[j]==='.'){let m=j+1;while(/[0-9]/.test(s[m]||''))m++;txt+=s.slice(j,m);j=m;break}}else{txt+='.'+g;break}}
+      const e0=j;
       if(/[eE]/.test(s[j]||'')&&/[0-9+-]/.test(s[j+1]||'')&&!(CALC_ID.test(s[j+2]||'')&&/[+-]/.test(s[j+1]))){j++;if(/[+-]/.test(s[j]))j++;while(j<s.length&&/[0-9]/.test(s[j]))j++}
-      const v=+s.slice(i,j);if(isNaN(v))throw{msg:'מספר לא תקין'};out.push({t:'n',v});i=j;continue}
+      const v=+(txt+s.slice(e0,j));if(isNaN(v))throw{msg:'מספר לא תקין'};out.push({t:'n',v});i=j;continue}
     if(c==='√'||c==='π'){out.push({t:'id',v:c});i++;continue}
     if(CALC_ID.test(c)){let j=i+1;while(j<s.length&&(CALC_ID.test(s[j])||/[0-9]/.test(s[j])))j++;out.push({t:'id',v:s.slice(i,j)});i=j;continue}
-    if('+-*/^%!(),'.includes(c)){out.push({t:c});i++;continue}
+    if('+-*/^%!(),'.includes(c)){if(c==='(')depth++;if(c===')')depth=Math.max(0,depth-1);out.push({t:c});i++;continue}
     throw{msg:`לא מכיר את “${c}”`};
   }
   /* implicit multiplication: 2x, 2(…), )(…), )x, x(… only for non-functions */
   const r=[];for(let k=0;k<out.length;k++){const a=r[r.length-1],b=out[k];
+    if(a&&a.t==='id'&&b.t==='('&&a.v.length>1&&!CALC_FN[a.v]&&!(a.v in CALC_CONST)&&a.v!=='ans')throw{msg:`לא מכיר את הפונקציה ${a.v}`};
     const aEnd=a&&(a.t==='n'||a.t===')'||(a.t==='id'&&!(CALC_FN[a.v]&&b.t==='(')&&a.v!=='√')||a.t==='!'||a.t==='%');
     const bStart=b.t==='n'||b.t==='('||b.t==='id';
     if(aEnd&&bStart&&!(a.t==='n'&&b.t==='n'))r.push({t:'*'});r.push(b)}
@@ -3012,16 +3038,16 @@ function calcTokens(src){
 function calcCompile(src){
   const tk=calcTokens(src);let p=0;const vars=new Set();
   const peek=()=>tk[p],eat=t=>{if(tk[p]&&tk[p].t===t){p++;return true}return false};
-  const expr=()=>{let f=term();for(;;){if(eat('+')){const a=f,b=term();f=v=>a(v)+b(v)}else if(eat('-')){const a=f,b=term();f=v=>a(v)-b(v)}else return f}};
+  const expr=()=>{let f=term();for(;;){if(eat('+')){const a=f,b=term();f=b.pct?v=>{const x=a(v);return x+x*b(v)}:v=>a(v)+b(v)}else if(eat('-')){const a=f,b=term();f=b.pct?v=>{const x=a(v);return x-x*b(v)}:v=>a(v)-b(v)}else return f}};
   const term=()=>{let f=unary();for(;;){if(eat('*')){const a=f,b=unary();f=v=>a(v)*b(v)}else if(eat('/')){const a=f,b=unary();f=v=>a(v)/b(v)}else return f}};
   const unary=()=>{if(eat('-')){const a=unary();return v=>-a(v)}if(eat('+'))return unary();return power()};
   const power=()=>{const a=postfix();if(eat('^')){const b=unary();return v=>Math.pow(a(v),b(v))}return a};
-  const postfix=()=>{let f=primary();for(;;){if(eat('!')){const a=f;f=v=>calcFact(a(v))}else if(eat('%')){const a=f;f=v=>a(v)/100}else return f}};
+  const postfix=()=>{let f=primary();for(;;){if(eat('!')){const a=f;f=v=>calcFact(a(v))}else if(eat('%')){const a=f;f=v=>a(v)/100;f.pct=true}else return f}};
   const primary=()=>{const t=peek();if(!t)throw{msg:'עוד לא שלם'};
     if(t.t==='n'){p++;return()=>t.v}
     if(eat('(')){const f=expr();if(!eat(')'))throw{msg:'חסר סוגר )'};return f}
     if(t.t==='id'){p++;const fn=(t.v==='√'||(peek()&&peek().t==='('))?CALC_FN[t.v]:null;
-      if(fn){if(t.v==='√'&&!(peek()&&peek().t==='(')){const a=postfix();return v=>Math.sqrt(a(v))}
+      if(fn){if(t.v==='√'&&!(peek()&&peek().t==='(')){const a=peek()&&peek().t==='-'?unary():postfix();return v=>Math.sqrt(a(v))}
         if(!eat('('))throw{msg:`אחרי ${t.v} צריך סוגריים`};const args=[];if(!eat(')')){do{args.push(expr())}while(eat(','));if(!eat(')'))throw{msg:'חסר סוגר )'}}
         return v=>fn(...args.map(a=>a(v)))}
       if(t.v in CALC_CONST&&!(peek()&&peek().t==='(')){const c=CALC_CONST[t.v];return()=>c}
@@ -3031,6 +3057,19 @@ function calcCompile(src){
   return {f,vars:[...vars]};
 }
 /* the empty field of a formula is the unknown: solve out = expr(vars) for it numerically */
+function calcRange(f,u){const lab=((f.v||[]).find(x=>x[0]===u)||[])[1]||'';return f.r&&f.r[u]||(/0[–-]1/.test(lab)?[0,1]:null)}
+function calcSolveAll(fx,known,u,target,rg){
+  const h=x=>{try{const r=fx({...known,[u]:x})-target;return Number.isFinite(r)?r:NaN}catch(e){return NaN}};
+  const inR=x=>!rg||(x>=rg[0]-1e-12&&x<=rg[1]+1e-12);
+  if(!rg){const x=calcSolve(fx,known,u,target);return Number.isFinite(x)?[x]:[]}
+  const xs=[],N=2000;for(let i=0;i<=N;i++)xs.push(rg[0]+(rg[1]-rg[0])*i/N);const roots=[];
+  const tol=1e-12*(1+Math.abs(target));
+  for(let i=0;i<xs.length-1;i++){let a=xs[i],b=xs[i+1],ya=h(a),yb=h(b);if(!Number.isFinite(ya)||!Number.isFinite(yb))continue;
+    if(Math.abs(ya)<=tol){roots.push(a);continue}if(ya*yb>0)continue;
+    for(let k=0;k<200;k++){const m=(a+b)/2,ym=h(m);if(Math.abs(ym)<=tol||b-a<1e-15){a=m;break}if(ya*ym<=0){b=m;yb=ym}else{a=m;ya=ym}}roots.push(a)}
+  /* roots closer than 1e-5 are the same solution (a double root shows up twice); keep the more exact one */
+  const out=[];roots.filter(inR).forEach(x=>{const i=out.findIndex(y=>Math.abs(y-x)<1e-5*(1+Math.abs(x)));if(i<0)out.push(x);else if(Math.abs(h(x))<Math.abs(h(out[i])))out[i]=x});return out.slice(0,4);
+}
 function calcSolve(fx,known,u,target){
   const h=x=>{try{const r=fx({...known,[u]:x})-target;return Number.isFinite(r)?r:NaN}catch(e){return NaN}};
   const ok=(x,y)=>Number.isFinite(y)&&Math.abs(y)<=1e-12*(1+Math.abs(target));
@@ -3123,7 +3162,7 @@ function calcCtxCourse(){
 function openCalc(cid,tab){
   const c=courseById(cid||calcCtxCourse());
   CALC={tab:tab||'calc',cid:c?c.id:'',lid:view.name==='lesson'?view.id:null,expr:'',ans:0,fid:null,vals:{},list:(CALC&&CALC.list)||'',q:'',kbd:false};
-  openModal(calcHtml());if(!matchMedia('(pointer:coarse)').matches){const i=$('#calc-in');i&&i.focus()}
+  openModal(calcHtml());if(!matchMedia('(pointer:coarse)').matches){const i=$('#calc-in')||$('#calc-q');i&&i.focus()}
   calcPreview();
 }
 /* the formulas this course should see first: its areas, formulas its notes mention, the student's own */
@@ -3155,7 +3194,7 @@ function calcPadHtml(){
   <div class="calc-keys" dir="ltr">${k('AC','op','ניקוי')}${k('⌫','op','מחיקה')}${k('%','op','אחוז')}${k('÷','op','חילוק')}
     ${k('7')}${k('8')}${k('9')}${k('×','op','כפל')}${k('4')}${k('5')}${k('6')}${k('−','op','חיסור')}${k('1')}${k('2')}${k('3')}${k('+','op','חיבור')}
     ${k('0','zero')}${k('.','','נקודה עשרונית')}${k('=','eq','שווה')}</div>
-  <div class="calc-acts">${touch?`<button class="link" data-act="calc-kbd">${CALC.kbd?'להשתמש בכפתורים':'להקליד במקלדת'}</button>`:''}<button class="link" data-act="calc-copy">העתקה</button>${CALC.lid?'<button class="link" data-act="calc-insert">להכניס לסיכום</button>':''}</div>
+  <div class="calc-acts"><button class="link" data-act="calc-deg" aria-label="יחידת זווית: ${CALC_DEG?'מעלות':'רדיאנים'}">${CALC_DEG?'DEG מעלות':'RAD רדיאנים'}</button>${touch?`<button class="link" data-act="calc-kbd">${CALC.kbd?'להשתמש בכפתורים':'להקליד במקלדת'}</button>`:''}<button class="link" data-act="calc-copy">העתקה</button>${CALC.lid?'<button class="link" data-act="calc-insert">להכניס לסיכום</button>':''}</div>
   ${hist.length?`<div class="calc-hist"><span class="small">אחרונים</span>${hist.map((h,i)=>`<button data-act="calc-hist" data-i="${i}" dir="ltr"><span>${esc(h.e)}</span><b>= ${esc(calcFmt(h.r))}</b></button>`).join('')}</div>`:''}`;
 }
 function calcPreview(final){
@@ -3168,6 +3207,8 @@ function calcKey(k){
   const inp=$('#calc-in');if(!inp)return;let v=inp.value,a=inp.selectionStart??v.length,b=inp.selectionEnd??v.length;
   if(document.activeElement!==inp&&inp.dataset.touched!=='1'){a=b=v.length}
   if(k==='='){calcEquals();return}
+  if(CALC.justEq!=null&&v===CALC.justEq&&/^([0-9.(πe√]|ln|log|sin|cos|tan|ans)$/.test(k)){v='';a=b=0}
+  CALC.justEq=null;
   if(k==='AC'){v='';a=0}
   else if(k==='⌫'){if(a===b&&a>0){v=v.slice(0,a-1)+v.slice(b);a--}else{v=v.slice(0,a)+v.slice(b)}}
   else{const ins=KEYIN[k]||k;v=v.slice(0,a)+ins+v.slice(b);a+=ins.length}
@@ -3180,7 +3221,7 @@ function calcEquals(){
   const h=S.profile.calcHist=(S.profile.calcHist||[]);h.push({e:CALC.expr.trim(),r});if(h.length>20)h.splice(0,h.length-20);saveDoc('profile',1500);
   CALC.ans=r;CALC.last=`${CALC.expr.trim()} = ${calcFmt(r)}`;CALC.expr=String(Number(r.toPrecision(12)));
   $('#calc-body').innerHTML=iconize(calcPadHtml());const o=$('#calc-out');if(o){o.textContent=CALC.last;o.className='calc-out done'}
-  if(!matchMedia('(pointer:coarse)').matches){const i=$('#calc-in');i&&i.focus()}
+  CALC.justEq=CALC.expr;const i=$('#calc-in');if(i){i.dataset.touched='1';if(!matchMedia('(pointer:coarse)').matches||CALC.kbd)i.focus();try{i.setSelectionRange(i.value.length,i.value.length)}catch(e){}}
 }
 function calcFormulasHtml(){
   if(CALC.fid){const f=calcFind(CALC.fid);if(f)return calcFormulaHtml(f);CALC.fid=null}
@@ -3227,10 +3268,12 @@ function calcFormulaSolve(){
   if(empty.length>1){box.innerHTML=`<span class="small">חסרים עוד ${empty.length-1===1?'ערך אחד':(empty.length-1)+' ערכים'}. משאירים ריק רק את מה שרוצים לחשב.</span>`;return}
   if(!empty.length){box.innerHTML=`<span class="small">כל השדות מלאים. מוחקים את השדה שרוצים לחשב.</span>`;return}
   const u=empty[0];let r;
-  try{const fx=calcCompile(f.e).f;if(u===f.o)r=fx(vals);else{const known={...vals};delete known[f.o];r=calcSolve(fx,known,u,vals[f.o])}}catch(e){r=NaN}
-  if(!Number.isFinite(r)){box.innerHTML=`<span class="danger">אין פתרון עם הערכים האלה. כדאי לבדוק אותם.</span>`;return}
-  const txt=calcFmt(r);const inp=document.querySelector(`#calc-body [data-cv="${CSS.escape(u)}"]`);if(inp){inp.placeholder=txt;inp.classList.add('solved')}
+  const rg=calcRange(f,u);let all=null;
+  try{const fx=calcCompile(f.e).f;if(u===f.o)r=fx(vals);else{const known={...vals};delete known[f.o];all=calcSolveAll(fx,known,u,vals[f.o],rg);r=all.length?all[0]:NaN}}catch(e){r=NaN}
+  if(!Number.isFinite(r)){box.innerHTML=`<span class="danger">אין פתרון עם הערכים האלה${rg?` (${esc(u)} בין ${rg[0]} ל-${rg[1]})`:''}. כדאי לבדוק אותם.</span>`;return}
+  const txt=all&&all.length>1?all.map(calcFmt).join(' או '):calcFmt(r);const inp=document.querySelector(`#calc-body [data-cv="${CSS.escape(u)}"]`);if(inp){inp.placeholder=txt;inp.classList.add('solved')}
   box.innerHTML=`<span class="small">${esc(lab(u))}</span><b dir="ltr">${esc(u)} = ${esc(txt)}${unit(u)?' '+esc(unit(u)):''}</b>`;
+  if(all&&all.length>1)box.insertAdjacentHTML('beforeend',`<span class="small">יש ${all.length} פתרונות אפשריים</span>`);
   CALC.last=`${f.n}: ${u} = ${txt}${unit(u)?' '+unit(u):''} (${keys.filter(k=>k!==u).map(k=>`${k}=${CALC.vals[k]}`).join(', ')})`;
 }
 function calcListHtml(){
@@ -3259,15 +3302,18 @@ function calcSaveFormula(){
   const m=src.match(/^\s*([A-Za-z_Ͱ-Ͽ֐-׿][\wͰ-Ͽ֐-׿]*)\s*=\s*(.+)$/);
   const out=m?m[1]:'y',e=m?m[2]:src;if(!e){err.textContent='צריך לכתוב נוסחה, למשל Q = a - b*P';return}
   let c;try{c=calcCompile(e)}catch(x){err.textContent='הנוסחה לא תקינה: '+(x.msg||'');return}
-  if(!c.vars.length){err.textContent='בנוסחה צריך להיות לפחות משתנה אחד.';return}
-  const f={id:'U_'+uid(),n:n||out,o:out,ol:out,e,v:c.vars.filter(k=>k!==out&&k!=='ans').map(k=>[k,k])};
+  if(c.vars.includes(out)){err.textContent=`${out} כבר בצד שמאל של הנוסחה, אז הוא לא יכול להופיע גם בחישוב.`;return}
+  const ins=c.vars.filter(k=>k!=='ans');if(!ins.length){err.textContent='בחישוב צריך להיות לפחות משתנה אחד, למשל Q = a - b*P';return}
+  const norm=x=>String(x).replace(/\s/g,''),crs0=courseById(CALC.cid);
+  if([...((crs0&&crs0.formulas)||[]),...(S.profile.formulas||[])].some(x=>x.o===out&&norm(x.e)===norm(e))){err.textContent='הנוסחה הזו כבר שמורה.';return}
+  const f={id:'U_'+uid(),n:n||out,o:out,ol:out,e,v:ins.map(k=>[k,k])};
   const crs=courseById(CALC.cid);if(crs){crs.formulas=(crs.formulas||[]).concat(f);saveDoc('courses',0)}else{S.profile.formulas=(S.profile.formulas||[]).concat(f);saveDoc('profile',0)}
   CALC.fid=f.id;CALC.vals={};calcBody();toast('הנוסחה נשמרה');
 }
 async function calcDelFormula(id){
   if(!(await askConfirm('למחוק את הנוסחה?',{ok:'למחוק',danger:true})))return;const crs=courseById(CALC.cid);
   if(crs&&(crs.formulas||[]).some(f=>f.id===id)){crs.formulas=crs.formulas.filter(f=>f.id!==id);saveDoc('courses',0)}
-  else{S.profile.formulas=(S.profile.formulas||[]).filter(f=>f.id!==id);saveDoc('profile',0)}
+  else{S.profile.formulas=(S.profile.formulas||[]).filter(f=>f.id!==id);goneMark(id,Date.now(),true);saveDoc('profile',0)}
   CALC.fid=null;calcBody();toast('הנוסחה נמחקה');
 }
 async function calcAiFormulas(){
@@ -3282,7 +3328,7 @@ Return ONLY a JSON array (max 10) of {"name": string (short Hebrew name), "out":
     aiCtl=null;let n=0;const have=new Set((c.formulas||[]).map(f=>f.e.replace(/\s/g,'')));
     for(const x of (Array.isArray(r)?r:[])){try{if(!x||!x.expr||!x.out||!/^[A-Za-z]\w*$/.test(x.out))continue;const cc=calcCompile(x.expr);const vs=(x.vars||[]).filter(v=>v&&v.k);
       const keys=cc.vars.filter(k=>k!==x.out);if(!keys.length||have.has(String(x.expr).replace(/\s/g,'')))continue;
-      c.formulas=(c.formulas||[]).concat({id:'U_'+uid(),n:String(x.name||x.out).slice(0,60),o:x.out,ol:String(x.outLabel||x.out).slice(0,40),e:String(x.expr),
+      have.add(String(x.expr).replace(/\s/g,''));c.formulas=(c.formulas||[]).concat({id:'U_'+uid(),n:String(x.name||x.out).slice(0,60),o:x.out,ol:String(x.outLabel||x.out).slice(0,40),e:String(x.expr),
         v:keys.map(k=>{const m=vs.find(v=>v.k===k);return [k,m&&m.label?String(m.label).slice(0,40):k,m&&m.unit?String(m.unit).slice(0,12):'']})});n++}catch(e){}}
     if(n)saveDoc('courses',0);
     CALC=keep;CALC.tab='f';CALC.fid=null;if(modalOpen){setSheet(calcHtml())}
@@ -3305,28 +3351,53 @@ async function syncSend(){
   catch(e){toast('לא הצלחתי להכין את הקובץ',{icon:'alert'})}
   if(modalOpen&&$('#sync-box'))$('#sync-box').innerHTML=iconize(syncBoxHtml());
 }
-function trashedAt(kind,id){let at=0;for(const t of Object.values(S.trash)){const d=t.data||{};
+function trashedAt(kind,id){let at=(S.profile.gone||{})[id]||0;for(const t of Object.values(S.trash)){const d=t.data||{};
   const hit=kind==='lesson'?(d.id===id||Object.keys(d.lessons||{}).includes(id)):kind==='task'?((d.task&&d.task.id===id)||(d.tasks||[]).some(x=>x.id===id)):(d.course&&d.course.id===id);if(hit)at=Math.max(at,t.at||0)}return at}
 function syncMerge(docs){
   let added=0,updated=0;const touched=new Set();
+  /* an item that is not here: added, unless it was deleted here after it was last changed there,
+     or it belongs to a course that was deleted here */
+  const courseGone=cid=>cid&&!courseById(cid)&&trashedAt('course',cid)>0;
   const mergeList=(kind,doc,tk)=>{if(!doc||!Array.isArray(doc.list))return;const loc=kind==='courses'?S.courses:S.tasks;
     for(const it of doc.list){if(!it||!it.id)continue;const i=loc.findIndex(x=>x.id===it.id);
-      if(i<0){if(trashedAt(tk,it.id)>(it._u||doc._u||0))continue;loc.push(clone(it));added++;touched.add(kind)}
+      if(i<0){if(trashedAt(tk,it.id)>(it._u||0)||(kind==='tasks'&&courseGone(it.courseId)))continue;loc.push(clone(it));added++;touched.add(kind)}
       else if((it._u||0)>(loc[i]._u||0)&&itemSig(loc[i])!==itemSig(it)){loc[i]=clone(it);updated++;touched.add(kind)}}
     if((doc._u||0)>(STAMP[kind]||0))STAMP[kind]=doc._u;if(touched.has(kind))primeList(kind)};
   mergeList('courses',docs.courses,'course');mergeList('tasks',docs.tasks,'task');
   for(const [id,d] of Object.entries(docs)){
     if(d&&d.type==='lesson'){const mine=S.lessons[id];
-      if(!mine){if(deletedIds.has(id)||trashedAt('lesson',id)>(d._u||0))continue;S.lessons[id]=clone(d);added++;touched.add(id)}
-      else if((d._u||0)>(mine._u||0)&&JSON.stringify(mine)!==JSON.stringify(d)){const files=[...(d.files||[])];(mine.files||[]).forEach(f=>{if(!files.some(x=>x.id===f.id))files.push(f)});
-        S.lessons[id]={...clone(d),files:clone(files)};updated++;touched.add(id)}}
+      if(!mine){if(deletedIds.has(id)||trashedAt('lesson',id)>(d._u||0)||courseGone(d.courseId))continue;S.lessons[id]=clone(d);added++;touched.add(id)}
+      else{const m=mergeLesson(mine,d);if(m){S.lessons[id]=m;updated++;touched.add(id)}}}
     if(d&&d.type==='cquiz'){const mine=S.cquiz[id];if(!mine||(d._u||0)>(mine._u||0)){S.cquiz[id]=clone(d);touched.add(id)}}
   }
-  if(docs.profile){const p=docs.profile;S.profile.days=[...new Set([...(S.profile.days||[]),...(p.days||[])])].sort().slice(-200);
-    const fs=(S.profile.formulas||[]).slice();(p.formulas||[]).forEach(f=>{if(f&&f.id&&!fs.some(x=>x.id===f.id))fs.push(f)});S.profile.formulas=fs;
-    if(!S.profile.name&&p.name)S.profile.name=p.name;touched.add('profile')}
-  saveDoc.quiet=true;try{touched.forEach(id=>saveDoc(id,0))}finally{saveDoc.quiet=false}
+  if(docs.profile){const p=docs.profile,me=S.profile;me.days=[...new Set([...(me.days||[]),...(p.days||[])])].sort().slice(-200);
+    const g=me.gone=me.gone||{};Object.entries(p.gone||{}).forEach(([k,v])=>{g[k]=Math.max(g[k]||0,v)});
+    const fs=(me.formulas||[]).filter(f=>!g[f.id]);(p.formulas||[]).forEach(f=>{if(f&&f.id&&!g[f.id]&&!fs.some(x=>x.id===f.id))fs.push(f)});me.formulas=fs;
+    /* name, weekly goal and the calculator history follow the profile that changed last */
+    if((p._u||0)>(me._u||0)){['name','goal'].forEach(k=>{if(p[k]!=null&&p[k]!=='')me[k]=p[k]})}else if(!me.name&&p.name)me.name=p.name;
+    const h=[...(me.calcHist||[]),...(p.calcHist||[])],seen=new Set();me.calcHist=h.filter(x=>{const k=x&&x.e+'='+x.r;if(!x||seen.has(k))return false;seen.add(k);return true}).slice(-20);
+    me._u=Math.max(me._u||0,p._u||0);touched.add('profile')}
+  touched.forEach(quietSave);
   render();return {added,updated};
+}
+/* same lesson on both sides: what was written follows the side that wrote last, study state follows the side
+   that studied last (each card keeps the copy that was practised more), and no photo is lost or doubled */
+const fKey=f=>f.orig||f.id,usOf=x=>x._us||x._u||0;
+function mergeFiles(mine=[],theirs=[],theirsNewer){
+  const fit=(f,m)=>{const o={...f,id:m.id,orig:m.orig||f.orig};if(m.local)o.local=1,o.type=m.type;else{delete o.local;delete o.type}if(!o.orig)delete o.orig;return o};
+  const out=theirsNewer?theirs.map(f=>{const m=mine.find(x=>fKey(x)===fKey(f));return m?fit(f,m):clone(f)}):mine.map(f=>clone(f));
+  (theirsNewer?mine:theirs).forEach(f=>{if(!out.some(x=>fKey(x)===fKey(f)))out.push(clone(f))});return out;
+}
+function mergeSrs(a={},b={}){const o={};for(const k of new Set([...Object.keys(a),...Object.keys(b)])){const x=a[k],y=b[k];
+  o[k]=clone(!x?y:!y?x:((y.n||0)>(x.n||0)||((y.n||0)===(x.n||0)&&(y.due||'')>(x.due||'')))?y:x)}return o}
+function mergeLesson(mine,d){
+  const cNew=(d._u||0)>(mine._u||0),sNew=usOf(d)>usOf(mine);
+  const o=cNew?clone(d):clone(mine);
+  const q=sNew?d.quiz:mine.quiz;if(q)o.quiz=clone(q);else delete o.quiz;
+  const sr=mergeSrs(mine.srs||{},d.srs||{});if(Object.keys(sr).length)o.srs=sr;else delete o.srs;
+  const fs=mergeFiles(mine.files||[],d.files||[],cNew);if(fs.length)o.files=fs;else delete o.files;
+  o._u=Math.max(mine._u||0,d._u||0);if(!o._u)delete o._u;const us=Math.max(mine._us||0,d._us||0);if(us)o._us=us;
+  return JSON.stringify(o)!==JSON.stringify(mine)?o:null;
 }
 async function syncReceive(file){
   const box=$('#sync-msg');let j;try{j=JSON.parse(await file.text())}catch(e){}
@@ -3380,13 +3451,15 @@ ${imgs.length?`<h2>צילומים</h2>${imgs.map(x=>`<figure><img src="${x.url}"
 
 /* ---------- grades: course credits, final-grade parts, degree average and "what do I need" ---------- */
 const num=v=>{const x=parseFloat(String(v??'').replace(',','.'));return Number.isFinite(x)?x:null};
-function partsGrade(c){const ps=(c.parts||[]).filter(p=>num(p.w));if(!ps.length)return null;const tw=ps.reduce((a,p)=>a+num(p.w),0);
-  const done=ps.filter(p=>num(p.g)!=null),dw=done.reduce((a,p)=>a+num(p.w),0);
-  return {tw,dw,sofar:done.reduce((a,p)=>a+num(p.g)*num(p.w),0)/100,complete:done.length===ps.length&&Math.abs(tw-100)<.01,left:ps.filter(p=>num(p.g)==null)}}
-function courseGrade(c){const pg=partsGrade(c);if(pg&&pg.complete)return Math.round(pg.sofar*100)/100;return num(c.grade)}
+const grd=v=>{const x=num(v);return x!=null&&x>=0&&x<=100?x:null},crd=v=>{const x=num(v);return x!=null&&x>0&&x<=40?x:null};
+const badGrade=(k,v)=>String(v??'').trim()!==''&&(k==='credits'?crd(v):grd(v))==null;
+function partsGrade(c){const ps=(c.parts||[]).filter(p=>grd(p.w));if(!ps.length)return null;const tw=ps.reduce((a,p)=>a+grd(p.w),0);
+  const done=ps.filter(p=>grd(p.g)!=null),dw=done.reduce((a,p)=>a+grd(p.w),0);
+  return {tw,dw,sofar:done.reduce((a,p)=>a+grd(p.g)*grd(p.w),0)/100,complete:done.length===ps.length&&Math.abs(tw-100)<.01,left:ps.filter(p=>grd(p.g)==null)}}
+function courseGrade(c){const pg=partsGrade(c);if(pg&&pg.complete)return Math.round(pg.sofar*100)/100;return grd(c.grade)}
 function gpaInfo(){
-  const cs=S.courses.filter(c=>num(c.credits));let w=0,sum=0,openCr=0;
-  cs.forEach(c=>{const g=courseGrade(c);if(g!=null){w+=num(c.credits);sum+=g*num(c.credits)}else openCr+=num(c.credits)});
+  const cs=S.courses.filter(c=>crd(c.credits));let w=0,sum=0,openCr=0;
+  cs.forEach(c=>{const g=courseGrade(c);if(g!=null){w+=crd(c.credits);sum+=g*crd(c.credits)}else openCr+=crd(c.credits)});
   return {avg:w?sum/w:null,w,openCr,sum};
 }
 function gpaNeedHtml(){
@@ -3429,8 +3502,8 @@ function partsResHtml(cid){const c=courseById(cid),pg=c&&partsGrade(c);if(!pg)re
   return `<p class="small" style="margin-top:10px">${Math.abs(pg.tw-100)>.01?`<span class="danger">סך המשקלים ${calcFmt(pg.tw)}%, צריך שיהיה 100%.</span> `:''}${pg.dw?`עד עכשיו צברת ${calcFmt(Math.round(pg.sofar*100)/100)} נקודות מתוך ${calcFmt(pg.dw)}.`:''}${pg.complete?` הציון הסופי: <b>${calcFmt(Math.round(pg.sofar*100)/100)}</b>`:''}</p>`}
 function partsNeedHtml(cid){
   const c=courseById(cid),pg=c&&partsGrade(c),t=num(c&&c.target);if(!pg||t==null||!pg.left.length)return '';
-  const lw=pg.left.reduce((a,p)=>a+num(p.w),0);if(!lw)return '';const need=(t-pg.sofar)/(lw/100);
-  return `<div class="calc-fres"><span class="small">כדי לקבל ${calcFmt(t)}, צריך ב${pg.left.map(p=>esc(p.n||'רכיב')).join(' ובמקביל ב')}${pg.left.length>1?' (בממוצע)':''}</span><b>${need>100?'מעל 100, לא אפשרי':need<=0?'כבר הבטחת את זה':calcFmt(Math.round(need*100)/100)}</b></div>`;
+  const lw=pg.left.reduce((a,p)=>a+grd(p.w),0);if(!lw)return '';const need=(t-pg.sofar)/(lw/100);
+  return `<div class="calc-fres"><span class="small">כדי לקבל ${calcFmt(t)}, צריך ב${pg.left.map(p=>esc(p.n||'רכיב')).join(' ובמקביל ב')}${pg.left.length>1?' (בממוצע)':''}</span><b>${need>100?'מעל 100, לא אפשרי':need<=0?'כבר הבטחת את זה':calcFmt(Math.round(need*100)/100)}</b>${need<60?'<span class="small">אם יש ציון מינימום (מגן) במבחן, צריך לעבור גם אותו.</span>':''}</div>`;
 }
 
 /* ---------- attached photos and files (a friend's notebook, a handout, a slide) ----------
@@ -4076,14 +4149,18 @@ function examPractice(cid){
 /* every card remembers how well it is known (box + next due day), like the quiz questions */
 const cardKey=t=>String(t||'').trim().slice(0,80);
 function lessonCardsAll(l,no){return [...((l.cards&&l.cards.list)||[]).map(x=>({t:x.q,d:x.a})),...(l.terms||[]).filter(x=>x.t).map(x=>({t:x.t,d:x.d}))].map(x=>({...x,no,lid:l.id,cid:l.courseId,key:cardKey(x.t)}))}
-function dueCards(){
-  const t=todayKey(),out=[];
-  for(const c of activeCourses()){const ls=lessonsOf(c.id);ls.forEach((l,i)=>{const sr=l.srs||{};lessonCardsAll(l,i+1).forEach(x=>{const st=sr[x.key];if(st&&st.due&&st.due<=t)out.push({...x,due:st.due})})})}
-  return out.sort((a,b)=>a.due.localeCompare(b.due)).slice(0,20);
+const NEW_CARDS=5;
+function dueCards(lim=Infinity){
+  const t=todayKey(),out=[],fresh=[];let newToday=0;
+  for(const c of activeCourses()){const ls=lessonsOf(c.id);ls.forEach((l,i)=>{const sr=l.srs||{};Object.values(sr).forEach(st=>{if(st&&st.first===t)newToday++});
+    lessonCardsAll(l,i+1).forEach(x=>{const st=sr[x.key];if(st&&st.due&&st.due<=t)out.push({...x,due:st.due});else if(!st&&x.d&&l.date&&l.date<t)fresh.push({...x,due:l.date,fresh:1})})})}
+  out.sort((a,b)=>a.due.localeCompare(b.due));
+  fresh.sort((a,b)=>a.due.localeCompare(b.due));out.push(...fresh.slice(0,Math.max(0,NEW_CARDS-newToday)));
+  return out.slice(0,lim);
 }
 function srMark(x,ok){
   const l=x&&S.lessons[x.lid];if(!l)return;l.srs=l.srs||{};const st=l.srs[x.key]=l.srs[x.key]||{box:0,n:0};
-  st.n++;st.box=ok?Math.min((st.box||0)+1,GAPS.length-1):0;st.due=addDays(todayKey(),ok?GAPS[st.box]:1);saveDoc(x.lid);markActive();
+  if(!st.n)st.first=todayKey();st.n++;st.box=ok?Math.min((st.box||0)+1,GAPS.length-1):0;st.due=addDays(todayKey(),ok?GAPS[st.box]:1);saveDoc(x.lid);markActive();
 }
 function startPractice(cid,lid){
   const ls=lessonsOf(cid);const src=lid?ls.filter(l=>l.id===lid):ls;
@@ -4091,7 +4168,7 @@ function startPractice(cid,lid){
   for(let i=cards.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cards[i],cards[j]]=[cards[j],cards[i]]}
   practice={cid,cards,i:0,flip:false,known:0,total:cards.length,seen:new Set()};
 }
-function startCardReview(){const cards=dueCards();if(!cards.length)return false;practice={cid:cards[0].cid,cards,i:0,flip:false,known:0,total:cards.length,seen:new Set(),review:true};setOrOpen(practiceHtml());return true}
+function startCardReview(){const cards=dueCards(20);if(!cards.length)return false;practice={cid:cards[0].cid,cards,i:0,flip:false,known:0,total:cards.length,seen:new Set(),review:true};setOrOpen(practiceHtml());return true}
 const ONCE=new Set(['exam-go','card-yes','card-no','flip','mc-next','td-save','td-del','save-course','task-done','plan-apply','del-lesson','nl-go','exam-practice']);let lastAct={a:'',t:0};
 document.addEventListener('click',e=>{
   const tb=e.target.closest('[data-toast]');if(tb){const el=$('#toast');const fn=el&&el._undo;if(el){el.classList.remove('on');el._undo=null}if(fn)fn();return}
@@ -4102,7 +4179,8 @@ document.addEventListener('click',e=>{
   if(di){const id=(di.getAttribute('src')||'').replace('/_blob/','');const l=S.lessons[view.id];if(l&&l.drawings&&l.drawings[id]){openDraw(id);return}}
   const b=e.target.closest('[data-act]');if(!b)return;
   const act=b.dataset.act,id=b.dataset.id;
-  if(ONCE.has(act)){const now=Date.now();if(lastAct.a===act&&now-lastAct.t<450)return;lastAct={a:act,t:now}}
+  /* a double tap does not count twice; the card buttons count as one, so it never shows the next answer */
+  if(ONCE.has(act)){const now=Date.now(),g=/^(card-yes|card-no|flip)$/.test(act)?'card':act;if(lastAct.a===g&&now-lastAct.t<(g==='card'?350:450))return;lastAct={a:g,t:now}}
   const L=view.name==='lesson'?S.lessons[view.id]:null;
   switch(act){
     case 'nav':if(view.name===b.dataset.to&&!view.id&&!modalOpen&&b.closest('#nav')){window.scrollTo({top:0,behavior:'smooth'});break}go(b.dataset.to);if(b.dataset.to==='search')setTimeout(()=>$('#search-q')&&$('#search-q').focus(),30);break;
@@ -4118,7 +4196,8 @@ document.addEventListener('click',e=>{
     case 'grades':setOrOpen(gradesHtml());break;
     case 'grade-parts':setSheet(partsHtml(id));break;
     case 'part-add':{const c=courseById(id);if(c){c.parts=(c.parts||[]).concat({n:'',w:'',g:''});saveDoc('courses',0);setSheet(partsHtml(id));const ins=document.querySelectorAll('#sheet [data-gp=n]');ins.length&&ins[ins.length-1].focus()}break}
-    case 'part-rm':{const c=courseById(id);if(c&&c.parts){c.parts.splice(+b.dataset.i,1);saveDoc('courses',0);setSheet(partsHtml(id))}break}
+    case 'part-rm':{const c=courseById(id);if(c&&c.parts){const i=+b.dataset.i,[p]=c.parts.splice(i,1);saveDoc('courses',0);setSheet(partsHtml(id));
+      toast('הרכיב הוסר',{undo:()=>{const cc=courseById(id);if(!cc)return;cc.parts=cc.parts||[];cc.parts.splice(i,0,p);saveDoc('courses',0);if(modalOpen&&$('#parts-res'))setSheet(partsHtml(id))}})}break}
     case 'fsheet':if(modalOpen)closeModal();go('fsheet',id);break;
     case 'fs-open':openCalc(id,'f');CALC.fid=b.dataset.v;calcBody();break;
     case 'print':window.print();break;
@@ -4136,6 +4215,7 @@ document.addEventListener('click',e=>{
     case 'calc-fback':if(CALC){CALC.fid=null;calcBody()}break;
     case 'calc-fclear':if(CALC){CALC.vals={};calcBody()}break;
     case 'calc-fsave':calcSaveFormula();break;
+    case 'calc-deg':CALC_DEG=!CALC_DEG;pref('calcRad',CALC_DEG?'0':'1');calcBody();toast(CALC_DEG?'זוויות במעלות':'זוויות ברדיאנים');break;
     case 'calc-fdel':calcDelFormula(b.dataset.v);break;
     case 'calc-ai':calcAiFormulas();break;
     case 'qa-photos':setOrOpen(photosSheetHtml(id));break;
@@ -4271,7 +4351,7 @@ document.addEventListener('click',e=>{
     case 'practice':startPractice(id);if(modalOpen)setSheet(practiceHtml());else openModal(practiceHtml());break;
     case 'flip':practice.flip=true;setSheet(practiceHtml());break;
     case 'card-yes':{markActive();const x=practice.cards[practice.i];if(x&&!practice.seen.has(x.key+x.lid)){practice.seen.add(x.key+x.lid);srMark(x,true)}practice.known++;practice.i++;practice.flip=false;setSheet(practiceHtml());break}
-    case 'card-no':{const x=practice.cards[practice.i];if(x&&!practice.seen.has(x.key+x.lid)){practice.seen.add(x.key+x.lid);srMark(x,false)}}practice.cards.push(practice.cards[practice.i]);practice.i++;practice.flip=false;
+    case 'card-no':{const x=practice.cards[practice.i];if(x){(practice.missed=practice.missed||new Set()).add(x.key+x.lid);if(!practice.seen.has(x.key+x.lid)){practice.seen.add(x.key+x.lid);srMark(x,false)}}}practice.cards.push(practice.cards[practice.i]);practice.i++;practice.flip=false;
       if(practice.cards.length>practice.total*3)practice.cards.length=practice.i;setSheet(practiceHtml());break;
     case 'export':exportCourse(id);break;
     case 'settings':openModal(settingsHtml());loadSnaps();break;
@@ -4284,12 +4364,14 @@ document.addEventListener('click',e=>{
 function onField(e){
   const el=e.target;
   if(el.id==='v-cap'){const f=VW.list[VW.i];if(f){f.cap=el.value.slice(0,200);saveDoc(VW.lid)}return}
+  if(el.dataset.gr||el.dataset.gp==='g'||el.dataset.gp==='w'){el.setAttribute('aria-invalid',badGrade(el.dataset.gr||'g',el.value)?'true':'false')}
   if(el.dataset.gr){const c=courseById(el.dataset.id);if(c){const v=el.value.trim();if(v==='')delete c[el.dataset.gr];else c[el.dataset.gr]=v;saveDoc('courses');$('#gpa-sum').innerHTML=gpaSumHtml();$('#gpa-need').innerHTML=gpaNeedHtml()}return}
   if(el.id==='gpa-target'){pref('gpaTarget',el.value.trim());$('#gpa-need').innerHTML=gpaNeedHtml();return}
   if(el.dataset.gp){const c=courseById(el.dataset.id),p=c&&(c.parts||[])[+el.dataset.i];if(p){p[el.dataset.gp]=el.value;saveDoc('courses');$('#parts-res').innerHTML=partsResHtml(c.id);$('#parts-need').innerHTML=partsNeedHtml(c.id)}return}
   if(el.id==='part-target'){const c=courseById(el.dataset.id);if(c){c.target=el.value.trim();saveDoc('courses');$('#parts-need').innerHTML=partsNeedHtml(c.id)}return}
   if(CALC&&el.closest&&el.closest('#calc-body')){
-    if(el.id==='calc-in'){CALC.expr=el.value;el.dataset.touched='1';calcPreview();return}
+    if(el.id==='calc-in'){const j=CALC.justEq;CALC.justEq=null;if(j!=null&&el.value.length===j.length+1&&el.value.startsWith(j)&&/[0-9.(πe√a-z]/i.test(el.value.slice(-1))){el.value=el.value.slice(-1);try{el.setSelectionRange(1,1)}catch(e){}}
+      CALC.expr=el.value;el.dataset.touched='1';calcPreview();return}
     if(el.id==='calc-q'){CALC.q=el.value;const pos=el.selectionStart;calcBody();const n=$('#calc-q');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}return}
     if(el.dataset.cv!=null){CALC.vals[el.dataset.cv]=el.value;calcFormulaSolve();return}
     if(el.id==='calc-list'){CALC.list=el.value;$('#calc-stats').innerHTML=iconize(calcStatsHtml());return}
@@ -4352,7 +4434,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.id==='calc-in'){e.preventDefault();calcEquals();return}
   if(e.key==='Enter'&&e.target.id==='cf-e'){e.preventDefault();calcSaveFormula();return}
   if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='live-in'&&!e.isComposing){e.preventDefault();liveAdd('n');return}
-  {const v=$('#viewer');if(v&&!v.hidden){if(e.key==='Escape'){viewerClose();e.preventDefault()}else if(e.key==='ArrowLeft'){v.querySelector('[data-v=next]')&&v.querySelector('[data-v=next]').click()}else if(e.key==='ArrowRight'){v.querySelector('[data-v=prev]')&&v.querySelector('[data-v=prev]').click()}
+  {const v=$('#viewer');if(v&&!v.hidden){const typing=/^(INPUT|TEXTAREA)$/.test(e.target.tagName||'');if(e.key==='Escape'){viewerClose();e.preventDefault()}else if(typing){}else if(e.key==='ArrowLeft'){v.querySelector('[data-v=next]')&&v.querySelector('[data-v=next]').click()}else if(e.key==='ArrowRight'){v.querySelector('[data-v=prev]')&&v.querySelector('[data-v=prev]').click()}
     else if(e.key==='Tab'){const f=[...v.querySelectorAll('button')];if(f.length){const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}}return}}
   if(e.key==='Escape'&&D.open){drawAct('close');return}
   if(e.key==='Escape'&&modalOpen){requestClose(true);return}
