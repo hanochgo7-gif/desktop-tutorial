@@ -1,0 +1,442 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style><title>בית רשת חקלאי: תכנון, הקמה ועלויות | המדריך של מיפתח</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="מה זה בית רשת, אילו סוגים יש, איך בוחרים רשת ואחוז הצללה וכמה זה עולה לדונם לפי משרד החקלאות. מדריך הנדסי ממי שמקים בתי רשת יותר מ-20 שנה.">
+<link rel="canonical" href="https://www.miftah.co.il/articles/beit-reshet/">
+<link rel="alternate" hreflang="he" href="https://www.miftah.co.il/articles/beit-reshet/">
+<meta property="og:type" content="article"><meta property="og:locale" content="he_IL">
+<meta property="og:title" content="בית רשת חקלאי: תכנון, הקמה ועלויות | המדריך של מיפתח"><meta property="og:description" content="מה זה בית רשת, אילו סוגים יש, איך בוחרים רשת ואחוז הצללה וכמה זה עולה לדונם לפי משרד החקלאות. מדריך הנדסי ממי שמקים בתי רשת יותר מ-20 שנה.">
+<meta property="og:image" content="https://www.miftah.co.il/articles/img/cover-beit-reshet.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap"><style>
+:root{
+  /* Layout: עמוד עיתון מקצועי. עמודת קריאה אחת, תוכן עניינים דביק בצד, הדמיות ברוחב מלא */
+  --paper:#F4F6F2; --surface:#FFFFFF; --ink:#13231F; --ink-2:#4A5A55; --rule:#D5DED7;
+  --forest:#0E4239; --leaf:#1B6E62; --sprout:#7FC49B; --sky:#4F86A8; --amber:#C98A2B;
+  --tint:#E6EFE8; --on-forest:#F4F6F2; --on-forest-2:#B9D3C4;
+  --display:'Frank Ruhl Libre','David Libre',Georgia,serif;
+  --body:'Heebo','Assistant',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0D1715; --surface:#13201D; --ink:#E6EEE9; --ink-2:#A6B8B0; --rule:#26372F;
+  --forest:#0A3029; --leaf:#5FB39B; --sprout:#8FD3AA; --sky:#7FB0D0; --amber:#E0A84E;
+  --tint:#18302A; --on-forest:#EAF2ED; --on-forest-2:#9FC2B0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0D1715; --surface:#13201D; --ink:#E6EEE9; --ink-2:#A6B8B0; --rule:#26372F;
+  --forest:#0A3029; --leaf:#5FB39B; --sprout:#8FD3AA; --sky:#7FB0D0; --amber:#E0A84E;
+  --tint:#18302A; --on-forest:#EAF2ED; --on-forest-2:#9FC2B0; color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--paper);color:var(--ink);font:400 18px/1.75 var(--body);margin:0}
+a{color:var(--leaf)} a:hover{color:var(--forest)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{background:var(--surface);border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.top .logo{height:34px;width:auto}
+.top nav{display:flex;gap:20px;flex-wrap:wrap;font-size:15px}
+.top nav a{color:var(--ink);text-decoration:none} .top nav a:hover{color:var(--leaf)}
+.crumbs{font-size:14px;color:var(--ink-2);padding-block:18px 0}
+.crumbs a{color:var(--ink-2)}
+.hero{padding-block:28px 8px}
+.kicker{font:500 13px/1 var(--mono);letter-spacing:.08em;color:var(--leaf);text-transform:uppercase}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;color:var(--ink)}
+h1{font-weight:900;font-size:clamp(34px,5.4vw,64px);line-height:1.08;margin:14px 0 16px;max-width:20ch}
+.dek{font-size:clamp(19px,2vw,23px);line-height:1.6;color:var(--ink-2);max-width:60ch;margin:0}
+.byline{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:22px;font-size:15px;color:var(--ink-2)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--forest);color:var(--on-forest);display:grid;place-items:center;font:700 16px var(--display)}
+.byline b{color:var(--ink);font-weight:700}
+.byline .sep{opacity:.5}
+.reviewed{display:inline-flex;gap:6px;align-items:center;background:var(--tint);color:var(--leaf);border-radius:999px;padding:2px 12px;font-size:13px;font-weight:500}
+.cover{margin:28px 0 0}
+.cover img{width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;display:block;border-radius:4px}
+figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+.tag-ai{font:500 11px/1 var(--mono);letter-spacing:.06em;background:var(--tint);color:var(--leaf);padding:3px 7px;border-radius:3px;margin-inline-end:6px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:56px;padding-block:40px 24px}
+.toc{position:sticky;top:20px;align-self:start;font-size:15px;border-inline-start:2px solid var(--rule);padding-inline-start:18px}
+.toc b{font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--ink-2);display:block;margin-bottom:12px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.toc a{color:var(--ink);text-decoration:none;line-height:1.4;display:block} .toc a:hover{color:var(--leaf)}
+article{min-width:0;max-width:720px}
+article h2{font-weight:700;font-size:clamp(27px,3vw,36px);line-height:1.2;margin:56px 0 14px;scroll-margin-top:20px}
+article h3{font-weight:700;font-size:23px;margin:34px 0 8px}
+article p{margin:0 0 18px}
+article ul,article ol{padding-inline-start:22px;margin:0 0 20px} article li{margin-bottom:8px}
+article strong{color:var(--ink)}
+.lead-box{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:22px 24px;margin:0 0 28px}
+.lead-box b.lbl,.box b.lbl{font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--leaf);display:block;margin-bottom:10px;text-transform:uppercase}
+.lead-box ul{margin:0}
+.box{border-radius:6px;padding:22px 24px;margin:30px 0}
+.box.field{background:var(--tint)}
+.box.honest{background:var(--surface);border:1px dashed var(--leaf)}
+.box.fit{background:var(--surface);border:1px solid var(--rule)}
+.box.fit .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box.fit h4{margin:0 0 6px;font:700 16px var(--body)}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+blockquote.testi{margin:36px 0;padding:0;border:0}
+blockquote.testi p{font:500 clamp(22px,2.4vw,27px)/1.45 var(--display);color:var(--forest);margin:0 0 10px}
+:root[data-theme="dark"] blockquote.testi p{color:var(--sprout)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) blockquote.testi p{color:var(--sprout)}}
+blockquote.testi footer{font-size:15px;color:var(--ink-2)}
+figure.viz{margin:34px 0}
+figure.viz .frame{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px 18px 12px}
+figure.viz h4{margin:0 0 4px;font:700 17px var(--body);color:var(--ink)}
+figure.viz .sub{font-size:14px;color:var(--ink-2);margin:0 0 10px}
+figure.viz svg{width:100%;height:auto;display:block;direction:ltr}
+figure.viz svg text{fill:var(--ink-2);font:500 13px var(--body)}
+figure.viz svg .v{fill:var(--ink);font-weight:700}
+figure.viz svg .grid{stroke:var(--rule)}
+figure.viz details{font-size:14px;margin-top:8px} figure.viz summary{cursor:pointer;color:var(--leaf)}
+figure.photo{margin:34px 0} figure.photo img{width:100%;max-width:100%;height:auto;border-radius:4px;display:block}
+.wide{margin-inline:-40px} @media(max-width:900px){.wide{margin-inline:0}}
+.tbl{overflow-x:auto;margin:28px 0;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.5;min-width:560px}
+.tbl th,.tbl td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl thead th{font:700 14px var(--body);background:var(--tint);color:var(--ink)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.steps{list-style:none;padding:0;margin:26px 0;counter-reset:s;display:grid;gap:0}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--rule);margin:0}
+.steps li::before{content:counter(s);font:700 22px/44px var(--display);color:var(--on-forest);background:var(--leaf);border-radius:50%;width:44px;height:44px;text-align:center}
+.steps li b{display:block}
+.check{list-style:none;padding:0}
+.check li{padding-inline-start:30px;position:relative}
+.check li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:16px;height:16px;border-radius:3px;border:2px solid var(--leaf)}
+.faq details{border-bottom:1px solid var(--rule);padding:14px 0}
+.faq summary{cursor:pointer;font:700 18px/1.5 var(--body);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font:400 24px/1 var(--body);color:var(--leaf)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0;color:var(--ink-2)}
+.cta{background:var(--forest);color:var(--on-forest);border-radius:8px;padding:34px 30px;margin:48px 0}
+.cta h2,.cta h3{color:var(--on-forest);margin:0 0 10px}
+.cta p{color:var(--on-forest-2)}
+.cta form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.cta label{display:grid;gap:4px;font-size:14px;color:var(--on-forest-2)}
+.cta input,.cta select{font:16px var(--body);padding:11px 12px;border-radius:4px;border:1px solid transparent;background:#F4F6F2;color:#13231F;min-width:0}
+.cta button{grid-column:1/-1;justify-self:start;font:700 17px var(--body);background:var(--sprout);color:#0E2A24;border:0;border-radius:4px;padding:13px 26px;cursor:pointer}
+.cta .alt{font-size:15px;margin-top:14px;color:var(--on-forest-2)} .cta .alt b{color:var(--on-forest);user-select:all}
+.cta .note{min-height:1.4em;font-size:15px;color:var(--sprout);margin:8px 0 0}
+.soft-cta{border-block:1px solid var(--rule);padding:18px 0;margin:36px 0;font-size:17px}
+.author{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px;margin:40px 0}
+.author .avatar{width:64px;height:64px;font-size:22px}
+.author p{margin:4px 0 0;font-size:15.5px;color:var(--ink-2)}
+.sources{font-size:14.5px;color:var(--ink-2)} .sources ol{padding-inline-start:20px} .sources li{margin-bottom:6px;word-break:break-word}
+.related{border-top:1px solid var(--rule);padding-block:34px 60px}
+.related h2{font-size:28px;margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{text-decoration:none;color:var(--ink);display:grid;gap:10px}
+.card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:4px;display:block}
+.card .kicker{font-size:11.5px}
+.card h3{font-size:21px;line-height:1.3;margin:0}
+.card p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.55}
+.foot{background:var(--forest);color:var(--on-forest-2);font-size:14px}
+.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;padding-block:26px}
+.foot .logo{height:30px;width:auto}
+sup a{text-decoration:none;font:500 12px var(--mono)}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:0}.toc{position:static;margin-bottom:26px;order:-1}.box.fit .cols{grid-template-columns:1fr}.cta form{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.card img{transition:transform .4s}.card:hover img{transform:scale(1.02)}}
+/* hub */
+.hub-hero{padding-block:44px 30px}
+.hub-hero h1{max-width:16ch}
+.feature{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:34px;align-items:center;text-decoration:none;color:var(--ink);padding-block:10px 40px;border-bottom:1px solid var(--rule)}
+.feature img,.feature video{width:100%;max-width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;display:block;background:var(--tint)}
+figure.photo video{width:100%;max-width:100%;height:auto;border-radius:4px;display:block;background:var(--tint)}
+.feature h2{font-size:clamp(28px,3.4vw,42px);line-height:1.15;margin:10px 0 12px}
+.feature p{color:var(--ink-2);margin:0}
+.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px;padding-block:40px}
+.hub-grid .card h3{font-size:26px}
+.trustbar{display:flex;flex-wrap:wrap;gap:10px 28px;padding-block:18px;border-block:1px solid var(--rule);font-size:15px;color:var(--ink-2)}
+.trustbar b{color:var(--ink)}
+@media (max-width:800px){.feature,.hub-grid{grid-template-columns:minmax(0,1fr)}}
+</style><script>document.documentElement.lang='he';document.documentElement.dir='rtl';</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BlogPosting", "@id": "https://www.miftah.co.il/articles/beit-reshet/#article", "headline": "בית רשת חקלאי: כל מה שצריך לדעת לפני שמקימים, מהתכנון ההנדסי ועד המסירה בשטח", "description": "מה זה בית רשת, אילו סוגים יש, איך בוחרים רשת ואחוז הצללה וכמה זה עולה לדונם לפי משרד החקלאות. מדריך הנדסי ממי שמקים בתי רשת יותר מ-20 שנה.", "image": ["https://www.miftah.co.il/articles/img/cover-beit-reshet.jpg"], "datePublished": "2026-10-21", "dateModified": "2026-10-21", "inLanguage": "he-IL", "mainEntityOfPage": "https://www.miftah.co.il/articles/beit-reshet/", "keywords": "בית רשת, בית רשת חקלאי, בתי רשת לחקלאות, הקמת בית רשת, תכנון בית רשת, עלות בית רשת לדונם, בית רשת למטע, בית רשת לירקות, חממה או בית רשת, סוגי רשתות חקלאיות, אחוז הצללה, רשת נגד חרקים 50 מש", "author": {"@type": "Person", "name": "יפתח הספל", "alternateName": "Yiftach Hasfel", "jobTitle": "מנכ״ל משותף", "worksFor": {"@id": "https://www.miftah.co.il/#org"}}, "publisher": {"@id": "https://www.miftah.co.il/#org"}}, {"@type": "Organization", "@id": "https://www.miftah.co.il/#org", "name": "מיפתח פרויקטים", "alternateName": "MIFTAH Projects", "url": "https://www.miftah.co.il", "telephone": "+972-4-9856969", "logo": "https://www.miftah.co.il/logo.png", "address": {"@type": "PostalAddress", "addressLocality": "כפר מסריק", "addressCountry": "IL"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "דף הבית", "item": "https://www.miftah.co.il/"}, {"@type": "ListItem", "position": 2, "name": "מרכז הידע", "item": "https://www.miftah.co.il/articles/"}, {"@type": "ListItem", "position": 3, "name": "בית רשת חקלאי: כל מה שצריך לדעת לפני שמקימים, מהתכנון ההנדסי ועד המסירה בשטח", "item": "https://www.miftah.co.il/articles/beit-reshet/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "מה ההבדל בין בית רשת לחממה?", "acceptedAnswer": {"@type": "Answer", "text": "חממה מכוסה בפלסטיק או בחומר קשיח בכל המעטפת ויכולה לשלוט באקלים בעזרת חימום, צינון ומסכים. בית רשת מכוסה ברשת שעוברים בה אוויר ומים, ואינו מבוקר אקלים. הוא ממתן קרינה, רוח, ברד ומזיקים. גם ההשקעה שונה מאוד: בירקות, משרד החקלאות מכיר בעלות של ₪47,000 לדונם לחממה רב-קשתית לעומת ₪11,000 לדונם לבית רשת."}}, {"@type": "Question", "name": "כמה עולה להקים בית רשת לדונם?", "acceptedAnswer": {"@type": "Answer", "text": "המספר הרשמי היחיד הוא העלות המוכרת של מנהלת ההשקעות במשרד החקלאות, שמשמשת לחישוב מענק: למשל ₪8,000 לדונם לבית רשת נמוך, ₪10,400 עד ₪8,000 לבית רשת גבוה לבננות לפי גודל השטח, ו-₪14,000 לבית רשת עם הדליה (תכנית הפיתוח 2023). זו אינה הצעת מחיר. המחיר בפועל תלוי בגובה, ברוח, בקרקע, ברשת ובהיקף, ולכן הוא נקבע אחרי ביקור בשטח ותכנון."}}, {"@type": "Question", "name": "האם צריך היתר בנייה לבית רשת?", "acceptedAnswer": {"@type": "Answer", "text": "זה תלוי בסוג המבנה ובגובהו. בטבלת משרד החקלאות, בית רשת גבוה לבננות מסומן כמבנה שנדרש לו היתר, בבית רשת נמוך עד 4 מטרים לא נדרש היתר לחלק מהגידולים, ובבית רשת עם הדליה עד 4.5 מטרים לא נדרש. ההנחיות אינן אחידות בכל המסמכים, ולכן בדקו מול הוועדה המקומית לתכנון ובנייה. ההיתר באחריות היזם, וכדאי להתחיל בו מוקדם."}}, {"@type": "Question", "name": "כמה זמן מחזיקה רשת חקלאית?", "acceptedAnswer": {"@type": "Answer", "text": "אין מספר אחד. אורך החיים תלוי בחומר, בייצוב נגד קרינת UV, באקלים, באבק ובנזקים מכניים. מחקרים מראים שהעברת האור דרך רשת יורדת בכ-2% בשנה, ושאבק יכול להוריד עוד 10% עד סוף העונה היבשה. המבנה עצמו, עמודים וכבלים, מתוכנן לשנים רבות, והרשת מוחלפת לפי מצבה. ביקורות תקופתיות ובדיקה אחרי כל סערה מאריכות את חיי שניהם."}}, {"@type": "Question", "name": "איזה אחוז הצללה מתאים לגידול שלי?", "acceptedAnswer": {"@type": "Answer", "text": "אין טבלה רשמית אחת. בבננות מקובלות רשתות שקופות של כ-8% עד 15%. במחקר בתפוחים בברעם, רשתות 30% הגנו היטב מכוויות שמש. באבוקדו, שה״מ מציין יעילות גבוהה בהגנה מקרה ברשתות מעל 50%. הבחירה תלויה בגידול, בזן ובאזור, ובאבק שיצטבר על הרשת, ולכן כדאי לקבל אותה יחד עם המדריך האגרונומי."}}, {"@type": "Question", "name": "האם יש מענק ממשרד החקלאות להקמת בית רשת?", "acceptedAnswer": {"@type": "Answer", "text": "כן, דרך תכנית הפיתוח של מנהלת ההשקעות, לפי רשימת גידולים, מסלולי הגשה ועלות מוכרת לדונם. בבננות, מענקים להשקיה ולהדליה מותנים בנטיעה תחת בית רשת. בנוסף פורסם מסלול לצפון לשנים 2026–2027 בהיקף 170 מיליון ₪, עם מענק של 50% לבתי צמיחה ולרשתות, על השקעה מאושרת של עד 3 מיליון ₪ לחקלאי, ליישובים במרחק 0 עד 9 ק״מ מגבול לבנון. בדקו את הנוהל העדכני ב-gov.il."}}, {"@type": "Question", "name": "מה גודל הפרויקט המינימלי שאתם מבצעים?", "acceptedAnswer": {"@type": "Answer", "text": "אנחנו מקימים פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל. כך אנחנו יכולים לתת לכל פרויקט את מלוא תשומת הלב, מהתכנון ועד התחזוקה."}}]}]}</script>
+</head><body><header class="top"><div class="wrap"><a href="index.html" aria-label="מיפתח, מרכז הידע"><svg class="logo logo--compact" viewBox="345 232 1222 286" role="img" aria-label="MIFTAH"><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></a>
+<nav aria-label="ניווט ראשי"><a href="index.html">מרכז הידע</a><a href="https://www.miftah.co.il">בתי רשת</a><a href="https://www.miftah.co.il">חוות Turnkey</a><a href="#contact">דברו איתנו</a></nav></div></header>
+<main>
+<div class="wrap"><nav class="crumbs" aria-label="פירורי לחם"><a href="index.html">מרכז הידע</a> / מדריך יסוד · בתי רשת</nav>
+<div class="hero"><span class="kicker">מדריך יסוד · בתי רשת · 18 דקות קריאה</span>
+<h1>בית רשת חקלאי: כל מה שצריך לדעת לפני שמקימים, מהתכנון ההנדסי ועד המסירה בשטח</h1><p class="dek">סוגי מבנים, הרכיבים שמחזיקים אותם, בחירת רשת ואחוז הצללה, העלות המוכרת של משרד החקלאות והמענקים. מדריך הנדסי ממי שמתכנן, מייצר ומקים בתי רשת יותר מעשרים שנה.</p>
+<div class="byline"><div class="avatar" aria-hidden="true">י״ה</div><span><b>יפתח הספל</b>, מנכ״ל משותף, הנדסאי בניין (טכניון)</span><span class="sep">·</span><time datetime="2026-10-21">21 באוקטובר 2026</time><span class="reviewed">נכתב מתוך עבודה בשטח</span></div>
+<figure class="cover"><img src="img/cover-beit-reshet.jpg" alt="מבט אווירי בשקיעה על בית רשת חקלאי גדול ולבן בין מטעים וגבעות מיוערות" width="1600" height="800" fetchpriority="high"><figcaption><span class="tag-ai">הדמיה</span>בית רשת גבוה ושטוח בין מטעים, בשעת שקיעה.</figcaption></figure></div>
+<div class="layout"><article>
+<div class="lead-box"><b class="lbl">בקצרה</b><ul>
+<li>בית רשת חקלאי הוא שלד קל של עמודים, כבלים ועוגנים שנושא רשת מעל הגידול. הוא מאוורר ואינו מבוקר אקלים, ולכן ההשקעה בו נמוכה בהרבה מחממה.</li>
+<li>הרשת נבחרת לפי מטרה: הצללה, ברד, חרקים או רוח. אחוז ההצללה שכתוב על התווית אינו האחוז שהצמח מקבל בפועל.</li>
+<li>מבנה נכשל בדרך כלל בנקודות שלא רואים: עיגון, מתיחת כבלים וחיבורי השוליים. שם מתרכזים העומסים.</li>
+<li>משרד החקלאות מכיר בעלות של ₪8,000 עד ₪14,000 לדונם לרוב סוגי בתי הרשת למטעים, לצורך חישוב מענק. זו אינה הצעת מחיר.</li>
+<li>הטעות הנפוצה ביותר שאנחנו פוגשים בשטח: לנסות לעשות לבד כדי לחסוך.</li>
+</ul></div>
+
+<p><strong>בית רשת חקלאי</strong> הוא מבנה קל של עמודים, כבלים ועוגנים, שנושא רשת מעל גידול חקלאי: רשת הצללה, רשת נגד ברד או רשת נגד חרקים. בניגוד לחממה, הוא פתוח לאוויר ואינו מבוקר אקלים. תפקידו להגן על הגידול מקרינה עודפת, מרוח, מברד וממזיקים, ולשפר את היבול ואת איכותו.</p>
+
+<p>רוב החקלאים שואלים קודם כמה עולה בית רשת. השאלה שקובעת את התוצאה היא אחרת: מה המבנה צריך לעשות בשבילכם בעוד עשר שנים, ובאיזה לילה של סערה הוא ייבחן. המדריך נכתב על ידי צוות שמתכנן, מייצר ומקים בתי רשת יותר מעשרים שנה, בגליל ובחו״ל. הוא מסכם את מה שלמדנו בשטח, לצד מה שמחקר ישראלי מדד, עם מקור לכל מספר.</p>
+
+<div class="box fit"><b class="lbl">למי המדריך הזה</b><div class="cols">
+<div><h4>מתאים לכם אם</h4><ul>
+<li>אתם מתכננים מטע או משק ירקות של 50 דונם ומעלה בישראל, או 30 הקטר ומעלה בחו״ל.</li>
+<li>אתם מחליפים מבנה ישן ורוצים להבין מה השתנה בתכנון.</li>
+<li>חשוב לכם שהמבנה יחזיק שנים רבות, לא עונה אחת.</li>
+</ul></div>
+<div><h4>פחות מתאים אם</h4><ul>
+<li>אתם מחפשים רשת לגינה, לחלון או לחצר.</li>
+<li>כל מה שאתם צריכים הוא מחיר למטר רשת.</li>
+<li>השטח קטן מ-50 דונם.</li>
+</ul></div>
+</div></div>
+
+<h2 id="s1">מה זה בית רשת חקלאי, ובמה הוא שונה מחממה</h2>
+
+<h3>ההגדרה הרשמית, ומה היא אומרת בפועל</h3>
+<p>הנחיות התכנון של הרשות לתכנון ופיתוח החקלאות מגדירות כיסוי רשת כ״רשת כיסוי המעוגנת בשלד קל ופריק על גבי הקרקע, ומיועדת להשבחת הגידול הצמחי״. באותו מסמך מופיע גם הפירוט ההנדסי בקצרה: ״שלד קל ופריק. עיגון שתי וערב בקרקע או בשולי המטע״, והכיסוי עשוי ״רשת פלסטיק עבירה למים״<sup><a href="#ref1">1</a></sup>.</p>
+<p>שלוש מילים בהגדרה הזו חשובות למי שמתכנן. <strong>קל</strong>: המבנה אינו בניין. היציבות שלו נשענת על האיזון בין עמודים, כבלים ועוגנים. <strong>מעוגנת</strong>: העיגון הוא חלק מהמבנה, לא תוספת. <strong>עבירה</strong>: הרשת מעבירה אוויר ומים, ולכן היא משנה את המיקרו-אקלים בלי לסגור אותו. זה ההבדל המהותי מחממה.</p>
+
+<h3>חממה, בית רשת או שטח פתוח: השוואה</h3>
+<div class="tbl"><table>
+<thead><tr><th>קריטריון</th><th>חממה</th><th>בית רשת</th><th>שטח פתוח</th></tr></thead>
+<tbody>
+<tr><td>כיסוי</td><td>פלסטיק או חומר קשיח שקוף בכל המעטפת</td><td>רשת שעוברים בה אוויר ומים</td><td>ללא</td></tr>
+<tr><td>אוורור</td><td>מוגבל. תלוי בפתחים ובמערכות</td><td>טבעי, דרך הרשת. רשת צפופה נגד חרקים מקטינה אותו</td><td>מלא</td></tr>
+<tr><td>בקרת אקלים</td><td>אפשרית: חימום, צינון, מסכים</td><td>אין. המבנה מפחית קרינה, רוח ואידוי</td><td>אין</td></tr>
+<tr><td>הגנה</td><td>מגשם, מקור וממזיקים</td><td>מברד, מרוח, מקרינה עודפת וממזיקים, לפי סוג הרשת</td><td>אין</td></tr>
+<tr><td>גידולים טיפוסיים</td><td>ירקות ופרחים עתירי השקעה</td><td>בננות, תפוחים, קיווי, דובדבן, אבוקדו, ירקות עלים ותבלינים</td><td>גידולי שדה ומטעים בשטחים מוגנים מטבעם</td></tr>
+<tr><td>עלות מוכרת לירקות, לדונם<sup><a href="#ref2">2</a></sup></td><td class="num">₪47,000</td><td class="num">₪11,000 (₪16,000 עם הדליה)</td><td>לא רלוונטי</td></tr>
+<tr><td>תחזוקה עיקרית</td><td>החלפת כיסוי, מערכות אקלים</td><td>כבלים, עיגון, מתיחה, רשת</td><td>עיבוד בלבד</td></tr>
+</tbody></table></div>
+<p>בשורה התחתונה: בית רשת לא מנסה לשלוט באקלים. הוא מנסה למתן את הקצוות שלו. לרוב המטעים ולבננות זה מספיק, ובהשקעה נמוכה בהרבה.</p>
+
+<h2 id="s2">סוגי בתי רשת לחקלאות</h2>
+<p>אין ״בית רשת סטנדרטי״. יש משפחות של מבנים, וכל אחת נגזרת מהגידול, מהמיכון שעובר בתוכה ומהרוח באתר. משרד החקלאות מסווג אותן בטבלת העלויות שלו, וזו נקודת פתיחה טובה<sup><a href="#ref2">2</a></sup>.</p>
+
+<figure class="photo"><img src="img/real-galilee-nethouse.jpg" alt="צילום אווירי של בית רשת חקלאי גדול בין גבעות הגליל" loading="lazy" width="1400" height="788"><figcaption>בית רשת גבוה ושטוח בנוף הגליל. במבנה בהיקף כזה, כל פרט בשוליים חוזר על עצמו מאות פעמים. צילום: ארכיון מיפתח</figcaption></figure>
+
+<h3>בית רשת גבוה ושטוח</h3>
+<p>זה המבנה של ענף הבננות ושל מטעים גבוהים. בננות גדלות גבוה יותר תחת רשת, ולכן מבנים לבננות מגיעים לגובה של עד כ-6 מטרים<sup><a href="#ref17">17</a></sup>. הגובה מגדיל את חשיפת המבנה לרוח, ומכאן שהעיגון וכבלי ההיקף הם לב התכנון. בטבלת משרד החקלאות, בית רשת גבוה לבננות מסומן כמבנה שנדרש לו היתר בנייה<sup><a href="#ref2">2</a></sup>. הרחבה ב<a href="beit-reshet-bananot.html">מדריך לבית רשת לבננות</a>.</p>
+
+<h3>בית רשת נמוך</h3>
+<p>מבנה למטעים שגובה הנוף שלהם מוגבל. משרד החקלאות מונה בקטגוריה הזו דובדבן, ענבים, פירות קיץ ותאנים, וכן כרם מאכל וליצ׳י. לפי הטבלה, עד גובה 4 מטרים לא נדרש היתר בנייה לחלק מהגידולים, ומעליו נדרש<sup><a href="#ref2">2</a></sup>.</p>
+
+<h3>בית רשת עם הדליה, כולל הדליה בצורת סוכה</h3>
+<p>כאן אותם עמודים נושאים גם את הרשת וגם את מערכת ההדליה של הגידול. זה המבנה לקיווי ולנשירים אפילים כמו תפוח, אגס ואפרסק<sup><a href="#ref2">2</a></sup>. בקיווי משתמשים בהדליה בצורת סוכה, שבה הצמח נפרש על משטח אופקי מתחת לרשת. השילוב חוסך עמודים, אבל מחייב לחשב את העומס של הגידול עצמו, לא רק של הרשת.</p>
+
+<h3>רשת תשליך ורשת מתקפלת</h3>
+<p>רשת תשליך נפרשת ישירות על שורות העצים, בלי מבנה גבוה מעליהם. זו ההשקעה הנמוכה ביותר בטבלת המשרד<sup><a href="#ref2">2</a></sup>. רשת מתקפלת היא בית רשת שהרשת שלו נאספת לאורך הכבלים בסוף העונה ונפרשת מחדש באביב. באזורים עם שלג היא חוסכת מהמבנה את העומס הכבד של החורף. על ההבדלים ביניהן ב<a href="reshet-neged-barad.html">מדריך לרשת נגד ברד למטעים</a>.</p>
+
+<h3>בית רשת לירקות</h3>
+<p>בירקות עלים ובתבלינים, בית הרשת משלב בדרך כלל רשת נגד חרקים ורשת הצללה. לפי תכנית הפיתוח של המשרד, בשטחים קיימים התנאי לאישור הוא שהשטחים יהיו מחופים ברשת נגד חרקים וברשת הצללה<sup><a href="#ref2">2</a></sup>.</p>
+
+<h3>סככת העמסה ושובר רוח</h3>
+<p>שני מבנים משלימים שכדאי לתכנן יחד עם בית הרשת. סככת העמסה היא מבנה במפתח רחב שמאפשר למשאית להיכנס, לעמוד ולהעמיס בצל. שובר רוח הוא קיר רשת או שורת עצים שמקטינים את הרוח לפני שהיא פוגעת בגידול או במבנה.</p>
+<p>בשובר רוח, ההיגיון האינטואיטיבי מטעה. קיר אטום עוצר את הרוח היטב ממש מאחוריו, אבל יוצר מערבולות, והאזור המוגן קצר. לפי שירות ההדרכה של אוניברסיטת נברסקה, צפיפות של 40% עד 60% נותנת את השטח המוגן הגדול ביותר, ומתחת ל-20% כמעט אין תועלת<sup><a href="#ref6">6</a></sup>.</p>
+<figure class="viz" id="windbreak"><div class="frame"><h4>שובר רוח: אטום יותר אינו מגן יותר</h4><p class="sub">מהירות הרוח מאחורי שובר הרוח, באחוזים מהרוח הפתוחה, לפי צפיפות השובר ומרחק ממנו (H = גובה השובר). ערך נמוך = הגנה טובה יותר</p><svg viewBox="0 0 720 428" role="img" aria-labelledby="windbreak-t windbreak-d"><title id="windbreak-t">שובר רוח: אטום יותר אינו מגן יותר</title><desc id="windbreak-d">מהירות הרוח מאחורי שובר הרוח, באחוזים מהרוח הפתוחה, לפי צפיפות השובר ומרחק ממנו (H = גובה השובר). ערך נמוך = הגנה טובה יותר</desc><line class="grid" x1="490.0" x2="490.0" y1="30" y2="406" stroke-width="1"/><text x="490.0" y="422" text-anchor="middle">0</text><line class="grid" x1="396.7" x2="396.7" y1="30" y2="406" stroke-width="1"/><text x="396.7" y="422" text-anchor="middle">20</text><line class="grid" x1="303.5" x2="303.5" y1="30" y2="406" stroke-width="1"/><text x="303.5" y="422" text-anchor="middle">40</text><line class="grid" x1="210.2" x2="210.2" y1="30" y2="406" stroke-width="1"/><text x="210.2" y="422" text-anchor="middle">60</text><line class="grid" x1="117.0" x2="117.0" y1="30" y2="406" stroke-width="1"/><text x="117.0" y="422" text-anchor="middle">80</text><line class="grid" x1="23.7" x2="23.7" y1="30" y2="406" stroke-width="1"/><text x="23.7" y="422" text-anchor="middle">100</text><rect x="696" y="6" width="14" height="14" rx="2" fill="var(--leaf)"/><text x="688" y="18" text-anchor="end">5H</text><rect x="644" y="6" width="14" height="14" rx="2" fill="var(--amber)"/><text x="636" y="18" text-anchor="end">10H</text><rect x="583" y="6" width="14" height="14" rx="2" fill="var(--sky)"/><text x="575" y="18" text-anchor="end">15H</text><text x="716" y="76.0" text-anchor="end" style="font-weight:700">שורת עצים דלילה (25–35%)</text><rect x="256.9" y="34" width="233.1" height="22" rx="2" fill="var(--leaf)"/><text class="v" x="250.9" y="50.0" text-anchor="end">50%</text><rect x="186.9" y="60" width="303.1" height="22" rx="2" fill="var(--amber)"/><text class="v" x="180.9" y="76.0" text-anchor="end">65%</text><rect x="117.0" y="86" width="373.0" height="22" rx="2" fill="var(--sky)"/><text class="v" x="111.0" y="102.0" text-anchor="end">80%</text><text x="716" y="168.0" text-anchor="end" style="font-weight:700">שורה צפופה (40–60%)</text><rect x="350.1" y="126" width="139.9" height="22" rx="2" fill="var(--leaf)"/><text class="v" x="344.1" y="142.0" text-anchor="end">30%</text><rect x="256.9" y="152" width="233.1" height="22" rx="2" fill="var(--amber)"/><text class="v" x="250.9" y="168.0" text-anchor="end">50%</text><rect x="210.2" y="178" width="279.8" height="22" rx="2" fill="var(--sky)"/><text class="v" x="204.2" y="194.0" text-anchor="end">60%</text><text x="716" y="260.0" text-anchor="end" style="font-weight:700">כמה שורות (60–80%)</text><rect x="373.4" y="218" width="116.6" height="22" rx="2" fill="var(--leaf)"/><text class="v" x="367.4" y="234.0" text-anchor="end">25%</text><rect x="326.8" y="244" width="163.2" height="22" rx="2" fill="var(--amber)"/><text class="v" x="320.8" y="260.0" text-anchor="end">35%</text><rect x="186.9" y="270" width="303.1" height="22" rx="2" fill="var(--sky)"/><text class="v" x="180.9" y="286.0" text-anchor="end">65%</text><text x="716" y="352.0" text-anchor="end" style="font-weight:700">גדר אטומה (100%)</text><rect x="373.4" y="310" width="116.6" height="22" rx="2" fill="var(--leaf)"/><text class="v" x="367.4" y="326.0" text-anchor="end">25%</text><rect x="163.6" y="336" width="326.4" height="22" rx="2" fill="var(--amber)"/><text class="v" x="157.6" y="352.0" text-anchor="end">70%</text><rect x="70.4" y="362" width="419.6" height="22" rx="2" fill="var(--sky)"/><text class="v" x="64.4" y="378.0" text-anchor="end">90%</text></svg><details><summary>הנתונים בטבלה</summary><div class="tbl"><table><thead><tr><th></th><th>5H</th><th>10H</th><th>15H</th></tr></thead><tbody><tr><td>שורת עצים דלילה (25–35%)</td><td>50%</td><td>65%</td><td>80%</td></tr><tr><td>שורה צפופה (40–60%)</td><td>30%</td><td>50%</td><td>60%</td></tr><tr><td>כמה שורות (60–80%)</td><td>25%</td><td>35%</td><td>65%</td></tr><tr><td>גדר אטומה (100%)</td><td>25%</td><td>70%</td><td>90%</td></tr></tbody></table></div></details></div><figcaption>בהנחת רוח פתוחה של 20 מייל לשעה. הנתונים נמדדו בשוברי רוח של עצים וגדרות, והעיקרון זהה לרשת. מקור: <a href="https://extensionpubs.unl.edu/publication/ec1763/2006/pdf/view/ec1763-2006.pdf">Hodges &amp; Brandle, University of Nebraska–Lincoln Extension EC1763 (2006)</a>, על בסיס USDA NAC Agroforestry Note 25</figcaption></figure>
+<p>אותו עיקרון חל על קירות הצד של בית רשת: פתחים ורווחים לא מתוכננים יוצרים אפקט משפך, והרוח בהם חזקה מזו שבשטח הפתוח<sup><a href="#ref6">6</a></sup>.</p>
+
+<div class="box field"><b class="lbl">מהשטח</b><p>בית רשת לבננות במערב הגליל, עם רשת 11%. בית רשת לקיווי בברעם, עם הדליה בצורת סוכה. בית רשת לתפוחים ברמת הגולן, שהרשת שלו מתקפלת בחורף. שלושה גידולים, שלושה אזורים ושלושה מבנים שונים מהיסוד. המכנה המשותף הוא שהתכנון התחיל מהגידול ומהרוח באתר, ולא מקטלוג.</p></div>
+
+<h2 id="s3">האנטומיה של בית רשת: הרכיבים, ולמה כל אחד מהם נכשל</h2>
+<p>בית רשת נראה פשוט. בפועל זו מערכת שבה כל רכיב מעביר כוח לרכיב הבא: מהרשת לכבלי הגג, משם לכבלי ההיקף, לעמודים, לכבלי העיגון ולקרקע. רכיב חלש אחד מעביר את העומס לשכן שלו, ומשם הכשל מתגלגל.</p>
+
+<figure class="photo"><img src="img/anatomy-render.jpg" alt="הדמיה איזומטרית של מפתח אחד בבית רשת: יסודות בטון, עמודים מגולוונים, כבלי עיגון עם עוגני בורג, רשת כבלי גג, רשת לבנה מקופלת בחלקה ועצים מתחת" loading="lazy" width="1400" height="792"><figcaption><span class="tag-ai">הדמיה</span>חתך של מפתח אחד בבית רשת. הרשת מקופלת בחלקה כדי לחשוף את רשת כבלי הגג. המקרא בטבלה שמתחת.</figcaption></figure>
+
+<div class="tbl"><table>
+<thead><tr><th>מה רואים בהדמיה</th><th>מה הרכיב עושה</th><th>מה קורה כשהוא מתוכנן בחסר</th></tr></thead>
+<tbody>
+<tr><td><b>1. יסודות בטון</b> בבסיס העמודים</td><td>מעבירים לקרקע את המשקל ואת הלחץ האנכי של הכבלים</td><td>העמוד שוקע או נוטה, הכבלים מתרופפים והרשת מתחילה לנפנף ולהישחק</td></tr>
+<tr><td><b>2. עמודים מגולוונים</b></td><td>נושאים את רשת הכבלים בגובה הנדרש לגידול ולמיכון</td><td>עמוד דק מדי מתכופף בעומס צד. גלוון פגום בחיתוך או בריתוך מחליד מבפנים לאורך שנים</td></tr>
+<tr><td><b>3. כבלי עיגון אלכסוניים ומותחנים</b> בעמודי ההיקף</td><td>מושכים את עמודי ההיקף החוצה ומאזנים את מתיחת הגג</td><td>זווית או מתיחה לא נכונות מעמיסות את העמוד בכפיפה. עמוד היקף שקורס מושך איתו את השורה</td></tr>
+<tr><td><b>4. עוגני בורג בקרקע</b></td><td>מחזיקים את כבלי העיגון נגד שליפה</td><td>עוגן שלא הותאם לסוג הקרקע עלול להישלף ברוח חזקה או בקרקע רוויה. לכן בודקים את הקרקע לפני שבוחרים עוגן</td></tr>
+<tr><td><b>5. כבלי היקף וכבלי גג</b> ברשת שתי וערב</td><td>יוצרים את ״התקרה״ שעליה נשענת הרשת ומפזרים את העומס</td><td>מרווח גדול מדי בין כבלים יוצר שקיעות. בהן מצטברים ברד ומים, והעומס מתרכז בנקודה אחת</td></tr>
+<tr><td><b>6. הרשת ותפסני החיבור</b></td><td>מסננים קרינה, ברד או חרקים, ומעבירים את כוח הרוח לכבלים</td><td>חיבור חלש בשוליים נקרע ראשון. משם הרוח נכנסת מתחת לרשת ומרימה אותה</td></tr>
+<tr><td><b>7. קירות צד</b> ושערים</td><td>סוגרים את המבנה לרוח צד, לחרקים ולבעלי חיים, ומאפשרים כניסת מיכון</td><td>רווח לא מתוכנן הופך למשפך רוח. שער צר מדי מכתיב את המיכון לשנים</td></tr>
+</tbody></table></div>
+
+<h3>רוח: הכוח גדל מהר יותר מהמהירות</h3>
+<p>במכון וולקני מדדו את הכוחות על רשת שכיסתה בית רשת לאפרסקים, באמצעות 60 תאי עומס בשולי המבנה. הכוח גדל כפולינום מסדר שני של מהירות הרוח, והוא היה החזק ביותר בנקודות שבהן הרשת מחוברת לכבל בשולי בית הרשת. לפי האקסטרפולציה של החוקרים, במהירות רוח של 150 קמ״ש הכוח בנקודת חיבור אחת עשוי להגיע ל-50 ק״ג<sup><a href="#ref4">4</a></sup>. זו מדידה במבנה אחד, אבל העיקרון הפיזיקלי כללי. המשמעות המעשית: רוח במהירות כפולה מעמיסה בקירוב פי ארבעה, והעומס מתרכז בדיוק בשוליים. לכן מתכננים את שולי המבנה אחרת ממרכזו.</p>
+
+<h3>ברד ושלג: עומס שמצטבר</h3>
+<p>ברד שנאסף בשקע ברשת הופך לעומס נקודתי כבד. בקיבוץ נירים תיארו ניסוי אבוקדו תחת בית רשת שבו ״ברד כבד הפיל את הרשת״<sup><a href="#ref5">5</a></sup>. זה לא כישלון של הרעיון, אלא תזכורת שהמבנה צריך להיות מתוכנן לעומס ברד ולניקוז שלו. באזורים עם שלג, כמו רמת הגולן, אחת התשובות היא רשת שמתקפלת בחורף, כך שהמבנה לא נושא שלג כלל.</p>
+
+<h3>תקנים: מה כדאי לשאול</h3>
+<p>לא מצאנו תקן ישראלי שנכתב במיוחד לבתי רשת. עומסי רוח על מבנים ועבודות הנדסה אזרחית נקבעים בישראל בת״י 414, הכולל מפה של מהירויות רוח בסיסיות<sup><a href="#ref25">25</a></sup>. שאלה טובה לכל מתכנן: לפי מה חישבתם את הרוח באתר שלי, ומה מקדם הביטחון בעוגנים?</p>
+
+<h2 id="s4">איך בוחרים רשת: הצללה, ברד, חרקים וצבע</h2>
+<p>בחירת רשת היא החלטה הנדסית ואגרונומית גם יחד. שתי רשתות עם אותה תווית יכולות להתנהג אחרת לגמרי בשטח.</p>
+
+<h3>רשת הצללה ואחוז הצללה: נומינלי מול בפועל</h3>
+<p>אחוז ההצללה שעל התווית נמדד ברשת נקייה וחדשה. בשטח מצטבר עליה אבק. בניסוי בחוות הבננות בצמח, בעמק הירדן, נמדדה בסתיו 2016 הצללה של 25% עד 26% גם תחת רשת 10% וגם תחת רשת 20%, כולל האבק שהצטבר<sup><a href="#ref7">7</a></sup>. בדוח המדעי של אותו ניסוי נמצא שהאבק הוריד את העברת הקרינה ב-10% נוספים עד סוף העונה היבשה<sup><a href="#ref8">8</a></sup>.</p>
+<p>גם מבנה הרשת משנה. בבתי רשת לבננות משתמשים בדרך כלל ברשתות שקופות עם הצללה נומינלית של כ-8% עד 15%. כשהשוו רשת סרוגה לרשת ארוגה, שתיהן בהצללה של 10%, מהירות האוויר מתחת לסרוגה הייתה גבוהה ב-18% והקרינה ב-7%<sup><a href="#ref9">9</a></sup>. כלומר, ״10%״ אינו מפרט מלא. צריך לדעת גם איך הרשת עשויה ואיפה היא תעמוד.</p>
+
+<h3>רשת נגד ברד</h3>
+<p>מטרתה לעצור את אבני הברד לפני שהן פוגעות בפרי ובענפים. בניסוי בתפוחי ׳רויאל גאלה׳ בדרום ברזיל, בעונת 2010/11 החלקה הפתוחה לא נקטפה כלל, אחרי שסופת ברד אחת השמידה את הפרי. החלקה שתחת רשת נגד ברד הניבה באותה עונה 95.2 טון להקטר<sup><a href="#ref10">10</a></sup>. זה ניסוי באתר אחד, אבל הוא מראה את ההיגיון: הרשת היא ביטוח שעובד בשנה הקשה. לרשת יש גם תועלת לוואי. בניסוי בודד במטע תפוחים מסחרי במינסוטה, רשת נגד ברד הורידה את אוכלוסיית עש התפוח ב-94% לעומת חלקות פתוחות<sup><a href="#ref11">11</a></sup>.</p>
+
+<h3>רשת נגד חרקים</h3>
+<p>רשת נגד חרקים היא רשת בעין צפופה, למשל 50 מש, שנועדה לעצור כנימות, כנימות עש ותריפסים. בישראל היא שינתה את גידול העגבניות: עד 1990 נלחמו בנגיף צהבון האמיר בעיקר בריסוסים, ועד שנת 2000 כמעט כל עגבניות המאכל בארץ גודלו תחת רשתות כאלה<sup><a href="#ref13">13</a></sup>. המחיר הוא אוורור. בפלפל תחת רשתות בעין צפופה נמדדה ירידה של 50% עד 70% בקצב האוורור, וירידה של כ-50% בצריכת המים לעומת הערכה לשטח פתוח<sup><a href="#ref12">12</a></sup>. לכן בחירת המש היא איזון בין הגנה לבין חום ולחות בתוך המבנה.</p>
+
+<h3>רשתות צבעוניות</h3>
+<p>רשתות צבעוניות, או פוטו-סלקטיביות, משנות לא רק את כמות האור אלא גם את הרכבו. במחקר של מכון וולקני במטע התפוחים של ברעם, ניסוי באתר אחד לאורך חמש עונות, כל רשתות ה-30% הגנו היטב מכוויות שמש. רשת הפנינה הוסיפה כ-20 טון להקטר בשנה בזן גולדן דלישס לעומת עצים ללא רשת, והרשתות השחורה והאפורה נתנו את התוצאות החלשות<sup><a href="#ref14">14</a></sup>. בתפוזי ולנסיה, לאורך חמש שנים, היבול עלה ב-18%, ב-27% וב-44% תחת רשת שקופה, פנינה ואדומה בהתאמה<sup><a href="#ref15">15</a></sup>. בירקות, שכיחות וירוס מוזאיקת המלפפון הייתה נמוכה פי עשרה תחת רשת פנינה לעומת רשת שחורה<sup><a href="#ref16">16</a></sup>.</p>
+
+<h3>טבלת החלטה: מהמטרה לרשת</h3>
+<div class="tbl"><table>
+<thead><tr><th>המטרה העיקרית</th><th>כיוון הרשת</th><th>מה בודקים לפני שמחליטים</th><th>להרחבה</th></tr></thead>
+<tbody>
+<tr><td>הפחתת קרינה, רוח ואידוי בבננות</td><td>רשת הצללה שקופה, 8%–15% נומינלי<sup><a href="#ref9">9</a></sup></td><td>ארוגה או סרוגה, אבק באזור, גובה המבנה</td><td><a href="beit-reshet-bananot.html">בית רשת לבננות</a></td></tr>
+<tr><td>הגנה מברד במטע</td><td>רשת נגד ברד: קבועה, תשליך או מתקפלת</td><td>עומס ברד ושלג, ניקוז הברד, השפעה על צבע הפרי</td><td><a href="reshet-neged-barad.html">רשת נגד ברד למטעים</a></td></tr>
+<tr><td>כוויות שמש בתפוחים</td><td>רשת הצללה של 30%; בברעם הגנו כל הצבעים<sup><a href="#ref14">14</a></sup></td><td>צבע הרשת, צימוח־יתר בזנים מסוימים</td><td><a href="reshet-neged-barad.html">רשת נגד ברד למטעים</a></td></tr>
+<tr><td>קרה באבוקדו</td><td>רשת בהצללה של יותר מ-50%<sup><a href="#ref18">18</a></sup></td><td>בית רשת קבוע או תשליך, גיל המטע</td><td><a href="beit-reshet-avocado.html">בית רשת לאבוקדו</a></td></tr>
+<tr><td>מזיקים ווירוסים בירקות</td><td>רשת נגד חרקים בעין צפופה, לעתים עם רשת צבעונית<sup><a href="#ref16">16</a></sup></td><td>אוורור, חום ולחות, נגישות לעבודה</td><td>בפרק זה</td></tr>
+<tr><td>רוח בשולי השטח</td><td>שובר רוח בצפיפות 40%–60%<sup><a href="#ref6">6</a></sup></td><td>רציפות הקיר, פתחים, כיוון הרוח השלטת</td><td>בפרק סוגי המבנים</td></tr>
+</tbody></table></div>
+<p>שימו לב: לא מצאנו טבלה ישראלית רשמית של ״אחוז הצללה מומלץ לכל גידול״. הבחירה תלויה בגידול, בזן ובאזור, וכדאי לקבל אותה יחד עם המדריך האגרונומי שלכם.</p>
+
+<h2 id="s5">מים, אקלים ויבול: מה המחקר הישראלי מצא</h2>
+<p>ישראל היא אחת המדינות שבהן נחקרו בתי רשת לעומק. אלה הממצאים העיקריים למי שמתכנן:</p>
+<ul>
+<li><strong>מים בבננות.</strong> בבקעת הירדן החיסכון במים תחת בתי רשת יכול להגיע ל-20% עד 30%, ביבול זהה ואף טוב יותר. הגורמים העיקריים הם הפחתת הקרינה והרוח<sup><a href="#ref12">12</a></sup>. בניסוי בן ארבע שנים בחוות הבננות בצמח (אתר אחד), ההשקיה הממוצעת לפי הטבלה הייתה 2,255 מ״מ בשנה בשטח פתוח, לעומת 1,727 מ״מ תחת רשת 10% ו-1,673 מ״מ תחת רשת 20%<sup><a href="#ref7">7</a></sup>.</li>
+<li><strong>יבול בבננות.</strong> לפי סקירה של חוקרי חוות הבננות בצמח ומיגל, המעבר של הענף לבתי רשת בתחילת שנות האלפיים העלה את התפוקה בכ-30%, בזכות אשכולות כבדים יותר ופחות אשכולות שאבדו, ואפשר לגדל בחלקות חשופות לרוח<sup><a href="#ref17">17</a></sup>.</li>
+<li><strong>כוויות שמש בתפוחים.</strong> בניסוי בברעם, רשתות 30% בכל הצבעים נתנו הגנה טובה מאוד מכוויות שמש<sup><a href="#ref14">14</a></sup>.</li>
+<li><strong>קרה באבוקדו.</strong> שירות ההדרכה והמקצוע (שה״מ) כותב שיעילות גבוהה בהגנה מקרה נצפתה ברשתות עם הצללה של יותר מ-50%, ונמוכה יותר ברשתות של 30%. לפי שה״מ, ההגנה נובעת בעיקר מהצללת שמש הבוקר שאחרי הקרה, ולאו דווקא מחימום העלה<sup><a href="#ref18">18</a></sup>.</li>
+<li><strong>הסיכון האקלימי גדל.</strong> קנט, הקרן לביטוח נזקי טבע בחקלאות, פיצתה חקלאים על נזקי מזג אוויר ב-345 מיליון ₪ ב-2022<sup><a href="#ref20">20</a></sup>, ובכ-450 מיליון ₪ ב-2025, השיא של יותר מעשור<sup><a href="#ref21">21</a></sup>.</li>
+</ul>
+
+<div class="box honest"><b class="lbl">מה חשוב לדעת מראש</b><p>רשת אינה פתרון קסם. במחקר בברעם, העצים תחת רשת צמחו במרץ רב יותר, וזה חיסרון בחלק מהזנים<sup><a href="#ref14">14</a></sup>. בניסוי אבוקדו בדרום אפריקה, הרשת הפחיתה כוויות שמש ונזקי רוח, אבל היבול תחתיה ירד בשנה אחת בשני האתרים, והחוקרים הצביעו על השקיה והאבקה<sup><a href="#ref19">19</a></sup>. בית רשת משנה את תנאי הגידול, ולכן צריך להתאים אליו גם את ההשקיה, את המרווחים ואת ההאבקה.</p></div>
+
+<p class="soft-cta">יש לכם שאלה על הגידול או על השטח שלכם? כתבו לנו את הגידול, האזור והשטח בדונם, ונחזור אליכם עם כיוון ראשון. <a href="#contact">לשאלה ליפתח</a></p>
+
+<h2 id="s6">כמה עולה בית רשת</h2>
+
+<h3>מה קובע את המחיר</h3>
+<p>מחיר של בית רשת נגזר מהתכנון, לא ממחירון. אלה המשתנים שמזיזים אותו בפועל:</p>
+<ul>
+<li><strong>גובה ומפתח.</strong> מבנה גבוה לבננות או למטע עם מיכון גבוה דורש עמודים חזקים יותר ועיגון כבד יותר.</li>
+<li><strong>אזור רוח ושלג.</strong> אתר חשוף או מוצף שלג מחייב מרווחי כבלים צפופים יותר, עוגנים נוספים או רשת מתקפלת.</li>
+<li><strong>סוג הרשת ומספר הרשתות.</strong> רשת כפולה, למשל הצללה ונגד חרקים יחד, מייקרת. העלות המוכרת של משרד החקלאות מתייחסת לרשת אחת<sup><a href="#ref2">2</a></sup>.</li>
+<li><strong>הדליה.</strong> מבנה שנושא גם את הגידול, כמו הדליה בצורת סוכה בקיווי, הוא מבנה אחר.</li>
+<li><strong>קרקע וטופוגרפיה.</strong> קרקע סלעית, בזלת או מדרון משנים את סוג העוגנים ואת קצב העבודה.</li>
+<li><strong>היקף הפרויקט.</strong> בפרויקט גדול, עלות התכנון, ההובלה וההתארגנות מתחלקת על יותר דונמים.</li>
+</ul>
+
+<h3>טבלת העלות המוכרת של מנהלת ההשקעות</h3>
+<p>מנהלת ההשקעות במשרד החקלאות מפרסמת ״עלות מוכרת״ לדונם לכל סוג מבנה. זה הבסיס שלפיו מחושב המענק. זה גם המספר הרשמי היחיד שמצאנו לשאלה כמה עולה בית רשת<sup><a href="#ref2">2</a></sup>.</p>
+<div class="tbl"><table>
+<thead><tr><th>סוג מבנה</th><th>גידולים לפי הטבלה</th><th>עלות מוכרת לדונם</th><th>היתר בנייה לפי הטבלה</th></tr></thead>
+<tbody>
+<tr><td>רשת תשליך</td><td>מטעים, לפי פירוט הגידולים והתנאים בתכנית</td><td class="num">₪1,300</td><td>לא צוין</td></tr>
+<tr><td>בית רשת נמוך</td><td>דובדבן, ענבים, פירות קיץ, תאנים</td><td class="num">₪8,000</td><td>עד 4 מ׳ לא נדרש; מעל 4 מ׳ נדרש</td></tr>
+<tr><td>בית רשת נמוך</td><td>כרם מאכל, ליצ׳י</td><td class="num">₪8,000</td><td>לא נדרש</td></tr>
+<tr><td>בית רשת גבוה, עד 40 דונם</td><td>בננות</td><td class="num">₪10,400</td><td>נדרש</td></tr>
+<tr><td>בית רשת גבוה, עד 100 דונם</td><td>בננות</td><td class="num">₪9,500</td><td>נדרש</td></tr>
+<tr><td>בית רשת גבוה, מעל 100 דונם</td><td>בננות</td><td class="num">₪8,000</td><td>נדרש</td></tr>
+<tr><td>בית רשת עם הדליה</td><td>קיווי ונשירים אפילים: תפוח, אגס, אפרסק, נקטרינה</td><td class="num">₪14,000</td><td>עד 4.5 מ׳ לא נדרש; מעל נדרש</td></tr>
+<tr><td>בית רשת</td><td>ירקות</td><td class="num">₪11,000</td><td>לא צוין</td></tr>
+<tr><td>בית רשת להדליה</td><td>ירקות</td><td class="num">₪16,000</td><td>לא צוין</td></tr>
+<tr><td>חממה רב-קשתית, להשוואה</td><td>ירקות</td><td class="num">₪47,000</td><td>לא צוין</td></tr>
+</tbody></table></div>
+<p><strong>חשוב: אלה עלויות מוכרות לצורך חישוב מענק, לא הצעת מחיר.</strong> המספרים לקוחים מתכנית הפיתוח לשנת 2023. לפני החלטה, בדקו אם פורסמה תכנית מעודכנת.</p>
+<figure class="viz" id="cost-dunam"><div class="frame"><h4>עלות מוכרת לדונם לפי סוג מבנה (₪)</h4><p class="sub">הסכום שמנהלת ההשקעות במשרד החקלאות מכירה בו לצורך חישוב מענק, לפי תכנית הפיתוח 2023</p><svg viewBox="0 0 720 388" role="img" aria-labelledby="cost-dunam-t cost-dunam-d"><title id="cost-dunam-t">עלות מוכרת לדונם לפי סוג מבנה (₪)</title><desc id="cost-dunam-d">הסכום שמנהלת ההשקעות במשרד החקלאות מכירה בו לצורך חישוב מענק, לפי תכנית הפיתוח 2023</desc><line class="grid" x1="490.0" x2="490.0" y1="6" y2="366" stroke-width="1"/><text x="490.0" y="382" text-anchor="middle">0</text><line class="grid" x1="481.1" x2="481.1" y1="6" y2="366" stroke-width="1"/><text x="481.1" y="382" text-anchor="middle">1000</text><line class="grid" x1="472.1" x2="472.1" y1="6" y2="366" stroke-width="1"/><text x="472.1" y="382" text-anchor="middle">2000</text><line class="grid" x1="463.2" x2="463.2" y1="6" y2="366" stroke-width="1"/><text x="463.2" y="382" text-anchor="middle">3000</text><line class="grid" x1="454.3" x2="454.3" y1="6" y2="366" stroke-width="1"/><text x="454.3" y="382" text-anchor="middle">4000</text><line class="grid" x1="445.4" x2="445.4" y1="6" y2="366" stroke-width="1"/><text x="445.4" y="382" text-anchor="middle">5000</text><line class="grid" x1="436.4" x2="436.4" y1="6" y2="366" stroke-width="1"/><text x="436.4" y="382" text-anchor="middle">6000</text><line class="grid" x1="427.5" x2="427.5" y1="6" y2="366" stroke-width="1"/><text x="427.5" y="382" text-anchor="middle">7000</text><line class="grid" x1="418.6" x2="418.6" y1="6" y2="366" stroke-width="1"/><text x="418.6" y="382" text-anchor="middle">8000</text><line class="grid" x1="409.6" x2="409.6" y1="6" y2="366" stroke-width="1"/><text x="409.6" y="382" text-anchor="middle">9000</text><line class="grid" x1="400.7" x2="400.7" y1="6" y2="366" stroke-width="1"/><text x="400.7" y="382" text-anchor="middle">10000</text><line class="grid" x1="391.8" x2="391.8" y1="6" y2="366" stroke-width="1"/><text x="391.8" y="382" text-anchor="middle">11000</text><line class="grid" x1="382.9" x2="382.9" y1="6" y2="366" stroke-width="1"/><text x="382.9" y="382" text-anchor="middle">12000</text><line class="grid" x1="373.9" x2="373.9" y1="6" y2="366" stroke-width="1"/><text x="373.9" y="382" text-anchor="middle">13000</text><line class="grid" x1="365.0" x2="365.0" y1="6" y2="366" stroke-width="1"/><text x="365.0" y="382" text-anchor="middle">14000</text><line class="grid" x1="356.1" x2="356.1" y1="6" y2="366" stroke-width="1"/><text x="356.1" y="382" text-anchor="middle">15000</text><line class="grid" x1="347.1" x2="347.1" y1="6" y2="366" stroke-width="1"/><text x="347.1" y="382" text-anchor="middle">16000</text><line class="grid" x1="338.2" x2="338.2" y1="6" y2="366" stroke-width="1"/><text x="338.2" y="382" text-anchor="middle">17000</text><line class="grid" x1="329.3" x2="329.3" y1="6" y2="366" stroke-width="1"/><text x="329.3" y="382" text-anchor="middle">18000</text><line class="grid" x1="320.4" x2="320.4" y1="6" y2="366" stroke-width="1"/><text x="320.4" y="382" text-anchor="middle">19000</text><line class="grid" x1="311.4" x2="311.4" y1="6" y2="366" stroke-width="1"/><text x="311.4" y="382" text-anchor="middle">20000</text><line class="grid" x1="302.5" x2="302.5" y1="6" y2="366" stroke-width="1"/><text x="302.5" y="382" text-anchor="middle">21000</text><line class="grid" x1="293.6" x2="293.6" y1="6" y2="366" stroke-width="1"/><text x="293.6" y="382" text-anchor="middle">22000</text><line class="grid" x1="284.6" x2="284.6" y1="6" y2="366" stroke-width="1"/><text x="284.6" y="382" text-anchor="middle">23000</text><line class="grid" x1="275.7" x2="275.7" y1="6" y2="366" stroke-width="1"/><text x="275.7" y="382" text-anchor="middle">24000</text><line class="grid" x1="266.8" x2="266.8" y1="6" y2="366" stroke-width="1"/><text x="266.8" y="382" text-anchor="middle">25000</text><line class="grid" x1="257.9" x2="257.9" y1="6" y2="366" stroke-width="1"/><text x="257.9" y="382" text-anchor="middle">26000</text><line class="grid" x1="248.9" x2="248.9" y1="6" y2="366" stroke-width="1"/><text x="248.9" y="382" text-anchor="middle">27000</text><line class="grid" x1="240.0" x2="240.0" y1="6" y2="366" stroke-width="1"/><text x="240.0" y="382" text-anchor="middle">28000</text><line class="grid" x1="231.1" x2="231.1" y1="6" y2="366" stroke-width="1"/><text x="231.1" y="382" text-anchor="middle">29000</text><line class="grid" x1="222.1" x2="222.1" y1="6" y2="366" stroke-width="1"/><text x="222.1" y="382" text-anchor="middle">30000</text><line class="grid" x1="213.2" x2="213.2" y1="6" y2="366" stroke-width="1"/><text x="213.2" y="382" text-anchor="middle">31000</text><line class="grid" x1="204.3" x2="204.3" y1="6" y2="366" stroke-width="1"/><text x="204.3" y="382" text-anchor="middle">32000</text><line class="grid" x1="195.4" x2="195.4" y1="6" y2="366" stroke-width="1"/><text x="195.4" y="382" text-anchor="middle">33000</text><line class="grid" x1="186.4" x2="186.4" y1="6" y2="366" stroke-width="1"/><text x="186.4" y="382" text-anchor="middle">34000</text><line class="grid" x1="177.5" x2="177.5" y1="6" y2="366" stroke-width="1"/><text x="177.5" y="382" text-anchor="middle">35000</text><line class="grid" x1="168.6" x2="168.6" y1="6" y2="366" stroke-width="1"/><text x="168.6" y="382" text-anchor="middle">36000</text><line class="grid" x1="159.6" x2="159.6" y1="6" y2="366" stroke-width="1"/><text x="159.6" y="382" text-anchor="middle">37000</text><line class="grid" x1="150.7" x2="150.7" y1="6" y2="366" stroke-width="1"/><text x="150.7" y="382" text-anchor="middle">38000</text><line class="grid" x1="141.8" x2="141.8" y1="6" y2="366" stroke-width="1"/><text x="141.8" y="382" text-anchor="middle">39000</text><line class="grid" x1="132.9" x2="132.9" y1="6" y2="366" stroke-width="1"/><text x="132.9" y="382" text-anchor="middle">40000</text><line class="grid" x1="123.9" x2="123.9" y1="6" y2="366" stroke-width="1"/><text x="123.9" y="382" text-anchor="middle">41000</text><line class="grid" x1="115.0" x2="115.0" y1="6" y2="366" stroke-width="1"/><text x="115.0" y="382" text-anchor="middle">42000</text><line class="grid" x1="106.1" x2="106.1" y1="6" y2="366" stroke-width="1"/><text x="106.1" y="382" text-anchor="middle">43000</text><line class="grid" x1="97.1" x2="97.1" y1="6" y2="366" stroke-width="1"/><text x="97.1" y="382" text-anchor="middle">44000</text><line class="grid" x1="88.2" x2="88.2" y1="6" y2="366" stroke-width="1"/><text x="88.2" y="382" text-anchor="middle">45000</text><line class="grid" x1="79.3" x2="79.3" y1="6" y2="366" stroke-width="1"/><text x="79.3" y="382" text-anchor="middle">46000</text><line class="grid" x1="70.4" x2="70.4" y1="6" y2="366" stroke-width="1"/><text x="70.4" y="382" text-anchor="middle">47000</text><line class="grid" x1="61.4" x2="61.4" y1="6" y2="366" stroke-width="1"/><text x="61.4" y="382" text-anchor="middle">48000</text><line class="grid" x1="52.5" x2="52.5" y1="6" y2="366" stroke-width="1"/><text x="52.5" y="382" text-anchor="middle">49000</text><line class="grid" x1="43.6" x2="43.6" y1="6" y2="366" stroke-width="1"/><text x="43.6" y="382" text-anchor="middle">50000</text><line class="grid" x1="34.6" x2="34.6" y1="6" y2="366" stroke-width="1"/><text x="34.6" y="382" text-anchor="middle">51000</text><line class="grid" x1="25.7" x2="25.7" y1="6" y2="366" stroke-width="1"/><text x="25.7" y="382" text-anchor="middle">52000</text><text x="716" y="28.0" text-anchor="end" style="font-weight:700">רשת תשליך (מטעים)</text><rect x="478.4" y="10" width="11.6" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="472.4" y="28.0" text-anchor="end">1300 ₪</text><text x="716" y="72.0" text-anchor="end" style="font-weight:700">בית רשת נמוך (מטעים)</text><rect x="418.6" y="54" width="71.4" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="412.6" y="72.0" text-anchor="end">8000 ₪</text><text x="716" y="116.0" text-anchor="end" style="font-weight:700">בננות, מעל 100 דונם</text><rect x="418.6" y="98" width="71.4" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="412.6" y="116.0" text-anchor="end">8000 ₪</text><text x="716" y="160.0" text-anchor="end" style="font-weight:700">בננות, עד 40 דונם</text><rect x="397.1" y="142" width="92.9" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="391.1" y="160.0" text-anchor="end">10400 ₪</text><text x="716" y="204.0" text-anchor="end" style="font-weight:700">בית רשת לירקות</text><rect x="391.8" y="186" width="98.2" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="385.8" y="204.0" text-anchor="end">11000 ₪</text><text x="716" y="248.0" text-anchor="end" style="font-weight:700">בית רשת עם הדליה (מטעים)</text><rect x="365.0" y="230" width="125.0" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="359.0" y="248.0" text-anchor="end">14000 ₪</text><text x="716" y="292.0" text-anchor="end" style="font-weight:700">בית רשת להדליה (ירקות)</text><rect x="347.1" y="274" width="142.9" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="341.1" y="292.0" text-anchor="end">16000 ₪</text><text x="716" y="336.0" text-anchor="end" style="font-weight:700">חממה רב-קשתית (ירקות)</text><rect x="70.4" y="318" width="419.6" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="64.4" y="336.0" text-anchor="end">47000 ₪</text></svg><details><summary>הנתונים בטבלה</summary><div class="tbl"><table><thead><tr><th></th><th>ערך</th></tr></thead><tbody><tr><td>רשת תשליך (מטעים)</td><td>1300 ₪</td></tr><tr><td>בית רשת נמוך (מטעים)</td><td>8000 ₪</td></tr><tr><td>בננות, מעל 100 דונם</td><td>8000 ₪</td></tr><tr><td>בננות, עד 40 דונם</td><td>10400 ₪</td></tr><tr><td>בית רשת לירקות</td><td>11000 ₪</td></tr><tr><td>בית רשת עם הדליה (מטעים)</td><td>14000 ₪</td></tr><tr><td>בית רשת להדליה (ירקות)</td><td>16000 ₪</td></tr><tr><td>חממה רב-קשתית (ירקות)</td><td>47000 ₪</td></tr></tbody></table></div></details></div><figcaption><strong>אלה עלויות מוכרות לצורך חישוב מענק, לא הצעת מחיר.</strong> לפי התכנית הן כוללות תשתית, ברזל, רשת אחת ועבודה, ואינן כוללות מבנים עם רשת כפולה. מקור: <a href="https://www.gov.il/BlobFolder/reports/developmentplan2023/ar/development_2023.pdf">משרד החקלאות, מנהלת ההשקעות: תכנית הפיתוח עפ״י נושאים 2023</a></figcaption></figure>
+<p>שימו לב לאפקט הגודל בבננות: העלות המוכרת יורדת מ-₪10,400 לדונם בפרויקט של עד 40 דונם ל-₪8,000 לדונם מעל 100 דונם<sup><a href="#ref2">2</a></sup>. המשרד עצמו מכיר בכך שבפרויקט גדול, כל דונם עולה פחות.</p>
+
+<h3>למה הצעת מחיר אמיתית מתחילה בביקור בשטח</h3>
+<p>שני שטחים באותו גודל ולאותו גידול יכולים להגיע להצעות רחוקות זו מזו. ההבדל נמצא בקרקע שמתחת לעוגנים, בכיוון הרוח השלטת, בשיפוע ובדרכי הגישה. את זה רואים רק בשטח. לכן אנחנו מתחילים בתכנון, ורק אחריו מגיע מחיר. אנחנו מתמחים בפרויקטים של 50 דונם ומעלה בישראל, כדי לתת לכל אחד מהם את מלוא תשומת הלב.</p>
+
+<h2 id="s7">מענקים ותמיכות להקמת בית רשת</h2>
+<p>מנהלת ההשקעות במשרד החקלאות תומכת בבתי רשת דרך תכנית הפיתוח. כמה כללים שכדאי להכיר:</p>
+<ul>
+<li><strong>מטעים.</strong> בין נושאי הסיוע במטעים מופיעים בתי רשת לתפוחים, לליצ׳י, לתאנים ולקיווי, ורשת נגד ברד בהשלכה ישירה להדרים, לאבוקדו, למנגו, לנשירים גלעיניים, לרימונים ולכרם מאכל<sup><a href="#ref2">2</a></sup>.</li>
+<li><strong>בננות.</strong> מענקים למערכת השקיה ודישון ולמערכת הדליה יאושרו רק אם הנטיעה תתבצע תחת בית רשת קיים או חדש<sup><a href="#ref2">2</a></sup><sup><a href="#ref3">3</a></sup>.</li>
+<li><strong>מסלולי הגשה.</strong> לפי הערה בתכנית, תמיכה בבתי רשת למטעים לפי טבלת העלויות ניתנת לבקשות שמוגשות במסגרת נוהל התמיכה בחקלאים חדשים (״הדור הבא״) ונוהל הסכמי המים, גם על מטע קיים<sup><a href="#ref2">2</a></sup>.</li>
+<li><strong>מבנה לפי התכנית המאושרת.</strong> בפרק הירקות כתוב במפורש שבתי צמיחה שנבנו שלא בהתאם לתכנית המאושרת לא יזכו למימון, גם אם תכנית ההשקעות אושרה<sup><a href="#ref2">2</a></sup>. ההקמה צריכה להתאים למה שהוגש.</li>
+</ul>
+<p><strong>מסלול הצפון 2026–2027.</strong> משרד החקלאות פרסם מסלול תמיכה בהיקף 170 מיליון ₪ למשקים ביישובים במרחק 0 עד 9 ק״מ מגבול לבנון: 100 מיליון ב-2026 ו-70 מיליון ב-2027. שיעור המענק לבתי צמיחה ולרשתות הוא 50% מההשקעה המאושרת, וסכום ההשקעה המאושרת מוגבל ל-50% ממחזור ההכנסות הממוצע מחקלאות, ולא יותר מ-3 מיליון ₪ לחקלאי<sup><a href="#ref22">22</a></sup><sup><a href="#ref23">23</a></sup>. הנוהל פורסם באוגוסט 2026. התנאים והמועדים משתנים, ולכן בדקו את הנוהל העדכני באתר gov.il לפני שאתם מתכננים לפיו.</p>
+<p>הגשת הבקשה למענק והיתר הבנייה, כשנדרש, הם באחריות היזם. כדאי להתחיל בהם מוקדם, במקביל לתכנון.</p>
+
+<h2 id="s8">שלבי פרויקט בית רשת אצלנו</h2>
+<p>הקמה של בית רשת היא פרויקט הנדסי עם לוח זמנים, ספקים וצוותים בגובה. כך הוא נראה אצלנו, מהשיחה הראשונה ועד שנים אחרי המסירה:</p>
+<ol class="steps">
+<li><span><b>מיפוי צרכים וביקור בשטח</b>גידול, זן, מיכון, רוח, קרקע, גישה ומטרות עסקיות. כאן מוגדר מה המבנה צריך לעשות.</span></li>
+<li><span><b>תכנון הנדסי</b>גובה, מפתחים, מרווחי כבלים, עיגון ובחירת רשת, מותאמים לאתר ולגידול. כאן נקבע גם המחיר.</span></li>
+<li><span><b>ייצור ובדיקה במפעל</b>עמודים, רשתות, כבלים ואביזרים מיוצרים ונבדקים במפעל שלנו לפני שהם יוצאים לשטח.</span></li>
+<li><span><b>הובלה והיערכות</b>תיאום אספקה לפי שלבי העבודה, כך שהשטח לא הופך למחסן.</span></li>
+<li><span><b>הקמה בשטח</b>על ידי צוותים מבוטחים ומוסמכים לעבודה בגובה, בפיקוח הנדסי.</span></li>
+<li><span><b>מסירה</b>בדיקת מתיחות, עוגנים וחיבורים, והסבר לצוות המשק על השימוש במבנה.</span></li>
+<li><span><b>תחזוקה לאורך שנים</b>ביקורות תקופתיות, טיפול אחרי סערות והחלפת רשתות כשמגיע הזמן.</span></li>
+</ol>
+<figure class="photo"><img src="img/real-installer.jpg" alt="מתקין על במת הרמה פורש רשת לבנה מעל בית רשת חקלאי" loading="lazy" width="1400" height="931"><figcaption>פריסת רשת מבמת הרמה. עבודה בגובה דורשת צוות מוסמך ומבוטח, ותכנון של סדר הפריסה מול כיוון הרוח. צילום: ארכיון מיפתח</figcaption></figure>
+<p>הבדיקה במפעל היא שלב שהלקוח לא רואה, ודווקא בו אפשר למנוע תקלות רבות. עמוד עם גלוון פגום או כבל עם פגם מתגלים שם, לפני שהם עולים על המבנה.</p>
+<blockquote class="testi"><p>„השירות מקצועי, אמין ואיכותי, ועבודת השטח מבוצעת תמיד בדייקנות.”</p><footer>גולן ארגמן · מנכ״ל חקלאות חניתה</footer></blockquote>
+
+<h2 id="s9">הטעות הנפוצה ביותר: לעשות לבד כדי לחסוך</h2>
+<p>הטעות היקרה שאנחנו פוגשים בשטח היא לא בחירת רשת לא נכונה. היא הניסיון להקים לבד, או לפצל את הפרויקט בין כמה ספקים, כדי לחסוך. הכוונה מובנת. אבל החיסכון נעשה בדרך כלל בדיוק ברכיבים שלא רואים, וכשל בהם מופיע רק בסערה הראשונה.</p>
+<p>אלה הדברים שבדרך כלל משתבשים:</p>
+<ul>
+<li><strong>עיגון שלא הותאם לקרקע.</strong> עוגן שעובד בקרקע כבדה לא בהכרח מחזיק בחול או בקרקע רוויה.</li>
+<li><strong>מתיחת כבלים לא אחידה.</strong> כבל רפוי אחד מעביר את העומס לשכנים שלו, והרשת מתחילה להישחק.</li>
+<li><strong>שוליים שתוכננו כמו המרכז.</strong> כפי שהמדידות בוולקני הראו, העומס מתרכז דווקא בכבלי ההיקף<sup><a href="#ref4">4</a></sup>.</li>
+<li><strong>רשת לפי מחיר ולא לפי מטרה.</strong> ״10%״ של רשת אחת אינו ״10%״ של רשת אחרת<sup><a href="#ref9">9</a></sup>.</li>
+<li><strong>מבנה שלא תואם את מה שהוגש למענק.</strong> לפי כללי המשרד, זה עלול לעלות במימון<sup><a href="#ref2">2</a></sup>.</li>
+<li><strong>עבודה בגובה בלי צוות מוסמך.</strong> זה סיכון בטיחותי וגם סיכון ביטוחי.</li>
+</ul>
+<div class="tbl"><table>
+<thead><tr><th>נושא</th><th>הקמה עצמית או ספקים מפוצלים</th><th>צוות אחד מקצה לקצה</th></tr></thead>
+<tbody>
+<tr><td>אחריות על התכנון</td><td>מתחלקת, ולפעמים לא של אף אחד</td><td>כתובת אחת מהתכנון ועד התחזוקה</td></tr>
+<tr><td>התאמה בין רכיבים</td><td>עמודים, כבלים ורשת מספקים שונים</td><td>רכיבים שתוכננו, יוצרו ונבדקו יחד</td></tr>
+<tr><td>לוח זמנים</td><td>תלוי בתיאום בין ספקים</td><td>תכנית עבודה אחת</td></tr>
+<tr><td>אחרי סערה</td><td>מחפשים מי יגיע</td><td>צוות שמכיר את המבנה</td></tr>
+</tbody></table></div>
+<p>המטרה איננה להוציא יותר. המטרה היא שהכסף ייכנס לרכיבים שמחזיקים את המבנה, ושלכם יישאר שקט וזמן להתמקד בגידול ובפיתוח העסק.</p>
+
+<h2 id="s10">תחזוקה לאורך שנים</h2>
+<p>בית רשת הוא מבנה חי. הכבלים מתארכים, העוגנים מתיישבים והרשת מזדקנת. לפי סקירה של מחקרי רשתות במטעי תפוחים, העברת האור דרך רשת יורדת בכ-2% בכל שנה<sup><a href="#ref24">24</a></sup>, ובבננות האבק הוסיף ירידה של 10% עד סוף העונה היבשה<sup><a href="#ref8">8</a></sup>. תחזוקה מסודרת שומרת על המבנה ועל מה שהוא נותן לגידול.</p>
+
+<figure class="photo"><img src="img/real-winter-orchard.jpg" alt="מטע תפוחים בחורף, ללא עלים, והרשת הלבנה מקופלת לאורך הכבלים מעל השורות" loading="lazy" width="1400" height="1050"><figcaption>מטע נשירים בחורף: הרשת מקופלת לאורך הכבלים. זה הזמן הנוח לבדוק עמודים, עוגנים ומתיחות. צילום: ארכיון מיפתח</figcaption></figure>
+
+<p>רשימת בדיקה תקופתית, ובכל מקרה אחרי סערה:</p>
+<ul class="check">
+<li>מתיחת כבלי ההיקף וכבלי העיגון. כבל רפוי מסמן בעיה בעוגן או בעמוד.</li>
+<li>עוגנים: סימני שליפה, אדמה שנסחפה או מים שעומדים סביבם.</li>
+<li>עמודים: נטייה, שקיעה וסימני חלודה בחיבורים ובקצוות חתוכים.</li>
+<li>רשת: קרעים, בעיקר בשוליים ובנקודות החיבור. קרע קטן מתרחב ברוח הבאה.</li>
+<li>תפסנים וחיבורים: חלקים חסרים או שבורים לאורך כבלי ההיקף.</li>
+<li>שקיעות בגג: מקומות שבהם מצטברים מים, ברד או עלים.</li>
+<li>ניקיון הרשת: אבק שמוריד את העברת האור, בעיקר באזורים יבשים.</li>
+<li>רשת מתקפלת: בדיקת מנגנון הקיפול לפני החורף ולפני הפריסה באביב.</li>
+</ul>
+<blockquote class="testi"><p>„גם בימי גשם ורוח עזה הצוות מגיע ונותן פתרון מיידי.”</p><footer>אייל עובדיה · מטעי כברי</footer></blockquote>
+
+<div class="box honest"><b class="lbl">מה חשוב לדעת מראש</b><p>אנחנו מקימים פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל, כדי לתת לכל אחד מהם את מלוא תשומת הלב. אנחנו לא מטפלים ברישוי ובהיתרים מקומיים, והם באחריות היזם. ואנחנו לא נותנים מחיר לפני שהבנו את הקרקע, הגידול והמטרה, כי המחיר נגזר מהתכנון.</p></div>
+
+<h2 id="s11">פרויקטים נבחרים</h2>
+<p>אלה פרויקטים שהקמנו. אנחנו מתארים אותם ברמת פירוט כללית: גידול, אזור וסוג מבנה.</p>
+<ul>
+<li><strong>בננות, מערב הגליל:</strong> בית רשת עם רשת 11%.</li>
+<li><strong>תפוחים, רמת הגולן:</strong> בית רשת שהרשת שלו מתקפלת בחורף.</li>
+<li><strong>קיווי, ברעם:</strong> בית רשת עם הדליה בצורת סוכה.</li>
+<li><strong>דובדבן:</strong> בית רשת למטע דובדבן.</li>
+<li><strong>אבוקדו, פורטוגל:</strong> בית רשת למטע אבוקדו. על פרויקטים מחוץ לישראל, כולל הקמה וניהול של חווה, ב<a href="chava-haklait-turnkey.html">מדריך לפרויקט Turnkey בחו״ל</a>.</li>
+</ul>
+<figure class="photo"><img src="img/real-banana-avenue.jpg" alt="שדרה ארוכה בתוך בית רשת לבננות, צמחי בננה משני הצדדים והרשת מעליהם" loading="lazy" width="1400" height="931"><figcaption>בתוך בית רשת לבננות. הגובה והמרווחים נקבעים לפי הצמח ולפי המיכון שעובר בשדרה. צילום: ארכיון מיפתח</figcaption></figure>
+<p>רוצים לשמוע ישירות מלקוחות? נשמח לחבר אתכם ללקוחות שלנו בברעם, באלרום, ביחיעם, במצובה ובחניתה, וללקוח שלנו בפורטוגל.</p>
+
+<h2 id="faq">שאלות נפוצות</h2><div class="faq"><details><summary>מה ההבדל בין בית רשת לחממה?</summary><p>חממה מכוסה בפלסטיק או בחומר קשיח בכל המעטפת ויכולה לשלוט באקלים בעזרת חימום, צינון ומסכים. בית רשת מכוסה ברשת שעוברים בה אוויר ומים, ואינו מבוקר אקלים. הוא ממתן קרינה, רוח, ברד ומזיקים. גם ההשקעה שונה מאוד: בירקות, משרד החקלאות מכיר בעלות של ₪47,000 לדונם לחממה רב-קשתית לעומת ₪11,000 לדונם לבית רשת.</p></details><details><summary>כמה עולה להקים בית רשת לדונם?</summary><p>המספר הרשמי היחיד הוא העלות המוכרת של מנהלת ההשקעות במשרד החקלאות, שמשמשת לחישוב מענק: למשל ₪8,000 לדונם לבית רשת נמוך, ₪10,400 עד ₪8,000 לבית רשת גבוה לבננות לפי גודל השטח, ו-₪14,000 לבית רשת עם הדליה (תכנית הפיתוח 2023). זו אינה הצעת מחיר. המחיר בפועל תלוי בגובה, ברוח, בקרקע, ברשת ובהיקף, ולכן הוא נקבע אחרי ביקור בשטח ותכנון.</p></details><details><summary>האם צריך היתר בנייה לבית רשת?</summary><p>זה תלוי בסוג המבנה ובגובהו. בטבלת משרד החקלאות, בית רשת גבוה לבננות מסומן כמבנה שנדרש לו היתר, בבית רשת נמוך עד 4 מטרים לא נדרש היתר לחלק מהגידולים, ובבית רשת עם הדליה עד 4.5 מטרים לא נדרש. ההנחיות אינן אחידות בכל המסמכים, ולכן בדקו מול הוועדה המקומית לתכנון ובנייה. ההיתר באחריות היזם, וכדאי להתחיל בו מוקדם.</p></details><details><summary>כמה זמן מחזיקה רשת חקלאית?</summary><p>אין מספר אחד. אורך החיים תלוי בחומר, בייצוב נגד קרינת UV, באקלים, באבק ובנזקים מכניים. מחקרים מראים שהעברת האור דרך רשת יורדת בכ-2% בשנה, ושאבק יכול להוריד עוד 10% עד סוף העונה היבשה. המבנה עצמו, עמודים וכבלים, מתוכנן לשנים רבות, והרשת מוחלפת לפי מצבה. ביקורות תקופתיות ובדיקה אחרי כל סערה מאריכות את חיי שניהם.</p></details><details><summary>איזה אחוז הצללה מתאים לגידול שלי?</summary><p>אין טבלה רשמית אחת. בבננות מקובלות רשתות שקופות של כ-8% עד 15%. במחקר בתפוחים בברעם, רשתות 30% הגנו היטב מכוויות שמש. באבוקדו, שה״מ מציין יעילות גבוהה בהגנה מקרה ברשתות מעל 50%. הבחירה תלויה בגידול, בזן ובאזור, ובאבק שיצטבר על הרשת, ולכן כדאי לקבל אותה יחד עם המדריך האגרונומי.</p></details><details><summary>האם יש מענק ממשרד החקלאות להקמת בית רשת?</summary><p>כן, דרך תכנית הפיתוח של מנהלת ההשקעות, לפי רשימת גידולים, מסלולי הגשה ועלות מוכרת לדונם. בבננות, מענקים להשקיה ולהדליה מותנים בנטיעה תחת בית רשת. בנוסף פורסם מסלול לצפון לשנים 2026–2027 בהיקף 170 מיליון ₪, עם מענק של 50% לבתי צמיחה ולרשתות, על השקעה מאושרת של עד 3 מיליון ₪ לחקלאי, ליישובים במרחק 0 עד 9 ק״מ מגבול לבנון. בדקו את הנוהל העדכני ב-gov.il.</p></details><details><summary>מה גודל הפרויקט המינימלי שאתם מבצעים?</summary><p>אנחנו מקימים פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל. כך אנחנו יכולים לתת לכל פרויקט את מלוא תשומת הלב, מהתכנון ועד התחזוקה.</p></details></div>
+<aside class="author" aria-label="על הכותב"><div class="avatar" aria-hidden="true">י״ה</div><div><b>יפתח הספל</b> · מנכ״ל משותף, הנדסאי בניין (טכניון)<p>יותר מעשרים שנה של תכנון, ייצור והקמה של בתי רשת ומבנים חקלאיים בגליל ובעולם, כולל פרויקט מורכב בבלארוס. אחראי על מיפוי הצרכים, התכנון ההנדסי ופיקוח הייצור והביצוע.</p></div></aside>
+<section class="cta" id="contact" aria-labelledby="cta-h">
+<h2 id="cta-h">מתכננים בית רשת של 50 דונם ומעלה?</h2>
+<p>ספרו לנו מה מגדלים, איפה ובאיזה היקף, ויפתח יחזור אליכם עם כיוון תכנוני ראשון. בלי התחייבות, ובלי הצעת מחיר לפני שראינו את השטח. פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל.</p>
+<form id="lead-beit-reshet" novalidate>
+<label for="f-size-beit-reshet">גודל השטח<input id="f-size-beit-reshet" placeholder="למשל 120 דונם"></label>
+<label for="f-crop-beit-reshet">גידול<input id="f-crop-beit-reshet" placeholder="בננות, תפוחים, קיווי, אבוקדו…"></label>
+<label for="f-where-beit-reshet">מיקום<input id="f-where-beit-reshet" placeholder="גליל, גולן, עמק, פורטוגל…"></label>
+<label for="f-name-beit-reshet">שם<input id="f-name-beit-reshet" autocomplete="name"></label>
+<label for="f-phone-beit-reshet">טלפון או וואטסאפ<input id="f-phone-beit-reshet" type="tel" autocomplete="tel"></label>
+<button type="submit">לתיאום שיחת תכנון</button>
+</form>
+<p class="note" role="status"></p>
+<p class="alt">מעדיפים לדבר עכשיו? טלפון ווואטסאפ: <b>04-9856969</b></p>
+</section>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">מקורות</h2><ol><li id="ref1"><a href="https://apps.land.gov.il/IturTabotData/nispachim/jerus/1051421/100/נספח מס 4-הוראות בינוי.pdf">מדיניות, הנחיות וקריטריונים לתכנון מבנים חקלאיים (כרטיס 102: כיסוי רשת)</a>, הרשות לתכנון ופיתוח החקלאות, אגף תכנון כפרי אזורי, 2013</li><li id="ref2"><a href="https://www.gov.il/BlobFolder/reports/developmentplan2023/ar/development_2023.pdf">תכנית הפיתוח עפ״י נושאים 2023</a>, משרד החקלאות, מנהלת ההשקעות בחקלאות, 2023</li><li id="ref3"><a href="https://www.gov.il/BlobFolder/reports/developmentplan2023/he/planning%20principles%2023.pdf">עקרונות התכנון 2023</a>, משרד החקלאות, מנהלת ההשקעות בחקלאות, 2023</li><li id="ref4"><a href="https://doi.org/10.17660/ActaHortic.2018.1227.20">Ibanez, Teitel &amp; Tanny, Effect of wind speed and direction on forces acting on shade nets covering orchard trees</a>, Acta Horticulturae 1227, ISHS, 2018</li><li id="ref5"><a href="https://www.nirim.co.il/viewStaticPage.aspx?pageID=38">ניסוי אבוקדו בבית רשת</a>, קיבוץ נירים</li><li id="ref6"><a href="https://extensionpubs.unl.edu/publication/ec1763/2006/pdf/view/ec1763-2006.pdf">Hodges &amp; Brandle, Windbreaks for Fruit and Vegetable Crops (EC1763)</a>, University of Nebraska–Lincoln Extension, 2006; ו-<a href="https://www.fs.usda.gov/nac/assets/documents/agroforestrynotes/an25w01.pdf">USDA NAC Agroforestry Note 25</a>, 2022</li><li id="ref7"><a href="https://zemachtech.co.il/docs/מחקרי-בננות/דר-יאיר-ישראלי-בננות/השקית-בננות-בבית-רשת-ובשטח-פתוח-בעמק-הי/">ד״ר יאיר ישראלי, השקיית בננות בבית רשת ובשטח פתוח בעמק הירדן</a>, חוות הבננות צמח, 2020</li><li id="ref8"><a href="https://doi.org/10.17660/ActaHortic.2020.1268.29">Cohen et al., Exploiting dynamic changes in internal screenhouse climate to inform irrigation in bananas</a>, Acta Horticulturae 1268, ISHS, 2020</li><li id="ref9"><a href="https://doi.org/10.17660/ActaHortic.2014.1015.4">Tanny et al., The effect of screen texture on air flow and radiation transmittance</a>, Acta Horticulturae 1015, ISHS, 2014</li><li id="ref10"><a href="https://www.redalyc.org/journal/908/90859320018/">Bosco et al., Microclimate alterations caused by agricultural hail net coverage and effects on apple tree yield</a>, Bragantia 77(1), 2018</li><li id="ref11"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10711545/">Nelson et al., Hail netting excludes key insect pests in a commercial Minnesota apple orchard</a>, Journal of Economic Entomology 116(6), 2023</li><li id="ref12"><a href="https://ishs.org/ishs-article/927_63/">Tanny, Cohen &amp; Israeli, Screen constructions: microclimate and water use in Israel</a>, Acta Horticulturae 927, ISHS, 2012</li><li id="ref13"><a href="https://doi.org/10.1079/BER2002180">Berlinger et al., Efficiency of insect exclusion screens for preventing whitefly transmission of TYLCV in Israel</a>, Bulletin of Entomological Research 92(5), 2002</li><li id="ref14"><a href="https://israelagri.com/colored-shade-nets-for-improved-apple-quality-and-yield/">Shahak et al., Colored shade nets for improved apple quality and yield (ברעם)</a>, Israel Agriculture, 2009</li><li id="ref15"><a href="https://doi.org/10.3390/agronomy11102034">Dovjik et al., Top photoselective netting with reduced fertigation in Valencia oranges</a>, Agronomy 11(10), MDPI, 2021</li><li id="ref16"><a href="https://doi.org/10.17660/ActaHortic.2008.797.8">Shahak et al., Photoselective shade netting integrated with greenhouse technologies</a>, Acta Horticulturae 797, ISHS, 2008</li><li id="ref17"><a href="https://doi.org/10.3390/horticulturae8070619">Elingold et al., Less Is More? Field Evaluation of Short-Stature Banana Cultivars</a>, Horticulturae 8(7), MDPI, 2022</li><li id="ref18"><a href="https://www.gov.il/BlobFolder/reports/defending-against-the-cold-subtropical/he/Professional_information_defending-against-the-cold-subtropical-2025.pdf">התגוננות מפני קרה במטעים סובטרופיים</a>, שה״מ, משרד החקלאות וביטחון המזון, פברואר 2025</li><li id="ref19"><a href="https://www.avocadosource.com/Journals/SAAGA/SAAGA_2015/SAAGA_2015_38_PG_76.pdf">Blakey et al., shade netting trials on avocado</a>, South African Avocado Growers' Association Yearbook 38, 2015</li><li id="ref20"><a href="https://www.maariv.co.il/weather/article-969698">סיכום נזקי מזג האוויר לחקלאות 2022 (נתוני קנט)</a>, מעריב, ינואר 2023</li><li id="ref21"><a href="https://www.maariv.co.il/economy/israel/article-1272937">סיכום נזקי מזג האוויר לחקלאות 2025 (נתוני קנט)</a>, מעריב, ינואר 2026</li><li id="ref22"><a href="https://www.davar1.co.il/694671/">170 מיליון ₪ להשקעה בחקלאות ביישובי קו העימות</a>, דבר, 2026</li><li id="ref23"><a href="https://www.gov.il/BlobFolder/rfp/support_route_for_the_rehabilitation_and_expansion_of_agricultural_farms_in_communities_within_0_9_km_of_the_lebanese_border_26_27/he/procedure_support_rehabilitation_and_expansion_of_agricultural_farms_in_communities_2026_2027.pdf">נוהל מסלול תמיכה לשיקום והרחבת משקים חקלאיים ביישובים 0–9 ק״מ מגבול לבנון, 2026–2027</a>, משרד החקלאות, 2026</li><li id="ref24"><a href="https://wpcdn.web.wsu.edu/cahnrs/uploads/sites/30/Mupambi-etal-2018-protective-netting-apple-review.pdf">Mupambi et al., The influence of protective netting on tree physiology and fruit quality of apple: A review</a>, Scientia Horticulturae 236, 2018</li><li id="ref25"><a href="https://www.sii.org.il/he/lobby/standardization/standard-page?id=1550">ת״י 414: עומסים במבנים, עומס רוח</a>, מכון התקנים הישראלי</li></ol></section>
+</article>
+<aside class="toc" aria-label="תוכן המאמר"><b>במאמר</b><ol><li><a href="#s1">מה זה בית רשת חקלאי, ובמה הוא שונה מחממה</a></li><li><a href="#s2">סוגי בתי רשת לחקלאות</a></li><li><a href="#s3">האנטומיה של בית רשת: הרכיבים, ולמה כל אחד מהם נכשל</a></li><li><a href="#s4">איך בוחרים רשת: הצללה, ברד, חרקים וצבע</a></li><li><a href="#s5">מים, אקלים ויבול: מה המחקר הישראלי מצא</a></li><li><a href="#s6">כמה עולה בית רשת</a></li><li><a href="#s7">מענקים ותמיכות להקמת בית רשת</a></li><li><a href="#s8">שלבי פרויקט בית רשת אצלנו</a></li><li><a href="#s9">הטעות הנפוצה ביותר: לעשות לבד כדי לחסוך</a></li><li><a href="#s10">תחזוקה לאורך שנים</a></li><li><a href="#s11">פרויקטים נבחרים</a></li><li><a href="#faq">שאלות נפוצות</a></li></ol></aside></div></div>
+<section class="related"><div class="wrap"><h2>להמשך קריאה</h2><div class="cards"><a class="card" href="beit-reshet-bananot.html"><img src="img/cover-bananot-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך גידול · בננות</span><h3>בית רשת לבננות: איך מתכננים מבנה שמחזיק רוח, חוסך מים ומעלה יבול</h3><p>מה המחקר הישראלי מראה על מים, יבול ובחירת רשת בבננות, ואיך מתכננים מבנה גבוה שמחזיק רוח ועומד בכללי המענק.</p></a><a class="card" href="reshet-neged-barad.html"><img src="img/cover-barad-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך מעשי · מטעים</span><h3>רשת נגד ברד למטעים: איך בוחרים מערכת שמגינה על היבול גם בחורף הקשה ביותר</h3><p>רשת תשליך, בית רשת או הדליה בצורת סוכה, רשת מתקפלת לשלג, ומתי ביטוח עדיף: מדריך מבוסס מחקר למגדלי תפוחים, דובדבן וקיווי.</p></a><a class="card" href="beit-reshet-avocado.html"><img src="img/cover-avocado-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך גידול · אבוקדו</span><h3>בית רשת לאבוקדו: איך מגינים על מטע צעיר מקרה, ברד ורוח, בישראל ובחו״ל</h3><p>איזה אחוז הצללה מגן על אבוקדו מקרה, מתי לבחור בית רשת קבוע ומתי רשת תשליך, ומה לומדים מניסוי שבו ברד הפיל רשת.</p></a></div></div></section>
+</main><footer class="foot"><div class="wrap"><svg class="logo logo--compact" viewBox="345 232 1222 286" role="img" aria-label="MIFTAH"><path fill="#A8D8BC" d="M355 348L387 360V508H355z"/><path fill="#FFFFFF" d="M355 348L674 242V265L387 360z"/><path fill="#A8D8BC" d="M434 375L469 387V508H434z"/><path fill="#FFFFFF" d="M434 375L674 298V322L469 387z"/><path fill="#A8D8BC" d="M513 401L545 413V508H513z"/><path fill="#FFFFFF" d="M513 401L674 352V375L545 413z"/><path fill="#A8D8BC" d="M592 433L624 445V508H592z"/><path fill="#FFFFFF" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#FFFFFF" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg><span>מיפתח פרויקטים · כפר מסריק · 04-9856969 · Where agriculture feels at home</span></div></footer><script>
+document.documentElement.lang="he";document.documentElement.dir="rtl";
+document.querySelectorAll('form[id^="lead-"]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();
+var n=f.parentNode.querySelector('.note');n.textContent='זו תצוגה מקדימה. באתר עצמו הפנייה תגיע ישירות ליפתח, והוא חוזר תוך יום עבודה.';});});
+</script></body></html>

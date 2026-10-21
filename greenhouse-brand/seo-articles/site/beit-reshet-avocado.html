@@ -1,0 +1,335 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style><title>בית רשת לאבוקדו: הגנה מקרה, ברד ורוח | מיפתח</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="מתי כדאי בית רשת למטע אבוקדו, איזה אחוז הצללה מגן מקרה לפי שה״מ, ואיך מתכננים מבנה שעומד בברד וברוח. כולל ניסיון מפרויקט אבוקדו בפורטוגל.">
+<link rel="canonical" href="https://www.miftah.co.il/articles/beit-reshet-avocado/">
+<link rel="alternate" hreflang="he" href="https://www.miftah.co.il/articles/beit-reshet-avocado/">
+<meta property="og:type" content="article"><meta property="og:locale" content="he_IL">
+<meta property="og:title" content="בית רשת לאבוקדו: הגנה מקרה, ברד ורוח | מיפתח"><meta property="og:description" content="מתי כדאי בית רשת למטע אבוקדו, איזה אחוז הצללה מגן מקרה לפי שה״מ, ואיך מתכננים מבנה שעומד בברד וברוח. כולל ניסיון מפרויקט אבוקדו בפורטוגל.">
+<meta property="og:image" content="https://www.miftah.co.il/articles/img/cover-avocado.jpg"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap"><style>
+:root{
+  /* Layout: עמוד עיתון מקצועי. עמודת קריאה אחת, תוכן עניינים דביק בצד, הדמיות ברוחב מלא */
+  --paper:#F4F6F2; --surface:#FFFFFF; --ink:#13231F; --ink-2:#4A5A55; --rule:#D5DED7;
+  --forest:#0E4239; --leaf:#1B6E62; --sprout:#7FC49B; --sky:#4F86A8; --amber:#C98A2B;
+  --tint:#E6EFE8; --on-forest:#F4F6F2; --on-forest-2:#B9D3C4;
+  --display:'Frank Ruhl Libre','David Libre',Georgia,serif;
+  --body:'Heebo','Assistant',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0D1715; --surface:#13201D; --ink:#E6EEE9; --ink-2:#A6B8B0; --rule:#26372F;
+  --forest:#0A3029; --leaf:#5FB39B; --sprout:#8FD3AA; --sky:#7FB0D0; --amber:#E0A84E;
+  --tint:#18302A; --on-forest:#EAF2ED; --on-forest-2:#9FC2B0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0D1715; --surface:#13201D; --ink:#E6EEE9; --ink-2:#A6B8B0; --rule:#26372F;
+  --forest:#0A3029; --leaf:#5FB39B; --sprout:#8FD3AA; --sky:#7FB0D0; --amber:#E0A84E;
+  --tint:#18302A; --on-forest:#EAF2ED; --on-forest-2:#9FC2B0; color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--paper);color:var(--ink);font:400 18px/1.75 var(--body);margin:0}
+a{color:var(--leaf)} a:hover{color:var(--forest)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{background:var(--surface);border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.top .logo{height:34px;width:auto}
+.top nav{display:flex;gap:20px;flex-wrap:wrap;font-size:15px}
+.top nav a{color:var(--ink);text-decoration:none} .top nav a:hover{color:var(--leaf)}
+.crumbs{font-size:14px;color:var(--ink-2);padding-block:18px 0}
+.crumbs a{color:var(--ink-2)}
+.hero{padding-block:28px 8px}
+.kicker{font:500 13px/1 var(--mono);letter-spacing:.08em;color:var(--leaf);text-transform:uppercase}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;color:var(--ink)}
+h1{font-weight:900;font-size:clamp(34px,5.4vw,64px);line-height:1.08;margin:14px 0 16px;max-width:20ch}
+.dek{font-size:clamp(19px,2vw,23px);line-height:1.6;color:var(--ink-2);max-width:60ch;margin:0}
+.byline{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:22px;font-size:15px;color:var(--ink-2)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--forest);color:var(--on-forest);display:grid;place-items:center;font:700 16px var(--display)}
+.byline b{color:var(--ink);font-weight:700}
+.byline .sep{opacity:.5}
+.reviewed{display:inline-flex;gap:6px;align-items:center;background:var(--tint);color:var(--leaf);border-radius:999px;padding:2px 12px;font-size:13px;font-weight:500}
+.cover{margin:28px 0 0}
+.cover img{width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;display:block;border-radius:4px}
+figcaption{font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.5}
+.tag-ai{font:500 11px/1 var(--mono);letter-spacing:.06em;background:var(--tint);color:var(--leaf);padding:3px 7px;border-radius:3px;margin-inline-end:6px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:56px;padding-block:40px 24px}
+.toc{position:sticky;top:20px;align-self:start;font-size:15px;border-inline-start:2px solid var(--rule);padding-inline-start:18px}
+.toc b{font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--ink-2);display:block;margin-bottom:12px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.toc a{color:var(--ink);text-decoration:none;line-height:1.4;display:block} .toc a:hover{color:var(--leaf)}
+article{min-width:0;max-width:720px}
+article h2{font-weight:700;font-size:clamp(27px,3vw,36px);line-height:1.2;margin:56px 0 14px;scroll-margin-top:20px}
+article h3{font-weight:700;font-size:23px;margin:34px 0 8px}
+article p{margin:0 0 18px}
+article ul,article ol{padding-inline-start:22px;margin:0 0 20px} article li{margin-bottom:8px}
+article strong{color:var(--ink)}
+.lead-box{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:22px 24px;margin:0 0 28px}
+.lead-box b.lbl,.box b.lbl{font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--leaf);display:block;margin-bottom:10px;text-transform:uppercase}
+.lead-box ul{margin:0}
+.box{border-radius:6px;padding:22px 24px;margin:30px 0}
+.box.field{background:var(--tint)}
+.box.honest{background:var(--surface);border:1px dashed var(--leaf)}
+.box.fit{background:var(--surface);border:1px solid var(--rule)}
+.box.fit .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box.fit h4{margin:0 0 6px;font:700 16px var(--body)}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+blockquote.testi{margin:36px 0;padding:0;border:0}
+blockquote.testi p{font:500 clamp(22px,2.4vw,27px)/1.45 var(--display);color:var(--forest);margin:0 0 10px}
+:root[data-theme="dark"] blockquote.testi p{color:var(--sprout)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) blockquote.testi p{color:var(--sprout)}}
+blockquote.testi footer{font-size:15px;color:var(--ink-2)}
+figure.viz{margin:34px 0}
+figure.viz .frame{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px 18px 12px}
+figure.viz h4{margin:0 0 4px;font:700 17px var(--body);color:var(--ink)}
+figure.viz .sub{font-size:14px;color:var(--ink-2);margin:0 0 10px}
+figure.viz svg{width:100%;height:auto;display:block;direction:ltr}
+figure.viz svg text{fill:var(--ink-2);font:500 13px var(--body)}
+figure.viz svg .v{fill:var(--ink);font-weight:700}
+figure.viz svg .grid{stroke:var(--rule)}
+figure.viz details{font-size:14px;margin-top:8px} figure.viz summary{cursor:pointer;color:var(--leaf)}
+figure.photo{margin:34px 0} figure.photo img{width:100%;max-width:100%;height:auto;border-radius:4px;display:block}
+.wide{margin-inline:-40px} @media(max-width:900px){.wide{margin-inline:0}}
+.tbl{overflow-x:auto;margin:28px 0;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.5;min-width:560px}
+.tbl th,.tbl td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl thead th{font:700 14px var(--body);background:var(--tint);color:var(--ink)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.steps{list-style:none;padding:0;margin:26px 0;counter-reset:s;display:grid;gap:0}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--rule);margin:0}
+.steps li::before{content:counter(s);font:700 22px/44px var(--display);color:var(--on-forest);background:var(--leaf);border-radius:50%;width:44px;height:44px;text-align:center}
+.steps li b{display:block}
+.check{list-style:none;padding:0}
+.check li{padding-inline-start:30px;position:relative}
+.check li::before{content:"";position:absolute;inset-inline-start:0;top:.45em;width:16px;height:16px;border-radius:3px;border:2px solid var(--leaf)}
+.faq details{border-bottom:1px solid var(--rule);padding:14px 0}
+.faq summary{cursor:pointer;font:700 18px/1.5 var(--body);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font:400 24px/1 var(--body);color:var(--leaf)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0;color:var(--ink-2)}
+.cta{background:var(--forest);color:var(--on-forest);border-radius:8px;padding:34px 30px;margin:48px 0}
+.cta h2,.cta h3{color:var(--on-forest);margin:0 0 10px}
+.cta p{color:var(--on-forest-2)}
+.cta form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.cta label{display:grid;gap:4px;font-size:14px;color:var(--on-forest-2)}
+.cta input,.cta select{font:16px var(--body);padding:11px 12px;border-radius:4px;border:1px solid transparent;background:#F4F6F2;color:#13231F;min-width:0}
+.cta button{grid-column:1/-1;justify-self:start;font:700 17px var(--body);background:var(--sprout);color:#0E2A24;border:0;border-radius:4px;padding:13px 26px;cursor:pointer}
+.cta .alt{font-size:15px;margin-top:14px;color:var(--on-forest-2)} .cta .alt b{color:var(--on-forest);user-select:all}
+.cta .note{min-height:1.4em;font-size:15px;color:var(--sprout);margin:8px 0 0}
+.soft-cta{border-block:1px solid var(--rule);padding:18px 0;margin:36px 0;font-size:17px}
+.author{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:20px;margin:40px 0}
+.author .avatar{width:64px;height:64px;font-size:22px}
+.author p{margin:4px 0 0;font-size:15.5px;color:var(--ink-2)}
+.sources{font-size:14.5px;color:var(--ink-2)} .sources ol{padding-inline-start:20px} .sources li{margin-bottom:6px;word-break:break-word}
+.related{border-top:1px solid var(--rule);padding-block:34px 60px}
+.related h2{font-size:28px;margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{text-decoration:none;color:var(--ink);display:grid;gap:10px}
+.card img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:4px;display:block}
+.card .kicker{font-size:11.5px}
+.card h3{font-size:21px;line-height:1.3;margin:0}
+.card p{margin:0;font-size:15px;color:var(--ink-2);line-height:1.55}
+.foot{background:var(--forest);color:var(--on-forest-2);font-size:14px}
+.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;padding-block:26px}
+.foot .logo{height:30px;width:auto}
+sup a{text-decoration:none;font:500 12px var(--mono)}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr);gap:0}.toc{position:static;margin-bottom:26px;order:-1}.box.fit .cols{grid-template-columns:1fr}.cta form{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.card img{transition:transform .4s}.card:hover img{transform:scale(1.02)}}
+/* hub */
+.hub-hero{padding-block:44px 30px}
+.hub-hero h1{max-width:16ch}
+.feature{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:34px;align-items:center;text-decoration:none;color:var(--ink);padding-block:10px 40px;border-bottom:1px solid var(--rule)}
+.feature img,.feature video{width:100%;max-width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:4px;display:block;background:var(--tint)}
+figure.photo video{width:100%;max-width:100%;height:auto;border-radius:4px;display:block;background:var(--tint)}
+.feature h2{font-size:clamp(28px,3.4vw,42px);line-height:1.15;margin:10px 0 12px}
+.feature p{color:var(--ink-2);margin:0}
+.hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px;padding-block:40px}
+.hub-grid .card h3{font-size:26px}
+.trustbar{display:flex;flex-wrap:wrap;gap:10px 28px;padding-block:18px;border-block:1px solid var(--rule);font-size:15px;color:var(--ink-2)}
+.trustbar b{color:var(--ink)}
+@media (max-width:800px){.feature,.hub-grid{grid-template-columns:minmax(0,1fr)}}
+</style><script>document.documentElement.lang='he';document.documentElement.dir='rtl';</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BlogPosting", "@id": "https://www.miftah.co.il/articles/beit-reshet-avocado/#article", "headline": "בית רשת לאבוקדו: איך מגינים על מטע צעיר מקרה, ברד ורוח, בישראל ובחו״ל", "description": "מתי כדאי בית רשת למטע אבוקדו, איזה אחוז הצללה מגן מקרה לפי שה״מ, ואיך מתכננים מבנה שעומד בברד וברוח. כולל ניסיון מפרויקט אבוקדו בפורטוגל.", "image": ["https://www.miftah.co.il/articles/img/cover-avocado.jpg"], "datePublished": "2026-10-21", "dateModified": "2026-10-21", "inLanguage": "he-IL", "mainEntityOfPage": "https://www.miftah.co.il/articles/beit-reshet-avocado/", "keywords": "בית רשת לאבוקדו, רשת לאבוקדו, הגנה מקרה באבוקדו, רשת הצללה לאבוקדו, רשת נגד ברד לאבוקדו, נזקי קרה במטע אבוקדו, מכות שמש באבוקדו, מטע אבוקדו צעיר, אבוקדו בפורטוגל", "author": {"@type": "Person", "name": "יפתח הספל", "alternateName": "Yiftach Hasfel", "jobTitle": "מנכ״ל משותף", "worksFor": {"@id": "https://www.miftah.co.il/#org"}}, "publisher": {"@id": "https://www.miftah.co.il/#org"}}, {"@type": "Organization", "@id": "https://www.miftah.co.il/#org", "name": "מיפתח פרויקטים", "alternateName": "MIFTAH Projects", "url": "https://www.miftah.co.il", "telephone": "+972-4-9856969", "logo": "https://www.miftah.co.il/logo.png", "address": {"@type": "PostalAddress", "addressLocality": "כפר מסריק", "addressCountry": "IL"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "דף הבית", "item": "https://www.miftah.co.il/"}, {"@type": "ListItem", "position": 2, "name": "מרכז הידע", "item": "https://www.miftah.co.il/articles/"}, {"@type": "ListItem", "position": 3, "name": "בית רשת לאבוקדו: איך מגינים על מטע צעיר מקרה, ברד ורוח, בישראל ובחו״ל", "item": "https://www.miftah.co.il/articles/beit-reshet-avocado/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "האם רשת מגינה על אבוקדו מקרה?", "acceptedAnswer": {"@type": "Answer", "text": "כן. לפי שה״מ, רשת הצללה היא אחד הפתרונות היעילים בהגנה מפני נזקי קור קיצוני, וניסויים הראו יעילות גם מפני צינה בעצי אבוקדו. האפקט נובע בעיקר מהצללת קרינת השמש בבוקר שאחרי הקרה, לא מחימום העץ. זו אינה ערובה: עוצמת הנזק תלויה גם בעוצמת הקרה, בזן, בגיל המטע ובמצבו.5"}}, {"@type": "Question", "name": "איזה אחוז הצללה מתאים לאבוקדו?", "acceptedAnswer": {"@type": "Answer", "text": "להגנה מקרה, שה״מ מצא יעילות גבוהה ברשתות שאחוז ההצללה בהן גבוה מ-50%, ויעילות נמוכה יותר ברשתות של 30%.5 להגנה בקיץ נבדקו בניסויים רשתות קלות יותר, למשל בספרד רשת שמעבירה כ-76% מהאור.7 הבחירה תלויה במטרה, באזור ובזן, ונעשית יחד עם האגרונום."}}, {"@type": "Question", "name": "בית רשת או רשת תשליך למטע אבוקדו צעיר?", "acceptedAnswer": {"@type": "Answer", "text": "אם האיום המרכזי הוא קרה, והמטע צעיר, רשת תשליך על שורות או על עצים בודדים היא אפשרות ששה״מ מציין במפורש.5 כשיש גם ברד, רוח או שרב בפריחה, בית רשת קבוע נותן מענה לכל האיומים לאורך השנה. ההחלטה מתחילה במיפוי הסיכונים בחלקה."}}, {"@type": "Question", "name": "האם בית רשת לאבוקדו עומד בברד כבד?", "acceptedAnswer": {"@type": "Answer", "text": "רק אם תוכנן לכך. בניסוי בקיבוץ נירים ברד כבד הפיל את הרשת.4 מבנה שעומד בברד מתוכנן לפי מסלול העומס המלא, מהרשת דרך הכבלים והעמודים ועד העוגנים. הוא גם לוקח בחשבון לאן הברד הולך אחרי שנעצר, ומחזק את הקצוות, שבהם מתרכזים הכוחות.9"}}, {"@type": "Question", "name": "האם יש מענק לרשת נגד ברד באבוקדו?", "acceptedAnswer": {"@type": "Answer", "text": "בתכנית הפיתוח של משרד החקלאות לשנת 2023, ״רשת נגד ברד בהשלכה ישירה״ לאבוקדו נמנית בין נושאי הסיוע במטעים. בטבלת המבנים למטעים מופיעה לרשת תשליך עלות מוכרת של 1,300 ₪ לדונם, אבל אבוקדו אינו בין הגידולים שמפורטים בשורה הזו, ולכן כדאי לברר מול המנהלה איך מחושב המענק. זהו נתון לחישוב מענק, לא הצעת מחיר. בתי רשת קבועים במטעים נתמכו בתכנית זו לתפוחים, ליצ׳י, תאנים וקיווי בלבד.6 כדאי לבדוק את התכנית העדכנית. המחיר בפועל נקבע אחרי ביקור בשטח, כי הוא תלוי בקרקע, בחשיפה לרוח, בגובה ובהיקף."}}, {"@type": "Question", "name": "אפשר להקים בית רשת לאבוקדו בפורטוגל?", "acceptedAnswer": {"@type": "Answer", "text": "כן. הקמנו בית רשת לאבוקדו בפורטוגל. באלגרב ובאלנטז׳ו יש סיכון לקרה, ובאלנטז׳ו ליטורל גם רוח חזקה יותר וגלי חום מזדמנים.10 ההיתרים באחריות היזם. למשקיעים שמתכננים חווה שלמה, ראו את המדריך על חווה חקלאית בחו״ל בשיטת Turnkey."}}]}]}</script>
+</head><body><header class="top"><div class="wrap"><a href="index.html" aria-label="מיפתח, מרכז הידע"><svg class="logo logo--compact" viewBox="345 232 1222 286" role="img" aria-label="MIFTAH"><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></a>
+<nav aria-label="ניווט ראשי"><a href="index.html">מרכז הידע</a><a href="https://www.miftah.co.il">בתי רשת</a><a href="https://www.miftah.co.il">חוות Turnkey</a><a href="#contact">דברו איתנו</a></nav></div></header>
+<main>
+<div class="wrap"><nav class="crumbs" aria-label="פירורי לחם"><a href="index.html">מרכז הידע</a> / מדריך גידול · אבוקדו</nav>
+<div class="hero"><span class="kicker">מדריך גידול · אבוקדו · 10 דקות קריאה</span>
+<h1>בית רשת לאבוקדו: איך מגינים על מטע צעיר מקרה, ברד ורוח, בישראל ובחו״ל</h1><p class="dek">מה שה״מ אומר על אחוז ההצללה שמגן מקרה, מתי בית רשת קבוע עדיף על רשת תשליך, ולמה מבנה מעל אבוקדו חייב להיות מתוכנן לברד. כולל מבט על פורטוגל.</p>
+<div class="byline"><div class="avatar" aria-hidden="true">י״ה</div><span><b>יפתח הספל</b>, מנכ״ל משותף, הנדסאי בניין (טכניון)</span><span class="sep">·</span><time datetime="2026-10-21">21 באוקטובר 2026</time><span class="reviewed">נכתב מתוך עבודה בשטח</span></div>
+<figure class="cover"><img src="img/cover-avocado.jpg" alt="שורות של עצי אבוקדו צעירים עם פרי, תחת רשת לבנה על עמודים, בנוף גבעות ים-תיכוני" width="1600" height="800" fetchpriority="high"><figcaption><span class="tag-ai">הדמיה</span>מטע אבוקדו צעיר תחת בית רשת, בנוף גבעות ים-תיכוני.</figcaption></figure></div>
+<div class="layout"><article>
+<div class="lead-box"><b class="lbl">בקצרה</b><ul>
+<li>אבוקדו הוא גידול המטעים המוביל בישראל: כ-160 אלף דונם, ועוד כעשרת אלפים דונם בכל שנה.<sup><a href="#ref1">1</a></sup></li>
+<li>לפי שה״מ (פברואר 2025), רשתות שאחוז ההצללה בהן גבוה מ-50% הראו יעילות גבוהה בהגנה מקרה. ברשתות של 30% היעילות הייתה נמוכה יותר.<sup><a href="#ref5">5</a></sup></li>
+<li>בית רשת קבוע מגן לאורך כל השנה: מקרה, משמש, מרוח ומברד. רשת תשליך גמישה יותר ומתאימה בעיקר למטע צעיר ולעונת הקרה.</li>
+<li>מבנה מעל אבוקדו חייב להיות מתוכנן לברד: בניסוי בקיבוץ נירים ברד כבד הפיל את הרשת.<sup><a href="#ref4">4</a></sup></li>
+<li>בפורטוגל גדל שטח האבוקדו מפחות מ-300 הקטר ב-2013 לכ-2,600–2,800 הקטר ב-2023, ובחלק מהאזורים יש סיכון לקרה ולרוח.<sup><a href="#ref10">10</a></sup></li>
+</ul></div>
+
+<p>האבוקדו כבר מזמן אינו עוד גידול, ולכן גם ההחלטה על בית רשת לאבוקדו היא החלטה עסקית. לדברי שחר גולדברג, יו״ר שולחן האבוקדו במועצת הצמחים, יש בישראל כ-160 אלף דונם אבוקדו, וזה גידול המטעים המוביל בארץ. בכל שנה נוטעים עוד כעשרת אלפים דונם. לפי סיכום משרד החקלאות לשנת 2024, 43% מהפירות שמיוצאים מישראל הם אבוקדו.<sup><a href="#ref1">1</a></sup></p>
+<p>מטע כזה הוא השקעה של שנים, והוא חשוף למזג האוויר. ב-2025 פיצתה קנט את מגדלי האבוקדו בכ-57 מיליון ₪, לעומת כ-36 מיליון ₪ ב-2024. אירוע הקרה של פברואר 2025 פגע בלילה אחד במאות אלפי דונמים של גידולים שונים.<sup><a href="#ref2">2</a></sup><sup><a href="#ref3">3</a></sup> מכאן השאלה שהמדריך הזה עונה עליה: מתי רשת מעל מטע אבוקדו היא החלטה עסקית נכונה, ואיזה מבנה יחזיק אותה לאורך שנים.</p>
+<p>אם אתם בתחילת הדרך, כדאי לקרוא קודם את המדריך שלנו על <a href="beit-reshet.html">סוגי רשתות ואחוז הצללה</a> בבית רשת חקלאי. כאן נתמקד במה שייחודי לאבוקדו.</p>
+
+<div class="box fit"><b class="lbl">למי המדריך הזה</b><div class="cols">
+<div><h4>מתאים לכם אם</h4><ul>
+<li>יש לכם, או שאתם מתכננים, מטע אבוקדו של 50 דונם ומעלה בישראל או 30 הקטר ומעלה בחו״ל.</li>
+<li>המטע נמצא באזור עם היסטוריה של קרה, ברד, רוח או שרב.</li>
+<li>אתם מתלבטים בין בית רשת קבוע לרשת תשליך ורוצים להבין את ההבדל ההנדסי.</li>
+</ul></div>
+<div><h4>פחות מתאים אם</h4><ul>
+<li>מדובר בכמה עצים בגינה או בחלקה קטנה.</li>
+<li>אתם מחפשים רק מחיר לרשת, בלי תכנון של המבנה.</li>
+</ul></div>
+</div></div>
+
+<h2 id="s1">שש סכנות, שלושה כלים: מפת האיומים במטע אבוקדו</h2>
+<p>אבוקדו רגיש גם לקור וגם לחום. בקיבוץ נירים מתארים סופות חול וימי חמסין דווקא בתקופות הרגישות של הפריחה והחנטה, באפריל ובמאי.<sup><a href="#ref4">4</a></sup> שה״מ מסביר שנזק הקרה נגרם מהקור המקפיא, ומועצם באופן משמעותי בגלל הקרינה בבוקר שאחרי ליל הקרה. עוצמת הנזק תלויה גם בזן, בגיל המטע, במצבו הפיזיולוגי ובעומס הפרי.<sup><a href="#ref5">5</a></sup></p>
+<p>יש שלושה כלים עיקריים להגנה: בית רשת קבוע, רשת תשליך שנפרסת על שורות או על עצים, והמטרה מעל הנוף. הטבלה מסכמת מה כל אחד מהם עושה מול כל איום, לפי המקורות.</p>
+<div class="tbl"><table><thead><tr><th>האיום</th><th>בית רשת קבוע</th><th>רשת תשליך</th><th>המטרה מעל הנוף</th></tr></thead><tbody>
+<tr><td><b>קרה</b> (מתחת לאפס)</td><td>יעילות גבוהה ברשתות של יותר מ-50% הצללה, בעיקר בזכות הצללת שמש הבוקר שאחרי הקרה<sup><a href="#ref5">5</a></sup></td><td>אותו עיקרון. לפי שה״מ זו אפשרות למטע צעיר, על שורות שלמות או על עצים בודדים<sup><a href="#ref5">5</a></sup></td><td>״יעיל מאוד״ לפי שה״מ, אבל רק במטע שמושקה במים שפירים. מפעילים ב-2 מעלות וממשיכים עד כשעתיים אחרי הזריחה<sup><a href="#ref5">5</a></sup></td></tr>
+<tr><td><b>צינה</b> (קור קיצוני מעל האפס)</td><td>לפי שה״מ, רשתות הצללה יעילות גם מפני נזקי צינה בעצי אבוקדו<sup><a href="#ref5">5</a></sup></td><td>אותו עיקרון, בתנאי שהרשת פרוסה בזמן</td><td>שה״מ מתאר את השיטה לקרה. היא נשענת על החום שמשתחרר כשהמים קופאים</td></tr>
+<tr><td><b>כוויות שמש וחום</b></td><td>בניסוי בספרד טמפרטורת העלה ירדה ב-3 עד 5 מעלות<sup><a href="#ref7">7</a></sup>. בדרום אפריקה פחתו נזקי השמש והרוח<sup><a href="#ref8">8</a></sup></td><td>רק אם הרשת נשארת בקיץ. רשת חורף מקופלת בסוף העונה</td><td>לא מיועדת לכך</td></tr>
+<tr><td><b>ברד</b></td><td>מגן, בתנאי שהמבנה תוכנן לעומס הברד (ראו פרק 4)<sup><a href="#ref4">4</a></sup></td><td>משרד החקלאות מונה ״רשת נגד ברד בהשלכה ישירה״ לאבוקדו בין נושאי הסיוע<sup><a href="#ref6">6</a></sup></td><td>לא מגינה</td></tr>
+<tr><td><b>רוח</b></td><td>בניסוי בדרום אפריקה הרוח מתחת לרשת ״בוטלה״<sup><a href="#ref8">8</a></sup>. בנירים ציפו גם לפחות אידוי<sup><a href="#ref4">4</a></sup></td><td>מגינה על הנוף המכוסה, אבל אינה שובר רוח</td><td>לא מגינה</td></tr>
+<tr><td><b>סופות חול ושרב בפריחה ובחנטה</b></td><td>בנירים ציינו אותם כסיבה מרכזית לבחון בית רשת בנגב המערבי<sup><a href="#ref4">4</a></sup></td><td>תלוי בעונה: רשת שנפרסת לחורף כבר אינה פרוסה באביב</td><td>לא מגינה</td></tr>
+</tbody></table></div>
+<p>הטבלה מחברת מקורות שונים, וכל ממצא נכון לתנאים שבהם נמדד. ניסוי באתר אחד אינו מבטיח תוצאה זהה במטע אחר. גם למענק על המטרה מעל הנוף יש תנאים: לפי תכנית משרד החקלאות היא נתמכת באבוקדו רק באזור רגיש לקרה, עם הוכחה של הקצאת מים שפירים, בהמלצת מדריך, ועד 30 דונם למגיש בקשה.<sup><a href="#ref6">6</a></sup></p>
+<figure class="photo"><img src="img/avocado-frost.jpg" alt="שחר של קרה: שדה פתוח מכוסה כפור משמאל, ועצי אבוקדו צעירים וירוקים תחת רשת צפופה מימין" loading="lazy" width="1400" height="788"><figcaption><span class="tag-ai">הדמיה</span>בוקר אחרי ליל קרה. לפי שה״מ, עיקר ההגנה של הרשת מגיע מהצללת קרינת השמש בבוקר, לא מחימום העץ בלילה.</figcaption></figure>
+
+<h2 id="s2">מה שה״מ אומר על אחוז ההצללה וההגנה מקרה</h2>
+<p>בפברואר 2025 פרסם שירות ההדרכה והמקצוע של משרד החקלאות דפון על התגוננות מפני קרה במטעים סובטרופיים. זה הממצא המרכזי לגבי רשתות, בלשון המקור:</p>
+<p>„יעילות גבוהה בהגנה מנזקי קרה נצפתה במגוון רשתות שאחוזי ההצללה בהן גדולים מ-50%. יעילות הגנה נמוכה יותר נבעה כתוצאה משימוש ברשתות באחוז הצללה של 30%.”<sup><a href="#ref5">5</a></sup></p>
+<div class="tbl"><table><thead><tr><th>אחוז הצללה</th><th>מה שה״מ מצא לגבי הגנה מקרה</th></tr></thead><tbody>
+<tr><td class="num">מעל 50%</td><td>יעילות גבוהה, במגוון רשתות</td></tr>
+<tr><td class="num">30%</td><td>יעילות הגנה נמוכה יותר</td></tr>
+</tbody></table></div>
+<p>שה״מ אינו מפרסם אחוזי הגנה, ולכן גם אנחנו לא. חשוב להבין את המנגנון. לפי הדפון, האפקט החיובי של הרשת נובע בעיקר מהצללה מפני קרינת השמש בבוקר שאחרי קרה קרינתית, ולאו דווקא מהעלאת הטמפרטורה של העלה או של סביבת העץ.<sup><a href="#ref5">5</a></sup> כלומר, הרשת לא ״מחממת״ את המטע. היא מונעת מהשמש לפגוע ברקמה שקפאה בלילה.</p>
+<p>מכאן נגזרות שלוש החלטות מעשיות:</p>
+<ul>
+<li><strong>אחוז ההצללה הוא החלטה הנדסית ואגרונומית.</strong> רשת שנבחרה בשביל הקיץ לא בהכרח מגינה בחורף.</li>
+<li><strong>תזמון.</strong> לפי שה״מ פורסים את הרשת בתחילת החורף ומקפלים בסופו, או פורסים נקודתית סביב אירוע קרה: לפניו, במהלכו ואחריו.<sup><a href="#ref5">5</a></sup></li>
+<li><strong>מיקום.</strong> קרה קרינתית שכיחה בעיקר בשטחים מישוריים וקעורים, שאליהם זורם האוויר הקר ונאגר.<sup><a href="#ref5">5</a></sup> מיפוי של כיסי הקור בחלקה קובע איפה ההגנה דחופה יותר.</li>
+</ul>
+<p>הדפון מבוסס בין השאר על ניסויים בישראל בעצי ׳האס׳ ו׳ריד׳ צעירים ובעצי ׳פינקרטון׳ בוגרים. בין התמונות שבו: מטע צעיר במעיין ברוך שכוסה בבית רשת להגנה מפני קרה.<sup><a href="#ref5">5</a></sup></p>
+
+<h3>ובקיץ: מה רשת הצללה עושה לעלה</h3>
+<p>ניסוי בספרד בדק עצי ׳האס׳ צעירים בבית רשת בגובה 6 מטרים, עם רשת לבנה שמעבירה כ-76% מהאור. הממצא החשוב: הרשת קיררה את העלה, לא את האוויר.<sup><a href="#ref7">7</a></sup></p>
+<div class="tbl"><table><thead><tr><th>מדד, בקיץ ובצהריים</th><th>בשטח פתוח</th><th>תחת הרשת</th></tr></thead><tbody>
+<tr><td>קרינה (PPFD מרבית, µmol/m²/s)</td><td class="num">כ-2,000</td><td class="num">כ-1,400 (כ-30% פחות)</td></tr>
+<tr><td>טמפרטורת העלה</td><td class="num">מעל 40°C</td><td class="num">רק לעתים רחוקות מעל 37°C (3 עד 5 מעלות פחות)</td></tr>
+<tr><td>גירעון לחות בעלה (VPD, kPa)</td><td class="num">5.5–6.0</td><td class="num">4.0–4.5</td></tr>
+<tr><td>טמפרטורת האוויר</td><td class="num">כ-35°C</td><td class="num">ללא ירידה עקבית</td></tr>
+</tbody></table></div>
+<p>הנתונים מניסוי בודד: אליקנטה, ספרד, קיץ 2022.<sup><a href="#ref7">7</a></sup> המשמעות למתכנן: רשת יכולה להפחית עקה וכוויות שמש בעלה, אבל לא תהפוך יום שרב ליום נוח.</p>
+
+<h2 id="s3">בית רשת קבוע או רשת תשליך</h2>
+<p>שה״מ מציין את שתי הדרכים: בית רשת קבוע, או פריסת ״תשליך״ על שורות שלמות או על עצים בודדים כשהמטע צעיר.<sup><a href="#ref5">5</a></sup> הבחירה תלויה באיומים שבאמת קיימים בחלקה, בגיל העצים ובאופן שבו המטע מנוהל.</p>
+<div class="tbl"><table><thead><tr><th>קריטריון</th><th>בית רשת קבוע</th><th>רשת תשליך</th></tr></thead><tbody>
+<tr><td>מתאים ל</td><td>מטע בכל גיל, הגנה מכמה איומים</td><td>בעיקר מטע צעיר ועונת הקרה<sup><a href="#ref5">5</a></sup></td></tr>
+<tr><td>עונתיות</td><td>כל השנה</td><td>פריסה בתחילת החורף וקיפול בסופו, או סביב אירוע<sup><a href="#ref5">5</a></sup></td></tr>
+<tr><td>ברד</td><td>הגנה, בתנאי שהמבנה תוכנן לעומס</td><td>רשת נגד ברד בהשלכה ישירה נמנית בתכנית המשרד כנושא סיוע לאבוקדו<sup><a href="#ref6">6</a></sup></td></tr>
+<tr><td>רוח, חול ושרב באביב</td><td>כן, כשהמבנה סגור ומתוכנן לכך</td><td>חלקית, ותלוי מתי הרשת פרוסה</td></tr>
+<tr><td>עבודה שוטפת</td><td>תחזוקת מבנה, מתיחת כבלים, בדיקת הרשת</td><td>פריסה וקיפול חוזרים, במגע ישיר עם הנוף</td></tr>
+<tr><td>מענק (תכנית 2023)</td><td>בתי רשת במטעים נתמכים לתפוחים, ליצ׳י, תאנים וקיווי. אבוקדו אינו ברשימה<sup><a href="#ref6">6</a></sup></td><td>״רשת נגד ברד בהשלכה ישירה״ לאבוקדו נמנית בנושאי הסיוע. בטבלת המבנים למטעים מופיעה לרשת תשליך עלות מוכרת של 1,300 ₪ לדונם, אבל הגידולים שמפורטים בשורה הם הדרים, תפוח, נשירים ודובדבן, לא אבוקדו. כדאי לברר מול המנהלה<sup><a href="#ref6">6</a></sup></td></tr>
+</tbody></table></div>
+<p>כלל אצבע: כשהאיום המרכזי הוא קרה, במטע צעיר ובכיס קור מוגדר, רשת תשליך עשויה להספיק. כשיש כמה איומים יחד, למשל קרה בחורף, ברד, ורוח וחמסין בפריחה, בית רשת קבוע נותן תשובה אחת לכולם. את פרטי <a href="reshet-neged-barad.html">רשת נגד ברד</a> ושל מנגנוני קיפול עונתיים פירטנו במדריך נפרד.</p>
+<p>בשני המקרים התזמון קריטי: הרשת צריכה להיות פרוסה לפני ליל הקרה הראשון. התקנה בחורף דורשת צוות שיודע לעבוד גם בגשם.</p>
+<blockquote class="testi"><p>„הפגינו מקצועיות, יצירתיות וגמישות, ועמידה בלוחות זמנים גם כאשר החורפים היו גשומים במיוחד.”</p><footer>רפי הלל · מטע ברעם</footer></blockquote>
+<figure class="photo"><img src="img/real-orchard-row.jpg" alt="שורת עצים במטע תחת רשת לבנה, במבט לאורך השורה" loading="lazy" width="1400" height="788"><figcaption>שורת מטע תחת בית רשת קבוע. גובה המבנה ורוחב השורה נקבעים כבר בתכנון, לפי הכלים שיעבדו בו. צילום: ארכיון מיפתח</figcaption></figure>
+
+<h2 id="s4">הלקח מנירים: למה מבנה לאבוקדו חייב להיות מתוכנן לברד</h2>
+<p>קיבוץ נירים שבנגב המערבי נטע ב-2007 חלקת ניסוי של 5 דונם בצפיפות נטיעה גבוהה פי שלושה מהמקובל, תחת בית רשת. באתר הקיבוץ מתועד המשפט: ״ברד כבד הפיל את הרשת״.<sup><a href="#ref4">4</a></sup> האתר אינו מפרט את סוג המבנה, את סוג הרשת או את עוצמת האירוע, ולכן אי אפשר להסיק ממנו דבר על מבנה מסוים. אבל הלקח העקרוני ברור, והוא נכון לכל מטע אבוקדו שמכוסה ברשת.</p>
+<h3>ברד הוא עומס, לא רק פגיעה</h3>
+<p>אבן ברד שנשארת על הרשת הופכת למשקל. היא מתגלגלת אל הנקודה הנמוכה, הרשת שוקעת שם עוד, ושם מצטבר עוד ברד. לכן השאלה ההנדסית אינה רק ״האם הרשת תעצור את האבן״, אלא ״לאן הברד הולך אחרי שנעצר״. גיאומטריית הגג, המרווח בין כבלי הגג והמקומות שבהם הברד יכול לרדת מהרשת קובעים כמה ברד יישאר למעלה.</p>
+<h3>מסלול העומס</h3>
+<p>כל קילוגרם שיושב על הרשת עובר בשרשרת: מהרשת לכבלי הגג, מהכבלים לעמודים, מהעמודים לכבלי העיגון בהיקף, ומשם לעוגנים בקרקע. השרשרת חזקה כמו החוליה החלשה שבה. לכן מתכננים את כולה לעומס המשולב של ברד ורוח, ולא כל רכיב בנפרד.</p>
+<h3>הקצוות נושאים את השיא</h3>
+<p>מדידה של מכון וולקני בבית רשת מעל מטע אפרסקים מצאה שהכוח שהרוח מפעילה על הרשת גדל כפולינום מסדר שני של מהירות הרוח. כלומר, הכפלת מהירות הרוח מגדילה את הכוח הרבה יותר מפי שניים. הכוחות היו חזקים ביותר בנקודות שבהן הרשת מחוברת לכבל בקצה החיצוני של בית הרשת. לפי האקסטרפולציה של החוקרים, ברוח של 150 קמ״ש הכוח בנקודת חיבור אחת עשוי להגיע ל-50 ק״ג.<sup><a href="#ref9">9</a></sup> זו הסיבה שעיגון, מתיחת כבלים ופרטי הקצה מתוכננים בנפרד, ולא ״כמו בשאר המבנה״.</p>
+<h3>סוג הרשת</h3>
+<p>רשת שנבחרה להגנה מקרה, עם יותר מ-50% הצללה, אינה בהכרח מתאימה גם לברד. כשאותה רשת אמורה לתת מענה לשני האיומים, בודקים בתכנון גם איך היא מתנהגת תחת ברד, מים ורוח, ולא רק את אחוז ההצללה שלה.</p>
+<figure class="photo"><img src="img/real-hillside.jpg" alt="צילום אוויר של קצה בית רשת לבן במדרון, עם עמודים וכבלי עיגון בהיקף" loading="lazy" width="1400" height="788"><figcaption>קצה של בית רשת במדרון. בקצוות ובעיגון ההיקפי מתרכזים העומסים, ולכן שם מתחיל התכנון. צילום: ארכיון מיפתח</figcaption></figure>
+<p>מבנה טוב מצמצם תקלות אחרי סערה, אבל לא מבטל אותן. ההבדל הוא מי מגיע לשטח.</p>
+<blockquote class="testi"><p>„גם בימי גשם ורוח עזה הצוות מגיע ונותן פתרון מיידי.”</p><footer>אייל עובדיה · מטעי כברי</footer></blockquote>
+
+<p class="soft-cta">יש לכם מטע אבוקדו בכיס קור, באזור ברד או במקום חשוף לרוח? <a href="#contact">ספרו לנו גידול, אזור ושטח</a>, ונחזור אליכם עם כיוון תכנוני ראשון. מתכננים מטע מחוץ לישראל? קראו על <a href="chava-haklait-turnkey.html">הקמת מטע אבוקדו בחו״ל בשיטת Turnkey</a>.</p>
+
+<h2 id="s5">איך מתכננים בית רשת לאבוקדו, שלב אחר שלב</h2>
+<ol class="steps">
+<li><span><b>מיפוי הסיכון בחלקה</b>כיסי קור, היסטוריה של ברד ורוח, חשיפה לשרב בפריחה, וזן וגיל העצים. מכאן נגזר מה צריך להגן ומתי.</span></li>
+<li><span><b>בחירת הפתרון</b>בית רשת קבוע או רשת תשליך, אחוז הצללה וסוג רשת, יחד עם האגרונום של המטע.</span></li>
+<li><span><b>תכנון הנדסי</b>עומסי רוח וברד, מסלול העומס עד לעוגנים, פרטי קצה, וגובה שמתאים לכלי גובה לאבוקדו.</span></li>
+<li><span><b>ייצור ובדיקה במפעל</b>עמודים, רשתות, כבלים ואביזרים מיוצרים ונבדקים במפעל שלנו לפני שהם יוצאים לשטח.</span></li>
+<li><span><b>התקנה בשטח</b>בצוותים מבוטחים ומוסמכים לעבודה בגובה, בלוח זמנים שמתוכנן מול עונת הקרה.</span></li>
+<li><span><b>מסירה ותחזוקה לאורך שנים</b>בדיקת מתיחות, רשת ועיגון, וטיפול אחרי אירועי מזג אוויר.</span></li>
+</ol>
+<figure class="photo"><img src="img/real-galilee-nethouse.jpg" alt="צילום אוויר של בית רשת לבן גדול בין גבעות הגליל" loading="lazy" width="1400" height="788"><figcaption>בית רשת גדול בגבעות הגליל. בשטח מגוון, העיגון נקבע לפי השיפוע והחשיפה. צילום: ארכיון מיפתח</figcaption></figure>
+
+<h2 id="s6">מים וגודל פרי: מה ציפו בנירים לקבל מבית רשת</h2>
+<p>ברקע התאורטי לניסוי בנירים מפרט הקיבוץ את הסיבות לכסות את המטע: מניעת נזקי טבע כמו ברד וסופות חול, פחות רוח ולכן פחות אידוי, טמפרטורות קיץ נמוכות יותר, ובעיקר הגדלת הפרי. לפי הקיבוץ, בזן ׳האס׳ המיועד ליצוא קשה בישראל להגיע לגודל הפרי האופטימלי לשווקים בחו״ל.<sup><a href="#ref4">4</a></sup> זה הרציונל שהקיבוץ עצמו הציג, לא תוצאה מחקרית מוכחת.</p>
+<p>כדאי לקרוא אותו לצד ממצא זהיר מדרום אפריקה: בשני אתרי ניסוי תחת רשת הצללה פחתו נזקי השמש והרוח והשתפרה איכות הפרי לשיווק, אבל היבול בשנת 2015 היה נמוך יותר בשני האתרים. החוקרים הצביעו על השקיה ועל האבקה.<sup><a href="#ref8">8</a></sup> גם בנירים ציינו שאלות פתוחות, כמו התנהגות הדבורים וההשפעה על הפריחה.<sup><a href="#ref4">4</a></sup> המסקנה: רשת היא כלי, והתוצאה תלויה בניהול האגרונומי שמתחתיה.</p>
+
+<h2 id="s7">אבוקדו בחו״ל: מה שונה בפורטוגל ובחצי האי האיברי</h2>
+<p>לפי פרופיל המדינה ש-CIRAD הכין עבור Hass Avocado Board, עד 2013 היו רשומים פחות מ-300 הקטר, כולם באלגרב. בתחילת 2023 נאמד השטח ב-2,600 עד 2,800 הקטר, ויותר משלושה רבעים ממנו באלגרב.<sup><a href="#ref10">10</a></sup></p>
+<figure class="viz" id="ch-pt"><div class="frame"><h4>אבוקדו בפורטוגל: מנישה לענף</h4><p class="sub">שטח מטעי האבוקדו בפורטוגל, בהקטרים</p><svg viewBox="0 0 720 124" role="img" aria-labelledby="ch-pt-t ch-pt-d"><title id="ch-pt-t">אבוקדו בפורטוגל: מנישה לענף</title><desc id="ch-pt-d">שטח מטעי האבוקדו בפורטוגל, בהקטרים</desc><line class="grid" x1="490.0" x2="490.0" y1="6" y2="102" stroke-width="1"/><text x="490.0" y="118" text-anchor="middle">0</text><line class="grid" x1="334.6" x2="334.6" y1="6" y2="102" stroke-width="1"/><text x="334.6" y="118" text-anchor="middle">1000</text><line class="grid" x1="179.2" x2="179.2" y1="6" y2="102" stroke-width="1"/><text x="179.2" y="118" text-anchor="middle">2000</text><line class="grid" x1="23.7" x2="23.7" y1="6" y2="102" stroke-width="1"/><text x="23.7" y="118" text-anchor="middle">3000</text><text x="716" y="28.0" text-anchor="end" style="font-weight:700">עד 2013</text><rect x="443.4" y="10" width="46.6" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="437.4" y="28.0" text-anchor="end">300</text><text x="716" y="72.0" text-anchor="end" style="font-weight:700">תחילת 2023</text><rect x="70.4" y="54" width="419.6" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="64.4" y="72.0" text-anchor="end">2700</text></svg><details><summary>הנתונים בטבלה</summary><div class="tbl"><table><thead><tr><th></th><th>ערך</th></tr></thead><tbody><tr><td>עד 2013</td><td>300</td></tr><tr><td>תחילת 2023</td><td>2700</td></tr></tbody></table></div></details></div><figcaption>2013: ״פחות מ-300 הקטר״ (מוצג כגבול עליון). 2023: הערכה של 2,600–2,800 הקטר; מוצג 2,700, הערך שבו משתמש הדוח. מקור: <a href="https://hassavocadoboard.com/wp-content/uploads/hass-avocado-board-country-profile-2023-portugal.pdf">CIRAD עבור Hass Avocado Board, Country Profile Portugal</a> (פברואר 2023)</figcaption></figure>
+<p>אותו דוח מצביע על הסיכונים שמוכרים למגדל הישראלי. באלגרב יש יתרונות אקלימיים לזן ׳האס׳, אבל גם סיכון לקרה. אזור אלנטז׳ו ליטורל, צפונה יותר, מתואר כחשוף יותר לקרה ולגלי חום מזדמנים, וגם סוער יותר. היקף מערכות ההגנה מקרה משתנה: המטעים הגדולים באלנטז׳ו מצוידים במלואם, ורק חלק ממגדלי אלגרב השקיעו בהן. לפי אנשי מקצוע שהדוח מצטט, צריכת המים היא כ-5,500 עד 6,500 מ״ק להקטר, והלחץ על משאבי המים באזור עולה.<sup><a href="#ref10">10</a></sup> היצוא עדיין נמוך מ-10,000 טון, ומחברי הדוח צופים פוטנציאל יצוא של כ-40,000 טון עד 2030. הם גם מציינים האטה בקצב הנטיעות בשנים האחרונות.<sup><a href="#ref10">10</a></sup></p>
+<p>הצד של השוק ברור לא פחות. לפי CBI, הסוכנות ההולנדית לקידום יבוא מארצות מתפתחות, אירופה ייבאה ב-2023 וב-2024 הרבה יותר אבוקדו, עם צמיחה שנתית מוערכת של 16% בנפח. ערך היבוא מישראל הוכפל בחמש השנים שעד 2024. במקביל, לפי CBI, התחרות ממרוקו ומספרד הולכת וגוברת.<sup><a href="#ref11">11</a></sup></p>
+<figure class="viz" id="ch-cbi"><div class="frame"><h4>מי מספק אבוקדו לאירופה: ערך היבוא ב-2024</h4><p class="sub">ערך יבוא האבוקדו לאירופה מארבע ספקיות מרכזיות, במיליוני אירו</p><svg viewBox="0 0 720 212" role="img" aria-labelledby="ch-cbi-t ch-cbi-d"><title id="ch-cbi-t">מי מספק אבוקדו לאירופה: ערך היבוא ב-2024</title><desc id="ch-cbi-d">ערך יבוא האבוקדו לאירופה מארבע ספקיות מרכזיות, במיליוני אירו</desc><line class="grid" x1="490.0" x2="490.0" y1="6" y2="190" stroke-width="1"/><text x="490.0" y="206" text-anchor="middle">0</text><line class="grid" x1="409.3" x2="409.3" y1="6" y2="190" stroke-width="1"/><text x="409.3" y="206" text-anchor="middle">250</text><line class="grid" x1="328.6" x2="328.6" y1="6" y2="190" stroke-width="1"/><text x="328.6" y="206" text-anchor="middle">500</text><line class="grid" x1="247.9" x2="247.9" y1="6" y2="190" stroke-width="1"/><text x="247.9" y="206" text-anchor="middle">750</text><line class="grid" x1="167.2" x2="167.2" y1="6" y2="190" stroke-width="1"/><text x="167.2" y="206" text-anchor="middle">1000</text><line class="grid" x1="86.5" x2="86.5" y1="6" y2="190" stroke-width="1"/><text x="86.5" y="206" text-anchor="middle">1250</text><text x="716" y="28.0" text-anchor="end" style="font-weight:700">פרו</text><rect x="70.4" y="10" width="419.6" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="64.4" y="28.0" text-anchor="end">1300</text><text x="716" y="72.0" text-anchor="end" style="font-weight:700">ישראל</text><rect x="360.9" y="54" width="129.1" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="354.9" y="72.0" text-anchor="end">400</text><text x="716" y="116.0" text-anchor="end" style="font-weight:700">קולומביה</text><rect x="362.2" y="98" width="127.8" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="356.2" y="116.0" text-anchor="end">396</text><text x="716" y="160.0" text-anchor="end" style="font-weight:700">דרום אפריקה</text><rect x="393.2" y="142" width="96.8" height="26" rx="2" fill="var(--leaf)"/><text class="v" x="387.2" y="160.0" text-anchor="end">300</text></svg><details><summary>הנתונים בטבלה</summary><div class="tbl"><table><thead><tr><th></th><th>ערך</th></tr></thead><tbody><tr><td>פרו</td><td>1300</td></tr><tr><td>ישראל</td><td>400</td></tr><tr><td>קולומביה</td><td>396</td></tr><tr><td>דרום אפריקה</td><td>300</td></tr></tbody></table></div></details></div><figcaption>פרו: 1.3 מיליארד אירו. ישראל: ״כמעט 400 מיליון אירו״ בלשון המקור, אחרי הכפלה בחמש שנים. קולומביה ודרום אפריקה: 396 ו-300 מיליון אירו. מקור: <a href="https://www.cbi.eu/market-information/fresh-fruit-vegetables/avocados/market-entry">CBI, Entering the European market for avocados</a> (עודכן 30.12.2025)</figcaption></figure>
+<p>למשקיע, השוק האירופי קרוב ומבוקש, אבל מטע באיבריה מתמודד עם איומים שאנחנו מכירים מהבית: קרה, רוח, חום ומים. את מבנה ההגנה מחליטים כבר בתכנון החווה, לא אחרי החורף הראשון.</p>
+<div class="box field"><b class="lbl">מהשטח</b><p>בית רשת לאבוקדו בפורטוגל. העקרונות ההנדסיים זהים לאלה של בית רשת בגליל: תכנון לעומסי רוח וברד, עיגון שמתאים לקרקע, ורכיבים שנבדקים לפני ההתקנה. מה שמשתנה בין מדינות הוא הקרקע, האקלים המקומי והרגולציה. ההיתרים באחריות היזם, וכדאי להתחיל בהם מוקדם. הלקוח שלנו בפורטוגל מוכן לספר על העבודה המשותפת.</p></div>
+
+<h2 id="s8">לפני שחותמים: רשימת בדיקה למבנה מעל אבוקדו</h2>
+<ul class="check">
+<li>האם אחוז ההצללה נבחר לפי המטרה העיקרית: קרה, שמש או שתיהן?</li>
+<li>האם מופו כיסי הקור בחלקה, ונקבע איפה ההגנה דחופה יותר?</li>
+<li>האם התכנון מחשב עומס ברד, ולא רק עומס רוח?</li>
+<li>לאן הברד הולך אחרי שהרשת עוצרת אותו?</li>
+<li>האם פרטי הקצה, כבלי ההיקף והעוגנים מתוכננים לעומס השיא?</li>
+<li>האם הרכיבים נבדקים במפעל לפני היציאה לשטח?</li>
+<li>האם הצוות מבוטח ומוסמך לעבודה בגובה?</li>
+<li>מי אחראי על פריסה, קיפול ותחזוקה אחרי המסירה?</li>
+<li>האם בדקתם מול תכנית המענקים העדכנית מה נתמך באבוקדו?</li>
+</ul>
+
+<div class="box honest"><b class="lbl">מה חשוב לדעת מראש</b><p>אנחנו לא מקימים פרויקטים מתחת ל-50 דונם בישראל או 30 הקטר בחו״ל, כדי לתת לכל פרויקט את מלוא תשומת הלב. אנחנו לא מטפלים ברישוי ובהיתרים: ההיתר באחריות היזם, ונגיד לכם את זה כבר בשיחה הראשונה. אנחנו גם לא נותנים מחיר בטלפון לפני שהבנו את הקרקע, הגידול והמטרה. ועוד דבר אחד: רשת אינה תחליף לאגרונומיה. השקיה, האבקה וניהול העצים מתחת לרשת קובעים את התוצאה לא פחות מהמבנה.</p></div>
+
+<p>רוצים לשמוע ישירות מלקוחות? נשמח לחבר אתכם ללקוחות שלנו בברעם, אלרום, יחיעם, מצובה וחניתה, וללקוח שלנו בפורטוגל.</p>
+
+<h2 id="s9">מגדלים בישראל או משקיעים בחו״ל: שתי דרכים להתחיל</h2>
+<div class="box fit"><b class="lbl">האם זה מתאים לכם</b><div class="cols">
+<div><h4>מגדלים בישראל, 50 דונם ומעלה</h4><ul>
+<li>יש לכם מטע קיים או נטיעה מתוכננת באזור קרה, ברד או רוח.</li>
+<li>אתם רוצים מבנה שיחזיק שנים, לא רק עונה.</li>
+<li>הצעד הבא: <a href="#contact">שיחת תכנון עם יפתח</a>, עם גידול, אזור ושטח.</li>
+</ul></div>
+<div><h4>משקיעים בחו״ל, 30 הקטר ומעלה</h4><ul>
+<li>אתם בוחנים מטע אבוקדו בפורטוגל, באירופה או באפריקה.</li>
+<li>אתם מחפשים שותף אחד לקרקע, למבנים, לנטיעה ולניהול הגידול.</li>
+<li>הצעד הבא: <a href="chava-haklait-turnkey.html">איך עובד פרויקט Turnkey בחו״ל</a>.</li>
+</ul></div>
+</div></div>
+
+<h2 id="faq">שאלות נפוצות</h2><div class="faq"><details><summary>האם רשת מגינה על אבוקדו מקרה?</summary><p>כן. לפי שה״מ, רשת הצללה היא אחד הפתרונות היעילים בהגנה מפני נזקי קור קיצוני, וניסויים הראו יעילות גם מפני צינה בעצי אבוקדו. האפקט נובע בעיקר מהצללת קרינת השמש בבוקר שאחרי הקרה, לא מחימום העץ. זו אינה ערובה: עוצמת הנזק תלויה גם בעוצמת הקרה, בזן, בגיל המטע ובמצבו.<sup><a href="#ref5">5</a></sup></p></details><details><summary>איזה אחוז הצללה מתאים לאבוקדו?</summary><p>להגנה מקרה, שה״מ מצא יעילות גבוהה ברשתות שאחוז ההצללה בהן גבוה מ-50%, ויעילות נמוכה יותר ברשתות של 30%.<sup><a href="#ref5">5</a></sup> להגנה בקיץ נבדקו בניסויים רשתות קלות יותר, למשל בספרד רשת שמעבירה כ-76% מהאור.<sup><a href="#ref7">7</a></sup> הבחירה תלויה במטרה, באזור ובזן, ונעשית יחד עם האגרונום.</p></details><details><summary>בית רשת או רשת תשליך למטע אבוקדו צעיר?</summary><p>אם האיום המרכזי הוא קרה, והמטע צעיר, רשת תשליך על שורות או על עצים בודדים היא אפשרות ששה״מ מציין במפורש.<sup><a href="#ref5">5</a></sup> כשיש גם ברד, רוח או שרב בפריחה, בית רשת קבוע נותן מענה לכל האיומים לאורך השנה. ההחלטה מתחילה במיפוי הסיכונים בחלקה.</p></details><details><summary>האם בית רשת לאבוקדו עומד בברד כבד?</summary><p>רק אם תוכנן לכך. בניסוי בקיבוץ נירים ברד כבד הפיל את הרשת.<sup><a href="#ref4">4</a></sup> מבנה שעומד בברד מתוכנן לפי מסלול העומס המלא, מהרשת דרך הכבלים והעמודים ועד העוגנים. הוא גם לוקח בחשבון לאן הברד הולך אחרי שנעצר, ומחזק את הקצוות, שבהם מתרכזים הכוחות.<sup><a href="#ref9">9</a></sup></p></details><details><summary>האם יש מענק לרשת נגד ברד באבוקדו?</summary><p>בתכנית הפיתוח של משרד החקלאות לשנת 2023, ״רשת נגד ברד בהשלכה ישירה״ לאבוקדו נמנית בין נושאי הסיוע במטעים. בטבלת המבנים למטעים מופיעה לרשת תשליך עלות מוכרת של 1,300 ₪ לדונם, אבל אבוקדו אינו בין הגידולים שמפורטים בשורה הזו, ולכן כדאי לברר מול המנהלה איך מחושב המענק. זהו נתון לחישוב מענק, לא הצעת מחיר. בתי רשת קבועים במטעים נתמכו בתכנית זו לתפוחים, ליצ׳י, תאנים וקיווי בלבד.<sup><a href="#ref6">6</a></sup> כדאי לבדוק את התכנית העדכנית. המחיר בפועל נקבע אחרי ביקור בשטח, כי הוא תלוי בקרקע, בחשיפה לרוח, בגובה ובהיקף.</p></details><details><summary>אפשר להקים בית רשת לאבוקדו בפורטוגל?</summary><p>כן. הקמנו בית רשת לאבוקדו בפורטוגל. באלגרב ובאלנטז׳ו יש סיכון לקרה, ובאלנטז׳ו ליטורל גם רוח חזקה יותר וגלי חום מזדמנים.<sup><a href="#ref10">10</a></sup> ההיתרים באחריות היזם. למשקיעים שמתכננים חווה שלמה, ראו את המדריך על <a href="chava-haklait-turnkey.html">חווה חקלאית בחו״ל בשיטת Turnkey</a>.</p></details></div>
+<aside class="author" aria-label="על הכותב"><div class="avatar" aria-hidden="true">י״ה</div><div><b>יפתח הספל</b> · מנכ״ל משותף, הנדסאי בניין (טכניון)<p>יותר מעשרים שנה של תכנון, ייצור והקמה של בתי רשת ומבנים חקלאיים בגליל ובעולם, כולל פרויקט מורכב בבלארוס. אחראי על מיפוי הצרכים, התכנון ההנדסי ופיקוח הייצור והביצוע.</p></div></aside>
+<section class="cta" id="contact" aria-labelledby="cta-h">
+<h2 id="cta-h">מטע אבוקדו של 50 דונם בישראל או 30 הקטר בחו״ל?</h2>
+<p>ספרו לנו מה מגדלים, איפה ובאיזה היקף, ויפתח יחזור אליכם עם כיוון תכנוני ראשון. בלי התחייבות, ובלי הצעת מחיר לפני שראינו את השטח.</p>
+<form id="lead-beit-reshet-avocado" novalidate>
+<label for="f-size-beit-reshet-avocado">גודל השטח<input id="f-size-beit-reshet-avocado" placeholder="למשל 80 דונם או 40 הקטר"></label>
+<label for="f-crop-beit-reshet-avocado">גידול<input id="f-crop-beit-reshet-avocado" placeholder="אבוקדו: זן וגיל המטע"></label>
+<label for="f-where-beit-reshet-avocado">מיקום<input id="f-where-beit-reshet-avocado" placeholder="נגב מערבי, גליל, אלגרב…"></label>
+<label for="f-name-beit-reshet-avocado">שם<input id="f-name-beit-reshet-avocado" autocomplete="name"></label>
+<label for="f-phone-beit-reshet-avocado">טלפון או וואטסאפ<input id="f-phone-beit-reshet-avocado" type="tel" autocomplete="tel"></label>
+<button type="submit">לתיאום שיחת תכנון</button>
+</form>
+<p class="note" role="status"></p>
+<p class="alt">מעדיפים לדבר עכשיו? טלפון ווואטסאפ: <b>04-9856969</b></p>
+</section>
+<section class="sources" aria-labelledby="src-h"><h2 id="src-h">מקורות</h2><ol><li id="ref1"><a href="https://www.calcalist.co.il/magazine/article/zhs2d5j0y">המהפכה הירוקה (ארי ליבסקר; ראיון עם שחר גולדברג, יו״ר שולחן האבוקדו במועצת הצמחים)</a>, כלכליסט, 25.12.2025</li><li id="ref2"><a href="https://www.maariv.co.il/economy/israel/article-1272937">סיכום נזקי מזג האוויר לחקלאות ב-2025 לפי נתוני קנט (משה כהן)</a>, מעריב, 14.01.2026</li><li id="ref3"><a href="https://www.maariv.co.il/economy/israel/article-1164654">סיכום נזקי מזג האוויר לחקלאות ב-2024 לפי נתוני קנט (משה כהן)</a>, מעריב, 16.01.2025</li><li id="ref4"><a href="https://www.nirim.co.il/viewStaticPage.aspx?pageID=38">מטע אבוקדו בקיבוץ נירים, כולל ״פרויקט אבוקדו צפוף: בית רשת, רקע תאורטי״</a>, אתר קיבוץ נירים (נבדק באוקטובר 2026)</li><li id="ref5"><a href="https://www.gov.il/BlobFolder/reports/defending-against-the-cold-subtropical/he/Professional_information_defending-against-the-cold-subtropical-2025.pdf">התגוננות מפני קרה במטעים סובטרופיים</a>, שה״מ, משרד החקלאות וביטחון המזון, פברואר 2025</li><li id="ref6"><a href="https://www.gov.il/BlobFolder/reports/developmentplan2023/ar/development_2023.pdf">תכנית הפיתוח עפ״י נושאים 2023</a>, מנהלת ההשקעות בחקלאות, משרד החקלאות, 2023</li><li id="ref7"><a href="https://doi.org/10.3390/plants14233550">Tasa, M. et al., Shade Nets Improve Gas Exchange and Chlorophyll Fluorescence in Young Avocado Trees Grown Under Mediterranean Conditions</a>, Plants 14(23):3550, MDPI, 2025</li><li id="ref8"><a href="https://www.avocadosource.com/Journals/SAAGA/SAAGA_2015/SAAGA_2015_38_PG_76.pdf">Blakey, R.J. et al., shade netting trials on avocado (Mooketsi, Karkloof)</a>, South African Avocado Growers' Association Yearbook 38, 2015</li><li id="ref9"><a href="https://doi.org/10.17660/ActaHortic.2018.1227.20">Ibanez, P., Teitel, M., Tanny, J., Effect of wind speed and direction on forces acting on shade nets covering orchard trees</a>, Acta Horticulturae 1227, ISHS, 2018</li><li id="ref10"><a href="https://hassavocadoboard.com/wp-content/uploads/hass-avocado-board-country-profile-2023-portugal.pdf">Imbert, E. et al. (CIRAD), World avocado production prospects: Portugal</a>, Hass Avocado Board Country Profile, פברואר 2023</li><li id="ref11"><a href="https://www.cbi.eu/market-information/fresh-fruit-vegetables/avocados/market-entry">Entering the European market for avocados</a>, CBI, המרכז לקידום יבוא מארצות מתפתחות (הולנד), עודכן 30.12.2025</li></ol></section>
+</article>
+<aside class="toc" aria-label="תוכן המאמר"><b>במאמר</b><ol><li><a href="#s1">שש סכנות, שלושה כלים: מפת האיומים במטע אבוקדו</a></li><li><a href="#s2">מה שה״מ אומר על אחוז ההצללה וההגנה מקרה</a></li><li><a href="#s3">בית רשת קבוע או רשת תשליך</a></li><li><a href="#s4">הלקח מנירים: למה מבנה לאבוקדו חייב להיות מתוכנן לברד</a></li><li><a href="#s5">איך מתכננים בית רשת לאבוקדו, שלב אחר שלב</a></li><li><a href="#s6">מים וגודל פרי: מה ציפו בנירים לקבל מבית רשת</a></li><li><a href="#s7">אבוקדו בחו״ל: מה שונה בפורטוגל ובחצי האי האיברי</a></li><li><a href="#s8">לפני שחותמים: רשימת בדיקה למבנה מעל אבוקדו</a></li><li><a href="#s9">מגדלים בישראל או משקיעים בחו״ל: שתי דרכים להתחיל</a></li><li><a href="#faq">שאלות נפוצות</a></li></ol></aside></div></div>
+<section class="related"><div class="wrap"><h2>להמשך קריאה</h2><div class="cards"><a class="card" href="beit-reshet.html"><img src="img/cover-beit-reshet-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך יסוד · בתי רשת</span><h3>בית רשת חקלאי: כל מה שצריך לדעת לפני שמקימים, מהתכנון ההנדסי ועד המסירה בשטח</h3><p>מה זה בית רשת, אילו סוגים יש, מה מחזיק אותו בסערה, איך בוחרים רשת וכמה הוא עולה לפי משרד החקלאות.</p></a><a class="card" href="beit-reshet-bananot.html"><img src="img/cover-bananot-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך גידול · בננות</span><h3>בית רשת לבננות: איך מתכננים מבנה שמחזיק רוח, חוסך מים ומעלה יבול</h3><p>מה המחקר הישראלי מראה על מים, יבול ובחירת רשת בבננות, ואיך מתכננים מבנה גבוה שמחזיק רוח ועומד בכללי המענק.</p></a><a class="card" href="reshet-neged-barad.html"><img src="img/cover-barad-thumb.jpg" alt="" loading="lazy" width="800" height="450"><span class="kicker">מדריך מעשי · מטעים</span><h3>רשת נגד ברד למטעים: איך בוחרים מערכת שמגינה על היבול גם בחורף הקשה ביותר</h3><p>רשת תשליך, בית רשת או הדליה בצורת סוכה, רשת מתקפלת לשלג, ומתי ביטוח עדיף: מדריך מבוסס מחקר למגדלי תפוחים, דובדבן וקיווי.</p></a></div></div></section>
+</main><footer class="foot"><div class="wrap"><svg class="logo logo--compact" viewBox="345 232 1222 286" role="img" aria-label="MIFTAH"><path fill="#A8D8BC" d="M355 348L387 360V508H355z"/><path fill="#FFFFFF" d="M355 348L674 242V265L387 360z"/><path fill="#A8D8BC" d="M434 375L469 387V508H434z"/><path fill="#FFFFFF" d="M434 375L674 298V322L469 387z"/><path fill="#A8D8BC" d="M513 401L545 413V508H513z"/><path fill="#FFFFFF" d="M513 401L674 352V375L545 413z"/><path fill="#A8D8BC" d="M592 433L624 445V508H592z"/><path fill="#FFFFFF" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#FFFFFF" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg><span>מיפתח פרויקטים · כפר מסריק · 04-9856969 · Where agriculture feels at home</span></div></footer><script>
+document.documentElement.lang="he";document.documentElement.dir="rtl";
+document.querySelectorAll('form[id^="lead-"]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();
+var n=f.parentNode.querySelector('.note');n.textContent='זו תצוגה מקדימה. באתר עצמו הפנייה תגיע ישירות ליפתח, והוא חוזר תוך יום עבודה.';});});
+</script></body></html>
