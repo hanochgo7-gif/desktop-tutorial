@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ספר קונספטים למותג</title>
-<meta name="description" content="ארבעה כיווני מותג לחברה שבונה חממות חקלאיות ומערכות הצללה לבתי ספר: צבעים, גופנים, לוגו, רכיבי ממשק, טון, השערות לבדיקה וטוקנים.">
+<title>MIFTAH ספר קונספטים</title>
+<meta name="description" content="ארבעה כיווני מותג ל-MIFTAH, חברה שבונה חממות חקלאיות ומערכות הצללה לבתי ספר: צבעים, גופנים, לוגו, רכיבי ממשק, טון, השערות לבדיקה וטוקנים.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#1C2320">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 20L24 6l18 14v22H6z' fill='none' stroke='%232E7D32' stroke-width='4'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0E4239">
+<link rel="icon" href="{{FAVICON}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?{{FONTS}}&display=swap">
@@ -70,7 +70,7 @@
   .concept :focus-visible { outline-color: var(--color-focus); }
   .concept__hero { padding: clamp(40px, 7vw, 88px) 0 40px; }
   .concept__index { margin: 0 0 .5rem; font-size: .9rem; color: var(--color-text-muted); }
-  .concept__title, .mock__title, .type-specimen__display, .concept h3, .concept h4, .concept h5, .lockup__name {
+  .concept__title, .mock__title, .type-specimen__display, .concept h3, .concept h4, .concept h5 {
     font-family: var(--font-display);
     font-weight: var(--display-weight);
     font-stretch: var(--display-stretch, 100%);
@@ -88,9 +88,8 @@
   .mock__media { aspect-ratio: 4 / 3; border-radius: var(--radius-card); }
   @media (max-width: 760px) { .mock__body { grid-template-columns: 1fr; } .mock__nav { display: none; } }
 
-  .lockup { display: inline-flex; align-items: center; gap: .55rem; }
-  .lockup svg { width: 36px; height: 36px; flex: none; }
-  .lockup__name { font-size: 1.2rem; color: inherit; }
+  .logo { display: block; height: auto; }
+  .mock__bar .logo { height: 40px; width: auto; }
 
   .concept__spec { padding-bottom: 72px; }
   .block { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px 48px; padding: 36px 0; border-top: 1px solid var(--color-border-subtle); }
@@ -127,9 +126,8 @@
   .type-specimen__label { margin: 0; font-size: .85rem; color: var(--color-text-muted); }
 
   .logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: .75rem; }
-  .logo-tile { display: grid; place-items: center; min-height: 140px; border-radius: var(--radius-card); padding: 16px; }
-  .logo-tile .lockup svg { width: 52px; height: 52px; }
-  .logo-tile .lockup__name { font-size: 1.5rem; }
+  .logo-tile { display: grid; place-items: center; min-height: 140px; border-radius: var(--radius-card); padding: 20px; }
+  .logo-tile .logo { width: 100%; max-width: 260px; }
   .logo-tile--light { background: var(--color-surface); border: 1px solid var(--color-border-subtle); }
   .logo-tile--dark { background: var(--color-dark); }
   .logo-tile--mono { background: #FFFFFF; border: 1px solid var(--color-border-subtle); }
@@ -175,6 +173,27 @@
   pre { margin: 0; padding: 16px; overflow-x: auto; background: var(--color-dark); color: var(--color-on-dark); border-radius: var(--radius-control); direction: ltr; text-align: left; font-size: .85rem; line-height: 1.55; }
   pre code { font-size: inherit; }
 
+  /* הלוגו */
+  .logo-section { background: #FFFFFF; }
+  .logo-hero { margin: 2rem 0 1.5rem; padding: clamp(24px, 6vw, 72px); border: 1px solid var(--rule); display: grid; gap: 1.5rem; }
+  .logo-hero .logo { width: min(100%, 720px); margin-inline: auto; }
+  .logo-hero figcaption { font-size: .9rem; color: var(--ink-2); }
+  .logo-variants { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .logo-variants .logo-tile { min-height: 180px; border-radius: 0; gap: 1rem; align-content: center; }
+  .logo-variants .logo-tile span { font-size: .85rem; text-align: center; }
+  .logo-variants .logo--mark { max-width: 120px; }
+  .logo-tile--plain { border: 1px solid var(--rule); color: var(--ink-2); }
+  .logo-tile--deep { background: #0E4239; color: #E3F1E9; }
+  @media (max-width: 760px) { .logo-variants { grid-template-columns: 1fr; } }
+  .swatches--logo { max-width: 720px; --radius-control: 0; --color-text-muted: var(--ink-2); }
+  .logo-section .list { margin-bottom: 1rem; }
+  .fit th { min-width: 150px; font-weight: 600; }
+  .fit th a { text-decoration: none; }
+  .fit th a:hover { text-decoration: underline; }
+  .fit .meter { color: #1B6E62; }
+  .fit td:last-child { min-width: 260px; }
+  .reco { margin-top: 1.5rem; padding: 16px 20px; border-inline-start: 4px solid #1B6E62; background: #F1F7F4; max-width: 70ch; }
+
   /* השוואה וצעדים הבאים */
   .section { padding: 72px 0; border-top: 1px solid var(--rule); }
   .section h2 { margin: 0 0 .5rem; font: 800 clamp(1.8rem, 4vw, 2.6rem)/1.1 var(--shell-font); }
@@ -210,8 +229,8 @@
 <header class="masthead">
   <div class="wrap">
     <h1>ארבעה כיוונים למותג אחד</h1>
-    <p>חברה שמתכננת ובונה חממות חקלאיות ומערכות הצללה לבתי ספר. לכל כיוון יש כאן צבעים, גופנים, סקיצת לוגו, רכיבי ממשק חיים, טון דיבור, דף תקציר לצוותי עיצוב ופסיכולוגיה, והשערות לבדיקת משתמשים.</p>
-    <p>אותם רכיבים בדיוק מוצגים בארבעת הקונספטים. מה שמשתנה הוא רק קובץ הטוקנים.</p>
+    <p>MIFTAH מתכננת ובונה חממות חקלאיות ומערכות הצללה לבתי ספר. לכל כיוון יש כאן צבעים, גופנים, סקיצת לוגו, רכיבי ממשק חיים, טון דיבור, דף תקציר לצוותי עיצוב ופסיכולוגיה, והשערות לבדיקת משתמשים.</p>
+    <p>אותם רכיבים בדיוק מוצגים בארבעת הקונספטים. מה שמשתנה הוא רק קובץ הטוקנים. הלוגו קיים, ולכן כל קונספט מראה איך הוא חי עם הלוגו ולא מציע לוגו חדש.</p>
     <nav aria-label="קונספטים"><ul class="strips">
 {{NAV}}
     </ul></nav>
@@ -219,6 +238,13 @@
 </header>
 
 <main id="concepts">
+  <section class="section logo-section" id="logo" aria-labelledby="logo-title">
+    <div class="wrap">
+      <h2 id="logo-title">הלוגו של MIFTAH</h2>
+{{LOGO}}
+    </div>
+  </section>
+
   <section class="wrap intro" aria-labelledby="fixes-title">
     <h2 id="fixes-title">מה השתנה מהטיוטה</h2>
     <ul>

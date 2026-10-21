@@ -122,10 +122,10 @@ CONCEPTS = [
             ],
         },
         "logo": [
-            "סימן גיאומטרי: מבנה חממה בקו אחד ועלה זוויתי בתוכו. קצוות חדים, עובי קו אחיד.",
-            "גרסאות: אופקית (סימן מימין לשם), אנכית (סימן מעל השם), סימן לבד לאייקון אפליקציה ופביקון.",
-            "על רקע בהיר: צבע מלא. על רקע כהה: לבן בגוון אחד. אין לשים את הסימן על צילום עמוס בלי משטח.",
-            "רווח בטוח: גובה הגג של הסימן מכל צד. גודל מינימלי: 24 פיקסלים לסימן, 96 פיקסלים לגרסה האופקית.",
+            "הלוגו נכנס כמו שהוא: אותה משפחת ירוקים ואותה גיאומטריה של קורות וגגות.",
+            "איחוד צבעים מומלץ: ירוק היער #2E7D32 מתחלף בטורקיז של הלוגו #1B6E62 (לבן עליו 6.08:1), וירוק העלה #4CAF50 במנטה #7FC49B. כך יש משפחת ירוקים אחת ולא שתיים קרובות.",
+            "על הרקע הכהה של הקונספט (#1B3A1F) רק הגרסה ההפוכה: הטורקיז של הלוגו נותן עליו 2.07:1 ונבלע.",
+            "רווח בטוח: רוחב עמודה אחת של הסימן מכל צד. אין לשים את הלוגו על צילום עמוס בלי משטח.",
         ],
         "icons": "קו 1.5 פיקסלים, פינות חדות, צורות גיאומטריות. אייקון בצבע הטקסט, ונקודת הדגשה אחת בירוק עלה מותרת באייקונים מעל 32 פיקסלים.",
         "photo": {
@@ -256,10 +256,10 @@ CONCEPTS = [
             ],
         },
         "logo": [
-            "סימן אורגני: עלה מעוגל ושמש מעליו. אין קווים ישרים בסימן.",
-            "על קרם או לבן: עלה ירוק ושמש צהובה עם קו מתאר חום, כדי שהשמש לא תיעלם על הרקע. על חום אדמה: הסימן בקרם.",
-            "מרקמים (עץ, בד, דשא) רק מאחורי הלוגו על משטח אחיד, לא ישירות מתחתיו.",
-            "רווח בטוח: קוטר השמש מכל צד. גודל מינימלי: 28 פיקסלים לסימן.",
+            "הסלוגן Where agriculture feels at home מדבר בדיוק בטון של הקונספט הזה.",
+            "הסימן זוויתי והקונספט עגול. לא מעגלים את הלוגו: העיגול נשאר ברכיבים ובאיורים, והלוגו הוא העוגן הישר בעמוד.",
+            "על קרם, עמודות המנטה חלשות (#7FC49B על #FFF8E1 נותן 1.92:1). בראש העמוד עדיף משטח לבן מאחורי הלוגו.",
+            "על חום אדמה רק הגרסה ההפוכה. הירוקים הקרירים בצבע מלא מתנגשים בחום.",
         ],
         "icons": "קו 2 פיקסלים, קצוות ופינות מעוגלים, צורות שנראות כמו נשרטטו ביד יציבה. אייקון בחום כהה, מילוי ירוק נבט מותר בתוך הצורה.",
         "photo": {
@@ -391,10 +391,10 @@ CONCEPTS = [
             ],
         },
         "logo": [
-            "סימן: שמש עם קרניים מעל מפרש צל משולש. צבעים מלאים עם קו מתאר כהה, כמו מדבקה.",
-            "הקו הכהה הוא חלק מהסימן: בלעדיו השמש הצהובה נעלמת על רקע בהיר.",
-            "על רקע טורקיז כהה: מילויים בלבד בלי קו מתאר.",
-            "רווח בטוח: קוטר השמש מכל צד. גודל מינימלי: 32 פיקסלים, כי הקרניים נעלמות בגודל קטן יותר.",
+            "לוגו רציני וחד-גוני מול פלטה רב-צבעית. לא צובעים את הלוגו בצבעי הקונספט.",
+            "עובד כתת-מותג לבתי ספר: הלוגו המלא בפינה, על שטח לבן, והצבעוניות בכל השאר.",
+            "על טורקיז כהה (#006064) רק הגרסה ההפוכה. הטורקיז של הלוגו נותן עליו 1.21:1.",
+            "השמש והמפרש עוברים לאיורים ולאייקונים, לא ללוגו.",
         ],
         "icons": "איור שטוח: צורות מלאות בצבעי הפלטה וקו מתאר שחור בעובי 2 פיקסלים. פינות עגולות. אייקון לבד תמיד עם תווית טקסט.",
         "photo": {
@@ -528,10 +528,10 @@ CONCEPTS = [
             ],
         },
         "logo": [
-            "סימן: חתך של קונסטרוקציית חממה בקו ישר, עם פס ענבר בבסיס. אין עיקולים.",
-            "דו-גוני: אפור פלדה וענבר. על גרפיט: קו בלבן קר, הפס נשאר ענבר.",
-            "הלוגו יושב על רשת: גובה הסימן שווה לגובה שתי שורות טקסט.",
-            "רווח בטוח: רוחב מפתח אחד של הקונסטרוקציה מכל צד. גודל מינימלי: 24 פיקסלים.",
+            "הגיאומטריה של הלוגו (עמודים, קורות וגרף עמודות) מתאימה לשפה ההנדסית.",
+            "הירוקים של הלוגו זרים לאפור ולענבר. מומלץ להחליף את הירוק הרענן #8BC34A במנטה של הלוגו #7FC49B (6.44:1 על גרפיט).",
+            "על גרפיט רק הגרסה ההפוכה: הטורקיז של הלוגו נותן עליו 2.16:1.",
+            "הענבר לא נוגע בלוגו ולא מופיע לידו.",
         ],
         "icons": "קו 2 פיקסלים, קצוות ישרים, זוויות של 90 ו-45 מעלות בלבד, כמו שרטוט. צבע גרפיט, ענבר רק לאייקון של מצב פעיל.",
         "photo": {
@@ -635,27 +635,55 @@ ICONS = {
     },
 }
 
-LOGO_MARKS = {
-    "eco-tech": '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 20L24 6l18 14v22H6z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="miter"/><path d="M24 38V25l9-6v9z" fill="var(--mark-a)"/><path d="M24 38V27l-7-5v8z" fill="var(--mark-b)"/></svg>',
-    "eco-natural": '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="32" cy="15" r="8" fill="var(--mark-b)" stroke="var(--mark-line)" stroke-width="2"/><path d="M8 41c0-15 11-24 28-22 0 14-10 22-28 22z" fill="var(--mark-a)" stroke="var(--mark-line)" stroke-width="2" stroke-linejoin="round"/><path d="M11 38c6-6 12-10 19-13" fill="none" stroke="var(--mark-line)" stroke-width="2" stroke-linecap="round"/></svg>',
-    "sunshine": '<svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="var(--mark-line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3v4M17 27v2M5 15h4M27 15h2M8.5 6.5l2.8 2.8M22.7 6.5l-2.8 2.8M8.5 23.5l2.8-2.8"/><circle cx="17" cy="15" r="7" fill="var(--mark-b)"/><path d="M6 32l38-12-8 22z" fill="var(--mark-a)"/></g></svg>',
-    "industrial": '<svg viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M8 38V20l16-12 16 12v18M8 20h32M24 8v30M8 20l16 18 16-18"/></g><rect x="4" y="39" width="40" height="5" fill="var(--mark-a)"/></svg>',
+# ---------- הלוגו של MIFTAH ----------
+# שחזור וקטורי של הלוגו מתוך קובץ ה-PNG (images/miftah-logo-original.png). הקואורדינטות נמדדו מהקובץ.
+# הסלוגן משתמש ב-Heebo, שהלטינית שלו מבוססת על Roboto, כמו בלוגו. עדיין צריך לקבל מהמעצב את קובץ המקור הווקטורי.
+
+LOGO_COLORS = [
+    ("ירוק עמוק", "#0E4239", "עמודי החממה"),
+    ("ירוק טורקיז", "#1B6E62", "גגות החממה, שם המותג והסלוגן"),
+    ("ירוק מנטה", "#7FC49B", "עמודות הצמיחה"),
+]
+
+# (שמאל העמוד, ימין העמוד, ראש העמוד, ראש הגג בקצה, תחתית הגג בקצה)
+_ARCHES = [(355, 387, 348, 242, 265), (434, 469, 375, 298, 322), (513, 545, 401, 352, 375), (592, 624, 433, 407, 429)]
+_BARS = [(674, 242), (752, 294), (831, 351), (910, 406)]
+_BASE = 508
+# MIFTAH כצורות ולא כטקסט, כדי שהשם ייראה זהה בכל מקום, גם בלי גופן
+_WORDMARK = (
+    "M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71z"  # M
+    "M1153 407h22v101h-22z"  # I
+    "M1199 508V406h67v17h-45v24h40v19h-40v42z"  # F
+    "M1279 406h83v17h-31v85h-22v-85h-30z"  # T
+    "M1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26z"  # A
+    "M1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"  # H
+)
+
+LOGO_VARIANTS = {
+    "light": {"post": "#0E4239", "roof": "#1B6E62", "bar": "#7FC49B", "text": "#1B6E62"},
+    "dark": {"post": "#A8D8BC", "roof": "#FFFFFF", "bar": "#7FC49B", "text": "#FFFFFF"},
+    "mono": {"post": "#0E4239", "roof": "#0E4239", "bar": "#0E4239", "text": "#0E4239"},
 }
-MARK_VARS = {
-    # צבעי הסימן על רקע בהיר ועל רקע כהה
-    "eco-tech": {"light": "--mark-a:#4CAF50;--mark-b:#2E7D32;color:#2E7D32",
-                 "dark": "--mark-a:#FFFFFF;--mark-b:#FFFFFF;color:#FFFFFF",
-                 "mono": "--mark-a:#212121;--mark-b:#212121;color:#212121"},
-    "eco-natural": {"light": "--mark-a:#8BC34A;--mark-b:#FFEB3B;--mark-line:#5D4037;color:#5D4037",
-                    "dark": "--mark-a:#8BC34A;--mark-b:#FFEB3B;--mark-line:#FFF8E1;color:#FFF8E1",
-                    "mono": "--mark-a:#FFFFFF;--mark-b:#FFFFFF;--mark-line:#4E342E;color:#4E342E"},
-    "sunshine": {"light": "--mark-a:#00BCD4;--mark-b:#FFEB3B;--mark-line:#212121;color:#212121",
-                 "dark": "--mark-a:#00BCD4;--mark-b:#FFEB3B;--mark-line:#FFFDE7;color:#FFFDE7",
-                 "mono": "--mark-a:#FFFFFF;--mark-b:#FFFFFF;--mark-line:#212121;color:#212121"},
-    "industrial": {"light": "--mark-a:#FFA000;color:#546E7A",
-                   "dark": "--mark-a:#FFA000;color:#ECEFF1",
-                   "mono": "--mark-a:#263238;color:#263238"},
-}
+
+
+def logo_svg(variant="light", kind="full", label=True):
+    """kind: full (עם סלוגן), compact (סימן ושם), mark (סימן בלבד)."""
+    col = LOGO_VARIANTS[variant]
+    parts = []
+    for xl, xr, top, rt, rb in _ARCHES:
+        parts.append(f'<path fill="{col["post"]}" d="M{xl} {top}L{xr} {top + 12}V{_BASE}H{xl}z"/>')
+        parts.append(f'<path fill="{col["roof"]}" d="M{xl} {top}L674 {rt}V{rb}L{xr} {top + 12}z"/>')
+    for x, y in _BARS:
+        parts.append(f'<rect fill="{col["bar"]}" x="{x}" y="{y}" width="33" height="{_BASE - y}"/>')
+    font = "font-family=\"Heebo, Roboto, Arial, sans-serif\""
+    if kind in ("full", "compact"):
+        parts.append(f'<path fill="{col["text"]}" fill-rule="evenodd" d="{_WORDMARK}"/>')
+    if kind == "full":
+        parts.append(f'<text x="356" y="588" {font} font-weight="500" font-size="70" textLength="1201" '
+                     f'lengthAdjust="spacing" fill="{col["text"]}" direction="ltr">Where agriculture feels at home</text>')
+    box = {"full": "345 232 1222 376", "compact": "345 232 1222 286", "mark": "345 232 607 286"}[kind]
+    aria = 'role="img" aria-label="MIFTAH"' if label else 'aria-hidden="true"'
+    return f'<svg class="logo logo--{kind}" viewBox="{box}" {aria}>{"".join(parts)}</svg>'
 
 
 # ---------- רינדור ----------
@@ -674,9 +702,6 @@ def icon_svg(cid, name):
     return f'<svg viewBox="0 0 24 24" width="40" height="40" {spec["attrs"]} aria-hidden="true">{spec[name]}</svg>'
 
 
-def lockup(cid, variant):
-    return (f'<span class="lockup" style="{MARK_VARS[cid][variant]}">'
-            f'{LOGO_MARKS[cid]}<span class="lockup__name">שם המותג</span></span>')
 
 
 def contrast_rows(pairs):
@@ -708,7 +733,7 @@ def render_concept(c, n):
         f'<span class="swatch__role">{t(role)}</span></li>'
         for name, hx, role in c["palette"])
     alts = "\n".join(f"<li><strong>{e(p)}</strong>: {e(note)}</li>" for p, note in c["fonts"]["alts"])
-    logo_notes = "\n".join(f"<li>{e(x)}</li>" for x in c["logo"])
+    logo_notes = "\n".join(f"<li>{t(x)}</li>" for x in c["logo"])
     icons = "\n".join(f'<li>{icon_svg(cid, nm)}<span>{nm}</span></li>' for nm in ("צמח", "שמש", "מים", "הצללה"))
     shots = "\n".join(
         f'<li class="shot"><div class="shot__frame" style="background:var(--card-media)"></div>'
@@ -729,7 +754,7 @@ def render_concept(c, n):
       <h2 id="{cid}-title" class="concept__title">{e(c["he"])}</h2>
       <p class="concept__mood">{e(c["mood"])}</p>
       <div class="mock" aria-label="הדמיית פתיח של אתר בקונספט {e(c["he"])}">
-        <div class="mock__bar">{lockup(cid, "light")}<span class="mock__nav">חממות · הצללה · פרויקטים · צור קשר</span></div>
+        <div class="mock__bar">{logo_svg("light", "compact")}<span class="mock__nav">חממות · הצללה · פרויקטים · צור קשר</span></div>
         <div class="mock__body">
           <div>
             <p class="mock__title">{e(c["hero_title"])}</p>
@@ -789,14 +814,14 @@ def render_concept(c, n):
     </div>
 
     <div class="block">
-      <h3>לוגו וסימן</h3>
+      <h3>הלוגו בקונספט</h3>
       <div>
         <div class="logos">
-          <div class="logo-tile logo-tile--light">{lockup(cid, "light")}</div>
-          <div class="logo-tile logo-tile--dark">{lockup(cid, "dark")}</div>
-          <div class="logo-tile logo-tile--mono">{lockup(cid, "mono")}</div>
+          <div class="logo-tile logo-tile--light">{logo_svg("light")}</div>
+          <div class="logo-tile logo-tile--dark">{logo_svg("dark")}</div>
+          <div class="logo-tile logo-tile--mono">{logo_svg("mono")}</div>
         </div>
-        <p class="note">"שם המותג" הוא מקום שמור. הסימנים הם סקיצת כיוון ולא לוגו סופי.</p>
+        <p class="note">משמאל לימין: מונוכרום, הגרסה ההפוכה על הצבע הכהה של הקונספט, וצבעים מלאים על המשטח שלו.</p>
         <ul class="list">{logo_notes}</ul>
       </div>
     </div>
@@ -925,6 +950,63 @@ def token_file(c):
             f'[data-concept="{c["id"]}"] {{\n  /* פלטת המותג */\n{raw}\n\n  /* תפקידים */\n{sem}\n}}\n')
 
 
+LOGO_FIT = [
+    ("eco-tech", 5, "אותם ירוקים ואותה גיאומטריה. אפשר לאמץ את צבעי הלוגו כמעט בלי שינוי."),
+    ("industrial", 4, "הגיאומטריה מתאימה, הצבעים לא. עובד אם המנטה של הלוגו מחליף את הירוק הרענן."),
+    ("eco-natural", 3, "הסלוגן חם וביתי כמו הקונספט, אבל הלוגו זוויתי והירוקים שלו קרירים מול קרם וחום."),
+    ("sunshine", 2, "פלטה רב-צבעית מול לוגו חד-גוני. מתאים רק כתת-מותג לבתי ספר."),
+]
+
+
+def render_logo_section():
+    names = {c["id"]: c["he"] for c in CONCEPTS}
+    colors = "".join(
+        f'<li class="swatch"><span class="swatch__chip" style="background:{hx}"></span>'
+        f'<span class="swatch__name">{e(nm)}</span><span class="hex">{hx}</span>'
+        f'<span class="swatch__role">{e(role)}. על לבן: <bdi dir="ltr">{contrast(hx, "#FFFFFF"):.2f}:1</bdi></span></li>'
+        for nm, hx, role in LOGO_COLORS)
+    fit = "".join(
+        f'<tr><th scope="row"><a href="#{cid}">{e(names[cid])}</a></th><td>{meter(v)}</td><td>{e(why)}</td></tr>'
+        for cid, v, why in LOGO_FIT)
+    return f'''
+      <figure class="logo-hero">
+        {logo_svg("light")}
+        <figcaption>שחזור וקטורי של הלוגו. <a href="images/miftah-logo-original.png">הקובץ המקורי (PNG)</a></figcaption>
+      </figure>
+      <div class="logo-variants">
+        <div class="logo-tile logo-tile--plain">{logo_svg("light", "compact")}<span>בלי סלוגן, לרוחב מתחת ל-240 פיקסלים</span></div>
+        <div class="logo-tile logo-tile--plain">{logo_svg("light", "mark")}<span>סימן בלבד: אייקון ופביקון</span></div>
+        <div class="logo-tile logo-tile--deep">{logo_svg("dark")}<span>גרסה הפוכה מוצעת, על <bdi dir="ltr">#0E4239</bdi></span></div>
+      </div>
+      <h3>צבעי הלוגו</h3>
+      <ul class="swatches swatches--logo">{colors}</ul>
+      <h3>מה הלוגו אומר</h3>
+      <ul class="list">
+        <li>ארבעה גגות חממה שהולכים וקטנים, וארבע עמודות. הסימן נקרא גם כחממה בפרספקטיבה וגם כגרף.</li>
+        <li>העמודות יורדות משמאל לימין, ולמי שקורא עברית או ערבית הן עולות. כדאי לבדוק בבדיקות המשתמשים אם מישהו קורא אותן כגרף ירידה.</li>
+        <li>הסלוגן Where agriculture feels at home חם וביתי, והצורה הנדסית. השילוב הזה הוא הנכס: מקצועיות שמרגישה בבית.</li>
+        <li>עמודות המנטה על לבן נותנות <bdi dir="ltr">2.04:1</bdi>. לוגו פטור מדרישת הניגודיות של WCAG, אבל בגודל קטן העמודות נחלשות, ולכן מתחת ל-120 פיקסלים רוחב משתמשים בסימן לבד או במונוכרום.</li>
+        <li>אין עדיין גרסה לרקע כהה. הגרסה ההפוכה כאן היא הצעה: גגות ושם בלבן, עמודים במנטה בהיר, עמודות במנטה.</li>
+      </ul>
+      <h3>התאמה לקונספטים</h3>
+      <div class="table-scroll"><table class="fit"><tbody>{fit}</tbody></table></div>
+      <p class="reco"><strong>המלצה:</strong> הנראות של חדשנות ירוקה עם צבעי הלוגו, והטון החם של טבעי וידידותי, שמתאים לסלוגן. ילדים וחינוך יכול להמשיך כקו לבתי ספר תחת אותו לוגו.</p>'''
+
+
+def write_logo_files():
+    """קובצי SVG עצמאיים לשימוש מחוץ לעמוד."""
+    head = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    for name, variant, kind in [("miftah-logo", "light", "full"), ("miftah-logo-reverse", "dark", "full"),
+                                ("miftah-logo-compact", "light", "compact"), ("miftah-mark", "light", "mark")]:
+        svg = logo_svg(variant, kind).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
+        (ROOT / "images" / f"{name}.svg").write_text(head + svg + "\n", encoding="utf-8")
+
+
+def favicon():
+    svg = logo_svg("light", "mark", label=False).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
+    return "data:image/svg+xml," + svg.replace("#", "%23").replace('"', "'")
+
+
 def render_compare():
     head = "".join(f'<th scope="col"><a href="#{c["id"]}">{e(c["he"])}</a></th>' for c in CONCEPTS)
     rows = []
@@ -973,17 +1055,20 @@ def build():
             .replace("{{CONCEPTS}}", "\n".join(render_concept(c, i + 1) for i, c in enumerate(CONCEPTS)))
             .replace("{{COMPARE}}", render_compare())
             .replace("{{HOURS}}", render_hours())
+            .replace("{{LOGO}}", render_logo_section())
+            .replace("{{FAVICON}}", favicon())
             .replace("{{TOKEN_LINKS}}", "".join(f'<link rel="stylesheet" href="tokens/{c["id"]}.css">' for c in CONCEPTS)))
     (ROOT / "index.html").write_text(html, encoding="utf-8")
     for c in CONCEPTS:
         (ROOT / "tokens" / f'{c["id"]}.css').write_text(token_file(c), encoding="utf-8")
+    write_logo_files()
 
     # בדיקה: כל צירוף שבשימוש חייב לעבור
     failed = [(c["id"], u, round(contrast(f, b), 2)) for c in CONCEPTS for f, b, u, k in c["contrast"]
               if contrast(f, b) < THRESHOLD[k]]
     if failed:
         raise SystemExit(f"צירופים שלא עוברים: {failed}")
-    print("נבנה: index.html ו-tokens/*.css. כל הצירופים שבשימוש עוברים AA.")
+    print("נבנה: index.html, tokens/*.css ו-images/*.svg. כל הצירופים שבשימוש עוברים AA.")
 
 
 if __name__ == "__main__":
