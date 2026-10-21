@@ -48,9 +48,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap">
-<link id="gfonts" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet" media="print">
-<script>(function(){var l=document.getElementById('gfonts');function on(){l.media='all'}if(l.sheet)on();else{l.addEventListener('load',on);setTimeout(on,3000)}})()</script>
+<script>/* the fonts are requested only after the page has loaded, so a slow or blocked font server can never
+   hold up loading (claude.ai shows "Artifact took too long to load" when the page does not finish loading) */
+(function(){function add(){if(document.getElementById('gfonts'))return;var l=document.createElement('link');l.id='gfonts';l.rel='stylesheet';
+  l.href='https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap';document.head.appendChild(l)}
+  if(document.readyState==='complete')add();else window.addEventListener('load',function(){setTimeout(add,0)})})()</script>
 <style>
 /* =====================================================================
    Markr, Apple style (Human Interface Guidelines, iOS/macOS 26)
@@ -1063,6 +1065,7 @@ const DEFAULT_PACK={"title": "קיימות ויזמות, שנה א׳ (סמסטר
 let TEMPLATE=DEFAULT_PACK;
 let taskFilter='all',taskDraft=null,courseTab='notes',formDraft=null,practice=null,quiz=null,wizard=false,lastQ='',courseMode='list',aiCtl=null,aiResult=null,onbStep=0;
 /* outside claude.ai (installed on the phone's home screen) there is no Claude runtime: the notebook lives on the device */
+const UPD={ready:false};
 const STANDALONE=(()=>{try{return window.top===window}catch(e){return false}})()&&!(window.claude&&typeof window.claude.use==='function');
 const INSTALLED=(()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}})();
 const IOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -1081,7 +1084,14 @@ function makeDbStore(col){
     q[id]=p;return p;
   };
   return{kind:'db',
-    subscribe(cb,onErr){return col.onSnapshot(snap=>{const o={};snap.docs.forEach(d=>{o[d.id]=d.data()});cb(o)},e=>onErr&&onErr(e))},
+    subscribe(cb,onErr,onOk){let live=false,wait=0,n=0;
+      const start=()=>{clearTimeout(wait);wait=0;live=true;
+        try{col.onSnapshot(snap=>{if(n){n=0;onOk&&onOk()}const o={};snap.docs.forEach(d=>{o[d.id]=d.data()});cb(o)},
+          e=>{live=false;n++;console.warn('db',e);if(n>=2&&onErr)onErr(e);wait=setTimeout(start,Math.min(60000,2000*2**Math.min(n,5)))})}
+        catch(e){live=false;n++;wait=setTimeout(start,5000)}};
+      start();
+      const again=()=>{if(!live){n=Math.min(n,1);start()}};
+      document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')again()});window.addEventListener('online',again)},
     put(id,data){return chain(id,()=>col.doc(id).set(data))},
     remove(id){return chain(id,()=>col.doc(id).delete())}
   };
@@ -1304,10 +1314,12 @@ function applyDocs(docs){
   if(view.name==='lesson'&&S.lessons[view.id]&&!L[view.id])L[view.id]=S.lessons[view.id];
   S.lessons=L;
   loaded=true;
-  if(first||(ch&&view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
+  if(first||(ch&&view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'&&view.name!=='fsheet'))render(!first);
   updateStatus();
   if(first&&!S.profile.onboarded)openOnboarding();
-  if(first){trashPurge();setTimeout(snapshotToday,15000);setTimeout(syncStart,1200)}
+  if(first){trashPurge();setTimeout(snapshotToday,15000);setTimeout(syncStart,1200);
+    try{const ls=JSON.parse(pref('lastScroll')||'null');if(ls&&ls.k===hashOf(view)&&Date.now()-ls.at<12*3600e3&&ls.y>0)requestAnimationFrame(()=>window.scrollTo(0,ls.y))}catch(e){}
+    if(view.name==='lesson'||view.name==='live')keepAwake(view.name==='live'?'live':'write',true)}
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
@@ -1462,7 +1474,7 @@ function focusKey(el){
   const a=['act','id','v','m','to','chg','k','qi','i','l','s','td','ts','tsd'].filter(k=>el.dataset&&el.dataset[k]!=null).map(k=>`[data-${k}="${CSS.escape(el.dataset[k])}"]`).join('');
   return a?el.tagName.toLowerCase()+a:null;
 }
-function render(){
+function render(soft){
   const app=$('#app');
   if(!loaded){
     /* instant start: the home screen exactly as it looked last time, shown until the notebook has loaded */
@@ -1475,7 +1487,8 @@ function render(){
   if(app.dataset.shell){delete app.dataset.shell;app.removeAttribute('aria-busy')}
   const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
   memoClear();const fn={home:vHome,courses:vCourses,course:vCourse,lesson:vLesson,tasks:vTasks,search:vSearch,read:vRead,readall:vReadAll,live:vLive,listen:vListen,fsheet:vFsheet}[view.name]||vHome;
-  app.innerHTML=iconize(fn());
+  const html=fn(),key=hashOf(view);if(soft&&html===render.html&&key===render.key)return;render.html=html;render.key=key;
+  app.innerHTML=iconize(html);
   markNav();updateTopBar();
   growAll(app);hydrateFiles(app);if(view.name==='home')saveShell(app);if(view.name==='readall')setTimeout(raMore,40);
   if(fk){const n=app.querySelector(fk);if(n)n.focus({preventScroll:true})}
@@ -1533,7 +1546,8 @@ function go(name,id,o={}){
     flushAll();
   }
   if(name==='listen'&&view.name!=='listen')LSN.from=view.name;
-  SCROLLS.set(hashOf(view),window.scrollY);keepAwake('live',name==='live');
+  SCROLLS.set(hashOf(view),window.scrollY);keepAwake('live',name==='live');keepAwake('write',name==='lesson');
+  pref('lastView',JSON.stringify({n:name,id:id||'',at:Date.now()}));
   view={name,id};render();
   const sy=SCROLLS.get(hashOf(view));window.scrollTo(0,(o.pop||['home','courses','tasks','search'].includes(name))&&sy?sy:0);
   if(!o.pop)pushNav({name:view.name,id:view.id});
@@ -2266,6 +2280,7 @@ const BGS=[['plain','נקי','none'],['marker','מרקר','radial-gradient(80% 6
 function settingsHtml(){
   const size=pref('size')||'m',theme=pref('theme')||'auto',easy=pref('easy')==='1',rate=pref('rate')||'1',goal=String(S.profile.goal||4),bg=pref('bg')||'plain';
   return `<h2>הגדרות</h2>
+  ${UPD.ready?`<div class="f"><span>גרסה חדשה</span><p class="note" style="margin:0 0 8px">יש גרסה חדשה של מרקר. היא תיכנס לבד בפתיחה הבאה, או עכשיו בלחיצה.</p><div class="actions" style="margin-top:0"><button class="ghost" data-act="app-update">לעדכן עכשיו</button></div></div>`:''}
   <label class="f"><span>השם שלך</span><input type="text" data-pf="name" value="${esc(S.profile.name||'')}" placeholder="השם שלך"></label>
   <div class="f"><span>גודל טקסט</span><div class="seg">${[['m','רגיל'],['l','גדול'],['xl','גדול מאוד']].map(([k,v])=>`<button data-act="set-size" data-v="${k}" aria-pressed="${size===k}">${v}</button>`).join('')}</div></div>
   <div class="f"><span>מראה</span><div class="seg">${[['auto','אוטומטי'],['light','בהיר'],['dark','כהה']].map(([k,v])=>`<button data-act="set-theme" data-v="${k}" aria-pressed="${theme===k}">${v}</button>`).join('')}</div></div>
@@ -3532,7 +3547,7 @@ function syncApply(rows){
   if(changed)syncRender();
 }
 function syncRender(){if(!loaded)return;const ae=document.activeElement;
-  if(/^(lesson|live|listen)$/.test(view.name)||modalOpen||(ae&&ae.matches&&ae.matches('input,textarea,select,[contenteditable]'))){SY.needR=true;return}SY.needR=false;render()}
+  if(!/^(home|courses|course|tasks)$/.test(view.name)||modalOpen||(ae&&ae.matches&&ae.matches('input,textarea,select,[contenteditable]'))){SY.needR=true;return}SY.needR=false;render(true)}
 async function syncPull(seen){const lim=STANDALONE?150:25;
   for(let i=0;i<400;i++){const r=await syncRpc({op:'pull',since:SY.since,limit:lim}),rows=r.rows||[];
     if(seen)rows.forEach(x=>{if(!x.del)seen.add(x.id)});
@@ -4421,6 +4436,7 @@ document.addEventListener('click',e=>{
     case 'print':window.print();break;
     case 'share':openModal(shareHtml(id));break;
     case 'sync-send':syncSend();break;
+    case 'app-update':flushAll().then(()=>location.reload());break;
     case 'sync-create':syncCreate();break;
     case 'sync-join':syncJoin();break;
     case 'sync-now':SY.halt=false;SY.fails=0;syncNow(true);break;
@@ -4585,8 +4601,10 @@ document.addEventListener('click',e=>{
     case 'onb-next':onbStep++;setSheet(onbHtml());break;
   }
 });
+let lastInput=Date.now();
+setInterval(()=>{if(AWAKE.why.has('write')&&Date.now()-lastInput>20*60000)keepAwake('write',false)},60000);
 function onField(e){
-  const el=e.target;
+  const el=e.target;lastInput=Date.now();if(view.name==='lesson'&&!AWAKE.why.has('write'))keepAwake('write',true);
   if(el.id==='v-cap'){const f=VW.list[VW.i];if(f){f.cap=el.value.slice(0,200);saveDoc(VW.lid)}return}
   if(el.dataset.gr||el.dataset.gp==='g'||el.dataset.gp==='w'){el.setAttribute('aria-invalid',badGrade(el.dataset.gr||'g',el.value)?'true':'false')}
   if(el.dataset.gr){const c=courseById(el.dataset.id);if(c){const v=el.value.trim();if(v==='')delete c[el.dataset.gr];else c[el.dataset.gr]=v;saveDoc('courses');$('#gpa-sum').innerHTML=gpaSumHtml();$('#gpa-need').innerHTML=gpaNeedHtml()}return}
@@ -4715,9 +4733,9 @@ function taskActionsHtml(id){const t=S.tasks.find(x=>x.id===id);if(!t)return '<h
 function grow(el){el.style.height='auto';el.style.height=(el.scrollHeight+4)+'px'}
 function saveShell(app){clearTimeout(saveShell.t);saveShell.t=setTimeout(()=>{if(view.name!=='home'||!loaded)return;const h=app.innerHTML;if(h.length<200000&&h!==saveShell.last){saveShell.last=h;pref('shell',h)}},1200)}
 function growAll(root){const ts=[...root.querySelectorAll('textarea')];if(!ts.length)return;ts.forEach(t=>{t.style.height='auto'});const hs=ts.map(t=>t.scrollHeight);ts.forEach((t,i)=>{t.style.height=(hs[i]+4)+'px'})}
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flushAll()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){flushAll();pref('lastScroll',JSON.stringify({k:hashOf(view),y:Math.round(scrollY),at:Date.now()}))}});
 window.addEventListener('pagehide',()=>flushAll());
-setInterval(()=>{if((view.name==='home'||view.name==='tasks')&&!modalOpen&&loaded&&document.visibilityState==='visible'&&!document.activeElement.matches('input,textarea,select'))render()},60000);
+setInterval(()=>{if((view.name==='home'||view.name==='tasks')&&!modalOpen&&loaded&&document.visibilityState==='visible'&&!document.activeElement.matches('input,textarea,select'))render(true)},60000);
 
 /* ---------- start ---------- */
 applyPrefs();
@@ -4726,13 +4744,16 @@ document.querySelector('[data-act=settings]').innerHTML=ic('sliders')+'<span cla
 document.querySelector('.nav-add').innerHTML=ic('plus')+'<span class="lbl">הוספה</span>';
 function setHdr(){const t=document.querySelector('.top');if(!t)return;const v=(innerWidth>=1024?0:t.offsetHeight)+'px';if(v!==setHdr.v){setHdr.v=v;document.documentElement.style.setProperty('--hdr-h',v)}}
 window.addEventListener('resize',setHdr);setHdr();
-{const h0=readHash();if(h0)view=h0;try{history.replaceState({name:view.name,id:view.id},'',hashOf(view))}catch(e){}}
+{let h0=readHash();
+  if(!h0){try{const lv=JSON.parse(pref('lastView')||'null');if(lv&&Date.now()-lv.at<12*3600e3&&VIEWS.includes(lv.n)&&lv.n!=='listen')h0={name:lv.n,id:lv.id||undefined}}catch(e){}}
+  if(h0)view=h0;try{history.replaceState({name:view.name,id:view.id},'',hashOf(view))}catch(e){}}
 if(STANDALONE&&(location.protocol==='https:'||location.hostname==='localhost')){
   try{if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
     /* a new version arrived in the background: switch to it the next time the app is hidden with nothing open or unsaved */
-    const calm=()=>document.visibilityState==='hidden'&&!modalOpen&&!dirty.size&&!statusErr&&!/^(lesson|live|listen)$/.test(view.name)&&!(typeof timer!=='undefined'&&timer);
-    document.addEventListener('visibilitychange',async()=>{if(!calm())return;try{const r=await (await caches.open('markr-meta')).match('updated');const t=r?+(await r.text()):0;
-      if(t>performance.timeOrigin&&calm())setTimeout(()=>{if(calm())location.reload()},300)}catch(e){}})}}catch(e){}
+    /* a new version that arrived in the background waits for the next launch: the open app never reloads
+       by itself (it used to when the screen dimmed, which looked like the app shutting down) */
+    const chk=async()=>{try{const r=await (await caches.open('markr-meta')).match('updated');const t=r?+(await r.text()):0;if(t>performance.timeOrigin)UPD.ready=true}catch(e){}};
+    navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='markr-updated')UPD.ready=true});setTimeout(chk,8000)}}catch(e){}
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(()=>{})}catch(e){}
 }
 /* a focus session that was running when the app closed continues (or finishes) on return */
@@ -4757,7 +4778,7 @@ setTimeout(()=>{try{const t=JSON.parse(pref('timer')||'null');if(t&&!timer&&t.en
   if(db&&id){try{store=makeDbStore(db.collection('data/users/'+id))}catch(e){store=null}}
   if(!store)store=await makeLocalStore();
   if(window.__dbRaw){try{const sn=await window.__dbRaw.doc('public/template').get();if(sn&&sn.exists){const t=sn.data();if(t&&Array.isArray(t.courses)&&t.courses.length){TEMPLATE=clone(t);if(modalOpen&&wizard)setSheet(onbHtml());else if(loaded&&view.name==='home')render()}}}catch(e){}}
-  store.subscribe(applyDocs,()=>{statusErr=true;updateStatus()});
+  store.subscribe(applyDocs,()=>{statusErr=true;updateStatus()},()=>{if(statusErr===true&&!Object.values(RETRY).some(Boolean)){statusErr=false;updateStatus()}});
 })();
 </script>
 </body>
