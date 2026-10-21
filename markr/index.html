@@ -1069,7 +1069,7 @@ const UPD={ready:false};
 const STANDALONE=(()=>{try{return window.top===window}catch(e){return false}})()&&!(window.claude&&typeof window.claude.use==='function');
 const INSTALLED=(()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}})();
 const IOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-const CLAUDE_URL='https://claude.ai/artifact/YDh9LaKWKN3erUvL8ZR4jH';
+const CLAUDE_URL='https://claude.ai/artifact/YDh9LaKWKN3erUvL8ZR4jH',WEB_URL='https://hanochgo7-gif.github.io/desktop-tutorial/markr/';
 let sampleFn=null,downloadsNs=null,assetsNs=null,imgCaps=null,upDraft=null,upResult=null,readStarOnly=false;
 
 /* ---------- storage ---------- */
@@ -2302,11 +2302,11 @@ function settingsHtml(){
     <label class="ghost" style="cursor:pointer">📤 שחזור מגיבוי<input type="file" id="restore-file" accept=".json,application/json" hidden></label></div>
     <p id="restore-msg" class="hint" role="status"></p>
     <div id="snaps"></div></div>
-  <div class="f"><span>סנכרון אוטומטי בין הטלפון ל-claude.ai</span><div id="sync-auto">${syncAutoHtml()}</div></div>
+  <div class="f"><span>סנכרון אוטומטי בין המכשירים</span><div id="sync-auto">${syncAutoHtml()}</div></div>
   <details class="gloss" style="margin-top:10px"><summary>סנכרון ידני דרך קובץ</summary><div style="padding:0 12px 12px" id="sync-box">${syncBoxHtml()}</div></details>
   ${trashHtml()}
   ${STANDALONE?`<div class="f"><span>Claude</span><p class="note" style="margin:0">סידור סיכומים, בוחנים, כרטיסיות חכמות ושאלות על החומר עובדים בגרסה של מרקר ב-claude.ai.
-    כדי שיהיה אותו דבר בשתיהן מפעילים את “סנכרון אוטומטי” למעלה.</p>
+    בין הטלפון למחשב הכול מסתנכרן לבד (“סנכרון אוטומטי” למעלה). עם claude.ai מעבירים דרך “סנכרון ידני דרך קובץ”.</p>
     <div class="actions" style="margin-top:8px"><a class="ghost" href="${CLAUDE_URL}" target="_blank" rel="noopener">לפתוח את מרקר ב-claude.ai</a></div></div>`:''}
   ${STANDALONE&&!INSTALLED&&IOS?`<div class="f"><span>התקנה</span><p class="note" style="margin:0">ב-Safari: כפתור השיתוף ${ic('share')} ← “הוספה למסך הבית”. מרקר ייפתח כאפליקציה במסך מלא.</p></div>`:''}
   <p class="credit" dir="ltr" lang="en">designed by Omer Ezri</p>
@@ -3508,6 +3508,7 @@ async function syncRpc(p){
   return r||{};
 }
 function syncErrText(e){const c=e&&e.code||'';return ({
+  busy:'נוצרו היום הרבה קודים חדשים. אפשר לנסות שוב מחר, או להתחבר עם קוד קיים.',
   unknown_code:'הקוד לא נמצא. בודקים שהוא הועתק במלואו, כמו שהוא מופיע ב-claude.ai.',
   offline:'אין חיבור לאינטרנט. השינויים נשמרים כאן ויעלו כשיחזור החיבור.',
   server:'השרת לא זמין כרגע (אולי הפרויקט ב-Supabase מושהה). מנסה שוב לבד.',server_unavailable:'השרת לא זמין כרגע. מנסה שוב לבד.',
@@ -3610,7 +3611,10 @@ document.addEventListener('visibilitychange',()=>{if(!syncOn())return;if(documen
 window.addEventListener('online',()=>{if(syncOn())syncNow()});
 async function syncCreate(){
   const msg=$('#sync-auto-msg'),code=syncNewCode();if(msg)msg.textContent='מחבר…';
-  try{await syncSql(`select public.markr_register(${sqlLit(code)}) as r`);
+  try{
+    if(STANDALONE||!mcpNs){let r;try{r=await (await fetch(SB.url+'/rest/v1/rpc/markr_create',{method:'POST',headers:{apikey:SB.key,'content-type':'application/json'},body:JSON.stringify({code})})).json()}catch(e){throw{code:'offline'}}
+      if(!r||!r.ok)throw{code:r&&r.error==='busy'?'busy':'server'}}
+    else await syncSql(`select public.markr_register(${sqlLit(code)}) as r`);
     pref('syncCode',code);pref('syncOff','');S.profile.syncCode=code;saveDoc('profile',0);SY.since=0;pref('syncSeq','0');SY.halt=false;SY.show=true;
     await syncNow(true);if(SY.state==='ok')toast('הסנכרון האוטומטי פועל')}
   catch(e){console.warn(e);if(msg)msg.textContent=syncErrText(e)}
@@ -3630,10 +3634,15 @@ function syncUI(){const b=$('#sync-auto');if(b&&modalOpen)b.innerHTML=iconize(sy
 function syncAutoHtml(){
   const c=syncCode();
   if(!c){
-    if(STANDALONE)return `<p class="note" style="margin:0 0 8px">כך הטלפון ו-claude.ai מתעדכנים לבד, בלי קבצים. את הקוד יוצרים פעם אחת בגרסה של claude.ai (הגדרות ← סנכרון אוטומטי), ומדביקים אותו כאן.</p>
-    <label class="f" style="margin-top:0"><span>קוד סנכרון</span><input type="text" id="sync-code-in" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MKXX-XXXX-XXXX-…"></label>
-    <div class="actions" style="margin-top:8px"><button class="primary" data-act="sync-join">חיבור</button></div><p class="hint" id="sync-auto-msg" role="status"></p>`;
-    if(!mcpNs)return `<p class="note" style="margin:0">כדי שהגרסה ב-claude.ai תסתנכרן לבד עם הטלפון, צריך את מחבר Supabase ב-claude.ai (Settings ← Connectors). אחרי שמחברים אותו, פותחים את מרקר מחדש.</p>`;
+    if(STANDALONE)return `<p class="note" style="margin:0 0 8px">כך הטלפון והמחשב מתעדכנים לבד, בלי קבצים. במכשיר הראשון לוחצים “להפעיל סנכרון”, ובשני מדביקים את הקוד שמופיע.</p>
+    <div class="actions" style="margin-top:0"><button class="primary" data-act="sync-create">להפעיל סנכרון</button></div>
+    <label class="f" style="margin-top:12px"><span>כבר יש לי קוד ממכשיר אחר</span><input type="text" id="sync-code-in" dir="ltr" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MKXX-XXXX-XXXX-…"></label>
+    <div class="actions" style="margin-top:8px"><button class="ghost" data-act="sync-join">חיבור עם הקוד</button></div><p class="hint" id="sync-auto-msg" role="status"></p>`;
+    /* claude.ai checks every connector a page asks for before it shows the page, and a slow connector made it
+       give up ("Artifact took too long to load"); so this version asks for none. On a computer, the same app in
+       the browser syncs with the phone by itself, straight to Supabase. */
+    if(!mcpNs)return `<p class="note" style="margin:0 0 8px">כאן, בגרסה של claude.ai, הסנכרון נעשה דרך קובץ (למטה). במחשב אפשר לעבוד גם במרקר בדפדפן: הוא מסתנכרן לבד עם הטלפון, עובד בלי אינטרנט ונפתח מיד.</p>
+    <div class="actions" style="margin-top:0"><a class="ghost" href="${WEB_URL}" target="_blank" rel="noopener">${ic('up')}לפתוח את מרקר בדפדפן</a></div>`;
     return `<p class="note" style="margin:0 0 8px">הטלפון ו-claude.ai יתעדכנו לבד, כמה שניות אחרי כל שינוי. העותק המשותף נשמר בפרויקט Supabase שלך, נעול בקוד סודי שרק אצלך.</p>
     <div class="actions" style="margin-top:0"><button class="primary" data-act="sync-create">להפעיל סנכרון אוטומטי</button></div><p class="hint" id="sync-auto-msg" role="status"></p>`;
   }
@@ -3641,7 +3650,7 @@ function syncAutoHtml(){
   const st=SY.state==='run'?'מסנכרן…':SY.state==='err'?`<span class="danger">${esc(syncErrText({code:SY.err}))}</span>`:ago?`מסונכרן, ${ago}${SY.pend.size?` · ${SY.pend.size} שינויים ממתינים`:''}`:'עוד לא סונכרן';
   return `<p class="hint" style="margin:0 0 8px" role="status" id="sync-auto-st">${ic(SY.state==='err'?'alert':'cloudok')}${st}</p>
   <div class="actions" style="margin-top:0"><button class="ghost" data-act="sync-now">לסנכרן עכשיו</button><button class="ghost" data-act="sync-show">${SY.show?'להסתיר את הקוד':'הקוד לחיבור הטלפון'}</button></div>
-  ${SY.show?`<div class="sync-code" dir="ltr">${esc(syncFmt(c))}</div><p class="hint">${STANDALONE?'הקוד הזה מחבר מכשירים נוספים.':'בטלפון: הגדרות ← סנכרון אוטומטי ← מדביקים את הקוד ← חיבור.'} כמו סיסמה: לא לשתף.</p>
+  ${SY.show?`<div class="sync-code" dir="ltr">${esc(syncFmt(c))}</div><p class="hint">${'במכשיר השני: הגדרות ← סנכרון אוטומטי ← מדביקים את הקוד ← חיבור עם הקוד.'} כמו סיסמה: לא לשתף.</p>
     <div class="actions" style="margin-top:0"><button class="link" data-act="sync-copy">העתקת הקוד</button></div>`:''}
   <button class="link danger" data-act="sync-off" style="margin-top:6px">לכבות במכשיר הזה</button>`;
 }
