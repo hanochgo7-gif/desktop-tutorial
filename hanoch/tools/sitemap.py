@@ -13,7 +13,7 @@ VID = {'/work.html': [('אֶלֶף · שמן זית מהגליל', 'פרסומת
                        ('HG · Unforgettable', 'פרסומת בושם של 20 שניות שנוצרה בבינה מלאכותית על ידי HG Studio.', '/work/film/hg.webp', '/work/film/hg.mp4', 20),
                        ('אתר שלא נסגר בשבע', 'פרסומת אנכית ל-HG Studio שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', '/work/film/studio-night.webp', '/work/film/studio-night.mp4', 32),
                        ('העסק נסגר בשבע. האתר? לא.', 'פרסומת מציגה ל-HG Studio. המציגה והקול נוצרו בבינה מלאכותית, והמסכים אמיתיים.', '/work/film/studio-host.webp', '/work/film/studio-host.mp4', 22),
-                       ('GLUCKSKI · פרסומת לביגוד סקי', 'פרסומת אנכית לביגוד סקי שנוצרה בבינה מלאכותית על ידי HG Studio: גלישה, סנובורד וחברים בבקתה.', '/work/film/gluckski.webp', '/work/film/gluckski.mp4', 13),
+                       ('GLUCKSKI · פרסומת לביגוד סקי', 'פרסומת אנכית לביגוד סקי שנוצרה בבינה מלאכותית על ידי HG Studio: גלישה וסנובורד, הפרטים של הסט והזמנה בחנות בטלפון.', '/work/film/gluckski2.webp', '/work/film/gluckski2.mp4', 30),
                        ('HG Fragrance · הנפילה', "גבר בחליפה שחורה נופל מהשמיים מעל העיר, נוחת בענן אבק ליד מכונית עם הבקבוק על הגג, והולך.", '/work/film/hgr-the-fall.webp', '/work/film/hgr-the-fall.mp4', 19),
                        ('HG Fragrance · ההתנגשות', "רחוב ריק עם שחר: גבר מתנגש בעוברת אורח, הבקבוק וצעיף משי עפים בהילוך איטי.", '/work/film/hgr-the-collision.webp', '/work/film/hgr-the-collision.mp4', 11),
                        ('HG Fragrance · הכניסה', "מצלמת מסדרון: גבר מרסס בצווארון, חבר נכנס ונעצר: \"רגע, מה אתה שם?\"", '/work/film/hgr-the-entrance.webp', '/work/film/hgr-the-entrance.mp4', 13),
