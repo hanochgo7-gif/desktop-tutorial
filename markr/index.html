@@ -1099,9 +1099,9 @@ function journal(id,sq,d){try{const j=JSON.parse(localStorage.getItem(JKEY)||'{}
   Object.keys(j).length?localStorage.setItem(JKEY,JSON.stringify(j)):localStorage.removeItem(JKEY)}catch(e){}}
 const idbReq=r=>new Promise((res,rej)=>{r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
 const idbDone=t=>new Promise((res,rej)=>{t.oncomplete=()=>res(true);t.onabort=t.onerror=()=>rej(t.error||new Error('aborted'))});
-function openDocsDb(){return new Promise((res,rej)=>{let r;try{r=indexedDB.open('markr-docs',1)}catch(e){return rej(e)}
+function openDocsDb(ms=4000){return new Promise((res,rej)=>{let r;try{r=indexedDB.open('markr-docs',1)}catch(e){return rej(e)}
   r.onupgradeneeded=()=>{r.result.createObjectStore('docs');r.result.createObjectStore('meta')};
-  r.onsuccess=()=>{const d=r.result;d.onversionchange=()=>d.close();res(d)};r.onerror=()=>rej(r.error);setTimeout(()=>rej(new Error('timeout')),4000)})}
+  r.onsuccess=()=>{const d=r.result;d.onversionchange=()=>d.close();res(d)};r.onerror=()=>rej(r.error);setTimeout(()=>rej(new Error('timeout')),ms)})}
 function makeIdbStore(db0){
   let db=db0,docs={},cb=null,rt=0;db.onclose=()=>{db=null};
   const bc=(()=>{try{return new BroadcastChannel('markr-docs')}catch(e){return null}})();
@@ -1141,7 +1141,7 @@ function makeLsStore(){
 }
 async function makeLocalStore(){
   if(typeof indexedDB!=='undefined'){
-    for(let i=0;i<(pref('idb')==='1'?3:1);i++){try{const st=makeIdbStore(await openDocsDb());await st.ready;return st}catch(e){console.warn(e)}}
+    for(let i=0;i<(pref('idb')==='1'?3:1);i++){try{const st=makeIdbStore(await openDocsDb([1500,3000,6000][i]));await st.ready;return st}catch(e){console.warn(e)}}
     if(pref('idb')==='1')setTimeout(()=>toast('לא הצלחתי לפתוח את המחברת השמורה במכשיר. סוגרים את האפליקציה לגמרי ופותחים שוב.',{icon:'alert'}),1500);
   }
   return makeLsStore();
@@ -1168,17 +1168,21 @@ function stampDoc(id){const t=Date.now();if(id==='courses'||id==='tasks'){STAMP[
   else{const d=docData(id);if(d&&typeof d==='object'&&!Array.isArray(d))d._u=t}}
 /* saves a change that came from another device: it keeps that device's change times */
 function quietSave(id){saveDoc.quiet=true;try{saveDoc(id,0)}finally{saveDoc.quiet=false}if(S.lessons[id])LSIG.set(id,lessonSigs(S.lessons[id]))}
+const STAMPQ=new Set();
+/* anything that sends or exports data first takes the change times still waiting for their save */
+function stampPending(ids){for(const id of (ids||[...STAMPQ]))if(STAMPQ.delete(id))stampDoc(id)}
 function saveDoc(id,delay=700){
-  memoClear();if(!saveDoc.quiet){stampDoc(id);syncMark(id)}
+  memoClear();if(!saveDoc.quiet){if(delay>0)STAMPQ.add(id);else{STAMPQ.delete(id);stampDoc(id)}syncMark(id)}
   dirty.set(id,(dirty.get(id)||0)+1);updateStatus();
   clearTimeout(timers[id]);timers[id]=setTimeout(()=>flush(id),delay);
 }
 const RETRY={};
 function flush(id){
-  clearTimeout(timers[id]);delete timers[id];
+  clearTimeout(timers[id]);delete timers[id];if(STAMPQ.delete(id))stampDoc(id);
   const v=dirty.get(id);if(v==null||!store)return Promise.resolve();
   const data=docData(id);if(!data){dirty.delete(id);updateStatus();return Promise.resolve()}
-  return store.put(id,clone(data)).then(ok=>{
+  const js=JSON.stringify(data);if(store.kind==='db')SELF.set(id,js);
+  return store.put(id,JSON.parse(js)).then(ok=>{
     if(ok==='denied'){switchToLocal();return}
     if(ok===true){RETRY[id]=0;if(dirty.get(id)===v)dirty.delete(id);if(![...dirty.keys()].some(k=>RETRY[k]))statusErr=false}
     else{statusErr=ok==='quota'?'quota':true;const n=RETRY[id]=(RETRY[id]||0)+1;
@@ -1201,7 +1205,7 @@ function retrySave(){
   Promise.all([...dirty.keys()].map(flush)).then(()=>{updateStatus();if(!statusErr){if(modalOpen)closeModal();toast('הכול נשמר',{icon:'okc'})}else toast('עדיין אין מקום. מפנים מקום במכשיר ומנסים שוב.',{icon:'alert'})});
 }
 function allDocs(raw){
-  const d={courses:docData('courses'),tasks:docData('tasks'),profile:docData('profile')};
+  stampPending();const d={courses:docData('courses'),tasks:docData('tasks'),profile:docData('profile')};
   for(const [id,l] of Object.entries(S.lessons))if(!isEmptyLesson(l)||(l.files||[]).length)d[id]=l;
   for(const [id,q] of Object.entries(S.cquiz))d[id]=q;
   for(const [id,t] of Object.entries(S.trash))d[id]=t;
@@ -1275,32 +1279,40 @@ async function downloadBackup(){
 }
 function flushAll(){return Promise.all(Object.keys(timers).map(flush))}
 function removeDoc(id){memoClear();clearTimeout(timers[id]);delete timers[id];dirty.delete(id);deletedIds.add(id);delete S.lessons[id];store&&store.remove(id);updateStatus();syncMark(id)}
+/* The store delivers the whole notebook on every change, including the echo of each of this page's own
+   saves (several a minute while writing). A document that did not change arrives as the same object as
+   last time, so only changed documents are copied, and an echo of our own save changes nothing at all.
+   (Copying all 300 summaries on every keystroke save is what froze the claude.ai version in class.) */
+const PREVD=new Map(),SELF=new Map();
 function applyDocs(docs){
   memoClear();const clone=typeof structuredClone==='function'?structuredClone:window.clone;
-  if(!dirty.has('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses')}
-  if(!dirty.has('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks')}
-  if(!dirty.has('profile'))S.profile=clone(docs.profile||{});
-  const L={};
-  for(const [id,d] of Object.entries(docs)){if(d&&d.type==='lesson'&&!deletedIds.has(id)){L[id]=clone(d);if(!dirty.has(id)){LBASE[id]=d;LSIG.delete(id)}}}
-  for(const id of dirty.keys()){if(S.lessons[id])L[id]=S.lessons[id]}
-  const CQ={};for(const [id,d] of Object.entries(docs)){if(d&&d.type==='cquiz')CQ[id]=clone(d)}
-  for(const id of dirty.keys()){if(S.cquiz[id])CQ[id]=S.cquiz[id]}
-  S.cquiz=CQ;
-  const TR={};for(const [id,d] of Object.entries(docs)){if(d&&d.type==='trashitem')TR[id]=clone(d)}
-  for(const id of dirty.keys()){if(S.trash[id])TR[id]=S.trash[id]}
-  S.trash=TR;
+  const first=!loaded;let ch=first;
+  const fresh=id=>{const d=docs[id];if(PREVD.get(id)===d)return false;PREVD.set(id,d);
+    const own=SELF.get(id);if(own!==undefined){SELF.delete(id);if(d&&own===JSON.stringify(d))return false}return true};
+  for(const id of [...PREVD.keys()])if(!(id in docs)){PREVD.delete(id);ch=true}
+  if(!dirty.has('courses')&&fresh('courses')){S.courses=clone(docs.courses?.list||[]);STAMP.courses=docs.courses?._u||0;primeList('courses');ch=true}
+  if(!dirty.has('tasks')&&fresh('tasks')){S.tasks=clone(docs.tasks?.list||[]);STAMP.tasks=docs.tasks?._u||0;primeList('tasks');ch=true}
+  if(!dirty.has('profile')&&fresh('profile')){S.profile=clone(docs.profile||{});ch=true}
+  const L={},CQ={},TR={};
+  for(const [id,d] of Object.entries(docs)){if(!d)continue;
+    if(d.type==='lesson'){if(deletedIds.has(id))continue;if(!fresh(id)&&S.lessons[id]){L[id]=S.lessons[id];continue}
+      L[id]=clone(d);if(!dirty.has(id)){LBASE[id]=d;LSIG.delete(id)}ch=true}
+    else if(d.type==='cquiz'){if(!fresh(id)&&S.cquiz[id]){CQ[id]=S.cquiz[id];continue}CQ[id]=clone(d);ch=true}
+    else if(d.type==='trashitem'){if(!fresh(id)&&S.trash[id]){TR[id]=S.trash[id];continue}TR[id]=clone(d);ch=true}}
+  for(const id of dirty.keys()){if(S.lessons[id])L[id]=S.lessons[id];if(S.cquiz[id])CQ[id]=S.cquiz[id];if(S.trash[id])TR[id]=S.trash[id]}
+  S.cquiz=CQ;S.trash=TR;
   if(view.name==='lesson'&&S.lessons[view.id]&&!L[view.id])L[view.id]=S.lessons[view.id];
   S.lessons=L;
-  const first=!loaded;loaded=true;
-  if(first||(view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
+  loaded=true;
+  if(first||(ch&&view.name!=='lesson'&&view.name!=='live'&&view.name!=='listen'&&!modalOpen&&view.name!=='search'&&view.name!=='read'&&view.name!=='readall'))render();
   updateStatus();
   if(first&&!S.profile.onboarded)openOnboarding();
   if(first){trashPurge();setTimeout(snapshotToday,15000);setTimeout(syncStart,1200)}
 }
 function updateStatus(){
   const el=$('#status');if(!el)return;
-  if(statusErr){const m=statusErr==='quota'?'אין מקום במכשיר':store&&store.kind==='local'?'לא נשמר במכשיר':'לא נשמר, בדוק חיבור';el.innerHTML=ic('alert')+'<span>'+m+'</span>';el.className='status err';el.title=m;return}
-  const t=!loaded?'':(dirty.size?'שומר…':'הכול שמור');
+  if(statusErr){el.dataset.t='';const m=statusErr==='quota'?'אין מקום במכשיר':store&&store.kind==='local'?'לא נשמר במכשיר':'לא נשמר, בדוק חיבור';el.innerHTML=ic('alert')+'<span>'+m+'</span>';el.className='status err';el.title=m;return}
+  const t=!loaded?'':(dirty.size?'שומר…':'הכול שמור');if(el.dataset.t===t&&!el.classList.contains('err'))return;el.dataset.t=t;
   el.className='status'+(dirty.size?' saving':' ok');el.title=t;
   el.innerHTML=t?ic(dirty.size?'cloud':'cloudok')+'<span>'+t+'</span>':'';
 }
@@ -1455,7 +1467,10 @@ function render(){
   if(!loaded){
     /* instant start: the home screen exactly as it looked last time, shown until the notebook has loaded */
     const sh=view.name==='home'&&!app.dataset.shell&&pref('shell');
-    if(sh){app.innerHTML=sh;app.dataset.shell='1';app.setAttribute('aria-busy','true')}else if(!app.dataset.shell&&!app.querySelector('.boot'))app.innerHTML=BOOT;
+    if(sh){app.innerHTML=sh;app.dataset.shell='1';app.setAttribute('aria-busy','true');
+      /* if loading takes longer than a moment, the loading screen shows instead, so nothing looks frozen */
+      setTimeout(()=>{if(!loaded&&app.dataset.shell==='1'){app.innerHTML=BOOT;app.dataset.shell='late'}},1200)}
+    else if(app.dataset.shell!=='1'&&!app.querySelector('.boot'))app.innerHTML=BOOT;
     markNav();return}
   if(app.dataset.shell){delete app.dataset.shell;app.removeAttribute('aria-busy')}
   const ae=document.activeElement,fk=ae&&ae!==app&&app.contains(ae)?focusKey(ae):null;
@@ -2143,9 +2158,14 @@ const SNAP={db:null,open(){return new Promise(res=>{try{const r=indexedDB.open('
   async run(mode,fn){const db=this.db||(this.db=await this.open());if(!db)return null;return new Promise(res=>{try{const t=db.transaction('snaps',mode),r=fn(t.objectStore('snaps'));t.oncomplete=()=>res(r?r.result:null);t.onerror=t.onabort=()=>res(null)}catch(e){res(null)}})}};
 async function snapshotToday(){
   try{const k=todayKey(),keys=(await SNAP.run('readonly',s=>s.getAllKeys()))||[];if(keys.includes(k))return;
-    await new Promise(r=>window.requestIdleCallback?requestIdleCallback(r,{timeout:8000}):setTimeout(r,200));
+    const idle=()=>new Promise(r=>window.requestIdleCallback?requestIdleCallback(r,{timeout:8000}):setTimeout(()=>r({timeRemaining:()=>8}),200));
+    let dl=await idle();
     const docs=allDocs(true);if(!(docs.courses&&docs.courses.list||[]).length&&!Object.keys(docs).some(k=>k.startsWith('L_')))return;
-    await SNAP.run('readwrite',s=>s.put({at:Date.now(),docs},k));
+    /* one small file object per document, made in idle moments, then joined: the database stores the
+       result without copying it on the main thread */
+    const parts=[new Blob(['{'])];for(const id of Object.keys(docs)){parts.push(new Blob([(parts.length>1?',':'')+JSON.stringify(id)+':'+JSON.stringify(docs[id])]));if(dl.timeRemaining()<4)dl=await idle()}parts.push(new Blob(['}']));
+    const blob=new Blob(parts,{type:'application/json'});
+    await SNAP.run('readwrite',s=>s.put({at:Date.now(),blob},k));
     for(const o of keys.concat(k).sort().slice(0,-7))await SNAP.run('readwrite',s=>s.delete(o));
   }catch(e){}
 }
@@ -2156,7 +2176,7 @@ async function loadSnaps(){
   <div class="list">${keys.map(k=>`<div class="rec"><span class="grow">${esc(longDate(k))}</span><button class="ghost" data-act="snap-restore" data-k="${k}">שחזור</button></div>`).join('')}</div>`;
 }
 async function snapRestore(k){
-  const snap=await SNAP.run('readonly',s=>s.get(k));if(!snap||!snap.docs)return;
+  const snap=await SNAP.run('readonly',s=>s.get(k));if(snap&&!snap.docs&&snap.blob){try{snap.docs=JSON.parse(await snap.blob.text())}catch(e){}}if(!snap||!snap.docs)return;
   if(!(await askConfirm(`להחזיר ממה שהיה ב-${longDate(k)} את כל מה שחסר עכשיו? שום דבר קיים לא יימחק ולא ישתנה.`,{ok:'להחזיר'})))return;
   const n=mergeDocs(snap.docs);toast(n?`הוחזרו ${n} פריטים`:'לא היה מה להחזיר, הכול כבר כאן');
 }
@@ -2980,7 +3000,7 @@ function mcPick(oi){
 }
 /* ---------- rich text commands ---------- */
 let savedRange=null;
-document.addEventListener('selectionchange',()=>{const ed=$('#f-rich'),s=getSelection();if(ed&&s.rangeCount&&ed.contains(s.anchorNode)){savedRange=s.getRangeAt(0).cloneRange();updateRtb()}});
+document.addEventListener('selectionchange',()=>{const ed=$('#f-rich'),s=getSelection();if(ed&&s.rangeCount&&ed.contains(s.anchorNode)){savedRange=s.getRangeAt(0).cloneRange();clearTimeout(updateRtb.t);updateRtb.t=setTimeout(updateRtb,160)}});
 function updateRtb(){
   const tb=$('.rtb');if(!tb)return;
   const st=c=>{try{return document.queryCommandState(c)}catch(e){return false}};
@@ -3450,7 +3470,7 @@ const syncNorm=c=>String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
 function syncNewCode(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=crypto.getRandomValues(new Uint8Array(26));return 'MK'+[...b].map(x=>A[x%32]).join('')}
 function syncSavePend(){pref('syncPend',JSON.stringify([...SY.pend.keys()]))}
 function syncMarkRaw(id){SY.pend.set(id,(SY.pend.get(id)||0)+1);syncSavePend()}
-function syncMark(id){if(!syncCode()||SY.applying)return;syncMarkRaw(id);if(!SY.busy){clearTimeout(SY.timer);SY.timer=setTimeout(syncNow,4000)}}
+function syncMark(id){if(!syncCode()||SY.applying)return;syncMarkRaw(id);if(!SY.busy){clearTimeout(SY.timer);SY.timer=setTimeout(syncNow,STANDALONE?4000:8000)}}
 const sqlLit=s=>{let t;do{t='mk'+Math.random().toString(36).slice(2,9)}while(s.includes('$'+t+'$'));return '$'+t+'$'+s+'$'+t+'$'};
 /* claude.ai: one SQL call through the Supabase connector; its answer comes back wrapped in a text block */
 async function syncSql(q){
@@ -3521,6 +3541,7 @@ async function syncPull(seen){const lim=STANDALONE?150:25;
 async function syncPush(){
   const all=[...SY.pend.entries()];if(!all.length)return;const cap=STANDALONE?1500000:450000;let batch=[],vers=[],size=0;
   const send=async()=>{if(!batch.length)return;await syncRpc({op:'push',docs:batch});vers.forEach(([id,v])=>{if(SY.pend.get(id)===v)SY.pend.delete(id)});syncSavePend();batch=[];vers=[];size=0};
+  stampPending(all.map(x=>x[0]));
   for(const [id,v] of all){const d=docData(id),it=d?{id,data:clone(d)}:{id,del:true},n=JSON.stringify(it).length;
     if(batch.length&&size+n>cap)await send();batch.push(it);vers.push([id,v]);size+=n}
   await send();
@@ -3565,7 +3586,7 @@ async function syncNow(manual){
   finally{SY.busy=false;syncUI();if(SY.again){SY.again=false;SY.timer=setTimeout(syncNow,500)}else syncSchedule()}
 }
 function syncSchedule(){clearTimeout(SY.timer);if(!syncOn()||SY.halt||document.visibilityState!=='visible')return;
-  const ms=SY.state==='err'?Math.min(300000,30000*2**Math.min(SY.fails,3)):SY.pend.size?4000:STANDALONE?20000:30000;SY.timer=setTimeout(syncNow,ms)}
+  const ms=SY.state==='err'?Math.min(300000,30000*2**Math.min(SY.fails,3)):SY.pend.size?(STANDALONE?4000:8000):STANDALONE?20000:60000;SY.timer=setTimeout(syncNow,ms)}
 function syncStart(){
   if(!syncCode()&&!STANDALONE&&mcpNs&&S.profile.syncCode&&pref('syncOff')!=='1'){pref('syncCode',S.profile.syncCode)}
   if(syncOn())syncNow();
@@ -4721,8 +4742,9 @@ setTimeout(()=>{try{const t=JSON.parse(pref('timer')||'null');if(t&&!timer&&t.en
   let db=null,id=null;
   try{
     if(window.claude&&typeof claude.use==='function'){
-      const [d,u,s,dl,as,mc]=await Promise.all([claude.use('db'),claude.use('user'),claude.use('sample'),claude.use('downloads'),claude.use('assets'),claude.use('mcp')]);
-      db=d;window.__dbRaw=d;id=u?await u.id():null;sampleFn=s||null;downloadsNs=dl||null;assetsNs=as||null;mcpNs=mc||null;
+      claude.use('mcp').then(mc=>{mcpNs=mc||null;if(mcpNs&&loaded){syncStart();if(modalOpen)syncUI()}}).catch(()=>{});
+      const [d,u,s,dl,as]=await Promise.all([claude.use('db'),claude.use('user'),claude.use('sample'),claude.use('downloads'),claude.use('assets')]);
+      db=d;window.__dbRaw=d;id=u?await u.id():null;sampleFn=s||null;downloadsNs=dl||null;assetsNs=as||null;
       let canW=null;if(u&&typeof u.can==='function'){try{canW=await u.can('data.write');if(canW===false)db=null}catch(e){}}
       if(db&&pref('forceLocal')==='1')db=null;
       if(db&&id&&canW!==true){
