@@ -1,0 +1,57 @@
+/* ילדים וחינוך (Sunshine Learning): טוקנים. קובץ שנוצר אוטומטית מ-tools/build.py, לא לערוך ביד.
+   גופנים: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Varela+Round&display=swap"> */
+
+[data-concept="sunshine"] {
+  /* פלטת המותג */
+  --brand-1: #FFEB3B; /* צהוב שמש */
+  --brand-2: #00BCD4; /* טורקיז */
+  --brand-3: #FF9800; /* כתום קיץ */
+  --brand-4: #FFFDE7; /* שמנת */
+  --brand-5: #4CAF50; /* ירוק טרופי */
+
+  /* תפקידים */
+  --color-bg: #FFFDE7;
+  --color-surface: #FFFFFF;
+  --color-field-bg: #FFFFFF;
+  --color-text: #212121;
+  --color-text-muted: #5D5D5D;
+  --color-border: #00838F;
+  --color-border-subtle: #FFF3B0;
+  --color-primary: #FFEB3B;
+  --color-primary-hover: #FFF176;
+  --color-on-primary: #212121;
+  --color-secondary: #212121;
+  --color-secondary-bg: #00BCD4;
+  --color-secondary-hover-bg: #26C6DA;
+  --color-accent: #FF9800;
+  --color-accent-hover: #FFA726;
+  --color-on-accent: #212121;
+  --color-link: #006064;
+  --color-focus: #212121;
+  --color-error: #B71C1C;
+  --color-success: #1B5E20;
+  --color-disabled-bg: #EEEEEE;
+  --color-disabled-text: #757575;
+  --color-progress: #E65100;
+  --color-progress-track: #FFF3B0;
+  --color-decor: #4CAF50;
+  --color-dark: #006064;
+  --color-on-dark: #FFFDE7;
+  --btn-border-color: #212121;
+  --font-display: 'Fredoka', 'Varela Round', Arial, sans-serif;
+  --font-body: 'Varela Round', Arial, sans-serif;
+  --display-weight: 600;
+  --display-tracking: 0;
+  --radius-control: 999px;
+  --radius-card: 24px;
+  --btn-height: 52px;
+  --btn-pad: 1.6rem;
+  --btn-weight: 600;
+  --btn-border-width: 2px;
+  --field-bw: 2px;
+  --field-bw-strong: 3px;
+  --field-radius: 16px;
+  --card-border: 2px solid #212121;
+  --card-shadow: 4px 4px 0 #212121;
+  --card-media: radial-gradient(circle at 22% 30%, #FFEB3B 0 13%, transparent 14%), linear-gradient(160deg, transparent 52%, #00BCD4 53% 70%, transparent 71%), linear-gradient(#FFE0B2, #FFF8E1);
+}

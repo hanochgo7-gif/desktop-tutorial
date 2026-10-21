@@ -1,0 +1,55 @@
+/* טבעי וידידותי (Eco-Natural): טוקנים. קובץ שנוצר אוטומטית מ-tools/build.py, לא לערוך ביד.
+   גופנים: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400..700&family=Open+Sans:wght@400..700&display=swap"> */
+
+[data-concept="eco-natural"] {
+  /* פלטת המותג */
+  --brand-1: #8BC34A; /* ירוק נבט */
+  --brand-2: #FFEB3B; /* צהוב שמש */
+  --brand-3: #795548; /* חום אדמה */
+  --brand-4: #FFF8E1; /* קרם */
+  --brand-5: #64B5F6; /* תכלת שמיים */
+
+  /* תפקידים */
+  --color-bg: #FFF8E1;
+  --color-surface: #FFFFFF;
+  --color-field-bg: #FFFFFF;
+  --color-text: #4E342E;
+  --color-text-muted: #6D4C41;
+  --color-border: #795548;
+  --color-border-subtle: #EADDBE;
+  --color-primary: #8BC34A;
+  --color-primary-hover: #7CB342;
+  --color-on-primary: #3E2723;
+  --color-secondary: #5D4037;
+  --color-secondary-hover-bg: #F3E9CF;
+  --color-accent: #FFEB3B;
+  --color-accent-hover: #FFF176;
+  --color-on-accent: #4E342E;
+  --color-link: #33691E;
+  --color-focus: #33691E;
+  --color-error: #C62828;
+  --color-success: #33691E;
+  --color-disabled-bg: #EFE6D2;
+  --color-disabled-text: #8D7B70;
+  --color-progress: #33691E;
+  --color-progress-track: #EADDBE;
+  --color-decor: #64B5F6;
+  --color-dark: #4E342E;
+  --color-on-dark: #FFF8E1;
+  --font-display: 'Rubik', Tahoma, Arial, sans-serif;
+  --font-body: 'Open Sans', Tahoma, Arial, sans-serif;
+  --display-weight: 600;
+  --display-tracking: 0;
+  --radius-control: 14px;
+  --radius-card: 20px;
+  --btn-height: 48px;
+  --btn-pad: 1.4rem;
+  --btn-weight: 600;
+  --btn-border-width: 0px;
+  --field-bw: 1.5px;
+  --field-bw-strong: 2.5px;
+  --field-radius: 12px;
+  --card-border: 0;
+  --card-shadow: 0 2px 0 #EADDBE, 0 8px 24px rgba(78, 52, 46, .08);
+  --card-media: radial-gradient(circle at 78% 28%, #FFEB3B 0 11%, transparent 12%), radial-gradient(ellipse at 30% 120%, #8BC34A 0 45%, transparent 46%), linear-gradient(#BBDEFB, #E3F2FD);
+}

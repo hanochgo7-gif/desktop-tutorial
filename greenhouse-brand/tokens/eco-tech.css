@@ -1,0 +1,55 @@
+/* חדשנות ירוקה (Eco-Tech): טוקנים. קובץ שנוצר אוטומטית מ-tools/build.py, לא לערוך ביד.
+   גופנים: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;600;700&family=Noto+Sans+Hebrew:wght@400..700&display=swap"> */
+
+[data-concept="eco-tech"] {
+  /* פלטת המותג */
+  --brand-1: #4CAF50; /* ירוק עלה */
+  --brand-2: #2E7D32; /* ירוק יער */
+  --brand-3: #1565C0; /* כחול אות */
+  --brand-4: #EEEEEE; /* אפור מתכת */
+  --brand-5: #FF9800; /* כתום ענבר */
+
+  /* תפקידים */
+  --color-bg: #FFFFFF;
+  --color-surface: #F1F8E9;
+  --color-field-bg: #FFFFFF;
+  --color-text: #212121;
+  --color-text-muted: #5C5C5C;
+  --color-border: #8A8A8A;
+  --color-border-subtle: #DCE8D2;
+  --color-primary: #2E7D32;
+  --color-primary-hover: #1B5E20;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #1565C0;
+  --color-secondary-hover-bg: #E3EEFA;
+  --color-accent: #FF9800;
+  --color-accent-hover: #FFB74D;
+  --color-on-accent: #212121;
+  --color-link: #1565C0;
+  --color-focus: #1565C0;
+  --color-error: #C62828;
+  --color-success: #1B5E20;
+  --color-disabled-bg: #EEEEEE;
+  --color-disabled-text: #757575;
+  --color-progress: #2E7D32;
+  --color-progress-track: #E0E0E0;
+  --color-decor: #4CAF50;
+  --color-dark: #1B3A1F;
+  --color-on-dark: #FFFFFF;
+  --font-display: 'IBM Plex Sans Hebrew', Arial, sans-serif;
+  --font-body: 'Noto Sans Hebrew', Arial, sans-serif;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+  --radius-control: 6px;
+  --radius-card: 10px;
+  --btn-height: 46px;
+  --btn-pad: 1.25rem;
+  --btn-weight: 600;
+  --btn-border-width: 0px;
+  --field-bw: 1px;
+  --field-bw-strong: 2px;
+  --field-radius: 6px;
+  --card-border: 1px solid #DCE8D2;
+  --card-shadow: 0 1px 2px rgba(27, 58, 31, .08), 0 4px 14px rgba(27, 58, 31, .06);
+  --card-media: repeating-linear-gradient(90deg, #2E7D32 0 2px, transparent 2px 28px), linear-gradient(160deg, #C8E6C9, #4CAF50);
+}

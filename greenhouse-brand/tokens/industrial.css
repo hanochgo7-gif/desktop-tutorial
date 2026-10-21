@@ -1,0 +1,57 @@
+/* תעשייתי ומקצועי (Industrial Tech): טוקנים. קובץ שנוצר אוטומטית מ-tools/build.py, לא לערוך ביד.
+   גופנים: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wdth,wght@62.5..100,400..800&family=IBM+Plex+Sans+Hebrew:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap"> */
+
+[data-concept="industrial"] {
+  /* פלטת המותג */
+  --brand-1: #546E7A; /* אפור פלדה */
+  --brand-2: #263238; /* גרפיט */
+  --brand-3: #FFA000; /* ענבר אזהרה */
+  --brand-4: #ECEFF1; /* לבן קר */
+  --brand-5: #8BC34A; /* ירוק רענן */
+
+  /* תפקידים */
+  --color-bg: #ECEFF1;
+  --color-surface: #FFFFFF;
+  --color-field-bg: transparent;
+  --color-text: #263238;
+  --color-text-muted: #455A64;
+  --color-border: #546E7A;
+  --color-border-subtle: #CFD8DC;
+  --color-primary: #263238;
+  --color-primary-hover: #37474F;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #263238;
+  --color-secondary-hover-bg: #CFD8DC;
+  --color-accent: #FFA000;
+  --color-accent-hover: #FFB300;
+  --color-on-accent: #263238;
+  --color-link: #263238;
+  --color-focus: #263238;
+  --color-error: #C62828;
+  --color-success: #33691E;
+  --color-disabled-bg: #CFD8DC;
+  --color-disabled-text: #607D8B;
+  --color-progress: #FFA000;
+  --color-progress-track: #263238;
+  --color-decor: #8BC34A;
+  --color-dark: #263238;
+  --color-on-dark: #ECEFF1;
+  --font-display: 'Noto Sans Hebrew', Arial, sans-serif;
+  --font-body: 'IBM Plex Sans Hebrew', Arial, sans-serif;
+  --font-data: 'IBM Plex Mono', 'IBM Plex Sans Hebrew', monospace;
+  --display-weight: 700;
+  --display-stretch: 75%;
+  --display-tracking: 0;
+  --radius-control: 2px;
+  --radius-card: 0;
+  --btn-height: 44px;
+  --btn-pad: 1.2rem;
+  --btn-weight: 600;
+  --btn-border-width: 0px;
+  --field-bw: 0 0 2px 0;
+  --field-bw-strong: 0 0 3px 0;
+  --field-radius: 0;
+  --card-border: 1px solid #CFD8DC;
+  --card-shadow: none;
+  --card-media: linear-gradient(#ECEFF1 1px, transparent 1px) 0 0 / 100% 22px, linear-gradient(90deg, #ECEFF1 1px, transparent 1px) 0 0 / 22px 100%, linear-gradient(#546E7A, #263238);
+}
