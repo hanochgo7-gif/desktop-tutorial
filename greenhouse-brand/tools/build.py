@@ -661,7 +661,8 @@ _WORDMARK = (
 
 LOGO_VARIANTS = {
     "light": {"post": "#0E4239", "roof": "#1B6E62", "bar": "#7FC49B", "text": "#1B6E62"},
-    "dark": {"post": "#A8D8BC", "roof": "#FFFFFF", "bar": "#7FC49B", "text": "#FFFFFF"},
+    # על רקע כהה הלוגו נשאר בצבעיו המקוריים, על לוחית לבנה (בקשת הלקוחה: צבעי לוגו אחידים בכל מקום)
+    "dark": {"post": "#0E4239", "roof": "#1B6E62", "bar": "#7FC49B", "text": "#1B6E62", "plate": "#FFFFFF"},
     "mono": {"post": "#0E4239", "roof": "#0E4239", "bar": "#0E4239", "text": "#0E4239"},
 }
 
@@ -682,6 +683,11 @@ def logo_svg(variant="light", kind="full", label=True):
         parts.append(f'<text x="356" y="588" {font} font-weight="500" font-size="70" textLength="1201" '
                      f'lengthAdjust="spacing" fill="{col["text"]}" direction="ltr">Where agriculture feels at home</text>')
     box = {"full": "345 232 1222 376", "compact": "345 232 1222 286", "mark": "345 232 607 286"}[kind]
+    if col.get("plate"):
+        x, y, w, h = (int(v) for v in box.split())
+        pad = 46
+        box = f"{x - pad} {y - pad} {w + 2 * pad} {h + 2 * pad}"
+        parts.insert(0, f'<rect fill="{col["plate"]}" x="{x - pad}" y="{y - pad}" width="{w + 2 * pad}" height="{h + 2 * pad}" rx="34"/>')
     aria = 'role="img" aria-label="MIFTAH"' if label else 'aria-hidden="true"'
     return f'<svg class="logo logo--{kind}" viewBox="{box}" {aria}>{"".join(parts)}</svg>'
 
@@ -976,7 +982,7 @@ def render_logo_section():
       <div class="logo-variants">
         <div class="logo-tile logo-tile--plain">{logo_svg("light", "compact")}<span>בלי סלוגן, לרוחב מתחת ל-240 פיקסלים</span></div>
         <div class="logo-tile logo-tile--plain">{logo_svg("light", "mark")}<span>סימן בלבד: אייקון ופביקון</span></div>
-        <div class="logo-tile logo-tile--deep">{logo_svg("dark")}<span>גרסה הפוכה מוצעת, על <bdi dir="ltr">#0E4239</bdi></span></div>
+        <div class="logo-tile logo-tile--deep">{logo_svg("dark")}<span>על רקע כהה: הצבעים המקוריים על לוחית לבנה</span></div>
       </div>
       <h3>צבעי הלוגו</h3>
       <ul class="swatches swatches--logo">{colors}</ul>

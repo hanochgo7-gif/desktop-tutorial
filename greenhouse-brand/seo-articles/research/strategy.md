@@ -104,7 +104,7 @@ Prepared: 21 Oct 2026 · For: the MIFTAH article team · Follows the hard rules 
 > - Every number gets a source link in the text and a "מקורות" list at the end.
 > - Projects appear only as crop + region + structure (as listed in the brief).
 > - Testimonials are verbatim.
-> - The CTA qualifies the reader: "פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו"ל", phone 04-9856969 and WhatsApp.
+> - The CTA qualifies the reader: "פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו"ל", phone 04-9854404 and WhatsApp.
 > - Never claim permits/licensing or ongoing owner reporting. Where permits are relevant, say "ההיתר באחריות היזם; כדאי להתחיל בו מוקדם".
 > - Author box: יפתח הספל, מנכ"ל משותף, הנדסאי בניין (הטכניון).
 > - Each article gets "עודכן לאחרונה" and a "מקורות" section.

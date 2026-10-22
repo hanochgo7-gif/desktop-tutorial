@@ -10,7 +10,7 @@ LOGO_L = (HERE / "logo_light.svg").read_text()
 LOGO_D = (HERE / "logo_dark.svg").read_text()
 AUTHOR = {"name": "יפתח הספל", "role": "מנכ״ל משותף, הנדסאי בניין (טכניון)",
           "bio": "יותר מעשרים שנה של תכנון, ייצור והקמה של בתי רשת ומבנים חקלאיים בגליל ובעולם, כולל פרויקט מורכב בבלארוס. אחראי על מיפוי הצרכים, התכנון ההנדסי ופיקוח הייצור והביצוע."}
-PHONE = "04-9856969"
+PHONE = "04-9854404"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">')
@@ -202,7 +202,7 @@ def cta_block(a):
 <button type="submit">{c.get("btn","קבעו שיחת התאמה")}</button>
 </form>
 <p class="note" role="status"></p>
-<p class="alt">מעדיפים לדבר עכשיו? טלפון ווואטסאפ: <b>{PHONE}</b></p>
+<p class="alt">מעדיפים לדבר עכשיו? טלפון המשרד: <b>{PHONE}</b></p>
 </section>'''
 
 
@@ -220,7 +220,7 @@ def jsonld(a, toc):
                     "worksFor": {"@id": SITE + "/#org"}},
          "publisher": {"@id": SITE + "/#org"}},
         {"@type": "Organization", "@id": SITE + "/#org", "name": "מיפתח פרויקטים", "alternateName": "MIFTAH Projects",
-         "url": SITE, "telephone": "+972-4-9856969", "logo": SITE + "/logo.png",
+         "url": SITE, "telephone": "+972-4-9854404", "logo": SITE + "/logo.png",
          "address": {"@type": "PostalAddress", "addressLocality": "כפר מסריק", "addressCountry": "IL"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "דף הבית", "item": SITE + "/"},

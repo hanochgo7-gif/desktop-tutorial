@@ -172,7 +172,7 @@ Output this on every page, or at least on the homepage, with the article pages r
       },
       "image": "https://www.miftah.co.il/assets/brand/miftah-logo-512.png",
       "description": "מיפתח פרויקטים מתכננת, מייצרת ומקימה בתי רשת ומבנים חקלאיים מקצה לקצה – מהתכנון, דרך הייצור במפעל ועד ההקמה בשטח והתחזוקה – ומקימה ומנהלת חוות בפרויקטי Turnkey בישראל ובעולם.",
-      "telephone": "+972-4-985-6969",
+      "telephone": "+972-4-985-4404",
       "email": "{{EMAIL}}",
       "address": {
         "@type": "PostalAddress",
@@ -226,7 +226,7 @@ Output this on every page, or at least on the homepage, with the article pages r
       "contactPoint": [
         {
           "@type": "ContactPoint",
-          "telephone": "+972-4-985-6969",
+          "telephone": "+972-4-985-4404",
           "contactType": "sales",
           "areaServed": ["IL", "PT", "DE", "150", "002"],
           "availableLanguage": ["he", "en"]
@@ -775,7 +775,7 @@ Targets: **LCP ≤ 2.5 s · INP ≤ 200 ms · CLS ≤ 0.1**. Supporting targets:
 - [ ] `robots.txt`: allow Googlebot, Bingbot, `OAI-SearchBot` and `PerplexityBot` so the articles can be cited in AI search. Blocking training-only crawlers (`GPTBot`, `Google-Extended`, `CCBot`) is a business decision for the owners; blocking `Google-Extended` does not affect Google Search.
 
 ### 7.2 Google Business Profile
-- [ ] Claim or verify the profile for Kfar Masaryk. NAP must be identical to the site footer and schema: "מיפתח פרויקטים", "04-9856969", same address.
+- [ ] Claim or verify the profile for Kfar Masaryk. NAP must be identical to the site footer and schema: "מיפתח פרויקטים", "04-9854404", same address.
 - [ ] Primary category: choose the closest agricultural or construction category offered in the GBP picker (check what's available in Hebrew and English UI, e.g. agricultural service or construction-type categories). Add services: בתי רשת, סככות העמסה, שוברי רוח, פרויקטי Turnkey. Do not list civil shading.
 - [ ] Website link with UTM: `https://www.miftah.co.il/?utm_source=google&utm_medium=organic&utm_campaign=gbp`, so GBP traffic does not mix with organic search in GA4.
 - [ ] If the chat field is available, add the WhatsApp link (`wa.me/972…`). Add phone, business hours, and the area served (Israel, plus international as a description).
@@ -810,7 +810,7 @@ Optionally map the three key events to the GA4 recommended event `generate_lead`
    class="cta cta--wa" data-cta="whatsapp" data-cta-location="inline" rel="noopener">
   לשיחה בוואטסאפ
 </a>
-<a href="tel:+97249856969" class="cta cta--tel" data-cta="phone" data-cta-location="inline">04-9856969</a>
+<a href="tel:+97249854404" class="cta cta--tel" data-cta="phone" data-cta-location="inline">04-9854404</a>
 ```
 `{{URLENCODED_HE_MESSAGE}}` is a prefilled message that carries the article code, e.g. `שלום, קראתי את המאמר על בתי רשת לבננות [A3] ואשמח לשוחח על פרויקט`. Every WhatsApp lead then reveals its source article in the chat itself, which is the only reliable attribution for WhatsApp.
 

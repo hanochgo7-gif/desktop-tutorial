@@ -140,7 +140,7 @@ Use **at most two pull-quotes per article** so they stay weighty. Never edit the
 |---|---|---|---|---|
 | **TOFU** (search or social, learning) | "I'm trying to understand the options" | About 40–50% scroll, inline | **Soft:** lead magnet | Email (or WhatsApp) in exchange for a checklist or worksheet. Form fields: name, email, crop, area range |
 | **MOFU** (comparing, has a plot or budget) | "I need to know if this is feasible for me" | After the comparison table or timeline | **Medium:** "שאלה למהנדס" by WhatsApp | One message in which the reader states crop, area and region |
-| **BOFU** (ready to plan) | "I want a partner" | End of article, after the qualifier box | **Strong:** planning call or site visit | Short qualifying form (below), plus WhatsApp and phone 04-9856969 as alternatives |
+| **BOFU** (ready to plan) | "I want a partner" | End of article, after the qualifier box | **Strong:** planning call or site visit | Short qualifying form (below), plus WhatsApp and phone 04-9854404 as alternatives |
 | **Retargeting** (came back, didn't convert) | "I'm still thinking" | Meta and LinkedIn ads | Lead form with qualifying questions | See section 4 |
 
 Rules:
@@ -206,7 +206,7 @@ Delivery: send the magnet by email and also offer "לקבל בוואטסאפ". F
 
 ### 3E. WhatsApp click-to-chat best practice
 
-1. **Use the wa.me format with an international number and pre-filled text:** `https://wa.me/972XXXXXXXXX?text=<URL-encoded message>`. The number goes in international format without "+", spaces, dashes or the leading 0 ([WhatsApp FAQ](https://whatsapp.com/faq/en/general/26000030)). **[confirm which number is on WhatsApp Business; 04-9856969 is a landline]**
+1. **Use the wa.me format with an international number and pre-filled text:** `https://wa.me/972XXXXXXXXX?text=<URL-encoded message>`. The number goes in international format without "+", spaces, dashes or the leading 0 ([WhatsApp FAQ](https://whatsapp.com/faq/en/general/26000030)). **[confirm which number is on WhatsApp Business; 04-9854404 is a landline]**
 2. **Pre-fill a qualifying template rather than "היי":**
    `שלום, הגעתי מהמדריך על רשתות נגד ברד. הגידול: ___ | אזור/מדינה: ___ | שטח (דונם/הקטאר): ___`
    The reader fills in the blanks, so the first message is already a qualified brief. Vendor guidance consistently recommends contextual pre-filled messages over generic ones ([Kanal](https://getkanal.com/blog/whatsapp-click-to-chat-link), [Hyperleap](https://hyperleap.ai/blog/create-whatsapp-link)). Those are vendor sources, so treat their uplift claims as directional.
@@ -559,7 +559,7 @@ Extra guardrails:
 
 ## 6. Owner confirmations needed before launch
 
-1. Which number is on WhatsApp Business (04-9856969 is a landline).
+1. Which number is on WhatsApp Business (04-9854404 is a landline).
 2. The honesty-box items "לא נותנים מחיר בטלפון לפני שהבנו את הקרקע" and "לא חוסכים על עיגון, כבלים ובדיקות במפעל".
 3. Whether "תשובה מאנשי מקצוע — לא ממוקד מכירות" is accurate in practice.
 4. Whether and how to name the cooperation with Barak / Green Arava publicly.
