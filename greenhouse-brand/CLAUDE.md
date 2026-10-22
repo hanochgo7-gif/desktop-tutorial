@@ -15,3 +15,8 @@
 - Logo: only the original colors `#0E4239`, `#1B6E62`, `#7FC49B`. On dark backgrounds the original logo sits on a white plate; no recolored reverse version.
 - Avoid repeating the same image (especially the one drone net house) within a page or across the four design examples' openings.
 - AI images are labelled "הדמיה".
+
+## Media sources
+- Google Drive (folder from liorhoresh85) holds only two drone videos (`DJI_0001.MP4`, `DJI_0024.MP4`).
+- Real project photos come from the old site's media library (miftah.co.il, 2015 uploads). The usable process series is in `images/process/` with its README (source file per photo and what was excluded).
+- Never use photos with children on site (`w1.jpg`, `world.jpg`), civil shading (discontinued), or stock images.
