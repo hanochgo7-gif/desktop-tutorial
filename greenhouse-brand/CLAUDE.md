@@ -5,6 +5,9 @@
 - **יפתח הספל** (co-CEO) handles the professional/engineering side.
 - Do not build the real website until a design is chosen. Changes go into the design examples only.
 
+## Reporting to the user (Hanoch)
+- Do not report how many Higgsfield credits were used.
+
 ## Facts confirmed by the client
 - Office phone: **04-9854404**. The old number (from the previous office) is not in use anywhere.
 - WhatsApp: Merav's mobile exists but is **not** shown on the site until the owners decide.
