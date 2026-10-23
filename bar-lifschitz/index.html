@@ -218,19 +218,124 @@
   @media (max-width: 960px) { .roads-grid { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 520px) { .roads-grid { grid-template-columns: 1fr 1fr; } }
 
-  /* ---------- הזמנה ---------- */
-  .book { background: var(--linen); padding-block: clamp(64px, 9vw, 120px); }
-  .book-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 96px); }
-  .book h2 { margin-bottom: 18px; }
-  .book .direct { margin-top: 28px; display: grid; gap: 6px; font-weight: 600; }
-  .book .direct a { text-decoration-color: rgba(43,18,25,.35); text-underline-offset: 4px; }
-  .book .direct a:hover { color: var(--beet); }
-  @media (max-width: 860px) { .book-grid { grid-template-columns: 1fr; } }
+  /* ---------- הצעת מחיר ---------- */
+  .quote { background: var(--fig); color: var(--linen); padding-block: clamp(64px, 9vw, 120px); }
+  .quote-head { margin-bottom: clamp(36px, 5vw, 64px); }
+  .quote-head h2 { margin-bottom: 14px; }
+  .quote-head p { color: #d9cfd1; margin: 0; max-width: 32em; }
+  .quote-grid {
+    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 88px); align-items: start;
+  }
+  @media (max-width: 900px) { .quote-grid { grid-template-columns: 1fr; } }
+
+  .q-steps { display: grid; gap: clamp(36px, 5vw, 52px); }
+  .q-step { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .q-step > legend {
+    display: flex; align-items: baseline; gap: 14px; width: 100%;
+    font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 2.6vw, 2rem); line-height: 1.1;
+    padding: 0 0 14px; margin-bottom: 18px;
+    border-bottom: 1px solid rgba(243, 242, 236, .22);
+  }
+  .q-step > legend .n { font-size: 1rem; color: #e7a3ad; font-family: var(--body); font-weight: 700; min-width: 1.2em; }
+
+  /* אריחי בחירה */
+  .tiles { display: grid; gap: 10px; }
+  .tiles.two { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 560px) { .tiles.two { grid-template-columns: 1fr; } }
+  .tile { position: relative; display: block; cursor: pointer; font-weight: 400; font-size: 1.05rem; }
+  .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .tile-body {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; align-items: baseline;
+    padding: 18px 20px;
+    border: 1px solid rgba(243, 242, 236, .25);
+    transition: border-color .2s, background-color .2s;
+  }
+  .tile:hover .tile-body { border-color: rgba(243, 242, 236, .6); }
+  .tile input:checked + .tile-body { border-color: var(--linen); background: rgba(243, 242, 236, .07); box-shadow: inset 0 0 0 1px var(--linen); }
+  .tile input:focus-visible + .tile-body { outline: 2px solid #e7a3ad; outline-offset: 3px; }
+  .tile-name { font-family: var(--display); font-size: 1.45rem; line-height: 1.15; }
+  .tile-price { font-family: var(--display); font-size: 1.25rem; white-space: nowrap; direction: rtl; }
+  .tile-desc { grid-column: 1 / -1; color: #d9cfd1; font-size: .98rem; line-height: 1.5; }
+  .tile-price small { font-family: var(--body); font-size: .85rem; color: #d9cfd1; }
+
+  .tile.check .tile-body { grid-template-columns: auto 1fr auto; }
+  .tile.check .tile-desc { grid-column: 2 / -1; }
+  .box { width: 20px; height: 20px; border: 1.5px solid rgba(243,242,236,.7); align-self: center; position: relative; }
+  .tile input:checked + .tile-body .box { background: var(--linen); border-color: var(--linen); }
+  .tile input:checked + .tile-body .box::after {
+    content: ""; position: absolute; inset: 3px 6px 6px; border: solid var(--fig); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+
+  /* מונה אורחים */
+  .guests { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .stepper { display: inline-flex; align-items: center; border: 1px solid rgba(243,242,236,.35); }
+  .stepper button {
+    width: 56px; height: 64px; border: 0; background: transparent; color: var(--linen);
+    font: 400 1.8rem/1 var(--display); cursor: pointer;
+  }
+  .stepper button:hover:not(:disabled) { background: rgba(243,242,236,.08); }
+  .stepper button:disabled { opacity: .3; cursor: default; }
+  .stepper output {
+    min-width: 92px; text-align: center; font: 400 3rem/1 var(--display);
+    border-inline: 1px solid rgba(243,242,236,.35); padding: 6px 0 2px;
+  }
+  .guests-note { color: #d9cfd1; font-size: .98rem; margin: 0; max-width: 22em; }
+
+  .quote .field label { color: var(--linen); }
+  .quote input[type="text"], .quote select, .quote textarea {
+    color: var(--linen); border-bottom-color: rgba(243,242,236,.55);
+  }
+  .quote input::placeholder, .quote textarea::placeholder { color: rgba(243,242,236,.45); }
+  .quote select { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23f3f2ec' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat 6px 50%; }
+  .quote select option { color: var(--fig); }
+  .quote input:focus, .quote select:focus, .quote textarea:focus { border-bottom-color: #e7a3ad; box-shadow: 0 1.5px 0 #e7a3ad; }
+  .q-fields { display: grid; gap: 22px; }
+
+  /* החשבון: כרטיס מודפס כמו התפריט */
+  .receipt-wrap { position: sticky; top: 24px; }
+  @media (max-width: 900px) { .receipt-wrap { position: static; } }
+  .receipt {
+    position: relative; background: var(--linen); color: var(--fig);
+    padding: clamp(32px, 4vw, 48px) clamp(24px, 3.4vw, 40px);
+    box-shadow: 0 40px 70px -40px rgba(0,0,0,.6);
+  }
+  .receipt::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(43,18,25,.35); pointer-events: none; }
+  .receipt h3 { font-size: clamp(2rem, 3.4vw, 2.5rem); text-align: center; }
+  .receipt .r-sub { text-align: center; color: var(--olive); font-size: .98rem; margin: 8px auto 26px; }
+  .r-lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .r-lines li { display: flex; align-items: baseline; gap: 10px; font-size: 1rem; line-height: 1.4; }
+  .r-lines .lbl { flex: 0 1 auto; }
+  .r-lines .lbl small { display: block; color: var(--olive); font-size: .88rem; }
+  .r-lines .dots { flex: 1 1 24px; border-bottom: 1px dotted rgba(43,18,25,.45); transform: translateY(-4px); min-width: 24px; }
+  .r-lines .amt { font-family: var(--display); font-size: 1.25rem; white-space: nowrap; }
+  .r-total {
+    margin-top: 24px; padding-top: 20px; border-top: 1.5px solid var(--fig);
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  }
+  .r-total .lbl { font-weight: 700; }
+  .r-total .amt { font-family: var(--display); font-size: clamp(2.6rem, 4.4vw, 3.4rem); line-height: 1; }
+  .r-pp { text-align: left; color: var(--olive); font-size: .98rem; margin: 6px 0 0; max-width: none; }
+  .r-note { font-size: .9rem; color: var(--smoke); margin: 22px 0 18px; max-width: none; }
+  .receipt .btn { width: 100%; }
+  .receipt .error { margin-top: 12px; }
+  .r-direct { margin: 14px 0 0; font-size: .95rem; text-align: center; max-width: none; }
+  .r-direct a { text-underline-offset: 4px; }
+
+  /* פס סיכום צף בטלפון */
+  .q-bar {
+    position: sticky; bottom: 0; z-index: 5;
+    display: none; align-items: center; justify-content: space-between; gap: 12px;
+    margin: 28px calc(var(--gutter) * -1) 0; padding: 12px var(--gutter);
+    background: rgba(43,18,25,.96); border-top: 1px solid rgba(243,242,236,.2);
+    backdrop-filter: blur(6px);
+  }
+  .q-bar .amt { font-family: var(--display); font-size: 1.9rem; line-height: 1; }
+  .q-bar .btn { min-height: 46px; padding: 0 22px; background: var(--linen); color: var(--fig); border-color: var(--linen); }
+  @media (max-width: 900px) { .q-bar.on { display: flex; } }
 
   form { display: grid; gap: 22px; }
   .field { display: grid; gap: 8px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
   label, legend { font-weight: 700; font-size: 1rem; }
   input, select, textarea {
     font: 400 1.05rem/1.4 var(--body); color: var(--fig);
@@ -242,15 +347,6 @@
   textarea { resize: vertical; min-height: 96px; }
   input:focus, select:focus, textarea:focus { outline: none; border-bottom-color: var(--beet); box-shadow: 0 1.5px 0 var(--beet); }
   fieldset { border: 0; margin: 0; padding: 0; }
-  .choices { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-  .choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-  .choice span {
-    display: inline-flex; align-items: center; min-height: 46px; padding: 0 20px;
-    border: 1.5px solid var(--fig); border-radius: 999px; cursor: pointer; font-weight: 600;
-  }
-  .choice input:checked + span { background: var(--fig); color: var(--linen); }
-  .choice input:focus-visible + span { outline: 2px solid var(--beet); outline-offset: 3px; }
-  .form-note { font-size: .95rem; color: var(--smoke); margin: 0; }
   .error { color: var(--beet); font-weight: 600; font-size: .95rem; min-height: 1.4em; margin: 0; }
 
   /* ---------- תחתית ---------- */
@@ -265,7 +361,7 @@
 </style>
 </head>
 <body>
-<a class="skip" href="#book">דילוג להזמנת מקום</a>
+<a class="skip" href="#book">דילוג להצעת מחיר</a>
 
 <main>
   <section class="hero" aria-labelledby="hero-title">
@@ -276,14 +372,14 @@
         <a href="#evening">איך נראה ערב</a>
         <a href="#menu">תפריט</a>
         <a href="#formats">בחצר או אצלכם</a>
-        <a class="book-link" href="#book">הזמנת מקום</a>
+        <a class="book-link" href="#book">הצעת מחיר</a>
       </nav>
     </header>
     <div class="wrap hero-body">
       <h1 class="hero-name" id="hero-title">בר ליפשיץ</h1>
       <p class="hero-lede">מבשל ומארח. כל סוף שבוע אני עורך שולחן אחד ארוך כאן, בחצר שלי במצפה מתת, עם אש, יין ותפריט שנכתב מחדש לפי מה שהגיע מהשוק. אפשר גם להזמין אותי אליכם.</p>
       <div class="hero-actions">
-        <a class="btn" href="#book">הזמנת מקום לסוף השבוע</a>
+        <a class="btn" href="#book">הצעת מחיר לערב שלכם</a>
         <a class="btn ghost" href="#menu">לתפריט לדוגמה</a>
       </div>
     </div>
@@ -392,7 +488,7 @@
             <li>שולחן אחד לקבוצה קטנה</li>
             <li>אפשר לסגור את כל השולחן לקבוצה שלכם</li>
           </ul>
-          <a class="btn" href="#book" data-format="yard">הזמנת מקום בחצר</a>
+          <a class="btn" href="#book" data-format="yard">הצעת מחיר לערב בחצר</a>
         </div>
       </div>
       <div class="format">
@@ -405,7 +501,7 @@
             <li>תפריט שנבנה יחד איתכם</li>
             <li>אפשר להוסיף התאמת יינות לכל מנה</li>
           </ul>
-          <a class="btn ghost" href="#book" data-format="home">תיאום ארוחה אצלכם</a>
+          <a class="btn ghost" href="#book" data-format="home">הצעת מחיר לארוחה אצלכם</a>
         </div>
       </div>
     </div>
@@ -426,59 +522,105 @@
     </div>
   </section>
 
-  <section class="book" id="book" aria-labelledby="book-title">
-    <div class="wrap book-grid">
-      <div>
-        <h2 id="book-title">הזמנת מקום</h2>
-        <p>ממלאים את הפרטים, והם נפתחים אצלכם כהודעת וואטסאפ מוכנה אליי. אני חוזר עם זמינות, מחיר ופרטי הגעה.</p>
-        <p>המקומות לכל סוף שבוע מוגבלים, אז כדאי לכתוב כמה ימים מראש.</p>
-        <div class="direct">
-          <a id="wa-direct" href="https://wa.me/" target="_blank" rel="noopener" hidden>כתיבה ישירה בוואטסאפ</a>
-          <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">הודעה באינסטגרם ‎@barlif</a>
-        </div>
+  <section class="quote" id="book" aria-labelledby="book-title">
+    <div class="wrap">
+      <div class="quote-head">
+        <h2 id="book-title">הצעת מחיר לערב שלכם</h2>
+        <p>בוחרים איפה, כמה אורחים ואיזה תפריט, והמחיר מתעדכן תוך כדי. בסוף שולחים לי את הבקשה בוואטסאפ, ואני חוזר עם זמינות ותפריט מדויק.</p>
       </div>
 
-      <form id="booking" novalidate>
-        <fieldset>
-          <legend>איפה</legend>
-          <div class="choices">
-            <label class="choice"><input type="radio" name="format" value="yard" checked><span>בחצר במצפה מתת</span></label>
-            <label class="choice"><input type="radio" name="format" value="home"><span>אצלי בבית</span></label>
+      <form id="quote" class="quote-grid" novalidate>
+        <div class="q-steps">
+          <fieldset class="q-step">
+            <legend><span class="n">1</span>איפה</legend>
+            <div class="tiles two">
+              <label class="tile">
+                <input type="radio" name="format" value="yard" checked>
+                <span class="tile-body">
+                  <span class="tile-name">בחצר במצפה מתת</span>
+                  <span class="tile-desc">שולחן אחד ארוך בחצר שלי, בשישי או בשבת בערב.</span>
+                </span>
+              </label>
+              <label class="tile">
+                <input type="radio" name="format" value="home">
+                <span class="tile-body">
+                  <span class="tile-name">אצלכם בבית</span>
+                  <span class="tile-desc">אני מגיע עם חומרי הגלם, הציוד והאש.</span>
+                </span>
+              </label>
+            </div>
+            <div class="field" id="region-field" hidden style="margin-top: 22px;">
+              <label for="region">איפה הבית</label>
+              <select id="region" name="region"></select>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-step">
+            <legend><span class="n">2</span>כמה אורחים</legend>
+            <div class="guests">
+              <div class="stepper">
+                <button type="button" id="g-plus" aria-label="אורח נוסף">+</button>
+                <output id="g-count" aria-live="polite">8</output>
+                <button type="button" id="g-minus" aria-label="אורח אחד פחות">−</button>
+              </div>
+              <p class="guests-note" id="g-note"></p>
+            </div>
+          </fieldset>
+
+          <fieldset class="q-step">
+            <legend><span class="n">3</span>התפריט</legend>
+            <div class="tiles" id="tiers"></div>
+          </fieldset>
+
+          <fieldset class="q-step">
+            <legend><span class="n">4</span>תוספות</legend>
+            <div class="tiles" id="addons"></div>
+          </fieldset>
+
+          <fieldset class="q-step">
+            <legend><span class="n">5</span>מתי ולמי</legend>
+            <div class="q-fields">
+              <div class="field">
+                <label for="date">תאריך</label>
+                <select id="date" name="date"></select>
+              </div>
+              <div class="field">
+                <label for="name">שם</label>
+                <input id="name" name="guestname" type="text" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="notes">אלרגיות, העדפות או אירוע מיוחד</label>
+                <textarea id="notes" name="notes" placeholder="למשל: אחד מאיתנו צמחוני, וזה יום הולדת 40"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="q-bar" id="q-bar">
+            <div>
+              <div class="amt" id="bar-total">₪0</div>
+            </div>
+            <a class="btn" href="#receipt">לסיכום ההצעה</a>
           </div>
-        </fieldset>
+        </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="date">מתי</label>
-            <select id="date" name="date"></select>
+        <div class="receipt-wrap">
+          <div class="receipt" id="receipt">
+            <h3>הצעת מחיר</h3>
+            <p class="r-sub" id="r-sub"></p>
+            <ul class="r-lines" id="r-lines"></ul>
+            <div class="r-total">
+              <span class="lbl">סה״כ משוער</span>
+              <span class="amt" id="r-total" aria-live="polite">₪0</span>
+            </div>
+            <p class="r-pp" id="r-pp"></p>
+            <p class="r-note">זו הערכה ראשונית. המחיר הסופי נקבע אחרי שיחה קצרה, לפי התפריט והתאריך.</p>
+            <button class="btn" type="submit">שליחת ההצעה בוואטסאפ</button>
+            <p class="error" id="form-error" role="alert"></p>
+            <p class="r-direct" id="r-direct">אפשר גם לכתוב לי באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
           </div>
-          <div class="field">
-            <label for="guests">כמה סועדים</label>
-            <input id="guests" name="guests" type="number" inputmode="numeric" min="1" max="40" value="2">
-          </div>
         </div>
-
-        <div class="field">
-          <label for="name">שם</label>
-          <input id="name" name="guestname" type="text" autocomplete="name">
-        </div>
-
-        <div class="field" id="place-field" hidden>
-          <label for="place">איפה הבית (עיר או יישוב)</label>
-          <input id="place" name="place" type="text" autocomplete="address-level2">
-        </div>
-
-        <div class="field">
-          <label for="notes">אלרגיות, העדפות או אירוע מיוחד</label>
-          <textarea id="notes" name="notes" placeholder="למשל: אחד מאיתנו צמחוני, וזה יום הולדת 40"></textarea>
-        </div>
-
-        <p class="error" id="form-error" role="alert"></p>
-        <div>
-          <button class="btn" type="submit">שליחת הבקשה בוואטסאפ</button>
-        </div>
-        <p class="form-note">ההודעה לא נשלחת אוטומטית. תראו אותה בוואטסאפ לפני השליחה.</p>
       </form>
+      <noscript><p>כדי לקבל הצעת מחיר, כתבו לי באינסטגרם ‎@barlif.</p></noscript>
     </div>
   </section>
 </main>
@@ -489,7 +631,7 @@
     <span>מבשל ומארח, במצפה מתת או אצלכם</span>
     <nav aria-label="קישורים">
       <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">אינסטגרם</a>
-      <a href="#book">הזמנת מקום</a>
+      <a href="#book">הצעת מחיר</a>
     </nav>
   </div>
 </footer>
@@ -499,75 +641,233 @@
   // כל עוד ריק, ההודעה נפתחת בוואטסאפ ומבקשת לבחור איש קשר.
   const WHATSAPP_NUMBER = '';
 
+  // כל המחירים במחשבון. אלה מחירים לדוגמה עד שבר יאשר את המחירים האמיתיים.
+  const PRICING = {
+    tiers: [
+      { id: 'chef', name: 'ערב שף', courses: '5 מנות', desc: 'פתיחה ליד האש, שלוש מנות לשולחן וקינוח.', pp: 380 },
+      { id: 'signature', name: 'ערב חתימה', courses: '7 מנות', desc: 'המנות שמזוהות איתי, כולל סשימי האמצ\'י ונתח מהאש.', pp: 480 },
+      { id: 'table', name: 'שולחן השף', courses: '9 מנות', desc: 'תפריט טעימות מלא שנבנה במיוחד בשבילכם.', pp: 640 },
+    ],
+    addons: [
+      { id: 'wine', name: 'התאמת יינות', desc: 'יין מיקבים קטנים לכל מנה.', pp: 140 },
+      { id: 'aperitif', name: 'קבלת פנים ליד האש', desc: 'קוקטייל ונשנושים לפני שמתיישבים.', pp: 55 },
+      { id: 'premium', name: 'מנת פרימיום', desc: 'נתח מיושן או דג יומי מיוחד, כמנה נוספת.', pp: 95 },
+      { id: 'flowers', name: 'פרחים ועיצוב שולחן', desc: 'פרחי עונה, מפות ותאורה.', flat: 450 },
+      { id: 'cake', name: 'קינוח חגיגי', desc: 'ליום הולדת או לאירוע, עם הקדשה.', flat: 280 },
+    ],
+    yard: { min: 2, max: 20, start: 4, privateMin: 12 },
+    home: {
+      min: 8, max: 40, start: 10, minCharge: 10,
+      staffPer: 12, staffFee: 550,
+      regions: [
+        { id: 'north', name: 'הגליל והגולן', fee: 0 },
+        { id: 'haifa', name: 'חיפה והקריות', fee: 300 },
+        { id: 'center', name: 'השרון והמרכז', fee: 750 },
+        { id: 'south', name: 'ירושלים והדרום', fee: 1100 },
+      ],
+    },
+  };
+
   const waBase = 'https://wa.me/' + WHATSAPP_NUMBER;
-  // הקישור הישיר מוצג רק כשיש מספר. בלי מספר, הטופס עדיין פותח וואטסאפ עם ההודעה מוכנה.
-  if (WHATSAPP_NUMBER) {
-    const direct = document.getElementById('wa-direct');
-    direct.href = waBase;
-    direct.hidden = false;
+  const $ = id => document.getElementById(id);
+  const form = $('quote');
+  const nis = n => '₪' + Math.round(n).toLocaleString('he-IL');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const state = { format: 'yard', guests: PRICING.yard.start, tier: 'signature', addons: new Set(), region: 'north' };
+
+  // ---------- בניית הבחירות מתוך המחירון ----------
+  function tile({ type, name, value, title, desc, price, checked }) {
+    const label = document.createElement('label');
+    label.className = 'tile' + (type === 'checkbox' ? ' check' : '');
+    label.innerHTML = `
+      <input type="${type}" name="${name}" value="${value}" ${checked ? 'checked' : ''}>
+      <span class="tile-body">
+        ${type === 'checkbox' ? '<span class="box" aria-hidden="true"></span>' : ''}
+        <span class="tile-name"></span>
+        <span class="tile-price"></span>
+        <span class="tile-desc"></span>
+      </span>`;
+    label.querySelector('.tile-name').textContent = title;
+    label.querySelector('.tile-price').innerHTML = price;
+    label.querySelector('.tile-desc').textContent = desc;
+    return label;
   }
 
-  const form = document.getElementById('booking');
-  const dateSelect = document.getElementById('date');
-  const placeField = document.getElementById('place-field');
-  const errorEl = document.getElementById('form-error');
-  const dayNames = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+  PRICING.tiers.forEach(t => $('tiers').append(tile({
+    type: 'radio', name: 'tier', value: t.id, title: t.name,
+    desc: `${t.courses}. ${t.desc}`, price: `${nis(t.pp)} <small>לאורח</small>`, checked: t.id === state.tier,
+  })));
+
+  function renderAddons() {
+    const box = $('addons');
+    box.innerHTML = '';
+    const list = [...PRICING.addons];
+    if (state.format === 'yard') {
+      list.unshift({ id: 'private', name: 'השולחן כולו שלכם', desc: `סוגרים את הערב לקבוצה שלכם בלבד. מינימום חיוב ל־${PRICING.yard.privateMin} אורחים.`, private: true });
+    } else {
+      state.addons.delete('private');
+    }
+    list.forEach(a => box.append(tile({
+      type: 'checkbox', name: 'addon', value: a.id, title: a.name, desc: a.desc,
+      price: a.private ? '<small>לפי מינימום</small>' : a.pp ? `${nis(a.pp)} <small>לאורח</small>` : nis(a.flat),
+      checked: state.addons.has(a.id),
+    })));
+  }
+
+  PRICING.home.regions.forEach(r => $('region').add(new Option(r.fee ? `${r.name} (הגעה ${nis(r.fee)})` : `${r.name} (ללא תוספת הגעה)`, r.id)));
 
   // שישי ושבת בשמונת השבועות הקרובים
   (function fillWeekends() {
+    const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
     const d = new Date();
     d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + 1); // מתחילים ממחר
     let added = 0;
     while (added < 16) {
-      const day = d.getDay();
-      if (day === 5 || day === 6) {
-        const label = `${dayNames[day]} ${d.getDate()}.${d.getMonth() + 1}`;
-        dateSelect.add(new Option(label, label));
+      if (d.getDay() === 5 || d.getDay() === 6) {
+        const label = `${days[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}`;
+        $('date').add(new Option(label, label));
         added++;
       }
       d.setDate(d.getDate() + 1);
     }
-    dateSelect.add(new Option('תאריך אחר, נתאם', 'תאריך אחר, נתאם'));
+    $('date').add(new Option('תאריך אחר, נתאם', 'תאריך אחר, נתאם'));
   })();
 
-  function syncFormat() {
-    const home = form.format.value === 'home';
-    placeField.hidden = !home;
+  // ---------- החישוב ----------
+  function compute() {
+    const cfg = PRICING[state.format];
+    const n = state.guests;
+    const tier = PRICING.tiers.find(t => t.id === state.tier);
+    const lines = [];
+    const notes = [];
+
+    let billed = n;
+    if (state.format === 'home' && n < cfg.minCharge) { billed = cfg.minCharge; notes.push(`מינימום חיוב ל־${cfg.minCharge} אורחים`); }
+    if (state.format === 'yard' && state.addons.has('private') && n < cfg.privateMin) { billed = cfg.privateMin; notes.push(`השולחן כולו שלכם, לפי מינימום ${cfg.privateMin}`); }
+
+    lines.push({ label: `${tier.name}, ${tier.courses}`, detail: `${billed} × ${nis(tier.pp)}`, amount: billed * tier.pp });
+
+    PRICING.addons.forEach(a => {
+      if (!state.addons.has(a.id)) return;
+      if (a.pp) lines.push({ label: a.name, detail: `${n} × ${nis(a.pp)}`, amount: n * a.pp });
+      else lines.push({ label: a.name, amount: a.flat });
+    });
+
+    if (state.format === 'home') {
+      const region = cfg.regions.find(r => r.id === state.region);
+      if (region.fee) lines.push({ label: 'הגעה וציוד', detail: region.name, amount: region.fee });
+      const staff = Math.ceil(n / cfg.staffPer);
+      lines.push({ label: 'צוות הגשה', detail: staff === 1 ? 'מלצר אחד' : `${staff} מלצרים`, amount: staff * cfg.staffFee });
+    }
+
+    const total = lines.reduce((s, l) => s + l.amount, 0);
+    return { lines, notes, total, perGuest: total / n, tier, n };
   }
-  form.addEventListener('change', e => { if (e.target.name === 'format') syncFormat(); });
+
+  // ---------- תצוגה ----------
+  let shownTotal = 0, anim;
+  function animateTotal(to) {
+    cancelAnimationFrame(anim);
+    if (reduceMotion) { shownTotal = to; paintTotal(); return; }
+    const from = shownTotal, t0 = performance.now(), dur = 450;
+    const step = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      shownTotal = from + (to - from) * (1 - Math.pow(1 - p, 3));
+      paintTotal();
+      if (p < 1) anim = requestAnimationFrame(step);
+    };
+    anim = requestAnimationFrame(step);
+  }
+  function paintTotal() { $('r-total').textContent = nis(shownTotal); $('bar-total').textContent = nis(shownTotal); }
+
+  function render() {
+    const cfg = PRICING[state.format];
+    state.guests = Math.min(cfg.max, Math.max(cfg.min, state.guests));
+    $('g-count').textContent = state.guests;
+    $('g-minus').disabled = state.guests <= cfg.min;
+    $('g-plus').disabled = state.guests >= cfg.max;
+    $('g-note').textContent = state.format === 'yard'
+      ? `בחצר: ${cfg.min} עד ${cfg.max} אורחים בשולחן.`
+      : `אצלכם: ${cfg.min} עד ${cfg.max} אורחים. מינימום חיוב ל־${cfg.minCharge}.`;
+    $('region-field').hidden = state.format !== 'home';
+
+    const q = compute();
+    $('r-sub').textContent = `${state.format === 'yard' ? 'בחצר במצפה מתת' : 'אצלכם בבית'}, ${q.n} אורחים`;
+    const ul = $('r-lines');
+    ul.innerHTML = '';
+    q.lines.forEach(l => {
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="lbl"></span><span class="dots" aria-hidden="true"></span><span class="amt"></span>';
+      li.querySelector('.lbl').textContent = l.label;
+      if (l.detail) { const s = document.createElement('small'); s.textContent = l.detail; li.querySelector('.lbl').append(s); }
+      li.querySelector('.amt').textContent = nis(l.amount);
+      ul.append(li);
+    });
+    $('r-pp').textContent = `כ־${nis(q.perGuest)} לאורח` + (q.notes.length ? `. ${q.notes.join('. ')}.` : '');
+    animateTotal(q.total);
+  }
+
+  // ---------- אירועים ----------
+  form.addEventListener('change', e => {
+    const t = e.target;
+    if (t.name === 'format') {
+      state.format = t.value;
+      state.guests = PRICING[state.format].start;
+      renderAddons();
+    }
+    if (t.name === 'tier') state.tier = t.value;
+    if (t.name === 'addon') t.checked ? state.addons.add(t.value) : state.addons.delete(t.value);
+    if (t.name === 'region') state.region = t.value;
+    render();
+  });
+  $('g-plus').addEventListener('click', () => { state.guests++; render(); });
+  $('g-minus').addEventListener('click', () => { state.guests--; render(); });
 
   // הכפתורים בקטע "בחצר או אצלכם" בוחרים מראש את סוג הארוחה
-  document.querySelectorAll('[data-format]').forEach(a => {
-    a.addEventListener('click', () => {
-      form.querySelector(`input[name="format"][value="${a.dataset.format}"]`).checked = true;
-      syncFormat();
-    });
-  });
+  document.querySelectorAll('[data-format]').forEach(a => a.addEventListener('click', () => {
+    const input = form.querySelector(`input[name="format"][value="${a.dataset.format}"]`);
+    if (!input.checked) { input.checked = true; input.dispatchEvent(new Event('change', { bubbles: true })); }
+  }));
+
+  // פס הסיכום בטלפון מופיע רק כשהחשבון עצמו לא נראה על המסך
+  if ('IntersectionObserver' in window) {
+    let inQuote = false, receiptVisible = false;
+    const sync = () => $('q-bar').classList.toggle('on', inQuote && !receiptVisible);
+    new IntersectionObserver(([e]) => { inQuote = e.isIntersecting; sync(); }).observe(document.querySelector('.q-steps'));
+    new IntersectionObserver(([e]) => { receiptVisible = e.isIntersecting; sync(); }, { threshold: 0.15 }).observe($('receipt'));
+  }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
     const name = form.elements.guestname.value.trim();
-    const guests = parseInt(form.guests.value, 10);
-    const home = form.format.value === 'home';
+    if (!name) { $('form-error').textContent = 'כתבו שם, כדי שאדע למי אני חוזר.'; form.elements.guestname.focus(); return; }
+    $('form-error').textContent = '';
 
-    if (!name) { errorEl.textContent = 'כתבו שם, כדי שאדע למי אני חוזר.'; form.elements.guestname.focus(); return; }
-    if (!guests || guests < 1) { errorEl.textContent = 'כתבו כמה סועדים תהיו, לפחות 1.'; form.guests.focus(); return; }
-    if (home && !form.place.value.trim()) { errorEl.textContent = 'כתבו באיזו עיר או יישוב הבית, כדי שאדע אם אני מגיע.'; form.place.focus(); return; }
-    errorEl.textContent = '';
-
-    const lines = [
+    const q = compute();
+    const msg = [
       `היי בר, זה ${name}.`,
-      home
-        ? `אשמח לתאם ארוחת שף אצלי בבית, ב${form.place.value.trim()}.`
-        : 'אשמח לשריין מקום לארוחה בחצר במצפה מתת.',
-      `מתי: ${dateSelect.value}`,
-      `כמה סועדים: ${guests}`,
+      state.format === 'yard' ? 'אשמח להצעה לערב בחצר במצפה מתת.' : `אשמח להצעה לארוחת שף אצלי בבית (${PRICING.home.regions.find(r => r.id === state.region).name}).`,
+      `מתי: ${$('date').value}`,
+      `כמה אורחים: ${q.n}`,
+      '',
+      ...q.lines.map(l => `• ${l.label}${l.detail ? ` (${l.detail})` : ''}: ${nis(l.amount)}`),
+      `סה״כ משוער: ${nis(q.total)}`,
     ];
-    const notes = form.notes.value.trim();
-    if (notes) lines.push(`חשוב לדעת: ${notes}`);
-
-    window.open(`${waBase}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    const notes = form.elements.notes.value.trim();
+    if (notes) msg.push('', `חשוב לדעת: ${notes}`);
+    window.open(`${waBase}?text=${encodeURIComponent(msg.join('\n'))}`, '_blank', 'noopener');
   });
+
+  if (WHATSAPP_NUMBER) {
+    const a = document.createElement('a');
+    a.href = waBase; a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'או לכתוב לי ישירות בוואטסאפ';
+    $('r-direct').replaceChildren(a);
+  }
+
+  renderAddons();
+  render();
 </script>
 </body>
 </html>
