@@ -10,14 +10,15 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:url" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/">
-<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/yard.jpg">
-<meta property="og:image:width" content="488">
-<meta property="og:image:height" content="695">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/yard-wide.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1340">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/">
 <meta name="theme-color" content="#1e0d12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1219'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f3f2ec' font-family='serif'%3Eב%3C/text%3E%3C/svg%3E">
-<link rel="preload" as="image" href="images/yard.jpg">
+<link rel="preload" as="image" href="images/yard-wide.jpg" media="(min-aspect-ratio: 4/5)">
+<link rel="preload" as="image" href="images/yard.jpg" media="(max-aspect-ratio: 4/5)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
@@ -171,7 +172,10 @@
     color: var(--linen);
   }
   .hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
-  .hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; transform-origin: 50% 60%; will-change: transform; }
+  .hero-media picture, .hero-media img, .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-media img, .hero-video { object-fit: cover; object-position: 50% 62%; transform-origin: 50% 60%; will-change: transform; }
+  .hero-video { opacity: 0; transition: opacity 1.4s var(--ease); }
+  .hero-video.ready { opacity: 1; }
   .hero::after {
     content: ""; position: absolute; inset: 0; z-index: -1;
     background:
@@ -498,7 +502,12 @@
 <main id="top">
   <section class="hero" data-theme="night" aria-labelledby="hero-title">
     <div class="hero-media">
-      <img src="images/yard.jpg" width="488" height="695" alt="החצר של בר במצפה מתת: שולחן עץ ארוך ערוך עם פרחים, בצל עץ">
+      <picture>
+        <source media="(min-aspect-ratio: 4/5)" srcset="images/yard-wide.jpg">
+        <img src="images/yard.jpg" width="1200" height="1701" alt="החצר של בר במצפה מתת: שולחן עץ ארוך ערוך עם פרחים, בצל עץ">
+      </picture>
+      <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true"
+        data-wide="media/yard-wide" data-tall="media/yard-tall"></video>
     </div>
     <div class="wrap hero-body">
       <h1 class="hero-name" id="hero-title" data-chars>בר ליפשיץ</h1>
@@ -531,14 +540,14 @@
         <p class="signature">בר</p>
       </div>
       <figure class="about-media" data-reveal>
-        <img src="images/chef-plating.jpg" width="488" height="695" loading="lazy" alt="בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר">
+        <img src="images/chef-plating.jpg" width="1200" height="1701" loading="lazy" alt="בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר">
       </figure>
     </div>
   </section>
 
   <section class="menu-section" id="menu" data-theme="day" aria-labelledby="menu-title">
     <div class="menu-stage">
-      <figure class="menu-flank high"><img src="images/carpaccio.jpg" width="488" height="695" loading="lazy" alt="צלחות חרסינה עם פרושוטו וסטרצ'טלה" data-speed="8"></figure>
+      <figure class="menu-flank high"><img src="images/carpaccio.jpg" width="1200" height="1701" loading="lazy" alt="צלחות חרסינה עם פרושוטו וסטרצ'טלה" data-speed="8"></figure>
       <div class="menu-card" data-rise>
         <h2 class="menu-head" id="menu-title">תפריט לדוגמה</h2>
         <p class="menu-when">התפריט נכתב מחדש כל שבוע, לפי העונה ומה שהגיע מהשוק</p>
@@ -550,7 +559,7 @@
         <div class="course"><p class="dish">שוקולד מריר</p><p class="notes">שמן זית, מלח אטלנטי, שמנת חמוצה</p></div>
         <p class="fine">יין מיקבים קטנים לאורך הערב. צמחונים, אלרגיות והעדפות? כתבו לי כשאתם מזמינים, ואני אבנה את המנות בהתאם.</p>
       </div>
-      <figure class="menu-flank low"><img src="images/chef-pan.jpg" width="488" height="695" loading="lazy" alt="בר מבשל במחבת ומגיש לצלחות כחולות-לבנות" data-speed="-8"></figure>
+      <figure class="menu-flank low"><img src="images/chef-pan.jpg" width="1200" height="1701" loading="lazy" alt="בר מבשל במחבת ומגיש לצלחות כחולות-לבנות" data-speed="-8"></figure>
     </div>
   </section>
 
@@ -560,7 +569,7 @@
     </div>
     <div class="formats-grid">
       <div class="format">
-        <figure class="format-media" data-reveal><img src="images/table-set.jpg" width="488" height="475" loading="lazy" alt="שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין"></figure>
+        <figure class="format-media" data-reveal><img src="images/table-set.jpg" width="1200" height="1161" loading="lazy" alt="שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין"></figure>
         <div class="format-text">
           <h3>בחצר שלי, במצפה מתת</h3>
           <p>ארוחה פתוחה בכל סוף שבוע. מזמינים מקום לבד, בזוג או עם חברים, ויושבים לשולחן אחד עם שאר האורחים.</p>
@@ -573,7 +582,7 @@
         </div>
       </div>
       <div class="format">
-        <figure class="format-media" data-reveal><img src="images/lunch.jpg" width="488" height="695" loading="lazy" alt="שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים"></figure>
+        <figure class="format-media" data-reveal><img src="images/lunch.jpg" width="1200" height="1701" loading="lazy" alt="שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים"></figure>
         <div class="format-text">
           <h3>אצלכם בבית</h3>
           <p>אני מגיע עם חומרי הגלם, הציוד והאש, מבשל בחצר או במטבח שלכם, מגיש, ומשאיר את המקום נקי.</p>
@@ -620,9 +629,9 @@
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
-        <img class="on" src="images/glasses.jpg" width="488" height="695" alt="" loading="lazy">
-        <img src="images/vineyard-guests.jpg" width="488" height="695" alt="" loading="lazy">
-        <img src="images/sunset-plating.jpg" width="488" height="565" alt="" loading="lazy">
+        <img class="on" src="images/glasses.jpg" width="1200" height="1701" alt="" loading="lazy">
+        <img src="images/vineyard-guests.jpg" width="1200" height="1701" alt="" loading="lazy">
+        <img src="images/sunset-plating.jpg" width="1200" height="1387" alt="" loading="lazy">
         <img src="images/fire.jpg" width="300" height="335" alt="" loading="lazy">
         <div class="ev-clock" id="ev-clock">19:30</div>
       </div>
@@ -636,9 +645,9 @@
         <p>עוד מהבישול שלי, בחצר ובדרכים, באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
       </div>
       <div class="roads-track" tabindex="0" aria-label="גלריית תמונות">
-        <figure><img src="images/crudo-line.jpg" width="488" height="695" alt="שורת צלחות של סשימי האמצ'י בקונסומה דובדבנים"></figure>
-        <figure><img src="images/vineyard.jpg" width="488" height="695" alt="שולחן ארוך במפה לבנה בין שורות גפנים, תחת שמשיות"></figure>
-        <figure><img src="images/burrata.jpg" width="488" height="695" alt="קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית"></figure>
+        <figure><img src="images/crudo-line.jpg" width="1200" height="1701" alt="שורת צלחות של סשימי האמצ'י בקונסומה דובדבנים"></figure>
+        <figure><img src="images/vineyard.jpg" width="1200" height="1701" alt="שולחן ארוך במפה לבנה בין שורות גפנים, תחת שמשיות"></figure>
+        <figure><img src="images/burrata.jpg" width="1200" height="1701" alt="קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית"></figure>
         <figure><img src="images/pasta.jpg" width="300" height="335" alt="בר אוכל צלחת פסטה על חוף בניו זילנד"></figure>
         <figure><img src="images/field-cook.jpg" width="301" height="337" alt="בר יושב על בול עץ בשדה ירוק ומכין בצק ליד כיריים ניידות"></figure>
       </div>
@@ -1009,6 +1018,16 @@
     const menuBtn = document.getElementById('menu-btn');
     let lenis = null;
 
+    // --- וידאו רקע של החצר: נטען רק כשאין בקשה לפחות תנועה, ומחליף את התמונה כשהוא מוכן ---
+    const vid = document.querySelector('.hero-video');
+    if (vid && !calm && !(navigator.connection && navigator.connection.saveData)) {
+      const wide = window.matchMedia('(min-aspect-ratio: 4/5)').matches;
+      const ext = vid.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
+      vid.src = (wide ? vid.dataset.wide : vid.dataset.tall) + ext;
+      vid.addEventListener('canplay', () => { vid.classList.add('ready'); vid.play().catch(() => {}); }, { once: true });
+      vid.load();
+    }
+
     // --- שלבי הערב: התמונה והשעה מתחלפות לפי הצעד שבמרכז המסך ---
     const steps = [...document.querySelectorAll('.ev-step')];
     const frames = [...document.querySelectorAll('.ev-media img')];
@@ -1097,7 +1116,7 @@
 
     // --- הפתיח ---
     const heroChars = splitChars(document.querySelector('.hero-name'));
-    const heroImg = document.querySelector('.hero-media img');
+    const heroImg = document.querySelectorAll('.hero-media img, .hero-video');
     const heroIn = gsap.timeline({ paused: true })
       .fromTo(heroImg, { scale: 1.22 }, { scale: 1, duration: 2.4, ease: 'expo.out' }, 0)
       .from(heroChars, { yPercent: 110, opacity: 0, duration: 1.3, ease: 'expo.out', stagger: 0.05 }, 0.15)
