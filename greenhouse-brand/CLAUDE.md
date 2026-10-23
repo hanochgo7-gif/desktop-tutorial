@@ -6,6 +6,7 @@
 - Do not build the real website until a design is chosen. Changes go into the design examples only.
 
 ## Reporting to the user (Hanoch)
+- Always reply to Hanoch in Hebrew, even when the deliverable itself is in English.
 - Do not report how many Higgsfield credits were used.
 
 ## Facts confirmed by the client
