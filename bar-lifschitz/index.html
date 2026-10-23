@@ -180,7 +180,7 @@
     content: ""; position: absolute; inset: 0; z-index: -1;
     background:
       radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(30,13,18,.55) 100%),
-      linear-gradient(to top, rgba(30,13,18,.95) 0%, rgba(30,13,18,.55) 34%, rgba(30,13,18,.05) 64%, rgba(30,13,18,.45) 100%);
+      linear-gradient(to top, rgba(30,13,18,.95) 0%, rgba(30,13,18,.55) 34%, rgba(30,13,18,.05) 64%, rgba(30,13,18,.6) 100%);
   }
   .hero-body { width: 100%; padding-top: 140px; }
   .hero-name {
@@ -330,6 +330,179 @@
   .finale-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; padding-block: 28px 36px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--soft); }
   .finale-meta nav { display: flex; gap: 24px; }
 
+  /* ---------- הערבים הקרובים ---------- */
+  .dates { padding-block: clamp(110px, 14vw, 200px) clamp(40px, 6vw, 80px); }
+  .dates-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px 48px; margin-bottom: clamp(36px, 5vw, 64px); }
+  .dates-head p { color: var(--soft); margin: 18px 0 0; }
+  .party { display: flex; align-items: center; gap: 14px; color: var(--soft); font-size: .98rem; }
+  .party .stepper output { min-width: 64px; font-size: 2rem; padding: 4px 0 0; }
+  .party .stepper button { width: 44px; height: 48px; font-size: 1.4rem; }
+  @media (max-width: 760px) { .dates-head { grid-template-columns: 1fr; } }
+
+  .date-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .date-row {
+    display: grid; grid-template-columns: minmax(150px, 1.1fr) minmax(0, 2fr) auto auto; align-items: center; gap: 12px 32px;
+    padding: 22px 0; border-bottom: 1px solid var(--line);
+    transition: background-color .4s var(--ease), padding .4s var(--ease);
+  }
+  .date-row:hover { background: rgba(243,242,236,.035); }
+  .date-day { font-family: var(--display); font-size: clamp(1.9rem, 3.2vw, 2.6rem); line-height: 1; }
+  .date-day small { display: block; font-family: var(--body); font-size: .9rem; color: var(--soft); margin-top: 8px; letter-spacing: .01em; }
+  .date-theme { color: var(--soft); font-size: 1rem; }
+  .date-status { font-size: .95rem; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+  .date-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #9fbf8f; }
+  .date-row[data-status="few"] .date-status::before { background: var(--rose); }
+  .date-row[data-status="full"] .date-status::before { background: transparent; border: 1px solid var(--soft); }
+  .date-row[data-status="full"] .date-day { opacity: .55; }
+  .date-row .btn { min-height: 46px; padding: 0 22px; }
+  @media (max-width: 760px) {
+    .date-row { grid-template-columns: 1fr auto; }
+    .date-theme { grid-column: 1 / -1; order: 3; }
+    .date-status { order: 2; }
+    .date-row .btn { grid-column: 1 / -1; order: 4; width: 100%; }
+  }
+  .dates-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; margin-top: 32px; color: var(--soft); }
+  .dates-foot p { margin: 0; }
+  .link-btn { background: none; border: 0; padding: 6px 0; color: var(--ink); font: 600 1rem var(--body); cursor: pointer; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: var(--line); transition: text-decoration-color .3s; }
+  .link-btn:hover { text-decoration-color: currentColor; }
+
+  /* ---------- שובר מתנה ---------- */
+  .gift { padding-block: clamp(110px, 14vw, 200px); }
+  .gift-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+  @media (max-width: 900px) { .gift-grid { grid-template-columns: 1fr; } }
+  .gift-head p { color: var(--soft); margin-top: 18px; }
+  .gift-form { display: grid; gap: 22px; margin-top: 36px; }
+  .gift-form .tiles { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 520px) { .gift-form .tiles { grid-template-columns: 1fr; } }
+  .gift-form .tile-body { padding: 14px 16px; }
+  .gift-form .tile-name { font-size: 1.2rem; }
+  .gift-form label:not(.tile) { color: var(--linen); }
+  .gift-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .gift-form input[type="text"], .gift-form textarea { color: var(--linen); border-bottom-color: rgba(243,242,236,.55); }
+  .gift-form input::placeholder, .gift-form textarea::placeholder { color: rgba(243,242,236,.45); }
+  .gift-form select { color: var(--linen); border-bottom-color: rgba(243,242,236,.55); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23f3f2ec' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat 6px 50%; }
+  .gift-form select option { color: var(--fig); }
+  .gift-form input:focus, .gift-form select:focus, .gift-form textarea:focus { border-bottom-color: #e7a3ad; box-shadow: 0 1.5px 0 #e7a3ad; }
+  .formats { padding-bottom: clamp(40px, 5vw, 72px); }
+
+  .voucher-stage { perspective: 1400px; }
+  .voucher {
+    position: relative; aspect-ratio: 1.6 / 1; background: var(--linen); color: var(--fig);
+    display: grid; grid-template-rows: auto 1fr auto; padding: clamp(24px, 4vw, 48px) clamp(24px, 4.4vw, 56px);
+    box-shadow: 0 60px 100px -50px rgba(0,0,0,.75);
+    transform: rotateX(4deg) rotateY(-6deg); transition: transform 1.2s var(--ease);
+    background-image: radial-gradient(120% 140% at 100% 0%, rgba(156,27,44,.06), transparent 55%);
+  }
+  .voucher-stage:hover .voucher { transform: none; }
+  .voucher::before { content: ""; position: absolute; inset: 12px; border: 1px solid rgba(43,18,25,.35); pointer-events: none; }
+  .voucher::after { content: ""; position: absolute; inset: 16px; border: 1px solid rgba(43,18,25,.12); pointer-events: none; }
+  .v-top { display: flex; justify-content: space-between; align-items: baseline; font-size: .85rem; color: var(--olive); letter-spacing: .02em; }
+  .v-top b { font-family: var(--display); font-weight: 400; font-size: 1.5rem; color: var(--fig); letter-spacing: 0; }
+  .v-mid { align-self: center; text-align: center; }
+  .v-to { font-size: .95rem; color: var(--olive); margin: 0 auto 6px; max-width: none; }
+  .v-title { font-family: var(--display); font-size: clamp(1.8rem, 3.4vw, 2.7rem); line-height: 1.05; margin: 0 auto; max-width: 14em; }
+  .v-note { font-family: var(--display); font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: var(--beet); margin: 14px auto 0; max-width: 24em; min-height: 1.4em; }
+  .v-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; font-size: .9rem; color: var(--olive); }
+  .v-bottom .v-from { font-family: var(--display); font-size: 1.3rem; color: var(--fig); }
+
+  /* ---------- שאלות ---------- */
+  .faq { padding-block: clamp(80px, 10vw, 140px) clamp(40px, 6vw, 80px); }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-head p { color: var(--soft); margin-top: 18px; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 24px 0; font-family: var(--display); font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary i { position: relative; flex: 0 0 18px; height: 18px; }
+  .faq summary i::before, .faq summary i::after { content: ""; position: absolute; inset: 50% 0 auto; height: 1px; background: currentColor; transition: transform .5s var(--ease); }
+  .faq summary i::after { transform: rotate(90deg); }
+  .faq details[open] summary i::after { transform: rotate(0); }
+  .faq .ans { overflow: hidden; }
+  .faq .ans p { color: var(--soft); margin: 0; padding: 0 0 26px; max-width: 38em; }
+
+  /* ---------- הודעה אחרי שליחה: הוספה ליומן ---------- */
+  .toast {
+    position: fixed; z-index: 80; inset: auto var(--gutter) 20px auto; max-width: 420px;
+    background: var(--linen); color: var(--fig); padding: 22px 24px 20px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+    transform: translateY(140%); transition: transform .7s var(--ease);
+  }
+  .toast.show { transform: none; }
+  .toast h4 { font-family: var(--display); font-weight: 400; font-size: 1.5rem; margin: 0 0 6px; line-height: 1.1; }
+  .toast p { font-size: .95rem; color: #5d4b50; margin: 0 0 14px; }
+  .toast .row { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+  .toast .row a, .toast .row button { font: 600 .95rem var(--body); color: var(--fig); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 5px; }
+  .toast .x { position: absolute; top: 10px; left: 12px; background: none; border: 0; font-size: 1.3rem; line-height: 1; cursor: pointer; color: var(--fig); padding: 6px; }
+  @media (max-width: 600px) { .toast { inset: auto 12px 12px 12px; max-width: none; } }
+
+
+  /* ---------- תיקונים מסקירת העיצוב ---------- */
+  .receipt, .voucher, .toast { --ink: var(--fig); --bg: var(--linen); --accent: var(--beet); --on-accent: var(--linen); --line: rgba(43,18,25,.2); }
+  .about-copy .signature { font-size: clamp(2.6rem, 4vw, 3.4rem); margin-top: 32px; }
+  .about-grid { align-items: end; }
+  @media (min-width: 801px) { .about-media { height: min(80vh, 760px); } }
+  .menu-section { padding-top: clamp(72px, 9vw, 128px); }
+  .roads { padding-block: 0; }
+  .finale { padding-top: clamp(72px, 9vw, 128px); }
+  .formats-grid { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); gap: clamp(24px, 3vw, 48px); }
+  .format-media { aspect-ratio: 4 / 5; }
+  .format-text { padding-inline: 0; }
+  html:not(.motion) .evening::before { content: ""; position: absolute; inset: -35vh 0 auto; height: 35vh; background: linear-gradient(transparent, var(--dusk)); pointer-events: none; }
+  .site-head .mark { font-size: 1.9rem; }
+  .site-head.scrolled[data-tone="day"] { background: rgba(214, 215, 203, .86); color: var(--fig); }
+  .site-head.scrolled[data-tone="day"] .pill { border-color: rgba(43,18,25,.4); }
+  .site-head.scrolled[data-tone="day"] .pill:hover { background: var(--fig); color: var(--linen); }
+  html.js .ev-step { opacity: .4; }
+  .ev-n { font-size: .95rem; color: var(--accent); letter-spacing: .02em; }
+  .ev-clock { transition: opacity .3s var(--ease), transform .45s var(--ease); }
+  .ev-clock.swap { opacity: 0; transform: translateY(-30%); }
+  .ev-clock.pre { opacity: 0; transform: translateY(30%); transition: none; }
+  @media (max-width: 900px) {
+    .ev-media { height: 42vh; height: 42svh; }
+    .ev-step { min-height: 56vh; min-height: 56svh; justify-content: flex-start; padding-top: 8svh; }
+  }
+  @media (max-width: 899px) {
+    .roads-track figure { height: auto; width: 78vw; }
+  }
+  .roads-track::after { content: ""; flex: 0 0 1px; }
+  .menu-card .fine, .r-note { color: #66635c; }
+  .tile-body { border-color: rgba(243, 242, 236, .45); }
+  .finale-meta a, .roads-head a, .faq-head a, .r-direct a { display: inline-block; padding-block: 8px; }
+  .vid-toggle { background: none; border: 0; color: inherit; font: 600 .95rem var(--body); cursor: pointer; padding: 8px 0; display: inline-flex; align-items: center; gap: 10px; }
+  .vid-toggle i { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
+  .vid-toggle.paused i { border: 0; width: 0; height: 0; border-block: 6px solid transparent; border-inline-end: 10px solid currentColor; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ev-media img, .menu-overlay, .menu-overlay a, .voucher, .btn::before { transition: none !important; }
+  }
+
+  /* מנות התפריט ממוספרות באותיות */
+  .menu-card { counter-reset: course; }
+  .course { counter-increment: course; }
+  .course .dish::before { content: counter(course, hebrew) "׳"; display: block; font-family: var(--body); font-size: .8rem; color: var(--beet); letter-spacing: .08em; margin-bottom: 6px; }
+
+  /* מירכאה גדולה מעל המשפט של בר */
+  .statement::before { content: "„"; display: block; font-size: clamp(4rem, 8vw, 7rem); line-height: .5; color: var(--accent); margin-bottom: clamp(18px, 3vw, 36px); }
+
+  /* קו התקדמות דק בראש המסך */
+  .progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 65; background: var(--rose); transform-origin: right; transform: scaleX(0); pointer-events: none; }
+
+  /* קו רכס הגליל בין היום לשקיעה */
+  .ridge { display: block; width: 100%; height: clamp(60px, 9vw, 130px); margin-top: clamp(64px, 9vw, 120px); color: var(--fig); }
+  .ridge path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; opacity: .55; }
+
+  /* הקבלה: שוליים מחוררים, מספר הצעה וחותמת אחרי שליחה */
+  .receipt { -webkit-mask: radial-gradient(circle 7px at 50% 100%, transparent 98%, #000) 0 0 / 22px 100% repeat-x; mask: radial-gradient(circle 7px at 50% 100%, transparent 98%, #000) 0 0 / 22px 100% repeat-x; padding-bottom: clamp(44px, 5vw, 60px); }
+  .r-serial { text-align: center; font-size: .82rem; color: var(--olive); letter-spacing: .06em; margin: -14px auto 18px; max-width: none; }
+  .r-stamp { position: absolute; top: 34%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg) scale(1.4); opacity: 0; pointer-events: none;
+    border: 2px solid var(--beet); color: var(--beet); padding: 8px 18px; font-family: var(--display); font-size: 1.7rem; letter-spacing: .02em; transition: opacity .4s var(--ease), transform .6s var(--ease); }
+  .receipt.sent .r-stamp { opacity: .85; transform: translate(-50%, -50%) rotate(-12deg) scale(1); }
+
   [hidden] { display: none !important; }
   .skip { position: absolute; top: -60px; right: 16px; background: var(--linen); color: var(--fig); padding: 10px 16px; z-index: 110; }
   .skip:focus { top: 12px; }
@@ -478,25 +651,29 @@
   <div class="intro-sub">ארוחות שף בחצר</div>
 </div>
 
-<header class="site-head" id="site-head">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header class="site-head" id="site-head" data-tone="night">
   <a class="mark" href="#top">בר ליפשיץ</a>
   <nav aria-label="ניווט ראשי">
     <a href="#menu">תפריט</a>
-    <a href="#formats">בחצר או אצלכם</a>
     <a href="#evening">איך נראה ערב</a>
+    <a href="#dates">תאריכים</a>
+    <a href="#gift">שובר מתנה</a>
+    <a href="#faq">שאלות</a>
     <a class="pill" href="#book">הצעת מחיר</a>
   </nav>
-  <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-overlay"><i aria-hidden="true"></i>תפריט</button>
+  <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-overlay"><i aria-hidden="true"></i>ניווט</button>
 </header>
 
 <div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="ניווט">
-  <button class="close" type="button" id="menu-close">סגירה</button>
   <a href="#menu" style="--i:0">תפריט</a>
-  <a href="#formats" style="--i:1">בחצר או אצלכם</a>
-  <a href="#evening" style="--i:2">איך נראה ערב</a>
-  <a href="#roads" style="--i:3">מהשולחנות האחרונים</a>
-  <a href="#book" style="--i:4">הצעת מחיר</a>
+  <a href="#evening" style="--i:1">איך נראה ערב</a>
+  <a href="#dates" style="--i:2">הערבים הקרובים</a>
+  <a href="#book" style="--i:3">הצעת מחיר</a>
+  <a href="#gift" style="--i:4">שובר מתנה</a>
+  <a href="#faq" style="--i:5">שאלות</a>
   <small>החצר במצפה מתת, או אצלכם בבית</small>
+  <button class="close" type="button" id="menu-close">סגירה</button>
 </div>
 
 <main id="top">
@@ -524,14 +701,14 @@
           <li>שישי ושבת בערב</li>
           <li>או אצלכם בבית</li>
         </ul>
-        <span class="cue" aria-hidden="true"><i></i>גללו למטה</span>
+        <button class="vid-toggle" type="button" id="vid-toggle" hidden><i aria-hidden="true"></i><span>השהיית הווידאו</span></button>
       </div>
     </div>
   </section>
 
   <section class="about" data-theme="day" aria-label="על בר">
     <div class="wrap">
-      <blockquote class="statement" data-words><span class="q">״</span>האהבה שלי לבישול הגיעה מהאהבה לאירוח, ומהחיבור שזה מייצר בין אנשים.<span class="q">״</span></blockquote>
+      <blockquote class="statement" data-words>האהבה שלי לבישול הגיעה מהאהבה לאירוח, ומהחיבור שזה מייצר בין אנשים.</blockquote>
     </div>
     <div class="about-grid">
       <div class="about-copy">
@@ -540,17 +717,17 @@
         <p class="signature">בר</p>
       </div>
       <figure class="about-media" data-reveal>
-        <img src="images/chef-plating.jpg" width="1200" height="1701" loading="lazy" alt="בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר">
+        <img src="images/chef-plating.jpg" srcset="images/chef-plating-600.jpg 600w, images/chef-plating.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1701" loading="lazy" alt="בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר">
       </figure>
     </div>
   </section>
 
   <section class="menu-section" id="menu" data-theme="day" aria-labelledby="menu-title">
     <div class="menu-stage">
-      <figure class="menu-flank high"><img src="images/carpaccio.jpg" width="1200" height="1701" loading="lazy" alt="צלחות חרסינה עם פרושוטו וסטרצ'טלה" data-speed="8"></figure>
+      <figure class="menu-flank high"><img src="images/carpaccio.jpg" srcset="images/carpaccio-600.jpg 600w, images/carpaccio.jpg 1200w" sizes="22vw" width="1200" height="1701" loading="lazy" alt="צלחות חרסינה עם פרושוטו וסטרצ'טלה" data-speed="8"></figure>
       <div class="menu-card" data-rise>
         <h2 class="menu-head" id="menu-title">תפריט לדוגמה</h2>
-        <p class="menu-when">התפריט נכתב מחדש כל שבוע, לפי העונה ומה שהגיע מהשוק</p>
+        <p class="menu-when"><span id="menu-week">התפריט נכתב מחדש כל שבוע</span>, לפי העונה ומה שהגיע מהשוק</p>
         <div class="course"><p class="dish">לחם מהאש</p><p class="notes">חמאה מעושנת, שמן זית מהגליל, מלח ים</p></div>
         <div class="course"><p class="dish">סשימי האמצ'י</p><p class="notes">קונסומה דובדבנים, צ'ילי אדום, שמיר</p></div>
         <div class="course"><p class="dish">בוראטה</p><p class="notes">עלים ירוקים מהגינה, שמן זית, מלח גס</p></div>
@@ -559,7 +736,7 @@
         <div class="course"><p class="dish">שוקולד מריר</p><p class="notes">שמן זית, מלח אטלנטי, שמנת חמוצה</p></div>
         <p class="fine">יין מיקבים קטנים לאורך הערב. צמחונים, אלרגיות והעדפות? כתבו לי כשאתם מזמינים, ואני אבנה את המנות בהתאם.</p>
       </div>
-      <figure class="menu-flank low"><img src="images/chef-pan.jpg" width="1200" height="1701" loading="lazy" alt="בר מבשל במחבת ומגיש לצלחות כחולות-לבנות" data-speed="-8"></figure>
+      <figure class="menu-flank low"><img src="images/chef-pan.jpg" srcset="images/chef-pan-600.jpg 600w, images/chef-pan.jpg 1200w" sizes="22vw" width="1200" height="1701" loading="lazy" alt="בר מבשל במחבת ומגיש לצלחות כחולות-לבנות" data-speed="-8"></figure>
     </div>
   </section>
 
@@ -569,7 +746,7 @@
     </div>
     <div class="formats-grid">
       <div class="format">
-        <figure class="format-media" data-reveal><img src="images/table-set.jpg" width="1200" height="1161" loading="lazy" alt="שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין"></figure>
+        <figure class="format-media" data-reveal><img src="images/table-set.jpg" srcset="images/table-set-600.jpg 600w, images/table-set.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1161" loading="lazy" alt="שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין"></figure>
         <div class="format-text">
           <h3>בחצר שלי, במצפה מתת</h3>
           <p>ארוחה פתוחה בכל סוף שבוע. מזמינים מקום לבד, בזוג או עם חברים, ויושבים לשולחן אחד עם שאר האורחים.</p>
@@ -578,11 +755,11 @@
             <li>שולחן אחד לקבוצה קטנה</li>
             <li>אפשר לסגור את כל השולחן לקבוצה שלכם</li>
           </ul>
-          <a class="btn" href="#book" data-format="yard">הצעת מחיר לערב בחצר</a>
+          <a class="btn ghost" href="#book" data-format="yard">הצעת מחיר לערב בחצר</a>
         </div>
       </div>
       <div class="format">
-        <figure class="format-media" data-reveal><img src="images/lunch.jpg" width="1200" height="1701" loading="lazy" alt="שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים"></figure>
+        <figure class="format-media" data-reveal><img src="images/lunch.jpg" srcset="images/lunch-600.jpg 600w, images/lunch.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1701" loading="lazy" alt="שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים"></figure>
         <div class="format-text">
           <h3>אצלכם בבית</h3>
           <p>אני מגיע עם חומרי הגלם, הציוד והאש, מבשל בחצר או במטבח שלכם, מגיש, ומשאיר את המקום נקי.</p>
@@ -595,6 +772,7 @@
         </div>
       </div>
     </div>
+    <svg class="ridge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 104 C 70 98, 120 74, 190 78 S 300 52, 360 60 S 470 30, 540 40 S 640 70, 720 58 S 820 22, 900 30 S 1010 62, 1080 54 S 1190 34, 1250 44 S 1360 76, 1440 70"/></svg>
   </section>
 
   <section class="evening" id="evening" data-theme="dusk" aria-labelledby="evening-title">
@@ -606,22 +784,22 @@
         </div>
         <ol class="timeline">
           <li class="ev-step on" data-step="0">
-            <time>19:30</time>
+            <span class="ev-n">שלב א׳ מתוך ד׳</span><time hidden>19:30</time>
             <h3>מגיעים לחצר</h3>
             <p>האש כבר דולקת. כוס יין ביד ומשהו קטן ליד הגחלים, בזמן שכולם מכירים.</p>
           </li>
           <li class="ev-step" data-step="1">
-            <time>20:15</time>
+            <span class="ev-n">שלב ב׳ מתוך ד׳</span><time hidden>20:15</time>
             <h3>מתיישבים לשולחן</h3>
             <p>שולחן אחד ארוך לכל האורחים. המנות הראשונות קרות ורעננות: דג נא, גבינות טריות, ירקות מהשוק ולחם חם.</p>
           </li>
           <li class="ev-step" data-step="2">
-            <time>21:00</time>
+            <span class="ev-n">שלב ג׳ מתוך ד׳</span><time hidden>21:00</time>
             <h3>העיקרית יוצאת מהאש</h3>
             <p>בשר בבישול ארוך, ירקות שנצלו ישר על הגחלים, ומה שעוד יצא מהמחבת באותו ערב.</p>
           </li>
           <li class="ev-step" data-step="3">
-            <time>22:30</time>
+            <span class="ev-n">שלב ד׳ מתוך ד׳</span><time hidden>22:30</time>
             <h3>קינוח וקפה</h3>
             <p>ומי שלא ממהר נשאר ליד האש עם עוד כוס.</p>
           </li>
@@ -629,10 +807,10 @@
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
-        <img class="on" src="images/glasses.jpg" width="1200" height="1701" alt="" loading="lazy">
-        <img src="images/vineyard-guests.jpg" width="1200" height="1701" alt="" loading="lazy">
-        <img src="images/sunset-plating.jpg" width="1200" height="1387" alt="" loading="lazy">
-        <img src="images/fire.jpg" width="300" height="335" alt="" loading="lazy">
+        <img class="on" src="images/glasses.jpg" srcset="images/glasses-600.jpg 600w, images/glasses.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="images/vineyard-guests.jpg" srcset="images/vineyard-guests-600.jpg 600w, images/vineyard-guests.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="images/sunset-plating.jpg" srcset="images/sunset-plating-600.jpg 600w, images/sunset-plating.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1387" alt="" loading="lazy">
+        <img src="images/fire.jpg" srcset="images/fire-600.jpg 600w, images/fire.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1328" alt="" loading="lazy">
         <div class="ev-clock" id="ev-clock">19:30</div>
       </div>
     </div>
@@ -645,11 +823,35 @@
         <p>עוד מהבישול שלי, בחצר ובדרכים, באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
       </div>
       <div class="roads-track" tabindex="0" aria-label="גלריית תמונות">
-        <figure><img src="images/crudo-line.jpg" width="1200" height="1701" alt="שורת צלחות של סשימי האמצ'י בקונסומה דובדבנים"></figure>
-        <figure><img src="images/vineyard.jpg" width="1200" height="1701" alt="שולחן ארוך במפה לבנה בין שורות גפנים, תחת שמשיות"></figure>
-        <figure><img src="images/burrata.jpg" width="1200" height="1701" alt="קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית"></figure>
-        <figure><img src="images/pasta.jpg" width="300" height="335" alt="בר אוכל צלחת פסטה על חוף בניו זילנד"></figure>
-        <figure><img src="images/field-cook.jpg" width="301" height="337" alt="בר יושב על בול עץ בשדה ירוק ומכין בצק ליד כיריים ניידות"></figure>
+        <figure><img loading="lazy" decoding="async" src="images/crudo-line.jpg" srcset="images/crudo-line-600.jpg 600w, images/crudo-line.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1701" alt="שורת צלחות של סשימי האמצ'י בקונסומה דובדבנים"></figure>
+        <figure><img loading="lazy" decoding="async" src="images/vineyard.jpg" srcset="images/vineyard-600.jpg 600w, images/vineyard.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1701" alt="שולחן ארוך במפה לבנה בין שורות גפנים, תחת שמשיות"></figure>
+        <figure><img loading="lazy" decoding="async" src="images/burrata.jpg" srcset="images/burrata-600.jpg 600w, images/burrata.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1701" alt="קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית"></figure>
+        <figure><img loading="lazy" decoding="async" src="images/pasta.jpg" srcset="images/pasta-600.jpg 600w, images/pasta.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1328" alt="בר אוכל צלחת פסטה על חוף בניו זילנד"></figure>
+        <figure><img loading="lazy" decoding="async" src="images/field-cook.jpg" srcset="images/field-cook-600.jpg 600w, images/field-cook.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1344" alt="בר יושב על בול עץ בשדה ירוק ומכין בצק ליד כיריים ניידות"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="dates" id="dates" data-theme="night" aria-labelledby="dates-title">
+    <div class="wrap">
+      <div class="dates-head">
+        <div>
+          <h2 id="dates-title" data-words-rise>הערבים הקרובים בחצר</h2>
+          <p>שולחן אחד, מספר מקומות קטן. בוחרים ערב, ואני חוזר בוואטסאפ עם אישור ופרטי הגעה.</p>
+        </div>
+        <div class="party">
+          <span id="party-label">כמה אתם?</span>
+          <div class="stepper" role="group" aria-labelledby="party-label">
+            <button type="button" id="p-plus" aria-label="עוד אורח">+</button>
+            <output id="p-count" aria-live="polite">2</output>
+            <button type="button" id="p-minus" aria-label="אורח אחד פחות">−</button>
+          </div>
+        </div>
+      </div>
+      <ol class="date-list" id="date-list"></ol>
+      <div class="dates-foot">
+        <p>תאריכים חדשים נפתחים כל כמה שבועות.</p>
+        <button class="link-btn" type="button" id="notify-btn">עדכנו אותי כשנפתחים תאריכים חדשים</button>
       </div>
     </div>
   </section>
@@ -738,13 +940,16 @@
         <div class="receipt-wrap">
           <div class="receipt" id="receipt">
             <h3>הצעת מחיר</h3>
+            <span class="r-stamp" aria-hidden="true">נשלח לבר</span>
             <p class="r-sub" id="r-sub"></p>
+            <p class="r-serial" id="r-serial"></p>
             <ul class="r-lines" id="r-lines"></ul>
             <div class="r-total">
               <span class="lbl">סה״כ משוער</span>
-              <span class="amt" id="r-total" aria-live="polite">₪0</span>
+              <span class="amt" id="r-total">₪0</span>
             </div>
             <p class="r-pp" id="r-pp"></p>
+            <p class="sr-only" id="r-live" aria-live="polite"></p>
             <p class="r-note">זו הערכה ראשונית. המחיר הסופי נקבע אחרי שיחה קצרה, לפי התפריט והתאריך.</p>
             <button class="btn" type="submit">שליחת ההצעה בוואטסאפ</button>
             <p class="error" id="form-error" role="alert"></p>
@@ -753,6 +958,66 @@
         </div>
       </form>
       <noscript><p>כדי לקבל הצעת מחיר, כתבו לי באינסטגרם ‎@barlif.</p></noscript>
+    </div>
+  </section>
+
+  <section class="gift" id="gift" data-theme="night" aria-labelledby="gift-title">
+    <div class="wrap gift-grid">
+      <div>
+        <div class="gift-head">
+          <h2 id="gift-title" data-words-rise>שובר מתנה</h2>
+          <p>ערב ליד האש כמתנה. בונים את השובר כאן, שולחים לי בוואטסאפ, ואני מנפיק אותו אחרי התשלום.</p>
+        </div>
+        <form class="gift-form" id="gift-form" novalidate>
+          <div class="tiles" id="gift-kinds"></div>
+          <div class="gift-row">
+            <div class="field">
+              <label for="gift-to">למי</label>
+              <input id="gift-to" type="text" maxlength="40" placeholder="נועה ודניאל">
+            </div>
+            <div class="field">
+              <label for="gift-from">מאת</label>
+              <input id="gift-from" type="text" maxlength="40" placeholder="אמא ואבא">
+            </div>
+          </div>
+          <div class="field">
+            <label for="gift-note">הקדשה</label>
+            <textarea id="gift-note" maxlength="120" placeholder="מזל טוב, ותיהנו מכל ביס"></textarea>
+          </div>
+          <p class="error" id="gift-error" role="alert"></p>
+          <div><button class="btn" type="submit">בקשת השובר בוואטסאפ</button></div>
+        </form>
+      </div>
+      <div class="voucher-stage" aria-hidden="true">
+        <div class="voucher">
+          <div class="v-top"><b>בר ליפשיץ</b><span>שובר מתנה</span></div>
+          <div class="v-mid">
+            <p class="v-to" id="v-to">לכבוד נועה ודניאל</p>
+            <p class="v-title" id="v-title">ערב בחצר לזוג</p>
+            <p class="v-note" id="v-note">מזל טוב, ותיהנו מכל ביס</p>
+          </div>
+          <div class="v-bottom"><span class="v-from" id="v-from">מאת אמא ואבא</span><span id="v-value"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" data-theme="night" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="faq-head">
+        <h2 id="faq-title" data-words-rise>לפני שמגיעים</h2>
+        <p>מה שכדאי לדעת על ערב בחצר. לא מצאתם תשובה? כתבו לי באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details><summary>כמה זמן נמשך ערב?<i aria-hidden="true"></i></summary><div class="ans"><p>בערך ארבע שעות, מ־19:30 ועד אחרי הקפה. אף אחד לא ממהר.</p></div></details>
+        <details><summary>מה כלול במחיר?<i aria-hidden="true"></i></summary><div class="ans"><p>כל מנות התפריט של אותו ערב. יין, קבלת פנים ותוספות אחרות מופיעים במחשבון הצעת המחיר, ואפשר להוסיף אותם שם.</p></div></details>
+        <details><summary>אני צמחוני, טבעוני או אלרגי. זה מסתדר?<i aria-hidden="true"></i></summary><div class="ans"><p>כתבו לי כשאתם מזמינים. ברוב המקרים אני מתאים את המנות, ואם משהו לא אפשרי אגיד לכם מראש.</p></div></details>
+        <details><summary>מה לובשים?<i aria-hidden="true"></i></summary><div class="ans"><p>הערב בחוץ, בחצר. בגדים נוחים, ושכבה נוספת לערבים הקרירים.</p></div></details>
+        <details><summary>ומה אם יורד גשם?<i aria-hidden="true"></i></summary><div class="ans"><p>אם התחזית לא מאפשרת לשבת בחוץ, אעדכן אתכם מראש ונמצא יחד פתרון או תאריך אחר.</p></div></details>
+        <details><summary>אפשר לבוא עם ילדים?<i aria-hidden="true"></i></summary><div class="ans"><p>כתבו לי מראש מי מגיע, ונבדוק יחד אם הערב מתאים.</p></div></details>
+        <details><summary>אפשר לסגור את כל השולחן לקבוצה שלנו?<i aria-hidden="true"></i></summary><div class="ans"><p>כן. בוחרים "השולחן כולו שלכם" במחשבון הצעת המחיר.</p></div></details>
+        <details><summary>איך מגיעים, ומה עם ביטולים?<i aria-hidden="true"></i></summary><div class="ans"><p>הכתובת המדויקת, הוראות ההגעה ומדיניות הביטול נשלחות אליכם יחד עם אישור ההזמנה.</p></div></details>
+      </div>
     </div>
   </section>
 </main>
@@ -772,6 +1037,13 @@
     </nav>
   </div>
 </footer>
+
+<div class="toast" id="toast" role="status" hidden>
+  <button class="x" type="button" id="toast-x" aria-label="סגירה">×</button>
+  <h4></h4>
+  <p></p>
+  <div class="row"><a class="g-cal" href="#" target="_blank" rel="noopener">הוספה ליומן Google</a><button class="ics" type="button">קובץ ליומן (iPhone ואחרים)</button></div>
+</div>
 
 <script>
   // מספר הוואטסאפ של בר בפורמט בינלאומי, בלי + ובלי אפס מוביל. למשל: 972501234567
@@ -854,23 +1126,28 @@
 
   PRICING.home.regions.forEach(r => $('region').add(new Option(r.fee ? `${r.name} (הגעה ${nis(r.fee)})` : `${r.name} (ללא תוספת הגעה)`, r.id)));
 
-  // שישי ושבת בשמונת השבועות הקרובים
-  (function fillWeekends() {
+  // בחצר: שישי ושבת בשמונת השבועות הקרובים. אצלכם: כל יום בשישה השבועות הקרובים.
+  function fillDates(home) {
     const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+    const sel = $('date');
+    const keep = sel.value;
+    sel.innerHTML = '';
     const d = new Date();
     d.setHours(12, 0, 0, 0);
     d.setDate(d.getDate() + 1); // מתחילים ממחר
-    let added = 0;
-    while (added < 16) {
-      if (d.getDay() === 5 || d.getDay() === 6) {
+    for (let i = 0, added = 0; added < (home ? 42 : 16) && i < 120; i++) {
+      if (home || d.getDay() === 5 || d.getDay() === 6) {
         const label = `${days[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}`;
-        $('date').add(new Option(label, label));
+        sel.add(new Option(label, label));
         added++;
       }
       d.setDate(d.getDate() + 1);
     }
-    $('date').add(new Option('תאריך אחר, נתאם', 'תאריך אחר, נתאם'));
-  })();
+    sel.add(new Option('תאריך אחר, נתאם', 'תאריך אחר, נתאם'));
+    if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
+  }
+  fillDates(false);
+  $('r-serial').textContent = `הצעה מס׳ ${String(Math.floor(1000 + Math.random() * 9000))}`;
 
   // ---------- החישוב ----------
   function compute() {
@@ -944,6 +1221,8 @@
     });
     $('r-pp').textContent = `כ־${nis(q.perGuest)} לאורח` + (q.notes.length ? `. ${q.notes.join('. ')}.` : '');
     animateTotal(q.total);
+    clearTimeout(render.live);
+    render.live = setTimeout(() => { $('r-live').textContent = `סה״כ משוער ${nis(q.total)}, כ־${nis(q.perGuest)} לאורח`; }, 700);
   }
 
   // ---------- אירועים ----------
@@ -953,6 +1232,7 @@
       state.format = t.value;
       state.guests = PRICING[state.format].start;
       renderAddons();
+      fillDates(state.format === 'home');
     }
     if (t.name === 'tier') state.tier = t.value;
     if (t.name === 'addon') t.checked ? state.addons.add(t.value) : state.addons.delete(t.value);
@@ -995,6 +1275,7 @@
     const notes = form.elements.notes.value.trim();
     if (notes) msg.push('', `חשוב לדעת: ${notes}`);
     window.open(`${waBase}?text=${encodeURIComponent(msg.join('\n'))}`, '_blank', 'noopener');
+    $('receipt').classList.add('sent');
   });
 
   if (WHATSAPP_NUMBER) {
@@ -1005,6 +1286,186 @@
 
   renderAddons();
   render();
+</script>
+
+<script>
+  // ---------- הערבים הקרובים, שובר מתנה, שאלות והוספה ליומן ----------
+  // משתמש ב-WHATSAPP_NUMBER, waBase, PRICING ו-nis שמוגדרים בסקריפט של מחשבון הצעת המחיר.
+
+  // הערבים בחצר. כברירת מחדל מוצגים שישי ושבת בשבועות הקרובים, כולם "פתוח להזמנה".
+  // בר מעדכן כאן ערבים ספציפיים לפי תאריך (שנה-חודש-יום):
+  //   status: 'open' פתוח | 'few' מקומות אחרונים | 'full' מלא (מציג רשימת המתנה)
+  //   seats: כמה מקומות נשארו (לא חובה)   theme: שורה קצרה על הערב (לא חובה)
+  // closed: תאריכים שבהם אין ערב בכלל.
+  const EVENINGS = {
+    weeks: 4,
+    overrides: {
+      // '2026-10-30': { status: 'few', seats: 4, theme: 'ערב דגים מהחוף' },
+    },
+    closed: [],
+  };
+
+  (function () {
+    const $ = id => document.getElementById(id);
+    const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+    const months = ['בינואר', 'בפברואר', 'במרץ', 'באפריל', 'במאי', 'ביוני', 'ביולי', 'באוגוסט', 'בספטמבר', 'באוקטובר', 'בנובמבר', 'בדצמבר'];
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const shortLabel = d => `${days[d.getDay()]} ${d.getDate()}.${d.getMonth() + 1}`;
+    const openWA = lines => window.open(`${waBase}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+
+    // ---------- הוספה ליומן ----------
+    const pad = n => String(n).padStart(2, '0');
+    const stamp = (d, h, m) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(h)}${pad(m)}00`;
+    function offerCalendar(date, where) {
+      const title = 'ערב אצל בר ליפשיץ (ממתין לאישור)';
+      const start = stamp(date, 19, 30), end = stamp(date, 23, 30);
+      const g = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&ctz=Asia/Jerusalem&location=${encodeURIComponent(where)}`;
+      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//barlif//he', 'BEGIN:VEVENT',
+        `UID:${start}-${Date.now()}@barlif`, `DTSTAMP:${stamp(new Date(), new Date().getHours(), new Date().getMinutes())}`,
+        `DTSTART;TZID=Asia/Jerusalem:${start}`, `DTEND;TZID=Asia/Jerusalem:${end}`,
+        `SUMMARY:${title}`, `LOCATION:${where}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      const t = $('toast');
+      t.querySelector('h4').textContent = 'הבקשה נפתחה בוואטסאפ';
+      t.querySelector('p').textContent = `${shortLabel(date)}, 19:30. אחרי שבר מאשר, הערב סגור. בינתיים אפשר לשמור את התאריך ביומן.`;
+      t.querySelector('.g-cal').href = g;
+      t.querySelector('.ics').onclick = () => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+        a.download = 'ערב-אצל-בר.ics'; a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      };
+      t.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+    }
+    $('toast-x').addEventListener('click', () => { $('toast').classList.remove('show'); setTimeout(() => { $('toast').hidden = true; }, 700); });
+
+    // ---------- הערבים הקרובים ----------
+    let party = 2;
+    const renderParty = () => { $('p-count').textContent = party; $('p-minus').disabled = party <= 1; $('p-plus').disabled = party >= 12; };
+    $('p-plus').addEventListener('click', () => { party++; renderParty(); });
+    $('p-minus').addEventListener('click', () => { party--; renderParty(); });
+    renderParty();
+    const seatsText = n => n === 1 ? 'מקום אחד' : `${n} מקומות`;
+
+    const list = $('date-list');
+    const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + 1);
+    let shown = 0;
+    while (shown < EVENINGS.weeks * 2) {
+      if (d.getDay() === 5 || d.getDay() === 6) {
+        const key = iso(d);
+        if (!EVENINGS.closed.includes(key)) {
+          const o = EVENINGS.overrides[key] || {};
+          const status = o.status || 'open';
+          const date = new Date(d);
+          const li = document.createElement('li');
+          li.className = 'date-row'; li.dataset.status = status;
+          li.innerHTML = `<div class="date-day"></div><div class="date-theme"></div><div class="date-status"></div><button class="btn ${status === 'full' ? 'ghost' : ''}" type="button"></button>`;
+          const day = li.querySelector('.date-day');
+          day.textContent = shortLabel(date);
+          const small = document.createElement('small'); small.textContent = `${date.getDate()} ${months[date.getMonth()]}, 19:30`; day.append(small);
+          li.querySelector('.date-theme').textContent = o.theme || 'תפריט השבוע, לפי מה שהגיע מהשוק';
+          li.querySelector('.date-status').textContent = status === 'full' ? 'מלא' : status === 'few' ? (o.seats ? `נשארו ${seatsText(o.seats)}` : 'מקומות אחרונים') : 'פתוח להזמנה';
+          const btn = li.querySelector('button');
+          btn.textContent = status === 'full' ? 'רשימת המתנה' : 'שריון מקום';
+          btn.addEventListener('click', () => {
+            if (status === 'full') {
+              openWA([`היי בר, הערב ב${shortLabel(date)} מלא.`, `אשמח להיכנס לרשימת ההמתנה ל${seatsText(party)}.`]);
+            } else {
+              openWA([`היי בר, אשמח לשריין ${seatsText(party)} לערב בחצר ב${shortLabel(date)} (${date.getDate()} ${months[date.getMonth()]}).`, 'אשמח לאישור ולפרטי הגעה.']);
+              offerCalendar(date, 'מצפה מתת');
+            }
+          });
+          list.append(li);
+          shown++;
+        }
+      }
+      d.setDate(d.getDate() + 1);
+    }
+    $('notify-btn').addEventListener('click', () => openWA(['היי בר, אשמח שתעדכן אותי כשנפתחים תאריכים חדשים לערבים בחצר.']));
+
+    // אחרי שליחת הצעת המחיר, מציעים לשמור את התאריך ביומן
+    document.getElementById('quote').addEventListener('submit', () => {
+      if ($('form-error').textContent) return;
+      const m = $('date').value.match(/(\d{1,2})\.(\d{1,2})/);
+      if (!m) return;
+      const now = new Date();
+      let y = now.getFullYear();
+      if (+m[2] - 1 < now.getMonth()) y++;
+      const where = document.querySelector('input[name="format"]:checked').value === 'yard' ? 'מצפה מתת' : 'אצלכם בבית';
+      offerCalendar(new Date(y, +m[2] - 1, +m[1], 12), where);
+    });
+
+    // ---------- שובר מתנה ----------
+    const signature = (PRICING.tiers.find(t => t.id === 'signature') || PRICING.tiers[0]).pp;
+    const KINDS = [
+      { id: 'yard2', name: 'ערב בחצר לזוג', value: 2 * signature },
+      { id: 'yard4', name: 'ערב בחצר לארבעה', value: 4 * signature },
+      { id: 'home', name: 'ארוחת שף אצלכם', value: null },
+      { id: 'amount', name: 'סכום לבחירה', value: 'custom' },
+    ];
+    const kinds = $('gift-kinds');
+    KINDS.forEach((k, i) => {
+      const label = document.createElement('label');
+      label.className = 'tile';
+      label.innerHTML = `<input type="radio" name="gkind" value="${k.id}" ${i === 0 ? 'checked' : ''}><span class="tile-body"><span class="tile-name"></span><span class="tile-price"></span></span>`;
+      label.querySelector('.tile-name').textContent = k.name;
+      label.querySelector('.tile-price').textContent = typeof k.value === 'number' ? nis(k.value) : '';
+      kinds.append(label);
+    });
+    const amountField = document.createElement('div');
+    amountField.className = 'field'; amountField.hidden = true;
+    amountField.innerHTML = '<label for="gift-amount">סכום</label><select id="gift-amount"></select>';
+    kinds.after(amountField);
+    [500, 750, 1000, 1500, 2000, 3000].forEach(v => $('gift-amount').add(new Option(nis(v), v)));
+    $('gift-amount').value = '1000';
+
+    const gf = $('gift-form');
+    const kind = () => KINDS.find(k => k.id === gf.querySelector('input[name="gkind"]:checked').value);
+    const valueText = k => k.value === 'custom' ? nis(+$('gift-amount').value) : typeof k.value === 'number' ? nis(k.value) : 'בתיאום אישי';
+    function paintVoucher() {
+      const k = kind();
+      amountField.hidden = k.value !== 'custom';
+      const to = $('gift-to').value.trim() || $('gift-to').placeholder;
+      const from = $('gift-from').value.trim() || $('gift-from').placeholder;
+      $('v-to').textContent = `לכבוד ${to}`;
+      $('v-title').textContent = k.value === 'custom' ? `שובר בשווי ${nis(+$('gift-amount').value)}` : k.name;
+      $('v-note').textContent = $('gift-note').value.trim() || $('gift-note').placeholder;
+      $('v-from').textContent = `מאת ${from}`;
+      $('v-value').textContent = k.value === 'custom' ? 'למימוש בערב בחצר או אצלכם' : `שווי: ${valueText(k)}`;
+    }
+    gf.addEventListener('input', paintVoucher);
+    gf.addEventListener('change', paintVoucher);
+    paintVoucher();
+    gf.addEventListener('submit', e => {
+      e.preventDefault();
+      const from = $('gift-from').value.trim();
+      if (!from) { $('gift-error').textContent = 'כתבו ממי השובר, כדי שאדע למי אני חוזר.'; $('gift-from').focus(); return; }
+      $('gift-error').textContent = '';
+      const k = kind();
+      const lines = ['היי בר, אשמח לרכוש שובר מתנה.', `סוג: ${k.name}`, `שווי: ${valueText(k)}`, `למי: ${$('gift-to').value.trim() || 'אמסור בהמשך'}`, `מאת: ${from}`];
+      const note = $('gift-note').value.trim();
+      if (note) lines.push(`הקדשה: ${note}`);
+      openWA(lines);
+    });
+
+    // ---------- שאלות: פתיחה וסגירה רכות ----------
+    document.querySelectorAll('.faq details').forEach(det => {
+      const sum = det.querySelector('summary'), ans = det.querySelector('.ans');
+      sum.addEventListener('click', e => {
+        if (calm || !ans.animate) return;
+        e.preventDefault();
+        if (det.open) {
+          ans.animate([{ height: ans.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' })
+            .onfinish = () => { det.open = false; };
+        } else {
+          det.open = true;
+          const h = ans.offsetHeight;
+          ans.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
+      });
+    });
+  })();
 </script>
 
 <script>
@@ -1019,14 +1480,41 @@
     let lenis = null;
 
     // --- וידאו רקע של החצר: נטען רק כשאין בקשה לפחות תנועה, ומחליף את התמונה כשהוא מוכן ---
+    // נטען רק אחרי שהפתיח מתחיל, כדי לא להתחרות בטעינת הדף
     const vid = document.querySelector('.hero-video');
-    if (vid && !calm && !(navigator.connection && navigator.connection.saveData)) {
+    const vidToggle = document.getElementById('vid-toggle');
+    let vidLoaded = false;
+    function loadVideo() {
+      if (vidLoaded || !vid || calm || (navigator.connection && navigator.connection.saveData)) return;
+      vidLoaded = true;
       const wide = window.matchMedia('(min-aspect-ratio: 4/5)').matches;
       const ext = vid.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
       vid.src = (wide ? vid.dataset.wide : vid.dataset.tall) + ext;
-      vid.addEventListener('canplay', () => { vid.classList.add('ready'); vid.play().catch(() => {}); }, { once: true });
+      vid.addEventListener('canplay', () => { vid.classList.add('ready'); vid.play().catch(() => {}); vidToggle.hidden = false; }, { once: true });
       vid.load();
     }
+    vidToggle.addEventListener('click', () => {
+      const pause = !vid.paused;
+      pause ? vid.pause() : vid.play();
+      vidToggle.classList.toggle('paused', pause);
+      vidToggle.querySelector('span').textContent = pause ? 'הפעלת הווידאו' : 'השהיית הווידאו';
+    });
+
+    // --- חותמת השבוע על כרטיס התפריט, בלוח העברי ---
+    (function weekStamp() {
+      const heb = n => {
+        const ones = ['', 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'], tens = ['', 'י', 'כ', 'ל'];
+        let t = n === 15 ? 'טו' : n === 16 ? 'טז' : tens[Math.floor(n / 10)] + ones[n % 10];
+        return t.length > 1 ? t.slice(0, -1) + '״' + t.slice(-1) : t + '׳';
+      };
+      try {
+        const d = new Date(); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7));
+        const parts = new Intl.DateTimeFormat('he-u-ca-hebrew', { day: 'numeric', month: 'long' }).formatToParts(d);
+        const day = +parts.find(x => x.type === 'day').value;
+        const month = parts.find(x => x.type === 'month').value;
+        document.getElementById('menu-week').textContent = `לדוגמה, לקראת שבת ${heb(day)} ב${month}. התפריט נכתב מחדש כל שבוע`;
+      } catch (e) {}
+    })();
 
     // --- שלבי הערב: התמונה והשעה מתחלפות לפי הצעד שבמרכז המסך ---
     const steps = [...document.querySelectorAll('.ev-step')];
@@ -1040,18 +1528,24 @@
       frames.forEach((f, k) => f.classList.toggle('on', k === i));
       const t = steps[i].querySelector('time').textContent;
       clock.classList.add('swap');
-      setTimeout(() => { clock.textContent = t; clock.classList.remove('swap'); }, 220);
+      setTimeout(() => {
+        clock.textContent = t;
+        clock.classList.remove('swap'); clock.classList.add('pre');
+        void clock.offsetWidth;
+        clock.classList.remove('pre');
+      }, 260);
     }
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) setStep(+e.target.dataset.step); });
-      }, { rootMargin: '-48% 0px -48% 0px' });
+      }, { rootMargin: window.matchMedia('(max-width: 900px)').matches ? '-60% 0px -30% 0px' : '-48% 0px -48% 0px' });
       steps.forEach(s => io.observe(s));
     }
 
     // --- תפריט בטלפון ---
     function openMenu(open) {
       overlay.classList.toggle('open', open);
+      ['main', 'footer', '#site-head'].forEach(sel => { const el = document.querySelector(sel); if (el) el.inert = open; });
       menuBtn.setAttribute('aria-expanded', String(open));
       if (lenis) open ? lenis.stop() : lenis.start();
       else document.body.style.overflow = open ? 'hidden' : '';
@@ -1063,8 +1557,15 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) openMenu(false); });
 
     // --- הכותרת העליונה מתכווצת אחרי הפתיח ---
+    const progress = document.getElementById('progress');
     const onScrollHead = (y, dir) => {
       head.classList.toggle('scrolled', y > window.innerHeight * 0.5);
+      // צבע הכותרת לפי הקטע שמתחתיה
+      const under = document.elementsFromPoint(window.innerWidth / 2, 40).find(el => !el.closest('#site-head, .progress, .toast'));
+      const sec = under && under.closest('[data-theme]');
+      if (sec) head.dataset.tone = sec.dataset.theme;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
       if (!calm) head.classList.toggle('hide', dir > 0 && y > window.innerHeight * 0.9 && !overlay.classList.contains('open'));
     };
 
@@ -1072,6 +1573,7 @@
     if (calm || !haveLibs) {
       let last = 0;
       window.addEventListener('scroll', () => { const y = scrollY; onScrollHead(y, y - last); last = y; }, { passive: true });
+      loadVideo();
       return;
     }
 
@@ -1090,7 +1592,14 @@
       const target = id === '#top' ? 0 : document.querySelector(id);
       if (target === null) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: id === '#receipt' ? -80 : 0, duration: 1.6 });
+      lenis.scrollTo(target, {
+        offset: id === '#receipt' ? -80 : 0, duration: 1.6,
+        onComplete: () => {
+          // הפוקוס עובר ליעד, והכתובת מתעדכנת, כמו בקישור רגיל
+          if (target !== 0) { if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+          history.pushState(null, '', id);
+        },
+      });
     }));
 
     // פיצול טקסט לאותיות ולמילים
@@ -1106,13 +1615,26 @@
     };
 
     // צבע הרקע של הדף עובר מיום ללילה לפי הקטע שעל המסך
+    // המעבר צמוד לגלילה, כמו שקיעה, ולא קפיצה
     const tones = { day: '#d6d7cb', dusk: '#3e1d27', night: '#1e0d12' };
+    let prev = null;
     document.querySelectorAll('main > [data-theme], footer[data-theme]').forEach(sec => {
-      ScrollTrigger.create({
-        trigger: sec, start: 'top 55%', end: 'bottom 55%',
-        onToggle: self => self.isActive && gsap.to(document.body, { backgroundColor: tones[sec.dataset.theme], duration: 0.9, ease: 'power2.out', overwrite: 'auto' }),
-      });
+      const tone = sec.dataset.theme;
+      if (prev && prev !== tone) {
+        gsap.fromTo(document.body, { backgroundColor: tones[prev] }, {
+          backgroundColor: tones[tone], ease: 'none', immediateRender: false,
+          scrollTrigger: { trigger: sec, start: 'top 90%', end: 'top 30%', scrub: true },
+        });
+      }
+      prev = tone;
     });
+
+    // קו רכס הגליל נמתח בזמן הגלילה
+    const ridge = document.querySelector('.ridge path');
+    if (ridge) {
+      const len = ridge.getTotalLength();
+      gsap.fromTo(ridge, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.ridge', start: 'top 95%', end: 'bottom 45%', scrub: true } });
+    }
 
     // --- הפתיח ---
     const heroChars = splitChars(document.querySelector('.hero-name'));
@@ -1128,12 +1650,13 @@
       const introChars = splitChars(intro.querySelector('.intro-name'));
       lenis.stop();
       gsap.timeline({ onComplete: () => { intro.remove(); lenis.start(); } })
-        .from(introChars, { yPercent: 120, duration: 1, ease: 'expo.out', stagger: 0.06 })
-        .from('.intro-sub', { opacity: 0, y: 10, duration: 0.8, ease: 'power2.out' }, 0.5)
-        .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'expo.inOut' }, '+=0.35')
-        .add(() => heroIn.play(), '-=0.75');
+        .from(introChars, { yPercent: 120, duration: 0.8, ease: 'expo.out', stagger: 0.04 })
+        .from('.intro-sub', { opacity: 0, y: 10, duration: 0.6, ease: 'power2.out' }, 0.35)
+        .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: 0.9, ease: 'expo.inOut' }, '+=0.15')
+        .add(() => { heroIn.play(); loadVideo(); }, '-=0.65');
     } else {
       heroIn.play();
+      loadVideo();
     }
 
     gsap.to(heroImg, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
@@ -1141,9 +1664,7 @@
 
     // --- המשפט של בר נצבע מילה אחר מילה בזמן הקריאה ---
     const st = document.querySelector('[data-words]');
-    const q = [...st.querySelectorAll('.q')].map(n => n.outerHTML);
-    const text = st.textContent.replace(/״/g, '').trim();
-    st.innerHTML = q[0] + text.split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ') + q[1];
+    st.innerHTML = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
     gsap.fromTo(st.querySelectorAll('.w'), { opacity: 0.14 }, {
       opacity: 1, ease: 'none', stagger: 0.1,
       scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true },
@@ -1182,12 +1703,13 @@
     mm.add('(min-width: 900px)', () => {
       const track = document.querySelector('.roads-track');
       track.classList.add('pinned');
+      track.removeAttribute('tabindex');
       const dist = () => Math.max(0, track.scrollWidth - track.clientWidth);
       const tween = gsap.to(track, {
         x: () => dist(), ease: 'none',
-        scrollTrigger: { trigger: '.roads-pin', start: 'center center', end: () => '+=' + dist(), pin: true, scrub: 0.8, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: '.roads-pin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.8, invalidateOnRefresh: true },
       });
-      return () => { track.classList.remove('pinned'); tween.kill(); gsap.set(track, { clearProps: 'transform' }); };
+      return () => { track.classList.remove('pinned'); track.setAttribute('tabindex', '0'); tween.kill(); gsap.set(track, { clearProps: 'transform' }); };
     });
 
     // --- הסיום ---
