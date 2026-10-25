@@ -216,3 +216,9 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .a11y__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: var(--fs-s); }
 .a11y__foot a { color: var(--ink); }
 .a11y__reset { color: var(--ink); background: none; border: 0; text-decoration: underline; font-family: inherit; cursor: pointer; }
+
+/* קישור וואטסאפ בכל כרטיס עבודה: "רוצים משהו כזה?" */
+.card .links .card-wa { flex-basis: 100%; white-space: nowrap; display: inline-flex; align-items: center; gap: .4rem; color: var(--wa); font-weight: 600; text-decoration: none; min-height: 44px; }
+.card .links .card-wa svg { width: 18px; height: 18px; fill: currentColor; }
+/* בטלפון הסרגל התחתון כבר נותן וואטסאפ, אז הכפתור בראש העמוד מוסתר כדי שלא יהיו שלושה כפתורים ירוקים במסך הראשון */
+@media (max-width: 899px) { .top-wa { display: none; } }
