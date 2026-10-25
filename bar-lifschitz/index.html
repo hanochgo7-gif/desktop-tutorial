@@ -289,8 +289,8 @@
   }
   .roads-track::-webkit-scrollbar { display: none; }
   .roads-track figure { flex: 0 0 auto; margin: 0; height: clamp(340px, 62vh, 660px); aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; }
-  .roads-track img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-  .roads-track figure:hover img { transform: scale(1.05); }
+  .roads-track img, .roads-track video { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .roads-track figure:hover img, .roads-track figure:hover video { transform: scale(1.05); }
   html.motion .roads-track.pinned { overflow: visible; scroll-snap-type: none; }
 
   /* ---------- סיום ---------- */
@@ -675,12 +675,12 @@
         <p>עוד באינסטגרם <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
       </div>
       <div class="roads-track" tabindex="0" aria-label="גלריית תמונות">
-        <figure><img loading="lazy" decoding="async" src="images/sashimi.jpg" srcset="images/sashimi-600.jpg 600w, images/sashimi.jpg 1125w" sizes="(max-width: 899px) 78vw, 46vh" width="1125" height="2000" alt="צלחות סשימי דג לבן בקונסומה ורודה, צ׳ילי וירוקים"></figure>
-        <figure><img loading="lazy" decoding="async" src="images/night-toast-still.jpg" srcset="images/night-toast-still-600.jpg 600w, images/night-toast-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="ערב בחצר: שולחן ארוך מלא אורחים מרימים כוסות"></figure>
-        <figure><img loading="lazy" decoding="async" src="images/fish-hang-still.jpg" srcset="images/fish-hang-still-600.jpg 600w, images/fish-hang-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="שני דגים שלמים תלויים ליישון"></figure>
-        <figure><img loading="lazy" decoding="async" src="images/glasses-ice-still.jpg" srcset="images/glasses-ice-still-600.jpg 600w, images/glasses-ice-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="כוסות יין ודלי קרח עם בקבוקים ופרחים על חבית"></figure>
-        <figure><img loading="lazy" decoding="async" src="images/window-night-still.jpg" srcset="images/window-night-still-600.jpg 600w, images/window-night-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="בר עובד במטבח מואר, דרך חלון בקיר בורדו"></figure>
-        <figure><img loading="lazy" decoding="async" src="images/yard-guests-still.jpg" srcset="images/yard-guests-still-600.jpg 600w, images/yard-guests-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="השולחן הארוך בחצר מלא אורחים מתחת לעץ"></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/sashimi-600.jpg" data-src="media/sashimi-motion" aria-label="צלחות סשימי דג לבן בקונסומה ורודה, צ׳ילי וירוקים"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/night-toast-still-600.jpg" data-src="media/night-toast" aria-label="ערב בחצר: שולחן ארוך מלא אורחים מרימים כוסות"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/fish-hang-still-600.jpg" data-src="media/fish-hang" aria-label="שני דגים שלמים תלויים ליישון"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/glasses-ice-still-600.jpg" data-src="media/glasses-ice" aria-label="כוסות יין ודלי קרח עם בקבוקים ופרחים על חבית"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/window-night-still-600.jpg" data-src="media/window-night" aria-label="בר עובד במטבח מואר, דרך חלון בקיר בורדו"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="images/yard-guests-still-600.jpg" data-src="media/yard-guests" aria-label="השולחן הארוך בחצר מלא אורחים מתחת לעץ"></video></figure>
       </div>
     </div>
   </section>
