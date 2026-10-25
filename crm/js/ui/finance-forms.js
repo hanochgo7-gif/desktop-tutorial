@@ -3,7 +3,7 @@
 import { html, render, $, $$, fmt, toDateInput, addDays } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName } from '../core/model.js';
-import { paymentsOf } from '../core/metrics.js';
+import { paymentsOf, paidTotal } from '../core/metrics.js';
 import { DOC_KINDS, EXPENSE_CATEGORIES, docTotals, nextDocNumber, r2 } from '../core/finance.js';
 import { modal, toast, icon, readForm, showFieldErrors, opt, dateErrors, moneyErrors, confirmDialog } from './components.js';
 import { withPayments, vatRate } from './forms.js';
@@ -33,6 +33,9 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
   const dealAmount = deal ? Number(deal.outcome === 'won' ? deal.amount_final : deal.amount_expected) || 0 : 0;
   let items = doc?.items?.length ? structuredClone(doc.items) : [{ description: deal ? deal.name : '', qty: 1, price: deal ? Math.max(0, r2(dealAmount - already)) || '' : '' }];
   const rate = doc ? Number(doc.vat_rate) : vatRateOf();
+  const exempt = store.settings.vatStatus === 'exempt';
+  // an exempt business (עוסק פטור) issues receipts only, never tax invoices
+  const kinds = DOC_KINDS.filter((x) => !x.own && (!exempt || ['receipt', 'credit_note'].includes(x.value)));
   const title = editing ? `עריכת ${DOC_KINDS.find((x) => x.value === k)?.label}` : own ? 'דרישת תשלום חדשה' : 'רישום חשבונית שהופקה בתוכנת החשבוניות';
   return modal({
     title, size: 'lg',
@@ -48,10 +51,16 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
           contactChanged = false;
         }
         const v = (name, dflt) => (keep && keep[name] !== undefined ? keep[name] ?? '' : dflt ?? '');
+        // a receipt for a deal that is already fully paid most likely documents a payment recorded there
+        const dealPaidUp = () => {
+          const d = store.get('crm_deals', keep ? keep.deal_id : deal?.id);
+          const total = d ? Number(d.outcome === 'won' ? d.amount_final : d.amount_expected) || 0 : 0;
+          return !!d && total > 0 && paidTotal(d) >= total - 0.5;
+        };
         render(el, html`<form class="form-grid doc-form" novalidate>
-          ${own ? html`<p class="notice">${icon('info')}<span>דרישת תשלום היא בקשה לתשלום ו<b>אינה חשבונית מס</b>. את חשבונית המס מפיקים בתוכנת חשבוניות מוכרת ע"י רשות המסים, ואחר כך רושמים אותה כאן.</span></p>`
+          ${own ? html`<p class="notice">${icon('info')}<span>${exempt ? html`דרישת תשלום היא בקשה לתשלום. עם קבלת התשלום מפיקים קבלה בתוכנת החשבוניות, ואחר כך רושמים אותה כאן.` : html`דרישת תשלום היא בקשה לתשלום ו<b>אינה חשבונית מס</b>. את חשבונית המס מפיקים בתוכנת חשבוניות מוכרת ע"י רשות המסים, ואחר כך רושמים אותה כאן.`}</span></p>`
             : html`<div class="form-3">
-              ${field('סוג המסמך', html`<select class="input" name="kind">${opt(DOC_KINDS.filter((x) => !x.own), v('kind', k))}</select>`)}
+              ${field('סוג המסמך', html`<select class="input" name="kind">${opt(kinds, v('kind', exempt && !doc ? 'receipt' : k))}</select>`)}
               ${field('מספר המסמך', html`<input class="input" name="number" dir="ltr" value="${v('number', doc?.number)}" required>`)}
               ${field('הופק בתוכנה', html`<input class="input" name="external_system" value="${v('external_system', doc?.external_system ?? store.settings.invoiceSoftware ?? '')}" placeholder="למשל: חשבונית ירוקה, iCount">`)}
             </div>`}
@@ -60,7 +69,8 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
             ${field('עסקה (לא חובה)', html`<select class="input" name="deal_id">${opt(dealsOf(v('contact_id', cid)), v('deal_id', deal?.id), { empty: 'בלי עסקה' })}</select>`)}
             ${field('תאריך', html`<input class="input" name="issue_date" type="date" value="${v('issue_date', doc?.issue_date ?? toDateInput(new Date()))}">`)}
           </div>
-          <fieldset><legend>${own ? 'פירוט' : 'סכומים'} (מחירים לפני מע"מ)</legend>
+          ${!own && !editing && RECEIPT_KINDS.includes(v('kind', exempt ? 'receipt' : k)) ? html`<label class="row small"><input type="checkbox" class="cbx" name="_record_pay" ${v('_record_pay', !dealPaidUp()) ? 'checked' : ''}> לרשום את התשלום (${fmt.exact(docTotals(items, rate).total)}) כהכנסה. בטלו אם כבר רשמתם אותו בעסקה או בדרישת התשלום.</label>` : ''}
+          <fieldset><legend>${own ? 'פירוט' : 'סכומים'}${rate ? ' (מחירים לפני מע"מ)' : ''}</legend>
             <div class="doc-lines">
               <div class="doc-line doc-line-head" aria-hidden="true"><span>תיאור</span><span>כמות</span><span>מחיר ליחידה</span><span>סה"כ</span><span></span></div>
               ${items.map((it, i) => html`<div class="doc-line">
@@ -98,7 +108,10 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
         const dd = $$('.doc-totals dd', el);
         dd[0].textContent = fmt.exact(t.subtotal); dd[1].textContent = fmt.exact(t.vat); dd[2].innerHTML = `<b>${fmt.exact(t.total)}</b>`;
       });
-      el.addEventListener('change', (e) => { if (e.target.name === 'contact_id') { contactChanged = true; draw(); } });
+      el.addEventListener('change', (e) => {
+        if (e.target.name === 'contact_id') { contactChanged = true; draw(); }
+        if (e.target.name === 'kind' || e.target.name === 'deal_id') draw();
+      });
       el.addEventListener('click', (e) => {
         if (e.target.closest('[data-add-line]')) { items.push({ description: '', qty: 1, price: '' }); draw(); $$('[data-k=description]', el).pop()?.focus(); }
         const d = e.target.closest('[data-del-line]');
@@ -122,6 +135,7 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
     if (!clean.length || clean.every((it) => !it.price)) errs[`_lines`] = 'הוסיפו לפחות שורה אחת עם מחיר';
     if (clean.some((it) => it.qty < 0 || it.price < 0 || it.price > 1e8)) errs._lines = 'כמות ומחיר לא יכולים להיות שליליים';
     if (v.due_date && v.issue_date && v.due_date < v.issue_date) errs.due_date = 'תאריך התשלום לפני תאריך המסמך';
+    if (doc && Number(doc.paid) > 0 && docTotals(clean, rate).total < Number(doc.paid) - 0.005) errs._lines = `כבר שולמו ${fmt.exact(doc.paid)} על המסמך. אי אפשר להקטין את הסכום מתחת לזה. אם הכסף הוחזר, רשמו החזר כספי בעסקה.`;
     if (errs._lines) { toast(errs._lines, { kind: 'error' }); delete errs._lines; if (!Object.keys(errs).length) return false; }
     if (showFieldErrors(form, errs)) return false;
     const number = own ? (doc?.number || nextDocNumber(store.all('crm_documents'), 'payment_request', new Date(v.issue_date || Date.now()).getFullYear())) : v.number;
@@ -135,12 +149,28 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
     return save(async () => {
       // payments already recorded on the document move with it to its new deal (or out of the old one)
       if (doc?.payments?.length && (doc.deal_id || null) !== row.deal_id) await movePayments(doc, doc.deal_id, row.deal_id);
-      const rec = doc ? await store.update('crm_documents', doc.id, row) : await store.insert('crm_documents', { ...row, payments: [], paid: 0 });
+      let rec = doc ? await store.update('crm_documents', doc.id, row) : await store.insert('crm_documents', { ...row, payments: [], paid: 0 });
+      // a receipt confirms money already received: record it once (on the document, mirrored on the deal)
+      if (!doc && RECEIPT_KINDS.includes(row.kind) && v._record_pay) rec = await addDocPayment(store.get('crm_documents', rec.id) || rec, { id: crypto.randomUUID(), amount: Number(rec.total), date: row.issue_date, method: 'other', note: '' });
       toast(doc ? 'המסמך עודכן' : own ? `דרישת תשלום ${number} נשמרה` : `${DOC_KINDS.find((x) => x.value === row.kind)?.label} ${number} נרשמה`, { kind: 'success' });
       onSaved?.(rec);
       if (print) setTimeout(() => { location.hash = `#/doc/${rec.id}/print`; }, 50);
       return true;
     }, form);
+  }
+}
+
+const RECEIPT_KINDS = ['receipt', 'tax_invoice_receipt'];
+// Record a payment on a document and mirror it on its deal. Deal first: if the document update fails, the deal is put back.
+async function addDocPayment(doc, pay) {
+  const deal = store.get('crm_deals', doc.deal_id);
+  const before = deal ? paymentsOf(deal).filter((p) => p.id !== 'legacy') : null;
+  if (deal) await store.update('crm_deals', deal.id, withPayments(deal, [...before, mirror(doc, pay)]));
+  try {
+    return await store.update('crm_documents', doc.id, { payments: [...(doc.payments || []), pay] });
+  } catch (e) {
+    if (deal) await store.update('crm_deals', deal.id, withPayments(deal, before)).catch(() => {});
+    throw e;
   }
 }
 
@@ -167,11 +197,11 @@ export function openDocPayment(doc, { onSaved } = {}) {
   return modal({
     title: `רישום תשלום: ${doc.number || ''}`, size: 'sm',
     body: html`<form class="form-grid" novalidate>
-      <p class="small">סה"כ במסמך: <b>${fmt.exact(doc.total)}</b> כולל מע"מ. שולם עד עכשיו: ${fmt.exact(doc.paid || 0)}.</p>
-      ${field('סכום שהתקבל (כולל מע"מ)', html`<input class="input num" name="amount" type="number" min="0" step="any" dir="ltr" value="${remaining > 0 ? remaining : ''}" autofocus>`)}
+      <p class="small">סה"כ במסמך: <b>${fmt.exact(doc.total)}</b>${Number(doc.vat_rate) ? ' כולל מע"מ' : ''}. שולם עד עכשיו: ${fmt.exact(doc.paid || 0)}.</p>
+      ${field(Number(doc.vat_rate) ? 'סכום שהתקבל (כולל מע"מ)' : 'סכום שהתקבל', html`<input class="input num" name="amount" type="number" min="0" step="any" dir="ltr" value="${remaining > 0 ? remaining : ''}" autofocus>`)}
       ${field('תאריך', html`<input class="input" name="date" type="date" value="${toDateInput(new Date())}" max="${toDateInput(new Date())}">`)}
       ${field('אמצעי תשלום', html`<select class="input" name="method">${opt([{ value: 'transfer', label: 'העברה בנקאית' }, { value: 'bit', label: 'ביט / פייבוקס' }, { value: 'credit', label: 'אשראי' }, { value: 'cash', label: 'מזומן' }, { value: 'check', label: 'צ׳ק' }, { value: 'other', label: 'אחר' }], 'transfer')}</select>`)}
-      ${doc.kind === 'payment_request' ? html`<p class="field-help">על תשלום שהתקבל צריך להפיק קבלה או חשבונית מס/קבלה בתוכנת החשבוניות.</p>` : ''}
+      ${doc.kind === 'payment_request' ? html`<p class="field-help">${store.settings.vatStatus === 'exempt' ? 'על תשלום שהתקבל צריך להפיק קבלה בתוכנת החשבוניות.' : 'על תשלום שהתקבל צריך להפיק קבלה או חשבונית מס/קבלה בתוכנת החשבוניות.'}</p>` : ''}
     </form>`,
     actions: [
       { label: 'ביטול' },
@@ -188,17 +218,7 @@ export function openDocPayment(doc, { onSaved } = {}) {
           const payId = crypto.randomUUID();
           const methodLabel = form.method.selectedOptions[0]?.textContent;
           return save(async () => {
-            const pay = { id: payId, amount: v.amount, date: v.date, method: v.method, note: methodLabel || '' };
-            // deal first: if the document update then fails, the deal is put back, so nothing is half-saved
-            const deal = store.get('crm_deals', doc.deal_id);
-            const before = deal ? paymentsOf(deal).filter((p) => p.id !== 'legacy') : null;
-            if (deal) await store.update('crm_deals', deal.id, withPayments(deal, [...before, mirror(doc, pay)]));
-            try {
-              await store.update('crm_documents', doc.id, { payments: [...(doc.payments || []), pay] });
-            } catch (e) {
-              if (deal) await store.update('crm_deals', deal.id, withPayments(deal, before)).catch(() => {});
-              throw e;
-            }
+            await addDocPayment(doc, { id: payId, amount: v.amount, date: v.date, method: v.method, note: methodLabel || '' });
             toast('התשלום נרשם', { kind: 'success' });
             onSaved?.();
             return true;
@@ -230,7 +250,8 @@ export function openExpenseForm({ expense = null, dealId = null, onSaved } = {})
         ${field('קטגוריה', html`<select class="input" name="category">${opt(EXPENSE_CATEGORIES, e.category)}</select>`, 'הוצאות פרסום (Google, Meta) מזינים במסך "מקורות ופרסום", כדי שלא ייספרו פעמיים.')}
         ${field('סכום (₪)', html`<input class="input num" name="_amount" type="number" min="0" step="any" dir="ltr" value="${expense ? (licensed && Number(e.vat) ? r2(Number(e.amount) + Number(e.vat)) : e.amount) : ''}">`)}
       </div>
-      ${licensed ? html`<label class="row small"><input type="checkbox" class="cbx" name="_incl_vat" ${!expense || Number(e.vat) ? 'checked' : ''}> הסכום כולל מע"מ שאפשר לקזז (יש חשבונית מס מהספק)</label>` : ''}
+      ${licensed ? html`<label class="row small"><input type="checkbox" class="cbx" name="_incl_vat" ${!expense || Number(e.vat) ? 'checked' : ''}> הסכום כולל מע"מ שאפשר לקזז (יש חשבונית מס מהספק)</label>
+        <p class="field-help" data-vehicle-note ${e.category === 'vehicle' ? '' : 'hidden'}>ברכב פרטי מותר בדרך כלל לקזז רק חלק מהמע"מ (לרוב 2/3 או 1/4, לפי השימוש). המע"מ כאן נספר במלואו, אז כדאי לבדוק עם רואה החשבון.</p>` : ''}
       ${field('תיאור', html`<input class="input" name="description" value="${e.description ?? ''}">`)}
       ${field('עלות ישירה של עסקה (לא חובה)', html`<select class="input" name="deal_id">${opt(store.all('crm_deals').map((d) => ({ value: d.id, label: d.name })), e.deal_id, { empty: 'לא קשור לעסקה מסוימת' })}</select>`)}
       <div class="form-2">
@@ -268,3 +289,10 @@ export function openExpenseForm({ expense = null, dealId = null, onSaved } = {})
     ],
   });
 }
+
+// expense form: the partial-VAT note shows only for vehicle expenses
+document.addEventListener('change', (e) => {
+  if (e.target.name !== 'category' || !e.target.closest('.ov')) return;
+  const note = e.target.closest('form')?.querySelector('[data-vehicle-note]');
+  if (note) note.hidden = e.target.value !== 'vehicle';
+});

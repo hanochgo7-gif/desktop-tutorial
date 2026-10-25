@@ -42,7 +42,7 @@ export default async function view(el, ctx) {
         <button class="kpi-btn" data-drill="customers"><span class="kpi-label">הפכו ללקוחות</span><span class="kpi-value">${fmt.number(t.customers)}</span><span class="kpi-sub">${na(pct(t.closeRate), t.closeRate.reason)} שיעור הפיכה${t.openCohort ? `, ${t.openCohort} עוד פתוחים` : ''}</span></button>
         <button class="kpi-btn" data-drill="won"><span class="kpi-label">הכנסה שנסגרה</span><span class="kpi-value money">${fmt.money(t.revenue)}</span><span class="kpi-sub">${t.wonDeals} עסקאות</span></button>
         <button class="kpi-btn" data-drill="collected"><span class="kpi-label">נגבה בפועל</span><span class="kpi-value">${fmt.money(t.collected)}</span></button>
-        <div class="kpi-btn static"><span class="kpi-label">רווח אחרי פרסום</span><span class="kpi-value ${t.profitAfterAds < 0 ? 'danger-text' : ''}">${fmt.money(t.profitAfterAds)}</span><span class="kpi-sub">${t.wonMissingCost ? `${t.wonMissingCost} עסקאות בלי עלות` : 'רווח גולמי פחות הוצאות פרסום'}</span></div>
+        <div class="kpi-btn static"><span class="kpi-label">רווח אחרי פרסום, לפי עסקאות שנסגרו</span><span class="kpi-value ${t.profitAfterAds < 0 ? 'danger-text' : ''}">${fmt.money(t.profitAfterAds)}</span><span class="kpi-sub">${t.wonMissingCost ? `${t.wonMissingCost} עסקאות בלי עלות` : 'רווח גולמי פחות הוצאות פרסום'}</span></div>
       </section>
       ${insights.length ? html`<section class="panel insights"><div class="panel-head"><h2>${icon('sparkles')}מה הנתונים אומרים</h2><span class="muted small">חישוב, לא ניחוש</span></div><ul>${insights.map((i) => html`<li>${i}</li>`)}</ul></section>` : ''}
       <div class="table-wrap"><table class="table table-sources">
@@ -189,9 +189,10 @@ function openSpend() {
         const existing = store.find('crm_ad_spend', (r) => r.source_id === v.source_id && String(r.day).slice(0, 10) === day && !r.campaign_id && r.origin === 'manual');
         if (existing && Number(existing.amount) !== v.amount && !(await confirmDialog(`ל${store.get('crm_sources', v.source_id)?.name} בחודש ${v.month} כבר הוזנו ${fmt.money(existing.amount)}. להחליף ב-${fmt.money(v.amount)}?`, { okLabel: 'החלפה' }))) return;
         try {
-          if (existing) await store.update('crm_ad_spend', existing.id, { amount: v.amount });
+          if (existing) await store.update('crm_ad_spend', existing.id, { amount: v.amount, ...(existing.sample ? { sample: false } : {}) }); // edited sample spend is the user's now
           else await store.insert('crm_ad_spend', { source_id: v.source_id, day, amount: v.amount, origin: 'manual', currency: 'ILS' });
           toast(existing ? 'ההוצאה עודכנה' : 'ההוצאה נוספה', { kind: 'success' });
+          form.dispatchEvent(new Event('hg:saved', { bubbles: true }));
           draw();
         } catch (err) { toast(err.message, { kind: 'error' }); }
       });

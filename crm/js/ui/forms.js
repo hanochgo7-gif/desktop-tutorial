@@ -3,6 +3,7 @@
 import { html, raw, render, $, fmt, toDateTimeInput, toDateInput, addDays } from '../core/util.js';
 import { paymentsOf, paidTotal } from '../core/metrics.js';
 import { store } from '../core/store.js';
+import { normPhone } from '../core/rules.js';
 import {
   LEAD_STATUS, FIT, DISQUALIFY, LOST_REASONS, TASK_TYPES, ACTIVITY_TYPES, CALL_OUTCOMES, SERVICE_TYPES,
   contactName, sources, stages, pipeline, findDuplicates, label,
@@ -68,7 +69,7 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
           ${field('סטטוס', html`<select class="input" name="lead_status">${opt(LEAD_STATUS, c.lead_status)}</select>`)}
           ${field('סיבת פסילה', html`<select class="input" name="disqualify_reason">${opt(DISQUALIFY, c.disqualify_reason, { empty: '—' })}</select>`)}
         </div>` : ''}
-        ${editing ? '' : html`<fieldset class="next-step"><legend>פולואפ ראשון</legend>
+        ${editing ? '' : html`<fieldset class="next-step"><legend>הצעד הראשון</legend>
           <div class="form-2">
             ${field('סוג', html`<select class="input" name="_task_type">${opt(TASK_TYPES.filter((t) => ['call', 'whatsapp', 'email'].includes(t.value)), 'call')}</select>`)}
             ${field('מתי', html`<input class="input" name="_task_due" type="datetime-local" value="${toDateTimeInput(inHours(1))}">`)}
@@ -102,6 +103,8 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
           if (!v.first_name && !v.last_name && !v.phone && !v.email && !v.company_name) errors.first_name = 'צריך לפחות שם, טלפון או אימייל';
           Object.assign(errors, dateErrors(v), moneyErrors(v, ['budget_estimate']));
           if (v.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email)) errors.email = 'כתובת אימייל לא תקינה';
+          // a letter in a phone number (O instead of 0) would silently become another number
+          if (v.phone && !phoneOk(v.phone)) errors.phone = /[oOםס]/.test(v.phone) ? 'יש במספר אות (אולי O במקום 0). בדקו את המספר' : 'בדקו את המספר: 9–10 ספרות, למשל 050-1234567';
           if (v.lead_status === 'disqualified' && !v.disqualify_reason) errors.disqualify_reason = 'בחרו סיבה';
           if (showFieldErrors(form, errors)) return false;
           const dups = findDuplicates(v, c.id);
@@ -195,7 +198,7 @@ export function openActivityForm({ contactId, dealId = null, type = 'call', onSa
           <label class="row"><input type="checkbox" class="cbx" name="_next" ${type === 'note' ? '' : 'checked'}> <span>לקבוע משימת המשך</span></label>
           <div data-next ${type === 'note' ? 'hidden' : ''}>
             <div class="form-2">
-              ${field('מה', html`<input class="input" name="_next_title" value="${deal ? 'פולואפ על ההצעה' : 'שיחת המשך'}">`)}
+              ${field('מה', html`<input class="input" name="_next_title" value="${deal ? 'מעקב אחרי ההצעה' : 'שיחת המשך'}">`)}
               ${field('מתי', html`<input class="input" name="_next_due" type="datetime-local" value="${toDateTimeInput(defaultNext(CALL_OUTCOMES[0]))}">`)}
             </div>
             ${quickChips(quick)}
@@ -209,7 +212,7 @@ export function openActivityForm({ contactId, dealId = null, type = 'call', onSa
         if (form._status && !statusTouched) form._status.value = defaultStatus(c, out, t);
         if (form._done_task && !form._done_task.dataset.touched) form._done_task.checked = t !== 'note';
         if (!dueTouched) form._next_due.value = toDateTimeInput(defaultNext(out));
-        if (form._next_title && !form._next_title.dataset.touched) form._next_title.value = NO_REACH.includes(out) ? 'לנסות שוב להשיג' : deal ? 'פולואפ על ההצעה' : 'שיחת המשך';
+        if (form._next_title && !form._next_title.dataset.touched) form._next_title.value = NO_REACH.includes(out) ? 'לנסות שוב להשיג' : deal ? 'מעקב אחרי ההצעה' : 'שיחת המשך';
       };
       el.addEventListener('click', (e) => {
         const b = e.target.closest('[data-type]');
@@ -262,7 +265,7 @@ export function openActivityForm({ contactId, dealId = null, type = 'call', onSa
               writes.push(store.update('crm_tasks', dueTask.id, { status: 'done', outcome: v.outcome || v.body?.slice(0, 120) || null }));
             }
             if (v._next) {
-              writes.push(store.insert('crm_tasks', { title: v._next_title || 'פולואפ', type: NO_REACH.includes(v.outcome) ? 'call' : 'followup', due_at: v._next_due, contact_id: contactId || deal?.contact_id || null, deal_id: dealId, owner_id: store.userId }));
+              writes.push(store.insert('crm_tasks', { title: v._next_title || 'שיחת המשך', type: NO_REACH.includes(v.outcome) ? 'call' : 'followup', due_at: v._next_due, contact_id: contactId || deal?.contact_id || null, deal_id: dealId, owner_id: store.userId }));
             }
             await Promise.all(writes);
             toast(doneTask ? `נשמר. "${doneTask.title}" סומנה כבוצעה.` : 'נשמר', { kind: 'success', action: doneTask ? { label: 'ביטול הסימון', onClick: () => store.update('crm_tasks', doneTask.id, { status: 'open', outcome: null }) } : null });
@@ -473,6 +476,8 @@ export function openLostDialog(deal, stageId) {
 }
 
 // The business's VAT rate in percent: 0 for an exempt business (עוסק פטור), otherwise the rate in settings.
+// Israeli numbers (0...) have 9–10 digits; other international numbers 8–15. Letters are never allowed.
+const phoneOk = (p) => { const n = normPhone(p) || ''; return !/[^\d\s()+\-.]/.test(p) && (n.startsWith('0') ? /^\d{9,10}$/.test(n) : /^\d{8,15}$/.test(n)); };
 export const vatRate = () => (store.settings.vatStatus === 'exempt' ? 0 : Number(store.settings.vatRate ?? 18));
 // A payment is stored before VAT (like every amount in the reports); the amount actually received is kept as `gross`.
 export function payment(amount, includesVat, date, note, rate = vatRate()) {
@@ -508,7 +513,7 @@ export function openMoneyDialog(deal) {
           </tbody></table>
           <p class="small">סה"כ נגבה: <b>${fmt.exact(total())}</b>${dealTotal() ? html` | יתרה: <b class="${dealTotal() - total() > 0 ? 'warn-text' : ''}">${fmt.exact(Math.max(0, dealTotal() - total()))}</b>` : ''}</p>` : html`<p class="muted small">עוד לא נרשמו תשלומים.</p>`}
           <div class="pay-add">
-            ${field('סכום (₪)', html`<input class="input num" name="_amt" type="number" step="1" dir="ltr" placeholder="${Math.max(0, dealTotal() - total()) || ''}">`)}
+            ${field('סכום (₪)', html`<input class="input num" name="_amt" type="number" step="1" dir="ltr" placeholder="${Math.max(0, dealTotal() - total()) ? `יתרה: ${Math.round(Math.max(0, dealTotal() - total()))}` : ''}">`)}
             ${field('תאריך', html`<input class="input" name="_date" type="date" value="${toDateInput(new Date())}">`)}
             ${field('הערה', html`<input class="input" name="_note" placeholder="למשל: מקדמה, העברה בנקאית">`)}
             ${vatRate() ? html`<label class="row small pay-vat"><input type="checkbox" class="cbx" name="_vat" checked> הסכום כולל מע"מ (${vatRate()}%)</label>` : ''}
@@ -536,7 +541,7 @@ export function openMoneyDialog(deal) {
         if (!form._date.value || isNaN(d) || d.getFullYear() < 2000 || d > new Date(Date.now() + 864e5)) { showFieldErrors(form, { _date: 'בחרו תאריך תקין (לא בעתיד)' }); return; }
         const p = payment(add.dataset.add === 'refund' ? -amt : amt, form._vat?.checked, form._date.value, form._note.value.trim() || (add.dataset.add === 'refund' ? 'החזר' : ''));
         if (total() + p.amount < -0.01) { showFieldErrors(form, { _amt: 'ההחזר גדול מסך מה שנגבה' }); return; }
-        if (p.amount > 0 && dealTotal() && total() + p.amount > dealTotal() * 1.05) { showFieldErrors(form, { _amt: `סך הגבייה (${fmt.exact(total() + p.amount)} לפני מע"מ) יעלה על סכום העסקה (${fmt.exact(dealTotal())}). אם הסכום כולל מע"מ, סמנו זאת.` }); return; }
+        if (p.amount > 0 && dealTotal() && total() + p.amount > dealTotal() + 1) { showFieldErrors(form, { _amt: `סך הגבייה (${fmt.exact(total() + p.amount)} לפני מע"מ) יעלה על סכום העסקה (${fmt.exact(dealTotal())}). אם הסכום כולל מע"מ, סמנו זאת.` }); return; }
         list.push(p);
         draw();
       });

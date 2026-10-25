@@ -16,7 +16,7 @@ export default async function view(el, ctx) {
   const missing = !s.businessName || !s.taxId;
   render(el, html`
     <div class="print-bar no-print">
-      <a class="btn btn-ghost" href="#/finance?tab=docs">${icon('arrowRight')}חזרה</a>
+      <a class="btn btn-ghost" href="${doc.deal_id ? `#/d/${doc.deal_id}` : '#/finance?tab=docs'}">${icon('arrowRight')}${doc.deal_id ? 'חזרה לעסקה' : 'חזרה למסמכים'}</a>
       ${missing ? html`<span class="warn-text small">חסרים פרטי העסק במסמך. <a href="#/settings">השלמה בהגדרות</a></span>` : ''}
       <button class="btn btn-primary" data-print>${icon('printer')}הדפסה / שמירה כ-PDF</button>
     </div>
@@ -35,7 +35,7 @@ export default async function view(el, ctx) {
           ${doc.due_date ? html`<p>לתשלום עד: <b>${fmt.date(doc.due_date)}</b></p>` : ''}
         </div>
       </header>
-      ${own ? html`<p class="paper-note">מסמך זה הוא דרישת תשלום ואינו חשבונית מס. חשבונית מס / קבלה תופק עם קבלת התשלום.</p>` : ''}
+      ${own ? html`<p class="paper-note">${s.vatStatus === 'exempt' ? 'מסמך זה הוא דרישת תשלום. קבלה תופק עם קבלת התשלום.' : 'מסמך זה הוא דרישת תשלום ואינו חשבונית מס. חשבונית מס / קבלה תופק עם קבלת התשלום.'}</p>` : ''}
       <section class="paper-to"><span class="muted">לכבוד</span><b>${contactName(c) || '—'}</b>${c?.company_name ? html`<span>${c.company_name}</span>` : ''}${c?.email ? html`<span dir="ltr">${c.email}</span>` : ''}</section>
       <table class="paper-lines">
         <thead><tr><th>תיאור</th><th>כמות</th><th>מחיר ליחידה</th><th>סה"כ</th></tr></thead>

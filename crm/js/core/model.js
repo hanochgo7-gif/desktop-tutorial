@@ -41,7 +41,7 @@ export const TASK_TYPES = [
   { value: 'email', label: 'אימייל', icon: 'mail' },
   { value: 'meeting', label: 'פגישת אפיון', icon: 'calendar' },
   { value: 'quote', label: 'הכנת הצעת מחיר', icon: 'quote' },
-  { value: 'followup', label: 'פולואפ', icon: 'refresh' },
+  { value: 'followup', label: 'מעקב / שיחת המשך', icon: 'refresh' },
   { value: 'todo', label: 'משימה', icon: 'task' },
 ];
 export const ACTIVITY_TYPES = [

@@ -91,6 +91,61 @@ async function wonDeal(p, name, amount) {
   check(near(deal.amount_paid, 0), 'the payment moved off the deal with the document');
   await p.close();
 
+  // ---- customer panel round 2
+  p = await fresh(b);
+  // double tap on save creates one deal; Enter saves the deal dialog
+  await p.click('[data-top="lead"]');
+  await p.fill('.ov [name=first_name]', 'רמי');
+  await p.fill('.ov [name=phone]', '0523456789');
+  await p.click('.ov-foot .btn-primary'); await p.waitForTimeout(400);
+  await p.click('.quick-bar [data-act="deal"]');
+  await p.fill('.ov [name=amount_expected]', '8000');
+  await p.locator('.ov-foot .btn-primary').dblclick(); await p.waitForTimeout(500);
+  check((await rows(p, 'crm_deals')).length === 1, 'double tap on save creates one deal');
+  await p.click('.quick-bar [data-act="deal"]');
+  await p.fill('.ov [name=amount_expected]', '500');
+  await p.press('.ov [name=amount_expected]', 'Enter'); await p.waitForTimeout(500);
+  check((await rows(p, 'crm_deals')).length === 2 && !(await p.locator('.ov').count()), 'Enter saves the new-deal dialog');
+  // a letter in the phone number is caught
+  await p.click('[data-top="lead"]');
+  await p.fill('.ov [name=first_name]', 'רונית');
+  await p.fill('.ov [name=phone]', '05O-1234567');
+  await p.click('.ov-foot .btn-primary'); await p.waitForTimeout(300);
+  check((await p.locator('.ov .field-err').innerText().catch(() => '')).includes('אות'), 'phone with a letter O is rejected with a hint');
+  await p.keyboard.press('Escape'); await p.waitForTimeout(200);
+  if (await p.locator('.ov-foot .btn-danger').count()) { await p.click('.ov-foot .btn-danger'); await p.waitForTimeout(300); }
+  // one Back press leaves a lead page that was just created
+  await p.goto(URL + '#/leads'); await p.waitForTimeout(300);
+  await p.click('[data-top="lead"]');
+  await p.fill('.ov [name=first_name]', 'ליאת');
+  await p.fill('.ov [name=phone]', '0541234567');
+  await p.click('.ov-foot .btn-primary'); await p.waitForTimeout(600);
+  const onLead = p.url().includes('#/c/');
+  await p.goBack(); await p.waitForTimeout(500);
+  check(onLead && !p.url().includes('#/c/'), `one Back press leaves the new lead page (${p.url().split('#')[1]})`);
+  // a receipt recorded from the invoicing software: paid, counted once, not a debt
+  await p.goto(URL + '#/finance?tab=docs'); await p.waitForTimeout(300);
+  await p.click('[data-act="new-inv"]');
+  await p.selectOption('.ov [name=kind]', 'receipt'); await p.waitForTimeout(150);
+  await p.selectOption('.ov [name=contact_id]', { label: 'רמי' }); await p.waitForTimeout(150);
+  await p.selectOption('.ov [name=deal_id]', ''); await p.waitForTimeout(150);
+  await p.fill('.ov [name=number]', '1046');
+  await p.fill('.ov [data-k=description]', 'החלפת שקע');
+  await p.fill('.ov [data-k=price]', '300');
+  await p.click('.ov-foot .btn-primary'); await p.waitForTimeout(500);
+  const rcpt = (await rows(p, 'crm_documents')).find((x) => x.number === '1046');
+  const fin = await p.evaluate(async () => {
+    const f = await import('./js/core/finance.js');
+    const d = { deals: window.__store.all('crm_deals'), documents: window.__store.all('crm_documents') };
+    const now = new Date();
+    return { income: f.summary(d, { from: new Date(now.getFullYear(), now.getMonth(), 1), to: new Date(now.getFullYear(), now.getMonth() + 1, 1) }).income, owed: f.receivables(d).rows.filter((r) => r.kind === 'doc').length };
+  });
+  check(rcpt && near(rcpt.paid, 354) && fin.owed === 0, `receipt recorded as paid and not owed (paid ${rcpt?.paid}, owed docs ${fin.owed})`);
+  check(near(fin.income, 300), `receipt counted once as income (${fin.income})`);
+  check(!(await p.locator(`[data-act="pay"][data-id="${rcpt?.id}"]`).count()), 'no "payment" button on a receipt');
+  await p.close();
+
+  p = await fresh(b);
   // deleting a lead lands on the list, not on "not found"
   p = await fresh(b);
   await p.click('[data-top="lead"]');

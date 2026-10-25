@@ -4,15 +4,17 @@ import { html, render, on, fmt, toCSV, download, toDateInput } from '../core/uti
 import { store } from '../core/store.js';
 import { setQuery } from '../core/router.js';
 import { contactName, label } from '../core/model.js';
-import { periodFor } from '../core/metrics.js';
-import { summary, receivables, vatPeriod, monthlySeries, receipts, docStatus, isOverdue, DOC_KINDS, DOC_STATUS, EXPENSE_CATEGORIES } from '../core/finance.js';
+import { periodFor, spendIn } from '../core/metrics.js';
+import { summary, receivables, vatPeriod, vatReportPeriod, monthlySeries, receipts, docStatus, isOverdue, DOC_KINDS, DOC_STATUS, EXPENSE_CATEGORIES } from '../core/finance.js';
 import { pageHeader, icon, badge, setTitle, emptyState, opt, tabs } from '../ui/components.js';
 import { openDocForm, openDocPayment, cancelDoc, openExpenseForm } from '../ui/finance-forms.js';
 import { showRecords } from '../ui/drill.js';
 
-const PERIODS = ['this_month', 'last_month', 'vat', 'this_quarter', 'this_year', 'last_12m'];
+const PERIODS = ['this_month', 'last_month', 'vat', 'vat_prev', 'this_quarter', 'this_year', 'last_12m'];
 const periodOf = (key) => {
-  if (key === 'vat') { const v = vatPeriod(new Date(), store.settings.vatFrequency || 'bimonthly'); return { ...v, label: `תקופת מע"מ ${v.label}` }; }
+  const freq = store.settings.vatFrequency || 'bimonthly';
+  if (key === 'vat') { const v = vatPeriod(new Date(), freq); return { ...v, label: `תקופת מע"מ ${v.label}` }; }
+  if (key === 'vat_prev') { const c = vatPeriod(new Date(), freq); const v = vatPeriod(new Date(c.from.getFullYear(), c.from.getMonth() - 1, 1), freq); return { ...v, label: `תקופת מע"מ קודמת (${v.label})` }; }
   return periodFor(key);
 };
 const data = () => ({ deals: store.all('crm_deals'), documents: store.all('crm_documents'), expenses: store.all('crm_expenses'), spend: store.all('crm_ad_spend'), settings: store.settings });
@@ -44,7 +46,7 @@ export default async function view(el, ctx) {
     const period = periodOf(st.p);
     const d = data();
     const s = summary(d, period);
-    const vp = vatPeriod(new Date(), store.settings.vatFrequency || 'bimonthly');
+    const vp = vatReportPeriod(new Date(), store.settings.vatFrequency || 'bimonthly'); // the report due next
     const vs = summary(d, vp);
     const rv = receivables({ deals: d.deals, documents: d.documents });
     const exempt = store.settings.vatStatus === 'exempt';
@@ -58,7 +60,7 @@ export default async function view(el, ctx) {
         <button class="kpi-btn" data-drill="income"><span class="kpi-label">הכנסות שנגבו</span><span class="kpi-value money">${fmt.money(s.income)}</span><span class="kpi-sub">לפני מע"מ, ${s.receiptsCount} תקבולים</span></button>
         <button class="kpi-btn" data-tabgo="expenses"><span class="kpi-label">הוצאות</span><span class="kpi-value">${fmt.money(s.expenseNet)}</span><span class="kpi-sub">לפני מע"מ, ${s.expensesCount} הוצאות</span></button>
         <a class="kpi-btn" href="#/sources"><span class="kpi-label">פרסום</span><span class="kpi-value">${fmt.money(s.ads)}</span><span class="kpi-sub">ממסך מקורות ופרסום</span></a>
-        <div class="kpi-btn static"><span class="kpi-label">רווח</span><span class="kpi-value ${s.profit < 0 ? 'danger-text' : ''}">${fmt.money(s.profit)}</span><span class="kpi-sub">הכנסות פחות הוצאות ופרסום</span></div>
+        <div class="kpi-btn static"><span class="kpi-label">רווח לפי כסף שנכנס</span><span class="kpi-value ${s.profit < 0 ? 'danger-text' : ''}">${fmt.money(s.profit)}</span><span class="kpi-sub">נגבה פחות הוצאות ופרסום. בדוח המקורות: לפי עסקאות שנסגרו</span></div>
         <button class="kpi-btn" data-drill="owed"><span class="kpi-label">יתרות לגבייה</span><span class="kpi-value ${rv.total ? 'warn-text' : ''}">${fmt.money(rv.total)}</span><span class="kpi-sub">${rv.rows.length} פתוחות, לפני מע"מ</span></button>
       </section>
       <div class="grid grid-2">
@@ -161,7 +163,8 @@ export default async function view(el, ctx) {
   on(el, 'click', '[data-act]', (e, b) => {
     const a = b.dataset.act;
     const doc = store.get('crm_documents', b.dataset.id);
-    if (a === 'new-pr') openDocForm({ kind: 'payment_request' });
+    // a draft is not "awaiting payment": show the drafts list so it doesn't seem to vanish
+    if (a === 'new-pr') openDocForm({ kind: 'payment_request', onSaved: (rec) => { if (rec?.status === 'draft') { st.docf = 'draft'; draw(); } } });
     if (a === 'new-inv') openDocForm({ kind: 'tax_invoice' });
     if (a === 'pay' && doc) openDocPayment(doc);
     if (a === 'edit-doc' && doc) openDocForm({ doc });
@@ -185,9 +188,12 @@ export function exportForAccountant(period) {
     ['סוג', 'תאריך', 'לקוח / ספק', 'פרטים', 'לפני מע"מ', 'מע"מ', 'כולל מע"מ', 'אסמכתה'],
     ...rec.map((r) => ['תקבול', dd(r.date), name(r.contactId), r.dealId ? store.get('crm_deals', r.dealId)?.name : '', r.net, r.vat, r.gross, r.docId ? store.get('crm_documents', r.docId)?.number || '' : r.note]),
     ...exp.map((x) => ['הוצאה', dd(`${x.day}T12:00:00`), x.vendor, `${label(EXPENSE_CATEGORIES, x.category)}${x.description ? ` – ${x.description}` : ''}`, Number(x.amount), Number(x.vat || 0), Math.round((Number(x.amount) + Number(x.vat || 0)) * 100) / 100, x.reference]),
-    ...docs.map((x) => [`${label(DOC_KINDS, x.kind)} (רשומה)`, dd(`${x.issue_date}T12:00:00`), name(x.contact_id), x.external_system || '', Number(x.subtotal), Number(x.vat), Number(x.total), `${x.number || ''}${x.allocation_number ? ` הקצאה ${x.allocation_number}` : ''}`]),
+    ...docs.map((x) => { const sign = x.kind === 'credit_note' ? -1 : 1; return [`${label(DOC_KINDS, x.kind)} (רשומה)`, dd(`${x.issue_date}T12:00:00`), name(x.contact_id), x.external_system || '', sign * Number(x.subtotal), sign * Number(x.vat), sign * Number(x.total), `${x.number || ''}${x.allocation_number ? ` הקצאה ${x.allocation_number}` : ''}`]; }),
+    // ad spend is entered per source and month in "מקורות ופרסום"; it lowers the profit shown on screen
+    ...d.spend.filter((x) => !x.deleted_at).map((x) => ({ x, amt: Math.round(spendIn(x, period) * 100) / 100 })).filter((r) => r.amt > 0)
+      .map(({ x, amt }) => ['פרסום', dd(`${String(x.day).slice(0, 10)}T12:00:00`), store.get('crm_sources', x.source_id)?.name || '', 'הוזן ידנית במסך מקורות ופרסום, לפני מע"מ, בלי אסמכתה', amt, '', '', '']),
   ];
   const s = summary(d, period);
-  rows.push([], ['סה"כ תקבולים', '', '', '', s.income, s.outputVat, Math.round((s.income + s.outputVat) * 100) / 100], ['סה"כ הוצאות', '', '', '', s.expenseNet, s.inputVat, Math.round((s.expenseNet + s.inputVat) * 100) / 100]);
+  rows.push([], ['סה"כ תקבולים', '', '', '', s.income, s.outputVat, Math.round((s.income + s.outputVat) * 100) / 100], ['סה"כ הוצאות', '', '', '', s.expenseNet, s.inputVat, Math.round((s.expenseNet + s.inputVat) * 100) / 100], ['סה"כ פרסום', '', '', '', s.ads], ['רווח (הכנסות פחות הוצאות ופרסום)', '', '', '', s.profit]);
   download(`hg-os-accountant-${toDateInput(period.from)}.csv`, toCSV(rows), 'text/csv;charset=utf-8');
 }

@@ -39,7 +39,7 @@ export default async function view(el, ctx) {
                 <dt>עלות ישירה</dt><dd class="num">${d.direct_cost_estimate != null ? fmt.money(d.direct_cost_estimate) : html`<span class="warn-text">לא הוזנה</span>`}</dd>
                 <dt>רווח גולמי</dt><dd class="num">${profit != null ? fmt.money(profit) : html`<span class="muted">לא ניתן לחישוב בלי עלות</span>`}</dd>`
               : html`<dt>הסתברות</dt><dd class="num">${d.probability_override ?? cur?.probability ?? 0}%</dd>
-                <dt>משוקלל</dt><dd class="num">${fmt.money(Number(d.amount_expected || 0) * ((d.probability_override ?? cur?.probability ?? 0) / 100))}</dd>`}
+                <dt>צפי לפי סיכוי</dt><dd class="num">${fmt.money(Number(d.amount_expected || 0) * ((d.probability_override ?? cur?.probability ?? 0) / 100))}</dd>`}
             </dl>
           </section>
           <section class="panel">
@@ -69,7 +69,7 @@ export default async function view(el, ctx) {
             const exps = store.filter('crm_expenses', (x) => x.deal_id === id);
             return html`<section class="panel">
               <div class="panel-head"><h2>חשבוניות ומסמכים</h2><div class="row"><button class="btn btn-sm" data-act="pr">${icon('plus')}דרישת תשלום</button><button class="btn btn-sm btn-ghost" data-act="inv">רישום חשבונית</button></div></div>
-              ${docs.length ? html`<div class="list">${docs.map((x) => html`<div class="list-row"><span class="grow"><b>${label(DOC_KINDS, x.kind)} <span dir="ltr">${x.number || ''}</span></b><small class="muted">${fmt.date(x.issue_date)} | ${fmt.money(x.total)} כולל מע"מ | שולם ${fmt.money(x.paid || 0)}</small></span>${badge(label(DOC_STATUS, docStatus(x)), DOC_STATUS.find((y) => y.value === docStatus(x))?.color)}${x.kind === 'payment_request' ? html`<a class="btn-icon sm" href="#/doc/${x.id}/print" aria-label="הדפסת ${x.number}">${icon('printer')}</a>` : ''}${['sent', 'partial'].includes(docStatus(x)) ? html`<button class="btn btn-sm" data-act="doc-pay" data-id="${x.id}">תשלום</button>` : ''}</div>`)}</div>` : html`<p class="pad muted small">עוד לא הופקו מסמכים לעסקה הזו.</p>`}
+              ${docs.length ? html`<div class="list">${docs.map((x) => html`<div class="list-row"><span class="grow"><b>${label(DOC_KINDS, x.kind)} <span dir="ltr">${x.number || ''}</span></b><small class="muted">${fmt.date(x.issue_date)} | ${fmt.exact(x.total)}${Number(x.vat_rate) ? ' כולל מע"מ' : ''} | שולם ${fmt.exact(x.paid || 0)}</small></span>${badge(label(DOC_STATUS, docStatus(x)), DOC_STATUS.find((y) => y.value === docStatus(x))?.color)}${x.kind === 'payment_request' ? html`<a class="btn-icon sm" href="#/doc/${x.id}/print" aria-label="הדפסת ${x.number}">${icon('printer')}</a>` : ''}${['sent', 'partial'].includes(docStatus(x)) ? html`<button class="btn btn-sm" data-act="doc-pay" data-id="${x.id}">תשלום</button>` : ''}</div>`)}</div>` : html`<p class="pad muted small">עוד לא הופקו מסמכים לעסקה הזו.</p>`}
               ${exps.length ? html`<p class="panel-foot small">הוצאות בפועל על העסקה: <b>${fmt.money(exps.reduce((a, e) => a + Number(e.amount), 0))}</b> (${exps.map((e) => e.vendor || label(EXPENSE_CATEGORIES, e.category)).join(', ')})</p>` : ''}
             </section>`;
           })()}

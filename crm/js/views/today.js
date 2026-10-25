@@ -28,10 +28,15 @@ function buildActions() {
   }
   // new leads nobody has touched yet: speed to lead matters most
   const touched = new Set([...store.all('crm_activities').map((a) => a.contact_id), ...store.all('crm_tasks').map((t) => t.contact_id)]);
+  const imported = [];
   for (const c of store.all('crm_contacts')) {
     if (c.lead_status !== 'new' || touched.has(c.id) || c.lifecycle === 'customer') continue;
+    // leads brought in from a spreadsheet are not "just arrived": they must not push today's tasks down
+    if (c.origin === 'import') { imported.push(c); continue; }
     items.push({ kind: 'lead', contact: c, score: 95, reason: badge(`ליד חדש, נכנס ${fmt.relative(c.created_at)}`, 'violet'), title: 'ליד חדש שעוד לא טופל' });
   }
+  if (imported.length > 3) items.push({ kind: 'group', score: 40, href: '#/leads?tab=active', reason: badge('מיובאים', 'slate'), title: `${imported.length} לידים מיובאים שעוד לא טופלו` });
+  else for (const c of imported) items.push({ kind: 'lead', contact: c, score: 40, reason: badge('מיובא, עוד לא טופל', 'slate'), title: 'ליד מיובא שעוד לא טופל' });
   // open deals: stuck in stage, or no next action
   const stageById = new Map(store.all('crm_stages').map((s) => [s.id, s]));
   for (const d of store.filter('crm_deals', (x) => x.outcome === 'open')) {
@@ -47,8 +52,8 @@ function buildActions() {
 function actionRow(it, i) {
   const c = it.contact;
   const phone = c?.phone;
-  const typeIcon = it.kind === 'task' ? (TASK_TYPES.find((t) => t.value === it.task.type)?.icon || 'task') : it.kind === 'lead' ? 'user' : 'deal';
-  const href = it.deal ? `#/d/${it.deal.id}` : c ? `#/c/${c.id}` : '#/tasks';
+  const typeIcon = it.kind === 'task' ? (TASK_TYPES.find((t) => t.value === it.task.type)?.icon || 'task') : it.kind === 'lead' || it.kind === 'group' ? 'user' : 'deal';
+  const href = it.href || (it.deal ? `#/d/${it.deal.id}` : c ? `#/c/${c.id}` : '#/tasks');
   return html`<li class="act-row ${i < 3 ? 'top3' : ''}">
     ${it.kind === 'task' ? html`<button class="task-check" data-act="done" data-id="${it.task.id}" aria-label="סימון כבוצע: ${it.task.title}">${icon('check')}</button>` : html`<span class="act-ic">${icon(typeIcon)}</span>`}
     <a class="grow act-main" href="${href}">
@@ -89,11 +94,12 @@ export default async function view(el, ctx) {
         subtitle: new Date().toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' }),
         actions: html`<button class="btn btn-primary" data-act="new-lead">${icon('plus')}ליד חדש</button>`,
       })}
+      ${store.mode === 'local' && store.all('crm_contacts').some((c) => c.tags?.includes('דוגמה')) ? html`<div class="notice">${icon('info')}<div class="grow">אתם צופים בנתוני דוגמה. כשתתחילו לעבוד עם לידים אמיתיים, אפשר למחוק אותם בהגדרות.</div><a class="btn btn-sm" href="#/settings">למחיקת נתוני הדוגמה</a></div>` : ''}
       ${el._backupNote ? html`<div class="notice notice-warn backup-note">${icon('download')}<div class="grow">${el._backupNote}</div><a class="btn btn-sm" href="#/settings">לגיבוי בהגדרות</a></div>` : ''}
       <div class="today-layout">
       <section class="kpis today-kpis" aria-label="המספרים של החודש">
         <button class="kpi-btn" data-drill="leads"><span class="kpi-label">לידים חדשים החודש</span><span class="kpi-value">${fmt.number(s.newLeads.length)}</span></button>
-        <button class="kpi-btn" data-drill="open"><span class="kpi-label">עסקאות פתוחות</span><span class="kpi-value">${fmt.money(s.pipelineValue)}</span><span class="kpi-sub">${fmt.number(s.open.length)} עסקאות | משוקלל ${fmt.money(s.weightedPipeline)}</span></button>
+        <button class="kpi-btn" data-drill="open"><span class="kpi-label">עסקאות פתוחות</span><span class="kpi-value">${fmt.money(s.pipelineValue)}</span><span class="kpi-sub">${fmt.number(s.open.length)} עסקאות | צפי לפי סיכוי ${fmt.money(s.weightedPipeline)}</span></button>
         <button class="kpi-btn" data-drill="quotes"><span class="kpi-label">הצעות שממתינות לתשובה</span><span class="kpi-value">${fmt.number(quotesWaiting.length)}</span><span class="kpi-sub">${fmt.money(quotesWaiting.reduce((a, d) => a + Number(d.amount_expected || 0), 0))}</span></button>
         <button class="kpi-btn" data-drill="won"><span class="kpi-label">נסגר החודש</span><span class="kpi-value money">${fmt.money(s.revenue)}</span><span class="kpi-sub">${fmt.number(s.won.length)} עסקאות, לפני מע"מ</span></button>
         <button class="kpi-btn" data-drill="collected"><span class="kpi-label">נגבה בפועל החודש</span><span class="kpi-value">${fmt.money(s.collected)}</span><span class="kpi-sub">לפי הזנה ידנית</span></button>
@@ -103,7 +109,8 @@ export default async function view(el, ctx) {
       <div class="today-grid">
         <section class="panel">
           <div class="panel-head"><h2>מה לעשות עכשיו</h2><span class="muted small">${actions.length ? `${actions.length} פריטים, לפי דחיפות` : ''}</span></div>
-          ${actions.length ? html`<ol class="act-list">${actions.slice(0, 40).map(actionRow)}</ol>`
+          ${actions.length ? html`<ol class="act-list">${actions.slice(0, el._all ? actions.length : 40).map(actionRow)}</ol>${actions.length > 40 && !el._all ? html`<div class="pad"><button class="btn btn-ghost" data-act="show-all">הצגת כל ה-${actions.length}</button></div>` : ''}`
+            : !store.all('crm_contacts').length ? firstSteps()
             : emptyState({ icon: 'check', title: 'אין משימות פתוחות להיום', text: 'כל הלידים והעסקאות הפעילים מטופלים. זה זמן טוב להוסיף לידים או לחזור ללקוחות קודמים.', action: { act: 'new-lead', label: 'ליד חדש', icon: 'plus' } })}
         </section>
         <aside class="stack">
@@ -123,6 +130,7 @@ export default async function view(el, ctx) {
   on(el, 'click', '[data-act]', async (e, b) => {
     const a = b.dataset.act;
     if (a === 'new-lead') openLeadForm();
+    if (a === 'show-all') { el._all = true; draw(); }
     if (a === 'log') openActivityForm({ contactId: b.dataset.contact, dealId: b.dataset.deal || null });
     if (a === 'task') openTaskForm({ contactId: b.dataset.contact || null, dealId: b.dataset.deal });
     if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
@@ -141,11 +149,22 @@ export default async function view(el, ctx) {
     const { s, rep, quotesWaiting } = el._data;
     const k = b.dataset.drill;
     if (k === 'leads') showRecords('לידים חדשים החודש', { contacts: s.newLeads });
-    if (k === 'open') showRecords('עסקאות פתוחות', { deals: s.open, note: 'משוקלל = סכום צפוי כפול ההסתברות של השלב.' });
+    if (k === 'open') showRecords('עסקאות פתוחות', { deals: s.open, note: 'צפי לפי סיכוי = סכום צפוי כפול הסיכוי לסגירה בשלב.' });
     if (k === 'quotes') showRecords('הצעות מחיר שממתינות לתשובה', { deals: quotesWaiting.map((d) => d.id) });
     if (k === 'won') showRecords('עסקאות שנסגרו החודש', { deals: s.won, note: 'הכנסה שנסגרה = הסכום הסופי של עסקאות שסומנו "נסגר בהצלחה" החודש. זה לא בהכרח כסף שנגבה.' });
     if (k === 'collected') showRecords('נגבה בפועל החודש', { deals: s.collectedIds, note: 'סכומים שהוזנו כנגבו עם תאריך גבייה החודש. לא מאומת מול מערכת חיצונית.' });
     if (k === 'close') showRecords('לידים מ-90 הימים האחרונים שהפכו ללקוחות', { contacts: rep.rows.flatMap((r) => r.customers), note: `שיעור הפיכה ללקוח = לידים שנוצרו ב-90 הימים האחרונים ויש להם עסקה שנסגרה בהצלחה, חלקי כל הלידים מאותה תקופה. ${rep.total.openCohort} לידים עדיין בתהליך, ולכן השיעור עוד יכול לעלות.` });
     if (k === 'unknown') showRecords('לידים בלי מקור הגעה (90 יום)', { contacts: rep.completeness.unknownSourceIds });
   });
+}
+
+// A brand-new account: what to do first, instead of "everything is handled".
+function firstSteps() {
+  const s = store.settings;
+  const steps = [
+    [!!s.businessName, 'פרטי העסק', 'שם, מספר עוסק ומעמד במע"מ, כדי שהמסמכים והחישובים יהיו נכונים.', html`<a class="btn btn-sm" href="#/settings">להגדרות</a>`],
+    [false, 'ליד ראשון', 'כל פנייה של לקוח פוטנציאלי: שם, טלפון, ומאיפה הגיע.', html`<button class="btn btn-sm btn-primary" data-act="new-lead">${icon('plus')}ליד חדש</button>`],
+    [false, 'יש לכם רשימה באקסל?', 'אפשר לייבא אותה בבת אחת.', html`<a class="btn btn-sm" href="#/settings">ייבוא מאקסל</a>`],
+  ];
+  return html`<div class="pad first-steps"><h3>איך מתחילים</h3><ol>${steps.map(([done, t, d, a]) => html`<li class="${done ? 'done' : ''}"><div class="grow"><b>${t}</b><small class="muted">${d}</small></div>${done ? html`<span class="muted small">${icon('check')}בוצע</span>` : a}</li>`)}</ol></div>`;
 }

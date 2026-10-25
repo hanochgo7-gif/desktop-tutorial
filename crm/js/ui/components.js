@@ -23,7 +23,12 @@ function trapFocus(el, e) {
 const stack = [];
 addEventListener('popstate', () => {
   const top = stack[stack.length - 1];
+  // a link or a save moved to another page (the router closes dialogs itself); only a real Back closes the top one
+  if (top && location.hash !== top.hash) return;
   if (top && history.state?.hgModal !== top.id) top.requestClose('back');
+  // an entry left by a dialog that closed by navigating (e.g. save -> new lead page): step over it,
+  // so one Back press leaves the page
+  else if (!top && history.state?.hgModal) history.back();
 });
 export function focusPage() {
   const h = document.querySelector('#view h1');
@@ -54,8 +59,9 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   if (typeof body === 'function') body(bodyEl);
   else if (body instanceof Node) bodyEl.appendChild(body);
   else render(bodyEl, body ?? '');
-  let closed = false, dirty = false, asking = false;
+  let closed = false, dirty = false, asking = false, busy = false;
   bodyEl.addEventListener('input', (e) => { if (e.target.matches('input:not([type=search]), textarea, select')) dirty = true; });
+  bodyEl.addEventListener('hg:saved', () => { dirty = false; }); // a form inside the dialog saved its own data
   bodyEl.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.target.closest('.spend-form')) return; // forms with their own submit handler
@@ -63,7 +69,7 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   });
   const onUnload = (e) => { if (dirty && $('form', bodyEl)) { e.preventDefault(); e.returnValue = ''; } };
   addEventListener('beforeunload', onUnload);
-  const entry = { id };
+  const entry = { id, hash: location.hash };
   const close = (result, { nav = false, fromBack = false } = {}) => {
     if (closed) return;
     closed = true;
@@ -71,6 +77,7 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     document.removeEventListener('keydown', onKey, true);
     removeEventListener('beforeunload', onUnload);
     wrap.classList.add('leaving');
+    wrap.inert = true; // a second tap during the closing animation does nothing
     setTimeout(() => wrap.remove(), 160);
     // drop our history entry unless the user already went back, or we're closing because of navigation
     if (!fromBack && !nav && history.state?.hgModal === id) {
@@ -102,6 +109,12 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   const onKey = (e) => {
     if (!document.contains(wrap) || stack[stack.length - 1] !== entry) return;
     if (e.key === 'Escape') { e.stopPropagation(); e.preventDefault(); requestClose('escape'); }
+    // Enter in a field saves, in every dialog (implicit submit only works for forms with a submit button)
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && e.target.matches?.('input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit])')
+      && bodyEl.contains(e.target) && !e.target.closest('.spend-form, [data-enter-off]')) {
+      const primary = wrap.querySelector('.ov-foot .btn-primary');
+      if (primary) { e.preventDefault(); primary.click(); }
+    }
     trapFocus(wrap, e);
   };
   document.addEventListener('keydown', onKey, true);
@@ -111,13 +124,15 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     if (e.target.closest('[data-close]')) { requestClose(e.target.classList.contains('ov-backdrop') ? 'backdrop' : 'x'); return; }
     const b = e.target.closest('.ov-foot [data-i]');
     if (b) {
+      if (closed || busy) return; // double tap: one save only
       const a = actions[Number(b.dataset.i)];
       if (a.onClick) {
+        busy = true;
         b.disabled = true;
         try {
           const r = await a.onClick({ el: wrap, body: bodyEl, close });
           if (r !== false && a.close !== false) close(r);
-        } finally { b.disabled = false; }
+        } finally { busy = false; if (!closed) b.disabled = false; }
       } else close(a.value);
     }
   });

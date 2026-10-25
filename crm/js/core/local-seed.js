@@ -75,7 +75,7 @@ export function seedSample(store) {
     store._put('crm_deals', d);
     put('crm_deal_stage_history', { deal_id: d.id, from_stage_id: null, to_stage_id: st('qualified').id, at: d.opened_at, created_at: d.opened_at });
     if (stage.key !== 'qualified') put('crm_deal_stage_history', { deal_id: d.id, from_stage_id: st('qualified').id, to_stage_id: stage.id, at: d.stage_entered_at, created_at: d.stage_entered_at });
-    if (path === 'open' && R.chance(0.75)) put('crm_tasks', { title: 'פולואפ על ההצעה', type: 'followup', status: 'open', due_at: iso(now + R.int(-4, 6) * DAY), contact_id: c.id, deal_id: d.id, priority: 'normal', created_at: iso(created) });
+    if (path === 'open' && R.chance(0.75)) put('crm_tasks', { title: 'מעקב אחרי ההצעה', type: 'followup', status: 'open', due_at: iso(now + R.int(-4, 6) * DAY), contact_id: c.id, deal_id: d.id, priority: 'normal', created_at: iso(created) });
   }
   store._persistLocal();
 }

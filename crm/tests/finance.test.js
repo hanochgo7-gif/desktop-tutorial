@@ -1,7 +1,7 @@
 // Business finance calculations, hand-computed expectations.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { docTotals, docStatus, isOverdue, receipts, summary, receivables, vatPeriod, nextDocNumber } from '../js/core/finance.js';
+import { docTotals, docStatus, isOverdue, receipts, summary, receivables, vatPeriod, vatReportPeriod, nextDocNumber } from '../js/core/finance.js';
 
 const oct = { from: new Date(2026, 9, 1), to: new Date(2026, 10, 1) };
 const sep = { from: new Date(2026, 8, 1), to: new Date(2026, 9, 1) };
@@ -98,4 +98,25 @@ test('credit notes are not debts; advances on open deals are', () => {
 test('line totals round like Postgres', () => {
   near(docTotals([{ qty: 1, price: 1.005 }], 0).subtotal, 1.01);
   near(docTotals([{ qty: 3, price: 33.335 }], 18).subtotal, 100.01);
+});
+
+// ---- regressions from customer panel round 2
+test('the VAT panel shows the report due next: the previous period until the 15th', () => {
+  assert.equal(vatReportPeriod(new Date(2026, 10, 5)).from.getMonth(), 8);   // 5 Nov: Sep–Oct, due 15 Nov
+  assert.equal(vatReportPeriod(new Date(2026, 10, 15, 20)).from.getMonth(), 8);
+  assert.equal(vatReportPeriod(new Date(2026, 10, 16)).from.getMonth(), 10); // after the 15th: Nov–Dec
+  assert.equal(vatReportPeriod(new Date(2026, 9, 25)).from.getMonth(), 8);   // inside Sep–Oct
+});
+test('a debt from this morning is in the first aging bucket, never "-1 days"', () => {
+  const now = new Date(2026, 9, 25, 9);
+  const d = { id: 'd', contact_id: 'c', outcome: 'won', amount_final: 4000, closed_at: new Date(2026, 9, 25, 12).toISOString(), props: { payments: [] } };
+  const rv = receivables({ deals: [d], documents: [] }, now);
+  assert.equal(rv.rows[0].days, 0);
+  near(rv.aging.d30, 4000);
+});
+test('a recorded receipt is paid, not a debt', () => {
+  const r = { id: 'R', kind: 'receipt', contact_id: 'c', total: 300, paid: 0, vat_rate: 0, status: 'sent', issue_date: '2026-10-20' };
+  assert.equal(docStatus(r), 'paid');
+  near(receivables({ deals: [], documents: [r] }, new Date(2026, 9, 25)).total, 0);
+  assert.equal(docStatus({ kind: 'credit_note', status: 'sent', total: 500 }), 'recorded');
 });

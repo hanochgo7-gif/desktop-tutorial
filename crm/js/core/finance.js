@@ -16,6 +16,7 @@ const inP = (d, p) => { const t = d.getTime(); return t >= p.from.getTime() && t
 export const EXPENSE_CATEGORIES = [
   { value: 'software', label: 'תוכנות ומנויים' },
   { value: 'subcontractor', label: 'פרילנסרים וקבלני משנה' },
+  { value: 'materials', label: 'חומרים ומלאי' },
   { value: 'equipment', label: 'ציוד ומחשבים' },
   { value: 'office', label: 'משרד ותקשורת' },
   { value: 'vehicle', label: 'רכב ונסיעות' },
@@ -37,6 +38,7 @@ export const DOC_STATUS = [
   { value: 'partial', label: 'שולם חלקית', color: 'violet' },
   { value: 'paid', label: 'שולם', color: 'green' },
   { value: 'canceled', label: 'בוטל', color: 'slate' },
+  { value: 'recorded', label: 'נרשם', color: 'slate' },
 ];
 
 // Lines -> totals. Prices are before VAT.
@@ -45,13 +47,23 @@ export function docTotals(items = [], vatRate = 18) {
   const vat = r2(subtotal * num(vatRate) / 100);
   return { subtotal, vat, total: r2(subtotal + vat) };
 }
+// Shown status. A receipt documents money already received (paid, never "awaiting payment");
+// a credit note is a record, not something the customer pays.
 export function docStatus(doc) {
   if (doc.status === 'canceled' || doc.status === 'draft') return doc.status;
+  if (doc.kind === 'receipt' || doc.kind === 'tax_invoice_receipt') return 'paid';
+  if (doc.kind === 'credit_note') return 'recorded';
   const total = num(doc.total);
   if (total > 0 && num(doc.paid) >= total - 0.005) return 'paid';
   if (num(doc.paid) > 0) return 'partial';
   return 'sent';
 }
+// whole calendar days from a date to today (0 for today, never negative)
+const daysSince = (d, now) => {
+  const a = dayDate(String(d).length === 10 ? d : toLocalDay(d)), b = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12);
+  return Math.max(0, Math.round((b - a) / 864e5));
+};
+const toLocalDay = (d) => { const x = new Date(d); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; };
 export const isOverdue = (doc, now = new Date()) => !!doc.due_date && ['sent', 'partial'].includes(docStatus(doc)) && dayDate(doc.due_date) < new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
 // Every amount of money received in the period, once: { date, net, vat, gross, dealId, docId, contactId }
@@ -117,13 +129,13 @@ export function receivables({ deals = [], documents = [], contactsById = new Map
     if (d.deleted_at || d.outcome !== 'won') continue;
     const paid = paymentsOf(d).reduce((a, p) => a + num(p.amount), 0);
     const owed = r2(num(d.amount_final ?? d.amount_expected) - paid);
-    if (owed > 0.5) rows.push({ kind: 'deal', id: d.id, name: d.name, contactId: d.contact_id, owed, since: d.closed_at, days: Math.floor((now - new Date(d.closed_at || d.updated_at)) / 864e5) });
+    if (owed > 0.5) rows.push({ kind: 'deal', id: d.id, name: d.name, contactId: d.contact_id, owed, since: d.closed_at, days: daysSince(d.closed_at || d.updated_at, now) });
   }
   for (const doc of documents) {
     if (doc.deleted_at || doc.kind === 'credit_note' || won.has(doc.deal_id) || !['sent', 'partial'].includes(docStatus(doc))) continue;
     const owedGross = num(doc.total) - num(doc.paid);
     const owed = r2(owedGross / (1 + num(doc.vat_rate) / 100));
-    if (owed > 0.5) rows.push({ kind: 'doc', id: doc.id, name: `${doc.number || ''}`, contactId: doc.contact_id, owed, since: doc.issue_date, days: Math.floor((now - dayDate(doc.issue_date)) / 864e5), due: doc.due_date });
+    if (owed > 0.5) rows.push({ kind: 'doc', id: doc.id, name: `${doc.number || ''}`, contactId: doc.contact_id, owed, since: doc.issue_date, days: daysSince(doc.issue_date, now), due: doc.due_date });
   }
   rows.sort((a, b) => b.days - a.days);
   const bucket = (lo, hi) => r2(rows.filter((x) => x.days >= lo && x.days <= hi).reduce((a, x) => a + x.owed, 0));
@@ -140,6 +152,13 @@ export function vatPeriod(date = new Date(), freq = 'bimonthly') {
   const name = (d) => d.toLocaleDateString('he-IL', { month: 'long' });
   // the report is due by the 15th of the month after the period
   return { from, to, label: len === 1 ? `${name(from)} ${y}` : `${name(from)}–${name(new Date(y, start + 1, 1))} ${y}`, dueBy: new Date(y, start + len, 15) };
+}
+
+// The VAT report to look at now: the previous period until its report is due (15th of the next month), then the current one.
+export function vatReportPeriod(now = new Date(), freq = 'bimonthly') {
+  const cur = vatPeriod(now, freq);
+  const prev = vatPeriod(new Date(cur.from.getFullYear(), cur.from.getMonth() - 1, 1), freq);
+  return now < new Date(prev.dueBy.getFullYear(), prev.dueBy.getMonth(), prev.dueBy.getDate() + 1) ? prev : cur;
 }
 
 // Monthly series for the last n months: income, expenses, ads, profit

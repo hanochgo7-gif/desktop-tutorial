@@ -17,7 +17,7 @@ const check = (cond, msg) => { if (cond) log('PASS', msg); else { fails++; log('
   await p.click('[data-trial]');
   await p.click('.ov-foot .btn-primary'); // start working (empty)
   await p.waitForSelector('.page-head h1');
-  check(await p.locator('text=אין משימות פתוחות להיום').count() === 1, 'empty My Day invites first action');
+  check(await p.locator('text=איך מתחילים').count() === 1 && await p.locator('.first-steps [data-act=new-lead]').count() === 1, 'empty My Day shows first steps');
 
   // 1. new lead with source + first follow-up
   await p.click('[data-top="lead"]');

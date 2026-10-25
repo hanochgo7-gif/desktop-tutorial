@@ -238,6 +238,13 @@ export function readFile(file) {
     r.readAsText(file);
   });
 }
+// A spreadsheet export as text: UTF-8, or the Hebrew Windows encoding that Excel uses for plain "CSV".
+export async function readTextFile(file) {
+  const buf = await file.arrayBuffer();
+  const utf8 = new TextDecoder('utf-8').decode(buf);
+  if (!utf8.includes('\uFFFD')) return utf8.replace(/^\uFEFF/, '');
+  try { return new TextDecoder('windows-1255').decode(buf); } catch { return utf8; }
+}
 
 // Only http(s), mailto, tel and in-app links may be rendered as href.
 export function safeUrl(u) {
