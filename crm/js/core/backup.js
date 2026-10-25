@@ -23,7 +23,7 @@ function tx(db, mode, fn) {
 }
 
 export function backupPayload(store) {
-  return { app: 'hg-os', version: 1, exportedAt: new Date().toISOString(), rows: store.rows };
+  return { app: 'hg-os', version: 1, exportedAt: new Date().toISOString(), settings: store.settings, rows: store.rows };
 }
 const counts = (rows) => ({ contacts: rows.crm_contacts?.length || 0, deals: rows.crm_deals?.length || 0, tasks: rows.crm_tasks?.length || 0 });
 

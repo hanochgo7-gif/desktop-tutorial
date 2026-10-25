@@ -139,6 +139,10 @@ export const db = {
     if (!r.length) throw new ApiError('הרשומה לא נמצאה או שאין הרשאה לעדכן אותה', { status: 404 });
     return r[0];
   },
+  // update without reading the row back (for tables where not every column is readable, e.g. crm_workspaces)
+  async patch(table, id, patch) {
+    await request('PATCH', rest(`${table}?id=eq.${encodeURIComponent(id)}`), patch, { headers: { Prefer: 'return=minimal' } });
+  },
   rpc(fn, args = {}) {
     return request('POST', rest(`rpc/${fn}`), args);
   },

@@ -206,7 +206,8 @@ const check = (cond, msg) => { if (cond) log('PASS', msg); else { fails++; log('
     check(overflow <= 1, `mobile ${r}: no horizontal page scroll (${overflow}px)`);
     await mp.screenshot({ path: `${SHOTS}/m-${r.replace('/', '-')}.png`, fullPage: true });
   }
-  check(await mp.locator('.bottom-nav a').count() === 5, 'mobile bottom navigation shown');
+  check(await mp.locator('.bottom-nav a').count() === 6, 'mobile bottom navigation shown');
+  check(await mp.evaluate(() => [...document.querySelectorAll('.bottom-nav a')].every((a) => a.scrollWidth <= a.clientWidth + 1)), 'mobile bottom navigation labels fit');
   console.log('\nconsole errors:', errs.length ? errs.join('\n') : 'none');
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED');
   await b.close();

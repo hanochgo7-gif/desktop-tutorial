@@ -8,7 +8,7 @@ import { stages, contactName, sourceName, stageName, label, TASK_TYPES, ACTIVITY
 // local (Israel) date/time for exports, not UTC
 const localD = (d) => (d ? new Date(d).toLocaleDateString('he-IL') : '');
 const localDT = (d) => (d ? new Date(d).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' }) : '');
-import { pageHeader, icon, setTitle, toast, promptDialog, confirmDialog } from '../ui/components.js';
+import { pageHeader, icon, setTitle, toast, promptDialog, confirmDialog, opt } from '../ui/components.js';
 
 export default async function view(el, ctx) {
   setTitle('הגדרות');
@@ -17,6 +17,28 @@ export default async function view(el, ctx) {
     const srcs = store.all('crm_sources').sort((a, b) => a.position - b.position);
     render(el, html`
       ${pageHeader({ title: 'הגדרות' })}
+      <section class="panel biz">
+        <div class="panel-head"><h2>פרטי העסק</h2><span class="muted small">מופיעים בדרישות תשלום ובייצוא לרואה החשבון</span></div>
+        <form class="form-grid pad biz-form" data-biz novalidate>
+          <div class="form-3">
+            <label class="field"><span class="field-label">שם העסק</span><input class="input" name="businessName" value="${store.settings.businessName ?? ''}"></label>
+            <label class="field"><span class="field-label">מעמד במע"מ</span><select class="input" name="vatStatus">${opt([{ value: 'licensed', label: 'עוסק מורשה' }, { value: 'exempt', label: 'עוסק פטור' }, { value: 'company', label: 'חברה בע"מ' }], store.settings.vatStatus || 'licensed')}</select></label>
+            <label class="field"><span class="field-label">מספר עוסק / ח.פ.</span><input class="input" name="taxId" dir="ltr" inputmode="numeric" value="${store.settings.taxId ?? ''}"></label>
+          </div>
+          <div class="form-3">
+            <label class="field"><span class="field-label">שיעור מע"מ (%)</span><input class="input num" name="vatRate" type="number" min="0" max="30" step="0.5" dir="ltr" value="${store.settings.vatRate ?? 18}"></label>
+            <label class="field"><span class="field-label">דיווח מע"מ</span><select class="input" name="vatFrequency">${opt([{ value: 'bimonthly', label: 'דו-חודשי' }, { value: 'monthly', label: 'חודשי' }], store.settings.vatFrequency || 'bimonthly')}</select></label>
+            <label class="field"><span class="field-label">תוכנת החשבוניות שלי</span><input class="input" name="invoiceSoftware" value="${store.settings.invoiceSoftware ?? ''}" placeholder="למשל: חשבונית ירוקה"></label>
+          </div>
+          <div class="form-3">
+            <label class="field"><span class="field-label">כתובת</span><input class="input" name="address" value="${store.settings.address ?? ''}"></label>
+            <label class="field"><span class="field-label">טלפון</span><input class="input" name="phone" type="tel" dir="ltr" value="${store.settings.phone ?? ''}"></label>
+            <label class="field"><span class="field-label">אימייל</span><input class="input" name="email" type="email" dir="ltr" value="${store.settings.email ?? ''}"></label>
+          </div>
+          <label class="field"><span class="field-label">פרטים לתשלום (בנק, ביט)</span><textarea class="input" name="bankDetails" rows="2" placeholder="בנק, סניף, מספר חשבון, שם המוטב">${store.settings.bankDetails ?? ''}</textarea></label>
+          <div><button class="btn btn-primary" type="submit">שמירת פרטי העסק</button></div>
+        </form>
+      </section>
       <div class="grid grid-2">
         <section class="panel">
           <div class="panel-head"><h2>שלבי המכירה</h2></div>
@@ -93,6 +115,7 @@ export default async function view(el, ctx) {
     if (!(await confirmDialog(`לשחזר ${what}? (${n.contacts} לידים, ${n.deals} עסקאות, ${n.tasks} משימות)`, { okLabel: 'שחזור', danger: true, detail: 'הנתונים הנוכחיים יוחלפו. לפני השחזור יורד אוטומטית קובץ גיבוי של המצב הנוכחי.' }))) return;
     download(`hg-os-before-restore-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`, JSON.stringify(bk.backupPayload(store)), 'application/json');
     store.replaceAllLocal(obj.rows);
+    if (obj.settings) await store.saveSettings(obj.settings);
     toast('השחזור הושלם', { kind: 'success' });
     location.hash = '#/today';
   };
@@ -115,6 +138,14 @@ export default async function view(el, ctx) {
     if (obj) restore(obj, 'מהגיבוי האוטומטי');
   });
 
+  on(el, 'submit', '[data-biz]', async (e, f) => {
+    e.preventDefault();
+    const v = Object.fromEntries(new FormData(f).entries());
+    v.vatRate = Number(v.vatRate);
+    if (!(v.vatRate >= 0 && v.vatRate <= 30)) { toast('שיעור מע"מ לא תקין', { kind: 'error' }); return; }
+    if (v.taxId && !/^\d{8,9}$/.test(v.taxId.replace(/\D/g, ''))) { toast('מספר עוסק / ח.פ. צריך 8–9 ספרות', { kind: 'error' }); return; }
+    try { await store.saveSettings(v); toast('פרטי העסק נשמרו', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
+  });
   on(el, 'change', '[data-stage]', async (e, i) => {
     const k = i.dataset.k;
     let v = i.value.trim();
