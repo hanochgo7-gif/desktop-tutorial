@@ -1,14 +1,24 @@
 // Settings: pipeline stages, marketing sources, data export, account.
 
-import { html, render, on, toCSV, download, fmt, toDateInput } from '../core/util.js';
+import { html, render, on, $, toCSV, download, fmt, toDateInput } from '../core/util.js';
 import { store } from '../core/store.js';
-import { auth } from '../core/api.js';
+import { auth, db } from '../core/api.js';
 import { stages, contactName, sourceName, stageName, label, TASK_TYPES, ACTIVITY_TYPES, LOST_REASONS } from '../core/model.js';
 
 // local (Israel) date/time for exports, not UTC
 const localD = (d) => (d ? new Date(d).toLocaleDateString('he-IL') : '');
 const localDT = (d) => (d ? new Date(d).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' }) : '');
 import { pageHeader, icon, setTitle, toast, promptDialog, confirmDialog, opt } from '../ui/components.js';
+
+// data left in this browser from browser-only mode, until it has been moved to the account
+function localBackup() {
+  try {
+    if (localStorage.getItem('hgos-local-moved')) return null;
+    const saved = JSON.parse(localStorage.getItem('hgos-local-data') || 'null');
+    if (!saved?.rows?.crm_contacts?.some((c) => !c.deleted_at && !(c.tags || []).includes('דוגמה'))) return null;
+    return { app: 'hg-os', rows: saved.rows, settings: JSON.parse(localStorage.getItem('hgos-settings') || '{}') };
+  } catch { return null; }
+}
 
 export default async function view(el, ctx) {
   setTitle('הגדרות');
@@ -39,6 +49,7 @@ export default async function view(el, ctx) {
           <div><button class="btn btn-primary" type="submit">שמירת פרטי העסק</button></div>
         </form>
       </section>
+      ${siteSection()}
       <div class="grid grid-2">
         <section class="panel">
           <div class="panel-head"><h2>שלבי המכירה</h2></div>
@@ -91,14 +102,48 @@ export default async function view(el, ctx) {
           <div class="panel-body stack">
             ${store.mode === 'remote' ? html`<p class="small">מחובר כ-<b dir="ltr">${auth.user?.email || ''}</b> | סביבת עבודה: ${store.workspace?.name}</p>
               <div class="row-wrap"><button class="btn" data-act="password">${icon('lock')}שינוי סיסמה</button><button class="btn btn-ghost" data-act="logout">${icon('logout')}יציאה</button></div>`
-              : html`<p class="small">אין חשבון. כשתרצו לעבור לשרת, הורידו קובץ גיבוי, והנתונים יועברו ממנו לחשבון.</p>
-                <div class="row-wrap"><button class="btn btn-ghost danger-text" data-act="reset-local">${icon('trash')}מחיקת כל הנתונים מהדפדפן</button></div>`}
+              : html`<p class="small">אין חשבון: הנתונים רק בדפדפן הזה. בחשבון הם נשמרים בשרת, זמינים מכל מכשיר, ואפשר לקבל לידים מהאתר.
+                במעבר יורד קודם קובץ גיבוי, והנתונים נשארים בדפדפן עד שתעבירו אותם לחשבון (בהגדרות, אחרי הכניסה).</p>
+                <div class="row-wrap"><button class="btn btn-primary" data-act="to-account">${icon('user')}מעבר לחשבון בשרת</button><button class="btn btn-ghost danger-text" data-act="reset-local">${icon('trash')}מחיקת כל הנתונים מהדפדפן</button></div>`}
+            ${store.mode === 'remote' && localBackup() ? html`<div class="notice">${icon('info')}<div class="grow">בדפדפן הזה שמורים נתונים ממצב "שמירה בדפדפן" (${fmt.number(localBackup().rows.crm_contacts?.length || 0)} לידים). אפשר להעביר אותם לחשבון. שום דבר בחשבון לא יימחק.</div><button class="btn btn-sm btn-primary" data-act="move-local">העברה לחשבון</button></div>` : ''}
+            ${store.mode === 'remote' ? html`<div class="row-wrap"><button class="btn btn-ghost" data-act="move-file">${icon('upload')}העברת נתונים מקובץ גיבוי</button><input type="file" accept=".json,application/json" hidden data-move-file></div>` : ''}
           </div>
         </section>
       </div>`);
   };
+  // website connection: the form token, readable by admins only
+  const siteSection = () => {
+    if (store.mode !== 'remote') return html`<section class="panel" id="site"><div class="panel-head"><h2>חיבור לאתר</h2></div>
+      <div class="panel-body"><p class="small">פניות מהטפסים באתר שלכם ייכנסו כאן כלידים, עם המקור שממנו הגיעו (Google, Meta, אורגני, ישיר) ומשימה לחזור אליהם.
+      זה עובד רק בחשבון בשרת, כי האתר צריך כתובת לשלוח אליה. אפשר לעבור לחשבון בחלק "חשבון" למטה.</p></div></section>`;
+    const tok = el._intake?.token;
+    const origins = (store.settings.intakeOrigins || []).join(', ');
+    const snippet = tok ? `<script src="${location.origin}${location.pathname.replace(/[^/]*$/, '')}embed/hgos.js" data-token="${tok}" defer></script>` : '';
+    return html`<section class="panel" id="site">
+      <div class="panel-head"><h2>חיבור לאתר</h2><span class="muted small">פניות מהאתר נכנסות כלידים</span></div>
+      <div class="panel-body stack">
+        ${el._intakeErr ? html`<p class="small warn-text">${el._intakeErr}</p>` : !tok ? html`<p class="small muted">טוען...</p>` : html`
+        <p class="small"><b>1.</b> מוסיפים לאתר, לפני <code dir="ltr">&lt;/body&gt;</code> בכל עמוד שיש בו טופס:</p>
+        <pre class="code" dir="ltr" data-snippet>${snippet}</pre>
+        <div class="row-wrap"><button class="btn btn-sm" data-act="copy-snippet">${icon('copy')}העתקה</button></div>
+        <p class="small"><b>2.</b> לטופס מוסיפים <code dir="ltr">data-hgos="שם הטופס"</code>. שדות בשם <code dir="ltr">name</code>, <code dir="ltr">phone</code>, <code dir="ltr">email</code>, <code dir="ltr">message</code> הם פרטי הליד, וכל שדה אחר נשמר כתשובה.
+          הטופס ממשיך לעבוד כרגיל (וואטסאפ, מייל), והליד נשלח במקביל.</p>
+        <p class="small"><b>3.</b> כל פנייה יוצרת ליד חדש (או מצטרפת לליד קיים עם אותו טלפון או אימייל), מתעדת את המקור והקמפיין, ופותחת משימה "לחזור לפנייה" ב"היום שלי".</p>
+        <form class="row-wrap" data-origins>
+          <label class="field grow"><span class="field-label">כתובות האתר שמותר להן לשלוח (מופרדות בפסיק)</span><input class="input" name="origins" dir="ltr" value="${origins}" placeholder="https://hgpro.io"></label>
+          <button class="btn" type="submit">שמירה</button>
+        </form>
+        <p class="field-help">כשהרשימה ריקה, כל אתר עם הקוד יכול לשלוח. מומלץ להגביל לכתובת האתר שלכם.</p>
+        <div class="row-wrap"><button class="btn btn-ghost" data-act="test-lead">${icon('send')}שליחת ליד בדיקה</button><button class="btn btn-ghost danger-text" data-act="rotate-token">${icon('refresh')}החלפת המפתח</button></div>`}
+      </div>
+    </section>`;
+  };
   const refreshMeta = async () => {
-    if (store.mode !== 'local') return;
+    if (store.mode === 'remote') {
+      try { el._intake = await db.rpc('crm_intake_info'); el._intakeErr = el._intake?.token ? '' : 'רק מנהל החשבון יכול לראות את קוד החיבור.'; }
+      catch (e) { el._intakeErr = `לא הצלחתי לטעון את קוד החיבור: ${e.message}`; }
+      return;
+    }
     const bk = await import('../core/backup.js');
     el._snaps = await bk.listSnapshots();
     el._last = bk.lastDownloaded();
@@ -126,6 +171,38 @@ export default async function view(el, ctx) {
     try { obj = JSON.parse(await f.text()); } catch { toast('הקובץ לא נקרא. ודאו שזה קובץ גיבוי JSON של HG OS.', { kind: 'error' }); input.value = ''; return; }
     input.value = '';
     restore(obj, `מהקובץ ${f.name}`);
+  });
+  const moveData = async (backup, what) => {
+    if (!backup) return;
+    const mv = await import('../core/move-to-server.js');
+    const p = mv.planMove(backup);
+    if (!(await confirmDialog(`להעביר לחשבון את הנתונים ${what}?`, { okLabel: 'העברה', detail: `${p.contacts.length} לידים, ${p.deals.length} עסקאות, ${p.tasks.length} משימות, ${p.activities.length} פעילויות, ${p.documents.length} מסמכים, ${p.expenses.length} הוצאות. נתוני דוגמה לא מועברים. לידים שכבר קיימים בחשבון (אותו טלפון או אימייל) לא ייכפלו. שום דבר בחשבון לא יימחק.` }))) return;
+    const t = toast('מעביר...', { timeout: 600000 });
+    try {
+      const r = await mv.moveToServer(backup, { onProgress: (i, n) => { const s = t.el.querySelector('span'); if (s) s.textContent = `מעביר... ${i} מתוך ${n}`; } });
+      t();
+      if (what === 'מהדפדפן הזה') localStorage.setItem('hgos-local-moved', new Date().toISOString());
+      toast(`הועברו ${r.contacts} לידים (${r.linked} כבר היו בחשבון), ${r.deals} עסקאות, ${r.tasks} משימות, ${r.documents} מסמכים.${r.skipped.length ? ` ${r.skipped.length} פריטים לא הועברו.` : ''}`, { kind: r.skipped.length ? 'error' : 'success', timeout: 12000 });
+      if (r.skipped.length) console.warn('HG OS move: not moved', r.skipped);
+      draw();
+    } catch (err) { t(); toast(`ההעברה נעצרה: ${err.message}. מה שכבר הועבר נשמר. אפשר לנסות שוב: מה שקיים לא ייכפל.`, { kind: 'error', timeout: 12000 }); }
+  };
+  on(el, 'change', '[data-move-file]', async (e, input) => {
+    const f = input.files[0];
+    input.value = '';
+    if (!f) return;
+    let obj;
+    try { obj = JSON.parse(await f.text()); (await import('../core/backup.js')).validateBackup(obj); } catch (err) { toast(err.message || 'הקובץ לא נקרא', { kind: 'error' }); return; }
+    moveData(obj, `מהקובץ ${f.name}`);
+  });
+  on(el, 'submit', '[data-origins]', async (e, f) => {
+    e.preventDefault();
+    const list = f.origins.value.split(/[,\s]+/).map((x) => x.trim().replace(/\/+$/, '')).filter(Boolean);
+    const bad = list.find((x) => !/^https?:\/\/[a-z0-9.-]+(:\d+)?$/i.test(x));
+    if (bad) { toast(`כתובת לא תקינה: ${bad}. כתבו כך: https://hgpro.io`, { kind: 'error' }); return; }
+    // the same site with and without www
+    const all = [...new Set(list.flatMap((x) => { const bare = x.toLowerCase().replace('://www.', '://'); return [bare, bare.replace('://', '://www.')]; }))];
+    try { await store.saveSettings({ intakeOrigins: all }); toast('נשמר', { kind: 'success' }); draw(); } catch (err) { toast(err.message, { kind: 'error' }); }
   });
   on(el, 'change', '[data-import-file]', async (e, input) => {
     const f = input.files[0];
@@ -221,6 +298,34 @@ export default async function view(el, ctx) {
       try { await auth.updatePassword(p); toast('הסיסמה שונתה', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
     }
     if (a === 'logout') { await auth.signOut(); location.hash = ''; location.reload(); }
+    if (a === 'to-account') {
+      if (!(await confirmDialog('לעבור לחשבון בשרת?', { okLabel: 'מעבר', detail: 'יורד עכשיו קובץ גיבוי. הנתונים נשארים בדפדפן הזה. אחרי ההרשמה או הכניסה, בהגדרות יופיע "העברה לחשבון".' }))) return;
+      const bk = await import('../core/backup.js');
+      download(`hg-os-backup-${toDateInput(new Date())}.json`, JSON.stringify(bk.backupPayload(store)), 'application/json');
+      bk.markDownloaded();
+      localStorage.removeItem('hgos-mode');
+      location.hash = '';
+      location.reload();
+    }
+    if (a === 'move-local') moveData(localBackup(), 'מהדפדפן הזה');
+    if (a === 'move-file') $('[data-move-file]', el)?.click();
+    if (a === 'copy-snippet') {
+      const t = $('[data-snippet]', el)?.textContent || '';
+      try { await navigator.clipboard.writeText(t); toast('הקוד הועתק', { kind: 'success' }); } catch { toast('לא הצלחתי להעתיק. סמנו את הקוד והעתיקו ידנית.', { kind: 'error' }); }
+    }
+    if (a === 'test-lead') {
+      const tok = el._intake?.token;
+      if (!tok) return;
+      try {
+        await db.rpc('crm_web_lead', { p_token: tok, p: { name: 'ליד בדיקה מהאתר', phone: '0500000000', message: 'בדיקת חיבור. אפשר למחוק.', form: 'בדיקת חיבור', page: location.href } });
+        await store.refresh();
+        toast('ליד הבדיקה נוצר. הוא מופיע ברשימת הלידים, ואפשר למחוק אותו.', { kind: 'success', timeout: 8000 });
+      } catch (err) { toast(err.message.includes('origin_not_allowed') ? 'הבקשה נחסמה כי הכתובת של המערכת לא ברשימת האתרים המורשים. זה תקין: מהאתר עצמו זה יעבוד.' : `השליחה נכשלה: ${err.message}`, { kind: 'error', timeout: 9000 }); }
+    }
+    if (a === 'rotate-token') {
+      if (!(await confirmDialog('להחליף את מפתח החיבור?', { danger: true, okLabel: 'החלפה', detail: 'האתר יפסיק לשלוח לידים עד שתעדכנו בו את הקוד החדש.' }))) return;
+      try { el._intake = await db.rpc('crm_rotate_intake_token'); draw(); toast('המפתח הוחלף. עדכנו את הקוד באתר.', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
+    }
     if (a === 'reset-local') {
       if (!(await confirmDialog('למחוק את כל הנתונים מהדפדפן הזה?', { danger: true, okLabel: 'מחיקה', detail: 'אי אפשר לבטל. הורידו קובץ גיבוי לפני כן.' }))) return;
       store.resetLocal(); localStorage.removeItem('hgos-mode'); location.hash = ''; location.reload();
