@@ -219,6 +219,7 @@ export function toast(message, { kind = 'info', action, timeout = 4500 } = {}) {
   el.addEventListener('mouseenter', pause); el.addEventListener('mouseleave', arm);
   el.addEventListener('focusin', pause); el.addEventListener('focusout', arm);
   arm();
+  close.el = el; // for progress messages that update their text
   return close;
 }
 
