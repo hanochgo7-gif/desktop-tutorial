@@ -13,6 +13,8 @@ const ROUTES = [
   ['d/:id', () => import('../views/deal.js')],
   ['tasks', () => import('../views/tasks.js')],
   ['sources', () => import('../views/sources.js')],
+  ['finance', () => import('../views/finance.js')],
+  ['doc/:id/print', () => import('../views/doc-print.js'), { bare: true }],
   ['settings', () => import('../views/settings.js')],
 ];
 

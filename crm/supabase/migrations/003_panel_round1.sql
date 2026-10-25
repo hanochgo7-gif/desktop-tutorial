@@ -1,5 +1,4 @@
--- Customer panel round 1 (not applied yet: the app runs in browser-only mode; apply when moving to the server).
--- Keep in sync with js/core/rules.js.
+-- Customer panel round 1: server side of the rules in js/core/rules.js.
 
 -- phone numbers written with the international prefix 00 (00972...) are the same number as 0...
 create or replace function public.crm_norm_phone(p text)

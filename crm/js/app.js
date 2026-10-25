@@ -15,6 +15,7 @@ const NAV = [
   { href: 'deals', label: 'עסקאות', icon: 'deal' },
   { href: 'tasks', label: 'משימות', icon: 'task' },
   { href: 'sources', label: 'מקורות ופרסום', icon: 'chart' },
+  { href: 'finance', label: 'כספים', icon: 'money' },
   { href: 'settings', label: 'הגדרות', icon: 'settings' },
 ];
 const ACTIVE = { c: 'leads', d: 'deals' };
@@ -32,7 +33,7 @@ function renderShell() {
     <a class="brand" href="#/today">${LOGO}<span>HG OS</span></a>
     <nav class="nav" aria-label="ניווט ראשי">${NAV.map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label}</span>${it.count && n ? html`<span class="nav-count" aria-label="${n} משימות להיום">${n}</span>` : ''}</a>`)}</nav>
     ${store.mode === 'local' ? html`<div class="side-foot"><a class="trial-note" href="#/settings">${icon('database')}הנתונים נשמרים בדפדפן הזה. גיבוי בהגדרות</a></div>` : ''}`);
-  render($('#bottom-nav'), html`${NAV.slice(0, 5).map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label.split(' ')[0]}</span>${it.count && n ? html`<span class="nav-count">${n}</span>` : ''}</a>`)}`);
+  render($('#bottom-nav'), html`${NAV.filter((it) => it.href !== 'settings').map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label.split(' ')[0]}</span>${it.count && n ? html`<span class="nav-count">${n}</span>` : ''}</a>`)}`);
 }
 
 function saveState() {

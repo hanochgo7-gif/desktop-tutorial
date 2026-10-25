@@ -4,6 +4,7 @@ import { html, render, on, fmt, whatsappUrl } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName, stages, sourceName, LOST_REASONS, label } from '../core/model.js';
 import { dealHealth, paymentsOf } from '../core/metrics.js';
+import { DOC_KINDS, DOC_STATUS, docStatus, EXPENSE_CATEGORIES } from '../core/finance.js';
 import { pageHeader, icon, badge, setTitle, toast, confirmDialog } from '../ui/components.js';
 import { openDealForm, openActivityForm, openTaskForm, openMoneyDialog, moveDeal } from '../ui/forms.js';
 import { timeline, timelineHtml, nextStepCard, completeTask } from './contact.js';
@@ -63,6 +64,15 @@ export default async function view(el, ctx) {
             ${d.outcome === 'open' ? html`<button class="btn" data-stage="${sts.find((s) => s.kind === 'won')?.id}">${icon('trophy')}נסגר בהצלחה</button><button class="btn btn-ghost" data-stage="${sts.find((s) => s.kind === 'lost')?.id}">נסגר בהפסד</button>` : ''}
             ${d.outcome === 'won' && unpaid > 0 ? html`<button class="btn" data-act="money">${icon('money')}רישום תשלום</button>` : ''}
           </div>
+          ${(() => {
+            const docs = store.filter('crm_documents', (x) => x.deal_id === id).sort((a, b) => (a.issue_date < b.issue_date ? 1 : -1));
+            const exps = store.filter('crm_expenses', (x) => x.deal_id === id);
+            return html`<section class="panel">
+              <div class="panel-head"><h2>חשבוניות ומסמכים</h2><div class="row"><button class="btn btn-sm" data-act="pr">${icon('plus')}דרישת תשלום</button><button class="btn btn-sm btn-ghost" data-act="inv">רישום חשבונית</button></div></div>
+              ${docs.length ? html`<div class="list">${docs.map((x) => html`<div class="list-row"><span class="grow"><b>${label(DOC_KINDS, x.kind)} <span dir="ltr">${x.number || ''}</span></b><small class="muted">${fmt.date(x.issue_date)} | ${fmt.money(x.total)} כולל מע"מ | שולם ${fmt.money(x.paid || 0)}</small></span>${badge(label(DOC_STATUS, docStatus(x)), DOC_STATUS.find((y) => y.value === docStatus(x))?.color)}${x.kind === 'payment_request' ? html`<a class="btn-icon sm" href="#/doc/${x.id}/print" aria-label="הדפסת ${x.number}">${icon('printer')}</a>` : ''}${['sent', 'partial'].includes(docStatus(x)) ? html`<button class="btn btn-sm" data-act="doc-pay" data-id="${x.id}">תשלום</button>` : ''}</div>`)}</div>` : html`<p class="pad muted small">עוד לא הופקו מסמכים לעסקה הזו.</p>`}
+              ${exps.length ? html`<p class="panel-foot small">הוצאות בפועל על העסקה: <b>${fmt.money(exps.reduce((a, e) => a + Number(e.amount), 0))}</b> (${exps.map((e) => e.vendor || label(EXPENSE_CATEGORIES, e.category)).join(', ')})</p>` : ''}
+            </section>`;
+          })()}
           <section class="panel">
             <div class="panel-head"><h2>היסטוריה</h2></div>
             <div class="panel-body">${timelineHtml(timeline({ dealId: id }))}</div>
@@ -80,6 +90,12 @@ export default async function view(el, ctx) {
     const a = b.dataset.act;
     if (a === 'edit') openDealForm({ deal: d });
     if (a === 'money') openMoneyDialog(d);
+    if (a === 'pr' || a === 'inv' || a === 'doc-pay') {
+      const ff = await import('../ui/finance-forms.js');
+      if (a === 'pr') ff.openDocForm({ kind: 'payment_request', dealId: id });
+      if (a === 'inv') ff.openDocForm({ kind: 'tax_invoice', dealId: id });
+      if (a === 'doc-pay') ff.openDocPayment(store.get('crm_documents', b.dataset.id));
+    }
     if (a === 'log') openActivityForm({ contactId: d.contact_id, dealId: id, type: b.dataset.type });
     if (a === 'task') openTaskForm({ contactId: d.contact_id, dealId: id });
     if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });

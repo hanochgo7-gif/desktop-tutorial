@@ -248,20 +248,23 @@ export function openActivityForm({ contactId, dealId = null, type = 'call', onSa
               type: v.type, body: v.body, outcome: v.outcome, at: new Date().toISOString(), direction: 'out',
               contact_id: contactId || null, deal_id: dealId, owner_id: store.userId,
             });
+            // the remaining writes are independent of each other: send them together (fewer round trips to the server)
+            const writes = [];
             if (c && v._status && v._status !== c.lead_status) {
               const patch = { lead_status: v._status };
               if (v._status === 'qualified' && c.lifecycle === 'lead') patch.lifecycle = 'qualified';
-              await store.update('crm_contacts', c.id, patch);
+              writes.push(store.update('crm_contacts', c.id, patch));
             }
             // only the task the user explicitly ticked is completed
             let doneTask = null;
             if (dueTask && v._done_task) {
               doneTask = dueTask;
-              await store.update('crm_tasks', dueTask.id, { status: 'done', outcome: v.outcome || v.body?.slice(0, 120) || null });
+              writes.push(store.update('crm_tasks', dueTask.id, { status: 'done', outcome: v.outcome || v.body?.slice(0, 120) || null }));
             }
             if (v._next) {
-              await store.insert('crm_tasks', { title: v._next_title || 'פולואפ', type: NO_REACH.includes(v.outcome) ? 'call' : 'followup', due_at: v._next_due, contact_id: contactId || deal?.contact_id || null, deal_id: dealId, owner_id: store.userId });
+              writes.push(store.insert('crm_tasks', { title: v._next_title || 'פולואפ', type: NO_REACH.includes(v.outcome) ? 'call' : 'followup', due_at: v._next_due, contact_id: contactId || deal?.contact_id || null, deal_id: dealId, owner_id: store.userId }));
             }
+            await Promise.all(writes);
             toast(doneTask ? `נשמר. "${doneTask.title}" סומנה כבוצעה.` : 'נשמר', { kind: 'success', action: doneTask ? { label: 'ביטול הסימון', onClick: () => store.update('crm_tasks', doneTask.id, { status: 'open', outcome: null }) } : null });
             onSaved?.();
             return true;

@@ -47,6 +47,21 @@ export function beforeSave(t, row, prev, store) {
     }
     row.amount_paid ??= 0;
   }
+  if (t === 'crm_documents') {
+    // same as the crm_documents_rules trigger: totals from the lines, status from what was paid
+    let sub = 0;
+    for (const it of row.items || []) sub += Math.round((Number(it.qty) || 0) * (Number(it.price) || 0) * 100) / 100;
+    row.subtotal = Math.round(sub * 100) / 100;
+    row.vat = Math.round(row.subtotal * (Number(row.vat_rate) || 0)) / 100;
+    row.total = Math.round((row.subtotal + row.vat) * 100) / 100;
+    row.paid = Math.round((row.payments || []).reduce((a, p) => a + (Number(p.amount) || 0), 0) * 100) / 100 || Number(row.paid) || 0;
+    if (row.status !== 'canceled') {
+      if (row.total > 0 && row.paid >= row.total - 0.005) row.status = 'paid';
+      else if (row.paid > 0 && ['draft', 'sent', 'paid'].includes(row.status)) row.status = 'partial';
+      else if (row.status === 'paid' || row.status === 'partial') row.status = 'sent';
+    }
+    row.status ||= 'draft';
+  }
   if (t === 'crm_tasks') {
     row.status ||= 'open';
     if (row.status === 'done') row.completed_at ||= now; else row.completed_at = null;

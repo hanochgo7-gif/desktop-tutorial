@@ -1,10 +1,11 @@
 // Offline support: network first (always the latest version when online), cached copy when offline.
 // Only same-origin GET requests for the app's own files are handled; data never passes through here.
-const CACHE = 'hgos-app-v2';
+const CACHE = 'hgos-app-v3';
 const CORE = ['./', './index.html', './css/app.css', './manifest.webmanifest', './assets/favicon.svg', '../fonts/heebo-200-700-hebrew.woff2', '../fonts/heebo-200-700-latin.woff2',
   './js/app.js',
   './js/core/api.js',
   './js/core/backup.js',
+  './js/core/finance.js',
   './js/core/local-seed.js',
   './js/core/metrics.js',
   './js/core/model.js',
@@ -14,12 +15,15 @@ const CORE = ['./', './index.html', './css/app.css', './manifest.webmanifest', '
   './js/core/util.js',
   './js/ui/components.js',
   './js/ui/drill.js',
+  './js/ui/finance-forms.js',
   './js/ui/forms.js',
   './js/ui/icons.js',
   './js/ui/importer.js',
   './js/views/contact.js',
   './js/views/deal.js',
   './js/views/deals.js',
+  './js/views/doc-print.js',
+  './js/views/finance.js',
   './js/views/leads.js',
   './js/views/settings.js',
   './js/views/sources.js',

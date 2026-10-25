@@ -11,7 +11,9 @@ import { beforeSave, afterSaveLocal } from './rules.js';
 export const TABLES = [
   'crm_pipelines', 'crm_stages', 'crm_sources', 'crm_contacts', 'crm_deals', 'crm_tasks',
   'crm_activities', 'crm_ad_spend', 'crm_touchpoints', 'crm_deal_stage_history',
+  'crm_documents', 'crm_expenses',
 ];
+const SETTINGS_KEY = 'hgos-settings';
 const LOCAL_KEY = 'hgos-local-data';
 const OUTBOX_KEY = 'hgos-outbox';
 
@@ -88,6 +90,20 @@ class Store {
     for (const t of TABLES) for (const r of rows[t] || []) this._put(t, r);
     this._persistLocal();
     this.emit('change', { tables: TABLES, source: 'restore' });
+  }
+
+  // Business settings (name, tax id, VAT status, bank details...). Local mode: this browser; remote: the workspace row.
+  get settings() {
+    if (this.mode === 'local') { try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); } catch { return {}; } }
+    return this.workspace?.settings || {};
+  }
+  async saveSettings(patch) {
+    const next = { ...this.settings, ...patch };
+    if (this.mode === 'local') { localStorage.setItem(SETTINGS_KEY, JSON.stringify(next)); this.emit('change', { tables: ['settings'], source: 'user' }); return next; }
+    await db.patch('crm_workspaces', this.workspace.id, { settings: next });
+    this.workspace.settings = next;
+    this.emit('change', { tables: ['settings'], source: 'user' });
+    return next;
   }
 
   // Pull rows changed on the server since our cursor (other device, server-side triggers).
@@ -250,7 +266,7 @@ class Store {
     return m?.display_name || (userId ? 'משתמש' : '');
   }
   exportAll() {
-    return { app: 'hg-os', exportedAt: new Date().toISOString(), workspace: this.workspace?.name, rows: this.rows };
+    return { app: 'hg-os', exportedAt: new Date().toISOString(), workspace: this.workspace?.name, settings: this.settings, rows: this.rows };
   }
 }
 
