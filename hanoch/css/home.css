@@ -237,3 +237,28 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 @media (prefers-reduced-motion: reduce) { .globe img { transition: none; } }
 /* מסכים צרים מאוד (320px): הסרגל התחתון נכנס בלי לגלוש הצידה */
 @media (max-width: 360px) { .dock { gap: 6px; padding-inline-start: 8px; padding-inline-end: 58px; } .dock .btn { min-width: 0; padding-inline: .75rem; font-size: .92rem; } .dock .btn-wa { flex: 1 1 auto; } }
+
+/* ---------- חוויית גלילה (js/ux.js) ---------- */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+.lenis.lenis-stopped { overflow: hidden; }
+.top { transition: transform .45s cubic-bezier(.2, .7, .1, 1), box-shadow .3s, background-color .3s; }
+.top.is-scrolled { box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .9); }
+.top.is-hidden { transform: translateY(-100%); }
+.scroll-bar { position: absolute; inset-inline: 0; bottom: -1px; height: 2px; background: var(--signal); transform: scaleX(0); transform-origin: right; pointer-events: none; }
+.nav a { position: relative; transition: color .2s; }
+.nav a.is-active { color: var(--fg); }
+.nav a.is-active::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; border-radius: 2px; background: var(--signal); }
+.menu-sheet a.is-active { background: var(--fg-faint); }
+.dock { transition: transform .45s cubic-bezier(.2, .7, .1, 1); }
+.dock.is-away, .dock.is-typing { transform: translateY(115%); }
+.rv { opacity: 0; translate: 0 26px; }
+.rv.in { opacity: 1; translate: none; transition: opacity .7s ease var(--rd, 0ms), translate .9s cubic-bezier(.2, .7, .1, 1) var(--rd, 0ms); }
+.plan-dots { display: flex; justify-content: center; gap: 4px; margin-top: 4px; }
+.plan-dots button { width: 32px; height: 32px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; padding: 0; }
+.plan-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--fg-line); transition: width .3s, background .3s; }
+.plan-dots button.on::before { width: 22px; background: var(--signal); }
+@media (min-width: 900px) { .plan-dots { display: none; } }
+.sent-note { flex-basis: 100%; margin-top: .8rem; color: var(--wa); font-weight: 600; font-size: .95rem; opacity: 0; transition: opacity .3s; }
+.sent-note.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .top, .dock { transition: none; } .top.is-hidden { transform: none; } }

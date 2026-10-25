@@ -29,7 +29,7 @@
 .motion .hw:not(.hw-static):not(.hw-live) .hw-line { animation: hw-show .7s ease 3s forwards; }
 .motion .hw:not(.hw-static):not(.hw-live) .hw-title b { animation: hw-show-b .7s ease 3s forwards; }
 .motion .hw:not(.hw-static) .hw-reveal { opacity: 0; transform: translateY(16px); }
-.motion .hw:not(.hw-static):not(.hw-in) .hw-reveal { animation: hw-up .8s var(--ease) 1.6s forwards; }
+.motion .hw:not(.hw-static):not(.hw-in) .hw-reveal { animation: hw-up .8s var(--ease) calc(.4s + var(--i, 0) * 90ms) forwards; }
 .motion .hw.hw-in .hw-reveal { opacity: calc(1 - var(--hw-p, 0) * 1.8); transform: none; transition: opacity .9s ease calc(var(--i, 0) * 110ms), transform 1s var(--ease) calc(var(--i, 0) * 110ms); }
 .motion .hw.hw-in .hw-kicker { opacity: 1; }
 @keyframes hw-show { to { color: var(--fg); } }
