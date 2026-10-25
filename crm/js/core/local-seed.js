@@ -40,8 +40,8 @@ export function seedSample(store) {
   for (let m = 0; m < 6; m++) {
     const day = new Date(new Date().getFullYear(), new Date().getMonth() - m, 1);
     const ds = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-01`;
-    put('crm_ad_spend', { day: ds, source_id: src('google_ads'), amount: R.int(25, 45) * 100, origin: 'manual', currency: 'ILS', created_at: iso(day) });
-    put('crm_ad_spend', { day: ds, source_id: src('meta_ads'), amount: R.int(12, 25) * 100, origin: 'manual', currency: 'ILS', created_at: iso(day) });
+    put('crm_ad_spend', { day: ds, source_id: src('google_ads'), amount: R.int(25, 45) * 100, origin: 'manual', sample: true, currency: 'ILS', created_at: iso(day) });
+    put('crm_ad_spend', { day: ds, source_id: src('meta_ads'), amount: R.int(12, 25) * 100, origin: 'manual', sample: true, currency: 'ILS', created_at: iso(day) });
   }
   const mix = [['google_ads', 5], ['meta_ads', 4], ['organic', 2], ['referral', 2], ['whatsapp', 1], [null, 1]];
   for (let i = 0; i < 70; i++) {
@@ -75,7 +75,7 @@ export function seedSample(store) {
     store._put('crm_deals', d);
     put('crm_deal_stage_history', { deal_id: d.id, from_stage_id: null, to_stage_id: st('qualified').id, at: d.opened_at, created_at: d.opened_at });
     if (stage.key !== 'qualified') put('crm_deal_stage_history', { deal_id: d.id, from_stage_id: st('qualified').id, to_stage_id: stage.id, at: d.stage_entered_at, created_at: d.stage_entered_at });
-    if (path === 'open' && R.chance(0.75)) put('crm_tasks', { title: 'פולואפ על ההצעה', type: 'followup', status: 'open', due_at: iso(now + R.int(-4, 6) * DAY), contact_id: c.id, deal_id: d.id, priority: 'normal', created_at: iso(created) });
+    if (path === 'open' && R.chance(0.75)) put('crm_tasks', { title: 'מעקב אחרי ההצעה', type: 'followup', status: 'open', due_at: iso(now + R.int(-4, 6) * DAY), contact_id: c.id, deal_id: d.id, priority: 'normal', created_at: iso(created) });
   }
   store._persistLocal();
 }

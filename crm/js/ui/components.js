@@ -23,7 +23,12 @@ function trapFocus(el, e) {
 const stack = [];
 addEventListener('popstate', () => {
   const top = stack[stack.length - 1];
+  // a link or a save moved to another page (the router closes dialogs itself); only a real Back closes the top one
+  if (top && location.hash !== top.hash) return;
   if (top && history.state?.hgModal !== top.id) top.requestClose('back');
+  // an entry left by a dialog that closed by navigating (e.g. save -> new lead page): step over it,
+  // so one Back press leaves the page
+  else if (!top && history.state?.hgModal) history.back();
 });
 export function focusPage() {
   const h = document.querySelector('#view h1');
@@ -43,19 +48,20 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   render(wrap, html`
     <div class="ov-backdrop" data-close></div>
     <div class="ov-panel ov-${size}" role="dialog" aria-modal="true" aria-labelledby="${id}">
-      <header class="ov-head">
+      <div class="ov-head">
         <h2 id="${id}">${title}</h2>
         <button class="btn-icon" data-close aria-label="סגירה">${icon('x')}</button>
-      </header>
+      </div>
       <div class="ov-body"></div>
-      ${actions.length ? html`<footer class="ov-foot">${actions.map((a, i) => html`<button class="btn ${a.kind ? `btn-${a.kind}` : ''}" data-i="${i}" ${a.disabled ? 'disabled' : ''}>${a.icon ? icon(a.icon) : ''}${a.label}</button>`)}</footer>` : ''}
+      ${actions.length ? html`<div class="ov-foot">${actions.map((a, i) => html`<button class="btn ${a.kind ? `btn-${a.kind}` : ''}" data-i="${i}" ${a.disabled ? 'disabled' : ''}>${a.icon ? icon(a.icon) : ''}${a.label}</button>`)}</div>` : ''}
     </div>`);
   const bodyEl = $('.ov-body', wrap);
   if (typeof body === 'function') body(bodyEl);
   else if (body instanceof Node) bodyEl.appendChild(body);
   else render(bodyEl, body ?? '');
-  let closed = false, dirty = false, asking = false;
+  let closed = false, dirty = false, asking = false, busy = false;
   bodyEl.addEventListener('input', (e) => { if (e.target.matches('input:not([type=search]), textarea, select')) dirty = true; });
+  bodyEl.addEventListener('hg:saved', () => { dirty = false; }); // a form inside the dialog saved its own data
   bodyEl.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.target.closest('.spend-form')) return; // forms with their own submit handler
@@ -63,7 +69,7 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   });
   const onUnload = (e) => { if (dirty && $('form', bodyEl)) { e.preventDefault(); e.returnValue = ''; } };
   addEventListener('beforeunload', onUnload);
-  const entry = { id };
+  const entry = { id, hash: location.hash };
   const close = (result, { nav = false, fromBack = false } = {}) => {
     if (closed) return;
     closed = true;
@@ -71,9 +77,13 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     document.removeEventListener('keydown', onKey, true);
     removeEventListener('beforeunload', onUnload);
     wrap.classList.add('leaving');
+    wrap.inert = true; // a second tap during the closing animation does nothing
     setTimeout(() => wrap.remove(), 160);
     // drop our history entry unless the user already went back, or we're closing because of navigation
-    if (!fromBack && !nav && history.state?.hgModal === id) history.back();
+    if (!fromBack && !nav && history.state?.hgModal === id) {
+      pendingBack = new Promise((res) => { addEventListener('popstate', () => res(), { once: true }); setTimeout(res, 500); });
+      history.back();
+    }
     onClose?.(result);
     if (!nav) {
       if (prevFocus && document.contains(prevFocus) && prevFocus !== document.body) prevFocus.focus?.();
@@ -99,6 +109,12 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   const onKey = (e) => {
     if (!document.contains(wrap) || stack[stack.length - 1] !== entry) return;
     if (e.key === 'Escape') { e.stopPropagation(); e.preventDefault(); requestClose('escape'); }
+    // Enter in a field saves, in every dialog (implicit submit only works for forms with a submit button)
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && e.target.matches?.('input:not([type=checkbox]):not([type=radio]):not([type=button]):not([type=submit])')
+      && bodyEl.contains(e.target) && !e.target.closest('.spend-form, [data-enter-off]')) {
+      const primary = wrap.querySelector('.ov-foot .btn-primary');
+      if (primary) { e.preventDefault(); primary.click(); }
+    }
     trapFocus(wrap, e);
   };
   document.addEventListener('keydown', onKey, true);
@@ -108,13 +124,15 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     if (e.target.closest('[data-close]')) { requestClose(e.target.classList.contains('ov-backdrop') ? 'backdrop' : 'x'); return; }
     const b = e.target.closest('.ov-foot [data-i]');
     if (b) {
+      if (closed || busy) return; // double tap: one save only
       const a = actions[Number(b.dataset.i)];
       if (a.onClick) {
+        busy = true;
         b.disabled = true;
         try {
           const r = await a.onClick({ el: wrap, body: bodyEl, close });
           if (r !== false && a.close !== false) close(r);
-        } finally { b.disabled = false; }
+        } finally { busy = false; if (!closed) b.disabled = false; }
       } else close(a.value);
     }
   });
@@ -165,6 +183,13 @@ export function promptDialog(label, { title = '', value = '', placeholder = '', 
 // ---------- toast ----------
 // The latest toast's action (usually "undo") also runs with Ctrl/⌘+Z, so it is reachable without hunting for the toast.
 let lastAction = null;
+// A dialog that closes steps back over its history entry; navigating before that lands back on the old page.
+let pendingBack = null;
+export async function navigateAfterModals(hash) {
+  if (pendingBack) await pendingBack;
+  pendingBack = null;
+  location.hash = hash;
+}
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && lastAction && !e.target.closest('input, textarea')) { e.preventDefault(); lastAction.run(); }
 });
@@ -182,7 +207,11 @@ export function toast(message, { kind = 'info', action, timeout = 4500 } = {}) {
     lastAction = { el, run: () => { action.onClick(); close(); } };
   }
   // at most two toasts at a time: older ones (and their undo buttons) go away
-  while (root.children.length >= 2) root.firstElementChild.remove();
+  while (root.children.length >= 2) {
+    const old = root.firstElementChild;
+    if (lastAction?.el === old) lastAction = null; // Ctrl+Z must not undo something no longer on screen
+    old.remove();
+  }
   root.appendChild(el);
   let left = timeout ? (action ? Math.max(timeout, 10000) : timeout) : 0, t0 = Date.now(), timer = null;
   const arm = () => { if (left > 0) { t0 = Date.now(); timer = setTimeout(close, left); } };

@@ -42,7 +42,7 @@ export default async function view(el, ctx) {
         <button class="kpi-btn" data-drill="customers"><span class="kpi-label">הפכו ללקוחות</span><span class="kpi-value">${fmt.number(t.customers)}</span><span class="kpi-sub">${na(pct(t.closeRate), t.closeRate.reason)} שיעור הפיכה${t.openCohort ? `, ${t.openCohort} עוד פתוחים` : ''}</span></button>
         <button class="kpi-btn" data-drill="won"><span class="kpi-label">הכנסה שנסגרה</span><span class="kpi-value money">${fmt.money(t.revenue)}</span><span class="kpi-sub">${t.wonDeals} עסקאות</span></button>
         <button class="kpi-btn" data-drill="collected"><span class="kpi-label">נגבה בפועל</span><span class="kpi-value">${fmt.money(t.collected)}</span></button>
-        <div class="kpi-btn static"><span class="kpi-label">רווח אחרי פרסום</span><span class="kpi-value ${t.profitAfterAds < 0 ? 'danger-text' : ''}">${fmt.money(t.profitAfterAds)}</span><span class="kpi-sub">${t.wonMissingCost ? `${t.wonMissingCost} עסקאות בלי עלות` : 'רווח גולמי פחות הוצאות פרסום'}</span></div>
+        <div class="kpi-btn static"><span class="kpi-label">רווח אחרי פרסום, לפי עסקאות שנסגרו</span><span class="kpi-value ${t.profitAfterAds < 0 ? 'danger-text' : ''}">${fmt.money(t.profitAfterAds)}</span><span class="kpi-sub">${t.wonMissingCost ? `${t.wonMissingCost} עסקאות בלי עלות` : 'רווח גולמי פחות הוצאות פרסום'}</span></div>
       </section>
       ${insights.length ? html`<section class="panel insights"><div class="panel-head"><h2>${icon('sparkles')}מה הנתונים אומרים</h2><span class="muted small">חישוב, לא ניחוש</span></div><ul>${insights.map((i) => html`<li>${i}</li>`)}</ul></section>` : ''}
       <div class="table-wrap"><table class="table table-sources">
@@ -73,7 +73,7 @@ export default async function view(el, ctx) {
         <ul class="quality-list">
           <li>${comp.knownSource.value == null ? 'אין לידים בתקופה' : html`<b>${fmt.percent(comp.knownSource.value * 100)}</b> מהלידים עם מקור ידוע`}${comp.unknownSourceIds.length ? html` (<button class="linkbtn" data-drill="unknown">${comp.unknownSourceIds.length} בלי מקור</button>)` : ''}</li>
           <li>${comp.withCost.value == null ? 'אין עסקאות שנסגרו' : html`<b>${fmt.percent(comp.withCost.value * 100)}</b> מהעסקאות שנסגרו עם עלות ישירה`}</li>
-          <li>${comp.withPayment.value == null ? '' : html`<b>${fmt.percent(comp.withPayment.value * 100)}</b> מהעסקאות שנסגרו עם גבייה רשומה${comp.unpaidWonIds.length ? html` (<button class="linkbtn" data-drill="unpaid">${comp.unpaidWonIds.length} עם יתרה</button>)` : ''}`}</li>
+          ${comp.withPayment.value == null ? '' : html`<li><b>${fmt.percent(comp.withPayment.value * 100)}</b> מהעסקאות שנסגרו עם גבייה רשומה${comp.unpaidWonIds.length ? html` (<button class="linkbtn" data-drill="unpaid">${comp.unpaidWonIds.length} עם יתרה</button>)` : ''}</li>`}
           <li>הוצאות הפרסום מוזנות ידנית. אין חיבור פעיל ל-Google Ads או ל-Meta.</li>
         </ul>
       </section>
@@ -127,7 +127,7 @@ export default async function view(el, ctx) {
       const p = periodFor(st.period);
       const t = rep.total;
       download(`sources-${st.period}.csv`, toCSV([
-        [`תקופה: ${p.label} (${p.from.toISOString().slice(0, 10)} עד ${new Date(p.to - 1).toISOString().slice(0, 10)})`, `ייחוס: ${st.model === 'last' ? 'מקור אחרון' : 'מקור ראשון'}`, 'סכומים בש"ח לפני מע"מ'],
+        [`תקופה: ${p.label} (${toDateInput(p.from)} עד ${toDateInput(new Date(p.to - 1))})`, `ייחוס: ${st.model === 'last' ? 'מקור אחרון' : 'מקור ראשון'}`, 'סכומים בש"ח לפני מע"מ'],
         ['מקור', 'הוצאה', 'לידים', 'מתאימים', 'הפכו ללקוחות', 'שיעור הפיכה %', 'לקוחות חדשים בתקופה', 'הכנסה שנסגרה', 'נגבה', 'עלות לליד', 'CAC', 'ROAS', 'רווח אחרי פרסום', 'ROI %'],
         ...rep.rows.filter(hasActivity).map((r) => [r.name, Math.round(r.spend), r.leads.length, r.qualified.length, r.customers.length, pc(r.closeRate), r.newCustomers.length, r.revenue, r.collected, v(r.cpl), v(r.cac), v(r.roas), Math.round(r.profitAfterAds), v(r.roi)]),
         ['סה"כ', Math.round(t.spend), t.leads, t.qualified, t.customers, pc(t.closeRate), t.newCustomers, t.revenue, t.collected, '', v(t.cac), v(t.roas), Math.round(t.profitAfterAds), v(t.roi)],
@@ -189,9 +189,10 @@ function openSpend() {
         const existing = store.find('crm_ad_spend', (r) => r.source_id === v.source_id && String(r.day).slice(0, 10) === day && !r.campaign_id && r.origin === 'manual');
         if (existing && Number(existing.amount) !== v.amount && !(await confirmDialog(`ל${store.get('crm_sources', v.source_id)?.name} בחודש ${v.month} כבר הוזנו ${fmt.money(existing.amount)}. להחליף ב-${fmt.money(v.amount)}?`, { okLabel: 'החלפה' }))) return;
         try {
-          if (existing) await store.update('crm_ad_spend', existing.id, { amount: v.amount });
+          if (existing) await store.update('crm_ad_spend', existing.id, { amount: v.amount, ...(existing.sample ? { sample: false } : {}) }); // edited sample spend is the user's now
           else await store.insert('crm_ad_spend', { source_id: v.source_id, day, amount: v.amount, origin: 'manual', currency: 'ILS' });
           toast(existing ? 'ההוצאה עודכנה' : 'ההוצאה נוספה', { kind: 'success' });
+          form.dispatchEvent(new Event('hg:saved', { bubbles: true }));
           draw();
         } catch (err) { toast(err.message, { kind: 'error' }); }
       });

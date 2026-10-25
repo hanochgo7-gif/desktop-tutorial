@@ -34,11 +34,11 @@ export default async function view(el, ctx) {
               ${inCol.sort((a, b) => Number(b.amount_expected || 0) - Number(a.amount_expected || 0)).map((d) => {
                 const h = dealHealth(d, { stage: s, openTasks: tasks });
                 const c = store.get('crm_contacts', d.contact_id);
-                return html`<article class="card ${h.stuck || h.noNext ? 'is-rotting' : ''}" draggable="true" data-id="${d.id}">
+                return html`<article class="card ${h.stuck ? 'is-rotting' : ''}" draggable="true" data-id="${d.id}">
                   <a class="card-title" href="#/d/${d.id}">${d.name}</a>
                   <div class="card-meta"><span>${contactName(c)}</span><span class="card-amount">${fmt.money(s.kind === 'won' ? d.amount_final : d.amount_expected)}</span></div>
                   ${s.kind === 'open' ? html`<div class="card-meta">
-                    ${h.noNext ? html`<span class="rot">${icon('alert')}אין צעד הבא</span>` : html`<span class="${h.overdue ? 'due-overdue' : ''}">${icon('flag', 'ic-xs')} ${fmt.relative(h.nextTask.due_at) || 'בלי תאריך'}</span>`}
+                    ${h.noNext ? html`<span class="rot no-next">${icon('alert')}אין צעד הבא</span>` : html`<span class="${h.overdue ? 'due-overdue' : ''}">${icon('flag', 'ic-xs')} ${fmt.relative(h.nextTask.due_at) || 'בלי תאריך'}</span>`}
                     ${h.stuck ? html`<span class="rot">${h.daysInStage} ימים בשלב</span>` : ''}</div>` : ''}
                   <button class="btn-icon sm card-menu" data-act="move" data-id="${d.id}" aria-label="העברת ${d.name} לשלב אחר" aria-haspopup="menu">${icon('moreV')}</button>
                 </article>`;

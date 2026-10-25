@@ -3,9 +3,9 @@
 import { html, render, on, fmt, whatsappUrl } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName, stages, sourceName, LOST_REASONS, label } from '../core/model.js';
-import { dealHealth, paymentsOf } from '../core/metrics.js';
+import { dealHealth, paymentsOf, paidTotal } from '../core/metrics.js';
 import { DOC_KINDS, DOC_STATUS, docStatus, EXPENSE_CATEGORIES } from '../core/finance.js';
-import { pageHeader, icon, badge, setTitle, toast, confirmDialog } from '../ui/components.js';
+import { pageHeader, icon, badge, setTitle, toast, confirmDialog, navigateAfterModals } from '../ui/components.js';
 import { openDealForm, openActivityForm, openTaskForm, openMoneyDialog, moveDeal } from '../ui/forms.js';
 import { timeline, timelineHtml, nextStepCard, completeTask } from './contact.js';
 
@@ -34,12 +34,12 @@ export default async function view(el, ctx) {
             <dl class="dl">
               <dt>${d.outcome === 'won' ? 'סכום סופי' : 'סכום צפוי'}</dt><dd class="num ${d.outcome === 'won' ? 'money' : ''}">${total != null ? fmt.money(total) : html`<span class="warn-text">חסר</span>`} <small class="muted">לפני מע"מ</small></dd>
               ${d.outcome === 'won' ? html`
-                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${paymentsOf(d).length ? html` <small class="muted">${paymentsOf(d).length} תשלומים, אחרון ${fmt.date(d.paid_at)}</small>` : ''}</dd>
+                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${paymentsOf(d).length ? html` <small class="muted">${paymentsOf(d).length === 1 ? 'תשלום אחד' : `${paymentsOf(d).length} תשלומים`}, אחרון ${fmt.date(d.paid_at)}</small>` : ''}</dd>
                 <dt>יתרה לגבייה</dt><dd class="num ${unpaid > 0 ? 'warn-text' : ''}">${fmt.money(unpaid)}</dd>
                 <dt>עלות ישירה</dt><dd class="num">${d.direct_cost_estimate != null ? fmt.money(d.direct_cost_estimate) : html`<span class="warn-text">לא הוזנה</span>`}</dd>
                 <dt>רווח גולמי</dt><dd class="num">${profit != null ? fmt.money(profit) : html`<span class="muted">לא ניתן לחישוב בלי עלות</span>`}</dd>`
               : html`<dt>הסתברות</dt><dd class="num">${d.probability_override ?? cur?.probability ?? 0}%</dd>
-                <dt>משוקלל</dt><dd class="num">${fmt.money(Number(d.amount_expected || 0) * ((d.probability_override ?? cur?.probability ?? 0) / 100))}</dd>`}
+                <dt>צפי לפי סיכוי</dt><dd class="num">${fmt.money(Number(d.amount_expected || 0) * ((d.probability_override ?? cur?.probability ?? 0) / 100))}</dd>`}
             </dl>
           </section>
           <section class="panel">
@@ -49,7 +49,7 @@ export default async function view(el, ctx) {
               <dt>מקור (לדוחות)</dt><dd>${d.source_id ? sourceName(d.source_id) : html`<span class="warn-text">לא ידוע</span>`}</dd>
               <dt>נפתחה</dt><dd>${fmt.date(d.opened_at)}</dd>
               ${d.outcome === 'open' ? html`<dt>סגירה צפויה</dt><dd>${d.expected_close ? fmt.date(d.expected_close) : html`<span class="nil">—</span>`}</dd>` : html`<dt>נסגרה</dt><dd>${fmt.date(d.closed_at)}</dd>`}
-              <dt>ימים בשלב</dt><dd class="num">${h.daysInStage ?? '—'}</dd>
+              ${d.outcome === 'open' ? html`<dt>ימים בשלב</dt><dd class="num">${h.daysInStage ?? '—'}</dd>` : ''}
               ${d.next_step ? html`<dt>הצעד הבא</dt><dd>${d.next_step}</dd>` : ''}
               ${d.outcome === 'lost' ? html`<dt>סיבת הפסד</dt><dd>${label(LOST_REASONS, d.lost_reason)}${d.lost_note ? html`<br><small class="muted">${d.lost_note}</small>` : ''}</dd>` : ''}
               ${d.won_reason ? html`<dt>למה זכינו</dt><dd>${d.won_reason}</dd>` : ''}
@@ -69,7 +69,7 @@ export default async function view(el, ctx) {
             const exps = store.filter('crm_expenses', (x) => x.deal_id === id);
             return html`<section class="panel">
               <div class="panel-head"><h2>חשבוניות ומסמכים</h2><div class="row"><button class="btn btn-sm" data-act="pr">${icon('plus')}דרישת תשלום</button><button class="btn btn-sm btn-ghost" data-act="inv">רישום חשבונית</button></div></div>
-              ${docs.length ? html`<div class="list">${docs.map((x) => html`<div class="list-row"><span class="grow"><b>${label(DOC_KINDS, x.kind)} <span dir="ltr">${x.number || ''}</span></b><small class="muted">${fmt.date(x.issue_date)} | ${fmt.money(x.total)} כולל מע"מ | שולם ${fmt.money(x.paid || 0)}</small></span>${badge(label(DOC_STATUS, docStatus(x)), DOC_STATUS.find((y) => y.value === docStatus(x))?.color)}${x.kind === 'payment_request' ? html`<a class="btn-icon sm" href="#/doc/${x.id}/print" aria-label="הדפסת ${x.number}">${icon('printer')}</a>` : ''}${['sent', 'partial'].includes(docStatus(x)) ? html`<button class="btn btn-sm" data-act="doc-pay" data-id="${x.id}">תשלום</button>` : ''}</div>`)}</div>` : html`<p class="pad muted small">עוד לא הופקו מסמכים לעסקה הזו.</p>`}
+              ${docs.length ? html`<div class="list">${docs.map((x) => html`<div class="list-row"><span class="grow"><b>${label(DOC_KINDS, x.kind)} <span dir="ltr">${x.number || ''}</span></b><small class="muted">${fmt.date(x.issue_date)} | ${fmt.exact(x.total)}${Number(x.vat_rate) ? ' כולל מע"מ' : ''} | שולם ${fmt.exact(x.paid || 0)}</small></span>${badge(label(DOC_STATUS, docStatus(x)), DOC_STATUS.find((y) => y.value === docStatus(x))?.color)}${x.kind === 'payment_request' ? html`<a class="btn-icon sm" href="#/doc/${x.id}/print" aria-label="הדפסת ${x.number}">${icon('printer')}</a>` : ''}${['sent', 'partial'].includes(docStatus(x)) ? html`<button class="btn btn-sm" data-act="doc-pay" data-id="${x.id}">תשלום</button>` : ''}</div>`)}</div>` : html`<p class="pad muted small">עוד לא הופקו מסמכים לעסקה הזו.</p>`}
               ${exps.length ? html`<p class="panel-foot small">הוצאות בפועל על העסקה: <b>${fmt.money(exps.reduce((a, e) => a + Number(e.amount), 0))}</b> (${exps.map((e) => e.vendor || label(EXPENSE_CATEGORIES, e.category)).join(', ')})</p>` : ''}
             </section>`;
           })()}
@@ -101,11 +101,14 @@ export default async function view(el, ctx) {
     if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
     if (a === 'done') completeTask(b.dataset.id);
     if (a === 'delete') {
-      if (!(await confirmDialog(`למחוק את העסקה "${d.name}"?`, { danger: true, okLabel: 'מחיקה', detail: 'העסקה תוסר גם מהדוחות.' }))) return;
+      const paidSoFar = paidTotal(d);
+      const docs = store.filter('crm_documents', (x) => x.deal_id === id).length;
+      const detail = [paidSoFar ? `נרשמו בה תשלומים בסך ${fmt.money(paidSoFar)}. הם יוסרו מההכנסות, חוץ מתשלומים שנרשמו על מסמך.` : 'העסקה תוסר גם מהדוחות.', docs ? `המסמכים שלה (${docs}) יישארו במסך הכספים.` : ''].filter(Boolean).join(' ');
+      if (!(await confirmDialog(`למחוק את העסקה "${d.name}"?`, { danger: true, okLabel: 'מחיקה', detail }))) return;
       const copy = structuredClone(d);
       try {
         await store.remove('crm_deals', id);
-        location.hash = '#/deals';
+        await navigateAfterModals('#/deals');
         toast('העסקה נמחקה', { action: { label: 'ביטול', onClick: () => store.restore('crm_deals', copy) } });
       } catch (err) { toast(err.message, { kind: 'error' }); }
     }

@@ -39,12 +39,12 @@ function renderShell() {
 function saveState() {
   const s = store.status;
   const map = {
-    saving: [icon('refresh'), 'שומר...', ''],
+    saving: [icon('refresh'), 'שומר...', 'saving'],
     pending: [icon('refresh'), `${store.outbox.length} שינויים ממתינים`, 'warn'],
     offline: [icon('cloudOff'), `אין חיבור${store.outbox.length ? `, ${store.outbox.length} שינויים יישלחו כשיחזור` : ''}`, 'error'],
     error: [icon('alert'), 'שגיאת שמירה', 'error'],
   };
-  const [ic, text, cls] = map[s] || [icon('check'), store.mode === 'local' ? 'נשמר בדפדפן' : 'נשמר בשרת', ''];
+  const [ic, text, cls] = map[s] || [icon('check'), store.mode === 'local' ? 'נשמר בדפדפן' : 'נשמר בשרת', 'saved'];
   return html`<span class="save-state ${cls}" role="status">${ic}<span>${text}</span></span>`;
 }
 
@@ -59,7 +59,7 @@ function renderTop() {
     <span id="save-state">${saveState()}</span>
     <span class="net-state" id="net-state" role="status" hidden>${icon('cloudOff')}<span>אין חיבור</span></span>
     <a class="btn-icon top-settings" href="#/settings" aria-label="הגדרות וגיבוי" title="הגדרות וגיבוי">${icon('settings')}</a>
-    <button class="btn btn-primary btn-sm" data-top="lead" aria-label="ליד חדש">${icon('plus')}<span>ליד חדש</span></button>`);
+    <button class="btn btn-soft btn-sm" data-top="lead" aria-label="ליד חדש">${icon('plus')}<span>ליד חדש</span></button>`);
 }
 
 function wireSearch() {

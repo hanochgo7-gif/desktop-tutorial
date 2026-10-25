@@ -6,7 +6,7 @@ import {
   contactName, sourceName, stageName, LEAD_STATUS, LIFECYCLE, FIT, TASK_TYPES, ACTIVITY_TYPES, label, color,
   nextTaskFor, dealsOf, dueClass, openTasks,
 } from '../core/model.js';
-import { pageHeader, icon, badge, avatar, setTitle, toast, confirmDialog, opt, menu } from '../ui/components.js';
+import { pageHeader, icon, badge, avatar, setTitle, toast, confirmDialog, opt, menu, navigateAfterModals } from '../ui/components.js';
 import { openLeadForm, openActivityForm, openTaskForm, openDealForm, taskEditBtn } from '../ui/forms.js';
 
 export function timeline({ contactId = null, dealId = null }) {
@@ -177,7 +177,7 @@ export default async function view(el, ctx) {
           try {
             for (const t of open) await store.update('crm_tasks', t.id, { status: 'canceled' });
             await store.remove('crm_contacts', id);
-            location.hash = '#/leads';
+            await navigateAfterModals('#/leads');
             toast('הליד נמחק', { action: { label: 'ביטול', onClick: async () => { await store.restore('crm_contacts', copy); for (const t of open) await store.update('crm_tasks', t.id, { status: 'open' }); location.hash = `#/c/${id}`; } } });
           } catch (err) { toast(err.message, { kind: 'error' }); }
         } },

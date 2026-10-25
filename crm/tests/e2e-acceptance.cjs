@@ -1,7 +1,7 @@
 const { chromium, devices } = require('playwright');
 const fs = require('fs');
 const SHOTS = process.argv[2] || require('os').tmpdir();
-const URL = 'http://localhost:8765/crm/';
+const URL = process.env.HGOS_URL || process.argv[2] || 'http://localhost:8765/crm/';
 const log = (...a) => console.log('•', ...a);
 let fails = 0;
 const check = (cond, msg) => { if (cond) log('PASS', msg); else { fails++; log('FAIL', msg); } };
@@ -17,7 +17,7 @@ const check = (cond, msg) => { if (cond) log('PASS', msg); else { fails++; log('
   await p.click('[data-trial]');
   await p.click('.ov-foot .btn-primary'); // start working (empty)
   await p.waitForSelector('.page-head h1');
-  check(await p.locator('text=אין משימות פתוחות להיום').count() === 1, 'empty My Day invites first action');
+  check(await p.locator('text=איך מתחילים').count() === 1 && await p.locator('.first-steps [data-act=new-lead]').count() === 1, 'empty My Day shows first steps');
 
   // 1. new lead with source + first follow-up
   await p.click('[data-top="lead"]');

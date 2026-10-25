@@ -1,9 +1,10 @@
 // Import leads from a CSV exported from Excel / Google Sheets: auto-mapped columns, preview, duplicate skipping.
 
-import { html, render, $, parseCSV, readFile, fmt } from '../core/util.js';
+import { html, render, $, parseCSV, readTextFile, fmt } from '../core/util.js';
 import { store } from '../core/store.js';
 import { normPhone } from '../core/rules.js';
 import { contactName } from '../core/model.js';
+import { matchSourceText } from '../core/source-match.js';
 import { modal, toast, icon, opt } from './components.js';
 
 const TARGETS = [
@@ -36,18 +37,7 @@ function parseDate(s) {
   const d = new Date(v);
   return isNaN(d) ? null : d;
 }
-function matchSource(text) {
-  const t = String(text || '').trim().toLowerCase();
-  if (!t) return null;
-  const all = store.all('crm_sources');
-  return all.find((s) => s.name.toLowerCase() === t)
-    || all.find((s) => s.name.toLowerCase().includes(t) || t.includes(s.name.toLowerCase().split(' ')[0]))
-    || all.find((s) => (s.utm_sources || []).includes(t))
-    || (/(גוגל|google)/.test(t) && /(ממומן|מודע|ads|ppc)/.test(t) ? all.find((s) => s.key === 'google_ads') : null)
-    || (/(פייסבוק|אינסטגרם|facebook|instagram|meta)/.test(t) ? all.find((s) => (/(ממומן|מודע|ads)/.test(t) ? s.key === 'meta_ads' : s.key === 'social')) : null)
-    || (/(המלצ|הפני|חבר|referr)/.test(t) ? all.find((s) => s.key === 'referral') : null)
-    || null;
-}
+const matchSource = (text) => matchSourceText(text, store.all('crm_sources'));
 
 function buildRows(data, map) {
   const existing = store.all('crm_contacts');
@@ -83,7 +73,7 @@ function buildRows(data, map) {
 
 export async function importLeads(file) {
   let text;
-  try { text = await readFile(file); } catch { toast('לא הצלחתי לקרוא את הקובץ', { kind: 'error' }); return; }
+  try { text = await readTextFile(file); } catch { toast('לא הצלחתי לקרוא את הקובץ', { kind: 'error' }); return; }
   const rows = parseCSV(text);
   if (rows.length < 2) { toast('בקובץ אין שורות לייבוא. ודאו ששורה ראשונה היא כותרות ושיש מתחתיה נתונים.', { kind: 'error', timeout: 8000 }); return; }
   if (rows.length > 5001) { toast('הקובץ גדול מדי (יותר מ-5,000 שורות). חלקו אותו לכמה קבצים.', { kind: 'error' }); return; }

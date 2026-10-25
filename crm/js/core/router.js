@@ -73,6 +73,7 @@ export const router = {
     const ctx = {
       params, query, path,
       watch: (colls, fn) => {
+        if (this.current !== state) return; // the user already left this page
         const set = new Set(colls);
         const handler = (ev) => { if (this.current === state && ev.tables?.some((t) => set.has(t))) fn(ev); };
         state.unwatch.push(store.on('change', handler));

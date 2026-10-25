@@ -25,9 +25,9 @@
   --brand-soft: #E9EDFE;
   --brand-hover: #2440C9;
   --focus: #2D4BE0;
-  --money: #0B8A5A;
-  --danger: #D13434;
-  --warn: #B86A00;
+  --money: #087A50;
+  --danger: #C62E2E;
+  --warn: #9A5B00;
   --nav: #11162A;
   --nav-2: #1A2140;
   --nav-ink: #C9CEE0;
@@ -958,4 +958,96 @@ details.more-fields > .form-grid { margin-top: 12px; }
   body.bare .view, body { background: #fff !important; }
   .paper { box-shadow: none; margin: 0; max-width: none; padding: 0; }
   @page { size: A4; margin: 16mm; }
+}
+
+
+/* ---------- design pass, round 2 (audit: contrast, dark mode, RTL alignment, density) ---------- */
+/* toasts and the bulk bar keep their own dark colours in both themes (inverting tokens made dark-mode toasts white-on-white) */
+.toast, .bulkbar { background: #141826; color: #fff; }
+.bulkbar .btn { border-color: rgba(255,255,255,.3); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .toast, :root:not([data-theme="light"]) .bulkbar { background: var(--surface-3); color: var(--ink); border: 1px solid var(--line-2); }
+  :root:not([data-theme="light"]) .col { background: var(--surface); }
+  :root:not([data-theme="light"]) .card { background: var(--surface-3); }
+  :root:not([data-theme="light"]) .side { border-inline-end: 1px solid var(--line); }
+}
+:root[data-theme="dark"] .toast, :root[data-theme="dark"] .bulkbar { background: var(--surface-3); color: var(--ink); border: 1px solid var(--line-2); }
+:root[data-theme="dark"] .col { background: var(--surface); }
+:root[data-theme="dark"] .card { background: var(--surface-3); }
+:root[data-theme="dark"] .side { border-inline-end: 1px solid var(--line); }
+
+/* destructive ghost buttons stay red */
+.btn-ghost.danger-text { color: var(--danger); }
+.btn-ghost.danger-text:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+
+/* leads table: name and business on two lines, name in ink (not a wall of blue links) */
+.table-leads .prim { display: flex; flex-direction: column; gap: 1px; color: var(--ink); font-weight: 500; }
+.table-leads .prim:hover { text-decoration: none; }
+.table-leads .prim:hover b { color: var(--brand); }
+.table-leads .prim small { color: var(--ink-3); font-weight: 400; font-size: 12px; }
+
+/* deals board: room for the menu; red only for deals past their stage limit, amber for a missing next step */
+.card-title { padding-inline-end: 26px; }
+.card .rot.no-next { color: var(--warn); }
+
+/* LTR values (phone, email, amounts, document numbers) line up with the Hebrew around them */
+.dl dd[dir="ltr"], .input[dir="ltr"] { text-align: right; }
+.paper-doc p[dir="ltr"] { text-align: left; }
+.paper-totals { column-gap: 0; }
+.paper-totals dt { padding-inline-end: 24px; }
+
+/* links inside running text are underlined, not only coloured; a button inside a notice is not */
+.page-title p a { text-decoration: underline; text-underline-offset: 2px; }
+.notice a.btn { text-decoration: none; }
+
+/* sources totals row, footnotes, balanced short copy */
+.table-sources tfoot th[scope=row] { background: var(--surface-2); }
+.idle-sources { margin-bottom: 16px; }
+.empty p, .kpi-sub { text-wrap: balance; }
+.kpis { align-items: stretch; }
+.toolbar .input[type=search] { min-width: min(320px, 100%); }
+
+/* Today: the action buttons line up from row to row */
+@media (min-width: 761px) { .act-btns { min-width: 212px; justify-content: flex-start; } }
+
+/* phone: card tables read label ... value, finger-sized links, payment-request lines that fit */
+@media (max-width: 760px) {
+  .table-leads td, .table-sources td, .table-docs td { justify-content: flex-start; gap: 6px; }
+  .table-leads td::before, .table-sources td::before, .table-docs td[data-label]::before { margin-inline-end: auto; }
+  .doc-line { grid-template-columns: 1fr 1fr 36px; }
+  .doc-line [data-k=description] { grid-column: 1 / -1; }
+  .save-state.saved { display: none; } /* a bare check mark looked like a button; only problems are shown */
+}
+@media (pointer: coarse) {
+  .table-sources .linkbtn { min-width: 44px; min-height: 32px; display: inline-grid; place-items: center; }
+  .cbx { width: 22px; height: 22px; }
+}
+@media (max-width: 560px) {
+  .quick-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .panel-head h2 { white-space: nowrap; }
+}
+
+/* Today: first steps for a new account */
+.first-steps h3 { font-size: 16px; margin: 0 0 10px; }
+.first-steps ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: step; }
+.first-steps li { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-2); counter-increment: step; }
+.first-steps li::before { content: counter(step); flex: none; width: 26px; height: 26px; border-radius: 99px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: 13px; }
+.first-steps li.done::before { background: color-mix(in srgb, var(--money) 15%, transparent); color: var(--money); content: '✓'; }
+.first-steps li .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+/* touch screens: every button is a 44px target (round 1 covered icon buttons only) */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .btn.btn-sm { min-height: 40px; }
+  .linkbtn { min-height: 32px; padding-block: 4px; }
+}
+/* payments dialog on a phone: one card per payment instead of a table wider than the screen */
+@media (max-width: 560px) {
+  .money-form .table thead { display: none; }
+  .money-form .table, .money-form .table tbody, .money-form .table tr, .money-form .table td { display: block; }
+  .money-form .table tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .money-form .table td { padding: 0; border: 0; }
+  .money-form .table td:nth-child(2) { grid-column: 1; }
+  .money-form .table td:nth-child(2) small { display: block; }
+  .money-form .table td:last-child { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
 }

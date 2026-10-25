@@ -1,7 +1,7 @@
 // Finance module: payment requests, recorded invoices, payments, expenses, VAT estimate, accountant export.
 const { chromium, devices } = require('playwright');
 const fs = require('fs');
-const URL = process.argv[2] || 'http://localhost:8765/crm/';
+const URL = process.env.HGOS_URL || process.argv[2] || 'http://localhost:8765/crm/';
 let fails = 0;
 const check = (c, m) => { console.log(c ? '• PASS' : '• FAIL', m); if (!c) fails++; };
 const near = (a, b) => Math.abs(Number(a) - b) < 0.01;
