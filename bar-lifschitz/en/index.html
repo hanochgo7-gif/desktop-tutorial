@@ -36,8 +36,8 @@
     --linen: #f3f2ec;    /* נייר התפריט */
     --fig: #2b1219;      /* דיו בצבע תאנה */
     --dusk: #3e1d27;     /* שקיעה */
-    --night: #1e0d12;
-    --wall: #2b140f;      /* הקיר ליד החלון של המטבח */    /* לילה ליד הגחלים */
+    --night: #1e0d12;     /* לילה ליד הגחלים */
+    --wall: #2b140f;      /* הקיר ליד החלון של המטבח */
     --beet: #9c1b2c;     /* רוטב הקרודו */
     --rose: #e7a3ad;     /* גחלת */
     --olive: #5e6142;
@@ -86,7 +86,7 @@
   [data-theme="dusk"]  { --bg: var(--dusk);  --ink: var(--linen); --soft: #dccfd2; --line: rgba(243,242,236,.2); --accent: var(--rose); --on-accent: var(--fig); }
   [data-theme="night"] { --bg: var(--night); --ink: var(--linen); --soft: #d4c7ca; --line: rgba(243,242,236,.18); --accent: var(--rose); --on-accent: var(--fig); }
   /* כשהתנועה פעילה, צבע הרקע של הדף עצמו מתחלף בגלילה, מיום ללילה */
-  html.motion main > [data-theme]:not(.hero), html.motion footer[data-theme] { background: transparent; }
+  html.motion main > [data-theme]:not(.hero):not(.stage), html.motion footer[data-theme] { background: transparent; }
 
   .btn {
     position: relative; overflow: hidden; isolation: isolate;
@@ -147,7 +147,7 @@
   .menu-overlay .close { position: absolute; top: 18px; inset-inline-end: var(--gutter); background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 10px 0; }
   .menu-overlay small { margin-top: 40px; color: #cdbfc2; font-size: 1rem; }
 
-  @view-transition { navigation: auto; }
+  @media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }
   .site-head .mark { view-transition-name: barlif-mark; }
 
   /* ---------- פתיח: החלון המואר ---------- */
@@ -175,6 +175,12 @@
     html.js .stage-title .logo { -webkit-mask-image: linear-gradient(to right, #000 40%, transparent 60%); mask-image: linear-gradient(to right, #000 40%, transparent 60%);
       -webkit-mask-size: 260% 100%; mask-size: 260% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0; animation: ink 1.6s .25s cubic-bezier(.3,.6,.2,1) forwards; }
     html.js .stage-copy { opacity: 0; transform: translateY(14px); animation: rise .9s .35s var(--ease) forwards; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .stage-title { top: 58px; }
+    .stage-title .logo { width: min(34vw, 260px); }
+    .stage-copy { bottom: 12px; gap: 10px; }
+    .stage-copy .cue { display: none; }
   }
   @keyframes ink { to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
   @keyframes rise { to { opacity: 1; transform: none; } }
@@ -564,7 +570,6 @@
     <div class="wrap hero-body">
       <h2 class="hero-tag" id="hero-title">I cook and host, in my yard and at yours</h2>
       <div class="hero-row">
-        <p class="hero-lede">Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.</p>
         <div class="hero-actions">
           <a class="btn" href="#book">Book a dinner</a>
           <a class="btn ghost" href="#menu">See the menu</a>
@@ -587,8 +592,8 @@
     </div>
     <div class="about-grid">
       <div class="about-copy">
-        <p>I grew up in an Argentinian home, where there were always guests and always something on the stove. After the army I started cooking in professional kitchens, and today I cook out of a love for hosting.</p>
-        <p>My cooking is simple, interesting and rooted in the Galilee. Every dish is made in front of the guests, with fresh, good ingredients and wine from local wineries.</p>
+        <p>I grew up in an Argentinian home, where there were always guests. After the army I went into professional kitchens.</p>
+        <p>Simple, interesting, Galilean. Cooked in front of the guests.</p>
         <p class="about-line">Because a meal is so much more than food.</p>
         <p class="signature">Bar</p>
       </div>
@@ -606,14 +611,14 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/yard-table.jpg" data-src="../media/yard-table" aria-label="The table in the yard set with flowers, milk churns holding wine and a barrel of glasses"></video></figure>
         <div class="format-text">
-          <h3>In my yard, Mitzpe Matat</h3>
-          <p>A private dinner for your group. The dishes are made in front of you, then everyone sits down at one long table.</p>
+          <h3>In the yard, Mitzpe Matat</h3>
+          <p>One table, just for your group.</p>
           <ul>
             <li>6 to 16 guests</li>
             <li>6:30 pm to 9:30 pm</li>
             <li>Adults only</li>
           </ul>
-          <p class="soon">Coming soon: a studio in Matat for events of 30 to 40 guests.</p>
+          <p class="soon">Coming soon: a studio for 30 to 40 guests.</p>
           <a class="btn ghost" href="#book" data-format="yard">Book the yard</a>
         </div>
       </div>
@@ -621,10 +626,10 @@
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/burrata-pour.jpg" data-src="../media/burrata-pour" aria-label="Olive oil drizzled over a row of bowls of white cheese and greens"></video></figure>
         <div class="format-text">
           <h3>At your place</h3>
-          <p>I come with my team and the ingredients, cook and serve at your home. Dinners, birthdays, family occasions and lunches.</p>
+          <p>I come with my team, cook and serve.</p>
           <ul>
             <li>8 to 40 guests</li>
-            <li>The Galilee and Golan, Haifa and the Krayot, the Sharon and central Israel</li>
+            <li>From the Galilee to central Israel</li>
             <li>All you need is a kitchen, tables and chairs</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="home">Book at your place</a>
@@ -633,14 +638,12 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/vineyard-table.jpg" data-src="../media/vineyard-table" aria-label="A long table with a white cloth in a vineyard, under parasols"></video></figure>
         <div class="format-text">
-          <h3>Events and collaborations</h3>
-          <p>I produce events wherever you want them, in my own style and design. For companies, teams and private evenings.</p>
+          <h3>Events</h3>
+          <p>Anywhere, in my style.</p>
           <ul>
-            <li>Company and team events</li>
-            <li>Launches and private evenings</li>
-            <li>Plated, sharing plates, buffet or passed small bites</li>
-            <li>Waiting staff to match the size of the event</li>
-            <li>Cocktails by Kuller can be added</li>
+            <li>Companies, teams and launches</li>
+            <li>Plated, sharing plates, buffet or small bites</li>
+            <li>Waiting staff, and cocktails by Kuller</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="event">Plan an event</a>
         </div>
@@ -654,7 +657,7 @@
       <div class="ev-steps">
         <div class="ev-head">
           <h2 id="menu-title" data-words-rise>The menu</h2>
-          <p class="sub">This is what a menu looks like with me, from the first bite to dessert. It changes with the season and the occasion.</p>
+          <p class="sub">It changes with the season.</p>
         </div>
         <ol class="timeline">
           <li class="ev-step on" data-step="0" data-label="To begin">
@@ -694,7 +697,7 @@
             </ul>
           </li>
         </ol>
-        <p class="menu-note">Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own. And at the end of the evening, a little something to take home.</p>
+        <p class="menu-note">Vegetarian, gluten-free, nut-free or lactose-free on request. Wine from local wineries, or your own. And at the end, a little something to take home.</p>
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
@@ -730,7 +733,7 @@
       <div>
         <div class="book-head">
           <h2 id="book-title" data-words-rise>Book a dinner</h2>
-          <p>Every dinner is built for you. Tell me what you have in mind, and I will get back to you on WhatsApp with a proposal and a menu.</p>
+          <p>Tell me what you have in mind. I will come back with a proposal and a menu.</p>
         </div>
         <form class="book-form" id="book-form" novalidate>
           <fieldset class="q-step">
@@ -793,11 +796,11 @@
       <aside class="next-card" aria-labelledby="next-title">
         <h3 id="next-title">What happens next</h3>
         <ol class="next-steps">
-          <li>I get back to you on WhatsApp with a proposal and a menu.</li>
-          <li>The date is held with a 30% deposit, by PayBox or bank transfer.</li>
-          <li>A few days before, we go over the final details together.</li>
+          <li>I come back with a proposal and a menu.</li>
+          <li>A 30% deposit holds the date.</li>
+          <li>A few days before, we settle the details.</li>
         </ol>
-        <p class="fine">Cancel up to a month before and the full deposit is returned. Full details in the FAQ below.</p>
+        <p class="fine">Cancel up to a month before: full refund.</p>
         <div class="contact">
           <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp: +972 58-787-0656</a>
           <a href="tel:+972587870656">Phone: +972 58-787-0656</a>
@@ -815,16 +818,16 @@
         <p>Can't find an answer? Message me on <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>.</p>
       </div>
       <div class="faq-list">
-        <details><summary>How long is a dinner in the yard?<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, usually from 6:30 pm to 9:30 pm.</p></div></details>
-        <details><summary>How many guests?<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard: 6 to 16. At your place: 8 to 40. A studio in Matat for events of 30 to 40 guests is opening soon.</p></div></details>
-        <details><summary>How much does it cost?<i aria-hidden="true"></i></summary><div class="ans"><p>Each dinner is priced by the menu, the number of guests and the place. Tell me what you have in mind and I will send a proposal.</p></div></details>
-        <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>I adapt the menu for vegetarians, gluten-free, nut allergies and lactose-free. Let me know when you book. The kitchen is not kosher.</p></div></details>
-        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>There is wine from local wineries, and you are welcome to bring your own. For events, cocktails by Kuller can be added.</p></div></details>
+        <details><summary>How long is a dinner in the yard?<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, 6:30 to 9:30 pm.</p></div></details>
+        <details><summary>How many guests?<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard 6 to 16. At your place 8 to 40.</p></div></details>
+        <details><summary>How much does it cost?<i aria-hidden="true"></i></summary><div class="ans"><p>It depends on the menu, the number of guests and the place. Tell me, and I will send a proposal.</p></div></details>
+        <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>Vegetarian, gluten-free, nut-free or lactose-free on request. The kitchen is not kosher.</p></div></details>
+        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>Wine from local wineries, or your own. At events, cocktails by Kuller too.</p></div></details>
         <details><summary>Can we bring children?<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
-        <details><summary>What should we know before we come?<i aria-hidden="true"></i></summary><div class="ans"><p>Please arrive on time. Evenings in Matat are cool, so bring an extra layer. The exact address is sent with your booking confirmation.</p></div></details>
+        <details><summary>What should we know before we come?<i aria-hidden="true"></i></summary><div class="ans"><p>Arrive on time, with a warm layer for the evening. The address comes with the confirmation.</p></div></details>
         <details><summary>Accessibility<i aria-hidden="true"></i></summary><div class="ans"><p>There are steps at the entrance. A wheelchair can reach the house from the road.</p></div></details>
-        <details><summary>What about winter?<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat is opening soon, so rainy days will be covered too. Until then, we plan together around the forecast.</p></div></details>
-        <details><summary>Deposit and cancellations<i aria-hidden="true"></i></summary><div class="ans"><p>The date is held with a 30% deposit, by PayBox or bank transfer. Cancel up to a month before the dinner and the full deposit is returned; after that it is non-refundable. In case of war or an emergency, cancelling up to three days before the event returns 50% of the deposit.</p></div></details>
+        <details><summary>What about winter?<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat opens soon. Until then, we plan around the forecast.</p></div></details>
+        <details><summary>Deposit and cancellations<i aria-hidden="true"></i></summary><div class="ans"><p>A 30% deposit holds the date, by PayBox or bank transfer. Cancel up to a month before: full refund. After that: no refund. In war or an emergency, cancel up to three days before: 50% back.</p></div></details>
       </div>
     </div>
   </section>
@@ -833,12 +836,12 @@
 <footer class="finale" data-theme="night">
   <div class="finale-bg"><video class="vid" muted loop playsinline preload="none" poster="../images/yard-table.jpg" data-src="../media/yard-table" aria-hidden="true"></video></div>
   <div class="wrap finale-top">
-    <p class="finale-line">The table is set. All that is missing is you.</p>
+    <p class="finale-line">The table is set.</p>
     <a class="btn" href="#book">Book a dinner</a>
   </div>
   <div class="finale-name" aria-hidden="true"><svg class="logo" viewBox="20 29 1620 453" aria-hidden="true" focusable="false"><use href="#barlif"/></svg></div>
   <div class="wrap finale-meta">
-    <span>Private chef. In my yard in Mitzpe Matat, at your place, or anywhere</span>
+    <span>Private chef · Mitzpe Matat</span>
     <nav aria-label="Links">
       <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>
       <a href="tel:+972587870656">Phone</a>
@@ -1007,10 +1010,16 @@
     const load = v => { if (!v.getAttribute('src')) v.src = v.dataset.src + ext; };
     const play = v => { load(v); const p = v.play(); if (p) p.catch(() => {}); };
 
+    // הסרטונים של החצר מחכים מתחת לחלון עד שנכנסים אליו
+    let heroOpen = !document.querySelector('.stage');
+    const seen = new Set();
+    const wake = v => { if (heroVids.includes(v) && (!heroOpen || heroPaused)) return; play(v); };
+    // סרטון נטען רק אחרי שהוא נשאר על המסך רגע, ולא כשרק עוברים לידו בדרך
     const io = new IntersectionObserver(entries => entries.forEach(e => {
       const v = e.target;
-      if (e.isIntersecting) { if (!(heroPaused && heroVids.includes(v))) play(v); } else if (v.getAttribute('src')) v.pause();
-    }), { rootMargin: '250px 0px' });
+      if (e.isIntersecting) { seen.add(v); clearTimeout(v._t); v._t = setTimeout(() => { if (seen.has(v)) wake(v); }, v.getAttribute('src') ? 0 : 300); }
+      else { seen.delete(v); clearTimeout(v._t); if (v.getAttribute('src')) v.pause(); }
+    }), { rootMargin: '150px 0px' });
     document.querySelectorAll('video.vid').forEach(v => { if (!menuVids.includes(v)) io.observe(v); });
 
     // בתפריט מתנגן רק הסרטון של השלב הפעיל
@@ -1024,7 +1033,10 @@
       menuVisible = e.isIntersecting;
       syncMenu();
     }, { rootMargin: '300px 0px' }).observe(menuBox);
-    window.barVideo = { menuStep: i => { step = i; syncMenu(); } };
+    window.barVideo = {
+      menuStep: i => { step = i; syncMenu(); },
+      openHero: () => { if (heroOpen) return; heroOpen = true; heroVids.forEach(v => { if (seen.has(v)) wake(v); }); },
+    };
 
     heroVids.forEach(v => v.addEventListener('playing', () => { toggle.hidden = false; }, { once: true }));
     toggle.addEventListener('click', () => {
@@ -1098,6 +1110,7 @@
     measure();
     window.addEventListener('resize', measure);
     window.addEventListener('load', measure);
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
     // צבע הכותרת לפי הקטע שמתחתיה
     const toneAt = () => {
       const under = document.elementsFromPoint(window.innerWidth / 2, 40).find(el => !el.closest('#site-head, .progress, .toast'));
@@ -1113,6 +1126,7 @@
 
     const haveLibs = window.gsap && window.ScrollTrigger && window.Lenis;
     if (calm || !haveLibs) {
+      if (window.barVideo) window.barVideo.openHero();
       let last = 0;
       window.addEventListener('scroll', () => { const y = scrollY; onScrollHead(y, y - last); last = y; }, { passive: true });
       return;
@@ -1188,17 +1202,24 @@
     const film = document.querySelector('.stage-film');
     // המצלמה נכנסת אל בר, שעומד בתוך החלון
     const aim = () => {
-      const r = film.querySelector('video').getBoundingClientRect();
-      film.style.transformOrigin = `${r.left + r.width * 0.445}px ${r.top + r.height * 0.55}px`;
+      const v = film.querySelector('video');
+      film.style.transformOrigin = `${v.offsetLeft + v.offsetWidth * 0.445}px ${v.offsetTop + v.offsetHeight * 0.55}px`;
     };
     aim();
     ScrollTrigger.addEventListener('refreshInit', () => { gsap.set(film, { scale: 1 }); aim(); });
-    gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6 } })
+    matchMedia('(orientation: portrait)').addEventListener('change', () => setTimeout(() => ScrollTrigger.refresh(true), 250));
+    const stageVid = film.querySelector('video');
+    gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+      onUpdate: self => {
+        if (self.progress > 0.35 && window.barVideo) window.barVideo.openHero();
+        if (self.progress > 0.9) stageVid.pause();
+        else if (stageVid.paused && stageVid.getAttribute('src')) { const pr = stageVid.play(); if (pr) pr.catch(() => {}); }
+      } } })
       .to('.stage-ui', { opacity: 0, y: -40, ease: 'power1.in', duration: 0.2 }, 0)
       .to(film, { scale: 2.3, ease: 'power2.in', duration: 0.7 }, 0)
       .to('.stage-fade', { opacity: 1, ease: 'power1.in', duration: 0.2 }, 0.42)
       .fromTo('.hero', { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: 0.28 }, 0.58);
-    ScrollTrigger.create({ trigger: '.hero', start: 'top 12%', once: true, onEnter: () => heroIn.play() });
+    ScrollTrigger.create({ trigger: '.hero', start: 'top 12%', once: true, onEnter: () => { heroIn.play(); if (window.barVideo) window.barVideo.openHero(); } });
 
     gsap.to(heroImg, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     gsap.to('.hero-body', { yPercent: -10, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });

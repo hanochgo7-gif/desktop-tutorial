@@ -36,8 +36,8 @@
     --linen: #f3f2ec;    /* נייר התפריט */
     --fig: #2b1219;      /* דיו בצבע תאנה */
     --dusk: #3e1d27;     /* שקיעה */
-    --night: #1e0d12;
-    --wall: #2b140f;      /* הקיר ליד החלון של המטבח */    /* לילה ליד הגחלים */
+    --night: #1e0d12;     /* לילה ליד הגחלים */
+    --wall: #2b140f;      /* הקיר ליד החלון של המטבח */
     --beet: #9c1b2c;     /* רוטב הקרודו */
     --rose: #e7a3ad;     /* גחלת */
     --olive: #5e6142;
@@ -86,7 +86,7 @@
   [data-theme="dusk"]  { --bg: var(--dusk);  --ink: var(--linen); --soft: #dccfd2; --line: rgba(243,242,236,.2); --accent: var(--rose); --on-accent: var(--fig); }
   [data-theme="night"] { --bg: var(--night); --ink: var(--linen); --soft: #d4c7ca; --line: rgba(243,242,236,.18); --accent: var(--rose); --on-accent: var(--fig); }
   /* כשהתנועה פעילה, צבע הרקע של הדף עצמו מתחלף בגלילה, מיום ללילה */
-  html.motion main > [data-theme]:not(.hero), html.motion footer[data-theme] { background: transparent; }
+  html.motion main > [data-theme]:not(.hero):not(.stage), html.motion footer[data-theme] { background: transparent; }
 
   .btn {
     position: relative; overflow: hidden; isolation: isolate;
@@ -147,7 +147,7 @@
   .menu-overlay .close { position: absolute; top: 18px; inset-inline-end: var(--gutter); background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 10px 0; }
   .menu-overlay small { margin-top: 40px; color: #cdbfc2; font-size: 1rem; }
 
-  @view-transition { navigation: auto; }
+  @media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }
   .site-head .mark { view-transition-name: barlif-mark; }
 
   /* ---------- פתיח: החלון המואר ---------- */
@@ -175,6 +175,12 @@
     html.js .stage-title .logo { -webkit-mask-image: linear-gradient(to right, #000 40%, transparent 60%); mask-image: linear-gradient(to right, #000 40%, transparent 60%);
       -webkit-mask-size: 260% 100%; mask-size: 260% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0; animation: ink 1.6s .25s cubic-bezier(.3,.6,.2,1) forwards; }
     html.js .stage-copy { opacity: 0; transform: translateY(14px); animation: rise .9s .35s var(--ease) forwards; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .stage-title { top: 58px; }
+    .stage-title .logo { width: min(34vw, 260px); }
+    .stage-copy { bottom: 12px; gap: 10px; }
+    .stage-copy .cue { display: none; }
   }
   @keyframes ink { to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
   @keyframes rise { to { opacity: 1; transform: none; } }
@@ -564,7 +570,6 @@
     <div class="wrap hero-body">
       <h2 class="hero-tag" id="hero-title">מבשל ומארח, אצלי בחצר ואצלכם</h2>
       <div class="hero-row">
-        <p class="hero-lede">ארוחות שף פרטיות בחצר שלי במצפה מתת, אצלכם בבית, או בכל מקום שתבחרו.</p>
         <div class="hero-actions">
           <a class="btn" href="#book">לתיאום ארוחה</a>
           <a class="btn ghost" href="#menu">לתפריט</a>
@@ -587,8 +592,8 @@
     </div>
     <div class="about-grid">
       <div class="about-copy">
-        <p>גדלתי בבית ארגנטינאי, שבו תמיד מארחים ותמיד מבשלים. אחרי הצבא התחלתי לבשל במטבחים מקצועיים, והיום אני מבשל מתוך אהבה לאירוח.</p>
-        <p>הבישול שלי פשוט, מעניין וגלילי. המנות מוכנות מול האורחים, עם חומרי גלם טריים וטובים ויין מיקבים מקומיים.</p>
+        <p>גדלתי בבית ארגנטינאי, שבו תמיד מארחים. אחרי הצבא נכנסתי למטבחים מקצועיים.</p>
+        <p>פשוט, מעניין, גלילי. מבושל מול האורחים.</p>
         <p class="about-line">כי ארוחה היא הרבה מעבר לאוכל.</p>
         <p class="signature">בר</p>
       </div>
@@ -606,14 +611,14 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="images/yard-table.jpg" data-src="media/yard-table" aria-label="השולחן בחצר ערוך עם פרחים, כדי חלב עם יין וחבית עם כוסות"></video></figure>
         <div class="format-text">
-          <h3>בחצר שלי, במצפה מתת</h3>
-          <p>ארוחה פרטית לקבוצה שלכם. המנות מוכנות מול האורחים, ואחר כך כולם יושבים לשולחן אחד.</p>
+          <h3>בחצר, במצפה מתת</h3>
+          <p>שולחן אחד, רק לקבוצה שלכם.</p>
           <ul>
             <li>6 עד 16 אורחים</li>
             <li>18:30 עד 21:30</li>
             <li>מבוגרים בלבד</li>
           </ul>
-          <p class="soon">בקרוב: סטודיו במתת לאירועים של 30 עד 40 אורחים.</p>
+          <p class="soon">בקרוב: סטודיו ל־30 עד 40 אורחים.</p>
           <a class="btn ghost" href="#book" data-format="yard">לתיאום בחצר</a>
         </div>
       </div>
@@ -621,10 +626,10 @@
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="images/burrata-pour.jpg" data-src="media/burrata-pour" aria-label="מזלפים שמן זית על שורת קערות עם גבינה לבנה וירוקים"></video></figure>
         <div class="format-text">
           <h3>אצלכם בבית</h3>
-          <p>אני מגיע עם הצוות וחומרי הגלם, מבשל ומגיש אצלכם. ארוחות ערב, ימי הולדת, אירועים משפחתיים וצהריים.</p>
+          <p>אני מגיע עם הצוות, מבשל ומגיש.</p>
           <ul>
             <li>8 עד 40 סועדים</li>
-            <li>הגליל והגולן, חיפה והקריות, השרון והמרכז</li>
+            <li>מהגליל ועד המרכז</li>
             <li>צריך רק מטבח, שולחנות וכיסאות</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="home">לתיאום אצלכם</a>
@@ -633,14 +638,12 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="images/vineyard-table.jpg" data-src="media/vineyard-table" aria-label="שולחן ארוך ערוך במפה לבנה בכרם, תחת שמשיות"></video></figure>
         <div class="format-text">
-          <h3>אירועים ושיתופי פעולה</h3>
-          <p>אני מפיק אירוע בכל מקום שתרצו, בסגנון ובעיצוב שלי. לחברות, לצוותים ולערבים פרטיים.</p>
+          <h3>אירועים</h3>
+          <p>בכל מקום, בסגנון שלי.</p>
           <ul>
-            <li>אירועי חברה וצוותים</li>
-            <li>השקות וערבים פרטיים</li>
-            <li>מנות אישיות, מרכז שולחן, בופה או מנות קטנות מסתובבות</li>
-            <li>מלצרים לפי גודל האירוע</li>
-            <li>אפשר להוסיף קוקטיילים של קולר</li>
+            <li>חברות, צוותים והשקות</li>
+            <li>מנות אישיות, מרכז שולחן, בופה או ביסים</li>
+            <li>מלצרים וקוקטיילים של קולר</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="event">לתיאום אירוע</a>
         </div>
@@ -654,7 +657,7 @@
       <div class="ev-steps">
         <div class="ev-head">
           <h2 id="menu-title" data-words-rise>התפריט</h2>
-          <p class="sub">כך נראה תפריט אצלי, מהפתיחה ועד הקינוח. הוא משתנה לפי העונה ולפי האירוע.</p>
+          <p class="sub">משתנה לפי העונה.</p>
         </div>
         <ol class="timeline">
           <li class="ev-step on" data-step="0" data-label="פתיחה">
@@ -694,7 +697,7 @@
             </ul>
           </li>
         </ol>
-        <p class="menu-note">מתאים לצמחונים, ללא גלוטן, אלרגיות לאגוזים וללא לקטוז. יין מיקבים מקומיים, ואפשר גם להביא. ובסוף הערב, משהו קטן לקחת הביתה.</p>
+        <p class="menu-note">צמחוני, ללא גלוטן, אגוזים או לקטוז, לפי בקשה. יין מיקבים מקומיים, או שלכם. ובסוף, משהו קטן לקחת הביתה.</p>
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
@@ -730,7 +733,7 @@
       <div>
         <div class="book-head">
           <h2 id="book-title" data-words-rise>לתיאום ארוחה</h2>
-          <p>כל ארוחה נבנית בשבילכם. ספרו לי מה אתם מתכננים, ואחזור אליכם בוואטסאפ עם הצעה ותפריט.</p>
+          <p>ספרו לי מה אתם מתכננים. אחזור עם הצעה ותפריט.</p>
         </div>
         <form class="book-form" id="book-form" novalidate>
           <fieldset class="q-step">
@@ -793,11 +796,11 @@
       <aside class="next-card" aria-labelledby="next-title">
         <h3 id="next-title">מה קורה אחרי ששולחים</h3>
         <ol class="next-steps">
-          <li>אני חוזר אליכם בוואטסאפ עם הצעה ותפריט.</li>
-          <li>משריינים את התאריך במקדמה של 30%, בפייבוקס או בהעברה בנקאית.</li>
-          <li>כמה ימים לפני, סוגרים יחד את הפרטים האחרונים.</li>
+          <li>אחזור עם הצעה ותפריט.</li>
+          <li>מקדמה של 30% משריינת את התאריך.</li>
+          <li>כמה ימים לפני, סוגרים את הפרטים.</li>
         </ol>
-        <p class="fine">ביטול עד חודש לפני הארוחה מחזיר את כל המקדמה. הפרטים המלאים בשאלות למטה.</p>
+        <p class="fine">ביטול עד חודש לפני: החזר מלא.</p>
         <div class="contact">
           <a href="https://wa.me/972587870656" target="_blank" rel="noopener">וואטסאפ: 058-787-0656</a>
           <a href="tel:+972587870656">טלפון: 058-787-0656</a>
@@ -815,16 +818,16 @@
         <p>לא מצאתם תשובה? כתבו לי ב<a href="https://wa.me/972587870656" target="_blank" rel="noopener">וואטסאפ</a>.</p>
       </div>
       <div class="faq-list">
-        <details><summary>כמה זמן נמשכת ארוחה בחצר?<i aria-hidden="true"></i></summary><div class="ans"><p>שלוש שעות, בדרך כלל מ־18:30 עד 21:30.</p></div></details>
-        <details><summary>לכמה אורחים?<i aria-hidden="true"></i></summary><div class="ans"><p>בחצר: 6 עד 16. אצלכם: 8 עד 40. בקרוב ייפתח סטודיו במתת לאירועים של 30 עד 40 אורחים.</p></div></details>
-        <details><summary>כמה זה עולה?<i aria-hidden="true"></i></summary><div class="ans"><p>כל ארוחה מתומחרת לפי התפריט, מספר האורחים והמקום. ספרו לי מה אתם מתכננים, ואשלח הצעה.</p></div></details>
-        <details><summary>אלרגיות והעדפות<i aria-hidden="true"></i></summary><div class="ans"><p>אני מתאים את התפריט לצמחונים, ללא גלוטן, לאלרגיה לאגוזים וללא לקטוז. כתבו לי כשאתם מתאמים. המטבח לא כשר.</p></div></details>
-        <details><summary>יין ושתייה<i aria-hidden="true"></i></summary><div class="ans"><p>יש יין מיקבים מקומיים, ואפשר גם להביא יין משלכם. לאירועים אפשר להוסיף קוקטיילים של קולר.</p></div></details>
+        <details><summary>כמה זמן נמשכת ארוחה בחצר?<i aria-hidden="true"></i></summary><div class="ans"><p>שלוש שעות, 18:30 עד 21:30.</p></div></details>
+        <details><summary>לכמה אורחים?<i aria-hidden="true"></i></summary><div class="ans"><p>בחצר 6 עד 16. אצלכם 8 עד 40.</p></div></details>
+        <details><summary>כמה זה עולה?<i aria-hidden="true"></i></summary><div class="ans"><p>לפי התפריט, מספר האורחים והמקום. ספרו לי, ואשלח הצעה.</p></div></details>
+        <details><summary>אלרגיות והעדפות<i aria-hidden="true"></i></summary><div class="ans"><p>צמחוני, ללא גלוטן, אגוזים או לקטוז, לפי בקשה. המטבח לא כשר.</p></div></details>
+        <details><summary>יין ושתייה<i aria-hidden="true"></i></summary><div class="ans"><p>יין מיקבים מקומיים, או שלכם. באירועים, גם קוקטיילים של קולר.</p></div></details>
         <details><summary>אפשר לבוא עם ילדים?<i aria-hidden="true"></i></summary><div class="ans"><p>הארוחות בחצר מיועדות למבוגרים בלבד.</p></div></details>
-        <details><summary>מה כדאי לדעת לפני שמגיעים?<i aria-hidden="true"></i></summary><div class="ans"><p>מגיעים בזמן. בערב במתת קריר, אז כדאי להביא שכבה נוספת. הכתובת המדויקת נשלחת עם אישור ההזמנה.</p></div></details>
+        <details><summary>מה כדאי לדעת לפני שמגיעים?<i aria-hidden="true"></i></summary><div class="ans"><p>מגיעים בזמן, עם שכבה חמה לערב. הכתובת נשלחת עם האישור.</p></div></details>
         <details><summary>נגישות<i aria-hidden="true"></i></summary><div class="ans"><p>יש מדרגות בכניסה. כיסא גלגלים יכול להגיע מהכביש עד הבית.</p></div></details>
-        <details><summary>ומה בחורף?<i aria-hidden="true"></i></summary><div class="ans"><p>בקרוב ייפתח סטודיו במתת, ואז אפשר יהיה לארח גם בימים גשומים. עד אז נתאם יחד לפי התחזית.</p></div></details>
-        <details><summary>מקדמה וביטולים<i aria-hidden="true"></i></summary><div class="ans"><p>משריינים את התאריך במקדמה של 30%, בפייבוקס או בהעברה בנקאית. ביטול עד חודש לפני הארוחה מחזיר את כל המקדמה, ואחר כך המקדמה לא מוחזרת. במקרה של מלחמה או מצב חירום, ביטול עד שלושה ימים לפני האירוע מחזיר 50% מהמקדמה.</p></div></details>
+        <details><summary>ומה בחורף?<i aria-hidden="true"></i></summary><div class="ans"><p>סטודיו במתת ייפתח בקרוב. עד אז, מתאמים לפי התחזית.</p></div></details>
+        <details><summary>מקדמה וביטולים<i aria-hidden="true"></i></summary><div class="ans"><p>מקדמה של 30% משריינת את התאריך, בפייבוקס או בהעברה בנקאית. ביטול עד חודש לפני: החזר מלא. אחר כך: אין החזר. במלחמה או במצב חירום, ביטול עד שלושה ימים לפני: החזר של 50%.</p></div></details>
       </div>
     </div>
   </section>
@@ -833,12 +836,12 @@
 <footer class="finale" data-theme="night">
   <div class="finale-bg"><video class="vid" muted loop playsinline preload="none" poster="images/yard-table.jpg" data-src="media/yard-table" aria-hidden="true"></video></div>
   <div class="wrap finale-top">
-    <p class="finale-line">השולחן ערוך. חסרים רק אתם.</p>
+    <p class="finale-line">השולחן ערוך.</p>
     <a class="btn" href="#book">לתיאום ארוחה</a>
   </div>
   <div class="finale-name" aria-hidden="true"><svg class="logo" viewBox="20 29 1620 453" aria-hidden="true" focusable="false"><use href="#barlif"/></svg></div>
   <div class="wrap finale-meta">
-    <span>שף פרטי. בחצר במצפה מתת, אצלכם, או בכל מקום</span>
+    <span>שף פרטי · מצפה מתת</span>
     <nav aria-label="קישורים">
       <a href="https://wa.me/972587870656" target="_blank" rel="noopener">וואטסאפ</a>
       <a href="tel:+972587870656">טלפון</a>
@@ -1007,10 +1010,16 @@
     const load = v => { if (!v.getAttribute('src')) v.src = v.dataset.src + ext; };
     const play = v => { load(v); const p = v.play(); if (p) p.catch(() => {}); };
 
+    // הסרטונים של החצר מחכים מתחת לחלון עד שנכנסים אליו
+    let heroOpen = !document.querySelector('.stage');
+    const seen = new Set();
+    const wake = v => { if (heroVids.includes(v) && (!heroOpen || heroPaused)) return; play(v); };
+    // סרטון נטען רק אחרי שהוא נשאר על המסך רגע, ולא כשרק עוברים לידו בדרך
     const io = new IntersectionObserver(entries => entries.forEach(e => {
       const v = e.target;
-      if (e.isIntersecting) { if (!(heroPaused && heroVids.includes(v))) play(v); } else if (v.getAttribute('src')) v.pause();
-    }), { rootMargin: '250px 0px' });
+      if (e.isIntersecting) { seen.add(v); clearTimeout(v._t); v._t = setTimeout(() => { if (seen.has(v)) wake(v); }, v.getAttribute('src') ? 0 : 300); }
+      else { seen.delete(v); clearTimeout(v._t); if (v.getAttribute('src')) v.pause(); }
+    }), { rootMargin: '150px 0px' });
     document.querySelectorAll('video.vid').forEach(v => { if (!menuVids.includes(v)) io.observe(v); });
 
     // בתפריט מתנגן רק הסרטון של השלב הפעיל
@@ -1024,7 +1033,10 @@
       menuVisible = e.isIntersecting;
       syncMenu();
     }, { rootMargin: '300px 0px' }).observe(menuBox);
-    window.barVideo = { menuStep: i => { step = i; syncMenu(); } };
+    window.barVideo = {
+      menuStep: i => { step = i; syncMenu(); },
+      openHero: () => { if (heroOpen) return; heroOpen = true; heroVids.forEach(v => { if (seen.has(v)) wake(v); }); },
+    };
 
     heroVids.forEach(v => v.addEventListener('playing', () => { toggle.hidden = false; }, { once: true }));
     toggle.addEventListener('click', () => {
@@ -1098,6 +1110,7 @@
     measure();
     window.addEventListener('resize', measure);
     window.addEventListener('load', measure);
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
     // צבע הכותרת לפי הקטע שמתחתיה
     const toneAt = () => {
       const under = document.elementsFromPoint(window.innerWidth / 2, 40).find(el => !el.closest('#site-head, .progress, .toast'));
@@ -1113,6 +1126,7 @@
 
     const haveLibs = window.gsap && window.ScrollTrigger && window.Lenis;
     if (calm || !haveLibs) {
+      if (window.barVideo) window.barVideo.openHero();
       let last = 0;
       window.addEventListener('scroll', () => { const y = scrollY; onScrollHead(y, y - last); last = y; }, { passive: true });
       return;
@@ -1188,17 +1202,24 @@
     const film = document.querySelector('.stage-film');
     // המצלמה נכנסת אל בר, שעומד בתוך החלון
     const aim = () => {
-      const r = film.querySelector('video').getBoundingClientRect();
-      film.style.transformOrigin = `${r.left + r.width * 0.445}px ${r.top + r.height * 0.55}px`;
+      const v = film.querySelector('video');
+      film.style.transformOrigin = `${v.offsetLeft + v.offsetWidth * 0.445}px ${v.offsetTop + v.offsetHeight * 0.55}px`;
     };
     aim();
     ScrollTrigger.addEventListener('refreshInit', () => { gsap.set(film, { scale: 1 }); aim(); });
-    gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6 } })
+    matchMedia('(orientation: portrait)').addEventListener('change', () => setTimeout(() => ScrollTrigger.refresh(true), 250));
+    const stageVid = film.querySelector('video');
+    gsap.timeline({ scrollTrigger: { trigger: stage, start: 'top top', end: 'bottom bottom', scrub: 0.6,
+      onUpdate: self => {
+        if (self.progress > 0.35 && window.barVideo) window.barVideo.openHero();
+        if (self.progress > 0.9) stageVid.pause();
+        else if (stageVid.paused && stageVid.getAttribute('src')) { const pr = stageVid.play(); if (pr) pr.catch(() => {}); }
+      } } })
       .to('.stage-ui', { opacity: 0, y: -40, ease: 'power1.in', duration: 0.2 }, 0)
       .to(film, { scale: 2.3, ease: 'power2.in', duration: 0.7 }, 0)
       .to('.stage-fade', { opacity: 1, ease: 'power1.in', duration: 0.2 }, 0.42)
       .fromTo('.hero', { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: 0.28 }, 0.58);
-    ScrollTrigger.create({ trigger: '.hero', start: 'top 12%', once: true, onEnter: () => heroIn.play() });
+    ScrollTrigger.create({ trigger: '.hero', start: 'top 12%', once: true, onEnter: () => { heroIn.play(); if (window.barVideo) window.barVideo.openHero(); } });
 
     gsap.to(heroImg, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
     gsap.to('.hero-body', { yPercent: -10, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });
