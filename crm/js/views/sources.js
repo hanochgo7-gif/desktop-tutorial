@@ -73,7 +73,7 @@ export default async function view(el, ctx) {
         <ul class="quality-list">
           <li>${comp.knownSource.value == null ? 'אין לידים בתקופה' : html`<b>${fmt.percent(comp.knownSource.value * 100)}</b> מהלידים עם מקור ידוע`}${comp.unknownSourceIds.length ? html` (<button class="linkbtn" data-drill="unknown">${comp.unknownSourceIds.length} בלי מקור</button>)` : ''}</li>
           <li>${comp.withCost.value == null ? 'אין עסקאות שנסגרו' : html`<b>${fmt.percent(comp.withCost.value * 100)}</b> מהעסקאות שנסגרו עם עלות ישירה`}</li>
-          <li>${comp.withPayment.value == null ? '' : html`<b>${fmt.percent(comp.withPayment.value * 100)}</b> מהעסקאות שנסגרו עם גבייה רשומה${comp.unpaidWonIds.length ? html` (<button class="linkbtn" data-drill="unpaid">${comp.unpaidWonIds.length} עם יתרה</button>)` : ''}`}</li>
+          ${comp.withPayment.value == null ? '' : html`<li><b>${fmt.percent(comp.withPayment.value * 100)}</b> מהעסקאות שנסגרו עם גבייה רשומה${comp.unpaidWonIds.length ? html` (<button class="linkbtn" data-drill="unpaid">${comp.unpaidWonIds.length} עם יתרה</button>)` : ''}</li>`}
           <li>הוצאות הפרסום מוזנות ידנית. אין חיבור פעיל ל-Google Ads או ל-Meta.</li>
         </ul>
       </section>

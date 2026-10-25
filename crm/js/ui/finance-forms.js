@@ -67,17 +67,17 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
                 <input class="input" data-line="${i}" data-k="description" value="${it.description ?? ''}" aria-label="תיאור שורה ${i + 1}" placeholder="תיאור השירות">
                 <input class="input num" data-line="${i}" data-k="qty" type="number" min="0" step="any" dir="ltr" value="${it.qty ?? 1}" aria-label="כמות שורה ${i + 1}">
                 <input class="input num" data-line="${i}" data-k="price" type="number" min="0" step="any" dir="ltr" value="${it.price ?? ''}" aria-label="מחיר שורה ${i + 1}">
-                <span class="num doc-line-sum">${fmt.money(r2((Number(it.qty) || 0) * (Number(it.price) || 0)))}</span>
+                <span class="num doc-line-sum">${fmt.exact(r2((Number(it.qty) || 0) * (Number(it.price) || 0)))}</span>
                 <button type="button" class="btn-icon sm" data-del-line="${i}" aria-label="מחיקת שורה ${i + 1}" ${items.length === 1 ? 'disabled' : ''}>${icon('trash')}</button>
               </div>`)}
             </div>
             <button type="button" class="btn btn-sm btn-ghost" data-add-line>${icon('plus')}שורה</button>
             <dl class="doc-totals">
-              <dt>לפני מע"מ</dt><dd class="num">${fmt.money(t.subtotal)}</dd>
-              <dt>מע"מ ${rate}%</dt><dd class="num">${fmt.money(t.vat)}</dd>
-              <dt><b>סה"כ לתשלום</b></dt><dd class="num"><b>${fmt.money(t.total)}</b></dd>
+              <dt>לפני מע"מ</dt><dd class="num">${fmt.exact(t.subtotal)}</dd>
+              <dt>מע"מ ${rate}%</dt><dd class="num">${fmt.exact(t.vat)}</dd>
+              <dt><b>סה"כ לתשלום</b></dt><dd class="num"><b>${fmt.exact(t.total)}</b></dd>
             </dl>
-            ${deal && dealAmount ? html`<p class="field-help">סכום העסקה: ${fmt.money(dealAmount)} לפני מע"מ${already ? `, כבר הופקו מסמכים על ${fmt.money(already)}` : ''}.</p>` : ''}
+            ${deal && dealAmount ? html`<p class="field-help">סכום העסקה: ${fmt.exact(dealAmount)} לפני מע"מ${already ? `, כבר הופקו מסמכים על ${fmt.exact(already)}` : ''}.</p>` : ''}
             ${!own && t.subtotal >= 5000 ? html`<p class="notice notice-warn">${icon('alert')}<span>חשבונית מס מעל הסף שבתוקף (5,000–10,000 ₪ לפני מע"מ, לפי המועד) צריכה מספר הקצאה מרשות המסים. בלי מספר הקצאה הלקוח לא יוכל לקזז את המע"מ.</span></p>` : ''}
           </fieldset>
           <div class="form-3">
@@ -94,9 +94,9 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
         items[Number(i)][e.target.dataset.k] = e.target.dataset.k === 'description' ? e.target.value : e.target.value === '' ? '' : Number(e.target.value);
         const t = docTotals(items, rate);
         const sums = $$('.doc-line-sum', el);
-        items.forEach((it, j) => { if (sums[j]) sums[j].textContent = fmt.money(r2((Number(it.qty) || 0) * (Number(it.price) || 0))); });
+        items.forEach((it, j) => { if (sums[j]) sums[j].textContent = fmt.exact(r2((Number(it.qty) || 0) * (Number(it.price) || 0))); });
         const dd = $$('.doc-totals dd', el);
-        dd[0].textContent = fmt.money(t.subtotal); dd[1].textContent = fmt.money(t.vat); dd[2].innerHTML = `<b>${fmt.money(t.total)}</b>`;
+        dd[0].textContent = fmt.exact(t.subtotal); dd[1].textContent = fmt.exact(t.vat); dd[2].innerHTML = `<b>${fmt.exact(t.total)}</b>`;
       });
       el.addEventListener('change', (e) => { if (e.target.name === 'contact_id') { contactChanged = true; draw(); } });
       el.addEventListener('click', (e) => {
@@ -167,7 +167,7 @@ export function openDocPayment(doc, { onSaved } = {}) {
   return modal({
     title: `רישום תשלום: ${doc.number || ''}`, size: 'sm',
     body: html`<form class="form-grid" novalidate>
-      <p class="small">סה"כ במסמך: <b>${fmt.money(doc.total)}</b> כולל מע"מ. שולם עד עכשיו: ${fmt.money(doc.paid || 0)}.</p>
+      <p class="small">סה"כ במסמך: <b>${fmt.exact(doc.total)}</b> כולל מע"מ. שולם עד עכשיו: ${fmt.exact(doc.paid || 0)}.</p>
       ${field('סכום שהתקבל (כולל מע"מ)', html`<input class="input num" name="amount" type="number" min="0" step="any" dir="ltr" value="${remaining > 0 ? remaining : ''}" autofocus>`)}
       ${field('תאריך', html`<input class="input" name="date" type="date" value="${toDateInput(new Date())}" max="${toDateInput(new Date())}">`)}
       ${field('אמצעי תשלום', html`<select class="input" name="method">${opt([{ value: 'transfer', label: 'העברה בנקאית' }, { value: 'bit', label: 'ביט / פייבוקס' }, { value: 'credit', label: 'אשראי' }, { value: 'cash', label: 'מזומן' }, { value: 'check', label: 'צ׳ק' }, { value: 'other', label: 'אחר' }], 'transfer')}</select>`)}
@@ -182,7 +182,7 @@ export function openDocPayment(doc, { onSaved } = {}) {
           const v = readForm(form);
           const errs = { ...dateErrors(v), ...moneyErrors(v, ['amount']) };
           if (!v.amount) errs.amount = 'הזינו סכום';
-          else if (v.amount > remaining + 0.01) errs.amount = `הסכום גבוה מהיתרה (${fmt.money(remaining)})`;
+          else if (v.amount > remaining + 0.01) errs.amount = `הסכום גבוה מהיתרה (${fmt.exact(remaining)})`;
           if (!v.date) errs.date = 'בחרו תאריך';
           if (showFieldErrors(form, errs)) return false;
           const payId = crypto.randomUUID();
@@ -210,7 +210,7 @@ export function openDocPayment(doc, { onSaved } = {}) {
 }
 
 export async function cancelDoc(doc) {
-  const paid = Number(doc.paid) > 0 ? ` התשלומים שנרשמו עליו (${fmt.money(doc.paid)}) נשארים בהכנסות. אם הכסף הוחזר, רשמו החזר כספי בעסקה.` : '';
+  const paid = Number(doc.paid) > 0 ? ` התשלומים שנרשמו עליו (${fmt.exact(doc.paid)}) נשארים בהכנסות. אם הכסף הוחזר, רשמו החזר כספי בעסקה.` : '';
   if (!(await confirmDialog(`לבטל את ${DOC_KINDS.find((x) => x.value === doc.kind)?.label} ${doc.number || ''}?`, { danger: true, okLabel: 'ביטול המסמך', detail: (doc.kind === 'payment_request' ? 'המסמך יישאר ברשימה כמבוטל.' : 'ביטול כאן לא מבטל את החשבונית בתוכנת החשבוניות. שם מפיקים חשבונית זיכוי.') + paid }))) return;
   try { await store.update('crm_documents', doc.id, { status: 'canceled' }); toast('המסמך בוטל'); } catch (e) { toast(e.message, { kind: 'error' }); }
 }

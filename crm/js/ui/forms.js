@@ -504,9 +504,9 @@ export function openMoneyDialog(deal) {
         </div>
         <fieldset><legend>תשלומים שהתקבלו</legend>
           ${list.length ? html`<table class="table compact"><thead><tr><th>תאריך</th><th>סכום לפני מע"מ</th><th>הערה</th><th><span class="sr">מחיקה</span></th></tr></thead><tbody>
-            ${list.sort((a, b) => (a.date < b.date ? -1 : 1)).map((p) => html`<tr><td>${fmt.date(p.date)}</td><td class="num ${p.amount < 0 ? 'danger-text' : ''}">${fmt.money(p.amount)}${p.vat ? html`<small class="muted"> (התקבלו ${fmt.money(p.gross)} כולל מע"מ)</small>` : ''}</td><td>${p.note || ''}${p.docId ? html` <small class="muted">(נרשם במסמך)</small>` : ''}</td><td><button type="button" class="btn-icon sm" data-del="${p.id}" aria-label="מחיקת התשלום של ${fmt.money(p.amount)} מ-${fmt.date(p.date)}">${icon('trash')}</button></td></tr>`)}
+            ${list.sort((a, b) => (a.date < b.date ? -1 : 1)).map((p) => html`<tr><td>${fmt.date(p.date)}</td><td class="num ${p.amount < 0 ? 'danger-text' : ''}">${fmt.exact(p.amount)}${p.vat ? html`<small class="muted"> (התקבלו ${fmt.exact(p.gross)} כולל מע"מ)</small>` : ''}</td><td>${p.note || ''}${p.docId ? html` <small class="muted">(נרשם במסמך)</small>` : ''}</td><td><button type="button" class="btn-icon sm" data-del="${p.id}" aria-label="מחיקת התשלום של ${fmt.exact(p.amount)} מ-${fmt.date(p.date)}">${icon('trash')}</button></td></tr>`)}
           </tbody></table>
-          <p class="small">סה"כ נגבה: <b>${fmt.money(total())}</b>${dealTotal() ? html` | יתרה: <b class="${dealTotal() - total() > 0 ? 'warn-text' : ''}">${fmt.money(Math.max(0, dealTotal() - total()))}</b>` : ''}</p>` : html`<p class="muted small">עוד לא נרשמו תשלומים.</p>`}
+          <p class="small">סה"כ נגבה: <b>${fmt.exact(total())}</b>${dealTotal() ? html` | יתרה: <b class="${dealTotal() - total() > 0 ? 'warn-text' : ''}">${fmt.exact(Math.max(0, dealTotal() - total()))}</b>` : ''}</p>` : html`<p class="muted small">עוד לא נרשמו תשלומים.</p>`}
           <div class="pay-add">
             ${field('סכום (₪)', html`<input class="input num" name="_amt" type="number" step="1" dir="ltr" placeholder="${Math.max(0, dealTotal() - total()) || ''}">`)}
             ${field('תאריך', html`<input class="input" name="_date" type="date" value="${toDateInput(new Date())}">`)}
@@ -536,7 +536,7 @@ export function openMoneyDialog(deal) {
         if (!form._date.value || isNaN(d) || d.getFullYear() < 2000 || d > new Date(Date.now() + 864e5)) { showFieldErrors(form, { _date: 'בחרו תאריך תקין (לא בעתיד)' }); return; }
         const p = payment(add.dataset.add === 'refund' ? -amt : amt, form._vat?.checked, form._date.value, form._note.value.trim() || (add.dataset.add === 'refund' ? 'החזר' : ''));
         if (total() + p.amount < -0.01) { showFieldErrors(form, { _amt: 'ההחזר גדול מסך מה שנגבה' }); return; }
-        if (p.amount > 0 && dealTotal() && total() + p.amount > dealTotal() * 1.05) { showFieldErrors(form, { _amt: `סך הגבייה (${fmt.money(total() + p.amount)} לפני מע"מ) יעלה על סכום העסקה (${fmt.money(dealTotal())}). אם הסכום כולל מע"מ, סמנו זאת.` }); return; }
+        if (p.amount > 0 && dealTotal() && total() + p.amount > dealTotal() * 1.05) { showFieldErrors(form, { _amt: `סך הגבייה (${fmt.exact(total() + p.amount)} לפני מע"מ) יעלה על סכום העסקה (${fmt.exact(dealTotal())}). אם הסכום כולל מע"מ, סמנו זאת.` }); return; }
         list.push(p);
         draw();
       });

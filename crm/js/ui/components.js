@@ -43,12 +43,12 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   render(wrap, html`
     <div class="ov-backdrop" data-close></div>
     <div class="ov-panel ov-${size}" role="dialog" aria-modal="true" aria-labelledby="${id}">
-      <header class="ov-head">
+      <div class="ov-head">
         <h2 id="${id}">${title}</h2>
         <button class="btn-icon" data-close aria-label="סגירה">${icon('x')}</button>
-      </header>
+      </div>
       <div class="ov-body"></div>
-      ${actions.length ? html`<footer class="ov-foot">${actions.map((a, i) => html`<button class="btn ${a.kind ? `btn-${a.kind}` : ''}" data-i="${i}" ${a.disabled ? 'disabled' : ''}>${a.icon ? icon(a.icon) : ''}${a.label}</button>`)}</footer>` : ''}
+      ${actions.length ? html`<div class="ov-foot">${actions.map((a, i) => html`<button class="btn ${a.kind ? `btn-${a.kind}` : ''}" data-i="${i}" ${a.disabled ? 'disabled' : ''}>${a.icon ? icon(a.icon) : ''}${a.label}</button>`)}</div>` : ''}
     </div>`);
   const bodyEl = $('.ov-body', wrap);
   if (typeof body === 'function') body(bodyEl);

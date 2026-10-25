@@ -39,13 +39,13 @@ export default async function view(el, ctx) {
       <section class="paper-to"><span class="muted">לכבוד</span><b>${contactName(c) || '—'}</b>${c?.company_name ? html`<span>${c.company_name}</span>` : ''}${c?.email ? html`<span dir="ltr">${c.email}</span>` : ''}</section>
       <table class="paper-lines">
         <thead><tr><th>תיאור</th><th>כמות</th><th>מחיר ליחידה</th><th>סה"כ</th></tr></thead>
-        <tbody>${(doc.items || []).map((it) => html`<tr><td>${it.description}</td><td class="num">${fmt.number(it.qty)}</td><td class="num">${fmt.money(it.price)}</td><td class="num">${fmt.money(Math.round(Number(it.qty) * Number(it.price) * 100) / 100)}</td></tr>`)}</tbody>
+        <tbody>${(doc.items || []).map((it) => html`<tr><td>${it.description}</td><td class="num">${fmt.number(it.qty)}</td><td class="num">${fmt.exact(it.price)}</td><td class="num">${fmt.exact(Math.round(Number(it.qty) * Number(it.price) * 100) / 100)}</td></tr>`)}</tbody>
       </table>
       <dl class="paper-totals">
-        <dt>סה"כ לפני מע"מ</dt><dd class="num">${fmt.money(doc.subtotal)}</dd>
-        ${Number(doc.vat_rate) ? html`<dt>מע"מ ${fmt.number(doc.vat_rate)}%</dt><dd class="num">${fmt.money(doc.vat)}</dd>` : ''}
-        <dt class="grand">סה"כ לתשלום</dt><dd class="num grand">${fmt.money(doc.total)}</dd>
-        ${Number(doc.paid) ? html`<dt>שולם</dt><dd class="num">${fmt.money(doc.paid)}</dd><dt>יתרה</dt><dd class="num">${fmt.money(Number(doc.total) - Number(doc.paid))}</dd>` : ''}
+        <dt>סה"כ לפני מע"מ</dt><dd class="num">${fmt.exact(doc.subtotal)}</dd>
+        ${Number(doc.vat_rate) ? html`<dt>מע"מ ${fmt.number(doc.vat_rate)}%</dt><dd class="num">${fmt.exact(doc.vat)}</dd>` : ''}
+        <dt class="grand">סה"כ לתשלום</dt><dd class="num grand">${fmt.exact(doc.total)}</dd>
+        ${Number(doc.paid) ? html`<dt>שולם</dt><dd class="num">${fmt.exact(doc.paid)}</dd><dt>יתרה</dt><dd class="num">${fmt.exact(Number(doc.total) - Number(doc.paid))}</dd>` : ''}
       </dl>
       ${doc.notes ? html`<p class="paper-notes">${doc.notes}</p>` : ''}
       ${s.bankDetails ? html`<section class="paper-bank"><b>פרטים לתשלום</b><p class="pre">${s.bankDetails}</p></section>` : ''}

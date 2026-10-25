@@ -89,7 +89,7 @@ export default async function view(el, ctx) {
         subtitle: new Date().toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' }),
         actions: html`<button class="btn btn-primary" data-act="new-lead">${icon('plus')}ליד חדש</button>`,
       })}
-      ${el._backupNote ? html`<div class="notice notice-warn backup-note">${icon('download')}<div class="grow">${el._backupNote}</div><a class="btn btn-sm" href="#/settings">להורדת גיבוי</a></div>` : ''}
+      ${el._backupNote ? html`<div class="notice notice-warn backup-note">${icon('download')}<div class="grow">${el._backupNote}</div><a class="btn btn-sm" href="#/settings">לגיבוי בהגדרות</a></div>` : ''}
       <div class="today-layout">
       <section class="kpis today-kpis" aria-label="המספרים של החודש">
         <button class="kpi-btn" data-drill="leads"><span class="kpi-label">לידים חדשים החודש</span><span class="kpi-value">${fmt.number(s.newLeads.length)}</span></button>

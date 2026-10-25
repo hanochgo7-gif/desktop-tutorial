@@ -34,7 +34,7 @@ export default async function view(el, ctx) {
             <dl class="dl">
               <dt>${d.outcome === 'won' ? 'סכום סופי' : 'סכום צפוי'}</dt><dd class="num ${d.outcome === 'won' ? 'money' : ''}">${total != null ? fmt.money(total) : html`<span class="warn-text">חסר</span>`} <small class="muted">לפני מע"מ</small></dd>
               ${d.outcome === 'won' ? html`
-                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${paymentsOf(d).length ? html` <small class="muted">${paymentsOf(d).length} תשלומים, אחרון ${fmt.date(d.paid_at)}</small>` : ''}</dd>
+                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${paymentsOf(d).length ? html` <small class="muted">${paymentsOf(d).length === 1 ? 'תשלום אחד' : `${paymentsOf(d).length} תשלומים`}, אחרון ${fmt.date(d.paid_at)}</small>` : ''}</dd>
                 <dt>יתרה לגבייה</dt><dd class="num ${unpaid > 0 ? 'warn-text' : ''}">${fmt.money(unpaid)}</dd>
                 <dt>עלות ישירה</dt><dd class="num">${d.direct_cost_estimate != null ? fmt.money(d.direct_cost_estimate) : html`<span class="warn-text">לא הוזנה</span>`}</dd>
                 <dt>רווח גולמי</dt><dd class="num">${profit != null ? fmt.money(profit) : html`<span class="muted">לא ניתן לחישוב בלי עלות</span>`}</dd>`
@@ -49,7 +49,7 @@ export default async function view(el, ctx) {
               <dt>מקור (לדוחות)</dt><dd>${d.source_id ? sourceName(d.source_id) : html`<span class="warn-text">לא ידוע</span>`}</dd>
               <dt>נפתחה</dt><dd>${fmt.date(d.opened_at)}</dd>
               ${d.outcome === 'open' ? html`<dt>סגירה צפויה</dt><dd>${d.expected_close ? fmt.date(d.expected_close) : html`<span class="nil">—</span>`}</dd>` : html`<dt>נסגרה</dt><dd>${fmt.date(d.closed_at)}</dd>`}
-              <dt>ימים בשלב</dt><dd class="num">${h.daysInStage ?? '—'}</dd>
+              ${d.outcome === 'open' ? html`<dt>ימים בשלב</dt><dd class="num">${h.daysInStage ?? '—'}</dd>` : ''}
               ${d.next_step ? html`<dt>הצעד הבא</dt><dd>${d.next_step}</dd>` : ''}
               ${d.outcome === 'lost' ? html`<dt>סיבת הפסד</dt><dd>${label(LOST_REASONS, d.lost_reason)}${d.lost_note ? html`<br><small class="muted">${d.lost_note}</small>` : ''}</dd>` : ''}
               ${d.won_reason ? html`<dt>למה זכינו</dt><dd>${d.won_reason}</dd>` : ''}

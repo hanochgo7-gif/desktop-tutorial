@@ -93,21 +93,25 @@ export const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s || '
 const nf = new Intl.NumberFormat('he-IL');
 const nf1 = new Intl.NumberFormat('he-IL', { maximumFractionDigits: 1 });
 const moneyFmt = {};
+function money(n, currency, compact, exact) {
+  if (n == null || n === '' || isNaN(n)) return '';
+  const v = Number(n);
+  const cents = exact && Math.abs(v - Math.round(v)) >= 0.005;
+  const key = currency + compact + cents;
+  moneyFmt[key] ||= new Intl.NumberFormat('he-IL', {
+    style: 'currency', currency, notation: compact ? 'compact' : 'standard',
+    ...(cents ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: compact ? 1 : 0 }),
+  });
+  return moneyFmt[key].format(v);
+}
 export const fmt = {
   number: (n) => (n == null || n === '' || isNaN(n) ? '' : nf.format(Number(n))),
   decimal: (n) => (n == null || n === '' || isNaN(n) ? '' : nf1.format(Number(n))),
-  // whole shekels, unless there are agorot (a document total of 117.88 must print as 117.88, not 118)
-  money(n, currency = 'ILS', compact = false) {
-    if (n == null || n === '' || isNaN(n)) return '';
-    const v = Number(n);
-    const cents = !compact && Math.abs(v - Math.round(v)) >= 0.005;
-    const key = currency + compact + cents;
-    moneyFmt[key] ||= new Intl.NumberFormat('he-IL', {
-      style: 'currency', currency, notation: compact ? 'compact' : 'standard',
-      ...(cents ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: compact ? 1 : 0 }),
-    });
-    return moneyFmt[key].format(v);
-  },
+  // reports and tiles: whole shekels
+  money(n, currency = 'ILS', compact = false) { return money(n, currency, compact, false); },
+  // documents and payments: agorot when there are any (a total of 117.88 must print as 117.88, not 118)
+  exact(n, currency = 'ILS') { return money(n, currency, false, true); },
+
   percent: (n) => (n == null || n === '' || isNaN(n) ? '' : `${nf1.format(Number(n))}%`),
   date(d) {
     if (!d) return '';

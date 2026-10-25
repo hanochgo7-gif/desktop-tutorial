@@ -65,15 +65,15 @@ export default async function view(el, ctx) {
         <section class="panel">
           <div class="panel-head"><h2>מע"מ: ${vp.label}</h2><span class="muted small">דיווח עד ${fmt.date(vp.dueBy)}</span></div>
           ${exempt ? html`<p class="pad small">העסק מוגדר כעוסק פטור, ולכן אין מע"מ לדיווח. אפשר לשנות בהגדרות.</p>` : html`<dl class="dl">
-            <dt>מע"מ עסקאות</dt><dd class="num">${fmt.money(vs.outputVat)} <small class="muted">מתקבולים</small></dd>
-            <dt>מע"מ תשומות</dt><dd class="num">${fmt.money(vs.inputVat)} <small class="muted">מהוצאות</small></dd>
-            <dt><b>לתשלום (הערכה)</b></dt><dd class="num"><b class="${vs.vatPayable < 0 ? 'money' : ''}">${fmt.money(vs.vatPayable)}</b>${vs.vatPayable < 0 ? html` <small class="muted">החזר</small>` : ''}</dd>
+            <dt>מע"מ עסקאות</dt><dd class="num">${fmt.exact(vs.outputVat)} <small class="muted">מתקבולים</small></dd>
+            <dt>מע"מ תשומות</dt><dd class="num">${fmt.exact(vs.inputVat)} <small class="muted">מהוצאות</small></dd>
+            <dt><b>לתשלום (הערכה)</b></dt><dd class="num"><b class="${vs.vatPayable < 0 ? 'money' : ''}">${fmt.exact(vs.vatPayable)}</b>${vs.vatPayable < 0 ? html` <small class="muted">החזר</small>` : ''}</dd>
           </dl>
           <p class="panel-foot small muted">הערכה לפי תקבולים שנרשמו כאן והוצאות עם מע"מ. הדיווח הרשמי נעשה לפי החשבוניות בתוכנת החשבוניות ובידי רואה החשבון.</p>`}
         </section>
         <section class="panel">
           <div class="panel-head"><h2>מי חייב כסף</h2><span class="muted small">לפי ותק החוב</span></div>
-          <div class="aging">${[['עד 30 יום', rv.aging.d30], ['31–60', rv.aging.d60], ['61–90', rv.aging.d90], ['מעל 90', rv.aging.older]].map(([l, v]) => html`<div><span class="muted small">${l}</span><b class="num ${v && l !== 'עד 30 יום' ? 'warn-text' : ''}">${fmt.money(v)}</b></div>`)}</div>
+          <div class="aging">${[['עד 30 יום', rv.aging.d30], ['31 עד 60 יום', rv.aging.d60], ['61 עד 90 יום', rv.aging.d90], ['מעל 90 יום', rv.aging.older]].map(([l, v]) => html`<div><span class="muted small">${l}</span><b class="num ${v && l !== 'עד 30 יום' ? 'warn-text' : ''}">${fmt.money(v)}</b></div>`)}</div>
           ${rv.rows.length ? html`<div class="list">${rv.rows.slice(0, 6).map((r) => html`<a class="list-row" href="${r.kind === 'deal' ? `#/d/${r.id}` : '#/finance?tab=docs'}"><span class="grow"><b>${name(r.contactId)}</b><small class="muted">${r.kind === 'deal' ? r.name : `מסמך ${r.name}`} | ${r.days} ימים</small></span><span class="num warn-text">${fmt.money(r.owed)}</span></a>`)}</div>` : html`<p class="pad muted small">אין יתרות פתוחות.</p>`}
         </section>
       </div>
@@ -94,7 +94,7 @@ export default async function view(el, ctx) {
         <div class="grow"></div>
         <div class="seg" role="radiogroup" aria-label="סינון">${[['open', 'ממתינים לתשלום'], ['overdue', 'באיחור'], ['draft', 'טיוטות'], ['all', 'הכול']].map(([k, l]) => html`<button role="radio" aria-checked="${String(k === st.docf)}" class="${k === st.docf ? 'active' : ''}" data-f="${k}">${l}</button>`)}</div>
       </div>
-      ${openSum ? html`<p class="small">ממתין לתשלום: <b>${fmt.money(openSum)}</b> כולל מע"מ.</p>` : ''}
+      ${openSum ? html`<p class="small">ממתין לתשלום: <b>${fmt.exact(openSum)}</b> כולל מע"מ.</p>` : ''}
       ${!all.length ? emptyState({ icon: 'quote', title: 'עוד אין מסמכים', text: 'צרו דרישת תשלום ללקוח, או רשמו כאן חשבוניות שהפקתם בתוכנת החשבוניות כדי לעקוב אחרי התשלום.', action: { act: 'new-pr', label: 'דרישת תשלום', icon: 'plus' } })
         : !list.length ? html`<p class="pad muted">אין מסמכים בסינון הזה.</p>`
         : html`<div class="table-wrap"><table class="table table-docs"><thead><tr><th>מסמך</th><th>לקוח</th><th>תאריך</th><th>לתשלום עד</th><th>סה"כ</th><th>שולם</th><th>מצב</th><th><span class="sr">פעולות</span></th></tr></thead>
@@ -106,8 +106,8 @@ export default async function view(el, ctx) {
               <td data-label="לקוח">${x.contact_id ? html`<a href="#/c/${x.contact_id}">${name(x.contact_id)}</a>` : '—'}${x.deal_id ? html`<small class="muted"> | <a href="#/d/${x.deal_id}">${store.get('crm_deals', x.deal_id)?.name || ''}</a></small>` : ''}</td>
               <td data-label="תאריך">${fmt.date(x.issue_date)}</td>
               <td data-label="לתשלום עד" class="${late ? 'due-overdue' : ''}">${x.due_date ? fmt.date(x.due_date) : '—'}${late ? ' (באיחור)' : ''}</td>
-              <td data-label="סה&quot;כ" class="num">${fmt.money(x.total)}</td>
-              <td data-label="שולם" class="num">${fmt.money(x.paid || 0)}</td>
+              <td data-label="סה&quot;כ" class="num">${fmt.exact(x.total)}</td>
+              <td data-label="שולם" class="num">${fmt.exact(x.paid || 0)}</td>
               <td data-label="מצב">${badge(label(DOC_STATUS, s), late ? 'red' : DOC_STATUS.find((y) => y.value === s)?.color)}</td>
               <td class="doc-acts">
                 ${x.kind === 'payment_request' ? html`<a class="btn btn-sm btn-ghost" href="#/doc/${x.id}/print">${icon('printer')}הדפסה</a>` : ''}
@@ -130,10 +130,10 @@ export default async function view(el, ctx) {
       </div>
       ${!store.all('crm_expenses').length ? emptyState({ icon: 'money', title: 'עוד אין הוצאות', text: 'רשמו הוצאות עסק (תוכנות, פרילנסרים, ציוד) כדי לראות רווח אמיתי ומע"מ תשומות.', action: { act: 'new-exp', label: 'הוצאה', icon: 'plus' } })
         : [...groups.entries()].map(([m, list]) => html`<section class="panel exp-month">
-          <div class="panel-head"><h2>${new Date(`${m}-01T12:00:00`).toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })}</h2><span class="num">${fmt.money(list.reduce((a, e) => a + Number(e.amount), 0))} <small class="muted">+ מע"מ ${fmt.money(list.reduce((a, e) => a + Number(e.vat || 0), 0))}</small></span></div>
+          <div class="panel-head"><h2>${new Date(`${m}-01T12:00:00`).toLocaleDateString('he-IL', { month: 'long', year: 'numeric' })}</h2><span class="num">${fmt.exact(list.reduce((a, e) => a + Number(e.amount), 0))} <small class="muted">+ מע"מ ${fmt.exact(list.reduce((a, e) => a + Number(e.vat || 0), 0))}</small></span></div>
           <ul class="list">${list.map((e) => html`<li class="list-row">
             <span class="grow"><b>${e.vendor || label(EXPENSE_CATEGORIES, e.category)}</b><small class="muted">${fmt.date(e.day)} | ${label(EXPENSE_CATEGORIES, e.category)}${e.description ? ` | ${e.description}` : ''}${e.deal_id ? ` | ${store.get('crm_deals', e.deal_id)?.name || ''}` : ''}</small></span>
-            <span class="num">${fmt.money(e.amount)}</span>
+            <span class="num">${fmt.exact(e.amount)}</span>
             <button class="btn-icon sm" data-act="edit-exp" data-id="${e.id}" aria-label="עריכת ההוצאה ${e.vendor || ''}">${icon('edit')}</button>
           </li>`)}</ul></section>`)}`;
   };
