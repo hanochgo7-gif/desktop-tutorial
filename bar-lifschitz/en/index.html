@@ -19,7 +19,9 @@
 <link rel="alternate" hreflang="en" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
 <meta name="theme-color" content="#1e0d12">
 <link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
-<link rel="preload" as="image" href="../images/window-night.jpg">
+<link rel="preload" as="image" href="../images/window-night.webp" type="image/webp">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
@@ -542,7 +544,7 @@
   <section class="stage" data-theme="night" aria-labelledby="stage-title">
     <div class="stage-sticky">
       <div class="stage-film">
-        <video class="vid" muted loop playsinline preload="none" poster="../images/window-night.jpg" data-src="../media/window-night" aria-label="Bar cooking in his kitchen, seen through a lit window in a burgundy wall"></video>
+        <video class="vid" muted loop playsinline preload="none" poster="../images/window-night.webp" data-src="../media/window-night" aria-label="Bar cooking in his kitchen, seen through a lit window in a burgundy wall"></video>
       </div>
       <div class="stage-fade" aria-hidden="true"></div>
       <div class="stage-ui">
@@ -562,9 +564,9 @@
   <section class="hero" data-theme="night" aria-labelledby="hero-title">
     <div class="hero-media">
       <div class="hero-vids">
-        <video class="vid" muted loop playsinline preload="none" poster="../images/yard-guests.jpg" data-src="../media/yard-guests" aria-hidden="true"></video>
-        <video class="vid hero-main" muted loop playsinline preload="none" poster="../images/bar-wine.jpg" data-src="../media/bar-wine" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/yard-table.jpg" data-src="../media/yard-table" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-guests.webp" data-src="../media/yard-guests" aria-hidden="true"></video>
+        <video class="vid hero-main" muted loop playsinline preload="none" data-poster="../images/bar-wine.webp" data-src="../media/bar-wine" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-hidden="true"></video>
       </div>
     </div>
     <div class="wrap hero-body">
@@ -598,7 +600,7 @@
         <p class="signature">Bar</p>
       </div>
       <figure class="about-media" data-reveal>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/studio-plating.jpg" data-src="../media/studio-plating" aria-label="Bar plating dozens of dishes along a long table in a white room"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/studio-plating.webp" data-src="../media/studio-plating" aria-label="Bar plating dozens of dishes along a long table in a white room"></video>
       </figure>
     </div>
   </section>
@@ -609,7 +611,7 @@
     </div>
     <div class="formats-grid">
       <div class="format">
-        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/yard-table.jpg" data-src="../media/yard-table" aria-label="The table in the yard set with flowers, milk churns holding wine and a barrel of glasses"></video></figure>
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-label="The table in the yard set with flowers, milk churns holding wine and a barrel of glasses"></video></figure>
         <div class="format-text">
           <h3>In the yard, Mitzpe Matat</h3>
           <p>One table, just for your group.</p>
@@ -623,7 +625,7 @@
         </div>
       </div>
       <div class="format">
-        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/burrata-pour.jpg" data-src="../media/burrata-pour" aria-label="Olive oil drizzled over a row of bowls of white cheese and greens"></video></figure>
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/burrata-pour.webp" data-src="../media/burrata-pour" aria-label="Olive oil drizzled over a row of bowls of white cheese and greens"></video></figure>
         <div class="format-text">
           <h3>At your place</h3>
           <p>I come with my team, cook and serve.</p>
@@ -636,7 +638,7 @@
         </div>
       </div>
       <div class="format">
-        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" poster="../images/vineyard-table.jpg" data-src="../media/vineyard-table" aria-label="A long table with a white cloth in a vineyard, under parasols"></video></figure>
+        <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/vineyard-table.webp" data-src="../media/vineyard-table" aria-label="A long table with a white cloth in a vineyard, under parasols"></video></figure>
         <div class="format-text">
           <h3>Events</h3>
           <p>Anywhere, in my style.</p>
@@ -701,11 +703,11 @@
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
-        <video class="vid on" muted loop playsinline preload="none" poster="../images/barrel-wine.jpg" data-src="../media/barrel-wine" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/neck-plates.jpg" data-src="../media/neck-plates" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/sashimi-line.jpg" data-src="../media/sashimi-line" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/chorizo-sauce.jpg" data-src="../media/chorizo-sauce" aria-hidden="true"></video>
-        <video class="vid" muted loop playsinline preload="none" poster="../images/plating-dark.jpg" data-src="../media/plating-dark" aria-hidden="true"></video>
+        <video class="vid on" muted loop playsinline preload="none" data-poster="../images/barrel-wine.webp" data-src="../media/barrel-wine" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/neck-plates.webp" data-src="../media/neck-plates" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-line.webp" data-src="../media/sashimi-line" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/chorizo-sauce.webp" data-src="../media/chorizo-sauce" aria-hidden="true"></video>
+        <video class="vid" muted loop playsinline preload="none" data-poster="../images/plating-dark.webp" data-src="../media/plating-dark" aria-hidden="true"></video>
         <div class="ev-clock" id="ev-clock">To begin</div>
       </div>
     </div>
@@ -719,11 +721,11 @@
         <span class="swipe-hint" aria-hidden="true">Swipe →</span>
       </div>
       <div class="roads-track" tabindex="0" aria-label="Photo gallery">
-        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/sashimi-600.jpg" data-src="../media/sashimi-motion" aria-label="Plates of white fish sashimi in a pink consommé, chili and herbs"></video></figure>
-        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/night-toast-still-600.jpg" data-src="../media/night-toast" aria-label="An evening in the yard: a long table of guests raising their glasses"></video></figure>
-        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/fish-hang-still-600.jpg" data-src="../media/fish-hang" aria-label="Two whole fish hanging to age"></video></figure>
-        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/glasses-ice-still-600.jpg" data-src="../media/glasses-ice" aria-label="Wine glasses and an ice bucket with bottles and flowers on a barrel"></video></figure>
-        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/yard-guests-still-600.jpg" data-src="../media/yard-guests" aria-label="The long table in the yard full of guests under a tree"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/sashimi-600.webp" data-src="../media/sashimi-motion" aria-label="Plates of white fish sashimi in a pink consommé, chili and herbs"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/night-toast-still-600.webp" data-src="../media/night-toast" aria-label="An evening in the yard: a long table of guests raising their glasses"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/fish-hang-still-600.webp" data-src="../media/fish-hang" aria-label="Two whole fish hanging to age"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/glasses-ice-still-600.webp" data-src="../media/glasses-ice" aria-label="Wine glasses and an ice bucket with bottles and flowers on a barrel"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-guests-still-600.webp" data-src="../media/yard-guests" aria-label="The long table in the yard full of guests under a tree"></video></figure>
       </div>
     </div>
   </section>
@@ -834,7 +836,7 @@
 </main>
 
 <footer class="finale" data-theme="night">
-  <div class="finale-bg"><video class="vid" muted loop playsinline preload="none" poster="../images/yard-table.jpg" data-src="../media/yard-table" aria-hidden="true"></video></div>
+  <div class="finale-bg"><video class="vid" muted loop playsinline preload="none" data-poster="../images/yard-table.webp" data-src="../media/yard-table" aria-hidden="true"></video></div>
   <div class="wrap finale-top">
     <p class="finale-line">The table is set.</p>
     <a class="btn" href="#book">Book a dinner</a>
@@ -997,8 +999,16 @@
       // התיקיות נלקחות מהכתובות הקיימות, כדי שזה יעבוד גם בעמוד האנגלי
       const night = ['studio-plating', 'night-toast', 'plating-dark'];
       const dir = u => u.slice(0, u.lastIndexOf('/') + 1);
-      document.querySelectorAll('.hero-vids video').forEach((v, k) => { v.dataset.src = dir(v.dataset.src) + night[k]; v.poster = dir(v.getAttribute('poster')) + night[k] + '.jpg'; });
+      document.querySelectorAll('.hero-vids video').forEach((v, k) => { v.dataset.src = dir(v.dataset.src) + night[k]; v.dataset.poster = dir(v.dataset.poster) + night[k] + '.webp'; if (v.getAttribute('poster')) v.poster = v.dataset.poster; });
     }
+
+    // תמונת הפתיחה של כל סרטון נטענת רק כשהוא מתקרב למסך
+    const lazyPosters = [...document.querySelectorAll('video[data-poster]')];
+    const showPoster = v => { if (!v.getAttribute('poster')) v.poster = v.dataset.poster; };
+    if ('IntersectionObserver' in window) {
+      const po = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { showPoster(e.target); po.unobserve(e.target); } }), { rootMargin: '900px 300px' });
+      lazyPosters.forEach(v => po.observe(v));
+    } else lazyPosters.forEach(showPoster);
 
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData);
     const toggle = document.getElementById('vid-toggle');
