@@ -31,9 +31,10 @@ export default async function view(el, ctx) {
       ${pageHeader({ title: 'מקורות ופרסום', subtitle: 'מאיפה מגיעים הלקוחות והכסף, ומה זה עולה',
         actions: html`<button class="btn" data-act="spend">${icon('plus')}הוצאות פרסום</button><button class="btn btn-ghost" data-act="export">${icon('download')}ייצוא</button>` })}
       <div class="toolbar">
-        <div class="seg" role="radiogroup" aria-label="תקופה">${PERIODS.map((p) => html`<button class="${p === st.period ? 'active' : ''}" data-period="${p}" role="radio" aria-checked="${p === st.period}">${periodFor(p).label}</button>`)}</div>
-        <label class="row small">ייחוס:
-          <select class="input sm" data-model style="width:auto">${opt([{ value: 'first', label: 'מקור ראשון (ברירת מחדל)' }, { value: 'last', label: 'מקור אחרון' }], st.model)}</select></label>
+        <select class="input period-select" data-period-select aria-label="תקופה">${opt(PERIODS.map((p) => ({ value: p, label: periodFor(p).label })), st.period)}</select>
+        <div class="seg period-seg" role="radiogroup" aria-label="תקופה">${PERIODS.map((p) => html`<button class="${p === st.period ? 'active' : ''}" data-period="${p}" role="radio" aria-checked="${String(p === st.period)}">${periodFor(p).label}</button>`)}</div>
+        ${store.all('crm_touchpoints').length ? html`<label class="row small">ייחוס:
+          <select class="input sm" data-model style="width:auto">${opt([{ value: 'first', label: 'מקור ראשון (ברירת מחדל)' }, { value: 'last', label: 'מקור אחרון' }], st.model)}</select></label>` : ''}
       </div>
       <section class="kpis">
         <div class="kpi-btn static"><span class="kpi-label">הוצאות פרסום</span><span class="kpi-value">${fmt.money(t.spend)}</span></div>
@@ -45,24 +46,27 @@ export default async function view(el, ctx) {
       </section>
       ${insights.length ? html`<section class="panel insights"><div class="panel-head"><h2>${icon('sparkles')}מה הנתונים אומרים</h2><span class="muted small">חישוב, לא ניחוש</span></div><ul>${insights.map((i) => html`<li>${i}</li>`)}</ul></section>` : ''}
       <div class="table-wrap"><table class="table table-sources">
-        <thead><tr><th>מקור</th><th>הוצאה</th><th>לידים</th><th>מתאימים</th><th>לקוחות</th><th>שיעור הפיכה</th><th>הכנסה שנסגרה</th><th>נגבה</th><th>עלות לליד</th><th>עלות ללקוח (CAC)</th><th>ROAS</th><th>רווח אחרי פרסום</th><th>ROI</th></tr></thead>
+        <thead><tr><th>מקור</th><th>הוצאה</th><th>לידים</th><th>מתאימים</th><th title="לידים מהתקופה שיש להם עסקה שנסגרה">הפכו ללקוחות</th><th>שיעור הפיכה</th><th title="לקוחות שהעסקה הראשונה שלהם נסגרה בתקופה. על זה מחושב ה-CAC">לקוחות חדשים בתקופה</th><th>הכנסה שנסגרה</th><th>נגבה</th><th>עלות לליד</th><th>עלות ללקוח חדש (CAC)</th><th>הכנסה על ₪1 פרסום (ROAS)</th><th>רווח אחרי פרסום</th><th>תשואה (ROI)</th></tr></thead>
         <tbody>${rep.rows.filter(hasActivity).map((r) => html`<tr class="${r.sourceId === UNKNOWN ? 'row-unknown' : ''}">
           <th scope="row" data-label="מקור">${r.name}${r.isPaid ? html` <span class="badge badge-amber">ממומן</span>` : ''}</th>
-          <td data-label="הוצאה" class="num">${r.spend ? fmt.money(r.spend) : html`<span class="nil">—</span>`}</td>
+          <td data-label="הוצאה" class="num">${r.spend ? fmt.money(Math.round(r.spend)) : html`<span class="nil">—</span>`}</td>
           <td data-label="לידים" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="leads">${r.leads.length}</button></td>
           <td data-label="מתאימים" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="qualified">${r.qualified.length}</button></td>
           <td data-label="לקוחות" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="customers">${r.customers.length}</button></td>
           <td data-label="שיעור הפיכה" class="num">${na(pct(r.closeRate), r.closeRate.reason)}${r.leads.length && r.leads.length < 10 ? html`<small class="muted" title="פחות מ-10 לידים: מוקדם להסיק מסקנות"> *</small>` : ''}</td>
+          <td data-label="לקוחות חדשים בתקופה" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="newCustomers">${r.newCustomers.length}</button></td>
           <td data-label="הכנסה שנסגרה" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="won">${fmt.money(r.revenue)}</button></td>
           <td data-label="נגבה" class="num">${fmt.money(r.collected)}</td>
-          <td data-label="עלות לליד" class="num">${na(money(r.cpl), r.cpl.reason)}</td>
-          <td data-label="CAC" class="num">${na(money(r.cac), r.cac.reason)}</td>
-          <td data-label="ROAS" class="num">${na(x(r.roas), r.roas.reason)}</td>
+          <td data-label="עלות לליד (CPL)" class="num">${na(money(r.cpl), r.cpl.reason)}</td>
+          <td data-label="עלות ללקוח חדש (CAC)" class="num">${na(money(r.cac), r.cac.reason)}</td>
+          <td data-label="הכנסה על כל ₪1 פרסום (ROAS)" class="num">${na(x(r.roas), r.roas.reason)}</td>
           <td data-label="רווח אחרי פרסום" class="num ${r.profitAfterAds < 0 ? 'danger-text' : ''}">${r.revenue || r.spend ? fmt.money(r.profitAfterAds) : html`<span class="nil">—</span>`}${!r.costComplete ? html`<small class="warn-text" title="${r.wonMissingCost} עסקאות בלי עלות ישירה, הרווח מוערך ביתר"> !</small>` : ''}</td>
-          <td data-label="ROI" class="num">${na(r.roi.value == null ? null : fmt.percent(r.roi.value), r.roi.reason)}</td>
+          <td data-label="תשואה על הפרסום (ROI)" class="num">${na(r.roi.value == null ? null : fmt.percent(r.roi.value), r.roi.reason)}</td>
         </tr>`)}</tbody>
-        <tfoot><tr><th>סה"כ</th><td class="num">${fmt.money(t.spend)}</td><td class="num">${t.leads}</td><td class="num">${t.qualified}</td><td class="num">${t.customers}</td><td class="num">${na(pct(t.closeRate))}</td><td class="num">${fmt.money(t.revenue)}</td><td class="num">${fmt.money(t.collected)}</td><td></td><td class="num" title="הוצאות פרסום חלקי לקוחות חדשים ממקורות ממומנים">${na(money(t.cac), t.cac.reason)}</td><td class="num" title="הכנסה ממקורות ממומנים חלקי הוצאות הפרסום">${na(x(t.roas))}</td><td class="num">${fmt.money(t.profitAfterAds)}</td><td class="num">${na(t.roi.value == null ? null : fmt.percent(t.roi.value))}</td></tr></tfoot>
+        <tfoot><tr><th>סה"כ</th><td class="num">${fmt.money(t.spend)}</td><td class="num">${t.leads}</td><td class="num">${t.qualified}</td><td class="num">${t.customers}</td><td class="num">${na(pct(t.closeRate))}</td><td class="num">${t.newCustomers}</td><td class="num">${fmt.money(t.revenue)}</td><td class="num">${fmt.money(t.collected)}</td><td></td><td class="num" title="הוצאות פרסום חלקי לקוחות חדשים ממקורות ממומנים">${na(money(t.cac), t.cac.reason)}</td><td class="num" title="הכנסה ממקורות ממומנים חלקי הוצאות הפרסום">${na(x(t.roas))}</td><td class="num">${fmt.money(t.profitAfterAds)}</td><td class="num">${na(t.roi.value == null ? null : fmt.percent(t.roi.value))}</td></tr></tfoot>
       </table></div>
+      <p class="muted small idle-sources">* פחות מ-10 לידים, מוקדם להסיק מסקנות. ! יש עסקאות בלי עלות ישירה, ולכן הרווח מוערך ביתר. — אין מספיק נתונים לחישוב.</p>
+      <p class="muted small idle-sources">בשורת הסה"כ: לידים, הכנסה, גבייה ורווח של כל המקורות. CAC, ROAS ו-ROI רק של המקורות הממומנים, כי הכנסה מהפניות או מחיפוש אורגני אינה תשואה על פרסום. הוצאה חודשית נספרת לפי החלק של החודש שבתוך התקופה.</p>
       ${rep.rows.some((r) => !hasActivity(r)) ? html`<p class="muted small idle-sources">בלי פעילות בתקופה: ${rep.rows.filter((r) => !hasActivity(r)).map((r) => r.name).join(', ')}</p>` : ''}
       <section class="panel quality">
         <div class="panel-head"><h2>כמה אפשר לסמוך על הדוח</h2></div>
@@ -95,11 +99,12 @@ export default async function view(el, ctx) {
   ctx.watch(['crm_contacts', 'crm_deals', 'crm_ad_spend', 'crm_sources'], draw);
 
   on(el, 'click', '[data-period]', (e, b) => { st.period = b.dataset.period; draw(); });
+  on(el, 'change', '[data-period-select]', (e, s) => { st.period = s.value; draw(); });
   on(el, 'change', '[data-model]', (e, s) => { st.model = s.value; draw(); });
   on(el, 'click', '[data-src]', (e, b) => {
     const r = el._rep.rows.find((x) => x.sourceId === b.dataset.src);
     const k = b.dataset.k;
-    const t = { leads: 'לידים', qualified: 'לידים מתאימים', customers: 'הפכו ללקוחות', won: 'עסקאות שנסגרו' }[k];
+    const t = { leads: 'לידים', qualified: 'לידים מתאימים', customers: 'לידים מהתקופה שהפכו ללקוחות', newCustomers: 'לקוחות חדשים בתקופה (בסיס ל-CAC)', won: 'עסקאות שנסגרו' }[k];
     if (k === 'won') showRecords(`${r.name}: ${t}`, { deals: r.wonDeals });
     else showRecords(`${r.name}: ${t}`, { contacts: r[k] });
   });
@@ -110,7 +115,7 @@ export default async function view(el, ctx) {
     if (k === 'won') showRecords('עסקאות שנסגרו בתקופה', { deals: rep.rows.flatMap((r) => r.wonDeals) });
     if (k === 'collected') showRecords('נגבה בתקופה', { deals: rep.rows.flatMap((r) => r.collectedDeals) });
     if (k === 'unknown') showRecords('לידים בלי מקור', { contacts: rep.completeness.unknownSourceIds, note: 'פתחו כל ליד ובחרו "קביעה" ליד המקור, אם אתם יודעים מאיפה הגיע.' });
-    if (k === 'unpaid') showRecords('עסקאות שנסגרו עם יתרה לגבייה', { deals: rep.completeness.unpaidWonIds });
+    if (k === 'unpaid') showRecords(`עסקאות שנסגרו עם יתרה לגבייה: ${fmt.money(rep.completeness.unpaidAmount)}`, { deals: rep.completeness.unpaidWonIds, note: 'הסכומים ברשימה הם סכומי העסקאות. היתרה הכוללת שעוד לא נגבתה מופיעה בכותרת.' });
   });
   on(el, 'click', '[data-funnel]', (e, b) => { const s = el._sales.funnel.steps[Number(b.dataset.funnel)]; showRecords(`הגיעו לשלב "${s.name}"`, { deals: s.ids }); });
   on(el, 'click', '[data-act]', (e, b) => {
@@ -118,9 +123,14 @@ export default async function view(el, ctx) {
     if (b.dataset.act === 'export') {
       const rep = el._rep;
       const v = (r) => (r.value == null ? '' : Math.round(r.value * 100) / 100);
+      const pc = (r) => (r.value == null ? '' : Math.round(r.value * 1000) / 10);
+      const p = periodFor(st.period);
+      const t = rep.total;
       download(`sources-${st.period}.csv`, toCSV([
-        ['מקור', 'הוצאה', 'לידים', 'מתאימים', 'לקוחות', 'שיעור הפיכה', 'הכנסה שנסגרה', 'נגבה', 'עלות לליד', 'CAC', 'ROAS', 'רווח אחרי פרסום', 'ROI %'],
-        ...rep.rows.map((r) => [r.name, r.spend, r.leads.length, r.qualified.length, r.customers.length, v(r.closeRate), r.revenue, r.collected, v(r.cpl), v(r.cac), v(r.roas), r.profitAfterAds, v(r.roi)]),
+        [`תקופה: ${p.label} (${p.from.toISOString().slice(0, 10)} עד ${new Date(p.to - 1).toISOString().slice(0, 10)})`, `ייחוס: ${st.model === 'last' ? 'מקור אחרון' : 'מקור ראשון'}`, 'סכומים בש"ח לפני מע"מ'],
+        ['מקור', 'הוצאה', 'לידים', 'מתאימים', 'הפכו ללקוחות', 'שיעור הפיכה %', 'לקוחות חדשים בתקופה', 'הכנסה שנסגרה', 'נגבה', 'עלות לליד', 'CAC', 'ROAS', 'רווח אחרי פרסום', 'ROI %'],
+        ...rep.rows.filter(hasActivity).map((r) => [r.name, Math.round(r.spend), r.leads.length, r.qualified.length, r.customers.length, pc(r.closeRate), r.newCustomers.length, r.revenue, r.collected, v(r.cpl), v(r.cac), v(r.roas), Math.round(r.profitAfterAds), v(r.roi)]),
+        ['סה"כ', Math.round(t.spend), t.leads, t.qualified, t.customers, pc(t.closeRate), t.newCustomers, t.revenue, t.collected, '', v(t.cac), v(t.roas), Math.round(t.profitAfterAds), v(t.roi)],
       ]), 'text/csv;charset=utf-8');
     }
   });
@@ -131,13 +141,13 @@ const hasActivity = (r) => r.leads.length || r.spend || r.wonDeals.length || r.c
 // Plain-language findings computed from the report (deterministic, with the numbers behind them).
 function buildInsights(rep) {
   const out = [];
-  const real = rep.rows.filter((r) => r.sourceId !== UNKNOWN && r.leads.length >= 5);
+  const real = rep.rows.filter((r) => r.sourceId !== UNKNOWN && r.leads.length >= 10);
   if (real.length >= 2) {
     const best = [...real].sort((a, b) => (b.closeRate.value ?? -1) - (a.closeRate.value ?? -1))[0];
     if (best.closeRate.value != null) out.push(html`השיעור הגבוה ביותר של הפיכה ללקוח: <b>${best.name}</b>, ${best.customers.length} לקוחות מתוך ${best.leads.length} לידים (${fmt.percent(best.closeRate.value * 100)}).`);
   }
-  const byRev = rep.rows.filter((r) => r.revenue > 0).sort((a, b) => b.revenue - a.revenue)[0];
-  if (byRev) out.push(html`ההכנסה הגבוהה ביותר: <b>${byRev.name}</b>, ${fmt.money(byRev.revenue)} מ-${byRev.wonDeals.length} עסקאות.`);
+  const byRev = rep.rows.filter((r) => r.revenue > 0 && r.sourceId !== UNKNOWN).sort((a, b) => b.revenue - a.revenue)[0];
+  if (byRev) out.push(html`ההכנסה הגבוהה ביותר: <b>${byRev.name}</b>, ${fmt.money(byRev.revenue)} מ-${byRev.wonDeals.length === 1 ? 'עסקה אחת' : `${byRev.wonDeals.length} עסקאות`}.`);
   for (const r of rep.rows.filter((x) => x.spend > 0)) {
     if (!r.newCustomers.length) out.push(html`<b>${r.name}</b>: הוצאה של ${fmt.money(r.spend)} ועדיין אין לקוח חדש בתקופה. ${r.openCohort.length ? `${r.openCohort.length} לידים עוד בתהליך, מוקדם לשפוט.` : 'כדאי לבדוק את הקמפיין.'}`);
     else if (r.roas.value != null && r.roas.value < 1) out.push(html`<b>${r.name}</b>: ROAS של ${fmt.decimal(r.roas.value)}x, ההכנסה נמוכה מההוצאה.`);
@@ -149,6 +159,7 @@ function buildInsights(rep) {
 // Ad spend: one amount per source per month (or day), entered by hand until an ads account is connected.
 function openSpend() {
   const paid = sources();
+  const keep = { source: paid.find((s) => s.is_paid)?.id, month: toDateInput(new Date()).slice(0, 7) };
   const m = modal({
     title: 'הוצאות פרסום', size: 'md',
     body: (el) => {
@@ -156,12 +167,12 @@ function openSpend() {
         const rows = store.all('crm_ad_spend').sort((a, b) => (a.day < b.day ? 1 : -1)).slice(0, 24);
         render(el, html`<form class="form-grid spend-form" novalidate>
           <div class="form-3">
-            <div class="field"><label class="field-label" for="sp-src">מקור</label><select class="input" id="sp-src" name="source_id">${opt(paid.map((s) => ({ value: s.id, label: s.name })), paid.find((s) => s.is_paid)?.id)}</select></div>
-            <div class="field"><label class="field-label" for="sp-month">חודש</label><input class="input" id="sp-month" name="month" type="month" value="${toDateInput(new Date()).slice(0, 7)}"></div>
-            <div class="field"><label class="field-label" for="sp-amt">סכום (₪)</label><input class="input num" id="sp-amt" name="amount" type="number" min="0" step="1" dir="ltr" autofocus></div>
+            <div class="field"><label class="field-label" for="sp-src">מקור</label><select class="input" id="sp-src" name="source_id">${opt(paid.map((s) => ({ value: s.id, label: s.name })), keep.source)}</select></div>
+            <div class="field"><label class="field-label" for="sp-month">חודש</label><input class="input" id="sp-month" name="month" type="month" value="${keep.month}" max="${toDateInput(new Date()).slice(0, 7)}"></div>
+            <div class="field"><label class="field-label" for="sp-amt">סכום (₪)</label><input class="input num" id="sp-amt" name="amount" type="number" min="0" step="1" dir="ltr" autofocus required></div>
           </div>
           <button class="btn btn-primary" type="submit">${icon('plus')}הוספה</button>
-          <p class="field-help">הזינו את סך ההוצאה בחודש כפי שמופיע בחשבון הפרסום (כולל מע"מ אם משלמים מע"מ על הפרסום). הזנה חוזרת לאותו מקור וחודש מעדכנת את השורה הקיימת.</p>
+          <p class="field-help">הזינו את סך ההוצאה בחודש <b>לפני מע"מ</b>, כמו ההכנסות (עוסק מורשה מקזז את המע"מ). הוצאה למקור וחודש שכבר הוזנו תחליף את הקיימת רק אחרי אישור.</p>
         </form>
         ${rows.length ? html`<table class="table compact"><thead><tr><th>חודש</th><th>מקור</th><th>סכום</th><th></th></tr></thead><tbody>${rows.map((r) => html`<tr><td>${String(r.day).slice(0, 7)}</td><td>${store.get('crm_sources', r.source_id)?.name}</td><td class="num">${fmt.money(r.amount)}</td><td><button class="btn-icon sm" data-del="${r.id}" aria-label="מחיקה">${icon('trash')}</button></td></tr>`)}</tbody></table>` : html`<p class="muted small">עוד לא הוזנו הוצאות.</p>`}`);
       };
@@ -170,10 +181,13 @@ function openSpend() {
         e.preventDefault();
         const form = e.target;
         const v = readForm(form);
-        if (!v.amount && v.amount !== 0) { showFieldErrors(form, { amount: 'הזינו סכום' }); return; }
+        if (v.amount == null) { showFieldErrors(form, { amount: 'הזינו סכום' }); return; }
+        if (v.amount < 0) { showFieldErrors(form, { amount: 'הסכום לא יכול להיות שלילי' }); return; }
         if (!v.month) { showFieldErrors(form, { month: 'בחרו חודש' }); return; }
+        keep.source = v.source_id; keep.month = v.month;
         const day = `${v.month}-01`;
         const existing = store.find('crm_ad_spend', (r) => r.source_id === v.source_id && String(r.day).slice(0, 10) === day && !r.campaign_id && r.origin === 'manual');
+        if (existing && Number(existing.amount) !== v.amount && !(await confirmDialog(`ל${store.get('crm_sources', v.source_id)?.name} בחודש ${v.month} כבר הוזנו ${fmt.money(existing.amount)}. להחליף ב-${fmt.money(v.amount)}?`, { okLabel: 'החלפה' }))) return;
         try {
           if (existing) await store.update('crm_ad_spend', existing.id, { amount: v.amount });
           else await store.insert('crm_ad_spend', { source_id: v.source_id, day, amount: v.amount, origin: 'manual', currency: 'ILS' });

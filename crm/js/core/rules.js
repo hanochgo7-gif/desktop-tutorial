@@ -3,8 +3,9 @@
 // In local mode they are the only implementation, so keep both in sync.
 
 export function normPhone(p) {
-  const d = String(p ?? '').replace(/\D/g, '');
+  let d = String(p ?? '').replace(/\D/g, '');
   if (!d) return null;
+  if (d.startsWith('00')) d = d.slice(2);
   return d.startsWith('972') ? `0${d.slice(3)}` : d;
 }
 

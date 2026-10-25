@@ -14,6 +14,29 @@ const num = (v) => (v == null || v === '' || isNaN(Number(v)) ? 0 : Number(v));
 const ratio = (a, b, why = 'אין נתונים לחישוב') => (b > 0 ? { value: a / b } : { value: null, reason: why });
 export const UNKNOWN = '__unknown__';
 
+// Payments on a deal: a list of { id, amount, date, note } in props.payments (refunds are negative).
+// Older rows only have amount_paid + paid_at, which is treated as one payment on that date.
+export function paymentsOf(d) {
+  const list = d?.props?.payments;
+  if (Array.isArray(list)) return list.filter((p) => p && p.date && Number(p.amount));
+  return num(d?.amount_paid) && d?.paid_at ? [{ id: 'legacy', amount: num(d.amount_paid), date: String(d.paid_at).slice(0, 10) }] : [];
+}
+export const paidTotal = (d) => paymentsOf(d).reduce((a, p) => a + num(p.amount), 0);
+const dayDate = (s) => new Date(`${String(s).slice(0, 10)}T12:00:00`);
+export function collectedIn(d, period) {
+  return paymentsOf(d).filter((p) => inP(dayDate(p.date), period)).reduce((a, p) => a + num(p.amount), 0);
+}
+// Spend entered for a whole month (manual entry, dated the 1st) counts by the share of the month inside the period.
+export function spendIn(row, period) {
+  const day = dayDate(row.day);
+  const monthly = row.origin === 'manual' && day.getDate() === 1 && !row.campaign_id;
+  if (!monthly) return inP(day, period) ? num(row.amount) : 0;
+  const start = new Date(day.getFullYear(), day.getMonth(), 1), end = new Date(day.getFullYear(), day.getMonth() + 1, 1);
+  const from = Math.max(start, period.from), to = Math.min(end, period.to);
+  if (to <= from) return 0;
+  return num(row.amount) * ((to - from) / (end - start));
+}
+
 export function leadSource(contact, model = 'first') {
   return (model === 'last' ? contact.last_source_id || contact.first_source_id : contact.first_source_id) || UNKNOWN;
 }
@@ -37,8 +60,9 @@ export function sourceReport({ contacts, deals, sources, spend, period, model = 
   const row = (k) => rows.get(k) || rows.get(UNKNOWN);
 
   for (const s of spend) {
-    if (!inP(s.day && `${String(s.day).slice(0, 10)}T12:00:00`, period)) continue;
-    const r = row(s.source_id); r.spend += num(s.amount); r.spendIds.push(s.id);
+    const amt = spendIn(s, period);
+    if (!amt) continue;
+    const r = row(s.source_id); r.spend += amt; r.spendIds.push(s.id);
   }
   // lead cohort: contacts created in the period
   const dealsByContact = new Map();
@@ -67,9 +91,8 @@ export function sourceReport({ contacts, deals, sources, spend, period, model = 
       if (d.direct_cost_estimate == null || d.direct_cost_estimate === '') r.wonMissingCost++;
       else r.directCost += num(d.direct_cost_estimate);
     }
-    if (num(d.amount_paid) > 0 && d.paid_at && inP(`${String(d.paid_at).slice(0, 10)}T12:00:00`, period)) {
-      const r = row(k); r.collected += num(d.amount_paid); r.collectedDeals.push(d.id);
-    }
+    const got = collectedIn(d, period);
+    if (got) { const r = row(k); r.collected += got; r.collectedDeals.push(d.id); }
   }
   const out = [];
   for (const r of rows.values()) {
@@ -130,8 +153,9 @@ export function completeness({ contacts, deals, period }) {
     wonDeals: won.length,
     withFinalAmount: ratio(won.filter((d) => d.amount_final != null && d.amount_final !== '').length, won.length, 'אין עסקאות שנסגרו'),
     withCost: ratio(won.filter((d) => d.direct_cost_estimate != null && d.direct_cost_estimate !== '').length, won.length, 'אין עסקאות שנסגרו'),
-    withPayment: ratio(won.filter((d) => num(d.amount_paid) > 0).length, won.length, 'אין עסקאות שנסגרו'),
-    unpaidWonIds: won.filter((d) => num(d.amount_paid) < num(d.amount_final ?? d.amount_expected)).map((d) => d.id),
+    withPayment: ratio(won.filter((d) => paidTotal(d) > 0).length, won.length, 'אין עסקאות שנסגרו'),
+    unpaidWonIds: won.filter((d) => paidTotal(d) < num(d.amount_final ?? d.amount_expected)).map((d) => d.id),
+    unpaidAmount: won.reduce((a, d) => a + Math.max(0, num(d.amount_final ?? d.amount_expected) - paidTotal(d)), 0),
   };
 }
 
@@ -146,14 +170,14 @@ export function salesSummary({ contacts, deals, stages, history, period, now = n
   const prob = (d) => (d.probability_override ?? stageById.get(d.stage_id)?.probability ?? 0) / 100;
   const days = won.map((d) => (new Date(d.closed_at) - new Date(d.opened_at || d.created_at)) / 864e5).filter((x) => x >= 0);
   const revenue = won.reduce((a, d) => a + num(d.amount_final ?? d.amount_expected), 0);
-  const collected = deals.filter((d) => num(d.amount_paid) > 0 && d.paid_at && inP(`${String(d.paid_at).slice(0, 10)}T12:00:00`, period));
+  const collected = deals.filter((d) => collectedIn(d, period) !== 0);
   return {
     newLeads: newLeads.map((c) => c.id),
     won: won.map((d) => d.id),
     lost: lost.map((d) => d.id),
     open: open.map((d) => d.id),
     revenue,
-    collected: collected.reduce((a, d) => a + num(d.amount_paid), 0),
+    collected: collected.reduce((a, d) => a + collectedIn(d, period), 0),
     collectedIds: collected.map((d) => d.id),
     pipelineValue: open.reduce((a, d) => a + num(d.amount_expected), 0),
     weightedPipeline: open.reduce((a, d) => a + num(d.amount_expected) * prob(d), 0),

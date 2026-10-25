@@ -4,7 +4,7 @@ import { html, render, on, fmt, normalize, toCSV, download, $ } from '../core/ut
 import { store } from '../core/store.js';
 import { setQuery } from '../core/router.js';
 import { contactName, sources, sourceName, LEAD_STATUS, LIFECYCLE, label, color, nextTaskFor, dueClass } from '../core/model.js';
-import { pageHeader, icon, badge, emptyState, setTitle, opt } from '../ui/components.js';
+import { pageHeader, icon, badge, emptyState, setTitle, opt, toast } from '../ui/components.js';
 import { openLeadForm } from '../ui/forms.js';
 
 const TABS = [
@@ -46,9 +46,12 @@ export default async function view(el, ctx) {
       render(box, emptyState({ icon: 'user', title: 'עוד אין לידים', text: 'הוסיפו את הליד הראשון. כל ליד מקבל מקור הגעה וצעד הבא, כדי ששום פנייה לא תישכח.', action: { act: 'new', label: 'ליד חדש', icon: 'plus' } }));
       return;
     }
-    if (!list.length) { render(box, html`<div class="empty"><h3>לא נמצאו לידים</h3><p>נסו חיפוש אחר או לשונית "הכול".</p></div>`); return; }
+    if (!list.length) {
+      render(box, html`<div class="empty"><h3>${st.q ? `לא נמצא "${st.q}" בלשונית הזו` : 'אין כאן אף אחד כרגע'}</h3><p>${st.tab === 'active' ? 'לידים שהפכו ללקוחות עוברים ללשונית "לקוחות".' : ''}</p><button class="btn" data-tab="all">חיפוש בכל הלשוניות</button></div>`);
+      return;
+    }
     render(box, html`<div class="table-wrap"><table class="table table-leads">
-      <thead><tr>${COLS.map((c) => html`<th class="sortable" data-sort="${c.key}" aria-sort="${st.sort === c.key ? (st.dir === 1 ? 'ascending' : 'descending') : 'none'}">${c.label}${st.sort === c.key ? icon(st.dir === 1 ? 'arrowUp' : 'arrowDown', 'sort-ic') : ''}</th>`)}</tr></thead>
+      <thead><tr>${COLS.map((c) => html`<th aria-sort="${st.sort === c.key ? (st.dir === 1 ? 'ascending' : 'descending') : 'none'}"><button class="th-sort" data-sort="${c.key}">${c.label}${st.sort === c.key ? icon(st.dir === 1 ? 'arrowUp' : 'arrowDown', 'sort-ic') : ''}</button></th>`)}</tr></thead>
       <tbody>${list.slice(0, 500).map((c) => {
         const next = nextTaskFor({ contactId: c.id });
         const isActive = TABS[0].test(c);
@@ -65,8 +68,8 @@ export default async function view(el, ctx) {
   };
 
   render(el, html`
-    ${pageHeader({ title: 'לידים ולקוחות', actions: html`<button class="btn btn-ghost" data-act="export">${icon('download')}ייצוא לאקסל</button><button class="btn btn-primary" data-act="new">${icon('plus')}ליד חדש</button>` })}
-    <div class="view-tabs" role="tablist">${TABS.map((t) => html`<button class="tab ${t.id === st.tab ? 'active' : ''}" role="tab" aria-selected="${t.id === st.tab}" data-tab="${t.id}">${t.label}<span class="tab-count">${store.all('crm_contacts').filter(t.test).length}</span></button>`)}</div>
+    ${pageHeader({ title: 'לידים ולקוחות', actions: html`<button class="btn btn-ghost" data-act="export">${icon('download')}ייצוא הרשימה לאקסל</button><button class="btn btn-primary" data-act="new">${icon('plus')}ליד חדש</button>` })}
+    <div class="view-tabs" role="tablist">${TABS.map((t) => html`<button class="tab ${t.id === st.tab ? 'active' : ''}" role="tab" aria-selected="${String(t.id === st.tab)}" data-tab="${t.id}">${t.label}<span class="tab-count">${store.all('crm_contacts').filter(t.test).length}</span></button>`)}</div>
     <div class="toolbar">
       <input class="input" type="search" placeholder="חיפוש לפי שם, טלפון, אימייל או עסק" value="${st.q}" data-q aria-label="חיפוש">
       <select class="input" data-src aria-label="מקור" style="width:auto">${opt([...sources().map((s) => ({ value: s.id, label: s.name })), { value: 'unknown', label: 'מקור לא ידוע' }], st.src, { empty: 'כל המקורות' })}</select>
@@ -77,16 +80,22 @@ export default async function view(el, ctx) {
 
   on(el, 'input', '[data-q]', (e, i) => { st.q = i.value; drawTable(); });
   on(el, 'change', '[data-src]', (e, s) => { st.src = s.value; drawTable(); });
-  on(el, 'click', '[data-tab]', (e, b) => { st.tab = b.dataset.tab; el.querySelectorAll('[data-tab]').forEach((x) => { x.classList.toggle('active', x === b); x.setAttribute('aria-selected', x === b); }); drawTable(); });
+  on(el, 'click', '[data-tab]', (e, b) => {
+    st.tab = b.dataset.tab;
+    el.querySelectorAll('.view-tabs [data-tab]').forEach((x) => { const on = x.dataset.tab === st.tab; x.classList.toggle('active', on); x.setAttribute('aria-selected', String(on)); if (on) x.scrollIntoView({ block: 'nearest', inline: 'center' }); });
+    drawTable();
+  });
   on(el, 'click', '[data-sort]', (e, th) => { const k = th.dataset.sort; st.dir = st.sort === k ? -st.dir : (k === 'created' ? -1 : 1); st.sort = k; drawTable(); });
   on(el, 'click', 'tbody tr', (e, tr) => { if (!e.target.closest('a')) location.hash = tr.dataset.href; });
   on(el, 'click', '[data-act]', (e, b) => {
     if (b.dataset.act === 'new') openLeadForm({ onSaved: (c) => { location.hash = `#/c/${c.id}`; } });
     if (b.dataset.act === 'export') {
       const list = rows();
-      download(`leads-${new Date().toISOString().slice(0, 10)}.csv`, toCSV([
+      const phoneText = (p) => { const d = String(p || '').replace(/\D/g, ''); return /^05\d{8}$/.test(d) ? `${d.slice(0, 3)}-${d.slice(3)}` : /^0\d{8}$/.test(d) ? `${d.slice(0, 2)}-${d.slice(2)}` : p; };
+      toast(`יוצאו ${list.length} רשומות מהלשונית "${(TABS.find((t) => t.id === st.tab) || TABS[0]).label}"${st.q || st.src ? ' לפי הסינון הנוכחי' : ''}`, { kind: 'success' });
+      download(`leads-${st.tab}-${new Date().toISOString().slice(0, 10)}.csv`, toCSV([
         ['שם פרטי', 'שם משפחה', 'עסק', 'טלפון', 'אימייל', 'סטטוס', 'שלב', 'מקור מקורי', 'מקור אחרון', 'צורך', 'תקציב', 'נוצר'],
-        ...list.map((c) => [c.first_name, c.last_name, c.company_name, c.phone, c.email, label(LEAD_STATUS, c.lead_status), label(LIFECYCLE, c.lifecycle), sourceName(c.first_source_id), sourceName(c.last_source_id), c.need, c.budget_estimate, c.created_at?.slice(0, 10)]),
+        ...list.map((c) => [c.first_name, c.last_name, c.company_name, phoneText(c.phone), c.email, label(LEAD_STATUS, c.lead_status), label(LIFECYCLE, c.lifecycle), sourceName(c.first_source_id), sourceName(c.last_source_id), c.need, c.budget_estimate, c.created_at?.slice(0, 10)]),
       ]), 'text/csv;charset=utf-8');
     }
   });

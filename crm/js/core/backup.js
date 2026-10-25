@@ -58,7 +58,11 @@ export function validateBackup(obj) {
     if (!Array.isArray(obj.rows[t])) throw new Error(`הגיבוי פגום: חסרה הטבלה ${t}`);
   }
   if (!obj.rows.crm_stages.length) throw new Error('הגיבוי פגום: אין בו שלבי מכירה');
-  for (const c of obj.rows.crm_contacts) if (!c.id) throw new Error('הגיבוי פגום: יש איש קשר בלי מזהה');
+  for (const c of obj.rows.crm_contacts) {
+    if (!c.id) throw new Error('הגיבוי פגום: יש איש קשר בלי מזהה');
+    for (const k of ['first_name', 'last_name', 'phone', 'email', 'company_name']) if (c[k] != null && typeof c[k] !== 'string') throw new Error(`הגיבוי פגום: ערך לא תקין בשדה ${k}`);
+  }
+  for (const d of obj.rows.crm_deals) for (const k of ['amount_expected', 'amount_final', 'amount_paid']) if (d[k] != null && typeof d[k] !== 'number') throw new Error(`הגיבוי פגום: סכום לא תקין בעסקה ${d.name || d.id}`);
   return counts(obj.rows);
 }
 

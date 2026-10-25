@@ -3,7 +3,11 @@
 import { html, render, on, toCSV, download, fmt } from '../core/util.js';
 import { store } from '../core/store.js';
 import { auth } from '../core/api.js';
-import { stages, contactName, sourceName, stageName } from '../core/model.js';
+import { stages, contactName, sourceName, stageName, label, TASK_TYPES, ACTIVITY_TYPES, LOST_REASONS } from '../core/model.js';
+
+// local (Israel) date/time for exports, not UTC
+const localD = (d) => (d ? new Date(d).toLocaleDateString('he-IL') : '');
+const localDT = (d) => (d ? new Date(d).toLocaleString('he-IL', { dateStyle: 'short', timeStyle: 'short' }) : '');
 import { pageHeader, icon, setTitle, toast, promptDialog, confirmDialog } from '../ui/components.js';
 
 export default async function view(el, ctx) {
@@ -48,6 +52,11 @@ export default async function view(el, ctx) {
             </div>
             ${store.mode === 'local' && el._snaps?.length ? html`<div><p class="small muted">גיבויים אוטומטיים בדפדפן:</p><ul class="mini-list">${el._snaps.map((x) => html`<li class="row"><span class="grow small">${fmt.dateTime(x.at)} | ${x.counts.contacts} לידים, ${x.counts.deals} עסקאות</span><button class="btn btn-sm btn-ghost" data-snap="${x.id}">שחזור</button></li>`)}</ul></div>` : ''}
             <div class="row-wrap">
+              <button class="btn" data-act="import">${icon('upload')}ייבוא לידים מאקסל (CSV)</button><input type="file" accept=".csv,text/csv" hidden data-import-file>
+            </div>
+            <p class="small muted">באקסל: קובץ ← שמירה בשם ← CSV UTF-8. שורה ראשונה = כותרות (שם, טלפון, אימייל, מקור, תאריך...). כפולים מדולגים אוטומטית.</p>
+            <div class="row-wrap">
+              <button class="btn btn-ghost" data-act="csv-tasks">${icon('download')}משימות לאקסל</button>
               <button class="btn btn-ghost" data-act="csv-deals">${icon('download')}עסקאות לאקסל</button>
               <button class="btn btn-ghost" data-act="csv-activities">${icon('download')}היסטוריית פעילות לאקסל</button>
             </div>
@@ -95,6 +104,11 @@ export default async function view(el, ctx) {
     input.value = '';
     restore(obj, `מהקובץ ${f.name}`);
   });
+  on(el, 'change', '[data-import-file]', async (e, input) => {
+    const f = input.files[0];
+    input.value = '';
+    if (f) (await import('../ui/importer.js')).importLeads(f);
+  });
   on(el, 'click', '[data-snap]', async (e, b) => {
     const bk = await import('../core/backup.js');
     const obj = await bk.getSnapshot(b.dataset.snap);
@@ -132,6 +146,13 @@ export default async function view(el, ctx) {
       toast('קובץ הגיבוי ירד. שמרו אותו גם מחוץ למחשב (Drive, מייל לעצמכם).', { kind: 'success', timeout: 8000 });
     }
     if (a === 'restore-file') el.querySelector('[data-restore-file]').click();
+    if (a === 'import') el.querySelector('[data-import-file]').click();
+    if (a === 'csv-tasks') {
+      download(`tasks-${day}.csv`, toCSV([
+        ['משימה', 'סוג', 'סטטוס', 'מועד', 'ליד', 'עסקה', 'עדיפות', 'תוצאה', 'הערות'],
+        ...store.all('crm_tasks').map((t) => [t.title, label(TASK_TYPES, t.type), { open: 'פתוחה', done: 'בוצעה', canceled: 'בוטלה' }[t.status], localDT(t.due_at), contactName(store.get('crm_contacts', t.contact_id)), store.get('crm_deals', t.deal_id)?.name, { low: 'נמוכה', normal: 'רגילה', high: 'גבוהה' }[t.priority], t.outcome, t.notes]),
+      ]), 'text/csv;charset=utf-8');
+    }
     if (a === 'clear-sample') {
       const sample = store.filter('crm_contacts', (c) => c.tags?.includes('דוגמה'));
       if (!(await confirmDialog(`למחוק ${sample.length} לידים לדוגמה, יחד עם העסקאות, המשימות והפעילות שלהם?`, { danger: true, okLabel: 'מחיקה' }))) return;
@@ -150,14 +171,14 @@ export default async function view(el, ctx) {
     }
     if (a === 'csv-deals') {
       download(`deals-${day}.csv`, toCSV([
-        ['עסקה', 'ליד', 'שלב', 'סטטוס', 'סכום צפוי', 'סכום סופי', 'נגבה', 'תאריך גבייה', 'עלות ישירה', 'מקור', 'סוג שירות', 'נפתחה', 'נסגרה', 'סיבת הפסד'],
-        ...store.all('crm_deals').map((d) => [d.name, contactName(store.get('crm_contacts', d.contact_id)), stageName(d.stage_id), d.outcome, d.amount_expected, d.amount_final, d.amount_paid, d.paid_at, d.direct_cost_estimate, sourceName(d.source_id), d.service_type, d.opened_at?.slice(0, 10), d.closed_at?.slice(0, 10), d.lost_reason]),
+        ['עסקה', 'ליד', 'שלב', 'סטטוס', 'סכום צפוי (לפני מע"מ)', 'סכום סופי (לפני מע"מ)', 'נגבה (לפני מע"מ)', 'תשלום אחרון', 'עלות ישירה', 'מקור', 'סוג שירות', 'נפתחה', 'נסגרה', 'סיבת הפסד'],
+        ...store.all('crm_deals').map((d) => [d.name, contactName(store.get('crm_contacts', d.contact_id)), stageName(d.stage_id), { open: 'פתוחה', won: 'נסגרה בהצלחה', lost: 'הפסד' }[d.outcome], d.amount_expected, d.amount_final, d.amount_paid, d.paid_at, d.direct_cost_estimate, sourceName(d.source_id), d.service_type, localD(d.opened_at), localD(d.closed_at), label(LOST_REASONS, d.lost_reason)]),
       ]), 'text/csv;charset=utf-8');
     }
     if (a === 'csv-activities') {
       download(`activities-${day}.csv`, toCSV([
         ['תאריך', 'סוג', 'ליד', 'עסקה', 'תוצאה', 'תוכן'],
-        ...store.all('crm_activities').sort((x, y) => (x.at < y.at ? 1 : -1)).map((x) => [x.at, x.type, contactName(store.get('crm_contacts', x.contact_id)), store.get('crm_deals', x.deal_id)?.name, x.outcome, x.body]),
+        ...store.all('crm_activities').sort((x, y) => (x.at < y.at ? 1 : -1)).map((x) => [localDT(x.at), label(ACTIVITY_TYPES, x.type), contactName(store.get('crm_contacts', x.contact_id)), store.get('crm_deals', x.deal_id)?.name, x.outcome, x.body]),
       ]), 'text/csv;charset=utf-8');
     }
     if (a === 'password') {

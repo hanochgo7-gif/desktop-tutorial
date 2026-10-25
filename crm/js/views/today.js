@@ -30,7 +30,7 @@ function buildActions() {
   const touched = new Set([...store.all('crm_activities').map((a) => a.contact_id), ...store.all('crm_tasks').map((t) => t.contact_id)]);
   for (const c of store.all('crm_contacts')) {
     if (c.lead_status !== 'new' || touched.has(c.id) || c.lifecycle === 'customer') continue;
-    items.push({ kind: 'lead', contact: c, score: 95, reason: badge(`ליד חדש, נכנס ${fmt.relative(c.created_at)}`, 'violet'), title: `ליד חדש שלא טופל: ${contactName(c)}` });
+    items.push({ kind: 'lead', contact: c, score: 95, reason: badge(`ליד חדש, נכנס ${fmt.relative(c.created_at)}`, 'violet'), title: 'ליד חדש שעוד לא טופל' });
   }
   // open deals: stuck in stage, or no next action
   const stageById = new Map(store.all('crm_stages').map((s) => [s.id, s]));
@@ -52,14 +52,15 @@ function actionRow(it, i) {
   return html`<li class="act-row ${i < 3 ? 'top3' : ''}">
     ${it.kind === 'task' ? html`<button class="task-check" data-act="done" data-id="${it.task.id}" aria-label="סימון כבוצע: ${it.task.title}">${icon('check')}</button>` : html`<span class="act-ic">${icon(typeIcon)}</span>`}
     <a class="grow act-main" href="${href}">
-      <span class="act-title">${it.title}</span>
-      <span class="act-meta">${it.reason}${c && it.kind !== 'lead' ? html`<span>${contactName(c)}</span>` : ''}${it.deal?.amount_expected ? html`<span class="num">${fmt.money(it.deal.amount_expected)}</span>` : ''}</span>
+      <span class="act-title">${c ? contactName(c) : it.title}${c?.company_name ? html` <small class="muted">${c.company_name}</small>` : ''}</span>
+      <span class="act-what">${c ? it.title : ''}</span>
+      <span class="act-meta">${it.reason}${it.deal?.amount_expected ? html`<span class="num">${fmt.money(it.deal.amount_expected)}</span>` : ''}</span>
     </a>
     <span class="act-btns">
       ${phone ? html`<a class="btn-icon" href="tel:${phone}" aria-label="שיחה ל${contactName(c)}" title="שיחה">${icon('phone')}</a>
         <a class="btn-icon" href="${whatsappUrl(phone)}" target="_blank" rel="noopener" aria-label="וואטסאפ ל${contactName(c)}" title="וואטסאפ">${icon('whatsapp')}</a>` : ''}
-      ${c ? html`<button class="btn btn-sm" data-act="log" data-contact="${c.id}" data-deal="${it.deal?.id || ''}">${icon('note')}תיעוד</button>` : ''}
-      ${it.kind === 'task' ? html`<button class="btn-icon" data-act="snooze" data-id="${it.task.id}" aria-label="דחייה למחר" title="דחייה למחר">${icon('clock')}</button>${taskEditBtn(it.task)}` : ''}
+      ${c ? html`<button class="btn btn-sm" data-act="log" data-contact="${c.id}" data-deal="${it.deal?.id || ''}" aria-label="תיעוד שיחה עם ${contactName(c)}">${icon('note')}תיעוד</button>` : ''}
+      ${it.kind === 'task' ? html`<button class="btn-icon" data-act="snooze" data-id="${it.task.id}" aria-label="דחייה למחר: ${it.task.title}${c ? ` (${contactName(c)})` : ''}" title="דחייה למחר">${icon('clock')}</button>${taskEditBtn(it.task)}` : ''}
       ${it.kind === 'deal' && !nextTaskFor({ dealId: it.deal.id, contactId: it.deal.contact_id }) ? html`<button class="btn-icon" data-act="task" data-contact="${c?.id || ''}" data-deal="${it.deal.id}" aria-label="קביעת צעד הבא" title="קביעת צעד הבא">${icon('plus')}</button>` : ''}
     </span>
   </li>`;
@@ -67,6 +68,10 @@ function actionRow(it, i) {
 
 export default async function view(el, ctx) {
   setTitle('היום שלי');
+  if (store.mode === 'local') {
+    const bk = await import('../core/backup.js');
+    if (bk.backupOverdue(store)) el._backupNote = bk.lastDownloaded() ? 'עבר שבוע מהגיבוי האחרון. כדאי להוריד קובץ גיבוי.' : 'עוד לא הורדת קובץ גיבוי. מומלץ להוריד אחד ולשמור אותו מחוץ למחשב.';
+  }
   const draw = () => {
     const period = periodFor('this_month');
     const all = { contacts: store.all('crm_contacts'), deals: store.all('crm_deals'), stages: store.all('crm_stages'), history: store.all('crm_deal_stage_history') };
@@ -84,7 +89,9 @@ export default async function view(el, ctx) {
         subtitle: new Date().toLocaleDateString('he-IL', { weekday: 'long', day: 'numeric', month: 'long' }),
         actions: html`<button class="btn btn-primary" data-act="new-lead">${icon('plus')}ליד חדש</button>`,
       })}
-      <section class="kpis" aria-label="המספרים של החודש">
+      ${el._backupNote ? html`<div class="notice notice-warn backup-note">${icon('download')}<div class="grow">${el._backupNote}</div><a class="btn btn-sm" href="#/settings">להורדת גיבוי</a></div>` : ''}
+      <div class="today-layout">
+      <section class="kpis today-kpis" aria-label="המספרים של החודש">
         <button class="kpi-btn" data-drill="leads"><span class="kpi-label">לידים חדשים החודש</span><span class="kpi-value">${fmt.number(s.newLeads.length)}</span></button>
         <button class="kpi-btn" data-drill="open"><span class="kpi-label">עסקאות פתוחות</span><span class="kpi-value">${fmt.money(s.pipelineValue)}</span><span class="kpi-sub">${fmt.number(s.open.length)} עסקאות | משוקלל ${fmt.money(s.weightedPipeline)}</span></button>
         <button class="kpi-btn" data-drill="quotes"><span class="kpi-label">הצעות שממתינות לתשובה</span><span class="kpi-value">${fmt.number(quotesWaiting.length)}</span><span class="kpi-sub">${fmt.money(quotesWaiting.reduce((a, d) => a + Number(d.amount_expected || 0), 0))}</span></button>
@@ -106,6 +113,7 @@ export default async function view(el, ctx) {
           </section>
           ${rep.completeness.unknownSourceIds.length ? html`<section class="notice notice-warn">${icon('alert')}<div><b>${rep.completeness.unknownSourceIds.length} לידים בלי מקור הגעה</b><p class="small">בלי מקור אי אפשר לדעת איזה פרסום עובד. <button class="linkbtn" data-drill="unknown">הצגת הלידים</button></p></div></section>` : ''}
         </aside>
+      </div>
       </div>`);
     el._data = { s, rep, quotesWaiting };
   };
@@ -125,7 +133,8 @@ export default async function view(el, ctx) {
     if (a === 'snooze') {
       const t = store.get('crm_tasks', b.dataset.id);
       const d = addDays(new Date(), 1); const old = new Date(t.due_at); d.setHours(old.getHours() || 10, old.getMinutes(), 0, 0);
-      try { await store.update('crm_tasks', t.id, { due_at: d.toISOString() }); toast(`נדחה ל${d.toLocaleDateString('he-IL', { weekday: 'long' })}`); } catch (err) { toast(err.message, { kind: 'error' }); }
+      const prevDue = t.due_at;
+      try { await store.update('crm_tasks', t.id, { due_at: d.toISOString() }); toast(`נדחה ליום ${d.toLocaleDateString('he-IL', { weekday: 'long' })}`, { action: { label: 'ביטול', onClick: () => store.update('crm_tasks', t.id, { due_at: prevDue }) } }); } catch (err) { toast(err.message, { kind: 'error' }); }
     }
   });
   on(el, 'click', '[data-drill]', (e, b) => {
