@@ -1,0 +1,424 @@
+<title>כך נבנה בית רשת</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* הדמיה בגלילה: בית רשת נבנה מול העיניים, שלב אחרי שלב. מראה אחד, בהיר ("נייר" ויער), כמו גיליון הנדסי.
+     הסצנה דבוקה למסך, והכרטיסים גוללים מעליה. כל הפלדה כסופה (מגולוונת). */
+  :root {
+    color-scheme: light;
+    --paper: #F1F4F2;
+    --sky: #E3ECE8;
+    --forest: #0E4239;
+    --green: #1B6E62;
+    --mint: #7FC49B;
+    --ink: #0E2A25;
+    --ink-2: #4B6560;
+    --line: #C8D4CF;
+    --card: rgba(255, 255, 255, .9);
+    --font: "Heebo", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.6 var(--font); overflow-x: hidden; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+  .top { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px max(20px, env(safe-area-inset-right, 0px)) 18px max(20px, env(safe-area-inset-left, 0px)); background: var(--paper); border-bottom: 1px solid var(--line); }
+  .logo { height: 34px; width: auto; display: block; }
+  .lang { all: unset; cursor: pointer; font-weight: 700; font-size: .9rem; color: var(--green); padding: 8px 4px; }
+  .lang:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  .intro { max-width: 980px; margin: 0 auto; padding: clamp(36px, 7vw, 80px) 20px clamp(28px, 5vw, 48px); }
+  .eyebrow { font-size: .82rem; font-weight: 500; color: var(--green); letter-spacing: .02em; }
+  .intro h1 { font-size: clamp(2rem, 5.4vw, 3.6rem); line-height: 1.05; font-weight: 800; color: var(--forest); margin-top: 10px; }
+  .intro p { max-width: 60ch; margin: 16px 0 0; font-size: 1.08rem; color: var(--ink-2); }
+  .intro .go { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; font-weight: 700; color: var(--forest); font-size: .95rem; }
+  .intro .go i { display: inline-block; width: 22px; height: 34px; border: 2px solid var(--forest); border-radius: 12px; position: relative; }
+  .intro .go i::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--forest); animation: wheel 1.6s infinite; }
+  @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+
+  .track { position: relative; }
+  .scene { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: linear-gradient(180deg, #D7E5DF 0%, #EEF3F0 58%, #EEF3F0 100%); }
+  #cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .badge { position: absolute; top: 16px; inset-inline-start: 16px; z-index: 2; font-size: .78rem; font-weight: 600; color: var(--forest); background: rgba(255, 255, 255, .86); border: 1px solid var(--line); padding: 4px 10px; border-radius: 999px; }
+  .rail { position: absolute; z-index: 2; inset-inline-end: 16px; top: 50%; transform: translateY(-50%); display: grid; gap: 6px; }
+  .rail button { all: unset; cursor: pointer; width: 26px; height: 26px; display: grid; place-items: center; }
+  .rail button span { width: 8px; height: 8px; border-radius: 50%; background: rgba(14, 66, 57, .25); transition: transform .2s, background .2s; }
+  .rail button[aria-current="step"] span { background: var(--forest); transform: scale(1.5); }
+  .rail button:focus-visible { outline: 2px solid var(--green); border-radius: 50%; }
+
+  .chapters { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100svh; pointer-events: none; }
+  .ch { height: 100vh; height: 100svh; display: flex; align-items: center; padding: 0 max(56px, env(safe-area-inset-right, 0px)) 0 max(20px, env(safe-area-inset-left, 0px)); }
+  [dir="ltr"] .ch { padding: 0 max(20px, env(safe-area-inset-right, 0px)) 0 max(20px, env(safe-area-inset-left, 0px)); }
+  .card { pointer-events: auto; width: min(400px, 100%); background: var(--card); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; box-shadow: 0 12px 32px rgba(14, 42, 37, .1); }
+  .card .k { font-family: var(--mono); font-size: .76rem; color: var(--green); }
+  [dir="rtl"] .card .k { font-family: var(--font); font-weight: 500; }
+  .card h2 { font-size: clamp(1.35rem, 2.6vw, 1.75rem); line-height: 1.2; color: var(--forest); margin-top: 6px; font-weight: 800; }
+  .card p { margin: 10px 0 0; color: var(--ink-2); }
+  .card .src { margin-top: 12px; font-size: .8rem; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 10px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: 999px; font-weight: 700; text-decoration: none; font-size: .95rem; }
+  .btn.p { background: var(--forest); color: #fff; }
+  .btn.s { border: 1.5px solid var(--forest); color: var(--forest); }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+
+  .foot { max-width: 980px; margin: 0 auto; padding: 32px 20px 48px; font-size: .86rem; color: var(--ink-2); border-top: 1px solid var(--line); }
+  .foot b { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .ch { align-items: flex-end; padding: 0 16px max(20px, env(safe-area-inset-bottom, 0px)) !important; }
+    .card { width: 100%; padding: 16px 18px; }
+    .card p { font-size: .95rem; }
+    .rail { top: auto; bottom: auto; top: 56px; transform: none; inset-inline-end: 8px; gap: 0; }
+    .rail button { width: 22px; height: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .intro .go i::after { animation: none; } }
+</style>
+
+<header class="top">
+  <svg class="logo" class="logo logo--compact" viewBox="345 232 1222 286" role="img" aria-label="MIFTAH"><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg>
+  <button type="button" class="lang" id="lang" lang="en">English</button>
+</header>
+
+<section class="intro">
+  <span class="eyebrow" id="eb"></span>
+  <h1 id="h1"></h1>
+  <p id="lede"></p>
+  <span class="go" aria-hidden="true"><i></i><span id="go"></span></span>
+</section>
+
+<div class="track" id="track">
+  <div class="scene" id="scene">
+    <canvas id="cv" role="img"></canvas>
+    <span class="badge" id="badge"></span>
+    <nav class="rail" id="rail"></nav>
+  </div>
+  <div class="chapters" id="chapters"></div>
+</div>
+
+<footer class="foot"><p id="note"></p><p id="foot2"></p></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  // הטקסטים: רק מה שכבר אושר (שלבי ה-Turnkey מהשאלון, סקשן "מהשטח", ופרויקטים מהשאלון). בלי מידות ובלי מספרים טכניים.
+  var C = [
+    { he: ["שלבים 1–3", "בודקים ומתכננים", "בודקים את הקרקע ומתאימים את הגידול. אחר כך מתכננים את החווה כיחידה אחת: מבנים, השקיה ודרכים."],
+      en: ["Stages 1–3", "Test, then design", "We test the soil and match the crop to it. Then we design the farm as one unit: structures, irrigation and roads."] },
+    { he: ["בשטח", "סימון קווי העמודים", "מסמנים את הקווים לפי התכנון ההנדסי. הצוות המקומי לומד את השיטה בשטח, מהצוות שלנו."],
+      en: ["On site", "Marking out the pole lines", "Lines are marked out from the engineering design. Local crews learn the method on site, from our team."] },
+    { he: ["בשטח", "הצבת עמודים מגולוונים", "שורות ישרות של עמודים מגולוונים, במפתח ובגובה שנקבעו בתכנון. מיוצרים במפעל שלנו."],
+      en: ["On site", "Setting galvanized poles", "Straight rows of galvanized poles, at the span and height set in the design. Made in our own plant."] },
+    { he: ["בשטח", "מתיחת כבלים", "כבלי הפלדה נמתחים ומחוברים לראשי העמודים. עבודה בגובה, בידי צוותים מוסמכים."],
+      en: ["On site", "Tensioning the cables", "Steel cables are tensioned and fixed to the pole heads. Work at height, by certified crews."] },
+    { he: ["בשטח", "פריסת הרשת", "הרשת נפרסת ומחוברת לכבלים, שורה אחרי שורה."],
+      en: ["On site", "Spreading the net", "The net is spread and fixed to the cables, row by row."] },
+    { he: ["בשטח", "סוגרים את המבנה", "רשת בדפנות, דלת כניסה, והרשת מתוחה. המבנה מוכן לשתילה."],
+      en: ["On site", "Closing the structure", "Side nets, an entrance door, and the net tensioned. The structure is ready for planting."] },
+    { he: ["שלבים 5 ו-7", "השקיה ושתילה", "מערכת ההשקיה מותקנת לפני השתילה, ואז שותלים ומקימים את המטע."],
+      en: ["Stages 5 and 7", "Irrigation, then planting", "The irrigation system goes in before planting. Then the orchard is planted and established."] },
+    { he: ["מה הרשת עושה", "הגנה מברד ומרוח", "הרשת מעל המטע עוצרת את הברד לפני שהוא מגיע לפרי. בגליל המערבי, למשל, רשת 11% קלה ואוורירית מגנה על הבננות מרוח וברד."],
+      en: ["What the net does", "Protection from hail and wind", "The net over the orchard stops hail before it reaches the fruit. In the Western Galilee, for example, a light, airy 11% net protects bananas from wind and hail."] },
+    { he: ["פרויקט ברמת הגולן", "נפרסת בקיץ, מתקפלת בחורף", "במטע התפוחים ברמת הגולן הרשת נפרסת בקיץ ומתקפלת בחורף."],
+      en: ["A Golan Heights project", "Spread in summer, folded in winter", "On the apple orchard in the Golan Heights, the net is spread in summer and folded away in winter."] },
+    { he: ["מקצה לקצה", "צוות אחד, 11 שלבים.", "מבדיקת הקרקע ועד הקטיף והשיווק. אפשר לקחת את כל הדרך, או שלב אחד.", 1],
+      en: ["Turnkey", "One team, 11 stages.", "From the soil test to harvest and marketing. Take the whole path, or a single stage.", 1] }
+  ];
+  var T = {
+    he: { dir: "rtl", langL: "English", lang: "en", title: "כך נבנה בית רשת · מיפתח", eb: "מיפתח פרויקטים · חקלאות שיש לה בית", h1: "כך נבנה בית רשת.",
+      lede: "גללו למטה, והמבנה יוקם מול העיניים: מהשטח הריק, דרך העמודים, הכבלים והרשת, ועד מטע מוגן.", go: "גללו כדי לבנות",
+      badge: "הדמיה", call: "התקשרו: 04-9854404", tel: "+97249854404", mail: "לדף הבית", aria: "הדמיה תלת-ממדית של הקמת בית רשת, שלב אחרי שלב", step: "שלב",
+      note: "הדמיה להמחשה בלבד. המידות, המרווחים וגובה המבנה בהדמיה אינם מפרט טכני; כל פרויקט מתוכנן לפי הגידול, הקרקע והרוח באתר.",
+      foot2: "מיפתח פרויקטים · כפר מסריק · 04-9854404" },
+    en: { dir: "ltr", langL: "עברית", lang: "he", title: "How a net house goes up · MIFTAH", eb: "MIFTAH Projects · Where agriculture feels at home", h1: "How a net house goes up.",
+      lede: "Scroll down and the structure is built in front of you: from bare ground, through poles, cables and net, to a protected orchard.", go: "Scroll to build",
+      badge: "Illustration", call: "Call +972 4 985 4404", tel: "+97249854404", mail: "Home", aria: "3D illustration of a net house being built, step by step", step: "Step",
+      note: "Illustration only. Sizes, spacing and height in this illustration are not a technical specification; every project is designed for the crop, the soil and the wind on site.",
+      foot2: "MIFTAH Projects · Kfar Masaryk, Israel · +972 4 985 4404" }
+  };
+  var L = "he";
+  try { if (localStorage.getItem("miftah-build-lang") === "en") L = "en"; } catch (e) {}
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var N = C.length;
+
+  // ---------- סצנה ----------
+  var cv = document.getElementById("cv"), sceneEl = document.getElementById("scene");
+  var renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  var scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xE6EEEA, 60, 150);
+  var camera = new THREE.PerspectiveCamera(38, 1, .1, 400);
+
+  var hemi = new THREE.HemisphereLight(0xF4F8F6, 0x8C8466, .62); scene.add(hemi);
+  var sun = new THREE.DirectionalLight(0xFFFFFF, .72);
+  sun.position.set(22, 34, 14); sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  var sc = sun.shadow.camera; sc.left = -30; sc.right = 30; sc.top = 30; sc.bottom = -30; sc.near = 1; sc.far = 100;
+  sun.shadow.bias = -.0006; sun.shadow.radius = 3;
+  scene.add(sun);
+
+  // מידות פנימיות של ההדמיה (לא מפרט)
+  var NX = 7, NZ = 5, SX = 4, SZ = 5, H = 3.6;
+  var LX = (NX - 1) * SX, LZ = (NZ - 1) * SZ, X0 = -LX / 2, Z0 = -LZ / 2;
+
+  // קרקע: שדה, חלקה חרושה, דרך עפר
+  function mat(c, o) { var m = new THREE.MeshLambertMaterial({ color: c }); if (o) for (var k in o) m[k] = o[k]; return m; }
+  var ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), mat(0x9DAE84));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  function soilTex() {
+    var c = document.createElement("canvas"); c.width = c.height = 128; var x = c.getContext("2d");
+    x.fillStyle = "#B49E78"; x.fillRect(0, 0, 128, 128);
+    for (var i = 0; i < 128; i += 8) { x.fillStyle = "rgba(120,95,60,.16)"; x.fillRect(0, i, 128, 3); }
+    for (var j = 0; j < 500; j++) { x.fillStyle = "rgba(90,70,40," + (Math.random() * .12) + ")"; x.fillRect(Math.random() * 128, Math.random() * 128, 2, 2); }
+    var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(8, 8); return t;
+  }
+  var plot = new THREE.Mesh(new THREE.PlaneGeometry(LX + 10, LZ + 10), new THREE.MeshLambertMaterial({ map: soilTex() }));
+  plot.rotation.x = -Math.PI / 2; plot.position.y = .01; plot.receiveShadow = true; scene.add(plot);
+  var road = new THREE.Mesh(new THREE.PlaneGeometry(400, 4), mat(0xCDBB95));
+  road.rotation.x = -Math.PI / 2; road.position.set(0, .015, LZ / 2 + 9); road.receiveShadow = true; scene.add(road);
+  // מטעים ושורות עצים בסביבה, להקשר
+  var bushG = new THREE.IcosahedronGeometry(1, 0), bushM = mat(0x5C7D4A), around = [];
+  for (var bi = 0; bi < 160; bi++) {
+    var bx = (Math.random() * 2 - 1) * 90, bz = (Math.random() * 2 - 1) * 90;
+    if (Math.abs(bx) < LX / 2 + 12 && Math.abs(bz) < LZ / 2 + 14) continue;
+    around.push([bx, bz, .8 + Math.random() * 1.6]);
+  }
+  var bushes = new THREE.InstancedMesh(bushG, bushM, around.length), dm = new THREE.Object3D();
+  around.forEach(function (b, i) { dm.position.set(b[0], b[2] * .7, b[1]); dm.scale.set(b[2], b[2] * .9, b[2]); dm.rotation.y = Math.random() * 6; dm.updateMatrix(); bushes.setMatrixAt(i, dm.matrix); });
+  bushes.castShadow = true; scene.add(bushes);
+
+  // פלדה מגולוונת: אפור-כסוף בהיר, תמיד
+  var steel = new THREE.MeshPhongMaterial({ color: 0xE4E9EC, specular: 0xFFFFFF, shininess: 70, emissive: 0x3A4044 });
+  var steelDark = new THREE.MeshPhongMaterial({ color: 0xD2D9DD, specular: 0xFFFFFF, shininess: 50, emissive: 0x30363A });
+
+  // שלב 0: קווי תכנון על הקרקע
+  var bp = [];
+  for (var i = 0; i < NX; i++) bp.push(X0 + i * SX, .03, Z0 - 2, X0 + i * SX, .03, Z0 + LZ + 2);
+  for (var k = 0; k < NZ; k++) bp.push(X0 - 2, .03, Z0 + k * SZ, X0 + LX + 2, .03, Z0 + k * SZ);
+  var bpG = new THREE.BufferGeometry(); bpG.setAttribute("position", new THREE.Float32BufferAttribute(bp, 3));
+  var bpM = new THREE.LineDashedMaterial({ color: 0x1B6E62, dashSize: .6, gapSize: .35, transparent: true });
+  var blue = new THREE.LineSegments(bpG, bpM); blue.computeLineDistances(); scene.add(blue);
+  var bpCount = bp.length / 3;
+
+  // נקודות עמודים
+  var POLES = [];
+  for (var px = 0; px < NX; px++) for (var pz = 0; pz < NZ; pz++) POLES.push({ x: X0 + px * SX, z: Z0 + pz * SZ, i: px, k: pz, edge: px === 0 || px === NX - 1 || pz === 0 || pz === NZ - 1 });
+
+  // שלב 1: יתדות וחוטי סימון
+  var stakeG = new THREE.CylinderGeometry(.05, .05, .5, 6); stakeG.translate(0, .25, 0);
+  var stakeM = mat(0xF4F1EA), stakes = [];
+  POLES.forEach(function (p) { var s = new THREE.Mesh(stakeG, stakeM); s.position.set(p.x, 0, p.z); s.castShadow = true; scene.add(s); stakes.push(s); });
+  var strings = [];
+  for (var sz = 0; sz < NZ; sz++) {
+    var g = new THREE.BoxGeometry(LX, .025, .025); g.translate(LX / 2, 0, 0);
+    var s2 = new THREE.Mesh(g, mat(0xFFFFFF)); s2.position.set(X0, .42, Z0 + sz * SZ); scene.add(s2); strings.push(s2);
+  }
+
+  // שלב 2: עמודים
+  var poleG = new THREE.CylinderGeometry(.09, .1, H, 10); poleG.translate(0, H / 2, 0);
+  var poles = [];
+  POLES.forEach(function (p) { var m = new THREE.Mesh(poleG, steel); m.position.set(p.x, 0, p.z); m.castShadow = true; scene.add(m); poles.push(m); });
+  var capG = new THREE.CylinderGeometry(.14, .14, .08, 10);
+
+  // שלב 3: כבלים עליונים ועיגונים
+  function rod(len, r, m) { var g = new THREE.CylinderGeometry(r, r, len, 6); g.rotateZ(Math.PI / 2); g.translate(len / 2, 0, 0); return new THREE.Mesh(g, m); }
+  var cables = [];
+  for (var cz = 0; cz < NZ; cz++) { var c1 = rod(LX, .035, steelDark); c1.position.set(X0, H, Z0 + cz * SZ); scene.add(c1); cables.push(c1); }
+  for (var cx = 0; cx < NX; cx++) { var c2 = rod(LZ, .035, steelDark); c2.rotation.y = -Math.PI / 2; c2.position.set(X0 + cx * SX, H, Z0); scene.add(c2); cables.push(c2); }
+  var anchors = [], anchorBlocks = [];
+  POLES.filter(function (p) { return p.edge; }).forEach(function (p) {
+    var dx = p.i === 0 ? -1 : p.i === NX - 1 ? 1 : 0, dz = p.k === 0 ? -1 : p.k === NZ - 1 ? 1 : 0;
+    var top = new THREE.Vector3(p.x, H, p.z), gnd = new THREE.Vector3(p.x + dx * 2.2, 0, p.z + dz * 2.2);
+    var dir = gnd.clone().sub(top), len = dir.length();
+    var a = rod(len, .025, steelDark); a.position.copy(top);
+    a.quaternion.setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir.normalize()); scene.add(a); anchors.push(a);
+    var blk = new THREE.Mesh(new THREE.BoxGeometry(.5, .2, .5), mat(0xB9B6AE)); blk.position.copy(gnd).setY(.1); blk.castShadow = true; scene.add(blk); anchorBlocks.push(blk);
+  });
+
+  // רשת: טקסטורת עין רשת לבנה
+  function netTex(rep) {
+    var c = document.createElement("canvas"); c.width = c.height = 64; var x = c.getContext("2d");
+    x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, 64, 64);
+    x.strokeStyle = "rgba(150,165,160,.55)"; x.lineWidth = 2;
+    for (var i = 0; i <= 64; i += 16) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 64); x.stroke(); x.beginPath(); x.moveTo(0, i); x.lineTo(64, i); x.stroke(); }
+    var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); t.anisotropy = 4; return t;
+  }
+  var netM = new THREE.MeshLambertMaterial({ map: netTex([LX / 1.2, SZ / 1.2]), transparent: true, opacity: .74, side: THREE.DoubleSide, depthWrite: false });
+  var roofs = [];
+  for (var rz = 0; rz < NZ - 1; rz++) {
+    var rg = new THREE.PlaneGeometry(LX, SZ); rg.rotateX(-Math.PI / 2); rg.translate(LX / 2, 0, SZ / 2);
+    var r = new THREE.Mesh(rg, netM); r.position.set(X0, H + .02, Z0 + rz * SZ); r.receiveShadow = false; scene.add(r); roofs.push(r);
+  }
+  // דפנות: נתלות מלמעלה ויורדות
+  var sideM = new THREE.MeshLambertMaterial({ map: netTex([LX / 1.2, H / 1.2]), transparent: true, opacity: .62, side: THREE.DoubleSide, depthWrite: false });
+  var sideM2 = new THREE.MeshLambertMaterial({ map: netTex([LZ / 1.2, H / 1.2]), transparent: true, opacity: .62, side: THREE.DoubleSide, depthWrite: false });
+  function wall(len, m) { var g = new THREE.PlaneGeometry(len, H); g.translate(0, -H / 2, 0); return new THREE.Mesh(g, m); }
+  var walls = [];
+  var w1 = wall(LX, sideM); w1.position.set(0, H, Z0); walls.push(w1);
+  var w2 = wall(LX, sideM); w2.position.set(0, H, Z0 + LZ); walls.push(w2);
+  var w3 = wall(LZ, sideM2); w3.rotation.y = Math.PI / 2; w3.position.set(X0, H, 0); walls.push(w3);
+  var w4 = wall(LZ, sideM2); w4.rotation.y = Math.PI / 2; w4.position.set(X0 + LX, H, 0); walls.push(w4);
+  walls.forEach(function (w) { scene.add(w); });
+  // דלת בחזית: משקוף מגולוון
+  var door = new THREE.Group();
+  var dp1 = new THREE.Mesh(new THREE.BoxGeometry(.12, 2.6, .12), steel); dp1.position.set(-1.1, 1.3, 0);
+  var dp2 = dp1.clone(); dp2.position.x = 1.1;
+  var dl = new THREE.Mesh(new THREE.BoxGeometry(2.32, .12, .12), steel); dl.position.set(0, 2.6, 0);
+  var dpanel = new THREE.Mesh(new THREE.PlaneGeometry(2.1, 2.5), new THREE.MeshLambertMaterial({ color: 0xE9EEEC, transparent: true, opacity: .85, side: THREE.DoubleSide }));
+  dpanel.position.set(0, 1.27, .02);
+  [dp1, dp2, dl].forEach(function (m) { m.castShadow = true; door.add(m); }); door.add(dpanel);
+  door.position.set(X0 + SX * 3, 0, Z0 + LZ + .03); scene.add(door);
+
+  // שלב 6: קווי השקיה ועצים
+  var lanes = []; for (var lz = 0; lz < NZ - 1; lz++) lanes.push(Z0 + lz * SZ + SZ / 2);
+  var drips = lanes.map(function (z) { var d = rod(LX - 1, .03, mat(0x3E4644)); d.position.set(X0 + .5, .05, z); scene.add(d); return d; });
+  var TR = []; lanes.forEach(function (z, li) { for (var t = 0; t < 18; t++) TR.push({ x: X0 + .8 + t * (LX - 1.6) / 17, z: z, d: (li * 18 + t) / (lanes.length * 18), s: .85 + Math.random() * .3 }); });
+  var trunkG = new THREE.CylinderGeometry(.07, .1, 1.1, 6); trunkG.translate(0, .55, 0);
+  var crownG = new THREE.IcosahedronGeometry(.85, 1); crownG.translate(0, 1.75, 0);
+  var trunks = new THREE.InstancedMesh(trunkG, mat(0x6B5A44), TR.length), crowns = new THREE.InstancedMesh(crownG, mat(0x3F7A3F), TR.length);
+  trunks.castShadow = crowns.castShadow = true; scene.add(trunks); scene.add(crowns);
+  // פירות קטנים (נראים רק בקרוב)
+  // ברד: חלקיקים שנופלים; מעל המבנה הם ניתזים מהרשת
+  var HN = 900, hp = new Float32Array(HN * 3), hv = new Float32Array(HN), hb = new Uint8Array(HN);
+  function seedHail(i, top) { hp[i * 3] = (Math.random() * 2 - 1) * (LX / 2 + 10); hp[i * 3 + 1] = top ? 14 + Math.random() * 14 : Math.random() * 28; hp[i * 3 + 2] = (Math.random() * 2 - 1) * (LZ / 2 + 10); hv[i] = -(16 + Math.random() * 8); hb[i] = 0; }
+  for (var hi = 0; hi < HN; hi++) seedHail(hi, false);
+  var hg = new THREE.BufferGeometry(); hg.setAttribute("position", new THREE.BufferAttribute(hp, 3));
+  var hailM = new THREE.PointsMaterial({ color: 0xFFFFFF, size: .22, transparent: true, opacity: 0, depthWrite: false });
+  var hail = new THREE.Points(hg, hailM); hail.frustumCulled = false; scene.add(hail);
+
+  // ---------- אנימציה לפי התקדמות ----------
+  var STORM = new THREE.Color(0x7A8A8D);
+  function cl(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function sm(a, b, v) { var t = cl((v - a) / (b - a)); return t * t * (3 - 2 * t); }
+  function vis(o, s) { o.visible = s > .001; }
+  // מצלמה: נקודת מבט לכל פרק (מיקום, יעד)
+  var K = [
+    [[30, 28, 36], [0, 0, 0]],
+    [[17, 9, 24], [0, 0, 2]],
+    [[26, 9, 22], [0, 1.6, 0]],
+    [[13, 9.5, 17], [-2, 3.2, 0]],
+    [[22, 17, 25], [0, 2.6, 0]],
+    [[7, 5, 31], [1, 1.8, 6]],
+    [[-21, 5.5, 15], [0, 1.4, 0]],
+    [[20, 6.5, 28], [0, 3.2, 0]],
+    [[30, 21, 31], [0, 2, 0]],
+    [[34, 22, 34], [0, 1.5, 0]]
+  ];
+  var cp = new THREE.Vector3(), ct = new THREE.Vector3(), va = new THREE.Vector3(), vb = new THREE.Vector3();
+  function camAt(P, t) {
+    var x = P - .5, i = Math.max(0, Math.min(K.length - 2, Math.floor(x))), f = sm(0, 1, x - i);
+    if (x < 0) f = 0; if (x > K.length - 1) { i = K.length - 2; f = 1; }
+    va.fromArray(K[i][0]); vb.fromArray(K[i + 1][0]); cp.copy(va).lerp(vb, f);
+    va.fromArray(K[i][1]); vb.fromArray(K[i + 1][1]); ct.copy(va).lerp(vb, f);
+    // בסוף: סיבוב איטי סביב המבנה
+    var orb = sm(8.6, 9.4, P);
+    if (orb > 0 && !reduce) { var a = t * .06, r = Math.hypot(cp.x, cp.z), a0 = Math.atan2(cp.z, cp.x); cp.x = Math.cos(a0 + a * orb) * r; cp.z = Math.sin(a0 + a * orb) * r; }
+    if (!reduce) { cp.x += Math.sin(t * .35) * .25; cp.y += Math.sin(t * .27) * .15; }
+    camera.position.copy(cp); camera.lookAt(ct);
+  }
+  function apply(P, t, dt) {
+    // 0: תכנון
+    var b0 = sm(.05, .8, P);
+    bpG.setDrawRange(0, Math.round(bpCount * b0 / 2) * 2);
+    bpM.opacity = 1 - .75 * sm(2.2, 3, P); vis(blue, b0);
+    // 1: יתדות וחוטים
+    stakes.forEach(function (s, n) { var d = n / stakes.length; var v = sm(1.05 + d * .45, 1.15 + d * .45, P) * (1 - sm(2.1 + d * .5, 2.3 + d * .5, P)); s.scale.setScalar(Math.max(.001, v)); vis(s, v); });
+    strings.forEach(function (s, n) { var v = sm(1.25 + n * .08, 1.6 + n * .08, P); var off = 1 - sm(2.5, 2.9, P); s.scale.x = Math.max(.001, v); vis(s, v * off); });
+    // 2: עמודים
+    poles.forEach(function (m, n) { var p = POLES[n], d = (p.i * NZ + p.k) / POLES.length; var v = sm(2.05 + d * .55, 2.2 + d * .55, P); m.scale.set(1, Math.max(.001, v), 1); vis(m, v); });
+    // 3: כבלים ועיגונים
+    cables.forEach(function (c, n) { var d = n / cables.length; var v = sm(3.05 + d * .5, 3.2 + d * .5, P); c.scale.x = Math.max(.001, v); vis(c, v); });
+    anchors.forEach(function (a, n) { var d = n / anchors.length; var v = sm(3.3 + d * .4, 3.4 + d * .4, P); a.scale.x = Math.max(.001, v); vis(a, v); anchorBlocks[n].visible = v > .01; });
+    // 4: רשת (נפרסת שורה אחרי שורה) · 8: מתקפלת בחורף
+    var fold = sm(8.15, 8.55, P) * (1 - sm(8.95, 9.25, P));
+    roofs.forEach(function (r, n) { var d = n / roofs.length; var v = sm(4.05 + d * .55, 4.3 + d * .55, P); v = v * (1 - fold * .95); r.scale.x = Math.max(.001, v); vis(r, v); });
+    // 5: דפנות ודלת
+    walls.forEach(function (w, n) { var v = sm(5.05 + n * .1, 5.4 + n * .1, P); w.scale.y = Math.max(.001, v); vis(w, v); });
+    var dv = sm(5.4, 5.65, P); door.scale.setScalar(Math.max(.001, dv)); vis(door, dv);
+    // 6: השקיה, ואז עצים
+    drips.forEach(function (d, n) { var v = sm(6.02 + n * .06, 6.25 + n * .06, P); d.scale.x = Math.max(.001, v); vis(d, v); });
+    TR.forEach(function (tr, n) {
+      var v = sm(6.35 + tr.d * .4, 6.5 + tr.d * .4, P) * tr.s;
+      dm.position.set(tr.x, 0, tr.z); dm.rotation.set(0, n, 0); dm.scale.set(Math.max(.001, v), Math.max(.001, v), Math.max(.001, v)); dm.updateMatrix();
+      trunks.setMatrixAt(n, dm.matrix); crowns.setMatrixAt(n, dm.matrix);
+    });
+    trunks.instanceMatrix.needsUpdate = crowns.instanceMatrix.needsUpdate = true;
+    // 7: ברד
+    var hOn = sm(6.85, 7.15, P) * (1 - sm(7.85, 8.15, P));
+    hailM.opacity = hOn * .95; hail.visible = hOn > .01;
+    // סערה: שמיים אפורים ואור עמום, כדי שהברד ייראה
+    renderer.setClearColor(0x5E6E72, hOn * .85); hemi.intensity = .62 - .2 * hOn; sun.intensity = .72 - .38 * hOn;
+    scene.fog.color.setHex(0xE6EEEA).lerp(STORM, hOn);
+    if (hail.visible && !reduce) {
+      var roofOn = fold < .5;
+      for (var i = 0; i < HN; i++) {
+        var j = i * 3; hv[i] -= 30 * dt; hp[j + 1] += hv[i] * dt;
+        var inside = hp[j] > X0 && hp[j] < X0 + LX && hp[j + 2] > Z0 && hp[j + 2] < Z0 + LZ;
+        if (!hb[i] && roofOn && inside && hp[j + 1] < H + .05 && hp[j + 1] > H - .5) { hp[j + 1] = H + .05; hv[i] = Math.abs(hv[i]) * .22; hb[i] = 1; hp[j] += (Math.random() - .5) * .3; }
+        else if (hb[i] && hp[j + 1] < H + .04) { hp[j + 1] = H + .04; hv[i] = 0; if (Math.random() < dt * 1.5) seedHail(i, true); }
+        else if (hp[j + 1] < .05) { if (Math.random() < dt * 3) seedHail(i, true); else { hp[j + 1] = .05; hv[i] = 0; } }
+      }
+      hg.attributes.position.needsUpdate = true;
+    }
+  }
+
+  // ---------- גלילה ----------
+  var track = document.getElementById("track"), chs = document.getElementById("chapters");
+  var Pt = 0, P = 0;
+  function readScroll() {
+    var r = track.getBoundingClientRect(), vh = window.innerHeight;
+    // כל פרק = גובה מסך אחד; ההתקדמות בתוך הפרק מתחילה כשהכרטיס נכנס
+    Pt = Math.max(0, Math.min(N - .001, (-r.top + vh * .55) / vh));
+  }
+  window.addEventListener("scroll", readScroll, { passive: true });
+
+  function size() {
+    var w = sceneEl.clientWidth, h = sceneEl.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / Math.max(1, h);
+    camera.fov = camera.aspect < .8 ? 52 : 38; camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", size); if (window.ResizeObserver) new ResizeObserver(size).observe(sceneEl);
+  size();
+
+  var last = performance.now(), t0 = last, curStep = -1;
+  function frame(now) {
+    var dt = Math.min(.05, (now - last) / 1000); last = now;
+    P += (Pt - P) * (1 - Math.pow(reduce ? 0 : .88, dt * 60));
+    var t = (now - t0) / 1000;
+    apply(P, t, dt); camAt(P, t);
+    renderer.render(scene, camera);
+    var st = Math.min(N - 1, Math.floor(Pt));
+    if (st !== curStep) { curStep = st; document.querySelectorAll(".rail button").forEach(function (b, i) { if (i === st) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); }); }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- טקסטים ----------
+  function build() {
+    var t = T[L];
+    document.documentElement.lang = L; document.documentElement.dir = t.dir; document.title = t.title;
+    ["eb", "h1", "lede", "go", "badge", "note", "foot2"].forEach(function (k) { document.getElementById(k).textContent = t[k]; });
+    cv.setAttribute("aria-label", t.aria);
+    var lb = document.getElementById("lang"); lb.textContent = t.langL; lb.lang = t.lang;
+    chs.innerHTML = ""; var rail = document.getElementById("rail"); rail.innerHTML = "";
+    C.forEach(function (c, i) {
+      var d = c[L], sec = document.createElement("section"); sec.className = "ch"; sec.id = "c" + i;
+      var html = '<div class="card"><span class="k">' + d[0] + '</span><h2>' + d[1] + '</h2><p>' + d[2] + '</p>';
+      if (d[3]) html += '<div class="cta"><a class="btn p" href="tel:' + t.tel + '">' + t.call + '</a></div>';
+      html += "</div>";
+      sec.innerHTML = html; chs.appendChild(sec);
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", t.step + " " + (i + 1) + ": " + d[1]); b.innerHTML = "<span></span>";
+      b.addEventListener("click", function () { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + i * window.innerHeight + 2, behavior: reduce ? "auto" : "smooth" }); });
+      rail.appendChild(b);
+    });
+    curStep = -1;
+  }
+  document.getElementById("lang").addEventListener("click", function () { L = L === "he" ? "en" : "he"; try { localStorage.setItem("miftah-build-lang", L); } catch (e) {} build(); });
+  build(); readScroll(); P = Pt;
+  requestAnimationFrame(frame);
+})();
+</script>
