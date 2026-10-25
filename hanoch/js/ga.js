@@ -7,6 +7,8 @@
 (function () {
   'use strict';
   var ID = 'G-YKRG71FB41';
+  // תג Google נוסף מחשבון הפרסום (נוצר בגוגל אדס). מקבל את אותם צפיות ופניות, תחת אותה הסכמה
+  var TAG2 = 'G-2D3GJNTP97';
   // Google Ads: מזהה ההמרה (AW-...) ותווית ההמרה של "פנייה" מחשבון Google Ads. ריקים = כבוי.
   // כשממלאים אותם, כל לחיצה על וואטסאפ, טלפון או מייל נרשמת גם כהמרה בקמפיין (רק אחרי אישור בהודעת העוגיות, כמו Analytics)
   var ADS = '';
@@ -27,6 +29,7 @@
   window.hgConsent.onGrant(function () { gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted' }); });
   gtag('js', new Date());
   gtag('config', ID);
+  if (TAG2) gtag('config', TAG2);
   if (ADS) gtag('config', ADS);
 
   var loaded = false;
@@ -61,8 +64,10 @@
       else if (/^mailto:/.test(href)) lead = 'email';
       if (lead) {
         var from = a.classList.contains('brief-wa') ? 'brief_form' : where(a);
-        gtag('event', lead + '_click', { link_location: from });
-        gtag('event', 'generate_lead', { method: lead, link_location: from });
+        // הפנייה נשלחת במפורש לשני התגים, כדי שגם תג הפרסום יקבל אותה (בלי send_to היא מגיעה רק לתג הראשון)
+        var to = TAG2 ? [ID, TAG2] : [ID];
+        gtag('event', lead + '_click', { link_location: from, send_to: to });
+        gtag('event', 'generate_lead', { method: lead, link_location: from, send_to: to });
         if (ADS && ADS_LEAD) gtag('event', 'conversion', { send_to: ADS + '/' + ADS_LEAD });
         return;
       }
