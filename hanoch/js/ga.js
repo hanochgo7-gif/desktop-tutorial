@@ -75,6 +75,9 @@
         if (lead === 'whatsapp' && !GO) {
           e.preventDefault();
           var go = '/go/wa?u=' + encodeURIComponent(a.href);
+          // מזהה הקליק של המודעה (gclid / gbraid / wbraid / _gl) עובר הלאה בכתובת, כדי שגוגל אדס ידע איזו מודעה הביאה את הפנייה גם בלי עוגיות
+          var q = new URLSearchParams(location.search);
+          ['gclid', 'gbraid', 'wbraid', '_gl', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (q.get(k)) go += '&' + k + '=' + encodeURIComponent(q.get(k)); });
           if (a.target === '_blank') window.open(go, '_blank', 'noopener'); else location.href = go;
         }
         if (ADS && ADS_LEAD) gtag('event', 'conversion', { send_to: ADS + '/' + ADS_LEAD });
