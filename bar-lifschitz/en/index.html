@@ -486,6 +486,27 @@
   .hint { color: #e3d8da; font-size: 1rem; margin: -8px 0 0; }
   .sent { color: var(--rose); font-weight: 600; margin: 0; min-height: 1.4em; }
   .send-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- השולחן שלכם: הדמיה חיה של הערב ---------- */
+  .table-viz { margin: 4px 0 0; padding: 18px 16px 12px; border: 1px solid rgba(243,242,236,.16); background: radial-gradient(120% 90% at 50% 40%, rgba(231,163,173,.07), transparent 70%); }
+  .table-viz svg { display: block; width: 100%; height: auto; max-height: 62vh; overflow: visible; }
+  .table-viz figcaption { margin-top: 10px; text-align: center; font-family: var(--display); font-size: 1.25rem; color: #efe7e8; letter-spacing: .02em; }
+  .tv-table { fill: rgba(243,242,236,.05); stroke: rgba(243,242,236,.55); stroke-width: 1.2; }
+  .tv-chair { fill: none; stroke: rgba(243,242,236,.32); stroke-width: 1.2; }
+  .tv-plate { fill: none; stroke: rgba(243,242,236,.9); stroke-width: 1.3; }
+  .tv-plate-in { fill: none; stroke: rgba(243,242,236,.35); stroke-width: 1; }
+  .tv-glass { fill: rgba(243,242,236,.22); stroke: none; }
+  .tv-platter { fill: rgba(231,163,173,.16); stroke: var(--rose); stroke-width: 1.2; }
+  .tv-flower { fill: var(--rose); opacity: .85; }
+  .tv-leaf { fill: #8f9a72; opacity: .7; }
+  .tv-station { fill: rgba(243,242,236,.05); stroke: var(--rose); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .tv-guest { fill: rgba(243,242,236,.75); }
+  .tv-tray { fill: none; stroke: var(--rose); stroke-width: 1.5; }
+  .tv-tray-dot { fill: var(--rose); }
+  .tv-new { transform-box: fill-box; transform-origin: center; animation: tv-in .55s cubic-bezier(.2,.7,.2,1) both; }
+  .tv-new.tv-plate { stroke: var(--rose); }
+  @keyframes tv-in { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tv-new { animation: none; } }
   .error { color: var(--rose); font-weight: 600; font-size: .95rem; min-height: 1.4em; margin: 0; }
 
   .next-card {
@@ -770,6 +791,10 @@
             </div>
           </div>
           <p class="hint" id="g-hint"></p>
+          <figure class="table-viz" aria-hidden="true">
+            <svg id="table-svg" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet"></svg>
+            <figcaption id="table-cap"></figcaption>
+          </figure>
           <fieldset class="q-step" id="serve-field" hidden>
             <legend>Serving style</legend>
             <div class="tiles serve">
@@ -866,6 +891,7 @@
         days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
         hint: { yard: 'בחצר: 6 עד 16 אורחים, מבוגרים בלבד.', home: 'אצלכם: 8 עד 40 סועדים.', event: 'אירועים: כל גודל. ספרו לי בהערות על המקום והאירוע.' },
         noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
+        cap: { one: n => `${n} מקומות סביב שולחן אחד`, many: (n, t) => `${n} מקומות, ${t} שולחנות ארוכים`, lots: n => `${n} אורחים, שולחנות ארוכים`, bites: n => `${n} אורחים בעמידה, מגשים מסתובבים`, buffet: ' · ועמדת בופה' },
         hello: n => `היי בר, כאן ${n}.`,
         below: m => `בחצר השולחן מתחיל מ־${m} אורחים. פחות מזה? כתבו לי בהערות ונבדוק.`,
         serve: t => `סגנון הגשה: ${t}`, kuller: 'תוספת: קוקטיילים של קולר', sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
@@ -876,6 +902,7 @@
         days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         hint: { yard: 'In the yard: 6 to 16 guests, adults only.', home: 'At your place: 8 to 40 guests.', event: 'Events: any size. Tell me about the place and the occasion in the notes.' },
         noName: 'Please add your name, so I know who to reply to.',
+        cap: { one: n => `${n} seats around one table`, many: (n, t) => `${n} seats, ${t} long tables`, lots: n => `${n} guests, long tables`, bites: n => `${n} guests standing, small bites passed around`, buffet: ' · and a buffet station' },
         hello: n => `Hi Bar, this is ${n}.`,
         below: m => `In the yard the table starts at ${m} guests. Fewer? Tell me in the notes and I will see what I can do.`,
         serve: t => `Serving style: ${t}`, kuller: 'Add-on: cocktails by Kuller', sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
@@ -894,6 +921,98 @@
     const t = new Date(); t.setDate(t.getDate() + 1);
     $('date').min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
 
+    // ---------- השולחן שלכם ----------
+    // שולחן ארוך במבט מלמעלה: כל אורח מקבל מקום, צלחת וכוס. הסגנון שנבחר משנה את מה שעל השולחן.
+    const svg = $('table-svg'), cap = $('table-cap');
+    let drawn = 0, drawnKey = '';
+    function drawTable() {
+      const n = +guests.value || 0;
+      const serveEl = form.querySelector('input[name="serve"]:checked');
+      const serve = format === 'yard' ? 'yard' : (serveEl ? serveEl.value : 'unsure');
+      const key = format + serve;
+      const isNew = i => (key === drawnKey && i >= drawn) ? ' tv-new' : '';
+      // בטלפון השולחן עומד לאורך המסך, כדי שיהיה גדול מספיק
+      const tall = svg.parentNode.clientWidth < 520;
+      const per = format === 'yard' ? 16 : 20;            // מקומות לשולחן
+      const out = [];
+      let H, minX = 1e9, maxX = -1e9;
+      const span = (a, b) => { minX = Math.min(minX, a); maxX = Math.max(maxX, b); };
+      if (serve === 'bites') {
+        // ערב בעמידה: האורחים בקבוצות קטנות, והמגשים עוברים ביניהם
+        const shown = Math.min(n, 80), cols = tall ? 8 : 16;
+        const rows = Math.ceil(shown / cols);
+        H = 60 + rows * 46;
+        for (let i = 0; i < shown; i++) {
+          const r = Math.floor(i / cols), c = i % cols;
+          const x = 60 + c * 44 + (r % 2 ? 20 : 0) + ((i * 37) % 11) - 5;
+          const y = 40 + r * 46 + ((i * 53) % 13) - 6;
+          span(x - 10, x + 10);
+          out.push(`<circle class="tv-guest${isNew(i)}" cx="${x}" cy="${y}" r="7"/>`);
+        }
+        const cx = (minX + maxX) / 2, rx = (maxX - minX) / 2 - 10, ry = Math.max(16, rows * 23 - 6), cy = 40 + (rows - 1) * 23;
+        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) [0, 1, 2].forEach(k => {
+          const a = rx - k * 24, b = Math.max(12, ry - k * 8);
+          const path = `M ${cx - a} ${cy} a ${a} ${b} 0 1 ${k % 2} ${2 * a} 0 a ${a} ${b} 0 1 ${k % 2} ${-2 * a} 0`;
+          out.push(`<g><circle class="tv-tray" r="11"/><circle class="tv-tray-dot" r="2.5" cx="-4"/><circle class="tv-tray-dot" r="2.5" cx="4"/><circle class="tv-tray-dot" r="2.5" cy="-4"/><animateMotion dur="${11 + k * 3}s" repeatCount="indefinite" path="${path}"/></g>`);
+        });
+        svg.setAttribute('viewBox', `${minX - 20} 0 ${maxX - minX + 40} ${H}`);
+        svg.innerHTML = out.join('');
+        cap.textContent = T.cap.bites(n);
+        drawn = n; drawnKey = key;
+        return;
+      }
+      const tables = Math.min(3, Math.max(1, Math.ceil(n / per)));
+      const block = 170;
+      H = tables * block + (serve === 'buffet' ? 80 : 0);
+      let left = Math.min(n, tables * per), idx = 0;
+      for (let t = 0; t < tables; t++) {
+        const c = Math.min(per, left); left -= c;
+        const top = Math.ceil(c / 2), bottom = Math.floor(c / 2);
+        const side = Math.max(3, top);
+        const w = side * 66 + 34, x0 = 400 - w / 2, cy = 85 + t * block;
+        span(x0, x0 + w);
+        out.push(`<rect class="tv-table" x="${x0}" y="${cy - 44}" width="${w}" height="88" rx="6"/>`);
+        // מה שבמרכז השולחן: מגשים משותפים, או פרחים בחצר
+        if (serve === 'family') {
+          for (let k = 0; k * 2 < side; k++) out.push(`<ellipse class="tv-platter" cx="${x0 + 50 + k * 132}" cy="${cy}" rx="34" ry="8"/>`);
+        } else if (serve === 'yard') {
+          for (let k = 0; k * 3 < side; k++) {
+            const fx = x0 + 50 + k * 198;
+            out.push(`<circle class="tv-leaf" cx="${fx - 8}" cy="${cy + 2}" r="4"/><circle class="tv-leaf" cx="${fx + 8}" cy="${cy - 2}" r="4"/><circle class="tv-flower" cx="${fx}" cy="${cy - 2}" r="5"/><circle class="tv-flower" cx="${fx + 4}" cy="${cy + 4}" r="3.2"/>`);
+          }
+        }
+        // כל מקום: כיסא, צלחת וכוס
+        const seat = (x, dir) => {
+          const i = idx++;
+          out.push(`<rect class="tv-chair${isNew(i)}" x="${x - 16}" y="${cy + dir * 60 - 7}" width="32" height="14" rx="4"/>`);
+          out.push(`<circle class="tv-plate${isNew(i)}" cx="${x}" cy="${cy + dir * 24}" r="12"/>`);
+          if (serve !== 'buffet') out.push(`<circle class="tv-plate-in${isNew(i)}" cx="${x}" cy="${cy + dir * 24}" r="6.5"/>`);
+          out.push(`<circle class="tv-glass${isNew(i)}" cx="${x + 19}" cy="${cy + dir * 35}" r="3.6"/>`);
+        };
+        for (let k = 0; k < top; k++) seat(x0 + 50 + k * 66, -1);
+        for (let k = 0; k < bottom; k++) seat(x0 + 50 + k * 66, 1);
+      }
+      if (serve === 'buffet') {
+        const y = tables * block + 10, bw = Math.min(460, maxX - minX), bx = 400 - bw / 2;
+        out.push(`<rect class="tv-station" x="${bx}" y="${y}" width="${bw}" height="46" rx="6"/>`);
+        const k = Math.max(3, Math.floor(bw / 76));
+        for (let m = 0; m < k; m++) out.push(`<ellipse class="tv-platter" cx="${bx + bw / k * (m + 0.5)}" cy="${y + 23}" rx="${Math.min(26, bw / k / 2 - 6)}" ry="10"/>`);
+      }
+      const x = minX - 24, wv = maxX - minX + 48;
+      if (tall) {
+        // היפוך על האלכסון: האורך של השולחן הופך לגובה
+        svg.setAttribute('viewBox', `0 ${x} ${H} ${wv}`);
+        svg.innerHTML = `<g transform="matrix(0 1 1 0 0 0)">${out.join('')}</g>`;
+      } else {
+        svg.setAttribute('viewBox', `${x} 0 ${wv} ${H}`);
+        svg.innerHTML = out.join('');
+      }
+      cap.textContent = n > tables * per ? T.cap.lots(n) : (tables > 1 ? T.cap.many(n, tables) : T.cap.one(n)) + (serve === 'buffet' ? T.cap.buffet : '');
+      drawn = n; drawnKey = key;
+    }
+    let vizW = 0;
+    window.addEventListener('resize', () => { const w = svg.parentNode.clientWidth; if ((w < 520) !== (vizW < 520)) drawTable(); vizW = w; });
+
     function clamp() {
       const r = RULES[format];
       let n = parseInt(guests.value, 10);
@@ -903,6 +1022,7 @@
       n = Math.min(r.max, Math.max(r.min, n));
       guests.value = n; guests.min = r.min; guests.max = r.max;
       $('g-minus').disabled = n <= r.min; $('g-plus').disabled = n >= r.max;
+      drawTable();
     }
     function setFormat(f, reset) {
       format = f;
@@ -912,7 +1032,7 @@
       clamp();
     }
     // החלפת סוג הארוחה שומרת את מספר האורחים, בגבולות של הסוג החדש
-    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, false); });
+    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, false); if (e.target.name === 'serve') drawTable(); });
     guests.addEventListener('change', clamp);
     $('g-plus').addEventListener('click', () => { guests.value = +guests.value + 1; clamp(); });
     $('g-minus').addEventListener('click', () => { guests.value = +guests.value - 1; clamp(); });
