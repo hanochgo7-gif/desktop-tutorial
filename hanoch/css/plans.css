@@ -1,0 +1,74 @@
+/* החבילות: נוכחות, עסק וחתימה. כל כרטיס פותח בסמל מונפש, עם שם החבילה בגופן הפיקסלים של הסטודיו.
+   במחשב שלושה כרטיסים זה לצד זה, והמומלצת מורמת. בטלפון גוללים ביניהם הצידה, והמומלצת מופיעה ראשונה. */
+.plans .sec-sub { color: var(--fg-dim); margin-top: .7rem; max-width: 44em; }
+.plans h2, .plan-name { font-family: "HG Handjet", "Rubik", system-ui, sans-serif; font-weight: 750; letter-spacing: 0; }
+.plans h2 { font-size: calc(clamp(2.4rem, 6vw, 4rem) * var(--h-scale)); line-height: .95; }
+
+.plan-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; align-items: stretch; }
+.plan { position: relative; isolation: isolate; display: flex; flex-direction: column; padding: 26px 24px 24px; border-radius: 26px;
+  background: linear-gradient(180deg, var(--ink-2), var(--ink) 85%); border: 1px solid var(--fg-faint); overflow: hidden; }
+.plan::before { content: ""; position: absolute; inset: 0 0 auto; height: 260px; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 70% at 50% 0%, rgba(237, 232, 222, .07), transparent 70%); }
+.plan-star { border: 1.5px solid transparent;
+  background: linear-gradient(180deg, #17120f, var(--ink) 85%) padding-box, linear-gradient(165deg, var(--signal), rgba(255, 79, 26, .18) 40%, var(--fg-faint) 75%) border-box;
+  box-shadow: 0 40px 90px -40px rgba(255, 79, 26, .55); }
+.plan-star::before { background: radial-gradient(65% 75% at 50% 0%, rgba(255, 79, 26, .22), transparent 70%); }
+
+.plan-art { position: relative; width: 120px; aspect-ratio: 1; border-radius: 24px; overflow: hidden; background: #050506; margin-bottom: 22px;
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9), inset 0 0 0 1px var(--fg-faint); }
+.plan-art img, .plan-art video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.plan-art video { opacity: 0; transition: opacity .6s ease; }
+.plan-art.is-playing video { opacity: 1; }
+.plan-badge { position: absolute; top: 28px; inset-inline-end: 24px; padding: .35rem .85rem; border-radius: 99px; background: var(--signal); color: var(--ink); font-size: .85rem; font-weight: 700; }
+
+.plan-scope { color: var(--fg-dim); font-size: .85rem; letter-spacing: .08em; }
+.plan-name { font-size: clamp(3.2rem, 5vw, 4.3rem); line-height: .9; margin: .15rem 0 .7rem; }
+.plan-star .plan-name { color: var(--signal); }
+.plan-who { color: var(--fg); font-weight: 500; line-height: 1.55; }
+.plan-val { margin-top: 1rem; padding-inline-start: 14px; border-inline-start: 2px solid var(--signal); color: var(--fg-dim); font-size: .97rem; line-height: 1.6; }
+.plan-plus { margin-top: 1.4rem; color: var(--signal); font-size: .9rem; font-weight: 600; }
+.plan-list { list-style: none; margin: .6rem 0 1.6rem; padding: 0; display: grid; }
+.plan-list li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; padding: .55rem 0; border-top: 1px solid var(--fg-faint); color: var(--fg-dim); font-size: .95rem; line-height: 1.5; }
+.plan-list li:first-child { border-top: 0; }
+.plan-list svg { width: 20px; height: 20px; color: var(--fg); margin-top: .1rem; }
+.plan-star .plan-list svg { color: var(--signal); }
+.plan-cta { margin-top: auto; width: 100%; }
+
+/* טלפון: גלילה הצידה בין הכרטיסים */
+@media (max-width: 899px) {
+  .plan-grid { grid-auto-flow: column; grid-auto-columns: min(86%, 380px); overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: calc((100vw - 100%) / -2); padding: 6px calc((100vw - 100%) / 2) 18px; scroll-padding-inline: calc((100vw - 100%) / 2); scrollbar-width: none; }
+  .plan-grid::-webkit-scrollbar { display: none; }
+  .plan { scroll-snap-align: start; }
+  .plan-star { order: -1; }
+}
+@media (min-width: 900px) {
+  .plan-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 18px; }
+  .plan-star { transform: translateY(-18px); }
+  .plan-art { width: 132px; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .plan { transition: transform .5s cubic-bezier(.2, .7, .1, 1), border-color .3s; }
+  .plan:not(.plan-star):hover { transform: translateY(-6px); border-color: var(--fg-line); }
+}
+
+/* טבלת ההשוואה */
+.cmp { margin-top: 28px; border-radius: 20px; border: 1px solid var(--fg-faint); background: var(--ink-2); }
+.cmp summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0 22px; cursor: pointer; font-weight: 600; }
+.cmp summary::-webkit-details-marker { display: none; }
+.cmp summary i { width: 12px; height: 12px; border-inline-start: 2px solid var(--signal); border-bottom: 2px solid var(--signal); transform: rotate(-45deg); transition: transform .3s; }
+.cmp[open] summary i { transform: rotate(135deg); }
+.cmp-wrap { overflow-x: auto; padding: 0 12px 16px; }
+.cmp table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .93rem; }
+.cmp th, .cmp td { padding: .7rem .8rem; text-align: center; border-top: 1px solid var(--fg-faint); }
+.cmp tbody th[scope="row"] { text-align: start; font-weight: 400; color: var(--fg-dim); }
+.cmp thead th { font-family: "HG Handjet", "Rubik", sans-serif; font-weight: 750; font-size: 1.6rem; border-top: 0; }
+.cmp thead .cmp-star, .cmp td:nth-child(3) { background: rgba(255, 79, 26, .07); }
+.cmp thead .cmp-star { color: var(--signal); border-radius: 12px 12px 0 0; }
+.cmp .cg th { text-align: start; color: var(--signal); font-size: .82rem; letter-spacing: .08em; padding-top: 1.2rem; font-weight: 600; }
+.cmp td { color: var(--fg); }
+.cmp .cy, .cmp .cn { display: inline-block; width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; }
+.cmp .cy { background: var(--signal); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+.cmp .cn { width: 12px; height: 2px; border-radius: 2px; background: var(--fg-line); }
+.plans-help { margin-top: 20px; color: var(--fg-dim); }
+.plans-help a { color: var(--fg); font-weight: 600; text-underline-offset: 4px; }

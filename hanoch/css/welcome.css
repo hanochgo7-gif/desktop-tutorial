@@ -1,0 +1,43 @@
+/* פתיחת "ברוכים הבאים" מהעיצוב הקודם, בתוך דף הבית החדש. נקודות האור מצוירות ב-js/welcome.js.
+   הגופן של הכותרת (HG Handjet) מוגדר ב-css/systems.css. */
+.hw {
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  --gutter: clamp(16px, 4vw, 56px);
+  width: 100% !important; position: relative; min-height: calc(100svh - 64px); display: grid; grid-template-rows: 1fr auto;
+  padding: clamp(36px, 7vh, 80px) var(--gutter) 0; text-align: center; overflow: hidden; isolation: isolate;
+  background: radial-gradient(70% 55% at 50% 108%, rgba(255, 79, 26, .16), transparent 70%), radial-gradient(50% 40% at 50% 38%, rgba(237, 232, 222, .05), transparent 70%), #000;
+}
+.hw .display { font-family: "HG Handjet", "Rubik", system-ui, sans-serif; font-weight: 750; letter-spacing: 0; }
+.hw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.hw-copy { position: relative; z-index: 1; align-self: center; width: 100%; max-width: 1280px; margin: 0 auto; padding-bottom: 2vh; }
+.hw-kicker { font-size: .8125rem; color: var(--fg-dim); letter-spacing: .14em; margin-bottom: clamp(1rem, 3vh, 2rem); }
+.hw-title { font-size: clamp(3.4rem, 12.2vw, 13.5rem); line-height: .86; color: var(--fg); }
+.hw-line { display: block; }
+.hw-title b { font-weight: inherit; color: var(--signal); }
+.hw-sub { max-width: 46ch; margin: clamp(1.2rem, 3.4vh, 2.2rem) auto 0; font-size: 1.15rem; line-height: 1.65; color: var(--fg-dim); }
+.hw-sub strong { display: block; color: var(--fg); font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 700; margin-bottom: .35rem; }
+.hw .cta-row { margin-top: 1.8rem; display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; }
+.hw .micro { margin-top: 1rem; }
+.hw .clients { margin-top: .8rem; }
+.hw-hint { position: relative; z-index: 1; margin: 0 0 18px; font-size: .8125rem; color: var(--fg-dim); letter-spacing: .08em; }
+.hw-hint-touch { display: none; }
+@media (hover: none), (pointer: coarse) { .hw-hint-fine { display: none; } .hw-hint-touch { display: inline; } }
+.hw-sub, .hw .cta-row, .hw-hint { opacity: calc(1 - var(--hw-p, 0) * 1.8); }
+
+/* הכותרת מתגלה כשהנקודות מסיימות להתאסף. הכפתורים מופיעים מוקדם יותר, כדי שלא יחכו לאנימציה */
+.motion .hw:not(.hw-static) .hw-line, .motion .hw:not(.hw-static) .hw-title b { color: transparent; }
+.motion .hw:not(.hw-static):not(.hw-live) .hw-line { animation: hw-show .7s ease 3s forwards; }
+.motion .hw:not(.hw-static):not(.hw-live) .hw-title b { animation: hw-show-b .7s ease 3s forwards; }
+.motion .hw:not(.hw-static) .hw-reveal { opacity: 0; transform: translateY(16px); }
+.motion .hw:not(.hw-static):not(.hw-in) .hw-reveal { animation: hw-up .8s var(--ease) 1.6s forwards; }
+.motion .hw.hw-in .hw-reveal { opacity: calc(1 - var(--hw-p, 0) * 1.8); transform: none; transition: opacity .9s ease calc(var(--i, 0) * 110ms), transform 1s var(--ease) calc(var(--i, 0) * 110ms); }
+.motion .hw.hw-in .hw-kicker { opacity: 1; }
+@keyframes hw-show { to { color: var(--fg); } }
+@keyframes hw-show-b { to { color: var(--signal); } }
+@keyframes hw-up { to { opacity: 1; transform: none; } }
+@media (max-width: 700px) {
+  .hw-title { font-size: clamp(3.2rem, 17.5vw, 5.6rem); line-height: .9; }
+  .hw-sub { font-size: 1rem; }
+  .hw .cta-row { flex-direction: column; align-items: stretch; max-width: 360px; margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .hw-reveal, .hw-line, .hw-title b { animation: none !important; transition: none !important; } }

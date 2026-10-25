@@ -21,6 +21,22 @@
     vids.forEach(function (v) { io.observe(v); });
   }
 
+  // הסמלים של החבילות: הסרטון נטען ומתנגן רק כשהכרטיס על המסך, ומחליף את התמונה בהדרגה
+  var arts = [].slice.call(document.querySelectorAll('.plan-art'));
+  if (!reduce && 'IntersectionObserver' in window) {
+    var aio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var box = e.target, v = box.querySelector('video');
+        if (!v) return;
+        if (e.isIntersecting) {
+          if (v.dataset.src && !v.src) { v.src = v.dataset.src; v.addEventListener('playing', function () { box.classList.add('is-playing'); }, { once: true }); }
+          var p = v.play(); if (p && p.catch) p.catch(function () {});
+        } else v.pause();
+      });
+    }, { threshold: .35 });
+    arts.forEach(function (a) { aio.observe(a); });
+  }
+
   // קישור וואטסאפ אחד בעמוד שדרכו נשלחות ההודעות מהטפסים
   var link = document.createElement('a');
   link.className = 'brief-wa'; link.target = '_blank'; link.rel = 'noopener'; link.hidden = true;

@@ -220,7 +220,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .a11y__reset { color: var(--ink); background: none; border: 0; text-decoration: underline; font-family: inherit; cursor: pointer; }
 
 /* קישור וואטסאפ בכל כרטיס עבודה: "רוצים משהו כזה?" */
-.card .links .card-wa { flex-basis: 100%; white-space: nowrap; display: inline-flex; align-items: center; gap: .4rem; color: var(--wa); font-weight: 600; text-decoration: none; min-height: 44px; }
+.card .links .card-wa { flex-basis: 100%; display: inline-flex; align-items: center; gap: .4rem; color: var(--wa); font-weight: 600; text-decoration: none; min-height: 44px; }
 .card .links .card-wa svg { width: 18px; height: 18px; fill: currentColor; }
 /* בטלפון הסרגל התחתון כבר נותן וואטסאפ, אז הכפתור בראש העמוד מוסתר כדי שלא יהיו שלושה כפתורים ירוקים במסך הראשון */
 @media (max-width: 899px) { .top-wa { display: none; } }
@@ -235,3 +235,5 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .globe-txt .globe-go { color: var(--signal); font-weight: 600; margin-top: .3rem; }
 @media (min-width: 900px) { .globe { grid-template-columns: 420px 1fr; gap: 48px; padding: 28px 40px; } }
 @media (prefers-reduced-motion: reduce) { .globe img { transition: none; } }
+/* מסכים צרים מאוד (320px): הסרגל התחתון נכנס בלי לגלוש הצידה */
+@media (max-width: 360px) { .dock { gap: 6px; padding-inline-start: 8px; padding-inline-end: 58px; } .dock .btn { min-width: 0; padding-inline: .75rem; font-size: .92rem; } .dock .btn-wa { flex: 1 1 auto; } }

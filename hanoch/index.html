@@ -28,6 +28,8 @@
 <link rel="stylesheet" href="/css/fonts.css">
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/systems.css">
+<link rel="stylesheet" href="/css/welcome.css">
+<link rel="stylesheet" href="/css/plans.css">
 <script>(function(d){d.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("motion")})(document.documentElement)</script>
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "ProfessionalService", "@id": "https://hgpro.io/#business", "url": "https://hgpro.io/", "name": "HG Studio", "alternateName": ["HGPRO", "חנוך גוטובסקי"], "description": "בניית אתרים, חנויות ודפי נחיתה לעסקים בישראל, בעיצוב אישי. מחיר סגור בהצעה כתובה, והאתר, הדומיין והקוד שייכים ללקוח.", "image": "https://hgpro.io/work/og-home.jpg", "logo": "https://hgpro.io/images/icon-512.png", "inLanguage": "he", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "areaServed": {"@type": "Country", "name": "Israel"}, "founder": {"@type": "Person", "@id": "https://hgpro.io/#hanoch", "name": "חנוך גוטובסקי", "alternateName": "Hanoch Gotovski", "jobTitle": "מעצב ומפתח אתרים"}, "knowsAbout": ["בניית אתרים", "עיצוב אתרים", "דפי נחיתה", "חנויות אינטרנטיות", "קידום אתרים", "מעבר מוויקס", "פרסומות AI", "נציג AI"]}, {"@context": "https://schema.org", "@type": "WebSite", "@id": "https://hgpro.io/#website", "url": "https://hgpro.io/", "name": "HG Studio", "inLanguage": ["he-IL", "en"], "publisher": {"@id": "https://hgpro.io/#business"}}]</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "he", "mainEntity": [{"@type": "Question", "name": "מי בונה את האתר בפועל?", "acceptedAnswer": {"@type": "Answer", "text": "אני, חנוך גוטובסקי. HG Studio הוא סטודיו של אדם אחד: אני מעצב, כותב את הקוד ומפיק את הסרטונים בעצמי, ואתם מדברים ישירות איתי מהשיחה הראשונה ועד אחרי שהאתר עולה."}}, {"@type": "Question", "name": "כמה זה עולה?", "acceptedAnswer": {"@type": "Answer", "text": "כל עסק צריך משהו אחר, ולכן אין מחירון. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור, ומה שכתוב בהצעה זה מה שמשלמים. בלי תשלום לפי שעות ובלי תוספות מפתיעות."}}, {"@type": "Question", "name": "של מי האתר בסוף?", "acceptedAnswer": {"@type": "Answer", "text": "שלכם. האתר, הקוד, הדומיין והתוכן שייכים לכם, ואפשר לעבור לכל מי שתרצו בלי להתחיל מאפס."}}, {"@type": "Question", "name": "יש לי אתר בוויקס או בוורדפרס. אאבד את המקום בגוגל?", "acceptedAnswer": {"@type": "Answer", "text": "לא אמורים. מעבירים את התוכן ומפנים כל כתובת ישנה שגוגל מכיר לעמוד המתאים באתר החדש."}}, {"@type": "Question", "name": "מה קורה אחרי שאני שולח הודעה?", "acceptedAnswer": {"@type": "Answer", "text": "ההודעה מגיעה ישר אליי, ואני עונה בעצמי, לא בוט ולא מוקד. קובעים שיחת היכרות קצרה, ואחריה מקבלים הצעה כתובה עם מחיר סגור. בלי התחייבות."}}, {"@type": "Question", "name": "האתר יהיה נגיש ויעבוד טוב בטלפון?", "acceptedAnswer": {"@type": "Answer", "text": "כן. כל אתר נבנה קודם לטלפון, עם התאמות נגישות ותפריט נגישות."}}]}</script>
@@ -64,22 +66,22 @@
 
 <main id="main">
 
-  <section class="hero" id="hero">
-    <div class="hero-txt">
-      <p class="kicker">חנוך גוטובסקי · HG Studio</p>
-      <h1>אתר שגורם ללקוחות <em>לפנות אליכם</em></h1>
-      <p class="lead">אתרים, חנויות ודפי נחיתה לעסקים בישראל. מדברים ישירות איתי, המחיר סגור בהצעה כתובה, והאתר שייך לכם.</p>
-      <div class="cta-row">
+  <!-- הפתיחה מהעיצוב הקודם: "ברוכים הבאים ל-HG Studio" מאלפי נקודות אור שנאספות לאותיות ונרתעות מהעכבר (js/welcome.js).
+       הכותרת עצמה נשארת טקסט רגיל, ומי שביקש פחות תנועה רואה אותה בלי האנימציה -->
+  <section class="hw" id="hero" aria-labelledby="hero-title">
+    <canvas class="hw-canvas" aria-hidden="true"></canvas>
+    <div class="hw-copy">
+      <p class="hw-kicker hw-reveal" style="--i:0">HG Studio · חנוך גוטובסקי</p>
+      <h1 class="hw-title display" id="hero-title"><span class="hw-line">ברוכים הבאים</span> <span class="hw-line">ל-<b>HG</b> Studio</span><span class="sr-only">: בניית אתרים לעסקים</span></h1>
+      <p class="hw-sub hw-reveal" style="--i:1"><strong>אתר שגורם ללקוחות לפנות אליכם.</strong> אתרים, חנויות ודפי נחיתה לעסקים בישראל. מדברים ישירות איתי, המחיר סגור בהצעה כתובה, והאתר שייך לכם.</p>
+      <div class="cta-row hw-reveal" style="--i:2">
         <a class="btn btn-wa btn-lg" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8.%20%D7%99%D7%A9%20%D7%9C%D7%99%20%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%20____%20%D7%95%D7%90%D7%A0%D7%99%20%D7%9E%D7%97%D7%A4%D7%A9%2F%D7%AA%20____." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 32 32"><use href="#i-wa"/></svg><span>ספרו לי על העסק בוואטסאפ</span></a>
         <a class="btn btn-ghost btn-lg" href="#work">לראות עבודות</a>
       </div>
-      <p class="micro">עונה בעצמי · בלי התחייבות · <a href="tel:+972545522053" dir="ltr">054-5522053</a></p>
-      <p class="clients"><span>אתרים שבניתי:</span> <a href="#w-chef">בר ליפשיץ</a> · <a href="#w-ams">AMS</a> · <a href="#w-allenbis">אלנביס</a> · <a href="#w-gotovski">ש. גוטובסקי</a> · <a href="#w-clinic">רותם גוטובסקי</a></p>
+      <p class="micro hw-reveal" style="--i:3">עונה בעצמי · בלי התחייבות · <a href="tel:+972545522053" dir="ltr">054-5522053</a></p>
+      <p class="clients hw-reveal" style="--i:3"><span>אתרים שבניתי:</span> <a href="#w-chef">בר ליפשיץ</a> · <a href="#w-ams">AMS</a> · <a href="#w-allenbis">אלנביס</a> · <a href="#w-gotovski">ש. גוטובסקי</a> · <a href="#w-clinic">רותם גוטובסקי</a></p>
     </div>
-    <div class="hero-phone" aria-hidden="true">
-      <div class="phone"><video src="/work/night/screen-chef.mp4" poster="/work/night/screen-chef.webp" muted loop playsinline autoplay preload="metadata"></video></div>
-      <p class="tag"><i></i>מסך אמיתי · האתר של בר ליפשיץ</p>
-    </div>
+    <p class="hw-hint hw-reveal" style="--i:4" aria-hidden="true"><span class="hw-hint-fine">הזיזו את העכבר על הכותרת</span><span class="hw-hint-touch">געו בכותרת</span></p>
   </section>
 
   <section class="promises" aria-label="מה מקבלים">
@@ -317,9 +319,58 @@
     </ol>
   </section>
 
-  <section class="price" id="price" aria-labelledby="price-h">
-    <h2 id="price-h">כמה זה עולה?</h2>
-    <p>אין מחירון, כי כל עסק צריך משהו אחר. המחיר תלוי בעיקר במספר העמודים, בצורך בחנות או במערכת מיוחדת, ובמי כותב את הטקסטים. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר סגור. בלי תשלום לפי שעות, ובלי תוספות שמגלים בסוף.</p>
+  <section class="plans" id="pricing" aria-labelledby="plans-h">
+    <div class="sec-head">
+      <p class="kicker">חבילות</p>
+      <h2 id="plans-h">שלוש דרכים להתחיל</h2>
+      <p class="sec-sub">כל חבילה היא נקודת התחלה. בשיחה מתאימים אותה בדיוק לעסק, והמחיר נסגר בהצעה כתובה, בלי תשלום לפי שעות ובלי תוספות בסוף.</p>
+    </div>
+    <ol class="plan-grid" role="list" aria-label="החבילות">
+      <li class="plan">
+        <div class="plan-art" aria-hidden="true"><img src="/work/tiers/t1.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="/work/tiers/t1.mp4"></video></div>
+        
+        <p class="plan-scope">דף אחד</p>
+        <h3 class="plan-name">נוכחות</h3>
+        <p class="plan-who">לעצמאים, להשקה של מוצר או לקמפיין. דף אחד שעושה את כל העבודה.</p>
+        <p class="plan-val">כרטיס ביקור שעובד בשבילכם גם בלילה: מי שנכנס מבין תוך שניות מה אתם עושים, ולוחץ על וואטסאפ.</p>
+        <p class="plan-plus">מה כלול:</p>
+        <ul class="plan-list"><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>דף נחיתה בעיצוב אישי, עד שישה חלקים</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>התאמה מלאה לטלפון וטעינה מהירה</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>תנועה ואנימציות גלילה עדינות</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>וואטסאפ, חיוג וטופס פנייה שמגיע אליכם למייל</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>כותרות ותיאורים לגוגל, וחיבור ל-Search Console</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>תמונת שיתוף ממותגת לוואטסאפ ולפייסבוק</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>התאמות נגישות ותפריט נגישות</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>חודש ליווי אחרי העלייה</span></li></ul>
+        <a class="btn btn-ghost plan-cta" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%A0%D7%95%D7%9B%D7%97%D7%95%D7%AA.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20____" target="_blank" rel="noopener"><span>לדבר על חבילת נוכחות</span></a>
+      </li>
+      <li class="plan plan-star">
+        <div class="plan-art" aria-hidden="true"><img src="/work/tiers/t2.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="/work/tiers/t2.mp4"></video></div>
+        <span class="plan-badge">המומלצת</span>
+        <p class="plan-scope">עד 8 עמודים</p>
+        <h3 class="plan-name">עסק</h3>
+        <p class="plan-who">לעסק שרוצה אתר מלא שמביא פניות, ושאפשר לעדכן לבד.</p>
+        <p class="plan-val">האתר עובד בשבילכם כמו איש מכירות: מסביר, משכנע, מופיע בגוגל ומודד כל פנייה, כדי שתדעו מה עובד.</p>
+        <p class="plan-plus">כל מה שבנוכחות, ובנוסף:</p>
+        <ul class="plan-list"><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>עד שמונה עמודים: בית, אודות, שירותים, עבודות, המלצות, קשר</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מערכת ניהול: מעדכנים טקסטים, תמונות ומחירים בעצמכם</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מערכת אחת לבחירה: תורים, טופס הזמנה חכם, קטלוג או בלוג</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>קידום אורגני בכל עמוד, סימון העסק לגוגל ומפת אתר</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>הגדרת פרופיל Google Business</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מדידת פניות: כל לחיצה על וואטסאפ, חיוג וטופס</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>שפת תנועה מותאמת למותג</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>מעבר מהאתר הישן עם הפניות, בלי לאבד את מקומכם בגוגל</span></li></ul>
+        <a class="btn btn-wa plan-cta" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%A2%D7%A1%D7%A7.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20____" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 32 32"><use href="#i-wa"/></svg><span>לדבר על חבילת עסק</span></a>
+      </li>
+      <li class="plan">
+        <div class="plan-art" aria-hidden="true"><img src="/work/tiers/t3.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="/work/tiers/t3.mp4"></video></div>
+        
+        <p class="plan-scope">אתר דגל</p>
+        <h3 class="plan-name">חתימה</h3>
+        <p class="plan-who">למותג שרוצה שיזכרו אותו. אתר דגל עם חוויה שנבנית במיוחד בשבילכם.</p>
+        <p class="plan-val">אתר שנבנה כדי שלקוחות ירצו לשלוח אותו לחברים, ושממצב אתכם כמותג מוביל עוד לפני השיחה הראשונה.</p>
+        <p class="plan-plus">כל מה שבעסק, ובנוסף:</p>
+        <ul class="plan-list"><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>קונספט וכיוון אמנותי ייחודי, משלב הסקיצה ועד התנועה</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>תלת־ממד או הדמיה אינטראקטיבית, כמו ההדמיה של ש. גוטובסקי</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>תמונות וסרטונים ברמת סטודיו, בעזרת בינה מלאכותית</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>חנות אונליין או מערכת מותאמת, כולל סליקה</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>נציג AI לשירות לקוחות, שעונה לפי התוכן שלכם</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>שתי שפות</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>אופטימיזציה מתקדמת למהירות, גם עם כל האפקטים</span></li><li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>שלושה חודשי ליווי אחרי העלייה</span></li></ul>
+        <a class="btn btn-ghost plan-cta" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%91%D7%90%D7%AA%D7%A8%20%D7%90%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%97%D7%AA%D7%99%D7%9E%D7%94.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20____" target="_blank" rel="noopener"><span>לדבר על חבילת חתימה</span></a>
+      </li>
+    </ol>
+    <details class="cmp">
+      <summary><span>להשוואה מלאה בין החבילות</span><i aria-hidden="true"></i></summary>
+      <div class="cmp-wrap" tabindex="0" role="region" aria-label="טבלת השוואה">
+        <table>
+          <caption class="sr-only">השוואה בין החבילות נוכחות, עסק וחתימה</caption>
+          <thead><tr><td></td><th scope="col">נוכחות</th><th scope="col" class="cmp-star">עסק</th><th scope="col">חתימה</th></tr></thead>
+          <tbody><tr class="cg"><th scope="rowgroup" colspan="4">הבסיס</th></tr><tr><th scope="row">היקף</th><td>דף אחד</td><td>עד 8 עמודים</td><td>עד 8 עמודים</td></tr><tr><th scope="row">עיצוב אישי וקוד מאפס, בלי תבנית</th><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">התאמה מלאה לטלפון וטעינה מהירה</th><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">וואטסאפ, חיוג וטופס פנייה</th><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">נגישות ותפריט נגישות</th><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">תמונת שיתוף ממותגת</th><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">ליווי אחרי העלייה</th><td>חודש</td><td>חודש</td><td>3 חודשים</td></tr><tr class="cg"><th scope="rowgroup" colspan="4">צמיחה</th></tr><tr><th scope="row">תנועה ואנימציה</th><td>עדינה</td><td>בשפת המותג</td><td>קונספט מלא</td></tr><tr><th scope="row">מעדכנים תוכן ומחירים לבד</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">מערכת לבחירה: תורים, הזמנות, קטלוג או בלוג</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">קידום אורגני בגוגל ופרופיל Google Business</th><td>בסיסי</td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">מדידת כל פנייה מהאתר</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">מעבר מאתר ישן בלי לאבד את גוגל</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr class="cg"><th scope="rowgroup" colspan="4">חוויה</th></tr><tr><th scope="row">תלת־ממד או הדמיה אינטראקטיבית</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">תמונות וסרטונים ברמת סטודיו</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">חנות אונליין או מערכת מותאמת, כולל סליקה</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">נציג AI לשירות לקוחות</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr><tr><th scope="row">שתי שפות</th><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cn" aria-hidden="true"></i><span class="sr-only">לא כלול</span></td><td><i class="cy" aria-hidden="true"></i><span class="sr-only">כלול</span></td></tr></tbody>
+        </table>
+      </div>
+    </details>
+    <p class="plans-help">לא בטוחים מה מתאים? <a href="#brief">ענו על שלוש שאלות</a>, ואמליץ לכם.</p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-h">
@@ -372,6 +423,7 @@
 
 <script src="/js/home.js" defer></script>
 <script src="/js/systems.js" defer></script>
+<script src="/js/welcome.js" defer></script>
 <script src="/js/a11y.js" defer></script>
 <script src="/js/assistant.js" defer></script>
 </body>
