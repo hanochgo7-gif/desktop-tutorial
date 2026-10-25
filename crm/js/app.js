@@ -31,7 +31,7 @@ function renderShell() {
   render($('#side'), html`
     <a class="brand" href="#/today">${LOGO}<span>HG OS</span></a>
     <nav class="nav" aria-label="ניווט ראשי">${NAV.map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label}</span>${it.count && n ? html`<span class="nav-count" aria-label="${n} משימות להיום">${n}</span>` : ''}</a>`)}</nav>
-    ${store.mode === 'local' ? html`<div class="side-foot"><p class="trial-note">${icon('alert')}מצב ניסיון: הנתונים נשמרים רק בדפדפן הזה</p></div>` : ''}`);
+    ${store.mode === 'local' ? html`<div class="side-foot"><a class="trial-note" href="#/settings">${icon('database')}הנתונים נשמרים בדפדפן הזה. גיבוי בהגדרות</a></div>` : ''}`);
   render($('#bottom-nav'), html`${NAV.slice(0, 5).map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label.split(' ')[0]}</span>${it.count && n ? html`<span class="nav-count">${n}</span>` : ''}</a>`)}`);
 }
 
@@ -111,7 +111,7 @@ function loginScreen(message = '') {
         <div class="auth-links">
           ${mode !== 'in' ? html`<button class="linkbtn" data-mode="in">יש לי חשבון</button>` : html`<button class="linkbtn" data-mode="up">אין לי חשבון</button><button class="linkbtn" data-mode="reset">שכחתי סיסמה</button>`}
         </div>
-        <div class="auth-trial"><button class="btn btn-ghost btn-block" data-trial>${icon('play')}לנסות בלי חשבון (מצב ניסיון, נתונים רק בדפדפן)</button></div>
+        <div class="auth-trial"><button class="btn btn-ghost btn-block" data-trial>${icon('database')}להתחיל בלי חשבון (שמירה בדפדפן הזה)</button></div>
       </div>
     </div>`);
   draw();
@@ -154,9 +154,11 @@ async function main() {
       const seed = await import('./core/local-seed.js');
       seed.installDefaults(store);
       const choice = await new Promise((res) => modal({
-        title: 'מצב ניסיון', size: 'sm', dismissible: false,
-        body: html`<p>במצב ניסיון הכול נשמר רק בדפדפן הזה. לעבודה אמיתית עם לקוחות צריך להתחבר לחשבון.</p><p>לטעון נתוני דוגמה כדי לראות איך הדוחות נראים? (כל רשומה מסומנת "דוגמה")</p>`,
-        actions: [{ label: 'להתחיל ריק', value: 'empty' }, { label: 'לטעון נתוני דוגמה', kind: 'primary', value: 'sample' }],
+        title: 'שמירה בדפדפן', size: 'sm', dismissible: false,
+        body: html`<p>הנתונים יישמרו רק בדפדפן ובמחשב הזה. המערכת שומרת גיבוי יומי בתוך הדפדפן, אבל רק <b>קובץ גיבוי שמורידים</b> מגן מפני ניקוי נתוני הגלישה. תוצג תזכורת להוריד אחד בכל שבוע.</p>
+          <p>כדאי לעבוד ממחשב ודפדפן קבועים, ולא בגלישה בסתר.</p>
+          <p class="muted small">אפשר גם לטעון נתוני דוגמה כדי לראות איך הדוחות נראים. כל רשומת דוגמה מסומנת "(דוגמה)", ואפשר למחוק אותן בהגדרות.</p>`,
+        actions: [{ label: 'נתוני דוגמה', value: 'sample' }, { label: 'להתחיל לעבוד', kind: 'primary', value: 'empty' }],
         onClose: res,
       }));
       if (choice === 'sample') seed.seedSample(store);
@@ -188,6 +190,15 @@ async function main() {
   store.on('change', () => { clearTimeout(t); t = setTimeout(renderShell, 80); });
   addEventListener('hgos:signed-out', () => { if (store.mode === 'remote') { toast('החיבור פג. מתחברים מחדש...', { kind: 'error' }); setTimeout(() => location.reload(), 1500); } });
   addEventListener('beforeunload', (e) => { if (store.outbox.length && store.mode === 'remote') { e.preventDefault(); e.returnValue = ''; } });
+  if (store.mode === 'local') {
+    const bk = await import('./core/backup.js');
+    bk.snapshotDaily(store);
+    let tb;
+    store.on('change', () => { clearTimeout(tb); tb = setTimeout(() => bk.snapshotDaily(store), 5000); });
+    if (bk.backupOverdue(store)) {
+      toast(bk.lastDownloaded() ? 'עבר שבוע מהגיבוי האחרון. כדאי להוריד קובץ גיבוי.' : 'עוד לא הורדת קובץ גיבוי. מומלץ להוריד אחד עכשיו.', { kind: 'error', timeout: 12000, action: { label: 'להורדה', onClick: () => { location.hash = '#/settings'; } } });
+    }
+  }
   if (!location.hash || location.hash === '#/') history.replaceState(null, '', '#/today');
   await router.go();
 }

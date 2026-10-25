@@ -37,16 +37,22 @@ export default async function view(el, ctx) {
           </tbody></table>
         </section>
         <section class="panel">
-          <div class="panel-head"><h2>הנתונים שלי</h2></div>
+          <div class="panel-head"><h2>גיבוי ושחזור</h2></div>
           <div class="panel-body stack">
-            <p class="small">${store.mode === 'remote' ? 'הנתונים נשמרים בשרת (Supabase, פרנקפורט) ומוגנים בהרשאות. מומלץ להוריד גיבוי מלא פעם בשבוע.' : html`<b class="warn-text">מצב ניסיון:</b> הנתונים נשמרים רק בדפדפן הזה. לא לשימוש עם לקוחות אמיתיים.`}</p>
+            ${store.mode === 'remote' ? html`<p class="small">הנתונים נשמרים בשרת (Supabase, פרנקפורט) ומוגנים בהרשאות. מומלץ להוריד גיבוי מלא פעם בשבוע.</p>`
+              : html`<p class="small">הנתונים נשמרים בדפדפן הזה בלבד. גיבוי יומי נשמר אוטומטית בדפדפן, אבל רק <b>קובץ שמורידים</b> מגן מפני ניקוי נתוני הגלישה או החלפת מחשב.</p>
+                <p class="small ${el._overdue ? 'warn-text' : 'muted'}">${el._last ? `קובץ גיבוי אחרון הורד ${fmt.relative(el._last)}.` : 'עוד לא הורד קובץ גיבוי.'}</p>`}
             <div class="row-wrap">
-              <button class="btn" data-act="backup">${icon('download')}גיבוי מלא (JSON)</button>
-              <button class="btn" data-act="csv-deals">${icon('download')}עסקאות לאקסל</button>
-              <button class="btn" data-act="csv-activities">${icon('download')}היסטוריית פעילות לאקסל</button>
+              <button class="btn btn-primary" data-act="backup">${icon('download')}הורדת קובץ גיבוי</button>
+              ${store.mode === 'local' ? html`<button class="btn" data-act="restore-file">${icon('upload')}שחזור מקובץ</button><input type="file" accept=".json,application/json" hidden data-restore-file>` : ''}
+            </div>
+            ${store.mode === 'local' && el._snaps?.length ? html`<div><p class="small muted">גיבויים אוטומטיים בדפדפן:</p><ul class="mini-list">${el._snaps.map((x) => html`<li class="row"><span class="grow small">${fmt.dateTime(x.at)} | ${x.counts.contacts} לידים, ${x.counts.deals} עסקאות</span><button class="btn btn-sm btn-ghost" data-snap="${x.id}">שחזור</button></li>`)}</ul></div>` : ''}
+            <div class="row-wrap">
+              <button class="btn btn-ghost" data-act="csv-deals">${icon('download')}עסקאות לאקסל</button>
+              <button class="btn btn-ghost" data-act="csv-activities">${icon('download')}היסטוריית פעילות לאקסל</button>
             </div>
             <p class="small muted">${fmt.number(store.all('crm_contacts').length)} לידים, ${fmt.number(store.all('crm_deals').length)} עסקאות, ${fmt.number(store.all('crm_activities').length)} פעילויות, ${fmt.number(store.all('crm_tasks').length)} משימות.</p>
-            ${store.mode === 'local' ? html`<button class="btn btn-ghost danger-text" data-act="reset-local">${icon('trash')}מחיקת נתוני הניסיון</button>` : ''}
+            ${store.mode === 'local' && store.all('crm_contacts').some((c) => c.tags?.includes('דוגמה')) ? html`<button class="btn btn-ghost danger-text" data-act="clear-sample">${icon('trash')}מחיקת נתוני הדוגמה בלבד</button>` : ''}
           </div>
         </section>
         <section class="panel">
@@ -54,13 +60,46 @@ export default async function view(el, ctx) {
           <div class="panel-body stack">
             ${store.mode === 'remote' ? html`<p class="small">מחובר כ-<b dir="ltr">${auth.user?.email || ''}</b> | סביבת עבודה: ${store.workspace?.name}</p>
               <div class="row-wrap"><button class="btn" data-act="password">${icon('lock')}שינוי סיסמה</button><button class="btn btn-ghost" data-act="logout">${icon('logout')}יציאה</button></div>`
-              : html`<div class="row-wrap"><button class="btn btn-primary" data-act="leave-local">${icon('logout')}יציאה ממצב ניסיון</button></div>`}
+              : html`<p class="small">אין חשבון. כשתרצו לעבור לשרת, הורידו קובץ גיבוי, והנתונים יועברו ממנו לחשבון.</p>
+                <div class="row-wrap"><button class="btn btn-ghost danger-text" data-act="reset-local">${icon('trash')}מחיקת כל הנתונים מהדפדפן</button></div>`}
           </div>
         </section>
       </div>`);
   };
+  const refreshMeta = async () => {
+    if (store.mode !== 'local') return;
+    const bk = await import('../core/backup.js');
+    el._snaps = await bk.listSnapshots();
+    el._last = bk.lastDownloaded();
+    el._overdue = bk.backupOverdue(store);
+  };
+  await refreshMeta();
   draw();
   ctx.watch(['crm_stages', 'crm_sources'], draw);
+
+  const restore = async (obj, what) => {
+    const bk = await import('../core/backup.js');
+    let n;
+    try { n = bk.validateBackup(obj); } catch (err) { toast(err.message, { kind: 'error', timeout: 8000 }); return; }
+    if (!(await confirmDialog(`לשחזר ${what}? (${n.contacts} לידים, ${n.deals} עסקאות, ${n.tasks} משימות)`, { okLabel: 'שחזור', danger: true, detail: 'הנתונים הנוכחיים יוחלפו. לפני השחזור יורד אוטומטית קובץ גיבוי של המצב הנוכחי.' }))) return;
+    download(`hg-os-before-restore-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`, JSON.stringify(bk.backupPayload(store)), 'application/json');
+    store.replaceAllLocal(obj.rows);
+    toast('השחזור הושלם', { kind: 'success' });
+    location.hash = '#/today';
+  };
+  on(el, 'change', '[data-restore-file]', async (e, input) => {
+    const f = input.files[0];
+    if (!f) return;
+    let obj;
+    try { obj = JSON.parse(await f.text()); } catch { toast('הקובץ לא נקרא. ודאו שזה קובץ גיבוי JSON של HG OS.', { kind: 'error' }); input.value = ''; return; }
+    input.value = '';
+    restore(obj, `מהקובץ ${f.name}`);
+  });
+  on(el, 'click', '[data-snap]', async (e, b) => {
+    const bk = await import('../core/backup.js');
+    const obj = await bk.getSnapshot(b.dataset.snap);
+    if (obj) restore(obj, 'מהגיבוי האוטומטי');
+  });
 
   on(el, 'change', '[data-stage]', async (e, i) => {
     const k = i.dataset.k;
@@ -85,7 +124,30 @@ export default async function view(el, ctx) {
       const key = `s_${Date.now().toString(36)}`;
       try { await store.insert('crm_sources', { name, key, channel: 'other', is_paid: false, position: store.all('crm_sources').length }); toast('המקור נוסף', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
     }
-    if (a === 'backup') download(`hg-os-backup-${day}.json`, JSON.stringify(store.exportAll(), null, 1), 'application/json');
+    if (a === 'backup') {
+      const bk = await import('../core/backup.js');
+      download(`hg-os-backup-${day}.json`, JSON.stringify(bk.backupPayload(store)), 'application/json');
+      bk.markDownloaded();
+      await refreshMeta(); draw();
+      toast('קובץ הגיבוי ירד. שמרו אותו גם מחוץ למחשב (Drive, מייל לעצמכם).', { kind: 'success', timeout: 8000 });
+    }
+    if (a === 'restore-file') el.querySelector('[data-restore-file]').click();
+    if (a === 'clear-sample') {
+      const sample = store.filter('crm_contacts', (c) => c.tags?.includes('דוגמה'));
+      if (!(await confirmDialog(`למחוק ${sample.length} לידים לדוגמה, יחד עם העסקאות, המשימות והפעילות שלהם?`, { danger: true, okLabel: 'מחיקה' }))) return;
+      const ids = new Set(sample.map((c) => c.id));
+      const dealIds = new Set(store.filter('crm_deals', (d) => ids.has(d.contact_id)).map((d) => d.id));
+      const rows = structuredClone(store.rows);
+      rows.crm_contacts = rows.crm_contacts.filter((c) => !ids.has(c.id));
+      rows.crm_deals = rows.crm_deals.filter((d) => !dealIds.has(d.id));
+      rows.crm_tasks = rows.crm_tasks.filter((t) => !ids.has(t.contact_id) && !dealIds.has(t.deal_id));
+      rows.crm_activities = rows.crm_activities.filter((x) => !ids.has(x.contact_id) && !dealIds.has(x.deal_id));
+      rows.crm_deal_stage_history = rows.crm_deal_stage_history.filter((h) => !dealIds.has(h.deal_id));
+      rows.crm_ad_spend = [];
+      store.replaceAllLocal(rows);
+      toast('נתוני הדוגמה נמחקו', { kind: 'success' });
+      draw();
+    }
     if (a === 'csv-deals') {
       download(`deals-${day}.csv`, toCSV([
         ['עסקה', 'ליד', 'שלב', 'סטטוס', 'סכום צפוי', 'סכום סופי', 'נגבה', 'תאריך גבייה', 'עלות ישירה', 'מקור', 'סוג שירות', 'נפתחה', 'נסגרה', 'סיבת הפסד'],
@@ -105,10 +167,9 @@ export default async function view(el, ctx) {
       try { await auth.updatePassword(p); toast('הסיסמה שונתה', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
     }
     if (a === 'logout') { await auth.signOut(); location.hash = ''; location.reload(); }
-    if (a === 'leave-local') { localStorage.removeItem('hgos-mode'); location.hash = ''; location.reload(); }
     if (a === 'reset-local') {
-      if (!(await confirmDialog('למחוק את כל נתוני הניסיון בדפדפן הזה?', { danger: true, okLabel: 'מחיקה' }))) return;
-      store.resetLocal(); location.reload();
+      if (!(await confirmDialog('למחוק את כל הנתונים מהדפדפן הזה?', { danger: true, okLabel: 'מחיקה', detail: 'אי אפשר לבטל. הורידו קובץ גיבוי לפני כן.' }))) return;
+      store.resetLocal(); localStorage.removeItem('hgos-mode'); location.hash = ''; location.reload();
     }
   });
 }

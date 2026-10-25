@@ -90,7 +90,7 @@ export default async function view(el, ctx) {
         <button class="kpi-btn" data-drill="quotes"><span class="kpi-label">הצעות שממתינות לתשובה</span><span class="kpi-value">${fmt.number(quotesWaiting.length)}</span><span class="kpi-sub">${fmt.money(quotesWaiting.reduce((a, d) => a + Number(d.amount_expected || 0), 0))}</span></button>
         <button class="kpi-btn" data-drill="won"><span class="kpi-label">נסגר החודש</span><span class="kpi-value money">${fmt.money(s.revenue)}</span><span class="kpi-sub">${fmt.number(s.won.length)} עסקאות, לפני מע"מ</span></button>
         <button class="kpi-btn" data-drill="collected"><span class="kpi-label">נגבה בפועל החודש</span><span class="kpi-value">${fmt.money(s.collected)}</span><span class="kpi-sub">לפי הזנה ידנית</span></button>
-        <button class="kpi-btn" data-drill="close"><span class="kpi-label">שיעור הפיכה ללקוח</span><span class="kpi-value">${rep.total.closeRate.value == null ? '—' : fmt.percent(rep.total.closeRate.value * 100)}</span><span class="kpi-sub">${rep.total.closeRate.value == null ? rep.total.closeRate.reason : `${rep.total.customers} מתוך ${rep.total.leads} לידים מ-90 יום, ${rep.total.openCohort} עוד פתוחים`}</span></button>
+        <button class="kpi-btn" data-drill="close"><span class="kpi-label">שיעור הפיכה ללקוח</span><span class="kpi-value">${rep.total.closeRate.value == null ? '—' : fmt.percent(rep.total.closeRate.value * 100)}</span><span class="kpi-sub">${rep.total.closeRate.value == null ? rep.total.closeRate.reason : `${rep.total.customers} מתוך ${rep.total.leads} לידים מ-90 יום${rep.total.leads < 10 ? ' (מעט נתונים, מוקדם להסיק)' : ''}, ${rep.total.openCohort} עוד פתוחים`}</span></button>
       </section>
 
       <div class="today-grid">

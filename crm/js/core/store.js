@@ -63,13 +63,15 @@ class Store {
   initLocal() {
     this.mode = 'local';
     this.userId = 'local-user';
-    this.workspace = { id: 'local', name: 'מצב ניסיון', settings: {} };
+    this.workspace = { id: 'local', name: 'שמירה בדפדפן', settings: {} };
     this.members = [{ user_id: 'local-user', role: 'owner', display_name: 'אני' }];
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(LOCAL_KEY) || 'null'); } catch { saved = null; }
     if (saved?.rows) for (const t of TABLES) for (const r of saved.rows[t] || []) this._put(t, r);
     this.cursor = saved?.cursor || 0;
     this.setStatus('saved');
+    // ask the browser not to evict this site's storage under pressure
+    navigator.storage?.persist?.().then((ok) => { this.persisted = ok; }).catch(() => {});
     return !saved;
   }
   _persistLocal() {
@@ -79,6 +81,14 @@ class Store {
     } catch (e) { this.setStatus('error'); this.emit('error', e); }
   }
   resetLocal() { localStorage.removeItem(LOCAL_KEY); }
+  // Local mode: replace everything with a validated backup.
+  replaceAllLocal(rows) {
+    for (const t of TABLES) { this.rows[t] = []; this.idx[t] = new Map(); }
+    this.cursor = 0;
+    for (const t of TABLES) for (const r of rows[t] || []) this._put(t, r);
+    this._persistLocal();
+    this.emit('change', { tables: TABLES, source: 'restore' });
+  }
 
   // Pull rows changed on the server since our cursor (other device, server-side triggers).
   async refresh() {

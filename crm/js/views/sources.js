@@ -46,7 +46,7 @@ export default async function view(el, ctx) {
       ${insights.length ? html`<section class="panel insights"><div class="panel-head"><h2>${icon('sparkles')}מה הנתונים אומרים</h2><span class="muted small">חישוב, לא ניחוש</span></div><ul>${insights.map((i) => html`<li>${i}</li>`)}</ul></section>` : ''}
       <div class="table-wrap"><table class="table table-sources">
         <thead><tr><th>מקור</th><th>הוצאה</th><th>לידים</th><th>מתאימים</th><th>לקוחות</th><th>שיעור הפיכה</th><th>הכנסה שנסגרה</th><th>נגבה</th><th>עלות לליד</th><th>עלות ללקוח (CAC)</th><th>ROAS</th><th>רווח אחרי פרסום</th><th>ROI</th></tr></thead>
-        <tbody>${rep.rows.map((r) => html`<tr class="${r.sourceId === UNKNOWN ? 'row-unknown' : ''}">
+        <tbody>${rep.rows.filter(hasActivity).map((r) => html`<tr class="${r.sourceId === UNKNOWN ? 'row-unknown' : ''}">
           <th scope="row" data-label="מקור">${r.name}${r.isPaid ? html` <span class="badge badge-amber">ממומן</span>` : ''}</th>
           <td data-label="הוצאה" class="num">${r.spend ? fmt.money(r.spend) : html`<span class="nil">—</span>`}</td>
           <td data-label="לידים" class="num"><button class="linkbtn" data-src="${r.sourceId}" data-k="leads">${r.leads.length}</button></td>
@@ -63,6 +63,7 @@ export default async function view(el, ctx) {
         </tr>`)}</tbody>
         <tfoot><tr><th>סה"כ</th><td class="num">${fmt.money(t.spend)}</td><td class="num">${t.leads}</td><td class="num">${t.qualified}</td><td class="num">${t.customers}</td><td class="num">${na(pct(t.closeRate))}</td><td class="num">${fmt.money(t.revenue)}</td><td class="num">${fmt.money(t.collected)}</td><td></td><td class="num" title="הוצאות פרסום חלקי לקוחות חדשים ממקורות ממומנים">${na(money(t.cac), t.cac.reason)}</td><td class="num" title="הכנסה ממקורות ממומנים חלקי הוצאות הפרסום">${na(x(t.roas))}</td><td class="num">${fmt.money(t.profitAfterAds)}</td><td class="num">${na(t.roi.value == null ? null : fmt.percent(t.roi.value))}</td></tr></tfoot>
       </table></div>
+      ${rep.rows.some((r) => !hasActivity(r)) ? html`<p class="muted small idle-sources">בלי פעילות בתקופה: ${rep.rows.filter((r) => !hasActivity(r)).map((r) => r.name).join(', ')}</p>` : ''}
       <section class="panel quality">
         <div class="panel-head"><h2>כמה אפשר לסמוך על הדוח</h2></div>
         <ul class="quality-list">
@@ -124,6 +125,8 @@ export default async function view(el, ctx) {
     }
   });
 }
+
+const hasActivity = (r) => r.leads.length || r.spend || r.wonDeals.length || r.collected;
 
 // Plain-language findings computed from the report (deterministic, with the numbers behind them).
 function buildInsights(rep) {

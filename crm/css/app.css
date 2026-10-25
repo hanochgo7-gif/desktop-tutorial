@@ -814,3 +814,4 @@ details.defs[open] > summary .ic { transform: rotate(180deg); }
 .table-sources th, .table-sources td { padding: 0 8px; }
 .table-sources thead th { white-space: normal; line-height: 1.25; height: 46px; vertical-align: middle; }
 .tl { list-style: none; margin: 0; padding: 0; }
+.idle-sources { margin: 8px 2px 0; }

@@ -76,10 +76,13 @@ export const router = {
       refresh: () => this.go(),
       navigate,
     };
-    root.innerHTML = '';
-    root.scrollTop = 0;
+    // a fresh container per route: listeners a view attaches die with it instead of piling up on #view
+    const el = document.createElement('div');
+    el.className = 'view-inner';
+    root.replaceChildren(el);
+    scrollTo(0, 0);
     try {
-      const cleanup = await mod.default(root, ctx);
+      const cleanup = await mod.default(el, ctx);
       if (this.current === state) state.cleanup = typeof cleanup === 'function' ? cleanup : null;
     } catch (e) {
       console.error(e);
