@@ -515,6 +515,8 @@
     if (ev.n === 'show_links') {
       var w = document.createElement('div'); w.className = 'ht-chips';
       i.links.forEach(function (l) {
+        // רק קישורי http(s). השרת כבר מסנן לפי רשימת כתובות מותרת, וזו שכבת הגנה נוספת מפני javascript: וכדומה
+        if (!l || typeof l.url !== 'string' || !/^https?:\/\//i.test(l.url)) return;
         var a = document.createElement('a'); a.className = 'ht-chip'; a.href = l.url; a.textContent = l.label;
         if (!/^https:\/\/(www\.)?hgpro\.io/.test(l.url)) { a.target = '_blank'; a.rel = 'noopener'; }
         a.addEventListener('click', function () { track('chat_link', { url: l.url.replace(/^https:\/\/(www\.)?/, '').slice(0, 80) }); });

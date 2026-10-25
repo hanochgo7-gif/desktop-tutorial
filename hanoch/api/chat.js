@@ -185,7 +185,9 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Methods', 'POST'); res.setHeader('Access-Control-Allow-Headers', 'content-type'); return res.status(204).end(); }
   if (req.method !== 'POST') return res.status(405).json({ error: 'method' });
-  if (origin && !ALLOWED.test(origin)) return res.status(403).json({ error: 'origin' });
+  // דורשים כותרת Origin מותרת. דפדפנים שולחים Origin בכל POST, גם מאותו מקור, ולכן זה לא פוגע באתר.
+  // בלי זה, בקשה בלי Origin כלל (סקריפט, curl, שרת) הייתה עוברת ומשתמשת במפתח כפרוקסי חינמי ל-Claude.
+  if (!ALLOWED.test(origin)) return res.status(403).json({ error: 'origin' });
   if (!process.env.ANTHROPIC_API_KEY) return res.status(503).json({ error: 'not_configured' });
 
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
