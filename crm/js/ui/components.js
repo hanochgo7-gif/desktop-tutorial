@@ -18,16 +18,33 @@ function trapFocus(el, e) {
 
 // modal({ title, body, size: 'sm'|'md'|'lg'|'xl', actions: [{label, kind, act, onClick, close}], onClose, dirtyCheck })
 // body may be Html or a function(el) that renders into the body element. Returns { el, body, close }.
+// Open dialogs, top last. Each pushes a history entry so the phone's Back button closes the dialog
+// instead of leaving the screen. Typed text is never lost silently: dismissing a changed form asks first.
+const stack = [];
+addEventListener('popstate', () => {
+  const top = stack[stack.length - 1];
+  if (top && history.state?.hgModal !== top.id) top.requestClose('back');
+});
+export function focusPage() {
+  const h = document.querySelector('#view h1');
+  if (!h) return;
+  h.setAttribute('tabindex', '-1');
+  h.focus({ preventScroll: true });
+}
+export function closeAllModals() {
+  for (const m of [...stack].reverse()) m.close(undefined, { nav: true });
+}
+
 export function modal({ title, body, size = 'md', actions = [], onClose, dismissible = true, className = '', kind = 'modal' } = {}) {
   const prevFocus = document.activeElement;
   const wrap = document.createElement('div');
   wrap.className = `ov ov-${kind} ${className}`;
-  const titleId = `dlg-${Math.random().toString(36).slice(2, 8)}`;
+  const id = `dlg-${Math.random().toString(36).slice(2, 8)}`;
   render(wrap, html`
     <div class="ov-backdrop" data-close></div>
-    <div class="ov-panel ov-${size}" role="dialog" aria-modal="true" aria-labelledby="${titleId}">
+    <div class="ov-panel ov-${size}" role="dialog" aria-modal="true" aria-labelledby="${id}">
       <header class="ov-head">
-        <h2 id="${titleId}">${title}</h2>
+        <h2 id="${id}">${title}</h2>
         <button class="btn-icon" data-close aria-label="סגירה">${icon('x')}</button>
       </header>
       <div class="ov-body"></div>
@@ -37,28 +54,58 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
   if (typeof body === 'function') body(bodyEl);
   else if (body instanceof Node) bodyEl.appendChild(body);
   else render(bodyEl, body ?? '');
-  let closed = false;
-  const close = (result) => {
+  let closed = false, dirty = false, asking = false;
+  bodyEl.addEventListener('input', (e) => { if (e.target.matches('input:not([type=search]), textarea, select')) dirty = true; });
+  bodyEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (e.target.closest('.spend-form')) return; // forms with their own submit handler
+    wrap.querySelector('.ov-foot .btn-primary')?.click();
+  });
+  const onUnload = (e) => { if (dirty && $('form', bodyEl)) { e.preventDefault(); e.returnValue = ''; } };
+  addEventListener('beforeunload', onUnload);
+  const entry = { id };
+  const close = (result, { nav = false, fromBack = false } = {}) => {
     if (closed) return;
     closed = true;
+    stack.splice(stack.indexOf(entry), 1);
     document.removeEventListener('keydown', onKey, true);
+    removeEventListener('beforeunload', onUnload);
     wrap.classList.add('leaving');
     setTimeout(() => wrap.remove(), 160);
+    // drop our history entry unless the user already went back, or we're closing because of navigation
+    if (!fromBack && !nav && history.state?.hgModal === id) history.back();
     onClose?.(result);
-    if (prevFocus && document.contains(prevFocus)) prevFocus.focus?.();
+    if (!nav) {
+      if (prevFocus && document.contains(prevFocus) && prevFocus !== document.body) prevFocus.focus?.();
+      else focusPage();
+    }
   };
+  const requestClose = async (why) => {
+    if (closed || asking) return;
+    if (!dismissible && why !== 'back') return;
+    if (dirty && $('form', bodyEl)) {
+      asking = true;
+      if (why === 'back') history.pushState({ hgModal: id }, ''); // stay until the user decides
+      const ok = await confirmDialog('לסגור בלי לשמור? מה שהקלדתם יימחק.', { title: 'יש שינויים שלא נשמרו', okLabel: 'סגירה בלי שמירה', danger: true });
+      asking = false;
+      if (!ok) return;
+      close(undefined);
+      return;
+    }
+    close(undefined, { fromBack: why === 'back' });
+  };
+  entry.close = close;
+  entry.requestClose = requestClose;
   const onKey = (e) => {
-    if (!document.contains(wrap) || wrap !== layer().lastElementChild) return;
-    if (e.key === 'Escape' && dismissible) { e.stopPropagation(); close(); }
+    if (!document.contains(wrap) || stack[stack.length - 1] !== entry) return;
+    if (e.key === 'Escape') { e.stopPropagation(); e.preventDefault(); requestClose('escape'); }
     trapFocus(wrap, e);
   };
   document.addEventListener('keydown', onKey, true);
   wrap.addEventListener('click', async (e) => {
-    if (e.target.closest('[data-close]') && (dismissible || e.target.closest('.btn-icon'))) {
-      if (e.target.classList.contains('ov-backdrop') && !dismissible) return;
-      close();
-      return;
-    }
+    const link = e.target.closest('a[href]');
+    if (link && e.target.closest('[data-close]')) { close(undefined, { nav: true }); return; }
+    if (e.target.closest('[data-close]')) { requestClose(e.target.classList.contains('ov-backdrop') ? 'backdrop' : 'x'); return; }
     const b = e.target.closest('.ov-foot [data-i]');
     if (b) {
       const a = actions[Number(b.dataset.i)];
@@ -72,6 +119,8 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     }
   });
   layer().appendChild(wrap);
+  stack.push(entry);
+  history.pushState({ hgModal: id }, '');
   requestAnimationFrame(() => {
     const f = $('[autofocus]', bodyEl) || $(FOCUSABLE, bodyEl) || $('.ov-foot .btn-primary', wrap) || $('.btn-icon', wrap);
     f?.focus();
@@ -114,17 +163,33 @@ export function promptDialog(label, { title = '', value = '', placeholder = '', 
 }
 
 // ---------- toast ----------
+// The latest toast's action (usually "undo") also runs with Ctrl/⌘+Z, so it is reachable without hunting for the toast.
+let lastAction = null;
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && lastAction && !e.target.closest('input, textarea')) { e.preventDefault(); lastAction.run(); }
+});
 export function toast(message, { kind = 'info', action, timeout = 4500 } = {}) {
   const root = document.getElementById('toast-root');
   const el = document.createElement('div');
   el.className = `toast toast-${kind}`;
   el.setAttribute('role', kind === 'error' ? 'alert' : 'status');
-  render(el, html`${icon(kind === 'success' ? 'check' : kind === 'error' ? 'alert' : 'info')}<span>${message}</span>${action ? html`<button class="toast-act">${action.label}</button>` : ''}<button class="btn-icon toast-x" aria-label="סגירה">${icon('x')}</button>`);
-  const close = () => { el.classList.add('leaving'); setTimeout(() => el.remove(), 200); };
+  render(el, html`${icon(kind === 'success' ? 'check' : kind === 'error' ? 'alert' : 'info')}<span>${message}</span>${action ? html`<button class="toast-act" title="${action.label} (Ctrl+Z)">${action.label}</button>` : ''}<button class="btn-icon toast-x" aria-label="סגירה">${icon('x')}</button>`);
+  const close = () => { el.classList.add('leaving'); setTimeout(() => el.remove(), 200); if (lastAction?.el === el) lastAction = null; };
   el.querySelector('.toast-x').onclick = close;
-  if (action) el.querySelector('.toast-act').onclick = () => { action.onClick(); close(); };
+  if (action) {
+    el.querySelector('.toast-act').onclick = () => { action.onClick(); close(); };
+    el.querySelector('.toast-act').setAttribute('aria-keyshortcuts', 'Control+Z');
+    lastAction = { el, run: () => { action.onClick(); close(); } };
+  }
+  // at most two toasts at a time: older ones (and their undo buttons) go away
+  while (root.children.length >= 2) root.firstElementChild.remove();
   root.appendChild(el);
-  if (timeout) setTimeout(close, action ? Math.max(timeout, 7000) : timeout);
+  let left = timeout ? (action ? Math.max(timeout, 10000) : timeout) : 0, t0 = Date.now(), timer = null;
+  const arm = () => { if (left > 0) { t0 = Date.now(); timer = setTimeout(close, left); } };
+  const pause = () => { clearTimeout(timer); left -= Date.now() - t0; };
+  el.addEventListener('mouseenter', pause); el.addEventListener('mouseleave', arm);
+  el.addEventListener('focusin', pause); el.addEventListener('focusout', arm);
+  arm();
   return close;
 }
 
@@ -211,7 +276,7 @@ export function pageHeader({ title, subtitle, actions = '', back }) {
   </header>`;
 }
 export function tabs(items, active, attr = 'data-tab') {
-  return html`<div class="tabs" role="tablist">${items.map((t) => html`<button role="tab" class="tab ${t.id === active ? 'active' : ''}" aria-selected="${t.id === active}" ${raw(attr)}="${t.id}">${t.icon ? icon(t.icon) : ''}${t.label}${t.count != null ? html`<span class="tab-count">${fmt.number(t.count)}</span>` : ''}</button>`)}</div>`;
+  return html`<div class="tabs" role="tablist">${items.map((t) => html`<button role="tab" class="tab ${t.id === active ? 'active' : ''}" aria-selected="${String(t.id === active)}" ${raw(attr)}="${t.id}">${t.icon ? icon(t.icon) : ''}${t.label}${t.count != null ? html`<span class="tab-count">${fmt.number(t.count)}</span>` : ''}</button>`)}</div>`;
 }
 
 export function setTitle(t) { document.title = t ? `${t} – HG OS` : 'HG OS'; }
@@ -227,14 +292,37 @@ export function readForm(form) {
     let v = el.value.trim();
     if (v === '') { out[el.name] = null; continue; }
     if (el.type === 'number') v = Number(v);
-    else if (el.type === 'datetime-local') v = new Date(v).toISOString();
+    else if (el.type === 'datetime-local' || el.type === 'date') {
+      const d = new Date(el.type === 'date' ? `${v}T12:00:00` : v);
+      if (isNaN(d) || d.getFullYear() < 2000 || d.getFullYear() > 2100) { out[el.name] = { invalid: true }; continue; }
+      if (el.type === 'datetime-local') v = d.toISOString();
+    }
     out[el.name] = v;
   }
   return out;
 }
+// Fields readForm marked as invalid dates, as { name: message } for showFieldErrors.
+export function dateErrors(v) {
+  const e = {};
+  for (const [k, x] of Object.entries(v)) if (x && typeof x === 'object' && x.invalid) e[k] = 'התאריך לא תקין';
+  return e;
+}
+// Money: non-negative, at most 100 million, and a number at all.
+export function moneyErrors(v, keys) {
+  const e = {};
+  for (const k of keys) {
+    const x = v[k];
+    if (x == null) continue;
+    if (typeof x !== 'number' || !isFinite(x)) e[k] = 'הזינו מספר';
+    else if (x < 0) e[k] = 'הסכום לא יכול להיות שלילי';
+    else if (x > 1e8) e[k] = 'הסכום גבוה מדי. בדקו שוב';
+  }
+  return e;
+}
 export function showFieldErrors(form, errors) {
   $$('.field-err', form).forEach((x) => x.remove());
   $$('.field.invalid', form).forEach((x) => x.classList.remove('invalid'));
+  $$('[aria-invalid]', form).forEach((x) => { x.removeAttribute('aria-invalid'); x.setAttribute('aria-describedby', (x.getAttribute('aria-describedby') || '').split(' ').filter((t) => !t.endsWith('-err')).join(' ')); });
   let first = null;
   for (const [name, msg] of Object.entries(errors)) {
     const input = form.querySelector(`[name="${name}"]`);
@@ -243,7 +331,10 @@ export function showFieldErrors(form, errors) {
     field.classList.add('invalid');
     const p = document.createElement('p');
     p.className = 'field-err'; p.setAttribute('role', 'alert'); p.textContent = msg;
+    p.id = `${input.id || name}-err`;
     field.appendChild(p);
+    input.setAttribute('aria-invalid', 'true');
+    input.setAttribute('aria-describedby', [input.getAttribute('aria-describedby'), p.id].filter(Boolean).join(' '));
     first ||= input;
   }
   first?.focus();

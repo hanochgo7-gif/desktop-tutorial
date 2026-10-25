@@ -10,8 +10,8 @@ const STAGES = [
 ];
 const SOURCES = [
   ['google_ads', 'Google Ads', 'paid_search', true], ['meta_ads', 'Meta Ads (פייסבוק/אינסטגרם)', 'paid_social', true], ['organic', 'חיפוש אורגני בגוגל', 'organic_search', false],
-  ['social', 'רשתות חברתיות (אורגני)', 'organic_social', false], ['referral', 'הפניה מלקוח', 'referral', false], ['outbound', 'פנייה יזומה שלי', 'outbound', false],
-  ['whatsapp', 'WhatsApp', 'whatsapp', false], ['repeat', 'לקוח חוזר', 'repeat', false], ['partner', 'שיתוף פעולה', 'partner', false], ['other', 'מקור אחר', 'other', false],
+  ['social', 'אינסטגרם / פייסבוק (אורגני, בלי מודעה)', 'organic_social', false], ['referral', 'הפניה מלקוח', 'referral', false], ['outbound', 'פנייה יזומה שלי', 'outbound', false],
+  ['whatsapp', 'WhatsApp', 'whatsapp', false], ['repeat', 'לקוח חוזר', 'repeat', false], ['partner', 'שיתוף פעולה', 'partner', false], ['event', 'הרצאה / כנס / אירוע', 'other', false], ['other', 'מקור אחר', 'other', false],
 ];
 
 export function installDefaults(store) {

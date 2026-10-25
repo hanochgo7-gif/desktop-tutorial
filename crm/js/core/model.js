@@ -1,6 +1,7 @@
 // Labels and helpers for the CRM model (values match the database CHECK constraints).
 
 import { store } from './store.js';
+import { normPhone } from './rules.js';
 
 export const LEAD_STATUS = [
   { value: 'new', label: 'חדש', color: 'sky' },
@@ -89,8 +90,11 @@ export function dueClass(due) {
   return '';
 }
 // Duplicate candidates by phone or email (never merged automatically).
-export function findDuplicates({ email, phone }, excludeId) {
+export function findDuplicates({ email, phone, first_name, last_name }, excludeId) {
   const e = String(email || '').trim().toLowerCase();
-  const p = String(phone || '').replace(/\D/g, '').replace(/^972/, '0');
-  return store.filter('crm_contacts', (c) => c.id !== excludeId && ((e && c.email === e) || (p.length >= 9 && c.phone_norm === p)));
+  const p = normPhone(phone) || '';
+  const name = [first_name, last_name].filter(Boolean).join(' ').trim();
+  const byContact = store.filter('crm_contacts', (c) => c.id !== excludeId && ((e && c.email === e) || (p.length >= 9 && c.phone_norm === p)));
+  if (byContact.length || !first_name || !last_name) return byContact;
+  return store.filter('crm_contacts', (c) => c.id !== excludeId && contactName(c) === name).map((c) => ({ ...c, _byName: true }));
 }

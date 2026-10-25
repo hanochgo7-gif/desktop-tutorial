@@ -3,6 +3,7 @@
 // ctx = { params, query, path, watch(colls, fn), refresh(), navigate(href) }.
 
 import { store } from './store.js';
+import { closeAllModals, focusPage } from '../ui/components.js';
 
 const ROUTES = [
   ['today', () => import('../views/today.js')],
@@ -52,6 +53,7 @@ export const router = {
     if (this.current?.cleanup) { try { this.current.cleanup(); } catch (e) { console.error(e); } }
     this.current?.unwatch?.forEach((u) => u());
     if (!match) { navigate('today', { replace: true }); return; }
+    closeAllModals();
     const params = { ...match.extra };
     match.re.exec(path).slice(1).forEach((v, i) => { params[match.keys[i]] = v; });
     const token = Symbol('route');
@@ -62,7 +64,7 @@ export const router = {
     let mod;
     try { mod = await match.load(); } catch (e) {
       console.error(e);
-      root.innerHTML = `<div class="empty"><h3>המסך לא נטען</h3><p>${String(e.message || e)}</p></div>`;
+      root.innerHTML = `<div class="empty"><h3>המסך לא נטען</h3><p>${navigator.onLine ? 'ייתכן שיצאה גרסה חדשה של המערכת.' : 'אין חיבור לאינטרנט.'} הנתונים שלך שמורים.</p><a class="btn btn-primary" href="">טעינה מחדש</a></div>`;
       return;
     }
     if (this.current !== state) return;
@@ -84,9 +86,12 @@ export const router = {
     try {
       const cleanup = await mod.default(el, ctx);
       if (this.current === state) state.cleanup = typeof cleanup === 'function' ? cleanup : null;
+      // move focus to the new page so keyboard and screen-reader users know the screen changed
+      if (this.current === state && this.navigated) focusPage();
+      this.navigated = true;
     } catch (e) {
       console.error(e);
-      root.innerHTML = `<div class="empty"><h3>משהו השתבש בטעינת המסך</h3><p>${String(e.message || e)}</p></div>`;
+      root.innerHTML = '<div class="empty"><h3>משהו השתבש בטעינת המסך</h3><p>הנתונים שלך שמורים. נסו לטעון מחדש.</p><a class="btn btn-primary" href="">טעינה מחדש</a></div>';
     }
   },
 };

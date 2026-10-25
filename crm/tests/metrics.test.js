@@ -1,7 +1,7 @@
 // Known dataset with hand-computed expectations (see docs/analytics.md, "test dataset").
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sourceReport, salesSummary, dealHealth, UNKNOWN } from '../js/core/metrics.js';
+import { sourceReport, salesSummary, dealHealth, UNKNOWN, collectedIn, spendIn, paidTotal } from '../js/core/metrics.js';
 
 const period = { from: new Date(2026, 8, 1), to: new Date(2026, 9, 1) }; // September 2026
 const sept = (d, h = 12) => new Date(2026, 8, d, h).toISOString();
@@ -152,4 +152,23 @@ test('deal health: stuck is measured from stage entry; next action from open tas
   const h2 = dealHealth({ ...d, stage_entered_at: new Date(2026, 8, 22).toISOString() }, { stage, openTasks: [{ contact_id: 'c', due_at: new Date(2026, 8, 24).toISOString() }], now });
   assert.equal(h2.stuck, false); assert.equal(h2.noNext, false); assert.equal(h2.overdue, true);
   assert.equal(dealHealth({ ...d, outcome: 'won' }, { stage, openTasks: [], now }).noNext, false);
+});
+
+test('payments: each payment counts in its own month; a later payment never changes an earlier month', () => {
+  const d = { props: { payments: [{ id: 'a', amount: 6000, date: '2026-09-20' }, { id: 'b', amount: 6000, date: '2026-10-05' }, { id: 'r', amount: -1000, date: '2026-10-10' }] } };
+  const sep = { from: new Date(2026, 8, 1), to: new Date(2026, 9, 1) }, oct = { from: new Date(2026, 9, 1), to: new Date(2026, 10, 1) };
+  assert.equal(collectedIn(d, sep), 6000);
+  assert.equal(collectedIn(d, oct), 5000); // payment minus refund
+  assert.equal(paidTotal(d), 11000);
+  // legacy single amount + date still works
+  assert.equal(collectedIn({ amount_paid: 3000, paid_at: '2026-09-02' }, sep), 3000);
+});
+
+test('monthly spend is prorated to the part of the month inside the period', () => {
+  const row = { day: '2026-09-01', amount: 3000, origin: 'manual' };
+  near(spendIn(row, { from: new Date(2026, 8, 1), to: new Date(2026, 9, 1) }), 3000);
+  near(spendIn(row, { from: new Date(2026, 8, 16), to: new Date(2026, 9, 16) }), 1500);
+  assert.equal(spendIn(row, { from: new Date(2026, 9, 1), to: new Date(2026, 10, 1) }), 0);
+  // a dated (daily / imported) row is not spread
+  assert.equal(spendIn({ day: '2026-09-15', amount: 500, origin: 'csv' }, { from: new Date(2026, 8, 1), to: new Date(2026, 8, 10) }), 0);
 });

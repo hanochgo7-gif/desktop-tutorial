@@ -51,12 +51,14 @@ function renderTop() {
   render($('#top'), html`
     <div class="qsearch">
       ${icon('search')}
-      <input type="search" placeholder="חיפוש ליד לפי שם או טלפון" aria-label="חיפוש ליד" data-qs autocomplete="off">
-      <div class="qs-results" data-qs-res hidden></div>
+      <input type="search" placeholder="חיפוש ליד לפי שם או טלפון" aria-label="חיפוש ליד" data-qs autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qs-res" aria-autocomplete="list">
+      <div class="qs-results" id="qs-res" role="listbox" aria-label="תוצאות חיפוש" data-qs-res hidden></div>
     </div>
     <div class="top-spacer"></div>
     <span id="save-state">${saveState()}</span>
-    <button class="btn btn-primary btn-sm" data-top="lead">${icon('plus')}<span>ליד חדש</span></button>`);
+    <span class="net-state" id="net-state" role="status" hidden>${icon('cloudOff')}<span>אין חיבור</span></span>
+    <a class="btn-icon top-settings" href="#/settings" aria-label="הגדרות וגיבוי" title="הגדרות וגיבוי">${icon('settings')}</a>
+    <button class="btn btn-primary btn-sm" data-top="lead" aria-label="ליד חדש">${icon('plus')}<span>ליד חדש</span></button>`);
 }
 
 function wireSearch() {
@@ -65,18 +67,20 @@ function wireSearch() {
   const draw = () => {
     const q = input.value.trim();
     const n = normalize(q), dg = q.replace(/\D/g, '').replace(/^972/, '0');
-    if (!q) { res.hidden = true; return; }
+    if (!q) { res.hidden = true; input.setAttribute('aria-expanded', 'false'); return; }
     hits = store.all('crm_contacts').filter((c) => normalize(contactName(c)).includes(n) || normalize(c.company_name).includes(n) || normalize(c.email).includes(n) || (dg.length >= 3 && (c.phone_norm || '').includes(dg))).slice(0, 8);
     active = 0;
     res.hidden = false;
-    render(res, hits.length ? hits.map((c, i) => html`<a class="qs-item ${i === 0 ? 'active' : ''}" href="#/c/${c.id}">${avatar(contactName(c), { size: 'sm' })}<span><b>${contactName(c)}</b><small class="muted">${[c.company_name, c.phone].filter(Boolean).join(' | ')}</small></span></a>`)
+    input.setAttribute('aria-expanded', 'true');
+    render(res, hits.length ? hits.map((c, i) => html`<a class="qs-item ${i === 0 ? 'active' : ''}" href="#/c/${c.id}" role="option" id="qs-${i}" aria-selected="${String(i === 0)}">${avatar(contactName(c), { size: 'sm' })}<span><b>${contactName(c)}</b><small class="muted">${[c.company_name, c.phone].filter(Boolean).join(' | ')}</small></span></a>`)
       : html`<div class="qs-empty">לא נמצא ליד. <button class="linkbtn" data-qs-new>יצירת ליד חדש</button></div>`);
   };
   input.addEventListener('input', draw);
   input.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       active = Math.max(0, Math.min(hits.length - 1, active + (e.key === 'ArrowDown' ? 1 : -1)));
-      res.querySelectorAll('.qs-item').forEach((x, i) => x.classList.toggle('active', i === active));
+      res.querySelectorAll('.qs-item').forEach((x, i) => { x.classList.toggle('active', i === active); x.setAttribute('aria-selected', String(i === active)); });
+      input.setAttribute('aria-activedescendant', `qs-${active}`);
       e.preventDefault();
     }
     if (e.key === 'Enter' && hits[active]) { location.hash = `#/c/${hits[active].id}`; input.value = ''; res.hidden = true; input.blur(); }
@@ -156,7 +160,7 @@ async function main() {
       const choice = await new Promise((res) => modal({
         title: 'שמירה בדפדפן', size: 'sm', dismissible: false,
         body: html`<p>הנתונים יישמרו רק בדפדפן ובמחשב הזה. המערכת שומרת גיבוי יומי בתוך הדפדפן, אבל רק <b>קובץ גיבוי שמורידים</b> מגן מפני ניקוי נתוני הגלישה. תוצג תזכורת להוריד אחד בכל שבוע.</p>
-          <p>כדאי לעבוד ממחשב ודפדפן קבועים, ולא בגלישה בסתר.</p>
+          <p>כדאי לעבוד תמיד מאותו מכשיר ואותו דפדפן (מחשב או טלפון), ולא בגלישה בסתר.</p>
           <p class="muted small">אפשר גם לטעון נתוני דוגמה כדי לראות איך הדוחות נראים. כל רשומת דוגמה מסומנת "(דוגמה)", ואפשר למחוק אותן בהגדרות.</p>`,
         actions: [{ label: 'נתוני דוגמה', value: 'sample' }, { label: 'להתחיל לעבוד', kind: 'primary', value: 'empty' }],
         onClose: res,
@@ -195,10 +199,12 @@ async function main() {
     bk.snapshotDaily(store);
     let tb;
     store.on('change', () => { clearTimeout(tb); tb = setTimeout(() => bk.snapshotDaily(store), 5000); });
-    if (bk.backupOverdue(store)) {
-      toast(bk.lastDownloaded() ? 'עבר שבוע מהגיבוי האחרון. כדאי להוריד קובץ גיבוי.' : 'עוד לא הורדת קובץ גיבוי. מומלץ להוריד אחד עכשיו.', { kind: 'error', timeout: 12000, action: { label: 'להורדה', onClick: () => { location.hash = '#/settings'; } } });
-    }
   }
+  // connection indicator (screens that weren't opened yet need the network to load)
+  const net = () => { const n = $('#net-state'); if (n) n.hidden = navigator.onLine; };
+  addEventListener('online', net); addEventListener('offline', net); net();
+  // offline support for the app itself: cache the app files so it opens without a connection
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch((e) => console.warn('[sw]', e));
   if (!location.hash || location.hash === '#/') history.replaceState(null, '', '#/today');
   await router.go();
 }

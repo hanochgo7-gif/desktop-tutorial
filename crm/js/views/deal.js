@@ -1,9 +1,9 @@
 // Deal page: stage path, money (expected / closed / collected / cost), source, next step, history.
 
-import { html, render, on, fmt } from '../core/util.js';
+import { html, render, on, fmt, whatsappUrl } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName, stages, sourceName, LOST_REASONS, label } from '../core/model.js';
-import { dealHealth } from '../core/metrics.js';
+import { dealHealth, paymentsOf } from '../core/metrics.js';
 import { pageHeader, icon, badge, setTitle, toast, confirmDialog } from '../ui/components.js';
 import { openDealForm, openActivityForm, openTaskForm, openMoneyDialog, moveDeal } from '../ui/forms.js';
 import { timeline, timelineHtml, nextStepCard, completeTask } from './contact.js';
@@ -29,11 +29,11 @@ export default async function view(el, ctx) {
       <div class="rec2">
         <aside class="stack">
           <section class="panel">
-            <div class="panel-head"><h2>כסף</h2><button class="btn btn-sm btn-ghost" data-act="money">${icon('edit')}עדכון</button></div>
+            <div class="panel-head"><h2>כסף</h2><button class="btn btn-sm btn-ghost" data-act="money">${icon('edit')}תשלומים ועלויות</button></div>
             <dl class="dl">
               <dt>${d.outcome === 'won' ? 'סכום סופי' : 'סכום צפוי'}</dt><dd class="num ${d.outcome === 'won' ? 'money' : ''}">${total != null ? fmt.money(total) : html`<span class="warn-text">חסר</span>`} <small class="muted">לפני מע"מ</small></dd>
               ${d.outcome === 'won' ? html`
-                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${d.paid_at ? html` <small class="muted">${fmt.date(d.paid_at)}</small>` : ''}</dd>
+                <dt>נגבה</dt><dd class="num">${fmt.money(d.amount_paid || 0)}${paymentsOf(d).length ? html` <small class="muted">${paymentsOf(d).length} תשלומים, אחרון ${fmt.date(d.paid_at)}</small>` : ''}</dd>
                 <dt>יתרה לגבייה</dt><dd class="num ${unpaid > 0 ? 'warn-text' : ''}">${fmt.money(unpaid)}</dd>
                 <dt>עלות ישירה</dt><dd class="num">${d.direct_cost_estimate != null ? fmt.money(d.direct_cost_estimate) : html`<span class="warn-text">לא הוזנה</span>`}</dd>
                 <dt>רווח גולמי</dt><dd class="num">${profit != null ? fmt.money(profit) : html`<span class="muted">לא ניתן לחישוב בלי עלות</span>`}</dd>`
@@ -58,9 +58,10 @@ export default async function view(el, ctx) {
         <div class="stack">
           ${d.outcome === 'open' ? nextStepCard({ contactId: d.contact_id, dealId: id }) : ''}
           <div class="quick-bar">
+            ${c?.phone ? html`<a class="btn btn-soft" href="tel:${c.phone}">${icon('phone')}התקשרות</a><a class="btn btn-soft" href="${whatsappUrl(c.phone)}" target="_blank" rel="noopener">${icon('whatsapp')}וואטסאפ</a>` : ''}
             <button class="btn btn-primary" data-act="log" data-type="call">${icon('note')}תיעוד שיחה / הודעה</button>
             ${d.outcome === 'open' ? html`<button class="btn" data-stage="${sts.find((s) => s.kind === 'won')?.id}">${icon('trophy')}נסגר בהצלחה</button><button class="btn btn-ghost" data-stage="${sts.find((s) => s.kind === 'lost')?.id}">נסגר בהפסד</button>` : ''}
-            ${d.outcome === 'won' && unpaid > 0 ? html`<button class="btn" data-act="money">${icon('money')}רישום גבייה</button>` : ''}
+            ${d.outcome === 'won' && unpaid > 0 ? html`<button class="btn" data-act="money">${icon('money')}רישום תשלום</button>` : ''}
           </div>
           <section class="panel">
             <div class="panel-head"><h2>היסטוריה</h2></div>
@@ -69,8 +70,9 @@ export default async function view(el, ctx) {
         </div>
       </div>`);
   };
-  draw();
-  ctx.watch(['crm_deals', 'crm_tasks', 'crm_activities', 'crm_deal_stage_history', 'crm_contacts'], draw);
+  const drawAndFocus = () => { draw(); el.querySelector('.stage-path .current')?.scrollIntoView({ block: 'nearest', inline: 'center' }); };
+  drawAndFocus();
+  ctx.watch(['crm_deals', 'crm_tasks', 'crm_activities', 'crm_deal_stage_history', 'crm_contacts'], drawAndFocus);
 
   on(el, 'click', '[data-stage]', (e, b) => { const d = store.get('crm_deals', id); if (b.dataset.stage) moveDeal(d, b.dataset.stage); });
   on(el, 'click', '[data-act]', async (e, b) => {

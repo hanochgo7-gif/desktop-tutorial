@@ -27,7 +27,8 @@ ROI = (רווח גולמי − הוצאות פרסום) ÷ הוצאות פרסו
 ## פיתוח
 
 - אין שלב בנייה. הרצה מקומית מתיקיית הריפו: `python3 -m http.server 8765`, ואז http://localhost:8765/crm/
-- בדיקות המדדים: `cd crm && npm test` (Node 20+).
+- בדיקות המדדים: `cd crm && npm test` (Node 20+). בדיקות דפדפן (Playwright, עם שרת מקומי על 8765): `npm run test:e2e`.
+- ממצאי פאנל הלקוחות ומה תוקן: `docs/ux-panel-round1.md`.
 - מבנה: `js/core` (נתונים, כללים, מדדים, חיבור לשרת), `js/ui` (רכיבים וטפסים), `js/views` (מסכים), `supabase/migrations` (סכמת השרת).
 - כללי העסק קיימים פעמיים, בטריגרים של מסד הנתונים וב-`js/core/rules.js` (לשמירה בדפדפן), וצריך לשמור על התאמה ביניהם.
 - מחקר: `docs/research/competitive-benchmark.md`. פרטיות ואבטחה: `docs/security/privacy-and-threat-model.md`.
