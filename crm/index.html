@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>קשר CRM</title>
+<meta name="description" content="קשר: מערכת לניהול לקוחות בעברית. אנשי קשר, חברות, עסקאות, פניות שירות, משימות, אוטומציות, דוחות והצעות מחיר.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F4F5F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1220" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="../fonts/heebo-200-700-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/analytics.css">
+<link rel="stylesheet" href="css/automation.css">
+<link rel="stylesheet" href="css/commerce.css">
+<link rel="stylesheet" href="css/work.css">
+<link rel="stylesheet" href="css/admin.css">
+<script>
+  // apply the saved theme before first paint to avoid a flash
+  try { var t = localStorage.getItem('kesher-theme'); if (t && t !== 'system') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#view">דילוג לתוכן</a>
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="ניווט ראשי"></aside>
+  <div class="main">
+    <header class="top" id="top"></header>
+    <main class="view" id="view" tabindex="-1">
+      <div class="boot"><span class="spinner"></span></div>
+    </main>
+  </div>
+</div>
+<div id="overlay-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<noscript><p style="padding:2rem;font-family:sans-serif">כדי להשתמש בקשר CRM יש להפעיל JavaScript בדפדפן.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
