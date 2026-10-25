@@ -4,15 +4,14 @@ import { html, render, $, $$, fmt, toDateInput, addDays } from '../core/util.js'
 import { store } from '../core/store.js';
 import { contactName } from '../core/model.js';
 import { paymentsOf } from '../core/metrics.js';
-import { DOC_KINDS, EXPENSE_CATEGORIES, docTotals, nextDocNumber } from '../core/finance.js';
+import { DOC_KINDS, EXPENSE_CATEGORIES, docTotals, nextDocNumber, r2 } from '../core/finance.js';
 import { modal, toast, icon, readForm, showFieldErrors, opt, dateErrors, moneyErrors, confirmDialog } from './components.js';
-import { withPayments } from './forms.js';
+import { withPayments, vatRate } from './forms.js';
 
 const field = (label, control, help = '') => html`<label class="field"><span class="field-label">${label}</span>${control}${help ? html`<span class="field-help">${help}</span>` : ''}</label>`;
-export const vatRateOf = () => (store.settings.vatStatus === 'exempt' ? 0 : Number(store.settings.vatRate ?? 18));
+export const vatRateOf = vatRate;
 const leads = () => store.all('crm_contacts').map((x) => ({ value: x.id, label: contactName(x) })).sort((a, b) => a.label.localeCompare(b.label, 'he'));
 const dealsOf = (cid) => store.filter('crm_deals', (d) => !cid || d.contact_id === cid).map((d) => ({ value: d.id, label: d.name }));
-const r2 = (n) => Math.round(n * 100) / 100;
 
 async function save(fn, form) {
   try { return await fn(); } catch (e) {
@@ -126,20 +125,38 @@ export function openDocForm({ doc = null, kind = 'payment_request', dealId = nul
     if (errs._lines) { toast(errs._lines, { kind: 'error' }); delete errs._lines; if (!Object.keys(errs).length) return false; }
     if (showFieldErrors(form, errs)) return false;
     const number = own ? (doc?.number || nextDocNumber(store.all('crm_documents'), 'payment_request', new Date(v.issue_date || Date.now()).getFullYear())) : v.number;
-    const dup = store.find('crm_documents', (x) => x.id !== doc?.id && x.kind === (v.kind || k) && x.number === number && x.status !== 'canceled');
-    if (dup) { showFieldErrors(form, { number: `כבר נרשם מסמך עם המספר ${number}` }); return false; }
+    const dup = store.find('crm_documents', (x) => x.id !== doc?.id && x.kind === (v.kind || k) && x.number === number);
+    if (dup) { showFieldErrors(form, { number: `כבר נרשם מסמך עם המספר ${number}${dup.status === 'canceled' ? ' (מבוטל)' : ''}` }); return false; }
     const row = {
       kind: own ? 'payment_request' : v.kind, number, external_system: own ? null : v.external_system, allocation_number: own ? null : v.allocation_number,
       issue_date: v.issue_date || toDateInput(new Date()), due_date: v.due_date || null, contact_id: v.contact_id, deal_id: v.deal_id || null,
       items: clean, vat_rate: rate, notes: v.notes, status: doc ? (doc.status === 'draft' && status === 'sent' ? 'sent' : doc.status) : status,
     };
     return save(async () => {
+      // payments already recorded on the document move with it to its new deal (or out of the old one)
+      if (doc?.payments?.length && (doc.deal_id || null) !== row.deal_id) await movePayments(doc, doc.deal_id, row.deal_id);
       const rec = doc ? await store.update('crm_documents', doc.id, row) : await store.insert('crm_documents', { ...row, payments: [], paid: 0 });
       toast(doc ? 'המסמך עודכן' : own ? `דרישת תשלום ${number} נשמרה` : `${DOC_KINDS.find((x) => x.value === row.kind)?.label} ${number} נרשמה`, { kind: 'success' });
       onSaved?.(rec);
       if (print) setTimeout(() => { location.hash = `#/doc/${rec.id}/print`; }, 50);
       return true;
     }, form);
+  }
+}
+
+// The deal keeps a copy of every payment on its documents (same id), so its balance is right.
+const mirror = (doc, p) => {
+  const rate = Number(doc.vat_rate) || 0;
+  return { id: p.id, amount: r2(Number(p.amount) / (1 + rate / 100)), gross: Number(p.amount), vat: rate > 0, date: p.date, note: `${doc.number || ''} ${p.note || ''}`.trim(), docId: doc.id };
+};
+async function movePayments(doc, fromId, toId) {
+  const ids = new Set(doc.payments.map((p) => p.id));
+  const from = store.get('crm_deals', fromId);
+  if (from) await store.update('crm_deals', from.id, withPayments(from, paymentsOf(from).filter((p) => p.id !== 'legacy' && !ids.has(p.id))));
+  const to = store.get('crm_deals', toId);
+  if (to) {
+    const have = new Set(paymentsOf(to).map((p) => p.id));
+    await store.update('crm_deals', to.id, withPayments(to, [...paymentsOf(to).filter((p) => p.id !== 'legacy'), ...doc.payments.filter((p) => !have.has(p.id)).map((p) => mirror(doc, p))]));
   }
 }
 
@@ -171,13 +188,16 @@ export function openDocPayment(doc, { onSaved } = {}) {
           const payId = crypto.randomUUID();
           const methodLabel = form.method.selectedOptions[0]?.textContent;
           return save(async () => {
-            await store.update('crm_documents', doc.id, { payments: [...(doc.payments || []), { id: payId, amount: v.amount, date: v.date, method: v.method }] });
+            const pay = { id: payId, amount: v.amount, date: v.date, method: v.method, note: methodLabel || '' };
+            // deal first: if the document update then fails, the deal is put back, so nothing is half-saved
             const deal = store.get('crm_deals', doc.deal_id);
-            if (deal) {
-              const rate = Number(doc.vat_rate) || 0;
-              const net = r2(v.amount / (1 + rate / 100));
-              const list = [...paymentsOf(deal).filter((p) => p.id !== 'legacy'), { id: payId, amount: net, gross: v.amount, vat: rate > 0, date: v.date, note: `${doc.number || ''} ${methodLabel || ''}`.trim(), docId: doc.id }];
-              await store.update('crm_deals', deal.id, withPayments(deal, list));
+            const before = deal ? paymentsOf(deal).filter((p) => p.id !== 'legacy') : null;
+            if (deal) await store.update('crm_deals', deal.id, withPayments(deal, [...before, mirror(doc, pay)]));
+            try {
+              await store.update('crm_documents', doc.id, { payments: [...(doc.payments || []), pay] });
+            } catch (e) {
+              if (deal) await store.update('crm_deals', deal.id, withPayments(deal, before)).catch(() => {});
+              throw e;
             }
             toast('התשלום נרשם', { kind: 'success' });
             onSaved?.();
@@ -190,7 +210,8 @@ export function openDocPayment(doc, { onSaved } = {}) {
 }
 
 export async function cancelDoc(doc) {
-  if (!(await confirmDialog(`לבטל את ${DOC_KINDS.find((x) => x.value === doc.kind)?.label} ${doc.number || ''}?`, { danger: true, okLabel: 'ביטול המסמך', detail: doc.kind === 'payment_request' ? 'המסמך יישאר ברשימה כמבוטל.' : 'ביטול כאן לא מבטל את החשבונית בתוכנת החשבוניות. שם מפיקים חשבונית זיכוי.' }))) return;
+  const paid = Number(doc.paid) > 0 ? ` התשלומים שנרשמו עליו (${fmt.money(doc.paid)}) נשארים בהכנסות. אם הכסף הוחזר, רשמו החזר כספי בעסקה.` : '';
+  if (!(await confirmDialog(`לבטל את ${DOC_KINDS.find((x) => x.value === doc.kind)?.label} ${doc.number || ''}?`, { danger: true, okLabel: 'ביטול המסמך', detail: (doc.kind === 'payment_request' ? 'המסמך יישאר ברשימה כמבוטל.' : 'ביטול כאן לא מבטל את החשבונית בתוכנת החשבוניות. שם מפיקים חשבונית זיכוי.') + paid }))) return;
   try { await store.update('crm_documents', doc.id, { status: 'canceled' }); toast('המסמך בוטל'); } catch (e) { toast(e.message, { kind: 'error' }); }
 }
 
@@ -230,9 +251,12 @@ export function openExpenseForm({ expense = null, dealId = null, onSaved } = {})
           if (!v.day) errs.day = 'בחרו תאריך';
           if (showFieldErrors(form, errs)) return false;
           const incl = licensed && v._incl_vat;
-          const rate = Number(store.settings.vatRate ?? 18) / 100;
-          const amount = incl ? r2(v._amount / (1 + rate)) : v._amount;
-          const row = { day: v.day, vendor: v.vendor, category: v.category, description: v.description, deal_id: v.deal_id || null, method: v.method, reference: v.reference, amount, vat: incl ? r2(v._amount - amount) : 0 };
+          const rate = vatRate() / 100;
+          let amount = incl ? r2(v._amount / (1 + rate)) : v._amount;
+          let vat = incl ? r2(v._amount - amount) : 0;
+          // editing other fields keeps the stored split (an old expense may have been at a different VAT rate)
+          if (expense && incl === !!Number(expense.vat) && Math.abs(v._amount - (incl ? r2(Number(expense.amount) + Number(expense.vat)) : Number(expense.amount))) < 0.005) { amount = Number(expense.amount); vat = Number(expense.vat); }
+          const row = { day: v.day, vendor: v.vendor, category: v.category, description: v.description, deal_id: v.deal_id || null, method: v.method, reference: v.reference, amount, vat };
           return save(async () => {
             if (expense) await store.update('crm_expenses', expense.id, row); else await store.insert('crm_expenses', row);
             toast(expense ? 'ההוצאה עודכנה' : 'ההוצאה נרשמה', { kind: 'success' });

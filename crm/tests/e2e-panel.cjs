@@ -1,7 +1,7 @@
 // Regression tests for every issue the customer panel reported.
 const { chromium, devices } = require('playwright');
 const fs = require('fs');
-const URL = 'http://localhost:8765/crm/';
+const URL = process.env.HGOS_URL || process.argv[2] || 'http://localhost:8765/crm/';
 let fails = 0;
 const check = (c, m) => { console.log(c ? '• PASS' : '• FAIL', m); if (!c) fails++; };
 const S = (p) => p.evaluate(() => window.__store.rows);
@@ -123,7 +123,8 @@ async function addLead(p, { first, phone, email, source }) {
   await p.fill('.ov [name=_amt]', '5900');
   await p.fill('.ov [name=_date]', '2026-10-05');
   await p.click('.ov [data-add="pay"]');
-  await p.click('.ov-foot .btn-primary'); await p.waitForTimeout(400);
+  await p.locator('.ov tbody tr').nth(1).waitFor();
+  await p.click('.ov-foot .btn-primary'); await p.waitForSelector('.ov', { state: 'detached' }); await p.waitForTimeout(200);
   const m = await p.evaluate(async () => {
     const mm = await import('./js/core/metrics.js');
     const d = window.__store.all('crm_deals')[0];

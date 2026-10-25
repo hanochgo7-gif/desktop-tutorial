@@ -86,7 +86,7 @@ export default async function view(el, ctx) {
     const all = store.all('crm_documents').sort((a, b) => (a.issue_date < b.issue_date ? 1 : a.issue_date > b.issue_date ? -1 : (a.created_at < b.created_at ? 1 : -1)));
     const filt = { open: (x) => ['sent', 'partial'].includes(docStatus(x)), overdue: (x) => isOverdue(x), draft: (x) => x.status === 'draft', all: () => true }[st.docf] || (() => true);
     const list = all.filter(filt);
-    const openSum = all.filter((x) => ['sent', 'partial'].includes(docStatus(x))).reduce((a, x) => a + Number(x.total) - Number(x.paid || 0), 0);
+    const openSum = all.filter((x) => x.kind !== 'credit_note' && ['sent', 'partial'].includes(docStatus(x))).reduce((a, x) => a + Number(x.total) - Number(x.paid || 0), 0);
     return html`
       <div class="toolbar">
         <button class="btn btn-primary" data-act="new-pr">${icon('plus')}דרישת תשלום</button>

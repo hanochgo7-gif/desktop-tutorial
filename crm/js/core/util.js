@@ -96,14 +96,17 @@ const moneyFmt = {};
 export const fmt = {
   number: (n) => (n == null || n === '' || isNaN(n) ? '' : nf.format(Number(n))),
   decimal: (n) => (n == null || n === '' || isNaN(n) ? '' : nf1.format(Number(n))),
+  // whole shekels, unless there are agorot (a document total of 117.88 must print as 117.88, not 118)
   money(n, currency = 'ILS', compact = false) {
     if (n == null || n === '' || isNaN(n)) return '';
-    const key = currency + compact;
+    const v = Number(n);
+    const cents = !compact && Math.abs(v - Math.round(v)) >= 0.005;
+    const key = currency + compact + cents;
     moneyFmt[key] ||= new Intl.NumberFormat('he-IL', {
-      style: 'currency', currency, maximumFractionDigits: compact ? 1 : 0,
-      notation: compact ? 'compact' : 'standard',
+      style: 'currency', currency, notation: compact ? 'compact' : 'standard',
+      ...(cents ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: compact ? 1 : 0 }),
     });
-    return moneyFmt[key].format(Number(n));
+    return moneyFmt[key].format(v);
   },
   percent: (n) => (n == null || n === '' || isNaN(n) ? '' : `${nf1.format(Number(n))}%`),
   date(d) {

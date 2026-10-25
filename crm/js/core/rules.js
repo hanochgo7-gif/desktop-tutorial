@@ -2,6 +2,9 @@
 // In remote mode they only make the optimistic UI accurate – the server re-applies them and wins.
 // In local mode they are the only implementation, so keep both in sync.
 
+// round to agorot like Postgres round(x, 2); toPrecision removes float noise (1.005 -> 1.01)
+const r2 = (n) => Math.round(Number((Number(n) * 100).toPrecision(12))) / 100;
+
 export function normPhone(p) {
   let d = String(p ?? '').replace(/\D/g, '');
   if (!d) return null;
@@ -18,7 +21,12 @@ export function beforeSave(t, row, prev, store) {
     if (!prev && row.first_source_id) {
       row.first_touch_at ||= now;
       row.last_source_id ||= row.first_source_id;
+      row.last_campaign_id ||= row.first_campaign_id || null;
       row.last_touch_at ||= row.first_touch_at;
+    }
+    // the server has a unique index on email among live leads
+    if (row.email && !row.deleted_at && (!prev || prev.email !== row.email) && store?.find('crm_contacts', (c) => c.id !== row.id && !c.deleted_at && c.email === row.email)) {
+      const e = new Error('crm_contacts_email_uq'); e.details = 'crm_contacts_email_uq'; throw e;
     }
     if (prev?.first_source_id && row.first_source_id !== prev.first_source_id) {
       const e = new Error('first_source_locked'); e.details = 'first_source_locked'; throw e;
@@ -41,7 +49,9 @@ export function beforeSave(t, row, prev, store) {
       } else row.closed_at = null;
     }
     row.opened_at ||= now;
-    if (!row.source_id && row.contact_id && (!prev || prev.contact_id !== row.contact_id)) {
+    // an old sale entered today: the deal opened no later than it closed (server check crm_deals_check)
+    if (row.closed_at && row.closed_at < row.opened_at) row.opened_at = row.closed_at;
+    if (!row.source_id && row.contact_id) {
       const c = store.get('crm_contacts', row.contact_id);
       if (c) { row.source_id = c.first_source_id || null; row.campaign_id ||= c.first_campaign_id || null; }
     }
@@ -50,11 +60,12 @@ export function beforeSave(t, row, prev, store) {
   if (t === 'crm_documents') {
     // same as the crm_documents_rules trigger: totals from the lines, status from what was paid
     let sub = 0;
-    for (const it of row.items || []) sub += Math.round((Number(it.qty) || 0) * (Number(it.price) || 0) * 100) / 100;
-    row.subtotal = Math.round(sub * 100) / 100;
-    row.vat = Math.round(row.subtotal * (Number(row.vat_rate) || 0)) / 100;
-    row.total = Math.round((row.subtotal + row.vat) * 100) / 100;
-    row.paid = Math.round((row.payments || []).reduce((a, p) => a + (Number(p.amount) || 0), 0) * 100) / 100 || Number(row.paid) || 0;
+    for (const it of row.items || []) sub += r2((Number(it.qty) || 0) * (Number(it.price) || 0));
+    row.subtotal = r2(sub);
+    row.vat = r2(row.subtotal * (Number(row.vat_rate) || 0) / 100);
+    row.total = r2(row.subtotal + row.vat);
+    row.payments ||= [];
+    row.paid = r2(row.payments.reduce((a, p) => a + (Number(p.amount) || 0), 0));
     if (row.status !== 'canceled') {
       if (row.total > 0 && row.paid >= row.total - 0.005) row.status = 'paid';
       else if (row.paid > 0 && ['draft', 'sent', 'paid'].includes(row.status)) row.status = 'partial';

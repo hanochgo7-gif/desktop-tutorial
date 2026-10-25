@@ -40,8 +40,8 @@ export function seedSample(store) {
   for (let m = 0; m < 6; m++) {
     const day = new Date(new Date().getFullYear(), new Date().getMonth() - m, 1);
     const ds = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-01`;
-    put('crm_ad_spend', { day: ds, source_id: src('google_ads'), amount: R.int(25, 45) * 100, origin: 'manual', currency: 'ILS', created_at: iso(day) });
-    put('crm_ad_spend', { day: ds, source_id: src('meta_ads'), amount: R.int(12, 25) * 100, origin: 'manual', currency: 'ILS', created_at: iso(day) });
+    put('crm_ad_spend', { day: ds, source_id: src('google_ads'), amount: R.int(25, 45) * 100, origin: 'manual', sample: true, currency: 'ILS', created_at: iso(day) });
+    put('crm_ad_spend', { day: ds, source_id: src('meta_ads'), amount: R.int(12, 25) * 100, origin: 'manual', sample: true, currency: 'ILS', created_at: iso(day) });
   }
   const mix = [['google_ads', 5], ['meta_ads', 4], ['organic', 2], ['referral', 2], ['whatsapp', 1], [null, 1]];
   for (let i = 0; i < 70; i++) {

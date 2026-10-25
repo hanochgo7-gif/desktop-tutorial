@@ -73,7 +73,10 @@ export function modal({ title, body, size = 'md', actions = [], onClose, dismiss
     wrap.classList.add('leaving');
     setTimeout(() => wrap.remove(), 160);
     // drop our history entry unless the user already went back, or we're closing because of navigation
-    if (!fromBack && !nav && history.state?.hgModal === id) history.back();
+    if (!fromBack && !nav && history.state?.hgModal === id) {
+      pendingBack = new Promise((res) => { addEventListener('popstate', () => res(), { once: true }); setTimeout(res, 500); });
+      history.back();
+    }
     onClose?.(result);
     if (!nav) {
       if (prevFocus && document.contains(prevFocus) && prevFocus !== document.body) prevFocus.focus?.();
@@ -165,6 +168,13 @@ export function promptDialog(label, { title = '', value = '', placeholder = '', 
 // ---------- toast ----------
 // The latest toast's action (usually "undo") also runs with Ctrl/⌘+Z, so it is reachable without hunting for the toast.
 let lastAction = null;
+// A dialog that closes steps back over its history entry; navigating before that lands back on the old page.
+let pendingBack = null;
+export async function navigateAfterModals(hash) {
+  if (pendingBack) await pendingBack;
+  pendingBack = null;
+  location.hash = hash;
+}
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && lastAction && !e.target.closest('input, textarea')) { e.preventDefault(); lastAction.run(); }
 });
@@ -182,7 +192,11 @@ export function toast(message, { kind = 'info', action, timeout = 4500 } = {}) {
     lastAction = { el, run: () => { action.onClick(); close(); } };
   }
   // at most two toasts at a time: older ones (and their undo buttons) go away
-  while (root.children.length >= 2) root.firstElementChild.remove();
+  while (root.children.length >= 2) {
+    const old = root.firstElementChild;
+    if (lastAction?.el === old) lastAction = null; // Ctrl+Z must not undo something no longer on screen
+    old.remove();
+  }
   root.appendChild(el);
   let left = timeout ? (action ? Math.max(timeout, 10000) : timeout) : 0, t0 = Date.now(), timer = null;
   const arm = () => { if (left > 0) { t0 = Date.now(); timer = setTimeout(close, left); } };

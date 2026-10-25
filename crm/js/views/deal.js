@@ -3,9 +3,9 @@
 import { html, render, on, fmt, whatsappUrl } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName, stages, sourceName, LOST_REASONS, label } from '../core/model.js';
-import { dealHealth, paymentsOf } from '../core/metrics.js';
+import { dealHealth, paymentsOf, paidTotal } from '../core/metrics.js';
 import { DOC_KINDS, DOC_STATUS, docStatus, EXPENSE_CATEGORIES } from '../core/finance.js';
-import { pageHeader, icon, badge, setTitle, toast, confirmDialog } from '../ui/components.js';
+import { pageHeader, icon, badge, setTitle, toast, confirmDialog, navigateAfterModals } from '../ui/components.js';
 import { openDealForm, openActivityForm, openTaskForm, openMoneyDialog, moveDeal } from '../ui/forms.js';
 import { timeline, timelineHtml, nextStepCard, completeTask } from './contact.js';
 
@@ -101,11 +101,14 @@ export default async function view(el, ctx) {
     if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
     if (a === 'done') completeTask(b.dataset.id);
     if (a === 'delete') {
-      if (!(await confirmDialog(`למחוק את העסקה "${d.name}"?`, { danger: true, okLabel: 'מחיקה', detail: 'העסקה תוסר גם מהדוחות.' }))) return;
+      const paidSoFar = paidTotal(d);
+      const docs = store.filter('crm_documents', (x) => x.deal_id === id).length;
+      const detail = [paidSoFar ? `נרשמו בה תשלומים בסך ${fmt.money(paidSoFar)}. הם יוסרו מההכנסות, חוץ מתשלומים שנרשמו על מסמך.` : 'העסקה תוסר גם מהדוחות.', docs ? `המסמכים שלה (${docs}) יישארו במסך הכספים.` : ''].filter(Boolean).join(' ');
+      if (!(await confirmDialog(`למחוק את העסקה "${d.name}"?`, { danger: true, okLabel: 'מחיקה', detail }))) return;
       const copy = structuredClone(d);
       try {
         await store.remove('crm_deals', id);
-        location.hash = '#/deals';
+        await navigateAfterModals('#/deals');
         toast('העסקה נמחקה', { action: { label: 'ביטול', onClick: () => store.restore('crm_deals', copy) } });
       } catch (err) { toast(err.message, { kind: 'error' }); }
     }

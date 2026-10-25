@@ -127,7 +127,7 @@ export default async function view(el, ctx) {
       const p = periodFor(st.period);
       const t = rep.total;
       download(`sources-${st.period}.csv`, toCSV([
-        [`תקופה: ${p.label} (${p.from.toISOString().slice(0, 10)} עד ${new Date(p.to - 1).toISOString().slice(0, 10)})`, `ייחוס: ${st.model === 'last' ? 'מקור אחרון' : 'מקור ראשון'}`, 'סכומים בש"ח לפני מע"מ'],
+        [`תקופה: ${p.label} (${toDateInput(p.from)} עד ${toDateInput(new Date(p.to - 1))})`, `ייחוס: ${st.model === 'last' ? 'מקור אחרון' : 'מקור ראשון'}`, 'סכומים בש"ח לפני מע"מ'],
         ['מקור', 'הוצאה', 'לידים', 'מתאימים', 'הפכו ללקוחות', 'שיעור הפיכה %', 'לקוחות חדשים בתקופה', 'הכנסה שנסגרה', 'נגבה', 'עלות לליד', 'CAC', 'ROAS', 'רווח אחרי פרסום', 'ROI %'],
         ...rep.rows.filter(hasActivity).map((r) => [r.name, Math.round(r.spend), r.leads.length, r.qualified.length, r.customers.length, pc(r.closeRate), r.newCustomers.length, r.revenue, r.collected, v(r.cpl), v(r.cac), v(r.roas), Math.round(r.profitAfterAds), v(r.roi)]),
         ['סה"כ', Math.round(t.spend), t.leads, t.qualified, t.customers, pc(t.closeRate), t.newCustomers, t.revenue, t.collected, '', v(t.cac), v(t.roas), Math.round(t.profitAfterAds), v(t.roi)],

@@ -1,7 +1,7 @@
 const { chromium, devices } = require('playwright');
 const fs = require('fs');
 const SHOTS = process.argv[2] || require('os').tmpdir();
-const URL = 'http://localhost:8765/crm/';
+const URL = process.env.HGOS_URL || process.argv[2] || 'http://localhost:8765/crm/';
 const log = (...a) => console.log('•', ...a);
 let fails = 0;
 const check = (cond, msg) => { if (cond) log('PASS', msg); else { fails++; log('FAIL', msg); } };

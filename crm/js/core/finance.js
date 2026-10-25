@@ -1,12 +1,15 @@
 // Business finance: pure calculations over plain rows (testable in Node), cash basis.
 // Money received is counted once: payments recorded on a deal (props.payments) are the source of truth;
-// a document's payments are counted separately only when the document has no deal.
+// a payment on a document is mirrored into its deal with the same id, so a document payment counts only
+// when no live deal holds a payment with that id (no deal, deal deleted, or unlinked later).
+// Money received stays income even if the document is cancelled later.
 // All amounts in reports are before VAT; VAT is tracked separately (output from receipts, input from expenses).
 
 import { paymentsOf, spendIn } from './metrics.js';
 
 const num = (v) => (v == null || v === '' || isNaN(Number(v)) ? 0 : Number(v));
-const r2 = (n) => Math.round(n * 100) / 100;
+// round to agorot; toPrecision removes float noise first, so 1.005 rounds to 1.01 like Postgres round()
+export const r2 = (n) => Math.round(Number((Number(n) * 100).toPrecision(12))) / 100;
 const dayDate = (s) => new Date(`${String(s).slice(0, 10)}T12:00:00`);
 const inP = (d, p) => { const t = d.getTime(); return t >= p.from.getTime() && t < p.to.getTime(); };
 
@@ -54,6 +57,8 @@ export const isOverdue = (doc, now = new Date()) => !!doc.due_date && ['sent', '
 // Every amount of money received in the period, once: { date, net, vat, gross, dealId, docId, contactId }
 export function receipts({ deals = [], documents = [] }, period) {
   const out = [];
+  const onDeals = new Set();
+  for (const d of deals) if (!d.deleted_at) for (const p of paymentsOf(d)) onDeals.add(p.id);
   for (const d of deals) {
     if (d.deleted_at) continue;
     for (const p of paymentsOf(d)) {
@@ -65,8 +70,9 @@ export function receipts({ deals = [], documents = [] }, period) {
     }
   }
   for (const doc of documents) {
-    if (doc.deleted_at || doc.deal_id || doc.status === 'canceled') continue;
+    if (doc.deleted_at) continue;
     for (const p of doc.payments || []) {
+      if (onDeals.has(p.id)) continue;
       const date = dayDate(p.date);
       if (period && !inP(date, period)) continue;
       const gross = num(p.amount);
@@ -102,9 +108,11 @@ export function summary({ deals = [], documents = [], expenses = [], spend = [],
   };
 }
 
-// Money still owed to the business: won deals not fully paid (before VAT), plus open documents without a deal.
+// Money still owed to the business (before VAT): won deals not fully paid, plus open documents that no won deal
+// already covers (no deal, deal deleted, or an advance requested on a deal that is still open). Credit notes are not debts.
 export function receivables({ deals = [], documents = [], contactsById = new Map() }, now = new Date()) {
   const rows = [];
+  const won = new Set(deals.filter((d) => !d.deleted_at && d.outcome === 'won').map((d) => d.id));
   for (const d of deals) {
     if (d.deleted_at || d.outcome !== 'won') continue;
     const paid = paymentsOf(d).reduce((a, p) => a + num(p.amount), 0);
@@ -112,7 +120,7 @@ export function receivables({ deals = [], documents = [], contactsById = new Map
     if (owed > 0.5) rows.push({ kind: 'deal', id: d.id, name: d.name, contactId: d.contact_id, owed, since: d.closed_at, days: Math.floor((now - new Date(d.closed_at || d.updated_at)) / 864e5) });
   }
   for (const doc of documents) {
-    if (doc.deleted_at || doc.deal_id || !['sent', 'partial'].includes(docStatus(doc))) continue;
+    if (doc.deleted_at || doc.kind === 'credit_note' || won.has(doc.deal_id) || !['sent', 'partial'].includes(docStatus(doc))) continue;
     const owedGross = num(doc.total) - num(doc.paid);
     const owed = r2(owedGross / (1 + num(doc.vat_rate) / 100));
     if (owed > 0.5) rows.push({ kind: 'doc', id: doc.id, name: `${doc.number || ''}`, contactId: doc.contact_id, owed, since: doc.issue_date, days: Math.floor((now - dayDate(doc.issue_date)) / 864e5), due: doc.due_date });

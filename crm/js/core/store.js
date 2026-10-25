@@ -35,6 +35,8 @@ class Store {
     this.status = 'idle';
     this.outbox = [];
     this.flushing = false;
+    this.inFlight = null;       // the outbox op being sent right now
+    this.rowQueue = new Map();  // table:id -> last direct write, so writes to one row reach the server in order
   }
 
   on(evt, fn) { if (!this.listeners.has(evt)) this.listeners.set(evt, new Set()); this.listeners.get(evt).add(fn); return () => this.listeners.get(evt)?.delete(fn); }
@@ -97,8 +99,8 @@ class Store {
     if (this.mode === 'local') { try { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}'); } catch { return {}; } }
     return this.workspace?.settings || {};
   }
-  async saveSettings(patch) {
-    const next = { ...this.settings, ...patch };
+  async saveSettings(patch, { replace = false } = {}) {
+    const next = replace ? { ...patch } : { ...this.settings, ...patch };
     if (this.mode === 'local') { localStorage.setItem(SETTINGS_KEY, JSON.stringify(next)); this.emit('change', { tables: ['settings'], source: 'user' }); return next; }
     await db.patch('crm_workspaces', this.workspace.id, { settings: next });
     this.workspace.settings = next;
@@ -120,6 +122,7 @@ class Store {
           changed.add(t);
         }
       }));
+      if (this.outbox.length) this.flush();
       if (changed.size) this.emit('change', { tables: [...changed], source: 'remote' });
       if (this.status === 'offline' && !this.outbox.length) this.setStatus('saved');
     } catch (e) {
@@ -149,7 +152,8 @@ class Store {
   // ---------- writes ----------
   async insert(t, data) {
     const now = new Date().toISOString();
-    const row = beforeSave(t, { id: uuid(), workspace_id: this.workspace.id, created_at: now, updated_at: now, created_by: this.userId, ...data }, null, this);
+    let row;
+    try { row = beforeSave(t, { id: uuid(), workspace_id: this.workspace.id, created_at: now, updated_at: now, created_by: this.userId, ...data }, null, this); } catch (e) { throw humanize(e); }
     this._put(t, row);
     this.emit('change', { tables: [t], op: 'insert', row, source: 'user' });
     return this._send({ op: 'insert', table: t, id: row.id, data: row }, null);
@@ -158,7 +162,8 @@ class Store {
     const cur = this.get(t, id);
     if (!cur) throw new ApiError('הרשומה לא נמצאה');
     const prev = structuredClone(cur);
-    const next = beforeSave(t, { ...cur, ...patch }, prev, this);
+    let next;
+    try { next = beforeSave(t, { ...cur, ...patch }, prev, this); } catch (e) { throw humanize(e); }
     const diff = {};
     for (const k of Object.keys(next)) if (JSON.stringify(next[k]) !== JSON.stringify(prev[k])) diff[k] = next[k];
     if (!Object.keys(diff).length) return cur;
@@ -194,24 +199,32 @@ class Store {
       this.emit('change', { tables: TABLES, source: 'rules' });
       return row;
     }
-    // an update to a row whose insert is still queued is merged into that insert
-    const queued = this.outbox.find((o) => o.table === op.table && o.id === op.id && o.op === 'insert');
+    // an update to a row whose insert is still queued is merged into that insert (unless it is being sent right now)
+    const queued = this.outbox.find((o) => o.table === op.table && o.id === op.id && o.op === 'insert' && o !== this.inFlight);
     if (queued) { Object.assign(queued.data, op.data); this._saveOutbox(); return this.get(op.table, op.id); }
     if (this.outbox.length) { this.outbox.push(op); this._saveOutbox(); this.flush(); return this.get(op.table, op.id); }
     this.setStatus('saving');
+    // writes to the same row are sent one after the other, so an older response never overwrites a newer one
+    const key = `${op.table}:${op.id}`;
+    const before = this.rowQueue.get(key);
+    const run = (before ? before.catch(() => {}) : Promise.resolve()).then(() => this._exec(op));
+    this.rowQueue.set(key, run);
+    run.catch(() => {}).finally(() => { if (this.rowQueue.get(key) === run) this.rowQueue.delete(key); });
     try {
-      const row = await this._exec(op);
+      const row = await run;
       this._afterServer(op, row);
       this.setStatus(this.outbox.length ? 'pending' : 'saved');
       return row;
     } catch (e) {
-      if (e.network) {
+      if (transient(e)) {
         this.outbox.push(op);
         this._saveOutbox();
         this.setStatus('offline');
+        this._retryLater();
         return this.get(op.table, op.id);
       }
       this._rollback(op, prev);
+      this._resync(op.table, op.id);
       this.setStatus(this.outbox.length ? 'pending' : 'saved');
       throw humanize(e);
     }
@@ -232,6 +245,19 @@ class Store {
     else if (prev) { if (!this.get(op.table, op.id)) this._put(op.table, prev); else { const cur = this.get(op.table, op.id); Object.keys(cur).forEach((k) => delete cur[k]); Object.assign(cur, prev); } }
     this.emit('change', { tables: [op.table], op: 'rollback', source: 'user' });
   }
+  // Load one row as the server has it (after a rejected write the local copy may be wrong).
+  async _resync(t, id) {
+    try {
+      const [row] = await db.select(t, `select=*&id=eq.${encodeURIComponent(id)}`);
+      if (this.outbox.some((op) => op.table === t && op.id === id)) return;
+      if (!row || row.deleted_at) this._drop(t, id); else this._put(t, row);
+      this.emit('change', { tables: [t], op: 'server', source: 'server' });
+    } catch { /* next refresh or reload */ }
+  }
+  _retryLater(ms = 15000) {
+    clearTimeout(this.retryTimer);
+    this.retryTimer = setTimeout(() => this.flush(), ms);
+  }
   _saveOutbox() {
     try { localStorage.setItem(`${OUTBOX_KEY}:${this.workspace.id}`, JSON.stringify(this.outbox)); } catch { /* storage full: still in memory */ }
   }
@@ -242,19 +268,21 @@ class Store {
     try {
       while (this.outbox.length) {
         const op = this.outbox[0];
+        this.inFlight = op;
         try {
           const row = await this._exec(op);
           this.outbox.shift();
           this._saveOutbox();
           this._afterServer(op, row);
         } catch (e) {
-          if (e.network) { this.setStatus('offline'); setTimeout(() => this.flush(), 15000); return; }
-          // the server rejected a queued change: drop it, tell the user, reload the true state
+          // server busy or unreachable: keep everything queued and try again later
+          if (transient(e)) { this.setStatus('offline'); this._retryLater(); return; }
+          // the server rejected a queued change: drop it, tell the user, reload that row as the server has it
           this.outbox.shift();
           this._saveOutbox();
           this.emit('error', humanize(e));
-          await this.refresh();
-        }
+          await this._resync(op.table, op.id);
+        } finally { this.inFlight = null; }
       }
       this.setStatus('saved');
     } finally { this.flushing = false; }
@@ -269,6 +297,9 @@ class Store {
     return { app: 'hg-os', exportedAt: new Date().toISOString(), workspace: this.workspace?.name, settings: this.settings, rows: this.rows };
   }
 }
+
+// Errors worth retrying: no connection, server overloaded or temporarily down.
+const transient = (e) => e?.network || e?.status >= 500 || e?.status === 429 || e?.status === 408;
 
 // Columns the server owns; never sent from the client.
 function stripServerCols(d, keepId = false) {
@@ -290,11 +321,14 @@ const CONSTRAINTS = {
   stage_not_found: 'השלב לא נמצא. רעננו את העמוד.',
   crm_ad_spend_day_uq: 'כבר הוזנה הוצאה למקור ולתקופה האלה. ערכו את השורה הקיימת.',
   crm_sources_key_uq: 'כבר קיים מקור בשם הזה.',
+  crm_documents_number_uq: 'כבר קיים מסמך מהסוג הזה עם המספר הזה (גם אם בוטל).',
+  crm_deals_check: 'תאריך הסגירה מוקדם מתאריך פתיחת העסקה.',
 };
 export function humanize(e) {
-  if (!(e instanceof ApiError)) return e;
-  const hay = `${e.message} ${e.details}`;
+  if (!(e instanceof Error)) return e;
+  const hay = `${e.message} ${e.details || ''}`;
   for (const [k, msg] of Object.entries(CONSTRAINTS)) if (hay.includes(k)) return new ApiError(msg, e);
+  if (!(e instanceof ApiError)) return e;
   if (e.status === 401 || e.status === 403 || e.code === '42501') return new ApiError('אין הרשאה לפעולה הזו. התחברו מחדש.', e);
   if (e.code === '23514') return new ApiError(`ערך לא תקין: ${e.message}`, e);
   return e;

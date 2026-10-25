@@ -1,6 +1,6 @@
 // Settings: pipeline stages, marketing sources, data export, account.
 
-import { html, render, on, toCSV, download, fmt } from '../core/util.js';
+import { html, render, on, toCSV, download, fmt, toDateInput } from '../core/util.js';
 import { store } from '../core/store.js';
 import { auth } from '../core/api.js';
 import { stages, contactName, sourceName, stageName, label, TASK_TYPES, ACTIVITY_TYPES, LOST_REASONS } from '../core/model.js';
@@ -112,10 +112,10 @@ export default async function view(el, ctx) {
     const bk = await import('../core/backup.js');
     let n;
     try { n = bk.validateBackup(obj); } catch (err) { toast(err.message, { kind: 'error', timeout: 8000 }); return; }
-    if (!(await confirmDialog(`לשחזר ${what}? (${n.contacts} לידים, ${n.deals} עסקאות, ${n.tasks} משימות)`, { okLabel: 'שחזור', danger: true, detail: 'הנתונים הנוכחיים יוחלפו. לפני השחזור יורד אוטומטית קובץ גיבוי של המצב הנוכחי.' }))) return;
+    if (!(await confirmDialog(`לשחזר ${what}? (${n.contacts} לידים, ${n.deals} עסקאות, ${n.tasks} משימות, ${n.documents} מסמכים, ${n.expenses} הוצאות)`, { okLabel: 'שחזור', danger: true, detail: 'הנתונים הנוכחיים יוחלפו. לפני השחזור יורד אוטומטית קובץ גיבוי של המצב הנוכחי.' }))) return;
     download(`hg-os-before-restore-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`, JSON.stringify(bk.backupPayload(store)), 'application/json');
     store.replaceAllLocal(obj.rows);
-    if (obj.settings) await store.saveSettings(obj.settings);
+    if (obj.settings) await store.saveSettings(obj.settings, { replace: true });
     toast('השחזור הושלם', { kind: 'success' });
     location.hash = '#/today';
   };
@@ -141,7 +141,7 @@ export default async function view(el, ctx) {
   on(el, 'submit', '[data-biz]', async (e, f) => {
     e.preventDefault();
     const v = Object.fromEntries(new FormData(f).entries());
-    v.vatRate = Number(v.vatRate);
+    v.vatRate = v.vatRate === '' ? NaN : Number(v.vatRate);
     if (!(v.vatRate >= 0 && v.vatRate <= 30)) { toast('שיעור מע"מ לא תקין', { kind: 'error' }); return; }
     if (v.taxId && !/^\d{8,9}$/.test(v.taxId.replace(/\D/g, ''))) { toast('מספר עוסק / ח.פ. צריך 8–9 ספרות', { kind: 'error' }); return; }
     try { await store.saveSettings(v); toast('פרטי העסק נשמרו', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); }
@@ -162,7 +162,7 @@ export default async function view(el, ctx) {
   });
   on(el, 'click', '[data-act]', async (e, b) => {
     const a = b.dataset.act;
-    const day = new Date().toISOString().slice(0, 10);
+    const day = toDateInput(new Date());
     if (a === 'add-source') {
       const name = await promptDialog('שם המקור', { title: 'מקור חדש', placeholder: 'למשל: TikTok, כנס, אתר שותף' });
       if (!name) return;
@@ -195,7 +195,9 @@ export default async function view(el, ctx) {
       rows.crm_tasks = rows.crm_tasks.filter((t) => !ids.has(t.contact_id) && !dealIds.has(t.deal_id));
       rows.crm_activities = rows.crm_activities.filter((x) => !ids.has(x.contact_id) && !dealIds.has(x.deal_id));
       rows.crm_deal_stage_history = rows.crm_deal_stage_history.filter((h) => !dealIds.has(h.deal_id));
-      rows.crm_ad_spend = [];
+      rows.crm_ad_spend = rows.crm_ad_spend.filter((s) => !s.sample); // keep spend the user entered
+      rows.crm_documents = (rows.crm_documents || []).filter((x) => !ids.has(x.contact_id) && !dealIds.has(x.deal_id));
+      rows.crm_expenses = (rows.crm_expenses || []).filter((x) => !dealIds.has(x.deal_id));
       store.replaceAllLocal(rows);
       toast('נתוני הדוגמה נמחקו', { kind: 'success' });
       draw();
