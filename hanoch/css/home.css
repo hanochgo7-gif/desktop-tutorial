@@ -224,3 +224,14 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 .card .links .card-wa svg { width: 18px; height: 18px; fill: currentColor; }
 /* בטלפון הסרגל התחתון כבר נותן וואטסאפ, אז הכפתור בראש העמוד מוסתר כדי שלא יהיו שלושה כפתורים ירוקים במסך הראשון */
 @media (max-width: 899px) { .top-wa { display: none; } }
+
+/* הגלובוס: כניסה לתיק העבודות המלא (archive/), שבו כל העבודות מסודרות על כדור שמסתובב */
+.globe { margin-top: clamp(28px, 5vw, 48px); display: grid; gap: 18px; align-items: center; padding: 18px; border-radius: 24px; background: radial-gradient(120% 90% at 50% 40%, var(--ink-3), var(--ink) 70%); border: 1px solid var(--fg-faint); text-decoration: none; color: var(--fg); overflow: hidden; }
+.globe img { width: min(100%, 420px); height: auto; aspect-ratio: 1; margin-inline: auto; border-radius: 50%; transition: transform 1.2s cubic-bezier(.2, .7, .1, 1); }
+.globe:hover img { transform: rotate(-8deg) scale(1.03); }
+.globe-txt { display: grid; gap: .5rem; }
+.globe-txt b { font-size: clamp(1.5rem, 3.6vw, 2.3rem); line-height: 1.15; }
+.globe-txt > span { color: var(--fg-dim); max-width: 32em; }
+.globe-txt .globe-go { color: var(--signal); font-weight: 600; margin-top: .3rem; }
+@media (min-width: 900px) { .globe { grid-template-columns: 420px 1fr; gap: 48px; padding: 28px 40px; } }
+@media (prefers-reduced-motion: reduce) { .globe img { transition: none; } }
