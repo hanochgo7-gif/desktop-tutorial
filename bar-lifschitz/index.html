@@ -189,7 +189,6 @@
     line-height: .84; letter-spacing: -0.025em;
     margin-inline-start: -0.04em;
   }
-  .hero-name .ch, .split .ch { display: inline-block; will-change: transform; }
   .hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; margin-top: clamp(22px, 3vw, 36px); }
   .hero-lede { font-size: clamp(1.15rem, 1.7vw, 1.4rem); line-height: 1.6; max-width: 30em; margin: 0; color: #efe7e8; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -1036,12 +1035,7 @@
       });
     }));
 
-    // פיצול טקסט לאותיות ולמילים
-    const splitChars = el => {
-      el.setAttribute('aria-label', el.textContent.trim());
-      el.innerHTML = [...el.textContent.trim()].map(c => c === ' ' ? ' ' : `<span class="ch" aria-hidden="true">${c}</span>`).join('');
-      return el.querySelectorAll('.ch');
-    };
+    // פיצול טקסט למילים
     const splitWords = el => {
       const words = el.textContent.trim().split(/\s+/);
       el.innerHTML = words.map(w => `<span class="w" style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em"><span class="wi" style="display:inline-block">${w}</span></span>`).join(' ');
