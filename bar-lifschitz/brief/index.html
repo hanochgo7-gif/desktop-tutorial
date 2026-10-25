@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>שאלון לאתר | בר ליפשיץ</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="שאלון קצר לבניית האתר: המידע שחסר לנו כדי לסיים אותו בדיוק כמו שאתה רוצה.">
+<meta property="og:title" content="שאלון לאתר של בר">
+<meta property="og:description" content="בערך 10 דקות. אפשר לעצור ולהמשיך, הכול נשמר.">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/yard-wide.jpg">
+<meta name="theme-color" content="#1e0d12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1219'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f3f2ec' font-family='serif'%3Eב%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --linen: #f3f2ec; --paper: #ebe9e1; --fig: #2b1219; --night: #1e0d12; --beet: #9c1b2c; --rose: #e7a3ad;
+    --olive: #5e6142; --soft: #6b5a5e; --line: rgba(43,18,25,.16);
+    --display: "Bellefair", "Frank Ruhl Libre", serif;
+    --body: "Assistant", "Heebo", system-ui, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--fig); font: 400 1.075rem/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--beet); outline-offset: 3px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1.05; }
+  p { margin: 0 0 1em; }
+
+  /* ---------- מבנה ---------- */
+  .top {
+    position: sticky; top: 0; z-index: 10; background: var(--night); color: var(--linen);
+    padding: 14px clamp(16px, 5vw, 40px) 0;
+  }
+  .top-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; max-width: 760px; margin: 0 auto; }
+  .top .mark { font-family: var(--display); font-size: 1.45rem; }
+  .top .where { font-size: .9rem; color: #d4c7ca; }
+  .bar { max-width: 760px; margin: 12px auto 0; height: 2px; background: rgba(243,242,236,.15); }
+  .bar i { display: block; height: 100%; background: var(--rose); transform-origin: right; transform: scaleX(0); transition: transform .6s var(--ease); }
+
+  main { max-width: 760px; margin: 0 auto; padding: clamp(28px, 6vw, 56px) clamp(16px, 5vw, 40px) 140px; }
+  .step { display: none; }
+  .step.on { display: block; animation: rise .55s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .step.on { animation: none; } .bar i { transition: none; } }
+
+  .kicker { color: var(--beet); font-size: .95rem; font-weight: 600; margin-bottom: 10px; }
+  .step h2 { font-size: clamp(2.2rem, 7vw, 3.2rem); margin-bottom: 12px; }
+  .lead { color: var(--soft); font-size: 1.05rem; max-width: 36em; margin-bottom: 28px; }
+
+  /* ---------- שאלה ---------- */
+  .q { padding: 24px 0; border-top: 1px solid var(--line); }
+  .q[hidden] { display: none; }
+  .q-title { font-weight: 700; font-size: 1.08rem; line-height: 1.45; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .q-title .key { font-weight: 600; font-size: .78rem; color: var(--beet); border: 1px solid rgba(156,27,44,.35); border-radius: 999px; padding: 1px 9px; }
+  .q-hint { color: var(--soft); font-size: .95rem; margin-bottom: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .chip span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px;
+    border: 1px solid rgba(43,18,25,.35); border-radius: 999px; background: var(--linen);
+    cursor: pointer; font-weight: 600; font-size: .98rem; line-height: 1.3;
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .chip input:checked + span { background: var(--fig); border-color: var(--fig); color: var(--linen); }
+  .chip input:focus-visible + span { outline: 2px solid var(--beet); outline-offset: 3px; }
+  .field { margin-top: 12px; }
+  .field input, .field textarea {
+    width: 100%; background: var(--linen); border: 1px solid rgba(43,18,25,.25); border-radius: 2px;
+    padding: 12px 14px; font-size: 1rem; line-height: 1.5;
+  }
+  .field textarea { min-height: 92px; resize: vertical; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--fig); box-shadow: 0 0 0 1px var(--fig); }
+  .field input::placeholder, .field textarea::placeholder { color: #9a8f8c; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
+  .mini { font-size: .85rem; color: var(--soft); margin: 6px 0 0; }
+
+  /* אישור עובדות מהאתר */
+  .fact { background: var(--linen); border: 1px solid var(--line); padding: 16px 18px; margin-top: 12px; }
+  .fact p { margin: 0 0 10px; font-family: var(--display); font-size: 1.2rem; line-height: 1.35; }
+  .fact .chips { margin-top: 0; }
+
+  /* ---------- פתיחה ---------- */
+  .intro-card { background: var(--night); color: var(--linen); padding: clamp(28px, 6vw, 48px); margin-bottom: 28px; position: relative; overflow: hidden; }
+  .intro-card::after { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(243,242,236,.2); pointer-events: none; }
+  .intro-card h1 { font-size: clamp(2.6rem, 9vw, 4rem); margin-bottom: 14px; }
+  .intro-card p { color: #e2d8da; max-width: 32em; }
+  .intro-list { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 8px; color: #e2d8da; font-size: .98rem; }
+  .intro-list li::before { content: "·"; color: var(--rose); margin-inline-end: 10px; font-weight: 700; }
+  .intro-card a { color: var(--rose); }
+
+  /* ---------- ניווט תחתון ---------- */
+  .nav {
+    position: fixed; inset: auto 0 0 0; z-index: 10; background: rgba(235,233,225,.94);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+    padding: 12px clamp(16px, 5vw, 40px) calc(12px + env(safe-area-inset-bottom));
+  }
+  .nav-row { max-width: 760px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 26px;
+    border-radius: 999px; border: 1px solid var(--fig); background: var(--fig); color: var(--linen);
+    font-weight: 700; font-size: 1rem; cursor: pointer; text-decoration: none; transition: background-color .2s, border-color .2s;
+  }
+  .btn:hover { background: var(--beet); border-color: var(--beet); }
+  .btn.ghost { background: transparent; color: var(--fig); }
+  .btn.ghost:hover { background: var(--fig); color: var(--linen); }
+  .btn[hidden] { display: none; }
+  .saved { font-size: .85rem; color: var(--soft); }
+
+  /* ---------- סיכום ---------- */
+  .summary { background: var(--linen); border: 1px solid var(--line); padding: 20px; white-space: pre-wrap; font-size: .95rem; line-height: 1.6; max-height: 50vh; overflow: auto; }
+  .done-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .note { color: var(--soft); font-size: .95rem; margin-top: 14px; }
+  .toast { position: fixed; z-index: 20; inset: auto 50% 96px auto; transform: translate(50%, 20px); opacity: 0; background: var(--fig); color: var(--linen); padding: 10px 18px; border-radius: 999px; font-size: .95rem; transition: opacity .3s, transform .3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(50%, 0); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <span class="mark">בר ליפשיץ</span>
+    <span class="where" id="where">פתיחה</span>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<main id="app">
+  <section class="step on" data-step="intro">
+    <div class="intro-card">
+      <h1>שאלון לאתר</h1>
+      <p>היי בר. האתר כמעט מוכן, ואנחנו רוצים לסיים אותו בדיוק כמו שאתה רוצה. השאלון עוזר לנו להשלים את מה שחסר ולוודא שכל מה שכתוב באתר נכון.</p>
+      <ul class="intro-list">
+        <li>בערך 10 דקות, ברובו בלחיצות</li>
+        <li>אפשר לדלג על כל שאלה, ולחזור אליה אחר כך</li>
+        <li>הכול נשמר בטלפון שלך, אז אפשר לעצור ולהמשיך</li>
+        <li>בסוף, לחיצה אחת שולחת לנו את כל התשובות בוואטסאפ</li>
+      </ul>
+      <p style="margin-top:22px">את הטיוטה של האתר אפשר לראות <a href="../" target="_blank" rel="noopener">כאן</a>.</p>
+    </div>
+    <p class="lead">שאלות שמסומנות <span style="color:var(--beet);font-weight:600">חשוב</span> הן אלה שבלעדיהן אי אפשר להעלות את האתר ללקוחות. את השאר אפשר להשלים בהמשך.</p>
+  </section>
+</main>
+
+<nav class="nav" aria-label="ניווט בשאלון">
+  <div class="nav-row">
+    <button class="btn ghost" type="button" id="prev" hidden>הקודם</button>
+    <span class="saved" id="saved" aria-live="polite"></span>
+    <button class="btn" type="button" id="next">מתחילים</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  // מספר הוואטסאפ שאליו נשלחות התשובות (פורמט בינלאומי, בלי + ובלי אפס מוביל). ריק = וואטסאפ יבקש לבחור איש קשר.
+  const SEND_TO = '';
+
+  // ---------- השאלות ----------
+  // type: one (בחירה אחת) | many (כמה בחירות) | text | long | tel | num | fact (אישור עובדה מהאתר) | prices (מחירים לתפריטים)
+  // other: true מוסיף "אחר" עם שדה טקסט. key: true מסמן "חשוב". when: מתי להציג.
+  const STEPS = [
+    { id: 'contact', title: 'הזמנות ויצירת קשר', lead: 'איך לקוחות מגיעים אליך, ואיך הם משלמים.', qs: [
+      { id: 'wa', type: 'tel', key: true, label: 'מספר הוואטסאפ שאליו יגיעו ההזמנות', ph: '050-0000000' },
+      { id: 'email', type: 'text', label: 'מייל להצגה באתר', hint: 'לא חובה. אם אין, נשאיר רק וואטסאפ ואינסטגרם.', ph: 'name@example.com' },
+      { id: 'booking', type: 'one', key: true, label: 'איך אתה רוצה לקבל הזמנות?', opts: ['רק בוואטסאפ, אני מאשר ידנית', 'וואטסאפ, ובהמשך מערכת הזמנות עם תשלום', 'עדיף מערכת הזמנות עם תשלום כבר עכשיו'] },
+      { id: 'deposit', type: 'one', key: true, label: 'תשלום מראש', opts: ['בלי תשלום מראש', 'מקדמה לשריון המקום', 'תשלום מלא מראש'] },
+      { id: 'deposit_amount', type: 'text', label: 'כמה מקדמה?', ph: 'למשל 100 ₪ לאורח, או 30%', when: a => a.deposit === 'מקדמה לשריון המקום' },
+      { id: 'pay', type: 'many', label: 'איך משלמים לך?', opts: ['ביט', 'פייבוקס', 'העברה בנקאית', 'כרטיס אשראי', 'מזומן'], other: true },
+      { id: 'cancel', type: 'one', key: true, label: 'מדיניות ביטול', hint: 'זה יופיע בשאלות באתר ובאישור ההזמנה.', opts: ['ביטול עד 7 ימים לפני: החזר מלא', 'ביטול עד 72 שעות לפני: החזר מלא', 'אין החזר, אבל אפשר להעביר את המקום למישהו אחר'], other: true },
+      { id: 'invoice', type: 'one', label: 'עוסק פטור או מורשה?', hint: 'כדי לדעת אם לכתוב שהמחירים כוללים מע״מ.', opts: ['עוסק פטור', 'עוסק מורשה', 'חברה', 'עוד לא פתחתי'] },
+    ]},
+    { id: 'yard', title: 'הערבים בחצר', lead: 'הפרטים המעשיים של שולחן סוף השבוע.', qs: [
+      { id: 'days', type: 'many', key: true, label: 'באילו ימים יש ערבים בחצר?', opts: ['שישי', 'שבת', 'גם באמצע השבוע'] },
+      { id: 'frequency', type: 'one', label: 'באיזו תדירות?', opts: ['כל סוף שבוע', 'פעמיים בחודש', 'פעם בחודש', 'לפי הזמנה בלבד'] },
+      { id: 'start', type: 'text', label: 'מתי מתחיל ערב, ובערך כמה זמן הוא נמשך?', hint: 'כרגע באתר כתוב: מגיעים ב־19:30, בערך ארבע שעות.', ph: '19:30, בערך 4 שעות' },
+      { id: 'seats', type: 'text', key: true, label: 'כמה מקומות יש בשולחן?', hint: 'מינימום ומקסימום. כרגע באתר: 2 עד 20.', ph: 'למשל 8 עד 18' },
+      { id: 'solo', type: 'one', label: 'אפשר להזמין מקום לאדם אחד?', opts: ['כן', 'רק מזוג ומעלה'] },
+      { id: 'private', type: 'one', label: 'אפשר לסגור את כל השולחן לקבוצה אחת?', opts: ['כן', 'לא'] },
+      { id: 'private_min', type: 'num', label: 'מאיזה מספר אורחים סוגרים לקבוצה?', ph: '12', when: a => a.private === 'כן' },
+      { id: 'kids', type: 'one', label: 'ילדים בערב בחצר', opts: ['ברוכים הבאים', 'מגיל מסוים', 'מבוגרים בלבד'] },
+      { id: 'kids_age', type: 'text', label: 'מאיזה גיל?', ph: '12', when: a => a.kids === 'מגיל מסוים' },
+      { id: 'kosher', type: 'one', key: true, label: 'כשרות', hint: 'בתפריט לדוגמה יש פרושוטו. חשוב לנו לדעת מה נכון להציג.', opts: ['לא כשר', 'לא כשר, אבל בלי חזיר ופירות ים', 'כשר'] },
+      { id: 'alcohol', type: 'one', key: true, label: 'יין ושתייה בערב', opts: ['יין כלול במחיר', 'יין בתוספת תשלום', 'מביאים לבד (BYOB)', 'שילוב: יש יין, ואפשר גם להביא'] },
+      { id: 'diet', type: 'many', label: 'למי אתה יכול להתאים את התפריט?', opts: ['צמחונים', 'טבעונים', 'ללא גלוטן', 'אלרגיות לאגוזים', 'ללא לקטוז'], other: true },
+      { id: 'rain', type: 'one', key: true, label: 'מה קורה כשיורד גשם או קר?', opts: ['יש מקום מקורה ומחומם', 'דוחים לתאריך אחר', 'אין ערבים בחורף'], other: true },
+      { id: 'address', type: 'one', label: 'הכתובת', opts: ['להציג באתר רק "מצפה מתת"', 'לשלוח כתובת רק אחרי אישור', 'אפשר להציג כתובת מלאה'] },
+      { id: 'parking', type: 'text', label: 'חניה ונגישות', hint: 'יש חניה? יש מדרגות? מתאים לכיסא גלגלים?', ph: 'יש חניה ברחוב, כניסה בלי מדרגות' },
+      { id: 'dress', type: 'text', label: 'משהו שחשוב שאורחים יידעו לפני שמגיעים?', ph: 'למשל: נעליים נוחות, מעיל לערב, מגיעים בזמן' },
+    ]},
+    { id: 'home', title: 'ארוחות אצל לקוחות', lead: 'מה אתה מציע מחוץ לחצר.', qs: [
+      { id: 'home_offer', type: 'one', key: true, label: 'אתה מציע ארוחות שף אצל לקוחות בבית?', opts: ['כן', 'לא', 'רק במקרים מיוחדים'] },
+      { id: 'home_types', type: 'many', label: 'איזה סוגי אירועים?', opts: ['ארוחת ערב פרטית', 'ימי הולדת ואירועים משפחתיים', 'אירועי חברה', 'ארוחות צהריים', 'סדנאות בישול'], other: true, when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'home_area', type: 'many', label: 'לאילו אזורים אתה מגיע?', opts: ['הגליל והגולן', 'חיפה והקריות', 'השרון והמרכז', 'ירושלים', 'הדרום', 'כל הארץ'], when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'home_guests', type: 'text', label: 'כמה סועדים: מינימום ומקסימום', ph: 'למשל 8 עד 40', when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'home_needs', type: 'many', label: 'מה אתה צריך מהמארחים?', opts: ['מטבח', 'גריל או מקום לאש', 'שולחנות וכיסאות', 'כלים וצלחות', 'כלום, אני מביא הכול'], when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'home_team', type: 'one', label: 'מי מגיע איתך?', opts: ['אני לבד', 'אני ועוזר', 'צוות לפי גודל האירוע'], when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'home_lead', type: 'one', label: 'כמה זמן מראש צריך להזמין?', opts: ['שבוע', 'שבועיים', 'חודש', 'לפי האירוע'], when: a => a.home_offer && a.home_offer !== 'לא' },
+    ]},
+    { id: 'prices', title: 'מחירים', lead: 'כרגע המחירים במחשבון באתר הם לדוגמה. כאן אנחנו מחליפים אותם במחירים שלך.', qs: [
+      { id: 'price_model', type: 'one', key: true, label: 'איך בנוי המחיר של ערב בחצר?', opts: ['מחיר אחד קבוע לאורח', 'כמה תפריטים במחירים שונים', 'משתנה מערב לערב'] },
+      { id: 'price_one', type: 'text', key: true, label: 'מחיר לאורח', ph: 'למשל 450 ₪', when: a => a.price_model === 'מחיר אחד קבוע לאורח' || a.price_model === 'משתנה מערב לערב' },
+      { id: 'price_tiers', type: 'prices', key: true, label: 'התפריטים והמחירים', hint: 'שם התפריט, כמה מנות, ומחיר לאורח. כרגע באתר: ערב שף 380, ערב חתימה 480, שולחן השף 640.', when: a => a.price_model === 'כמה תפריטים במחירים שונים' },
+      { id: 'addons', type: 'many', label: 'אילו תוספות אתה מציע?', hint: 'כרגע באתר יש את כולן. מה שלא תסמן, נוריד.', opts: ['התאמת יינות', 'קבלת פנים וקוקטייל', 'מנת פרימיום', 'פרחים ועיצוב שולחן', 'קינוח חגיגי עם הקדשה'], other: true },
+      { id: 'addons_prices', type: 'long', label: 'מחירי התוספות', ph: 'התאמת יינות 140 ₪ לאורח\nפרחים 450 ₪', when: a => a.addons && a.addons.length },
+      { id: 'home_price', type: 'text', label: 'מחיר לארוחה אצל לקוחות', hint: 'מחיר לאורח, מינימום להזמנה, ותוספת נסיעה אם יש.', ph: '550 ₪ לאורח, מינימום 10, נסיעה למרכז 750 ₪', when: a => a.home_offer && a.home_offer !== 'לא' },
+      { id: 'show_prices', type: 'one', key: true, label: 'להציג מחירים באתר?', opts: ['כן, מחירים מלאים', 'רק "החל מ־"', 'בלי מחירים, רק "צרו קשר"'] },
+      { id: 'calculator', type: 'one', label: 'מחשבון הצעת המחיר באתר', opts: ['להשאיר כמו שהוא', 'להשאיר אבל לפשט', 'להוריד'] },
+    ]},
+    { id: 'food', title: 'האוכל והסיפור', lead: 'כדי שהטקסטים באתר יישמעו כמוך.', qs: [
+      { id: 'three_words', type: 'text', label: 'תאר את הבישול שלך בשלוש מילים', ph: 'אש, ים, פשוט' },
+      { id: 'signature', type: 'long', label: 'מנות החתימה שלך', hint: '2 עד 4 מנות שאנשים מבקשים שוב.', ph: 'סשימי האמצ׳י בקונסומה דובדבנים\n...' },
+      { id: 'menu_ok', type: 'one', label: 'התפריט לדוגמה באתר (לחם מהאש, סשימי, בוראטה, פרושוטו, נתח בקר, שוקולד)', opts: ['מדויק, אפשר להשאיר', 'צריך תיקונים'] },
+      { id: 'menu_fix', type: 'long', label: 'מה לתקן בתפריט?', when: a => a.menu_ok === 'צריך תיקונים' },
+      { id: 'suppliers', type: 'long', label: 'ספקים, חקלאים ויקבים שאפשר להזכיר בשמם', hint: 'באתרים של המסעדות הגדולות זה מוסיף הרבה אמינות. כרגע מוזכר רק יקב תל שיפון.', ph: 'יקב ..., דייג ..., משק ...' },
+      { id: 'story', type: 'long', label: 'איך התחלת לבשל לאנשים?', hint: 'כמה משפטים, בשפה שלך. אנחנו נעשה עריכה.' },
+      { id: 'why', type: 'text', label: 'משפט אחד: למה אתה עושה את זה?', ph: 'למשל: כי שולחן מלא אנשים זה הדבר הכי טוב שיש' },
+    ]},
+    { id: 'site', title: 'האתר', lead: 'מה האתר צריך לעשות בשבילך, ואיך הוא צריך להרגיש.', qs: [
+      { id: 'goal', type: 'many', key: true, label: 'מה הכי חשוב שהאתר יעשה?', hint: 'אפשר לבחור עד שלוש.', max: 3, opts: ['למלא את השולחן בסופי שבוע', 'להביא ארוחות פרטיות', 'למכור שוברי מתנה', 'אירועי חברה', 'לבנות שם ומותג'] },
+      { id: 'audience', type: 'many', label: 'מי האורחים שאתה הכי רוצה?', opts: ['זוגות', 'חברים', 'משפחות', 'חברות וצוותים', 'תיירים'] },
+      { id: 'feel', type: 'many', label: 'איך האתר צריך להרגיש?', hint: 'בחר עד שלוש מילים.', max: 3, opts: ['יוקרתי', 'חם וביתי', 'כפרי', 'אמנותי', 'צעיר ופרוע', 'מינימליסטי', 'רומנטי'] },
+      { id: 'like', type: 'long', label: 'מה אהבת בטיוטה?' },
+      { id: 'change', type: 'long', label: 'מה היית משנה, מוריד או מוסיף?' },
+      { id: 'refs', type: 'text', label: 'אתרים, מסעדות או חשבונות שאתה אוהב את הסגנון שלהם', ph: 'קישורים או שמות' },
+      { id: 'name', type: 'one', label: 'שם המותג', opts: ['"בר ליפשיץ" זה מצוין', 'יש לי שם אחר לחוויה'] },
+      { id: 'name_other', type: 'text', label: 'מה השם?', when: a => a.name === 'יש לי שם אחר לחוויה' },
+      { id: 'logo', type: 'one', label: 'יש לך לוגו?', opts: ['יש, אשלח', 'אין, ואני רוצה', 'אין, ולא צריך'] },
+      { id: 'domain', type: 'one', label: 'כתובת לאתר (דומיין)', hint: 'למשל barlif.co.il. עולה בערך 70 עד 100 ₪ בשנה.', opts: ['יש לי כבר', 'רוצה שנקנה', 'לא צריך כרגע'] },
+      { id: 'domain_name', type: 'text', label: 'איזו כתובת?', ph: 'barlif.co.il', when: a => a.domain === 'יש לי כבר' || a.domain === 'רוצה שנקנה' },
+      { id: 'lang', type: 'one', label: 'שפות', opts: ['עברית בלבד', 'עברית ואנגלית'] },
+      { id: 'gift', type: 'one', label: 'שוברי מתנה', opts: ['להשאיר', 'להוריד'] },
+      { id: 'gift_valid', type: 'one', label: 'תוקף לשובר', opts: ['חצי שנה', 'שנה', 'שנתיים'], when: a => a.gift === 'להשאיר' },
+      { id: 'updates', type: 'one', label: 'איך לעדכן אנשים על תאריכים חדשים?', opts: ['הודעה אישית בוואטסאפ', 'ערוץ וואטסאפ', 'רשימת תפוצה במייל', 'רק באינסטגרם'] },
+      { id: 'dates_owner', type: 'one', label: 'מי יעדכן את התאריכים והמקומות הפנויים באתר?', opts: ['אני, אם יהיה פשוט', 'עדיף שאתם', 'נחליט בהמשך'] },
+      { id: 'reviews', type: 'long', label: 'המלצות מאורחים שאפשר לפרסם', hint: 'משפט ושם פרטי, רק באישור שלהם.' },
+      { id: 'press', type: 'long', label: 'כתבות, שיתופי פעולה או אירועים שכדאי להזכיר', ph: 'למשל: ערב בכרם של תל שיפון, Bar X Kuller' },
+    ]},
+    { id: 'facts', title: 'אישור מהיר', lead: 'דברים שכתבנו באתר לפי האינסטגרם. סמן אם הם נכונים.', qs: [
+      { id: 'f_place', type: 'fact', label: 'הערבים מתקיימים בחצר שלי במצפה מתת.' },
+      { id: 'f_time', type: 'fact', label: 'ערב מתחיל ב־19:30 ונמשך בערך ארבע שעות: קבלת פנים ליד האש, ישיבה לשולחן, עיקרית מהאש, קינוח וקפה.' },
+      { id: 'f_fire', type: 'fact', label: 'רוב הבישול נעשה על אש פתוחה, עם חומרי גלם מדייגים, חקלאים ויקבים קטנים.' },
+      { id: 'f_wine', type: 'fact', label: 'יין מיקבים קטנים מוגש לאורך הערב.' },
+      { id: 'f_travel', type: 'fact', label: 'למדתי לבשל בדרכים, מחופים במערב אוסטרליה ועד נהרות בניו זילנד.' },
+      { id: 'f_vineyard', type: 'fact', label: 'אני עורך גם ארוחות בכרמים, כמו הערב בכרם של יקב תל שיפון.' },
+      { id: 'f_quote', type: 'fact', label: 'הציטוט: "האהבה שלי לבישול הגיעה מהאהבה לאירוח, ומהחיבור שזה מייצר בין אנשים."' },
+      { id: 'anything', type: 'long', label: 'עוד משהו שחשוב לך שנדע?' },
+    ]},
+  ];
+
+  // ---------- מצב ושמירה ----------
+  const KEY = 'bar-brief-v1';
+  let answers = {};
+  try { answers = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { answers = {}; }
+  const save = () => {
+    try { localStorage.setItem(KEY, JSON.stringify(answers)); flash('נשמר'); } catch (e) {}
+  };
+  let flashT;
+  const flash = t => { const el = document.getElementById('saved'); el.textContent = t; clearTimeout(flashT); flashT = setTimeout(() => { el.textContent = ''; }, 1400); };
+
+  // ---------- בניית המסכים ----------
+  const app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function questionHTML(q) {
+    const title = `<div class="q-title" id="t-${q.id}">${esc(q.label)}${q.key ? '<span class="key">חשוב</span>' : ''}</div>${q.hint ? `<div class="q-hint">${esc(q.hint)}</div>` : ''}`;
+    const v = answers[q.id];
+    if (q.type === 'one' || q.type === 'many' || q.type === 'fact') {
+      const opts = q.type === 'fact' ? ['נכון', 'צריך תיקון', 'להוריד מהאתר'] : q.opts;
+      const kind = q.type === 'many' ? 'checkbox' : 'radio';
+      const chips = opts.map(o => {
+        const on = q.type === 'many' ? (v || []).includes(o) : (q.type === 'fact' ? (v && v.v) === o : v === o);
+        return `<label class="chip"><input type="${kind}" name="${q.id}" value="${esc(o)}" ${on ? 'checked' : ''}><span>${esc(o)}</span></label>`;
+      }).join('');
+      const otherOn = q.other && (q.type === 'many' ? (v || []).includes('אחר') : v === 'אחר');
+      const other = q.other ? `<label class="chip"><input type="${kind}" name="${q.id}" value="אחר" ${otherOn ? 'checked' : ''}><span>אחר</span></label>` : '';
+      const otherField = q.other ? `<div class="field" data-other="${q.id}" ${otherOn ? '' : 'hidden'}><input type="text" data-k="${q.id}__other" value="${esc(answers[q.id + '__other'] || '')}" placeholder="פרט בקצרה" aria-label="${esc(q.label)}, אחר"></div>` : '';
+      const fixField = q.type === 'fact' ? `<div class="field" data-fix="${q.id}" ${v && v.v === 'צריך תיקון' ? '' : 'hidden'}><textarea data-k="${q.id}__fix" placeholder="מה הנכון?" aria-label="תיקון">${esc((v && v.fix) || '')}</textarea></div>` : '';
+      if (q.type === 'fact') return `<div class="fact"><p>${esc(q.label)}</p><div class="chips" role="radiogroup" aria-label="${esc(q.label)}">${chips}</div>${fixField}</div>`;
+      return `${title}<div class="chips" role="${kind === 'radio' ? 'radiogroup' : 'group'}" aria-labelledby="t-${q.id}">${chips}${other}</div>${otherField}`;
+    }
+    if (q.type === 'prices') {
+      const rows = [0, 1, 2].map(i => {
+        const r = (v || [])[i] || {};
+        return `<div class="grid3" style="margin-top:10px"><input type="text" data-tier="${i}" data-f="name" value="${esc(r.name || '')}" placeholder="שם התפריט ומספר מנות" aria-label="תפריט ${i + 1}, שם"><input type="text" data-tier="${i}" data-f="price" value="${esc(r.price || '')}" placeholder="מחיר לאורח" aria-label="תפריט ${i + 1}, מחיר"></div>`;
+      }).join('');
+      return `${title}<div class="field">${rows}</div>`;
+    }
+    const type = q.type === 'tel' ? 'tel' : q.type === 'num' ? 'number' : 'text';
+    const input = q.type === 'long'
+      ? `<textarea data-k="${q.id}" placeholder="${esc(q.ph || '')}" aria-labelledby="t-${q.id}">${esc(v || '')}</textarea>`
+      : `<input type="${type}" data-k="${q.id}" value="${esc(v || '')}" placeholder="${esc(q.ph || '')}" aria-labelledby="t-${q.id}" ${q.type === 'tel' ? 'inputmode="tel" autocomplete="tel"' : ''} ${q.type === 'num' ? 'inputmode="numeric"' : ''}>`;
+    return `${title}<div class="field">${input}</div>`;
+  }
+
+  STEPS.forEach((st, i) => {
+    const sec = document.createElement('section');
+    sec.className = 'step'; sec.dataset.step = st.id;
+    sec.innerHTML = `<div class="kicker">חלק ${i + 1} מתוך ${STEPS.length}</div><h2>${esc(st.title)}</h2><p class="lead">${esc(st.lead)}</p>` +
+      st.qs.map(q => `<div class="q" data-q="${q.id}">${questionHTML(q)}</div>`).join('');
+    app.append(sec);
+  });
+  const done = document.createElement('section');
+  done.className = 'step'; done.dataset.step = 'done';
+  done.innerHTML = `<div class="kicker">סיום</div><h2>תודה, בר</h2><p class="lead">זה כל המידע שאספנו. לחיצה אחת שולחת אותו בוואטסאפ, ואם משהו חסר אפשר לחזור אחורה ולהשלים.</p>
+    <div class="summary" id="summary"></div>
+    <div class="done-actions"><button class="btn" type="button" id="send">שליחת התשובות בוואטסאפ</button><button class="btn ghost" type="button" id="copy">העתקת התשובות</button></div>
+    <p class="note" id="missing"></p>`;
+  app.append(done);
+
+  // ---------- תנאים: הצגת שאלות לפי תשובות קודמות ----------
+  const allQs = STEPS.flatMap(s => s.qs);
+  function applyConditions() {
+    allQs.forEach(q => {
+      if (!q.when) return;
+      const box = document.querySelector(`[data-q="${q.id}"]`);
+      box.hidden = !q.when(answers);
+    });
+  }
+
+  // ---------- קליטת תשובות ----------
+  app.addEventListener('change', e => {
+    const t = e.target;
+    const q = allQs.find(x => x.id === t.name);
+    if (q) {
+      if (q.type === 'many') {
+        const checked = [...document.querySelectorAll(`input[name="${q.id}"]:checked`)].map(i => i.value);
+        if (q.max && checked.length > q.max) { t.checked = false; flash(`אפשר לבחור עד ${q.max}`); return; }
+        answers[q.id] = checked;
+      } else if (q.type === 'fact') {
+        answers[q.id] = { ...(answers[q.id] || {}), v: t.value };
+        document.querySelector(`[data-fix="${q.id}"]`).hidden = t.value !== 'צריך תיקון';
+      } else {
+        answers[q.id] = t.value;
+      }
+      if (q.other) {
+        const on = q.type === 'many' ? answers[q.id].includes('אחר') : answers[q.id] === 'אחר';
+        document.querySelector(`[data-other="${q.id}"]`).hidden = !on;
+      }
+      applyConditions(); save();
+    }
+  });
+  app.addEventListener('input', e => {
+    const t = e.target;
+    if (t.dataset.tier !== undefined) {
+      const arr = answers.price_tiers || [];
+      arr[+t.dataset.tier] = { ...(arr[+t.dataset.tier] || {}), [t.dataset.f]: t.value };
+      answers.price_tiers = arr; save(); return;
+    }
+    const k = t.dataset.k;
+    if (!k) return;
+    if (k.endsWith('__fix')) { const id = k.replace('__fix', ''); answers[id] = { ...(answers[id] || {}), fix: t.value }; }
+    else answers[k] = t.value;
+    clearTimeout(t._s); t._s = setTimeout(() => { applyConditions(); save(); }, 300);
+  });
+
+  // ---------- סיכום ----------
+  function fmt(q) {
+    const v = answers[q.id];
+    if (q.type === 'fact') return v && v.v ? v.v + (v.v === 'צריך תיקון' && v.fix ? `: ${v.fix}` : '') : '';
+    if (q.type === 'prices') return (v || []).filter(r => r && (r.name || r.price)).map(r => `${r.name || '?'} | ${r.price || '?'}`).join(' ; ');
+    let out = Array.isArray(v) ? v.join(', ') : (v || '');
+    if (q.other && answers[q.id + '__other'] && (Array.isArray(v) ? v.includes('אחר') : v === 'אחר')) out = out.replace('אחר', `אחר: ${answers[q.id + '__other']}`);
+    return String(out).trim();
+  }
+  function buildSummary() {
+    const lines = ['שאלון לאתר, תשובות של בר', ''];
+    const missing = [];
+    const clean = l => l.replace(/[?.:]$/, '');
+    STEPS.forEach(st => {
+      const part = [];
+      st.qs.forEach(q => {
+        if (q.when && !q.when(answers)) return;
+        const a = fmt(q);
+        if (a) part.push(`• ${clean(q.label)}: ${a}`);
+        else if (q.key) missing.push(clean(q.label));
+      });
+      if (part.length) lines.push(`*${st.title}*`, ...part, '');
+    });
+    return { text: lines.join('\n').trim(), missing };
+  }
+
+  // ---------- ניווט ----------
+  const order = ['intro', ...STEPS.map(s => s.id), 'done'];
+  let idx = 0;
+  try { idx = Math.min(order.length - 1, Math.max(0, +(localStorage.getItem(KEY + '-step') || 0))); } catch (e) {}
+  const prevBtn = document.getElementById('prev'), nextBtn = document.getElementById('next');
+  function show(i) {
+    idx = i;
+    document.querySelectorAll('.step').forEach(s => s.classList.toggle('on', s.dataset.step === order[i]));
+    prevBtn.hidden = i === 0;
+    nextBtn.hidden = i === order.length - 1;
+    nextBtn.textContent = i === 0 ? (Object.keys(answers).length ? 'ממשיכים מאיפה שעצרת' : 'מתחילים') : i === order.length - 2 ? 'לסיכום' : 'הבא';
+    document.getElementById('where').textContent = i === 0 ? 'פתיחה' : i === order.length - 1 ? 'סיכום' : STEPS[i - 1].title;
+    document.getElementById('bar').style.transform = `scaleX(${i / (order.length - 1)})`;
+    if (order[i] === 'done') {
+      const { text, missing } = buildSummary();
+      document.getElementById('summary').textContent = text;
+      document.getElementById('missing').textContent = missing.length ? `עוד חסר (חשוב): ${missing.join('; ')}. אפשר לשלוח גם ככה ולהשלים אחר כך.` : 'כל השאלות החשובות מולאו. תודה!';
+    }
+    try { localStorage.setItem(KEY + '-step', String(i)); } catch (e) {}
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const h = document.querySelector('.step.on h2, .step.on h1');
+    if (h && i > 0) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+  }
+  prevBtn.addEventListener('click', () => show(Math.max(0, idx - 1)));
+  nextBtn.addEventListener('click', () => show(Math.min(order.length - 1, idx + 1)));
+
+  const toast = t => { const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 1800); };
+  document.getElementById('send').addEventListener('click', () => {
+    const { text } = buildSummary();
+    window.open(`https://wa.me/${SEND_TO}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+  });
+  document.getElementById('copy').addEventListener('click', async () => {
+    const { text } = buildSummary();
+    try { await navigator.clipboard.writeText(text); toast('התשובות הועתקו'); }
+    catch (e) {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById('summary'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('סמנו והעתיקו');
+    }
+  });
+
+  applyConditions();
+  show(idx);
+</script>
+</body>
+</html>
