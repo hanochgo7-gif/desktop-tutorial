@@ -1,0 +1,9 @@
+{
+  "name": "hg-os",
+  "private": true,
+  "type": "module",
+  "description": "HG OS CRM – static app, no build step. package.json exists only to run the tests.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
