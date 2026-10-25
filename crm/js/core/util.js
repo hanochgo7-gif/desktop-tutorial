@@ -207,7 +207,9 @@ export function parseCSV(text) {
 }
 export function toCSV(rows) {
   const cell = (v) => {
-    const s = v == null ? '' : String(v);
+    let s = v == null ? '' : String(v);
+    // neutralise spreadsheet formulas (CSV injection): =, +, -, @, tab, CR at the start of a text cell
+    if (/^[=+\-@\t\r]/.test(s) && !/^-?\d+(\.\d+)?$/.test(s)) s = `'${s}`;
     return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   // BOM so Excel opens Hebrew correctly
@@ -228,6 +230,22 @@ export function readFile(file) {
     r.onerror = () => rej(r.error);
     r.readAsText(file);
   });
+}
+
+// Only http(s), mailto, tel and in-app links may be rendered as href.
+export function safeUrl(u) {
+  const s = String(u ?? '').trim();
+  if (!s) return '';
+  if (/^(https?:|mailto:|tel:|#\/)/i.test(s)) return s;
+  if (/^[\w.-]+\.[a-z]{2,}(\/.*)?$/i.test(s)) return `https://${s}`;
+  return '';
+}
+// wa.me link for an Israeli phone number
+export function whatsappUrl(phone, text = '') {
+  let d = String(phone ?? '').replace(/\D/g, '');
+  if (!d) return '';
+  if (d.startsWith('0')) d = `972${d.slice(1)}`;
+  return `https://wa.me/${d}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 }
 
 // Deterministic PRNG (mulberry32) for repeatable demo data.

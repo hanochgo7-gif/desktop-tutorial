@@ -1,9 +1,9 @@
 {
-  "name": "קשר CRM",
-  "short_name": "קשר",
+  "name": "HG OS",
+  "short_name": "HG OS",
   "lang": "he",
   "dir": "rtl",
-  "start_url": "./#/dashboard",
+  "start_url": "./#/today",
   "display": "standalone",
   "background_color": "#F4F5F8",
   "theme_color": "#11162A",

@@ -1,292 +1,199 @@
-// Bootstrap: storage, shell (sidebar + top bar), shortcuts, notifications, onboarding, background engines.
+// Bootstrap: sign-in (or trial mode), load data, shell (navigation, quick search, save status), router.
 
-import { html, render, $, $$, on, fmt, startOfDay, endOfDay } from './core/util.js';
+import { html, render, $, on, normalize } from './core/util.js';
+import { auth, db } from './core/api.js';
 import { store } from './core/store.js';
-import { router, navigate } from './core/router.js';
-import { startScheduler } from './core/scheduler.js';
-import { modal, menu, toast, icon, avatar, confirmDialog } from './ui/components.js';
-import { openPalette } from './ui/palette.js';
-import { openCreate } from './ui/recordForm.js';
+import { router } from './core/router.js';
+import { contactName } from './core/model.js';
+import { icon, toast, avatar, modal } from './ui/components.js';
+import { openLeadForm } from './ui/forms.js';
 
-export const LOGO = html`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--nav-active)"/><path d="M14.5 10.6a6 6 0 1 0 0 10.8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M17.5 21.4a6 6 0 1 0 0-10.8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>`;
-
+const LOGO = html`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--nav-active)"/><path d="M10 9v14M10 16h8M18 9v14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="21" r="2.2" fill="#fff"/></svg>`;
 const NAV = [
-  { items: [{ href: 'dashboard', label: 'לוח בקרה', icon: 'dashboard' }] },
-  { title: 'קשרי לקוחות', items: [
-    { href: 'contacts', label: 'אנשי קשר', icon: 'user' },
-    { href: 'companies', label: 'חברות', icon: 'building' },
-    { href: 'deals', label: 'עסקאות', icon: 'deal' },
-    { href: 'tickets', label: 'פניות שירות', icon: 'ticket', count: 'openTickets' },
-  ] },
-  { title: 'עבודה יומית', items: [
-    { href: 'tasks', label: 'משימות', icon: 'task', count: 'dueTasks' },
-    { href: 'calendar', label: 'יומן', icon: 'calendar' },
-  ] },
-  { title: 'שיווק ואוטומציה', items: [
-    { href: 'workflows', label: 'תהליכים אוטומטיים', icon: 'workflow' },
-    { href: 'sequences', label: 'רצפי מיילים', icon: 'sequence' },
-    { href: 'templates', label: 'תבניות מייל', icon: 'template' },
-    { href: 'forms', label: 'טפסים', icon: 'form' },
-  ] },
-  { title: 'מכירות ומסחר', items: [
-    { href: 'products', label: 'מוצרים', icon: 'box' },
-    { href: 'quotes', label: 'הצעות מחיר', icon: 'quote' },
-  ] },
-  { title: 'ניתוח', items: [{ href: 'reports', label: 'דוחות', icon: 'report' }] },
+  { href: 'today', label: 'היום שלי', icon: 'home', count: 'due' },
+  { href: 'leads', label: 'לידים ולקוחות', icon: 'user' },
+  { href: 'deals', label: 'עסקאות', icon: 'deal' },
+  { href: 'tasks', label: 'משימות', icon: 'task' },
+  { href: 'sources', label: 'מקורות ופרסום', icon: 'chart' },
+  { href: 'settings', label: 'הגדרות', icon: 'settings' },
 ];
+const ACTIVE = { c: 'leads', d: 'deals' };
 
-function counts() {
-  const me = store.settings.currentUserId;
-  const end = endOfDay();
-  return {
-    dueTasks: store.filter('tasks', (t) => t.status !== 'done' && t.ownerId === me && t.dueAt && new Date(t.dueAt) <= end).length,
-    openTickets: store.filter('tickets', (t) => !t.closedAt).length,
-  };
+function dueCount() {
+  const eod = new Date(); eod.setHours(23, 59, 59, 999);
+  return store.filter('crm_tasks', (t) => t.status === 'open' && t.due_at && new Date(t.due_at) <= eod).length;
 }
 
-function renderSide() {
-  const c = counts();
-  const cur = router.current?.path?.split('/')[0] || 'dashboard';
-  const curType = router.current?.params?.type;
-  const routeOfType = { contact: 'contacts', company: 'companies', deal: 'deals', ticket: 'tickets' };
-  const activeHref = cur === 'r' ? routeOfType[curType] : cur;
+function renderShell() {
+  const cur = (router.current?.path || 'today').split('/')[0];
+  const active = ACTIVE[cur] || cur;
+  const n = dueCount();
   render($('#side'), html`
-    <a class="brand" href="#/dashboard">${LOGO}<span>קשר</span><small>CRM</small></a>
-    <nav class="nav">
-      ${NAV.map((g) => html`<div class="nav-group">${g.title ? html`<h4>${g.title}</h4>` : ''}
-        ${g.items.map((it) => html`<a href="#/${it.href}" class="${activeHref === it.href ? 'active' : ''}" ${activeHref === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label}</span>${it.count && c[it.count] ? html`<span class="nav-count">${c[it.count]}</span>` : ''}</a>`)}
-      </div>`)}
-    </nav>
-    <div class="side-foot">
-      <a href="#/import" class="${activeHref === 'import' ? 'active' : ''}">${icon('upload')}<span>ייבוא נתונים</span></a>
-      <a href="#/settings" class="${activeHref === 'settings' ? 'active' : ''}">${icon('settings')}<span>הגדרות</span></a>
-    </div>`);
+    <a class="brand" href="#/today">${LOGO}<span>HG OS</span></a>
+    <nav class="nav" aria-label="ניווט ראשי">${NAV.map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label}</span>${it.count && n ? html`<span class="nav-count" aria-label="${n} משימות להיום">${n}</span>` : ''}</a>`)}</nav>
+    ${store.mode === 'local' ? html`<div class="side-foot"><p class="trial-note">${icon('alert')}מצב ניסיון: הנתונים נשמרים רק בדפדפן הזה</p></div>` : ''}`);
+  render($('#bottom-nav'), html`${NAV.slice(0, 5).map((it) => html`<a href="#/${it.href}" class="${active === it.href ? 'active' : ''}" ${active === it.href ? html`aria-current="page"` : ''}>${icon(it.icon)}<span>${it.label.split(' ')[0]}</span>${it.count && n ? html`<span class="nav-count">${n}</span>` : ''}</a>`)}`);
 }
 
-function saveStateHtml() {
+function saveState() {
   const s = store.status;
-  if (store.backend === 'memory') return html`<span class="save-state error" title="הדפדפן חוסם שמירה מקומית. הנתונים יימחקו בסגירת הלשונית.">${icon('cloudOff')}<span>לא נשמר</span></span>`;
-  if (s === 'error') return html`<span class="save-state error" title="השמירה נכשלה, מנסה שוב">${icon('alert')}<span>שגיאת שמירה</span></span>`;
-  if (s === 'saving') return html`<span class="save-state" title="שומר...">${icon('refresh')}<span>שומר...</span></span>`;
-  return html`<span class="save-state" title="כל השינויים נשמרו בדפדפן הזה">${icon('check')}<span>נשמר</span></span>`;
+  const map = {
+    saving: [icon('refresh'), 'שומר...', ''],
+    pending: [icon('refresh'), `${store.outbox.length} שינויים ממתינים`, 'warn'],
+    offline: [icon('cloudOff'), `אין חיבור${store.outbox.length ? `, ${store.outbox.length} שינויים יישלחו כשיחזור` : ''}`, 'error'],
+    error: [icon('alert'), 'שגיאת שמירה', 'error'],
+  };
+  const [ic, text, cls] = map[s] || [icon('check'), store.mode === 'local' ? 'נשמר בדפדפן' : 'נשמר בשרת', ''];
+  return html`<span class="save-state ${cls}" role="status">${ic}<span>${text}</span></span>`;
 }
 
 function renderTop() {
-  const me = store.get('users', store.settings.currentUserId);
-  const unread = store.filter('notifications', (n) => n.userId === store.settings.currentUserId && !n.read).length;
-  const mac = /Mac|iPhone|iPad/.test(navigator.platform);
   render($('#top'), html`
-    <button class="btn-icon menu-btn" data-top="nav" aria-label="תפריט">${icon('menu')}</button>
-    <button class="search-trigger" data-top="search">${icon('search')}<span>חיפוש</span><kbd>${mac ? '⌘K' : 'Ctrl K'}</kbd></button>
+    <div class="qsearch">
+      ${icon('search')}
+      <input type="search" placeholder="חיפוש ליד לפי שם או טלפון" aria-label="חיפוש ליד" data-qs autocomplete="off">
+      <div class="qs-results" data-qs-res hidden></div>
+    </div>
     <div class="top-spacer"></div>
-    <span id="save-state">${saveStateHtml()}</span>
-    <button class="btn btn-primary btn-sm" data-top="create" aria-haspopup="menu">${icon('plus')}<span>יצירה</span></button>
-    <button class="btn-icon bell" data-top="notif" aria-label="התראות${unread ? ` (${unread} חדשות)` : ''}">${icon('bell')}${unread ? html`<span class="bell-dot">${unread > 9 ? '9+' : unread}</span>` : ''}</button>
-    <button class="btn-icon" data-top="theme" aria-label="מצב תצוגה">${icon(isDark() ? 'sun' : 'moon')}</button>
-    <button class="me-btn" data-top="me" aria-haspopup="menu" aria-label="החשבון שלי">${avatar(me?.name || '?', { size: 'sm' })}<span class="me-name">${me?.name || ''}</span></button>`);
+    <span id="save-state">${saveState()}</span>
+    <button class="btn btn-primary btn-sm" data-top="lead">${icon('plus')}<span>ליד חדש</span></button>`);
 }
 
-const isDark = () => document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
-function setTheme(t) {
-  if (t === 'system') delete document.documentElement.dataset.theme;
-  else document.documentElement.dataset.theme = t;
-  try { localStorage.setItem('kesher-theme', t); } catch { /* ignore */ }
-  store.saveSettings({ theme: t });
-  renderTop();
-}
-
-export function createMenu(anchor) {
-  menu(anchor, [
-    { label: 'איש קשר', icon: 'user', hint: 'C', onClick: () => openCreate('contact') },
-    { label: 'חברה', icon: 'building', hint: 'O', onClick: () => openCreate('company') },
-    { label: 'עסקה', icon: 'deal', hint: 'D', onClick: () => openCreate('deal') },
-    { label: 'פנייה', icon: 'ticket', hint: 'T', onClick: () => openCreate('ticket') },
-    { divider: true },
-    { label: 'משימה', icon: 'task', hint: 'K', onClick: () => import('./views/tasks.js').then((m) => m.openTaskForm?.()) },
-    { label: 'הצעת מחיר', icon: 'quote', onClick: () => navigate('quotes?new=1') },
-  ]);
-}
-
-function openNotifications() {
-  const me = store.settings.currentUserId;
-  const list = store.filter('notifications', (n) => n.userId === me).sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 50);
-  const m = modal({
-    title: 'התראות', kind: 'drawer', size: 'sm',
-    body: list.length ? html`<div class="notif-list">${list.map((n) => html`<a class="notif ${n.read ? '' : 'unread'}" href="${n.link || '#/dashboard'}" data-close><div class="grow"><div>${n.text}</div><small class="muted">${fmt.relative(n.createdAt)}</small></div></a>`)}</div>`
-      : html`<div class="empty"><div class="empty-ic">${icon('bell')}</div><h3>אין התראות</h3><p>כאן יופיעו משימות שהוקצו לך, לידים חדשים מטפסים והתראות מתהליכים אוטומטיים.</p></div>`,
-    actions: list.some((n) => !n.read) ? [{ label: 'סימון הכול כנקרא', onClick: () => { for (const n of list) if (!n.read) store.update('notifications', n.id, { read: true }, { silent: true }); renderTop(); } }] : [],
+function wireSearch() {
+  const input = $('[data-qs]'), res = $('[data-qs-res]');
+  let hits = [], active = 0;
+  const draw = () => {
+    const q = input.value.trim();
+    const n = normalize(q), dg = q.replace(/\D/g, '').replace(/^972/, '0');
+    if (!q) { res.hidden = true; return; }
+    hits = store.all('crm_contacts').filter((c) => normalize(contactName(c)).includes(n) || normalize(c.company_name).includes(n) || normalize(c.email).includes(n) || (dg.length >= 3 && (c.phone_norm || '').includes(dg))).slice(0, 8);
+    active = 0;
+    res.hidden = false;
+    render(res, hits.length ? hits.map((c, i) => html`<a class="qs-item ${i === 0 ? 'active' : ''}" href="#/c/${c.id}">${avatar(contactName(c), { size: 'sm' })}<span><b>${contactName(c)}</b><small class="muted">${[c.company_name, c.phone].filter(Boolean).join(' | ')}</small></span></a>`)
+      : html`<div class="qs-empty">לא נמצא ליד. <button class="linkbtn" data-qs-new>יצירת ליד חדש</button></div>`);
+  };
+  input.addEventListener('input', draw);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      active = Math.max(0, Math.min(hits.length - 1, active + (e.key === 'ArrowDown' ? 1 : -1)));
+      res.querySelectorAll('.qs-item').forEach((x, i) => x.classList.toggle('active', i === active));
+      e.preventDefault();
+    }
+    if (e.key === 'Enter' && hits[active]) { location.hash = `#/c/${hits[active].id}`; input.value = ''; res.hidden = true; input.blur(); }
+    if (e.key === 'Escape') { input.value = ''; res.hidden = true; }
   });
-  m.body.addEventListener('click', (e) => { if (e.target.closest('.notif')) { for (const n of list) if (!n.read) store.update('notifications', n.id, { read: true }, { silent: true }); setTimeout(renderTop); } });
-}
-
-function meMenu(anchor) {
-  const users = store.all('users').filter((u) => u.active !== false);
-  menu(anchor, [
-    { header: 'מחובר כ' },
-    ...users.map((u) => ({ label: u.name, checked: u.id === store.settings.currentUserId, onClick: () => { store.saveSettings({ currentUserId: u.id }); renderTop(); renderSide(); router.go(); toast(`עובדים עכשיו בתור ${u.name}`); } })),
-    { divider: true },
-    { label: 'מצב בהיר', icon: 'sun', onClick: () => setTheme('light') },
-    { label: 'מצב כהה', icon: 'moon', onClick: () => setTheme('dark') },
-    { label: 'לפי המערכת', icon: 'settings', onClick: () => setTheme('system') },
-    { divider: true },
-    { label: 'קיצורי מקלדת', icon: 'keyboard', hint: '?', onClick: showShortcuts },
-    { label: 'הורדת גיבוי מלא', icon: 'download', onClick: () => import('./views/settings.js').then((m) => m.downloadBackup?.()) },
-    { label: 'הגדרות', icon: 'settings', onClick: () => navigate('settings') },
-  ]);
-}
-
-function showShortcuts() {
-  const rows = [
-    ['Ctrl/⌘ + K', 'חיפוש ופעולות'], ['/', 'חיפוש'], ['N', 'יצירה'], ['C', 'איש קשר חדש'], ['O', 'חברה חדשה'], ['D', 'עסקה חדשה'], ['T', 'פנייה חדשה'], ['K', 'משימה חדשה'],
-    ['G ואז D', 'לוח בקרה'], ['G ואז C', 'אנשי קשר'], ['G ואז O', 'חברות'], ['G ואז S', 'עסקאות'], ['G ואז T', 'פניות'], ['G ואז K', 'משימות'], ['G ואז R', 'דוחות'], ['?', 'החלון הזה'],
-  ];
-  modal({ title: 'קיצורי מקלדת', size: 'sm', body: html`<table class="table"><tbody>${rows.map(([k, l]) => html`<tr style="cursor:default"><td>${l}</td><td style="text-align:end">${k.split(' ').map((p) => (['ואז', '+'].includes(p) ? html` <span class="muted small">${p}</span> ` : html`<kbd>${p}</kbd>`))}</td></tr>`)}</tbody></table>` });
-}
-
-function wireShortcuts() {
-  let gPending = 0;
+  res.addEventListener('click', (e) => {
+    if (e.target.closest('[data-qs-new]')) { const q = input.value.trim(); openLeadForm({ contact: null }); setTimeout(() => { const f = document.querySelector('.ov form'); if (f && /\d{3}/.test(q)) f.phone.value = q; else if (f) f.first_name.value = q; }, 50); }
+    input.value = ''; res.hidden = true;
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.qsearch')) res.hidden = true; });
   document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); return; }
-    const t = e.target;
-    if (t.closest('input, textarea, select, [contenteditable="true"]') || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (document.querySelector('.ov')) return;
-    const k = e.key.toLowerCase();
-    // Hebrew keyboard layout maps the same physical keys
-    const map = { 'ע': 'g', 'מ': 'n', 'ב': 'c', 'ם': 'o', 'ג': 'd', 'א': 't', 'ל': 'k', 'ר': 'r', 'ד': 's' };
-    const key = map[k] || k;
-    if (Date.now() - gPending < 1200) {
-      gPending = 0;
-      const dest = { d: 'dashboard', c: 'contacts', o: 'companies', s: 'deals', t: 'tickets', k: 'tasks', r: 'reports', a: 'calendar' }[key];
-      if (dest) { navigate(dest); e.preventDefault(); }
+    if (e.key === '/' && !e.target.closest('input,textarea,select') && !document.querySelector('.ov')) { e.preventDefault(); input.focus(); }
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus(); }
+  });
+}
+
+// ---------------------------------------------------------------- sign-in screen
+function loginScreen(message = '') {
+  document.body.classList.add('bare');
+  let mode = 'in';
+  const draw = (msg = message, kind = 'error') => render($('#view'), html`
+    <div class="auth">
+      <div class="auth-card">
+        <div class="auth-brand">${LOGO}<b>HG OS</b></div>
+        <h1>${mode === 'in' ? 'כניסה' : mode === 'up' ? 'יצירת חשבון' : 'איפוס סיסמה'}</h1>
+        ${msg ? html`<p class="notice ${kind === 'error' ? 'notice-warn' : ''}" role="alert">${msg}</p>` : ''}
+        <form class="form-grid" data-auth novalidate>
+          <div class="field"><label class="field-label" for="au-email">אימייל</label><input class="input" id="au-email" name="email" type="email" dir="ltr" autocomplete="email" required autofocus></div>
+          ${mode !== 'reset' ? html`<div class="field"><label class="field-label" for="au-pass">סיסמה</label><input class="input" id="au-pass" name="password" type="password" dir="ltr" autocomplete="${mode === 'up' ? 'new-password' : 'current-password'}" minlength="8" required>${mode === 'up' ? html`<p class="field-help">לפחות 8 תווים.</p>` : ''}</div>` : ''}
+          <button class="btn btn-primary btn-lg btn-block" type="submit">${mode === 'in' ? 'כניסה' : mode === 'up' ? 'יצירת חשבון' : 'שליחת קישור לאיפוס'}</button>
+        </form>
+        <div class="auth-links">
+          ${mode !== 'in' ? html`<button class="linkbtn" data-mode="in">יש לי חשבון</button>` : html`<button class="linkbtn" data-mode="up">אין לי חשבון</button><button class="linkbtn" data-mode="reset">שכחתי סיסמה</button>`}
+        </div>
+        <div class="auth-trial"><button class="btn btn-ghost btn-block" data-trial>${icon('play')}לנסות בלי חשבון (מצב ניסיון, נתונים רק בדפדפן)</button></div>
+      </div>
+    </div>`);
+  draw();
+  on($('#view'), 'click', '[data-mode]', (e, b) => { mode = b.dataset.mode; draw(''); });
+  on($('#view'), 'click', '[data-trial]', () => { localStorage.setItem('hgos-mode', 'local'); location.reload(); });
+  on($('#view'), 'submit', '[data-auth]', async (e, f) => {
+    e.preventDefault();
+    const email = f.email.value.trim().toLowerCase();
+    const password = f.password?.value || '';
+    const btn = f.querySelector('button[type=submit]');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { draw('כתובת האימייל לא תקינה'); return; }
+    if (mode !== 'reset' && password.length < 8) { draw('הסיסמה צריכה לפחות 8 תווים'); return; }
+    btn.disabled = true;
+    try {
+      if (mode === 'in') { await auth.signIn(email, password); location.reload(); return; }
+      if (mode === 'up') {
+        const r = await auth.signUp(email, password);
+        if (r.access_token) { location.reload(); return; }
+        mode = 'in'; draw('נשלח אליך מייל לאישור החשבון. אחרי האישור חזרו לכאן והיכנסו.', 'ok'); return;
+      }
+      await auth.resetPassword(email);
+      mode = 'in'; draw('אם הכתובת רשומה, נשלח אליה קישור לאיפוס הסיסמה.', 'ok');
+    } catch (err) {
+      const m = /invalid login|invalid_credentials/i.test(err.message) ? 'האימייל או הסיסמה שגויים'
+        : /not confirmed/i.test(err.message) ? 'החשבון עוד לא אושר. בדקו את המייל ולחצו על קישור האישור.'
+        : /already registered|exists/i.test(err.message) ? 'כבר קיים חשבון עם האימייל הזה. היכנסו או אפסו סיסמה.'
+        : err.message;
+      draw(m);
+    } finally { btn.disabled = false; }
+  });
+}
+
+// ---------------------------------------------------------------- start
+async function main() {
+  const redirectType = auth.consumeRedirect();
+  const local = localStorage.getItem('hgos-mode') === 'local';
+  if (local) {
+    const fresh = store.initLocal();
+    if (fresh || !store.all('crm_stages').length) {
+      const seed = await import('./core/local-seed.js');
+      seed.installDefaults(store);
+      const choice = await new Promise((res) => modal({
+        title: 'מצב ניסיון', size: 'sm', dismissible: false,
+        body: html`<p>במצב ניסיון הכול נשמר רק בדפדפן הזה. לעבודה אמיתית עם לקוחות צריך להתחבר לחשבון.</p><p>לטעון נתוני דוגמה כדי לראות איך הדוחות נראים? (כל רשומה מסומנת "דוגמה")</p>`,
+        actions: [{ label: 'להתחיל ריק', value: 'empty' }, { label: 'לטעון נתוני דוגמה', kind: 'primary', value: 'sample' }],
+        onClose: res,
+      }));
+      if (choice === 'sample') seed.seedSample(store);
+    }
+  } else {
+    if (!auth.signedIn) { loginScreen(); return; }
+    try {
+      const user = await auth.loadUser();
+      const ws = await db.rpc('crm_bootstrap', { p_name: 'HG' });
+      await store.initRemote({ workspaceId: ws, userId: user.id });
+    } catch (e) {
+      if (e.network) { render($('#view'), html`<div class="empty"><h3>אין חיבור לשרת</h3><p>בדקו את החיבור לאינטרנט ונסו שוב.</p><a class="btn btn-primary" href="">ניסיון חוזר</a></div>`); return; }
+      if (/not_allowed/.test(e.message)) { await auth.signOut(); loginScreen('החשבון הזה לא מורשה להשתמש במערכת. פנו למנהל המערכת.'); return; }
+      await auth.signOut();
+      loginScreen(`ההתחברות נכשלה: ${e.message}`);
       return;
     }
-    if (key === 'g') { gPending = Date.now(); return; }
-    if (key === '/') { e.preventDefault(); openPalette(); }
-    else if (key === '?') showShortcuts();
-    else if (key === 'n') createMenu($('[data-top="create"]'));
-    else if (key === 'c') openCreate('contact');
-    else if (key === 'o') openCreate('company');
-    else if (key === 'd') openCreate('deal');
-    else if (key === 't') openCreate('ticket');
-    else if (key === 'k') import('./views/tasks.js').then((m) => m.openTaskForm?.());
-  });
-}
-
-async function onboarding() {
-  return new Promise((resolve) => {
-    const m = modal({
-      title: 'ברוכים הבאים לקשר', size: 'md', dismissible: false,
-      body: html`<div class="onb">
-        <p>קשר היא מערכת לניהול לקוחות: אנשי קשר, חברות, עסקאות, פניות שירות, משימות, אוטומציות ודוחות. הנתונים נשמרים בדפדפן הזה, ואפשר לגבות אותם ולייבא אותם בכל רגע.</p>
-        <label class="field"><span class="field-label">איך לקרוא לך?</span><input class="input" name="name" placeholder="השם שלך" autofocus autocomplete="name"></label>
-        <label class="field"><span class="field-label">שם העסק</span><input class="input" name="biz" placeholder="שם העסק" autocomplete="organization"></label>
-        <button class="onb-choice" data-mode="demo">${icon('sparkles')}<div><b>להתחיל עם נתוני הדגמה</b><span>כ-150 אנשי קשר, חברות, עסקאות, פניות ופעילות של שנה – כדי לראות איך הכול עובד. אפשר למחוק אותם בהגדרות.</span></div></button>
-        <button class="onb-choice" data-mode="empty">${icon('plus')}<div><b>להתחיל מאפס</b><span>מערכת נקייה. אפשר להוסיף רשומות ידנית או לייבא מקובץ אקסל / CSV.</span></div></button>
-        <button class="onb-choice" data-mode="restore">${icon('upload')}<div><b>לשחזר מגיבוי</b><span>קובץ JSON שהורד מקשר.</span></div></button>
-        <input type="file" accept="application/json,.json" hidden data-file>
-      </div>`,
-    });
-    m.body.addEventListener('click', async (e) => {
-      const b = e.target.closest('[data-mode]');
-      if (!b) return;
-      const name = $('[name=name]', m.body).value.trim() || 'אני';
-      const biz = $('[name=biz]', m.body).value.trim();
-      if (b.dataset.mode === 'restore') { $('[data-file]', m.body).click(); return; }
-      b.disabled = true;
-      if (b.dataset.mode === 'demo') {
-        const { seedDemo } = await import('./core/seed.js');
-        seedDemo({ myName: name });
-      } else {
-        const u = store.insert('users', { name, email: '', role: 'admin', active: true, color: 210 });
-        store.saveSettings({ currentUserId: u.id });
-        const { installDefaults } = await import('./core/seed.js');
-        installDefaults();
-      }
-      store.saveSettings({ onboarded: true, company: { ...store.settings.company, name: biz || store.settings.company.name } });
-      await store.flush();
-      m.close();
-      resolve();
-    });
-    $('[data-file]', m.body).addEventListener('change', async (e) => {
-      const f = e.target.files[0];
-      if (!f) return;
-      try {
-        const text = await f.text();
-        await store.replaceAll(JSON.parse(text));
-        store.saveSettings({ onboarded: true });
-        m.close();
-        resolve();
-      } catch (err) { toast(`השחזור נכשל: ${err.message}`, { kind: 'error' }); }
-    });
-  });
-}
-
-async function main() {
-  const { fresh } = await store.init();
-  if (store.settings.theme && store.settings.theme !== 'system') document.documentElement.dataset.theme = store.settings.theme;
-  if (fresh || !store.get('users', store.settings.currentUserId)) {
-    if (!store.all('users').length) await onboarding();
-    else store.saveSettings({ currentUserId: store.all('users')[0].id, onboarded: true });
   }
+  document.body.classList.remove('bare');
+  if (redirectType === 'recovery') toast('נכנסתם דרך קישור איפוס. קבעו סיסמה חדשה בהגדרות.', { timeout: 10000 });
   renderTop();
-  renderSide();
-  router.onRoute = () => { renderSide(); $('#app').classList.remove('nav-open'); closeMenuSafe(); };
-
-  on($('#top'), 'click', '[data-top]', (e, el) => {
-    const a = el.dataset.top;
-    if (a === 'search') openPalette();
-    else if (a === 'create') createMenu(el);
-    else if (a === 'notif') openNotifications();
-    else if (a === 'theme') setTheme(isDark() ? 'light' : 'dark');
-    else if (a === 'me') meMenu(el);
-    else if (a === 'nav') $('#app').classList.toggle('nav-open');
-  });
-  $('#app').addEventListener('click', (e) => { if (e.target === $('#app') && $('#app').classList.contains('nav-open')) $('#app').classList.remove('nav-open'); });
-  document.addEventListener('click', (e) => {
-    if ($('#app').classList.contains('nav-open') && !e.target.closest('.side') && !e.target.closest('.menu-btn')) $('#app').classList.remove('nav-open');
-  });
-  store.on('status', () => { const el = $('#save-state'); if (el) render(el, saveStateHtml()); });
-  let errShown = false;
-  store.on('error', (err) => {
-    if (errShown) return;
-    errShown = true;
-    const quota = /quota/i.test(String(err?.name || err?.message));
-    toast(quota ? 'נגמר מקום האחסון בדפדפן. מומלץ להוריד גיבוי ולפנות סל מחזור.' : 'השמירה נכשלה. המערכת תנסה שוב אוטומטית.', { kind: 'error', timeout: 9000 });
-    setTimeout(() => { errShown = false; }, 30000);
-  });
-  const refreshChrome = debounceFrame(() => { renderSide(); renderTop(); });
-  store.on('change', (ev) => { if (['tasks', 'tickets', 'notifications', 'users'].includes(ev.coll)) refreshChrome(); });
-  store.on('remote', (ev) => { refreshChrome(); router.current && ev.colls.length && softRefresh(); });
-  store.on('settings', refreshChrome);
-  wireShortcuts();
-  if (store.backend !== 'indexeddb') {
-    toast(store.backend === 'memory' ? 'הדפדפן לא מאפשר שמירה מקומית (אולי גלישה בסתר). שינויים לא יישמרו.' : 'שמירה במצב מוגבל (localStorage). מומלץ להוריד גיבוי באופן קבוע.', { kind: 'error', timeout: 10000 });
-  }
-  await router.go();
-
-  // Background engines (automation, sequences, reminders). Each is optional and isolated.
-  for (const path of ['./engines/workflows.js', './engines/sequences.js', './engines/reminders.js']) {
-    import(path).then((m) => m.init?.()).catch((e) => console.warn(`[engine] ${path} not loaded`, e));
-  }
-  startScheduler();
-  store.autoBackup().catch((e) => console.warn('[backup]', e));
-}
-
-// Another tab changed data: re-render the current view, but never while the user is typing in it.
-const softRefresh = debounceFrame(() => {
-  const active = document.activeElement;
-  if (active && active.closest('#view') && active.matches('input, textarea, select')) return;
-  if (document.querySelector('.ov')) return;
-  router.go();
-}, 400);
-
-function debounceFrame(fn, ms = 60) {
+  renderShell();
+  wireSearch();
+  router.onRoute = () => renderShell();
+  on($('#top'), 'click', '[data-top]', (e, b) => { if (b.dataset.top === 'lead') openLeadForm({ onSaved: (c) => { location.hash = `#/c/${c.id}`; } }); });
+  store.on('status', () => { const el = $('#save-state'); if (el) render(el, saveState()); });
+  store.on('error', (e) => toast(e.message || 'השרת דחה שינוי. הנתונים רועננו.', { kind: 'error', timeout: 9000 }));
   let t;
-  return () => { clearTimeout(t); t = setTimeout(fn, ms); };
+  store.on('change', () => { clearTimeout(t); t = setTimeout(renderShell, 80); });
+  addEventListener('hgos:signed-out', () => { if (store.mode === 'remote') { toast('החיבור פג. מתחברים מחדש...', { kind: 'error' }); setTimeout(() => location.reload(), 1500); } });
+  addEventListener('beforeunload', (e) => { if (store.outbox.length && store.mode === 'remote') { e.preventDefault(); e.returnValue = ''; } });
+  if (!location.hash || location.hash === '#/') history.replaceState(null, '', '#/today');
+  await router.go();
 }
-function closeMenuSafe() { document.querySelector('.menu')?.remove(); }
 
 main().catch((e) => {
   console.error(e);
-  document.getElementById('view').innerHTML = `<div class="empty"><h3>המערכת לא נטענה</h3><p>${String(e.message || e)}</p><button class="btn" onclick="location.reload()">טעינה מחדש</button></div>`;
+  render($('#view'), html`<div class="empty"><h3>המערכת לא נטענה</h3><p>${e.message || String(e)}</p><a class="btn" href="">טעינה מחדש</a></div>`);
 });
+

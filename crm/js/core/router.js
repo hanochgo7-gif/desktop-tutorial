@@ -5,33 +5,14 @@
 import { store } from './store.js';
 
 const ROUTES = [
-  ['dashboard', () => import('../views/dashboard.js')],
-  ['contacts', () => import('../views/objects.js'), { type: 'contact' }],
-  ['companies', () => import('../views/objects.js'), { type: 'company' }],
-  ['deals', () => import('../views/objects.js'), { type: 'deal' }],
-  ['tickets', () => import('../views/objects.js'), { type: 'ticket' }],
-  ['r/:type/:id', () => import('../views/record.js')],
+  ['today', () => import('../views/today.js')],
+  ['leads', () => import('../views/leads.js')],
+  ['c/:id', () => import('../views/contact.js')],
+  ['deals', () => import('../views/deals.js')],
+  ['d/:id', () => import('../views/deal.js')],
   ['tasks', () => import('../views/tasks.js')],
-  ['calendar', () => import('../views/calendar.js')],
-  ['reports', () => import('../views/reports.js')],
-  ['reports/:id', () => import('../views/reports.js')],
-  ['workflows', () => import('../views/workflows.js')],
-  ['workflows/:id', () => import('../views/workflows.js')],
-  ['sequences', () => import('../views/sequences.js')],
-  ['sequences/:id', () => import('../views/sequences.js')],
-  ['templates', () => import('../views/templates.js')],
-  ['forms', () => import('../views/forms.js')],
-  ['forms/:id', () => import('../views/forms.js')],
-  ['f/:id', () => import('../views/form-public.js'), { bare: true }],
-  ['products', () => import('../views/products.js')],
-  ['quotes', () => import('../views/quotes.js')],
-  ['quotes/:id', () => import('../views/quotes.js')],
-  ['quotes/:id/print', () => import('../views/quote-print.js'), { bare: true }],
-  ['import', () => import('../views/import.js')],
-  ['duplicates', () => import('../views/duplicates.js')],
-  ['trash', () => import('../views/trash.js')],
+  ['sources', () => import('../views/sources.js')],
   ['settings', () => import('../views/settings.js')],
-  ['settings/:tab', () => import('../views/settings.js')],
 ];
 
 const compiled = ROUTES.map(([pattern, load, extra = {}]) => {
@@ -43,7 +24,7 @@ const compiled = ROUTES.map(([pattern, load, extra = {}]) => {
 function parse() {
   const h = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
   const [path, qs = ''] = h.split('?');
-  return { path: path.replace(/\/$/, '') || 'dashboard', query: Object.fromEntries(new URLSearchParams(qs)) };
+  return { path: path.replace(/\/$/, '') || 'today', query: Object.fromEntries(new URLSearchParams(qs)) };
 }
 
 export function navigate(href, { replace = false } = {}) {
@@ -70,7 +51,7 @@ export const router = {
     const root = document.getElementById('view');
     if (this.current?.cleanup) { try { this.current.cleanup(); } catch (e) { console.error(e); } }
     this.current?.unwatch?.forEach((u) => u());
-    if (!match) { navigate('dashboard', { replace: true }); return; }
+    if (!match) { navigate('today', { replace: true }); return; }
     const params = { ...match.extra };
     match.re.exec(path).slice(1).forEach((v, i) => { params[match.keys[i]] = v; });
     const token = Symbol('route');
@@ -89,8 +70,8 @@ export const router = {
       params, query, path,
       watch: (colls, fn) => {
         const set = new Set(colls);
-        const handler = (ev) => { if (this.current === state && (set.has(ev.coll) || ev.colls?.some((c) => set.has(c)))) fn(ev); };
-        state.unwatch.push(store.on('change', handler), store.on('remote', handler));
+        const handler = (ev) => { if (this.current === state && ev.tables?.some((t) => set.has(t))) fn(ev); };
+        state.unwatch.push(store.on('change', handler));
       },
       refresh: () => this.go(),
       navigate,

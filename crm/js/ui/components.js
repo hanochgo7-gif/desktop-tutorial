@@ -1,8 +1,6 @@
 // UI kit: overlays (modal, drawer, menu, toast, confirm), property inputs and value display, small atoms.
 
-import { html, raw, render, esc, $, $$, on, fmt, initials, hueFor, toDateInput, toDateTimeInput, Html } from '../core/util.js';
-import { store } from '../core/store.js';
-import { pipelines, pipeline, stageById, optionLabel, recordLink, displayName } from '../core/schema.js';
+import { html, raw, render, esc, $, $$, on, fmt, initials, hueFor, Html } from '../core/util.js';
 import { icon } from './icons.js';
 
 // ---------- overlays ----------
@@ -189,11 +187,6 @@ export function avatar(name, { size = 'md', src, title } = {}) {
   const h = hueFor(name);
   return html`<span class="avatar avatar-${size}" style="--h:${h}" title="${title ?? name ?? ''}" aria-hidden="true">${src ? html`<img src="${src}" alt="">` : initials(name)}</span>`;
 }
-export function userChip(userId, { showName = true, size = 'sm' } = {}) {
-  const u = store.get('users', userId);
-  if (!u) return html`<span class="muted">לא משויך</span>`;
-  return html`<span class="user-chip">${avatar(u.name, { size })}${showName ? html`<span>${u.name}</span>` : ''}</span>`;
-}
 export function badge(label, color = 'slate', extra = '') {
   return html`<span class="badge badge-${color} ${extra}">${label}</span>`;
 }
@@ -221,166 +214,42 @@ export function tabs(items, active, attr = 'data-tab') {
   return html`<div class="tabs" role="tablist">${items.map((t) => html`<button role="tab" class="tab ${t.id === active ? 'active' : ''}" aria-selected="${t.id === active}" ${raw(attr)}="${t.id}">${t.icon ? icon(t.icon) : ''}${t.label}${t.count != null ? html`<span class="tab-count">${fmt.number(t.count)}</span>` : ''}</button>`)}</div>`;
 }
 
-// ---------- property values ----------
-// Display value for a property (Html). Used in tables, cards and the record sidebar.
-export function displayValue(prop, value, record, type) {
-  if (!prop) return value == null ? '' : String(value);
-  const v = value;
-  const isEmpty = v == null || v === '' || (Array.isArray(v) && !v.length);
-  if (isEmpty && prop.type !== 'bool' && prop.type !== 'score') return html`<span class="nil">—</span>`;
-  switch (prop.type) {
-    case 'money': return html`<span class="num">${fmt.money(v, store.settings.currency)}</span>`;
-    case 'number': return html`<span class="num">${fmt.number(v)}</span>`;
-    case 'percent': return html`<span class="num">${fmt.percent(v)}</span>`;
-    case 'score': return scoreMeter(v || 0);
-    case 'date': return html`<span title="${fmt.date(v)}">${fmt.date(v)}</span>`;
-    case 'datetime': return html`<span title="${fmt.dateTime(v)}">${fmt.relative(v)}</span>`;
-    case 'email': return html`<a href="mailto:${v}" class="lnk" data-stop>${v}</a>`;
-    case 'phone': return html`<a href="tel:${v}" class="lnk num" data-stop dir="ltr">${v}</a>`;
-    case 'url': {
-      const href = /^https?:/i.test(v) ? v : `https://${v}`;
-      return html`<a href="${href}" target="_blank" rel="noopener" class="lnk" data-stop dir="ltr">${String(v).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>`;
-    }
-    case 'bool': return v ? badge('כן', 'green') : html`<span class="muted">לא</span>`;
-    case 'user': return userChip(v);
-    case 'select': {
-      const o = (prop.options || []).find((x) => x.value === v);
-      return o ? badge(o.label, o.color || 'slate') : html`<span>${v}</span>`;
-    }
-    case 'multiselect': {
-      const arr = Array.isArray(v) ? v : [v];
-      return html`<span class="badges">${arr.map((x) => { const o = (prop.options || []).find((y) => y.value === x); return badge(o?.label || x, o?.color || 'slate'); })}</span>`;
-    }
-    case 'stage': {
-      const s = stageById(type, v);
-      if (!s) return html`<span>${v}</span>`;
-      const color = s.type === 'won' ? 'green' : s.type === 'lost' ? 'red' : s.type === 'closed' ? 'slate' : 'indigo';
-      return badge(s.name, color);
-    }
-    case 'pipeline': return html`<span>${pipeline(type, v)?.name || v}</span>`;
-    case 'textarea': return html`<span class="pre">${v}</span>`;
-    default: return html`<span>${v}</span>`;
-  }
-}
-export function scoreMeter(n) {
-  const v = Math.round(n || 0);
-  const tone = v >= 60 ? 'hot' : v >= 30 ? 'warm' : 'cold';
-  return html`<span class="score score-${tone}" title="ניקוד ליד ${v} מתוך 100"><span class="score-bar"><i style="width:${v}%"></i></span><span class="num">${v}</span></span>`;
-}
-export function recordRef(type, r) {
-  if (!r) return html`<span class="nil">—</span>`;
-  return html`<a class="ref" href="${recordLink(type, r.id)}">${displayName(type, r)}</a>`;
-}
+export function setTitle(t) { document.title = t ? `${t} – HG OS` : 'HG OS'; }
+export { icon, html, raw, esc, render, Html, on };
 
-// Input control for a property. `name` defaults to prop.key. Returns Html.
-export function propInput(prop, value, { name = prop.key, record, type, autofocus = false, compact = false } = {}) {
-  const req = prop.required ? 'required' : '';
-  const af = autofocus ? 'autofocus' : '';
-  const id = `f_${name}_${Math.random().toString(36).slice(2, 6)}`;
-  let control;
-  switch (prop.type) {
-    case 'textarea':
-      control = html`<textarea class="input" id="${id}" name="${name}" rows="${compact ? 3 : 4}" ${raw(req)} ${raw(af)}>${value ?? ''}</textarea>`; break;
-    case 'number': case 'money': case 'percent':
-      control = html`<input class="input num" id="${id}" type="number" inputmode="decimal" step="any" name="${name}" value="${value ?? ''}" ${raw(req)} ${raw(af)} dir="ltr">`; break;
-    case 'date':
-      control = html`<input class="input" id="${id}" type="date" name="${name}" value="${toDateInput(value)}" ${raw(req)} ${raw(af)}>`; break;
-    case 'datetime':
-      control = html`<input class="input" id="${id}" type="datetime-local" name="${name}" value="${toDateTimeInput(value)}" ${raw(req)} ${raw(af)}>`; break;
-    case 'email':
-      control = html`<input class="input" id="${id}" type="email" name="${name}" value="${value ?? ''}" ${raw(req)} ${raw(af)} dir="ltr" autocomplete="off">`; break;
-    case 'phone':
-      control = html`<input class="input" id="${id}" type="tel" name="${name}" value="${value ?? ''}" ${raw(req)} ${raw(af)} dir="ltr">`; break;
-    case 'url':
-      control = html`<input class="input" id="${id}" type="text" inputmode="url" name="${name}" value="${value ?? ''}" ${raw(req)} ${raw(af)} dir="ltr">`; break;
-    case 'bool':
-      control = html`<label class="switch"><input type="checkbox" id="${id}" name="${name}" ${value ? 'checked' : ''}><span></span></label>`; break;
-    case 'select':
-      control = html`<select class="input" id="${id}" name="${name}" ${raw(req)} ${raw(af)}><option value="">—</option>${(prop.options || []).map((o) => html`<option value="${o.value}" ${o.value === value ? 'selected' : ''}>${o.label}</option>`)}</select>`; break;
-    case 'multiselect': {
-      const set = new Set(Array.isArray(value) ? value : value ? [value] : []);
-      control = html`<div class="checks" id="${id}" data-multi="${name}">${(prop.options || []).map((o) => html`<label class="check-pill"><input type="checkbox" name="${name}" value="${o.value}" ${set.has(o.value) ? 'checked' : ''}><span>${o.label}</span></label>`)}</div>`; break;
-    }
-    case 'user':
-      control = html`<select class="input" id="${id}" name="${name}" ${raw(af)}><option value="">לא משויך</option>${store.all('users').filter((u) => u.active !== false || u.id === value).map((u) => html`<option value="${u.id}" ${u.id === value ? 'selected' : ''}>${u.name}</option>`)}</select>`; break;
-    case 'pipeline':
-      control = html`<select class="input" id="${id}" name="${name}" data-pipeline-for="${type}">${pipelines(type).map((p) => html`<option value="${p.id}" ${p.id === value ? 'selected' : ''}>${p.name}</option>`)}</select>`; break;
-    case 'stage': {
-      const pid = record?.pipelineId || pipelines(type)[0]?.id;
-      control = html`<select class="input" id="${id}" name="${name}" data-stage-for="${type}">${(pipeline(type, pid)?.stages || []).map((s) => html`<option value="${s.id}" ${s.id === value ? 'selected' : ''}>${s.name}${s.probability != null && type === 'deal' ? ` (${s.probability}%)` : ''}</option>`)}</select>`; break;
-    }
-    default:
-      control = html`<input class="input" id="${id}" type="text" name="${name}" value="${value ?? ''}" ${raw(req)} ${raw(af)}>`;
-  }
-  return html`<div class="field ${prop.type === 'bool' ? 'field-inline' : ''}"><label class="field-label" for="${id}">${prop.label}${prop.required ? html`<span class="req" aria-hidden="true">*</span>` : ''}</label>${control}${prop.help ? html`<p class="field-help">${prop.help}</p>` : ''}</div>`;
-}
-
-// Read values for props from a form element. Converts types. Missing => undefined (not included).
-export function readProps(formEl, props) {
+// Read a form into a plain object: empty strings become null, numbers/dates converted by data-type on the input.
+export function readForm(form) {
   const out = {};
-  for (const p of props) {
-    if (p.type === 'multiselect') {
-      const box = formEl.querySelector(`[data-multi="${CSS.escape(p.key)}"]`);
-      if (box) out[p.key] = $$('input:checked', box).map((i) => i.value);
-      continue;
-    }
-    const el = formEl.querySelector(`[name="${CSS.escape(p.key)}"]`);
-    if (!el) continue;
-    if (p.type === 'bool') { out[p.key] = el.checked; continue; }
-    let v = el.value;
-    if (['number', 'money', 'percent'].includes(p.type)) v = v === '' ? null : Number(v);
-    else if (p.type === 'date') v = v ? new Date(`${v}T12:00:00`).toISOString() : null;
-    else if (p.type === 'datetime') v = v ? new Date(v).toISOString() : null;
-    else if (typeof v === 'string') v = v.trim() || null;
-    out[p.key] = v;
+  for (const el of form.elements) {
+    if (!el.name || el.disabled) continue;
+    if (el.type === 'checkbox') { out[el.name] = el.checked; continue; }
+    if (el.type === 'radio') { if (el.checked) out[el.name] = el.value; continue; }
+    let v = el.value.trim();
+    if (v === '') { out[el.name] = null; continue; }
+    if (el.type === 'number') v = Number(v);
+    else if (el.type === 'datetime-local') v = new Date(v).toISOString();
+    out[el.name] = v;
   }
   return out;
 }
-
-// Keep stage <select> in sync with pipeline <select> inside a form.
-export function wirePipelineStage(formEl, type) {
-  const ps = formEl.querySelector(`[data-pipeline-for="${type}"]`);
-  const ss = formEl.querySelector(`[data-stage-for="${type}"]`);
-  if (!ps || !ss) return;
-  ps.addEventListener('change', () => {
-    const p = pipeline(type, ps.value);
-    render(ss, p.stages.map((s) => html`<option value="${s.id}">${s.name}${s.probability != null && type === 'deal' ? ` (${s.probability}%)` : ''}</option>`));
-  });
+export function showFieldErrors(form, errors) {
+  $$('.field-err', form).forEach((x) => x.remove());
+  $$('.field.invalid', form).forEach((x) => x.classList.remove('invalid'));
+  let first = null;
+  for (const [name, msg] of Object.entries(errors)) {
+    const input = form.querySelector(`[name="${name}"]`);
+    const field = input?.closest('.field');
+    if (!field) continue;
+    field.classList.add('invalid');
+    const p = document.createElement('p');
+    p.className = 'field-err'; p.setAttribute('role', 'alert'); p.textContent = msg;
+    field.appendChild(p);
+    first ||= input;
+  }
+  first?.focus();
+  return !!first;
 }
-
-// Searchable record picker: resolves to a record id or null.
-export function pickRecord(type, { title, exclude = [], onCreate } = {}) {
-  return new Promise((res) => {
-    let result = null, creating = false;
-    const coll = { contact: 'contacts', company: 'companies', deal: 'deals', ticket: 'tickets' }[type];
-    const m = modal({
-      title: title || 'בחירה', size: 'sm',
-      body: html`<input class="input" type="search" placeholder="חיפוש..." autofocus data-q><div class="pick-list" data-list></div>`,
-      onClose: () => { if (!creating) res(result); },
-    });
-    const list = $('[data-list]', m.body);
-    const draw = (q = '') => {
-      const n = q.trim().toLowerCase();
-      const rows = store.all(coll).filter((r) => !exclude.includes(r.id) && (!n || displayName(type, r).toLowerCase().includes(n) || String(r.email || r.domain || '').toLowerCase().includes(n))).slice(0, 40);
-      render(list, html`${rows.map((r) => html`<button class="pick-item" data-id="${r.id}">${avatar(displayName(type, r), { size: 'sm' })}<span><b>${displayName(type, r)}</b><small class="muted">${r.email || r.domain || (r.amount != null ? fmt.money(r.amount) : '') || ''}</small></span></button>`)}
-        ${!rows.length ? html`<p class="muted pad">לא נמצאו תוצאות</p>` : ''}
-        ${onCreate ? html`<button class="pick-item pick-create" data-create>${icon('plus')}<span>יצירה חדשה${n ? ` "${q}"` : ''}</span></button>` : ''}`);
-    };
-    draw();
-    $('[data-q]', m.body).addEventListener('input', (e) => draw(e.target.value));
-    list.addEventListener('click', async (e) => {
-      const b = e.target.closest('[data-id]');
-      if (b) { result = b.dataset.id; m.close(); return; }
-      if (e.target.closest('[data-create]')) {
-        const q = $('[data-q]', m.body).value.trim();
-        creating = true;
-        m.close();
-        const r = await onCreate(q);
-        res(r ? r.id : null);
-      }
-    });
-  });
-}
-
-export function setTitle(t) { document.title = t ? `${t} – קשר CRM` : 'קשר CRM'; }
-export { icon, html, raw, esc, render, Html, on };
+export const opt = (list, cur, { empty } = {}) => html`${empty != null ? html`<option value="">${empty}</option>` : ''}${list.map((o) => {
+  const v = typeof o === 'string' ? o : o.value; const l = typeof o === 'string' ? o : o.label;
+  return html`<option value="${v}" ${v === cur ? 'selected' : ''}>${l}</option>`;
+})}`;

@@ -1,457 +1,278 @@
-// Data store: in-memory collections, persisted per record to IndexedDB (localStorage fallback),
-// change events, property history, recycle bin, associations, backups and cross-tab sync.
+// Data store. The server (Supabase) is the source of truth; the store keeps an in-memory copy for a fast UI.
+// Writes are applied optimistically, sent to the server, and replaced by the server's row (which ran the
+// validation and business rules). Network failures go to a persisted outbox and are retried; validation
+// errors roll the change back and are shown to the user. Nothing is dropped silently.
+//
+// "local" mode (trial / automated tests) keeps everything in localStorage and runs the same rules in JS.
 
-import { uid, clone, debounce } from './util.js';
+import { db, ApiError } from './api.js';
+import { beforeSave, afterSaveLocal } from './rules.js';
 
-export const COLLECTIONS = [
-  'contacts', 'companies', 'deals', 'tickets',
-  'activities', 'tasks', 'associations', 'history',
-  'products', 'quotes', 'templates', 'snippets', 'sequences', 'enrollments',
-  'workflows', 'workflowLogs', 'forms', 'submissions',
-  'reports', 'dashboards', 'views', 'lists',
-  'users', 'notifications', 'scheduled', 'trash',
+export const TABLES = [
+  'crm_pipelines', 'crm_stages', 'crm_sources', 'crm_contacts', 'crm_deals', 'crm_tasks',
+  'crm_activities', 'crm_ad_spend', 'crm_touchpoints', 'crm_deal_stage_history',
 ];
-// Collections whose field changes are recorded in `history` and whose deletes go to the recycle bin.
-const TRACKED = new Set(['contacts', 'companies', 'deals', 'tickets']);
-const TRASHABLE = new Set(['contacts', 'companies', 'deals', 'tickets', 'products', 'quotes', 'templates', 'sequences', 'workflows', 'forms', 'reports', 'tasks', 'lists']);
-const COLL_TYPE = { contacts: 'contact', companies: 'company', deals: 'deal', tickets: 'ticket' };
-const HISTORY_CAP = 25000;
-const SCHEMA_VERSION = 1;
-const DB_NAME = 'kesher-crm';
-const LS_KEY = 'kesher-crm-fallback';
+const LOCAL_KEY = 'hgos-local-data';
+const OUTBOX_KEY = 'hgos-outbox';
 
-export const DEFAULT_SETTINGS = () => ({
-  schemaVersion: SCHEMA_VERSION,
-  currentUserId: null,
-  theme: 'system',
-  currency: 'ILS',
-  vatRate: 18,
-  company: { name: 'העסק שלי', taxId: '', address: '', phone: '', email: '', website: '', logo: '' },
-  options: {},
-  pipelines: null,
-  customProps: {},
-  propLabels: {},
-  hiddenProps: {},
-  scoring: { enabled: true, rules: [] },
-  rottingDays: 14,
-  quote: { prefix: 'Q-', nextNumber: 1001, validDays: 30, terms: 'ההצעה בתוקף ל-30 יום. המחירים אינם כוללים מע"מ אלא אם צוין אחרת.' },
-  onboarded: false,
-  lastBackupAt: null,
-});
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  const r = (Math.random() * 16) | 0; return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+}));
 
 class Store {
   constructor() {
-    this.data = {};
+    this.rows = {};
     this.idx = {};
-    for (const c of COLLECTIONS) { this.data[c] = []; this.idx[c] = new Map(); }
-    this.settings = DEFAULT_SETTINGS();
+    for (const t of TABLES) { this.rows[t] = []; this.idx[t] = new Map(); }
     this.listeners = new Map();
-    this.pending = new Map(); // key "coll\u0000id" -> record | null (delete)
-    this.backend = 'memory';
-    this.status = 'saved';
-    this.flushSoon = debounce(() => this.flush(), 150);
-    this.assocIndex = new Map(); // "type:id" -> Set of association ids
+    this.mode = null;
+    this.workspace = null;
+    this.members = [];
+    this.userId = null;
+    this.cursor = 0;
+    this.status = 'idle';
+    this.outbox = [];
+    this.flushing = false;
   }
 
-  // ---------- events ----------
-  on(evt, fn) {
-    if (!this.listeners.has(evt)) this.listeners.set(evt, new Set());
-    this.listeners.get(evt).add(fn);
-    return () => this.listeners.get(evt)?.delete(fn);
-  }
-  emit(evt, payload) {
-    for (const fn of this.listeners.get(evt) || []) {
-      try { fn(payload); } catch (e) { console.error(`[store] listener for ${evt} failed`, e); }
-    }
+  on(evt, fn) { if (!this.listeners.has(evt)) this.listeners.set(evt, new Set()); this.listeners.get(evt).add(fn); return () => this.listeners.get(evt)?.delete(fn); }
+  emit(evt, p) { for (const fn of this.listeners.get(evt) || []) { try { fn(p); } catch (e) { console.error(e); } } }
+  setStatus(s) { if (this.status !== s) { this.status = s; this.emit('status', s); } }
+
+  // ---------- loading ----------
+  async initRemote({ workspaceId, userId }) {
+    this.mode = 'remote';
+    this.userId = userId;
+    const [ws] = await db.select('crm_workspaces', `select=id,name,settings&id=eq.${workspaceId}`);
+    this.workspace = ws;
+    this.members = await db.select('crm_members', `select=user_id,role,display_name&workspace_id=eq.${workspaceId}`);
+    await Promise.all(TABLES.map(async (t) => {
+      const rows = await db.selectAll(t, 'deleted_at=is.null');
+      for (const r of rows) this._put(t, r);
+    }));
+    try { this.outbox = JSON.parse(localStorage.getItem(`${OUTBOX_KEY}:${workspaceId}`) || '[]'); } catch { this.outbox = []; }
+    // re-apply writes that never reached the server so the screen shows them
+    for (const op of this.outbox) this._applyLocal(op.table, op.id, op.data, op.op);
+    this.setStatus(this.outbox.length ? 'pending' : 'saved');
+    this.flush();
+    this.timer = setInterval(() => this.refresh(), 60000);
+    addEventListener('online', () => { this.flush(); this.refresh(); });
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') this.refresh(); });
   }
 
-  // ---------- lifecycle ----------
-  async init() {
+  initLocal() {
+    this.mode = 'local';
+    this.userId = 'local-user';
+    this.workspace = { id: 'local', name: 'מצב ניסיון', settings: {} };
+    this.members = [{ user_id: 'local-user', role: 'owner', display_name: 'אני' }];
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(LOCAL_KEY) || 'null'); } catch { saved = null; }
+    if (saved?.rows) for (const t of TABLES) for (const r of saved.rows[t] || []) this._put(t, r);
+    this.cursor = saved?.cursor || 0;
+    this.setStatus('saved');
+    return !saved;
+  }
+  _persistLocal() {
     try {
-      this.db = await openDB();
-      this.backend = 'indexeddb';
-      const rows = await idbAll(this.db, 'records');
-      for (const row of rows) this._loadRow(row);
-    } catch (e) {
-      console.warn('[store] IndexedDB unavailable, falling back to localStorage', e);
-      try {
-        const json = localStorage.getItem(LS_KEY);
-        this.backend = 'localstorage';
-        if (json) {
-          const obj = JSON.parse(json);
-          if (obj.settings) this.settings = { ...DEFAULT_SETTINGS(), ...obj.settings };
-          for (const c of COLLECTIONS) for (const r of obj.data?.[c] || []) this._put(c, r);
+      localStorage.setItem(LOCAL_KEY, JSON.stringify({ rows: this.rows, cursor: this.cursor }));
+      this.setStatus('saved');
+    } catch (e) { this.setStatus('error'); this.emit('error', e); }
+  }
+  resetLocal() { localStorage.removeItem(LOCAL_KEY); }
+
+  // Pull rows changed on the server since our cursor (other device, server-side triggers).
+  async refresh() {
+    if (this.mode !== 'remote' || this.refreshing) return;
+    this.refreshing = true;
+    try {
+      const changed = new Set();
+      await Promise.all(TABLES.map(async (t) => {
+        const rows = await db.select(t, `select=*&seq=gt.${this.cursor}&order=seq.asc&limit=1000`);
+        for (const r of rows) {
+          if (this.outbox.some((op) => op.table === t && op.id === r.id)) continue; // our unsent edit wins locally until sent
+          if (r.deleted_at) this._drop(t, r.id); else this._put(t, r);
+          changed.add(t);
         }
-      } catch (e2) {
-        this.backend = 'memory';
-        console.warn('[store] no persistent storage available', e2);
-      }
-    }
-    this._rebuildAssocIndex();
-    this._migrate();
-    try {
-      this.channel = new BroadcastChannel(DB_NAME);
-      this.channel.onmessage = (e) => this._onRemote(e.data);
-    } catch { /* old browsers: no cross-tab sync */ }
-    const flushNow = () => { if (this.pending.size) this.flush(); };
-    addEventListener('pagehide', flushNow);
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushNow(); });
-    if (navigator.storage?.persist) navigator.storage.persist().catch(() => {});
-    const fresh = !this.settings.onboarded && !this.data.contacts.length;
-    return { fresh };
-  }
-
-  _loadRow(row) {
-    if (row.c === '_meta') {
-      if (row.id === 'settings') this.settings = { ...DEFAULT_SETTINGS(), ...row.d };
-      return;
-    }
-    if (this.data[row.c]) this._put(row.c, row.d);
-  }
-  _put(coll, r) {
-    const ix = this.idx[coll];
-    if (ix.has(r.id)) {
-      const i = this.data[coll].indexOf(ix.get(r.id));
-      if (i >= 0) this.data[coll][i] = r; else this.data[coll].push(r);
-    } else this.data[coll].push(r);
-    ix.set(r.id, r);
-  }
-  _drop(coll, id) {
-    const r = this.idx[coll].get(id);
-    if (!r) return;
-    this.idx[coll].delete(id);
-    const i = this.data[coll].indexOf(r);
-    if (i >= 0) this.data[coll].splice(i, 1);
-  }
-  _migrate() {
-    // Future schema migrations run here, keyed by settings.schemaVersion.
-    if ((this.settings.schemaVersion || 0) < SCHEMA_VERSION) {
-      this.settings.schemaVersion = SCHEMA_VERSION;
-      this.saveSettings();
-    }
-  }
-
-  // ---------- persistence ----------
-  _queue(coll, id, rec) {
-    this.pending.set(`${coll}\u0000${id}`, rec ? { c: coll, id, d: rec } : null);
-    this._setStatus('saving');
-    this.flushSoon();
-  }
-  _setStatus(s) {
-    if (this.status !== s) { this.status = s; this.emit('status', s); }
-  }
-  async flush() {
-    if (!this.pending.size) return;
-    const batch = [...this.pending.entries()];
-    this.pending.clear();
-    try {
-      if (this.backend === 'indexeddb') {
-        await new Promise((res, rej) => {
-          const tx = this.db.transaction('records', 'readwrite');
-          const os = tx.objectStore('records');
-          for (const [key, row] of batch) {
-            const [c, id] = key.split('\u0000');
-            if (row) os.put(row); else os.delete([c, id]);
-          }
-          tx.oncomplete = res;
-          tx.onerror = () => rej(tx.error);
-          tx.onabort = () => rej(tx.error || new Error('transaction aborted'));
-        });
-      } else if (this.backend === 'localstorage') {
-        localStorage.setItem(LS_KEY, JSON.stringify({ settings: this.settings, data: this.data }));
-      }
-      this.channel?.postMessage({ keys: batch.map(([k]) => k) });
-      this._setStatus(this.pending.size ? 'saving' : 'saved');
-      this.emit('saved');
+      }));
+      if (changed.size) this.emit('change', { tables: [...changed], source: 'remote' });
+      if (this.status === 'offline' && !this.outbox.length) this.setStatus('saved');
     } catch (e) {
-      console.error('[store] save failed', e);
-      // put the batch back so nothing is lost, and retry later
-      for (const [k, v] of batch) if (!this.pending.has(k)) this.pending.set(k, v);
-      this._setStatus('error');
-      this.emit('error', e);
-      setTimeout(() => this.flush(), 4000);
-    }
+      if (e.network) this.setStatus('offline');
+    } finally { this.refreshing = false; }
   }
-  async _onRemote(msg) {
-    if (!msg?.keys || this.backend !== 'indexeddb') return;
-    const colls = new Set();
-    for (const key of msg.keys) {
-      const [c, id] = key.split('\u0000');
-      const row = await idbGet(this.db, 'records', [c, id]);
-      if (c === '_meta') { if (row) this._loadRow(row); colls.add('settings'); continue; }
-      if (!this.data[c]) continue;
-      if (row) this._put(c, row.d); else this._drop(c, id);
-      colls.add(c);
-    }
-    if (colls.has('associations')) this._rebuildAssocIndex();
-    this.emit('remote', { colls: [...colls] });
+
+  _put(t, r) {
+    const cur = this.idx[t].get(r.id);
+    if (cur) Object.keys(cur).forEach((k) => { if (!(k in r)) delete cur[k]; }), Object.assign(cur, r);
+    else { this.rows[t].push(r); this.idx[t].set(r.id, r); }
+    if (r.seq && r.seq > this.cursor) this.cursor = r.seq;
+  }
+  _drop(t, id) {
+    const r = this.idx[t].get(id);
+    if (!r) return;
+    this.idx[t].delete(id);
+    this.rows[t].splice(this.rows[t].indexOf(r), 1);
   }
 
   // ---------- reads ----------
-  all(coll) { return this.data[coll] || []; }
-  get(coll, id) { return id == null ? undefined : this.idx[coll]?.get(id); }
-  find(coll, pred) { return this.all(coll).find(pred); }
-  filter(coll, pred) { return this.all(coll).filter(pred); }
-  count(coll) { return this.all(coll).length; }
+  all(t) { return this.rows[t] || []; }
+  get(t, id) { return id ? this.idx[t]?.get(id) : undefined; }
+  filter(t, fn) { return this.all(t).filter(fn); }
+  find(t, fn) { return this.all(t).find(fn); }
 
   // ---------- writes ----------
-  // opts: { source: 'user'|'import'|'workflow'|'form'|'sequence'|'system', silent, by }
-  insert(coll, data, opts = {}) {
+  async insert(t, data) {
     const now = new Date().toISOString();
-    const rec = { ...data };
-    rec.id ||= uid(coll.slice(0, 3));
-    rec.createdAt ||= now;
-    rec.updatedAt = rec.updatedAt || now;
-    if (rec.createdBy === undefined) rec.createdBy = opts.by ?? this.settings.currentUserId;
-    this._put(coll, rec);
-    if (coll === 'associations') this._indexAssoc(rec);
-    this._queue(coll, rec.id, rec);
-    if (!opts.silent) this.emit('change', { coll, op: 'insert', record: rec, source: opts.source || 'user' });
-    return rec;
+    const row = beforeSave(t, { id: uuid(), workspace_id: this.workspace.id, created_at: now, updated_at: now, created_by: this.userId, ...data }, null, this);
+    this._put(t, row);
+    this.emit('change', { tables: [t], op: 'insert', row, source: 'user' });
+    return this._send({ op: 'insert', table: t, id: row.id, data: row }, null);
   }
-  insertMany(coll, list, opts = {}) {
-    const out = list.map((d) => this.insert(coll, d, { ...opts, silent: true }));
-    if (!opts.silent) this.emit('change', { coll, op: 'bulk', records: out, source: opts.source || 'user' });
-    return out;
+  async update(t, id, patch) {
+    const cur = this.get(t, id);
+    if (!cur) throw new ApiError('הרשומה לא נמצאה');
+    const prev = structuredClone(cur);
+    const next = beforeSave(t, { ...cur, ...patch }, prev, this);
+    const diff = {};
+    for (const k of Object.keys(next)) if (JSON.stringify(next[k]) !== JSON.stringify(prev[k])) diff[k] = next[k];
+    if (!Object.keys(diff).length) return cur;
+    Object.assign(cur, next);
+    if (cur.deleted_at) this._drop(t, id);
+    this.emit('change', { tables: [t], op: 'update', row: cur, prev, source: 'user' });
+    return this._send({ op: 'update', table: t, id, data: stripServerCols(diff) }, prev);
   }
-  update(coll, id, patch, opts = {}) {
-    const cur = this.get(coll, id);
-    if (!cur) return null;
-    const prev = clone(cur);
-    const changes = {};
-    for (const [k, v] of Object.entries(patch)) {
-      if (k === 'id') continue;
-      const a = cur[k], b = v;
-      const same = JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
-      if (!same) changes[k] = { from: a, to: b };
+  remove(t, id) { return this.update(t, id, { deleted_at: new Date().toISOString() }); }
+  // Undo a delete: `row` is the copy taken before remove().
+  async restore(t, row) {
+    const back = { ...row, deleted_at: null };
+    this._put(t, back);
+    this.emit('change', { tables: [t], op: 'restore', row: back, source: 'user' });
+    return this._send({ op: 'update', table: t, id: row.id, data: { deleted_at: null } }, { ...row, deleted_at: new Date().toISOString() });
+  }
+
+  _applyLocal(t, id, data, op) {
+    if (op === 'insert') this._put(t, { ...data });
+    else { const cur = this.get(t, id); if (cur) Object.assign(cur, data); }
+    const cur = this.get(t, id);
+    if (cur?.deleted_at) this._drop(t, id);
+  }
+
+  async _send(op, prev) {
+    if (this.mode === 'local') {
+      const row = this.get(op.table, op.id) || { ...(prev || {}), ...op.data };
+      row.version = (row.version || 0) + 1;
+      row.seq = ++this.cursor;
+      if (row.deleted_at) this._drop(op.table, op.id);
+      afterSaveLocal(op.table, row, prev, this);
+      this._persistLocal();
+      this.emit('change', { tables: TABLES, source: 'rules' });
+      return row;
     }
-    if (!Object.keys(changes).length) return cur;
-    Object.assign(cur, patch);
-    cur.updatedAt = new Date().toISOString();
-    this._queue(coll, id, cur);
-    if (TRACKED.has(coll) && opts.history !== false) {
-      const at = cur.updatedAt;
-      const by = opts.by ?? this.settings.currentUserId;
-      for (const [key, ch] of Object.entries(changes)) {
-        if (['updatedAt', 'lastActivityAt', 'stageChangedAt'].includes(key)) continue;
-        this.insert('history', { type: COLL_TYPE[coll], recordId: id, key, from: ch.from ?? null, to: ch.to ?? null, at, by, source: opts.source || 'user' }, { silent: true });
+    // an update to a row whose insert is still queued is merged into that insert
+    const queued = this.outbox.find((o) => o.table === op.table && o.id === op.id && o.op === 'insert');
+    if (queued) { Object.assign(queued.data, op.data); this._saveOutbox(); return this.get(op.table, op.id); }
+    if (this.outbox.length) { this.outbox.push(op); this._saveOutbox(); this.flush(); return this.get(op.table, op.id); }
+    this.setStatus('saving');
+    try {
+      const row = await this._exec(op);
+      this._afterServer(op, row);
+      this.setStatus(this.outbox.length ? 'pending' : 'saved');
+      return row;
+    } catch (e) {
+      if (e.network) {
+        this.outbox.push(op);
+        this._saveOutbox();
+        this.setStatus('offline');
+        return this.get(op.table, op.id);
       }
-      this._capHistory();
+      this._rollback(op, prev);
+      this.setStatus(this.outbox.length ? 'pending' : 'saved');
+      throw humanize(e);
     }
-    if (!opts.silent) this.emit('change', { coll, op: 'update', record: cur, prev, changes, source: opts.source || 'user' });
-    return cur;
   }
-  updateMany(coll, ids, patch, opts = {}) {
-    const out = ids.map((id) => this.update(coll, id, typeof patch === 'function' ? patch(this.get(coll, id)) : patch, opts)).filter(Boolean);
-    return out;
+  async _exec(op) {
+    if (op.op === 'insert') return db.insert(op.table, stripServerCols(op.data, true));
+    return db.update(op.table, op.id, op.data);
   }
-  // Deletes; trashable collections go to the recycle bin with their associations. Returns trash id (or null).
-  remove(coll, id, opts = {}) {
-    const rec = this.get(coll, id);
-    if (!rec) return null;
-    let trashId = null;
-    const type = COLL_TYPE[coll];
-    const assocs = type ? this.assocsOf(type, id) : [];
-    if (TRASHABLE.has(coll) && opts.trash !== false) {
-      trashId = this.insert('trash', { coll, record: clone(rec), assocs: assocs.map(clone), deletedAt: new Date().toISOString(), deletedBy: this.settings.currentUserId }, { silent: true }).id;
-    }
-    for (const a of assocs) this._removeAssoc(a.id);
-    this._drop(coll, id);
-    this._queue(coll, id, null);
-    if (coll === 'associations') this._rebuildAssocIndex();
-    if (!opts.silent) this.emit('change', { coll, op: 'remove', record: rec, source: opts.source || 'user', trashId });
-    return trashId;
+  _afterServer(op, row) {
+    if (row.deleted_at) this._drop(op.table, row.id); else this._put(op.table, row);
+    this.emit('change', { tables: [op.table], op: 'server', row, source: 'server' });
+    // server triggers may have changed related rows (stage history, contact lifecycle...)
+    clearTimeout(this.refreshSoon);
+    this.refreshSoon = setTimeout(() => this.refresh(), 400);
   }
-  removeMany(coll, ids, opts = {}) {
-    const trashIds = ids.map((id) => this.remove(coll, id, { ...opts, silent: true })).filter(Boolean);
-    if (!opts.silent) this.emit('change', { coll, op: 'bulk', records: [], source: opts.source || 'user' });
-    return trashIds;
+  _rollback(op, prev) {
+    if (op.op === 'insert') this._drop(op.table, op.id);
+    else if (prev) { if (!this.get(op.table, op.id)) this._put(op.table, prev); else { const cur = this.get(op.table, op.id); Object.keys(cur).forEach((k) => delete cur[k]); Object.assign(cur, prev); } }
+    this.emit('change', { tables: [op.table], op: 'rollback', source: 'user' });
   }
-  restore(trashId) {
-    const t = this.get('trash', trashId);
-    if (!t) return null;
-    this._put(t.coll, t.record);
-    this._queue(t.coll, t.record.id, t.record);
-    for (const a of t.assocs || []) {
-      const other = a.a.type === COLL_TYPE[t.coll] && a.a.id === t.record.id ? a.b : a.a;
-      if (this.get(collOf(other.type), other.id)) { this._put('associations', a); this._indexAssoc(a); this._queue('associations', a.id, a); }
-    }
-    this._drop('trash', trashId);
-    this._queue('trash', trashId, null);
-    this.emit('change', { coll: t.coll, op: 'insert', record: t.record, source: 'restore' });
-    return t.record;
+  _saveOutbox() {
+    try { localStorage.setItem(`${OUTBOX_KEY}:${this.workspace.id}`, JSON.stringify(this.outbox)); } catch { /* storage full: still in memory */ }
   }
-  purge(trashId) {
-    this._drop('trash', trashId);
-    this._queue('trash', trashId, null);
-    this.emit('change', { coll: 'trash', op: 'remove', record: { id: trashId } });
-  }
-  _capHistory() {
-    const h = this.data.history;
-    if (h.length > HISTORY_CAP) {
-      const drop = h.splice(0, h.length - HISTORY_CAP);
-      for (const r of drop) { this.idx.history.delete(r.id); this._queue('history', r.id, null); }
-    }
+  async flush() {
+    if (this.mode !== 'remote' || this.flushing || !this.outbox.length) return;
+    this.flushing = true;
+    this.setStatus('saving');
+    try {
+      while (this.outbox.length) {
+        const op = this.outbox[0];
+        try {
+          const row = await this._exec(op);
+          this.outbox.shift();
+          this._saveOutbox();
+          this._afterServer(op, row);
+        } catch (e) {
+          if (e.network) { this.setStatus('offline'); setTimeout(() => this.flush(), 15000); return; }
+          // the server rejected a queued change: drop it, tell the user, reload the true state
+          this.outbox.shift();
+          this._saveOutbox();
+          this.emit('error', humanize(e));
+          await this.refresh();
+        }
+      }
+      this.setStatus('saved');
+    } finally { this.flushing = false; }
   }
 
-  saveSettings(patch = {}) {
-    Object.assign(this.settings, patch);
-    this.pending.set('_meta\u0000settings', { c: '_meta', id: 'settings', d: this.settings });
-    this._setStatus('saving');
-    this.flushSoon();
-    this.emit('settings', this.settings);
+  // ---------- helpers ----------
+  memberName(userId) {
+    const m = this.members.find((x) => x.user_id === userId);
+    return m?.display_name || (userId ? 'משתמש' : '');
   }
-
-  // ---------- associations ----------
-  // Stored as { a: {type,id}, b: {type,id}, label } with a type-ordered pair so lookups are symmetric.
-  _indexAssoc(a) {
-    for (const end of [a.a, a.b]) {
-      const k = `${end.type}:${end.id}`;
-      if (!this.assocIndex.has(k)) this.assocIndex.set(k, new Set());
-      this.assocIndex.get(k).add(a.id);
-    }
-  }
-  _rebuildAssocIndex() {
-    this.assocIndex = new Map();
-    for (const a of this.data.associations) this._indexAssoc(a);
-  }
-  _removeAssoc(id) {
-    const a = this.get('associations', id);
-    if (!a) return;
-    for (const end of [a.a, a.b]) this.assocIndex.get(`${end.type}:${end.id}`)?.delete(id);
-    this._drop('associations', id);
-    this._queue('associations', id, null);
-  }
-  assocsOf(type, id) {
-    const ids = this.assocIndex.get(`${type}:${id}`);
-    return ids ? [...ids].map((x) => this.get('associations', x)).filter(Boolean) : [];
-  }
-  link(typeA, idA, typeB, idB, opts = {}) {
-    if (!idA || !idB || (typeA === typeB && idA === idB)) return null;
-    const existing = this.assocsOf(typeA, idA).find((a) => (a.a.type === typeB && a.a.id === idB) || (a.b.type === typeB && a.b.id === idB));
-    if (existing) return existing;
-    const rec = this.insert('associations', { a: { type: typeA, id: idA }, b: { type: typeB, id: idB }, label: opts.label || '' }, { silent: true });
-    if (!opts.silent) this.emit('change', { coll: 'associations', op: 'insert', record: rec, source: opts.source || 'user' });
-    return rec;
-  }
-  unlink(typeA, idA, typeB, idB) {
-    for (const a of this.assocsOf(typeA, idA)) {
-      if ((a.a.type === typeB && a.a.id === idB) || (a.b.type === typeB && a.b.id === idB)) this._removeAssoc(a.id);
-    }
-    this.emit('change', { coll: 'associations', op: 'remove', record: { a: { type: typeA, id: idA }, b: { type: typeB, id: idB } } });
-  }
-  linkedIds(type, id, targetType) {
-    const out = [];
-    for (const a of this.assocsOf(type, id)) {
-      const other = a.a.type === type && a.a.id === id ? a.b : a.a;
-      if (!targetType || other.type === targetType) out.push(other.id);
-    }
-    return out;
-  }
-  linked(type, id, targetType) {
-    return this.linkedIds(type, id, targetType).map((x) => this.get(collOf(targetType), x)).filter(Boolean);
-  }
-
-  // Mark activity on records (drives "last activity" and deal rotting).
-  touchActivity(targets = [], at = new Date().toISOString()) {
-    for (const t of targets) {
-      const c = collOf(t.type);
-      const r = this.get(c, t.id);
-      if (r && (!r.lastActivityAt || r.lastActivityAt < at)) this.update(c, t.id, { lastActivityAt: at }, { history: false, silent: true });
-    }
-  }
-
-  // ---------- import / export / backups ----------
-  exportJSON() {
-    return { app: 'kesher-crm', version: SCHEMA_VERSION, exportedAt: new Date().toISOString(), settings: this.settings, data: this.data };
-  }
-  async replaceAll(obj) {
-    if (!obj || obj.app !== 'kesher-crm' || !obj.data) throw new Error('הקובץ אינו גיבוי של קשר CRM');
-    await this.clearAll({ keepSettings: false });
-    this.settings = { ...DEFAULT_SETTINGS(), ...obj.settings };
-    for (const c of COLLECTIONS) for (const r of obj.data[c] || []) { this._put(c, r); this._queue(c, r.id, r); }
-    this._rebuildAssocIndex();
-    this.saveSettings();
-    await this.flush();
-    this.emit('remote', { colls: [...COLLECTIONS, 'settings'] });
-  }
-  async clearAll({ keepSettings = true } = {}) {
-    this.pending.clear();
-    for (const c of COLLECTIONS) { this.data[c] = []; this.idx[c] = new Map(); }
-    this.assocIndex = new Map();
-    if (!keepSettings) this.settings = DEFAULT_SETTINGS();
-    if (this.backend === 'indexeddb') {
-      await new Promise((res, rej) => {
-        const tx = this.db.transaction('records', 'readwrite');
-        tx.objectStore('records').clear();
-        tx.oncomplete = res; tx.onerror = () => rej(tx.error);
-      });
-    }
-    this.saveSettings();
-    await this.flush();
-    this.channel?.postMessage({ keys: [] });
-  }
-  async backup(label = 'אוטומטי') {
-    const snap = { id: uid('bak'), at: new Date().toISOString(), label, counts: this.counts(), json: JSON.stringify(this.exportJSON()) };
-    if (this.backend !== 'indexeddb') return null;
-    await idbPut(this.db, 'backups', snap);
-    const all = (await idbAll(this.db, 'backups')).sort((a, b) => (a.at < b.at ? 1 : -1));
-    for (const old of all.slice(10)) await idbDelete(this.db, 'backups', old.id);
-    this.saveSettings({ lastBackupAt: snap.at });
-    return snap;
-  }
-  async listBackups() {
-    if (this.backend !== 'indexeddb') return [];
-    return (await idbAll(this.db, 'backups')).map(({ json, ...meta }) => ({ ...meta, size: json.length })).sort((a, b) => (a.at < b.at ? 1 : -1));
-  }
-  async restoreBackup(id) {
-    const snap = await idbGet(this.db, 'backups', id);
-    if (!snap) throw new Error('הגיבוי לא נמצא');
-    await this.backup('לפני שחזור');
-    await this.replaceAll(JSON.parse(snap.json));
-  }
-  async autoBackup() {
-    const last = this.settings.lastBackupAt ? new Date(this.settings.lastBackupAt).getTime() : 0;
-    if (Date.now() - last > 864e5 && this.data.contacts.length) await this.backup('גיבוי יומי אוטומטי');
-  }
-  counts() {
-    const o = {};
-    for (const c of ['contacts', 'companies', 'deals', 'tickets', 'activities', 'tasks']) o[c] = this.data[c].length;
-    return o;
-  }
-  async storageEstimate() {
-    try { return await navigator.storage.estimate(); } catch { return null; }
+  exportAll() {
+    return { app: 'hg-os', exportedAt: new Date().toISOString(), workspace: this.workspace?.name, rows: this.rows };
   }
 }
 
-export const collOf = (type) => ({ contact: 'contacts', company: 'companies', deal: 'deals', ticket: 'tickets', quote: 'quotes', product: 'products' }[type] || type);
-export const typeOf = (coll) => COLL_TYPE[coll];
-
-// ---------- IndexedDB helpers ----------
-function openDB() {
-  return new Promise((res, rej) => {
-    if (!('indexedDB' in window)) return rej(new Error('no indexedDB'));
-    const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains('records')) db.createObjectStore('records', { keyPath: ['c', 'id'] });
-      if (!db.objectStoreNames.contains('backups')) db.createObjectStore('backups', { keyPath: 'id' });
-    };
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
-    req.onblocked = () => rej(new Error('indexedDB blocked'));
-  });
+// Columns the server owns; never sent from the client.
+function stripServerCols(d, keepId = false) {
+  const out = { ...d };
+  for (const k of ['seq', 'version', 'updated_at', 'created_by', 'phone_norm', 'outcome', 'stage_entered_at']) delete out[k];
+  if (!keepId) delete out.id;
+  if (!keepId) delete out.workspace_id;
+  if (!keepId) delete out.created_at;
+  return out;
 }
-const idbReq = (db, store, mode, fn) => new Promise((res, rej) => {
-  const tx = db.transaction(store, mode);
-  const r = fn(tx.objectStore(store));
-  tx.oncomplete = () => res(r?.result);
-  tx.onerror = () => rej(tx.error);
-});
-const idbAll = (db, store) => idbReq(db, store, 'readonly', (os) => os.getAll());
-const idbGet = (db, store, key) => idbReq(db, store, 'readonly', (os) => os.get(key));
-const idbPut = (db, store, val) => idbReq(db, store, 'readwrite', (os) => os.put(val));
-const idbDelete = (db, store, key) => idbReq(db, store, 'readwrite', (os) => os.delete(key));
+
+// Turn database errors into messages a person can act on.
+const CONSTRAINTS = {
+  crm_contacts_email_uq: 'כבר קיים ליד עם האימייל הזה. חפשו אותו במקום ליצור כפילות.',
+  first_source_locked: 'מקור ההגעה המקורי נעול. אפשר לשנות רק את המקור האחרון.',
+  crm_contacts_check: 'צריך למלא לפחות שם, טלפון או אימייל.',
+  crm_contacts_check1: 'כשמסמנים "לא רלוונטי" צריך לבחור סיבה.',
+  crm_contacts_email_check: 'כתובת האימייל לא תקינה.',
+  stage_not_found: 'השלב לא נמצא. רעננו את העמוד.',
+  crm_ad_spend_day_uq: 'כבר הוזנה הוצאה למקור ולתקופה האלה. ערכו את השורה הקיימת.',
+  crm_sources_key_uq: 'כבר קיים מקור בשם הזה.',
+};
+export function humanize(e) {
+  if (!(e instanceof ApiError)) return e;
+  const hay = `${e.message} ${e.details}`;
+  for (const [k, msg] of Object.entries(CONSTRAINTS)) if (hay.includes(k)) return new ApiError(msg, e);
+  if (e.status === 401 || e.status === 403 || e.code === '42501') return new ApiError('אין הרשאה לפעולה הזו. התחברו מחדש.', e);
+  if (e.code === '23514') return new ApiError(`ערך לא תקין: ${e.message}`, e);
+  return e;
+}
 
 export const store = new Store();
-if (typeof window !== 'undefined') window.__store = store; // handy for debugging in the console
+if (typeof window !== 'undefined') window.__store = store;
