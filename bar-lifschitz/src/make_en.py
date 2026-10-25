@@ -178,6 +178,22 @@ PAIRS = [
     ('>אינסטגרם<', '>Instagram<'),
     ('>חזרה למעלה<', '>Back to top<'),
 
+    # logo, tagline and video captions
+    ('מבשל ומארח, אצלי בחצר ואצלכם', 'I cook and host, in my yard and at yours'),
+    ('aria-label="בר ליפשיץ, לראש העמוד"', 'aria-label="Bar Lifschitz, back to top"'),
+    ('<span class="sr-only">בר ליפשיץ</span>', '<span class="sr-only">Bar Lifschitz</span>'),
+    ('ארוחות שף פרטיות בחצר שלי במצפה מתת, אצלכם בבית, או בכל מקום שתבחרו.', 'Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.'),
+    ('בר מגיש עשרות מנות על שולחן ארוך בחלל לבן', 'Bar plating dozens of dishes along a long table in a white room'),
+    ('השולחן בחצר ערוך עם פרחים, כדי חלב עם יין וחבית עם כוסות', 'The table in the yard set with flowers, milk churns holding wine and a barrel of glasses'),
+    ('מזלפים שמן זית על שורת קערות עם גבינה לבנה וירוקים', 'Olive oil drizzled over a row of bowls of white cheese and greens'),
+    ('שולחן ארוך ערוך במפה לבנה בכרם, תחת שמשיות', 'A long table with a white cloth in a vineyard, under parasols'),
+    ('צלחות סשימי דג לבן בקונסומה ורודה, צ׳ילי וירוקים', 'Plates of white fish sashimi in a pink consommé, chili and herbs'),
+    ('ערב בחצר: שולחן ארוך מלא אורחים מרימים כוסות', 'An evening in the yard: a long table of guests raising their glasses'),
+    ('שני דגים שלמים תלויים ליישון', 'Two whole fish hanging to age'),
+    ('כוסות יין ודלי קרח עם בקבוקים ופרחים על חבית', 'Wine glasses and an ice bucket with bottles and flowers on a barrel'),
+    ('בר עובד במטבח מואר, דרך חלון בקיר בורדו', 'Bar at work in a lit kitchen, seen through a window in a burgundy wall'),
+    ('השולחן הארוך בחצר מלא אורחים מתחת לעץ', 'The long table in the yard full of guests under a tree'),
+
     # repeated short strings, last
     ('לתיאום ארוחה', 'Book a dinner'),
     ('בר ליפשיץ', 'Bar Lifschitz'),
@@ -190,7 +206,7 @@ def build():
     for he, en in sorted(PAIRS, key=lambda p: -len(p[0])):
         s = s.replace(he, en)
     # relative paths: the English page lives one folder down
-    s = re.sub(r'(?<=["\s,])(images|media)/', r'../\1/', s)
+    s = re.sub(r'(?<=["\s,])(images|media|brand)/', r'../\1/', s)
     s = s.replace(f'<link rel="canonical" href="{BASE}">', f'<link rel="canonical" href="{BASE}en/">')
     s = s.replace(f'<meta property="og:url" content="{BASE}">', f'<meta property="og:url" content="{BASE}en/">')
     s = s.replace('<meta property="og:locale" content="he_IL">', '<meta property="og:locale" content="en_US">')
