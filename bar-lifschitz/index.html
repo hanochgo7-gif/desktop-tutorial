@@ -488,25 +488,22 @@
   .send-row { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ---------- השולחן שלכם: הדמיה חיה של הערב ---------- */
-  .table-viz { margin: 4px 0 0; padding: 18px 16px 12px; border: 1px solid rgba(243,242,236,.16); background: radial-gradient(120% 90% at 50% 40%, rgba(231,163,173,.07), transparent 70%); }
-  .table-viz svg { display: block; width: 100%; height: auto; max-height: 62vh; overflow: visible; }
-  .table-viz figcaption { margin-top: 10px; text-align: center; font-family: var(--display); font-size: 1.25rem; color: #efe7e8; letter-spacing: .02em; }
-  .tv-table { fill: rgba(243,242,236,.05); stroke: rgba(243,242,236,.55); stroke-width: 1.2; }
-  .tv-chair { fill: none; stroke: rgba(243,242,236,.32); stroke-width: 1.2; }
-  .tv-plate { fill: none; stroke: rgba(243,242,236,.9); stroke-width: 1.3; }
-  .tv-plate-in { fill: none; stroke: rgba(243,242,236,.35); stroke-width: 1; }
-  .tv-glass { fill: rgba(243,242,236,.22); stroke: none; }
-  .tv-platter { fill: rgba(231,163,173,.16); stroke: var(--rose); stroke-width: 1.2; }
-  .tv-flower { fill: var(--rose); opacity: .85; }
-  .tv-leaf { fill: #8f9a72; opacity: .7; }
-  .tv-station { fill: rgba(243,242,236,.05); stroke: var(--rose); stroke-width: 1.2; stroke-dasharray: 5 4; }
-  .tv-guest { fill: rgba(243,242,236,.75); }
-  .tv-tray { fill: none; stroke: var(--rose); stroke-width: 1.5; }
-  .tv-tray-dot { fill: var(--rose); }
-  .tv-new { transform-box: fill-box; transform-origin: center; animation: tv-in .55s cubic-bezier(.2,.7,.2,1) both; }
-  .tv-new.tv-plate { stroke: var(--rose); }
-  @keyframes tv-in { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .tv-new { animation: none; } }
+  .table-viz { margin: 4px 0 0; }
+  .tv-frame { position: relative; overflow: hidden; border-radius: 4px; background: radial-gradient(90% 80% at 50% 45%, #2a1416 0%, #150a0c 70%, #0f0709 100%); box-shadow: inset 0 0 0 1px rgba(243,242,236,.1); transition: height .5s cubic-bezier(.2,.7,.2,1); }
+  .tv-stage { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+  .tv-stage > * { position: absolute; }
+  .tv-stage img { display: block; pointer-events: none; user-select: none; }
+  .tv-table { border-radius: 12px; background: #6b4a2a center / cover; filter: brightness(.6) saturate(.85) contrast(1.06); box-shadow: 0 40px 70px rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.35); }
+  .tv-table::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(75% 90% at 50% 50%, transparent 40%, rgba(10,4,4,.55) 100%); }
+  .tv-chair { filter: brightness(.62) saturate(.9) drop-shadow(0 10px 12px rgba(0,0,0,.55)); }
+  .tv-item { filter: drop-shadow(0 8px 10px rgba(0,0,0,.45)); }
+  .tv-glow { width: 300px; height: 300px; margin: -150px 0 0 -150px; border-radius: 50%; background: radial-gradient(circle, rgba(255,184,110,.42) 0%, rgba(255,150,70,.16) 32%, rgba(255,120,40,0) 66%); mix-blend-mode: screen; pointer-events: none; animation: tv-flicker 3.2s ease-in-out infinite alternate; }
+  @keyframes tv-flicker { 0% { opacity: .78; transform: scale(.97); } 35% { opacity: 1; transform: scale(1.02); } 60% { opacity: .86; } 100% { opacity: .96; transform: scale(1); } }
+  .tv-new { animation: tv-in .8s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes tv-in { from { opacity: 0; translate: 0 -14px; scale: 1.04; } to { opacity: 1; translate: 0 0; scale: 1; } }
+  .tv-note { position: absolute; top: 10px; inset-inline-start: 12px; font-size: .78rem; letter-spacing: .14em; color: rgba(243,242,236,.55); }
+  .table-viz figcaption { margin-top: 12px; text-align: center; font-family: var(--display); font-size: 1.3rem; color: #efe7e8; letter-spacing: .02em; }
+  @media (prefers-reduced-motion: reduce) { .tv-new, .tv-glow { animation: none; } .tv-frame { transition: none; } }
   .error { color: var(--rose); font-weight: 600; font-size: .95rem; min-height: 1.4em; margin: 0; }
 
   .next-card {
@@ -792,7 +789,7 @@
           </div>
           <p class="hint" id="g-hint"></p>
           <figure class="table-viz" aria-hidden="true">
-            <svg id="table-svg" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="tv-frame" id="table-frame"><div class="tv-stage" id="table-stage"></div><span class="tv-note">הדמיה</span></div>
             <figcaption id="table-cap"></figcaption>
           </figure>
           <fieldset class="q-step" id="serve-field" hidden>
@@ -922,96 +919,126 @@
     $('date').min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
 
     // ---------- השולחן שלכם ----------
-    // שולחן ארוך במבט מלמעלה: כל אורח מקבל מקום, צלחת וכוס. הסגנון שנבחר משנה את מה שעל השולחן.
-    const svg = $('table-svg'), cap = $('table-cap');
-    let drawn = 0, drawnKey = '';
+    // הדמיה של השולחן במבט מלמעלה, מתמונות בודדות שמסודרות בזמן אמת:
+    // לכל אורח כיסא וכלים, ובמרכז השולחן מה שמתאים לסגנון ההגשה. נרות מהבהבים בעדינות.
+    const frame = $('table-frame'), stage = $('table-stage'), cap = $('table-cap');
+    // התיקייה נגזרת מהאייקון, כדי שזה יעבוד גם בעמוד האנגלי שיושב תיקייה אחת למטה
+    const IMG = document.querySelector('link[rel="icon"]').getAttribute('href').replace(/brand\/.*$/, '') + 'images/table/';
+    const SPR = { setting: [110, 124], chair: [100, 112], flowers: [120, 119], board: [210, 90], bowl: [130, 133], tray: [110, 113], cocktail: [140, 152], candle: [60, 61] };
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let drawn = 0, drawnKey = '', ready = false, trayAnims = [];
+    const sprite = (name, x, y, rot, cls, extra = '') => {
+      const [w, h] = SPR[name];
+      return `<img class="${cls}" src="${IMG}${name}.webp" alt="" width="${w}" height="${h}" style="left:${x - w / 2}px;top:${y - h / 2}px;${rot ? 'rotate:' + rot + 'deg;' : ''}${extra}">`;
+    };
+    const glow = (x, y, d) => `<i class="tv-glow" style="left:${x}px;top:${y}px;animation-delay:-${d}s"></i>`;
+
     function drawTable() {
+      if (!ready) return;
       const n = +guests.value || 0;
       const serveEl = form.querySelector('input[name="serve"]:checked');
       const serve = format === 'yard' ? 'yard' : (serveEl ? serveEl.value : 'unsure');
       const key = format + serve;
-      const isNew = i => (key === drawnKey && i >= drawn) ? ' tv-new' : '';
-      // בטלפון השולחן עומד לאורך המסך, כדי שיהיה גדול מספיק
-      const tall = svg.parentNode.clientWidth < 520;
-      const per = format === 'yard' ? 16 : 20;            // מקומות לשולחן
-      const out = [];
-      let H, minX = 1e9, maxX = -1e9;
-      const span = (a, b) => { minX = Math.min(minX, a); maxX = Math.max(maxX, b); };
+      const fresh = i => (key === drawnKey && i >= drawn) ? ' tv-new' : '';
+      const delay = i => (key === drawnKey && i >= drawn) ? `animation-delay:${(i - drawn) * 0.06}s;` : '';
+      const under = [], over = [], lights = [];
+      let DW, DH;
+      trayAnims.forEach(a => a.cancel()); trayAnims = [];
+
       if (serve === 'bites') {
-        // ערב בעמידה: האורחים בקבוצות קטנות, והמגשים עוברים ביניהם
-        const shown = Math.min(n, 80), cols = tall ? 8 : 16;
-        const rows = Math.ceil(shown / cols);
-        H = 60 + rows * 46;
-        for (let i = 0; i < shown; i++) {
+        // ערב בעמידה: שולחנות קוקטייל, ומגשים שעוברים ביניהם
+        const tables = Math.min(18, Math.max(3, Math.ceil(n / 4))), cols = Math.min(6, tables), rows = Math.ceil(tables / cols);
+        DW = cols * 230 + 120; DH = rows * 230 + 120;
+        for (let i = 0; i < tables; i++) {
           const r = Math.floor(i / cols), c = i % cols;
-          const x = 60 + c * 44 + (r % 2 ? 20 : 0) + ((i * 37) % 11) - 5;
-          const y = 40 + r * 46 + ((i * 53) % 13) - 6;
-          span(x - 10, x + 10);
-          out.push(`<circle class="tv-guest${isNew(i)}" cx="${x}" cy="${y}" r="7"/>`);
+          const x = 120 + c * 230 + (r % 2 ? 50 : 0) + ((i * 37) % 31) - 15, y = 125 + r * 230 + ((i * 53) % 29) - 14;
+          over.push(sprite('cocktail', x, y, (i * 47) % 360, 'tv-item' + fresh(i * 4), delay(i * 4)));
+          lights.push(glow(x + 8, y - 6, (i * 0.7) % 3));
         }
-        const cx = (minX + maxX) / 2, rx = (maxX - minX) / 2 - 10, ry = Math.max(16, rows * 23 - 6), cy = 40 + (rows - 1) * 23;
-        if (!matchMedia('(prefers-reduced-motion: reduce)').matches) [0, 1, 2].forEach(k => {
-          const a = rx - k * 24, b = Math.max(12, ry - k * 8);
-          const path = `M ${cx - a} ${cy} a ${a} ${b} 0 1 ${k % 2} ${2 * a} 0 a ${a} ${b} 0 1 ${k % 2} ${-2 * a} 0`;
-          out.push(`<g><circle class="tv-tray" r="11"/><circle class="tv-tray-dot" r="2.5" cx="-4"/><circle class="tv-tray-dot" r="2.5" cx="4"/><circle class="tv-tray-dot" r="2.5" cy="-4"/><animateMotion dur="${11 + k * 3}s" repeatCount="indefinite" path="${path}"/></g>`);
-        });
-        svg.setAttribute('viewBox', `${minX - 20} 0 ${maxX - minX + 40} ${H}`);
-        svg.innerHTML = out.join('');
         cap.textContent = T.cap.bites(n);
+        render(DW, DH, under, over, lights);
+        if (!still) [0, 1, 2].forEach(k => {
+          const el = stage.querySelector(`[data-tray="${k}"]`);
+          const cx = DW / 2, cy = DH / 2, a = DW / 2 - 110 - k * 40, b = DH / 2 - 90 - k * 20, dir = k % 2 ? -1 : 1;
+          const frames = Array.from({ length: 25 }, (_, t) => { const th = dir * t / 24 * Math.PI * 2 + k; return { transform: `translate(${cx + a * Math.cos(th) - 55}px, ${cy + b * Math.sin(th) - 56}px) rotate(${t * 15}deg)` }; });
+          trayAnims.push(el.animate(frames, { duration: 16000 + k * 5000, iterations: Infinity }));
+        });
         drawn = n; drawnKey = key;
         return;
       }
+
+      // שולחנות ארוכים: עד 16 מקומות בחצר, עד 20 בשולחן אצלכם ובאירועים, ועד שלושה שולחנות בהדמיה
+      const per = format === 'yard' ? 16 : 20, P = 132, depth = 380, block = depth + 172, gap = 56;
       const tables = Math.min(3, Math.max(1, Math.ceil(n / per)));
-      const block = 170;
-      H = tables * block + (serve === 'buffet' ? 80 : 0);
       let left = Math.min(n, tables * per), idx = 0;
+      const side0 = Math.max(3, Math.ceil(Math.min(n, per) / 2));
+      const L = side0 * P + 70;
+      DW = L + 120;
+      const buffetH = serve === 'buffet' ? 250 : 0;
+      DH = tables * block + (tables - 1) * gap + buffetH + 40;
       for (let t = 0; t < tables; t++) {
         const c = Math.min(per, left); left -= c;
         const top = Math.ceil(c / 2), bottom = Math.floor(c / 2);
-        const side = Math.max(3, top);
-        const w = side * 66 + 34, x0 = 400 - w / 2, cy = 85 + t * block;
-        span(x0, x0 + w);
-        out.push(`<rect class="tv-table" x="${x0}" y="${cy - 44}" width="${w}" height="88" rx="6"/>`);
-        // מה שבמרכז השולחן: מגשים משותפים, או פרחים בחצר
-        if (serve === 'family') {
-          for (let k = 0; k * 2 < side; k++) out.push(`<ellipse class="tv-platter" cx="${x0 + 50 + k * 132}" cy="${cy}" rx="34" ry="8"/>`);
-        } else if (serve === 'yard') {
-          for (let k = 0; k * 3 < side; k++) {
-            const fx = x0 + 50 + k * 198;
-            out.push(`<circle class="tv-leaf" cx="${fx - 8}" cy="${cy + 2}" r="4"/><circle class="tv-leaf" cx="${fx + 8}" cy="${cy - 2}" r="4"/><circle class="tv-flower" cx="${fx}" cy="${cy - 2}" r="5"/><circle class="tv-flower" cx="${fx + 4}" cy="${cy + 4}" r="3.2"/>`);
-          }
-        }
-        // כל מקום: כיסא, צלחת וכוס
+        const x0 = 60, y0 = 20 + 86 + t * (block + gap), cy = y0 + depth / 2;
+        const len = Math.max(3, top) * P + 70, tx = x0 + (L - len) / 2;
+        under.push(`<div class="tv-table" style="left:${tx}px;top:${y0}px;width:${len}px;height:${depth}px;background-image:url(${IMG}wood.webp)"></div>`);
+        // כל מקום: כיסא שנכנס קצת מתחת לשולחן, וצלחת, מפית, סכו״ם וכוס על השולחן
         const seat = (x, dir) => {
-          const i = idx++;
-          out.push(`<rect class="tv-chair${isNew(i)}" x="${x - 16}" y="${cy + dir * 60 - 7}" width="32" height="14" rx="4"/>`);
-          out.push(`<circle class="tv-plate${isNew(i)}" cx="${x}" cy="${cy + dir * 24}" r="12"/>`);
-          if (serve !== 'buffet') out.push(`<circle class="tv-plate-in${isNew(i)}" cx="${x}" cy="${cy + dir * 24}" r="6.5"/>`);
-          out.push(`<circle class="tv-glass${isNew(i)}" cx="${x + 19}" cy="${cy + dir * 35}" r="3.6"/>`);
+          const i = idx++, rot = dir < 0 ? 180 : 0;
+          under.unshift(sprite('chair', x, dir > 0 ? y0 + depth + 30 : y0 - 30, rot, 'tv-chair' + fresh(i), delay(i)));
+          over.push(sprite('setting', x, dir > 0 ? y0 + depth - 70 : y0 + 70, rot, 'tv-item' + fresh(i), delay(i)));
         };
-        for (let k = 0; k < top; k++) seat(x0 + 50 + k * 66, -1);
-        for (let k = 0; k < bottom; k++) seat(x0 + 50 + k * 66, 1);
+        for (let k = 0; k < top; k++) seat(tx + 35 + P / 2 + k * P, -1);
+        for (let k = 0; k < bottom; k++) seat(tx + 35 + P / 2 + k * P, 1);
+        // מרכז השולחן
+        const slots = Math.max(3, top);
+        for (let k = 0; k < slots; k++) {
+          const x = tx + 35 + P / 2 + k * P;
+          if (serve === 'family') { if (k % 2 === 0 && k + 1 < slots) over.push(sprite('board', x + P / 2, cy, k % 4 ? 180 : 0, 'tv-item')); else if (k % 2 === 1 || k === slots - 1) { over.push(sprite('candle', x + (k % 2 ? P / 2 : 0), cy, 0, 'tv-item')); lights.push(glow(x + (k % 2 ? P / 2 : 0), cy, k * 0.6)); } }
+          else if (k % 3 === 1) over.push(sprite('flowers', x, cy, k * 40, 'tv-item'));
+          else if (k % 3 === 0 || k === slots - 1) { over.push(sprite('candle', x, cy, 0, 'tv-item')); lights.push(glow(x, cy, k * 0.6)); }
+        }
       }
       if (serve === 'buffet') {
-        const y = tables * block + 10, bw = Math.min(460, maxX - minX), bx = 400 - bw / 2;
-        out.push(`<rect class="tv-station" x="${bx}" y="${y}" width="${bw}" height="46" rx="6"/>`);
-        const k = Math.max(3, Math.floor(bw / 76));
-        for (let m = 0; m < k; m++) out.push(`<ellipse class="tv-platter" cx="${bx + bw / k * (m + 0.5)}" cy="${y + 23}" rx="${Math.min(26, bw / k / 2 - 6)}" ry="10"/>`);
+        // עמדת הבופה מתחת לשולחנות
+        const y0 = 20 + tables * block + (tables - 1) * gap + 30, bl = Math.min(L, 6 * 160), bx = 60 + (L - bl) / 2;
+        under.push(`<div class="tv-table" style="left:${bx}px;top:${y0}px;width:${bl}px;height:190px;background-image:url(${IMG}wood.webp)"></div>`);
+        const items = ['board', 'bowl', 'tray', 'bowl', 'board', 'tray'], k = Math.floor(bl / 160);
+        for (let m = 0; m < k; m++) over.push(sprite(items[m % items.length], bx + bl / k * (m + 0.5), y0 + 95, items[m % items.length] === 'board' ? 90 : m * 30, 'tv-item'));
       }
-      const x = minX - 24, wv = maxX - minX + 48;
-      if (tall) {
-        // היפוך על האלכסון: האורך של השולחן הופך לגובה
-        svg.setAttribute('viewBox', `0 ${x} ${H} ${wv}`);
-        svg.innerHTML = `<g transform="matrix(0 1 1 0 0 0)">${out.join('')}</g>`;
-      } else {
-        svg.setAttribute('viewBox', `${x} 0 ${wv} ${H}`);
-        svg.innerHTML = out.join('');
-      }
-      cap.textContent = n > tables * per ? T.cap.lots(n) : (tables > 1 ? T.cap.many(n, tables) : T.cap.one(n)) + (serve === 'buffet' ? T.cap.buffet : '');
+      const many = n > tables * per;
+      cap.textContent = many ? T.cap.lots(n) : (tables > 1 ? T.cap.many(n, tables) : T.cap.one(n)) + (serve === 'buffet' ? T.cap.buffet : '');
+      render(DW, DH, under, over, lights);
       drawn = n; drawnKey = key;
     }
-    let vizW = 0;
-    window.addEventListener('resize', () => { const w = svg.parentNode.clientWidth; if ((w < 520) !== (vizW < 520)) drawTable(); vizW = w; });
+
+    function render(DW, DH, under, over, lights) {
+      const trays = format !== 'yard' && (form.querySelector('input[name="serve"]:checked') || {}).value === 'bites' ? [0, 1, 2].map(k => `<img class="tv-item" data-tray="${k}" src="${IMG}tray.webp" alt="" width="110" height="113" style="left:0;top:0;transform:translate(${DW / 2 - 55 + (k - 1) * 160}px, ${DH / 2 - 56}px)">`) : [];
+      stage.style.width = DW + 'px'; stage.style.height = DH + 'px';
+      stage.innerHTML = under.join('') + over.join('') + trays.join('') + lights.join('');
+      fit(DW, DH);
+    }
+    // מתאים את ההדמיה לרוחב. בטלפון השולחן עומד לאורך המסך
+    function fit(DW, DH) {
+      const cw = frame.clientWidth, tall = cw < 520;
+      let sc;
+      if (tall) {
+        sc = Math.min(cw / DH, (innerHeight * 0.72) / DW);
+        stage.style.transform = `translate(${(cw + DH * sc) / 2}px, 0) rotate(90deg) scale(${sc})`;
+        frame.style.height = DW * sc + 'px';
+      } else {
+        sc = Math.min(cw / DW, 560 / DH);
+        stage.style.transform = `translate(${(cw - DW * sc) / 2}px, 0) scale(${sc})`;
+        frame.style.height = DH * sc + 'px';
+      }
+    }
+    window.addEventListener('resize', () => { if (ready) fit(parseFloat(stage.style.width), parseFloat(stage.style.height)); });
+    // התמונות נטענות רק כשמתקרבים לטופס
+    const wake = () => { if (ready) return; ready = true; drawTable(); };
+    if ('IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { wake(); vio.disconnect(); } }, { rootMargin: '900px 0px' });
+      vio.observe(frame);
+    } else wake();
 
     function clamp() {
       const r = RULES[format];

@@ -18,6 +18,7 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 # (Hebrew, English). Longer strings are applied first, so a short string never breaks a long one.
 PAIRS = [
     # shorter copy (October 2026)
+    ('<span class="tv-note">הדמיה</span>', '<span class="tv-note">Illustration</span>'),
     ('גדלתי בבית ארגנטינאי, שבו תמיד מארחים. אחרי הצבא נכנסתי למטבחים מקצועיים.', 'I grew up in an Argentinian home, where there were always guests. After the army I went into professional kitchens.'),
     ('פשוט, מעניין, גלילי. מבושל מול האורחים.', 'Simple, interesting, Galilean. Cooked in front of the guests.'),
     ('<h3>בחצר, במצפה מתת</h3>', '<h3>In the yard, Mitzpe Matat</h3>'),
