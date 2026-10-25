@@ -10,6 +10,7 @@
 - Do not report how many Higgsfield credits were used.
 
 ## Facts confirmed by the client
+- Slogan: Hebrew **"מיפתח פרויקטים - חקלאות שיש לה בית"**, English **"Where agriculture feels at home"**.
 - Office phone: **04-9854404**. The old number (from the previous office) is not in use anywhere.
 - WhatsApp: Merav's mobile exists but is **not** shown on the site until the owners decide.
 - Steel: only **galvanized (silver) steel** may appear in images. Never black/rusty/painted steel. Real project photos showing black steel are removed, not retouched.
@@ -18,6 +19,6 @@
 - AI images are labelled "הדמיה".
 
 ## Media sources
-- Google Drive (folder from liorhoresh85) holds only two drone videos (`DJI_0001.MP4`, `DJI_0024.MP4`).
+- Google Drive (folder from liorhoresh85) holds only two drone videos (`DJI_0001.MP4`, `DJI_0024.MP4`). Use only DJI_0024 (aerial). DJI_0001 (walk inside an orchard) shows dark brown poles, so it is excluded.
 - Real project photos come from the old site's media library (miftah.co.il, 2015 uploads). The usable process series is in `images/process/` with its README (source file per photo and what was excluded).
 - Never use photos with children on site (`w1.jpg`, `world.jpg`), civil shading (discontinued), or stock images.
