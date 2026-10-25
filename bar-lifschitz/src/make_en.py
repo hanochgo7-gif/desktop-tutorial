@@ -82,6 +82,9 @@ PAIRS = [
     ('<li>אירועי חברה וצוותים</li>', '<li>Company and team events</li>'),
     ('<li>השקות וערבים פרטיים</li>', '<li>Launches and private evenings</li>'),
     ('<li>אפשר להוסיף קוקטיילים של קולר</li>', '<li>Cocktails by Kuller can be added</li>'),
+    ('<li>מנות אישיות, מרכז שולחן, בופה או מנות קטנות מסתובבות</li>', '<li>Plated, sharing plates, buffet or passed small bites</li>'),
+    ('<li>מלצרים לפי גודל האירוע</li>', '<li>Waiting staff to match the size of the event</li>'),
+    ('<span>להוסיף קוקטיילים של קולר</span>', '<span>Add cocktails by Kuller</span>'),
     ('>לתיאום אירוע<', '>Plan an event<'),
 
     # menu
@@ -120,7 +123,7 @@ PAIRS = [
     ('צ׳וריסו מהמעדנייה, לחמניית חלב, קרם פלפלים, פרובנסל ובצל מוחמץ', 'Chorizo, milk bun, pepper cream, provençal and pickled onion'),
     ('בסטייל ״לילות ביירות״, קרמבל זעתר, פטל וסירופ תפוזים וקרמל', '"Beirut Nights" style, za\'atar crumble, raspberries and orange caramel syrup'),
     ('קרמו שוקולד, שמן זית ומלח מלדון', 'Chocolate crémeux, olive oil and Maldon salt'),
-    ('מתאים לצמחונים, ללא גלוטן, אלרגיות לאגוזים וללא לקטוז. יין מיקבים מקומיים, ואפשר גם להביא.', 'Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own.'),
+    ('מתאים לצמחונים, ללא גלוטן, אלרגיות לאגוזים וללא לקטוז. יין מיקבים מקומיים, ואפשר גם להביא. ובסוף הערב, משהו קטן לקחת הביתה.', 'Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own. And at the end of the evening, a little something to take home.'),
 
     # gallery
     ('מהשולחנות האחרונים', 'From recent tables'),

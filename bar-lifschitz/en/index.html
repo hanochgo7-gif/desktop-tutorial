@@ -445,6 +445,8 @@
   .tiles.serve { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles.serve .tile:last-child { grid-column: 1 / -1; }
   .tiles.serve .tile-name { font-size: 1.2rem; }
+  .addon { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 600; min-height: 44px; }
+  .addon input { width: 22px; height: 22px; accent-color: var(--rose); margin: 0; }
   @media (max-width: 640px) { .tiles.three { grid-template-columns: 1fr; } }
   .tile { position: relative; display: block; cursor: pointer; font-weight: 400; }
   .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -636,6 +638,8 @@
           <ul>
             <li>Company and team events</li>
             <li>Launches and private evenings</li>
+            <li>Plated, sharing plates, buffet or passed small bites</li>
+            <li>Waiting staff to match the size of the event</li>
             <li>Cocktails by Kuller can be added</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="event">Plan an event</a>
@@ -690,7 +694,7 @@
             </ul>
           </li>
         </ol>
-        <p class="menu-note">Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own.</p>
+        <p class="menu-note">Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own. And at the end of the evening, a little something to take home.</p>
         <span class="ev-rail" aria-hidden="true"><i></i></span>
       </div>
       <div class="ev-media" aria-hidden="true">
@@ -770,6 +774,7 @@
               <label class="tile"><input type="radio" name="serve" value="bites"><span class="tile-body"><span class="tile-name">Passed small bites</span></span></label>
               <label class="tile"><input type="radio" name="serve" value="unsure" checked><span class="tile-body"><span class="tile-name">Not sure yet, let's decide together</span></span></label>
             </div>
+            <label class="addon"><input type="checkbox" name="kuller"><span>Add cocktails by Kuller</span></label>
           </fieldset>
           <div class="field">
             <label for="name">Name</label>
@@ -858,7 +863,7 @@
         noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
         hello: n => `היי בר, כאן ${n}.`,
         below: m => `בחצר השולחן מתחיל מ־${m} אורחים. פחות מזה? כתבו לי בהערות ונבדוק.`,
-        serve: t => `סגנון הגשה: ${t}`, sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
+        serve: t => `סגנון הגשה: ${t}`, kuller: 'תוספת: קוקטיילים של קולר', sent: 'וואטסאפ נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', sentMail: 'המייל נפתח עם ההודעה. נשאר רק ללחוץ על שליחה.', subject: 'תיאום ארוחה',
         what: { yard: () => 'אשמח לתאם ארוחה בחצר במצפה מתת.', home: r => `אשמח לתאם ארוחת שף אצלי בבית (${r}).`, event: () => 'אשמח לתאם אירוע.' },
         date: d => `תאריך: ${d}`, flexible: 'גמיש', guests: n => `כמה אורחים: ${n}`, notes: t => `חשוב לדעת: ${t}`,
       },
@@ -868,7 +873,7 @@
         noName: 'Please add your name, so I know who to reply to.',
         hello: n => `Hi Bar, this is ${n}.`,
         below: m => `In the yard the table starts at ${m} guests. Fewer? Tell me in the notes and I will see what I can do.`,
-        serve: t => `Serving style: ${t}`, sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
+        serve: t => `Serving style: ${t}`, kuller: 'Add-on: cocktails by Kuller', sent: 'WhatsApp opened with your message. Just press send.', sentMail: 'Your email app opened with the message. Just press send.', subject: 'Booking a dinner',
         what: { yard: () => 'I would like to book a dinner in your yard in Mitzpe Matat.', home: r => `I would like to book a private chef dinner at my home (${r}).`, event: () => 'I would like to plan an event.' },
         date: d => `Date: ${d}`, flexible: 'flexible', guests: n => `Guests: ${n}`, notes: t => `Good to know: ${t}`,
       },
@@ -928,6 +933,7 @@
       const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
       const serve = form.querySelector('input[name="serve"]:checked');
       if (format !== 'yard' && serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
+      if (format !== 'yard' && form.elements.kuller.checked) lines.push(T.kuller);
       const notes = form.elements.notes.value.trim();
       if (notes) lines.push(T.notes(notes));
       return lines.join('\n');
