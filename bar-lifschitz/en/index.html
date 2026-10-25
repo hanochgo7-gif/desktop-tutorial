@@ -289,8 +289,8 @@
   }
   .roads-track::-webkit-scrollbar { display: none; }
   .roads-track figure { flex: 0 0 auto; margin: 0; height: clamp(340px, 62vh, 660px); aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; }
-  .roads-track img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
-  .roads-track figure:hover img { transform: scale(1.05); }
+  .roads-track img, .roads-track video { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .roads-track figure:hover img, .roads-track figure:hover video { transform: scale(1.05); }
   html.motion .roads-track.pinned { overflow: visible; scroll-snap-type: none; }
 
   /* ---------- סיום ---------- */
@@ -675,12 +675,12 @@
         <p>More on Instagram <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
       </div>
       <div class="roads-track" tabindex="0" aria-label="Photo gallery">
-        <figure><img loading="lazy" decoding="async" src="../images/sashimi.jpg" srcset="../images/sashimi-600.jpg 600w, ../images/sashimi.jpg 1125w" sizes="(max-width: 899px) 78vw, 46vh" width="1125" height="2000" alt="Plates of white fish sashimi in a pink consommé, chili and herbs"></figure>
-        <figure><img loading="lazy" decoding="async" src="../images/night-toast-still.jpg" srcset="../images/night-toast-still-600.jpg 600w, ../images/night-toast-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="An evening in the yard: a long table of guests raising their glasses"></figure>
-        <figure><img loading="lazy" decoding="async" src="../images/fish-hang-still.jpg" srcset="../images/fish-hang-still-600.jpg 600w, ../images/fish-hang-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="Two whole fish hanging to age"></figure>
-        <figure><img loading="lazy" decoding="async" src="../images/glasses-ice-still.jpg" srcset="../images/glasses-ice-still-600.jpg 600w, ../images/glasses-ice-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="Wine glasses and an ice bucket with bottles and flowers on a barrel"></figure>
-        <figure><img loading="lazy" decoding="async" src="../images/window-night-still.jpg" srcset="../images/window-night-still-600.jpg 600w, ../images/window-night-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="Bar at work in a lit kitchen, seen through a window in a burgundy wall"></figure>
-        <figure><img loading="lazy" decoding="async" src="../images/yard-guests-still.jpg" srcset="../images/yard-guests-still-600.jpg 600w, ../images/yard-guests-still.jpg 1080w" sizes="(max-width: 899px) 78vw, 46vh" width="1080" height="1920" alt="The long table in the yard full of guests under a tree"></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/sashimi-600.jpg" data-src="../media/sashimi-motion" aria-label="Plates of white fish sashimi in a pink consommé, chili and herbs"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/night-toast-still-600.jpg" data-src="../media/night-toast" aria-label="An evening in the yard: a long table of guests raising their glasses"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/fish-hang-still-600.jpg" data-src="../media/fish-hang" aria-label="Two whole fish hanging to age"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/glasses-ice-still-600.jpg" data-src="../media/glasses-ice" aria-label="Wine glasses and an ice bucket with bottles and flowers on a barrel"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/window-night-still-600.jpg" data-src="../media/window-night" aria-label="Bar at work in a lit kitchen, seen through a window in a burgundy wall"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" poster="../images/yard-guests-still-600.jpg" data-src="../media/yard-guests" aria-label="The long table in the yard full of guests under a tree"></video></figure>
       </div>
     </div>
   </section>
