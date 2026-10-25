@@ -12,7 +12,7 @@ BUSINESS = {
     'name': 'אביב משה שדמון',
     'brand': '<bdi>AMS – Mind &amp; Body Connection</bdi>',
     'tax_id': '',          # מספר עוסק מורשה / פטור
-    'email': '',           # כתובת דוא"ל לפניות בנושא פרטיות ונגישות
+    'email': 'avivshadmon@gmail.com',   # כתובת דוא"ל לפניות בנושא פרטיות ונגישות
     'phone': '050-935-9222',
     'address': 'אורן 21, מזכרת בתיה',
 }
