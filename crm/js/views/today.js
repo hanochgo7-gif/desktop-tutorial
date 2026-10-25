@@ -5,7 +5,7 @@ import { store } from '../core/store.js';
 import { contactName, stages, openTasks, label, TASK_TYPES, nextTaskFor } from '../core/model.js';
 import { salesSummary, sourceReport, dealHealth, periodFor } from '../core/metrics.js';
 import { pageHeader, icon, badge, emptyState, setTitle, toast } from '../ui/components.js';
-import { openLeadForm, openActivityForm, openTaskForm } from '../ui/forms.js';
+import { openLeadForm, openActivityForm, openTaskForm, taskEditBtn } from '../ui/forms.js';
 import { showRecords } from '../ui/drill.js';
 
 function buildActions() {
@@ -59,7 +59,7 @@ function actionRow(it, i) {
       ${phone ? html`<a class="btn-icon" href="tel:${phone}" aria-label="שיחה ל${contactName(c)}" title="שיחה">${icon('phone')}</a>
         <a class="btn-icon" href="${whatsappUrl(phone)}" target="_blank" rel="noopener" aria-label="וואטסאפ ל${contactName(c)}" title="וואטסאפ">${icon('whatsapp')}</a>` : ''}
       ${c ? html`<button class="btn btn-sm" data-act="log" data-contact="${c.id}" data-deal="${it.deal?.id || ''}">${icon('note')}תיעוד</button>` : ''}
-      ${it.kind === 'task' ? html`<button class="btn-icon" data-act="snooze" data-id="${it.task.id}" aria-label="דחייה למחר" title="דחייה למחר">${icon('clock')}</button>` : ''}
+      ${it.kind === 'task' ? html`<button class="btn-icon" data-act="snooze" data-id="${it.task.id}" aria-label="דחייה למחר" title="דחייה למחר">${icon('clock')}</button>${taskEditBtn(it.task)}` : ''}
       ${it.kind === 'deal' && !nextTaskFor({ dealId: it.deal.id, contactId: it.deal.contact_id }) ? html`<button class="btn-icon" data-act="task" data-contact="${c?.id || ''}" data-deal="${it.deal.id}" aria-label="קביעת צעד הבא" title="קביעת צעד הבא">${icon('plus')}</button>` : ''}
     </span>
   </li>`;
@@ -102,7 +102,7 @@ export default async function view(el, ctx) {
         <aside class="stack">
           <section class="panel">
             <div class="panel-head"><h3>בשבוע הקרוב</h3><a href="#/tasks" class="small">כל המשימות</a></div>
-            ${upcoming.length ? html`<ul class="mini-list">${upcoming.slice(0, 8).map((t) => html`<li><a href="${t.deal_id ? `#/d/${t.deal_id}` : t.contact_id ? `#/c/${t.contact_id}` : '#/tasks'}"><span class="muted small num">${new Date(t.due_at).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric' })}</span> ${t.title}</a></li>`)}</ul>` : html`<p class="pad muted small">אין משימות מתוכננות לשבוע הקרוב.</p>`}
+            ${upcoming.length ? html`<ul class="mini-list">${upcoming.slice(0, 8).map((t) => html`<li class="row"><a class="grow" href="${t.deal_id ? `#/d/${t.deal_id}` : t.contact_id ? `#/c/${t.contact_id}` : '#/tasks'}"><span class="muted small num">${new Date(t.due_at).toLocaleDateString('he-IL', { weekday: 'short', day: 'numeric', month: 'numeric' })}</span> ${t.title}</a>${taskEditBtn(t)}</li>`)}</ul>` : html`<p class="pad muted small">אין משימות מתוכננות לשבוע הקרוב.</p>`}
           </section>
           ${rep.completeness.unknownSourceIds.length ? html`<section class="notice notice-warn">${icon('alert')}<div><b>${rep.completeness.unknownSourceIds.length} לידים בלי מקור הגעה</b><p class="small">בלי מקור אי אפשר לדעת איזה פרסום עובד. <button class="linkbtn" data-drill="unknown">הצגת הלידים</button></p></div></section>` : ''}
         </aside>
@@ -117,6 +117,7 @@ export default async function view(el, ctx) {
     if (a === 'new-lead') openLeadForm();
     if (a === 'log') openActivityForm({ contactId: b.dataset.contact, dealId: b.dataset.deal || null });
     if (a === 'task') openTaskForm({ contactId: b.dataset.contact || null, dealId: b.dataset.deal });
+    if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
     if (a === 'done') {
       b.disabled = true;
       try { await store.update('crm_tasks', b.dataset.id, { status: 'done' }); toast('בוצע', { kind: 'success', action: { label: 'ביטול', onClick: () => store.update('crm_tasks', b.dataset.id, { status: 'open' }) } }); } catch (err) { toast(err.message, { kind: 'error' }); b.disabled = false; }

@@ -815,3 +815,8 @@ details.defs[open] > summary .ic { transform: rotate(180deg); }
 .table-sources thead th { white-space: normal; line-height: 1.25; height: 46px; vertical-align: middle; }
 .tl { list-style: none; margin: 0; padding: 0; }
 .idle-sources { margin: 8px 2px 0; }
+.task-row .task-edit, .mini-list .task-edit { flex: none; color: var(--ink-3); }
+.task-row .task-edit:hover, .mini-list .task-edit:hover { color: var(--brand); }
+.mini-list li.row { gap: 0; padding-inline-end: 8px; }
+.mini-list li.row a { padding-inline-end: 4px; }
+.ov-foot .btn-ghost:first-child { margin-inline-end: auto; color: var(--danger); }

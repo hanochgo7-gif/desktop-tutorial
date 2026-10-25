@@ -7,7 +7,7 @@ import {
   nextTaskFor, dealsOf, dueClass, openTasks,
 } from '../core/model.js';
 import { pageHeader, icon, badge, avatar, setTitle, toast, confirmDialog, opt, menu } from '../ui/components.js';
-import { openLeadForm, openActivityForm, openTaskForm, openDealForm } from '../ui/forms.js';
+import { openLeadForm, openActivityForm, openTaskForm, openDealForm, taskEditBtn } from '../ui/forms.js';
 
 export function timeline({ contactId = null, dealId = null }) {
   const items = [];
@@ -64,7 +64,7 @@ export function nextStepCard({ contactId, dealId }) {
     ${next ? html`<ul class="task-list">${all.map((t) => html`<li class="task-row">
         <button class="task-check" data-act="done" data-id="${t.id}" aria-label="סימון כבוצע: ${t.title}">${icon('check')}</button>
         <div class="grow"><button class="linkbtn task-title" data-act="edit-task" data-id="${t.id}">${t.title}</button>
-          <div class="task-meta"><span class="${dueClass(t.due_at)}">${t.due_at ? fmt.dateTime(t.due_at) : 'בלי תאריך'}</span><span>${label(TASK_TYPES, t.type)}</span></div></div></li>`)}</ul>`
+          <div class="task-meta"><span class="${dueClass(t.due_at)}">${t.due_at ? fmt.dateTime(t.due_at) : 'בלי תאריך'}</span><span>${label(TASK_TYPES, t.type)}</span></div></div>${taskEditBtn(t)}</li>`)}</ul>`
       : html`<p class="pad warn-text">${icon('alert')} אין צעד הבא. בלי משימה הליד הזה עלול להישכח.</p>`}
   </section>`;
 }
