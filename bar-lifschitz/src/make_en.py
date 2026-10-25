@@ -86,9 +86,13 @@ PAIRS = [
 
     # menu
     ('כך נראה תפריט אצלי, מהפתיחה ועד הקינוח. הוא משתנה לפי העונה ולפי האירוע.', 'This is what a menu looks like with me, from the first bite to dessert. It changes with the season and the occasion.'),
-    ('data-label="א׳"', 'data-label="I"'), ('data-label="ב׳"', 'data-label="II"'), ('data-label="ג׳"', 'data-label="III"'),
-    ('data-label="ד׳"', 'data-label="IV"'), ('data-label="ה׳"', 'data-label="V"'),
-    ('<div class="ev-clock" id="ev-clock">א׳</div>', '<div class="ev-clock" id="ev-clock">I</div>'),
+    ('data-label="פתיחה"', 'data-label="To begin"'), ('data-label="קרים"', 'data-label="Cold"'), ('data-label="מהים"', 'data-label="From the sea"'),
+    ('data-label="חמים"', 'data-label="Hot"'), ('data-label="מתוקים"', 'data-label="Sweet"'),
+    ('<div class="ev-clock" id="ev-clock">פתיחה</div>', '<div class="ev-clock" id="ev-clock">To begin</div>'),
+    ('ארוחות שף פרטיות · 18:30 · מצפה מתת', 'Private chef dinners · 18:30 · Mitzpe Matat'),
+    ('בר מבשל במטבח, דרך חלון מואר בקיר בורדו', 'Bar cooking in his kitchen, seen through a lit window in a burgundy wall'),
+    ('גללו פנימה', 'Scroll in'),
+    ('החליקו לצד ←', 'Swipe →'),
     ('<span class="ev-n">פתיחה</span>', '<span class="ev-n">To begin</span>'),
     ('<span class="ev-n">קרים</span>', '<span class="ev-n">Cold</span>'),
     ('<span class="ev-n">מהים</span>', '<span class="ev-n">From the sea</span>'),
