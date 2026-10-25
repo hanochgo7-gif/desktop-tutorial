@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bar Lifschitz | Private Chef, Mitzpe Matat</title>
+<meta name="description" content="Bar Lifschitz, private chef. Chef dinners in his yard in Mitzpe Matat, in your home, and private or corporate events in the Galilee and across northern and central Israel. Cooked in front of the guests, with fresh ingredients and wine from local wineries.">
+<meta property="og:title" content="Bar Lifschitz | Private Chef">
+<meta property="og:description" content="Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/yard-wide.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1340">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<link rel="alternate" hreflang="he" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/">
+<link rel="alternate" hreflang="en" href="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/">
+<meta name="theme-color" content="#1e0d12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1219'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23f3f2ec' font-family='serif'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preload" as="image" href="../images/yard-wide.jpg" media="(min-aspect-ratio: 4/5)">
+<link rel="preload" as="image" href="../images/yard.jpg" media="(max-aspect-ratio: 4/5)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+  // מסמנים מוקדם אם יש JS ואם להציג את פתיח הטעינה (פעם אחת בכל ביקור, ולא למי שביקש פחות תנועה)
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var seen = false;
+    try { seen = sessionStorage.getItem('bl-intro') === '1'; sessionStorage.setItem('bl-intro', '1'); } catch (e) {}
+    if (!calm && !seen) d.classList.add('intro-on');
+  })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<style>
+  :root {
+    --ash: #d6d7cb;      /* עלה זית יבש: היום */
+    --linen: #f3f2ec;    /* נייר התפריט */
+    --fig: #2b1219;      /* דיו בצבע תאנה */
+    --dusk: #3e1d27;     /* שקיעה */
+    --night: #1e0d12;    /* לילה ליד הגחלים */
+    --beet: #9c1b2c;     /* רוטב הקרודו */
+    --rose: #e7a3ad;     /* גחלת */
+    --olive: #5e6142;
+    --smoke: #7a776f;
+    --display: "Bellefair", "Frank Ruhl Libre", serif;
+    --body: "Assistant", "Heebo", system-ui, sans-serif;
+    --gutter: clamp(16px, 5vw, 72px);
+    --max: 1280px;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  html.lenis, html.lenis body { height: auto; }
+  html.lenis { scroll-behavior: auto; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  body {
+    margin: 0;
+    background: var(--night);
+    color: var(--fig);
+    font-family: var(--body);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* גרעין צילום עדין על כל הדף */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent, var(--beet)); outline-offset: 3px; }
+  ::selection { background: var(--beet); color: var(--linen); }
+
+  .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1; }
+  h2 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); letter-spacing: -0.015em; line-height: .95; }
+  p { margin: 0 0 1em; max-width: 34em; }
+
+  /* ---------- שלושה מצבי אור: היום, השקיעה והלילה ---------- */
+  [data-theme] { background: var(--bg); color: var(--ink); }
+  [data-theme="day"]   { --bg: var(--ash);   --ink: var(--fig);   --soft: #5d4b50; --line: rgba(43,18,25,.2);   --accent: var(--beet); --on-accent: var(--linen); }
+  [data-theme="dusk"]  { --bg: var(--dusk);  --ink: var(--linen); --soft: #dccfd2; --line: rgba(243,242,236,.2); --accent: var(--rose); --on-accent: var(--fig); }
+  [data-theme="night"] { --bg: var(--night); --ink: var(--linen); --soft: #d4c7ca; --line: rgba(243,242,236,.18); --accent: var(--rose); --on-accent: var(--fig); }
+  /* כשהתנועה פעילה, צבע הרקע של הדף עצמו מתחלף בגלילה, מיום ללילה */
+  html.motion main > [data-theme]:not(.hero), html.motion footer[data-theme] { background: transparent; }
+
+  .btn {
+    position: relative; overflow: hidden; isolation: isolate;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 54px; padding: 0 30px;
+    font: 700 1.02rem/1 var(--body); letter-spacing: .01em;
+    text-decoration: none; border: 1px solid var(--ink); border-radius: 999px;
+    background: var(--ink); color: var(--bg); cursor: pointer;
+    transition: color .45s var(--ease), border-color .45s var(--ease);
+  }
+  .btn::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; background: var(--accent);
+    transform: translateY(101%); transition: transform .5s var(--ease);
+  }
+  .btn:hover { color: var(--on-accent); border-color: var(--accent); }
+  .btn:hover::before { transform: none; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+
+  .fill { width: 100%; object-fit: cover; }
+
+  /* ---------- כותרת עליונה ---------- */
+  .site-head {
+    position: fixed; inset: 0 0 auto; z-index: 60;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 22px var(--gutter);
+    color: var(--linen);
+    transition: background-color .5s var(--ease), padding .5s var(--ease), transform .6s var(--ease), backdrop-filter .5s;
+  }
+  .site-head.scrolled { background: rgba(30, 13, 18, .9); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); padding-block: 12px; }
+  .site-head.hide { transform: translateY(-105%); }
+  .site-head .mark { font-family: var(--display); font-size: 1.6rem; text-decoration: none; line-height: 1; }
+  .site-head nav { display: flex; align-items: center; gap: 30px; font-weight: 600; font-size: .98rem; }
+  .site-head nav a { position: relative; text-decoration: none; padding-block: 6px; }
+  .site-head nav a:not(.pill)::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease);
+  }
+  .site-head nav a:not(.pill):hover::after { transform: scaleX(1); transform-origin: left; }
+  .site-head .pill { border: 1px solid rgba(243,242,236,.55); border-radius: 999px; padding: 9px 20px; transition: background-color .3s, color .3s; }
+  .site-head .pill:hover { background: var(--linen); color: var(--fig); }
+  .menu-btn { display: none; background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 8px 0; align-items: center; gap: 10px; }
+  .menu-btn i { display: grid; gap: 6px; width: 24px; }
+  .menu-btn i::before, .menu-btn i::after { content: ""; height: 1px; background: currentColor; }
+  @media (max-width: 820px) {
+    .site-head nav { display: none; }
+    .menu-btn { display: inline-flex; }
+  }
+
+  .menu-overlay {
+    position: fixed; inset: 0; z-index: 70; background: var(--night); color: var(--linen);
+    display: flex; flex-direction: column; justify-content: center; padding: 96px var(--gutter) 48px;
+    clip-path: inset(0 0 100% 0); transition: clip-path .7s var(--ease); visibility: hidden;
+  }
+  .menu-overlay.open { clip-path: inset(0 0 0 0); visibility: visible; }
+  .menu-overlay a { font-family: var(--display); font-size: clamp(2.4rem, 11vw, 3.6rem); line-height: 1.25; text-decoration: none; display: block;
+    opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: calc(.12s + var(--i) * .06s); }
+  .menu-overlay.open a { opacity: 1; transform: none; }
+  .menu-overlay .close { position: absolute; top: 18px; inset-inline-end: var(--gutter); background: none; border: 0; color: inherit; font: 600 1rem var(--body); cursor: pointer; padding: 10px 0; }
+  .menu-overlay small { margin-top: 40px; color: #cdbfc2; font-size: 1rem; }
+
+  /* ---------- פתיח טעינה ---------- */
+  .intro { display: none; }
+  html.intro-on .intro {
+    display: flex; position: fixed; inset: 0; z-index: 100;
+    align-items: center; justify-content: center; flex-direction: column; gap: 14px;
+    background: var(--night); color: var(--linen);
+    animation: intro-fallback .8s 3.4s forwards;
+  }
+  @keyframes intro-fallback { to { opacity: 0; visibility: hidden; } }
+  .intro-name { font-family: var(--display); font-size: clamp(3rem, 9vw, 6rem); line-height: 1; overflow: hidden; padding-bottom: .08em; }
+  .intro-name span { display: inline-block; }
+  .intro-sub { font-size: .95rem; letter-spacing: .04em; color: #cdbfc2; }
+
+  /* ---------- פתיח: החצר ---------- */
+  .hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    color: var(--linen);
+  }
+  .hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .hero-media picture, .hero-media img, .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-media img, .hero-video { object-fit: cover; object-position: 50% 62%; transform-origin: 50% 60%; will-change: transform; }
+  .hero-video { opacity: 0; transition: opacity 1.4s var(--ease); }
+  .hero-video.ready { opacity: 1; }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(30,13,18,.55) 100%),
+      linear-gradient(to top, rgba(30,13,18,.95) 0%, rgba(30,13,18,.55) 34%, rgba(30,13,18,.05) 64%, rgba(30,13,18,.6) 100%);
+  }
+  .hero-body { width: 100%; padding-top: 140px; }
+  .hero-name {
+    font-size: clamp(4.6rem, 19vw, 16.5rem);
+    line-height: .84; letter-spacing: -0.025em;
+    margin-inline-start: -0.04em;
+  }
+  .hero-name .ch, .split .ch { display: inline-block; will-change: transform; }
+  .hero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; margin-top: clamp(22px, 3vw, 36px); }
+  .hero-lede { font-size: clamp(1.15rem, 1.7vw, 1.4rem); line-height: 1.6; max-width: 30em; margin: 0; color: #efe7e8; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px 32px; flex-wrap: wrap;
+    margin-top: clamp(36px, 6vw, 72px); padding-block: 20px clamp(20px, 3vw, 32px);
+    border-top: 1px solid rgba(243,242,236,.22); font-size: .95rem; color: #dcd2d4;
+  }
+  .hero-facts { display: flex; flex-wrap: wrap; gap: 8px 36px; margin: 0; padding: 0; list-style: none; }
+  .cue { display: inline-flex; align-items: center; gap: 12px; }
+  .cue i { position: relative; width: 1px; height: 34px; background: rgba(243,242,236,.25); overflow: hidden; }
+  .cue i::after { content: ""; position: absolute; inset: 0; background: var(--linen); animation: cue 2.2s var(--ease) infinite; }
+  @keyframes cue { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
+  @media (prefers-reduced-motion: reduce) { .cue i::after { animation: none; } }
+  @media (max-width: 600px) { .cue { display: none; } }
+
+  /* ---------- מי מבשל ---------- */
+  .about { padding-top: clamp(96px, 14vw, 200px); }
+  .statement {
+    margin: 0 auto; max-width: 17em; text-align: center;
+    font-family: var(--display); font-size: clamp(2.2rem, 5.2vw, 4.6rem); line-height: 1.12; letter-spacing: -0.01em;
+  }
+  .statement .q { color: var(--accent); }
+  .statement .w { display: inline; }
+  .about-grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
+    margin-top: clamp(80px, 11vw, 160px);
+  }
+  .about-copy {
+    padding: clamp(40px, 6vw, 80px) var(--gutter);
+    padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  }
+  .about-copy p { font-size: clamp(1.1rem, 1.4vw, 1.25rem); }
+  .signature { font-family: var(--display); font-size: 2.6rem; line-height: 1; margin-top: 28px; color: var(--accent); }
+  .about-media { margin: 0; overflow: hidden; height: min(92vh, 900px); }
+  .about-media img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 800px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-media { height: auto; aspect-ratio: 4 / 5; order: -1; }
+  }
+
+  /* ---------- בחצר או אצלכם ---------- */
+  .formats { padding-bottom: clamp(110px, 14vw, 200px); }
+  .formats-head { padding-bottom: clamp(36px, 5vw, 64px); }
+  .formats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .format-media { margin: 0; overflow: hidden; aspect-ratio: 4 / 4.6; }
+  .format-media img { width: 100%; height: 100%; object-fit: cover; }
+  .format-text { padding: 40px var(--gutter) 0; }
+  .format h3 { font-size: clamp(2rem, 3.4vw, 2.9rem); margin-bottom: 16px; }
+  .format ul { margin: 22px 0 30px; padding: 0; list-style: none; max-width: 30em; }
+  .format li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .format li:first-child { border-top: 1px solid var(--line); }
+  @media (max-width: 800px) { .formats-grid { grid-template-columns: 1fr; gap: 64px; } }
+
+  /* ---------- איך נראה ערב: סיפור בגלילה ---------- */
+  .evening { position: relative; }
+  .ev-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 7fr); }
+  .ev-media { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .ev-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.08); transition: opacity 1s var(--ease), transform 1.6s var(--ease); }
+  .ev-media img.on { opacity: 1; transform: none; }
+  .ev-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(30,13,18,.75), transparent 45%); pointer-events: none; }
+  .ev-clock {
+    position: absolute; z-index: 2; inset: auto auto clamp(24px, 4vw, 48px) clamp(24px, 4vw, 48px);
+    font-family: var(--display); font-size: clamp(4rem, 9vw, 8rem); line-height: 1; color: var(--linen); direction: ltr;
+    transition: opacity .35s var(--ease);
+  }
+  .ev-clock.swap { opacity: 0; }
+  .ev-steps { padding-inline: var(--gutter); padding-inline-start: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); position: relative; }
+  .ev-head { padding-top: clamp(96px, 14vw, 180px); }
+  .ev-head .sub { color: var(--soft); margin-top: 18px; }
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .ev-step { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; max-width: 30em; transition: opacity .6s var(--ease); }
+  .ev-step:last-child { min-height: 90vh; }
+  html.js .ev-step { opacity: .22; }
+  html.js .ev-step.on { opacity: 1; }
+  .ev-step time { font-family: var(--display); font-size: 1.6rem; color: var(--accent); direction: ltr; text-align: right; }
+  .ev-step h3 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin: 10px 0 16px; }
+  .ev-step p { color: var(--soft); font-size: clamp(1.1rem, 1.4vw, 1.25rem); margin: 0; }
+  .ev-rail { position: absolute; inset-block: 0; inset-inline-end: 0; width: 1px; background: var(--line); }
+  .ev-rail i { position: absolute; inset: 0; background: var(--accent); transform-origin: top; transform: scaleY(0); }
+  @media (max-width: 900px) {
+    .ev-grid { display: flex; flex-direction: column; }
+    .ev-media { order: -1; top: 0; height: 48vh; height: 48svh; z-index: 1; }
+    .ev-head { padding-top: 56px; }
+    .ev-step { min-height: 62vh; }
+    .ev-step:last-child { min-height: 70vh; }
+    .ev-rail { display: none; }
+  }
+
+  /* ---------- גלריה אופקית ---------- */
+  .roads { padding-top: clamp(96px, 12vw, 160px); padding-bottom: clamp(80px, 10vw, 140px); overflow: hidden; }
+  .roads-pin { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+  .roads-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: clamp(32px, 4vw, 52px); width: 100%; }
+  .roads-head p { margin: 0; max-width: 24em; color: var(--soft); }
+  .roads-track {
+    display: flex; gap: clamp(12px, 1.6vw, 24px); padding-inline: var(--gutter);
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; will-change: transform;
+  }
+  .roads-track::-webkit-scrollbar { display: none; }
+  .roads-track figure { flex: 0 0 auto; margin: 0; height: clamp(340px, 62vh, 660px); aspect-ratio: 3 / 4; overflow: hidden; scroll-snap-align: start; }
+  .roads-track img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .roads-track figure:hover img { transform: scale(1.05); }
+  html.motion .roads-track.pinned { overflow: visible; scroll-snap-type: none; }
+
+  /* ---------- סיום ---------- */
+  .finale { overflow: hidden; padding-top: clamp(110px, 14vw, 200px); }
+  .finale-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px; }
+  .finale-line { font-family: var(--display); font-size: clamp(2.2rem, 4.6vw, 4rem); line-height: 1.05; margin: 0; max-width: 12em; }
+  .finale-name {
+    font-family: var(--display); font-size: clamp(5rem, 24vw, 26rem); line-height: .78; letter-spacing: -0.03em;
+    text-align: center; white-space: nowrap; margin-top: clamp(48px, 8vw, 110px);
+    color: var(--linen);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  }
+  .finale-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 28px; padding-block: 28px 36px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--soft); }
+  .finale-meta nav { display: flex; gap: 24px; }
+
+  /* ---------- שאלות ---------- */
+  .faq { padding-block: clamp(80px, 10vw, 140px) clamp(40px, 6vw, 80px); }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-head p { color: var(--soft); margin-top: 18px; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding: 24px 0; font-family: var(--display); font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary i { position: relative; flex: 0 0 18px; height: 18px; }
+  .faq summary i::before, .faq summary i::after { content: ""; position: absolute; inset: 50% 0 auto; height: 1px; background: currentColor; transition: transform .5s var(--ease); }
+  .faq summary i::after { transform: rotate(90deg); }
+  .faq details[open] summary i::after { transform: rotate(0); }
+  .faq .ans { overflow: hidden; }
+  .faq .ans p { color: var(--soft); margin: 0; padding: 0 0 26px; max-width: 38em; }
+
+  /* ---------- תיקונים מסקירת העיצוב ---------- */
+  .about-copy .signature { font-size: clamp(2.6rem, 4vw, 3.4rem); margin-top: 32px; }
+  .about-grid { align-items: end; }
+  @media (min-width: 801px) { .about-media { height: min(80vh, 760px); } }
+  .roads { padding-block: 0; }
+  .finale { padding-top: clamp(72px, 9vw, 128px); }
+  .formats-grid { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); gap: clamp(24px, 3vw, 48px); }
+  .format-media { aspect-ratio: 4 / 5; }
+  .format-text { padding-inline: 0; }
+  html:not(.motion) .evening::before { content: ""; position: absolute; inset: -35vh 0 auto; height: 35vh; background: linear-gradient(transparent, var(--dusk)); pointer-events: none; }
+  .site-head .mark { font-size: 1.9rem; }
+  .site-head.scrolled[data-tone="day"] { background: rgba(214, 215, 203, .86); color: var(--fig); }
+  .site-head.scrolled[data-tone="day"] .pill { border-color: rgba(43,18,25,.4); }
+  .site-head.scrolled[data-tone="day"] .pill:hover { background: var(--fig); color: var(--linen); }
+  html.js .ev-step { opacity: .4; }
+  .ev-n { font-size: .95rem; color: var(--accent); letter-spacing: .02em; }
+  .ev-clock { transition: opacity .3s var(--ease), transform .45s var(--ease); }
+  .ev-clock.swap { opacity: 0; transform: translateY(-30%); }
+  .ev-clock.pre { opacity: 0; transform: translateY(30%); transition: none; }
+  @media (max-width: 900px) {
+    .ev-media { height: 42vh; height: 42svh; }
+    .ev-step { min-height: 56vh; min-height: 56svh; justify-content: flex-start; padding-top: 8svh; }
+  }
+  @media (max-width: 899px) {
+    .roads-track figure { height: auto; width: 78vw; }
+  }
+  .roads-track::after { content: ""; flex: 0 0 1px; }
+  .finale-meta a, .roads-head a, .faq-head a { display: inline-block; padding-block: 8px; }
+  .vid-toggle { background: none; border: 0; color: inherit; font: 600 .95rem var(--body); cursor: pointer; padding: 8px 0; display: inline-flex; align-items: center; gap: 10px; }
+  .vid-toggle i { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
+  .vid-toggle.paused i { border: 0; width: 0; height: 0; border-block: 6px solid transparent; border-inline-end: 10px solid currentColor; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .ev-media img, .menu-overlay, .menu-overlay a, .btn::before { transition: none !important; }
+  }
+
+  /* מירכאה גדולה מעל המשפט של בר */
+  .statement::before { content: "„"; display: block; font-size: clamp(4rem, 8vw, 7rem); line-height: .5; color: var(--accent); margin-bottom: clamp(18px, 3vw, 36px); }
+
+  /* קו התקדמות דק בראש המסך */
+  .progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 65; background: var(--rose); transform-origin: right; transform: scaleX(0); pointer-events: none; }
+
+  /* קו רכס הגליל בין היום לשקיעה */
+  .ridge { display: block; width: 100%; height: clamp(60px, 9vw, 130px); margin-top: clamp(64px, 9vw, 120px); color: var(--fig); }
+  .ridge path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; opacity: .55; }
+
+  [hidden] { display: none !important; }
+  .skip { position: absolute; top: -60px; inset-inline-start: 16px; background: var(--linen); color: var(--fig); padding: 10px 16px; z-index: 110; }
+  .skip:focus { top: 12px; }
+
+
+  /* ---------- שלוש דרכים ---------- */
+  .formats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 900px) { .formats-grid { grid-template-columns: 1fr; gap: 64px; } }
+  .format h3 { font-size: clamp(1.8rem, 2.6vw, 2.3rem); }
+  .format-text p { font-size: 1.02rem; }
+  .format ul { font-size: 1rem; }
+  .soon { color: var(--soft); font-size: .95rem; margin: -10px 0 24px; }
+  .about-copy .about-line { font-family: var(--display); font-size: clamp(1.6rem, 2.4vw, 2.1rem); line-height: 1.25; margin-top: 28px; }
+
+  /* ---------- התפריט כמסע בגלילה ---------- */
+  .ev-n { display: block; font-size: 1rem; font-weight: 600; letter-spacing: .02em; margin-bottom: 14px; }
+  .dishes { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .dishes li { font-family: var(--display); font-size: clamp(1.45rem, 2.2vw, 1.9rem); line-height: 1.3; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .dishes li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .menu-note { color: var(--soft); max-width: 30em; padding-bottom: clamp(80px, 10vw, 140px); margin: 0; }
+  .ev-clock { font-size: clamp(5rem, 11vw, 10rem); }
+
+  /* ---------- תיאום ארוחה ---------- */
+  .book { padding-block: clamp(110px, 14vw, 200px) clamp(60px, 8vw, 110px); }
+  .book-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+  @media (max-width: 900px) { .book-grid { grid-template-columns: 1fr; } }
+  .book-head p { color: var(--soft); margin-top: 18px; }
+  .book-form { display: grid; gap: 24px; margin-top: clamp(32px, 4vw, 48px); }
+  .q-step { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .q-step legend, .book-form label:not(.tile) { font-weight: 700; font-size: 1rem; padding: 0; margin-bottom: 10px; display: block; }
+  .tiles { display: grid; gap: 10px; }
+  .tiles.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 640px) { .tiles.three { grid-template-columns: 1fr; } }
+  .tile { position: relative; display: block; cursor: pointer; font-weight: 400; }
+  .tile input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .tile-body { display: grid; gap: 4px; padding: 16px 18px; border: 1px solid rgba(243, 242, 236, .45); height: 100%; transition: border-color .2s, background-color .2s; }
+  .tile:hover .tile-body { border-color: rgba(243,242,236,.8); }
+  .tile input:checked + .tile-body { border-color: var(--linen); background: rgba(243,242,236,.07); box-shadow: inset 0 0 0 1px var(--linen); }
+  .tile input:focus-visible + .tile-body { outline: 2px solid var(--rose); outline-offset: 3px; }
+  .tile-name { font-family: var(--display); font-size: 1.35rem; line-height: 1.15; }
+  .tile-desc { color: var(--soft); font-size: .92rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; }
+  @media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+  .field { display: grid; }
+  .book-form input[type="text"], .book-form input[type="date"], .book-form select, .book-form textarea {
+    font: 400 1.05rem/1.4 var(--body); color: var(--linen); background: transparent; width: 100%;
+    border: 0; border-bottom: 1.5px solid rgba(243,242,236,.55); border-radius: 0; padding: 10px 2px; color-scheme: dark;
+  }
+  .book-form select { appearance: none; -webkit-appearance: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23f3f2ec' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat; background-position: left 6px center; padding-inline-end: 28px; }
+  [dir="ltr"] .book-form select { background-position: right 6px center; }
+  .book-form select option { color: var(--fig); }
+  .book-form textarea { resize: vertical; min-height: 92px; }
+  .book-form input::placeholder, .book-form textarea::placeholder { color: rgba(243,242,236,.45); }
+  .book-form input:focus, .book-form select:focus, .book-form textarea:focus { outline: none; border-bottom-color: var(--rose); box-shadow: 0 1.5px 0 var(--rose); }
+  .stepper { display: inline-flex; align-items: center; border: 1px solid rgba(243,242,236,.4); width: max-content; }
+  .stepper button { width: 50px; height: 52px; border: 0; background: transparent; color: var(--linen); font: 400 1.6rem/1 var(--display); cursor: pointer; }
+  .stepper button:hover:not(:disabled) { background: rgba(243,242,236,.08); }
+  .stepper button:disabled { opacity: .3; cursor: default; }
+  .stepper input { width: 76px; height: 52px; text-align: center; border: 0; border-inline: 1px solid rgba(243,242,236,.4); background: transparent; color: var(--linen); font: 400 1.9rem/1 var(--display); -moz-appearance: textfield; }
+  .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .hint { color: var(--soft); font-size: .95rem; margin: -8px 0 0; }
+  .error { color: var(--rose); font-weight: 600; font-size: .95rem; min-height: 1.4em; margin: 0; }
+
+  .next-card {
+    position: sticky; top: 96px; background: var(--linen); color: var(--fig); padding: clamp(28px, 4vw, 44px);
+    --ink: var(--fig); --soft: #5d4b50; --line: rgba(43,18,25,.18);
+  }
+  @media (max-width: 900px) { .next-card { position: static; } }
+  .next-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(43,18,25,.3); pointer-events: none; }
+  .next-card h3 { font-size: clamp(1.7rem, 2.6vw, 2.2rem); margin-bottom: 18px; }
+  .next-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
+  .next-steps li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 8px; line-height: 1.5; }
+  .next-steps li::before { content: counter(s); font-family: var(--display); font-size: 1.5rem; line-height: 1.1; color: var(--beet); }
+  .next-card .fine { color: #66635c; font-size: .92rem; margin: 20px 0; }
+  .contact { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 16px; font-weight: 600; }
+  .contact a { text-decoration-color: rgba(43,18,25,.3); text-underline-offset: 5px; padding-block: 6px; width: max-content; max-width: 100%; }
+  .contact a:hover { color: var(--beet); }
+
+  /* ---------- שפה ---------- */
+  .site-head .lang { font-size: .9rem; letter-spacing: .06em; opacity: .85; }
+  .menu-overlay small a { text-decoration: underline; text-underline-offset: 5px; }
+  [dir="ltr"] .progress { transform-origin: left; }
+  :lang(en) .statement::before { content: "\201C"; }
+  .hero-name, .finale-name { white-space: nowrap; }
+  :lang(en) .hero-name { font-size: clamp(3.2rem, 12vw, 11.5rem); letter-spacing: -0.02em; }
+  :lang(en) .finale-name { font-size: clamp(3.2rem, 15vw, 17rem); }
+  [dir="ltr"] .stepper { flex-direction: row-reverse; }
+</style>
+</head>
+<body>
+<a class="skip" href="#book">Skip to booking</a>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro-name">Bar Lifschitz</div>
+  <div class="intro-sub">Private chef, Mitzpe Matat</div>
+</div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<header class="site-head" id="site-head" data-tone="night">
+  <a class="mark" href="#top">Bar Lifschitz</a>
+  <nav aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#formats">Where &amp; how</a>
+    <a href="#menu">The menu</a>
+    <a href="#faq">FAQ</a>
+    <a class="lang" href="../" hreflang="he" lang="he">עברית</a>
+    <a class="pill" href="#book">Book a dinner</a>
+  </nav>
+  <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-overlay"><i aria-hidden="true"></i>Menu</button>
+</header>
+
+<div class="menu-overlay" id="menu-overlay" role="dialog" aria-modal="true" aria-label="Navigation">
+  <a href="#about" style="--i:0">About</a>
+  <a href="#formats" style="--i:1">Where &amp; how</a>
+  <a href="#menu" style="--i:2">The menu</a>
+  <a href="#faq" style="--i:3">FAQ</a>
+  <a href="#book" style="--i:4">Book a dinner</a>
+  <small><a class="lang" href="../" hreflang="he" lang="he">עברית</a></small>
+  <button class="close" type="button" id="menu-close">Close</button>
+</div>
+
+<main id="top">
+  <section class="hero" data-theme="night" aria-labelledby="hero-title">
+    <div class="hero-media">
+      <picture>
+        <source media="(min-aspect-ratio: 4/5)" srcset="../images/yard-wide.jpg">
+        <img src="../images/yard.jpg" width="1200" height="1701" alt="Bar's yard in Mitzpe Matat: a long wooden table set with flowers, in the shade of a tree">
+      </picture>
+      <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" data-wide="../media/yard-wide" data-tall="../media/yard-tall"></video>
+    </div>
+    <div class="wrap hero-body">
+      <h1 class="hero-name" id="hero-title">Bar Lifschitz</h1>
+      <div class="hero-row">
+        <p class="hero-lede">I cook and I host. Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#book">Book a dinner</a>
+          <a class="btn ghost" href="#menu">See the menu</a>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <ul class="hero-facts">
+          <li>The yard in Mitzpe Matat</li>
+          <li>At your place</li>
+          <li>Private and corporate events</li>
+        </ul>
+        <button class="vid-toggle" type="button" id="vid-toggle" hidden><i aria-hidden="true"></i><span data-pause="Pause video" data-play="Play video">Pause video</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about" data-theme="day" aria-label="About Bar">
+    <div class="wrap">
+      <blockquote class="statement" data-words>My love for cooking came from my love of hosting, and from the connection it creates between people.</blockquote>
+    </div>
+    <div class="about-grid">
+      <div class="about-copy">
+        <p>I grew up in an Argentinian home, where there were always guests and always something on the stove. After the army I started cooking in professional kitchens, and today I cook out of a love for hosting.</p>
+        <p>My cooking is simple, interesting and rooted in the Galilee. Every dish is made in front of the guests, with fresh, good ingredients and wine from local wineries.</p>
+        <p class="about-line">Because a meal is so much more than food.</p>
+        <p class="signature">Bar</p>
+      </div>
+      <figure class="about-media" data-reveal>
+        <img src="../images/chef-plating.jpg" srcset="../images/chef-plating-600.jpg 600w, ../images/chef-plating.jpg 1200w" sizes="(max-width: 900px) 100vw, 50vw" width="1200" height="1701" loading="lazy" alt="Bar in a grey apron plating salads on a work table in the yard">
+      </figure>
+    </div>
+  </section>
+
+  <section class="formats" id="formats" data-theme="day" aria-labelledby="formats-title">
+    <div class="wrap formats-head">
+      <h2 id="formats-title" data-words-rise>In my yard, at your place, or anywhere</h2>
+    </div>
+    <div class="formats-grid">
+      <div class="format">
+        <figure class="format-media" data-reveal><img src="../images/table-set.jpg" srcset="../images/table-set-600.jpg 600w, ../images/table-set.jpg 1200w" sizes="(max-width: 800px) 100vw, 33vw" width="1200" height="1161" loading="lazy" alt="A wooden table set in the yard with flowers, glasses and a wine barrel"></figure>
+        <div class="format-text">
+          <h3>In my yard, Mitzpe Matat</h3>
+          <p>A private dinner for your group. The dishes are made in front of you, then everyone sits down at one long table.</p>
+          <ul>
+            <li>6 to 16 guests</li>
+            <li>6:30 pm to 9:30 pm</li>
+            <li>Adults only</li>
+          </ul>
+          <p class="soon">Coming soon: a studio in Matat for events of 30 to 40 guests.</p>
+          <a class="btn ghost" href="#book" data-format="yard">Book the yard</a>
+        </div>
+      </div>
+      <div class="format">
+        <figure class="format-media" data-reveal><img src="../images/lunch.jpg" srcset="../images/lunch-600.jpg 600w, ../images/lunch.jpg 1200w" sizes="(max-width: 800px) 100vw, 33vw" width="1200" height="1701" loading="lazy" alt="A long table full of salads, breads and spreads at a lunch event"></figure>
+        <div class="format-text">
+          <h3>At your place</h3>
+          <p>I come with my team and the ingredients, cook and serve at your home. Dinners, birthdays, family occasions and lunches.</p>
+          <ul>
+            <li>8 to 40 guests</li>
+            <li>The Galilee and Golan, Haifa and the Krayot, the Sharon and central Israel</li>
+            <li>All you need is a kitchen, tables and chairs</li>
+          </ul>
+          <a class="btn ghost" href="#book" data-format="home">Book at your place</a>
+        </div>
+      </div>
+      <div class="format">
+        <figure class="format-media" data-reveal><img src="../images/vineyard-guests.jpg" srcset="../images/vineyard-guests-600.jpg 600w, ../images/vineyard-guests.jpg 1200w" sizes="(max-width: 800px) 100vw, 33vw" width="1200" height="1701" loading="lazy" alt="Bar talking to guests at a long outdoor table"></figure>
+        <div class="format-text">
+          <h3>Events and collaborations</h3>
+          <p>I produce events wherever you want them, in my own style and design. For companies, teams and private evenings.</p>
+          <ul>
+            <li>Company and team events</li>
+            <li>Launches and private evenings</li>
+            <li>Cocktails by Kuller can be added</li>
+          </ul>
+          <a class="btn ghost" href="#book" data-format="event">Plan an event</a>
+        </div>
+      </div>
+    </div>
+    <svg class="ridge" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 104 C 70 98, 120 74, 190 78 S 300 52, 360 60 S 470 30, 540 40 S 640 70, 720 58 S 820 22, 900 30 S 1010 62, 1080 54 S 1190 34, 1250 44 S 1360 76, 1440 70"/></svg>
+  </section>
+
+  <section class="evening" id="menu" data-theme="dusk" aria-labelledby="menu-title">
+    <div class="ev-grid">
+      <div class="ev-steps">
+        <div class="ev-head">
+          <h2 id="menu-title" data-words-rise>The menu</h2>
+          <p class="sub">This is what a menu looks like with me, from the first bite to dessert. It changes with the season and the occasion.</p>
+        </div>
+        <ol class="timeline">
+          <li class="ev-step on" data-step="0" data-label="I">
+            <span class="ev-n">To begin</span>
+            <ul class="dishes">
+              <li>Focaccia, olives and bishbash</li>
+              <li>Pan-tossed brown butter, fresh hyssop and shallot jam</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="1" data-label="II">
+            <span class="ev-n">Cold</span>
+            <ul class="dishes">
+              <li>Sliced cured pork neck, stracciatella, basil oil, pine nuts and seasonal fruit</li>
+              <li>Shaved cucumber salad, arugula, toasted almonds and sumac onion on smoked labneh</li>
+              <li>Rump steak tartare, with thyme aioli and confit garlic</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="2" data-label="III">
+            <span class="ev-n">From the sea</span>
+            <ul class="dishes">
+              <li>Local fish sashimi, avocado, red onion consommé, chili and rocket</li>
+              <li>Fish tartare, green mango, mint and arugula, with yogurt and green oil</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="3" data-label="IV">
+            <span class="ev-n">Hot</span>
+            <ul class="dishes">
+              <li>Tortellini in corn cream, with a caramelized onion, butter and wine sauce and flaked fish</li>
+              <li>Chorizo, milk bun, pepper cream, provençal and pickled onion</li>
+            </ul>
+          </li>
+          <li class="ev-step" data-step="4" data-label="V">
+            <span class="ev-n">Sweet</span>
+            <ul class="dishes">
+              <li>"Beirut Nights" style, za'atar crumble, raspberries and orange caramel syrup</li>
+              <li>Chocolate crémeux, olive oil and Maldon salt</li>
+            </ul>
+          </li>
+        </ol>
+        <p class="menu-note">Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own.</p>
+        <span class="ev-rail" aria-hidden="true"><i></i></span>
+      </div>
+      <div class="ev-media" aria-hidden="true">
+        <img class="on" src="../images/glasses.jpg" srcset="../images/glasses-600.jpg 600w, ../images/glasses.jpg 1200w" sizes="(max-width: 900px) 100vw, 55vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="../images/carpaccio.jpg" srcset="../images/carpaccio-600.jpg 600w, ../images/carpaccio.jpg 1200w" sizes="(max-width: 900px) 100vw, 55vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="../images/crudo-line.jpg" srcset="../images/crudo-line-600.jpg 600w, ../images/crudo-line.jpg 1200w" sizes="(max-width: 900px) 100vw, 55vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="../images/chef-pan.jpg" srcset="../images/chef-pan-600.jpg 600w, ../images/chef-pan.jpg 1200w" sizes="(max-width: 900px) 100vw, 55vw" width="1200" height="1701" alt="" loading="lazy">
+        <img src="../images/sunset-plating.jpg" srcset="../images/sunset-plating-600.jpg 600w, ../images/sunset-plating.jpg 1200w" sizes="(max-width: 900px) 100vw, 55vw" width="1200" height="1387" alt="" loading="lazy">
+        <div class="ev-clock" id="ev-clock">I</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="roads" id="roads" data-theme="night" aria-labelledby="roads-title">
+    <div class="roads-pin">
+      <div class="wrap roads-head">
+        <h2 id="roads-title" data-words-rise>From recent tables</h2>
+        <p>More on Instagram <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">‎@barlif</a></p>
+      </div>
+      <div class="roads-track" tabindex="0" aria-label="Photo gallery">
+        <figure><img loading="lazy" decoding="async" src="../images/burrata.jpg" srcset="../images/burrata-600.jpg 600w, ../images/burrata.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1701" alt="Bowls of burrata with greens, olive oil being poured over them"></figure>
+        <figure><img loading="lazy" decoding="async" src="../images/vineyard.jpg" srcset="../images/vineyard-600.jpg 600w, ../images/vineyard.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1701" alt="A long table with a white tablecloth under parasols"></figure>
+        <figure><img loading="lazy" decoding="async" src="../images/fire.jpg" srcset="../images/fire-600.jpg 600w, ../images/fire.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1328" alt="Bar cooking in the evening, smoke rising over the pots"></figure>
+        <figure><img loading="lazy" decoding="async" src="../images/pasta.jpg" srcset="../images/pasta-600.jpg 600w, ../images/pasta.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1328" alt="Bar eating a plate of pasta on the beach"></figure>
+        <figure><img loading="lazy" decoding="async" src="../images/field-cook.jpg" srcset="../images/field-cook-600.jpg 600w, ../images/field-cook.jpg 1200w" sizes="(max-width: 899px) 78vw, 46vh" width="1200" height="1344" alt="Bar sitting on a log in a green field, making dough"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="book" id="book" data-theme="night" aria-labelledby="book-title">
+    <div class="wrap book-grid">
+      <div>
+        <div class="book-head">
+          <h2 id="book-title" data-words-rise>Book a dinner</h2>
+          <p>Every dinner is built for you. Tell me what you have in mind, and I will get back to you on WhatsApp with a proposal and a menu.</p>
+        </div>
+        <form class="book-form" id="book-form" novalidate>
+          <fieldset class="q-step">
+            <legend>Where</legend>
+            <div class="tiles three">
+              <label class="tile"><input type="radio" name="format" value="yard" checked><span class="tile-body"><span class="tile-name">My yard, Mitzpe Matat</span><span class="tile-desc">6 to 16 guests</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="home"><span class="tile-body"><span class="tile-name">At your place</span><span class="tile-desc">8 to 40 guests</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">An event or collaboration</span><span class="tile-desc">Wherever you choose</span></span></label>
+            </div>
+          </fieldset>
+          <div class="field" id="region-field" hidden>
+            <label for="region">Where is your home</label>
+            <select id="region" name="region">
+              <option>The Galilee and Golan</option>
+              <option>Haifa and the Krayot</option>
+              <option>The Sharon and central Israel</option>
+              <option>Another area</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="date">Date</label>
+              <input id="date" name="date" type="date">
+            </div>
+            <div class="field">
+              <label id="guests-label" for="guests">Guests</label>
+              <div class="stepper">
+                <button type="button" id="g-plus" aria-label="One more guest">+</button>
+                <input id="guests" name="guests" type="number" inputmode="numeric" value="8" min="1" max="500">
+                <button type="button" id="g-minus" aria-label="One guest fewer">−</button>
+              </div>
+            </div>
+          </div>
+          <p class="hint" id="g-hint"></p>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="guestname" type="text" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="notes">What is the occasion, and what should I know?</label>
+            <textarea id="notes" name="notes" placeholder="For example: a 40th birthday, one of us is vegetarian"></textarea>
+          </div>
+          <p class="error" id="form-error" role="alert"></p>
+          <div><button class="btn" type="submit">Send on WhatsApp</button></div>
+        </form>
+      </div>
+
+      <aside class="next-card" aria-labelledby="next-title">
+        <h3 id="next-title">What happens next</h3>
+        <ol class="next-steps">
+          <li>I get back to you on WhatsApp with a proposal and a menu.</li>
+          <li>The date is held with a 30% deposit, by PayBox or bank transfer.</li>
+          <li>A few days before, we go over the final details together.</li>
+        </ol>
+        <p class="fine">Cancel up to a month before and the full deposit is returned. Full details in the FAQ below.</p>
+        <div class="contact">
+          <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp: +972 58-787-0656</a>
+          <a href="mailto:barlif2002@gmail.com">barlif2002@gmail.com</a>
+          <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">Instagram @barlif</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" data-theme="night" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="faq-head">
+        <h2 id="faq-title" data-words-rise>Before you come</h2>
+        <p>Can't find an answer? Message me on <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>.</p>
+      </div>
+      <div class="faq-list">
+        <details><summary>How long is a dinner in the yard?<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, usually from 6:30 pm to 9:30 pm.</p></div></details>
+        <details><summary>How many guests?<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard: 6 to 16. At your place: 8 to 40. A studio in Matat for events of 30 to 40 guests is opening soon.</p></div></details>
+        <details><summary>How much does it cost?<i aria-hidden="true"></i></summary><div class="ans"><p>Each dinner is priced by the menu, the number of guests and the place. Tell me what you have in mind and I will send a proposal.</p></div></details>
+        <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>I adapt the menu for vegetarians, gluten-free, nut allergies and lactose-free. Let me know when you book. The kitchen is not kosher.</p></div></details>
+        <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>There is wine from local wineries, and you are welcome to bring your own. For events, cocktails by Kuller can be added.</p></div></details>
+        <details><summary>Can we bring children?<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
+        <details><summary>What should we know before we come?<i aria-hidden="true"></i></summary><div class="ans"><p>Please arrive on time. Evenings in Matat are cool, so bring an extra layer. The exact address is sent with your booking confirmation.</p></div></details>
+        <details><summary>Accessibility<i aria-hidden="true"></i></summary><div class="ans"><p>There are steps at the entrance. A wheelchair can reach the house from the road.</p></div></details>
+        <details><summary>What about winter?<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat is opening soon, so rainy days will be covered too. Until then, we plan together around the forecast.</p></div></details>
+        <details><summary>Deposit and cancellations<i aria-hidden="true"></i></summary><div class="ans"><p>The date is held with a 30% deposit, by PayBox or bank transfer. Cancel up to a month before the dinner and the full deposit is returned; after that it is non-refundable. In case of war or an emergency, cancelling up to three days before the event returns 50% of the deposit.</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="finale" data-theme="night">
+  <div class="wrap finale-top">
+    <p class="finale-line">The table is set. All that is missing is you.</p>
+    <a class="btn" href="#book">Book a dinner</a>
+  </div>
+  <div class="finale-name" aria-hidden="true">Bar Lifschitz</div>
+  <div class="wrap finale-meta">
+    <span>Private chef. In my yard in Mitzpe Matat, at your place, or anywhere</span>
+    <nav aria-label="Links">
+      <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:barlif2002@gmail.com">Email</a>
+      <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">Instagram</a>
+      <a href="#top">Back to top</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // ---------- תיאום ארוחה ----------
+  // מספר הוואטסאפ של בר, בפורמט בינלאומי.
+  const WHATSAPP_NUMBER = '972587870656';
+
+  (function () {
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'he';
+    const T = {
+      he: {
+        days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
+        hint: { yard: 'בחצר: 6 עד 16 אורחים, מבוגרים בלבד.', home: 'אצלכם: 8 עד 40 סועדים.', event: 'אירועים: כל גודל. ספרו לי בהערות על המקום והאירוע.' },
+        noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
+        hello: n => `היי בר, זה ${n}.`,
+        what: { yard: () => 'אשמח לתאם ארוחה בחצר במצפה מתת.', home: r => `אשמח לתאם ארוחת שף אצלי בבית (${r}).`, event: () => 'אשמח לתאם אירוע.' },
+        date: d => `תאריך: ${d}`, flexible: 'גמיש', guests: n => `כמה אורחים: ${n}`, notes: t => `חשוב לדעת: ${t}`,
+      },
+      en: {
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        hint: { yard: 'In the yard: 6 to 16 guests, adults only.', home: 'At your place: 8 to 40 guests.', event: 'Events: any size. Tell me about the place and the occasion in the notes.' },
+        noName: 'Please add your name, so I know who to reply to.',
+        hello: n => `Hi Bar, this is ${n}.`,
+        what: { yard: () => 'I would like to book a dinner in your yard in Mitzpe Matat.', home: r => `I would like to book a private chef dinner at my home (${r}).`, event: () => 'I would like to plan an event.' },
+        date: d => `Date: ${d}`, flexible: 'flexible', guests: n => `Guests: ${n}`, notes: t => `Good to know: ${t}`,
+      },
+    }[lang];
+    const RULES = { yard: { min: 6, max: 16, start: 8 }, home: { min: 8, max: 40, start: 12 }, event: { min: 10, max: 500, start: 30 } };
+
+    const $ = id => document.getElementById(id);
+    const form = $('book-form');
+    const guests = $('guests');
+    let format = 'yard';
+
+    // התאריך הכי מוקדם: מחר
+    const t = new Date(); t.setDate(t.getDate() + 1);
+    $('date').min = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+
+    function clamp() {
+      const r = RULES[format];
+      let n = parseInt(guests.value, 10);
+      if (!n) n = r.start;
+      n = Math.min(r.max, Math.max(r.min, n));
+      guests.value = n; guests.min = r.min; guests.max = r.max;
+      $('g-minus').disabled = n <= r.min; $('g-plus').disabled = n >= r.max;
+    }
+    function setFormat(f, reset) {
+      format = f;
+      $('region-field').hidden = f !== 'home';
+      $('g-hint').textContent = T.hint[f];
+      if (reset) guests.value = RULES[f].start;
+      clamp();
+    }
+    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, true); });
+    guests.addEventListener('change', clamp);
+    $('g-plus').addEventListener('click', () => { guests.value = +guests.value + 1; clamp(); });
+    $('g-minus').addEventListener('click', () => { guests.value = +guests.value - 1; clamp(); });
+
+    // הכפתורים בקטע "איפה ואיך" בוחרים מראש את סוג הארוחה
+    document.querySelectorAll('[data-format]').forEach(a => a.addEventListener('click', () => {
+      const input = form.querySelector(`input[name="format"][value="${a.dataset.format}"]`);
+      if (input && !input.checked) { input.checked = true; setFormat(input.value, true); }
+    }));
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = form.elements.guestname.value.trim();
+      if (!name) { $('form-error').textContent = T.noName; form.elements.guestname.focus(); return; }
+      $('form-error').textContent = '';
+      clamp();
+      let when = T.flexible;
+      if ($('date').value) {
+        const [y, m, d] = $('date').value.split('-').map(Number);
+        const dt = new Date(y, m - 1, d);
+        when = `${T.days[dt.getDay()]} ${d}.${m}.${y}`;
+      }
+      const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
+      const notes = form.elements.notes.value.trim();
+      if (notes) lines.push(T.notes(notes));
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    });
+
+    setFormat('yard', true);
+
+    // ---------- שאלות: פתיחה וסגירה רכות ----------
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.faq details').forEach(det => {
+      const sum = det.querySelector('summary'), ans = det.querySelector('.ans');
+      sum.addEventListener('click', ev => {
+        if (calm || !ans.animate) return;
+        ev.preventDefault();
+        if (det.open) {
+          ans.animate([{ height: ans.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' })
+            .onfinish = () => { det.open = false; };
+        } else {
+          det.open = true;
+          const h = ans.offsetHeight;
+          ans.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        }
+      });
+    });
+  })();
+</script>
+
+<script>
+  // ---------- תנועה וגלילה ----------
+  // הדף מלא וקריא גם בלי הספריות. אם GSAP, ScrollTrigger ו-Lenis נטענו ואין בקשה לפחות תנועה, מפעילים את הגלילה.
+  window.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const head = document.getElementById('site-head');
+    const overlay = document.getElementById('menu-overlay');
+    const menuBtn = document.getElementById('menu-btn');
+    let lenis = null;
+
+    // --- וידאו רקע של החצר: נטען רק כשאין בקשה לפחות תנועה, ומחליף את התמונה כשהוא מוכן ---
+    // נטען רק אחרי שהפתיח מתחיל, כדי לא להתחרות בטעינת הדף
+    const vid = document.querySelector('.hero-video');
+    const vidToggle = document.getElementById('vid-toggle');
+    let vidLoaded = false;
+    function loadVideo() {
+      if (vidLoaded || !vid || calm || (navigator.connection && navigator.connection.saveData)) return;
+      vidLoaded = true;
+      const wide = window.matchMedia('(min-aspect-ratio: 4/5)').matches;
+      const ext = vid.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
+      vid.src = (wide ? vid.dataset.wide : vid.dataset.tall) + ext;
+      vid.addEventListener('canplay', () => { vid.classList.add('ready'); vid.play().catch(() => {}); vidToggle.hidden = false; }, { once: true });
+      vid.load();
+    }
+    vidToggle.addEventListener('click', () => {
+      const pause = !vid.paused;
+      pause ? vid.pause() : vid.play();
+      vidToggle.classList.toggle('paused', pause);
+      const lbl = vidToggle.querySelector('span');
+      lbl.textContent = pause ? lbl.dataset.play : lbl.dataset.pause;
+    });
+
+
+    // --- שלבי הערב: התמונה והשעה מתחלפות לפי הצעד שבמרכז המסך ---
+    const steps = [...document.querySelectorAll('.ev-step')];
+    const frames = [...document.querySelectorAll('.ev-media img')];
+    const clock = document.getElementById('ev-clock');
+    let current = 0;
+    function setStep(i) {
+      if (i === current) return;
+      current = i;
+      steps.forEach((s, k) => s.classList.toggle('on', k === i));
+      frames.forEach((f, k) => f.classList.toggle('on', k === i));
+      const t = steps[i].dataset.label;
+      clock.classList.add('swap');
+      setTimeout(() => {
+        clock.textContent = t;
+        clock.classList.remove('swap'); clock.classList.add('pre');
+        void clock.offsetWidth;
+        clock.classList.remove('pre');
+      }, 260);
+    }
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) setStep(+e.target.dataset.step); });
+      }, { rootMargin: window.matchMedia('(max-width: 900px)').matches ? '-60% 0px -30% 0px' : '-48% 0px -48% 0px' });
+      steps.forEach(s => io.observe(s));
+    }
+
+    // --- תפריט בטלפון ---
+    function openMenu(open) {
+      overlay.classList.toggle('open', open);
+      ['main', 'footer', '#site-head'].forEach(sel => { const el = document.querySelector(sel); if (el) el.inert = open; });
+      menuBtn.setAttribute('aria-expanded', String(open));
+      if (lenis) open ? lenis.stop() : lenis.start();
+      else document.body.style.overflow = open ? 'hidden' : '';
+      if (open) overlay.querySelector('a').focus(); else menuBtn.focus();
+    }
+    menuBtn.addEventListener('click', () => openMenu(true));
+    document.getElementById('menu-close').addEventListener('click', () => openMenu(false));
+    overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => openMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) openMenu(false); });
+
+    // --- הכותרת העליונה מתכווצת אחרי הפתיח ---
+    const progress = document.getElementById('progress');
+    const onScrollHead = (y, dir) => {
+      head.classList.toggle('scrolled', y > window.innerHeight * 0.5);
+      // צבע הכותרת לפי הקטע שמתחתיה
+      const under = document.elementsFromPoint(window.innerWidth / 2, 40).find(el => !el.closest('#site-head, .progress, .toast'));
+      const sec = under && under.closest('[data-theme]');
+      if (sec) head.dataset.tone = sec.dataset.theme;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+      if (!calm) head.classList.toggle('hide', dir > 0 && y > window.innerHeight * 0.9 && !overlay.classList.contains('open'));
+    };
+
+    const haveLibs = window.gsap && window.ScrollTrigger && window.Lenis;
+    if (calm || !haveLibs) {
+      let last = 0;
+      window.addEventListener('scroll', () => { const y = scrollY; onScrollHead(y, y - last); last = y; }, { passive: true });
+      loadVideo();
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    root.classList.add('motion');
+
+    // גלילה רכה
+    lenis = new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    lenis.on('scroll', ({ scroll, direction }) => { ScrollTrigger.update(); onScrollHead(scroll, direction); });
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // קישורים פנימיים גוללים ברכות
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      const target = id === '#top' ? 0 : document.querySelector(id);
+      if (target === null) return;
+      e.preventDefault();
+      lenis.scrollTo(target, {
+        offset: id === '#receipt' ? -80 : 0, duration: 1.6,
+        onComplete: () => {
+          // הפוקוס עובר ליעד, והכתובת מתעדכנת, כמו בקישור רגיל
+          if (target !== 0) { if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
+          history.pushState(null, '', id);
+        },
+      });
+    }));
+
+    // פיצול טקסט לאותיות ולמילים
+    const splitChars = el => {
+      el.setAttribute('aria-label', el.textContent.trim());
+      el.innerHTML = [...el.textContent.trim()].map(c => c === ' ' ? ' ' : `<span class="ch" aria-hidden="true">${c}</span>`).join('');
+      return el.querySelectorAll('.ch');
+    };
+    const splitWords = el => {
+      const words = el.textContent.trim().split(/\s+/);
+      el.innerHTML = words.map(w => `<span class="w" style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em"><span class="wi" style="display:inline-block">${w}</span></span>`).join(' ');
+      return el.querySelectorAll('.wi');
+    };
+
+    // צבע הרקע של הדף עובר מיום ללילה לפי הקטע שעל המסך
+    // המעבר צמוד לגלילה, כמו שקיעה, ולא קפיצה
+    const tones = { day: '#d6d7cb', dusk: '#3e1d27', night: '#1e0d12' };
+    let prev = null;
+    document.querySelectorAll('main > [data-theme], footer[data-theme]').forEach(sec => {
+      const tone = sec.dataset.theme;
+      if (prev && prev !== tone) {
+        gsap.fromTo(document.body, { backgroundColor: tones[prev] }, {
+          backgroundColor: tones[tone], ease: 'none', immediateRender: false,
+          scrollTrigger: { trigger: sec, start: 'top 90%', end: 'top 30%', scrub: true },
+        });
+      }
+      prev = tone;
+    });
+
+    // קו רכס הגליל נמתח בזמן הגלילה
+    const ridge = document.querySelector('.ridge path');
+    if (ridge) {
+      const len = ridge.getTotalLength();
+      gsap.fromTo(ridge, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.ridge', start: 'top 95%', end: 'bottom 45%', scrub: true } });
+    }
+
+    // --- הפתיח ---
+    const heroChars = splitChars(document.querySelector('.hero-name'));
+    const heroImg = document.querySelectorAll('.hero-media img, .hero-video');
+    const heroIn = gsap.timeline({ paused: true })
+      .fromTo(heroImg, { scale: 1.22 }, { scale: 1, duration: 2.4, ease: 'expo.out' }, 0)
+      .from(heroChars, { yPercent: 110, opacity: 0, duration: 1.3, ease: 'expo.out', stagger: 0.05 }, 0.15)
+      .from('.hero-row > *, .hero-foot', { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12 }, 0.55);
+
+    if (root.classList.contains('intro-on')) {
+      const intro = document.querySelector('.intro');
+      intro.style.animation = 'none';
+      const introChars = splitChars(intro.querySelector('.intro-name'));
+      lenis.stop();
+      gsap.timeline({ onComplete: () => { intro.remove(); lenis.start(); } })
+        .from(introChars, { yPercent: 120, duration: 0.8, ease: 'expo.out', stagger: 0.04 })
+        .from('.intro-sub', { opacity: 0, y: 10, duration: 0.6, ease: 'power2.out' }, 0.35)
+        .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: 0.9, ease: 'expo.inOut' }, '+=0.15')
+        .add(() => { heroIn.play(); loadVideo(); }, '-=0.65');
+    } else {
+      heroIn.play();
+      loadVideo();
+    }
+
+    gsap.to(heroImg, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.to('.hero-body', { yPercent: -10, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });
+
+    // --- המשפט של בר נצבע מילה אחר מילה בזמן הקריאה ---
+    const st = document.querySelector('[data-words]');
+    st.innerHTML = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+    gsap.fromTo(st.querySelectorAll('.w'), { opacity: 0.14 }, {
+      opacity: 1, ease: 'none', stagger: 0.1,
+      scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true },
+    });
+
+    // --- כותרות עולות מתוך מסכה ---
+    document.querySelectorAll('[data-words-rise]').forEach(h => {
+      gsap.from(splitWords(h), { yPercent: 110, duration: 1.2, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: h, start: 'top 85%' } });
+    });
+
+    // --- תמונות נחשפות כמו וילון ---
+    document.querySelectorAll('[data-reveal]').forEach(fig => {
+      const img = fig.querySelector('img');
+      const tl = gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 90%', end: 'top 30%', scrub: 0.6 } });
+      tl.fromTo(fig, { clipPath: 'inset(16% 10% 16% 10%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none' }, 0)
+        .fromTo(img, { scale: 1.28 }, { scale: 1, ease: 'none' }, 0);
+    });
+
+    // --- פרלקסה עדינה ---
+    document.querySelectorAll('[data-speed]').forEach(img => {
+      const s = parseFloat(img.dataset.speed);
+      gsap.fromTo(img, { yPercent: -s }, { yPercent: s, ease: 'none', scrollTrigger: { trigger: img.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+
+    // --- פס ההתקדמות של הערב ---
+    gsap.to('.ev-rail i', { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 50%', end: 'bottom 50%', scrub: true } });
+
+    // --- גלריה אופקית שנעה עם הגלילה (במסכים רחבים) ---
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 900px)', () => {
+      const track = document.querySelector('.roads-track');
+      track.classList.add('pinned');
+      track.removeAttribute('tabindex');
+      const dist = () => Math.max(0, track.scrollWidth - track.clientWidth);
+      const tween = gsap.to(track, {
+        x: () => (document.documentElement.dir === 'rtl' ? 1 : -1) * dist(), ease: 'none',
+        scrollTrigger: { trigger: '.roads-pin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.8, invalidateOnRefresh: true },
+      });
+      return () => { track.classList.remove('pinned'); track.setAttribute('tabindex', '0'); tween.kill(); gsap.set(track, { clearProps: 'transform' }); };
+    });
+
+    // --- הסיום ---
+    const finaleChars = splitChars(document.querySelector('.finale-name'));
+    gsap.from(finaleChars, { yPercent: 100, duration: 1.4, ease: 'expo.out', stagger: 0.05, scrollTrigger: { trigger: '.finale-name', start: 'top 92%' } });
+    gsap.from('.finale-line', { y: 40, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.finale', start: 'top 75%' } });
+
+    // תמונות שנטענות מאוחר משנות גבהים, ולכן מחשבים מחדש את נקודות הגלילה
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    let refreshT;
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => img.addEventListener('load', () => { clearTimeout(refreshT); refreshT = setTimeout(() => ScrollTrigger.refresh(), 200); }, { once: true }));
+  });
+</script>
+</body>
+</html>
