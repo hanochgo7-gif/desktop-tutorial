@@ -1,4 +1,4 @@
-/* הבמה: האות ח מזכוכית, ושישה חפצים של לקוחות שמקיפים אותה.
+/* הבמה: האות ח מזכוכית, וחפצים של לקוחות שמקיפים אותה.
    Three.js כמודול מ-jsdelivr. בלי WebGL 2, או ב"הפחתת תנועה", הקובץ לא עושה כלום
    והפתיחה נשארת עם החלקיקים או עם הטקסט הרגיל. */
 import * as THREE from 'three';
@@ -20,9 +20,7 @@ const RELICS = [
   { id: 'gotovski', file: '3d/nozzle' + EXT, label: T('אקדח תדלוק', 'fuel nozzle') },
   { id: 'ams', file: '3d/glove' + EXT, label: T('כפפת אגרוף', 'boxing glove') },
   { id: 'allenbis', file: '3d/bag' + EXT, label: T('שקית חטיפים', 'snack bag') },
-  { id: 'clinic', file: '3d/bottle' + EXT, label: T('בקבוקון סרום', 'serum bottle'), glass: '#f3c9c3' },
-  { id: 'falafel', file: '3d/pita' + EXT, label: T('פיתה פלאפל', 'falafel pita') },
-  { id: 'rachel', file: '3d/pi' + EXT, label: 'π' }
+  { id: 'clinic', file: '3d/bottle' + EXT, label: T('בקבוקון סרום', 'serum bottle'), glass: '#f3c9c3' }
 ];
 
 function supported() {

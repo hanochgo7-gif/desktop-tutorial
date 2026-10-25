@@ -260,7 +260,7 @@
   };
 
   D.courses = {
-    url: T('rachel-math.co.il/אזור-אישי', 'rachel-math.co.il/my-account'), hint: T('נסו: סמנו שיעור שסיימתם', 'Try it: tick off a lesson you finished'),
+    url: T('noa-math.co.il/אזור-אישי', 'noa-math.co.il/my-account'), hint: T('נסו: סמנו שיעור שסיימתם', 'Try it: tick off a lesson you finished'),
     run(s) {
       s.innerHTML = `<div class="d-wrap" style="justify-content:center;align-items:center"><div class="d-card d-up" style="width:min(320px,100%);padding:20px;display:grid;gap:10px">
         <div class="d-h">${T('כניסה לאזור האישי', 'Sign in to your account')}</div>
@@ -484,7 +484,7 @@
   D.object = {
     url: T('תלת־ממד מתוך האתרים שבניתי', '3D, from sites I’ve built'), hint: T('נסו: גררו כדי לסובב', 'Try it: drag to rotate'),
     run(s) {
-      const R = [['gotovski', T('ש. גוטובסקי', 'S. Gotovski')], ['ams', 'AMS'], ['allenbis', T('אלנביס', 'Allenbis')], ['clinic', T('רותם', 'Rotem')], ['falafel', '4X4'], ['rachel', T('רחלי', 'Racheli')]];
+      const R = [['gotovski', T('ש. גוטובסקי', 'S. Gotovski')], ['ams', 'AMS'], ['allenbis', T('אלנביס', 'Allenbis')], ['clinic', T('רותם', 'Rotem')], ['chef', T('בר', 'Bar')]];
       s.innerHTML = `<div class="d-obj"><i></i><div class="d-opts">${R.map((r, i) => `<button class="d-opt${i ? '' : ' on'}" type="button" data-id="${r[0]}">${r[1]}</button>`).join('')}</div></div>`;
       const box = $('.d-obj', s), sp = $('i', box), N = 48;
       let f = 0, v = motion ? 10 : 0, drag = null;
@@ -503,7 +503,7 @@
         raf(loop);
       };
       show(); raf(loop);
-      auto(() => use('falafel'), 3800);
+      auto(() => use('chef'), 3800);
     }
   };
 

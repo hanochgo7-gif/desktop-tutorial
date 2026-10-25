@@ -27,8 +27,7 @@
     ams: T('AMS: מאמן אגרוף תאילנדי, אתר מלא עם תנועה אמיתית', 'AMS: a Thai boxing coach, a full site with real motion'),
     allenbis: T('אלנביס: שדרוג של חנות קיימת לשתייה וחטיפים', 'Allenbis: upgrading a live drinks and snacks store'),
     clinic: T('רותם גוטובסקי: קליניקה עם חנות ועוזרת אישית', 'Rotem Gotovski: a clinic with a shop and a personal assistant'),
-    falafel: T('קייטרינג 4X4: אתר עם מחשבון הצעה לאירועים', '4X4 Catering: a site with an event quote builder'),
-    rachel: T('רחלי הורנשטיין: מורה פרטית, בדיקת רמה ומשחקים', 'Racheli Hornstein: a private tutor, level check and games'),
+    chef: T('בר ליפשיץ: שף פרטי, התפריט כסיפור בגלילה והזמנה בוואטסאפ', 'Bar Lifschitz: a private chef, the menu as a scroll story and booking on WhatsApp'),
     mashkanta: T('יסוד: אתר הדגמה ליועץ משכנתאות (מותג בדוי)', 'Yesod: a demo site for a mortgage advisor (fictional brand)'),
     elef: T('אֶלֶף: מותג בדוי של שמן זית, אתר וסרט', 'Elef: a fictional olive oil brand, site and film'),
     fragrance: T('HG Fragrance: בית בשמים בדוי לגברים, אתר דגל וחנות', 'HG Fragrance: a fictional men’s fragrance house, flagship site and shop')
@@ -50,9 +49,9 @@
     else if (a.goal === 'sell' || a.biz === 'store' || a.now === 'shop') r = { s: 'store', why: a.now === 'shop' ? T('שדרוג החנות שכבר יש לכם: מהירות, טלפון וחוויית קנייה, בלי להתחיל מאפס.', 'Upgrading the store you already have: speed, mobile and the buying experience, without starting over.') : T('חנות אונליין עם קטלוג, עגלה וסליקה, שנבנית סביב איך שאתם מוכרים.', 'An online store with a catalog, cart and payments, built around how you sell.'), p: ['allenbis', 'clinic'] };
     else if (a.now === 'wix') r = { s: 'wix', why: T('מעבר מוויקס או מוורדפרס לאתר מהיר שבנוי בשבילכם, ששומר על המקום בגוגל.', 'Moving from Wix or WordPress to a fast site built for you, keeping your place on Google.'), p: ['gotovski', 'allenbis'] };
     else if (a.goal === 'brand') r = { s: 'brand', why: T('זהות מותגית ואתר דגל (חבילת "חתימה"): קונספט, תנועה ותמונות ברמת סטודיו.', 'A brand identity and a flagship site (the "Signature" package): concept, motion and studio-grade images.'), p: ['gotovski', 'elef'] };
-    else if (a.biz === 'solo') r = { s: 'landing', why: T('חבילת "נוכחות": דף אחד שעושה את כל העבודה, עם וואטסאפ, חיוג וגוגל. עד שבוע לאוויר.', 'The "Presence" package: one page that does the whole job, with WhatsApp, calls and Google. Live within a week.'), p: ['rachel', 'ams'] };
+    else if (a.biz === 'solo') r = { s: 'landing', why: T('חבילת "נוכחות": דף אחד שעושה את כל העבודה, עם וואטסאפ, חיוג וגוגל. עד שבוע לאוויר.', 'The "Presence" package: one page that does the whole job, with WhatsApp, calls and Google. Live within a week.'), p: ['chef', 'ams'] };
     else if (a.now === 'weak') r = { s: 'site', why: T('שדרוג אתר קיים: עיצוב מחדש, מהירות, טלפון וקידום בגוגל, על התוכן שכבר יש לכם.', 'Upgrading your current site: a redesign, speed, mobile and Google, on the content you already have.'), p: ['gotovski', 'allenbis'] };
-    else r = { s: 'site', why: T('חבילת "עסק": אתר מלא שמסביר, משכנע ומודד כל פנייה, ושאפשר לעדכן לבד. עד שבועיים לאוויר.', 'The "Business" package: a full site that explains, persuades and tracks every lead, and that you can update yourself. Live within two weeks.'), p: a.biz === 'company' ? ['gotovski', 'mashkanta'] : ['falafel', 'ams'] };
+    else r = { s: 'site', why: T('חבילת "עסק": אתר מלא שמסביר, משכנע ומודד כל פנייה, ושאפשר לעדכן לבד. עד שבועיים לאוויר.', 'The "Business" package: a full site that explains, persuades and tracks every lead, and that you can update yourself. Live within two weeks.'), p: a.biz === 'company' ? ['gotovski', 'mashkanta'] : ['chef', 'ams'] };
     return r;
   }
 
@@ -378,7 +377,7 @@
   }
   function showWork() {
     say(T('הנה שלוש עבודות שונות מאוד זו מזו:', 'Here are three very different projects:') + '\n' +
-      ['gotovski', 'falafel', 'rachel'].map(function (id) { return '• ' + PROJ[id] + ' ' + work(id); }).join('\n') + '\n' +
+      ['gotovski', 'chef', 'clinic'].map(function (id) { return '• ' + PROJ[id] + ' ' + work(id); }).join('\n') + '\n' +
       T('ספרו לי איזה עסק יש לכם, ואמצא את הכי דומה.', 'Tell me what business you have, and I’ll find the closest one.'));
     chips([[T('מה מתאים לעסק שלי?', 'What fits my business?'), function () { diag(false); }], [T('לכל העבודות', 'All work'), function () { location.href = EN ? '/en-work.html' : '/work.html'; }]], true);
     focusFirstChip();

@@ -99,27 +99,17 @@
       palette: ['#fbf2ec', '#f0c7c2', '#c98f8a', '#000000'], fonts: ['Noto Serif Hebrew', 'Assistant'],
       metrics: [['משקל התמונות', '14.9MB', '2.9MB']]
     },
-    falafel: {
-      name: 'קייטרינג 4X4', sub: 'ניסים שרון · פלאפל וסביח לאירועים', kind: 'אתר חדש · דוכן רחוב עם מחשבון הצעה', url: 'קייטרינג 4X4', color: '#f2b705',
-      story: 'ניסים שרון מגיע עם ג׳יפ 4X4 לכל מקום, ממצוקי דרגות ועד שולחן על חוף ים המלח. האתר מדבר כמו דוכן רחוב טוב: צהוב שמש, כותרות של כרזת שוק וקווי גובה של מפת שטח ברקע. ועכשיו אפשר לבנות בו את האירוע בדקה ולשלוח לניסים הצעה מסודרת בלחיצה.',
+    chef: {
+      name: 'בר ליפשיץ', sub: 'שף פרטי · ארוחות בהזמנה במצפה מתת', kind: 'אתר חדש · התפריט כסיפור בגלילה', url: 'github.io/bar-lifschitz', color: '#e7a3ad',
+      story: 'בר ליפשיץ גדל בבית ארגנטינאי שבו תמיד מארחים, בישל במטבחים מקצועיים, והיום מארח ארוחות שף פרטיות בהזמנה: בחצר שלו במצפה מתת, אצל הלקוחות בבית, או באירוע בכל מקום. המנות מוכנות מול האורחים, עם יין מיקבים מקומיים. לכן האתר בנוי כמו ערב אצלו: צבעי תאנה וסלק, הסרטונים שבר צילם בעצמו, והתפריט האמיתי שלו שנפתח בגלילה, מנה אחרי מנה.',
       points: [
-        'מחשבון הצעה בצורת פתק הזמנה: בוחרים אורחים, דוכנים ותוספות, ורואים מיד כמה כדורי פלאפל, פיתות וצ׳יפס צריך.',
-        'ההצעה נשלחת לניסים בוואטסאפ עם מספר הזמנה וכל הפרטים, ואפשר גם לשמור אותה כ-PDF.',
-        'התפריט בנוי משלושה כרטיסים גדולים שנערמים בגלילה, עם כפתור ״להוסיף להצעה״ ושלוש חבילות מוכנות.',
-        'תפריט נגישות והצהרת נגישות, מצב כהה מלא, ופס קבוע בנייד עם הצעת מחיר וטלפון.'
+        'שלוש דרכים לארוחה: בחצר במצפה מתת (6 עד 16 אורחים, מבוגרים בלבד), אצל הלקוחות בבית (8 עד 40 סועדים), ואירועים ושיתופי פעולה.',
+        'התפריט האמיתי של בר כסיפור בגלילה: חמישה שלבים, מהפתיחה ועד המתוקים, וליד כל שלב סרטון שבר צילם.',
+        'טופס "לתיאום ארוחה" שמשתנה לפי סוג הארוחה ומספר האורחים, ושולח לבר הודעה מסודרת ישר לוואטסאפ.',
+        'שאלות ותשובות מהתשובות של בר עצמו: מקדמה, ביטולים, אלרגיות, כשרות, יין, ילדים, נגישות וחורף. מחירים לא מופיעים באתר, וזו ההחלטה של בר.',
+        'עברית ואנגלית: הגרסה האנגלית נבנית מהעברית, וסקריפט עוצר אם נשאר משפט בלי תרגום.'
       ],
-      palette: ['#151314', '#f2b705', '#22b8dc', '#f1e7d0'], fonts: ['Karantina', 'Rubik']
-    },
-    rachel: {
-      name: 'רחלי הורנשטיין', sub: 'שיעורי מתמטיקה פרטיים בזום', kind: 'אתר חדש · מחברת משבצות', url: 'rachelimath', color: '#2d8cff',
-      story: 'הורה שמחפש מורה פרטית צריך להרגיש תוך חמש שניות שהילד בידיים טובות. לכן האתר נראה כמו מחברת חשבון טובה: נייר משבצות, כתב יד, ופנים אמיתיות של מורה עם 28 שנות ניסיון. עכשיו ההורה גם רואה איך רחלי מסבירה, עוד לפני שיחת ההיכרות.',
-      points: [
-        'בדיקת רמה בדקה: שלוש שאלות לפי שכבת גיל, ואחרי כל תשובה רחלי מסבירה בכתב יד, שלב אחרי שלב.',
-        'התוצאה נשלחת לרחלי בוואטסאפ עם הנושאים שכדאי לחזק, כך ששיחת ההיכרות מתחילה מהמקום הנכון.',
-        'ערכת מתנה שהורים מבקשים בוואטסאפ: שישה משחקים ותרגילים לטלפון בלי הרשמה, מלוח הכפל ועד משוואות, דפי עבודה להדפסה וחידה חדשה כל יום.',
-        'כל משחק נגמר בקישור לאתגר חבר ובקישור לרחלי, כך שהמתנה עוברת מהורה להורה.'
-      ],
-      palette: ['#1e3a8a', '#fffdf9', '#f28c9b', '#fff0ad', '#1fae82'], fonts: ['Assistant', 'Amatic SC', 'Secular One']
+      palette: ['#1e0d12', '#2b1219', '#9c1b2c', '#e7a3ad', '#f3f2ec'], fonts: ['Bellefair', 'Assistant']
     },
     elef: {
       name: 'אֶלֶף', sub: 'שמן זית מהגליל · מותג בדיוני', kind: 'פרויקט קונספט · אתר מותג וסרט', url: 'hgpro.io/elef', color: '#c9a227',
@@ -201,24 +191,15 @@
         ],
         metrics: [['Image weight', '14.9MB', '2.9MB']]
       },
-      falafel: {
-        name: '4X4 Catering', sub: 'Nissim Sharon · falafel and sabich for events', kind: 'New site · a street stall with a quote builder', url: '4X4 Catering',
-        story: 'Nissim Sharon drives his 4X4 jeep anywhere, from the Dragot cliffs to a table on the Dead Sea shore. The site talks like a good street stall: sunshine yellow, market-poster headlines, and the contour lines of a terrain map in the background. Now visitors can plan their event in a minute and send Nissim a tidy quote in one tap.',
+      chef: {
+        name: 'Bar Lifschitz', sub: 'Private chef · dinners by booking in Mitzpe Matat', kind: 'New site · the menu as a scroll story', url: 'github.io/bar-lifschitz',
+        story: 'Bar Lifschitz grew up in an Argentinian home where there were always guests, cooked in professional kitchens, and now hosts private chef dinners by booking: in his yard in Mitzpe Matat, in clients\' homes, or at events anywhere. The dishes are made in front of the guests, with wine from local wineries. So the site is built like an evening with him: fig and beet colors, the videos Bar shot himself, and his real menu unfolding as you scroll, course by course.',
         points: [
-          'A quote builder shaped like an order slip: pick guests, stations and extras, and see right away how many falafel balls, pitas and fries it takes.',
-          'The quote goes to Nissim on WhatsApp with an order number and every detail, and can also be saved as a PDF.',
-          'The menu is three large cards that stack as you scroll, each with an "add to quote" button, plus three ready packages.',
-          'An accessibility menu and statement, a full dark mode, and a fixed mobile bar with the quote and a call button.'
-        ]
-      },
-      rachel: {
-        name: 'Racheli Hornstein', sub: 'Private math lessons on Zoom', kind: 'New site · a squared notebook', url: 'rachelimath',
-        story: 'A parent looking for a private tutor needs to feel within five seconds that their child is in good hands. So the site looks like a good math notebook: squared paper, handwriting, and the real face of a teacher with 28 years of experience. Now parents also see how Racheli explains, before the first call.',
-        points: [
-          'A one-minute level check: three questions by grade, and after each answer Racheli explains it in handwriting, step by step.',
-          'The result goes to Racheli on WhatsApp with the topics to work on, so the first call starts in the right place.',
-          'A free gift kit parents request on WhatsApp: six phone games and exercises with no sign-up, from times tables to equations, printable worksheets and a new riddle every day.',
-          'Every game ends with a link to challenge a friend and a link to Racheli, so the gift travels from parent to parent.'
+          'Three ways to book a dinner: in the yard in Mitzpe Matat (6 to 16 guests, adults only), at the client\'s home (8 to 40 diners), and events and collaborations.',
+          'Bar\'s real menu as a scroll story: five courses, from the opening to the sweets, each next to a video Bar shot.',
+          'A "book a dinner" form that adapts to the kind of dinner and the number of guests, and sends Bar a tidy message straight to WhatsApp.',
+          'Questions and answers in Bar\'s own words: deposit, cancellation, allergies, kosher, wine, children, accessibility and winter. Prices are not on the site, and that was Bar\'s decision.',
+          'Hebrew and English: the English page is built from the Hebrew one, and a script stops if any line is left untranslated.'
         ]
       },
       elef: {
@@ -255,7 +236,7 @@
     Object.keys(DATA_EN).forEach(function (k) { Object.assign(DATA[k], DATA_EN[k]); });
   }
   // כתובת האתר החי של כל לקוח. כשממלאים כתובת, כפתור "לאתר החי" מופיע בשורה ובסיפור
-  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', falafel: '', rachel: '', elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/'), fragrance: 'https://hanochgo7-gif.github.io/desktop-tutorial/perfume/', mashkanta: 'https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/' };
+  var LIVE = { gotovski: 'https://hanochgo7-gif.github.io/desktop-tutorial/', ams: 'https://ams.hgpro.io/', allenbis: '', clinic: '', chef: (EN ? 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/en/' : 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'), elef: (EN ? 'https://hgpro.io/elef/en.html' : 'https://hgpro.io/elef/'), fragrance: 'https://hanochgo7-gif.github.io/desktop-tutorial/perfume/', mashkanta: 'https://hanochgo7-gif.github.io/desktop-tutorial/mashkanta/' };
   var ORDER = $$('.project').map(function (li) { return li.dataset.id; });
   ORDER.forEach(function (id) {
     if (!LIVE[id]) return;
@@ -1082,7 +1063,7 @@
     var SYS = {
       faq: [T('נציג AI לשירות לקוחות', 'AI customer service agent'), T('עונה על השאלות החוזרות בכל שעה, רק לפי המידע שלכם, ומעביר אליכם את מי שמוכן לסגור.', 'Answers the repeat questions at any hour, only from your own information, and passes ready buyers to you.')],
       book: [T('מערכת זימון תורים', 'Appointment booking'), T('יומן זמינות, קביעה אונליין ותזכורות אוטומטיות, בלי טלפונים הלוך ושוב.', 'An availability calendar, online booking and automatic reminders, without the phone tag.')],
-      quote: [T('מחולל הצעות מחיר', 'Quote builder'), T('הלקוח בוחר אפשרויות ורואה מחיר, ואתם מקבלים פנייה מסודרת. כמו המחשבון של קייטרינג 4X4.', 'Customers pick options and see a price, and you get a tidy request. Like the 4X4 Catering calculator.')],
+      quote: [T('מחולל הצעות מחיר', 'Quote builder'), T('הלקוח בוחר אפשרויות ורואה מחיר, ואתם מקבלים פנייה מסודרת.', 'Customers pick options and see a price, and you get a tidy request.')],
       pay: [T('סליקה וחשבוניות אוטומטיות', 'Payments and automatic invoices'), T('אשראי, ביט או Apple Pay דרך ספק הסליקה שלכם, וכל תשלום מפיק קבלה ושולח אותה ללקוח.', 'Card, Bit or Apple Pay through your payment provider, and every payment issues a receipt to the customer.')],
       crm: [T('אינטגרציות ו-CRM', 'Integrations and CRM'), T('כל פנייה נכנסת למקום אחד (CRM, Google Sheets או Monday), כך ששום פנייה לא הולכת לאיבוד.', 'Every lead lands in one place (a CRM, Google Sheets or Monday), so none get lost.')],
       cms: [T('מערכת ניהול תוכן', 'Content management'), T('מעדכנים טקסטים, תמונות ומחירים בעצמכם, בלי לחכות לאף אחד.', 'Update text, images and prices yourself, without waiting for anyone.')],
@@ -1093,8 +1074,7 @@
       ams: [T('AMS', 'AMS'), T('דף נחיתה לאימון ניסיון ודפי אזור לגוגל מביאים מתאמנים חדשים.', 'A trial-session landing page and local pages for Google bring in new trainees.')],
       allenbis: [T('אלנביס', 'Allenbis'), T('החנות בונה סל לפי תקציב ונטענת מהר בטלפון.', 'The store builds a cart to a budget and loads fast on phones.')],
       clinic: [T('רותם גוטובסקי', 'Rotem Gotovski'), T('עוזרת אישית עונה על שאלות וקובעת תור בוואטסאפ.', 'A personal assistant answers questions and books appointments over WhatsApp.')],
-      falafel: [T('קייטרינג 4X4', '4X4 Catering'), T('לקוח בונה אירוע בדקה ושולח הצעה מסודרת בוואטסאפ.', 'Customers build an event in a minute and send a tidy request over WhatsApp.')],
-      rachel: [T('רחלי הורנשטיין', 'Racheli Hornstein'), T('בדיקת רמה בדקה, והתוצאה מגיעה לרחלי בוואטסאפ.', 'A one-minute level check, with the result sent to Racheli on WhatsApp.')]
+      chef: [T('בר ליפשיץ', 'Bar Lifschitz'), T('טופס קצר שולח לבר בוואטסאפ איפה, מתי וכמה אורחים.', 'A short form sends Bar where, when and how many guests over WhatsApp.')]
     };
     function recommend() {
       var biz = keys('biz')[0] || '', goal = keys('goal'), pain = keys('pain').filter(function (k) { return k !== 'none'; }), now = keys('now')[0] || '';
@@ -1108,7 +1088,7 @@
       var sys = pain.slice();
       if ((biz === 'shop' || has(goal, 'sell')) && pk !== 'sig') sys.unshift('shop');
       if (pk !== 'solo') sys = sys.filter(function (k) { return k !== 'cms'; }); // מערכת ניהול כבר כלולה בעסק ובחתימה
-      var ex = has(pain, 'quote') ? 'falafel' : has(pain, 'book') || has(pain, 'faq') ? 'clinic' : biz === 'shop' || has(goal, 'sell') ? 'allenbis' : biz === 'company' ? 'gotovski' : biz === 'solo' ? 'rachel' : 'ams';
+      var ex = has(pain, 'quote') ? 'chef' : has(pain, 'book') || has(pain, 'faq') ? 'clinic' : biz === 'shop' || has(goal, 'sell') ? 'allenbis' : biz === 'company' ? 'gotovski' : biz === 'solo' ? 'chef' : 'ams';
       var note = now === 'wix' ? T('מעבר מוויקס או מוורדפרס עם הפניות, בלי לאבד את המקום בגוגל.', 'Moving off Wix or WordPress with redirects, without losing your place on Google.')
         : now === 'weak' ? T('אפשר גם לשדרג את האתר הקיים במקום להתחיל מאפס.', 'You can also upgrade your current site instead of starting from scratch.')
         : now === 'shopup' ? T('שדרוג החנות הקיימת, כמו באלנביס: אותו קטלוג, עם פי 24 פחות JavaScript.', 'An upgrade of your current store, like Allenbis: same catalog, 24 times less JavaScript.') : '';
