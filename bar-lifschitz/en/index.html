@@ -453,7 +453,7 @@
   .tiles.serve { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles.serve .tile:last-child { grid-column: 1 / -1; }
   .tiles.serve .tile-name { font-size: 1.2rem; }
-  .addon { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 600; min-height: 44px; }
+  .book-form label.addon { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; cursor: pointer; font-weight: 600; min-height: 44px; }
   .addon input { width: 22px; height: 22px; accent-color: var(--rose); margin: 0; }
   @media (max-width: 640px) { .tiles.three { grid-template-columns: 1fr; } }
   .tile { position: relative; display: block; cursor: pointer; font-weight: 400; }
@@ -512,14 +512,37 @@
   }
   @media (max-width: 900px) { .next-card { position: static; } }
   .next-card::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(43,18,25,.3); pointer-events: none; }
-  .next-card h3 { font-size: clamp(1.7rem, 2.6vw, 2.2rem); margin-bottom: 18px; }
-  .next-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
-  .next-steps li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: 8px; line-height: 1.5; }
-  .next-steps li::before { content: counter(s); font-family: var(--display); font-size: 1.5rem; line-height: 1.1; color: var(--beet); }
-  .next-card .fine { color: #4f4a46; font-size: 1rem; margin: 20px 0; }
-  .contact { display: grid; gap: 4px; border-top: 1px solid var(--line); padding-top: 16px; font-weight: 600; }
-  .contact a { text-decoration-color: rgba(43,18,25,.3); text-underline-offset: 5px; padding-block: 6px; width: max-content; max-width: 100%; }
+  .next-card h3 { font-size: clamp(1.6rem, 2.4vw, 2rem); margin-bottom: 20px; }
+  /* כרטיס ההזמנה: מתמלא בזמן שממלאים את הטופס */
+  .ticket { position: relative; margin: 0 0 28px; padding: 4px 0 22px; border-bottom: 1.5px dashed rgba(43,18,25,.32); }
+  html:not(.js) .ticket { display: none; }
+  .ticket::before, .ticket::after { content: ""; position: absolute; bottom: -12px; width: 22px; height: 22px; border-radius: 50%; background: var(--night); }
+  .ticket::before { inset-inline-start: calc(-1 * clamp(28px, 4vw, 44px) - 11px); }
+  .ticket::after { inset-inline-end: calc(-1 * clamp(28px, 4vw, 44px) - 11px); }
+  .ticket-label { margin: 0 0 12px; font-size: .8rem; font-weight: 700; letter-spacing: .22em; color: var(--beet); }
+  .ticket-rows { margin: 0; display: grid; }
+  .ticket-rows > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 9px 0; border-bottom: 1px solid rgba(43,18,25,.1); }
+  .ticket-rows > div:last-child { border-bottom: 0; }
+  .ticket-rows > div[hidden] { display: none; }
+  .ticket-rows dt { font-size: .9rem; color: #6a5a5e; flex: 0 0 auto; }
+  .ticket-rows dd { margin: 0; font-family: var(--display); font-size: 1.2rem; line-height: 1.25; text-align: end; transition: color .5s; }
+  .ticket-rows dd.flash { color: var(--beet); transition: none; }
+  /* השלבים: ציר זמן דק */
+  .next-steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 18px; }
+  .next-steps li { position: relative; counter-increment: s; display: grid; grid-template-columns: 2.2rem 1fr; column-gap: 10px; line-height: 1.45; }
+  .next-steps li::before { content: counter(s); grid-row: span 2; width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid rgba(156,27,44,.45); border-radius: 50%; font-family: var(--display); font-size: 1.15rem; line-height: 1; color: var(--beet); background: var(--linen); position: relative; z-index: 1; }
+  .next-steps li:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: calc(1rem - .5px); top: 2rem; bottom: -18px; width: 1px; background: rgba(156,27,44,.28); }
+  .next-steps strong { font-family: var(--display); font-weight: 400; font-size: 1.45rem; line-height: 1.15; }
+  .next-steps span { color: #5d4b50; }
+  .next-card .fine { color: #4f4a46; font-size: .95rem; margin: 22px 0 18px; }
+  .contact { margin: 0; display: grid; border-top: 1px solid var(--line); padding-top: 8px; }
+  .contact > div { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid rgba(43,18,25,.08); }
+  .contact > div:last-child { border-bottom: 0; }
+  .contact dt { font-size: .9rem; color: #6a5a5e; }
+  .contact dd { margin: 0; }
+  .contact a { display: inline-block; font-weight: 600; text-decoration: none; padding-block: 11px; }
   .contact a:hover { color: var(--beet); }
+  .nc-sign { margin: 14px 0 0; text-align: end; font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--beet); }
 
   /* ---------- שפה ---------- */
   .site-head .lang { font-size: .9rem; letter-spacing: .06em; opacity: .85; }
@@ -818,19 +841,30 @@
       </div>
 
       <aside class="next-card" aria-labelledby="next-title">
+        <div class="ticket">
+          <p class="ticket-label">Your booking</p>
+          <dl class="ticket-rows">
+            <div><dt>Where</dt><dd id="tk-where"></dd></div>
+            <div><dt>When</dt><dd id="tk-when"></dd></div>
+            <div><dt>Guests</dt><dd id="tk-guests"></dd></div>
+            <div id="tk-serve-row" hidden><dt>Serving</dt><dd id="tk-serve"></dd></div>
+          </dl>
+        </div>
         <h3 id="next-title">What happens next</h3>
         <ol class="next-steps">
-          <li>I come back with a proposal and a menu.</li>
-          <li>A 30% deposit holds the date.</li>
-          <li>A few days before, we settle the details.</li>
+          <li><strong>Message</strong><span>I come back with a proposal and a menu.</span></li>
+          <li><strong>The date</strong><span>A 30% deposit holds the date.</span></li>
+          <li><strong>Details</strong><span>A few days before, we settle the details.</span></li>
+          <li><strong>The evening</strong><span>You arrive. The table is set.</span></li>
         </ol>
         <p class="fine">Cancel up to a month before: full refund.</p>
-        <div class="contact">
-          <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp: +972 58-787-0656</a>
-          <a href="tel:+972587870656">Phone: +972 58-787-0656</a>
-          <a href="mailto:barlif2002@gmail.com">barlif2002@gmail.com</a>
-          <a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener">Instagram @barlif</a>
-        </div>
+        <dl class="contact">
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/972587870656" target="_blank" rel="noopener"><bdi dir="ltr">+972 58-787-0656</bdi></a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+972587870656"><bdi dir="ltr">+972 58-787-0656</bdi></a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:barlif2002@gmail.com"><bdi dir="ltr">barlif2002@gmail.com</bdi></a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/barlif/" target="_blank" rel="noopener"><bdi dir="ltr">@barlif</bdi></a></dd></div>
+        </dl>
+        <p class="nc-sign">Bar</p>
       </aside>
     </div>
   </section>
@@ -888,6 +922,7 @@
         days: ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'],
         hint: { yard: 'בחצר: 6 עד 16 אורחים, מבוגרים בלבד.', home: 'אצלכם: 8 עד 40 סועדים.', event: 'אירועים: כל גודל. ספרו לי בהערות על המקום והאירוע.' },
         noName: 'כתבו שם, כדי שאדע למי אני חוזר.',
+        tk: { flexible: 'תאריך גמיש', guests: n => `${n} אורחים`, kuller: 'קוקטיילים של קולר' },
         cap: { one: n => `${n} מקומות סביב שולחן אחד`, many: (n, t) => `${n} מקומות, ${t} שולחנות ארוכים`, lots: n => `${n} אורחים, שולחנות ארוכים`, bites: n => `${n} אורחים בעמידה, מגשים מסתובבים`, buffet: ' · ועמדת בופה' },
         hello: n => `היי בר, כאן ${n}.`,
         below: m => `בחצר השולחן מתחיל מ־${m} אורחים. פחות מזה? כתבו לי בהערות ונבדוק.`,
@@ -899,6 +934,7 @@
         days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         hint: { yard: 'In the yard: 6 to 16 guests, adults only.', home: 'At your place: 8 to 40 guests.', event: 'Events: any size. Tell me about the place and the occasion in the notes.' },
         noName: 'Please add your name, so I know who to reply to.',
+        tk: { flexible: 'Flexible date', guests: n => `${n} guests`, kuller: 'cocktails by Kuller' },
         cap: { one: n => `${n} seats around one table`, many: (n, t) => `${n} seats, ${t} long tables`, lots: n => `${n} guests, long tables`, bites: n => `${n} guests standing, small bites passed around`, buffet: ' · and a buffet station' },
         hello: n => `Hi Bar, this is ${n}.`,
         below: m => `In the yard the table starts at ${m} guests. Fewer? Tell me in the notes and I will see what I can do.`,
@@ -1040,6 +1076,29 @@
       vio.observe(frame);
     } else wake();
 
+    // ---------- כרטיס ההזמנה ----------
+    const dayName = () => {
+      if (!$('date').value) return T.tk.flexible;
+      const [y, m, d] = $('date').value.split('-').map(Number);
+      return `${T.days[new Date(y, m - 1, d).getDay()]} ${d}.${m}.${y}`;
+    };
+    const setTk = (id, text) => { const el = $(id); if (el.textContent === text) return; el.textContent = text; el.classList.add('flash'); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('flash'))); };
+    function ticket() {
+      const place = form.querySelector('input[name="format"]:checked').closest('label').querySelector('.tile-name').textContent;
+      setTk('tk-where', format === 'home' ? `${place}, ${$('region').value}` : place);
+      setTk('tk-when', dayName());
+      setTk('tk-guests', T.tk.guests(guests.value));
+      const serve = form.querySelector('input[name="serve"]:checked');
+      const parts = [];
+      if (format !== 'yard') {
+        if (serve && serve.value !== 'unsure') parts.push(serve.closest('label').textContent.trim());
+        if (form.elements.kuller.checked) parts.push(T.tk.kuller);
+      }
+      $('tk-serve-row').hidden = !parts.length;
+      if (parts.length) setTk('tk-serve', parts.join(' · '));
+    }
+    form.addEventListener('input', ticket);
+
     function clamp() {
       const r = RULES[format];
       let n = parseInt(guests.value, 10);
@@ -1050,6 +1109,7 @@
       guests.value = n; guests.min = r.min; guests.max = r.max;
       $('g-minus').disabled = n <= r.min; $('g-plus').disabled = n >= r.max;
       drawTable();
+      ticket();
     }
     function setFormat(f, reset) {
       format = f;
@@ -1059,7 +1119,7 @@
       clamp();
     }
     // החלפת סוג הארוחה שומרת את מספר האורחים, בגבולות של הסוג החדש
-    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, false); if (e.target.name === 'serve') drawTable(); });
+    form.addEventListener('change', e => { if (e.target.name === 'format') setFormat(e.target.value, false); if (e.target.name === 'serve') drawTable(); ticket(); });
     guests.addEventListener('change', clamp);
     $('g-plus').addEventListener('click', () => { guests.value = +guests.value + 1; clamp(); });
     $('g-minus').addEventListener('click', () => { guests.value = +guests.value - 1; clamp(); });
@@ -1076,12 +1136,7 @@
       if (!name) { $('form-error').textContent = T.noName; form.elements.guestname.focus(); return null; }
       $('form-error').textContent = '';
       clamp();
-      let when = T.flexible;
-      if ($('date').value) {
-        const [y, m, d] = $('date').value.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        when = `${T.days[dt.getDay()]} ${d}.${m}.${y}`;
-      }
+      const when = $('date').value ? dayName() : T.flexible;
       const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
       const serve = form.querySelector('input[name="serve"]:checked');
       if (format !== 'yard' && serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
