@@ -1,0 +1,211 @@
+#!/usr/bin/env python3
+"""Builds the English page (en/index.html) from the Hebrew page (index.html).
+
+The Hebrew page is the source of truth. After editing it, run:
+    python3 bar-lifschitz/src/make_en.py
+Every Hebrew string that appears on the page needs a pair in PAIRS below.
+The script stops and lists any visible Hebrew it could not translate.
+"""
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SRC = ROOT / 'index.html'
+OUT = ROOT / 'en' / 'index.html'
+BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
+
+# (Hebrew, English). Longer strings are applied first, so a short string never breaks a long one.
+PAIRS = [
+    # head
+    ("font-family='serif'%3Eב%3C", "font-family='serif'%3EB%3C"),
+    ('<title>בר ליפשיץ | שף פרטי, מצפה מתת</title>', '<title>Bar Lifschitz | Private Chef, Mitzpe Matat</title>'),
+    ('בר ליפשיץ, שף פרטי. ארוחות שף בחצר במצפה מתת, אצלכם בבית, ואירועים פרטיים ועסקיים. בישול מול האורחים, חומרי גלם טריים ויין מיקבים מקומיים.',
+     'Bar Lifschitz, private chef. Chef dinners in his yard in Mitzpe Matat, in your home, and private or corporate events in the Galilee and across northern and central Israel. Cooked in front of the guests, with fresh ingredients and wine from local wineries.'),
+    ('content="בר ליפשיץ | שף פרטי"', 'content="Bar Lifschitz | Private Chef"'),
+    ('ארוחות שף פרטיות בחצר במצפה מתת, אצלכם בבית, או בכל מקום שתבחרו.', 'Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.'),
+
+    # skip, intro, header, overlay
+    ('דילוג לתיאום ארוחה', 'Skip to booking'),
+    ('שף פרטי, מצפה מתת', 'Private chef, Mitzpe Matat'),
+    ('aria-label="ניווט ראשי"', 'aria-label="Main navigation"'),
+    ('aria-label="ניווט"', 'aria-label="Navigation"'),
+    ('<i aria-hidden="true"></i>ניווט</button>', '<i aria-hidden="true"></i>Menu</button>'),
+    ('>סגירה</button>', '>Close</button>'),
+    ('>על בר<', '>About<'),
+    ('>איפה ואיך<', '>Where &amp; how<'),
+    ('>התפריט<', '>The menu<'),
+    ('>שאלות<', '>FAQ<'),
+    ('<a class="lang" href="en/" hreflang="en" lang="en">EN</a>', '<a class="lang" href="../" hreflang="he" lang="he">עברית</a>'),
+    ('<small><a class="lang" href="en/" hreflang="en" lang="en">English</a></small>', '<small><a class="lang" href="../" hreflang="he" lang="he">עברית</a></small>'),
+
+    # hero
+    ('החצר של בר במצפה מתת: שולחן עץ ארוך ערוך עם פרחים, בצל עץ', "Bar's yard in Mitzpe Matat: a long wooden table set with flowers, in the shade of a tree"),
+    ('מבשל ומארח. ארוחות שף פרטיות בחצר שלי במצפה מתת, אצלכם בבית, או בכל מקום שתבחרו.', 'I cook and I host. Private chef dinners in my yard in Mitzpe Matat, in your home, or wherever you choose.'),
+    ('>לתפריט<', '>See the menu<'),
+    ('<li>החצר במצפה מתת</li>', '<li>The yard in Mitzpe Matat</li>'),
+    ('<li>אצלכם בבית</li>', '<li>At your place</li>'),
+    ('<li>אירועים פרטיים ועסקיים</li>', '<li>Private and corporate events</li>'),
+    ('data-pause="השהיית הווידאו" data-play="הפעלת הווידאו">השהיית הווידאו', 'data-pause="Pause video" data-play="Play video">Pause video'),
+
+    # about
+    ('aria-label="על בר"', 'aria-label="About Bar"'),
+    ('האהבה שלי לבישול הגיעה מהאהבה לאירוח, ומהחיבור שזה מייצר בין אנשים.', 'My love for cooking came from my love of hosting, and from the connection it creates between people.'),
+    ('גדלתי בבית ארגנטינאי, שבו תמיד מארחים ותמיד מבשלים. אחרי הצבא התחלתי לבשל במטבחים מקצועיים, והיום אני מבשל מתוך אהבה לאירוח.',
+     'I grew up in an Argentinian home, where there were always guests and always something on the stove. After the army I started cooking in professional kitchens, and today I cook out of a love for hosting.'),
+    ('הבישול שלי פשוט, מעניין וגלילי. המנות מוכנות מול האורחים, עם חומרי גלם טריים וטובים ויין מיקבים מקומיים.',
+     'My cooking is simple, interesting and rooted in the Galilee. Every dish is made in front of the guests, with fresh, good ingredients and wine from local wineries.'),
+    ('כי ארוחה היא הרבה מעבר לאוכל.', 'Because a meal is so much more than food.'),
+    ('<p class="signature">בר</p>', '<p class="signature">Bar</p>'),
+    ('בר בסינר אפור מגיש סלטים על שולחן עבודה בחצר', 'Bar in a grey apron plating salads on a work table in the yard'),
+
+    # formats
+    ('בחצר, אצלכם, או בכל מקום', 'In my yard, at your place, or anywhere'),
+    ('שולחן עץ ערוך בחצר עם פרחים, כוסות וחבית יין', 'A wooden table set in the yard with flowers, glasses and a wine barrel'),
+    ('<h3>בחצר שלי, במצפה מתת</h3>', '<h3>In my yard, Mitzpe Matat</h3>'),
+    ('ארוחה פרטית לקבוצה שלכם. המנות מוכנות מול האורחים, ואחר כך כולם יושבים לשולחן אחד.', 'A private dinner for your group. The dishes are made in front of you, then everyone sits down at one long table.'),
+    ('<li>6 עד 16 אורחים</li>', '<li>6 to 16 guests</li>'),
+    ('<li>18:30 עד 21:30</li>', '<li>6:30 pm to 9:30 pm</li>'),
+    ('<li>מבוגרים בלבד</li>', '<li>Adults only</li>'),
+    ('בקרוב: סטודיו במתת לאירועים של 30 עד 40 אורחים.', 'Coming soon: a studio in Matat for events of 30 to 40 guests.'),
+    ('>לתיאום בחצר<', '>Book the yard<'),
+    ('שולחן ארוך עמוס סלטים, לחמים וממרחים באירוע צהריים', 'A long table full of salads, breads and spreads at a lunch event'),
+    ('<h3>אצלכם בבית</h3>', '<h3>At your place</h3>'),
+    ('אני מגיע עם הצוות וחומרי הגלם, מבשל ומגיש אצלכם. ארוחות ערב, ימי הולדת, אירועים משפחתיים וצהריים.', 'I come with my team and the ingredients, cook and serve at your home. Dinners, birthdays, family occasions and lunches.'),
+    ('<li>8 עד 40 סועדים</li>', '<li>8 to 40 guests</li>'),
+    ('<li>הגליל והגולן, חיפה והקריות, השרון והמרכז</li>', '<li>The Galilee and Golan, Haifa and the Krayot, the Sharon and central Israel</li>'),
+    ('<li>צריך רק מטבח, שולחנות וכיסאות</li>', '<li>All you need is a kitchen, tables and chairs</li>'),
+    ('>לתיאום אצלכם<', '>Book at your place<'),
+    ('בר מדבר אל האורחים בשולחן ארוך בחוץ', 'Bar talking to guests at a long outdoor table'),
+    ('<h3>אירועים ושיתופי פעולה</h3>', '<h3>Events and collaborations</h3>'),
+    ('אני מפיק אירוע בכל מקום שתרצו, בסגנון ובעיצוב שלי. לחברות, לצוותים ולערבים פרטיים.', 'I produce events wherever you want them, in my own style and design. For companies, teams and private evenings.'),
+    ('<li>אירועי חברה וצוותים</li>', '<li>Company and team events</li>'),
+    ('<li>השקות וערבים פרטיים</li>', '<li>Launches and private evenings</li>'),
+    ('<li>אפשר להוסיף קוקטיילים של קולר</li>', '<li>Cocktails by Kuller can be added</li>'),
+    ('>לתיאום אירוע<', '>Plan an event<'),
+
+    # menu
+    ('כך נראה תפריט אצלי, מהפתיחה ועד הקינוח. הוא משתנה לפי העונה ולפי האירוע.', 'This is what a menu looks like with me, from the first bite to dessert. It changes with the season and the occasion.'),
+    ('data-label="א׳"', 'data-label="I"'), ('data-label="ב׳"', 'data-label="II"'), ('data-label="ג׳"', 'data-label="III"'),
+    ('data-label="ד׳"', 'data-label="IV"'), ('data-label="ה׳"', 'data-label="V"'),
+    ('<div class="ev-clock" id="ev-clock">א׳</div>', '<div class="ev-clock" id="ev-clock">I</div>'),
+    ('<span class="ev-n">פתיחה</span>', '<span class="ev-n">To begin</span>'),
+    ('<span class="ev-n">קרים</span>', '<span class="ev-n">Cold</span>'),
+    ('<span class="ev-n">מהים</span>', '<span class="ev-n">From the sea</span>'),
+    ('<span class="ev-n">חמים</span>', '<span class="ev-n">Hot</span>'),
+    ('<span class="ev-n">מתוקים</span>', '<span class="ev-n">Sweet</span>'),
+    ('פוקאצ׳ה, זיתים ובישבש', 'Focaccia, olives and bishbash'),
+    ('חמאה חומה מוקפצת, אזוב טרי וריבת שאלוט', 'Pan-tossed brown butter, fresh hyssop and shallot jam'),
+    ('פרוסות צוואר חזיר מהמעדנייה, סטרצ׳טלה, שמן בזיליקום, צנוברים ופרי עונתי', 'Sliced cured pork neck, stracciatella, basil oil, pine nuts and seasonal fruit'),
+    ('סלט פקוס חרוש, ארוגולה, שקדים קלויים ובצל סומק על לאבנה מעושנת', 'Shaved cucumber salad, arugula, toasted almonds and sumac onion on smoked labneh'),
+    ('טרטר שייטל, לצד איולי טימין ושום קונפי', 'Rump steak tartare, with thyme aioli and confit garlic'),
+    ('סשימי דג מקומי, אבוקדו, קונסומה בצל סגול, חריף ורוקט', 'Local fish sashimi, avocado, red onion consommé, chili and rocket'),
+    ('טרטר דג, מנגו בוסר, נענע וארוגולה, לצד יוגורט ושמן ירוק', 'Fish tartare, green mango, mint and arugula, with yogurt and green oil'),
+    ('טורטליני בקרם תירס, ברוטב בצל מקורמל, חמאה ויין, עם דג מפורק', 'Tortellini in corn cream, with a caramelized onion, butter and wine sauce and flaked fish'),
+    ('צ׳וריסו מהמעדנייה, לחמניית חלב, קרם פלפלים, פרובנסל ובצל מוחמץ', 'Chorizo, milk bun, pepper cream, provençal and pickled onion'),
+    ('בסטייל ״לילות ביירות״, קרמבל זעתר, פטל וסירופ תפוזים וקרמל', '"Beirut Nights" style, za\'atar crumble, raspberries and orange caramel syrup'),
+    ('קרמו שוקולד, שמן זית ומלח מלדון', 'Chocolate crémeux, olive oil and Maldon salt'),
+    ('מתאים לצמחונים, ללא גלוטן, אלרגיות לאגוזים וללא לקטוז. יין מיקבים מקומיים, ואפשר גם להביא.', 'Can be adapted for vegetarians, gluten-free, nut allergies and lactose-free. Wine from local wineries, and you are welcome to bring your own.'),
+
+    # gallery
+    ('מהשולחנות האחרונים', 'From recent tables'),
+    ('<p>עוד באינסטגרם ', '<p>More on Instagram '),
+    ('aria-label="גלריית תמונות"', 'aria-label="Photo gallery"'),
+    ('קערות בוראטה עם עלים ירוקים, מזלפים עליהן שמן זית', 'Bowls of burrata with greens, olive oil being poured over them'),
+    ('שולחן ארוך במפה לבנה תחת שמשיות', 'A long table with a white tablecloth under parasols'),
+    ('בר מבשל בערב, עשן עולה מעל הסירים', 'Bar cooking in the evening, smoke rising over the pots'),
+    ('בר אוכל צלחת פסטה על החוף', 'Bar eating a plate of pasta on the beach'),
+    ('בר יושב על בול עץ בשדה ירוק ומכין בצק', 'Bar sitting on a log in a green field, making dough'),
+
+    # booking
+    ('כל ארוחה נבנית בשבילכם. ספרו לי מה אתם מתכננים, ואחזור אליכם בוואטסאפ עם הצעה ותפריט.', 'Every dinner is built for you. Tell me what you have in mind, and I will get back to you on WhatsApp with a proposal and a menu.'),
+    ('<legend>איפה</legend>', '<legend>Where</legend>'),
+    ('<span class="tile-name">בחצר במצפה מתת</span><span class="tile-desc">6 עד 16 אורחים</span>', '<span class="tile-name">My yard, Mitzpe Matat</span><span class="tile-desc">6 to 16 guests</span>'),
+    ('<span class="tile-name">אצלכם בבית</span><span class="tile-desc">8 עד 40 סועדים</span>', '<span class="tile-name">At your place</span><span class="tile-desc">8 to 40 guests</span>'),
+    ('<span class="tile-name">אירוע או שיתוף פעולה</span><span class="tile-desc">בכל מקום שתבחרו</span>', '<span class="tile-name">An event or collaboration</span><span class="tile-desc">Wherever you choose</span>'),
+    ('<label for="region">איפה הבית</label>', '<label for="region">Where is your home</label>'),
+    ('<option>הגליל והגולן</option>', '<option>The Galilee and Golan</option>'),
+    ('<option>חיפה והקריות</option>', '<option>Haifa and the Krayot</option>'),
+    ('<option>השרון והמרכז</option>', '<option>The Sharon and central Israel</option>'),
+    ('<option>אזור אחר</option>', '<option>Another area</option>'),
+    ('<label for="date">תאריך</label>', '<label for="date">Date</label>'),
+    ('<label id="guests-label" for="guests">כמה אורחים</label>', '<label id="guests-label" for="guests">Guests</label>'),
+    ('aria-label="עוד אורח"', 'aria-label="One more guest"'),
+    ('aria-label="אורח אחד פחות"', 'aria-label="One guest fewer"'),
+    ('<label for="name">שם</label>', '<label for="name">Name</label>'),
+    ('<label for="notes">מה חוגגים, ומה חשוב שאדע?</label>', '<label for="notes">What is the occasion, and what should I know?</label>'),
+    ('placeholder="למשל: יום הולדת 40, אחד מאיתנו צמחוני"', 'placeholder="For example: a 40th birthday, one of us is vegetarian"'),
+    ('>שליחה בוואטסאפ<', '>Send on WhatsApp<'),
+    ('<h3 id="next-title">מה קורה אחרי ששולחים</h3>', '<h3 id="next-title">What happens next</h3>'),
+    ('<li>אני חוזר אליכם בוואטסאפ עם הצעה ותפריט.</li>', '<li>I get back to you on WhatsApp with a proposal and a menu.</li>'),
+    ('<li>משריינים את התאריך במקדמה של 30%, בפייבוקס או בהעברה בנקאית.</li>', '<li>The date is held with a 30% deposit, by PayBox or bank transfer.</li>'),
+    ('<li>כמה ימים לפני, סוגרים יחד את הפרטים האחרונים.</li>', '<li>A few days before, we go over the final details together.</li>'),
+    ('ביטול עד חודש לפני הארוחה מחזיר את כל המקדמה. הפרטים המלאים בשאלות למטה.', 'Cancel up to a month before and the full deposit is returned. Full details in the FAQ below.'),
+    ('>וואטסאפ: 058-787-0656<', '>WhatsApp: +972 58-787-0656<'),
+    ('>אינסטגרם ‎@barlif<', '>Instagram @barlif<'),
+
+    # faq
+    ('>לפני שמגיעים<', '>Before you come<'),
+    ('לא מצאתם תשובה? כתבו לי ב<a href="https://wa.me/972587870656" target="_blank" rel="noopener">וואטסאפ</a>.', 'Can\'t find an answer? Message me on <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>.'),
+    ('כמה זמן נמשכת ארוחה בחצר?', 'How long is a dinner in the yard?'),
+    ('שלוש שעות, בדרך כלל מ־18:30 עד 21:30.', 'Three hours, usually from 6:30 pm to 9:30 pm.'),
+    ('לכמה אורחים?', 'How many guests?'),
+    ('בחצר: 6 עד 16. אצלכם: 8 עד 40. בקרוב ייפתח סטודיו במתת לאירועים של 30 עד 40 אורחים.', 'In the yard: 6 to 16. At your place: 8 to 40. A studio in Matat for events of 30 to 40 guests is opening soon.'),
+    ('כמה זה עולה?', 'How much does it cost?'),
+    ('כל ארוחה מתומחרת לפי התפריט, מספר האורחים והמקום. ספרו לי מה אתם מתכננים, ואשלח הצעה.', 'Each dinner is priced by the menu, the number of guests and the place. Tell me what you have in mind and I will send a proposal.'),
+    ('אלרגיות והעדפות', 'Allergies and preferences'),
+    ('אני מתאים את התפריט לצמחונים, ללא גלוטן, לאלרגיה לאגוזים וללא לקטוז. כתבו לי כשאתם מתאמים. המטבח לא כשר.', 'I adapt the menu for vegetarians, gluten-free, nut allergies and lactose-free. Let me know when you book. The kitchen is not kosher.'),
+    ('יין ושתייה', 'Wine and drinks'),
+    ('יש יין מיקבים מקומיים, ואפשר גם להביא יין משלכם. לאירועים אפשר להוסיף קוקטיילים של קולר.', 'There is wine from local wineries, and you are welcome to bring your own. For events, cocktails by Kuller can be added.'),
+    ('אפשר לבוא עם ילדים?', 'Can we bring children?'),
+    ('הארוחות בחצר מיועדות למבוגרים בלבד.', 'Dinners in the yard are for adults only.'),
+    ('מה כדאי לדעת לפני שמגיעים?', 'What should we know before we come?'),
+    ('מגיעים בזמן. בערב במתת קריר, אז כדאי להביא שכבה נוספת. הכתובת המדויקת נשלחת עם אישור ההזמנה.', 'Please arrive on time. Evenings in Matat are cool, so bring an extra layer. The exact address is sent with your booking confirmation.'),
+    ('<summary>נגישות<', '<summary>Accessibility<'),
+    ('יש מדרגות בכניסה. כיסא גלגלים יכול להגיע מהכביש עד הבית.', 'There are steps at the entrance. A wheelchair can reach the house from the road.'),
+    ('ומה בחורף?', 'What about winter?'),
+    ('בקרוב ייפתח סטודיו במתת, ואז אפשר יהיה לארח גם בימים גשומים. עד אז נתאם יחד לפי התחזית.', 'A studio in Matat is opening soon, so rainy days will be covered too. Until then, we plan together around the forecast.'),
+    ('מקדמה וביטולים', 'Deposit and cancellations'),
+    ('משריינים את התאריך במקדמה של 30%, בפייבוקס או בהעברה בנקאית. ביטול עד חודש לפני הארוחה מחזיר את כל המקדמה, ואחר כך המקדמה לא מוחזרת. במקרה של מלחמה או מצב חירום, ביטול עד שלושה ימים לפני האירוע מחזיר 50% מהמקדמה.',
+     'The date is held with a 30% deposit, by PayBox or bank transfer. Cancel up to a month before the dinner and the full deposit is returned; after that it is non-refundable. In case of war or an emergency, cancelling up to three days before the event returns 50% of the deposit.'),
+
+    # finale
+    ('השולחן ערוך. חסרים רק אתם.', 'The table is set. All that is missing is you.'),
+    ('שף פרטי. בחצר במצפה מתת, אצלכם, או בכל מקום', 'Private chef. In my yard in Mitzpe Matat, at your place, or anywhere'),
+    ('aria-label="קישורים"', 'aria-label="Links"'),
+    ('>וואטסאפ<', '>WhatsApp<'),
+    ('>מייל<', '>Email<'),
+    ('>אינסטגרם<', '>Instagram<'),
+    ('>חזרה למעלה<', '>Back to top<'),
+
+    # repeated short strings, last
+    ('לתיאום ארוחה', 'Book a dinner'),
+    ('בר ליפשיץ', 'Bar Lifschitz'),
+]
+
+
+def build():
+    s = SRC.read_text(encoding='utf-8')
+    s = s.replace('<html lang="he" dir="rtl">', '<html lang="en" dir="ltr">', 1)
+    for he, en in sorted(PAIRS, key=lambda p: -len(p[0])):
+        s = s.replace(he, en)
+    # relative paths: the English page lives one folder down
+    s = re.sub(r'(?<=["\s,])(images|media)/', r'../\1/', s)
+    s = s.replace(f'<link rel="canonical" href="{BASE}">', f'<link rel="canonical" href="{BASE}en/">')
+    s = s.replace(f'<meta property="og:url" content="{BASE}">', f'<meta property="og:url" content="{BASE}en/">')
+    s = s.replace('<meta property="og:locale" content="he_IL">', '<meta property="og:locale" content="en_US">')
+
+    # visible Hebrew left outside scripts, styles and comments means a missing pair
+    visible = re.sub(r'<script.*?</script>|<style.*?</style>|<!--.*?-->', '', s, flags=re.S)
+    visible = visible.replace('lang="he">עברית<', '')
+    left = sorted(set(m.strip() for m in re.findall(r'[^<>"]*[֐-׿][^<>"]*', visible)))
+    if left:
+        print('Untranslated Hebrew:', *left, sep='\n  ')
+        sys.exit(1)
+    OUT.parent.mkdir(exist_ok=True)
+    OUT.write_text(s, encoding='utf-8')
+    print('wrote', OUT)
+
+
+if __name__ == '__main__':
+    build()
