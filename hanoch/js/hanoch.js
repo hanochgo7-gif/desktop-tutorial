@@ -100,12 +100,12 @@
       metrics: [['משקל התמונות', '14.9MB', '2.9MB']]
     },
     chef: {
-      name: 'בר ליפשיץ', sub: 'שף פרטי · ארוחות בהזמנה במצפה מתת', kind: 'אתר חדש · התפריט כסיפור בגלילה', url: 'github.io/bar-lifschitz', color: '#e7a3ad',
-      story: 'בר ליפשיץ גדל בבית ארגנטינאי שבו תמיד מארחים, בישל במטבחים מקצועיים, והיום מארח ארוחות שף פרטיות בהזמנה: בחצר שלו במצפה מתת, אצל הלקוחות בבית, או באירוע בכל מקום. המנות מוכנות מול האורחים, עם יין מיקבים מקומיים. לכן האתר בנוי כמו ערב אצלו: צבעי תאנה וסלק, הסרטונים שבר צילם בעצמו, והתפריט האמיתי שלו שנפתח בגלילה, מנה אחרי מנה.',
+      name: 'בר ליפשיץ', sub: 'שף פרטי · ארוחות בהזמנה במצפה מתת', kind: 'אתר חדש · נכנסים דרך חלון המטבח', url: 'github.io/bar-lifschitz', color: '#e7a3ad',
+      story: 'בר ליפשיץ גדל בבית ארגנטינאי שבו תמיד מארחים, נכנס אחרי הצבא למטבחים מקצועיים, והיום מארח ארוחות שף פרטיות בהזמנה: בחצר שלו במצפה מתת, אצל הלקוחות בבית, או באירוע בכל מקום. המנות מבושלות מול האורחים, עם יין מיקבים מקומיים. לכן האתר נפתח בחלון המטבח המואר שלו: גוללים, נכנסים דרך החלון ומגיעים לחצר. משם הכול בצבעי תאנה וסלק, עם הסרטונים שבר צילם בעצמו והתפריט האמיתי שלו, מנה אחרי מנה.',
       points: [
-        'שלוש דרכים לארוחה: בחצר במצפה מתת (6 עד 16 אורחים, מבוגרים בלבד), אצל הלקוחות בבית (8 עד 40 סועדים), ואירועים ושיתופי פעולה.',
-        'התפריט האמיתי של בר כסיפור בגלילה: חמישה שלבים, מהפתיחה ועד המתוקים, וליד כל שלב סרטון שבר צילם.',
-        'טופס "לתיאום ארוחה" שמשתנה לפי סוג הארוחה ומספר האורחים, ושולח לבר הודעה מסודרת ישר לוואטסאפ.',
+        'שלוש דרכים לארוחה: בחצר במצפה מתת (6 עד 16 אורחים, מבוגרים בלבד), אצל הלקוחות בבית (8 עד 40 סועדים), ואירועים עם מנות אישיות, מרכז שולחן, בופה או ביסים, מלצרים וקוקטיילים של קולר.',
+        'התפריט האמיתי של בר כסיפור בגלילה: חמישה שלבים, מהפתיחה ועד המתוקים, וליד כל שלב סרטון שבר צילם. ובסוף הארוחה, משהו קטן שלוקחים הביתה.',
+        'טופס "לתיאום ארוחה" שמשתנה לפי סוג הארוחה: מספר האורחים, ובבית ובאירועים גם סגנון הגשה ותוספת של קוקטיילים של קולר. הבקשה נשלחת לבר מסודרת בוואטסאפ או במייל.',
         'שאלות ותשובות מהתשובות של בר עצמו: מקדמה, ביטולים, אלרגיות, כשרות, יין, ילדים, נגישות וחורף. מחירים לא מופיעים באתר, וזו ההחלטה של בר.',
         'עברית ואנגלית: הגרסה האנגלית נבנית מהעברית, וסקריפט עוצר אם נשאר משפט בלי תרגום.'
       ],
@@ -192,12 +192,12 @@
         metrics: [['Image weight', '14.9MB', '2.9MB']]
       },
       chef: {
-        name: 'Bar Lifschitz', sub: 'Private chef · dinners by booking in Mitzpe Matat', kind: 'New site · the menu as a scroll story', url: 'github.io/bar-lifschitz',
-        story: 'Bar Lifschitz grew up in an Argentinian home where there were always guests, cooked in professional kitchens, and now hosts private chef dinners by booking: in his yard in Mitzpe Matat, in clients\' homes, or at events anywhere. The dishes are made in front of the guests, with wine from local wineries. So the site is built like an evening with him: fig and beet colors, the videos Bar shot himself, and his real menu unfolding as you scroll, course by course.',
+        name: 'Bar Lifschitz', sub: 'Private chef · dinners by booking in Mitzpe Matat', kind: 'New site · walk in through the kitchen window', url: 'github.io/bar-lifschitz',
+        story: 'Bar Lifschitz grew up in an Argentinian home where there were always guests, went into professional kitchens after the army, and now hosts private chef dinners by booking: in his yard in Mitzpe Matat, in clients\' homes, or at events anywhere. The dishes are cooked in front of the guests, with wine from local wineries. So the site opens on his lit kitchen window: you scroll, walk in through the window and arrive in the yard. From there it is all fig and beet colors, the videos Bar shot himself and his real menu, course by course.',
         points: [
-          'Three ways to book a dinner: in the yard in Mitzpe Matat (6 to 16 guests, adults only), at the client\'s home (8 to 40 diners), and events and collaborations.',
-          'Bar\'s real menu as a scroll story: five courses, from the opening to the sweets, each next to a video Bar shot.',
-          'A "book a dinner" form that adapts to the kind of dinner and the number of guests, and sends Bar a tidy message straight to WhatsApp.',
+          'Three ways to book a dinner: in the yard in Mitzpe Matat (6 to 16 guests, adults only), at the client\'s home (8 to 40 diners), and events with plated dishes, family style, a buffet or bites, waiters and cocktails by Kuller.',
+          'Bar\'s real menu as a scroll story: five courses, from the opening to the sweets, each next to a video Bar shot. And at the end of the dinner, something small to take home.',
+          'A "book a dinner" form that adapts to the kind of dinner: the number of guests, and for homes and events also the serving style and a Kuller cocktails add-on. The request reaches Bar neatly on WhatsApp or by email.',
           'Questions and answers in Bar\'s own words: deposit, cancellation, allergies, kosher, wine, children, accessibility and winter. Prices are not on the site, and that was Bar\'s decision.',
           'Hebrew and English: the English page is built from the Hebrew one, and a script stops if any line is left untranslated.'
         ]
@@ -1074,7 +1074,7 @@
       ams: [T('AMS', 'AMS'), T('דף נחיתה לאימון ניסיון ודפי אזור לגוגל מביאים מתאמנים חדשים.', 'A trial-session landing page and local pages for Google bring in new trainees.')],
       allenbis: [T('אלנביס', 'Allenbis'), T('החנות בונה סל לפי תקציב ונטענת מהר בטלפון.', 'The store builds a cart to a budget and loads fast on phones.')],
       clinic: [T('רותם גוטובסקי', 'Rotem Gotovski'), T('עוזרת אישית עונה על שאלות וקובעת תור בוואטסאפ.', 'A personal assistant answers questions and books appointments over WhatsApp.')],
-      chef: [T('בר ליפשיץ', 'Bar Lifschitz'), T('טופס קצר שולח לבר בוואטסאפ איפה, מתי וכמה אורחים.', 'A short form sends Bar where, when and how many guests over WhatsApp.')]
+      chef: [T('בר ליפשיץ', 'Bar Lifschitz'), T('טופס קצר שולח לבר בוואטסאפ איפה, מתי, כמה אורחים ואיך להגיש.', 'A short form sends Bar where, when, how many guests and how to serve over WhatsApp.')]
     };
     function recommend() {
       var biz = keys('biz')[0] || '', goal = keys('goal'), pain = keys('pain').filter(function (k) { return k !== 'none'; }), now = keys('now')[0] || '';

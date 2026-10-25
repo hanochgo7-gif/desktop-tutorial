@@ -27,7 +27,7 @@
     ams: T('AMS: מאמן אגרוף תאילנדי, אתר מלא עם תנועה אמיתית', 'AMS: a Thai boxing coach, a full site with real motion'),
     allenbis: T('אלנביס: שדרוג של חנות קיימת לשתייה וחטיפים', 'Allenbis: upgrading a live drinks and snacks store'),
     clinic: T('רותם גוטובסקי: קליניקה עם חנות ועוזרת אישית', 'Rotem Gotovski: a clinic with a shop and a personal assistant'),
-    chef: T('בר ליפשיץ: שף פרטי, התפריט כסיפור בגלילה והזמנה בוואטסאפ', 'Bar Lifschitz: a private chef, the menu as a scroll story and booking on WhatsApp'),
+    chef: T('בר ליפשיץ: שף פרטי, התפריט כסיפור בגלילה, וטופס הזמנה עם סגנון הגשה שנשלח בוואטסאפ', 'Bar Lifschitz: a private chef, the menu as a scroll story, and a booking form with serving styles sent on WhatsApp'),
     mashkanta: T('יסוד: אתר הדגמה ליועץ משכנתאות (מותג בדוי)', 'Yesod: a demo site for a mortgage advisor (fictional brand)'),
     elef: T('אֶלֶף: מותג בדוי של שמן זית, אתר וסרט', 'Elef: a fictional olive oil brand, site and film'),
     fragrance: T('HG Fragrance: בית בשמים בדוי לגברים, אתר דגל וחנות', 'HG Fragrance: a fictional men’s fragrance house, flagship site and shop')
