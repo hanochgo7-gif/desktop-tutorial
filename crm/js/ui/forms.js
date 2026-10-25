@@ -199,23 +199,49 @@ export function openActivityForm({ contactId, dealId = null, type = 'call', onSa
 
 // ---------------------------------------------------------------- task
 export function openTaskForm({ task = null, contactId = null, dealId = null, onSaved } = {}) {
-  const t = task || { type: 'call', priority: 'normal', due_at: tomorrowAt(10).toISOString(), contact_id: contactId, deal_id: dealId };
+  const t = task || { type: 'call', priority: 'normal', status: 'open', due_at: tomorrowAt(10).toISOString(), contact_id: contactId, deal_id: dealId };
   const c = store.get('crm_contacts', t.contact_id);
+  const leads = store.all('crm_contacts').map((x) => ({ value: x.id, label: contactName(x) })).sort((a, b) => a.label.localeCompare(b.label, 'he'));
+  const later = (h) => { const d = new Date(); d.setHours(h, 0, 0, 0); return d; };
+  const quick = [['היום אחה"צ', () => later(16)], ['מחר', () => tomorrowAt(10, 1)], ['עוד 3 ימים', () => tomorrowAt(10, 3)], ['שבוע', () => tomorrowAt(10, 7)]];
   return modal({
     title: task ? 'עריכת משימה' : `משימה חדשה${c ? ` – ${contactName(c)}` : ''}`,
     size: 'sm',
-    body: html`<form class="form-grid" novalidate>
-      ${field('מה צריך לעשות', html`<input class="input" name="title" value="${t.title ?? ''}" autofocus required>`, { req: true })}
-      <div class="form-2">
-        ${field('סוג', html`<select class="input" name="type">${opt(TASK_TYPES, t.type)}</select>`)}
-        ${field('עדיפות', html`<select class="input" name="priority">${opt([{ value: 'low', label: 'נמוכה' }, { value: 'normal', label: 'רגילה' }, { value: 'high', label: 'גבוהה' }], t.priority)}</select>`)}
-      </div>
-      ${field('מתי', html`<input class="input" name="due_at" type="datetime-local" value="${toDateTimeInput(t.due_at)}">`)}
-      ${!t.contact_id && !t.deal_id ? field('קשור לליד', html`<select class="input" name="contact_id">${opt(store.all('crm_contacts').map((x) => ({ value: x.id, label: contactName(x) })).sort((a, b) => a.label.localeCompare(b.label, 'he')), null, { empty: 'בלי ליד' })}</select>`) : ''}
-      ${field('הערות', html`<textarea class="input" name="notes" rows="2">${t.notes ?? ''}</textarea>`)}
-      ${task?.status === 'done' ? field('תוצאה', html`<input class="input" name="outcome" value="${t.outcome ?? ''}">`) : ''}
-    </form>`,
+    body: (el) => {
+      render(el, html`<form class="form-grid" novalidate>
+        ${field('מה צריך לעשות', html`<input class="input" name="title" value="${t.title ?? ''}" autofocus required>`, { req: true })}
+        <div class="form-2">
+          ${field('סוג', html`<select class="input" name="type">${opt(TASK_TYPES, t.type)}</select>`)}
+          ${field('עדיפות', html`<select class="input" name="priority">${opt([{ value: 'low', label: 'נמוכה' }, { value: 'normal', label: 'רגילה' }, { value: 'high', label: 'גבוהה' }], t.priority)}</select>`)}
+        </div>
+        <div class="field">
+          <label class="field-label" for="task-due">מתי</label>
+          <input class="input" id="task-due" name="due_at" type="datetime-local" value="${toDateTimeInput(t.due_at)}">
+          <div class="chips-row">${quick.map(([l], i) => html`<button type="button" class="btn btn-sm btn-ghost" data-quick="${i}">${l}</button>`)}</div>
+        </div>
+        ${task || !t.contact_id ? field('קשור לליד', html`<select class="input" name="contact_id">${opt(leads, t.contact_id, { empty: 'בלי ליד' })}</select>`) : ''}
+        ${task ? field('סטטוס', html`<select class="input" name="status">${opt([{ value: 'open', label: 'פתוחה' }, { value: 'done', label: 'בוצעה' }, { value: 'canceled', label: 'בוטלה' }], t.status)}</select>`) : ''}
+        ${field('הערות', html`<textarea class="input" name="notes" rows="2">${t.notes ?? ''}</textarea>`)}
+        ${task ? field('תוצאה (אחרי ביצוע)', html`<input class="input" name="outcome" value="${t.outcome ?? ''}" placeholder="למשל: דיברנו, ביקש הצעה">`) : ''}
+      </form>`);
+      el.addEventListener('click', (e) => {
+        const q = e.target.closest('[data-quick]');
+        if (q) $('[name=due_at]', el).value = toDateTimeInput(quick[Number(q.dataset.quick)][1]());
+      });
+    },
     actions: [
+      ...(task ? [{
+        label: 'מחיקה', kind: 'ghost', icon: 'trash',
+        onClick: async () => {
+          const copy = structuredClone(task);
+          return save(async () => {
+            await store.remove('crm_tasks', task.id);
+            toast('המשימה נמחקה', { action: { label: 'ביטול', onClick: () => store.restore('crm_tasks', copy) } });
+            onSaved?.();
+            return true;
+          });
+        },
+      }] : []),
       { label: 'ביטול' },
       {
         label: task ? 'שמירה' : 'יצירת משימה', kind: 'primary',
@@ -224,8 +250,11 @@ export function openTaskForm({ task = null, contactId = null, dealId = null, onS
           const v = readForm(form);
           if (!v.title) { showFieldErrors(form, { title: 'כתבו מה צריך לעשות' }); return false; }
           return save(async () => {
-            if (task) await store.update('crm_tasks', task.id, v);
-            else await store.insert('crm_tasks', { ...v, contact_id: v.contact_id ?? t.contact_id ?? null, deal_id: t.deal_id ?? null, owner_id: store.userId });
+            if (task) {
+              // a task moved to another lead no longer belongs to the old lead's deal
+              if ('contact_id' in v && v.contact_id !== task.contact_id && task.deal_id && store.get('crm_deals', task.deal_id)?.contact_id !== v.contact_id) v.deal_id = null;
+              await store.update('crm_tasks', task.id, v);
+            } else await store.insert('crm_tasks', { ...v, contact_id: v.contact_id ?? t.contact_id ?? null, deal_id: t.deal_id ?? null, owner_id: store.userId });
             toast(task ? 'המשימה עודכנה' : 'המשימה נוצרה', { kind: 'success' });
             onSaved?.();
             return true;
@@ -235,6 +264,9 @@ export function openTaskForm({ task = null, contactId = null, dealId = null, onS
     ],
   });
 }
+
+// Pencil button used on every task row.
+export const taskEditBtn = (t) => html`<button class="btn-icon sm task-edit" data-act="edit-task" data-id="${t.id}" aria-label="עריכת המשימה: ${t.title}" title="עריכה">${icon('edit')}</button>`;
 
 // ---------------------------------------------------------------- deal
 export function openDealForm({ deal = null, contactId = null, onSaved } = {}) {

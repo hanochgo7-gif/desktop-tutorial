@@ -4,7 +4,7 @@ import { html, render, on, fmt, startOfDay, endOfDay } from '../core/util.js';
 import { store } from '../core/store.js';
 import { contactName, TASK_TYPES, label, dueClass } from '../core/model.js';
 import { pageHeader, icon, setTitle, emptyState } from '../ui/components.js';
-import { openTaskForm } from '../ui/forms.js';
+import { openTaskForm, taskEditBtn } from '../ui/forms.js';
 import { completeTask } from './contact.js';
 
 export default async function view(el, ctx) {
@@ -30,7 +30,7 @@ export default async function view(el, ctx) {
           const d = store.get('crm_deals', t.deal_id);
           return html`<li class="task-row ${g.done ? 'done' : ''}">
             <button class="task-check ${g.done ? 'done' : ''}" data-act="${g.done ? 'undo' : 'done'}" data-id="${t.id}" aria-label="${g.done ? 'החזרה למשימות פתוחות' : 'סימון כבוצע'}: ${t.title}">${icon('check')}</button>
-            <div class="grow"><button class="linkbtn task-title" data-act="edit" data-id="${t.id}">${t.title}</button>
+            <div class="grow"><button class="linkbtn task-title" data-act="edit-task" data-id="${t.id}">${t.title}</button>
               <div class="task-meta">
                 <span class="${g.done ? '' : dueClass(t.due_at)}">${g.done ? `בוצע ${fmt.relative(t.completed_at)}` : t.due_at ? fmt.dateTime(t.due_at) : 'בלי תאריך'}</span>
                 <span>${label(TASK_TYPES, t.type)}</span>
@@ -38,7 +38,7 @@ export default async function view(el, ctx) {
                 ${d ? html`<a href="#/d/${d.id}">${d.name}</a>` : ''}
                 ${t.priority === 'high' ? html`<span class="danger-text">עדיפות גבוהה</span>` : ''}
                 ${g.done && t.outcome ? html`<span>${t.outcome}</span>` : ''}
-              </div></div></li>`;
+              </div></div>${taskEditBtn(t)}</li>`;
         })}</ul></section>`)}`);
   };
   draw();
@@ -46,7 +46,7 @@ export default async function view(el, ctx) {
   on(el, 'click', '[data-act]', (e, b) => {
     const a = b.dataset.act;
     if (a === 'new') openTaskForm();
-    if (a === 'edit') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
+    if (a === 'edit-task') openTaskForm({ task: store.get('crm_tasks', b.dataset.id) });
     if (a === 'done') completeTask(b.dataset.id);
     if (a === 'undo') store.update('crm_tasks', b.dataset.id, { status: 'open' });
   });
