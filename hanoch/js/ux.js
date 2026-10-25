@@ -91,7 +91,7 @@
 
   /* ---------- חלקים שנכנסים בעדינות ---------- */
   if (!reduce) {
-    var sel = 'main > section:not(#hero) .sec-head, .promises li, .card, .globe, .night-phone, .night-txt, .check-box, .brief-form fieldset, .brief-form > .btn, .tiles li, .showroom, .steps li, .plan, .cmp, .faq-list details, .final > *';
+    var sel = 'main > section:not(#hero) .sec-head, .promises li, .card, .globe, .show-media, .show-txt, .check-box, .brief-form fieldset, .brief-form > .btn, .tiles li, .showroom, .steps li, .plan, .cmp, .faq-list details, .final > *';
     var items = [].slice.call(d.querySelectorAll(sel));
     var rv = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target); } });

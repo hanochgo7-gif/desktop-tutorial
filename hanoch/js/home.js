@@ -6,14 +6,15 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // סרטונים: נטענים ומתנגנים רק כשהם על המסך, ונעצרים כשיוצאים ממנו. מי שביקש פחות תנועה רואה תמונה בלבד
-  var vids = [].slice.call(document.querySelectorAll('.phone video'));
+  var vids = [].slice.call(document.querySelectorAll('.phone video, .cineframe video'));
+  var small = matchMedia('(max-width: 700px)').matches;
   vids.forEach(function (v) { if (reduce) { v.removeAttribute('autoplay'); v.pause(); } });
   if (!reduce && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var v = e.target;
         if (e.isIntersecting) {
-          if (v.dataset.src && !v.src) { v.src = v.dataset.src; }
+          if (v.dataset.src && !v.src) { v.src = (small && v.dataset.srcM) ? v.dataset.srcM : v.dataset.src; }
           var p = v.play(); if (p && p.catch) p.catch(function () {});
         } else v.pause();
       });
