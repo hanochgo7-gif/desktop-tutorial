@@ -6,6 +6,10 @@
 (function () {
   'use strict';
   var ID = 'G-YKRG71FB41';
+  // Google Ads: מזהה ההמרה (AW-...) ותווית ההמרה של "פנייה" מחשבון Google Ads. ריקים = כבוי.
+  // כשממלאים אותם, כל לחיצה על וואטסאפ, טלפון או מייל נרשמת גם כהמרה בקמפיין (רק אחרי אישור בהודעת העוגיות, כמו Analytics)
+  var ADS = '';
+  var ADS_LEAD = '';
   if (!/(^|\.)hgpro\.io$/.test(location.hostname)) return;
   // נטען רק אחרי הסכמה מפורשת לסטטיסטיקה (js/consent.js). בלי מנגנון ההסכמה, לא נטען בכלל.
   if (!window.hgConsent) return;
@@ -17,6 +21,7 @@
   window.gtag = gtag;
   gtag('js', new Date());
   gtag('config', ID);
+  if (ADS) gtag('config', ADS);
 
   var loaded = false;
   function load() {
@@ -52,6 +57,7 @@
         var from = a.classList.contains('brief-wa') ? 'brief_form' : where(a);
         gtag('event', lead + '_click', { link_location: from });
         gtag('event', 'generate_lead', { method: lead, link_location: from });
+        if (ADS && ADS_LEAD) gtag('event', 'conversion', { send_to: ADS + '/' + ADS_LEAD });
         return;
       }
       // עבודות בדף הבית: איזו עבודה מושכת, ואם נכנסים לסיפור או לאתר החי
