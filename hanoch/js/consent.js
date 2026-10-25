@@ -1,9 +1,10 @@
-/* הסכמה לעוגיות סטטיסטיקה (Google Analytics) – ללא תלויות.
-   ברירת המחדל: אין סטטיסטיקה. Google Analytics נטען רק אחרי לחיצה על "מאשר", והבחירה נשמרת בדפדפן בלבד.
+/* הסכמה לעוגיות של Google Analytics ו-Google Ads – ללא תלויות.
+   ברירת המחדל: בלי עוגיות. Google מקבלת רק אותות אנונימיים (מצב הסכמה מתקדם, js/ga.js), ועוגיות נשמרות רק אחרי לחיצה על "מאשר". הבחירה נשמרת בדפדפן בלבד.
+   גרסה 2: הנוסח כולל גם מדידת פרסום, ולכן מי שאישר בגרסה 1 מתבקש לאשר שוב.
    כל קישור או כפתור עם data-consent-open פותח את ההודעה מחדש כדי לשנות את הבחירה. */
 (function () {
   'use strict';
-  var KEY = 'hg-consent', VERSION = 1;
+  var KEY = 'hg-consent', VERSION = 2;
   var EN = document.documentElement.lang === 'en';
   var T = function (he, en) { return EN ? en : he; };
   var ROOT = (document.body && document.body.getAttribute('data-root')) || '';
@@ -59,12 +60,12 @@
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
       '<p class="consent__text">' + T(
-        'כדי לדעת אילו עמודים עוזרים לגולשים, אני משתמש ב-Google Analytics. הכלי שומר עוגיות בדפדפן שלכם, ונטען רק אם תאשרו. בלי אישור האתר עובד בדיוק אותו דבר.',
-        'To learn which pages help visitors, I use Google Analytics. It stores cookies in your browser and loads only if you agree. Without it, the site works exactly the same.') +
+        'כדי לדעת אילו עמודים עוזרים לגולשים ואיזה פרסום עובד, אני משתמש בכלים של Google. עוגיות נשמרות בדפדפן רק אם תאשרו. בלי אישור, Google מקבלת רק אותות אנונימיים בלי עוגיות, והאתר עובד בדיוק אותו דבר.',
+        'To learn which pages help visitors and which ads work, I use Google tools. Cookies are stored in your browser only if you agree. Without consent, Google receives only anonymous signals without cookies, and the site works exactly the same.') +
       ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('פרטים במדיניות הפרטיות', 'Details in the privacy policy') + '</a></p>' +
       '<div class="consent__actions">' +
-        '<button type="button" class="consent__btn" data-choice="yes">' + T('מאשר סטטיסטיקה', 'Allow analytics') + '</button>' +
-        '<button type="button" class="consent__btn" data-choice="no">' + T('בלי סטטיסטיקה', 'No analytics') + '</button>' +
+        '<button type="button" class="consent__btn" data-choice="yes">' + T('מאשר עוגיות', 'Allow cookies') + '</button>' +
+        '<button type="button" class="consent__btn" data-choice="no">' + T('בלי עוגיות', 'No cookies') + '</button>' +
       '</div>';
     box.addEventListener('click', function (e) {
       var b = e.target.closest('[data-choice]');

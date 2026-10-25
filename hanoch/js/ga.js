@@ -1,5 +1,6 @@
-/* Google Analytics 4 של HG Studio.
-   נטען רק אחרי שהגולש אישר סטטיסטיקה בהודעת העוגיות (js/consent.js).
+/* Google Analytics 4 ו-Google Ads של HG Studio, במצב ההסכמה המתקדם של Google (Consent Mode v2).
+   לפני אישור בהודעת העוגיות (js/consent.js) לא נשמרות עוגיות: Google מקבלת רק אותות אנונימיים, כדי להעריך המרות מפרסום.
+   אחרי לחיצה על "מאשר" נשמרות עוגיות והמדידה מלאה. התאמה אישית של פרסומות (רימרקטינג) כבויה תמיד.
    רץ רק ב-hgpro.io (לא בתצוגות מקדימות ולא בבדיקות), ונטען רק אחרי הפעולה הראשונה של הגולש או חמש שניות אחרי שהעמוד מוצג, כדי לא להאט את האתר.
    מודד גם פניות: וואטסאפ, טלפון ומייל (כאירוע generate_lead), צפייה בסרטונים, כניסה לאתרים של לקוחות,
    לחיצות על העבודות בדף הבית ושאלות נפוצות שנפתחות. אירועי הבריף והמחשבון נשלחים מ-hanoch.js. */
@@ -11,14 +12,19 @@
   var ADS = '';
   var ADS_LEAD = '';
   if (!/(^|\.)hgpro\.io$/.test(location.hostname)) return;
-  // נטען רק אחרי הסכמה מפורשת לסטטיסטיקה (js/consent.js). בלי מנגנון ההסכמה, לא נטען בכלל.
+  // בלי מנגנון ההסכמה לא נטען בכלל
   if (!window.hgConsent) return;
-  window.hgConsent.onGrant(start);
+  start();
 
   function start() {
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
+  // ברירת המחדל: הכול חסום, בלי עוגיות. מזהה הקליק מהמודעה עובר בכתובת בין העמודים במקום בעוגייה
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+  gtag('set', 'url_passthrough', true);
+  gtag('set', 'ads_data_redaction', true);
+  window.hgConsent.onGrant(function () { gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted' }); });
   gtag('js', new Date());
   gtag('config', ID);
   if (ADS) gtag('config', ADS);
