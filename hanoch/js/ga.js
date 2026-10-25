@@ -42,7 +42,10 @@
   // הסקריפט של גוגל כבד (כ-180KB): נטען עם הפעולה הראשונה של הגולש (גלילה, מגע, מקלדת), ואם לא היתה כזו, חמש שניות אחרי שהעמוד נטען.
   // כל מה שנמדד לפני כן מחכה בתור (dataLayer) ונשלח ברגע שהסקריפט מגיע, כך שאף צפייה לא הולכת לאיבוד
   function later() { setTimeout(function () { ('requestIdleCallback' in window) ? requestIdleCallback(load, { timeout: 2000 }) : load(); }, 5000); }
-  if (document.readyState === 'complete') later(); else addEventListener('load', later);
+  // בדף המעבר לוואטסאפ (/go/) התג נטען מיד, כדי שהצפייה תישלח לפני שהגולש עובר לוואטסאפ
+  var GO = /^\/go\//.test(location.pathname);
+  if (GO) load();
+  else if (document.readyState === 'complete') later(); else addEventListener('load', later);
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, load, { once: true, passive: true }); });
 
   // מאיזה חלק בעמוד הגיעה הלחיצה
@@ -68,6 +71,12 @@
         var to = TAG2 ? [ID, TAG2] : [ID];
         gtag('event', lead + '_click', { link_location: from, send_to: to });
         gtag('event', 'generate_lead', { method: lead, link_location: from, send_to: to });
+        // וואטסאפ עובר דרך דף המעבר hgpro.io/go/wa, שגוגל אדס סופר כפנייה
+        if (lead === 'whatsapp' && !GO) {
+          e.preventDefault();
+          var go = '/go/wa?u=' + encodeURIComponent(a.href);
+          if (a.target === '_blank') window.open(go, '_blank', 'noopener'); else location.href = go;
+        }
         if (ADS && ADS_LEAD) gtag('event', 'conversion', { send_to: ADS + '/' + ADS_LEAD });
         return;
       }

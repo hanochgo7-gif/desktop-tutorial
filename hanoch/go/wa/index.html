@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>פותחים את וואטסאפ · HG Studio</title>
+<!-- דף מעבר לוואטסאפ: כל לחיצה על וואטסאפ באתר עוברת כאן לרגע, כדי שגוגל אדס יספור ביקור בדף הזה כפנייה (המרה לפי כתובת הדף).
+     מעביר רק לכתובות וואטסאפ (wa.me / api.whatsapp.com), כדי שאי אפשר יהיה להשתמש בו להפניה לאתר אחר -->
+<style>
+  html,body{margin:0;height:100%;background:#0e0e10;color:#ede8de;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+  main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:24px}
+  .dot{width:46px;height:46px;border-radius:50%;border:4px solid #25d36633;border-top-color:#25d366;animation:s 0.8s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.dot{animation:none;border-color:#25d366}}
+  p{margin:0;font-size:1.15rem}
+  a{display:inline-block;margin-top:.4rem;padding:.75rem 1.4rem;border-radius:99px;background:#25d366;color:#06301a;font-weight:700;text-decoration:none}
+  small{opacity:.6;font-size:.85rem}
+</style>
+<script src="/js/consent.js" defer></script>
+<script src="/js/ga.js" defer></script>
+</head>
+<body>
+<main>
+  <div class="dot" aria-hidden="true"></div>
+  <p>פותחים את וואטסאפ…</p>
+  <a id="go" href="https://wa.me/972545522053" rel="noopener">לפתיחת השיחה בוואטסאפ</a>
+  <small>HG Studio · חנוך גוטובסקי</small>
+</main>
+<script>
+(function () {
+  var u = new URLSearchParams(location.search).get('u') || '';
+  if (!/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(u)) u = 'https://wa.me/972545522053';
+  document.getElementById('go').href = u;
+  var done = false;
+  function go() { if (done) return; done = true; location.replace(u); }
+  // ממתינים שהתג של גוגל ייטען וישלח את הצפייה בדף, ולכל היותר 2.5 שניות
+  var t0 = Date.now();
+  (function wait() {
+    if (window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']) return setTimeout(go, 400);
+    if (Date.now() - t0 > 2500) return go();
+    setTimeout(wait, 100);
+  })();
+})();
+</script>
+</body>
+</html>
