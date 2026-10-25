@@ -141,8 +141,10 @@
   P.forEach(function (p, idx) {
     if (p.g !== "ab" || p.lat == null) return;
     var b = vec(p.lat, p.lon), ang = hqv.angleTo(b);
-    var mid = hqv.clone().add(b).normalize().multiplyScalar(1 + .12 + ang * .14);
-    var curve = new THREE.QuadraticBezierCurve3(hqv.clone().multiplyScalar(1.004), mid, b.clone().multiplyScalar(1.004));
+    // קשת על מעגל גדול: תמיד מעל פני הכדור, גם ליעדים רחוקים כמו מקסיקו
+    var ax = new THREE.Vector3().crossVectors(hqv, b).normalize(), hgt = .035 + ang * .075, cp = [];
+    for (var q = 0; q <= 64; q++) { var f = q / 64; cp.push(hqv.clone().applyAxisAngle(ax, ang * f).multiplyScalar(1.004 + hgt * Math.sin(Math.PI * f))); }
+    var curve = new THREE.CatmullRomCurve3(cp);
     var mat = glow(new THREE.ShaderMaterial({ uniforms: { uT: { value: 0 }, uOn: { value: 0 }, uOff: { value: idx * .17 }, uG: { value: 1 } },
       vertexShader: "varying vec2 vU; void main(){ vU = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }",
       fragmentShader: "uniform float uT; uniform float uOn; uniform float uOff; uniform float uG; varying vec2 vU; void main(){ float x = vU.x; float head = fract(uT * .32 + uOff); float d = x - head; float trail = smoothstep(-.28, 0., d) * (1. - smoothstep(0., .02, d)); float base = .22 + .5 * uOn; vec3 c = mix(vec3(.5,.85,.66), vec3(.9,1.,.95), trail); gl_FragColor = vec4(c, clamp(base * smoothstep(0.,.04,x) * smoothstep(1.,.96,x) + trail * .95, 0., 1.) * uG); }" }));
