@@ -7,7 +7,7 @@
 - [x] wix-vs-custom-website | וויקס או אתר בהתאמה אישית | השוואה כנה: מתי וויקס מספיק ומתי לא | wix-migration, website-building, web-design (2026-10-04)
 - [x] landing-page-that-converts | דף נחיתה שממיר | 9 רכיבים שחייבים להיות בדף נחיתה, עם דוגמאות | landing-page, web-design (2026-10-11)
 - [x] how-to-choose-web-designer | איך לבחור מעצב אתרים | 10 שאלות לשאול לפני שחותמים | website-building, web-design (2026-10-18)
-- [ ] seo-for-small-business | קידום אורגני לעסק קטן | מדריך מעשי: מה עושים בעצמכם ומה כדאי להעביר | seo
+- [x] seo-for-small-business | קידום אורגני לעסק קטן | מדריך מעשי: מה עושים בעצמכם ומה כדאי להעביר | seo (2026-10-25)
 - [ ] website-speed | מהירות אתר | למה אתר איטי מפסיד לקוחות ואיך בודקים | seo, website-building
 - [ ] google-business-profile | פרופיל עסק בגוגל | פתיחה ואופטימיזציה של Google Business Profile צעד אחר צעד | seo
 - [ ] ai-video-ad-for-business | פרסומת וידאו ב-AI | מה אפשר לקבל, כמה עולה ואיך זה עובד | ai-commercial
