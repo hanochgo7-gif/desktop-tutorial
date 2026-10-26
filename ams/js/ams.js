@@ -313,6 +313,9 @@
       if (preview) preview.textContent = text.replace(/\n/g, ', ').replace('., ', '. ');
     };
     quick.addEventListener('change', update);
+    // הטופס לא נשלח לשום מקום: ההודעה נפתחת רק בלחיצה על הכפתור (בלי onsubmit בתוך ה־HTML, בגלל מדיניות ה־CSP)
+    const form = quick.querySelector('form');
+    if (form) form.addEventListener('submit', (e) => e.preventDefault());
   }
 
   // מדידה והסכמה. כל עוד אין מזהה מדידה ב־build (window.AMS_ANALYTICS), לא נאסף ולא נשמר שום דבר.
