@@ -274,3 +274,14 @@ html.lenis { scroll-behavior: auto; }
 .show-txt p:not(.tag):not(.links) { margin-top: 1rem; color: var(--fg-dim); line-height: 1.65; max-width: 40em; }
 @media (min-width: 900px) { .show { grid-template-columns: 1.25fr 1fr; } }
 @media (prefers-reduced-motion: reduce) { .cineframe video { /* ללא תנועה: הפוסטר נשאר */ } }
+
+/* בריף: שם וטלפון (לא חובה). השדות האלה גלויים, בניגוד לכפתורי הבחירה שמעליהם */
+.brief-form .brief-contact legend small { font-weight: 400; opacity: .7; font-size: .9em; }
+.brief-form .brief-contact label { display: inline-block; margin: 0 0 .5rem .5rem; }
+.brief-form .brief-contact input { position: static; opacity: 1; pointer-events: auto; min-height: 44px; width: min(16rem, 100%); padding: .55rem 1rem; border-radius: var(--btn-r); border: 1.5px solid var(--fg-line); background: transparent; color: inherit; font: inherit; }
+.brief-form .brief-contact input::placeholder { color: inherit; opacity: .6; }
+.brief-form .brief-contact input:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+.brief-form .brief-contact input[dir="ltr"] { text-align: right; }
+.brief-form .brief-contact .hp { position: absolute; width: 1px; height: 1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; } /* מלכודת לבוטים, בלי להזיז את העמוד */
+.brief-form .micro a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) { .brief-form .brief-contact label { display: block; margin-inline-end: 0; } .brief-form .brief-contact input { width: 100%; } }
