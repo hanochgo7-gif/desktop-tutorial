@@ -18,6 +18,24 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 # (Hebrew, English). Longer strings are applied first, so a short string never breaks a long one.
 PAIRS = [
     # shorter copy (October 2026)
+    # Bar's voice pass
+    ('<span class="tile-name">אצלכם בבית</span>', '<span class="tile-name">At your place</span>'),
+    ('<li>החצר שלי במצפה מתת</li>', '<li>My yard in Mitzpe Matat</li>'),
+    ('<p>גדלתי בבית ארגנטינאי, שבו תמיד מארחים ותמיד מבשלים. אחרי הצבא נכנסתי למטבחים מקצועיים, והיום אני מארח בחצר שלי במצפה מתת.</p>', '<p>I grew up in an Argentinian home, where there were always guests and always something cooking. After the army I went into professional kitchens, and today I host in my own yard in Mitzpe Matat.</p>'),
+    ('<p>הבישול שלי פשוט, מעניין וגלילי. חומרי גלם טובים, והכול מבושל מול האורחים.</p>', '<p>My cooking is simple, interesting and Galilean. Good ingredients, all cooked in front of the guests.</p>'),
+    ('<p>שולחן אחד ארוך מתחת לעצים, רק לקבוצה שלכם.</p>', '<p>One long table under the trees, just for your group.</p>'),
+    ('<p class="soon">בקרוב: סטודיו במתת, ל־30 עד 40 אורחים.</p>', '<p class="soon">Coming soon: a studio in Matat, for 30 to 40 guests.</p>'),
+    ('<p>אני מגיע עם הצוות וחומרי הגלם, ומבשל מול האורחים.</p>', '<p>I come with my team and the ingredients, and cook in front of your guests.</p>'),
+    ('<li>8 עד 40 אורחים</li>', '<li>8 to 40 guests</li>'),
+    ('<p>בכל מקום שתבחרו, בסגנון שלי.</p>', '<p>Wherever you choose, in my style.</p>'),
+    ('<p class="sub">משתנה עם העונה ועם האירוע.</p>', '<p class="sub">It changes with the season and the occasion.</p>'),
+    ('<p class="menu-note">אפשר צמחוני, ללא גלוטן, ללא אגוזים וללא לקטוז. יין מיקבים מקומיים, או שתביאו משלכם. ובסוף הערב, משהו קטן לקחת הביתה.</p>', '<p class="menu-note">Vegetarian, gluten-free, nut-free and lactose-free are all possible. Wine from local wineries, or bring your own. And at the end of the evening, a little something to take home.</p>'),
+    ('<span class="tile-desc">8 עד 40 אורחים</span>', '<span class="tile-desc">8 to 40 guests</span>'),
+    ('<label for="name">השם שלכם</label>', '<label for="name">Your name</label>'),
+    ('<p>אפשר צמחוני, ללא גלוטן, ללא אגוזים וללא לקטוז. ספרו לי מראש. המטבח לא כשר.</p>', '<p>Vegetarian, gluten-free, nut-free and lactose-free are all possible. Just tell me in advance. The kitchen is not kosher.</p>'),
+    ('<p>יש יין מיקבים מקומיים, ואפשר להביא משלכם. באירועים יש גם קוקטיילים של קולר.</p>', '<p>There is wine from local wineries, and you are welcome to bring your own. At events there are cocktails by Kuller too.</p>'),
+    ('<p>מגיעים בזמן, ומביאים משהו חם: הערבים במתת קרירים. את הכתובת אשלח עם האישור.</p>', '<p>Come on time, and bring something warm: evenings in Matat are cool. I send the address with the confirmation.</p>'),
+    ('<p>בקרוב ייפתח סטודיו במתת. עד אז, נתאם יחד לפי התחזית.</p>', '<p>A studio in Matat opens soon. Until then, we plan together around the forecast.</p>'),
     ('שלוש דרכים לשבת לשולחן', 'Three ways to the table'),
     ('<h3>באירוע שלכם</h3>', '<h3>At your event</h3>'),
     ('משתנה עם העונה.', 'It changes with the season.'),
