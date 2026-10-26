@@ -323,7 +323,10 @@
   // נתיב השורש של האתר (לפי מיקום גיליון הסגנונות), לקישורים שנבנים כאן
   const cssLink = document.querySelector('link[rel="stylesheet"][href$="css/ams.css"]');
   const ROOT = cssLink ? cssLink.getAttribute('href').replace('css/ams.css', '') : '';
-  const cfg = window.AMS_ANALYTICS || null;
+  // מדידה רק בדומיין של האתר עצמו: אם אותם קבצים מוגשים גם בכתובת אחרת (למשל github.io, שבה דפים אחרים
+  // יכולים לסמן הסכמה בשם הגולש), לא נטען שום דבר ולא מוצג באנר
+  const rawCfg = window.AMS_ANALYTICS || null;
+  const cfg = rawCfg && rawCfg.origin === location.origin ? rawCfg : null;
   const store = {
     get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* בלי אחסון */ } },

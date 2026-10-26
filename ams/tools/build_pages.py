@@ -1086,7 +1086,10 @@ def analytics_tag():
         print('WARNING: ANALYTICS is set but SITE_URL is empty: analytics stays OFF until the site has its own domain')
         return ''
     import json
-    return f'<script>window.AMS_ANALYTICS={json.dumps({"ga4": ANALYTICS.get("ga4", ""), "pixel": ANALYTICS.get("meta_pixel", "")})};</script>\n'
+    from urllib.parse import urlsplit
+    site = urlsplit(SITE_URL)
+    origin = f'{site.scheme}://{site.netloc}'   # ams.js טוען מדידה רק כש־location.origin שווה לזה
+    return f'<script>window.AMS_ANALYTICS={json.dumps({"ga4": ANALYTICS.get("ga4", ""), "pixel": ANALYTICS.get("meta_pixel", ""), "origin": origin})};</script>\n'
 
 
 def closing_extra(where, root=''):
