@@ -66,8 +66,9 @@ begin
     raise exception 'origin_not_allowed' using errcode = 'insufficient_privilege';
   end if;
 
-  -- flood guard: at most 40 web leads per workspace in 10 minutes
-  if (select count(*) from public.crm_touchpoints t where t.workspace_id = ws.id and t.kind = 'form' and t.created_at > now() - interval '10 minutes') >= 40 then
+  -- flood guard: at most 20 web leads per workspace in 10 minutes, 200 a day (migration 010)
+  if (select count(*) from public.crm_touchpoints t where t.workspace_id = ws.id and t.kind = 'form' and t.created_at > now() - interval '10 minutes') >= 20
+     or (select count(*) from public.crm_touchpoints t where t.workspace_id = ws.id and t.kind = 'form' and t.created_at > now() - interval '1 day') >= 200 then
     raise exception 'rate_limited' using errcode = 'program_limit_exceeded';
   end if;
 
