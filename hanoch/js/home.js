@@ -56,9 +56,10 @@
     e.preventDefault();
     var f = brief.elements, parts = [];
     var biz = f.biz.value, need = f.need.value, when = f.when.value;
+    var name = f.name ? f.name.value.trim() : '';
     if (biz) parts.push('יש לי ' + biz);
     if (need) parts.push('אני מחפש/ת ' + need);
     if (when) parts.push('לגבי זמנים: ' + when);
-    send('היי חנוך, הגעתי מהאתר. ' + (parts.length ? parts.join(', ') + '.' : 'אשמח לשיחת היכרות.'));
+    send('היי חנוך, ' + (name ? 'אני ' + name + ', ' : '') + 'הגעתי מהאתר. ' + (parts.length ? parts.join(', ') + '.' : 'אשמח לשיחת היכרות.'));
   });
 })();

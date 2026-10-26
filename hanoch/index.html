@@ -182,7 +182,7 @@
       <p class="kicker">לא בטוחים מה צריך?</p>
       <h2 id="brief-h">שלוש לחיצות, ואני כבר יודע במה מדובר</h2>
     </div>
-    <form class="brief-form">
+    <form class="brief-form" data-hgos="בריף מדף הבית">
       <fieldset><legend>מה העסק?</legend>
         <label><input type="radio" name="biz" value="עסק שנותן שירות או קליניקה"><span>שירות או קליניקה</span></label>
         <label><input type="radio" name="biz" value="חנות אונליין"><span>חנות אונליין</span></label>
@@ -200,8 +200,13 @@
         <label><input type="radio" name="when" value="בחודשיים הקרובים"><span>בחודשיים הקרובים</span></label>
         <label><input type="radio" name="when" value="רק בודק/ת כרגע"><span>רק בודקים</span></label>
       </fieldset>
+      <fieldset class="brief-contact"><legend>איך לחזור אליכם? <small>(לא חובה)</small></legend>
+        <label for="brief-name"><span class="sr-only">שם</span><input id="brief-name" name="name" type="text" autocomplete="name" placeholder="שם" maxlength="80"></label>
+        <label for="brief-phone"><span class="sr-only">טלפון</span><input id="brief-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="טלפון" dir="ltr" maxlength="20"></label>
+        <input class="hp" name="hgos_hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </fieldset>
       <button class="btn btn-wa btn-lg" type="submit"><svg aria-hidden="true" viewBox="0 0 32 32"><use href="#i-wa"/></svg><span>לשלוח לחנוך בוואטסאפ</span></button>
-      <p class="micro">ההודעה נפתחת אצלכם בוואטסאפ, ואפשר לערוך אותה לפני ששולחים.</p>
+      <p class="micro">ההודעה נפתחת אצלכם בוואטסאפ, ואפשר לערוך אותה לפני ששולחים. אם השארתם שם או טלפון, הם נשמרים במערכת הפניות שלי כדי שאחזור אליכם (<a href="/privacy.html#crm">פרטיות</a>).</p>
     </form>
   </section>
 
@@ -430,5 +435,6 @@
 <script src="/js/ux.js" defer></script>
 <script src="/js/a11y.js" defer></script>
 <script src="/js/assistant.js" defer></script>
+<script src="/js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>
 </body>
 </html>
