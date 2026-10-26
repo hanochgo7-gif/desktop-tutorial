@@ -1,0 +1,20 @@
+{
+ "name": "MIFTAH Projects",
+ "short_name": "MIFTAH",
+ "start_url": "/",
+ "display": "browser",
+ "background_color": "#F2F5F3",
+ "theme_color": "#0E4239",
+ "icons": [
+  {
+   "src": "/assets/favicon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/assets/favicon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

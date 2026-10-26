@@ -1,0 +1,488 @@
+# MIFTAH content master
+
+All website copy in English and Hebrew. Generated from `src/content.py` by `src/tools/content_doc.py`, so this document always matches the live site.
+To change the copy, edit `content.py`, then run `python3 src/build.py` and this script.
+
+## Rules
+
+- Every claim traces to `MIFTAH_TRUTH_LEDGER.md`. The ledger numbers are in comments in `content.py`.
+- Voice: entrepreneurial, family and personal (Q q34). Plain verbs (design, make, build, maintain). No superlatives, no yield or ROI promises, no unapproved client names or testimonials.
+- Terminology: see the glossary in `MIFTAH_POSITIONING.md` (Q q35).
+- English is reviewed by a native speaker before launch (Q q37: a family member who is an English teacher).
+
+## Site-wide
+
+| Key | English | Hebrew |
+|---|---|---|
+| `name` | MIFTAH Projects | מיפתח פרויקטים |
+| `slogan` | Where agriculture feels at home | מיפתח פרויקטים - חקלאות שיש לה בית |
+| `phone_display` | +972 4 985 4404 | 04-9854404 |
+| `town` | Kfar Masaryk, Israel | כפר מסריק |
+| `skip` | Skip to content | דילוג לתוכן |
+| `menu` | Menu | תפריט |
+| `lang_other` | עברית | English |
+| `cta` | Request a project review | בקשו בדיקת פרויקט |
+| `call` | Call | התקשרו |
+| `home` | Home | דף הבית |
+| `foot_nav` | Pages | עמודים |
+| `foot_contact` | Contact | יצירת קשר |
+| `foot_legal` | Privacy | פרטיות |
+| `foot_a11y` | Accessibility statement | הצהרת נגישות |
+| `foot_profile` | Company profile (print / PDF) | פרופיל החברה (הדפסה / PDF) |
+| `rights` | © {y} MIFTAH Projects. All rights reserved. | © {y} מיפתח פרויקטים. כל הזכויות שמורות. |
+| `tb_doc` | Document | מסמך |
+| `tb_doc_v` | Company website | אתר החברה |
+| `tb_rev` | Revision | גרסה |
+| `tb_rev_v` | A, October 2026 | A, אוקטובר 2026 |
+| `tb_by` | Office | משרד |
+| `tb_scale` | Scale | קנה מידה |
+| `tb_scale_v` | Israel and abroad | ישראל וחו״ל |
+
+## Navigation
+
+| Slug | English | Hebrew |
+|---|---|---|
+| net-houses | Net houses | בתי רשת |
+| turnkey-farms | Turnkey farms | חוות Turnkey |
+| projects | Projects | פרויקטים |
+| about | About | אודות |
+| contact | Contact | צור קשר |
+
+## Page: index
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Net houses for orchards and bananas | MIFTAH Projects | בתי רשת למטעים ולבננות | מיפתח פרויקטים |
+| `desc` | Galvanized-steel net houses for orchards and bananas, designed, made and installed by MIFTAH Projects in Israel and abroad. Turnkey farms abroad with partners. | מיפתח פרויקטים מתכננת, מייצרת ומקימה בתי רשת מפלדה מגולוונת למטעים ולבננות בישראל ובחו״ל, ומקימה חוות Turnkey בחו״ל יחד עם שותפים חקלאיים. |
+| `h1` | We design, make and build net houses for orchards. | אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים. |
+| `lead` | Hail, wind and sun protection on galvanized steel, made in our own plant and installed by our own crews. For bananas, apples, kiwi, cherries and avocado, in Israel and abroad, for more than 20 years. | הגנה מברד, מרוח ומשמש על פלדה מגולוונת, מיוצרת במפעל שלנו ומוקמת בידי הצוותים שלנו. לבננות, לתפוחים, לקיווי, לדובדבנים ולאבוקדו, בישראל ובחו״ל, כבר יותר מ-20 שנה. |
+| `cta2` | See our projects | לפרויקטים שלנו |
+| `vidcap` | Drone footage of a net house built by MIFTAH | צילום רחפן של בית רשת שהקימה מיפתח |
+| `routes_h` | Two ways to work with us | שתי דרכים לעבוד איתנו |
+| `r1_who` | For growers and agricultural companies | למגדלים ולחברות חקלאיות |
+| `r1_h` | Net houses and farm structures | בתי רשת ומבנים חקלאיים |
+| `r1_p` | Net houses for orchards and bananas, loading sheds and windbreaks. We map your needs on site, engineer the structure, make it in our plant, install it and maintain it. | בתי רשת למטעים ולבננות, סככות העמסה ושוברי רוח. ממפים את הצרכים בשטח, מתכננים הנדסית, מייצרים במפעל שלנו, מקימים ומתחזקים. |
+| `r1_min` | Projects from 5 ha in Israel and 30 ha abroad. | פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל. |
+| `r1_go` | Net houses and structures | בתי רשת ומבנים |
+| `r2_who` | For investors, agricultural companies and entrepreneurs | למשקיעים, לחברות חקלאיות וליזמים |
+| `r2_h` | Turnkey farms abroad | חוות Turnkey בחו״ל |
+| `r2_p` | A complete farm on your land, from soil testing and a business plan to planting, a local team, growing and marketing. Delivered by MIFTAH together with agricultural partners. | חווה שלמה על הקרקע שלך, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול ושיווק. מיפתח מבצעת את זה יחד עם שותפים חקלאיים. |
+| `r2_min` | Projects from 30 ha. | פרויקטים מ-30 הקטר. |
+| `r2_go` | Turnkey farms | חוות Turnkey |
+| `draw_h` | What a MIFTAH net house is made of | ממה עשוי בית רשת של מיפתח |
+| `draw_p` | Every structure is engineered for the crop, the soil and the wind on its site. These are the parts we design, make and install. | כל מבנה מתוכנן הנדסית לגידול, לקרקע ולרוח באתר שלו. אלה החלקים שאנחנו מתכננים, מייצרים ומקימים. |
+| `steps_h` | How a project runs | איך מתנהל פרויקט |
+| `steps_p` | Four steps, the same on every project, in Israel or abroad. Each one can also be ordered on its own. | ארבעה שלבים, אותו סדר בכל פרויקט, בישראל ובחו״ל. אפשר להזמין כל שלב גם בנפרד. |
+| `photos_note` | Photos from MIFTAH project sites. | צילומים מאתרי פרויקטים של מיפתח. |
+| `map_h` | Projects on three continents | פרויקטים בשלוש יבשות |
+| `map_p` | Net houses in Mexico, India, Honduras, Spain and Georgia, an avocado net house in Portugal, and a complex project in Belarus, all from our office in Kfar Masaryk. | בתי רשת במקסיקו, בהודו, בהונדורס, בספרד ובגאורגיה, בית רשת לאבוקדו בפורטוגל ופרויקט מורכב בבלארוס, כולם מהמשרד שלנו בכפר מסריק. |
+| `map_go` | All projects | לכל הפרויקטים |
+| `why_h` | Why clients stay with us | למה לקוחות נשארים איתנו |
+| `why_statement` | You get peace of mind, and time to focus on your crop and your business. | אתם מרוויחים שקט, וזמן להתמקד בגידול ובפיתוח העסק. |
+| `why_refs` | References from clients in Israel and Portugal are available after a first conversation. | המלצות מלקוחות בישראל ובפורטוגל, אחרי שיחה ראשונה. |
+
+## Page: net-houses
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Net houses for bananas and orchards | MIFTAH Projects | בתי רשת לבננות ולמטעים, סככות ושוברי רוח | מיפתח פרויקטים |
+| `desc` | Banana net houses with 11% net, orchard net houses with 10–30% net that fold in winter, loading sheds and windbreaks. Designed, made and installed by MIFTAH. | בתי רשת לבננות עם רשת 11%, בתי רשת למטעים עם רשת 10%–30% שמתקפלת בחורף, סככות העמסה ושוברי רוח: מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח. |
+| `h1` | Net houses and farm structures | בתי רשת ומבנים חקלאיים |
+| `lead` | We design, manufacture and install net houses for orchards and bananas, and the loading sheds and windbreaks around them. One team from the first site visit to maintenance. | אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות, וגם את סככות ההעמסה ושוברי הרוח שמסביב. צוות אחד, מהביקור הראשון בשטח ועד התחזוקה. |
+| `types_h` | By crop and by use | לפי גידול ולפי שימוש |
+| `draw_h` | The parts of the structure | החלקים של המבנה |
+| `steps_h` | From site visit to maintenance | מהביקור בשטח ועד התחזוקה |
+| `steps_p` | The same four steps on every project. Each one can also be ordered on its own. | אותם ארבעה שלבים בכל פרויקט. אפשר להזמין כל שלב גם בנפרד. |
+| `site_h` | Designed for the site, not from a catalogue | מתוכנן לאתר, לא מקטלוג |
+| `site_p` | Before a structure is drawn, we look at the crop, the soil, drainage, access for trucks and the local wind regime. Loads are calculated per project, and the bill of quantities balances the amount of steel and net against strength and budget. | לפני שמשרטטים מבנה, בודקים את הגידול, הקרקע, הניקוז, הגישה למשאיות ומשטר הרוחות המקומי. העומסים מחושבים לכל פרויקט, וכתב הכמויות מאזן בין כמות הפלדה והרשת לבין החוזק והתקציב. |
+| `abroad_h` | Abroad | בחו״ל |
+| `abroad_p` | On projects outside Israel we plan the work, train and manage local crews, and run execution on site. Components are made in our plant in Israel. | בפרויקטים מחוץ לישראל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח. הרכיבים מיוצרים במפעל שלנו בישראל. |
+
+## Page: turnkey-farms
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Turnkey farms abroad for investors | MIFTAH Projects | חוות Turnkey בחו״ל למשקיעים | מיפתח פרויקטים |
+| `desc` | A complete farm on your land abroad, from soil testing and a business plan to planting, growing and marketing. Delivered with agricultural partners, from 30 ha. | חווה שלמה על הקרקע שלך בחו״ל, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול, תחזוקה ושיווק. מיפתח מבצעת יחד עם שותפים חקלאיים, מ-30 הקטר. |
+| `h1` | Turnkey farms abroad | חוות Turnkey בחו״ל |
+| `lead` | For investors, agricultural companies and entrepreneurs who want a working farm on their land, without hiring a contractor, an agronomist and a site manager separately. | למשקיעים, לחברות חקלאיות וליזמים שרוצים חווה עובדת על הקרקע שלהם, בלי לשכור בנפרד קבלן, אגרונום ומנהל עבודה. |
+| `honest_h` | Our newest line of work | תחום העבודה החדש שלנו |
+| `honest_p` | We deliver turnkey farms together with agricultural partners. The structures at the core of the farm come from what we have built for more than 20 years, in Israel and on three continents. | את חוות ה-Turnkey אנחנו מבצעים יחד עם שותפים חקלאיים. המבנים שבלב החווה מגיעים ממה שאנחנו בונים כבר יותר מ-20 שנה, בישראל ובשלוש יבשות. |
+| `stages_h` | Eleven stages, and what you receive at each | אחד-עשר שלבים, ומה מקבלים בכל אחד |
+| `stages_p` | Take the whole path, or a single stage. | אפשר לקחת את כל הדרך, או שלב אחד. |
+| `excl_h` | Not included | לא כלול |
+| `excl_1` | Local licensing and permits stay with you and your local advisers. | רישוי והיתרים מקומיים נשארים אצלך ואצל היועצים המקומיים שלך. |
+| `excl_2` | Formal owner reporting on budget and progress is not part of the service. | דיווח שוטף ופורמלי לבעלים על תקציב והתקדמות אינו חלק מהשירות. |
+| `start_h` | Start with the assessment | מתחילים בבדיקה |
+| `start_p` | You can begin with soil testing, crop fit and a business plan alone, and decide on the build once the numbers are in front of you. | אפשר להתחיל רק בבדיקת קרקע, התאמת גידול ותוכנית עסקית, ולהחליט על ההקמה כשהמספרים מונחים לפניך. |
+| `mistake_h` | The mistake we see most | הטעות שאנחנו רואים הכי הרבה |
+| `mistake_p` | Investors trying to set up the farm by themselves to save money. | משקיעים שמנסים להקים את החווה לבד כדי לחסוך כסף. |
+| `where_h` | Where | איפה |
+| `where_p` | Portugal and other European countries, Israel, and we are open to projects in Africa. Minimum farm size: 30 ha. | פורטוגל ומדינות נוספות באירופה, ישראל, ואנחנו פתוחים לפרויקטים באפריקה. גודל חווה מינימלי: 30 הקטר. |
+
+## Page: projects
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Projects in Israel, Europe and the Americas | MIFTAH Projects | פרויקטים בישראל, באירופה ובאמריקה | מיפתח פרויקטים |
+| `desc` | 410,000 m² of net houses built in Mexico, India, Honduras, Spain and Georgia, plus Portugal and Belarus, and net houses in the Galilee and the Golan Heights. | 410,000 מ״ר של בתי רשת בחו״ל: מקסיקו, הודו, הונדורס, ספרד וגאורגיה, וגם פורטוגל ובלארוס. ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים. |
+| `h1` | Projects in Israel and abroad | פרויקטים בישראל ובחו״ל |
+| `lead` | Net houses on three continents, run from our office in Kfar Masaryk. Abroad, we plan the work, train and manage local crews, and supervise execution. | בתי רשת בשלוש יבשות, מהמשרד שלנו בכפר מסריק. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומפקחים על הביצוע. |
+| `map_h` | Abroad | בחו״ל |
+| `tbl_cap` | Projects outside Israel | פרויקטים מחוץ לישראל |
+| `th_country` | Country | מדינה |
+| `th_work` | Work | עבודה |
+| `th_area` | Area (m²) | שטח (מ״ר) |
+| `total` | Total area shown | סך השטח המפורט |
+| `feat_h` | Five projects the owners chose to show | חמישה פרויקטים שהבעלים בחרו להציג |
+| `feat_p` | Client names and detailed figures are published only with each client's approval. References are available after a first conversation. | שמות לקוחות ונתונים מפורטים מתפרסמים רק באישור של כל לקוח. המלצות זמינות אחרי שיחה ראשונה. |
+| `aerial_cap` | A MIFTAH net house from the air, among orchards and hills | בית רשת של מיפתח מהאוויר, בין מטעים וגבעות |
+
+## Page: about
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | About MIFTAH Projects: a family company in Israel | אודות מיפתח פרויקטים: חברה משפחתית שבונה לחקלאים |
+| `desc` | MIFTAH Projects is a family company in Kfar Masaryk, Israel, led by co-CEOs Merav and Yiftach Hasfel, building agricultural structures for more than 20 years. | מיפתח פרויקטים היא חברה משפחתית בכפר מסריק, בניהול משותף של מרב ויפתח הספל. החברה יוזמת, מתכננת ומבצעת פרויקטים בחקלאות, מהתשתיות ועד כל סוגי המבנים החקלאיים. |
+| `h1` | A family company that builds for growers | חברה משפחתית שבונה לחקלאים |
+| `lead` | We initiate, design and carry out agricultural projects, from the project's infrastructure to every kind of agricultural structure. More than 20 years, from Kfar Masaryk in the north of Israel. | אנחנו יוזמים, מתכננים ומבצעים פרויקטים בחקלאות, מהתשתיות של הפרויקט ועד כל סוגי המבנים החקלאיים. יותר מ-20 שנה, מכפר מסריק שבצפון. |
+| `people_h` | The owners | הבעלים |
+| `yiftach` | Yiftach Hasfel | יפתח הספל |
+| `yiftach_r` | Co-CEO and owner | מנכ״ל משותף ובעלים |
+| `yiftach_p` | Practical engineer in construction, trained at the Technion. Leads needs mapping, engineering design, development, quality control, production supervision and execution. He ran a complex project in Belarus that kept to schedule with local manufacturing, shipping and local crews. | הנדסאי בניין מטעם הטכניון. מוביל את מיפוי הצרכים, התכנון ההנדסי, הפיתוח, הבקרה, הפיקוח על הייצור והביצוע. ניהל פרויקט מורכב בבלארוס שעמד בלוח הזמנים, עם ייצור מקומי, שילוח וצוותים מקומיים. |
+| `merav` | Merav Eyal Hasfel | מרב איל הספל |
+| `merav_r` | Co-CEO and owner | מנכ״לית משותפת ובעלים |
+| `merav_p` | BA in business administration. Runs the company day to day, its finance, and marketing and sales. Your first contact for a new project. | בעלת תואר ראשון במנהל עסקים. מנהלת את החברה ביום-יום, את הכספים ואת השיווק והמכירות. איש הקשר הראשון לפרויקט חדש. |
+| `how_h` | How we work | איך אנחנו עובדים |
+| `how_p` | Our own plant makes the poles, nets, cables and fittings, and checks them before they ship. Our installation crews are trained for work at height and run several projects in parallel. The team brings together Israelis and agronomy students from abroad who come to study in Israel. | המפעל שלנו מייצר את העמודים, הרשתות, הכבלים והאביזרים ובודק אותם לפני היציאה לשטח. צוותי ההקמה שלנו בעלי הכשרה לעבודה בגובה ועובדים בכמה פרויקטים במקביל. בצוות עובדים ישראלים לצד סטודנטים לאגרונומיה מחו״ל שמגיעים ללמוד בישראל. |
+| `values_h` | Why clients stay with us | למה לקוחות נשארים איתנו |
+| `company_h` | Company details | פרטי החברה |
+
+## Page: contact
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Request a project review | MIFTAH Projects | בקשו בדיקת פרויקט | מיפתח פרויקטים |
+| `desc` | Tell MIFTAH Projects where your land is, what you grow and how large it is, and we'll arrange a first conversation. Office: +972 4 985 4404. | ספרו למיפתח פרויקטים איפה הקרקע, מה מגדלים ומה גודל השטח, ונתאם שיחה ראשונה. משרד: 04-9854404, כפר מסריק. |
+| `h1` | Request a project review | בקשו בדיקת פרויקט |
+| `lead` | Tell us where the land is, what you grow or plan to grow, and how large it is. We'll contact you to arrange a first conversation, and a visit to the site when the project fits. | ספרו לנו איפה הקרקע, מה מגדלים או מתכננים לגדל, ומה גודל השטח. נחזור אליך כדי לתאם שיחה ראשונה, וביקור בשטח כשהפרויקט מתאים. |
+| `aside_phone_h` | Prefer to talk? | מעדיפים לדבר? |
+| `aside_phone_p` | Call the office and ask for Merav Hasfel, co-CEO. | התקשרו למשרד ובקשו את מרב הספל, מנכ״לית משותפת. |
+| `aside_min_h` | Projects we take on | פרויקטים שאנחנו לוקחים |
+| `aside_min_p` | From 5 ha (50 dunam) in Israel and from 30 ha abroad. Pricing follows a review of the site, because every structure is designed for its land. | מ-50 דונם בישראל ומ-30 הקטר בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו. |
+| `aside_fair_h` | Fruit Logistica, Berlin | Fruit Logistica, ברלין |
+| `aside_fair_p` | We'll be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form to arrange a meeting there. | נהיה בתערוכת Fruit Logistica במסה ברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם. |
+| `aside_office_h` | Office | משרד |
+
+## Page: profile
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Company profile | MIFTAH Projects | פרופיל החברה | מיפתח פרויקטים |
+| `desc` | A one-page profile of MIFTAH Projects: net houses and farm structures, turnkey farms abroad, process, projects and contact. Printable as a PDF. | פרופיל של מיפתח פרויקטים בעמוד אחד: בתי רשת ומבנים חקלאיים, חוות Turnkey בחו״ל, תהליך העבודה, פרויקטים ופרטי קשר. ניתן להדפסה כ-PDF. |
+| `h1` | Company profile | פרופיל החברה |
+| `print` | Print or save as PDF | הדפסה או שמירה כ-PDF |
+| `bar_p` | One page to attach to a quote or hand out at a meeting. | עמוד אחד לצרף להצעת מחיר או לחלק בפגישה. |
+| `who` | MIFTAH Projects is a family company in Kfar Masaryk, Israel. We design, manufacture in our own plant, install and maintain galvanized-steel net houses for orchards and bananas, in Israel and abroad, and build turnkey farms abroad together with agricultural partners. | מיפתח פרויקטים היא חברה משפחתית בכפר מסריק. אנחנו מתכננים, מייצרים במפעל שלנו, מקימים ומתחזקים בתי רשת מפלדה מגולוונת למטעים ולבננות, בישראל ובחו״ל, ומקימים חוות Turnkey בחו״ל יחד עם שותפים חקלאיים. |
+| `svc_h` | What we build | מה אנחנו בונים |
+| `turn_h` | Turnkey farms abroad (with partners) | חוות Turnkey בחו״ל (עם שותפים) |
+| `proc_h` | How a project runs | איך מתנהל פרויקט |
+| `proj_h` | Projects abroad | פרויקטים בחו״ל |
+| `contact_h` | Contact | יצירת קשר |
+| `web` | www.miftah.co.il | www.miftah.co.il |
+
+## Page: privacy
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Privacy | MIFTAH Projects | מדיניות פרטיות | מיפתח פרויקטים |
+| `desc` | How MIFTAH Projects handles the details you send through this website. | איך מיפתח פרויקטים מטפלת בפרטים שנשלחים דרך האתר. |
+| `h1` | Privacy | מדיניות פרטיות |
+
+## Page: accessibility
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Accessibility statement | MIFTAH Projects | הצהרת נגישות | מיפתח פרויקטים |
+| `desc` | Accessibility statement for the MIFTAH Projects website. | הצהרת הנגישות של אתר מיפתח פרויקטים. |
+| `h1` | Accessibility statement | הצהרת נגישות |
+
+## Page: 404
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | Page not found | MIFTAH Projects | העמוד לא נמצא | מיפתח פרויקטים |
+| `desc` | This page doesn't exist. | העמוד הזה לא קיים. |
+| `h1` | This page doesn't exist. | העמוד הזה לא קיים. |
+| `p` | The link may be old, or the address may have a typo. These pages will get you back on track: | ייתכן שהקישור ישן או שיש טעות בכתובת. אפשר להמשיך מכאן: |
+
+## Key facts row (home)
+
+| Figure | English | Hebrew |
+|---|---|---|
+| 20+ / 20+ | years designing and building agricultural structures | שנים של תכנון והקמה של מבנים חקלאיים |
+| 410,000 m² / 410,000 מ״ר | of net houses built abroad, in Mexico, India, Honduras, Spain and Georgia | בתי רשת שהקמנו בחו״ל: מקסיקו, הודו, הונדורס, ספרד וגאורגיה |
+| Own plant / מפעל משלנו | poles, nets, cables and fittings are made and checked before they ship | עמודים, רשתות, כבלים ואביזרים מיוצרים ונבדקים לפני היציאה לשטח |
+| From 5 ha / מ-50 דונם | project size in Israel, and from 30 ha abroad | גודל פרויקט בישראל, ומ-30 הקטר בחו״ל |
+
+## Process steps
+
+| Step | English | Hebrew | Photo caption (EN) |
+|---|---|---|---|
+| Needs mapping on site / מיפוי צרכים בשטח | We meet you on the land and map the crop, soil, location, drainage, access roads and wind before anything is drawn. | נפגשים בשטח וממפים את הגידול, הקרקע, המיקום, הניקוז, דרכי הגישה ומשטר הרוחות, לפני שמשרטטים קו אחד. | Setting up on a MIFTAH project site |
+| Engineering design / תכנון הנדסי | Construction engineers calculate the loads and produce the drawings and a detailed bill of quantities, so material, strength and budget are balanced. | הנדסאי בניין מחשבים עומסים ומפיקים שרטוטים וכתב כמויות מפורט, כדי לאזן בין כמות החומר, החוזק והתקציב. | Marking out the pole lines from the design, with the local crew |
+| Manufacturing in our plant / ייצור במפעל שלנו | After the quote is approved, poles, nets, cables and fittings are made, packed for the site and checked before they leave. | אחרי אישור הצעת המחיר, העמודים, הרשתות, הכבלים ואביזרי החיבור מיוצרים, נארזים לשטח ונבדקים לפני היציאה. | Rows of galvanized steel poles, set to the design |
+| Installation and maintenance / הקמה ותחזוקה | Our crews, certified for work at height, build the structure with the trellising the crop needs, and maintain it as the materials weather. | הצוותים שלנו, בעלי הכשרה לעבודה בגובה, מקימים את המבנה עם ההדליה שהגידול צריך, ומתחזקים אותו לאורך השנים. | A closed net house with its entrance door |
+
+## Section drawing
+
+| Part | English | Hebrew |
+|---|---|---|
+| Net / רשת | 10–30% shade for orchards, against hail and sunburn at flowering and fruit set. 11% for bananas, light and airy. | 10%–30% צל למטעים, נגד ברד ונזקי שמש בפריחה ובחנטה. 11% לבננות: רשת קלה ואוורירית. |
+| Steel cables / כבלי פלדה | Tensioned across the pole heads to carry the net. | נמתחים בין ראשי העמודים ונושאים את הרשת. |
+| Galvanized steel poles / עמודי פלדה מגולוונים | Made in our plant, set in rows at the span and height the design calls for. | מיוצרים במפעל שלנו ומוצבים בשורות, במפתח ובגובה שנקבעו בתכנון. |
+| Perimeter anchoring / עיגון היקפי | Edge cables tie the structure to the ground against wind. | כבלי שוליים קושרים את המבנה לקרקע מול הרוח. |
+| Trellising and support / הדליה ותמיכה | Built with the structure for the crop: a pergola trellis for kiwi, support for bananas. | נבנית יחד עם המבנה לפי הגידול: הדליה בצורת סוכה לקיווי, תמיכה לבננות. |
+| Folding / קיפול | On orchards, nets can fold away in winter and spread in summer, by hand or automatically. | במטעים הרשת יכולה להתקפל בחורף ולהיפרס בקיץ, ידנית או אוטומטית. |
+
+## Structure types (Net houses page)
+
+### Banana net houses / בתי רשת לבננות
+
+Crops: Bananas / בננות
+
+| | English | Hebrew |
+|---|---|---|
+| Net | 11% shade net: light and very airy. | רשת צל 11%: קלה ואוורירית מאוד. |
+| Protects against | Wind and hail in winter. In summer it saves water by reducing evaporation, and gives the plants better growing conditions. | רוח וברד בחורף. בקיץ חוסך מים כי הוא מפחית התאדות, ונותן לצמחים תנאי גידול טובים יותר. |
+| Structure | Large spans between poles, so a single structure can cover up to 10 ha (100 dunam). Trellising and plant support are part of the structure. | מפתחים גדולים בין העמודים, כך שמבנה בודד יכול להגיע ל-100 דונם. ההדליה ומערכת התמיכה לשתילים הן חלק מהמבנה. |
+| Why it pays | The light net and wide spans use less material than other net houses. | הרשת הקלה והמפתחים הרחבים חוסכים חומר לעומת בתי רשת אחרים. |
+
+### Orchard net houses / בתי רשת למטעים
+
+Crops: Apple, cherry, kiwi, avocado, persimmon / תפוח, דובדבן, קיווי, אבוקדו, אפרסמון
+
+| | English | Hebrew |
+|---|---|---|
+| Net | 10% to 30% shade, chosen for the crop. | 10% עד 30% צל, לפי הגידול. |
+| Protects against | Hail and sunburn during flowering and fruit set, when trees are most sensitive and a single storm can cut the yield. | ברד ונזקי שמש בפריחה ובחנטה, כשהעצים הכי רגישים וסערה אחת יכולה לפגוע ביבול. |
+| Structure | Built so the nets fold away in winter and spread in summer. Automatic folding systems can be added. | בנוי כך שהרשת מתקפלת בחורף ונפרסת בקיץ. אפשר להוסיף מערכת פריסה וקיפול אוטומטית. |
+| Trellising | Support systems for the crop, such as a pergola-shaped trellis for kiwi. | מערכות תמיכה לגידול, כמו הדליה בצורת סוכה לקיווי. |
+
+### Loading sheds and windbreaks / סככות העמסה ושוברי רוח
+
+Crops: For the farm around the orchard / לחווה שמסביב למטע
+
+| | English | Hebrew |
+|---|---|---|
+| Loading sheds | Shade sheds for loading, unloading and handling produce. Wide spans leave room for trucks and carts to turn. | סככות צל להעמסה, לפריקה ולטיפול בתוצרת. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות. |
+| Net to order | Shade percentage and colour chosen with you. An opening and closing system can be added for bad weather. | אחוז הצל והצבע נבחרים איתך. אפשר להוסיף מערכת פתיחה וסגירה למזג אוויר קשה. |
+| Windbreaks | Designed and built with the rest of the farm. | מתוכננים ומוקמים יחד עם שאר החווה. |
+
+### Maintenance, dismantling and reuse / תחזוקה, פירוק ושימוש חוזר
+
+Crops: For structures already in the field / למבנים שכבר עומדים בשטח
+
+| | English | Hebrew |
+|---|---|---|
+| Maintenance | Care for structures as nets, cables and fittings weather over the years. | טיפול במבנים לאורך השנים, כשהרשתות, הכבלים והאביזרים מתבלים. |
+| Dismantling | Taking structures down, and processing and preparing the material for a new structure when needed. | פירוק מבנים, ובמידת הצורך עיבוד והכנה של החומר למבנה חדש. |
+| One stage only | Needs mapping, design, manufacture, supervision, training or maintenance can each be ordered on their own. | אפשר להזמין בנפרד מיפוי צרכים, תכנון, ייצור, פיקוח, הדרכה או תחזוקה. |
+
+## Turnkey stages
+
+| # | Phase | Stage | What you receive (EN) | What you receive (HE) |
+|---|---|---|---|---|
+| 1 | Assess | Soil testing and crop fit / בדיקת קרקע והתאמת גידול | Soil test results and a crop recommendation for your site. | תוצאות בדיקת קרקע והמלצה על גידול מתאים לשטח. |
+| 2 | Assess | Business plan and budget / תוכנית עסקית ותקציב | A business plan and budget for the investor. | תוכנית עסקית ותקציב למשקיע. |
+| 3 | Design | Farm design / תכנון החווה | Structures, irrigation and roads laid out as one farm. | מבנים, השקיה ודרכים, מתוכננים כחווה אחת. |
+| 4 | Build | Structures and net houses / מבנים ובתי רשת | Net houses, sheds and windbreaks, made in our plant and built to the design. | בתי רשת, סככות ושוברי רוח, מיוצרים במפעל שלנו ומוקמים לפי התכנון. |
+| 5 | Build | Irrigation systems / מערכות השקיה | Water supply and irrigation installed and working before planting. | אספקת מים והשקיה, מותקנות ופועלות לפני השתילה. |
+| 6 | Build | Procurement and logistics / רכש ולוגיסטיקה | Materials bought, shipped and on site when the schedule needs them. | חומרים נרכשים, נשלחים ומגיעים לשטח בזמן שלוח הזמנים דורש. |
+| 7 | Build | Planting / שתילה | The orchard or crop planted and established. | המטע או הגידול נשתלים ומתבססים. |
+| 8 | Operate | Local team / צוות מקומי | Local workers recruited, trained and managed on site. | עובדים מקומיים מגויסים, מודרכים ומנוהלים בשטח. |
+| 9 | Operate | Growing and agronomy / גידול ואגרונומיה | Day-to-day growing management, season after season. | ניהול גידול שוטף, עונה אחרי עונה. |
+| 10 | Operate | Maintenance / תחזוקה | Structures and systems kept in working order. | המבנים והמערכות נשמרים תקינים. |
+| 11 | Operate | Harvest and marketing / קטיף ושיווק | The crop harvested and marketed. | היבול נקטף ומשווק. |
+
+## Projects
+
+| Country | Work | m² |
+|---|---|---|
+| Mexico / מקסיקו | Net houses | 150000 |
+| India / הודו | Net houses | 80000 |
+| Honduras / הונדורס | Net houses | 70000 |
+| Spain / ספרד | Net houses | 60000 |
+| Georgia / גאורגיה | Net houses | 50000 |
+| Portugal / פורטוגל | Avocado net house | – |
+| Belarus / בלארוס | A complex project: on schedule, with local manufacturing, shipping and local crews | – |
+
+Featured (Q q14):
+
+| Crop | Region | Structure |
+|---|---|---|
+| Kiwi | Upper Galilee, Israel | Net house with a pergola-shaped trellis |
+| Bananas | Western Galilee, Israel | Banana net house with 11% net |
+| Apples | Golan Heights, Israel | Orchard net house |
+| Cherries | Israel | Orchard net house |
+| Avocado | Portugal | Avocado net house |
+
+## Values (Q q23)
+
+| English | Hebrew |
+|---|---|
+| **A word is a word**: What we agree is what gets built. | **מילה זו מילה**: מה שסוכם הוא מה שנבנה. |
+| **Like family**: Clients stay with us for years. They know there is someone to rely on. | **כמו משפחה**: לקוחות נשארים איתנו שנים. הם יודעים שיש על מי לסמוך. |
+| **Made to measure**: Every structure is fitted to the client's crop, land and requirements. | **תפור למידה**: כל מבנה מותאם לגידול, לקרקע ולדרישות של הלקוח. |
+
+## CTA band
+
+| Key | English | Hebrew |
+|---|---|---|
+| `h` | Tell us about your land. | ספרו לנו על הקרקע. |
+| `p` | Send the location, the crop and the area. We'll contact you to arrange a first conversation and, when the project fits, a visit to the site. | שלחו מיקום, גידול ושטח. נחזור אליך לתאם שיחה ראשונה, וכשהפרויקט מתאים, ביקור בשטח. |
+| `min` | Projects from 5 ha in Israel and from 30 ha abroad. | פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל. |
+| `fair` | Meet us at Fruit Logistica, Berlin, 3–5 February 2027. | נפגשים ב-Fruit Logistica, ברלין, 3–5 בפברואר 2027. |
+
+## Form
+
+| Key | English | Hebrew |
+|---|---|---|
+| `h` | Your project | הפרויקט שלך |
+| `req` | Fields marked * are required. | שדות עם * הם חובה. |
+| `name` | Full name * | שם מלא * |
+| `company` | Company or organisation | חברה או ארגון |
+| `email` | Email * | מייל * |
+| `phone` | Phone or WhatsApp | טלפון או וואטסאפ |
+| `phone_hint` | With country code, e.g. +351… | עם קידומת מדינה אם מחוץ לישראל |
+| `optional` | optional | לא חובה |
+| `role` | I am * | אני * |
+| `need` | What do you need? * | מה צריך? * |
+| `country` | Where is the land? * | איפה הקרקע? * |
+| `region` | Region or nearest town | אזור או יישוב קרוב |
+| `size` | Land size * | גודל השטח * |
+| `status` | Land status | מצב הקרקע |
+| `crop` | Crop | גידול |
+| `crop_hint` | Existing or planned, e.g. avocado | קיים או מתוכנן, למשל אבוקדו |
+| `timeline` | When do you want to start? | מתי רוצים להתחיל? |
+| `message` | Anything else we should know? | עוד משהו שכדאי שנדע? |
+| `berlin` | I'd like to meet at Fruit Logistica, Berlin, 3–5 February 2027 | אשמח להיפגש ב-Fruit Logistica, ברלין, 3–5 בפברואר 2027 |
+| `consent` | I agree that MIFTAH Projects may use these details to reply to me. See the {privacy}. | אני מסכים/ה שמיפתח פרויקטים תשתמש בפרטים כדי לחזור אליי. ראו {privacy}. |
+| `privacy_link` | privacy notice | מדיניות הפרטיות |
+| `send` | Send the request | שליחת הבקשה |
+| `honeypot` | Leave this field empty | השאירו שדה זה ריק |
+| `roles.investor` | A private investor (Investing in a farm or land) | משקיע פרטי (משקיע בחווה או בקרקע) |
+| `roles.company` | An agricultural company (Growing or developing at scale) | חברה חקלאית (מגדלת או מפתחת בהיקף גדול) |
+| `roles.entrepreneur` | An entrepreneur (Building a new agricultural venture) | יזם (מקים מיזם חקלאי חדש) |
+| `roles.grower` | A grower or farm manager (Running an orchard or plantation) | חקלאי או מנהל משק (מנהל מטע או משק) |
+| `needs.nethouse` | Net houses or farm structures (Orchards, bananas, loading sheds, windbreaks) | בתי רשת או מבנים חקלאיים (מטעים, בננות, סככות העמסה, שוברי רוח) |
+| `needs.turnkey` | A turnkey farm abroad (From soil testing to harvest, with partners) | חוות Turnkey בחו״ל (מבדיקת קרקע ועד קטיף, עם שותפים) |
+| `needs.stage` | One stage only (e.g. design, soil testing, maintenance) | שלב אחד בלבד (למשל תכנון, בדיקת קרקע, תחזוקה) |
+| `needs.unsure` | Not sure yet (Let's talk it through) | עוד לא בטוח (נדבר ונבין יחד) |
+| `countries.empty` | Choose a country or region | בחירת מדינה או אזור |
+| `countries.IL` | Israel | ישראל |
+| `countries.PT` | Portugal | פורטוגל |
+| `countries.ES` | Spain | ספרד |
+| `countries.EU` | Another European country | מדינה אחרת באירופה |
+| `countries.AF` | Africa | אפריקה |
+| `countries.OT` | Somewhere else | מקום אחר |
+| `countries.NA` | Still looking for land | עוד מחפשים קרקע |
+| `sizes.empty` | Choose a range | בחירת טווח |
+| `sizes.lt5` | Under 5 ha (under 50 dunam) | פחות מ-50 דונם |
+| `sizes.5-30` | 5–30 ha (50–300 dunam) | 50–300 דונם |
+| `sizes.30-100` | 30–100 ha | 300–1,000 דונם |
+| `sizes.100+` | Over 100 ha | מעל 1,000 דונם |
+| `sizes.tbd` | Not decided yet | עוד לא ידוע |
+| `statuses.empty` | Choose | בחירה |
+| `statuses.own` | We own it | בבעלותנו |
+| `statuses.lease` | We lease it | בחכירה |
+| `statuses.acquiring` | We are acquiring it | בתהליך רכישה |
+| `statuses.search` | Still looking | עוד מחפשים |
+| `timelines.empty` | Choose | בחירה |
+| `timelines.season` | Before the next season | לפני העונה הבאה |
+| `timelines.12m` | Within 12 months | תוך 12 חודשים |
+| `timelines.explore` | Just exploring | רק בודקים |
+
+## Privacy
+
+**What we collect** / **מה אנחנו אוספים**
+
+When you send the project-review form, we receive the details you type: your name, company, email, phone, the country and size of the land, your crop, timeline and message. We don't ask for anything else, and the site does not use advertising cookies.
+
+כששולחים את טופס בדיקת הפרויקט, אנחנו מקבלים את הפרטים שהוקלדו: שם, חברה, מייל, טלפון, מדינת הקרקע וגודלה, הגידול, לוח הזמנים וההודעה. אנחנו לא מבקשים שום פרט נוסף, והאתר לא משתמש בעוגיות פרסום.
+
+**Why** / **לשם מה**
+
+Only to reply to your request, arrange a conversation or a site visit, and prepare a proposal if you ask for one.
+
+רק כדי לחזור אליך, לתאם שיחה או ביקור בשטח ולהכין הצעה אם ביקשת.
+
+**Who sees it** / **מי רואה את הפרטים**
+
+MIFTAH Projects' management and office staff. We don't sell or share your details. The form's delivery service, once connected, processes the message only to deliver it to us.
+
+ההנהלה וצוות המשרד של מיפתח פרויקטים. אנחנו לא מוכרים ולא מעבירים את הפרטים. שירות שליחת הטופס, כשיחובר, מעבד את ההודעה רק כדי להעביר אותה אלינו.
+
+**How long** / **לכמה זמן**
+
+We keep enquiries for as long as they are needed for the conversation and for our business records, and delete them on request.
+
+פניות נשמרות כל עוד הן נחוצות לשיחה ולרישומי העסק, ונמחקות לפי בקשה.
+
+**Your rights** / **הזכויות שלך**
+
+You can ask to see, correct or delete the details you sent, under Israel's Protection of Privacy Law, 5741-1981. Call +972 4 985 4404.
+
+אפשר לבקש לעיין בפרטים, לתקן או למחוק אותם, לפי חוק הגנת הפרטיות, התשמ״א-1981. טלפון: 04-9854404.
+
+**Statistics** / **סטטיסטיקה**
+
+If we add visitor statistics, we will use a service that doesn't track you across sites, and update this page first.
+
+אם נוסיף סטטיסטיקת כניסות, נשתמש בשירות שלא עוקב אחריך בין אתרים, ונעדכן את העמוד הזה קודם.
+
+**Updated** / **עדכון אחרון**
+
+26 October 2026.
+
+26 באוקטובר 2026.
+
+
+## Accessibility statement
+
+**Our commitment** / **המחויבות שלנו**
+
+We want everyone to be able to use this website, including people with disabilities. The site was built to meet Israeli Standard 5568, which follows the Web Content Accessibility Guidelines (WCAG) 2.1 at level AA.
+
+אנחנו רוצים שכל אחד יוכל להשתמש באתר, גם אנשים עם מוגבלות. האתר נבנה לפי תקן ישראלי 5568, המבוסס על הנחיות WCAG 2.1 ברמה AA.
+
+**What we did** / **מה עשינו**
+
+Semantic headings and landmarks; a skip link; full keyboard use with visible focus; text contrast of at least 4.5:1; form fields with labels and clear error messages; alternative text for images; a pause button for the moving video, which does not start for visitors who ask their device to reduce motion; Hebrew and English versions with the correct reading direction.
+
+כותרות ואזורים מסומנים; קישור דילוג לתוכן; שימוש מלא במקלדת עם סימון פוקוס ברור; ניגודיות טקסט של 4.5:1 לפחות; שדות טופס עם תוויות והודעות שגיאה ברורות; טקסט חלופי לתמונות; כפתור עצירה לסרטון הנע, שלא מתחיל לפעול אצל מי שביקש מהמכשיר להפחית תנועה; גרסה בעברית ובאנגלית עם כיוון קריאה נכון.
+
+**Checked with** / **איך נבדק**
+
+Automated checks (axe-core and Lighthouse) and manual keyboard and screen-size testing in Chromium, in October 2026.
+
+בדיקות אוטומטיות (axe-core ו-Lighthouse) ובדיקה ידנית של מקלדת וגדלי מסך ב-Chromium, באוקטובר 2026.
+
+**Known limits** / **מגבלות ידועות**
+
+The technical drawing and the map are images with full text equivalents next to them. If you find anything that doesn't work for you, please tell us.
+
+השרטוט הטכני והמפה הם תמונות, ולצידם יש מקבילה טקסטואלית מלאה. אם משהו לא עובד עבורך, נשמח שתספרו לנו.
+
+**Contact for accessibility** / **פנייה בנושא נגישות**
+
+MIFTAH Projects office, Kfar Masaryk, Israel. Phone +972 4 985 4404.
+
+משרד מיפתח פרויקטים, כפר מסריק. טלפון 04-9854404.
+
+**Updated** / **עדכון אחרון**
+
+26 October 2026.
+
+26 באוקטובר 2026.
+

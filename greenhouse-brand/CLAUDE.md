@@ -4,6 +4,8 @@
 - **מרב הספל** (co-CEO) reviews everything. She is very numeric and technical: she likes details and precision. Always give her exact numbers, specs, sources and measurable comparisons, never vague impressions. State what was checked and how.
 - **יפתח הספל** (co-CEO) handles the professional/engineering side.
 - Do not build the real website until a design is chosen. Changes go into the design examples only.
+- 26 Oct 2026: Hanoch explicitly asked for the full site. It lives in `website/` (source of truth: `website/src/content.py` + `build.py`; facts in `website/docs/MIFTAH_TRUTH_LEDGER.md`). It is built on the scored "engineering dossier" direction; if Merav picks another example, swap tokens/sections there. The four design examples stay untouched.
+- The process photos `04-tensioning-cables.jpg` (brown ladder) and `05-spreading-net.jpg` (rusty poles) and `site-winter-orchard` (black stake) break the steel rule; do not use them.
 
 ## Reporting to the user (Hanoch)
 - Always reply to Hanoch in Hebrew, even when the deliverable itself is in English.
