@@ -19,6 +19,10 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 PAIRS = [
     # shorter copy (October 2026)
     # Bar's voice pass
+    ('<legend>תוספות</legend>', '<legend>Add-ons</legend>'),
+    ('<dt>תוספות</dt>', '<dt>Add-ons</dt>'),
+    ('<li>קוקטיילים של קולר, לבחירה</li>', '<li>Cocktails by Kuller, if you like</li>'),
+    ('שורת קוקטיילים בכוסות קופה עם קצף לבן, ועליהם פרחים למאכל', 'A row of coupe cocktails with white foam, topped with edible flowers'),
     ('בר ליפשיץ, שף פרטי. מבשל ומארח, אצלי בחצר במצפה מתת, אצלכם בבית ובאירועים. פשוט, מעניין, גלילי, ומבושל מול האורחים.', 'Bar Lifschitz, private chef. I cook and host, in my yard in Mitzpe Matat, at your home and at events. Simple, interesting, Galilean, and cooked in front of the guests.'),
     ('מבשל ומארח, אצלי בחצר ואצלכם. ארוחות שף פרטיות במצפה מתת, אצלכם בבית ובאירועים.', 'I cook and host, in my yard and at yours. Private chef dinners in Mitzpe Matat, at your home and at events.'),
     ('<span class="tile-name">אצלכם בבית</span>', '<span class="tile-name">At your place</span>'),

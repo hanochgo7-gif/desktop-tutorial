@@ -692,7 +692,8 @@
           <ul>
             <li>חברות, צוותים והשקות</li>
             <li>מנות אישיות, מרכז שולחן, בופה או ביסים</li>
-            <li>מלצרים וקוקטיילים של קולר</li>
+            <li>מלצרים לפי גודל האירוע</li>
+            <li>קוקטיילים של קולר, לבחירה</li>
           </ul>
           <a class="btn ghost" href="#book" data-format="event">לתיאום אירוע</a>
         </div>
@@ -771,7 +772,7 @@
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/sashimi-600.webp" data-src="media/sashimi-motion" aria-label="צלחות סשימי דג לבן בקונסומה ורודה, צ׳ילי וירוקים"></video></figure>
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/night-toast-still-600.webp" data-src="media/night-toast" aria-label="ערב בחצר: שולחן ארוך מלא אורחים מרימים כוסות"></video></figure>
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/fish-hang-still-600.webp" data-src="media/fish-hang" aria-label="שני דגים שלמים תלויים ליישון"></video></figure>
-        <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/glasses-ice-still-600.webp" data-src="media/glasses-ice" aria-label="כוסות יין ודלי קרח עם בקבוקים ופרחים על חבית"></video></figure>
+        <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/coupes-flowers-still-600.webp" data-src="media/coupes-flowers" style="object-position:50% 60%" aria-label="שורת קוקטיילים בכוסות קופה עם קצף לבן, ועליהם פרחים למאכל"></video></figure>
         <figure><video class="vid" muted loop playsinline preload="none" data-poster="images/yard-guests-still-600.webp" data-src="media/yard-guests" aria-label="השולחן הארוך בחצר מלא אורחים מתחת לעץ"></video></figure>
       </div>
     </div>
@@ -830,6 +831,9 @@
               <label class="tile"><input type="radio" name="serve" value="bites"><span class="tile-body"><span class="tile-name">מנות קטנות מסתובבות</span></span></label>
               <label class="tile"><input type="radio" name="serve" value="unsure" checked><span class="tile-body"><span class="tile-name">עוד לא יודעים, נחליט יחד</span></span></label>
             </div>
+          </fieldset>
+          <fieldset class="q-step" id="addon-field" hidden>
+            <legend>תוספות</legend>
             <label class="addon"><input type="checkbox" name="kuller"><span>להוסיף קוקטיילים של קולר</span></label>
           </fieldset>
           <div class="field">
@@ -854,6 +858,7 @@
             <div><dt>מתי</dt><dd id="tk-when"></dd></div>
             <div><dt>כמה</dt><dd id="tk-guests"></dd></div>
             <div id="tk-serve-row" hidden><dt>הגשה</dt><dd id="tk-serve"></dd></div>
+            <div id="tk-addon-row" hidden><dt>תוספות</dt><dd id="tk-addon"></dd></div>
           </dl>
         </div>
         <h3 id="next-title">מה קורה אחרי ההודעה</h3>
@@ -1095,13 +1100,12 @@
       setTk('tk-when', dayName());
       setTk('tk-guests', T.tk.guests(guests.value));
       const serve = form.querySelector('input[name="serve"]:checked');
-      const parts = [];
-      if (format !== 'yard') {
-        if (serve && serve.value !== 'unsure') parts.push(serve.closest('label').textContent.trim());
-        if (form.elements.kuller.checked) parts.push(T.tk.kuller);
-      }
-      $('tk-serve-row').hidden = !parts.length;
-      if (parts.length) setTk('tk-serve', parts.join(' · '));
+      const style = format !== 'yard' && serve && serve.value !== 'unsure' ? serve.closest('label').textContent.trim() : '';
+      $('tk-serve-row').hidden = !style;
+      if (style) setTk('tk-serve', style);
+      const addon = format === 'event' && form.elements.kuller.checked;
+      $('tk-addon-row').hidden = !addon;
+      if (addon) setTk('tk-addon', T.tk.kuller);
     }
     form.addEventListener('input', ticket);
 
@@ -1121,6 +1125,7 @@
       format = f;
       $('region-field').hidden = f !== 'home';
       $('serve-field').hidden = f === 'yard';
+      $('addon-field').hidden = f !== 'event';
       if (reset) guests.value = RULES[f].start;
       clamp();
     }
@@ -1146,7 +1151,7 @@
       const lines = [T.hello(name), T.what[format]($('region').value), T.date(when), T.guests(guests.value)];
       const serve = form.querySelector('input[name="serve"]:checked');
       if (format !== 'yard' && serve && serve.value !== 'unsure') lines.push(T.serve(serve.closest('label').textContent.trim()));
-      if (format !== 'yard' && form.elements.kuller.checked) lines.push(T.kuller);
+      if (format === 'event' && form.elements.kuller.checked) lines.push(T.kuller);
       const notes = form.elements.notes.value.trim();
       if (notes) lines.push(T.notes(notes));
       return lines.join('\n');
@@ -1224,14 +1229,14 @@
     const menuVids = [...document.querySelectorAll('.ev-media video')];
     if (still || !('IntersectionObserver' in window)) return;
     const ext = document.createElement('video').canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
-    let heroPaused = false, menuVisible = false, step = 0;
+    let paused = false, menuVisible = false, step = 0;
     const load = v => { if (!v.getAttribute('src')) v.src = v.dataset.src + ext; };
     const play = v => { load(v); const p = v.play(); if (p) p.catch(() => {}); };
 
     // הסרטונים של החצר מחכים מתחת לחלון עד שנכנסים אליו
     let heroOpen = !document.querySelector('.stage');
     const seen = new Set();
-    const wake = v => { if (heroVids.includes(v) && (!heroOpen || heroPaused)) return; play(v); };
+    const wake = v => { if (paused || (heroVids.includes(v) && !heroOpen)) return; play(v); };
     // סרטון נטען רק אחרי שהוא נשאר על המסך רגע, ולא כשרק עוברים לידו בדרך
     const io = new IntersectionObserver(entries => entries.forEach(e => {
       const v = e.target;
@@ -1243,7 +1248,7 @@
     // בתפריט מתנגן רק הסרטון של השלב הפעיל
     // והבא אחריו נטען מראש, כדי שהמעבר יהיה חלק
     const syncMenu = () => menuVids.forEach((v, k) => {
-      if (menuVisible && k === step) play(v);
+      if (menuVisible && k === step && !paused) play(v);
       else { if (menuVisible && k === step + 1) load(v); if (v.getAttribute('src')) v.pause(); }
     });
     const menuBox = document.querySelector('.ev-media');
@@ -1254,15 +1259,18 @@
     window.barVideo = {
       menuStep: i => { step = i; syncMenu(); },
       openHero: () => { if (heroOpen) return; heroOpen = true; heroVids.forEach(v => { if (seen.has(v)) wake(v); }); },
+      isPaused: () => paused,
     };
 
     heroVids.forEach(v => v.addEventListener('playing', () => { toggle.hidden = false; }, { once: true }));
+    // הכפתור עוצר את כל הסרטונים באתר, לא רק את אלה שבראש העמוד
     toggle.addEventListener('click', () => {
-      heroPaused = !heroPaused;
-      heroVids.forEach(v => heroPaused ? v.pause() : (getComputedStyle(v).display !== 'none' && play(v)));
-      toggle.classList.toggle('paused', heroPaused);
+      paused = !paused;
+      if (paused) document.querySelectorAll('video.vid').forEach(v => v.pause());
+      else { seen.forEach(wake); syncMenu(); }
+      toggle.classList.toggle('paused', paused);
       const lbl = toggle.querySelector('span');
-      lbl.textContent = heroPaused ? lbl.dataset.play : lbl.dataset.pause;
+      lbl.textContent = paused ? lbl.dataset.play : lbl.dataset.pause;
     });
   })();
 </script>
@@ -1431,7 +1439,7 @@
       onUpdate: self => {
         if (self.progress > 0.35 && window.barVideo) window.barVideo.openHero();
         if (self.progress > 0.9) stageVid.pause();
-        else if (stageVid.paused && stageVid.getAttribute('src')) { const pr = stageVid.play(); if (pr) pr.catch(() => {}); }
+        else if (stageVid.paused && stageVid.getAttribute('src') && !(window.barVideo && window.barVideo.isPaused())) { const pr = stageVid.play(); if (pr) pr.catch(() => {}); }
       } } })
       .to('.stage-ui', { opacity: 0, y: -40, ease: 'power1.in', duration: 0.2 }, 0)
       .to(film, { scale: 2.3, ease: 'power2.in', duration: 0.7 }, 0)
