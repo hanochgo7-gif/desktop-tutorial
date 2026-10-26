@@ -1048,11 +1048,48 @@ A11Y_HEAD = ("<script>try{var a=JSON.parse(localStorage.getItem('ams_a11y')||'{}
              "['contrast','links','font','still'].forEach(function(k){if(a[k])c.classList.add('a11y-'+k)})}catch(e){}</script>")
 
 
+def csp_meta():
+    """מדיניות אבטחת תוכן: סקריפטים רק מהאתר עצמו (ועוד הסקריפט הקטן שבראש הדף, לפי טביעת אצבע).
+    כך גם אם מישהו יצליח להחדיר HTML לדף, הדפדפן לא יריץ סקריפט זר. כשמפעילים מדידה, נוספים הדומיינים שלה."""
+    import base64
+    import hashlib
+    def sha(tag):
+        body = tag[tag.index('>') + 1:tag.rindex('</script>')]
+        return "'sha256-" + base64.b64encode(hashlib.sha256(body.encode('utf-8')).digest()).decode() + "'"
+    scripts = ["'self'", sha(A11Y_HEAD)]
+    connect = ["'self'"]
+    img = ["'self'", 'data:']
+    tag = analytics_tag()
+    if tag:
+        scripts.append(sha(tag.strip()))
+        if ANALYTICS.get('ga4'):
+            scripts.append('https://www.googletagmanager.com')
+            connect += ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://www.googletagmanager.com']
+            img += ['https://*.google-analytics.com', 'https://www.googletagmanager.com']
+        if ANALYTICS.get('meta_pixel'):
+            scripts.append('https://connect.facebook.net')
+            connect.append('https://www.facebook.com')
+            img.append('https://www.facebook.com')
+    policy = (f"default-src 'self'; script-src {' '.join(scripts)}; style-src 'self' 'unsafe-inline'; "
+              f"img-src {' '.join(img)}; font-src 'self'; media-src 'self'; connect-src {' '.join(connect)}; "
+              "object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; "
+              "upgrade-insecure-requests")
+    return f'<meta http-equiv="Content-Security-Policy" content="{policy}">'
+
+
 def analytics_tag():
     if not (ANALYTICS.get('ga4') or ANALYTICS.get('meta_pixel')):
         return ''
+    # הגנה: בלי דומיין משלו האתר חולק origin עם אתרים אחרים במאגר (github.io), וכל דף שם יכול לסמן "הסכמה"
+    # במקום הגולש (ממצא AMS-02 בדוח האבטחה). לכן מדידה נטענת רק כשהאתר יושב על הדומיין שלו.
+    if not SITE_URL:
+        print('WARNING: ANALYTICS is set but SITE_URL is empty: analytics stays OFF until the site has its own domain')
+        return ''
     import json
-    return f'<script>window.AMS_ANALYTICS={json.dumps({"ga4": ANALYTICS.get("ga4", ""), "pixel": ANALYTICS.get("meta_pixel", "")})};</script>\n'
+    from urllib.parse import urlsplit
+    site = urlsplit(SITE_URL)
+    origin = f'{site.scheme}://{site.netloc}'   # ams.js טוען מדידה רק כש־location.origin שווה לזה
+    return f'<script>window.AMS_ANALYTICS={json.dumps({"ga4": ANALYTICS.get("ga4", ""), "pixel": ANALYTICS.get("meta_pixel", ""), "origin": origin})};</script>\n'
 
 
 def closing_extra(where, root=''):
@@ -1335,7 +1372,8 @@ def main():
         rel = page_path(fp)
         html = add_srcset(html)
         html = re.sub(r'\n<script>try\{var a=JSON\.parse\(localStorage\.getItem\(\'ams_a11y\'\).*?</script>', '', html)
-        html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + A11Y_HEAD, 1)
+        html = re.sub(r'\n<meta http-equiv="Content-Security-Policy"[^>]*>', '', html)
+        html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + csp_meta() + '\n' + A11Y_HEAD, 1)
         html = re.sub(r'<script>window\.AMS_ANALYTICS=.*?</script>\n', '', html)
         # Lenis נטען מתוך ams.js רק כשצריך (עכבר), לא כתגית בדף
         html = re.sub(r'<script src="[^"]*js/vendor/lenis\.min\.js" defer></script>\n', '', html)
