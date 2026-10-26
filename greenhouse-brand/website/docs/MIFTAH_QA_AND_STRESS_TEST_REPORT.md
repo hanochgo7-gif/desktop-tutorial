@@ -105,15 +105,15 @@ Weights from the brief: 15/15/15/15/15/10/5/5/5.
 
 | Dimension | Weight | Gate 2 (cycle 2, before fixes) | Gate 4 (cycle 3, before fixes) | Gate 5 (final) |
 |---|---|---|---|---|
-| Strategic and brand fit | 15 | 8 | 8 || 8 |
-| Business clarity | 15 | 8.5 (EN 9, HE 8) | 8 || 8.5 |
-| Visual originality and art direction | 15 | 6 | 6 || 6.5 |
-| International credibility and trust | 15 | 6 | 5 || 5.5 |
-| Conversion and user journey | 15 | 6 | 4.5 || 6 |
-| Campaign asset integration | 10 | 5.5 | 6 || 7 |
-| Responsive experience | 5 | 6.5 | 8 || 8.5 |
-| Performance, accessibility and SEO | 5 | 9 | 9 || 9.5 |
-| Code quality and maintainability | 5 | 7 | 8 || 8 |
+| Strategic and brand fit | 15 | 8 | 8 | 8 |
+| Business clarity | 15 | 8.5 (EN 9, HE 8) | 8 | 8.5 |
+| Visual originality and art direction | 15 | 6 | 6 | 6.5 |
+| International credibility and trust | 15 | 6 | 5 | 5.5 |
+| Conversion and user journey | 15 | 6 | 4.5 | 6 |
+| Campaign asset integration | 10 | 5.5 | 6 | 7 |
+| Responsive experience | 5 | 6.5 | 8 | 8.5 |
+| Performance, accessibility and SEO | 5 | 9 | 9 | 9.5 |
+| Code quality and maintainability | 5 | 7 | 8 | 8 |
 | **Weighted total** | | **68.5** | **65.8** | **71.75 ≈ 72** |
 
 Gates 2 and 4 were scored by different reviewers, so the change between them is not a trend. Gate 4 judged conversion more harshly (a dead form path), and responsiveness and code more kindly (after the cycle-2 fixes).
