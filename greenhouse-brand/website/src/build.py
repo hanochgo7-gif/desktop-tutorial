@@ -85,7 +85,7 @@ def logo(L):
 
 
 # ---------------------------------------------------------------- media helpers
-def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600)):
+def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600), eager=False):
     have = [w for w in widths if (PUB / f"assets/img/{name}-{w}.jpg").exists()]
     if not have:
         raise SystemExit(f"missing public/assets/img/{name}-*.jpg: run python3 src/tools/images.py first")
@@ -96,7 +96,7 @@ def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600)
     cls = ' class="archive"' if archive else ""
     return (f'<picture><source type="image/avif" srcset="{srcset("avif")}" sizes="{sizes}">'
             f'<source type="image/webp" srcset="{srcset("webp")}" sizes="{sizes}">'
-            f'<img src="{r}assets/img/{name}-{have[min(1, len(have) - 1)]}.jpg" srcset="{srcset("jpg")}" sizes="{sizes}" width="{w0}" height="{h0}" alt="{esc(alt)}" loading="lazy" decoding="async"{cls}></picture>')
+            f'<img src="{r}assets/img/{name}-{have[min(1, len(have) - 1)]}.jpg" srcset="{srcset("jpg")}" sizes="{sizes}" width="{w0}" height="{h0}" alt="{esc(alt)}"{' fetchpriority="high"' if eager else ' loading="lazy" decoding="async"'}{cls}></picture>')
 
 
 # ---------------------------------------------------------------- signature: the section drawing
@@ -302,6 +302,7 @@ def header(slug, L):
     </nav>
     <a class="lang" href="{other}" hreflang="{alt}" lang="{alt}" data-track="lang_switch">{esc(t(C.SITE["lang_other"], L))}</a>
     <a class="btn btn-primary head-cta" href="contact.html" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>
+    <a class="head-call" href="tel:{C.SITE["phone_tel"]}" data-where="header" aria-label="{esc(tm(C.SITE["call"], L))} {esc(tm(C.SITE["phone_display"], L))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav"><span class="bars" aria-hidden="true"></span>{esc(t(C.SITE["menu"], L))}</button>
   </div>
 </header>"""
@@ -347,7 +348,7 @@ def page_head(slug, L, img=None):
     lead = f'<p class="lead">{esc(t(P["lead"], L))}</p>' if "lead" in P else ""
     if img:
         name, cap = img
-        fig = f'<figure class="ph-fig">{picture(name, tm(cap, L), L, sizes="(max-width: 900px) 100vw, 560px", archive=True)}<figcaption>{esc(t(cap, L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>'
+        fig = f'<figure class="ph-fig">{picture(name, tm(cap, L), L, sizes="(max-width: 900px) 100vw, 560px", archive=True, eager=True)}<figcaption>{esc(t(cap, L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>'
         return f'<section class="page-head has-img"><div class="wrap ph-grid"><div>{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}</div>{fig}</div></section>'
     return f'<section class="page-head"><div class="wrap">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}</div></section>'
 
@@ -365,7 +366,7 @@ def cta_band(L, where):
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
       </div>
-      <p class="meta">{esc(t(B["min"], L))}<br>{esc(t(B["fair"], L))}</p>
+      <p class="meta">{esc(t(B["min_turnkey" if where == "turnkey" else "min"], L))}<br>{esc(t(B["fair"], L))}</p>
     </div>
   </div>
 </section>"""
@@ -462,9 +463,10 @@ def p_index(L):
 </section>
 
 <section class="section why" aria-labelledby="why-h">
-  <div class="wrap">
-    <h2 id="why-h" class="h-small">{esc(t(P["why_h"], L))}</h2>
-    <p class="statement big">{esc(t(P["why_statement"], L))}</p><p class="muted refs">{esc(t(P["why_refs"], L))}</p>
+  <div class="wrap split">
+    <div><h2 id="why-h" class="h-small">{esc(t(P["why_h"], L))}</h2>
+    <p class="statement big">{esc(t(P["why_statement"], L))}</p><p class="muted refs">{esc(t(P["why_refs"], L))}</p></div>
+    <ul class="values one">{"".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)}</ul>
   </div>
 </section>
 {cta_band(L, "home")}
@@ -644,10 +646,13 @@ def form_msg(L):
 
 def p_contact(L):
     P = C.PAGES["contact"]; F = C.FORM; S = C.SITE
+    tel = f'<a href="tel:{S["phone_tel"]}" data-where="form-notice"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>'
+    offline = "" if FORM_ENDPOINT else f'<p class="notice form-offline">{esc(t(C.FORM_OFFLINE, L)).replace("{phone}", tel)}</p>'
     consent = esc(t(F["consent"], L)).replace("{privacy}", f'<a href="privacy.html">{esc(t(F["privacy_link"], L))}</a>')
     form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
+  {offline}
   <div class="fields">
     {inp("name", F["name"], L, req=True, auto="name")}
     {inp("company", F["company"], L, auto="organization")}
