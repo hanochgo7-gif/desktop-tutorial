@@ -3,7 +3,6 @@
 (function () {
   "use strict";
   var doc = document.documentElement, LANG = doc.lang === "he" ? "he" : "en";
-  var CFG = window.MIFTAH || {};
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---- analytics: sends only if a provider is present on the page (none is configured by default) ----
@@ -43,20 +42,15 @@
     var src = portrait && v.dataset.srcPortrait ? v.dataset.srcPortrait : (small && v.dataset.srcSmall ? v.dataset.srcSmall : v.dataset.srcWide);
     // H.264 MP4 everywhere it plays; WebM (VP9) for browsers built without H.264
     if (!v.canPlayType('video/mp4; codecs="avc1.640028"') && v.canPlayType('video/webm; codecs="vp9"')) src = src.replace(/\.mp4$/, ".webm");
-    var T = { he: { pause: "עצירת הסרטון", play: "הפעלת הסרטון" }, en: { pause: "Pause video", play: "Play video" } }[LANG];
-    function label(playing) { if (btn) { btn.querySelector("span").textContent = playing ? T.pause : T.play; btn.setAttribute("aria-pressed", playing ? "false" : "true"); } }
+    function label(playing) { if (btn) btn.querySelector("span").textContent = playing ? btn.dataset.pause : btn.dataset.play; }
     function start() {
       if (!v.getAttribute("src")) { v.setAttribute("src", src); }
       var p = v.play(); if (p && p.catch) p.catch(function () { label(false); });
       label(true);
     }
-    // load after first paint so the poster (LCP) and text come first
-    var lazy = v.hasAttribute("data-lazy");
+    // load after the page has loaded, so the poster (LCP) and text come first; never with reduced motion
     function go() { if (reduce) { label(false); return; } start(); }
-    if (lazy && "IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { go(); io.disconnect(); } }); }, { rootMargin: "200px" });
-      io.observe(v);
-    } else if (document.readyState === "complete") { setTimeout(go, 300); }
+    if (document.readyState === "complete") setTimeout(go, 300);
     else window.addEventListener("load", function () { setTimeout(go, 300); });
     if (btn) btn.addEventListener("click", function () {
       if (v.paused || !v.getAttribute("src")) { start(); track("video_play", { id: v.id }); }
@@ -110,7 +104,7 @@
     if (!sizeNote) return;
     var c = form.country.value, s = form.size.value, msg = "";
     if (s === "lt5" && c === "IL") msg = M.small_il;
-    else if ((s === "lt5" || s === "5-30") && c && c !== "IL") msg = M.small_ab;
+    else if ((s === "lt5" || s === "5-30") && c && c !== "IL" && c !== "SEARCH") msg = M.small_ab;
     sizeNote.textContent = msg; sizeNote.hidden = !msg;
   }
   form.country.addEventListener("change", sizeCheck); form.size.addEventListener("change", sizeCheck);
@@ -153,10 +147,11 @@
     if (el.type === "checkbox") return el.checked ? "✓" : "";
     return (el.value || "").trim();
   }
+  function val(name) { var c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ""; }
   function payload() {
     return {
       name: label("name"), company: label("company"), email: label("email"), phone: label("phone"),
-      role: label("role"), need: label("need"), country: label("country"), country_code: form.country.value, region: label("region"),
+      role: label("role"), role_code: val("role"), need: label("need"), need_code: val("need"), country: label("country"), country_code: form.country.value, region: label("region"),
       size: label("size"), size_code: form.size.value, status: label("status"), crop: label("crop"), timeline: label("timeline"),
       message: label("message"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString()
     };
@@ -180,12 +175,13 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (busy) return;
-    if (form.website && form.website.value) return; // honeypot: silently ignore bots
+    if (form.elements.mt_hp && form.elements.mt_hp.value) { track("form_honeypot", {}); return; } // hidden trap field: only bots fill it; nothing is sent
     var bad = validate();
     if (bad.length) { bad[0].focus(); track("form_invalid", { fields: bad.length }); return; }
     if (Date.now() - t0 < 2500) { show("bad", M.fast, ""); return; }
     var p = payload(), btn = form.querySelector("[type=submit]");
-    if (!CFG.formEndpoint) {
+    var endpoint = form.dataset.endpoint;
+    if (!endpoint) {
       var box = document.createElement("div"), pre = document.createElement("pre"), cb = document.createElement("button");
       pre.className = "brief"; pre.textContent = brief(p);
       cb.type = "button"; cb.className = "btn btn-line"; cb.textContent = M.copy; cb.style.marginTop = "10px";
@@ -196,21 +192,22 @@
       });
       box.appendChild(pre); box.appendChild(cb);
       show("bad", M.offH, M.offP, box);
-      track("form_submit_unconnected", { need: p.need });
+      track("form_submit_unconnected", { need: p.need_code });
       return;
     }
     busy = true; btn.disabled = true; btn.textContent = M.sending;
-    fetch(CFG.formEndpoint, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(Object.assign({ _brief: brief(p) }, p)) })
+    var ctl = window.AbortController ? new AbortController() : null, timer = ctl && setTimeout(function () { ctl.abort(); }, 15000);
+    fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(Object.assign({ _brief: brief(p) }, p)), signal: ctl ? ctl.signal : undefined })
       .then(function (r) {
         if (!r.ok) throw new Error("HTTP " + r.status);
         form.reset(); form.hidden = true;
         show("ok", M.okH, M.okP);
-        track("form_submit_success", { need: p.need, size: p.size_code, country: p.country_code });
+        track("form_submit_success", { need: p.need_code, size: p.size_code, country: p.country_code });
       })
       .catch(function () {
         show("bad", M.badH, M.badP);
         track("form_submit_error", {});
       })
-      .then(function () { busy = false; btn.disabled = false; btn.textContent = M.send; });
+      .then(function () { if (timer) clearTimeout(timer); busy = false; btn.disabled = false; btn.textContent = M.send; });
   });
 })();

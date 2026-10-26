@@ -18,7 +18,7 @@ def ee(lon, lat):
 
 
 # crop window (lon/lat) and output size
-LON0, LON1, LAT0, LAT1 = -122, 96, -8, 62
+LON0, LON1, LAT0, LAT1 = -122, 112, -8, 62
 X0, _ = ee(LON0, 0); X1, _ = ee(LON1, 0)
 _, Y1 = ee(0, LAT1); _, Y0 = ee(0, LAT0)
 W = 1000
