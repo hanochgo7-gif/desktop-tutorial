@@ -78,4 +78,4 @@ The home page has no hero stat counter and no card grid. The second thing a visi
 | **"We design, make and build net houses for orchards."** | Says what, how (the three verbs are the real value chain, Q q2) and for whom. Chosen. |
 | Hebrew: **"אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים."** | Same sentence. Chosen. |
 
-Primary CTA: **"Request a project review"** / **"בקשו בדיקת פרויקט"**. It matches the real sales process (needs mapping on site comes first, OS consult) and avoids "Get a quote", which invites the price-only enquiries the client wants to avoid (q21).
+Primary CTA (after review cycle 1): **"Discuss your project"** / **"דברו איתנו על הפרויקט"**. The first wording, "Request a project review", was read by the buyer reviewer as an audit or a paid service. The new wording still matches the real sales process (needs mapping on site comes first, OS consult) and avoids "Get a quote", which invites the price-only enquiries the client wants to avoid (q21).

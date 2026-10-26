@@ -24,7 +24,7 @@ website/
 
 ## Requirements
 
-- Python 3.10+ with Pillow (for `images.py`) and ReportLab (for `qr.py`)
+- Python 3.10+, then `pip install -r requirements.txt` (Pillow for images, ReportLab for the QR code)
 - `ffmpeg`, only if you re-cut the hero video
 
 `build.py` imports the logo generator from `greenhouse-brand/tools/build.py`, a sibling folder in this repo. It produces the measured SVG of the original logo. Keep the two folders together.
@@ -39,7 +39,9 @@ website/
 | Rebuild the map | `python3 src/tools/worldmap.py` (markers come from `MARKETS` in `content.py`) |
 | Preview locally | `cd public && python3 -m http.server 8765`, then open http://localhost:8765/ |
 
-**Fonts:** `public/assets/fonts/fonts.css` is maintained by hand. It includes the metric-matched Hebrew fallback; see `docs/MIFTAH_DESIGN_SYSTEM.md`.
+**Fonts and icons:** these live in `src/assets/fonts/` and `src/assets/icons/`, and `build.py` copies them into `public/`. `fonts.css` is maintained by hand and includes the metric-matched Hebrew fallback (see `docs/MIFTAH_DESIGN_SYSTEM.md`).
+
+**Versioning:** CSS, JS and fonts.css get a content hash (`?v=…`). Pages reference only the current files, so long cache headers are safe. `public/.htaccess` (generated) sets the cache headers and the per-language 404 pages on Apache.
 
 **Hero video:** the current clip is DJI_0024 from 32 s to 44 s. It is encoded three ways (wide 1600×900, 720p, and 720×960 portrait), each as H.264 MP4 plus VP9 WebM. To re-cut it from the original file, run `sh src/tools/video.sh /path/to/DJI_0024.MP4`.
 
@@ -51,7 +53,9 @@ To connect it:
 1. Choose a destination that accepts a JSON `POST` and answers with a 2xx status. Options:
    - **A form service:** Formspree, Basin or Getform, delivering to the business mailbox.
    - **A small serverless function:** for example a Supabase Edge Function or a Netlify or Vercel function that emails the request or stores it in a table.
-2. Set `FORM_ENDPOINT = "https://…"` in `src/build.py` and rebuild.
+2. Set `FORM_ENDPOINT = "https://…"` in `src/build.py` and rebuild. The URL is written into the form's `data-endpoint`; there is no inline script.
+   - The form sends JSON, so a cross-origin endpoint must answer the CORS preflight (OPTIONS). Formspree and serverless functions do this.
+   - Requests time out after 15 s and show the error state.
 3. Test with a real submission. Success is shown only on a 2xx response; anything else shows an error with the phone number.
 
 The request body contains these fields:
@@ -61,7 +65,7 @@ The request body contains these fields:
 - `meet_berlin`, `lang`, `page`, `sent_at`
 - `_brief`: a ready-to-read text summary
 
-Spam protection is a hidden honeypot field plus a 2.5-second minimum fill time. Add the service's own CAPTCHA only if spam appears.
+Spam protection is a hidden trap field (`mt_hp`), which is silently ignored when filled, plus a 2.5-second minimum fill time. Add the service's own CAPTCHA only if spam appears.
 
 ## Analytics
 
@@ -73,7 +77,7 @@ The domain miftah.co.il is registered with Interspace. Hosting is at Nethost (co
 
 1. Upload the contents of `public/` to the web root.
 2. Configure:
-   - The server serves `404.html` for missing pages (Apache: `ErrorDocument 404 /404.html`).
+   - The server serves `404.html` for missing pages. The generated `.htaccess` already does this on Apache, including `/he/404.html` for Hebrew paths.
    - HTTPS, with a redirect from `miftah.co.il` to `https://www.miftah.co.il` (the canonical host).
    - Long cache headers for `/assets/` (files are versioned with `?v=YYYYMMDD` at build time) and short ones for `.html`.
    - 301 redirects from the old WordPress URLs (proposed mapping in `docs/MIFTAH_SEO_AND_ANALYTICS.md`).

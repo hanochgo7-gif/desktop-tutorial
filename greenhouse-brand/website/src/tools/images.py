@@ -10,7 +10,6 @@ JOBS = {
     # name: (master, crop box as fractions or None)
     "valley": ("valley.jpg", None),
     "forest": ("forest.jpg", None),
-    "hillside": ("hillside.jpg", None),
     "p-site": ("p-site.jpg", None),
     "p-marking": ("p-marking.jpg", None),
     "p-poles": ("p-poles.jpg", None),

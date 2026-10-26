@@ -302,10 +302,10 @@ PAGES = {
         "company_h": ("Company details", "פרטי החברה"),
     },
     "contact": {
-        "title": ("Request a project review | MIFTAH Projects", "בקשו בדיקת פרויקט | מיפתח פרויקטים"),
+        "title": ("Discuss your project | MIFTAH Projects", "דברו איתנו על הפרויקט | מיפתח פרויקטים"),
         "desc": ("Tell MIFTAH Projects where your land is, what you grow and how large it is, and we'll arrange a first conversation. Office: +972 4 985 4404.",
                  "ספרו למיפתח פרויקטים איפה הקרקע, מה מגדלים ומה גודל השטח, ונתאם שיחה ראשונה. משרד: 04-9854404, כפר מסריק."),
-        "h1": ("Request a project review", "בקשו בדיקת פרויקט"),
+        "h1": ("Discuss your project", "דברו איתנו על הפרויקט"),
         "lead": ("Tell us where the land is, what you grow or plan to grow, and how large it is. We'll contact you to arrange a first conversation, and a visit to the site when the project fits.",
                  "ספרו לנו איפה הקרקע, מה מגדלים או מתכננים לגדל, ומה גודל השטח. נחזור אליך כדי לתאם שיחה ראשונה, וביקור בשטח כשהפרויקט מתאים."),
         "aside_phone_h": ("Prefer to talk?", "מעדיפים לדבר?"),

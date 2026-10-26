@@ -11,7 +11,7 @@ English is at the root, Hebrew under `/he/`. The same slugs are used in both lan
 | Turnkey farms abroad | `/turnkey-farms.html` | `/he/turnkey-farms.html` | The growth line for investors (q2, q22), stated honestly as delivered with partners (q36) | "Can one partner set up my farm, and what's excluded?" |
 | Projects | `/projects.html` | `/he/projects.html` | Evidence: 7 countries abroad, 410,000 m² itemised, the five projects the owners chose (q14) | "Have they done this, at scale, far away?" |
 | About | `/about.html` | `/he/about.html` | Named owners, the plant, the crews, values in the client's own words (q23) | "Who exactly am I dealing with?" |
-| Request a project review | `/contact.html` | `/he/contact.html` | The single conversion page | "How do I start, and will they take my project?" |
+| Discuss your project (contact) | `/contact.html` | `/he/contact.html` | The single conversion page | "How do I start, and will they take my project?" |
 | Company profile | `/profile.html` | `/he/profile.html` | One printable page to attach to quotes and hand out in Berlin (q22, q44). Marked `noindex`. | "Give me the summary" |
 | Privacy | `/privacy.html` | `/he/privacy.html` | Required by the form | |
 | Accessibility statement | `/accessibility.html` | `/he/accessibility.html` | Israeli law (IS 5568) | |
@@ -25,7 +25,7 @@ Not built, on purpose:
 
 ## Navigation
 
-- **Header:** Net houses, Turnkey farms, Projects, About, Contact, the language switch, and the primary CTA "Request a project review" (it moves into the menu under 1020 px).
+- **Header:** Net houses, Turnkey farms, Projects, About, Contact, the language switch, and the primary CTA "Discuss your project" (it moves into the menu under 1020 px).
 - **Footer:** all pages, the company profile, phone, town, privacy and accessibility.
 - **Dark CTA band at the end of every content page:** CTA and phone, the minimum sizes, and the Berlin fair.
 
@@ -76,7 +76,7 @@ Not built, on purpose:
 
 | Element | Decision | Source |
 |---|---|---|
-| Primary CTA | "Request a project review" / "בקשו בדיקת פרויקט" everywhere, with the same name in the header, hero, band, form heading and page title | Creative direction; q21 (avoid "get a quote") |
+| Primary CTA | "Discuss your project" / "דברו איתנו על הפרויקט" everywhere (renamed after review cycle 1), with the same name in the header, hero, band, form heading and page title | Creative direction; q21 (avoid "get a quote") |
 | Secondary CTA | Office phone, `tel:` link, tracked | q31 |
 | Form fields | See the table below | |
 | Qualification | Minimum sizes stated before the form, plus a live notice when the size is below the minimum for the chosen country (it doesn't block sending) | q8, q21 |

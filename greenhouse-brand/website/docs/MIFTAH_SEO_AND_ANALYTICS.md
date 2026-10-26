@@ -11,7 +11,7 @@ Keyword research came from the market research file and from the earlier Hebrew 
 | Turnkey farms | turnkey farm abroad, agricultural investment Portugal | חווה בשיטת Turnkey בחו״ל | Turnkey farms abroad for investors \| MIFTAH Projects |
 | Projects | net house projects Mexico, India, Spain… | פרויקטים של בתי רשת | Projects in Israel, Europe and the Americas \| MIFTAH Projects |
 | About | MIFTAH Projects, Kfar Masaryk | מיפתח פרויקטים | About MIFTAH Projects: a family company in Israel |
-| Contact | (brand and navigation) | | Request a project review \| MIFTAH Projects |
+| Contact | (brand and navigation) | | Discuss your project \| MIFTAH Projects |
 
 There are no thin location pages and no per-country pages. Per-crop pages can follow once there is approved material per crop, such as photos and specifications per project.
 
@@ -23,7 +23,7 @@ There are no thin location pages and no per-country pages. Per-crop pages can fo
 - **Canonical:** absolute (`https://www.miftah.co.il/...`) on every page except 404.
 - **hreflang:** en, he and x-default (→ en) on every page and in the sitemap, reciprocal.
 - **Sitemap:** `sitemap.xml` lists 16 URLs (8 pages × 2 languages; the profile is excluded) with `xhtml:link` alternates.
-- **robots.txt:** allows all, disallows the profile pages, and points to the sitemap. The profile page also carries `noindex`, because it duplicates the other pages.
+- **robots.txt:** allows all and points to the sitemap. The profile page is kept out of search by `noindex` alone; blocking it in robots.txt would stop crawlers from ever seeing that tag.
 - **Structured data:** a JSON-LD `@graph` built only from ledger facts.
   - Organization: name, Hebrew name, phone, Kfar Masaryk, the 8 countries worked in, founders as co-CEOs, slogan.
   - WebSite (en, he), WebPage, BreadcrumbList on inner pages, and Service on Net houses and Turnkey farms.
@@ -32,7 +32,7 @@ There are no thin location pages and no per-country pages. Per-crop pages can fo
 - **Alt text:** describes what is in each photo, without inventing places.
 - **Language and direction:** `lang` and `dir` are set per page. The Hebrew URLs are under `/he/`.
 - **Internal links:** every page links to the others through the header, the footer and the CTA. The routes on Home lead to the two service pages. Turnkey links to Net houses.
-- **404 page:** served for unknown paths, with links to every page, and `<base>` so its links work at any depth.
+- **404 page:** served for unknown paths, with links to every page. Its links and assets are root-absolute, so it works at any depth (tested with a simulated deep URL). There is a 404 per language, chosen by `.htaccess`.
 - **Redirects:** the old WordPress URLs from miftah.co.il (2015) should be 301-redirected when the new site goes live. The proposed mapping is below. The exact old paths must be confirmed against the live old site before setting them up on Nethost.
 
 | Old (WordPress, from the saved pages) | New |
@@ -64,7 +64,7 @@ The tracking calls are already in the code (`window.miftahTrack` in `site.js`). 
 
 | Event | Fires when | Properties |
 |---|---|---|
-| `cta_click` | Any "Request a project review" button | `label` (header, nav, hero, band-…) |
+| `cta_click` | Any "Discuss your project" button | `label` (header, nav, hero, band-…) |
 | `phone_click` | Any `tel:` link | `where` (footer, band-…, contact, about) |
 | `form_start` | First input in the form | |
 | `form_invalid` | A submit is blocked by validation | `fields` (count) |
