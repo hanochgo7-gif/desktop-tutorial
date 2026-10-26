@@ -9,6 +9,7 @@ import json
 import math
 import re
 import shutil
+import subprocess
 from pathlib import Path
 
 import content as C
@@ -26,7 +27,17 @@ brand = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(brand)
 DOMAIN = "https://www.miftah.co.il"
 FORM_ENDPOINT = ""          # a URL that accepts a JSON POST and answers 2xx. Empty = honest "not connected" state.
 ANALYTICS = ""              # e.g. '<script defer data-domain="miftah.co.il" src="https://plausible.io/js/script.js"></script>'
-YEAR = datetime.date.today().year
+def _git_date():
+    """Date of the last commit that touched src/ (falls back to today outside git), so a fresh clone builds the same files."""
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%cs", "--", str(SRC)], capture_output=True, text=True, cwd=SRC, timeout=10).stdout.strip()
+        return datetime.date.fromisoformat(out) if out else datetime.date.today()
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return datetime.date.today()
+
+
+SOURCE_DATE = _git_date()
+YEAR = SOURCE_DATE.year
 LANGS = ("en", "he")
 PAGES = ["index", "net-houses", "turnkey-farms", "projects", "about", "contact", "profile", "privacy", "accessibility"]
 
@@ -66,6 +77,7 @@ def ver(path):
 
 
 LOGO = brand.logo_svg("light", "compact")
+FONTV = {}  # font file -> content hash, filled in main()
 
 
 def logo(L):
@@ -89,16 +101,26 @@ def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600)
 
 # ---------------------------------------------------------------- signature: the section drawing
 def drawing(L, animate=True):
-    """A section through a net house, drawn as a shop drawing: hatched soil, footings, dimension lines, numbered callouts."""
-    D = C.DRAWING; he = L == "he"
+    """The section drawing: a full desktop version and a two-bay phone version with larger labels, plus the legend."""
+    D = C.DRAWING
+    legend = "".join(f'<li><span class="k">{i + 1}</span><div><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div></li>' for i, (a_, b_) in enumerate(D["items"]))
+    fig = (f'<figure class="drawing"{" data-animate" if animate else ""}>{_drawing_svg(L, False)}{_drawing_svg(L, True)}'
+           f'<figcaption><span>{esc(t(D["caption"], L))}</span></figcaption></figure>')
+    return fig, f'<ol class="legend">{legend}</ol>'
+
+
+def _drawing_svg(L, mobile):
+    """A section through a net house, drawn as a shop drawing: hatched soil, footings, dimension lines, numbered callouts.
+    The phone version crops to the first two bays and keeps only the callouts that fall inside, at a readable size."""
+    D = C.DRAWING; he = L == "he"; W = 690 if mobile else 1260
     poles = [150, 390, 630, 870, 1110]
     top, gy = 150, 430
     p = []
     f = lambda d: f' class="dw-fade" style="--d:{d:.2f}s"'
-    p.append('<defs><pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V12" stroke="#CDBFA4" stroke-width="2"/></pattern>'
-             '<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0E4239"/></marker>'
-             '<marker id="tk" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M5 0V10" stroke="#4B605B" stroke-width="1.5"/></marker></defs>')
-    p.append(f'<rect x="0" y="{gy}" width="1260" height="70" fill="url(#hatch)"/>')
+    p.append(f'<defs><pattern id="hatch{"m" if mobile else ""}" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V12" stroke="#CDBFA4" stroke-width="2"/></pattern>'
+             f'<marker id="ar{"m" if mobile else ""}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0E4239"/></marker>'
+             f'<marker id="tk{"m" if mobile else ""}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M5 0V10" stroke="#4B605B" stroke-width="1.5"/></marker></defs>')
+    p.append(f'<rect x="0" y="{gy}" width="1260" height="70" fill="url(#hatch{"m" if mobile else ""})"/>')
     p.append(f'<path class="dw-ground dw-anim" style="--d:0s" d="M0 {gy} H1260"/>')
     for i, x in enumerate(poles):
         d = .15 + i * .1
@@ -117,14 +139,15 @@ def drawing(L, animate=True):
         p.append(f'<g{f(1.7 + i * .08)}><path class="dw-trunk" d="M{cx} {gy} V352"/><path class="dw-crown" d="M{cx - 66} 312 C{cx - 70} 262 {cx - 30} 246 {cx} 248 C{cx + 34} 246 {cx + 72} 264 {cx + 66} 312 C{cx + 60} 348 {cx - 60} 350 {cx - 66} 312 Z"/></g>')
     p.append(f'<path class="dw-drip dw-anim" style="--d:2s" d="M{poles[0] + 10} {gy - 3} H{poles[-1] - 10}"/>')
     fx0, fx1 = poles[1] + 30, poles[2] - 30
-    p.append(f'<path class="dw-lead dw-fade" style="--d:2.1s" d="M{fx1} {top - 34} H{fx0}" marker-end="url(#ar)"/>')
-    # dimension lines: span over one bay, height inside the last bay
+    p.append(f'<path class="dw-lead dw-fade" style="--d:2.1s" d="M{fx1} {top - 34} H{fx0}" marker-end="url(#ar{"m" if mobile else ""})"/>')
+    # dimension lines: span over one bay, height inside the last bay (desktop only)
     dy = 104
-    p.append(f'<g{f(2.15)}><path class="dw-dim" d="M{poles[2]} {dy} H{poles[3]}" marker-start="url(#tk)" marker-end="url(#tk)"/>'
+    dims = []
+    dims.append(f'<g{f(2.15)}><path class="dw-dim" d="M{poles[2]} {dy} H{poles[3]}" marker-start="url(#tk{"m" if mobile else ""})" marker-end="url(#tk{"m" if mobile else ""})"/>'
              f'<path class="dw-ext" d="M{poles[2]} {dy - 8} V{top - 10} M{poles[3]} {dy - 8} V{top - 10}"/>'
              f'<text class="dw-note" x="{(poles[2] + poles[3]) / 2}" y="{dy - 8}" text-anchor="middle">{esc(t(D["span"], L))}</text></g>')
     hx = poles[-1] - 22
-    p.append(f'<g{f(2.2)}><path class="dw-dim" d="M{hx} {top} V{gy}" marker-start="url(#tk)" marker-end="url(#tk)"/>'
+    dims.append(f'<g{f(2.2)}><path class="dw-dim" d="M{hx} {top} V{gy}" marker-start="url(#tk{"m" if mobile else ""})" marker-end="url(#tk{"m" if mobile else ""})"/>'
              f'<text class="dw-note" transform="translate({hx - 8} {(top + gy) / 2}) rotate(-90)" text-anchor="middle">{esc(t(D["height"], L))}</text></g>')
     # callouts: anchor point -> numbered tag, two rows (above and below the structure); label x differs by language
     rows = [  # (number, anchor, tag x en, tag x he, tag y)
@@ -135,21 +158,29 @@ def drawing(L, animate=True):
         (3, (630, 400), 560, 820, 540),
         (4, (1190, 355), 990, 1200, 540),
     ]
-    for n, (ax, ay), lxe, lxh, ly in rows:
+    if not mobile:
+        p.extend(dims)
+    if mobile:  # numbers only, every callout re-anchored inside the two-bay crop; the legend below names them
+        mrows = [(2, (270, top - 6), 230, 66), (6, (fx0 + 6, top - 34), 420, 66), (1, (510, top + 9), 580, 66),
+                 (4, (79, 330), 80, 540), (5, (200, 300), 250, 540), (3, (630, 400), 560, 540)]
+        for n, (ax, ay), lx, ly in mrows:
+            tip = ly + 20 if ly < ay else ly - 28
+            p.append(f'<g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="6"/>'
+                     f'<circle class="dw-tagc" cx="{lx}" cy="{ly - 4}" r="24"/><text class="dw-tag" x="{lx}" y="{ly + 4}" text-anchor="middle" style="font-size:24px">{n}</text></g>')
+    for n, (ax, ay), lxe, lxh, ly in ([] if mobile else rows):
         lx = lxh if he else lxe
         name = t(D["items"][n - 1][0], L)
         tip = ly + 9 if ly < ay else ly - 17
         p.append(f'<g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="4"/>'
                  f'<circle class="dw-tagc" cx="{lx}" cy="{ly - 4}" r="13"/><text class="dw-tag" x="{lx}" y="{ly}" text-anchor="middle">{n}</text>'
                  f'<text class="dw-label" x="{lx - 20 if he else lx + 20}" y="{ly}" text-anchor="start">{esc(name)}</text></g>')
-    p.append(f'<text class="dw-note" x="{20 if he else 1240}" y="24" text-anchor="end">{esc(t(D["section"], L))}</text>')  # "end" is the left edge in RTL
+    if not mobile:
+        p.append(f'<text class="dw-note" x="{20 if he else 1240}" y="24" text-anchor="end">{esc(t(D["section"], L))}</text>')  # "end" is the left edge in RTL
     desc = " ".join(f"{i + 1}. {tm(a_, L)}: {tm(b_, L)}" for i, (a_, b_) in enumerate(D["items"]))
-    svg = (f'<svg viewBox="0 0 1260 570" role="img" aria-labelledby="dw-t-{L} dw-d-{L}"><title id="dw-t-{L}">{esc(tm(D["title"], L))}</title><desc id="dw-d-{L}">{esc(desc)}</desc>'
-           + "".join(p) + "</svg>")
-    legend = "".join(f'<li><span class="k">{i + 1}</span><div><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div></li>' for i, (a_, b_) in enumerate(D["items"]))
-    fig = (f'<figure class="drawing"{" data-animate" if animate else ""}><div class="dw-scroll" tabindex="0" aria-label="{esc(tm(D["title"], L))}">{svg}</div>'
-           f'<figcaption><span>{esc(t(D["caption"], L))}</span><span class="swipe">{esc(t(C.SITE["swipe"], L))}</span></figcaption></figure>')
-    return fig, f'<ol class="legend">{legend}</ol>'
+    k = "m" if mobile else "d"
+    vb = "0 20 690 550" if mobile else "0 0 1260 570"
+    return (f'<svg class="dw-{k}" viewBox="{vb}" role="img" aria-labelledby="dw-t-{L}{k} dw-d-{L}{k}"><title id="dw-t-{L}{k}">{esc(tm(D["title"], L))}</title><desc id="dw-d-{L}{k}">{esc(desc)}</desc>'
+            + "".join(p) + "</svg>")
 
 
 # ---------------------------------------------------------------- map
@@ -172,9 +203,11 @@ def map_svg(L):
             lab += f'<text class="mk-v" x="{x + dx:.1f}" y="{y + dy + 15:.1f}" text-anchor="{an}">{esc(val)}</text>'
         marks.append(f'<g><circle class="mk-ring" cx="{x:.1f}" cy="{y:.1f}" r="{r + 5:.1f}"/><circle class="mk" cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}"/>{lab}</g>')
     marks.append(f'<g><circle class="hq" cx="{hx:.1f}" cy="{hy:.1f}" r="7"/><text class="mk-l" x="{hx + 12:.1f}" y="{hy + 22:.1f}" text-anchor="{"end" if he else "start"}">{esc(C.HQ[2] if not he else C.HQ[3])}</text></g>')
-    svg = (f'<svg class="map" viewBox="0 0 {MAP["w"]} {MAP["h"]}" role="img" aria-label="{esc(tm(C.SITE["map_label"], L))}">'
-           f'<path class="land" d="{MAP["d"]}"/>{"".join(marks)}</svg>')
-    return f'<div class="map-scroll" tabindex="0" aria-label="{esc(tm(C.SITE["map_label"], L))}">{svg}</div>'
+    body = f'<path class="land" d="{MAP["d"]}"/>{"".join(marks)}'
+    label = esc(tm(C.SITE["map_label"], L))
+    # on phones the one wide map becomes two stacked crops, so the labels stay readable without sideways scrolling
+    panels = [("map-d", f"0 0 {MAP['w']} {MAP['h']}"), ("map-m map-am", "10 125 290 150"), ("map-m map-eu", "385 0 535 250")]
+    return "".join(f'<svg class="map {k}" viewBox="{vb}" role="img" aria-label="{label}">{body}</svg>' for k, vb in panels)
 
 
 def projects_table(L):
@@ -204,6 +237,8 @@ def jsonld(slug, L, crumbs):
     if slug in ("net-houses", "turnkey-farms"):
         kind = {"net-houses": "Agricultural net house design, manufacture and installation", "turnkey-farms": "Turnkey farm development abroad, delivered with agricultural partners"}[slug]
         graph.append({"@type": "Service", "name": tm(C.PAGES[slug]["h1"], L), "provider": {"@id": f"{DOMAIN}/#org"}, "serviceType": kind})
+    if slug == "contact":
+        graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in C.FAQ]})
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False) + "</script>"
 
 
@@ -214,9 +249,9 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
         links = (f'<link rel="canonical" href="{url(slug, L, True)}">'
                  f'<link rel="alternate" hreflang="en" href="{url(slug, "en", True)}"><link rel="alternate" hreflang="he" href="{url(slug, "he", True)}">'
                  f'<link rel="alternate" hreflang="x-default" href="{url(slug, "en", True)}">')
-    pre = f'<link rel="preload" href="{r}assets/fonts/IBMPlexSans-var-latin.woff2" as="font" type="font/woff2" crossorigin>'
+    pre = f'<link rel="preload" href="{r}assets/fonts/IBMPlexSans-var-latin.woff2?v={FONTV["IBMPlexSans-var-latin.woff2"]}" as="font" type="font/woff2" crossorigin>'
     if L == "he":  # Hebrew pages still need the Latin file for digits, spaces and punctuation
-        pre += "".join(f'<link rel="preload" href="{r}assets/fonts/IBMPlexSansHebrew-{w}-hebrew.woff2" as="font" type="font/woff2" crossorigin>' for w in (700, 400))
+        pre += "".join(f'<link rel="preload" href="{r}assets/fonts/IBMPlexSansHebrew-{w}-hebrew.woff2?v={FONTV[f"IBMPlexSansHebrew-{w}-hebrew.woff2"]}" as="font" type="font/woff2" crossorigin>' for w in (700, 400))
     if slug == "index":
         pre += (f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-portrait-720.avif" imagesrcset="{r}assets/img/hero-portrait-720.avif 720w" imagesizes="100vw" media="(max-width: 720px) and (orientation: portrait)">'
                 f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-1600.avif" imagesrcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" imagesizes="100vw" media="not all and (max-width: 720px) and (orientation: portrait)">')
@@ -336,13 +371,13 @@ def cta_band(L, where):
 </section>"""
 
 
-def steps(L):
-    """Process steps, each with its real photo; told once."""
+def steps(L, photos=True):
+    """Process steps, each with its real photo on Home; text only on Net houses, so the photos aren't shown twice."""
     lis = []
     for i, (img, h, p, cap) in enumerate(C.STEPS):
-        lis.append(f'<li><figure>{picture(img, tm(cap, L), L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption>{esc(t(cap, L))}</figcaption></figure>'
-                   f'<span class="n">{i + 1:02d}</span><h3>{esc(t(h, L))}</h3><p>{esc(t(p, L))}</p></li>')
-    return f'<ol class="steps">{"".join(lis)}</ol>'
+        fig = f'<figure>{picture(img, tm(cap, L), L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption>{esc(t(cap, L))}</figcaption></figure>' if photos else ""
+        lis.append(f'<li>{fig}<span class="n">{i + 1:02d}</span><h3>{esc(t(h, L))}</h3><p>{esc(t(p, L))}</p></li>')
+    return f'<ol class="steps{"" if photos else " plain"}">{"".join(lis)}</ol>'
 
 
 def featured(L):
@@ -374,7 +409,7 @@ def p_index(L):
       <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
       <a class="btn btn-line" href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(P["cta2"], L))}</a>
     </div>
-    <div class="hero-foot"><span>{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
+    <div class="hero-foot"><span>{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
   </div>
 </section>
 <section class="facts" aria-label="{"Key facts" if L == "en" else "עובדות מרכזיות"}"><div class="wrap"><dl>{facts}</dl></div></section>
@@ -426,10 +461,10 @@ def p_index(L):
   </div>
 </section>
 
-<section class="section" aria-labelledby="why-h">
-  <div class="wrap split">
-    <h2 id="why-h">{esc(t(P["why_h"], L))}</h2>
-    <div><p class="statement">{esc(t(P["why_statement"], L))}</p><p class="muted refs">{esc(t(P["why_refs"], L))}</p></div>
+<section class="section why" aria-labelledby="why-h">
+  <div class="wrap">
+    <h2 id="why-h" class="h-small">{esc(t(P["why_h"], L))}</h2>
+    <p class="statement big">{esc(t(P["why_statement"], L))}</p><p class="muted refs">{esc(t(P["why_refs"], L))}</p>
   </div>
 </section>
 {cta_band(L, "home")}
@@ -460,7 +495,8 @@ def p_net(L):
 <section class="section" aria-labelledby="steps-h">
   <div class="wrap">
     <div class="sec-head"><h2 id="steps-h">{esc(t(P["steps_h"], L))}</h2><p class="lead">{esc(t(P["steps_p"], L))}</p></div>
-    {steps(L)}
+    {steps(L, photos=False)}
+    <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption>{esc(t(C.STEPS[2][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
     <div class="notice" style="margin-top:clamp(28px,4vw,48px);max-width:820px"><b>{esc(t(P["abroad_h"], L))}.</b> {esc(t(P["abroad_p"], L))}</div>
   </div>
 </section>
@@ -533,8 +569,8 @@ def p_projects(L):
 <section class="section white" aria-label="{"Photos" if L == "en" else "תמונות"}">
   <div class="wrap">
     <div class="series two">
-      <figure>{picture("valley", tm(C.TYPES[0]["cap"], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.TYPES[0]["cap"], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
-      <figure>{picture("forest", tm(C.TYPES[1]["cap"], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.TYPES[1]["cap"], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
+      <figure>{picture("p-closed", tm(C.STEPS[3][3], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.STEPS[3][3], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
+      <figure>{picture("p-site", tm(C.STEPS[0][3], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.STEPS[0][3], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -563,7 +599,8 @@ def p_about(L):
 </section>
 <section class="section white" aria-labelledby="how-h">
   <div class="wrap split">
-    <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p></div>
+    <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p>
+      <figure class="ph-fig" style="margin-top:28px">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure></div>
     <div><h2 class="h-small" id="co-h">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
   </div>
 </section>
@@ -583,7 +620,7 @@ def choices(name, items, L, legend):
 
 
 def select(name, label, items, L, req=False):
-    opts = "".join(f'<option value="{v}">{esc(t(x, L))}</option>' for v, x in items)
+    opts = "".join(f'<option value="{v}">{esc(tm(x, L))}</option>' for v, x in items)  # tm: no invisible isolates in submitted text
     r = ' required aria-required="true"' if req else ""
     return f'<div class="field"><label for="f-{name}">{esc(t(label, L))}</label><select id="f-{name}" name="{name}"{r}>{opts}</select></div>'
 
@@ -597,10 +634,18 @@ def inp(name, label, L, typ="text", req=False, auto="", hint=None):
     return f'<div class="field"><label for="f-{name}">{esc(t(label, L))}</label><input id="f-{name}" name="{name}" type="{typ}"{a}{r}{db}{d}>{h}</div>'
 
 
+def form_msg(L):
+    """The form script's messages and summary labels, from content.py, as JSON for a data attribute."""
+    ph = tm(C.SITE["phone_display"], L)
+    m = {k: tm(v, L).replace("{phone}", ph) for k, v in C.FORM_MSG.items()}
+    m["keys"] = [[tm(lab, L), k] for k, lab in C.FORM_BRIEF_KEYS]
+    return json.dumps(m, ensure_ascii=False, separators=(",", ":"))
+
+
 def p_contact(L):
     P = C.PAGES["contact"]; F = C.FORM; S = C.SITE
     consent = esc(t(F["consent"], L)).replace("{privacy}", f'<a href="privacy.html">{esc(t(F["privacy_link"], L))}</a>')
-    form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" novalidate aria-labelledby="form-h">
+    form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
   <div class="fields">
@@ -635,6 +680,12 @@ def p_contact(L):
 <main id="main">
 {page_head("contact", L)}
 <section class="section"><div class="wrap form-grid"><div>{form}</div>{aside}</div></section>
+<section class="section white" aria-labelledby="faq-h">
+  <div class="wrap split">
+    <h2 id="faq-h">{esc(t(C.FAQ_H, L))}</h2>
+    <div class="faq">{"".join(f'<details><summary>{esc(t(q, L))}</summary><p>{esc(t(a, L))}</p></details>' for q, a in C.FAQ)}</div>
+  </div>
+</section>
 </main>"""
 
 
@@ -718,15 +769,19 @@ def main():
     for f in (SRC / "assets/icons").iterdir():
         shutil.copy(f, A / f.name)
     shutil.copy(SRC.parents[1] / "images/miftah-mark.svg", A / "favicon.svg")
-    VER.update(css=ver(A / "site.css"), js=ver(A / "site.js"), fonts=ver(A / "fonts/fonts.css"))
+    for w in (A / "fonts").glob("*.woff2"):
+        FONTV[w.name] = ver(w)
+    fc = A / "fonts/fonts.css"
+    fc.write_text(re.sub(r"url\(\.\./fonts/([\w-]+\.woff2)\)", lambda m: f"url(../fonts/{m.group(1)}?v={FONTV[m.group(1)]})", fc.read_text()))
+    VER.update(css=ver(A / "site.css"), js=ver(A / "site.js"), fonts=ver(fc))
     for L in LANGS:
         base = PUB if L == "en" else PUB / "he"
         for slug in PAGES:
             write(base / ("index.html" if slug == "index" else f"{slug}.html"),
                   head(slug, L, crumbs_for(slug, L), noindex=(slug == "profile")) + header(slug, L) + RENDER[slug](L) + footer(L))
         write(base / "404.html", rootify(head("404", L, noindex=True) + header("404", L) + p_404(L) + footer(L), L))
-    # sitemap: lastmod follows the last change to the copy or the templates, not the build date
-    lastmod = datetime.date.fromtimestamp(max((SRC / f).stat().st_mtime for f in ("content.py", "build.py"))).isoformat()
+    # sitemap: lastmod is the date of the last commit to the source, not the build date
+    lastmod = SOURCE_DATE.isoformat()
     urls = []
     for slug in PAGES:
         if slug == "profile":
@@ -738,10 +793,17 @@ def main():
     write(PUB / "robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write(PUB / "site.webmanifest", json.dumps({"name": "MIFTAH Projects", "short_name": "MIFTAH", "start_url": "/", "display": "browser", "background_color": "#F2F5F3", "theme_color": "#0E4239",
                                                "icons": [{"src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
+    EP = " " + "/".join(FORM_ENDPOINT.split("/")[:3]) if FORM_ENDPOINT else ""  # the form endpoint's origin, allowed by the CSP
     # host config for Apache (Nethost): 404 pages per language and cache headers
     write(PUB / ".htaccess", "ErrorDocument 404 /404.html\n<If \"%{REQUEST_URI} =~ m#^/he/#\">\n  ErrorDocument 404 /he/404.html\n</If>\n"
           "<IfModule mod_expires.c>\n  ExpiresActive On\n  ExpiresByType text/html \"access plus 10 minutes\"\n  ExpiresByType text/css \"access plus 1 year\"\n  ExpiresByType application/javascript \"access plus 1 year\"\n"
-          "  ExpiresByType font/woff2 \"access plus 1 year\"\n  ExpiresByType image/avif \"access plus 1 month\"\n  ExpiresByType image/webp \"access plus 1 month\"\n  ExpiresByType image/jpeg \"access plus 1 month\"\n  ExpiresByType video/mp4 \"access plus 1 month\"\n  ExpiresByType video/webm \"access plus 1 month\"\n</IfModule>\n")
+          "  ExpiresByType font/woff2 \"access plus 1 year\"\n  ExpiresByType image/avif \"access plus 1 month\"\n  ExpiresByType image/webp \"access plus 1 month\"\n  ExpiresByType image/jpeg \"access plus 1 month\"\n  ExpiresByType video/mp4 \"access plus 1 month\"\n  ExpiresByType video/webm \"access plus 1 month\"\n</IfModule>\n"
+          "<IfModule mod_deflate.c>\n  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml application/manifest+json text/plain\n</IfModule>\n"
+          "<IfModule mod_headers.c>\n  Header always set X-Content-Type-Options \"nosniff\"\n  Header always set Referrer-Policy \"strict-origin-when-cross-origin\"\n"
+          "  Header always set Content-Security-Policy \"default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP + "; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'\"\n</IfModule>\n"
+          "# Turn on once HTTPS works on www.miftah.co.il (release checklist). HSTS only after the redirect is confirmed.\n"
+          "# RewriteEngine On\n# RewriteCond %{HTTPS} off [OR]\n# RewriteCond %{HTTP_HOST} !^www\\. [NC]\n# RewriteRule ^ https://www.miftah.co.il%{REQUEST_URI} [L,R=301]\n"
+          "# Header always set Strict-Transport-Security \"max-age=31536000\"\n")
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 

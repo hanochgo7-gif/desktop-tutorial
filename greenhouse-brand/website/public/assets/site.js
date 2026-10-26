@@ -42,14 +42,16 @@
     var src = portrait && v.dataset.srcPortrait ? v.dataset.srcPortrait : (small && v.dataset.srcSmall ? v.dataset.srcSmall : v.dataset.srcWide);
     // H.264 MP4 everywhere it plays; WebM (VP9) for browsers built without H.264
     if (!v.canPlayType('video/mp4; codecs="avc1.640028"') && v.canPlayType('video/webm; codecs="vp9"')) src = src.replace(/\.mp4$/, ".webm");
-    function label(playing) { if (btn) btn.querySelector("span").textContent = playing ? btn.dataset.pause : btn.dataset.play; }
+    var ICON = { pause: "M2 1h3v10H2zM7 1h3v10H7z", play: "M2 1l9 5-9 5z" };
+    function label(playing) { if (!btn) return; btn.querySelector("span").textContent = playing ? btn.dataset.pause : btn.dataset.play; btn.querySelector("path").setAttribute("d", playing ? ICON.pause : ICON.play); }
     function start() {
       if (!v.getAttribute("src")) { v.setAttribute("src", src); }
       var p = v.play(); if (p && p.catch) p.catch(function () { label(false); });
       label(true);
     }
     // load after the page has loaded, so the poster (LCP) and text come first; never with reduced motion
-    function go() { if (reduce) { label(false); return; } start(); }
+    var cn = navigator.connection, slow = cn && (cn.saveData || /(^|-)(2g|3g)$/.test(cn.effectiveType || ""));
+    function go() { if (reduce || slow) { label(false); return; } start(); }
     if (document.readyState === "complete") setTimeout(go, 300);
     else window.addEventListener("load", function () { setTimeout(go, 300); });
     if (btn) btn.addEventListener("click", function () {
@@ -62,15 +64,21 @@
   // ---- the section drawing builds itself once, the first time it is seen ----
   document.querySelectorAll(".drawing[data-animate]").forEach(function (fig) {
     if (reduce || !("IntersectionObserver" in window)) return;
-    fig.querySelectorAll(".dw-anim").forEach(function (p) {
-      var len = 0; try { len = Math.ceil(p.getTotalLength()); } catch (e) { len = 600; }
-      p.style.setProperty("--len", len);
-    });
-    fig.classList.add("armed");
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (en) { if (en.isIntersecting) { fig.classList.add("play"); io.disconnect(); } });
-    }, { threshold: .35 });
-    io.observe(fig);
+    function arm() {  // measured when the browser is idle, so it doesn't add a forced layout to page load
+      var r = fig.getBoundingClientRect();
+      if (r.top < innerHeight && r.bottom > 0) return;  // already on screen: leave it drawn
+      fig.querySelectorAll(".dw-anim").forEach(function (p) {
+        if (!p.getClientRects().length) return;  // the hidden (desktop or phone) version
+        var len = 0; try { len = Math.ceil(p.getTotalLength()); } catch (e) { len = 600; }
+        p.style.setProperty("--len", len);
+      });
+      fig.classList.add("armed");
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) { fig.classList.add("play"); io.disconnect(); } });
+      }, { threshold: .35 });
+      io.observe(fig);
+    }
+    (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(arm);
   });
 
   // ---- print button on the profile page ----
@@ -80,22 +88,9 @@
   // ---- project-review form ----
   var form = document.getElementById("review-form");
   if (!form) return;
-  var M = {
-    en: { req: "Please fill this in.", email: "Please enter an email address like name@company.com.", choose: "Please choose one.", consent: "Please confirm so we can use these details to reply.",
-      sending: "Sending…", send: form.querySelector("[type=submit]").textContent,
-      okH: "Thank you. Your request was sent.", okP: "We'll contact you to arrange a first conversation. If it's urgent, call +972 4 985 4404.",
-      badH: "The request was not sent.", badP: "Something went wrong on our side. Please try again in a minute, or call +972 4 985 4404.",
-      offH: "Online sending isn't connected yet.", offP: "Your details were not sent. Copy the summary below and send it to us, or call +972 4 985 4404.", copy: "Copy the summary", copied: "Copied.",
-      fast: "Please take a moment to check the details, then send again.",
-      small_il: "Projects in Israel usually start from 5 ha (50 dunam). You can still send the request.", small_ab: "Projects abroad usually start from 30 ha. You can still send the request." },
-    he: { req: "נא למלא את השדה.", email: "נא להזין כתובת מייל, למשל name@company.com.", choose: "נא לבחור אפשרות.", consent: "נא לאשר, כדי שנוכל להשתמש בפרטים כדי לחזור אליך.",
-      sending: "שולחים…", send: form.querySelector("[type=submit]").textContent,
-      okH: "תודה. הבקשה נשלחה.", okP: "נחזור אליך כדי לתאם שיחה ראשונה. אם זה דחוף: 04-9854404.",
-      badH: "הבקשה לא נשלחה.", badP: "משהו השתבש אצלנו. אפשר לנסות שוב בעוד דקה, או להתקשר ל-04-9854404.",
-      offH: "השליחה מהאתר עוד לא מחוברת.", offP: "הפרטים לא נשלחו. אפשר להעתיק את הסיכום ולשלוח לנו, או להתקשר ל-04-9854404.", copy: "העתקת הסיכום", copied: "הועתק.",
-      fast: "נא לעבור על הפרטים ולשלוח שוב.",
-      small_il: "פרויקטים בישראל מתחילים בדרך כלל מ-50 דונם. אפשר לשלוח את הבקשה בכל זאת.", small_ab: "פרויקטים בחו״ל מתחילים בדרך כלל מ-30 הקטר. אפשר לשלוח את הבקשה בכל זאת." }
-  }[LANG];
+  var M = {};  // every message comes from content.py through the page (data-msg)
+  try { M = JSON.parse(form.dataset.msg || "{}"); } catch (x) { M = {}; }
+  M.send = form.querySelector("[type=submit]").textContent;
   var started = false, t0 = Date.now(), busy = false;
   form.addEventListener("input", function () { if (!started) { started = true; track("form_start", {}); } }, { once: false });
 
@@ -157,12 +152,9 @@
     };
   }
   function brief(p) {
-    var K = LANG === "he"
-      ? [["שם", "name"], ["חברה", "company"], ["מייל", "email"], ["טלפון", "phone"], ["אני", "role"], ["מה צריך", "need"], ["מדינה", "country"], ["אזור", "region"], ["שטח", "size"], ["מצב הקרקע", "status"], ["גידול", "crop"], ["לוח זמנים", "timeline"], ["הודעה", "message"]]
-      : [["Name", "name"], ["Company", "company"], ["Email", "email"], ["Phone", "phone"], ["I am", "role"], ["Need", "need"], ["Country", "country"], ["Region", "region"], ["Land size", "size"], ["Land status", "status"], ["Crop", "crop"], ["Timeline", "timeline"], ["Message", "message"]];
-    var lines = [LANG === "he" ? "בקשה לבדיקת פרויקט · מיפתח" : "Project review request · MIFTAH"];
-    K.forEach(function (k) { if (p[k[1]]) lines.push(k[0] + ": " + p[k[1]]); });
-    if (p.meet_berlin) lines.push(LANG === "he" ? "רוצים להיפגש ב-Fruit Logistica 2027" : "Would like to meet at Fruit Logistica 2027");
+    var lines = [M.brief];
+    (M.keys || []).forEach(function (k) { if (p[k[1]]) lines.push(k[0] + ": " + p[k[1]]); });
+    if (p.meet_berlin) lines.push(M.berlin);
     return lines.join("\n");
   }
   var status = document.getElementById("form-status");
@@ -175,10 +167,12 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (busy) return;
-    if (form.elements.mt_hp && form.elements.mt_hp.value) { track("form_honeypot", {}); return; } // hidden trap field: only bots fill it; nothing is sent
+    if (form.elements.mt_hp && form.elements.mt_hp.value) { show("bad", M.badH, M.trapP); track("form_honeypot", {}); return; } // hidden trap field: nothing is sent; a real person still gets the phone
     var bad = validate();
+    bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
     if (bad.length) { bad[0].focus(); track("form_invalid", { fields: bad.length }); return; }
-    if (Date.now() - t0 < 2500) { show("bad", M.fast, ""); return; }
+    var wait = 2500 - (Date.now() - t0);
+    if (wait > 0) { busy = true; setTimeout(function () { busy = false; form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true })); }, wait); return; } // too fast for a person: send quietly a moment later
     var p = payload(), btn = form.querySelector("[type=submit]");
     var endpoint = form.dataset.endpoint;
     if (!endpoint) {
@@ -190,7 +184,9 @@
         try { navigator.clipboard.writeText(pre.textContent).then(done, function () { selectPre(); }); } catch (x) { selectPre(); }
         function selectPre() { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
       });
-      box.appendChild(pre); box.appendChild(cb);
+      var tel = document.createElement("a"); tel.className = "btn btn-primary"; tel.href = "tel:" + form.dataset.tel; tel.textContent = M.call; tel.setAttribute("data-where", "form-unconnected");
+      var row = document.createElement("div"); row.className = "actions"; row.style.marginTop = "12px"; row.appendChild(tel); row.appendChild(cb); cb.style.marginTop = "0";
+      box.appendChild(row); box.appendChild(pre);
       show("bad", M.offH, M.offP, box);
       track("form_submit_unconnected", { need: p.need_code });
       return;

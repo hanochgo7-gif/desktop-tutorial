@@ -28,7 +28,6 @@ SITE = {
     "noscript": ("Sending this form needs JavaScript. Please call +972 4 985 4404.", "שליחת הטופס דורשת JavaScript. אפשר להתקשר ל-04-9854404."),
     "map_label": ("Map of MIFTAH projects abroad: Mexico, Honduras, Spain, Portugal, Belarus, Georgia and India, run from Kfar Masaryk, Israel. The same information is in the projects table.",
                   "מפת הפרויקטים של מיפתח בחו״ל: מקסיקו, הונדורס, ספרד, פורטוגל, בלארוס, גאורגיה והודו, בניהול מכפר מסריק. אותו מידע מופיע בטבלת הפרויקטים."),
-    "swipe": ("Swipe sideways to see the whole drawing.", "החליקו הצידה כדי לראות את כל השרטוט."),
     "archive": ("MIFTAH archive", "ארכיון מיפתח"),
 }
 
@@ -45,7 +44,7 @@ FACTS = [  # once, under the home hero
     (("20+", "20+"), ("years designing and building agricultural structures", "שנים של תכנון והקמה של מבנים חקלאיים")),  # 1.6
     (("410,000 m²", "410,000 מ״ר"), ("(41 ha) of net houses built abroad, in Mexico, India, Honduras, Spain and Georgia", "(410 דונם) בתי רשת שהקמנו בחו״ל: מקסיקו, הודו, הונדורס, ספרד וגאורגיה")),  # 3.2
     (("Own plant", "מפעל משלנו"), ("poles, nets, cables and fittings are made and checked before they ship", "עמודים, רשתות, כבלים ואביזרים מיוצרים ונבדקים לפני היציאה לשטח")),  # 1.7
-    (("From 5 ha", "מ-50 דונם"), ("project size in Israel, and from 30 ha abroad", "גודל פרויקט בישראל, ומ-30 הקטר בחו״ל")),  # 4.2
+    (("From 5 ha", "מ-50 דונם"), ("project size in Israel, and from 30 ha abroad", "גודל פרויקט בישראל, ומ-300 דונם בחו״ל")),  # 4.2
 ]
 
 STEPS = [  # OS consult (2.8), one real photo each
@@ -149,7 +148,7 @@ TYPES = [  # Net houses page, organised by crop (market research implication 1)
      "h": ("Orchard net houses", "בתי רשת למטעים"), "crops": ("Apple, cherry, kiwi, avocado, persimmon", "תפוח, דובדבן, קיווי, אבוקדו, אפרסמון"),
      "rows": [
          (("Net", "רשת"), ("10% to 30% shade, chosen for the crop.", "10% עד 30% צל, לפי הגידול.")),
-         (("Protects against", "מגן מפני"), ("Hail and sunburn during flowering and fruit set, when trees are most sensitive and a single storm can cut the yield.", "ברד ונזקי שמש בפריחה ובחנטה, כשהעצים הכי רגישים וסערה אחת יכולה לפגוע ביבול.")),
+         (("Protects against", "מגן מפני"), ("Hail and sunburn during flowering and fruit set, when trees are most sensitive and extreme weather can seriously damage the yield.", "ברד ונזקי שמש בפריחה ובחנטה, כשהעצים הכי רגישים ומזג אוויר קיצוני עלול לפגוע משמעותית ביבול.")),
          (("Structure", "מבנה"), ("Built so the nets fold away in winter and spread in summer. Automatic folding systems can be added.", "בנוי כך שהרשת מתקפלת בחורף ונפרסת בקיץ. אפשר להוסיף מערכת פריסה וקיפול אוטומטית.")),
          (("Trellising", "הדליה"), ("Support systems for the crop, such as a pergola-shaped trellis for kiwi.", "מערכות תמיכה לגידול, כמו הדליה בצורת סוכה לקיווי.")),
      ], "cap": ("A net house against a pine forest, built by MIFTAH", "בית רשת על רקע יער אורנים, שהקימה מיפתח")},  # 2.3, 3.1
@@ -181,9 +180,9 @@ PAGES = {
         "title": ("Net houses for orchards and bananas | MIFTAH Projects", "בתי רשת למטעים ולבננות | מיפתח פרויקטים"),
         "desc": ("Galvanized-steel net houses for orchards and bananas, designed, made and installed by MIFTAH Projects in Israel and abroad. Turnkey farms abroad with partners.",
                  "מיפתח פרויקטים מתכננת, מייצרת ומקימה בתי רשת מפלדה מגולוונת למטעים ולבננות בישראל ובחו״ל, ומקימה חוות מפתח בחו״ל יחד עם שותפים חקלאיים."),
-        "h1": ("We design, make and build net houses for orchards.", "אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים."),
-        "lead": ("Galvanized-steel net houses against hail, wind and sun, made in our own plant and built by our own crews, in Israel and abroad for more than 20 years. For investors abroad, complete turnkey farms with agricultural partners.",
-                 "בתי רשת מפלדה מגולוונת נגד ברד, רוח ושמש, מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו, בישראל ובחו״ל כבר יותר מ-20 שנה. ולמשקיעים בחו״ל: חוות מפתח שלמות, יחד עם שותפים חקלאיים."),
+        "h1": ("We design, make and build net houses for orchards and bananas.", "אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות."),
+        "lead": ("Galvanized-steel net houses against hail, wind and sun, made in our own plant, built by our crews in Israel and by local crews we train and manage abroad, for more than 20 years. For investors abroad, complete turnkey farms with agricultural partners.",
+                 "בתי רשת מפלדה מגולוונת נגד ברד, רוח ושמש, מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו בישראל ובידי צוותים מקומיים שאנחנו מדריכים ומנהלים בחו״ל, כבר יותר מ-20 שנה. ולמשקיעים בחו״ל: חוות מפתח שלמות, יחד עם שותפים חקלאיים."),
         "cta2": ("For investors: turnkey farms", "למשקיעים: חוות מפתח"),
         "vidcap": ("Drone footage of a net house built by MIFTAH", "צילום רחפן של בית רשת שהקימה מיפתח"),
         "routes_h": ("Two ways to work with us", "שתי דרכים לעבוד איתנו"),
@@ -191,18 +190,18 @@ PAGES = {
         "r1_h": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"),
         "r1_p": ("Net houses for orchards and bananas, loading sheds and windbreaks. We map your needs on site, engineer the structure, make it in our plant, install it and maintain it.",
                  "בתי רשת למטעים ולבננות, סככות העמסה ושוברי רוח. ממפים את הצרכים בשטח, מתכננים הנדסית, מייצרים במפעל שלנו, מקימים ומתחזקים."),
-        "r1_min": ("Projects from 5 ha in Israel and 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל."),
+        "r1_min": ("Projects from 5 ha in Israel and 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-300 דונם בחו״ל."),
         "r1_go": ("Net houses and structures", "בתי רשת ומבנים"),
         "r2_who": ("For investors, agricultural companies and entrepreneurs", "למשקיעים, לחברות חקלאיות וליזמים"),
         "r2_h": ("Turnkey farms abroad", "חוות מפתח בחו״ל"),
         "r2_p": ("A complete farm on your land, from soil testing and a business plan to planting, a local team, growing and marketing. Delivered by MIFTAH together with agricultural partners.",
                  "חווה שלמה על הקרקע שלך, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול ושיווק. מיפתח מבצעת את זה יחד עם שותפים חקלאיים."),
-        "r2_min": ("Projects from 30 ha.", "פרויקטים מ-30 הקטר."),
+        "r2_min": ("Projects from 30 ha.", "פרויקטים מ-300 דונם."),
         "r2_go": ("Turnkey farms", "חוות מפתח"),
         "draw_h": ("What a MIFTAH net house is made of", "ממה עשוי בית רשת של מיפתח"),
         "draw_p": ("Every structure is engineered for the crop, the soil and the wind on its site. These are the parts we design, make and install.",
                    "כל מבנה מתוכנן הנדסית לגידול, לקרקע ולרוח באתר שלו. אלה החלקים שאנחנו מתכננים, מייצרים ומקימים."),
-        "steps_h": ("How a project runs", "איך מתנהל פרויקט"),
+        "steps_h": ("From your land to a finished net house, in four steps", "מהקרקע שלך ועד בית רשת גמור, בארבעה שלבים"),
         "steps_p": ("Four steps, the same on every project, in Israel or abroad. Each one can also be ordered on its own.",
                     "ארבעה שלבים, אותו סדר בכל פרויקט, בישראל ובחו״ל. אפשר להזמין כל שלב גם בנפרד."),
         "photos_note": ("Photos from MIFTAH project sites.", "צילומים מאתרי פרויקטים של מיפתח."),
@@ -210,7 +209,7 @@ PAGES = {
         "map_p": ("Net houses in Mexico, India, Honduras, Spain and Georgia, an avocado net house in Portugal, and a complex project in Belarus, all from our office in Kfar Masaryk.",
                   "בתי רשת במקסיקו, בהודו, בהונדורס, בספרד ובגאורגיה, בית רשת לאבוקדו בפורטוגל ופרויקט מורכב בבלארוס, כולם מהמשרד שלנו בכפר מסריק."),
         "map_go": ("All projects", "לכל הפרויקטים"),
-        "why_h": ("Why clients stay with us", "למה לקוחות נשארים איתנו"),
+        "why_h": ("Clients stay because a word is a word.", "לקוחות נשארים, כי מילה זו מילה."),
         "why_statement": ("You get peace of mind, and time to focus on your crop and your business.", "אתם מרוויחים שקט, וזמן להתמקד בגידול ובפיתוח העסק."),  # 4.6
         "why_refs": ("References from clients in Israel and Portugal are available after a first conversation.", "המלצות מלקוחות בישראל ובפורטוגל, אחרי שיחה ראשונה."),  # 3.5
     },
@@ -229,13 +228,13 @@ PAGES = {
         "site_p": ("Before a structure is drawn, we look at the crop, the soil, drainage, access for trucks and the local wind regime. Loads are calculated per project, and the bill of quantities balances the amount of steel and net against strength and budget.",
                    "לפני שמשרטטים מבנה, בודקים את הגידול, הקרקע, הניקוז, הגישה למשאיות ומשטר הרוחות המקומי. העומסים מחושבים לכל פרויקט, וכתב הכמויות מאזן בין כמות הפלדה והרשת לבין החוזק והתקציב."),
         "abroad_h": ("Abroad", "בחו״ל"),
-        "abroad_p": ("On projects outside Israel we plan the work, train and manage local crews, and run execution on site. Components usually come from our plant in Israel; in Belarus, manufacturing was organised locally.",
-                     "בפרויקטים מחוץ לישראל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח. הרכיבים מגיעים בדרך כלל מהמפעל שלנו בישראל; בבלארוס הייצור נעשה במקום."),  # 3.2, 1.7
+        "abroad_p": ("On projects outside Israel we plan the work, train and manage local crews, and run execution on site. In Belarus, manufacturing, shipping and crews were organised locally.",
+                     "בפרויקטים מחוץ לישראל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח. בבלארוס הייצור, השילוח והצוותים אורגנו במקום."),  # 3.2, 1.7
     },
     "turnkey-farms": {
         "title": ("Turnkey farms abroad for investors | MIFTAH Projects", "חוות מפתח בחו״ל למשקיעים | מיפתח פרויקטים"),
         "desc": ("A complete farm on your land abroad, from soil testing and a business plan to planting, growing and marketing. Delivered with agricultural partners, from 30 ha.",
-                 "חווה שלמה על הקרקע שלך בחו״ל, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול, תחזוקה ושיווק. מיפתח מבצעת יחד עם שותפים חקלאיים, מ-30 הקטר."),
+                 "חווה שלמה על הקרקע שלך בחו״ל, מבדיקת קרקע ותוכנית עסקית ועד שתילה, צוות מקומי, גידול, תחזוקה ושיווק. מיפתח מבצעת יחד עם שותפים חקלאיים, מ-300 דונם."),
         "h1": ("Turnkey farms abroad", "חוות מפתח בחו״ל"),
         "lead": ("For investors, agricultural companies and entrepreneurs who want a working farm on their land, without hiring a contractor, an agronomist and a site manager separately.",
                  "למשקיעים, לחברות חקלאיות וליזמים שרוצים חווה עובדת על הקרקע שלהם, בלי לשכור בנפרד קבלן, אגרונום ומנהל עבודה."),
@@ -254,15 +253,15 @@ PAGES = {
         "mistake_p": ("Investors trying to set up the farm by themselves to save money.",
                       "משקיעים שמנסים להקים את החווה לבד כדי לחסוך כסף."),  # 4.7
         "pt_h": ("Already working in Portugal", "כבר עובדים בפורטוגל"),
-        "pt_p": ("We built an avocado net house in Portugal. The client came to us by referral and is willing to talk to new investors after a first conversation with us.",
-                 "הקמנו בית רשת לאבוקדו בפורטוגל. הלקוח הגיע אלינו בהמלצה, ומוכן לדבר עם משקיעים חדשים אחרי שיחה ראשונה איתנו."),  # 3.1, 3.5, 3.6
+        "pt_p": ("We built an avocado net house in Portugal. The client came to us by referral and is willing to give a reference; we can put you in touch after a first conversation.",
+                 "הקמנו בית רשת לאבוקדו בפורטוגל. הלקוח הגיע אלינו בהמלצה ומוכן להמליץ עלינו; נפגיש ביניכם אחרי שיחה ראשונה."),  # 3.1, 3.5, 3.6
         "core_h": ("Structures at the core of the farm", "המבנים בלב החווה"),
         "core_p": ("The net houses, sheds and windbreaks of a turnkey farm are the same structures we design, make and build for growers.",
                    "בתי הרשת, הסככות ושוברי הרוח של חוות מפתח הם אותם מבנים שאנחנו מתכננים, מייצרים ומקימים לחקלאים."),
         "core_go": ("How we build net houses", "איך אנחנו בונים בתי רשת"),
         "where_h": ("Where", "איפה"),
-        "where_p": ("Portugal and other European countries, Israel, and we are open to projects in Africa. Minimum farm size: 30 ha.",
-                    "פורטוגל ומדינות נוספות באירופה, ישראל, ואנחנו פתוחים לפרויקטים באפריקה. גודל חווה מינימלי: 30 הקטר."),  # 4.1, 4.2
+        "where_p": ("Portugal and other European countries, and we are open to projects in Africa. Minimum farm size: 30 ha.",
+                    "פורטוגל ומדינות נוספות באירופה, ואנחנו פתוחים לפרויקטים באפריקה. גודל חווה מינימלי: 300 דונם (30 הקטר)."),  # 4.1, 4.2
     },
     "projects": {
         "title": ("Projects in Israel, Europe and the Americas | MIFTAH Projects", "פרויקטים בישראל, באירופה ובאמריקה | מיפתח פרויקטים"),
@@ -312,10 +311,10 @@ PAGES = {
         "aside_phone_p": ("Call the office and ask for Merav Hasfel, co-CEO.", "התקשרו למשרד ובקשו את מרב הספל, מנכ״לית משותפת."),
         "aside_min_h": ("Projects we take on", "פרויקטים שאנחנו לוקחים"),
         "aside_min_p": ("From 5 ha (50 dunam) in Israel and from 30 ha abroad. Pricing follows a review of the site, because every structure is designed for its land.",
-                        "מ-50 דונם בישראל ומ-30 הקטר בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו."),  # 4.2, 4.3
+                        "מ-50 דונם בישראל ומ-300 דונם בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו."),  # 4.2, 4.3
         "aside_fair_h": ("Fruit Logistica, Berlin", "Fruit Logistica, ברלין"),
-        "aside_fair_p": ("We'll be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form to arrange a meeting there.",
-                         "נהיה בתערוכת Fruit Logistica במסה ברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם."),  # 4.10
+        "aside_fair_p": ("We plan to be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form if you would like to meet there.",
+                         "אנחנו מתכננים להיות בתערוכת Fruit Logistica במסה ברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם."),  # 4.10
         "aside_office_h": ("Office", "משרד"),
     },
     "profile": {
@@ -352,6 +351,23 @@ PAGES = {
     },
 }
 
+FAQ = [  # every answer is a ledger fact (numbers in comments)
+    (("What size of project do you take on?", "מאיזה גודל פרויקט אתם עובדים?"),
+     ("From 5 ha (50 dunam) in Israel and from 30 ha abroad.", "מ-50 דונם בישראל ומ-300 דונם (30 הקטר) בחו״ל.")),  # 4.2
+    (("How is the price set?", "איך נקבע המחיר?"),
+     ("After we review the site. Every structure is designed for its land, and the quote is based on that design and its bill of quantities.", "אחרי שבודקים את השטח. כל מבנה מתוכנן לקרקע שלו, והצעת המחיר מבוססת על התכנון ועל כתב הכמויות.")),  # 2.8, 4.3
+    (("Do you work outside Israel?", "אתם עובדים מחוץ לישראל?"),
+     ("Yes. We have built net houses in Mexico, India, Honduras, Spain, Georgia and Portugal, and ran a complex project in Belarus. Abroad, we plan the work, train and manage local crews, and run execution on site.",
+      "כן. הקמנו בתי רשת במקסיקו, בהודו, בהונדורס, בספרד, בגאורגיה ובפורטוגל, וניהלנו פרויקט מורכב בבלארוס. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח.")),  # 3.2, 3.3
+    (("Can I order a single stage?", "אפשר להזמין שלב אחד בלבד?"),
+     ("Yes. Needs mapping, design, manufacture, supervision, training and maintenance can each be ordered on their own.", "כן. אפשר להזמין בנפרד מיפוי צרכים, תכנון, ייצור, פיקוח, הדרכה או תחזוקה.")),  # 2.7
+    (("Who delivers a turnkey farm?", "מי מבצע חוות מפתח?"),
+     ("MIFTAH, together with agricultural partners. Local licensing and permits, and formal investor reporting, stay with you and your advisers.", "מיפתח, יחד עם שותפים חקלאיים. רישוי והיתרים מקומיים ודיווח פורמלי למשקיעים נשארים אצלך ואצל היועצים שלך.")),  # 1.4, q3
+    (("Can I talk to one of your clients?", "אפשר לדבר עם לקוח שלכם?"),
+     ("Yes. Clients in Israel and in Portugal are willing to give a reference. We put you in touch after a first conversation.", "כן. לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. נפגיש ביניכם אחרי שיחה ראשונה.")),  # 3.5
+]
+FAQ_H = ("Before you get in touch", "לפני שפונים")
+
 CTA_HEADS = {  # a different opening line per page
     "home": ("Tell us about your land.", "ספרו לנו על הקרקע."),
     "net": ("Tell us about your crop and your plot.", "ספרו לנו על הגידול ועל החלקה."),
@@ -363,8 +379,8 @@ CTA_BAND = {
     "h": ("Tell us about your land.", "ספרו לנו על הקרקע."),
     "p": ("Send the location, the crop and the area. We'll contact you to arrange a first conversation and, when the project fits, a visit to the site.",
           "שלחו מיקום, גידול ושטח. נחזור אליך לתאם שיחה ראשונה, וכשהפרויקט מתאים, ביקור בשטח."),
-    "min": ("Projects from 5 ha in Israel and from 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-30 הקטר בחו״ל."),
-    "fair": ("Meet us at Fruit Logistica, Berlin, 3–5 February 2027.", "נפגשים ב-Fruit Logistica, ברלין, 3–5 בפברואר 2027."),
+    "min": ("Projects from 5 ha in Israel and from 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-300 דונם בחו״ל."),
+    "fair": ("We plan to be at Fruit Logistica, Berlin, 3–5 February 2027. Ask to meet.", "אנחנו מתכננים להיות ב-Fruit Logistica, ברלין, 3–5 בפברואר 2027. אפשר לתאם פגישה."),
 }
 
 FORM = {
@@ -409,7 +425,7 @@ FORM = {
 
 PRIVACY = {
     "en": [
-        ("What we collect", "When you send the project-review form, we receive the details you type: your name, company, email, phone, the country and size of the land, your crop, timeline and message. We don't ask for anything else, and the site does not use advertising cookies."),
+        ("What we collect", "When you send the project-review form, we receive what you fill in: your name, company, email and phone; whether you are an investor, a company or a grower, and what you need; the country, region, size and status of the land; your crop, timeline and message; and whether you want to meet at the fair. The form also records the page, the language and the time it was sent. Nothing else is collected, and the site uses no cookies."),
         ("Why", "Only to reply to your request, arrange a conversation or a site visit, and prepare a proposal if you ask for one."),
         ("Who sees it", "MIFTAH Projects' management and office staff. We don't sell or share your details. The form's delivery service, once connected, processes the message only to deliver it to us."),
         ("How long", "We keep enquiries for as long as they are needed for the conversation and for our business records, and delete them on request."),
@@ -418,7 +434,7 @@ PRIVACY = {
         ("Updated", "26 October 2026."),
     ],
     "he": [
-        ("מה אנחנו אוספים", "כששולחים את טופס בדיקת הפרויקט, אנחנו מקבלים את הפרטים שהוקלדו: שם, חברה, מייל, טלפון, מדינת הקרקע וגודלה, הגידול, לוח הזמנים וההודעה. אנחנו לא מבקשים שום פרט נוסף, והאתר לא משתמש בעוגיות פרסום."),
+        ("מה אנחנו אוספים", "כששולחים את טופס בדיקת הפרויקט, אנחנו מקבלים את מה שמולא: שם, חברה, מייל וטלפון; האם מדובר במשקיע, בחברה או במגדל, ומה צריך; המדינה, האזור, הגודל והמצב של הקרקע; הגידול, לוח הזמנים וההודעה; והאם רוצים להיפגש בתערוכה. הטופס רושם גם את העמוד, השפה ומועד השליחה. שום פרט אחר לא נאסף, והאתר לא משתמש בעוגיות."),
         ("לשם מה", "רק כדי לחזור אליך, לתאם שיחה או ביקור בשטח ולהכין הצעה אם ביקשת."),
         ("מי רואה את הפרטים", "ההנהלה וצוות המשרד של מיפתח פרויקטים. אנחנו לא מוכרים ולא מעבירים את הפרטים. שירות שליחת הטופס, כשיחובר, מעבד את ההודעה רק כדי להעביר אותה אלינו."),
         ("לכמה זמן", "פניות נשמרות כל עוד הן נחוצות לשיחה ולרישומי העסק, ונמחקות לפי בקשה."),
@@ -446,3 +462,31 @@ A11Y = {
         ("עדכון אחרון", "26 באוקטובר 2026."),
     ],
 }
+
+FORM_MSG = {  # messages the form script shows; build.py writes them into the page, {phone} = the office number
+    "req": ("Please fill this in.", "נא למלא את השדה."),
+    "email": ("Please enter an email address like name@company.com.", "נא להזין כתובת מייל, למשל name@company.com."),
+    "choose": ("Please choose one.", "נא לבחור אפשרות."),
+    "consent": ("Please confirm so we can use these details to reply.", "נא לאשר, כדי שנוכל להשתמש בפרטים כדי לחזור אליך."),
+    "sending": ("Sending…", "שולחים…"),
+    "okH": ("Thank you. Your request was sent.", "תודה. הבקשה נשלחה."),
+    "okP": ("We'll contact you to arrange a first conversation. If it's urgent, call {phone}.", "נחזור אליך כדי לתאם שיחה ראשונה. אם זה דחוף: {phone}."),
+    "badH": ("The request was not sent.", "הבקשה לא נשלחה."),
+    "badP": ("Something went wrong on our side. Please try again in a minute, or call {phone}.", "משהו השתבש אצלנו. אפשר לנסות שוב בעוד דקה, או להתקשר: {phone}."),
+    "trapP": ("This browser filled in a hidden field, so the request was not sent. Please call {phone}.", "הדפדפן מילא שדה מוסתר, ולכן הבקשה לא נשלחה. נא להתקשר: {phone}."),
+    "offH": ("Online sending isn't connected yet.", "השליחה מהאתר עוד לא מחוברת."),
+    "offP": ("Your details were not sent. Please call the office, and keep this summary at hand: it has everything we need.", "הפרטים לא נשלחו. נא להתקשר למשרד, והסיכום הזה יעזור: יש בו כל מה שאנחנו צריכים."),
+    "copy": ("Copy the summary", "העתקת הסיכום"),
+    "copied": ("Copied.", "הועתק."),
+    "call": ("Call {phone}", "התקשרו: {phone}"),
+    "small_il": ("Projects in Israel usually start from 5 ha (50 dunam). You can still send the request.", "פרויקטים בישראל מתחילים בדרך כלל מ-50 דונם. אפשר לשלוח את הבקשה בכל זאת."),  # 4.2
+    "small_ab": ("Projects abroad usually start from 30 ha. You can still send the request.", "פרויקטים בחו״ל מתחילים בדרך כלל מ-300 דונם. אפשר לשלוח את הבקשה בכל זאת."),  # 4.2
+    "brief": ("Project review request · MIFTAH", "בקשה לבדיקת פרויקט · מיפתח"),
+    "berlin": ("Would like to meet at Fruit Logistica 2027", "רוצים להיפגש ב-Fruit Logistica 2027"),
+}
+FORM_BRIEF_KEYS = [  # summary labels, in order
+    ("name", ("Name", "שם")), ("company", ("Company", "חברה")), ("email", ("Email", "מייל")), ("phone", ("Phone", "טלפון")),
+    ("role", ("I am", "אני")), ("need", ("Need", "מה צריך")), ("country", ("Country", "מדינה")), ("region", ("Region", "אזור")),
+    ("size", ("Land size", "שטח")), ("status", ("Land status", "מצב הקרקע")), ("crop", ("Crop", "גידול")), ("timeline", ("Timeline", "לוח זמנים")),
+    ("message", ("Message", "הודעה")),
+]
