@@ -80,6 +80,8 @@
   .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
   h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1; }
   h2 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); letter-spacing: -0.015em; line-height: .95; }
+  h1, h2, h3, .hero-tag, .statement, .finale-line, .about-line, .ev-n, .faq summary { text-wrap: balance; }
+  p, li, dd { text-wrap: pretty; }
   p { margin: 0 0 1em; max-width: 34em; }
 
   /* ---------- שלושה מצבי אור: היום, השקיעה והלילה ---------- */
@@ -323,6 +325,7 @@
   /* ---------- שאלות ---------- */
   .faq { padding-block: clamp(80px, 10vw, 140px) clamp(40px, 6vw, 80px); }
   .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (min-width: 901px) { .faq-head h2 { font-size: clamp(2.8rem, 3.6vw, 4.2rem); } }
   @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
   .faq-head p { color: var(--soft); margin-top: 18px; }
   .faq-list { border-top: 1px solid var(--line); }
@@ -648,7 +651,7 @@
 
   <section class="formats" id="formats" data-theme="day" aria-labelledby="formats-title">
     <div class="wrap formats-head">
-      <h2 id="formats-title" data-words-rise>בחצר, אצלכם, או בכל מקום</h2>
+      <h2 id="formats-title" data-words-rise>שלוש דרכים לשבת לשולחן</h2>
     </div>
     <div class="formats-grid">
       <div class="format">
@@ -681,7 +684,7 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="images/vineyard-table.webp" data-src="media/vineyard-table" aria-label="שולחן ארוך ערוך במפה לבנה בכרם, תחת שמשיות"></video></figure>
         <div class="format-text">
-          <h3>אירועים</h3>
+          <h3>באירוע שלכם</h3>
           <p>בכל מקום, בסגנון שלי.</p>
           <ul>
             <li>חברות, צוותים והשקות</li>
@@ -700,7 +703,7 @@
       <div class="ev-steps">
         <div class="ev-head">
           <h2 id="menu-title" data-words-rise>התפריט</h2>
-          <p class="sub">משתנה לפי העונה.</p>
+          <p class="sub">משתנה עם העונה.</p>
         </div>
         <ol class="timeline">
           <li class="ev-step on" data-step="0" data-label="פתיחה">
@@ -784,7 +787,7 @@
             <div class="tiles three">
               <label class="tile"><input type="radio" name="format" value="yard" checked><span class="tile-body"><span class="tile-name">בחצר במצפה מתת</span><span class="tile-desc">6 עד 16 אורחים</span></span></label>
               <label class="tile"><input type="radio" name="format" value="home"><span class="tile-body"><span class="tile-name">אצלכם בבית</span><span class="tile-desc">8 עד 40 סועדים</span></span></label>
-              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">אירוע או שיתוף פעולה</span><span class="tile-desc">בכל מקום שתבחרו</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">באירוע שלכם</span><span class="tile-desc">בכל מקום שתבחרו</span></span></label>
             </div>
           </fieldset>
           <div class="field" id="region-field" hidden>
@@ -850,7 +853,7 @@
             <div id="tk-serve-row" hidden><dt>הגשה</dt><dd id="tk-serve"></dd></div>
           </dl>
         </div>
-        <h3 id="next-title">מה קורה אחרי ששולחים</h3>
+        <h3 id="next-title">מה קורה אחרי ההודעה</h3>
         <ol class="next-steps">
           <li><strong>הודעה</strong><span>אחזור עם הצעה ותפריט.</span></li>
           <li><strong>שריון</strong><span>מקדמה של 30% משריינת את התאריך.</span></li>
@@ -876,15 +879,15 @@
         <p>לא מצאתם תשובה? כתבו לי ב<a href="https://wa.me/972587870656" target="_blank" rel="noopener">וואטסאפ</a>.</p>
       </div>
       <div class="faq-list">
-        <details><summary>כמה זמן נמשכת ארוחה בחצר?<i aria-hidden="true"></i></summary><div class="ans"><p>שלוש שעות, 18:30 עד 21:30.</p></div></details>
-        <details><summary>לכמה אורחים?<i aria-hidden="true"></i></summary><div class="ans"><p>בחצר 6 עד 16. אצלכם 8 עד 40.</p></div></details>
-        <details><summary>כמה זה עולה?<i aria-hidden="true"></i></summary><div class="ans"><p>לפי התפריט, מספר האורחים והמקום. ספרו לי, ואשלח הצעה.</p></div></details>
+        <details><summary>משך הערב<i aria-hidden="true"></i></summary><div class="ans"><p>שלוש שעות, 18:30 עד 21:30.</p></div></details>
+        <details><summary>מספר אורחים<i aria-hidden="true"></i></summary><div class="ans"><p>בחצר 6 עד 16. אצלכם 8 עד 40.</p></div></details>
+        <details><summary>מחיר<i aria-hidden="true"></i></summary><div class="ans"><p>לפי התפריט, מספר האורחים והמקום. ספרו לי, ואשלח הצעה.</p></div></details>
         <details><summary>אלרגיות והעדפות<i aria-hidden="true"></i></summary><div class="ans"><p>צמחוני, ללא גלוטן, אגוזים או לקטוז, לפי בקשה. המטבח לא כשר.</p></div></details>
         <details><summary>יין ושתייה<i aria-hidden="true"></i></summary><div class="ans"><p>יין מיקבים מקומיים, או שלכם. באירועים, גם קוקטיילים של קולר.</p></div></details>
-        <details><summary>אפשר לבוא עם ילדים?<i aria-hidden="true"></i></summary><div class="ans"><p>הארוחות בחצר מיועדות למבוגרים בלבד.</p></div></details>
-        <details><summary>מה כדאי לדעת לפני שמגיעים?<i aria-hidden="true"></i></summary><div class="ans"><p>מגיעים בזמן, עם שכבה חמה לערב. הכתובת נשלחת עם האישור.</p></div></details>
+        <details><summary>ילדים<i aria-hidden="true"></i></summary><div class="ans"><p>הארוחות בחצר מיועדות למבוגרים בלבד.</p></div></details>
+        <details><summary>לפני שמגיעים<i aria-hidden="true"></i></summary><div class="ans"><p>מגיעים בזמן, עם שכבה חמה לערב. הכתובת נשלחת עם האישור.</p></div></details>
         <details><summary>נגישות<i aria-hidden="true"></i></summary><div class="ans"><p>יש מדרגות בכניסה. כיסא גלגלים יכול להגיע מהכביש עד הבית.</p></div></details>
-        <details><summary>ומה בחורף?<i aria-hidden="true"></i></summary><div class="ans"><p>סטודיו במתת ייפתח בקרוב. עד אז, מתאמים לפי התחזית.</p></div></details>
+        <details><summary>בחורף<i aria-hidden="true"></i></summary><div class="ans"><p>סטודיו במתת ייפתח בקרוב. עד אז, מתאמים לפי התחזית.</p></div></details>
         <details><summary>מקדמה וביטולים<i aria-hidden="true"></i></summary><div class="ans"><p>מקדמה של 30% משריינת את התאריך, בפייבוקס או בהעברה בנקאית. ביטול עד חודש לפני: החזר מלא. אחר כך: אין החזר. במלחמה או במצב חירום, ביטול עד שלושה ימים לפני: החזר של 50%.</p></div></details>
       </div>
     </div>

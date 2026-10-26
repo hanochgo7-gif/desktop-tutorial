@@ -18,6 +18,16 @@ BASE = 'https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/'
 # (Hebrew, English). Longer strings are applied first, so a short string never breaks a long one.
 PAIRS = [
     # shorter copy (October 2026)
+    ('שלוש דרכים לשבת לשולחן', 'Three ways to the table'),
+    ('<h3>באירוע שלכם</h3>', '<h3>At your event</h3>'),
+    ('משתנה עם העונה.', 'It changes with the season.'),
+    ('<h3 id="next-title">מה קורה אחרי ההודעה</h3>', '<h3 id="next-title">What happens next</h3>'),
+    ('<summary>משך הערב<', '<summary>Length of the evening<'),
+    ('<summary>מספר אורחים<', '<summary>Number of guests<'),
+    ('<summary>מחיר<', '<summary>Price<'),
+    ('<summary>ילדים<', '<summary>Children<'),
+    ('<summary>לפני שמגיעים<', '<summary>Before you come<'),
+    ('<summary>בחורף<', '<summary>In winter<'),
     ('ההזמנה שלכם', 'Your booking'),
     ('<dt>איפה</dt>', '<dt>Where</dt>'),
     ('<dt>מתי</dt>', '<dt>When</dt>'),
@@ -190,7 +200,7 @@ PAIRS = [
     ('<legend>איפה</legend>', '<legend>Where</legend>'),
     ('<span class="tile-name">בחצר במצפה מתת</span><span class="tile-desc">6 עד 16 אורחים</span>', '<span class="tile-name">My yard, Mitzpe Matat</span><span class="tile-desc">6 to 16 guests</span>'),
     ('<span class="tile-name">אצלכם בבית</span><span class="tile-desc">8 עד 40 סועדים</span>', '<span class="tile-name">At your place</span><span class="tile-desc">8 to 40 guests</span>'),
-    ('<span class="tile-name">אירוע או שיתוף פעולה</span><span class="tile-desc">בכל מקום שתבחרו</span>', '<span class="tile-name">An event or collaboration</span><span class="tile-desc">Wherever you choose</span>'),
+    ('<span class="tile-name">באירוע שלכם</span><span class="tile-desc">בכל מקום שתבחרו</span>', '<span class="tile-name">At your event</span><span class="tile-desc">Wherever you choose</span>'),
     ('<label for="region">איפה הבית</label>', '<label for="region">Where is your home</label>'),
     ('<option>הגליל והגולן</option>', '<option>The Galilee and Golan</option>'),
     ('<option>חיפה והקריות</option>', '<option>Haifa and the Krayot</option>'),
