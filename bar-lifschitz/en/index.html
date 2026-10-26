@@ -80,6 +80,8 @@
   .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
   h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1; }
   h2 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); letter-spacing: -0.015em; line-height: .95; }
+  h1, h2, h3, .hero-tag, .statement, .finale-line, .about-line, .ev-n, .faq summary { text-wrap: balance; }
+  p, li, dd { text-wrap: pretty; }
   p { margin: 0 0 1em; max-width: 34em; }
 
   /* ---------- שלושה מצבי אור: היום, השקיעה והלילה ---------- */
@@ -323,6 +325,7 @@
   /* ---------- שאלות ---------- */
   .faq { padding-block: clamp(80px, 10vw, 140px) clamp(40px, 6vw, 80px); }
   .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (min-width: 901px) { .faq-head h2 { font-size: clamp(2.8rem, 3.6vw, 4.2rem); } }
   @media (max-width: 900px) { .faq-grid { grid-template-columns: 1fr; } }
   .faq-head p { color: var(--soft); margin-top: 18px; }
   .faq-list { border-top: 1px solid var(--line); }
@@ -648,7 +651,7 @@
 
   <section class="formats" id="formats" data-theme="day" aria-labelledby="formats-title">
     <div class="wrap formats-head">
-      <h2 id="formats-title" data-words-rise>In my yard, at your place, or anywhere</h2>
+      <h2 id="formats-title" data-words-rise>Three ways to the table</h2>
     </div>
     <div class="formats-grid">
       <div class="format">
@@ -681,7 +684,7 @@
       <div class="format">
         <figure class="format-media" data-reveal><video class="vid" muted loop playsinline preload="none" data-poster="../images/vineyard-table.webp" data-src="../media/vineyard-table" aria-label="A long table with a white cloth in a vineyard, under parasols"></video></figure>
         <div class="format-text">
-          <h3>Events</h3>
+          <h3>At your event</h3>
           <p>Anywhere, in my style.</p>
           <ul>
             <li>Companies, teams and launches</li>
@@ -784,7 +787,7 @@
             <div class="tiles three">
               <label class="tile"><input type="radio" name="format" value="yard" checked><span class="tile-body"><span class="tile-name">My yard, Mitzpe Matat</span><span class="tile-desc">6 to 16 guests</span></span></label>
               <label class="tile"><input type="radio" name="format" value="home"><span class="tile-body"><span class="tile-name">At your place</span><span class="tile-desc">8 to 40 guests</span></span></label>
-              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">An event or collaboration</span><span class="tile-desc">Wherever you choose</span></span></label>
+              <label class="tile"><input type="radio" name="format" value="event"><span class="tile-body"><span class="tile-name">At your event</span><span class="tile-desc">Wherever you choose</span></span></label>
             </div>
           </fieldset>
           <div class="field" id="region-field" hidden>
@@ -876,15 +879,15 @@
         <p>Can't find an answer? Message me on <a href="https://wa.me/972587870656" target="_blank" rel="noopener">WhatsApp</a>.</p>
       </div>
       <div class="faq-list">
-        <details><summary>How long is a dinner in the yard?<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, 6:30 to 9:30 pm.</p></div></details>
-        <details><summary>How many guests?<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard 6 to 16. At your place 8 to 40.</p></div></details>
-        <details><summary>How much does it cost?<i aria-hidden="true"></i></summary><div class="ans"><p>It depends on the menu, the number of guests and the place. Tell me, and I will send a proposal.</p></div></details>
+        <details><summary>Length of the evening<i aria-hidden="true"></i></summary><div class="ans"><p>Three hours, 6:30 to 9:30 pm.</p></div></details>
+        <details><summary>Number of guests<i aria-hidden="true"></i></summary><div class="ans"><p>In the yard 6 to 16. At your place 8 to 40.</p></div></details>
+        <details><summary>Price<i aria-hidden="true"></i></summary><div class="ans"><p>It depends on the menu, the number of guests and the place. Tell me, and I will send a proposal.</p></div></details>
         <details><summary>Allergies and preferences<i aria-hidden="true"></i></summary><div class="ans"><p>Vegetarian, gluten-free, nut-free or lactose-free on request. The kitchen is not kosher.</p></div></details>
         <details><summary>Wine and drinks<i aria-hidden="true"></i></summary><div class="ans"><p>Wine from local wineries, or your own. At events, cocktails by Kuller too.</p></div></details>
-        <details><summary>Can we bring children?<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
-        <details><summary>What should we know before we come?<i aria-hidden="true"></i></summary><div class="ans"><p>Arrive on time, with a warm layer for the evening. The address comes with the confirmation.</p></div></details>
+        <details><summary>Children<i aria-hidden="true"></i></summary><div class="ans"><p>Dinners in the yard are for adults only.</p></div></details>
+        <details><summary>Before you come<i aria-hidden="true"></i></summary><div class="ans"><p>Arrive on time, with a warm layer for the evening. The address comes with the confirmation.</p></div></details>
         <details><summary>Accessibility<i aria-hidden="true"></i></summary><div class="ans"><p>There are steps at the entrance. A wheelchair can reach the house from the road.</p></div></details>
-        <details><summary>What about winter?<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat opens soon. Until then, we plan around the forecast.</p></div></details>
+        <details><summary>In winter<i aria-hidden="true"></i></summary><div class="ans"><p>A studio in Matat opens soon. Until then, we plan around the forecast.</p></div></details>
         <details><summary>Deposit and cancellations<i aria-hidden="true"></i></summary><div class="ans"><p>A 30% deposit holds the date, by PayBox or bank transfer. Cancel up to a month before: full refund. After that: no refund. In war or an emergency, cancel up to three days before: 50% back.</p></div></details>
       </div>
     </div>
