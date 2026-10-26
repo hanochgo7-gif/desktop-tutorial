@@ -11,7 +11,8 @@
  * or call it from your own code:  HGOS.send({ name, phone, email, message, form: 'בריף', fields: [['מה העסק?', 'קליניקה'], ...] })
  *
  * Privacy: the campaign that brought the visitor (UTM, click id, referring site) is kept in this browser
- * (localStorage) for 90 days, only to credit the right source. Nothing is sent until they submit a form.
+ * (localStorage "hgos_touch") for 90 days, only to credit the right source. Nothing is sent until they submit
+ * a form. Add data-consent="hg" to store it only after cookie consent (sites using window.hgConsent).
  */
 (function () {
   'use strict';
@@ -26,26 +27,36 @@
   function read() { try { return JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { return null; } }
   function write(v) { try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) { /* private mode */ } }
 
-  // remember how the visitor arrived: the latest campaign visit (UTM / click id / outside referrer) is kept,
-  // and a later plain visit never replaces it
-  (function capture() {
+  // how the visitor arrived on this page: UTM / click id / outside referrer
+  var here = (function () {
     var q = new URLSearchParams(location.search);
     var t = {};
     PARAMS.forEach(function (k) { var v = q.get(k); if (v) t[k] = v.slice(0, 300); });
     var ref = document.referrer && document.referrer.indexOf(location.origin) !== 0 ? document.referrer : '';
+    t.landing_page = location.href.split('#')[0].slice(0, 500);
+    t.referrer = ref.slice(0, 500);
+    t.at = Date.now();
+    return t;
+  })();
+  var isCampaign = function (t) { return PARAMS.some(function (k) { return t[k]; }) || !!t.referrer; };
+
+  // remember it across pages for 90 days: the latest campaign visit is kept, a later plain visit never replaces it.
+  // With data-consent="hg" this is stored only after the visitor approves cookies on the site (window.hgConsent);
+  // until then only the current page's details go with an inquiry, and nothing is stored.
+  function capture() {
     var saved = read();
     if (saved && Date.now() - saved.at > DAYS * 864e5) saved = null;
-    if (Object.keys(t).length || ref || !saved) {
-      t.landing_page = location.href.split('#')[0].slice(0, 500);
-      t.referrer = ref.slice(0, 500);
-      t.at = Date.now();
-      if (!saved || Object.keys(t).some(function (k) { return PARAMS.indexOf(k) >= 0; }) || (ref && !saved.utm_source && !saved.gclid && !saved.fbclid)) write(t);
-    }
-  })();
+    if (!saved || isCampaign(here)) write(here);
+  }
+  var needsConsent = script && script.getAttribute('data-consent') === 'hg';
+  if (!needsConsent) capture();
+  else if (window.hgConsent) window.hgConsent.onGrant(capture);
+  else document.addEventListener('DOMContentLoaded', function () { if (window.hgConsent) window.hgConsent.onGrant(capture); });
 
   function send(lead) {
     if (!TOKEN) { console.warn('HG OS: missing data-token on the script tag'); return Promise.resolve({ ok: false }); }
-    var t = read() || {};
+    var saved = read();
+    var t = isCampaign(here) || !saved ? here : saved;
     var body = { form: lead.form, name: lead.name, phone: lead.phone, email: lead.email, company: lead.company, message: lead.message,
       fields: lead.fields || {}, consent: !!lead.consent, consent_text: lead.consent_text, hp: lead.hp, page: location.href.split('#')[0] };
     PARAMS.concat(['landing_page', 'referrer']).forEach(function (k) { if (t[k]) body[k] = t[k]; });
