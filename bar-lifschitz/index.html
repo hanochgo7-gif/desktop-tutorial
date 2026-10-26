@@ -383,7 +383,9 @@
   }
 
   /* מירכאה גדולה מעל המשפט של בר */
-  .statement::before { content: "„"; display: block; font-size: clamp(4rem, 8vw, 7rem); line-height: .5; color: var(--accent); margin-bottom: clamp(18px, 3vw, 36px); }
+  /* מירכאות בשני הצדדים של הציטוט */
+  .statement::before { content: "\201E"; color: var(--accent); margin-inline-end: .08em; }
+  .statement::after { content: "\201D"; color: var(--accent); margin-inline-start: -.02em; }
 
   /* קו התקדמות דק בראש המסך */
   .progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 65; background: var(--rose); transform-origin: right; transform: scaleX(0); pointer-events: none; }
@@ -552,6 +554,7 @@
   .menu-overlay small a { text-decoration: underline; text-underline-offset: 5px; }
   [dir="ltr"] .progress { transform-origin: left; }
   :lang(en) .statement::before { content: "\201C"; }
+  :lang(en) .statement::after { content: "\201D"; }
   .finale-name { white-space: nowrap; }
   [dir="ltr"] .stepper { flex-direction: row-reverse; }
 </style>
