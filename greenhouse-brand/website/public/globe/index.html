@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מפת הפרויקטים של מיפתח</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css?v=1a1b2075">
+</head>
+<body>
+
+<style>
+  /* גלובוס של נקודות אור (בשפה של hgpro): היבשות בנויות מ-11,196 נקודות, הפרויקטים הם סיכות זוהרות,
+     וקשתות יוצאות מכפר מסריק. לילה ירוק-עמוק, נבחר בכוונה כמראה אחד. הגלובוס בצד אחד, רשימת הפרויקטים בצד השני. */
+  :root {
+    color-scheme: dark;
+    --night: #061A16;
+    --forest: #0E4239;
+    --green: #1B6E62;
+    --mint: #7FC49B;
+    --glow: #C9F5DA;
+    --ink: #EAF4EF;
+    --ink-2: #A3BDB4;
+    --line: rgba(127, 196, 155, .22);
+    --font: "Plex", "Plex Fallback", Arial, sans-serif;
+    --mono: "Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--night); color: var(--ink); font: 400 1rem/1.55 var(--font); overflow-x: hidden; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  .stage { position: relative; min-height: 100%; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); background: radial-gradient(120% 90% at 30% 45%, #0C3A32 0%, var(--night) 60%); }
+  [dir="ltr"] .stage { background: radial-gradient(120% 90% at 70% 45%, #0C3A32 0%, var(--night) 60%); }
+  .globe { position: sticky; top: 0; align-self: start; height: 100vh; height: 100dvh; max-height: 980px; touch-action: none; cursor: grab; user-select: none; }
+  .globe.drag { cursor: grabbing; }
+  .globe { overflow: hidden; }
+  .tag.hq { background: rgba(255,255,255,.92); color: var(--night); border-color: #fff; font-weight: 600; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .tag { position: absolute; left: 0; top: 0; transform: translate(-50%, -140%); pointer-events: none; white-space: nowrap; font-size: .78rem; font-weight: 500; color: var(--ink); background: rgba(6, 26, 22, .72); border: 1px solid var(--line); padding: 2px 8px; border-radius: 999px; transition: opacity .2s; }
+  .tag.sel { background: var(--mint); color: var(--night); border-color: var(--mint); font-weight: 700; }
+  .hint { position: absolute; bottom: max(18px, env(safe-area-inset-bottom, 0px)); inset-inline-start: max(20px, env(safe-area-inset-left, 0px)); font-family: var(--mono); font-size: .72rem; color: var(--ink-2); letter-spacing: .04em; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); }
+
+  .panel { position: relative; z-index: 2; padding: clamp(28px, 4vw, 56px) max(20px, env(safe-area-inset-right, 0px)) clamp(28px, 4vw, 48px) max(20px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 18px; min-width: 0; border-inline-start: 1px solid var(--line); background: linear-gradient(180deg, rgba(6, 26, 22, .2), rgba(6, 26, 22, .65)); }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .top .logo { width: 150px; height: auto; display: block; }
+  .lang { all: unset; cursor: pointer; font-weight: 700; font-size: .9rem; color: var(--mint); }
+  .eyebrow { font-family: var(--mono); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); }
+  h1 { font-size: clamp(2rem, 3.4vw, 3rem); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+  .lede { color: var(--ink-2); max-width: 44ch; margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats div { padding: 12px 10px 12px 0; display: grid; gap: 2px; min-width: 0; }
+  [dir="rtl"] .stats div { padding: 12px 0 12px 10px; }
+  .stats b { font-family: var(--mono); font-weight: 500; font-size: clamp(1.3rem, 2vw, 1.7rem); color: #fff; line-height: 1.1; }
+  .stats span { font-size: .8rem; color: var(--ink-2); line-height: 1.3; }
+  .group h2 { font-family: var(--mono); font-weight: 500; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); margin-bottom: 6px; }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .item { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 9px 10px; border-radius: 8px; }
+  .item:hover { background: rgba(127, 196, 155, .08); }
+  .item[aria-pressed="true"] { background: rgba(127, 196, 155, .16); box-shadow: inset 0 0 0 1px var(--mint); }
+  .item b { font-weight: 700; }
+  .item small { grid-column: 1; color: var(--ink-2); font-size: .82rem; line-height: 1.35; }
+  .item .v { grid-row: 1 / span 2; grid-column: 2; align-self: center; font-family: var(--mono); font-size: .85rem; color: var(--glow); text-align: end; }
+  .item .bar { grid-column: 1 / -1; height: 3px; background: rgba(127, 196, 155, .15); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+  .item .bar i { display: block; height: 100%; background: var(--mint); }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 8px; background: rgba(14, 66, 57, .35); }
+  .card .k { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mint); }
+  .card h3 { font-size: 1.35rem; font-weight: 800; }
+  .card p { margin: 0; color: var(--ink); }
+  .card dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: .88rem; }
+  .card dt { color: var(--ink-2); }
+  .card dd { margin: 0; }
+  .prec { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; }
+  .prec.exact { color: var(--mint); }
+  .prec.region { color: #E7C66A; }
+  .note { font-size: .78rem; color: var(--ink-2); margin: 0; }
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: 1fr; }
+    .globe { position: relative; height: min(100vw, 560px); }
+    .panel { border-inline-start: 0; border-top: 1px solid var(--line); }
+  }
+  [dir="rtl"] .eyebrow, [dir="rtl"] .hint, [dir="rtl"] .group h2, [dir="rtl"] .card .k { font-family: var(--font); letter-spacing: 0; font-weight: 500; }
+  .compact { grid-template-columns: 1fr; min-height: 0; height: 100vh; }
+  .compact .panel { display: none; }
+  .compact .globe { position: relative; height: 100vh; max-height: none; }
+
+  .globe { background: #061A16 url("space.jpg") center / cover no-repeat; }
+  .tag.sub { font-size: .7rem; padding: 1px 7px; }
+  .fly { all: unset; cursor: pointer; justify-self: start; margin-top: 4px; padding: 9px 16px; border-radius: 999px; background: var(--mint); color: var(--night); font-weight: 800; font-size: .92rem; }
+  .fly:hover { background: var(--glow); }
+  .fly:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+  #flybox { position: fixed; inset: 0; z-index: 50; background: rgba(3, 12, 10, .86); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  #flybox .in { width: min(100%, 1100px); display: grid; gap: 10px; }
+  #flybox video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; display: block; }
+  #flybox .vw { position: relative; }
+  #flybadge { position: absolute; top: 12px; inset-inline-start: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(6, 26, 22, .78); color: var(--ink); font-size: .8rem; font-weight: 600; border: 1px solid var(--line); pointer-events: none; }
+  #flybadge.real { background: var(--mint); color: var(--night); border-color: var(--mint); }
+  #flybox .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  #flycap { color: var(--ink-2); font-size: .88rem; }
+  #flyx { all: unset; cursor: pointer; color: var(--ink); font-weight: 700; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; }
+  @media (prefers-reduced-motion: reduce) { .tag { transition: none; } }
+</style>
+
+<div class="stage" id="stage">
+  <div class="globe" id="globe" role="img" aria-label="גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם">
+    <canvas id="cv"></canvas>
+    <div id="tags"></div>
+    <span class="hint" id="hint">גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה</span>
+  </div>
+
+  <aside class="panel" aria-labelledby="h1">
+    <div class="top"><a id="home-link" href="../index.html"><svg class="logo" class="logo logo--compact" viewBox="299 186 1314 378" role="img" aria-label="MIFTAH"><rect fill="#FFFFFF" x="299" y="186" width="1314" height="378" rx="34"/><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></a><button class="lang" id="lang" type="button" lang="en">English</button></div>
+    <span class="eyebrow" id="eb">מיפתח פרויקטים · חקלאות שיש לה בית</span>
+    <h1 id="h1">פרויקטים בשמונה מדינות.</h1>
+    <p class="lede" id="lede">מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.</p>
+    <div class="stats">
+      <div><b class="num">410,000</b><span id="s1">מ״ר של בתי רשת בחו״ל, ב-5 מדינות</span></div>
+      <div><b class="num">8</b><span id="s2">מדינות, כולל ישראל</span></div>
+      <div><b class="num">20+</b><span id="s3">שנים בשטח</span></div>
+    </div>
+    <div class="card" id="card" aria-live="polite"></div>
+    <div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>
+    <div class="group"><h2 id="g2">מעבר לים</h2><ul class="list" id="l-ab"></ul></div>
+    <p class="note" id="note">מקור: האתר הקיים של מיפתח והשאלון שמילאו מרב ויפתח. נקודה צהובה = מיקום ברמת מדינה או אזור, עד שיגיע מיקום מדויק.</p>
+  </aside>
+</div>
+
+
+<div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
+<script src="../assets/vendor/three.min.js?v=eb854986"></script>
+<script src="globe.js?v=999a2fc5"></script>
+
+</body>
+</html>

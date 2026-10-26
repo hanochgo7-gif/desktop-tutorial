@@ -330,6 +330,14 @@ PAGES = {
         "contact_h": ("Contact", "יצירת קשר"),
         "web": ("www.miftah.co.il", "www.miftah.co.il"),
     },
+    "how-we-build": {
+        "title": ("How a net house is built, step by step | MIFTAH Projects", "כך בונים בית רשת, שלב אחרי שלב | מיפתח פרויקטים"),
+        "desc": ("Scroll through a 3D illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter.",
+                 "הדמיה תלת-ממדית בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף."),
+        "h1": ("How a net house is built", "כך בונים בית רשת"),
+        "lead": ("Scroll down and watch one go up: from bare soil, through galvanized poles, cables and net, to a protected orchard.",
+                 "גללו למטה וראו אותו עולה: מאדמה חשופה, דרך עמודים מגולוונים, כבלים ורשת, ועד מטע מוגן."),
+    },
     "privacy": {
         "title": ("Privacy | MIFTAH Projects", "מדיניות פרטיות | מיפתח פרויקטים"),
         "desc": ("How MIFTAH Projects handles the details you send through this website.", "איך מיפתח פרויקטים מטפלת בפרטים שנשלחים דרך האתר."),
@@ -371,6 +379,7 @@ CTA_HEADS = {  # a different opening line per page
     "turnkey": ("Start with the assessment.", "מתחילים בבדיקה."),
     "projects": ("Planning a project of this size?", "מתכננים פרויקט בהיקף כזה?"),
     "about": ("Talk to Merav or Yiftach.", "דברו עם מרב או עם יפתח."),
+    "sim": ("Want one like this on your land?", "רוצים כזה על הקרקע שלכם?"),
 }
 CTA_BAND = {
     "h": ("Tell us about your land.", "ספרו לנו על הקרקע."),
@@ -492,3 +501,44 @@ FORM_BRIEF_KEYS = [  # summary labels, in order
     ("size", ("Land size", "שטח")), ("status", ("Land status", "מצב הקרקע")), ("crop", ("Crop", "גידול")), ("timeline", ("Timeline", "לוח זמנים")),
     ("message", ("Message", "הודעה")),
 ]
+
+SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
+    "badge": ("Illustration", "הדמיה"),
+    "aria": ("3D illustration of a MIFTAH net house being built, step by step", "הדמיה תלת-ממדית של הקמת בית רשת של מיפתח, שלב אחרי שלב"),
+    "scroll": ("Scroll to build", "גללו כדי לבנות"),
+    "step": ("Step", "שלב"),
+    "note": ("Illustration only. Sizes, spacing and height are not a specification: every project is designed for its crop, soil and wind.",
+             "הדמיה להמחשה בלבד. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, הקרקע והרוח באתר."),
+    "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
+    "go": ("See how a net house is built, in 3D", "ראו איך בונים בית רשת, בתלת-ממד"),
+    "chapters": [
+        (("Design", "תכנון"), ("Designed for the site", "מתוכנן לשטח"),
+         ("We map the crop, soil, drainage, access and wind, then design the structure and the bill of quantities.", "ממפים את הגידול, הקרקע, הניקוז, הגישה והרוח, ואז מתכננים את המבנה ואת כתב הכמויות.")),  # 2.9, steps
+        (("On site", "בשטח"), ("Marking out", "סימון"),
+         ("Pole lines are marked from the engineering design, point by point.", "קווי העמודים מסומנים לפי התכנון ההנדסי, נקודה אחרי נקודה.")),
+        (("From our plant", "מהמפעל שלנו"), ("Galvanized poles", "עמודים מגולוונים"),
+         ("Poles made and checked in our plant are set in straight rows, at the span and height in the design.", "עמודים שיוצרו ונבדקו במפעל שלנו מוצבים בשורות ישרות, במפתח ובגובה שבתכנון.")),  # 1.7
+        (("At height", "עבודה בגובה"), ("Cables and anchoring", "כבלים ועיגון"),
+         ("Steel cables are tensioned across the pole heads, and the edges are anchored against the wind. Our crews are certified for work at height.", "כבלי פלדה נמתחים בין ראשי העמודים, והשוליים מעוגנים מול הרוח. הצוותים שלנו מוסמכים לעבודה בגובה.")),  # 2.8
+        (("The net", "הרשת"), ("Spread row by row", "נפרסת שורה אחרי שורה"),
+         ("The net is unrolled over the cables and fixed, one bay at a time.", "הרשת נפרסת מעל הכבלים ומחוברת, מפתח אחרי מפתח.")),
+        (("Closing", "סגירה"), ("Side nets and a door", "רשתות צד ודלת"),
+         ("Side nets and an entrance door close the structure.", "רשתות בדפנות ודלת כניסה סוגרות את המבנה.")),
+        (("Planting", "שתילה"), ("Irrigation, then trees", "השקיה, ואז עצים"),
+         ("Drip lines go in first. Then the orchard is planted under the net.", "קווי הטפטוף מותקנים קודם. אחר כך שותלים את המטע מתחת לרשת.")),  # stages 5, 7
+        (("What the net does", "מה הרשת עושה"), ("Hail stops on the net", "הברד נעצר על הרשת"),
+         ("The net catches hail before it reaches the fruit, and breaks the wind.", "הרשת עוצרת את הברד לפני שהוא מגיע לפרי, ושוברת את הרוח.")),  # 2.2, 2.3
+        (("Winter", "חורף"), ("Folded, then spread again", "מתקפלת ונפרסת מחדש"),
+         ("On orchards the net can fold away in winter and spread again in summer, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס שוב בקיץ, ידנית או אוטומטית.")),  # 2.3
+        (("One team", "צוות אחד"), ("From design to maintenance", "מהתכנון ועד התחזוקה"),
+         ("Design, our own plant, installation and maintenance, in Israel and abroad.", "תכנון, מפעל משלנו, הקמה ותחזוקה, בישראל ובחו״ל.")),
+    ],
+}
+
+GLOBE = {
+    "h": ("Projects on the globe", "הפרויקטים על הגלובוס"),
+    "p": ("Drag to turn it, zoom in on Israel, and tap a point for the project.", "גררו כדי לסובב, התקרבו לישראל, ולחצו על נקודה כדי לראות את הפרויקט."),
+    "title": ("Interactive globe of MIFTAH projects", "גלובוס אינטראקטיבי של הפרויקטים של מיפתח"),
+    "full": ("Open the globe full screen", "פתיחת הגלובוס במסך מלא"),
+    "go": ("Turn the globe", "לסובב את הגלובוס"),
+}

@@ -192,6 +192,15 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `contact_h` | Contact | יצירת קשר |
 | `web` | www.miftah.co.il | www.miftah.co.il |
 
+## Page: how-we-build
+
+| Key | English | Hebrew |
+|---|---|---|
+| `title` | How a net house is built, step by step | MIFTAH Projects | כך בונים בית רשת, שלב אחרי שלב | מיפתח פרויקטים |
+| `desc` | Scroll through a 3D illustration of a MIFTAH net house going up: marking out, galvanized poles, cables, net, closing, irrigation and planting, hail and winter. | הדמיה תלת-ממדית בגלילה של הקמת בית רשת של מיפתח: סימון, עמודים מגולוונים, כבלים, רשת, סגירה, השקיה ושתילה, ברד וחורף. |
+| `h1` | How a net house is built | כך בונים בית רשת |
+| `lead` | Scroll down and watch one go up: from bare soil, through galvanized poles, cables and net, to a protected orchard. | גללו למטה וראו אותו עולה: מאדמה חשופה, דרך עמודים מגולוונים, כבלים ורשת, ועד מטע מוגן. |
+
 ## Page: privacy
 
 | Key | English | Hebrew |
@@ -450,6 +459,7 @@ Featured (Q q14):
 | `turnkey` | Start with the assessment. | מתחילים בבדיקה. |
 | `projects` | Planning a project of this size? | מתכננים פרויקט בהיקף כזה? |
 | `about` | Talk to Merav or Yiftach. | דברו עם מרב או עם יפתח. |
+| `sim` | Want one like this on your land? | רוצים כזה על הקרקע שלכם? |
 
 ## Questions on the contact page
 

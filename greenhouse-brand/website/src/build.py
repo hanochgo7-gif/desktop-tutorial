@@ -39,7 +39,7 @@ def _git_date():
 SOURCE_DATE = _git_date()
 YEAR = SOURCE_DATE.year
 LANGS = ("en", "he")
-PAGES = ["index", "net-houses", "turnkey-farms", "projects", "about", "contact", "profile", "privacy", "accessibility"]
+PAGES = ["index", "net-houses", "how-we-build", "turnkey-farms", "projects", "about", "contact", "profile", "privacy", "accessibility"]
 
 
 def esc(s):
@@ -254,6 +254,9 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
     pre = f'<link rel="preload" href="{r}assets/fonts/IBMPlexSans-var-latin.woff2?v={FONTV["IBMPlexSans-var-latin.woff2"]}" as="font" type="font/woff2" crossorigin>'
     if L == "he":  # Hebrew pages still need the Latin file for digits, spaces and punctuation
         pre += "".join(f'<link rel="preload" href="{r}assets/fonts/IBMPlexSansHebrew-{w}-hebrew.woff2?v={FONTV[f"IBMPlexSansHebrew-{w}-hebrew.woff2"]}" as="font" type="font/woff2" crossorigin>' for w in (700, 400))
+    if slug == "how-we-build":  # the still of the 3D scene is this page's largest image
+        pre += (f'<link rel="preload" as="image" href="{r}assets/img/sim-poster-m.jpg" media="(max-width: 760px)">'
+                f'<link rel="preload" as="image" href="{r}assets/img/sim-poster.jpg" media="(min-width: 761px)">')
     if slug == "index":
         pre += (f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-portrait-720.avif" imagesrcset="{r}assets/img/hero-portrait-720.avif 720w" imagesizes="100vw" media="(max-width: 720px) and (orientation: portrait)">'
                 f'<link rel="preload" as="image" type="image/avif" href="{r}assets/img/hero-1600.avif" imagesrcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" imagesizes="100vw" media="not all and (max-width: 720px) and (orientation: portrait)">')
@@ -323,7 +326,7 @@ def footer(L):
       </div>
       <div>
         <h2>{esc(t(S["foot_nav"], L))}</h2>
-        <ul>{nav}<li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
+        <ul>{nav}<li><a href="how-we-build.html">{esc(t(C.PAGES["how-we-build"]["h1"], L))}</a></li><li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
       </div>
       <div>
         <h2>{esc(t(S["foot_contact"], L))}</h2>
@@ -451,6 +454,7 @@ def p_index(L):
   <div class="wrap">
     <div class="sec-head"><h2 id="steps-h">{esc(t(P["steps_h"], L))}</h2><p class="lead">{esc(t(P["steps_p"], L))}</p></div>
     {steps(L)}
+    <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p>
   </div>
 </section>
 
@@ -500,11 +504,50 @@ def p_net(L):
   <div class="wrap">
     <div class="sec-head"><h2 id="steps-h">{esc(t(P["steps_h"], L))}</h2><p class="lead">{esc(t(P["steps_p"], L))}</p></div>
     {steps(L, photos=False)}
+    <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p>
     <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption>{esc(t(C.STEPS[2][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
     <div class="notice" style="margin-top:clamp(28px,4vw,48px);max-width:820px"><b>{esc(t(P["abroad_h"], L))}.</b> {esc(t(P["abroad_p"], L))}</div>
   </div>
 </section>
 {cta_band(L, "net")}
+</main>"""
+
+
+def p_sim(L):
+    """The 3D build illustration. Cards scroll over a sticky canvas; build-sim.js maps the scroll to the scene.
+    Without WebGL the page shows the section drawing instead (.nogl)."""
+    S = C.SIM; n = len(S["chapters"])
+    rail = "".join(f'<button type="button" aria-label="{esc(tm(S["step"], L))} {i + 1}: {esc(tm(h, L))}"><span></span></button>' for i, (_, h, _p) in enumerate(S["chapters"]))
+    chs = []
+    for i, (k, h, p) in enumerate(S["chapters"]):
+        cta = ""
+        if i == n - 1:
+            cta = (f'<div class="actions"><a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="sim">{esc(t(C.SITE["cta"], L))}</a>'
+                   f'<a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="sim">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a></div>')
+        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}</span>'
+                   f'<h2 id="sim-h{i}">{esc(t(h, L))}</h2><p>{esc(t(p, L))}</p>{cta}</div></section>')
+    fig, legend = drawing(L, animate=False)
+    r = rel(L)
+    steps_label = "Steps" if L == "en" else "שלבים"
+    return f"""
+<main id="main">
+{page_head("how-we-build", L)}
+<div class="sim" id="sim" data-three="{r}assets/vendor/three.min.js?v={VER["three"]}">
+  <div class="sim-track" id="sim-track">
+    <div class="sim-stage" id="sim-stage">
+      <canvas id="sim-cv" role="img" aria-label="{esc(tm(S["aria"], L))}"></canvas>
+      <span class="sim-badge">{esc(t(S["badge"], L))}</span>
+      <div class="sim-hud" aria-hidden="true"><span class="num" id="sim-step">01 / {n:02d}</span><span class="sim-barw"><span id="sim-bar"></span></span></div>
+      <nav class="sim-rail" aria-label="{steps_label}">{rail}</nav>
+      <span class="sim-scroll" aria-hidden="true">{esc(t(S["scroll"], L))}</span>
+    </div>
+    <div class="sim-chs">{"".join(chs)}</div>
+  </div>
+  <div class="wrap sim-fallback"><p class="notice">{esc(t(S["nogl"], L))}</p>{fig}<div class="legend-wrap">{legend}</div></div>
+  <p class="wrap sim-note">{esc(t(S["note"], L))}</p>
+</div>
+{cta_band(L, "sim")}
+<script src="{r}assets/build-sim.js?v={VER["sim"]}" defer></script>
 </main>"""
 
 
@@ -559,8 +602,11 @@ def p_projects(L):
 {page_head("projects", L)}
 <section class="section white" aria-labelledby="map-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="map-h">{esc(t(P["map_h"], L))}</h2></div>
-    {map_svg(L)}
+    <div class="sec-head split"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="muted" style="margin-top:10px">{esc(t(C.GLOBE["p"], L))}</p></div>
+      <p class="more"><a href="{rel(L)}globe/index.html?lang={L}" data-track="globe_open">{esc(t(C.GLOBE["full"], L))}</a></p></div>
+    <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async">
+      <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" hidden></iframe>
+      <button type="button" class="btn btn-primary globe-go">{esc(t(C.GLOBE["go"], L))}</button></div>
     <div class="proj-table">{projects_table(L)}</div>
   </div>
 </section>
@@ -749,9 +795,39 @@ def rootify(s, L):
     return s
 
 
-RENDER = {"index": p_index, "net-houses": p_net, "turnkey-farms": p_turnkey, "projects": p_projects, "about": p_about,
+RENDER = {"index": p_index, "net-houses": p_net, "how-we-build": p_sim, "turnkey-farms": p_turnkey, "projects": p_projects, "about": p_about,
           "contact": p_contact, "profile": p_profile,
           "privacy": lambda L: p_prose("privacy", L, C.PRIVACY), "accessibility": lambda L: p_prose("accessibility", L, C.A11Y)}
+
+
+def globe_page():
+    """Copies the 3D globe (greenhouse-brand/globe) into public/globe/: self-hosted three.js and fonts,
+    the inline script moved to globe.js (the CSP allows no inline script), and ?lang=en|he for the embed."""
+    G = SRC.parents[1] / "globe"; out = PUB / "globe"; out.mkdir(parents=True, exist_ok=True)
+    src = (G / "index.html").read_text()
+    i0 = src.index("<script>\n"); i1 = src.index("</script>", i0)
+    js = src[i0 + len("<script>\n"):i1]
+    pref = 'try { if (localStorage.getItem("miftah-globe-lang") === "en") L = "en"; } catch (e) {}'
+    assert pref in js
+    js = js.replace(pref, pref + '\n  var qs = /[?&]lang=(he|en)/.exec(location.search); if (qs) L = qs[1];')
+    # the logo links back to the site, in the globe's current language
+    js += '\n(function () { var a = document.getElementById("home-link"); if (!a) return; function u() { a.href = document.documentElement.lang === "en" ? "../index.html" : "../he/index.html"; } u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n'
+    (out / "globe.js").write_text(js)
+    page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
+    page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
+    assert 'id="home-link"' in page
+    page = page.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>', f'<script src="../assets/vendor/three.min.js?v={VER["three"]}"></script>')
+    page = re.sub(r'<meta name="claude:viewport-fit-sides"[^>]*>\n|<link rel="preconnect"[^>]*>\n|<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>\n', "", page)
+    page = page.replace('"Heebo", Arial, sans-serif', '"Plex", "Plex Fallback", Arial, sans-serif').replace('"IBM Plex Mono", ui-monospace', '"Plex Mono", ui-monospace')
+    assert "googleapis" not in page and "cdnjs" not in page
+    title = re.search(r"<title>(.*?)</title>", page).group(1)
+    page = page.replace(f"<title>{title}</title>", "", 1)
+    head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+            f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
+            f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')
+    (out / "index.html").write_text(head + page + "\n</body>\n</html>\n")
+    for f in ("space.jpg", "fly.mp4", "fly.jpg"):
+        shutil.copy(G / f, out / f)
 
 
 def crumbs_for(slug, L):
@@ -773,6 +849,12 @@ def main():
     A.mkdir(parents=True, exist_ok=True)
     shutil.copy(SRC / "assets/site.css", A / "site.css")
     shutil.copy(SRC / "assets/site.js", A / "site.js")
+    shutil.copy(SRC / "assets/build-sim.js", A / "build-sim.js")
+    (A / "img").mkdir(exist_ok=True)
+    for f in (SRC / "assets/posters").iterdir():
+        shutil.copy(f, A / "img" / f.name)
+    (A / "vendor").mkdir(exist_ok=True)
+    shutil.copy(SRC / "assets/vendor/three.min.js", A / "vendor/three.min.js")
     shutil.copytree(SRC / "assets/fonts", A / "fonts", dirs_exist_ok=True)
     for f in (SRC / "assets/icons").iterdir():
         shutil.copy(f, A / f.name)
@@ -781,7 +863,8 @@ def main():
         FONTV[w.name] = ver(w)
     fc = A / "fonts/fonts.css"
     fc.write_text(re.sub(r"url\(\.\./fonts/([\w-]+\.woff2)\)", lambda m: f"url(../fonts/{m.group(1)}?v={FONTV[m.group(1)]})", fc.read_text()))
-    VER.update(css=ver(A / "site.css"), js=ver(A / "site.js"), fonts=ver(fc))
+    VER.update(css=ver(A / "site.css"), js=ver(A / "site.js"), fonts=ver(fc), sim=ver(A / "build-sim.js"), three=ver(A / "vendor/three.min.js"))
+    globe_page()
     for L in LANGS:
         base = PUB if L == "en" else PUB / "he"
         for slug in PAGES:
@@ -812,6 +895,19 @@ def main():
           "# Turn on once HTTPS works on www.miftah.co.il (release checklist). HSTS only after the redirect is confirmed.\n"
           "# RewriteEngine On\n# RewriteCond %{HTTPS} off [OR]\n# RewriteCond %{HTTP_HOST} !^www\\. [NC]\n# RewriteRule ^ https://www.miftah.co.il%{REQUEST_URI} [L,R=301]\n"
           "# Header always set Strict-Transport-Security \"max-age=31536000\"\n")
+    # host config for Vercel (the live preview): same headers as .htaccess; static files, no build step.
+    # noindex until www.miftah.co.il points here, so the vercel.app copy doesn't compete with the canonical domain.
+    csp = ("default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP +
+           "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
+    long_cache = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
+    write(PUB / "vercel.json", json.dumps({
+        "buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": None, "cleanUrls": False, "trailingSlash": False,
+        "headers": [
+            {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
+                                            {"key": "Content-Security-Policy", "value": csp}, {"key": "X-Robots-Tag", "value": "noindex"}]},
+            {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
+            {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
+        ]}, indent=1) + "\n")
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 

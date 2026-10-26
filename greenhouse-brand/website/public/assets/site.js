@@ -81,6 +81,15 @@
     (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(arm);
   });
 
+  // ---- the projects globe loads on request (or once the visitor scrolls near it), so the page itself stays light ----
+  var gf = document.getElementById("globe-frame");
+  if (gf) {
+    var gi = gf.querySelector("iframe"), go = function () { if (gf.classList.contains("on")) return; gi.src = gi.dataset.src; gi.hidden = false; gf.classList.add("on"); track("globe_load", {}); };
+    gf.querySelector(".globe-go").addEventListener("click", function () { go(); gi.focus(); });
+    var near = function () { var r = gf.getBoundingClientRect(); if (r.top < innerHeight * 1.2 && r.bottom > 0) { go(); window.removeEventListener("scroll", near); } };
+    window.addEventListener("scroll", near, { passive: true });
+  }
+
   // ---- print button on the profile page ----
   var pb = document.getElementById("print-btn");
   if (pb) pb.addEventListener("click", function () { track("profile_print", {}); window.print(); });
