@@ -276,10 +276,10 @@ img.archive { filter: saturate(.88) contrast(1.04); }
   .map-d { display: none; }
   .map-m { display: block; }
   .map-am { margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
-  .map-eu .mk-l { font-size: 17px; stroke-width: 5px; }
-  .map-eu .mk-v { font-size: 15px; stroke-width: 5px; }
-  .map-am .mk-l { font-size: 11px; stroke-width: 3px; }
-  .map-am .mk-v { font-size: 10px; stroke-width: 3px; }
+  .map-eu .mk-l { font-size: 20px; stroke-width: 6px; }
+  .map-eu .mk-v { font-size: 17px; stroke-width: 6px; }
+  .map-am .mk-l { font-size: 12.5px; stroke-width: 3.5px; }
+  .map-am .mk-v { font-size: 11px; stroke-width: 3.5px; }
   .map-am .mk-ring { display: none; }
 }
 .proj-table { margin-top: clamp(28px, 4vw, 48px); max-width: 860px; }
@@ -388,6 +388,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .hp { position: absolute; inset-inline-start: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form-status { padding: 16px 18px; border-inline-start: 4px solid var(--canopy); background: #EEF6F1; }
 .form-status.bad { border-color: var(--error); background: #FDF1F0; }
+.form-status.info { border-color: var(--forest); background: var(--white); outline: 1px solid var(--line); }
 .form-status h3 { font-size: 1.125rem; }
 .form-status p { margin-top: 6px; }
 .brief { white-space: pre-wrap; font: 400 .875rem/1.5 var(--mono); background: var(--paper); border: 1px dashed var(--field); padding: 12px; margin-top: 10px; max-height: 260px; overflow: auto; direction: ltr; text-align: start; }
@@ -489,3 +490,5 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .faq summary:focus-visible { outline-offset: 2px; }
 .values.one { grid-template-columns: 1fr; align-self: end; }
 .form-offline { margin: 4px 0 0; }
+.drawing .dw-foldnet { fill: none; stroke: var(--canopy); stroke-width: 2; stroke-dasharray: 6 5; }
+.drawing .dw-fold { fill: none; stroke: var(--mint); stroke-width: 3; stroke-linejoin: round; }

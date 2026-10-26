@@ -9,6 +9,7 @@ Status as of 26 Oct 2026, after review cycle 2. ✅ = done and verified. ⛔ = b
 | ⛔ | **Enquiry destination (truth ledger O1):** a business email or lead inbox, then set `FORM_ENDPOINT` | Merav + agency | Until then the form validates and says honestly that sending isn't connected; the phone is the only live route |
 | ⛔ | **Content sign-off by Merav and Yiftach** (Q q19). Read `docs/MIFTAH_CONTENT_MASTER.md` (every string, EN and HE). | Merav, Yiftach | |
 | ⛔ | **Native-speaker check of the English** (Q q37) | Merav's family member | |
+| ⛔ | **Approve the "Selected projects" table** (kiwi at Bar'am region, bananas in the Western Galilee, apples in the Golan, cherries, avocado in Portugal). It shows crop, structure and region only, no client names, but the ledger (3.1, q13) asks for Yiftach's and the clients' approval before publishing. If it isn't approved, remove `FEATURED` from `content.py`. | Yiftach | |
 | ⛔ | **Rights and consent:** drone footage from the Drive owner; 2015 archive photos are MIFTAH's; identifiable workers in `p-site` and `p-marking` | Merav | Asset registry, open rights |
 
 ## Content approvals that would strengthen the site (not blocking)

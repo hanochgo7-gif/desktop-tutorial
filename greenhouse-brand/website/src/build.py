@@ -139,7 +139,9 @@ def _drawing_svg(L, mobile):
         p.append(f'<g{f(1.7 + i * .08)}><path class="dw-trunk" d="M{cx} {gy} V352"/><path class="dw-crown" d="M{cx - 66} 312 C{cx - 70} 262 {cx - 30} 246 {cx} 248 C{cx + 34} 246 {cx + 72} 264 {cx + 66} 312 C{cx + 60} 348 {cx - 60} 350 {cx - 66} 312 Z"/></g>')
     p.append(f'<path class="dw-drip dw-anim" style="--d:2s" d="M{poles[0] + 10} {gy - 3} H{poles[-1] - 10}"/>')
     fx0, fx1 = poles[1] + 30, poles[2] - 30
-    p.append(f'<path class="dw-lead dw-fade" style="--d:2.1s" d="M{fx1} {top - 34} H{fx0}" marker-end="url(#ar{"m" if mobile else ""})"/>')
+    fold = " ".join(f"l{8 if i % 2 == 0 else -8} 5" for i in range(4))  # a net folded into pleats
+    p.append(f'<g class="dw-fade" style="--d:2.1s"><path class="dw-foldnet" d="M{fx1} {top - 34} H{fx0 + 14}" marker-end="url(#ar{"m" if mobile else ""})"/>'
+             f'<path class="dw-fold" d="M{fx0 - 4} {top - 44} {fold}"/></g>')
     # dimension lines: span over one bay, height inside the last bay (desktop only)
     dy = 104
     dims = []
@@ -151,7 +153,7 @@ def _drawing_svg(L, mobile):
              f'<text class="dw-note" transform="translate({hx - 8} {(top + gy) / 2}) rotate(-90)" text-anchor="middle">{esc(t(D["height"], L))}</text></g>')
     # callouts: anchor point -> numbered tag, two rows (above and below the structure); label x differs by language
     rows = [  # (number, anchor, tag x en, tag x he, tag y)
-        (6, (fx0 + 6, top - 34), 230, 430, 56),
+        (6, (fx0, top - 30), 230, 430, 56),
         (1, (510, top + 9), 470, 650, 56),
         (2, (1000, top - 6), 1000, 1200, 56),
         (5, (200, 300), 120, 340, 540),
@@ -161,7 +163,7 @@ def _drawing_svg(L, mobile):
     if not mobile:
         p.extend(dims)
     if mobile:  # numbers only, every callout re-anchored inside the two-bay crop; the legend below names them
-        mrows = [(2, (270, top - 6), 230, 66), (6, (fx0 + 6, top - 34), 420, 66), (1, (510, top + 9), 580, 66),
+        mrows = [(2, (270, top - 6), 230, 66), (6, (fx0, top - 30), 420, 66), (1, (510, top + 9), 580, 66),
                  (4, (79, 330), 80, 540), (5, (200, 300), 250, 540), (3, (630, 400), 560, 540)]
         for n, (ax, ay), lx, ly in mrows:
             tip = ly + 20 if ly < ay else ly - 28
@@ -228,7 +230,7 @@ def jsonld(slug, L, crumbs):
         "address": {"@type": "PostalAddress", "addressLocality": "Kfar Masaryk", "addressCountry": "IL"},
         "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"],
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Loading sheds", "Windbreaks", "Turnkey farms"],
-        "founder": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO"}],
+        "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
     }
     graph = [org, {"@type": "WebSite", "@id": f"{DOMAIN}/#site", "url": DOMAIN + "/", "name": "MIFTAH Projects", "inLanguage": ["en", "he"], "publisher": {"@id": f"{DOMAIN}/#org"}},
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
@@ -602,8 +604,8 @@ def p_about(L):
 <section class="section white" aria-labelledby="how-h">
   <div class="wrap split">
     <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p>
-      <figure class="ph-fig" style="margin-top:28px">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure></div>
-    <div><h2 class="h-small" id="co-h">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
+      <h2 class="h-small" id="co-h" style="margin-top:32px">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
+    <figure class="ph-fig">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
   </div>
 </section>
 <section class="section" aria-labelledby="values-h">
@@ -698,7 +700,8 @@ def p_profile(L):
     P = C.PAGES["profile"]; S = C.SITE
     facts = "".join(f'<div><b>{esc(t(a, L))}</b>{esc(t(b, L))}</div>' for a, b in C.FACTS)
     svc = "".join(f'<li><b>{esc(t(ty["h"], L))}</b>: {esc(t(ty["rows"][0][1], L))}</li>' for ty in C.TYPES)
-    stg = ", ".join(t(x[0], L) for _, items in C.STAGES for x in items)
+    names = [t(x[0], L) for _, items in C.STAGES for x in items]
+    stg = ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
     proc = "".join(f'<li>{esc(t(h, L))}</li>' for _, h, _, _ in C.STEPS)
     qr_alt = "QR code for www.miftah.co.il" if L == "en" else "קוד QR לאתר www.miftah.co.il"
     return f"""

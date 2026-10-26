@@ -24,7 +24,7 @@ What was tested, how, and the real results. Every result below comes from a test
 | 1 | Buyer/CEO, creative director, engineer (independent agents) | Ambiguous CTA, hero showed one offer only, 41 ha not stated, drone net house repeated, drawing too simple, facts row without gutter on phones, Hebrew map labels flipped, 404 skip link, self-import, date-based versioning, robots/noindex conflict, `aria-pressed` misuse, no fetch timeout, image sizes, profile printed on 2 pages | All |
 | 2 | Acceptance gate: business, design and engineering panels | Score 68.5 (table below). Credibility, conversion, originality and assets were the weak points. 11 engineering defects. | All 11 engineering defects; phone drawing and map without sideways scroll; FAQ on Contact; photo reallocation; facts padding in Hebrew; footer; corrected copy |
 | 3 | A new independent reviewer (gate 4) | Score 65.8. A real contrast bug in the open mobile menu (2.6:1), one claim the ledger rules out ("uses less material"), "Already working in Portugal" on the turnkey page, the form's "not connected" message appearing only after submitting, undated 2015 figures, the Spain/Portugal marker overlap, Hebrew mixing singular and plural | All code items |
-| 4 | Another new reviewer (gate 5), on the cycle-3 build | See section 5 | |
+| 4 | Another new reviewer (gate 5), on the cycle-3 build | Score 72 (section 5). No factual errors, broken layouts or overlaps. Ten small code items | The code items listed in section 5; full regression rerun |
 
 ## 3. Stress tests A–J
 
@@ -105,22 +105,55 @@ Weights from the brief: 15/15/15/15/15/10/5/5/5.
 
 | Dimension | Weight | Gate 2 (cycle 2, before fixes) | Gate 4 (cycle 3, before fixes) | Gate 5 (final) |
 |---|---|---|---|---|
-| Strategic and brand fit | 15 | 8 | 8 | |
-| Business clarity | 15 | 8.5 (EN 9, HE 8) | 8 | |
-| Visual originality and art direction | 15 | 6 | 6 | |
-| International credibility and trust | 15 | 6 | 5 | |
-| Conversion and user journey | 15 | 6 | 4.5 | |
-| Campaign asset integration | 10 | 5.5 | 6 | |
-| Responsive experience | 5 | 6.5 | 8 | |
-| Performance, accessibility and SEO | 5 | 9 | 9 | |
-| Code quality and maintainability | 5 | 7 | 8 | |
-| **Weighted total** | | **68.5** | **65.8** | |
+| Strategic and brand fit | 15 | 8 | 8 || 8 |
+| Business clarity | 15 | 8.5 (EN 9, HE 8) | 8 || 8.5 |
+| Visual originality and art direction | 15 | 6 | 6 || 6.5 |
+| International credibility and trust | 15 | 6 | 5 || 5.5 |
+| Conversion and user journey | 15 | 6 | 4.5 || 6 |
+| Campaign asset integration | 10 | 5.5 | 6 || 7 |
+| Responsive experience | 5 | 6.5 | 8 || 8.5 |
+| Performance, accessibility and SEO | 5 | 9 | 9 || 9.5 |
+| Code quality and maintainability | 5 | 7 | 8 || 8 |
+| **Weighted total** | | **68.5** | **65.8** | **71.75 ≈ 72** |
 
 Gates 2 and 4 were scored by different reviewers, so the change between them is not a trend. Gate 4 judged conversion more harshly (a dead form path), and responsiveness and code more kindly (after the cycle-2 fixes).
 
 ## 5. Final gate (gate 5)
 
-GATE5_PLACEHOLDER
+Scored by a reviewer who had not seen the earlier gates, on the cycle-3 build: 116 viewport screenshots at 390 and 1440 px in both languages, the open menu, form submits, the profile PDF.
+
+**Weighted total: 71.75 ≈ 72 / 100. The target of 90 is not met, and four dimensions are below 8:**
+- Credibility and trust 5.5
+- Conversion 6
+- Visual originality 6.5
+- Campaign assets 7
+
+The reviewer's verdict: "honest, clear and technically very good. What holds it back is missing proof." The reviewer found **no** factual errors against the ledger, **no** broken layout or overlap at 390 or 1440 in either language, and no dead functionality apart from the form's destination, which the page states openly.
+
+**Fixed after gate 5 (cycle 4), then the full regression suite was rerun** (form 19/19, keyboard 16/16, widths 126/126, axe 0 including the open menu, 0 console errors in 40 page loads, HTML valid, 0 broken links, profile 1 page; Lighthouse mobile on the changed pages 95–100, CLS 0):
+- The "not connected" panel is neutral instead of an error red, and leads with the call and copy buttons.
+- Structured data: the owners are `employee` with "Co-CEO and owner" rather than `founder`, which the ledger doesn't state.
+- Hebrew: the remaining singular address on Turnkey is now plural. "הנדסאי בניין (הטכניון)". "בתי רשת" no longer breaks across lines in the H1.
+- Contact names Merav Eyal Hasfel, as on About.
+- About: the photo sits beside the text and company table, so no column is left empty.
+- Drawing: callout 6 points at a folded net with an arrow, instead of a bare line.
+- Map labels on phones are about 20% larger.
+- Profile: the stage list reads as one sentence.
+
+Not changed, on purpose:
+- The minimum-size fact on Home stays. The owners asked to filter small enquiries (q8, q21).
+- Home repeats the steps and values that inner pages expand. That is a summary.
+- `drone-hillside` is the same net house as the hero, which the asset rules limit.
+
+A fresh score after cycle 4 was not run, so 72 remains the last measured score.
+
+**Why the gap to 90 can't be closed in code.** The four low dimensions are capped by inputs that don't exist yet:
+- an enquiry inbox (O1)
+- approved references and quotes (O3, O4)
+- per-project photos and approval of the selected-projects table (O2)
+- photos of the plant and the owners
+
+Under the brief's own rule, a high visual score cannot override a non-working enquiry path, so the site is **not ready to launch** until O1 is done, even though every technical check passes.
 
 ## 6. Remaining limits that only the owners can lift
 

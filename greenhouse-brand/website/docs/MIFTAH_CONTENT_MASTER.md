@@ -107,11 +107,11 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `honest_p` | We deliver turnkey farms together with agricultural partners. The structures at the core of the farm come from what we have built for more than 20 years, in Israel and on three continents. | את חוות המפתח אנחנו מבצעים יחד עם שותפים חקלאיים. המבנים שבלב החווה מגיעים ממה שאנחנו בונים כבר יותר מ-20 שנה, בישראל ובשלוש יבשות. |
 | `stages_h` | Eleven stages, and what you receive at each | אחד-עשר שלבים, ומה מקבלים בכל אחד |
 | `stages_p` | Take the whole path, or a single stage. | אפשר לקחת את כל הדרך, או שלב אחד. |
-| `excl_h` | What stays with you | מה נשאר אצלך |
+| `excl_h` | What stays with you | מה נשאר אצלכם |
 | `excl_1` | Local licensing and permits, with your local advisers. | רישוי והיתרים מקומיים, עם היועצים המקומיים שלכם. |
 | `excl_2` | Formal investor reporting on budget and progress, with your own advisers. | דיווח פורמלי למשקיעים על תקציב והתקדמות, עם היועצים שלכם. |
 | `start_h` | Start with the assessment | מתחילים בבדיקה |
-| `start_p` | You can begin with soil testing, crop fit and a business plan alone, and decide on the build once the numbers are in front of you. | אפשר להתחיל רק בבדיקת קרקע, התאמת גידול ותוכנית עסקית, ולהחליט על ההקמה כשהמספרים מונחים לפניך. |
+| `start_p` | You can begin with soil testing, crop fit and a business plan alone, and decide on the build once the numbers are in front of you. | אפשר להתחיל רק בבדיקת קרקע, התאמת גידול ותוכנית עסקית, ולהחליט על ההקמה כשהמספרים מונחים לפניכם. |
 | `mistake_h` | The mistake we see most | הטעות שאנחנו רואים הכי הרבה |
 | `mistake_p` | Investors trying to set up the farm by themselves to save money. | משקיעים שמנסים להקים את החווה לבד כדי לחסוך כסף. |
 | `pt_h` | A client in Portugal | לקוח בפורטוגל |
@@ -150,7 +150,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `people_h` | The owners | הבעלים |
 | `yiftach` | Yiftach Hasfel | יפתח הספל |
 | `yiftach_r` | Co-CEO and owner | מנכ״ל משותף ובעלים |
-| `yiftach_p` | Practical engineer in construction, trained at the Technion. Leads needs mapping, engineering design, development, quality control, production supervision and execution. He ran a complex project in Belarus that kept to schedule with local manufacturing, shipping and local crews. | הנדסאי בניין מטעם הטכניון. מוביל את מיפוי הצרכים, התכנון ההנדסי, הפיתוח, הבקרה, הפיקוח על הייצור והביצוע. ניהל פרויקט מורכב בבלארוס שעמד בלוח הזמנים, עם ייצור מקומי, שילוח וצוותים מקומיים. |
+| `yiftach_p` | Practical engineer in construction, trained at the Technion. Leads needs mapping, engineering design, development, quality control, production supervision and execution. He ran a complex project in Belarus that kept to schedule with local manufacturing, shipping and local crews. | הנדסאי בניין (הטכניון). מוביל את מיפוי הצרכים, התכנון ההנדסי, הפיתוח, הבקרה, הפיקוח על הייצור והביצוע. ניהל פרויקט מורכב בבלארוס שעמד בלוח הזמנים, עם ייצור מקומי, שילוח וצוותים מקומיים. |
 | `merav` | Merav Eyal Hasfel | מרב איל הספל |
 | `merav_r` | Co-CEO and owner | מנכ״לית משותפת ובעלים |
 | `merav_p` | BA in business administration. Runs the company day to day, its finance, and marketing and sales. Your first contact for a new project. | בעלת תואר ראשון במנהל עסקים. מנהלת את החברה ביום-יום, את הכספים ואת השיווק והמכירות. איש הקשר הראשון לפרויקט חדש. |
@@ -168,7 +168,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `h1` | Discuss your project | דברו איתנו על הפרויקט |
 | `lead` | Tell us where the land is, what you grow or plan to grow, and how large it is. We'll contact you to arrange a first conversation, and a visit to the site when the project fits. | ספרו לנו איפה הקרקע, מה מגדלים או מתכננים לגדל, ומה גודל השטח. נחזור אליכם כדי לתאם שיחה ראשונה, וביקור בשטח כשהפרויקט מתאים. |
 | `aside_phone_h` | Prefer to talk? | מעדיפים לדבר? |
-| `aside_phone_p` | Call the office and ask for Merav Hasfel, co-CEO. | התקשרו למשרד ובקשו את מרב הספל, מנכ״לית משותפת. |
+| `aside_phone_p` | Call the office and ask for Merav Eyal Hasfel, co-CEO. | התקשרו למשרד ובקשו את מרב איל הספל, מנכ״לית משותפת. |
 | `aside_min_h` | Projects we take on | פרויקטים שאנחנו לוקחים |
 | `aside_min_p` | From 5 ha (50 dunam) in Israel and from 30 ha abroad. Pricing follows a review of the site, because every structure is designed for its land. | מ-50 דונם בישראל ומ-300 דונם בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו. |
 | `aside_fair_h` | Fruit Logistica, Berlin | Fruit Logistica, ברלין |
@@ -276,7 +276,7 @@ Crops: For the farm around the orchard / לחווה שמסביב למטע
 | | English | Hebrew |
 |---|---|---|
 | Loading sheds | Shade sheds for loading, unloading and handling produce. Wide spans leave room for trucks and carts to turn. | סככות צל להעמסה, לפריקה ולטיפול בתוצרת. מפתחים רחבים משאירים מקום לתמרון של משאיות ועגלות. |
-| Net to order | Shade percentage and colour chosen with you. An opening and closing system can be added for bad weather. | אחוז הצל והצבע נבחרים איתך. אפשר להוסיף מערכת פתיחה וסגירה למזג אוויר קשה. |
+| Net to order | Shade percentage and colour chosen with you. An opening and closing system can be added for bad weather. | אחוז הצל והצבע נבחרים איתכם. אפשר להוסיף מערכת פתיחה וסגירה למזג אוויר קשה. |
 | Windbreaks | Designed and built with the rest of the farm. | מתוכננים ומוקמים יחד עם שאר החווה. |
 
 ### Maintenance, dismantling and reuse / תחזוקה, פירוק ושימוש חוזר
@@ -461,7 +461,7 @@ Heading: Before you get in touch / לפני שפונים
 | How is the price set? / איך נקבע המחיר? | After we review the site. Every structure is designed for its land, and the quote is based on that design and its bill of quantities. | אחרי שבודקים את השטח. כל מבנה מתוכנן לקרקע שלו, והצעת המחיר מבוססת על התכנון ועל כתב הכמויות. |
 | Do you work outside Israel? / אתם עובדים מחוץ לישראל? | Yes. We have built net houses in Mexico, India, Honduras, Spain, Georgia and Portugal, and ran a complex project in Belarus. Abroad, we plan the work, train and manage local crews, and run execution on site. | כן. הקמנו בתי רשת במקסיקו, בהודו, בהונדורס, בספרד, בגאורגיה ובפורטוגל, וניהלנו פרויקט מורכב בבלארוס. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח. |
 | Can I order a single stage? / אפשר להזמין שלב אחד בלבד? | Yes. Needs mapping, design, manufacture, supervision, training and maintenance can each be ordered on their own. | כן. אפשר להזמין בנפרד מיפוי צרכים, תכנון, ייצור, פיקוח, הדרכה או תחזוקה. |
-| Who delivers a turnkey farm? / מי מבצע חוות מפתח? | MIFTAH, together with agricultural partners. Local licensing and permits, and formal investor reporting, stay with you and your advisers. | מיפתח, יחד עם שותפים חקלאיים. רישוי והיתרים מקומיים ודיווח פורמלי למשקיעים נשארים אצלך ואצל היועצים שלכם. |
+| Who delivers a turnkey farm? / מי מבצע חוות מפתח? | MIFTAH, together with agricultural partners. Local licensing and permits, and formal investor reporting, stay with you and your advisers. | מיפתח, יחד עם שותפים חקלאיים. רישוי והיתרים מקומיים ודיווח פורמלי למשקיעים נשארים אצלכם ואצל היועצים שלכם. |
 | Can I talk to one of your clients? / אפשר לדבר עם לקוח שלכם? | Yes. Clients in Israel and in Portugal are willing to give a reference. We put you in touch after a first conversation. | כן. לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. נפגיש ביניכם אחרי שיחה ראשונה. |
 
 ## Privacy
@@ -500,7 +500,7 @@ You can ask to see, correct or delete the details you sent, under Israel's Prote
 
 If we add visitor statistics, we will use a service that doesn't track you across sites, and update this page first.
 
-אם נוסיף סטטיסטיקת כניסות, נשתמש בשירות שלא עוקב אחריך בין אתרים, ונעדכן את העמוד הזה קודם.
+אם נוסיף סטטיסטיקת כניסות, נשתמש בשירות שלא עוקב אחריכם בין אתרים, ונעדכן את העמוד הזה קודם.
 
 **Updated** / **עדכון אחרון**
 

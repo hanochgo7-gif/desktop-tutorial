@@ -159,7 +159,7 @@
   }
   var status = document.getElementById("form-status");
   function show(kind, h, p, extra) {
-    status.hidden = false; status.className = "form-status" + (kind === "bad" ? " bad" : "");
+    status.hidden = false; status.className = "form-status" + (kind === "bad" ? " bad" : kind === "info" ? " info" : "");
     status.innerHTML = "<h3></h3><p></p>"; status.querySelector("h3").textContent = h; status.querySelector("p").textContent = p;
     if (extra) status.appendChild(extra);
     status.setAttribute("tabindex", "-1"); status.focus();
@@ -187,7 +187,7 @@
       var tel = document.createElement("a"); tel.className = "btn btn-primary"; tel.href = "tel:" + form.dataset.tel; tel.textContent = M.call; tel.setAttribute("data-where", "form-unconnected");
       var row = document.createElement("div"); row.className = "actions"; row.style.marginTop = "12px"; row.appendChild(tel); row.appendChild(cb); cb.style.marginTop = "0";
       box.appendChild(row); box.appendChild(pre);
-      show("bad", M.offH, M.offP, box);
+      show("info", M.offH, M.offP, box);
       track("form_submit_unconnected", { need: p.need_code });
       return;
     }
