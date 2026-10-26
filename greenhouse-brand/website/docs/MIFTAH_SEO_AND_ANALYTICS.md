@@ -22,11 +22,11 @@ There are no thin location pages and no per-country pages. Per-crop pages can fo
 - **Headings:** one `<h1>` per page (checked on all 20 HTML files), with h2 and h3 nested beneath it.
 - **Canonical:** absolute (`https://www.miftah.co.il/...`) on every page except 404.
 - **hreflang:** en, he and x-default (→ en) on every page and in the sitemap, reciprocal.
-- **Sitemap:** `sitemap.xml` lists 16 URLs (8 pages × 2 languages; the profile is excluded) with `xhtml:link` alternates.
+- **Sitemap:** `lastmod` is the date of the last git commit to the source. `sitemap.xml` lists 16 URLs (8 pages × 2 languages; the profile is excluded) with `xhtml:link` alternates.
 - **robots.txt:** allows all and points to the sitemap. The profile page is kept out of search by `noindex` alone; blocking it in robots.txt would stop crawlers from ever seeing that tag.
 - **Structured data:** a JSON-LD `@graph` built only from ledger facts.
   - Organization: name, Hebrew name, phone, Kfar Masaryk, the 8 countries worked in, founders as co-CEOs, slogan.
-  - WebSite (en, he), WebPage, BreadcrumbList on inner pages, and Service on Net houses and Turnkey farms.
+  - WebSite (en, he), WebPage, BreadcrumbList on inner pages, Service on Net houses and Turnkey farms, and FAQPage on Contact (the six visible questions, word for word).
   - Not included: a legal name (O7), reviews or ratings (none exist), founding date (unknown).
 - **Social previews:** Open Graph and Twitter cards with a 1200×630 image (a frame from the real drone footage) and `og:locale` plus its alternate.
 - **Alt text:** describes what is in each photo, without inventing places.
@@ -45,8 +45,8 @@ There are no thin location pages and no per-country pages. Per-crop pages can fo
 | Portfolio / project pages | `/he/projects.html` |
 | Contact page | `/he/contact.html` |
 
-**Lighthouse results** (October 2026, local server, mobile throttled / desktop):
-- Performance 91–100.
+**Lighthouse results** (26 October 2026, after review cycle 2, local server, mobile throttled / desktop):
+- Performance: see the report.
 - Accessibility, Best Practices and SEO: 100 on every page tested.
 - See MIFTAH_QA_AND_STRESS_TEST_REPORT.md for the per-page figures.
 

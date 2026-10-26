@@ -33,7 +33,8 @@ website/
 
 | Task | Command |
 |---|---|
-| Change any text | Edit `src/content.py`, then run `python3 src/build.py` and `python3 src/tools/content_doc.py` (the second refreshes `docs/MIFTAH_CONTENT_MASTER.md`) |
+| Change any text (including the form's messages, `FORM_MSG`) | Edit `src/content.py`, then run `python3 src/build.py` and `python3 src/tools/content_doc.py` (the second refreshes `docs/MIFTAH_CONTENT_MASTER.md`) |
+| First build on a new machine | `python3 src/tools/images.py` (makes the responsive images from `media-src/`; needed once, before `build.py`), then `python3 src/build.py`. The hero video is committed in `public/assets/video/`; its DJI master is not in the repo, so `src/tools/video.sh` needs the original file. |
 | Change styles or behaviour | Edit `src/assets/site.css` or `site.js`, then run `python3 src/build.py` |
 | Add or replace a photo | Put the master in `media-src/`, add it to `JOBS` in `src/tools/images.py`, run that script, then use `picture("name", alt, L)` in `build.py` |
 | Rebuild the map | `python3 src/tools/worldmap.py` (markers come from `MARKETS` in `content.py`) |
@@ -41,7 +42,7 @@ website/
 
 **Fonts and icons:** these live in `src/assets/fonts/` and `src/assets/icons/`, and `build.py` copies them into `public/`. `fonts.css` is maintained by hand and includes the metric-matched Hebrew fallback (see `docs/MIFTAH_DESIGN_SYSTEM.md`).
 
-**Versioning:** CSS, JS and fonts.css get a content hash (`?v=…`). Pages reference only the current files, so long cache headers are safe. `public/.htaccess` (generated) sets the cache headers and the per-language 404 pages on Apache.
+**Versioning:** CSS, JS, fonts.css and every font file get a content hash (`?v=…`). The sitemap `lastmod` and the footer year come from the date of the last git commit to `src/`, so a fresh clone builds identical files. Pages reference only the current files, so long cache headers are safe. `public/.htaccess` (generated) sets the cache headers and the per-language 404 pages on Apache.
 
 **Hero video:** the current clip is DJI_0024 from 32 s to 44 s. It is encoded three ways (wide 1600×900, 720p, and 720×960 portrait), each as H.264 MP4 plus VP9 WebM. To re-cut it from the original file, run `sh src/tools/video.sh /path/to/DJI_0024.MP4`.
 
@@ -79,7 +80,7 @@ The domain miftah.co.il is registered with Interspace. Hosting is at Nethost (co
 2. Configure:
    - The server serves `404.html` for missing pages. The generated `.htaccess` already does this on Apache, including `/he/404.html` for Hebrew paths.
    - HTTPS, with a redirect from `miftah.co.il` to `https://www.miftah.co.il` (the canonical host).
-   - Long cache headers for `/assets/` (files are versioned with `?v=YYYYMMDD` at build time) and short ones for `.html`.
+   - Cache headers, compression and security headers (CSP, nosniff, referrer policy) are in the generated `.htaccess`. The HTTPS/www redirect and HSTS are there too, commented out: enable them once the certificate works.
    - 301 redirects from the old WordPress URLs (proposed mapping in `docs/MIFTAH_SEO_AND_ANALYTICS.md`).
 3. Submit `https://www.miftah.co.il/sitemap.xml` in Google Search Console.
 

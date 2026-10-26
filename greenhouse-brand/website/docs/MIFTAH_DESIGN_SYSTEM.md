@@ -69,7 +69,8 @@ Breakpoints are content-led:
 |---|---|
 | 1020 px | Navigation collapses to the menu button |
 | 960 / 900 / 860 px | Grids drop to 2 columns, then 1 |
-| 760 px | Drawing labels give way to the legend |
+| 760 px | The drawing switches to its phone version: two bays, numbered callouts only (the legend below names them), no sideways scroll |
+| 720 px | The map splits into two stacked panels (Americas; Europe to India) with larger labels, no sideways scroll |
 | 720 px | Hero switches to the portrait video and poster |
 | 480 px | Header tightens |
 
@@ -89,14 +90,16 @@ Tested at 360, 390, 430, 768, 1024, 1440 and 1920 px.
    - It draws itself once (ground, poles, cables, net, crop, labels) the first time it is seen, over about 2.5 s.
    - It is static under reduced motion.
    - It appears on Home and on Net houses, and nowhere else, so it stays meaningful.
-2. **The flat projects map.** Natural Earth land in an Equal Earth projection, with dashed arcs from Kfar Masaryk and markers sized by √m² where an area is published. It appears on Home and on Projects.
+   - Phones get a second SVG of the same drawing, cropped to two bays, with all six callouts re-anchored inside the crop and drawn larger.
+2. **The flat projects map.** Natural Earth land in an Equal Earth projection, with Kfar Masaryk marked and markers sized by √m² where an area is published (no arcs: they were removed after review). On phones it becomes two cropped panels of the same map. It appears on Home and on Projects.
 
 ## Motion
 
 | What | When | Reduced motion |
 |---|---|---|
 | Hero video loop | Starts after the page `load` event | Never starts; the poster is shown and a play button is offered |
-| Drawing build | Once, at 35% visibility | Shown complete, no animation |
+| Drawing build | Once, at 35% visibility. Path lengths are measured when the browser is idle, and only if the drawing is still off screen (a drawing already in view stays drawn) | Shown complete, no animation |
+| Hero video on Save-Data or 2G/3G | Not downloaded automatically; the play button starts it | Same |
 | Hover and focus | Colour changes only (0.15 s) | Same |
 
 There are no scroll-triggered fades on sections, no parallax, no counters and no scroll hijacking.
@@ -114,18 +117,20 @@ The table lists the class names in `site.css`.
 | Drawing and legend | `.drawing`, `.legend` |
 | Steps | `.steps` |
 | Photo series | `.series` |
-| Map | `.map` |
+| Map | `.map`, `.map-d` (desktop), `.map-m` `.map-am` `.map-eu` (phone panels) |
+| Photo band (Net houses) | `.band-photo` |
+| Questions (Contact) | `.faq` (native `details`/`summary`) |
 | Tables | `.tbl` |
 | Structure types | `.type` |
 | Farm stages | `.phases`, `.phase` |
 | Notice | `.notice` |
 | People and values | `.people`, `.values` |
-| Statement | `.statement` |
+| Statement | `.statement`; `.why .statement.big` on Home |
 | CTA band | `.cta-band` |
 | Form | `.form`, `.field`, `.choice`, `.check`, `.form-status` |
 | Aside | `.aside` |
 | Prose | `.prose` |
-| Footer | `.site-foot`, `.titleblock` |
+| Footer | `.site-foot` (#0B3530, a shade darker than forest, with a hairline top edge so it separates from the forest CTA band), `.titleblock` |
 | Print profile | `.sheet` |
 
 ## Right-to-left

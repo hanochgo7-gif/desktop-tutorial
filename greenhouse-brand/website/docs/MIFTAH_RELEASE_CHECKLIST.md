@@ -1,6 +1,6 @@
 # MIFTAH release checklist
 
-Status as of 26 Oct 2026. ✅ = done and verified. ⛔ = blocks launch. ⬜ = needed before or soon after launch.
+Status as of 26 Oct 2026, after review cycle 2. ✅ = done and verified. ⛔ = blocks launch. ⬜ = needed before or soon after launch.
 
 ## Blockers (owner decisions)
 
@@ -32,15 +32,15 @@ Status as of 26 Oct 2026. ✅ = done and verified. ⛔ = blocks launch. ⬜ = ne
 |---|---|---|
 | ✅ | 18 pages + 2 × 404 build from source (`python3 src/build.py`) | Rebuilt after every change |
 | ✅ | No horizontal scroll, clipped text or small tap targets at 360/390/430/768/1024/1440/1920, EN and HE | `qa/widths.mjs`: 126 page/width/language combinations |
-| ✅ | Accessibility | axe-core 4, WCAG 2.1 A/AA + best practice, 40 runs: 0 violations |
+| ✅ | Accessibility | axe-core 4, WCAG 2.1 A/AA + best practice, 40 runs (20 pages × desktop and phone): 0 violations |
 | ✅ | HTML validity | html-validate, 20 files: 0 errors |
-| ✅ | Links | linkinator from both home pages: 0 broken |
+| ✅ | Links | linkinator from both home pages, 92 local links: 0 broken (links to www.miftah.co.il are skipped until the site is live) |
 | ✅ | Lighthouse | Mobile performance 98–100, desktop 100; accessibility, best practices and SEO 100; CLS 0 (10 pages × 2 profiles) |
-| ✅ | Form | 17 automated tests (validation, minimum-size note, unconnected state, 2xx success, 500 error, timeout, double click, too-fast, honeypot, Hebrew) |
+| ✅ | Form | 19 automated tests (validation, focus in page order, minimum-size note, unconnected state, 2xx success, 500 error, timeout, double click, too-fast held and sent once, honeypot, no hidden direction marks in the Hebrew summary, Hebrew errors) |
 | ✅ | Keyboard and controls | 16 tests (skip link, focus, menu with Enter/Escape, video pause, reduced motion, language switch, no-JS form) |
 | ✅ | Print | Company profile prints on 1 A4 page in EN and HE (PDF rendered and checked) |
 | ✅ | No third-party requests; fonts self-hosted | Network log during tests |
-| ⬜ | Real-device check on iOS Safari and Android Chrome (video autoplay, sticky header) | Not available in this environment |
+| ⬜ | Real-device check on iOS Safari and Android Chrome (video autoplay, sticky header, the phone drawing and map panels) | Not available in this environment |
 | ⬜ | Test the hero video in Safari and Firefox | Tested only in Chromium; H.264 MP4 should play in both |
 
 ## Deployment (when approved)
@@ -49,7 +49,8 @@ Status as of 26 Oct 2026. ✅ = done and verified. ⛔ = blocks launch. ⬜ = ne
 |---|---|
 | ⬜ | Upload `public/` to Nethost (contact: Oved). The domain is with Interspace (Q q18). |
 | ⬜ | HTTPS, and redirect `miftah.co.il` → `https://www.miftah.co.il` |
-| ⬜ | Check that `.htaccess` is honoured (404 pages, cache headers) |
+| ⬜ | Check that `.htaccess` is honoured (404 pages, cache, compression, security headers). Then uncomment the HTTPS/www redirect, and after it works, HSTS |
+| ⬜ | If analytics or a form service on another domain is added, add its origin to the Content-Security-Policy in `build.py` (the form endpoint's origin is added automatically) |
 | ⬜ | 301 redirects from the old WordPress URLs (mapping in `MIFTAH_SEO_AND_ANALYTICS.md`) |
 | ⬜ | Google Search Console: verify the domain and submit `sitemap.xml` |
 | ⬜ | Optional: cookieless analytics (update the privacy page first) |

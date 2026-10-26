@@ -10,18 +10,19 @@ The masters are copied into the repo at `website/media-src/` so the site no long
 - **No image repeats within a page.** Checked page by page in the table below.
 - **Captions never name a place or crop that isn't confirmed** (truth ledger O2, O8).
 
-## Placement by page (after review cycle 1)
+## Placement by page (after review cycle 2)
 
 | Page | Asset (built name → master) | What it communicates | Buyer question it answers | Crop / position | Mobile | Label, fallback |
 |---|---|---|---|---|---|---|
 | **Home: hero** | `video/hero-wide.mp4/.webm` (1600×900), `hero-720.*`, `hero-portrait.*` (720×960) ← DJI_0024 32–44 s | A real MIFTAH net house at real scale, with a truck for reference | "Is this a real company that builds big things?" | Wide: full frame with a left scrim (right in Hebrew). Portrait: centre crop on the net house, scrim kept off the top 26%. | Portrait clip and poster under 720 px wide; 720p up to 1100 px | Caption "Drone footage of a net house built by MIFTAH". AVIF/WebP/JPEG poster is the LCP image. No video with reduced motion. Pause button. H.264 with WebM fallback. |
-| Home and Net houses: process | `p-site`, `p-marking`, `p-poles`, `p-closed` ← `images/process/01, 02, 03, 06` | One real photo per step, merged with the step text, so it is told once | "Do you actually do the work on site?" | 4:3, `object-fit: cover`, subtle shared grade (`img.archive`) | 2 columns under 960 px, 1 under 560 px | Captions describe only what is visible ("Galvanized poles from our plant, set out on site to the design") |
-| Home and Net houses: drawing | Generated SVG | The parts of the structure, with verified data | "What exactly do you build?" | 1260×570 | Scrolls sideways at a readable 760 px, with a "Swipe…" hint; numbered legend below | `<title>` and `<desc>` |
-| Home and Projects: map | Generated SVG (Natural Earth, Equal Earth) | 7 countries abroad, with published areas | "Have you worked far away, at scale?" | lon −122…112, edges faded | Scrolls sideways at 760 px | `aria-label` plus the table |
+| Home: process | `p-site`, `p-marking`, `p-poles`, `p-closed` ← `images/process/01, 02, 03, 06` | One real photo per step, merged with the step text, so it is told once | "Do you actually do the work on site?" | 4:3, `object-fit: cover`, subtle shared grade (`img.archive`) | 2 columns under 960 px, 1 under 560 px | Captions describe only what is visible ("Galvanized poles from our plant, set out on site to the design") |
+| Net houses: process | Steps as text only, then one full-width band of `p-poles` (21:9; 4:3 on phones) | The scale of the pole field, once | "Is it really your steel?" | 21:9 | 4:3 | Caption + archive label. Changed in cycle 2 so the four step photos are not repeated from Home. |
+| Home and Net houses: drawing | Generated SVG | The parts of the structure, with verified data | "What exactly do you build?" | 1260×570 | A second SVG under 760 px: two bays, numbered callouts, legend below (no scroll) | `<title>` and `<desc>` on both |
+| Home and Projects: map | Generated SVG (Natural Earth, Equal Earth) | 7 countries abroad, with published areas | "Have you worked far away, at scale?" | lon −122…112, edges faded | Two stacked panels under 720 px (Americas; Europe to India), no scroll | `aria-label` plus the table |
 | **Net houses: page head** | `forest` ← `MIFTAH-4K/site-forest-net-4k.jpg` | A real net house that is not the hero one | | 4:3, right column | Stacked | "…built by MIFTAH. MIFTAH archive." |
 | **Turnkey farms: page head** | `valley` ← `MIFTAH-4K/old-valley-4k.jpg` | The scale of structure at the core of a farm | "Can they deliver the physical farm?" | 4:3, right column | Stacked | Same archive label |
-| **Projects** | `valley`, `forest` (two-up) | Two different real projects | "Show me the work" | 4:3 | Stacked | Archive label. The DJI_0024 still was removed after review, because it repeated the hero net house. |
-| **About** | none | Text and company details (no portraits available, truth ledger O-asks) | | | | |
+| **Projects** | `p-closed`, `p-site` (two-up) | A finished structure and a site at the start | "Show me the work" | 4:3 | Stacked | Archive label. Cycle 2: `valley` and `forest` moved out, since they already head Turnkey and Net houses. |
+| **About** | `p-marking` under "How we work" | A MIFTAH crew marking out a site | "Who actually does the work?" | 4:3 | Stacked | Archive label. No portraits available yet (release checklist). |
 | All pages | Compact logo SVG (header, and on a white plate in the footer), favicon set, `qr-site.svg` (profile) | Brand | | | | Logo colours only |
 | Social | `img/og-miftah.jpg` 1200×630 ← hero frame | Link previews | | | | |
 
@@ -29,9 +30,12 @@ Cap per photo: at most two pages, never twice on one page.
 
 | Photo | Pages |
 |---|---|
-| `p-*` | Home, Net houses |
-| `forest` | Net houses, Projects |
-| `valley` | Turnkey farms, Projects |
+| `p-site` | Home, Projects |
+| `p-marking` | Home, About |
+| `p-poles` | Home, Net houses |
+| `p-closed` | Home, Projects |
+| `forest` | Net houses |
+| `valley` | Turnkey farms |
 | DJI_0024 net house | Home (video only) |
 
 ## Considered and not used

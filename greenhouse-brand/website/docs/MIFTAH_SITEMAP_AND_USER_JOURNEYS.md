@@ -43,7 +43,7 @@ Not built, on purpose:
 | "What's not included?" | Turnkey: Not included |
 | "Can I commit in stages?" | Turnkey: Start with the assessment |
 | "Far away?" | Projects: map and table; Net houses: Abroad |
-| "Price?" | Contact: pricing follows a site review |
+| "Price?" | Contact: questions under the form ("How is the price set?") |
 
 - **Next step:** the form, choosing "A private investor" and "A turnkey farm abroad".
 
@@ -81,7 +81,8 @@ Not built, on purpose:
 | Form fields | See the table below | |
 | Qualification | Minimum sizes stated before the form, plus a live notice when the size is below the minimum for the chosen country (it doesn't block sending) | q8, q21 |
 | Fair | A checkbox to meet at Fruit Logistica | q44 |
-| Spam | Honeypot field and a 2.5 s minimum fill time | |
+| Spam | Honeypot field (if it is filled, nothing is sent and the person is shown the phone number) and a 2.5 s minimum: a faster submit is held quietly and sent when the 2.5 s are up, with no message | |
+| Questions before contact | Six questions and answers under the form on Contact (size, price, abroad, single stage, who delivers turnkey, references), each from the truth ledger | Cycle-2 business review |
 
 Form fields and why each one is there:
 

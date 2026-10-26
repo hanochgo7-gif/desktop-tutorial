@@ -51,6 +51,10 @@ def main():
         L += [f"| `{k}.{v}` | {a[0]} ({b[0]}) | {a[1]} ({b[1]}) |" for v, a, b in C.FORM[k]]
     for k in ("countries", "sizes", "statuses", "timelines"):
         L += [f"| `{k}.{v or 'empty'}` | {a[0]} | {a[1]} |" for v, a in C.FORM[k]]
+    L += ["", "## Form messages (shown by the script)", "", "| Key | English | Hebrew |", "|---|---|---|"] + [r for k, v in C.FORM_MSG.items() if (r := row(k, v))]
+    L += [r for k, v in C.FORM_BRIEF_KEYS if (r := row("summary." + k, v))]
+    L += ["", "## Closing line per page (CTA band heading)", "", "| Page | English | Hebrew |", "|---|---|---|"] + [r for k, v in C.CTA_HEADS.items() if (r := row(k, v))]
+    L += ["", "## Questions on the contact page", "", f"Heading: {C.FAQ_H[0]} / {C.FAQ_H[1]}", "", "| Question | Answer (EN) | Answer (HE) |", "|---|---|---|"] + [f"| {q[0]} / {q[1]} | {a[0]} | {a[1]} |" for q, a in C.FAQ]
     for name, data in (("Privacy", C.PRIVACY), ("Accessibility statement", C.A11Y)):
         L += ["", f"## {name}", ""]
         for (he_h, he_p), (en_h, en_p) in zip(data["he"], data["en"]):

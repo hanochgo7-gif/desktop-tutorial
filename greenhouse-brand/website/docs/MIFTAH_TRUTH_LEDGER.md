@@ -1,7 +1,7 @@
 # MIFTAH truth ledger
 
 Every fact the website is allowed to state, where it comes from, and what it means for the site.
-Updated 26 Oct 2026.
+Updated 26 Oct 2026 (review cycle 2).
 
 ## Sources
 
@@ -59,7 +59,7 @@ Other services:
 | # | Service | Source | Confidence |
 |---|---|---|---|
 | 2.1 | Net houses for orchards and plantations: banana, apple, persimmon, kiwi, avocado, tobacco "and more". Design, production, installation. | OS agri | High (current: Q q2) |
-| 2.2 | Banana net houses: 11% shade net, light and airy. Protects from wind and hail in winter, saves water in summer by reducing evaporation. Large spans; single structures up to 100 dunam (10 ha); includes trellising and support. | OS proj1 | High |
+| 2.2 | Banana net houses: 11% shade net, light and airy. Protects from wind and hail in winter, saves water in summer by reducing evaporation. Large spans; single structures up to 100 dunam (10 ha); includes trellising and support. Original wording: "בתי רשת לבננות מספקים תנאי גידול טובים יותר לבננות. בתי רשת לבננות חסכוניים יותר בהשוואה לבתי רשת אחרים, בעקבות סוג הרשת הקלה והיכולת ליצור מפתחים גדולים בין העמודים." The site uses "better growing conditions" and "light and airy"; it does not repeat the cost comparison, which has no figure behind it. | OS proj1 | High |
 | 2.3 | Orchard net houses: 10%–30% nets, mainly against hail and sunburn during flowering and fruit set. A structure that lets nets be folded in winter and spread in summer; automatic systems possible. | OS proj4 | High |
 | 2.4 | Loading/shade sheds: wide spans for trucks and carts; net shade % and colour to order; optional open/close system | OS proj2 | High |
 | 2.5 | Windbreaks, trellising and support systems | OS about | High |
