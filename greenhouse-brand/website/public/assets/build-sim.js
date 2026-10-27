@@ -535,7 +535,8 @@
 
   // ---------------------------------------------------------------- scroll, resize, loop
   var Pt = 0, P = 0;
-  function readScroll() { var r = track.getBoundingClientRect(), vh = window.innerHeight; Pt = Math.max(0, Math.min(N - .001, (-r.top + vh * .5) / vh)); }
+  function chH() { var c = root.querySelector(".sim-ch"); return (c && c.offsetHeight) || window.innerHeight; }
+  function readScroll() { var r = track.getBoundingClientRect(), vh = window.innerHeight; Pt = Math.max(0, Math.min(N - .001, (-r.top + vh * .5) / chH())); }
   window.addEventListener("scroll", readScroll, { passive: true });
   function size() {
     var w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false);
@@ -549,7 +550,7 @@
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { running = es[0].isIntersecting; kick(); }, { rootMargin: "100px" }).observe(track);
   document.addEventListener("visibilitychange", kick);
   var rail = root.querySelectorAll(".sim-rail button"), stepEl = document.getElementById("sim-step"), bar = document.getElementById("sim-bar");
-  rail.forEach(function (b, n) { b.addEventListener("click", function () { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * window.innerHeight + 4, behavior: reduce ? "auto" : "smooth" }); }); });
+  rail.forEach(function (b, n) { b.addEventListener("click", function () { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * chH() + 4, behavior: reduce ? "auto" : "smooth" }); }); });
   var t0 = performance.now(), cur = -1, first = true;
   function frame(now) {
     pending = false;

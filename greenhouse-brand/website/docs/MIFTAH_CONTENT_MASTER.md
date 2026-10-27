@@ -88,6 +88,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `h1` | Net houses and farm structures | בתי רשת ומבנים חקלאיים |
 | `lead` | We design, manufacture and install net houses for orchards and bananas, and the loading sheds and windbreaks around them. One team from the first site visit to maintenance. | אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות, וגם את סככות ההעמסה ושוברי הרוח שמסביב. צוות אחד, מהביקור הראשון בשטח ועד התחזוקה. |
 | `types_h` | By crop and by use | לפי גידול ולפי שימוש |
+| `types_h2` | Sheds, windbreaks and service | סככות, שוברי רוח ושירות |
 | `draw_h` | The parts of the structure | החלקים של המבנה |
 | `steps_h` | From site visit to maintenance | מהביקור בשטח ועד התחזוקה |
 | `steps_p` | The same four steps on every project. Each one can also be ordered on its own. | אותם ארבעה שלבים בכל פרויקט. אפשר להזמין כל שלב גם בנפרד. |
@@ -359,6 +360,10 @@ Featured (Q q14):
 
 | Key | English | Hebrew |
 |---|---|---|
+| `step1_h` | Your project | הפרויקט |
+| `step2_h` | How to reach you | איך לחזור אליכם |
+| `next` | Next: how to reach you | הלאה: איך לחזור אליכם |
+| `back` | Back | חזרה |
 | `h` | Your project | הפרויקט שלכם |
 | `req` | Fields marked * are required. | שדות עם * הם חובה. |
 | `name` | Full name * | שם מלא * |

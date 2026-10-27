@@ -104,27 +104,27 @@ def picture(name, alt, L, sizes="100vw", archive=False, widths=(640, 1024, 1600)
 
 
 # ---------------------------------------------------------------- signature: the section drawing
-def drawing(L, animate=True):
+def drawing(L, animate=True, sfx=""):
     """The section drawing: a full desktop version and a two-bay phone version with larger labels, plus the legend."""
     D = C.DRAWING
     legend = "".join(f'<li><span class="k">{i + 1}</span><div><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div></li>' for i, (a_, b_) in enumerate(D["items"]))
-    fig = (f'<figure class="drawing"{" data-animate" if animate else ""}>{_drawing_svg(L, False)}{_drawing_svg(L, True)}'
+    fig = (f'<figure class="drawing"{" data-animate" if animate else ""}>{_drawing_svg(L, False, sfx)}{_drawing_svg(L, True, sfx)}'
            f'<figcaption><span>{esc(t(D["caption"], L))}</span></figcaption></figure>')
     return fig, f'<ol class="legend">{legend}</ol>'
 
 
-def _drawing_svg(L, mobile):
+def _drawing_svg(L, mobile, sfx=""):
     """A section through a net house, drawn as a shop drawing: hatched soil, footings, dimension lines, numbered callouts.
     The phone version crops to the first two bays and keeps only the callouts that fall inside, at a readable size."""
-    D = C.DRAWING; he = L == "he"; W = 690 if mobile else 1260
+    D = C.DRAWING; he = L == "he"; mk = ("m" if mobile else "") + sfx; W = 690 if mobile else 1260
     poles = [150, 390, 630, 870, 1110]
     top, gy = 150, 430
     p = []
     f = lambda d: f' class="dw-fade" style="--d:{d:.2f}s"'
-    p.append(f'<defs><pattern id="hatch{"m" if mobile else ""}" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V12" stroke="#CDBFA4" stroke-width="2"/></pattern>'
-             f'<marker id="ar{"m" if mobile else ""}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0E4239"/></marker>'
-             f'<marker id="tk{"m" if mobile else ""}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M5 0V10" stroke="#4B605B" stroke-width="1.5"/></marker></defs>')
-    p.append(f'<rect x="0" y="{gy}" width="1260" height="70" fill="url(#hatch{"m" if mobile else ""})"/>')
+    p.append(f'<defs><pattern id="hatch{mk}" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V12" stroke="#CDBFA4" stroke-width="2"/></pattern>'
+             f'<marker id="ar{mk}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0E4239"/></marker>'
+             f'<marker id="tk{mk}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M5 0V10" stroke="#4B605B" stroke-width="1.5"/></marker></defs>')
+    p.append(f'<rect x="0" y="{gy}" width="1260" height="70" fill="url(#hatch{mk})"/>')
     p.append(f'<path class="dw-ground dw-anim" style="--d:0s" d="M0 {gy} H1260"/>')
     for i, x in enumerate(poles):
         d = .15 + i * .1
@@ -138,22 +138,29 @@ def _drawing_svg(L, mobile):
     p.append(f'<path class="dw-net dw-anim" style="--d:1.2s" d="{net}"/>')
     p.append(f'<path class="dw-net dw-anim" style="--d:1.45s;stroke-width:3;opacity:.7" d="M{poles[-1] + 6} {top} V{gy}"/>')
     p.append(f'<path class="dw-cable dw-anim" style="--d:1.6s;opacity:.55" d="M{poles[0]} 300 H{poles[-1]}"/>')
+    # the crop under the net: round orchard trees by default; banana plants and a kiwi pergola for the crop selector
+    trees, bananas, pergola = [], [], []
     for i in range(len(poles) - 1):
         cx = (poles[i] + poles[i + 1]) / 2
-        p.append(f'<g{f(1.7 + i * .08)}><path class="dw-trunk" d="M{cx} {gy} V352"/><path class="dw-crown" d="M{cx - 66} 312 C{cx - 70} 262 {cx - 30} 246 {cx} 248 C{cx + 34} 246 {cx + 72} 264 {cx + 66} 312 C{cx + 60} 348 {cx - 60} 350 {cx - 66} 312 Z"/></g>')
+        trees.append(f'<g{f(1.7 + i * .08)}><path class="dw-trunk" d="M{cx} {gy} V352"/><path class="dw-crown" d="M{cx - 66} 312 C{cx - 70} 262 {cx - 30} 246 {cx} 248 C{cx + 34} 246 {cx + 72} 264 {cx + 66} 312 C{cx + 60} 348 {cx - 60} 350 {cx - 66} 312 Z"/></g>')
+        for bx in (cx - 52, cx + 52):
+            bananas.append(f'<path class="dw-stem" d="M{bx} {gy} V320"/><path class="dw-leaf" d="M{bx} 320 q-46 -34 -92 -6 M{bx} 320 q46 -34 92 -6 M{bx} 320 q-28 -58 -62 -78 M{bx} 320 q28 -58 62 -78 M{bx} 320 q-4 -60 -2 -96"/>')
+            pergola.append(f'<path class="dw-trunk" d="M{bx} {gy} V300"/>')
+        pergola.append(f'<path class="dw-crown" d="M{cx - 110} 300 C{cx - 96} 280 {cx - 70} 284 {cx - 55} 290 C{cx - 30} 276 {cx} 280 {cx + 10} 288 C{cx + 34} 276 {cx + 70} 282 {cx + 110} 300 Z"/>')
+    p.append(f'<g class="cr cr-trees">{"".join(trees)}</g><g class="cr cr-banana">{"".join(bananas)}</g><g class="cr cr-pergola">{"".join(pergola)}</g>')
     p.append(f'<path class="dw-drip dw-anim" style="--d:2s" d="M{poles[0] + 10} {gy - 3} H{poles[-1] - 10}"/>')
     fx0, fx1 = poles[1] + 30, poles[2] - 30
     fold = " ".join(f"l{8 if i % 2 == 0 else -8} 5" for i in range(4))  # a net folded into pleats
-    p.append(f'<g class="dw-fade" style="--d:2.1s"><path class="dw-foldnet" d="M{fx1} {top - 34} H{fx0 + 14}" marker-end="url(#ar{"m" if mobile else ""})"/>'
-             f'<path class="dw-fold" d="M{fx0 - 4} {top - 44} {fold}"/></g>')
+    p.append(f'<g class="cr cr-fold"><g class="dw-fade" style="--d:2.1s"><path class="dw-foldnet" d="M{fx1} {top - 34} H{fx0 + 14}" marker-end="url(#ar{mk})"/>'
+             f'<path class="dw-fold" d="M{fx0 - 4} {top - 44} {fold}"/></g></g>')
     # dimension lines: span over one bay, height inside the last bay (desktop only)
     dy = 104
     dims = []
-    dims.append(f'<g{f(2.15)}><path class="dw-dim" d="M{poles[2]} {dy} H{poles[3]}" marker-start="url(#tk{"m" if mobile else ""})" marker-end="url(#tk{"m" if mobile else ""})"/>'
+    dims.append(f'<g{f(2.15)}><path class="dw-dim" d="M{poles[2]} {dy} H{poles[3]}" marker-start="url(#tk{mk})" marker-end="url(#tk{mk})"/>'
              f'<path class="dw-ext" d="M{poles[2]} {dy - 8} V{top - 10} M{poles[3]} {dy - 8} V{top - 10}"/>'
              f'<text class="dw-note" x="{(poles[2] + poles[3]) / 2}" y="{dy - 8}" text-anchor="middle">{esc(t(D["span"], L))}</text></g>')
     hx = poles[-1] - 22
-    dims.append(f'<g{f(2.2)}><path class="dw-dim" d="M{hx} {top} V{gy}" marker-start="url(#tk{"m" if mobile else ""})" marker-end="url(#tk{"m" if mobile else ""})"/>'
+    dims.append(f'<g{f(2.2)}><path class="dw-dim" d="M{hx} {top} V{gy}" marker-start="url(#tk{mk})" marker-end="url(#tk{mk})"/>'
              f'<text class="dw-note" transform="translate({hx - 8} {(top + gy) / 2}) rotate(-90)" text-anchor="middle">{esc(t(D["height"], L))}</text></g>')
     # callouts: anchor point -> numbered tag, two rows (above and below the structure); label x differs by language
     rows = [  # (number, anchor, tag x en, tag x he, tag y)
@@ -171,21 +178,21 @@ def _drawing_svg(L, mobile):
                  (4, (79, 330), 80, 540), (5, (200, 300), 250, 540), (3, (630, 400), 560, 540)]
         for n, (ax, ay), lx, ly in mrows:
             tip = ly + 20 if ly < ay else ly - 28
-            p.append(f'<g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="6"/>'
-                     f'<circle class="dw-tagc" cx="{lx}" cy="{ly - 4}" r="24"/><text class="dw-tag" x="{lx}" y="{ly + 4}" text-anchor="middle" style="font-size:24px">{n}</text></g>')
+            p.append(f'<g class="co co-{n}"><g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="6"/>'
+                     f'<circle class="dw-tagc" cx="{lx}" cy="{ly - 4}" r="24"/><text class="dw-tag" x="{lx}" y="{ly + 4}" text-anchor="middle" style="font-size:24px">{n}</text></g></g>')
     for n, (ax, ay), lxe, lxh, ly in ([] if mobile else rows):
         lx = lxh if he else lxe
         name = t(D["items"][n - 1][0], L)
         tip = ly + 9 if ly < ay else ly - 17
-        p.append(f'<g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="4"/>'
+        p.append(f'<g class="co co-{n}"><g{f(2.3 + n * .06)}><path class="dw-lead" d="M{ax} {ay} L{lx} {tip}"/><circle class="dw-dot" cx="{ax}" cy="{ay}" r="4"/>'
                  f'<circle class="dw-tagc" cx="{lx}" cy="{ly - 4}" r="13"/><text class="dw-tag" x="{lx}" y="{ly}" text-anchor="middle">{n}</text>'
-                 f'<text class="dw-label" x="{lx - 20 if he else lx + 20}" y="{ly}" text-anchor="start">{esc(name)}</text></g>')
+                 f'<text class="dw-label" x="{lx - 20 if he else lx + 20}" y="{ly}" text-anchor="start">{esc(name)}</text></g></g>')
     if not mobile:
         p.append(f'<text class="dw-note" x="{20 if he else 1240}" y="24" text-anchor="end">{esc(t(D["section"], L))}</text>')  # "end" is the left edge in RTL
     desc = " ".join(f"{i + 1}. {tm(a_, L)}: {tm(b_, L)}" for i, (a_, b_) in enumerate(D["items"]))
-    k = "m" if mobile else "d"
+    k = ("m" if mobile else "d") + sfx
     vb = "0 20 690 550" if mobile else "0 0 1260 570"
-    return (f'<svg class="dw-{k}" viewBox="{vb}" role="img" aria-labelledby="dw-t-{L}{k} dw-d-{L}{k}"><title id="dw-t-{L}{k}">{esc(tm(D["title"], L))}</title><desc id="dw-d-{L}{k}">{esc(desc)}</desc>'
+    return (f'<svg class="dw-{"m" if mobile else "d"}" viewBox="{vb}" role="img" aria-labelledby="dw-t-{L}{k} dw-d-{L}{k}"><title id="dw-t-{L}{k}">{esc(tm(D["title"], L))}</title><desc id="dw-d-{L}{k}">{esc(desc)}</desc>'
             + "".join(p) + "</svg>")
 
 
@@ -414,85 +421,100 @@ def featured(L):
 
 
 # ---------------------------------------------------------------- pages
+def crop_selector(L, where="home"):
+    """'Which net house for your crop?': tabs that switch the specs, the matching project and the drawing."""
+    H = C.HOME3
+    fig, _legend = drawing(L, animate=False, sfx="c")
+    fig = fig.replace('<figure class="drawing"', '<figure class="drawing crop-dw" data-crop="banana"', 1)
+    tabs, panels = [], []
+    for i, cr in enumerate(C.CROPS):
+        sel = i == 0
+        tabs.append(f'<button type="button" role="tab" id="tab-{cr["id"]}-{where}" aria-controls="crop-{cr["id"]}-{where}" aria-selected="{"true" if sel else "false"}"'
+                    f'{"" if sel else " tabindex=" + chr(34) + "-1" + chr(34)} data-crop="{cr["id"]}">{esc(t(cr["label"], L))}</button>')
+        rows = "".join(f'<div><dt>{esc(t(k, L))}</dt><dd>{esc(t(v, L))}</dd></div>' for k, v in cr["rows"])
+        proj = (f'<p class="crop-proj"><span>{esc(t(H["crop_proj"], L))}</span>{esc(t(cr["proj"], L))}</p>' if cr["proj"] else "")
+        q = "" if cr["id"] == "other" else f'?crop={cr["id"]}'
+        panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
+                      f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
+                      f'<p class="crop-min">{esc(t(H["crop_min"], L))}</p>'
+                      f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"], L) if cr["id"] != "other" else t(C.SITE["cta"], L))}</a></div>')
+    return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
+  <div class="wrap">
+    <div class="crop-head"><h2 id="crop-h-{where}">{esc(t(H["crop_h"], L))}</h2><p class="lead">{esc(t(H["crop_p"], L))}</p></div>
+    <div class="crop-tabs" role="tablist" aria-label="{esc(tm(H["crop_h"], L))}">{"".join(tabs)}</div>
+    <div class="crop-body"><div class="crop-panels">{"".join(panels)}</div><div class="crop-fig">{fig}</div></div>
+  </div>
+</section>"""
+
+
 def p_index(L):
-    P = C.PAGES["index"]; S = C.SITE; r = rel(L)
-    facts = "".join(f'<div><dt>{esc(t(a, L))}</dt><dd>{esc(t(b, L))}</dd></div>' for a, b in C.FACTS)
-    fig, legend = drawing(L)
+    P = C.PAGES["index"]; H = C.HOME3; S = C.SITE; r = rel(L)
     vids = f'data-src-wide="{r}assets/video/hero-wide.mp4" data-src-small="{r}assets/video/hero-720.mp4" data-src-portrait="{r}assets/video/hero-portrait.mp4"'
     poster = (f'<picture><source media="(max-width: 720px) and (orientation: portrait)" type="image/avif" srcset="{r}assets/img/hero-portrait-720.avif">'
               f'<source media="(max-width: 720px) and (orientation: portrait)" type="image/webp" srcset="{r}assets/img/hero-portrait-720.webp">'
               f'<source type="image/avif" srcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" sizes="100vw">'
               f'<source type="image/webp" srcset="{r}assets/img/hero-960.webp 960w, {r}assets/img/hero-1600.webp 1600w" sizes="100vw">'
               f'<img src="{r}assets/img/hero-1600.jpg" alt="" width="1600" height="900" fetchpriority="high"></picture>')
+    # the net canopy drawn over the footage: a fine mesh with a sagging edge cable, and the poles that carry it
+    canopy = ('<svg class="canopy" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMin slice" aria-hidden="true">'
+              '<defs><pattern id="mesh" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 0H9M0 0V9" stroke="#fff" stroke-opacity=".3" stroke-width=".9"/></pattern>'
+              '<linearGradient id="fadeNet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity=".7"/></linearGradient><linearGradient id="poleFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3E8EA" stop-opacity=".95"/><stop offset="1" stop-color="#E3E8EA" stop-opacity="0"/></linearGradient>'
+              '<mask id="netMask"><rect width="1600" height="900" fill="url(#fadeNet)"/></mask></defs>'
+              '<g class="canopy-net" mask="url(#netMask)"><path d="M0 0H1600V236 Q1400 274 1200 238 Q1000 274 800 238 Q600 274 400 238 Q200 274 0 238Z" fill="#fff" fill-opacity=".1"/><path d="M0 0H1600V236 Q1400 274 1200 238 Q1000 274 800 238 Q600 274 400 238 Q200 274 0 238Z" fill="url(#mesh)"/></g>'
+              '<path class="canopy-cable" d="M0 238 Q200 274 400 238 Q600 274 800 238 Q1000 274 1200 238 Q1400 274 1600 238" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="2"/>'
+              '</svg>')
+    steps_html = steps(L)
+    def stage_list(items):
+        names = [t(x[0], L) for x in items]
+        return ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
+    phases = "".join(f'<li><b>{esc(t(ph, L))}</b><span>{esc(stage_list(items))}</span></li>' for ph, items in C.STAGES)
+    values = "".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)
     return f"""
 <main id="main">
-<section class="hero" aria-labelledby="hero-h">
+<section class="hero hero3" aria-labelledby="hero-h">
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
+  {canopy}
   <div class="wrap hero-in">
-    <h1 id="hero-h">{esc(t(P["h1"], L))}</h1>
-    <p class="lead">{esc(t(P["lead"], L))}</p>
+    <h1 id="hero-h">{esc(t(H["h1"], L))}</h1>
+    <p class="lead">{esc(t(H["lead"], L))}</p>
     <div class="actions">
       <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
-      <a class="btn btn-line" href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(P["cta2"], L))}</a>
+      <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>
     </div>
+    <p class="hero-invest"><a href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(H["invest"], L))}</a></p>
     <div class="hero-foot"><span>{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
   </div>
 </section>
-<section class="facts" aria-label="{"Key facts" if L == "en" else "עובדות מרכזיות"}"><div class="wrap"><dl>{facts}</dl></div></section>
 
-<section class="section" aria-labelledby="routes-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="routes-h">{esc(t(P["routes_h"], L))}</h2></div>
-    <div class="routes">
-      <div class="route">
-        <span class="who">{esc(t(P["r1_who"], L))}</span>
-        <h3>{esc(t(P["r1_h"], L))}</h3>
-        <p class="muted">{esc(t(P["r1_p"], L))}</p>
-        <p class="min">{esc(t(P["r1_min"], L))}</p>
-        <a class="go" href="net-houses.html" data-track="route_click" data-label="growers">{esc(t(P["r1_go"], L))}</a>
-      </div>
-      <div class="route invest">
-        <span class="who">{esc(t(P["r2_who"], L))}</span>
-        <h3>{esc(t(P["r2_h"], L))}</h3>
-        <p class="muted">{esc(t(P["r2_p"], L))}</p>
-        <p class="min">{esc(t(P["r2_min"], L))}</p>
-        <a class="go" href="turnkey-farms.html" data-track="route_click" data-label="investors">{esc(t(P["r2_go"], L))}</a>
-      </div>
-    </div>
-  </div>
-</section>
+{crop_selector(L)}
 
-<section class="section white" aria-labelledby="draw-h">
+<section class="section dark proof" aria-labelledby="proof-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="draw-h">{esc(t(P["draw_h"], L))}</h2><p class="lead">{esc(t(P["draw_p"], L))}</p></div>
-    {fig}
-    <div class="legend-wrap">{legend}</div>
-  </div>
-</section>
-
-<section class="section" aria-labelledby="steps-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="steps-h">{esc(t(P["steps_h"], L))}</h2><p class="lead">{esc(t(P["steps_p"], L))}</p></div>
-    {steps(L)}
-    <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p>
-  </div>
-</section>
-
-<section class="section white" aria-labelledby="map-h">
-  <div class="wrap">
-    <div class="split map-head">
-      <h2 id="map-h">{esc(t(P["map_h"], L))}</h2>
-      <div><p class="lead">{esc(t(P["map_p"], L))}</p><p class="more"><a href="projects.html">{esc(t(P["map_go"], L))}</a></p></div>
-    </div>
+    <div class="proof-head"><h2 id="proof-h">{esc(t(H["proof_h"], L))}</h2><div><p class="lead">{esc(t(H["proof_p"], L))}</p><p class="more"><a href="projects.html">{esc(t(H["proof_go"], L))}</a></p></div></div>
     {map_svg(L)}
   </div>
 </section>
 
-<section class="section why" aria-labelledby="why-h">
-  <div class="wrap split">
-    <div><h2 id="why-h" class="h-small">{esc(t(P["why_h"], L))}</h2>
-    <p class="statement big">{esc(t(P["why_statement"], L))}</p><p class="muted refs">{esc(t(P["why_refs"], L))}</p></div>
-    <ul class="values one">{"".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)}</ul>
+<section class="section build cable-top" aria-labelledby="steps-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
+    {steps_html}
+    <p class="more sim-link"><a href="how-we-build.html">{esc(t(H["sim_go"], L))}</a></p>
+  </div>
+</section>
+
+<section class="section white who cable-top" aria-labelledby="who-h">
+  <div class="wrap who-grid">
+    <div><h2 id="who-h">{esc(t(H["who_h"], L))}</h2><p class="lead">{esc(t(H["who_p"], L))}</p><p class="who-refs">{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div>
+    <ul class="values one">{values}</ul>
+  </div>
+</section>
+
+<section class="section dark invest" aria-labelledby="inv-h">
+  <div class="wrap invest-grid">
+    <div><h2 id="inv-h">{esc(t(H["inv_h"], L))}</h2><p class="lead">{esc(t(H["inv_p"], L))}</p><p class="inv-note">{esc(t(H["inv_note"], L))}</p>
+      <div class="actions"><a class="btn btn-primary" href="turnkey-farms.html" data-track="route_click" data-label="investors">{esc(t(H["inv_go"], L))}</a></div></div>
+    <ol class="phases-mini">{phases}</ol>
   </div>
 </section>
 {cta_band(L, "home")}
@@ -502,14 +524,16 @@ def p_index(L):
 def p_net(L):
     P = C.PAGES["net-houses"]
     fig, legend = drawing(L, animate=False)
+    # crops are answered by the crop selector; sheds, windbreaks and service follow as structures and services
     types = "".join(f'<article class="type" id="{ty["id"]}"><div><h3>{esc(t(ty["h"], L))}</h3><p class="crops">{esc(t(ty["crops"], L))}</p></div>'
-                    f'<div><dl>{"".join(f"<dt>{esc(t(a, L))}</dt><dd>{esc(t(b, L))}</dd>" for a, b in ty["rows"])}</dl></div></article>' for ty in C.TYPES)
+                    f'<div><dl>{"".join(f"<dt>{esc(t(a, L))}</dt><dd>{esc(t(b, L))}</dd>" for a, b in ty["rows"])}</dl></div></article>' for ty in C.TYPES if ty["id"] in ("sheds", "service"))
     return f"""
 <main id="main">
 {page_head("net-houses", L, img=("forest", C.TYPES[1]["cap"]))}
-<section class="section" aria-labelledby="types-h">
+{crop_selector(L, "net")}
+<section class="section cable-top" aria-labelledby="types-h">
   <div class="wrap">
-    <div class="sec-head"><h2 id="types-h">{esc(t(P["types_h"], L))}</h2></div>
+    <div class="sec-head"><h2 id="types-h">{esc(t(P["types_h2"], L))}</h2></div>
     <div class="types">{types}</div>
   </div>
 </section>
@@ -717,17 +741,16 @@ def p_contact(L):
     tel = f'<a href="tel:{S["phone_tel"]}" data-where="form-notice"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>'
     offline = "" if FORM_ENDPOINT else f'<p class="notice form-offline">{esc(t(C.FORM_OFFLINE, L)).replace("{phone}", tel)}</p>'
     consent = esc(t(F["consent"], L)).replace("{privacy}", f'<a href="privacy.html">{esc(t(F["privacy_link"], L))}</a>')
-    form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" novalidate aria-labelledby="form-h">
+    form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" data-crops="{esc(json.dumps({cr["id"]: tm(cr["label"], L) for cr in C.CROPS}, ensure_ascii=False))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
   {offline}
-  <div class="fields">
-    {inp("name", F["name"], L, req=True, auto="name")}
-    {inp("company", F["company"], L, auto="organization")}
-    {inp("email", F["email"], L, typ="email", req=True, auto="email")}
-    {inp("phone", F["phone"], L, typ="tel", auto="tel", hint=F["phone_hint"])}
-    {choices("role", F["roles"], L, F["role"])}
+  <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
+  <div class="fstep" id="fstep-1">
+    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_h"], L))}</h3>
+    <div class="fields">
     {choices("need", F["needs"], L, F["need"])}
+    {choices("role", F["roles"], L, F["role"])}
     {select("country", F["country"], F["countries"], L, req=True)}
     {inp("region", F["region"], L, auto="address-level1")}
     {select("size", F["size"], F["sizes"], L, req=True)}
@@ -735,12 +758,23 @@ def p_contact(L):
     <p class="size-note full" id="size-note" role="status" hidden></p>
     {inp("crop", F["crop"], L, hint=F["crop_hint"])}
     {select("timeline", F["timeline"], F["timelines"], L)}
-    <div class="field full"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="5"></textarea></div>
+    </div>
+    <div class="actions fnav"><button class="btn btn-primary" type="button" data-next>{esc(t(F["next"], L))}</button></div>
+  </div>
+  <div class="fstep" id="fstep-2">
+    <h3 class="fstep-h" tabindex="-1">{esc(t(F["step2_h"], L))}</h3>
+    <div class="fields">
+    {inp("name", F["name"], L, req=True, auto="name")}
+    {inp("company", F["company"], L, auto="organization")}
+    {inp("email", F["email"], L, typ="email", req=True, auto="email")}
+    {inp("phone", F["phone"], L, typ="tel", auto="tel", hint=F["phone_hint"])}
+    <div class="field full"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
     <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
     <label class="check full"><input type="checkbox" name="berlin" value="yes"><span>{esc(t(F["berlin"], L))}</span></label>
     <div class="check full"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
+    </div>
+    <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"], L))}</button></div>
   </div>
-  <div class="actions"><button class="btn btn-primary" type="submit">{esc(t(F["send"], L))}</button></div>
 </form>
 <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>"""
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">

@@ -115,6 +115,29 @@
     window.addEventListener("scroll", near, { passive: true });
   }
 
+  // ---- crop selector: tabs switch the specs, the project and the drawing (arrow keys move between tabs) ----
+  document.querySelectorAll(".crop").forEach(function (sec) {
+    var tabs = Array.prototype.slice.call(sec.querySelectorAll('[role="tab"]')), fig = sec.querySelector(".crop-dw");
+    function pick(tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab, panel = document.getElementById(t.getAttribute("aria-controls"));
+        t.setAttribute("aria-selected", on ? "true" : "false"); t.tabIndex = on ? 0 : -1; if (panel) panel.hidden = !on;
+      });
+      if (fig) fig.setAttribute("data-crop", tab.dataset.crop);
+      if (focus) tab.focus();
+      track("crop_select", { crop: tab.dataset.crop });
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { pick(t, false); });
+      t.addEventListener("keydown", function (e) {
+        var rtl = document.dir === "rtl", k = e.key, n = tabs.length, j = -1;
+        if (k === "ArrowRight") j = rtl ? i - 1 : i + 1; else if (k === "ArrowLeft") j = rtl ? i + 1 : i - 1; else if (k === "Home") j = 0; else if (k === "End") j = n - 1;
+        if (j < 0 && k !== "ArrowRight" && k !== "ArrowLeft" && k !== "Home") return;
+        e.preventDefault(); pick(tabs[(j + n) % n], true);
+      });
+    });
+  });
+
   // ---- print button on the profile page ----
   var pb = document.getElementById("print-btn");
   if (pb) pb.addEventListener("click", function () { track("profile_print", {}); window.print(); });
@@ -130,6 +153,8 @@
   // keep what was typed if the visitor leaves and comes back in this tab (this browser only; cleared after sending)
   var DK = "miftah-form-" + LANG;
   function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
+  // arriving from the crop selector: fill in the crop
+  try { var qc = new URLSearchParams(location.search).get("crop"), cm = JSON.parse(form.dataset.crops || "{}"); if (qc && cm[qc] && form.crop && !form.crop.value) form.crop.value = cm[qc]; } catch (x) {}
   try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === dr[el.name]; else el.value = dr[el.name]; }); } catch (x) {}
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
@@ -174,6 +199,26 @@
   }
   form.addEventListener("change", function (e) { if (e.target.getAttribute("aria-invalid") === "true") validate(); });
 
+  // two steps: the project first, then how to reach you (without JS both steps show, with one Send)
+  var st1 = document.getElementById("fstep-1"), st2 = document.getElementById("fstep-2"), prog = form.querySelectorAll(".fprog li");
+  function goStep(n, focus) {
+    if (!st1 || !st2) return;
+    st1.hidden = n !== 1; st2.hidden = n !== 2;
+    Array.prototype.forEach.call(prog, function (li, i) { li.classList.toggle("on", i === n - 1); li.classList.toggle("done", i < n - 1); });
+    if (focus) { var h = (n === 1 ? st1 : st2).querySelector(".fstep-h"); if (h) h.focus(); }
+  }
+  if (st1 && st2) {
+    form.classList.add("stepped"); goStep(1, false);
+    form.querySelector("[data-next]").addEventListener("click", function () {
+      var bad = validate(), mine = [];
+      bad.forEach(function (el) { if (st1.contains(el)) mine.push(el); else setErr(el, ""); });
+      mine.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
+      if (mine.length) { mine[0].focus(); track("form_invalid", { fields: mine.length, step: 1 }); return; }
+      goStep(2, true); track("form_step", { step: 2 });
+    });
+    form.querySelector("[data-back]").addEventListener("click", function () { goStep(1, true); });
+  }
+
   function label(name) {
     var el = form.elements[name]; if (!el) return "";
     if (el.tagName === "SELECT") return el.value ? el.options[el.selectedIndex].text : "";
@@ -209,6 +254,7 @@
     if (form.elements.mt_hp && form.elements.mt_hp.value) { show("bad", M.badH, M.trapP); track("form_honeypot", {}); return; } // hidden trap field: nothing is sent; a real person still gets the phone
     var bad = validate();
     bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
+    if (bad.length && st1 && st1.contains(bad[0])) goStep(1, false);
     if (bad.length) { bad[0].focus(); track("form_invalid", { fields: bad.length }); return; }
     var wait = 2500 - (Date.now() - t0);
     if (wait > 0) { busy = true; setTimeout(function () { busy = false; form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true })); }, wait); return; } // too fast for a person: send quietly a moment later
