@@ -103,6 +103,7 @@
   #flycap { color: var(--ink-2); font-size: .88rem; }
   #flyx { all: unset; cursor: pointer; color: var(--ink); font-weight: 700; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; }
   @media (prefers-reduced-motion: reduce) { .tag { transition: none; } }
+.compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }
 </style>
 
 <div class="stage" id="stage">
@@ -132,7 +133,7 @@
 
 <div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
 <script src="../assets/vendor/three.min.js?v=eb854986"></script>
-<script src="globe.js?v=999a2fc5"></script>
+<script src="globe.js?v=136f7c29"></script>
 
 </body>
 </html>

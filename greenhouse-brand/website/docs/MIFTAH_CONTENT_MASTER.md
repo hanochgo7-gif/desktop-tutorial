@@ -390,6 +390,7 @@ Featured (Q q14):
 | `roles.investor` | A private investor (Investing in a farm or land) | משקיע פרטי (משקיע בחווה או בקרקע) |
 | `roles.company` | An agricultural company (Growing or developing at scale) | חברה חקלאית (מגדלת או מפתחת בהיקף גדול) |
 | `roles.entrepreneur` | An entrepreneur (Building a new agricultural venture) | יזם (מקים מיזם חקלאי חדש) |
+| `roles.partner` | A potential partner (A company exploring work together) | שותף פוטנציאלי (חברה שבוחנת שיתוף פעולה) |
 | `roles.grower` | A grower or farm manager (Running an orchard or plantation) | חקלאי או מנהל משק (מנהל מטע או משק) |
 | `needs.nethouse` | Net houses or farm structures (Orchards, bananas, loading sheds, windbreaks) | בתי רשת או מבנים חקלאיים (מטעים, בננות, סככות העמסה, שוברי רוח) |
 | `needs.turnkey` | A turnkey farm abroad (From soil testing to harvest, with partners) | חוות מפתח בחו״ל (מבדיקת קרקע ועד קטיף, עם שותפים) |
@@ -463,7 +464,7 @@ Featured (Q q14):
 | `home` | Tell us about your land. | ספרו לנו על הקרקע. |
 | `net` | Tell us about your crop and your plot. | ספרו לנו על הגידול ועל החלקה. |
 | `turnkey` | Start with the assessment. | מתחילים בבדיקה. |
-| `projects` | Planning a project of this size? | מתכננים פרויקט בהיקף כזה? |
+| `projects` | Planning a project of 5 ha or more? | מתכננים פרויקט של 50 דונם ומעלה? |
 | `about` | Talk to Merav or Yiftach. | דברו עם מרב או עם יפתח. |
 | `sim` | Want one like this on your land? | רוצים כזה על הקרקע שלכם? |
 

@@ -364,7 +364,7 @@ def footer(L):
         <ul class="foot-legal"><li><a href="privacy.html">{esc(t(S["foot_legal"], L))}</a></li><li><a href="accessibility.html">{esc(t(S["foot_a11y"], L))}</a></li></ul>
       </div>
     </div>
-    <div class="titleblock" aria-hidden="true">{tb}</div>
+
     <p class="small rights">{esc(t(S["rights"], L).format(y=YEAR))}</p>
   </div>
 </footer>
@@ -398,7 +398,7 @@ def cta_band(L, where):
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
       </div>
-      <p class="meta">{esc(t(B["min_turnkey" if where == "turnkey" else "min"], L))}<br>{esc(t(B["fair"], L))}</p>
+      <p class="meta">{esc(t(B["min_turnkey" if where == "turnkey" else "min"], L))}{"<br>" + esc(t(B["fair"], L)) if where in ("home", "turnkey") else ""}</p>
     </div>
   </div>
 </section>"""
@@ -415,9 +415,8 @@ def steps(L, photos=True):
 
 def featured(L):
     P = C.PAGES["projects"]
-    rows = "".join(f'<tr><th scope="row">{esc(t(c, L))}</th><td>{esc(t(w, L))}</td><td>{esc(t(r, L))}</td></tr>' for c, r, w in C.FEATURED)
-    ths = "".join(f'<th scope="col">{esc(x)}</th>' for x in tm(P["feat_th"], L))
-    return f'<div class="tbl-scroll"><table class="tbl"><thead><tr>{ths}</tr></thead><tbody>{rows}</tbody></table></div>'
+    cards = "".join(f'<li><b>{esc(t(c, L))}</b><span>{esc(t(w, L))}</span><span class="reg">{esc(t(r, L))}</span></li>' for c, r, w in C.FEATURED)
+    return f'<ul class="feat-cards">{cards}</ul>'
 
 
 # ---------------------------------------------------------------- pages
@@ -495,7 +494,7 @@ def p_index(L):
   </div>
 </section>
 
-<section class="section build cable-top" aria-labelledby="steps-h">
+<section class="section build" aria-labelledby="steps-h">
   <div class="wrap">
     <div class="sec-head"><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
     {steps_html}
@@ -503,7 +502,7 @@ def p_index(L):
   </div>
 </section>
 
-<section class="section white who cable-top" aria-labelledby="who-h">
+<section class="section white who" aria-labelledby="who-h">
   <div class="wrap who-grid">
     <div><h2 id="who-h">{esc(t(H["who_h"], L))}</h2><p class="lead">{esc(t(H["who_p"], L))}</p><p class="who-refs">{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div>
     <ul class="values one">{values}</ul>
@@ -531,7 +530,8 @@ def p_net(L):
 <main id="main">
 {page_head("net-houses", L, img=("forest", C.TYPES[1]["cap"]))}
 {crop_selector(L, "net")}
-<section class="section cable-top" aria-labelledby="types-h">
+<section class="section abroad-band" aria-labelledby="abroad-h"><div class="wrap abroad-in"><h2 id="abroad-h" class="h-small">{esc(t(P["abroad_h"], L))}</h2><p>{esc(t(P["abroad_p"], L))}</p></div></section>
+<section class="section" aria-labelledby="types-h">
   <div class="wrap">
     <div class="sec-head"><h2 id="types-h">{esc(t(P["types_h2"], L))}</h2></div>
     <div class="types">{types}</div>
@@ -541,16 +541,9 @@ def p_net(L):
   <div class="wrap">
     <div class="sec-head"><h2 id="draw-h">{esc(t(P["draw_h"], L))}</h2></div>
     {fig}
-    <div class="split" style="margin-top:28px"><div class="legend-wrap one">{legend}</div><div><h3>{esc(t(P["site_h"], L))}</h3><p class="muted" style="margin-top:8px">{esc(t(P["site_p"], L))}</p></div></div>
-  </div>
-</section>
-<section class="section" aria-labelledby="steps-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="steps-h">{esc(t(P["steps_h"], L))}</h2><p class="lead">{esc(t(P["steps_p"], L))}</p></div>
-    {steps(L, photos=False)}
-    <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p>
+    <div class="split" style="margin-top:28px"><div class="legend-wrap one">{legend}</div><div class="site-note"><h3>{esc(t(P["site_h"], L))}</h3><p class="muted" style="margin-top:8px">{esc(t(P["site_p"], L))}</p>
+      <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p></div></div>
     <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption>{esc(t(C.STEPS[2][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
-    <div class="notice" style="margin-top:clamp(28px,4vw,48px);max-width:820px"><b>{esc(t(P["abroad_h"], L))}.</b> {esc(t(P["abroad_p"], L))}</div>
   </div>
 </section>
 {cta_band(L, "net")}
@@ -629,12 +622,6 @@ def p_turnkey(L):
     </div>
   </div>
 </section>
-<section class="section white" aria-labelledby="core-h">
-  <div class="wrap split">
-    <h2 id="core-h">{esc(t(P["core_h"], L))}</h2>
-    <div><p class="lead">{esc(t(P["core_p"], L))}</p><p class="more"><a href="net-houses.html">{esc(t(P["core_go"], L))}</a></p></div>
-  </div>
-</section>
 {cta_band(L, "turnkey")}
 </main>"""
 
@@ -658,14 +645,6 @@ def p_projects(L):
   <div class="wrap split">
     <div><h2 id="feat-h">{esc(t(P["feat_h"], L))}</h2><p class="muted" style="margin-top:14px">{esc(t(P["feat_p"], L))}</p></div>
     <div>{featured(L)}</div>
-  </div>
-</section>
-<section class="section white" aria-label="{"Photos" if L == "en" else "תמונות"}">
-  <div class="wrap">
-    <div class="series two">
-      <figure>{picture("p-closed", tm(C.STEPS[3][3], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.STEPS[3][3], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
-      <figure>{picture("p-site", tm(C.STEPS[0][3], L), L, sizes="(max-width: 620px) 100vw, 620px", archive=True)}<figcaption><span>{esc(t(C.STEPS[0][3], L))}. {esc(t(C.SITE["archive"], L))}.</span></figcaption></figure>
-    </div>
   </div>
 </section>
 {cta_band(L, "projects")}
@@ -696,12 +675,6 @@ def p_about(L):
     <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p>
       <h2 class="h-small" id="co-h" style="margin-top:32px">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
     <figure class="ph-fig">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
-  </div>
-</section>
-<section class="section" aria-labelledby="values-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="values-h">{esc(t(P["values_h"], L))}</h2><p class="statement">{esc(t(C.PAGES["index"]["why_statement"], L))}</p></div>
-    <ul class="values">{"".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b, L))}</span></li>' for a, b in C.VALUES)}</ul>
   </div>
 </section>
 {cta_band(L, "about")}
@@ -744,7 +717,6 @@ def p_contact(L):
     form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" data-crops="{esc(json.dumps({cr["id"]: tm(cr["label"], L) for cr in C.CROPS}, ensure_ascii=False))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
-  {offline}
   <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
   <div class="fstep" id="fstep-1">
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_h"], L))}</h3>
@@ -773,6 +745,7 @@ def p_contact(L):
     <label class="check full"><input type="checkbox" name="berlin" value="yes"><span>{esc(t(F["berlin"], L))}</span></label>
     <div class="check full"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
     </div>
+    {offline}
     <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"], L))}</button></div>
   </div>
 </form>
@@ -873,6 +846,14 @@ def globe_page():
     js = js.replace(pref, pref + '\n  var qs = /[?&]lang=(he|en)/.exec(location.search); if (qs) L = qs[1];')
     # the logo links back to the site, in the globe's current language
     js += '\n(function () { var a = document.getElementById("home-link"); if (!a) return; function u() { a.href = document.documentElement.lang === "en" ? "../index.html" : "../he/index.html"; } u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n'
+    # embedded on Projects (#compact): the page must keep scrolling. Wheel zooms only with Ctrl/Cmd, and a
+    # vertical swipe scrolls the page (horizontal drag still turns the globe).
+    wheel = 'gl.addEventListener("wheel", function (e) { e.preventDefault();'
+    assert wheel in js
+    js = js.replace(wheel, 'gl.addEventListener("wheel", function (e) { if (location.hash === "#compact" && !e.ctrlKey && !e.metaKey) return; e.preventDefault();')
+    js = js.replace('hint: "Drag to rotate · scroll or pinch to zoom · tap a point"', 'hint: location.hash === "#compact" ? "Drag to rotate · Ctrl + scroll to zoom · tap a point" : "Drag to rotate · scroll or pinch to zoom · tap a point"')
+    js = re.sub(r'hint: "(גוררים כדי לסובב[^"]*)"', lambda m: 'hint: location.hash === "#compact" ? "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה" : "' + m.group(1) + '"', js, count=1)
+    assert js.count('location.hash === "#compact" ?') == 2
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
@@ -883,6 +864,8 @@ def globe_page():
     assert "googleapis" not in page and "cdnjs" not in page
     title = re.search(r"<title>(.*?)</title>", page).group(1)
     page = page.replace(f"<title>{title}</title>", "", 1)
+    # in the embed: a plain deep-green field instead of the space backdrop, and vertical swipes left to the page
+    page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\n</style>", 1)
     head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
             f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')

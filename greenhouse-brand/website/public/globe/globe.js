@@ -21,12 +21,12 @@
   ];
   var T = {
     he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים · חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
-      s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
+      s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: location.hash === "#compact" ? "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה" : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
       note: "מקור: האתר הקיים של מיפתח והשאלון שמילאו מרב ויפתח. נקודה צהובה = מיקום ברמת מדינה או אזור, עד שיגיע מיקום מדויק. גובה קרן האור לפי השטח.",
       hq: "מיפתח · כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "ברמת אזור או מדינה", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "הדמיית מעבר מהחלל, שמסתיימת בצילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "הדמיה", real: "צילום רחפן אמיתי" },
     en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects · Where agriculture feels at home", h1: "Projects in eight countries.", lede: "From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
-      s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: "Drag to rotate · scroll or pinch to zoom · tap a point",
+      s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: location.hash === "#compact" ? "Drag to rotate · Ctrl + scroll to zoom · tap a point" : "Drag to rotate · scroll or pinch to zoom · tap a point",
       note: "Sources: MIFTAH's current website and the owners' questionnaire. Yellow point = country or region level, until an exact location is confirmed. Beam height follows the area.",
       hq: "MIFTAH · Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Region or country level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "An illustrated descent from orbit, ending on real drone footage of a MIFTAH net house.", close: "Close", ill: "Illustration", real: "Real drone footage" }
@@ -197,7 +197,7 @@
     if (moved < 6) pick(e);
   }
   gl.addEventListener("pointerup", up); gl.addEventListener("pointercancel", function (e) { delete pts[e.pointerId]; drag = false; gl.classList.remove("drag"); });
-  gl.addEventListener("wheel", function (e) { e.preventDefault(); distT = Math.max(1.06, Math.min(BASE * 1.15, 1 + (distT - 1) * (1 + e.deltaY * .0015))); zoomed = distT < BASE * .95; idle = 0; }, { passive: false });
+  gl.addEventListener("wheel", function (e) { if (location.hash === "#compact" && !e.ctrlKey && !e.metaKey) return; e.preventDefault(); distT = Math.max(1.06, Math.min(BASE * 1.15, 1 + (distT - 1) * (1 + e.deltaY * .0015))); zoomed = distT < BASE * .95; idle = 0; }, { passive: false });
   var ray = new THREE.Raycaster(), mv = new THREE.Vector2();
   function pick(e) {
     var b = gl.getBoundingClientRect(); mv.x = (e.clientX - b.left) / b.width * 2 - 1; mv.y = -(e.clientY - b.top) / b.height * 2 + 1;

@@ -379,7 +379,7 @@ CTA_HEADS = {  # a different opening line per page
     "home": ("Tell us about your land.", "ספרו לנו על הקרקע."),
     "net": ("Tell us about your crop and your plot.", "ספרו לנו על הגידול ועל החלקה."),
     "turnkey": ("Start with the assessment.", "מתחילים בבדיקה."),
-    "projects": ("Planning a project of this size?", "מתכננים פרויקט בהיקף כזה?"),
+    "projects": ("Planning a project of 5 ha or more?", "מתכננים פרויקט של 50 דונם ומעלה?"),
     "about": ("Talk to Merav or Yiftach.", "דברו עם מרב או עם יפתח."),
     "sim": ("Want one like this on your land?", "רוצים כזה על הקרקע שלכם?"),
 }
@@ -413,6 +413,7 @@ FORM = {
     "roles": [("investor", ("A private investor", "משקיע פרטי"), ("Investing in a farm or land", "משקיע בחווה או בקרקע")),
               ("company", ("An agricultural company", "חברה חקלאית"), ("Growing or developing at scale", "מגדלת או מפתחת בהיקף גדול")),
               ("entrepreneur", ("An entrepreneur", "יזם"), ("Building a new agricultural venture", "מקים מיזם חקלאי חדש")),
+              ("partner", ("A potential partner", "שותף פוטנציאלי"), ("A company exploring work together", "חברה שבוחנת שיתוף פעולה")),
               ("grower", ("A grower or farm manager", "חקלאי או מנהל משק"), ("Running an orchard or plantation", "מנהל מטע או משק"))],
     "need": ("What do you need? *", "מה צריך? *"),
     "needs": [("nethouse", ("Net houses or farm structures", "בתי רשת או מבנים חקלאיים"), ("Orchards, bananas, loading sheds, windbreaks", "מטעים, בננות, סככות העמסה, שוברי רוח")),
@@ -561,9 +562,9 @@ HOME3 = {
     "crop_proj": ("On a MIFTAH project", "בפרויקט של מיפתח"),
     "crop_min": ("Projects from 5 ha (50 dunam) in Israel and from 30 ha abroad.", "פרויקטים מ-50 דונם בישראל ומ-300 דונם בחו״ל."),  # 4.2
     "crop_cta": ("Discuss a project for this crop", "דברו איתנו על פרויקט לגידול הזה"),
-    "proof_h": ("410,000 m² of net houses abroad, by 2015.", "410,000 מ״ר של בתי רשת בחו״ל, עד 2015."),  # 3.2
-    "proof_p": ("Mexico, India, Honduras, Spain and Georgia, then Portugal and Belarus. Abroad we plan the work, train and manage local crews, and run execution on site.",
-                "מקסיקו, הודו, הונדורס, ספרד וגאורגיה, ואחר כך פורטוגל ובלארוס. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח."),  # 3.2, 3.3
+    "proof_h": ("Net houses on three continents.", "בתי רשת בשלוש יבשות."),  # 3.2
+    "proof_p": ("410,000 m² built in Mexico, India, Honduras, Spain and Georgia by 2015, then Portugal and Belarus. Abroad we plan the work, train and manage local crews, and run execution on site.",
+                "410,000 מ״ר שהקמנו במקסיקו, בהודו, בהונדורס, בספרד ובגאורגיה עד 2015, ואחר כך בפורטוגל ובבלארוס. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומנהלים את הביצוע בשטח."),  # 3.2, 3.3
     "proof_go": ("All projects, on the globe", "כל הפרויקטים, על הגלובוס"),
     "steps_h": ("From bare soil to a closed net house.", "מאדמה חשופה ועד בית רשת סגור."),
     "steps_p": ("The same four steps on every project, in Israel or abroad. Each one can also be ordered on its own.", "אותם ארבעה שלבים בכל פרויקט, בישראל ובחו״ל. אפשר להזמין כל שלב גם בנפרד."),  # 2.7, 2.8
@@ -575,7 +576,7 @@ HOME3 = {
     "inv_h": ("Investing in a farm abroad?", "משקיעים בחווה בחו״ל?"),
     "inv_p": ("A complete farm on your land: soil testing and a business plan, then structures, irrigation and planting, then a local team, growing and marketing. Eleven stages, delivered by MIFTAH with agricultural partners, from 30 ha.",
               "חווה שלמה על הקרקע שלכם: בדיקת קרקע ותוכנית עסקית, אחר כך מבנים, השקיה ושתילה, ואחר כך צוות מקומי, גידול ושיווק. אחד-עשר שלבים, שמיפתח מבצעת יחד עם שותפים חקלאיים, מ-300 דונם."),  # q3, 1.4, 4.2
-    "inv_note": ("Most investors' costliest mistake is trying to do it themselves to save money.", "הטעות היקרה ביותר של משקיעים: לנסות לעשות את זה לבד כדי לחסוך."),  # 4.7
+    "inv_note": ("The mistake we see most: trying to do it alone to save money.", "הטעות שאנחנו רואים הכי הרבה: לנסות לעשות את זה לבד כדי לחסוך."),  # 4.7
     "inv_go": ("Turnkey farms", "חוות מפתח"),
     "sim_go": ("Watch one go up, step by step (3D)", "צפו בהקמה, שלב אחרי שלב (תלת-ממד)"),
 }
