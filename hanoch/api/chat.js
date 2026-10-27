@@ -12,7 +12,11 @@ const KNOWLEDGE = require('./_knowledge.js');
 
 const MODEL = process.env.HG_CHAT_MODEL || 'claude-sonnet-5-5';
 const EFFORT = ['low', 'medium', 'high'].indexOf(process.env.HG_CHAT_EFFORT) >= 0 ? process.env.HG_CHAT_EFFORT : 'low';
-const ALLOWED = /^https:\/\/(www\.)?hgpro\.io$|^https:\/\/[a-z0-9-]+\.vercel\.app$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+// אתרים שמותר להם להפעיל את המצפן מדפדפן. לא כל vercel.app: כל אחד יכול לפתוח שם אתר ולהפעיל את המצפן מהדפדפנים של
+// המבקרים שלו (על חשבוננו, ומכתובות IP רבות). כתובות תצוגה מקדימה מוסיפים במפורש ב-HG_EXTRA_ORIGINS (מופרדות בפסיק)
+const EXTRA = (process.env.HG_EXTRA_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
+const BASE = /^https:\/\/(www\.)?hgpro\.io$|^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+const ALLOWED = { test: (o) => BASE.test(o) || EXTRA.indexOf(o) >= 0 };
 const MAX_TURNS = 24, MAX_CHARS = 1200, MAX_TOTAL = 14000;
 const WA = '972545522053';
 
@@ -82,10 +86,15 @@ const TOOLS = [
     input_schema: { type: 'object', properties: { stage: { type: 'string', enum: STAGES }, objection: { type: 'string', enum: OBJECTIONS }, unanswered_topic: { type: 'string', description: 'נושא קצר (עד 6 מילים) שאין עליו מידע בידע, או מחרוזת ריקה' } }, required: ['stage', 'objection', 'unanswered_topic'] } }
 ];
 
-// הגבלת קצב לכל כתובת IP, בזיכרון של המופע: מספיקה כדי לעצור הצפה. ההגנה העיקרית היא תקרת ההוצאה בחשבון של Anthropic
+// הגבלת קצב בזיכרון של המופע: לכל כתובת IP, ותקרה כוללת לשעה. היא עוצרת הצפה ממקור אחד, אבל לא תוקף עם הרבה
+// כתובות או הרבה מופעים. ההגנות העיקריות: תקרת הוצאה חודשית בחשבון של Anthropic, וכלל הגבלת קצב ב-Vercel Firewall
 const hits = new Map();
+let hour = { at: 0, n: 0 };
+const GLOBAL_PER_HOUR = Number(process.env.HG_CHAT_MAX_PER_HOUR) || 400;
 function limited(ip) {
   const now = Date.now(), win = 10 * 60 * 1000, max = 30;
+  if (now - hour.at > 3600e3) hour = { at: now, n: 0 };
+  if (++hour.n > GLOBAL_PER_HOUR) return true;
   const list = (hits.get(ip) || []).filter((t) => now - t < win);
   list.push(now); hits.set(ip, list);
   if (hits.size > 5000) hits.clear();
@@ -185,12 +194,13 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') { res.setHeader('Access-Control-Allow-Methods', 'POST'); res.setHeader('Access-Control-Allow-Headers', 'content-type'); return res.status(204).end(); }
   if (req.method !== 'POST') return res.status(405).json({ error: 'method' });
-  // דורשים כותרת Origin מותרת. דפדפנים שולחים Origin בכל POST, גם מאותו מקור, ולכן זה לא פוגע באתר.
-  // בלי זה, בקשה בלי Origin כלל (סקריפט, curl, שרת) הייתה עוברת ומשתמשת במפתח כפרוקסי חינמי ל-Claude.
+  // דורשים כותרת Origin מותרת. דפדפנים שולחים Origin בכל POST ולא מאפשרים לזייף אותה, ולכן אתר אחר לא יכול להפעיל
+  // את המצפן מהדפדפנים של המבקרים שלו. סקריפט (curl, שרת) כן יכול לזייף Origin: מולו עומדות הגבלות הקצב ותקרת ההוצאה.
   if (!ALLOWED.test(origin)) return res.status(403).json({ error: 'origin' });
   if (!process.env.ANTHROPIC_API_KEY) return res.status(503).json({ error: 'not_configured' });
 
-  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  // הכתובת ש-Vercel קבעה (x-real-ip). את x-forwarded-for הלקוח יכול להתחיל בעצמו, ולכן הוא רק גיבוי
+  const ip = String(req.headers['x-real-ip'] || req.headers['x-vercel-forwarded-for'] || String(req.headers['x-forwarded-for'] || '').split(',').pop() || '').trim() || 'unknown';
   if (limited(ip)) return res.status(429).json({ error: 'rate' });
 
   let body = req.body;
@@ -211,8 +221,8 @@ module.exports = async (req, res) => {
     for (let round = 0; round < 2; round++) {
       m.rounds = round + 1;
       const req2 = {
-        // מאמץ נמוך כברירת מחדל: תשובות צ'אט קצרות ומהירות. התקרה גבוהה כדי שתשובה לא תיחתך באמצע
-        model: MODEL, max_tokens: 4000, stream: true, output_config: { effort: EFFORT }, fallbacks: 'default',
+        // מאמץ נמוך כברירת מחדל: תשובות צ'אט קצרות ומהירות. התקרה מספיקה לתשובה ולבריף מלא, ומגבילה עלות של בקשה בודדת
+        model: MODEL, max_tokens: 2000, stream: true, output_config: { effort: EFFORT }, fallbacks: 'default',
         tools: TOOLS,
         // הידע ארוך וקבוע ונשמר במטמון בין פניות. ההקשר של הגולש בא אחריו, כדי לא לשבור את המטמון
         system: [
