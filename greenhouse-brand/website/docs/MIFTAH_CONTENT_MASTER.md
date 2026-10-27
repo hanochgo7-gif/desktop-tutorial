@@ -22,6 +22,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `menu` | Menu | תפריט |
 | `lang_other` | עברית | English |
 | `cta` | Discuss your project | דברו איתנו על הפרויקט |
+| `call_short` | Call | התקשרו |
 | `call` | Call | התקשרו |
 | `home` | Home | דף הבית |
 | `foot_nav` | Pages | עמודים |
@@ -126,7 +127,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 
 | Key | English | Hebrew |
 |---|---|---|
-| `title` | Projects in Israel, Europe, the Americas and Asia | MIFTAH Projects | פרויקטים בישראל, באירופה, באמריקה ובאסיה | מיפתח פרויקטים |
+| `title` | Net house projects on three continents | MIFTAH Projects | בתי רשת בשלוש יבשות: הפרויקטים | מיפתח פרויקטים |
 | `desc` | 410,000 m² of net houses built in Mexico, India, Honduras, Spain and Georgia, plus Portugal and Belarus, and net houses in the Galilee and the Golan Heights. | 410,000 מ״ר של בתי רשת בחו״ל: מקסיקו, הודו, הונדורס, ספרד וגאורגיה, וגם פורטוגל ובלארוס. ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים. |
 | `h1` | Projects in Israel and abroad | פרויקטים בישראל ובחו״ל |
 | `lead` | Net houses on three continents, run from our office in Kfar Masaryk. Abroad, we plan the work, train and manage local crews, and supervise execution. | בתי רשת בשלוש יבשות, מהמשרד שלנו בכפר מסריק. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומפקחים על הביצוע. |

@@ -24,7 +24,11 @@ _spec = importlib.util.spec_from_file_location("brand_book", SRC.parents[1] / "t
 brand = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(brand)
 
 # ---------------------------------------------------------------- config
-DOMAIN = "https://www.miftah.co.il"
+# The address Google indexes: canonical, hreflang, sitemap, Open Graph and structured data all use it.
+# When www.miftah.co.il points to this site, set it here, rebuild, and 301-redirect the vercel.app address to it in Vercel.
+DOMAIN = "https://miftah-site-hanoch.vercel.app"
+FINAL_DOMAIN = "https://www.miftah.co.il"
+GOOGLE_VERIFY = ""          # the content="" value of Search Console's HTML-tag verification, once the owner creates the property
 FORM_ENDPOINT = ""          # a URL that accepts a JSON POST and answers 2xx. Empty = honest "not connected" state.
 ANALYTICS = ""              # e.g. '<script defer data-domain="miftah.co.il" src="https://plausible.io/js/script.js"></script>'
 def _git_date():
@@ -231,6 +235,8 @@ def jsonld(slug, L, crumbs):
         "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"],
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Loading sheds", "Windbreaks", "Turnkey farms"],
         "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
+        "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
+        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "availableLanguage": ["he", "en"], "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
     }
     graph = [org, {"@type": "WebSite", "@id": f"{DOMAIN}/#site", "url": DOMAIN + "/", "name": "MIFTAH Projects", "inLanguage": ["en", "he"], "publisher": {"@id": f"{DOMAIN}/#org"}},
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
@@ -239,6 +245,13 @@ def jsonld(slug, L, crumbs):
     if slug in ("net-houses", "turnkey-farms"):
         kind = {"net-houses": "Agricultural net house design, manufacture and installation", "turnkey-farms": "Turnkey farm development abroad, delivered with agricultural partners"}[slug]
         graph.append({"@type": "Service", "name": tm(C.PAGES[slug]["h1"], L), "provider": {"@id": f"{DOMAIN}/#org"}, "serviceType": kind})
+    if slug == "index":
+        graph.append({"@type": "VideoObject", "name": tm(C.PAGES["index"]["vidcap"], L), "description": tm(C.PAGES["index"]["vidcap"], L) + (". MIFTAH Projects, Kfar Masaryk, Israel." if L == "en" else ". מיפתח פרויקטים, כפר מסריק."),
+                      "thumbnailUrl": f"{DOMAIN}/assets/img/hero-1600.jpg", "contentUrl": f"{DOMAIN}/assets/video/hero-wide.mp4", "uploadDate": "2026-10-26", "duration": "PT12S",
+                      "publisher": {"@id": f"{DOMAIN}/#org"}, "inLanguage": L})
+    if slug == "how-we-build":
+        graph.append({"@type": "CreativeWork", "name": tm(C.PAGES[slug]["h1"], L), "description": tm(C.PAGES[slug]["desc"], L), "creator": {"@id": f"{DOMAIN}/#org"},
+                      "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
     if slug == "contact":
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in C.FAQ]})
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False) + "</script>"
@@ -268,7 +281,8 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-{'<meta name="robots" content="noindex">' if noindex else ""}
+{'<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index, follow, max-image-preview:large">'}
+{f'<meta name="google-site-verification" content="{esc(GOOGLE_VERIFY)}">' if GOOGLE_VERIFY and slug == "index" else ""}
 {links}
 <meta name="theme-color" content="#0E4239">
 <meta property="og:type" content="website">
@@ -277,9 +291,9 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{url(slug, L, True)}">
 <meta property="og:image" content="{DOMAIN}/assets/img/og-miftah.jpg">
-<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{esc(tm(C.PAGES["index"]["vidcap"], L))}">
 <meta property="og:locale" content="{"en_US" if L == "en" else "he_IL"}"><meta property="og:locale:alternate" content="{"he_IL" if L == "en" else "en_US"}">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{DOMAIN}/assets/img/og-miftah.jpg">
 <link rel="icon" href="{r}assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{r}assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{r}assets/favicon-180.png">
@@ -296,6 +310,9 @@ def header(slug, L):
     alt = "he" if L == "en" else "en"
     other = ("he/" if L == "en" else "../") + ("index.html" if slug in ("index", "404") else f"{slug}.html")
     items = "".join(f'<li><a href="{s}.html"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
+    mbar = "" if slug in ("contact", "how-we-build", "profile", "404") else (
+        f'<nav class="mbar" id="mbar" aria-label="{"Quick contact" if L == "en" else "יצירת קשר מהירה"}" hidden><a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="mbar">{esc(t(C.SITE["call_short"], L))}</a>'
+        f'<a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="mbar">{esc(t(C.SITE["cta"], L))}</a></nav>')
     return f"""<body>
 <a class="skip" href="#main">{esc(t(C.SITE["skip"], L))}</a>
 <header class="site-head">
@@ -310,7 +327,8 @@ def header(slug, L):
     <a class="head-call" href="tel:{C.SITE["phone_tel"]}" data-where="header" aria-label="{esc(tm(C.SITE["call"], L))} {esc(tm(C.SITE["phone_display"], L))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav"><span class="bars" aria-hidden="true"></span>{esc(t(C.SITE["menu"], L))}</button>
   </div>
-</header>"""
+</header>
+{mbar}"""
 
 
 def footer(L):
@@ -800,6 +818,13 @@ RENDER = {"index": p_index, "net-houses": p_net, "how-we-build": p_sim, "turnkey
           "privacy": lambda L: p_prose("privacy", L, C.PRIVACY), "accessibility": lambda L: p_prose("accessibility", L, C.A11Y)}
 
 
+SITEMAP_IMAGES = {  # the real photos on each page (and the 3D still), largest size
+    "index": ["hero-1600.jpg", "p-site-1600.jpg", "p-marking-1600.jpg", "p-poles-1600.jpg", "p-closed-1600.jpg"],
+    "net-houses": ["forest-1600.jpg", "p-poles-1600.jpg"], "turnkey-farms": ["valley-1600.jpg"],
+    "projects": ["p-closed-1600.jpg", "p-site-1600.jpg"], "about": ["p-marking-1600.jpg"], "how-we-build": ["sim-poster.jpg"],
+}
+
+
 def globe_page():
     """Copies the 3D globe (greenhouse-brand/globe) into public/globe/: self-hosted three.js and fonts,
     the inline script moved to globe.js (the CSP allows no inline script), and ?lang=en|he for the embed."""
@@ -879,8 +904,9 @@ def main():
             continue
         for L in LANGS:
             alts = "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{url(slug, a, True)}"/>' for a in LANGS) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{url(slug, "en", True)}"/>'
-            urls.append(f"<url><loc>{url(slug, L, True)}</loc><lastmod>{lastmod}</lastmod>{alts}</url>")
-    write(PUB / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(urls) + "\n</urlset>\n")
+            imgs = "".join(f"<image:image><image:loc>{DOMAIN}/assets/img/{n}</image:loc></image:image>" for n in SITEMAP_IMAGES.get(slug, []))
+            urls.append(f"<url><loc>{url(slug, L, True)}</loc><lastmod>{lastmod}</lastmod>{alts}{imgs}</url>")
+    write(PUB / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + "\n".join(urls) + "\n</urlset>\n")
     write(PUB / "robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write(PUB / "site.webmanifest", json.dumps({"name": "MIFTAH Projects", "short_name": "MIFTAH", "start_url": "/", "display": "browser", "background_color": "#F2F5F3", "theme_color": "#0E4239",
                                                "icons": [{"src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
@@ -896,7 +922,6 @@ def main():
           "# RewriteEngine On\n# RewriteCond %{HTTPS} off [OR]\n# RewriteCond %{HTTP_HOST} !^www\\. [NC]\n# RewriteRule ^ https://www.miftah.co.il%{REQUEST_URI} [L,R=301]\n"
           "# Header always set Strict-Transport-Security \"max-age=31536000\"\n")
     # host config for Vercel (the live preview): same headers as .htaccess; static files, no build step.
-    # noindex until www.miftah.co.il points here, so the vercel.app copy doesn't compete with the canonical domain.
     csp = ("default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP +
            "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
     long_cache = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
@@ -906,7 +931,7 @@ def main():
         "redirects": [{"source": "/he", "destination": "/he/", "permanent": True}, {"source": "/.htaccess", "destination": "/404.html", "permanent": False}],
         "headers": [
             {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
-                                            {"key": "Content-Security-Policy", "value": csp}, {"key": "X-Robots-Tag", "value": "noindex"}]},
+                                            {"key": "Content-Security-Policy", "value": csp}]},
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")

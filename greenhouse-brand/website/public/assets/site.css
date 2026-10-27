@@ -37,7 +37,8 @@
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
+[id] { scroll-margin-top: 88px; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--fs-body)/1.6 var(--font); text-rendering: optimizeLegibility; overflow-x: hidden; }
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
@@ -80,8 +81,7 @@ bdi.ltr, .ltr { direction: ltr; unicode-bidi: isolate; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 
 /* ---------- header ---------- */
-.site-head { position: sticky; top: 0; z-index: 50; background: rgba(242, 245, 243, .96); border-bottom: 1px solid var(--line); }
-@supports (backdrop-filter: blur(1px)) { .site-head { background: rgba(242, 245, 243, .88); backdrop-filter: saturate(1.2) blur(10px); } }
+.site-head { position: sticky; top: 0; z-index: 50; background: #F2F5F3; border-bottom: 1px solid var(--line); }
 .head-in { display: flex; align-items: center; gap: 24px; min-height: 72px; }
 .brand { display: block; flex: none; }
 .brand svg { height: 40px; width: auto; }
@@ -514,7 +514,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .sim-scroll { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); font-size: .8125rem; font-weight: 600; color: var(--forest); background: rgba(255, 255, 255, .85); padding: 4px 12px; border-radius: 999px; }
 .sim-chs { position: relative; margin-top: -100vh; margin-top: -100svh; pointer-events: none; }
 .sim-ch { height: 100vh; height: 100svh; display: flex; align-items: center; padding-inline: max(var(--gutter), calc((100vw - 1240px) / 2)) 56px; }
-.sim-card { pointer-events: auto; width: min(400px, 100%); background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(14, 66, 57, .12); border-radius: 12px; padding: 22px 24px; box-shadow: 0 18px 40px rgba(14, 42, 37, .14); }
+.sim-card { pointer-events: auto; width: min(400px, 100%); background: rgba(255, 255, 255, .97); border: 1px solid rgba(14, 66, 57, .12); border-radius: 12px; padding: 22px 24px; box-shadow: 0 18px 40px rgba(14, 42, 37, .14); }
 .sim-card .k { display: block; font-size: .8125rem; font-weight: 600; color: var(--canopy); }
 .sim-card .k .num { font-family: var(--mono); margin-inline-end: 6px; }
 .sim-card h2 { font-size: clamp(1.4rem, 2.6vw, 1.85rem); margin-top: 6px; }
@@ -544,3 +544,29 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .globe-frame.on img, .globe-frame.on .globe-go { display: none; }
 @media (max-width: 760px) { .globe-frame { aspect-ratio: 4 / 5; } }
 .sim-hud .num { direction: ltr; unicode-bidi: isolate; }
+
+/* ---------- page transitions (browsers that support cross-document view transitions) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out .18s ease-in both; }
+  ::view-transition-new(root) { animation: vt-in .26s ease-out both; }
+  .site-head { view-transition-name: site-head; }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+
+/* ---------- header that steps aside while reading ---------- */
+.site-head { transition: transform .28s cubic-bezier(.2, .7, .2, 1); }
+.site-head.away { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) { .site-head { transition: none; } }
+
+/* ---------- phone action bar ---------- */
+.mbar { display: none; }
+@media (max-width: 760px) {
+  .mbar { position: fixed; inset-inline: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: auto 1fr; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: #F2F5F3; border-top: 1px solid var(--line); box-shadow: 0 -6px 18px rgba(14, 42, 37, .08); transform: translateY(110%); transition: transform .28s cubic-bezier(.2, .7, .2, 1); }
+  .mbar[hidden] { display: none; }
+  .mbar.on { transform: none; }
+  .mbar .btn { min-height: 48px; }
+  body.has-mbar .site-foot { padding-bottom: 96px; }
+}
+@media (prefers-reduced-motion: reduce) { .mbar { transition: none; } }

@@ -34,6 +34,31 @@
     nav.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
   }
 
+  // ---- header steps aside while scrolling down, returns on the way up; phone action bar after the opening ----
+  (function () {
+    var head = document.querySelector(".site-head"), bar = document.getElementById("mbar"), lastY = window.scrollY, ticking = false;
+    var ends = document.querySelectorAll(".cta-band, .site-foot"), endVisible = false;
+    if (bar) { bar.hidden = false; document.body.classList.add("has-mbar"); }
+    if (bar && "IntersectionObserver" in window) {  // the bar steps aside where the page already offers both actions
+      var seen = [];
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { var i = seen.indexOf(e.target); if (e.isIntersecting && i < 0) seen.push(e.target); else if (!e.isIntersecting && i >= 0) seen.splice(i, 1); });
+        endVisible = seen.length > 0; update();
+      });
+      Array.prototype.forEach.call(ends, function (el) { io.observe(el); });
+    }
+    function update() {
+      ticking = false;
+      var y = window.scrollY, down = y > lastY + 4, up = y < lastY - 4, menuOpen = mb && mb.getAttribute("aria-expanded") === "true";
+      if (head && !menuOpen && !head.contains(document.activeElement)) { if (down && y > 160) head.classList.add("away"); else if (up || y < 160) head.classList.remove("away"); }
+      if (bar) bar.classList.toggle("on", y > window.innerHeight * .6 && !endVisible);
+      if (down || up) lastY = y;
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    document.addEventListener("focusin", function (e) { if (head && head.contains(e.target)) head.classList.remove("away"); });
+    update();
+  })();
+
   // ---- videos: choose a source for the screen, honour reduced motion, always offer pause ----
   document.querySelectorAll("video[data-src-wide]").forEach(function (v) {
     var btn = document.querySelector('[data-video="' + v.id + '"]');
@@ -102,6 +127,11 @@
   M.send = form.querySelector("[type=submit]").textContent;
   var started = false, t0 = Date.now(), busy = false;
   form.addEventListener("input", function () { if (!started) { started = true; track("form_start", {}); } }, { once: false });
+  // keep what was typed if the visitor leaves and comes back in this tab (this browser only; cleared after sending)
+  var DK = "miftah-form-" + LANG;
+  function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
+  try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === dr[el.name]; else el.value = dr[el.name]; }); } catch (x) {}
+  form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
   var sizeNote = document.getElementById("size-note");
   function sizeCheck() {
@@ -207,6 +237,7 @@
         if (!r.ok) throw new Error("HTTP " + r.status);
         form.reset(); form.hidden = true;
         show("ok", M.okH, M.okP);
+        try { sessionStorage.removeItem(DK); } catch (x) {}
         track("form_submit_success", { need: p.need_code, size: p.size_code, country: p.country_code });
       })
       .catch(function () {

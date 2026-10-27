@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.miftah.co.il/sitemap.xml
+Sitemap: https://miftah-site-hanoch.vercel.app/sitemap.xml
