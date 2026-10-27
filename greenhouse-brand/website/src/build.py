@@ -908,6 +908,7 @@ def main():
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")
+    write(PUB / ".vercelignore", ".htaccess\n")  # Apache-only; Vercel uses vercel.json
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 
