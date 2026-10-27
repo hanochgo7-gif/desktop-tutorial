@@ -603,18 +603,15 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .hero-invest a { color: var(--on-dark); }
 .hero-invest a:hover { color: var(--white); }
 @media (prefers-reduced-motion: no-preference) {
-  .canopy-net { animation: net-spread 1.8s cubic-bezier(.3, .6, .2, 1) .25s both; }
-  [dir="rtl"] .canopy-net { animation-name: net-spread-rtl; }
-  .canopy-cable { stroke-dasharray: 1700; stroke-dashoffset: 1700; animation: cable-draw 1.6s cubic-bezier(.3, .6, .2, 1) .15s forwards; }
-  [dir="rtl"] .canopy-cable { stroke-dashoffset: -1700; }
+  .canopy { animation: net-pull 1.5s cubic-bezier(.25, .7, .2, 1) .2s both; will-change: transform, opacity; }
+  [dir="rtl"] .canopy { animation-name: net-pull-rtl; }
   .canopy-poles rect { opacity: 0; animation: fade-in .6s ease-out forwards; }
   .canopy-poles rect:nth-child(1) { animation-delay: .5s; } .canopy-poles rect:nth-child(2) { animation-delay: .75s; } .canopy-poles rect:nth-child(3) { animation-delay: 1s; }
   .hero3 h1, .hero3 .lead, .hero3 .actions, .hero3 .hero-invest { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
   .hero3 .lead { animation-delay: .12s; } .hero3 .actions { animation-delay: .22s; } .hero3 .hero-invest { animation-delay: .3s; }
 }
-@keyframes net-spread { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes net-spread-rtl { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
-@keyframes cable-draw { to { stroke-dashoffset: 0; } }
+@keyframes net-pull { from { transform: translate3d(-35%, 0, 0); opacity: 0; } }
+@keyframes net-pull-rtl { from { transform: translate3d(35%, 0, 0); opacity: 0; } }
 @keyframes fade-in { to { opacity: 1; } }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
 @media (max-width: 720px) {
@@ -657,6 +654,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   .crop-dw .cr { animation: fade-in .35s ease-out both; }
 }
 @media (max-width: 900px) { .crop-head, .crop-body { grid-template-columns: 1fr; } .crop-fig { order: -1; } }
+@media (max-width: 600px) { .crop-tabs { flex-wrap: wrap; overflow: visible; gap: 0 18px; } .crop-tabs button { padding: 10px 2px 8px; } }
 
 /* proof abroad: the number is the headline */
 .proof .proof-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 20px clamp(24px, 5vw, 72px); align-items: end; margin-bottom: clamp(24px, 4vw, 48px); }

@@ -138,6 +138,15 @@
     });
   });
 
+  // ---- swipeable rows (the build steps on phones) can be scrolled from the keyboard too ----
+  document.querySelectorAll(".build .steps").forEach(function (row) {
+    function mark() {
+      var scrolls = row.scrollWidth > row.clientWidth + 2;
+      if (scrolls) row.tabIndex = 0; else row.removeAttribute("tabindex");
+    }
+    mark(); window.addEventListener("resize", mark);
+  });
+
   // ---- print button on the profile page ----
   var pb = document.getElementById("print-btn");
   if (pb) pb.addEventListener("click", function () { track("profile_print", {}); window.print(); });
