@@ -208,7 +208,7 @@ def map_svg(L):
     for key, lat, lon, m2, en, hb, side in C.MARKETS:
         x, y = worldmap.px(lon, lat)
         r = 4 + (math.sqrt(m2 / 150000) * 9 if m2 else 0)
-        val = (f"{m2:,} m²" if not he else f"{m2:,} מ״ר") if m2 else ""
+        val = (f"{m2 / 10000:g} ha" if not he else f"{m2 / 1000:g} דונם") if m2 else ""
         dx, dy, anchor = {"e": (r + 8, 4, "start"), "w": (-(r + 8), 4, "end"), "s": (0, r + 18, "middle"), "sw": (-(r + 6), r + 14, "end")}[side]
         an = flip[anchor] if he else anchor
         lab = f'<text class="mk-l" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{an}">{esc(en if not he else hb)}</text>'
@@ -225,11 +225,11 @@ def map_svg(L):
 
 def projects_table(L):
     P = C.PAGES["projects"]
-    rows = "".join(f'<tr><th scope="row">{esc(en if L == "en" else he)}</th><td>{esc(t(w, L))}</td><td class="n">{f"{a:,}" if a else "–"}</td></tr>' for en, he, w, a in C.PROJECT_ROWS)
+    rows = "".join(f'<tr><th scope="row">{esc(en if L == "en" else he)}</th><td>{esc(t(w, L))}</td><td class="n">{(f"{a / 10000:g}" if L == "en" else f"{a / 1000:g}") if a else "–"}</td></tr>' for en, he, w, a in C.PROJECT_ROWS)
     total = sum(a for *_, a in C.PROJECT_ROWS if a)
     return (f'<div class="tbl-scroll"><table class="tbl"><caption>{esc(t(P["tbl_cap"], L))}</caption><thead><tr><th scope="col">{esc(t(P["th_country"], L))}</th><th scope="col">{esc(t(P["th_work"], L))}</th>'
             f'<th scope="col" class="n">{esc(t(P["th_area"], L))}</th></tr></thead><tbody>{rows}</tbody>'
-            f'<tfoot><tr><th scope="row" colspan="2">{esc(t(P["total"], L))}</th><td class="n">{total:,}</td></tr></tfoot></table></div>')
+            f'<tfoot><tr><th scope="row" colspan="2">{esc(t(P["total"], L))}</th><td class="n">{f"{total / 10000:g}" if L == "en" else f"{total / 1000:g}"}</td></tr></tfoot></table></div>')
 
 
 # ---------------------------------------------------------------- shared page parts
@@ -387,6 +387,8 @@ def page_head(slug, L, img=None):
 
 def cta_band(L, where):
     B = C.CTA_BAND; S = C.SITE
+    lines = ([esc(t(B["min_turnkey"], L))] if where == "turnkey" else []) + ([esc(t(B["fair"], L))] if where in ("home", "turnkey") else [])
+    meta = f'<p class="meta">{"<br>".join(lines)}</p>' if lines else ""
     return f"""<section class="section dark cta-band" aria-labelledby="cta-{where}">
   <div class="wrap in">
     <div>
@@ -398,7 +400,7 @@ def cta_band(L, where):
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
       </div>
-      <p class="meta">{esc(t(B["min_turnkey" if where == "turnkey" else "min"], L))}{"<br>" + esc(t(B["fair"], L)) if where in ("home", "turnkey") else ""}</p>
+      {meta}
     </div>
   </div>
 </section>"""
@@ -436,7 +438,7 @@ def crop_selector(L, where="home"):
         panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
                       f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
                       f'<p class="crop-min">{esc(t(H["crop_min"], L))}</p>'
-                      f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"], L) if cr["id"] != "other" else t(C.SITE["cta"], L))}</a></div>')
+                      f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a></div>')
     return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
   <div class="wrap">
     <div class="crop-head"><h2 id="crop-h-{where}">{esc(t(H["crop_h"], L))}</h2><p class="lead">{esc(t(H["crop_p"], L))}</p></div>
@@ -502,6 +504,7 @@ def p_index(L):
   <div class="wrap">
     <div class="sec-head"><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
     {steps_html}
+    <p class="swipe-hint" aria-hidden="true">{esc(t(H["steps_swipe"], L))}</p>
     <p class="more sim-link"><a href="how-we-build.html">{esc(t(H["sim_go"], L))}</a></p>
   </div>
 </section>
@@ -640,7 +643,7 @@ def p_projects(L):
     <div class="sec-head split"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="muted" style="margin-top:10px">{esc(t(C.GLOBE["p"], L))}</p></div>
       <p class="more"><a href="{rel(L)}globe/index.html?lang={L}" data-track="globe_open">{esc(t(C.GLOBE["full"], L))}</a></p></div>
     <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async">
-      <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" hidden></iframe>
+      <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" tabindex="-1" hidden></iframe>
       <button type="button" class="btn btn-primary globe-go">{esc(t(C.GLOBE["go"], L))}</button></div>
     <div class="proj-table">{projects_table(L)}</div>
   </div>
@@ -708,6 +711,8 @@ def inp(name, label, L, typ="text", req=False, auto="", hint=None):
 def form_msg(L):
     """The form script's messages and summary labels, from content.py, as JSON for a data attribute."""
     ph = tm(C.SITE["phone_display"], L)
+    if L == "he":
+        ph = "\u2066" + ph + "\u2069"  # keep the number left-to-right inside Hebrew text
     m = {k: tm(v, L).replace("{phone}", ph) for k, v in C.FORM_MSG.items()}
     m["keys"] = [[tm(lab, L), k] for k, lab in C.FORM_BRIEF_KEYS]
     return json.dumps(m, ensure_ascii=False, separators=(",", ":"))
@@ -743,7 +748,8 @@ def p_contact(L):
     <div class="fields">
     {inp("name", F["name"], L, req=True, auto="name")}
     {inp("company", F["company"], L, auto="organization")}
-    {inp("email", F["email"], L, typ="email", req=True, auto="email")}
+    <p class="full reach-note" id="f-reach">{esc(t(F["reach"], L))}</p>
+    {inp("email", F["email"], L, typ="email", auto="email")}
     {inp("phone", F["phone"], L, typ="tel", auto="tel", hint=F["phone_hint"])}
     <div class="field full"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
     <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
@@ -757,6 +763,7 @@ def p_contact(L):
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">
   <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_min_h"], L))}</h2><p>{esc(t(P["aside_min_p"], L))}</p></div>
+  <div class="block"><h2>{esc(t(P["aside_profile_h"], L))}</h2><p>{esc(t(P["aside_profile_p"], L))}</p><p><a href="profile.html" data-track="profile_open">{esc(t(P["aside_profile_go"], L))}</a></p></div>
   <div class="block"><h2>{esc(t(P["aside_partner_h"], L))}</h2><p>{esc(t(P["aside_partner_p"], L))}</p></div>
   <div class="block" id="berlin"><h2>{esc(t(P["aside_fair_h"], L))}</h2><p>{esc(t(P["aside_fair_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p>{esc(t(S["name"], L))}<br>{esc(t(S["town"], L))}</p></div>
@@ -859,6 +866,21 @@ def globe_page():
     js = js.replace('hint: "Drag to rotate · scroll or pinch to zoom · tap a point"', 'hint: location.hash === "#compact" ? "Drag to rotate · Ctrl + scroll to zoom · tap a point" : "Drag to rotate · scroll or pinch to zoom · tap a point"')
     js = re.sub(r'hint: "(גוררים כדי לסובב[^"]*)"', lambda m: 'hint: location.hash === "#compact" ? "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה" : "' + m.group(1) + '"', js, count=1)
     assert js.count('location.hash === "#compact" ?') == 2
+    # on a phone the embed has no Ctrl key: a sideways drag turns it, a vertical swipe scrolls the page
+    js = js.replace('location.hash === "#compact" ? "Drag to rotate · Ctrl', 'location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl')
+    js = js.replace('· tap a point" : "Drag to rotate · scroll', '· tap a point") : "Drag to rotate · scroll')
+    js = js.replace('location.hash === "#compact" ? "גוררים כדי לסובב · Ctrl', 'location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl')
+    js = js.replace('· לוחצים על נקודה" : "גוררים כדי לסובב · גלגלת', '· לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת')
+    assert js.count('matchMedia("(pointer: coarse)")') == 2 and js.count('tap a point") :') == 1 and js.count('על נקודה") :') == 1
+    # visitors see what the figures are, not where the team got them
+    NOTE = {"he": "השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.",
+            "en": "Areas as of 2015. A yellow point marks the country or region, not the exact site. Beam height follows the area."}
+    js, n = re.subn(r'note: "מקור:[^"]*"', 'note: "' + NOTE["he"] + '"', js); assert n == 1
+    js, n = re.subn(r'note: "Sources:[^"]*"', 'note: "' + NOTE["en"] + '"', js); assert n == 1
+    for old, new in (('region: "ברמת אזור או מדינה"', 'region: "מסומן ברמת מדינה או אזור"'), ('region: "Region or country level"', 'region: "Marked at country or region level"')):
+        assert old in js, old
+        js = js.replace(old, new)
+    js += '\ndocument.documentElement.setAttribute("data-i18n", "1");\n'  # texts are now in the page's language: show them
     # client names wait for the client's approval (ledger 3.1, 3.5, q13): the kiwi project is shown by region
     for old, new in (("קיווי בברעם", "קיווי בגליל העליון"), ("Kiwi in Bar'am", "Kiwi in the Upper Galilee"), ("קיווי, ברעם", "קיווי, הגליל העליון"),
                      ("Kiwi, Bar'am", "Kiwi, Upper Galilee"), ("עשור של עבודה משותפת עם מטע ברעם", "הלקוח מוכן להמליץ עלינו"),
@@ -867,6 +889,7 @@ def globe_page():
         js = js.replace(old, new)
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
+    page, n = re.subn(r'(<p class="note" id="note">)מקור:[^<]*', r'\1' + NOTE["he"], page); assert n == 1
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
     assert 'id="home-link"' in page
     page = page.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>', f'<script src="../assets/vendor/three.min.js?v={VER["three"]}"></script>')
@@ -876,7 +899,7 @@ def globe_page():
     title = re.search(r"<title>(.*?)</title>", page).group(1)
     page = page.replace(f"<title>{title}</title>", "", 1)
     # in the embed: a plain deep-green field instead of the space backdrop, and vertical swipes left to the page
-    page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\n</style>", 1)
+    page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
     head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
             f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')

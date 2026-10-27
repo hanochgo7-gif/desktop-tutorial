@@ -167,6 +167,7 @@
   try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === dr[el.name]; else el.value = dr[el.name]; }); } catch (x) {}
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
+  ["email", "phone"].forEach(function (n) { var el = form.elements[n]; if (el) el.setAttribute("aria-describedby", ("f-reach " + (el.getAttribute("aria-describedby") || "")).trim()); });
   var sizeNote = document.getElementById("size-note");
   function sizeCheck() {
     if (!sizeNote) return;
@@ -178,10 +179,12 @@
   form.country.addEventListener("change", sizeCheck); form.size.addEventListener("change", sizeCheck);
 
   function fieldOf(el) { return el.closest(".field, fieldset, .check"); }
+  // focus the first problem and bring its question (with its message) into view
+  function showBad(el) { try { el.focus({ preventScroll: true }); } catch (x) { el.focus(); } var box = fieldOf(el) || el; box.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
   function setErr(el, msg) {
     var box = fieldOf(el), id = (el.name || el.id) + "-err", e = document.getElementById(id);
     if (msg) {
-      if (!e) { e = document.createElement("p"); e.className = "err"; e.id = id; box.appendChild(e); }
+      if (!e) { e = document.createElement("p"); e.className = "err"; e.id = id; var lg = box.tagName === "FIELDSET" && box.querySelector("legend"); if (lg) box.insertBefore(e, lg.nextSibling); else box.appendChild(e); } // a group's message sits under its question, where it is seen
       e.textContent = msg;
       var targets = el.type === "radio" ? form.querySelectorAll('[name="' + el.name + '"]') : [el];
       Array.prototype.forEach.call(targets, function (t) { t.setAttribute("aria-invalid", "true"); var d = (t.getAttribute("aria-describedby") || "").split(" ").filter(Boolean); if (d.indexOf(id) < 0) d.push(id); t.setAttribute("aria-describedby", d.join(" ")); });
@@ -193,12 +196,16 @@
   }
   function validate() {
     var bad = [];
-    [["name", "req"], ["email", "email"], ["country", "choose"], ["size", "choose"]].forEach(function (r) {
-      var el = form.elements[r[0]], v = (el.value || "").trim(), ok = !!v;
-      if (r[0] === "email") ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-      setErr(el, ok ? "" : (r[0] === "email" && v ? M.email : (r[1] === "email" ? M.req : M[r[1]])));
+    [["name", "req"], ["country", "choose"], ["size", "choose"]].forEach(function (r) {
+      var el = form.elements[r[0]], ok = !!(el.value || "").trim();
+      setErr(el, ok ? "" : M[r[1]]);
       if (!ok) bad.push(el);
     });
+    // email or phone: at least one, and whichever is given must look right
+    var em = form.elements.email, ph = form.elements.phone, ev = em.value.trim(), pv = ph.value.trim();
+    var emOk = !ev || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev), phOk = !pv || (/^[+()\d\s.\-]+$/.test(pv) && pv.replace(/\D/g, "").length >= 7);
+    setErr(em, !ev && !pv ? M.reach : emOk ? "" : M.email); if ((!ev && !pv) || !emOk) bad.push(em);
+    setErr(ph, phOk ? "" : M.phone); if (!phOk) bad.push(ph);
     var need = form.querySelector('[name="need"]:checked'), first = form.querySelector('[name="need"]');
     setErr(first, need ? "" : M.choose); if (!need) bad.push(first);
     var role = form.querySelector('[name="role"]:checked'), r1 = form.querySelector('[name="role"]');
@@ -206,7 +213,9 @@
     setErr(form.consent, form.consent.checked ? "" : M.consent); if (!form.consent.checked) bad.push(form.consent);
     return bad;
   }
-  form.addEventListener("change", function (e) { if (e.target.getAttribute("aria-invalid") === "true") validate(); });
+  // re-check a flagged field as it is typed in, so its message is gone before the next tap (a message vanishing on blur moves the Send button away from the finger)
+  function recheck(e) { if (e.target.getAttribute("aria-invalid") === "true") { var bad = validate(); if (st1 && !st1.hidden) bad.forEach(function (el) { if (!st1.contains(el)) setErr(el, ""); }); } }
+  form.addEventListener("input", recheck); form.addEventListener("change", recheck);
 
   // two steps: the project first, then how to reach you (without JS both steps show, with one Send)
   var st1 = document.getElementById("fstep-1"), st2 = document.getElementById("fstep-2"), prog = form.querySelectorAll(".fprog li");
@@ -222,7 +231,7 @@
       var bad = validate(), mine = [];
       bad.forEach(function (el) { if (st1.contains(el)) mine.push(el); else setErr(el, ""); });
       mine.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
-      if (mine.length) { mine[0].focus(); track("form_invalid", { fields: mine.length, step: 1 }); return; }
+      if (mine.length) { showBad(mine[0]); track("form_invalid", { fields: mine.length, step: 1 }); return; }
       goStep(2, true); track("form_step", { step: 2 });
     });
     form.querySelector("[data-back]").addEventListener("click", function () { goStep(1, true); });
@@ -264,7 +273,7 @@
     var bad = validate();
     bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
     if (bad.length && st1 && st1.contains(bad[0])) goStep(1, false);
-    if (bad.length) { bad[0].focus(); track("form_invalid", { fields: bad.length }); return; }
+    if (bad.length) { showBad(bad[0]); track("form_invalid", { fields: bad.length }); return; }
     var wait = 2500 - (Date.now() - t0);
     if (wait > 0) { busy = true; setTimeout(function () { busy = false; form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true })); }, wait); return; } // too fast for a person: send quietly a moment later
     var p = payload(), btn = form.querySelector("[type=submit]");

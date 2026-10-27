@@ -550,7 +550,8 @@
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { running = es[0].isIntersecting; kick(); }, { rootMargin: "100px" }).observe(track);
   document.addEventListener("visibilitychange", kick);
   var rail = root.querySelectorAll(".sim-rail button"), stepEl = document.getElementById("sim-step"), bar = document.getElementById("sim-bar");
-  rail.forEach(function (b, n) { b.addEventListener("click", function () { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * chH() + 4, behavior: reduce ? "auto" : "smooth" }); }); });
+  // a dot goes to its step on click, and on keyboard focus too, so the focused dot is always on screen
+  rail.forEach(function (b, n) { function go() { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * chH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
   var t0 = performance.now(), cur = -1, first = true;
   function frame(now) {
     pending = false;

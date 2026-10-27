@@ -104,6 +104,8 @@
   #flyx { all: unset; cursor: pointer; color: var(--ink); font-weight: 700; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; }
   @media (prefers-reduced-motion: reduce) { .tag { transition: none; } }
 .compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }
+html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }
+.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }
 </style>
 
 <div class="stage" id="stage">
@@ -126,14 +128,14 @@
     <div class="card" id="card" aria-live="polite"></div>
     <div class="group"><h2 id="g1">ישראל</h2><ul class="list" id="l-il"></ul></div>
     <div class="group"><h2 id="g2">מעבר לים</h2><ul class="list" id="l-ab"></ul></div>
-    <p class="note" id="note">מקור: האתר הקיים של מיפתח והשאלון שמילאו מרב ויפתח. נקודה צהובה = מיקום ברמת מדינה או אזור, עד שיגיע מיקום מדויק.</p>
+    <p class="note" id="note">השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.</p>
   </aside>
 </div>
 
 
 <div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
 <script src="../assets/vendor/three.min.js?v=eb854986"></script>
-<script src="globe.js?v=77fdae39"></script>
+<script src="globe.js?v=d7185c82"></script>
 
 </body>
 </html>
