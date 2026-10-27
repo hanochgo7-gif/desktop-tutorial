@@ -737,3 +737,12 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .hero-slogan { margin: 0 0 14px; font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 600; color: var(--mint); }
 @media (prefers-reduced-motion: no-preference) { .hero3 .hero-slogan { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; } }
 @media (max-width: 720px) { .hero-slogan { color: #fff; text-shadow: 0 1px 10px rgba(6, 30, 26, .7); } }
+.hero3 .hero-sub { margin-top: 16px; font-size: clamp(1.375rem, 2.6vw, 2.125rem); line-height: 1.15; font-weight: 600; color: var(--mint); max-width: 22ch; }
+[dir="rtl"] .hero3 .hero-sub { line-height: 1.25; }
+.hero3 h1 { max-width: 14ch; }
+[dir="rtl"] .hero3 h1 { max-width: 13ch; }
+@media (prefers-reduced-motion: no-preference) { .hero3 .hero-sub { animation: rise .7s cubic-bezier(.2, .7, .2, 1) .06s both; } }
+.hero3 h1 .h1-a, .hero3 h1 .h1-b { display: block; }
+.hero3 h1 .h1-b { white-space: nowrap; }
+[dir="rtl"] .hero3 h1 { max-width: none; }
+@media (max-width: 380px) { [dir="rtl"] .hero3 h1#hero-h { font-size: calc(12.4vw - 4px); } }

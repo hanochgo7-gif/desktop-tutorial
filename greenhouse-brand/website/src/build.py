@@ -468,14 +468,17 @@ def p_index(L):
         return ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
     phases = "".join(f'<li><b>{esc(t(ph, L))}</b><span>{esc(stage_list(items))}</span></li>' for ph, items in C.STAGES)
     values = "".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)
+    # The slogan is the page headline. The Hebrew one breaks after the company name, never before the dash.
+    sl = t(S["slogan"], L)
+    slogan_h1 = esc(sl) if " - " not in sl else '<span class="h1-a">{} -</span> <span class="h1-b">{}</span>'.format(*map(esc, sl.split(" - ", 1)))
     return f"""
 <main id="main">
 <section class="hero hero3" aria-labelledby="hero-h">
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
   {canopy}
   <div class="wrap hero-in">
-    <p class="hero-slogan">{esc(t(S["slogan"], L))}</p>
-    <h1 id="hero-h">{esc(t(H["h1"], L))}</h1>
+    <h1 id="hero-h">{slogan_h1}</h1>
+    <p class="hero-sub">{esc(t(H["h1"], L))}</p>
     <p class="lead">{esc(t(H["lead"], L))}</p>
     <div class="actions">
       <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
