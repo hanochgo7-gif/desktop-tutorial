@@ -26,7 +26,7 @@ brand = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(brand)
 # ---------------------------------------------------------------- config
 # The address Google indexes: canonical, hreflang, sitemap, Open Graph and structured data all use it.
 # When www.miftah.co.il points to this site, set it here, rebuild, and 301-redirect the vercel.app address to it in Vercel.
-DOMAIN = "https://miftah-site-hanoch.vercel.app"
+DOMAIN = "https://miftah-site.vercel.app"
 FINAL_DOMAIN = "https://www.miftah.co.il"
 GOOGLE_VERIFY = ""          # the content="" value of Search Console's HTML-tag verification, once the owner creates the property
 FORM_ENDPOINT = ""          # a URL that accepts a JSON POST and answers 2xx. Empty = honest "not connected" state.
