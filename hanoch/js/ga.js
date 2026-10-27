@@ -103,6 +103,12 @@
       gtag('event', 'video_play', { video_title: name.slice(0, 80) });
     }
   }, true);
+  // פנייה שנשמרה מטופס באתר (למשל בקשה לשיחה חוזרת, js/callback.js)
+  document.addEventListener('hg:lead', function (e) {
+    var m = (e.detail && e.detail.method) || 'form', to = TAG2 ? [ID, TAG2] : [ID];
+    gtag('event', 'generate_lead', { method: m, link_location: m + '_form', send_to: to });
+    if (ADS && ADS_LEAD) gtag('event', 'conversion', { send_to: ADS + '/' + ADS_LEAD });
+  });
   // שאלה נפוצה שנפתחת: מה מעסיק את מי שעוד לא פנה
   document.addEventListener('toggle', function (e) {
     var d = e.target;

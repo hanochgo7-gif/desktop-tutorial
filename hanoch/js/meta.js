@@ -1,6 +1,6 @@
 /* פיקסל של Meta (פייסבוק ואינסטגרם) של HG Studio.
    נטען רק אחרי לחיצה על "מאשר עוגיות" בהודעת העוגיות (js/consent.js). בלי אישור לא נטען כלום ושום דבר לא נשלח ל-Meta.
-   רץ רק ב-hgpro.io. מודד צפייה בעמוד (PageView), ופנייה (Lead) בטלפון, במייל ובוואטסאפ.
+   רץ רק ב-hgpro.io. מודד צפייה בעמוד (PageView), ופנייה (Lead) בטלפון, במייל, בוואטסאפ ובבקשה לשיחה חוזרת.
    לחיצה על וואטסאפ עוברת דרך דף המעבר /go/wa (ראו js/ga.js), ולכן הפנייה בוואטסאפ נספרת שם, עם קוד המודעה מההודעה. */
 (function () {
   'use strict';
@@ -32,6 +32,12 @@
   });
 
   if (GO) return;
+  // פנייה שנשמרה מטופס באתר (למשל בקשה לשיחה חוזרת, js/callback.js)
+  document.addEventListener('hg:lead', function (e) {
+    if (!window.fbq || !window.hgConsent.analytics()) return;
+    var m = (e.detail && e.detail.method) || 'form', c = window.hgAd && window.hgAd.code();
+    fbq('track', 'Lead', c ? { content_name: m, ad_code: c } : { content_name: m });
+  });
   document.addEventListener('click', function (e) {
     if (!window.fbq || !window.hgConsent.analytics()) return;
     var a = e.target && e.target.closest && e.target.closest('a[href]');
