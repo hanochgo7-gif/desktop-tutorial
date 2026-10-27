@@ -901,14 +901,15 @@ def main():
            "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
     long_cache = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
     write(PUB / "vercel.json", json.dumps({
-        "buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": None, "cleanUrls": False, "trailingSlash": False,
+        "buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": None, "cleanUrls": False,
+        # /he must end in a slash, or the Hebrew pages' relative links would point at the English ones
+        "redirects": [{"source": "/he", "destination": "/he/", "permanent": True}, {"source": "/.htaccess", "destination": "/404.html", "permanent": False}],
         "headers": [
             {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
                                             {"key": "Content-Security-Policy", "value": csp}, {"key": "X-Robots-Tag", "value": "noindex"}]},
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")
-    write(PUB / ".vercelignore", ".htaccess\n")  # Apache-only; Vercel uses vercel.json
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 
