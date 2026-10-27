@@ -44,7 +44,11 @@ Status as of 26 Oct 2026, after review cycle 2. ✅ = done and verified. ⛔ = b
 | ⬜ | Real-device check on iOS Safari and Android Chrome (video autoplay, sticky header, the phone drawing and map panels) | Not available in this environment |
 | ⬜ | Test the hero video in Safari and Firefox | Tested only in Chromium; H.264 MP4 should play in both |
 
-## Deployment (when approved)
+## Deployment
+
+Live on Vercel since 27 Oct 2026 at https://miftah-site-hanoch.vercel.app (owner's instruction to publish without waiting for sign-off). `noindex` until the domain is connected. Checked live: 44 page loads with 0 console errors, 105 links with 0 broken, security headers, 404, `/he` → `/he/`.
+
+For the final domain:
 
 | | Step |
 |---|---|
