@@ -73,6 +73,11 @@ export function beforeSave(t, row, prev, store) {
     }
     row.status ||= 'draft';
   }
+  if (t === 'crm_touchpoints') {
+    // column defaults on the server
+    row.at ||= now;
+    row.kind ||= 'manual';
+  }
   if (t === 'crm_tasks') {
     row.status ||= 'open';
     if (row.status === 'done') row.completed_at ||= now; else row.completed_at = null;
@@ -93,11 +98,14 @@ export function afterSaveLocal(t, row, prev, store) {
       else if (!prev && row.outcome === 'open' && ['lead', 'qualified'].includes(c.lifecycle)) c.lifecycle = 'opportunity';
     }
   }
-  if (t === 'crm_touchpoints') {
+  // crm_touchpoint_apply: runs on insert only; first touch is set once, last touch moves forward
+  if (t === 'crm_touchpoints' && !prev && !row.deleted_at) {
     const c = store.get('crm_contacts', row.contact_id);
     if (c) {
-      if (!c.first_touch_at) { c.first_source_id ||= row.source_id; c.first_campaign_id ||= row.campaign_id; c.first_touch_at = row.at; }
-      if (!c.last_touch_at || row.at >= c.last_touch_at) { c.last_source_id = row.source_id; c.last_campaign_id = row.campaign_id; c.last_touch_at = row.at; }
+      const utm = {};
+      for (const k of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'click_id_type', 'landing_page', 'referrer', 'kind']) if (row[k] != null) utm[k] = row[k];
+      if (!c.first_touch_at) { c.first_source_id ||= row.source_id || null; c.first_campaign_id ||= row.campaign_id || null; c.first_utm = utm; c.first_touch_at = row.at; }
+      if (!c.last_touch_at || row.at >= c.last_touch_at) { c.last_source_id = row.source_id || null; c.last_campaign_id = row.campaign_id || null; c.last_utm = utm; c.last_touch_at = row.at; }
     }
   }
 }

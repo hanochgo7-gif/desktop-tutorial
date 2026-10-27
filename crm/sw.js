@@ -1,6 +1,6 @@
 // Offline support: network first (always the latest version when online), cached copy when offline.
 // Only same-origin GET requests for the app's own files are handled; data never passes through here.
-const CACHE = 'hgos-app-v5';
+const CACHE = 'hgos-app-v6';
 const CORE = ['./', './index.html', './css/app.css', './manifest.webmanifest', './assets/favicon.svg', '../fonts/heebo-200-700-hebrew.woff2', '../fonts/heebo-200-700-latin.woff2',
   './js/app.js',
   './js/core/api.js',

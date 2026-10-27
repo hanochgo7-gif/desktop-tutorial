@@ -3,9 +3,10 @@
 import { html, render, on, fmt, safeUrl, whatsappUrl } from '../core/util.js';
 import { store } from '../core/store.js';
 import {
-  contactName, sourceName, stageName, LEAD_STATUS, LIFECYCLE, FIT, TASK_TYPES, ACTIVITY_TYPES, label, color,
+  contactName, sourceName, stageName, LEAD_STATUS, LIFECYCLE, FIT, UNRATED, TASK_TYPES, ACTIVITY_TYPES, label, color,
   nextTaskFor, dealsOf, dueClass, openTasks,
 } from '../core/model.js';
+import { adCodeOf } from '../core/metrics.js';
 import { pageHeader, icon, badge, avatar, setTitle, toast, confirmDialog, opt, menu, navigateAfterModals } from '../ui/components.js';
 import { openLeadForm, openActivityForm, openTaskForm, openDealForm, taskEditBtn } from '../ui/forms.js';
 
@@ -41,7 +42,7 @@ export function timelineHtml(items) {
     if (it.kind === 'created') return html`${head}<li class="tl-item k-system"><span class="tl-ic">${icon('plus')}</span><div class="tl-card">הליד נוצר <span class="muted small">${fmt.dateTime(it.at)}</span></div></li>`;
     if (it.kind === 'touch') {
       const tp = it.tp;
-      return html`${head}<li class="tl-item k-system"><span class="tl-ic">${icon('target')}</span><div class="tl-card">הגיע דרך <b>${sourceName(tp.source_id)}</b>${tp.utm_campaign ? html`, קמפיין ${tp.utm_campaign}` : ''}${tp.landing_page ? html` <span class="muted small" dir="ltr">${tp.landing_page}</span>` : ''} <span class="muted small">${fmt.dateTime(it.at)}</span></div></li>`;
+      return html`${head}<li class="tl-item k-system"><span class="tl-ic">${icon('target')}</span><div class="tl-card">${tp.source_id || !tp.utm_content ? html`הגיע דרך <b>${sourceName(tp.source_id)}</b>` : 'פנייה'}${tp.utm_campaign ? html`, קמפיין ${tp.utm_campaign}` : ''}${tp.utm_content ? html`, קוד מודעה <b dir="ltr">${tp.utm_content}</b>` : ''}${tp.landing_page ? html` <span class="muted small" dir="ltr">${tp.landing_page}</span>` : ''} <span class="muted small">${fmt.dateTime(it.at)}</span></div></li>`;
     }
     if (it.kind === 'task') {
       return html`${head}<li class="tl-item k-task"><span class="tl-ic">${icon('task')}</span><div class="tl-card"><div class="tl-head"><b>${it.t.title}</b><span>בוצע ${fmt.dateTime(it.at)}</span></div>${it.t.outcome ? html`<div class="tl-body">${it.t.outcome}</div>` : ''}</div></li>`;
@@ -85,9 +86,14 @@ export default async function view(el, ctx) {
     const deals = dealsOf(id).sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
     const won = deals.filter((d) => d.outcome === 'won');
     const site = safeUrl(c.website);
+    const code = adCodeOf(c, store.all('crm_touchpoints'));
+    const fit = c.fit || '';
     render(el, html`
       ${pageHeader({ title: contactName(c), subtitle: [c.company_name, c.lifecycle === 'customer' ? 'לקוח' : label(LEAD_STATUS, c.lead_status)].filter(Boolean).join(' | '), back: { href: '#/leads', label: 'לידים' },
         actions: html`<button class="btn btn-ghost" data-act="edit">${icon('edit')}עריכה</button><button class="btn-icon" data-act="more" aria-label="פעולות נוספות" aria-haspopup="menu">${icon('moreV')}</button>` })}
+      <div class="quality-bar"><span class="quality-label" id="q-label">איכות הליד</span>
+        <div class="seg" role="radiogroup" aria-labelledby="q-label">${[...FIT, { value: '', label: UNRATED }].map((f) => html`<button type="button" class="${f.value === fit ? 'active' : ''}" role="radio" aria-checked="${String(f.value === fit)}" data-fit="${f.value}">${f.label}</button>`)}</div>
+      </div>
       <div class="quick-bar">
         ${c.phone ? html`<a class="btn btn-soft" href="tel:${c.phone}">${icon('phone')}התקשרות</a><a class="btn btn-soft" href="${whatsappUrl(c.phone)}" target="_blank" rel="noopener">${icon('whatsapp')}וואטסאפ</a>` : ''}
         ${c.email ? html`<a class="btn btn-soft" href="mailto:${c.email}">${icon('mail')}אימייל</a>` : ''}
@@ -107,7 +113,6 @@ export default async function view(el, ctx) {
               <dt>אתר</dt><dd dir="ltr">${site ? html`<a class="lnk" href="${site}" target="_blank" rel="noopener">${c.website}</a>` : html`<span class="nil">—</span>`}</dd>
               <dt>צורך</dt><dd class="pre">${c.need || html`<span class="nil">—</span>`}</dd>
               <dt>תקציב משוער</dt><dd class="num">${c.budget_estimate != null ? fmt.money(c.budget_estimate) : html`<span class="nil">—</span>`}</dd>
-              <dt>התאמה</dt><dd>${c.fit ? badge(label(FIT, c.fit), color(FIT, c.fit)) : html`<span class="nil">—</span>`}</dd>
               ${c.lead_status === 'disqualified' ? html`<dt>סיבת פסילה</dt><dd>${c.disqualify_reason}</dd>` : ''}
               ${c.notes ? html`<dt>הערות</dt><dd class="pre">${c.notes}</dd>` : ''}
             </dl>
@@ -117,6 +122,7 @@ export default async function view(el, ctx) {
             <dl class="dl">
               <dt>מקור מקורי</dt><dd>${c.first_source_id ? html`<b>${sourceName(c.first_source_id)}</b>` : html`<span class="warn-text">לא ידוע</span> <button class="linkbtn" data-act="set-source">קביעה</button>`}</dd>
               ${c.first_utm?.utm_campaign ? html`<dt>קמפיין</dt><dd dir="ltr">${c.first_utm.utm_campaign}</dd>` : ''}
+              <dt>קוד מודעה</dt><dd>${code ? html`<b dir="ltr">${code}</b>` : html`<span class="nil">—</span> <button class="linkbtn" data-act="edit">הוספה</button>`}</dd>
               <dt>מקור אחרון</dt><dd>${c.last_source_id ? sourceName(c.last_source_id) : html`<span class="nil">—</span>`}</dd>
               ${c.reported_source ? html`<dt>לדבריו</dt><dd>${c.reported_source}</dd>` : ''}
               <dt>נוצר</dt><dd>${fmt.dateTime(c.created_at)}</dd>
@@ -155,6 +161,16 @@ export default async function view(el, ctx) {
       for (const t of open) await store.update('crm_tasks', t.id, { status: 'canceled' });
     } else if (s.value === 'qualified' && c.lifecycle === 'lead') patch.lifecycle = 'qualified';
     try { await store.update('crm_contacts', id, patch); toast('הסטטוס עודכן', { kind: 'success' }); } catch (err) { toast(err.message, { kind: 'error' }); draw(); }
+  });
+  // lead quality: one tap saves
+  on(el, 'click', '[data-fit]', async (e, b) => {
+    const prev = store.get('crm_contacts', id)?.fit || null;
+    const next = b.dataset.fit || null;
+    if (next === prev) return;
+    try {
+      await store.update('crm_contacts', id, { fit: next });
+      toast('איכות הליד נשמרה', { kind: 'success', action: { label: 'ביטול', onClick: () => store.update('crm_contacts', id, { fit: prev }).catch((err) => toast(err.message, { kind: 'error' })) } });
+    } catch (err) { toast(err.message, { kind: 'error' }); draw(); }
   });
   on(el, 'click', '[data-act]', async (e, b) => {
     const a = b.dataset.act;
