@@ -474,6 +474,7 @@ def p_index(L):
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
   {canopy}
   <div class="wrap hero-in">
+    <p class="hero-slogan">{esc(t(S["slogan"], L))}</p>
     <h1 id="hero-h">{esc(t(H["h1"], L))}</h1>
     <p class="lead">{esc(t(H["lead"], L))}</p>
     <div class="actions">
