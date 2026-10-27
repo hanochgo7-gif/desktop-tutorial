@@ -1,10 +1,11 @@
 // Marketing sources: which source brings leads, customers, revenue and profit, and what each costs.
+// Below it, lead quality per ad code (the short code each ad carries).
 
 import { html, render, on, fmt, toCSV, download, $, toDateInput } from '../core/util.js';
 import { store } from '../core/store.js';
 import { setQuery } from '../core/router.js';
-import { sources } from '../core/model.js';
-import { sourceReport, salesSummary, periodFor, UNKNOWN } from '../core/metrics.js';
+import { sources, UNRATED } from '../core/model.js';
+import { sourceReport, salesSummary, adQualityReport, periodFor, UNKNOWN, NO_CODE } from '../core/metrics.js';
 import { pageHeader, icon, setTitle, modal, toast, readForm, showFieldErrors, opt, confirmDialog } from '../ui/components.js';
 import { showRecords } from '../ui/drill.js';
 
@@ -24,7 +25,8 @@ export default async function view(el, ctx) {
     const data = { contacts: store.all('crm_contacts'), deals: store.all('crm_deals'), sources: store.all('crm_sources'), spend: store.all('crm_ad_spend') };
     const rep = sourceReport({ ...data, period, model: st.model });
     const sales = salesSummary({ ...data, stages: store.all('crm_stages'), history: store.all('crm_deal_stage_history'), period });
-    el._rep = rep; el._sales = sales;
+    const aq = adQualityReport({ ...data, touchpoints: store.all('crm_touchpoints'), period });
+    el._rep = rep; el._sales = sales; el._aq = aq;
     const t = rep.total, comp = rep.completeness;
     const insights = buildInsights(rep);
     render(el, html`
@@ -68,6 +70,21 @@ export default async function view(el, ctx) {
       <p class="muted small idle-sources">* פחות מ-10 לידים, מוקדם להסיק מסקנות. ! יש עסקאות בלי עלות ישירה, ולכן הרווח מוערך ביתר. — אין מספיק נתונים לחישוב.</p>
       <p class="muted small idle-sources">בשורת הסה"כ: לידים, הכנסה, גבייה ורווח של כל המקורות. CAC, ROAS ו-ROI רק של המקורות הממומנים, כי הכנסה מהפניות או מחיפוש אורגני אינה תשואה על פרסום. הוצאה חודשית נספרת לפי החלק של החודש שבתוך התקופה.</p>
       ${rep.rows.some((r) => !hasActivity(r)) ? html`<p class="muted small idle-sources">בלי פעילות בתקופה: ${rep.rows.filter((r) => !hasActivity(r)).map((r) => r.name).join(', ')}</p>` : ''}
+      <section class="panel ad-quality">
+        <div class="panel-head"><h2>איכות לפי מודעה</h2><span class="muted small">לידים שנוצרו ב${period.label}: ${aq.total.leads}</span></div>
+        ${aq.total.leads ? html`<div class="table-wrap"><table class="table table-sources">
+          <thead><tr><th>קוד מודעה</th><th>לידים</th>${AQ_COLS.map(([, l]) => html`<th>${l}</th>`)}<th>עסקאות שנסגרו</th><th>הכנסה</th></tr></thead>
+          <tbody>${aq.rows.map((r) => html`<tr class="${r.code === NO_CODE ? 'row-unknown' : ''}">
+            <th scope="row" data-label="קוד מודעה">${r.code === NO_CODE ? 'בלי קוד' : html`<span dir="ltr">${r.code}</span>`}</th>
+            <td data-label="לידים" class="num"><button class="linkbtn" data-aq="${r.code}" data-k="leads">${r.leads.length}</button></td>
+            ${AQ_COLS.map(([k, l]) => html`<td data-label="${l}" class="num"><button class="linkbtn" data-aq="${r.code}" data-k="${k}">${r[k].length}</button></td>`)}
+            <td data-label="עסקאות שנסגרו" class="num"><button class="linkbtn" data-aq="${r.code}" data-k="wonDeals">${r.wonDeals.length}</button></td>
+            <td data-label="הכנסה" class="num"><button class="linkbtn" data-aq="${r.code}" data-k="revenue">${fmt.money(r.revenue)}</button></td>
+          </tr>`)}</tbody>
+          ${aq.rows.length > 1 ? html`<tfoot><tr><th scope="row">סה"כ</th><td class="num"><button class="linkbtn" data-aq="" data-k="leads">${aq.total.leads}</button></td>${AQ_COLS.map(([k]) => html`<td class="num"><button class="linkbtn" data-aq="" data-k="${k}">${aq.total[k]}</button></td>`)}<td class="num"><button class="linkbtn" data-aq="" data-k="wonDeals">${aq.total.wonDeals}</button></td><td class="num"><button class="linkbtn" data-aq="" data-k="revenue">${fmt.money(aq.total.revenue)}</button></td></tr></tfoot>` : ''}
+        </table></div>` : html`<p class="pad muted small">אין לידים בתקופה.</p>`}
+        ${aq.total.leads && !aq.total.withCode ? html`<p class="panel-foot small muted">עוד אין בתקופה לידים עם קוד מודעה. כשליד כותב קוד כמו M12, הקלידו אותו בפרטי הליד. לידים מהאתר מקבלים את הקוד מ-utm_content.</p>` : ''}
+      </section>
       <section class="panel quality">
         <div class="panel-head"><h2>כמה אפשר לסמוך על הדוח</h2></div>
         <ul class="quality-list">
@@ -92,11 +109,12 @@ export default async function view(el, ctx) {
         <p><b>CAC:</b> הוצאות פרסום של המקור בתקופה, חלקי לקוחות חדשים שהעסקה הראשונה שלהם נסגרה בתקופה. לקוח חוזר לא נספר שוב.</p>
         <p><b>בשורת הסה"כ</b> ROAS, ROI ו-CAC מחושבים רק מהמקורות הממומנים: הכנסה מהפניות או מחיפוש אורגני אינה תשואה על פרסום. CAC משולב (כל הלקוחות החדשים): ${na(money(t.blendedCac), t.blendedCac.reason)}.</p>
         <p><b>ROAS:</b> הכנסה שנסגרה חלקי הוצאות הפרסום (מכפיל). <b>רווח גולמי:</b> הכנסה שנסגרה פחות עלויות ישירות. <b>ROI:</b> (רווח גולמי פחות הוצאות פרסום) חלקי הוצאות הפרסום, באחוזים. ROAS אינו ROI.</p>
+        <p><b>איכות לפי מודעה:</b> לידים שנוצרו בתקופה, לפי קוד המודעה שלהם (מהאתר, או מה שהקלדתם בפרטי הליד). האיכות היא מה שסימנתם בדף הליד. עסקאות והכנסה: עסקאות של הלידים האלה שנסגרו בהצלחה, גם אחרי סוף התקופה.</p>
         <p>כשאין מספיק נתונים (למשל אין הוצאה) מוצג "—" במקום מספר מטעה. כוכבית: פחות מ-10 לידים, מוקדם להסיק מסקנות.</p>
       </div></details>`);
   };
   draw();
-  ctx.watch(['crm_contacts', 'crm_deals', 'crm_ad_spend', 'crm_sources'], draw);
+  ctx.watch(['crm_contacts', 'crm_deals', 'crm_ad_spend', 'crm_sources', 'crm_touchpoints'], draw);
 
   on(el, 'click', '[data-period]', (e, b) => { st.period = b.dataset.period; draw(); });
   on(el, 'change', '[data-period-select]', (e, s) => { st.period = s.value; draw(); });
@@ -107,6 +125,14 @@ export default async function view(el, ctx) {
     const t = { leads: 'לידים', qualified: 'לידים מתאימים', customers: 'לידים מהתקופה שהפכו ללקוחות', newCustomers: 'לקוחות חדשים בתקופה (בסיס ל-CAC)', won: 'עסקאות שנסגרו' }[k];
     if (k === 'won') showRecords(`${r.name}: ${t}`, { deals: r.wonDeals });
     else showRecords(`${r.name}: ${t}`, { contacts: r[k] });
+  });
+  on(el, 'click', '[data-aq]', (e, b) => {
+    const code = b.dataset.aq, k = b.dataset.k;
+    const rows = code ? el._aq.rows.filter((r) => r.code === code) : el._aq.rows;
+    const name = !code ? 'כל הלידים בתקופה' : code === NO_CODE ? 'בלי קוד מודעה' : `קוד ${code}`;
+    const t = { leads: 'לידים', ...Object.fromEntries(AQ_COLS), wonDeals: 'עסקאות שנסגרו', revenue: 'עסקאות שנסגרו' }[k];
+    if (k === 'wonDeals' || k === 'revenue') showRecords(`${name}: ${t}`, { deals: rows.flatMap((r) => r.wonDeals) });
+    else showRecords(`${name}: ${t}`, { contacts: rows.flatMap((r) => r[k]) });
   });
   on(el, 'click', '[data-drill]', (e, b) => {
     const rep = el._rep, k = b.dataset.drill;
@@ -135,6 +161,9 @@ export default async function view(el, ctx) {
     }
   });
 }
+
+// lead quality columns of the ad report: [key, label]
+const AQ_COLS = [['high', 'איכות גבוהה'], ['medium', 'איכות בינונית'], ['low', 'איכות נמוכה'], ['unrated', UNRATED], ['disqualified', 'לא רלוונטיים']];
 
 const hasActivity = (r) => r.leads.length || r.spend || r.wonDeals.length || r.collected;
 

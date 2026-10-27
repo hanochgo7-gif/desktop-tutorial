@@ -1,9 +1,10 @@
-// Leads & contacts list: search by name / phone / email, tabs by stage of life, filter by source.
+// Leads & contacts list: search by name / phone / email, tabs by stage of life, filter by source and lead quality.
 
 import { html, render, on, fmt, normalize, toCSV, download, $ } from '../core/util.js';
 import { store } from '../core/store.js';
 import { setQuery } from '../core/router.js';
-import { contactName, sources, sourceName, LEAD_STATUS, LIFECYCLE, label, color, nextTaskFor, dueClass } from '../core/model.js';
+import { contactName, sources, sourceName, LEAD_STATUS, LIFECYCLE, FIT, UNRATED, label, color, nextTaskFor, dueClass } from '../core/model.js';
+import { adCodeOf } from '../core/metrics.js';
 import { pageHeader, icon, badge, emptyState, setTitle, opt, toast } from '../ui/components.js';
 import { openLeadForm } from '../ui/forms.js';
 
@@ -18,6 +19,7 @@ const COLS = [
   { key: 'name', label: 'שם', get: (c) => contactName(c) },
   { key: 'phone', label: 'טלפון', get: (c) => c.phone_norm || '' },
   { key: 'status', label: 'סטטוס', get: (c) => c.lead_status },
+  { key: 'fit', label: 'איכות', get: (c) => { const i = FIT.findIndex((f) => f.value === c.fit); return i < 0 ? FIT.length : i; } },
   { key: 'source', label: 'מקור', get: (c) => sourceName(c.first_source_id) },
   { key: 'next', label: 'צעד הבא', get: (c) => nextTaskFor({ contactId: c.id })?.due_at || '9999' },
   { key: 'created', label: 'נוצר', get: (c) => c.created_at },
@@ -25,7 +27,7 @@ const COLS = [
 
 export default async function view(el, ctx) {
   setTitle('לידים');
-  const st = { tab: ctx.query.tab || 'active', q: ctx.query.q || '', src: ctx.query.src || '', sort: ctx.query.sort || 'created', dir: Number(ctx.query.dir || -1) };
+  const st = { tab: ctx.query.tab || 'active', q: ctx.query.q || '', src: ctx.query.src || '', fit: ctx.query.fit || '', sort: ctx.query.sort || 'created', dir: Number(ctx.query.dir || -1) };
 
   const rows = () => {
     const tab = TABS.find((t) => t.id === st.tab) || TABS[0];
@@ -33,15 +35,16 @@ export default async function view(el, ctx) {
     const digits = st.q.replace(/\D/g, '').replace(/^972/, '0');
     let list = store.all('crm_contacts').filter(tab.test);
     if (st.src) list = list.filter((c) => (st.src === 'unknown' ? !c.first_source_id : c.first_source_id === st.src));
+    if (st.fit) list = list.filter((c) => (st.fit === 'none' ? !c.fit : c.fit === st.fit));
     if (n) list = list.filter((c) => normalize(contactName(c)).includes(n) || normalize(c.company_name).includes(n) || normalize(c.email).includes(n) || (digits.length >= 3 && (c.phone_norm || '').includes(digits)));
-    const col = COLS.find((x) => x.key === st.sort) || COLS[5];
+    const col = COLS.find((x) => x.key === st.sort) || COLS.find((x) => x.key === 'created');
     return list.sort((a, b) => { const x = col.get(a) ?? '', y = col.get(b) ?? ''; return (x < y ? -1 : x > y ? 1 : 0) * st.dir; });
   };
 
   const drawTable = () => {
     const list = rows();
     const box = $('[data-table]', el);
-    setQuery({ tab: st.tab, q: st.q, src: st.src, sort: st.sort, dir: st.dir === -1 ? '' : st.dir });
+    setQuery({ tab: st.tab, q: st.q, src: st.src, fit: st.fit, sort: st.sort, dir: st.dir === -1 ? '' : st.dir });
     if (!store.all('crm_contacts').length) {
       render(box, emptyState({ icon: 'user', title: 'עוד אין לידים', text: 'הוסיפו את הליד הראשון. כל ליד מקבל מקור הגעה וצעד הבא, כדי ששום פנייה לא תישכח.', action: { act: 'new', label: 'ליד חדש', icon: 'plus' } }));
       return;
@@ -59,6 +62,7 @@ export default async function view(el, ctx) {
           <td data-label="שם"><a class="prim" href="#/c/${c.id}"><b>${contactName(c)}</b>${c.company_name ? html`<small>${c.company_name}</small>` : ''}</a></td>
           <td data-label="טלפון" class="num" dir="ltr">${c.phone || html`<span class="nil">—</span>`}</td>
           <td data-label="סטטוס">${c.lifecycle === 'customer' ? badge('לקוח', 'green') : badge(label(LEAD_STATUS, c.lead_status), color(LEAD_STATUS, c.lead_status))}</td>
+          <td data-label="איכות">${c.fit ? badge(label(FIT, c.fit), color(FIT, c.fit)) : html`<span class="nil" title="${UNRATED}">—</span>`}</td>
           <td data-label="מקור">${c.first_source_id ? sourceName(c.first_source_id) : html`<span class="muted">לא ידוע</span>`}</td>
           <td data-label="צעד הבא">${next ? html`<span class="${dueClass(next.due_at)}">${next.due_at ? fmt.relative(next.due_at) : 'בלי תאריך'}</span> <small class="muted">${next.title}</small>` : isActive ? badge('אין צעד הבא', 'amber') : html`<span class="nil">—</span>`}</td>
           <td data-label="נוצר" class="muted">${fmt.date(c.created_at)}</td>
@@ -73,6 +77,7 @@ export default async function view(el, ctx) {
     <div class="toolbar">
       <input class="input" type="search" placeholder="חיפוש לפי שם, טלפון, אימייל או עסק" value="${st.q}" data-q aria-label="חיפוש">
       <select class="input" data-src aria-label="מקור" style="width:auto">${opt([...sources().map((s) => ({ value: s.id, label: s.name })), { value: 'unknown', label: 'מקור לא ידוע' }], st.src, { empty: 'כל המקורות' })}</select>
+      <select class="input" data-fit aria-label="איכות הליד" style="width:auto">${opt([...FIT.map((f) => ({ value: f.value, label: `איכות ${f.label}` })), { value: 'none', label: UNRATED }], st.fit, { empty: 'כל רמות האיכות' })}</select>
     </div>
     <div data-table></div>`);
   drawTable();
@@ -80,6 +85,7 @@ export default async function view(el, ctx) {
 
   on(el, 'input', '[data-q]', (e, i) => { st.q = i.value; drawTable(); });
   on(el, 'change', '[data-src]', (e, s) => { st.src = s.value; drawTable(); });
+  on(el, 'change', '[data-fit]', (e, s) => { st.fit = s.value; drawTable(); });
   on(el, 'click', '[data-tab]', (e, b) => {
     st.tab = b.dataset.tab;
     el.querySelectorAll('.view-tabs [data-tab]').forEach((x) => { const on = x.dataset.tab === st.tab; x.classList.toggle('active', on); x.setAttribute('aria-selected', String(on)); if (on) x.scrollIntoView({ block: 'nearest', inline: 'center' }); });
@@ -91,11 +97,12 @@ export default async function view(el, ctx) {
     if (b.dataset.act === 'new') openLeadForm({ onSaved: (c) => { location.hash = `#/c/${c.id}`; } });
     if (b.dataset.act === 'export') {
       const list = rows();
+      const tps = store.all('crm_touchpoints');
       const phoneText = (p) => { const d = String(p || '').replace(/\D/g, ''); return /^05\d{8}$/.test(d) ? `${d.slice(0, 3)}-${d.slice(3)}` : /^0\d{8}$/.test(d) ? `${d.slice(0, 2)}-${d.slice(2)}` : p; };
-      toast(`יוצאו ${list.length} רשומות מהלשונית "${(TABS.find((t) => t.id === st.tab) || TABS[0]).label}"${st.q || st.src ? ' לפי הסינון הנוכחי' : ''}`, { kind: 'success' });
+      toast(`יוצאו ${list.length} רשומות מהלשונית "${(TABS.find((t) => t.id === st.tab) || TABS[0]).label}"${st.q || st.src || st.fit ? ' לפי הסינון הנוכחי' : ''}`, { kind: 'success' });
       download(`leads-${st.tab}-${new Date().toISOString().slice(0, 10)}.csv`, toCSV([
-        ['שם פרטי', 'שם משפחה', 'עסק', 'טלפון', 'אימייל', 'סטטוס', 'שלב', 'מקור מקורי', 'מקור אחרון', 'צורך', 'תקציב', 'נוצר'],
-        ...list.map((c) => [c.first_name, c.last_name, c.company_name, phoneText(c.phone), c.email, label(LEAD_STATUS, c.lead_status), label(LIFECYCLE, c.lifecycle), sourceName(c.first_source_id), sourceName(c.last_source_id), c.need, c.budget_estimate, c.created_at?.slice(0, 10)]),
+        ['שם פרטי', 'שם משפחה', 'עסק', 'טלפון', 'אימייל', 'סטטוס', 'שלב', 'איכות הליד', 'מקור מקורי', 'מקור אחרון', 'קוד מודעה', 'צורך', 'תקציב', 'נוצר'],
+        ...list.map((c) => [c.first_name, c.last_name, c.company_name, phoneText(c.phone), c.email, label(LEAD_STATUS, c.lead_status), label(LIFECYCLE, c.lifecycle), c.fit ? label(FIT, c.fit) : UNRATED, sourceName(c.first_source_id), sourceName(c.last_source_id), adCodeOf(c, tps) || '', c.need, c.budget_estimate, c.created_at?.slice(0, 10)]),
       ]), 'text/csv;charset=utf-8');
     }
   });

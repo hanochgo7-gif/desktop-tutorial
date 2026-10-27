@@ -1,7 +1,11 @@
 // Known dataset with hand-computed expectations (see docs/analytics.md, "test dataset").
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sourceReport, salesSummary, dealHealth, UNKNOWN, collectedIn, spendIn, paidTotal } from '../js/core/metrics.js';
+import {
+  sourceReport, salesSummary, dealHealth, UNKNOWN, collectedIn, spendIn, paidTotal,
+  adQualityReport, adCodeOf, adCodeOk, normAdCode, NO_CODE,
+} from '../js/core/metrics.js';
+import { beforeSave, afterSaveLocal } from '../js/core/rules.js';
 
 const period = { from: new Date(2026, 8, 1), to: new Date(2026, 9, 1) }; // September 2026
 const sept = (d, h = 12) => new Date(2026, 8, d, h).toISOString();
@@ -171,4 +175,85 @@ test('monthly spend is prorated to the part of the month inside the period', () 
   assert.equal(spendIn(row, { from: new Date(2026, 9, 1), to: new Date(2026, 10, 1) }), 0);
   // a dated (daily / imported) row is not spread
   assert.equal(spendIn({ day: '2026-09-15', amount: 500, origin: 'csv' }, { from: new Date(2026, 8, 1), to: new Date(2026, 8, 10) }), 0);
+});
+
+test('ad code: typed codes are trimmed and uppercased; only A-Z, 0-9, - and _, at most 24', () => {
+  assert.equal(normAdCode('  ig-reel1 '), 'IG-REEL1');
+  assert.ok(adCodeOk(' m12 ') && adCodeOk('G_3') && adCodeOk('A'.repeat(24)));
+  assert.ok(!adCodeOk('') && !adCodeOk('M 12') && !adCodeOk('מ12') && !adCodeOk('M12!') && !adCodeOk('A'.repeat(25)));
+});
+
+test('ad code of a lead: first touch, then last touch, then the latest touchpoint', () => {
+  const tps = [
+    { contact_id: 'a', at: sept(2), utm_content: 'old' },
+    { contact_id: 'a', at: sept(5), utm_content: 'g3' },
+    { contact_id: 'a', at: sept(9), utm_content: 'x9', deleted_at: sept(10) },
+    { contact_id: 'b', at: sept(9), utm_content: 'B1' },
+  ];
+  assert.equal(adCodeOf({ id: 'a', first_utm: { utm_content: 'm12' }, last_utm: { utm_content: 'G3' } }, tps), 'M12');
+  assert.equal(adCodeOf({ id: 'a', first_utm: { utm_campaign: 'spring' }, last_utm: { utm_content: 'G3' } }, tps), 'G3');
+  assert.equal(adCodeOf({ id: 'a' }, tps), 'G3'); // deleted touchpoints and other leads' touchpoints are ignored
+  assert.equal(adCodeOf({ id: 'z' }, tps), null);
+});
+
+test('lead quality by ad code: cohort of the period, every number with its records', () => {
+  const contacts = [
+    { id: 'a1', created_at: sept(3), fit: 'high', first_utm: { utm_content: 'M12' } },
+    { id: 'a2', created_at: sept(4), fit: 'high', last_utm: { utm_content: 'm12' } }, // same code, other case
+    { id: 'a3', created_at: sept(5), fit: 'low', lead_status: 'disqualified', first_utm: { utm_content: 'M12' } },
+    { id: 'b1', created_at: sept(6), fit: 'medium' }, // code only on a touchpoint
+    { id: 'b2', created_at: sept(7) },
+    { id: 'n1', created_at: sept(8), fit: 'high' },
+    { id: 'n2', created_at: sept(9), lead_status: 'disqualified' },
+    { id: 'old', created_at: new Date(2026, 7, 20).toISOString(), fit: 'high', first_utm: { utm_content: 'M12' } }, // August
+    { id: 'del', created_at: sept(10), fit: 'high', first_utm: { utm_content: 'M12' }, deleted_at: sept(11) },
+  ];
+  const touchpoints = [{ contact_id: 'b1', at: sept(6), utm_content: 'G3' }, { contact_id: 'b2', at: sept(7), utm_content: 'g3 ' }];
+  const deals = [
+    { id: 'd1', contact_id: 'a1', outcome: 'won', amount_final: 8000, closed_at: new Date(2026, 9, 15).toISOString() }, // won after the period: still counts
+    { id: 'd2', contact_id: 'a1', outcome: 'won', amount_final: null, amount_expected: 2000, closed_at: sept(20) },
+    { id: 'd3', contact_id: 'a2', outcome: 'lost', amount_expected: 5000 },
+    { id: 'd4', contact_id: 'n1', outcome: 'won', amount_final: 3000, closed_at: sept(25) },
+    { id: 'd5', contact_id: 'old', outcome: 'won', amount_final: 9000, closed_at: sept(25) }, // lead from August: not in this cohort
+    { id: 'd6', contact_id: 'a2', outcome: 'won', amount_final: 1000, closed_at: sept(25), deleted_at: sept(26) },
+  ];
+  const rep = adQualityReport({ contacts, deals, touchpoints, period });
+  assert.deepEqual(rep.rows.map((r) => r.code), ['M12', 'G3', NO_CODE]);
+  const [m, g, none] = rep.rows;
+  assert.deepEqual(m.leads, ['a1', 'a2', 'a3']);
+  assert.deepEqual(m.high, ['a1', 'a2']); assert.deepEqual(m.medium, []); assert.deepEqual(m.low, ['a3']); assert.deepEqual(m.unrated, []);
+  assert.deepEqual(m.disqualified, ['a3']);
+  assert.deepEqual(m.wonDeals, ['d1', 'd2']); assert.equal(m.revenue, 10000);
+  assert.deepEqual(g.leads, ['b1', 'b2']); assert.deepEqual(g.medium, ['b1']); assert.deepEqual(g.unrated, ['b2']); assert.equal(g.revenue, 0);
+  assert.deepEqual(none.leads, ['n1', 'n2']); assert.deepEqual(none.high, ['n1']); assert.deepEqual(none.unrated, ['n2']);
+  assert.deepEqual(none.disqualified, ['n2']); assert.deepEqual(none.wonDeals, ['d4']); assert.equal(none.revenue, 3000);
+  assert.deepEqual(rep.total, { leads: 7, high: 3, medium: 1, low: 1, unrated: 2, disqualified: 2, wonDeals: 3, revenue: 13000, withCode: 5 });
+  // no leads in the period: nothing to show, not zeros invented per code
+  assert.deepEqual(adQualityReport({ contacts, deals, touchpoints, period: { from: new Date(2025, 0, 1), to: new Date(2025, 1, 1) } }).rows, []);
+});
+
+test('local mode mirrors crm_touchpoint_apply: the ad code fills first_utm once and moves last_utm', () => {
+  const rows = new Map();
+  const store = { get: (t, id) => rows.get(id) };
+  // lead created with a source: first touch already set, so the code lands on the last touch only
+  const c = beforeSave('crm_contacts', { id: 'c1', first_name: 'דנה', first_source_id: 'W', first_utm: { utm_campaign: 'spring' } }, null, store);
+  rows.set('c1', c);
+  const tp = beforeSave('crm_touchpoints', { id: 't1', contact_id: 'c1', at: c.first_touch_at, kind: 'whatsapp', source_id: 'W', utm_content: 'M12' }, null, store);
+  afterSaveLocal('crm_touchpoints', tp, null, store);
+  assert.deepEqual(c.first_utm, { utm_campaign: 'spring' });
+  assert.deepEqual(c.last_utm, { utm_content: 'M12', kind: 'whatsapp' });
+  assert.equal(c.last_source_id, 'W');
+  assert.equal(adCodeOf(c), 'M12');
+  // lead without a source: the code is its first touch, and a later touch does not replace it
+  const u = { id: 'c2', first_source_id: null };
+  rows.set('c2', u);
+  afterSaveLocal('crm_touchpoints', beforeSave('crm_touchpoints', { contact_id: 'c2', at: sept(3), utm_content: 'G3' }, null, store), null, store);
+  assert.equal(u.first_touch_at, sept(3)); assert.equal(u.first_source_id, null);
+  assert.deepEqual(u.first_utm, { utm_content: 'G3', kind: 'manual' });
+  afterSaveLocal('crm_touchpoints', { contact_id: 'c2', at: sept(8), kind: 'form', source_id: 'G', utm_content: 'X1' }, null, store);
+  assert.equal(u.first_utm.utm_content, 'G3'); assert.equal(u.last_utm.utm_content, 'X1'); assert.equal(u.last_source_id, 'G');
+  assert.equal(adCodeOf(u), 'G3');
+  // edits of a touchpoint never move attribution (the server trigger runs on insert only)
+  afterSaveLocal('crm_touchpoints', { contact_id: 'c2', at: sept(9), utm_content: 'Y' }, { contact_id: 'c2' }, store);
+  assert.equal(u.last_utm.utm_content, 'X1');
 });

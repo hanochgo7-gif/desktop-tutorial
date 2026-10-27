@@ -24,6 +24,7 @@ export const FIT = [
   { value: 'medium', label: 'בינונית', color: 'amber' },
   { value: 'low', label: 'נמוכה', color: 'slate' },
 ];
+export const UNRATED = 'לא דורג'; // lead quality (fit) not set yet
 export const DISQUALIFY = ['תקציב נמוך מדי', 'לא בתחום שלנו', 'לא ענה אחרי כמה ניסיונות', 'בחר במתחרה', 'רק בירור מחיר', 'ספאם / טעות', 'אחר'];
 export const LOST_REASONS = [
   { value: 'price', label: 'מחיר' },

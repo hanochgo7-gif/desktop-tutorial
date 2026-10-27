@@ -159,6 +159,52 @@ export function completeness({ contacts, deals, period }) {
   };
 }
 
+// ---------------------------------------------------------------- ad codes and lead quality
+// Every ad has a short code (M12, G3, IG-REEL1). The site puts it in the WhatsApp message and in utm_content;
+// a typed code is trimmed and uppercased, and may only use A-Z, 0-9, - and _ (at most 24 characters).
+export const NO_CODE = '__no_code__';
+export const normAdCode = (s) => String(s ?? '').trim().toUpperCase();
+export const adCodeOk = (s) => /^[A-Z0-9_-]{1,24}$/.test(normAdCode(s));
+// The lead's ad code: from the first touch, else the last touch, else the latest touchpoint that has one.
+export function adCodeOf(contact, touchpoints = []) {
+  if (!contact) return null;
+  const v = normAdCode(contact.first_utm?.utm_content) || normAdCode(contact.last_utm?.utm_content);
+  if (v) return v;
+  let best = null;
+  for (const t of touchpoints) if (t.contact_id === contact.id && !t.deleted_at && normAdCode(t.utm_content) && (!best || (t.at || '') > (best.at || ''))) best = t;
+  return best ? normAdCode(best.utm_content) : null;
+}
+const FITS = ['high', 'medium', 'low'];
+
+// Lead quality per ad code. Cohort: leads created in the period; their won deals count whenever they closed,
+// so every column describes the same leads. Leads without a code get their own row.
+export function adQualityReport({ contacts, deals, touchpoints = [], period }) {
+  const tpBy = new Map();
+  for (const t of touchpoints) { if (t.deleted_at || !t.contact_id) continue; if (!tpBy.has(t.contact_id)) tpBy.set(t.contact_id, []); tpBy.get(t.contact_id).push(t); }
+  const wonBy = new Map();
+  for (const d of deals) { if (d.deleted_at || d.outcome !== 'won' || !d.contact_id) continue; if (!wonBy.has(d.contact_id)) wonBy.set(d.contact_id, []); wonBy.get(d.contact_id).push(d); }
+  const rows = new Map();
+  for (const c of contacts) {
+    if (c.deleted_at || !inP(c.created_at, period)) continue;
+    const code = adCodeOf(c, tpBy.get(c.id)) || NO_CODE;
+    if (!rows.has(code)) rows.set(code, { code, leads: [], high: [], medium: [], low: [], unrated: [], disqualified: [], wonDeals: [], revenue: 0 });
+    const r = rows.get(code);
+    r.leads.push(c.id);
+    r[FITS.includes(c.fit) ? c.fit : 'unrated'].push(c.id);
+    if (c.lead_status === 'disqualified') r.disqualified.push(c.id);
+    for (const d of wonBy.get(c.id) || []) { r.wonDeals.push(d.id); r.revenue += num(d.amount_final ?? d.amount_expected); }
+  }
+  // most leads first; same count by code; "no code" last
+  const out = [...rows.values()].sort((a, b) => (a.code === NO_CODE) - (b.code === NO_CODE) || b.leads.length - a.leads.length || (a.code < b.code ? -1 : 1));
+  const total = { leads: 0, high: 0, medium: 0, low: 0, unrated: 0, disqualified: 0, wonDeals: 0, revenue: 0, withCode: 0 };
+  for (const r of out) {
+    for (const k of ['leads', 'high', 'medium', 'low', 'unrated', 'disqualified', 'wonDeals']) total[k] += r[k].length;
+    total.revenue += r.revenue;
+    if (r.code !== NO_CODE) total.withCode += r.leads.length;
+  }
+  return { rows: out, total };
+}
+
 // ---------------------------------------------------------------- sales performance
 export function salesSummary({ contacts, deals, stages, history, period, now = new Date() }) {
   contacts = contacts.filter((c) => !c.deleted_at); deals = deals.filter((d) => !d.deleted_at);

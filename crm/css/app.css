@@ -1054,3 +1054,11 @@ details.more-fields > .form-grid { margin-top: 12px; }
 
 /* settings: code to copy into the website */
 pre.code { margin: 0; padding: 10px 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-1); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-all; text-align: left; }
+
+/* lead quality: one tap on the lead page; the ad-code report sits in a panel on the sources page */
+.quality-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 12px; }
+.quality-label { font-size: 13px; color: var(--ink-3); }
+.ad-quality > .table-wrap { border: 0; border-radius: 0 0 var(--r-2) var(--r-2); max-height: none; }
+@media (pointer: coarse) { .quality-bar .seg button { min-height: 40px; } }
+@media (max-width: 560px) { .quality-bar .seg { display: flex; flex: 1 1 100%; } .quality-bar .seg button { flex: 1 1 0; justify-content: center; padding-inline: 4px; } }
+@media (max-width: 760px) { .ad-quality > .table-wrap { padding: 8px; } }

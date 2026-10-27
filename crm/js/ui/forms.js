@@ -1,11 +1,11 @@
 // The handful of dialogs the whole app uses: lead, activity (log + next step), task, deal, won/lost, payment.
 
 import { html, raw, render, $, fmt, toDateTimeInput, toDateInput, addDays } from '../core/util.js';
-import { paymentsOf, paidTotal } from '../core/metrics.js';
+import { paymentsOf, paidTotal, normAdCode, adCodeOk, adCodeOf } from '../core/metrics.js';
 import { store } from '../core/store.js';
 import { normPhone } from '../core/rules.js';
 import {
-  LEAD_STATUS, FIT, DISQUALIFY, LOST_REASONS, TASK_TYPES, ACTIVITY_TYPES, CALL_OUTCOMES, SERVICE_TYPES,
+  LEAD_STATUS, FIT, UNRATED, DISQUALIFY, LOST_REASONS, TASK_TYPES, ACTIVITY_TYPES, CALL_OUTCOMES, SERVICE_TYPES,
   contactName, sources, stages, pipeline, findDuplicates, label,
 } from '../core/model.js';
 import { modal, drawer, toast, icon, readForm, showFieldErrors, opt, dateErrors, moneyErrors } from './components.js';
@@ -33,10 +33,23 @@ async function save(fn, form) {
 }
 
 // ---------------------------------------------------------------- lead
+// An ad code is stored like a website visit: a touchpoint with utm_content, which fills first_utm / last_utm
+// (crm_touchpoint_apply). Dated when the lead arrived, so the code describes how they came.
+async function saveAdCode(c, code, { campaign = null } = {}) {
+  const src = (id) => store.get('crm_sources', id);
+  const wa = c.origin === 'whatsapp' || [c.first_source_id, c.last_source_id].some((id) => src(id)?.key === 'whatsapp' || src(id)?.channel === 'whatsapp');
+  return store.insert('crm_touchpoints', {
+    contact_id: c.id, at: c.first_touch_at || c.created_at, kind: wa ? 'whatsapp' : 'manual',
+    source_id: c.last_source_id || c.first_source_id || null, utm_campaign: campaign || null, utm_content: code,
+  });
+}
+
 export function openLeadForm({ contact = null, onSaved } = {}) {
   const c = contact || {};
   const editing = !!contact;
   let allowDup = false;
+  const code = editing ? adCodeOf(c, store.all('crm_touchpoints')) : null;
+  const codeLocked = !!normAdCode(c.first_utm?.utm_content); // the first touch is never rewritten
   return drawer({
     title: editing ? 'עריכת פרטי ליד' : 'ליד חדש',
     body: (el) => {
@@ -54,11 +67,14 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
         ${editing && c.first_source_id
           ? field('מקור הגעה מקורי', html`<input class="input" value="${store.get('crm_sources', c.first_source_id)?.name ?? ''}" disabled>`, { help: 'המקור המקורי נעול כדי שהדוחות יישארו אמינים.' })
           : field('איך הגיע אליי?', html`<select class="input" name="first_source_id">${opt(sources().map((s) => ({ value: s.id, label: s.is_paid ? `${s.name} – ממודעה ממומנת` : s.name })), c.first_source_id, { empty: 'לא ידוע' })}</select>`, { help: '"ממומנת" רק אם הגיע ממודעה שמשלמים עליה. אם לא בטוחים, השאירו "לא ידוע".' })}
+        ${codeLocked
+          ? field('קוד מודעה', html`<input class="input" value="${code}" dir="ltr" disabled>`, { help: 'הקוד מהפנייה הראשונה נעול, כמו המקור המקורי.' })
+          : field('קוד מודעה (לא חובה)', html`<input class="input" name="_ad_code" value="${code ?? ''}" dir="ltr" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="M12">`, { help: 'אם בהודעה מהליד יש קוד כמו M12 או IG-REEL1, הקלידו אותו כאן.' })}
         ${field('מה הוא צריך?', html`<textarea class="input" name="need" rows="2" placeholder="במשפט אחד">${c.need ?? ''}</textarea>`)}
         <details class="more-fields" ${editing && (c.website || c.budget_estimate != null || c.fit || c.notes) ? 'open' : ''}><summary>${icon('chevronDown')}פרטים נוספים (לא חובה)</summary><div class="form-grid">
         <div class="form-2">
           ${field('תקציב משוער (₪)', html`<input class="input num" name="budget_estimate" type="number" min="0" step="100" dir="ltr" value="${c.budget_estimate ?? ''}">`)}
-          ${field('התאמה לעסק', html`<select class="input" name="fit">${opt(FIT, c.fit, { empty: 'עוד לא ידוע' })}</select>`)}
+          ${field('איכות הליד', html`<select class="input" name="fit">${opt(FIT, c.fit, { empty: UNRATED })}</select>`)}
         </div>
         ${field('אתר קיים', html`<input class="input" name="website" dir="ltr" value="${c.website ?? ''}" placeholder="example.co.il">`)}
         ${editing ? '' : html`<div class="form-2">
@@ -91,6 +107,7 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
       dup.addEventListener('change', (e) => { if (e.target.matches('[data-allow-dup]')) allowDup = e.target.checked; });
       form.addEventListener('focusout', (e) => { if (!e.target.name || ['phone', 'email', 'first_name', 'last_name'].includes(e.target.name)) check(); });
       form.addEventListener('submit', (e) => { e.preventDefault(); el.closest('.ov').querySelector('.ov-foot .btn-primary').click(); });
+      form.addEventListener('change', (e) => { if (e.target.name === '_ad_code') e.target.value = normAdCode(e.target.value); });
     },
     actions: [
       { label: 'ביטול' },
@@ -106,6 +123,9 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
           // a letter in a phone number (O instead of 0) would silently become another number
           if (v.phone && !phoneOk(v.phone)) errors.phone = /[oOםס]/.test(v.phone) ? 'יש במספר אות (אולי O במקום 0). בדקו את המספר' : 'בדקו את המספר: 9–10 ספרות, למשל 050-1234567';
           if (v.lead_status === 'disqualified' && !v.disqualify_reason) errors.disqualify_reason = 'בחרו סיבה';
+          const adCode = normAdCode(v._ad_code);
+          if (adCode && !adCodeOk(adCode)) errors._ad_code = 'רק אותיות באנגלית, ספרות, מקף (-) וקו תחתון (_), עד 24 תווים';
+          else if (!adCode && code && !codeLocked && '_ad_code' in v) errors._ad_code = 'אי אפשר למחוק קוד מודעה. אפשר להחליף אותו בקוד אחר.';
           if (showFieldErrors(form, errors)) return false;
           const dups = findDuplicates(v, c.id);
           if (dups.length && !allowDup) {
@@ -118,7 +138,7 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
           }
           const taskType = v._task_type, taskDue = v._task_due;
           const created = v._created, campaign = v._campaign;
-          delete v._task_type; delete v._task_due; delete v._created; delete v._campaign;
+          delete v._task_type; delete v._task_due; delete v._created; delete v._campaign; delete v._ad_code;
           if (created && created > toDateInput(new Date())) { showFieldErrors(form, { _created: 'תאריך הפנייה לא יכול להיות בעתיד' }); return false; }
           if (v.budget_estimate === null) v.budget_estimate = null;
           return save(async () => {
@@ -129,6 +149,7 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
               rec = await store.update('crm_contacts', c.id, v);
               // a source found out later also applies to this lead's deals that had no source, so revenue follows it
               if (sourceAdded) for (const d of store.filter('crm_deals', (x) => x.contact_id === c.id && !x.source_id)) await store.update('crm_deals', d.id, { source_id: v.first_source_id });
+              if (adCode && adCode !== code) await saveAdCode(store.get('crm_contacts', c.id) || rec, adCode);
               toast('הפרטים נשמרו', { kind: 'success' });
             } else {
               const today = toDateInput(new Date());
@@ -138,6 +159,7 @@ export function openLeadForm({ contact = null, onSaved } = {}) {
                 ...(at ? { created_at: at, first_touch_at: v.first_source_id ? at : undefined } : {}),
                 ...(campaign ? { first_utm: { utm_campaign: campaign.trim().toLowerCase() } } : {}),
               });
+              if (adCode) await saveAdCode(rec, adCode, { campaign: campaign ? campaign.trim().toLowerCase() : null });
               if (taskDue) {
                 await store.insert('crm_tasks', { title: `ליצור קשר ראשוני עם ${contactName(rec)}`, type: taskType || 'call', due_at: taskDue, contact_id: rec.id, owner_id: store.userId, priority: 'high' });
               }
