@@ -72,3 +72,11 @@ The video loads only after the page `load` event, and never with reduced motion.
 - **Drone footage rights:** confirm commercial rights for the DJI_0024 footage from the Drive owner.
 - **Old-site photos:** confirm the 2015 photos are MIFTAH's own.
 - **Upgrade later:** a professional shoot (plant, crews, finished orchards) would replace the 2015 archive photos.
+
+## Added 27 Oct 2026 (owner's request: "add everything")
+
+| Page | Asset | Notes |
+|---|---|---|
+| How a net house is built | Generated 3D scene (three.js), `sim-poster.jpg` / `sim-poster-m.jpg` (stills of the same scene) | Labelled "Illustration / הדמיה" on screen; all steel drawn galvanized silver; sizes not a specification |
+| Projects, and `/globe/` | The 3D globe, `globe-poster-en/he.jpg`, `globe/space.jpg` (Higgsfield background), `globe/fly.mp4` (0–4.6 s AI dive, then real DJI_0024) | The player labels the AI part "הדמיה" and the real part "צילום רחפן אמיתי". This reverses the earlier "no AI imagery on the website" decision, at the owner's request. |
+

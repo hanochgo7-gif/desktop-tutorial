@@ -89,3 +89,15 @@ Do not deploy until the release checklist (`docs/MIFTAH_RELEASE_CHECKLIST.md`) i
 ## Restore point
 
 All work is committed on the branch `claude/greenhouse-brand-concepts-6zklru`. The four earlier design examples and the brand book are untouched. To roll back, check out the commit before "Add MIFTAH website".
+
+## 3D pages (added 27 Oct 2026)
+
+- `how-we-build.html` (EN/HE): the scroll-driven 3D illustration. Source: `src/assets/build-sim.js`; texts in `content.py` (`SIM`). It loads `assets/vendor/three.min.js` (three.js r128, MIT, self-hosted) only on the first scroll or touch; until then `assets/img/sim-poster*.jpg` stands in. Without WebGL the page shows the section drawing.
+- The project globe: `build.py` copies `greenhouse-brand/globe/` into `public/globe/` (self-hosted three.js and fonts, script moved to `globe.js` for the CSP, `?lang=en|he`). Projects embeds it (`#compact`) behind a still (`globe-poster-*.jpg`) that loads the globe on click or scroll; `/globe/` is the full-screen version.
+- To refresh the stills after changing the scene or the globe: render them again (see `docs/MIFTAH_QA_AND_STRESS_TEST_REPORT.md`, cycle 5) into `src/assets/posters/`.
+
+## Hosting on Vercel
+
+`public/vercel.json` (generated) serves `public/` as static files with the same headers as `.htaccess`, plus `X-Robots-Tag: noindex` until www.miftah.co.il points to it (remove that line in `build.py` then).
+In Vercel: Add New → Project → import `hanochgo7-gif/desktop-tutorial` → Root Directory `greenhouse-brand/website/public`, Framework Preset "Other" → Deploy. Then Settings → Git → Production Branch `claude/greenhouse-brand-concepts-6zklru` (the site is not on `main`) and redeploy. Vercel's Hobby plan is for non-commercial use; a company site needs the Pro plan, or the Nethost upload above.
+
