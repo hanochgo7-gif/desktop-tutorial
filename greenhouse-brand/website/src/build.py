@@ -318,6 +318,7 @@ def header(slug, L):
 <header class="site-head">
   <div class="wrap head-in">
     <a class="brand" href="index.html" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{logo(L)}</a>
+    <p class="tagline">{esc(t(C.SITE["slogan"], L))}</p>
     <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}">
       <ul>{items}</ul>
       <a class="btn btn-primary nav-cta" href="contact.html" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
@@ -327,6 +328,7 @@ def header(slug, L):
     <a class="head-call" href="tel:{C.SITE["phone_tel"]}" data-where="header" aria-label="{esc(tm(C.SITE["call"], L))} {esc(tm(C.SITE["phone_display"], L))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav"><span class="bars" aria-hidden="true"></span>{esc(t(C.SITE["menu"], L))}</button>
   </div>
+  <p class="tagline-m">{esc(t(C.SITE["slogan"], L))}</p>
 </header>
 {mbar}"""
 

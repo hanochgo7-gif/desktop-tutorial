@@ -570,3 +570,13 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   body.has-mbar .site-foot { padding-bottom: 96px; }
 }
 @media (prefers-reduced-motion: reduce) { .mbar { transition: none; } }
+
+/* ---------- slogan in the header ---------- */
+.tagline { margin: 0; margin-inline-start: 2px; padding-inline-start: 14px; border-inline-start: 1px solid var(--line); font-size: .875rem; line-height: 1.3; color: var(--canopy); font-weight: 500; white-space: nowrap; }
+.tagline-m { display: none; }
+.nav a { white-space: nowrap; }
+@media (min-width: 1021px) and (max-width: 1359px) { .tagline { display: none; } }
+@media (max-width: 600px) {
+  .tagline { display: none; }
+  .tagline-m { display: block; margin: -8px 0 0; padding: 0 var(--gutter) 8px; font-size: .8125rem; line-height: 1.3; color: var(--canopy); font-weight: 500; }
+}

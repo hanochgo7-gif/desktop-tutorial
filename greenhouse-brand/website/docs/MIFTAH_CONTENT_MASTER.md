@@ -51,7 +51,7 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 
 | Key | English | Hebrew |
 |---|---|---|
-| `title` | Net houses for orchards and bananas | MIFTAH Projects | בתי רשת למטעים ולבננות | מיפתח פרויקטים |
+| `title` | MIFTAH Projects: Where agriculture feels at home | Net houses | מיפתח פרויקטים - חקלאות שיש לה בית | בתי רשת למטעים |
 | `desc` | Galvanized-steel net houses for orchards and bananas, designed, made and installed by MIFTAH Projects in Israel and abroad. Turnkey farms abroad with partners. | מיפתח פרויקטים מתכננת, מייצרת ומקימה בתי רשת מפלדה מגולוונת למטעים ולבננות בישראל ובחו״ל, ומקימה חוות מפתח בחו״ל יחד עם שותפים חקלאיים. |
 | `h1` | We design, make and build net houses for orchards and bananas. | אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות. |
 | `lead` | Galvanized-steel net houses against hail, wind and sun, made in our own plant, built by our crews in Israel and by local crews we train and manage abroad, for more than 20 years. For investors abroad, complete turnkey farms with agricultural partners. | בתי רשת מפלדה מגולוונת נגד ברד, רוח ושמש, מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו בישראל ובידי צוותים מקומיים שאנחנו מדריכים ומנהלים בחו״ל, כבר יותר מ-20 שנה. ולמשקיעים בחו״ל: חוות מפתח שלמות, יחד עם שותפים חקלאיים. |

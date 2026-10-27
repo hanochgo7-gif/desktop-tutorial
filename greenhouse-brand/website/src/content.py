@@ -177,7 +177,7 @@ VALUES = [  # Q q23 (client's own words), OS credo
 # ---------------------------------------------------------------- pages
 PAGES = {
     "index": {
-        "title": ("Net houses for orchards and bananas | MIFTAH Projects", "בתי רשת למטעים ולבננות | מיפתח פרויקטים"),
+        "title": ("MIFTAH Projects: Where agriculture feels at home | Net houses", "מיפתח פרויקטים - חקלאות שיש לה בית | בתי רשת למטעים"),
         "desc": ("Galvanized-steel net houses for orchards and bananas, designed, made and installed by MIFTAH Projects in Israel and abroad. Turnkey farms abroad with partners.",
                  "מיפתח פרויקטים מתכננת, מייצרת ומקימה בתי רשת מפלדה מגולוונת למטעים ולבננות בישראל ובחו״ל, ומקימה חוות מפתח בחו״ל יחד עם שותפים חקלאיים."),
         "h1": ("We design, make and build net houses for orchards and bananas.", "אנחנו מתכננים, מייצרים ומקימים בתי רשת למטעים ולבננות."),
