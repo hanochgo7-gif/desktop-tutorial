@@ -173,6 +173,8 @@ To change the copy, edit `content.py`, then run `python3 src/build.py` and this 
 | `aside_phone_p` | Call the office and ask for Merav Eyal Hasfel, co-CEO. | התקשרו למשרד ובקשו את מרב איל הספל, מנכ״לית משותפת. |
 | `aside_min_h` | Projects we take on | פרויקטים שאנחנו לוקחים |
 | `aside_min_p` | From 5 ha (50 dunam) in Israel and from 30 ha abroad. Pricing follows a review of the site, because every structure is designed for its land. | מ-50 דונם בישראל ומ-300 דונם בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו. |
+| `aside_partner_h` | Partners and suppliers | שותפים וספקים |
+| `aside_partner_p` | Agri-tech, farm-management or supply company? Tell us what you would like to do together; choose "A potential partner" in the form, or call. | חברת אגרו-טק, ניהול חוות או אספקה? ספרו לנו מה תרצו לעשות יחד: בחרו ״שותף פוטנציאלי״ בטופס, או התקשרו. |
 | `aside_fair_h` | Fruit Logistica, Berlin | Fruit Logistica, ברלין |
 | `aside_fair_p` | We plan to be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form if you would like to meet there. | אנחנו מתכננים להיות בתערוכת Fruit Logistica במסה ברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם. |
 | `aside_office_h` | Office | משרד |
@@ -360,7 +362,7 @@ Featured (Q q14):
 
 | Key | English | Hebrew |
 |---|---|---|
-| `step1_h` | Your project | הפרויקט |
+| `step1_h` | About the project | על הפרויקט |
 | `step2_h` | How to reach you | איך לחזור אליכם |
 | `next` | Next: how to reach you | הלאה: איך לחזור אליכם |
 | `back` | Back | חזרה |

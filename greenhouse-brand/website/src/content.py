@@ -311,6 +311,8 @@ PAGES = {
         "aside_min_h": ("Projects we take on", "פרויקטים שאנחנו לוקחים"),
         "aside_min_p": ("From 5 ha (50 dunam) in Israel and from 30 ha abroad. Pricing follows a review of the site, because every structure is designed for its land.",
                         "מ-50 דונם בישראל ומ-300 דונם בחו״ל. המחיר נקבע אחרי בדיקה של השטח, כי כל מבנה מתוכנן לקרקע שלו."),  # 4.2, 4.3
+        "aside_partner_h": ("Partners and suppliers", "שותפים וספקים"),
+        "aside_partner_p": ("Agri-tech, farm-management or supply company? Tell us what you would like to do together; choose \"A potential partner\" in the form, or call.", "חברת אגרו-טק, ניהול חוות או אספקה? ספרו לנו מה תרצו לעשות יחד: בחרו ״שותף פוטנציאלי״ בטופס, או התקשרו."),
         "aside_fair_h": ("Fruit Logistica, Berlin", "Fruit Logistica, ברלין"),
         "aside_fair_p": ("We plan to be at Fruit Logistica, Messe Berlin, 3–5 February 2027. Tick the box in the form if you would like to meet there.",
                          "אנחנו מתכננים להיות בתערוכת Fruit Logistica במסה ברלין, 3–5 בפברואר 2027. סמנו בטופס אם תרצו להיפגש שם."),  # 4.10
@@ -397,7 +399,7 @@ FORM_OFFLINE = (  # shown above the form until FORM_ENDPOINT is set (truth ledge
     "השליחה מהאתר עוד לא מחוברת. כדי להגיע אלינו עכשיו, התקשרו: {phone}. אפשר עדיין למלא את הטופס ולקבל סיכום להקראה או לשליחה.")
 
 FORM = {
-    "step1_h": ("Your project", "הפרויקט"),
+    "step1_h": ("About the project", "על הפרויקט"),
     "step2_h": ("How to reach you", "איך לחזור אליכם"),
     "next": ("Next: how to reach you", "הלאה: איך לחזור אליכם"),
     "back": ("Back", "חזרה"),
@@ -571,6 +573,7 @@ HOME3 = {
     "who_h": ("You deal with the owners.", "אתם עובדים מול הבעלים."),
     "who_p": ("MIFTAH is a family company in Kfar Masaryk, run by Merav Eyal Hasfel and Yiftach Hasfel. Yiftach, a practical engineer in construction, leads design, production and execution; Merav runs the company, finance, marketing and sales.",
               "מיפתח היא חברה משפחתית בכפר מסריק, בניהול מרב איל הספל ויפתח הספל. יפתח, הנדסאי בניין, מוביל את התכנון, הייצור והביצוע; מרב מנהלת את החברה, הכספים, השיווק והמכירות."),  # 5.1, 5.2
+    "who_peace": ("What you get: peace of mind, and time to focus on your crop and your business.", "מה אתם מקבלים: שקט, וזמן להתמקד בגידול ובפיתוח העסק."),  # q25, 4.6
     "who_refs": ("Clients in Israel and in Portugal are willing to give a reference. We put you in touch after a first conversation.", "לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. נפגיש ביניכם אחרי שיחה ראשונה."),  # 3.5
     "who_go": ("About MIFTAH", "על מיפתח"),
     "inv_h": ("Investing in a farm abroad?", "משקיעים בחווה בחו״ל?"),
@@ -605,7 +608,7 @@ CROPS = [  # the crop selector; every row traces to the ledger
      "rows": [(("Trellis", "הדליה"), ("A pergola (sukkah) trellis, built with the structure", "הדליה בצורת סוכה, שנבנית יחד עם המבנה")),
               (("Net", "רשת"), ("Chosen for the site and the crop", "נבחרת לפי האתר והגידול")),
               (("Support", "תמיכה"), ("Trellising and support are part of the structure", "ההדליה והתמיכה הן חלק מהמבנה"))],
-     "proj": ("Kiwi net house with a pergola trellis, Bar'am", "בית רשת לקיווי עם הדליית סוכה, ברעם")},  # 2.5, 3.1
+     "proj": ("Kiwi net house with a pergola trellis, Upper Galilee", "בית רשת לקיווי עם הדליית סוכה, הגליל העליון")},  # 2.5, 3.1
     {"id": "avocado", "label": ("Avocado", "אבוקדו"),
      "say": ("Built abroad: an avocado net house in Portugal.", "נבנה בחו״ל: בית רשת לאבוקדו בפורטוגל."),
      "rows": [(("Where", "איפה"), ("Portugal. The client came to us by referral and is willing to give a reference", "פורטוגל. הלקוח הגיע אלינו בהמלצה ומוכן להמליץ עלינו")),

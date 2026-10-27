@@ -90,3 +90,115 @@ Prototypes: A and B heroes were built (`public/_proto/a.html`, `b.html`) and scr
 - **A is the concept.** Its hero is ownable and explains the product.
 - **B's crop selector becomes the second section.** It is the strongest decision tool, but as a hero it looked like a SaaS form.
 - **C stays a dedicated page,** linked from the process section, not the home hero. Team F: "the 3D as a hero is a capability demo"; Team E: on phones it would cost 600 KB before any message.
+
+---
+
+## Stage 5. Site architecture (home, in the order of the buyer's decision)
+
+| # | Section | Purpose and question it answers | Who | Leads to | Action |
+|---|---|---|---|---|---|
+| 1 | Hero "A roof of net over your crop." The net spreads over the real drone footage. | What is this and is it for me? The product is shown as what it does: covers the crop. | Everyone | Crop selector | Discuss your project; Which net for your crop?; investor link |
+| 2 | Which net house for your crop? (tabs: bananas, apples, cherries, kiwi, avocado, other) | Does it fit my crop? The net, protection, structure and season, a matching project, and the minimum size. The drawing changes with the crop. | Growers, agri companies | Proof | "Discuss a project for this crop" pre-fills the form |
+| 3 | Net houses on three continents (dark, map) | Can they deliver far away and at scale? 410,000 m² by 2015, Portugal, Belarus, how work abroad is run | Foreign buyers, investors | Process | All projects (globe) |
+| 4 | From bare soil to a closed net house (4 real photos; swipeable on phones) | Do they really do the work? | Everyone | Owners | Watch it in 3D |
+| 5 | You deal with the owners | Who exactly am I dealing with? Named owners, peace of mind (q25), values (q23), references on request | Everyone | Investors | About |
+| 6 | Investing in a farm abroad? (dark) | Is there a full path for an investor? 11 stages, with partners, from 30 ha, the most common mistake (q39) | Investors | Closing | Turnkey farms |
+| 7 | Closing "Tell us about your land." | What do I do now? | Everyone | Contact | Discuss, call |
+
+Removed from V2: the numbers row, "Two ways to work with us", the separate boxed drawing (now inside the selector), and the values block (merged into "owners").
+Other pages:
+- **Net houses:** the crop selector, the "Abroad" band moved up, sheds and service, the parts drawing next to the 3D link, the photo band. The repeated steps are gone.
+- **Turnkey:** the filler section is gone; stages and "what stays with you" are larger.
+- **Projects:** the globe (scroll-safe), country table, selected projects as cards. The repeated photos are gone.
+- **About:** the repeated values are gone.
+- **Contact:**
+  - A two-step form.
+  - The honest "not connected" line comes first.
+  - A partner route.
+  - ?crop= pre-fill.
+
+## Stage 6. What was built (code)
+
+- `build.py`:
+  - `p_index` rewritten.
+  - New `crop_selector()`.
+  - The section drawing has crop layers (trees, banana plants, kiwi pergola, folding).
+  - Drawings get unique IDs per instance.
+  - Two-step form markup.
+  - Globe embed made scroll-safe, with an anonymised kiwi project.
+- `content.py`: `HOME3`, `CROPS`, form step labels and the partner role. Every row is commented with its ledger reference.
+- `site.css`:
+  - Larger type scale; deep field colour.
+  - Hero canopy (a fine net mesh plus a sagging edge cable). It slides in on the compositor and stays static with reduced motion.
+  - Typographic crop tabs; crop-specific drawing states.
+  - Dark proof section with the map recoloured.
+  - Swipeable steps on phones.
+  - Investor phases.
+  - Net texture on the closing band.
+  - Two-step form styles.
+  - The pole-and-cable divider, used once.
+- `site.js`: crop tabs (ARIA tabs, arrow keys, RTL-aware); form steps (validation per step, Back keeps answers, focus moves to the step heading); ?crop= pre-fill; the scrollable step row gets keyboard focus.
+
+## Stage 3b and 7. What the simulated teams said, and what was done
+
+Team C (six simulated personas) and Team F (brutal critique) reviewed the first V3 build. An acceptance panel then ran tests 1–10 on the live V3. These are simulations, not research or conversion data.
+
+| Finding | Source | Decision |
+|---|---|---|
+| The globe swallows the mouse wheel | Team F, measured | **Fixed.** Wheel zoom only with Ctrl/Cmd in the embed; vertical swipes scroll the page. |
+| "Most investors' costliest mistake" goes beyond the ledger ("most common") | Team F | **Fixed** |
+| The biggest number on the site is dated 2015 ("nothing since") | Spanish grower persona | **Fixed.** The headline is now three continents; the figure and its date are in the copy. |
+| The pole divider is everywhere and reads as a perforated edge | Team F | **Fixed.** Used once. |
+| The 4 steps appear three times | Team F | **Fixed.** Removed from Net houses; Home keeps them, and the 3D page is the deep version. |
+| Crop selector duplicated on Home and Net houses | Team F (remove from Home) vs kibbutz persona (the most useful element) | **Kept on both.** Net houses is the page attached to quotes (q22) and must stand alone; Home is where growers start. |
+| Space-nebula globe reads as an AI demo | Team F | **Embed:** plain deep green. The full-screen globe keeps the owner-requested look. |
+| Repeated photos on Projects and About; values block repeated | Team F | **Fixed.** Removed. |
+| Footer title block is decoration | Team F | **Removed** |
+| No partner route | Partner persona | **Added:** "A potential partner" in the form, and a partners block on Contact. Capacity figures need the owners. |
+| Weak headline contrast on phones; "not connected" notice placement | Phone persona, acceptance panel | **Fixed.** Scrim retuned; the one-line notice comes before the form. |
+| Bar'am named before approval | Acceptance panel | **Fixed.** Shown as "Upper Galilee" everywhere, including the globe. |
+| Peace of mind (q25) missing | Acceptance panel | **Fixed.** In the owners section. |
+| No photos per project, plant or owners; no testimonials, email or inbox; capacity figures; partner name; price signal; post-2015 projects | All panels | **Owners.** Code can't supply these; see `MIFTAH_TRUTH_LEDGER.md` §8. |
+| The visual system still carries V2 palette, type and photos | Acceptance panel | **Partly accepted.** Palette and type are brand rules (logo colours; Hebrew/Latin family). The real lever is photography, which is an owner action. |
+| 3D page: toy-like for a professional, but the clearest explanation for a non-farmer | Personas 3 and 4 disagree | **Kept.** Shortened to 80 vh steps; the hint disappears once the scene runs; labelled "Illustration". |
+
+## Stage 7. Acceptance tests (run on the live V3 and locally)
+
+| Test | Result |
+|---|---|
+| 1. Genericness | The industry reads clearly without the logo (footage, "roof of net", crop drawings, m² map). The visual identity is weaker than the content. |
+| 2. Five seconds | Passes in EN and HE, desktop and phone: what, value and next step. Investors get a secondary link. |
+| 3. Skeptical customer | Missing photos per project, testimonials, plant, portraits, email and a working form (owner items). References on request helps. |
+| 4. Partner | Execution capacity and long-term thinking are signalled. A partner route now exists; capacity figures are missing. |
+| 5. Mobile | No horizontal scroll at 390 on all 26 page/language checks; phone action bar; crop tabs wrap; map in two panels. The 140-check width suite passes (360–1920 px). |
+| 6. Performance and accessibility | Live Lighthouse mobile 99–100 in every category, LCP ≤1.8 s, CLS ≤0.03. axe: 0 violations in 40 runs. One H1 per page. Keyboard: arrow-key tabs, RTL-aware. Reduced motion respected. No JS errors in 44 page loads. Strict CSP. |
+| 7. Differentiation | Three strong memorable elements (the net over the footage, the crop selector with changing drawing, the 3D build) plus "you deal with the owners". Not five. |
+| 8. Brief fit | All requirement-map rows implemented except those documented as owner gaps. q25 was missing and is now added. |
+| 9. Action | Home → Kiwi → CTA → contact?crop=kiwi pre-filled → step 1 → step 2 → honest unconnected result with Call and a copyable summary. Form tests: 23/23. |
+| 10. Self-critique | 10 problems found; the code ones are fixed (see the table above). The owner ones remain. |
+
+Other checks: html-validate clean; linkinator 115 links, 0 broken; keyboard suite 16/16; form suite 23/23.
+
+## Stage 8. Score (acceptance panel; V2 partly from screenshots)
+
+| Criterion | V2 | V3 (as tested) | Notes |
+|---|---|---|---|
+| Uniqueness and differentiation (20) | 7 | 12 | New: the net over the footage, the crop drawing selector, the owners voice. Palette, type and photos carried over. |
+| Brief and strategy fit (20) | 13 | 16 | Decision-ordered story, pre-filled form. Minus q25 and Bar'am, both since fixed. |
+| Visual and creative quality (20) | 10 | 13 | Bigger type and dark/light rhythm. Dated photos; split layout repeated. |
+| UX and hierarchy (15) | 9 | 12 | Crop to a two-step form. The late offline notice has since been moved up. |
+| Trust and decision support (10) | 5 | 6 | Limited by owner material |
+| Mobile and accessibility (10) | 6 (est.) | 9 | |
+| Technical and performance (5) | 3 | 5 | |
+| **Total** | **53** | **73** | |
+
+The three code defects the panel found (Bar'am, q25, notice placement) were fixed after scoring; no new score was run. **90 is not claimed.**
+
+The remaining gap is mostly owner material, which code can't supply:
+- photos of real projects, the plant and the owners,
+- approved client names and quotes,
+- an inbox,
+- capacity figures,
+- post-2015 projects.
+
+Without them, trust (10) and differentiation (20) stay capped. The score is an internal decision aid, not an objective certification.

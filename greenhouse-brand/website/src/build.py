@@ -504,7 +504,7 @@ def p_index(L):
 
 <section class="section white who" aria-labelledby="who-h">
   <div class="wrap who-grid">
-    <div><h2 id="who-h">{esc(t(H["who_h"], L))}</h2><p class="lead">{esc(t(H["who_p"], L))}</p><p class="who-refs">{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div>
+    <div><h2 id="who-h">{esc(t(H["who_h"], L))}</h2><p class="lead">{esc(t(H["who_p"], L))}</p><p class="who-peace">{esc(t(H["who_peace"], L))}</p><p class="who-refs">{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div>
     <ul class="values one">{values}</ul>
   </div>
 </section>
@@ -717,6 +717,7 @@ def p_contact(L):
     form = f"""<form class="form" id="review-form" method="post" action="{esc(FORM_ENDPOINT) or "contact.html"}" data-endpoint="{esc(FORM_ENDPOINT)}" data-tel="{S["phone_tel"]}" data-msg="{esc(form_msg(L))}" data-crops="{esc(json.dumps({cr["id"]: tm(cr["label"], L) for cr in C.CROPS}, ensure_ascii=False))}" novalidate aria-labelledby="form-h">
   <noscript><p class="form-status bad">{esc(t(S["noscript"], L))}</p></noscript>
   <div><h2 id="form-h" class="h-small">{esc(t(F["h"], L))}</h2><p class="small muted" style="margin-top:6px">{esc(t(F["req"], L))}</p></div>
+  {offline}
   <ol class="fprog" aria-hidden="true"><li class="on"><span class="num">1</span> {esc(t(F["step1_h"], L))}</li><li><span class="num">2</span> {esc(t(F["step2_h"], L))}</li></ol>
   <div class="fstep" id="fstep-1">
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_h"], L))}</h3>
@@ -745,7 +746,6 @@ def p_contact(L):
     <label class="check full"><input type="checkbox" name="berlin" value="yes"><span>{esc(t(F["berlin"], L))}</span></label>
     <div class="check full"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
     </div>
-    {offline}
     <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"], L))}</button></div>
   </div>
 </form>
@@ -753,6 +753,7 @@ def p_contact(L):
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">
   <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_min_h"], L))}</h2><p>{esc(t(P["aside_min_p"], L))}</p></div>
+  <div class="block"><h2>{esc(t(P["aside_partner_h"], L))}</h2><p>{esc(t(P["aside_partner_p"], L))}</p></div>
   <div class="block" id="berlin"><h2>{esc(t(P["aside_fair_h"], L))}</h2><p>{esc(t(P["aside_fair_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_office_h"], L))}</h2><p>{esc(t(S["name"], L))}<br>{esc(t(S["town"], L))}</p></div>
 </aside>"""
@@ -854,6 +855,12 @@ def globe_page():
     js = js.replace('hint: "Drag to rotate · scroll or pinch to zoom · tap a point"', 'hint: location.hash === "#compact" ? "Drag to rotate · Ctrl + scroll to zoom · tap a point" : "Drag to rotate · scroll or pinch to zoom · tap a point"')
     js = re.sub(r'hint: "(גוררים כדי לסובב[^"]*)"', lambda m: 'hint: location.hash === "#compact" ? "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה" : "' + m.group(1) + '"', js, count=1)
     assert js.count('location.hash === "#compact" ?') == 2
+    # client names wait for the client's approval (ledger 3.1, 3.5, q13): the kiwi project is shown by region
+    for old, new in (("קיווי בברעם", "קיווי בגליל העליון"), ("Kiwi in Bar'am", "Kiwi in the Upper Galilee"), ("קיווי, ברעם", "קיווי, הגליל העליון"),
+                     ("Kiwi, Bar'am", "Kiwi, Upper Galilee"), ("עשור של עבודה משותפת עם מטע ברעם", "הלקוח מוכן להמליץ עלינו"),
+                     ("A decade of work with Bar'am Orchard", "The client is willing to give a reference")):
+        assert old in js, old
+        js = js.replace(old, new)
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
