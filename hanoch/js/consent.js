@@ -1,10 +1,11 @@
-/* הסכמה לעוגיות של Google Analytics ו-Google Ads – ללא תלויות.
+/* הסכמה לעוגיות של Google Analytics, Google Ads והפיקסל של Meta, ללא תלויות.
    ברירת המחדל: בלי עוגיות. Google מקבלת רק אותות אנונימיים (מצב הסכמה מתקדם, js/ga.js), ועוגיות נשמרות רק אחרי לחיצה על "מאשר". הבחירה נשמרת בדפדפן בלבד.
    גרסה 2: הנוסח כולל גם מדידת פרסום, ולכן מי שאישר בגרסה 1 מתבקש לאשר שוב.
+   גרסה 3: הנוסח כולל גם את Meta (פייסבוק ואינסטגרם, js/meta.js), ולכן מי שאישר קודם מתבקש לאשר שוב.
    כל קישור או כפתור עם data-consent-open פותח את ההודעה מחדש כדי לשנות את הבחירה. */
 (function () {
   'use strict';
-  var KEY = 'hg-consent', VERSION = 2;
+  var KEY = 'hg-consent', VERSION = 3;
   var EN = document.documentElement.lang === 'en';
   var T = function (he, en) { return EN ? en : he; };
   var ROOT = (document.body && document.body.getAttribute('data-root')) || '';
@@ -15,13 +16,13 @@
   function write(analytics) {
     try { localStorage.setItem(KEY, JSON.stringify({ v: VERSION, analytics: analytics, at: new Date().toISOString().slice(0, 10) })); } catch (e) { /* אחסון חסום: הבחירה תחול רק בביקור הזה */ }
   }
-  // מחיקת עוגיות Google Analytics אחרי ביטול הסכמה
+  // מחיקת עוגיות Google Analytics ו-Meta אחרי ביטול הסכמה
   function clearGa() {
     var host = location.hostname, parts = host.split('.'), domains = ['', host];
     for (var i = 0; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
     document.cookie.split(';').forEach(function (c) {
       var name = c.split('=')[0].trim();
-      if (!/^_ga/.test(name)) return;
+      if (!/^(_ga|_fbp|_fbc)/.test(name)) return;
       domains.forEach(function (d) { document.cookie = name + '=; Max-Age=0; path=/' + (d ? '; domain=' + d : ''); });
     });
   }
@@ -60,8 +61,8 @@
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
       '<p class="consent__text">' + T(
-        'כדי לדעת אילו עמודים עוזרים לגולשים ואיזה פרסום עובד, אני משתמש בכלים של Google. עוגיות נשמרות בדפדפן רק אם תאשרו. בלי אישור, Google מקבלת רק אותות אנונימיים בלי עוגיות, והאתר עובד בדיוק אותו דבר.',
-        'To learn which pages help visitors and which ads work, I use Google tools. Cookies are stored in your browser only if you agree. Without consent, Google receives only anonymous signals without cookies, and the site works exactly the same.') +
+        'כדי לדעת אילו עמודים עוזרים לגולשים ואיזה פרסום עובד, אני משתמש בכלים של Google ו-Meta. עוגיות נשמרות בדפדפן רק אם תאשרו. בלי אישור, Meta לא מקבלת כלום, Google מקבלת רק אותות אנונימיים בלי עוגיות, והאתר עובד בדיוק אותו דבר.',
+        'To learn which pages help visitors and which ads work, I use Google and Meta tools. Cookies are stored in your browser only if you agree. Without consent, Meta receives nothing, Google receives only anonymous signals without cookies, and the site works exactly the same.') +
       ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('פרטים במדיניות הפרטיות', 'Details in the privacy policy') + '</a></p>' +
       '<div class="consent__actions">' +
         '<button type="button" class="consent__btn" data-choice="yes">' + T('מאשר עוגיות', 'Allow cookies') + '</button>' +

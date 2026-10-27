@@ -19,6 +19,7 @@
 </style>
 <script src="/js/consent.js" defer></script>
 <script src="/js/ga.js" defer></script>
+<script src="/js/meta.js" defer></script>
 </head>
 <body>
 <main>
@@ -34,10 +35,11 @@
   document.getElementById('go').href = u;
   var done = false;
   function go() { if (done) return; done = true; location.replace(u); }
-  // ממתינים שהתג של גוגל ייטען וישלח את הצפייה בדף, ולכל היותר 2.5 שניות
+  // ממתינים שהתג של גוגל (ואם אושרו עוגיות, גם הפיקסל של Meta) ייטען וישלח את הצפייה בדף, ולכל היותר 2.5 שניות
   var t0 = Date.now();
   (function wait() {
-    if (window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']) return setTimeout(go, 400);
+    var meta = !window.fbq || window.fbq.callMethod;
+    if (meta && window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']) return setTimeout(go, 400);
     if (Date.now() - t0 > 2500) return go();
     setTimeout(wait, 100);
   })();
