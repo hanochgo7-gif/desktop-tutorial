@@ -53,6 +53,10 @@ colors:
   rail-dark: "#0A0B0E"
   rail-2-dark: "#16181D"
   rail-3-dark: "#20232A"
+  inverse: "#16181D"
+  inverse-ink: "#FFFFFF"
+  inverse-dark: "#232831"
+  inverse-ink-dark: "#E8EAEF"
 typography:
   display:
     fontFamily: "Heebo, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif"
@@ -311,8 +315,8 @@ components:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.lg}"
   toast:
-    backgroundColor: "{colors.ink}"
-    textColor: "#FFFFFF"
+    backgroundColor: "{colors.inverse}"
+    textColor: "{colors.inverse-ink}"
     rounded: "{rounded.md}"
     padding: "10px 8px 10px 14px"
   paper:
@@ -366,14 +370,15 @@ A neutral grey-and-ink palette with one working blue and three meaning colours, 
 - **Hairline** (line) and **Hairline Strong** (line-2): row dividers and panel borders; button borders, link underlines, scrollbars.
 - **Field Edge** (field-border): input borders at rest, the empty task circle and secondary button hover border.
 - **Rail Ink** (rail, rail-2, rail-3, rail-ink, rail-ink-strong): the side rail's ground, hover and active fills, and its two text tones.
+- **Inverse** (inverse, inverse-ink): the dark slab under toasts, the bulk-selection bar and the chart tooltip; its icons and action use lighter money, danger and blue values made for that slab.
 - **Paper** (paper, paper-ink): printed documents, black on white in every theme.
 
-Dark theme keeps the same roles with the `-dark` values: the ground drops to near-black, the blue lifts to a lighter periwinkle with dark text on it, the rail goes almost to black, and toasts and the bulk-selection bar switch from ink to the raised surface (surface-3) with a hairline-strong border.
+Dark theme keeps the same roles with the `-dark` values: the ground drops to near-black, the blue lifts to a lighter periwinkle with dark text on it, the rail goes almost to black, and the inverse surfaces (toasts, the bulk-selection bar, the chart tooltip) switch from ink to a raised #232831 with a hairline-strong border.
 
 ### Named Rules
 **The One Blue Rule.** Blue means "press this" or "this is selected". It is never decoration and never the colour of a record's name.
 
-**The Meaning-Only Rule.** Green is money and won; amber is "no next step", late or needs attention today; red is overdue, error, destructive or lost. Everything else is ink and grey. Status badge hues come from product data in js/core/model.js: the sky and indigo hue tokens resolve to the brand hue and violet and teal resolve to slate, and green on non-money statuses ("מתאים", "גבוהה", "לקוח") is accepted product data, not precedent for new colour use.
+**The Meaning-Only Rule.** Green is money and won; amber is "no next step", late or needs attention today; red is overdue, error, destructive or lost. Everything else is ink and grey. Status badge hues come from product data in js/core/model.js: the sky and indigo hue tokens resolve to the brand hue and violet and teal resolve to slate, and green on non-money statuses ("מתאים", "גבוהה", "לקוח") is accepted product data, not precedent for new colour use. Lead-score warmth is shown in blue at two strengths (warm at 55%, hot at full), never in the meaning colours.
 
 **The Signal Spark Rule.** HG orange appears only on the logo mark and the current nav item's icon in the rail.
 
@@ -408,7 +413,7 @@ The shell is a fixed 224px ink rail on the inline start (the right), and a main 
 
 My Day is a page head, the KPI strip, then a two-column grid: the action list (fluid) and a 320px side column of upcoming tasks and warnings. Record pages use three columns (320px details, fluid timeline, 300px associations); below 1280px the right column wraps under, and below 860px everything stacks. The deal page uses 340px plus fluid. The deals board is a horizontal row of 280px columns.
 
-Breakpoints: 1280px, 1100px (grids halve; My Day goes to one column), 960px (the rail is replaced by a bottom navigation bar with icons, labels and counts, and settings moves into the top bar), 860px, 760px (phone layout), 720px (all grids single), 640px, 560px (top bar buttons become icon only, KPI cells pair two per row, toolbars become a two-column grid). At 760px and below the KPI strip moves under the action list, action rows wrap with their quick actions on a full-width line, board columns become 86vw snap panes, and the leads table becomes two-line rows inside one surface: name and business over next step, status over source. The phone number is hidden there on purpose; call and WhatsApp are one tap away on the lead page. Sources and documents tables become stacked label-and-value blocks.
+Breakpoints: 1280px, 1100px (grids halve; My Day goes to one column), 960px (the rail is replaced by a bottom navigation bar with icons, labels and counts, and settings moves into the top bar), 860px, 760px (phone layout), 720px (all grids single), 640px, 560px (top bar buttons become icon only, KPI cells pair two per row, filter bars with a search become full-width search over two even selects; other toolbars wrap). At 760px and below the KPI strip moves under the action list, action rows wrap with their quick actions on a full-width line, board columns become 86vw snap panes, and the leads table becomes two-line rows inside one surface: name and business over next step, status over source. The phone number is hidden there on purpose; call and WhatsApp are one tap away on the lead page. Sources and documents tables become label-and-value rows inside one surface, divided by hairlines.
 
 With a coarse pointer every control grows to a 44px target (small buttons 40px, inputs 44px at 16px text, task circles 28px with an 8px invisible hit area).
 
