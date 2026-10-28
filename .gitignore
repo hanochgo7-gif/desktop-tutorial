@@ -1,1 +1,5 @@
 clinic/preview/
+
+# design-tool working files (dev only, never published)
+crm/.impeccable/
+.impeccable/

@@ -1,4 +1,5 @@
 // Regression tests for every issue the customer panel reported.
+process.env.TZ = 'Asia/Jerusalem'; // same clock as the browser context, so due times compare correctly
 const { chromium, devices } = require('playwright');
 const fs = require('fs');
 const URL = process.env.HGOS_URL || process.argv[2] || 'http://localhost:8765/crm/';
