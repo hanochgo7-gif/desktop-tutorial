@@ -969,9 +969,9 @@ def old_redirects_vercel():
     def en(slug): return "/" if slug == "index" else f"/{slug}.html"
     q = [{"type": "query", "key": "lang", "value": "en"}]
     r = [{"source": f"/{old}{{/}}?", "has": q, "destination": en(new), "permanent": True} for old, new in OLD_EN]
-    r += [{"source": "/(project|project-category)/:rest*", "has": q, "destination": "/projects.html", "permanent": True}]
-    r += [{"source": f"/{enc(old)}{{/}}?", "destination": he(new), "permanent": True} for old, new in OLD_HE if old not in ("8",)]
-    r += [{"source": f"/{enc(old)}/:rest*", "destination": he(new), "permanent": True} for old, new in OLD_HE_PREFIX]
+    r += [{"source": "/(project|project-category)/:rest(.*)", "has": q, "destination": "/projects.html", "permanent": True}]
+    r += [{"source": f"/{enc(old)}{{/}}?", "destination": he(new), "permanent": True} for old, new in OLD_HE]
+    r += [{"source": f"/{enc(old)}/:rest(.*)", "destination": he(new), "permanent": True} for old, new in OLD_HE_PREFIX]
     return r
 
 
