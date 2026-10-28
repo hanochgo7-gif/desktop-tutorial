@@ -8,7 +8,7 @@ import { contactName } from './core/model.js';
 import { icon, toast, avatar, modal } from './ui/components.js';
 import { openLeadForm } from './ui/forms.js';
 
-const LOGO = html`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--nav-active)"/><path d="M10 9v14M10 16h8M18 9v14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="21" r="2.2" fill="#fff"/></svg>`;
+const LOGO = html`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--hg)"/><path d="M10 9v14M10 16h8M18 9v14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="21" r="2.2" fill="#fff"/></svg>`;
 const NAV = [
   { href: 'today', label: 'היום שלי', icon: 'home', count: 'due' },
   { href: 'leads', label: 'לידים ולקוחות', icon: 'user' },
