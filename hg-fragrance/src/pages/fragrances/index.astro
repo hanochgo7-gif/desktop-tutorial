@@ -1,7 +1,10 @@
 ---
 /**
- * The collection: every fragrance in the catalogue. A picker chooses the fragrance;
- * the one chosen shows with its sizes and an add-to-bag form. Any not on sale follow as "Coming soon".
+ * The collection: every fragrance in the catalogue. A picker chooses the fragrance; the one chosen
+ * shows with its notes, sizes and an add-to-bag form. From 720px the title, the picker and the chosen
+ * fragrance share one stage (its image left; title, picker and details right), so a choice is seen
+ * where it is made.
+ * Any not on sale follow as "Coming soon".
  * Nothing here is invented — names, prices, sizes and notes come from the catalogue.
  */
 import Base from '../../layouts/Base.astro';
@@ -9,55 +12,71 @@ import Media from '../../components/Media.astro';
 import Purchase from '../../components/Purchase.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import FragrancePicker from '../../components/FragrancePicker.astro';
-import { bySeason, isPurchasable, type Product } from '../../data/catalog';
+import { bySeason, isPurchasable } from '../../data/catalog';
 
 const all = bySeason();
 const onSale = all.filter(isPurchasable);
 const soon = all.filter((p) => !isPurchasable(p));
 const initial = onSale.find((p) => p.slug === 'unforgettable')?.slug ?? onSale[0]?.slug ?? '';
-const sizes = (p: Product) => p.variants.filter((v) => v.available).map((v) => v.label).join(' · ');
+const tiers = [
+  ['top', 'Top'],
+  ['heart', 'Heart'],
+  ['base', 'Base'],
+] as const;
 ---
 
 <Base title="The fragrances" description="The four HG fragrances, one for each season: Open Window, Last Light, Unforgettable and Nocturne.">
   <section class="shop" aria-labelledby="shop-title">
     <div class="wrap">
-      <header class="shop__head">
-        <p class="label faint">The collection</p>
-        <h1 class="display shop__title" id="shop-title"><span>One flacon,</span> <span><em>four lights.</em></span></h1>
-        <p class="lead muted shop__intro">
-          {onSale.length === 1 ? 'One fragrance available now.' : onSale.length === 4 ? 'Four fragrances, one for each season. Choose yours.' : `${onSale.length} fragrances available now.`}
-          {soon.length > 0 && ` ${soon.length === 1 ? 'One more' : soon.length === 3 ? 'Three more' : soon.length} to come, one for each season.`}
-        </p>
-      </header>
+      <div class="shop__stage">
+        <header class="shop__head">
+          <h1 class="display shop__title" id="shop-title"><span>One flacon,</span> <span><em>four lights.</em></span></h1>
+          <p class="lead muted shop__intro">
+            {onSale.length === 1 ? 'One fragrance available now.' : onSale.length === 4 ? 'Four fragrances, one for each season. Choose yours.' : `${onSale.length} fragrances available now.`}
+            {soon.length > 0 && ` ${soon.length === 1 ? 'One more' : soon.length === 3 ? 'Three more' : soon.length} to come, one for each season.`}
+          </p>
+        </header>
 
-      {onSale.length > 1 && <FragrancePicker current={initial} mode="tabs" />}
+        {onSale.length > 1 && <FragrancePicker current={initial} mode="tabs" />}
 
-      {
-        onSale.map((p) => (
-          <article class="feature" id={p.slug} data-pick-panel={p.slug} aria-labelledby={`f-${p.slug}`}>
-            <a class="feature__media card-img" href={`/fragrances/${p.slug}`} tabindex="-1" aria-hidden="true">
-              <Media name={p.packshot} alt="" ratio="4 / 5" sizes="(min-width: 900px) 50vw, 100vw" priority={p.slug === initial} reveal={false} />
-              <Media name={p.portrait.name} alt="" ratio="4 / 5" sizes="(min-width: 900px) 50vw, 100vw" position={p.portrait.focus ?? '50% 35%'} reveal={false} class="card-img__alt" />
-            </a>
-            <div class="feature__info">
-              <p class="label feature__meta">
-                <span class="dot" style={`--accent:${p.accent}`} aria-hidden="true" />
-                {p.number} · {p.season} · {p.concentration}
-              </p>
-              <h2 class="h1 feature__name" id={`f-${p.slug}`}>
-                <a href={`/fragrances/${p.slug}`}>{p.name}</a>
-              </h2>
-              <p class="lead it muted">{sizes(p)}</p>
-              <p class="serif feature__line">{p.shortLine}</p>
-              <p class="feature__story muted">{p.story[0]}</p>
-              <Purchase product={p} id={`buy-${p.slug}`} />
-              <a class="link label feature__more" href={`/fragrances/${p.slug}`}>
-                The fragrance, the flacon and delivery
+        {
+          onSale.map((p) => (
+            <article class="feature" id={`panel-${p.slug}`} data-pick-panel={p.slug} aria-labelledby={`f-${p.slug}`}>
+              <a class="feature__media card-img" href={`/fragrances/${p.slug}`} tabindex="-1" aria-hidden="true">
+                <Media name={p.packshot} alt="" ratio="4 / 5" sizes="(min-width: 720px) 50vw, 100vw" priority={p.slug === initial} reveal={false} />
+                <Media name={p.portrait.name} alt="" ratio="4 / 5" sizes="(min-width: 720px) 50vw, 100vw" position={p.portrait.focus ?? '50% 35%'} reveal={false} class="card-img__alt" />
               </a>
-            </div>
-          </article>
-        ))
-      }
+              <div class="feature__info">
+                <p class="label feature__meta">
+                  <span class="dot" style={`--accent:${p.accent}`} aria-hidden="true" />
+                  {p.number} · {p.season} · {p.concentration}
+                </p>
+                <h2 class="h1 feature__name" id={`f-${p.slug}`}>
+                  <a href={`/fragrances/${p.slug}`}>{p.name}</a>
+                </h2>
+                <p class="serif feature__line">{p.shortLine}</p>
+                {p.notes ? (
+                  <dl class="feature__notes">
+                    {tiers.map(([key, label]) => (
+                      <div>
+                        <dt class="label faint">{label}</dt>
+                        <dd>{p.notes![key].join(', ')}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <p class="feature__notes feature__notes--tba muted">Notes to be announced.</p>
+                )}
+                <p class="feature__story muted">{p.story[0]}</p>
+                <Purchase product={p} id={`buy-${p.slug}`} />
+                <a class="link label feature__more" href={`/fragrances/${p.slug}`}>
+                  The fragrance, the flacon and delivery
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
 
       {
         soon.length > 0 && (
@@ -149,6 +168,85 @@ const sizes = (p: Product) => p.variants.filter((v) => v.available).map((v) => v
   .feature__more {
     justify-self: start;
     margin-top: 0.5rem;
+  }
+  .feature__notes {
+    display: grid;
+    gap: 0.6rem;
+    max-width: var(--measure);
+    margin: 0.25rem 0 0;
+  }
+  .feature__notes > div {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .feature__notes dd {
+    margin: 0;
+    font-family: var(--f-serif);
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+  .feature__notes--tba {
+    font-style: italic;
+  }
+  /* touch has no hover: show the season's portrait instead of a second packshot (the picker already shows the flacon) */
+  @media (hover: none) {
+    .feature__media .card-img__alt {
+      opacity: 1;
+      filter: none;
+    }
+  }
+
+  /* the stage: once the picker script runs, the chosen fragrance's image sits beside the picker and its
+     details, so choosing is seen in place. Without script all panels stack as articles (rules below). */
+  @media (min-width: 720px) {
+    html[data-pick] .shop__stage {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      row-gap: clamp(1.75rem, 3vw, 2.75rem);
+      align-items: start;
+    }
+    html[data-pick] .shop__stage > .shop__head {
+      grid-column: 7 / span 6;
+      grid-row: 1;
+      margin-bottom: 0;
+    }
+    html[data-pick] .shop__title {
+      font-size: clamp(3.25rem, 1rem + 4.6vw, 6rem);
+    }
+    html[data-pick] .shop__stage > .pick {
+      grid-column: 7 / span 6;
+      grid-row: 2;
+      margin-bottom: 0;
+    }
+    html[data-pick] .feature {
+      display: contents;
+    }
+    html[data-pick] .feature__media {
+      grid-column: 1 / span 6;
+      grid-row: 1 / span 3;
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      margin-inline: 0;
+    }
+    html[data-pick] .feature__name {
+      font-size: clamp(2.75rem, 1.5rem + 3vw, 4.75rem);
+    }
+    html[data-pick] .feature__info {
+      grid-column: 7 / span 6;
+      grid-row: 3;
+      align-content: start;
+      padding-bottom: var(--section);
+    }
+  }
+  @media (min-width: 1100px) {
+    html[data-pick] .shop__stage > .shop__head,
+    html[data-pick] .shop__stage > .pick,
+    html[data-pick] .feature__info {
+      grid-column: 8 / span 5;
+    }
   }
   @media (min-width: 900px) {
     .feature {
