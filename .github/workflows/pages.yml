@@ -29,7 +29,7 @@ jobs:
           enablement: true
       # קבצי הבנייה, ההערות הפנימיות והגדרות הפיתוח לא צריכים להיות באתר הציבורי
       - name: Exclude AMS build tools and internal notes
-        run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json
+        run: rm -rf ams/tools ams/README.md ams/.gitignore .claude .mcp.json mizrahi/tools mizrahi/docs mizrahi/content mizrahi/README.md mizrahi/.gitignore .taste-skill
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
