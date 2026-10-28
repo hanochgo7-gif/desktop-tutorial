@@ -9,6 +9,7 @@
  * Then either mark a form:  <form data-hgos="בקשת הצעת מחיר"> ... <input name="name"> <input name="phone"> ...
  *   (fields named name / phone / email / company / message are the lead's details; any other field is kept as an answer)
  * or call it from your own code:  HGOS.send({ name, phone, email, message, form: 'בריף', fields: [['מה העסק?', 'קליניקה'], ...] })
+ *   A call-back request adds callback_at (ISO time) and callback_label: the follow-up task in HG OS is then due at that time.
  *
  * Privacy: the campaign that brought the visitor (UTM, click id, referring site) is kept in this browser
  * (localStorage "hgos_touch") for 90 days, only to credit the right source. Nothing is sent until they submit
@@ -58,7 +59,8 @@
     var saved = read();
     var t = isCampaign(here) || !saved ? here : saved;
     var body = { form: lead.form, name: lead.name, phone: lead.phone, email: lead.email, company: lead.company, message: lead.message,
-      fields: lead.fields || {}, consent: !!lead.consent, consent_text: lead.consent_text, hp: lead.hp, page: location.href.split('#')[0] };
+      fields: lead.fields || {}, consent: !!lead.consent, consent_text: lead.consent_text, hp: lead.hp, page: location.href.split('#')[0],
+      callback_at: lead.callback_at, callback_label: lead.callback_label };
     PARAMS.concat(['landing_page', 'referrer']).forEach(function (k) { if (t[k]) body[k] = t[k]; });
     var req = function (keepalive) {
       return fetch(API + '/rest/v1/rpc/crm_web_lead', {
