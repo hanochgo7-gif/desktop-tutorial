@@ -28,6 +28,7 @@
   if (mb && nav) {
     function setMenu(open) {
       nav.classList.toggle("open", open); mb.setAttribute("aria-expanded", open ? "true" : "false");
+      if (window.miftahHead) window.miftahHead();
     }
     mb.addEventListener("click", function () { setMenu(mb.getAttribute("aria-expanded") !== "true"); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && mb.getAttribute("aria-expanded") === "true") { setMenu(false); mb.focus(); } });
@@ -52,12 +53,25 @@
       var y = window.scrollY, down = y > lastY + 4, up = y < lastY - 4, menuOpen = mb && mb.getAttribute("aria-expanded") === "true";
       if (head && !menuOpen && !head.contains(document.activeElement)) { if (down && y > 160) head.classList.add("away"); else if (up || y < 160) head.classList.remove("away"); }
       if (bar) bar.classList.toggle("on", y > window.innerHeight * .6 && !endVisible);
+      // see-through over the opening photo; white once the page moves, or while the menu is open
+      if (head) head.classList.toggle("solid", !document.body.classList.contains("top-dark") || y > 40 || !!menuOpen);
       if (down || up) lastY = y;
     }
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     document.addEventListener("focusin", function (e) { if (head && head.contains(e.target)) head.classList.remove("away"); });
+    window.miftahHead = update;
     update();
   })();
+
+  // ---- the moving line of what we build: a pause button (WCAG 2.2.2) ----
+  Array.prototype.forEach.call(document.querySelectorAll(".ticker"), function (tk) {
+    var b = tk.querySelector(".ticker-btn"); if (!b) return;
+    b.addEventListener("click", function () {
+      var paused = tk.classList.toggle("paused");
+      b.setAttribute("aria-pressed", paused ? "true" : "false");
+      b.setAttribute("aria-label", paused ? b.dataset.play : b.dataset.pause);
+    });
+  });
 
   // ---- videos: choose a source for the screen, honour reduced motion, always offer pause ----
   document.querySelectorAll("video[data-src-wide]").forEach(function (v) {

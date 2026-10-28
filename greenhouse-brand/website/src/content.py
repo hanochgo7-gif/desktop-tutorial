@@ -583,6 +583,43 @@ GLOBE = {
     "go": ("Turn the globe", "לסובב את הגלובוס"),
 }
 
+# ---------------------------------------------------------------- "Open Skies" home (design chosen 28 Oct 2026)
+OS = {
+    "ticker_label": ("What we build", "מה אנחנו בונים"),
+    "ticker": [("Banana net houses", "בתי רשת לבננות"), ("Apple and cherry net houses", "בתי רשת לתפוחים ולדובדבנים"), ("Kiwi net houses with a pergola trellis", "בתי רשת לקיווי עם הדליית סוכה"),
+               ("Avocado net houses", "בתי רשת לאבוקדו"), ("Loading sheds", "סככות העמסה"), ("Windbreaks", "שוברי רוח"), ("Trellising and support", "הדליה ותמיכה"),
+               ("Maintenance of structures", "תחזוקת מבנים"), ("Turnkey farms abroad", "חוות מפתח בחו״ל")],  # 2.1-2.6, 1.3
+    "ticker_pause": ("Pause the moving line", "עצירת השורה הנעה"), "ticker_play": ("Play the moving line", "הפעלת השורה הנעה"),
+    "who_k": ("Who we are", "מי אנחנו"),
+    "statement_b": ("Net houses for orchards and bananas,", "בתי רשת למטעים ולבננות,"),
+    "statement": (" designed, made in our own plant and built by our own crews. More than 20 years, in Israel and abroad.",
+                  " שמתוכננים, מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו. יותר מ-20 שנה, בישראל ובחו״ל."),  # 1.6, 1.7, 2.1
+    "sol_h": ("Three services, one team.", "שלושה שירותים, צוות אחד."),
+    "sol_p": ("Take the whole path, or only the stage you need.", "אפשר לקבל את כל הדרך, או רק את השלב שאתם צריכים."),  # 2.7
+    "sols": [
+        {"k": ("Structures", "מבנים"), "h": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"), "img": "forest",
+         "alt": ("A large white net house below a wooded hillside", "בית רשת לבן וגדול מתחת לגבעה מיוערת"),
+         "p": ("Orchards and bananas, loading sheds and windbreaks. Made in our plant and built by our crews.", "מטעים ובננות, סככות העמסה ושוברי רוח. מיוצרים במפעל שלנו ומוקמים בידי הצוותים שלנו."),
+         "chips": [("11% net for bananas", "רשת 11% לבננות"), ("10–30% for orchards", "10%–30% למטעים")], "href": "net-houses.html"},  # 1.7, 2.1-2.4
+        {"k": ("Turnkey, abroad", "חוות מפתח בחו״ל"), "h": ("Complete farms abroad", "חוות שלמות בחו״ל"), "img": "valley",
+         "alt": ("White net houses across a farming valley", "בתי רשת לבנים לאורך עמק חקלאי"),
+         "p": ("Soil testing and a business plan, structures and irrigation, planting, a local team, growing and marketing. With agricultural partners.", "בדיקת קרקע ותוכנית עסקית, מבנים והשקיה, שתילה, צוות מקומי, גידול ושיווק. עם שותפים חקלאיים."),
+         "chips": [("For investors", "למשקיעים"), ("From 30 ha", "מ-300 דונם")], "href": "turnkey-farms.html"},  # 1.3, 1.4, 4.2
+        {"k": ("One stage", "שלב אחד"), "h": ("Design, supervision and maintenance", "תכנון, פיקוח ותחזוקה"), "img": None, "alt": None,
+         "p": ("Needs mapping on site, engineering design, manufacture, supervision, training and maintenance, each on its own. Also for existing structures.", "מיפוי צרכים בשטח, תכנון הנדסי, ייצור, פיקוח, הדרכה ותחזוקה, כל אחד בנפרד. גם למבנים קיימים."),
+         "chips": [("Each stage on its own", "כל שלב גם בנפרד")], "href": "net-houses.html#service"},  # 2.6, 2.7
+    ],
+    "field_k": ("From the field", "מהשטח"),
+    "world_k": ("Where we have built", "איפה בנינו"),
+    "world_unit": ("ha", "דונם"),
+    "world_more": [(("Portugal", "פורטוגל"), ("An avocado net house; the client came by referral", "בית רשת לאבוקדו; הלקוח הגיע בהמלצה")),
+                   (("Belarus", "בלארוס"), ("A complex project, on schedule, with local manufacturing and crews", "פרויקט מורכב, בלוח הזמנים, עם ייצור וצוותים מקומיים"))],  # 3.3, 3.6
+    "world_cap": ("Areas as of 2015.", "השטחים נכונים ל-2015."),
+    "owners_k": ("Who you deal with", "מול מי עובדים"),
+    "path_k": ("Investors", "למשקיעים"),
+    "path_h": ("A farm end to end: 11 stages, one address.", "חווה מקצה לקצה: 11 שלבים, כתובת אחת."),  # 2 (q3)
+}
+
 # ---------------------------------------------------------------- V3 home ("under the net")
 HOME3 = {
     "h1": ("A roof of net over your crop.", "גג של רשת מעל הגידול שלכם."),

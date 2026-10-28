@@ -272,9 +272,9 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
         links = (f'<link rel="canonical" href="{url(slug, L, True)}">'
                  f'<link rel="alternate" hreflang="en" href="{url(slug, "en", True)}"><link rel="alternate" hreflang="he" href="{url(slug, "he", True)}">'
                  f'<link rel="alternate" hreflang="x-default" href="{url(slug, "en", True)}">')
-    pre = f'<link rel="preload" href="{r}assets/fonts/IBMPlexSans-var-latin.woff2?v={FONTV["IBMPlexSans-var-latin.woff2"]}" as="font" type="font/woff2" crossorigin>'
+    pre = f'<link rel="preload" href="{r}assets/fonts/Heebo-var-latin.woff2?v={FONTV["Heebo-var-latin.woff2"]}" as="font" type="font/woff2" crossorigin>'
     if L == "he":  # Hebrew pages still need the Latin file for digits, spaces and punctuation
-        pre += "".join(f'<link rel="preload" href="{r}assets/fonts/IBMPlexSansHebrew-{w}-hebrew.woff2?v={FONTV[f"IBMPlexSansHebrew-{w}-hebrew.woff2"]}" as="font" type="font/woff2" crossorigin>' for w in (700, 400))
+        pre += f'<link rel="preload" href="{r}assets/fonts/Heebo-var-hebrew.woff2?v={FONTV["Heebo-var-hebrew.woff2"]}" as="font" type="font/woff2" crossorigin>'
     if slug == "how-we-build":  # the still of the 3D scene is this page's largest image
         pre += (f'<link rel="preload" as="image" href="{r}assets/img/sim-poster-m.jpg" media="(max-width: 760px)">'
                 f'<link rel="preload" as="image" href="{r}assets/img/sim-poster.jpg" media="(min-width: 761px)">')
@@ -321,7 +321,7 @@ def header(slug, L):
     mbar = "" if slug in ("contact", "how-we-build", "profile", "404") else (
         f'<nav class="mbar" id="mbar" aria-label="{"Quick contact" if L == "en" else "יצירת קשר מהירה"}" hidden><a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="mbar">{esc(t(C.SITE["call_short"], L))}</a>'
         f'<a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="mbar">{esc(t(C.SITE["cta"], L))}</a></nav>')
-    return f"""<body>
+    return f"""<body{' class="top-dark"' if slug not in ("profile", "404") else ""}>
 <a class="skip" href="#main">{esc(t(C.SITE["skip"], L))}</a>
 <header class="site-head">
   <div class="wrap head-in">
@@ -354,7 +354,7 @@ def footer(L):
       </div>
       <div>
         <h2>{esc(t(S["foot_nav"], L))}</h2>
-        <ul>{nav}<li><a href="how-we-build.html">{esc(t(C.PAGES["how-we-build"]["h1"], L))}</a></li><li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
+        <ul>{nav}<li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
       </div>
       <div>
         <h2>{esc(t(S["foot_contact"], L))}</h2>
@@ -376,14 +376,21 @@ def footer(L):
 
 
 def page_head(slug, L, img=None):
+    """Inner-page head in the Open Skies style: the title over a full-bleed archive photo (or the deep green field), under the see-through header."""
     P = C.PAGES[slug]
+    if img is None and slug in HEAD_IMG:
+        name = HEAD_IMG[slug]; img = (name, next(cap for im, _, _, cap in C.STEPS if im == name))
     crumbs = f'<nav class="crumbs" aria-label="{"Breadcrumb" if L == "en" else "פירורי לחם"}"><ol><li><a href="index.html">{esc(t(C.SITE["home"], L))}</a></li><li aria-current="page">{esc(t(P["h1"], L))}</li></ol></nav>'
     lead = f'<p class="lead">{esc(t(P["lead"], L))}</p>' if "lead" in P else ""
+    bg = cap = ""
     if img:
-        name, cap = img
-        fig = f'<figure class="ph-fig">{picture(name, tm(cap, L), L, sizes="(max-width: 900px) 100vw, 560px", archive=True, eager=True)}<figcaption>{esc(t(cap, L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>'
-        return f'<section class="page-head has-img"><div class="wrap ph-grid"><div>{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}</div>{fig}</div></section>'
-    return f'<section class="page-head"><div class="wrap">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}</div></section>'
+        name, c = img
+        bg = f'<div class="ph-media" aria-hidden="true">{picture(name, "", L, sizes="100vw", archive=True, eager=True)}</div>'
+        cap = f'<p class="ph-cap">{esc(t(c, L))}. {esc(t(C.SITE["archive"], L))}.</p>'
+    return f'<section class="page-head{" has-img" if img else ""}">{bg}<div class="wrap ph-in">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}{cap}</div></section>'
+
+
+HEAD_IMG = {"projects": "p-closed", "about": "p-site"}  # archive photos not used elsewhere on those pages
 
 
 def cta_band(L, where):
@@ -450,78 +457,102 @@ def crop_selector(L, where="home"):
 
 
 def p_index(L):
-    P = C.PAGES["index"]; H = C.HOME3; S = C.SITE; r = rel(L)
+    P = C.PAGES["index"]; H = C.HOME3; S = C.SITE; O = C.OS; r = rel(L)
     vids = f'data-src-wide="{r}assets/video/hero-wide.mp4" data-src-small="{r}assets/video/hero-720.mp4" data-src-portrait="{r}assets/video/hero-portrait.mp4"'
     poster = (f'<picture><source media="(max-width: 720px) and (orientation: portrait)" type="image/avif" srcset="{r}assets/img/hero-portrait-720.avif">'
               f'<source media="(max-width: 720px) and (orientation: portrait)" type="image/webp" srcset="{r}assets/img/hero-portrait-720.webp">'
               f'<source type="image/avif" srcset="{r}assets/img/hero-960.avif 960w, {r}assets/img/hero-1600.avif 1600w" sizes="100vw">'
               f'<source type="image/webp" srcset="{r}assets/img/hero-960.webp 960w, {r}assets/img/hero-1600.webp 1600w" sizes="100vw">'
               f'<img src="{r}assets/img/hero-1600.jpg" alt="" width="1600" height="900" fetchpriority="high"></picture>')
-    # the net canopy drawn over the footage: a fine mesh with a sagging edge cable, and the poles that carry it
-    canopy = ('<svg class="canopy" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMin slice" aria-hidden="true">'
-              '<defs><pattern id="mesh" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 0H9M0 0V9" stroke="#fff" stroke-opacity=".3" stroke-width=".9"/></pattern>'
-              '<linearGradient id="fadeNet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity=".7"/></linearGradient><linearGradient id="poleFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3E8EA" stop-opacity=".95"/><stop offset="1" stop-color="#E3E8EA" stop-opacity="0"/></linearGradient>'
-              '<mask id="netMask"><rect width="1600" height="900" fill="url(#fadeNet)"/></mask></defs>'
-              '<g class="canopy-net" mask="url(#netMask)"><path d="M0 0H1600V236 Q1400 274 1200 238 Q1000 274 800 238 Q600 274 400 238 Q200 274 0 238Z" fill="#fff" fill-opacity=".1"/><path d="M0 0H1600V236 Q1400 274 1200 238 Q1000 274 800 238 Q600 274 400 238 Q200 274 0 238Z" fill="url(#mesh)"/></g>'
-              '<path class="canopy-cable" d="M0 238 Q200 274 400 238 Q600 274 800 238 Q1000 274 1200 238 Q1400 274 1600 238" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="2"/>'
-              '</svg>')
-    steps_html = steps(L)
-    def stage_list(items):
-        names = [t(x[0], L) for x in items]
-        return ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
-    phases = "".join(f'<li><b>{esc(t(ph, L))}</b><span>{esc(stage_list(items))}</span></li>' for ph, items in C.STAGES)
-    values = "".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)
-    # The slogan is the page headline. The Hebrew one breaks after the company name, never before the dash.
+    # The slogan is the page headline: a thin line, then a heavy one. The Hebrew breaks after the company name, never before the dash.
     sl = t(S["slogan"], L)
-    slogan_h1 = esc(sl) if " - " not in sl else '<span class="h1-a">{} -</span> <span class="h1-b">{}</span>'.format(*map(esc, sl.split(" - ", 1)))
+    if " - " in sl:
+        a, b = sl.split(" - ", 1); a += " -"
+    else:
+        a, b = sl.split(" feels ", 1) if " feels " in sl else (sl, ""); b = ("feels " + b) if b else ""
+    slogan_h1 = f'<span class="h1-a">{esc(a)}</span> <span class="h1-b">{esc(b)}</span>' if b else esc(sl)
+    items = "".join(f"<span>{esc(t(x, L))}</span>" for x in O["ticker"])
+    ticker = (f'<section class="ticker" aria-label="{esc(tm(O["ticker_label"], L))}"><div class="ticker-track">{items}<span aria-hidden="true" class="dup">{items}</span></div>'
+              f'<button class="ticker-btn" type="button" aria-pressed="false" data-pause="{esc(tm(O["ticker_pause"], L))}" data-play="{esc(tm(O["ticker_play"], L))}" aria-label="{esc(tm(O["ticker_pause"], L))}">'
+              '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"/><path class="i-play" d="M2 1l9 5-9 5z" fill="currentColor"/></svg></button></section>')
+    facts = "".join(f'<div class="fact"><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div>' for a_, b_ in C.FACTS)
+    def sol(x):
+        img = picture(x["img"], tm(x["alt"], L), L, sizes="(max-width: 980px) 100vw, 40vw", archive=True) if x["img"] else ""
+        chips = "".join(f"<span>{esc(t(c, L))}</span>" for c in x["chips"])
+        return (f'<a class="sol{"" if x["img"] else " sol-plain"}" href="{x["href"]}" data-track="route_click" data-label="sol-{x["img"] or "stage"}">{img}'
+                f'<div class="sol-body"><small>{esc(t(x["k"], L))}</small><h3>{esc(t(x["h"], L))}</h3><p>{esc(t(x["p"], L))}</p><div class="chips">{chips}</div></div></a>')
+    sols = "".join(sol(x) for x in O["sols"])
+    rows = [(en, he, a_) for en, he, _, a_ in C.PROJECT_ROWS if a_]
+    top = max(a_ for *_, a_ in rows)
+    bars = "".join(f'<li><b>{esc(en if L == "en" else he)}</b><span class="bar"><i style="width:{a_ / top * 100:.0f}%"></i></span>'
+                   f'<span class="v">{(f"{a_ / 10000:g}" if L == "en" else f"{a_ / 1000:g}")} {esc(t(O["world_unit"], L))}</span></li>' for en, he, a_ in rows)
+    more = "".join(f'<li><b>{esc(t(c, L))}</b><span>{esc(t(w, L))}</span></li>' for c, w in O["world_more"])
+    path = "".join(f'<li><span class="n">{i + 1:02d}</span>{esc(t(x[0], L))}</li>' for i, x in enumerate(x for _, items in C.STAGES for x in items))
     return f"""
 <main id="main">
-<section class="hero hero3" aria-labelledby="hero-h">
+<section class="hero hero-os" aria-labelledby="hero-h">
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
-  {canopy}
   <div class="wrap hero-in">
     <h1 id="hero-h">{slogan_h1}</h1>
-    <p class="hero-sub">{esc(t(H["h1"], L))}</p>
-    <p class="lead">{esc(t(H["lead"], L))}</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
-      <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>
+    <div class="hero-row">
+      <div><p class="hero-sub">{esc(t(H["h1"], L))}</p><p class="lead">{esc(t(H["lead"], L))}</p></div>
+      <div class="actions">
+        <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
+        <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>
+      </div>
     </div>
-    <p class="hero-invest"><a href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(H["invest"], L))}</a></p>
-    <div class="hero-foot"><span>{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
+    <div class="hero-foot"><a class="hero-invest" href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(H["invest"], L))}</a><span class="hero-cap">{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
+  </div>
+</section>
+{ticker}
+
+<section class="statement-os" aria-labelledby="who-k">
+  <div class="wrap">
+    <h2 class="kicker" id="who-k">{esc(t(O["who_k"], L))}</h2>
+    <p class="big"><strong>{esc(t(O["statement_b"], L))}</strong>{esc(t(O["statement"], L))}</p>
+    <div class="facts-os">{facts}</div>
+  </div>
+</section>
+
+<section class="solutions" aria-labelledby="sol-h">
+  <div class="wrap">
+    <div class="os-head"><h2 id="sol-h">{esc(t(O["sol_h"], L))}</h2><p class="lead">{esc(t(O["sol_p"], L))}</p></div>
+    <div class="sol-grid">{sols}</div>
   </div>
 </section>
 
 {crop_selector(L)}
 
-<section class="section dark proof" aria-labelledby="proof-h">
+<section class="section build field-os" aria-labelledby="steps-h">
   <div class="wrap">
-    <div class="proof-head"><h2 id="proof-h">{esc(t(H["proof_h"], L))}</h2><div><p class="lead">{esc(t(H["proof_p"], L))}</p><p class="more"><a href="projects.html">{esc(t(H["proof_go"], L))}</a></p></div></div>
-    {map_svg(L)}
-  </div>
-</section>
-
-<section class="section build" aria-labelledby="steps-h">
-  <div class="wrap">
-    <div class="sec-head"><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
-    {steps_html}
+    <div class="os-head"><div><p class="kicker">{esc(t(O["field_k"], L))}</p><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2></div><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
+    {steps(L)}
     <p class="swipe-hint" aria-hidden="true">{esc(t(H["steps_swipe"], L))}</p>
     <p class="more sim-link"><a href="how-we-build.html">{esc(t(H["sim_go"], L))}</a></p>
   </div>
 </section>
 
-<section class="section white who" aria-labelledby="who-h">
-  <div class="wrap who-grid">
-    <div><h2 id="who-h">{esc(t(H["who_h"], L))}</h2><p class="lead">{esc(t(H["who_p"], L))}</p><p class="who-peace">{esc(t(H["who_peace"], L))}</p><p class="who-refs">{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div>
-    <ul class="values one">{values}</ul>
+<section class="section dark world" aria-labelledby="proof-h">
+  <div class="wrap world-grid">
+    <div><p class="kicker">{esc(t(O["world_k"], L))}</p><h2 id="proof-h">{esc(t(H["proof_h"], L))}</h2><p class="lead">{esc(t(H["proof_p"], L))}</p><p class="more"><a href="projects.html">{esc(t(H["proof_go"], L))}</a></p></div>
+    <div><ul class="bars">{bars}</ul><p class="bars-cap">{esc(t(O["world_cap"], L))}</p><ul class="markets">{more}</ul></div>
   </div>
 </section>
 
-<section class="section dark invest" aria-labelledby="inv-h">
-  <div class="wrap invest-grid">
-    <div><h2 id="inv-h">{esc(t(H["inv_h"], L))}</h2><p class="lead">{esc(t(H["inv_p"], L))}</p><p class="inv-note">{esc(t(H["inv_note"], L))}</p>
-      <div class="actions"><a class="btn btn-primary" href="turnkey-farms.html" data-track="route_click" data-label="investors">{esc(t(H["inv_go"], L))}</a></div></div>
-    <ol class="phases-mini">{phases}</ol>
+<section class="section owners" aria-labelledby="who-h">
+  <div class="wrap">
+    <p class="kicker">{esc(t(O["owners_k"], L))}</p>
+    <h2 id="who-h">{esc(t(H["who_h"], L))}</h2>
+    <p class="big-quote">{esc(t(H["who_peace"], L))}</p>
+    <div class="owners-more"><p>{esc(t(H["who_p"], L))}</p><div><p>{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div></div>
+  </div>
+</section>
+
+<section class="section path-os" aria-labelledby="inv-h">
+  <div class="wrap">
+    <div class="os-head"><div><p class="kicker">{esc(t(O["path_k"], L))}</p><h2 id="inv-h">{esc(t(O["path_h"], L))}</h2></div><div><p class="lead">{esc(t(H["inv_p"], L))}</p><p class="inv-note">{esc(t(H["inv_note"], L))}</p></div></div>
+    <ol class="path">{path}</ol>
+    <div class="actions"><a class="btn btn-primary" href="turnkey-farms.html" data-track="route_click" data-label="investors">{esc(t(H["inv_go"], L))}</a></div>
   </div>
 </section>
 {cta_band(L, "home")}
@@ -901,7 +932,7 @@ def globe_page():
     assert 'id="home-link"' in page
     page = page.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>', f'<script src="../assets/vendor/three.min.js?v={VER["three"]}"></script>')
     page = re.sub(r'<meta name="claude:viewport-fit-sides"[^>]*>\n|<link rel="preconnect"[^>]*>\n|<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>\n', "", page)
-    page = page.replace('"Heebo", Arial, sans-serif', '"Plex", "Plex Fallback", Arial, sans-serif').replace('"IBM Plex Mono", ui-monospace', '"Plex Mono", ui-monospace')
+    page = page.replace('"Heebo", Arial, sans-serif', '"Heebo", "Heebo Fallback", Arial, sans-serif').replace('"IBM Plex Mono", ui-monospace', '"Plex Mono", ui-monospace')
     assert "googleapis" not in page and "cdnjs" not in page
     title = re.search(r"<title>(.*?)</title>", page).group(1)
     page = page.replace(f"<title>{title}</title>", "", 1)

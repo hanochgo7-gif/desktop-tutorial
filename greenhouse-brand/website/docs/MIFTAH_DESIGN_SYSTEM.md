@@ -1,3 +1,5 @@
+> **28 Oct 2026: the site now uses the "Open Skies" design (example א, "שמיים פתוחים", chosen by Hanoch).** Heebo only (variable 100–900, self-hosted), white and mist #F2F6F4 pages with deep green #0E4239 bands, ink #0D1F1B, logo greens #1B6E62 / #7FC49B, pill buttons (mint on deep text), a see-through header over full-bleed photos, the slogan as a hairline-to-black H1, a moving line of services (with a pause button), photo cards, area bars and an 11-stage path. Tokens and components: the "Open Skies" layer at the end of `src/assets/site.css`. The notes below describe the earlier layers that the new one overrides.
+
 # MIFTAH design system
 
 Direction: "Engineering dossier, shot on site." See MIFTAH_CREATIVE_DIRECTION.md for the reasoning.
