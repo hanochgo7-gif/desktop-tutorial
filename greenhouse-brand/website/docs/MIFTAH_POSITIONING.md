@@ -57,7 +57,7 @@ Based on MIFTAH_MARKET_RESEARCH.md:
 | Crop-specific | banana net house, orchard net house | בית רשת לבננות, בית רשת למטע |
 | Steel | galvanized steel poles | עמודי פלדה מגולוונים |
 | Folding | nets fold away in winter, spread in summer | הרשת מתקפלת בחורף ונפרסת בקיץ |
-| Turnkey | turnkey farm | חווה בשיטת Turnkey (מפתח בהקמה) |
+| Turnkey | turnkey farm (abroad) | חוות מפתח (בחו״ל) |
 | First step | project review | בדיקת פרויקט |
-| Needs mapping | needs mapping on site | מיפוי צרכים בשטח |
-| Loading shed | loading and shade shed | סככת העמסה וצל |
+| Needs mapping | needs mapping on site; in plain-English headings "site visit and needs assessment" (farmer panel, 27 Oct 2026) | מיפוי צרכים בשטח |
+| Loading shed | loading shed | סככת העמסה |
