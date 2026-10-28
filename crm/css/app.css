@@ -694,6 +694,8 @@ body:has(.top [data-top="lead"]) .page-actions:has([data-act="export"]) [data-ac
 .first-steps li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r-2); counter-increment: step; background: var(--surface); }
 .first-steps li::before { content: counter(step); flex: none; width: 26px; height: 26px; border-radius: 99px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: var(--fs-sm); }
 .first-steps li.done::before { content: ''; background: var(--money-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23087A4E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") no-repeat center / 14px; }
+:root[data-theme="dark"] .first-steps li.done::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2345CC92' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .first-steps li.done::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2345CC92' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); } }
 .first-steps li .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 
 /* lists inside panels and drill-downs */
@@ -1000,8 +1002,12 @@ details.defs[open] > summary .ic { transform: rotate(180deg); }
   .toolbar { display: grid; grid-template-columns: 1fr 1fr; }
   .toolbar .input[type=search], .toolbar .input { width: 100%; min-width: 0; }
   .toolbar .input[type=search] { grid-column: 1 / -1; }
-  .notice, .dup-warn { padding: 8px 12px; font-size: var(--fs-xs); align-items: center; }
-  .notice .btn-sm { flex: none; }
+  /* notices stay small on the phone: one paragraph, the action as a link at its end */
+  .notice, .dup-warn { padding: 8px 12px; font-size: var(--fs-xs); line-height: 1.5; }
+  .notice:has(> .btn-sm) { display: block; }
+  .notice:has(> .btn-sm) > .ic { display: none; }
+  .notice:has(> .btn-sm) > .grow { display: inline; }
+  .notice .btn.btn-sm { display: inline; height: auto; min-height: 0; padding: 12px 0; margin-inline-start: 4px; border: 0; background: none; box-shadow: none; color: var(--brand); font-size: inherit; text-decoration: underline; text-underline-offset: 3px; }
   .page-head { margin-bottom: var(--sp-4); }
   .page-head h1 { font-size: 21px; }
   .kpis > * { flex-basis: 40%; }
@@ -1035,6 +1041,7 @@ details.defs[open] > summary .ic { transform: rotate(180deg); }
 @media (hover: none) {
   .table tbody tr:hover:not(.selected) td, .act-row:hover, .task-row:hover, .list-row:hover, .assoc-item:hover, .mini-list li a:hover { background: transparent; }
   .table tbody tr:hover:not(.selected) td.c-check, .table tbody tr:hover:not(.selected) td.c-primary { background: var(--surface); }
+  .act-main:hover .act-title, .table-leads .prim:hover b { color: inherit; }
 }
 
 /* touch screens: 44px targets */
