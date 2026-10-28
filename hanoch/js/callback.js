@@ -48,12 +48,15 @@
   }
 
   var CSS =
-    '.cb{width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:0;border-radius:22px;border:1px solid rgba(237,232,222,.16);' +
+    '.cb{width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overflow-x:hidden;overscroll-behavior:contain;padding:0;border-radius:22px;border:1px solid rgba(237,232,222,.16);' +
     'background:#121214;color:#ede8de;font:inherit;font-size:1rem;line-height:1.55;box-shadow:0 30px 80px rgba(0,0,0,.6)}' +
     '.cb::backdrop{background:rgba(5,5,6,.72);backdrop-filter:blur(3px)}' +
+    'html:has(.cb[open]){overflow:hidden}' +
+    '@media (prefers-reduced-motion:no-preference){.cb[open]{animation:cb-in .2s cubic-bezier(.22,1,.36,1)}.cb[open]::backdrop{animation:cb-fade .2s ease}}' +
+    '@keyframes cb-in{from{opacity:0;transform:scale(.97)}}@keyframes cb-fade{from{opacity:0}}' +
     '.cb form,.cb .cb-done{padding:22px 22px 20px}' +
-    '.cb h2{margin:0 0 .35rem;font-size:1.35rem;line-height:1.25;font-weight:800;padding-inline-end:44px}' +
-    '.cb .cb-sub{margin:0 0 1.1rem;color:rgba(237,232,222,.7);font-size:.95rem}' +
+    '.cb h2{margin:0 0 .35rem;font-size:1.35rem;line-height:1.25;font-weight:800;padding-inline-end:44px;text-wrap:balance}' +
+    '.cb .cb-sub{margin:0 0 1.1rem;color:rgba(237,232,222,.7);font-size:.95rem;text-wrap:pretty}' +
     '.cb-x{position:absolute;top:12px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,232,222,.28);background:transparent;color:inherit;font-size:1.4rem;line-height:1;cursor:pointer}' +
     '.cb-x:hover{background:rgba(237,232,222,.1)}' +
     '.cb-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}' +
@@ -66,11 +69,12 @@
     '.cb-chips{display:flex;flex-wrap:wrap;gap:8px}' +
     '.cb-chips label{position:relative}' +
     '.cb-chips input{position:absolute;opacity:0;pointer-events:none}' +
-    '.cb-chips span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-height:44px;padding:.4rem .95rem;border-radius:99px;border:1.5px solid rgba(237,232,222,.28);cursor:pointer;font-size:.95rem;line-height:1.2;transition:background .15s,border-color .15s}' +
+    '.cb-chips span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-height:48px;padding:.4rem .95rem;border-radius:99px;border:1.5px solid rgba(237,232,222,.28);cursor:pointer;font-size:.95rem;line-height:1.2;transition:background .15s,border-color .15s}' +
     '.cb-chips small{font-size:.75rem;opacity:.7}' +
     '.cb-chips input:checked+span{background:#ede8de;color:#0a0a0b;border-color:#ede8de;font-weight:600}' +
     '.cb-chips input:focus-visible+span,.cb button:focus-visible,.cb a:focus-visible,.cb input:focus-visible{outline:3px solid #ff4f1a;outline-offset:3px}' +
-    '.cb-go{width:100%;min-height:52px;margin-top:.4rem;border:0;border-radius:99px;background:#ff4f1a;color:#0a0a0b;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer}' +
+    '.cb-go{width:100%;min-height:52px;margin-top:.4rem;border:0;border-radius:99px;background:#ff4f1a;color:#0a0a0b;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;transition:transform 140ms cubic-bezier(.22,1,.36,1),background-color 180ms ease}' +
+    '.cb-go:active{transform:scale(.97)}@media (hover:hover) and (pointer:fine){.cb-go:hover{background:#ff6a3d}}' +
     '.cb-go[disabled]{opacity:.6;cursor:wait}' +
     '.cb-err{min-height:1.2em;margin:.55rem 0 0;color:#ff9b7d;font-size:.9rem}' +
     '.cb-note{margin:.7rem 0 0;color:rgba(237,232,222,.6);font-size:.82rem}' +
@@ -78,9 +82,9 @@
     '.cb-wa{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:.8rem;padding:.6rem 1.3rem;border-radius:99px;background:#25d366;color:#06301a!important;font-weight:700;text-decoration:none}' +
     '.cb-done p{margin:.4rem 0 0;color:rgba(237,232,222,.8)}' +
     '.cb-done .cb-go{margin-top:1.2rem}' +
-    '.cb .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}' +
+    '.cb .hp{position:absolute;inset-inline-start:0;top:0;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);opacity:0;pointer-events:none}' +
     '.cb-line{display:block;margin-top:.35rem}' +
-    '.cb-link{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
+    '.cb-link{background:none;border:0;padding:.5em 0;margin:-.5em 0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
     '@media (max-width:420px){.cb-row{grid-template-columns:1fr}.cb form,.cb .cb-done{padding:18px 16px 16px}}';
 
   var dlg, form, err, chosen;
@@ -88,22 +92,22 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   function build() {
-    dlg = el('<dialog class="cb" aria-labelledby="cb-h"></dialog>');
+    dlg = el('<dialog class="cb" aria-labelledby="cb-h" data-lenis-prevent></dialog>');
     dlg.innerHTML =
       '<button type="button" class="cb-x" aria-label="סגירה">×</button>' +
       '<form novalidate>' +
         '<h2 id="cb-h">שאחזור אליכם בשעה שנוחה לכם?</h2>' +
         '<p class="cb-sub">השאירו שם וטלפון ובחרו מתי נוח לכם. אני מתקשר בעצמי, בלי התחייבות.</p>' +
         '<div class="cb-row">' +
-          '<label class="cb-field">שם<input type="text" name="name" autocomplete="name" maxlength="80" required></label>' +
-          '<label class="cb-field">טלפון<input type="tel" name="phone" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required></label>' +
+          '<label class="cb-field">שם<input type="text" name="name" autocomplete="name" maxlength="80" required aria-describedby="cb-err"></label>' +
+          '<label class="cb-field">טלפון<input type="tel" name="phone" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required aria-describedby="cb-err"></label>' +
         '</div>' +
         '<fieldset><legend>באיזה יום?</legend><div class="cb-chips" data-days></div></fieldset>' +
         '<fieldset data-times-box><legend>באיזו שעה?</legend><div class="cb-chips" data-times></div></fieldset>' +
         '<label class="cb-field" style="margin-bottom:.4rem">על מה נדבר? (לא חובה)<input type="text" name="message" maxlength="200" placeholder="למשל: אתר לקליניקה"></label>' +
         '<input class="hp" type="text" name="hgos_hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
         '<button class="cb-go" type="submit">לקבוע שיחה חוזרת</button>' +
-        '<p class="cb-err" role="alert" aria-live="assertive"></p>' +
+        '<p class="cb-err" id="cb-err" role="alert"></p>' +
         '<p class="cb-note">השם והטלפון נשמרים במערכת הפניות שלי רק כדי שאחזור אליכם. <a href="/privacy.html#crm">פרטיות</a></p>' +
       '</form>';
     form = dlg.querySelector('form'); err = dlg.querySelector('.cb-err');
@@ -207,7 +211,9 @@
     document.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('[data-callback]');
       if (!b) return;
-      e.preventDefault(); open();
+      e.preventDefault();
+      var menu = b.closest('details'); if (menu) menu.open = false;
+      open();
     });
   }
   if (document.body) init(); else document.addEventListener('DOMContentLoaded', init);

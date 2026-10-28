@@ -13,7 +13,7 @@
   --radius-l: 22px; --radius-pill: 99px; --radius-s: 14px; --radius-xs: 10px;
   --signal-ink: #a8360a;
 }
-.systems .mono { font-family: var(--f-mono); font-size: var(--fs-xs); letter-spacing: .04em; font-weight: 400; }
+.systems .mono { font-family: var(--f-mono); font-size: var(--fs-xs); letter-spacing: 0; font-weight: 400; }
 .systems .display { font-family: var(--f-display); font-weight: 750; line-height: .95; letter-spacing: 0; }
 /* האיפוסים הכלליים של העיצוב הקודם, רק בתוך החלק הזה */
 :where(.systems .showroom, .systems .showroom *, .systems .showroom *::before, .systems .showroom *::after) { margin: 0; padding: 0; }
@@ -211,7 +211,7 @@
 .d-site h4{ font-family: "Frank Ruhl Libre", Georgia, serif; font-weight: 400; font-size: 2em; line-height: 1.1; }
 .d-site.fade{ opacity: 0; }
 .d-langs{ display: flex; gap: 6px; flex-wrap: wrap; }
-@media (prefers-reduced-motion: reduce){.sr-live::before{ animation: none; }.sr-screen.is-in > *{ animation: none; }}
+@media (prefers-reduced-motion: reduce){.sr-live::before{ animation: none; }.sr-screen.is-in > *{ animation: none; }.sr-cat{ transition: border-color .4s; }.sr-media img, .sr-media video{ transition: opacity .6s; transform: none !important; }.sr-item::before{ transition: none; }.d-pop, .d-cart.bump{ animation: none; }}
 @media (min-width: 901px){[data-bg] .sr-item.is-on{ background: rgba(18, 18, 20, .55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }}
 @media (max-width: 900px){.sr-cats{ display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; height: auto; overflow: visible; margin-inline: 0; padding-inline: 0; }.sr-cat, .sr-cat.is-on{ grid-column: span 2; flex: none; height: auto; max-height: none; aspect-ratio: 3 / 4; border-radius: 16px; }.sr-cat:nth-child(4){ grid-column: 2 / span 2; }.sr-cat-text{ top: 10px; inset-inline: 10px; gap: .25rem; }.sr-cat-name{ font-size: clamp(.9rem, 2.5vw, 1.35rem); line-height: 1.12; }.sr-cat-n{ font-size: var(--fs-xs); }.sr-cat::after{ background: linear-gradient(180deg, rgba(10, 10, 11, .82) 0%, transparent 46%); }.sr-cat.is-on{ box-shadow: 0 0 0 1px var(--signal); }.sr-cat:not(.is-on) .sr-media img{ transform: none; }.sr-items{ flex-wrap: wrap; overflow: visible; margin-inline: 0; padding: 2px 0; }}
 @media (max-width: 900px){.sr-cat-n, .sr-url, .brief-steps{ font-size: var(--fs-xs); }.sr-live{ font-size: var(--fs-xs); }.brief-plan button, .d-prod .d-btn{ position: relative; }.d-prod .d-btn::before{ content: ""; position: absolute; inset: -6px -4px; }.d-range{ height: 34px; }}
@@ -259,7 +259,7 @@ html[lang="en"] .d-hero-title b{ font-family: "Fraunces", Georgia, serif; font-w
 .showroom.sr-closed .sr-body{ display: none; }
 .showroom.sr-closed .sr-cat .sr-media img{ filter: none; transform: none; }
 @media (hover: hover){.showroom.sr-closed .sr-cat:hover{ border-color: rgba(255, 79, 26, .75); }}
-.btn:active, .tier-cta:active, .case-close:active, .case-next:active, .film-play:active, .film-close:active, .compare-toggle:active,
+.tier-cta:active, .case-close:active, .case-next:active, .film-play:active, .film-close:active, .compare-toggle:active,
 .tg:active, .sr-cat:active, .sr-item:active, .lang-switch:active, .brief-back:active, .brief-copy:active, .brief-restart:active,
 .menu-btn:active, .a11y__btn:active, .a11y__close:active, .a11y__list button:active, .tour-play:active, .demo-play:active, .work-back:active,
 .foot-xray:active, .p-open:active, .hero-avail:active, .cr-btn:active, .cr-btn-ghost:active, .chip:active span, .faq-list summary:active{ scale: .97; }

@@ -726,12 +726,12 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 
 .contact-direct { color: var(--fg-dim); margin: -1.2rem 0 2.2rem; font-size: var(--fs-xs); display: flex; flex-wrap: wrap; gap: 8px; }
 /* טלפון, וואטסאפ ומייל: גלולות בגובה 44px, על רקע כהה כדי שיהיו קריאים גם מעל תמונת הכוכבים */
-.contact-direct a {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--radius-pill);
+.contact-direct a, .contact-direct button {
+  display: inline-flex; font: inherit; cursor: pointer; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--radius-pill);
   color: var(--paper); background: rgba(10, 10, 11, .7); border: 1px solid rgba(237, 232, 222, .18); text-decoration: none;
   transition: background-color .3s var(--ease), border-color .3s var(--ease);
 }
-@media (hover: hover) { .contact-direct a:hover { background: rgba(10, 10, 11, .9); border-color: rgba(237, 232, 222, .5); } }
+@media (hover: hover) { .contact-direct a:hover, .contact-direct button:hover { background: rgba(10, 10, 11, .9); border-color: rgba(237, 232, 222, .5); } }
 
 @media (min-width: 561px) and (max-width: 900px) { .hero-title { font-size: 25vw; } }
 

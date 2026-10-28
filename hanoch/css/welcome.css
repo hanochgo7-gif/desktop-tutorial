@@ -10,7 +10,7 @@
 .hw .display { font-family: "HG Handjet", "Rubik", system-ui, sans-serif; font-weight: 750; letter-spacing: 0; }
 .hw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .hw-copy { position: relative; z-index: 1; align-self: center; width: 100%; max-width: 1280px; margin: 0 auto; padding-bottom: 2vh; }
-.hw-kicker { font-size: .8125rem; color: var(--fg-dim); letter-spacing: .14em; margin-bottom: clamp(1rem, 3vh, 2rem); }
+.hw-kicker { font-size: .8125rem; color: var(--fg-dim); letter-spacing: 0; margin-bottom: clamp(1rem, 3vh, 2rem); }
 .hw-title { font-size: clamp(3.4rem, 12.2vw, 13.5rem); line-height: .86; color: var(--fg); }
 .hw-line { display: block; }
 .hw-title b { font-weight: inherit; color: var(--signal); }
@@ -19,7 +19,7 @@
 .hw .cta-row { margin-top: 1.8rem; display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap; }
 .hw .micro { margin-top: 1rem; }
 .hw .clients { margin-top: .8rem; }
-.hw-hint { position: relative; z-index: 1; margin: 0 0 18px; font-size: .8125rem; color: var(--fg-dim); letter-spacing: .08em; }
+.hw-hint { position: relative; z-index: 1; margin: 0 0 18px; font-size: .8125rem; color: var(--fg-dim); letter-spacing: 0; }
 .hw-hint-touch { display: none; }
 @media (hover: none), (pointer: coarse) { .hw-hint-fine { display: none; } .hw-hint-touch { display: inline; } }
 .hw-sub, .hw .cta-row, .hw-hint { opacity: calc(1 - var(--hw-p, 0) * 1.8); }

@@ -21,7 +21,7 @@
 .plan-art.is-playing video { opacity: 1; }
 .plan-badge { position: absolute; top: 28px; inset-inline-end: 24px; padding: .35rem .85rem; border-radius: 99px; background: var(--signal); color: var(--ink); font-size: .85rem; font-weight: 700; }
 
-.plan-scope { color: var(--fg-dim); font-size: .85rem; letter-spacing: .08em; }
+.plan-scope { color: var(--fg-dim); font-size: .85rem; letter-spacing: 0; }
 .plan-name { font-size: clamp(3.2rem, 5vw, 4.3rem); line-height: .9; margin: .15rem 0 .7rem; }
 .plan-star .plan-name { color: var(--signal); }
 .plan-who { color: var(--fg); font-weight: 500; line-height: 1.55; }
@@ -37,7 +37,7 @@
 /* טלפון: גלילה הצידה בין הכרטיסים */
 @media (max-width: 899px) {
   .plan-grid { grid-auto-flow: column; grid-auto-columns: min(86%, 380px); overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
-    margin-inline: calc((100vw - 100%) / -2); padding: 6px calc((100vw - 100%) / 2) 18px; scroll-padding-inline: calc((100vw - 100%) / 2); scrollbar-width: none; }
+    margin-inline: -20px; padding: 6px 20px 18px; scroll-padding-inline: 20px; scrollbar-width: none; }
   .plan-grid::-webkit-scrollbar { display: none; }
   .plan { scroll-snap-align: start; }
   .plan-star { order: -1; }
@@ -56,16 +56,17 @@
 .cmp { margin-top: 28px; border-radius: 20px; border: 1px solid var(--fg-faint); background: var(--ink-2); }
 .cmp summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding: 0 22px; cursor: pointer; font-weight: 600; }
 .cmp summary::-webkit-details-marker { display: none; }
+.cmp summary:focus-visible { outline-offset: -3px; border-radius: 20px; }
 .cmp summary i { width: 12px; height: 12px; border-inline-start: 2px solid var(--signal); border-bottom: 2px solid var(--signal); transform: rotate(-45deg); transition: transform .3s; }
 .cmp[open] summary i { transform: rotate(135deg); }
-.cmp-wrap { overflow-x: auto; padding: 0 12px 16px; }
+.cmp-wrap { position: relative; overflow-x: auto; padding: 0 12px 16px; }
 .cmp table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .93rem; }
 .cmp th, .cmp td { padding: .7rem .8rem; text-align: center; border-top: 1px solid var(--fg-faint); }
 .cmp tbody th[scope="row"] { text-align: start; font-weight: 400; color: var(--fg-dim); }
 .cmp thead th { font-family: "HG Handjet", "Rubik", sans-serif; font-weight: 750; font-size: 1.6rem; border-top: 0; }
 .cmp thead .cmp-star, .cmp td:nth-child(3) { background: rgba(255, 79, 26, .07); }
 .cmp thead .cmp-star { color: var(--signal); border-radius: 12px 12px 0 0; }
-.cmp .cg th { text-align: start; color: var(--signal); font-size: .82rem; letter-spacing: .08em; padding-top: 1.2rem; font-weight: 600; }
+.cmp .cg th { text-align: start; color: var(--signal); font-size: .82rem; letter-spacing: 0; padding-top: 1.2rem; font-weight: 600; }
 .cmp td { color: var(--fg); }
 .cmp .cy, .cmp .cn { display: inline-block; width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; }
 .cmp .cy { background: var(--signal); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5l3.5 3.5 7.5-8' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
