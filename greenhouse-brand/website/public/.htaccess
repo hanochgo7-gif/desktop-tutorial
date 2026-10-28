@@ -1,3 +1,48 @@
+RewriteEngine On
+# old site, English pages (?lang=en)
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^about/?$ /about.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^management/?$ /about.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^recommendations/?$ /projects.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^projects/?$ /projects.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^solutions/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^agricultural\-shading\-solutions/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^planning\-guiding/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^civil\-shading\-solutions/?$ /? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^contact/?$ /contact.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^(project|project-category)/ /projects.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^$ /? [R=301,L]
+# old site, Hebrew pages
+RewriteRule ^אודות/?$ /he/about.html [R=301,L,NC]
+RewriteRule ^הנהלה/?$ /he/about.html [R=301,L,NC]
+RewriteRule ^המלצות/?$ /he/projects.html [R=301,L,NC]
+RewriteRule ^פרוייקטים/?$ /he/projects.html [R=301,L,NC]
+RewriteRule ^project/?$ /he/projects.html [R=301,L,NC]
+RewriteRule ^פתרונות/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^פתרונות\-קירוי\-והצללה\-חקלאיים/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^ייעוץ\-תכנון\-ניהול\-והדרכה/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^פתרונות\-קירוי\-והצללה\-אזרחיים/?$ /he/ [R=301,L,NC]
+RewriteRule ^יצירת\-קשר/?$ /he/contact.html [R=301,L,NC]
+RewriteRule ^sample\-page/?$ /he/ [R=301,L,NC]
+RewriteRule ^8/?$ /he/ [R=301,L,NC]
+RewriteRule ^project/סככות\-העמסה/ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^project/בתי\-רשת\-לבננות/ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^project/ /he/projects.html [R=301,L,NC]
+RewriteRule ^project\-category/ /he/projects.html [R=301,L,NC]
+RewriteRule ^dt_testimonials/ /he/projects.html [R=301,L,NC]
+RewriteRule ^ללא\-קטגוריה/ /he/ [R=301,L,NC]
+RewriteRule ^category/ /he/ [R=301,L,NC]
+RewriteRule ^(feed|comments/feed|xmlrpc\.php|wp-.*)(/.*)?$ - [G,L]
 ErrorDocument 404 /404.html
 <If "%{REQUEST_URI} =~ m#^/he/#">
   ErrorDocument 404 /he/404.html

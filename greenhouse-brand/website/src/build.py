@@ -259,8 +259,9 @@ def jsonld(slug, L, crumbs):
     if slug == "how-we-build":
         graph.append({"@type": "CreativeWork", "name": tm(C.PAGES[slug]["h1"], L), "description": tm(C.PAGES[slug]["desc"], L), "creator": {"@id": f"{DOMAIN}/#org"},
                       "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
-    if slug == "contact":
-        graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in C.FAQ]})
+    if slug in ("contact", "net-houses"):
+        faq = C.FAQ if slug == "contact" else C.NET_FAQ
+        graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in faq]})
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False) + "</script>"
 
 
@@ -551,6 +552,12 @@ def p_net(L):
     <div class="split" style="margin-top:28px"><div class="legend-wrap one">{legend}</div><div class="site-note"><h3>{esc(t(P["site_h"], L))}</h3><p class="muted" style="margin-top:8px">{esc(t(P["site_p"], L))}</p>
       <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.SIM["go"], L))}</a></p></div></div>
     <figure class="band-photo">{picture("p-poles", tm(C.STEPS[2][3], L), L, sizes="(max-width: 1280px) 100vw, 1240px", archive=True, widths=(640, 1024, 1600))}<figcaption>{esc(t(C.STEPS[2][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
+  </div>
+</section>
+<section class="section white" aria-labelledby="nfaq-h">
+  <div class="wrap split">
+    <h2 id="nfaq-h">{esc(t(C.NET_FAQ_H, L))}</h2>
+    <div class="faq">{"".join(f'<details><summary>{esc(t(q, L))}</summary><p>{esc(t(a, L))}</p></details>' for q, a in C.NET_FAQ)}</div>
   </div>
 </section>
 {cta_band(L, "net")}
@@ -922,6 +929,52 @@ def write(path, s):
 VER = {}
 
 
+# The old WordPress site's URLs (from its Yoast sitemaps, read 28 Oct 2026) and where each one lives now.
+# Used only once www.miftah.co.il points at this site: Google keeps the old pages' standing through 301s.
+OLD_HE = [  # Hebrew pages (decoded slugs) -> new Hebrew page
+    ("אודות", "about"), ("הנהלה", "about"), ("המלצות", "projects"), ("פרוייקטים", "projects"), ("project", "projects"),
+    ("פתרונות", "net-houses"), ("פתרונות-קירוי-והצללה-חקלאיים", "net-houses"), ("ייעוץ-תכנון-ניהול-והדרכה", "net-houses"),
+    ("פתרונות-קירוי-והצללה-אזרחיים", "index"), ("יצירת-קשר", "contact"), ("sample-page", "index"), ("8", "index"),
+]
+OLD_HE_PREFIX = [("project/סככות-העמסה", "net-houses"), ("project/בתי-רשת-לבננות", "net-houses"), ("project", "projects"),
+                 ("project-category", "projects"), ("dt_testimonials", "projects"), ("ללא-קטגוריה", "index"), ("category", "index")]
+OLD_EN = [  # English pages were ?lang=en
+    ("about", "about"), ("management", "about"), ("recommendations", "projects"), ("projects", "projects"), ("solutions", "net-houses"),
+    ("agricultural-shading-solutions", "net-houses"), ("planning-guiding", "net-houses"), ("civil-shading-solutions", "index"), ("contact", "contact"),
+]
+
+
+def old_redirects_htaccess():
+    """mod_rewrite rules: RewriteRule matches the decoded path, so the Hebrew slugs are written as text."""
+    def he(slug): return "/he/" if slug == "index" else f"/he/{slug}.html"
+    def en(slug): return "/" if slug == "index" else f"/{slug}.html"
+    out = ["RewriteEngine On", "# old site, English pages (?lang=en)"]
+    for old, new in OLD_EN:
+        out += ["RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", f"RewriteRule ^{re.escape(old)}/?$ {en(new)}? [R=301,L,NC]"]
+    out += ["RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", "RewriteRule ^(project|project-category)/ /projects.html? [R=301,L,NC]",
+            "RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", "RewriteRule ^$ /? [R=301,L]", "# old site, Hebrew pages"]
+    for old, new in OLD_HE:
+        out.append(f"RewriteRule ^{re.escape(old)}/?$ {he(new)} [R=301,L,NC]")
+    for old, new in OLD_HE_PREFIX:
+        out.append(f"RewriteRule ^{re.escape(old)}/ {he(new)} [R=301,L,NC]")
+    out.append("RewriteRule ^(feed|comments/feed|xmlrpc\\.php|wp-.*)(/.*)?$ - [G,L]")
+    return "\n".join(out) + "\n"
+
+
+def old_redirects_vercel():
+    """The same map for Vercel. Vercel matches the percent-encoded path, so the Hebrew slugs are encoded (lower case, as WordPress wrote them)."""
+    from urllib.parse import quote
+    def enc(x): return quote(x, safe="-_").lower().replace("%2f", "/")
+    def he(slug): return "/he/" if slug == "index" else f"/he/{slug}.html"
+    def en(slug): return "/" if slug == "index" else f"/{slug}.html"
+    q = [{"type": "query", "key": "lang", "value": "en"}]
+    r = [{"source": f"/{old}{{/}}?", "has": q, "destination": en(new), "permanent": True} for old, new in OLD_EN]
+    r += [{"source": "/(project|project-category)/:rest*", "has": q, "destination": "/projects.html", "permanent": True}]
+    r += [{"source": f"/{enc(old)}{{/}}?", "destination": he(new), "permanent": True} for old, new in OLD_HE if old not in ("8",)]
+    r += [{"source": f"/{enc(old)}/:rest*", "destination": he(new), "permanent": True} for old, new in OLD_HE_PREFIX]
+    return r
+
+
 def main():
     A = PUB / "assets"
     A.mkdir(parents=True, exist_ok=True)
@@ -965,7 +1018,7 @@ def main():
                                                "icons": [{"src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
     EP = " " + "/".join(FORM_ENDPOINT.split("/")[:3]) if FORM_ENDPOINT else ""  # the form endpoint's origin, allowed by the CSP
     # host config for Apache (Nethost): 404 pages per language and cache headers
-    write(PUB / ".htaccess", "ErrorDocument 404 /404.html\n<If \"%{REQUEST_URI} =~ m#^/he/#\">\n  ErrorDocument 404 /he/404.html\n</If>\n"
+    write(PUB / ".htaccess", old_redirects_htaccess() + "ErrorDocument 404 /404.html\n<If \"%{REQUEST_URI} =~ m#^/he/#\">\n  ErrorDocument 404 /he/404.html\n</If>\n"
           "<IfModule mod_expires.c>\n  ExpiresActive On\n  ExpiresByType text/html \"access plus 10 minutes\"\n  ExpiresByType text/css \"access plus 1 year\"\n  ExpiresByType application/javascript \"access plus 1 year\"\n"
           "  ExpiresByType font/woff2 \"access plus 1 year\"\n  ExpiresByType image/avif \"access plus 1 month\"\n  ExpiresByType image/webp \"access plus 1 month\"\n  ExpiresByType image/jpeg \"access plus 1 month\"\n  ExpiresByType video/mp4 \"access plus 1 month\"\n  ExpiresByType video/webm \"access plus 1 month\"\n</IfModule>\n"
           "<IfModule mod_deflate.c>\n  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml application/manifest+json text/plain\n</IfModule>\n"
@@ -981,7 +1034,7 @@ def main():
     write(PUB / "vercel.json", json.dumps({
         "buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": None, "cleanUrls": False,
         # /he must end in a slash, or the Hebrew pages' relative links would point at the English ones
-        "redirects": [{"source": "/he", "destination": "/he/", "permanent": True}, {"source": "/.htaccess", "destination": "/404.html", "permanent": False}],
+        "redirects": [{"source": "/he", "destination": "/he/", "permanent": True}, {"source": "/.htaccess", "destination": "/404.html", "permanent": False}] + old_redirects_vercel(),
         "headers": [
             {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
                                             {"key": "Content-Security-Policy", "value": csp}]},

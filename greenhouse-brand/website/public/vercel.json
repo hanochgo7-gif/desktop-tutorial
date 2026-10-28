@@ -14,6 +14,216 @@
    "source": "/.htaccess",
    "destination": "/404.html",
    "permanent": false
+  },
+  {
+   "source": "/about{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/management{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/recommendations{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/projects{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/solutions{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/agricultural-shading-solutions{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/planning-guiding{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/civil-shading-solutions{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/contact{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/contact.html",
+   "permanent": true
+  },
+  {
+   "source": "/(project|project-category)/:rest*",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%90%d7%95%d7%93%d7%95%d7%aa{/}?",
+   "destination": "/he/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%94%d7%a0%d7%94%d7%9c%d7%94{/}?",
+   "destination": "/he/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%94%d7%9e%d7%9c%d7%a6%d7%95%d7%aa{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa-%d7%a7%d7%99%d7%a8%d7%95%d7%99-%d7%95%d7%94%d7%a6%d7%9c%d7%9c%d7%94-%d7%97%d7%a7%d7%9c%d7%90%d7%99%d7%99%d7%9d{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%99%d7%99%d7%a2%d7%95%d7%a5-%d7%aa%d7%9b%d7%a0%d7%95%d7%9f-%d7%a0%d7%99%d7%94%d7%95%d7%9c-%d7%95%d7%94%d7%93%d7%a8%d7%9b%d7%94{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa-%d7%a7%d7%99%d7%a8%d7%95%d7%99-%d7%95%d7%94%d7%a6%d7%9c%d7%9c%d7%94-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%99%d7%a6%d7%99%d7%a8%d7%aa-%d7%a7%d7%a9%d7%a8{/}?",
+   "destination": "/he/contact.html",
+   "permanent": true
+  },
+  {
+   "source": "/sample-page{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a1%d7%9b%d7%9b%d7%95%d7%aa-%d7%94%d7%a2%d7%9e%d7%a1%d7%94/:rest*",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa/:rest*",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/:rest*",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/:rest*",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/dt_testimonials/:rest*",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/%d7%9c%d7%9c%d7%90-%d7%a7%d7%98%d7%92%d7%95%d7%a8%d7%99%d7%94/:rest*",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/category/:rest*",
+   "destination": "/he/",
+   "permanent": true
   }
  ],
  "headers": [

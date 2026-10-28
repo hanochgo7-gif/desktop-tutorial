@@ -214,7 +214,7 @@ PAGES = {
         "why_refs": ("References from clients in Israel and Portugal are available after a first conversation.", "המלצות מלקוחות בישראל ובפורטוגל, אחרי שיחה ראשונה."),  # 3.5
     },
     "net-houses": {
-        "title": ("Net houses for bananas and orchards | MIFTAH Projects", "בתי רשת לבננות ולמטעים, סככות ושוברי רוח | מיפתח פרויקטים"),
+        "title": ("Banana and orchard net houses, anti-hail nets | MIFTAH", "בתי רשת חקלאיים למטעים ולבננות, רשת נגד ברד | מיפתח"),
         "desc": ("Banana net houses with 11% net, orchard net houses with 10–30% net that fold in winter, loading sheds and windbreaks. Designed, made and installed by MIFTAH.",
                  "בתי רשת לבננות עם רשת 11%, בתי רשת למטעים עם רשת 10%–30% שמתקפלת בחורף, סככות העמסה ושוברי רוח: מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח."),
         "h1": ("Net houses and farm structures", "בתי רשת ומבנים חקלאיים"),
@@ -268,7 +268,7 @@ PAGES = {
         "title": ("Net house projects on three continents | MIFTAH Projects", "בתי רשת בשלוש יבשות: הפרויקטים | מיפתח פרויקטים"),
         "desc": ("410,000 m² of net houses built in Mexico, India, Honduras, Spain and Georgia, plus Portugal and Belarus, and net houses in the Galilee and the Golan Heights.",
                  "410,000 מ״ר של בתי רשת בחו״ל: מקסיקו, הודו, הונדורס, ספרד וגאורגיה, וגם פורטוגל ובלארוס. ובישראל: בתי רשת לקיווי, לבננות, לתפוחים ולדובדבנים."),
-        "h1": ("Projects in Israel and abroad", "פרויקטים בישראל ובחו״ל"),
+        "h1": ("Net house projects in Israel and abroad", "פרויקטים של בתי רשת בישראל ובחו״ל"),
         "lead": ("Net houses on three continents, run from our office in Kfar Masaryk. Abroad, we plan the work, train and manage local crews, and supervise execution.",
                  "בתי רשת בשלוש יבשות, מהמשרד שלנו בכפר מסריק. בחו״ל אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים ומפקחים על הביצוע."),
         "map_h": ("Abroad", "בחו״ל"),
@@ -363,6 +363,28 @@ PAGES = {
         "p": ("The link may be old, or the address may have a typo. These pages will get you back on track:", "ייתכן שהקישור ישן או שיש טעות בכתובת. אפשר להמשיך מכאן:"),
     },
 }
+
+NET_FAQ_H = ("Questions about net houses", "שאלות על בתי רשת")
+NET_FAQ = [  # every answer is a ledger fact (numbers in comments)
+    (("What is an agricultural net house?", "מה זה בית רשת חקלאי?"),
+     ("A structure of galvanized-steel poles and steel cables with a net over the crop. It protects an orchard or a banana plantation from hail, sun and wind, and over bananas it also saves water by reducing evaporation.",
+      "מבנה של עמודי פלדה מגולוונת וכבלי פלדה, עם רשת מעל הגידול. הוא מגן על מטע או על מטע בננות מפני ברד, שמש ורוח, ובבננות גם חוסך מים כי הוא מפחית התאדות.")),  # 2.2, 2.3, 2.8
+    (("Which net is used over bananas?", "איזו רשת שמים מעל בננות?"),
+     ("An 11% shade net: light and airy, over wide spans. One banana structure can reach 10 ha (100 dunam), with trellising and support built in.",
+      "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים. מבנה בודד לבננות יכול להגיע ל-100 דונם, עם הדליה ותמיכה מובנות.")),  # 2.2
+    (("Which net protects apples and cherries from hail?", "איזו רשת מגינה על תפוחים ודובדבנים מברד?"),
+     ("A 10–30% shade net, mainly against hail and sunburn at flowering and fruit set. The structure can let the net fold in winter and spread again in summer, by hand or automatically.",
+      "רשת צל 10%–30%, בעיקר נגד ברד וכוויות שמש בפריחה ובחנטה. המבנה יכול לאפשר לרשת להתקפל בחורף ולהיפרס שוב בקיץ, ידנית או אוטומטית.")),  # 2.3
+    (("Who makes the poles, cables and nets?", "מי מייצר את העמודים, הכבלים והרשתות?"),
+     ("Our own plant. Poles, nets, cables and fittings are made, packed and checked before they go to the site.",
+      "המפעל שלנו. עמודים, רשתות, כבלים ואביזרים מיוצרים, נארזים ונבדקים לפני שהם יוצאים לשטח.")),  # 1.7
+    (("What happens before a quote?", "מה קורה לפני הצעת מחיר?"),
+     ("A site visit: we look at the crop, the soil, drainage, access and the wind. We then calculate the loads and prepare drawings and a list of materials and quantities, and the quote is based on that design.",
+      "ביקור בשטח: בודקים את הגידול, הקרקע, הניקוז, הגישה והרוח. אחר כך מחשבים עומסים ומכינים שרטוטים וכתב כמויות, והצעת המחיר מבוססת על התכנון הזה.")),  # 2.8, 4.3
+    (("Do you also build sheds and windbreaks?", "אתם בונים גם סככות ושוברי רוח?"),
+     ("Yes: loading sheds with wide spans for trucks and carts, windbreaks, and trellising and support systems. We also maintain existing structures, and dismantle and reuse them.",
+      "כן: סככות העמסה במפתחים רחבים למשאיות ולעגלות, שוברי רוח ומערכות הדליה ותמיכה. אנחנו גם מתחזקים מבנים קיימים, מפרקים אותם ומשתמשים בהם מחדש.")),  # 2.4-2.6
+]
 
 FAQ = [  # every answer is a ledger fact (numbers in comments)
     (("What size of project do you take on?", "מאיזה גודל פרויקט אתם עובדים?"),
