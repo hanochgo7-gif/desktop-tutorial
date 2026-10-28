@@ -64,7 +64,7 @@ Other services:
 | 2.4 | Loading/shade sheds: wide spans for trucks and carts; net shade % and colour to order; optional open/close system | OS proj2 | High |
 | 2.5 | Windbreaks, trellising and support systems | OS about | High |
 | 2.6 | Maintenance of structures; dismantling, processing and preparing material for a new structure | OS agri | Medium |
-| 2.7 | Services sold separately: needs mapping, design, manufacture, supervision, training, maintenance, execution | OS consult | High |
+| 2.7 | ~~Services sold separately: needs mapping, design, manufacture, supervision, training, maintenance, execution~~ **Withdrawn 28 Oct 2026 (CL, Hanoch): MIFTAH does full projects only; no consulting, design or supervision-only offer on the site.** | OS consult, CL | Not used |
 | 2.8 | Process: needs mapping on site (crop, soil, location, drainage, access, wind regime); design by construction engineers (practical engineers), with load calculation and bill of quantities, fully computerised; manufacture in own plant after quote approval, with QC before shipping; installation (team briefing, logistics, safety), trellising; maintenance as materials weather | OS consult | High |
 | 2.9 | Civil shading (pools, sports, playgrounds, schools) is **no longer offered** | Q q4, CL | High. Excluded from the site, including its images. |
 | 2.10 | Vegetable net houses, greenhouses for industry | OS home | Low. Not in the current answers, so not promoted. |

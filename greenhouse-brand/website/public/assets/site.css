@@ -1039,3 +1039,5 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .sol-body small, .sol-plain .sol-body small { color: var(--white); font-weight: 600; text-shadow: 0 1px 10px rgba(4, 24, 20, .6); }
 .sol::after { background: linear-gradient(180deg, rgba(8, 30, 26, 0) 25%, rgba(8, 30, 26, .55) 55%, rgba(8, 30, 26, .92) 100%); }
 .sol-plain::after { background: radial-gradient(120% 90% at 100% 0%, rgba(127, 196, 155, .35), rgba(14, 66, 57, 0) 60%); }
+.hero-os .hero-cap { margin-inline-end: auto; }
+@media (max-width: 720px) { .hero-os .hero-cap { display: block; } }

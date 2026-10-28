@@ -395,7 +395,7 @@ HEAD_IMG = {"projects": "p-closed", "about": "p-site"}  # archive photos not use
 
 def cta_band(L, where):
     B = C.CTA_BAND; S = C.SITE
-    lines = ([esc(t(B["min_turnkey"], L))] if where == "turnkey" else []) + ([esc(t(B["fair"], L))] if where in ("home", "turnkey") else [])
+    lines = [esc(t(B["fair"], L))] if where in ("home", "turnkey") else []
     meta = f'<p class="meta">{"<br>".join(lines)}</p>' if lines else ""
     return f"""<section class="section dark cta-band" aria-labelledby="cta-{where}">
   <div class="wrap in">
@@ -501,7 +501,7 @@ def p_index(L):
         <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>
       </div>
     </div>
-    <div class="hero-foot"><a class="hero-invest" href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(H["invest"], L))}</a><span class="hero-cap">{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
+    <div class="hero-foot"><span class="hero-cap">{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
   </div>
 </section>
 {ticker}
@@ -652,8 +652,7 @@ def p_turnkey(L):
       <h2 class="h-small" style="margin-top:28px">{esc(t(P["pt_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["pt_p"], L))}</p>
     </div>
     <div>
-      <h2 class="h-small">{esc(t(P["start_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["start_p"], L))}</p>
-      <h2 class="h-small" style="margin-top:28px">{esc(t(P["where_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["where_p"], L))}</p>
+      <h2 class="h-small">{esc(t(P["where_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["where_p"], L))}</p>
     </div>
   </div>
 </section>
