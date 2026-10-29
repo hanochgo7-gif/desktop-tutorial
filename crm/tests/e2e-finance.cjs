@@ -120,7 +120,7 @@ const near = (a, b) => Math.abs(Number(a) - b) < 0.01;
   const mp = await m.newPage();
   for (const t of ['overview', 'docs', 'expenses']) {
     await mp.goto(URL + '#/finance?tab=' + t); await mp.waitForTimeout(400);
-    const ov = await mp.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    const ov = await mp.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     check(ov <= 1, `iPhone finance ${t}: no horizontal overflow (${ov}px)`);
     await mp.screenshot({ path: require('os').tmpdir() + `/fin-m-${t}.png`, fullPage: true });
   }
