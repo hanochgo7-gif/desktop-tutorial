@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
 """
-מחולל הלוגו של י. מזרחי בניה ושות׳ — "אבן הפינה".
+מחולל הלוגו של י. מזרחי בניה ושות׳ — "פלטת העיגון".
 
-הסמל: אבן מרובעת שעומדת על רגל יסוד רחבה ממנה, ובפניה חקוקות ראשי התיבות ימ.
-האותיות והשם כתובים ב-Frank Ruhl Libre (האות העברית הקלאסית של העיתונות והספרות בישראל; רישיון SIL OFL 1.1,
-מותר בלוגו), ומומרים לקווי מתאר, כך שקובצי ה-SVG לא תלויים בגופן מותקן. הגופנים ב-tools/fonts.
+הסמל: פלטת בסיס מפלדה, כמו זו שמחברת עמוד ליסוד: ריבוע עם פינות קטומות ב-45° וארבעה חורי ברגי עיגון,
+והאות מ׳ חתוכה דרכה. המקום שבו המבנה פוגש את היסוד — וזה מה שחברה בונה 60 שנה.
+השם: Noto Sans Hebrew, הגופן של האתר, צר וכבד (כמו אותיות על שלטי אתר ותמרורים), עם פס מפריד בין הסמל לשם.
+
+הגופן (רישיון SIL OFL 1.1, מותר בלוגו) מומר לקווי מתאר, כך שקובצי ה-SVG לא תלויים בגופן מותקן.
 
 הרצה מתוך mizrahi/:  python3 tools/brand.py
-פלט: assets/brand/*.svg, assets/favicon.svg, brand/directions/d-cornerstone.svg
-(קובצי PNG: ראו docs/design-system.md, נוצרים מה-SVG בדפדפן.)
+פלט: assets/brand/*.svg, assets/favicon.svg, brand/directions/f-baseplate.svg
 """
 import re
 from pathlib import Path
 from fontTools.ttLib import TTFont
+from fontTools.varLib.instancer import instantiateVariableFont
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.boundsPen import BoundsPen
 
 ROOT = Path(__file__).resolve().parent.parent
-FONTS = Path(__file__).resolve().parent / 'fonts'
+FONTS = ROOT / 'assets' / 'fonts'
 OUT = ROOT / 'assets' / 'brand'
 DIRS = ROOT / 'brand' / 'directions'
 
@@ -27,32 +29,36 @@ BONE = '#ecebe7'
 BLACK = '#000000'
 WHITE = '#ffffff'
 
-HEAVY = 'frank-ruhl-libre-900.woff'
-BOOK = 'frank-ruhl-libre-500.woff'
 NAME = 'י. מזרחי'
 LINE2 = 'בניה ושות׳'
 LABEL = 'י. מזרחי בניה ושות׳'
+NAME_FACE = (800, 75)     # weight, width
+LINE2_FACE = (600, 100)
+LETTER_FACE = (900, 100)
 
 _fonts = {}
 
 
-def font(name):
-    if name not in _fonts:
-        _fonts[name] = TTFont(FONTS / name)
-    return _fonts[name]
+def faces(wght, wdth):
+    """The variable font (Hebrew + Latin subsets) instanced at the given axes."""
+    key = (wght, wdth)
+    if key not in _fonts:
+        _fonts[key] = [instantiateVariableFont(TTFont(FONTS / f'noto-sans-hebrew-{sub}.woff2'), {'wght': wght, 'wdth': wdth})
+                       for sub in ('hebrew', 'latin')]
+    return _fonts[key]
 
 
-def text_path(text, fname, size, tracking=0.0, kern=0.0):
+def text_path(text, face, size, tracking=0.0):
     """Hebrew text (logical order) as one path, set right to left from x=0 going left, baseline y=0.
     Returns (d, width, cap_top, bbox). Digit runs keep their left-to-right order."""
-    f = font(fname)
-    gs, cm, upm = f.getGlyphSet(), f.getBestCmap(), f['head'].unitsPerEm
-    sc = size / upm
+    fonts = faces(*face)
     text = re.sub(r'[0-9]+', lambda m: m.group(0)[::-1], text)
-    x, parts, top = 0.0, [], 0.0
-    xs, ys = [], []
+    x, parts, top, xs, ys = 0.0, [], 0.0, [], []
     for ch in text:
-        g = cm[ord(ch)]
+        f = next(f for f in fonts if ord(ch) in f.getBestCmap())
+        gs, upm = f.getGlyphSet(), f['head'].unitsPerEm
+        sc = size / upm
+        g = f.getBestCmap()[ord(ch)]
         x -= gs[g].width * sc
         pen = SVGPathPen(gs)
         gs[g].draw(TransformPen(pen, (sc, 0, 0, -sc, x, 0)))
@@ -66,28 +72,28 @@ def text_path(text, fname, size, tracking=0.0, kern=0.0):
             ys += [-b[3] * sc, -b[1] * sc]
             if ch not in '.׳':
                 top = max(top, b[3] * sc)
-        x -= (tracking + kern) * size
-    width = -x - (tracking + kern) * size
-    return ' '.join(parts), width, top, (min(xs), min(ys), max(xs), max(ys))
+        x -= tracking * size
+    return ' '.join(parts), -x - tracking * size, top, (min(xs), min(ys), max(xs), max(ys))
 
 
-# ---------------------------------------------------------------- the mark: the cornerstone
-# אבן 80×80 על רגל יסוד ברוחב 96 (בולטת 8 מכל צד), עם מישק של 4 ביניהן. היחסים קבועים; הכול מתכנס מכאן.
-BLOCK, JOINT, FOOT, OVER = 80.0, 4.0, 11.0, 8.0
-MW, MH = BLOCK + 2 * OVER, BLOCK + JOINT + FOOT
-INITIALS, INITIALS_SIZE, INITIALS_KERN = 'ימ', 64.0, -0.06
+# ---------------------------------------------------------------- the mark: the base plate
+# פלטה 40×40, פינות קטומות 3.4, חורי ברגים ברדיוס 1.9 במרחק 5.4 מהשפות, האות מ׳ בגובה 27. הכול נגזר מכאן.
+S, CHAMFER, BOLT_R, BOLT_IN, LETTER_SIZE = 40.0, 3.4, 1.9, 5.4, 27.0
 
 
-def stone(fill, cut, x0=0.0, y0=0.0, s=1.0, letters=INITIALS, size=INITIALS_SIZE, footing=True):
-    """SVG elements for the cornerstone at (x0, y0), scale s. `cut` is the colour of the letters
-    (the ground showing through), so the mark works as one colour on any background."""
-    d, _, _, bb = text_path(letters, HEAVY, size, kern=INITIALS_KERN if len(letters) > 1 else 0)
-    w, h = bb[2] - bb[0], bb[3] - bb[1]
-    tx = OVER + (BLOCK - w) / 2 - bb[0]
-    ty = (BLOCK - h) / 2 - bb[1]
-    els = f'<rect x="{OVER}" y="0" width="{BLOCK}" height="{BLOCK}" fill="{fill}"/>'
-    if footing:
-        els += f'<rect x="0" y="{BLOCK + JOINT}" width="{MW}" height="{FOOT}" fill="{fill}"/>'
+def plate(fill, cut, x0=0.0, y0=0.0, s=1.0, bolts=True, letter_size=LETTER_SIZE):
+    """SVG group for the plate at (x0, y0), scale s. `cut` is what shows through the bolt holes and the letter,
+    so the mark is one colour on any ground."""
+    k = CHAMFER
+    pts = [(k, 0), (S - k, 0), (S, k), (S, S - k), (S - k, S), (k, S), (0, S - k), (0, k)]
+    els = f'<path fill="{fill}" d="M' + 'L'.join(f'{x:g} {y:g}' for x, y in pts) + 'Z"/>'
+    if bolts:
+        for cx in (BOLT_IN, S - BOLT_IN):
+            for cy in (BOLT_IN, S - BOLT_IN):
+                els += f'<circle cx="{cx:g}" cy="{cy:g}" r="{BOLT_R:g}" fill="{cut}"/>'
+    d, _, _, bb = text_path('מ', LETTER_FACE, letter_size)
+    tx = (S - (bb[2] - bb[0])) / 2 - bb[0]
+    ty = (S - (bb[3] - bb[1])) / 2 - bb[1]
     els += f'<path fill="{cut}" transform="translate({tx:.2f} {ty:.2f})" d="{d}"/>'
     return f'<g transform="translate({x0:.2f} {y0:.2f}) scale({s:.4f})">{els}</g>'
 
@@ -99,85 +105,72 @@ def svg(viewbox, body, label=LABEL, size=None):
 
 
 def mark(fill, cut):
-    return svg(f'0 0 {MW:g} {MH:g}', stone(fill, cut))
+    return svg(f'0 0 {S:g} {S:g}', plate(fill, cut))
 
 
-def tile(bg, fill, cut, letters=INITIALS, size=INITIALS_SIZE, pad=14.0):
-    """Square tile with the stone centred: app icon, social avatar."""
-    side = MW + 2 * pad
-    oy = (side - MH) / 2
-    return svg(f'0 0 {side:g} {side:g}', f'<rect width="{side:g}" height="{side:g}" fill="{bg}"/>'
-               + stone(fill, cut, pad, oy, letters=letters, size=size))
+def tile(bg, fill, cut, pad=8.0):
+    side = S + 2 * pad
+    return svg(f'0 0 {side:g} {side:g}', f'<rect width="{side:g}" height="{side:g}" fill="{bg}"/>' + plate(fill, cut, pad, pad))
 
 
 def favicon():
-    """16–32px: the stone alone with one large mem, on a bone tile so it holds on light and dark tabs."""
-    side = 100.0
-    s = 0.86
-    ox, oy = (side - MW * s) / 2, (side - MH * s) / 2
-    return svg(f'0 0 {side:g} {side:g}', f'<rect width="100" height="100" rx="14" fill="{BONE}"/>'
-               + stone(OLIVE, BONE, ox, oy, s, letters='מ', size=76))
+    """16–32px: the plate without bolt holes and a slightly larger mem; a solid olive shape that holds on light and dark tabs."""
+    return svg(f'0 0 {S:g} {S:g}', plate(OLIVE, BONE, bolts=False, letter_size=29.5))
 
 
 # ---------------------------------------------------------------- lockups
-def name_block(fill, right, top, block_h):
-    """The two lines of the name, hanging from `right`: line 1 cap height on the stone's top edge,
-    line 2 baseline on the stone's bottom edge. Returns (elements, width)."""
-    d1, w1, t1, _ = text_path(NAME, HEAVY, 70)
-    d2, w2, _, _ = text_path(LINE2, BOOK, 27.5, tracking=0.07)
-    els = (f'<path fill="{fill}" transform="translate({right:.2f} {top + t1 + 1:.2f})" d="{d1}"/>'
-           f'<path fill="{fill}" transform="translate({right:.2f} {top + block_h - 1:.2f})" d="{d2}"/>')
+LH = 84.0                 # the plate's height in a lockup = the height of the two name lines
+GAP, BAR = 22.0, 3.0      # space either side of the divider, divider width
+
+
+def name_block(fill, right):
+    d1, w1, t1, _ = text_path(NAME, NAME_FACE, 74)
+    d2, w2, _, _ = text_path(LINE2, LINE2_FACE, 22, tracking=0.16)
+    els = (f'<path fill="{fill}" transform="translate({right:.2f} {t1 + 1:.2f})" d="{d1}"/>'
+           f'<path fill="{fill}" transform="translate({right:.2f} {LH - 1:.2f})" d="{d2}"/>')
     return els, max(w1, w2)
 
 
-def horizontal(fill, cut, bg=None):
-    gap = 22.0
-    _, tw = name_block(fill, 0, 0, BLOCK)
-    W = MW + gap + tw
-    body = stone(fill, cut, W - MW, 0)
-    els, _ = name_block(fill, W - MW - gap, 0, BLOCK)
-    if bg:
-        p = 24
-        return svg(f'{-p} {-p} {W + 2 * p:.0f} {MH + 2 * p:.0f}',
-                   f'<rect x="{-p}" y="{-p}" width="{W + 2 * p:.0f}" height="{MH + 2 * p:.0f}" fill="{bg}"/>' + body + els)
-    return svg(f'0 0 {W:.1f} {MH:.1f}', body + els)
+def horizontal(fill, cut, divider=True):
+    s = LH / S
+    _, tw = name_block(fill, 0)
+    mid = (GAP * 2 + BAR) if divider else GAP
+    W = LH + mid + tw
+    body = plate(fill, cut, W - LH, 0, s)
+    if divider:
+        body += f'<rect x="{W - LH - GAP - BAR:.2f}" y="0" width="{BAR:g}" height="{LH:g}" fill="{fill}"/>'
+    els, _ = name_block(fill, W - LH - mid)
+    return svg(f'0 0 {W:.1f} {LH:g}', body + els)
 
 
 def compact(fill, cut):
-    """Stone above, name centred under it: stamps, avatars, the corner of a site sign."""
-    d1, w1, t1, _ = text_path(NAME, HEAVY, 64)
-    d2, w2, _, _ = text_path(LINE2, BOOK, 25, tracking=0.08)
-    W = max(w1, w2, MW)
-    s = 1.0
-    body = stone(fill, cut, (W - MW) / 2, 0, s)
-    y1 = MH + 22 + t1
-    y2 = y1 + 36
+    """Plate above, name centred under it: stamps, helmets, avatars, the corner of a site sign."""
+    d1, w1, t1, _ = text_path(NAME, NAME_FACE, 66)
+    d2, w2, _, _ = text_path(LINE2, LINE2_FACE, 20, tracking=0.18)
+    P = 100.0
+    W = max(w1, w2, P)
+    body = plate(fill, cut, (W - P) / 2, 0, P / S)
+    y1 = P + 22 + t1
+    y2 = y1 + 34
     body += (f'<path fill="{fill}" transform="translate({(W + w1) / 2:.2f} {y1:.2f})" d="{d1}"/>'
              f'<path fill="{fill}" transform="translate({(W + w2) / 2:.2f} {y2:.2f})" d="{d2}"/>')
-    return svg(f'0 0 {W:.1f} {y2 + 8:.1f}', body)
+    return svg(f'0 0 {W:.1f} {y2 + 6:.1f}', body)
 
 
 def wordmark(fill, size=70):
     """The full name on one line, for long narrow places (document footers, the site's footer)."""
-    d1, w1, t1, _ = text_path(NAME, HEAVY, size)
-    d2, w2, _, _ = text_path(LINE2, HEAVY, size)
-    gap = size * 0.26
-    W = w1 + gap + w2
-    body = (f'<path fill="{fill}" transform="translate({W:.2f} {t1:.2f})" d="{d1}"/>'
-            f'<path fill="{fill}" transform="translate({w2:.2f} {t1:.2f})" d="{d2}"/>')
-    return svg(f'0 {-2} {W:.1f} {t1 + size * 0.08:.1f}', body)
+    d, w, t, _ = text_path(LABEL, NAME_FACE, size)
+    return svg(f'0 -2 {w:.1f} {t + size * 0.1:.1f}', f'<path fill="{fill}" transform="translate({w:.2f} {t:.2f})" d="{d}"/>')
 
 
 def with_years(fill, cut, label='60 שנות ניסיון'):
-    """Horizontal lockup with an endorsement line under it. ממתין לאישור החברה — לא בשימוש באתר."""
-    gap = 22.0
-    _, tw = name_block(fill, 0, 0, BLOCK)
-    W = MW + gap + tw
-    body = stone(fill, cut, W - MW, 0)
-    els, _ = name_block(fill, W - MW - gap, 0, BLOCK)
-    d3, w3, _, _ = text_path(label, BOOK, 24, tracking=0.06)
-    els += f'<path fill="{fill}" transform="translate({W:.2f} {MH + 40:.2f})" d="{d3}"/>'
-    return svg(f'0 0 {W:.1f} {MH + 48:.1f}', body + els, label=f'{LABEL}, {label}')
+    """Horizontal lockup with an endorsement line. ממתין לאישור החברה — לא בשימוש באתר."""
+    base = horizontal(fill, cut)
+    vb = [float(v) for v in re.search(r'viewBox="([^"]+)"', base).group(1).split()]
+    inner = base.split('>', 1)[1].rsplit('</svg>', 1)[0]
+    d3, _, _, _ = text_path(label, LINE2_FACE, 22, tracking=0.16)
+    inner += f'<path fill="{fill}" transform="translate({vb[2]:.2f} {LH + 40:.2f})" d="{d3}"/>'
+    return svg(f'0 0 {vb[2]:.1f} {LH + 48:.1f}', inner, label=f'{LABEL}, {label}')
 
 
 def main():
@@ -189,7 +182,6 @@ def main():
         'mark-black.svg': mark(BLACK, WHITE),
         'mark-white.svg': mark(WHITE, BLACK),
         'app-icon.svg': tile(OLIVE, BONE, OLIVE),
-        'avatar-bone.svg': tile(BONE, OLIVE, BONE),
         'logo-horizontal-olive.svg': horizontal(OLIVE, BONE),
         'logo-horizontal-bone.svg': horizontal(BONE, OLIVE),
         'logo-horizontal-black.svg': horizontal(BLACK, WHITE),
@@ -204,8 +196,11 @@ def main():
     }
     for name, content in files.items():
         (OUT / name).write_text(content, encoding='utf-8')
+    for stale in ('avatar-bone.svg', 'seal-olive.svg', 'seal-bone.svg', 'seal-black.svg'):
+        (OUT / stale).unlink(missing_ok=True)
+        (OUT / 'png' / stale.replace('.svg', '.png')).unlink(missing_ok=True)
     (ROOT / 'assets' / 'favicon.svg').write_text(favicon(), encoding='utf-8')
-    (DIRS / 'd-cornerstone.svg').write_text(mark(OLIVE, BONE), encoding='utf-8')
+    (DIRS / 'f-baseplate.svg').write_text(mark(OLIVE, BONE), encoding='utf-8')
     print('wrote', len(files) + 2, 'files')
 
 
