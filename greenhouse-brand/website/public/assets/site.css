@@ -1041,3 +1041,17 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .sol-plain::after { background: radial-gradient(120% 90% at 100% 0%, rgba(127, 196, 155, .35), rgba(14, 66, 57, 0) 60%); }
 .hero-os .hero-cap { margin-inline-end: auto; }
 @media (max-width: 720px) { .hero-os .hero-cap { display: block; } }
+/* contact: what happens after you get in touch */
+.next-os h2 { margin-bottom: clamp(28px, 4vw, 44px); max-width: 18ch; }
+.next-path li { font-size: 1rem; }
+.next-path li b { font-size: 1.2rem; font-weight: 800; }
+.next-path .d { color: var(--ink-2); font-weight: 400; line-height: 1.5; }
+.next-path li:last-child .d { color: rgba(255, 255, 255, .85); }
+.next-abroad { margin-top: 18px; }
+/* crop pages */
+.crop-page .crop-body { margin-top: 0; align-items: start; }
+.crop-page h2 { margin-bottom: 8px; }
+.crop-page .actions { margin-top: 24px; }
+.crop-more { margin-top: 14px; }
+.os-steps-h { margin-bottom: clamp(28px, 4vw, 44px); }
+.feat-cards li b { font-weight: 800; }

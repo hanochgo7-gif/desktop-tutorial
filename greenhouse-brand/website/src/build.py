@@ -43,7 +43,7 @@ def _git_date():
 SOURCE_DATE = _git_date()
 YEAR = SOURCE_DATE.year
 LANGS = ("en", "he")
-PAGES = ["index", "net-houses", "how-we-build", "turnkey-farms", "projects", "about", "contact", "profile", "privacy", "accessibility"]
+PAGES = ["index", "net-houses", "banana-net-houses", "orchard-hail-nets", "how-we-build", "turnkey-farms", "projects", "about", "contact", "profile", "privacy", "accessibility"]
 
 
 def esc(s):
@@ -249,8 +249,9 @@ def jsonld(slug, L, crumbs):
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
     if crumbs:
         graph.append({"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(crumbs)]})
-    if slug in ("net-houses", "turnkey-farms"):
-        kind = {"net-houses": "Agricultural net house design, manufacture and installation", "turnkey-farms": "Turnkey farm development abroad, delivered with agricultural partners"}[slug]
+    if slug in ("net-houses", "turnkey-farms", "banana-net-houses", "orchard-hail-nets"):
+        kind = {"net-houses": "Agricultural net house design, manufacture and installation", "turnkey-farms": "Turnkey farm development abroad, delivered with agricultural partners",
+                "banana-net-houses": "Banana net house design, manufacture and installation", "orchard-hail-nets": "Anti-hail net structures for orchards: design, manufacture and installation"}[slug]
         graph.append({"@type": "Service", "name": tm(C.PAGES[slug]["h1"], L), "provider": {"@id": f"{DOMAIN}/#org"}, "serviceType": kind})
     if slug == "index":
         graph.append({"@type": "VideoObject", "name": tm(C.PAGES["index"]["vidcap"], L), "description": tm(C.PAGES["index"]["vidcap"], L) + (". MIFTAH Projects, Kfar Masaryk, Israel." if L == "en" else ". מיפתח פרויקטים, כפר מסריק."),
@@ -259,8 +260,8 @@ def jsonld(slug, L, crumbs):
     if slug == "how-we-build":
         graph.append({"@type": "CreativeWork", "name": tm(C.PAGES[slug]["h1"], L), "description": tm(C.PAGES[slug]["desc"], L), "creator": {"@id": f"{DOMAIN}/#org"},
                       "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
-    if slug in ("contact", "net-houses"):
-        faq = C.FAQ if slug == "contact" else C.NET_FAQ
+    if slug in ("contact", "net-houses") or slug in C.CROP_PAGES:
+        faq = C.FAQ if slug == "contact" else C.NET_FAQ if slug == "net-houses" else C.CROP_PAGES[slug]["faq"] + [C.NET_FAQ[3], C.NET_FAQ[4], C.FAQ[0]]
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in faq]})
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False) + "</script>"
 
@@ -354,7 +355,7 @@ def footer(L):
       </div>
       <div>
         <h2>{esc(t(S["foot_nav"], L))}</h2>
-        <ul>{nav}<li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
+        <ul>{nav}<li><a href="banana-net-houses.html">{esc(t(C.PAGES["banana-net-houses"]["h1"], L))}</a></li><li><a href="orchard-hail-nets.html">{esc(t(C.PAGES["orchard-hail-nets"]["h1"], L))}</a></li><li><a href="profile.html">{esc(t(S["foot_profile"], L))}</a></li></ul>
       </div>
       <div>
         <h2>{esc(t(S["foot_contact"], L))}</h2>
@@ -380,7 +381,8 @@ def page_head(slug, L, img=None):
     P = C.PAGES[slug]
     if img is None and slug in HEAD_IMG:
         name = HEAD_IMG[slug]; img = (name, next(cap for im, _, _, cap in C.STEPS if im == name))
-    crumbs = f'<nav class="crumbs" aria-label="{"Breadcrumb" if L == "en" else "פירורי לחם"}"><ol><li><a href="index.html">{esc(t(C.SITE["home"], L))}</a></li><li aria-current="page">{esc(t(P["h1"], L))}</li></ol></nav>'
+    mid = f'<li><a href="net-houses.html">{esc(t(C.PAGES["net-houses"]["h1"], L))}</a></li>' if slug in C.CROP_PAGES else ""
+    crumbs = f'<nav class="crumbs" aria-label="{"Breadcrumb" if L == "en" else "פירורי לחם"}"><ol><li><a href="index.html">{esc(t(C.SITE["home"], L))}</a></li>{mid}<li aria-current="page">{esc(t(P["h1"], L))}</li></ol></nav>'
     lead = f'<p class="lead">{esc(t(P["lead"], L))}</p>' if "lead" in P else ""
     bg = cap = ""
     if img:
@@ -393,7 +395,7 @@ def page_head(slug, L, img=None):
 HEAD_IMG = {"projects": "p-closed", "about": "p-site"}  # archive photos not used elsewhere on those pages
 
 
-def cta_band(L, where):
+def cta_band(L, where, crop=""):
     B = C.CTA_BAND; S = C.SITE
     lines = [esc(t(B["fair"], L))] if where in ("home", "turnkey") else []
     meta = f'<p class="meta">{"<br>".join(lines)}</p>' if lines else ""
@@ -405,7 +407,7 @@ def cta_band(L, where):
     </div>
     <div class="side">
       <div class="actions">
-        <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
+        <a class="btn btn-primary" href="contact.html{f"?crop={crop}" if crop else ""}" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
       </div>
       {meta}
@@ -430,6 +432,15 @@ def featured(L):
 
 
 # ---------------------------------------------------------------- pages
+def crop_more(crop, L):
+    """From a crop tab to the page that answers that search in full."""
+    if crop == "banana":
+        return f'<p class="more crop-more"><a href="banana-net-houses.html">{esc(t(C.CROP_PAGE["more"], L))}</a></p>'
+    if crop in ("apple", "cherry", "kiwi", "avocado"):
+        return f'<p class="more crop-more"><a href="orchard-hail-nets.html">{esc(t(C.CROP_PAGE["more_orchard"], L))}</a></p>'
+    return ""
+
+
 def crop_selector(L, where="home"):
     """'Which net house for your crop?': tabs that switch the specs, the matching project and the drawing."""
     H = C.HOME3
@@ -446,7 +457,7 @@ def crop_selector(L, where="home"):
         panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
                       f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
                       f'<p class="crop-min">{esc(t(H["crop_min"], L))}</p>'
-                      f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a></div>')
+                      f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a>{crop_more(cr["id"], L)}</div>')
     return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
   <div class="wrap">
     <div class="crop-head"><h2 id="crop-h-{where}">{esc(t(H["crop_h"], L))}</h2><p class="lead">{esc(t(H["crop_p"], L))}</p></div>
@@ -809,6 +820,13 @@ def p_contact(L):
 <main id="main">
 {page_head("contact", L)}
 <section class="section"><div class="wrap form-grid"><div>{form}</div>{aside}</div></section>
+<section class="section next-os" aria-labelledby="next-h">
+  <div class="wrap">
+    <h2 id="next-h">{esc(t(C.NEXT_H, L))}</h2>
+    <ol class="path next-path">{"".join(f'<li><span class="n">{i + 1:02d}</span><b>{esc(t(h, L))}</b><span class="d">{esc(t(d, L))}</span></li>' for i, (h, d) in enumerate(C.NEXT))}</ol>
+    <p class="muted next-abroad">{esc(t(C.NEXT_ABROAD, L))}</p>
+  </div>
+</section>
 <section class="section white" aria-labelledby="faq-h">
   <div class="wrap split">
     <h2 id="faq-h">{esc(t(C.FAQ_H, L))}</h2>
@@ -871,7 +889,49 @@ def rootify(s, L):
     return s
 
 
-RENDER = {"index": p_index, "net-houses": p_net, "how-we-build": p_sim, "turnkey-farms": p_turnkey, "projects": p_projects, "about": p_about,
+def p_crop(slug, L):
+    """A page per search intent (banana net houses / hail nets for orchards): the answer, the drawing, what we built, the process, questions."""
+    D = C.CROP_PAGES[slug]; G = C.CROP_PAGE
+    fig, _ = drawing(L, animate=False, sfx="p")
+    fig = fig.replace('<figure class="drawing"', f'<figure class="drawing crop-dw" data-crop="{D["crop"]}"', 1)
+    rows = "".join(f'<div><dt>{esc(t(k, L))}</dt><dd>{esc(t(v, L))}</dd></div>' for k, v in D["rows"])
+    proj = "".join(f'<li><b>{esc(t(w, L))}</b><span>{esc(t(r_, L))}</span></li>' for r_, w in D["proj"])
+    faq = D["faq"] + [C.NET_FAQ[3], C.NET_FAQ[4], C.FAQ[0]]
+    faqs = "".join(f'<details><summary>{esc(t(q, L))}</summary><p>{esc(t(a, L))}</p></details>' for q, a in faq)
+    return f"""
+<main id="main">
+{page_head(slug, L, img=(D["img"], D["cap"]))}
+<section class="section crop-page" aria-labelledby="spec-h">
+  <div class="wrap crop-body">
+    <div><h2 id="spec-h">{esc(t(D["spec_h"], L))}</h2><dl class="crop-spec">{rows}</dl>
+      <div class="actions"><a class="btn btn-primary" href="contact.html?crop={D["crop"]}" data-track="cta_click" data-label="page-{slug}">{esc(t(C.HOME3["crop_cta"], L))}</a></div></div>
+    <div class="crop-fig">{fig}</div>
+  </div>
+</section>
+<section class="section white" aria-labelledby="proj-h">
+  <div class="wrap">
+    <div class="os-head"><h2 id="proj-h">{esc(t(G["proj_h"], L))}</h2><p class="lead">{esc(t(G["proj_note"], L))}</p></div>
+    <ul class="feat-cards">{proj}</ul>
+  </div>
+</section>
+<section class="section" aria-labelledby="csteps-h">
+  <div class="wrap">
+    <h2 id="csteps-h" class="os-steps-h">{esc(t(G["steps_h"], L))}</h2>
+    {steps(L, photos=False)}
+    <p class="more sim-link"><a href="how-we-build.html">{esc(t(C.HOME3["sim_go"], L))}</a></p>
+  </div>
+</section>
+<section class="section white" aria-labelledby="cfaq-h">
+  <div class="wrap split">
+    <h2 id="cfaq-h">{esc(t(G["faq_h"], L))}</h2>
+    <div class="faq">{faqs}</div>
+  </div>
+</section>
+{cta_band(L, slug, D["crop"])}
+</main>"""
+
+
+RENDER = {"index": p_index, "banana-net-houses": lambda L: p_crop("banana-net-houses", L), "orchard-hail-nets": lambda L: p_crop("orchard-hail-nets", L), "net-houses": p_net, "how-we-build": p_sim, "turnkey-farms": p_turnkey, "projects": p_projects, "about": p_about,
           "contact": p_contact, "profile": p_profile,
           "privacy": lambda L: p_prose("privacy", L, C.PRIVACY), "accessibility": lambda L: p_prose("accessibility", L, C.A11Y)}
 
@@ -879,6 +939,7 @@ RENDER = {"index": p_index, "net-houses": p_net, "how-we-build": p_sim, "turnkey
 SITEMAP_IMAGES = {  # the real photos on each page (and the 3D still), largest size
     "index": ["hero-1600.jpg", "p-site-1600.jpg", "p-marking-1600.jpg", "p-poles-1600.jpg", "p-closed-1600.jpg"],
     "net-houses": ["forest-1600.jpg", "p-poles-1600.jpg"], "turnkey-farms": ["valley-1600.jpg"],
+    "banana-net-houses": ["valley-1600.jpg"], "orchard-hail-nets": ["forest-1600.jpg"],
     "projects": ["p-closed-1600.jpg", "p-site-1600.jpg"], "about": ["p-marking-1600.jpg"], "how-we-build": ["sim-poster.jpg"],
 }
 
@@ -948,7 +1009,8 @@ def globe_page():
 def crumbs_for(slug, L):
     if slug == "index":
         return None
-    return [(tm(C.SITE["home"], L), url("index", L, True)), (tm(C.PAGES[slug]["h1"], L), url(slug, L, True))]
+    mid = [(tm(C.PAGES["net-houses"]["h1"], L), url("net-houses", L, True))] if slug in C.CROP_PAGES else []
+    return [(tm(C.SITE["home"], L), url("index", L, True))] + mid + [(tm(C.PAGES[slug]["h1"], L), url(slug, L, True))]
 
 
 def write(path, s):
@@ -966,7 +1028,8 @@ OLD_HE = [  # Hebrew pages (decoded slugs) -> new Hebrew page
     ("פתרונות", "net-houses"), ("פתרונות-קירוי-והצללה-חקלאיים", "net-houses"), ("ייעוץ-תכנון-ניהול-והדרכה", "net-houses"),
     ("פתרונות-קירוי-והצללה-אזרחיים", "index"), ("יצירת-קשר", "contact"), ("sample-page", "index"), ("8", "index"),
 ]
-OLD_HE_PREFIX = [("project/סככות-העמסה", "net-houses"), ("project/בתי-רשת-לבננות", "net-houses"), ("project", "projects"),
+OLD_HE_PREFIX = [("project/סככות-העמסה", "net-houses"), ("project/בתי-רשת-לבננות", "banana-net-houses"), ("project/פרוייקטים-במטעים", "orchard-hail-nets"),
+                 ("project-category/בתי-רשת-לבננות", "banana-net-houses"), ("project-category/פרוייקטים-במטעים", "orchard-hail-nets"), ("project", "projects"),
                  ("project-category", "projects"), ("dt_testimonials", "projects"), ("ללא-קטגוריה", "index"), ("category", "index")]
 OLD_EN = [  # English pages were ?lang=en
     ("about", "about"), ("management", "about"), ("recommendations", "projects"), ("projects", "projects"), ("solutions", "net-houses"),

@@ -259,6 +259,22 @@ PAGES = {
         "where_p": ("Portugal and other European countries, Africa and other markets. Minimum farm size: 30 ha.",
                     "פורטוגל ומדינות נוספות באירופה, אפריקה ושווקים נוספים. גודל חווה מינימלי: 300 דונם (30 הקטר)."),  # 4.1, 4.2
     },
+    "banana-net-houses": {
+        "title": ("Banana net houses: 11% net, wide spans | MIFTAH", "בתי רשת לבננות: רשת 11%, מפתחים רחבים | מיפתח"),
+        "desc": ("Banana net houses with an 11% shade net over wide spans, up to 10 ha in one structure, with trellising built in. Designed, made in our plant and built by MIFTAH, in Israel and abroad.",
+                 "בתי רשת לבננות עם רשת צל 11% על פני מפתחים רחבים, עד 100 דונם במבנה אחד, עם הדליה מובנית. מתוכננים, מיוצרים במפעל שלנו ומוקמים בידי מיפתח, בישראל ובחו״ל."),
+        "h1": ("Banana net houses", "בתי רשת לבננות"),
+        "lead": ("An 11% shade net, light and airy, over wide spans. One structure can cover up to 10 ha (100 dunam), with the trellising and support built in.",
+                 "רשת צל 11%, קלה ואוורירית, על פני מפתחים רחבים. מבנה אחד יכול לכסות עד 100 דונם, עם ההדליה והתמיכה בתוכו."),  # 2.2
+    },
+    "orchard-hail-nets": {
+        "title": ("Hail nets for orchards: apples, cherries, kiwi | MIFTAH", "רשת נגד ברד למטעים: תפוחים, דובדבנים, קיווי | מיפתח"),
+        "desc": ("Orchard net houses with a 10–30% shade net against hail and sunburn, built so the net folds away in winter. Apples, cherries, kiwi, avocado and persimmon. Designed, made and built by MIFTAH.",
+                 "בתי רשת למטעים עם רשת צל 10%–30% נגד ברד וכוויות שמש, בנויים כך שהרשת מתקפלת בחורף. תפוחים, דובדבנים, קיווי, אבוקדו ואפרסמון. מתוכננים, מיוצרים ומוקמים בידי מיפתח."),
+        "h1": ("Hail nets for orchards", "רשת נגד ברד למטעים"),
+        "lead": ("A 10–30% shade net over the orchard, mainly against hail and sunburn at flowering and fruit set. The structure lets the net fold away in winter and spread again in summer.",
+                 "רשת צל 10%–30% מעל המטע, בעיקר נגד ברד וכוויות שמש בפריחה ובחנטה. המבנה מאפשר לרשת להתקפל בחורף ולהיפרס שוב בקיץ."),  # 2.3
+    },
     "projects": {
         "title": ("Net house projects on three continents | MIFTAH Projects", "בתי רשת בשלוש יבשות: הפרויקטים | מיפתח פרויקטים"),
         "desc": ("410,000 m² of net houses in Mexico, India, Honduras, Spain and Georgia (2015 figures), projects in Portugal and Belarus, and net houses for kiwi, bananas, apples and cherries in Israel.",
@@ -359,6 +375,38 @@ PAGES = {
     },
 }
 
+CROP_PAGES = {  # one page per search intent; every line traces to the ledger
+    "banana-net-houses": {
+        "crop": "banana", "img": "valley", "cap": ("A large net house in a valley, built by MIFTAH", "בית רשת גדול בעמק, שהקימה מיפתח"),
+        "spec_h": ("The net house, in short", "בית הרשת, בקצרה"),
+        "rows": [(("Net", "רשת"), ("11% shade net, light and airy", "רשת צל 11%, קלה ואוורירית")),
+                 (("Protects", "מגינה"), ("From wind and hail, and it saves water in the hot season by reducing evaporation. Better growing conditions for the plants.", "מפני רוח וברד, ובעונה החמה חוסכת מים כי היא מפחיתה התאדות. תנאי גידול טובים יותר לצמחים.")),
+                 (("Structure", "מבנה"), ("Large spans between poles, so one structure can cover up to 10 ha (100 dunam)", "מפתחים גדולים בין העמודים, כך שמבנה אחד יכול לכסות עד 100 דונם")),
+                 (("Support", "תמיכה"), ("Trellising and plant support are part of the structure", "ההדליה ומערכת התמיכה הן חלק מהמבנה"))],  # 2.2
+        "proj": [(("Western Galilee, Israel", "הגליל המערבי, ישראל"), ("Banana net house with 11% net", "בית רשת לבננות עם רשת 11%"))],  # 3.1
+        "faq": [(("Which net is used over bananas?", "איזו רשת שמים מעל בננות?"), ("An 11% shade net: light and airy, over wide spans.", "רשת צל 11%: קלה ואוורירית, על פני מפתחים רחבים.")),
+                (("How large can one banana net house be?", "כמה גדול יכול להיות בית רשת לבננות?"), ("One structure can reach 10 ha (100 dunam), thanks to large spans between the poles.", "מבנה אחד יכול להגיע ל-100 דונם, בזכות מפתחים גדולים בין העמודים.")),
+                (("Does the net save water?", "הרשת חוסכת מים?"), ("Yes. In the hot season it reduces evaporation, so the plantation needs less water.", "כן. בעונה החמה היא מפחיתה התאדות, כך שהמטע צריך פחות מים."))],  # 2.2
+    },
+    "orchard-hail-nets": {
+        "crop": "apple", "img": "forest", "cap": ("A net house against a pine forest, built by MIFTAH", "בית רשת על רקע יער אורנים, שהקימה מיפתח"),
+        "spec_h": ("The net house, in short", "בית הרשת, בקצרה"),
+        "rows": [(("Net", "רשת"), ("10% to 30% shade, chosen for the crop", "10% עד 30% צל, לפי הגידול")),
+                 (("Protects", "מגינה"), ("Mainly against hail and sunburn at flowering and fruit set", "בעיקר מפני ברד וכוויות שמש בפריחה ובחנטה")),
+                 (("Season", "עונה"), ("The net folds away in winter and spreads in summer, by hand or with an automatic system", "הרשת מתקפלת בחורף ונפרסת בקיץ, ידנית או במערכת אוטומטית")),
+                 (("Trellising", "הדליה"), ("Support for the crop, such as a pergola trellis for kiwi", "תמיכה לגידול, כמו הדליית סוכה לקיווי")),
+                 (("Crops", "גידולים"), ("Apple, cherry, kiwi, avocado, persimmon", "תפוח, דובדבן, קיווי, אבוקדו, אפרסמון"))],  # 2.1, 2.3
+        "proj": [(("Golan Heights, Israel", "רמת הגולן, ישראל"), ("Apple net house", "בית רשת לתפוחים")), (("Israel", "ישראל"), ("Cherry orchard net house", "בית רשת למטע דובדבנים")),
+                 (("Upper Galilee, Israel", "הגליל העליון, ישראל"), ("Kiwi net house with a pergola trellis", "בית רשת לקיווי עם הדליית סוכה")), (("Portugal", "פורטוגל"), ("Avocado net house", "בית רשת לאבוקדו"))],  # 3.1
+        "faq": [(("Which net protects apples and cherries from hail?", "איזו רשת מגינה על תפוחים ודובדבנים מברד?"), ("A 10–30% shade net, mainly against hail and sunburn at flowering and fruit set.", "רשת צל 10%–30%, בעיקר נגד ברד וכוויות שמש בפריחה ובחנטה.")),
+                (("Can the net fold away in winter?", "הרשת יכולה להתקפל בחורף?"), ("Yes. The structure is built so the net folds in winter and spreads in summer, by hand or automatically.", "כן. המבנה בנוי כך שהרשת מתקפלת בחורף ונפרסת בקיץ, ידנית או אוטומטית.")),
+                (("Do you build kiwi pergolas?", "אתם בונים סוכות לקיווי?"), ("Yes. The pergola-shaped trellis is built together with the net house.", "כן. הדליית הסוכה נבנית יחד עם בית הרשת."))],  # 2.3, 2.5
+    },
+}
+CROP_PAGE = {"proj_h": ("Built by MIFTAH", "מה שהקמנו"), "proj_note": ("References from clients after a first conversation.", "המלצות מלקוחות אחרי שיחה ראשונה."),
+             "steps_h": ("How a project runs", "איך מתנהל פרויקט"), "faq_h": ("Questions", "שאלות"),
+             "more": ("More about banana net houses", "עוד על בתי רשת לבננות"), "more_orchard": ("More about hail nets for orchards", "עוד על רשת נגד ברד למטעים")}
+
 NET_FAQ_H = ("Questions about net houses", "שאלות על בתי רשת")
 NET_FAQ = [  # every answer is a ledger fact (numbers in comments)
     (("What is an agricultural net house?", "מה זה בית רשת חקלאי?"),
@@ -394,6 +442,15 @@ FAQ = [  # every answer is a ledger fact (numbers in comments)
     (("Can I talk to one of your clients?", "אפשר לדבר עם לקוח שלכם?"),
      ("Yes. Clients in Israel and in Portugal are willing to give a reference. We put you in touch after a first conversation.", "כן. לקוחות בישראל ובפורטוגל מוכנים להמליץ עלינו. נפגיש ביניכם אחרי שיחה ראשונה.")),  # 3.5
 ]
+NEXT_H = ("What happens after you get in touch", "מה קורה אחרי שפונים")
+NEXT = [  # 2.8, 4.3, 1.7 (no response-time promise until the owners give one)
+    (("A first conversation", "שיחה ראשונה"), ("We call you to understand the crop, the land and your timing.", "נתקשר כדי להבין את הגידול, הקרקע ולוח הזמנים שלכם.")),
+    (("A visit to the site", "ביקור בשטח"), ("When the project fits, we map the crop, soil, drainage, access and wind on your land.", "כשהפרויקט מתאים, ממפים בשטח את הגידול, הקרקע, הניקוז, הגישה והרוח.")),
+    (("Design and quote", "תכנון והצעת מחיר"), ("We calculate the loads and prepare the drawings and the bill of quantities. The quote is based on them.", "מחשבים עומסים ומכינים שרטוטים וכתב כמויות. הצעת המחיר מבוססת עליהם.")),
+    (("Manufacture and installation", "ייצור והקמה"), ("After you approve the quote, our plant makes the parts and our crews build the structure and maintain it.", "אחרי שמאשרים את ההצעה, המפעל שלנו מייצר את החלקים והצוותים שלנו מקימים את המבנה ומתחזקים אותו.")),
+]
+NEXT_ABROAD = ("Abroad, the steps are the same: we plan the work and train and manage local crews on site.", "בחו״ל השלבים זהים: אנחנו מתכננים את העבודה, מדריכים ומנהלים צוותים מקומיים בשטח.")  # 3.2
+
 FAQ_H = ("Before you get in touch", "לפני שפונים")
 
 CTA_HEADS = {  # a different opening line per page
@@ -402,6 +459,8 @@ CTA_HEADS = {  # a different opening line per page
     "turnkey": ("Tell us about your land abroad.", "ספרו לנו על הקרקע בחו״ל."),
     "projects": ("Planning a project of 5 ha or more?", "מתכננים פרויקט של 50 דונם ומעלה?"),
     "about": ("Talk to Merav or Yiftach.", "דברו עם מרב או עם יפתח."),
+    "banana-net-houses": ("Planning a banana net house?", "מתכננים בית רשת לבננות?"),
+    "orchard-hail-nets": ("Want to protect your orchard from hail?", "רוצים להגן על המטע מברד?"),
     "sim": ("Want one like this on your land?", "רוצים כזה על הקרקע שלכם?"),
 }
 CTA_BAND = {
@@ -466,7 +525,7 @@ FORM = {
 
 PRIVACY = {
     "en": [
-        ("What we collect", "When you send the project-review form, we receive what you fill in: your name, company, email and phone; what kind of client you are (grower, cooperative, company, investor and so on) and what you need; the country, region, size and status of the land; your crop, timeline and message; and whether you want to meet at the fair. The form also records the page, the language and the time it was sent. The site uses no cookies. Like any website, the hosting server keeps standard technical logs (such as IP addresses) for security. Your browser keeps an unsent form draft in that tab only, and the globe remembers your language choice; neither is sent to us."),
+        ("What we collect", "When you send the project-review form, we receive what you fill in: your name, company, email and phone; what kind of client you are (grower, cooperative, company, investor and so on) and what you need; the country, region, size and status of the land; your crop, timeline and message; and whether you want to meet at the fair. The form also records the page, the language, the time it was sent and how you reached the site (the referring site and any campaign tags in the link). The site uses no cookies. Like any website, the hosting server keeps standard technical logs (such as IP addresses) for security. Your browser keeps an unsent form draft in that tab only, and the globe remembers your language choice; neither is sent to us."),
         ("Why", "Only to reply to your request, arrange a conversation or a site visit, and prepare a proposal if you ask for one."),
         ("Who sees it", "MIFTAH Projects' management and office staff. We don't sell or share your details. The form's delivery service, once connected, processes the message only to deliver it to us."),
         ("How long", "We keep inquiries for as long as they are needed for the conversation and for our business records, and delete them on request."),
@@ -475,7 +534,7 @@ PRIVACY = {
         ("Updated", "28 October 2026."),
     ],
     "he": [
-        ("מה אנחנו אוספים", "כששולחים את טופס בדיקת הפרויקט, אנחנו מקבלים את מה שמולא: שם, חברה, מייל וטלפון; איזה סוג לקוח אתם (מגדל, אגודה, חברה, משקיע וכו׳) ומה צריך; המדינה, האזור, הגודל והמצב של הקרקע; הגידול, לוח הזמנים וההודעה; והאם רוצים להיפגש בתערוכה. הטופס רושם גם את העמוד, השפה ומועד השליחה. האתר לא משתמש בעוגיות. כמו בכל אתר, שרת האחסון שומר יומני גישה טכניים רגילים (כמו כתובות IP) לצורכי אבטחה. הדפדפן שלכם שומר טיוטה של טופס שלא נשלח רק בלשונית הזאת, והגלובוס זוכר את השפה שבחרתם; שום דבר מאלה לא נשלח אלינו."),
+        ("מה אנחנו אוספים", "כששולחים את טופס בדיקת הפרויקט, אנחנו מקבלים את מה שמולא: שם, חברה, מייל וטלפון; איזה סוג לקוח אתם (מגדל, אגודה, חברה, משקיע וכו׳) ומה צריך; המדינה, האזור, הגודל והמצב של הקרקע; הגידול, לוח הזמנים וההודעה; והאם רוצים להיפגש בתערוכה. הטופס רושם גם את העמוד, השפה, מועד השליחה ואיך הגעתם לאתר (האתר המפנה ותגיות קמפיין בקישור, אם יש). האתר לא משתמש בעוגיות. כמו בכל אתר, שרת האחסון שומר יומני גישה טכניים רגילים (כמו כתובות IP) לצורכי אבטחה. הדפדפן שלכם שומר טיוטה של טופס שלא נשלח רק בלשונית הזאת, והגלובוס זוכר את השפה שבחרתם; שום דבר מאלה לא נשלח אלינו."),
         ("לשם מה", "רק כדי לחזור אליכם, לתאם שיחה או ביקור בשטח ולהכין הצעה אם ביקשתם."),
         ("מי רואה את הפרטים", "ההנהלה וצוות המשרד של מיפתח פרויקטים. אנחנו לא מוכרים ולא מעבירים את הפרטים. שירות שליחת הטופס, כשיחובר, מעבד את ההודעה רק כדי להעביר אותה אלינו."),
         ("לכמה זמן", "פניות נשמרות כל עוד הן נחוצות לשיחה ולרישומי העסק, ונמחקות לפי בקשה."),

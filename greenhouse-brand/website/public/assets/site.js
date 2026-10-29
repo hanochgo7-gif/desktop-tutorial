@@ -15,6 +15,20 @@
     } catch (e) {}
   }
   window.miftahTrack = track;
+
+  // ---- where this visit came from: kept for this tab only, sent with an enquiry so leads can be traced to their source ----
+  var SRC = {};
+  try {
+    SRC = JSON.parse(sessionStorage.getItem("miftah-src") || "null");
+    if (!SRC) {
+      var q = new URLSearchParams(location.search), ref = "";
+      try { ref = document.referrer ? new URL(document.referrer).hostname : ""; } catch (x) {}
+      if (ref === location.hostname) ref = "";
+      SRC = { landing: location.pathname, referrer: ref };
+      ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"].forEach(function (k) { if (q.get(k)) SRC[k] = q.get(k).slice(0, 100); });
+      sessionStorage.setItem("miftah-src", JSON.stringify(SRC));
+    }
+  } catch (x) { SRC = SRC || {}; }
   document.addEventListener("click", function (e) {
     var a = e.target.closest("a, button"); if (!a) return;
     var href = a.getAttribute("href") || "";
@@ -259,12 +273,20 @@
     return (el.value || "").trim();
   }
   function val(name) { var c = form.querySelector('[name="' + name + '"]:checked'); return c ? c.value : ""; }
+  // a first sort for the office: does the land size meet the usual minimum (ledger 4.2)?
+  function fit() {
+    var c = form.country.value, sz = form.size.value;
+    if (!sz || sz === "tbd" || !c || c === "SEARCH") return "unknown";
+    if (c === "IL") return sz === "lt5" ? "below_minimum" : "in_range";
+    return (sz === "lt5" || sz === "5-30") ? "below_minimum" : "in_range";
+  }
   function payload() {
     return {
       name: label("name"), company: label("company"), email: label("email"), phone: label("phone"),
       role: label("role"), role_code: val("role"), need: label("need"), need_code: val("need"), country: label("country"), country_code: form.country.value, region: label("region"),
       size: label("size"), size_code: form.size.value, status: label("status"), crop: label("crop"), timeline: label("timeline"),
-      message: label("message"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString()
+      message: label("message"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString(),
+      fit: fit(), source: SRC
     };
   }
   function brief(p) {
