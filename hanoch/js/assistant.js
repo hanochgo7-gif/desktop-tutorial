@@ -315,7 +315,7 @@
   /* ---------- הודעות ---------- */
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   // קישורים רק לאתר הזה, לוואטסאפ ולאתרים שבתיק העבודות
-  var SAFE = /^(\/[\w\-./#]*|https:\/\/(?:[\w-]+\.)?(?:hgpro\.io|wa\.me|anigibor\.com|hanochgo7-gif\.github\.io)(?:\/[^\s]*)?)$/;
+  var SAFE = /^(\/(?!\/)[\w\-./#]*|https:\/\/(?:[\w-]+\.)?(?:hgpro\.io|wa\.me|anigibor\.com|hanochgo7-gif\.github\.io)(?:\/[^\s]*)?)$/;
   function rich(s) {
     return esc(s).replace(/(https:\/\/[^\s<]+[^\s<.,:;!?)"'״׳]|(?:^|\s)\/[\w\-./]+(?:#[\w-]+)?)/g, function (m) {
       var lead = m.match(/^\s/) ? m[0] : ''; var u = m.trim().replace(/&amp;/g, '&');

@@ -2,7 +2,7 @@
    נטען רק אחרי לחיצה על "מאשר עוגיות" בהודעת העוגיות (js/consent.js). בלי אישור לא נטען כלום ושום דבר לא נשלח ל-Meta.
    רץ רק ב-hgpro.io. מודד צפייה בעמוד (PageView), יצירת קשר (Contact) בלחיצה על טלפון, מייל או וואטסאפ,
    ופנייה (Lead) רק כשפרטים נשמרו באמת, למשל בקשה לשיחה חוזרת.
-   לחיצה על וואטסאפ עוברת דרך דף המעבר /go/wa (ראו js/ga.js), ולכן היא נספרת שם, עם קוד המודעה מההודעה. */
+   לחיצה על וואטסאפ של מבקר ממודעה בגוגל עוברת דרך דף המעבר /go/wa (ראו js/ga.js) ונספרת שם, עם קוד המודעה מההודעה. */
 (function () {
   'use strict';
   // מזהה הפיקסל ממנהל האירועים של Meta (Events Manager), מספר של 15 או 16 ספרות. ריק = כבוי
@@ -44,8 +44,10 @@
     if (!window.fbq || !window.hgConsent.analytics()) return;
     var a = e.target && e.target.closest && e.target.closest('a[href]');
     if (!a) return;
-    var href = a.getAttribute('href') || '', method = /^tel:/.test(href) ? 'phone' : /^mailto:/.test(href) ? 'email' : '';
+    var href = a.getAttribute('href') || '', method = /^tel:/.test(href) ? 'phone' : /^mailto:/.test(href) ? 'email' : /wa\.me|api\.whatsapp\.com/.test(href) ? 'whatsapp' : '';
     if (!method) return;
+    // וואטסאפ שעובר דרך דף המעבר (js/ga.js, מבקרים ממודעה בגוגל) נספר שם
+    if (method === 'whatsapp' && e.defaultPrevented) return;
     var c = window.hgAd && window.hgAd.code();
     fbq('track', 'Contact', c ? { content_name: method, ad_code: c } : { content_name: method });
   }, true);

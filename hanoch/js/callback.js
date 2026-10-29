@@ -50,7 +50,7 @@
   var CSS =
     '.cb{margin:auto;width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overflow-x:hidden;overscroll-behavior:contain;padding:0;border-radius:22px;border:1px solid rgba(237,232,222,.16);' +
     'background:#121214;color:#ede8de;font:inherit;font-size:1rem;line-height:1.55;box-shadow:0 30px 80px rgba(0,0,0,.6)}' +
-    '.cb::backdrop{background:rgba(5,5,6,.72);backdrop-filter:blur(3px)}' +
+    '.cb::backdrop{background:rgba(5,5,6,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}' +
     'html:has(.cb[open]){overflow:hidden}' +
     '@media (prefers-reduced-motion:no-preference){.cb[open]{animation:cb-in .2s cubic-bezier(.22,1,.36,1)}.cb[open]::backdrop{animation:cb-fade .2s ease}}' +
     '@keyframes cb-in{from{opacity:0;transform:scale(.97)}}@keyframes cb-fade{from{opacity:0}}' +

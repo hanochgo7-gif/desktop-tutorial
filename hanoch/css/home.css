@@ -198,7 +198,7 @@ h2 { font-size: calc(clamp(1.75rem, 4.4vw, 2.75rem) * var(--h-scale)); }
 .foot .logo { font-size: 1.2rem; color: var(--fg); justify-self: start; }
 
 /* סרגל קבוע בטלפון: וואטסאפ וחיוג תמיד ביד */
-.dock { position: fixed; z-index: 90; inset-inline: 0; bottom: 0; display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--ink) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--fg-faint); }
+.dock { position: fixed; z-index: 90; inset-inline: 0; bottom: 0; display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: rgba(10, 10, 11, .9); background: color-mix(in srgb, var(--ink) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--fg-faint); }
 .dock .btn-wa { flex: 1; }
 .dock .btn-ghost { flex: 0 0 auto; }
 @media (max-width: 899px) { .dock { padding-inline-end: 66px; } }
@@ -330,3 +330,8 @@ html.lenis { scroll-behavior: auto; }
 .plan-dots { gap: 0; }
 .plan-dots button { width: 44px; height: 44px; }
 
+/* מיקוד מקלדת לא נעלם מתחת לפס התחתון בטלפון */
+@media (max-width: 899px) { html { scroll-padding-bottom: 96px; } }
+.brief-err { flex-basis: 100%; margin: .2rem 0 0; color: #ff9b7d; font-size: .92rem; }
+.brief-err:empty { display: none; }
+.brief-form .brief-contact input[aria-invalid="true"] { border-color: #ff7a52; }

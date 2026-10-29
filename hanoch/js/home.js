@@ -56,6 +56,19 @@
 
   var brief = document.querySelector('.brief-form');
   if (brief) {
+    // טלפון חלקי לא נשמר ולא נשלח: מבקשים מספר מלא, כמו בחלון השיחה החוזרת.
+    // הבדיקה רצה לפני השמירה במערכת הפניות (js/hgos.js), ולכן היא נרשמת על window בשלב הלכידה
+    var berr = document.getElementById('brief-err');
+    addEventListener('submit', function (e) {
+      if (e.target !== brief) return;
+      var tel = brief.elements.phone, v = tel ? tel.value.trim() : '', digits = v.replace(/\D/g, '');
+      if (!v || (digits.length >= 9 && digits.length <= 15)) { if (tel) tel.removeAttribute('aria-invalid'); if (berr) berr.textContent = ''; return; }
+      e.preventDefault(); e.stopImmediatePropagation();
+      tel.setAttribute('aria-invalid', 'true'); tel.focus();
+      if (berr) berr.textContent = 'צריך מספר טלפון מלא, למשל 050-1234567. אפשר גם להשאיר את השדה ריק.';
+      track('brief_error', { form_id: 'home_brief', field: 'phone' });
+    }, true);
+    if (brief.elements.phone) brief.elements.phone.addEventListener('input', function () { this.removeAttribute('aria-invalid'); if (berr) berr.textContent = ''; });
     var started = false, answered = {}, counted = false;
     brief.addEventListener('change', function (e) {
       if (!started) { started = true; track('brief_start', { form_id: 'home_brief' }); }

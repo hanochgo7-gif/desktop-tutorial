@@ -78,12 +78,14 @@
         // נשלח במפורש לשני התגים, כדי שגם תג הפרסום יקבל אותו
         var to = TAG2 ? [ID, TAG2] : [ID];
         gtag('event', lead + '_click', { method: lead, link_location: from, cta_id: a.getAttribute('data-cta') || from, send_to: to });
-        // וואטסאפ עובר דרך דף המעבר hgpro.io/go/wa, שגוגל אדס סופר כפנייה
-        if (lead === 'whatsapp') {
+        // מי שהגיע ממודעה בגוגל (מזהה קליק בכתובת, או עוגייה של גוגל אדס) עובר דרך דף המעבר hgpro.io/go/wa, שגוגל אדס סופר כפנייה.
+        // כל השאר עוברים ישר לוואטסאפ, שנפתח מהר יותר ובאפליקציה עצמה
+        var q = new URLSearchParams(location.search);
+        var fromAd = ['gclid', 'gbraid', 'wbraid', '_gl'].some(function (k) { return q.get(k); }) || /(^|;\s*)_gcl_(aw|gb|dc)=/.test(document.cookie);
+        if (lead === 'whatsapp' && fromAd) {
           e.preventDefault();
           var go = '/go/wa?u=' + encodeURIComponent(a.href);
           // מזהה הקליק של המודעה (gclid / gbraid / wbraid / fbclid / _gl) עובר הלאה בכתובת, כדי לדעת איזו מודעה הביאה את הפנייה גם בלי עוגיות
-          var q = new URLSearchParams(location.search);
           ['gclid', 'gbraid', 'wbraid', 'fbclid', '_gl', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (q.get(k)) go += '&' + k + '=' + encodeURIComponent(q.get(k)); });
           if (a.target === '_blank') window.open(go, '_blank', 'noopener'); else location.href = go;
         }

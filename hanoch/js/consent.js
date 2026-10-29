@@ -80,8 +80,9 @@
     if (!b || !b.offsetHeight) return;
     box.style.bottom = Math.round((parseFloat(b.style.bottom) || parseFloat(getComputedStyle(b).bottom) || 18) + b.offsetHeight + 12) + 'px';
   }
-  function show() { if (!box) build(); lift(); box.hidden = false; }
-  function hide() { if (box) box.hidden = true; }
+  // בזמן שההודעה פתוחה, מה שמקבל מיקוד מקלדת נגלל מעליה ולא מתחתיה
+  function show() { if (!box) build(); lift(); box.hidden = false; document.documentElement.style.scrollPaddingBottom = (box.offsetHeight + (parseFloat(getComputedStyle(box).bottom) || 18) + 12) + 'px'; }
+  function hide() { if (box) box.hidden = true; document.documentElement.style.scrollPaddingBottom = ''; }
 
   function choose(yes) {
     var was = granted;
@@ -89,6 +90,23 @@
     if (yes && !was) { var l = listeners; listeners = []; l.forEach(function (fn) { fn(); }); }
     if (!yes && was) { clearGa(); location.reload(); }
   }
+
+  // מיקוד מקלדת שנופל מתחת להודעה או לפס התחתון בטלפון: הדף נגלל כדי שהאלמנט יופיע מעליהם
+  document.addEventListener('focusin', function (e) {
+    var el = e.target;
+    if (!el || !el.getBoundingClientRect) return;
+    // רק מיקוד מהמקלדת (ושדות טופס): לחיצה בעכבר על קישור לא מזיזה את הדף
+    try { if (!el.matches(':focus-visible')) return; } catch (x) { /* דפדפן ישן */ }
+    var r = el.getBoundingClientRect(), top = innerHeight;
+    [box, document.getElementById('dock')].forEach(function (o) {
+      if (!o || o.hidden || o.contains(el)) return;
+      var s = getComputedStyle(o);
+      if (s.display === 'none' || s.visibility === 'hidden' || +s.opacity === 0 || s.position !== 'fixed') return;
+      var b = o.getBoundingClientRect();
+      if (b.height && b.top < top) top = b.top;
+    });
+    if (top < innerHeight && r.bottom > top - 8 && r.top < innerHeight) window.scrollBy(0, r.bottom - top + 16);
+  });
 
   var embedded = false;
   try { embedded = window.top !== window; } catch (e) { embedded = true; }

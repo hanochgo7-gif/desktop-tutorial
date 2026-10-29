@@ -515,7 +515,7 @@ video.live.on{ opacity:1; }
 
 <div class="cue chrome" aria-hidden="true"><s></s>גררו כדי לסובב</div>
 
-<div id="menu" aria-hidden="true">
+<div id="menu" aria-hidden="true" inert>
   <nav aria-label="ראשי">
     <a href="#" data-grid>הארכיון</a>
     <a href="../work.html">סיפורי הפרויקטים</a>
@@ -526,7 +526,7 @@ video.live.on{ opacity:1; }
   <p class="addr"><a href="../privacy.html">מדיניות פרטיות</a> · <a href="../terms.html">תנאי שימוש</a> · <a href="../refunds.html">ביטול והחזרים</a> · <a href="#" data-consent-open data-close-menu>הגדרות עוגיות</a> · <a href="../accessibility.html">הצהרת נגישות</a></p>
 </div>
 
-<div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true">
+<div id="lit" role="dialog" aria-modal="true" aria-labelledby="litTitle" aria-hidden="true" inert>
   <div class="scrim" data-close></div>
   <div class="plate">
     <div class="shot"><img id="litImg" alt=""><video id="litVid" class="live" muted loop playsinline aria-hidden="true"></video><button class="close" type="button" data-close>סגירה</button></div>
@@ -1030,7 +1030,7 @@ video.live.on{ opacity:1; }
     isLit = true;
     root.style.overflow = 'hidden';
     lit.scrollTop = 0;
-    lit.setAttribute('aria-hidden', 'false');
+    lit.setAttribute('aria-hidden', 'false'); lit.inert = false;
     body.classList.add('lit');
     plate.style.transition = 'none';
     plate.style.transform = 'none';
@@ -1047,7 +1047,7 @@ video.live.on{ opacity:1; }
     focused = -1; isLit = false;
     litVid.pause();
     body.classList.remove('lit');
-    lit.setAttribute('aria-hidden', 'true');
+    lit.setAttribute('aria-hidden', 'true'); lit.inert = true;
     root.style.overflow = '';
     if (source && document.contains(source)) { plate.style.transform = flipFrom(source); }
     plate.style.opacity = '0';
@@ -1066,7 +1066,7 @@ video.live.on{ opacity:1; }
     body.classList.toggle('menu-open', on);
     menuBtn.setAttribute('aria-expanded', on);
     menuBtn.setAttribute('aria-label', on ? 'סגירת התפריט' : 'פתיחת התפריט');
-    menu.setAttribute('aria-hidden', !on);
+    menu.setAttribute('aria-hidden', !on); menu.inert = !on;
     if (on) setTimeout(function () { var a = $('nav a', menu); if (a) a.focus({ preventScroll: true }); }, 120);
   }
   menuBtn.addEventListener('click', function () { setMenu(!body.classList.contains('menu-open')); });
