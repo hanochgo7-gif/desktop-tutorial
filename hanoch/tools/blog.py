@@ -2,7 +2,9 @@
 # מקור: tools/posts/*.md (כותרת של שורות key: value בין --- + גוף ב-Markdown). פלט: blog/<slug>.html, blog/index.html, blog/feed.xml, blog/posts.json
 # שאלות נפוצות: כל ### בתוך הפרק "## שאלות נפוצות" הופך לשאלה עם סימון לגוגל.
 import os, re, json, html, glob, datetime, urllib.parse
-from seo_pages import CSS, FR, WA, D, BY
+from seo_pages import CSS, FR, WA, D, BY, SLASH
+# וואטסאפ בכותרת ובפס התחתון של הבלוג: הודעה שמתחילה, לא שדה ריק
+WA_BLOG = f'https://wa.me/{WA}?text=' + urllib.parse.quote('היי חנוך, הגעתי מהמאמרים באתר. השאלה שלי: ')
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = ROOT + '/tools/posts'
@@ -180,12 +182,12 @@ def head(title, desc, url, img, extra=''):
 <a class="skip" href="#main">דלגו לתוכן</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="{WA_BLOG}" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 '''
 
 
-FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
+FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="{WA_BLOG}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
 <footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="../services/">כל השירותים</a><a href="./">מאמרים</a><a href="feed.xml">RSS</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
 <script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
@@ -198,7 +200,7 @@ FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/
 def render(p, posts):
     body, toc, faq = md(p['body'])
     U = p['url']; img = D + '/' + p['cover']; mins = max(3, round(p['words'] / 200))
-    wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(f'היי חנוך, קראתי את המאמר "{p["title"].split(" | ")[0]}" באתר. אשמח לשמוע פרטים.')
+    wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(f'היי חנוך, קראתי באתר את המאמר "{p["title"].split(" | ")[0]}". השאלה שלי: ')
     graph = [
         {'@type': 'BlogPosting', '@id': U + '#article', 'headline': p['h1'], 'description': p['desc'], 'image': img, 'datePublished': p['date'].isoformat(),
          'dateModified': (p.get('updated') or p['date']).isoformat(), 'inLanguage': 'he-IL', 'wordCount': p['words'], 'keywords': p.get('keyword', ''),
@@ -212,7 +214,9 @@ def render(p, posts):
     extra = f'<meta property="og:type" content="article">\n<meta property="article:published_time" content="{p["date"].isoformat()}">\n{ld}'
     tocs = f'<nav class="bl-toc" aria-labelledby="toc-h"><b id="toc-h">במאמר הזה</b><ol>' + ''.join(f'<li><a href="#{h}">{inline(t)}</a></li>' for h, t in toc) + '</ol></nav>' if len(toc) >= 3 else ''
     svc = ''.join(f'<li><a href="../services/{s}.html">{esc(BY[s]["name"])}</a></li>' for s in p.get('services', []) if s in BY)
-    more = [q for q in posts if q['slug'] != p['slug']][:3]
+    # עוד מאמרים: קודם אלה שעוסקים באותם שירותים, ואחר כך החדשים
+    mine = set(p.get('services', []))
+    more = sorted((q for q in posts if q['slug'] != p['slug']), key=lambda q: (-len(mine & set(q.get('services', []))), -q['date'].toordinal()))[:3]
     morel = ''.join(card(q) for q in more)
     return head(p['title'], p['desc'], U, img, extra) + f'''<main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">מאמרים</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['h1'])}</span></nav>
@@ -229,7 +233,7 @@ def render(p, posts):
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">רוצים אתר כזה לעסק שלכם?</h2>
     <p>שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.</p>
-    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   {f'<h2>שירותים קשורים</h2><ul class="sv-rel">{svc}</ul>' if svc else ''}
   {f'<h2>עוד מאמרים</h2><ul class="bl-list">{morel}</ul>' if morel else ''}
@@ -270,9 +274,9 @@ def index(posts):
     ld = '<script type="application/ld+json">' + json.dumps({'@context': 'https://schema.org', '@type': 'Blog', '@id': U + '#blog', 'name': 'המאמרים של HG Studio', 'url': U, 'inLanguage': 'he-IL',
         'author': AUTHOR, 'publisher': ORG, 'blogPost': [{'@type': 'BlogPosting', 'headline': p['h1'], 'url': p['url'], 'datePublished': p['date'].isoformat(), 'image': D + '/' + p['cover']} for p in posts]}, ensure_ascii=False) + '</script>'
     img = D + '/' + posts[0]['cover'] if posts else D + '/work/og-home.jpg'
-    return head(title, desc, U, img, '<meta property="og:type" content="website">\n' + ld) + f'''<main class="sv" id="main">
+    return head(title, desc, U, img, SLASH + '\n<meta property="og:type" content="website">\n' + ld) + f'''<main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">מאמרים</span></nav>
-  <h1>מאמרים</h1>
+  <h1>מאמרים לבעלי עסקים</h1>
   <p class="sv-lead">מדריכים קצרים וישירים לבעלי עסקים: אתרים, עיצוב, גוגל ובינה מלאכותית. בלי מילים גבוהות, עם מספרים אמיתיים.</p>
   <ul class="bl-list">{''.join(card(p, i) for i, p in enumerate(posts))}</ul>
 </main>

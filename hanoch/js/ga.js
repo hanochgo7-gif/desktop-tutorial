@@ -41,6 +41,8 @@
     if (loaded) return; loaded = true;
     var s = document.createElement('script');
     s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+    // חסום (חוסם פרסומות, בלי רשת): דף המעבר לוואטסאפ לא מחכה לשווא
+    s.onerror = function () { window.hgTagFailed = true; };
     document.head.appendChild(s);
   }
   // הסקריפט של גוגל כבד (כ-180KB): נטען עם הפעולה הראשונה של הגולש (גלילה, מגע, מקלדת), ואם לא היתה כזו, חמש שניות אחרי שהעמוד נטען.

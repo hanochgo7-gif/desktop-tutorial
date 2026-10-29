@@ -73,6 +73,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-cards-tall { grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); }
 .sv-cards-tall video { aspect-ratio: 9 / 16; }
 .sv-note { color: var(--fg-dim); font-size: .8125rem; margin-top: .6rem; }
+.sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
+.sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
+.sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
+.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
+.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -97,35 +105,38 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 <a class="skip" href="#main">דלגו לתוכן</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="../blog/">מאמרים</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">וואטסאפ</a></nav>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="../blog/">מאמרים</a><a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">שירותים</a><span aria-hidden="true">/</span><span aria-current="page">זהות מותגית</span></nav>
   <p class="sv-kicker">שירות · מיתוג</p>
   <h1>זהות מותגית</h1>
   <p class="sv-lead">לפני שבונים אתר, כדאי לדעת איך העסק נראה ונשמע. זהות מותגית קצרה וברורה עושה סדר: לוגו, צבעים, גופנים וכמה כללים פשוטים, כך שהאתר, הרשתות והשלט נראים כמו אותו עסק.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">לקבלת הצעת מחיר בוואטסאפ</a></p>
-  <h2>מה כלול</h2><ul><li>לוגו בכמה גרסאות: מלא, סמל, כהה ובהיר.</li><li>פלטת צבעים וגופנים לעברית ולאנגלית.</li><li>כללים קצרים לשימוש, ותבנית לפוסט ולסטורי.</li></ul><h2>משתלב באתר</h2><p>הזהות נבנית יחד עם האתר, כך שהשפה העיצובית נמשכת מהלוגו ועד האנימציות. ראו <a href="web-design.html">עיצוב אתרים</a>.</p>
+  <p class="sv-pkg">אפשר להוסיף אותה לכל חבילה. <a href="../#pricing">לשלוש החבילות ←</a></p><p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><button class="sv-cb" type="button" data-callback hidden>או שאחזור אליכם בשעה נוחה</button></p>
+  <p class="sv-facts">מחיר סגור בהצעה כתובה · מדברים ישירות איתי</p>
+  <h2>מה כלול</h2><ul><li>לוגו בכמה גרסאות: מלא, סמל, כהה ובהיר.</li><li>פלטת צבעים וגופנים לעברית ולאנגלית.</li><li>כללים קצרים לשימוש, ותבנית לפוסט ולסטורי.</li></ul><h2>משתלב באתר</h2><p>הזהות נבנית יחד עם האתר, כך שהשפה העיצובית נמשכת מהלוגו ועד האנימציות. ראו <a href="web-design.html">עיצוב אתרים</a>.</p><h2>דוגמה: אֶלֶף, מותג קונספט</h2><p>אֶלֶף הוא מותג בדיוני של שמן זית שבניתי מאפס כדי להראות את כל הדרך: שם, סמל, סרט ואתר. <a href="../elef/">לאתר הקונספט</a>.</p>
   <h2>איך זה עובד</h2>
-  <ol class="sv-steps"><li><b>שיחת היכרות</b>מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.</li><li><b>הצעה כתובה</b>מחיר סגור ולוח זמנים. מה שכתוב בה הוא מה שמשלמים.</li><li><b>עיצוב</b>כיוון עיצובי שנבנה סביב העסק שלכם, לא תבנית מוכנה.</li><li><b>פיתוח</b>קוד נקי ומהיר, מותאם לטלפון, לגוגל ולנגישות.</li><li><b>עלייה לאוויר</b>דומיין, אחסון מהיר, Search Console ומדידת פניות.</li><li><b>ליווי</b>חודש ליווי אחרי העלייה, ואפשרות לחבילת תחזוקה חודשית.</li></ol>
+  <ol class="sv-steps"><li><b>שיחת היכרות</b>מבינים את העסק, את הלקוחות ואת המטרה. בלי התחייבות.</li><li><b>הצעה כתובה</b>מחיר סגור ולוח זמנים. מה שכתוב בה הוא מה שמשלמים.</li><li><b>עיצוב</b>כיוון עיצובי שנבנה סביב העסק שלכם, לא תבנית מוכנה.</li><li><b>פיתוח</b>קוד נקי ומהיר, מותאם לטלפון, לגוגל ולנגישות.</li><li><b>עלייה לאוויר</b>דומיין, אחסון מהיר, Search Console ומדידת פניות.</li><li><b>ליווי</b>חודש ליווי אחרי העלייה. תחזוקה חודשית אחר כך היא אפשרות, לא חובה.</li></ol>
   <h2>איך נקבע המחיר</h2>
   <p>כל פרויקט מתומחר לפי מה שהעסק שלכם צריך. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.</p>
   <h2>מהתיק</h2><div class="sv-cards"><a class="sv-card" href="../work.html#elef"><img src="../work/cinema/elef-640.webp" alt="אֶלֶף, מותג בדיוני לשמן זית: שם, סמל, סרט ואתר" width="640" height="360" loading="lazy" decoding="async"><span>אֶלֶף<small>מותג בדיוני לשמן זית: שם, סמל, סרט ואתר</small></span></a><a class="sv-card" href="../work.html#clinic"><img src="../work/cinema/clinic-640.webp" alt="רותם גוטובסקי, קליניקה לקוסמטיקה טיפולית, עם חנות" width="640" height="360" loading="lazy" decoding="async"><span>רותם גוטובסקי<small>קליניקה לקוסמטיקה טיפולית, עם חנות</small></span></a></div>
   <h2>שאלות נפוצות</h2>
   <div class="sv-faq"><details><summary><h3>צריך זהות מותגית לפני האתר?</h3></summary><p>לא חובה, אבל זה עוזר. אפשר לבנות את שתיהן יחד.</p></details></div>
+  
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">בואו נדבר</h2>
     <p>שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.</p>
-    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a><button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   <h2>שירותים קשורים</h2><ul class="sv-rel"><li><a href="web-design.html">עיצוב אתרים</a></li><li><a href="website-building.html">בניית אתרים לעסקים</a></li><li><a href="landing-page.html">בניית דף נחיתה</a></li><li><a href="ai-commercial.html">הפקת פרסומת ב-AI</a></li></ul>
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio · חנוך גוטובסקי</span><a href="website-building.html">בניית אתרים לעסקים</a><a href="web-design.html">עיצוב אתרים</a><a href="landing-page.html">בניית דף נחיתה</a><a href="online-store.html">בניית חנות אינטרנטית</a><a href="seo.html">קידום אתרים אורגני</a><a href="ai-commercial.html">הפקת פרסומת ב-AI</a><a href="social-media.html">הד: אינסטגרם ופייסבוק לעסקים</a><a href="ai-chatbot.html">נציג AI לשירות לקוחות</a><a href="wix-migration.html">מעבר מוויקס לאתר מקצועי</a><a href="brand-identity.html">זהות מותגית</a><a href="en/brand-identity-design.html" hreflang="en" lang="en">English</a><a href="../privacy.html">מדיניות פרטיות</a><a href="../terms.html">תנאי שימוש</a><a href="../refunds.html">ביטול והחזרים</a><a href="#" data-consent-open>הגדרות עוגיות</a><a href="../accessibility.html">הצהרת נגישות</a></footer>
-<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D." target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%96%D7%94%D7%95%D7%AA%20%D7%9E%D7%95%D7%AA%D7%92%D7%99%D7%AA%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
 <script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
 <script src="../js/assistant.js" defer></script>
 <script src="../js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>
 <script src="../js/callback.js" defer></script>
+<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>
 </body>
 </html>

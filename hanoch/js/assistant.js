@@ -591,9 +591,9 @@
     if (!home || seen || !decided || S.msgs.length) return;
     var onScroll = function () {
       if (scrollY < (document.documentElement.scrollHeight - innerHeight) * 0.45) return;
-      // ליד טופס הפנייה לא מפריעים: ההזמנה מחכה עד שיוצאים ממנו
-      var c0 = document.getElementById('contact'), r0 = c0 && c0.getBoundingClientRect();
-      if (r0 && r0.top < innerHeight && r0.bottom > 0) return;
+      // ליד טופס או כפתור פנייה לא מפריעים: ההזמנה מחכה עד שיוצאים מהם
+      var busy = ['contact', 'brief', 'check'].some(function (id) { var c = document.getElementById(id), r = c && c.getBoundingClientRect(); return r && r.top < innerHeight && r.bottom > 0; });
+      if (busy) return;
       removeEventListener('scroll', onScroll);
       try { sessionStorage.setItem('hg-chat-hint', '1'); } catch (e) {}
       hint = document.createElement('div'); hint.className = 'ht-hint';

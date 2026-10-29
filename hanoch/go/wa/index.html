@@ -24,9 +24,9 @@
 <body>
 <main>
   <div class="dot" aria-hidden="true"></div>
-  <p>פותחים את וואטסאפ…</p>
-  <a id="go" href="https://wa.me/972545522053" rel="noopener">לפתיחת השיחה בוואטסאפ</a>
-  <small>HG Studio · חנוך גוטובסקי</small>
+  <p id="msg">פותחים את וואטסאפ…</p>
+  <a id="go" href="https://wa.me/972545522053" rel="noopener">לא נפתח? לחצו כאן</a>
+  <small id="sig">HG Studio · חנוך גוטובסקי</small>
 </main>
 <script>
 (function () {
@@ -38,16 +38,29 @@
   q.delete('u');
   var keep = q.toString();
   history.replaceState(null, '', location.pathname + (keep ? '?' + keep : ''));
-  document.getElementById('go').href = u;
+  var go = document.getElementById('go');
+  go.href = u;
+  // הודעה מעמוד באנגלית (בלי אותיות עבריות): הדף מדבר אנגלית
+  var text = '';
+  try { text = new URL(u).searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
+  if (text && !/[֐-׿]/.test(text)) {
+    var d = document.documentElement; d.lang = 'en'; d.dir = 'ltr';
+    document.title = 'Opening WhatsApp · HG Studio';
+    document.getElementById('msg').textContent = 'Opening WhatsApp…';
+    go.textContent = 'Not opening? Tap here';
+    document.getElementById('sig').textContent = 'HG Studio · Hanoch Gotovski';
+  }
   var done = false;
-  function go() { if (done) return; done = true; location.replace(u); }
-  // ממתינים שהתג של גוגל (ואם אושרו עוגיות, גם הפיקסל של Meta) ייטען וישלח את הצפייה בדף, ולכל היותר 2.5 שניות
+  function open() { if (done) return; done = true; location.replace(u); }
+  // ממתינים שהתג של גוגל (ואם אושרו עוגיות, גם הפיקסל של Meta) ייטען וישלח את הצפייה בדף, ולכל היותר שנייה וחצי.
+  // תג שנחסם (חוסם פרסומות, בלי רשת) לא מעכב: עוברים מיד
   var t0 = Date.now();
   (function wait() {
-    var meta = !window.fbq || window.fbq.callMethod;
-    if (meta && window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']) return setTimeout(go, 400);
-    if (Date.now() - t0 > 2500) return go();
-    setTimeout(wait, 100);
+    var meta = !window.fbq || window.fbq.callMethod || window.hgMetaFailed;
+    var tag = window.hgTagFailed || (window.google_tag_manager && window.google_tag_manager['G-2D3GJNTP97']);
+    if (meta && tag) return setTimeout(open, window.hgTagFailed ? 0 : 300);
+    if (Date.now() - t0 > 1500) return open();
+    setTimeout(wait, 80);
   })();
 })();
 </script>

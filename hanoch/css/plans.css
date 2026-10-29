@@ -73,3 +73,16 @@
 .cmp .cn { width: 12px; height: 2px; border-radius: 2px; background: var(--fg-line); }
 .plans-help { margin-top: 20px; color: var(--fg-dim); }
 .plans-help a { color: var(--fg); font-weight: 600; text-underline-offset: 4px; }
+
+/* טבלת ההשוואה בטלפון: שם השורה מעל, ושלוש החבילות זו לצד זו, בלי גלילה הצידה */
+.cmp td.cmp-add { color: var(--fg-dim); font-size: .85rem; }
+@media (max-width: 600px) {
+  .cmp table { min-width: 0; }
+  .cmp thead tr, .cmp tbody tr:not(.cg) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cmp thead td { display: none; }
+  .cmp thead th { font-size: 1.25rem; }
+  .cmp tbody th[scope="row"] { grid-column: 1 / -1; padding: .8rem .4rem .2rem; }
+  .cmp tbody td { border-top: 0; padding: .2rem .3rem .7rem; }
+  .cmp .cg { display: block; }
+}
+

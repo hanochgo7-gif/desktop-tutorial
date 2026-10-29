@@ -37,8 +37,8 @@
 
   var CSS =
     '.consent{position:fixed;z-index:126;bottom:18px;inset-inline-start:18px;width:min(440px,calc(100vw - 36px));padding:1rem 1.1rem;border-radius:16px;' +
-    'background:rgba(14,14,16,.96);color:#ede8de;border:1px solid rgba(237,232,222,.16);box-shadow:0 20px 50px rgba(0,0,0,.5);' +
-    'font-family:var(--f-body,system-ui,sans-serif);font-size:.95rem;line-height:1.6}' +
+    'background:#0e0e10;color:#ede8de;border:1px solid rgba(237,232,222,.16);box-shadow:0 20px 50px rgba(0,0,0,.5);' +
+    'font-family:var(--f-body,"Rubik",system-ui,sans-serif);font-size:.95rem;line-height:1.6}' +
     '.consent[hidden]{display:none}' +
     '.consent__text{margin:0 0 .85rem}' +
     '.consent__text a{color:var(--signal,#ff4f1a);text-decoration:underline;text-underline-offset:3px}' +
@@ -112,14 +112,12 @@
 
   function init() {
     if (!state && !embedded) {
-      // בעמוד עם פתיחה (#hero) ההודעה מחכה לגלילה הראשונה או ל-8 שניות, כדי שהמסך הראשון, עם הלקוחות והדרכים לפנות, ייראה שלם.
+      // ההודעה מחכה לגלילה הראשונה או ל-8 שניות, כדי שהמסך הראשון, עם הכותרת ודרכי הפנייה, ייראה שלם.
       // זה לא משנה מה נאסף: עד שמאשרים לא נשמרת שום עוגייה (js/ga.js)
-      if (document.getElementById('hero')) {
-        var asked = false, wait;
-        var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', go); ask(); };
-        addEventListener('scroll', go, { passive: true });
-        wait = setTimeout(go, 8000);
-      } else ask();
+      var asked = false, wait;
+      var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', go); ask(); };
+      addEventListener('scroll', go, { passive: true });
+      wait = setTimeout(go, 8000);
     }
     document.addEventListener('click', function (e) {
       var o = e.target.closest && e.target.closest('[data-consent-open]');

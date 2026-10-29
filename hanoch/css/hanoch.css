@@ -422,6 +422,11 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
 .case-points { list-style: none; margin-top: 1rem; counter-reset: pt; }
 .case-points li { display: grid; grid-template-columns: 2.6ch 1fr; gap: .8rem; padding: 1rem 0; border-bottom: 1px solid var(--fg-faint); }
 .case-points li { counter-increment: pt; }
+/* פנייה מתוך הסיפור: מי שקרא עד כאן לא צריך לסגור ולחפש */
+.case-ask { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--fg-faint); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+.case-ask p { flex-basis: 100%; margin: 0; font-family: var(--f-display); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.1; }
+.case-cb { min-height: 44px; padding: 0 2px; border: 0; background: none; color: var(--fg); font-family: var(--f-mono); font-size: var(--fs-xs); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.case-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 .case-points li::before { content: counter(pt, decimal-leading-zero); font-family: var(--f-mono); font-size: var(--fs-xs); color: var(--p, var(--signal)); padding-top: .3rem; }
 .case-side .label { margin-bottom: .9rem; }
 .swatches { list-style: none; display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 2.2rem; }

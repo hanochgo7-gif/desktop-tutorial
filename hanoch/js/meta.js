@@ -20,6 +20,7 @@
     q.push = q; q.loaded = true; q.version = '2.0'; q.queue = [];
     var s = document.createElement('script');
     s.async = true; s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    s.onerror = function () { window.hgMetaFailed = true; };
     document.head.appendChild(s);
     fbq('init', PIXEL);
     fbq('track', 'PageView');
@@ -27,7 +28,7 @@
       // קוד המודעה, אם נוסף להודעה (js/adcode.js). דף המעבר מוציא את ההודעה מהכתובת ושומר אותה ב-window.hgGo
       var text = '';
       try { text = new URL((window.hgGo && window.hgGo.u) || '').searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
-      var m = /קוד: ([A-Z0-9_-]{1,24})\s*$/.exec(text);
+      var m = /(?:קוד|Code): ([A-Z0-9_-]{1,24})\s*$/.exec(text);
       fbq('track', 'Contact', m ? { content_name: 'whatsapp', ad_code: m[1] } : { content_name: 'whatsapp' });
     }
   });

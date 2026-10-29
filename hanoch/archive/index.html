@@ -332,6 +332,11 @@ body.menu-open #menu{ clip-path:inset(0); pointer-events:auto; }
   font-size:13px; color:var(--dim); line-height:1.7;
 }
 #menu .addr a{ color:inherit; text-decoration:none; }
+/* שתי שורות הכתובת זו מתחת לזו, ולא זו על זו */
+#menu{ grid-template-rows:1fr auto auto; }
+#menu .addr{ position:static; justify-self:stretch; padding-inline:calc(var(--pad) + var(--safe-left)) calc(var(--pad) + var(--safe-right)); margin:0; }
+#menu .addr:last-child{ padding-bottom:calc(var(--pad) + var(--safe-bottom)); }
+#menu .addr a{ display:inline-flex; min-height:44px; align-items:center; }
 
 /* ---------- 7. תמונה פתוחה ---------- */
 #lit{
@@ -465,6 +470,7 @@ video.live.on{ opacity:1; }
 </style>
 <link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
 <script src="../js/captions.js" defer></script>
+<script>if(!/\/$/.test(location.pathname)&&!/\.[a-z]+$/.test(location.pathname))location.replace(location.pathname+"/"+location.search+location.hash)</script>
 <script src="../js/consent.js" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
@@ -487,7 +493,7 @@ video.live.on{ opacity:1; }
 </main>
 
 <header class="chrome">
-  <a class="wordmark" href="../index.html" aria-label="HG·STUDIO, לדף הבית">HG<em>·</em>STUDIO</a>
+  <a class="wordmark" href="/" aria-label="HG·STUDIO, לדף הבית">HG<em>·</em>STUDIO</a>
   <button id="menuBtn" class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="פתיחת התפריט">
     <span class="menu-label">תפריט</span>
     <span class="bars" aria-hidden="true"><i></i><i></i></span>
@@ -513,8 +519,8 @@ video.live.on{ opacity:1; }
   <nav aria-label="ראשי">
     <a href="#" data-grid>הארכיון</a>
     <a href="../work.html">סיפורי הפרויקטים</a>
-    <a href="../index.html">דף הבית</a>
-    <a href="https://wa.me/972545522053" target="_blank" rel="noopener" data-close-menu>דברו איתי</a>
+    <a href="/">דף הבית</a>
+    <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%A8%D7%90%D7%99%D7%AA%D7%99%20%D7%90%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%95%D7%AA%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener" data-close-menu>דברו איתי בוואטסאפ</a>
   </nav>
   <p class="addr">עיצוב ופיתוח אתרים · ישראל<br><a href="tel:+972545522053" dir="ltr">054-5522053</a> · <a href="en.html" lang="en" hreflang="en">English</a></p>
   <p class="addr"><a href="../privacy.html">מדיניות פרטיות</a> · <a href="../terms.html">תנאי שימוש</a> · <a href="../refunds.html">ביטול והחזרים</a> · <a href="#" data-consent-open data-close-menu>הגדרות עוגיות</a> · <a href="../accessibility.html">הצהרת נגישות</a></p>

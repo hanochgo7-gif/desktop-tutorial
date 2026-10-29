@@ -4,6 +4,8 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'elef')
+# כתובת בלי לוכסן בסוף (hgpro.io/elef) שוברת את הקישורים היחסיים: מוסיפים אותו
+SLASH = '<script>if(!/\\/$/.test(location.pathname)&&!/\\.[a-z]+$/.test(location.pathname))location.replace(location.pathname+"/"+location.search+location.hash)</script>\n'
 
 
 def img(name, alt, cls='', sizes='100vw', w=1600, h=900, eager=False):
@@ -162,7 +164,7 @@ def page(lang):
 <link rel="stylesheet" href="../css/fonts.css">
 <link rel="preload" as="image" href="media/s8-poster.webp" fetchpriority="high">
 <style>{CSS}</style>
-<script src="../js/consent.js" defer></script>
+{SLASH if lang == 'he' else ''}<script src="../js/consent.js" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
 <script src="../js/meta.js" defer></script>

@@ -71,6 +71,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-cards-tall { grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); }
 .sv-cards-tall video { aspect-ratio: 9 / 16; }
 .sv-note { color: var(--fg-dim); font-size: .8125rem; margin-top: .6rem; }
+.sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
+.sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
+.sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
+.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
+.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -95,33 +103,36 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 <a class="skip" href="#main">Skip to content</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../../en.html" aria-label="HG·STUDIO, home">HG<span>·</span>STUDIO</a>
-  <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Services</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a></nav>
+  <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Services</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="Breadcrumb"><a href="../../en.html">HG Studio</a><span aria-hidden="true">/</span><a href="./">Services</a><span aria-hidden="true">/</span><span aria-current="page">Website design</span></nav>
   <p class="sv-kicker">Service · Design</p>
   <h1>Website design</h1>
   <p class="sv-lead">Every business has a character, and its website should feel like it. A fuel infrastructure company should not look like a clinic, and a boxing coach should not look like a private chef. So every site I design gets a language of its own: typefaces, colors, motion, even the way the buttons behave.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Get a quote on WhatsApp</a></p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a></p>
+  <p class="sv-facts">A fixed price in a written proposal · You talk to me directly</p>
   <h2>How a design is born</h2><p>It starts with one question: what should your customer feel in the first five seconds? From there comes a direction: a fight ring for a boxing coach, an evening in fig and beet colors for a private chef, cherry blossoms for a skin clinic. The design does not decorate the content. It tells it.</p><h2>What the design includes</h2><ul><li>A design direction and a full visual language: colors, typefaces, icons and imagery.</li><li>Design for phone and desktop, not just "responsive".</li><li>Motion and scroll animation that guide the eye without slowing the site down.</li><li>3D, product renders and studio-grade images made with AI, where they fit.</li><li>Accessibility from the design stage: contrast, text sizes and keyboard focus.</li></ul><h2>Design that sells</h2><p>A beautiful site that brings no leads is a picture on the wall. Every design decision is checked against the goal: is it clear what you do, is it easy to get in touch, and is there a reason to choose you.</p>
   <h2>How it works</h2>
-  <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch, and an optional monthly care plan.</li></ol>
+  <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch. A monthly care plan after that is optional.</li></ol>
   <h2>How pricing works</h2>
   <p>Every project is priced around what your business needs. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.</p>
   <h2>From the portfolio</h2><div class="sv-cards"><a class="sv-card" href="../../en-work.html#clinic"><img src="../../work/cinema/clinic-640.webp" alt="Rotem Gotovski, Therapeutic cosmetics clinic with a shop" width="640" height="360" loading="lazy" decoding="async"><span>Rotem Gotovski<small>Therapeutic cosmetics clinic with a shop</small></span></a><a class="sv-card" href="../../en-work.html#chef"><img src="../../work/cinema/chef-640.webp" alt="Bar Lifschitz, Private chef, dinners by booking in Mitzpe Matat" width="640" height="360" loading="lazy" decoding="async"><span>Bar Lifschitz<small>Private chef, dinners by booking in Mitzpe Matat</small></span></a><a class="sv-card" href="../../en-work.html#allenbis"><img src="../../work/cinema/allenbis-640.webp" alt="Allenbis, Drinks and snacks store with delivery" width="640" height="360" loading="lazy" decoding="async"><span>Allenbis<small>Drinks and snacks store with delivery</small></span></a></div>
   <h2>FAQ</h2>
   <div class="sv-faq"><details><summary><h3>Do you work with templates?</h3></summary><p>No. Every site is designed and built from scratch around the business, so it has no twin on the internet.</p></details><details><summary><h3>I am not sure what I want. Is that OK?</h3></summary><p>Absolutely. In the intro call we work out the business and the customers together, and I propose a direction. You approve it before anything else happens.</p></details><details><summary><h3>Will the design work well on phones?</h3></summary><p>Yes. I design for phone and desktop side by side, and test on real devices before launch.</p></details></div>
+  
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">Let's talk</h2>
     <p>A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.</p>
-    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Message on WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   <h2>Related services</h2><ul class="sv-rel"><li><a href="web-design-studio.html">Custom web design studio</a></li><li><a href="brand-identity-design.html">Brand identity design</a></li><li><a href="landing-page-design.html">Landing page design</a></li><li><a href="ai-commercial-production.html">AI commercial production</a></li></ul>
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio · Hanoch Gotovski</span><a href="web-design-studio.html">Custom web design studio</a><a href="ai-commercial-production.html">AI commercial production</a><a href="social-media-for-business.html">Echo: Instagram and Facebook for businesses</a><a href="website-design.html">Website design</a><a href="landing-page-design.html">Landing page design</a><a href="ecommerce-store.html">Online store development</a><a href="seo-services.html">SEO services</a><a href="ai-customer-agent.html">AI customer service agent</a><a href="wix-wordpress-migration.html">Wix and WordPress migration</a><a href="brand-identity-design.html">Brand identity design</a><a href="../web-design.html" hreflang="he" lang="he">עברית</a><a href="../../en-privacy.html">Privacy</a><a href="../../en-terms.html">Terms</a><a href="../../en-refunds.html">Cancellations & refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="../../en-accessibility.html">Accessibility</a></footer>
-<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
 <script src="../../js/fluid.js" defer></script>
 <script src="../../js/a11y.js" defer></script>
 <script src="../../js/assistant.js" defer></script>
+<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>
 </body>
 </html>

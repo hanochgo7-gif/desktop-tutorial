@@ -15,7 +15,7 @@
 ## Key pages
 - [Home (Hebrew)](https://hgpro.io/): studio, packages, systems and care plans
 - [Home (English)](https://hgpro.io/en.html)
-- [Portfolio](https://hgpro.io/work.html): six client websites with full case stories
+- [Portfolio](https://hgpro.io/work.html): five client websites with full case stories, plus concept projects that are labelled as concepts
 - [Archive](https://hgpro.io/archive/): websites, AI commercials, simulations and 3D
 - [Services (Hebrew)](https://hgpro.io/services/): website building, web design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses: content, shoot days and paid ads), AI chatbot, Wix migration, brand identity
 - [Services (English)](https://hgpro.io/services/en/): custom web design, website design, landing pages, online stores, SEO, AI commercials, Echo (Instagram and Facebook for businesses), AI customer service agent, Wix and WordPress migration, brand identity

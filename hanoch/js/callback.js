@@ -48,7 +48,7 @@
   }
 
   var CSS =
-    '.cb{width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overflow-x:hidden;overscroll-behavior:contain;padding:0;border-radius:22px;border:1px solid rgba(237,232,222,.16);' +
+    '.cb{margin:auto;width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overflow-x:hidden;overscroll-behavior:contain;padding:0;border-radius:22px;border:1px solid rgba(237,232,222,.16);' +
     'background:#121214;color:#ede8de;font:inherit;font-size:1rem;line-height:1.55;box-shadow:0 30px 80px rgba(0,0,0,.6)}' +
     '.cb::backdrop{background:rgba(5,5,6,.72);backdrop-filter:blur(3px)}' +
     'html:has(.cb[open]){overflow:hidden}' +
@@ -76,7 +76,7 @@
     '.cb-go{width:100%;min-height:52px;margin-top:.4rem;border:0;border-radius:99px;background:#ff4f1a;color:#0a0a0b;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;transition:transform 140ms cubic-bezier(.22,1,.36,1),background-color 180ms ease}' +
     '.cb-go:active{transform:scale(.97)}@media (hover:hover) and (pointer:fine){.cb-go:hover{background:#ff6a3d}}' +
     '.cb-go[disabled]{opacity:.6;cursor:wait}' +
-    '.cb-err{min-height:1.2em;margin:.55rem 0 0;color:#ff9b7d;font-size:.9rem}' +
+    '.cb-err{margin:-.4rem 0 .9rem;color:#ff9b7d;font-size:.9rem}.cb-err:empty{display:none}' +
     '.cb-note{margin:.7rem 0 0;color:rgba(237,232,222,.6);font-size:.82rem}' +
     '.cb a{color:#ede8de;text-underline-offset:3px}' +
     '.cb-wa{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:.8rem;padding:.6rem 1.3rem;border-radius:99px;background:#25d366;color:#06301a!important;font-weight:700;text-decoration:none}' +
@@ -102,12 +102,12 @@
           '<label class="cb-field">שם<input type="text" name="name" autocomplete="name" maxlength="80" required aria-describedby="cb-err"></label>' +
           '<label class="cb-field">טלפון<input type="tel" name="phone" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required aria-describedby="cb-err"></label>' +
         '</div>' +
+        '<p class="cb-err" id="cb-err" role="alert"></p>' +
         '<fieldset><legend>באיזה יום?</legend><div class="cb-chips" data-days></div></fieldset>' +
         '<fieldset data-times-box><legend>באיזו שעה?</legend><div class="cb-chips" data-times></div></fieldset>' +
         '<label class="cb-field" style="margin-bottom:.4rem">על מה נדבר? (לא חובה)<input type="text" name="message" maxlength="200" placeholder="למשל: אתר לקליניקה"></label>' +
         '<input class="hp" type="text" name="hgos_hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
         '<button class="cb-go" type="submit">לקבוע שיחה חוזרת</button>' +
-        '<p class="cb-err" id="cb-err" role="alert"></p>' +
         '<p class="cb-note">השם והטלפון נשמרים במערכת הפניות שלי רק כדי שאחזור אליכם. <a href="/privacy.html#crm">פרטיות</a></p>' +
       '</form>';
     form = dlg.querySelector('form'); err = dlg.querySelector('.cb-err');
@@ -141,8 +141,14 @@
   // מה נבחר: זמן החזרה (ISO בשעון ישראל) ותיאור קריא
   function when() {
     var key = form.elements.day.value, d = list.filter(function (x) { return x.key === key; })[0];
-    if (!d) return { label: 'בהקדם האפשרי' };
-    var s = d.slots[+(form.elements.time && form.elements.time.value) || 0];
+    var si = +(form.elements.time && form.elements.time.value) || 0;
+    if (!d) {
+      // "בהקדם": בתוך שעות החזרה זה באמת בהקדם. בערב, בלילה ובשבת זה החלון הקרוב, כדי שהאישור יגיד מתי ושהמשימה ב-HG OS תקבל מועד
+      var nh = israelNow().h, first = list[0];
+      if (!first || (first.today && first.slots.some(function (x) { return nh >= x[1] && nh < x[2]; }))) return { label: 'בהקדם האפשרי' };
+      d = first; si = 0;
+    }
+    var s = d.slots[si];
     var now = israelNow(), start = s[1];
     // היום, כשהחלון כבר התחיל: מתקשרים בעוד רבע שעה
     var at = d.today && now.h > start ? new Date(Date.now() + 15 * 6e4).toISOString()
@@ -193,7 +199,9 @@
   // השמירה לא הצליחה: אותה בקשה בוואטסאפ, בלחיצה אחת
   function failed() {
     var text = 'היי חנוך, אשמח שתחזור אליי ' + chosen.when.label + '. ' + chosen.name + ', ' + chosen.phone + (chosen.message ? '. ' + chosen.message : '');
-    err.innerHTML = 'לא הצלחתי לשמור את הבקשה. אפשר לשלוח לי אותה בוואטסאפ:<br><a class="cb-wa" href="' + WA + encodeURIComponent(text) + '" target="_blank" rel="noopener">לשלוח בוואטסאפ</a>';
+    err.innerHTML = 'משהו לא עבד אצלי בשמירה. אפשר לשלוח לי את אותה בקשה בוואטסאפ, בלחיצה אחת:<br><a class="cb-wa" href="' + WA + encodeURIComponent(text) + '" target="_blank" rel="noopener">לשלוח בוואטסאפ</a><br>או לחייג: <a href="tel:+972545522053" dir="ltr">' + PHONE + '</a>';
+    // הפוקוס עובר לקישור, וכך גם ההודעה נגללת למסך (הכפתור נחסם בזמן השמירה, והפוקוס היה נופל לדף)
+    err.querySelector('a').focus();
   }
 
   function open() {

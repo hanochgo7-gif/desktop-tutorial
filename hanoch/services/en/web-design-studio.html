@@ -71,6 +71,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-cards-tall { grid-template-columns: repeat(auto-fit, minmax(180px, 260px)); }
 .sv-cards-tall video { aspect-ratio: 9 / 16; }
 .sv-note { color: var(--fg-dim); font-size: .8125rem; margin-top: .6rem; }
+.sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
+.sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
+.sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
+.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
+.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -95,33 +103,36 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 <a class="skip" href="#main">Skip to content</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../../en.html" aria-label="HG·STUDIO, home">HG<span>·</span>STUDIO</a>
-  <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Services</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a></nav>
+  <nav aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../en.html#pricing">Services</a><a href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="Breadcrumb"><a href="../../en.html">HG Studio</a><span aria-hidden="true">/</span><a href="./">Services</a><span aria-hidden="true">/</span><span aria-current="page">Custom web design studio</span></nav>
   <p class="sv-kicker">Service · Web design</p>
   <h1>Custom web design and development</h1>
   <p class="sv-lead">A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HG Studio designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Get a quote on WhatsApp</a></p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a></p>
+  <p class="sv-facts">A fixed price in a written proposal · You talk to me directly</p>
   <h2>What you get</h2><ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul><h2>Work across languages</h2><p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>
   <h2>How it works</h2>
-  <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch, and an optional monthly care plan.</li></ol>
+  <ol class="sv-steps"><li><b>Intro call</b>We learn the business, the customers and the goal. No commitment.</li><li><b>Written proposal</b>A fixed price and a schedule. What it says is what you pay.</li><li><b>Design</b>A design direction built around your business, not a template.</li><li><b>Build</b>Clean, fast code, ready for mobile, Google and accessibility.</li><li><b>Launch</b>Domain, fast hosting, Search Console and lead tracking.</li><li><b>Support</b>A month of support after launch. A monthly care plan after that is optional.</li></ol>
   <h2>How pricing works</h2>
   <p>Every project is priced around what your business needs. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.</p>
   <h2>From the portfolio</h2><div class="sv-cards"><a class="sv-card" href="../../en-work.html#gotovski"><img src="../../work/cinema/gotovski-640.webp" alt="S. Gotovski, Fuel infrastructure since 1972" width="640" height="360" loading="lazy" decoding="async"><span>S. Gotovski<small>Fuel infrastructure since 1972</small></span></a><a class="sv-card" href="../../en-work.html#clinic"><img src="../../work/cinema/clinic-640.webp" alt="Rotem Gotovski, Therapeutic cosmetics clinic with a shop" width="640" height="360" loading="lazy" decoding="async"><span>Rotem Gotovski<small>Therapeutic cosmetics clinic with a shop</small></span></a><a class="sv-card" href="../../en-work.html#ams"><img src="../../work/cinema/ams-640.webp" alt="AMS, Thai boxing and personal training" width="640" height="360" loading="lazy" decoding="async"><span>AMS<small>Thai boxing and personal training</small></span></a></div>
   <h2>FAQ</h2>
   <div class="sv-faq"><details><summary><h3>How long does a website take?</h3></summary><p>Up to two weeks from the first call to a live site. A landing page is usually ready within a week.</p></details><details><summary><h3>Do you use templates?</h3></summary><p>No. Every site is designed and built from scratch around the business.</p></details><details><summary><h3>Do I own the site and the domain?</h3></summary><p>Yes. The domain is registered in your name, and the site and the code are yours.</p></details></div>
+  
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">Let's talk</h2>
     <p>A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.</p>
-    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">Message on WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   <h2>Related services</h2><ul class="sv-rel"><li><a href="website-design.html">Website design</a></li><li><a href="landing-page-design.html">Landing page design</a></li><li><a href="ecommerce-store.html">Online store development</a></li><li><a href="seo-services.html">SEO services</a></li></ul>
 </main>
 <footer class="sv-foot"><span>© 2026 HG Studio · Hanoch Gotovski</span><a href="web-design-studio.html">Custom web design studio</a><a href="ai-commercial-production.html">AI commercial production</a><a href="social-media-for-business.html">Echo: Instagram and Facebook for businesses</a><a href="website-design.html">Website design</a><a href="landing-page-design.html">Landing page design</a><a href="ecommerce-store.html">Online store development</a><a href="seo-services.html">SEO services</a><a href="ai-customer-agent.html">AI customer service agent</a><a href="wix-wordpress-migration.html">Wix and WordPress migration</a><a href="brand-identity-design.html">Brand identity design</a><a href="../website-building.html" hreflang="he" lang="he">עברית</a><a href="../../en-privacy.html">Privacy</a><a href="../../en-terms.html">Terms</a><a href="../../en-refunds.html">Cancellations & refunds</a><a href="#" data-consent-open>Cookie settings</a><a href="../../en-accessibility.html">Accessibility</a></footer>
-<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20I%20would%20like%20to%20hear%20more." target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
+<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
 <script src="../../js/fluid.js" defer></script>
 <script src="../../js/a11y.js" defer></script>
 <script src="../../js/assistant.js" defer></script>
+<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>
 </body>
 </html>

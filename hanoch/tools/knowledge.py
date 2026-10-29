@@ -24,8 +24,8 @@ def main_of(path):
 def home():
     s = main_of('index.html')
     # בלי הפתיחה ובלי טופס הבריף: הם לא ידע, הם ממשק
-    s = re.sub(r'<section class="hero[\s\S]*?</section>', '', s, count=1)
-    s = re.sub(r'<form class="brief"[\s\S]*?</form>', '', s)
+    s = re.sub(r'<section class="(hero|hw)\b[\s\S]*?</section>', '', s, count=1)
+    s = re.sub(r'<form class="(brief|brief-form|check-form)"[\s\S]*?</form>', '', s)
     s = re.sub(r'<form class="hours-calc"[\s\S]*?</form>', '', s)  # המחשבון הוא כלי, לא ידע
     s = re.sub(r'<footer[\s\S]*?</footer>', '', s)
     return text(s)

@@ -593,6 +593,15 @@
     $('.case-kind').textContent = d.kind;
     $('.case-story').textContent = d.story;
     $('.case-points').innerHTML = d.points.map(function (p) { return '<li><span>' + p + '</span></li>'; }).join('');
+    // הודעת וואטסאפ עם שם הפרויקט. בפרויקט קונספט: "משהו בכיוון", לא "אתר דומה"
+    var ask = $('.case-wa');
+    if (ask) {
+      var concept = /בדיוני|קונספט|הדגמה|fictional|concept|demo/i.test(d.sub + ' ' + d.kind);
+      var msg = concept
+        ? T('היי חנוך, ראיתי באתר את ' + d.name + ' ואשמח למשהו בכיוון לעסק שלי. העסק שלי: ', 'Hi Hanoch, I saw ' + d.name + ' on your site and would like something along those lines. My business: ')
+        : T('היי חנוך, קראתי באתר את הסיפור של ' + d.name + ' ואשמח לאתר כזה לעסק שלי. העסק שלי: ', 'Hi Hanoch, I read the ' + d.name + ' story on your site and would like a site like it. My business: ');
+      ask.href = 'https://wa.me/972545522053?text=' + encodeURIComponent(msg);
+    }
     $('.swatches').innerHTML = d.palette.map(function (c) { return '<li><i style="background:' + c + '"></i>' + c + '</li>'; }).join('');
     $('.case-fonts').innerHTML = d.fonts.map(function (f) { return '<li>' + f + '</li>'; }).join('');
     var m = $('.case-metrics');
@@ -1102,7 +1111,7 @@
         '<h3 class="rec-pkg display">' + T('חבילת ', '') + esc(P.n) + (EN ? ' package' : '') + '</h3><p class="rec-why">' + esc(P.why) + '</p>';
       if (r.sys.length) h += '<p class="rec-sub mono">' + T('מה יחסוך לכם זמן', 'What would save you time') + '</p><ul class="rec-sys" role="list">' + r.sys.map(function (k) { return '<li><b>' + esc(SYS[k][0]) + '</b><span>' + esc(SYS[k][1]) + '</span></li>'; }).join('') + '</ul>';
       if (r.note) h += '<p class="rec-note">' + esc(r.note) + '</p>';
-      h += '<p class="rec-ex">' + T('דוגמה מהעבודות: ', 'From my work: ') + '<a href="work.html#' + r.ex + '">' + esc(E[0]) + '</a>. ' + esc(E[1]) + '</p>';
+      h += '<p class="rec-ex">' + T('דוגמה מהעבודות: ', 'From my work: ') + '<a href="' + T('work.html#', 'en-work.html#') + r.ex + '">' + esc(E[0]) + '</a>. ' + esc(E[1]) + '</p>';
       h += '<p class="rec-fine">' + T('זו המלצה ראשונית לפי התשובות שלכם. בשיחה נדייק, וההצעה הכתובה תגיע עם מחיר סגור.', 'This is a first recommendation based on your answers. We will refine it together, and the written proposal comes with a fixed price.') + '</p>';
       box.innerHTML = h;
     }

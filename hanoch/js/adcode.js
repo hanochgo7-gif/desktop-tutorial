@@ -1,5 +1,5 @@
 /* קוד מודעה בהודעת הוואטסאפ: כל מודעה מקבלת קוד קצר משלה (למשל M12), שמגיע בכתובת כ-utm_content.
-   בלחיצה על וואטסאפ הקוד נוסף לסוף ההודעה ("קוד: M12"), כך שכל פנייה שמגיעה לוואטסאפ אומרת מאיזו מודעה היא באה,
+   בלחיצה על וואטסאפ הקוד נוסף לסוף ההודעה ("קוד: M12", ובעמודים באנגלית "Code: M12"), כך שכל פנייה שמגיעה לוואטסאפ אומרת מאיזו מודעה היא באה,
    גם בלי עוגיות. הגולש רואה את הקוד בהודעה ויכול למחוק אותו לפני ששולח.
    בלי אישור עוגיות הקוד נלקח רק מהכתובת של העמוד הנוכחי. אחרי אישור הוא נזכר עד סגירת הלשונית, גם במעבר בין עמודים.
    נטען לפני js/ga.js, כדי שהקוד כבר יהיה בקישור כשהלחיצה עוברת לדף המעבר /go/wa. */
@@ -24,8 +24,9 @@
       var u = new URL(href, location.href);
       if (!/^(wa\.me|api\.whatsapp\.com)$/.test(u.hostname)) return href;
       var text = u.searchParams.get('text') || '';
-      if (/קוד: [A-Z0-9_-]+\s*$/.test(text)) return href;
-      u.searchParams.set('text', (text ? text.replace(/\s+$/, '') + '\n\n' : '') + 'קוד: ' + c);
+      if (/(קוד|Code): [A-Z0-9_-]+\s*$/.test(text)) return href;
+      var label = document.documentElement.lang === 'en' ? 'Code: ' : 'קוד: ';
+      u.searchParams.set('text', (text ? text.replace(/\s+$/, '') + '\n\n' : '') + label + c);
       // wa.me מבין רווח כ-%20 ולא כ-+
       return u.toString().replace(/\+/g, '%20');
     } catch (e) { return href; }
