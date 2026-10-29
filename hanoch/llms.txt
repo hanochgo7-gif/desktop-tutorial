@@ -1,11 +1,11 @@
 # HG Studio
 
-> HG Studio (formerly HGPRO) is the web design and development studio of Hanoch Gotovski (חנוך גוטובסקי), based in Israel. It designs and builds custom websites from scratch, with no templates, and produces AI commercials. Sites are fast, accessible, bilingual (Hebrew/English) and built to bring leads. Fixed price per project, live within two weeks.
+> HG Studio (formerly HGPRO) is the web design and development studio of Hanoch Gotovski (חנוך גוטובסקי), based in Israel. It designs and builds custom websites from scratch, with no templates, and produces AI commercials. Sites are fast, accessible, bilingual (Hebrew/English) and built to bring leads. Fixed price per project, usually live within two weeks.
 
 ## Services
-- Website packages: Presence (landing page, live within a week); Business (full site, up to 8 pages, CMS, SEO); Signature (flagship site with 3D, store or custom system, two languages).
+- Website packages: Presence (landing page, usually live within a week); Business (full site, up to 8 pages, CMS, SEO); Signature (flagship site with 3D, store or custom system, two languages).
 - Add-ons: e-commerce platform; secure payments; automated invoicing; quote engine; online booking; client & learning portal; CRM & integrations; business dashboard; AI commercial production; personalized AI film platform (customer photo → animated film starring them, with storefront, ordering and payment, as in anigibor.com); AI customer concierge; AI visual studio; 3D product showcase; interactive simulation; SEO; tracking & campaigns; content hub & blog; email automation; brand identity; marketing copywriting; multilingual site; Wix/WordPress migration.
-- Care plans: two monthly plans (Quiet and Growth) for hosting, security, updates and ongoing improvements.
+- Care plans: two monthly plans (Calm and Growth) for hosting, security, updates and ongoing improvements.
 - Echo (Instagram and Facebook for businesses): Launch (one-off setup of the pages, design kit, first nine posts, one AI commercial), Steady (monthly: weekly content, an AI commercial every month, publishing, replies, Google Business profile, monthly report) and Full (adds Meta paid ads management, a shoot day at the business, two AI commercials a month and campaign landing pages). AI commercials are part of these packages. Ad budgets are paid directly to the platform.
 - Pricing: no public price list. Every project gets a written proposal with a fixed price after a short intro call.
 
@@ -13,7 +13,7 @@
 - [Ani Gibor](https://anigibor.com) (אני גיבור): a personalized animated birthday film platform designed and built by HG Studio. Parents send one photo, and the child becomes a 3D animated character starring in a one or two minute film with their name, age and a message from the parents. 10 worlds; site, ordering, payment and production in one place. Case story: https://hgpro.io/work.html#anigibor
 
 ## Key pages
-- [Home (Hebrew)](https://hgpro.io/): studio, packages, systems and care plans
+- [Home (Hebrew)](https://hgpro.io/): studio, packages and systems
 - [Home (English)](https://hgpro.io/en.html)
 - [Portfolio](https://hgpro.io/work.html): five client websites with full case stories, plus concept projects that are labelled as concepts
 - [Archive](https://hgpro.io/archive/): websites, AI commercials, simulations and 3D

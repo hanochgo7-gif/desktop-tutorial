@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://hgpro.io/en-privacy.html">
 <link rel="alternate" hreflang="he" href="https://hgpro.io/privacy.html">
 <link rel="alternate" hreflang="en" href="https://hgpro.io/en-privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://hgpro.io/privacy.html">
 <link rel="preload" as="font" type="font/woff2" href="fonts/handjet-ascii.woff2" crossorigin>
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="icon" href="images/icon-180.png">
@@ -48,7 +49,7 @@
 
   <h2>In short</h2>
   <ul>
-    <li>There is no sign-up on the site, and no form stores your details on a server.</li>
+    <li>There is no sign-up on the site. Your details are stored on a server only if you leave a phone number in the brief form on the Hebrew home page or ask me to call you back, as explained under "My inquiries system".</li>
     <li>A message on WhatsApp, by email or by phone reaches me directly, and only when you choose to send it.</li>
     <li>Google Analytics and Google Ads cookies are stored only if you agree, and you can withdraw that at any time. Without consent, Google receives only anonymous signals without cookies.</li>
     <li>I do not sell personal information, and I do not send marketing messages without your explicit consent.</li>
@@ -58,9 +59,9 @@
   <p>Hanoch Gotovski, HG Studio. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
 
   <h2>Information you give me</h2>
-  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off.</p>
+  <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the English home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. That form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off. The brief form on the Hebrew home page works differently: if you leave a phone number there, it is also saved in my inquiries system (see below).</p>
   <h2 id="crm">My inquiries system</h2>
-  <p>If you leave a phone number in the brief form on the Hebrew home page, or ask me to call you back at a time that suits you, your name and phone number are saved, together with the answers you chose (including the day and time you picked for the call) and the page the form was sent from, in my inquiries management system (HG OS). It is hosted by Supabase on servers in the European Union (Frankfurt), and only I can access it. If you accepted cookies, the campaign or site that brought you (UTM parameters and a Google or Meta click ID) is saved too, so I know which ad brought the inquiry. Without consent, only the page address is saved, without its parameters. The information is used only to get back to you and manage our business contact, and is deleted as described under "How long information is kept".</p>
+  <p>If you leave a phone number in the brief form on the Hebrew home page, or ask me to call you back at a time that suits you, your name and phone number are saved, together with the answers you chose (including the day and time you picked for the call), anything you wrote in the optional "what to talk about" field, and the page the form was sent from, in my inquiries management system (HG OS). It is hosted by Supabase on servers in the European Union (Frankfurt), and only I can access it. If you accepted cookies, the campaign or site that brought you (UTM parameters, a Google, Meta, Microsoft or TikTok click ID, the landing page and the referring site) is saved too, so I know which ad brought the inquiry. Without consent, only the page address is saved, without its parameters. The information is used only to get back to you and manage our business contact, and is deleted as described under "How long information is kept".</p>
 
   <h2 id="assistant">Compass, the digital advisor</h2>
   <p>Compass is a digital advisor, not a person. When you pick ready-made answers (like your type of business), nothing leaves your browser. When you type a free question, the text of the conversation is sent to the site’s server at Vercel, and from there to Anthropic, the company that runs the Claude AI model, only to write an answer. Processing may take place outside Israel. The site does not store the conversation or log its content. It is kept only in your browser tab, and deleted when you close it. Please don’t share sensitive information with Compass, such as card details, ID numbers or medical information.</p>
@@ -88,6 +89,7 @@
       <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Tells visitors apart for statistics</td><td>2 years</td><td>Only after consent</td></tr>
       <tr><td><code>_ga_&lt;ID&gt;</code></td><td>Google Analytics</td><td>Keeps the state of the visit</td><td>2 years</td><td>Only after consent</td></tr>
       <tr><td><code>_gcl_au</code></td><td>Google Ads</td><td>Measures whether an enquiry came from an ad</td><td>90 days</td><td>Only after consent</td></tr>
+      <tr><td><code>_gcl_aw</code>, <code>_gcl_gb</code>, <code>_gcl_dc</code></td><td>Google Ads</td><td>Keeps the click ID when you arrive from a Google ad</td><td>90 days</td><td>Only after consent</td></tr>
       <tr><td><code>_fbp</code></td><td>Meta</td><td>Distinguishes visitors to measure which ads brought enquiries</td><td>90 days</td><td>Only after consent</td></tr>
       <tr><td><code>_fbc</code></td><td>Meta</td><td>Keeps the click id when you arrive from an ad</td><td>90 days</td><td>Only after consent</td></tr>
       <tr><td><code>hg-consent</code></td><td>This site, local storage</td><td>Remembers whether you allowed cookies</td><td>Until you delete it</td><td>Necessary</td></tr>
@@ -95,6 +97,7 @@
       <tr><td><code>hg-intro</code></td><td>This site, session storage</td><td>A shorter intro on a repeat visit</td><td>Until the tab is closed</td><td>Necessary</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>This site, local storage</td><td>The archive film plays only on the first visit</td><td>Until you delete it</td><td>Necessary</td></tr>
       <tr><td><code>hg-ad</code></td><td>This site, session storage</td><td>The code of the ad that brought you, to add it to the WhatsApp message</td><td>Until you close the tab</td><td>Only after consent</td></tr>
+      <tr><td><code>hg-chat-help</code></td><td>This site, session storage</td><td>Remembers that the chat invitation was already shown, so it does not appear again</td><td>Until you close the tab</td><td>Necessary</td></tr>
       <tr><td><code>hgos_touch</code></td><td>This site, local storage</td><td>Remembers which campaign or site brought you, to credit an inquiry to the right ad</td><td>90 days</td><td>Only after consent</td></tr>
       <tr><td><code>hg-brief</code></td><td>This site, local storage</td><td>The brief form draft, so you can pick up where you left off</td><td>Until you send or start over</td><td>Necessary</td></tr>
       <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>This site, session storage</td><td>Your chat with Compass, and whether its invitation was already shown</td><td>Until you close the tab</td><td>Necessary</td></tr>

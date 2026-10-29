@@ -201,6 +201,8 @@ def render(p, posts):
     body, toc, faq = md(p['body'])
     U = p['url']; img = D + '/' + p['cover']; mins = max(3, round(p['words'] / 200))
     wa = f'https://wa.me/{WA}?text=' + urllib.parse.quote(f'היי חנוך, קראתי באתר את המאמר "{p["title"].split(" | ")[0]}". השאלה שלי: ')
+    # כפתור הסיום מזמין לספר על העסק, ולכן גם ההודעה שלו
+    wa_biz = f'https://wa.me/{WA}?text=' + urllib.parse.quote(f'היי חנוך, קראתי באתר את המאמר "{p["title"].split(" | ")[0]}". העסק שלי: ')
     graph = [
         {'@type': 'BlogPosting', '@id': U + '#article', 'headline': p['h1'], 'description': p['desc'], 'image': img, 'datePublished': p['date'].isoformat(),
          'dateModified': (p.get('updated') or p['date']).isoformat(), 'inLanguage': 'he-IL', 'wordCount': p['words'], 'keywords': p.get('keyword', ''),
@@ -231,9 +233,9 @@ def render(p, posts):
   <aside class="bl-author" aria-label="על הכותב"><img src="../work/me/character-156.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><p><b>חנוך גוטובסקי</b>, מעצב ומפתח אתרים ומייסד HG Studio. בונה אתרים לעסקים מאפס, בלי תבניות, ומפיק פרסומות בבינה מלאכותית. <a href="../">עוד עליי ועל העבודות</a>.</p></aside>
   </article>
   <section class="sv-cta" aria-labelledby="cta-h">
-    <h2 id="cta-h">רוצים אתר כזה לעסק שלכם?</h2>
+    <h2 id="cta-h">רוצים אתר לעסק שלכם?</h2>
     <p>שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.</p>
-    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="{wa_biz}" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">054-5522053</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   {f'<h2>שירותים קשורים</h2><ul class="sv-rel">{svc}</ul>' if svc else ''}
   {f'<h2>עוד מאמרים</h2><ul class="bl-list">{morel}</ul>' if morel else ''}

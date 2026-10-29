@@ -7,9 +7,9 @@ CALLBACK_BTN = '<button class="sv-btn ghost" type="button" data-callback hidden>
 # איזו חבילה מתאימה לשירות, ועובדות קצרות ליד הכפתור הראשון (רק מה שכבר כתוב באתר)
 PKG_HE = {'website-building': 'מתאים לחבילת עסק, או לחתימה כשרוצים חוויה מיוחדת.',
           'web-design': 'עיצוב אישי כלול בכל חבילה.',
-          'landing-page': 'זו חבילת נוכחות.',
-          'online-store': 'חנות עם תשלום באתר כלולה בחבילת חתימה, ואפשר להוסיף אותה גם לחבילות נוכחות ועסק.',
-          'seo': 'הבסיס כלול בכל חבילה, וקידום מלא בחבילות עסק וחתימה.',
+          'landing-page': 'דף נחיתה הוא עמוד אחד, כמו בחבילת נוכחות.',
+          'online-store': 'חנות עם תשלום באתר, או מערכת מותאמת, כלולה בחבילת חתימה, ואפשר להוסיף חנות גם לחבילות נוכחות ועסק.',
+          'seo': 'כותרות ותיאורים לגוגל כלולים בכל חבילה. בחבילות עסק וחתימה כל עמוד בנוי לגוגל, וכרטיס העסק בגוגל מפות מוגדר.',
           'wix-migration': 'המעבר כלול בחבילות עסק וחתימה, ואפשר להוסיף אותו לחבילת נוכחות.',
           'ai-chatbot': 'כלול בחבילת חתימה, ואפשר להוסיף אותו לכל חבילה.',
           'brand-identity': 'אפשר להוסיף אותה לכל חבילה.'}
@@ -17,7 +17,7 @@ FACTS_HE = {'website-building': ['אתר מלא באוויר בדרך כלל ת�
             'web-design': ['מאשרים את העיצוב לפני הבנייה', 'מחיר סגור בהצעה כתובה', 'הדומיין והאתר שלכם'],
             'landing-page': ['באוויר בדרך כלל תוך שבוע', 'מחיר סגור בהצעה כתובה', 'מדברים ישירות איתי'],
             'online-store': ['מחיר סגור בהצעה כתובה', 'החנות והדומיין שלכם', 'מדברים ישירות איתי'],
-            'wix-migration': ['הפניה מכל כתובת ישנה', 'המייל של העסק לא משתנה', 'מחיר סגור בהצעה כתובה']}
+            'wix-migration': ['הפניה מכל כתובת ישנה', 'המייל של העסק ממשיך לעבוד', 'מחיר סגור בהצעה כתובה']}
 FACTS_HE_DEFAULT = ['מחיר סגור בהצעה כתובה', 'מדברים ישירות איתי']
 FACTS_EN = ['A fixed price in a written proposal', 'You talk to me directly']
 # מי שכבר יש לו אתר: הבדיקה החינמית מדף הבית
@@ -65,7 +65,7 @@ def page(**k): P.append(k)
 # ---------------------------------------------------------------- עברית
 page(slug='website-building', lang='he', name='בניית אתרים לעסקים',
      title='בניית אתרים לעסקים בעיצוב אישי | HG Studio',
-     desc='בניית אתר לעסק מאפס, בלי תבניות: עיצוב אישי, קוד מהיר, התאמה לטלפון וקידום בגוגל. מחיר סגור מראש ואתר באוויר תוך שבועיים.',
+     desc='בניית אתר לעסק מאפס, בלי תבניות: עיצוב אישי, קוד מהיר, התאמה לטלפון וקידום בגוגל. מחיר סגור מראש, ובדרך כלל באוויר תוך שבועיים.',
      h1='בניית אתרים לעסקים', kicker='שירות · בניית אתרים',
      lead='אתר עסקי טוב הוא לא כרטיס ביקור. הוא איש מכירות שעובד גם בלילה: מסביר מה אתם עושים, משכנע שאתם הבחירה הנכונה, ומביא את הלקוח עד לוואטסאפ. אני בונה כל אתר מאפס, סביב העסק שלכם, עם עיצוב, קוד ותנועה ביד אחת.',
      sections=[('למי זה מתאים', '<ul><li>עסקים קטנים ובינוניים שרוצים אתר שמביא פניות ולא רק "נמצא באינטרנט".</li><li>עסקים עם אתר ישן, איטי או מתבנית, שלא משקף את הרמה שלהם.</li><li>נותני שירות, קליניקות, חנויות, מאמנים ומורים פרטיים.</li></ul>'),
@@ -90,7 +90,7 @@ page(slug='web-design', lang='he', name='עיצוב אתרים',
                ('עיצוב שמוכר', '<p>אתר יפה שלא מביא פניות הוא תמונה על הקיר. כל החלטה עיצובית נבחנת מול המטרה: האם ברור מה אתם עושים, האם קל לפנות, והאם יש סיבה לבחור דווקא בכם.</p>')],
      examples=['clinic', 'chef', 'allenbis'],
      faq=[('האתר נבנה על תבנית?', 'לא. כל אתר מעוצב ונבנה מאפס סביב העסק, כך שאין לו תאום באינטרנט.'),
-          ('עוד לא יודעים מה אתם רוצים? זה בסדר?', 'בהחלט. בשיחת ההיכרות נבין יחד את העסק והלקוחות, ואני אציע כיוון. אתם מאשרים לפני שממשיכים.'),
+          ('עוד לא יודעים מה רוצים. זה בסדר?', 'בהחלט. בשיחת ההיכרות נבין יחד את העסק והלקוחות, ואני אציע כיוון. אתם מאשרים לפני שממשיכים.'),
           ('האם העיצוב יעבוד טוב בטלפון?', 'כן. אני מעצב לטלפון ולמחשב במקביל, ובודק על מכשירים אמיתיים לפני העלייה לאוויר.')],
      related=['website-building', 'brand-identity', 'landing-page', 'ai-commercial'],
      service=('Web design', 'עיצוב אתרים'))
@@ -114,29 +114,29 @@ page(slug='online-store', lang='he', name='בניית חנות אינטרנטי�
      title='בניית חנות אינטרנטית עם סליקה ישראלית | HG Studio',
      desc='בניית חנות אונליין: קטלוג, עגלה, משלוחים, קופונים, סליקה באשראי, ביט ו-Apple Pay וחשבוניות אוטומטיות. בעיצוב אישי ובלי תבנית.',
      h1='בניית חנות אינטרנטית', kicker='שירות · מסחר מקוון',
-     lead='חנות אונליין טובה מרגישה כמו המדף הכי מסודר בחנות הכי טובה: קל למצוא, קל להבין, וקל לשלם. אני בונה חנויות שמותאמות למוצרים שלכם ולאופן שבו הלקוחות שלכם קונים, עם סליקה ישראלית וחשבוניות אוטומטיות.',
+     lead='חנות אונליין טובה מרגישה כמו מדף מסודר: קל למצוא, קל להבין, וקל לשלם. אני בונה חנויות שמותאמות למוצרים שלכם ולאופן שבו הלקוחות שלכם קונים, עם סליקה ישראלית וחשבוניות אוטומטיות.',
      sections=[('מה יש בחנות', '<ul><li>קטלוג מוצרים עם סינון לפי סוג, מותג או מטרה.</li><li>עגלה, משלוחים, איסוף עצמי וקופונים.</li><li>סליקה באשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם.</li><li>קבלה או חשבונית שנשלחת אוטומטית בכל תשלום.</li><li>ניהול מלאי ומחירים בעצמכם.</li></ul>'),
                ('חנות שמוכרת', '<p>מעבר לעגלה ולתשלום, מה שמוכר הוא הדרך שבה המוצר מוצג: תמונות טובות, הסבר קצר למי זה מתאים, ושאלון קצר שעוזר ללקוח לבחור. בחנות של קליניקת רותם גוטובסקי, למשל, המוצרים עומדים על מדפים כמו בקליניקה, ואפשר לשלוח את הרשימה בוואטסאפ.</p>'),
                ('תמונות מוצר בלי יום צילום', '<p>אפשר להפיק תמונות מוצר ואווירה ברמת סטודיו בעזרת בינה מלאכותית. ראו <a href="ai-commercial.html">הפקת פרסומת ב-AI</a>.</p>')],
      examples=['allenbis', 'clinic'],
      faq=[('איזו סליקה אפשר לחבר?', 'אשראי, ביט ו-Apple Pay, דרך ספק הסליקה שלכם או ספק שנבחר יחד.'),
           ('האם אוכל לנהל את המוצרים לבד?', 'כן. מוסיפים מוצרים, משנים מחירים ומעדכנים מלאי בעצמכם.'),
-          ('יש לי חנות קיימת. אפשר לשפר אותה?', 'כן. באלנביס, למשל, שיפרתי חנות קיימת ומהירה יותר בלי להחליף את כל המערכת.')],
+          ('יש לי חנות קיימת. אפשר לשפר אותה?', 'כן. באלנביס, למשל, בניתי מחדש חנות שכבר עבדה: אותו קטלוג ואותם מחירים, והיא נפתחת מהר יותר בטלפון.')],
      related=['website-building', 'web-design', 'seo', 'wix-migration'],
      service=('E-commerce development', 'בניית חנות אינטרנטית'))
 
 page(slug='seo', lang='he', name='קידום אתרים אורגני',
      title='קידום אתרים אורגני (SEO) לעסקים | HG Studio',
-     desc='קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שמענישים.',
+     desc='קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שגוגל מעניש עליהם.',
      h1='קידום אתרים אורגני (SEO)', kicker='שירות · קידום בגוגל',
      lead='קידום אורגני טוב מתחיל בבסיס: אתר מהיר, מסודר וברור, שגוגל מבין מה הוא עושה ולמי. אחר כך מגיעים התוכן, העמודים לכל שירות ועיר, והפרופיל העסקי. אני לא משתמש בטריקים שגוגל מעניש עליהם, כי הם עובדים חודש ואז מעלימים את האתר.',
-     sections=[('מה עושים בפועל', '<ul><li>מחקר מילות מפתח: מה הלקוחות שלכם באמת מחפשים.</li><li>כותרות, תיאורים ומבנה כותרות נכון בכל עמוד.</li><li>סימון עסקי (Schema) לשירותים, מחירים, שאלות נפוצות וסרטונים.</li><li>עמודי נחיתה לכל שירות ולכל אזור שבו אתם עובדים.</li><li>מהירות טעינה, מפת אתר, הפניות מאתר ישן ו-Search Console.</li><li>הגדרת פרופיל Google Business, שהוא הדרך הכי מהירה להופיע במפה.</li></ul>'),
+     sections=[('מה עושים בפועל', '<ul><li>מחקר מילות מפתח: מה הלקוחות שלכם באמת מחפשים.</li><li>כותרות, תיאורים ומבנה כותרות נכון בכל עמוד.</li><li>סימון עסקי (Schema) לשירותים, מחירים, שאלות נפוצות וסרטונים.</li><li>עמודי נחיתה לכל שירות ולכל אזור שבו אתם עובדים.</li><li>מהירות טעינה, מפת אתר, הפניות מאתר ישן ו-Search Console.</li><li>הגדרת פרופיל Google Business, שהוא דרך מהירה להופיע במפה.</li></ul>'),
                ('כמה זמן לוקח לראות תוצאות', '<p>אף אחד לא יכול להבטיח מקום ראשון. בדרך כלל רואים תזוזה תוך שבועות עד חודשים, תלוי בתחום ובתחרות. מה שאפשר להבטיח הוא בסיס חזק שמשתפר עם הזמן, ומדידה שמראה מה עובד.</p>'),
                ('עובד גם בחיפוש של בינה מלאכותית', '<p>יותר ויותר אנשים שואלים את ChatGPT, Gemini ו-Perplexity במקום לחפש. אתר עם תוכן ברור, נתונים מסודרים וקובץ llms.txt מקבל סיכוי טוב יותר להופיע גם שם.</p>')],
      examples=['gotovski', 'clinic', 'allenbis'],
-     faq=[('תוך כמה זמן אהיה בעמוד הראשון?', 'אי אפשר להבטיח מקום ראשון. בונים את הבסיס הכי חזק שאפשר, מודדים, וממשיכים לשפר.'),
+     faq=[('תוך כמה זמן אהיה בעמוד הראשון?', 'אי אפשר להבטיח מקום ראשון. בונים בסיס חזק, מודדים, וממשיכים לשפר.'),
           ('מה זה פרופיל Google Business?', 'הכרטיס של העסק במפות ובחיפוש המקומי. הגדרה נכונה שלו היא אחת הדרכים המהירות להביא פניות מאזור העבודה שלכם.'),
-          ('עוברים מאתר ישן? מה קורה עם הדירוג?', 'הוא נשמר אם עושים את זה נכון: מעבירים את התוכן ומגדירים הפניה מכל כתובת ישנה לחדשה.')],
+          ('עוברים מאתר ישן? מה קורה עם הדירוג?', 'הוא לא אמור להיפגע, אם עושים את זה נכון: מעבירים את התוכן ומגדירים הפניה מכל כתובת ישנה לחדשה.')],
      process=[('שיחת היכרות', 'מה אתם מוכרים, איפה ולמי. בלי התחייבות.'),
               ('הצעה כתובה', 'מה עושים, לוח זמנים ומחיר סגור.'),
               ('מחקר ובדיקה', 'מה הלקוחות שלכם מחפשים, ומה חסר היום באתר.'),
@@ -150,9 +150,9 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      title='הפקת סרטון פרסומת ב-AI לעסקים | HG Studio',
      desc='סרטון פרסומת ברמה קולנועית בלי צוות צילום: עלילה, דמויות, רכבים, קריינות ומוזיקה. 30 עד 60 שניות, כולל גרסאות 15 ו-6 שניות לרשתות.',
      h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
-     lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
+     lead='פרסומת ברמת טלוויזיה דרשה פעם צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
-               ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%9C%D7%99%D7%95%D7%95%D7%99%20%D7%91%D7%A8%D7%A9%D7%AA%D7%95%D7%AA" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
+               ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%93.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
                ('דוגמאות', '<p>בתיק העבודות פרסומות שהפקתי כך, ביניהן <strong>אֶלֶף</strong>, פרסומת קולנועית למותג בדיוני של שמן זית מהגליל, ו<strong>HG · Unforgettable</strong>, פרסומת בושם של 20 שניות למותג הקונספט של הסטודיו: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
                ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
      examples=[], films=True,
@@ -173,7 +173,7 @@ page(slug='social-media', lang='he', name='הד: אינסטגרם ופייסבו
      h1='הד: ניהול אינסטגרם ופייסבוק לעסקים', kicker='שירות · רשתות',
      lead='הרבה לקוחות מכירים עסק קודם ברשתות, ורק אחר כך באתר. "הד" הוא ליווי שמקים לכם עמודים מסודרים באינסטגרם ובפייסבוק, ממלא אותם בתוכן שעוצר את הגלילה, ומביא את מי שמתעניין עד לוואטסאפ. מאותן ידיים שבונות את האתרים ומפיקות את הפרסומות.',
      sections=[('מה עושים', '<ul><li>בדיקה ותוכנית: איך העמודים שלכם נראים היום, מה עושים המתחרים, ומה הלקוחות שלכם מחפשים.</li><li>הקמה: ביו, כפתורי וואטסאפ וחיוג, היילייטס עם כריכות, ותבניות עיצוב בשפה של המותג.</li><li>תוכן בכל שבוע: רילס, פוסטים, קרוסלות וסטוריז, עם טקסטים בעברית ובאנגלית לפי הצורך.</li><li>פרסומות AI: סרטים קצרים עם עלילה, דמויות וקריינות, בלי צוות צילום.</li><li>ימי צילום בעסק: תמונות ווידאו אמיתיים של המקום, האנשים והמוצרים.</li><li>פרסום ממומן במטא: קהלים, מודעות, תקציב ומעקב אחרי כל פנייה.</li><li>מענה: תגובות, הודעות, ותשובה אוטומטית שמעבירה פניות לוואטסאפ.</li></ul>'),
-               ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%9C%D7%99%D7%95%D7%95%D7%99%20%D7%91%D7%A8%D7%A9%D7%AA%D7%95%D7%AA" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
+               ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%93.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
                ('מה ההבדל', '<p>מי שבונה את האתר כבר מכיר את העסק, ולא צריך להסביר הכול מחדש. הפרסומות נוצרות בבינה מלאכותית ברמה קולנועית, ולכן אפשר להפיק סרט חדש בכל חודש בלי יום צילום. ובסוף כל חודש מסתכלים על פניות, הודעות ולחיצות לוואטסאפ, ולא רק על לייקים.</p>'),
                ('חשוב לדעת', '<p>העמודים, החשבונות והתוכן שייכים לכם. כל תוכן עולה רק אחרי שאישרתם אותו. תקציב הפרסום הממומן משולם ישירות לפלטפורמה, בנפרד מהליווי. אי אפשר להבטיח מספר עוקבים, מכירות או פניות, אבל אפשר למדוד כל דבר ולשפר בכל חודש.</p>')],
      examples=[], films=True,
@@ -209,13 +209,13 @@ page(slug='wix-migration', lang='he', name='מעבר מוויקס לאתר מק�
      title='מעבר מוויקס או וורדפרס בלי לאבד את גוגל | HG Studio',
      desc='הגירה מ-Wix או WordPress לאתר מהיר ומעוצב בהתאמה אישית: מעבירים את התוכן, שומרים הפניות מכל כתובת ישנה ואת המקום בגוגל.',
      h1='מעבר מוויקס או וורדפרס', kicker='שירות · הגירה',
-     lead='ויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
+     lead='וויקס ווורדפרס טובים להתחלה. כשהעסק גדל, האתר מתחיל להאט, להיראות כמו של כולם ולהגביל. המעבר לאתר שנבנה בהתאמה אישית לא חייב לעלות לכם את המקום בגוגל, אם עושים אותו נכון.',
      sections=[('איך שומרים על הדירוג', '<ul><li>ממפים את כל הכתובות באתר הישן.</li><li>מעבירים את התוכן ששווה לשמור, ומשפרים אותו.</li><li>מגדירים הפניה קבועה (301) מכל כתובת ישנה לחדשה.</li><li>מגישים מפת אתר חדשה ל-Search Console ועוקבים אחרי שגיאות.</li></ul>'),
                ('מה מרוויחים', '<p>אתר מהיר יותר, עיצוב שנבנה במיוחד לעסק שלכם, שליטה מלאה בקוד, ובלי מנוי חודשי לבונה האתרים. הדומיין והאתר שלכם.</p>'),
                ('שדרוג אתר קיים', '<p>לא כל אתר צריך לעבור פלטפורמה. לפעמים מספיק לשפר את מה שיש: מהירות, טקסטים, כפתורי פנייה ומבנה שגוגל מבין. שלחו לי את הכתובת, ואחזור אליכם עם 3 דברים שהייתי משפר בו, בחינם ובלי התחייבות. <a href="../#check">לבדיקה חינם של האתר</a>.</p>')],
      examples=['gotovski'],
      faq=[('אאבד את הדירוג בגוגל?', 'לא אם מגדירים הפניות מכל כתובת ישנה. זה חלק קבוע מהמעבר.'),
-          ('מה עם המייל של העסק?', 'המייל לא תלוי באתר ונשאר כמו שהוא. רק רשומות האתר משתנות.'),
+          ('מה עם המייל של העסק?', 'הוא ממשיך לעבוד. בודקים איפה המייל מתארח, ומשנים רק את הרשומות של האתר.'),
           ('יש לי אתר קיים. חייבים לבנות אותו מחדש?', 'לא תמיד. מתחילים בבדיקה חינם: שולחים את הכתובת ומקבלים 3 דברים שהייתי משפר. אחר כך מחליטים יחד אם לשפר את מה שיש או לבנות מחדש.')],
      related=['website-building', 'seo', 'web-design', 'online-store'],
      service=('Website migration', 'מעבר מוויקס'))
@@ -236,13 +236,13 @@ page(slug='brand-identity', lang='he', name='זהות מותגית',
 # ---------------------------------------------------------------- English
 page(slug='web-design-studio', lang='en', name='Custom web design studio',
      title='Custom Web Design & Development | HG Studio',
-     desc='HG Studio designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, live in two weeks.',
+     desc='HG Studio designs and builds custom websites from scratch: no templates, fast code, motion, 3D and accessibility. Fixed price, usually live within two weeks.',
      h1='Custom web design and development', kicker='Service · Web design',
      lead='A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HG Studio designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.',
      sections=[('What you get', '<ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul>'),
                ('Work across languages', '<p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>')],
      examples=['gotovski', 'clinic', 'ams'],
-     faq=[('How long does a website take?', 'Up to two weeks from the first call to a live site. A landing page is usually ready within a week.'),
+     faq=[('How long does a website take?', 'Usually two weeks from the first call to a live site, and a landing page within a week, once the content and images are ready. The binding date is in the proposal.'),
           ('Do you use templates?', 'No. Every site is designed and built from scratch around the business.'),
           ('Do I own the site and the domain?', 'Yes. The domain is registered in your name, and the site and the code are yours.')],
      related=['website-design', 'landing-page-design', 'ecommerce-store', 'seo-services'],
@@ -303,7 +303,7 @@ page(slug='website-design', lang='en', name='Website design',
 
 page(slug='landing-page-design', lang='en', name='Landing page design',
      title='Landing Page Design That Converts | HG Studio',
-     desc='A landing page for a campaign, a launch or a freelancer: custom design, fast loading, WhatsApp and conversion tracking. Live within a week.',
+     desc='A landing page for a campaign, a launch or a freelancer: custom design, fast loading, WhatsApp and conversion tracking. Usually live within a week.',
      h1='Landing page design', kicker='Service · Landing pages',
      lead='A landing page does one thing and does it well: it takes someone who clicked an ad or a link and turns them into an enquiry. No menus to distract them, no ten pages. One clear message, proof that you can be trusted, and a button.',
      sections=[('When you need one', '<ul><li>When you run a campaign on Google, Facebook or Instagram and want every shekel to work.</li><li>When you launch a product, a workshop or a new service.</li><li>When you are a freelancer and want a professional presence quickly and on a sane budget.</li></ul>'),
@@ -327,7 +327,7 @@ page(slug='ecommerce-store', lang='en', name='Online store development',
      examples=['allenbis', 'clinic'],
      faq=[('Which payment methods can be connected?', 'Card, Bit and Apple Pay, through your payment provider or one we choose together.'),
           ('Can I manage the products myself?', 'Yes. You add products, change prices and update stock yourself.'),
-          ('I already have a store. Can you improve it?', 'Yes. For Allenbis, for example, I improved an existing store and made it faster without replacing the whole system.')],
+          ('I already have a store. Can you improve it?', 'Yes. For Allenbis, for example, I rebuilt a store that was already selling: same catalog, same prices, and it now opens faster on a phone.')],
      related=['web-design-studio', 'website-design', 'seo-services', 'wix-wordpress-migration'],
      service=('E-commerce development', 'Online store development'), alt='online-store')
 
@@ -486,7 +486,7 @@ def render(p):
     he = p['lang'] == 'he'; up = '../' if he else '../../'
     U = url_of(p); esc = html.escape
     tw = twin(p)
-    alts = (f'\n<link rel="alternate" hreflang="{p["lang"]}" href="{U}">\n<link rel="alternate" hreflang="{tw["lang"]}" href="{url_of(tw)}">') if tw else ''
+    alts = (f'\n<link rel="alternate" hreflang="{p["lang"]}" href="{U}">\n<link rel="alternate" hreflang="{tw["lang"]}" href="{url_of(tw)}">\n<link rel="alternate" hreflang="x-default" href="{U if he else url_of(tw)}">') if tw else ''
     lang_link = (f'<a href="{"en/" if he else "../"}{tw["slug"]}.html" hreflang="{tw["lang"]}" lang="{tw["lang"]}">{"English" if he else "עברית"}</a>') if tw else ''
     T = (lambda a, b: a) if he else (lambda a, b: b)
     home = D + ('/' if he else '/en.html'); hub = D + ('/services/' if he else '/services/en/')
@@ -501,9 +501,9 @@ def render(p):
         ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f in ("film/ad", "film/elef")) else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
         # הפרסומות של הסטודיו עצמו: אנכיות, לרילס. בעברית עם כתוביות צרובות, ובאנגלית עם כתוביות באנגלית
         studio = [('film/studio-night', T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), T('פרסומת ל-HG Studio · 32 שניות', 'HG Studio commercial · 32 seconds'))]
-        ex_after = '<h3>' + T('הפרסומות של הסטודיו עצמו', 'The studio\'s own ads') + '</h3><div class="sv-cards sv-cards-tall">'
+        ex_after = '<h3>' + T('הפרסומת של הסטודיו עצמו', 'The studio\'s own ad') + '</h3><div class="sv-cards sv-cards-tall">'
         ex_after += ''.join(f'<div class="sv-card"><video controls preload="none" playsinline poster="{up}work/{f}.webp" aria-label="{esc(n)}"><source src="{up}work/{f}-m.mp4" type="video/mp4" media="(max-width: 700px)"><source src="{up}work/{f}.mp4" type="video/mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></div>' for f, n, s in studio)
-        ex_after += '</div><p class="sv-note">' + T('הסצנות, הדמויות והקול נוצרו בבינה מלאכותית. מסכי האתרים בפרסומות אמיתיים.', 'The scenes, characters and voices were made with AI. The website screens in the ads are real.' + ' The ads are in Hebrew, with English subtitles.') + '</p>'
+        ex_after += '</div><p class="sv-note">' + T('הסצנה, הדמויות והקול נוצרו בבינה מלאכותית. מסכי האתרים בפרסומת אמיתיים.', 'The scene, characters and voices were made with AI. The website screens in the ad are real.' + ' The ad is in Hebrew, with English subtitles.') + '</p>'
     else:
         for k in p['examples']:
             img, nh, sh, ne, se = PROJ[k]
@@ -565,7 +565,7 @@ def render(p):
 <a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'en.html#pricing'}">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
@@ -630,7 +630,7 @@ def hub(lang):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{U}">
-<link rel="alternate" hreflang="he" href="{D}/services/"><link rel="alternate" hreflang="en" href="{D}/services/en/">
+<link rel="alternate" hreflang="he" href="{D}/services/"><link rel="alternate" hreflang="en" href="{D}/services/en/"><link rel="alternate" hreflang="x-default" href="{D}/services/">
 <meta property="og:type" content="website"><meta property="og:locale" content="{'he_IL' if he else 'en_US'}"><meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
 <meta name="theme-color" content="#0a0a0b">
@@ -656,7 +656,7 @@ def hub(lang):
 </head>
 <body>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'services/' if he else 'en.html#pricing'}">{T('שירותים', 'Services')}</a></nav></header>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'services/' if he else 'services/en/'}">{T('שירותים', 'Services')}</a></nav></header>
 <main class="sv" id="main">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים לעסקים: אתרים, חנויות, קידום ו-AI', 'Services for businesses')}</h1>

@@ -598,8 +598,8 @@
     if (ask) {
       var concept = /בדיוני|קונספט|הדגמה|fictional|concept|demo/i.test(d.sub + ' ' + d.kind);
       var msg = concept
-        ? T('היי חנוך, ראיתי באתר את ' + d.name + ' ואשמח למשהו בכיוון לעסק שלי. העסק שלי: ', 'Hi Hanoch, I saw ' + d.name + ' on your site and would like something along those lines. My business: ')
-        : T('היי חנוך, קראתי באתר את הסיפור של ' + d.name + ' ואשמח לאתר כזה לעסק שלי. העסק שלי: ', 'Hi Hanoch, I read the ' + d.name + ' story on your site and would like a site like it. My business: ');
+        ? T('היי חנוך, ראיתי באתר את ' + d.name + ' ואשמח למשהו בכיוון. העסק שלי: ', 'Hi Hanoch, I saw ' + d.name + ' on your site and would like something along those lines. My business: ')
+        : T('היי חנוך, קראתי באתר את הסיפור של ' + d.name + ' ואשמח לאתר כזה. העסק שלי: ', 'Hi Hanoch, I read the ' + d.name + ' story on your site and would like a site like it. My business: ');
       ask.href = 'https://wa.me/972545522053?text=' + encodeURIComponent(msg);
     }
     $('.swatches').innerHTML = d.palette.map(function (c) { return '<li><i style="background:' + c + '"></i>' + c + '</li>'; }).join('');
