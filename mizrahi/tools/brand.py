@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-מחולל הלוגו של י. מזרחי בניה ושות׳ — "פלטת העיגון".
+מחולל הלוגו של י. מזרחי בניה ושות׳ — "שלד הבניין".
 
-הסמל: פלטת בסיס מפלדה, כמו זו שמחברת עמוד ליסוד: ריבוע עם פינות קטומות ב-45° וארבעה חורי ברגי עיגון,
-והאות מ׳ חתוכה דרכה. המקום שבו המבנה פוגש את היסוד — וזה מה שחברה בונה 60 שנה.
+הסמל: חתך של בניין: שני עמודים, שתי תקרות ותקרת גג, עומדים על יסוד כבד ורחב מהם. העומס יורד ליסוד,
+כמו בכל מבנה שהחברה בונה. שלוש התקרות הן שלושת סוגי המבנים: בתים, בנייני מגורים ומבני ציבור.
 השם: Noto Sans Hebrew, הגופן של האתר, צר וכבד (כמו אותיות על שלטי אתר ותמרורים), עם פס מפריד בין הסמל לשם.
 
 הגופן (רישיון SIL OFL 1.1, מותר בלוגו) מומר לקווי מתאר, כך שקובצי ה-SVG לא תלויים בגופן מותקן.
 
 הרצה מתוך mizrahi/:  python3 tools/brand.py
-פלט: assets/brand/*.svg, assets/favicon.svg, brand/directions/f-baseplate.svg
+פלט: assets/brand/*.svg, assets/favicon.svg, brand/directions/g-frame.svg
 """
 import re
 from pathlib import Path
@@ -34,7 +34,6 @@ LINE2 = 'בניה ושות׳'
 LABEL = 'י. מזרחי בניה ושות׳'
 NAME_FACE = (800, 75)     # weight, width
 LINE2_FACE = (600, 100)
-LETTER_FACE = (900, 100)
 
 _fonts = {}
 
@@ -76,25 +75,22 @@ def text_path(text, face, size, tracking=0.0):
     return ' '.join(parts), -x - tracking * size, top, (min(xs), min(ys), max(xs), max(ys))
 
 
-# ---------------------------------------------------------------- the mark: the base plate
-# פלטה 40×40, פינות קטומות 3.4, חורי ברגים ברדיוס 1.9 במרחק 5.4 מהשפות, האות מ׳ בגובה 27. הכול נגזר מכאן.
-S, CHAMFER, BOLT_R, BOLT_IN, LETTER_SIZE = 40.0, 3.4, 1.9, 5.4, 27.0
+# ---------------------------------------------------------------- the mark: the building frame
+# ריבוע 40×40. תקרות בעובי 4.6 ברוחב 34; יסוד בעובי 6.4 לכל הרוחב (בולט 3 מכל צד); עמודים ברוחב 5, 2 פנימה מקצה התקרות.
+S = 40.0
+SLAB, FOUND, OVER = 4.6, 6.4, 3.0
+COL_W, COL_IN = 5.0, 2.0
 
 
-def plate(fill, cut, x0=0.0, y0=0.0, s=1.0, bolts=True, letter_size=LETTER_SIZE):
-    """SVG group for the plate at (x0, y0), scale s. `cut` is what shows through the bolt holes and the letter,
-    so the mark is one colour on any ground."""
-    k = CHAMFER
-    pts = [(k, 0), (S - k, 0), (S, k), (S, S - k), (S - k, S), (k, S), (0, S - k), (0, k)]
-    els = f'<path fill="{fill}" d="M' + 'L'.join(f'{x:g} {y:g}' for x, y in pts) + 'Z"/>'
-    if bolts:
-        for cx in (BOLT_IN, S - BOLT_IN):
-            for cy in (BOLT_IN, S - BOLT_IN):
-                els += f'<circle cx="{cx:g}" cy="{cy:g}" r="{BOLT_R:g}" fill="{cut}"/>'
-    d, _, _, bb = text_path('מ', LETTER_FACE, letter_size)
-    tx = (S - (bb[2] - bb[0])) / 2 - bb[0]
-    ty = (S - (bb[3] - bb[1])) / 2 - bb[1]
-    els += f'<path fill="{cut}" transform="translate({tx:.2f} {ty:.2f})" d="{d}"/>'
+def frame(fill, cut=None, x0=0.0, y0=0.0, s=1.0):
+    """SVG group for the frame at (x0, y0), scale s. One colour; `cut` is unused (kept so all marks share a signature)."""
+    floor = (S - FOUND - SLAB) / 2           # the middle slab sits halfway between roof and foundation
+    els = ''
+    for y in (0.0, floor):
+        els += f'<rect x="{OVER:g}" y="{y:g}" width="{S - 2 * OVER:g}" height="{SLAB:g}" fill="{fill}"/>'
+    els += f'<rect x="0" y="{S - FOUND:g}" width="{S:g}" height="{FOUND:g}" fill="{fill}"/>'
+    for x in (OVER + COL_IN, S - OVER - COL_IN - COL_W):
+        els += f'<rect x="{x:g}" y="0" width="{COL_W:g}" height="{S - FOUND:g}" fill="{fill}"/>'
     return f'<g transform="translate({x0:.2f} {y0:.2f}) scale({s:.4f})">{els}</g>'
 
 
@@ -105,21 +101,21 @@ def svg(viewbox, body, label=LABEL, size=None):
 
 
 def mark(fill, cut):
-    return svg(f'0 0 {S:g} {S:g}', plate(fill, cut))
+    return svg(f'0 0 {S:g} {S:g}', frame(fill, cut))
 
 
 def tile(bg, fill, cut, pad=8.0):
     side = S + 2 * pad
-    return svg(f'0 0 {side:g} {side:g}', f'<rect width="{side:g}" height="{side:g}" fill="{bg}"/>' + plate(fill, cut, pad, pad))
+    return svg(f'0 0 {side:g} {side:g}', f'<rect width="{side:g}" height="{side:g}" fill="{bg}"/>' + frame(fill, cut, pad, pad))
 
 
 def favicon():
-    """16–32px: the plate without bolt holes and a slightly larger mem; a solid olive shape that holds on light and dark tabs."""
-    return svg(f'0 0 {S:g} {S:g}', plate(OLIVE, BONE, bolts=False, letter_size=29.5))
+    """16–32px: the same frame; it holds at 16px. Olive on transparent works on light tabs, and the bone version on dark."""
+    return svg(f'-2 -2 {S + 4:g} {S + 4:g}', f'<rect x="-2" y="-2" width="{S + 4:g}" height="{S + 4:g}" rx="5" fill="{BONE}"/>' + frame(OLIVE))
 
 
 # ---------------------------------------------------------------- lockups
-LH = 84.0                 # the plate's height in a lockup = the height of the two name lines
+LH = 84.0                 # the mark's height in a lockup = the height of the two name lines
 GAP, BAR = 22.0, 3.0      # space either side of the divider, divider width
 
 
@@ -136,7 +132,7 @@ def horizontal(fill, cut, divider=True):
     _, tw = name_block(fill, 0)
     mid = (GAP * 2 + BAR) if divider else GAP
     W = LH + mid + tw
-    body = plate(fill, cut, W - LH, 0, s)
+    body = frame(fill, cut, W - LH, 0, s)
     if divider:
         body += f'<rect x="{W - LH - GAP - BAR:.2f}" y="0" width="{BAR:g}" height="{LH:g}" fill="{fill}"/>'
     els, _ = name_block(fill, W - LH - mid)
@@ -149,7 +145,7 @@ def compact(fill, cut):
     d2, w2, _, _ = text_path(LINE2, LINE2_FACE, 20, tracking=0.18)
     P = 100.0
     W = max(w1, w2, P)
-    body = plate(fill, cut, (W - P) / 2, 0, P / S)
+    body = frame(fill, cut, (W - P) / 2, 0, P / S)
     y1 = P + 22 + t1
     y2 = y1 + 34
     body += (f'<path fill="{fill}" transform="translate({(W + w1) / 2:.2f} {y1:.2f})" d="{d1}"/>'
@@ -200,7 +196,8 @@ def main():
         (OUT / stale).unlink(missing_ok=True)
         (OUT / 'png' / stale.replace('.svg', '.png')).unlink(missing_ok=True)
     (ROOT / 'assets' / 'favicon.svg').write_text(favicon(), encoding='utf-8')
-    (DIRS / 'f-baseplate.svg').write_text(mark(OLIVE, BONE), encoding='utf-8')
+    (DIRS / 'g-frame.svg').write_text(mark(OLIVE, BONE), encoding='utf-8')
+    (DIRS / 'f-baseplate.svg').unlink(missing_ok=True)
     print('wrote', len(files) + 2, 'files')
 
 

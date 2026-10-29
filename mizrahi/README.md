@@ -96,7 +96,7 @@ cd .. && python3 -m http.server 8765
 
 ## הלוגו
 
-- **פלטת העיגון:** פלטת בסיס מפלדה (פינות קטומות, 4 חורי ברגים) ובה האות מ׳, ולידה השם ב-Noto Sans Hebrew צר וכבד. כל הקבצים ב-`assets/brand/` (אופקי, קומפקטי, סמל, אייקון, שם בשורה אחת; זית, בהיר, שחור, לבן). המקור: `python3 tools/brand.py`, מאותו גופן שבאתר.
+- **שלד הבניין:** חתך של בניין (שני עמודים, שתי תקרות, יסוד רחב), ולידו השם ב-Noto Sans Hebrew צר וכבד. כל הקבצים ב-`assets/brand/` (אופקי, קומפקטי, סמל, אייקון, שם בשורה אחת; זית, בהיר, שחור, לבן). המקור: `python3 tools/brand.py`, מאותו גופן שבאתר.
 - PNG: מתוך ה-SVG, ב-Chromium (ראו `docs/qa-report.md`).
 - **Canva:** החשבון מחובר (נמצא Brand Kit אחד), אבל הלוגו **לא נוצר בתוך Canva**: הכלים של Canva יכולים לייבא רק קבצים מכתובת ציבורית, ולא העליתי קבצים לאחסון ציבורי רק כדי לקבל כתובת.
   להעברה ל-Canva: Brand Kit ← Logos ← Upload ← `assets/brand/logo-horizontal-olive.svg`, `logo-compact-olive.svg`, `mark-olive.svg`, `app-icon.svg`.
