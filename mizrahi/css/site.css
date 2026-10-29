@@ -73,7 +73,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .skip:focus { top: 12px; }
 
 /* display type: the same family pushed narrow and heavy */
-.h-page, .h-sec, .intro-h, .what-h, .rail h1, .big-num, .foot-name, .form-title {
+.h-page, .h-sec, .intro-h, .what-h, .rail h1, .big-num, .form-title {
   font-stretch: var(--narrow); font-weight: 800; letter-spacing: -0.01em; line-height: 0.95;
 }
 .h-page { font-size: var(--step-head); max-width: 16ch; }
@@ -101,7 +101,7 @@ p + p { margin-top: 1em; }
 .site-head { position: sticky; top: 0; z-index: 50; background: var(--bg); transition: background-color var(--t-mid) var(--ease); }
 .head-in { display: flex; align-items: center; gap: 28px; height: var(--head-h); max-width: var(--max); margin-inline: auto; padding-inline: var(--m); }
 .brand { display: block; color: var(--ink); flex: none; }
-.brand .logo { height: 42px; width: auto; display: block; }
+.brand .logo { height: 52px; width: auto; display: block; }
 .main-nav { margin-inline-start: auto; }
 .main-nav ul { display: flex; gap: clamp(16px, 2vw, 30px); }
 .main-nav a { position: relative; text-decoration: none; font-weight: 500; padding: 8px 0; }
@@ -118,7 +118,7 @@ p + p { margin-top: 1em; }
   .main-nav, .head-phone { display: none; }
   .head-actions { margin-inline-start: auto; }
   .menu-btn { display: block; }
-  .brand .logo { height: 36px; }
+  .brand .logo { height: 42px; }
 }
 @media (max-width: 420px) { .head-actions .btn { display: none; } }
 
@@ -457,7 +457,7 @@ main > :last-child:not(.contact) { margin-bottom: 0; }
 .foot-in { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap); max-width: var(--max); margin-inline: auto; padding-inline: var(--m); align-items: start; }
 .sign { grid-column: 1 / 7; background: var(--on-ink); color: var(--ink); padding: clamp(20px, 2.4vw, 36px); }
 .sign-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
-.sign-mark { width: 44px; height: auto; flex: none; }
+.sign-mark { width: 48px; height: auto; flex: none; --cut: var(--on-ink); }
 .sign-title { font-size: var(--step-lead); font-weight: 800; font-stretch: var(--narrow); }
 .sign-table { width: 100%; border-collapse: collapse; }
 .sign-table th, .sign-table td { text-align: start; padding: 12px 0; border-top: 2px solid var(--ink); vertical-align: top; }
@@ -468,14 +468,14 @@ main > :last-child:not(.contact) { margin-bottom: 0; }
 .foot-nav ul { display: grid; gap: 10px; }
 .foot-nav a, .foot-nav .linklike { text-decoration: none; }
 .foot-nav a:hover, .foot-nav .linklike:hover { text-decoration: underline; }
-.foot-name { font-size: min(var(--step-giant), 11.6vw); line-height: 0.82; white-space: nowrap; margin-top: clamp(64px, 8vw, 120px); padding-inline: var(--m); letter-spacing: -0.02em; }
+.foot-name { max-width: var(--max); margin: clamp(64px, 8vw, 120px) auto 0; padding-inline: var(--m); }
+.foot-word { display: block; width: 100%; height: auto; }
 .foot-legal { max-width: var(--max); margin-inline: auto; padding: 24px var(--m) 32px; font-size: var(--step-small); }
 .foot-legal { padding-inline-end: max(var(--m), calc(100% - 75ch)); }
 @media (max-width: 900px) {
   .foot-in { grid-template-columns: 1fr; }
   .sign, .foot-nav { grid-column: 1; }
   .foot-nav { margin-top: 40px; }
-  .foot-name { font-size: 11.2vw; }
 }
 
 .wa-float { position: fixed; inset-inline-end: 16px; bottom: 16px; z-index: 40; background: var(--ink); color: var(--on-ink); padding: 12px 18px; font-weight: 700; text-decoration: none; outline: 2px solid var(--on-ink); outline-offset: -4px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); } /* taste-skill-ignore: floats over content */

@@ -96,11 +96,11 @@ cd .. && python3 -m http.server 8765
 
 ## הלוגו
 
-- כל הקבצים ב-`assets/brand/`. המקור: `python3 tools/brand.py` (מייצר הכול מאותה גאומטריה).
+- **אבן הפינה:** אבן על רגל יסוד, ובפניה ימ; השם ב-Frank Ruhl Libre. כל הקבצים ב-`assets/brand/` (אופקי, קומפקטי, סמל, אייקון, אווטאר, שם בשורה אחת; זית, בהיר, שחור, לבן). המקור: `python3 tools/brand.py`, עם הגופנים ב-`tools/fonts` (OFL).
 - PNG: מתוך ה-SVG, ב-Chromium (ראו `docs/qa-report.md`).
 - **Canva:** החשבון מחובר (נמצא Brand Kit אחד), אבל הלוגו **לא נוצר בתוך Canva**: הכלים של Canva יכולים לייבא רק קבצים מכתובת ציבורית, ולא העליתי קבצים לאחסון ציבורי רק כדי לקבל כתובת.
-  להעברה ל-Canva: Brand Kit ← Logos ← Upload ← `assets/brand/logo-horizontal-olive.svg`, `logo-compact-olive.svg`, `mark-olive.svg`, `mark-bone.svg`.
-  צבעים: `#38450f`, `#ecebe7`, `#e1dfd9`, `#4f5a2c`. גופן: Noto Sans Hebrew (לבדוק אם קיים בספריית הגופנים של Canva; אם לא, להעלות את הגופן ל-Brand Kit — הוא ברישיון OFL).
+  להעברה ל-Canva: Brand Kit ← Logos ← Upload ← `assets/brand/logo-horizontal-olive.svg`, `logo-compact-olive.svg`, `mark-olive.svg`, `app-icon.svg`.
+  צבעים: `#38450f`, `#ecebe7`, `#e1dfd9`, `#4f5a2c`. גופנים: Frank Ruhl Libre ללוגו ולכותרות בחומרים מודפסים, Noto Sans Hebrew לטקסט (לבדוק שהם קיימים בספריית Canva; אם לא, להעלות ל-Brand Kit — שניהם ברישיון OFL).
 
 ## פריסה
 

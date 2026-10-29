@@ -53,16 +53,20 @@ def figure(name, alt, sizes='100vw', cls='', eager=False):
 
 
 # ---------------------------------------------------------------- logo (inline, so it inherits currentColor)
-def mark_svg(cls='mark'):
-    svg = (ROOT / 'assets' / 'brand' / 'mark-black.svg').read_text(encoding='utf-8')
-    svg = svg.replace('fill="#000000"', 'fill="currentColor"')
+def brand_svg(file, cls):
+    """A logo file inlined so it takes the colour of its place: the shape in currentColor,
+    the letters cut into the stone in the page's ground colour."""
+    svg = (ROOT / 'assets' / 'brand' / file).read_text(encoding='utf-8')
+    svg = svg.replace('fill="#000000"', 'fill="currentColor"').replace('fill="#ffffff"', 'fill="var(--cut, var(--bg))"')
     return svg.replace('<svg ', f'<svg class="{cls}" aria-hidden="true" focusable="false" ', 1).replace(' role="img"', '')
+
+
+def mark_svg(cls='mark'):
+    return brand_svg('mark-black.svg', cls)
 
 
 def logo_svg(cls='logo'):
-    svg = (ROOT / 'assets' / 'brand' / 'logo-horizontal-black.svg').read_text(encoding='utf-8')
-    svg = svg.replace('fill="#000000"', 'fill="currentColor"')
-    return svg.replace('<svg ', f'<svg class="{cls}" aria-hidden="true" focusable="false" ', 1).replace(' role="img"', '')
+    return brand_svg('logo-horizontal-black.svg', cls)
 
 
 # ---------------------------------------------------------------- structured data
@@ -247,7 +251,7 @@ def footer():
       </ul>
     </nav>
   </div>
-  <p class="foot-name" aria-hidden="true">{e(NAME)}</p>
+  <div class="foot-name">{brand_svg('wordmark-black.svg', 'foot-word')}</div>
   <p class="foot-legal">© {YEAR} {e(NAME)}{(' · ' + legal_line) if legal_line else ''}. התמונות באתר הן צילומי ארכיון ותיעוד של אתרי בנייה בישראל, ואינן פרויקטים של החברה, אלא אם נכתב אחרת.</p>
 </footer>
 {wa}
