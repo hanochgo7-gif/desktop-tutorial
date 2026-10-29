@@ -188,7 +188,7 @@ async function addLead(p, { first, phone, email, source }) {
     p = await fresh(b, { ...devices[dev] }, true);
     for (const route of ['sources', 'today', 'leads', 'deals']) {
       await p.goto(URL + '#/' + route); await p.waitForTimeout(400);
-      const ov = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+      const ov = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       check(ov <= 1, `${dev} ${route}: no horizontal overflow (${ov}px)`);
     }
     await p.goto(URL + '#/leads'); await p.waitForTimeout(300);
