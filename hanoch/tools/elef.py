@@ -163,7 +163,9 @@ def page(lang):
 <link rel="preload" as="image" href="media/s8-poster.webp" fetchpriority="high">
 <style>{CSS}</style>
 <script src="../js/consent.js" defer></script>
+<script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
+<script src="../js/meta.js" defer></script>
 </head>
 <body data-root="../">
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>

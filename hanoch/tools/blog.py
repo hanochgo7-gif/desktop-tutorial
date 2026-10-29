@@ -172,13 +172,15 @@ def head(title, desc, url, img, extra=''):
 <style>{CSS}{BLOG_CSS}</style>
 {extra}
 <script src="../js/consent.js" defer></script>
+<script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
+<script src="../js/meta.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">דלגו לתוכן</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="../" aria-label="HG·STUDIO, לדף הבית">HG<span>·</span>STUDIO</a>
-  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../#pricing">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
+  <nav aria-label="ראשי"><a href="../archive/">עבודות</a><a href="../services/">שירותים</a><a href="./">מאמרים</a><a href="https://wa.me/{WA}" target="_blank" rel="noopener">וואטסאפ</a></nav>
 </header>
 '''
 

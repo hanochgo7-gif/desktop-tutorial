@@ -2,6 +2,10 @@
 # כל עמוד: תוכן ייחודי, מחירים אמיתיים מהאתר, דוגמאות מהתיק, שאלות נפוצות עם סימון לגוגל, וקישורים פנימיים.
 import json, os, html, urllib.parse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# שיחה חוזרת בשעה נוחה (js/callback.js) ופניות ל-HG OS (js/hgos.js), רק בעמודים בעברית
+CALLBACK_BTN = '<button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button>'
+CRM_SCRIPTS = ('<script src="../js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>\n'
+               '<script src="../js/callback.js" defer></script>\n')
 D = 'https://hgpro.io'
 WA = '972545522053'
 PROJ = {  # תמונה, שם, תיאור קצר, עוגן בתיק העבודות
@@ -111,7 +115,7 @@ page(slug='ai-commercial', lang='he', name='הפקת פרסומת ב-AI',
      h1='הפקת פרסומת ב-AI', kicker='שירות · וידאו',
      lead='פרסומת ברמת טלוויזיה עלתה פעם עשרות אלפי שקלים: צוות, שחקנים, לוקיישן ויום צילום. היום אפשר להפיק סרט קולנועי עם בינה מלאכותית, בשבריר מהעלות ובתוך ימים. אני כותב את התסריט, יוצר דמויות קבועות, מצלם כל שוט, עורך על המוזיקה ומלביש קריינות.',
      sections=[('מה מקבלים', '<ul><li>תסריט ועלילה קצרה שמתאימה למותג.</li><li>דמויות, מוצר ורכבים קבועים לאורך כל הסרט.</li><li>צילום קולנועי ב-1080p, עריכה על הקצב, צבע ופסי קולנוע.</li><li>קריינות טבעית באנגלית (ובעברית לפי הצורך) ומוזיקה ברישיון חופשי.</li><li>גרסאות 30, 15 ו-6 שניות לטלוויזיה, ליוטיוב ולרשתות.</li></ul>'),
-               ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="../#ads">לפירוט החבילות</a>.</p>'),
+               ('חבילות', '<p>אפשר להזמין פרסומת אחת. מי שרוצה שהפרסומות גם יגיעו לקהל, מקבל אותן כחלק מ<a href="social-media.html">הד</a>: ליווי באינסטגרם ובפייסבוק שכולל פרסומת AI בכל חודש, פרסום, מענה ופרסום ממומן. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%9C%D7%99%D7%95%D7%95%D7%99%20%D7%91%D7%A8%D7%A9%D7%AA%D7%95%D7%AA" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
                ('דוגמאות', '<p>בתיק העבודות פרסומות שהפקתי כך, ביניהן <strong>אֶלֶף</strong>, פרסומת קולנועית לשמן זית מהגליל, ו<strong>HG · Unforgettable</strong>, פרסומת בושם של 20 שניות: גבר, לילה גשום בעיר, וריח שנשאר בחדר אחרי שהוא יוצא. <a href="../archive/">לצפייה בארכיון</a>.</p>'),
                ('חשוב לדעת', '<p>כל הדמויות בדיוניות, והמוזיקה והקולות בשימוש חוקי. הסרט מסומן כנוצר בבינה מלאכותית, כמו שנהוג היום.</p>')],
      examples=[], films=True,
@@ -127,7 +131,7 @@ page(slug='social-media', lang='he', name='הד: אינסטגרם ופייסבו
      h1='הד: העסק שלכם באינסטגרם ובפייסבוק', kicker='שירות · רשתות',
      lead='הרבה לקוחות מכירים עסק קודם ברשתות, ורק אחר כך באתר. "הד" הוא ליווי שמקים לכם עמודים מסודרים באינסטגרם ובפייסבוק, ממלא אותם בתוכן שעוצר את הגלילה, ומביא את מי שמתעניין עד לוואטסאפ. מאותן ידיים שבונות את האתרים ומפיקות את הפרסומות.',
      sections=[('מה עושים', '<ul><li>בדיקה ותוכנית: איך העמודים שלכם נראים היום, מה עושים המתחרים, ומה הלקוחות שלכם מחפשים.</li><li>הקמה: ביו, כפתורי וואטסאפ וחיוג, היילייטס עם כריכות, ותבניות עיצוב בשפה של המותג.</li><li>תוכן בכל שבוע: רילס, פוסטים, קרוסלות וסטוריז, עם טקסטים בעברית ובאנגלית לפי הצורך.</li><li>פרסומות AI: סרטים קצרים עם עלילה, דמויות וקריינות, בלי צוות צילום.</li><li>ימי צילום בעסק: תמונות ווידאו אמיתיים של המקום, האנשים והמוצרים.</li><li>פרסום ממומן במטא: קהלים, מודעות, תקציב ומעקב אחרי כל פנייה.</li><li>מענה: תגובות, הודעות, ותשובה אוטומטית שמעבירה פניות לוואטסאפ.</li></ul>'),
-               ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="../#ads">לפירוט החבילות</a>.</p>'),
+               ('החבילות', '<p><strong>התנעה</strong>: הקמה או סידור מחדש של העמודים, ערכה עיצובית, תשעה פוסטים ראשונים ופרסומת AI אחת. <strong>קבוע</strong>: תוכן בכל שבוע, פרסומת AI בכל חודש, פרסום ותזמון, מענה ודוח חודשי. <strong>מלא</strong>: כל זה, ובנוסף פרסום ממומן, יום צילום בעסק, שתי פרסומות AI בחודש ודף נחיתה לכל קמפיין. <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%9C%20%D7%97%D7%91%D7%99%D7%9C%D7%95%D7%AA%20%D7%94%D7%9C%D7%99%D7%95%D7%95%D7%99%20%D7%91%D7%A8%D7%A9%D7%AA%D7%95%D7%AA" target="_blank" rel="noopener">לשאול על החבילות בוואטסאפ</a>.</p>'),
                ('מה ההבדל', '<p>מי שבונה את האתר כבר מכיר את העסק, ולא צריך להסביר הכול מחדש. הפרסומות נוצרות בבינה מלאכותית ברמה קולנועית, ולכן אפשר להפיק סרט חדש בכל חודש בלי יום צילום. ובסוף כל חודש מסתכלים על פניות, הודעות ולחיצות לוואטסאפ, ולא רק על לייקים.</p>'),
                ('חשוב לדעת', '<p>העמודים, החשבונות והתוכן שייכים לכם. כל תוכן עולה רק אחרי שאישרתם אותו. תקציב הפרסום הממומן משולם ישירות לפלטפורמה, בנפרד מהליווי. אי אפשר להבטיח מספר עוקבים, מכירות או פניות, אבל אפשר למדוד כל דבר ולשפר בכל חודש.</p>')],
      examples=[], films=True,
@@ -440,8 +444,7 @@ def render(p):
                  ('film/hg', 'HG · Unforgettable', T('פרסומת בושם · 20 שניות', 'Fragrance commercial · 20 seconds'))]
         ex = ''.join(f'<a class="sv-card" href="{up}archive/{"" if he else "en.html"}"><video controls preload="none" playsinline poster="{up}work/{f}.webp" src="{up}work/{f}{"-en" if (not he and f in ("film/ad", "film/elef")) else ""}.mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></a>' for f, n, s in films)
         # הפרסומות של הסטודיו עצמו: אנכיות, לרילס. בעברית עם כתוביות צרובות, ובאנגלית עם כתוביות באנגלית
-        studio = [('film/studio-night', T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), T('פרסומת ל-HG Studio · 32 שניות', 'HG Studio commercial · 32 seconds')),
-                  ('film/studio-host', T('העסק נסגר בשבע. האתר? לא.', 'The business closes at seven. The website? No.'), T('פרסומת מציגה ל-HG Studio · 21 שניות', 'HG Studio presenter ad · 21 seconds'))]
+        studio = [('film/studio-night', T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), T('פרסומת ל-HG Studio · 32 שניות', 'HG Studio commercial · 32 seconds'))]
         ex_after = '<h3>' + T('הפרסומות של הסטודיו עצמו', 'The studio\'s own ads') + '</h3><div class="sv-cards sv-cards-tall">'
         ex_after += ''.join(f'<div class="sv-card"><video controls preload="none" playsinline poster="{up}work/{f}.webp" aria-label="{esc(n)}"><source src="{up}work/{f}-m.mp4" type="video/mp4" media="(max-width: 700px)"><source src="{up}work/{f}.mp4" type="video/mp4"></video><span>{esc(n)}<small>{esc(s)}</small></span></div>' for f, n, s in studio)
         ex_after += '</div><p class="sv-note">' + T('הסצנות, הדמויות והקול נוצרו בבינה מלאכותית. מסכי האתרים בפרסומות אמיתיים.', 'The scenes, characters and voices were made with AI. The website screens in the ads are real.' + ' The ads are in Hebrew, with English subtitles.') + '</p>'
@@ -465,8 +468,7 @@ def render(p):
     if p.get('films'):
         graph += [{'@type': 'VideoObject', 'name': T('אֶלֶף · שמן זית מהגליל', 'Elef · Galilee olive oil'), 'description': T('פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.', 'A one minute cinematic commercial for a fictional olive oil brand, made with AI by HG Studio.'), 'thumbnailUrl': D + '/work/film/elef.webp', 'contentUrl': D + ('/work/film/elef.mp4' if he else '/work/film/elef-en.mp4'), 'uploadDate': '2026-10-09', 'duration': 'PT60S'},
                   {'@type': 'VideoObject', 'name': 'HG · Unforgettable', 'description': 'A 20 second fragrance commercial made with AI by HG Studio.', 'thumbnailUrl': D + '/work/film/hg.webp', 'contentUrl': D + '/work/film/hg.mp4', 'uploadDate': '2026-10-14', 'duration': 'PT20S'},
-                  {'@type': 'VideoObject', 'name': T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), 'description': T('פרסומת אנכית של 32 שניות ל-HG Studio, שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', 'A 32 second vertical commercial for HG Studio, made with AI, with real screens from client sites.'), 'thumbnailUrl': D + '/work/film/studio-night.webp', 'contentUrl': D + '/work/film/studio-night.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT32S'},
-                  {'@type': 'VideoObject', 'name': T('העסק נסגר בשבע. האתר? לא.', 'The business closes at seven. The website? No.'), 'description': T('פרסומת מציגה של 21 שניות ל-HG Studio. המציגה והקול נוצרו בבינה מלאכותית, והמסכים אמיתיים.', 'A 21 second presenter ad for HG Studio. The presenter and voice were made with AI, and the screens are real.'), 'thumbnailUrl': D + '/work/film/studio-host.webp', 'contentUrl': D + '/work/film/studio-host.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT22S'}]
+                  {'@type': 'VideoObject', 'name': T('אתר שלא נסגר בשבע', 'A website that doesn\'t close at seven'), 'description': T('פרסומת אנכית של 32 שניות ל-HG Studio, שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.', 'A 32 second vertical commercial for HG Studio, made with AI, with real screens from client sites.'), 'thumbnailUrl': D + '/work/film/studio-night.webp', 'contentUrl': D + '/work/film/studio-night.mp4', 'uploadDate': '2026-10-18', 'duration': 'PT32S'}]
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False)
     alt = ''
     foot_links = ''.join(f'<a href="{("" if q["lang"] == p["lang"] else ("en/" if he else "../"))}{q["slug"]}.html">{esc(q["name"])}</a>' for q in P if q['lang'] == p['lang'])
@@ -494,13 +496,15 @@ def render(p):
 <style>{CSS}</style>
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js" defer></script>
+<script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
+<script src="{up}js/meta.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
 <header class="sv-bar sv-bar-cta">
   <a class="sv-mark" href="{up}{'' if he else 'en.html'}" aria-label="HG·STUDIO, {T('לדף הבית', 'home')}">HG<span>·</span>STUDIO</a>
-  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
+  <nav aria-label="{T('ראשי', 'Main')}"><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a><a href="{up}{'services/' if he else 'en.html#pricing'}">{T('שירותים', 'Services')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a></nav>
 </header>
 <main class="sv" id="main">
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
@@ -519,7 +523,7 @@ def render(p):
   <section class="sv-cta" aria-labelledby="cta-h">
     <h2 id="cta-h">{T('בואו נדבר', "Let's talk")}</h2>
     <p>{T('שיחת היכרות קצרה, בלי התחייבות. אחריה מקבלים הצעה כתובה עם מחיר סגור.', 'A short intro call, no commitment. Afterwards you get a written proposal with a fixed price.')}</p>
-    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('שלחו הודעה בוואטסאפ', 'Message on WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
+    <div class="row"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('שלחו הודעה בוואטסאפ', 'Message on WhatsApp')}</a>{CALLBACK_BTN if he else ''}<a class="sv-btn ghost" href="tel:+{WA}" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a><a class="sv-btn ghost" href="mailto:boss@hgpro.io">boss@hgpro.io</a></div>
   </section>
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
@@ -528,7 +532,7 @@ def render(p):
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/a11y.js" defer></script>
 <script src="{up}js/assistant.js" defer></script>
-</body>
+{CRM_SCRIPTS if he else ''}</body>
 </html>
 '''
 
@@ -578,11 +582,13 @@ def hub(lang):
 </style>
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js" defer></script>
+<script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
+<script src="{up}js/meta.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
-<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'' if he else 'en.html'}#pricing">{T('שירותים', 'Services')}</a></nav></header>
+<header class="sv-bar"><a class="sv-mark" href="{up}{'' if he else 'en.html'}">HG<span>·</span>STUDIO</a><nav><a href="{up}{'archive/' if he else 'archive/en.html'}">{T('עבודות', 'Work')}</a>{'<a href="../blog/">מאמרים</a>' if he else ''}<a href="{up}{'services/' if he else 'en.html#pricing'}">{T('שירותים', 'Services')}</a></nav></header>
 <main class="sv" id="main">
   <nav class="sv-crumbs"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><span aria-current="page">{T('שירותים', 'Services')}</span></nav>
   <h1>{T('שירותים', 'Services')}</h1>

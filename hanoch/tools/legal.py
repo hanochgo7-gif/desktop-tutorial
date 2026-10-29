@@ -5,6 +5,8 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPDATED = {'he': '10 באוקטובר 2026', 'en': 'October 10, 2026'}
+# עמודים שעודכנו אחרי כן
+UPDATED_FILE = {'privacy.html': '29 באוקטובר 2026', 'en-privacy.html': 'October 29, 2026'}
 TEL, TEL_HE, TEL_EN, MAIL = '+972545522053', '054-5522053', '+972 54-552-2053', 'boss@hgpro.io'
 
 STYLE = '''<style>
@@ -50,8 +52,8 @@ def foot(he, cur):
 def page(lang, file, other, title, desc, h1, body):
     he = lang == 'he'
     T = (lambda a, b: a) if he else (lambda a, b: b)
-    font = 'fonts/g/rubik-hebrew-423ede.woff2' if he else None
-    preload = f'<link rel="preload" as="font" type="font/woff2" href="{font}" crossorigin>\n' if font else ''
+    fonts = ['fonts/g/rubik-hebrew-423ede.woff2', 'fonts/g/rubik-punct.woff2', 'fonts/handjet-ascii.woff2', 'fonts/handjet-hebrew.woff2'] if he else ['fonts/handjet-ascii.woff2']
+    preload = ''.join(f'<link rel="preload" as="font" type="font/woff2" href="{f}" crossorigin>\n' for f in fonts)
     hrefs = {'he': file if he else other, 'en': other if he else file}
     return f'''<!doctype html>
 <html lang="{lang}" dir="{'rtl' if he else 'ltr'}">
@@ -70,7 +72,9 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="stylesheet" href="css/hanoch.css">
 {STYLE}
 <script src="js/consent.js" defer></script>
+<script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
+<script src="js/meta.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
@@ -78,7 +82,7 @@ def page(lang, file, other, title, desc, h1, body):
   <a class="back" href="{T('./', 'en.html')}">{T('→ חזרה לאתר', '← Back to the site')}</a>
   <h1>{h1}</h1>
 {body}
-  <p class="updated">{T('עודכן לאחרונה', 'Last updated')}: {UPDATED[lang]} · <a href="{other}" hreflang="{'en' if he else 'he'}" lang="{'en' if he else 'he'}">{T('English', 'עברית')}</a></p>
+  <p class="updated">{T('עודכן לאחרונה', 'Last updated')}: {UPDATED_FILE.get(file, UPDATED[lang])} · <a href="{other}" hreflang="{'en' if he else 'he'}" lang="{'en' if he else 'he'}">{T('English', 'עברית')}</a></p>
 </main>
 {foot(he, file)}
 <script src="js/fluid.js" defer></script>
@@ -93,29 +97,41 @@ CONTACT_HE = f'<a href="mailto:{MAIL}" dir="ltr">{MAIL}</a>, בוואטסאפ א
 CONTACT_EN = f'<a href="mailto:{MAIL}">{MAIL}</a>, on WhatsApp or by phone at <a href="tel:{TEL}">{TEL_EN}</a>'
 
 # ---------- מדיניות פרטיות ----------
-PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העסק של חנוך גוטובסקי. בעמוד הזה מוסבר איזה מידע נאסף כשאתם גולשים באתר או פונים אליי, למה הוא נאסף, עם מי הוא משותף ומה הזכויות שלכם.</p>
+PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, העסק של חנוך גוטובסקי. בעמוד הזה מוסבר איזה מידע נאסף כשאתם גולשים באתר או פונים אליי, למה הוא נאסף, עם מי הוא משותף ומה הזכויות שלכם.</p>
 
   <h2>בקצרה</h2>
   <ul>
     <li>באתר אין הרשמה, ואין טופס ששומר פרטים בשרת.</li>
     <li>פנייה בוואטסאפ, במייל או בטלפון מגיעה ישירות אליי, ורק כשאתם בוחרים לשלוח אותה.</li>
-    <li>Google Analytics נטען רק אם אישרתם סטטיסטיקה, ואפשר לבטל את האישור בכל רגע.</li>
+    <li>עוגיות של Google Analytics ו-Google Ads נשמרות רק אם אישרתם, ואפשר לבטל את האישור בכל רגע. בלי אישור, Google מקבלת רק אותות אנונימיים בלי עוגיות.</li>
     <li>אני לא מוכר מידע אישי, ולא שולח הודעות פרסומת בלי הסכמה מפורשת שלכם.</li>
   </ul>
 
   <h2>מי אחראי על המידע</h2>
-  <p>חנוך גוטובסקי, HG Studio. לכל שאלה על פרטיות אפשר לפנות במייל {CONTACT_HE}.</p>
+  <p>חנוך גוטובסקי, HG Studio. לכל שאלה על פרטיות אפשר לפנות במייל <a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a>, בוואטסאפ או בטלפון <a href="tel:+972545522053" dir="ltr">054-5522053</a>.</p>
 
   <h2>מידע שאתם מוסרים לי</h2>
-  <p>כשאתם פונים אליי אני מקבל את מה שבחרתם לשלוח: שם, מספר טלפון או כתובת מייל (לפי הערוץ שבחרתם), ותוכן ההודעה. אם מילאתם את טופס הבריף בדף הבית, התשובות שבחרתם (סוג העסק, מטרות, מה יש לכם היום, ואם רציתם גם שם ומשפט על העסק) נכנסות להודעה מוכנה. הטופס לא שולח דבר לשרת: ההודעה יוצאת רק אם תלחצו "לשלוח לי בוואטסאפ" או "לשלוח לי במייל". עד אז התשובות נשמרות רק בדפדפן שלכם, כדי שתוכלו להמשיך מאיפה שעצרתם.</p>
+  <p>כשאתם פונים אליי אני מקבל את מה שבחרתם לשלוח: שם, מספר טלפון או כתובת מייל (לפי הערוץ שבחרתם), ותוכן ההודעה. אם מילאתם את טופס הבריף בדף הבית, התשובות שבחרתם (סוג העסק, מה צריך ומתי, ואם רציתם גם שם וטלפון) נכנסות להודעה מוכנה בוואטסאפ, וההודעה יוצאת רק אם תשלחו אותה. אם השארתם טלפון, הוא נשמר גם במערכת הפניות שלי, כמו שמוסבר בסעיף הבא.</p>
+  <h2 id="crm">מערכת הפניות שלי</h2>
+  <p>אם השארתם טלפון בטופס הבריף, או ביקשתם שאחזור אליכם בשעה שנוחה לכם, השם והטלפון נשמרים, יחד עם התשובות שבחרתם (כולל היום והשעה שבחרתם לשיחה) והעמוד שממנו נשלח הטופס, במערכת ניהול הפניות שלי (HG OS). המערכת מאוחסנת אצל Supabase, בשרתים באיחוד האירופי (פרנקפורט), והגישה אליה מוגבלת לי בלבד. אם אישרתם עוגיות, נשמר גם הקמפיין או האתר שממנו הגעתם (פרמטרי UTM ומזהה קליק של Google או Meta), כדי שאדע איזה פרסום הביא את הפנייה. בלי אישור נשמרת רק כתובת העמוד, בלי הפרמטרים שבה. המידע משמש רק כדי לחזור אליכם ולנהל את הקשר העסקי, ונמחק לפי מה שכתוב בהמשך תחת "כמה זמן המידע נשמר".</p>
+
   <h2 id="assistant">המצפן, היועץ הדיגיטלי</h2>
   <p>המצפן הוא יועץ דיגיטלי, לא בן אדם. כשבוחרים בו תשובות מוכנות (כמו סוג העסק), שום דבר לא יוצא מהדפדפן. כשכותבים לו שאלה חופשית, הטקסט של השיחה נשלח לשרת של האתר ב-Vercel, ומשם ל-Anthropic, החברה שמפעילה את מודל הבינה המלאכותית Claude, רק כדי לנסח תשובה. העיבוד יכול להיות מחוץ לישראל. האתר לא שומר את השיחה ולא מתעד את התוכן שלה. היא נשמרת רק בלשונית שלכם, ונמחקת כשסוגרים אותה. אל תכתבו למצפן מידע רגיש, כמו פרטי אשראי, תעודת זהות או מידע רפואי.</p>
   <p>שום דבר מהשיחה לא מגיע אליי בלי שתלחצו "לשלוח לחנוך בוואטסאפ". רק אז נפתחת הודעה עם הבריף שאישרתם, ואתם מחליטים אם לשלוח אותה.</p>
   <p>מסירת הפרטים אינה חובה לפי חוק, אבל בלי דרך ליצור איתכם קשר לא אוכל לחזור אליכם. אני משתמש במידע כדי לענות לפנייה, להכין הצעת מחיר, לתת את השירות שהוזמן, להוציא קבלות וחשבוניות ולעמוד בחובות שהחוק מטיל עליי.</p>
 
   <h2 id="analytics">סטטיסטיקת גלישה (Google Analytics)</h2>
-  <p>רק אם אישרתם סטטיסטיקה בהודעה שמופיעה בכניסה לאתר, נטען Google Analytics 4 של Google. הוא אוסף מידע על אופן השימוש באתר: אילו עמודים נצפו ומתי, מיקום משוער (מדינה ועיר), סוג המכשיר והדפדפן, מאיפה הגעתם, ופעולות באתר כמו לחיצה על וואטסאפ, טלפון או מייל, צפייה בסרטונים, מעבר בין שלבי טופס הבריף (מספר השלב בלבד) ומעבר לאתרים של לקוחות. התשובות שכתבתם בטופס ותוכן ההודעות לא נשלחים ל-Google.</p>
+  <p>האתר משתמש ב-Google Analytics 4 של Google. אם אישרתם עוגיות בהודעה שמופיעה בכניסה לאתר, הוא אוסף מידע על אופן השימוש באתר: אילו עמודים נצפו ומתי, מיקום משוער (מדינה ועיר), סוג המכשיר והדפדפן, מאיפה הגעתם, ופעולות באתר כמו לחיצה על וואטסאפ, טלפון או מייל, פתיחה של חלון השיחה החוזרת, צפייה בסרטונים, אילו חלקים בעמוד הוצגו, אילו שאלות בטופס הבריף נענו (בלי התשובות עצמן) ומעבר לאתרים של לקוחות. התשובות שכתבתם בטופס ותוכן ההודעות לא נשלחים ל-Google.</p>
   <p>לפי Google, Google Analytics 4 לא שומר כתובות IP. המטרה היא להבין אילו תכנים עוזרים לגולשים ולשפר את האתר. המידע מעובד אצל Google, גם מחוץ לישראל, ונשמר לכל היותר 14 חודשים לפי הגדרות השמירה. את האישור אפשר לבטל בכל עת בקישור "הגדרות עוגיות" בתחתית כל עמוד, ואז העוגיות של Google Analytics נמחקות מהדפדפן.</p>
+
+  <h2 id="ads">מדידת פרסום (Google Ads) ומצב ההסכמה</h2>
+  <p>כשאני מפרסם בגוגל, חשוב לי לדעת אילו מודעות הביאו פניות. לכן האתר משתמש במצב ההסכמה של Google (Consent Mode). כל עוד לא אישרתם עוגיות, לא נשמרת שום עוגייה ולא נשמר מזהה קבוע: Google מקבלת רק אותות אנונימיים, למשל שעמוד נצפה או שנלחץ כפתור וואטסאפ, ומהם היא מעריכה באופן מצטבר כמה פניות הגיעו מפרסום. מזהה הקליק של המודעה עובר בכתובת העמוד ולא נשמר בדפדפן.</p>
+  <p>אם אישרתם עוגיות, נשמרות גם עוגיות של Google Ads, כדי למדוד אילו מודעות הביאו פניות. אני לא משתמש במידע הזה להתאמה אישית של פרסומות או לפרסום חוזר (רימרקטינג). את האישור אפשר לבטל בכל עת בקישור "הגדרות עוגיות" בתחתית כל עמוד.</p>
+
+  <h2 id="meta">מדידת פרסום ב-Meta (פייסבוק ואינסטגרם)</h2>
+  <p>כשאני מפרסם בפייסבוק ובאינסטגרם, האתר יכול להשתמש בפיקסל של Meta כדי לדעת אילו מודעות הביאו פניות. הפיקסל נטען רק אם אישרתם עוגיות. בלי אישור לא נטען שום קוד של Meta ולא נשלח אליה כלום. אחרי אישור Meta מקבלת את העמודים שנצפו, מידע טכני על הדפדפן והמכשיר, כתובת IP, ולחיצה על וואטסאפ, טלפון או מייל או פנייה שנשמרה במערכת הפניות (בלי הפרטים שבה), יחד עם קוד המודעה אם הגעתם ממודעה. תוכן ההודעות ופרטים שכתבתם בטופס לא נשלחים ל-Meta. Meta מעבדת את המידע לפי מדיניות הפרטיות שלה, גם מחוץ לישראל. את האישור אפשר לבטל בכל עת בקישור "הגדרות עוגיות" בתחתית כל עמוד, ואז העוגיות של Meta נמחקות מהדפדפן.</p>
+  <h2 id="adcode">קוד המודעה בהודעת הוואטסאפ</h2>
+  <p>אם הגעתם מקישור של מודעה, הודעת הוואטסאפ שנפתחת כוללת בסופה קוד קצר (למשל "קוד: M12"), כדי שאדע מאיזו מודעה הגיעה הפנייה. הקוד מופיע בהודעה לפני השליחה, ואפשר למחוק אותו. אם אישרתם עוגיות, הקוד נזכר עד סגירת הלשונית גם במעבר בין עמודים.</p>
 
   <h2 id="cookies">עוגיות ואחסון בדפדפן</h2>
   <p>עוגיות (Cookies) וזיכרון מקומי (Local Storage) הם קבצים קטנים שהדפדפן שומר. האתר משתמש באלה בלבד:</p>
@@ -124,10 +140,15 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
     <tbody>
       <tr><td><code>_ga</code></td><td>Google Analytics</td><td>מבחין בין גולשים לצורך סטטיסטיקה</td><td>שנתיים</td><td>רק אחרי אישור</td></tr>
       <tr><td><code>_ga_&lt;מזהה&gt;</code></td><td>Google Analytics</td><td>שומר את מצב הביקור</td><td>שנתיים</td><td>רק אחרי אישור</td></tr>
-      <tr><td><code>hg-consent</code></td><td>האתר, זיכרון מקומי</td><td>זוכר אם אישרתם סטטיסטיקה</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
+      <tr><td><code>_gcl_au</code></td><td>Google Ads</td><td>מודד אם פנייה הגיעה ממודעה</td><td>90 יום</td><td>רק אחרי אישור</td></tr>
+      <tr><td><code>_fbp</code></td><td>Meta</td><td>מבחין בין גולשים כדי למדוד אילו מודעות הביאו פניות</td><td>90 יום</td><td>רק אחרי אישור</td></tr>
+      <tr><td><code>_fbc</code></td><td>Meta</td><td>שומר את מזהה הקליק כשמגיעים ממודעה</td><td>90 יום</td><td>רק אחרי אישור</td></tr>
+      <tr><td><code>hg-consent</code></td><td>האתר, זיכרון מקומי</td><td>זוכר אם אישרתם עוגיות</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
       <tr><td><code>hanoch-a11y</code></td><td>האתר, זיכרון מקומי</td><td>זוכר את ההגדרות שבחרתם בתפריט הנגישות</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
       <tr><td><code>hg-intro</code></td><td>האתר, זיכרון זמני</td><td>פתיחה קצרה יותר בביקור חוזר</td><td>עד סגירת הלשונית</td><td>הכרחי</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>האתר, זיכרון מקומי</td><td>הסרט בארכיון מתנגן רק בביקור הראשון</td><td>עד שתמחקו</td><td>הכרחי</td></tr>
+      <tr><td><code>hgos_touch</code></td><td>האתר, זיכרון מקומי</td><td>זוכר מאיזה קמפיין או אתר הגעתם, כדי לשייך פנייה לפרסום הנכון</td><td>90 יום</td><td>רק אחרי אישור</td></tr>
+      <tr><td><code>hg-ad</code></td><td>האתר, זיכרון זמני</td><td>קוד המודעה שהביאה אתכם, כדי לצרף אותו להודעת הוואטסאפ</td><td>עד סגירת הלשונית</td><td>רק אחרי אישור</td></tr>
       <tr><td><code>hg-brief</code></td><td>האתר, זיכרון מקומי</td><td>טיוטת טופס הבריף, כדי להמשיך מאיפה שעצרתם</td><td>עד שליחה או "התחלה מחדש"</td><td>הכרחי</td></tr>
       <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>האתר, זיכרון זמני</td><td>השיחה עם המצפן, וזה שההזמנה אליו כבר הוצגה</td><td>עד סגירת הלשונית</td><td>הכרחי</td></tr>
     </tbody>
@@ -144,13 +165,13 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
   <p>אני לא מוכר ולא משכיר מידע אישי. מידע מועבר רק לספקים שצוינו כאן, ככל שהשירות שלהם נדרש, לרואה החשבון שלי ולרשויות המס לגבי לקוחות שקיבלו שירות, ולגורם שהחוק מחייב למסור לו מידע.</p>
 
   <h2>העברה מחוץ לישראל</h2>
-  <p>Google,‏ Meta ו-Vercel מעבדות מידע גם בארצות הברית ובמדינות נוספות. ההעברה נעשית לפי מנגנוני ההגנה שהספקים האלה מפעילים, כמו מסגרת EU-U.S. Data Privacy Framework או סעיפים חוזיים תקניים.</p>
+  <p>Google,‏ Meta ו-Vercel מעבדות מידע גם בארצות הברית ובמדינות נוספות. מערכת הפניות (Supabase) מאחסנת את המידע באיחוד האירופי. ההעברה נעשית לפי מנגנוני ההגנה שהספקים האלה מפעילים, כמו מסגרת EU-U.S. Data Privacy Framework או סעיפים חוזיים תקניים.</p>
 
   <h2>כמה זמן המידע נשמר</h2>
   <p>פנייה שלא הבשילה לפרויקט נמחקת כשאין בה עוד צורך. מידע על לקוחות נשמר במשך ההתקשרות ולאחריה, ככל שנדרש לפי דיני המס והחשבונאות ולצורך טיפול בשאלות על העבודה. נתוני Google Analytics נשמרים לכל היותר 14 חודשים.</p>
 
   <h2>אבטחת מידע</h2>
-  <p>האתר מוגש רק בחיבור מוצפן (HTTPS), ואין בו מאגר של פרטים אישיים. הגישה למידע שמגיע אליי מוגבלת אליי בלבד. אף מערכת אינה חסינה לחלוטין, אבל אני נוקט אמצעים סבירים כדי לשמור על המידע.</p>
+  <p>האתר מוגש רק בחיבור מוצפן (HTTPS). פרטים שהשארתם בטופס נשמרים במערכת הפניות, שמוגנת בהרשאות ובחיבור מוצפן. הגישה למידע שמגיע אליי מוגבלת אליי בלבד. אף מערכת אינה חסינה לחלוטין, אבל אני נוקט אמצעים סבירים כדי לשמור על המידע.</p>
 
   <h2>הזכויות שלכם</h2>
   <ul>
@@ -159,7 +180,7 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
     <li>לבטל בכל רגע את האישור לסטטיסטיקה, בקישור "הגדרות עוגיות".</li>
     <li>מי שנמצא באיחוד האירופי, באזור הכלכלי האירופי או בבריטניה זכאי גם לזכויות לפי GDPR: גישה, תיקון, מחיקה, הגבלת עיבוד, ניוד מידע והתנגדות לעיבוד, וזכות להתלונן לרשות הפיקוח במדינתו.</li>
   </ul>
-  <p>כדי לממש זכות, כתבו לי במייל {CONTACT_HE}. אענה בתוך 30 יום, ואם צריך, אבקש פרט מזהה כדי לוודא שהבקשה הגיעה מכם. אפשר גם להתלונן לרשות להגנת הפרטיות במשרד המשפטים.</p>
+  <p>כדי לממש זכות, כתבו לי במייל <a href="mailto:boss@hgpro.io" dir="ltr">boss@hgpro.io</a>, בוואטסאפ או בטלפון <a href="tel:+972545522053" dir="ltr">054-5522053</a>. אענה בתוך 30 יום, ואם צריך, אבקש פרט מזהה כדי לוודא שהבקשה הגיעה מכם. אפשר גם להתלונן לרשות להגנת הפרטיות במשרד המשפטים.</p>
 
   <h2>בסיס חוקי (למבקרים מהאיחוד האירופי)</h2>
   <p>סטטיסטיקה: הסכמה שלכם. מענה לפנייה והכנת הצעה: צעדים לבקשתכם לפני התקשרות, ואינטרס לגיטימי לענות לפניות. שמירת רשומות על לקוחות: חובה לפי דין.</p>
@@ -173,29 +194,41 @@ PRIVACY_HE = f'''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע
   <h2>שינויים במדיניות</h2>
   <p>אם המדיניות תשתנה, הנוסח המעודכן יפורסם בעמוד הזה עם תאריך העדכון.</p>'''
 
-PRIVACY_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business of Hanoch Gotovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
+PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to HG Studio, the business of Hanoch Gotovski. This page explains what information is collected when you browse the site or contact me, why, who it is shared with, and what your rights are.</p>
 
   <h2>In short</h2>
   <ul>
     <li>There is no sign-up on the site, and no form stores your details on a server.</li>
     <li>A message on WhatsApp, by email or by phone reaches me directly, and only when you choose to send it.</li>
-    <li>Google Analytics loads only if you allow analytics, and you can withdraw that at any time.</li>
+    <li>Google Analytics and Google Ads cookies are stored only if you agree, and you can withdraw that at any time. Without consent, Google receives only anonymous signals without cookies.</li>
     <li>I do not sell personal information, and I do not send marketing messages without your explicit consent.</li>
   </ul>
 
   <h2>Who is responsible for the information</h2>
-  <p>Hanoch Gotovski, HG Studio. For any privacy question, write to {CONTACT_EN}.</p>
+  <p>Hanoch Gotovski, HG Studio. For any privacy question, write to <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>.</p>
 
   <h2>Information you give me</h2>
   <p>When you contact me, I receive what you chose to send: your name, phone number or email address (depending on the channel you chose), and the content of your message. If you filled in the brief form on the home page, your answers (type of business, goals, what you have today, and if you wanted, a name and one sentence about the business) go into a ready message. The form sends nothing to a server: the message goes out only if you tap "Send to me on WhatsApp" or "Send to me by email". Until then, your answers are kept only in your browser, so you can pick up where you left off.</p>
+  <h2 id="crm">My inquiries system</h2>
+  <p>If you leave a phone number in the brief form on the Hebrew home page, or ask me to call you back at a time that suits you, your name and phone number are saved, together with the answers you chose (including the day and time you picked for the call) and the page the form was sent from, in my inquiries management system (HG OS). It is hosted by Supabase on servers in the European Union (Frankfurt), and only I can access it. If you accepted cookies, the campaign or site that brought you (UTM parameters and a Google or Meta click ID) is saved too, so I know which ad brought the inquiry. Without consent, only the page address is saved, without its parameters. The information is used only to get back to you and manage our business contact, and is deleted as described under "How long information is kept".</p>
+
   <h2 id="assistant">Compass, the digital advisor</h2>
   <p>Compass is a digital advisor, not a person. When you pick ready-made answers (like your type of business), nothing leaves your browser. When you type a free question, the text of the conversation is sent to the site’s server at Vercel, and from there to Anthropic, the company that runs the Claude AI model, only to write an answer. Processing may take place outside Israel. The site does not store the conversation or log its content. It is kept only in your browser tab, and deleted when you close it. Please don’t share sensitive information with Compass, such as card details, ID numbers or medical information.</p>
   <p>Nothing from the chat reaches me unless you tap "Send to Hanoch on WhatsApp". Only then does a message open with the brief you approved, and you decide whether to send it.</p>
   <p>You are not legally required to share these details, but without a way to reach you I cannot get back to you. I use the information to answer you, prepare a proposal, provide the service you ordered, issue receipts and invoices, and meet my legal obligations.</p>
 
   <h2 id="analytics">Analytics (Google Analytics)</h2>
-  <p>Only if you allow analytics in the notice shown when you arrive does Google Analytics 4 by Google load. It collects information about how the site is used: which pages were viewed and when, approximate location (country and city), device and browser type, where you came from, and actions on the site such as tapping WhatsApp, phone or email, playing videos, moving between steps of the brief form (the step number only) and visiting client sites. Your answers in the form and the content of your messages are not sent to Google.</p>
+  <p>The site uses Google Analytics 4 by Google. If you allow cookies in the notice shown when you arrive, it collects information about how the site is used: which pages were viewed and when, approximate location (country and city), device and browser type, where you came from, and actions on the site such as tapping WhatsApp, phone or email, opening the call-back window, playing videos, which parts of a page were shown, moving through the brief form (the step or question only, never the answer) and visiting client sites. Your answers in the form and the content of your messages are not sent to Google.</p>
   <p>According to Google, Google Analytics 4 does not store IP addresses. The purpose is to understand which content helps visitors and to improve the site. The data is processed by Google, including outside Israel, and kept for at most 14 months under the retention settings. You can withdraw consent at any time with the "Cookie settings" link at the bottom of every page, and the Google Analytics cookies are then deleted from your browser.</p>
+
+  <h2 id="ads">Ad measurement (Google Ads) and consent mode</h2>
+  <p>When I advertise on Google, I need to know which ads brought enquiries. So the site uses Google's consent mode. Until you allow cookies, no cookie and no persistent identifier is stored: Google receives only anonymous signals, such as that a page was viewed or the WhatsApp button was tapped, and uses them to estimate in aggregate how many enquiries came from ads. The ad click ID is passed in the page address and is not stored in your browser.</p>
+  <p>If you allow cookies, Google Ads cookies are stored too, to measure which ads brought enquiries. I don't use this information for personalised ads or remarketing. You can withdraw consent at any time with the "Cookie settings" link at the bottom of every page.</p>
+
+  <h2 id="meta">Ad measurement on Meta (Facebook and Instagram)</h2>
+  <p>When I advertise on Facebook and Instagram, the site may use the Meta Pixel to learn which ads brought enquiries. The pixel loads only if you allow cookies. Without consent, no Meta code loads and nothing is sent to Meta. With consent, Meta receives the pages viewed, technical information about your browser and device, your IP address, and clicks on WhatsApp, phone or email or an inquiry saved in my inquiries system (without its details), together with the ad code if you came from an ad. The content of your messages and anything you typed in a form are not sent to Meta. Meta processes this information under its own privacy policy, including outside Israel. You can withdraw consent at any time with the "Cookie settings" link at the bottom of every page, and Meta's cookies are then deleted from your browser.</p>
+  <h2 id="adcode">The ad code in the WhatsApp message</h2>
+  <p>If you arrived from an ad link, the WhatsApp message that opens ends with a short code (for example "קוד: M12") so I know which ad brought the enquiry. You see the code before sending and can delete it. If you allowed cookies, the code is remembered until you close the tab, even as you move between pages.</p>
 
   <h2 id="cookies">Cookies and browser storage</h2>
   <p>Cookies and local storage are small files your browser keeps. The site uses only these:</p>
@@ -204,10 +237,15 @@ PRIVACY_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business o
     <tbody>
       <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Tells visitors apart for statistics</td><td>2 years</td><td>Only after consent</td></tr>
       <tr><td><code>_ga_&lt;ID&gt;</code></td><td>Google Analytics</td><td>Keeps the state of the visit</td><td>2 years</td><td>Only after consent</td></tr>
-      <tr><td><code>hg-consent</code></td><td>This site, local storage</td><td>Remembers whether you allowed analytics</td><td>Until you delete it</td><td>Necessary</td></tr>
+      <tr><td><code>_gcl_au</code></td><td>Google Ads</td><td>Measures whether an enquiry came from an ad</td><td>90 days</td><td>Only after consent</td></tr>
+      <tr><td><code>_fbp</code></td><td>Meta</td><td>Distinguishes visitors to measure which ads brought enquiries</td><td>90 days</td><td>Only after consent</td></tr>
+      <tr><td><code>_fbc</code></td><td>Meta</td><td>Keeps the click id when you arrive from an ad</td><td>90 days</td><td>Only after consent</td></tr>
+      <tr><td><code>hg-consent</code></td><td>This site, local storage</td><td>Remembers whether you allowed cookies</td><td>Until you delete it</td><td>Necessary</td></tr>
       <tr><td><code>hanoch-a11y</code></td><td>This site, local storage</td><td>Remembers your accessibility menu settings</td><td>Until you delete it</td><td>Necessary</td></tr>
       <tr><td><code>hg-intro</code></td><td>This site, session storage</td><td>A shorter intro on a repeat visit</td><td>Until the tab is closed</td><td>Necessary</td></tr>
       <tr><td><code>hg-archive-film</code></td><td>This site, local storage</td><td>The archive film plays only on the first visit</td><td>Until you delete it</td><td>Necessary</td></tr>
+      <tr><td><code>hg-ad</code></td><td>This site, session storage</td><td>The code of the ad that brought you, to add it to the WhatsApp message</td><td>Until you close the tab</td><td>Only after consent</td></tr>
+      <tr><td><code>hgos_touch</code></td><td>This site, local storage</td><td>Remembers which campaign or site brought you, to credit an inquiry to the right ad</td><td>90 days</td><td>Only after consent</td></tr>
       <tr><td><code>hg-brief</code></td><td>This site, local storage</td><td>The brief form draft, so you can pick up where you left off</td><td>Until you send or start over</td><td>Necessary</td></tr>
       <tr><td><code>hg-chat</code>, <code>hg-chat-hint</code></td><td>This site, session storage</td><td>Your chat with Compass, and whether its invitation was already shown</td><td>Until you close the tab</td><td>Necessary</td></tr>
     </tbody>
@@ -239,7 +277,7 @@ PRIVACY_EN = f'''  <p class="lead">hgpro.io belongs to HG Studio, the business o
     <li>To withdraw consent to analytics at any time, with the "Cookie settings" link.</li>
     <li>If you are in the European Union, the European Economic Area or the United Kingdom, you also have rights under the GDPR: access, rectification, erasure, restriction, portability and objection, and the right to complain to your local supervisory authority.</li>
   </ul>
-  <p>To use a right, write to me at {CONTACT_EN}. I will answer within 30 days, and if needed I will ask for a detail that confirms the request came from you. You can also complain to the Israeli Privacy Protection Authority at the Ministry of Justice.</p>
+  <p>To use a right, write to me at <a href="mailto:boss@hgpro.io">boss@hgpro.io</a>, on WhatsApp or by phone at <a href="tel:+972545522053">+972 54-552-2053</a>. I will answer within 30 days, and if needed I will ask for a detail that confirms the request came from you. You can also complain to the Israeli Privacy Protection Authority at the Ministry of Justice.</p>
 
   <h2>Legal basis (for visitors from the EU)</h2>
   <p>Analytics: your consent. Answering a message and preparing a proposal: steps you asked for before a contract, and a legitimate interest in answering messages. Keeping client records: a legal obligation.</p>
