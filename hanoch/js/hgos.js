@@ -13,7 +13,11 @@
  *
  * Privacy: the campaign that brought the visitor (UTM, click id, referring site) is kept in this browser
  * (localStorage "hgos_touch") for 90 days, only to credit the right source. Nothing is sent until they submit
- * a form. Add data-consent="hg" to store it only after cookie consent (sites using window.hgConsent).
+ * a form. Add data-consent="hg" to store and send it only after cookie consent (sites using window.hgConsent):
+ * without consent an inquiry carries only its own details and the page address without its query string.
+ *
+ * A marked form is saved only when it holds a phone or an email (a name alone cannot be answered).
+ * After each attempt the form fires a bubbling "hgos:sent" event with detail { ok, form, hp }.
  */
 (function () {
   'use strict';
@@ -54,14 +58,20 @@
   else if (window.hgConsent) window.hgConsent.onGrant(capture);
   else document.addEventListener('DOMContentLoaded', function () { if (window.hgConsent) window.hgConsent.onGrant(capture); });
 
+  // with data-consent="hg", the campaign goes with an inquiry only after cookie consent
+  function mayAttribute() { return !needsConsent || !!(window.hgConsent && window.hgConsent.analytics()); }
+
   function send(lead) {
     if (!TOKEN) { console.warn('HG OS: missing data-token on the script tag'); return Promise.resolve({ ok: false }); }
+    var attribute = mayAttribute();
     var saved = read();
     var t = isCampaign(here) || !saved ? here : saved;
+    var page = location.href.split('#')[0];
     var body = { form: lead.form, name: lead.name, phone: lead.phone, email: lead.email, company: lead.company, message: lead.message,
-      fields: lead.fields || {}, consent: !!lead.consent, consent_text: lead.consent_text, hp: lead.hp, page: location.href.split('#')[0],
+      fields: lead.fields || {}, consent: !!lead.consent, consent_text: lead.consent_text, hp: lead.hp,
+      page: attribute ? page : page.split('?')[0],
       callback_at: lead.callback_at, callback_label: lead.callback_label };
-    PARAMS.concat(['landing_page', 'referrer']).forEach(function (k) { if (t[k]) body[k] = t[k]; });
+    if (attribute) PARAMS.concat(['landing_page', 'referrer']).forEach(function (k) { if (t[k]) body[k] = t[k]; });
     var req = function (keepalive) {
       return fetch(API + '/rest/v1/rpc/crm_web_lead', {
         method: 'POST', keepalive: keepalive,
@@ -109,7 +119,10 @@
     var form = e.target.closest && e.target.closest('form[data-hgos]');
     if (!form) return;
     var lead = fromForm(form);
-    if (lead.name || lead.phone || lead.email) send(lead);
+    if (!lead.phone && !lead.email) return;
+    send(lead).then(function (r) {
+      form.dispatchEvent(new CustomEvent('hgos:sent', { bubbles: true, detail: { ok: r.ok, form: lead.form, hp: !!lead.hp } }));
+    });
   }, true);
 
   window.HGOS = { send: send, touch: read };

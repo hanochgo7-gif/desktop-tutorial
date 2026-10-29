@@ -275,6 +275,8 @@ html.lenis { scroll-behavior: auto; }
 @media (min-width: 900px) { .plan-dots { display: none; } }
 .sent-note { flex-basis: 100%; margin-top: .8rem; color: var(--wa); font-weight: 600; font-size: .95rem; opacity: 0; transition: opacity .3s; }
 .sent-note.on { opacity: 1; }
+.sent-cb { padding: .5em 0; margin-block: -.5em; border: 0; background: none; color: var(--fg); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.sent-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) { .top, .dock { transition: none; } .top.is-hidden { transform: none; } }
 
 /* קטע התצוגה של HG Fragrance (מותג קונספט). וידאו קולנועי בפריים נחיתי, עם מסגרת זוהבת עדינה */

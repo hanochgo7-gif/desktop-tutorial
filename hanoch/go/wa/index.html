@@ -30,8 +30,14 @@
 </main>
 <script>
 (function () {
-  var u = new URLSearchParams(location.search).get('u') || '';
+  var q = new URLSearchParams(location.search), u = q.get('u') || '';
   if (!/^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(u)) u = 'https://wa.me/972545522053';
+  // ההודעה עצמה (ובה שם, ולפעמים טלפון) יוצאת מכתובת הדף לפני שהתגים של גוגל ו-Meta נטענים, כדי שלא תישלח אליהם.
+  // נשארים רק מזהה הקליק ופרמטרי הקמפיין. js/meta.js קורא את קוד המודעה מ-window.hgGo
+  window.hgGo = { u: u };
+  q.delete('u');
+  var keep = q.toString();
+  history.replaceState(null, '', location.pathname + (keep ? '?' + keep : ''));
   document.getElementById('go').href = u;
   var done = false;
   function go() { if (done) return; done = true; location.replace(u); }

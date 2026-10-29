@@ -1,7 +1,8 @@
 /* פיקסל של Meta (פייסבוק ואינסטגרם) של HG Studio.
    נטען רק אחרי לחיצה על "מאשר עוגיות" בהודעת העוגיות (js/consent.js). בלי אישור לא נטען כלום ושום דבר לא נשלח ל-Meta.
-   רץ רק ב-hgpro.io. מודד צפייה בעמוד (PageView), ופנייה (Lead) בטלפון, במייל, בוואטסאפ ובבקשה לשיחה חוזרת.
-   לחיצה על וואטסאפ עוברת דרך דף המעבר /go/wa (ראו js/ga.js), ולכן הפנייה בוואטסאפ נספרת שם, עם קוד המודעה מההודעה. */
+   רץ רק ב-hgpro.io. מודד צפייה בעמוד (PageView), יצירת קשר (Contact) בלחיצה על טלפון, מייל או וואטסאפ,
+   ופנייה (Lead) רק כשפרטים נשמרו באמת, למשל בקשה לשיחה חוזרת.
+   לחיצה על וואטסאפ עוברת דרך דף המעבר /go/wa (ראו js/ga.js), ולכן היא נספרת שם, עם קוד המודעה מההודעה. */
 (function () {
   'use strict';
   // מזהה הפיקסל ממנהל האירועים של Meta (Events Manager), מספר של 15 או 16 ספרות. ריק = כבוי
@@ -23,11 +24,11 @@
     fbq('init', PIXEL);
     fbq('track', 'PageView');
     if (GO) {
-      // קוד המודעה, אם נוסף להודעה (js/adcode.js)
+      // קוד המודעה, אם נוסף להודעה (js/adcode.js). דף המעבר מוציא את ההודעה מהכתובת ושומר אותה ב-window.hgGo
       var text = '';
-      try { text = new URL(new URLSearchParams(location.search).get('u') || '').searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
+      try { text = new URL((window.hgGo && window.hgGo.u) || '').searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
       var m = /קוד: ([A-Z0-9_-]{1,24})\s*$/.exec(text);
-      fbq('track', 'Lead', m ? { content_name: 'whatsapp', ad_code: m[1] } : { content_name: 'whatsapp' });
+      fbq('track', 'Contact', m ? { content_name: 'whatsapp', ad_code: m[1] } : { content_name: 'whatsapp' });
     }
   });
 
@@ -45,6 +46,6 @@
     var href = a.getAttribute('href') || '', method = /^tel:/.test(href) ? 'phone' : /^mailto:/.test(href) ? 'email' : '';
     if (!method) return;
     var c = window.hgAd && window.hgAd.code();
-    fbq('track', 'Lead', c ? { content_name: method, ad_code: c } : { content_name: method });
+    fbq('track', 'Contact', c ? { content_name: method, ad_code: c } : { content_name: method });
   }, true);
 })();

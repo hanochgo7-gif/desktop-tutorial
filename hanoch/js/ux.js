@@ -4,7 +4,8 @@
 (function () {
   'use strict';
   var d = document, root = d.documentElement;
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // פחות תנועה: לפי הגדרת המערכת או לפי "עצירת אנימציות" בתפריט הנגישות (ראו הסקריפט בראש index.html)
+  var reduce = !document.documentElement.classList.contains('motion');
   var fine = matchMedia('(pointer: fine)').matches;
   var top = d.querySelector('.top'), dock = d.querySelector('.dock');
   var headH = function () { return top ? top.offsetHeight : 0; };
@@ -131,7 +132,13 @@
   [].forEach.call(d.querySelectorAll('.check-form, .brief-form'), function (f) {
     var note = d.createElement('p'); note.className = 'sent-note'; note.setAttribute('role', 'status'); f.appendChild(note);
     f.addEventListener('submit', function () {
-      note.textContent = 'נפתח לכם וואטסאפ עם ההודעה. נשאר רק ללחוץ על שליחה.';
+      // מי שהשאיר טלפון יודע שאחזור אליו גם בלי ההודעה. במחשב, שאין בו וואטסאפ, יש גם שיחה חוזרת
+      var tel = f.querySelector('input[type=tel]'), left = tel && tel.value.replace(/\D/g, '').length >= 9;
+      note.textContent = 'נפתח לכם וואטסאפ עם ההודעה. ' + (left ? 'השארתם טלפון, אז אחזור אליכם גם אם לא תשלחו אותה.' : 'נשאר רק ללחוץ על שליחה.');
+      if (!left && window.HTMLDialogElement && matchMedia('(pointer: fine)').matches) {
+        var b = d.createElement('button'); b.type = 'button'; b.className = 'sent-cb'; b.setAttribute('data-callback', ''); b.textContent = 'שאחזור אליכם בשעה נוחה';
+        note.append(' אין וואטסאפ במחשב? ', b);
+      }
       note.classList.add('on');
     });
   });

@@ -97,7 +97,7 @@
       '<button type="button" class="cb-x" aria-label="סגירה">×</button>' +
       '<form novalidate>' +
         '<h2 id="cb-h">שאחזור אליכם בשעה שנוחה לכם?</h2>' +
-        '<p class="cb-sub">השאירו שם וטלפון ובחרו מתי נוח לכם. אני מתקשר בעצמי, בלי התחייבות.</p>' +
+        '<p class="cb-sub">השאירו שם וטלפון ובחרו מתי נוח לכם. אתקשר בעצמי מהמספר <span dir="ltr">' + PHONE + '</span>, בלי התחייבות.</p>' +
         '<div class="cb-row">' +
           '<label class="cb-field">שם<input type="text" name="name" autocomplete="name" maxlength="80" required aria-describedby="cb-err"></label>' +
           '<label class="cb-field">טלפון<input type="tel" name="phone" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required aria-describedby="cb-err"></label>' +
@@ -151,7 +151,9 @@
     return { at: at, label: day + ', ' + s[0] + ' (בין ' + hh(s[1]) + ' ל-' + hh(s[2]) + ')' };
   }
 
-  function bad(input, msg) { input.setAttribute('aria-invalid', 'true'); err.textContent = msg; input.focus(); return false; }
+  // מדידה ב-Analytics (js/ga.js מגדיר את gtag רק ב-hgpro.io): פתיחת החלון ושדה שנתקעו בו, בלי התוכן שנכתב
+  function track(n, p) { if (window.gtag) window.gtag('event', n, p); }
+  function bad(input, msg) { input.setAttribute('aria-invalid', 'true'); err.textContent = msg; input.focus(); track('callback_error', { field: input.name }); return false; }
   function valid() {
     var f = form.elements;
     [f.name, f.phone].forEach(function (i) { i.removeAttribute('aria-invalid'); });
@@ -175,7 +177,8 @@
       btn.disabled = false; btn.textContent = 'לקבוע שיחה חוזרת';
       if (!r || !r.ok) return failed();
       done();
-      document.dispatchEvent(new CustomEvent('hg:lead', { detail: { method: 'callback' } }));
+      // שדה המלכודת מלא רק אצל בוטים: השרת מתעלם מהם, וגם המדידה לא סופרת אותם
+      if (!lead.hp) document.dispatchEvent(new CustomEvent('hg:lead', { detail: { method: 'callback' } }));
     });
   }
 
@@ -201,7 +204,8 @@
     err.textContent = '';
     fill();
     dlg.showModal();
-    form.elements.name.focus();
+    // במחשב מתחילים ישר בשם. בטלפון לא, כדי שהמקלדת לא תסתיר את הימים והשעות
+    if (matchMedia('(pointer: fine)').matches) form.elements.name.focus();
   }
 
   function init() {
@@ -213,6 +217,8 @@
       if (!b) return;
       e.preventDefault();
       var menu = b.closest('details'); if (menu) menu.open = false;
+      var at = b.closest('[id]');
+      track('callback_open', { cta_id: b.getAttribute('data-cta') || (at ? at.id : 'page') });
       open();
     });
   }

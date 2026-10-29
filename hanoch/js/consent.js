@@ -16,13 +16,13 @@
   function write(analytics) {
     try { localStorage.setItem(KEY, JSON.stringify({ v: VERSION, analytics: analytics, at: new Date().toISOString().slice(0, 10) })); } catch (e) { /* אחסון חסום: הבחירה תחול רק בביקור הזה */ }
   }
-  // מחיקת עוגיות Google Analytics ו-Meta אחרי ביטול הסכמה
+  // מחיקת עוגיות Google Analytics, Google Ads ו-Meta אחרי ביטול הסכמה
   function clearGa() {
     var host = location.hostname, parts = host.split('.'), domains = ['', host];
     for (var i = 0; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
     document.cookie.split(';').forEach(function (c) {
       var name = c.split('=')[0].trim();
-      if (!/^(_ga|_fbp|_fbc)/.test(name)) return;
+      if (!/^(_ga|_gcl_|_fbp|_fbc)/.test(name)) return;
       domains.forEach(function (d) { document.cookie = name + '=; Max-Age=0; path=/' + (d ? '; domain=' + d : ''); });
     });
   }
@@ -61,11 +61,11 @@
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
       '<p class="consent__text">' + T(
-        'כדי לדעת אילו עמודים עוזרים לגולשים ואיזה פרסום עובד, אני משתמש בכלים של Google ו-Meta. עוגיות נשמרות בדפדפן רק אם תאשרו. בלי אישור, Meta לא מקבלת כלום, Google מקבלת רק אותות אנונימיים בלי עוגיות, והאתר עובד בדיוק אותו דבר.',
-        'To learn which pages help visitors and which ads work, I use Google and Meta tools. Cookies are stored in your browser only if you agree. Without consent, Meta receives nothing, Google receives only anonymous signals without cookies, and the site works exactly the same.') +
+        'כדי לדעת אילו עמודים ופרסומים עובדים, אני משתמש בכלים של Google ו-Meta. עוגיות נשמרות רק אם תאשרו. בלי אישור, Meta לא מקבלת כלום, Google מקבלת רק אותות אנונימיים, והאתר עובד אותו דבר.',
+        'To learn which pages and ads work, I use Google and Meta tools. Cookies are stored only if you agree. Without consent, Meta receives nothing, Google receives only anonymous signals, and the site works the same.') +
       ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('פרטים במדיניות הפרטיות', 'Details in the privacy policy') + '</a></p>' +
       '<div class="consent__actions">' +
-        '<button type="button" class="consent__btn" data-choice="yes">' + T('מאשר עוגיות', 'Allow cookies') + '</button>' +
+        '<button type="button" class="consent__btn" data-choice="yes">' + T('לאשר עוגיות', 'Allow cookies') + '</button>' +
         '<button type="button" class="consent__btn" data-choice="no">' + T('בלי עוגיות', 'No cookies') + '</button>' +
       '</div>';
     box.addEventListener('click', function (e) {
@@ -100,15 +100,26 @@
     if (s && s.analytics && !granted) { granted = true; var l = listeners; listeners = []; l.forEach(function (fn) { fn(); }); }
   });
 
+  // בעמודים עם כפתור הצ'אט, ההודעה מופיעה רק אחרי שהכפתור במקומו (עד 3 שניות). כך היא לא קופצת למעלה אחרי שכבר נראתה
+  function ask() {
+    var chat = document.querySelector('script[src*="assistant.js"]');
+    if (!chat || document.documentElement.hasAttribute('data-launcher')) show();
+    else {
+      var t = setTimeout(show, 3000);
+      document.addEventListener('hg:launcher', function () { clearTimeout(t); show(); }, { once: true });
+    }
+  }
+
   function init() {
     if (!state && !embedded) {
-      // בעמודים עם כפתור הצ'אט, ההודעה מופיעה רק אחרי שהכפתור במקומו (עד 3 שניות). כך היא לא קופצת למעלה אחרי שכבר נראתה
-      var chat = document.querySelector('script[src*="assistant.js"]');
-      if (!chat || document.documentElement.hasAttribute('data-launcher')) show();
-      else {
-        var t = setTimeout(show, 3000);
-        document.addEventListener('hg:launcher', function () { clearTimeout(t); show(); }, { once: true });
-      }
+      // בעמוד עם פתיחה (#hero) ההודעה מחכה לגלילה הראשונה או ל-8 שניות, כדי שהמסך הראשון, עם הלקוחות והדרכים לפנות, ייראה שלם.
+      // זה לא משנה מה נאסף: עד שמאשרים לא נשמרת שום עוגייה (js/ga.js)
+      if (document.getElementById('hero')) {
+        var asked = false, wait;
+        var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', go); ask(); };
+        addEventListener('scroll', go, { passive: true });
+        wait = setTimeout(go, 8000);
+      } else ask();
     }
     document.addEventListener('click', function (e) {
       var o = e.target.closest && e.target.closest('[data-consent-open]');
