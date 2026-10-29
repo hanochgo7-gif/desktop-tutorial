@@ -80,9 +80,13 @@
       });
     };
     // keepalive lets the request finish even if the form then opens WhatsApp or another page;
-    // some browsers refuse it for this kind of request, so try again without it
+    // some browsers refuse it for this kind of request, so try again without it.
+    // A reply of { ok: false } counts as not saved, even with HTTP 200
     return req(true).catch(function () { return req(false); })
-      .then(function (r) { return { ok: r.ok }; }).catch(function () { return { ok: false }; });
+      .then(function (r) {
+        if (!r.ok) return { ok: false };
+        return r.json().then(function (j) { return { ok: !(j && j.ok === false) }; }, function () { return { ok: true }; });
+      }).catch(function () { return { ok: false }; });
   }
 
   function fromForm(form) {
