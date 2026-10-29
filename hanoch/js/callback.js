@@ -56,7 +56,7 @@
     '@keyframes cb-in{from{opacity:0;transform:scale(.97)}}@keyframes cb-fade{from{opacity:0}}' +
     '.cb form,.cb .cb-done{padding:22px 22px 20px}' +
     '.cb h2{margin:0 0 .35rem;font-size:1.35rem;line-height:1.25;font-weight:800;padding-inline-end:44px;text-wrap:balance}' +
-    '.cb .cb-sub{margin:0 0 1.1rem;color:rgba(237,232,222,.7);font-size:.95rem;text-wrap:pretty}' +
+    '.cb .cb-sub{margin:0 0 1.1rem;color:rgba(237,232,222,.7);font-size:.95rem;text-wrap:pretty}.cb .cb-num{white-space:nowrap}' +
     '.cb-x{position:absolute;top:12px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(237,232,222,.28);background:transparent;color:inherit;font-size:1.4rem;line-height:1;cursor:pointer}' +
     '.cb-x:hover{background:rgba(237,232,222,.1)}' +
     '.cb-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}' +
@@ -97,7 +97,7 @@
       '<button type="button" class="cb-x" aria-label="סגירה">×</button>' +
       '<form novalidate>' +
         '<h2 id="cb-h">שאחזור אליכם בשעה שנוחה לכם?</h2>' +
-        '<p class="cb-sub">השאירו שם וטלפון ובחרו מתי נוח לכם. אתקשר בעצמי מהמספר <span dir="ltr">' + PHONE + '</span>, בלי התחייבות.</p>' +
+        '<p class="cb-sub">השאירו שם וטלפון ובחרו מתי נוח לכם. אתקשר בעצמי מהמספר <span class="cb-num" dir="ltr">' + PHONE + '</span>, בלי התחייבות.</p>' +
         '<div class="cb-row">' +
           '<label class="cb-field">שם<input type="text" name="name" autocomplete="name" maxlength="80" required aria-describedby="cb-err"></label>' +
           '<label class="cb-field">טלפון<input type="tel" name="phone" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="20" required aria-describedby="cb-err"></label>' +
@@ -191,7 +191,7 @@
   function done() {
     form.hidden = true;
     var box = el('<div class="cb-done" role="status" tabindex="-1"><h2 id="cb-h2">תודה, ' + esc(chosen.name) + '.</h2>' +
-      '<p>אחזור אליכם ' + esc(chosen.when.at ? chosen.when.label : 'בהקדם האפשרי') + ', מהמספר <span dir="ltr">' + PHONE + '</span>.</p>' +
+      '<p>אחזור אליכם ' + esc(chosen.when.at ? chosen.when.label : 'בהקדם האפשרי') + ', מהמספר <span class="cb-num" dir="ltr">' + PHONE + '</span>.</p>' +
       '<button type="button" class="cb-go">סגירה</button></div>');
     box.querySelector('.cb-go').addEventListener('click', function () { dlg.close(); });
     dlg.appendChild(box); box.focus();

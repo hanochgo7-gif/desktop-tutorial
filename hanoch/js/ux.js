@@ -80,11 +80,17 @@
     watched.forEach(function (s) { spy.observe(s); });
   }
 
-  /* ---------- סרגל הוואטסאפ בטלפון: מופיע רק אחרי שכפתור הפתיחה יצא מהמסך ---------- */
+  /* ---------- סרגל הוואטסאפ בטלפון: מופיע רק אחרי שכפתור הפתיחה יצא מהמסך, ומתפנה כשכפתור הסיום על המסך ---------- */
   var heroCta = d.querySelector('#hero .cta-row');
   if (dock && heroCta) {
     dock.classList.add('is-away');
-    new IntersectionObserver(function (es) { dock.classList.toggle('is-away', es[0].isIntersecting); }).observe(heroCta);
+    var endCta = d.querySelector('#contact .btn-wa'), onScreen = {};
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) { onScreen[en.target === heroCta ? 'hero' : 'end'] = en.isIntersecting; });
+      dock.classList.toggle('is-away', !!(onScreen.hero || onScreen.end));
+    });
+    io.observe(heroCta);
+    if (endCta) io.observe(endCta);
   }
   // כשמקלדת פתוחה בטופס, הסרגל מתפנה כדי לא להסתיר את השדה
   d.addEventListener('focusin', function (e) { if (dock && e.target.matches('input, textarea')) dock.classList.add('is-typing'); });

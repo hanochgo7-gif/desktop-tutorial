@@ -74,11 +74,13 @@
     });
     document.body.appendChild(box);
   }
-  // יושבת מעל כפתור הצ'אט, באותה פינה. המיקום נקבע לפני שההודעה מוצגת, כדי שלא תזוז מול העיניים
+  // יושבת מעל כפתור הצ'אט, באותה פינה, ומעל הפס התחתון של הטלפון גם אם הוא עוד לא הופיע (הוא נכנס כשגוללים).
+  // המיקום נקבע לפני שההודעה מוצגת, כדי שלא תזוז מול העיניים
   function lift() {
-    var b = document.querySelector('.ht-btn');
-    if (!b || !b.offsetHeight) return;
-    box.style.bottom = Math.round((parseFloat(b.style.bottom) || parseFloat(getComputedStyle(b).bottom) || 18) + b.offsetHeight + 12) + 'px';
+    var want = 0, b = document.querySelector('.ht-btn'), d = document.querySelector('#dock, .sv-dock');
+    if (b && b.offsetHeight) want = (parseFloat(b.style.bottom) || parseFloat(getComputedStyle(b).bottom) || 18) + b.offsetHeight + 12;
+    if (d && d.offsetHeight && getComputedStyle(d).display !== 'none') want = Math.max(want, d.offsetHeight + (parseFloat(getComputedStyle(d).bottom) || 0) + 12);
+    if (want > (parseFloat(getComputedStyle(box).bottom) || 0)) box.style.bottom = Math.round(want) + 'px';
   }
   // בזמן שההודעה פתוחה, מה שמקבל מיקוד מקלדת נגלל מעליה ולא מתחתיה
   function show() { if (!box) build(); lift(); box.hidden = false; document.documentElement.style.scrollPaddingBottom = (box.offsetHeight + (parseFloat(getComputedStyle(box).bottom) || 18) + 12) + 'px'; }
