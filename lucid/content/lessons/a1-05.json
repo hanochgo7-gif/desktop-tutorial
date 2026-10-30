@@ -6,7 +6,7 @@
   "topics": ["possessives"],
   "minutes": 25,
   "objectives": [
-    { "en": "I can name the people in my family.", "he": "אני יכול/ה לקרוא בשמם לבני המשפחה שלי באנגלית." },
+    { "en": "I can name the people in my family.", "he": "אני יודע/ת את המילים באנגלית לבני המשפחה שלי (mother, brother, aunt...)." },
     { "en": "I can show who something belongs to with my, your, his, her, its, our, their and 's (Noa's brother).", "he": "אני יודע/ת להראות למי משהו שייך בעזרת my, your, his, her, its, our, their ו-'s (Noa's brother)." },
     { "en": "I can say what people have with have and have got.", "he": "אני יכול/ה לומר מה יש לאנשים בעזרת have ו-have got." }
   ],
@@ -32,7 +32,7 @@
     { "type": "tip", "en": "it's = it is; its = belongs to it: It's a nice phone, but its battery is bad. Mum is British English; Mom is American English.", "he": "it's = it is, ואילו its = 'שלו/שלה' של חפץ או בעל חיים: It's a nice phone, but its battery is bad. בבריטניה אומרים Mum, ובארה״ב Mom." }
   ],
   "examples": [
-    { "en": "My brother's name is Omer.", "he": "השם של אח שלי הוא עומר.", "note": "brother's = of my brother" },
+    { "en": "My brother's name is Omer.", "he": "לאח שלי קוראים עומר.", "note": "brother's = of my brother" },
     { "en": "Her parents live in Be'er Sheva.", "he": "ההורים שלה גרים בבאר שבע." },
     { "en": "Daniel lives with his grandmother.", "he": "דניאל גר עם סבתא שלו.", "note": "Daniel → his" },
     { "en": "Our flat is small, but we love it.", "he": "הדירה שלנו קטנה, אבל אנחנו אוהבים אותה." },
@@ -91,7 +91,7 @@
     {
       "id": "e3", "type": "mcq", "skill": "grammar", "topic": "possessives",
       "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
-      "question": "Omer is on the phone with ___ sister.",
+      "question": "Omer says: 'I'm on the phone with my sister.' → Omer is on the phone with ___ sister.",
       "options": ["he's", "her", "his", "their"],
       "answer": 2,
       "option_feedback": {
@@ -100,7 +100,7 @@
         "3": { "en": "their is for two or more people. Omer is one person.", "he": "their מתאים לשניים או יותר. עומר הוא אדם אחד." }
       },
       "option_errors": { "0": "pronoun", "1": "pronoun", "3": "pronoun" },
-      "explanation": { "en": "Omer → he → his sister. The word depends on the owner (Omer), not on the sister.", "he": "עומר → he → his sister. המילה נקבעת לפי הבעלים (עומר), לא לפי האחות." }
+      "explanation": { "en": "Omer says my sister. When we talk about Omer, my becomes his: Omer → he → his sister. The word depends on the owner (Omer), not on the sister.", "he": "עומר אומר my sister. כשמדברים על עומר, my הופך ל-his: עומר → he → his sister. המילה נקבעת לפי הבעלים (עומר), לא לפי האחות." }
     },
     {
       "id": "e4", "type": "listen", "skill": "listening", "topic": "possessives",
@@ -118,16 +118,18 @@
     },
     {
       "id": "e5", "type": "gap", "skill": "grammar", "topic": "possessives",
-      "prompt": { "en": "Complete with words from the box. Ask yourself: who is the owner?", "he": "השלימו במילים מהמחסן. שאלו את עצמכם: מי הבעלים?" },
-      "text": "Hi, we're the Cohens, and this is ___ new flat. Noa is a nurse, and ___ husband is a chef. Tom and Noa love animals. They live in Eilat with ___ two cats. My phone is very old, and ___ battery is terrible.",
+      "prompt": { "en": "Complete with words from the box. Ask yourself: who is the owner?", "he": "השלימו במילים ממחסן המילים. שאלו את עצמכם: מי הבעלים?" },
+      "text": "Hi, I'm Ella Cohen. We love ___ new flat in Eilat. My aunt Noa is a nurse, and ___ husband is a chef. My grandparents live in Haifa with ___ two cats. My phone is very old, and ___ battery is terrible!",
       "word_bank": ["our", "her", "his", "their", "its", "it's"],
       "answers": [["our"], ["her"], ["their"], ["its"]],
       "wrong_feedback": [
-        { "match": "it's", "feedback": { "en": "it's = it is. For something that belongs to it (the phone), write its, with no apostrophe.", "he": "it's = it is. כשמשהו שייך ל-it (הטלפון), כותבים its, בלי גרש." }, "error_type": "punctuation" },
-        { "match": "his", "feedback": { "en": "his is for a man. Look at the owner: we → our, Noa → her, they → their, the phone → its.", "he": "his מתאים לגבר. בדקו מי הבעלים: we → our, נועה → her, they → their, הטלפון → its." }, "error_type": "pronoun" }
+        { "match": "it's", "feedback": { "en": "it's = it is. For something that belongs to it (the phone), write its, with no apostrophe.", "he": "it's = it is. כשמשהו שייך ל-it (הטלפון), כותבים its, בלי גרש." }, "error_type": "spelling" },
+        { "match": "his", "feedback": { "en": "his is for a man. Look at the owner: we → our, my aunt Noa → her, my grandparents → their, the phone → its.", "he": "his מתאים לגבר. בדקו מי הבעלים: we → our, הדודה נועה → her, סבא וסבתא → their, הטלפון → its." }, "error_type": "pronoun" },
+        { "match": "our", "feedback": { "en": "our = belongs to us (we). Who is the owner in this sentence?", "he": "our = 'שלנו' (we). מי הבעלים במשפט הזה?" }, "error_type": "pronoun" },
+        { "match": "their", "feedback": { "en": "their = belongs to them (two or more people). Who is the owner in this sentence?", "he": "their = 'שלהם' (שניים או יותר). מי הבעלים במשפט הזה?" }, "error_type": "pronoun" }
       ],
-      "hint": { "en": "we → ?, Noa → ?, they → ?, my phone (it) → ?", "he": "we → ?, נועה → ?, they → ?, הטלפון (it) → ?" },
-      "explanation": { "en": "we → our flat; Noa → her husband; they → their cats; the phone (it) → its battery.", "he": "we → our flat; נועה → her husband; they → their cats; הטלפון (it) → its battery." }
+      "hint": { "en": "we → ?, my aunt Noa → ?, my grandparents (they) → ?, my phone (it) → ?", "he": "we → ?, הדודה נועה → ?, סבא וסבתא (they) → ?, הטלפון (it) → ?" },
+      "explanation": { "en": "we → our flat; my aunt Noa → her husband; my grandparents (they) → their cats; the phone (it) → its battery.", "he": "we → our flat; הדודה נועה → her husband; סבא וסבתא (they) → their cats; הטלפון (it) → its battery." }
     },
     {
       "id": "e6", "type": "mcq", "skill": "grammar", "topic": "possessives",
@@ -140,7 +142,7 @@
         "2": { "en": "Almost! You need an apostrophe before the s: Omer's.", "he": "כמעט! צריך גרש לפני ה-s: Omer's." },
         "3": { "en": "Add 's to show who the car belongs to: Omer's car.", "he": "צריך להוסיף 's כדי להראות למי שייכת המכונית: Omer's car." }
       },
-      "option_errors": { "1": "word-order", "2": "punctuation" },
+      "option_errors": { "1": "false-friend", "2": "spelling" },
       "explanation": { "en": "Owner + 's + thing: Omer's car, Noa's brother, my mum's phone.", "he": "בעלים + 's + הדבר: Omer's car, Noa's brother, my mum's phone." }
     },
     {
@@ -195,9 +197,9 @@
       "id": "e11", "type": "transform", "skill": "grammar", "topic": "possessives",
       "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
       "source": "הבן של דנה סטודנט בלונדון.",
-      "answers": ["Dana's son is a student in London.", "Dana's son studies in London."],
+      "answers": ["Dana's son is a student in London.", "Dana's son studies in London.", "Dana's son is studying in London."],
       "wrong_feedback": [
-        { "match": "The son of Dana is a student in London.", "feedback": { "en": "People understand it, but for a person English uses 's: Dana's son.", "he": "מבינים את זה, אבל כשמדובר באדם, באנגלית משתמשים ב-'s: Dana's son." }, "error_type": "word-order" },
+        { "match": "The son of Dana is a student in London.", "feedback": { "en": "People understand it, but it is a word-for-word translation of the Hebrew. For a person, English uses 's: Dana's son.", "he": "מבינים את זה, אבל זה תרגום מילה במילה מעברית. כשמדובר באדם, באנגלית משתמשים ב-'s: Dana's son." }, "error_type": "false-friend" },
         { "match": "Dana's son student in London.", "feedback": { "en": "The Hebrew sentence has no verb, but English needs is (and a before a job): Dana's son is a student.", "he": "במשפט בעברית אין פועל, אבל באנגלית צריך is (ו-a לפני תפקיד או מקצוע): Dana's son is a student." }, "error_type": "copula-omission" },
         { "match": "Dana's son is student in London.", "feedback": { "en": "Add a before student: is a student.", "he": "הוסיפו a לפני student: is a student." }, "error_type": "article" },
         { "match": "Dana son is a student in London.", "feedback": { "en": "Add 's to Dana: Dana's son.", "he": "הוסיפו 's לשם: Dana's son." } }
@@ -223,8 +225,8 @@
           "explanation": { "en": "'My dad's name is Raj' = Raj is Priya's father.", "he": "'My dad's name is Raj' – ראג' הוא אבא של פריה." }
         },
         {
-          "type": "tf", "statement": "Priya has got a sister.", "answer": false,
-          "explanation": { "en": "'I've got one brother, Arjun.' She doesn't write about a sister.", "he": "'I've got one brother, Arjun' – יש לה אח אחד. היא לא כותבת על אחות." }
+          "type": "tf", "statement": "Priya has got two brothers.", "answer": false,
+          "explanation": { "en": "'I've got one brother, Arjun.' One brother, not two.", "he": "'I've got one brother, Arjun' – יש לה אח אחד, לא שניים." }
         },
         {
           "type": "tf", "statement": "Arjun's girlfriend is from London.", "answer": true,

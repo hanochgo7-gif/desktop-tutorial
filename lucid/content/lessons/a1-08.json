@@ -12,7 +12,7 @@
   "objectives": [
     {
       "en": "I can name common food and drink.",
-      "he": "אני יכול/ה לקרוא בשם למאכלים ולמשקאות נפוצים באנגלית."
+      "he": "אני יודע/ת לומר באנגלית את השמות של מאכלים ומשקאות נפוצים."
     },
     {
       "en": "I can say what is (and isn't) in my kitchen with there is and there are.",
@@ -163,7 +163,7 @@
       "word": "egg",
       "pos": "noun",
       "he": "ביצה",
-      "def": "a round food from a chicken, with a hard shell",
+      "def": "a food from a chicken, with a hard white or brown shell",
       "example": "There are six eggs in the box.",
       "ipa": "/eɡ/",
       "collocations": [
@@ -496,7 +496,7 @@
           "he": "ל-milk אין צורת רבים, ולכן is: Is there any milk?"
         },
         "3": {
-          "en": "Don't translate the Hebrew 'is there' as have. Ask Is there...?",
+          "en": "Don't translate the Hebrew word for 'there is' as have. Ask Is there...?",
           "he": "כאן 'יש' אינו have. שואלים Is there...?"
         }
       },
@@ -743,8 +743,8 @@
         }
       ],
       "explanation": {
-        "en": "In a question, the Hebrew 'is there / are there' = Is there / Are there...? eggs is plural, so: Are there any eggs in the fridge? (any is the usual word in questions.)",
-        "he": "'יש...?' בשאלה = Is there / Are there...? ‏eggs ברבים, ולכן: Are there any eggs in the fridge? ‏(any היא המילה הרגילה בשאלות.)"
+        "en": "The Hebrew question uses the same words as the statement; English puts are before there: Are there any eggs in the fridge? eggs is plural, so are. (any is the usual word in questions.)",
+        "he": "בעברית השאלה 'יש ביצים במקרר?' בנויה מאותן מילים כמו המשפט; באנגלית מקדימים את are: Are there any eggs in the fridge? ‏eggs ברבים, ולכן are. ‏(any היא המילה הרגילה בשאלות.)"
       }
     },
     {
@@ -770,12 +770,12 @@
           "answer": 1,
           "option_feedback": {
             "0": {
-              "en": "Priya is at home. Maya writes: 'I'm at the supermarket now.'",
-              "he": "פְּרִיָּה בבית. מאיה כותבת: 'I'm at the supermarket now'."
+              "en": "Not now. Maya writes: 'I'm at the supermarket now.'",
+              "he": "לא עכשיו. מאיה כותבת: 'I'm at the supermarket now'."
             },
             "2": {
-              "en": "The dinner is at home. Maya writes: 'I'm at the supermarket now.'",
-              "he": "ארוחת הערב בבית. מאיה כותבת: 'I'm at the supermarket now'."
+              "en": "Maya doesn't mention a restaurant. She writes: 'I'm at the supermarket now.'",
+              "he": "מאיה לא מזכירה מסעדה. היא כותבת: 'I'm at the supermarket now'."
             }
           },
           "option_errors": {
@@ -789,11 +789,11 @@
         },
         {
           "type": "tf",
-          "statement": "There is some rice at home.",
+          "statement": "Maya thinks there is some rice in the cupboard.",
           "answer": true,
           "explanation": {
             "en": "'I think there's some rice in the cupboard.'",
-            "he": "'I think there's some rice in the cupboard' – יש אורז בארון."
+            "he": "'I think there's some rice in the cupboard' – היא חושבת שיש אורז בארון."
           }
         },
         {

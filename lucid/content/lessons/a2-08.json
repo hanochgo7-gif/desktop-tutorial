@@ -20,7 +20,7 @@
       ["will", "Rome? Great idea, I'll come with you!", "decision at the moment of speaking"]
     ] },
     { "type": "p", "en": "Asking about plans: What are you doing tonight? · Are you doing anything at the weekend? · Are you free on Thursday? Answers: I'm not doing anything special. · Sorry, I'm busy. I'm working late.", "he": "כך שואלים על תוכניות: What are you doing tonight? · Are you doing anything at the weekend? · Are you free on Thursday? וכך עונים: I'm not doing anything special. · Sorry, I'm busy. I'm working late." },
-    { "type": "tip", "en": "Hebrew uses the present for arrangements too, but it has only one present form. In English an arrangement needs the continuous form: I'm meeting Dana at six (not *I meet Dana at six).", "he": "גם בעברית משתמשים בהווה לסידורים ('אני פוגשת את דנה בשש'), אבל בעברית יש רק צורת הווה אחת. באנגלית סידור דורש הווה מתמשך: I'm meeting Dana at six ולא I meet Dana at six." },
+    { "type": "tip", "en": "Hebrew uses the present for arrangements too, but it has only one present form. In English an arrangement uses the continuous form: I'm meeting Dana at six. (I meet Dana at six sounds like a habit, not an arrangement.)", "he": "גם בעברית משתמשים בהווה לסידורים ('אני פוגשת את דנה בשש'), אבל בעברית יש רק צורת הווה אחת. באנגלית לסידור משתמשים בהווה מתמשך: I'm meeting Dana at six. (I meet Dana at six נשמע כמו הרגל, לא כמו סידור.)" },
     { "type": "warning", "en": "Keep am/is/are: We're flying on Sunday (not *We flying on Sunday).", "he": "אל תשמיטו את am/is/are: We're flying on Sunday ולא We flying on Sunday." }
   ],
   "examples": [
@@ -40,7 +40,7 @@
     { "word": "make it", "pos": "phrase", "he": "להצליח להגיע", "def": "to be able to come to an event or meeting", "example": "Sorry, I can't make it on Friday.", "ipa": "/ˈmeɪk ɪt/", "collocations": ["can't make it", "make it on time", "make it to the party"], "level": "A2" },
     { "word": "book a table", "pos": "phrase", "he": "להזמין שולחן", "def": "to ask a restaurant to keep a table for you at a certain time", "example": "I booked a table for eight people at nine.", "ipa": "/ˌbʊk ə ˈteɪbl/", "collocations": ["book a flight", "book tickets", "book a room"], "level": "A2" },
     { "word": "cancel", "pos": "verb", "he": "לבטל", "def": "to say that something you planned will not happen", "example": "They cancelled the meeting because of the rain.", "ipa": "/ˈkænsl/", "collocations": ["cancel a meeting", "cancel an appointment", "cancel your plans"], "level": "A2" },
-    { "word": "the day after tomorrow", "pos": "phrase", "he": "מחרתיים", "def": "two days from today", "example": "I'm flying to Paris the day after tomorrow.", "ipa": "/ðə ˌdeɪ ˌɑːftə təˈmɒrəʊ/", "collocations": ["the day after tomorrow", "the week after next"], "level": "A2" },
+    { "word": "the day after tomorrow", "pos": "phrase", "he": "מחרתיים", "def": "two days from today", "example": "I'm flying to Paris the day after tomorrow.", "ipa": "/ðə ˌdeɪ ˌɑːftə təˈmɒrəʊ/", "collocations": ["see you the day after tomorrow", "the day after tomorrow morning"], "level": "A2" },
     { "word": "deadline", "pos": "noun", "he": "מועד אחרון, דדליין", "def": "the day or time when you must finish something", "example": "I'm working late because I have a deadline on Friday.", "ipa": "/ˈdedlaɪn/", "collocations": ["meet a deadline", "miss a deadline", "a tight deadline"], "level": "B1" },
     { "word": "barbecue", "pos": "noun", "he": "מנגל, על האש", "def": "a meal or party where food is cooked outside over a fire", "example": "We're having a barbecue on Saturday.", "ipa": "/ˈbɑːbɪkjuː/", "collocations": ["have a barbecue", "a family barbecue"], "level": "A2" },
     { "word": "flight", "pos": "noun", "he": "טיסה", "def": "a journey in a plane", "example": "Our flight leaves at 6 a.m.", "ipa": "/flaɪt/", "collocations": ["book a flight", "an early flight", "a direct flight"], "level": "A2" },
@@ -116,6 +116,7 @@
       "answers": [["are having", "'re having"], ["is bringing", "'s bringing"], ["am making", "'m making"]],
       "wrong_feedback": [
         { "match": "having", "feedback": { "en": "Add are: we are having (we're having).", "he": "חסר are: ‏we are having." }, "error_type": "copula-omission" },
+        { "match": "is having", "feedback": { "en": "The subject is we, so use are: we are having (we're having).", "he": "הנושא הוא we, ולכן are: ‏we are having." }, "error_type": "agreement" },
         { "match": "have", "feedback": { "en": "For an arrangement, use the present continuous: are having.", "he": "לסידור משתמשים בהווה מתמשך: are having." }, "error_type": "tense-choice" },
         { "match": "will have", "feedback": { "en": "The task asks for the present continuous. The barbecue is already arranged: are having.", "he": "המשימה מבקשת הווה מתמשך. המנגל כבר מתוכנן: are having." }, "error_type": "tense-choice" },
         { "match": "are going to have", "feedback": { "en": "going to works for plans, but this task practises the present continuous: are having.", "he": "going to מתאים לתוכניות, אבל כאן מתרגלים הווה מתמשך: are having." }, "error_type": "tense-choice" },
@@ -247,7 +248,7 @@
     {
       "id": "e15", "type": "write", "skill": "writing",
       "prompt": { "en": "Pass on a message in English.", "he": "העבירו הודעה באנגלית." },
-      "task": { "en": "Your friend Omer sent you a message in Hebrew (you can see it in the Hebrew instructions). Kenji, your friend from Japan, is visiting Israel and doesn't speak Hebrew. Write him a short message in English (40-80 words) and tell him the plans for the weekend.", "he": "עומר שלח לכם את ההודעה הזאת: 'היי! ביום שישי בערב אנחנו עושים מנגל אצל נועה, בשבע. אני מביא את הבשר, ומאיה מביאה עוגה. בשבת בבוקר אנחנו נוסעים לים, בעשר. תגידו לקנג'י שהוא מוזמן!' קנג'י, חבר שלכם מיפן, מבקר בארץ ולא מדבר עברית. כתבו לו הודעה קצרה באנגלית (40-80 מילים) וספרו לו מה התוכניות לסוף השבוע." },
+      "task": { "en": "Your friend Omer sent you a message in Hebrew (you can see it in the Hebrew instructions). Kenji, your friend from Japan, is visiting Israel and doesn't speak Hebrew. Write him a short message in English (40-80 words): tell him the plans for the weekend and ask if he is free.", "he": "עומר שלח לכם את ההודעה הזאת: 'היי! ביום שישי בערב אנחנו עושים מנגל אצל נועה, בשבע. אני מביא את הבשר, ומאיה מביאה עוגה. בשבת בבוקר אנחנו נוסעים לים, בעשר. תגידו לקנג'י שהוא מוזמן!' קנג'י, חבר שלכם מיפן, מבקר בארץ ולא מדבר עברית. כתבו לו הודעה קצרה באנגלית (40-80 מילים): ספרו לו מה התוכניות לסוף השבוע ושאלו אם הוא פנוי." },
       "min_words": 40,
       "max_words": 90,
       "must_include": ["Friday", "Saturday"],

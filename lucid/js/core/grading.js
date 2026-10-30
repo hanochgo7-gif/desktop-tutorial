@@ -91,7 +91,9 @@ function typoOnly(input, target) {
 }
 
 // Returns { correct, almost, matched, typo? }. almost=true means accepted with a spelling note.
-export function checkTyped(input, accepted) {
+// `known` is the exercise's wrong_feedback list: an answer that exactly matches an authored wrong answer
+// is wrong even if it is one letter away from a key (so "fourty" cannot pass as a typo of "forty").
+export function checkTyped(input, accepted, known = null) {
   const list = (Array.isArray(accepted) ? accepted : [accepted]).filter((x) => x != null);
   if (!normalize(input)) return { correct: false, almost: false, matched: null };
   const inV = variants(input);
@@ -99,6 +101,7 @@ export function checkTyped(input, accepted) {
     const aV = variants(a);
     if (inV.some((v) => aV.includes(v))) return { correct: true, almost: false, matched: a };
   }
+  if (Array.isArray(known) && known.some((f) => variants(f.match).some((v) => inV.includes(v)))) return { correct: false, almost: false, matched: null };
   for (const a of list) {
     for (const v of inV) for (const t of variants(a)) {
       const typo = typoOnly(v, t);

@@ -53,7 +53,7 @@
     { "word": "never", "pos": "adverb", "he": "אף פעם לא", "def": "not at any time", "example": "He never drinks coffee.", "ipa": "/ˈnevə(r)/", "level": "A1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew the present-tense verb works differently: it is the same for 'I' and 'he' (both use one form). So it is easy to forget the English -s, especially when a word comes between: She usually gets up at seven (not 'She usually get up').", "he": "בעברית הפועל בהווה זהה ל'אני' ול'הוא' (אני קם, הוא קם), ולכן קל לשכוח את ה-s באנגלית, במיוחד כשיש מילה באמצע: She usually gets up at seven, ולא She usually get up.", "error_type": "third-person-s" },
+    { "en": "In the Hebrew present tense, 'I' and 'he' use the same verb form. So it is easy to forget the English -s, especially when a word comes between the subject and the verb: She usually gets up at seven (not 'She usually get up').", "he": "בעברית הפועל בהווה זהה ל'אני' ול'הוא' (אני קם, הוא קם), ולכן קל לשכוח את ה-s באנגלית, במיוחד כשיש מילה באמצע: She usually gets up at seven, ולא She usually get up.", "error_type": "third-person-s" },
     { "en": "In Hebrew there is no present-tense 'be', so 'She always tired' can sound right. English needs is, and the frequency word comes after it: She is always tired.", "he": "בעברית אין 'להיות' בהווה ('היא תמיד עייפה'), ולכן She always tired נשמע אולי נכון. באנגלית חייבים is, ומילת התדירות באה אחריו: She is always tired.", "error_type": "copula-omission" },
     { "en": "Hebrew works differently here: it has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן leave ו-live עלולות להישמע אותו דבר. I leave home at eight (ארוכה – 'יוצא/ת מהבית') שונה מ-I live at home (קצרה – 'גר/ה בבית').", "error_type": "pron-vowel" }
   ],
@@ -157,10 +157,10 @@
       "id": "e9", "type": "correct", "skill": "grammar", "topic": "adverbs-frequency",
       "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
       "sentence": "I don't never eat breakfast.",
-      "answers": ["I never eat breakfast.", "I don't ever eat breakfast."],
+      "answers": ["I never eat breakfast.", "I don't ever eat breakfast.", "I don't eat breakfast."],
       "error_type": "do-support",
       "hint": { "en": "never is already negative.", "he": "never כבר שלילי." },
-      "explanation": { "en": "English uses one negative word, not two: I never eat breakfast. (I don't ever eat breakfast is also correct.)", "he": "באנגלית יש מילת שלילה אחת בלבד, לא שתיים: I never eat breakfast. (גם I don't ever eat breakfast נכון.)" }
+      "explanation": { "en": "English uses one negative word, not two: I never eat breakfast. (I don't ever eat breakfast and I don't eat breakfast are also correct, but practise never: it is the shortest way.)", "he": "באנגלית יש מילת שלילה אחת בלבד, לא שתיים: I never eat breakfast. (גם I don't ever eat breakfast ו-I don't eat breakfast נכונים, אבל כדאי לתרגל את never – זו הדרך הקצרה ביותר.)" }
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "adverbs-frequency",
@@ -189,7 +189,7 @@
       "id": "e12", "type": "read", "skill": "reading", "topic": "daily-life-vocab",
       "prompt": { "en": "Read Kenji's blog post and answer the questions.", "he": "קראו את הפוסט של קנג'י בבלוג וענו על השאלות." },
       "title": "A day in my life",
-      "passage": "I'm Kenji, and I'm a student at the university in Haifa. My weekdays are busy. I always wake up at 6:30, but I usually get up at 6:45! I have a shower and get dressed. I never have breakfast at home – I buy coffee at the station. I commute by train, and it is often late, so I sometimes study on the platform. I usually get home at six. In the evening I cook dinner with my flatmate, Amir. I go to bed at eleven, but Amir never goes to bed before one!",
+      "passage": "I'm Kenji, and I'm a university student in Haifa. My weekdays are busy. I always wake up at 6:30, but I usually get up at 6:45! I have a shower and get dressed. I never have breakfast at home – I buy coffee at the station. I commute by train. The train is often late, so I sometimes study on the platform. I usually get home at six. In the evening I cook dinner with my flatmate, Amir. I go to bed at eleven, but Amir never goes to bed before one!",
       "questions": [
         {
           "type": "tf", "statement": "Kenji has breakfast at home.", "answer": false,
@@ -208,7 +208,7 @@
             "2": { "en": "The text doesn't say Amir is noisy.", "he": "בטקסט לא כתוב שעמיר רועש." }
           },
           "option_errors": { "1": "comprehension", "2": "comprehension" },
-          "explanation": { "en": "'It is often late, so I sometimes study on the platform.' so introduces the result.", "he": "'It is often late, so I sometimes study on the platform' – הרכבת מאחרת הרבה, ולכן הוא לפעמים לומד ברציף." }
+          "explanation": { "en": "'The train is often late, so I sometimes study on the platform.' so introduces the result.", "he": "'The train is often late, so I sometimes study on the platform' – הרכבת מאחרת הרבה, ולכן הוא לפעמים לומד ברציף." }
         },
         {
           "type": "mcq", "question": "Who goes to bed later?",
@@ -240,7 +240,7 @@
       "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
       "target": "I usually leave home at eight, and I never get home before six.",
       "focus": { "en": "leave has a long vowel /iː/, like 'leeeve'. With a short vowel it becomes live (= to have your home somewhere).", "he": "ב-leave התנועה ארוכה /iː/ ('לִייב'). בתנועה קצרה היא הופכת ל-live ('לגור')." },
-      "explanation": { "en": "This is a sentence you can really use to describe your day. Long /iː/ in leave keeps your meaning clear.", "he": "זה משפט שאפשר באמת להשתמש בו כדי לתאר את היום שלכם. התנועה הארוכה ב-leave שומרת על המשמעות ברורה." }
+      "explanation": { "en": "This is a sentence you can really use to describe your day. Long /iː/ in leave keeps your meaning clear.", "he": "זה משפט שאפשר באמת להשתמש בו כדי לתאר את היום שלכם. בזכות התנועה הארוכה ב-leave ברור למה התכוונתם." }
     },
     {
       "id": "e15", "type": "write", "skill": "writing", "topic": "adverbs-frequency",

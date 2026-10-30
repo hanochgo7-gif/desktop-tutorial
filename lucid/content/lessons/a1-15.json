@@ -87,7 +87,7 @@
       "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
       "audio_text": "I live in Ashdod, but I work in Tel Aviv, so I take the train every day.",
       "question": "Why does the speaker take the train every day?",
-      "options": ["Because they live in Ashdod and work in Tel Aviv.", "Because they live and work in Ashdod.", "Because they can't drive."],
+      "options": ["Because the speaker lives in Ashdod and works in Tel Aviv.", "Because the speaker lives and works in Ashdod.", "Because the speaker can't drive."],
       "answer": 0,
       "option_feedback": {
         "1": { "en": "Listen again: 'I live in Ashdod, but I work in Tel Aviv.' but tells you the two places are different.", "he": "הקשיבו שוב: 'I live in Ashdod, but I work in Tel Aviv'. ‏but מראה ששני המקומות שונים." },
@@ -126,8 +126,8 @@
     {
       "id": "e6", "type": "order", "skill": "writing", "topic": "connectors-basic",
       "prompt": { "en": "Put the words in order. Look at the comma and the full stop.", "he": "סדרו את המילים למשפט. שימו לב לפסיק ולנקודה." },
-      "tokens": ["My", "sister", "is", "a", "nurse,", "so", "she", "works", "at", "night."],
-      "explanation": { "en": "Reason (My sister is a nurse) + comma + so + result (she works at night).", "he": "סיבה (My sister is a nurse) + פסיק + so + תוצאה (she works at night)." }
+      "tokens": ["My", "sister", "works", "at", "night,", "so", "she", "sleeps", "during", "the", "day."],
+      "explanation": { "en": "Reason (My sister works at night) + comma + so + result (she sleeps during the day). The comma comes before so, and the full stop at the end.", "he": "סיבה (My sister works at night) + פסיק + so + תוצאה (she sleeps during the day). הפסיק בא לפני so, והנקודה בסוף." }
     },
     {
       "id": "e7", "type": "transform", "skill": "writing", "topic": "connectors-basic",
@@ -166,7 +166,7 @@
       "id": "e10", "type": "correct", "skill": "writing", "topic": "sentence-basics",
       "prompt": { "en": "Fix the punctuation.", "he": "תקנו את הפיסוק." },
       "sentence": "I love Fridays. Because I don't work.",
-      "answers": ["I love Fridays because I don't work.", "I love Fridays, because I don't work."],
+      "answers": ["I love Fridays because I don't work.", "I love Fridays, because I don't work.", "Because I don't work, I love Fridays."],
       "error_type": "punctuation",
       "explanation": { "en": "'Because I don't work.' is only half a sentence: it gives a reason, but for what? Join it to the first part: I love Fridays because I don't work.", "he": "'Because I don't work.' הוא רק חצי משפט: יש סיבה, אבל לְמה? מחברים אותו לחלק הראשון: I love Fridays because I don't work." }
     },

@@ -37,7 +37,7 @@
     { "en": "We ate falafel and drank lemonade.", "he": "אכלנו פלאפל ושתינו לימונדה.", "note": "eat → ate, drink → drank" },
     { "en": "Lior lost his wallet, but he found it the next day.", "he": "ליאור איבד את הארנק, אבל מצא אותו למחרת.", "note": "lose → lost, find → found" },
     { "en": "I wrote a long email to my teacher.", "he": "כתבתי מייל ארוך למורה שלי.", "note": "write → wrote" },
-    { "en": "I read the whole book on the plane.", "he": "קראתי את כל הספר בטיסה.", "note": "read → read, said /red/" }
+    { "en": "I read the whole book on the plane.", "he": "קראתי את כל הספר בטיסה.", "note": "read → read, but pronounced /red/" }
   ],
   "vocab": [
     { "word": "went", "pos": "verb (past of go)", "he": "הלך; נסע (עבר של go)", "def": "the past of go: moved or travelled to a place", "example": "We went to Eilat last weekend.", "ipa": "/went/", "collocations": ["went home", "went shopping", "went to bed"], "level": "A2" },
@@ -45,7 +45,7 @@
     { "word": "bought", "pos": "verb (past of buy)", "he": "קנה (עבר של buy)", "def": "the past of buy: got something by paying money for it", "example": "Omer bought new headphones online.", "ipa": "/bɔːt/", "collocations": ["bought a ticket", "bought it online"], "level": "A2" },
     { "word": "brought", "pos": "verb (past of bring)", "he": "הביא (עבר של bring)", "def": "the past of bring: came with something or someone", "example": "Sara brought a cake to the party.", "ipa": "/brɔːt/", "collocations": ["brought a friend", "brought some food"], "level": "A2" },
     { "word": "thought", "pos": "verb (past of think)", "he": "חשב (עבר של think)", "def": "the past of think: had an idea or an opinion", "example": "I thought the exam was easy.", "ipa": "/θɔːt/", "collocations": ["thought about it", "I thought so"], "level": "A2" },
-    { "word": "caught", "pos": "verb (past of catch)", "he": "תפס; הספיק לעלות על (עבר של catch)", "def": "the past of catch: took hold of something, or got on a bus or train in time", "example": "We caught the last train home.", "ipa": "/kɔːt/", "collocations": ["caught the bus", "caught a cold"], "level": "A2" },
+    { "word": "caught", "pos": "verb (past of catch)", "he": "תפס; הספיק (לאוטובוס, לרכבת) (עבר של catch)", "def": "the past of catch: took hold of something, or got on a bus or train in time", "example": "We caught the last train home.", "ipa": "/kɔːt/", "collocations": ["caught the bus", "caught a cold"], "level": "A2" },
     { "word": "took", "pos": "verb (past of take)", "he": "לקח (עבר של take)", "def": "the past of take: got and carried something, or travelled by bus, taxi or train", "example": "She took a taxi to the airport.", "ipa": "/tʊk/", "collocations": ["took a photo", "took the bus", "took a break"], "level": "A2" },
     { "word": "spent", "pos": "verb (past of spend)", "he": "בילה (זמן); הוציא (כסף) (עבר של spend)", "def": "the past of spend: used time or money", "example": "We spent the whole day at the beach.", "ipa": "/spent/", "collocations": ["spent the day", "spent time with", "spent money on"], "level": "A2" },
     { "word": "forgot", "pos": "verb (past of forget)", "he": "שכח (עבר של forget)", "def": "the past of forget: did not remember", "example": "Lior forgot his keys again.", "ipa": "/fəˈɡɒt/", "collocations": ["forgot my password", "forgot to call"], "level": "A2" },
@@ -80,7 +80,7 @@
         { "text": "break", "category": "like write → wrote" }
       ],
       "hint": { "en": "Say the past form aloud first, then listen to how it ends.", "he": "אמרו קודם את צורת העבר בקול, ואז הקשיבו איך היא מסתיימת." },
-      "explanation": { "en": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke.", "he": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. כשזוכרים פועל אחד מהקבוצה, קל יותר לזכור את כולם." }
+      "explanation": { "en": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. When you remember one verb in a group, the others are easier to remember.", "he": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. כשזוכרים פועל אחד מהקבוצה, קל יותר לזכור את כולם." }
     },
     {
       "id": "e3", "type": "mcq", "skill": "grammar",
@@ -114,7 +114,7 @@
     {
       "id": "e5", "type": "mcq", "skill": "grammar",
       "prompt": { "en": "Choose the correct verb.", "he": "בחרו את הפועל הנכון." },
-      "question": "I ___ my cousin to the party, so we were twelve people, not eleven.",
+      "question": "I ___ my cousin to the party, so there were twelve of us, not eleven.",
       "options": ["brought", "bought", "bringed", "brang"],
       "answer": 0,
       "option_feedback": {
@@ -129,16 +129,16 @@
       "id": "e6", "type": "read", "skill": "reading",
       "prompt": { "en": "Read Yael's blog post and answer the questions.", "he": "קראו את הפוסט של יעל בבלוג וענו על השאלות." },
       "title": "A rainy day in Haifa",
-      "passage": "Last Friday my friend Priya and I took the early train to Haifa. We had a plan: a long walk on Mount Carmel and dinner by the sea. But the day began badly. I forgot my water bottle on the train, and Priya lost her sunglasses at the station. Then it started to rain, so we spent two hours in a small café near the port.\nActually, that was the best part of the day. We drank hot chocolate, ate amazing cheese pastries and met the owner, an old man called Yosef. He told us funny stories about the city in the 1970s.\nIn the evening the sky was clear again. We walked to the beach and saw a beautiful sunset. I came home tired and wet, but very happy.\n– Yael",
+      "passage": "Last Friday my friend Priya and I took the early train to Haifa. We had a plan: a long walk on Mount Carmel and dinner by the sea. But the day began badly. I left my water bottle on the train, and Priya lost her sunglasses at the station. Then it started to rain, so we spent two hours in a small café near the port.\nActually, that was the best part of the day. We drank hot chocolate, ate amazing cheese pastries and met the owner, an old man called Yosef. He told us funny stories about the city in the 1970s.\nIn the evening the sky was clear again. We walked to the beach and saw a beautiful sunset. I came home tired and wet, but very happy.\n– Yael",
       "questions": [
         { "type": "tf", "statement": "Yael and Priya went to Haifa by train.", "answer": true,
           "explanation": { "en": "'We took the early train to Haifa.' take → took.", "he": "בטקסט: We took the early train to Haifa. ‏take → took." } },
-        { "type": "mcq", "question": "Yael forgot ___ on the train.", "options": ["her sunglasses", "her water bottle", "her phone"], "answer": 1,
+        { "type": "mcq", "question": "Yael left ___ on the train.", "options": ["her sunglasses", "her water bottle", "her phone"], "answer": 1,
           "option_feedback": {
             "0": { "en": "Priya lost her sunglasses, at the station.", "he": "פריה איבדה את משקפי השמש שלה, בתחנה." },
             "2": { "en": "The text doesn't mention a phone.", "he": "בטקסט אין אזכור של טלפון." }
           },
-          "explanation": { "en": "'I forgot my water bottle on the train.' forget → forgot.", "he": "בטקסט: I forgot my water bottle on the train. ‏forget → forgot." } },
+          "explanation": { "en": "'I left my water bottle on the train.' leave → left. When you say the place, use left (I left it on the train); forgot means you didn't bring it (I forgot my water bottle).", "he": "בטקסט: I left my water bottle on the train. ‏leave → left. כשמציינים מקום אומרים left (I left it on the train), ו-forgot פירושו ששכחתם להביא (I forgot my water bottle)." } },
         { "type": "tf", "statement": "For Yael, the time in the café was the worst part of the day.", "answer": false,
           "explanation": { "en": "She writes: 'Actually, that was the best part of the day.'", "he": "היא כותבת: Actually, that was the best part of the day – זה היה החלק הכי טוב ביום." } },
         { "type": "gap", "text": "Yosef ___ them funny stories about the city.", "answers": [["told"]],
@@ -158,6 +158,8 @@
       "answers": [["bought"], ["took"]],
       "wrong_feedback": [
         { "match": "buyed", "feedback": { "en": "buy is irregular: buy → bought.", "he": "buy הוא פועל חריג: buy → bought." }, "error_type": "verb-form" },
+        { "match": "buy", "feedback": { "en": "This is the base form. 'Yesterday' is past: buy → bought.", "he": "זו צורת הבסיס. yesterday זה עבר: buy → bought." }, "error_type": "tense-choice" },
+        { "match": "take", "feedback": { "en": "This is the base form. 'Yesterday' is past: take → took.", "he": "זו צורת הבסיס. yesterday זה עבר: take → took." }, "error_type": "tense-choice" },
         { "match": "taked", "feedback": { "en": "take is irregular: take → took.", "he": "take הוא פועל חריג: take → took." }, "error_type": "verb-form" },
         { "match": "taken", "feedback": { "en": "taken is a different form (you'll meet it at B1). For a finished past action, use took.", "he": "taken היא צורה אחרת (נכיר אותה ברמה B1). לפעולה שהסתיימה בעבר משתמשים ב-took." }, "error_type": "verb-form" }
       ],
@@ -241,6 +243,7 @@
         { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים I went by bus או I took the bus." }, "error_type": "false-friend" },
         { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "error_type": "tense-choice" },
         { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "error_type": "verb-form" },
+        { "match": "I went to Jerusalem by the bus.", "feedback": { "en": "After by, there is no the: by bus (or: on the bus).", "he": "אחרי by לא בא the: ‏by bus (או: on the bus)." }, "error_type": "article" },
         { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" },
         { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" }
       ],

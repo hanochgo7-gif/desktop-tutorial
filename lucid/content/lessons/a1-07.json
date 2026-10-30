@@ -8,7 +8,7 @@
   "objectives": [
     { "en": "I can use a/an for one thing that I mention for the first time, and for jobs.", "he": "אני יודע/ת להשתמש ב-a/an לדבר אחד שמוזכר בפעם הראשונה, ולפני מקצועות." },
     { "en": "I can use the when we both know which thing, or when there is only one.", "he": "אני יודע/ת להשתמש ב-the כששנינו יודעים על איזה דבר מדובר, או כשיש רק אחד כזה." },
-    { "en": "I can leave out the article with plurals in general and with meals: I love dogs. We have lunch at one.", "he": "אני יודע/ת מתי לא שמים תווית: ברבים כשמדברים באופן כללי, ולפני ארוחות: I love dogs, We have lunch at one." }
+    { "en": "I can leave out the article with plurals in general and with meals: I love dogs. We have lunch at one.", "he": "אני יודע/ת מתי לא שמים תווית (article: a, an, the): ברבים כשמדברים באופן כללי, ולפני ארוחות: I love dogs, We have lunch at one." }
   ],
   "warmup": { "en": "Translate in your head: 'I've got a new job. The job is in Tel Aviv.' Which English word has a Hebrew partner, and which one has none?", "he": "תרגמו בראש: 'יש לי עבודה חדשה. העבודה בתל אביב.' לאיזו מילה באנגלית יש מקבילה בעברית (ה' הידיעה), ולאיזו אין מקבילה בכלל?" },
   "explanation": [
@@ -22,7 +22,7 @@
       ["no article", "meals", "We have lunch at one. After dinner I read."]
     ] },
     { "type": "rule", "en": "One singular thing (book, job, car) can't stand alone. Use a/an, the, or my/your...: I've got a car. The car is red. My car is old. Never just 'I've got car'.", "he": "שם עצם ביחיד שאפשר לספור (book, job, car) לא עומד לבד באנגלית. צריך לפניו a/an, the או my/your: I've got a car, The car is red, My car is old. אף פעם לא I've got car." },
-    { "type": "warning", "en": "Jobs need a/an: I'm a student (not 'I'm student'). And don't use one like an article: A man is at the door. Keep one for counting: one brother and two sisters.", "he": "לפני מקצוע צריך a/an: I'm a student (לא I'm student). ואל תשתמשו ב-one במקום a: A man is at the door. את one שומרים לספירה: one brother and two sisters." },
+    { "type": "warning", "en": "Jobs need a/an: I'm a student (not 'I'm student'). And don't use one like an article: A man wants to talk to you (not 'One man wants...'). Keep one for counting: one brother and two sisters.", "he": "לפני מקצוע צריך a/an: I'm a student (לא I'm student). ואל תשתמשו ב-one במקום a: A man wants to talk to you ('איש אחד רוצה לדבר איתך'), ולא One man wants... את one שומרים לספירה: one brother and two sisters." },
     { "type": "tip", "en": "a before a consonant sound, an before a vowel sound: a university, an hour. the changes too: /ðə/ before a consonant sound (the car), usually /ði/ before a vowel sound (the office).", "he": "a לפני צליל עיצור, an לפני צליל תנועה: a university, an hour. גם the משתנה: /ðə/ לפני צליל עיצור (the car), ובדרך כלל /ði/ לפני צליל תנועה (the office)." }
   ],
   "examples": [
@@ -52,25 +52,25 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no word for a/an, so 'I've got book' or 'I'm student' can sound right. English works differently: one singular thing needs a/an (or the, my...): I've got a book. I'm a student.", "he": "בעברית אין מילה ל-a/an ('יש לי ספר', 'אני סטודנט'), ולכן קל לכתוב I've got book או I'm student. באנגלית דבר אחד ביחיד צריך a/an (או the, my): I've got a book, I'm a student.", "error_type": "article" },
-    { "en": "In Hebrew the word for 'one' sometimes works like an article (as in 'one guy asked me...'). English works differently: use a/an, and keep one for counting. A man is at the door; I've got one brother and two sisters.", "he": "בעברית 'אחד' משמש לפעמים כמו תווית ('בחור אחד שאל אותי...'). באנגלית זה עובד אחרת: אומרים a/an – A man is at the door. את one שומרים לספירה: one brother and two sisters.", "error_type": "article" },
+    { "en": "In Hebrew the word for 'one' sometimes works like an article (as in 'one guy asked me...'). English works differently: use a/an, and keep one for counting. A man wants to talk to you; I've got one brother and two sisters.", "he": "בעברית 'אחד' משמש לפעמים כמו תווית ('בחור אחד שאל אותי...'). באנגלית זה עובד אחרת: אומרים a/an – A man wants to talk to you ('איש אחד רוצה לדבר איתך'). את one שומרים לספירה: one brother and two sisters.", "error_type": "article" },
     { "en": "Hebrew works differently here: it has no /ð/ sound, so the can sound like 'de' or 'ze'. Put the tip of your tongue between your teeth and use your voice: /ðə/.", "he": "בעברית אין את הצליל /ð/, ולכן the עלול לצאת 'דֶה' או 'זֶה'. שימו את קצה הלשון בין השיניים והשמיעו קול: /ðə/.", "error_type": "pron-th" }
   ],
   "exercises": [
     {
       "id": "e1", "type": "categorize", "skill": "grammar", "topic": "articles",
-      "prompt": { "en": "a or an? Listen to the first sound, not the first letter.", "he": "a או an? הקשיבו לצליל הראשון, לא לאות הראשונה." },
-      "categories": ["a", "an"],
+      "prompt": { "en": "What goes in the gap: a/an, the, or no article? Ask yourself why.", "he": "מה מתאים לרווח: a/an, the, או בלי תווית? שאלו את עצמכם למה." },
+      "categories": ["a / an", "the", "no article"],
       "items": [
-        { "text": "___ hour", "category": "an" },
-        { "text": "___ university", "category": "a" },
-        { "text": "___ office", "category": "an" },
-        { "text": "___ job", "category": "a" },
-        { "text": "___ engineer", "category": "an" },
-        { "text": "___ uniform", "category": "a" },
-        { "text": "___ old car", "category": "an" },
-        { "text": "___ new car", "category": "a" }
+        { "text": "My mum is ___ doctor.", "category": "a / an" },
+        { "text": "My brother is ___ engineer.", "category": "a / an" },
+        { "text": "I live in ___ small flat in Haifa.", "category": "a / an" },
+        { "text": "I've got a dog and a cat. ___ cat is black.", "category": "the" },
+        { "text": "___ sun is very hot today.", "category": "the" },
+        { "text": "Can you close ___ door, please?", "category": "the" },
+        { "text": "I love ___ dogs, but my sister loves cats.", "category": "no article" },
+        { "text": "We have ___ dinner at eight.", "category": "no article" }
       ],
-      "explanation": { "en": "an before a vowel sound: an hour (silent h), an office, an engineer, an old car. a before a consonant sound: a university and a uniform (they start with a 'y' sound /juː/), a job, a new car.", "he": "an לפני צליל תנועה: an hour (ה-h לא נשמעת), an office, an engineer, an old car. a לפני צליל עיצור: a university ו-a uniform (מתחילות בצליל 'יוּ'), a job, a new car." }
+      "explanation": { "en": "a/an: jobs (a doctor, an engineer) and one thing we mention for the first time (a small flat). the: we know which one (the cat from the first sentence, the door in this room) or there is only one (the sun). No article: plurals in general (dogs, like cats) and meals (dinner).", "he": "a/an: לפני מקצוע (a doctor, an engineer) ולפני דבר אחד שמוזכר בפעם הראשונה (a small flat). the: יודעים על איזה מדובר (the cat מהמשפט הראשון, the door בחדר הזה) או שיש רק אחד (the sun). בלי תווית: רבים באופן כללי (dogs, כמו cats) וארוחות (dinner)." }
     },
     {
       "id": "e2", "type": "listen", "skill": "listening", "topic": "articles",
@@ -133,7 +133,7 @@
       "prompt": { "en": "Complete with a, an, the or — (no article).", "he": "השלימו ב-a, an, the או — (בלי תווית)." },
       "text": "My brother is ___ engineer. He loves ___ computers, and he usually has ___ lunch at his desk.",
       "word_bank": ["a", "an", "the", "—"],
-      "answers": [["an"], ["—"], ["—"]],
+      "answers": [["an"], ["—", "no article"], ["—", "no article"]],
       "wrong_feedback": [
         { "match": "the", "feedback": { "en": "computers here means computers in general, and lunch is a meal. Neither takes an article.", "he": "computers כאן פירושו מחשבים באופן כללי, ו-lunch היא ארוחה. בשניהם אין תווית." }, "error_type": "article" },
         { "match": "a", "feedback": { "en": "engineer starts with a vowel sound, so an. computers is plural, and meals (lunch) take no article.", "he": "engineer מתחיל בצליל תנועה, ולכן an. computers ברבים, ולפני ארוחות (lunch) אין תווית." }, "error_type": "article" },
@@ -149,7 +149,7 @@
       "answers": ["I am a student at Tel Aviv University."],
       "error_type": "article",
       "hint": { "en": "One small word is missing before the job.", "he": "חסרה מילה קטנה לפני המקצוע." },
-      "explanation": { "en": "One person's job needs a/an: I am a student. (No article before the name of a university: Tel Aviv University.)", "he": "לפני מקצוע או תפקיד של אדם אחד צריך a/an: I am a student. (לפני שם של אוניברסיטה אין תווית: Tel Aviv University.)" }
+      "explanation": { "en": "One person's job needs a/an: I am a student. (Tel Aviv University is a name, so it has no article here.)", "he": "לפני מקצוע או תפקיד של אדם אחד צריך a/an: I am a student. (Tel Aviv University הוא שם, ולכן אין לפניו כאן תווית.)" }
     },
     {
       "id": "e8", "type": "correct", "skill": "grammar", "topic": "articles",
@@ -228,7 +228,7 @@
           "answer": 0,
           "option_feedback": {
             "1": { "en": "The size doesn't matter. the means we already know which balcony: hers.", "he": "הגודל לא משנה. the אומר שכבר יודעים על איזו מרפסת מדובר – המרפסת שלה." },
-            "2": { "en": "The first letter decides a or an, not a or the.", "he": "הצליל הראשון קובע בין a ל-an, לא בין a ל-the." }
+            "2": { "en": "The first sound decides a or an, not a or the.", "he": "הצליל הראשון קובע בין a ל-an, לא בין a ל-the." }
           },
           "option_errors": { "1": "article", "2": "article" },
           "explanation": { "en": "First mention: a balcony. Second mention: the balcony. The same happens with a new flat → the flat.", "he": "פעם ראשונה: a balcony. פעם שנייה: the balcony. אותו דבר קורה עם a new flat → the flat." }

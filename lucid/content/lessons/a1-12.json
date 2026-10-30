@@ -87,7 +87,7 @@
         { "text": "Can you help me with my bag?", "category": "request" },
         { "text": "We can't swim.", "category": "ability" }
       ],
-      "explanation": { "en": "Ability = what someone knows how to do (cook, ride a bike, speak Arabic). A request asks someone to do something (Can you open...?) or asks for something (Can I have...? Can I sit...?). Can you speak Arabic? asks about ability: the answer is Yes, a little.", "he": "יכולת = מה שמישהו יודע לעשות (לבשל, לרכוב על אופניים, לדבר ערבית). בקשה = מבקשים ממישהו לעשות משהו (Can you open...?) או מבקשים לקבל משהו (Can I have...? Can I sit...?). ‏Can you speak Arabic? היא שאלה על יכולת – והתשובה: Yes, a little." }
+      "explanation": { "en": "Ability = what someone knows how to do (cook, ride a bike, speak Arabic). A request asks someone to do something (Can you open...?), asks for something (Can I have...?) or asks for permission (Can I sit here?). Can you speak Arabic? asks about ability: the answer is Yes, a little.", "he": "יכולת = מה שמישהו יודע לעשות (לבשל, לרכוב על אופניים, לדבר ערבית). בקשה = מבקשים ממישהו לעשות משהו (Can you open...?), מבקשים לקבל משהו (Can I have...?) או מבקשים רשות (Can I sit here?). ‏Can you speak Arabic? היא שאלה על יכולת – והתשובה: Yes, a little." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "modal-can",

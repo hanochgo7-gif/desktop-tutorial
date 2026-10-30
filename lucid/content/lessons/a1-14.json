@@ -24,7 +24,7 @@
     ] },
     { "type": "rule", "en": "Subject pronoun before the verb; object pronoun after the verb or after a preposition (with, for, to, at, from, about): She likes him. This is for you. Wait for us.", "he": "כינוי נושא בא לפני הפועל; כינוי מושא בא אחרי הפועל או אחרי מילת יחס (with, for, to, at, from, about): She likes him. This is for you. Wait for us." },
     { "type": "p", "en": "In Hebrew the form changes: oti, li, elay, iti. In English one word does all these jobs: me (call me, for me, with me).", "he": "בעברית הצורה משתנה: אותי, לי, אליי, איתי. באנגלית מילה אחת עושה את כל העבודה: me (call me, for me, with me)." },
-    { "type": "warning", "en": "Don't use I, he, she, we or they after a verb or a preposition: I love them (not 'I love they'), with me (not 'with I'). And a thing is always it, never him or her.", "he": "אחרי פועל או מילת יחס לא משתמשים ב-I, he, she, we, they: I love them (לא I love they), with me (לא with I). וחפץ הוא תמיד it, אף פעם לא him או her – גם אם בעברית הוא בזכר או בנקבה." },
+    { "type": "warning", "en": "Don't use I, he, she, we or they after a verb or a preposition: I love them (not 'I love they'), with me (not 'with I'). A thing is always it, never him or her. And don't leave the object out: Do you know Dana? – Yes, I know her (not 'Yes, I know').", "he": "אחרי פועל או מילת יחס לא משתמשים ב-I, he, she, we, they: I love them (לא I love they), with me (לא with I). חפץ הוא תמיד it, אף פעם לא him או her – גם אם בעברית הוא בזכר או בנקבה. ואל תשמיטו את המושא: Do you know Dana? – Yes, I know her (ולא Yes, I know), גם אם בעברית אומרים פשוט 'כן, אני מכיר'." },
     { "type": "tip", "en": "Reading a message: 1) For one fact (a time, a place, a price), don't read every word. Know what you need, then look quickly for numbers, names and capital letters. 2) When you see him, her, it or them, look back: who or what is it?", "he": "קריאת הודעה: 1) כשמחפשים פרט אחד (שעה, מקום, מחיר), לא צריך לקרוא כל מילה. החליטו מה אתם מחפשים, ואז חפשו בעיניים מספרים, שמות ואותיות גדולות. 2) כשמופיע him, her, it או them, חזרו אחורה ובדקו: על מי או על מה מדובר?" }
   ],
   "examples": [
@@ -42,7 +42,7 @@
     { "word": "text", "pos": "verb", "he": "לשלוח הודעה (בטלפון)", "def": "send a written message from your phone", "example": "Text me when you get home.", "ipa": "/tekst/", "collocations": ["text someone", "text me"], "level": "A2" },
     { "word": "call", "pos": "verb", "he": "להתקשר (אל)", "def": "phone someone", "example": "Call me after six.", "ipa": "/kɔːl/", "collocations": ["call me", "call back"], "level": "A1" },
     { "word": "reply", "pos": "verb", "he": "לענות, להשיב", "def": "answer a message, an email or a letter", "example": "Please reply to this email by Friday.", "ipa": "/rɪˈplaɪ/", "collocations": ["reply to an email", "reply to a message"], "level": "A2" },
-    { "word": "notice", "pos": "noun", "he": "מודעה (על לוח או על דלת)", "def": "a short piece of writing on a wall or a door that gives information", "example": "There's a notice on the door of the building.", "ipa": "/ˈnəʊtɪs/", "collocations": ["notice board", "put up a notice"], "level": "A2" },
+    { "word": "notice", "pos": "noun", "he": "מודעה (על לוח או על דלת)", "def": "a short piece of writing on a wall or a door that gives information", "example": "There's a notice on the door of the building.", "ipa": "/ˈnəʊtɪs/", "collocations": ["noticeboard", "put up a notice"], "level": "A2" },
     { "word": "invite", "pos": "verb", "he": "להזמין (אנשים, לא אוכל)", "def": "ask someone to come to a party, a meal or an event", "example": "Let's invite them for dinner.", "ipa": "/ɪnˈvaɪt/", "collocations": ["invite someone to a party", "invite someone for dinner"], "level": "A2" },
     { "word": "wait for", "pos": "phrasal verb", "he": "לחכות ל-", "def": "stay in a place until someone or something comes", "example": "Wait for me at the station!", "ipa": "/ˈweɪt fə(r)/", "collocations": ["wait for a bus", "wait for me"], "level": "A1" },
     { "word": "meet", "pos": "verb", "he": "לפגוש, להיפגש", "def": "come to the same place as someone at a planned time", "example": "Let's meet at the café at seven.", "ipa": "/miːt/", "collocations": ["meet a friend", "meet at the café"], "level": "A1" },
@@ -51,7 +51,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no /ð/ sound, so them can come out as 'dem' or 'zem'. Put the tip of your tongue between your teeth and use your voice: them /ðəm/, with them.", "he": "בעברית אין את הצליל /ð/, ולכן them עלול לצאת 'דֶם' או 'זֶם'. שימו את קצה הלשון בין השיניים והשמיעו קול: them /ðəm/, with them.", "error_type": "pron-th" },
-    { "en": "In Hebrew there is one 'i' sound, so him and it can come out long, like 'heem' and 'eet' (= eat). In English they are short: him /hɪm/, it /ɪt/. The long sound is in he /hiː/.", "he": "בעברית יש צליל 'i' אחד, ולכן him ו-it עלולים לצאת ארוכים, כמו 'הִים' ו'אִיט' (כמו eat). באנגלית הם קצרים: him /hɪm/, it /ɪt/. הצליל הארוך הוא ב-he /hiː/.", "error_type": "pron-vowel" }
+    { "en": "In Hebrew there is one 'i' sound, so him and it can come out long, like 'heem' and 'eet' (= eat). In English they are short: him /hɪm/, it /ɪt/. The long sound is in he /hiː/.", "he": "בעברית יש צליל 'i' אחד, ולכן him ו-it עלולים לצאת ארוכים, כמו 'הִים' ו'אִיט' (כמו eat). באנגלית הם קצרים: him /hɪm/, it /ɪt/. הצליל הארוך הוא ב-he /hiː/.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew you can often leave the object out when it is clear. Word for word, the Hebrew answer is 'Do you know Dana? – Yes, I know.' In English the object pronoun must be there: Yes, I know her. Do you like my shoes? – Yes, I like them.", "he": "בעברית אפשר לעיתים קרובות להשמיט את המושא כשברור במה מדובר: 'אתה מכיר את דנה? – כן, אני מכיר.' באנגלית כינוי המושא חייב להופיע: Do you know Dana? – Yes, I know her (ולא Yes, I know). ‏Do you like my shoes? – Yes, I like them.", "error_type": "pronoun" }
   ],
   "exercises": [
     {
@@ -109,11 +110,11 @@
         {
           "type": "mcq",
           "question": "Noa writes 'Bring him.' Who is him?",
-          "options": ["Amir", "Maya's friend", "Amir's brother"],
+          "options": ["Amir", "Maya's brother", "Amir's brother"],
           "answer": 2,
           "option_feedback": {
             "0": { "en": "Noa is writing to Amir, so Amir is you. Look back: 'Can my brother come too?'", "he": "נועה כותבת לאמיר, ולכן אמיר הוא you. חזרו אחורה: 'Can my brother come too?'." },
-            "1": { "en": "Look back at Amir's question: 'Can my brother come too?'", "he": "חזרו לשאלה של אמיר: 'Can my brother come too?'." }
+            "1": { "en": "Maya's brother isn't in the chat. Look back at Amir's question: 'Can my brother come too?'", "he": "האח של מאיה לא מופיע בצ'אט. חזרו לשאלה של אמיר: 'Can my brother come too?'." }
           },
           "option_errors": { "0": "pronoun", "1": "comprehension" },
           "explanation": { "en": "him points back to the last man in the chat: Amir's brother.", "he": "him מתייחס לגבר האחרון שהוזכר בצ'אט: האח של אמיר." }
@@ -181,8 +182,8 @@
       "word_bank": ["I", "me", "they", "them"],
       "answers": [["me"], ["they"]],
       "wrong_feedback": [
-        { "match": "I", "feedback": { "en": "After a verb (help), use the object form: help me.", "he": "אחרי פועל (help) משתמשים בצורת המושא: help me." }, "error_type": "pronoun" },
-        { "match": "them", "feedback": { "en": "Before a verb (are), use the subject form: they are.", "he": "לפני פועל (are) משתמשים בצורת הנושא: they are." }, "error_type": "pronoun" },
+        { "match": "I", "feedback": { "en": "I is a subject form. After a verb (help), use the object form: help me. Before are, the subject is the keys: they.", "he": "I היא צורת נושא. אחרי פועל (help) משתמשים בצורת המושא: help me. לפני are הנושא הוא המפתחות: they." }, "error_type": "pronoun" },
+        { "match": "them", "feedback": { "en": "them is an object form, so it can't come before the verb are (they are). And after help, the person who needs help is you: help me.", "he": "them היא צורת מושא, ולכן היא לא יכולה לבוא לפני הפועל are (they are). ואחרי help – מי שצריך עזרה הוא אתם: help me." }, "error_type": "pronoun" },
         { "match": "me", "feedback": { "en": "The second gap is the keys, and it comes before the verb are: they.", "he": "במקום החסר השני מדובר במפתחות, והמילה באה לפני הפועל are: they." }, "error_type": "pronoun" },
         { "match": "they", "feedback": { "en": "After help we need an object, and you mean yourself: help me.", "he": "אחרי help צריך מושא, ואתם מדברים על עצמכם: help me." }, "error_type": "pronoun" }
       ],
@@ -197,6 +198,7 @@
         { "match": "she", "feedback": { "en": "After visit, use the object form: her.", "he": "אחרי visit משתמשים בצורת המושא: her." }, "error_type": "pronoun" },
         { "match": "him", "feedback": { "en": "Your grandmother is a woman: her.", "he": "סבתא היא אישה: her." }, "error_type": "pronoun" },
         { "match": "we", "feedback": { "en": "After for, use the object form: us.", "he": "אחרי for משתמשים בצורת המושא: us." }, "error_type": "pronoun" },
+        { "match": "me", "feedback": { "en": "She cooks for a group, not just for you: me and my brothers = we → us.", "he": "היא מבשלת לקבוצה, לא רק לכם: me and my brothers = we → us." }, "error_type": "pronoun" },
         { "match": "them", "feedback": { "en": "You are in the group too (me and my brothers), so: us.", "he": "גם אתם בקבוצה (me and my brothers), ולכן us." }, "error_type": "pronoun" }
       ],
       "hint": { "en": "Who gets the visit? Who gets the food?", "he": "את מי מבקרים? בשביל מי מבשלים?" },
@@ -210,7 +212,8 @@
       "wrong_feedback": [
         { "match": "I see they every day.", "feedback": { "en": "After a verb (see), use the object form: them.", "he": "אחרי פועל (see) משתמשים בצורת המושא: them." }, "error_type": "pronoun" },
         { "match": "I see their every day.", "feedback": { "en": "their needs a noun after it (their car). Here: I see them.", "he": "אחרי their חייב לבוא שם עצם (their car). כאן: I see them." }, "error_type": "pronoun" },
-        { "match": "I see him every day.", "feedback": { "en": "Dana and Tom are two people: them.", "he": "דנה ותום הם שני אנשים: them." }, "error_type": "pronoun" }
+        { "match": "I see him every day.", "feedback": { "en": "Dana and Tom are two people: them.", "he": "דנה ותום הם שני אנשים: them." }, "error_type": "pronoun" },
+        { "match": "I see every day.", "feedback": { "en": "Don't leave the object out. English needs a pronoun after see: I see them every day.", "he": "אל תשמיטו את המושא. באנגלית חייב לבוא כינוי אחרי see: I see them every day." }, "error_type": "pronoun" }
       ],
       "explanation": { "en": "Dana and Tom = they (subject) / them (object). After see → them.", "he": "Dana and Tom = they (נושא) / them (מושא). אחרי see → them." }
     },
@@ -232,7 +235,7 @@
       "id": "e12", "type": "correct", "skill": "grammar", "topic": "pronouns-object",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
       "sentence": "These are my new shoes. Do you like it?",
-      "answers": ["These are my new shoes. Do you like them?"],
+      "answers": ["These are my new shoes. Do you like them?", "Do you like them?"],
       "error_type": "pronoun",
       "hint": { "en": "How many shoes?", "he": "כמה נעליים יש כאן?" },
       "explanation": { "en": "shoes is plural, so the pronoun is them: Do you like them?", "he": "shoes ברבים, ולכן הכינוי הוא them: Do you like them?" }
@@ -310,12 +313,13 @@
     },
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "pronouns-object",
-      "prompt": { "en": "Reply to Omer's message.", "he": "ענו להודעה של עומר." },
-      "task": { "en": "Read Omer's message: 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. Write a reply (4-6 sentences). Say yes or no, give a reason, ask one question, and use at least three object pronouns (me, you, him, her, it, us, them).", "he": "קראו את ההודעה של עומר: 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. כתבו תשובה (4-6 משפטים): הסכימו או סרבו, תנו סיבה, שאלו שאלה אחת, והשתמשו לפחות בשלושה כינויי מושא (me, you, him, her, it, us, them)." },
+      "prompt": { "en": "Reply to Omer's email.", "he": "ענו למייל של עומר." },
+      "task": { "en": "Read Omer's email (Subject: Lunch on Saturday?): 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. Write a reply email (4-6 sentences). Start with Hi Omer, and end with your name. Say yes or no, give a reason, ask one question, and use at least three object pronouns (me, you, him, her, it, us, them).", "he": "קראו את המייל של עומר (נושא: Lunch on Saturday?): 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. כתבו מייל תשובה (4-6 משפטים). התחילו ב-Hi Omer, וסיימו בשם שלכם. הסכימו או סרבו, תנו סיבה, שאלו שאלה אחת, והשתמשו לפחות בשלושה כינויי מושא (me, you, him, her, it, us, them)." },
       "min_words": 25,
       "max_words": 80,
-      "model_answer": "Hi Omer! Thanks for the message. Yes, I can come, and I really want to meet them. My sister can't come with me because she works on Saturdays, but she says hi to you. Can I bring something for your parents? See you at 12!",
+      "model_answer": "Hi Omer,\nThanks for your email. Yes, I can come, and I really want to meet them. My sister can't come with me because she works on Saturdays, but she says hi to you. Can I bring something for your parents? See you at 12!\nNoa",
       "checklist": [
+        { "en": "My email starts with Hi Omer, and ends with my name.", "he": "המייל שלי מתחיל ב-Hi Omer, ומסתיים בשם שלי." },
         { "en": "Object pronouns come after verbs and prepositions: meet them, with me, to you.", "he": "כינויי מושא באים אחרי פעלים ומילות יחס: meet them, with me, to you." },
         { "en": "Subjects come before the verb: I, she, they (not me, her, them).", "he": "לפני הפועל באים כינויי נושא: I, she, they (לא me, her, them)." },
         { "en": "I answer Omer's question and ask one question.", "he": "עניתי על השאלה של עומר ושאלתי שאלה אחת." },

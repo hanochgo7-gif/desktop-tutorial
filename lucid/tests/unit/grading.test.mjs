@@ -53,3 +53,13 @@ test('word count and order checks', () => {
   assert.ok(!checkOrder(['brother', 'My', 'is', 'a', 'doctor'], ['My', 'brother', 'is', 'a', 'doctor']).correct);
   assert.equal(levenshtein('kitten', 'sitting'), 3);
 });
+
+test('an authored wrong answer is never accepted as a one-letter typo of the key', () => {
+  const known = [{ match: 'fourty', feedback: { en: 'Forty has no u.', he: 'ב-forty אין u.' } }];
+  assert.equal(checkTyped('fourty', ['forty']).almost, true); // without the list, typo tolerance applies
+  const r = checkTyped('fourty', ['forty'], known);
+  assert.equal(r.correct, false);
+  assert.ok(findWrongFeedback('fourty', known));
+  assert.equal(checkTyped('forty', ['forty'], known).correct, true);
+  assert.equal(checkTyped('fortty', ['forty'], known).almost, true); // other slips still count as typos
+});

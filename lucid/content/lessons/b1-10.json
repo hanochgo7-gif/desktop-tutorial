@@ -1,0 +1,1093 @@
+{
+  "id": "b1-10",
+  "level": "B1",
+  "title_en": "In my opinion",
+  "title_he": "לדעתי",
+  "topics": [
+    "opinion-language"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can give my opinion with phrases such as I believe, In my view and It seems to me.",
+      "he": "אני יודע/ת להביע דעה בעזרת ביטויים כמו I believe, ‏In my view ו-It seems to me."
+    },
+    {
+      "en": "I can support my opinion with reasons (because, since, as) and results (so, therefore), and give examples with for example and such as.",
+      "he": "אני יודע/ת לנמק את הדעה שלי (because, since, as), להראות תוצאה (so, therefore) ולתת דוגמאות עם for example ו-such as."
+    },
+    {
+      "en": "I can agree and disagree politely in a discussion.",
+      "he": "אני יודע/ת להסכים ולהביע אי-הסכמה בנימוס בדיון."
+    }
+  ],
+  "warmup": {
+    "en": "Should students be allowed to use their phones in lessons? Answer in one sentence, then add 'because...'. Did you give an opinion, a reason, or both?",
+    "he": "האם צריך לאפשר לתלמידים להשתמש בטלפון בזמן השיעור? ענו במשפט אחד באנגלית, ואז הוסיפו '...because'. נתתם דעה, נימוק, או את שניהם?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: 'In my view, public transport should be free for students, since many of them can't afford a car. For example, my cousin spends most of her pocket money on bus tickets.' A convincing opinion has three parts: the opinion itself (In my view...), a reason (since...) and an example (For example...).",
+      "he": "שימו לב: 'In my view, public transport should be free for students, since many of them can't afford a car. For example, my cousin spends most of her pocket money on bus tickets.' לדעה משכנעת יש שלושה חלקים: הדעה עצמה (In my view...), נימוק (since...) ודוגמה (For example...)."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Job",
+        "Useful language",
+        "Example"
+      ],
+      "rows": [
+        [
+          "Give your opinion · הבעת דעה",
+          "I think / I believe (that)... · In my opinion, ... · In my view, ... · It seems to me (that)...",
+          "It seems to me that people read less on paper these days."
+        ],
+        [
+          "Give a reason · נימוק",
+          "because / since / as + subject + verb",
+          "I cycle to school, as the buses are always full."
+        ],
+        [
+          "Show a result · תוצאה",
+          "..., so + subject + verb · Therefore, ... (more formal)",
+          "The buses are always full. Therefore, many students cycle."
+        ],
+        [
+          "Give an example · דוגמה",
+          "For example, / For instance, + sentence · such as + noun(s)",
+          "Team sports such as football and basketball teach you to cooperate."
+        ],
+        [
+          "Agree · הסכמה",
+          "I agree (with you). · Exactly. · I couldn't agree more.",
+          "I couldn't agree more – the library should open on Fridays."
+        ],
+        [
+          "Disagree politely · אי-הסכמה מנומסת",
+          "I see your point, but... · I'm not sure I agree. · I'm not convinced (that)... · I'm afraid I disagree.",
+          "I see your point, but I'm not convinced it would work."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "since and as can mean because: Since the library is closed, we're studying at home. (With the present perfect and a time, since means 'from then until now': I've lived here since 2020.) so joins two parts of one sentence: The buses are full, so I cycle. therefore is more formal: it usually starts a new sentence and has a comma after it: Therefore, I cycle.",
+      "he": "since ו-as יכולים לבוא במשמעות because ('מכיוון ש'): ‏Since the library is closed, we're studying at home. (עם present perfect ומילת זמן, ‏since פירושו 'מאז': I've lived here since 2020.) ‏so מחבר שני חלקים באותו משפט: The buses are full, so I cycle. ‏therefore ('לכן') רשמי יותר: בדרך כלל הוא פותח משפט חדש, ואחריו פסיק: Therefore, I cycle."
+    },
+    {
+      "type": "warning",
+      "en": "agree is a verb: I agree, not *I am agree. For your own view, say In my opinion or In my view, not *According to me – keep according to for other people and sources (according to the article). such as goes before nouns, not a full sentence: sports such as tennis, not *such as I play tennis. Before a full sentence, use For example.",
+      "he": "agree הוא פועל: אומרים I agree, ולא I am agree. כשמביעים דעה אישית אומרים In my opinion או In my view, ולא According to me – את according to שומרים לדעה של אחרים או של מקור (according to the article). אחרי such as באים שמות עצם, לא משפט שלם: sports such as tennis, ולא such as I play tennis. לפני משפט שלם משתמשים ב-For example."
+    },
+    {
+      "type": "tip",
+      "en": "To disagree politely in English, first show that you have listened (I see your point / That's true), then give your view with a softener (but I'm not sure... / but I'm not convinced...). 'You're wrong' or 'That's nonsense' sounds rude in most discussions, especially with people you don't know well.",
+      "he": "כדי להביע אי-הסכמה בנימוס באנגלית, הראו קודם שהקשבתם (I see your point / That's true), ואז הציגו את דעתכם בצורה מרוככת (but I'm not sure... / but I'm not convinced...). משפטים כמו You're wrong או That's nonsense נשמעים גסים ברוב הדיונים, במיוחד עם אנשים שאתם לא מכירים טוב."
+    }
+  ],
+  "examples": [
+    {
+      "en": "In my view, the city should build more bike lanes.",
+      "he": "לדעתי העירייה צריכה לבנות יותר שבילי אופניים.",
+      "note": "In my view + comma"
+    },
+    {
+      "en": "I believe online courses are useful, because you can study at your own pace.",
+      "he": "אני מאמין/ה שקורסים מקוונים מועילים, כי אפשר ללמוד בקצב שלך.",
+      "note": "because + subject + verb"
+    },
+    {
+      "en": "Since the library closes at six, we can't study there in the evening.",
+      "he": "מכיוון שהספרייה נסגרת בשש, אנחנו לא יכולים ללמוד שם בערב.",
+      "note": "since = because"
+    },
+    {
+      "en": "The canteen is expensive. Therefore, most students bring food from home.",
+      "he": "הקפטריה יקרה. לכן רוב התלמידים מביאים אוכל מהבית.",
+      "note": "Therefore + comma, new sentence"
+    },
+    {
+      "en": "Some apps, such as maps and dictionaries, are really useful.",
+      "he": "אפליקציות מסוימות, כמו מפות ומילונים, ממש שימושיות.",
+      "note": "such as + nouns"
+    },
+    {
+      "en": "It seems to me that people spend less time outside than before.",
+      "he": "נראה לי שאנשים מבלים פחות זמן בחוץ מבעבר.",
+      "note": "It seems (with -s)"
+    },
+    {
+      "en": "That's a good point, but I'm not sure I agree.",
+      "he": "זו נקודה טובה, אבל אני לא בטוח/ה שאני מסכים/ה.",
+      "note": "polite disagreement"
+    },
+    {
+      "en": "I completely agree with Maya.",
+      "he": "אני מסכים/ה לגמרי עם מאיה.",
+      "note": "agree with + person"
+    },
+    {
+      "en": "It depends on the person.",
+      "he": "זה תלוי באדם.",
+      "note": "depend on"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "opinion",
+      "pos": "noun",
+      "he": "דעה",
+      "def": "what you think or feel about something",
+      "example": "In my opinion, the film was too long.",
+      "ipa": "/əˈpɪnjən/",
+      "collocations": [
+        "in my opinion",
+        "have an opinion on/about",
+        "a strong opinion",
+        "change your opinion"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "point of view",
+      "pos": "noun phrase",
+      "he": "נקודת מבט",
+      "def": "a way of thinking about a situation",
+      "example": "From my point of view, the plan is too expensive.",
+      "ipa": "/ˌpɔɪnt əv ˈvjuː/",
+      "collocations": [
+        "from my point of view",
+        "see someone's point of view",
+        "a different point of view"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "believe",
+      "pos": "verb",
+      "he": "להאמין; לחשוב ש...",
+      "def": "to think that something is true",
+      "example": "I believe that everyone should learn to swim.",
+      "ipa": "/bɪˈliːv/",
+      "collocations": [
+        "I strongly believe that",
+        "believe in",
+        "firmly believe"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "agree with",
+      "pos": "verb phrase",
+      "he": "להסכים עם",
+      "def": "to have the same opinion as someone",
+      "example": "I agree with you about the timetable.",
+      "ipa": "/əˈɡriː wɪð/",
+      "collocations": [
+        "completely agree with",
+        "agree with someone about something",
+        "I couldn't agree more"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "disagree",
+      "pos": "verb",
+      "he": "לא להסכים",
+      "def": "to have a different opinion",
+      "example": "I'm afraid I disagree with you.",
+      "ipa": "/ˌdɪsəˈɡriː/",
+      "collocations": [
+        "strongly disagree",
+        "disagree with someone",
+        "I'm afraid I disagree"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "reason",
+      "pos": "noun",
+      "he": "סיבה; נימוק",
+      "def": "a fact that explains why you think or do something",
+      "example": "The main reason is that the buses are too slow.",
+      "ipa": "/ˈriːzn/",
+      "collocations": [
+        "the main reason",
+        "for this reason",
+        "a good reason",
+        "one reason is that"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "therefore",
+      "pos": "adverb",
+      "he": "לכן",
+      "def": "for that reason; as a result (more formal than so)",
+      "example": "The tickets sold out quickly. Therefore, we watched the match at home.",
+      "ipa": "/ˈðeəfɔː(r)/",
+      "collocations": [
+        "and therefore",
+        "it is therefore important"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "for example",
+      "pos": "phrase",
+      "he": "למשל; לדוגמה",
+      "def": "used before an example of what you have just said",
+      "example": "Some subjects are hard. For example, I find chemistry very difficult.",
+      "ipa": "/fər ɪɡˈzɑːmpl/",
+      "collocations": [
+        "a good example of",
+        "give an example",
+        "for instance"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "such as",
+      "pos": "phrase",
+      "he": "כמו (לפני דוגמאות)",
+      "def": "used before examples (nouns) of the thing you have just mentioned",
+      "example": "I love outdoor sports such as hiking and climbing.",
+      "ipa": "/ˈsʌtʃ əz/",
+      "collocations": [
+        "things such as",
+        "places such as",
+        "subjects such as"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "a good point",
+      "pos": "noun phrase",
+      "he": "נקודה טובה; טענה נכונה",
+      "def": "an idea or opinion that is clever or correct",
+      "example": "That's a good point – I hadn't thought of that.",
+      "ipa": "/ə ˌɡʊd ˈpɔɪnt/",
+      "collocations": [
+        "make a good point",
+        "that's a good point",
+        "a fair point"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "convinced",
+      "pos": "adjective",
+      "he": "משוכנע/ת",
+      "def": "completely sure that something is true",
+      "example": "I'm not convinced that a ban would work.",
+      "ipa": "/kənˈvɪnst/",
+      "collocations": [
+        "not convinced (that)",
+        "fully convinced",
+        "convinced by an argument"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "to be honest",
+      "pos": "phrase",
+      "he": "אם להיות כנים; האמת היא ש...",
+      "def": "used before you say what you really think, often something the listener may not like",
+      "example": "To be honest, I don't think it's a good idea.",
+      "ipa": "/tə bi ˈɒnɪst/",
+      "collocations": [
+        "to be honest, I'm not sure",
+        "to be completely honest"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "depend on",
+      "pos": "phrasal verb",
+      "he": "להיות תלוי ב...",
+      "def": "to be decided by something else",
+      "example": "Whether we go or not depends on the weather.",
+      "ipa": "/dɪˈpend ɒn/",
+      "collocations": [
+        "it depends on",
+        "it all depends",
+        "depend on the price"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew a question can keep the word order of a statement, with no extra verb (literally 'what you think?'), so it is easy to say *What you think?. In English, questions about opinions need do: What do you think? Do you agree?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל, בלי פועל נוסף ('מה את חושבת?'), ולכן קל לומר What you think?. באנגלית שאלות על דעה צריכות do: ‏What do you think? ‏Do you agree?",
+      "error_type": "do-support"
+    },
+    {
+      "en": "In Hebrew a present-tense verb has the same form for I, you and he (literally 'I think, you think, he think'), so the English -s for he, she and it is easy to forget: It seems to me..., My brother thinks..., Maya believes...",
+      "he": "בעברית לפועל בהווה יש אותה צורה ל\"אני\", ל\"אתה\" ול\"הוא\" (אני חושב, אתה חושב, הוא חושב), ולכן קל לשכוח את ה-s באנגלית אחרי he, ‏she ו-it: ‏It seems to me..., ‏My brother thinks..., ‏Maya believes...",
+      "error_type": "third-person-s"
+    },
+    {
+      "en": "In Hebrew there is no th sound, so think can come out as 'sink' or 'tink', and therefore as 'zerefore'. Put the tip of your tongue between your teeth: think /θɪŋk/ (no voice), that and therefore /ð/ (with voice).",
+      "he": "בעברית אין את הצליל th, ולכן think עלול לצאת \"סינק\" או \"טינק\", ו-therefore – \"זרפור\". שימו את קצה הלשון בין השיניים: think ‏/θɪŋk/ (בלי קול), ‏that ו-therefore ‏/ð/ (עם קול).",
+      "error_type": "pron-th"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "vocabulary",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "What is each phrase for? Sort them.",
+        "he": "למה משמש כל ביטוי? מיינו אותם."
+      },
+      "categories": [
+        "Giving an opinion",
+        "Agreeing",
+        "Disagreeing politely"
+      ],
+      "items": [
+        {
+          "text": "In my view, ...",
+          "category": "Giving an opinion"
+        },
+        {
+          "text": "It seems to me that ...",
+          "category": "Giving an opinion"
+        },
+        {
+          "text": "I strongly believe that ...",
+          "category": "Giving an opinion"
+        },
+        {
+          "text": "I couldn't agree more.",
+          "category": "Agreeing"
+        },
+        {
+          "text": "I completely agree.",
+          "category": "Agreeing"
+        },
+        {
+          "text": "That's exactly what I think.",
+          "category": "Agreeing"
+        },
+        {
+          "text": "I see your point, but ...",
+          "category": "Disagreeing politely"
+        },
+        {
+          "text": "I'm not sure I agree.",
+          "category": "Disagreeing politely"
+        },
+        {
+          "text": "I'm not convinced that ...",
+          "category": "Disagreeing politely"
+        }
+      ],
+      "hint": {
+        "en": "Watch out for but: a different opinion usually comes after it. And I couldn't agree more is not negative!",
+        "he": "שימו לב ל-but: בדרך כלל אחריה מגיעה דעה אחרת. ו-I couldn't agree more בכלל לא שלילי!"
+      },
+      "explanation": {
+        "en": "Opinions: In my view, It seems to me, I strongly believe. Agreeing: I couldn't agree more (= I agree 100%), I completely agree, That's exactly what I think. Polite disagreement starts softly: I see your point, but... / I'm not sure... / I'm not convinced...",
+        "he": "הבעת דעה: In my view, ‏It seems to me, ‏I strongly believe. הסכמה: I couldn't agree more (= אני מסכים/ה במאה אחוז), ‏I completely agree, ‏That's exactly what I think. אי-הסכמה מנומסת מתחילה ברכות: I see your point, but... / I'm not sure... / I'm not convinced..."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Match the English phrases with their Hebrew meaning.",
+        "he": "התאימו כל ביטוי באנגלית למשמעות שלו בעברית."
+      },
+      "pairs": [
+        [
+          "In my opinion",
+          "לדעתי"
+        ],
+        [
+          "I agree with you.",
+          "אני מסכים/ה איתך."
+        ],
+        [
+          "It depends on the price.",
+          "זה תלוי במחיר."
+        ],
+        [
+          "Therefore",
+          "לכן"
+        ],
+        [
+          "for example",
+          "למשל"
+        ],
+        [
+          "I'm not convinced.",
+          "אני לא משוכנע/ת."
+        ]
+      ],
+      "explanation": {
+        "en": "Notice how the two languages are built differently. Hebrew says 'in my opinion' in one word; English needs a whole phrase: In my opinion (not According to me). The Hebrew for 'I agree' has no 'am', and neither does English: agree is a verb, so I agree (not I am agree). After depend, English uses on: It depends on the price. The Hebrew word for 'therefore' has two English partners: so in the middle of a sentence, Therefore at the start of a new one.",
+        "he": "שימו לב שהשפות בנויות אחרת. 'לדעתי' היא מילה אחת, ובאנגלית צריך ביטוי שלם: In my opinion (ולא According to me). ב'אני מסכים' אין 'להיות', וגם באנגלית אין: agree הוא פועל, ולכן I agree (ולא I am agree). אחרי depend באה באנגלית on: ‏It depends on the price. ול'לכן' יש שני מקבילים: so באמצע משפט, ו-Therefore בתחילת משפט חדש."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Choose the correct phrase.",
+        "he": "בחרו את הביטוי הנכון."
+      },
+      "question": "___, teenagers should be allowed to vote at sixteen.",
+      "options": [
+        "According to me",
+        "On my opinion",
+        "In my opinion",
+        "For my view"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "according to is for other people or sources (according to the news). For your own view, say In my opinion.",
+          "he": "את according to משתמשים לדעה של אחרים או של מקור (according to the news). לדעה שלכם אומרים In my opinion."
+        },
+        "1": {
+          "en": "The preposition is in: In my opinion.",
+          "he": "מילת היחס היא in: ‏In my opinion."
+        },
+        "3": {
+          "en": "The fixed phrase is In my view (or From my point of view).",
+          "he": "הביטוי הקבוע הוא In my view (או From my point of view)."
+        }
+      },
+      "option_errors": {
+        "0": "word-choice",
+        "1": "preposition",
+        "3": "preposition"
+      },
+      "explanation": {
+        "en": "Fixed phrases for your own opinion: In my opinion, In my view, From my point of view.",
+        "he": "ביטויים קבועים להבעת דעה אישית: In my opinion, ‏In my view, ‏From my point of view."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Listen to Noa's opinion about the new bus timetable and answer the question.",
+        "he": "הקשיבו לדעה של נועה על לוח הזמנים החדש של האוטובוסים וענו על השאלה."
+      },
+      "audio_text": "To be honest, I'm not sure the new bus timetable is a good idea. I can see why the council wants to save money, but forty minutes is a long time to wait for a bus. Since most of us take the bus to school, a lot of students are going to be late.",
+      "question": "What does Noa think?",
+      "options": [
+        "The new timetable is a good way to save money, so she supports it.",
+        "Students should walk to school instead of taking the bus.",
+        "The new timetable is a bad idea, because students will wait too long and arrive late.",
+        "The council should run a bus every forty minutes."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "She understands why the council wants to save money, but she doesn't support the plan: 'I'm not sure... is a good idea.'",
+          "he": "היא מבינה למה העירייה רוצה לחסוך, אבל היא לא תומכת בתוכנית: 'I'm not sure... is a good idea.'"
+        },
+        "1": {
+          "en": "She doesn't mention walking at all.",
+          "he": "היא בכלל לא מדברת על הליכה ברגל."
+        },
+        "3": {
+          "en": "A bus every forty minutes is the new timetable – and she thinks that is too long to wait.",
+          "he": "אוטובוס כל ארבעים דקות זה לוח הזמנים החדש – ולדעתה זו המתנה ארוכה מדי."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "Noa disagrees politely: To be honest, I'm not sure... She accepts part of the other view (I can see why...) and gives her reason with since: Since most of us take the bus, a lot of students are going to be late.",
+        "he": "נועה לא מסכימה, אבל בנימוס: To be honest, I'm not sure... היא מקבלת חלק מהעמדה השנייה (I can see why...) ונותנת נימוק עם since: ‏Since most of us take the bus, a lot of students are going to be late."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "What does since mean in this sentence?",
+        "he": "מה המשמעות של since במשפט הזה?"
+      },
+      "question": "Since the library is closed on Saturdays, we study at home.",
+      "options": [
+        "from that time until now",
+        "because",
+        "although",
+        "after"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "That is since with the present perfect and a time: I've lived here since 2020. Here, since + a full clause gives a reason.",
+          "he": "זו המשמעות של since עם present perfect ומילת זמן: I've lived here since 2020. כאן since + משפט שלם נותן נימוק."
+        },
+        "2": {
+          "en": "although shows a contrast. Here, the closed library is the reason we study at home.",
+          "he": "although מבטא ניגוד. כאן הספרייה הסגורה היא הסיבה שלומדים בבית."
+        },
+        "3": {
+          "en": "There is no order of events here – it's a reason.",
+          "he": "אין כאן סדר של אירועים, אלא נימוק."
+        }
+      },
+      "option_errors": {
+        "0": "word-choice",
+        "2": "cohesion",
+        "3": "cohesion"
+      },
+      "explanation": {
+        "en": "since + subject + verb often means because: Since the library is closed, we study at home. as works in the same way: As the library is closed, ...",
+        "he": "since + נושא + פועל פירושו לעיתים קרובות because: ‏Since the library is closed, we study at home. גם as עובד באותה צורה: As the library is closed, ..."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Complete Omer's opinion. Choose the best word or phrase for each gap.",
+        "he": "השלימו את הדעה של עומר. בחרו את המילה או הביטוי המתאימים ביותר לכל רווח."
+      },
+      "text": "In my view, our school needs a proper canteen. ___ most students stay until four o'clock, they need a hot lunch. At the moment, there are only snacks ___ crisps and chocolate. ___, many students feel tired in the afternoon. Some schools already have good canteens. ___, my cousin's school in Haifa serves soup and salad every day. Hot meals are healthier than crisps, ___ a canteen would also improve students' health.",
+      "word_bank": [
+        "Since",
+        "such as",
+        "Therefore",
+        "For example",
+        "so",
+        "because"
+      ],
+      "answers": [
+        [
+          "Since",
+          "As",
+          "Because"
+        ],
+        [
+          "such as",
+          "like"
+        ],
+        [
+          "Therefore",
+          "So",
+          "As a result",
+          "Consequently"
+        ],
+        [
+          "For example",
+          "For instance"
+        ],
+        [
+          "so",
+          "and so"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "For example",
+          "feedback": {
+            "en": "For example usually starts a new sentence, with a comma after it, before a full example. Before a short list of nouns inside the sentence, use such as.",
+            "he": "For example בדרך כלל פותח משפט חדש, עם פסיק אחריו, לפני דוגמה שלמה. לפני רשימה קצרה של שמות עצם בתוך המשפט משתמשים ב-such as."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "such as",
+          "feedback": {
+            "en": "such as goes straight before nouns (snacks such as crisps). It cannot start a sentence.",
+            "he": "such as בא ישר לפני שמות עצם (snacks such as crisps). הוא לא יכול לפתוח משפט."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Therefore",
+          "feedback": {
+            "en": "Therefore shows a result and usually starts a new sentence, with a comma after it. In the middle of a sentence, after a comma, use so.",
+            "he": "Therefore מראה תוצאה ובדרך כלל פותח משפט חדש, עם פסיק אחריו. באמצע משפט, אחרי פסיק, משתמשים ב-so."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "because",
+          "feedback": {
+            "en": "because introduces a reason. Is this part a reason or a result?",
+            "he": "because מציג סיבה. החלק הזה הוא סיבה או תוצאה?"
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "so",
+          "feedback": {
+            "en": "so introduces a result. Is this part a result or a reason?",
+            "he": "so מציג תוצאה. החלק הזה הוא תוצאה או סיבה?"
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Since",
+          "feedback": {
+            "en": "Since introduces a reason. Is this part a reason?",
+            "he": "Since מציג סיבה. האם החלק הזה הוא סיבה?"
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Reason → Since / because. Result → so (same sentence) / Therefore (new sentence). A full example sentence → For example. Nouns → such as.",
+        "he": "סיבה ← Since / because. תוצאה ← so (באותו משפט) / Therefore (משפט חדש). משפט שלם של דוגמה ← For example. שמות עצם ← such as."
+      },
+      "explanation": {
+        "en": "1 Since (a reason) · 2 snacks such as crisps (nouns) · 3 Therefore, (a result, new sentence) · 4 For example, (an example sentence) · 5 ..., so a canteen would also improve... (a result in the same sentence).",
+        "he": "1 Since (סיבה) · 2 snacks such as crisps (שמות עצם) · 3 Therefore, (תוצאה, משפט חדש) · 4 For example, (משפט של דוגמה) · 5 ..., so a canteen would also improve... (תוצאה באותו משפט)."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Which sentence is correct?",
+        "he": "איזה משפט נכון?"
+      },
+      "question": "Choose the correct sentence.",
+      "options": [
+        "I enjoy outdoor sports, such as I go hiking every weekend.",
+        "I enjoy outdoor sports. Such as hiking and climbing.",
+        "I enjoy outdoor sports, such as, hiking and climbing.",
+        "I enjoy outdoor sports such as hiking and climbing."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "such as goes before nouns, not a full sentence. For a full sentence, use For example: I enjoy outdoor sports. For example, I go hiking every weekend.",
+          "he": "אחרי such as באים שמות עצם, לא משפט שלם. למשפט שלם משתמשים ב-For example: I enjoy outdoor sports. For example, I go hiking every weekend."
+        },
+        "1": {
+          "en": "'Such as hiking and climbing.' is not a sentence – it has no subject or verb. Keep it in the same sentence as the noun it explains.",
+          "he": "'Such as hiking and climbing.' הוא לא משפט – אין בו נושא ופועל. השאירו אותו באותו משפט עם שם העצם שהוא מסביר."
+        },
+        "2": {
+          "en": "No comma after such as: such as hiking and climbing.",
+          "he": "אין פסיק אחרי such as: ‏such as hiking and climbing."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "1": "punctuation",
+        "2": "punctuation"
+      },
+      "explanation": {
+        "en": "noun + such as + examples (nouns or -ing forms): outdoor sports such as hiking and climbing. A comma before such as is also fine: outdoor sports, such as hiking and climbing.",
+        "he": "שם עצם + such as + דוגמאות (שמות עצם או צורות ing): ‏outdoor sports such as hiking and climbing. אפשר גם פסיק לפני such as: ‏outdoor sports, such as hiking and climbing."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Join the two sentences into one with since.",
+        "he": "חברו את שני המשפטים למשפט אחד בעזרת since."
+      },
+      "source": "I'm a vegetarian. I never order burgers.",
+      "answers": [
+        "Since I'm a vegetarian, I never order burgers.",
+        "Since I'm a vegetarian I never order burgers.",
+        "Since I'm vegetarian, I never order burgers.",
+        "Since I'm vegetarian I never order burgers.",
+        "I never order burgers, since I'm a vegetarian.",
+        "I never order burgers, since I'm vegetarian.",
+        "I never order burgers since I'm a vegetarian.",
+        "I never order burgers since I'm vegetarian."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Since I'm a vegetarian, so I never order burgers.",
+          "feedback": {
+            "en": "One connector is enough: since already shows the reason, so remove so.",
+            "he": "מילת קישור אחת מספיקה: since כבר מראה את הסיבה, ולכן מוחקים את so."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Since I never order burgers, I'm a vegetarian.",
+          "feedback": {
+            "en": "Check the logic: since goes before the reason (I'm a vegetarian), not before the result.",
+            "he": "בדקו את ההיגיון: since בא לפני הסיבה (I'm a vegetarian), לא לפני התוצאה."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "I'm a vegetarian since I never order burgers.",
+          "feedback": {
+            "en": "Check the logic: since goes before the reason (I'm a vegetarian), not before the result.",
+            "he": "בדקו את ההיגיון: since בא לפני הסיבה (I'm a vegetarian), לא לפני התוצאה."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Which sentence is the reason? Put since before it.",
+        "he": "איזה משפט הוא הסיבה? שימו את since לפניו."
+      },
+      "explanation": {
+        "en": "since + reason: Since I'm a vegetarian, I never order burgers. The since part can also come second: I never order burgers since I'm a vegetarian.",
+        "he": "since + סיבה: Since I'm a vegetarian, I never order burgers. החלק עם since יכול לבוא גם שני: I never order burgers since I'm a vegetarian."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "I am agree with Omer that the film was too long.",
+      "answers": [
+        "I agree with Omer that the film was too long.",
+        "I agree with Omer the film was too long."
+      ],
+      "error_type": "verb-form",
+      "hint": {
+        "en": "agree is a verb, just like think.",
+        "he": "agree הוא פועל, בדיוק כמו think."
+      },
+      "explanation": {
+        "en": "agree is a verb, so it does not need am: I agree, he agrees, we agree. (Compare: I think, not *I am think.)",
+        "he": "agree הוא פועל, ולכן לא צריך am: ‏I agree, ‏he agrees, ‏we agree. (השוו: I think, ולא I am think.)"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "This sentence is not natural English. Rewrite it with a correct opinion phrase.",
+        "he": "המשפט הזה לא טבעי באנגלית. כתבו אותו מחדש עם ביטוי דעה נכון."
+      },
+      "sentence": "According to me, social media is a waste of time.",
+      "answers": [
+        "In my opinion, social media is a waste of time.",
+        "In my opinion social media is a waste of time.",
+        "In my view, social media is a waste of time.",
+        "In my view social media is a waste of time.",
+        "From my point of view, social media is a waste of time.",
+        "From my point of view social media is a waste of time.",
+        "I think social media is a waste of time.",
+        "I think that social media is a waste of time.",
+        "I believe social media is a waste of time.",
+        "I believe that social media is a waste of time.",
+        "It seems to me that social media is a waste of time.",
+        "It seems to me social media is a waste of time.",
+        "Personally, I think social media is a waste of time.",
+        "Personally, I think that social media is a waste of time.",
+        "Personally I think social media is a waste of time.",
+        "Personally I think that social media is a waste of time."
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "For your own opinion, use a fixed phrase with my, or I think.",
+        "he": "לדעה שלכם השתמשו בביטוי קבוע עם my, או ב-I think."
+      },
+      "explanation": {
+        "en": "According to me is not used for your own opinion. Say In my opinion, In my view or I think. Keep according to for other people and sources: According to Maya, ... / According to the article, ...",
+        "he": "לא אומרים According to me כשמביעים דעה אישית. אומרים In my opinion, ‏In my view או I think. את according to שומרים לאחרים ולמקורות: According to Maya, ... / According to the article, ..."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Put the words in order to make a sentence.",
+        "he": "סדרו את המילים למשפט."
+      },
+      "tokens": [
+        "It",
+        "seems",
+        "to",
+        "me",
+        "that",
+        "teenagers",
+        "spend",
+        "too",
+        "much",
+        "time",
+        "online"
+      ],
+      "explanation": {
+        "en": "It seems to me (that) + subject + verb. Remember the -s: It seems.",
+        "he": "It seems to me (that) + נושא + פועל. זכרו את ה-s: ‏It seems."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Read the blog post and the comments. Answer the questions.",
+        "he": "קראו את הפוסט בבלוג ואת התגובות. ענו על השאלות."
+      },
+      "title": "Blog post: Phones in lessons – ban them?",
+      "passage": "Last week our head teacher announced that phones will be banned in lessons from next term. A lot of students are angry about it, but in my view, it's the right decision.\n\nFirst of all, phones are a huge distraction. Since notifications arrive all the time, it's almost impossible to focus on a maths problem for more than a few minutes. For example, in one history lesson last month, I counted eleven different phone sounds!\n\nSecondly, it seems to me that we listen to each other less when our phones are on the desk. In group work, people often check their messages instead of sharing ideas. Therefore, I believe a ban could actually improve teamwork in class.\n\nOf course, phones can be useful for some things, such as checking a word in an online dictionary. But teachers can lend us a tablet when we really need one.\n\n– Lior, 16\n\nCOMMENTS\n\nMaya: I couldn't agree more! My grades went up when I started leaving my phone in my bag.\n\nKenji: That's a good point about group work, but I'm not convinced that a total ban is the answer. I think it depends on the lesson. In art, for instance, we use our phones to photograph our work.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is Lior's opinion of the ban?",
+          "options": [
+            "He thinks it is the right decision.",
+            "He is angry about it, like many other students.",
+            "He thinks phones should only be banned at break.",
+            "He hasn't made up his mind yet."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Many students are angry, but Lior isn't: 'in my view, it's the right decision.'",
+              "he": "תלמידים רבים כועסים, אבל לא ליאור: 'in my view, it's the right decision.'"
+            },
+            "2": {
+              "en": "The ban is for lessons. Lior doesn't talk about break.",
+              "he": "האיסור הוא בשיעורים. ליאור בכלל לא מדבר על ההפסקה."
+            },
+            "3": {
+              "en": "He gives a clear opinion in the very first paragraph.",
+              "he": "הוא מביע דעה ברורה כבר בפסקה הראשונה."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'...but in my view, it's the right decision.'",
+            "he": "בטקסט: ...but in my view, it's the right decision."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Lior supports his first reason with an example from a history lesson.",
+          "answer": true,
+          "explanation": {
+            "en": "'For example, in one history lesson last month, I counted eleven different phone sounds!'",
+            "he": "בטקסט: For example, in one history lesson last month, I counted eleven different phone sounds!"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Lior thinks phones are never useful at school.",
+          "answer": false,
+          "explanation": {
+            "en": "He says phones can be useful for some things, such as checking a word in an online dictionary.",
+            "he": "הוא כותב שטלפונים יכולים להועיל לכמה דברים, כמו לבדוק מילה במילון מקוון."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "How does Kenji disagree with Lior?",
+          "options": [
+            "He says all of Lior's ideas are wrong.",
+            "He accepts one of Lior's points, then gives a different view.",
+            "He agrees with Lior completely.",
+            "He says phones should be banned in art lessons too."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "No – he starts by accepting a point: That's a good point about group work...",
+              "he": "לא – הוא פותח בכך שהוא מקבל טענה: That's a good point about group work..."
+            },
+            "2": {
+              "en": "He isn't convinced that a total ban is the answer, so he doesn't agree completely.",
+              "he": "הוא לא משוכנע שאיסור מוחלט הוא הפתרון, ולכן הוא לא מסכים לגמרי."
+            },
+            "3": {
+              "en": "The opposite: in art they use their phones to photograph their work.",
+              "he": "להפך: בשיעורי אמנות הם משתמשים בטלפון כדי לצלם את העבודות שלהם."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Polite disagreement: That's a good point about group work, but I'm not convinced that...",
+            "he": "אי-הסכמה מנומסת: That's a good point about group work, but I'm not convinced that..."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Maya says her grades went up when she started leaving her phone in her ___.",
+          "answers": [
+            [
+              "bag",
+              "school bag",
+              "schoolbag"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "desk",
+              "feedback": {
+                "en": "Lior talks about phones on the desk. Read Maya's comment again: where does she leave her phone?",
+                "he": "ליאור מדבר על טלפונים על השולחן. קראו שוב את התגובה של מאיה: איפה היא משאירה את הטלפון?"
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "pocket",
+              "feedback": {
+                "en": "Read Maya's comment again: ...leaving my phone in my bag.",
+                "he": "קראו שוב את התגובה של מאיה: ...leaving my phone in my bag."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'My grades went up when I started leaving my phone in my bag.' Maya supports Lior's opinion with an example from her own life.",
+            "he": "בטקסט: My grades went up when I started leaving my phone in my bag. מאיה תומכת בדעה של ליאור בדוגמה מהחיים שלה."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Listen and write what you hear.",
+        "he": "הקשיבו וכתבו את מה ששמעתם."
+      },
+      "audio_text": "I see your point, but I'm not convinced it would work.",
+      "answers": [
+        "I see your point, but I'm not convinced it would work.",
+        "I see your point, but I'm not convinced that it would work."
+      ],
+      "explanation": {
+        "en": "A polite way to disagree: first show you listened (I see your point), then soften your view (I'm not convinced...).",
+        "he": "דרך מנומסת להביע אי-הסכמה: קודם מראים שהקשבתם (I see your point), ואז מרככים את הדעה שלכם (I'm not convinced...)."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Your friend says: 'Homework should be banned.' Reply out loud.",
+        "he": "חבר אומר לכם: 'Homework should be banned.' ענו לו בקול."
+      },
+      "target": "That's a good point, but I think it depends on the subject.",
+      "focus": {
+        "en": "th: that's has /ð/ (with voice), think has /θ/ (no voice) – put your tongue between your teeth for both. Stress: de-PENDS, SUB-ject.",
+        "he": "th: ב-that's יש ‏/ð/ (עם קול), ב-think יש ‏/θ/ (בלי קול) – בשניהם הלשון בין השיניים. הטעמה: de-PENDS, ‏SUB-ject."
+      },
+      "explanation": {
+        "en": "Agree with part of the idea first (That's a good point), then add your own view with but. It depends on... is a useful way to give a balanced answer.",
+        "he": "קודם מסכימים עם חלק מהרעיון (That's a good point), ואז מוסיפים את הדעה שלכם עם but. ‏It depends on... היא דרך שימושית לתת תשובה מאוזנת."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "opinion-language",
+      "prompt": {
+        "en": "Write a comment on Lior's blog post.",
+        "he": "כתבו תגובה לפוסט של ליאור."
+      },
+      "task": {
+        "en": "Write a comment (80-120 words) on Lior's blog post about banning phones in lessons. Say whether you agree or disagree – politely! Give two reasons with because, since or as, add one example with for example or such as, and use therefore or so once.",
+        "he": "כתבו תגובה (80-120 מילים) לפוסט של ליאור על איסור טלפונים בשיעורים. כתבו אם אתם מסכימים או לא – בנימוס! תנו שני נימוקים עם because, ‏since או as, הוסיפו דוגמה אחת עם for example או such as, והשתמשו פעם אחת ב-therefore או ב-so."
+      },
+      "min_words": 80,
+      "max_words": 120,
+      "model_answer": "Hi Lior, I see your point about distractions, but I'm not convinced that a total ban is the right answer. In my view, students need to learn to control their phones themselves, since we will all use them at university and at work. A ban only hides the problem. Phones can also be really useful in class. For example, our English teacher asks us to record ourselves speaking, and then we listen and correct our mistakes. Therefore, teachers should decide when phones are allowed, as they know what works in each lesson. Simple rules such as 'phones face down on the desk' would solve most of the problem without a ban.",
+      "checklist": [
+        {
+          "en": "I said clearly whether I agree or disagree.",
+          "he": "כתבתי בבירור אם אני מסכים/ה או לא."
+        },
+        {
+          "en": "I agreed or disagreed politely (I see your point, but... / I couldn't agree more).",
+          "he": "הסכמתי או הבעתי אי-הסכמה בנימוס (I see your point, but... / I couldn't agree more)."
+        },
+        {
+          "en": "I gave two reasons with because, since or as.",
+          "he": "נתתי שני נימוקים עם because, ‏since או as."
+        },
+        {
+          "en": "I gave an example with For example, + a sentence, or such as + nouns.",
+          "he": "נתתי דוגמה עם For example, + משפט, או עם such as + שמות עצם."
+        },
+        {
+          "en": "I used so in the middle of a sentence, or Therefore, at the start of a new one.",
+          "he": "השתמשתי ב-so באמצע משפט, או ב-Therefore, בתחילת משפט חדש."
+        },
+        {
+          "en": "I wrote I agree (not I am agree) and In my opinion (not According to me).",
+          "he": "כתבתי I agree (ולא I am agree) ו-In my opinion (ולא According to me)."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Give your opinion: I think / I believe (that)... · In my opinion, ... · In my view, ... · It seems to me (that)...",
+        "he": "הבעת דעה: I think / I believe (that)... · ‏In my opinion, ... · ‏In my view, ... · ‏It seems to me (that)..."
+      },
+      {
+        "en": "Support it: a reason with because / since / as + subject + verb; a result with so (same sentence) or Therefore, (new sentence).",
+        "he": "נמקו: סיבה עם because / since / as + נושא + פועל; תוצאה עם so (באותו משפט) או Therefore, (משפט חדש)."
+      },
+      {
+        "en": "Examples: For example, + a full sentence; such as + nouns.",
+        "he": "דוגמאות: For example, + משפט שלם; ‏such as + שמות עצם."
+      },
+      {
+        "en": "Agree: I agree / I couldn't agree more. Disagree politely: I see your point, but... / I'm not convinced...",
+        "he": "הסכמה: I agree / I couldn't agree more. אי-הסכמה מנומסת: I see your point, but... / I'm not convinced..."
+      },
+      {
+        "en": "Say I agree (not I am agree) and In my opinion (not According to me).",
+        "he": "אומרים I agree (ולא I am agree) ו-In my opinion (ולא According to me)."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

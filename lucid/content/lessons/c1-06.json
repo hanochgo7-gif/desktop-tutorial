@@ -1,0 +1,1022 @@
+{
+  "id": "c1-06",
+  "level": "C1",
+  "title_en": "Logical fallacies",
+  "title_he": "כשלים לוגיים",
+  "topics": [
+    "fallacies"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can recognise common fallacies (hasty generalisation, post hoc, slippery slope, false dilemma, straw man, ad hominem, appeals to authority and popularity) by asking what the reasoning actually assumes."
+    },
+    {
+      "en": "I can repair a flawed argument instead of just naming the flaw: narrow the claim, add evidence, explain a mechanism, compare real options or state the other side fairly."
+    },
+    {
+      "en": "I can tell fallacious reasoning from reasonable reasoning that looks similar, and audit my own drafts for these weaknesses."
+    }
+  ],
+  "warmup": {
+    "en": "A comment under an article about a later school start says: 'If we let students start at 9, next they'll want to start at 11, and soon nobody will turn up at all.' Is this a reason, or does it only sound like one? What would the writer need to show to make it a real argument?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "A fallacy is reasoning that looks convincing but does not actually support its conclusion. Read this: 'Since the council introduced the new bike lanes, two shops on the street have closed. Clearly the lanes are killing local business, and anyone who disagrees is just an anti-car activist.' Two moves fail. The closures came after the lanes, but nothing shows that the lanes caused them (post hoc), and labelling opponents answers none of their arguments (ad hominem). The point of learning fallacies is not to win by naming them; it is to find the gap in the reasoning, in other people's writing and in your own, and to repair it."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Fallacy",
+        "The faulty move",
+        "Spot it by asking",
+        "Repair"
+      ],
+      "rows": [
+        [
+          "Hasty generalisation",
+          "a broad conclusion from too few or untypical cases",
+          "How many cases, and are they typical?",
+          "narrow the claim or find wider evidence"
+        ],
+        [
+          "Post hoc (false cause)",
+          "B came after A, so A caused B",
+          "What else changed? How would A cause B?",
+          "explain a mechanism and rule out alternatives, or claim only a link"
+        ],
+        [
+          "Slippery slope",
+          "one step will inevitably lead to an extreme end",
+          "Which step in the chain has evidence?",
+          "argue only for the consequences you can support"
+        ],
+        [
+          "False dilemma",
+          "only two options when more exist",
+          "Are there other options or a middle way?",
+          "name the realistic options and compare them"
+        ],
+        [
+          "Straw man",
+          "the opposing view is replaced by a weaker caricature",
+          "Would its supporters accept this description?",
+          "state the strongest version, then answer it"
+        ],
+        [
+          "Ad hominem",
+          "the person is attacked instead of the argument",
+          "Does this tell me whether the argument is sound?",
+          "respond to the reasons and evidence"
+        ],
+        [
+          "Appeal to authority",
+          "a claim is accepted because of who says it, outside their expertise",
+          "Is this person an expert on this exact question?",
+          "cite relevant expertise and the evidence behind it"
+        ],
+        [
+          "Appeal to popularity",
+          "a claim is accepted because many people believe it",
+          "Is popularity evidence here?",
+          "give the reasons why people might be right"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Spot and fix; don't just name and blame. Real fallacies rarely come labelled, and a similar move can be fair in one context and fallacious in another. Quoting a bridge engineer on whether a bridge is safe is a reasonable appeal to authority; quoting a celebrity chef on it is not. A chain of consequences is not a slippery slope if every step is supported by evidence. Noticing that a company funded a study is a good reason to check its results more carefully (a vested interest); rejecting the results without looking at them is ad hominem. Always ask: what does this reasoning assume, and is the assumption justified?"
+    },
+    {
+      "type": "tip",
+      "en": "Repair, don't just delete. Most fallacies hide a reasonable point that has been pushed too far. 'Every student I know hates the new timetable' (hasty generalisation) → 'In my year group, many students say the new timetable leaves too little time for lunch; a school-wide survey would show whether this is typical.' 'Either we ban cars from the centre or the old town will be destroyed' (false dilemma) → 'Unless traffic in the centre is reduced, through a ban, a charge or better buses, the damage to the old town is likely to continue.' The repaired claims are smaller, but much harder to knock down."
+    },
+    {
+      "type": "warning",
+      "en": "Check your own drafts, especially the counterargument and the conclusion. It is easiest to build a straw man when you summarise a view you dislike, and easiest to slide into a slippery slope or a false dilemma when you are trying to end powerfully. Read each opposing view as its supporters would read it, and be suspicious of all, never, inevitably, the only choice and everyone knows. Note also that a hedge does not repair a fallacy: 'probably' does not make two examples a pattern."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Post hoc: Crime fell after the new street lights were installed, so the lights reduced crime. Repaired: Crime fell after the new street lights were installed; to show that the lights were the cause, we would need to compare streets that did not get new lights over the same period.",
+      "note": "after does not mean because"
+    },
+    {
+      "en": "Straw man: Supporters of a four-day week just don't want to work. Repaired: Supporters of a four-day week argue that rested employees can produce as much in four days as tired ones do in five.",
+      "note": "state the view as its supporters would"
+    },
+    {
+      "en": "Ad hominem: We can ignore Noa's proposal; she has never even run a business. Repaired: Noa's proposal underestimates the cost of the extra staff it would need.",
+      "note": "answer the argument, not the person"
+    },
+    {
+      "en": "False dilemma: Either we build the new road or the town centre will die. Repaired: The new road is one option; better buses and cheaper short-stay parking are others, and all three should be compared on cost and effect.",
+      "note": "name the realistic options"
+    },
+    {
+      "en": "Slippery slope: If we allow phones at break, students will soon use them in every lesson and teaching will become impossible. Repaired: Allowing phones at break could make the lesson rule harder to enforce, so the policy should include a clear consequence for using them in lessons.",
+      "note": "keep only the consequence you can support"
+    },
+    {
+      "en": "Appeal to popularity: Millions of people take this supplement, so it must work. Repaired: The supplement is popular, but popularity is not evidence that it works; the question is what controlled trials show.",
+      "note": "popularity is not proof"
+    },
+    {
+      "en": "Appeal to authority: A famous actor says the diet changed her life, so it must be healthy. Repaired: Researchers who have reviewed controlled trials of the diet are the relevant authority; the actor's experience is one anecdote.",
+      "note": "expertise must match the question"
+    },
+    {
+      "en": "Not a fallacy: The city's own bridge engineers, after two years of load tests, conclude that the bridge cannot safely carry heavier lorries.",
+      "note": "relevant expertise with evidence behind it: a reasonable appeal to authority"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "fallacy",
+      "pos": "noun",
+      "he": "כשל (לוגי)",
+      "def": "a mistake in reasoning that makes an argument seem stronger than it really is",
+      "example": "The essay's conclusion rests on a common fallacy: it treats a sequence of events as proof of cause.",
+      "ipa": "/ˈfæləsi/",
+      "collocations": [
+        "a logical fallacy",
+        "commit a fallacy",
+        "it is a fallacy that"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "flawed",
+      "pos": "adjective",
+      "he": "פגום",
+      "def": "having a weakness that makes something less valid or effective",
+      "example": "The survey was flawed because only volunteers took part.",
+      "ipa": "/flɔːd/",
+      "collocations": [
+        "deeply flawed",
+        "a flawed argument",
+        "fundamentally flawed"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "ad hominem",
+      "pos": "adjective",
+      "he": "התקפה על האדם במקום על הטיעון",
+      "def": "directed against a person's character or situation rather than against their argument",
+      "example": "Calling her 'naive' was an ad hominem attack, not an answer to her evidence.",
+      "ipa": "/ˌæd ˈhɒmɪnem/",
+      "collocations": [
+        "an ad hominem attack",
+        "an ad hominem argument"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "false dilemma",
+      "pos": "noun",
+      "he": "דילמה כוזבת (הצגת שתי אפשרויות בלבד)",
+      "def": "an argument that presents only two options when others exist",
+      "example": "'Ban cars or lose the old town' is a false dilemma: there are other ways to cut traffic.",
+      "ipa": "/ˌfɔːls dɪˈlemə/",
+      "collocations": [
+        "present a false dilemma",
+        "a false choice between"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "slippery slope",
+      "pos": "noun",
+      "he": "מדרון חלקלק",
+      "def": "the claim, often unsupported, that one step will lead to a chain of worse and worse results",
+      "example": "The article relies on a slippery slope: one tall building, it says, will lead to a skyline of towers.",
+      "ipa": "/ˌslɪpəri ˈsləʊp/",
+      "collocations": [
+        "a slippery slope argument",
+        "the start of a slippery slope",
+        "on a slippery slope"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "generalisation",
+      "pos": "noun",
+      "he": "הכללה",
+      "def": "a general statement based on only some of the cases it describes",
+      "example": "One rude tourist does not justify a generalisation about a whole city.",
+      "ipa": "/ˌdʒenrələˈzeɪʃn/",
+      "collocations": [
+        "a sweeping generalisation",
+        "a hasty generalisation",
+        "make generalisations about"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "misrepresent",
+      "pos": "verb",
+      "he": "להציג באופן מעוות",
+      "def": "to describe someone's views, or the facts, in a way that is not accurate, often on purpose",
+      "example": "The column misrepresents its opponents as wanting 'racetracks on pavements'.",
+      "ipa": "/ˌmɪsreprɪˈzent/",
+      "collocations": [
+        "misrepresent someone's views",
+        "deliberately misrepresent",
+        "be misrepresented as"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "premise",
+      "pos": "noun",
+      "he": "הנחת יסוד",
+      "def": "a statement or idea that an argument is based on",
+      "example": "If the premise is false, the conclusion cannot be trusted.",
+      "ipa": "/ˈpremɪs/",
+      "collocations": [
+        "a false premise",
+        "the premise that",
+        "rest on the premise"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "sweeping",
+      "pos": "adjective",
+      "he": "גורף",
+      "def": "too general, and ignoring details and exceptions",
+      "example": "'Teenagers never read' is a sweeping statement.",
+      "ipa": "/ˈswiːpɪŋ/",
+      "collocations": [
+        "a sweeping statement",
+        "sweeping claims",
+        "a sweeping generalisation"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "inevitably",
+      "pos": "adverb",
+      "he": "בהכרח; באופן בלתי נמנע",
+      "def": "in a way that cannot be avoided or prevented",
+      "example": "Critics claim that the policy will inevitably lead to higher prices, but they offer no evidence.",
+      "ipa": "/ɪnˈevɪtəbli/",
+      "collocations": [
+        "will inevitably lead to",
+        "almost inevitably",
+        "inevitably result in"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "sound",
+      "pos": "adjective",
+      "he": "תקף; מבוסס (טיעון)",
+      "def": "(of reasoning) logical and based on good evidence",
+      "example": "Her argument is sound: every step is supported by evidence.",
+      "ipa": "/saʊnd/",
+      "collocations": [
+        "sound reasoning",
+        "a sound argument",
+        "on sound grounds"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "bandwagon",
+      "pos": "noun",
+      "he": "מגמה שמצטרפים אליה רק כי היא פופולרית",
+      "def": "an idea or activity that many people suddenly support because it is popular",
+      "example": "Several politicians jumped on the bandwagon once the policy became popular.",
+      "ipa": "/ˈbændwæɡən/",
+      "collocations": [
+        "jump on the bandwagon",
+        "a bandwagon effect"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "mcq",
+      "skill": "reading",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Read the argument and choose the best description of its flaw."
+      },
+      "question": "'Since the canteen started offering a vegetarian dish, more students have been missing afternoon classes. The new menu is clearly making students tired.'",
+      "options": [
+        "It assumes that because one thing followed another, the first caused the second.",
+        "It attacks the people who chose the menu instead of the menu itself.",
+        "It offers only two options when more exist.",
+        "It accepts the claim because many people believe it."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Nobody is attacked: the argument is about the menu."
+        },
+        "2": {
+          "en": "No choice between options is presented."
+        },
+        "3": {
+          "en": "No appeal to what many people believe is made."
+        }
+      },
+      "option_errors": {
+        "1": "comprehension",
+        "2": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "This is post hoc reasoning: the absences came after the menu changed, but nothing links the two. Exams, the weather, a timetable change or illness could explain them. A sound version would explain how the food could cause tiredness and check what else changed."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "reading",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Each argument has one main weakness. Sort them."
+      },
+      "categories": [
+        "Hasty generalisation",
+        "Slippery slope",
+        "False dilemma",
+        "Ad hominem"
+      ],
+      "items": [
+        {
+          "text": "I met two rude tourists from that city last summer, so people from there are clearly unfriendly.",
+          "category": "Hasty generalisation"
+        },
+        {
+          "text": "Three students in my class improved after using the app, so it will work for every learner.",
+          "category": "Hasty generalisation"
+        },
+        {
+          "text": "If we let students retake one test, they will expect to retake every test, and soon grades will mean nothing.",
+          "category": "Slippery slope"
+        },
+        {
+          "text": "Once the council allows one tall building in the old town, nothing will stop a skyline of towers.",
+          "category": "Slippery slope"
+        },
+        {
+          "text": "We either raise ticket prices or the theatre closes; there is no other way.",
+          "category": "False dilemma"
+        },
+        {
+          "text": "You are either with the new timetable or against student well-being.",
+          "category": "False dilemma"
+        },
+        {
+          "text": "Why should we listen to Omer's plan for the budget? He failed maths at school.",
+          "category": "Ad hominem"
+        },
+        {
+          "text": "The report on noise can be ignored: its author is a well-known complainer.",
+          "category": "Ad hominem"
+        }
+      ],
+      "hint": {
+        "en": "Ask what the argument depends on: a few cases (generalisation), a chain of predictions (slippery slope), only two options (false dilemma) or a judgement about a person (ad hominem)."
+      },
+      "explanation": {
+        "en": "Two cases cannot show what a whole city or every learner is like. A chain of predictions needs evidence for each step. 'Either ... or' hides other options, such as sponsorship for the theatre. And a person's past or character does not tell you whether their plan or report is accurate."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Listen to a speaker in a debate about the town library."
+      },
+      "audio_text": "My opponent says we should keep the old library building. In other words, she wants us to pour money into a crumbling building forever and ignore what young people actually need. Well, I think our town deserves better than that.",
+      "question": "What is the main weakness in the speaker's reply?",
+      "options": [
+        "He relies on statistics that may be out of date.",
+        "He agrees with his opponent too quickly.",
+        "He restates his opponent's view as a more extreme one that is easier to reject.",
+        "He quotes an expert from an unrelated field."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The speaker gives no statistics at all."
+        },
+        "1": {
+          "en": "He does not agree with her; he rejects a distorted version of her view."
+        },
+        "3": {
+          "en": "No expert is quoted."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'In other words' introduces a straw man: keeping the building becomes 'pour money into a crumbling building forever' and 'ignore what young people need'. She may have argued for renovating it as a youth space, but the reply never engages with her real reasons."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "match",
+      "skill": "reading",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Match each flawed claim with the question that exposes its weakness."
+      },
+      "pairs": [
+        [
+          "Sales rose after the advert, so the advert worked.",
+          "What else changed at the same time?"
+        ],
+        [
+          "A famous singer says this diet is the healthiest in the world.",
+          "Is this person an expert on this question?"
+        ],
+        [
+          "Everyone is buying this phone, so it must be the best.",
+          "Is popularity evidence of quality?"
+        ],
+        [
+          "Ignore her report on the bus routes; she doesn't even live here.",
+          "Does this tell us whether her report is accurate?"
+        ],
+        [
+          "Either we cut fares or the buses will run empty.",
+          "Are there other options?"
+        ],
+        [
+          "My uncle smoked all his life and lived to ninety, so smoking can't be that harmful.",
+          "How many cases is this based on, and are they typical?"
+        ]
+      ],
+      "explanation": {
+        "en": "These critical questions work even when you cannot remember a fallacy's name: post hoc (what else changed?), irrelevant authority (is this person an expert on this?), popularity (is popularity evidence?), ad hominem (does this tell us whether the argument is right?), false dilemma (are there other options?) and hasty generalisation (how many cases, and are they typical?)."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Read the opinion column from a local newspaper. Some of its reasoning is flawed and some is sound. Answer the questions."
+      },
+      "title": "It is time to ban e-scooters from Larkfield",
+      "passage": "Two years ago, Larkfield allowed rental e-scooters on its streets. Since then, the number of people treated at Larkfield General Hospital for minor injuries has risen every year, and residents have complained more and more about speeding riders. The connection could not be clearer: the scooters are making our town more dangerous, and the council must ban them before someone is killed.\n\nI have seen the danger myself. Last month my neighbour's son was thrown from a scooter outside the station and broke his wrist, and a week later a rider almost knocked over an elderly woman on Mill Road. Anyone who walks through the town centre knows that scooter riders simply do not care about pedestrians.\n\nThe scooter company, of course, disagrees. Its local manager told this newspaper that most riders use the scooters safely. But what would you expect him to say? He is a twenty-six-year-old who has probably never had to push a pram along a crowded pavement. Supporters of the scheme, meanwhile, seem to believe that our pavements should be turned into racetracks for anyone with an app.\n\nThere is also a practical problem that deserves attention. Scooters are often left lying across pavements, and for wheelchair users or people with poor eyesight, a scooter dropped in the wrong place can block a route completely. Disability groups have been raising this with the council for months, and they have yet to receive a reply. This is not just a matter of opinion: anyone can see scooters lying across the pavement on Station Road on a weekday morning, and the council's own complaints log will show how often the problem has been reported.\n\nSome councillors suggest new rules instead: lower speed limits, parking zones and fines for riding on pavements. But rules like these will only be the beginning. If we accept scooters with speed limits today, tomorrow it will be electric bikes on pavements, then skateboards, and before long no pedestrian in Larkfield will be safe.\n\nThe choice is simple. Either we ban scooters now, or we accept that our pavements will belong to them. In our online poll last week, a large majority of readers voted for a ban. When that many people agree, the council has no excuse to wait.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is wrong with the reasoning in paragraph 1?",
+          "options": [
+            "It assumes the scooters caused the rise in injuries just because the rise came after they arrived.",
+            "It attacks the hospital staff instead of examining their figures.",
+            "It relies on a story about a single accident.",
+            "It quotes an expert from an unrelated field."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The hospital staff are not criticised at all."
+            },
+            "2": {
+              "en": "The single accident appears in paragraph 2, not paragraph 1."
+            },
+            "3": {
+              "en": "No expert is quoted in paragraph 1."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Post hoc: the writer never shows that the minor injuries involved scooters at all. The town may have grown, or more people may be cycling or doing sport. 'The connection could not be clearer' is asserted, not demonstrated."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which sentence in paragraph 2 is a hasty generalisation?",
+          "options": [
+            "I have seen the danger myself.",
+            "Last month my neighbour's son was thrown from a scooter outside the station and broke his wrist.",
+            "Anyone who walks through the town centre knows that scooter riders simply do not care about pedestrians.",
+            "A week later a rider almost knocked over an elderly woman on Mill Road."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "This introduces the writer's experience; it does not yet generalise."
+            },
+            "1": {
+              "en": "This reports one incident. Anecdotes are not fallacies in themselves; the problem is the conclusion drawn from them."
+            },
+            "3": {
+              "en": "This is a second anecdote. The fallacy is the leap from two incidents to all riders."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Two incidents become a claim about all scooter riders ('simply do not care'), backed only by 'anyone ... knows'. A sound version would say that these incidents show a risk worth investigating."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "How does the writer respond to the manager's claim that most riders use the scooters safely?",
+          "options": [
+            "By presenting evidence that most riders are unsafe.",
+            "By questioning the manager's age and experience instead of his claim.",
+            "By agreeing with the manager and changing her position.",
+            "By noting his vested interest and then checking his figures against independent data."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "No evidence about riders in general is given."
+            },
+            "2": {
+              "en": "The writer does not change her position."
+            },
+            "3": {
+              "en": "Noting a vested interest would be fair, but the writer never checks any figures; she dismisses the claim because of who he is."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'What would you expect him to say?' could lead to a fair check of his claim, but the writer turns instead to his age and imagined experience. That is ad hominem: it says nothing about whether most riders are safe."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer describes the supporters' view in a way that they would probably accept.",
+          "answer": false,
+          "explanation": {
+            "en": "Supporters are said to want pavements 'turned into racetracks for anyone with an app': a straw man. Their likely argument (cheap, low-emission short journeys) is never stated."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which paragraph makes a reasonable point that the writer could build a sound argument on?",
+          "options": [
+            "Paragraph 1",
+            "Paragraph 3",
+            "Paragraph 4",
+            "Paragraph 6"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "Paragraph 1 rests on a false-cause leap."
+            },
+            "1": {
+              "en": "Paragraph 3 attacks the manager and caricatures supporters."
+            },
+            "3": {
+              "en": "Paragraph 6 relies on a false dilemma and an appeal to popularity."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Paragraph 4 identifies a specific, checkable harm (scooters blocking routes for wheelchair users and people with poor eyesight) and a real failure to respond. Not every point in a flawed text is a fallacy."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What would the writer need in order to make paragraph 5 a sound argument?",
+          "options": [
+            "More emotional language about the dangers to pedestrians",
+            "Evidence for each step in the chain, for example from towns that introduced similar rules",
+            "A larger online poll of readers",
+            "A quotation from a famous person who agrees"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Stronger feelings do not support a prediction."
+            },
+            "2": {
+              "en": "A poll shows what readers think, not what will happen if speed limits are introduced."
+            },
+            "3": {
+              "en": "Fame is not expertise, and agreement is not evidence."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Paragraph 5 is a slippery slope: speed limits → electric bikes on pavements → skateboards → nobody safe. A chain of predictions is only as strong as the evidence for each link."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which sentence best repairs the false dilemma in the final paragraph?",
+          "options": [
+            "The choice is simple: ban scooters, or lose our pavements forever.",
+            "Most readers want a ban, so a ban is the only option.",
+            "Anyone who does not support a ban does not care about pedestrians.",
+            "The council has three realistic options (a ban, stricter rules with parking zones, or a time-limited trial of those rules), and it should compare them on safety and cost."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "This repeats the false dilemma."
+            },
+            "1": {
+              "en": "This replaces one fallacy with another: popularity does not make an option the only one."
+            },
+            "2": {
+              "en": "This adds an ad hominem attack on opponents."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "The repair names the realistic options, including a middle way, and sets criteria for choosing between them. The writer could still argue for a ban, but would have to show why it beats the alternatives."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Using a readers' poll as proof that a ban is the right decision is an appeal to ___.",
+          "answers": [
+            [
+              "popularity",
+              "the majority",
+              "majority",
+              "popular opinion",
+              "the crowd",
+              "the people",
+              "numbers"
+            ]
+          ],
+          "explanation": {
+            "en": "An appeal to popularity: the poll shows what many readers want, not whether a ban would work. It is also an online poll, so its readers chose to take part."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "categorize",
+      "skill": "reading",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Similar-looking moves can be fair or fallacious. Sort the arguments."
+      },
+      "categories": [
+        "Flawed reasoning",
+        "Reasonable reasoning"
+      ],
+      "items": [
+        {
+          "text": "The city's bridge engineers, after two years of load tests, say the bridge cannot safely carry heavier lorries.",
+          "category": "Reasonable reasoning"
+        },
+        {
+          "text": "A popular TV chef says the bridge is perfectly safe for heavier lorries.",
+          "category": "Flawed reasoning"
+        },
+        {
+          "text": "In a random sample of 2,000 residents, most supported the new park, so it is likely to be popular across the town.",
+          "category": "Reasonable reasoning"
+        },
+        {
+          "text": "Everyone in my building supports the new park, so the whole town must support it.",
+          "category": "Flawed reasoning"
+        },
+        {
+          "text": "Raising the speed limit will lead to higher speeds, and crashes at higher speeds tend to be more serious, so the change carries a real risk.",
+          "category": "Reasonable reasoning"
+        },
+        {
+          "text": "If we raise the speed limit by ten, drivers will soon ignore all limits and our roads will become lawless.",
+          "category": "Flawed reasoning"
+        },
+        {
+          "text": "The study was paid for by the company that makes the product, so I checked whether independent studies found the same result.",
+          "category": "Reasonable reasoning"
+        },
+        {
+          "text": "The study was paid for by the company that makes the product, so its results must be false.",
+          "category": "Flawed reasoning"
+        }
+      ],
+      "hint": {
+        "en": "Each pair looks similar. Ask: is the authority relevant, is the sample representative, is every step of the chain supported, and is the source checked or simply dismissed?"
+      },
+      "explanation": {
+        "en": "Relevant expertise backed by tests is a fair appeal to authority; a celebrity chef is not an engineer. A random sample can support a cautious general claim; one building cannot. A short chain with well-established links is a reasoned prediction, not a slippery slope. And a vested interest is a reason to check the evidence, not to reject it unseen."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Choose the best repair of the flawed argument."
+      },
+      "question": "Flawed: 'My two older brothers struggled with online university courses, so online degrees are worthless.'",
+      "options": [
+        "Online degrees are completely worthless, as everyone knows.",
+        "Since my brothers struggled, online degrees are probably worthless for most students.",
+        "Online degrees are excellent for everyone, so my brothers must simply have been lazy.",
+        "My brothers' experience suggests that online courses may not suit students who need a fixed routine; wider evidence would show how common this is."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "This keeps the sweeping claim and adds an appeal to popularity ('as everyone knows')."
+        },
+        "1": {
+          "en": "A hedge does not repair a hasty generalisation: two cases still cannot support a claim about most students, however cautiously it is worded."
+        },
+        "2": {
+          "en": "This swaps one sweeping claim for another and adds an attack on the brothers."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "1": "fallacy",
+        "2": "fallacy"
+      },
+      "explanation": {
+        "en": "The best repair keeps the real insight (online study may not suit everyone), narrows the claim to what two cases can suggest, and names the evidence that would be needed for anything stronger."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "A student is checking the conclusion of her own essay. Which revision keeps her position but removes the flaw?"
+      },
+      "question": "Draft: 'If we do not introduce a sugar tax now, obesity will keep rising until our hospitals collapse, and future generations will never forgive us.'",
+      "options": [
+        "A sugar tax is the only way to save our hospitals from collapse.",
+        "A sugar tax would not solve obesity on its own, but by making sugary drinks more expensive it could reduce how much people drink, which is why it deserves a trial.",
+        "Everyone agrees that sugar is bad for us, so the tax should be introduced immediately.",
+        "Without a sugar tax, hospitals will certainly collapse within a decade."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "This turns the slippery slope into a false dilemma: 'the only way' ignores every other policy."
+        },
+        "2": {
+          "en": "'Everyone agrees' is an appeal to popularity, and agreement that sugar is bad does not show that a tax works."
+        },
+        "3": {
+          "en": "This keeps the extreme, unsupported prediction and makes it even more certain."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "2": "fallacy",
+        "3": "fallacy"
+      },
+      "explanation": {
+        "en": "The draft is a slippery slope (no tax → rising obesity → hospitals collapse) with an emotional appeal at the end. The revision keeps the position (support the tax) but argues only for the consequence it can defend, explains the mechanism (higher prices, less drinking) and calibrates the recommendation (a trial)."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "This sentence treats a sequence as a cause. Keep the first part, replace 'so ...' with 'but it is not yet clear whether', and end the sentence with 'is the cause'."
+      },
+      "source": "Since the new timetable was introduced, complaints about lateness have fallen, so the timetable has solved the lateness problem.",
+      "answers": [
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether the timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether the new timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether the change is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the new timetable is the cause.",
+        "Since the new timetable was introduced, complaints about lateness have fallen but it is not yet clear whether the change is the cause."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Since the new timetable was introduced, complaints about lateness have fallen, so the timetable is the cause.",
+          "feedback": {
+            "en": "'So' still turns a sequence into a cause. Replace it with 'but it is not yet clear whether ...'."
+          },
+          "error_type": "fallacy"
+        },
+        {
+          "match": "Since the new timetable was introduced, complaints about lateness have fallen, but it is not yet clear whether is the timetable the cause.",
+          "feedback": {
+            "en": "After whether, use statement word order, not question order: whether the timetable is the cause."
+          },
+          "error_type": "word-order"
+        }
+      ],
+      "hint": {
+        "en": "In an indirect question (whether ...), the subject comes before the verb: whether the timetable is ..."
+      },
+      "explanation": {
+        "en": "Since here refers to time, not reason. The repaired sentence reports the sequence and leaves the causal question open. To close it, you would need a comparison (for example, schools that kept the old timetable) or a clear mechanism."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "gap",
+      "skill": "vocabulary",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Complete the peer feedback on a classmate's draft with words from the box. Three words are not needed."
+      },
+      "text": "Your second paragraph argues that the new timetable caused the fall in attendance simply because the fall came after it: this is the ___ fallacy. Your counterargument describes opponents as 'people who never want anything to change', which ___ their view, so state it as they would. Your conclusion says the school must 'change everything or accept failure', which is a ___, since there are other options. Your premise about homework is ___, though: the survey you cite is large and randomly sampled.",
+      "word_bank": [
+        "post hoc",
+        "misrepresents",
+        "false dilemma",
+        "sound",
+        "slippery slope",
+        "corroborates",
+        "flawed"
+      ],
+      "answers": [
+        [
+          "post hoc",
+          "post-hoc",
+          "false cause",
+          "false-cause"
+        ],
+        [
+          "misrepresents",
+          "distorts",
+          "caricatures"
+        ],
+        [
+          "false dilemma",
+          "false choice"
+        ],
+        [
+          "sound",
+          "solid",
+          "well supported",
+          "well-supported"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "slippery slope",
+          "feedback": {
+            "en": "A slippery slope predicts a chain of worse and worse results. Paragraph 2 confuses sequence with cause (post hoc), and 'change everything or accept failure' offers only two options (a false dilemma)."
+          },
+          "error_type": "fallacy"
+        },
+        {
+          "match": "corroborates",
+          "feedback": {
+            "en": "Corroborates means 'supports with further evidence'. Describing opponents as 'people who never want anything to change' distorts their view: it misrepresents it."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "flawed",
+          "feedback": {
+            "en": "Flawed means 'having a weakness'. 'Though' contrasts the homework premise with the criticisms before it, and a large, random survey is good evidence: the premise is sound."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "Gap 1 confuses 'after' with 'because'; gap 2 distorts a view; gap 3 offers only two options; gap 4 is praise."
+      },
+      "explanation": {
+        "en": "post hoc (sequence treated as cause) · misrepresents (a straw man) · false dilemma (only two options) · sound (logical and well supported). Good peer feedback names what the reasoning does wrong and how to fix it, and it also says what works."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "This sentence from an essay has two preposition mistakes. Rewrite it correctly."
+      },
+      "sentence": "The writer's conclusion does not follow of the evidence, because it is based in a false premise.",
+      "answers": [
+        "The writer's conclusion does not follow from the evidence, because it is based on a false premise.",
+        "The writer's conclusion does not follow from the evidence because it is based on a false premise.",
+        "The writer's conclusion does not follow from the evidence, because it rests on a false premise.",
+        "The writer's conclusion does not follow from the evidence because it rests on a false premise."
+      ],
+      "error_type": "preposition",
+      "hint": {
+        "en": "A conclusion follows ___ the evidence; an argument is based ___ a premise."
+      },
+      "explanation": {
+        "en": "These are fixed patterns: a conclusion follows from the evidence (or does not), and an argument is based on, or rests on, a premise. You will need both whenever you evaluate someone's reasoning."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Challenge a weak argument politely in a discussion. Say the sentence out loud."
+      },
+      "target": "I don't think that follows: injuries rose after the scooters arrived, but that doesn't show the scooters caused the rise.",
+      "focus": {
+        "en": "Stress the words that carry the logic: FOLLOWS, AFTER, CAUSED. Doesn't is pronounced /ˈdʌznt/. Put your tongue between your teeth for the /ð/ in that and the, and link caused into the: /kɔːzd ðə/."
+      },
+      "explanation": {
+        "en": "'I don't think that follows' challenges the reasoning, not the person, which keeps a discussion focused and polite. You accept the fact (injuries rose) while rejecting the conclusion drawn from it."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "write",
+      "skill": "writing",
+      "topic": "fallacies",
+      "prompt": {
+        "en": "Spot and fix: rewrite a flawed paragraph as a sound argument and explain your changes."
+      },
+      "task": {
+        "en": "This paragraph comes from a student's essay on whether the town should keep car-free Saturdays in its market square: 'Since the market square was closed to cars on Saturdays last spring, the bakery on the corner has closed, so car-free Saturdays are destroying local business. Everyone I have spoken to hates the scheme. The people who support it are mostly students who don't own cars, so their opinion hardly counts. If we keep car-free Saturdays, the council will soon close the square every day, then the whole centre, and nobody will be able to shop in town at all. The choice is simple: either we bring the cars back or we let the centre die.' (1) Rewrite it as a sound paragraph of 180-260 words. You may keep the student's position or change it, but argue for a clear position, respond to the opposing view fairly, keep any reasonable points and repair at least four flaws. Do not invent statistics; say what evidence would settle the question where necessary. (2) Then write a commentary of 70-120 words explaining what you changed and why. Describe each flaw by what it does (for example, 'treated a sequence as a cause') rather than only naming it."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Rewritten paragraph\nSince the market square became car-free on Saturdays last spring, the bakery on the corner has closed and some traders say that business has fallen. These concerns deserve attention, but they do not yet show that the scheme is to blame: shops close for many reasons, and one closure cannot reveal a trend. Nor can a handful of conversations tell us what the town as a whole thinks. What the council needs is evidence: a count of Saturday visitors and a survey of takings across the centre, compared with the previous year, would show whether the scheme is hurting trade or simply coinciding with a difficult year. Supporters of the scheme argue that a car-free square makes the market safer and more pleasant, especially for families, and that this could bring in new customers over time; this is a reasonable claim, and the same survey could test it. The choice is also wider than bringing back the cars or letting the centre decline. The council could keep car-free Saturdays while adding short-stay parking nearby or a shuttle bus from the station. For these reasons, the scheme should continue for one more year, with clear measures of its effect on trade, before the council decides its future.\n\nCommentary\nI kept the bakery and the traders' complaints but stopped treating a sequence as a cause, and I said what evidence would test the link. 'Everyone I have spoken to' became a call for a proper survey, because a few conversations cannot show what the whole town thinks. I replaced the attack on students with the supporters' actual argument, stated fairly. I cut the chain from Saturdays to a permanent closure, which had no evidence for any step, and I replaced the either-or ending with realistic options, so my conclusion is smaller but much harder to knock down.",
+      "checklist": [
+        {
+          "en": "Repair, not deletion: causal claims are supported by a mechanism or reduced to a link, and the generalisation is narrowed or replaced by a call for wider evidence."
+        },
+        {
+          "en": "Fair opposition: the opposing view is stated as its supporters would state it, attributed, and answered by refuting it, conceding and outweighing it, or qualifying my claim."
+        },
+        {
+          "en": "No personal attacks: the paragraph responds to reasons and evidence, not to who holds a view."
+        },
+        {
+          "en": "Real options: the either-or ending is replaced by realistic alternatives, compared or chosen between with a reason."
+        },
+        {
+          "en": "Calibration: no 'everyone', 'inevitably' or 'the only choice', no invented statistics, and no stacked hedges; my position is still clear."
+        },
+        {
+          "en": "Commentary: I explain what each change does and why it makes the argument harder to knock down."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "A fallacy is reasoning that looks convincing but does not support its conclusion; find the faulty assumption rather than just naming it."
+      },
+      {
+        "en": "Use critical questions: How many cases? What else changed? Which step has evidence? Are there other options? Would the other side accept this description? Is this person an expert on this? Is popularity evidence here?"
+      },
+      {
+        "en": "Similar moves can be fair: relevant expertise, representative samples, well-supported chains of consequences and checking a source with a vested interest are reasonable."
+      },
+      {
+        "en": "Repair, don't delete: narrow the claim, add evidence, explain the mechanism, name the real options or state the other side fairly. A hedge alone does not fix a fallacy."
+      },
+      {
+        "en": "Audit your own drafts, especially counterarguments (straw men) and conclusions (slippery slopes and false dilemmas)."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

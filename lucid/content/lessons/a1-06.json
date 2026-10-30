@@ -56,7 +56,7 @@
         ],
         [
           "-f / -fe",
-          "f → ves",
+          "f / fe → ves (many words)",
           "knife → knives, wife → wives, life → lives"
         ]
       ]
@@ -118,8 +118,8 @@
     },
     {
       "type": "tip",
-      "en": "Say it right: -es after s, sh, ch and x adds a syllable /ɪz/: bus-es, box-es. In women the change is in the first part: woman /ˈwʊmən/, women /ˈwɪmɪn/.",
-      "he": "הגייה: es אחרי s, sh, ch, x מוסיפה הברה /ɪz/: bus-es, box-es. ב-women השינוי בחלק הראשון של המילה: woman נשמע 'וּוּמֶן', women נשמע 'וִוִימִן'."
+      "en": "Say it right: -es after s, sh, ch and x adds a syllable /ɪz/: bus-es, box-es. In woman → women the spelling changes in the second part, but the sound changes in the first part: woman /ˈwʊmən/ ('WU-mən'), women /ˈwɪmɪn/ ('WI-min').",
+      "he": "הגייה: es אחרי s, sh, ch, x מוסיפה הברה /ɪz/: bus-es, box-es. ב-woman → women האיות משתנה בחלק השני של המילה, אבל ההגייה משתנה דווקא בחלק הראשון: woman /ˈwʊmən/ (בערך 'WU-mən'), women /ˈwɪmɪn/ (בערך 'WI-min')."
     }
   ],
   "examples": [
@@ -254,7 +254,7 @@
       "word": "watch",
       "pos": "noun",
       "he": "שעון יד",
-      "def": "a small clock that you wear on your arm (plural: watches)",
+      "def": "a small clock that you wear on your wrist (plural: watches)",
       "example": "My dad has three watches.",
       "ipa": "/wɒtʃ/",
       "level": "A1"
@@ -422,7 +422,7 @@
       "option_feedback": {
         "0": {
           "en": "Listen to the first part of the word: women /ˈwɪmɪn/ sounds like 'wi-min'. And the verb is are, for more than one.",
-          "he": "הקשיבו לחלק הראשון של המילה: women נשמע 'וִוִימִן'. וגם הפועל הוא are – יותר מאחת."
+          "he": "הקשיבו לחלק הראשון של המילה: women /ˈwɪmɪn/ נשמע בערך 'WI-min'. וגם הפועל הוא are – יותר מאחת."
         },
         "2": {
           "en": "women is plural, so the verb is are, not is.",
@@ -434,8 +434,8 @@
         "2": "agreement"
       },
       "explanation": {
-        "en": "woman /ˈwʊmən/ – women /ˈwɪmɪn/: the plural changes in the first syllable. A plural subject takes are.",
-        "he": "woman ('וּוּמֶן') – women ('וִוִימִן'): ברבים משתנה ההברה הראשונה. ונושא ברבים מקבל are."
+        "en": "woman /ˈwʊmən/ – women /ˈwɪmɪn/: in the plural, the sound of the first syllable changes. A plural subject takes are.",
+        "he": "woman /ˈwʊmən/ – women /ˈwɪmɪn/: ברבים משתנה הצליל של ההברה הראשונה. ונושא ברבים מקבל are."
       }
     },
     {
@@ -805,7 +805,7 @@
         "he": "קראו את ההודעה של שרה לחברה שלה וענו על השאלות."
       },
       "title": "Message from summer camp",
-      "passage": "Hi Noa!\nMy new job at the summer camp is great. My group has twenty children – eleven boys and nine girls. Two other people work with me, Omer and Kenji. They're both really funny men, and the kids love them. Every morning the children brush their teeth, have breakfast and play games. In the afternoon we take two buses to the beach. The beaches here are beautiful! The only problem? My feet hurt every evening.\nLove,\nSara",
+      "passage": "Hi Noa!\nMy new job at the summer camp is great. My group has twenty children – eleven boys and nine girls. Two other people work with me: Omer and Kenji. They're both really funny men, and the kids love them. Every morning the children brush their teeth, have breakfast and play games. In the afternoon we take two buses to the beach. The beaches here are beautiful! The only problem? My feet hurt every evening.\nLove,\nSara",
       "questions": [
         {
           "type": "mcq",
@@ -930,11 +930,11 @@
       "target": "Two men and three women work in my office.",
       "focus": {
         "en": "men has a short 'e', like pen. women starts with /w/ (round your lips) and sounds like 'wi-min' /ˈwɪmɪn/.",
-        "he": "ב-men יש 'אֶ' קצרה, כמו ב-pen. women מתחיל ב-/w/ (שפתיים מעוגלות) ונשמע 'וִוִימִן'."
+        "he": "ב-men יש 'אֶ' קצרה, כמו ב-pen. women מתחיל ב-/w/ (שפתיים מעוגלות, בלי לגעת בשיניים) ונשמע בערך 'WI-min' /ˈwɪmɪn/."
       },
       "explanation": {
         "en": "A useful sentence for talking about work. Clear vowels help people hear one or many.",
-        "he": "משפט שימושי לדבר על מקום העבודה. תנועות ברורות עוזרות לשומע להבין אם מדובר באחד או ברבים."
+        "he": "משפט שימושי כשמדברים על מקום העבודה. תנועות ברורות עוזרות לשומע להבין אם מדובר באחד או ברבים."
       }
     },
     {
@@ -952,7 +952,7 @@
       },
       "min_words": 30,
       "max_words": 90,
-      "model_answer": "This is a photo of my team at work. We are eight people: five women and three men. Two of the women are engineers, and the men are designers. On the table you can see three laptops, two boxes of pizza and a lot of glasses. Everyone looks happy, because it is Friday!",
+      "model_answer": "This is a photo of my team at work. It shows eight people: five women and three men. Two of the women are engineers, and the men are designers. On the table you can see three laptops, two boxes of pizza and a lot of glasses. Everyone looks happy, because it is Friday!",
       "checklist": [
         {
           "en": "After two, three... the noun is plural: three laptops.",

@@ -402,7 +402,7 @@
       ],
       "explanation": {
         "en": "autumn is British English; Americans usually say fall. midnight is 12 o'clock at night: at midnight.",
-        "he": "autumn היא המילה הבריטית; באמריקה אומרים בדרך כלל fall. ‏midnight היא 12 בלילה: at midnight."
+        "he": "autumn היא המילה הבריטית; באנגלית אמריקאית אומרים בדרך כלל fall. ‏midnight היא 12 בלילה: at midnight."
       }
     },
     {
@@ -578,6 +578,10 @@
       "explanation": {
         "en": "at the weekend (UK) and on the weekend (US) are both correct. in the weekend is wrong.",
         "he": "at the weekend (בריטית) ו-on the weekend (אמריקאית) נכונים שניהם. ‏in the weekend – שגוי."
+      },
+      "option_errors": {
+        "0": "preposition",
+        "1": "preposition"
       }
     },
     {
@@ -764,7 +768,8 @@
         "I have an exam on Sunday morning.",
         "I have an exam on Sunday in the morning.",
         "I have got a test on Sunday morning.",
-        "I have got a test on Sunday in the morning."
+        "I have got a test on Sunday in the morning.",
+        "I have got an exam on Sunday morning."
       ],
       "hint": {
         "en": "Use test. The time is one unit: a day + part of the day.",
@@ -937,7 +942,7 @@
       "target": "See you on Wednesday at three o'clock.",
       "focus": {
         "en": "Wednesday sounds like WENZ-day (the first d is silent). Start with /w/: round lips, not v. three: tongue between your teeth.",
-        "he": "Wednesday נשמע כמו 'וֶנְז-דֵיי' – ה-d הראשונה לא נשמעת. מתחילים ב-/w/: שפתיים מעוגלות, לא v. ב-three קצה הלשון בין השיניים."
+        "he": "Wednesday נשמע כמו 'ווֶנְז-דֵיי' – ה-d הראשונה לא נשמעת. מתחילים ב-/w/: שפתיים מעוגלות, לא v. ב-three קצה הלשון בין השיניים."
       },
       "error_type": "pron-w-v",
       "explanation": {

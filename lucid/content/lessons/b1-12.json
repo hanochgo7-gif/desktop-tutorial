@@ -1,0 +1,1083 @@
+{
+  "id": "b1-12",
+  "level": "B1",
+  "title_en": "Writing an opinion essay",
+  "title_he": "כתיבת חיבור דעה",
+  "topics": [
+    "essay-structure-basic"
+  ],
+  "minutes": 40,
+  "objectives": [
+    {
+      "en": "I can recognise the parts of an opinion essay: introduction, body paragraphs and conclusion.",
+      "he": "אני יודע/ת לזהות את החלקים של חיבור דעה: פתיחה, פסקאות גוף וסיכום."
+    },
+    {
+      "en": "I can write an introduction with a clear opinion, and body paragraphs with a topic sentence, a reason and an example.",
+      "he": "אני יודע/ת לכתוב פתיחה עם דעה ברורה, ופסקאות גוף עם משפט נושא, נימוק ודוגמה."
+    },
+    {
+      "en": "I can write a conclusion that restates my opinion without adding new ideas.",
+      "he": "אני יודע/ת לכתוב סיכום שחוזר על הדעה שלי בלי להוסיף רעיונות חדשים."
+    },
+    {
+      "en": "I can write a structured opinion essay of about 300 words.",
+      "he": "אני יודע/ת לכתוב חיבור דעה מובנה של כ-300 מילים."
+    }
+  ],
+  "warmup": {
+    "en": "Think of a post, article or speech that changed your mind about something. What made it convincing: strong reasons, good examples, or a clear structure?",
+    "he": "חשבו על פוסט, כתבה או נאום ששינו את דעתכם על משהו. מה הפך אותם למשכנעים: נימוקים חזקים, דוגמאות טובות, או מבנה ברור?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look at this plan for the essay 'Should schools have a four-day week?' Introduction: Some towns are discussing a four-day school week. In my view, this would be a mistake. → Body 1: The main reason is that the other days would become too long. For example, ... → Body 2: Another reason is that many parents work on Fridays. For instance, ... → Conclusion: To sum up, a four-day week sounds attractive, but it would cause more problems than it solves. Every part has one job.",
+      "he": "הנה תוכנית לחיבור בנושא 'Should schools have a four-day week?' פתיחה: Some towns are discussing a four-day school week. In my view, this would be a mistake. ← גוף 1: The main reason is that the other days would become too long. For example, ... ← גוף 2: Another reason is that many parents work on Fridays. For instance, ... ← סיכום: To sum up, a four-day week sounds attractive, but it would cause more problems than it solves. לכל חלק יש תפקיד אחד."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Part",
+        "Its job",
+        "Useful language"
+      ],
+      "rows": [
+        [
+          "Introduction · פתיחה (2-3 sentences)",
+          "introduce the topic, then give your opinion clearly",
+          "These days, many people... · Some people believe that... · In my view, ... · I strongly believe that..."
+        ],
+        [
+          "Body paragraph 1 · פסקת גוף 1",
+          "topic sentence (your first reason) → explanation → example",
+          "The main reason is that... · Firstly, ... · This is because... · For example, ..."
+        ],
+        [
+          "Body paragraph 2 · פסקת גוף 2",
+          "a second reason, with an explanation and an example",
+          "Another reason is that... · Secondly, ... · For instance, ..."
+        ],
+        [
+          "Body paragraph 3 (optional) · פסקה 3 (רשות)",
+          "the other side in one or two sentences, then why you still disagree",
+          "Some people argue that... This is a fair point. However, ..."
+        ],
+        [
+          "Conclusion · סיכום (2-3 sentences)",
+          "restate your opinion in new words and sum up your reasons – no new ideas",
+          "To sum up, ... · In conclusion, ... · For these reasons, I believe..."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Start every body paragraph with a topic sentence: one sentence that tells the reader the main idea of the paragraph. Every other sentence in the paragraph supports it with an explanation or an example.",
+      "he": "פתחו כל פסקת גוף במשפט נושא: משפט אחד שאומר לקורא מה הרעיון המרכזי של הפסקה. כל שאר המשפטים בפסקה תומכים בו בהסבר או בדוגמה."
+    },
+    {
+      "type": "warning",
+      "en": "Don't add a new reason in the conclusion, and don't change your opinion halfway through. Don't just list ideas: every reason needs an explanation or an example. In an essay, use full forms (do not, it is) and avoid slang and exclamation marks.",
+      "he": "אל תוסיפו נימוק חדש בסיכום, ואל תשנו את הדעה שלכם באמצע החיבור. אל תסתפקו ברשימת רעיונות: כל נימוק צריך הסבר או דוגמה. בחיבור כותבים צורות מלאות (do not, it is), בלי סלנג ובלי סימני קריאה."
+    },
+    {
+      "type": "tip",
+      "en": "Plan for five minutes before you write: your opinion in one sentence, two reasons, and one example for each. A 300-word essay is roughly: introduction 40-50 words, two or three body paragraphs of 60-80 words each, conclusion 40-50 words. Leave a blank line between paragraphs.",
+      "he": "תכננו חמש דקות לפני שאתם כותבים: הדעה שלכם במשפט אחד, שני נימוקים ודוגמה לכל אחד. חיבור של 300 מילים בנוי בערך כך: פתיחה של 40-50 מילים, שתיים או שלוש פסקאות גוף של 60-80 מילים כל אחת, וסיכום של 40-50 מילים. השאירו שורה ריקה בין הפסקאות."
+    }
+  ],
+  "examples": [
+    {
+      "en": "These days, many young people spend several hours a day on social media.",
+      "he": "בימינו צעירים רבים מבלים כמה שעות ביום ברשתות החברתיות.",
+      "note": "background sentence (introduction)"
+    },
+    {
+      "en": "In my view, schools should teach more practical life skills.",
+      "he": "לדעתי בתי ספר צריכים ללמד יותר מיומנויות חיים מעשיות.",
+      "note": "clear opinion (introduction)"
+    },
+    {
+      "en": "The main reason is that young people need to manage their own money.",
+      "he": "הסיבה העיקרית היא שצעירים צריכים לנהל את הכסף שלהם בעצמם.",
+      "note": "topic sentence"
+    },
+    {
+      "en": "For example, many students leave school without knowing how to plan a budget.",
+      "he": "למשל, תלמידים רבים מסיימים את בית הספר בלי לדעת איך לתכנן תקציב.",
+      "note": "example"
+    },
+    {
+      "en": "Another reason is that cooking is a skill that everyone needs.",
+      "he": "סיבה נוספת היא שבישול הוא מיומנות שכל אחד צריך.",
+      "note": "second topic sentence"
+    },
+    {
+      "en": "Some people argue that this is the parents' job. However, not every family has time to teach it.",
+      "he": "יש הטוענים שזה התפקיד של ההורים. עם זאת, לא לכל משפחה יש זמן ללמד את זה.",
+      "note": "the other side + your answer"
+    },
+    {
+      "en": "To sum up, practical skills deserve a place in the school timetable.",
+      "he": "לסיכום, מיומנויות מעשיות ראויות למקום במערכת השעות של בית הספר.",
+      "note": "conclusion: the opinion in new words"
+    },
+    {
+      "en": "For these reasons, I strongly believe that the change would benefit students.",
+      "he": "מהסיבות האלה, אני מאמין/ה מאוד שהשינוי יועיל לתלמידים.",
+      "note": "final sentence"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "introduction",
+      "pos": "noun",
+      "he": "פתיחה; מבוא",
+      "def": "the first part of an essay, which presents the topic",
+      "example": "In the introduction, state your opinion clearly.",
+      "ipa": "/ˌɪntrəˈdʌkʃn/",
+      "collocations": [
+        "in the introduction",
+        "a short introduction",
+        "write an introduction"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "conclusion",
+      "pos": "noun",
+      "he": "סיכום; מסקנה",
+      "def": "the last part of an essay; also, an opinion you reach after thinking about something",
+      "example": "My conclusion repeats my opinion in new words.",
+      "ipa": "/kənˈkluːʒn/",
+      "collocations": [
+        "in conclusion",
+        "come to a conclusion",
+        "draw a conclusion"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "paragraph",
+      "pos": "noun",
+      "he": "פסקה",
+      "def": "a group of sentences about one main idea, starting on a new line",
+      "example": "Each paragraph should have one main idea.",
+      "ipa": "/ˈpærəɡrɑːf/",
+      "collocations": [
+        "the first paragraph",
+        "start a new paragraph",
+        "a short paragraph"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "topic sentence",
+      "pos": "noun phrase",
+      "he": "משפט נושא",
+      "def": "the sentence that tells the reader the main idea of a paragraph",
+      "example": "The topic sentence is usually the first sentence of the paragraph.",
+      "ipa": "/ˈtɒpɪk ˌsentəns/",
+      "collocations": [
+        "a clear topic sentence",
+        "begin with a topic sentence"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "argue",
+      "pos": "verb",
+      "he": "לטעון",
+      "def": "to give reasons why you think something is true (it can also mean \"to quarrel\")",
+      "example": "Some people argue that exams cause too much stress.",
+      "ipa": "/ˈɑːɡjuː/",
+      "collocations": [
+        "argue that",
+        "argue for",
+        "argue against"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "support",
+      "pos": "verb",
+      "he": "לתמוך; לבסס",
+      "def": "to show that an idea is true by giving reasons or examples",
+      "example": "Support each reason with an example.",
+      "ipa": "/səˈpɔːt/",
+      "collocations": [
+        "support an opinion",
+        "support your argument with examples",
+        "strongly support"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "issue",
+      "pos": "noun",
+      "he": "סוגיה; נושא לדיון",
+      "def": "an important subject that people discuss or argue about",
+      "example": "Screen time is an important issue for many parents.",
+      "ipa": "/ˈɪʃuː/",
+      "collocations": [
+        "an important issue",
+        "discuss an issue",
+        "a serious issue"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "firstly",
+      "pos": "adverb",
+      "he": "ראשית",
+      "def": "used to introduce the first point in a list",
+      "example": "Firstly, a shorter week would save money.",
+      "ipa": "/ˈfɜːstli/",
+      "collocations": [
+        "firstly ... secondly ... finally"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "another reason is that",
+      "pos": "phrase",
+      "he": "סיבה נוספת היא ש...",
+      "def": "used to add a second reason",
+      "example": "Another reason is that teenagers need more sleep.",
+      "ipa": "/əˌnʌðə ˈriːzn ɪz ðət/",
+      "collocations": [
+        "one reason is that",
+        "the main reason is that"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "to sum up",
+      "pos": "phrase",
+      "he": "לסיכום",
+      "def": "used to begin a short summary at the end of a text",
+      "example": "To sum up, the advantages are greater than the disadvantages.",
+      "ipa": "/tə ˌsʌm ˈʌp/",
+      "collocations": [
+        "sum up the main points",
+        "in conclusion",
+        "to conclude"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "on the whole",
+      "pos": "phrase",
+      "he": "באופן כללי; בסך הכול",
+      "def": "generally; when you think about everything",
+      "example": "On the whole, the plan seems sensible.",
+      "ipa": "/ɒn ðə ˈhəʊl/",
+      "collocations": [
+        "on the whole, I think"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "draft",
+      "pos": "noun",
+      "he": "טיוטה",
+      "def": "a first version of a piece of writing, before the final version",
+      "example": "I wrote a first draft and then improved it.",
+      "ipa": "/drɑːft/",
+      "collocations": [
+        "a first draft",
+        "a rough draft",
+        "the final draft"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "check for mistakes",
+      "pos": "verb phrase",
+      "he": "לבדוק אם יש טעויות",
+      "def": "to read your work carefully to find errors and correct them",
+      "example": "Always check your essay for mistakes before you hand it in.",
+      "ipa": "/ˌtʃek fə mɪˈsteɪks/",
+      "collocations": [
+        "check your work for mistakes",
+        "spelling mistakes",
+        "make a mistake"
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "work-life balance",
+      "pos": "noun phrase",
+      "he": "איזון בין עבודה לחיים האישיים",
+      "def": "having the right amount of time for your job or studies and for your private life",
+      "example": "A four-day week could improve teachers' work-life balance.",
+      "ipa": "/ˌwɜːk laɪf ˈbæləns/",
+      "collocations": [
+        "a good work-life balance",
+        "improve your work-life balance"
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew there is no word for a/an (and the word for 'one' is sometimes used like an article), so it is easy to write *It is good idea or *One student told me. In English a singular countable noun needs a, an or the: It is a good idea. A student told me.",
+      "he": "בעברית אין מילה ל-a/an (ולפעמים 'אחד' משמש כמו תווית: 'תלמיד אחד אמר לי'), ולכן קל לכתוב It is good idea או One student told me. באנגלית לפני שם עצם ספיר ביחיד צריך a, ‏an או the: ‏It is a good idea. ‏A student told me.",
+      "error_type": "article"
+    },
+    {
+      "en": "In Hebrew there is no present-tense 'be' (literally 'this very important'), so it is easy to write *This very important. English needs the verb: This is very important. The problem is that...",
+      "he": "בעברית אין 'להיות' בהווה ('זה חשוב מאוד'), ולכן קל לכתוב This very important. באנגלית חייבים את הפועל: This is very important. ‏The problem is that...",
+      "error_type": "copula-omission"
+    },
+    {
+      "en": "In Hebrew a present-tense verb has the same form for I, you and he (literally 'I think, he think'), so the English -s is easy to forget, especially after everyone, nobody and singular nouns: Everyone needs rest. This idea makes sense.",
+      "he": "בעברית לפועל בהווה יש אותה צורה ל'אני' ול'הוא' (אני חושב, הוא חושב), ולכן קל לשכוח את ה-s באנגלית, במיוחד אחרי everyone, ‏nobody ושמות עצם ביחיד: Everyone needs rest. ‏This idea makes sense.",
+      "error_type": "third-person-s"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "These sentences come from an essay on 'Should city centres be car-free?' Where does each one belong?",
+        "he": "המשפטים האלה לקוחים מחיבור בנושא 'Should city centres be car-free?' לאיזה חלק שייך כל משפט?"
+      },
+      "categories": [
+        "Introduction",
+        "Body paragraph",
+        "Conclusion"
+      ],
+      "items": [
+        {
+          "text": "Many cities are thinking about closing their centres to cars.",
+          "category": "Introduction"
+        },
+        {
+          "text": "In my view, this is an excellent idea.",
+          "category": "Introduction"
+        },
+        {
+          "text": "The main reason is that the air in city centres would be much cleaner.",
+          "category": "Body paragraph"
+        },
+        {
+          "text": "For example, children walking to school would breathe cleaner air.",
+          "category": "Body paragraph"
+        },
+        {
+          "text": "Another reason is that streets without cars are safer and quieter.",
+          "category": "Body paragraph"
+        },
+        {
+          "text": "To sum up, a car-free centre would make cities healthier and more pleasant.",
+          "category": "Conclusion"
+        },
+        {
+          "text": "For these reasons, I strongly support the idea.",
+          "category": "Conclusion"
+        }
+      ],
+      "hint": {
+        "en": "Introduction: the topic + your opinion. Body: reasons and examples. Conclusion: summing-up phrases.",
+        "he": "פתיחה: הנושא + הדעה שלכם. גוף: נימוקים ודוגמאות. סיכום: ביטויי סיכום."
+      },
+      "explanation": {
+        "en": "The introduction presents the topic and the opinion. Body paragraphs start with a reason (The main reason is that..., Another reason is that...) and support it (For example, ...). The conclusion sums up (To sum up, ..., For these reasons, ...).",
+        "he": "הפתיחה מציגה את הנושא ואת הדעה. פסקאות הגוף פותחות בנימוק (The main reason is that..., Another reason is that...) ותומכות בו (For example, ...). הסיכום מסכם (To sum up, ..., For these reasons, ...)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Topic: 'Should students wear school uniforms?' Which sentence is the best opinion statement for the introduction?",
+        "he": "הנושא: 'Should students wear school uniforms?' איזה משפט הוא משפט הדעה הטוב ביותר לפתיחה?"
+      },
+      "question": "Choose the best opinion statement.",
+      "options": [
+        "In this essay I will write about school uniforms.",
+        "School uniforms have advantages and disadvantages.",
+        "In my view, school uniforms should be optional for students over sixteen.",
+        "Many schools around the world have uniforms."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "This only announces the topic. The reader still does not know what you think.",
+          "he": "המשפט רק מכריז על הנושא. הקורא עדיין לא יודע מה אתם חושבים."
+        },
+        "1": {
+          "en": "This is true of almost everything – it does not take a side.",
+          "he": "זה נכון כמעט לגבי כל דבר – המשפט לא נוקט עמדה."
+        },
+        "3": {
+          "en": "This is a fact, not an opinion. It is a good background sentence, but you still need to say what you think.",
+          "he": "זו עובדה, לא דעה. זה משפט רקע טוב, אבל עדיין צריך לכתוב מה אתם חושבים."
+        }
+      },
+      "option_errors": {
+        "0": "weak-thesis",
+        "1": "weak-thesis",
+        "3": "weak-thesis"
+      },
+      "explanation": {
+        "en": "A good opinion statement takes a clear side that people could disagree with: In my view, uniforms should be optional for students over sixteen.",
+        "he": "משפט דעה טוב נוקט עמדה ברורה שאפשר לחלוק עליה: In my view, uniforms should be optional for students over sixteen."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "This paragraph from an essay on 'Should museums be free?' is missing its topic sentence. Choose the best one.",
+        "he": "בפסקה הזאת מתוך חיבור בנושא 'Should museums be free?' חסר משפט הנושא. בחרו את המתאים ביותר."
+      },
+      "question": "___ Many families cannot afford to visit museums regularly, especially when they have several children. If entry were free, they could visit more often and learn together.",
+      "options": [
+        "To sum up, museums should be free for everyone.",
+        "Firstly, free entry would open museums to everyone, not only to people with money.",
+        "Some museums have a café and a gift shop.",
+        "For example, a family ticket can be expensive."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "To sum up belongs in the conclusion, not at the start of a body paragraph.",
+          "he": "To sum up שייך לסיכום, לא לתחילת פסקת גוף."
+        },
+        "2": {
+          "en": "This is about cafés and shops, but the paragraph is about money and access.",
+          "he": "המשפט עוסק בבתי קפה ובחנויות, אבל הפסקה עוסקת בכסף ובנגישות."
+        },
+        "3": {
+          "en": "This is a detail (an example), not the main idea of the paragraph.",
+          "he": "זה פרט (דוגמה), לא הרעיון המרכזי של הפסקה."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "2": "cohesion",
+        "3": "cohesion"
+      },
+      "explanation": {
+        "en": "A topic sentence gives the main idea (free entry opens museums to everyone), and the other sentences support it.",
+        "he": "משפט נושא נותן את הרעיון המרכזי (כניסה חינם פותחת את המוזיאונים לכולם), ושאר המשפטים תומכים בו."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Listen to a teacher giving feedback on Omer's essay. Answer the question.",
+        "he": "הקשיבו למורה שנותנת משוב על החיבור של עומר וענו על השאלה."
+      },
+      "audio_text": "Your introduction is good, Omer, and your opinion is really clear. Your first body paragraph is fine too. In the second one, though, you give a reason but no example to support it. And remember, your conclusion shouldn't introduce a new idea.",
+      "question": "What are the two problems in Omer's essay?",
+      "options": [
+        "His opinion is unclear, and his introduction is too short.",
+        "His first paragraph has no reason, and he has no conclusion.",
+        "He uses too many examples, and his paragraphs are too long.",
+        "His second paragraph has no example, and his conclusion adds a new idea."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "The teacher says the opposite: 'your opinion is really clear' and the introduction is good.",
+          "he": "המורה אומרת את ההפך: 'your opinion is really clear', והפתיחה טובה."
+        },
+        "1": {
+          "en": "The first body paragraph is 'fine', and the problem is what the conclusion contains, not that it is missing.",
+          "he": "פסקת הגוף הראשונה 'fine', והבעיה היא מה שיש בסיכום, לא שהוא חסר."
+        },
+        "2": {
+          "en": "The problem is a missing example, not too many.",
+          "he": "הבעיה היא דוגמה חסרה, לא יותר מדי דוגמאות."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "'In the second one, though, you give a reason but no example' and 'your conclusion shouldn't introduce a new idea.'",
+        "he": "המורה אומרת: 'In the second one, though, you give a reason but no example' ו-'your conclusion shouldn't introduce a new idea.'"
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Read the opinion article from a school website and answer the questions about how it is built.",
+        "he": "קראו את מאמר הדעה מאתר בית הספר וענו על השאלות על המבנה שלו."
+      },
+      "title": "Opinion: Why our town should keep the five-day school week",
+      "passage": "Our town council is discussing a plan to give all secondary schools a four-day week, with Fridays off. At first, the idea sounds attractive: who would not want a three-day weekend? However, I believe this plan would cause more problems than it solves.\n\nThe main reason is that the other four school days would become too long. Students would have to stay at school until five o'clock to cover the same lessons. For example, my younger brother already finds it hard to concentrate after lunch, and a longer day would make this even worse.\n\nAnother reason is that many parents work on Fridays. Families with younger children would need to find someone to look after them, which could be difficult and expensive. For instance, our neighbour, a nurse, would have to pay a babysitter every Friday.\n\nSome people argue that a free Friday would give teachers a better work-life balance. This is a fair point. However, teachers would also have longer and more tiring days, so the benefit might be smaller than it seems.\n\nTo sum up, a four-day week may look good on paper, but in reality it would make school days harder for students and life more complicated for families. For these reasons, I hope the council keeps the five-day week.\n\n– Noa Katz, 17, student representative",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Where does Noa give her opinion for the first time?",
+          "options": [
+            "in the first sentence of the article",
+            "at the end of the first paragraph",
+            "at the start of the second paragraph",
+            "only in the conclusion"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The first sentence gives background: what the council is discussing.",
+              "he": "המשפט הראשון נותן רקע: על מה העירייה דנה."
+            },
+            "2": {
+              "en": "Paragraph 2 starts with her first reason, so her opinion must come before it.",
+              "he": "פסקה 2 פותחת בנימוק הראשון שלה, כלומר הדעה הופיעה לפני כן."
+            },
+            "3": {
+              "en": "She restates her opinion in the conclusion, but she gave it first in the introduction.",
+              "he": "היא חוזרת על הדעה בסיכום, אבל הציגה אותה לראשונה בפתיחה."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'However, I believe this plan would cause more problems than it solves.' – the last sentence of the introduction.",
+            "he": "'However, I believe this plan would cause more problems than it solves.' – המשפט האחרון בפתיחה."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which sentence is the topic sentence of paragraph 2?",
+          "options": [
+            "The main reason is that the other four school days would become too long.",
+            "Students would have to stay at school until five o'clock to cover the same lessons.",
+            "For example, my younger brother already finds it hard to concentrate after lunch."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "This explains the reason – it supports the topic sentence.",
+              "he": "המשפט הזה מסביר את הנימוק – הוא תומך במשפט הנושא."
+            },
+            "2": {
+              "en": "This is the example that supports the reason.",
+              "he": "זו הדוגמה שתומכת בנימוק."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "The topic sentence gives the main idea of the paragraph: the days would be too long. The next sentences explain it and give an example.",
+            "he": "משפט הנושא נותן את הרעיון המרכזי של הפסקה: הימים יהיו ארוכים מדי. המשפטים הבאים מסבירים אותו ונותנים דוגמה."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "In paragraph 4, Noa presents the other side and then answers it.",
+          "answer": true,
+          "explanation": {
+            "en": "'Some people argue that...' gives the other side; 'However, teachers would also have longer... days' is her answer.",
+            "he": "'Some people argue that...' מציג את הצד השני; ‏'However, teachers would also have longer... days' היא התשובה שלה."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The conclusion gives a new reason against the four-day week.",
+          "answer": false,
+          "explanation": {
+            "en": "The conclusion only sums up the two reasons from the body (harder days for students, problems for families) and restates the opinion.",
+            "he": "הסיכום רק מסכם את שני הנימוקים מהגוף (ימים קשים יותר לתלמידים, בעיות למשפחות) וחוזר על הדעה."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Noa supports her second reason with an example about her ___.",
+          "answers": [
+            [
+              "neighbour",
+              "neighbor",
+              "neighbour, a nurse",
+              "neighbor, a nurse"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "brother",
+              "feedback": {
+                "en": "Her brother is the example for the first reason (long days). Look at paragraph 3.",
+                "he": "האח שלה הוא הדוגמה לנימוק הראשון (ימים ארוכים). חפשו בפסקה 3."
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "parents",
+              "feedback": {
+                "en": "Parents are the reason; the example is one particular person. Look at paragraph 3.",
+                "he": "ההורים הם חלק מהנימוק; הדוגמה היא אדם מסוים. חפשו בפסקה 3."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'For instance, our neighbour, a nurse, would have to pay a babysitter every Friday.'",
+            "he": "בטקסט: For instance, our neighbour, a nurse, would have to pay a babysitter every Friday."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "order",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Put the sentences in order to make a body paragraph: topic sentence → explanation → example → link back.",
+        "he": "סדרו את המשפטים לפסקת גוף: משפט נושא ← הסבר ← דוגמה ← חיבור חזרה לרעיון."
+      },
+      "tokens": [
+        "Firstly, cooking lessons would teach students a skill they will use every day.",
+        "This is because everyone has to eat, but many young people only know how to order takeaway food.",
+        "For example, when my brother moved into a student flat, he could only make toast and instant noodles.",
+        "Practical lessons at school would prepare students for this kind of situation."
+      ],
+      "explanation": {
+        "en": "Topic sentence (Firstly, ...) → explanation (This is because...) → example (For example, ...) → a link back to the main idea (this kind of situation refers to the example).",
+        "he": "משפט נושא (Firstly, ...) ← הסבר (This is because...) ← דוגמה (For example, ...) ← חיבור חזרה לרעיון המרכזי (this kind of situation מתייחס לדוגמה)."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Topic: 'Should schools teach cooking?' The writer thinks they should. Which is the best conclusion?",
+        "he": "הנושא: 'Should schools teach cooking?' הכותב/ת חושב/ת שכן. מהו הסיכום הטוב ביותר?"
+      },
+      "question": "Choose the best conclusion.",
+      "options": [
+        "To sum up, cooking is a skill that everyone needs, so I believe it deserves a place in the school timetable.",
+        "To sum up, cooking lessons are a good idea. Schools should also teach students how to repair a bike.",
+        "To sum up, some people like cooking and some people do not.",
+        "To sum up, I am not sure what I think about cooking lessons."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "This adds a new idea (repairing bikes) at the very end. A conclusion only restates and sums up.",
+          "he": "הסיכום הזה מוסיף רעיון חדש (תיקון אופניים) ממש בסוף. סיכום רק חוזר ומסכם."
+        },
+        "2": {
+          "en": "This does not restate the opinion – it sits on the fence.",
+          "he": "המשפט לא חוזר על הדעה – הוא יושב על הגדר."
+        },
+        "3": {
+          "en": "Changing your mind in the conclusion confuses the reader and weakens the whole essay.",
+          "he": "שינוי דעה בסיכום מבלבל את הקורא ומחליש את כל החיבור."
+        }
+      },
+      "option_errors": {
+        "1": "cohesion",
+        "2": "weak-thesis",
+        "3": "weak-thesis"
+      },
+      "explanation": {
+        "en": "A good conclusion restates the opinion in new words and briefly reminds the reader of the main reason – with no new ideas.",
+        "he": "סיכום טוב חוזר על הדעה במילים חדשות ומזכיר בקצרה את הנימוק המרכזי – בלי רעיונות חדשים."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Complete the short essay with phrases from the box.",
+        "he": "השלימו את החיבור הקצר בביטויים מהמחסן."
+      },
+      "text": "Many teenagers spend hours every day on their phones. ___, schools should teach students how to use technology in a healthy way. ___ is that young people often do not notice how much time they spend online. ___, many students say they planned to check one message and then spent an hour on social media. ___ is that good habits are easier to learn when you are young. ___, lessons about healthy technology use would help students now and in the future.",
+      "word_bank": [
+        "In my view",
+        "The main reason",
+        "For example",
+        "Another reason",
+        "To sum up",
+        "Such as"
+      ],
+      "answers": [
+        [
+          "In my view",
+          "In my opinion",
+          "From my point of view",
+          "Personally"
+        ],
+        [
+          "The main reason",
+          "One reason",
+          "The first reason"
+        ],
+        [
+          "For example",
+          "For instance"
+        ],
+        [
+          "Another reason",
+          "A second reason",
+          "The second reason"
+        ],
+        [
+          "To sum up",
+          "In conclusion",
+          "For these reasons",
+          "To conclude",
+          "In summary",
+          "Overall"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Such as",
+          "feedback": {
+            "en": "such as goes before nouns inside a sentence (apps such as maps). It cannot start a sentence.",
+            "he": "such as בא לפני שמות עצם בתוך משפט (apps such as maps). הוא לא יכול לפתוח משפט."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "To sum up",
+          "feedback": {
+            "en": "To sum up starts the conclusion – the last sentence of the essay.",
+            "he": "To sum up פותח את הסיכום – המשפט האחרון בחיבור."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Another reason",
+          "feedback": {
+            "en": "Another reason needs a first reason before it.",
+            "he": "Another reason צריך נימוק ראשון לפניו."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "The main reason",
+          "feedback": {
+            "en": "Check the order: the main reason comes first. For the second reason, use Another reason.",
+            "he": "בדקו את הסדר: הנימוק העיקרי בא ראשון. לנימוק השני משתמשים ב-Another reason."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "For example",
+          "feedback": {
+            "en": "For example introduces a specific example of the idea just before it.",
+            "he": "For example מציג דוגמה ספציפית לרעיון שבא ממש לפניו."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "In my view",
+          "feedback": {
+            "en": "In my view introduces your opinion – it belongs in the introduction, right after the background sentence.",
+            "he": "In my view מציג את הדעה שלכם – מקומו בפתיחה, מיד אחרי משפט הרקע."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Background → opinion → first reason → example → second reason → conclusion.",
+        "he": "רקע ← דעה ← נימוק ראשון ← דוגמה ← נימוק שני ← סיכום."
+      },
+      "explanation": {
+        "en": "1 In my view (the opinion) · 2 The main reason (first reason) · 3 For example (an example of not noticing the time) · 4 Another reason (second reason) · 5 To sum up (conclusion).",
+        "he": "1 In my view (הדעה) · 2 The main reason (נימוק ראשון) · 3 For example (דוגמה לכך שלא שמים לב לזמן) · 4 Another reason (נימוק שני) · 5 To sum up (סיכום)."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "In my opinion, four-day week is good idea.",
+      "answers": [
+        "In my opinion, a four-day week is a good idea.",
+        "In my opinion a four-day week is a good idea."
+      ],
+      "error_type": "article",
+      "hint": {
+        "en": "Two small words are missing.",
+        "he": "חסרות שתי מילים קטנות."
+      },
+      "explanation": {
+        "en": "week and idea are singular countable nouns, so each needs an article: a four-day week, a good idea.",
+        "he": "week ו-idea הם שמות עצם ספירים ביחיד, ולכן כל אחד צריך תווית: a four-day week, ‏a good idea."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "This problem very serious for families with young children.",
+      "answers": [
+        "This problem is very serious for families with young children."
+      ],
+      "error_type": "copula-omission",
+      "hint": {
+        "en": "Where is the verb?",
+        "he": "איפה הפועל?"
+      },
+      "explanation": {
+        "en": "Every English sentence needs a verb. With an adjective (serious), use be: This problem is very serious.",
+        "he": "בכל משפט באנגלית חייב להיות פועל. עם שם תואר (serious) משתמשים ב-be: ‏This problem is very serious."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "This sentence has two mistakes of the same kind. Write it correctly.",
+        "he": "במשפט יש שתי טעויות מאותו סוג. כתבו אותו נכון."
+      },
+      "sentence": "Everyone have the right to some free time, but a longer school day eat into it.",
+      "answers": [
+        "Everyone has the right to some free time, but a longer school day eats into it.",
+        "Everyone has the right to some free time but a longer school day eats into it."
+      ],
+      "error_type": "third-person-s",
+      "hint": {
+        "en": "Two verbs need the he/she/it form. One of them is irregular.",
+        "he": "שני פעלים צריכים את הצורה של he/she/it. אחד מהם חריג."
+      },
+      "explanation": {
+        "en": "everyone and a longer school day are singular (like he, she or it), so the present simple verbs take the -s form: have → has (irregular), eat → eats. (eat into something = use up part of it)",
+        "he": "everyone ו-a longer school day הם ביחיד (כמו he, ‏she או it), ולכן הפעלים בהווה פשוט מקבלים את צורת ה-s: ‏have הופך ל-has (חריג), ‏eat הופך ל-eats. ‏(eat into something = לנגוס במשהו, לקחת ממנו חלק)"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "vocabulary",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Translate the last sentence of an essay into English. Start with 'To sum up'.",
+        "he": "תרגמו לאנגלית את המשפט האחרון של חיבור. התחילו ב-To sum up."
+      },
+      "source": "לסיכום, אני מאמין/ה שבתי ספר צריכים ללמד יותר מיומנויות חיים.",
+      "answers": [
+        "To sum up, I believe schools should teach more life skills.",
+        "To sum up, I believe schools need to teach more life skills.",
+        "To sum up, I believe schools must teach more life skills.",
+        "To sum up, I believe that schools should teach more life skills.",
+        "To sum up, I believe that schools need to teach more life skills.",
+        "To sum up, I believe that schools must teach more life skills.",
+        "To sum up, I think schools should teach more life skills.",
+        "To sum up, I think schools need to teach more life skills.",
+        "To sum up, I think schools must teach more life skills.",
+        "To sum up, I think that schools should teach more life skills.",
+        "To sum up, I think that schools need to teach more life skills.",
+        "To sum up, I think that schools must teach more life skills.",
+        "To sum up I believe schools should teach more life skills.",
+        "To sum up I believe schools need to teach more life skills.",
+        "To sum up I believe schools must teach more life skills.",
+        "To sum up I believe that schools should teach more life skills.",
+        "To sum up I believe that schools need to teach more life skills.",
+        "To sum up I believe that schools must teach more life skills.",
+        "To sum up I think schools should teach more life skills.",
+        "To sum up I think schools need to teach more life skills.",
+        "To sum up I think schools must teach more life skills.",
+        "To sum up I think that schools should teach more life skills.",
+        "To sum up I think that schools need to teach more life skills.",
+        "To sum up I think that schools must teach more life skills."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "To sum up, I believe that the schools should teach more life skills.",
+          "feedback": {
+            "en": "This means schools in general, so English uses no article: schools should teach... (the schools would mean some particular schools).",
+            "he": "מדובר בבתי ספר באופן כללי, ולכן באנגלית אין תווית: schools should teach... ‏(the schools פירושו בתי ספר מסוימים)."
+          },
+          "error_type": "article"
+        },
+        {
+          "match": "To sum up, I am believe that schools should teach more life skills.",
+          "feedback": {
+            "en": "believe is a verb, so there is no am: I believe.",
+            "he": "believe הוא פועל, ולכן אין am: ‏I believe."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "To sum up, I believe that schools should to teach more life skills.",
+          "feedback": {
+            "en": "No to after should: should teach.",
+            "he": "אחרי should לא בא to: ‏should teach."
+          },
+          "error_type": "modal-use"
+        },
+        {
+          "match": "To sum up, I believe that schools should teach more skills of life.",
+          "feedback": {
+            "en": "The English phrase is life skills (noun + noun), not skills of life.",
+            "he": "הצירוף באנגלית הוא life skills (שם עצם + שם עצם), ולא skills of life."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "To sum up, I believe that schools need teach more life skills.",
+          "feedback": {
+            "en": "need takes to before the next verb: need to teach (or use should teach).",
+            "he": "אחרי need בא to לפני הפועל הבא: need to teach (או should teach)."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "hint": {
+        "en": "Start with To sum up. The Hebrew verb means 'believe', and 'need' here means should.",
+        "he": "לסיכום = To sum up · מאמין/ה = believe · צריכים כאן = should."
+      },
+      "explanation": {
+        "en": "To sum up, I believe (that) schools should teach more life skills. Notice: for schools in general there is no article; should is followed directly by the base verb; and Hebrew 'skills of life' becomes life skills (the noun that describes comes first).",
+        "he": "To sum up, I believe (that) schools should teach more life skills. שימו לב: לבתי ספר באופן כללי אין תווית; אחרי should בא ישר הפועל בצורת הבסיס; ו\"מיומנויות חיים\" הופך ל-life skills (שם העצם המתאר בא קודם)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Listen and write what you hear.",
+        "he": "הקשיבו וכתבו את מה ששמעתם."
+      },
+      "audio_text": "Some people argue that a longer school day helps students. However, it makes everyone more tired.",
+      "answers": [
+        "Some people argue that a longer school day helps students. However, it makes everyone more tired."
+      ],
+      "explanation": {
+        "en": "Some people argue that... presents the other side; However, ... gives your answer. Notice the -s in helps and makes.",
+        "he": "Some people argue that... מציג את הצד השני; ‏However, ... נותן את התשובה שלכם. שימו לב ל-s ב-helps וב-makes."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "You are opening a class debate. Say your opinion statement out loud.",
+        "he": "אתם פותחים דיון בכיתה. אמרו בקול את משפט הדעה שלכם."
+      },
+      "target": "In my view, this plan would cause more problems than it solves.",
+      "focus": {
+        "en": "th in this and than is /ð/: tongue between your teeth, with voice. Stress the key words: VIEW, MORE PROBlems, SOLVES.",
+        "he": "th ב-this וב-than הוא ‏/ð/: הלשון בין השיניים, עם קול. הדגישו את מילות המפתח: VIEW, ‏MORE PROBlems, ‏SOLVES."
+      },
+      "explanation": {
+        "en": "A clear opinion statement: In my view + your position. ...cause more problems than it solves is a useful phrase for disagreeing with a plan.",
+        "he": "משפט דעה ברור: In my view + העמדה שלכם. ‏...cause more problems than it solves הוא ביטוי שימושי להתנגדות לתוכנית."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "essay-structure-basic",
+      "prompt": {
+        "en": "Final task: write your opinion essay.",
+        "he": "משימת סיום: כתבו חיבור דעה."
+      },
+      "task": {
+        "en": "Write a 300-word opinion essay (250-350 words) with an introduction, supporting arguments and a conclusion. Choose one topic: (1) Should public transport be free for students? (2) Is social media doing more harm than good to teenagers? (3) Is it better to live in a big city or a small town when you are young? Plan for five minutes first: your opinion, two or three reasons, and an example for each. Introduction: introduce the topic and give your opinion clearly. Body paragraphs: start each one with a topic sentence, explain your reason and support it with an example. You can add a short paragraph about the other side and say why you still disagree. Conclusion: restate your opinion in new words, with no new ideas.",
+        "he": "כתבו חיבור דעה של כ-300 מילים (250-350 מילים) עם פתיחה, נימוקים תומכים וסיכום. בחרו נושא אחד: (1) Should public transport be free for students? ‏(2) Is social media doing more harm than good to teenagers? ‏(3) Is it better to live in a big city or a small town when you are young? תכננו קודם חמש דקות: הדעה שלכם, שניים או שלושה נימוקים ודוגמה לכל אחד. פתיחה: הציגו את הנושא וכתבו את דעתכם בבירור. פסקאות גוף: פתחו כל פסקה במשפט נושא, הסבירו את הנימוק ותמכו בו בדוגמה. אפשר להוסיף פסקה קצרה על הצד השני ולהסביר למה אתם עדיין לא מסכימים. סיכום: חזרו על דעתכם במילים חדשות, בלי רעיונות חדשים."
+      },
+      "min_words": 250,
+      "max_words": 350,
+      "model_answer": "Every day, many students travel to school, college or university by bus or train, and the cost of tickets quickly adds up. For many families, this is a real problem. Some cities already offer students cheaper fares, but in my view, public transport should be completely free for all students.\n\nThe main reason is that free transport would make education fairer. Students from families with less money often have to think twice before they travel anywhere. For example, a friend of mine stopped going to an evening art course because the bus fare was too expensive for her family. If transport were free, nobody would have to miss classes or activities because of money. The price of a bus ticket should never decide who can learn.\n\nAnother reason is that free transport would be good for the environment. If students could travel for free, fewer parents would drive their children to school, and there would be less traffic in the morning. As a result, the air in our cities would be cleaner and the roads would be safer. Young people would also get used to buses and trains, so they might keep using them as adults.\n\nSome people argue that free transport would be too expensive, and that taxpayers should not have to pay for it. This is a fair point. However, students are the workers of the future, so helping them now is an investment. In addition, less traffic would save money in other ways, for example on road repairs.\n\nTo sum up, free public transport for students would make education fairer and our cities cleaner. Although it would cost money, the long-term benefits would be far greater than the costs. For these reasons, I strongly believe that buses and trains should be free for all students.",
+      "checklist": [
+        {
+          "en": "My introduction presents the topic and states my opinion clearly.",
+          "he": "הפתיחה שלי מציגה את הנושא וכותבת את הדעה שלי בבירור."
+        },
+        {
+          "en": "Each body paragraph starts with a topic sentence and has a reason, an explanation and an example.",
+          "he": "כל פסקת גוף פותחת במשפט נושא, ויש בה נימוק, הסבר ודוגמה."
+        },
+        {
+          "en": "If I mentioned the other side, I answered it (Some people argue that... However, ...).",
+          "he": "אם הזכרתי את הצד השני, עניתי לו (Some people argue that... However, ...)."
+        },
+        {
+          "en": "My conclusion restates my opinion in new words and adds no new ideas.",
+          "he": "הסיכום שלי חוזר על הדעה במילים חדשות ולא מוסיף רעיונות חדשים."
+        },
+        {
+          "en": "I linked my ideas clearly: The main reason is that..., Another reason is that..., For example, However, To sum up.",
+          "he": "קישרתי בין הרעיונות בבירור: The main reason is that..., ‏Another reason is that..., ‏For example, ‏However, ‏To sum up."
+        },
+        {
+          "en": "The essay has 250-350 words in 4-5 paragraphs, with full forms (it is, do not) and no slang.",
+          "he": "בחיבור 250-350 מילים ב-4-5 פסקאות, עם צורות מלאות (it is, do not) ובלי סלנג."
+        },
+        {
+          "en": "I checked for mistakes: a/an, is/are, and the -s after he, she, it and everyone.",
+          "he": "בדקתי טעויות: a/an, ‏is/are, ואת ה-s אחרי he, ‏she, ‏it ו-everyone."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Introduction: introduce the topic, then give a clear opinion (In my view, ... / I strongly believe that...).",
+        "he": "פתיחה: מציגים את הנושא ואז כותבים דעה ברורה (In my view, ... / I strongly believe that...)."
+      },
+      {
+        "en": "Body paragraph: topic sentence → explanation → example (For example, ...).",
+        "he": "פסקת גוף: משפט נושא ← הסבר ← דוגמה (For example, ...)."
+      },
+      {
+        "en": "Optional: the other side + your answer (Some people argue that... However, ...).",
+        "he": "רשות: הצד השני + התשובה שלכם (Some people argue that... However, ...)."
+      },
+      {
+        "en": "Conclusion: restate your opinion in new words – no new ideas (To sum up, ... / For these reasons, ...).",
+        "he": "סיכום: חוזרים על הדעה במילים חדשות – בלי רעיונות חדשים (To sum up, ... / For these reasons, ...)."
+      },
+      {
+        "en": "Plan before you write, and check a/an, is/are and the -s after he, she, it and everyone.",
+        "he": "תכננו לפני שאתם כותבים, ובדקו a/an, ‏is/are ואת ה-s אחרי he, ‏she, ‏it ו-everyone."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

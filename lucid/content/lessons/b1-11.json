@@ -1,0 +1,1187 @@
+{
+  "id": "b1-11",
+  "level": "B1",
+  "title_en": "Pros and cons",
+  "title_he": "יתרונות וחסרונות",
+  "topics": [
+    "connectors-contrast"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can show contrast with but, however, although, whereas and on the other hand.",
+      "he": "אני יודע/ת להביע ניגוד בעזרת but, ‏however, ‏although, ‏whereas ו-on the other hand."
+    },
+    {
+      "en": "I can punctuate however correctly: a full stop or semicolon before it, a comma after it.",
+      "he": "אני יודע/ת לפסק נכון את however: נקודה או נקודה-פסיק לפניו, ופסיק אחריו."
+    },
+    {
+      "en": "I can write a balanced paragraph about the advantages and disadvantages of something.",
+      "he": "אני יודע/ת לכתוב פסקה מאוזנת על היתרונות והחסרונות של משהו."
+    }
+  ],
+  "warmup": {
+    "en": "Think of something you'd love to have, such as an electric scooter or a dog. Name one advantage and one disadvantage in English. Which word did you use to join them?",
+    "he": "חשבו על משהו שהייתם רוצים שיהיה לכם, כמו קורקינט חשמלי או כלב. ציינו באנגלית יתרון אחד וחיסרון אחד. באיזו מילה חיברתם ביניהם?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: Big cities are exciting, but they are expensive. / Big cities are exciting. However, they are expensive. / Although big cities are exciting, they are expensive. All three sentences say the same thing. The difference is grammar: where the connector goes and how you punctuate it.",
+      "he": "שימו לב: Big cities are exciting, but they are expensive. / Big cities are exciting. However, they are expensive. / Although big cities are exciting, they are expensive. שלושת המשפטים אומרים אותו דבר. ההבדל הוא דקדוקי: איפה מילת הקישור נמצאת ואיך מפסקים אותה."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Connector",
+        "How to use it",
+        "Example"
+      ],
+      "rows": [
+        [
+          "but · אבל",
+          "joins two clauses in one sentence (often with a comma before it)",
+          "The flat is small, but it's close to the station."
+        ],
+        [
+          "however · עם זאת",
+          "starts a new sentence, with a comma after it (or comes after a semicolon)",
+          "The flat is small. However, it's close to the station."
+        ],
+        [
+          "although · למרות ש...",
+          "+ subject + verb; at the start (with a comma after the clause) or in the middle",
+          "Although the flat is small, it's close to the station."
+        ],
+        [
+          "whereas · ואילו",
+          "compares two different people or things in one sentence",
+          "My flat is small, whereas Dana's is huge."
+        ],
+        [
+          "on the other hand · מצד שני",
+          "gives the other side; new sentence, comma after it",
+          "Renting is flexible. On the other hand, you never own anything."
+        ],
+        [
+          "despite (preview) · למרות",
+          "+ noun or -ing, not + subject + verb",
+          "Despite the noise, we love the flat."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "however is not a joining word like but: it links two separate sentences. The bus is cheap. However, it is slow. You can also use a semicolon: The bus is cheap; however, it is slow. A comma alone is not enough: *The bus is cheap, however it is slow.",
+      "he": "however היא לא מילת חיבור כמו but: היא מקשרת בין שני משפטים נפרדים. ‏The bus is cheap. However, it is slow. אפשר גם נקודה-פסיק: The bus is cheap; however, it is slow. פסיק לבד לא מספיק: לא The bus is cheap, however it is slow."
+    },
+    {
+      "type": "warning",
+      "en": "One connector is enough: *Although it was late, but we stayed → Although it was late, we stayed / It was late, but we stayed. despite needs a noun or -ing, not a full clause: *Despite it was raining → Despite the rain / Although it was raining. whereas compares two things; for a surprising result, use although.",
+      "he": "מילת קישור אחת מספיקה: לא Although it was late, but we stayed, אלא Although it was late, we stayed או It was late, but we stayed. אחרי despite בא שם עצם או צורת ing, לא משפט שלם: לא Despite it was raining, אלא Despite the rain או Although it was raining. ‏whereas משווה בין שני דברים; לתוצאה מפתיעה משתמשים ב-although."
+    },
+    {
+      "type": "tip",
+      "en": "A balanced pros-and-cons paragraph: topic sentence → advantages (with an example) → On the other hand, / However, → disadvantages (with an example) → your view: On balance, ... / Overall, ... To present two sides, you can use On the one hand, ... On the other hand, ...",
+      "he": "פסקה מאוזנת של יתרונות וחסרונות: משפט נושא ← יתרונות (עם דוגמה) ← On the other hand, / However, ← חסרונות (עם דוגמה) ← הדעה שלכם: On balance, ... / Overall, ... כדי להציג שני צדדים אפשר להשתמש ב-On the one hand, ... On the other hand, ..."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Online courses are flexible, but some students find it hard to stay motivated.",
+      "he": "קורסים מקוונים גמישים, אבל לחלק מהסטודנטים קשה לשמור על מוטיבציה.",
+      "note": "but joins two clauses"
+    },
+    {
+      "en": "The hostel was cheap. However, it was very noisy at night.",
+      "he": "האכסניה הייתה זולה. עם זאת, היה בה רועש מאוד בלילה.",
+      "note": "full stop + However + comma"
+    },
+    {
+      "en": "The tickets were expensive; however, the concert was worth it.",
+      "he": "הכרטיסים היו יקרים; עם זאת, ההופעה הייתה שווה את זה.",
+      "note": "semicolon + however + comma"
+    },
+    {
+      "en": "Although the course is free, it takes a lot of time.",
+      "he": "למרות שהקורס בחינם, הוא לוקח הרבה זמן.",
+      "note": "although + subject + verb"
+    },
+    {
+      "en": "Omer prefers the beach, whereas Yael prefers the mountains.",
+      "he": "עומר מעדיף את הים, ואילו יעל מעדיפה את ההרים.",
+      "note": "whereas compares two people"
+    },
+    {
+      "en": "On the one hand, living with friends is fun. On the other hand, it can be hard to study.",
+      "he": "מצד אחד, לגור עם חברים זה כיף. מצד שני, יכול להיות קשה ללמוד."
+    },
+    {
+      "en": "Despite the rain, the festival was a big success.",
+      "he": "למרות הגשם, הפסטיבל הצליח מאוד.",
+      "note": "despite + noun"
+    },
+    {
+      "en": "On balance, I think the advantages are greater than the disadvantages.",
+      "he": "בסך הכול, אני חושב/ת שהיתרונות גדולים מהחסרונות."
+    }
+  ],
+  "vocab": [
+    {
+      "word": "advantage",
+      "pos": "noun",
+      "he": "יתרון",
+      "def": "something that makes a situation better or more useful",
+      "example": "The main advantage of the flat is its location.",
+      "ipa": "/ədˈvɑːntɪdʒ/",
+      "collocations": [
+        "the main advantage",
+        "a big advantage",
+        "have an advantage over"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "disadvantage",
+      "pos": "noun",
+      "he": "חיסרון",
+      "def": "something that makes a situation worse or less useful",
+      "example": "One disadvantage of living alone is the cost.",
+      "ipa": "/ˌdɪsədˈvɑːntɪdʒ/",
+      "collocations": [
+        "a serious disadvantage",
+        "the main disadvantage",
+        "at a disadvantage"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "benefit",
+      "pos": "noun",
+      "he": "תועלת; יתרון",
+      "def": "a good or helpful result",
+      "example": "One benefit of cycling is that it keeps you fit.",
+      "ipa": "/ˈbenɪfɪt/",
+      "collocations": [
+        "the benefits of",
+        "a real benefit",
+        "benefit from (verb)"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "drawback",
+      "pos": "noun",
+      "he": "חיסרון; מגרעת",
+      "def": "a problem that makes something less attractive",
+      "example": "The only drawback is the long journey.",
+      "ipa": "/ˈdrɔːbæk/",
+      "collocations": [
+        "the main drawback",
+        "one drawback is that",
+        "a major drawback"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "pros and cons",
+      "pos": "noun phrase",
+      "he": "יתרונות וחסרונות",
+      "def": "the advantages and disadvantages of something",
+      "example": "We discussed the pros and cons of moving to Tel Aviv.",
+      "ipa": "/ˌprəʊz ən ˈkɒnz/",
+      "collocations": [
+        "the pros and cons of",
+        "weigh up the pros and cons"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "weigh up",
+      "pos": "phrasal verb",
+      "he": "לשקול (יתרונות וחסרונות)",
+      "def": "to think carefully about the good and bad sides before you decide",
+      "example": "She weighed up her options before choosing a university.",
+      "ipa": "/ˌweɪ ˈʌp/",
+      "collocations": [
+        "weigh up the pros and cons",
+        "weigh up your options",
+        "weigh up the risks"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "however",
+      "pos": "adverb",
+      "he": "עם זאת; אולם",
+      "def": "used to add a fact or opinion that is different from what you said before",
+      "example": "The hotel was lovely. However, the food was disappointing.",
+      "ipa": "/haʊˈevə(r)/",
+      "collocations": [
+        "However, ...",
+        "...; however, ..."
+      ],
+      "level": "A2"
+    },
+    {
+      "word": "although",
+      "pos": "conjunction",
+      "he": "למרות ש...; אף על פי ש...",
+      "def": "used before a fact that makes the main idea surprising",
+      "example": "Although it was late, we went for a walk.",
+      "ipa": "/ɔːlˈðəʊ/",
+      "collocations": [
+        "although it was",
+        "even though (stronger)"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "whereas",
+      "pos": "conjunction",
+      "he": "ואילו; בעוד ש...",
+      "def": "used to compare two facts that are different",
+      "example": "I love cities, whereas my brother prefers the countryside.",
+      "ipa": "/ˌweərˈæz/",
+      "collocations": [
+        "whereas in the past",
+        "whereas others"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "despite",
+      "pos": "preposition",
+      "he": "למרות (+ שם עצם)",
+      "def": "without being stopped by something; used before a noun or an -ing form",
+      "example": "Despite the rain, we went to the beach.",
+      "ipa": "/dɪˈspaɪt/",
+      "collocations": [
+        "despite the rain",
+        "despite being tired",
+        "despite the fact that"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "on the other hand",
+      "pos": "phrase",
+      "he": "מצד שני",
+      "def": "used to give a different side of the same topic",
+      "example": "The city is exciting. On the other hand, it's very expensive.",
+      "ipa": "/ɒn ði ˈʌðə(r) hænd/",
+      "collocations": [
+        "on the one hand ... on the other hand"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "on balance",
+      "pos": "phrase",
+      "he": "בסך הכול; כשלוקחים הכול בחשבון",
+      "def": "after thinking about all the facts",
+      "example": "On balance, I think we made the right choice.",
+      "ipa": "/ɒn ˈbæləns/",
+      "collocations": [
+        "on balance, I think",
+        "on balance, the benefits are greater"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "worth it",
+      "pos": "phrase",
+      "he": "שווה את זה",
+      "def": "good or useful enough to justify the cost or effort",
+      "example": "The tickets were expensive, but the show was worth it.",
+      "ipa": "/ˈwɜːθ ɪt/",
+      "collocations": [
+        "well worth it",
+        "worth the money",
+        "worth + -ing (worth visiting)"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "affordable",
+      "pos": "adjective",
+      "he": "במחיר סביר; שאפשר לעמוד בו",
+      "def": "not too expensive for most people",
+      "example": "We're looking for an affordable flat near the university.",
+      "ipa": "/əˈfɔːdəbl/",
+      "collocations": [
+        "affordable prices",
+        "affordable housing",
+        "more affordable"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "in the long run",
+      "pos": "phrase",
+      "he": "בטווח הארוך",
+      "def": "after a long period of time",
+      "example": "A good bike is expensive, but it saves money in the long run.",
+      "ipa": "/ɪn ðə ˌlɒŋ ˈrʌn/",
+      "collocations": [
+        "save money in the long run",
+        "pay off in the long run"
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the adjective comes after the noun (literally 'an advantage big'), so it is easy to write *an advantage big. In English the adjective comes before the noun: a big advantage, a serious disadvantage, the main drawback.",
+      "he": "בעברית שם התואר בא אחרי שם העצם ('יתרון גדול'), ולכן קל לכתוב an advantage big. באנגלית שם התואר בא לפני שם העצם: a big advantage, ‏a serious disadvantage, ‏the main drawback.",
+      "error_type": "word-order"
+    },
+    {
+      "en": "In Hebrew there are no capital letters, so it's easy to forget one when however starts a new sentence. After a full stop, write a capital H: ...is cheap. However, it is slow. After a semicolon, keep a small h: ...is cheap; however, it is slow.",
+      "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אות גדולה כש-however פותח משפט חדש. אחרי נקודה כותבים H גדולה: ...is cheap. However, it is slow. אחרי נקודה-פסיק נשארת h קטנה: ...is cheap; however, it is slow.",
+      "error_type": "capitalization"
+    },
+    {
+      "en": "In Hebrew /w/ is not a regular sound (it appears mainly in borrowed words), so whereas and worth can come out with a v: 'vereas', 'vorth'. Round your lips as for 'oo' and keep your teeth away from your lip: whereas /ˌweərˈæz/, worth /wɜːθ/.",
+      "he": "‏/w/ אינו צליל רגיל בעברית (הוא מופיע בעיקר במילים שאולות), ולכן whereas ו-worth עלולים להישמע עם v. כדי להגות /w/ עגלו את השפתיים כמו ב\"או\", ואל תגעו בשיניים בשפה: whereas ‏/ˌweərˈæz/, ‏worth ‏/wɜːθ/.",
+      "error_type": "pron-w-v"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Match each English connector with its Hebrew meaning.",
+        "he": "התאימו כל מילת קישור באנגלית למשמעות שלה בעברית."
+      },
+      "pairs": [
+        [
+          "but",
+          "אבל"
+        ],
+        [
+          "however",
+          "עם זאת"
+        ],
+        [
+          "although",
+          "למרות ש..."
+        ],
+        [
+          "despite",
+          "למרות (+ שם עצם)"
+        ],
+        [
+          "whereas",
+          "ואילו"
+        ],
+        [
+          "on the other hand",
+          "מצד שני"
+        ]
+      ],
+      "explanation": {
+        "en": "Hebrew uses one word for 'despite' and 'although': it is followed by a noun ('despite the rain') or by 'that' + a clause ('although it rained'). English uses two different words: although + subject + verb (although it rained), despite + noun (despite the rain). The Hebrew partner of whereas works the same way: it compares two different things.",
+        "he": "בעברית יש מילה אחת, 'למרות', ואחריה בא שם עצם ('למרות הגשם') או ש + משפט ('למרות שירד גשם'). באנגלית יש שתי מילים שונות: although + נושא + פועל (although it rained), ו-despite + שם עצם (despite the rain). 'ואילו' משווה בין שני דברים, בדיוק כמו whereas."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Is each sentence correct? Sort them.",
+        "he": "האם כל משפט נכון? מיינו אותם."
+      },
+      "categories": [
+        "Correct",
+        "Not correct"
+      ],
+      "items": [
+        {
+          "text": "The phone is cheap. However, the battery is weak.",
+          "category": "Correct"
+        },
+        {
+          "text": "The phone is cheap, however the battery is weak.",
+          "category": "Not correct"
+        },
+        {
+          "text": "The phone is cheap; however, the battery is weak.",
+          "category": "Correct"
+        },
+        {
+          "text": "Although the phone is cheap, it has a great camera.",
+          "category": "Correct"
+        },
+        {
+          "text": "Although the phone is cheap, but it has a great camera.",
+          "category": "Not correct"
+        },
+        {
+          "text": "The phone has a great camera, but the battery is weak.",
+          "category": "Correct"
+        },
+        {
+          "text": "Despite the phone is cheap, it has a great camera.",
+          "category": "Not correct"
+        },
+        {
+          "text": "Despite its low price, the phone has a great camera.",
+          "category": "Correct"
+        },
+        {
+          "text": "This phone is cheap, whereas that one is very expensive.",
+          "category": "Correct"
+        }
+      ],
+      "hint": {
+        "en": "Check three things: what comes before however, how many connectors there are, and what comes after despite.",
+        "he": "בדקו שלושה דברים: מה בא לפני however, כמה מילות קישור יש, ומה בא אחרי despite."
+      },
+      "explanation": {
+        "en": "however: a full stop or semicolon before it, a comma after it (a comma alone is wrong). One connector per contrast (not although ... but). despite + noun (its low price), not + subject + verb (the phone is cheap).",
+        "he": "however: נקודה או נקודה-פסיק לפניו, ופסיק אחריו (פסיק לבד שגוי). מילת קישור אחת לכל ניגוד (לא although ... but). ‏despite + שם עצם (its low price), ולא + נושא + פועל (the phone is cheap)."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Choose the best connector.",
+        "he": "בחרו את מילת הקישור המתאימה ביותר."
+      },
+      "question": "The hotel was lovely. ___, the food was disappointing.",
+      "options": [
+        "Although",
+        "However",
+        "Whereas",
+        "Despite"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Although needs a clause in the same sentence: Although the hotel was lovely, the food was disappointing. Here there is a full stop before the gap.",
+          "he": "אחרי Although צריך לבוא באותו משפט גם החלק השני: Although the hotel was lovely, the food was disappointing. כאן יש נקודה לפני הרווח."
+        },
+        "2": {
+          "en": "Whereas joins two clauses in one sentence to compare two things. It cannot start a sentence with a comma after it like this.",
+          "he": "Whereas מחבר שני חלקים באותו משפט כדי להשוות בין שני דברים. הוא לא יכול לפתוח משפט עם פסיק אחריו כמו כאן."
+        },
+        "3": {
+          "en": "Despite needs a noun after it (Despite the lovely hotel, ...), not a comma.",
+          "he": "אחרי Despite צריך שם עצם (Despite the lovely hotel, ...), לא פסיק."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "2": "cohesion",
+        "3": "cohesion"
+      },
+      "explanation": {
+        "en": "After a full stop, use However + comma to start the contrasting sentence.",
+        "he": "אחרי נקודה משתמשים ב-However + פסיק כדי לפתוח את המשפט המנוגד."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Listen to Amir talking about studying online. Answer the question.",
+        "he": "הקשיבו לאמיר שמדבר על לימודים מקוונים וענו על השאלה."
+      },
+      "audio_text": "Studying online is great because I don't waste two hours a day on the bus. On the other hand, I really miss my classmates. Although we have video calls, it's not the same as having lunch together.",
+      "question": "What is the main disadvantage of studying online for Amir?",
+      "options": [
+        "He wastes two hours a day on the bus.",
+        "The video calls don't work well.",
+        "He has to make his own lunch.",
+        "He misses being with his classmates."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "That was the problem before. Not travelling is the advantage of studying online.",
+          "he": "זו הייתה הבעיה קודם. זה שהוא לא צריך לנסוע הוא היתרון של לימודים מקוונים."
+        },
+        "1": {
+          "en": "He doesn't say the calls don't work – he says they are not the same as meeting in person.",
+          "he": "הוא לא אומר שהשיחות לא עובדות – הוא אומר שהן לא כמו מפגש אמיתי."
+        },
+        "2": {
+          "en": "Lunch is mentioned only as something he used to share with his classmates.",
+          "he": "ארוחת הצהריים מוזכרת רק כמשהו שהוא היה חולק עם החברים לכיתה."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "On the other hand introduces the disadvantage: I really miss my classmates. Although we have video calls, ... adds that the calls do not solve the problem.",
+        "he": "On the other hand מציג את החיסרון: I really miss my classmates. ‏Although we have video calls, ... מוסיף שהשיחות לא פותרות את הבעיה."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Complete each sentence with a word or phrase from the box.",
+        "he": "השלימו כל משפט במילה או בביטוי מהמחסן."
+      },
+      "text": "My sister loves big cities, ___ I prefer quiet towns. ___ the bad weather, the concert went ahead. ___ the tickets were expensive, we had a great time. Electric cars are clean and quiet. ___, they are still expensive to buy. The flat is quite small, ___ it has a lovely balcony.",
+      "word_bank": [
+        "whereas",
+        "Despite",
+        "Although",
+        "However",
+        "but",
+        "On the other hand"
+      ],
+      "answers": [
+        [
+          "whereas",
+          "but",
+          "while",
+          "although",
+          "though"
+        ],
+        [
+          "Despite",
+          "In spite of"
+        ],
+        [
+          "Although",
+          "Though",
+          "Even though"
+        ],
+        [
+          "However",
+          "On the other hand",
+          "Nevertheless"
+        ],
+        [
+          "but",
+          "although",
+          "though",
+          "yet"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "However",
+          "feedback": {
+            "en": "however cannot join two clauses after a comma. Use but here, or start a new sentence: ... However, ...",
+            "he": "however לא יכול לחבר שני חלקים אחרי פסיק. כאן צריך but, או משפט חדש: ... However, ..."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "On the other hand",
+          "feedback": {
+            "en": "On the other hand starts a new sentence, with a comma after it. In the middle of a sentence, use but.",
+            "he": "On the other hand פותח משפט חדש, עם פסיק אחריו. באמצע משפט משתמשים ב-but."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "Despite",
+          "feedback": {
+            "en": "Despite needs a noun or -ing (despite the price). Before subject + verb (the tickets were), use Although.",
+            "he": "אחרי Despite בא שם עצם או ing ‏(despite the price). לפני נושא + פועל (the tickets were) משתמשים ב-Although."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Although",
+          "feedback": {
+            "en": "Although needs subject + verb (although the weather was bad). Before a noun (the bad weather), use Despite. After a full stop, use However.",
+            "he": "אחרי Although בא נושא + פועל (although the weather was bad). לפני שם עצם (the bad weather) משתמשים ב-Despite, ואחרי נקודה – ב-However."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "whereas",
+          "feedback": {
+            "en": "whereas compares two different people or things (my sister ... I ...). Here there is one flat with a bad point and a good point: use but.",
+            "he": "whereas משווה בין שני אנשים או דברים שונים (my sister ... I ...). כאן יש דירה אחת עם חיסרון ויתרון: משתמשים ב-but."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "but",
+          "feedback": {
+            "en": "but joins two clauses inside one sentence. After a full stop, use However, or On the other hand,.",
+            "he": "but מחבר שני חלקים בתוך משפט אחד. אחרי נקודה משתמשים ב-However, או ב-On the other hand,."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Before a noun → Despite. Before subject + verb → Although. Comparing two people → whereas. After a full stop → However / On the other hand. Inside one sentence → but.",
+        "he": "לפני שם עצם ← Despite. לפני נושא + פועל ← Although. השוואה בין שני אנשים ← whereas. אחרי נקודה ← However / On the other hand. בתוך משפט אחד ← but."
+      },
+      "explanation": {
+        "en": "1 whereas (or but) compares two people · 2 Despite + noun · 3 Although + subject + verb · 4 However, / On the other hand, after a full stop · 5 but joins two clauses about the same flat.",
+        "he": "1 whereas (או but) משווה בין שני אנשים · 2 Despite + שם עצם · 3 Although + נושא + פועל · 4 However, / On the other hand, אחרי נקודה · 5 but מחבר שני חלקים על אותה דירה."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Choose the correct word.",
+        "he": "בחרו את המילה הנכונה."
+      },
+      "question": "___ feeling ill, Omer went to work.",
+      "options": [
+        "Although",
+        "However",
+        "Despite",
+        "Whereas"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Although needs subject + verb: Although he felt ill, Omer went to work.",
+          "he": "אחרי Although בא נושא + פועל: Although he felt ill, Omer went to work."
+        },
+        "1": {
+          "en": "However starts a new sentence after a full stop; it cannot go before feeling.",
+          "he": "However פותח משפט חדש אחרי נקודה; הוא לא יכול לבוא לפני feeling."
+        },
+        "3": {
+          "en": "Whereas compares two different things in one sentence.",
+          "he": "Whereas משווה בין שני דברים שונים באותו משפט."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "1": "cohesion",
+        "3": "cohesion"
+      },
+      "explanation": {
+        "en": "despite + -ing (despite feeling ill) or + noun (despite his illness).",
+        "he": "despite + ing ‏(despite feeling ill) או + שם עצם (despite his illness)."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Rewrite the sentence. Start the second part with however.",
+        "he": "כתבו את המשפט מחדש. התחילו את החלק השני ב-however."
+      },
+      "source": "The course is free, but it takes a lot of time.",
+      "answers": [
+        "The course is free. However, it takes a lot of time.",
+        "The course is free; however, it takes a lot of time."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The course is free, however it takes a lot of time.",
+          "feedback": {
+            "en": "A comma cannot join two sentences, even with however. Use a full stop (or a semicolon) before it, and a comma after it.",
+            "he": "פסיק לא יכול לחבר שני משפטים, גם לא עם however. שימו נקודה (או נקודה-פסיק) לפניו, ופסיק אחריו."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "The course is free, however, it takes a lot of time.",
+          "feedback": {
+            "en": "A comma cannot join two sentences, even with however. Use a full stop (or a semicolon) before it.",
+            "he": "פסיק לא יכול לחבר שני משפטים, גם לא עם however. שימו נקודה (או נקודה-פסיק) לפניו."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "The course is free. However it takes a lot of time.",
+          "feedback": {
+            "en": "Put a comma after However.",
+            "he": "שימו פסיק אחרי However."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "The course is free; however it takes a lot of time.",
+          "feedback": {
+            "en": "Put a comma after however.",
+            "he": "שימו פסיק אחרי however."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "The course is free however, it takes a lot of time.",
+          "feedback": {
+            "en": "however needs a full stop or a semicolon before it.",
+            "he": "לפני however צריך נקודה או נקודה-פסיק."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "The course is free. However, but it takes a lot of time.",
+          "feedback": {
+            "en": "However replaces but – don't use both.",
+            "he": "However מחליף את but – לא משתמשים בשניהם."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Full stop + However + comma.",
+        "he": "נקודה + However + פסיק."
+      },
+      "explanation": {
+        "en": "however links two separate sentences: a full stop (or a semicolon) before it, a comma after it. After a full stop, remember the capital H.",
+        "he": "however מקשר בין שני משפטים נפרדים: נקודה (או נקודה-פסיק) לפניו, ופסיק אחריו. אחרי נקודה זכרו את ה-H הגדולה."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Join the two sentences into one with although.",
+        "he": "חברו את שני המשפטים למשפט אחד בעזרת although."
+      },
+      "source": "The hostel was cheap. It was very noisy.",
+      "answers": [
+        "Although the hostel was cheap, it was very noisy.",
+        "Although the hostel was cheap it was very noisy.",
+        "Although it was cheap, the hostel was very noisy.",
+        "Although it was cheap the hostel was very noisy.",
+        "The hostel was very noisy, although it was cheap.",
+        "The hostel was very noisy although it was cheap.",
+        "Although the hostel was very noisy, it was cheap.",
+        "Although the hostel was very noisy it was cheap.",
+        "Although it was very noisy, the hostel was cheap.",
+        "Although it was very noisy the hostel was cheap.",
+        "The hostel was cheap, although it was very noisy.",
+        "The hostel was cheap although it was very noisy."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Although the hostel was cheap, but it was very noisy.",
+          "feedback": {
+            "en": "One connector is enough: remove but.",
+            "he": "מילת קישור אחת מספיקה: מחקו את but."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Although the hostel was cheap but it was very noisy.",
+          "feedback": {
+            "en": "One connector is enough: remove but and put a comma after cheap.",
+            "he": "מילת קישור אחת מספיקה: מחקו את but ושימו פסיק אחרי cheap."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Despite the hostel was cheap, it was very noisy.",
+          "feedback": {
+            "en": "despite cannot go before subject + verb. The task asks for although: Although the hostel was cheap, ...",
+            "he": "despite לא יכול לבוא לפני נושא + פועל. המשימה היא עם although: ‏Although the hostel was cheap, ..."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "The hostel was cheap. Although it was very noisy.",
+          "feedback": {
+            "en": "An although clause cannot stand alone as a sentence. Join it to the main clause with a comma.",
+            "he": "חלק עם although לא יכול לעמוד לבד כמשפט. חברו אותו למשפט הראשי בעזרת פסיק."
+          },
+          "error_type": "punctuation"
+        }
+      ],
+      "hint": {
+        "en": "Although + subject + verb, + main clause.",
+        "he": "Although + נושא + פועל, + המשפט הראשי."
+      },
+      "explanation": {
+        "en": "Although the hostel was cheap, it was very noisy. When the although part comes first, we normally put a comma after it. In the middle of the sentence, the comma is optional.",
+        "he": "Although the hostel was cheap, it was very noisy. כשהחלק עם although בא ראשון, בדרך כלל שמים אחריו פסיק. כשהוא באמצע המשפט, הפסיק לא חובה."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "Despite it was raining, we went to the beach.",
+      "answers": [
+        "Although it was raining, we went to the beach.",
+        "Although it was raining we went to the beach.",
+        "Even though it was raining, we went to the beach.",
+        "Even though it was raining we went to the beach.",
+        "Though it was raining, we went to the beach.",
+        "Though it was raining we went to the beach.",
+        "Despite the rain, we went to the beach.",
+        "Despite the rain we went to the beach.",
+        "In spite of the rain, we went to the beach.",
+        "In spite of the rain we went to the beach.",
+        "Despite the fact that it was raining, we went to the beach.",
+        "Despite the fact that it was raining we went to the beach.",
+        "We went to the beach, although it was raining.",
+        "We went to the beach although it was raining.",
+        "We went to the beach, even though it was raining.",
+        "We went to the beach even though it was raining.",
+        "We went to the beach despite the rain.",
+        "We went to the beach in spite of the rain.",
+        "It was raining, but we went to the beach.",
+        "It was raining but we went to the beach."
+      ],
+      "error_type": "cohesion",
+      "hint": {
+        "en": "Change despite to a word that can go before subject + verb – or keep despite and use a noun.",
+        "he": "החליפו את despite במילה שיכולה לבוא לפני נושא + פועל – או השאירו את despite והשתמשו בשם עצם."
+      },
+      "explanation": {
+        "en": "despite + noun: Despite the rain, we went to the beach. Before subject + verb, use although: Although it was raining, we went to the beach.",
+        "he": "despite + שם עצם: Despite the rain, we went to the beach. לפני נושא + פועל משתמשים ב-although: ‏Although it was raining, we went to the beach."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "Although the course was expensive, but it was worth it.",
+      "answers": [
+        "Although the course was expensive, it was worth it.",
+        "Although the course was expensive it was worth it.",
+        "Even though the course was expensive, it was worth it.",
+        "Even though the course was expensive it was worth it.",
+        "The course was expensive, but it was worth it.",
+        "The course was expensive but it was worth it.",
+        "The course was expensive. However, it was worth it.",
+        "The course was expensive; however, it was worth it.",
+        "It was worth it, although the course was expensive.",
+        "It was worth it although the course was expensive.",
+        "The course was worth it, although it was expensive.",
+        "The course was worth it although it was expensive."
+      ],
+      "error_type": "cohesion",
+      "hint": {
+        "en": "Count the connectors. How many do you need?",
+        "he": "ספרו את מילות הקישור. כמה צריך?"
+      },
+      "explanation": {
+        "en": "although and but do the same job, so use only one: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it.",
+        "he": "although ו-but עושות אותה עבודה, ולכן משתמשים רק באחת: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Put the words in order to make a sentence.",
+        "he": "סדרו את המילים למשפט."
+      },
+      "tokens": [
+        "Omer",
+        "loves",
+        "spicy",
+        "food,",
+        "whereas",
+        "his",
+        "brother",
+        "can't",
+        "stand",
+        "it"
+      ],
+      "explanation": {
+        "en": "whereas joins two clauses that compare two different people: Omer loves spicy food, whereas his brother can't stand it. (can't stand = really hate)",
+        "he": "whereas מחבר שני חלקים שמשווים בין שני אנשים שונים: Omer loves spicy food, whereas his brother can't stand it. ‏(can't stand = ממש לא סובל)"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Read the article from a local news website and answer the questions.",
+        "he": "קראו את הכתבה מאתר חדשות מקומי וענו על השאלות."
+      },
+      "title": "E-scooters: a smart solution or a street problem?",
+      "passage": "Six months ago, shared electric scooters arrived in our town. You can find one on almost every corner, unlock it with an app and leave it wherever your trip ends. But are they good for the town?\n\nSupporters say the scooters have made life much easier. They are cheap for short trips, and in heavy traffic they are often faster than the bus. Maya, a nursing student, rides one to work every morning. \"It takes me eight minutes to get to the hospital, whereas the bus takes twenty-five,\" she says. The scooters are also electric, so they don't add to air pollution in the town centre.\n\nOn the other hand, many residents are unhappy. Although there are clear rules about parking, scooters are often left in the middle of the pavement. Daniel, who is 74, says he has nearly fallen over them twice. And despite the speed limit, some riders go far too fast on busy streets.\n\nSo what is the answer? The town council is now weighing up the pros and cons. One idea is to create special parking areas. However, this would cost money, and some people feel the town has more important problems.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the main purpose of the article?",
+          "options": [
+            "to persuade readers to rent a scooter",
+            "to present the advantages and disadvantages of the scooters",
+            "to complain about the bus service",
+            "to explain how to use the scooter app"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The article gives both sides; it does not try to sell scooters.",
+              "he": "הכתבה מציגה את שני הצדדים; היא לא מנסה למכור קורקינטים."
+            },
+            "2": {
+              "en": "The bus is mentioned only to compare journey times.",
+              "he": "האוטובוס מוזכר רק כדי להשוות זמני נסיעה."
+            },
+            "3": {
+              "en": "The app is mentioned in one sentence only.",
+              "he": "האפליקציה מוזכרת במשפט אחד בלבד."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Paragraph 2 gives the advantages (Supporters say...), paragraph 3 the disadvantages (On the other hand...).",
+            "he": "פסקה 2 מציגה את היתרונות (Supporters say...), ופסקה 3 את החסרונות (On the other hand...)."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Maya gets to the hospital faster by scooter than by bus.",
+          "answer": true,
+          "explanation": {
+            "en": "'It takes me eight minutes to get to the hospital, whereas the bus takes twenty-five.'",
+            "he": "בטקסט: It takes me eight minutes to get to the hospital, whereas the bus takes twenty-five."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Because there are clear parking rules, scooters are always parked in the right place.",
+          "answer": false,
+          "explanation": {
+            "en": "'Although there are clear rules about parking, scooters are often left in the middle of the pavement.'",
+            "he": "בטקסט: Although there are clear rules about parking, scooters are often left in the middle of the pavement."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "'Despite the speed limit, some riders go far too fast.' What does this mean?",
+          "options": [
+            "There is a speed limit, but some riders ignore it.",
+            "There is no speed limit, so riders go fast.",
+            "Riders go fast because of the speed limit.",
+            "All riders follow the speed limit."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "despite the speed limit tells us there is a limit.",
+              "he": "despite the speed limit אומר לנו שיש מגבלת מהירות."
+            },
+            "2": {
+              "en": "despite shows a contrast, not a reason.",
+              "he": "despite מבטא ניגוד, לא סיבה."
+            },
+            "3": {
+              "en": "Some riders go far too fast, so not all of them follow it.",
+              "he": "חלק מהרוכבים נוסעים מהר מדי, כלומר לא כולם שומרים עליה."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "cohesion",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "despite + noun = the limit exists, but it does not stop some riders.",
+            "he": "despite + שם עצם = המגבלה קיימת, אבל היא לא עוצרת חלק מהרוכבים."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why might the special parking areas not happen?",
+          "options": [
+            "Riders don't want them.",
+            "The council has already said no.",
+            "They would cost money, and some people think other problems are more important.",
+            "The scooters are leaving the town next month."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The article doesn't say what riders think of the idea.",
+              "he": "הכתבה לא אומרת מה הרוכבים חושבים על הרעיון."
+            },
+            "1": {
+              "en": "The council is still weighing up the pros and cons.",
+              "he": "העירייה עדיין שוקלת את היתרונות והחסרונות."
+            },
+            "3": {
+              "en": "The article says nothing about the scooters leaving.",
+              "he": "הכתבה לא אומרת שום דבר על כך שהקורקינטים עוזבים."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'However, this would cost money, and some people feel the town has more important problems.'",
+            "he": "בטקסט: However, this would cost money, and some people feel the town has more important problems."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Compare two views out loud.",
+        "he": "השוו בקול בין שתי דעות."
+      },
+      "target": "I love the city, whereas my brother thinks it isn't worth the money.",
+      "focus": {
+        "en": "/w/ in whereas /ˌweərˈæz/ and worth /wɜːθ/: round your lips as for 'oo', no teeth on your lip. End worth with th /θ/ – tongue between your teeth.",
+        "he": "‏/w/ ב-whereas ‏/ˌweərˈæz/ וב-worth ‏/wɜːθ/: עגלו את השפתיים כמו ב\"או\", בלי שיניים על השפה. בסוף worth יש th ‏/θ/ – הלשון בין השיניים."
+      },
+      "explanation": {
+        "en": "whereas compares two people's views in one sentence. In speech, make a short pause at the comma before whereas.",
+        "he": "whereas משווה בין הדעות של שני אנשים באותו משפט. בדיבור עושים הפסקה קצרה בפסיק שלפני whereas."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "write",
+      "skill": "writing",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Mediation: sum up a Hebrew message in English.",
+        "he": "תיווך: סכמו באנגלית הודעה שנכתבה בעברית."
+      },
+      "task": {
+        "en": "Your flatmate Kenji doesn't read Hebrew. Your friend Yael sent you a message in Hebrew about a flat you might rent together (you can see it in the Hebrew instructions). Write Kenji a message in English (50-80 words) that sums up the pros and cons. Use at least two different contrast connectors (however, although, whereas, on the other hand, but).",
+        "he": "קנג'י, השותף שלכם לדירה, לא קורא עברית. יעל שלחה לכם הודעה על דירה שאולי תשכרו יחד: „ראיתי היום את הדירה ברחוב הנביאים. היא ממש קרובה לאוניברסיטה – עשר דקות הליכה – ושכר הדירה סביר. מצד שני, החדרים קטנים ואין מרפסת. וגם, למרות שהבניין חדש, אין מעלית והדירה בקומה הרביעית. מה אתם אומרים?” כתבו לקנג'י הודעה באנגלית (50-80 מילים) שמסכמת את היתרונות והחסרונות. השתמשו לפחות בשתי מילות ניגוד שונות (however, ‏although, ‏whereas, ‏on the other hand, ‏but)."
+      },
+      "min_words": 50,
+      "max_words": 80,
+      "model_answer": "Hi Kenji, Yael saw the flat on HaNevi'im Street today. The good news is that it's really close to the university – only a ten-minute walk – and the rent is reasonable. On the other hand, the rooms are small and there's no balcony. Also, although the building is new, there's no lift, and the flat is on the fourth floor. What do you think? Should we go and see it together?",
+      "checklist": [
+        {
+          "en": "I included the advantages (location, rent) and the disadvantages (small rooms, no balcony, no lift, fourth floor).",
+          "he": "כללתי את היתרונות (מיקום, שכר דירה) ואת החסרונות (חדרים קטנים, אין מרפסת, אין מעלית, קומה רביעית)."
+        },
+        {
+          "en": "I used at least two different contrast connectors correctly.",
+          "he": "השתמשתי נכון לפחות בשתי מילות ניגוד שונות."
+        },
+        {
+          "en": "however and on the other hand start a new sentence, with a comma after them; although is followed by subject + verb.",
+          "he": "however ו-on the other hand פותחים משפט חדש, עם פסיק אחריהם; אחרי although בא נושא + פועל."
+        },
+        {
+          "en": "I wrote natural English, not word for word from the Hebrew (a ten-minute walk, the rent is reasonable, no lift).",
+          "he": "כתבתי באנגלית טבעית, לא תרגום מילה במילה מהעברית (a ten-minute walk, ‏the rent is reasonable, ‏no lift)."
+        }
+      ]
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "connectors-contrast",
+      "prompt": {
+        "en": "Write a balanced paragraph.",
+        "he": "כתבו פסקה מאוזנת."
+      },
+      "task": {
+        "en": "Choose one topic: living in a big city, having a part-time job while you study, or studying online. Write a balanced paragraph (100-140 words) about its pros and cons. Start with a topic sentence, give at least two advantages and two disadvantages, and finish with your own view (On balance, ... / Overall, ...). Use however and although, and at least one more contrast connector (whereas, on the other hand, but, despite).",
+        "he": "בחרו נושא אחד: לגור בעיר גדולה, לעבוד במשרה חלקית בזמן הלימודים, או ללמוד באופן מקוון. כתבו פסקה מאוזנת (100-140 מילים) על היתרונות והחסרונות שלו. פתחו במשפט נושא, תנו לפחות שני יתרונות ושני חסרונות, וסיימו בדעה שלכם (On balance, ... / Overall, ...). השתמשו ב-however וב-although, ולפחות במילת ניגוד אחת נוספת (whereas, ‏on the other hand, ‏but, ‏despite)."
+      },
+      "min_words": 100,
+      "max_words": 140,
+      "must_include": [
+        "however",
+        "although"
+      ],
+      "model_answer": "Having a part-time job while you study has clear advantages and disadvantages. On the one hand, it gives you your own money and useful experience. For example, working in a café teaches you how to deal with customers and manage your time. Students with jobs also become more independent, whereas students who depend on their parents often have less freedom. On the other hand, a job takes up a lot of time and energy. Although many students only work at weekends, they often feel too tired to study on Sunday. However, the biggest problem is stress before exams, when there is no time to rest. On balance, I think a part-time job is a good idea, but only for a few hours a week.",
+      "checklist": [
+        {
+          "en": "My first sentence is a topic sentence that introduces the topic.",
+          "he": "המשפט הראשון שלי הוא משפט נושא שמציג את הנושא."
+        },
+        {
+          "en": "I gave at least two advantages and two disadvantages, with at least one example.",
+          "he": "נתתי לפחות שני יתרונות ושני חסרונות, ולפחות דוגמה אחת."
+        },
+        {
+          "en": "I used however (full stop before, comma after) and although (+ subject + verb) correctly.",
+          "he": "השתמשתי נכון ב-however (נקודה לפניו, פסיק אחריו) וב-although (+ נושא + פועל)."
+        },
+        {
+          "en": "I used whereas, on the other hand, but or despite correctly.",
+          "he": "השתמשתי נכון ב-whereas, ‏on the other hand, ‏but או despite."
+        },
+        {
+          "en": "I finished with my own view: On balance, ... / Overall, ...",
+          "he": "סיימתי בדעה שלי: On balance, ... / Overall, ..."
+        },
+        {
+          "en": "No double connectors (although ... but) and no despite + subject + verb.",
+          "he": "אין כפל מילות קישור (although ... but) ואין despite + נושא + פועל."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "but, although and whereas join two clauses in one sentence; however and on the other hand start a new sentence.",
+        "he": "but, ‏although ו-whereas מחברים שני חלקים באותו משפט; ‏however ו-on the other hand פותחים משפט חדש."
+      },
+      {
+        "en": "however: a full stop (or semicolon) before it, a comma after it: It's cheap. However, it's slow.",
+        "he": "however: נקודה (או נקודה-פסיק) לפניו, ופסיק אחריו: It's cheap. However, it's slow."
+      },
+      {
+        "en": "although + subject + verb; despite + noun or -ing: although it rained / despite the rain.",
+        "he": "although + נושא + פועל; ‏despite + שם עצם או ing: ‏although it rained / despite the rain."
+      },
+      {
+        "en": "One connector per contrast: not *Although ..., but ...",
+        "he": "מילת קישור אחת לכל ניגוד: לא Although ..., but ..."
+      },
+      {
+        "en": "A balanced paragraph: topic sentence → pros → On the other hand, → cons → On balance, ...",
+        "he": "פסקה מאוזנת: משפט נושא ← יתרונות ← On the other hand, ← חסרונות ← On balance, ..."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

@@ -893,12 +893,6 @@
           "feedback": {
             "en": "A good antithesis, but the task asks you to begin with 'We do not need ...', putting the rejected idea first so that the preferred idea gets the final, stronger position."
           }
-        },
-        {
-          "match": "We need better rules, not more ones.",
-          "feedback": {
-            "en": "Begin with 'We do not need ...': the rejected idea goes first, and the preferred idea gets the stronger final position."
-          }
         }
       ],
       "hint": {
@@ -1013,6 +1007,29 @@
       "answers": [
         "How many more reports do we need before we act?"
       ],
+      "wrong_feedback": [
+        {
+          "match": "How many more reports need we before we act?",
+          "feedback": {
+            "en": "Modern English does not put a main verb like need before the subject. Add the auxiliary do: How many more reports do we need ...?"
+          },
+          "error_type": "do-support"
+        },
+        {
+          "match": "How many more reports do we need before do we act?",
+          "feedback": {
+            "en": "Only the main clause is a question. The before-clause keeps normal statement order: before we act."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "How many more reports does we need before we act?",
+          "feedback": {
+            "en": "The subject is we, so the auxiliary is do, not does: How many more reports do we need ...?"
+          },
+          "error_type": "agreement"
+        }
+      ],
       "error_type": "do-support",
       "hint": {
         "en": "The main clause has no auxiliary. What does a question in the present simple need?"
@@ -1087,7 +1104,7 @@
       },
       "min_words": 250,
       "max_words": 400,
-      "model_answer": "Good evening. My name is Noa Peretz, and for the last two years I have revised for every exam at a kitchen table I share with three younger brothers. So let me be honest about my interest: I would use a late-opening library. But I want to argue that the council should approve this plan for the town's sake, not just for mine.\n\nThe proposal is modest. For four weeks a year, the library would stay open until midnight on weekdays, and in return it would close on Sunday afternoons for those same four weeks. According to the library's own figures, the hours moved from Sunday would cover the cost of the extra evenings, so no new money is needed.\n\nPicture a student at eleven o'clock at night, trying to learn chemistry while the television plays through the wall. For many young people in this town, the library is not a convenience; it is the only quiet room they have. And exam results shape which courses they can apply for, which jobs they can do and which towns they can afford to live in.\n\nFamilies who use the library on Sundays have raised a fair objection. Sunday afternoon is when parents bring young children to story time, and losing it, even for four weeks, is a real cost. I take that seriously, which is why I would ask the council to move story time to Saturday mornings during the exam period rather than cancel it. The change is small, it is temporary, and it can be reversed if it does not work.\n\nWe are not asking the town to choose between children and teenagers. We are asking it to share one building more fairly across the year. Is a quiet desk at eleven o'clock at night really too much to ask? I hope you will vote yes.",
+      "model_answer": "Good evening. My name is Noa Peretz, and for the last two years I have revised for every exam at a kitchen table I share with three younger brothers. So let me be honest about my interest: I would use a late-opening library. But I want to argue that the council should approve this plan for the town's sake, not just for mine.\n\nThe proposal is modest. For four weeks a year, the library would stay open until midnight on weekdays, and in return it would close on Sunday afternoons for those same four weeks. According to the library's own figures, the hours moved from Sunday would cover the cost of the extra evenings, so no new money is needed.\n\nPicture a student at eleven o'clock at night, trying to learn chemistry while the television plays through the wall. For many young people in this town, the library is not a convenience; it is the only quiet room they have. And exam results shape which courses they can apply for, which jobs they can do and which towns they can afford to live in.\n\nFamilies who use the library on Sundays have raised a fair objection. Sunday afternoon is when parents bring young children to story time, and losing it, even for four weeks, is a real cost. I take that seriously, which is why I would ask the council to move story time to Saturday mornings during the exam period rather than cancel it. The change is small, temporary and reversible.\n\nWe are not asking the town to choose between children and teenagers. We are asking it to share one building more fairly across the year. Is a quiet desk at eleven o'clock at night too much to ask? I hope you will vote yes.",
       "checklist": [
         {
           "en": "Position: I state clearly, early on, whether the council should approve the plan, and I respond to the opposing view."

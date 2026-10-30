@@ -1,0 +1,1023 @@
+{
+  "id": "c1-05",
+  "level": "C1",
+  "title_en": "Evaluating evidence and sources",
+  "title_he": "הערכת ראיות ומקורות",
+  "topics": [
+    "source-evaluation"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can judge a piece of evidence by its type, its relevance and its limits, including sample size and whether it shows correlation or causation."
+    },
+    {
+      "en": "I can check an unfamiliar source the way fact-checkers do, by leaving the page to read laterally (SIFT), and I keep 'Is this source reliable?' separate from 'Is this claim true?'."
+    },
+    {
+      "en": "I can integrate evidence into my writing: introduce and attribute it, paraphrase it without patchwriting, and explain how it supports my claim and where it stops."
+    }
+  ],
+  "warmup": {
+    "en": "A post in your class group says: 'Study proves coffee makes you smarter! Students who drink coffee get higher grades.' Before you share it, what three questions would you ask, and which of them could you answer without reading the post at all?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Take the headline 'Students who drink coffee get higher grades'. Even if every word is accurate, it may not mean that coffee helps. Perhaps students who study late drink more coffee; perhaps the study asked thirty students at one school; perhaps a coffee chain paid for it. Evaluating evidence means asking three separate questions. What kind of evidence is this, and how much can that kind show? Is this particular claim true? Is the source behind it reliable?"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Type of evidence",
+        "Good for",
+        "Watch out for"
+      ],
+      "rows": [
+        [
+          "Controlled experiment or trial",
+          "showing cause and effect, if the groups are comparable (ideally assigned at random)",
+          "small or unusual samples; results that have not been repeated"
+        ],
+        [
+          "Survey or observational data",
+          "showing patterns and links across many cases",
+          "correlation is not causation; who was asked, and how"
+        ],
+        [
+          "Official statistics",
+          "scale and trends",
+          "what exactly was counted, and compared with what"
+        ],
+        [
+          "Expert judgement",
+          "interpreting complex evidence",
+          "expertise in this field or a different one; conflicts of interest"
+        ],
+        [
+          "Case study or anecdote",
+          "showing what a pattern means for real people",
+          "one case is not a pattern"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Correlation is not causation. When A and B rise and fall together, there are at least four explanations: A causes B; B causes A (reverse causation); a third factor causes both (a confounding variable); or chance, especially in small samples. Students who eat breakfast tend to get better grades, but families who make time for breakfast may also make time for homework. Only a well-designed comparison, such as a randomised trial, can rule the alternatives out."
+    },
+    {
+      "type": "rule",
+      "en": "Size matters, but so does who is in the sample. Forty volunteers from one gym cannot tell you how a whole city exercises, and neither can thousands of people who chose to answer an online poll, because people who answer polls differ from people who do not. Ask: how many, chosen how, and how similar to the people the claim is about?"
+    },
+    {
+      "type": "tip",
+      "en": "Professional fact-checkers do not judge an unfamiliar website by reading it carefully from top to bottom: they leave it. Use SIFT. Stop: don't read deeply or share until you know what the source is. Investigate the source: open a new tab and search for who runs it and what others say about them. Find better coverage: have reliable outlets or researchers reported the same claim? Trace claims to the original: find the actual study, quote or image and check that it says what the post says. A professional logo, a .org address or an 'About us' page written by the site itself tells you very little."
+    },
+    {
+      "type": "warning",
+      "en": "Evidence does not speak for itself. A dropped quotation, with no introduction and no comment, leaves the reader to guess why it is there. Use a sandwich: introduce and attribute the source (A two-year trial by the regional education department found that ...), present the evidence in your own words or a short quotation, then explain how it supports your claim and what its limits are (This suggests ..., although ...). When you paraphrase, change the structure as well as the words: swapping synonyms into the original sentence (patchwriting) is still too close to the source."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Students who sleep more tend to get higher marks, but this does not show that sleep causes the difference: students with fewer worries may both sleep and study better.",
+      "note": "correlation with a possible confounding variable"
+    },
+    {
+      "en": "The trial randomly assigned volunteers to the new programme or the old one, so differences between the groups are unlikely to explain the result.",
+      "note": "random assignment is what supports a causal claim"
+    },
+    {
+      "en": "The poll was answered by readers who chose to respond, so it tells us what those readers think, not what the public thinks.",
+      "note": "a self-selected sample is not representative"
+    },
+    {
+      "en": "The quotation comes from a well-known economist, but the question is about child development, which lies outside her field.",
+      "note": "expertise must match the claim"
+    },
+    {
+      "en": "Before sharing the article, I searched for the website's name and found that it is run by a company that sells the supplement it praises.",
+      "note": "lateral reading: investigate the source (a vested interest)"
+    },
+    {
+      "en": "The post quoted the study as saying that phones 'destroy attention', but the original paper reports only a small drop in one reading task.",
+      "note": "trace the claim to its original context"
+    },
+    {
+      "en": "Dropped: 'Students who walk to school are more alert.' Integrated: A survey of three local schools found that students who walk to school report feeling more alert in first lessons, which supports the case for safer walking routes, although a survey cannot show that walking itself is the cause.",
+      "note": "introduce, present, explain, limit"
+    },
+    {
+      "en": "Original: 'Regular exercise is associated with a lower risk of depression in older adults.' Patchwriting: 'Frequent exercise is linked with a smaller risk of depression in older people.' Paraphrase: Among older people, those who exercise often seem less likely to become depressed.",
+      "note": "patchwriting keeps the original structure; a paraphrase rebuilds the sentence"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "correlation",
+      "pos": "noun",
+      "he": "מתאם",
+      "def": "a connection between two things that change together, which does not by itself show that one causes the other",
+      "example": "There is a correlation between income and life expectancy, but the causes are complex.",
+      "ipa": "/ˌkɒrəˈleɪʃn/",
+      "collocations": [
+        "a strong correlation",
+        "a correlation between X and Y",
+        "correlation does not imply causation"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "causation",
+      "pos": "noun",
+      "he": "סיבתיות",
+      "def": "the process of one thing directly causing another",
+      "example": "A survey alone cannot establish causation.",
+      "ipa": "/kɔːˈzeɪʃn/",
+      "collocations": [
+        "establish causation",
+        "evidence of causation",
+        "correlation and causation"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "confounding variable",
+      "pos": "noun",
+      "he": "משתנה מתערב (גורם שלישי)",
+      "def": "a hidden third factor that affects both things being compared and can create a false link between them",
+      "example": "Family income may be a confounding variable in studies of diet and school results.",
+      "ipa": "/kənˌfaʊndɪŋ ˈveəriəbl/",
+      "collocations": [
+        "a possible confounding variable",
+        "control for confounding variables"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "sample",
+      "pos": "noun",
+      "he": "מדגם",
+      "def": "the group of people or things chosen for a study to represent a larger group",
+      "example": "The sample was too small to draw any firm conclusions.",
+      "ipa": "/ˈsɑːmpl/",
+      "collocations": [
+        "a small sample",
+        "sample size",
+        "a random sample"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "representative",
+      "pos": "adjective",
+      "he": "מייצג",
+      "def": "typical of a larger group, so that results can reasonably be applied to it",
+      "example": "Volunteers from one gym are not representative of the whole city.",
+      "ipa": "/ˌreprɪˈzentətɪv/",
+      "collocations": [
+        "a representative sample",
+        "representative of the population",
+        "broadly representative"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "anecdotal",
+      "pos": "adjective",
+      "he": "המבוסס על סיפורים אישיים; אנקדוטלי",
+      "def": "based on personal stories rather than on systematic research",
+      "example": "The evidence for the diet is largely anecdotal.",
+      "ipa": "/ˌænɪkˈdəʊtl/",
+      "collocations": [
+        "anecdotal evidence",
+        "purely anecdotal",
+        "largely anecdotal"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "credible",
+      "pos": "adjective",
+      "he": "אמין; מהימן",
+      "def": "able to be believed or trusted",
+      "example": "A credible source explains where its information comes from.",
+      "ipa": "/ˈkredəbl/",
+      "collocations": [
+        "a credible source",
+        "credible evidence",
+        "highly credible"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "corroborate",
+      "pos": "verb",
+      "he": "לאשש; לחזק בראיה נוספת",
+      "def": "to support a claim with further, independent evidence",
+      "example": "No other study has corroborated the findings.",
+      "ipa": "/kəˈrɒbəreɪt/",
+      "collocations": [
+        "corroborate a claim",
+        "be corroborated by",
+        "independently corroborated"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "lateral reading",
+      "pos": "noun",
+      "he": "קריאה רוחבית (בדיקת מקור באמצעות מקורות אחרים)",
+      "def": "checking a source by leaving it and searching what other sources say about it",
+      "example": "Lateral reading showed that the 'institute' was funded by an app company.",
+      "ipa": "/ˌlætərəl ˈriːdɪŋ/",
+      "collocations": [
+        "practise lateral reading",
+        "read laterally"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "vested interest",
+      "pos": "noun",
+      "he": "אינטרס (אישי או כלכלי)",
+      "def": "a personal reason, often financial, for wanting something to be true or to happen",
+      "example": "The company has a vested interest in the results of the study it paid for.",
+      "ipa": "/ˌvestɪd ˈɪntrəst/",
+      "collocations": [
+        "have a vested interest in",
+        "vested interests"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "peer-reviewed",
+      "pos": "adjective",
+      "he": "שעבר ביקורת עמיתים",
+      "def": "checked by other experts in the same field before being published",
+      "example": "The findings have not yet appeared in a peer-reviewed journal.",
+      "ipa": "/ˌpɪə rɪˈvjuːd/",
+      "collocations": [
+        "a peer-reviewed journal",
+        "peer-reviewed research",
+        "a peer-reviewed study"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "patchwriting",
+      "pos": "noun",
+      "he": "העתקה עם החלפת מילים בודדות (במקום פרפרזה אמיתית)",
+      "def": "copying a source's sentence and changing only some words or the grammar, instead of truly paraphrasing it",
+      "example": "Swapping a few synonyms into the original sentence is patchwriting, not paraphrase.",
+      "ipa": "/ˈpætʃraɪtɪŋ/",
+      "collocations": [
+        "avoid patchwriting",
+        "a case of patchwriting"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "attribute",
+      "pos": "verb",
+      "he": "לייחס (ציטוט או רעיון למקורו)",
+      "def": "to say who said, wrote or found something",
+      "example": "Every idea you take from a source must be clearly attributed.",
+      "ipa": "/əˈtrɪbjuːt/",
+      "collocations": [
+        "attribute a quotation to",
+        "be attributed to",
+        "clearly attributed"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "What type of evidence is each one? Sort them."
+      },
+      "categories": [
+        "Experiment or trial",
+        "Survey or observational data",
+        "Expert judgement",
+        "Anecdote or single case"
+      ],
+      "items": [
+        {
+          "text": "Two hundred volunteers were randomly given either the new sleep app or no app, and their sleep was measured for a month.",
+          "category": "Experiment or trial"
+        },
+        {
+          "text": "Half the classes in a school, chosen by drawing lots, tried shorter lessons for a term, and their results were compared with the other half.",
+          "category": "Experiment or trial"
+        },
+        {
+          "text": "A questionnaire asked 1,500 adults how many hours they spend on their phones and how lonely they feel.",
+          "category": "Survey or observational data"
+        },
+        {
+          "text": "Ten years of hospital records show that admissions for heatstroke are higher in years with more very hot days.",
+          "category": "Survey or observational data"
+        },
+        {
+          "text": "A professor of transport planning explains why she expects the new tram line to reduce car use.",
+          "category": "Expert judgement"
+        },
+        {
+          "text": "A panel of child-health specialists reviews the published research and advises limiting screen time for very young children.",
+          "category": "Expert judgement"
+        },
+        {
+          "text": "A café owner says her takings fell after the street was closed to cars.",
+          "category": "Anecdote or single case"
+        },
+        {
+          "text": "A blogger describes how giving up social media for a month changed her life.",
+          "category": "Anecdote or single case"
+        }
+      ],
+      "hint": {
+        "en": "Ask: did the researchers change something and compare groups (experiment), observe what already happens (survey or records), interpret evidence (expert), or tell one story (anecdote)?"
+      },
+      "explanation": {
+        "en": "Experiments with random assignment are the strongest evidence for cause and effect. Surveys and records show patterns across many cases, but not what causes them. Expert judgement is only as good as the expert's relevance and the evidence behind it; the specialist panel is stronger because it reviews published research. Anecdotes make an argument vivid, but one case cannot show a pattern."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Read the finding and choose the conclusion that the evidence supports."
+      },
+      "question": "A study of 40 towns found that towns with more cafés per person also have higher average incomes.",
+      "options": [
+        "Opening more cafés would raise a town's average income.",
+        "Higher incomes always lead to more cafés opening.",
+        "The link is probably a coincidence, so it can be ignored.",
+        "In these towns, café numbers and income are linked, but the study cannot show which, if either, causes the other."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "This turns a correlation into a cause, and in one direction only. Cafés may open where people already have money to spend."
+        },
+        "1": {
+          "en": "Reverse causation is one possible explanation, but the study does not show it, and 'always' goes far beyond 40 towns."
+        },
+        "2": {
+          "en": "Chance is possible, but you cannot simply assume it. A third factor, such as tourism or the size of the town, could explain a real link."
+        }
+      },
+      "option_errors": {
+        "0": "unsupported-claim",
+        "1": "unsupported-claim",
+        "2": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "An observational study shows a correlation. Four explanations remain open: cafés raise incomes, incomes attract cafés, a third factor drives both, or chance. Only the last option reports exactly what was found."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "match",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "A survey finds that teenagers who play more video games report more anxiety. Match each type of explanation with an example."
+      },
+      "pairs": [
+        [
+          "A causes B",
+          "Long gaming sessions cut into sleep, and lack of sleep increases anxiety."
+        ],
+        [
+          "B causes A (reverse causation)",
+          "Anxious teenagers use games to escape their worries."
+        ],
+        [
+          "A third factor causes both (confounding)",
+          "Loneliness leads both to more gaming and to more anxiety."
+        ],
+        [
+          "Chance",
+          "In a sample of twenty students the link appeared by accident, and it disappears in a much larger study."
+        ]
+      ],
+      "explanation": {
+        "en": "The same correlation fits all four stories. Before you write 'games cause anxiety', you need evidence that rules out the other three, for example a study that follows the same teenagers over time or a controlled trial."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Listen to a science podcast host commenting on a news story."
+      },
+      "audio_text": "The headline says a new diet helps people live longer. But the study behind it followed twenty-four people for six weeks, and you can't measure anyone's lifespan in six weeks. What the researchers actually measured was cholesterol. So the honest version is this: a small, short study found a change in one blood test.",
+      "question": "What is the host's main criticism?",
+      "options": [
+        "The researchers should have measured cholesterol instead of lifespan.",
+        "The diet is probably harmful.",
+        "The headline claims far more than a small, short study of one blood test can show.",
+        "Twenty-four people is too many for a six-week study."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The study did measure cholesterol. The problem is that the headline talks about living longer."
+        },
+        "1": {
+          "en": "The host says nothing about harm: only that the evidence is much narrower than the headline."
+        },
+        "3": {
+          "en": "The host's point is the opposite: twenty-four is a very small sample."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "The host traces the claim to the study and finds three gaps: a tiny sample (twenty-four people), a short time (six weeks) and a different outcome (cholesterol, not lifespan). The honest summary matches the claim to the evidence."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Which sample would best support a claim about how teenagers in Israel travel to school?"
+      },
+      "question": "Choose the most representative sample.",
+      "options": [
+        "An online poll on a cycling club's website, answered by 3,000 people",
+        "Interviews with 25 students at one school in Haifa",
+        "A survey of 2,000 students chosen at random from schools across the country, in cities, towns and villages",
+        "The travel habits of the writer's friends and family"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Large but self-selected: people who visit a cycling club's website are likely to cycle more than most, and many may not be teenagers at all."
+        },
+        "1": {
+          "en": "One school in one city cannot show how teenagers travel in rural areas or other cities, and 25 is a small number."
+        },
+        "3": {
+          "en": "A convenience sample: the writer's circle is not chosen to represent anyone."
+        }
+      },
+      "option_errors": {
+        "0": "unsupported-claim",
+        "1": "unsupported-claim",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "A good sample is large enough and, more importantly, chosen so that it resembles the population the claim is about: random selection across different types of place."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "read",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Read the article from a student newspaper and answer the questions."
+      },
+      "title": "Three times more likely? How I checked a viral claim",
+      "passage": "Last Tuesday a post appeared in almost every class group at our school. Under a photo of a teenager asleep on a pile of textbooks, it read: 'New study: teens who use their phones after 10 pm are THREE TIMES more likely to fail their exams. Share before it's too late!' Within an hour, my own parents had forwarded it to me twice.\n\nMy first instinct was to read the post carefully. Instead, I tried what professional fact-checkers do: I stopped, and before reading any further I asked who was behind the claim. The post named its source as the Brightwell Institute for Healthy Screens, which sounded official. Its website was impressive, with a logo, a list of 'research partners' and an 'About us' page describing it as 'an independent voice for digital well-being'.\n\nBut a site's description of itself is not evidence that it is reliable, so I opened a new tab and searched for the institute's name. Within five minutes, a business directory and two local news articles told me that the institute is funded by a company that sells an app to block phones at night. That does not make its claim false, but it does mean that the institute has a vested interest in alarming parents.\n\nNext, I looked for better coverage. If a study had really found such a dramatic effect, I would expect established newspapers or health services to have reported it. I could not find a single one that had.\n\nFinally, I traced the claim to its origin. The institute's report turned out to be an online survey of 214 users of the company's own app. They were asked how often they used their phones after 10 pm and whether their last exam results had been 'worse than expected'. The phrase 'three times more likely' did not appear in the report at all. It came from a press release that compared only the heaviest night-time users with the lightest, and nobody in the survey had been asked whether they had actually failed an exam.\n\nSo is the claim false? Not entirely. Other research, published in peer-reviewed journals, suggests that late-night phone use can cut into sleep, and that poor sleep can affect learning. The direction of the post may be reasonable; its number is not supported by anything I could find.\n\nWhat I learnt is that checking a source and checking a claim are two separate jobs. An unreliable source can repeat something true, and a reliable source can get things wrong. Lateral reading tells you whom to trust. It does not tell you what is true.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What did the writer do first, instead of reading the post carefully?",
+          "options": [
+            "She read the institute's 'About us' page to learn about its research.",
+            "She shared it with a warning that it might be false.",
+            "She stopped and asked who was behind the claim.",
+            "She emailed the researchers to ask for their data."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "She looked at the page, but explains that a site's description of itself is not evidence of reliability."
+            },
+            "1": {
+              "en": "She did not share it: the first SIFT move is to stop before sharing."
+            },
+            "3": {
+              "en": "The article does not mention contacting anyone."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'I stopped, and before reading any further I asked who was behind the claim': the S of SIFT."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why was the institute's 'About us' page not enough to show that it was reliable?",
+          "options": [
+            "Because it was written by the institute itself.",
+            "Because it contained spelling mistakes.",
+            "Because it did not list any research partners.",
+            "Because the website had no logo."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The article does not mention spelling mistakes."
+            },
+            "2": {
+              "en": "The site did list 'research partners'; a list like that is also written by the site."
+            },
+            "3": {
+              "en": "It did have a logo, and the writer's point is that a logo proves nothing."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'A site's description of itself is not evidence that it is reliable', so she checked what other sources said about it: lateral reading."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer concludes that the claim must be false because of who funds the institute.",
+          "answer": false,
+          "explanation": {
+            "en": "'That does not make its claim false, but it does mean that the institute has a vested interest.' Funding tells you how cautious to be, not whether the claim is true."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Because the institute is funded by a company that sells a night-time blocking app, it has a ___ interest in alarming parents.",
+          "answers": [
+            [
+              "vested",
+              "financial",
+              "commercial"
+            ]
+          ],
+          "explanation": {
+            "en": "The article's word is vested: a vested interest is a personal, often financial, reason to want a particular result."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Where did the figure 'three times more likely' come from?",
+          "options": [
+            "From a large study published in a medical journal",
+            "From the official exam results of 214 students",
+            "From a survey question about failing exams",
+            "From a press release that compared only the heaviest and the lightest night-time users"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The report was an online survey of the company's own app users, not a journal study."
+            },
+            "1": {
+              "en": "No official results were used: students said whether results were 'worse than expected'."
+            },
+            "2": {
+              "en": "Nobody was asked whether they had actually failed an exam."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "Tracing the claim showed that the number came from a press release comparing two extreme groups, not from the report itself."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which weaknesses of the original survey does the article mention?",
+          "options": [
+            "It was too long and too expensive to repeat.",
+            "It asked only the company's own app users, and it asked about results being 'worse than expected', not about failing.",
+            "It was published in a journal that the writer could not access.",
+            "It included too many students from the writer's own school."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Length and cost are not mentioned."
+            },
+            "2": {
+              "en": "The report was not in a journal; the writer found and read it."
+            },
+            "3": {
+              "en": "The article does not say who the 214 app users were, apart from being the company's customers."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The sample was self-selected (app customers), and the outcome measured ('worse than expected') was not the outcome claimed (failing exams)."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer accepts that late-night phone use may affect learning.",
+          "answer": true,
+          "explanation": {
+            "en": "'Other research ... suggests that late-night phone use can cut into sleep, and that poor sleep can affect learning. The direction of the post may be reasonable.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What is the writer's main conclusion?",
+          "options": [
+            "Fact-checkers are more reliable than scientists.",
+            "Phone use after 10 pm has no effect on exam results.",
+            "Checking whether a source is reliable and checking whether a claim is true are different jobs.",
+            "Students should never share posts about research."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The writer uses fact-checkers' methods but does not compare them with scientists."
+            },
+            "1": {
+              "en": "The writer says the direction of the claim may be reasonable."
+            },
+            "3": {
+              "en": "The point is to check before sharing, not to stop sharing altogether."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'An unreliable source can repeat something true, and a reliable source can get things wrong. Lateral reading tells you whom to trust. It does not tell you what is true.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e7",
+      "type": "categorize",
+      "skill": "reading",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Which question does each check help you answer? Sort them."
+      },
+      "categories": [
+        "Is this source reliable?",
+        "Is this claim true?"
+      ],
+      "items": [
+        {
+          "text": "Search for who funds the website.",
+          "category": "Is this source reliable?"
+        },
+        {
+          "text": "Look up the author's qualifications and other work.",
+          "category": "Is this source reliable?"
+        },
+        {
+          "text": "See what established news outlets or fact-checkers say about the site.",
+          "category": "Is this source reliable?"
+        },
+        {
+          "text": "Find the original study and see what it actually measured.",
+          "category": "Is this claim true?"
+        },
+        {
+          "text": "Check whether independent studies found the same result.",
+          "category": "Is this claim true?"
+        },
+        {
+          "text": "Compare the numbers in the post with the numbers in the report.",
+          "category": "Is this claim true?"
+        },
+        {
+          "text": "Read the full quotation in its original context.",
+          "category": "Is this claim true?"
+        }
+      ],
+      "explanation": {
+        "en": "Investigating the source (who runs it, who funds it, what others say about it) tells you how much to trust it. Finding better coverage and tracing the claim to the original tell you whether this particular claim holds. You usually need both, because a reliable source can be wrong and an unreliable one can be right."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Original (from a city transport report): 'Cities that invest in protected cycle lanes tend to see more people cycling, particularly women and older residents, who are more likely to avoid riding in heavy traffic.' Which is an acceptable paraphrase?"
+      },
+      "question": "Choose the version you could use in an essay.",
+      "options": [
+        "Cities that put money into protected bike lanes usually see more people cycling, especially women and older residents, who are more likely to avoid cycling in heavy traffic.",
+        "According to the report, separated cycle lanes appear to attract new riders, especially among groups who tend to avoid busy roads, such as women and older people.",
+        "The report proves that protected cycle lanes make women and older people start cycling.",
+        "Cities that invest in protected cycle lanes tend to see more people cycling, particularly women and older residents."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Patchwriting: the sentence keeps the original structure and order and only swaps synonyms (put money into, bike lanes, usually, especially). It also has no attribution."
+        },
+        "2": {
+          "en": "This distorts the source: 'tend to see more people cycling' is a pattern, not proof that the lanes make anyone start cycling."
+        },
+        "3": {
+          "en": "This copies the original word for word without quotation marks or attribution. Either quote it and name the source, or genuinely paraphrase it."
+        }
+      },
+      "option_errors": {
+        "2": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "A real paraphrase is attributed (According to the report), rebuilds the sentence in a new structure, and keeps the original's strength: 'tend to' becomes 'appear to', not 'proves'."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Claim: 'Schools should limit phone use during lessons.' Which version uses the evidence most effectively?"
+      },
+      "question": "Choose the best-integrated evidence.",
+      "options": [
+        "In a trial at four schools, classes that kept phones in a box during lessons reported fewer interruptions than classes that did not. This suggests that keeping phones out of reach removes a constant temptation, which is why a lesson-time limit could protect concentration, although four schools are too few to be sure the effect would hold everywhere.",
+        "Phones are a distraction. 'Classes that kept phones in a box reported fewer interruptions.' Schools must ban phones.",
+        "Everyone knows that phones are distracting, and a study proves it, so there is no need to discuss the issue further.",
+        "In a trial at four schools, classes that kept phones in a box during lessons reported fewer interruptions. Phones have also become much cheaper in recent years."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "A dropped quotation: no source, no explanation of how it supports the claim, and the conclusion (a ban) goes beyond the evidence (a limit during lessons)."
+        },
+        "2": {
+          "en": "'Everyone knows' is not evidence, the study is not identified, and 'proves' over-claims."
+        },
+        "3": {
+          "en": "The evidence is introduced, but it is never explained, and the second sentence is irrelevant to the claim."
+        }
+      },
+      "option_errors": {
+        "1": "unsupported-claim",
+        "2": "unsupported-claim",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "The best version introduces the evidence, presents it accurately, explains the link to the claim (removing a constant temptation) and states its limit (only four schools)."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Complete the paragraph so that the evidence is introduced, presented, explained and limited. Use words from the box; three are not needed."
+      },
+      "text": "Late buses are a major reason why students miss the start of the school day. ___ the town's school board, most late arrivals last year were students who travel by bus. A survey of bus users by the student council also ___ most delays happened on the two routes that cross the old bridge. ___ that improving these two routes would do more for punctuality than any new school rule, ___ the survey covered only one term.",
+      "word_bank": [
+        "According to",
+        "found that",
+        "This suggests",
+        "although",
+        "proves",
+        "Obviously",
+        "despite"
+      ],
+      "answers": [
+        [
+          "According to"
+        ],
+        [
+          "found that",
+          "showed that",
+          "suggested that",
+          "indicated that"
+        ],
+        [
+          "This suggests",
+          "This indicates",
+          "This implies"
+        ],
+        [
+          "although",
+          "though",
+          "even though",
+          "but"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "proves",
+          "feedback": {
+            "en": "Proves over-claims: one survey from one term cannot prove anything, and the gap needs a phrase that can introduce what the evidence means. Use found that to report a result and This suggests to interpret it."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "Obviously",
+          "feedback": {
+            "en": "Obviously is a booster that over-claims, and it cannot introduce a that-clause on its own. To explain what the evidence means, use This suggests."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "despite",
+          "feedback": {
+            "en": "Despite is followed by a noun or an -ing form (despite the short survey), not by a full clause. Before a subject and verb, use although."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Introduce the source (gap 1), report its result (gap 2), interpret the evidence (gap 3), state its limit (gap 4)."
+      },
+      "explanation": {
+        "en": "According to (introduce and attribute) ... found that (present) ... This suggests (explain) ... although (limit). The last two moves are what turn reported facts into an argument."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "The sentence below turns a correlation into a cause. Rewrite it so that it reports a link and names the possible third factor given in brackets. Begin 'Living near a park is associated with ...' and continue with ', but this may be because ...'."
+      },
+      "source": "Living near a park causes better mental health. [Possible third factor: people who live near parks tend to have higher incomes.]",
+      "answers": [
+        "Living near a park is associated with better mental health, but this may be because people who live near parks tend to have higher incomes.",
+        "Living near a park is associated with better mental health, but this may be because people who live near parks tend to have a higher income.",
+        "Living near a park is associated with better mental health, but this may be because people who live near parks have higher incomes.",
+        "Living near a park is associated with better mental health, but this may be because people who live near parks have a higher income.",
+        "Living near a park is associated with better mental health, but this may be because people living near parks tend to have higher incomes.",
+        "Living near a park is associated with better mental health, but this may be because people living near parks tend to have a higher income.",
+        "Living near a park is associated with better mental health, but this may be because people living near parks have higher incomes.",
+        "Living near a park is associated with better mental health, but this may be because people living near parks have a higher income.",
+        "Living near a park is associated with better mental health but this may be because people who live near parks tend to have higher incomes.",
+        "Living near a park is associated with better mental health but this may be because people who live near parks tend to have a higher income.",
+        "Living near a park is associated with better mental health but this may be because people who live near parks have higher incomes.",
+        "Living near a park is associated with better mental health but this may be because people who live near parks have a higher income.",
+        "Living near a park is associated with better mental health but this may be because people living near parks tend to have higher incomes.",
+        "Living near a park is associated with better mental health but this may be because people living near parks tend to have a higher income.",
+        "Living near a park is associated with better mental health but this may be because people living near parks have higher incomes.",
+        "Living near a park is associated with better mental health but this may be because people living near parks have a higher income."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Living near a park is associated with better mental health because people who live near parks tend to have higher incomes.",
+          "feedback": {
+            "en": "Without 'this may be', the sentence states the third factor as a proven cause, which is another unsupported causal claim. Keep it as a possibility: but this may be because ..."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "Living near a park is associated with better mental health, so people who live near parks tend to have higher incomes.",
+          "feedback": {
+            "en": "'So' reverses the logic: better mental health does not produce higher incomes here. The income is a possible explanation of the link, so introduce it with 'this may be because'."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "'Is associated with' reports the correlation; 'this may be because' introduces the confounding variable as a possibility, not a fact."
+      },
+      "explanation": {
+        "en": "Living near a park is associated with better mental health, but this may be because people who live near parks tend to have higher incomes. The sentence keeps what the evidence shows (a link), drops what it cannot show (a cause), and names a third factor that could explain both."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Correct the mistake in this sentence from an essay."
+      },
+      "sentence": "A recent research found that students who read laterally judge websites more accurately.",
+      "answers": [
+        "Recent research found that students who read laterally judge websites more accurately.",
+        "Recent research has found that students who read laterally judge websites more accurately.",
+        "A recent study found that students who read laterally judge websites more accurately.",
+        "A recent piece of research found that students who read laterally judge websites more accurately.",
+        "A recent research study found that students who read laterally judge websites more accurately.",
+        "A recent research project found that students who read laterally judge websites more accurately.",
+        "A recent survey found that students who read laterally judge websites more accurately.",
+        "A recent paper found that students who read laterally judge websites more accurately.",
+        "Recent studies found that students who read laterally judge websites more accurately.",
+        "Recent studies have found that students who read laterally judge websites more accurately."
+      ],
+      "error_type": "countability",
+      "hint": {
+        "en": "Research, like evidence and information, is uncountable."
+      },
+      "explanation": {
+        "en": "Research is uncountable, so it takes no a/an and no plural: recent research, a study, a piece of research. The same is true of evidence (not an evidence or evidences) and information."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "A friend asks you to share a post about a 'new study'. Say the sentence out loud."
+      },
+      "target": "Before I share this, I'd like to know who's behind the website and what the original study actually found.",
+      "focus": {
+        "en": "Stress the content words: SHARE, WHO'S, BEHIND, ORIGINAL, ACTUALLY, FOUND. Link 'who's behind' smoothly: /huːz bɪˈhaɪnd/. In 'original' the stress is on the second syllable: /əˈrɪdʒənl/."
+      },
+      "explanation": {
+        "en": "This one sentence covers two SIFT moves in natural speech: investigate the source (who's behind the website) and trace the claim (what the original study actually found)."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "write",
+      "skill": "writing",
+      "topic": "source-evaluation",
+      "prompt": {
+        "en": "Write an evidence-based recommendation that evaluates its sources."
+      },
+      "task": {
+        "en": "Your town council is deciding whether to fund free breakfast clubs in all its secondary schools and has asked young residents for evidence-based recommendations. Illustrative, fictional source pack: (A) a press release from a cereal company: 'Breakfast boosts grades by 20%!', based on an online survey of the company's own customers. (B) A two-year trial by the regional education department: 12 schools were chosen at random to start breakfast clubs and compared with 12 similar schools without clubs; attendance at first lessons rose in the schools with clubs, and test results rose slightly, by too little to rule out chance. (C) A head teacher's blog post describing how the club in her school created a calm start to the day and meant fewer students arrived hungry. (D) A viral post: 'Doctors say skipping breakfast is as bad as smoking!', with no study or doctor named. Write a recommendation of 250-350 words. Argue whether the council should fund the clubs and respond to opposing views. Rely most on the strongest evidence and say why; explain why you set any source aside (type of evidence, sample, correlation or causation, vested interest, traceability); and integrate at least two sources by introducing, presenting and explaining them in your own words."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Recommendation: the council should fund breakfast clubs as a three-year programme and keep evaluating them as it goes.\n\nThe strongest evidence comes from the regional education department's two-year trial (Source B). Because schools were chosen at random to start clubs, the trial can show cause and effect in a way that a survey cannot. It found that attendance at first lessons rose in the schools with clubs. This matters, since a student who regularly misses the first lesson loses a real part of their education. However, test results rose only slightly, by too little to rule out chance, so the council should not expect breakfast clubs to transform exam results.\n\nThe head teacher's blog (Source C) adds a useful picture of how a club works in practice: a calmer start to the day and fewer hungry students. It describes one school from one person's point of view, so it illustrates the trial's findings rather than proving anything on its own.\n\nI have set aside two sources. The cereal company's claim that breakfast 'boosts grades by 20%' (Source A) comes from an online survey of its own customers: a self-selected sample, collected by a company with a vested interest in the result. The viral post (Source D) names no study and no doctor, so its claim cannot be traced or checked. Neither source proves that breakfast does not matter; they simply add nothing reliable.\n\nSome councillors argue that the money would be better spent on extra teaching, since the trial found no clear effect on results. This is a fair point if the only aim is higher marks. But students cannot learn in lessons they miss, and the trial suggests that clubs improve attendance. On balance, the clubs deserve funding, with attendance and results monitored so that the council can decide, on its own evidence, whether to continue.",
+      "checklist": [
+        {
+          "en": "Position: I make a clear recommendation that follows from the strongest evidence, not from the most dramatic claim."
+        },
+        {
+          "en": "Weighing: I rely most on the randomised trial and explain why random assignment makes it stronger than a customer survey or one school's experience."
+        },
+        {
+          "en": "Accuracy: I report what each source actually found (attendance rose; results rose too little to rule out chance) without exaggerating it."
+        },
+        {
+          "en": "Source judgement: I explain why I set aside weak sources (self-selected sample, vested interest, untraceable claim), and I do not treat an unreliable source as proof that a claim is false."
+        },
+        {
+          "en": "Integration: every source I use is introduced and attributed, paraphrased rather than copied or patchwritten, and followed by an explanation of what it shows and its limits."
+        },
+        {
+          "en": "Counterargument: I state the strongest opposing view fairly, attribute it (Some councillors argue ...), and answer it by refuting it, conceding and outweighing it, or qualifying my claim."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Ask three separate questions: what kind of evidence is this, is this claim true, and is the source reliable?"
+      },
+      {
+        "en": "Correlation is not causation: consider reverse causation, a confounding variable and chance before claiming a cause."
+      },
+      {
+        "en": "Judge a sample by how it was chosen as well as its size; self-selected and convenience samples are not representative."
+      },
+      {
+        "en": "Read laterally with SIFT: Stop, Investigate the source, Find better coverage, Trace the claim to the original."
+      },
+      {
+        "en": "Integrate evidence: introduce and attribute it, paraphrase it in a new structure, then explain how it supports your claim and where it stops."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

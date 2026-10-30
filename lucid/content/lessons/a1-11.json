@@ -29,7 +29,7 @@
     {
       "type": "p",
       "en": "Maya is tall, with long dark hair. She has a small flat in a really beautiful building. Her neighbours are very friendly people.",
-      "he": "מאיה גבוהה, עם שיער ארוך וכהה. יש לה דירה קטנה בבניין יפה מאוד. השכנים שלה אנשים נחמדים מאוד. שימו לב: באנגלית שם התואר בא לפני שם העצם (a small flat), או אחרי is/are (Maya is tall)."
+      "he": "מאיה גבוהה, עם שיער ארוך וכהה. יש לה דירה קטנה בבניין ממש יפה. השכנים שלה אנשים נחמדים מאוד. שימו לב: באנגלית שם התואר בא לפני שם העצם (a small flat), או אחרי is/are (Maya is tall)."
     },
     {
       "type": "rule",
@@ -171,7 +171,7 @@
       "word": "tall",
       "pos": "adjective",
       "he": "גבוה/ה",
-      "def": "big from the feet to the head (for people, trees and buildings)",
+      "def": "big from the bottom to the top (for people, trees and buildings)",
       "example": "My sister is very tall.",
       "ipa": "/tɔːl/",
       "level": "A1"
@@ -481,11 +481,11 @@
       "skill": "listening",
       "topic": "adjectives-basic",
       "prompt": {
-        "en": "Listen to someone describing her brother. Choose the true sentence.",
-        "he": "הקשיבו למישהי שמתארת את אחיה. בחרו את המשפט הנכון."
+        "en": "Listen to someone describing a brother. Choose the true sentence.",
+        "he": "הקשיבו לתיאור של אח ובחרו את המשפט הנכון."
       },
       "audio_text": "My brother is tall, with short dark hair. He's really friendly.",
-      "question": "Which is true about her brother?",
+      "question": "Which is true about the brother?",
       "options": [
         "He's short and friendly.",
         "He's tall and friendly.",
@@ -763,7 +763,7 @@
       "topic": "adjectives-basic",
       "prompt": {
         "en": "Read Amir's message to his friend Sara and answer the questions.",
-        "he": "קראו את ההודעה של אמיר לחברה שלו שרה וענו על השאלות."
+        "he": "קראו את ההודעה שאמיר שלח לשרה וענו על השאלות."
       },
       "title": "My new flat",
       "passage": "Hi Sara! My new flat in Jerusalem is great. It's quite small, but it's very bright, and it isn't expensive. My two flatmates are really friendly. Daniel is tall, with short curly hair, and he's a good cook. Priya is from India. She's quiet, but she's very funny. The street is a bit noisy at night, but there's a beautiful park opposite our building. Come and visit!\nAmir",
@@ -816,7 +816,7 @@
         },
         {
           "type": "mcq",
-          "question": "What is the problem with the flat?",
+          "question": "What problem does Amir write about?",
           "options": [
             "The flatmates aren't friendly.",
             "The park is ugly.",
@@ -838,8 +838,8 @@
             "1": "comprehension"
           },
           "explanation": {
-            "en": "'The street is a bit noisy at night' – the word but shows it's a small problem.",
-            "he": "'The street is a bit noisy at night' – הרחוב קצת רועש בלילה."
+            "en": "'The street is a bit noisy at night' – a bit tells you it's only a small problem.",
+            "he": "'The street is a bit noisy at night' – הרחוב קצת רועש בלילה. a bit (קצת) מראה שזו בעיה קטנה."
           }
         },
         {

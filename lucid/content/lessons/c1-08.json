@@ -1,0 +1,1158 @@
+{
+  "id": "c1-08",
+  "level": "C1",
+  "title_en": "Concise, precise, edited",
+  "title_he": "תמציתי, מדויק וערוך",
+  "topics": [
+    "concision-editing"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can cut redundancy and empty phrases without losing the hedges, connectors and evidence my argument needs."
+    },
+    {
+      "en": "I can replace vague verbs and nouns with precise ones, and keep every paragraph focused on one point."
+    },
+    {
+      "en": "I can order information from given to new so that sentences link smoothly, and proofread in separate passes."
+    },
+    {
+      "en": "I can plan, write and edit an 800-1,000-word analytical argumentative essay that responds to opposing views."
+    }
+  ],
+  "warmup": {
+    "en": "Read this sentence: 'In my personal opinion, I think that the reason why the majority of students are not able to concentrate is due to the fact that their phones are constantly sending them notifications at all times.' How many words could you cut without losing any meaning? Try it before you read on."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Before (35 words): 'In my personal opinion, I think that the reason why the majority of students are not able to concentrate is due to the fact that their phones are constantly sending them notifications at all times.' After (12 words): 'I think most students cannot concentrate because phone notifications constantly interrupt them.' Nothing was lost. The edit removed a doubled stance (In my personal opinion + I think), an empty frame (the reason why ... is due to the fact that), long phrases with short equivalents (the majority of → most; are not able to → cannot) and a repetition (constantly ... at all times). The verb also became more precise: interrupt says exactly what the notifications do."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Problem",
+        "Wordy or vague",
+        "Concise and precise"
+      ],
+      "rows": [
+        [
+          "Doubled meaning",
+          "end result; past history; each and every; completely eliminate; In my personal opinion, I think",
+          "result; history; every; eliminate; I think"
+        ],
+        [
+          "Empty frames",
+          "due to the fact that; in order to; there are many people who believe; it is important to note that",
+          "because; to; many people believe; (cut it, or show why the point matters)"
+        ],
+        [
+          "Smothered verbs (see the nominalisation lesson)",
+          "make a decision about; carry out an investigation into; give consideration to",
+          "decide on; investigate; consider"
+        ],
+        [
+          "Vague words",
+          "The policy affected attendance. The report looks at some issues with the system.",
+          "Attendance fell slightly. The report identifies three flaws in the booking system."
+        ],
+        [
+          "Stacked qualifiers",
+          "might possibly perhaps; very unique; really crucial",
+          "may; unique; crucial"
+        ]
+      ]
+    },
+    {
+      "type": "warning",
+      "en": "Concise does not mean short at any cost. Keep every word that adds meaning: a hedge the evidence needs (may, in this sample, most), a connector that shows your logic (however, therefore) and an example that carries your argument. 'Students prefer online classes' is shorter than 'In this survey, most students preferred online classes', but it is also less true. Cut only what adds nothing."
+    },
+    {
+      "type": "rule",
+      "en": "One paragraph, one job. The topic sentence states the point; every other sentence must support, explain, illustrate or qualify that point. Test each sentence by asking: 'Does this help prove the topic sentence?' If not, move it to the paragraph where it belongs, or cut it, however interesting it is."
+    },
+    {
+      "type": "rule",
+      "en": "Given before new. Begin a sentence with information the reader already has, often picking up the end of the previous sentence, and save new or important information for the end, where it carries the most weight. Hard to follow: 'The study examined who uses the night buses. Shift workers on low incomes were the main users, it found. Cuts to routes would hit this group hardest.' Easier: 'The study examined who uses the night buses. It found that the main users were shift workers on low incomes. This group would be hit hardest by any cuts to routes.' Each sentence now opens with something known (It, This group) and ends with something new. The passive (would be hit) is a useful tool for this."
+    },
+    {
+      "type": "tip",
+      "en": "Edit in passes, from large to small. (1) Argument: is the thesis clear, and does every paragraph serve it? (2) Paragraphs: one point each, a clear topic sentence, given-new flow. (3) Sentences: cut redundancy and empty frames, and replace vague verbs. (4) Proofreading: articles, subject-verb agreement, tense consistency, commas, capital letters and the spelling of names. Proofread after a break, in a different format (printed, or in a new font), and read aloud slowly: the ear catches what the eye skips."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Wordy: Due to the fact that the data were incomplete, the committee made a decision to postpone the vote. Concise: Because the data were incomplete, the committee postponed the vote.",
+      "note": "empty frame → because; smothered verb → postponed"
+    },
+    {
+      "en": "Vague: The new rules had an impact on waiting times. Precise: The new rules cut average waiting times by about a third.",
+      "note": "the verb now shows the direction, and the result has a size"
+    },
+    {
+      "en": "Over-cut: Students prefer online classes. Accurate: In this survey, most students preferred online classes.",
+      "note": "'in this survey' and 'most' are not padding: they keep the claim honest"
+    },
+    {
+      "en": "Wordy: It is important to note that the bridge was built in 1965. Concise: The bridge was built in 1965, so it predates the current safety code.",
+      "note": "instead of announcing that a point matters, show why it matters"
+    },
+    {
+      "en": "There are many experts who believe that the policy will fail. → Many experts believe that the policy will fail.",
+      "note": "'there are ... who' is an empty frame that delays the real subject"
+    },
+    {
+      "en": "The council introduced a weekend bus service in March. This service now carries more passengers than the weekday route.",
+      "note": "given (This service) before new (more passengers than the weekday route)"
+    },
+    {
+      "en": "The main users of the night buses are shift workers. This group would be hit hardest by any cuts.",
+      "note": "the passive lets the sentence start with given information"
+    },
+    {
+      "en": "Proofread: *The report recommend new approach. → The report recommends a new approach.",
+      "note": "a separate pass for agreement and articles catches errors the eye skips"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "concise",
+      "pos": "adjective",
+      "he": "תמציתי",
+      "def": "giving all the necessary information in as few words as possible",
+      "example": "Her summary was concise but complete.",
+      "ipa": "/kənˈsaɪs/",
+      "collocations": [
+        "a concise summary",
+        "clear and concise",
+        "a concise account"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "redundant",
+      "pos": "adjective",
+      "he": "מיותר",
+      "def": "(of words) not needed, because the meaning is already expressed",
+      "example": "In 'end result', the word 'end' is redundant.",
+      "ipa": "/rɪˈdʌndənt/",
+      "collocations": [
+        "redundant words",
+        "largely redundant",
+        "render something redundant"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "padding",
+      "pos": "noun",
+      "he": "מילוי; מילים מיותרות שנועדו להאריך",
+      "def": "words or sentences added to make a text longer that add no meaning",
+      "example": "Cut the padding from your introduction.",
+      "ipa": "/ˈpædɪŋ/",
+      "collocations": [
+        "cut the padding",
+        "pure padding",
+        "without padding"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "precise",
+      "pos": "adjective",
+      "he": "מדויק",
+      "def": "exact and accurate in every detail",
+      "example": "Use a precise verb: 'fell' rather than 'changed'.",
+      "ipa": "/prɪˈsaɪs/",
+      "collocations": [
+        "precise wording",
+        "to be precise",
+        "precise figures"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "vague",
+      "pos": "adjective",
+      "he": "מעורפל; לא ברור",
+      "def": "not clear or detailed enough to be useful",
+      "example": "'Some issues' is too vague: name the issues.",
+      "ipa": "/veɪɡ/",
+      "collocations": [
+        "vague language",
+        "a vague answer",
+        "deliberately vague"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "superfluous",
+      "pos": "adjective",
+      "he": "מיותר; עודף",
+      "def": "more than is needed; unnecessary (formal)",
+      "example": "Two of the four examples are superfluous.",
+      "ipa": "/suːˈpɜːfluəs/",
+      "collocations": [
+        "superfluous detail",
+        "entirely superfluous",
+        "superfluous words"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "trim",
+      "pos": "verb",
+      "he": "לקצץ; לקצר",
+      "def": "to make a text shorter by removing parts that are not needed",
+      "example": "I trimmed the essay from 1,200 words to 950.",
+      "ipa": "/trɪm/",
+      "collocations": [
+        "trim a draft",
+        "trim something down",
+        "trim the fat"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "streamline",
+      "pos": "verb",
+      "he": "לייעל; לפשט",
+      "def": "to make something simpler and more effective by removing unnecessary parts",
+      "example": "She streamlined the introduction to three sentences.",
+      "ipa": "/ˈstriːmlaɪn/",
+      "collocations": [
+        "streamline a process",
+        "streamline an argument",
+        "a streamlined version"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "topic sentence",
+      "pos": "noun",
+      "he": "משפט נושא",
+      "def": "the sentence, usually the first, that states the main point of a paragraph",
+      "example": "Every other sentence should support the topic sentence.",
+      "ipa": "/ˈtɒpɪk ˌsentəns/",
+      "collocations": [
+        "a clear topic sentence",
+        "open with a topic sentence"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "paragraph unity",
+      "pos": "noun",
+      "he": "אחדות הפסקה",
+      "def": "the quality of a paragraph in which every sentence supports one main point",
+      "example": "The story about the architect breaks paragraph unity.",
+      "ipa": "/ˈpærəɡrɑːf ˈjuːnəti/",
+      "collocations": [
+        "maintain paragraph unity",
+        "a lack of unity"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "flow",
+      "pos": "noun",
+      "he": "רצף; זרימה",
+      "def": "the way ideas move smoothly from one sentence or paragraph to the next",
+      "example": "Starting with given information improves the flow of a paragraph.",
+      "ipa": "/fləʊ/",
+      "collocations": [
+        "improve the flow",
+        "the flow of ideas",
+        "interrupt the flow"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "coherent",
+      "pos": "adjective",
+      "he": "קוהרנטי; הגיוני ועקבי",
+      "def": "(of an argument or text) clear and logical, with parts that fit together",
+      "example": "A coherent essay leads the reader from one point to the next.",
+      "ipa": "/kəʊˈhɪərənt/",
+      "collocations": [
+        "a coherent argument",
+        "a coherent whole",
+        "clear and coherent"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "proofread",
+      "pos": "verb",
+      "he": "להגיה",
+      "def": "to read a text carefully to find and correct mistakes in spelling, grammar and punctuation",
+      "example": "Always proofread your essay after a break.",
+      "ipa": "/ˈpruːfriːd/",
+      "collocations": [
+        "proofread carefully",
+        "proofread a draft",
+        "a proofreading checklist"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "hone",
+      "pos": "verb",
+      "he": "ללטש; לחדד",
+      "def": "to improve a skill or a piece of work by practising or refining it",
+      "example": "She honed her conclusion until every sentence earned its place.",
+      "ipa": "/həʊn/",
+      "collocations": [
+        "hone your skills",
+        "hone an argument",
+        "finely honed"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew there is no word for a/an, so a missing indefinite article is easy to overlook even in advanced writing, especially before an adjective (*This is significant change, *The report proposes new approach). Give articles their own proofreading pass: every singular countable noun needs a, an, the or another determiner (this, my, each).",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל לפספס תווית חסרה גם בכתיבה מתקדמת, במיוחד לפני שם תואר (‎*This is significant change). הקדישו לתוויות סבב הגהה נפרד: כל שם עצם ספיר ביחיד צריך a, an, the או מילה מיידעת אחרת (this, my, each).",
+      "error_type": "article"
+    },
+    {
+      "en": "Hebrew has no capital letters, so missing capitals can slip through a proofread, especially on days, months, nationalities and languages (*on monday, *an israeli company, *a report in english). Check capitals in a separate, final pass.",
+      "he": "בעברית אין אותיות גדולות, ולכן קל לפספס אותן בהגהה באנגלית, במיוחד בימים, בחודשים, בלאומים ובשפות (‎*on monday, *an israeli company, *a report in english). בדקו אותיות גדולות בסבב נפרד בסוף.",
+      "error_type": "capitalization"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "An editor has marked some words in a draft. Sort them: redundant (cut or shorten) or doing real work (keep)."
+      },
+      "categories": [
+        "Redundant: cut or shorten",
+        "Doing real work: keep"
+      ],
+      "items": [
+        {
+          "text": "end (in 'the end result')",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "past (in 'past history')",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "each and (in 'each and every student')",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "completely (in 'completely eliminate')",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "due to the fact that (before a clause)",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "In my personal opinion, (before 'I think')",
+          "category": "Redundant: cut or shorten"
+        },
+        {
+          "text": "may (the evidence comes from one small trial)",
+          "category": "Doing real work: keep"
+        },
+        {
+          "text": "however (the next sentence pulls against the last)",
+          "category": "Doing real work: keep"
+        },
+        {
+          "text": "in this sample (the survey covered one school)",
+          "category": "Doing real work: keep"
+        },
+        {
+          "text": "most (not every participant agreed)",
+          "category": "Doing real work: keep"
+        },
+        {
+          "text": "therefore (the sentence states a result)",
+          "category": "Doing real work: keep"
+        },
+        {
+          "text": "for example (a case follows that supports the claim)",
+          "category": "Doing real work: keep"
+        }
+      ],
+      "explanation": {
+        "en": "Redundant words repeat a meaning that is already there (end result, past history, each and every, completely eliminate, In my personal opinion + I think) or use many words where one will do (due to the fact that → because). The other words carry meaning: a necessary hedge (may), the scope of a claim (in this sample, most) and the logic between sentences (however, therefore, for example). Cutting them would make the text shorter but less accurate."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Original: 'At this point in time, there are a large number of students who are of the opinion that the library should open for longer hours.' Which version is the most concise without losing or changing any meaning?"
+      },
+      "question": "Choose the best edit.",
+      "options": [
+        "Students want longer library hours.",
+        "Currently, a large number of students are of the opinion that the library should have longer opening hours.",
+        "Many students now think the library should open for longer.",
+        "Many students think the library is open for too long."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Too short: 'Students' now suggests all students, and 'now' has disappeared. Concision must not change the scope of a claim."
+        },
+        "1": {
+          "en": "Only 'at this point in time' has been shortened; 'a large number of', 'are of the opinion that' and 'opening hours' are still padding."
+        },
+        "3": {
+          "en": "The meaning has changed: the students want longer hours, not shorter ones."
+        }
+      },
+      "option_errors": {
+        "0": "unsupported-claim",
+        "1": "word-choice",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "At this point in time → now; there are a large number of students who → many students; are of the opinion that → think; open for longer hours → open for longer. Every piece of meaning survives in about half the words."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Listen to a writing tutor giving feedback on a student's draft and answer the question."
+      },
+      "audio_text": "Your second paragraph is trying to do two jobs. It opens by arguing that the bus cuts will hurt shift workers, which is great, but then it drifts into the history of the bus company. That's interesting, but it doesn't help prove your point, so I'd cut it or move it somewhere else. And in your last sentence you say 'things got worse'. Worse how? Tell me what actually changed.",
+      "question": "Which two problems does the tutor identify?",
+      "options": [
+        "The paragraph is too short, and it has no topic sentence.",
+        "The paragraph lacks unity, and its last sentence is too vague.",
+        "The argument about shift workers is weak, and the history needs more detail.",
+        "The paragraph has too many hedges, and its last sentence is too long."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "The tutor praises the opening point ('which is great'), so the paragraph does have a clear topic sentence; its length is not mentioned."
+        },
+        "2": {
+          "en": "The tutor likes the argument about shift workers and suggests cutting the history, not expanding it."
+        },
+        "3": {
+          "en": "Hedges are not mentioned. The problem with the last sentence is vagueness ('Worse how?'), not length."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'Trying to do two jobs' and 'it doesn't help prove your point' describe a lack of paragraph unity. 'Things got worse ... Worse how?' asks for precision: name the change, for example 'journeys took twice as long'."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "read",
+      "skill": "reading",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Read the column by a university writing tutor and answer the questions."
+      },
+      "title": "Cut, cut, cut? Not quite",
+      "passage": "Every year, my first-year students hand in essays that are too long in the wrong places and too short in the right ones. The introduction spends a hundred words announcing what the essay will do; the paragraph that should carry the argument gets three sentences and no example. The fix is rarely more writing. It is better editing.\n\nThe most common advice about editing is 'cut, cut, cut'. It is half right. Most first drafts are full of words that do no work: 'due to the fact that' where 'because' would do, 'in my personal opinion, I think' in an essay that is already the writer's opinion, 'a total of twelve students' where 'twelve students' says the same. Removing this padding makes a text faster to read, and it makes the writer sound more confident. But a writer who cuts everything that looks like padding will also cut things that are not. 'Many' is not padding when the alternative is 'all'. 'In this sample' is not padding when the study was small. 'However' is not padding when it warns the reader that the next sentence pulls against the last. Concision means removing words that add nothing, not words that add caution, logic or evidence.\n\nPrecision matters as much as length. 'The policy affected attendance' is short, but it hides the one thing the reader wants to know: did attendance rise or fall, and by how much? 'Attendance fell slightly in the first term' is longer and better. Vague verbs (affect, deal with, look at) and vague nouns (things, issues, aspects) spare the writer the effort of deciding what they mean. Replacing them forces that decision, which is why precise wording improves the thinking as well as the prose.\n\nThe stage students skip is proofreading. By the time they reach it, they are tired of the essay, and they read what they meant to write rather than what is on the page. I ask them to change the format first, by printing the essay or switching to a different font, and then to read it aloud, slowly. A missing article or a doubled word slips past the eye far more easily than past the ear.\n\nNone of this is glamorous. Nobody remembers an essay because its writer deleted 'it is important to note that' eleven times. But readers notice, even if they cannot say why, when every sentence earns its place. That is what a second draft is for.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the tutor's view of the advice 'cut, cut, cut'?",
+          "options": [
+            "It is partly right: cutting padding helps, but cutting hedges, connectors and evidence does harm.",
+            "It is the best single piece of advice a writer can follow.",
+            "It is wrong, because longer essays usually receive higher marks.",
+            "It applies only to introductions, not to body paragraphs."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "'It is half right': the tutor warns that cutting too much removes caution, logic and evidence."
+            },
+            "2": {
+              "en": "The tutor never links length to marks; the complaint is about words in the wrong places."
+            },
+            "3": {
+              "en": "Padding can appear anywhere; the tutor's examples are not limited to introductions."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'It is half right ... Concision means removing words that add nothing, not words that add caution, logic or evidence.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why is 'many' not padding 'when the alternative is all'?",
+          "options": [
+            "Because 'many' is shorter than 'all'",
+            "Because 'all' is too informal for an essay",
+            "Because readers prefer vague words",
+            "Because 'many' limits the claim to what the evidence can support"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "'Many' is actually longer than 'all'; the point is about meaning, not length."
+            },
+            "1": {
+              "en": "'All' is not informal; the problem is that it may over-claim."
+            },
+            "2": {
+              "en": "The tutor argues for precision, not vagueness."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'Many' sets the scope of the claim. Removing it, or changing it to 'all', would turn an accurate claim into an over-generalisation: the calibration you practised in the hedging lesson."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The tutor prefers 'Attendance fell slightly in the first term' to 'The policy affected attendance', even though it is longer.",
+          "answer": true,
+          "explanation": {
+            "en": "'... is longer and better.' Precision can justify extra words, because they tell the reader what actually happened."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "According to the tutor, replacing vague words improves the style of an essay but not its ideas.",
+          "answer": false,
+          "explanation": {
+            "en": "The tutor says precise wording 'improves the thinking as well as the prose', because it forces the writer to decide what they mean."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "According to the tutor, why do students miss errors when they proofread?",
+          "options": [
+            "They proofread before they have finished the argument.",
+            "They read what they meant to write rather than what is on the page.",
+            "They rely too much on spell-checkers.",
+            "They proofread on paper instead of on screen."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The tutor describes proofreading as the last stage, the one that students skip, not one they do too early."
+            },
+            "2": {
+              "en": "Spell-checkers are not mentioned."
+            },
+            "3": {
+              "en": "The opposite: the tutor recommends printing the essay."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'... they read what they meant to write rather than what is on the page.' Changing the format and reading aloud help to break that habit."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The tutor suggests changing the ___ of the essay, for example by printing it, before reading it aloud. (one word from the column)",
+          "answers": [
+            [
+              "format"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "font",
+              "feedback": {
+                "en": "Switching the font is one example of the change. The general word in the column is 'format'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'I ask them to change the format first, by printing the essay or switching to a different font, and then to read it aloud, slowly.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which sentence best summarises the column?",
+          "options": [
+            "Short essays are always better than long ones.",
+            "Students should spend more time on their introductions.",
+            "Good editing cuts words that add nothing, sharpens vague wording and checks the final text closely, while keeping every word that adds meaning.",
+            "Proofreading matters more than any other stage of writing."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The tutor says concision is not the same as brevity: 'Attendance fell slightly ...' is longer and better."
+            },
+            "1": {
+              "en": "The tutor criticises introductions that spend 'a hundred words announcing what the essay will do'."
+            },
+            "3": {
+              "en": "Proofreading is one stage among several; the column gives equal weight to concision and precision."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The column covers three stages (cutting padding, choosing precise words, proofreading) and one principle: every sentence should earn its place."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "First sentence: 'The council's report blames the delays on a shortage of drivers.' Which second sentence follows best, starting with given information and ending with new information?"
+      },
+      "question": "Choose the best next sentence.",
+      "options": [
+        "Two years ago, wages were cut by the bus company, and the shortage began then.",
+        "A wage cut that the bus company made two years ago is what this shortage began with.",
+        "Wages at the bus company were cut two years ago, which caused the shortage of drivers that the report mentions.",
+        "This shortage began when the bus company cut wages two years ago."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "It opens with new information (two years ago, wages) and leaves the link to the report (the shortage) until the end, so the reader has to wait to see the connection."
+        },
+        "1": {
+          "en": "Clumsy and wordy: 'is what this shortage began with' pushes the given information into an unnatural position at the end."
+        },
+        "2": {
+          "en": "Grammatical, but it opens with new information and ends with old information (the shortage that the report mentions), so the paragraph loses its thread."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "1": "cohesion",
+        "2": "cohesion"
+      },
+      "explanation": {
+        "en": "'This shortage' picks up the end of the first sentence (given), and the new fact, the wage cut two years ago, comes at the end, where it carries the most weight. Each sentence hands the reader on to the next."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Topic sentence of a body paragraph: 'Free public transport for under-25s would widen young people's access to education and work.' Which sentences belong in this paragraph?"
+      },
+      "categories": [
+        "Keep: supports the topic sentence",
+        "Move or cut: a different point"
+      ],
+      "items": [
+        {
+          "text": "For many young people, the nearest college or the best first job is on the other side of town.",
+          "category": "Keep: supports the topic sentence"
+        },
+        {
+          "text": "For someone on a low wage, the monthly fare can decide whether a job is worth taking.",
+          "category": "Keep: supports the topic sentence"
+        },
+        {
+          "text": "A free pass would let them choose courses and jobs on their merits rather than on the cost of getting there.",
+          "category": "Keep: supports the topic sentence"
+        },
+        {
+          "text": "Evening classes and late shifts would become realistic options for young people without a car.",
+          "category": "Keep: supports the topic sentence"
+        },
+        {
+          "text": "Buses also produce less pollution per passenger than private cars.",
+          "category": "Move or cut: a different point"
+        },
+        {
+          "text": "The town's first bus route opened in 1923 with two converted lorries.",
+          "category": "Move or cut: a different point"
+        },
+        {
+          "text": "Critics argue that the scheme would cost the council too much.",
+          "category": "Move or cut: a different point"
+        },
+        {
+          "text": "Older residents often complain that the buses run late.",
+          "category": "Move or cut: a different point"
+        }
+      ],
+      "hint": {
+        "en": "For each sentence, ask: does this help prove that free travel widens access to education and work?"
+      },
+      "explanation": {
+        "en": "The four sentences you keep each show how free travel widens access to education and work. The environmental point may be valid, but it supports a different claim and needs its own paragraph; the counterargument belongs in the paragraph where you answer it; the history and the complaint about late buses do not help prove the topic sentence at all."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "order",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Put the sentences in order so that each one begins with information the reader already has."
+      },
+      "tokens": [
+        "Last year, the town introduced a late-night bus service.",
+        "Most of its passengers are hospital and hotel staff on late shifts.",
+        "Before the service began, these workers relied on expensive taxis or long walks home.",
+        "For them, the new buses have removed both that cost and that risk."
+      ],
+      "hint": {
+        "en": "Look at the openings: 'its passengers', 'these workers' and 'that cost and that risk' each point back to something."
+      },
+      "explanation": {
+        "en": "'Its passengers' needs the service; 'these workers' needs the staff; 'that cost and that risk' point back to the expensive taxis and the long walks. Each sentence opens with something given and ends with something new, so the paragraph reads as a chain."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Replace each wordy phrase in brackets with one word. Where a phrase hides a verb inside a noun, use that verb."
+      },
+      "text": "The trial was stopped ___ [due to the fact that] the data were unreliable. ___ [The majority of] participants said they would use the app again. The committee will ___ [give consideration to] the proposal in May, and the new form has been designed ___ [in order to] reduce errors.",
+      "answers": [
+        [
+          "because",
+          "since",
+          "as"
+        ],
+        [
+          "Most"
+        ],
+        [
+          "consider"
+        ],
+        [
+          "to"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "due",
+          "feedback": {
+            "en": "Due to is followed by a noun (due to unreliable data), not by a clause with a verb. Before a clause, use because."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "many",
+          "feedback": {
+            "en": "The majority of means more than half, which is most. Many does not say that."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "majority",
+          "feedback": {
+            "en": "'Majority participants' is not grammatical. The one-word equivalent of 'the majority of' is most."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "discuss",
+          "feedback": {
+            "en": "Discuss changes the meaning slightly. 'Give consideration to' hides the verb consider."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "for",
+          "feedback": {
+            "en": "After designed, use to + verb: designed to reduce errors."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "hint": {
+        "en": "One of the phrases hides a verb inside a noun: consideration."
+      },
+      "explanation": {
+        "en": "due to the fact that → because; the majority of → most; give consideration to → consider; in order to → to. Each replacement says the same thing in one word, so the reader reaches the content sooner."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Rewrite the sentence using the verb hidden in 'investigation'. Begin 'The committee ...'."
+      },
+      "source": "The committee carried out an investigation into the causes of the delays.",
+      "answers": [
+        "The committee investigated the causes of the delays.",
+        "The committee investigated what caused the delays."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The committee investigated into the causes of the delays.",
+          "feedback": {
+            "en": "Investigate takes a direct object, with no preposition: investigated the causes."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "The committee made an investigation into the causes of the delays.",
+          "feedback": {
+            "en": "Still a smothered verb: made an investigation into = investigated."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "Carried out an investigation into (six words) = investigated (one word). The verb is stronger and the sentence is shorter. Keep the noun only when the investigation itself is the topic: The investigation found that ..."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Average waiting times fell from about 20 minutes to about 12. Replace the vague verb 'affected' with a precise verb that shows what happened. Change only the verb."
+      },
+      "source": "The new timetable affected waiting times.",
+      "answers": [
+        "The new timetable reduced waiting times.",
+        "The new timetable cut waiting times.",
+        "The new timetable shortened waiting times.",
+        "The new timetable lowered waiting times.",
+        "The new timetable decreased waiting times."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The new timetable improved waiting times.",
+          "feedback": {
+            "en": "Improved tells us the change was good, but not what happened. Name the direction: reduced, cut or shortened."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "The new timetable changed waiting times.",
+          "feedback": {
+            "en": "Changed is as vague as affected: did the times rise or fall?"
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "The new timetable increased waiting times.",
+          "feedback": {
+            "en": "The times fell, so the verb must show a fall: reduced, cut or shortened."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "The new timetable halved waiting times.",
+          "feedback": {
+            "en": "Precise, but not accurate: a fall from 20 to 12 minutes is about 40%, not half. A precise word must also be true."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "Affected only says that something happened. Reduced (or cut, shortened, lowered) gives the direction, so the reader learns the news. If you have the figures, add them: The new timetable reduced average waiting times from about 20 minutes to about 12."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Cut the three redundant words or phrases from this sentence. Do not change anything else."
+      },
+      "sentence": "The end result of the review is that each and every department must submit its report by 9 a.m. in the morning.",
+      "answers": [
+        "The result of the review is that every department must submit its report by 9 a.m..",
+        "The result of the review is that every department must submit its report by 9am.",
+        "The result of the review is that every department must submit its report by 9 am.",
+        "The result of the review is that every department must submit its report by 9 a.m.",
+        "The result of the review is that every department must submit its report by 9 in the morning.",
+        "The result of the review is that each department must submit its report by 9 a.m..",
+        "The result of the review is that each department must submit its report by 9am.",
+        "The result of the review is that each department must submit its report by 9 am.",
+        "The result of the review is that each department must submit its report by 9 a.m.",
+        "The result of the review is that each department must submit its report by 9 in the morning."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The result of the review is that each and every department must submit its report by 9 a.m.",
+          "feedback": {
+            "en": "Two cut, one to go: each and every says the same thing twice. Keep every (or each)."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "The result of the review is that every department must submit its report by 9 a.m. in the morning.",
+          "feedback": {
+            "en": "Two cut, one to go: a.m. already means in the morning, so keep only one of them."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "The end result of the review is that every department must submit its report by 9 a.m.",
+          "feedback": {
+            "en": "Two cut, one to go: a result is already the end of a process, so end result = result."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "Look for words that repeat a meaning already there: one at the start, one in the middle and one at the end."
+      },
+      "explanation": {
+        "en": "End result = result; each and every = every (or each); a.m. already means in the morning, so keep one of them. Redundant pairs make writing sound padded, and they make a careful reader wonder what the extra word is supposed to add."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Proofread this sentence from a report. It has three errors: one agreement error and two missing articles. Correct them and change nothing else."
+      },
+      "sentence": "The results of the survey was clear: town needs new approach to parking.",
+      "answers": [
+        "The results of the survey were clear: the town needs a new approach to parking."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The results of the survey was clear: the town needs a new approach to parking.",
+          "feedback": {
+            "en": "Both articles are fixed. Now check the verb: its subject is results (plural), not survey, so use were."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "The results of the survey were clear: town needs a new approach to parking.",
+          "feedback": {
+            "en": "Town is a singular countable noun, and the writer means one specific town, so it needs the: the town."
+          },
+          "error_type": "article"
+        },
+        {
+          "match": "The results of the survey were clear: the town needs new approach to parking.",
+          "feedback": {
+            "en": "Approach is a singular countable noun here, and it is one of many possible approaches, so it needs a: a new approach."
+          },
+          "error_type": "article"
+        },
+        {
+          "match": "The results of the survey were clear: a town needs a new approach to parking.",
+          "feedback": {
+            "en": "The writer means one specific town (the one the survey was about), so use the: the town."
+          },
+          "error_type": "article"
+        }
+      ],
+      "error_type": "article",
+      "hint": {
+        "en": "Find the head noun of the subject (results or survey?), then check every singular countable noun after the colon."
+      },
+      "explanation": {
+        "en": "The head of the subject is results (plural), not survey, so the verb is were. Town and approach are singular countable nouns, so they need articles: the town (a specific town), a new approach (one of many possible approaches). A noun between the head and the verb (of the survey) is a classic trap, which is why agreement deserves its own proofreading pass."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Final proofreading pass: capital letters. Read the sentence from a report: 'on monday the israeli and french delegations presented their findings in english to the committee.' Apart from the first word, which words need a capital letter?"
+      },
+      "question": "Which words need a capital letter?",
+      "options": [
+        "monday only",
+        "monday, israeli, french and english",
+        "israeli, french and english, but not monday",
+        "monday, delegations and committee"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Monday is right, but nationalities and languages also take capitals in English, even when they are adjectives: Israeli, French, English."
+        },
+        "2": {
+          "en": "Days of the week also take a capital letter in English: Monday."
+        },
+        "3": {
+          "en": "Delegations and committee are ordinary nouns here, so they stay lower case. The words that need capitals are the day (Monday), the nationalities (Israeli, French) and the language (English)."
+        }
+      },
+      "option_errors": {
+        "0": "capitalization",
+        "2": "capitalization",
+        "3": "capitalization"
+      },
+      "explanation": {
+        "en": "English capitalises days, months, nationalities and languages: On Monday the Israeli and French delegations presented their findings in English to the committee. Missing capitals are easy to overlook because the sentence still reads correctly in your head, so check them in a separate, final pass."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "You are giving a classmate feedback on a draft. Say the sentence out loud."
+      },
+      "target": "Your second paragraph makes two different points, so I'd split it in two and cut the story about the bus company.",
+      "focus": {
+        "en": "Stress the words that carry the new information: TWO different POINTS, SPLIT it, CUT the STORy. Keep 'I'd' short and light: /aɪd/."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Useful editing feedback names the problem (two different points) and the action (split, cut). Naming the problem and the action is also the habit you need when you edit your own draft."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Edit a paragraph for concision, precision, unity and flow."
+      },
+      "task": {
+        "en": "Edit this paragraph of about 150 words down to about 80-110 words. Keep every argument, hedge and piece of evidence that does real work; cut redundancy and empty frames; replace vague verbs; remove the sentence that breaks paragraph unity; correct any claim that goes beyond the evidence; and start sentences with given information where you can.\n\n'In my personal opinion, I think that it is important to note that the city's decision to close the late-night library has had an impact on students in a number of different ways. There are many students who used the library in order to study in a quiet place due to the fact that their homes are crowded and noisy. The library building itself was designed in 1971 by a well-known local architect and has a very unique curved roof. Since the closure, students have had to deal with the problem of finding somewhere else to study. A survey of 80 students at one college suggests that the majority of them now study for fewer hours each week than they did before the closure. Each and every one of these students is affected by this, and the end result could possibly perhaps be lower exam results in the future.'"
+      },
+      "min_words": 70,
+      "max_words": 120,
+      "model_answer": "I would argue that the city's decision to close the late-night library has harmed students in two ways. First, many students relied on the library as a quiet place to study because their homes are crowded and noisy. Since the closure, these students have had to find somewhere else to work. Second, this disruption seems to have cost them study time: in a survey of 80 students at one college, most said that they now study for fewer hours each week than before. This loss of study time may, in turn, lead to lower exam results.",
+      "checklist": [
+        {
+          "en": "Content kept: both effects of the closure (losing a quiet place to study, studying fewer hours), the survey and a single hedge on the future effect are still there."
+        },
+        {
+          "en": "Padding cut: no 'In my personal opinion, I think', 'it is important to note that', 'there are many students who', 'in order to', 'due to the fact that', 'each and every' or 'end result'."
+        },
+        {
+          "en": "Precision: vague wording is replaced (had an impact on → harmed; deal with the problem of finding → find)."
+        },
+        {
+          "en": "Unity: the sentence about the architect and the roof is gone, because it does not support the point of the paragraph."
+        },
+        {
+          "en": "Calibration: no claim goes beyond the survey ('the majority', not 'each and every one'), and the future effect has one hedge (may), not three (could possibly perhaps)."
+        },
+        {
+          "en": "Flow: sentences open with given information where possible (these students, this disruption, this loss of study time)."
+        },
+        {
+          "en": "Proofreading: articles, agreement, tenses and punctuation are checked."
+        }
+      ]
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "topic": "concision-editing",
+      "prompt": {
+        "en": "Final assessment: write, then edit, your analytical argumentative essay."
+      },
+      "task": {
+        "en": "Write an 800-1,000-word analytical argumentative essay. Choose one question: (a) Should universities choose students by lottery from all applicants who meet a minimum academic standard? (b) Do the benefits of remote work outweigh its costs for people at the start of their careers? (c) Should voting in national elections be compulsory? Argue a qualified, analytical position and respond to opposing views. Your essay needs: an introduction that ends with an arguable thesis and previews your structure; body paragraphs that each develop one claim with evidence and an explanation of how the evidence supports it; the strongest opposing view, stated fairly and attributed, followed by a rebuttal that refutes it, concedes and outweighs it, or qualifies your claim; calibrated hedging; and a conclusion that adds no new argument. Use real examples, careful general knowledge and reasoning, and do not invent statistics. When your draft is complete, edit it in four passes: argument, paragraphs, sentences, proofreading."
+      },
+      "min_words": 750,
+      "max_words": 1100,
+      "model_answer": "Model answer on a parallel question: Should final school exams be open-book?\n\nEvery summer, students spend weeks memorising formulas, dates and quotations that they will rarely need to recall without help again. Open-book exams, in which candidates may bring a textbook into the exam room, are often proposed as the cure. Supporters argue that they test understanding rather than memory; critics reply that they reward organisation rather than knowledge and give students a reason to stop learning. Both sides have a point, but they are often thinking of different subjects. This essay argues that open-book exams should become the norm in subjects that assess analysis and application, such as history, literature and the advanced sciences. Closed-book testing, however, should remain wherever fluent recall is itself the skill being assessed. It first examines what each format measures, then considers how each shapes the way students learn, and finally answers the two strongest objections: that open-book exams lower standards and that they are unfair.\n\nThe case for open-book exams rests on a simple principle: an exam should measure the skill that the subject values most. In history, that skill is not recalling the date of a treaty but explaining why the treaty failed, weighing two interpretations of it and supporting a judgement with evidence. A closed-book exam measures this skill only indirectly, because a student who has forgotten a key fact cannot show what they would have done with it. Allowing a textbook removes that bottleneck. The same is true in physics, where working scientists look up constants and formulas as a matter of routine; what no reference book can supply is the judgement needed to decide which formula applies to an unfamiliar problem. An exam that permits reference material can therefore ask harder questions, because it no longer spends marks on information that a book could provide.\n\nThe format also changes how students prepare, and arguably for the better. When an exam rewards recall, a sensible student revises by rehearsing answers; when it rewards application, the same student must practise using knowledge in new situations. Anyone who has crammed for a test and forgotten most of the material a week later will recognise the difference. Open-book preparation is not easier. Students must understand their material well enough to find what they need under time pressure, and they must practise questions that cannot be answered by copying. Indeed, weak students may do worse in such exams, not better, because a textbook is of little use to someone who does not understand it.\n\nThere are limits, however, and they mark the boundary of this argument. In some subjects, fluent recall is not an obstacle to the real skill but part of it. A language learner who must look up every word cannot hold a conversation, and a student who has to check every multiplication will struggle with algebra. In these areas, closed-book testing measures something that matters, and it should stay. The question, then, is not whether exams should be open-book, but which ones.\n\nThe strongest objection is that open-book exams lower standards. Critics argue that if students know they can bring a book, many will stop learning the material at all, and marks will rise without any rise in knowledge. This concern deserves a serious answer, because an exam that can be passed by copying would indeed be worthless. However, the objection assumes that open-book exams ask the same questions as closed-book ones. They should not. A question such as 'Which two causes does the textbook identify?' becomes trivial with a book on the desk. A question such as 'Which of these two explanations better accounts for the evidence in the source below, and why?' does not. The risk therefore lies less in the format than in careless question design. It is a real risk, and it suggests that open-book exams should be introduced gradually, with examiners trained to write questions that a book cannot answer. With such questions, an open-book exam sets a higher standard than a closed-book one, because it removes the option of passing on memory alone.\n\nA second objection concerns fairness. Students who can afford private tutors might arrive with better-organised notes, which would turn an exam of understanding into a test of resources. This is a fair point, but it applies with equal force to closed-book exams, where tutoring and a quiet place to study already favour some students over others. Moreover, the problem has a simple remedy: if every candidate receives the same clean copy of a standard textbook, and personal notes are not allowed, the advantage largely disappears.\n\nOpen-book exams are not a cure for everything that is wrong with assessment, and they would be a mistake in subjects where knowing something by heart is the skill itself. In subjects that claim to value analysis, however, they would align what is tested with what is taught, encourage students to practise thinking rather than recall, and push examiners to write better questions. The real choice is not between rigour and leniency, but between testing what students can remember and testing what they can do with what they know.",
+      "checklist": [
+        {
+          "en": "Thesis: my introduction ends with an arguable, qualified thesis that takes an analytical position and previews the structure of the essay."
+        },
+        {
+          "en": "Body: each paragraph develops one claim, with a clear topic sentence, relevant evidence or examples, and reasoning that explains how the evidence supports the claim."
+        },
+        {
+          "en": "Evidence: my support is relevant and sufficient, general knowledge is worded carefully, and I invent no statistics or studies."
+        },
+        {
+          "en": "Counterargument and rebuttal: I state the strongest opposing view fairly and attribute it (Critics argue ...), then refute it, concede and outweigh it, or qualify my claim, adjusting my position if I concede a point."
+        },
+        {
+          "en": "Calibration and tone: every claim is as strong as its evidence, with no stacked hedges, no unjustified boosters and no manipulative rhetoric; the register is formal throughout."
+        },
+        {
+          "en": "Concision and precision: no padding, empty frames or smothered verbs; verbs and nouns say exactly what I mean."
+        },
+        {
+          "en": "Coherence and flow: one point per paragraph, given-new order within paragraphs, and connectors that match the logic (however, therefore, moreover)."
+        },
+        {
+          "en": "Conclusion: I restate the thesis in new words and draw out its implications without adding a new argument."
+        },
+        {
+          "en": "Proofreading: I checked articles, subject-verb agreement, tense consistency, punctuation, capital letters and spelling in a separate final pass."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Cut words that add nothing (doubled meanings, empty frames, smothered verbs, stacked qualifiers), but keep every word that adds caution, logic or evidence."
+      },
+      {
+        "en": "Replace vague verbs and nouns (affect, deal with, things, issues) with words that say exactly what happened and in which direction."
+      },
+      {
+        "en": "One paragraph, one job: every sentence must help prove the topic sentence. Move or cut the rest."
+      },
+      {
+        "en": "Given before new: start sentences with what the reader already knows and end them with what is new."
+      },
+      {
+        "en": "Edit in passes, from large to small: argument, paragraphs, sentences, then proofreading (articles, agreement, tense, punctuation, capitals), after a break and aloud."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

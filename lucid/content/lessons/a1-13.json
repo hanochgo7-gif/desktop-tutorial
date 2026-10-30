@@ -56,7 +56,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, questions work differently: you put the question word in front of a normal sentence, with no extra word. So 'Where you live?' can feel natural. English needs do/does (or am/is/are) after the question word: Where do you live? What does she do?", "he": "בעברית שאלה בנויה אחרת: שמים את מילת השאלה לפני משפט רגיל, בלי מילה נוספת ('איפה אתה גר?'). לכן Where you live? עלול להרגיש טבעי. באנגלית צריך do/does (או am/is/are) אחרי מילת השאלה: Where do you live? What does she do?", "error_type": "do-support" },
-    { "en": "In Hebrew, /w/ is rare (the letter vav is usually /v/), so what, where and which can sound like 'vot', 'vair' and 'vich'. For English /w/, round your lips as for 'oo' and keep your teeth away from your lip.", "he": "בעברית הצליל /w/ נדיר (האות ו' נהגית בדרך כלל /v/), ולכן what, where ו-which עלולים להישמע כאילו הן מתחילות ב-v. כדי להגיד /w/ באנגלית, עגלו את השפתיים כמו ב'אוּ', ואל תגעו בשיניים בשפה.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew, /w/ is rare (the letter vav is usually /v/), so what, where and which can sound like 'vot', 'vair' and 'vich'. For English /w/, round your lips as for 'oo' and keep your teeth away from your lip.", "he": "בעברית הצליל /w/ נדיר (האות ו' נהגית בדרך כלל /v/), ולכן what, where ו-which עלולות להישמע כאילו הן מתחילות ב-v. כדי להגיד /w/ באנגלית, עגלו את השפתיים כמו ב'אוּ', ואל תגעו בשיניים בשפה.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
