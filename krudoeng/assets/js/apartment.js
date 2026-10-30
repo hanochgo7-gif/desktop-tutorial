@@ -266,7 +266,7 @@
       if (t >= until && !settled) { settled = true; declutter(); }
       raf = (live || t < until) ? requestAnimationFrame(tick) : 0;
     }
-    function follow(ms) { until = performance.now() + ms; settled = false; if (!raf) raf = requestAnimationFrame(tick); }
+    function follow(ms) { until = Math.max(until, performance.now() + ms); settled = false; if (!raf) raf = requestAnimationFrame(tick); }
     // התוויות זזות עם הדגם רק כשהוא מתנודד; כשהממצאים מוארים הנדנוד נעצר (ב-CSS), ולכן אין צורך לעדכן כל מסגרת
     function setLive() { live = inView && stage.classList.contains('lit') && !opts.sway; if (live && !raf) raf = requestAnimationFrame(tick); }
     function fit() {

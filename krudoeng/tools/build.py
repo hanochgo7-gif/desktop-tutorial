@@ -432,18 +432,24 @@ HOME_PHOTOS = ['ceiling-damp', 'tile-pinhole', 'sash-gap']   # שלושה ממצ
 def build_home():
     pg = Page('index.html')
     h, H = C.HOME, C.HOME2
-    hero = (f'<section class="hero dark" aria-labelledby="h1"><div class="wrap hero__grid">'
-            f'<div class="hero__text"><h1 id="h1">{e(H["h1"])}</h1><p class="lede">{e(h["lede"])}</p>{actions(pg)}</div>'
-            f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", focusable=True, idattr="apt-hero")}</div>'
-            f'<figcaption class="eye"><button class="btn btn--secondary" type="button" aria-pressed="false" aria-controls="apt-hero" data-eye="apt-hero">{ico_eye()}מבט של בודק</button>'
-            f'<p class="eye__say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></figcaption></figure>'
-            f'</div></section>')
+    photo = lambda w: pg.a(f'assets/img/photo/house-{w}.webp')
+    hero = (f'<section class="hero hero--photo dark" aria-labelledby="h1">'
+            f'<img class="hero__photo" src="{photo(1600)}" srcset="{photo(900)} 900w, {photo(1600)} 1600w, {photo(2400)} 2400w" sizes="100vw" alt="" width="2400" height="1334" fetchpriority="high">'
+            f'<div class="wrap hero__grid"><div class="hero__text"><h1 id="h1">{e(H["h1"])}</h1><p class="lede">{e(h["lede"])}</p>{actions(pg)}</div></div></section>')
+    # הדירה התלת־ממדית: אזור משלה, עם מבט של בודק
+    inspect = (f'<section class="section dark" id="inspect" aria-labelledby="inspect-h"><div class="wrap inspect">'
+               f'<div class="section__head"><h2 id="inspect-h">{e(H["inspect_h2"])}</h2><p>{e(H["inspect_p"])}</p></div>'
+               f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", focusable=True, idattr="apt-home")}</div>'
+               f'<figcaption class="eye"><button class="btn btn--secondary" type="button" aria-pressed="false" aria-controls="apt-home" data-eye="apt-home">{ico_eye()}מבט של בודק</button>'
+               f'<p class="eye__say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></figcaption></figure>'
+               f'</div></section>')
     findings = '<script type="application/json" id="k-findings">' + json.dumps(C.FINDINGS, ensure_ascii=False) + '</script>'
     body = hero + findings
     body += section('services', H['chooser_h2'], chooser(pg).replace('class="chooser"', 'class="chooser chooser--home"', 1), e(H['chooser_p']),
                     more=more_links((pg.a('services/'), 'כל השירותים, עם הפירוט'), (pg.a('lawyers/'), 'לעורכי דין, מתווכים ושמאים')))
     body += section('why', H['why_h2'], why_grid(), cls='section--paper')
     body += section('process', H['process_h2'], steps(C.PROCESS))
+    body += inspect
     if HAS_FIELD:
         pick = [field_item(k) for k in HOME_PHOTOS if field_item(k)]
         body += section('field', H['field_h2'], photo_cards(pg, pick), e(C.FIELD['strip_p']), cls='section--paper',
