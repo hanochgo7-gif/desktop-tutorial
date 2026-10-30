@@ -42,13 +42,15 @@ const compiled = ROUTES.map(([pattern, load, extra = {}]) => {
   return { pattern, re, keys, load, extra };
 });
 
-// A malformed escape (for example "#/%E0%A4%A") must not stop the app from starting: it is treated
-// as an empty route and replaced.
+// The path is decoded on its own and the query by URLSearchParams, so an encoded "?" or "&" inside a value
+// (such as ?next=scenario%2Fx%3Ftab%3Droleplay) stays inside it. A malformed escape in the path (for example
+// "#/%E0%A4%A") must not stop the app from starting: it is reported as malformed and the route replaced.
 export function parse(hash = location.hash) {
-  let h = hash.replace(/^#\/?/, '');
-  try { h = decodeURIComponent(h); } catch { return { path: '', query: {}, malformed: true }; }
-  const [path, qs = ''] = h.split('?');
-  return { path: path.replace(/\/$/, ''), query: Object.fromEntries(new URLSearchParams(qs)) };
+  const h = hash.replace(/^#\/?/, '');
+  const i = h.indexOf('?');
+  let path = i < 0 ? h : h.slice(0, i);
+  try { path = decodeURIComponent(path); } catch { return { path: '', query: {}, malformed: true }; }
+  return { path: path.replace(/\/$/, ''), query: Object.fromEntries(new URLSearchParams(i < 0 ? '' : h.slice(i + 1))) };
 }
 
 export const hrefOf = ({ path, query = {} }) => {

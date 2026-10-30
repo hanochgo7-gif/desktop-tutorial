@@ -7,6 +7,7 @@
 --               whose profile was refused cannot store records either.
 --   S-07        Per-account quota on lucid_records (records and bytes); the goals text is bounded.
 --   S-16        authenticated and anon lose TRUNCATE, REFERENCES and TRIGGER on every lucid_ table.
+--   lucid_export() also returns each AI request's outcome and token counts.
 -- Lucid needs a dedicated Supabase project (docs/setup.md, S-13): lucid_delete_account deletes the auth.users
 -- row, which would also remove the person from any other app sharing the project.
 -- Safe to run more than once. Run after 001_lucid_core.sql.
@@ -77,6 +78,20 @@ begin
     returning id into v_id;
   return jsonb_build_object('ok', true, 'id', v_id);
 end $$;
+
+-- The export now includes each AI request's outcome and token counts too (same signature, grants kept).
+create or replace function public.lucid_export() returns jsonb
+language sql stable security invoker set search_path = '' as $$
+  select jsonb_build_object(
+    'exported_at', now(),
+    'profile', (select to_jsonb(p) from public.lucid_profiles p where p.id = auth.uid()),
+    'records', coalesce((select jsonb_agg(jsonb_build_object('coll', r.coll, 'id', r.id, 'data', r.data, 'deleted', r.deleted, 'updated_at', r.updated_at) order by r.coll, r.id)
+                         from public.lucid_records r where r.user_id = auth.uid()), '[]'::jsonb),
+    'ai_usage', coalesce((select jsonb_agg(jsonb_build_object('route', u.route, 'units', u.units, 'outcome', u.outcome,
+                                                              'input_tokens', u.input_tokens, 'output_tokens', u.output_tokens, 'created_at', u.created_at) order by u.created_at)
+                          from public.lucid_ai_usage u where u.user_id = auth.uid()), '[]'::jsonb)
+  );
+$$;
 
 -- ---------- records need a profile (S-05) ----------
 drop policy if exists lucid_records_own on public.lucid_records;

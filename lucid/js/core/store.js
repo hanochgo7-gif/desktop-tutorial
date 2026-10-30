@@ -121,9 +121,9 @@ export function createStore(backend = memoryBackend(), { now = () => new Date(),
       if (!this.get(c, id)) return;
       this.put(c, { id, _deleted: true }, { tombstone: true });
     },
-    // Any learner data on this device (including tombstones still waiting to sync)?
-    hasData() {
-      for (const c of COLLECTIONS) if (coll(c).size) return true;
+    // Any learner data on this device (including tombstones still waiting to sync)? `except` skips collections.
+    hasData({ except = [] } = {}) {
+      for (const c of COLLECTIONS) if (!except.includes(c) && coll(c).size) return true;
       return false;
     },
     // The account id the local data belongs to, or null when it was made without an account.

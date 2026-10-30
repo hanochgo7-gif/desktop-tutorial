@@ -73,7 +73,7 @@ export default async function scenarioView(el, ctx) {
       const why = !configured() || !CONFIG.aiEnabled ? tt('שיחה חופשית עם AI דורשת שרת עם הגדרת AI. בשרת הזה היא עוד לא הוגדרה.', 'Free conversation with AI needs a server with AI configured. It is not configured on this server.')
         : !auth.signedIn ? tt('כדי לדבר עם AI צריך להיכנס לחשבון.', 'Sign in to talk with the AI.') : tt('צריך להפעיל ״משוב AI״ בהגדרות.', 'Turn on "AI feedback" in Settings.');
       return html`<div class="stack" style="max-width:40rem"><p class="banner">${icon('info', { size: 18 })}<span>${why}</span></p><p class="small muted">${tt('בינתיים, התרגול המובנה עובד במלואו ונותן משוב על כל תשובה.', 'Meanwhile, the scripted practice works fully and gives feedback on every reply.')}</p>
-        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? html`<a class="key" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
+        <div class="row"><button type="button" class="key enter" data-tab="practise">${tt('לתרגול המובנה', 'To scripted practice')}</button>${configured() && !auth.signedIn ? html`<a class="key" href="#/account?mode=signin&next=${encodeURIComponent(`scenario/${s.id}?tab=roleplay`)}">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`;
     }
     if (report) return reportView();
     if (!chat) {

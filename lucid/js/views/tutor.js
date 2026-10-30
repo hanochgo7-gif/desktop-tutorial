@@ -52,7 +52,7 @@ export default async function tutor(el, ctx) {
   const others = () => store.all('chats').filter((c) => c.kind === 'tutor' && c.id !== session?.id);
   function savedRow() {
     const n = others().length;
-    return n ? html`<p class="xsmall faint row" style="margin-top:var(--s2)">${tt(n === 1 ? 'עוד שיחה שמורה אחת עם המורה.' : `עוד ${n} שיחות שמורות עם המורה.`, `${n} more saved tutor conversation${n === 1 ? '' : 's'}.`)}<button type="button" class="key ghost small" data-delete-all>${icon('trash', { size: 14 })} ${tt('מחיקת כולן', 'Delete all')}</button></p>` : '';
+    return n ? html`<p class="xsmall faint row" style="margin-top:var(--s2);max-width:52rem">${tt(n === 1 ? 'עוד שיחה שמורה אחת עם המורה.' : `עוד ${n} שיחות שמורות עם המורה.`, `${n} more saved tutor conversation${n === 1 ? '' : 's'}.`)}<button type="button" class="key ghost small" data-delete-all>${icon('trash', { size: 14 })} ${tt('מחיקת כולן', 'Delete all')}</button></p>` : '';
   }
 
   function draw() {
@@ -73,7 +73,7 @@ export default async function tutor(el, ctx) {
           <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלך', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
-        <div class="row" style="margin-top:var(--s3)"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
+        <div class="row" style="margin-top:var(--s3);max-width:52rem"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
         ${savedRow()}`}`);
     const log = $('#log', el); if (log) log.scrollTop = log.scrollHeight;
   }

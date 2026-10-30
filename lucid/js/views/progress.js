@@ -4,13 +4,11 @@ import { html, render, on, pct, todayKey } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
 import { icon, LEVEL_LABEL, mark } from '../ui/components.js';
-import { model, allCards, settings, weekActivity } from '../core/learner.js';
+import { model, allCards, settings, weekActivity, currentSessionSeconds } from '../core/learner.js';
 import { store } from '../core/store.js';
-import { periodReport, SKILLS } from '../core/adaptive.js';
+import { periodReport } from '../core/adaptive.js';
 import { RETENTION } from '../core/srs.js';
 import { levelRail, skillProfile } from './today.js';
-
-const SOURCE = { placement: ['מבחן המיקום', 'placement test'], practice: ['תרגול ושיעורים', 'lessons and practice'], 'assessed-writing': ['כתיבה שהוערכה', 'assessed writing'] };
 
 export default async function progress(el, ctx) {
   ctx.setTitle(t('nav.progress'));
@@ -21,7 +19,7 @@ export default async function progress(el, ctx) {
     const m = model();
     const cards = allCards();
     const events = store.all('events');
-    const r = periodReport({ attempts: m.attempts, cards, progress: store.all('progress'), events, days });
+    const r = periodReport({ attempts: m.attempts, cards, progress: store.all('progress'), events, days, extraSeconds: currentSessionSeconds() });
     const target = RETENTION[settings().retention];
     const delta = r.accuracy != null && r.accuracy_prev != null ? r.accuracy - r.accuracy_prev : null;
     // Activity per day (or per week for the month view).
@@ -36,8 +34,8 @@ export default async function progress(el, ctx) {
     const recs = [];
     if (m.recurring[0]) recs.push(html`<a href="#/drill?error=${m.recurring[0].error_type}">${tt('תרגול ממוקד לטעות שחוזרת הכי הרבה', 'Targeted practice for your most frequent mistake')}</a>`);
     if (m.weak[0]) recs.push(html`<a href="#/drill?topic=${m.weak[0].topic}">${tt('לחזק נושא שעוד לא יושב', 'Strengthen a topic that is not secure yet')}</a>`);
-    if (!m.skills.writing.level) recs.push(html`<a href="#/writing">${tt('לכתוב טקסט אחד במעבדת הכתיבה כדי שתהיה ראיה לכתיבה', 'Write one text in the Writing lab so there is evidence for writing')}</a>`);
-    if (!m.skills.speaking.level) recs.push(html`<a href="#/speaking">${tt('תרגול דיבור קצר במעבדה', 'A short speaking practice in the lab')}</a>`);
+    if (!m.skills.writing.level) recs.push(html`<a href="#/writing">${tt('לכתוב במעבדת הכתיבה ולקבל משוב: שני טקסטים שהוערכו, בימים שונים, נותנים לכתיבה רמה', 'Write in the Writing lab and get feedback: two assessed texts, on different days, give writing a level')}</a>`);
+    if (!events.some((e) => e.type === 'speaking' && Date.now() - new Date(e.at).getTime() < days * 86_400_000)) recs.push(html`<a href="#/speaking">${tt('תרגול דיבור קצר במעבדה', 'A short speaking practice in the lab')}</a>`);
 
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.progress')}</h1><p>${tt('מה אתם יודעים לעשות עכשיו, לפי ראיות. בלי נקודות ובלי ניקוד על זמן.', 'What you can do now, based on evidence. No points, no scores for time spent.')}</p></div>
@@ -56,14 +54,14 @@ export default async function progress(el, ctx) {
             <div class="stat"><div class="v num">${r.retention_30d == null ? '—' : pct(r.retention_30d)}</div><div class="k">${tt('זכירה אחרי 30 יום', 'Recall after 30 days')}</div><div class="d faint">${r.retention_30d == null ? tt('מחכה למספיק נתונים', 'Waiting for enough data') : ''}</div></div>
           </div>
           <div class="panel flat"><p class="small faint" style="margin-bottom:var(--s3)">${tt('תרגילים לפי', 'Exercises by')} ${days === 7 ? tt('יום', 'day') : tt('שבוע', 'week')}</p>
-            <div class="bars" role="img" aria-label="${buckets.map((b) => `${b.label}: ${b.n}`).join(', ')}">${buckets.map((b) => html`<div><span style="height:${(b.n / maxN) * 100}%"></span>${b.label}</div>`)}</div></div>`}
+            <div class="bars" role="img" aria-label="${buckets.map((b) => `${b.label}: ${b.n}`).join(', ')}">${buckets.map((b) => html`<div><span class="bar-track"><span class="bar" style="height:${(b.n / maxN) * 100}%"></span></span>${b.label}</div>`)}</div></div>`}
           ${r.improved.length ? html`<div class="panel flat stack-sm"><h3 class="small">${tt('השתפר בתקופה', 'Improved this period')}</h3>${r.improved.map((x) => html`<p class="row small">${icon('check', { size: 16 })}<span class="grow">${name(x.topic)}</span><span class="num faint">${pct(x.from)} → ${pct(x.to)}</span></p>`)}</div>` : ''}
           ${recs.length ? html`<div class="panel flat stack-sm"><h3 class="small">${tt('המלצות לשבוע הבא', 'Recommendations for next week')}</h3><ul class="stack-sm small" style="margin:0;padding-inline-start:1.2rem">${recs.map((x) => html`<li>${x}</li>`)}</ul></div>` : ''}
         </section>
 
         <section class="grid-2" style="align-items:start">
           <div class="panel stack"><h2 class="small" style="font-size:var(--t-md)">${tt('רמה לפי מיומנות', 'Level by skill')}</h2>${skillProfile(m.skills)}
-            <ul class="stack-sm xsmall faint" style="margin:0;padding-inline-start:1.1rem">${SKILLS.filter((s) => m.skills[s].level).map((s) => html`<li>${t(`skill.${s}`)}: ${tt(SOURCE[m.skills[s].source]?.[0] || '', SOURCE[m.skills[s].source]?.[1] || '')} (${m.skills[s].evidence})</li>`)}</ul></div>
+            <p class="xsmall faint">${tt('כתיבה מקבלת רמה רק מטקסטים שהוערכו במשוב AI. Lucid עוד לא מעריך רמת דיבור: זיהוי דיבור לבדו אף פעם לא נותן ציון.', 'Writing gets a level only from texts assessed with AI feedback. Lucid does not assess speaking level yet: speech recognition alone never gives a grade.')}</p></div>
           <div class="panel stack"><h2 class="small" style="font-size:var(--t-md)">${tt('בדיקות רמה', 'Level checks')}</h2>
             ${levelRail(curriculum, m.progress, m.courseLevel)}
             <ul class="lesson-list" style="list-style:none;padding:0;margin:0">${curriculum.levels.map((l) => { const c = store.get('progress', `check:${l.id}`); return html`<li class="row small">${mark(c?.status)}<span class="grow">${LEVEL_LABEL[l.id]}</span><span class="faint num">${c?.best_score != null ? pct(c.best_score) : '—'}</span><a href="#/checkpoint/${l.id}" class="xsmall">${c ? tt('שוב', 'Again') : tt('לבדיקה', 'Take it')}</a></li>`; })}</ul></div>

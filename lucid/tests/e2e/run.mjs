@@ -88,7 +88,9 @@ async function answerCurrent(page, { correct = true } = {}) {
 // ---------- mock Supabase + AI ----------
 function installMockServer(page) {
   const user = { id: '11111111-1111-4111-8111-111111111111', email: 'learner@example.com' };
-  const db = { profile: null, records: new Map(), usage: 0, aiBodies: [] };
+  // Account checks can switch the signed-in user (db.user), require email confirmation (db.confirm) and see
+  // which token every push used (db.pushes). Password 'wrong password' is refused.
+  const db = { profile: null, records: new Map(), usage: 0, aiBodies: [], user, confirm: false, pushes: [] };
   page.lucidMock = db;
   const json = (route, body, status = 200) => route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(body) });
   const evaluation = (text, previous) => ({
@@ -108,8 +110,16 @@ function installMockServer(page) {
       return route.fulfill({ contentType: 'text/javascript', body: "export const CONFIG = { supabaseUrl: 'https://mock.supabase.co', supabaseKey: 'sb_publishable_test', aiEnabled: true, aiFunction: 'lucid-ai' };" });
     }
     const body = req.postData() ? JSON.parse(req.postData()) : null;
+    const token = (req.headers().authorization || '').replace(/^Bearer /, '');
+    if (url.pathname.startsWith('/auth/v1/token') && body?.password === 'wrong password') return json(route, { error: 'invalid_grant', error_description: 'Invalid login credentials' }, 400);
+    if (url.pathname.startsWith('/auth/v1/signup') && db.confirm) return json(route, { ...db.user, confirmation_sent_at: new Date().toISOString() });
     if (url.pathname.startsWith('/auth/v1/signup') || url.pathname.startsWith('/auth/v1/token')) {
-      return json(route, { access_token: 'header.payload.sig', refresh_token: 'r', expires_in: 3600, token_type: 'bearer', user });
+      return json(route, { access_token: `tok-${db.user.id}`, refresh_token: 'r', expires_in: 3600, token_type: 'bearer', user: db.user });
+    }
+    if (url.pathname === '/auth/v1/user') {
+      if (token !== `tok-${db.user.id}`) return json(route, { msg: 'invalid JWT' }, 401);
+      if (req.method() === 'PUT') db.passwordChanged = body.password;
+      return json(route, db.user);
     }
     if (url.pathname.startsWith('/auth/v1/logout')) return json(route, {});
     if (url.pathname.startsWith('/rest/v1/lucid_profiles')) {
@@ -118,7 +128,7 @@ function installMockServer(page) {
       if (req.method() === 'PATCH') { db.profile = { ...db.profile, ...body }; return route.fulfill({ status: 204 }); }
     }
     if (url.pathname.startsWith('/rest/v1/lucid_records')) {
-      if (req.method() === 'POST') { const now = new Date().toISOString(); const out = body.map((r) => { const row = { ...r, updated_at: now }; db.records.set(`${r.coll}/${r.id}`, row); return { coll: r.coll, id: r.id, updated_at: now }; }); return json(route, out); }
+      if (req.method() === 'POST') { db.pushes.push({ token, rows: body }); const now = new Date().toISOString(); const out = body.map((r) => { const row = { ...r, updated_at: now }; db.records.set(`${r.coll}/${r.id}`, row); return { coll: r.coll, id: r.id, updated_at: now }; }); return json(route, out); }
       return json(route, []);
     }
     if (url.pathname.startsWith('/rest/v1/rpc/lucid_export')) return json(route, { profile: db.profile, records: [...db.records.values()] });
@@ -372,12 +382,23 @@ try {
     const [dl] = await Promise.all([page.waitForEvent('download'), page.click('[data-export]')]);
     const data = JSON.parse(readFileSync(await dl.path(), 'utf8'));
     assert(data.app === 'lucid' && data.device.profile.length === 1, 'export incomplete');
+    // Another app on the same origin keeps its data when Lucid's data is deleted (security review S-04).
+    await page.evaluate(() => { localStorage.setItem('hgos-session', 'crm'); localStorage.setItem('hgos-outbox', '[1]'); sessionStorage.setItem('other-app', 'x'); });
     await page.click('[data-wipe]');
     await page.click('dialog [value="yes"]');
     await page.waitForTimeout(1200);
     assert(page.url().includes('#/welcome'), 'not returned to welcome after deletion');
     const prof = await page.evaluate(() => window.lucid?.store.all('profile').length ?? 0);
     assert(prof === 0, 'profile still present after deletion');
+    const keys = await page.evaluate(() => ({ local: Object.keys(localStorage), session: Object.keys(sessionStorage) }));
+    assert(keys.local.includes('hgos-session') && keys.local.includes('hgos-outbox') && keys.session.includes('other-app'), `other apps' data was deleted: ${JSON.stringify(keys)}`);
+    assert(![...keys.local, ...keys.session].some((k) => k.startsWith('lucid-')), `Lucid keys left: ${JSON.stringify(keys)}`);
+    // A malformed hash does not stop the app from starting (S-17).
+    await page.goto('about:blank');
+    await page.goto(`${BASE}#/%E0%A4%A`);
+    await page.waitForSelector('.welcome, [data-start], #view h1', { timeout: 5000 });
+    assert(!(await page.textContent('#view')).includes('could not start'), 'boot failed on a malformed hash');
+    assert(page.url().endsWith('#/welcome'), `malformed hash not replaced: ${page.url()}`);
     await ctx.close();
   });
 
@@ -396,7 +417,8 @@ try {
     await m.page.goto(`${BASE}#/account?mode=signin`);
     await m.page.fill('#em', 'learner@example.com'); await m.page.fill('#pw', 'correct horse 1');
     await m.page.click('[data-auth] button[type=submit]');
-    await m.page.waitForTimeout(500);
+    await m.page.click('[data-owner-dialog="unowned"] [value="move"]');
+    await m.page.waitForFunction(() => !location.hash.startsWith('#/account'));
     await m.page.evaluate(() => window.lucid.store.put('settings', { id: 'me', ai_consent: true }));
     await m.page.goto(`${BASE}#/tutor?mode=grammar`);
     await m.page.waitForSelector('#tin');
@@ -406,6 +428,300 @@ try {
     const strong = await m.page.$('#log strong');
     assert(strong, 'tutor reply formatting missing');
     await m.ctx.close();
+  });
+
+  // ---------- accounts (security review S-01, S-04, S-05, S-06, S-12, S-18; persona P-22) ----------
+  const waitFor = async (fn, ms = 4000) => { const t0 = Date.now(); while (!fn()) { if (Date.now() - t0 > ms) return false; await sleep(50); } return true; };
+  const signInWith = async (page, email, password = 'correct horse 1') => {
+    await page.goto(`${BASE}#/account?mode=signin`);
+    await page.waitForSelector('[data-auth]');
+    await page.fill('#em', email); await page.fill('#pw', password);
+    await page.click('[data-auth] button[type=submit]');
+  };
+
+  await check('18. Accounts: email links count only on the device that asked; signing up returns to where the learner was (S-01, S-05, P-22)', async () => {
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await onboard(page, { start: 'basics' });
+    // A link built from someone else's tokens is ignored: no session, nothing uploaded.
+    await page.goto('about:blank');
+    await page.goto(`${BASE}#access_token=tok-attacker&refresh_token=r&expires_in=3600&token_type=bearer&type=signup`);
+    await page.waitForSelector('[data-notice]');
+    assert(page.url().includes('notice=link') && !page.url().includes('access_token'), `foreign link not refused: ${page.url()}`);
+    assert(!(await page.evaluate(() => localStorage.getItem('lucid-session'))), 'a foreign session was stored');
+    await sleep(300);
+    assert(db.pushes.length === 0, 'data was uploaded after a foreign link');
+    // Sign up from a scenario's roleplay tab; the confirmation link, opened in this browser, brings the learner back there.
+    db.confirm = true;
+    await page.goto(`${BASE}#/real-life`);
+    await page.waitForSelector('.lesson-row');
+    await page.click('.lesson-row');
+    await page.click('[data-tab="roleplay"]');
+    const scenario = new URL(page.url()).hash.split('?')[0];
+    await page.click('a[href^="#/account?mode=signin"]');
+    await page.waitForSelector('[data-auth]');
+    await page.click('[data-mode="signup"]');
+    await page.fill('#em', db.user.email); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.waitForSelector('[data-auth] .banner');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/account-signup-sent.png`, fullPage: true });
+    await page.goto('about:blank');
+    await page.goto(`${BASE}#access_token=tok-${db.user.id}&refresh_token=r&expires_in=3600&token_type=bearer&type=signup`);
+    await page.waitForFunction((h) => location.hash.startsWith(h), scenario);
+    assert(page.url().includes('tab=roleplay'), `not returned to the roleplay tab: ${page.url()}`);
+    await page.waitForSelector('[data-tab="roleplay"][aria-pressed="true"]', { timeout: 4000 }).catch(() => { throw new Error('roleplay tab not shown'); });
+    assert(await waitFor(() => db.pushes.length > 0), 'device data did not sync to the confirmed account');
+    assert(db.pushes.every((p) => p.token === `tok-${db.user.id}`), 'a push used another token');
+    assert(db.profile?.birth_year, 'no server profile after an email-link sign-in (S-05)');
+    await ctx.close();
+  });
+
+  await check('19. Accounts: on a shared browser, a second learner must remove the first one\'s data or cancel; nothing is merged (S-06)', async () => {
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await onboard(page, { start: 'basics' });
+    await signInWith(page, db.user.email);
+    await page.waitForSelector('[data-owner-dialog="unowned"]');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/account-move-dialog.png`, fullPage: true });
+    await page.click('dialog [value="move"]');
+    await page.waitForFunction(() => !location.hash.startsWith('#/account'));
+    const first = db.user;
+    assert(await waitFor(() => db.pushes.length > 0), 'first learner did not sync');
+    await page.goto(`${BASE}#/settings`);
+    await page.click('[data-signout]');
+    await page.waitForSelector('a[href="#/account?mode=signin"]');
+    db.user = { id: '22222222-2222-4222-8222-222222222222', email: 'second@example.com' };
+    db.profile = null;
+    const before = db.pushes.length;
+    await signInWith(page, db.user.email);
+    await page.waitForSelector('[data-owner-dialog="other"]');
+    assert((await page.textContent('dialog')).includes('second@example.com'), 'the dialog does not name the account');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/account-other-dialog.png`, fullPage: true });
+    await page.click('dialog [value="cancel"]');
+    await page.waitForSelector('[data-notice]');
+    assert(!(await page.evaluate(() => localStorage.getItem('lucid-session'))), 'still signed in after cancelling');
+    assert((await store(page, 'profile'))[0]?.name === 'Test', 'the first learner\'s data changed after cancelling');
+    await signInWith(page, db.user.email);
+    await page.waitForSelector('[data-owner-dialog="other"]');
+    await page.click('dialog [value="clear"]');
+    await page.waitForFunction(() => /^#\/(start|welcome)/.test(location.hash));
+    assert((await store(page, 'profile')).length === 0 && (await store(page, 'attempts')).length === 0, 'the first learner\'s data is still on the device');
+    await sleep(300);
+    assert(db.pushes.length === before, 'something was pushed into the second account');
+    assert(db.profile === null, 'the first learner\'s profile was written to the second account');
+    assert((await page.evaluate(() => localStorage.getItem('lucid-owner'))) === db.user.id && first.id !== db.user.id, 'owner not recorded');
+    await ctx.close();
+  });
+
+  await check('20. Accounts: password change needs the current password, a deleted tutor chat leaves no content on the server, sign-out can remove the device data (S-12, S-18, S-04)', async () => {
+    const { ctx, page } = await newPage(browser, { mock: true });
+    const db = page.lucidMock;
+    await onboard(page, { start: 'basics' });
+    // Signing in from the tutor's prompt comes back to the tutor (P-22).
+    await page.goto(`${BASE}#/tutor?mode=grammar`);
+    await page.click('a[href="#/account?mode=signin"]');
+    await page.fill('#em', db.user.email); await page.fill('#pw', 'correct horse 1');
+    await page.click('[data-auth] button[type=submit]');
+    await page.click('[data-owner-dialog="unowned"] [value="move"]');
+    await page.waitForFunction(() => location.hash === '#/tutor?mode=grammar', null, { timeout: 4000 }).catch(() => { throw new Error('not returned to the tutor after signing in'); });
+    await page.evaluate(() => window.lucid.store.update('settings', 'me', { ai_consent: true }));
+    // Tutor: delete a conversation; the server keeps only an empty tombstone.
+    await page.goto(`${BASE}#/today`);
+    await page.goto(`${BASE}#/tutor?mode=grammar`);
+    await page.fill('#tin', 'My secret question about the present perfect');
+    await page.click('[data-send] button[type=submit]');
+    await page.waitForFunction(() => document.querySelector('#log')?.textContent.includes('Present perfect'));
+    const chatId = (await store(page, 'chats'))[0].id;
+    await page.click('[data-delete]');
+    await page.click('dialog [value="yes"]');
+    await page.waitForFunction(() => window.lucid.store.all('chats').length === 0, null, { timeout: 4000 }).catch(() => { throw new Error('chat still listed after delete'); });
+    assert(!(await page.textContent('#log')).includes('secret question'), 'chat still on screen after delete');
+    await page.goto(`${BASE}#/settings`);
+    await page.click('[data-sync]');
+    assert(await waitFor(() => db.records.get(`chats/${chatId}`)?.deleted === true), 'deletion not synced');
+    assert(JSON.stringify(db.records.get(`chats/${chatId}`).data) === '{}', 'the server still holds the chat text');
+    // Password: the current one is required, even on a hand-typed ?reset=1.
+    await page.click('[data-pw]');
+    await page.fill('#cp', 'wrong password'); await page.fill('#np', 'new password 22');
+    await page.click('[data-newpass] button[type=submit]');
+    await page.waitForSelector('[data-newpass] .error-text');
+    assert(db.passwordChanged === undefined, 'password changed with a wrong current password');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/settings-password.png`, fullPage: true });
+    await page.fill('#cp', 'correct horse 1'); await page.fill('#np', 'new password 22');
+    await page.click('[data-newpass] button[type=submit]');
+    assert(await waitFor(() => db.passwordChanged === 'new password 22'), 'password not changed with the right current password');
+    await page.goto(`${BASE}#/settings?reset=1`);
+    await page.waitForSelector('[data-newpass]');
+    assert(await page.$('#cp'), 'a hand-typed ?reset=1 skips the current password');
+    // Sign out and remove: Lucid's data goes, another app's stays.
+    await page.evaluate(() => { localStorage.setItem('hgos-session', 'crm'); window.beforeErase = true; });
+    await page.click('[data-signout-erase]');
+    await page.click('dialog [value="yes"]');
+    let reloaded = false; // the page reloads after erasing; poll across the navigation
+    for (let i = 0; i < 80 && !reloaded; i++) { await sleep(100); reloaded = await page.evaluate(() => !window.beforeErase && location.hash === '#/welcome' && Boolean(window.lucid)).catch(() => false); }
+    assert(reloaded, 'did not return to welcome after sign-out and remove');
+    const left = await page.evaluate(() => ({ keys: Object.keys(localStorage), profiles: window.lucid.store.all('profile').length }));
+    assert(left.profiles === 0, 'profile still on the device');
+    assert(left.keys.includes('hgos-session') && !left.keys.some((k) => k.startsWith('lucid-')), `wrong keys after sign-out and remove: ${left.keys}`);
+    await ctx.close();
+  });
+
+  // ---------- learner logic: placement, Today, path and progress (persona findings P-xx) ----------
+  await check('L1. Placement: leaving keeps the answers; Today offers to continue or start again, never a silent Pre-A1 start (P-37)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'conversations' });
+    await page.click('[data-begin]');
+    for (let i = 0; i < 3; i++) { await page.click('#exroot .option'); await page.click('[data-answer]'); await page.waitForTimeout(60); }
+    await page.click('.player-top a[href="#/today"]');
+    await page.waitForSelector('a[href="#/placement?resume=1"]');
+    assert(!(await page.$('#view a[href^="#/lesson/"]')), 'Today links to a lesson before the placement is done');
+    assert(await page.$('a[href="#/placement?restart=1"]'), 'no way to start the test again');
+    await page.click('a[href="#/placement?resume=1"]');
+    await page.waitForSelector('#exroot');
+    assert((await page.textContent('.player-top .num')).trim() === '4', 'the test did not resume at question 4');
+    await ctx.close();
+  });
+
+  await check('L2. Placement: a perfect run is reported cautiously; untested skills say "not yet assessed" and no skill shows C1/C2 (P-49, P-76, P-25, P-50, P-18)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    const r = await page.evaluate(async () => {
+      const L = await import('./js/core/learner.js');
+      const P = await import('./js/core/placement.js');
+      const bank = await (await fetch('content/placement.json')).json();
+      const t = P.createPlacement(bank.items, { start: 'B2' });
+      let item;
+      while ((item = t.next())) t.answer(item, { correct: true });
+      const res = t.result();
+      await L.applyPlacement(res);
+      return res;
+    });
+    assert(r.demonstrated === 'C2' && r.top_band, `unexpected result ${r.demonstrated}`);
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.skills');
+    const levels = await page.$$eval('.skills .skill-level', (x) => x.map((e) => e.textContent.trim()));
+    assert(!levels.some((l) => /C1|C2/.test(l)), `a skill shows C1/C2 from placement alone: ${levels}`);
+    assert(await page.$$eval('.skills .skill-level.none', (x) => x.length) >= 2, 'speaking and writing are not marked as not assessed');
+    await ctx.close();
+  });
+
+  await check('L3. Path: after "Start from B2" a finished lesson is recorded, Today moves on, Progress counts it; revising a placed-out lesson keeps the level (P-48, P-70, P-67)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const P = await import('./js/core/placement.js'); await L.applyPlacement(P.selfReportResult('C1')); });
+    await page.goto(`${BASE}#/path/B2`);
+    await page.click('[data-move="B2"]');
+    await page.click('dialog [value="yes"]');
+    await page.waitForTimeout(300);
+    await page.goto(`${BASE}#/lesson/b2-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); L.recordAttempt({ source: 'lesson', lesson: 'b2-01', skill: 'grammar', level: 'B2', correct: true }); L.finishLesson(await (await fetch('content/lessons/b2-01.json')).json(), { score: 0.8, passed: true }); });
+    await page.goto(`${BASE}#/lesson/b1-03`); // placed out: opened to revise
+    await page.waitForSelector('.lesson-intro');
+    await page.waitForTimeout(400);
+    await page.reload();
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan a[href^="#/lesson/"]');
+    const href = await page.getAttribute('.plan a[href^="#/lesson/"]', 'href');
+    assert(href.startsWith('#/lesson/b2-02'), `Today's lesson is still ${href}`);
+    assert(await page.$('.start-bar .tag.ok'), 'no "lesson completed today" tag after a finished lesson');
+    const rec = await page.evaluate(() => window.lucid.store.get('progress', 'b2-01', { includeDeleted: true }));
+    assert(rec.status === 'completed' && !rec._deleted, `b2-01 stored as ${JSON.stringify(rec)}`);
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('.stat');
+    const completed = await page.$$eval('.stat', (x) => x.map((s) => s.textContent));
+    assert(completed.some((t) => /^\s*1\s*(שיעורים שהושלמו|Lessons completed)/.test(t)), `Progress does not count the lesson: ${completed.join(' | ')}`);
+    // A finished scenario is not a lesson.
+    await page.evaluate(() => window.lucid.store.put('progress', { id: 'rl:rl-hotel-checkin-basics', status: 'completed', completed_at: new Date().toISOString() }));
+    const lessonsToday = await page.evaluate(async () => (await import('./js/core/adaptive.js')).periodReport({ progress: window.lucid.store.all('progress'), now: Date.now() }).lessons_completed);
+    assert(lessonsToday === 1, `a scenario counted as a lesson (${lessonsToday})`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/progress-after-level-move.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('L4. Today and the path never route to a lesson that has no file; unwritten rows say so in words (P-14, P-26, P-61)', async () => {
+    const curriculum = JSON.parse(readFileSync(join(repo, 'lucid/content/curriculum.json'), 'utf8'));
+    const order = curriculum.levels.flatMap((l) => l.lessons);
+    const firstMissing = order.findIndex((l) => !has(l.id));
+    if (firstMissing < 0) { console.log('      (every lesson is written; nothing to skip)'); return; }
+    const missing = order[firstMissing];
+    const expected = order.slice(firstMissing).find((l) => has(l.id)) || null;
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.evaluate((ids) => { for (const id of ids) window.lucid.store.put('progress', { id, status: 'completed', completed_at: '2026-01-01T00:00:00Z' }); }, order.slice(0, firstMissing).map((l) => l.id));
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan, .banner');
+    const links = await page.$$eval('#view a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href').split('/')[2].split('?')[0]));
+    assert(!links.some((id) => !has(id)), `Today links to an unwritten lesson: ${links}`);
+    if (expected) assert(links.includes(expected.id), `Today does not offer ${expected.id}`);
+    await page.goto(`${BASE}#/path/${missing.level}`);
+    await page.waitForSelector('.lesson-list');
+    const pathLinks = await page.$$eval('.lesson-list a[href^="#/lesson/"]', (x) => x.map((a) => a.getAttribute('href').split('/')[2]));
+    assert(!pathLinks.some((id) => !has(id)), 'the path links to an unwritten lesson');
+    const unwritten = await page.$$eval('.lesson-row.unwritten', (x) => x.map((r) => r.textContent));
+    assert(unwritten.length && unwritten.every((t) => /בהכנה|In preparation/.test(t)), 'unwritten rows are not labelled in words');
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/path-unwritten.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('L5. Today: the plan shows the real lesson length and splits a long lesson; one "Continue" way back in (P-07, P-38, P-43)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const P = await import('./js/core/placement.js'); await L.applyPlacement(P.selfReportResult('A2')); });
+    await page.evaluate(() => window.lucid.store.put('settings', { id: 'me', daily_minutes: 10 }));
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    const learn = await page.textContent('.plan li:has(a[href^="#/lesson/a2-01"])');
+    assert(/25|22/.test(learn) && /(עד תרגיל|up to exercise)/.test(learn), `no real length or part in the plan: ${learn}`);
+    const total = Number((await page.textContent('#plan-h + span')).match(/\d+/)[0]);
+    assert(total <= 12, `a 10-minute plan lasts ${total} min`);
+    await page.goto(`${BASE}#/lesson/a2-01`);
+    await page.waitForSelector('.lesson-intro');
+    await page.click('[data-skip-learn]');
+    for (let i = 0; i < 3; i++) {
+      await answerCurrent(page);
+      const c = await page.$('[data-check]:not([disabled])'); if (c) await c.click(); else await page.click('[data-dontknow]');
+      await page.waitForSelector('[data-next]'); await page.click('[data-next]');
+    }
+    await page.click('[data-exit]');
+    await page.waitForSelector('.start-bar a');
+    const cta = await page.getAttribute('.start-bar a', 'href');
+    assert(cta === '#/lesson/a2-01?resume=1', `the main button does not resume: ${cta}`);
+    assert(/להמשיך|Continue/.test(await page.textContent('.start-bar a')), 'the main button does not say Continue');
+    const ways = await page.$$eval('#view a[href^="#/lesson/a2-01"]', (x) => [...new Set(x.map((a) => a.getAttribute('href')))]);
+    assert(ways.length === 1, `more than one way into the lesson: ${ways}`);
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/today-continue.png`, fullPage: true });
+    await ctx.close();
+  });
+
+  await check('L6. Today: a travel goal names a real-life scenario; placed learners can add placed-out words to review (P-56, P-28, P-82)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await onboard(page, { start: 'zero' }); // the onboarding helper picks the travel goal and 20 minutes
+    await page.evaluate(async () => { const L = await import('./js/core/learner.js'); const P = await import('./js/core/placement.js'); await L.applyPlacement(P.selfReportResult('B1')); });
+    await page.goto(`${BASE}#/today`);
+    await page.waitForSelector('.plan');
+    assert(await page.$('.plan a[href^="#/scenario/rl-airport"]'), 'the travel goal did not pick an airport scenario');
+    await page.click('[data-import]');
+    await page.waitForTimeout(800);
+    const cards = await page.evaluate(async () => { const L = await import('./js/core/learner.js'); return { all: L.allCards().length, due: L.due().length, per: L.settings().new_per_day }; });
+    assert(cards.all > 20, `only ${cards.all} words added`);
+    assert(cards.due <= cards.per, `${cards.due} new words due at once`);
+    await ctx.close();
+  });
+
+  await check('L7. Progress: the exercises chart draws bars and minutes include the open session (P-62, P-34)', async () => {
+    const { ctx, page } = await newPage(browser);
+    await page.clock.install();
+    await onboard(page, { start: 'zero' });
+    await page.evaluate(() => { const now = Date.now(); for (let i = 0; i < 12; i++) window.lucid.store.put('attempts', { id: `b${i}`, at: new Date(now - (i % 2) * 86400000).toISOString(), source: 'lesson', topic: 'alphabet', skill: 'vocabulary', level: 'PreA1', correct: true, score: 1 }); });
+    await page.clock.fastForward('04:00');
+    await page.goto(`${BASE}#/progress`);
+    await page.waitForSelector('.bars .bar');
+    const tallest = await page.$$eval('.bars .bar', (x) => Math.max(...x.map((b) => b.getBoundingClientRect().height)));
+    assert(tallest > 40, `bars do not draw (tallest ${tallest}px)`);
+    const minutes = await page.$$eval('.stat', (x) => x.map((s) => s.textContent).find((t) => /דקות פעילות|Active minutes/.test(t)));
+    assert(Number(minutes.match(/\d+/)[0]) >= 3, `active minutes ignore the open session: ${minutes}`);
+    await ctx.close();
   });
 } finally {
   await browser.close();

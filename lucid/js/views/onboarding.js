@@ -6,15 +6,19 @@ import { icon, brandMark } from '../ui/components.js';
 import { saveProfile, saveSettings, applyPlacement } from '../core/learner.js';
 import { zeroResult } from '../core/placement.js';
 import { configured } from '../core/api.js';
+import { content } from '../core/content.js';
 
+// Each goal says what it changes today (adaptive.dailyPlan: GOAL_KINDS, SCENARIO_MODULES). The work note
+// depends on whether workplace scenarios exist yet.
 const GOALS = [
-  ['travel', 'טיולים ונסיעות לחו״ל', 'Travel'],
-  ['work', 'עבודה ושיחות מקצועיות', 'Work'],
-  ['studies', 'בגרות, פסיכומטרי ולימודים אקדמיים', 'Exams and university'],
-  ['conversation', 'ביטחון בשיחה', 'Confidence in conversation'],
-  ['writing', 'כתיבה אקדמית וטיעונית', 'Academic and argumentative writing'],
-  ['everyday', 'אנגלית ליום-יום, סדרות ורשת', 'Everyday English, shows and the internet'],
+  ['travel', 'טיולים ונסיעות לחו״ל', 'Travel', 'מצבים מנסיעה: שדה תעופה, מלון, מקרי חירום', 'Real travel situations: airport, hotel, emergencies'],
+  ['work', 'עבודה ושיחות מקצועיות', 'Work', 'מצבים מהעבודה', 'Workplace situations'],
+  ['studies', 'בגרות, פסיכומטרי ולימודים אקדמיים', 'Exams and university', 'קריאה וכתיבה', 'Reading and writing'],
+  ['conversation', 'ביטחון בשיחה', 'Confidence in conversation', 'שיחות מהחיים, ברמה שלך', 'Real-life conversations at your level'],
+  ['writing', 'כתיבה אקדמית וטיעונית', 'Academic and argumentative writing', 'משימות ממעבדת הכתיבה, וקריאה', 'Writing lab tasks, and reading'],
+  ['everyday', 'אנגלית ליום-יום, סדרות ורשת', 'Everyday English, shows and the internet', 'לא משנה את התוכנית: דיבור וכתיבה לסירוגין', 'No change to the plan: speaking and writing in turn'],
 ];
+const NO_WORK = ['עוד אין ב-Lucid תוכן לעבודה, אז כרגע זה משפיע רק על מורה ה-AI', 'Lucid has no workplace content yet, so for now this only shapes the AI tutor'];
 const START = [
   ['zero', 'אני לא יודע/ת אנגלית בכלל', 'I don\'t know any English', 'נתחיל מהאותיות. בלי מבחן.', 'We start with the letters. No test.'],
   ['basics', 'אני מכיר/ה קצת: מילים ומשפטים פשוטים', 'I know some basics: words and simple sentences', 'מבחן קצר יתחיל מהבסיס.', 'A short test starts from the basics.'],
@@ -26,6 +30,7 @@ const START = [
 export default async function onboarding(el, ctx) {
   ctx.setTitle(tt('התחלה', 'Getting started'));
   const year = new Date().getFullYear();
+  const hasWork = Boolean((await content.scenarios().catch(() => null))?.scenarios?.some((x) => x.module === 'work'));
   const data = { ui_language: uiLang(), name: '', birth_year: '', goals: [], start: '', daily_minutes: 20, weekly_goal_days: 5, ai_consent: false, terms: false };
   try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l) data.ui_language = l; } catch { /* ignore */ }
   let step = 0;
@@ -53,8 +58,8 @@ export default async function onboarding(el, ctx) {
           <span class="help" id="ob-year-help">${tt('Lucid מיועד לגילאי 16 ומעלה. שומרים רק את שנת הלידה.', 'Lucid is for ages 16 and up. Only the year is stored.')}</span></div>`;
       case 1: return html`
         <h1>${tt('בשביל מה האנגלית?', 'What do you need English for?')}</h1>
-        <p class="muted">${tt('אפשר לבחור כמה. זה משפיע על הדוגמאות וההמלצות.', 'Choose any. This shapes examples and recommendations.')}</p>
-        <div class="choice-list" role="group">${GOALS.map(([id, he, en]) => html`<button type="button" class="choice" data-goal="${id}" aria-pressed="${data.goals.includes(id)}">${tt(he, en)}</button>`)}</div>
+        <p class="muted">${tt('אפשר לבחור כמה. מ-20 דקות ביום, התוכנית היומית כוללת תרגול אחד לפי המטרות, ומורה ה-AI מתאים אליהן את הדוגמאות.', 'Choose any. From 20 minutes a day, your daily plan includes one practice matched to your goals, and the AI tutor fits its examples to them.')}</p>
+        <div class="choice-list" role="group">${GOALS.map(([id, he, en, nhe, nen]) => html`<button type="button" class="choice" data-goal="${id}" aria-pressed="${data.goals.includes(id)}"><span class="grow"><span>${tt(he, en)}</span><span class="xsmall faint" style="display:block">${id === 'work' && !hasWork ? tt(...NO_WORK) : tt(nhe, nen)}</span></span></button>`)}</div>
         <h2 style="font-size:var(--t-lg);margin-top:var(--s5)">${tt('כמה זמן ביום?', 'How much time a day?')}</h2>
         <p class="muted">${tt('תוכנית היום תתאים את עצמה לזמן הזה. ימים קצרים זה בסדר גמור.', 'Your daily plan fits this time. Short days are completely fine.')}</p>
         <div class="choice-list" role="radiogroup">${[[10, 'קצר וקל', 'Light'], [20, 'רגיל', 'Regular'], [35, 'רציני', 'Serious'], [50, 'אינטנסיבי', 'Intensive']].map(([m, he, en]) => html`<button type="button" class="choice" role="radio" data-min="${m}" aria-checked="${data.daily_minutes === m}"><span class="grow">${tt(he, en)}</span><span class="num faint">${m} ${tt('דק׳', 'min')}</span></button>`)}</div>

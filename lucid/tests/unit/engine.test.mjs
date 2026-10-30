@@ -70,12 +70,18 @@ test('recurring errors need repetition across days; trends are reported', () => 
 });
 
 test('skill levels come from evidence; placement is a starting point that evidence can move', () => {
-  const placement = { level: 'A2', skills: { grammar: { level: 'A2', items: 4 } } };
+  const answers = [{ skill: 'grammar', level: 'A2', correct: true }, { skill: 'grammar', level: 'A2', correct: true }];
+  const placement = { level: 'A2', answers };
+  assert.equal(skillLevels({ placement }).grammar.level, 'A2', 'two placement answers at A2 give a first estimate');
+  assert.equal(skillLevels({ placement }).grammar.provisional, true);
   const strongB1 = Array.from({ length: 8 }, (_, i) => ({ skill: 'grammar', level: 'B1', correct: i < 7, at: at(i) }));
   assert.equal(skillLevels({ attempts: strongB1, placement }).grammar.level, 'B1');
+  const readingA2 = [{ skill: 'reading', level: 'A2', correct: true }, { skill: 'reading', level: 'A2', correct: true }];
   const failingA2 = Array.from({ length: 10 }, (_, i) => ({ skill: 'reading', level: 'A2', correct: i < 3, at: at(i) }));
-  assert.equal(skillLevels({ attempts: failingA2, placement }).reading.level, 'A1', 'clear failure lowers the estimate');
-  const w = skillLevels({ writing: [{ evaluation: { cefr_estimate: 'B1' } }, { evaluation: { cefr_estimate: 'B2' } }, { evaluation: { cefr_estimate: 'B1' } }] });
+  const lowered = skillLevels({ attempts: failingA2, placement: { answers: readingA2 } }).reading;
+  assert.equal(lowered.level, 'A1', 'clear failure lowers the estimate');
+  assert.equal(lowered.notYet, 'A2');
+  const w = skillLevels({ writing: [{ exercise: 'a', at: at(0), evaluation: { cefr_estimate: 'B1' } }, { exercise: 'b', at: at(1), evaluation: { cefr_estimate: 'B2' } }, { exercise: 'c', at: at(2), evaluation: { cefr_estimate: 'B1' } }] });
   assert.equal(w.writing.level, 'B1');
   assert.equal(skillLevels({}).speaking.level, null, 'no evidence, no level');
 });

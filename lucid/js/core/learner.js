@@ -4,9 +4,10 @@
 import { store } from './store.js';
 import { uid, todayKey } from './util.js';
 import { content } from './content.js';
-import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, dailyPlan, lessonOrder, LEVELS, levelIndex } from './adaptive.js';
-import { vocabCardsFor, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
+import { topicMastery, weakTopics, errorProfile, skillLevels, nextLesson, courseLevel, unwrittenAhead, dailyPlan, lessonOrder, pickScenario, pickWritingTask, LEVELS, levelIndex } from './adaptive.js';
+import { vocabCardsFor, newCard, unlockedFormCards, review as reviewCard, dueCards, newItemsBudget, gradeFrom } from './srs.js';
 import { setHebrewSupport } from './i18n.js';
+import { START_FOR } from './placement.js';
 
 export const DEFAULT_SETTINGS = {
   id: 'me',
@@ -36,9 +37,12 @@ export function saveSettings(patch) {
   return s;
 }
 
+// Hebrew support follows the course level ('auto'), so it is re-applied whenever the level can move:
+// at boot, on settings changes, after placement or a level move, and when lesson progress changes.
+let supportLevel = null;
 export function applySupport() {
-  const m = model();
-  setHebrewSupport(settings().hebrew_support, m.courseLevel);
+  supportLevel = currentCourseLevel();
+  setHebrewSupport(settings().hebrew_support, supportLevel);
 }
 
 // ---------- attempts ----------
@@ -66,60 +70,137 @@ export function recordAttempt(a) {
 }
 
 // ---------- lessons ----------
+// store.get hides deleted records, so a lesson whose placed-out marker was removed reads as not started.
 export const progressOf = (lessonId) => store.get('progress', lessonId);
 export function progressMap() { return new Map(store.all('progress').map((p) => [p.id, p])); }
+// A progress write means the lesson exists for the learner: it never carries a deletion mark forward.
+function putProgress(rec) {
+  const { _deleted, ...clean } = rec;
+  return store.put('progress', clean);
+}
 
 export function startLesson(lesson) {
-  const cur = progressOf(lesson.id);
-  if (!cur || cur.status === 'placed_out') store.put('progress', { ...(cur || {}), id: lesson.id, level: lesson.level, status: cur?.status === 'completed' ? 'completed' : 'started', started_at: new Date().toISOString(), attempts: (cur?.attempts || 0) });
+  // Opening a placed-out lesson to revise it leaves it placed out, so the course level does not move back.
+  if (!progressOf(lesson.id)) putProgress({ id: lesson.id, level: lesson.level, status: 'started', started_at: new Date().toISOString(), attempts: 0 });
 }
 
 export function finishLesson(lesson, { score, passed }) {
-  const cur = progressOf(lesson.id) || { id: lesson.id };
+  const cur = progressOf(lesson.id) || { id: lesson.id, status: 'started' };
   const now = new Date();
-  store.put('progress', {
+  const wasDone = cur.status === 'completed';
+  // A pass completes the lesson, also one that was placed out. A miss leaves a placed-out lesson placed
+  // out (the learner chooses whether to move their level; see the path).
+  const status = passed || wasDone ? 'completed' : cur.status === 'placed_out' ? 'placed_out' : 'started';
+  putProgress({
     ...cur,
     id: lesson.id,
     level: lesson.level,
-    status: passed || cur.status === 'completed' ? 'completed' : 'started',
+    status,
     best_score: Math.max(cur.best_score || 0, score),
     last_score: score,
     attempts: (cur.attempts || 0) + 1,
-    completed_at: passed && cur.status !== 'completed' ? now.toISOString() : cur.completed_at || null,
+    completed_at: passed && !wasDone ? now.toISOString() : cur.completed_at || null,
   });
-  // New vocabulary enters spaced repetition only once the lesson is passed (and within today's budget).
+  // New vocabulary enters spaced repetition once the lesson is passed, at the daily new-word limit.
   if (passed) addVocabCards(lesson, now);
   logEvent({ type: 'lesson', lesson: lesson.id, score, passed });
+}
+
+// New words enter review at the daily new-word limit (the workload governor, research C1-D3): the first
+// ones today, the rest queued for the next days, so a long word list never floods one session.
+const utcDay = (d, plus) => new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + plus));
+function introductionDates(n, cards, now) {
+  const base = settings().new_per_day;
+  const perDay = Math.max(1, Math.min(base, newItemsBudget(cards, { base, now })));
+  const count = new Map();
+  for (const c of cards) if (c.kind === 'meaning' && !c._deleted && c.created_at) count.set(c.created_at.slice(0, 10), (count.get(c.created_at.slice(0, 10)) || 0) + 1);
+  const out = [];
+  for (let d = 0; out.length < n && d < 400; d++) {
+    const date = d === 0 ? now : utcDay(now, d);
+    const k = todayKey(date);
+    for (let free = perDay - (count.get(k) || 0); free > 0 && out.length < n; free--) { out.push(date); count.set(k, (count.get(k) || 0) + 1); }
+  }
+  return out;
 }
 
 export function addVocabCards(lesson, now = new Date()) {
   const cards = store.all('cards', { includeDeleted: true });
   const fresh = vocabCardsFor(lesson, cards, now);
-  for (const c of fresh) store.put('cards', { ...c, payload: (lesson.vocab || []).find((v) => `v:${v.word.toLowerCase()}:meaning` === c.id) });
+  const dates = introductionDates(fresh.length, cards, now);
+  fresh.forEach((c, i) => {
+    const card = !dates[i] || dates[i] === now ? c : newCard({ id: c.id, kind: c.kind, ref: c.ref }, dates[i]);
+    store.put('cards', { ...card, payload: (lesson.vocab || []).find((v) => `v:${v.word.toLowerCase()}:meaning` === c.id) });
+  });
   return fresh.length;
 }
 
-// After placement: lessons below the start level are "placed out" (available, not required).
+// Learners placed above the early levels: the words of placed-out lessons enter review on request
+// (queued at the daily limit like any other new words).
+export function placedOutLessons(level) {
+  if (!curriculum) return [];
+  return lessonOrder(curriculum).filter((l) => l.level === level && progressOf(l.id)?.status === 'placed_out' && (!available.size || available.has(l.id)));
+}
+export function canImportVocab(level) {
+  const ids = new Set(placedOutLessons(level).map((l) => l.id));
+  return ids.size > 0 && !store.all('cards', { includeDeleted: true }).some((c) => ids.has(c.ref?.lesson));
+}
+// The highest level the learner placed out of, when its words are not in review yet.
+export function vocabImportLevel() {
+  if (!curriculum) return null;
+  const levels = new Set(lessonOrder(curriculum).filter((l) => progressOf(l.id)?.status === 'placed_out').map((l) => l.level));
+  const top = [...levels].sort((a, b) => levelIndex(b) - levelIndex(a))[0];
+  return top && canImportVocab(top) ? top : null;
+}
+export async function importPlacedOutVocab(level) {
+  let added = 0;
+  for (const l of placedOutLessons(level)) {
+    const lesson = await content.lesson(l.id);
+    if (lesson) added += addVocabCards(lesson);
+  }
+  logEvent({ type: 'vocab-import', level, added });
+  return added;
+}
+
+// ---------- placement and level ----------
+// The test saves its answers as it goes, so an interrupted placement can be resumed or restarted.
+export const placementDraft = () => store.get('placement', 'inprogress');
+export function savePlacementDraft({ start, answers }) { store.put('placement', { id: 'inprogress', start, answers, at: new Date().toISOString() }); }
+export function clearPlacementDraft() { if (placementDraft()) store.remove('placement', 'inprogress'); }
+// Onboarded, chose to take the test, and has no result yet (left before the end, or never began).
+export function placementPending() {
+  const p = profile();
+  return Boolean(p?.onboarded && p.start_choice && p.start_choice !== 'zero' && !store.get('placement', 'latest'));
+}
+// The level the learner picked in onboarding (their own estimate), e.g. "simple conversations" = A2.
+export const selfReportLevel = () => START_FOR[profile()?.start_choice] || null;
+
+// After placement (or a retake): lessons below the start level are "placed out" (available, not required).
 export async function applyPlacement(result) {
   store.put('placement', { id: 'latest', ...result, at: new Date().toISOString() });
-  const cur = await content.curriculum();
-  const start = levelIndex(result.start_level);
-  for (const l of lessonOrder(cur)) {
-    const p = progressOf(l.id);
-    if (levelIndex(l.level) < start && !p) store.put('progress', { id: l.id, level: l.level, status: 'placed_out' });
-  }
+  clearPlacementDraft();
+  await setStartLevel(result.start_level);
   saveProfile({ start_level: result.start_level });
 }
 // Learner-controlled level move (placement is provisional; research C2, D8).
 export async function moveToLevel(level) {
-  const cur = await content.curriculum();
+  await setStartLevel(level);
+  logEvent({ type: 'level-move', level });
+}
+async function setStartLevel(level) {
+  const cur = curriculum || await content.curriculum();
   const target = levelIndex(level);
   for (const l of lessonOrder(cur)) {
     const p = progressOf(l.id);
-    if (levelIndex(l.level) < target && (!p || p.status !== 'completed')) store.put('progress', { ...(p || {}), id: l.id, level: l.level, status: 'placed_out' });
-    if (levelIndex(l.level) >= target && p?.status === 'placed_out') store.remove('progress', l.id);
+    if (levelIndex(l.level) < target) {
+      if (!p || (p.status !== 'completed' && p.status !== 'placed_out')) putProgress({ ...(p || {}), id: l.id, level: l.level, status: 'placed_out' });
+    } else if (p?.status === 'placed_out') {
+      // Moving down: a placed-out lesson the learner never practised is simply not started again; one they
+      // practised keeps its scores as "in progress".
+      if (p.attempts || p.best_score != null || p.resume) putProgress({ ...p, status: 'started' });
+      else store.remove('progress', l.id);
+    }
   }
-  logEvent({ type: 'level-move', level });
+  applySupport();
 }
 
 // ---------- spaced repetition ----------
@@ -144,15 +225,19 @@ function latencyP80() {
 // ---------- events and weekly goal ----------
 export function logEvent(e) { store.put('events', { id: uid('ev'), at: new Date().toISOString(), ...e }); }
 
+// Active study time: a session runs while the tab is visible and is logged when the tab is hidden
+// (capped at an hour). Reports add the session that is still open.
 let sessionStart = null;
 export function sessionTick() {
-  // Count active study time: visible tab, ended by hiding or after 10 idle minutes.
   if (document.visibilityState === 'visible') { sessionStart ||= Date.now(); return; }
   if (sessionStart) {
-    const seconds = Math.min(3600, Math.round((Date.now() - sessionStart) / 1000));
+    const seconds = currentSessionSeconds();
     if (seconds >= 20) logEvent({ type: 'session', seconds });
     sessionStart = null;
   }
+}
+export function currentSessionSeconds(now = Date.now()) {
+  return sessionStart ? Math.min(3600, Math.max(0, Math.round((now - sessionStart) / 1000))) : 0;
 }
 
 export function weekActivity(now = new Date()) {
@@ -167,10 +252,24 @@ export function weekActivity(now = new Date()) {
 // ---------- the learner model (memoised until the store changes) ----------
 let cached = null;
 let curriculum = null;
+let available = new Set(); // lesson files that exist (content/manifest.json)
 export async function initModel() {
-  curriculum = await content.curriculum();
-  store.on('change', (e) => { if (e.colls.some((c) => ['attempts', 'progress', 'cards', 'placement', 'writing', 'settings'].includes(c))) cached = null; });
+  [curriculum, available] = await Promise.all([content.curriculum(), content.availableLessons().catch(() => new Set())]);
+  repairProgress();
+  store.on('change', (e) => {
+    if (e.colls.some((c) => ['attempts', 'progress', 'cards', 'placement', 'writing', 'settings', 'profile'].includes(c))) cached = null;
+    if ((e.colls.includes('progress') || e.colls.includes('placement')) && currentCourseLevel() !== supportLevel) applySupport();
+  });
 }
+// Data written before deletion marks were cleared on write (persona finding P-48): a lesson opened after
+// "Start from <level>" kept the mark of its removed placed-out row, so its progress was hidden. Those rows
+// hold real progress (a status other than placed_out) and are restored once.
+function repairProgress() {
+  for (const p of store.all('progress', { includeDeleted: true })) if (p._deleted && p.status && p.status !== 'placed_out') putProgress(p);
+}
+function currentCourseLevel() { return curriculum ? courseLevel(curriculum, progressMap(), available) : 'PreA1'; }
+export const lessonAvailable = (id) => !available.size || available.has(id);
+
 export function model() {
   if (cached) return cached;
   const now = Date.now();
@@ -180,19 +279,33 @@ export function model() {
   const writing = store.all('writing');
   const mastery = topicMastery(attempts, now);
   const errors = errorProfile(attempts, now);
-  const next = curriculum ? nextLesson(curriculum, progress) : null;
+  const next = curriculum ? nextLesson(curriculum, progress, available) : null;
   cached = {
     attempts, progress, placement, mastery, errors,
     weak: weakTopics(mastery),
     recurring: errors.filter((e) => e.recurring),
-    skills: skillLevels({ attempts, placement, writing: writing.map((w) => w.last_evaluation ? { evaluation: w.last_evaluation } : w) }),
+    skills: skillLevels({ attempts, placement, writing: writing.map((w) => (w.last_evaluation ? { ...w, evaluation: w.last_evaluation } : w)) }),
     next,
-    courseLevel: curriculum ? courseLevel(curriculum, progress) : 'PreA1',
+    skipped: curriculum ? unwrittenAhead(curriculum, progress, available, next) : [],
+    courseLevel: curriculum ? courseLevel(curriculum, progress, available) : 'PreA1',
+    placementPending: placementPending(),
   };
   return cached;
 }
 
-export function todayPlan(minutes = settings().daily_minutes) {
+// What the plan needs to know about the next lesson: its real length and the saved place.
+function lessonInfo(next, lesson, attempts, today) {
+  if (!next || !lesson || lesson.id !== next.id) return null;
+  const r = progressOf(next.id)?.resume;
+  const resumable = Boolean(r && r.qi < r.queue.length);
+  return {
+    minutes: lesson.minutes, exercises: resumable ? r.queue.length : lesson.exercises.length, done: resumable ? r.qi : 0, resumable,
+    doneToday: attempts.filter((a) => a.lesson === next.id && a.source === 'lesson' && todayKey(new Date(a.at)) === today).length,
+  };
+}
+
+// extras (loaded by the view): the next lesson's file, real-life scenarios and writing-lab tasks.
+export function todayPlan(minutes = settings().daily_minutes, { lesson = null, scenarios = [], writingTasks = [] } = {}) {
   const m = model();
   const now = new Date();
   const cards = allCards();
@@ -201,9 +314,17 @@ export function todayPlan(minutes = settings().daily_minutes) {
   const warm = cards.filter((c) => c.kind === 'meaning' && new Date(c.created_at).getTime() <= dayAgo(1) && new Date(c.created_at).getTime() >= dayAgo(3));
   const todayNew = cards.filter((c) => todayKey(new Date(c.created_at)) === todayKey(now));
   const lastOf = (type) => store.all('events').filter((e) => e.type === type).map((e) => e.at).sort().pop() || null;
+  const goals = profile()?.goals || [];
+  const scenariosDone = new Set(store.all('progress').filter((p) => String(p.id).startsWith('rl:') && p.status === 'completed').map((p) => p.id.slice(3)));
+  const writingDone = new Set(store.all('writing').filter((w) => w.kind === 'essay-summary' && ['evaluated', 'final', 'done'].includes(w.status)).map((w) => w.exercise));
   return dailyPlan({
     minutes, now: now.getTime(), dueCount: dueNow.length, warmupCount: warm.length, todayNewCount: todayNew.length,
-    next: m.next, weak: m.weak, recurring: m.recurring, lastSpeakingAt: lastOf('speaking'), lastWritingAt: lastOf('writing'), level: m.courseLevel,
+    next: m.next, weak: m.weak, recurring: m.recurring, level: m.courseLevel, goals, skipped: m.skipped,
+    lastSpeakingAt: lastOf('speaking'), lastWritingAt: lastOf('writing'),
+    lastReadingAt: m.attempts.filter((a) => a.source === 'reading').map((a) => a.at).sort().pop() || null,
+    lesson: lessonInfo(m.next, lesson, m.attempts, todayKey(now)),
+    scenario: pickScenario(scenarios, { level: m.courseLevel, goals, done: scenariosDone }),
+    writingTask: pickWritingTask(writingTasks, { level: m.courseLevel, done: writingDone }),
   });
 }
 

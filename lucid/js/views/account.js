@@ -10,7 +10,7 @@ import { connectAccount, syncPausedText } from '../core/session.js';
 
 // Messages for ?notice=, set when an email link could not be used or a sign-in was cancelled.
 const NOTICES = {
-  link: () => tt('לא חיברנו אתכם דרך הקישור, כי הוא נפתח בדפדפן אחר מזה שבו ביקשתם אותו, או יותר משעה אחרי. אם אישרתם עכשיו את האימייל, היכנסו כאן עם הסיסמה. אם ביקשתם איפוס, בקשו קישור חדש ופתחו אותו בדפדפן הזה.', 'We did not sign you in from that link, because it was opened in a different browser from the one where it was requested, or more than an hour later. If you just confirmed your email, sign in here with your password. If you asked for a reset, request a new link and open it in this browser.'),
+  link: () => tt('לא הכנסנו אתכם לחשבון דרך הקישור, כי הוא נפתח בדפדפן אחר מזה שבו ביקשתם אותו, או יותר משעה אחרי. אם אישרתם עכשיו את האימייל, היכנסו כאן עם הסיסמה. אם ביקשתם איפוס, בקשו קישור חדש ופתחו אותו בדפדפן הזה.', 'We did not sign you in from that link, because it was opened in a different browser from the one where it was requested, or more than an hour later. If you just confirmed your email, sign in here with your password. If you asked for a reset, request a new link and open it in this browser.'),
   expired: () => tt('הקישור פג תוקף או שכבר השתמשו בו. אפשר להיכנס, או לבקש קישור חדש.', 'That link has expired or was already used. Sign in, or ask for a new link.'),
   offline: () => tt('אין חיבור לשרת, ולכן לא הצלחנו להשלים את הכניסה. נסו להיכנס שוב כשיש חיבור.', 'No connection to the server, so signing in could not finish. Please sign in again when you are online.'),
   cancelled: () => tt('הכניסה בוטלה. המידע במכשיר לא השתנה.', 'Sign-in cancelled. The data on this device was not changed.'),
@@ -35,10 +35,11 @@ export default async function account(el, ctx) {
     render(el, html`<div class="onboard stack-lg">
       <h1>${signup ? tt('יצירת חשבון', 'Create an account') : reset ? tt('איפוס סיסמה', 'Reset password') : tt('כניסה', 'Sign in')}</h1>
       ${signup ? html`<p class="muted small">${tt('החשבון שומר את ההתקדמות בשרת ומסנכרן בין מכשירים. מה שכבר יש במכשיר הזה יועבר לחשבון.', 'An account saves progress on the server and syncs it between devices. What is already on this device moves into the account.')}</p>` : ''}
+      ${msg?.notice ? html`<p class="banner" role="alert" data-notice>${msg.text}</p>` : ''}
       <form class="stack" novalidate data-auth>
         <div class="field"><label for="em">${tt('אימייל', 'Email')}</label><input class="input" id="em" type="email" autocomplete="email" dir="ltr" required></div>
         ${!reset ? html`<div class="field"><label for="pw">${tt('סיסמה', 'Password')}</label><input class="input" id="pw" type="password" minlength="8" autocomplete="${signup ? 'new-password' : 'current-password'}" dir="ltr" required>${signup ? html`<span class="help">${tt('לפחות 8 תווים.', 'At least 8 characters.')}</span>` : ''}</div>` : ''}
-        ${msg ? html`<p class="${msg.ok || msg.notice ? 'banner' : 'error-text'}" role="alert">${msg.text}</p>` : ''}
+        ${msg && !msg.notice ? html`<p class="${msg.ok ? 'banner' : 'error-text'}" role="alert">${msg.text}</p>` : ''}
         <button class="key enter" type="submit" ${busy ? html`disabled` : ''}>${busy ? html`<span class="spinner" aria-hidden="true" style="width:1rem;height:1rem"></span>` : ''} ${signup ? tt('יצירת חשבון', 'Create account') : reset ? tt('שליחת קישור', 'Send link') : tt('כניסה', 'Sign in')}</button>
       </form>
       <div class="row small">${mode !== 'signin' ? html`<a href="#/account?mode=signin" data-mode="signin">${tt('יש לי חשבון', 'I have an account')}</a>` : html`<a href="#/account?mode=signup" data-mode="signup">${tt('אין לי חשבון', 'I don\'t have an account')}</a><a href="#/account?mode=reset" data-mode="reset">${tt('שכחתי סיסמה', 'Forgot password')}</a>`}</div>

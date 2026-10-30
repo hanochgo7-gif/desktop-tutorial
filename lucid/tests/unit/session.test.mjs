@@ -140,3 +140,11 @@ test('unowned data on a sign-in is moved only after the learner agrees (S-06)', 
   assert.equal(store.owner(), USER.id);
   assert.equal(store.get('profile', 'me').name, 'B', 'kept');
 });
+
+test('a new device with only anonymous session events signs in without a question', async () => {
+  store.put('events', { id: 'ev1', type: 'session', seconds: 40 });
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.ok, true);
+  assert.equal(dialogs.length, 0);
+  assert.equal(store.owner(), USER.id);
+});

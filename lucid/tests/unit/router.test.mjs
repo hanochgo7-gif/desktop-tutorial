@@ -25,4 +25,7 @@ test('a route state turns back into the hash it came from (P-22)', () => {
   assert.equal(hrefOf({ path: 'settings', query: {} }), '#/settings');
   const back = parse(hrefOf({ path: 'tutor', query: { mode: 'grammar' } }));
   assert.deepEqual(back, { path: 'tutor', query: { mode: 'grammar' } });
+  const next = `scenario/hotel?tab=roleplay`;
+  assert.deepEqual(parse(`#/account?mode=signin&next=${encodeURIComponent(next)}`).query, { mode: 'signin', next }, 'an encoded ? stays inside the value');
+  assert.deepEqual(parse('#/expressions?open=break%20a%20leg&q=a+b').query, { open: 'break a leg', q: 'a b' });
 });

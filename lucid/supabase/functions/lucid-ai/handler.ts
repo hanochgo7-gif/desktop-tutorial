@@ -87,7 +87,13 @@ export function createHandler(deps: Deps) {
 
     // ---- reserve units, then call the model ----
     // The request is built first, so nothing can fail between the reservation and the call.
-    const call = prepare(deps, body);
+    let call: ReturnType<typeof prepare>;
+    try {
+      call = prepare(deps, body);
+    } catch (e) {
+      console.error('lucid-ai prepare failed', (e as Error)?.message);
+      return fail(500, 'internal_error', 'Something went wrong on our side. Please try again later.');
+    }
     const { env } = deps;
     const reservation = await deps.reserve({
       user_id: user.id, route: body.task, units: call.units,
@@ -227,7 +233,7 @@ function prepare(deps: Deps, body: Request): { units: number; send(): Promise<{ 
           const msg = await claude.beta.messages.parse(params);
           check(msg, msg.usage);
           if (!msg.parsed_output) throw new Incomplete(msg.usage);
-          return { result: { feedback: clampFeedback(msg.parsed_output) }, usage: msg.usage };
+          return { result: { feedback: clampFeedback(msg.parsed_output, body) }, usage: msg.usage };
         },
       };
     }

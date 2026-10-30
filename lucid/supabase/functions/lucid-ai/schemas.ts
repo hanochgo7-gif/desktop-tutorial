@@ -19,6 +19,11 @@ export const ERROR_TYPES = [
 export const TUTOR_MODES = ['beginner', 'conversation', 'grammar', 'vocabulary', 'writing', 'debate', 'travel', 'pronunciation'] as const;
 
 const text = (max: number) => z.string().trim().min(1).max(max);
+// Learner texts: room for a 2,200-word research paper with its reference list (persona panel P-78). The
+// 64 KiB body limit in handler.ts still bounds a request with both a text and a previous draft.
+export const TEXT_MAX = 24000;
+// Learner-chosen correction intensity (research C2, decision 13 and D21), shared by the tutor and roleplay.
+export const CORRECTIONS = ['off', 'light', 'standard', 'intensive'] as const;
 
 const Scenario = z.object({
   title: text(120),
@@ -43,19 +48,20 @@ export const Request = z.discriminatedUnion('task', [
     draft_number: z.number().int().min(1).max(10).default(1),
     exercise: z.object({
       title: text(200),
-      instructions: text(2000),
+      instructions: text(4000),
       kind: text(40),
       min_words: z.number().int().min(1).max(3000).optional(),
       max_words: z.number().int().min(1).max(4000).optional(),
       focus: z.array(z.enum(RUBRIC_IDS)).max(12).default([]),
       required_elements: z.array(text(200)).max(12).default([]),
     }),
-    text: text(16000),
-    previous: z.object({ text: text(16000), priorities: z.array(text(400)).max(8).default([]) }).optional(),
+    text: text(TEXT_MAX),
+    previous: z.object({ text: text(TEXT_MAX), priorities: z.array(text(400)).max(8).default([]) }).optional(),
   }),
   z.object({
     task: z.literal('roleplay_turn'),
     hebrew_support: z.enum(SUPPORT).default('partial'),
+    corrections: z.enum(CORRECTIONS).default('standard'),
     scenario: Scenario,
     opening_line: text(600),
     history: z.array(Turn).max(40),
@@ -63,6 +69,7 @@ export const Request = z.discriminatedUnion('task', [
   z.object({
     task: z.literal('roleplay_feedback'),
     hebrew_support: z.enum(SUPPORT).default('partial'),
+    corrections: z.enum(CORRECTIONS).default('standard'),
     scenario: Scenario,
     opening_line: text(600),
     history: z.array(Turn).min(1).max(40),
@@ -71,7 +78,7 @@ export const Request = z.discriminatedUnion('task', [
     task: z.literal('tutor_turn'),
     mode: z.enum(TUTOR_MODES),
     // Learner-controlled correction intensity (research C2, D21).
-    corrections: z.enum(['off', 'light', 'standard', 'intensive']).default('standard'),
+    corrections: z.enum(CORRECTIONS).default('standard'),
     level: z.enum(LEVELS),
     hebrew_support: z.enum(SUPPORT).default('partial'),
     learner: z.object({
@@ -122,6 +129,9 @@ export const WritingEvaluation = z.object({
     tasks: z.array(z.string()),
     progress_since_previous: z.string().nullable(),
   }),
+  // Source-based tasks: what the assessor could not check (whether sources exist, are quoted accurately and
+  // support the claims), naming the learner's own sources or figures to check. null for other tasks.
+  verification_note: z.string().nullable(),
 });
 export type WritingEvaluation = z.infer<typeof WritingEvaluation>;
 
@@ -134,6 +144,8 @@ export const RoleplayTurn = z.object({
 export const RoleplayFeedback = z.object({
   conversation_score: z.number().int(),
   task_completed: z.boolean(),
+  // One to three specific things the learner did well, each quoting their own words (persona panel P-16).
+  strengths: z.array(z.string()),
   grammar: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
   vocabulary: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
   naturalness: z.object({ score: z.number().int(), comments: z.array(z.string()) }),
@@ -197,10 +209,25 @@ export function postProcess(runs: WritingEvaluation[], learnerText: string, appl
   };
 }
 
-export function clampFeedback(f: z.infer<typeof RoleplayFeedback>) {
+// How many "more natural" alternatives a roleplay report may list, by correction intensity, with a lower cap
+// at Pre-A1 to A2 (persona panel P-16 and P-21; research C2, decision 13: at most 3 in a post-task summary
+// by default).
+const ALTERNATIVES: Record<typeof CORRECTIONS[number], [number, number]> = { off: [0, 0], light: [2, 2], standard: [3, 4], intensive: [4, 6] };
+type FeedbackContext = { corrections?: typeof CORRECTIONS[number]; scenario?: { level: typeof LEVELS[number] }; history?: { role: string; text: string }[] };
+
+// Score ranges, list lengths and quotes are enforced here rather than trusted to the model: an alternative
+// whose "you said" is not in the learner's lines is dropped, and the number kept follows the learner's
+// correction setting and level.
+export function clampFeedback(f: z.infer<typeof RoleplayFeedback>, ctx: FeedbackContext = {}) {
   const s = (n: number) => clampInt(n, 0, 100) as number;
+  const learner = loose((ctx.history || []).filter((t) => t.role === 'learner').map((t) => t.text).join('\n'));
+  const [low, high] = ALTERNATIVES[ctx.corrections || 'standard'];
+  const cap = ['PreA1', 'A1', 'A2'].includes(ctx.scenario?.level || '') ? low : high;
   return {
     ...f,
+    strengths: (f.strengths || []).slice(0, 3),
+    better_alternatives: f.better_alternatives.filter((a) => !learner || learner.includes(loose(a.you_said))).slice(0, cap),
+    practice: f.practice.slice(0, 3),
     conversation_score: s(f.conversation_score),
     grammar: { ...f.grammar, score: s(f.grammar.score) },
     vocabulary: { ...f.vocabulary, score: s(f.vocabulary.score) },

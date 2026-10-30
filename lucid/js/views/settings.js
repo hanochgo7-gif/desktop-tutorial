@@ -17,9 +17,11 @@ export default async function settingsView(el, ctx) {
   let pwMsg = '';
 
   // Changing the password asks for the current one, unless a reset link was just used on this device.
-  function passwordForm() {
+  // From a reset link it opens at the top of the page; from "Change password", inside the account section.
+  function passwordForm({ inline = false } = {}) {
     const fresh = auth.recoveryFresh;
-    return html`<form class="panel stack" data-newpass novalidate><h2>${fresh ? tt('סיסמה חדשה', 'New password') : tt('שינוי סיסמה', 'Change password')}</h2>
+    const title = fresh ? tt('סיסמה חדשה', 'New password') : tt('שינוי סיסמה', 'Change password');
+    return html`<form class="${inline ? 'stack' : 'panel stack'}" data-newpass novalidate>${inline ? html`<h3>${title}</h3>` : html`<h2>${title}</h2>`}
       <input type="email" autocomplete="username" value="${auth.user?.email || ''}" hidden>
       ${fresh ? '' : html`<div class="field"><label for="cp">${tt('הסיסמה הנוכחית', 'Current password')}</label><input class="input" id="cp" type="password" autocomplete="current-password" dir="ltr" required></div>`}
       <div class="field"><label for="np">${tt('סיסמה חדשה (לפחות 8 תווים)', 'New password (at least 8 characters)')}</label><input class="input" id="np" type="password" minlength="8" autocomplete="new-password" dir="ltr" required></div>
@@ -34,7 +36,7 @@ export default async function settingsView(el, ctx) {
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
       <div class="stack-lg" style="max-width:46rem">
-        ${signedIn && pwOpen ? passwordForm() : ''}
+        ${signedIn && pwOpen && ctx.query.reset ? passwordForm() : ''}
         <section class="panel stack"><h2>${tt('ממשק', 'Interface')}</h2>
           <div class="field"><span class="label">${tt('שפת הממשק', 'Interface language')}</span>${seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'Hebrew'], ['en', 'אנגלית', 'English']])}<span class="help">${tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.')}</span></div>
           <div class="field"><span class="label">${tt('מראה', 'Appearance')}</span>${seg('theme', s.theme, [['system', 'לפי המכשיר', 'Match device'], ['light', 'בהיר', 'Light'], ['dark', 'כהה', 'Dark']])}</div>
@@ -59,8 +61,9 @@ export default async function settingsView(el, ctx) {
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
           : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
             <div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button>${pwOpen ? '' : html`<button type="button" class="key small ghost" data-pw>${tt('שינוי סיסמה', 'Change password')}</button>`}</div>
-            <div class="row"><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button><button type="button" class="key small ghost" data-signout-erase>${icon('log-out', { size: 16 })} ${tt('יציאה ומחיקת המידע מהמכשיר', 'Sign out and remove my data from this device')}</button></div>
-            <p class="xsmall faint">${tt('במחשב משותף, בחרו ביציאה עם מחיקה. מה שסונכרן נשאר בחשבון שלכם בשרת.', 'On a shared computer, sign out and remove your data. Whatever has synced stays in your account on the server.')}</p>`
+            <div class="row"><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button><button type="button" class="key small ghost" data-signout-erase style="white-space:normal;text-align:start">${icon('log-out', { size: 16 })} ${tt('יציאה ומחיקת המידע מהמכשיר', 'Sign out and remove my data from this device')}</button></div>
+            <p class="xsmall faint">${tt('במחשב משותף, בחרו ביציאה עם מחיקה. מה שסונכרן נשאר בחשבון שלכם בשרת.', 'On a shared computer, sign out and remove your data. Whatever has synced stays in your account on the server.')}</p>
+            ${pwOpen && !ctx.query.reset ? passwordForm({ inline: true }) : ''}`
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
         <section class="panel stack"><h2>${tt('המידע שלך', 'Your data')}</h2>

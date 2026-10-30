@@ -42,3 +42,33 @@ test('length and must-include checks gate completion', () => {
   const b = analyzeWriting('I am Yael. I am from Tel Aviv. My friend Omer is a student.', { minWords: 9, mustInclude: ['am', 'is'] });
   assert.equal(b.passedRequired, true);
 });
+
+// Persona panel P-74: correct academic English that the checks used to flag.
+test('no run-on flag after a sentence-initial linker, adverbial or short prepositional phrase', () => {
+  const ok = 'However, this does not mean that every city can afford it. In 2022, there were many cities that tried it. Conversely, it is cheaper than traffic jams. According to the city report, it is cheap. For instance, it was free in May. Unfortunately, it was too late.';
+  assert.deepEqual(types(ok, { level: 'B2' }), []);
+  assert.ok(types('In my city there are many cars, it is noisy.', { level: 'B2' }).includes('punctuation'), 'a real comma splice is still flagged');
+});
+
+test('a or an is decided by sound, with initialisms read letter by letter', () => {
+  const ok = 'A unanimous vote is rare. A utilitarian view helps. She has an MBA and works for an NGO. It was a UN report. It took an hour. A European study and a one-off payment. An unusual result came from a university.';
+  assert.deepEqual(types(ok, { level: 'C1' }), []);
+  const bad = analyzeWriting('He has a MBA. She ate a apple. It was an useful idea.', { level: 'B1' }).issues.filter((i) => i.type === 'article').map((i) => `${i.match} (${i.title})`);
+  assert.deepEqual(bad, ['a MBA (an before a vowel sound)', 'a apple (an before a vowel sound)', 'an useful (a before a consonant sound)']);
+});
+
+test('if + will in an indirect question is not flagged; low-precision rules are off above B2', () => {
+  assert.deepEqual(types('It is unclear if hybrid work will preserve demand. I wonder if she will come.', { level: 'B1' }), []);
+  assert.ok(types('If it will rain, we will stay home.', { level: 'B1' }).includes('conditional-form'));
+  assert.ok(!types('If it will rain, we will stay home.', { level: 'C2' }).includes('conditional-form'), 'not run at C2');
+  assert.ok(!types('I like the city, it is very beautiful.', { level: 'C1' }).includes('punctuation'), 'run-on rule not run at C1');
+});
+
+test('a title line is not merged into the first sentence or counted as a paragraph', () => {
+  const body = Array.from({ length: 6 }, () => 'This sentence has exactly eight words in it.').join(' ');
+  const a = analyzeWriting(`Remote work and the future of cities\n\n${body}\n\n${body}`, { level: 'C2' });
+  assert.equal(a.stats.paragraphs, 2);
+  assert.equal(a.stats.longest_sentence, 8);
+  assert.ok(!a.issues.some((i) => i.title === 'Very long sentence'));
+  assert.equal(a.checks.find((c) => c.id === 'caps').ok, true);
+});

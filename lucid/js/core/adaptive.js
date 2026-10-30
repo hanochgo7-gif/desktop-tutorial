@@ -73,7 +73,8 @@ export function errorProfile(attempts, now = Date.now(), { windowDays = 30 } = {
 // - placement: a first estimate only, from at least 2 placement questions at L in that skill (2 of 2, or
 //   67%+ of more). Multiple-choice placement items never establish C1 or C2: higher estimates are capped
 //   at B2 and shown as "B2+";
-// - writing: only texts assessed by AI feedback, at least 2 tasks on 2 different days (median of the last 3);
+// - writing: only texts assessed by AI feedback, at least 2 tasks on 2 different days (median of the last 3,
+//   the lower of two);
 // - speaking: Lucid does not assess speaking level yet (speech recognition never grades on its own), so it
 //   stays "not yet assessed".
 // Clear failure at the current level (under 50% over 8+ answers) lowers it one step, as a first estimate.
@@ -109,7 +110,8 @@ function writingLevel(writing) {
   const days = new Set(tasks.map((t) => dayKey(t.at))).size;
   if (tasks.length < EVIDENCE.writingTasks || days < EVIDENCE.days) return { level: null, source: tasks.length ? 'assessed-writing' : null, evidence: tasks.length, days };
   const recent = tasks.slice(-3).map((t) => levelIndex(t.level)).sort((a, b) => a - b);
-  return { level: LEVELS[recent[Math.floor(recent.length / 2)]], source: 'assessed-writing', evidence: tasks.length, days };
+  // The median; with two texts, the lower one (a cautious estimate).
+  return { level: LEVELS[recent[Math.floor((recent.length - 1) / 2)]], source: 'assessed-writing', evidence: tasks.length, days };
 }
 
 export function skillLevels({ attempts = [], placement = null, writing = [] } = {}) {
@@ -185,7 +187,8 @@ export function courseLevel(curriculum, progressById, available = null) {
 
 // ---------- the daily plan ----------
 // Blocks follow research C1 §10 (warm-up recall, due reviews, new learning, use it, exit check),
-// scaled to the minutes the learner has today. Each block says why it is there.
+// scaled to the minutes the learner has today. Each block says why it is there. The lesson gets the time
+// the other blocks leave (at least 5 minutes), so the plan fits the day; a long lesson is split.
 const BUDGET = { 10: { review: 5, learn: 5 }, 20: { review: 6, learn: 10, use: 4 }, 35: { warm: 3, review: 10, learn: 10, use: 8, exit: 4 }, 50: { warm: 3, review: 12, learn: 15, practice: 6, use: 10, exit: 4 } };
 
 // How much of a lesson fits today. Lessons take 15-25 minutes; when one does not fit, today's plan takes
@@ -193,7 +196,7 @@ const BUDGET = { 10: { review: 5, learn: 5 }, 20: { review: 6, learn: 10, use: 4
 // counts as about two exercises of time. lesson = { minutes, exercises, done, doneToday }, where done is
 // the saved position and doneToday the answers given today.
 export function lessonSlice(lesson, budget) {
-  if (!lesson?.minutes || !lesson.exercises) return { today: budget, total: null, split: false };
+  if (!lesson?.minutes || !lesson.exercises) return { today: budget, total: null, split: false, done: lesson?.done || 0, of: lesson?.exercises || 0 };
   const n = lesson.exercises;
   const per = lesson.minutes / (n + 2);
   const done = Math.min(n, Math.max(0, lesson.done || 0));
@@ -262,16 +265,19 @@ export function dailyPlan({
 
   if (plan.warm && warmupCount > 0) add({ id: 'warmup', minutes: plan.warm, count: Math.min(warmupCount, 8), route: 'review?mode=warmup', why: 'warmup' });
   if (dueCount > 0) add({ id: 'review', minutes: plan.review, count: Math.min(dueCount, Math.round(plan.review * 6)), route: 'review', why: 'review' });
-  if (next) {
-    const slice = lessonSlice(lesson, plan.learn + (dueCount ? 0 : plan.review));
-    add({ id: 'learn', minutes: slice.today, lesson: next.id, route: lesson?.resumable ? `lesson/${next.id}?resume=1` : `lesson/${next.id}`, why: 'learn', resume: Boolean(lesson?.resumable), slice, skipped: skipped.map((l) => l.id) });
-  }
+  const learnAt = blocks.length; // the lesson goes here; its time is what the other blocks leave
   const focus = recurring[0]?.error_type ? { kind: 'error', id: recurring[0].error_type } : weak[0] ? { kind: 'topic', id: weak[0].topic } : null;
   if (focus && (plan.practice || plan.use)) {
     add({ id: 'practice', minutes: plan.practice || 4, focus, route: focus.kind === 'error' ? `drill?error=${focus.id}` : `drill?topic=${focus.id}`, why: 'practice' });
   }
   if (plan.use) add(useBlock({ minutes: plan.use, level, goals, last: { speaking: lastSpeakingAt, writing: lastWritingAt, reading: lastReadingAt }, scenario, writingTask }));
   if (plan.exit && todayNewCount > 0) add({ id: 'exit', minutes: plan.exit, count: todayNewCount, route: 'review?mode=exit', why: 'exit' });
+  if (next) {
+    const others = blocks.reduce((a, b) => a + b.minutes, 0);
+    const budget = Math.max(5, Math.min(plan.learn + (dueCount ? 0 : plan.review), minutes - others));
+    const slice = lessonSlice(lesson, budget);
+    blocks.splice(learnAt, 0, { id: 'learn', minutes: slice.today, lesson: next.id, route: lesson?.resumable ? `lesson/${next.id}?resume=1` : `lesson/${next.id}`, why: 'learn', resume: Boolean(lesson?.resumable), slice, skipped: skipped.map((l) => l.id) });
+  }
   if (!blocks.length) add({ id: 'learn', minutes, route: next ? `lesson/${next.id}` : 'writing', lesson: next?.id, why: next ? 'learn' : 'write' });
   return { minutes: blocks.reduce((a, b) => a + b.minutes, 0), blocks };
 }

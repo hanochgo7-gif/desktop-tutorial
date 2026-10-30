@@ -106,7 +106,9 @@ export function connectAccount({ kind = 'signin', sync = activeSync } = {}) {
 async function connect(kind, sync) {
   let user;
   try { user = auth.user?.id ? auth.user : await auth.fetchUser(); } catch (error) { return { ok: false, reason: error.network ? 'offline' : 'session', error }; }
-  const decision = ownership({ owner: store.owner(), userId: user.id, hasData: store.hasData(), kind });
+  // Without an owner, session-time events alone (logged even on the welcome screen) are not worth a question.
+  const owner = store.owner();
+  const decision = ownership({ owner, userId: user.id, hasData: store.hasData(owner ? {} : { except: ['events'] }), kind });
   if (decision !== 'proceed') {
     const choice = await askAboutDeviceData(decision, user.email);
     if (choice === 'cancel') { await auth.signOut(); return { ok: false, reason: 'cancelled' }; }

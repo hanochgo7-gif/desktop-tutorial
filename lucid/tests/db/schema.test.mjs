@@ -204,10 +204,12 @@ test('export returns only the caller; delete removes everything', async () => {
     await as(db, 'authenticated', u, `insert into lucid_profiles (id, birth_year) values ($1, $2)`, [u, year - 25]);
     for (let i = 0; i < n; i++) await as(db, 'authenticated', u, `insert into lucid_records (coll, id, data) values ('attempts', $1, '{}')`, [`a${i}`]);
   }
+  await as(db, 'service_role', null, `insert into lucid_ai_usage (user_id, route, units, outcome, input_tokens, output_tokens) values ($1, 'tutor_turn', 1, 'refused', 120, 0), ($2, 'tutor_turn', 1, 'ok', 5, 5)`, [A, B]);
   const ex = await as(db, 'authenticated', A, `select lucid_export() as e`);
   assert.equal(ex.rows[0].e.profile.id, A);
   assert.equal(ex.rows[0].e.records.length, 3);
-  await assert.rejects(as(db, 'anon', null, `select lucid_delete_account()`), /permission denied/);
+  assert.equal(ex.rows[0].e.ai_usage.length, 1, 'only the caller\'s usage');
+  assert.deepEqual([ex.rows[0].e.ai_usage[0].outcome, ex.rows[0].e.ai_usage[0].input_tokens], ['refused', 120]);  await assert.rejects(as(db, 'anon', null, `select lucid_delete_account()`), /permission denied/);
   await as(db, 'authenticated', A, `select lucid_delete_account()`);
   const left = await db.query(`select (select count(*) from auth.users where id = $1) u, (select count(*) from lucid_records where user_id = $1) r,
     (select count(*) from lucid_profiles where id = $1) p, (select count(*) from lucid_storage where user_id = $1) s`, [A]);

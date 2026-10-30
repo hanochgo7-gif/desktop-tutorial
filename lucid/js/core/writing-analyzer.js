@@ -22,10 +22,10 @@ const PATTERNS = [
   { re: /\b(open|close)(s|d|ed)?\s+the\s+(light|lights|tv|television|computer)\b/gi, type: 'false-friend', title: 'turn on / turn off', he_title: 'turn on / off', en: 'Lights and devices are turned on or off.', he: 'אור ומכשירים מדליקים ומכבים עם turn on / turn off.' },
   { re: /\bdid(n't| not)\s+(went|saw|ate|took|came|made|got|gave|bought|wrote|said|told|thought|found|knew|left|felt|had|was|were)\b/gi, type: 'verb-form', title: 'did + base verb', he_title: 'did + צורת בסיס', en: 'After did / didn\'t use the base verb: didn\'t go.', he: 'אחרי did באה צורת הבסיס של הפועל: didn\'t go.' },
   { re: /\b(can|must|should|could|might|may|will|would)\s+to\s+\w+/gi, type: 'modal-use', title: 'modal + base verb', he_title: 'מודאלי + פועל בסיס', en: 'No "to" after can, must, should: you should go.', he: 'אחרי can, must, should לא באה to.' },
-  { re: /\bif\s+(\w+\s+){1,3}will\s+\w+/gi, type: 'conditional-form', title: 'No will after if', he_title: 'בלי will אחרי if', en: 'In real conditions use the present after if: If it rains, we will stay.', he: 'אחרי if משתמשים בהווה: If it rains.' },
-  { re: /\ba\s+(?!one\b|once\b|use|usu|uni|euro|eu[a-z])[aeiou]\w*/gi, type: 'article', title: 'an before a vowel sound', he_title: 'an לפני תנועה', en: 'Use an before a vowel sound: an apple, an idea.', he: 'לפני צליל תנועה כותבים an.' },
-  { re: /\ban\s+(?!hour|honest|honou?r|heir|herb\b)[bcdfgjklmnpqrstvwxyz]\w*/gi, type: 'article', title: 'a before a consonant sound', he_title: 'a לפני עיצור', en: 'Use a before a consonant sound: a book.', he: 'לפני צליל עיצור כותבים a.' },
-  { re: /,\s+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', subordinateOk: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
+  { re: /\bif\s+(\w+\s+){1,3}will\s+\w+/gi, type: 'conditional-form', notAfter: /\b(unclear|clear|whether|wonder\w*|know\w*|knew|ask\w*|see|sure|doubt\w*|uncertain|certain|question|decide\w*|check\w*|tell|find out|predict\w*)\s+$/i, lowPrecision: true, title: 'No will after if', he_title: 'בלי will אחרי if', en: 'In real conditions use the present after if: If it rains, we will stay.', he: 'אחרי if משתמשים בהווה: If it rains.' },
+  // a or an is decided by sound, not spelling (an MBA, a unanimous vote); see articleFor below.
+  { re: /\b(a|an)\s+([A-Za-z][\w'-]*)/gi, type: 'article', article: true },
+  { re: /,\s+(I|he|she|it|we|they|this|that|there)\s+(am|is|are|was|were|have|has|had|will|can|do|does|did|think|believe|want|need)\b/g, type: 'punctuation', leadInOk: true, lowPrecision: true, title: 'Possible run-on sentence', he_title: 'ייתכן משפט רץ', en: 'Two full sentences joined by a comma: use a full stop, or a connector like and / because.', he: 'שני משפטים שלמים מחוברים בפסיק: כדאי נקודה, או מילת קישור כמו and / because.' },
   { re: /\s+[,.!?;:](?=\s|$)/g, type: 'punctuation', title: 'Space before punctuation', he_title: 'רווח לפני סימן פיסוק', en: 'No space before a punctuation mark.', he: 'באנגלית אין רווח לפני סימן פיסוק.' },
 ];
 
@@ -55,14 +55,49 @@ const SIGNALS = {
 };
 
 const SUBORDINATE = /^(if|when|whenever|although|though|because|while|whilst|after|before|since|unless|as|once|until|even if|even though|whether|where|wherever)\b/i;
+// A comma after a sentence-initial linker, adverb or short prepositional phrase is correct
+// ("However, this does...", "In 2022, there were...", "According to the report, it is...").
+const LINKER = /^(however|moreover|furthermore|therefore|thus|hence|consequently|nevertheless|nonetheless|conversely|meanwhile|instead|otherwise|similarly|likewise|indeed|still|besides|admittedly|ultimately|overall|today|yesterday|now|then|finally|first|second|third|lastly|next|also|in (fact|addition|contrast|short|sum|summary|conclusion|particular|general|practice|theory|turn|other words|the end|my (view|opinion)|this (case|sense|way|respect))|for (example|instance)|as a result|of course|on the other hand|at the same time|by contrast|on balance|\w+ly)$/i;
+const PREP_PHRASE = /^(in|on|at|by|for|with|during|after|before|despite|across|among|between|within|without|under|over|from|according to|throughout|unlike|like|compared (to|with)|in the case of)\s/i;
+const FINITE = /\b(am|is|are|was|were|be|been|has|have|had|do|does|did|will|would|can|could|should|must|may|might)\b/i;
+const leadInOk = (lead) => SUBORDINATE.test(lead) || LINKER.test(lead) || (PREP_PHRASE.test(lead) && countWords(lead) <= 7 && !FINITE.test(lead));
+// Low-precision rules are not run above B2, where they mostly flag correct academic prose (persona panel P-74).
+const ADVANCED = new Set(['C1', 'C2']);
 
-const sentencesOf = (text) => text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+(?=[A-Z"'“])/).map((s) => s.trim()).filter((s) => /[A-Za-z]/.test(s));
+// a or an by sound: initialisms read letter by letter (an MBA, a UN report), yoo- and w- sounds take a
+// (a unanimous vote, a utilitarian view, a one-off), silent h takes an. null = not sure, never flagged.
+const AN_LETTER = /^[AEFHILMNORSX]/;
+export function articleFor(word) {
+  if (/^[A-Z]{2,3}s?$/.test(word)) return AN_LETTER.test(word) ? 'an' : 'a';
+  if (/^[A-Z]{4,}/.test(word)) return null; // NATO, UNESCO: read as words or letters; not checked
+  const w = word.toLowerCase();
+  if (/^(\d|x-|hist|herb|hotel)/.test(w)) return null;
+  if (/^(one\b|one-|once|un(i(?![mnd])|anim)|use|usu|usa|uti|ura|ure|uro|eu|ewe|ubiq|uk\b)/.test(w)) return 'a';
+  if (/^(hour|honest|honou?r|heir)/.test(w)) return 'an';
+  return /^[aeiou]/.test(w) ? 'an' : 'a';
+}
+const ARTICLE = {
+  an: { title: 'an before a vowel sound', he_title: 'an לפני תנועה', en: 'Use an before a vowel sound: an apple, an idea, an MBA.', he: 'לפני צליל תנועה כותבים an.' },
+  a: { title: 'a before a consonant sound', he_title: 'a לפני עיצור', en: 'Use a before a consonant sound: a book, a university, a one-day trip.', he: 'לפני צליל עיצור כותבים a.' },
+};
+
+// Sentences never cross a line break. A short line with no end punctuation that is followed by more text
+// (a title or heading) is not a sentence.
+const isHeading = (line, i, lines) => i < lines.length - 1 && !/[.!?:;,"”)]$/.test(line) && countWords(line) <= 15;
+function linesOf(text) {
+  const lines = String(text).split(/\n+/).map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  return lines.map((l, i) => ({ text: l, heading: isHeading(l, i, lines) }));
+}
+const sentencesOf = (text) => linesOf(text).filter((l) => !l.heading).flatMap((l) => l.text.split(/(?<=[.!?])\s+(?=[A-Z"'“])/)).map((s) => s.trim()).filter((s) => /[A-Za-z]/.test(s));
+const sentenceStart = (raw, i) => Math.max(raw.lastIndexOf('.', i - 1), raw.lastIndexOf('!', i - 1), raw.lastIndexOf('?', i - 1), raw.lastIndexOf('\n', i - 1), -1) + 1;
 
 export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = null, mustInclude = [], formal = null } = {}) {
   const raw = String(text || '');
   const words = countWords(raw);
   const sentences = sentencesOf(raw);
-  const paragraphs = raw.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const headings = new Set(linesOf(raw).filter((l) => l.heading).map((l) => l.text));
+  const paragraphs = raw.split(/\n\s*\n/).map((p) => p.trim()).filter((p) => p && !headings.has(p.replace(/\s+/g, ' ')));
+  const advanced = ADVANCED.has(level);
   const lower = (raw.toLowerCase().match(/[a-z']+/g) || []);
   const types = new Set(lower);
   const lens = sentences.map((s) => countWords(s));
@@ -82,21 +117,31 @@ export function analyzeWriting(text, { level = 'B1', minWords = 0, maxWords = nu
 
   const issues = [];
   const seen = new Set();
+  // Whether a match is a false alarm: a comma after a fronted clause or linker ("If it rains, we will
+  // stay"), if + will in an indirect question ("It is unclear if this will last"), or the right article.
+  const skip = (p, m) => {
+    if (p.leadInOk && leadInOk(raw.slice(sentenceStart(raw, m.index), m.index).trim())) return true;
+    if (p.notAfter && p.notAfter.test(raw.slice(Math.max(0, m.index - 30), m.index))) return true;
+    if (p.article) { const want = articleFor(m[2]); return !want || want === m[1].toLowerCase(); }
+    return false;
+  };
   for (const p of [...PATTERNS, ...(isFormal ? FORMAL_PATTERNS : [])]) {
+    if (p.lowPrecision && advanced) continue;
     p.re.lastIndex = 0;
     let m;
     let count = 0;
     while ((m = p.re.exec(raw)) && count < 3) {
-      const match = m[0].trim();
-      // A comma after a fronted subordinate clause is correct ("If it rains, we will stay").
-      if (p.subordinateOk && SUBORDINATE.test(raw.slice(Math.max(raw.lastIndexOf('.', m.index), raw.lastIndexOf('!', m.index), raw.lastIndexOf('?', m.index), -1) + 1, m.index).trim())) { if (m.index === p.re.lastIndex) p.re.lastIndex++; continue; }
-      const key = `${p.type}:${match.toLowerCase()}`;
-      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: p.title, he_title: p.he_title, en: p.en, he: p.he, match, index: m.index }); }
-      count++;
       if (m.index === p.re.lastIndex) p.re.lastIndex++;
+      if (skip(p, m)) continue;
+      const match = m[0].trim();
+      const msg = p.article ? ARTICLE[articleFor(m[2])] : p;
+      const key = `${p.type}:${match.toLowerCase()}`;
+      if (!seen.has(key)) { seen.add(key); issues.push({ type: p.type, title: msg.title, he_title: msg.he_title, en: msg.en, he: msg.he, match, index: m.index }); }
+      count++;
     }
   }
-  lens.forEach((n, i) => { if (n > 40) issues.push({ type: 'punctuation', title: 'Very long sentence', he_title: 'משפט ארוך מאוד', en: `A ${n}-word sentence: consider splitting it for clarity.`, he: `משפט של ${n} מילים: שקלו לפצל אותו.`, match: sentences[i].slice(0, 60) + '…' }); });
+  const longest = advanced ? 55 : 40;
+  lens.forEach((n, i) => { if (n > longest) issues.push({ type: 'punctuation', title: 'Very long sentence', he_title: 'משפט ארוך מאוד', en: `A ${n}-word sentence: consider splitting it for clarity.`, he: `משפט של ${n} מילים: שקלו לפצל אותו.`, match: sentences[i].slice(0, 60) + '…' }); });
   const starts = sentences.map((s) => (s.match(/^[A-Za-z']+/) || [''])[0].toLowerCase()).filter(Boolean);
   const startCounts = starts.reduce((m, w) => m.set(w, (m.get(w) || 0) + 1), new Map());
   for (const [w, n] of startCounts) if (n >= 4 && n / sentences.length >= 0.5 && !['the', 'a'].includes(w)) issues.push({ type: 'cohesion', title: 'Repeated sentence opening', he_title: 'פתיחה חוזרת', en: `${n} sentences start with "${w}". Vary how sentences begin.`, he: `${n} משפטים מתחילים ב-"${w}". כדאי לגוון.`, match: w });

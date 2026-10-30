@@ -541,3 +541,22 @@ dialog.sheet > .panel { padding: var(--s5); }
   .topic-row > :first-child { grid-column: 1 / -1; }
 }
 .entry[data-entry] { scroll-margin-block-start: 5rem; }
+
+/* learner-logic */
+/* Exercises-by-day chart: each bar sits in a track of definite height, so percentage heights draw. */
+.bars > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.bars > div > .bar-track { position: relative; flex: 1 1 auto; width: 100%; max-width: 2.2rem; min-height: 0; background: none; border-radius: 0; }
+.bars .bar { position: absolute; inset-inline: 0; inset-block-end: 0; min-height: 2px; background: var(--cobalt); border-radius: 0.35rem 0.35rem 0.15rem 0.15rem; }
+/* Level rail: placed-out lessons are a hatched part, never the fill of completed ones. */
+.level-rail > div > span.out { background: repeating-linear-gradient(135deg, var(--n5) 0 2px, transparent 2px 5px); }
+.level-tab .lt-out { font-size: var(--t-xs); color: var(--ink-3); }
+/* Lessons still being written: not links, labelled in words. */
+.lesson-row.unwritten { background: transparent; color: var(--ink-2); }
+.lesson-row.unwritten:hover { border-color: var(--key-edge); }
+/* Skill rows: the source of each level on its own line; first estimates are striped. */
+.skill-row { row-gap: 0.1rem; }
+.skill-row .skill-src { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-3); line-height: 1.35; }
+.skill-row .skill-wide { grid-column: 2 / 4; }
+.skill-row.est .meter > span { background: repeating-linear-gradient(135deg, var(--cobalt) 0 3px, var(--cobalt-tint) 3px 6px); }
+/* Today's main button carries a lesson title: it may wrap on narrow phones instead of overflowing. */
+.start-bar > .key { white-space: normal; max-width: 100%; text-align: start; padding-block: 0.45rem; }
