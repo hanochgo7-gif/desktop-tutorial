@@ -1,0 +1,269 @@
+{
+  "id": "a1-04",
+  "level": "A1",
+  "title_en": "My day",
+  "title_he": "היום שלי",
+  "topics": ["adverbs-frequency", "daily-life-vocab"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can describe my daily routine with phrases like wake up, get dressed and have breakfast.", "he": "אני יכול/ה לתאר את סדר היום שלי בעזרת צירופים כמו wake up, get dressed ו-have breakfast." },
+    { "en": "I can say how often I do things with always, usually, often, sometimes and never.", "he": "אני יכול/ה לומר באיזו תדירות אני עושה דברים בעזרת always, usually, often, sometimes ו-never." },
+    { "en": "I can put these words in the right place: before the main verb, but after am/is/are.", "he": "אני יודע/ת איפה לשים את המילים האלה: לפני הפועל הראשי, אבל אחרי am/is/are." }
+  ],
+  "warmup": { "en": "What do you do every morning before you leave home? Think of three things, in order. Do you do them every day, or only on some days?", "he": "מה אתם עושים כל בוקר לפני שאתם יוצאים מהבית? חשבו על שלושה דברים, לפי הסדר. אתם עושים אותם כל יום, או רק בחלק מהימים? היום נלמד לומר את זה באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "Omer always wakes up at 6:30, but he usually gets up at 6:45. He often has a shower in the evening, and he never has breakfast at home. Words like always and never tell us how often something happens.", "he": "עומר תמיד מתעורר ב-6:30, אבל בדרך כלל קם רק ב-6:45. הוא הרבה פעמים מתקלח בערב, ואף פעם לא אוכל ארוחת בוקר בבית. מילים כמו always ו-never אומרות באיזו תדירות משהו קורה." },
+    { "type": "table", "headers": ["Word", "How often?", "עברית", "Example"], "rows": [
+      ["always", "100%", "תמיד", "I always brush my teeth before bed."],
+      ["usually", "about 90%", "בדרך כלל", "I usually walk to work."],
+      ["often", "about 70%", "הרבה פעמים, לעתים קרובות", "We often cook pasta."],
+      ["sometimes", "about 40%", "לפעמים", "She sometimes works from home."],
+      ["never", "0%", "אף פעם לא", "He never drinks coffee."]
+    ] },
+    { "type": "rule", "en": "The frequency word goes before the main verb: I usually get up at seven. She never drinks coffee. But it goes after am/is/are: I'm always tired. The bus is often late.", "he": "מילת התדירות באה לפני הפועל הראשי: I usually get up at seven, She never drinks coffee. אבל עם am/is/are היא באה אחרי הפועל: I'm always tired, The bus is often late." },
+    { "type": "warning", "en": "Never is already negative, so don't add don't: I never eat breakfast (not 'I don't never eat'). And keep the -s after he/she/it: She usually gets up early.", "he": "never כבר שלילי, ולכן לא מוסיפים don't: I never eat breakfast, ולא I don't never eat. ואחרי he/she/it ה-s נשארת גם כשמילת התדירות באמצע: She usually gets up early." },
+    { "type": "tip", "en": "Sometimes and usually can also start a sentence: Sometimes I work from home. To ask about frequency, use How often...? – How often do you go to the gym? – Usually three times a week.", "he": "את sometimes ו-usually אפשר לשים גם בתחילת המשפט: Sometimes I work from home. כדי לשאול 'כל כמה זמן?' אומרים How often...? – How often do you go to the gym? – Usually three times a week." }
+  ],
+  "examples": [
+    { "en": "I always wake up at 6:30.", "he": "אני תמיד מתעורר/ת ב-6:30." },
+    { "en": "My sister usually gets up late on Saturdays.", "he": "אחותי בדרך כלל קמה מאוחר בשבתות.", "note": "usually + gets: the -s stays" },
+    { "en": "We often have breakfast together.", "he": "אנחנו הרבה פעמים אוכלים ארוחת בוקר ביחד.", "note": "have breakfast = eat breakfast" },
+    { "en": "Yael sometimes commutes by bike.", "he": "יעל נוסעת לפעמים לעבודה באופניים." },
+    { "en": "I never drink coffee in the evening.", "he": "אני אף פעם לא שותה קפה בערב.", "note": "never, without don't" },
+    { "en": "Maya is always tired on Monday mornings.", "he": "מאיה תמיד עייפה בימי שני בבוקר.", "note": "after is" },
+    { "en": "The train is often late.", "he": "הרכבת מאחרת לעתים קרובות.", "note": "after is" },
+    { "en": "Sometimes I work from home.", "he": "לפעמים אני עובד/ת מהבית.", "note": "sometimes can start a sentence" },
+    { "en": "How often do you go to the gym? – Usually three times a week.", "he": "כל כמה זמן את/ה הולך/ת לחדר כושר? – בדרך כלל שלוש פעמים בשבוע." }
+  ],
+  "vocab": [
+    { "word": "wake up", "pos": "phrasal verb", "he": "להתעורר", "def": "to stop sleeping", "example": "I usually wake up at seven.", "ipa": "/ˌweɪk ˈʌp/", "collocations": ["wake up early", "wake up late"], "level": "A1" },
+    { "word": "get up", "pos": "phrasal verb", "he": "לקום (מהמיטה)", "def": "to get out of bed", "example": "On Saturdays I get up at ten.", "ipa": "/ˌɡet ˈʌp/", "collocations": ["get up early"], "level": "A1" },
+    { "word": "get dressed", "pos": "phrase", "he": "להתלבש", "def": "to put on your clothes", "example": "I get dressed in five minutes.", "ipa": "/ˌɡet ˈdrest/", "level": "A1" },
+    { "word": "have a shower", "pos": "phrase", "he": "להתקלח", "def": "to wash your body under water that comes from above", "example": "I always have a shower after the gym.", "ipa": "/ˌhæv ə ˈʃaʊə(r)/", "collocations": ["take a shower (US)"], "level": "A1" },
+    { "word": "brush your teeth", "pos": "phrase", "he": "לצחצח שיניים", "def": "to clean your teeth with a toothbrush", "example": "I brush my teeth twice a day.", "ipa": "/ˌbrʌʃ jɔː ˈtiːθ/", "level": "A1" },
+    { "word": "have breakfast", "pos": "phrase", "he": "לאכול ארוחת בוקר", "def": "to eat the first meal of the day", "example": "We never have breakfast together.", "ipa": "/ˌhæv ˈbrekfəst/", "collocations": ["have lunch", "have dinner"], "level": "A1" },
+    { "word": "leave home", "pos": "phrase", "he": "לצאת מהבית", "def": "to go out of your house, for example to go to work or school", "example": "I leave home at 7:45.", "ipa": "/ˌliːv ˈhəʊm/", "level": "A1" },
+    { "word": "commute", "pos": "verb", "he": "לנסוע כל יום לעבודה או ללימודים (ובחזרה)", "def": "to travel to work or school and back, usually every day", "example": "Omer commutes to Tel Aviv by train.", "ipa": "/kəˈmjuːt/", "collocations": ["commute to work", "commute by train"], "level": "B1" },
+    { "word": "get home", "pos": "phrase", "he": "להגיע הביתה", "def": "to arrive at your house", "example": "Dad usually gets home at six.", "ipa": "/ˌɡet ˈhəʊm/", "level": "A1" },
+    { "word": "go to bed", "pos": "phrase", "he": "ללכת לישון", "def": "to get into your bed to sleep", "example": "I never go to bed before midnight.", "ipa": "/ˌɡəʊ tə ˈbed/", "level": "A1" },
+    { "word": "always", "pos": "adverb", "he": "תמיד", "def": "every time; at all times", "example": "I always brush my teeth before bed.", "ipa": "/ˈɔːlweɪz/", "level": "A1" },
+    { "word": "usually", "pos": "adverb", "he": "בדרך כלל", "def": "almost always; most of the time", "example": "I usually walk to school.", "ipa": "/ˈjuːʒuəli/", "level": "A1" },
+    { "word": "often", "pos": "adverb", "he": "הרבה פעמים, לעתים קרובות", "def": "many times", "example": "We often eat pizza on Fridays.", "ipa": "/ˈɒfn/", "level": "A1" },
+    { "word": "sometimes", "pos": "adverb", "he": "לפעמים", "def": "on some days or some occasions, but not always", "example": "Sometimes I work from home.", "ipa": "/ˈsʌmtaɪmz/", "level": "A1" },
+    { "word": "never", "pos": "adverb", "he": "אף פעם לא", "def": "not at any time", "example": "He never drinks coffee.", "ipa": "/ˈnevə(r)/", "level": "A1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew the present-tense verb works differently: it is the same for 'I' and 'he' (both use one form). So it is easy to forget the English -s, especially when a word comes between: She usually gets up at seven (not 'She usually get up').", "he": "בעברית הפועל בהווה זהה ל'אני' ול'הוא' (אני קם, הוא קם), ולכן קל לשכוח את ה-s באנגלית, במיוחד כשיש מילה באמצע: She usually gets up at seven, ולא She usually get up.", "error_type": "third-person-s" },
+    { "en": "In Hebrew there is no present-tense 'be', so 'She always tired' can sound right. English needs is, and the frequency word comes after it: She is always tired.", "he": "בעברית אין 'להיות' בהווה ('היא תמיד עייפה'), ולכן She always tired נשמע אולי נכון. באנגלית חייבים is, ומילת התדירות באה אחריו: She is always tired.", "error_type": "copula-omission" },
+    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so leave /liːv/ and live /lɪv/ can sound the same. I leave home at eight (long) is different from I live at home (short).", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית שתיים: קצרה /ɪ/ וארוכה /iː/. לכן leave ו-live עלולות להישמע אותו דבר. I leave home at eight (ארוכה – 'יוצא/ת מהבית') שונה מ-I live at home (קצרה – 'גר/ה בבית').", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "daily-life-vocab",
+      "prompt": { "en": "Match each routine phrase with its Hebrew meaning.", "he": "התאימו כל צירוף מסדר היום למשמעות שלו בעברית." },
+      "pairs": [["wake up", "להתעורר"], ["get dressed", "להתלבש"], ["have a shower", "להתקלח"], ["leave home", "לצאת מהבית"], ["commute", "לנסוע כל יום לעבודה או ללימודים"], ["go to bed", "ללכת לישון"]],
+      "explanation": { "en": "Learn these as whole phrases. English often uses have for meals and showers: have breakfast, have a shower. And go to bed has no 'the'.", "he": "כדאי ללמוד אותם כצירופים שלמים. שימו לב: באנגלית משתמשים ב-have לארוחות ולמקלחת (have breakfast, have a shower), וב-go to bed אין the." }
+    },
+    {
+      "id": "e2", "type": "order", "skill": "vocabulary", "topic": "adverbs-frequency",
+      "prompt": { "en": "Put the words in order, from 100% to 0%.", "he": "סדרו את המילים מ-100% ל-0%." },
+      "tokens": ["always", "usually", "often", "sometimes", "never"],
+      "error_type": "word-choice",
+      "hint": { "en": "Start with the word that means 'every time'.", "he": "התחילו במילה שפירושה 'בכל פעם'." },
+      "explanation": { "en": "always (100%) → usually (about 90%) → often (about 70%) → sometimes (about 40%) → never (0%).", "he": "always (תמיד, 100%) → usually (בדרך כלל) → often (הרבה פעמים) → sometimes (לפעמים) → never (אף פעם לא, 0%)." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "adverbs-frequency",
+      "prompt": { "en": "Listen and choose the true sentence.", "he": "הקשיבו ובחרו את המשפט הנכון." },
+      "audio_text": "I usually get up at seven, but I never have breakfast.",
+      "question": "Which sentence is true?",
+      "options": ["The speaker always gets up at seven.", "The speaker never has breakfast.", "The speaker usually has breakfast."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "The speaker says usually, not always: on most days, but not every day.", "he": "הדובר/ת אומר/ת usually ולא always – ברוב הימים, אבל לא בכל יום." },
+        "2": { "en": "Listen again: 'I never have breakfast' – not on any day.", "he": "הקשיבו שוב: 'I never have breakfast' – אף פעם, באף יום." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "usually = most days; never = not on any day. The speaker usually gets up at seven and never has breakfast.", "he": "usually = ברוב הימים; never = אף פעם. הדובר/ת קם/ה בדרך כלל בשבע ואף פעם לא אוכל/ת ארוחת בוקר." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Choose the correct sentence.", "he": "בחרו את המשפט הנכון." },
+      "question": "Which sentence is correct?",
+      "options": ["I get always up at seven.", "Always I get up at seven.", "I always get up at seven.", "I get up always at seven."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "get up is one verb. Don't split it: always comes before the whole verb, always get up.", "he": "get up הוא פועל אחד, ולא מפרקים אותו: always בא לפני הפועל כולו – always get up." },
+        "1": { "en": "Always doesn't start a sentence like this. Put it before the verb: I always get up.", "he": "always לא פותח משפט כזה. שימו אותו לפני הפועל: I always get up." },
+        "3": { "en": "Put always before the main verb, not after it: I always get up.", "he": "always בא לפני הפועל הראשי, לא אחריו: I always get up." }
+      },
+      "option_errors": { "0": "word-order", "1": "word-order", "3": "word-order" },
+      "explanation": { "en": "Subject + frequency word + main verb: I always get up at seven.", "he": "נושא + מילת תדירות + הפועל הראשי: I always get up at seven." }
+    },
+    {
+      "id": "e5", "type": "categorize", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Is each sentence correct or wrong?", "he": "האם כל משפט נכון או שגוי?" },
+      "categories": ["Correct", "Wrong"],
+      "items": [
+        { "text": "I never eat meat.", "category": "Correct" },
+        { "text": "I eat never meat.", "category": "Wrong" },
+        { "text": "My dad usually gets up at six.", "category": "Correct" },
+        { "text": "My dad gets usually up at six.", "category": "Wrong" },
+        { "text": "She is always tired.", "category": "Correct" },
+        { "text": "She always tired.", "category": "Wrong" },
+        { "text": "Kenji often walks to work.", "category": "Correct" },
+        { "text": "Kenji often walk to work.", "category": "Wrong" }
+      ],
+      "explanation": { "en": "Three rules: the frequency word goes before the main verb (never eat, usually gets up); after be (is always tired), and be can't be dropped; he/she/it keeps the -s (often walks).", "he": "שלושה כללים: מילת התדירות לפני הפועל הראשי (never eat, usually gets up); אחרי be (is always tired), ואסור להשמיט את is; ועם he/she/it ה-s נשארת (often walks)." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Use the words in brackets. Put them in the right order and use the right verb form.", "he": "השתמשו במילים שבסוגריים. סדרו אותן נכון והשתמשו בצורת הפועל הנכונה." },
+      "text": "Maya ___ (usually / go) to work by bike, but on rainy days she ___ (sometimes / get) the bus.",
+      "answers": [["usually goes"], ["sometimes gets"]],
+      "wrong_feedback": [
+        { "match": "usually go", "feedback": { "en": "Maya = she, so the verb needs -es: usually goes.", "he": "מאיה היא she, ולכן הפועל מקבל es: usually goes." }, "error_type": "third-person-s" },
+        { "match": "goes usually", "feedback": { "en": "Put usually before the verb: usually goes.", "he": "usually בא לפני הפועל: usually goes." }, "error_type": "word-order" },
+        { "match": "sometimes get", "feedback": { "en": "she → gets, with -s.", "he": "she → gets, עם s." }, "error_type": "third-person-s" },
+        { "match": "gets sometimes", "feedback": { "en": "Put sometimes before the verb here: she sometimes gets the bus.", "he": "כאן sometimes בא לפני הפועל: she sometimes gets the bus." }, "error_type": "word-order" }
+      ],
+      "hint": { "en": "Maya and she → verb + s. The frequency word comes first.", "he": "מאיה ו-she → פועל עם s. מילת התדירות באה ראשונה." },
+      "explanation": { "en": "Frequency word + verb, and the -s stays: Maya usually goes to work by bike; she sometimes gets the bus. (get the bus = take the bus)", "he": "מילת תדירות + פועל, וה-s נשארת: Maya usually goes; she sometimes gets the bus. (get the bus = לנסוע באוטובוס)" }
+    },
+    {
+      "id": "e7", "type": "transform", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Add the word in brackets: before the main verb, or after am/is/are.", "he": "הוסיפו את המילה שבסוגריים: לפני הפועל הראשי, או אחרי am/is/are." },
+      "source": "My boss is late. (never)",
+      "answers": ["My boss is never late."],
+      "wrong_feedback": [
+        { "match": "My boss never is late.", "feedback": { "en": "With am/is/are, the frequency word comes after: is never late.", "he": "עם am/is/are מילת התדירות באה אחרי: is never late." }, "error_type": "word-order" },
+        { "match": "My boss is late never.", "feedback": { "en": "never doesn't go at the end. Put it after is: is never late.", "he": "never לא בא בסוף המשפט. שימו אותו אחרי is: is never late." }, "error_type": "word-order" },
+        { "match": "My boss isn't never late.", "feedback": { "en": "never is already negative, so don't add not: is never late.", "he": "never כבר שלילי, ולכן לא מוסיפים not: is never late." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "is is a form of be, so never comes after it: My boss is never late.", "he": "is הוא צורה של be, ולכן never בא אחריו: My boss is never late." }
+    },
+    {
+      "id": "e8", "type": "transform", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Add the word in brackets: before the main verb, or after am/is/are.", "he": "הוסיפו את המילה שבסוגריים: לפני הפועל הראשי, או אחרי am/is/are." },
+      "source": "Daniel uses his phone in bed. (often)",
+      "answers": ["Daniel often uses his phone in bed."],
+      "wrong_feedback": [
+        { "match": "Daniel uses often his phone in bed.", "feedback": { "en": "Don't put often between the verb and its object. Put it before the verb: often uses.", "he": "לא שמים את often בין הפועל למה שבא אחריו. שימו אותו לפני הפועל: often uses." }, "error_type": "word-order" },
+        { "match": "Daniel often use his phone in bed.", "feedback": { "en": "Daniel = he, so keep the -s: often uses.", "he": "דניאל הוא he, ולכן ה-s נשארת: often uses." }, "error_type": "third-person-s" }
+      ],
+      "explanation": { "en": "uses is the main verb, so often goes before it: Daniel often uses his phone in bed.", "he": "uses הוא הפועל הראשי, ולכן often בא לפניו: Daniel often uses his phone in bed." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
+      "sentence": "I don't never eat breakfast.",
+      "answers": ["I never eat breakfast.", "I don't ever eat breakfast."],
+      "error_type": "do-support",
+      "hint": { "en": "never is already negative.", "he": "never כבר שלילי." },
+      "explanation": { "en": "English uses one negative word, not two: I never eat breakfast. (I don't ever eat breakfast is also correct.)", "he": "באנגלית יש מילת שלילה אחת בלבד, לא שתיים: I never eat breakfast. (גם I don't ever eat breakfast נכון.)" }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My brother usually go to bed at midnight.",
+      "answers": ["My brother usually goes to bed at midnight."],
+      "error_type": "third-person-s",
+      "hint": { "en": "My brother = he.", "he": "My brother הוא he." },
+      "explanation": { "en": "My brother = he, so the verb takes -es: goes. The frequency word in the middle doesn't change that.", "he": "My brother הוא he, ולכן הפועל מקבל es: goes. מילת התדירות באמצע לא משנה את זה." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "grammar", "topic": "adverbs-frequency",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "היא תמיד עייפה בבוקר.",
+      "answers": ["She is always tired in the morning.", "She is always tired in the mornings.", "In the morning she is always tired.", "In the morning, she is always tired."],
+      "wrong_feedback": [
+        { "match": "She always tired in the morning.", "feedback": { "en": "The Hebrew sentence has no verb, but English needs is: She is always tired.", "he": "במשפט בעברית אין פועל, אבל באנגלית חייבים is: She is always tired." }, "error_type": "copula-omission" },
+        { "match": "She always is tired in the morning.", "feedback": { "en": "With is, the frequency word comes after it: She is always tired.", "he": "עם is מילת התדירות באה אחריו: She is always tired." }, "error_type": "word-order" },
+        { "match": "She is tired always in the morning.", "feedback": { "en": "Put always right after is: She is always tired.", "he": "שימו את always מיד אחרי is: She is always tired." }, "error_type": "word-order" },
+        { "match": "She is always tired at the morning.", "feedback": { "en": "Good grammar! Just one small word: we say in the morning.", "he": "הדקדוק נכון! רק מילה אחת: אומרים in the morning." }, "error_type": "preposition" }
+      ],
+      "hint": { "en": "You need is. Then: where does always go?", "he": "צריך is. ואיפה שמים את always?" },
+      "explanation": { "en": "English needs be here, and always comes after it: She is always tired in the morning.", "he": "באנגלית חייבים כאן be, ו-always בא אחריו: She is always tired in the morning." }
+    },
+    {
+      "id": "e12", "type": "read", "skill": "reading", "topic": "daily-life-vocab",
+      "prompt": { "en": "Read Kenji's blog post and answer the questions.", "he": "קראו את הפוסט של קנג'י בבלוג וענו על השאלות." },
+      "title": "A day in my life",
+      "passage": "I'm Kenji, and I'm a student at the university in Haifa. My weekdays are busy. I always wake up at 6:30, but I usually get up at 6:45! I have a shower and get dressed. I never have breakfast at home – I buy coffee at the station. I commute by train, and it is often late, so I sometimes study on the platform. I usually get home at six. In the evening I cook dinner with my flatmate, Amir. I go to bed at eleven, but Amir never goes to bed before one!",
+      "questions": [
+        {
+          "type": "tf", "statement": "Kenji has breakfast at home.", "answer": false,
+          "explanation": { "en": "'I never have breakfast at home – I buy coffee at the station.'", "he": "'I never have breakfast at home' – הוא אף פעם לא אוכל ארוחת בוקר בבית; הוא קונה קפה בתחנה." }
+        },
+        {
+          "type": "gap", "text": "Kenji ___ gets up at 6:45.", "answers": [["usually"]],
+          "explanation": { "en": "'I always wake up at 6:30, but I usually get up at 6:45.' He always wakes up at 6:30, but usually gets up later.", "he": "'I always wake up at 6:30, but I usually get up at 6:45' – הוא תמיד מתעורר ב-6:30, אבל בדרך כלל קם רק ב-6:45." }
+        },
+        {
+          "type": "mcq", "question": "Why does Kenji sometimes study on the platform?",
+          "options": ["Because his train is often late.", "Because he never has breakfast.", "Because his flatmate is noisy."],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "He never has breakfast at home, but that is not the reason. Look at the word so.", "he": "נכון שהוא לא אוכל ארוחת בוקר בבית, אבל זו לא הסיבה. חפשו את המילה so." },
+            "2": { "en": "The text doesn't say Amir is noisy.", "he": "בטקסט לא כתוב שעמיר רועש." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'It is often late, so I sometimes study on the platform.' so introduces the result.", "he": "'It is often late, so I sometimes study on the platform' – הרכבת מאחרת הרבה, ולכן הוא לפעמים לומד ברציף." }
+        },
+        {
+          "type": "mcq", "question": "Who goes to bed later?",
+          "options": ["Kenji", "Amir", "They go to bed at the same time."],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Kenji goes to bed at eleven. Amir never goes to bed before one.", "he": "קנג'י הולך לישון באחת עשרה. עמיר אף פעם לא הולך לישון לפני אחת." },
+            "2": { "en": "Kenji: eleven. Amir: never before one. So not the same time.", "he": "קנג'י: באחת עשרה. עמיר: אף פעם לא לפני אחת. אז לא באותה שעה." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'Amir never goes to bed before one' – so he always goes to bed at one or later.", "he": "'Amir never goes to bed before one' – כלומר הוא תמיד הולך לישון באחת או מאוחר יותר." }
+        },
+        {
+          "type": "tf", "statement": "Kenji and Amir cook dinner together.", "answer": true,
+          "explanation": { "en": "'In the evening I cook dinner with my flatmate, Amir.'", "he": "'In the evening I cook dinner with my flatmate, Amir' – בערב הם מבשלים ארוחת ערב יחד." }
+        }
+      ]
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "adverbs-frequency",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "We usually have dinner together, and my dad is always hungry.",
+      "answers": ["We usually have dinner together, and my dad is always hungry."],
+      "hint": { "en": "Listen for two frequency words: one before a verb, one after is.", "he": "הקשיבו לשתי מילות תדירות: אחת לפני פועל ואחת אחרי is." },
+      "explanation": { "en": "usually comes before the verb (usually have), and always comes after is (is always hungry).", "he": "usually בא לפני הפועל (usually have), ו-always בא אחרי is (is always hungry)." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "daily-life-vocab",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "I usually leave home at eight, and I never get home before six.",
+      "focus": { "en": "leave has a long vowel /iː/, like 'leeeve'. With a short vowel it becomes live (= to have your home somewhere).", "he": "ב-leave התנועה ארוכה /iː/ ('לִייב'). בתנועה קצרה היא הופכת ל-live ('לגור')." },
+      "explanation": { "en": "This is a sentence you can really use to describe your day. Long /iː/ in leave keeps your meaning clear.", "he": "זה משפט שאפשר באמת להשתמש בו כדי לתאר את היום שלכם. התנועה הארוכה ב-leave שומרת על המשמעות ברורה." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "adverbs-frequency",
+      "prompt": { "en": "Write about your typical weekday.", "he": "כתבו על יום חול רגיל שלכם." },
+      "task": { "en": "Describe a typical weekday in 5-7 sentences: what you do and how often. Use at least four different frequency words (always, usually, often, sometimes, never) and at least one sentence with am/is/are + a frequency word (for example: I'm always tired on Sundays).", "he": "תארו יום חול רגיל ב-5-7 משפטים: מה אתם עושים ובאיזו תדירות. השתמשו לפחות בארבע מילות תדירות שונות (always, usually, often, sometimes, never) ובלפחות משפט אחד עם am/is/are ומילת תדירות (למשל: I'm always tired on Sundays)." },
+      "min_words": 35,
+      "max_words": 100,
+      "model_answer": "On weekdays I always wake up at 6:30. I usually have a shower and get dressed quickly. I never have breakfast at home, because I'm never hungry in the morning. I commute to work by bus, and the bus is often late. I sometimes listen to podcasts on the bus. I usually get home at six, and I go to bed at eleven.",
+      "checklist": [
+        { "en": "The frequency word is before the main verb: I usually get up...", "he": "מילת התדירות באה לפני הפועל הראשי: I usually get up..." },
+        { "en": "After am/is/are, the frequency word comes after: I'm always tired.", "he": "עם am/is/are, מילת התדירות באה אחרי: I'm always tired." },
+        { "en": "No don't with never: I never eat..., not I don't never eat...", "he": "אין don't עם never: I never eat, ולא I don't never eat." },
+        { "en": "If I write about he or she, the verb has -s: My sister usually gets up late.", "he": "כשאני כותב/ת על he או she, לפועל יש s: My sister usually gets up late." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "always (100%) → usually → often → sometimes → never (0%).", "he": "always (תמיד) → usually (בדרך כלל) → often (הרבה פעמים) → sometimes (לפעמים) → never (אף פעם לא)." },
+      { "en": "Before the main verb: I usually get up at seven. After am/is/are: I'm always tired.", "he": "לפני הפועל הראשי: I usually get up at seven. אחרי am/is/are: I'm always tired." },
+      { "en": "never is already negative: I never eat breakfast (no don't).", "he": "never כבר שלילי: I never eat breakfast (בלי don't)." },
+      { "en": "Routine phrases: wake up, get up, get dressed, have a shower, have breakfast, leave home, commute, get home, go to bed.", "he": "צירופים לסדר היום: wake up, get up, get dressed, have a shower, have breakfast, leave home, commute, get home, go to bed." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

@@ -1,0 +1,259 @@
+{
+  "id": "a1-01",
+  "level": "A1",
+  "title_en": "Present simple: I, you, we, they",
+  "title_he": "הווה פשוט: I, you, we, they",
+  "topics": ["present-simple"],
+  "minutes": 20,
+  "objectives": [
+    { "en": "I can talk about habits and facts with I, you, we and they: We study English on Mondays.", "he": "אני יודע/ת לדבר על הרגלים ועובדות עם I, you, we, they: We study English on Mondays." },
+    { "en": "I can use common verbs: live, work, study, like, eat, drink, go.", "he": "אני יודע/ת להשתמש בפעלים נפוצים: live, work, study, like, eat, drink, go." },
+    { "en": "I can say when with every day, every morning and on Mondays.", "he": "אני יודע/ת לומר מתי עם every day, every morning ו-on Mondays." }
+  ],
+  "warmup": { "en": "What do you do every week? Think of three things, for example: I work, I study, I go to the gym.", "he": "מה אתם עושים כל שבוע? חשבו על שלושה דברים – למשל: אני עובד/ת, אני לומד/ת, אני הולך/ת לחדר כושר. היום תלמדו לומר אותם באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "Yael and Omer are students. They live in Haifa. They study at the university, and they work in a café on Fridays. These are habits and facts, so English uses the present simple.", "he": "יעל ועומר סטודנטים. הם גרים בחיפה, לומדים באוניברסיטה ועובדים בבית קפה בימי שישי. אלה הרגלים ועובדות, ולכן באנגלית משתמשים בהווה פשוט (present simple)." },
+    { "type": "table", "headers": ["Who?", "Verb", "The rest", "עברית"], "rows": [
+      ["I", "work", "in a bank.", "אני עובד/ת בבנק."],
+      ["You", "live", "near the sea.", "את/ה גר/ה ליד הים."],
+      ["We", "study", "English on Mondays.", "אנחנו לומדים אנגלית בימי שני."],
+      ["They", "eat", "lunch at school.", "הם אוכלים צהריים בבית הספר."],
+      ["My parents", "drink", "coffee every morning.", "ההורים שלי שותים קפה כל בוקר."]
+    ] },
+    { "type": "rule", "en": "With I, you, we and they (and two or more people), use the base verb: no -s and no am/is/are. I work. They live in Eilat. (He, she and it come in the next lesson.)", "he": "עם I, you, we, they (ועם שניים או יותר) משתמשים בפועל בצורת הבסיס – בלי s ובלי am/is/are: I work. They live in Eilat. (he, she, it – בשיעור הבא.)" },
+    { "type": "rule", "en": "Time words usually go at the end: every day, every morning, every week, on Mondays, on Fridays. on + day + s = every week on that day.", "he": "מילות זמן באות בדרך כלל בסוף המשפט: every day (כל יום), every morning, every week, on Mondays (בימי שני), on Fridays. on + יום + s פירושו: בכל שבוע ביום הזה." },
+    { "type": "warning", "en": "Don't add am/is/are: I work in Holon (not 'I am work'). Don't add -s: They live (not 'They lives').", "he": "לא מוסיפים am/is/are: I work in Holon, לא I am work. ולא מוסיפים s: They live, לא They lives." },
+    { "type": "tip", "en": "In Hebrew, one present form can describe a habit or something happening right now. The English present simple is for habits and facts. For 'right now', English has a different form, which you will learn at A2.", "he": "בעברית 'אני עובד' יכול לתאר הרגל וגם משהו שקורה ממש עכשיו. הווה פשוט באנגלית מתאר הרגלים ועובדות. למה שקורה עכשיו יש באנגלית צורה אחרת – נלמד אותה ברמה A2." }
+  ],
+  "examples": [
+    { "en": "I live in Rishon LeZion.", "he": "אני גר/ה בראשון לציון." },
+    { "en": "We study English on Tuesdays.", "he": "אנחנו לומדים אנגלית בימי שלישי.", "note": "on + days = every week" },
+    { "en": "You speak Hebrew and Arabic.", "he": "את/ה מדבר/ת עברית וערבית." },
+    { "en": "They go to the beach every Saturday.", "he": "הם הולכים לים כל שבת." },
+    { "en": "I drink tea every morning.", "he": "אני שותה תה כל בוקר." },
+    { "en": "My friends and I play basketball on Thursdays.", "he": "החברים שלי ואני משחקים כדורסל בימי חמישי.", "note": "My friends and I = we" },
+    { "en": "Cows eat grass.", "he": "פרות אוכלות עשב.", "note": "a fact" },
+    { "en": "We eat dinner together every evening.", "he": "אנחנו אוכלים ארוחת ערב ביחד כל ערב." }
+  ],
+  "vocab": [
+    { "word": "work", "pos": "verb", "he": "לעבוד", "def": "to do a job, usually for money", "example": "I work in a shop.", "ipa": "/wɜːk/", "collocations": ["work hard", "work from home"], "level": "A1" },
+    { "word": "study", "pos": "verb", "he": "ללמוד", "def": "to learn about a subject, for example at school or university", "example": "We study English on Mondays.", "ipa": "/ˈstʌdi/", "collocations": ["study English", "study for a test"], "level": "A1" },
+    { "word": "eat", "pos": "verb", "he": "לאכול", "def": "to put food in your mouth and swallow it", "example": "They eat lunch at school.", "ipa": "/iːt/", "collocations": ["eat lunch", "eat dinner"], "level": "A1" },
+    { "word": "drink", "pos": "verb", "he": "לשתות", "def": "to take water, coffee, tea and so on into your mouth and swallow it", "example": "I drink tea every morning.", "ipa": "/drɪŋk/", "collocations": ["drink coffee", "drink water"], "level": "A1" },
+    { "word": "go", "pos": "verb", "he": "ללכת, לנסוע", "def": "to move from one place to another, on foot or by bus, car or train", "example": "We go to the gym every day.", "ipa": "/ɡəʊ/", "collocations": ["go to work", "go home"], "level": "A1" },
+    { "word": "speak", "pos": "verb", "he": "לדבר (שפה)", "def": "to say words in a language", "example": "They speak Hebrew and English.", "ipa": "/spiːk/", "collocations": ["speak English", "speak Hebrew"], "level": "A1" },
+    { "word": "play", "pos": "verb", "he": "לשחק; לנגן", "def": "to do a sport or a game; to make music with an instrument", "example": "We play football on Fridays.", "ipa": "/pleɪ/", "collocations": ["play football", "play the guitar"], "level": "A1" },
+    { "word": "meet", "pos": "verb", "he": "לפגוש, להיפגש", "def": "to come together with someone at a planned time", "example": "We meet our friends on Saturdays.", "ipa": "/miːt/", "collocations": ["meet friends"], "level": "A1" },
+    { "word": "every day", "pos": "phrase", "he": "כל יום", "def": "on all days, as a habit", "example": "I walk to work every day.", "ipa": "/ˌevri ˈdeɪ/", "level": "A1" },
+    { "word": "flat", "pos": "noun", "he": "דירה", "def": "a home with rooms on one floor of a building (US: apartment)", "example": "We live in a small flat.", "ipa": "/flæt/", "level": "A1" },
+    { "word": "language", "pos": "noun", "he": "שפה", "def": "the words people use to speak and write, like Hebrew or English", "example": "They speak three languages.", "ipa": "/ˈlæŋɡwɪdʒ/", "level": "A1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live התנועה קצרה /lɪv/, וב-eat היא ארוכה /iːt/.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew, the letter vav is usually said as v, and w is not a separate sound. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "present-simple",
+      "prompt": { "en": "Match each verb with its Hebrew meaning.", "he": "התאימו כל פועל למשמעות שלו בעברית." },
+      "pairs": [["live", "לגור"], ["work", "לעבוד"], ["study", "ללמוד"], ["eat", "לאכול"], ["drink", "לשתות"], ["go", "ללכת / לנסוע"]],
+      "explanation": { "en": "go covers both walking and travelling: I go to work by bus.", "he": "go מתאים גם ל'ללכת' וגם ל'לנסוע': I go to work by bus – אני נוסע/ת לעבודה באוטובוס." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "present-simple",
+      "prompt": { "en": "Listen and answer.", "he": "הקשיבו וענו." },
+      "audio_text": "We live in Ashdod, but we work in Tel Aviv.",
+      "question": "They work in…",
+      "options": ["Ashdod.", "Tel Aviv.", "Haifa."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "They live in Ashdod, but they work in Tel Aviv.", "he": "הם גרים באשדוד, אבל עובדים בתל אביב." },
+        "2": { "en": "Haifa isn't in the recording. Listen again for the word work.", "he": "חיפה לא מופיעה בהקלטה. הקשיבו שוב למילה work." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "live = where their home is (Ashdod). work = where their job is (Tel Aviv).", "he": "live – איפה הבית (אשדוד). work – איפה העבודה (תל אביב)." }
+    },
+    {
+      "id": "e3", "type": "categorize", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Correct or wrong? Sort the sentences.", "he": "נכון או שגוי? מיינו את המשפטים." },
+      "categories": ["Correct", "Wrong"],
+      "items": [
+        { "text": "I work in a shop.", "category": "Correct" },
+        { "text": "They lives in Eilat.", "category": "Wrong" },
+        { "text": "We study English.", "category": "Correct" },
+        { "text": "I am work at home.", "category": "Wrong" },
+        { "text": "You speak Hebrew.", "category": "Correct" },
+        { "text": "My parents drinks coffee.", "category": "Wrong" },
+        { "text": "We are eat lunch at one.", "category": "Wrong" },
+        { "text": "They go to the gym.", "category": "Correct" }
+      ],
+      "explanation": { "en": "With I, you, we and they: the base verb, with no -s and no am/is/are. Correct: They live, I work, My parents drink, We eat.", "he": "עם I, you, we, they: פועל בסיס – בלי s ובלי am/is/are. הנכון: They live, I work, My parents drink, We eat." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "We ___ to the gym every day.",
+      "options": ["goes", "are go", "go", "going"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "No -s with we: We go.", "he": "עם we אין s: We go." },
+        "1": { "en": "Don't add are before the verb: We go.", "he": "לא מוסיפים are לפני הפועל: We go." },
+        "3": { "en": "The sentence needs a full verb: We go. (going needs am/is/are and is for 'now'.)", "he": "המשפט צריך פועל שלם: We go. (going בא עם am/is/are ומתאר משהו שקורה עכשיו.)" }
+      },
+      "option_errors": { "0": "agreement", "1": "verb-form", "3": "verb-form" },
+      "explanation": { "en": "we + base verb: We go to the gym every day.", "he": "we + פועל בסיס: We go to the gym every day." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "vocabulary", "topic": "present-simple",
+      "prompt": { "en": "Choose the best verb.", "he": "בחרו את הפועל המתאים." },
+      "question": "My parents ___ coffee every morning.",
+      "options": ["drink", "eat", "speak", "play"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "We eat food, but we drink coffee, tea or water.", "he": "אוכלים (eat) אוכל, אבל שותים (drink) קפה, תה או מים." },
+        "2": { "en": "speak is for languages: They speak Hebrew.", "he": "speak משמש לשפות: They speak Hebrew." },
+        "3": { "en": "play is for sports, games and music: play football.", "he": "play משמש לספורט, למשחקים ולמוזיקה: play football." }
+      },
+      "option_errors": { "1": "word-choice", "2": "word-choice", "3": "word-choice" },
+      "explanation": { "en": "drink coffee. My parents = they, so the verb has no -s.", "he": "drink coffee – שותים קפה. My parents = they, ולכן הפועל בלי s." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Complete Noa's message. Use each verb once.", "he": "השלימו את ההודעה של נועה. השתמשו בכל פועל פעם אחת." },
+      "text": "Hi! I'm Noa. My sister and I ___ in a small flat in Jaffa. We ___ biology at the university. On Fridays, we ___ football in the park with our friends.",
+      "word_bank": ["live", "study", "play", "plays"],
+      "answers": [["live"], ["study"], ["play"]],
+      "wrong_feedback": [
+        { "match": "plays", "feedback": { "en": "My sister and I = we, so no -s: we play.", "he": "My sister and I זה כמו we, ולכן בלי s: we play." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "live in + a place, study + a subject, play + a sport. My sister and I = we, so the base verb, no -s.", "he": "live in + מקום, study + מקצוע לימוד, play + ספורט. My sister and I = we, ולכן פועל בסיס בלי s." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Complete the time expressions.", "he": "השלימו את ביטויי הזמן." },
+      "text": "I go to the gym ___ day, and we study English ___ Mondays.",
+      "answers": [["every", "each"], ["on"]],
+      "hint": { "en": "First gap: a word for 'all the days, as a habit'. Second gap: the short word we use before days of the week.", "he": "ברווח הראשון: 'כל' – כהרגל. ברווח השני: מילת היחס הקצרה שבאה לפני ימי השבוע." },
+      "wrong_feedback": [
+        { "match": "all", "feedback": { "en": "every day = each day, as a habit. all day = the whole day, from morning to night.", "he": "every day = כל יום (הרגל). all day = כל היום (מהבוקר עד הלילה)." }, "error_type": "word-choice" },
+        { "match": "in", "feedback": { "en": "With days, use on: on Mondays.", "he": "עם ימים משתמשים ב-on: on Mondays." }, "error_type": "preposition" },
+        { "match": "at", "feedback": { "en": "With days, use on: on Mondays. (at is for clock times: at six.)", "he": "עם ימים משתמשים ב-on: on Mondays. (at – לשעות: at six.)" }, "error_type": "preposition" }
+      ],
+      "explanation": { "en": "every day, every week, every morning · on Mondays, on Fridays.", "he": "'כל' + זמן: every day, every week, every morning · ימים בשבוע עם on: on Mondays, on Fridays." }
+    },
+    {
+      "id": "e8", "type": "order", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["They", "drink", "coffee", "every", "morning"],
+      "answers": ["Every morning they drink coffee"],
+      "explanation": { "en": "Who (They) + verb (drink) + what (coffee) + when (every morning). The time can also go first: Every morning, they drink coffee.", "he": "מי (They) + פועל (drink) + מה (coffee) + מתי (every morning). אפשר גם להתחיל בזמן: Every morning, they drink coffee." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "אנחנו גרים בירושלים ועובדים בתל אביב.",
+      "answers": [
+        "We live in Jerusalem and work in Tel Aviv.",
+        "We live in Jerusalem and we work in Tel Aviv.",
+        "We live in Jerusalem, and we work in Tel Aviv.",
+        "We live in Jerusalem, and work in Tel Aviv.",
+        "We live in Jerusalem but work in Tel Aviv.",
+        "We live in Jerusalem but we work in Tel Aviv.",
+        "We live in Jerusalem, but we work in Tel Aviv."
+      ],
+      "hint": { "en": "Start with We. The verbs stay in the base form.", "he": "התחילו ב-We. גרים = live, עובדים = work – והפעלים נשארים בצורת הבסיס." },
+      "wrong_feedback": [
+        { "match": "We are live in Jerusalem and work in Tel Aviv.", "feedback": { "en": "Don't add are: We live... and work...", "he": "לא מוסיפים are: We live... and work..." }, "error_type": "verb-form" },
+        { "match": "We are live in Jerusalem and we are work in Tel Aviv.", "feedback": { "en": "Don't add are: We live... and we work...", "he": "לא מוסיפים are: We live... and we work..." }, "error_type": "verb-form" },
+        { "match": "We lives in Jerusalem and works in Tel Aviv.", "feedback": { "en": "No -s with we: We live... and work...", "he": "עם we אין s: We live... and work..." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "In Hebrew the verb changes for gender and number. In English it stays the same for I, you, we and they: I live, we live, they live.", "he": "בעברית הפועל משתנה לפי מין ומספר (גר, גרה, גרים, גרות). באנגלית הוא זהה עם I, you, we, they: I live, we live, they live." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "We are eat lunch at one every day.",
+      "answers": ["We eat lunch at one every day.", "We eat lunch at one o'clock every day."],
+      "error_type": "verb-form",
+      "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
+      "wrong_feedback": [
+        { "match": "We are eating lunch at one every day.", "feedback": { "en": "every day = a habit, so use the present simple: We eat lunch at one every day.", "he": "every day מתאר הרגל, ולכן הווה פשוט: We eat lunch at one every day." }, "error_type": "tense-choice" }
+      ],
+      "explanation": { "en": "eat is the verb, so don't add are: We eat lunch at one every day.", "he": "eat הוא הפועל, ולכן לא מוסיפים are: We eat lunch at one every day." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "present-simple",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My brother and I works in a shop.",
+      "answers": ["My brother and I work in a shop.", "My brother and I work at a shop."],
+      "error_type": "agreement",
+      "hint": { "en": "Who is the subject? Two people.", "he": "מי הנושא? שני אנשים." },
+      "explanation": { "en": "My brother and I = we, so the verb has no -s: work.", "he": "My brother and I = we, ולכן הפועל בלי s: work." }
+    },
+    {
+      "id": "e12", "type": "read", "skill": "reading", "topic": "present-simple",
+      "prompt": { "en": "Read Maya's blog post and answer the questions.", "he": "קראו את הפוסט של מאיה וענו על השאלות." },
+      "title": "Our week in the flat",
+      "passage": "Hi! I'm Maya. I'm 20, and I live in a small flat in Be'er Sheva with two friends, Priya and Lior. We all study at the university. I study biology, and they study computer science. From Sunday to Thursday, we get up early and go to classes. In the evening, we cook dinner together. On Fridays, Priya and Lior go home to their families, and I work in a bookshop. On Saturdays, we sleep late!",
+      "questions": [
+        { "type": "tf", "statement": "Maya and Priya study the same subject.", "answer": false,
+          "explanation": { "en": "No. Maya: I study biology, and they (Priya and Lior) study computer science.", "he": "לא נכון. מאיה כותבת: I study biology, and they study computer science – היא לומדת ביולוגיה, ופְּרִיָּה וליאור לומדים מדעי המחשב." } },
+        { "type": "tf", "statement": "The three friends cook dinner together.", "answer": true,
+          "explanation": { "en": "In the evening, we cook dinner together.", "he": "כתוב: In the evening, we cook dinner together." } },
+        { "type": "mcq", "question": "Who works on Fridays?", "options": ["Priya.", "Lior.", "Maya.", "Priya and Lior."], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "On Fridays, Priya goes home to her family.", "he": "בימי שישי פְּרִיָּה נוסעת הביתה למשפחה." },
+            "1": { "en": "On Fridays, Lior goes home to his family.", "he": "בימי שישי ליאור נוסע הביתה למשפחה." },
+            "3": { "en": "Priya and Lior go home on Fridays. Maya writes: I work in a bookshop.", "he": "פְּרִיָּה וליאור נוסעים הביתה בשישי. מאיה כותבת: I work in a bookshop." }
+          },
+          "explanation": { "en": "On Fridays, ... I work in a bookshop. I = Maya.", "he": "On Fridays, ... I work in a bookshop – הכותבת היא מאיה." } },
+        { "type": "gap", "text": "On Saturdays, they sleep ___.", "answers": [["late"]],
+          "wrong_feedback": [
+            { "match": "early", "feedback": { "en": "They get up early from Sunday to Thursday. On Saturdays, they sleep late.", "he": "הם קמים מוקדם מראשון עד חמישי. בשבת הם ישנים עד מאוחר." }, "error_type": "comprehension" }
+          ],
+          "explanation": { "en": "On Saturdays, we sleep late!", "he": "כתוב: On Saturdays, we sleep late!" } }
+      ],
+      "explanation": { "en": "Posts about routines use the present simple a lot, often with we and they.", "he": "פוסטים על שגרה משתמשים הרבה בהווה פשוט, לעיתים קרובות עם we ו-they." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "present-simple",
+      "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו מה ששמעתם." },
+      "audio_text": "We go to the gym on Mondays and Thursdays.",
+      "answers": ["We go to the gym on Mondays and Thursdays."],
+      "hint": { "en": "Days of the week start with a capital letter.", "he": "ימי השבוע מתחילים באות גדולה." },
+      "explanation": { "en": "on + days with -s = a habit: on Mondays and Thursdays.", "he": "on + ימים עם s = הרגל: on Mondays and Thursdays." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "present-simple",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "We live in Haifa, and we work in a big hospital.",
+      "focus": { "en": "we and work start with /w/: round your lips as for 'oo', then open them. Not v.", "he": "we ו-work מתחילות ב-/w/: עגלו את השפתיים כמו ל'אוּ' ואז פתחו אותן. לא v." },
+      "error_type": "pron-w-v",
+      "explanation": { "en": "Two facts about you and someone else: where you live and where you work.", "he": "שתי עובדות: איפה אתם גרים ואיפה אתם עובדים." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "present-simple",
+      "prompt": { "en": "Write about your week.", "he": "כתבו על השבוע שלכם." },
+      "task": { "en": "Write 4-5 sentences about what you and people you know do every week. Use I, we or they, and time expressions like every day, every morning and on Fridays.", "he": "כתבו 4-5 משפטים על מה שאתם ואנשים שאתם מכירים עושים כל שבוע. השתמשו ב-I, we או they, ובביטויי זמן כמו every day, every morning ו-on Fridays." },
+      "min_words": 30,
+      "max_words": 80,
+      "must_include": ["every"],
+      "model_answer": "I live in Holon with my family. I study at a high school in Tel Aviv, and I go there by bus every morning. My friends and I play basketball on Tuesdays. On Fridays, we eat dinner with my grandparents. They live near the sea.",
+      "checklist": [
+        { "en": "I, you, we, they + base verb, with no -s.", "he": "I, you, we, they + פועל בסיס, בלי s." },
+        { "en": "No am/is/are before another verb: We play (not We are play).", "he": "בלי am/is/are לפני פועל אחר: We play, לא We are play." },
+        { "en": "At least two time expressions: every day, on Fridays...", "he": "לפחות שני ביטויי זמן: every day, on Fridays..." },
+        { "en": "Capital letters at the start and full stops at the end.", "he": "אות גדולה בהתחלה ונקודה בסוף כל משפט." }
+      ],
+      "explanation": { "en": "Habits + time expressions are the heart of the present simple.", "he": "הרגלים וביטויי זמן – זה הלב של ההווה הפשוט." }
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Present simple = habits and facts: I work in a bank. We study on Mondays.", "he": "הווה פשוט = הרגלים ועובדות: I work in a bank. We study on Mondays." },
+      { "en": "I, you, we, they + base verb: no -s, no am/is/are.", "he": "I, you, we, they + פועל בסיס: בלי s ובלי am/is/are." },
+      { "en": "Time words: every day, every morning, on Mondays – usually at the end.", "he": "מילות זמן: every day, every morning, on Mondays – בדרך כלל בסוף המשפט." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

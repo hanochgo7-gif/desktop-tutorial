@@ -1,0 +1,281 @@
+{
+  "id": "a2-09",
+  "level": "A2",
+  "title_en": "Bigger, better, more interesting",
+  "title_he": "השוואות",
+  "topics": ["comparatives"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can compare two people, places or things with -er or more + than.", "he": "אני יודע/ת להשוות בין שני אנשים, מקומות או דברים בעזרת er או more ואחריהם than." },
+    { "en": "I can use better, worse and further, and show a big or small difference with much or a bit.", "he": "אני יודע/ת להשתמש ב-better, worse ו-further, ולהראות הבדל גדול או קטן בעזרת much או a bit." },
+    { "en": "I can say that two things are the same, or not the same, with as ... as and not as ... as.", "he": "אני יודע/ת לומר ששני דברים שווים, או לא שווים, בעזרת as ... as ו-not as ... as." }
+  ],
+  "warmup": { "en": "Think of two places you know well, like your town and a city nearby. Which one is bigger? Older? More expensive? Notice: sometimes English adds -er, and sometimes it uses more.", "he": "חשבו על שני מקומות שאתם מכירים טוב, למשל העיר שלכם ועיר קרובה. איזו מהן גדולה יותר? עתיקה יותר? יקרה יותר? בעברית תמיד אומרים 'יותר', אבל באנגלית לפעמים מוסיפים er ולפעמים משתמשים ב-more. היום נלמד מתי." },
+  "explanation": [
+    { "type": "p", "en": "Omer is 17 and Yael is 15, so Omer is older than Yael. A taxi is more expensive than a bus. To compare two people or things, use a comparative (older, more expensive) + than.", "he": "עומר בן 17 ויעל בת 15, ולכן Omer is older than Yael. מונית יקרה יותר מאוטובוס: A taxi is more expensive than a bus. כדי להשוות בין שני אנשים או דברים משתמשים בערך יתרון (older, more expensive) ואחריו than." },
+    { "type": "table", "headers": ["Adjective", "Rule", "Examples"], "rows": [
+      ["one syllable", "+ -er (+ -r after -e)", "cheap → cheaper, old → older, nice → nicer, safe → safer"],
+      ["one vowel + one consonant at the end", "double the consonant + -er", "big → bigger, hot → hotter, thin → thinner"],
+      ["two syllables ending in -y", "y → -ier", "easy → easier, busy → busier, funny → funnier"],
+      ["two or more syllables", "more + adjective", "more expensive, more modern, more interesting"],
+      ["irregular", "learn by heart", "good → better, bad → worse, far → further"]
+    ] },
+    { "type": "rule", "en": "Use -er or more, never both: bigger (not *more bigger), better (not *more better). After the comparative, use than: cheaper than the bus.", "he": "משתמשים ב-er או ב-more, אף פעם לא בשניהם: bigger ולא more bigger, וגם better ולא more better. אחרי ערך היתרון בא than: cheaper than the bus." },
+    { "type": "rule", "en": "The same: as + adjective + as. Maya is as tall as her mum. Less: not as ... as. The bus isn't as fast as the train (= the train is faster).", "he": "שווה: as + שם תואר + as, למשל Maya is as tall as her mum (מאיה גבוהה כמו אמא שלה). פחות: not as ... as, למשל The bus isn't as fast as the train (האוטובוס לא מהיר כמו הרכבת, כלומר הרכבת מהירה יותר)." },
+    { "type": "tip", "en": "Show how big the difference is: much / a lot + comparative for a big difference (much cheaper, a lot more expensive); a bit / a little + comparative for a small one (a bit older, a little more comfortable).", "he": "אפשר להראות כמה גדול ההבדל: much או a lot לפני ערך היתרון להבדל גדול (much cheaper, a lot more expensive), ו-a bit או a little להבדל קטן (a bit older, a little more comfortable)." },
+    { "type": "warning", "en": "Write than, not then: taller than me (then = after that). And keep the verb be: The train is faster than the bus (not *The train faster than the bus).", "he": "כותבים than ולא then: taller than me (המילה then פירושה 'אחר כך'). ואל תשכחו את הפועל be: The train is faster than the bus, ולא The train faster than the bus." }
+  ],
+  "examples": [
+    { "en": "Omer is older than his sister.", "he": "עומר מבוגר יותר מאחותו." },
+    { "en": "The train is faster than the bus.", "he": "הרכבת מהירה יותר מהאוטובוס.", "note": "fast → faster" },
+    { "en": "This phone is more expensive than my old one.", "he": "הטלפון הזה יקר יותר מהטלפון הישן שלי.", "note": "long adjective → more" },
+    { "en": "Your idea is better than mine.", "he": "הרעיון שלך טוב יותר משלי.", "note": "good → better" },
+    { "en": "The traffic is worse today.", "he": "הפקקים גרועים יותר היום.", "note": "bad → worse" },
+    { "en": "My new flat is much bigger, but it's a bit further from work.", "he": "הדירה החדשה שלי גדולה בהרבה, אבל היא קצת יותר רחוקה מהעבודה.", "note": "much = a big difference; a bit = a small difference" },
+    { "en": "Maya is as tall as her mum.", "he": "מאיה גבוהה כמו אמא שלה.", "note": "as ... as = the same" },
+    { "en": "The bus isn't as fast as the train.", "he": "האוטובוס לא מהיר כמו הרכבת.", "note": "not as ... as = less" },
+    { "en": "My sister is taller than me.", "he": "אחותי גבוהה ממני.", "note": "everyday English: than me, than him, than her" }
+  ],
+  "vocab": [
+    { "word": "cheap", "pos": "adjective", "he": "זול", "def": "costing little money", "example": "The market is much cheaper than the supermarket.", "ipa": "/tʃiːp/", "collocations": ["cheap tickets", "cheap flights", "much cheaper"], "level": "A2" },
+    { "word": "expensive", "pos": "adjective", "he": "יקר", "def": "costing a lot of money", "example": "Taxis are more expensive than buses.", "ipa": "/ɪkˈspensɪv/", "collocations": ["an expensive restaurant", "too expensive", "a bit more expensive"], "level": "A2" },
+    { "word": "quiet", "pos": "adjective", "he": "שקט", "def": "with very little noise", "example": "Our new street is much quieter.", "ipa": "/ˈkwaɪət/", "collocations": ["a quiet street", "a quiet place", "keep quiet"], "level": "A2" },
+    { "word": "noisy", "pos": "adjective", "he": "רועש", "def": "full of loud noise", "example": "The city centre is noisier than our neighbourhood.", "ipa": "/ˈnɔɪzi/", "collocations": ["a noisy street", "noisy neighbours", "a bit noisy"], "level": "A2" },
+    { "word": "comfortable", "pos": "adjective", "he": "נוח", "def": "nice to sit in, wear or be in; not hard or painful", "example": "These shoes are more comfortable than my old ones.", "ipa": "/ˈkʌmftəbl/", "collocations": ["a comfortable chair", "comfortable shoes", "feel comfortable"], "level": "A2" },
+    { "word": "modern", "pos": "adjective", "he": "מודרני, חדיש", "def": "new and using the latest ideas or designs", "example": "The new library is more modern than the old one.", "ipa": "/ˈmɒdn/", "collocations": ["a modern building", "modern design", "modern technology"], "level": "A2" },
+    { "word": "safe", "pos": "adjective", "he": "בטוח (לא מסוכן)", "def": "not dangerous; where nothing bad will happen to you", "example": "Is it safer to cycle on this road?", "ipa": "/seɪf/", "collocations": ["a safe place", "feel safe", "safe for children"], "level": "A2" },
+    { "word": "dangerous", "pos": "adjective", "he": "מסוכן", "def": "likely to hurt you or cause problems", "example": "This road is more dangerous at night.", "ipa": "/ˈdeɪndʒərəs/", "collocations": ["a dangerous road", "dangerous for", "really dangerous"], "level": "A2" },
+    { "word": "further", "pos": "adverb / adjective (comparative of far)", "he": "רחוק יותר", "def": "at or to a longer distance; the comparative of far", "example": "The station is further than I thought.", "ipa": "/ˈfɜːðə(r)/", "collocations": ["further away", "a bit further", "further from"], "level": "A2" },
+    { "word": "a bit", "pos": "phrase", "he": "קצת", "def": "a little; slightly", "example": "This jacket is a bit cheaper.", "ipa": "/ə ˈbɪt/", "collocations": ["a bit more expensive", "a bit older", "a bit tired"], "level": "A2" },
+    { "word": "compare", "pos": "verb", "he": "להשוות", "def": "to look at two or more things to see how they are the same or different", "example": "I always compare prices before I buy something online.", "ipa": "/kəmˈpeə(r)/", "collocations": ["compare prices", "compare A with B", "compared to"], "level": "A2" },
+    { "word": "difference", "pos": "noun", "he": "הבדל", "def": "the way in which two things are not the same", "example": "There's a big difference between the two flats.", "ipa": "/ˈdɪfrəns/", "collocations": ["a big difference", "the difference between", "make a difference"], "level": "A2" },
+    { "word": "similar", "pos": "adjective", "he": "דומה", "def": "almost the same, but not exactly", "example": "Our phones are very similar.", "ipa": "/ˈsɪmələ(r)/", "collocations": ["similar to", "very similar", "a similar price"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no present-tense 'be', so a comparison can have no verb at all. English needs is or are: The train is faster than the bus (not *The train faster than the bus).", "he": "בעברית אין 'להיות' בהווה, ולכן משפט השוואה יכול להיות בלי פועל ('הרכבת מהירה יותר מהאוטובוס'). באנגלית חייבים is או are: The train is faster than the bus.", "error_type": "copula-omission" },
+    { "en": "In Hebrew there is no /ð/ sound, so than can come out as 'dan' or 'zan'. Put the tip of your tongue between your teeth and keep the word short and weak: /ðən/.", "he": "בעברית אין את הצליל /ð/, ולכן than עלול לצאת 'דֶן' או 'זֶן'. שימו את קצה הלשון בין השיניים, ואמרו את המילה קצר ובלי הדגשה: /ðən/.", "error_type": "pron-th" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "How does each adjective make its comparative? Sort them.", "he": "איך כל שם תואר יוצר ערך יתרון? מיינו אותם." },
+      "categories": ["add -er / -r", "double the last letter + -er", "y → -ier", "more + adjective"],
+      "items": [
+        { "text": "cheap", "category": "add -er / -r" },
+        { "text": "safe", "category": "add -er / -r" },
+        { "text": "tall", "category": "add -er / -r" },
+        { "text": "big", "category": "double the last letter + -er" },
+        { "text": "hot", "category": "double the last letter + -er" },
+        { "text": "easy", "category": "y → -ier" },
+        { "text": "noisy", "category": "y → -ier" },
+        { "text": "expensive", "category": "more + adjective" },
+        { "text": "modern", "category": "more + adjective" }
+      ],
+      "hint": { "en": "Count the syllables, then look at the last letters.", "he": "ספרו את ההברות, ואז הסתכלו על האותיות האחרונות." },
+      "explanation": { "en": "cheaper, safer, taller · bigger, hotter · easier, noisier · more expensive, more modern. Modern has two syllables and doesn't end in -y, so it takes more.", "he": "cheaper, safer, taller · bigger, hotter · easier, noisier · more expensive, more modern. ל-modern יש שתי הברות והוא לא מסתיים ב-y, ולכן הוא מקבל more." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "Our new flat is ___ than the old one.",
+      "options": ["more big", "bigger", "more bigger", "biggest"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "big is a short adjective, so add -er: bigger. Use more only with longer adjectives (more expensive).", "he": "big הוא שם תואר קצר, ולכן מוסיפים er: bigger. את more משתמשים רק עם שמות תואר ארוכים (more expensive)." },
+        "2": { "en": "Use -er or more, never both: bigger.", "he": "er או more – אף פעם לא שניהם יחד: bigger." },
+        "3": { "en": "biggest is for one thing in a whole group (next lesson). With than, use the comparative: bigger.", "he": "biggest משמש כשמשווים דבר אחד לקבוצה שלמה (נלמד בשיעור הבא). עם than משתמשים בערך יתרון: bigger." }
+      },
+      "option_errors": { "0": "comparison-form", "2": "comparison-form", "3": "comparison-form" },
+      "explanation": { "en": "big → bigger: one vowel + one consonant at the end, so double the g and add -er.", "he": "big → bigger: תנועה אחת ועיצור אחד בסוף, ולכן מכפילים את ה-g ומוסיפים er." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "comparatives",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "I'm taking the train to Haifa today. It's a bit more expensive than the bus, but it's much faster.",
+      "question": "Why is the speaker taking the train?",
+      "options": ["It's cheaper than the bus.", "It's more comfortable than the bus.", "It's closer to home.", "It's much faster than the bus."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Listen again: the train is a bit more expensive, not cheaper.", "he": "הקשיבו שוב: הרכבת קצת יותר יקרה, לא זולה יותר." },
+        "1": { "en": "The speaker doesn't talk about comfort.", "he": "הדובר/ת לא מדבר/ת על נוחות." },
+        "2": { "en": "The speaker doesn't say where the station is.", "he": "הדובר/ת לא אומר/ת איפה התחנה." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "'It's a bit more expensive than the bus, but it's much faster.' a bit = a small difference in price; much = a big difference in speed.", "he": "'It's a bit more expensive than the bus, but it's much faster.' כלומר: a bit – הבדל קטן במחיר; much – הבדל גדול במהירות." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "I didn't like the first film, but the second one was ___. I left after twenty minutes!",
+      "options": ["worse", "badder", "more bad", "worst"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "bad is irregular. There is no 'badder': bad → worse.", "he": "bad הוא שם תואר חריג, ואין 'badder': bad → worse." },
+        "2": { "en": "bad is irregular: the comparative is worse, not more bad.", "he": "bad הוא חריג: ערך היתרון הוא worse, לא more bad." },
+        "3": { "en": "worst is for one thing in a whole group (the worst film of the year). Here we compare two films: worse.", "he": "worst משמש כשמשווים דבר אחד לקבוצה שלמה (the worst film of the year). כאן משווים בין שני סרטים: worse." }
+      },
+      "option_errors": { "1": "comparison-form", "2": "comparison-form", "3": "comparison-form" },
+      "explanation": { "en": "good → better, bad → worse, far → further. These comparatives are irregular, so learn them by heart.", "he": "good → better, bad → worse, far → further. אלה צורות חריגות, וצריך לזכור אותן בעל פה." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Write the comparative of the adjective in brackets.", "he": "כתבו את ערך היתרון של שם התואר שבסוגריים." },
+      "text": "My new flat is ___ (big) than my old one. It's ___ (close) to the university, so getting to class is ___ (easy) now.",
+      "answers": [["bigger"], ["closer"], ["easier"]],
+      "wrong_feedback": [
+        { "match": "more big", "feedback": { "en": "big is short: double the g and add -er: bigger.", "he": "big קצר: מכפילים את ה-g ומוסיפים er: bigger." }, "error_type": "comparison-form" },
+        { "match": "more close", "feedback": { "en": "close ends in -e, so just add -r: closer.", "he": "close מסתיים ב-e, ולכן מוסיפים רק r: closer." }, "error_type": "comparison-form" },
+        { "match": "more easy", "feedback": { "en": "easy ends in -y: change y to i and add -er: easier.", "he": "easy מסתיים ב-y: מחליפים את ה-y ב-i ומוסיפים er: easier." }, "error_type": "comparison-form" },
+        { "match": "more", "feedback": { "en": "These adjectives are short or end in -y, so they take -er, not more.", "he": "שמות התואר האלה קצרים או מסתיימים ב-y, ולכן הם מקבלים er ולא more." }, "error_type": "comparison-form" }
+      ],
+      "hint": { "en": "Remember the spelling rules: big → double the g; easy → the y becomes i.", "he": "זכרו את כללי האיות: ב-big מכפילים את ה-g; ב-easy ה-y הופך ל-i." },
+      "explanation": { "en": "bigger (double g) · closer (close + r) · easier (y → i + er).", "he": "bigger (מכפילים g) · closer (close + r) · easier (y → i + er)." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Complete with words from the box.", "he": "השלימו במילים מהמחסן." },
+      "text": "Yael and I are the same height, so she's ___ tall ___ me. But she's much faster ___ me on the football pitch.",
+      "word_bank": ["as", "than", "then", "like"],
+      "answers": [["as"], ["as"], ["than"]],
+      "wrong_feedback": [
+        { "match": "than", "feedback": { "en": "For the same height, use as ... as. Use than only after a comparative (faster than).", "he": "כשהגובה זהה משתמשים ב-as ... as. את than משתמשים רק אחרי ערך יתרון (faster than)." }, "error_type": "comparison-form" },
+        { "match": "as", "feedback": { "en": "faster is a comparative, so it needs than: faster than me.", "he": "faster הוא ערך יתרון, ולכן אחריו בא than: faster than me." }, "error_type": "comparison-form" },
+        { "match": "then", "feedback": { "en": "then means 'after that'. For comparisons, use than (or as ... as when things are the same).", "he": "then פירושו 'אחר כך'. בהשוואה משתמשים ב-than (או ב-as ... as כשמשהו שווה)." }, "error_type": "word-choice" },
+        { "match": "like", "feedback": { "en": "With an adjective, say as tall as me, not tall like me.", "he": "עם שם תואר אומרים as tall as me, ולא tall like me." }, "error_type": "comparison-form" }
+      ],
+      "explanation": { "en": "Same height → as tall as me. Different speed → faster than me.", "he": "אותו גובה → as tall as me. מהירות שונה → faster than me." }
+    },
+    {
+      "id": "e7", "type": "order", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["My", "brother", "is", "much", "taller", "than", "me"],
+      "explanation": { "en": "Subject + is + much + comparative + than + me. Much goes before the comparative and shows a big difference.", "he": "נושא + is + much + ערך יתרון + than + me. המילה much באה לפני ערך היתרון ומראה הבדל גדול." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My new phone is more better than my old one.",
+      "answers": ["My new phone is better than my old one.", "My new phone is much better than my old one.", "My new phone is a lot better than my old one."],
+      "error_type": "comparison-form",
+      "hint": { "en": "better is already a comparative.", "he": "better הוא כבר ערך יתרון." },
+      "explanation": { "en": "better = more good, so don't add more. For a big difference, you can say much better.", "he": "better פירושו 'יותר טוב', ולכן לא מוסיפים more. כדי להדגיש הבדל גדול אפשר לומר much better." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "This shop cheaper than the one near the station.",
+      "answers": ["This shop is cheaper than the one near the station.", "This shop's cheaper than the one near the station."],
+      "error_type": "copula-omission",
+      "hint": { "en": "A verb is missing.", "he": "חסר פועל." },
+      "explanation": { "en": "An English sentence needs a verb. With an adjective, use be: This shop is cheaper than the one near the station.", "he": "במשפט באנגלית חייב להיות פועל. עם שם תואר משתמשים ב-be: This shop is cheaper than the one near the station." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Rewrite the sentence with not as ... as. Use the word fast.", "he": "כתבו את המשפט מחדש עם not as ... as. השתמשו במילה fast." },
+      "source": "The bus is slower than the train.",
+      "answers": ["The bus isn't as fast as the train.", "The bus isn't as fast as the train is.", "The bus isn't so fast as the train."],
+      "wrong_feedback": [
+        { "match": "The bus isn't as fast than the train.", "feedback": { "en": "as ... as is a pair: as fast as the train.", "he": "as ... as באים בזוג: as fast as the train." }, "error_type": "comparison-form" },
+        { "match": "The bus isn't as faster as the train.", "feedback": { "en": "Between as and as, use the normal adjective: as fast as.", "he": "בין as ל-as בא שם התואר הרגיל: as fast as." }, "error_type": "comparison-form" },
+        { "match": "The train isn't as fast as the bus.", "feedback": { "en": "This means the opposite. The bus is the slow one, so: The bus isn't as fast as the train.", "he": "המשפט הזה אומר את ההפך. האוטובוס הוא האיטי, ולכן: The bus isn't as fast as the train." }, "error_type": "comprehension" },
+        { "match": "The bus isn't faster than the train.", "feedback": { "en": "That's correct English, but the task asks for not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל המשימה היא להשתמש ב-not as ... as: The bus isn't as fast as the train." } },
+        { "match": "than", "feedback": { "en": "With as ... as, don't use than.", "he": "עם as ... as לא משתמשים ב-than." }, "error_type": "comparison-form" }
+      ],
+      "explanation": { "en": "slower than = not as fast as. The bus is slower than the train → The bus isn't as fast as the train.", "he": "slower than זה כמו not as fast as. לכן: The bus is slower than the train → The bus isn't as fast as the train." }
+    },
+    {
+      "id": "e11", "type": "read", "skill": "reading", "topic": "comparatives",
+      "prompt": { "en": "Read Noa's message to Daniel and answer the questions.", "he": "קראו את ההודעה של נועה לדניאל וענו על השאלות." },
+      "title": "Two flats: help!",
+      "passage": "Hi Daniel,\nI need your advice! I saw two flats for next year. The first one is on Herzl Street. It's bigger than the second one and the rent is cheaper, but it's further from the university – about 25 minutes by bus. The street is also noisier, because there are a lot of bars and cafés.\nThe second flat is near the campus, so I can walk to class. It's smaller and a bit more expensive, but it's much newer and the kitchen is better. The rooms aren't as bright as in the first flat, though.\nWhich one is better for a student, in your opinion? I need to decide by Thursday!\nNoa",
+      "questions": [
+        { "type": "tf", "statement": "The flat on Herzl Street is bigger than the flat near the campus.", "answer": true,
+          "explanation": { "en": "'It's bigger than the second one.' The first flat is the one on Herzl Street.", "he": "בהודעה: It's bigger than the second one – הדירה הראשונה, ברחוב הרצל, גדולה יותר." } },
+        { "type": "mcq", "question": "Why is Herzl Street noisy?", "options": ["It's near the bus station.", "There's a lot of traffic.", "There are a lot of bars and cafés."], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "The message mentions a bus to the university, but not a bus station.", "he": "בהודעה מוזכר אוטובוס לאוניברסיטה, אבל לא תחנת אוטובוס." },
+            "1": { "en": "The message doesn't mention traffic.", "he": "בהודעה לא מוזכרת תנועה." }
+          },
+          "explanation": { "en": "'The street is also noisier, because there are a lot of bars and cafés.'", "he": "בהודעה: The street is also noisier, because there are a lot of bars and cafés – בגלל הברים ובתי הקפה." } },
+        { "type": "mcq", "question": "Which is true about the flat near the campus?", "options": ["It's cheaper than the first flat.", "Its kitchen is better.", "Its rooms are brighter."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "It's a bit more expensive, not cheaper.", "he": "היא קצת יותר יקרה, לא זולה יותר." },
+            "2": { "en": "'The rooms aren't as bright as in the first flat' – they are darker.", "he": "'The rooms aren't as bright as in the first flat' – החדרים בה פחות מוארים." }
+          },
+          "explanation": { "en": "'It's much newer and the kitchen is better.'", "he": "בהודעה: It's much newer and the kitchen is better – המטבח טוב יותר." } },
+        { "type": "tf", "statement": "The rooms in the second flat are as bright as the rooms in the first flat.", "answer": false,
+          "explanation": { "en": "'The rooms aren't as bright as in the first flat.' not as ... as = less bright.", "he": "בהודעה: The rooms aren't as bright as in the first flat. הצירוף not as ... as פירושו 'פחות', כלומר החדרים בדירה השנייה פחות מוארים." } },
+        { "type": "gap", "text": "The first flat is ___ from the university than the second one.", "answers": [["further", "farther"]],
+          "explanation": { "en": "'...it's further from the university.' far → further (farther is also correct).", "he": "בהודעה: it's further from the university. far → further (גם farther נכון)." } }
+      ]
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "comparatives",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "האוטובוס זול יותר מהרכבת, אבל הרכבת מהירה יותר.",
+      "answers": [
+        "The bus is cheaper than the train, but the train is faster.",
+        "The bus is cheaper than the train but the train is faster.",
+        "The bus is cheaper than the train, but the train's faster.",
+        "The bus is cheaper than the train but the train's faster.",
+        "The bus is cheaper than the train, but the train is quicker.",
+        "The bus is cheaper than the train but the train is quicker.",
+        "The bus is cheaper than the train, but the train's quicker.",
+        "The bus is cheaper than the train but the train's quicker.",
+        "The bus is cheaper than the train, but the train goes faster.",
+        "The bus is cheaper than the train but the train goes faster."
+      ],
+      "wrong_feedback": [
+        { "match": "The bus cheaper than the train, but the train faster.", "feedback": { "en": "English needs the verb be in both parts: The bus is cheaper ..., but the train is faster.", "he": "בעברית אין כאן פועל, אבל באנגלית צריך is בשני החלקים: The bus is cheaper ..., but the train is faster." }, "error_type": "copula-omission" },
+        { "match": "The bus cheaper than the train but the train faster.", "feedback": { "en": "English needs the verb be in both parts: The bus is cheaper ..., but the train is faster.", "he": "בעברית אין כאן פועל, אבל באנגלית צריך is בשני החלקים: The bus is cheaper ..., but the train is faster." }, "error_type": "copula-omission" },
+        { "match": "from", "feedback": { "en": "In comparisons, use than: cheaper than the train (not *cheaper from the train).", "he": "בהשוואה, 'מ-' מתורגם ל-than: cheaper than the train, ולא cheaper from the train." }, "error_type": "false-friend" },
+        { "match": "then", "feedback": { "en": "then means 'after that'. For comparisons, use than.", "he": "then פירושו 'אחר כך'. בהשוואה משתמשים ב-than." }, "error_type": "word-choice" },
+        { "match": "cheap", "feedback": { "en": "cheap is one syllable, so add -er: cheaper (not more cheap).", "he": "cheap הוא בן הברה אחת, ולכן מוסיפים er: cheaper, ולא more cheap." }, "error_type": "comparison-form" },
+        { "match": "fast", "feedback": { "en": "fast is one syllable: faster (not more fast).", "he": "fast בן הברה אחת: faster, ולא more fast." }, "error_type": "comparison-form" }
+      ],
+      "hint": { "en": "Both adjectives are short, so add -er. And remember is in both parts.", "he": "בעברית 'יותר' משמש לשניהם, אבל באנגלית שני שמות התואר קצרים, ולכן מוסיפים er. ואל תשכחו is בשני חלקי המשפט." },
+      "explanation": { "en": "The bus is cheaper than the train, but the train is faster. Short adjectives take -er, the comparison word is than, and each part needs is.", "he": "'זול יותר' הופך ל-cheaper, 'מהרכבת' הופך ל-than the train, ובכל חלק של המשפט צריך is – פועל שאין לו מקבילה בהווה בעברית." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "comparatives",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "The second hotel is a bit more expensive, but it's much closer to the beach.",
+      "answers": ["The second hotel is a bit more expensive, but it's much closer to the beach."],
+      "hint": { "en": "Listen for a bit and much: they show how big the difference is.", "he": "הקשיבו ל-a bit ול-much: הם מראים כמה גדול ההבדל." },
+      "explanation": { "en": "a bit more expensive (a small difference) · much closer (a big difference).", "he": "a bit more expensive – הבדל קטן · much closer – הבדל גדול." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "comparatives",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "My new flat is a bit smaller, but it's much nicer than the old one.",
+      "focus": { "en": "than is short and weak: /ðən/. Put your tongue between your teeth for th, and stress the important words: SMALLer, NICer, OLD.", "he": "than נאמר קצר וחלש: /ðən/. שימו את הלשון בין השיניים ב-th, והדגישו את המילים החשובות: SMALLer, NICer, OLD." },
+      "error_type": "pron-th",
+      "explanation": { "en": "In natural speech we stress the comparatives and the things we compare, and than stays weak.", "he": "בדיבור טבעי מדגישים את ערכי היתרון ואת הדברים שמשווים, ו-than נשאר חלש." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "comparatives",
+      "prompt": { "en": "Compare two places you know.", "he": "השוו בין שני מקומות שאתם מכירים." },
+      "task": { "en": "Compare two places you know well (two towns, neighbourhoods, schools or cafés). Write 50-80 words. Use at least three comparatives with than, one irregular form (better, worse or further) and one sentence with as ... as or not as ... as.", "he": "השוו בין שני מקומות שאתם מכירים טוב (שתי ערים, שכונות, בתי ספר או בתי קפה). כתבו 50-80 מילים. השתמשו לפחות בשלושה ערכי יתרון עם than, בצורה חריגה אחת (better, worse או further) ובמשפט אחד עם as ... as או not as ... as." },
+      "min_words": 50,
+      "max_words": 100,
+      "must_include": ["than", "as"],
+      "model_answer": "I live in Ramat Gan, but my grandparents live in a small village in the Galilee. The village is much quieter than Ramat Gan, and the air is cleaner. People there are friendlier, and life is slower. But Ramat Gan is more convenient: the shops are closer and the buses are better. The village isn't as exciting as the city, but it's a better place to relax at the weekend.",
+      "checklist": [
+        { "en": "I used -er or more + than at least three times, and never both together (*more bigger).", "he": "השתמשתי ב-er או ב-more עם than לפחות שלוש פעמים, ואף פעם לא בשניהם יחד (לא more bigger)." },
+        { "en": "I used an irregular form: better, worse or further.", "he": "השתמשתי בצורה חריגה: better, worse או further." },
+        { "en": "I used as ... as or not as ... as.", "he": "השתמשתי ב-as ... as או ב-not as ... as." },
+        { "en": "Every comparison has a verb: The village is quieter.", "he": "בכל השוואה יש פועל: The village is quieter." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Short adjectives: -er + than: cheaper than, bigger than, easier than.", "he": "שמות תואר קצרים: er + than, למשל cheaper than, bigger than, easier than." },
+      { "en": "Long adjectives: more + adjective + than: more expensive than. Never both: *more bigger.", "he": "שמות תואר ארוכים: more + שם תואר + than, למשל more expensive than. אף פעם לא שניהם: לא more bigger." },
+      { "en": "Irregular: good → better, bad → worse, far → further.", "he": "צורות חריגות: good → better, bad → worse, far → further." },
+      { "en": "The same: as ... as. Less: not as ... as: The bus isn't as fast as the train.", "he": "שווה: as ... as. פחות: not as ... as, למשל The bus isn't as fast as the train." },
+      { "en": "The size of the difference: much / a lot (big), a bit / a little (small): much cheaper, a bit older.", "he": "גודל ההבדל: much או a lot (גדול), a bit או a little (קטן), למשל much cheaper, a bit older." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

@@ -36,16 +36,16 @@
     { "en": "I think Maya will love this present.", "he": "נראה לי שמאיה תאהב את המתנה הזאת.", "note": "opinion about the future" }
   ],
   "vocab": [
-    { "word": "plan", "pos": "noun", "he": "תוכנית", "def": "something you have decided to do in the future", "example": "What are your plans for the summer?", "ipa": "/plæn/", "collocations": ["make plans", "summer plans", "change your plans"], "level": "A2" },
+    { "word": "hope", "pos": "verb", "he": "לקוות", "def": "to want something to happen and think that it is possible", "example": "I hope it won't rain tomorrow.", "ipa": "/həʊp/", "collocations": ["I hope so", "I hope not", "hope to see you"], "level": "A2" },
     { "word": "probably", "pos": "adverb", "he": "כנראה", "def": "almost certainly", "example": "It will probably rain tomorrow.", "ipa": "/ˈprɒbəbli/", "collocations": ["will probably", "probably won't"], "level": "A2" },
     { "word": "definitely", "pos": "adverb", "he": "בהחלט, בטוח", "def": "certainly; with no doubt", "example": "I'll definitely come to your party.", "ipa": "/ˈdefɪnətli/", "collocations": ["will definitely", "definitely not"], "level": "A2" },
     { "word": "promise", "pos": "verb", "he": "להבטיח", "def": "to say that you will certainly do something", "example": "I promise I'll be on time.", "ipa": "/ˈprɒmɪs/", "collocations": ["make a promise", "keep a promise", "break a promise"], "level": "A2" },
     { "word": "offer", "pos": "verb", "he": "להציע", "def": "to say that you are happy to do something for someone or give them something", "example": "Amir offered to drive us home.", "ipa": "/ˈɒfə(r)/", "collocations": ["offer help", "offer someone a drink"], "level": "A2" },
-    { "word": "decide", "pos": "verb", "he": "להחליט", "def": "to choose what to do after thinking about it", "example": "We decided to stay at home.", "ipa": "/dɪˈsaɪd/", "collocations": ["decide to do something", "decide quickly", "make a decision"], "level": "A2" },
+    { "word": "make a decision", "pos": "phrase", "he": "לקבל החלטה", "def": "to choose what to do after thinking about it", "example": "I'll make a decision tomorrow.", "ipa": "/ˌmeɪk ə dɪˈsɪʒn/", "collocations": ["a quick decision", "a big decision", "an important decision"], "level": "A2" },
     { "word": "save", "pos": "verb", "he": "לחסוך", "def": "to keep money so that you can use it later", "example": "I'm going to save money for a car.", "ipa": "/seɪv/", "collocations": ["save money", "save up for something"], "level": "A2" },
     { "word": "apply", "pos": "verb", "he": "להגיש מועמדות", "def": "to ask in writing for a job, a course or a place at university", "example": "Noa is going to apply for a job at the hospital.", "ipa": "/əˈplaɪ/", "collocations": ["apply for a job", "apply to university", "apply online"], "level": "A2" },
     { "word": "weather forecast", "pos": "noun", "he": "תחזית מזג האוויר", "def": "a report that says what the weather will be like", "example": "The weather forecast says it will be sunny.", "ipa": "/ˈweðə ˌfɔːkɑːst/", "collocations": ["check the weather forecast", "the forecast for tomorrow"], "level": "A2" },
-    { "word": "move", "pos": "verb", "he": "לעבור (דירה, עיר)", "def": "to go to live in a different place", "example": "My parents are going to move to Haifa.", "ipa": "/muːv/", "collocations": ["move house", "move to a new city", "move abroad"], "level": "A2" }
+    { "word": "abroad", "pos": "adverb", "he": "בחו״ל, לחו״ל", "def": "in or to another country", "example": "Lior is going to study abroad next year.", "ipa": "/əˈbrɔːd/", "collocations": ["live abroad", "travel abroad", "study abroad"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no present-tense 'be', so am/is/are can disappear before going to. English needs it: I'm going to call her (not *I going to call her).", "he": "בעברית אין 'להיות' בהווה, ולכן קל להשמיט את am/is/are לפני going to. באנגלית חייבים אותו: I'm going to call her.", "error_type": "copula-omission" },
@@ -158,7 +158,7 @@
             "1": { "en": "For a decision made long ago he would use going to.", "he": "להחלטה שהתקבלה מזמן הוא היה משתמש ב-going to." }
           },
           "explanation": { "en": "I think + will is for opinions and predictions. Amir isn't sure yet.", "he": "I think + will משמש לדעה או לתחזית. אמיר עוד לא בטוח." } },
-        { "type": "gap", "text": "Amir promises that he ___ post photos every week.", "answers": [["will", "'ll"]],
+        { "type": "gap", "text": "Amir promises that he ___ post photos every week.", "answers": [["will", "'ll", "is going to"]],
           "explanation": { "en": "'I promise I'll post photos every week.' Promises use will.", "he": "בטקסט: I promise I'll post photos every week. בהבטחות משתמשים ב-will." } }
       ]
     },

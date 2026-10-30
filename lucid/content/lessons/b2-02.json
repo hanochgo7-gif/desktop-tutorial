@@ -1,0 +1,1173 @@
+{
+  "id": "b2-02",
+  "level": "B2",
+  "title_en": "If I had known: third and mixed conditionals",
+  "title_he": "תנאי שלישי ומעורב",
+  "topics": [
+    "conditionals-3-mixed"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use the third conditional to imagine a different past and its results."
+    },
+    {
+      "en": "I can use mixed conditionals to link a past event with a present situation, and a present situation with a past event."
+    },
+    {
+      "en": "I can express regret and criticism with I wish, If only and should have."
+    }
+  ],
+  "warmup": {
+    "en": "Think of a small decision that changed something for you: a course you chose, a message you sent, a bus you missed. What would be different now if you had decided differently?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Tom didn't check the forecast, so he got soaked on his hike. Now imagine a different past: If Tom had checked the forecast, he wouldn't have got soaked. Both halves are about the past, and both are unreal: he didn't check, and he did get wet. You already know the second conditional for unreal present situations (If I had more time, I would...). The third conditional does the same job for the past."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Type",
+        "if-clause",
+        "Main clause",
+        "Example"
+      ],
+      "rows": [
+        [
+          "Third: past → past",
+          "if + had + past participle",
+          "would / could / might have + past participle",
+          "If I had left earlier, I would have caught the train."
+        ],
+        [
+          "Mixed: past → present",
+          "if + had + past participle",
+          "would / could / might + verb",
+          "If I had studied medicine, I would be a doctor now."
+        ],
+        [
+          "Mixed: present → past",
+          "if + past simple (were)",
+          "would / could / might have + past participle",
+          "If I weren't so shy, I would have spoken to her at the party."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Never put would in the if-clause: If I had known (not *If I would have known). In speech, 'd can mean had or would: If I'd known, I'd have called you = If I had known, I would have called you."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Pattern",
+        "Use",
+        "Example"
+      ],
+      "rows": [
+        [
+          "I wish / If only + past simple",
+          "a present situation you would like to change",
+          "I wish I lived closer to the sea."
+        ],
+        [
+          "I wish / If only + past perfect",
+          "a regret about the past",
+          "I wish I hadn't said that. If only we had booked earlier!"
+        ],
+        [
+          "I wish + someone + would",
+          "someone else's annoying behaviour that you want to change",
+          "I wish my neighbours would stop drilling at 7 a.m."
+        ],
+        [
+          "should / shouldn't have + past participle",
+          "regret about your own actions, or criticism of others",
+          "I should have saved my work. You shouldn't have told her."
+        ]
+      ]
+    },
+    {
+      "type": "tip",
+      "en": "Criticism sounds strong in English. You should have told me! can be softened: You could have told me, or It would have been good to know earlier. If it hadn't been for... (= without...) is a useful way to thank someone: If it hadn't been for your help, I would never have finished."
+    },
+    {
+      "type": "warning",
+      "en": "Common errors: *If I would have known → If I had known. *I wish I didn't say that → I wish I hadn't said that. *I would of come → I would have come (would've sounds like 'would of', but never write it)."
+    },
+    {
+      "type": "p",
+      "en": "Contrast with Hebrew: in Hebrew the same structure (lu or ilu + past, then haya + verb) is used for unreal present and unreal past situations, and the context shows which one is meant. English shows the time in the verbs: If I knew, I would come (now) / If I had known, I would have come (in the past).",
+      "he": "בעברית 'לו ידעתי, הייתי בא' יכול לתאר גם את ההווה וגם את העבר, וההקשר מכריע. באנגלית הזמן מסומן בפועל: If I knew, I would come (עכשיו) לעומת If I had known, I would have come (בעבר)."
+    }
+  ],
+  "examples": [
+    {
+      "en": "If I had known about the strike, I would have taken the train.",
+      "note": "third conditional: past condition, past result"
+    },
+    {
+      "en": "If Daniel hadn't missed the penalty, we might have won the final.",
+      "note": "might have = a possible, not certain, result"
+    },
+    {
+      "en": "If she had accepted the job in Berlin, she would be living abroad now.",
+      "note": "mixed: past condition, present result"
+    },
+    {
+      "en": "If I weren't so afraid of heights, I would have gone up the tower with you.",
+      "note": "mixed: present situation, past result"
+    },
+    {
+      "en": "I wish I had listened to my grandmother's stories more carefully.",
+      "note": "wish + past perfect = past regret"
+    },
+    {
+      "en": "If only we had booked the tickets earlier!",
+      "note": "If only = a stronger I wish"
+    },
+    {
+      "en": "I wish my flatmate would stop leaving dishes in the sink.",
+      "note": "wish + would = annoying behaviour"
+    },
+    {
+      "en": "You should have told me you were coming. I would have cooked something.",
+      "note": "criticism + an imagined past result"
+    },
+    {
+      "en": "If it hadn't been for your help, I would never have finished the project.",
+      "note": "If it hadn't been for = without"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "regret",
+      "pos": "verb / noun",
+      "he": "להתחרט; חרטה",
+      "def": "to feel sorry about something you did or did not do; that feeling",
+      "example": "She deeply regrets turning down the course.",
+      "ipa": "/rɪˈɡret/",
+      "collocations": [
+        "deeply regret",
+        "have no regrets",
+        "regret a decision"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "hindsight",
+      "pos": "noun",
+      "he": "חוכמה שבדיעבד",
+      "def": "understanding a situation only after it has happened",
+      "example": "With hindsight, I should have taken the job.",
+      "ipa": "/ˈhaɪndsaɪt/",
+      "collocations": [
+        "with hindsight",
+        "in hindsight",
+        "the benefit of hindsight"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "turning point",
+      "pos": "noun",
+      "he": "נקודת מפנה",
+      "def": "a time when an important change happens",
+      "example": "Moving to Haifa was a turning point in my life.",
+      "ipa": "/ˈtɜːnɪŋ pɔɪnt/",
+      "collocations": [
+        "a turning point in someone's life",
+        "mark a turning point",
+        "a major turning point"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "make a difference",
+      "pos": "phrase",
+      "he": "לשנות, להשפיע",
+      "def": "to have an important effect on a situation",
+      "example": "Another week of practice would have made a big difference.",
+      "ipa": "/ˌmeɪk ə ˈdɪfrəns/",
+      "collocations": [
+        "make a big difference",
+        "make all the difference",
+        "make no difference"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "take a risk",
+      "pos": "phrase",
+      "he": "לקחת סיכון",
+      "def": "to do something even though it might end badly",
+      "example": "If she hadn't taken a risk, she wouldn't have started her own business.",
+      "ipa": "/ˌteɪk ə ˈrɪsk/",
+      "collocations": [
+        "take a calculated risk",
+        "not worth the risk",
+        "take a huge risk"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "miss an opportunity",
+      "pos": "phrase",
+      "he": "להחמיץ הזדמנות",
+      "def": "to fail to use a chance to do something good",
+      "example": "I wish I hadn't missed the opportunity to study abroad.",
+      "ipa": "/ˌmɪs ən ˌɒpəˈtjuːnəti/",
+      "collocations": [
+        "a missed opportunity",
+        "seize an opportunity",
+        "a golden opportunity"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "in retrospect",
+      "pos": "phrase",
+      "he": "בדיעבד, במבט לאחור",
+      "def": "thinking now about something in the past",
+      "example": "In retrospect, we should have asked for help earlier.",
+      "ipa": "/ɪn ˈretrəspekt/",
+      "level": "B2"
+    },
+    {
+      "word": "if it hadn't been for",
+      "pos": "phrase",
+      "he": "אלמלא, אילולא",
+      "def": "without (someone or something), the past would have been different",
+      "example": "If it hadn't been for the GPS, we would have got completely lost.",
+      "ipa": "/ɪf ɪt ˈhædnt bɪn fə(r)/",
+      "level": "B2"
+    },
+    {
+      "word": "outcome",
+      "pos": "noun",
+      "he": "תוצאה",
+      "def": "the result of an action, event or process",
+      "example": "The outcome would have been different if the referee had seen the foul.",
+      "ipa": "/ˈaʊtkʌm/",
+      "collocations": [
+        "a positive outcome",
+        "the final outcome",
+        "affect the outcome"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "second thoughts",
+      "pos": "noun (plural)",
+      "he": "מחשבות שניות, היסוס",
+      "def": "doubts about a decision you have made",
+      "example": "I had second thoughts about the job, but in the end I took it.",
+      "ipa": "/ˌsekənd ˈθɔːts/",
+      "collocations": [
+        "have second thoughts about",
+        "on second thoughts"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "blame",
+      "pos": "verb",
+      "he": "להאשים",
+      "def": "to say or think that someone is responsible for something bad",
+      "example": "Don't blame yourself: nobody could have predicted the storm.",
+      "ipa": "/bleɪm/",
+      "collocations": [
+        "blame someone for something",
+        "be to blame",
+        "take the blame"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the perfect is not marked in the verb, and the same conditional structure can describe the present or the past. In English the past needs had + past participle and would have: If I had known, I would have come (not *If I knew, I would come, when you mean yesterday).",
+      "he": "בעברית אין סימון של 'עבר שלפני העבר' בפועל, ואותו מבנה ('לו ידעתי, הייתי בא') מתאים גם להווה וגם לעבר. באנגלית, תנאי על העבר דורש had + V3 ו-would have: If I had known, I would have come.",
+      "error_type": "conditional-form"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Read the sentence. What do we know about Maya?"
+      },
+      "question": "If Maya had taken the job, she would be living in London now.",
+      "options": [
+        "She took the job and lives in London.",
+        "She didn't take the job, and she doesn't live in London.",
+        "She may take the job and move to London.",
+        "She didn't take the job, but she lives in London anyway."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Conditionals with had + past participle are unreal: the opposite happened. She did not take the job."
+        },
+        "2": {
+          "en": "That would be a first conditional about the future (If Maya takes the job, she will...). Had taken refers to the past."
+        },
+        "3": {
+          "en": "The main clause (would be living in London now) is unreal too: she isn't living there."
+        }
+      },
+      "option_errors": {
+        "0": "conditional-form",
+        "2": "conditional-form",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "Mixed conditional: an unreal past condition (had taken) with an unreal present result (would be living ... now). In reality: no job, no London."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Sort the sentences by type. Look at the time of each half."
+      },
+      "categories": [
+        "Third: past → past",
+        "Mixed: past → present",
+        "Mixed: present → past",
+        "Second: present → present"
+      ],
+      "items": [
+        {
+          "text": "If I'd saved more money, I would have gone on the trip.",
+          "category": "Third: past → past"
+        },
+        {
+          "text": "If he hadn't broken his leg, he would have played in the final.",
+          "category": "Third: past → past"
+        },
+        {
+          "text": "If I had learned to drive at eighteen, I wouldn't need lifts now.",
+          "category": "Mixed: past → present"
+        },
+        {
+          "text": "If we hadn't moved to Haifa, I wouldn't know Noa.",
+          "category": "Mixed: past → present"
+        },
+        {
+          "text": "If I didn't trust you, I wouldn't have lent you my car.",
+          "category": "Mixed: present → past"
+        },
+        {
+          "text": "If she weren't so stubborn, she would have apologised yesterday.",
+          "category": "Mixed: present → past"
+        },
+        {
+          "text": "If I had more free time, I would learn the guitar.",
+          "category": "Second: present → present"
+        },
+        {
+          "text": "If the trains ran on time, I wouldn't need to leave so early.",
+          "category": "Second: present → present"
+        }
+      ],
+      "explanation": {
+        "en": "had + past participle in the if-clause = past condition; past simple = present condition. would have + past participle in the main clause = past result; would + verb = present result. 'I wouldn't know Noa' is a present result: I know her now."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to Lior talking about university and answer the question."
+      },
+      "audio_text": "Honestly, I sometimes wish I'd chosen computer science. If I'd done that, I'd probably be working in tech now, not stuck in a lab. But then again, I wouldn't have met Kenji, so maybe it was meant to be.",
+      "question": "How does Lior feel about the degree he chose?",
+      "options": [
+        "He has no regrets at all.",
+        "He is planning to switch to computer science.",
+        "He regrets it a little, but he sees something good in it.",
+        "He blames Kenji for his choice."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "He says 'I sometimes wish I'd chosen computer science', so there is some regret."
+        },
+        "1": {
+          "en": "He imagines a different past; he says nothing about changing now."
+        },
+        "3": {
+          "en": "Kenji is the good thing: if Lior had chosen differently, he wouldn't have met him."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "I wish I'd chosen = past regret. If I'd done that, I'd probably be working in tech now = mixed conditional (past → present). I wouldn't have met Kenji = the good side of the real past. Notice: I'd done = had; I'd be = would."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the correct option."
+      },
+      "question": "If I ___ about the traffic, I would have left earlier.",
+      "options": [
+        "knew",
+        "would have known",
+        "had known",
+        "have known"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Knew makes a second conditional (about now). The result 'would have left' is about the past, so the if-clause needs had known."
+        },
+        "1": {
+          "en": "Would never goes in the if-clause: If I had known."
+        },
+        "3": {
+          "en": "Had is missing: the past perfect is had + past participle."
+        }
+      },
+      "option_errors": {
+        "0": "conditional-form",
+        "1": "conditional-form",
+        "3": "verb-form"
+      },
+      "explanation": {
+        "en": "Third conditional: if + had + past participle, would have + past participle."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Your flatmate keeps playing loud music late at night. What do you say?"
+      },
+      "question": "Choose the most natural sentence.",
+      "options": [
+        "I wish you would turn the music down at night.",
+        "I wish you turned the music down last night.",
+        "I wish you will turn the music down at night.",
+        "I wish you had turned the music down every night."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "wish + past simple is for present states (I wish you lived somewhere else!). For last night you would need the past perfect: I wish you had turned it down."
+        },
+        "2": {
+          "en": "Will is not used after wish. To ask for a change in someone's behaviour, use wish + would."
+        },
+        "3": {
+          "en": "wish + past perfect is a regret about a finished past. Your problem is a habit that continues, so use would."
+        }
+      },
+      "option_errors": {
+        "1": "tense-choice",
+        "2": "modal-use",
+        "3": "tense-choice"
+      },
+      "explanation": {
+        "en": "I wish + someone + would = you are annoyed and want them to change their behaviour."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the third conditional with the verbs in brackets."
+      },
+      "text": "If Amir ___ (check) his tyres before the trip, he ___ (not / get) a puncture on the motorway.",
+      "answers": [
+        [
+          "had checked"
+        ],
+        [
+          "would not have got",
+          "would not have gotten",
+          "might not have got",
+          "might not have gotten"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "checked",
+          "feedback": {
+            "en": "This is about a past trip that is over: if + had + past participle → had checked."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "would have checked",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If Amir had checked."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "wouldn't get",
+          "feedback": {
+            "en": "The result is in the past too (the trip is over): would not have got."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "wouldn't have get",
+          "feedback": {
+            "en": "After have, use the past participle: got (or gotten in American English)."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "didn't get",
+          "feedback": {
+            "en": "The main clause needs would + have + past participle: would not have got."
+          },
+          "error_type": "conditional-form"
+        }
+      ],
+      "explanation": {
+        "en": "If Amir had checked his tyres, he wouldn't have got a puncture. In reality he didn't check, and he did get a puncture. Might not have = it's possible he would have avoided it."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the mixed conditional. One half is about the past, the other about now."
+      },
+      "text": "If I ___ (accept) the offer from the Berlin office last year, I ___ (live) in Germany now.",
+      "answers": [
+        [
+          "had accepted"
+        ],
+        [
+          "would be living",
+          "would live",
+          "might be living",
+          "might live",
+          "could be living"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "accepted",
+          "feedback": {
+            "en": "The offer was last year, so the if-clause needs the past perfect: had accepted."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "would have lived",
+          "feedback": {
+            "en": "'Now' shows a present result: would be living (mixed conditional), not would have lived."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "would have accepted",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had accepted."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "will live",
+          "feedback": {
+            "en": "This is unreal (you didn't accept), so use would, not will: would be living."
+          },
+          "error_type": "conditional-form"
+        }
+      ],
+      "hint": {
+        "en": "last year → had + past participle. now → would + verb."
+      },
+      "explanation": {
+        "en": "Mixed conditional: if + had + past participle (past condition), would (be) + verb (present result). If I had accepted the offer last year, I would be living in Germany now."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the situation as one sentence beginning with If. Keep the meaning."
+      },
+      "source": "I didn't know you were vegetarian, so I made chicken soup.",
+      "answers": [
+        "If I had known you were vegetarian, I wouldn't have made chicken soup.",
+        "If I had known you were vegetarian I wouldn't have made chicken soup.",
+        "If I had known that you were vegetarian, I wouldn't have made chicken soup.",
+        "If I had known that you were vegetarian I wouldn't have made chicken soup.",
+        "If I'd known you were vegetarian, I wouldn't have made chicken soup.",
+        "If I'd known you were vegetarian I wouldn't have made chicken soup.",
+        "If I'd known that you were vegetarian, I wouldn't have made chicken soup.",
+        "If I'd known that you were vegetarian I wouldn't have made chicken soup.",
+        "If I had known you were a vegetarian, I wouldn't have made chicken soup.",
+        "If I had known you were a vegetarian I wouldn't have made chicken soup.",
+        "If I had known that you were a vegetarian, I wouldn't have made chicken soup.",
+        "If I had known that you were a vegetarian I wouldn't have made chicken soup."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "If I knew you were vegetarian, I wouldn't make chicken soup.",
+          "feedback": {
+            "en": "This is a second conditional: it describes now. The soup was made in the past, so use If I had known ..., I wouldn't have made ..."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I knew you were vegetarian I wouldn't make chicken soup.",
+          "feedback": {
+            "en": "This is a second conditional: it describes now. The soup was made in the past, so use If I had known ..., I wouldn't have made ..."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have known you were vegetarian, I wouldn't have made chicken soup.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had known."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have known you were vegetarian I wouldn't have made chicken soup.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had known."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had known you were vegetarian, I wouldn't make chicken soup.",
+          "feedback": {
+            "en": "The soup is already made, so the result is in the past too: I wouldn't have made."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had known you were vegetarian I wouldn't make chicken soup.",
+          "feedback": {
+            "en": "The soup is already made, so the result is in the past too: I wouldn't have made."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had known you were vegetarian, I would have made chicken soup.",
+          "feedback": {
+            "en": "Reverse the facts: you did make soup, so in the unreal past you would NOT have made it."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "If I had known you were vegetarian I would have made chicken soup.",
+          "feedback": {
+            "en": "Reverse the facts: you did make soup, so in the unreal past you would NOT have made it."
+          },
+          "error_type": "comprehension"
+        }
+      ],
+      "explanation": {
+        "en": "Real past: didn't know → made soup. Unreal past: If I had known ..., I wouldn't have made ... Both facts are reversed."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite as a mixed conditional beginning with If. The result is about now."
+      },
+      "source": "I didn't take the job in Eilat, so I don't live by the sea now.",
+      "answers": [
+        "If I had taken the job in Eilat, I would live by the sea now.",
+        "If I had taken the job in Eilat I would live by the sea now.",
+        "If I had taken the job in Eilat, I would be living by the sea now.",
+        "If I had taken the job in Eilat I would be living by the sea now.",
+        "If I had taken the job in Eilat, I would live by the sea.",
+        "If I had taken the job in Eilat I would live by the sea.",
+        "If I had taken the job in Eilat, I would be living by the sea.",
+        "If I had taken the job in Eilat I would be living by the sea.",
+        "If I'd taken the job in Eilat, I would live by the sea now.",
+        "If I'd taken the job in Eilat I would live by the sea now.",
+        "If I'd taken the job in Eilat, I'd live by the sea now.",
+        "If I'd taken the job in Eilat I'd live by the sea now.",
+        "If I'd taken the job in Eilat, I'd be living by the sea now.",
+        "If I'd taken the job in Eilat I'd be living by the sea now.",
+        "If I had taken the job in Eilat, I would now live by the sea.",
+        "If I had taken the job in Eilat I would now live by the sea.",
+        "If I had taken the job in Eilat, I would now be living by the sea.",
+        "If I had taken the job in Eilat I would now be living by the sea."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "If I had taken the job in Eilat, I would have lived by the sea now.",
+          "feedback": {
+            "en": "'Now' is a present result, so use would + verb: I would live (or would be living) by the sea now."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had taken the job in Eilat I would have lived by the sea now.",
+          "feedback": {
+            "en": "'Now' is a present result, so use would + verb: I would live (or would be living) by the sea now."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I took the job in Eilat, I would live by the sea now.",
+          "feedback": {
+            "en": "Taking the job is a past decision: had taken."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I took the job in Eilat I would live by the sea now.",
+          "feedback": {
+            "en": "Taking the job is a past decision: had taken."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have taken the job in Eilat, I would live by the sea now.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had taken."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have taken the job in Eilat I would live by the sea now.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had taken."
+          },
+          "error_type": "conditional-form"
+        }
+      ],
+      "explanation": {
+        "en": "Past condition (had taken) + present result (would live / would be living ... now)."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read the opinion column and answer the questions."
+      },
+      "title": "Stop saying 'no regrets'",
+      "passage": "'No regrets' has become a modern motto. People print it on T-shirts and add it to photos of skydiving trips. I understand the appeal, but I think the slogan gets something important wrong.\nConsider my friend Sara. Five years ago she turned down a place on a design course because it meant moving to another city. She often says, 'If I had gone, I would be doing work I love now.' For a long time, that sentence made her miserable. Then one day she changed the question. Instead of asking what would have happened, she asked what the regret was telling her. The answer was simple: she still cared about design. Last year she started an evening course, and she is happier than I have seen her in years. Her regret did not trap her; it pointed her in a direction.\nThat, I believe, is what regret is for. A specific regret ('I wish I had told my grandfather how much he meant to me') can show us what we value. A vague one ('If only my life had been different') just keeps us awake at night.\nCritics of this view argue that dwelling on the past is unhealthy and that we should focus only on what we can control. They have a point: some people replay the same mistake again and again until it damages their confidence. But the answer is not to pretend we have no regrets. It is to ask a better question. 'What would I have done differently?' is only useful if it leads to 'What will I do differently now?'\nSo the next time you catch yourself thinking 'If only...', do not push the thought away. Finish the sentence, and then decide what it means for tomorrow.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the writer's main argument?",
+          "options": [
+            "People should avoid thinking about past mistakes.",
+            "Slogans like 'No regrets' are always harmful.",
+            "Sara should have moved to another city.",
+            "Regret can be useful if it is specific and leads to action."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "That is closer to the critics' view, which the writer only partly accepts."
+            },
+            "1": {
+              "en": "Too strong: the writer says the slogan 'gets something important wrong', not that slogans are always harmful."
+            },
+            "2": {
+              "en": "The writer doesn't judge Sara's old decision; the point is what she did with her regret."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'That, I believe, is what regret is for. A specific regret ... can show us what we value.' And the last paragraph: finish the sentence, then decide what it means for tomorrow."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Sara has started studying design again.",
+          "answer": true,
+          "explanation": {
+            "en": "'Last year she started an evening course.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Sara says: 'If I had gone, I would be doing work I love now.' What is she talking about?",
+          "options": [
+            "a past decision and an imagined present result",
+            "a past decision and an imagined past result",
+            "a plan for the future",
+            "a habit in the present"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "An imagined past result would be 'I would have done work I love'. She says would be doing ... now."
+            },
+            "2": {
+              "en": "Had gone refers to the past, not the future."
+            },
+            "3": {
+              "en": "This is an unreal situation, not a habit."
+            }
+          },
+          "option_errors": {
+            "1": "conditional-form",
+            "2": "conditional-form",
+            "3": "conditional-form"
+          },
+          "explanation": {
+            "en": "Mixed conditional: had gone (past condition) + would be doing ... now (present result)."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer completely rejects the critics' view.",
+          "answer": false,
+          "explanation": {
+            "en": "'They have a point': the writer concedes part of the critics' argument and then offers a better approach."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "How does the writer respond to the critics?",
+          "options": [
+            "by ignoring their argument",
+            "by agreeing in part, then suggesting a better question to ask",
+            "by attacking their character",
+            "by quoting a famous expert"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The writer states the critics' view fairly and responds to it."
+            },
+            "2": {
+              "en": "There is no personal attack: the writer discusses the argument, not the people."
+            },
+            "3": {
+              "en": "No expert is quoted; the writer uses reasoning and the example of Sara."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'They have a point ... But the answer is not to pretend we have no regrets. It is to ask a better question.' This is concession followed by a rebuttal."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The writer says the question 'What would I have done differently?' is only useful if it leads to 'What will I do differently ___?'",
+          "answers": [
+            [
+              "now"
+            ]
+          ],
+          "explanation": {
+            "en": "'...is only useful if it leads to \"What will I do differently now?\"'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Express the regret with I wish."
+      },
+      "source": "I regret selling my old guitar.",
+      "answers": [
+        "I wish I hadn't sold my old guitar.",
+        "I wish I had kept my old guitar.",
+        "I wish I'd kept my old guitar."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I wish I didn't sell my old guitar.",
+          "feedback": {
+            "en": "A regret about the past needs wish + past perfect: I wish I hadn't sold it."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "I wish I wouldn't have sold my old guitar.",
+          "feedback": {
+            "en": "Don't use would have after wish for your own past actions: I wish I hadn't sold it."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "I wish I didn't sold my old guitar.",
+          "feedback": {
+            "en": "A regret about the past needs wish + past perfect: I wish I hadn't sold it."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "I wish I don't sell my old guitar.",
+          "feedback": {
+            "en": "A regret about the past needs wish + past perfect: I wish I hadn't sold it."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "explanation": {
+        "en": "I wish + past perfect = regret about the past. I wish I hadn't sold my old guitar (= I sold it, and I'm sorry)."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the error in this sentence from a research report."
+      },
+      "sentence": "If the researchers would have used a larger sample, the results would have been more reliable.",
+      "answers": [
+        "If the researchers had used a larger sample, the results would have been more reliable.",
+        "If the researchers had used a larger sample the results would have been more reliable.",
+        "Had the researchers used a larger sample, the results would have been more reliable.",
+        "Had the researchers used a larger sample the results would have been more reliable."
+      ],
+      "error_type": "conditional-form",
+      "explanation": {
+        "en": "No would in the if-clause: If the researchers had used ... Formal writing sometimes drops if and inverts: Had the researchers used a larger sample, ..."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the verb form."
+      },
+      "sentence": "You should have tell me the meeting was cancelled.",
+      "answers": [
+        "You should have told me the meeting was cancelled.",
+        "You should have told me that the meeting was cancelled.",
+        "You should have told me the meeting had been cancelled.",
+        "You should have told me that the meeting had been cancelled."
+      ],
+      "error_type": "verb-form",
+      "explanation": {
+        "en": "should have + past participle (told) criticises something in the past that didn't happen. To sound less sharp: You could have told me..."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Translate into English, using the verb visit. Context: your friend was in hospital last week, but you didn't know."
+      },
+      "source": "לו הייתי יודע שאתה בבית חולים, הייתי מבקר אותך.",
+      "answers": [
+        "If I had known you were in hospital, I would have visited you.",
+        "If I had known you were in hospital I would have visited you.",
+        "If I had known you were in hospital, I would have come to visit you.",
+        "If I had known you were in hospital I would have come to visit you.",
+        "I would have visited you if I had known you were in hospital.",
+        "I would have come to visit you if I had known you were in hospital.",
+        "If I had known you were in the hospital, I would have visited you.",
+        "If I had known you were in the hospital I would have visited you.",
+        "If I had known you were in the hospital, I would have come to visit you.",
+        "If I had known you were in the hospital I would have come to visit you.",
+        "I would have visited you if I had known you were in the hospital.",
+        "I would have come to visit you if I had known you were in the hospital.",
+        "If I had known that you were in hospital, I would have visited you.",
+        "If I had known that you were in hospital I would have visited you.",
+        "If I had known that you were in hospital, I would have come to visit you.",
+        "If I had known that you were in hospital I would have come to visit you.",
+        "I would have visited you if I had known that you were in hospital.",
+        "I would have come to visit you if I had known that you were in hospital.",
+        "If I had known that you were in the hospital, I would have visited you.",
+        "If I had known that you were in the hospital I would have visited you.",
+        "If I had known that you were in the hospital, I would have come to visit you.",
+        "If I had known that you were in the hospital I would have come to visit you.",
+        "I would have visited you if I had known that you were in the hospital.",
+        "I would have come to visit you if I had known that you were in the hospital.",
+        "Had I known you were in hospital, I would have visited you.",
+        "Had I known you were in hospital I would have visited you.",
+        "Had I known you were in hospital, I would have come to visit you.",
+        "Had I known you were in hospital I would have come to visit you.",
+        "Had I known you were in the hospital, I would have visited you.",
+        "Had I known you were in the hospital I would have visited you.",
+        "Had I known you were in the hospital, I would have come to visit you.",
+        "Had I known you were in the hospital I would have come to visit you.",
+        "Had I known that you were in hospital, I would have visited you.",
+        "Had I known that you were in hospital I would have visited you.",
+        "Had I known that you were in hospital, I would have come to visit you.",
+        "Had I known that you were in hospital I would have come to visit you.",
+        "Had I known that you were in the hospital, I would have visited you.",
+        "Had I known that you were in the hospital I would have visited you.",
+        "Had I known that you were in the hospital, I would have come to visit you.",
+        "Had I known that you were in the hospital I would have come to visit you."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "If I knew you were in hospital, I would visit you.",
+          "feedback": {
+            "en": "Word for word this matches the Hebrew, but in English it describes now (second conditional). Your friend was in hospital last week, so English needs the third conditional: If I had known ..., I would have visited you."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I knew you were in hospital I would visit you.",
+          "feedback": {
+            "en": "Word for word this matches the Hebrew, but in English it describes now (second conditional). Your friend was in hospital last week, so English needs the third conditional: If I had known ..., I would have visited you."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would know you were in hospital, I would visit you.",
+          "feedback": {
+            "en": "No would in the if-clause, and the situation is in the past: If I had known ..., I would have visited you."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would know you were in hospital I would visit you.",
+          "feedback": {
+            "en": "No would in the if-clause, and the situation is in the past: If I had known ..., I would have visited you."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have known you were in hospital, I would have visited you.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had known ..."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I would have known you were in hospital I would have visited you.",
+          "feedback": {
+            "en": "Would never goes in the if-clause: If I had known ..."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had known you were in hospital, I would visit you.",
+          "feedback": {
+            "en": "The visit didn't happen last week, so the result is in the past too: I would have visited you."
+          },
+          "error_type": "conditional-form"
+        },
+        {
+          "match": "If I had known you were in hospital I would visit you.",
+          "feedback": {
+            "en": "The visit didn't happen last week, so the result is in the past too: I would have visited you."
+          },
+          "error_type": "conditional-form"
+        }
+      ],
+      "hint": {
+        "en": "Hebrew uses the same form for now and for the past. Which English conditional describes the past?"
+      },
+      "explanation": {
+        "en": "The Hebrew sentence could describe now or the past; the context (last week) decides. English must show the past in the verbs: If I had known you were in hospital, I would have visited you."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Say the sentence out loud, as a friendly apology."
+      },
+      "target": "If I'd known it was your birthday, I'd have bought you something.",
+      "focus": {
+        "en": "Both 'd are weak: I'd known = I had known, I'd have = I would have. Would have often sounds like /ˈwʊdəv/ in speech, but in writing it is always would have, never 'would of'. Stress birthday and bought."
+      },
+      "explanation": {
+        "en": "Contracted conditionals are normal in conversation. The listener knows which 'd is had and which is would from the verb that follows: 'd + known = had; 'd + have = would."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a reflective article about a turning point."
+      },
+      "task": {
+        "en": "Write a short reflective article (180-280 words) for a student magazine about a turning point: a decision, a chance meeting or a mistake (yours, someone you know, or invented). Explain what happened, imagine how things would have been different, and say what you learned. Include at least two third conditionals, one mixed conditional, and one sentence with I wish or If only. Be honest about both sides: what you lost and what you gained."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "must_include": [
+        "would have",
+        "wish"
+      ],
+      "model_answer": "The bus that changed my plans\n\nThree years ago I missed the last bus home after a party in Jerusalem. At the time it felt like a disaster. My phone was dead and it was almost midnight. I did not know anyone who lived nearby.\n\nIf I had left the party ten minutes earlier, I would have caught the bus and gone home without a second thought. Instead, I walked into a small café that was still open and asked to charge my phone. The owner, an older woman called Ruth, let me sit there until my brother came to pick me up. While I was waiting, she told me how she had started the café after years as an engineer.\n\nThat conversation was a turning point. If I had not missed that bus, I would probably be studying engineering now, simply because my parents expected it. Ruth made me realise that I could choose a different path. Today I am training to be a chef.\n\nThere is, of course, another side. My parents were disappointed, and I sometimes wish I had explained my decision to them more patiently. If I had involved them earlier, the first year would have been much easier for all of us.\n\nEven with hindsight, I would not call it fate. I believe that small accidents give us information, and it is up to us whether we use it. A missed bus gave me a conversation I would never have had otherwise.",
+      "checklist": [
+        {
+          "en": "I used at least two third conditionals (if + had + past participle, would have + past participle) correctly."
+        },
+        {
+          "en": "I used at least one mixed conditional, with a clear past-to-present (or present-to-past) link."
+        },
+        {
+          "en": "I used I wish / If only with the right tense for a past regret (wish + past perfect)."
+        },
+        {
+          "en": "There is no would in any if-clause."
+        },
+        {
+          "en": "The article is balanced: it shows what was lost as well as what was gained."
+        },
+        {
+          "en": "It has a title, clear paragraphs and a conclusion that reflects on the experience."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Third conditional: If + had + past participle, would / could / might have + past participle (unreal past)."
+      },
+      {
+        "en": "Mixed conditionals: If I had studied medicine, I would be a doctor now (past → present). If I weren't so shy, I would have spoken to her (present → past)."
+      },
+      {
+        "en": "Regret and criticism: I wish / If only + past perfect; I wish you would + verb for annoying habits; should(n't) have + past participle."
+      },
+      {
+        "en": "Never put would in the if-clause, and never write 'would of'."
+      },
+      {
+        "en": "Hebrew uses one structure for unreal present and past; English shows the past with had and would have.",
+        "he": "בעברית אותו מבנה משמש להווה ולעבר; באנגלית העבר מסומן ב-had וב-would have."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

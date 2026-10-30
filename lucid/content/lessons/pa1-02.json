@@ -199,11 +199,11 @@
     {
       "id": "e11", "type": "correct", "skill": "writing", "topic": "phonics",
       "prompt": { "en": "Noa wrote this message the way she says it. Fix the spelling.", "he": "נועה כתבה את ההודעה כמו שהיא אומרת אותה. תקנו את האיות." },
-      "sentence": "I tink so, tanks!",
+      "sentence": "I sink so, sanks!",
       "answers": ["I think so, thanks!", "I think so thanks", "I think so. Thanks!"],
       "error_type": "pron-th",
-      "hint": { "en": "Two words need th.", "he": "בשתי מילים חסר th." },
-      "explanation": { "en": "think and thanks start with th /θ/: tongue between the teeth. 'tanks' is a different word (big army vehicles or containers)!", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים. ‏tanks זו מילה אחרת לגמרי – טנקים או מכלים!" }
+      "hint": { "en": "Two words need th, not s.", "he": "בשתי מילים צריך th במקום s." },
+      "explanation": { "en": "think and thanks start with th /θ/: tongue between the teeth, not s. 'I sink' means something else: you go down under water!", "he": "think ו-thanks מתחילות ב-th: קצה הלשון בין השיניים, לא s. ‏I sink פירושו בכלל 'אני שוקע/ת' במים!" }
     },
     {
       "id": "e12", "type": "speak", "skill": "speaking", "topic": "phonics",
@@ -232,7 +232,8 @@
         { "en": "You used at least three words from the lesson.", "he": "השתמשתם לפחות בשלוש מילים מהשיעור." },
         { "en": "Read your message aloud: are the short vowels short (hot, cup, bed)?", "he": "קראו את ההודעה בקול: האם התנועות הקצרות באמת קצרות (hot, cup, bed)?" },
         { "en": "Names and the word I start with a capital letter.", "he": "שמות והמילה I מתחילים באות גדולה." }
-      ]
+      ],
+      "explanation": { "en": "Writing words you can read by their sounds helps you remember the patterns: short vowels, silent e and th.", "he": "כשכותבים מילים שיודעים לקרוא לפי הצלילים, הדפוסים נזכרים טוב יותר: תנועות קצרות, e שקטה ו-th." }
     }
   ],
   "review": {

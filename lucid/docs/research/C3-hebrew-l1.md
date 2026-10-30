@@ -25,16 +25,17 @@
 **Hebrew sound inventory (descriptive).**
 - PHOIBLE's inventory from Laufer's *Illustrations of the IPA: Hebrew* (1990) lists 22 consonants and 5 vowels /i e a o u/ [1].
 - The consonants include /v/, /h/ and /ʒ/. They do **not** include /w/, /θ/, /ð/ or /ŋ/, and the affricates /tʃ dʒ/ are not listed [1].
-- Zaltz & Segal confirm the five-vowel system. Modern Hebrew has "only five vowels" with no phonemic short/long distinction. Vowel duration varies only with stress and word position, from about 70 to 100 ms [2].
+- Zaltz & Segal confirm the five-vowel system. Modern Hebrew has "only five vowels" with no phonemic short/long distinction. Vowel duration varies only with stress and with word length (one- vs two-syllable words), from about 70 to 100 ms [2].
 - Bat-El et al. transcribe the rhotic as uvular [ʁ] (e.g., *sifʁijá* 'library') [3]. That is a different articulation from the English approximant /ɹ/.
 
 **Predicted segmental difficulties.** These are inferences from the inventory, not measured learner data.
 - **Vowels.**
   - English vowel contrasts must be mapped onto five Hebrew categories. Likely collapses: /ɪ/–/iː/ (*ship/sheep*), /ʊ/–/uː/ (*full/fool*), and /æ/–/ʌ/–/e/–/ɑː/ (*cat/cut/bet/cart*).
-  - /ɪ/–/iː/ matters most for intelligibility. It has a high functional-load (FL) ranking in both the Catford and Brown lists, and it is the only vowel contrast that Jenkins's Lingua Franca Core prioritises [4].
+  - /ɪ/–/iː/ has a high functional-load (FL) ranking in both the Catford and Brown lists, and it is the only vowel contrast that Jenkins's Lingua Franca Core gives priority treatment [4].
+  - Caveat from the same source: Sewell uses this very contrast as an example *against* mechanical FL prioritisation. The absence of the /i/–/ɪ/ contrast "is a feature of many L2 English accents around the world" (e.g., Singapore, Hong Kong) and is noticeable in advanced learners' speech [4]. The source does not say this contrast "matters most" for intelligibility.
 - **/w/ vs /v/.** Hebrew has /v/ but no /w/ [1], so a /w/→[v] substitution is predicted (*wine* → "vine").
 - **/θ ð/.** These are absent from Hebrew [1]. Substitution with nearby sounds is predicted.
-  - A practitioner source claims [t d] specifically ("tink", "de") [8]. That claim comes from coaching experience, not from data.
+  - A practitioner source claims [t] for both sounds ("tink", "mat", "tis", "broter") [8]. That claim comes from coaching experience, not from data.
   - No opened source gave a functional-load ranking for /θ/.
 - **/ŋ/.** It is absent [1], so *-ing* endings may be realised as [n] or [ŋg]. This is a prediction only.
 - **"Final consonant devoicing?"** The evidence does **not** support predicting this for Hebrew speakers.
@@ -48,7 +49,7 @@
 - **Duration is the main acoustic cue** to Hebrew stress, and intensity and F0 play only minor roles. There is no acoustic evidence for secondary stress [3].
 - English, by contrast, weakens unstressed syllables, often to schwa, and schwa is "the most common English sound" [7].
 - The British Council article also notes that learners "will still be understood if they give all vowel sounds their full value". Schwa matters mainly for **listening**: learners who expect full vowels may fail to recognise words they know [7].
-- *Inference:* Hebrew speakers may transfer final-stress habits and full unreduced vowels into English. A practitioner source asserts both, misplaced stress and full vowels [8], but no Hebrew-specific study of English stress production was opened.
+- *Inference:* Hebrew speakers may transfer final-stress habits and full unreduced vowels into English. A practitioner source asserts that Hebrew "primarily uses a syllable-based rhythm" and that Hebrew speakers "may struggle" with English word stress [8]. It does not discuss unreduced vowels. No Hebrew-specific study of English stress production was opened.
 
 **Can adult Hebrew speakers learn a vowel contrast their L1 lacks? (experimental)**
 - Zaltz & Segal tested 40 Hebrew and 20 Arabic native speakers on Arabic short/long vowels in an ABX task [2].
@@ -69,7 +70,12 @@
 - Uchihara, Karas & Thomson (2024) meta-analysed 31 high-variability phonetic training (HVPT) studies [6]:
   - Production effects were small-to-medium. Average gains were 10.5% on trained items and 4.5% on untrained items.
   - There was **no strong support for long-term retention or generalisation** of production gains.
-  - Moderators included learner age and context, provision of phonetic information, training duration and time per session.
+  - Moderators included learner age and context, provision of phonetic information, training duration and time per session. The full text gives the directions [6]:
+    - Providing phonetic information gave larger production gains (g = 0.94 vs 0.45 without, p = .029). The authors note this matches Sakai & Moorman's earlier result (d = 0.99 vs 0.40).
+    - Programmes shorter than one month did better than longer ones (g = 0.61 vs 0.32, p = .054).
+    - Longer sessions were associated with smaller production gains (p = .022). The authors tentatively suggest 20–30 minutes per session.
+    - Younger learners gained more, and the number of talkers was **not** a significant predictor of production gains.
+    - Gains were best documented for controlled tasks such as word reading. Whether HVPT improves spontaneous speech "remains uncertain".
 - Sewell (2021) cautions against applying functional-load rankings mechanically. He argues that low-FL features "may not need to be prioritized" [4].
 
 ### Strength of evidence
@@ -80,6 +86,7 @@
 
 ### What it means for Lucid
 - Build a **perception-first contrast trainer**: HVPT-style, with many voices and minimal pairs. Start with /ɪ–iː/ and /w–v/, then /æ–ʌ–e/ and /ʊ–uː/.
+- Precede each contrast with brief phonetic information (how the sounds differ), because it moderated production gains positively in the HVPT meta-analysis [6]. Keep sessions short and the programme under a month [6].
 - Treat production gains as modest and uncertain [5][6]. Test retention and untrained items; never report only trained-item scores.
 - Score speaking for **intelligibility and comprehensibility**, not native-likeness [4][7].
 - Teach schwa and weak forms mainly for **listening** [7].
@@ -142,16 +149,17 @@
   - Learners at all levels produced **far fewer verb–noun collocations** than native speakers.
   - Collocation counts rose only at the advanced level.
   - Errors, "particularly interlingual ones", **persisted even at advanced levels** [14].
-- A conference abstract on the ICCI corpus (which contains Israeli data) reports no significant progress in collocation use across grades 6–12. It is weaker evidence: an abstract, not a peer-reviewed paper [15].
+- A conference abstract by a University of Haifa researcher, using a cross-linguistic sample of grade 6–12 essays from the ICCI corpus, reports "a very limited use of collocations" and "no significant progress even in the course of seven years" [15]. It is weaker evidence: a conference abstract with "preliminary results", not a peer-reviewed paper. The abstract does not name the countries or L1s sampled, nor break results down by L1, so it is not direct Hebrew-L1 evidence [15].
 
 **Phrasal verbs (experiment; Hebrew L1).**
 - Dagut & Laufer (1985) is the classic avoidance study [16]. As summarised by Immelman & Cooper [17]:
   - The participants were Hebrew-speaking EFL students with at least seven years of school English.
-  - Multiple-choice, translation and memorisation tests showed they **preferred one-word verbs to phrasal verbs**.
+  - Multiple-choice, verb-translation and memorisation tests on the 15 most frequent phrasal verbs, taken by 60 students, showed they **preferred one-word verbs to phrasal verbs**, and literal over idiomatic phrasal verbs when they did use them.
   - The authors attributed this to Hebrew lacking the structure.
 - The finding is **contested** [17]:
-  - Hulstijn & Marchena (1989) argued that the avoidance could be semantic, not structural.
-  - Liao & Fukuya (2004) criticised the earlier work for not controlling proficiency adequately.
+  - Hulstijn & Marchena (1989) argued that the avoidance could be semantic, not structural. Their Dutch learners, whose L1 has phrasal verbs, also avoided them.
+  - Laufer & Eliasson (1993), comparing Swedish learners with Dagut & Laufer's Hebrew group, concluded that "the best predictor for avoidance is L1-L2 difference".
+  - Liao & Fukuya (2004) criticised the earlier work for not taking proficiency adequately into account. In their own study of Chinese learners, avoidance was most prevalent at lower proficiency and for idiomatic phrasal verbs.
 - The original article's opening also cites Levenston (1971) on Hebrew speakers under-using English structures that lack Hebrew equivalents [16].
 
 **Look-alike words ("synforms") (descriptive/theory).**
@@ -197,14 +205,15 @@
 
 **Script facts (standard).**
 - Hebrew script "is written from right to left". Vowel points "are usually omitted", except in liturgical and special texts. Five letters have word-final forms [21].
-- The Unicode Standard's list of scripts that have case names Latin, Greek, Coptic, Cyrillic, Glagolitic, Armenian and others. **Hebrew is not among them** [22]. Hebrew therefore gives no L1 model for capital letters.
+- The Unicode Standard's list of scripts that have case names Latin, Greek, Coptic, Cyrillic, Glagolitic, Armenian, archaic Georgian, Deseret and Warang Citi. **Hebrew is not among them** [22]. That list is introduced with "such as", so it is illustrative, not exhaustive. The W3C Hebrew Layout Requirements state it directly: Hebrew is an abjad and "The script is unicameral" [49]. Hebrew therefore gives no L1 model for capital letters.
 - No study of capitalisation errors by Hebrew-L1 writers was found, so the predicted error (missing capitals in names, *I*, sentence starts) remains unmeasured.
 
 **Spelling (Hebrew-L1 EFL; children and adolescents).**
 - Russak & Kahn-Horwitz (2015) studied 233 Hebrew-L1 students in grades 5, 8 and 10 [23]:
-  - Good and poor spellers differed at all grades on novel phonemes and English orthographic conventions.
+  - The study targeted novel phonemes (e.g., /æ/) and English orthographic conventions (e.g., *th* for /ð/, silent *e*).
+  - Good and poor spellers differed significantly in overall spelling accuracy at all grades. Some specific differences (consonant clusters, initial *h*, /ð/) appeared in grade 5 only.
   - "Spelling accuracy for most conventions did not improve after the eighth grade."
-  - **Hebrew spelling was among the strongest predictors of English spelling.**
+  - **Hebrew spelling was one of the strongest predictors of English real-word and pseudoword spelling** in grades 5 and 8.
 - A 9-year longitudinal study (grades 4, 9, 12) found that early English spelling strongly predicted later English spelling. Grade-4 L1 literacy predicted grade-9 EFL spelling better than English word recognition did [24].
 - For comparison, Arabic-L1 learners, whose script is also a consonant-based abjad, spelled vowels less accurately than consonants, struggled with novel phonemes, and found digraphs hard [25]. This is an analogue, not Hebrew data.
 
@@ -215,7 +224,7 @@
 - The 5-point (B2) composition is **120–140 words** (opinion, for-and-against, description, email, story, formal letter), with grammar and spelling deductions [28].
 
 ### Strength of evidence
-- **Script facts:** Strong (standards documents) [21][22].
+- **Script facts:** Strong (standards documents) [21][22][49].
 - **Hebrew-L1 EFL spelling plateaus and L1 spelling predicts EFL spelling:** Moderate for school-age learners [23][24]. Generalisation to adults is untested.
 - **Capitalisation, punctuation and run-on transfer:** no direct evidence.
 
@@ -257,7 +266,7 @@
 
 - These lexical bands are frequency-based and include chunks [26].
 - The curriculum includes CEFR **mediation** and **plurilingual/pluricultural competence** components [26].
-- Context from a study of children: formal English starts in grade 3, with 2×45 minutes a week, rising to 4 lessons a week in grades 4–6. The authors also note that many teachers use pupils' L1 in class [13].
+- Context from a study of children: formal English starts in grade 3, with two 45-minute lessons a week, rising to four 45-minute lessons a week in grades 4–6. The authors also note that, although the curriculum stresses oral skills, "many teachers prefer to use their L1", which "further limits exposure to spoken English" [13].
 
 **Bagrut structure** [28][29].
 - **5-point:** Module E (27%), Module F literature (26%, school-internal), Module G (27%), and COBE computerised oral exam (20%).
@@ -363,8 +372,9 @@
     - **Only 3 of 40 studies had delayed post-tests.**
     - **Adult learners showed a small, non-credible effect (g = 0.263, k = 6)**, while tertiary students showed the largest (g = 1.326, k = 44).
     - Speaking had the largest effect (g = 1.364) and vocabulary the lowest (g = 0.693) [40].
+    - Linguistic distance, target language and treatment duration "did not reach the posterior probability threshold for credible inference" as moderators [40].
   - Cenoz & Gorter's *Pedagogical Translanguaging* separates **planned (pedagogical)** from **spontaneous** translanguaging [45].
-    - Their reviewer doubts that positive cross-linguistic influence holds for **typologically distant** pairs [45]. Hebrew and English are such a pair.
+    - Their reviewer doubts that positive cross-linguistic influence holds for **typologically distant** pairs [45]. Hebrew and English are such a pair. This is a reviewer's theoretical doubt. The meta-analysis above found no credible moderation by linguistic distance, but that is an absence of evidence, not proof of no effect [40].
 
 **Gradual withdrawal.**
 - No study was found that tests a specific *schedule* for fading L1 support.
@@ -407,10 +417,10 @@
 - Use `bdo` only for special cases.
 
 **Hebrew-specific gaps** (W3C Hebrew Gap Analysis, May 2025 draft) [48].
-- Base direction can be lost when strings pass between applications. The `dirname` form attribute "isn't fully interoperable".
-- Support for logical CSS **shorthands** (`margin-inline`, `margin-block`) is weak.
-- `:dir()` is described as not supported by all engines, although the heading marks it as fixed.
-- Isolating characters (RLI/LRI/PDI/FSI) are needed where markup is unavailable.
+- Base direction can be lost when strings pass between applications, and heuristics based on the first strong character can fail. The gap entry on this (#27) said the `dirname` form attribute "isn't fully interoperable". It is now headed "FIXED ! This gap is now fixed".
+- Support for logical CSS **shorthands** (`margin-inline`, `margin-block`, `margin`) is weak. This gap (#26) is **not** marked fixed.
+- `:dir()` is described as not supported by all engines, although the heading marks it as fixed (#30).
+- Isolating characters (RLI/LRI/PDI/FSI) are needed where markup is unavailable (e.g., `title` and `alt` attributes). The browser-support gap for them (#25) is marked FIXED.
 - Browsers ignore or mis-render diacritics coloured differently from their base letters. This matters if Lucid ever highlights niqqud [48].
 
 **Learner-facing research.** No empirical study was found on Hebrew speakers' learning outcomes in mixed-direction interfaces. The recommendations below are engineering guidance, not learning evidence.
@@ -434,9 +444,9 @@ Defaults marked **(calibrate)** are starting values chosen by the team. The evid
 
 | ID | Decision (default) | Evidence | How to test |
 |---|---|---|---|
-| P1 | Hebrew-L1 contrast priority list. **Tier 1:** /ɪ–iː/, /w–v/. **Tier 2:** /æ–ʌ–e(–ɑː)/, /ʊ–uː/, /θ ð/, /ŋ/. **Tier 3** (accent only, not scored for intelligibility): uvular /r/, full vowels in unstressed syllables in *speech*. | Inventory [1]; /ɪ–iː/ high FL and the only Lingua Franca Core vowel [4]; low-FL features need not be prioritised [4]; schwa not needed to be understood [7] | Diagnostic minimal-pair screen at onboarding (≈20 items, ≤3 min). Report per-contrast accuracy; reorder tiers if cohort data disagree. |
-| P2 | **Perception-first HVPT trainer**: ≥4 different voices per contrast (calibrate); 10–15-minute sessions; ≥6 sessions per contrast over 2–3 weeks (calibrate); 20% of test items are untrained "generalisation" words. | Single short training generalised to untrained items [2]; perception gains d = 0.92 > production d = 0.54 [5]; production gains 10.5% trained vs 4.5% untrained, weak retention [6] | Pre/post plus a **4-week delayed** test on trained and untrained items. Ship the claim "improves listening for X", not "fixes your accent". |
-| P3 | Phonetic-information panels (articulation tips in Hebrew) shown as an **A/B variable**, not a fixed feature. | Provision of phonetic information moderates HVPT production gains; the direction was not given in the opened abstract [6] | A/B on delayed production scores. |
+| P1 | Hebrew-L1 contrast priority list. **Tier 1:** /ɪ–iː/, /w–v/. **Tier 2:** /æ–ʌ–e(–ɑː)/, /ʊ–uː/, /θ ð/, /ŋ/. **Tier 3** (accent only, not scored for intelligibility): uvular /r/, full vowels in unstressed syllables in *speech*. | Inventory [1]; /ɪ–iː/ high FL and the only Lingua Franca Core vowel [4]; low-FL features need not be prioritised [4]; schwa not needed to be understood [7]. **Weakened (2026-10-30 check):** Sewell [4] also cites /i–ɪ/ as a high-FL contrast that is merged in many L2 Englishes and in advanced learners' speech, as a warning against mechanical FL ranking. No opened source measured how much this merger costs Hebrew speakers' intelligibility. Tier 1 placement is a team judgement. | Diagnostic minimal-pair screen at onboarding (≈20 items, ≤3 min). Report per-contrast accuracy; reorder tiers if cohort data or intelligibility ratings disagree. |
+| P2 | **Perception-first HVPT trainer**: ≥4 different voices per contrast (calibrate); 10–15-minute sessions (calibrate; ≤30 min hard cap); ≥6 sessions per contrast over 2–3 weeks, i.e. under one month (calibrate); 20% of test items are untrained "generalisation" words. | Single short training generalised to untrained items [2]; perception gains d = 0.92 > production d = 0.54 [5]; production gains 10.5% trained vs 4.5% untrained, weak retention [6]; programmes under 1 month and shorter sessions gave larger production gains, and the authors tentatively suggest 20–30 min per session [6]. **Caveat:** number of talkers was not a significant predictor of *production* gains [6], so the ≥4-voice default rests on the HVPT definition, not on a measured dose–response. | Pre/post plus a **4-week delayed** test on trained and untrained items. Ship the claim "improves listening for X", not "fixes your accent". |
+| P3 | Phonetic-information panels (short articulation tips in Hebrew) shown **by default** before perception training on each contrast. A/B-test only their format and language (Hebrew vs English, text vs video), not whether to show them. *(Changed on 2026-10-30. Earlier version: A/B on/off, because the direction was thought unreported.)* | Full text of [6]: providing phonetic information gave larger production gains (g = 0.94 vs 0.45, p = .029), consistent with Sakai & Moorman's d = 0.99 vs 0.40 as reported in [6] | A/B on format; delayed production scores on trained and untrained items. |
 | P4 | Stress and schwa taught **listening-first** (weak-form dictation, stress prediction). Speaking scores penalise wrong *primary stress placement* but not unreduced vowels below C1. | Hebrew stress: final-dominant, duration-cued [3]; schwa needed for recognition but not to be understood [7] | Track listening gains on weak-form items; check speaking scores against human intelligibility ratings. |
 | P5 | **No default final-devoicing module.** Enable only when the diagnostic detects devoicing in ≥3 of 5 final-voiced items (calibrate). | Hebrew allows final voiced obstruents [3]; no Hebrew-L1 evidence of devoicing found | Count how many users trigger it. |
 | P6 | Pronunciation scores report **intelligibility/comprehensibility**, never "% native-like". | [4][7] | Validate automatic scores against human raters on a Hebrew-L1 sample (n ≥ 50 speakers, calibrate). |
@@ -448,7 +458,7 @@ Defaults marked **(calibrate)** are starting values chosen by the team. The evid
 | G1 | The AI evaluators tag Hebrew-contrast hypotheses: `ART_INDEF_OMIT`, `ONE_AS_ART`, `COPULA_OMIT`, `ASPECT_SIMPLE_PROG`, `PERFECT`, `Q_NO_INVERSION`, `ADJ_POSTNOMINAL`, `3SG_S`. A contrastive micro-lesson (Hebrew note + 8–12 items) triggers when a tag fires in ≥20% of obligatory contexts across the last 3 submissions, or ≥3 times in 500 words (calibrate). | Typology [11]; 3rd-person *-s* hardest in Hebrew-L1 child writing [12] | After 3 months, publish cohort tag rates. Drop tags that fire in <2% of contexts and add any that emerge. |
 | G2 | The aspect sequence (present simple vs continuous at A1; present perfect vs past simple at A2–B1) carries a 1–2 sentence Hebrew contrast note at first presentation only. | Hebrew lacks grammatical aspect marking [11]; brief L1–L2 contrast explanations endorsed [26] | A/B test with and without the note on unit post-tests and delayed tests. |
 | L1 | Collocation units (verb+noun, adj+noun) enter SRS from A2. The Writing Lab flags miscollocations at all levels through C2. Target ≥30% of new SRS items at B1+ to be multiword units (calibrate). | Hebrew-L1 collocation errors persist at advanced levels [14][15]; MoE bands include chunks [26] | Collocation density per 1,000 words in Writing Lab essays, tracked over time against level. |
-| L2 | Phrasal-verb tracker: measure phrasal verbs per 1,000 words in informal writing and speech. If a learner falls below the cohort's 25th percentile, suggest phrasal-verb practice. Never mark correct one-word verbs as errors. | Avoidance by Hebrew speakers [16][17], contested [17] | Pre/post phrasal-verb rate in roleplay transcripts. |
+| L2 | Phrasal-verb tracker: measure phrasal verbs per 1,000 words in informal writing and speech. If a learner falls below the 25th percentile **of same-level learners**, suggest phrasal-verb practice, starting with literal before idiomatic phrasal verbs. Never mark correct one-word verbs as errors. | Avoidance by Hebrew speakers [16][17], contested [17]; avoidance greatest at lower proficiency and for idiomatic phrasal verbs (Liao & Fukuya 2004, as reported in [17]), so cohort comparison must control for level | Pre/post phrasal-verb rate in roleplay transcripts. |
 | L3 | Every vocabulary set at A1–B1 includes one **two-way translation item with contrastive feedback** (Hebrew→English and English→Hebrew). | Contrastive translation beat equal-time alternatives [20] | A/B against a matched set without translation; delayed recall at 1 and 4 weeks. |
 | L4 | Dictionary entries are **bilingualised**: Hebrew gloss + English learner definition + example. Default to showing the Hebrew gloss up to B1, collapsed at B2+, with a toggle always available. | [19][41][42] | Log toggle use; check whether recall differs by display mode. |
 | L5 | A "confusable forms" drill type covers synforms. The Hebrew–English false-friends deck ships **only after review by ≥2 bilingual editors**. | [18]; no verified false-friends list found | Editorial QA checklist. |
@@ -457,7 +467,7 @@ Defaults marked **(calibrate)** are starting values chosen by the team. The evid
 
 | ID | Decision (default) | Evidence | How to test |
 |---|---|---|---|
-| W1 | Capitalisation checks are on at all levels. The Pre-A1 to A1 path has an explicit "English has capital letters; Hebrew doesn't" lesson. | Hebrew not a cased script [22] | Measure capitalisation error rate in the first 10 submissions vs submissions 30–40. |
+| W1 | Capitalisation checks are on at all levels. The Pre-A1 to A1 path has an explicit "English has capital letters; Hebrew doesn't" lesson. | Hebrew script is unicameral [49]; not in Unicode's (illustrative) list of cased scripts [22]. No study of capitalisation errors by Hebrew-L1 writers was found. | Measure capitalisation error rate in the first 10 submissions vs submissions 30–40. |
 | W2 | Placement includes a 10-item **spelling probe** (novel vowels /æ ʌ/, digraphs *th/sh/ch*, silent *e*) for anyone placing ≤A2. A low score adds a spelling strand. | Hebrew vowel points normally omitted [21]; Hebrew-L1 EFL spelling plateaus after grade 8 and is predicted by earlier spelling [23][24]; Arabic-abjad analogue [25] | Check the spelling probe's correlation with writing scores. |
 | W3 | The Writing Lab ladder runs 70–90 words (A2) → 120–140 (B1–B2) → 250–350 (B2+) → 400–600 argumentative (C1–C2) (calibrate). | Bagrut compositions are 70–90 and 120–140 words [28][29]; C1–C2 goal from the brief | Completion rate per rung; rubric scores. |
 | W4 | Run-on and punctuation feedback uses the general written-feedback design (Team C2), **not** a "Hebrew transfer" label. | No Hebrew-specific evidence | — |
@@ -551,7 +561,7 @@ All accessed 2026-10-30. "Abstract/record only" means only the publisher's or re
 33. NITE. The significance of AMIRNET scores. https://www.nite.org.il/other-tests/amirnet/scores/significance/?lang=en — Official guidance.
 34. Tel Aviv University, Division of Foreign Languages. Pre-Exemption English Courses. https://en-languages.tau.ac.il/english_courses — Institutional policy.
 35. Tel Aviv University, Division of Foreign Languages. English Courses (CEFR–score table). https://en-languages.tau.ac.il/node/1869 — Institutional policy (table partly garbled in extraction).
-36. Council for Higher Education (Israel) (n.d.; reports the decision of 17 December 2019). English language studies revolution in academia. https://che.org.il/en/?p=358381 — Policy announcement.
+36. Council for Higher Education (Israel) (2019, 17 December). English language studies revolution in academia. https://che.org.il/en/?p=358381 — Policy announcement.
 37. Aronin, L., & Spolsky, B. (2010). Research in English language teaching and learning in Israel (2004–2009). *Language Teaching*, 43(3), 297–319. https://doi.org/10.1017/S0261444810000042. https://www.cambridge.org/core/product/60A2EEF228B36E320E9B01FAB1AB01E4 — Review (abstract/record).
 38. Hall, G., & Cook, G. (2012). Own-language use in language teaching and learning. *Language Teaching*, 45(3), 271–308. https://doi.org/10.1017/S0261444812000067. https://www.cambridge.org/core/journals/language-teaching/article/ownlanguage-use-in-language-teaching-and-learning/6F479F6C8DD0CF628A53131D5CCE7B5D — State-of-the-art review (abstract/record).
 39. Hall, G., & Cook, G. (2013). *Own-language use in ELT: Exploring global practices and attitudes*. London: British Council. https://www.teachingenglish.org.uk/sites/teacheng/files/C448%20Own%20Language%20use%20in%20ELT_A4_FINAL_WEB%20ONLY.pdf (landing page: https://www.teachingenglish.org.uk/publications/case-studies-insights-and-research/own-language-use-elt-exploring-global-practices-and) — Survey (self-report, non-probability sample).
@@ -563,4 +573,76 @@ All accessed 2026-10-30. "Abstract/record only" means only the publisher's or re
 45. Xiong, Y. (2022). Review of Cenoz, J., & Gorter, D. (2022). *Pedagogical Translanguaging* (Elements in Language Teaching). Cambridge University Press. LINGUIST List 33.3508. https://linguistlist.org/issues/33/3508/ — Book review (theory; secondary).
 46. W3C Internationalization. Inline markup and bidirectional text in HTML. https://www.w3.org/International/articles/inline-bidi-markup/ — Guidance.
 47. W3C Internationalization. Structural markup and right-to-left text in HTML. https://www.w3.org/International/questions/qa-html-dir — Guidance.
-48. W3C Internationalization Working Group (2025, 31 May). *Hebrew Gap Analysis* (W3C Group Draft Note). https://www.w3.org/TR/hebr-gap/ (the opened page identified itself as the 31 May 2025 version, DNOTE-hebr-gap-20250531) — Guidance (draft).
+48. W3C Internationalization Working Group (2025, 31 May). *Hebrew Gap Analysis* (W3C Group Draft Note; ed. R. Ishida). https://www.w3.org/TR/hebr-gap/ (the opened page identified itself as the 31 May 2025 version, DNOTE-hebr-gap-20250531) — Guidance (draft).
+49. W3C Internationalization Interest Group, Hebrew Layout Task Force (n.d.). *Hebrew Layout Requirements* (W3C Editor's Draft; no date shown in the opened text). https://w3c.github.io/hlreq/ — Guidance (draft). Added during the 2026-10-30 verification as a direct source for "The script is unicameral."
+
+---
+
+## Verification log (2026-10-30)
+
+Adversarial check of every numbered source. Each source was opened with WebFetch. Where WebFetch returned a PDF as binary, or its summary could not be trusted for exact numbers, the same URL was also downloaded and the text extracted locally (`pdftotext` / HTML-to-text), and the claims were matched against the source text. This applies to PHOIBLE, the Zaltz & Segal, Bat-El et al., Uchihara et al., Immelman & Cooper and Levitzky-Aviad PDFs, the MoE curriculum, both Bagrut handbooks, the NITE guide, Hall & Cook (2013), Russak & Zaretsky (2021), ERIC, Wang & Zhang, Sewell, Unicode, TAU and W3C.
+
+**Status key:** **C** = confirmed (authors, year, title and venue match, and the attributed claims are in the source). **P** = partially supported (the source exists and is correctly cited, but a claim was overstated or mis-worded; corrected in place). **U** = unsupported. **D** = dead or blocked.
+
+| # | Status | Notes |
+|---|---|---|
+| 1 | C | PHOIBLE inventory 2189 (Laufer 1990, JIPA 20(2): 40–43). 22 consonants, 5 vowels. No /w θ ð ŋ tʃ dʒ/; /v h ʒ/ present. |
+| 2 | C | SSLA 44(1), 143–163; open access; published online 2021. 40 Hebrew + 20 Arabic speakers, ABX task, ~20-minute training without feedback, post-test 1 week later, generalisation to untrained nonwords. Corrected the minor detail "word position" to "word length (one- vs two-syllable)". |
+| 3 | C | BJAALL 11, 96–118. Trisyllabic window; final stress ~75% (Living Lexicon) and 79% of 6,811 nouns; penultimate is the default; duration is the main cue; no acoustic evidence for secondary stress; *gamád*, *sifʁijá* examples. |
+| 4 | P | Bibliographic details and quotes are correct. **Overstated:** "/ɪ/–/iː/ matters most for intelligibility" is not in the source. Sewell cites /i–ɪ/ merger in many L2 Englishes as a caution against mechanical FL use. Reworded; P1 flagged as weakened. |
+| 5 | C | Applied Psycholinguistics 39(1), 187–224. d = 0.92 perception (described as "medium"), d = 0.54 production ("small"), non-significant perception–production relation, obstruents > sonorants/vowels. |
+| 6 | C | Applied Psycholinguistics 45, 591–623. 31 studies; 10.50% / 4.50%; no strong support for retention or generalisation. **The team's statement that the direction of the phonetic-information moderator was "not given" was wrong:** the full text gives g = 0.94 vs 0.45 (p = .029). §1 and P3 were corrected, and session-length and duration findings added. |
+| 7 | C | Author Catherine Morley (guest author). "most common English sound"; "will still be understood if they give all vowel sounds their full value"; "fail to recognise known language". |
+| 8 | P | Author and date are correct (Eliza Simpson, 29 Dec 2023). **Mis-quoted:** the source gives [t] for both /θ/ and /ð/ ("tink", "mat", "tis", "broter"), not "de". It does **not** assert unreduced or full vowels. Corrected. |
+| 9 | C | 2nd ed. 2001, ISBN 9780521779395. The description lists 22 chapters, Dutch to Thai, including Arabic. No Hebrew. |
+| 10 | C | 1987, Swan & Smith (eds), CUP. No contents list shown. |
+| 11 | C | 37A "Definite affix"; 38A "Indefinite word same as 'one'"; 65A "No grammatical marking"; 87A "Noun-Adjective"; 116A "Question particle"; 120A "Possible", with *Moše hu student*. |
+| 12 | C | 58 pupils (29 Arabic-L1, so 29 Hebrew-L1), grade 6, 4th year of English. 3rd-person singular hardest for both groups. No L1→EFL transfer of morphological awareness. |
+| 13 | P | Frontiers in Psychology 12, 664152. β = 0.40 (ERC); HRC not correlated; grade 3 start, 2×45 then 4×45 min; SVO/flexible; "morphologically impoverished" all confirmed. **Mis-worded:** "teachers use pupils' L1" changed to the source's wording "many teachers prefer to use their L1". |
+| 14 | C | Language Learning 61(2), 647–672. ~300,000 words, Hebrew-L1, three levels, LOCNESS, far fewer collocations, increase only at advanced, interlingual errors persist. |
+| 15 | P | The TALC abstract exists and its content matches ("no significant progress even in the course of seven years"). **Unsupported detail removed:** the abstract does not state that the sample includes Israeli data or give an L1 breakdown. Reworded as non-Hebrew-specific. |
+| 16 | C | SSLA 7(1), 73–79. The opening extract confirms the Levenston (1971) framing. Methods not visible (paywall); the methods are reported via [17]. |
+| 17 | C | JLT 57(1), 2023. Its summary of Dagut & Laufer (60 students, 15 PVs, MC/translation/memorisation), Hulstijn & Marchena and Liao & Fukuya is confirmed. Laufer & Eliasson (1993) and Liao & Fukuya's proficiency finding were added from the same source. |
+| 18 | C | Language and Education 2(2), 113–132. 10 categories: 1–5 affix, 6–9 one phoneme, 10 same consonants with different vowels. |
+| 19 | C | MLJ 81(2), 189–196. 123 high-school and university learners; 15 low-frequency words; "different dictionaries may be suitable…". |
+| 20 | C | Applied Linguistics 29(4), 694–716. Three groups, equal time on task, 10 words + 10 collocations, CAT best on all tests, 1-week delay, L1 not named. |
+| 21 | C | Unicode 18.0.0 §9.1: right to left; points "usually omitted, except for liturgical texts and other special applications"; five final forms. |
+| 22 | P | The quote is correct, but the list of cased scripts is introduced with "such as" (illustrative). The absence of Hebrew from it is not proof by itself. Supplemented with new source [49]. |
+| 23 | P | JRR 38(3), 307–330; 233 students, grades 5, 8 and 10. **Overstated:** "differed at all grades on novel phonemes and conventions". The abstract reports overall good/poor differences at all grades, with some specific differences in grade 5 only. Corrected. |
+| 24 | C | Applied Psycholinguistics 33(2), 343–363. Grades 4, 9 and 12; earlier spelling predicts later spelling; grade-4 L1 literacy beats English word recognition for grade-9 spelling. |
+| 25 | C | Reading and Writing 39(4), 1431–1454 (2026). Arabic-L1 (84 fifth and 80 eighth graders); vowels < consonants; novel phonemes; digraphs. |
+| 26 | C | Table 1 (exit levels), A2+ grammar band, Table 3 cumulative vocabulary targets (approximate), chunks, mediation, plurilingual competence, Laufer foreword quotes, "maximum exposure" and "linguistic resources (L1…)" all match the PDF text. |
+| 27 | C | "was designed in alignment with the CEFR"; "ethnically and linguistically heterogeneous population". |
+| 28 | C | Handbook dated February 2025. E 27%, F 26%, G 27%, COBE 20%; G = 450–500-word text (60%) + 120–140-word composition (40%), 1 h 45 min; no dictionary in E; Academization Program; B2 "expected proficiency at the end of High School". |
+| 29 | C | September 2020. Modules A, B, C + oral; composition 70–90 words (opinion, description, informal letter); Module A has no grammar or spelling deductions. |
+| 30 | C | Guide incl. Practice Test 5E. Sentence completion / restatement / reading comprehension, 4 options; two texts × 5–6 questions; 50–150; V and Q weighted twice English; total 200–800. |
+| 31 | C | CHE decision; two domains from Winter (December) 2026; "evaluated only in the AMIRNET test"; English placement test required for admission; institutions decide how to use the score. |
+| 32 | C | Computerised, adaptive, ~50 min, 50–150, equivalent scores; experimental writing section; changes in stages from 2027 (listening, writing); speaking "further in the future"; CHE 17 Dec 2019. |
+| 33 | C | "Each academic institution makes its own independent decisions on the basis of examinees' scores." |
+| 34 | C | Score bands as tabulated; exemption within one year, three semesters in some units. |
+| 35 | C | CEFR table confirmed: 134+ B2/C1/C2; 120–133 B1+/B2*; 100–119 A2+/B1*; 85–99 A2/A2+* "minimal grade for acceptance". Asterisks unexplained on the page. |
+| 36 | C | Content confirmed. **Bibliographic correction:** the page is dated 17/12/2019 (was "n.d."). |
+| 37 | C | Language Teaching 43(3), 297–319. "The overall quality of the research is high"; lexicon, dyslexia, students who know English from home or visits abroad. |
+| 38 | C | Language Teaching 45(3), 271–308; abstract wording matches. |
+| 39 | C | 2,785 teachers in 111 countries; 30.1 / 25.7 / 16.2%; 61.5%; 58.1%; 73.5%; 61.4% vs 40.2%; "first few weeks of a course before being phased out or reduced over time"; more own-language use with beginner to pre-intermediate learners. |
+| 40 | C | Language Teaching First View, 16 June 2026. 40 studies / 108 ES / 3,145 learners; g = 1.014 [0.748, 1.291]; 85.8% between studies; Egger p < 0.0001 and s-value "not possible"; 3/40 delayed post-tests; adult g = 0.263 (k = 6, non-credible); tertiary g = 1.326 (k = 44); speaking 1.364; vocabulary 0.693. Added: linguistic distance not a credible moderator. |
+| 41 | C | SSLA 42(2), 411–438. 42 studies, 359 ES, N = 3,802; L1 > L2 glosses; no proficiency interaction; multiple-choice glosses best, in-text glosses and glossaries least effective. |
+| 42 | C | LTR 28(1), 7–28. 26 studies, N = 2,189; g = .33; immediate vocabulary posttests; strongest for beginners. Opened via a secondary bibliographic record (todoele.net), not the SAGE page. |
+| 43 | C | MLJ 97(4), 887–901. 443 children and 286 adults; both benefit from L1 links; young learners more. |
+| 44 | C | LTR 16(3), 367–391. 80 students randomised within proficiency strata + 37 controls; "initial evidence"; proficiency "did not clearly favour one condition". |
+| 45 | C | Reviewer Ying Xiong, LINGUIST List 33.3508. Planned vs spontaneous; doubt about typologically different pairs. |
+| 46 | C | Tight wrapping, `dir=auto`/`bdi`, spillover (numbers; also commas and other punctuation in the examples), markup preferred except `title` and attributes, `bdo` only for special cases. |
+| 47 | C | `dir="rtl"` on `html`; lang ≠ direction; "Do not use CSS to apply base direction"; logical start/end; first-strong detection; `&rlm;` title fix. |
+| 48 | P | Draft Note of 31 May 2025 confirmed. **Outdated framing:** the dirname/base-direction gap (#27) and the isolating-character gap (#25) are marked FIXED. The shorthand (#26) and diacritic-colour (#16) gaps remain open, and `:dir()` (#30) is inconsistent. Corrected. |
+| 49 | C (new) | W3C Hebrew Layout Requirements (Editor's Draft): "Hebrew is an abjad"; "The script is unicameral." Added to support W1 and §4. |
+
+**Counts:** 48 original sources checked, plus 1 new source opened and added. Confirmed: 41 of 48. Partially supported and corrected: 7 of 48 ([4], [8], [13], [15], [22], [23], [48]). Unsupported: 0. Dead or blocked: 0. No fabricated or mis-attributed citation was found: every author, year, title and venue matched the opened record.
+
+**Changes to implementation decisions:**
+- **P3** was reversed: phonetic-information panels are now on by default, because the full text of [6] reports a positive effect.
+- **P1** is flagged as weakened: Tier 1 placement of /ɪ–iː/ is now a team judgement, not something Sewell [4] establishes.
+- **P2** now carries a caveat that the number of talkers did not predict production gains [6]. Its session and duration defaults are now tied to the meta-analysis.
+- **L2** now compares learners against same-level cohorts.
+- **W1** now rests on [49] as well as [22].
+
+**Not re-verified:** the negative claims in the Limitations section ("no peer-reviewed study was found…"). They describe the team's own searches, and this check's search budget ran out before they could be re-run independently.

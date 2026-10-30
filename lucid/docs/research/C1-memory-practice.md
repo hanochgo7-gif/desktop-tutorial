@@ -4,6 +4,8 @@
 >
 > Where a full-text PDF could be retrieved, the key numbers (effect sizes, table values, coverage figures) were checked against the extracted text, not just the fetch tool's summary. This applies to Rowland 2014, Cepeda et al. 2008, Brunmair & Richter 2019, Serrano 2022, Milton 2010, Nation 2006, Karpicke & Roediger 2008, Settles & Meeder 2016 and the NSW CESE report.
 >
+> **Audit (2026-10-30).** An adversarial fact-check re-opened every numbered source and corrected the claims that the sources did not support. Details are in the "Verification log" at the end.
+>
 > Evidence types are labelled in the sources list: **meta-analysis**, **experiment**, **review**, **framework**, **guidance**, **documentation/benchmark** (non-peer-reviewed technical material) and **opinion**. Effect sizes are given only where the opened source reports them.
 >
 > **Limitations.**
@@ -18,7 +20,7 @@
 >    - Ericsson et al. (1993) on deliberate practice
 >    - Hu & Nation (2000) on lexical coverage
 >    - Bahrick et al. (1993) on long-term spacing
->    - van Zeeland & Schmitt (2013) on listening coverage
+>    - van Zeeland & Schmitt (2012, the year used in [40]) on listening coverage
 > 4. **Licence terms for two list families were not verified.** The terms of use for the Oxford 3000/5000 and the English Vocabulary Profile (EVP) could not be opened, so their licence status is **unverified**. They are treated as proprietary in the decisions below.
 > 5. **Narrow evidence base.** Most memory research uses university students, word pairs or trivia, and lab retention intervals of days to weeks. L2 classroom studies are fewer, smaller and less consistent (see §1 and §3). **No source found tested Hebrew-L1 learners specifically.**
 > 6. **The FSRS benchmark is not neutral.** It is maintained by the same open-source organisation that develops FSRS. It measures *prediction accuracy* on self-graded Anki data, not learning gains [10][11].
@@ -47,10 +49,10 @@
 - **Grammar and skills (limited, mixed).**
   - Receptive grammar knowledge measured by grammaticality judgement benefited from longer lags in some classroom studies (Bird 2010; Rogers 2015) [4].
   - Productive and proceduralised grammar was better with *shorter* lags in Suzuki & DeKeyser's studies [4].
-  - Low-proficiency learners and learners who struggled during training did better with shorter lags. A longer lag was a desirable difficulty only for higher-proficiency learners (Serfaty & Serrano 2022) [4].
+  - Serfaty & Serrano (2022) taught grammar through digital flashcards and found no overall 1-day versus 7-day lag effect. The longer lag helped higher-proficiency learners and those with shorter times on task during training, while the opposite held for learners who had more difficulty during training. In Serrano's words, the longer lag was a desirable difficulty "only when no additional difficulties existed on the part of the learner" [4].
 - **Program level (limited).**
   - Intensive programmes (more hours, concentrated) tended to outperform "drip-feed" schedules of one to two hours a week, which "does not lead to advanced L2 skills" (Lightbown, cited in [4]).
-  - Program-level "intensity" means total time on the language, not massed repetition of one item. Many of the studies are small [4].
+  - Program-level "intensity" means total time on the language, not massed repetition of one item. Research at this level is scarce, and many of the studies come from intensive-English programmes in Quebec primary schools [4].
 - **Long-term L2 vocabulary (one small classic study).** Bahrick et al. (1993) followed 4 participants over years. Spacing sessions out to 56 days improved foreign-language vocabulary retention. Cepeda et al. note that the design trained to a fixed criterion, which confounds study time with spacing (described in [2]).
 
 ### Strength of evidence
@@ -79,7 +81,7 @@
   - Each item starts with an easiness factor EF = 2.5.
   - EF is updated after every review from a 0–5 grade and is never allowed below 1.3.
   - Any grade below 3 restarts the item's repetitions from scratch [6].
-- **SM-2 has no probability model**, so it cannot target a chosen retention level.
+- **SM-2 has no probability model**, so it cannot target a chosen retention level. It "was not originally designed to predict probabilities" [11].
 - **Anki's SM-2 variant** [8]:
   - Four answer buttons instead of six grades.
   - Starting ease of 250%.
@@ -91,17 +93,17 @@
   - **Retrievability R**, the probability of recall.
   - **Stability S**, defined as the interval at which R = 90%.
   - **Difficulty D**, on a 1–10 scale.
-- **Grades and update rules.** Ratings run 1–4 (Again, Hard, Good, Easy). FSRS-6 uses a power-law forgetting curve R(t,S) = (1 + factor·t/S)^(−w20), whose decay exponent is trainable per user [9]. The stability gain after a successful review is larger when S is small, when D is low and when R was low at review time, so spacing pays off [9].
+- **Grades and update rules.** Ratings run 1–4 (Again, Hard, Good, Easy). FSRS-6 uses a power-law forgetting curve R(t,S) = (1 + factor·t/S)^(−w20), whose decay exponent is trainable per user [9]. The stability gain after a successful review is larger when S is small, when D is low and when R was low at review time, so spacing pays off. The wiki states these rules in its FSRS v4 section; its FSRS-6 section gives only the same-day update [9].
 - **Desired retention.**
   - Anki's default is **90%**, which the manual calls "a good balance of retention and workload" [7].
   - Workload rises steeply as retention approaches 100%, and the manual advises staying **below 97%** [7].
 - **Parameter fitting.**
   - Parameters are fitted to the user's review history. Monthly re-optimisation "is sufficient" [7].
   - FSRS may perform poorly when the user has "less than a few hundred" reviews [7].
-- **Learning steps** should be short, same-day and as few as possible, because repeating a card several times in one day "adds little to long-term memory" [7].
+- **Learning steps** should be shorter than one day and completed the same day, and the manual recommends keeping their number "to a minimum". Its reason: "repeating a card multiple times in a single day does not significantly contribute to long-term memory" [7].
 - **"Hard" is a passing grade.** Pressing it after a failure inflates intervals [7].
 
-**Benchmark evidence (documentation/benchmark, not peer-reviewed).** The open-spaced-repetition benchmark uses about 727 million reviews from 10,000 Anki users. After filtering, it evaluates 349,923,850 reviews from 9,999 collections, excluding same-day reviews [10].
+**Benchmark evidence (documentation/benchmark, not peer-reviewed).** The open-spaced-repetition benchmark uses about 727 million reviews from 10,000 Anki users. After filtering, it evaluates 349,923,850 reviews from 9,999 collections, excluding same-day reviews [10]. The README also contains a conflicting paragraph that describes 20,000 users and about 1.7 billion reviews. The results tables match the 10,000-user dataset [10].
 
 | Model | Trainable parameters | Log loss ↓ | RMSE (bins) ↓ | AUC ↑ |
 |---|---|---|---|---|
@@ -119,8 +121,8 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 - **SSP-MMC (MaiMemo).** MaiMemo, a Chinese vocabulary app, published SSP-MMC at KDD 2022. It optimises review schedules on about 220 million memory logs, and the code is MIT-licensed [13].
 
 **Implementation availability.** `ts-fsrs` is an MIT-licensed TypeScript library [12]:
-- It supports FSRS 3, 4.5, 5, 6 and 7, and defaults to FSRS-7.
-- It ships a separate optimiser package for training parameters from review logs.
+- It supports FSRS 3, 4, 4.5, 5, 6 and 7, and defaults to FSRS-7.
+- It ships a separate optimiser package (`@open-spaced-repetition/binding`) for training parameters from review logs.
 - v6 and the optimiser package require Node.js ≥ 24 [12].
 
 ### Strength of evidence
@@ -136,7 +138,7 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 - Use **FSRS through `ts-fsrs` (MIT)**, not SM-2 or a home-grown algorithm.
 - **Store raw review logs** (timestamp, rating, latency, exercise type) so the scheduler can be refitted or swapped as models change [10].
 - Rate reviews **objectively** from the learner's answer, not with self-graded buttons.
-- Start new users on **default parameters**. On the benchmark, FSRS-7 with default parameters beats the constant baseline (log loss 0.3620 versus 0.3945) and about equals per-user-fitted FSRS-4.5 (0.3625) [10].
+- Start new users on **default parameters**. On the benchmark, FSRS-7 with default parameters beats the constant baseline (log loss 0.3620 versus 0.3945) and about equals per-user-fitted FSRS-4.5 in log loss (0.3625) [10]. Its calibration error is worse, though: RMSE 0.0910 versus 0.0764 [10].
 
 ---
 
@@ -150,7 +152,8 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
   - **Retention interval.** Effects were larger at retention intervals of **≥ 1 day (g = 0.69)** than under 1 day (g = 0.41) [15].
   - **Test format.** A **cued-recall** initial test (g = 0.61) beat a **recognition** test (g = 0.29) [15].
   - **Low success without feedback is useless.** With no feedback and initial test success of 50% or less, the testing effect was **g = 0.03**, i.e. none [15].
-  - Ordering items mixed or blocked made little difference (g = 0.49 versus 0.46) [15].
+  - **List design made little difference.** It hardly mattered whether tested and restudied items were intermixed in one list or presented in separate lists (g = 0.49 versus 0.46) [15]. This is a feature of the experimental design, **not** the order in which learners practise items.
+  - **Feedback timing (tentative).** Among studies with feedback, delayed feedback (g = 1.38, k = 6) beat immediate feedback (g = 0.66, k = 46). Rowland urges caution: few studies used delayed feedback, and feedback delay can be confounded with retention interval [15].
 - **Real classrooms (meta-analysis, strong).**
   - Yang et al. (2021) pooled 222 studies with 48,478 students and found a medium benefit of quizzing, **g = 0.499** [16].
   - The benefit was moderated by corrective feedback, number of test repetitions, format consistency and how well the test matched the material [16].
@@ -171,9 +174,9 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
   - **More retrievals help, but with diminishing returns per minute.** Nakata (2017) tested 98 Japanese EFL learners on 16 word pairs [22].
     - Five or seven retrievals in one session gave higher scores than one or three.
     - Per unit of study time, a single retrieval gave the largest gain [22].
-- **Failed attempts help when followed by the answer (experiment, moderate).** Across six experiments, guessing before seeing the answer improved later recall compared with simply reading the question and answer together, even when the guesses were wrong [21].
+- **Failed attempts help when followed by the answer (experiment, moderate).** Across six experiments, guessing before seeing the answer improved later recall compared with simply reading the question and answer together, even when the guesses were wrong [21]. The materials were fictional general-knowledge questions and weakly associated word pairs, **not L2 material** [21].
 - **L2 intentional vocabulary activities (meta-analysis).** Webb, Yanagisawa & Uchihara (2020) pooled 100 effect sizes from 22 studies of flashcards, word lists, writing and fill-in-the-blanks [23].
-  - Gains were substantial on immediate tests but **fell considerably on delayed tests**.
+  - Gains were substantial on immediate tests but **fell considerably on delayed tests**: from 60.1% (meaning recall) and 58.5% (form recall) immediately to 39.4% and 25.1% on delayed tests [23].
   - Learning "is far from guaranteed", and outcomes varied with direction of learning (L1→L2 or L2→L1) and place of study [23].
 
 ### Strength of evidence
@@ -184,8 +187,8 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 
 ### What it means for Lucid
 
-- Make **recall with immediate corrective feedback** the default for every practice item. Recognition (multiple choice) is a stepping stone only.
-- **Never run unscored or unfeedbacked retrieval at low success rates.** It does nothing [15].
+- Make **recall with corrective feedback** the default for every practice item [15][20]. Recognition (multiple choice) is a stepping stone only [15]. Whether that feedback should be immediate or slightly delayed is unresolved [15], so test it (see D8).
+- **Never run retrieval without feedback at low success rates (≤ 50%).** It does nothing [15].
 - **Do not let learners remove items by self-judgement.** Predictions of one's own recall are unreliable [19].
 
 ---
@@ -196,9 +199,9 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 
 - **Meta-analysis (strong, with caveats).** Brunmair & Richter (2019) analysed 59 studies with 238 effect sizes and found an overall interleaving benefit of **g = 0.42** [27].
   - **By material.** The benefit was largest for paintings (g = 0.67) and small for maths (g = 0.34) [27].
-  - **Words reversed it.** For word materials, **blocking beat interleaving (g = −0.39)** [27].
-  - **When interleaving helps.** It helps most when categories look alike to each other but members within a category vary [27].
-  - **Authors' cautions.** They advise caution "especially for expository texts and words", while noting that the few word studies may reflect task type rather than words as such [27].
+  - **Words reversed it.** For word materials, **blocking beat interleaving (g = −0.39)** [27]. "Words" here meant category names, pronunciation rules and translations (e.g. Carpenter & Mueller 2013) [27].
+  - **When interleaving helps.** It helps most when categories look alike to each other but members within a category vary, and for more complex material [27].
+  - **Authors' cautions.** They advise caution "especially for expository texts and words", while noting that the few word studies may reflect task type rather than words as such [27]. They also write that they are "reluctant to recommend interleaving" for "grammar rules, foreign languages or words", where it "could even impede learning" [27]. The L2 grammar experiments below are the counter-evidence to weigh against this caution.
 - **L2 grammar experiments (moderate).**
   - **Nakata & Suzuki (2019).** In a study with 115 Japanese EFL learners on five English structures, interleaving produced the **most errors during practice** but was **better than blocking one week later**. Learners with lower pretest scores benefited more [28].
   - **Pan et al. (2019): Spanish verb conjugation.**
@@ -215,14 +218,18 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 
 | Claim | Strength |
 |---|---|
-| Interleaving for discriminating confusable categories (grammar forms that compete) | **Moderate** [27][28][29] |
-| Interleaving for learning new word meanings | **Not supported; possibly harmful** [27] |
+| Interleaving for discriminating confusable categories (grammar forms that compete) | **Moderate** for L2 grammar from experiments [28][29]. The general meta-analysis supports interleaving for similar-looking categories, but its authors are reluctant to recommend it for grammar rules and foreign languages [27]. **Contested** |
+| Interleaving word materials (category names, pronunciation rules, translations) | **Not supported; possibly harmful** (few studies) [27] |
 | Blocked practice for fluency and pronunciation rules | **Limited** (small studies via [4]) |
 
 ### What it means for Lucid
 
-- **Introduce** each new grammar point in a **blocked** sequence: worked examples, then guided practice.
-- **Review** it **interleaved** with the structures it competes with, across days and sessions.
+- **Introduce** each new grammar point in a **blocked** sequence: worked examples, then guided practice. The support for this is mixed:
+  - for: the hybrid (blocked, then interleaved) schedule was best in Suzuki & Sunada [4], and interleaving gave no advantage within a single session in Pan et al. [29];
+  - against: Nakata & Suzuki found interleaving beat blocking at one week, and lower-pretest learners benefited *more* from interleaving [28].
+  
+  Treat blocked-first as a default to A/B test (D11).
+- **Review** it **interleaved** with the structures it competes with, across days and sessions [28][29].
 - **Do not** interleave brand-new vocabulary categories as a teaching technique.
 - Keep **fluency and pronunciation** drills blocked, with a small number of repetitions.
 
@@ -259,13 +266,13 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 
 ---
 
-## 6. Cognitive load theory: worked examples, split attention and element interactivity
+## 6. Cognitive load theory: worked examples, split attention and intrinsic load
 
 ### Evidence summary
 
 - **Theory (framework).** Cognitive load theory (CLT) holds that new information passes through a working memory of limited capacity and duration. Information already stored in long-term memory escapes those limits [31]. The NSW CESE report puts working memory at "about four 'chunks'" [32].
 - **Kinds of load [32]:**
-  - **Intrinsic load** comes from the complexity of the material relative to the learner's prior knowledge, i.e. element interactivity. It can be reduced by sequencing from simple to complex, or by part-whole teaching.
+  - **Intrinsic load** comes from two factors: the complexity of the material and the learner's prior knowledge. It can be reduced by sequencing from simple to complex, or by part-whole teaching.
   - **Extraneous load** comes from poor design.
 - **Effects relevant to Lucid (guidance/review summarising many RCTs):**
   - **Worked examples.** Novices learn more from studying worked examples than from solving equivalent problems. CESE cites a meta-analytic effect size of 0.52 (Crissman 2006) [32].
@@ -329,7 +336,7 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
 
 ### Evidence summary
 
-- **Spacing over long intervals (strong).** Optimal gaps scale with the retention interval [1][2]. For a one-year retention interval, the optimal gap was roughly 5–10% of the year, about three to five weeks. Spacing study over at least several months "seems likely to produce a highly favorable return", potentially doubling what is remembered for the same study time [2].
+- **Spacing over long intervals (strong).** Optimal gaps scale with the retention interval [1][2]. For a one-year retention interval, the optimal gap was roughly 5–10% of the year, about 2.5 to 5 weeks. The best gap actually tested at the 350-day interval was 21 days [2]. For retaining information over several years, the authors write that a delayed review "of at least several months seems likely to produce a highly favorable return", potentially doubling what is remembered for the same study time [2].
 - **Test-based benefits last longer (strong).** Testing effects are larger at longer retention intervals [15][18].
 - **Intentional vocabulary gains decay (strong, L2).** Gains from intentional vocabulary activities drop considerably at delayed posttests [23].
 - **Long-term memory is modelled by the scheduler.** In FSRS, stability gains are largest when recall probability has dropped before review, which encodes the long-term spacing benefit [9].
@@ -357,16 +364,16 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
   - full knowledge may need **more than 10** [25].
 - **Uchihara et al. (2019).** A meta-analysis of 26 studies (45 effect sizes, N = 1,918) found a **medium correlation, r = .34**, between number of encounters and incidental vocabulary learning [24].
 - **Yanagisawa & Webb (2022).** A meta-analysis of 42 studies (N = 4,628) found [26]:
-  - each additional encounter added **9.4%** to immediate learning;
+  - each additional encounter added **9.4%** to immediate learning (frequency did not enter the delayed-posttest model);
   - activities requiring the learner to use the word in their **own composition** were associated with +23.3% (immediate) and +21.0% (delayed) gains;
-  - recognition tests yielded 22.5% higher measured gains than receptive recall tests. **How a word is tested changes how much appears to be learned** [26].
+  - recognition tests yielded 22.5% higher measured gains than receptive recall tests on immediate posttests, and 19.2% higher on delayed ones. **How a word is tested changes how much appears to be learned** [26].
 
 ### 9.2 Incidental versus intentional learning
 
 - **Intentional activities.** Flashcards, lists, writing and fill-in-the-blanks produce real but **decaying** gains [23].
 - **Incidental learning.** Learning from input depends on repetition [24] and on task involvement [26]:
-  - The Involvement Load Hypothesis was largely supported.
-  - "Need" and "evaluation" mattered.
+  - The original Involvement Load Hypothesis was supported but explained limited variance. The revised "ILH Plus" models explained substantially more: 59.0% versus 27.8% of within-study variance on immediate posttests [26].
+  - "Need" and "evaluation" were significant on both immediate and delayed posttests.
   - "Search" did not reach significance [26].
 - **Combined.** The two are complementary. Deliberate scheduling secures high-frequency words. Input gives the many extra encounters needed for depth [25][24].
 
@@ -376,7 +383,7 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
   - with a fiction text at 80% coverage, no reader comprehended adequately;
   - at 95%, adequate comprehenders were still a minority;
   - a regression implied **98%** coverage (one unknown word in 50) is needed for most learners.
-- **The 98% figure is contested.** A 2023 replication by Kremmel et al. "could not fully" reproduce the original results [39].
+- **The 98% figure is contested.** For a 2023 replication by Kremmel et al., the replication record states that "the results of the original study could not be fully replicated" [39].
 - **Laufer & Ravenhorst-Kalovski (2010)** proposed two thresholds [37]:
   - **optimal**: 98% coverage, about **8,000 word families**;
   - **minimal**: 95% coverage, about **4,000–5,000 families**;
@@ -385,14 +392,15 @@ Source for all rows: [10]. A neural RWKV model trained across users scores bette
   - 98% coverage requires **8,000–9,000 word families for written text** and **6,000–7,000 for spoken text**;
   - about 4,000 families plus proper nouns gives about 95% coverage of novels and newspapers;
   - well-educated native speakers know about 20,000 families.
-- **Listening.** van Zeeland & Schmitt (described in [40]) suggest **95% coverage may suffice for listening** to informal narratives.
-  - Mean comprehension scores were 9.62, 8.22, 7.65 and 7.35 out of 10 at 100%, 98%, 95% and 90% coverage.
+- **Listening.** van Zeeland & Schmitt (2012, described in [40]) suggest **95% coverage may suffice for listening** to informal narratives.
+  - Mean comprehension scores on a ten-item test were 9.62, 8.22, 7.65 and 7.35 at 100%, 98%, 95% and 90% coverage [40].
+  - 95% and 90% did not differ significantly, but scores varied more at 90%, so the original authors chose 95% as the safer criterion [40].
   - The abstract of [40] links 95% to roughly **2,000–3,000 word families**.
   - Schmitt et al. stress that Nation's figures come from text profiling, not learner testing, and need checking against larger corpora [40].
 
 ### 9.4 Vocabulary size targets per CEFR level
 
-The two main sources measure in different units, so their numbers are not directly comparable. Milton reports **lemmas among the 5,000 most frequent**, measured with the XLex test [34]. Nation reports **word families** [35].
+The two main sources measure in different units, so their numbers are not directly comparable. Milton reports **lemmas among the 5,000 most frequent**, measured with the XLex test. His table is adapted from Meara & Milton (2003), who tested learners passing Cambridge exams at each level [34]. Nation gives sizes mostly in "words", based on his BNC/COCA **word-family** lists, with a narrower family definition at lower levels [35].
 
 | CEFR | CEFR vocabulary-range descriptor (2001, via [34]) | Milton: XLex band, lemmas out of the top 5,000 [34] | Nation's suggestion [35] |
 |---|---|---|---|
@@ -412,11 +420,11 @@ The two main sources measure in different units, so their numbers are not direct
 | List | What it is | Licence / reuse status |
 |---|---|---|
 | **NGSL 1.2** (Browne, Culligan, Phillips) | 2,809 words, claimed **~92%** coverage of general English; v1.2 released April 2023 [41a] | **CC BY-SA 4.0** [41a]. The deed allows commercial use and adaptation, but **adaptations must be released under the same licence** and need attribution [42] |
-| **NAWL 1.2** | 957 academic words. With the NGSL, it claims about 92% coverage of the authors' 288-million-word academic corpus; an independent check found about 90% [41b] | **CC BY-SA 4.0** [41b] |
+| **NAWL 1.2** | 957 academic words. With the NGSL, it claims about 92% coverage of the authors' 288-million-word academic corpus. A study cited on the list's own site (Hendry & Sheepy 2018) found about 90% on a 5-million-word corpus of journal abstracts; that study itself was not opened [41b] | **CC BY-SA 4.0** [41b] |
 | **NGSL-Spoken 1.2** | 721 words from spoken corpora, claiming "up to 90%" coverage of unscripted speech (claim by the authors) [41c] | **CC BY-SA 4.0** [41c] |
 | **AWL** (Coxhead 2000) | 570 word families, excluding the most frequent 2,000 words [43] | Page shows "Copyright © Victoria University of Wellington" with **no reuse statement**; questions go to the author [43]. **Permission needed** |
 | **Oxford 3000 / 5000** | Nation maps them to B2 and B2–C1 [35] | **Unverified.** OUP pages could not be opened (HTTP 403). Treat as proprietary |
-| **English Vocabulary Profile** (Cambridge) | Built from the 44-million-word Cambridge Learner Corpus; assigns CEFR levels to word meanings. A Cambridge B1 Preliminary list (©UCLES 2012) describes it as covering A1–B2 at that time [44] | **Unverified.** Terms not opened. Treat as proprietary |
+| **English Vocabulary Profile** (Cambridge) | Developed from the Cambridge Learner Corpus (over 44 million words); assigns CEFR levels to word meanings. A Cambridge B1 Preliminary list (©UCLES 2012) describes it as covering A1–B2 at that time [44] | **Unverified.** Terms not opened. Treat as proprietary |
 | **Council of Europe Threshold (1990)** | Used as a source for the Cambridge B1 list [44] | Not examined |
 
 ### Strength of evidence
@@ -451,7 +459,7 @@ No opened source tests a "35-minute" session specifically, so the structure belo
   - present the whole set of new items before repeating any item [4];
   - put the second retrieval of new items after a delay inside the session [4][22];
   - give feedback on every error [20][15].
-- **Order of review items.** Mixed or blocked order hardly mattered for the size of the testing effect [15].
+- **Order of review items.** No opened source tests the order of due reviews. Rowland's mixed-versus-blocked comparison is about experimental list design, not practice order [15], so shuffling reviews is a **design choice**.
 - **Workload control is necessary.** Higher retention targets increase workload steeply [7].
 - **Commercial app evidence is thin.** In a semester-long Duolingo case study of 9 learners, time on app correlated moderately with gains, but motivation varied and learners were frustrated with the materials [45].
 
@@ -460,7 +468,7 @@ No opened source tests a "35-minute" session specifically, so the structure belo
 | # | Block | Default length | Content | Evidence link |
 |---|---|---|---|---|
 | 1 | Warm-up recall | 3 min | 5–8 items first learned 1–3 days ago; cued recall plus feedback | Testing effect larger at ≥ 1-day retention intervals [15]; spacing [2] |
-| 2 | Due reviews (FSRS) | 10 min (soft cap) | All due vocabulary, chunk and grammar cards in shuffled order; objective grading | High-utility techniques [5]; FSRS scheduling [7][9]; order has little impact [15] |
+| 2 | Due reviews (FSRS) | 10 min (soft cap) | All due vocabulary, chunk and grammar cards in shuffled order; objective grading | High-utility techniques [5]; FSRS scheduling [7][9]; shuffled order is a design choice (no opened source tests review order) |
 | 3 | New learning | 10 min | 1–3 "try-first" questions → worked examples (grammar) → guided practice; default **8 new lexical items**; one full pass of the new set before any repeats | Errorful generation [21]; worked examples [32]; within-session spacing [4] |
 | 4 | Use it | 8 min | Short roleplay or writing task that requires today's and recent target words; feedback on errors; blocked repetition of the same speaking task at most 2–3 times | Composition-level use [26]; fluency practice benefits from blocking but massed repetition is double-edged [4] |
 | 5 | Exit check | 4 min | Delayed second recall of today's new items, plus a predict-then-check confidence prompt | Number of within-session retrievals [22]; metacognitive miscalibration [19][33] |
@@ -482,7 +490,7 @@ Each decision gives a default, the evidence behind it, and how to test it. "Desi
   - *Test:* observed pass rate on due reviews should sit within ±3 percentage points of the target.
 - **D3. Personal parameters and the new-item governor.**
   - Use default FSRS parameters until a learner has **≥ 1,000 graded reviews**. This threshold is a design choice; Anki warns about poor fits under a few hundred reviews [7]. After that, refit **monthly** [7].
-  - Default **8 new lexical items per day** (allowed range 0–15). The figure is design arithmetic: 2,809 NGSL words at 8 a day ≈ 351 days, which reaches roughly Milton's B1 band [34] in about a year.
+  - Default **8 new lexical items per day** (allowed range 0–15). The figure is design arithmetic: 2,809 NGSL words at 8 a day ≈ 351 days, which reaches roughly the low end of Milton's B1 band (2,750–3,250) [34] in about a year. This assumes no prior knowledge and full retention, and NGSL headwords are not the same unit as Milton's XLex lemmas, so treat it as an order-of-magnitude check only.
   - Cut new items to 4 when projected reviews exceed 12 minutes a day over the next 7 days. Allow up to 15 when projected reviews are under 6 minutes.
   - *Test:* 30-day retention and churn at 6 versus 8 versus 12 new items a day.
 - **D4. Objective grading, not self-rating buttons.**
@@ -491,6 +499,7 @@ Each decision gives a default, the evidence behind it, and how to test it. "Desi
   - Correct → **Good**.
   - **Easy** only when the answer is correct, fast, and the card has passed at least twice.
   - "Hard" is never assigned to a failure [7].
+  - The grade mapping is a design choice. FSRS default parameters were fitted on self-graded Anki reviews [10], so calibration on Lucid's objectively graded reviews must be checked, not assumed.
   - *Test:* calibration as in D1.
 - **D5. Learning steps.** A new card gets its first exposure, a spaced retrieval later in the same session, and the exit-check retrieval. After that, FSRS takes over. Same-day steps are kept few and under one day [7][22].
   - *Test:* 2 versus 4 same-day retrievals, measured by 7-day recall per minute spent [22].
@@ -506,7 +515,9 @@ Each decision gives a default, the evidence behind it, and how to test it. "Desi
 
   Evidence: cued recall beats recognition (g = 0.61 versus 0.29) [15]; direction of learning moderates outcomes [23].
   - *Test:* report retention **by test format** separately, because format inflates or deflates measured gains [26].
-- **D8. Feedback.** Show the correct answer on **every** error, immediately [20][15]. On correct answers, show only minimal confirmation, since feedback after correct responses adds little [20]. **Never** present unscored retrieval sets [15].
+- **D8. Feedback.** Show the correct answer on **every** error [20][15]. On correct answers, show only minimal confirmation, since feedback after correct responses adds little [20]. **Never** present retrieval sets without feedback [15].
+  - Showing the answer *immediately* is a design choice, not an evidence-based default. Rowland found a tentative advantage for *delayed* feedback (g = 1.38, k = 6, versus 0.66, k = 46) [15].
+  - *Test:* immediate feedback versus feedback at the end of a short block, measured by 7-day recall.
 - **D9. "Try-first" items.** Ask up to 3 generation or prediction questions before each new grammar or lexical explanation, always followed by the answer. They are not counted toward mastery [21].
 - **D10. No skipping on self-judgement.** "I already know this" triggers a quick recall check. Two correct recalls on separate days set a high initial stability; one failure reverts the card to normal learning [19][33].
 
@@ -515,12 +526,14 @@ Each decision gives a default, the evidence behind it, and how to test it. "Desi
 - **D11. Grammar sequence.**
   - The first exposure is **blocked**: worked examples, then practice on that structure only.
   - From the next session on, the review set **interleaves** each structure with 1–2 competing structures chosen by the curriculum team (for example, past simple versus present perfect) [28][29][4].
-  - *Test:* 7-day delayed accuracy, hybrid versus blocked-only.
-- **D12. Vocabulary order.** Shuffle due vocabulary reviews (order has little impact) [15]. Do not use category-interleaving to *teach* new words [27].
+  - Blocked-first is supported by Suzuki & Sunada's hybrid result [4] and by Pan et al.'s single-session results [29]. It is contradicted in part by Nakata & Suzuki, where interleaving helped lower-pretest learners most [28]. The general interleaving meta-analysis cautions against interleaving grammar rules [27].
+  - *Test:* 7-day delayed accuracy for three arms: hybrid, blocked-only and interleaved-from-start.
+- **D12. Vocabulary order.** Shuffle due vocabulary reviews (design choice). **Evidence weakened:** this decision earlier cited [15] for "order has little impact", but that figure is a list-design moderator, not practice order, so no opened source supports or rejects shuffling. Do not use category-interleaving to *teach* new words [27].
 - **D13. Lags by proficiency.**
   - Pre-A1 to A2 grammar points are re-practised after **1–3 days**.
   - B2 and above use **5–7 days**.
   - Lags adapt from accuracy during training: if a learner struggles, shorten the lag [4]. FSRS still governs individual cards.
+  - The direction (shorter for low proficiency, longer for advanced) comes from [4]. The exact 1–3 and 5–7 day values are design choices; the studies reviewed in [4] mostly compared 1-day with 7-day lags.
 - **D14. Fluency and pronunciation.**
   - Allow immediate repetition of the same AI roleplay or pronunciation task **2–3 times** (blocked) [4].
   - Do not loop the same task six or more times in a row: massed repetition was "double-edged" [4].
@@ -580,8 +593,8 @@ Each decision gives a default, the evidence behind it, and how to test it. "Desi
 4. **No reread-the-list or highlight study modes.** They are rated low utility [5].
 5. **No unlimited new items a day.** This leads to review debt; see D3 and [7].
 6. **No retention target above 0.97 and no "100% mastery" promise** [7].
-7. **No four-button Anki-style self-rating** for Pre-A1 to B1 learners. Self-ratings misuse "Hard" and inflate intervals [7].
-8. **No category-interleaving to *teach* new words** [27]. No full interleaving at a novice's very first exposure to a grammar point [4][28].
+7. **No four-button Anki-style self-rating** for Pre-A1 to B1 learners. Pressing "Hard" after a failure makes "all intervals ... unreasonably high" [7]. Objective grading (D4) removes that risk; restricting it to Pre-A1 to B1 is a design choice.
+8. **No category-interleaving to *teach* new words** [27]. No full interleaving at a novice's very first exposure to a grammar point [4][29]. This second rule is a design choice with mixed evidence: Nakata & Suzuki found interleaving helped lower-pretest learners most [28]. Test it in D11.
 9. **No cramming mode as the default** [2][4]. If an exam-cram mode exists, label it as short-term.
 10. **No in-session accuracy as the mastery metric** [33][28].
 11. **No separate-panel glosses or word-for-word narration of on-screen text** in explanations [32].
@@ -606,7 +619,7 @@ Every source was accessed on **2026-10-30**.
 - Also the secondary source for Bahrick et al. (1993)
 
 **[3]** Kim, S. K., & Webb, S. (2022). The effects of spaced practice on second language learning: A meta-analysis. *Language Learning, 72*(1), 269–319.
-- URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/lang.12479 (record only; no abstract available)
+- URLs opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/lang.12479 (title only) and https://api.crossref.org/works/10.1111/lang.12479 (Crossref metadata confirming authors, volume, issue and pages; no abstract)
 - Evidence type: meta-analysis
 - Findings are taken from [4]
 
@@ -648,7 +661,7 @@ Every source was accessed on **2026-10-30**.
 - Evidence type: software documentation
 
 **[13]** Ye, J., Su, J., & Cao, Y. (2022). A stochastic shortest path algorithm for optimizing spaced repetition scheduling. *Proceedings of KDD '22*, 4381–4390.
-- URL opened: https://github.com/maimemo/SSP-MMC (code and data repository; ACM page blocked)
+- URLs opened: https://github.com/maimemo/SSP-MMC (code and data repository; ACM page blocked) and https://api.crossref.org/works/10.1145/3534678.3539081 (page numbers)
 - Evidence type: peer-reviewed algorithm paper (described via its repository)
 
 **[14]** Settles, B., & Meeder, B. (2016). A trainable spaced repetition model for language learning. *Proceedings of ACL 2016*, 1848–1858.
@@ -672,7 +685,7 @@ Every source was accessed on **2026-10-30**.
 - Evidence type: secondary summary/opinion
 
 **[19]** Karpicke, J. D., & Roediger, H. L. (2008). The critical importance of retrieval for learning. *Science, 319*(5865), 966–968.
-- URLs opened: https://pubmed.ncbi.nlm.nih.gov/18276894/ and the PDF at https://www.brucehayes.org/Teaching/papers/2008_Roediger_Karpicke_Science.pdf
+- URLs opened: https://pubmed.ncbi.nlm.nih.gov/18276894/ (returned a cookie wall on 2026-10-30) and the PDF at https://www.brucehayes.org/Teaching/papers/2008_Roediger_Karpicke_Science.pdf (full text; all figures checked here)
 - Evidence type: experiment (L2 vocabulary, Swahili–English)
 
 **[20]** Pashler, H., Cepeda, N. J., Wixted, J. T., & Rohrer, D. (2005). When does feedback facilitate learning of words? *Journal of Experimental Psychology: Learning, Memory, and Cognition, 31*(1), 3–8.
@@ -687,12 +700,12 @@ Every source was accessed on **2026-10-30**.
 - URL opened: https://www.cambridge.org/core/journals/studies-in-second-language-acquisition/article/does-repeated-practice-make-perfect-the-effects-of-withinsession-repeated-retrieval-on-second-language-vocabulary-learning/F14BA8A576CD2563D14CEA46E35D842E
 - Evidence type: experiment (L2)
 
-**[23]** Webb, S., Yanagisawa, A., & Uchihara, T. (2020). How effective are intentional vocabulary-learning activities? A meta-analysis. *The Modern Language Journal, 104*(4).
-- URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/modl.12671
+**[23]** Webb, S., Yanagisawa, A., & Uchihara, T. (2020). How effective are intentional vocabulary-learning activities? A meta-analysis. *The Modern Language Journal, 104*(4), 715–738.
+- URLs opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/modl.12671 and https://api.crossref.org/works/10.1111/modl.12671
 - Evidence type: meta-analysis (L2; abstract record)
 
-**[24]** Uchihara, T., Webb, S., & Yanagisawa, A. (2019). The effects of repetition on incidental vocabulary learning: A meta-analysis of correlational studies. *Language Learning, 69*(3).
-- URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/lang.12343
+**[24]** Uchihara, T., Webb, S., & Yanagisawa, A. (2019). The effects of repetition on incidental vocabulary learning: A meta-analysis of correlational studies. *Language Learning, 69*(3), 559–599.
+- URLs opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/lang.12343 and https://api.crossref.org/works/10.1111/lang.12343
 - Evidence type: meta-analysis (L2; abstract record)
 
 **[25]** Webb, S. (2007). The effects of repetition on vocabulary knowledge. *Applied Linguistics, 28*(1), 46–65.
@@ -703,23 +716,23 @@ Every source was accessed on **2026-10-30**.
 - URL opened: https://www.cambridge.org/core/product/5C5984B326F37FBF3A3DDA3C0EB2996C
 - Evidence type: meta-analysis (L2)
 
-**[27]** Brunmair, M., & Richter, T. (2019). Similarity matters: A meta-analysis of interleaved learning and its moderators. *Psychological Bulletin, 145*.
-- URL opened: https://www.psychologie.uni-wuerzburg.de/fileadmin/06020400/2019/Brunmair_Richter_in_press__2019_META-ANALYSIS_OF_INTERLEAVED_LEARNING.pdf (accepted manuscript)
+**[27]** Brunmair, M., & Richter, T. (2019). Similarity matters: A meta-analysis of interleaved learning and its moderators. *Psychological Bulletin, 145*(11), 1029–1052.
+- URLs opened: https://www.psychologie.uni-wuerzburg.de/fileadmin/06020400/2019/Brunmair_Richter_in_press__2019_META-ANALYSIS_OF_INTERLEAVED_LEARNING.pdf (accepted manuscript, full text) and https://api.crossref.org/works/10.1037/bul0000209 (volume and pages)
 - Evidence type: meta-analysis
 
-**[28]** Nakata, T., & Suzuki, Y. (2019). Mixing grammar exercises facilitates long-term retention: Effects of blocking, interleaving, and increasing practice. *The Modern Language Journal*.
-- URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/modl.12581
+**[28]** Nakata, T., & Suzuki, Y. (2019). Mixing grammar exercises facilitates long-term retention: Effects of blocking, interleaving, and increasing practice. *The Modern Language Journal, 103*(3), 629–647.
+- URLs opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1111/modl.12581 and https://api.crossref.org/works/10.1111/modl.12581
 - Evidence type: experiment (L2 grammar; abstract record)
 
-**[29]** Pan, S. C., Tajran, J., Lovelett, J., Osuna, J., & Rickard, T. C. (2019). Does interleaved practice enhance foreign language learning? The effects of training schedule on Spanish verb conjugation skills. *Journal of Educational Psychology*.
-- URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1037/edu0000336
+**[29]** Pan, S. C., Tajran, J., Lovelett, J., Osuna, J., & Rickard, T. C. (2019). Does interleaved practice enhance foreign language learning? The effects of training schedule on Spanish verb conjugation skills. *Journal of Educational Psychology, 111*(7), 1172–1188.
+- URLs opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1037/edu0000336 and https://api.crossref.org/works/10.1037/edu0000336
 - Evidence type: experiment (L2 grammar; abstract record)
 
 **[30]** Macnamara, B. N., Hambrick, D. Z., & Oswald, F. L. (2014). Deliberate practice and performance in music, games, sports, education, and professions: A meta-analysis. *Psychological Science, 25*(8), 1608–1618.
 - URL opened: https://pubmed.ncbi.nlm.nih.gov/24986855/
 - Evidence type: meta-analysis
 
-**[31]** Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. *Educational Psychology Review*.
+**[31]** Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. *Educational Psychology Review, 31*, 261–292.
 - URL opened: https://api.semanticscholar.org/graph/v1/paper/DOI:10.1007/s10648-019-09465-5
 - Evidence type: review/framework (abstract record; Springer page blocked)
 
@@ -736,7 +749,7 @@ Every source was accessed on **2026-10-30**.
 - Evidence type: review of empirical data
 - Also reproduces the CEFR 2001 vocabulary-range scale
 
-**[35]** Nation, P. (2022). *Vocabulary, the CEFR levels, and word family size* (document, Victoria University of Wellington).
+**[35]** Nation, P. (2022). *Vocabulary, the CEFR levels, and word family size* (document, Victoria University of Wellington). The document is undated; 2022 is its file creation date (August 2022).
 - URL opened: https://wgtn.ac.nz/lals/resources/paul-nations-resources/vocabulary-lists/vocabulary-cefr-and-word-family-size/vocabulary-and-the-cefr-docx
 - Evidence type: expert guidance/opinion
 
@@ -770,7 +783,7 @@ Every source was accessed on **2026-10-30**.
 - URL opened: https://www.newgeneralservicelist.com/new-academic-word-list
 - Evidence type: word list/licence
 
-**[41c]** Browne, C., & Culligan, B. *NGSL-Spoken 1.2* (2017).
+**[41c]** Browne, C., & Culligan, B. *NGSL-Spoken 1.2* (first published 2013; v1.2 released October 2017).
 - URL opened: https://www.newgeneralservicelist.com/ngsl-spoken
 - Evidence type: word list/licence
 
@@ -789,3 +802,89 @@ Every source was accessed on **2026-10-30**.
 **[45]** Loewen, S., Crowther, D., Isbell, D. R., Kim, K. M., Maloney, J., Miller, Z. F., & Rawal, H. (2019). Mobile-assisted language learning: A Duolingo case study. *ReCALL, 31*(3), 293–311.
 - URL opened: https://www.cambridge.org/core/product/A4D7C8F71782A37D258C19F357DDBCBE
 - Evidence type: case study (n = 9)
+
+---
+
+## Verification log (2026-10-30)
+
+An adversarial audit re-opened every numbered source with a fetch tool on 2026-10-30.
+- Where the fetch returned a PDF, the text was extracted locally and the cited numbers were checked against it. This covered Cepeda 2008, Serrano 2022, Rowland 2014, Karpicke & Roediger 2008, Brunmair & Richter 2019, CESE 2017, Milton 2010, Nation 2006, Settles & Meeder 2016, the Cambridge B1 Preliminary list and the Nation CEFR .docx.
+- Bibliographic details missing from abstract records were checked against Crossref.
+
+**Status key:**
+- **confirmed**: the claims attributed to the source are in it.
+- **partially supported → corrected**: the source is real and correctly identified, but a quote, number, scope or inference attributed to it was wrong and has been fixed in place.
+- **unsupported**: no claim was supported.
+- **dead/blocked**: the source could not be opened.
+
+| Source | Status | Notes |
+|---|---|---|
+| [1] Cepeda et al. 2006 | confirmed | 839 assessments, 317 experiments, 184 articles; optimal ISI rises with retention interval |
+| [2] Cepeda et al. 2008 | partially supported → corrected | 1,354 subjects, 1/11/21/21-day optima, 64% gain (d = 1.1) and too-long-is-cheaper all confirmed in the PDF. Corrected the §8 paraphrase: the "several months" advice concerns retention over several years. "Three to five weeks" became "2.5 to 5 weeks" |
+| [3] Kim & Webb 2022 | confirmed (record only) | Bibliographic details confirmed via Crossref; findings correctly routed through [4] |
+| [4] Serrano 2022 | confirmed; one detail corrected | 47 studies, the "one robust finding", lag studies, Suzuki studies, Lightbown "drip-feed" and "double-edged sword" all confirmed. "Many of the studies are small" was not supported for program-level studies (e.g. Collins et al., N = 700); replaced with "research at this level is scarce" |
+| [5] Dunlosky et al. 2013 | confirmed | Two high-utility techniques; interleaving moderate; rereading and highlighting low |
+| [6] Wozniak SM-2 | confirmed | I(1) = 1, I(2) = 6, EF 2.5, floor 1.3, grade < 3 restarts; SM-2 used in SuperMemo from Dec 1987 |
+| [7] Anki Manual, Deck Options | partially supported → corrected | Misquote fixed: the manual says repeating a card in one day "does not significantly contribute to long-term memory", not "adds little". "As few as possible" became "to a minimum". 90% default, < 97%, monthly optimisation, "less than a few hundred", Hard as a passing grade and the 100-year maximum all confirmed |
+| [8] Anki FAQ | confirmed | Four buttons, −20/−15/+15 points, 130% floor, lateness; FSRS versus SM-2 and SM-17 claims |
+| [9] FSRS wiki | partially supported → corrected | R, S, D ∈ [1,10] and the FSRS-6 curve confirmed. The stability-gain rules appear in the FSRS v4 section, not the FSRS-6 section; attribution clarified |
+| [10] SRS benchmark | confirmed | All table rows match. Added: the README contains a conflicting 20k-user / 1.7-billion-review paragraph, and FSRS-7 default parameters have worse RMSE than fitted FSRS-4.5 |
+| [11] Expertium benchmark | confirmed | 99.6% = share of users with lower log loss; converter caveat; "no truly fair" comparison |
+| [12] ts-fsrs | confirmed | MIT; FSRS 3, 4, 4.5, 5, 6, 7; defaults to FSRS-7; `@open-spaced-repetition/binding`; Node ≥ 24 |
+| [13] Ye et al. 2022 (SSP-MMC) | confirmed | KDD '22; 220 million logs; MIT; pages 4381–4390 confirmed via Crossref |
+| [14] Settles & Meeder 2016 | confirmed | "45%+" error reduction and 12% engagement gain are in the abstract |
+| [15] Rowland 2014 | partially supported → corrected | All g values confirmed against the PDF (0.50 [0.42, 0.58]; 0.73/0.39; 0.69/0.41; 0.61/0.29; 0.03; 0.49/0.46). **Misread corrected:** the 0.49/0.46 "list blocking" moderator is about whether tested and restudied items share a list (experimental design), not the order learners practise items. The "order has little impact" claims in §3, §10, session block 2 and D12 were removed or relabelled as design choices. Added Rowland's tentative delayed-feedback advantage (g = 1.38, k = 6, versus 0.66, k = 46), which weakens "immediate" feedback |
+| [16] Yang et al. 2021 | confirmed | 222 studies, 48,478 students, g = 0.499, moderators |
+| [17] Adesope et al. 2017 | confirmed (record + abstract) | Quoted conclusion confirmed |
+| [18] Weinstein 2017 | confirmed | Classroom = lab, secondary school largest, > 1 day larger, feedback only slightly better |
+| [19] Karpicke & Roediger 2008 | confirmed | PubMed returned a cookie wall; the PDF confirms 40 Swahili–English pairs, ~80% versus 36%/33%, ~50% predictions uncorrelated with performance |
+| [20] Pashler et al. 2005 | confirmed | 258 subjects, Luganda–English, 494%, little effect of feedback after correct answers. The abstract gives no baseline for 494% |
+| [21] Kornell, Hays & Bjork 2009 | confirmed | Six experiments; read-only comparison; added that the materials were not L2 |
+| [22] Nakata 2017 | confirmed | 98 learners, 16 pairs, 5/7 > 1/3; one retrieval most efficient per unit time |
+| [23] Webb, Yanagisawa & Uchihara 2020 | confirmed | 22 studies, 100 effect sizes, "far from guaranteed"; added 60.1%/58.5% → 39.4%/25.1% and pages 715–738 |
+| [24] Uchihara et al. 2019 | confirmed | 26 studies, 45 effect sizes, N = 1,918, r = .34; pages added |
+| [25] Webb 2007 | confirmed | 121 learners; 1/3/7/10 encounters; ten tests; "sizeable learning gains may occur" at 10 |
+| [26] Yanagisawa & Webb 2022 | partially supported → corrected | 42 studies, N = 4,628, 9.4%, +23.3%/+21.0%, 22.5% confirmed. "ILH largely supported" was overstated: the ILH was supported but explained limited variance. Added that the 9.4% applies to immediate posttests only |
+| [27] Brunmair & Richter 2019 | partially supported → corrected | 59 studies, 238 effect sizes, g = 0.42/0.67/0.34/−0.39 confirmed. **Misuse corrected:** it was cited as support for interleaving grammar, but the authors are "reluctant to recommend interleaving" for "grammar rules, foreign languages or words". Its "words" category was clarified |
+| [28] Nakata & Suzuki 2019 | confirmed; citation misapplied → corrected | 115 learners, five structures, most errors in training, better at one week, lower-pretest learners benefited more. It had been cited for "no full interleaving at first exposure", which its own moderator result cuts against; that rule is now flagged as contested. Volume and pages added |
+| [29] Pan et al. 2019 | confirmed | No single-session advantage (Exps 1–2); one-week advantage over two weekly sessions (Exps 3–4); volume and pages added |
+| [30] Macnamara et al. 2014 | confirmed | Definition, "largely reflect", 26/21/18/4/< 1%, "not as important as has been argued" |
+| [31] Sweller et al. 2019 | confirmed | Abstract record; volume and pages added (31, 261–292) |
+| [32] CESE 2017 | partially supported → corrected | "About four chunks", 0.52 (Crissman 2006), expertise reversal, split attention, redundancy, modality and all listed critiques confirmed in the PDF. "I.e. element interactivity" is not in the source and was removed |
+| [33] Soderstrom & Bjork 2015 | confirmed | "Unreliable index"; learners misread in-training performance |
+| [34] Milton 2010 | confirmed | XLex bands (adapted from Meara & Milton 2003, now noted), CEFR 2001 descriptors, > 500 learners, 60–70% except Hungary, small samples |
+| [35] Nation CEFR document | confirmed | 120 survival words; 1,000 families; 2,000–3,000; 4,000; 5,000–6,000; 7,000–9,000; Oxford 3000/5000 labels; "largely greater"; Milton & Alexiou 2020 B1 2,500–3,250; Laufer 2020 B1 ≈ 4,000. Undated; 2022 comes from the file metadata |
+| [36] Nation 2006 | confirmed | 8,000–9,000 written, 6,000–7,000 spoken; ~20,000 for well-educated native speakers; 4,000 + proper nouns ≈ 95% for novels and newspapers; Hu & Nation details |
+| [37] Laufer & Ravenhorst-Kalovski 2010 | confirmed | 8,000 families / 98%; 4,000–5,000 / 95% |
+| [38] Hu & Nation 2000 | confirmed (record only) | Bibliographic record; findings via [36] |
+| [39] FORRT replication atlas | partially supported → corrected | Misquote fixed: the record says "could not be fully replicated" |
+| [40] Schmitt et al. 2017 | confirmed | 9.62/8.22/7.65/7.35; 2,000–3,000 families; "did not involve actual learners". van Zeeland & Schmitt is dated 2012 in this source; the Limitations year was corrected |
+| [41a] NGSL 1.2 | confirmed | 2,809 words; 92%; April 2023; CC BY-SA 4.0 |
+| [41b] NAWL 1.2 | partially supported → marked | 957 words, 92%, CC BY-SA 4.0 confirmed. The "independent check" (Hendry & Sheepy 2018, 90%) is reported only on the list's own site; it is now labelled as such, and that study was not opened |
+| [41c] NGSL-Spoken 1.2 | confirmed | 721 words; "up to 90%"; CC BY-SA 4.0; first published 2013, v1.2 October 2017 |
+| [42] CC BY-SA 4.0 deed | confirmed | Commercial use and adaptation allowed; attribution; ShareAlike |
+| [43] AWL pages | confirmed | 570 families; excludes the most frequent 2,000; VUW copyright; no reuse statement; contact Prof. Coxhead |
+| [44] Cambridge B1 Preliminary list | confirmed | ©UCLES 2012; Threshold (1990); "over 44 million words"; EVP A1–B2 (the first fetch returned HTTP 304; the retry succeeded) |
+| [45] Loewen et al. 2019 | confirmed | 9 learners (Turkish), one semester, moderate correlation, varied motivation, frustration with materials |
+
+**Implementation decisions affected by the audit:**
+- **D12:** evidence for shuffling removed. It is now a design choice.
+- **D8:** "immediate" feedback is now a design choice, with a test added.
+- **D11** and **What-not-to-build #8:** blocked-first is contested by [27] and [28]; a three-arm test was added.
+- **What-not-to-build #7:** the Pre-A1–B1 scope is a design choice.
+- **D3:** a caveat was added to the 8-a-day arithmetic.
+- **D4:** a calibration caveat was added; the defaults were fitted on self-graded data.
+- **D13:** the exact lag values are design choices.
+
+No source was fabricated, and no source was dead. One source page was blocked: the PubMed record for [19] returned a cookie wall, so the claims were checked against the PDF instead.
+
+**Counts:**
+
+| Measure | Count |
+|---|---|
+| Sources checked | 47 |
+| Confirmed | 36 |
+| Partially supported and corrected or marked | 11 |
+| Unsupported | 0 |
+| Dead or blocked | 0 (one blocked record page, covered by the PDF) |
+| Individual claims removed or relabelled as design choice or unverified | 9 |

@@ -1,0 +1,289 @@
+{
+  "id": "a1-02",
+  "level": "A1",
+  "title_en": "Present simple: he, she, it",
+  "title_he": "הווה פשוט: he, she, it",
+  "topics": ["present-simple-third-person"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can talk about other people's routines: She works in Eilat. He goes to the gym.", "he": "אני יודע/ת לדבר על השגרה של אנשים אחרים: She works in Eilat. He goes to the gym." },
+    { "en": "I can spell the he/she/it form: works, watches, studies, has, does, goes.", "he": "אני יודע/ת לאיית את הצורה של he/she/it: works, watches, studies, has, does, goes." },
+    { "en": "I can say the ending as /s/, /z/ or /ɪz/: works, lives, watches.", "he": "אני יודע/ת להגות את הסיומת כ-/s/, /z/ או /ɪz/: works, lives, watches." }
+  ],
+  "warmup": { "en": "Think of a friend or a family member. What do they do every day? You can already say I work. Today: She works.", "he": "חשבו על חבר/ה או בן/בת משפחה. מה הם עושים כל יום? אתם כבר יודעים לומר I work. היום תלמדו לומר She works – ונראה מה משתנה." },
+  "explanation": [
+    { "type": "p", "en": "I work in Tel Aviv, but my sister works in Eilat. We live in Holon, and she lives near the beach. With he, she and it, the verb gets an -s.", "he": "I work in Tel Aviv, but my sister works in Eilat. כשמדברים על he, she או it – אדם אחד או דבר אחד – מוסיפים לפועל s." },
+    { "type": "rule", "en": "he / she / it + verb + -s. This means any one person or thing: Noa, my dad, the shop, the bus. With I, you, we and they, nothing changes: I work, but she works.", "he": "he / she / it + פועל + s. זה כל אדם או דבר אחד: Noa, my dad, the shop, the bus. עם I, you, we, they לא משתנה דבר: I work, אבל she works." },
+    { "type": "table", "headers": ["Verb ends in", "Rule", "Examples"], "rows": [
+      ["most verbs", "+ s", "work → works, live → lives, eat → eats"],
+      ["vowel + y", "+ s", "play → plays, buy → buys"],
+      ["consonant + y", "y → ies", "study → studies, fly → flies"],
+      ["-ch, -sh, -s, -x, -o", "+ es", "watch → watches, wash → washes, fix → fixes, go → goes, do → does"],
+      ["have", "irregular", "have → has"]
+    ] },
+    { "type": "table", "headers": ["Sound", "After", "Examples"], "rows": [
+      ["/s/", "p, t, k, f sounds", "sleeps, eats, works, laughs"],
+      ["/z/", "vowels and most other sounds", "plays, lives, goes, reads"],
+      ["/ɪz/ (an extra syllable)", "s, z, sh, ch, x, ge/dge sounds", "watches, washes, fixes, uses"]
+    ] },
+    { "type": "warning", "en": "Don't forget the -s. It is the most common mistake with the present simple: She works (not She work). But only with he, she and it: They work (not They works).", "he": "אל תשכחו את ה-s – זו הטעות הנפוצה ביותר בהווה פשוט: She works, לא She work. אבל רק עם he, she, it: They work, לא They works." },
+    { "type": "tip", "en": "Learn three short forms by heart: has, does, goes. Two forms also change their vowel: does /dʌz/, says /sez/.", "he": "שלוש צורות קצרות כדאי לזכור בעל פה: has, does, goes. ובשתי צורות גם התנועה משתנה בהגייה: does נהגה /dʌz/, ו-says נהגה /sez/." }
+  ],
+  "examples": [
+    { "en": "Omer works in a hospital.", "he": "עומר עובד בבית חולים." },
+    { "en": "My sister lives in Eilat.", "he": "אחותי גרה באילת." },
+    { "en": "Yael studies law.", "he": "יעל לומדת משפטים.", "note": "study → studies" },
+    { "en": "Kenji watches football every Saturday.", "he": "קנג'י צופה בכדורגל כל שבת.", "note": "-ch → -es" },
+    { "en": "The bus goes to the city centre.", "he": "האוטובוס נוסע למרכז העיר.", "note": "the bus = it" },
+    { "en": "Daniel has two cats.", "he": "לדניאל יש שני חתולים.", "note": "have → has" },
+    { "en": "My mum does yoga on Fridays.", "he": "אמא שלי עושה יוגה בימי שישי.", "note": "do → does /dʌz/" },
+    { "en": "The supermarket opens at eight.", "he": "הסופרמרקט נפתח בשמונה.", "note": "the supermarket = it" },
+    { "en": "Sara finishes work at six.", "he": "שרה מסיימת לעבוד בשש.", "note": "-sh → -es, an extra syllable" }
+  ],
+  "vocab": [
+    { "word": "watch", "pos": "verb", "he": "לצפות (ב-)", "def": "to look at something for some time, like TV or a game", "example": "Kenji watches football every Saturday.", "ipa": "/wɒtʃ/", "collocations": ["watch TV", "watch a film"], "level": "A1" },
+    { "word": "finish", "pos": "verb", "he": "לסיים", "def": "to stop doing something because it is complete", "example": "Sara finishes work at six.", "ipa": "/ˈfɪnɪʃ/", "collocations": ["finish work", "finish school"], "level": "A1" },
+    { "word": "teach", "pos": "verb", "he": "ללמד", "def": "to help someone learn something", "example": "My grandmother teaches English.", "ipa": "/tiːtʃ/", "collocations": ["teach English", "teach children"], "level": "A1" },
+    { "word": "wash", "pos": "verb", "he": "לשטוף, לרחוץ", "def": "to clean something with water", "example": "He washes the dishes after dinner.", "ipa": "/wɒʃ/", "collocations": ["wash the dishes", "wash your hands"], "level": "A1" },
+    { "word": "relax", "pos": "verb", "he": "לנוח, להירגע", "def": "to rest and feel calm", "example": "She relaxes on the sofa after work.", "ipa": "/rɪˈlæks/", "level": "A1" },
+    { "word": "open", "pos": "verb", "he": "להיפתח; לפתוח", "def": "to start working for the day (a shop, a bank); to make something not closed", "example": "The supermarket opens at eight.", "ipa": "/ˈəʊpən/", "collocations": ["open the door", "open at eight"], "level": "A1" },
+    { "word": "close", "pos": "verb", "he": "להיסגר; לסגור", "def": "to stop working for the day; to shut something", "example": "The bank closes at one on Fridays.", "ipa": "/kləʊz/", "collocations": ["close the window", "close early"], "level": "A1" },
+    { "word": "cook", "pos": "verb", "he": "לבשל", "def": "to make food hot and ready to eat", "example": "My dad cooks dinner every evening.", "ipa": "/kʊk/", "collocations": ["cook dinner", "cook pasta"], "level": "A1" },
+    { "word": "fly", "pos": "verb", "he": "לטוס", "def": "to travel by plane", "example": "My uncle flies to London every month.", "ipa": "/flaɪ/", "collocations": ["fly to London", "fly home"], "level": "A1" },
+    { "word": "take", "pos": "verb", "he": "לנסוע ב- (אוטובוס, רכבת); לקחת", "def": "to use a bus, train or taxi to go somewhere", "example": "She takes the bus to work.", "ipa": "/teɪk/", "collocations": ["take the bus", "take a taxi"], "level": "A1" },
+    { "word": "neighbour", "pos": "noun", "he": "שכן/ה", "def": "a person who lives near you", "example": "My neighbour walks her dog every morning.", "ipa": "/ˈneɪbə(r)/", "level": "A1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew the present-tense verb changes for gender and number but not for person: 'I work' and 'he works' use the same Hebrew word. English works differently, so he, she and it need -s: I work, but he works.", "he": "בעברית הפועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף: 'אני עובד' ו'הוא עובד' – אותה מילה בדיוק. באנגלית זה עובד אחרת: עם he, she, it מוסיפים s – I work, אבל he works.", "error_type": "third-person-s" },
+    { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/. So she lives /lɪvz/ (her home is there) can sound like she leaves /liːvz/ (she goes away). Keep lives short.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש קצרה /ɪ/ וארוכה /iː/. לכן she lives /lɪvz/ (היא גרה) עלול להישמע כמו she leaves /liːvz/ (היא עוזבת). ב-lives התנועה קצרה.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Match each verb with its he/she/it form.", "he": "התאימו כל פועל לצורה שלו עם he/she/it." },
+      "pairs": [["have", "has"], ["do", "does"], ["go", "goes"], ["study", "studies"], ["watch", "watches"], ["play", "plays"]],
+      "explanation": { "en": "has, does and goes are short, special forms. study → studies (consonant + y), watch → watches (-ch + es), play → plays (vowel + y).", "he": "has, does, goes – צורות קצרות ומיוחדות. study → studies (עיצור + y), watch → watches (ch + es), play → plays (תנועה + y)." }
+    },
+    {
+      "id": "e2", "type": "categorize", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "How do we write the he/she/it form? Sort the verbs.", "he": "איך כותבים את הצורה של he/she/it? מיינו את הפעלים." },
+      "categories": ["+ s", "+ es", "y → ies"],
+      "items": [
+        { "text": "work", "category": "+ s" },
+        { "text": "buy", "category": "+ s" },
+        { "text": "read", "category": "+ s" },
+        { "text": "wash", "category": "+ es" },
+        { "text": "fix", "category": "+ es" },
+        { "text": "go", "category": "+ es" },
+        { "text": "try", "category": "y → ies" },
+        { "text": "carry", "category": "y → ies" },
+        { "text": "fly", "category": "y → ies" }
+      ],
+      "explanation": { "en": "Most verbs + s (buy → buys, because of vowel + y). -sh, -x, -o + es: washes, fixes, goes. Consonant + y → ies: tries, carries, flies.", "he": "רוב הפעלים + s (buy → buys, כי לפני ה-y יש תנועה). sh, x, o + es: washes, fixes, goes. עיצור + y → ies: tries, carries, flies." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "present-simple-third-person",
+      "prompt": { "en": "Listen and answer.", "he": "הקשיבו וענו." },
+      "audio_text": "My brother works in a bank. He plays tennis on Fridays.",
+      "question": "What does the speaker's brother do on Fridays?",
+      "options": ["He plays tennis.", "He works in a bank.", "He watches tennis."],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "He works in a bank, but that isn't what he does on Fridays.", "he": "הוא עובד בבנק, אבל זה לא מה שהוא עושה בימי שישי." },
+        "2": { "en": "Listen again: he plays tennis – he doesn't just watch it.", "he": "הקשיבו שוב: he plays tennis – הוא משחק טניס, לא רק צופה בו." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "He plays tennis on Fridays. Listen for the endings: works /s/, plays /z/.", "he": "He plays tennis on Fridays. שימו לב לסיומות: works עם /s/, plays עם /z/." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "Lior ___ in a restaurant.",
+      "options": ["work", "works", "is work", "working"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Lior = he, so add -s: works.", "he": "Lior = he, ולכן מוסיפים s: works." },
+        "2": { "en": "Don't add is before the verb: Lior works.", "he": "לא מוסיפים is לפני הפועל: Lior works." },
+        "3": { "en": "working needs is and describes 'now'. For a job or a habit: Lior works.", "he": "working צריך is ומתאר משהו שקורה עכשיו. לעבודה קבועה או להרגל: Lior works." }
+      },
+      "option_errors": { "0": "third-person-s", "2": "verb-form", "3": "verb-form" },
+      "explanation": { "en": "One person (he) + verb-s: Lior works in a restaurant.", "he": "אדם אחד (he) + פועל עם s: Lior works in a restaurant." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Which sentence is correct?", "he": "איזה משפט נכון?" },
+      "question": "Dana and Tom are from the UK. Now…",
+      "options": ["Dana and Tom lives in London.", "Dana live in London.", "Dana and Tom live in London.", "Dana and Tom are live in London."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Dana and Tom = they, so no -s: live.", "he": "Dana and Tom = they, ולכן בלי s: live." },
+        "1": { "en": "Dana alone = she, so she needs -s: Dana lives.", "he": "Dana לבד = she, ולכן צריך s: Dana lives." },
+        "3": { "en": "Don't add are before the verb: Dana and Tom live.", "he": "לא מוסיפים are לפני הפועל: Dana and Tom live." }
+      },
+      "option_errors": { "0": "agreement", "1": "third-person-s", "3": "verb-form" },
+      "explanation": { "en": "The -s is only for one person or thing (he/she/it). Two people = they → live.", "he": "ה-s רק לאדם אחד או לדבר אחד (he/she/it). שני אנשים = they, ולכן live." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "speaking", "topic": "present-simple-third-person",
+      "prompt": { "en": "Say the verbs out loud. Which one has an extra syllable /ɪz/ at the end?", "he": "אמרו את הפעלים בקול. באיזה מהם הסיומת היא הברה נוספת /ɪz/?" },
+      "question": "Which verb ends in /ɪz/?",
+      "options": ["plays", "works", "lives", "watches"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "plays ends in /z/: /pleɪz/ – one syllable.", "he": "plays מסתיים ב-/z/: /pleɪz/ – הברה אחת." },
+        "1": { "en": "works ends in /s/: /wɜːks/ – one syllable.", "he": "works מסתיים ב-/s/: /wɜːks/ – הברה אחת." },
+        "2": { "en": "lives ends in /z/: /lɪvz/ – one syllable.", "he": "lives מסתיים ב-/z/: /lɪvz/ – הברה אחת." }
+      },
+      "hint": { "en": "Listen for the verb that ends in a ch sound.", "he": "חפשו את הפועל שמסתיים בצליל צ'." },
+      "explanation": { "en": "After ch, sh, s, x and similar sounds, -es is an extra syllable: watch-es /ˈwɒtʃɪz/.", "he": "אחרי ch, sh, s, x וצלילים דומים, הסיומת es היא הברה נוספת: watch-es /ˈwɒtʃɪz/." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Write the correct form of the verb.", "he": "כתבו את הצורה הנכונה של הפועל." },
+      "text": "Kenji ___ (watch) TV every evening, and his sister ___ (study) at the library.",
+      "answers": [["watches"], ["studies"]],
+      "hint": { "en": "watch ends in -ch. study ends in a consonant + y.", "he": "watch מסתיים ב-ch, ו-study מסתיים בעיצור + y." },
+      "wrong_feedback": [
+        { "match": "watch", "feedback": { "en": "Kenji = he: add -es after ch → watches.", "he": "Kenji = he: אחרי ch מוסיפים es → watches." }, "error_type": "third-person-s" },
+        { "match": "study", "feedback": { "en": "his sister = she: study → studies.", "he": "his sister = she, ולכן study → studies." }, "error_type": "third-person-s" },
+        { "match": "studys", "feedback": { "en": "Consonant + y becomes ies: studies.", "he": "עיצור + y הופך ל-ies: studies." }, "error_type": "spelling" }
+      ],
+      "explanation": { "en": "watch → watches (-ch + es). study → studies (y → ies).", "he": "watch → watches (אחרי ch מוסיפים es). study → studies (y הופך ל-ies)." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Write the correct form of the verb.", "he": "כתבו את הצורה הנכונה של הפועל." },
+      "text": "My dad ___ (have) a car, but he ___ (go) to work by bus. He ___ (finish) work at six.",
+      "answers": [["has"], ["goes"], ["finishes"]],
+      "hint": { "en": "Two of these verbs are special: have and go.", "he": "שניים מהפעלים מיוחדים: have ו-go." },
+      "wrong_feedback": [
+        { "match": "have", "feedback": { "en": "My dad = he: have → has.", "he": "My dad = he, ולכן have → has." }, "error_type": "third-person-s" },
+        { "match": "haves", "feedback": { "en": "have is irregular: has.", "he": "have הוא פועל חריג: has." }, "error_type": "verb-form" },
+        { "match": "go", "feedback": { "en": "he → goes.", "he": "עם he: goes." }, "error_type": "third-person-s" },
+        { "match": "gos", "feedback": { "en": "go ends in -o, so add -es: goes.", "he": "go מסתיים ב-o, ולכן מוסיפים es: goes." }, "error_type": "spelling" },
+        { "match": "finish", "feedback": { "en": "he → finishes (-sh + es).", "he": "עם he: finishes (sh + es)." }, "error_type": "third-person-s" }
+      ],
+      "explanation": { "en": "have → has, go → goes, finish → finishes. All three because the subject is he (my dad).", "he": "have → has, go → goes, finish → finishes – בכולם כי הנושא הוא he (my dad)." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Rewrite the sentence about Omer. Start with Omer.", "he": "כתבו את המשפט מחדש על עומר. התחילו ב-Omer." },
+      "source": "I watch TV and go to bed at eleven.",
+      "answers": [
+        "Omer watches TV and goes to bed at eleven.",
+        "Omer watches TV and he goes to bed at eleven.",
+        "Omer watches TV, and he goes to bed at eleven.",
+        "Omer watches TV and goes to bed at 11.",
+        "Omer watches TV and he goes to bed at 11."
+      ],
+      "hint": { "en": "Two verbs change.", "he": "שני פעלים משתנים." },
+      "wrong_feedback": [
+        { "match": "Omer watch TV and go to bed at eleven.", "feedback": { "en": "Omer = he, so both verbs need -es: watches, goes.", "he": "Omer = he, ולכן שני הפעלים צריכים es: watches, goes." }, "error_type": "third-person-s" },
+        { "match": "Omer watches TV and go to bed at eleven.", "feedback": { "en": "Good start! The second verb needs it too: goes.", "he": "התחלה טובה! גם הפועל השני צריך: goes." }, "error_type": "third-person-s" },
+        { "match": "Omer watch TV and goes to bed at eleven.", "feedback": { "en": "The first verb needs -es too: watches.", "he": "גם הפועל הראשון צריך es: watches." }, "error_type": "third-person-s" },
+        { "match": "Omer watchs TV and gos to bed at eleven.", "feedback": { "en": "Verbs ending in -ch and -o take -es: watches, goes.", "he": "פעלים שמסתיימים ב-ch וב-o מקבלים es: watches, goes." }, "error_type": "spelling" }
+      ],
+      "explanation": { "en": "Every verb with he/she/it takes -s/-es, even the second one after and.", "he": "כל פועל עם he/she/it מקבל s או es – גם הפועל השני, אחרי and." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "אחי עושה יוגה ויש לו חתול.",
+      "answers": [
+        "My brother does yoga and has a cat.",
+        "My brother does yoga and he has a cat.",
+        "My brother does yoga, and he has a cat.",
+        "My brother does yoga, and has a cat.",
+        "My brother does yoga and has got a cat.",
+        "My brother does yoga and he's got a cat.",
+        "My brother does yoga, and he's got a cat."
+      ],
+      "hint": { "en": "Two verbs, and both are special with he: do and have.", "he": "שני פעלים, ושניהם מיוחדים עם he: עושה = do, יש לו = have." },
+      "wrong_feedback": [
+        { "match": "My brother do yoga and have a cat.", "feedback": { "en": "My brother = he, so both verbs change: does, has.", "he": "My brother = he, ולכן שני הפעלים משתנים: does, has." }, "error_type": "third-person-s" },
+        { "match": "My brother does yoga and have a cat.", "feedback": { "en": "have → has with he, she and it.", "he": "עם he, she, it: have → has." }, "error_type": "third-person-s" },
+        { "match": "My brother makes yoga and has a cat.", "feedback": { "en": "Hebrew uses one verb for do and make, but English says do yoga.", "he": "בעברית 'עושה' מכסה גם do וגם make, אבל באנגלית אומרים do yoga." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "The Hebrew verb is the same for 'I' and 'he', but English adds an ending: he does, he has. And remember: do yoga, not make yoga.", "he": "בעברית 'עושה' זהה עם 'אני' ועם 'הוא', אבל באנגלית יש לצורה של he סיומת: he does, he has. ושימו לב: do yoga, לא make yoga." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "present-simple-third-person",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "My mum work in a school.",
+      "answers": ["My mum works in a school.", "My mum works at a school."],
+      "error_type": "third-person-s",
+      "hint": { "en": "my mum = she.", "he": "my mum = she – אדם אחד." },
+      "explanation": { "en": "my mum = she, so the verb needs -s: works.", "he": "my mum = she, ולכן הפועל צריך s: works." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "writing", "topic": "present-simple-third-person",
+      "prompt": { "en": "Fix the spelling mistake.", "he": "תקנו את טעות האיות." },
+      "sentence": "Sara studys English every evening.",
+      "answers": ["Sara studies English every evening."],
+      "error_type": "spelling",
+      "explanation": { "en": "Consonant + y → ies: study → studies. (But vowel + y → s: play → plays.)", "he": "עיצור + y → ies: study → studies. (אבל תנועה + y → s: play → plays.)" }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "present-simple-third-person",
+      "prompt": { "en": "Read Noa's blog post and answer the questions.", "he": "קראו את הפוסט של נועה וענו על השאלות." },
+      "title": "My grandmother Rina",
+      "passage": "My grandmother Rina is 74, and she is very busy! She lives in a small house in Rehovot. Every morning, she gets up at six and walks to the park with her dog, Shoko. She teaches English to children three times a week. On Tuesdays, she goes to a pottery class. In the evening, she reads or watches old films on her laptop. Every Friday, the whole family comes to her house for dinner. She cooks, and we wash the dishes!",
+      "questions": [
+        { "type": "mcq", "question": "Rina ___ three times a week.", "options": ["goes to a pottery class", "teaches English", "walks to the park"], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "The pottery class is on Tuesdays – once a week.", "he": "חוג הקרמיקה הוא בימי שלישי – פעם בשבוע." },
+            "2": { "en": "She walks to the park every morning, not three times a week.", "he": "היא הולכת לפארק כל בוקר, לא שלוש פעמים בשבוע." }
+          },
+          "explanation": { "en": "She teaches English to children three times a week.", "he": "כתוב: She teaches English to children three times a week." } },
+        { "type": "tf", "statement": "Rina gets up early.", "answer": true,
+          "explanation": { "en": "She gets up at six.", "he": "היא קמה בשש – מוקדם." } },
+        { "type": "tf", "statement": "Rina washes the dishes on Fridays.", "answer": false,
+          "explanation": { "en": "She cooks, and we (the family) wash the dishes.", "he": "היא מבשלת, ו-we (המשפחה) שוטפים את הכלים." } },
+        { "type": "gap", "text": "Shoko is Rina's ___.", "answers": [["dog"]],
+          "explanation": { "en": "...walks to the park with her dog, Shoko.", "he": "כתוב: walks to the park with her dog, Shoko." } }
+      ],
+      "explanation": { "en": "Notice all the -s verbs: lives, gets up, walks, teaches, goes, reads, watches, comes, cooks.", "he": "שימו לב לכל הפעלים עם s: lives, gets up, walks, teaches, goes, reads, watches, comes, cooks." }
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "present-simple-third-person",
+      "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו מה ששמעתם." },
+      "audio_text": "She does her homework and then watches TV.",
+      "answers": ["She does her homework and then watches TV."],
+      "hint": { "en": "Two verbs, both with he/she endings.", "he": "שני פעלים, ולשניהם סיומת של she." },
+      "explanation": { "en": "does /dʌz/ and watches /ˈwɒtʃɪz/: listen for the ending on both verbs.", "he": "does /dʌz/ ו-watches /ˈwɒtʃɪz/ – הקשיבו לסיומת בשני הפעלים." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "present-simple-third-person",
+      "prompt": { "en": "Say the sentences out loud.", "he": "אמרו את המשפטים בקול." },
+      "target": "My sister lives in Eilat. She teaches English and watches films at night.",
+      "focus": { "en": "Hear the endings: lives /z/, teaches /ɪz/, watches /ɪz/. teaches and watches have an extra syllable: TEACH-iz, WATCH-iz.", "he": "שימו לב לסיומות: lives עם /z/, ו-teaches ו-watches עם /ɪz/. ב-teaches וב-watches יש הברה נוספת: TEACH-iz, WATCH-iz." },
+      "error_type": "third-person-s",
+      "explanation": { "en": "Three verbs about one person, so three endings.", "he": "שלושה פעלים על אדם אחד – ולכן שלוש סיומות." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "present-simple-third-person",
+      "prompt": { "en": "Write about someone's routine.", "he": "כתבו על השגרה של מישהו." },
+      "task": { "en": "Write 5-6 sentences about a person you know (a friend, a family member or a neighbour): where they live, their job or studies, and what they do every day or every week.", "he": "כתבו 5-6 משפטים על אדם שאתם מכירים (חבר/ה, בן/בת משפחה או שכן/ה): איפה הוא/היא גר/ה, במה הוא/היא עובד/ת או מה לומד/ת, ומה הוא/היא עושה כל יום או כל שבוע." },
+      "min_words": 35,
+      "max_words": 90,
+      "must_include": ["every"],
+      "model_answer": "My friend Amir lives in Nazareth. He studies engineering at a university in Haifa, so he takes the train every morning. He has a part-time job in a phone shop. On Fridays, he plays football with his cousins. In the evening, he watches series and relaxes.",
+      "checklist": [
+        { "en": "Every verb after he/she/it has -s or -es: lives, watches, studies.", "he": "כל פועל אחרי he/she/it מקבל s או es: lives, watches, studies." },
+        { "en": "has, does, goes – not haves, dos, gos.", "he": "has, does, goes – לא haves, dos, gos." },
+        { "en": "At least two time expressions: every morning, on Fridays...", "he": "לפחות שני ביטויי זמן: every morning, on Fridays..." },
+        { "en": "Capital letters for names and places, and a full stop at the end of each sentence.", "he": "אות גדולה בשמות ובמקומות, ונקודה בסוף כל משפט." }
+      ],
+      "explanation": { "en": "Talking about other people's routines is where the -s matters most.", "he": "כשמספרים על השגרה של אנשים אחרים – שם ה-s הכי חשובה." }
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "he / she / it + verb-s: She works. He lives in Eilat.", "he": "he / she / it + פועל עם s: She works. He lives in Eilat." },
+      { "en": "Spelling: watches, washes, goes (+ es) · studies, flies (y → ies) · plays (+ s) · has.", "he": "איות: watches, washes, goes (+ es) · studies, flies (y → ies) · plays (+ s) · has." },
+      { "en": "Sound: /s/ works, /z/ lives, /ɪz/ watches.", "he": "הגייה: /s/ ב-works, /z/ ב-lives, /ɪz/ ב-watches." },
+      { "en": "No -s with I, you, we, they: They work.", "he": "בלי s עם I, you, we, they: They work." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

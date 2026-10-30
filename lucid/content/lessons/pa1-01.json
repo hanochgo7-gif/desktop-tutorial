@@ -208,7 +208,8 @@
         { "en": "Your name, surname and city start with a capital letter.", "he": "השם, שם המשפחה ושם העיר מתחילים באות גדולה." },
         { "en": "I is always a capital letter.", "he": "I תמיד באות גדולה." },
         { "en": "Every sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
-      ]
+      ],
+      "explanation": { "en": "You will spell your name on forms, bookings and phone calls, so it is worth practising. Capital letters show names, places and I.", "he": "תאייתו את השם שלכם בטפסים, בהזמנות ובשיחות טלפון, ולכן שווה לתרגל. אותיות גדולות מסמנות שמות, מקומות ואת I." }
     }
   ],
   "review": {

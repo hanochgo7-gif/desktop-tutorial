@@ -216,7 +216,8 @@
         { "en": "You say hello and goodbye.", "he": "יש ברכת שלום וברכת פרידה." },
         { "en": "You use My name is... or I'm... (not 'I name').", "he": "השתמשתם ב-My name is... או ב-I'm... (לא I name)." },
         { "en": "Your name and the word I start with a capital letter.", "he": "השם שלכם והמילה I מתחילים באות גדולה." }
-      ]
+      ],
+      "explanation": { "en": "A first message has a clear shape: hello, your name, Nice to meet you, goodbye. It works in a chat, an email or face to face.", "he": "להודעה ראשונה יש מבנה ברור: ברכה, השם, Nice to meet you ופרידה. המבנה הזה עובד בצ'אט, במייל ופנים אל פנים." }
     }
   ],
   "review": {

@@ -1,0 +1,997 @@
+{
+  "id": "b2-05",
+  "level": "B2",
+  "title_en": "Furthermore, nevertheless, whereas",
+  "title_he": "לכידות",
+  "topics": [
+    "cohesion-devices"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can choose the connector that shows the exact logical link: addition, contrast, concession, cause or result."
+    },
+    {
+      "en": "I can use connectors with the right grammar and punctuation: although + clause, despite + noun, However, + a new sentence."
+    },
+    {
+      "en": "I can point back to ideas with this, such, the former and the latter instead of repeating words."
+    },
+    {
+      "en": "I can link a short argument clearly without loading every sentence with a connector."
+    }
+  ],
+  "warmup": {
+    "en": "Take two facts: 'The flat is small.' 'It is very cheap.' How many ways can you join them into one idea? Do all of your versions mean exactly the same thing?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Compare: 'The flat is small, but it is cheap.' 'Although the flat is small, it is the best we have seen.' 'The flat is small, whereas the house is huge.' 'The flat is cheap. Furthermore, it is close to the station.' Each connector tells the reader how two ideas are related. If you choose the wrong one, the logic breaks even when the grammar is perfect."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Relationship",
+        "Joins two clauses in one sentence",
+        "Starts a new sentence (or follows ;)",
+        "+ noun or -ing"
+      ],
+      "rows": [
+        [
+          "Addition",
+          "and, not only ... but also",
+          "Furthermore, Moreover, In addition, What is more",
+          "in addition to, as well as"
+        ],
+        [
+          "Contrast (A is different from B)",
+          "whereas, while",
+          "In contrast, On the other hand",
+          "unlike"
+        ],
+        [
+          "Concession (an unexpected result)",
+          "although, even though",
+          "Nevertheless, Nonetheless, Even so",
+          "despite, in spite of"
+        ],
+        [
+          "Cause",
+          "because, since, as",
+          "This is because ...",
+          "because of, due to, owing to"
+        ],
+        [
+          "Result",
+          "so",
+          "Therefore, Consequently, As a result, Thus",
+          "leading to, resulting in"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Contrast compares two different things: Noa loves maths, whereas her brother hates it. Concession admits a fact and then gives a result you would not expect: Although Noa hates maths, she got the top grade. However can do both jobs; whereas and in contrast can only compare."
+    },
+    {
+      "type": "rule",
+      "en": "Check the grammar slot. Although, whereas and because need a full clause (subject + verb). Despite, due to and because of need a noun or -ing. Sentence connectors (However, Nevertheless, Consequently) start a new sentence or follow a semicolon, and take a comma after them."
+    },
+    {
+      "type": "tip",
+      "en": "Hebrew keeps the same word and simply adds a prefix before a clause (the same Hebrew word means both 'despite' and 'although', and both 'because of' and 'because'). English changes the word: despite the rain / although it rained; because of the traffic / because there was traffic.",
+      "he": "בעברית אותה מילה משמשת לשני המבנים, ומוסיפים ש- לפני פסוקית: למרות הגשם / למרות שירד גשם; בגלל העומס / בגלל שהיה עומס. באנגלית מחליפים מילה: despite the rain / although it rained; because of the traffic / because there was traffic."
+    },
+    {
+      "type": "p",
+      "en": "Point back instead of repeating: this/these + a summary noun (this decision, these changes), such + noun (such rules, such a decision), the former / the latter (the first / the second of two things). This on its own can be vague, so add a noun: 'This shows...' becomes 'This delay shows...'."
+    },
+    {
+      "type": "warning",
+      "en": "A comma cannot join two sentences, even with however or therefore: *The bus was late, however we arrived on time. Write: The bus was late. However, we arrived on time. / The bus was late; however, we arrived on time. Also avoid *despite of (despite or in spite of) and *Although ..., but ... (one connector is enough)."
+    },
+    {
+      "type": "tip",
+      "en": "Do not start every sentence with a connector. In a good paragraph, the order of ideas and reference words (this, such, the latter) do much of the linking. Add a connector where the relationship would otherwise be unclear, and never use the same one twice in a paragraph."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Cycling to work is cheap. Furthermore, it keeps you fit.",
+      "note": "addition: a second point in the same direction"
+    },
+    {
+      "en": "Tel Aviv is humid in summer, whereas Jerusalem is usually drier.",
+      "note": "contrast: two different things"
+    },
+    {
+      "en": "Although the course was expensive, most students said it was worth it.",
+      "note": "concession: although + clause"
+    },
+    {
+      "en": "Despite the high price, the course was fully booked within a week.",
+      "note": "despite + noun"
+    },
+    {
+      "en": "The trains were cancelled owing to the storm. As a result, hundreds of passengers spent the night at the station.",
+      "note": "cause + noun; result in a new sentence"
+    },
+    {
+      "en": "The council could repair the old bridge or build a new one. The latter would cost far more.",
+      "note": "the latter = the second of two options"
+    },
+    {
+      "en": "Several schools have banned phones during breaks. Such rules are popular with teachers but not with students.",
+      "note": "such + plural noun"
+    },
+    {
+      "en": "The museum is now free on Fridays. This policy has brought in many more young visitors.",
+      "note": "this + summary noun"
+    },
+    {
+      "en": "The bus was late; nevertheless, we arrived before the film started.",
+      "note": "semicolon + connector + comma"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "furthermore",
+      "pos": "adverb",
+      "he": "יתר על כן; נוסף על כך",
+      "def": "used to add another point that supports what you have just said (formal)",
+      "example": "The plan is cheap. Furthermore, it can start immediately.",
+      "ipa": "/ˌfɜːðəˈmɔː(r)/",
+      "collocations": [
+        "and furthermore",
+        "Furthermore, it is ..."
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "moreover",
+      "pos": "adverb",
+      "he": "יתרה מזאת; זאת ועוד",
+      "def": "used to add an extra, often stronger, point (formal)",
+      "example": "The flat is too small. Moreover, the rent is far too high.",
+      "ipa": "/mɔːrˈəʊvə(r)/",
+      "collocations": [
+        "Moreover, there is ...",
+        "and moreover"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "nevertheless",
+      "pos": "adverb",
+      "he": "אף על פי כן; בכל זאת",
+      "def": "despite what has just been said",
+      "example": "The journey was long. Nevertheless, it was worth it.",
+      "ipa": "/ˌnevəðəˈles/",
+      "collocations": [
+        "but nevertheless",
+        "it is nevertheless true that"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "whereas",
+      "pos": "conjunction",
+      "he": "ואילו; בעוד ש...",
+      "def": "used to compare two facts and show how they are different",
+      "example": "Maya prefers the mountains, whereas Omer loves the beach.",
+      "ipa": "/ˌweərˈæz/",
+      "collocations": [
+        "whereas in the past",
+        "whereas others"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "despite",
+      "pos": "preposition",
+      "he": "למרות (+ שם עצם)",
+      "def": "without being stopped by something; followed by a noun or -ing",
+      "example": "Despite the rain, the match went ahead.",
+      "ipa": "/dɪˈspaɪt/",
+      "collocations": [
+        "despite the fact that",
+        "despite this",
+        "despite being tired"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "owing to",
+      "pos": "preposition",
+      "he": "עקב; בשל (+ שם עצם)",
+      "def": "because of (formal); followed by a noun",
+      "example": "The concert was postponed owing to illness.",
+      "ipa": "/ˈəʊɪŋ tə/",
+      "collocations": [
+        "owing to a lack of",
+        "owing to bad weather"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "consequently",
+      "pos": "adverb",
+      "he": "כתוצאה מכך; לפיכך",
+      "def": "as a result of what has just been said (formal)",
+      "example": "He missed the deadline and consequently lost the contract.",
+      "ipa": "/ˈkɒnsɪkwəntli/",
+      "collocations": [
+        "and consequently",
+        "Consequently, many ..."
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "as a result",
+      "pos": "phrase",
+      "he": "כתוצאה מכך",
+      "def": "because of the thing that was just mentioned",
+      "example": "The road was closed. As a result, we were two hours late.",
+      "ipa": "/əz ə rɪˈzʌlt/",
+      "collocations": [
+        "as a result of",
+        "as a direct result"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "in contrast",
+      "pos": "phrase",
+      "he": "לעומת זאת",
+      "def": "used to show that two things are clearly different",
+      "example": "Haifa is hilly. In contrast, Tel Aviv is almost flat.",
+      "ipa": "/ɪn ˈkɒntrɑːst/",
+      "collocations": [
+        "in contrast to",
+        "by contrast",
+        "in sharp contrast"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "the latter",
+      "pos": "phrase",
+      "he": "האחרון מבין השניים",
+      "def": "the second of two people or things just mentioned (the first is the former)",
+      "example": "We could take the train or the bus; the latter is cheaper.",
+      "ipa": "/ðə ˈlætə(r)/",
+      "collocations": [
+        "the former ... the latter",
+        "of the two, the latter"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "such",
+      "pos": "determiner",
+      "he": "כזה; כזאת; כאלה",
+      "def": "of the kind just mentioned; such a + singular noun, such + plural or uncountable noun",
+      "example": "Such decisions should not be made in a hurry.",
+      "ipa": "/sʌtʃ/",
+      "collocations": [
+        "such a decision",
+        "such measures",
+        "in such cases"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "even so",
+      "pos": "phrase",
+      "he": "ובכל זאת; למרות זאת",
+      "def": "despite what has just been said (common in speech)",
+      "example": "The tickets were expensive. Even so, we bought them.",
+      "ipa": "/ˌiːvn ˈsəʊ/",
+      "collocations": [
+        "but even so",
+        "Even so, I think ..."
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "prompt": {
+        "en": "Sort the connectors by the relationship they show."
+      },
+      "categories": [
+        "Addition",
+        "Contrast",
+        "Concession",
+        "Cause",
+        "Result"
+      ],
+      "items": [
+        {
+          "text": "furthermore",
+          "category": "Addition"
+        },
+        {
+          "text": "in addition to",
+          "category": "Addition"
+        },
+        {
+          "text": "whereas",
+          "category": "Contrast"
+        },
+        {
+          "text": "in contrast",
+          "category": "Contrast"
+        },
+        {
+          "text": "nevertheless",
+          "category": "Concession"
+        },
+        {
+          "text": "even though",
+          "category": "Concession"
+        },
+        {
+          "text": "owing to",
+          "category": "Cause"
+        },
+        {
+          "text": "because of",
+          "category": "Cause"
+        },
+        {
+          "text": "consequently",
+          "category": "Result"
+        },
+        {
+          "text": "as a result",
+          "category": "Result"
+        }
+      ],
+      "explanation": {
+        "en": "Contrast compares two different things (whereas, in contrast). Concession admits a point and gives an unexpected result (nevertheless, even though). Owing to and because of give the reason; consequently and as a result give the effect."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "prompt": {
+        "en": "Choose the connector that fits the logic and the grammar."
+      },
+      "question": "Maya's flat is right in the city centre, ___ Lior's is a forty-minute bus ride away.",
+      "options": [
+        "nevertheless",
+        "whereas",
+        "furthermore",
+        "consequently"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Nevertheless shows an unexpected result, and as a sentence connector it cannot join two clauses after a comma. Here we are simply comparing two flats."
+        },
+        "2": {
+          "en": "Furthermore adds a point in the same direction, and it cannot join two clauses after a comma. These two facts are different, not added together."
+        },
+        "3": {
+          "en": "Consequently shows a result, but where Maya lives does not cause where Lior lives. It also cannot join two clauses after a comma."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "2": "cohesion",
+        "3": "cohesion"
+      },
+      "explanation": {
+        "en": "Whereas compares two different things inside one sentence: A is X, whereas B is Y. It is a conjunction, so a comma before it is correct."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "writing",
+      "prompt": {
+        "en": "Choose the best connector for the second sentence."
+      },
+      "question": "The museum is free to enter on Fridays. ___ very few local people visit it.",
+      "options": [
+        "In contrast,",
+        "Consequently,",
+        "Furthermore,",
+        "Nevertheless,"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "In contrast compares two different things (for example, this museum and another one). Here the second fact is a surprising result of the first."
+        },
+        "1": {
+          "en": "Consequently means 'because of this'. Free entry would not cause fewer visitors; the logic points the other way."
+        },
+        "2": {
+          "en": "Furthermore adds a point that supports the first one. Few visitors is not an extra advantage; it is unexpected."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "1": "cohesion",
+        "2": "cohesion"
+      },
+      "hint": {
+        "en": "Free entry should attract visitors. Is the second fact expected or surprising?"
+      },
+      "explanation": {
+        "en": "Free entry should bring visitors, but it does not: that is concession. Nevertheless (or However, Even so) introduces the unexpected result."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to part of a local radio report and answer the question."
+      },
+      "audio_text": "The new cycle lanes were meant to reduce traffic in the city centre. In practice, though, car journeys have actually got slower, because delivery vans now stop in the main road. Even so, the council is keeping the lanes, as the number of people cycling to work has clearly gone up.",
+      "question": "Why is the council keeping the cycle lanes?",
+      "options": [
+        "Because car journeys have become faster.",
+        "Because delivery vans no longer use the main road.",
+        "Because more people are now cycling to work.",
+        "Because traffic in the centre has fallen."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The reporter says car journeys have got slower, not faster."
+        },
+        "1": {
+          "en": "It is the opposite: the vans now stop in the main road, which slows the traffic down."
+        },
+        "3": {
+          "en": "That was the aim, but 'In practice, though' tells you it did not happen: journeys got slower."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "Listen for the connectors: 'though' introduces the problem, 'Even so' signals the decision despite it, and 'as' (= because) gives the reason: the number of people cycling to work has gone up."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read the opinion column and answer the questions. Pay attention to how the writer links and refers back to ideas."
+      },
+      "title": "Six months without cars on Harbour Street",
+      "passage": "When the council closed Harbour Street to cars last spring, many shop owners predicted disaster. Six months later, it is time to ask whether they were right.\n\nThe case for the scheme is easy to see. The street is quieter, the air is cleaner and, on summer evenings, families now sit at tables where cars used to queue. Furthermore, several new cafés have opened, which suggests that business owners are less worried than they once were.\n\nNevertheless, not everyone is celebrating. Older residents, in particular, say that the nearest bus stop is now too far for them to walk to. Such complaints deserve to be taken seriously. A town centre that is pleasant for the young but difficult for the elderly is not a success.\n\nTwo solutions have been proposed: a small electric shuttle bus along the street, or allowing cars back during the morning hours. The latter would bring back exactly the noise and traffic that the scheme was designed to remove; the former, by contrast, would keep the street calm while solving the access problem. Admittedly, a shuttle would not be free. However, the council has spent far less on road repairs since the closure, so the cost should not be impossible to cover.\n\nThe real lesson of the past six months is that closing a street is not enough on its own. The change has clearly made Harbour Street a better place to spend time; consequently, the question is no longer whether the scheme should continue, but how to make it work for everyone. If the council listens to the people who have been left out, this experiment could become a model for other towns in the region.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "In paragraph 3, what does 'Such complaints' refer to?",
+          "options": [
+            "Shop owners' fears of losing customers",
+            "Older residents saying the bus stop is too far away",
+            "Complaints about noise from the new cafés",
+            "Complaints about the cost of a shuttle bus"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The shop owners' fears are in paragraph 1, and the writer says they were mostly wrong."
+            },
+            "2": {
+              "en": "The cafés are mentioned as a positive sign, not as a source of complaints."
+            },
+            "3": {
+              "en": "The shuttle is only proposed later, in paragraph 4."
+            }
+          },
+          "explanation": {
+            "en": "Such + noun points back to the sentence just before: older residents say the nearest bus stop is now too far to walk to."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "In paragraph 4, what does 'The latter' refer to?",
+          "options": [
+            "A small electric shuttle bus",
+            "The noise and traffic",
+            "The council's road repairs",
+            "Allowing cars back in the mornings"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The shuttle bus is the first of the two solutions, so it is 'the former'."
+            },
+            "1": {
+              "en": "Noise and traffic are what the latter would bring back, not what it refers to."
+            },
+            "2": {
+              "en": "Road repairs appear later in the paragraph and are not one of the two solutions."
+            }
+          },
+          "explanation": {
+            "en": "The paragraph lists two solutions: (1) a shuttle bus, (2) cars in the morning. The latter = the second one."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer prefers the shuttle bus to bringing cars back.",
+          "answer": true,
+          "explanation": {
+            "en": "The latter (cars) 'would bring back exactly the noise and traffic'; the former (the shuttle) 'would keep the street calm while solving the access problem'."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer believes the scheme has failed and should end.",
+          "answer": false,
+          "explanation": {
+            "en": "The writer says the change 'has clearly made Harbour Street a better place'; consequently, the question is how to make it work for everyone, not whether to continue."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which word introduces a point the writer concedes (admits) to the other side?",
+          "options": [
+            "Admittedly",
+            "Furthermore",
+            "consequently",
+            "by contrast"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Furthermore adds another argument for the writer's own side."
+            },
+            "2": {
+              "en": "Consequently introduces the writer's conclusion, a result."
+            },
+            "3": {
+              "en": "By contrast compares the two solutions."
+            }
+          },
+          "explanation": {
+            "en": "'Admittedly, a shuttle would not be free.' The writer accepts a weakness in their own proposal, then answers it with However."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "According to the writer, the council has saved money on road ___ since the street was closed.",
+          "answers": [
+            [
+              "repairs",
+              "repair"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "buses",
+              "feedback": {
+                "en": "The shuttle bus would cost money; the savings are on road repairs."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'However, the council has spent far less on road repairs since the closure.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the report with words from the box. Check what follows each gap: a noun or a full clause?"
+      },
+      "text": "___ the heavy rain, the festival went ahead as planned. The atmosphere was fantastic ___ the field was muddy. However, the second day was cancelled ___ a power cut, and many visitors went home early ___ there was nothing to do.",
+      "word_bank": [
+        "Despite",
+        "although",
+        "due to",
+        "because",
+        "whereas",
+        "consequently"
+      ],
+      "answers": [
+        [
+          "Despite",
+          "In spite of"
+        ],
+        [
+          "although",
+          "even though",
+          "though"
+        ],
+        [
+          "due to",
+          "because of",
+          "owing to"
+        ],
+        [
+          "because",
+          "as",
+          "since"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "although",
+          "feedback": {
+            "en": "Although needs a full clause (subject + verb): although it was raining. Before a noun phrase like 'the heavy rain', use despite."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Despite",
+          "feedback": {
+            "en": "Despite is followed by a noun or -ing, not by a clause with a subject and verb. Before 'the field was muddy', use although."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "due to",
+          "feedback": {
+            "en": "Due to is followed by a noun (due to a power cut). Before a clause like 'there was nothing to do', use because."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "because",
+          "feedback": {
+            "en": "Because is followed by a clause. Before a noun like 'a power cut', use because of or due to."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "whereas",
+          "feedback": {
+            "en": "Whereas compares two different things; none of these sentences compares two things."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "consequently",
+          "feedback": {
+            "en": "Consequently shows a result and usually starts a new sentence; it cannot introduce a noun or a reason."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "explanation": {
+        "en": "Despite + noun (the heavy rain) · although + clause (the field was muddy) · due to + noun (a power cut) · because + clause (there was nothing to do)."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "correct",
+      "skill": "writing",
+      "prompt": {
+        "en": "This sentence has a punctuation problem. Rewrite it correctly."
+      },
+      "sentence": "The bus was twenty minutes late, however we still arrived on time.",
+      "answers": [
+        "The bus was twenty minutes late. However, we still arrived on time.",
+        "The bus was twenty minutes late; however, we still arrived on time.",
+        "The bus was twenty minutes late, but we still arrived on time.",
+        "The bus was twenty minutes late but we still arrived on time.",
+        "The bus was twenty minutes late. Nevertheless, we still arrived on time.",
+        "The bus was twenty minutes late; nevertheless, we still arrived on time.",
+        "Although the bus was twenty minutes late, we still arrived on time.",
+        "Even though the bus was twenty minutes late, we still arrived on time.",
+        "The bus was twenty minutes late. We still arrived on time, however."
+      ],
+      "error_type": "punctuation",
+      "hint": {
+        "en": "However cannot join two sentences with only a comma. Try a full stop or a semicolon before it, and a comma after it."
+      },
+      "explanation": {
+        "en": "However is a sentence connector, not a conjunction. Use a full stop or semicolon before it and a comma after it: '... late. However, we ...' or '... late; however, we ...'. Or use a real conjunction: '... late, but we ...'."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "writing",
+      "prompt": {
+        "en": "Find and fix the mistake."
+      },
+      "sentence": "Although the course was expensive, but most students said it was worth it.",
+      "answers": [
+        "Although the course was expensive, most students said it was worth it.",
+        "Although the course was expensive most students said it was worth it.",
+        "The course was expensive, but most students said it was worth it.",
+        "The course was expensive but most students said it was worth it.",
+        "Even though the course was expensive, most students said it was worth it.",
+        "Though the course was expensive, most students said it was worth it."
+      ],
+      "error_type": "cohesion",
+      "hint": {
+        "en": "Count the connectors. How many do you need for one contrast?"
+      },
+      "explanation": {
+        "en": "Although already links the two clauses, so but is one connector too many. Keep one: 'Although the course was expensive, most students ...' or 'The course was expensive, but most students ...'."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the sentence so that it begins with Despite. Keep the meaning."
+      },
+      "source": "Although the tickets were expensive, the concert sold out in an hour.",
+      "answers": [
+        "Despite the expensive tickets, the concert sold out in an hour.",
+        "Despite the expensive tickets the concert sold out in an hour.",
+        "Despite the high price of the tickets, the concert sold out in an hour.",
+        "Despite the high price of the tickets the concert sold out in an hour.",
+        "Despite the high ticket prices, the concert sold out in an hour.",
+        "Despite the high ticket prices the concert sold out in an hour.",
+        "Despite the high ticket price, the concert sold out in an hour.",
+        "Despite the high ticket price the concert sold out in an hour.",
+        "Despite the high prices of the tickets, the concert sold out in an hour.",
+        "Despite the price of the tickets, the concert sold out in an hour.",
+        "Despite the cost of the tickets, the concert sold out in an hour.",
+        "Despite the high cost of the tickets, the concert sold out in an hour.",
+        "Despite the tickets being expensive, the concert sold out in an hour.",
+        "Despite the tickets being expensive the concert sold out in an hour.",
+        "Despite the fact that the tickets were expensive, the concert sold out in an hour.",
+        "Despite the fact that the tickets were expensive the concert sold out in an hour.",
+        "Despite expensive tickets, the concert sold out in an hour."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Despite the tickets were expensive, the concert sold out in an hour.",
+          "feedback": {
+            "en": "Despite cannot be followed by a clause (subject + verb). Use a noun phrase (despite the expensive tickets), -ing (despite the tickets being expensive) or despite the fact that + clause."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Despite of the expensive tickets, the concert sold out in an hour.",
+          "feedback": {
+            "en": "There is no of after despite. Write despite or in spite of."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Despite the tickets were expensive, but the concert sold out in an hour.",
+          "feedback": {
+            "en": "Despite needs a noun or -ing, and you do not need but as well: Despite the expensive tickets, the concert sold out."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Despite + noun or -ing. Which noun phrase can replace 'the tickets were expensive'?"
+      },
+      "explanation": {
+        "en": "Despite takes a noun phrase or -ing, not a clause: Despite the expensive tickets / the high price of the tickets / the tickets being expensive, the concert sold out in an hour. If you really need a clause, use despite the fact that."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "prompt": {
+        "en": "Rewrite only the second sentence, using 'the latter' and 'it' so that nothing is repeated."
+      },
+      "source": "The council considered two options: a new bus route and a bike-sharing scheme. The council chose the bike-sharing scheme because the bike-sharing scheme was cheaper.",
+      "answers": [
+        "The council chose the latter because it was cheaper.",
+        "The council chose the latter, because it was cheaper.",
+        "The council chose the latter as it was cheaper.",
+        "It chose the latter because it was cheaper.",
+        "They chose the latter because it was cheaper.",
+        "The council chose the latter since it was cheaper.",
+        "The council chose the latter, as it was cheaper.",
+        "The council chose the latter, since it was cheaper."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The council chose the former because it was cheaper.",
+          "feedback": {
+            "en": "The former is the first option mentioned (the bus route). The bike-sharing scheme came second, so it is the latter."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "The council chose the latter because the latter was cheaper.",
+          "feedback": {
+            "en": "After the first mention, use it: repeating 'the latter' sounds heavy."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "The council chose the latter because it was more cheaper.",
+          "feedback": {
+            "en": "Cheap is a short adjective: cheaper, not more cheaper."
+          },
+          "error_type": "comparison-form"
+        }
+      ],
+      "hint": {
+        "en": "Which option was mentioned second?"
+      },
+      "explanation": {
+        "en": "The latter points to the second of two items already named (a bike-sharing scheme); it then refers back to the latter. Result: The council chose the latter because it was cheaper."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "mcq",
+      "skill": "writing",
+      "prompt": {
+        "en": "Which option makes the reference clearest?"
+      },
+      "question": "Noa's school replaced its end-of-year exams with a series of projects. ___ was popular with students but worried some parents.",
+      "options": [
+        "It",
+        "The latter",
+        "Such",
+        "This change"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "It is grammatical but unclear: it could mean the school, the exams or the projects. A summary noun tells the reader exactly what you mean."
+        },
+        "1": {
+          "en": "The latter would point to the second item named (a series of projects, which is plural), not to the whole change. The verb 'was' would also not fit."
+        },
+        "2": {
+          "en": "Such needs a noun after it (such a change), and it means 'of this kind', not 'this particular thing'."
+        }
+      },
+      "option_errors": {
+        "0": "cohesion",
+        "1": "cohesion",
+        "2": "cohesion"
+      },
+      "explanation": {
+        "en": "This + a summary noun (this change, this decision, this approach) refers back to a whole idea and labels it, so the reader knows exactly what you are talking about."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "order",
+      "skill": "writing",
+      "prompt": {
+        "en": "Put the sentences in order to make a clear paragraph. Use the connectors and reference words as clues."
+      },
+      "tokens": [
+        "Many teenagers now get their news from short videos on social media.",
+        "This habit has obvious advantages: the videos are quick, free and easy to share.",
+        "However, such clips rarely explain where their information comes from.",
+        "As a result, viewers may find it hard to tell a reliable report from a rumour.",
+        "Schools could therefore teach students to check a story before sharing it."
+      ],
+      "explanation": {
+        "en": "The first sentence introduces the topic. 'This habit' points back to it; 'However, such clips' turns to the problem; 'As a result' gives its effect; 'therefore' introduces the conclusion."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "mcq",
+      "skill": "writing",
+      "prompt": {
+        "en": "Which version links the ideas most effectively?"
+      },
+      "question": "Choose the best paragraph.",
+      "options": [
+        "Online courses are flexible, cheap and available almost anywhere. Their main weakness is isolation: many learners miss the contact of a classroom. Nevertheless, for people with jobs or families, this flexibility often matters more.",
+        "Online courses are flexible. Moreover, they are cheap. Furthermore, they are available everywhere. However, they can be lonely. Nevertheless, many people take them.",
+        "Online courses are flexible and cheap. Consequently, they are available almost anywhere. Whereas many learners miss the contact of a classroom. Therefore, people with jobs or families take them.",
+        "Online courses are flexible and cheap, moreover they are available almost anywhere, however many learners miss classroom contact, nevertheless people with jobs prefer them."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Every sentence starts with a connector, so the paragraph sounds mechanical, and the ideas are listed rather than developed."
+        },
+        "2": {
+          "en": "Consequently is illogical (being cheap does not make courses available everywhere), and 'Whereas many learners miss ...' is not a complete sentence."
+        },
+        "3": {
+          "en": "Moreover, however and nevertheless cannot join clauses with commas, so this is one long run-on sentence."
+        }
+      },
+      "option_errors": {
+        "1": "cohesion",
+        "2": "cohesion",
+        "3": "punctuation"
+      },
+      "explanation": {
+        "en": "The best version lists the advantages in one sentence, uses 'this flexibility' to point back, and needs only one connector (Nevertheless) at the point where the argument turns."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Disagree politely in a discussion. Say it out loud."
+      },
+      "target": "I see your point. Having said that, I still think the plan is worth trying.",
+      "focus": {
+        "en": "Pause briefly after 'Having said that'. 'That' starts with /ð/: put the tip of your tongue between your teeth.",
+        "he": "עצרו לרגע קצר אחרי Having said that. ‏that מתחילה בצליל /ð/: קצה הלשון בין השיניים."
+      },
+      "explanation": {
+        "en": "Formal connectors such as moreover and consequently sound stiff in conversation. In speech, people prefer 'Having said that', 'Even so', 'Plus' and 'That's why'."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a short opinion piece with carefully linked ideas."
+      },
+      "task": {
+        "en": "Your town is considering closing its main street to cars every Friday. Write an opinion piece of about 200-250 words for a local news website. Argue for or against the plan and respond fairly to one opposing view. Link your ideas carefully: use at least four connectors from different groups (addition, contrast or concession, cause, result) and at least two reference devices (this + noun, such, the former / the latter). Do not use the same connector twice."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "model_answer": "Every Friday, the main street of our town is full of cars looking for parking spaces. Closing it to traffic on that day would make the centre safer, quieter and more attractive.\n\nThe most obvious benefit is safety. Children and older people could cross the street without waiting for a gap in the traffic. In addition, a car-free street would give cafés and shops room to put tables and stalls outside, which would encourage people to stay longer and spend more.\n\nCritics argue that shop owners would lose customers who usually drive into town. This concern is understandable, since many shoppers come from nearby villages with poor bus services. However, such customers could still park at the edge of the centre, only a short walk away. Moreover, people on foot can easily visit several shops in one trip, whereas drivers often stop at one place and leave.\n\nThe council has two realistic options: a trial on Fridays only, or a permanent closure. The former is clearly the wiser first step, because it would allow everyone to see the effects before a final decision is made. Consequently, the town should start with a six-month Friday trial and ask residents for their views at the end of it.",
+      "checklist": [
+        {
+          "en": "Position: my first paragraph states clearly whether I support or oppose the plan."
+        },
+        {
+          "en": "Counterargument: I state one opposing view fairly and attribute it (Critics argue ..., Some residents worry ...), then answer it with a reason, not a dismissal."
+        },
+        {
+          "en": "Connectors: I used at least four from different groups, each one matches the real logical link, and none is repeated."
+        },
+        {
+          "en": "Reference: I pointed back with this/such + noun or the former/the latter instead of repeating words, and every 'this' is clear."
+        },
+        {
+          "en": "Punctuation: However, Moreover and Consequently start a sentence or follow a semicolon and take a comma; there are no comma splices."
+        },
+        {
+          "en": "Not every sentence starts with a connector, and the text still reads naturally."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Choose the connector for the exact logic: addition (furthermore), contrast (whereas), concession (although, nevertheless), cause (owing to, because) or result (consequently)."
+      },
+      {
+        "en": "Check the grammar slot: although/because + clause; despite/due to/because of + noun or -ing.",
+        "he": "בדקו מה בא אחרי המילה: although/because + פסוקית עם נושא ופועל; despite/due to/because of + שם עצם או ing."
+      },
+      {
+        "en": "However, Nevertheless and Consequently start a new sentence or follow a semicolon. Never join two sentences with just a comma."
+      },
+      {
+        "en": "Point back with this/such + noun and the former/the latter instead of repeating words."
+      },
+      {
+        "en": "Fewer, well-chosen connectors read better than one in every sentence."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

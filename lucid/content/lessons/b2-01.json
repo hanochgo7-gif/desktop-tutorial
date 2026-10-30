@@ -1,0 +1,1078 @@
+{
+  "id": "b2-01",
+  "level": "B2",
+  "title_en": "Narrative tenses and the past perfect",
+  "title_he": "זמני סיפור ו-past perfect",
+  "topics": [
+    "past-perfect"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use the past perfect simple to show that one past event happened before another."
+    },
+    {
+      "en": "I can use the past perfect continuous for an activity that lasted up to a past moment, often to explain a result."
+    },
+    {
+      "en": "I can combine the past simple, past continuous and past perfect to tell a clear, well-sequenced story."
+    },
+    {
+      "en": "I can use by the time, already, just, never ... before and when with the right tenses."
+    }
+  ],
+  "warmup": {
+    "en": "Think of a day when everything went wrong. What was the worst moment? And what had already happened before that moment?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Read this: 'When Maya reached the platform, the train had already left. She had been running for ten minutes, so she was completely out of breath.' The story's 'now' is the moment Maya reached the platform (past simple). The train left before that moment, and the running continued up to it, so both take the past perfect. The past perfect works like a flashback: it steps back from the main storyline."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tense",
+        "Form",
+        "Job in a story",
+        "Example"
+      ],
+      "rows": [
+        [
+          "past simple",
+          "worked, left",
+          "main events, told in order",
+          "She grabbed her bag and ran to the station."
+        ],
+        [
+          "past continuous",
+          "was / were + -ing",
+          "background: something in progress at that moment",
+          "It was raining and commuters were pushing past."
+        ],
+        [
+          "past perfect simple",
+          "had + past participle",
+          "an earlier, completed action or result",
+          "The train had already left."
+        ],
+        [
+          "past perfect continuous",
+          "had been + -ing",
+          "an earlier activity lasting up to that moment; duration or a visible effect",
+          "She had been running, so she was out of breath."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Use the past perfect only when you step back before another past moment. If you tell events in the order they happened, the past simple is enough: I locked the door, checked the windows and left. Once a flashback is clear, return to the past simple: too many had's slow a story down."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Expression",
+        "Pattern",
+        "Example"
+      ],
+      "rows": [
+        [
+          "by the time",
+          "by the time + past simple, past perfect in the main clause",
+          "By the time we arrived, the film had started."
+        ],
+        [
+          "already / just / never ... before",
+          "had + already / just / never + past participle",
+          "We had just sat down when the alarm went off."
+        ],
+        [
+          "before / after",
+          "the order is already clear, so the past perfect is optional",
+          "After the guests (had) left, we tidied up."
+        ],
+        [
+          "when",
+          "the tense changes the meaning",
+          "When I arrived, they left. (= then they left) / When I arrived, they had left. (= they were already gone)"
+        ],
+        [
+          "for / since",
+          "a period lasting up to a past moment",
+          "I had known Amir for ten years when we started the company."
+        ]
+      ]
+    },
+    {
+      "type": "tip",
+      "en": "Simple or continuous? Had done focuses on a completed action or result, often with a number: She had written three emails. Had been doing focuses on the activity and how long it lasted, and often explains what someone could see or feel: Her eyes were red because she had been crying. State verbs (know, believe, own, be) normally stay simple: I had known him for years, not *had been knowing."
+    },
+    {
+      "type": "warning",
+      "en": "No past perfect without a later past reference point: *I had been to Eilat last summer → I went to Eilat last summer. But do use it when the order matters: *By the time we arrived, the film started → the film had started."
+    },
+    {
+      "type": "p",
+      "en": "Contrast with Hebrew: Hebrew does not mark the perfect in the verb. It uses the ordinary past and shows the order with words like 'already' (kvar) or 'before'. English shows the order in the verb itself: When I arrived, the train had already left.",
+      "he": "בעברית אין צורת פועל מיוחדת ל'עבר שלפני העבר': 'כשהגעתי, הרכבת כבר יצאה' – הסדר מובע במילים כמו 'כבר' ו'קודם'. באנגלית הסדר מסומן בפועל עצמו: When I arrived, the train had already left."
+    }
+  ],
+  "examples": [
+    {
+      "en": "By the time the firefighters arrived, the neighbours had already put out the fire.",
+      "note": "by the time + past simple; the earlier event takes the past perfect"
+    },
+    {
+      "en": "When I got home, I realised I had left my keys at the office.",
+      "note": "leaving the keys happened before realising"
+    },
+    {
+      "en": "Omer was exhausted because he had been studying since six in the morning.",
+      "note": "continuous: duration up to a past moment, with a visible result"
+    },
+    {
+      "en": "She had never flown before, so she was nervous at the airport.",
+      "note": "never ... before = no experience up to a past moment"
+    },
+    {
+      "en": "We had just sat down when the fire alarm went off.",
+      "note": "had just + an interruption in the past simple"
+    },
+    {
+      "en": "After the guests had gone, we cleaned the kitchen.",
+      "note": "after already shows the order, so 'After the guests went' is also correct"
+    },
+    {
+      "en": "The streets were wet. It had been raining all night.",
+      "note": "the past perfect continuous explains what we could see"
+    },
+    {
+      "en": "Kenji had been working at the café for two years when he decided to open his own.",
+      "note": "how long, up to a past decision"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "realise",
+      "pos": "verb",
+      "he": "להבין (פתאום), לקלוט",
+      "def": "to suddenly understand or notice something",
+      "example": "I realised I had left my phone on the bus.",
+      "ipa": "/ˈriːəlaɪz/",
+      "collocations": [
+        "suddenly realise",
+        "realise your mistake",
+        "fail to realise"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "exhausted",
+      "pos": "adjective",
+      "he": "מותש/ת",
+      "def": "extremely tired",
+      "example": "Omer was exhausted because he had been studying since six.",
+      "ipa": "/ɪɡˈzɔːstɪd/",
+      "collocations": [
+        "completely exhausted",
+        "feel exhausted",
+        "physically exhausted"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "go off",
+      "pos": "phrasal verb",
+      "he": "(אזעקה, שעון מעורר) להתחיל לצלצל",
+      "def": "(of an alarm) to start ringing suddenly",
+      "example": "We had just sat down when the fire alarm went off.",
+      "ipa": "/ˌɡəʊ ˈɒf/",
+      "collocations": [
+        "the alarm went off",
+        "a car alarm going off"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "out of breath",
+      "pos": "phrase",
+      "he": "מתנשף/ת, חסר/ת נשימה",
+      "def": "breathing fast and with difficulty, for example after running",
+      "example": "I arrived out of breath because I had been running.",
+      "ipa": "/ˌaʊt əv ˈbreθ/",
+      "collocations": [
+        "completely out of breath",
+        "arrive out of breath"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "turn out",
+      "pos": "phrasal verb",
+      "he": "להתברר",
+      "def": "to be discovered to be true in the end, often surprisingly",
+      "example": "It turned out that she had sent the email to the wrong address.",
+      "ipa": "/ˌtɜːn ˈaʊt/",
+      "collocations": [
+        "it turned out that",
+        "turn out to be",
+        "turn out well"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "set off",
+      "pos": "phrasal verb",
+      "he": "לצאת לדרך",
+      "def": "to start a journey",
+      "example": "We had set off before sunrise, so we reached the top by nine.",
+      "ipa": "/ˌset ˈɒf/",
+      "collocations": [
+        "set off early",
+        "set off for the airport",
+        "set off on a trip"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "in the meantime",
+      "pos": "phrase",
+      "he": "בינתיים",
+      "def": "in the period of time between two events",
+      "example": "The plumber arrived at ten. In the meantime, the water had reached the hall.",
+      "ipa": "/ɪn ðə ˈmiːntaɪm/",
+      "level": "B2"
+    },
+    {
+      "word": "make it",
+      "pos": "phrase",
+      "he": "להספיק להגיע, להגיע בזמן",
+      "def": "to arrive in time; to succeed in getting somewhere",
+      "example": "We ran, but we didn't make it: the gate had already closed.",
+      "ipa": "/ˈmeɪk ɪt/",
+      "collocations": [
+        "just make it",
+        "make it on time",
+        "not make it"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "sequence",
+      "pos": "noun",
+      "he": "רצף, סדר (של אירועים)",
+      "def": "the order in which things happen",
+      "example": "The police tried to work out the exact sequence of events.",
+      "ipa": "/ˈsiːkwəns/",
+      "collocations": [
+        "the sequence of events",
+        "in sequence",
+        "a logical sequence"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "flashback",
+      "pos": "noun",
+      "he": "פלאשבק, חזרה לאחור בעלילה",
+      "def": "a part of a story that goes back to events that happened earlier",
+      "example": "The novel opens in 2020, then uses a flashback to the narrator's childhood.",
+      "ipa": "/ˈflæʃbæk/",
+      "collocations": [
+        "in a flashback",
+        "a series of flashbacks"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "board",
+      "pos": "verb",
+      "he": "לעלות (לרכבת, למטוס, לאונייה)",
+      "def": "to get on a train, plane, bus or ship",
+      "example": "I realised I had boarded the wrong train.",
+      "ipa": "/bɔːd/",
+      "collocations": [
+        "board a train",
+        "board a flight",
+        "boarding pass"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "convinced",
+      "pos": "adjective",
+      "he": "משוכנע/ת",
+      "def": "completely sure that something is true",
+      "example": "I arrived convinced that I had ruined everything.",
+      "ipa": "/kənˈvɪnst/",
+      "collocations": [
+        "convinced that",
+        "firmly convinced",
+        "not entirely convinced"
+      ],
+      "level": "B2"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the perfect is not marked in the verb: the order of two past events is shown with words such as 'already' or 'before'. So an English sentence can lose its time order: *When I arrived, the train already left. English marks the earlier event with had + past participle: the train had already left.",
+      "he": "בעברית אין סימון מיוחד בפועל ל'עבר שלפני העבר', והסדר מובע במילים כמו 'כבר' או 'קודם'. לכן קל לכתוב When I arrived, the train already left. באנגלית מסמנים את האירוע המוקדם בפועל עצמו: the train had already left.",
+      "error_type": "tense-choice"
+    },
+    {
+      "en": "In Hebrew one past form covers both 'I knew him' and 'I had known him'. In English, a period lasting up to a past moment needs the past perfect: I had known Amir for ten years when we started the company (not *I knew Amir for ten years when...).",
+      "he": "בעברית צורת עבר אחת ('הכרתי אותו עשר שנים') משמשת לשני המקרים. באנגלית, תקופה שנמשכה עד רגע מסוים בעבר דורשת past perfect: I had known Amir for ten years when we started the company.",
+      "error_type": "tense-choice"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Read the sentence. Which event happened first?"
+      },
+      "question": "When Dana opened the front door, her guests had gone home.",
+      "options": [
+        "The guests went home.",
+        "Dana opened the door.",
+        "Both happened at exactly the same time."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Dana opening the door is the story's 'now' (past simple). Had gone takes us back to an earlier time: the guests left first."
+        },
+        "2": {
+          "en": "For two things happening together we would use the past continuous: When Dana opened the door, her guests were leaving. Had gone means they had left before."
+        }
+      },
+      "option_errors": {
+        "1": "tense-choice",
+        "2": "tense-choice"
+      },
+      "explanation": {
+        "en": "had + past participle (had gone) = earlier than the other past event (opened). Dana found an empty room."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "prompt": {
+        "en": "These pieces come from the opening of one story. Sort them by the job they do."
+      },
+      "categories": [
+        "Main event",
+        "Background",
+        "Earlier completed action",
+        "Earlier activity with duration"
+      ],
+      "items": [
+        {
+          "text": "the lights went out",
+          "category": "Main event"
+        },
+        {
+          "text": "someone screamed",
+          "category": "Main event"
+        },
+        {
+          "text": "we were watching a horror film",
+          "category": "Background"
+        },
+        {
+          "text": "rain was beating on the windows",
+          "category": "Background"
+        },
+        {
+          "text": "nobody had paid the electricity bill",
+          "category": "Earlier completed action"
+        },
+        {
+          "text": "the landlord had warned us twice",
+          "category": "Earlier completed action"
+        },
+        {
+          "text": "we had been ignoring his emails for weeks",
+          "category": "Earlier activity with duration"
+        },
+        {
+          "text": "Omer had been complaining about the cold all evening",
+          "category": "Earlier activity with duration"
+        }
+      ],
+      "explanation": {
+        "en": "Past simple moves the story forward (went out, screamed). Past continuous paints the background (were watching). Past perfect simple adds earlier completed facts (had paid, had warned). Past perfect continuous adds earlier activities that lasted up to that point (had been ignoring, had been complaining)."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen to Priya's voice message to a colleague and answer the question."
+      },
+      "audio_text": "Sorry I missed the start of the meeting. I'd been waiting at the bus stop for twenty minutes when someone told me the buses weren't running because of the marathon. By the time I found a taxi, you'd already started.",
+      "question": "Why was Priya late for the meeting?",
+      "options": [
+        "She overslept and missed her bus.",
+        "Her taxi got stuck in marathon traffic.",
+        "The buses weren't running, and finding a taxi took time.",
+        "She waited at the wrong bus stop."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "She doesn't mention sleeping late. She had been waiting at the bus stop for twenty minutes."
+        },
+        "1": {
+          "en": "The marathon stopped the buses. She doesn't say the taxi was slow: by the time she found one, the meeting had started."
+        },
+        "3": {
+          "en": "She was at a normal stop; the problem was that the buses weren't running at all."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "I'd been waiting ... when someone told me = an activity in progress up to a past moment. By the time I found a taxi, you'd already started = the meeting started before she found a taxi. In both, I'd and you'd = had."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the best option."
+      },
+      "question": "By the time Sara turned twenty, she ___ three short novels.",
+      "options": [
+        "wrote",
+        "was writing",
+        "has written",
+        "had written"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "By the time + a completed amount (three novels) needs the result that was finished before that moment: had written."
+        },
+        "1": {
+          "en": "This would mean she was in the middle of writing them on her birthday. Three novels is a completed result: had written."
+        },
+        "2": {
+          "en": "Has written connects to now. Her twentieth birthday is a past moment, so step back from it: had written."
+        }
+      },
+      "option_errors": {
+        "0": "tense-choice",
+        "1": "tense-choice",
+        "2": "tense-choice"
+      },
+      "explanation": {
+        "en": "by the time + past simple (turned) → past perfect in the main clause for what was already complete at that moment."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Choose the sentence that matches the situation."
+      },
+      "question": "The guests were already gone when we arrived. Which sentence says this?",
+      "options": [
+        "When we arrived, everyone left.",
+        "When we arrived, everyone had left.",
+        "When we arrived, everyone was leaving."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "This means they left after we arrived, perhaps because we arrived!"
+        },
+        "2": {
+          "en": "This means they were in the middle of leaving, so some people were still there."
+        }
+      },
+      "option_errors": {
+        "0": "tense-choice",
+        "2": "tense-choice"
+      },
+      "explanation": {
+        "en": "After when, the tense in the main clause decides the order. Past perfect (had left) = the action was already complete when we arrived."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Complete the story with the correct form of the verbs in brackets."
+      },
+      "text": "When Lior finally ___ (reach) the gate, the plane ___ (already / take off). He ___ (sit) in the wrong terminal for over an hour without hearing the announcements.",
+      "answers": [
+        [
+          "reached"
+        ],
+        [
+          "had already taken off",
+          "had taken off already"
+        ],
+        [
+          "had been sitting",
+          "had sat"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "had reached",
+          "feedback": {
+            "en": "Reaching the gate is the story's 'now', the main event: past simple reached. The other two verbs step back from it."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "had already took off",
+          "feedback": {
+            "en": "The past participle of take is taken: had already taken off."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "already took off",
+          "feedback": {
+            "en": "When there is a past reference point (when Lior reached the gate), careful English uses had + past participle: had already taken off. 'Already took off' is heard in informal American speech, but it does not show the order."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "took off",
+          "feedback": {
+            "en": "The plane left before Lior reached the gate, so step back in time: had already taken off."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "was sitting",
+          "feedback": {
+            "en": "The past continuous is background at the same moment. The sitting lasted over an hour up to the moment he reached the gate: had been sitting."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "sat",
+          "feedback": {
+            "en": "'He sat for over an hour' sounds like a new event after he reached the gate. Step back in time: had been sitting."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "hint": {
+        "en": "Only one verb is the story's 'now'. The other two happened before it."
+      },
+      "explanation": {
+        "en": "reached = the main event. had already taken off = completed before it. had been sitting = an activity lasting up to that moment (for over an hour). Had sat is also possible, but the continuous stresses how long he waited."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Simple or continuous? Complete with the past perfect of paint."
+      },
+      "text": "Noa ___ (paint) the kitchen all morning, so there was paint all over her hands. By lunchtime she ___ (paint) two of the four walls.",
+      "answers": [
+        [
+          "had been painting"
+        ],
+        [
+          "had painted"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "had painted",
+          "feedback": {
+            "en": "Check the clue in each sentence. All morning + paint on her hands → the activity and its visible effect: had been painting. Two of the four walls → a completed amount: had painted."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "had been painting",
+          "feedback": {
+            "en": "Check the clue in each sentence. All morning + paint on her hands → the activity and its visible effect: had been painting. Two of the four walls → a completed amount: had painted."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "was painting",
+          "feedback": {
+            "en": "The past continuous shows background at one moment. Here the activity lasted up to a later past point and left a result: had been painting."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "painted",
+          "feedback": {
+            "en": "Use the past perfect: both sentences step back from a later past moment (when someone saw her hands; lunchtime)."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "hint": {
+        "en": "One sentence is about an activity and its effect; the other is about how much was finished."
+      },
+      "explanation": {
+        "en": "had been + -ing = the activity, its duration or a visible effect (paint on her hands). had + past participle = a result or a completed amount (two walls)."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Join the two sentences using the words in brackets. Keep the same order of events."
+      },
+      "source": "First the match started. Later we arrived at the stadium. (by the time)",
+      "answers": [
+        "By the time we arrived at the stadium, the match had started.",
+        "By the time we arrived at the stadium the match had started.",
+        "By the time we arrived at the stadium, the match had already started.",
+        "By the time we arrived at the stadium the match had already started.",
+        "The match had started by the time we arrived at the stadium.",
+        "The match had already started by the time we arrived at the stadium.",
+        "By the time we got to the stadium, the match had started.",
+        "By the time we got to the stadium the match had started.",
+        "By the time we got to the stadium, the match had already started.",
+        "By the time we got to the stadium the match had already started."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "By the time we arrived at the stadium, the match started.",
+          "feedback": {
+            "en": "The match started before you arrived, so it needs the past perfect: the match had started."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "By the time we arrived at the stadium the match started.",
+          "feedback": {
+            "en": "The match started before you arrived, so it needs the past perfect: the match had started."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "By the time we had arrived at the stadium, the match had started.",
+          "feedback": {
+            "en": "After by the time, use the past simple for the later event: By the time we arrived..."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "By the time we had arrived at the stadium the match had started.",
+          "feedback": {
+            "en": "After by the time, use the past simple for the later event: By the time we arrived..."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "By the time the match started, we arrived at the stadium.",
+          "feedback": {
+            "en": "Check the order: the match started first, so the arrival is what goes after by the time."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "By the time the match started we arrived at the stadium.",
+          "feedback": {
+            "en": "Check the order: the match started first, so the arrival is what goes after by the time."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "By the time the match had started, we arrived at the stadium.",
+          "feedback": {
+            "en": "Check the order: the match started first, so the arrival is what goes after by the time."
+          },
+          "error_type": "comprehension"
+        },
+        {
+          "match": "By the time the match had started we arrived at the stadium.",
+          "feedback": {
+            "en": "Check the order: the match started first, so the arrival is what goes after by the time."
+          },
+          "error_type": "comprehension"
+        }
+      ],
+      "hint": {
+        "en": "by the time + the later event (past simple), then the earlier event (past perfect)."
+      },
+      "explanation": {
+        "en": "By the time we arrived (later event, past simple), the match had (already) started (earlier event, past perfect)."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Rewrite the sentence so it begins with the words given. Use the past perfect."
+      },
+      "source": "Priya's trip to Manali was the first time she saw snow. → Before her trip to Manali, Priya ...",
+      "answers": [
+        "Before her trip to Manali, Priya had never seen snow.",
+        "Before her trip to Manali Priya had never seen snow.",
+        "Before her trip to Manali, Priya had never seen snow before.",
+        "Before her trip to Manali Priya had never seen snow before.",
+        "Before her trip to Manali, Priya had not seen snow.",
+        "Before her trip to Manali Priya had not seen snow.",
+        "Before her trip to Manali, Priya had not seen snow before.",
+        "Before her trip to Manali Priya had not seen snow before.",
+        "Before her trip to Manali, Priya had not ever seen snow.",
+        "Before her trip to Manali Priya had not ever seen snow."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Before her trip to Manali, Priya has never seen snow.",
+          "feedback": {
+            "en": "Has never seen connects to now. The reference point is a past event (her trip), so step back from it: had never seen."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "Before her trip to Manali Priya has never seen snow.",
+          "feedback": {
+            "en": "Has never seen connects to now. The reference point is a past event (her trip), so step back from it: had never seen."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "Before her trip to Manali, Priya never saw snow.",
+          "feedback": {
+            "en": "Possible in informal speech, but this task practises the past perfect, which shows experience up to a past moment: had never seen."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "Before her trip to Manali Priya never saw snow.",
+          "feedback": {
+            "en": "Possible in informal speech, but this task practises the past perfect, which shows experience up to a past moment: had never seen."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "Before her trip to Manali, Priya had never saw snow.",
+          "feedback": {
+            "en": "After had, use the past participle: seen, not saw."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "Before her trip to Manali Priya had never saw snow.",
+          "feedback": {
+            "en": "After had, use the past participle: seen, not saw."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "explanation": {
+        "en": "had never + past participle = no experience up to a moment in the past: Before her trip, Priya had never seen snow."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "read",
+      "skill": "reading",
+      "prompt": {
+        "en": "Read Omer's blog post and answer the questions. Notice how he moves between the main story and flashbacks."
+      },
+      "title": "The wrong train",
+      "passage": "Last spring I had the most stressful morning of my life, and it was entirely my own fault.\nI had been preparing for my university interview for weeks. I had read every article the department had published, and I had practised my answers with my sister until she begged me to stop. The night before, I set two alarms and went to bed early. What could go wrong?\nThe alarms worked perfectly. The problem started at the station. I was scrolling through my notes on the platform when a train pulled in, and I got on without checking the screen. We had been travelling for about twenty minutes when I noticed that the view looked strangely familiar: sea, not hills. I had boarded the train to Haifa.\nI jumped off at the next stop, my heart pounding. By the time I worked out the fastest way back, I had lost almost an hour. I called the department and apologised to a very calm secretary, who told me that the professor had already started interviewing the next candidate but that she would try to find me a later slot.\nI arrived at two o'clock, out of breath and convinced that I had ruined everything. Then something unexpected happened. The professor smiled and told me that she had once missed her own graduation ceremony because she had fallen asleep on a bus. We both laughed, and suddenly I was not nervous any more. The interview went better than any of my practice sessions.\nA month later I got the acceptance email. I still check the screen twice before I get on a train, though.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "When did Omer realise he was on the wrong train?",
+          "options": [
+            "as soon as the train pulled in",
+            "after about twenty minutes of travelling",
+            "when he arrived in Haifa",
+            "when he called the department"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "He got on without checking the screen, so he did not notice at first."
+            },
+            "2": {
+              "en": "He jumped off at the next stop; he did not travel all the way to Haifa."
+            },
+            "3": {
+              "en": "He called the department after he had got off the train."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'We had been travelling for about twenty minutes when I noticed that the view looked strangely familiar.'"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Omer's alarms did not go off that morning.",
+          "answer": false,
+          "explanation": {
+            "en": "'The alarms worked perfectly. The problem started at the station.'"
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The professor was already interviewing another candidate when Omer phoned.",
+          "answer": true,
+          "explanation": {
+            "en": "The secretary told him that 'the professor had already started interviewing the next candidate': this began before his call."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why does Omer write 'I had been preparing for my university interview for weeks'?",
+          "options": [
+            "to describe the main event of the story",
+            "to show a habit he still has today",
+            "to show that his preparation was still going on while he wrote the post",
+            "to show an activity that continued up to the day of the story"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The main events (the train, the interview) are in the past simple. This sentence is background from before them."
+            },
+            "1": {
+              "en": "A present habit would need the present simple. Had been preparing is about a period before a past moment."
+            },
+            "2": {
+              "en": "Then he would need the present perfect continuous (I have been preparing). The interview is over."
+            }
+          },
+          "option_errors": {
+            "0": "tense-choice",
+            "1": "tense-choice",
+            "2": "tense-choice"
+          },
+          "explanation": {
+            "en": "had been + -ing = an activity lasting for a period (for weeks) up to a past moment: the morning of the interview."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What changed Omer's mood before the interview?",
+          "options": [
+            "The secretary promised him the job.",
+            "He had a coffee and read his notes again.",
+            "The professor told him about a mistake she had once made.",
+            "He realised the interview had been cancelled."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The secretary only promised to try to find a later slot."
+            },
+            "1": {
+              "en": "There is no coffee in the story; he arrived out of breath."
+            },
+            "3": {
+              "en": "The interview happened, and it went well."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The professor said she had once missed her own graduation ceremony because she had fallen asleep on a bus. They laughed, and he was not nervous any more."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Omer knew he was on the wrong train because he could see the ___ instead of hills.",
+          "answers": [
+            [
+              "sea"
+            ]
+          ],
+          "explanation": {
+            "en": "'...the view looked strangely familiar: sea, not hills.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "This sentence uses the past perfect where it is not needed. Correct it."
+      },
+      "sentence": "I had been to Rome last summer, and I loved it.",
+      "answers": [
+        "I went to Rome last summer, and I loved it.",
+        "I went to Rome last summer and I loved it.",
+        "I went to Rome last summer and loved it.",
+        "I was in Rome last summer, and I loved it.",
+        "I was in Rome last summer and I loved it.",
+        "I was in Rome last summer and loved it."
+      ],
+      "error_type": "tense-choice",
+      "hint": {
+        "en": "Is there a later past moment to step back from?"
+      },
+      "explanation": {
+        "en": "Last summer is a finished time and there is no other past moment to look back from, so use the past simple: I went to Rome last summer. The past perfect needs a later past reference point."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the verb form in this sentence from a news report."
+      },
+      "sentence": "By the time the report was published, the council already changed its policy.",
+      "answers": [
+        "By the time the report was published, the council had already changed its policy.",
+        "By the time the report was published the council had already changed its policy.",
+        "By the time the report was published, the council had changed its policy.",
+        "By the time the report was published the council had changed its policy.",
+        "By the time the report was published, the council had changed its policy already.",
+        "By the time the report was published the council had changed its policy already."
+      ],
+      "error_type": "tense-choice",
+      "explanation": {
+        "en": "The policy changed before the report came out. With by the time + past simple, the earlier event takes the past perfect: had already changed."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "grammar",
+      "prompt": {
+        "en": "Correct the sentence."
+      },
+      "sentence": "I knew Amir for ten years when we started our company.",
+      "answers": [
+        "I had known Amir for ten years when we started our company.",
+        "I had known Amir for ten years by the time we started our company."
+      ],
+      "error_type": "tense-choice",
+      "hint": {
+        "en": "The ten years lasted up to a past moment. Know is a state verb."
+      },
+      "explanation": {
+        "en": "for + a period lasting up to a past moment (when we started) → past perfect. Know is a state verb, so use the simple form: had known, not had been knowing. 'I knew Amir for ten years' on its own suggests that the friendship is over."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "dictation",
+      "skill": "listening",
+      "prompt": {
+        "en": "Listen and write the sentence. Listen for the short forms of had."
+      },
+      "audio_text": "We'd been driving for hours before we realised we'd taken the wrong road.",
+      "answers": [
+        "We'd been driving for hours before we realised we'd taken the wrong road.",
+        "We'd been driving for hours before we realized we'd taken the wrong road.",
+        "We'd been driving for hours before we realised that we'd taken the wrong road."
+      ],
+      "explanation": {
+        "en": "We'd been driving = we had been driving (activity with duration). We'd taken = we had taken (an earlier completed mistake). Before a past participle or been, 'd means had, not would."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "prompt": {
+        "en": "Say the sentence out loud, as if telling a friend what happened."
+      },
+      "target": "By the time I got there, everyone had already left.",
+      "focus": {
+        "en": "Had is weak in speech (/həd/), while already and left carry the stress. There starts with /ð/: put your tongue lightly between your teeth."
+      },
+      "explanation": {
+        "en": "In natural speech the auxiliary had is reduced, so listeners rely on the stressed words (already left) to follow the story."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "prompt": {
+        "en": "Write a short story with flashbacks."
+      },
+      "task": {
+        "en": "Write a short story or blog post (180-280 words) about a day when something went wrong or turned out surprisingly well. You can invent it. Start at a dramatic moment, then use flashbacks to explain what had happened before. Use the past simple for the main events and the past continuous for background. Include at least two examples of the past perfect simple, at least two of the past perfect continuous, by the time, and at least one of already, just or never ... before."
+      },
+      "min_words": 180,
+      "max_words": 280,
+      "must_include": [
+        "had been",
+        "by the time"
+      ],
+      "model_answer": "The phone rang at two in the morning, and I knew immediately that something was wrong.\n\nIt was my neighbour, Mrs Cohen. Water was pouring through her ceiling, she said, and it was coming from my flat. I ran to the bathroom. The floor was flooded, and a pipe under the sink was spraying water against the wall. It had apparently been leaking for hours while I was asleep. I had noticed a strange dripping sound before I went to bed, but I had been too tired to investigate.\n\nBy the time the emergency plumber arrived, I had already moved everything I could into the living room and turned off the water. He replaced the pipe in twenty minutes and told me I had been lucky: the water had not reached the electrical sockets.\n\nMrs Cohen was surprisingly calm. She had been planning to repaint her kitchen anyway, she joked, and now she had a good reason. We sat in her flat drinking tea until the sun came up. I had lived next to her for three years, but I had never had a proper conversation with her before that night.\n\nThe next week I paid for her new paint, and she invited me to dinner. A burst pipe had given me something I had not expected: a friend next door.",
+      "checklist": [
+        {
+          "en": "Sequence: a reader can always tell what happened first."
+        },
+        {
+          "en": "I used the past perfect simple for earlier completed actions or results (at least two) and the past perfect continuous for earlier activities with duration or a visible effect (at least two)."
+        },
+        {
+          "en": "I did not overuse had: once a flashback was clear, I returned to the past simple."
+        },
+        {
+          "en": "By the time, already, just or never ... before are used with the right tenses."
+        },
+        {
+          "en": "Background (past continuous) and main events (past simple) are clearly different."
+        },
+        {
+          "en": "The story has paragraphs, a strong opening moment and a clear ending."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Past perfect simple (had + past participle) = completed before another past moment: The train had already left."
+      },
+      {
+        "en": "Past perfect continuous (had been + -ing) = an activity lasting up to a past moment, often with a visible result: She was out of breath because she had been running."
+      },
+      {
+        "en": "By the time + past simple → past perfect in the main clause. After before and after, the past perfect is optional."
+      },
+      {
+        "en": "Don't overuse it: no past perfect without a later past reference point (I went to Rome last summer)."
+      },
+      {
+        "en": "English marks 'the past before the past' in the verb; Hebrew uses words like 'already'.",
+        "he": "באנגלית 'העבר שלפני העבר' מסומן בפועל (had + V3); בעברית משתמשים במילים כמו 'כבר'."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

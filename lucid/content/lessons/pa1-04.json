@@ -238,7 +238,8 @@
         { "en": "Age: I'm 23 or I'm 23 years old (not I have 23 years).", "he": "גיל: I'm 23 או I'm 23 years old (לא I have 23 years)." },
         { "en": "Each sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." },
         { "en": "Read your phone number aloud, one number at a time.", "he": "קראו את מספר הטלפון בקול, ספרה אחרי ספרה." }
-      ]
+      ],
+      "explanation": { "en": "Name, age and phone number are the first things on most forms. Age uses be: I'm 23 (years old).", "he": "שם, גיל ומספר טלפון הם הדברים הראשונים ברוב הטפסים. גיל מבטאים עם be: ‏I'm 23 (years old)." }
     }
   ],
   "review": {

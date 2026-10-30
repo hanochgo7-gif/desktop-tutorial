@@ -1,0 +1,257 @@
+{
+  "id": "pa1-10",
+  "level": "PreA1",
+  "title_en": "My first sentences",
+  "title_he": "המשפטים הראשונים שלי",
+  "topics": ["word-order-basic"],
+  "minutes": 20,
+  "objectives": [
+    { "en": "I can build a sentence in the right order: who + verb + the rest (I live in Haifa).", "he": "אני יודע/ת לבנות משפט בסדר הנכון: מי + פועל + שאר המשפט (I live in Haifa)." },
+    { "en": "I can say where I live, what I like and what I have: I live in..., I like..., I have...", "he": "אני יודע/ת לומר איפה אני גר/ה, מה אני אוהב/ת ומה יש לי: I live in..., I like..., I have..." },
+    { "en": "I can write a capital I, start every sentence with a capital letter and end it with a full stop.", "he": "אני יודע/ת לכתוב I באות גדולה, להתחיל כל משפט באות גדולה ולסיים אותו בנקודה." },
+    { "en": "I can introduce myself in 5-6 simple sentences.", "he": "אני יודע/ת להציג את עצמי ב-5-6 משפטים פשוטים." }
+  ],
+  "warmup": { "en": "Say three things about yourself in Hebrew: where you live, something you like and something you have. Today you will say them in English.", "he": "אמרו בעברית שלושה דברים על עצמכם: איפה אתם גרים, משהו שאתם אוהבים ומשהו שיש לכם. היום תלמדו לומר אותם באנגלית, ובסוף השיעור תכתבו הצגה עצמית קצרה." },
+  "explanation": [
+    { "type": "p", "en": "I live in Haifa. I like music. I have a dog. Each sentence starts with who (I), then the verb (live, like, have), then the rest.", "he": "I live in Haifa. I like music. I have a dog. כל משפט מתחיל במי שעושה (I), אחריו בא הפועל (live, like, have), ואז שאר המשפט." },
+    { "type": "table", "headers": ["Who?", "Verb", "The rest", "עברית"], "rows": [
+      ["I", "live", "in Haifa.", "אני גר/ה בחיפה."],
+      ["I", "like", "music.", "אני אוהב/ת מוזיקה."],
+      ["I", "have", "a dog.", "יש לי כלב."],
+      ["I", "am", "17.", "אני בן/בת 17."],
+      ["My name", "is", "Maya.", "קוראים לי מאיה."],
+      ["My friends", "are", "students.", "החברים שלי סטודנטים."]
+    ] },
+    { "type": "rule", "en": "Who + verb + the rest. Use am/is/are for your name, age, country and job: I'm 17. I'm a student. For actions and likes, use another verb. One verb is enough: I live in Haifa (not 'I'm live in Haifa').", "he": "מי + פועל + שאר המשפט. את am/is/are משתמשים לשם, לגיל, למדינה ולמקצוע: I'm 17. I'm a student. לפעולות ולדברים שאוהבים יש פועל אחר – ופועל אחד מספיק: I live in Haifa, לא I'm live in Haifa." },
+    { "type": "warning", "en": "Keep the verb and the thing after it together: I like pizza very much (not 'I like very much pizza').", "he": "הפועל ומה שבא אחריו נשארים צמודים: I like pizza very much. לא I like very much pizza – very much עובר לסוף." },
+    { "type": "tip", "en": "Check before you send: I is always a capital letter. Every sentence starts with a capital letter and ends with a full stop (.): My name is Noa and I live in Holon.", "he": "בדיקה לפני שליחה: I תמיד באות גדולה, גם באמצע משפט. כל משפט מתחיל באות גדולה ומסתיים בנקודה (.): My name is Noa and I live in Holon." }
+  ],
+  "examples": [
+    { "en": "My name is Lior.", "he": "קוראים לי ליאור." },
+    { "en": "I'm 16.", "he": "אני בן/בת 16.", "note": "or I'm 16 years old – not 'I have 16'" },
+    { "en": "I live in Be'er Sheva.", "he": "אני גר/ה בבאר שבע." },
+    { "en": "I'm a student.", "he": "אני תלמיד/ה.", "note": "a before a job" },
+    { "en": "I like football.", "he": "אני אוהב/ת כדורגל." },
+    { "en": "I have a cat.", "he": "יש לי חתול.", "note": "יש לי = I have" },
+    { "en": "I like coffee very much.", "he": "אני מאוד אוהב/ת קפה.", "note": "very much goes at the end" },
+    { "en": "My friend Kenji is from Japan.", "he": "החבר שלי קנג'י מיפן." }
+  ],
+  "vocab": [
+    { "word": "live", "pos": "verb", "he": "לגור", "def": "to have your home in a place", "example": "I live in Haifa.", "ipa": "/lɪv/", "collocations": ["live in a city", "live with my family"], "level": "PreA1" },
+    { "word": "like", "pos": "verb", "he": "לאהוב, לחבב", "def": "to think something is nice or good", "example": "I like music.", "ipa": "/laɪk/", "level": "PreA1" },
+    { "word": "have", "pos": "verb", "he": "יש ל- (יש לי)", "def": "to own something or to be with a person in your family", "example": "I have a dog and a sister.", "ipa": "/hæv/", "level": "PreA1" },
+    { "word": "city", "pos": "noun", "he": "עיר", "def": "a big town", "example": "Tel Aviv is a big city.", "ipa": "/ˈsɪti/", "level": "PreA1" },
+    { "word": "music", "pos": "noun", "he": "מוזיקה", "def": "sounds that people sing or play", "example": "I like music very much.", "ipa": "/ˈmjuːzɪk/", "level": "PreA1" },
+    { "word": "sport", "pos": "noun", "he": "ספורט", "def": "a game or activity like football or swimming", "example": "Basketball is my sport.", "ipa": "/spɔːt/", "level": "PreA1" },
+    { "word": "football", "pos": "noun", "he": "כדורגל", "def": "a game where two teams kick a ball", "example": "I like football.", "ipa": "/ˈfʊtbɔːl/", "level": "PreA1" },
+    { "word": "very much", "pos": "phrase", "he": "מאוד", "def": "a lot; it goes at the end of the sentence", "example": "I like pizza very much.", "ipa": "/ˌveri ˈmʌtʃ/", "level": "PreA1" },
+    { "word": "years old", "pos": "phrase", "he": "בן/בת (גיל)", "def": "words you can put after your age", "example": "I'm 17 years old.", "ipa": "/ˌjɪəz ˈəʊld/", "level": "PreA1" },
+    { "word": "sentence", "pos": "noun", "he": "משפט", "def": "a group of words with a subject and a verb", "example": "Write five sentences about you.", "ipa": "/ˈsentəns/", "level": "PreA1" },
+    { "word": "capital letter", "pos": "noun", "he": "אות גדולה", "def": "a big letter, like A, B or I", "example": "Names start with a capital letter.", "ipa": "/ˌkæpɪtl ˈletə(r)/", "level": "PreA1" },
+    { "word": "full stop", "pos": "noun", "he": "נקודה (בסוף משפט)", "def": "the dot (.) at the end of a sentence", "example": "End every sentence with a full stop.", "ipa": "/ˌfʊl ˈstɒp/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "Hebrew writing works differently: it has no capital letters. So in English, remember that I is always a capital letter, and every sentence starts with one: My name is Noa and I live in Holon.", "he": "בכתב העברי אין אותיות גדולות, ולכן קל לשכוח אותן. באנגלית I תמיד באות גדולה – גם באמצע משפט – וכל משפט מתחיל באות גדולה: My name is Noa and I live in Holon.", "error_type": "capitalization" },
+    { "en": "In Hebrew, sentences about your age or job need no verb. English works differently, so use am: I'm 17. I'm a student.", "he": "בעברית 'אני בת 17' או 'אני סטודנט' הם משפטים בלי פועל. באנגלית זה עובד אחרת, וצריך am: I'm 17. I'm a student.", "error_type": "copula-omission" },
+    { "en": "Hebrew has no word for a/an. English works differently, so put a or an before one thing or one person's job: I have a dog. I'm a student.", "he": "בעברית אין מילה ל-a/an ('יש לי כלב'). באנגלית זה עובד אחרת: לפני דבר אחד, או לפני מקצוע של אדם אחד, באים a או an – I have a dog, I'm a student.", "error_type": "article" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Who or verb? Put each word in the right group.", "he": "מי או פועל? מיינו כל מילה לקבוצה הנכונה." },
+      "categories": ["Who? (subject)", "Verb"],
+      "items": [
+        { "text": "I", "category": "Who? (subject)" },
+        { "text": "live", "category": "Verb" },
+        { "text": "my sister", "category": "Who? (subject)" },
+        { "text": "like", "category": "Verb" },
+        { "text": "Tom and Sara", "category": "Who? (subject)" },
+        { "text": "have", "category": "Verb" },
+        { "text": "we", "category": "Who? (subject)" },
+        { "text": "am", "category": "Verb" }
+      ],
+      "explanation": { "en": "The subject (who?) comes first: I, my sister, we. The verb comes next: live, like, have, am.", "he": "הנושא (מי?) בא קודם: I, my sister, we. אחריו בא הפועל: live, like, have, am." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "word-order-basic",
+      "prompt": { "en": "Listen and complete what Amir says.", "he": "הקשיבו והשלימו את מה שאמיר אומר." },
+      "audio_text": "Hi, I'm Amir. I live in Jerusalem and I have a cat.",
+      "question": "Amir: I live in ___ and I have a ___.",
+      "options": ["Haifa … cat", "Jerusalem … dog", "Jerusalem … cat"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Listen again for the city: Jerusalem.", "he": "הקשיבו שוב לשם העיר: Jerusalem." },
+        "1": { "en": "Listen again for the animal: cat, not dog.", "he": "הקשיבו שוב לבעל החיים: cat (חתול), לא dog." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension" },
+      "explanation": { "en": "I live in Jerusalem = where his home is. I have a cat = what he has.", "he": "I live in Jerusalem – איפה הבית שלו. I have a cat – מה יש לו." }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Choose the correct sentence.", "he": "בחרו את המשפט הנכון." },
+      "question": "Omer loves pizza. He says:",
+      "options": ["I like very much pizza.", "I like pizza very much.", "I pizza like very much."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Don't put very much between the verb and pizza. like + pizza stay together, and very much goes at the end.", "he": "לא מכניסים very much בין הפועל ל-pizza. like ו-pizza נשארים צמודים, ו-very much עובר לסוף." },
+        "2": { "en": "The verb comes right after I: I like pizza.", "he": "הפועל בא מיד אחרי I: I like pizza." }
+      },
+      "option_errors": { "0": "word-order", "2": "word-order" },
+      "explanation": { "en": "Who (I) + verb (like) + what (pizza) + very much at the end.", "he": "מי (I) + פועל (like) + מה (pizza) + very much בסוף." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
+      "question": "Where do you live?",
+      "options": ["I live in Tel Aviv.", "I'm live in Tel Aviv.", "I in Tel Aviv live."],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "One verb is enough. live is the verb, so don't add am: I live in Tel Aviv.", "he": "פועל אחד מספיק. live הוא הפועל, ולכן לא מוסיפים am: I live in Tel Aviv." },
+        "2": { "en": "The verb comes right after I: I live in Tel Aviv.", "he": "הפועל בא מיד אחרי I: I live in Tel Aviv." }
+      },
+      "option_errors": { "1": "verb-form", "2": "word-order" },
+      "explanation": { "en": "Who (I) + verb (live) + where (in Tel Aviv).", "he": "מי (I) + פועל (live) + איפה (in Tel Aviv)." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "writing", "topic": "word-order-basic",
+      "prompt": { "en": "Which words need a capital letter?", "he": "אילו מילים צריכות אות גדולה?" },
+      "question": "my name is omer and i live in haifa.",
+      "options": ["omer, haifa", "my, i", "my, omer, i, haifa", "my, omer, haifa"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Names need capitals, but so do the first word (My) and I.", "he": "שמות באות גדולה, אבל גם המילה הראשונה (My) וגם I." },
+        "1": { "en": "Names of people and cities need capitals too: Omer, Haifa.", "he": "גם שמות של אנשים ושל ערים באות גדולה: Omer, Haifa." },
+        "3": { "en": "Don't forget I: it is always a capital letter.", "he": "אל תשכחו את I – הוא תמיד באות גדולה." }
+      },
+      "option_errors": { "0": "capitalization", "1": "capitalization", "3": "capitalization" },
+      "explanation": { "en": "My name is Omer and I live in Haifa. Capitals: the first word, I, and names.", "he": "My name is Omer and I live in Haifa. אות גדולה: בתחילת המשפט, ב-I ובשמות." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Complete Sara's introduction. Use each verb once.", "he": "השלימו את ההצגה העצמית של שרה. השתמשו בכל פועל פעם אחת." },
+      "text": "My name is Sara and I'm 18. I ___ in Netanya. I ___ a sister. I ___ music and films.",
+      "word_bank": ["live", "have", "like", "is"],
+      "answers": [["live"], ["have"], ["like"]],
+      "wrong_feedback": [
+        { "match": "is", "feedback": { "en": "The word I never goes with is. Here you need live, have or like.", "he": "המילה I אף פעם לא באה עם is. כאן צריך live, have או like." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "I live in + a place. I have + a thing or a person. I like + something you enjoy.", "he": "I live in + מקום. I have + משהו או מישהו שיש לך. I like + משהו שנעים לך." }
+    },
+    {
+      "id": "e7", "type": "order", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["I", "have", "a", "black", "cat"],
+      "explanation": { "en": "Who (I) + verb (have) + what (a black cat). The colour comes before the noun: a black cat.", "he": "מי (I) + פועל (have) + מה (a black cat). הצבע בא לפני שם העצם: a black cat." }
+    },
+    {
+      "id": "e8", "type": "order", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Put the words in order. Make one sentence with and.", "he": "סדרו את המילים למשפט אחד עם and." },
+      "tokens": ["I", "am", "17", "and", "I", "live", "in", "Eilat"],
+      "answers": ["I live in Eilat and I am 17"],
+      "hint": { "en": "Two short sentences joined with and. Each part starts with I.", "he": "שני משפטים קצרים שמחוברים ב-and. כל חלק מתחיל ב-I." },
+      "explanation": { "en": "Each part has who + verb: I am 17 / I live in Eilat. And joins them.", "he": "בכל חלק יש מי + פועל: I am 17 / I live in Eilat. המילה and מחברת ביניהם." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "I like very much football.",
+      "answers": ["I like football very much.", "I very much like football."],
+      "error_type": "word-order",
+      "hint": { "en": "Move very much.", "he": "הזיזו את very much." },
+      "explanation": { "en": "like + football stay together, and very much goes at the end: I like football very much.", "he": "like ו-football נשארים צמודים, ו-very much עובר לסוף: I like football very much." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "I am 17 years.",
+      "answers": ["I am 17.", "I am 17 years old.", "I am seventeen.", "I am seventeen years old."],
+      "error_type": "false-friend",
+      "hint": { "en": "Delete one word, or add one word at the end.", "he": "מחקו מילה אחת, או הוסיפו מילה אחת בסוף." },
+      "wrong_feedback": [
+        { "match": "I have 17 years.", "feedback": { "en": "For age, English uses am, not have: I am 17.", "he": "לגיל משתמשים באנגלית ב-am, לא ב-have: I am 17." }, "error_type": "false-friend" }
+      ],
+      "explanation": { "en": "Say I'm 17 or I'm 17 years old – but never just 'I'm 17 years'.", "he": "אומרים I'm 17 או I'm 17 years old – אבל לא 'I'm 17 years' לבד." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "grammar", "topic": "word-order-basic",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "אני גרה בחיפה ויש לי כלב.",
+      "answers": [
+        "I live in Haifa and I have a dog.",
+        "I live in Haifa, and I have a dog.",
+        "I live in Haifa and have a dog.",
+        "I live in Haifa and I've got a dog.",
+        "I live in Haifa, and I've got a dog."
+      ],
+      "hint": { "en": "Start with I. Remember a before dog.", "he": "גרה = live, יש לי = I have. ואל תשכחו a לפני dog." },
+      "wrong_feedback": [
+        { "match": "I am live in Haifa and I have a dog.", "feedback": { "en": "One verb is enough: I live (not I am live).", "he": "פועל אחד מספיק: I live, לא I am live." }, "error_type": "verb-form" },
+        { "match": "I live in Haifa and I have dog.", "feedback": { "en": "Hebrew says just the word for dog, but English needs a: a dog.", "he": "בעברית אומרים רק 'כלב', אבל באנגלית צריך a: a dog." }, "error_type": "article" },
+        { "match": "I live in Haifa and I have one dog.", "feedback": { "en": "one is for counting. For one thing, use a: I have a dog.", "he": "one משמש לספירה. לדבר אחד משתמשים ב-a: I have a dog." }, "error_type": "article" }
+      ],
+      "explanation": { "en": "Hebrew says 'there is to me' (yesh li); English says I have. And English needs a before one thing: I have a dog.", "he": "'יש לי' בעברית = I have באנגלית. ובאנגלית צריך a לפני דבר אחד: I have a dog." }
+    },
+    {
+      "id": "e12", "type": "read", "skill": "reading", "topic": "word-order-basic",
+      "prompt": { "en": "Read the post and answer the questions.", "he": "קראו את הפוסט וענו על השאלות." },
+      "title": "New in the group: say hi!",
+      "passage": "Hi everyone! My name is Daniel and I'm 19. I live in Holon with my family. I'm a student at a college in Tel Aviv. I have a dog. His name is Bamba! I like football and music very much. Nice to meet you all!",
+      "questions": [
+        { "type": "tf", "statement": "Daniel is 19.", "answer": true,
+          "explanation": { "en": "Daniel writes: I'm 19.", "he": "דניאל כותב: I'm 19." } },
+        { "type": "mcq", "question": "Where is Daniel's home?", "options": ["In Tel Aviv.", "In Holon.", "In Haifa."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "His college is in Tel Aviv, but his home is in Holon.", "he": "המכללה שלו בתל אביב, אבל הבית שלו בחולון." },
+            "2": { "en": "Daniel doesn't write Haifa. He writes: I live in Holon.", "he": "דניאל לא כותב חיפה. הוא כותב: I live in Holon." }
+          },
+          "explanation": { "en": "I live in Holon with my family.", "he": "דניאל כותב: I live in Holon with my family." } },
+        { "type": "tf", "statement": "Bamba is Daniel's cat.", "answer": false,
+          "explanation": { "en": "Bamba is his dog: I have a dog. His name is Bamba!", "he": "במבה הוא הכלב שלו: I have a dog. His name is Bamba!" } },
+        { "type": "gap", "text": "Daniel: I like football and ___.", "answers": [["music"]],
+          "explanation": { "en": "I like football and music very much.", "he": "דניאל כותב: I like football and music very much." } }
+      ],
+      "explanation": { "en": "A short introduction gives a name, age, home, job or studies, and likes.", "he": "בהצגה עצמית קצרה יש בדרך כלל שם, גיל, מקום מגורים, עבודה או לימודים, ודברים שאוהבים." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "word-order-basic",
+      "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו מה ששמעתם." },
+      "audio_text": "My name is Maya. I live in Haifa.",
+      "answers": ["My name is Maya. I live in Haifa."],
+      "hint": { "en": "Two short sentences. Remember the capital letters.", "he": "שני משפטים קצרים. זכרו את האותיות הגדולות." },
+      "explanation": { "en": "Two sentences, each with who + verb: My name is... / I live in...", "he": "שני משפטים, ובכל אחד מי + פועל: My name is... / I live in..." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "word-order-basic",
+      "prompt": { "en": "Say it out loud.", "he": "אמרו בקול." },
+      "target": "Hi, I'm Omer. I'm 17 and I live in Tel Aviv. I like basketball.",
+      "focus": { "en": "live has a short i: /lɪv/. Don't make it long like leave /liːv/, which means 'go away'.", "he": "ב-live התנועה קצרה: /lɪv/. אל תאריכו אותה כמו ב-leave /liːv/, שפירושה 'לעזוב'." },
+      "error_type": "pron-vowel",
+      "explanation": { "en": "Name, age, home and something you like: four facts in short, clear sentences.", "he": "שם, גיל, מקום מגורים ומשהו שאוהבים – ארבעה פרטים במשפטים קצרים וברורים." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "word-order-basic",
+      "prompt": { "en": "Checkpoint: introduce yourself.", "he": "מבחן סיום הרמה: הציגו את עצמכם." },
+      "task": { "en": "Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).", "he": "הציגו את עצמכם ב-5-6 משפטים פשוטים: שם, גיל, מדינה, עבודה או לימודים, ודבר אחד שאתם אוהבים." },
+      "min_words": 25,
+      "max_words": 80,
+      "must_include": ["like"],
+      "model_answer": "My name is Yael. I'm 17 years old. I'm from Israel, and I live in Ashdod. I'm a student at a high school. I have a brother and a cat. I like music and basketball very much.",
+      "checklist": [
+        { "en": "Name, age, country, job or studies, and one thing you like are all there.", "he": "יש שם, גיל, מדינה, עבודה או לימודים, ודבר אחד שאתם אוהבים." },
+        { "en": "Every sentence has who + verb: I live..., I like..., I'm...", "he": "בכל משפט יש מי + פועל: I live..., I like..., I'm..." },
+        { "en": "One verb at a time: I live (not I'm live). For age: I'm 17.", "he": "פועל אחד בכל פעם: I live, לא I'm live. לגיל: I'm 17." },
+        { "en": "I is a capital letter. Every sentence starts with a capital letter and ends with a full stop.", "he": "I באות גדולה. כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
+      ],
+      "explanation": { "en": "This is your Pre-A1 checkpoint: everything from Foundations in one short text.", "he": "זה מבחן הסיום של רמת Pre-A1: כל מה שלמדתם ביחידת היסודות, בטקסט קצר אחד." }
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Who + verb + the rest: I live in Haifa. I like music. I have a dog.", "he": "מי + פועל + שאר המשפט: I live in Haifa. I like music. I have a dog." },
+      { "en": "One verb is enough: I live in Haifa, not 'I'm live'. Use am for age and jobs: I'm 17. I'm a student.", "he": "פועל אחד מספיק: I live in Haifa, לא I'm live. את am משתמשים לגיל ולמקצוע: I'm 17. I'm a student." },
+      { "en": "Very much goes at the end: I like football very much.", "he": "very much בא בסוף: I like football very much." },
+      { "en": "Capital I, a capital letter at the start, a full stop at the end.", "he": "I באות גדולה, אות גדולה בתחילת המשפט ונקודה בסופו." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}
