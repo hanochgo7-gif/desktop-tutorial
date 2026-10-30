@@ -105,7 +105,7 @@
         '<p class="cb-err" id="cb-err" role="alert"></p>' +
         '<fieldset><legend>באיזה יום?</legend><div class="cb-chips" data-days></div></fieldset>' +
         '<fieldset data-times-box><legend>באיזו שעה?</legend><div class="cb-chips" data-times></div></fieldset>' +
-        '<label class="cb-field" style="margin-bottom:.4rem">על מה נדבר? (לא חובה)<input type="text" name="message" maxlength="200" placeholder="למשל: אתר לקליניקה"></label>' +
+        '<label class="cb-field" style="margin-bottom:.4rem">על מה נדבר? (לא חובה)<input type="text" name="message" maxlength="200" placeholder="למשל: אתר לעסק שלי"></label>' +
         '<input class="hp" type="text" name="hgos_hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
         '<button class="cb-go" type="submit">לקבוע שיחה חוזרת</button>' +
         '<p class="cb-note">השם והטלפון נשמרים במערכת הפניות שלי רק כדי שאחזור אליכם. <a href="/privacy.html#crm">פרטיות</a></p>' +

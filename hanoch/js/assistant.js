@@ -108,7 +108,9 @@
     '.ht-dlg.ht-kb .ht-head{padding-top:.55rem;padding-bottom:.55rem}.ht-dlg.ht-kb .ht-head small,.ht-dlg.ht-kb .ht-foot,.ht-dlg.ht-kb .ht-grab{display:none}.ht-dlg.ht-kb .ht-log{padding-top:.6rem;padding-bottom:.6rem}' +
     '.ht-grab{display:block;position:absolute;top:7px;left:50%;width:38px;height:5px;margin-left:-19px;border-radius:9px;background:rgba(237,232,222,.38)}.ht-hint{inset-inline-end:18px}}' +
     // בעמודי השירות בטלפון יש כבר פס וואטסאפ בתחתית, אז היועץ מצטמצם לעיגול כדי לא לכסות עוד שורה של תוכן
-    '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}}' +
+    '@media (max-width:600px){body:has(.sv-dock) .ht-btn{gap:0;padding:.35rem}body:has(.sv-dock) .ht-btn .ht-lbl{display:none}' +
+    // ובמסך הראשון היועץ מחכה עד שהפס מופיע, כדי לא לכסות את הקישור לשיחה חוזרת שמתחת לכפתור
+    'body:has(.sv-dock.sv-dock-wait:not(.sv-dock-on)) .ht-btn,body:has(.sv-dock.sv-dock-wait:not(.sv-dock-on)) .ht-hint{opacity:0;visibility:hidden;pointer-events:none}}' +
     // באנגלית שורת המשנה בגופן המונו רחבה (288px), ובטלפון צר הכפתור נגע בכפתור הנגישות שבצד השני. נשארת רק הכותרת
     "@media (max-width:400px){html[lang='en'] .ht-lbl small{display:none}}" +
     '.menu-open .ht-btn,.case-open .ht-btn,.menu-open .ht-hint,.case-open .ht-hint{visibility:hidden}' +

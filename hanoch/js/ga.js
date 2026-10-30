@@ -108,6 +108,8 @@
           var go = '/go/wa?u=' + encodeURIComponent(a.href);
           // מזהה הקליק של המודעה (gclid / gbraid / wbraid / fbclid / _gl) עובר הלאה בכתובת, כדי לדעת איזו מודעה הביאה את הפנייה גם בלי עוגיות
           ['gclid', 'gbraid', 'wbraid', 'fbclid', '_gl', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (q.get(k)) go += '&' + k + '=' + encodeURIComponent(q.get(k)); });
+          // מעמוד באנגלית דף המעבר מדבר אנגלית גם כשבקישור אין הודעה
+          if (document.documentElement.lang === 'en') go += '&hl=en';
           if (a.target === '_blank') window.open(go, '_blank', 'noopener'); else location.href = go;
         } else if (lead === 'whatsapp' && (!asLoaded.has(a) || msg(asLoaded.get(a)) !== msg(a.getAttribute('href')))) {
           // הודעה עם מה שהגולש כתב: נפתחת מהקוד ולא כלחיצה רגילה. המדידה האוטומטית של גוגל ללחיצות יוצאות מדלגת על לחיצה כזו,

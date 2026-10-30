@@ -135,12 +135,13 @@
 
   function init() {
     if (!state && !embedded) {
-      // ההודעה מחכה לגלילה הראשונה או ל-8 שניות, כדי שהמסך הראשון, עם הכותרת ודרכי הפנייה, ייראה שלם.
+      // ההודעה מחכה שיעברו את רוב המסך הראשון (או 25 שניות), כדי שהכותרת, הטלפון והשיחה החוזרת לא יוסתרו בזמן שקוראים אותם.
       // זה לא משנה מה נאסף: עד שמאשרים לא נשמרת שום עוגייה (js/ga.js)
       var asked = false, wait;
-      var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', go); ask(); };
-      addEventListener('scroll', go, { passive: true });
-      wait = setTimeout(go, 8000);
+      var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', past); ask(); };
+      var past = function () { if (window.scrollY > innerHeight * 0.6) go(); };
+      addEventListener('scroll', past, { passive: true });
+      wait = setTimeout(go, 25000);
     }
     document.addEventListener('click', function (e) {
       var o = e.target.closest && e.target.closest('[data-consent-open]');

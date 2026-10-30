@@ -248,7 +248,7 @@ html.a11y-focus *:focus { outline: 4px solid var(--signal) !important; outline-o
 @media (min-width: 900px) { .globe { grid-template-columns: 420px 1fr; gap: 48px; padding: 28px 40px; } }
 @media (prefers-reduced-motion: reduce) { .globe img { transition: none; } }
 /* מסכים צרים מאוד (320px): הסרגל התחתון נכנס בלי לגלוש הצידה */
-@media (max-width: 360px) { .dock { gap: 6px; padding-inline-start: 8px; padding-inline-end: 58px; } .dock .btn { min-width: 0; padding-inline: .75rem; font-size: .92rem; } .dock .btn-wa { flex: 1 1 auto; } }
+@media (max-width: 360px) { .dock { gap: 6px; padding-inline-start: 8px; padding-inline-end: 64px; } .dock .btn { min-width: 0; padding-inline: .75rem; font-size: .92rem; } .dock .btn-wa { flex: 1 1 auto; } }
 
 /* ---------- חוויית גלילה (js/ux.js) ---------- */
 html.lenis, html.lenis body { height: auto; }

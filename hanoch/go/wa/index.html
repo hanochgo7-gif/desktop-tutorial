@@ -41,10 +41,10 @@
   history.replaceState(null, '', location.pathname + (keep ? '?' + keep : ''));
   // הקישור לגיבוי נשאר בלי תוכן ההודעה, כדי שהמדידה האוטומטית של לחיצות יוצאות לא תשלח אותו. לחיצה עליו עוברת לאותה כתובת מהקוד
   var go = document.getElementById('go');
-  // הודעה מעמוד באנגלית (בלי אותיות עבריות): הדף מדבר אנגלית
+  // מעמוד באנגלית (hl=en מ-js/ga.js), או הודעה בלי אותיות עבריות: הדף מדבר אנגלית
   var text = '';
   try { text = new URL(u).searchParams.get('text') || ''; } catch (e) { /* כתובת לא תקינה */ }
-  if (text && !/[֐-׿]/.test(text)) {
+  if (q.get('hl') === 'en' || (text && !/[֐-׿]/.test(text))) {
     var d = document.documentElement; d.lang = 'en'; d.dir = 'ltr';
     document.title = 'Opening WhatsApp · HG Studio';
     document.getElementById('msg').textContent = 'Opening WhatsApp…';
