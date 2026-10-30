@@ -161,6 +161,22 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .eye { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 12px; }
 .eye__say { flex: 1 1 18ch; font-size: var(--fs-small); color: var(--ink-2); }
 @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
+/* דף הבית: צילום הבית מהאתר המקורי, והטקסט על הצד הכהה שלו */
+.hero--photo { --hero-text: 36rem; --hx: calc(max(var(--gutter), (100% - var(--wrap)) / 2) + var(--hero-text) + 32px); /* איפה נגמר הטקסט, מימין */
+  position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: center; min-height: min(76vh, 680px); }
+.hero__photo { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 30% 35%; }
+.hero--photo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to left, color-mix(in srgb, var(--bg) 94%, transparent) 0, color-mix(in srgb, var(--bg) 90%, transparent) var(--hx), color-mix(in srgb, var(--bg) 45%, transparent) calc(var(--hx) + 9%), transparent calc(var(--hx) + 22%)); }
+.hero--photo .hero__grid { grid-template-columns: minmax(0, var(--hero-text)); }
+@media (max-width: 1279px) { .hero--photo { --hero-text: 30rem; } }
+@media (max-width: 1000px) {
+  .hero--photo { display: block; min-height: 0; padding-top: 0; }
+  .hero__photo { position: static; height: auto; aspect-ratio: 16 / 10; object-position: 30% 40%; margin-bottom: clamp(24px, 5vw, 36px); }
+  .hero--photo::before { display: none; }
+}
+/* הדירה התלת־ממדית בדף הבית: הסבר מימין, הדגם משמאל */
+.inspect { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+.inspect .section__head { margin-bottom: 0; }
+@media (max-width: 900px) { .inspect { grid-template-columns: 1fr; gap: 20px; } }
 
 /* ---------- כותרת של עמוד פנימי ---------- */
 .page-head { background: var(--paper); padding-block: clamp(28px, 4vw, 56px) clamp(36px, 5vw, 64px); }
@@ -473,9 +489,9 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 
 /* ---------- הסצנה: הדירה השקופה ---------- */
 .k-stage { --rx: 57deg; --rz: -34deg; --s: 1; --tx: 0px; --ty: 0px; --fit: 1; position: absolute; inset: 0; overflow: hidden; }
-.k-cam { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 42%; transform: scale(calc(var(--s) * var(--fit))); transition: transform 1.2s var(--ease-in-out); }
-.k-tilt { position: absolute; left: 50%; top: 50%; width: 600px; height: 360px; margin: -180px 0 0 -300px; transform-style: preserve-3d; transform-origin: 300px 180px; transform: rotateX(var(--rx)); transition: transform 1.2s var(--ease-in-out); }
-.k-world { position: absolute; left: 0; top: 0; width: 600px; height: 360px; transform-style: preserve-3d; transform-origin: 300px 180px; transform: rotateZ(var(--rz)) translate(var(--tx), var(--ty)); transition: transform 1.2s var(--ease-in-out); }
+.k-cam { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 42%; transform: scale(calc(var(--s) * var(--fit))); }
+.k-tilt { position: absolute; left: 50%; top: 50%; width: 600px; height: 360px; margin: -180px 0 0 -300px; transform-style: preserve-3d; transform-origin: 300px 180px; transform: rotateX(var(--rx)); }
+.k-world { position: absolute; left: 0; top: 0; width: 600px; height: 360px; transform-style: preserve-3d; transform-origin: 300px 180px; transform: rotateZ(var(--rz)) translate(var(--tx), var(--ty)); }
 .k-world > * { position: absolute; left: 0; top: 0; display: block; transform-origin: 0 0; backface-visibility: visible; }
 .swaying .k-world { animation: k-sway 18s var(--ease-in-out) infinite alternate; transition: none; }
 .swaying.lit .k-world { animation-play-state: paused; } /* כשהממצאים מוארים הדגם עומד, והתוויות נשארות במקומן */
