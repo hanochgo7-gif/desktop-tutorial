@@ -133,6 +133,7 @@
     return RAMP[RAMP.length - 1][1];
   }
   var thermalURL = null;
+  var UID = 0;
   function thermal() {
     if (thermalURL) return thermalURL;
     var w = 96, h = 96, c = document.createElement('canvas');
@@ -152,14 +153,14 @@
     return thermalURL;
   }
 
-  function floorSVG() {
+  function floorSVG(n) {
     var s = '<svg viewBox="0 0 ' + W + ' ' + D + '" width="' + W + '" height="' + D + '" aria-hidden="true"><defs>' +
-      '<pattern id="kt" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" class="ft"/><path d="M30 0H0V30" class="fl"/></pattern>' +
-      '<pattern id="kw" width="300" height="15" patternUnits="userSpaceOnUse"><rect width="300" height="15" class="fw"/><path d="M0 15H300M84 0V15M212 0V15" class="fl"/></pattern>' +
-      '<pattern id="kd" width="15" height="15" patternUnits="userSpaceOnUse"><rect width="15" height="15" class="ft"/><path d="M15 0H0V15" class="fl"/></pattern>' +
-      '<pattern id="kk" width="12" height="360" patternUnits="userSpaceOnUse"><rect width="12" height="360" class="fk"/><path d="M0 0V360" class="fl"/></pattern>' +
+      '<pattern id="kt' + n + '" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" class="ft"/><path d="M30 0H0V30" class="fl"/></pattern>' +
+      '<pattern id="kw' + n + '" width="300" height="15" patternUnits="userSpaceOnUse"><rect width="300" height="15" class="fw"/><path d="M0 15H300M84 0V15M212 0V15" class="fl"/></pattern>' +
+      '<pattern id="kd' + n + '" width="15" height="15" patternUnits="userSpaceOnUse"><rect width="15" height="15" class="ft"/><path d="M15 0H0V15" class="fl"/></pattern>' +
+      '<pattern id="kk' + n + '" width="12" height="360" patternUnits="userSpaceOnUse"><rect width="12" height="360" class="fk"/><path d="M0 0V360" class="fl"/></pattern>' +
       '</defs>';
-    var fill = { tile: 'url(#kt)', wood: 'url(#kw)', wet: 'url(#kd)', deck: 'url(#kk)' };
+    var fill = { tile: 'url(#kt' + n + ')', wood: 'url(#kw' + n + ')', wet: 'url(#kd' + n + ')', deck: 'url(#kk' + n + ')' };
     ROOMS.forEach(function (r) { s += '<rect x="' + r.x + '" y="' + r.y + '" width="' + r.w + '" height="' + r.d + '" fill="' + fill[r.floor] + '"/>'; });
     // קשתות פתיחת הדלתות, כמו בתוכנית
     s += '<g class="swing"><path d="M360 112 A48 48 0 0 1 312 160 M360 112 V160"/><path d="M390 300 A48 48 0 0 0 438 252 M390 300 H438"/>' +
@@ -182,7 +183,7 @@
     var cam = el('div', 'k-cam'), tilt = el('div', 'k-tilt'), world = el('div', 'k-world');
     world.style.width = W + 'px'; world.style.height = D + 'px';
     var floor = el('div', 'k-floor');
-    floor.innerHTML = floorSVG();
+    floor.innerHTML = floorSVG(++UID);
     world.appendChild(floor);
     WALLS.forEach(function (w) { wall(world, w); });
     RAILS.forEach(function (r) {
@@ -213,10 +214,11 @@
       var b = el('button', 'k-pin');
       b.type = 'button'; b.dataset.f = p.id; b.dataset.step = p.step; b.tabIndex = -1;
       b.innerHTML = '<span class="k-dot" aria-hidden="true"></span><span class="k-say">' + (EN ? EN_PINS[p.id] : p.say) + '</span>';
+      b.setAttribute('aria-label', EN ? EN_PINS[p.id] : p.say);
       layer.appendChild(b);
       // ממצא אחד פעיל בכל פעם (בטלפון רק התווית שלו מוצגת)
-      b.addEventListener('click', function () { pins.forEach(function (x) { x.b.classList.toggle('active', x.b === b); }); });
-      return { p: p, a: a, b: b };
+      b.addEventListener('click', function () { pins.forEach(function (x) { x.b.classList.toggle('active', x.b === b); }); declutter(); });
+      return { p: p, a: a, b: b, s: b.querySelector('.k-say'), side: null, below: false };
     });
     tilt.appendChild(world); cam.appendChild(tilt); stage.appendChild(cam); stage.appendChild(layer);
     host.appendChild(stage);
@@ -231,12 +233,42 @@
       pins.forEach(function (o) {
         var q = o.a.getBoundingClientRect(), x = q.left - r.left, y = q.top - r.top;
         o.b.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
-        o.b.classList.toggle('flip', x > r.width * 0.62);
+        o.b.classList.toggle('flip', o.side !== null ? o.side : x > r.width * 0.62);
+        o.b.classList.toggle('below', o.below);
       });
     }
-    var until = 0, raf = 0, live = false;
-    function tick(t) { place(); raf = (live || t < until) ? requestAnimationFrame(tick) : 0; }
-    function follow(ms) { until = performance.now() + ms; if (!raf) raf = requestAnimationFrame(tick); }
+    // תוויות שעולות זו על זו, או יוצאות מהדגם: מנסים את הצד השני, ואז מתחת לנקודה
+    function declutter() {
+      var r = stage.getBoundingClientRect(), taken = [];
+      pins.forEach(function (o) { o.side = null; o.below = false; });
+      place();
+      var shown = pins.filter(function (o) { return o.b.classList.contains('on') && o.s.offsetParent !== null; });
+      shown.sort(function (a, b) { return a.b.getBoundingClientRect().left - b.b.getBoundingClientRect().left; });
+      shown.forEach(function (o) {
+        var dflt = o.b.classList.contains('flip'), best = null;
+        [[dflt, false], [!dflt, false], [dflt, true], [!dflt, true]].some(function (c) {
+          o.b.classList.toggle('flip', c[0]); o.b.classList.toggle('below', c[1]);
+          var q = o.s.getBoundingClientRect();
+          var inside = q.left >= r.left - 2 && q.right <= r.right + 2 && q.top >= r.top - 8 && q.bottom <= r.bottom + 8;
+          var clear = !taken.some(function (t) { return q.left < t.right + 4 && q.right > t.left - 4 && q.top < t.bottom + 4 && q.bottom > t.top - 4; });
+          if (!best) best = { c: c, q: q };
+          if (inside && clear) { best = { c: c, q: q }; return true; }
+          return false;
+        });
+        o.side = best.c[0]; o.below = best.c[1];
+        o.b.classList.toggle('flip', o.side); o.b.classList.toggle('below', o.below);
+        taken.push(o.s.getBoundingClientRect());
+      });
+    }
+    var until = 0, raf = 0, live = false, inView = false, settled = true;
+    function tick(t) {
+      place();
+      if (t >= until && !settled) { settled = true; declutter(); }
+      raf = (live || t < until) ? requestAnimationFrame(tick) : 0;
+    }
+    function follow(ms) { until = performance.now() + ms; settled = false; if (!raf) raf = requestAnimationFrame(tick); }
+    // התוויות זזות עם הדגם רק כשהוא מתנודד; כשהממצאים מוארים הנדנוד נעצר (ב-CSS), ולכן אין צורך לעדכן כל מסגרת
+    function setLive() { live = inView && stage.classList.contains('lit') && !opts.sway; if (live && !raf) raf = requestAnimationFrame(tick); }
     function fit() {
       var r = stage.getBoundingClientRect();
       if (!r.width) return;
@@ -252,8 +284,8 @@
       new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           stage.classList.toggle('swaying', e.isIntersecting);
-          live = e.isIntersecting;
-          if (live && !raf) raf = requestAnimationFrame(tick);
+          inView = e.isIntersecting;
+          setLive();
         });
       }).observe(stage);
     }
@@ -275,6 +307,7 @@
       show: function (list) {
         var all = list === 'all', ids = all ? [] : String(list || '').split(/[\s,]+/).filter(Boolean);
         stage.classList.toggle('lit', all || ids.length > 0);
+        setLive();
         world.querySelectorAll('.k-x').forEach(function (x) { x.classList.toggle('on', all || ids.indexOf(x.dataset.f) > -1); });
         pins.forEach(function (o) {
           var on = all || ids.indexOf(o.p.id) > -1;

@@ -28,7 +28,7 @@ await p.locator('.og').screenshot({ path: join(out, 'og.png') });
 console.log('og');
 await p.goto(`${BASE}/checklist/`, { waitUntil: 'networkidle' });
 await p.emulateMedia({ media: 'print' });
-await p.pdf({ path: join(ROOT, 'assets', 'krudo-checklist.pdf'), format: 'A4', printBackground: true, margin: { top: '14mm', bottom: '16mm', left: '14mm', right: '14mm' } });
+await p.pdf({ path: join(ROOT, 'assets', 'krudo-checklist.pdf'), format: 'A4', printBackground: true, tagged: true, outline: true, margin: { top: '14mm', bottom: '16mm', left: '14mm', right: '14mm' } });
 console.log('pdf');
 await b.close();
 })();

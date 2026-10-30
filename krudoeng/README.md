@@ -10,7 +10,8 @@
 
 **ההדמיה (הדירה השקופה)** היא הנכס המרכזי: דגם CSS 3D בלי ספריות (`assets/js/apartment.js`, כ־20KB), שודרג מהדמו שב-`krudo/`:
 קירות עם עובי וחתך מואר כמו בשרטוט, חלונות וזכוכית, ריצוף וקשתות דלת, סריקה שעוברת בדירה, תרמוגרפיה בצבעי המותג, תוויות במקום מספרים,
-מצלמה שעוברת בין תחנות לפי הגלילה, ותנועה עדינה רק כשהדגם על המסך. בלי JavaScript מוצגת תמונה סטטית; ב"הפחתת תנועה" הכול נעצר.
+מצלמה שעוברת בין תחנות לפי הגלילה, ותנועה עדינה רק כשהדגם על המסך. בלי JavaScript מוצגת תמונה סטטית; ב"הפחתת תנועה" שום דבר לא זז, ונשארים רק מעברי שקיפות קצרים.
+בטלפון (דגם צר מ־560 פיקסלים) מוצגת תווית אחת בכל פעם, ובמסך רחב התוויות מסתדרות כך שלא יעלו זו על זו.
 הדירה והממצאים בה הם המחשה, וכך הם מסומנים באתר.
 
 ## מבנה
@@ -26,6 +27,7 @@ articles/                  שלושת המאמרים של רביד מהאתר ה
 en/                        English
 accessibility/ privacy/    הצהרת נגישות, מדיניות פרטיות
 404.html, _redirects       דף שגיאה; הפניות 301 (Netlify/Cloudflare)
+_headers                   כותרות אבטחה (Netlify/Cloudflare)
 <כתובות ישנות בעברית>/      הפניות מהכתובות של Wix (meta refresh + canonical), לכל אחסון
 assets/css/site.css        כל העיצוב
 assets/js/site.js          תפריט, כניסות, מבט של בודק, סיור, הדוח, הטופס
@@ -47,7 +49,8 @@ NODE_PATH=$(npm root -g) node krudoeng/tools/render.cjs && python3 krudoeng/tool
 ## השקה (מתג אחד)
 1. ב-`tools/build.py`: `LAUNCH = True`, ולהריץ. ה-noindex יורד, נוספים canonical ו-hreflang, ונוצרים `sitemap.xml` ו-`robots.txt` לכתובת https://www.krudoeng.com.
 2. הדומיין רשום ב-GoDaddy. להעלות את תוכן התיקייה `krudoeng/` לשורש האחסון (Netlify / Cloudflare Pages / Vercel, או ריפו נפרד ב-GitHub Pages) ולכוון את ה-DNS.
-   ב-Netlify/Cloudflare הקובץ `_redirects` נותן 301 אמיתיים מהכתובות הישנות; בכל אחסון אחר העמודים בתיקיות העבריות עושים את אותו הדבר.
+   ב-Netlify/Cloudflare הקובץ `_redirects` נותן 301 אמיתיים מהכתובות הישנות (עם `301!`, כי באותן כתובות יש גם עמודי הפניה); בכל אחסון אחר העמודים בתיקיות העבריות עושים את אותו הדבר.
+   להוציא את `krudoeng/` מהפריסה של GitHub Pages (`.github/workflows/pages.yml`), אחרת github.io ימשיך להציג עותק של האתר החי.
 3. Google Search Console: לאמת את הדומיין, להגיש את ה-sitemap, ולבדוק אחרי שבועיים כתובות 404.
 4. פרופיל העסק בגוגל: לעדכן את כתובת האתר.
 
@@ -55,7 +58,7 @@ NODE_PATH=$(npm root -g) node krudoeng/tools/render.cjs && python3 krudoeng/tool
 | חומר | איפה נכנס | עד אז |
 |---|---|---|
 | פורטרט של רביד ותמונות שלו בשטח | עמוד הבית (רביד), `about/`, `lawyers/` | לוח עובדות |
-| עוד צילומי ליקויים, מבדיקות נוספות | `FIELD['items']` ב-content.py (התמונות ב-`assets/img/field/`, 576×720) | יש 10 צילומים מחוות הדעת מ־30.10.2026 |
+| עוד צילומי ליקויים, והקבצים המקוריים מהטלפון | `FIELD['items']` ב-content.py (התמונות ב-`assets/img/field/`, ביחס 4:5) | יש 10 צילומים מחוות הדעת מ־30.10.2026, ברזולוציה של ה-PDF (718 פיקסלים לכל היותר), ולכן רכים במסכים חדים |
 | סרטון מבדיקה | הפתיחה או "מה בודקים" | אין |
 | דוח ריפורטו מושחר (PDF, "גרסה מיוחדת" לפי שאלה 20) | `SAMPLE_REPORT` ב-content.py: קישור הורדה במקטע הדוח בדף הבית וב-`lawyers/` | עמוד לדוגמה ב-HTML: סעיף 5 מחוות הדעת, בלי פרטים מזהים (`SAMPLE_PAGE`) |
 | צילומי תעודות | `about/` | פירוט טקסטואלי + לוגו האיגוד |
@@ -80,9 +83,10 @@ NODE_PATH=$(npm root -g) node krudoeng/tools/render.cjs && python3 krudoeng/tool
 ## מדידה
 `site.js` דוחף אירועים ל-`dataLayer`: `whatsapp_click`, `phone_click`, `form_submit`, `inspector_view`, `finding_open`, `vcard_download`, `checklist_download`, `sample_report_download`.
 אין כרגע כלי מדידה ואין עוגיות (כך כתוב במדיניות הפרטיות). כשמוסיפים Google Tag Manager, לעדכן את מדיניות הפרטיות ואת ה-CSP ב-build.py.
+העתק הפנייה במייל (`data-copy-to`, FormSubmit) כבוי. כשמפעילים אותו, להוסיף `https://formsubmit.co` ל-connect-src ב-CSP שב-build.py.
 
 ## אבטחה ונגישות
-CSP קשיח בתגית meta (בלי inline script, מלבד שורה אחת עם hash), בלי משאבים חיצוניים. ניווט מקלדת מלא, קישור דילוג, ניגודיות AA,
+CSP קשיח בתגית meta (בלי inline script, מלבד שורה אחת עם hash), בלי משאבים חיצוניים, ו-`_headers` (frame-ancestors, nosniff) לאחסון שתומך בו. בלי JavaScript הטופס, התפריט ו"מבט של בודק" מוסתרים, ובמקום הטופס מופיע קישור וואטסאפ רגיל. ניווט מקלדת מלא, קישור דילוג, ניגודיות AA,
 כיבוד "הפחתת תנועה", חלופה סטטית בלי JavaScript, טקסט חלופי, ותוויות לטופס. הצהרת נגישות ב-`accessibility/`.
 
 ## קרדיט

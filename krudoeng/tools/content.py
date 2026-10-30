@@ -492,7 +492,7 @@ LAWYERS = {
 # ---------- רביד ----------
 ABOUT = {
     'title': 'רביד קרודו, הנדסאי בניין רשום',
-    'desc': 'רביד קרודו, הנדסאי בניין רשום (מ.ר 38633308), בוגר הנדסה אזרחית במכללת אורט ומאתר ליקויי בנייה מטעם איגוד המהנדסים, עם ניסיון בביצוע, בניהול פרויקטים ובפיקוח. בודק בצפון, מקריית טבעון.',
+    'desc': 'רביד קרודו, הנדסאי בניין רשום (מ.ר 38633308) ומאתר ליקויי בנייה מטעם איגוד המהנדסים, עם ניסיון בביצוע, בניהול ובפיקוח. בודק בצפון, מקריית טבעון.',
     'h1': ['רביד', 'קרודו'],
     'lede': 'הנדסאי בניין רשום, ומי שעומד מאחורי קרודו הנדסה. בודק דירות ובתים בצפון ומכין חוות דעת הנדסיות, מקריית טבעון.',
     'statement': 'החברה הוקמה מתוך מטרה אחת: שכל רוכש דירה או בעל נכס יקבל החלטה על בסיס בדיקה מקצועית, מדויקת ואובייקטיבית.',
@@ -632,7 +632,7 @@ ARTICLES = [
 # ---------- English ----------
 EN = {
     'title': 'Krudo Engineering · Home inspections and engineering opinions in northern Israel',
-    'desc': 'Ravid Krudo, registered construction practical engineer (reg. 38633308): home inspections for new and second-hand apartments, private houses, counter-inspections and engineering expert opinions in northern Israel.',
+    'desc': 'Home inspections, counter-inspections and engineering expert opinions in northern Israel, by Ravid Krudo, registered construction practical engineer.',
     'h1': ['Home inspection', 'in northern Israel'],
     'lede': 'Ravid Krudo, a registered construction practical engineer, inspects apartments and houses across northern Israel and writes engineering expert opinions. A detailed report within a week, and engineering backup after it.',
     'wa': 'Hello Ravid, I would like to book an inspection.',

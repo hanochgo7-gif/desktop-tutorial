@@ -30,7 +30,7 @@ BRAND = 'קרודו הנדסה'
 INLINE_JS = "document.documentElement.classList.add('js')"
 JS_HASH = "'sha256-" + base64.b64encode(hashlib.sha256(INLINE_JS.encode()).digest()).decode() + "'"
 CSP = ("default-src 'self'; script-src 'self' " + JS_HASH + "; style-src 'self'; img-src 'self' data:; font-src 'self'; "
-       "connect-src 'self' https://formsubmit.co; base-uri 'self'; form-action 'self'; object-src 'none'")
+       "connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'")
 
 e = html.escape
 SVC = {s['slug']: s for s in C.SERVICES}
@@ -75,7 +75,7 @@ def head(pg, title, desc, schema=None, robots=None, alt_en=False, og_img='assets
            f'<title>{e(t)}</title>', f'<meta name="description" content="{e(desc)}">']
     if robots or not LAUNCH:
         out.append(f'<meta name="robots" content="{robots or "noindex, nofollow"}">')
-    if LAUNCH:
+    if LAUNCH and not (robots and 'noindex' in robots):
         out.append(f'<link rel="canonical" href="{canon}">')
         if alt_en:
             out.append(f'<link rel="alternate" hreflang="he" href="{SITE_URL}/">')
@@ -106,7 +106,7 @@ def bar(pg, current=None):
         return (f'<header class="bar" data-bar><a class="bar__brand" href="{pg.a("")}" aria-label="{BRAND}, Hebrew site"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="Krudo Engineering" width="607" height="103"></a>'
                 f'<nav class="bar__nav" aria-label="Main"><a href="#services">Services</a><a href="#about">Ravid</a><a href="{pg.a("")}" lang="he" hreflang="he">עברית</a>'
                 f'<a class="btn btn--accent bar__cta" href="{wa(C.EN["wa"])}" data-wa="bar">WhatsApp</a></nav><a class="btn btn--accent bar__wa" href="{wa(C.EN["wa"])}" data-wa="bar-mobile">{ico_wa()}WhatsApp</a></header>')
-    home = pg.depth == 0 and pg.lang == 'he'
+    home = pg.path == 'index.html'
     services = '#services' if home else pg.a('#services')
     items = [('services', services, 'שירותים', ''), ('lawyers', pg.a('lawyers/'), 'לעורכי דין ומתווכים', ''),
              ('about', pg.a('about/'), 'על רביד', ''), ('articles', pg.a('articles/'), 'מאמרים', 'opt'), ('en', pg.a('en/'), 'English', 'opt')]
@@ -207,16 +207,16 @@ def quote_form(pg, preset=None, lang='he'):
     chips = ''.join(f'<label><input type="radio" name="type" value="{e(s["name"])}"{" checked" if preset == s["slug"] else ""}><span>{e(s["chip"])}</span></label>' for s in C.SERVICES)
     F = C.FORM.get(preset, C.FORM[None])
     return (f'<form class="quote" data-quote novalidate>'
-            f'<fieldset><legend>סוג הבדיקה</legend><div class="chips">{chips}</div></fieldset>'
+            f'<fieldset aria-describedby="quote-err"><legend>סוג הבדיקה</legend><div class="chips">{chips}</div></fieldset>'
             f'<div class="two"><label><span>עיר</span><input type="text" name="city" autocomplete="address-level2" maxlength="40" data-msg="עיר"></label>'
             f'<label><span>{e(F["size"][0])}</span><input type="text" name="size" inputmode="numeric" maxlength="12" data-msg="{e(F["size"][1])}" data-unit="{e(F["size"][2])}"></label></div>'
             f'<div class="two"><label><span>{e(F["date"])}</span><input type="text" name="date" maxlength="40" data-msg="{e(F["date"])}"></label>'
             f'<label><span>שם</span><input type="text" name="name" autocomplete="name" maxlength="60"></label></div>'
-            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="2" maxlength="600" placeholder="{e(F["note"])}"></textarea></label>'
-            f'<p class="quote__err" role="alert"></p>'
+            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="2" maxlength="600" placeholder="{e(F["note"])}" aria-describedby="quote-err"></textarea></label>'
+            f'<p class="quote__err" id="quote-err" role="alert"></p>'
             f'<button class="btn btn--accent" type="submit">{ico_wa()}שליחה בוואטסאפ</button>'
             f'<p class="quote__note">ההודעה נפתחת אצלכם בוואטסאפ, ואתם שולחים אותה. האתר לא שומר את הפרטים.</p>'
-            f'</form>')
+            f'</form><a class="btn btn--accent nojs-wa" href="{wa()}" data-wa="nojs">{ico_wa()}לתיאום בוואטסאפ</a>')
 
 
 def row_link(href, c1, c2, c3, r=0):
@@ -254,7 +254,7 @@ def field_item(key):
 
 
 def field_img(pg, x, lazy=True):
-    return (f'<img src="{pg.a("assets/img/field/" + x["img"] + ".webp")}" alt="{e(x["alt"])}" width="576" height="720"'
+    return (f'<img src="{pg.a("assets/img/field/" + x["img"] + ".webp")}" alt="{e(x["alt"])}" width="718" height="898"'
             + (' loading="lazy"' if lazy else '') + ' decoding="async">')
 
 
@@ -264,7 +264,7 @@ def sheet(pg):
     if HAS_FIELD and all(x for x, _ in pics):
         figs = ''.join(f'<figure{" data-target=" + chr(34) + "detail" + chr(34) if i == 0 else ""}>{field_img(pg, x)}<figcaption>{e(cap)}</figcaption></figure>' for i, (x, cap) in enumerate(pics))
         return (f'<div class="sheet sheet--real" data-ui aria-hidden="true">'
-                f'<div class="sheet__band"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118"><p>בדק מבנים | איתור ליקויי בנייה | פיקוח הנדסי</p></div>'
+                f'<div class="sheet__band"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118" loading="lazy"><p>בדק מבנים | איתור ליקויי בנייה | פיקוח הנדסי</p></div>'
                 f'<div class="sheet__cols"><div class="sheet__text">'
                 f'<div class="sheet__box"><h4>{e(S["no"])} · ממצא</h4><p class="sheet__finding">{e(S["finding"])}</p></div>'
                 f'<div class="sheet__box" data-target="text"><h4>ממצאים ומסקנות</h4><p>{e(S["text"])}</p></div>'
@@ -273,7 +273,7 @@ def sheet(pg):
                 f'<div class="sheet__box"><h4>תמונות</h4><div class="sheet__pics">{figs}</div></div>'
                 f'</div><div class="sheet__foot"><span>רביד קרודו | {BRAND} | מ.ר {C.REG}</span><span>{e(S["foot"])}</span></div></div>')
     return (f'<div class="sheet" data-ui aria-hidden="true">'
-            f'<div class="sheet__head"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118"><p><b>דוח בדק בית</b>דירה לדוגמה · המחשה</p></div>'
+            f'<div class="sheet__head"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118" loading="lazy"><p><b>דוח בדק בית</b>דירה לדוגמה · המחשה</p></div>'
             f'<div class="sheet__item"><div class="sheet__shot"><i class="mark" data-target="detail"></i></div><div data-target="text">'
             f'<div class="sheet__no">ממצא: רטיבות בקיר</div>'
             f'<p class="sheet__row"><span>מיקום</span>קיר חדר הרחצה, בצד הפונה לסלון</p>'
@@ -418,10 +418,11 @@ def build_home():
     h = C.HOME
     hero = (f'<section class="hero" aria-labelledby="h1">'
             f'{lines("h1", "hero__title", h["h1"], "h1")}'
-            f'<div class="hero__lede"><p data-load="1">{e(h["lede"])}</p><div class="hero__actions" data-load="2">{actions(pg, C.WA_DEFAULT)}</div></div>'
-            f'<figure class="hero__model" data-load="3">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", sway=True, focusable=True, idattr="apt-hero")}</figure>'
-            f'<div class="hero__eye" data-load="2"><button class="btn btn--quiet" type="button" aria-pressed="false" aria-controls="apt-hero" data-eye="apt-hero"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>מבט של בודק</button>'
+            f'<div class="hero__lede"><p data-load="1">{e(h["lede"])}</p><div class="hero__actions" data-load="2">{actions(pg, C.WA_DEFAULT)}</div>'
+            f'<div class="hero__eye" data-load="3"><button class="btn btn--quiet" type="button" aria-pressed="false" aria-controls="apt-hero" data-eye="apt-hero"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>מבט של בודק</button>'
             f'<p class="eye-say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></div>'
+            f'</div>'
+            f'<figure class="hero__model" data-load="3">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", sway=True, focusable=True, idattr="apt-hero")}</figure>'
             f'</section>')
     steps = []
     for i, s in enumerate(h['steps']):
@@ -471,7 +472,7 @@ def build_service(s):
     pic = None
     if real and HAS_FIELD and field_item(real[0]):
         x = field_item(real[0])
-        pic = ('assets/img/field/' + x['img'] + '.webp', real[1], 576, 720, x['alt'])
+        pic = ('assets/img/field/' + x['img'] + '.webp', real[1], 718, 898, x['alt'])
     elif scene:
         POSTERS[scene[0]] = {'cam': scene[0].split('--')[0], 'show': scene[0].split('--')[1].replace('-', ',') if '--' in scene[0] else ''}
         pic = ('assets/img/scene/' + scene[0] + '.webp', scene[1], 1200, 900, scene[1])
@@ -557,7 +558,7 @@ def build_checklist():
             f'<p class="no-print page-hero__actions"><a class="btn btn--accent" href="{pg.a("assets/krudo-checklist.pdf")}" download data-pdf>הורדה כ־PDF</a><button class="btn btn--quiet" type="button" data-print>הדפסה</button></p></header>'
             f'<div class="article__body"><div class="checklist">{secs}</div>'
             f'<p class="print-only">{e(K["end"])} רביד קרודו, הנדסאי בניין רשום · {C.PHONE} · krudoeng.com</p></div>'
-            f'<aside class="article__aside no-print"><div class="aside-card"><h2>רוצים שרביד יבדוק?</h2><p>{e(K["end"])}</p><a class="btn btn--accent" href="{wa(SVC["new-apartment"]["wa"])}" data-wa="aside">{ico_wa()}לתיאום בוואטסאפ</a></div></aside></article>')
+            f'<div class="article__aside no-print"><div class="aside-card"><h2>רוצים שרביד יבדוק?</h2><p>{e(K["end"])}</p><a class="btn btn--accent" href="{wa(SVC["new-apartment"]["wa"])}" data-wa="aside">{ico_wa()}לתיאום בוואטסאפ</a></div></div></article>')
     schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('רשימת בדיקה', 'checklist/')]))
     page(pg, K['title'], K['desc'], body, schema, credit=VALLEY_CREDIT)
 
@@ -621,8 +622,8 @@ def build_articles():
         body = (f'<article class="article" aria-labelledby="h1"><header class="article__head"><nav class="crumbs" aria-label="מיקום באתר"><a href="{pg.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <a href="{pg.a("articles/")}">מאמרים</a></nav>'
                 f'<h1 id="h1">{e(a["title"])}</h1><p class="article__meta">רביד קרודו · <time datetime="{a["date"]}">{fmt_date(a["date"])}</time> · עודכן <time datetime="{a["updated"]}">{fmt_date(a["updated"])}</time></p></header>'
                 f'<div class="article__body">{"".join(parts)}</div>'
-                f'<aside class="article__aside"><div class="aside-card"><h2>{e(svc["name"])}</h2><p>{e(svc["lede"])}</p><a class="btn btn--accent" href="{wa(svc["wa"])}" data-wa="article">{ico_wa()}לתיאום בוואטסאפ</a>'
-                f'<p><a class="link" href="{pg.a(svc["slug"] + "/")}">על הבדיקה</a></p></div></aside></article>')
+                f'<div class="article__aside"><div class="aside-card"><h2>{e(svc["name"])}</h2><p>{e(svc["lede"])}</p><a class="btn btn--accent" href="{wa(svc["wa"])}" data-wa="article">{ico_wa()}לתיאום בוואטסאפ</a>'
+                f'<p><a class="link" href="{pg.a(svc["slug"] + "/")}">על הבדיקה</a></p></div></div></article>')
         schema = graph({'@type': 'Article', 'headline': a['title'], 'description': a['desc'], 'inLanguage': 'he-IL', 'datePublished': a['date'], 'dateModified': a['updated'],
                         'author': {'@id': SITE_URL + '/#ravid'}, 'publisher': {'@id': SITE_URL + '/#business'}, 'mainEntityOfPage': f'{SITE_URL}/articles/{a["slug"]}/'},
                        person_schema(), org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים', 'articles/'), (a['title'], f'articles/{a["slug"]}/')]))
@@ -717,8 +718,8 @@ def build_redirects():
         os.makedirs(os.path.dirname(full), exist_ok=True)
         open(full, 'w', encoding='utf-8').write(doc)
         enc = '/' + urllib.parse.quote(old)
-        lines_.append(f'{enc}  /{new}  301')
-        lines_.append(f'{enc}/  /{new}  301')
+        lines_.append(f'{enc}  /{new}  301!')
+        lines_.append(f'{enc}/  /{new}  301!')
     # Netlify / Cloudflare Pages: הפניות 301 אמיתיות, אם האתר יעלה לשם
     open(os.path.join(ROOT, '_redirects'), 'w', encoding='utf-8').write('# הפניות מהכתובות של האתר הקודם (Wix)\n' + '\n'.join(lines_) + '\n')
     pg = Page('404.html')
@@ -729,6 +730,13 @@ def build_redirects():
     doc404 = Page('404.html')
     doc404.p = '/'
     page(doc404, 'הדף לא נמצא', 'הדף לא נמצא באתר קרודו הנדסה.', body, robots='noindex')
+
+
+def build_headers():
+    h = ('/*\n  X-Frame-Options: DENY\n  Content-Security-Policy: frame-ancestors \'none\'\n  X-Content-Type-Options: nosniff\n'
+         '  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n')
+    with open(os.path.join(ROOT, '_headers'), 'w', encoding='utf-8') as f:
+        f.write('# כותרות אבטחה ל-Netlify ול-Cloudflare Pages\n' + h)
 
 
 def build_vcf():
@@ -764,6 +772,7 @@ def main():
     build_en()
     build_legal()
     build_redirects()
+    build_headers()
     build_vcf()
     build_seo_files()
     with open(os.path.join(HERE, 'posters.json'), 'w', encoding='utf-8') as f:
