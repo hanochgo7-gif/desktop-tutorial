@@ -21,6 +21,7 @@ const STRINGS = {
   'nav.simulations': ['סימולציות שיחה', 'Conversations'],
   'nav.profile': ['פרופיל', 'Profile'],
   'nav.settings': ['הגדרות', 'Settings'],
+  'nav.help': ['עזרה', 'Help'],
   'skip': ['דילוג לתוכן', 'Skip to content'],
   'loading': ['טוען…', 'Loading…'],
   'back': ['חזרה', 'Back'],

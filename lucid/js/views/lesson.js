@@ -60,7 +60,8 @@ export default async function lessonView(el, ctx) {
       <div class="player-top">
         <button type="button" class="key ghost small icon-only" data-exit aria-label="${tt('יציאה מהשיעור', 'Leave lesson')}">${icon('x')}</button>
         <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="${tt('התקדמות בשיעור', 'Lesson progress')}"><span style="width:${pct}%"></span></div>
-        ${levelTag(lesson.level)}
+        ${stage === 'practice' && qi < queue.length ? html`<span class="step-count">${qi + 1} / ${queue.length}</span>` : levelTag(lesson.level)}
+        <a class="key ghost small icon-only" href="#/help" aria-label="${tt('עזרה', 'Help')}">${icon('info', { size: 18 })}</a>
       </div>
       <div class="player-body" id="pbody">${body}</div>
       ${foot ? html`<div class="player-foot" id="pfoot">${foot}</div>` : ''}
@@ -77,6 +78,7 @@ export default async function lessonView(el, ctx) {
       <div class="panel flat stack-sm"><h2 class="small">${tt('בסוף השיעור', 'By the end of this lesson')}</h2>
         <ul class="stack-sm" style="margin:0;padding-inline-start:1.2rem">${lesson.objectives.map((o) => html`<li>${bi(o)}</li>`)}</ul></div>
       ${lesson.warmup ? html`<div class="block-tip row" style="align-items:flex-start">${icon('sparkle', { size: 18 })}<div class="grow">${bi(lesson.warmup)}</div></div>` : ''}
+      ${p?.resume && p.resume.qi < p.resume.queue.length ? html`<div class="banner row" style="align-items:center"><span class="grow">${tt(`עצרתם בתרגיל ${p.resume.qi + 1} מתוך ${p.resume.queue.length}.`, `You stopped at exercise ${p.resume.qi + 1} of ${p.resume.queue.length}.`)}</span><button type="button" class="key enter small" data-resume>${tt('להמשיך מאיפה שעצרתי', 'Continue where I left off')}</button></div>` : ''}
       ${p?.status === 'completed' ? html`<p class="banner small">${icon('check', { size: 18 })}<span>${tt(`כבר השלמת את השיעור (ציון הכי טוב ${Math.round((p.best_score || 0) * 100)}%). אפשר לחזור עליו.`, `You've completed this lesson (best ${Math.round((p.best_score || 0) * 100)}%). You can go through it again.`)}</span></p>` : ''}
     </div>`, html`<div class="inner"><span class="grow"></span><button type="button" class="key ghost" data-skip-learn>${tt('ישר לתרגול', 'Skip to practice')}</button><button type="button" class="key enter" data-go="learn">${tt('בואו נלמד', 'Let\'s learn')} <span class="kbd">Enter</span></button></div>`);
   }
@@ -145,10 +147,25 @@ export default async function lessonView(el, ctx) {
         import('../core/store.js').then(({ store }) => store.put('writing', { id: `lesson:${id}:${item.ex.id}`, source: 'lesson', lesson: id, exercise: item.ex.id, level: lesson.level, drafts: [{ text: r.response, at: new Date().toISOString() }], updated: new Date().toISOString() }));
       }
     }
+    saveResume();
     const foot = $('#pfoot', el);
     foot.className = `player-foot ${r.graded === false ? 'ok' : r.correct ? (r.almost ? 'almost' : 'ok') : 'bad'}`;
     render(foot, footer('result'));
     $('[data-next]', el)?.focus();
+  }
+
+  // Leaving mid-lesson keeps the place (research D, D17/D25): the queue, position and first-try scores.
+  function saveResume() {
+    const cur = progressOf(id) || { id, level: lesson.level, status: 'started' };
+    import('../core/store.js').then(({ store }) => store.put('progress', { ...cur, resume: { qi: qi + 1, queue: queue.map((q) => [q.ex.id, q.retry]), first: [...firstTry], at: new Date().toISOString() } }));
+  }
+  function restoreResume(r) {
+    const byId = new Map(lesson.exercises.map((e) => [e.id, e]));
+    queue.length = 0;
+    for (const [eid, retry] of r.queue) if (byId.has(eid)) queue.push({ ex: byId.get(eid), retry });
+    firstTry.clear();
+    for (const [k, v] of r.first) firstTry.set(k, v);
+    qi = Math.min(r.qi, queue.length);
   }
 
   function answerText(ex) {
@@ -170,6 +187,7 @@ export default async function lessonView(el, ctx) {
     const wasDone = progressOf(id)?.status === 'completed';
     const budgetBefore = newBudgetToday();
     finishLesson(lesson, { score, passed });
+    import('../core/store.js').then(({ store }) => { const cur = store.get('progress', id); if (cur?.resume) { const c = { ...cur }; delete c.resume; store.put('progress', c); } });
     const lessonErrors = model().attempts.filter((a) => a.lesson === id && !a.correct && a.error_type).map((a) => a.error_type);
     const topErr = [...new Set(lessonErrors)].slice(0, 3);
     frame(html`<div class="stack-lg">
@@ -197,11 +215,13 @@ export default async function lessonView(el, ctx) {
     else if (next === 'practice') { if (qi >= queue.length) showReview(); else showExercise(); }
   }
 
+  if (ctx.query.resume && progressOf(id)?.resume) { restoreResume(progressOf(id).resume); stage = 'practice'; }
   go(stage);
 
   const offs = [
     on(el, 'click', '[data-go]', (e, b) => go(b.dataset.go)),
     on(el, 'click', '[data-skip-learn]', () => go('practice')),
+    on(el, 'click', '[data-resume]', () => { restoreResume(progressOf(id).resume); go('practice'); }),
     on(el, 'click', '[data-check]', (e, b) => { if (!b.disabled) doCheck(); }),
     on(el, 'click', '[data-dontknow]', () => doCheck({ dontKnow: true })),
     on(el, 'click', '[data-hint]', (e, b) => {
@@ -211,7 +231,6 @@ export default async function lessonView(el, ctx) {
     on(el, 'click', '[data-next]', () => { qi++; go('practice'); }),
     on(el, 'click', '[data-say-text]', (e, b) => say(b.dataset.sayText, { variant })),
     on(el, 'click', '[data-exit]', async () => {
-      if (stage === 'practice' && qi > 0 && !(await confirmDialog({ title: tt('לצאת מהשיעור?', 'Leave the lesson?'), body: tt('התשובות שכבר נתת נשמרו. בפעם הבאה תתחילו את התרגול מההתחלה.', 'Your answers so far are saved. Next time the practice starts from the beginning.'), confirm: tt('יציאה', 'Leave') }))) return;
       ctx.navigate('today');
     }),
   ];

@@ -48,10 +48,9 @@ async function onboard(page, { start = 'zero', year = new Date().getFullYear() -
   await page.selectOption('#ob-year', String(year));
   await page.click('button[type=submit]');
   await page.click('[data-goal="travel"]');
+  await page.click('[data-min="20"]');
   await page.click('button[type=submit]');
   await page.click(`[data-start="${start}"]`);
-  await page.click('button[type=submit]');
-  await page.click('[data-min="20"]');
   await page.click('button[type=submit]');
   await page.check('input[name=terms]');
   await page.click('button[type=submit]');
@@ -323,7 +322,7 @@ try {
   });
 
   await check('14-15. Mobile and desktop layouts, every route loads without errors or horizontal overflow', async () => {
-    const routes = ['today', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });

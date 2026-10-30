@@ -30,7 +30,7 @@ export default async function onboarding(el, ctx) {
   try { const l = sessionStorage.getItem('lucid-ui-lang'); if (l) data.ui_language = l; } catch { /* ignore */ }
   let step = 0;
   let error = '';
-  const STEPS = 5;
+  const STEPS = 4;
 
   const age = () => (data.birth_year ? year - Number(data.birth_year) : null);
   const nextIcon = () => icon(uiLang() === 'he' ? 'arrow-back' : 'arrow-next');
@@ -54,18 +54,17 @@ export default async function onboarding(el, ctx) {
       case 1: return html`
         <h1>${tt('בשביל מה האנגלית?', 'What do you need English for?')}</h1>
         <p class="muted">${tt('אפשר לבחור כמה. זה משפיע על הדוגמאות וההמלצות.', 'Choose any. This shapes examples and recommendations.')}</p>
-        <div class="choice-list" role="group">${GOALS.map(([id, he, en]) => html`<button type="button" class="choice" data-goal="${id}" aria-pressed="${data.goals.includes(id)}">${tt(he, en)}</button>`)}</div>`;
-      case 2: return html`
-        <h1>${tt('מאיפה מתחילים?', 'Where are you starting from?')}</h1>
-        <p class="muted">${tt('זו רק נקודת פתיחה. מבחן מיקום קצר (כ-10 דקות) יבדוק בפועל.', 'This is only a starting point; a short placement test (about 10 minutes) checks it for real.')}</p>
-        <div class="choice-list" role="radiogroup">${START.map(([id, he, en, nhe, nen]) => html`<button type="button" class="choice" role="radio" data-start="${id}" aria-checked="${data.start === id}"><span class="grow"><span>${tt(he, en)}</span>${nhe ? html`<span class="xsmall faint" style="display:block">${tt(nhe, nen)}</span>` : ''}</span></button>`)}</div>`;
-      case 3: return html`
-        <h1>${tt('כמה זמן ביום?', 'How much time a day?')}</h1>
+        <div class="choice-list" role="group">${GOALS.map(([id, he, en]) => html`<button type="button" class="choice" data-goal="${id}" aria-pressed="${data.goals.includes(id)}">${tt(he, en)}</button>`)}</div>
+        <h2 style="font-size:var(--t-lg);margin-top:var(--s5)">${tt('כמה זמן ביום?', 'How much time a day?')}</h2>
         <p class="muted">${tt('תוכנית היום תתאים את עצמה לזמן הזה. ימים קצרים זה בסדר גמור.', 'Your daily plan fits this time. Short days are completely fine.')}</p>
         <div class="choice-list" role="radiogroup">${[[10, 'קצר וקל', 'Light'], [20, 'רגיל', 'Regular'], [35, 'רציני', 'Serious'], [50, 'אינטנסיבי', 'Intensive']].map(([m, he, en]) => html`<button type="button" class="choice" role="radio" data-min="${m}" aria-checked="${data.daily_minutes === m}"><span class="grow">${tt(he, en)}</span><span class="num faint">${m} ${tt('דק׳', 'min')}</span></button>`)}</div>
         <div class="field"><label for="ob-days">${tt('יעד שבועי: כמה ימים בשבוע?', 'Weekly goal: how many days a week?')}</label>
           <select class="input" id="ob-days" name="weekly_goal_days">${[2, 3, 4, 5, 6, 7].map((d) => html`<option value="${d}" ${d === data.weekly_goal_days ? html`selected` : ''}>${d}</option>`)}</select>
           <span class="help">${tt('אין רצף שנשבר: יום חופש לא מוחק שום דבר.', 'There is no streak to break: a day off erases nothing.')}</span></div>`;
+      case 2: return html`
+        <h1>${tt('מאיפה מתחילים?', 'Where are you starting from?')}</h1>
+        <p class="muted">${tt('זו רק נקודת פתיחה. מבחן מיקום קצר (כ-10 דקות) יבדוק בפועל.', 'This is only a starting point; a short placement test (about 10 minutes) checks it for real.')}</p>
+        <div class="choice-list" role="radiogroup">${START.map(([id, he, en, nhe, nen]) => html`<button type="button" class="choice" role="radio" data-start="${id}" aria-checked="${data.start === id}"><span class="grow"><span>${tt(he, en)}</span>${nhe ? html`<span class="xsmall faint" style="display:block">${tt(nhe, nen)}</span>` : ''}</span></button>`)}</div>`;
       default: return html`
         <h1>${tt('פרטיות, בקצרה', 'Privacy, briefly')}</h1>
         <div class="stack-sm small">
@@ -112,7 +111,7 @@ export default async function onboarding(el, ctx) {
       if (age() < 16) return tt('Lucid מיועד לגילאי 16 ומעלה. מצטערים, עדיין אי אפשר להירשם.', 'Lucid is for learners aged 16 and over, so you can\'t register yet. Sorry.');
     }
     if (step === 2 && !data.start) return tt('בחרו נקודת פתיחה.', 'Choose a starting point.');
-    if (step === 4 && !data.terms) return tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.');
+    if (step === 3 && !data.terms) return tt('כדי להמשיך צריך לאשר את התנאים.', 'Please accept the terms to continue.');
     return '';
   }
 

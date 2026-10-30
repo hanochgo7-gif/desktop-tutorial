@@ -87,7 +87,6 @@ export default async function review(el, ctx) {
     }
     shell(html`<h1 class="small faint" style="margin-bottom:var(--s4)">${title}</h1>${body}`,
       html`<div class="inner">${!firstExposures ? html`<button type="button" class="key ghost small" data-hint>${icon('hint', { size: 18 })} ${tt('רמז', 'Hint')}</button>` : ''}<button type="button" class="key ghost small" data-idk>${tt('לא זוכר/ת', 'I don\'t remember')}</button><span class="grow"></span>${!firstExposures ? html`<button type="button" class="key enter" data-check>${tt('בדיקה', 'Check')} <span class="kbd">Enter</span></button>` : ''}</div>`);
-    if (c.kind === 'meaning' && canSpeak()) say(p.word, { variant });
     setTimeout(() => $('#ans', el)?.focus(), 50);
   }
 

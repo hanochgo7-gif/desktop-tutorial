@@ -19,6 +19,7 @@ export const DEFAULT_SETTINGS = {
   feedback_scope: 'auto',     // auto | focused | comprehensive (writing feedback)
   english_variant: 'any',     // any | US | UK (speech voice and roleplay)
   speech_rate: 0.95,
+  text_size: 100,             // 100 | 115 | 130 | 150 (%)
   weekly_goal_days: 5,
   ai_consent: false,
   sound: true,

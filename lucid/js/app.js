@@ -29,6 +29,8 @@ const MORE = [
 export let sync = null;
 
 function applyTheme() {
+  const ts = settings().text_size;
+  if (ts && ts !== 100) document.documentElement.dataset.text = String(ts); else delete document.documentElement.dataset.text;
   const th = settings().theme;
   if (th === 'light' || th === 'dark') document.documentElement.dataset.theme = th;
   else delete document.documentElement.dataset.theme;
@@ -60,12 +62,13 @@ function drawShell(route) {
       ${MORE.map(([href, key, ic]) => html`<a class="nav" href="#/${href}" ${route?.path === href ? html`aria-current="page"` : ''}>${icon(ic)}${navLegend(key)}</a>`)}
     </nav>
     <div class="foot">
+      <a class="nav" href="#/help" ${active === 'help' ? html`aria-current="page"` : ''}>${icon('info')}${navLegend('nav.help')}</a>
       <a class="nav" href="#/settings" ${active === 'settings' ? html`aria-current="page"` : ''}>${icon('settings')}${navLegend('nav.settings')}</a>
       <span id="sync-status" class="xsmall">${syncLabel()}</span>
       ${p?.name ? html`<span>${p.name}</span>` : ''}
     </div>`);
   render(tabbar, NAV.map(([href, key, ic]) => html`<a href="#/${href}" ${active === ic || active === href ? html`aria-current="page"` : ''}>${icon(ic, { size: 22 })}<span>${t(key)}</span></a>`));
-  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
+  render(top, html`<a class="brand" href="#/today">${brandMark()}<span class="sr-only">Lucid</span></a><span class="title grow" id="top-title"></span><a class="key ghost small icon-only" href="#/help" aria-label="${t('nav.help')}">${icon('info')}</a><a class="key ghost small icon-only" href="#/settings" aria-label="${t('nav.settings')}">${icon('settings')}</a>`);
 }
 
 

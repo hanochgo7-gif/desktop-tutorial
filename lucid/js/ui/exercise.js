@@ -43,7 +43,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         ${ex.type === 'listen' ? listenButtons(ex.audio_text) : ''}
         <p class="ex-text">${en(ex.question)}</p>
         <div class="options" role="group" style="margin-top:var(--s5)">${order.map((i, n) => html`<button type="button" class="option" data-opt="${i}" aria-pressed="false"><span class="k" aria-hidden="true">${KEYS[n]}</span>${en(ex.options[i])}</button>`)}</div>`);
-      if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => say(ex.audio_text, { variant }), 250); }
+      if (ex.type === 'listen') { sayHandler(ex.audio_text); setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60); }
       const pick = (i) => { picked = i; $$('.option', root).forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.opt) === i))); onChange(true); };
       offs.push(on(root, 'click', '[data-opt]', (e, b) => { if (!b.disabled) pick(Number(b.dataset.opt)); }));
       ctl.ready = () => picked != null;
@@ -195,7 +195,7 @@ export function mountExercise(root, ex, { onChange = () => {}, errors = null, le
         <label class="sr-only" for="dc-${ex.id}">${tt('מה שמעתם', 'What you heard')}</label>
         <textarea class="input" id="dc-${ex.id}" rows="2" lang="en" dir="ltr" autocomplete="off" spellcheck="false" style="min-height:4.5rem;font-size:var(--t-lg)" placeholder="${tt('כתבו מה ששמעתם', 'Type what you hear')}"></textarea>`);
       sayHandler(ex.audio_text);
-      setTimeout(() => say(ex.audio_text, { variant }), 250);
+      setTimeout(() => root.querySelector('[data-say="normal"]')?.focus(), 60);
       const ta = $('textarea', root);
       offs.push(on(root, 'input', 'textarea', () => onChange(Boolean(ta.value.trim()))));
       ctl.ready = () => Boolean(ta.value.trim());

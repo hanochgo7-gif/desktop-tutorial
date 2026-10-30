@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "Look around you. Can you name three things in English? What colour are they?", "he": "הסתכלו סביבכם. אילו שלושה חפצים אתם יודעים לומר באנגלית? ובאיזה צבע הם?" },
   "explanation": [
-    { "type": "p", "en": "It's a pen. It's an umbrella. Before one thing, English needs a or an. Hebrew has no word for this, but English always uses it.", "he": "It's a pen. It's an umbrella. לפני דבר אחד (ביחיד) באנגלית חייבים a או an. בעברית אין מילה כזאת ('זה עט'), אבל באנגלית היא תמיד שם." },
+    { "type": "p", "en": "It's a pen. It's an umbrella. When you say what one thing is, English needs a or an. Hebrew has no word like this.", "he": "It's a pen. It's an umbrella. כשאומרים מה הוא דבר אחד, באנגלית צריך a או an. בעברית אין מילה כזאת ('זה עט')." },
     { "type": "rule", "en": "a + consonant sound: a bag, a key, a university (it starts with a 'y' sound). an + vowel sound: an apple, an egg, an umbrella, an hour (the h is silent). Listen to the sound, not the letter.", "he": "a לפני צליל עיצור: a bag, a key, a university (נשמע 'יוּ'). an לפני צליל תנועה: an apple, an egg, an umbrella, an hour (ה-h לא נשמעת). קובע הצליל, לא האות." },
     { "type": "table", "headers": ["How many?", "Near me (here)", "Far from me (there)"], "rows": [
       ["One thing", "this (זה / זאת)", "that (ההוא / ההיא)"],
@@ -205,6 +205,9 @@
         { "type": "tf", "statement": "The umbrella is green.", "answer": false,
           "explanation": { "en": "The bottle is green. The umbrella is orange.", "he": "הבקבוק ירוק. המטרייה כתומה." } },
         { "type": "gap", "text": "Maya's wallet is ___.", "answers": [["black"]],
+          "wrong_feedback": [
+            { "match": "blue", "feedback": { "en": "Blue is the bag. Find the word wallet in the list.", "he": "כחול הוא התיק. חפשו את המילה wallet ברשימה." }, "error_type": "comprehension" }
+          ],
           "explanation": { "en": "...and my black wallet.", "he": "כתוב: my black wallet – הארנק השחור שלי." } }
       ],
       "explanation": { "en": "In a list, each thing comes with a/an + colour + noun: a grey laptop, an orange umbrella.", "he": "ברשימה כל חפץ בא עם a/an + צבע + שם עצם: a grey laptop, an orange umbrella." }

@@ -1,0 +1,253 @@
+{
+  "id": "pa1-04",
+  "level": "PreA1",
+  "title_en": "Numbers 0-100",
+  "title_he": "מספרים 0-100",
+  "topics": ["numbers"],
+  "minutes": 18,
+  "objectives": [
+    { "en": "I can say, read and write numbers from 0 to 100.", "he": "אני יודע/ת לומר, לקרוא ולכתוב מספרים מ-0 עד 100." },
+    { "en": "I can hear the difference between thirteen and thirty.", "he": "אני יודע/ת לשמוע את ההבדל בין thirteen ל-thirty." },
+    { "en": "I can say my age and give a phone number.", "he": "אני יודע/ת לומר את הגיל שלי ולמסור מספר טלפון." }
+  ],
+  "warmup": { "en": "Numbers are everywhere: prices, buses, phone numbers, your age. Count from 1 to 10 in English, out loud. Today we go all the way to 100.", "he": "מספרים נמצאים בכל מקום: מחירים, קווי אוטובוס, מספרי טלפון, הגיל שלכם. ספרו בקול מ-1 עד 10 באנגלית. רוב האנשים כבר יודעים – היום נגיע עד 100." },
+  "explanation": [
+    { "type": "p", "en": "Learn 0-12 by heart. 13-19 end in -teen. The tens (20, 30, 40...) end in -ty.", "he": "את 0-12 לומדים בעל פה. המספרים 13-19 נגמרים ב-teen, והעשרות (20, 30, 40...) נגמרות ב-ty." },
+    { "type": "table", "headers": ["0-12", "13-19", "Tens"], "rows": [
+      ["0 zero", "13 thirteen", "20 twenty"],
+      ["1 one", "14 fourteen", "30 thirty"],
+      ["2 two", "15 fifteen", "40 forty"],
+      ["3 three", "16 sixteen", "50 fifty"],
+      ["4 four", "17 seventeen", "60 sixty"],
+      ["5 five", "18 eighteen", "70 seventy"],
+      ["6 six", "19 nineteen", "80 eighty"],
+      ["7 seven", "", "90 ninety"],
+      ["8 eight", "", "100 a hundred"],
+      ["9 nine", "", ""],
+      ["10 ten", "", ""],
+      ["11 eleven", "", ""],
+      ["12 twelve", "", ""]
+    ] },
+    { "type": "rule", "en": "21-99: the ten + a hyphen + the number: 21 twenty-one, 35 thirty-five, 99 ninety-nine. Watch the spelling: four but forty (no u), five but fifteen and fifty, nine but ninety (keep the e).", "he": "21-99: העשרת + מקף + היחידות, למשל 21 = twenty-one, ‏35 = thirty-five, ‏99 = ninety-nine. שימו לב לאיות: four אבל forty (בלי u); five אבל fifteen ו-fifty; nine אבל ninety (ה-e נשארת)." },
+    { "type": "tip", "en": "thirteen or thirty? In -teen numbers the stress is at the end and the ee is long: thir-TEEN. In -ty numbers the stress is at the start: THIR-ty. Listen for the n at the end of -teen.", "he": "thirteen או thirty? במספרים עם teen ההטעמה בסוף וה-ee ארוכה: thir-TEEN. במספרים עם ty ההטעמה בהתחלה: THIR-ty. הקשיבו ל-n שבסוף teen." },
+    { "type": "warning", "en": "Your age: I'm 25. or I'm 25 years old. Not 'I have 25 years' and not 'I'm 25 years'. The question is: How old are you?", "he": "גיל: I'm 25 או I'm 25 years old. לא I have 25 years ולא I'm 25 years (בלי old). השאלה היא: How old are you?" },
+    { "type": "tip", "en": "Phone numbers: say one number at a time, with a short pause between the groups. Say 0 as 'oh' or 'zero'. In British English, 77 is often 'double seven'.", "he": "מספרי טלפון: אומרים ספרה אחרי ספרה, עם הפסקה קצרה בין הקבוצות. את 0 אומרים oh או zero, למשל 054 = oh-five-four. באנגלית בריטית 77 נאמר לרוב double seven." }
+  ],
+  "examples": [
+    { "en": "How old are you? – I'm nineteen.", "he": "בן/בת כמה את/ה? – אני בן/בת 19." },
+    { "en": "I'm 25 years old.", "he": "אני בן/בת 25.", "note": "years old: both words, or neither" },
+    { "en": "Bus 13, not bus 30!", "he": "קו 13, לא קו 30!", "note": "thir-TEEN, THIR-ty" },
+    { "en": "That's forty-five shekels.", "he": "זה 45 שקלים.", "note": "forty: no u" },
+    { "en": "My number is 07700 900 418.", "he": "המספר שלי הוא 07700 900 418.", "note": "say: oh-double seven-double oh, nine-oh-oh, four-one-eight" },
+    { "en": "Room twenty-one, please.", "he": "חדר 21, בבקשה." },
+    { "en": "What's your phone number?", "he": "מה מספר הטלפון שלך?" },
+    { "en": "A hundred percent!", "he": "מאה אחוז!", "note": "100 = a hundred or one hundred" }
+  ],
+  "vocab": [
+    { "word": "number", "pos": "noun", "he": "מספר", "def": "a word or sign like 1, 2 or 3", "example": "What's your phone number?", "ipa": "/ˈnʌmbə(r)/", "collocations": ["phone number", "room number", "bus number"], "level": "PreA1" },
+    { "word": "zero", "pos": "number", "he": "אפס", "def": "the number 0", "example": "My phone number starts with zero.", "ipa": "/ˈzɪərəʊ/", "level": "PreA1" },
+    { "word": "three", "pos": "number", "he": "שלוש, שלושה", "def": "the number 3", "example": "Three coffees, please.", "ipa": "/θriː/", "level": "PreA1" },
+    { "word": "twelve", "pos": "number", "he": "שתים-עשרה, שנים-עשר", "def": "the number 12", "example": "My brother is twelve.", "ipa": "/twelv/", "level": "PreA1" },
+    { "word": "thirteen", "pos": "number", "he": "שלוש-עשרה, שלושה-עשר", "def": "the number 13", "example": "Room thirteen, please.", "ipa": "/ˌθɜːˈtiːn/", "level": "PreA1" },
+    { "word": "thirty", "pos": "number", "he": "שלושים", "def": "the number 30", "example": "The class is in Room 30.", "ipa": "/ˈθɜːti/", "level": "PreA1" },
+    { "word": "forty", "pos": "number", "he": "ארבעים", "def": "the number 40", "example": "That's forty shekels.", "ipa": "/ˈfɔːti/", "level": "PreA1" },
+    { "word": "hundred", "pos": "number", "he": "מאה", "def": "the number 100", "example": "A hundred percent!", "ipa": "/ˈhʌndrəd/", "level": "PreA1" },
+    { "word": "age", "pos": "noun", "he": "גיל", "def": "how old you are", "example": "Write your name and age.", "ipa": "/eɪdʒ/", "level": "PreA1" },
+    { "word": "old", "pos": "adjective", "he": "בגיל (How old = בן/בת כמה); זקן, ישן", "def": "used to talk about age; also: not young, not new", "example": "How old are you?", "ipa": "/əʊld/", "collocations": ["How old...?", "years old"], "level": "PreA1" },
+    { "word": "year", "pos": "noun", "he": "שנה", "def": "12 months", "example": "I'm 20 years old.", "ipa": "/jɪə(r)/", "level": "PreA1" },
+    { "word": "phone number", "pos": "noun", "he": "מספר טלפון", "def": "the numbers you call to talk to someone on the phone", "example": "Can I have your phone number?", "ipa": "/ˈfəʊn ˌnʌmbə(r)/", "level": "PreA1" },
+    { "word": "count", "pos": "verb", "he": "לספור", "def": "to say numbers in order: 1, 2, 3...", "example": "Count from 1 to 10.", "ipa": "/kaʊnt/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no th sound, so three can sound like 'tree' or 'free', and thirty like 'tirty'. Put your tongue between your teeth: three, thirteen, thirty.", "he": "בעברית אין את הצליל th, ולכן three עלול להישמע 'טרי' או 'פרי', ו-thirty – 'טירטי'. שימו את קצה הלשון בין השיניים: three, thirteen, thirty.", "error_type": "pron-th" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so twelve and twenty can come out with a v. Round your lips for w.", "he": "בעברית w אינו צליל רגיל (האות ו נהגית v), ולכן twelve ו-twenty עלולים לצאת עם v. ב-w מעגלים את השפתיים, והשיניים לא נוגעות בשפה.", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "numbers",
+      "prompt": { "en": "Match the numbers to the words.", "he": "התאימו את המספרים למילים." },
+      "pairs": [["3", "three"], ["13", "thirteen"], ["30", "thirty"], ["14", "fourteen"], ["40", "forty"], ["50", "fifty"]],
+      "explanation": { "en": "-teen = 13-19, -ty = the tens. Note the spelling: fourteen has a u, but forty does not; five becomes fif- in fifty.", "he": "teen = ‏13-19, ו-ty = העשרות. שימו לב לאיות: ב-fourteen יש u, אבל ב-forty אין; ‏five הופכת ל-fif ב-fifty." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "numbers",
+      "prompt": { "en": "Listen and choose the number.", "he": "הקשיבו ובחרו את המספר." },
+      "audio_text": "Room thirteen, please.",
+      "question": "Which room?",
+      "options": ["30", "13", "3"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "thirty has the stress at the start: THIR-ty. You heard thir-TEEN, with a long ee and an n at the end.", "he": "ב-thirty ההטעמה בהתחלה: THIR-ty. שמעתם thir-TEEN – עם ee ארוכה ו-n בסוף." },
+        "2": { "en": "three is one short syllable. You heard two: thir-teen.", "he": "three היא הברה אחת קצרה. שמעתם שתי הברות: thir-teen." }
+      },
+      "option_errors": { "0": "pron-stress" },
+      "explanation": { "en": "-teen numbers have a long, stressed ending with n: thir-TEEN. -ty numbers have the stress at the start: THIR-ty.", "he": "במספרי teen הסוף ארוך, מוטעם ונגמר ב-n: thir-TEEN. במספרי ty ההטעמה בהתחלה: THIR-ty." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "numbers",
+      "prompt": { "en": "Listen and choose the price.", "he": "הקשיבו ובחרו את המחיר." },
+      "audio_text": "That's fifty shekels.",
+      "question": "How much is it?",
+      "options": ["50", "15", "55"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "fifteen sounds like fif-TEEN, with an n at the end. You heard FIF-ty.", "he": "fifteen נשמע fif-TEEN, עם n בסוף. שמעתם FIF-ty." },
+        "2": { "en": "55 is fifty-five: two number words. You heard only fifty.", "he": "55 זה fifty-five – שתי מילים. שמעתם רק fifty." }
+      },
+      "option_errors": { "1": "pron-stress" },
+      "explanation": { "en": "FIF-ty = 50: the stress is at the start, and the end is a short -ty.", "he": "FIF-ty = 50: ההטעמה בהתחלה, והסוף הוא ty קצר." }
+    },
+    {
+      "id": "e4", "type": "listen", "skill": "listening", "topic": "numbers",
+      "prompt": { "en": "Listen. How old is Maya?", "he": "הקשיבו. בת כמה מאיה?" },
+      "audio_text": "I'm Maya, and I'm twenty-one.",
+      "question": "How old is Maya?",
+      "options": ["12", "31", "21"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "12 is twelve, one word. You heard twenty-one: twenty + one.", "he": "12 זה twelve – מילה אחת. שמעתם twenty-one: ‏twenty + one." },
+        "1": { "en": "31 is thirty-one, with th. You heard twenty-one, with tw.", "he": "31 זה thirty-one, עם th. שמעתם twenty-one, עם tw." }
+      },
+      "explanation": { "en": "twenty-one = 20 + 1. twenty and twelve both start with tw: round your lips.", "he": "twenty-one = ‏20 + 1. גם twenty וגם twelve מתחילות ב-tw: מעגלים את השפתיים." }
+    },
+    {
+      "id": "e5", "type": "categorize", "skill": "vocabulary", "topic": "numbers",
+      "prompt": { "en": "Correct spelling or wrong spelling?", "he": "איות נכון או שגוי?" },
+      "categories": ["Correct", "Wrong"],
+      "items": [
+        { "text": "forty", "category": "Correct" },
+        { "text": "fourty", "category": "Wrong" },
+        { "text": "ninety", "category": "Correct" },
+        { "text": "ninty", "category": "Wrong" },
+        { "text": "fifteen", "category": "Correct" },
+        { "text": "fiveteen", "category": "Wrong" },
+        { "text": "eighteen", "category": "Correct" },
+        { "text": "eightteen", "category": "Wrong" }
+      ],
+      "hint": { "en": "Compare four/forty, nine/ninety, five/fifteen and eight/eighteen.", "he": "השוו: four/forty, ‏nine/ninety, ‏five/fifteen, ‏eight/eighteen." },
+      "explanation": { "en": "forty has no u. ninety keeps the e. five changes to fif- (fifteen, fifty). eighteen has only one t.", "he": "ב-forty אין u. ב-ninety ה-e נשארת. ‏five הופכת ל-fif ‏(fifteen, fifty). ב-eighteen יש רק t אחת." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "numbers",
+      "prompt": { "en": "Someone asks: How old are you? Choose the correct answer.", "he": "שואלים אתכם: How old are you? בחרו את התשובה הנכונה." },
+      "question": "How old are you?",
+      "options": ["I have 30 years.", "I'm 30 years.", "I'm 30.", "I 30."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "In English, age uses be, not have: I'm 30.", "he": "באנגלית גיל מבטאים עם be ‏(am), לא עם have: I'm 30." },
+        "1": { "en": "Say I'm 30 or I'm 30 years old. years without old is wrong.", "he": "אומרים I'm 30 או I'm 30 years old. ‏years בלי old – שגוי." },
+        "3": { "en": "The verb is missing: I'm 30 (= I am 30).", "he": "חסר הפועל: I'm 30 (כלומר I am 30)." }
+      },
+      "option_errors": { "0": "false-friend", "1": "false-friend", "3": "copula-omission" },
+      "explanation": { "en": "Age: I'm 30. or I'm 30 years old.", "he": "גיל: I'm 30 או I'm 30 years old." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "speaking", "topic": "numbers",
+      "prompt": { "en": "How do people say this part of a phone number?", "he": "איך אומרים את החלק הזה של מספר טלפון?" },
+      "question": "900 418",
+      "options": ["nine hundred, four hundred and eighteen", "nine oh oh, four one eight", "ninety, forty-one, eight"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "A phone number is not a big number. Say one number at a time: nine-oh-oh.", "he": "מספר טלפון הוא לא מספר גדול. אומרים ספרה אחרי ספרה: nine-oh-oh." },
+        "2": { "en": "Don't join the numbers into tens. Say them one by one: four-one-eight.", "he": "לא מחברים ספרות לעשרות. אומרים אותן אחת-אחת: four-one-eight." }
+      },
+      "explanation": { "en": "Phone numbers: one number at a time, 0 = 'oh' (or zero), with pauses between the groups.", "he": "מספרי טלפון: ספרה אחרי ספרה, 0 = oh (או zero), עם הפסקה בין הקבוצות." }
+    },
+    {
+      "id": "e8", "type": "read", "skill": "reading", "topic": "numbers",
+      "prompt": { "en": "Read the gym form and answer the questions.", "he": "קראו את טופס ההרשמה לחדר הכושר וענו על השאלות." },
+      "title": "City Gym, London – New member",
+      "passage": "Name: Sara Mizrahi\nAge: 34\nPhone: 07700 900 286\nLocker: number 13\nYoga class: Room 30, 19:00",
+      "questions": [
+        { "type": "tf", "statement": "Sara is 43.", "answer": false, "explanation": { "en": "Age: 34 (thirty-four), not 43 (forty-three).", "he": "הגיל הוא 34 ‏(thirty-four), לא 43 ‏(forty-three)." } },
+        { "type": "mcq", "question": "What is Sara's locker number?", "options": ["30", "3", "13"], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "30 is the room for the yoga class.", "he": "30 הוא מספר החדר של שיעור היוגה." },
+            "1": { "en": "Look again: the locker is number 13.", "he": "הסתכלו שוב: הלוקר הוא מספר 13." }
+          },
+          "explanation": { "en": "Locker: number 13 (thirteen).", "he": "לוקר מספר 13 ‏(thirteen)." } },
+        { "type": "gap", "text": "The yoga class is in Room ___.", "answers": [["30", "thirty"]], "explanation": { "en": "Yoga class: Room 30 (thirty).", "he": "שיעור היוגה בחדר 30 ‏(thirty)." } },
+        { "type": "tf", "statement": "Sara's phone number is 07700 900 286.", "answer": true, "explanation": { "en": "Phone: 07700 900 286. Say it: oh-double seven-double oh, nine-oh-oh, two-eight-six.", "he": "Phone: 07700 900 286. אומרים: oh-double seven-double oh, nine-oh-oh, two-eight-six." } }
+      ],
+      "explanation": { "en": "Forms use short lines: Age, Phone, Locker. Read the numbers carefully: 34 is not 43, and 13 is not 30.", "he": "בטפסים יש שורות קצרות: Age, Phone, Locker. קראו את המספרים בעיון: 34 זה לא 43, ו-13 זה לא 30." }
+    },
+    {
+      "id": "e9", "type": "gap", "skill": "vocabulary", "topic": "numbers",
+      "prompt": { "en": "Write the numbers in words.", "he": "כתבו את המספרים במילים." },
+      "text": "15 = ___ · 40 = ___ · 72 = ___",
+      "answers": [["fifteen"], ["forty"], ["seventy-two", "seventy two"]],
+      "wrong_feedback": [
+        { "match": "fiveteen", "feedback": { "en": "five changes to fif-: fifteen.", "he": "five הופכת ל-fif: ‏fifteen." }, "error_type": "spelling" },
+        { "match": "fourteen", "feedback": { "en": "fourteen is 14. 40 is forty: the tens end in -ty.", "he": "fourteen זה 14. את 40 כותבים forty – העשרות נגמרות ב-ty." }, "error_type": "word-choice" },
+        { "match": "seventeen two", "feedback": { "en": "70 is seventy (-ty), so 72 is seventy-two.", "he": "70 זה seventy (עם ty), ולכן 72 זה seventy-two." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Be careful with the spelling of 15 and 40.", "he": "שימו לב לאיות של 15 ושל 40." },
+      "explanation": { "en": "15 = fifteen (fif- + teen), 40 = forty (no u), 72 = seventy-two (with a hyphen).", "he": "15 = fifteen ‏(fif + teen), ‏40 = forty (בלי u), ‏72 = seventy-two (עם מקף)." }
+    },
+    {
+      "id": "e10", "type": "order", "skill": "grammar", "topic": "numbers",
+      "prompt": { "en": "Put the words in order to make the question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["How", "old", "are", "you?"],
+      "explanation": { "en": "To ask about age: How old are you? Learn it as one block.", "he": "שאלה על גיל: How old are you? כדאי ללמוד אותה כיחידה אחת (מילה במילה: 'כמה זקן אתה?')." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "grammar", "topic": "numbers",
+      "prompt": { "en": "Write it in English.", "he": "כתבו באנגלית." },
+      "source": "אני בת 17.",
+      "answers": ["I'm 17.", "I'm seventeen.", "I'm 17 years old.", "I'm seventeen years old."],
+      "wrong_feedback": [
+        { "match": "I have 17 years", "feedback": { "en": "English uses be for age: I'm 17 (years old), not 'I have 17 years'.", "he": "באנגלית גיל מבטאים עם be: ‏I'm 17 (years old), לא I have 17 years." }, "error_type": "false-friend" },
+        { "match": "I'm 17 years", "feedback": { "en": "Add old (I'm 17 years old), or stop after the number (I'm 17).", "he": "הוסיפו old ‏(I'm 17 years old), או עצרו אחרי המספר (I'm 17)." }, "error_type": "false-friend" },
+        { "match": "I 17", "feedback": { "en": "The verb is missing: I'm 17.", "he": "חסר הפועל: I'm 17." }, "error_type": "copula-omission" }
+      ],
+      "explanation": { "en": "English uses be for age: I'm 17. or I'm 17 years old.", "he": "בעברית אומרים 'בת 17', ובאנגלית משתמשים ב-be: ‏I'm 17 או I'm 17 years old." }
+    },
+    {
+      "id": "e12", "type": "dictation", "skill": "listening", "topic": "numbers",
+      "prompt": { "en": "Kenji gives you his London phone number. Write it in numbers.", "he": "קנג'י נותן לכם את מספר הטלפון שלו בלונדון. כתבו אותו בספרות." },
+      "audio_text": "My number is oh seven seven oh oh, nine oh oh, five six two.",
+      "answers": ["07700 900 562", "07700 900562", "07700900562", "07700-900-562", "07700-900562"],
+      "hint": { "en": "'oh' = 0. There are three groups: 5, 3 and 3 numbers.", "he": "oh = 0. יש שלוש קבוצות: 5, 3 ו-3 ספרות." },
+      "explanation": { "en": "oh-seven-seven-oh-oh / nine-oh-oh / five-six-two = 07700 900 562. 'oh' means zero.", "he": "oh-seven-seven-oh-oh / nine-oh-oh / five-six-two = 07700 900 562. ‏oh פירושו אפס." }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking", "topic": "numbers",
+      "prompt": { "en": "You are not sure what you heard. Ask out loud.", "he": "אתם לא בטוחים מה שמעתם. שאלו בקול." },
+      "target": "Is that 13 or 30?",
+      "focus": { "en": "Say thir-TEEN (stress at the end) and THIR-ty (stress at the start). th: tongue between your teeth.", "he": "אמרו thir-TEEN (הטעמה בסוף) ו-THIR-ty (הטעמה בהתחלה). ‏th: קצה הלשון בין השיניים." },
+      "error_type": "pron-stress",
+      "explanation": { "en": "A useful question when you are not sure about a price, a room or a bus number.", "he": "שאלה שימושית כשלא בטוחים במחיר, במספר חדר או בקו אוטובוס." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "numbers",
+      "prompt": { "en": "Say it out loud.", "he": "אמרו בקול." },
+      "target": "I'm 21, and my brother is 12.",
+      "focus": { "en": "twenty and twelve start with tw: round your lips, no v.", "he": "twenty ו-twelve מתחילות ב-tw: מעגלים את השפתיים, בלי v." },
+      "error_type": "pron-w-v",
+      "explanation": { "en": "Now say it again with your real age.", "he": "עכשיו אמרו את המשפט שוב, עם הגיל האמיתי שלכם." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "numbers",
+      "prompt": { "en": "Write about you: name, age and phone number.", "he": "כתבו על עצמכם: שם, גיל ומספר טלפון." },
+      "task": { "en": "Write 3 short sentences: your name, your age, and a phone number. Don't use your real number: make one up.", "he": "כתבו 3 משפטים קצרים: השם שלכם, הגיל שלכם ומספר טלפון. אל תכתבו את המספר האמיתי שלכם – המציאו אחד." },
+      "min_words": 10,
+      "max_words": 40,
+      "must_include": ["number"],
+      "model_answer": "My name is Yael Ben-David. I'm 23 years old. My phone number is 07700 900 517.",
+      "checklist": [
+        { "en": "Age: I'm 23 or I'm 23 years old (not I have 23 years).", "he": "גיל: I'm 23 או I'm 23 years old (לא I have 23 years)." },
+        { "en": "Each sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." },
+        { "en": "Read your phone number aloud, one number at a time.", "he": "קראו את מספר הטלפון בקול, ספרה אחרי ספרה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "13-19 end in -teen (thir-TEEN). 20, 30, 40... end in -ty (THIR-ty).", "he": "13-19 נגמרים ב-teen ‏(thir-TEEN). ‏20, 30, 40... נגמרים ב-ty ‏(THIR-ty)." },
+      { "en": "21-99 have a hyphen: twenty-one. Spelling: forty, fifteen, fifty, ninety.", "he": "ב-21-99 יש מקף: twenty-one. איות: forty, fifteen, fifty, ninety." },
+      { "en": "Age: How old are you? – I'm 25. / I'm 25 years old.", "he": "גיל: How old are you? – I'm 25 או I'm 25 years old." },
+      { "en": "Phone numbers: one number at a time; 0 = 'oh' or 'zero'.", "he": "מספרי טלפון: ספרה אחרי ספרה; 0 = oh או zero." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

@@ -1,0 +1,232 @@
+{
+  "id": "pa1-03",
+  "level": "PreA1",
+  "title_en": "Hello and goodbye",
+  "title_he": "שלום ולהתראות",
+  "topics": ["greetings"],
+  "minutes": 16,
+  "objectives": [
+    { "en": "I can say hello and goodbye in the right way for the time of day and the person.", "he": "אני יודע/ת לומר שלום ולהתראות בצורה שמתאימה לשעה ולאדם." },
+    { "en": "I can say my name, say 'Nice to meet you' and answer 'How are you?'.", "he": "אני יודע/ת לומר את השם שלי, לומר Nice to meet you ולענות על How are you?" },
+    { "en": "I can use please, thank you, sorry and excuse me politely.", "he": "אני יודע/ת להשתמש בנימוס ב-please, thank you, sorry ו-excuse me." }
+  ],
+  "warmup": { "en": "Think: what do you say to a friend, and what do you say to a new manager? In English too, hello and goodbye change with the person and the time of day.", "he": "חשבו: מה אתם אומרים לחבר, ומה למנהלת חדשה? 'היי' או 'בוקר טוב'? גם באנגלית ברכות השלום והפרידה משתנות לפי האדם ולפי השעה." },
+  "explanation": [
+    { "type": "p", "en": "Hi, I'm Noa. – Hello, Noa. My name is Omer. Nice to meet you. – Nice to meet you too. This is how a first meeting sounds: hello, your name, Nice to meet you.", "he": "Hi, I'm Noa. – Hello, Noa. My name is Omer. Nice to meet you. – Nice to meet you too. כך נשמעת פגישה ראשונה: ברכה, השם, ו-Nice to meet you (נעים להכיר). התשובה: Nice to meet you too (גם לי נעים)." },
+    { "type": "rule", "en": "Hello: Hi / Hey (friends) · Hello / Good morning (polite). Goodbye: Bye / See you (friends) · Goodbye (polite). The first time you meet someone: Nice to meet you. The next time: Nice to see you.", "he": "שלום: Hi / Hey לחברים · Hello / Good morning בנימוס. להתראות: Bye / See you לחברים · Goodbye בנימוס. בפגישה הראשונה אומרים Nice to meet you, ובפעם הבאה – Nice to see you." },
+    { "type": "table", "headers": ["Time", "Say", "עברית"], "rows": [
+      ["until 12:00", "Good morning", "בוקר טוב"],
+      ["12:00 to about 18:00", "Good afternoon", "צהריים טובים / אחר הצהריים"],
+      ["after about 18:00", "Good evening", "ערב טוב"],
+      ["when you leave at night or go to bed", "Good night", "לילה טוב"]
+    ] },
+    { "type": "warning", "en": "Good night is a goodbye, not a hello. When you arrive in the evening, say Good evening or Hi.", "he": "Good night היא ברכת פרידה (או לפני השינה), לא ברכת שלום. כשמגיעים בערב אומרים Good evening או Hi." },
+    { "type": "tip", "en": "How are you? is part of hello, not a real question about your health. Give a short answer and ask back: Fine, thanks. And you?", "he": "How are you? הוא חלק מה'שלום', לא שאלה אמיתית על הבריאות. עונים בקצרה ושואלים בחזרה: Fine, thanks. And you?" },
+    { "type": "table", "headers": ["Word", "When", "עברית"], "rows": [
+      ["Please", "when you ask for something", "בבקשה (כשמבקשים)"],
+      ["Thank you / Thanks", "when someone helps you or gives you something", "תודה"],
+      ["You're welcome", "the answer to Thank you", "בבקשה / אין בעד מה"],
+      ["Excuse me", "before you ask a stranger or call a waiter", "סליחה (כדי לפנות למישהו)"],
+      ["Sorry", "after a mistake; 'Sorry?' = please say it again", "סליחה (על טעות) / סליחה, מה אמרת?"]
+    ] }
+  ],
+  "examples": [
+    { "en": "Hi, I'm Lior.", "he": "היי, אני ליאור." },
+    { "en": "Good morning! My name is Sara Cohen.", "he": "בוקר טוב! שמי שרה כהן.", "note": "polite, for work or class" },
+    { "en": "Nice to meet you. – Nice to meet you too.", "he": "נעים להכיר. – גם לי נעים.", "note": "only the first time you meet" },
+    { "en": "How are you? – I'm fine, thanks. And you?", "he": "מה שלומך? – אני בסדר, תודה. ואת/ה?" },
+    { "en": "Excuse me, is this seat free?", "he": "סליחה, המקום הזה פנוי?", "note": "Excuse me: before you ask" },
+    { "en": "Sorry, I'm late!", "he": "סליחה, איחרתי!", "note": "Sorry: after a mistake" },
+    { "en": "Thank you! – You're welcome.", "he": "תודה! – בבקשה.", "note": "not 'Please' as an answer" },
+    { "en": "Bye! See you tomorrow.", "he": "ביי! נתראה מחר." },
+    { "en": "Good night, everyone!", "he": "לילה טוב לכולם!", "note": "when you leave in the evening" }
+  ],
+  "vocab": [
+    { "word": "hello", "pos": "exclamation", "he": "שלום, היי", "def": "a word you say when you meet someone", "example": "Hello, I'm Daniel.", "ipa": "/həˈləʊ/", "level": "PreA1" },
+    { "word": "goodbye", "pos": "exclamation", "he": "להתראות", "def": "a word you say when you leave", "example": "Goodbye, and thank you!", "ipa": "/ˌɡʊdˈbaɪ/", "level": "PreA1" },
+    { "word": "morning", "pos": "noun", "he": "בוקר", "def": "the part of the day before 12 o'clock", "example": "Good morning, everyone.", "ipa": "/ˈmɔːnɪŋ/", "level": "PreA1" },
+    { "word": "afternoon", "pos": "noun", "he": "אחר הצהריים", "def": "the part of the day from 12 o'clock to about 6 in the evening", "example": "Good afternoon, Ms Levi.", "ipa": "/ˌɑːftəˈnuːn/", "level": "PreA1" },
+    { "word": "evening", "pos": "noun", "he": "ערב", "def": "the part of the day from about 6 o'clock until bedtime", "example": "Good evening, and welcome!", "ipa": "/ˈiːvnɪŋ/", "level": "PreA1" },
+    { "word": "night", "pos": "noun", "he": "לילה", "def": "the dark part of the day, when people sleep", "example": "Good night, see you tomorrow.", "ipa": "/naɪt/", "level": "PreA1" },
+    { "word": "meet", "pos": "verb", "he": "לפגוש, להכיר", "def": "to see and talk to someone, often for the first time", "example": "Nice to meet you.", "ipa": "/miːt/", "collocations": ["nice to meet you"], "level": "PreA1" },
+    { "word": "fine", "pos": "adjective", "he": "בסדר, טוב", "def": "well; OK", "example": "I'm fine, thanks.", "ipa": "/faɪn/", "level": "PreA1" },
+    { "word": "please", "pos": "exclamation", "he": "בבקשה (כשמבקשים)", "def": "a polite word you add when you ask for something", "example": "A coffee, please.", "ipa": "/pliːz/", "level": "PreA1" },
+    { "word": "thank you", "pos": "exclamation", "he": "תודה", "def": "words you say when someone helps you or gives you something", "example": "Thank you for the coffee.", "ipa": "/ˈθæŋk juː/", "level": "PreA1" },
+    { "word": "you're welcome", "pos": "phrase", "he": "בבקשה, אין בעד מה", "def": "a polite answer when someone says thank you", "example": "Thanks! – You're welcome.", "ipa": "/jɔː ˈwelkəm/", "level": "PreA1" },
+    { "word": "sorry", "pos": "exclamation", "he": "סליחה, מצטער/ת", "def": "a word you say after a mistake", "example": "Sorry, I'm late.", "ipa": "/ˈsɒri/", "level": "PreA1" },
+    { "word": "excuse me", "pos": "phrase", "he": "סליחה (כדי לפנות למישהו)", "def": "polite words to start talking to someone you don't know", "example": "Excuse me, is this seat free?", "ipa": "/ɪkˈskjuːz miː/", "level": "PreA1" },
+    { "word": "see you", "pos": "phrase", "he": "נתראה", "def": "an informal way to say goodbye", "example": "See you tomorrow!", "ipa": "/ˈsiː juː/", "collocations": ["see you later", "see you tomorrow", "see you soon"], "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew, 'how are you' and 'I'm fine' need no verb in the present, so it is easy to drop it in English. Say How are you? and I'm fine, not 'How you?' or 'I fine'.", "he": "בעברית 'מה שלומך?' ו'אני בסדר' הם משפטים בלי פועל, ולכן קל לשכוח אותו באנגלית. אומרים How are you? ו-I'm fine – לא How you? ולא I fine.", "error_type": "copula-omission" },
+    { "en": "In Hebrew there is no th sound, so thank you can sound like 'tank you' or 'sank you'. For th, put your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן thank you עלול להישמע 'טנק יו' או 'סנק יו'. ב-th שמים את קצה הלשון בין השיניים.", "error_type": "pron-th" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "greetings",
+      "prompt": { "en": "Match the English phrases to the Hebrew.", "he": "התאימו כל ביטוי באנגלית לביטוי בעברית." },
+      "pairs": [["Good morning", "בוקר טוב"], ["Nice to meet you", "נעים להכיר"], ["See you tomorrow", "נתראה מחר"], ["You're welcome", "אין בעד מה"], ["Excuse me", "סליחה (כדי לפנות למישהו)"], ["How are you?", "מה שלומך?"]],
+      "explanation": { "en": "Nice to meet you is for a first meeting. You're welcome is the answer to Thank you. Excuse me comes before you ask someone something.", "he": "Nice to meet you אומרים בפגישה הראשונה. You're welcome היא התשובה ל-Thank you. ‏Excuse me אומרים לפני שפונים למישהו." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "speaking", "topic": "greetings",
+      "prompt": { "en": "It's 8 pm and you arrive at a party. Choose the best greeting.", "he": "השעה 20:00 ואתם מגיעים למסיבה. בחרו את הברכה המתאימה." },
+      "question": "It's 8 pm. You arrive at a party. You say: ___",
+      "options": ["Good night!", "Good evening!", "Good afternoon!", "Good morning!"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Good night is for when you leave or go to bed, not when you arrive.", "he": "Good night אומרים כשהולכים או לפני השינה – לא כשמגיעים." },
+        "2": { "en": "The afternoon ends at about 6 pm. At 8 pm it is evening.", "he": "אחר הצהריים נגמר בערך ב-18:00. ב-20:00 כבר ערב." },
+        "3": { "en": "Good morning is only before 12:00.", "he": "Good morning אומרים רק לפני 12:00." }
+      },
+      "option_errors": { "0": "word-choice", "2": "word-choice", "3": "word-choice" },
+      "explanation": { "en": "After about 6 pm, say Good evening when you arrive. Good night is for when you leave.", "he": "אחרי 18:00 בערך, כשמגיעים אומרים Good evening. את Good night שומרים לפרידה." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "greetings",
+      "prompt": { "en": "Listen and choose the best answer.", "he": "הקשיבו ובחרו את התשובה המתאימה." },
+      "audio_text": "Hi, I'm Priya. Nice to meet you.",
+      "question": "What do you answer?",
+      "options": ["You're welcome.", "I'm fine, thanks.", "Nice to meet you too."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "You're welcome is the answer to Thank you.", "he": "You're welcome עונים ל-Thank you." },
+        "1": { "en": "I'm fine, thanks is the answer to How are you?", "he": "I'm fine, thanks עונים ל-How are you?" }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-choice" },
+      "explanation": { "en": "Answer Nice to meet you with Nice to meet you too. You can add your name: I'm Omer.", "he": "על Nice to meet you עונים Nice to meet you too. אפשר להוסיף את השם: I'm Omer." }
+    },
+    {
+      "id": "e4", "type": "listen", "skill": "listening", "topic": "greetings",
+      "prompt": { "en": "Listen and choose the best answer.", "he": "הקשיבו ובחרו את התשובה המתאימה." },
+      "audio_text": "Hey Amir! How are you?",
+      "question": "What do you answer?",
+      "options": ["I'm fine, thanks. And you?", "Nice to meet you.", "Yes, please."],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "Nice to meet you is for a first meeting. Here the question is How are you?", "he": "Nice to meet you אומרים בפגישה ראשונה. כאן שאלו How are you?" },
+        "2": { "en": "Yes, please is the answer to an offer, like 'Coffee?'.", "he": "Yes, please עונים להצעה, למשל 'Coffee?'." }
+      },
+      "option_errors": { "1": "word-choice", "2": "word-choice" },
+      "explanation": { "en": "How are you? → Fine, thanks. And you? (or Good, thanks.) Always ask back.", "he": "על How are you? עונים Fine, thanks. And you? (או Good, thanks), ותמיד שואלים בחזרה." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "vocabulary", "topic": "greetings",
+      "prompt": { "en": "Your friend says: 'Thanks for the coffee!' Choose the best answer.", "he": "חבר אומר לכם: 'Thanks for the coffee!' בחרו את התשובה המתאימה." },
+      "question": "Thanks for the coffee! – ___",
+      "options": ["Please.", "You're welcome.", "Sorry."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "In English, please is only for asking. The answer to Thank you is You're welcome. Hebrew uses one word for both.", "he": "באנגלית please משמש רק כשמבקשים. על Thank you עונים You're welcome. בעברית המילה 'בבקשה' עושה את שני התפקידים, ובאנגלית לא." },
+        "2": { "en": "Sorry is for a mistake. Nothing went wrong here.", "he": "Sorry אומרים אחרי טעות. כאן לא קרה שום דבר רע." }
+      },
+      "option_errors": { "0": "false-friend", "2": "word-choice" },
+      "explanation": { "en": "Thank you → You're welcome. With friends you can also say No problem.", "he": "על Thank you עונים You're welcome. עם חברים אפשר גם No problem." }
+    },
+    {
+      "id": "e6", "type": "categorize", "skill": "speaking", "topic": "greetings",
+      "prompt": { "en": "What do you say in each situation?", "he": "מה אומרים בכל מצב?" },
+      "categories": ["Excuse me", "Sorry", "Thank you", "Please"],
+      "items": [
+        { "text": "דרכתם למישהו על הרגל", "category": "Sorry" },
+        { "text": "הגעתם באיחור לשיעור", "category": "Sorry" },
+        { "text": "אתם רוצים לשאול אדם זר ברחוב שאלה", "category": "Excuse me" },
+        { "text": "אתם רוצים לקרוא למלצר", "category": "Excuse me" },
+        { "text": "מישהו החזיק לכם את הדלת", "category": "Thank you" },
+        { "text": "המלצר הביא לכם את החשבון", "category": "Thank you" },
+        { "text": "אתם מזמינים קפה", "category": "Please" },
+        { "text": "אתם מבקשים כוס מים", "category": "Please" }
+      ],
+      "hint": { "en": "Excuse me comes before you speak to someone. Sorry comes after a mistake.", "he": "Excuse me אומרים לפני שפונים למישהו. Sorry אומרים אחרי טעות." },
+      "explanation": { "en": "Excuse me: before you ask (to get attention). Sorry: after a mistake. Thank you: when you get help or something. Please: when you ask for something.", "he": "Excuse me – לפני שפונים, כדי למשוך תשומת לב. Sorry – אחרי טעות. Thank you – כשמקבלים עזרה או משהו. Please – כשמבקשים משהו. בעברית 'סליחה' משמשת לשני המצבים הראשונים, ובאנגלית יש שתי מילים." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "vocabulary", "topic": "greetings",
+      "prompt": { "en": "Complete the conversation. Write one word in each gap.", "he": "השלימו את השיחה. כתבו מילה אחת בכל רווח." },
+      "text": "Kenji: Hi, I'm Kenji. Yael: Hello, Kenji. ___ name is Yael. Kenji: Nice to ___ you. Yael: Nice to meet you ___.",
+      "answers": [["My"], ["meet"], ["too"]],
+      "wrong_feedback": [
+        { "match": "know", "feedback": { "en": "We say Nice to meet you, not 'Nice to know you'.", "he": "'להכיר' כאן זה meet: אומרים Nice to meet you, לא Nice to know you." }, "error_type": "false-friend" },
+        { "match": "see", "feedback": { "en": "Nice to see you is for people you already know. The first time, say Nice to meet you.", "he": "Nice to see you אומרים למי שכבר מכירים. בפגישה הראשונה אומרים Nice to meet you." }, "error_type": "word-choice" },
+        { "match": "to", "feedback": { "en": "too (with two o's) means 'also'. to and two sound the same, but they mean something else.", "he": "too (עם שתי o) פירושו 'גם'. ‏to ו-two נשמעות אותו דבר, אבל המשמעות שלהן אחרת." }, "error_type": "spelling" }
+      ],
+      "hint": { "en": "The last word means 'also'.", "he": "המילה האחרונה פירושה 'גם'." },
+      "explanation": { "en": "My name is... introduces you. Nice to meet you → Nice to meet you too (too = also).", "he": "My name is... – כך מציגים את עצמכם. על Nice to meet you עונים Nice to meet you too (too = גם)." }
+    },
+    {
+      "id": "e8", "type": "order", "skill": "speaking", "topic": "greetings",
+      "prompt": { "en": "Put the words in order to answer 'How are you?'.", "he": "סדרו את המילים כדי לענות על How are you?" },
+      "tokens": ["I'm", "fine,", "thanks.", "And", "you?"],
+      "explanation": { "en": "Answer, say thanks, then ask back: I'm fine, thanks. And you?", "he": "עונים, אומרים תודה ושואלים בחזרה: I'm fine, thanks. And you?" }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "greetings",
+      "prompt": { "en": "This answer has a mistake. Write it correctly.", "he": "בתשובה הזו יש טעות. כתבו אותה נכון." },
+      "sentence": "I fine, thanks.",
+      "answers": ["I'm fine, thanks.", "I'm fine thanks.", "I'm fine. Thanks.", "I'm fine, thank you.", "Fine, thanks.", "Fine thanks.", "Fine, thank you."],
+      "error_type": "copula-omission",
+      "hint": { "en": "A small word is missing after I.", "he": "חסרה מילה קטנה אחרי I." },
+      "explanation": { "en": "English needs the verb: I'm fine (= I am fine). Or drop I and say just Fine, thanks. You will learn am, is and are in lesson 5.", "he": "באנגלית חייב פועל: I'm fine (כלומר I am fine). אפשר גם לוותר על I ולומר רק Fine, thanks. את am, is, are נלמד לעומק בשיעור 5." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "vocabulary", "topic": "greetings",
+      "prompt": { "en": "Write it in English.", "he": "כתבו באנגלית." },
+      "source": "נעים להכיר!",
+      "answers": ["Nice to meet you!", "Pleased to meet you!", "It's nice to meet you!"],
+      "wrong_feedback": [
+        { "match": "Nice to know you", "feedback": { "en": "In English we say Nice to meet you when we meet someone for the first time, not 'Nice to know you'.", "he": "באנגלית אומרים Nice to meet you כשפוגשים מישהו בפעם הראשונה – לא Nice to know you, למרות שבעברית אומרים 'להכיר'." }, "error_type": "false-friend" },
+        { "match": "Nice to see you", "feedback": { "en": "Nice to see you is for people you already know.", "he": "Nice to see you אומרים למי שכבר מכירים." }, "error_type": "word-choice" },
+        { "match": "Nice to meet", "feedback": { "en": "Add you at the end: Nice to meet you.", "he": "צריך להוסיף you בסוף: Nice to meet you." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "Nice to meet you is a fixed phrase for a first meeting. The answer is Nice to meet you too.", "he": "Nice to meet you הוא ביטוי קבוע לפגישה ראשונה. התשובה: Nice to meet you too." }
+    },
+    {
+      "id": "e11", "type": "dictation", "skill": "listening", "topic": "greetings",
+      "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו את מה ששמעתם." },
+      "audio_text": "Thanks, see you tomorrow!",
+      "answers": ["Thanks, see you tomorrow!", "Thanks see you tomorrow", "Thanks. See you tomorrow!", "Thanks! See you tomorrow!"],
+      "hint": { "en": "Four words: thanks + a goodbye.", "he": "ארבע מילים: תודה + פרידה. המילה האחרונה פירושה 'מחר'." },
+      "explanation": { "en": "Thanks is the informal form of thank you. See you tomorrow = goodbye until tomorrow. Spelling: tomorrow has one m and two r's.", "he": "Thanks היא צורה לא רשמית של thank you. ‏See you tomorrow – נתראה מחר. איות: ב-tomorrow יש m אחת ושתי r." }
+    },
+    {
+      "id": "e12", "type": "speak", "skill": "speaking", "topic": "greetings",
+      "prompt": { "en": "Say it out loud. You are meeting someone for the first time.", "he": "אמרו בקול. אתם פוגשים מישהו בפעם הראשונה." },
+      "target": "Hi, I'm Noa. Nice to meet you.",
+      "focus": { "en": "meet has a long /iː/, like sheep. Say it smoothly: nice-to-MEET-you.", "he": "ב-meet יש /iː/ ארוכה, כמו ב-sheep. אמרו ברצף: nice-to-MEET-you." },
+      "error_type": "pron-vowel",
+      "explanation": { "en": "In real life, use your own name. Nice to meet you is one smooth phrase.", "he": "בפגישה אמיתית אמרו את השם שלכם. Nice to meet you נאמר ברצף, כמו מילה אחת ארוכה." }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking", "topic": "greetings",
+      "prompt": { "en": "Someone asks: How are you? Say the answer out loud.", "he": "שואלים אתכם: How are you? אמרו את התשובה בקול." },
+      "target": "Fine, thanks. And you?",
+      "focus": { "en": "thanks starts with th: tongue between your teeth. Your voice goes up on 'And you?'.", "he": "thanks מתחילה ב-th: קצה הלשון בין השיניים. בשאלה And you? הקול עולה בסוף." },
+      "error_type": "pron-th",
+      "explanation": { "en": "Always ask back. It is polite and keeps the conversation going.", "he": "תמיד שואלים בחזרה – זה מנומס וממשיך את השיחה." }
+    },
+    {
+      "id": "e14", "type": "write", "skill": "writing", "topic": "greetings",
+      "prompt": { "en": "Write your first message to a new class group chat.", "he": "כתבו את ההודעה הראשונה שלכם בקבוצת הצ'אט של קורס חדש." },
+      "task": { "en": "You join a new English class. Write a short message to the class group: say hello, say your name, write Nice to meet you, and say goodbye.", "he": "הצטרפתם לקורס אנגלית חדש. כתבו הודעה קצרה לקבוצה של הקורס: ברכת שלום, השם שלכם, Nice to meet you, וברכת פרידה." },
+      "min_words": 10,
+      "max_words": 50,
+      "must_include": ["Nice to meet you"],
+      "model_answer": "Hi, everyone! My name is Lior. Nice to meet you. See you tomorrow!",
+      "checklist": [
+        { "en": "You say hello and goodbye.", "he": "יש ברכת שלום וברכת פרידה." },
+        { "en": "You use My name is... or I'm... (not 'I name').", "he": "השתמשתם ב-My name is... או ב-I'm... (לא I name)." },
+        { "en": "Your name and the word I start with a capital letter.", "he": "השם שלכם והמילה I מתחילים באות גדולה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Hi / Hey with friends · Hello / Good morning / Good afternoon / Good evening to be polite.", "he": "Hi / Hey עם חברים · Hello / Good morning / Good afternoon / Good evening בנימוס." },
+      { "en": "Good night is a goodbye. To leave: Bye / See you / Goodbye.", "he": "Good night היא ברכת פרידה. כשהולכים: Bye / See you / Goodbye." },
+      { "en": "First meeting: Nice to meet you. – Nice to meet you too.", "he": "בפגישה ראשונה: Nice to meet you. – Nice to meet you too." },
+      { "en": "How are you? – I'm fine, thanks. And you? (Don't drop I'm.)", "he": "How are you? – I'm fine, thanks. And you? (לא לשכוח את I'm.)" },
+      { "en": "Please: when you ask · Thank you → You're welcome · Excuse me: before you ask · Sorry: after a mistake.", "he": "Please – כשמבקשים · על Thank you עונים You're welcome · ‏Excuse me – לפני שפונים · ‏Sorry – אחרי טעות." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

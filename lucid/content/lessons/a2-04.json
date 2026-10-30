@@ -1,0 +1,307 @@
+{
+  "id": "a2-04",
+  "level": "A2",
+  "title_en": "Past simple: regular verbs",
+  "title_he": "עבר פשוט: פעלים רגילים",
+  "topics": ["past-simple-regular"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can talk about finished past actions with regular verbs.", "he": "אני יכול/ה לספר על פעולות שהסתיימו בעבר בעזרת פעלים רגילים." },
+    { "en": "I can spell -ed forms correctly: stopped, studied, lived.", "he": "אני יודע/ת לאיית נכון צורות ed: stopped, studied, lived." },
+    { "en": "I can pronounce -ed as /t/, /d/ or /ɪd/.", "he": "אני יודע/ת להגות ed כ-/t/, כ-/d/ או כ-/ɪd/." },
+    { "en": "I can use past time expressions: yesterday, last week, two days ago.", "he": "אני משתמש/ת בביטויי זמן של עבר: yesterday, last week, two days ago." }
+  ],
+  "warmup": { "en": "Think about yesterday evening: three things you watched, cooked, studied or played. Try to say them in English.", "he": "חשבו על אתמול בערב: שלושה דברים שצפיתם בהם, בישלתם, למדתם או שיחקתם. נסו לומר אותם באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "Yesterday I walked to school, studied for two hours and watched a series. All three verbs end in -ed: this is the past simple of regular verbs.", "he": "אתמול הלכתי ברגל לבית הספר, למדתי שעתיים וצפיתי בסדרה. שלושת הפעלים מסתיימים ב-ed: זה עבר פשוט של פעלים רגילים." },
+    { "type": "rule", "en": "Past simple = a finished action at a finished time: yesterday, last week, in 2020, two days ago. Regular verbs add -ed, and the form is the same for every subject: I worked, she worked, they worked (no -s).", "he": "עבר פשוט = פעולה שהסתיימה, בזמן שכבר עבר: yesterday, last week, in 2020, two days ago. פעלים רגילים מקבלים ed, והצורה זהה לכל הגופים: I worked, she worked, they worked (בלי s)." },
+    { "type": "table", "headers": ["Verb", "Rule", "Examples"], "rows": [
+      ["most verbs", "+ -ed", "work → worked, play → played, stay → stayed"],
+      ["ends in -e", "+ -d", "live → lived, dance → danced"],
+      ["consonant + y", "y → -ied", "study → studied, try → tried"],
+      ["short verb: one vowel + one consonant", "double + -ed", "stop → stopped, plan → planned, chat → chatted"]
+    ] },
+    { "type": "table", "headers": ["Sound", "When", "Examples"], "rows": [
+      ["/t/", "after the sounds p, k, f, s, sh, ch", "stopped, walked, laughed, missed, washed, watched"],
+      ["/d/", "after other sounds and vowels", "played, called, lived, cleaned, tried"],
+      ["/ɪd/ (extra syllable)", "after t or d", "wanted, visited, needed, decided"]
+    ] },
+    { "type": "warning", "en": "Only verbs ending in a t or d sound get an extra syllable: wanted /ˈwɒntɪd/ has two syllables, but walked /wɔːkt/ has one (not 'walk-ed').", "he": "רק פעלים שמסתיימים בצליל t או d מקבלים הברה נוספת: ל-wanted /ˈwɒntɪd/ יש שתי הברות, אבל walked /wɔːkt/ היא הברה אחת (לא 'ווֹק-אֶד')." },
+    { "type": "tip", "en": "Time expressions: yesterday, last night, last week, two days ago, in 2019. Ago comes after the time: three years ago. Don't put in or on before last: last Friday (not 'on last Friday').", "he": "ביטויי זמן: yesterday, last night, last week, two days ago, in 2019. המילה ago באה אחרי פרק הזמן: three years ago = לפני שלוש שנים. לפני last לא שמים in או on: last Friday (ולא on last Friday)." },
+    { "type": "p", "en": "Irregular verbs (go → went) come in the next lesson, and questions with did in lesson 6.", "he": "פעלים חריגים (go → went) נלמד בשיעור הבא, ושאלות עם did בשיעור 6." }
+  ],
+  "examples": [
+    { "en": "I watched a great series last night.", "he": "צפיתי בסדרה מעולה אתמול בלילה.", "note": "watched = /t/" },
+    { "en": "Maya studied for three hours yesterday.", "he": "מאיה למדה שלוש שעות אתמול.", "note": "study → studied" },
+    { "en": "We stayed at a small hotel in Tiberias last summer.", "he": "בקיץ שעבר לנו במלון קטן בטבריה.", "note": "stay → stayed (vowel + y)" },
+    { "en": "The bus stopped and three tourists jumped off.", "he": "האוטובוס עצר ושלושה תיירים קפצו ממנו.", "note": "stop → stopped" },
+    { "en": "Omer called me two days ago.", "he": "עומר התקשר אליי לפני יומיים.", "note": "ago comes after the time" },
+    { "en": "My parents moved to Ashdod in 2015.", "he": "ההורים שלי עברו לאשדוד ב-2015." },
+    { "en": "I wanted to help, but I was too busy.", "he": "רציתי לעזור, אבל הייתי עסוק/ה מדי.", "note": "wanted = /ɪd/, two syllables" },
+    { "en": "They chatted online until midnight.", "he": "הם התכתבו ברשת עד חצות.", "note": "chat → chatted" }
+  ],
+  "vocab": [
+    { "word": "ago", "pos": "adverb", "he": "לפני (פרק זמן)", "def": "before now; used after a period of time", "example": "I started this course two weeks ago.", "ipa": "/əˈɡəʊ/", "collocations": ["two days ago", "a long time ago", "a few minutes ago"], "level": "A2" },
+    { "word": "last", "pos": "determiner", "he": "שעבר/ה, הקודם/ת", "def": "the one just before now", "example": "We moved here last year.", "ipa": "/lɑːst/", "collocations": ["last night", "last week", "last summer"], "level": "A2" },
+    { "word": "move", "pos": "verb", "he": "לעבור (דירה, עיר)", "def": "to go to live in a different place", "example": "My family moved to Haifa in 2019.", "ipa": "/muːv/", "collocations": ["move house", "move to a new city"], "level": "A2" },
+    { "word": "arrive", "pos": "verb", "he": "להגיע", "def": "to get to a place", "example": "We arrived at the hotel at midnight.", "ipa": "/əˈraɪv/", "collocations": ["arrive at the airport", "arrive in Rome", "arrive home"], "level": "A2" },
+    { "word": "decide", "pos": "verb", "he": "להחליט", "def": "to choose what to do after thinking about it", "example": "We decided to stay at home.", "ipa": "/dɪˈsaɪd/", "collocations": ["decide to do something", "decide quickly"], "level": "A2" },
+    { "word": "plan", "pos": "verb", "he": "לתכנן", "def": "to think about and decide what you are going to do", "example": "We planned the trip together.", "ipa": "/plæn/", "collocations": ["plan a trip", "plan a party"], "level": "A2" },
+    { "word": "invite", "pos": "verb", "he": "להזמין (אנשים)", "def": "to ask someone to come to an event or to your home", "example": "I invited ten friends to my birthday.", "ipa": "/ɪnˈvaɪt/", "collocations": ["invite someone to a party", "invite friends over"], "level": "A2" },
+    { "word": "order", "pos": "verb", "he": "להזמין (אוכל, מוצר)", "def": "to ask for food in a restaurant, or to buy something online", "example": "We ordered pizza last night.", "ipa": "/ˈɔːdə(r)/", "collocations": ["order food", "order a taxi", "order online"], "level": "A2" },
+    { "word": "visit", "pos": "verb", "he": "לבקר", "def": "to go to see a person or a place", "example": "We visited my aunt in Nazareth.", "ipa": "/ˈvɪzɪt/", "collocations": ["visit friends", "visit a museum"], "level": "A2" },
+    { "word": "try", "pos": "verb", "he": "לנסות, לטעום", "def": "to do or taste something to see if you like it", "example": "I tried sushi for the first time.", "ipa": "/traɪ/", "collocations": ["try something new", "try a new restaurant"], "level": "A2" },
+    { "word": "miss", "pos": "verb", "he": "לפספס; גם: להתגעגע", "def": "to be too late for something, for example a bus", "example": "I missed the bus this morning.", "ipa": "/mɪs/", "collocations": ["miss the bus", "miss a lesson"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is only one 'i' vowel, while English has a short /ɪ/ and a long /iː/, so the -ed in wanted and needed can come out long, like 'eed'. Keep it short and relaxed: needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "בעברית יש תנועת i אחת, ובאנגלית יש /ɪ/ קצרה ו-/iː/ ארוכה. לכן קל להאריך את ה-ed ל'איד'. אמרו אותה קצרה ורפויה: needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "How do you spell the past form? Sort the verbs.", "he": "איך כותבים את צורת העבר? מיינו את הפעלים." },
+      "categories": ["+ -ed", "+ -d", "y → -ied", "double + -ed"],
+      "items": [
+        { "text": "work", "category": "+ -ed" },
+        { "text": "play", "category": "+ -ed" },
+        { "text": "stay", "category": "+ -ed" },
+        { "text": "live", "category": "+ -d" },
+        { "text": "dance", "category": "+ -d" },
+        { "text": "study", "category": "y → -ied" },
+        { "text": "try", "category": "y → -ied" },
+        { "text": "stop", "category": "double + -ed" },
+        { "text": "plan", "category": "double + -ed" },
+        { "text": "chat", "category": "double + -ed" }
+      ],
+      "hint": { "en": "Look at the last letters. Is there a vowel or a consonant before the y?", "he": "הסתכלו על האותיות האחרונות. יש תנועה או עיצור לפני ה-y?" },
+      "explanation": { "en": "worked, played, stayed (vowel + y: keep the y) · lived, danced · studied, tried (consonant + y → ied) · stopped, planned, chatted.", "he": "worked, played, stayed (תנועה + y: ה-y נשארת) · lived, danced · studied, tried (עיצור + y → ied) · stopped, planned, chatted (מכפילים את האות האחרונה)." }
+    },
+    {
+      "id": "e2", "type": "categorize", "skill": "speaking", "topic": "past-simple-regular",
+      "prompt": { "en": "Say each verb quietly. How does -ed sound? Sort the verbs.", "he": "אמרו כל פועל בשקט לעצמכם. איך נשמע ה-ed? מיינו את הפעלים." },
+      "categories": ["/t/", "/d/", "/ɪd/"],
+      "items": [
+        { "text": "walked", "category": "/t/" },
+        { "text": "watched", "category": "/t/" },
+        { "text": "stopped", "category": "/t/" },
+        { "text": "played", "category": "/d/" },
+        { "text": "called", "category": "/d/" },
+        { "text": "lived", "category": "/d/" },
+        { "text": "wanted", "category": "/ɪd/" },
+        { "text": "needed", "category": "/ɪd/" },
+        { "text": "visited", "category": "/ɪd/" }
+      ],
+      "hint": { "en": "Only verbs that end in a t or d sound get the extra syllable /ɪd/.", "he": "רק פעלים שמסתיימים בצליל t או d מקבלים הברה נוספת: /ɪd/." },
+      "explanation": { "en": "/t/ after k, ch, p (walked, watched, stopped). /d/ after vowels and sounds like l, v (played, called, lived). /ɪd/ after t and d (wanted, needed, visited).", "he": "/t/ אחרי k, ch, p (walked, watched, stopped). /d/ אחרי תנועות וצלילים כמו l, v (played, called, lived). /ɪd/ אחרי t ו-d (wanted, needed, visited)." }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Choose the correct time expression.", "he": "בחרו את ביטוי הזמן הנכון." },
+      "question": "I visited my grandparents ___.",
+      "options": ["ago two weeks", "before two weeks", "two weeks ago", "in two weeks ago"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Ago comes after the time: two weeks ago.", "he": "ago בא אחרי פרק הזמן: two weeks ago." },
+        "1": { "en": "In English we don't say 'before two weeks' for this. Use two weeks ago.", "he": "באנגלית לא אומרים before two weeks במשמעות הזאת. אומרים two weeks ago." },
+        "3": { "en": "Don't use in with ago: two weeks ago.", "he": "לא משתמשים ב-in עם ago: two weeks ago." }
+      },
+      "option_errors": { "0": "word-order", "1": "word-choice", "3": "preposition" },
+      "explanation": { "en": "Time + ago: two weeks ago. Ago always comes after the period of time.", "he": "פרק זמן + ago: two weeks ago = לפני שבועיים." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Choose the correct form.", "he": "בחרו את הצורה הנכונה." },
+      "question": "Last weekend we ___ at my uncle's house in the north.",
+      "options": ["stayed", "stay", "were stay", "staied"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "Last weekend is finished, so we need the past: stayed.", "he": "last weekend כבר עבר, ולכן צריך עבר: stayed." },
+        "2": { "en": "Don't add were before a past verb. Just stayed.", "he": "לא מוסיפים were לפני פועל בעבר. פשוט stayed." },
+        "3": { "en": "Vowel + y keeps the y: stay → stayed.", "he": "כשיש תנועה לפני ה-y, ה-y נשארת: stay → stayed." }
+      },
+      "option_errors": { "1": "tense-choice", "2": "verb-form", "3": "spelling" },
+      "explanation": { "en": "Finished time (last weekend) → past simple. stay → stayed (a + y, so keep the y).", "he": "זמן שהסתיים (last weekend) → עבר פשוט. stay → stayed (יש a לפני ה-y, ולכן היא נשארת)." }
+    },
+    {
+      "id": "e5", "type": "listen", "skill": "listening", "topic": "past-simple-regular",
+      "prompt": { "en": "Listen carefully to the end of the verb. What did you hear?", "he": "הקשיבו היטב לסוף הפועל. מה שמעתם?" },
+      "audio_text": "We walked along the beach after dinner.",
+      "question": "Which sentence is in the recording?",
+      "options": ["We walk along the beach after dinner.", "We walked along the beach after dinner.", "We waited on the beach after dinner."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Listen again for the /t/ at the end: walked /wɔːkt/ – walked along.", "he": "הקשיבו שוב ל-/t/ בסוף: walked /wɔːkt/ – walked along." },
+        "2": { "en": "Waited has an extra syllable, /ˈweɪtɪd/. The verb you heard has one syllable: walked.", "he": "ב-waited יש הברה נוספת, /ˈweɪtɪd/. הפועל ששמעתם הוא הברה אחת: walked." }
+      },
+      "explanation": { "en": "walked = /wɔːkt/: one syllable, with a /t/ that links to the next word (walked_along).", "he": "walked = /wɔːkt/: הברה אחת, וה-/t/ מתחבר למילה הבאה (walked_along)." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Write the past simple of the verb in brackets.", "he": "כתבו את העבר הפשוט של הפועל שבסוגריים." },
+      "text": "Yesterday I ___ (study) for my exam, ___ (chat) with Yael for an hour and ___ (try) a new café.",
+      "answers": [["studied"], ["chatted"], ["tried"]],
+      "wrong_feedback": [
+        { "match": "study", "feedback": { "en": "Yesterday → past: study → studied (y → ied).", "he": "yesterday → עבר: study → studied (y הופך ל-ied)." }, "error_type": "tense-choice" },
+        { "match": "chat", "feedback": { "en": "Past: chat → chatted (double the t).", "he": "עבר: chat → chatted (מכפילים t)." }, "error_type": "tense-choice" },
+        { "match": "try", "feedback": { "en": "Past: try → tried (y → ied).", "he": "עבר: try → tried (y הופך ל-ied)." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "study, try: consonant + y. chat: short verb, one vowel + one consonant.", "he": "study, try: עיצור + y. chat: פועל קצר, תנועה אחת ועיצור אחד." },
+      "explanation": { "en": "study → studied, try → tried (consonant + y → ied); chat → chatted (double the last letter).", "he": "study → studied, try → tried (עיצור + y → ied); chat → chatted (מכפילים את האות האחרונה)." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "vocabulary", "topic": "past-simple-regular",
+      "prompt": { "en": "Complete the story with the verbs in the box. One verb is extra.", "he": "השלימו את הסיפור בפעלים מהמחסן. פועל אחד מיותר." },
+      "text": "Two years ago my family ___ to Haifa. At first I ___ my old friends a lot. Then I ___ to try something new, and I ___ a basketball team.",
+      "word_bank": ["moved", "missed", "decided", "joined", "arrived"],
+      "answers": [["moved"], ["missed"], ["decided"], ["joined"]],
+      "wrong_feedback": [
+        { "match": "arrived", "feedback": { "en": "Arrive = get to a place (arrive in Haifa). For a new home, use moved to.", "he": "arrive = להגיע למקום (arrive in Haifa). כשעוברים לגור במקום חדש אומרים moved to." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "moved to Haifa (new home) · missed my friends (felt sad without them) · decided to try · joined a team (became a member).", "he": "moved to Haifa – עברו לגור · missed my friends – התגעגעתי · decided to try – החלטתי לנסות · joined a team – הצטרפתי לקבוצה." }
+    },
+    {
+      "id": "e8", "type": "correct", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Last week I visit my grandmother in Nazareth.",
+      "answers": ["Last week I visited my grandmother in Nazareth.", "Last week, I visited my grandmother in Nazareth."],
+      "error_type": "tense-choice",
+      "hint": { "en": "Last week is finished.", "he": "last week כבר עבר." },
+      "explanation": { "en": "A finished time (last week) needs the past simple: I visited.", "he": "זמן שהסתיים (last week) מחייב עבר פשוט: I visited." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "vocabulary", "topic": "past-simple-regular",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "I called you before two days.",
+      "answers": ["I called you two days ago.", "Two days ago I called you.", "Two days ago, I called you."],
+      "error_type": "word-choice",
+      "hint": { "en": "Which word means 'before now' and comes after the time?", "he": "איזו מילה פירושה 'לפני עכשיו' ובאה אחרי פרק הזמן?" },
+      "explanation": { "en": "For a time in the past counted back from now, English uses ago after the time: two days ago.", "he": "כשסופרים אחורה מעכשיו, באנגלית אומרים ago אחרי פרק הזמן: two days ago = לפני יומיים." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "She cleaned her room on last Sunday.",
+      "answers": ["She cleaned her room last Sunday."],
+      "error_type": "preposition",
+      "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
+      "explanation": { "en": "No in, on or at before last: last Sunday, last week, last year.", "he": "לפני last לא שמים in, on או at: last Sunday, last week, last year." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "grammar", "topic": "past-simple-regular",
+      "prompt": { "en": "Rewrite the sentence about yesterday evening.", "he": "כתבו מחדש את המשפט, הפעם על אתמול בערב." },
+      "source": "Every evening Dana walks her dog in the park. (yesterday evening)",
+      "answers": ["Yesterday evening Dana walked her dog in the park.", "Yesterday evening, Dana walked her dog in the park.", "Dana walked her dog in the park yesterday evening."],
+      "wrong_feedback": [
+        { "match": "walks", "feedback": { "en": "Yesterday → past simple: walked. There's no -s in the past.", "he": "yesterday → עבר פשוט: walked. בעבר אין s." }, "error_type": "tense-choice" },
+        { "match": "was", "feedback": { "en": "Don't add was before a past verb: Dana walked her dog.", "he": "לא מוסיפים was לפני פועל בעבר: Dana walked her dog." }, "error_type": "verb-form" }
+      ],
+      "explanation": { "en": "Every evening (habit) → walks. Yesterday evening (finished) → walked, the same form for every subject.", "he": "every evening (הרגל) → walks. yesterday evening (עבר) → walked – אותה צורה לכל הגופים." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "vocabulary", "topic": "past-simple-regular",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "הזמנו פיצה אתמול",
+      "answers": [
+        "We ordered a pizza yesterday.",
+        "We ordered pizza yesterday.",
+        "Yesterday we ordered a pizza.",
+        "Yesterday, we ordered a pizza.",
+        "Yesterday we ordered pizza.",
+        "Yesterday, we ordered pizza."
+      ],
+      "wrong_feedback": [
+        { "match": "invited", "feedback": { "en": "In Hebrew one verb covers both meanings, but English has two: invite people (invited friends), order food (ordered a pizza).", "he": "בעברית 'להזמין' משמש לשני הדברים, ובאנגלית יש שני פעלים: invite לאנשים (invited friends), order לאוכל ולמוצרים (ordered a pizza)." }, "error_type": "word-choice" },
+        { "match": "order", "feedback": { "en": "Yesterday → past: ordered.", "he": "yesterday → עבר: ordered." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "Food → order, not invite.", "he": "אוכל → order, לא invite." },
+      "explanation": { "en": "We ordered a pizza yesterday. Order is for food and things you buy; invite is for people.", "he": "We ordered a pizza yesterday. בהזמנת אוכל או מוצר משתמשים ב-order, ובהזמנת אנשים ב-invite." }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "past-simple-regular",
+      "prompt": { "en": "Read the blog post and answer the questions.", "he": "קראו את הפוסט בבלוג וענו על השאלות." },
+      "title": "Two days in the north",
+      "passage": "Last month my friend Omer and I decided to take a break from the city. We planned everything in one evening: we booked a cheap room in a village near the Sea of Galilee and checked the weather forecast. On Friday morning we packed our bags and jumped on a bus to the north. We arrived at about twelve.\nThe weather was perfect. In the afternoon we hiked along a small river and stopped for a picnic. In the evening we cooked dinner with the other guests and talked until late.\nOn Saturday we visited an old synagogue and tried some amazing local cheese. Then it started to rain, so we stayed inside and played cards. We returned home tired but very happy. I want to go back in the spring!",
+      "questions": [
+        {
+          "type": "tf",
+          "statement": "They planned the trip in one evening.",
+          "answer": true,
+          "explanation": { "en": "'We planned everything in one evening.'", "he": "'We planned everything in one evening' – הם תכננו הכול בערב אחד." }
+        },
+        {
+          "type": "tf",
+          "statement": "They arrived on Saturday.",
+          "answer": false,
+          "explanation": { "en": "They left on Friday morning and arrived at about twelve, so on Friday.", "he": "הם יצאו ביום שישי בבוקר והגיעו בסביבות שתים עשרה – כלומר ביום שישי." }
+        },
+        {
+          "type": "mcq",
+          "question": "What happened on Saturday after they tried the cheese?",
+          "options": ["They hiked along a river.", "They cooked dinner with the other guests.", "It started to rain.", "They booked a room."],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "That was on Friday afternoon.", "he": "זה היה ביום שישי אחר הצהריים." },
+            "1": { "en": "That was on Friday evening.", "he": "זה היה ביום שישי בערב." },
+            "3": { "en": "They booked the room before the trip.", "he": "הם הזמינו את החדר לפני הטיול." }
+          },
+          "explanation": { "en": "'Then it started to rain, so we stayed inside and played cards.'", "he": "'Then it started to rain' – אחר כך התחיל לרדת גשם, אז הם נשארו בפנים ושיחקו קלפים." }
+        },
+        {
+          "type": "gap",
+          "text": "On Friday evening they cooked dinner with the other ___.",
+          "answers": [["guests"]],
+          "explanation": { "en": "'In the evening we cooked dinner with the other guests.'", "he": "'we cooked dinner with the other guests' – הם בישלו עם האורחים האחרים." }
+        },
+        {
+          "type": "mcq",
+          "question": "How does the writer feel about the trip now?",
+          "options": ["The writer wants to go back.", "The writer was bored.", "The writer was angry about the rain."],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Nothing in the post says it was boring.", "he": "שום דבר בפוסט לא אומר שהיה משעמם." },
+            "2": { "en": "They stayed inside and played cards. The writer doesn't sound angry.", "he": "הם נשארו בפנים ושיחקו קלפים. הכותב/ת לא נשמע/ת כועס/ת." }
+          },
+          "explanation": { "en": "'We returned home tired but very happy. I want to go back in the spring!'", "he": "'tired but very happy... I want to go back' – עייפים אבל מאושרים, ורוצים לחזור." }
+        }
+      ]
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "past-simple-regular",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "I missed the bus this morning, so I walked to school.",
+      "answers": ["I missed the bus this morning, so I walked to school."],
+      "hint": { "en": "Both verbs end in a /t/ sound, but they are spelled -ed.", "he": "שני הפעלים נשמעים עם /t/ בסוף, אבל נכתבים עם ed." },
+      "explanation": { "en": "missed /mɪst/ and walked /wɔːkt/: we hear /t/ but write -ed.", "he": "missed /mɪst/ ו-walked /wɔːkt/: שומעים /t/ אבל כותבים ed." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "past-simple-regular",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "I wanted to watch a film, but I stayed at home and studied.",
+      "focus": { "en": "Wanted has two syllables: WANT-id. Stayed and studied end in a short /d/, with no extra syllable.", "he": "ל-wanted יש שתי הברות: WANT-id. stayed ו-studied מסתיימים ב-/d/ קצר, בלי הברה נוספת." },
+      "explanation": { "en": "Three regular verbs, three endings: /ɪd/ (wanted), /d/ (stayed, studied).", "he": "שלושה פעלים רגילים ושתי הגיות: /ɪd/ ב-wanted, ו-/d/ ב-stayed ו-studied." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "past-simple-regular",
+      "prompt": { "en": "Write about last weekend.", "he": "כתבו על סוף השבוע האחרון." },
+      "task": { "en": "Write 50-80 words about last weekend. Use at least six regular verbs in the past simple (for example: watched, played, cooked, visited, stayed, tried) and at least two time expressions (on Friday evening, on Saturday morning, last weekend).", "he": "כתבו 50-80 מילים על סוף השבוע האחרון. השתמשו לפחות בשישה פעלים רגילים בעבר פשוט (למשל watched, played, cooked, visited, stayed, tried) ולפחות בשני ביטויי זמן (on Friday evening, on Saturday morning, last weekend)." },
+      "min_words": 50,
+      "max_words": 80,
+      "model_answer": "Last weekend was quiet but nice. On Friday evening I stayed at home with my family. We cooked dinner together and watched an old film. On Saturday morning I walked to the park and played basketball with Omer and Lior. In the afternoon I visited my grandmother. She showed me photos from her childhood, and we laughed a lot. In the evening I studied for my English test.",
+      "checklist": [
+        { "en": "I used at least six regular verbs with -ed.", "he": "השתמשתי לפחות בשישה פעלים רגילים עם ed." },
+        { "en": "My spelling is right: studied, stopped, lived, stayed.", "he": "האיות נכון: studied, stopped, lived, stayed." },
+        { "en": "I used time expressions: last weekend, on Saturday, in the evening.", "he": "השתמשתי בביטויי זמן: last weekend, on Saturday, in the evening." },
+        { "en": "Past verbs have no -s: she watched, not 'she watcheds'.", "he": "בעבר אין s: she watched, ולא she watcheds." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Finished past actions: verb + -ed, the same for every subject: I/she/they worked.", "he": "פעולה שהסתיימה בעבר: פועל + ed, אותה צורה לכל הגופים: I/she/they worked." },
+      { "en": "Spelling: live → lived, study → studied, stop → stopped, but play → played.", "he": "איות: live → lived, study → studied, stop → stopped, אבל play → played." },
+      { "en": "Pronunciation: /t/ walked, /d/ played, /ɪd/ wanted (an extra syllable only after t or d).", "he": "הגייה: /t/ ב-walked, /d/ ב-played, /ɪd/ ב-wanted (הברה נוספת רק אחרי t או d)." },
+      { "en": "Time: yesterday, last week (no on), two days ago (ago after the time).", "he": "זמן: yesterday, last week (בלי on), two days ago (ago אחרי פרק הזמן)." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

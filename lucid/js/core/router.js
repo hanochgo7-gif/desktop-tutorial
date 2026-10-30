@@ -32,6 +32,7 @@ const ROUTES = [
   ['progress', () => import('../views/progress.js'), { nav: 'progress' }],
   ['profile', () => import('../views/profile.js'), { nav: 'progress' }],
   ['settings', () => import('../views/settings.js'), { nav: 'settings' }],
+  ['help', () => import('../views/help.js'), { nav: 'help', public: true }],
 ];
 
 const compiled = ROUTES.map(([pattern, load, extra = {}]) => {

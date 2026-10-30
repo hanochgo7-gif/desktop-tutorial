@@ -202,7 +202,7 @@
       "id": "e11", "type": "correct", "skill": "grammar", "topic": "time-dates",
       "prompt": { "en": "This sentence is a word-for-word translation from Hebrew. Write it correctly.", "he": "המשפט הזה תורגם מילה במילה מעברית. כתבו אותו נכון." },
       "sentence": "It's seven and half.",
-      "answers": ["It's half past seven.", "It's seven thirty."],
+      "answers": ["It's half past seven.", "It's seven thirty.", "It's half past 7."],
       "error_type": "false-friend",
       "hint": { "en": "half + past + the hour", "he": "half + past + השעה" },
       "explanation": { "en": "English doesn't say 'seven and half' for the time. Say: It's half past seven, or It's seven thirty.", "he": "'שבע וחצי' לא מתורגם מילה במילה. אומרים: It's half past seven או It's seven thirty." }
