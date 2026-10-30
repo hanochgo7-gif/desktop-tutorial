@@ -152,7 +152,7 @@
     var gi = gf.querySelector("iframe"), gb = gf.querySelector(".globe-go"), go = function (trigger) {
       if (gi.getAttribute("src")) return;
       gf.setAttribute("aria-busy", "true"); gf.classList.add("loading"); gi.hidden = false; if (gb.dataset.loading) gb.textContent = gb.dataset.loading;
-      gi.addEventListener("load", function () { gf.classList.remove("loading"); gf.classList.add("on"); gf.removeAttribute("aria-busy"); if (trigger === "click") gi.focus(); }, { once: true });
+      gi.addEventListener("load", function () { gf.classList.remove("loading"); gf.classList.add("on"); gf.removeAttribute("aria-busy"); if (trigger === "click" || document.activeElement === gb) gi.focus(); }, { once: true });
       gi.src = gi.dataset.src; track("globe_load", { trigger: trigger });
     };
     gb.addEventListener("click", function () { go("click"); });
@@ -164,7 +164,9 @@
 
   // ---- crop selector: tabs switch the specs, the project and the drawing (arrow keys move between tabs) ----
   document.querySelectorAll(".crop").forEach(function (sec) {
-    var tabs = Array.prototype.slice.call(sec.querySelectorAll('[role="tab"]')), fig = sec.querySelector(".crop-dw"), last = "", tmr = 0;
+    var tabs = Array.prototype.slice.call(sec.querySelectorAll('[role="tab"]')), fig = sec.querySelector(".crop-dw"), tmr = 0;
+    function shown() { var s = sec.querySelector('[role="tab"][aria-selected="true"]'); return s ? s.dataset.crop : ""; }
+    var last = shown();
     function pick(tab, focus, quiet) {
       tabs.forEach(function (t) {
         var on = t === tab, panel = document.getElementById(t.getAttribute("aria-controls"));
@@ -172,8 +174,7 @@
       });
       if (fig) fig.setAttribute("data-crop", tab.dataset.crop);
       if (focus) tab.focus();
-      var c = tab.dataset.crop;
-      if (!quiet && c !== last) { clearTimeout(tmr); tmr = setTimeout(function () { if (c !== last) { last = c; track("crop_select", { crop: c }); } }, 800); }
+      if (!quiet) { clearTimeout(tmr); tmr = setTimeout(function () { var c = shown(); if (c && c !== last) { last = c; track("crop_select", { crop: c }); } }, 800); }
     }
     var want = ""; try { want = new URLSearchParams(location.search).get("crop") || ""; } catch (x) {}
     var hm = /^#crop-([a-z]+)$/.exec(location.hash || ""); if (hm) want = hm[1];
@@ -380,7 +381,7 @@
     var bad = validate();
     bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
     if (bad.length && st1 && st1.contains(bad[0])) goStep(1, false);
-    if (bad.length) { showBad(bad[0]); track("form_invalid", { fields: bad.length }); return; }
+    if (bad.length) { showBad(bad[0]); track("form_invalid", { fields: bad.length, step: st1 && st1.contains(bad[0]) ? 1 : 2 }); return; }
     var wait = 2500 - (Date.now() - t0);
     if (wait > 0) { busy = true; setTimeout(function () { busy = false; form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event("submit", { cancelable: true })); }, wait); return; } // too fast for a person: send quietly a moment later
     var p = payload(), btn = form.querySelector("[type=submit]");

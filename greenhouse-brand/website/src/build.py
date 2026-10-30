@@ -1041,6 +1041,10 @@ def globe_page():
            ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת");'
            ' var ic = document.getElementById("ill-chip"); if (ic) ic.textContent = en ? "Illustration" : "הדמיה"; }'
            ' u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n')
+    js += ('\n(function () { var box = document.getElementById("flybox"); if (!box) return;'
+           ' box.addEventListener("keydown", function (e) { if (e.key !== "Tab") return; var f = [].slice.call(box.querySelectorAll("video[controls], button")).filter(function (x) { return x.offsetParent !== null; });'
+           ' if (!f.length) return; var i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } });'
+           ' new MutationObserver(function () { if (box.hidden) { var o = document.getElementById("flyb"); if (o) o.focus(); } }).observe(box, { attributes: true, attributeFilter: ["hidden"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
@@ -1246,7 +1250,11 @@ def main():
                                             {"key": "Cross-Origin-Opener-Policy", "value": "same-origin"}]},
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
+            {"source": "/globe/globe.js", "headers": long_cache},  # versioned with ?v= like the other scripts
+            {"source": "/globe/(space.jpg|fly.jpg|fly.mp4)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")
+    # the Apache config is for the final host only: Vercel never serves it (it answered at /%2ehtaccess)
+    write(PUB / ".vercelignore", ".htaccess\n.vercelignore\n")
     print(f"built {len(list(PUB.rglob('*.html')))} pages into {PUB}")
 
 

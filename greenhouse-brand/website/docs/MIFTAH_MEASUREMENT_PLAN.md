@@ -13,10 +13,10 @@ What the site does today: `site.js` already emits the events below through `trac
 | Service interest | Crop tab chosen (counted once per change, not on page load or a repeat tap); Net houses or Turnkey page viewed; 3D page viewed; globe loaded | `crop_select {crop}`, `globe_load {trigger: click / scroll}`, page views |
 | CTA click | Every "Discuss your project" and crop button, by position | `cta_click {label: hero / band-home / crop-kiwi / mbar …}` |
 | Route choice | Investor and crop routes | `route_click {label}` |
-| Phone intent | Every tel: link, by position | `phone_click {where: header / header-text / header-contact / contact-head / mbar / contact / band-… / form-unconnected / form-success / form-error}` |
+| Phone intent | Every tel: link, by position | `phone_click {where: header / header-text / header-contact / contact-head / mbar / contact / band-… / footer / about / sim / form-notice / form-unconnected / form-success / form-error}` |
 | Form start | First input in the form | `form_start` |
 | Step 2 reached | Step 1 answered | `form_step {step: 2}` |
-| Blocked | Validation stopped the user (counts fields) | `form_invalid {fields, step}` |
+| Blocked | Validation stopped the user (counts fields; the step is 1 or 2, also on Send since 30 Oct) | `form_invalid {fields, step}` |
 | Lead sent | Endpoint returned 2xx (only then) | `form_submit_success {need, size, country, fit, lead_id}` |
 | Not sent | Endpoint error or no endpoint | `form_submit_error`; `form_submit_unconnected` (once per page view, however many taps) |
 | Qualified lead | Sales marks it in the CRM | CRM field (see below) |
@@ -72,5 +72,7 @@ Lead quality is then known from data, not guessed. Example: the share of `in_ran
 | `heard` field in the form and the summary | The office asks this on the phone anyway | `qa/r2.mjs` |
 | `globe_load {trigger}` | Separates a deliberate tap from loading on scroll | `qa/r2.mjs` |
 | More ad-click ids in `source` (`gbraid`, `wbraid`, `msclkid`, `li_fat_id`) | Google (iOS), Microsoft and LinkedIn campaigns | code review |
+| `crop_select` starts from the crop already shown; only the crop showing when the 0.8 s timer ends counts | Round 3: a tap on the default tab, or banana→cherry→banana, sent a wrong event | `qa/r3c.mjs` |
+| `form_invalid` on Send carries `step` | Round 3: the plan promised it | `qa/r3c.mjs` |
 
 Still not installed: any analytics tool. Every event above goes nowhere until the owners choose option A or B.

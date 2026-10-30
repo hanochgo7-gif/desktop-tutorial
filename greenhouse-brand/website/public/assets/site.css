@@ -1070,7 +1070,10 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 /* D01: the slogan over the footage. A soft dark field behind the two lines, the thin line one step heavier, a darker scrim on phones.
    Measured with this CSS: every hero text layer at a median of 5.4:1 or more, at most 1% of glyph pixels under 3:1 */
 .hero-os h1 { position: relative; }
-.hero-os h1::before { content: ""; position: absolute; inset: -25% -12%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(8, 30, 26, .58), rgba(8, 30, 26, .34) 55%, rgba(8, 30, 26, 0)); }
+.hero-os h1::before { content: ""; position: absolute; inset: -30% -14%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(8, 30, 26, .74), rgba(8, 30, 26, .5) 60%, rgba(8, 30, 26, 0)); }
+/* the see-through header gets a soft dark top, so the menu and the slogan line read over bright sky (tagline 5.85:1 or more) */
+body.top-dark .site-head:not(.solid) { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .3) 75%, rgba(8, 30, 26, 0) 100%) border-box; }  /* border-box: no repeat of the gradient under the 1px border */
+body.top-dark .site-head:not(.solid) .tagline-m { color: var(--white); }
 .hero-os h1 .h1-a { font-weight: 300; }
 @media (max-width: 720px), (max-width: 1024px) and (orientation: portrait) {
   .hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .55) 30%, rgba(8, 30, 26, .7) 55%, rgba(8, 30, 26, .94) 100%) !important; }
@@ -1266,3 +1269,5 @@ ul.bars { container-type: inline-size; }  /* ul: the menu icon is also called .b
 .nf-he.first { margin: 0 0 28px; padding: 0 0 24px; border-top: 0; border-bottom: 1px solid var(--line); }
 /* one corner radius for containers; pills stay round */
 .form, .choice, .sheet, .sim-card { border-radius: var(--radius); }
+/* T6: focus rings over photos and the globe: white with a deep-green edge, visible on light and dark pixels (3:1 or more either way) */
+body.top-dark .site-head:not(.solid) :focus-visible, .globe-frame :focus-visible { outline: 2px solid var(--white); outline-offset: 2px; box-shadow: 0 0 0 5px var(--deep); }

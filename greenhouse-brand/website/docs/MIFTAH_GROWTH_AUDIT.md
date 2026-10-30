@@ -124,8 +124,74 @@ IDs refer to the round-1 reports: A, BC, D, E (copy; its own letters in brackets
 | 69 | 11 stages flattened | D22 | **Fixed** | Four phases. |
 | 70 | Profile sheet: no photo, doubled heading | D26 | **Partly** | Heading fixed; photo strip **Open**. |
 
-## 4. Verification
-(Round 3 results, filled in after the verifiers report.)
+## 4. Round 3: independent verification and the fixes it led to
+
+Three verifiers checked preview `53cb3gp7j` (commit 7170040) without the fixer's notes. 49 findings; fixed in commits 191e4b3, a073505 and the round-3 technical commit.
+
+### Journey and truth (19 findings)
+| ID | Finding | Status |
+|---|---|---|
+| F1 | Globe showed the kiwi client's exact village (coordinates of the kibbutz, "Exact village") | **Fixed**: region only, no exact point anywhere |
+| F2 | Investors abroad can only phone, with no hours or languages | **Blocked**: O1, O13 |
+| F3 | Hebrew size ranges rendered reversed ("300–50 דונם") | **Fixed**: "50 עד 300 דונם" |
+| F4 | Orchard grant answer without its conditions | **Fixed** |
+| F5 | "We maintain structures" could mean other suppliers' structures | **Fixed** (our structures; others: call and ask) · O14 open |
+| F6 | Projects shown by crop and region before the owners approve | **Blocked**: O2 |
+| F7 | Fly-in video launched from each project card (footage location unconfirmed) | **Fixed**: Israel card only |
+| F8 | Turnkey: who reports progress to the investor during delivery | **Blocked**: O5, new question Q4 |
+| F9 | "Illustration" label until 4.8 s on footage that looks real from 3.3 s | **Rejected**: 0–4.6 s is AI generated (Kling, end frame = a real still; `globe/README.md`), so the label is right |
+| F10 | Globe: "on every project abroad" | **Fixed**: "Abroad, we plan…" |
+| F11 | "Built by our own team" (local crews abroad; Belarus made locally) | **Fixed** |
+| F12 | Partner's summary listed land answers they never saw | **Fixed** |
+| F13 | Header and phone-bar buttons dropped the page's context | **Fixed** (turnkey, net houses, bananas; the orchard page presets no single crop) |
+| F14 | Partners find their way in late; the form asks the need first | **Fixed**: the form asks who you are first |
+| F15 | Hebrew full stop inside the phone number's isolate | **Fixed** |
+| F16 | Globe: English eyebrow and dialog name | **Fixed** |
+| F17 | "If smaller, send anyway" works against the minimum | **Fixed**: firm minimum (ledger 4.2, 4.3) |
+| F18 | Unlabelled AI space backdrop | **Fixed**: "Illustration" chip (also V9) |
+| F19 | Profile prints the vercel.app address and QR | **Blocked**: domain move (DNS) |
+| – | `availableLanguage` in structured data (O13 open) | **Fixed**: removed |
+
+### Visual and image rules (16 findings)
+| ID | Finding | Status |
+|---|---|---|
+| V1 | Header button off screen at 1500–1728 px (new in round 2) | **Fixed**: measured 1181–2560 px, EN and HE |
+| V2 | p-marking: the left-most worker may be under 18 (no children rule) | **Fixed** by a crop; owners to confirm ages |
+| V3 | p-site: rust-coloured steel reservoir (galvanized-only rule) | **Fixed** by a crop; owners to confirm; yellow lift (3D scene) and black tensioning tool: owner question Q9 |
+| V4 | Breadcrumbs over bright sky 3.0–3.5:1 | **Fixed** (4.6:1 or more) |
+| V5 | Phone hero sub-line and lead under 4.5:1 | **Fixed** (see T1) |
+| V6 | Consent error became a narrow third column | **Fixed** |
+| V7 | Hebrew summary reversed the visitor's phone number | **Fixed** (`<bdi>` on screen; the copied text stays plain) |
+| V8 | 3D cards cover the "Illustration" badge on phones | **Fixed**: the label is in each card on phones |
+| V9 | Globe still without an AI label | **Fixed** |
+| V10 | Mobile menu: no backdrop; odd pill | **Fixed** |
+| V11 | Contact header showed the number twice | **Fixed** |
+| V12 | Globe button wraps; globe in a monospace font | **Fixed** |
+| V13 | Legal pages: centred body under a left-aligned title | **Fixed** |
+| V14 | Same-coloured sections stack padding; four buttons in 600 px on Turnkey | **Fixed**: the conversation button moved into the Turnkey page head |
+| V15 | Lone last words; four one-word lines in the Hebrew About title at 320 px | **Fixed** |
+| V16 | Missing /he/ pages show English first | **Fixed** (Hebrew block first; status stays 404) |
+
+### Technical (14 findings)
+| ID | Finding | Status |
+|---|---|---|
+| T1 | Phone hero sub-line 3.6–3.9:1, lead 5th percentile 4.28 | **Fixed**. Measured after the fix (poster frame, 320/390/768 px, EN and HE): 0% of glyph pixels under 4.5:1 |
+| T2 | Thin first line of the slogan: 3–5% of pixels under 3:1 at 1440 px; header slogan line 3.9:1 | **Fixed**. Measured: 0% under 3:1 at every width in both languages; slogan line 5.85:1 or more |
+| T3 | `crop_select` wrong after a tap on the shown crop, or away-and-back | **Fixed** |
+| T4 | `form_invalid` on Send without `step` | **Fixed** |
+| T5 | Keyboard focus lost when the globe loads by scrolling | **Fixed** |
+| T6 | Focus rings over photos 2.5–2.8:1 | **Fixed**: white ring with a deep-green edge |
+| T7 | Fly-in dialog: Tab escapes; Escape loses focus | **Fixed** |
+| T8 | `/%2ehtaccess` served the Apache config (no secrets) | **Fixed**: `.vercelignore`; checked on the next preview |
+| T9 | Vercel's preview toolbar blocked by the CSP (Best Practices 93 on previews only) | **Not changed**: a Vercel project setting; production has no toolbar |
+| T10 | No cache rule for `/globe/`; no WebM for the fly-in; desktop WebM larger than MP4 | **Partly**: cache rules added; video re-encodes **Open** |
+| T11 | `/he/` misses get the English 404 page | **Partly** (see V16) |
+| T12 | FAQ marked up twice | **Fixed** |
+| T13 | Short descriptions (privacy, accessibility) | **Fixed** |
+| T14 | `where` values missing from the measurement plan | **Fixed** |
+
+### Test results
+(Filled in with the final runs: local suite, preview checks and production checks.)
 
 ## 5. Questions for the owners
 (Filled in with the final report.)

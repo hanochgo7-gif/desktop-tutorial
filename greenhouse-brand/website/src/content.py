@@ -370,12 +370,12 @@ PAGES = {
     },
     "privacy": {
         "title": ("Privacy | MIFTAH Projects", "מדיניות פרטיות | מיפתח פרויקטים"),
-        "desc": ("How MIFTAH Projects handles the details you send through this website.", "איך מיפתח פרויקטים מטפלת בפרטים שנשלחים דרך האתר."),
+        "desc": ("How MIFTAH Projects handles the details you send through this website: what is kept, why, where, and how to see, correct or delete it.", "איך מיפתח פרויקטים מטפלת בפרטים שנשלחים דרך האתר: מה נשמר, למה, איפה, ואיך לעיין בהם, לתקן או למחוק."),
         "h1": ("Privacy", "מדיניות פרטיות"),
     },
     "accessibility": {
         "title": ("Accessibility statement | MIFTAH Projects", "הצהרת נגישות | מיפתח פרויקטים"),
-        "desc": ("Accessibility statement for the MIFTAH Projects website.", "הצהרת הנגישות של אתר מיפתח פרויקטים."),
+        "desc": ("Accessibility statement for the MIFTAH Projects website: the standard it follows (IS 5568, WCAG AA), what was tested, known limits, and how to report a problem.", "הצהרת הנגישות של אתר מיפתח פרויקטים: התקן שלפיו הוא נבנה (ת״י 5568), מה נבדק, מגבלות ידועות ואיך לדווח על בעיה."),
         "h1": ("Accessibility statement", "הצהרת נגישות"),
     },
     "404": {
