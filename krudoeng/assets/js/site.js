@@ -1,8 +1,7 @@
-/* קרודו הנדסה · התנהגות האתר: תפריט, כניסות, מבט של בודק, סיור, הדוח, הטופס */
+/* קרודו הנדסה · התנהגות האתר: תפריט נייד, מבט של בודק, טופס לוואטסאפ, הדפסה ומדידת לחיצות.
+   בלי אנימציות גלילה: כל התוכן גלוי מההתחלה. */
 (function () {
   'use strict';
-  var REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var HAS_IO = 'IntersectionObserver' in window;
   function $(s, r) { return (r || document).querySelector(s); }
   function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
   function track(event, data) {
@@ -40,26 +39,12 @@
       if (ev.shiftKey && document.activeElement === a) { ev.preventDefault(); z.focus(); }
       else if (!ev.shiftKey && document.activeElement === z) { ev.preventDefault(); a.focus(); }
     });
+    // תפריט פתוח שהמסך התרחב מעבר לנקודת השבירה: סוגרים אותו
+    var wide = window.matchMedia && matchMedia('(min-width: 1121px)');
+    if (wide && wide.addEventListener) wide.addEventListener('change', function (m) { if (m.matches && !menu.hidden) close(false); });
   }
 
-  // ---------- כניסות בגלילה (פעם אחת) ----------
-  var reveals = $$('[data-reveal]');
-  if (HAS_IO && !REDUCED) {
-    var rio = new IntersectionObserver(function (es) {
-      es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); rio.unobserve(en.target); } });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    reveals.forEach(function (el, i) {
-      // מדרגות קטנות בין אחים באותה רשימה
-      var sib = el.parentElement ? $$(':scope > [data-reveal], :scope > li > [data-reveal]', el.parentElement) : [];
-      var k = Math.max(0, sib.indexOf(el));
-      if (k) el.style.transitionDelay = Math.min(k, 6) * 70 + 'ms';
-      rio.observe(el);
-    });
-  } else {
-    reveals.forEach(function (el) { el.classList.add('is-in'); });
-  }
-
-  // ---------- מבט של בודק ----------
+  // ---------- מבט של בודק (הדירה בעמוד הבית) ----------
   var FIND = {};
   try { FIND = JSON.parse(($('#k-findings') || {}).textContent || '{}'); } catch (err) { FIND = {}; }
   $$('[data-eye]').forEach(function (btn) {
@@ -78,7 +63,6 @@
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       api.show(on ? 'all' : '');
       api.pins.forEach(function (o) { o.b.classList.remove('active'); });
-      if (on) api.scan();
       setSay(on ? say.getAttribute('data-on') : say.getAttribute('data-off'));
       // בטלפון רואים ממצא אחד בכל פעם: הראשון נפתח, והשאר בלחיצה על הנקודות
       if (on && api.el.classList.contains('compact')) pick(api.pins[0], false);
@@ -90,85 +74,6 @@
       if (f) o.b.setAttribute('aria-label', f[0] + '. ' + f[1]);
     });
   });
-
-  // ---------- סיור בתחנות: המצלמה עוברת לפי הגלילה ----------
-  $$('[data-tour]').forEach(function (wrap) {
-    var host = document.getElementById(wrap.getAttribute('data-tour'));
-    if (!host || !host._k || !HAS_IO) return;
-    var api = host._k, current = '';
-    var marks = $$('.step', wrap);
-    var head = $('.tour__head', wrap);
-    function go(cam, show, id) {
-      if (id === current) return;
-      current = id;
-      api.go(cam);
-      api.show(show);
-    }
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var s = en.target;
-        if (s === head) go('overview', '', 'head');
-        else go(s.getAttribute('data-cam'), s.getAttribute('data-show'), s.getAttribute('data-step'));
-      });
-    }, { rootMargin: '-42% 0px -42% 0px' });
-    if (head) io.observe(head);
-    marks.forEach(function (m) { io.observe(m); });
-  });
-
-  // ---------- הדוח: מסגרת אחת, שלושה מרחקים ----------
-  var rep = $('[data-report]');
-  if (rep) {
-    var frame = $('.report__frame', rep), sheet = $('.sheet', rep), stage = $('.report__stage', rep);
-    var targets = { 2: $('[data-target="text"]', sheet), 3: $('[data-target="detail"]', sheet) };
-    var ZOOM = { 1: 1, 2: 1.65, 3: 2.4 }, dist = 0;
-    var center = function (el) {
-      var x = 0, y = 0, n = el;
-      while (n && n !== sheet) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
-      return { x: x + el.offsetWidth / 2, y: y + el.offsetHeight / 2 };
-    };
-    var apply = function (d) {
-      var fw = frame.clientWidth, fh = frame.clientHeight, s = (fw / 960) * ZOOM[d], tx = 0, ty = 0;
-      if (d > 1 && targets[d]) {
-        var c = center(targets[d]);
-        tx = Math.min(0, Math.max(fw - 960 * s, fw / 2 - c.x * s));
-        ty = Math.min(0, Math.max(fh - 1200 * s, fh / 2 - c.y * s));
-      }
-      sheet.style.setProperty('--ss', s.toFixed(4));
-      sheet.style.setProperty('--sx', tx.toFixed(1) + 'px');
-      sheet.style.setProperty('--sy', ty.toFixed(1) + 'px');
-      stage.setAttribute('data-d', d);
-    };
-    var onScroll = function () {
-      var r = rep.getBoundingClientRect(), span = r.height - innerHeight;
-      var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
-      var d = REDUCED ? 1 : (p < 0.3 ? 1 : p < 0.64 ? 2 : 3);
-      if (d !== dist) { dist = d; apply(d); }
-    };
-    var ticking = false;
-    addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; onScroll(); });
-    }, { passive: true });
-    addEventListener('resize', function () { apply(dist || 1); });
-    apply(1); dist = 1; onScroll();
-  }
-
-  // ---------- הוכחות: שם אחד מואר בכל פעם ----------
-  var creds = $('[data-creds]');
-  if (creds && !REDUCED) {
-    var ns = $$('.n', creds), ci = 0, timer = 0;
-    var lit = function () { ns.forEach(function (n, i) { n.classList.toggle('is-lit', i === ci); }); ci = (ci + 1) % ns.length; };
-    if (HAS_IO) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (en) {
-          if (en.isIntersecting && !timer) { lit(); timer = setInterval(lit, 2000); }
-          else if (!en.isIntersecting && timer) { clearInterval(timer); timer = 0; }
-        });
-      }).observe(creds);
-    }
-  }
 
   // ---------- טופס: נפתח כהודעה מוכנה בוואטסאפ ----------
   $$('[data-quote]').forEach(function (f) {
@@ -196,7 +101,7 @@
       lines.push('(נשלח מהאתר)');
       var url = 'https://wa.me/972547560711?text=' + encodeURIComponent(lines.join('\n'));
       track('form_submit', { type: type || 'other' });
-      // העתק במייל: כבוי עד שרביד מאשר כתובת (data-copy-to)
+      // העתק במייל: כבוי עד שרביד מאשר כתובת (data-copy-to, וגם connect-src ב-CSP)
       var to = f.getAttribute('data-copy-to');
       if (to && window.fetch) {
         fetch(to, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -208,10 +113,13 @@
     f.addEventListener('change', function () { if (err.textContent) err.textContent = ''; });
   });
 
+  // ---------- הרחבות שפתוחות במחשב ומקופלות בטלפון ----------
+  if (window.matchMedia && matchMedia('(min-width: 761px)').matches) $$('details[data-open-wide]').forEach(function (d) { d.open = true; });
+
   // ---------- הדפסה ----------
   $$('[data-print]').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });
 
-  // ---------- מדידה: לחיצות על וואטסאפ וחיוג ----------
+  // ---------- מדידה: לחיצות על וואטסאפ, חיוג והורדות ----------
   document.addEventListener('click', function (ev) {
     var a = ev.target.closest('a[data-wa], a[data-tel], a[data-vcf], a[data-pdf], a[data-sample]');
     if (!a) return;

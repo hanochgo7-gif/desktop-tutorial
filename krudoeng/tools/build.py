@@ -24,7 +24,7 @@ SITE_URL = 'https://www.krudoeng.com'
 PREVIEW_URL = 'https://hanochgo7-gif.github.io/desktop-tutorial/krudoeng'
 ABS = SITE_URL if LAUNCH else PREVIEW_URL
 YEAR = 2026
-V = '1'  # גרסה לקבצי ה-CSS וה-JS, כדי שדפדפנים יטענו מחדש אחרי עדכון
+V = '2'  # גרסה לקבצי ה-CSS וה-JS, כדי שדפדפנים יטענו מחדש אחרי עדכון
 BRAND = 'קרודו הנדסה'
 
 INLINE_JS = "document.documentElement.classList.add('js')"
@@ -101,47 +101,67 @@ def head(pg, title, desc, schema=None, robots=None, alt_en=False, og_img='assets
     return '\n'.join(out)
 
 
-def bar(pg, current=None):
+def ico_eye():
+    return ('<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>'
+            '<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>')
+
+
+ARROW = '<span aria-hidden="true">←</span>'
+
+
+def q(s):
+    return '"' + s + '"'
+
+
+# ---------- מסגרת: סרגל עליון, תפריט נייד, סוף עמוד ----------
+def header(pg, current=None):
     if pg.lang == 'en':
-        return (f'<header class="bar" data-bar><a class="bar__brand" href="{pg.a("")}" aria-label="{BRAND}, Hebrew site"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="Krudo Engineering" width="607" height="103"></a>'
-                f'<nav class="bar__nav" aria-label="Main"><a href="#services">Services</a><a href="#about">Ravid</a><a href="{pg.a("")}" lang="he" hreflang="he">עברית</a>'
-                f'<a class="btn btn--accent bar__cta" href="{wa(C.EN["wa"])}" data-wa="bar">WhatsApp</a></nav><a class="btn btn--accent bar__wa" href="{wa(C.EN["wa"])}" data-wa="bar-mobile">{ico_wa()}WhatsApp</a></header>')
-    home = pg.path == 'index.html'
-    services = '#services' if home else pg.a('#services')
-    items = [('services', services, 'שירותים', ''), ('lawyers', pg.a('lawyers/'), 'לעורכי דין ומתווכים', ''),
-             ('about', pg.a('about/'), 'על רביד', ''), ('articles', pg.a('articles/'), 'מאמרים', 'opt'), ('en', pg.a('en/'), 'English', 'opt')]
-    if HAS_FIELD:
-        items.insert(1, ('field', pg.a('field/'), 'ליקויים מהשטח', ''))
-    links = ''.join(f'<a href="{h}"{" class=" + chr(34) + c + chr(34) if c else ""}{" aria-current=" + chr(34) + "page" + chr(34) if k == current else ""}{" lang=" + chr(34) + "en" + chr(34) if k == "en" else ""}>{t}</a>' for k, h, t, c in items)
-    menu_services = ''.join(f'<li class="sm"><a href="{pg.a(s["slug"] + "/")}">{s["name"]}</a></li>' for s in C.SERVICES)
-    return (f'<header class="bar" data-bar>'
-            f'<a class="bar__brand" href="{pg.a("") or "./"}" aria-label="{BRAND}, לדף הבית"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="{BRAND}" width="607" height="103"></a>'
-            f'<nav class="bar__nav" aria-label="ראשי">{links}<a class="btn btn--accent bar__cta" href="{wa()}" data-wa="bar">לתיאום בוואטסאפ</a></nav>'
-            f'<a class="btn btn--accent bar__wa" href="{wa()}" data-wa="bar-mobile">{ico_wa()}וואטסאפ</a>'
-            f'<button class="bar__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>תפריט</button>'
-            f'</header>'
+        return (f'<header class="site-header dark"><div class="wrap site-header__in">'
+                f'<a class="brand" href="{pg.a("")}" aria-label="Krudo Engineering, Hebrew site"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="Krudo Engineering" width="607" height="103"></a>'
+                f'<nav class="nav nav--en" aria-label="Main"><ul><li><a href="#services">Services</a></li><li><a href="#process">How it works</a></li><li><a href="#about">Ravid</a></li>'
+                f'<li><a href="{pg.a("")}" lang="he" hreflang="he">עברית</a></li></ul></nav>'
+                f'<a class="btn btn--primary site-header__cta" href="{wa(C.EN["wa"])}" data-wa="header">{ico_wa()}<span>WhatsApp</span></a></div></header>')
+    home = pg.a('') or './'
+    links = ''.join(f'<li><a href="{pg.a(href)}"{" aria-current=" + q("page") if key == current else ""}>{e(t)}</a></li>' for key, href, t in C.NAV)
+    groups = ''
+    for key, title, _ in C.SITUATIONS:
+        items = ''.join(f'<li><a href="{pg.a(s["slug"] + "/")}">{e(s["name"])}</a></li>' for s in C.SERVICES if s['group'] == key)
+        groups += f'<li><p class="menu__label">{e(title)}</p><ul>{items}</ul></li>'
+    others = ''.join(f'<li><a href="{pg.a(href)}">{e(t)}</a></li>' for key, href, t in C.NAV if key != 'services')
+    return (f'<header class="site-header dark"><div class="wrap site-header__in">'
+            f'<a class="brand" href="{home}" aria-label="{BRAND}, לדף הבית"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="{BRAND}" width="607" height="103"></a>'
+            f'<nav class="nav" aria-label="ראשי"><ul>{links}<li><a class="nav__en" href="{pg.a("en/")}" lang="en" hreflang="en">EN</a></li></ul></nav>'
+            f'<a class="btn btn--primary site-header__cta" href="{wa()}" data-wa="header">{ico_wa()}<span class="long">לתיאום בוואטסאפ</span><span class="short">וואטסאפ</span></a>'
+            f'<button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>תפריט</button>'
+            f'</div></header>'
             f'<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="תפריט" hidden>'
-            f'<div class="menu__top"><a class="bar__brand" href="{pg.a("") or "./"}"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="{BRAND}" width="607" height="103"></a><button class="menu__close" type="button" data-menu-close>סגירה</button></div>'
-            f'<ul class="menu__list"><li><a href="{services}" data-menu-close>שירותים</a></li>{menu_services}'
-            + (f'<li><a href="{pg.a("field/")}">ליקויים מהשטח</a></li>' if HAS_FIELD else '') +
-            f'<li><a href="{pg.a("lawyers/")}">לעורכי דין ומתווכים</a></li><li><a href="{pg.a("about/")}">על רביד</a></li>'
-            f'<li><a href="{pg.a("articles/")}">מאמרים</a></li><li><a href="{pg.a("checklist/")}">רשימת בדיקה למקבלי דירה</a></li><li><a href="{pg.a("contact/")}">יצירת קשר</a></li><li class="sm"><a href="{pg.a("en/")}" lang="en">English</a></li></ul>'
-            f'<div class="menu__actions"><a class="btn btn--accent" href="{wa()}" data-wa="menu">{ico_wa()}וואטסאפ לרביד</a><a class="btn btn--quiet" href="tel:{C.PHONE_INTL}" data-tel="menu">{ico_phone()}<span class="ltr">{C.PHONE}</span></a></div>'
-            f'</div>')
+            f'<div class="menu__top"><a class="brand" href="{home}"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118"></a>'
+            f'<button class="btn btn--secondary menu__close" type="button" data-menu-close>סגירה</button></div>'
+            f'<nav class="menu__nav" aria-label="תפריט ראשי"><p class="menu__head"><a href="{pg.a("services/")}">שירותים</a></p>'
+            f'<ul class="menu__groups">{groups}</ul><ul class="menu__main">{others}<li><a href="{pg.a("en/")}" lang="en">English</a></li></ul></nav>'
+            f'<div class="menu__actions"><a class="btn btn--primary" href="{wa()}" data-wa="menu">{ico_wa()}וואטסאפ לרביד</a>'
+            f'<a class="btn btn--secondary" href="tel:{C.PHONE_INTL}" data-tel="menu">{ico_phone()}<span class="ltr">{C.PHONE}</span></a></div></div>')
 
 
-def foot(pg, credit=None):
+def footer(pg, credit=None):
     if pg.lang == 'en':
-        return (f'<footer class="foot"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
-                f'<nav class="foot__links" aria-label="Footer"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot"><span class="ltr">{C.PHONE_EN}</span></a><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></nav>'
-                f'<p class="foot__end"><span>© {YEAR}</span><a href="{pg.a("accessibility/")}">Accessibility (Hebrew)</a><a href="{pg.a("privacy/")}">Privacy (Hebrew)</a></p>'
-                f'<p class="foot__credit">The apartment model on this site is an illustration.</p></footer>')
-    cr = '<p class="foot__credit">' + (credit + ' ' if credit else '') + ('הדירה התלת־ממדית באתר היא המחשה.' if HAS_FIELD else 'הדירה התלת־ממדית ועמוד הדוח באתר הם המחשה.') + '</p>'
-    return (f'<footer class="foot"><p>{BRAND} · בדק מבנים, איתור ליקויי בנייה ופיקוח הנדסי</p>'
-            f'<nav class="foot__links" aria-label="קישורים בתחתית"><a href="{pg.a("") or "./"}#services">שירותים</a><a href="{pg.a("lawyers/")}">לעורכי דין ומתווכים</a><a href="{pg.a("about/")}">על רביד</a>'
-            + (f'<a href="{pg.a("field/")}">ליקויים מהשטח</a>' if HAS_FIELD else '') +
-            f'<a href="{pg.a("articles/")}">מאמרים</a><a href="{pg.a("checklist/")}">רשימת בדיקה</a><a href="{pg.a("contact/")}">יצירת קשר</a><a href="{pg.a("en/")}" lang="en">English</a></nav>'
-            f'<p class="foot__end"><span>© {YEAR}</span><a href="{pg.a("accessibility/")}">הצהרת נגישות</a><a href="{pg.a("privacy/")}">פרטיות</a></p>{cr}</footer>')
+        return (f'<footer class="site-footer dark"><div class="wrap site-footer__end"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
+                f'<p class="site-footer__legal"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot"><span class="ltr">{C.PHONE_EN}</span></a>'
+                f'<a href="mailto:{C.EMAIL}">{C.EMAIL}</a><a href="{pg.a("accessibility/")}">Accessibility (Hebrew)</a><a href="{pg.a("privacy/")}">Privacy (Hebrew)</a></p></div>'
+                f'<div class="wrap"><p class="site-footer__credit">© {YEAR} Krudo Engineering. The apartment model on this site is an illustration.</p></div></footer>')
+    svc = ''.join(f'<li><a href="{pg.a(s["slug"] + "/")}">{e(s["name"])}</a></li>' for s in C.SERVICES)
+    site = (''.join(f'<li><a href="{pg.a(h)}">{e(t)}</a></li>' for k, h, t in C.NAV if k != 'services')
+            + f'<li><a href="{pg.a("checklist/")}">רשימת בדיקה למקבלי דירה</a></li><li><a href="{pg.a("en/")}" lang="en">English</a></li>')
+    return (f'<footer class="site-footer dark"><div class="wrap site-footer__grid">'
+            f'<div class="site-footer__brand"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="{BRAND}" width="607" height="103" loading="lazy">'
+            f'<p>בדק מבנים, איתור ליקויי בנייה ופיקוח הנדסי.</p><p>רביד קרודו, הנדסאי בניין רשום · מ.ר {C.REG}</p></div>'
+            f'<nav aria-label="שירותים"><h2 class="site-footer__h">שירותים</h2><ul>{svc}<li><a href="{pg.a("services/")}">כל השירותים</a></li></ul></nav>'
+            f'<nav aria-label="באתר"><h2 class="site-footer__h">באתר</h2><ul>{site}</ul></nav>'
+            f'<div><h2 class="site-footer__h">יצירת קשר</h2><ul><li><a href="{wa()}" data-wa="footer">וואטסאפ לרביד</a></li>'
+            f'<li><a href="tel:{C.PHONE_INTL}" data-tel="footer"><span class="ltr">{C.PHONE}</span></a></li><li><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></li>'
+            f'<li>{e(C.ADDRESS)}</li><li>בודקים {e(C.AREA_IN)}</li></ul></div></div>'
+            f'<div class="wrap site-footer__end"><p>© {YEAR} {BRAND}</p><p class="site-footer__legal"><a href="{pg.a("accessibility/")}">הצהרת נגישות</a><a href="{pg.a("privacy/")}">פרטיות</a></p></div>'
+            + (f'<div class="wrap"><p class="site-footer__credit">{credit}</p></div>' if credit else '') + '</footer>')
 
 
 def scripts(pg, model=False):
@@ -156,9 +176,9 @@ def page(pg, title, desc, body, schema=None, current=None, model=False, credit=N
     doc = [head(pg, title, desc, schema, robots, alt_en, full_title=full_title),
            '<body>',
            f'<a class="skip" href="#main">{"דילוג לתוכן" if pg.lang == "he" else "Skip to content"}</a>',
-           bar(pg, current),
+           header(pg, current),
            f'<main id="main">{body}</main>',
-           foot(pg, credit), scripts(pg, model), '</body>', '</html>']
+           footer(pg, credit), scripts(pg, model), '</body>', '</html>']
     out = '\n'.join(doc) + '\n'
     full = os.path.join(ROOT, pg.path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
@@ -173,37 +193,94 @@ def poster_key(cam, show):
     return (cam or 'overview') + ('--' + show.replace(',', '-') if show else '')
 
 
-def model(pg, cam='overview', show='', label='', sway=False, focusable=False, idattr=''):
+def model(pg, cam='overview', show='', label='', focusable=False, idattr=''):
     key = poster_key(cam, show)
     POSTERS[key] = {'cam': cam, 'show': show}
-    attrs = f' data-apartment data-cam="{cam}"' + (f' data-show="{show}"' if show else '') + (' data-sway' if sway else '') + (' data-focusable' if focusable else '') + (f' id="{idattr}"' if idattr else '')
+    attrs = f' data-apartment data-cam="{cam}"' + (f' data-show="{show}"' if show else '') + (' data-focusable' if focusable else '') + (f' id="{idattr}"' if idattr else '')
     alt = label or 'המחשה תלת־ממדית של דירה לדוגמה'
-    return (f'<div class="apt"{attrs} data-ui role="group" aria-label="{e(alt)}">'
+    return (f'<div class="apt"{attrs} role="group" aria-label="{e(alt)}">'
             f'<noscript><img class="apt__poster" src="{pg.a("assets/img/scene/" + key + ".webp")}" alt="{e(alt)}" width="1200" height="900"></noscript></div>')
 
 
-def lines(tag, cls, parts, idattr=''):
-    spans = ''.join(f'<span class="line l{i + 1}"><span data-line="{i}">{e(t)}</span></span>' for i, t in enumerate(parts))
-    return f'<{tag} class="{cls} lines"{f" id={chr(34)}{idattr}{chr(34)}" if idattr else ""}>{spans}</{tag}>'
+def crumbs(pg, items):
+    parts = ''.join(f'<li><a href="{h}">{e(t)}</a></li>' if h else f'<li><span aria-current="page">{e(t)}</span></li>' for t, h in items)
+    return f'<nav class="crumbs" aria-label="מיקום באתר"><ol>{parts}</ol></nav>'
 
 
-def faq_block(items, h2, pg, idattr='faq', h2_id='faq-h'):
-    rows = [f'<div class="faq__row" data-reveal><h2 class="faq__q faq__h" id="{h2_id}">{e(h2)}</h2></div>']
-    for q, ans in items:
+def actions(pg, text=None, label='לתיאום בוואטסאפ', lang='he'):
+    text = text or (C.WA_DEFAULT if lang == 'he' else C.EN['wa'])
+    wa_label = label if lang == 'he' else 'WhatsApp Ravid'
+    tel = C.PHONE if lang == 'he' else C.PHONE_EN
+    return (f'<div class="actions"><a class="btn btn--primary" href="{wa(text)}" data-wa="action">{ico_wa()}{e(wa_label)}</a>'
+            f'<a class="btn btn--secondary" href="tel:{C.PHONE_INTL}" data-tel="action">{ico_phone()}<span class="ltr">{tel}</span></a></div>')
+
+
+def page_head(pg, h1, lede, crumb_items, side='', acts=None):
+    acts = actions(pg) if acts is None else acts
+    side_html = f'<div class="page-head__side">{side}</div>' if side else ''
+    return (f'<section class="page-head" aria-labelledby="h1"><div class="wrap page-head__grid{" has-side" if side else ""}">'
+            f'<div class="page-head__text">{crumbs(pg, crumb_items)}<h1 id="h1">{e(h1)}</h1><p class="lede">{lede}</p>{acts}</div>{side_html}</div></section>')
+
+
+def section(sid, h2, inner, intro='', cls='', more=''):
+    head_ = f'<div class="section__head"><h2 id="{sid}-h">{e(h2)}</h2>' + (f'<p>{intro}</p>' if intro else '') + '</div>'
+    return (f'<section class="section{(" " + cls) if cls else ""}" id="{sid}" aria-labelledby="{sid}-h">'
+            f'<div class="wrap">{head_}{inner}{more}</div></section>')
+
+
+def more_links(*links):
+    return '<p class="section__more">' + ''.join(f'<a class="link-arrow" href="{h}">{e(t)} {ARROW}</a>' for h, t in links) + '</p>'
+
+
+def facts_card(facts, title='בקצרה', extra=''):
+    rows = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in facts)
+    return f'<div class="facts-card"><p class="facts-card__h">{e(title)}</p><dl class="facts">{rows}</dl>{extra}</div>'
+
+
+def svc_card(pg, s, level=3, who=False):
+    w = f'<p class="svc__who">{e(C.WHO[s["slug"]])}</p>' if who else ''
+    return (f'<li class="svc"><h{level} class="svc__name"><a href="{pg.a(s["slug"] + "/")}">{e(s["name"])}</a></h{level}>{w}'
+            f'<dl class="svc__facts"><div><dt>מתי</dt><dd>{e(s["when_short"])}</dd></div><div><dt>מה מקבלים</dt><dd>{e(s["gives"])}</dd></div></dl>'
+            f'<span class="svc__more" aria-hidden="true">לפרטים ←</span></li>')
+
+
+def link_card(href, title, text, level=3):
+    return (f'<li class="svc"><h{level} class="svc__name"><a href="{href}">{e(title)}</a></h{level}><p class="svc__who">{e(text)}</p>'
+            f'<span class="svc__more" aria-hidden="true">לעמוד ←</span></li>')
+
+
+def chooser(pg, who=False, level=3):
+    cols = ''
+    for key, title, sub in C.SITUATIONS:
+        cards = ''.join(svc_card(pg, s, level + 1, who) for s in C.SERVICES if s['group'] == key)
+        cols += f'<div class="chooser__col"><h{level} class="chooser__h">{e(title)}</h{level}><p class="chooser__sub">{e(sub)}</p><ul class="svc-list">{cards}</ul></div>'
+    return f'<div class="chooser">{cols}</div>'
+
+
+def why_grid():
+    return '<ul class="why">' + ''.join(f'<li class="why__item"><h3>{e(t)}</h3><p>{e(p)}</p></li>' for t, p in C.WHY) + '</ul>'
+
+
+def steps(items):
+    return '<ol class="steps">' + ''.join(f'<li class="step"><span class="step__n" aria-hidden="true">{i + 1}</span><h3 class="step__h">{e(t)}</h3><p>{e(p)}</p></li>'
+                                       for i, (t, p) in enumerate(items)) + '</ol>'
+
+
+def faq_list(items, pg):
+    rows = ''
+    for qq, ans in items:
         a = ''.join(f'<p>{x.format(base=pg.p, articles=pg.a("articles/"))}</p>' for x in ans)
-        rows.append(f'<div class="faq__row" data-reveal><h3 class="faq__q">{e(q)}</h3><div class="faq__a">{a}</div></div>')
-    return f'<section class="faq" id="{idattr}" aria-labelledby="{h2_id}">{"".join(rows)}</section>'
+        rows += f'<details class="faq__item"><summary>{e(qq)}</summary><div class="faq__a">{a}</div></details>'
+    return f'<div class="faq">{rows}</div>'
 
 
 def faq_schema(items):
     import re
     strip = lambda s: re.sub(r'<[^>]+>', '', s)
-    return {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(strip(x) for x in a)}} for q, a in items]}
+    return {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': qq, 'acceptedAnswer': {'@type': 'Answer', 'text': ' '.join(strip(x) for x in a)}} for qq, a in items]}
 
 
-def quote_form(pg, preset=None, lang='he'):
-    if lang == 'en':
-        return ''
+def quote_form(pg, preset=None):
     chips = ''.join(f'<label><input type="radio" name="type" value="{e(s["name"])}"{" checked" if preset == s["slug"] else ""}><span>{e(s["chip"])}</span></label>' for s in C.SERVICES)
     F = C.FORM.get(preset, C.FORM[None])
     return (f'<form class="quote" data-quote novalidate>'
@@ -212,41 +289,27 @@ def quote_form(pg, preset=None, lang='he'):
             f'<label><span>{e(F["size"][0])}</span><input type="text" name="size" inputmode="numeric" maxlength="12" data-msg="{e(F["size"][1])}" data-unit="{e(F["size"][2])}"></label></div>'
             f'<div class="two"><label><span>{e(F["date"])}</span><input type="text" name="date" maxlength="40" data-msg="{e(F["date"])}"></label>'
             f'<label><span>שם</span><input type="text" name="name" autocomplete="name" maxlength="60"></label></div>'
-            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="2" maxlength="600" placeholder="{e(F["note"])}" aria-describedby="quote-err"></textarea></label>'
+            f'<label><span>מה עוד חשוב לדעת? (לא חובה)</span><textarea name="note" rows="3" maxlength="600" placeholder="{e(F["note"])}" aria-describedby="quote-err"></textarea></label>'
             f'<p class="quote__err" id="quote-err" role="alert"></p>'
-            f'<button class="btn btn--accent" type="submit">{ico_wa()}שליחה בוואטסאפ</button>'
+            f'<button class="btn btn--primary" type="submit">{ico_wa()}שליחת הפרטים בוואטסאפ</button>'
             f'<p class="quote__note">ההודעה נפתחת אצלכם בוואטסאפ, ואתם שולחים אותה. האתר לא שומר את הפרטים.</p>'
-            f'</form><a class="btn btn--accent nojs-wa" href="{wa()}" data-wa="nojs">{ico_wa()}לתיאום בוואטסאפ</a>')
+            f'</form><a class="btn btn--primary nojs-wa" href="{wa()}" data-wa="nojs">{ico_wa()}לתיאום בוואטסאפ</a>')
 
 
-def row_link(href, c1, c2, c3, r=0):
-    return f'<li><a class="row" href="{href}" data-reveal><span class="c1">{e(c1)}</span><span class="c2">{e(c2)}</span><span class="c3">{e(c3)}</span><span class="c4" aria-hidden="true">←</span></a></li>'
+def contact_section(pg, h2, sub, preset=None, sid='contact', cls='section--paper'):
+    info = (f'<div class="contact__info"><h2 id="{sid}-h">{e(h2)}</h2><p class="lead">{e(sub)}</p><ul class="contact__list">'
+            f'<li><span>וואטסאפ וטלפון</span><a href="tel:{C.PHONE_INTL}" data-tel="contact"><span class="ltr">{C.PHONE}</span></a></li>'
+            f'<li><span>מייל</span><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></li>'
+            f'<li><span>אזור</span><b>{e(C.AREA_TOWNS)}, עד כ־50 ק״מ מקריית טבעון</b></li></ul></div>')
+    form = f'<div class="contact__form"><p class="contact__form-h">פרטים לוואטסאפ</p>{quote_form(pg, preset)}</div>'
+    return (f'<section class="section contact{(" " + cls) if cls else ""}" id="{sid}" aria-labelledby="{sid}-h">'
+            f'<div class="wrap contact__grid">{info}{form}</div></section>')
 
 
-def lineup(pg, h2, groups=None, h2_id='services-h', idattr='services', intro=''):
-    ip = f'<p class="lineup__intro" data-reveal>{e(intro)}</p>' if intro else ''
-    out = [f'<section class="lineup" id="{idattr}" aria-labelledby="{h2_id}"><h2 class="lineup__h" id="{h2_id}" data-reveal>{e(h2)}</h2>{ip}<div class="lineup__table">']
-    for gid, gname in (groups or C.GROUPS):
-        if gid == 'pro':
-            rows = row_link(pg.a(C.PRO_ROW['href']), C.PRO_ROW['row'], C.PRO_ROW['when_short'], C.PRO_ROW['gives'])
-        else:
-            rows = ''.join(row_link(pg.a(s['slug'] + '/'), s['row'], s['when_short'], s['gives']) for s in C.SERVICES if s['group'] == gid)
-        out.append(f'<h3 class="lineup__day">{e(gname)}</h3><ul>{rows}</ul>')
-    out.append('</div></section>')
-    return ''.join(out)
-
-
-def process(items, h2_id='process-h', note2=None, note1=None):
-    lis = []
-    for i, (line, note) in enumerate(items):
-        if i == 0 and note1:
-            note = note1
-        if i == 1 and note2:
-            note = note2
-        tag = 'h2' if i == 0 else 'p'
-        ida = f' id="{h2_id}"' if i == 0 else ''
-        lis.append(f'<li class="stair" data-reveal><{tag} class="stair__line"{ida}>{e(line)}</{tag}><p class="stair__note">{e(note)}</p></li>')
-    return f'<section class="process" aria-labelledby="{h2_id}"><ol class="stairs">{"".join(lis)}</ol></section>'
+def cta_band(pg, h2, text, acts=None, sid='next'):
+    acts = actions(pg) if acts is None else acts
+    return (f'<section class="section section--paper" id="{sid}" aria-labelledby="{sid}-h"><div class="wrap cta-band">'
+            f'<div><h2 id="{sid}-h">{e(h2)}</h2><p class="lead">{e(text)}</p></div>{acts}</div></section>')
 
 
 def field_item(key):
@@ -258,127 +321,74 @@ def field_img(pg, x, lazy=True):
             + (' loading="lazy"' if lazy else '') + ' decoding="async">')
 
 
-def sheet(pg):
-    S = C.SAMPLE_PAGE
-    pics = [(field_item(k), cap) for k, cap in S['pics']]
-    if HAS_FIELD and all(x for x, _ in pics):
-        figs = ''.join(f'<figure{" data-target=" + chr(34) + "detail" + chr(34) if i == 0 else ""}>{field_img(pg, x)}<figcaption>{e(cap)}</figcaption></figure>' for i, (x, cap) in enumerate(pics))
-        return (f'<div class="sheet sheet--real" data-ui aria-hidden="true">'
-                f'<div class="sheet__band"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118" loading="lazy"><p>בדק מבנים | איתור ליקויי בנייה | פיקוח הנדסי</p></div>'
-                f'<div class="sheet__cols"><div class="sheet__text">'
-                f'<div class="sheet__box"><h4>{e(S["no"])} · ממצא</h4><p class="sheet__finding">{e(S["finding"])}</p></div>'
-                f'<div class="sheet__box" data-target="text"><h4>ממצאים ומסקנות</h4><p>{e(S["text"])}</p></div>'
-                f'<div class="sheet__box"><h4>המלצה</h4><p>{e(S["rec"])}</p></div>'
-                f'<div class="sheet__box"><h4>תמחור</h4><p>{e(S["price"])}</p></div></div>'
-                f'<div class="sheet__box"><h4>תמונות</h4><div class="sheet__pics">{figs}</div></div>'
-                f'</div><div class="sheet__foot"><span>רביד קרודו | {BRAND} | מ.ר {C.REG}</span><span>{e(S["foot"])}</span></div></div>')
-    return (f'<div class="sheet" data-ui aria-hidden="true">'
-            f'<div class="sheet__head"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="" width="607" height="118" loading="lazy"><p><b>דוח בדק בית</b>דירה לדוגמה · המחשה</p></div>'
-            f'<div class="sheet__item"><div class="sheet__shot"><i class="mark" data-target="detail"></i></div><div data-target="text">'
-            f'<div class="sheet__no">ממצא: רטיבות בקיר</div>'
-            f'<p class="sheet__row"><span>מיקום</span>קיר חדר הרחצה, בצד הפונה לסלון</p>'
-            f'<p class="sheet__row"><span>מה נמצא</span>אזור קר במצלמה התרמית, ומד הלחות מאשר לחות גבוהה בגובה הריצוף.</p>'
-            f'<p class="sheet__row"><span>המלצה</span>לאתר את מקור הנזילה ולתקן אותו, ורק אחר כך לחדש טיח וצבע.</p></div></div>'
-            f'<div class="sheet__item"><div class="sheet__shot crack"><svg viewBox="0 0 330 300" aria-hidden="true"><path d="M330 70 L300 58 L286 66 L252 40 L232 46 L198 20 L176 26 L150 0" fill="none" stroke="#c4541f" stroke-width="4" stroke-linejoin="round"/><path d="M0 0H140V300H0Z" fill="#dfe7eb"/><path d="M140 0V300" stroke="#b9c7cf" stroke-width="6"/></svg></div><div>'
-            f'<div class="sheet__no">ממצא: סדק בטיח</div>'
-            f'<p class="sheet__row"><span>מיקום</span>קיר הסלון, מהפינה העליונה של החלון</p>'
-            f'<p class="sheet__row"><span>מה נמצא</span>סדק אלכסוני שיוצא מפינת החלון.</p>'
-            f'<p class="sheet__row"><span>המלצה</span>לבדוק את המקור, ולעקוב אחרי רוחב הסדק לפני תיקון.</p></div></div>'
-            f'<div class="sheet__foot"><span>{BRAND} · רביד קרודו, הנדסאי בניין רשום</span><span>המחשה</span></div>'
-            f'</div>')
+def photo_cards(pg, items, full=False, level=3):
+    out = ''
+    for x in items:
+        note = x['note'] if full else x.get('short', x['note'])
+        rec = f'<p class="photo__rec"><span>המלצה:</span> {e(x["rec"])}</p>' if full else ''
+        out += (f'<li class="photo"><figure>{field_img(pg, x)}<figcaption><h{level} class="photo__h">{e(x["found"])}</h{level}>'
+                f'<p>{e(note)}</p>{rec}</figcaption></figure></li>')
+    return f'<ul class="photos{" photos--2" if full else ""}">{out}</ul>'
 
 
 def sample_link(pg):
     if not C.SAMPLE_REPORT:
         return ''
-    return f' <a class="arrow-link" href="{pg.a(C.SAMPLE_REPORT)}" download data-sample>דוח אמיתי לדוגמה, PDF <span aria-hidden="true">←</span></a>'
+    return f'<p><a class="link-arrow" href="{pg.a(C.SAMPLE_REPORT)}" download data-sample>דוח אמיתי לדוגמה, PDF {ARROW}</a></p>'
 
 
-def field_strip(pg):
-    if not HAS_FIELD:
-        return ''
-    F = C.FIELD
-    pick = [x for x in F['items'] if x.get('short')][:3]
-    figs = ''.join(f'<li data-reveal><figure>{field_img(pg, x)}<figcaption><b>{e(x["found"])}</b><span>{e(x["short"])}</span></figcaption></figure></li>' for x in pick)
-    return (f'<section class="strip" aria-labelledby="strip-h"><div class="strip__head"><h2 id="strip-h" data-reveal>{e(F["strip_h2"])}</h2><p data-reveal>{e(F["strip_p"])}</p></div>'
-            f'<ul class="strip__grid">{figs}</ul>'
-            f'<p class="strip__more" data-reveal><a class="arrow-link" href="{pg.a("field/")}">עוד ליקויים מהשטח, עם מה שנמדד ומה שהומלץ <span aria-hidden="true">←</span></a></p></section>')
+def sample_report(pg):
+    """קטע קריא מחוות דעת אמיתית, במבנה של הדוח של רביד, ולצידו הסבר על חלקי הסעיף."""
+    S = C.SAMPLE_PAGE
+    pics = [(field_item(k), cap) for k, cap in S['pics']]
+    figs = ''
+    if HAS_FIELD and all(x for x, _ in pics):
+        figs = ('<div class="doc__box"><p class="doc__k">תמונות</p><div class="doc__pics">'
+                + ''.join(f'<figure>{field_img(pg, x)}<figcaption>{e(cap)}</figcaption></figure>' for x, cap in pics) + '</div></div>')
+    doc = (f'<div class="doc"><div class="doc__band"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118" loading="lazy">'
+           f'<p>בדק מבנים | איתור ליקויי בנייה | פיקוח הנדסי</p></div><div class="doc__body">'
+           f'<div class="doc__box"><p class="doc__k">{e(S["no"])} · ממצא</p><p class="doc__finding">{e(S["finding"])}</p></div>'
+           f'<div class="doc__box"><p class="doc__k">ממצאים ומסקנות</p><p>{e(S["text"])}</p></div>'
+           f'<details class="doc__more" data-open-wide><summary>המשך הסעיף: המלצה, תמחור ותמונות</summary><div class="doc__body doc__body--more">'
+           f'<div class="doc__box"><p class="doc__k">המלצה</p><p>{e(S["rec"])}</p></div>'
+           f'<div class="doc__box"><p class="doc__k">תמחור</p><p>{e(S["price"])}</p></div>{figs}</div></details></div>'
+           f'<p class="doc__foot">{e(S["foot"])}</p></div>')
+    parts = ''.join(f'<li><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d in C.HOME2['report_parts'])
+    side = f'<div class="sample__aside"><h3>מה יש בכל סעיף</h3><ul class="parts">{parts}</ul>{sample_link(pg)}</div>'
+    return f'<div class="sample">{doc}{side}</div>'
 
 
-def report_section(pg):
-    h = C.HOME
-    return (f'<section class="report" id="report" aria-labelledby="report-h" data-report>'
-            f'<div class="report__marks" aria-hidden="true"><i></i><i></i><i></i></div>'
-            f'<div class="report__stage">'
-            f'<h2 class="report__title" id="report-h"><span class="a">{e(h["report_a"])}</span> <span class="b">{e(h["report_b"])}</span></h2>'
-            f'<figure class="report__frame">{sheet(pg)}<figcaption class="vh">המחשה של עמוד מתוך דוח בדק בית: ממצא של רטיבות בקיר וממצא של סדק בטיח, עם מיקום, מה נמצא והמלצה.</figcaption></figure>'
-            f'<p class="report__cap">{e(h["report_cap"])}<small>{e(h["report_note"])}</small>{sample_link(pg)}</p>'
-            f'</div></section>')
+def stations():
+    cols = ''
+    for st in C.HOME['steps']:
+        checks = ''.join(f'<li><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d, _tool in st['checks'])
+        cols += f'<div class="station"><h3>{e(st["h3"])}</h3><p>{e(st["p"])}</p><ul class="station__checks">{checks}</ul></div>'
+    return f'<div class="stations">{cols}</div>'
 
 
-def page_hero(pg, h1, lede, actions, crumbs=None, mdl=None, wide=False, side='', cls=''):
-    cr = ''
-    if crumbs:
-        cr = '<nav class="crumbs" aria-label="מיקום באתר">' + ' <span aria-hidden="true">/</span> '.join(f'<a href="{h}">{e(t)}</a>' if h else f'<span aria-current="page">{e(t)}</span>' for t, h in crumbs) + '</nav>'
-    m = ''
-    if mdl:
-        m = f'<figure class="page-hero__model">{model(pg, mdl["cam"], mdl["show"], mdl.get("label", mdl["cap"]))}<figcaption>{e(mdl["cap"])}</figcaption></figure>'
-    if side:
-        m = f'<div class="page-hero__side" data-load="3">{side}</div>'
-    return (f'<section class="page-hero{(" " + cls) if cls else ""}" aria-labelledby="h1"><div class="page-hero__text{" wide" if (wide or not mdl) and not side else ""}">{cr}'
-            f'{lines("h1", "title", h1, "h1")}'
-            f'<p class="page-hero__lede" data-load="1">{lede}</p>'
-            f'<div class="page-hero__actions" data-load="2">{actions}</div></div>{m}</section>')
+def checks_split(rows, pic=None):
+    lst = '<ul class="checks">' + ''.join(f'<li><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in rows) + '</ul>'
+    if not pic:
+        return f'<div class="split split--solo">{lst}</div>'
+    src, cap, alt = pic
+    return (f'<div class="split">{lst}<figure class="split__pic"><img src="{src}" alt="{e(alt)}" width="718" height="898" loading="lazy" decoding="async">'
+            f'<figcaption>{e(cap)}</figcaption></figure></div>')
 
 
-def actions(pg, text, lang='he'):
-    if lang == 'en':
-        return f'<a class="btn btn--accent" href="{wa(text)}" data-wa="hero">{ico_wa()}WhatsApp Ravid</a><a class="tel" href="tel:{C.PHONE_INTL}" data-tel="hero"><span class="ltr">{C.PHONE_EN}</span></a>'
-    return f'<a class="btn btn--accent" href="{wa(text)}" data-wa="hero">{ico_wa()}לתיאום בוואטסאפ</a><a class="tel" href="tel:{C.PHONE_INTL}" data-tel="hero"><span class="ltr">{C.PHONE}</span></a>'
-
-
-def when_section(w, h2_id='when-h'):
-    facts = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in w['facts'])
-    ps = ''.join(f'<p>{e(x)}</p>' for x in w['p'])
-    return (f'<section class="when" aria-labelledby="{h2_id}"><div class="when__text" data-reveal><h2 id="{h2_id}">{e(w["h2"])}</h2><p class="lead">{e(w["lead"])}</p>{ps}</div>'
-            f'<dl class="when__facts" data-reveal>{facts}</dl></section>')
-
-
-def list_section(l, h2_id='list-h', pg=None, pic=None):
-    rows = ''.join(f'<li data-reveal><b>{e(t)}</b><span>{e(d)}</span></li>' for t, d in l['rows'])
-    fig = ''
-    if pic and pg:
-        src, cap, w, h, alt = pic
-        fig = (f'<figure class="list__pic" data-reveal><img src="{pg.a(src)}" alt="{e(alt)}" width="{w}" height="{h}" loading="lazy" decoding="async">'
-               f'<figcaption>{e(cap)}</figcaption></figure>')
-    return (f'<section class="list{" list--pic" if fig else ""}" aria-labelledby="{h2_id}"><div class="list__main"><h2 id="{h2_id}" data-reveal>{e(l["h2"])}</h2>'
-            f'<p class="list__intro" data-reveal>{e(l["intro"])}</p><ul class="list__rows">{rows}</ul></div>{fig}</section>')
+def related_section(pg, related, h2='עוד שירותים שיכולים להתאים'):
+    cards = ''
+    for slug in related:
+        if slug in SVC:
+            cards += svc_card(pg, SVC[slug], 3)
+        elif slug == 'lawyers':
+            cards += link_card(pg.a('lawyers/'), 'לעורכי דין, מתווכים ושמאים', 'איך מפנים לקוח, מה הוא מקבל, ודוח לדוגמה.')
+        elif slug == 'checklist':
+            cards += link_card(pg.a('checklist/'), 'רשימת בדיקה למקבלי דירה', 'מה לבדוק בעצמכם ביום המסירה. להדפסה ולהורדה.')
+    return section('related', h2, f'<ul class="svc-list svc-list--row">{cards}</ul>', cls='section--paper') if cards else ''
 
 
 VALLEY_CREDIT = 'צילום עמק יזרעאל: Mohammad Hijjawi, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener license" target="_blank">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/wiki/File:Jezreel_Valley_3.jpg" rel="noopener" target="_blank">ויקישיתוף</a>.'
-
-
-def visit_section(pg, h2, sub, preset=None, h2_id='contact-h', idattr='contact'):
-    return (f'<section class="visit" id="{idattr}" aria-labelledby="{h2_id}">'
-            f'<figure class="visit__photo"><img src="{pg.a("assets/img/photo/valley-1600.webp")}" srcset="{pg.a("assets/img/photo/valley-900.webp")} 900w, {pg.a("assets/img/photo/valley-1600.webp")} 1600w, {pg.a("assets/img/photo/valley-1920.webp")} 1920w" sizes="100vw" alt="עמק יזרעאל כפי שהוא נראה מהכרמל: שדות, יישובים וגבעות" width="1600" height="900" loading="lazy" decoding="async">'
-            f'<figcaption>עמק יזרעאל מהכרמל. אזור העבודה: {e(C.AREA_TOWNS)}</figcaption></figure>'
-            f'<div class="visit__inner"><div class="card" data-reveal><h2 id="{h2_id}">{e(h2)}</h2><p class="card__sub">{e(sub)}</p>{quote_form(pg, preset)}'
-            f'<div class="card__alt"><a href="tel:{C.PHONE_INTL}" data-tel="card"><span class="ltr">{C.PHONE}</span></a><a href="mailto:{C.EMAIL}">{C.EMAIL}</a><p>{e(C.ADDRESS)} · בודקים {e(C.AREA_IN)}</p></div></div></div></section>')
-
-
-def related_nav(pg, related):
-    links = []
-    for slug in related:
-        if slug in SVC:
-            links.append((pg.a(slug + '/'), SVC[slug]['name']))
-        elif slug == 'lawyers':
-            links.append((pg.a('lawyers/'), 'לעורכי דין, מתווכים ושמאים'))
-        elif slug == 'checklist':
-            links.append((pg.a('checklist/'), 'רשימת בדיקה למקבלי דירה'))
-    if not links:
-        return ''
-    items = ''.join(f'<li><a class="arrow-link" href="{h}">{e(t)} <span aria-hidden="true">←</span></a></li>' for h, t in links)
-    return f'<nav class="related" aria-label="עוד באתר"><h2 class="related__h">עוד באתר</h2><ul>{items}</ul></nav>'
+MODEL_NOTE = 'הדירה התלת־ממדית באתר היא המחשה.'
 
 
 # ---------- Schema ----------
@@ -413,154 +423,156 @@ def graph(*nodes):
 
 
 # ---------- עמוד הבית ----------
+HOME_PHOTOS = ['ceiling-damp', 'tile-pinhole', 'sash-gap']   # שלושה ממצאים שונים, בלי חזרה על הצילומים שבדוח לדוגמה
+
+
 def build_home():
     pg = Page('index.html')
-    h = C.HOME
-    hero = (f'<section class="hero" aria-labelledby="h1">'
-            f'{lines("h1", "hero__title", h["h1"], "h1")}'
-            f'<div class="hero__lede"><p data-load="1">{e(h["lede"])}</p><div class="hero__actions" data-load="2">{actions(pg, C.WA_DEFAULT)}</div>'
-            f'<div class="hero__eye" data-load="3"><button class="btn btn--quiet" type="button" aria-pressed="false" aria-controls="apt-hero" data-eye="apt-hero"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>מבט של בודק</button>'
-            f'<p class="eye-say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></div>'
-            f'</div>'
-            f'<figure class="hero__model" data-load="3">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", sway=True, focusable=True, idattr="apt-hero")}</figure>'
-            f'</section>')
-    steps = []
-    for i, s in enumerate(h['steps']):
-        checks = ''.join(f'<li><b>{e(t)}</b><span>{e(d)}</span>{f"<span class=tool>{e(tool)}</span>" if tool else ""}</li>' for t, d, tool in s['checks'])
-        key = poster_key(s['cam'], s['show'])
-        POSTERS[key] = {'cam': s['cam'], 'show': s['show']}
-        pic = f'<figure class="step__pic"><img src="{pg.a("assets/img/scene/" + key + ".webp")}" alt="המחשה: {e(s["h3"])}" width="1200" height="900" loading="lazy" decoding="async"></figure>'
-        steps.append(f'<article class="step" data-step="{s["id"]}" data-cam="{s["cam"]}" data-show="{s["show"]}" aria-labelledby="st-{s["id"]}">{pic}<h3 id="st-{s["id"]}" data-reveal>{e(s["h3"])}</h3><p data-reveal>{e(s["p"])}</p><ul class="checks" data-reveal>{checks}</ul></article>')
-    field = f'<a class="arrow-link" href="{pg.a("field/")}">ליקויים אמיתיים מהשטח <span aria-hidden="true">←</span></a>' if HAS_FIELD else ''
-    steps.append(f'<p class="tour__end" data-reveal>{field}<a class="arrow-link" href="{pg.a("checklist/")}">רשימת בדיקה מלאה למקבלי דירה, להורדה <span aria-hidden="true">←</span></a></p>')
-    tour = (f'<section class="tour" id="tour" aria-labelledby="tour-h">'
-            f'<div class="tour__stage">{model(pg, "overview", "", "המחשה: סיור בדירה לדוגמה, תחנה אחרי תחנה", idattr="apt-tour")}</div>'
-            f'<div class="tour__steps" data-tour="apt-tour"><header class="tour__head"><h2 id="tour-h" data-reveal>{e(h["tour_h2"])}</h2><p data-reveal>{e(h["tour_intro"])}</p></header>{"".join(steps)}</div></section>')
-    names = ', '.join(f'<span class="n">{e(n)}</span>' for n in h['creds'])
-    creds = (f'<section class="creds" aria-labelledby="creds-h"><div class="creds__text" data-reveal data-creds><h2 id="creds-h">{e(h["creds_lead"])}</h2> <p>{names}.</p></div>'
-             f'<p class="creds__logo" data-reveal><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111" loading="lazy">מאתר ליקויי בנייה מטעם איגוד המהנדסים לבנייה ולתשתיות</p></section>')
-    facts = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in h['about_facts'])
-    about = (f'<section class="about" id="about" aria-labelledby="about-h"><div class="about__row"><dl class="facts" data-reveal>{facts}</dl>'
-             f'<div class="about__text" data-reveal><h2 id="about-h">רביד קרודו</h2><p class="about__para">{e(h["about_para"])}</p><p class="about__more">{e(h["about_more"])}</p>'
-             f'<a class="arrow-link" href="{pg.a("about/")}">עוד על רביד <span aria-hidden="true">←</span></a></div></div></section>')
-    visit = visit_section(pg, h['contact_h2'], h['contact_sub'])
+    h, H = C.HOME, C.HOME2
+    hero = (f'<section class="hero dark" aria-labelledby="h1"><div class="wrap hero__grid">'
+            f'<div class="hero__text"><h1 id="h1">{e(H["h1"])}</h1><p class="lede">{e(h["lede"])}</p>{actions(pg)}</div>'
+            f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "", "המחשה תלת־ממדית של דירה לדוגמה: סלון ומטבח, חדר שינה, רחצה, ממ״ד ומרפסת", focusable=True, idattr="apt-hero")}</div>'
+            f'<figcaption class="eye"><button class="btn btn--secondary" type="button" aria-pressed="false" aria-controls="apt-hero" data-eye="apt-hero">{ico_eye()}מבט של בודק</button>'
+            f'<p class="eye__say" aria-live="polite" data-eye-say data-off="{e(h["eye_off"])}" data-on="{e(h["eye_on"])}">{e(h["eye_off"])}</p></figcaption></figure>'
+            f'</div></section>')
     findings = '<script type="application/json" id="k-findings">' + json.dumps(C.FINDINGS, ensure_ascii=False) + '</script>'
-    body = hero + findings + lineup(pg, h['lineup_h2'], intro=h['lineup_intro']) + creds + tour + field_strip(pg) + process(h['process']) + report_section(pg) + about + faq_block(h['faq'], h['faq_h2'], pg) + visit
+    body = hero + findings
+    body += section('services', H['chooser_h2'], chooser(pg).replace('class="chooser"', 'class="chooser chooser--home"', 1), e(H['chooser_p']),
+                    more=more_links((pg.a('services/'), 'כל השירותים, עם הפירוט'), (pg.a('lawyers/'), 'לעורכי דין, מתווכים ושמאים')))
+    body += section('why', H['why_h2'], why_grid(), cls='section--paper')
+    body += section('process', H['process_h2'], steps(C.PROCESS))
+    if HAS_FIELD:
+        pick = [field_item(k) for k in HOME_PHOTOS if field_item(k)]
+        body += section('field', H['field_h2'], photo_cards(pg, pick), e(C.FIELD['strip_p']), cls='section--paper',
+                        more=more_links((pg.a('field/'), 'כל הליקויים מהשטח, עם מה שנמדד ומה שהומלץ')))
+    body += section('report', H['report_h2'], sample_report(pg), e(H['report_p']))
+    about = (f'<div class="prose"><p class="lead">{e(h["about_para"])}</p><p>{e(h["about_more"])}</p>'
+             f'<p><a class="link-arrow" href="{pg.a("about/")}">עוד על רביד, ההסמכות והניסיון {ARROW}</a></p></div>')
+    body += section('about', H['about_h2'], about, cls='section--paper')
+    body += section('faq', H['faq_h2'], faq_list(h['faq'], pg))
+    body += contact_section(pg, h['contact_h2'], h['contact_sub'])
     schema = graph(org_schema(), person_schema(), {'@type': 'WebSite', '@id': SITE_URL + '/#website', 'url': SITE_URL + '/', 'name': BRAND, 'inLanguage': 'he-IL', 'publisher': {'@id': SITE_URL + '/#business'}}, faq_schema(h['faq']))
-    page(pg, h['title'], h['desc'], body, schema, model=True, credit=VALLEY_CREDIT, alt_en=True, full_title=f'{BRAND} · {h["title"]}')
+    page(pg, h['title'], h['desc'], body, schema, model=True, credit=MODEL_NOTE, alt_en=True, full_title=f'{BRAND} · {h["title"]}')
 
 
-# ---------- עמודי השירות ----------
-SERVICE_PICS = {   # (צילום מהשטח, כיתוב) או None, ותמונת דגם למקרה שאין צילומים
-    'second-hand': (('ceiling-damp', 'רטיבות בתקרת חדר רחצה, כפי שסומנה בחוות דעת. המקור היה איטום לקוי סביב תריס הוונטה בקיר החוץ.'), ('moisture--moisture', 'המחשה: רטיבות בקיר, כפי שהיא נראית במצלמה תרמית')),
-    'private-house': (None, ('water--moisture-drain', 'המחשה: רטיבות ושיפועי ניקוז')),
-    'new-apartment': (('sash-gap', 'חופש של כ־8 מ״מ בכנף ויטרינה סגורה ונעולה. התקן מתיר 4 מ״מ.'), ('plans--plans-electric-rail', 'המחשה: מידות מול התוכנית, חשמל ומעקות')),
-    'common-areas': (None, ('structure--cracks-tiles', 'המחשה: סדקים וריצוף')),
-    'after-renovation': (('tile-lippage', 'הפרש גובה בין אריחים, נמדד בטריז. התקן מתיר עד 1.5 מ״מ.'), ('structure--cracks-tiles', 'המחשה: סדקים וריצוף אחרי עבודות')),
-    'expert-opinion': (('plumb-laser', 'בדיקת אנכיות הטיח: קרן לייזר כקו ייחוס, ומדידה בשלושה גבהים, לפי שיטת הבדיקה בתקן.'), ('structure--cracks-tiles', 'המחשה: סדק מפינת החלון, ואריחים חלולים')),
-    'counter-inspection': (('sliding-door-box', 'ארגז עליון מאולתר בדלת הזזה, כפי שסומן בחוות דעת.'), ('moisture--moisture', 'המחשה: ממצא שנבדק מחדש בשטח')),
+# ---------- עמוד השירותים ----------
+def build_services():
+    pg = Page('services/index.html')
+    P = C.SERVICES_PAGE
+    home = pg.a('') or './'
+    body = page_head(pg, P['h1'], e(P['lede']), [('דף הבית', home), ('שירותים', None)])
+    body += f'<section class="section" aria-label="השירותים לפי מצב"><div class="wrap">{chooser(pg, who=True, level=2)}</div></section>'
+    body += section('checks', P['checks_h2'], stations(), e(P['checks_p']), cls='section--paper')
+    cards = (f'<div class="cta-cards">'
+             f'<div class="cta-card"><h2 id="next-h">{e(P["unsure_h2"])}</h2><p>{e(P["unsure_p"])}</p>{actions(pg, label="לשאלה בוואטסאפ")}</div>'
+             f'<div class="cta-card"><h2>לעורכי דין, מתווכים ושמאים</h2><p>{e(C.LAWYERS["lede"])}</p>'
+             f'<p><a class="link-arrow" href="{pg.a("lawyers/")}">איך מפנים לקוח {ARROW}</a></p></div></div>')
+    body += f'<section class="section" id="next" aria-labelledby="next-h"><div class="wrap">{cards}</div></section>'
+    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('שירותים', 'services/')]),
+                   {'@type': 'ItemList', 'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'name': s['name'], 'url': f"{SITE_URL}/{s['slug']}/"} for i, s in enumerate(C.SERVICES)]})
+    page(pg, P['title'], P['desc'], body, schema, current='services')
+
+
+# ---------- עמודי השירות: תבנית אחת ----------
+SERVICE_PICS = {   # צילום מהשטח וכיתוב לכל שירות (רק כשיש צילומים)
+    'second-hand': ('ceiling-damp', 'רטיבות בתקרת חדר רחצה, כפי שסומנה בחוות דעת. המקור היה איטום לקוי סביב תריס הוונטה בקיר החוץ.'),
+    'private-house': ('plaster-waviness', 'בדיקת גליות בטיח בפלס של 1 מ׳: נמדד מרווח של 6 מ״מ, והתקן מתיר 5.'),
+    'new-apartment': ('sash-gap', 'חופש של כ־8 מ״מ בכנף ויטרינה סגורה ונעולה. התקן מתיר 4 מ״מ.'),
+    'after-renovation': ('tile-lippage', 'הפרש גובה בין אריחים, נמדד בטריז. התקן מתיר עד 1.5 מ״מ.'),
+    'expert-opinion': ('plumb-laser', 'בדיקת אנכיות הטיח: קרן לייזר כקו ייחוס, ומדידה בשלושה גבהים, לפי שיטת הבדיקה בתקן.'),
+    'counter-inspection': ('sliding-door-box', 'ארגז עליון מאולתר בדלת הזזה, כפי שסומן בחוות דעת.'),
 }
+REPORT_STEP = {'expert-opinion': 'חוות הדעת', 'counter-inspection': 'ההתייחסות בכתב'}
+
 
 def build_service(s):
     pg = Page(s['slug'] + '/index.html')
-    acts = actions(pg, s['wa'])
-    crumbs = [('דף הבית', pg.a('') or './'), ('שירותים', pg.a('#services')), (s['name'], None)]
-    mdl = dict(s['model']) if s['model'] else None
-    body = page_hero(pg, s['h1'], e(s['lede']), acts, crumbs, mdl)
-    body += when_section(s['when'])
-    real, scene = SERVICE_PICS.get(s['slug'], (None, None))
+    home = pg.a('') or './'
+    w = s['when']
+    body = page_head(pg, s['name'], e(s['lede']), [('דף הבית', home), ('שירותים', pg.a('services/')), (s['name'], None)],
+                     side=facts_card(w['facts']), acts=actions(pg, s['wa']))
+    paras = ''.join(f'<p>{e(x)}</p>' for x in w['p'])
+    body += section('when', w['h2'], f'<div class="prose"><p class="lead">{e(w["lead"])}</p>{paras}</div>')
     pic = None
-    if real and HAS_FIELD and field_item(real[0]):
-        x = field_item(real[0])
-        pic = ('assets/img/field/' + x['img'] + '.webp', real[1], 718, 898, x['alt'])
-    elif scene:
-        POSTERS[scene[0]] = {'cam': scene[0].split('--')[0], 'show': scene[0].split('--')[1].replace('-', ',') if '--' in scene[0] else ''}
-        pic = ('assets/img/scene/' + scene[0] + '.webp', scene[1], 1200, 900, scene[1])
-    body += list_section(s['list'], pg=pg, pic=pic)
-    body += process(C.HOME['process'], note2=s['report_note'], note1=s.get('visit'))
-    body += faq_block(s['faq'], 'שאלות על ' + s['row'], pg)
-    body += visit_section(pg, s['close'][0], s['close'][1], preset=s['slug'])
-    body += related_nav(pg, s['related'])
+    if HAS_FIELD and s['slug'] in SERVICE_PICS and field_item(SERVICE_PICS[s['slug']][0]):
+        x = field_item(SERVICE_PICS[s['slug']][0])
+        pic = (pg.a('assets/img/field/' + x['img'] + '.webp'), SERVICE_PICS[s['slug']][1], x['alt'])
+    body += section('checks', s['list']['h2'], checks_split(s['list']['rows'], pic), e(s['list']['intro']), cls='section--paper')
+    report_title = REPORT_STEP.get(s['slug'], 'דוח תוך שבוע')
+    report_note = s['report_note'] + ('' if s['slug'] in REPORT_STEP else ' ה־PDF מגיע תוך שבוע, בוואטסאפ ובמייל.')
+    items = [C.PROCESS[0], (C.PROCESS[1][0], s.get('visit') or C.PROCESS[1][1]), (report_title, report_note), C.PROCESS[3]]
+    body += section('process', 'מה מקבלים ואיך זה עובד', steps(items))
+    body += section('faq', 'שאלות על ' + s['row'], faq_list(s['faq'], pg), cls='section--paper')
+    body += contact_section(pg, s['close'][0], s['close'][1], preset=s['slug'], cls='')
+    body += related_section(pg, s['related'])
     schema = graph({'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['desc'], 'url': f"{SITE_URL}/{s['slug']}/",
                     'provider': {'@id': SITE_URL + '/#business'}, 'areaServed': {'@type': 'AdministrativeArea', 'name': 'צפון ישראל'}},
-                   org_schema(), crumbs_schema([('דף הבית', ''), (s['name'], s['slug'] + '/')]), faq_schema(s['faq']))
-    page(pg, s['title'], s['desc'], body, schema, model=bool(mdl), credit=VALLEY_CREDIT)
+                   org_schema(), crumbs_schema([('דף הבית', ''), ('שירותים', 'services/'), (s['name'], s['slug'] + '/')]), faq_schema(s['faq']))
+    page(pg, s['title'], s['desc'], body, schema, current='services')
 
 
 # ---------- לעורכי דין ----------
 def build_lawyers():
     pg = Page('lawyers/index.html')
     L = C.LAWYERS
-    acts = actions(pg, L['wa'])
-    card = (f'<div class="card bizcard"><img class="bizcard__logo" src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118">'
+    home = pg.a('') or './'
+    card = (f'<div class="facts-card bizcard"><img class="bizcard__logo" src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118">'
             f'<p class="bizcard__name">רביד קרודו</p><p class="bizcard__title">הנדסאי בניין רשום · מ.ר {C.REG}</p>'
-            f'<dl class="bizcard__rows"><div><dt>טלפון</dt><dd><a href="tel:{C.PHONE_INTL}" data-tel="card"><span class="ltr">{C.PHONE}</span></a></dd></div>'
+            f'<dl class="facts"><div><dt>טלפון</dt><dd><a href="tel:{C.PHONE_INTL}" data-tel="card"><span class="ltr">{C.PHONE}</span></a></dd></div>'
             f'<div><dt>מייל</dt><dd><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div><div><dt>אזור</dt><dd>{e(C.AREA)}</dd></div></dl>'
-            f'<a class="btn btn--accent" href="{pg.a("assets/krudo-engineering.vcf")}" download data-vcf>שמירת איש קשר</a></div>')
-    body = page_hero(pg, L['h1'], e(L['lede']), acts, [('דף הבית', pg.a('') or './'), ('לעורכי דין ומתווכים', None)], side=card)
-    rows = ''.join(row_link(pg.a(h), a, b, c) for h, a, b, c in L['refer'])
-    body += (f'<section class="lineup lineup--side" aria-labelledby="refer-h"><div class="lineup__main"><h2 class="lineup__h" id="refer-h" data-reveal>{e(L["refer_h2"])}</h2><div class="lineup__table"><ul>{rows}</ul></div></div>'
-             f'<figure class="still" data-reveal><div class="still__clip">{sheet(pg)}</div><figcaption>מה הלקוח מקבל: סעיף לכל ממצא, עם מדידה, סעיף התקן, המלצה ותמחור לפי מחירון דקל. {"עמוד מתוך חוות דעת של רביד, בלי פרטים מזהים." if HAS_FIELD else "המחשה של עמוד מתוך דוח."}{sample_link(pg)}</figcaption></figure></section>')
+            f'<a class="btn btn--secondary" href="{pg.a("assets/krudo-engineering.vcf")}" download data-vcf>שמירת איש קשר</a></div>')
+    body = page_head(pg, 'לעורכי דין, מתווכים ושמאים', e(L['lede']), [('דף הבית', home), ('לעורכי דין ומתווכים', None)],
+                     side=card, acts=actions(pg, L['wa'], 'להפניית לקוח בוואטסאפ'))
+    refer = ''.join(f'<li class="svc"><h3 class="svc__name"><a href="{pg.a(href)}">{e(a)}</a></h3><dl class="svc__facts"><div><dt>מתי</dt><dd>{e(b)}</dd></div>'
+                    f'<div><dt>מה מקבלים</dt><dd>{e(c)}</dd></div></dl><span class="svc__more" aria-hidden="true">לפרטים ←</span></li>' for href, a, b, c in L['refer'])
+    body += section('refer', L['refer_h2'], f'<ul class="svc-list svc-list--row svc-list--4">{refer}</ul>')
     send = ''.join(f'<li>{e(x)}</li>' for x in L['send'])
     get = ''.join(f'<li>{e(x)}</li>' for x in L['get'])
-    body += (f'<section class="when" aria-labelledby="work-h"><div class="when__text" data-reveal><h2 id="work-h">{e(L["statement"].split(".")[0])}.</h2><p class="lead">{e(L["statement"].split(". ", 1)[1])}</p></div>'
-             f'<div class="when__facts records" data-reveal><div><h3>{e(L["send_h2"])}</h3><ul>{send}</ul></div><div><h3>{e(L["get_h2"])}</h3><ul>{get}</ul></div></div></section>')
-    body += faq_block(L['faq'], 'שאלות של אנשי מקצוע', pg)
-    body += visit_section(pg, 'להפנות לקוח', 'בחרו את סוג הבדיקה ושלחו את פרטי הנכס. תמונות ודוחות קיימים מצרפים בצ׳אט.')
-    body += related_nav(pg, ['expert-opinion', 'counter-inspection', 'second-hand'])
+    work = (f'<p class="lead work__statement">{e(L["statement"])}</p><div class="work">'
+            f'<div class="work__col"><h3>{e(L["send_h2"])}</h3><ul class="ticks">{send}</ul></div>'
+            f'<div class="work__col"><h3>{e(L["get_h2"])}</h3><ul class="ticks">{get}</ul></div></div>')
+    body += section('work', 'איך עובדים יחד', work, cls='section--paper')
+    body += section('report', 'דוח לדוגמה', sample_report(pg), e('כך נראה סעיף בחוות דעת של רביד. בלי פרטים מזהים.'))
+    body += section('faq', 'שאלות של אנשי מקצוע', faq_list(L['faq'], pg), cls='section--paper')
+    body += contact_section(pg, 'להפנות לקוח', 'בחרו את סוג הבדיקה ושלחו את פרטי הנכס. תמונות ודוחות קיימים מצרפים בצ׳אט.', cls='')
     schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('לעורכי דין ומתווכים', 'lawyers/')]), faq_schema(L['faq']))
-    page(pg, L['title'], L['desc'], body, schema, current='lawyers', credit=VALLEY_CREDIT)
+    page(pg, L['title'], L['desc'], body, schema, current='lawyers')
 
 
-# ---------- רביד ----------
+# ---------- אודות ----------
 def build_about():
     pg = Page('about/index.html')
-    A = C.ABOUT
-    sheet_ = ('<div class="factsheet"><dl>' + ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in A['creds']) + '</dl>'
-              f'<p class="creds__logo"><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111">מאתר ליקויי בנייה מטעם איגוד המהנדסים לבנייה ולתשתיות</p></div>')
-    # TODO: כשתגיע תמונה של רביד בשטח, היא נכנסת כאן במקום לוח העובדות או לידו
-    body = page_hero(pg, A['h1'], e(A['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('על רביד', None)], side=sheet_)
+    A, h = C.ABOUT, C.HOME
+    home = pg.a('') or './'
+    logo = (f'<p class="assoc"><img src="{pg.a("assets/img/brand/engineers-association.png")}" alt="איגוד המהנדסים לבנייה ולתשתיות" width="168" height="111">'
+            f'<span>מאתר ליקויי בנייה מטעם איגוד המהנדסים לבנייה ולתשתיות</span></p>')
+    body = page_head(pg, 'רביד קרודו', e(A['lede']), [('דף הבית', home), ('אודות', None)],
+                     side=facts_card(h['about_facts'], 'בקצרה', logo), acts=actions(pg, label='לדבר עם רביד בוואטסאפ'))
     story = ''.join(f'<p>{e(x)}</p>' for x in A['story'])
-    who = ''.join(f'<div><dt>{e(t)}</dt><dd>{"<br>".join(e(x) for x in items)}</dd></div>' for t, items in C.HOME['records'])
-    body += (f'<section class="when" aria-labelledby="story-h"><div class="when__text" data-reveal><h2 id="story-h">למה קרודו הנדסה</h2><p class="lead">{e(A["statement"])}</p><div class="prose">{story}</div></div>'
-             f'<dl class="when__facts" data-reveal>{who}</dl></section>')
-    body += process(C.HOME['process'])
-    body += visit_section(pg, 'לדבר עם רביד', 'שלחו כמה פרטים בוואטסאפ, או התקשרו. רביד עונה בעצמו.')
-    body += related_nav(pg, ['second-hand', 'new-apartment', 'expert-opinion'])
-    schema = graph(person_schema(), org_schema(), crumbs_schema([('דף הבית', ''), ('על רביד', 'about/')]))
-    page(pg, A['title'], A['desc'], body, schema, current='about', credit=VALLEY_CREDIT)
+    body += section('story', 'למה קרודו הנדסה', f'<div class="prose"><p class="lead">{e(A["statement"])}</p>{story}</div>')
+    creds = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in A['creds'])
+    body += section('creds', A['creds_h2'], f'<dl class="facts facts--wide">{creds}</dl>', cls='section--paper')
+    recs = ''.join(f'<div class="work__col"><h3>{e(t)}</h3><ul class="ticks">{"".join(f"<li>{e(x)}</li>" for x in items)}</ul></div>' for t, items in h['records'])
+    body += section('fields', 'תחומים ולקוחות', f'<div class="work">{recs}</div>')
+    body += cta_band(pg, 'לדבר עם רביד', 'שלחו כמה פרטים בוואטסאפ, או התקשרו. רביד עונה בעצמו.')
+    schema = graph(person_schema(), org_schema(), crumbs_schema([('דף הבית', ''), ('אודות', 'about/')]))
+    page(pg, A['title'], A['desc'], body, schema, current='about')
 
 
-# ---------- קשר ----------
+# ---------- צור קשר ----------
 def build_contact():
     pg = Page('contact/index.html')
     K = C.CONTACT
-    side = (f'<div class="factsheet"><dl><div><dt>וואטסאפ וטלפון</dt><dd><a class="link" href="tel:{C.PHONE_INTL}" data-tel="contact"><span class="ltr">{C.PHONE}</span></a></dd></div>'
-            f'<div><dt>מייל</dt><dd><a class="link" href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div>'
-            f'<div><dt>כתובת</dt><dd>{e(C.ADDRESS)}</dd></div><div><dt>אזור</dt><dd>{e(C.AREA_TOWNS)}, עד כ־50 ק״מ</dd></div></dl>'
-            f'<p class="factsheet__note">לחוות דעת ולנכסים גדולים, אפשר לתאם גם רחוק יותר.</p></div>')
-    body = page_hero(pg, K['h1'], e(K['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('יצירת קשר', None)], side=side)
-    body += visit_section(pg, 'פרטים לוואטסאפ', 'בחרו סוג בדיקה והוסיפו מה שאתם יודעים. תמונות מצרפים בצ׳אט.', h2_id='form-h', idattr='form')
-    rows = ''.join(f'<li data-reveal><b>{e(a)}</b><span>{e(b)}</span></li>' for a, b in K['next'])
-    body += f'<section class="list" aria-labelledby="next-h"><h2 id="next-h" data-reveal>{e(K["next_h2"])}</h2><ul class="list__rows">{rows}</ul></section>'
-    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('יצירת קשר', 'contact/')]))
-    page(pg, K['title'], K['desc'], body, schema, credit=VALLEY_CREDIT)
-
-
-# ---------- רשימת בדיקה ----------
-def build_checklist():
-    pg = Page('checklist/index.html')
-    K = C.CHECKLIST
-    secs = ''.join(f'<section aria-labelledby="cl-{i}"><h2 id="cl-{i}">{e(t)}</h2><ul>{"".join(f"<li>{e(x)}</li>" for x in items)}</ul></section>' for i, (t, items) in enumerate(K['sections']))
-    body = (f'<article class="article"><header class="article__head"><nav class="crumbs no-print" aria-label="מיקום באתר"><a href="{pg.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <span aria-current="page">רשימת בדיקה</span></nav>'
-            f'<p class="print-only"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="200" height="39"></p>'
-            f'<h1>{e(K["h1"][0])} {e(K["h1"][1])}</h1><p class="article__meta">{e(K["lede"])}</p>'
-            f'<p class="no-print page-hero__actions"><a class="btn btn--accent" href="{pg.a("assets/krudo-checklist.pdf")}" download data-pdf>הורדה כ־PDF</a><button class="btn btn--quiet" type="button" data-print>הדפסה</button></p></header>'
-            f'<div class="article__body"><div class="checklist">{secs}</div>'
-            f'<p class="print-only">{e(K["end"])} רביד קרודו, הנדסאי בניין רשום · {C.PHONE} · krudoeng.com</p></div>'
-            f'<div class="article__aside no-print"><div class="aside-card"><h2>רוצים שרביד יבדוק?</h2><p>{e(K["end"])}</p><a class="btn btn--accent" href="{wa(SVC["new-apartment"]["wa"])}" data-wa="aside">{ico_wa()}לתיאום בוואטסאפ</a></div></div></article>')
-    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('רשימת בדיקה', 'checklist/')]))
-    page(pg, K['title'], K['desc'], body, schema, credit=VALLEY_CREDIT)
+    home = pg.a('') or './'
+    body = page_head(pg, 'צור קשר', e(K['lede']), [('דף הבית', home), ('צור קשר', None)])
+    body += contact_section(pg, 'תיאום בדיקה', 'בחרו סוג בדיקה והוסיפו מה שאתם יודעים. תמונות מצרפים בצ׳אט.', sid='form', cls='')
+    body += section('next', K['next_h2'], steps(K['next']), cls='section--paper')
+    area = (f'<figure class="area"><img src="{pg.a("assets/img/photo/valley-1600.webp")}" srcset="{pg.a("assets/img/photo/valley-900.webp")} 900w, {pg.a("assets/img/photo/valley-1600.webp")} 1600w, {pg.a("assets/img/photo/valley-1920.webp")} 1920w" '
+            f'sizes="(max-width: 1240px) 100vw, 1200px" alt="עמק יזרעאל כפי שהוא נראה מהכרמל: שדות, יישובים וגבעות" width="1600" height="900" loading="lazy" decoding="async">'
+            f'<figcaption>עמק יזרעאל מהכרמל.</figcaption></figure>')
+    body += section('area', 'אזור העבודה', area, e(f'{C.AREA_TOWNS}, עד כ־50 ק״מ מקריית טבעון. לחוות דעת ולנכסים גדולים, אפשר לתאם גם רחוק יותר.'))
+    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('צור קשר', 'contact/')]))
+    page(pg, K['title'], K['desc'], body, schema, current='contact', credit=VALLEY_CREDIT)
 
 
 # ---------- ליקויים מהשטח ----------
@@ -569,86 +581,117 @@ def build_field():
         return
     F = C.FIELD
     pg = Page('field/index.html')
-    side = ('<div class="factsheet"><dl>'
-            '<div><dt>הבדיקה</dt><dd>ויזואלית ולא הורסת, עם ציוד מדידה</dd></div>'
-            '<div><dt>בכל סעיף</dt><dd>ממצא, מסקנות וסעיף התקן, המלצה, תמחור ותמונות</dd></div>'
-            '<div><dt>תמחור</dt><dd>לפי מחירון דקל, לפני מע״מ וכולל מע״מ</dd></div>'
-            '<div><dt>נספחים</dt><dd>סעיפי התקנים שעליהם נשען כל ממצא</dd></div></dl></div>')
-    body = page_hero(pg, F['h1'], e(F['lede']), actions(pg, C.WA_DEFAULT), [('דף הבית', pg.a('') or './'), ('ליקויים מהשטח', None)], side=side)
-    for key, name in F['groups']:
+    home = pg.a('') or './'
+    side = facts_card([('הבדיקה', 'ויזואלית ולא הורסת, עם ציוד מדידה'), ('בכל סעיף', 'ממצא, מסקנות וסעיף התקן, המלצה, תמחור ותמונות'),
+                       ('תמחור', 'לפי מחירון דקל, לפני מע״מ וכולל מע״מ'), ('נספחים', 'סעיפי התקנים שעליהם נשען כל ממצא')], 'איך בנוי כל ממצא בדוח')
+    body = page_head(pg, 'ליקויים מהשטח', e(F['lede']), [('דף הבית', home), ('ליקויים מהשטח', None)], side=side)
+    for i, (key, name) in enumerate(F['groups']):
         items = [x for x in F['items'] if x['group'] == key]
-        if not items:
-            continue
-        figs = ''.join(
-            f'<li data-reveal><figure>{field_img(pg, x)}'
-            f'<figcaption><b>{e(x["found"])}</b><span>{e(x["note"])}</span><span><span class="field__k">המלצה:</span> {e(x["rec"])}</span></figcaption></figure></li>' for x in items)
-        body += f'<section class="field" aria-labelledby="field-{key}"><h2 id="field-{key}" data-reveal>{e(name)}</h2><ul class="field__grid">{figs}</ul></section>'
-    body += visit_section(pg, 'מצאתם משהו דומה?', 'שלחו תמונה ופרטים בוואטסאפ, ורביד יגיד אם צריך בדיקה, ואיזו.')
-    body += related_nav(pg, ['second-hand', 'new-apartment', 'expert-opinion'])
+        if items:
+            body += section('g-' + key, name, photo_cards(pg, items, full=True), cls='' if i % 2 == 0 else 'section--paper')
+    body += cta_band(pg, 'מצאתם משהו דומה?', 'שלחו תמונה ופרטים בוואטסאפ, ורביד יגיד אם צריך בדיקה, ואיזו.')
     schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('ליקויים מהשטח', 'field/')]))
-    page(pg, F['title'], F['desc'], body, schema, current='field', credit=VALLEY_CREDIT)
+    page(pg, F['title'], F['desc'], body, schema, current='field')
 
 
-# ---------- מאמרים ----------
+# ---------- מאמרים, מדריכים ועמודי מסמך ----------
 def fmt_date(d):
     months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר']
     y, m, dd = d.split('-')
     return f'{int(dd)} ב{months[int(m) - 1]} {y}'
 
 
+def doc_page(pg, h1, meta, crumb_items, body_html, aside_html='', head_extra='', head_pre=''):
+    head_ = (f'<section class="page-head page-head--doc" aria-labelledby="h1"><div class="wrap">{head_pre}{crumbs(pg, crumb_items)}<h1 id="h1">{e(h1)}</h1>'
+             + (f'<p class="lede">{meta}</p>' if meta else '') + head_extra + '</div></section>')
+    aside = f'<div class="article__aside no-print">{aside_html}</div>' if aside_html else ''
+    return (head_ + f'<div class="section section--doc"><div class="wrap article-layout{" has-aside" if aside_html else ""}">'
+            f'<article class="article__body" aria-labelledby="h1">{body_html}</article>{aside}</div></div>')
+
+
+def blocks_html(blocks):
+    parts = []
+    for kind, val in blocks:
+        if kind == 'p':
+            parts.append(f'<p>{e(val)}</p>')
+        elif kind == 'h2':
+            parts.append(f'<h2>{e(val)}</h2>')
+        elif kind == 'ul':
+            parts.append('<ul>' + ''.join(f'<li>{e(x)}</li>' for x in val) + '</ul>')
+        elif kind == 'table':
+            head_, *rows = val
+            parts.append('<div class="table-wrap"><table><thead><tr>' + ''.join(f'<th scope="col">{e(x)}</th>' for x in head_) + '</tr></thead><tbody>' +
+                         ''.join('<tr>' + ''.join(f'<td>{e(x)}</td>' for x in r) + '</tr>' for r in rows) + '</tbody></table></div>')
+    return ''.join(parts)
+
+
+def aside_card(pg, title, text, wa_text, link=None):
+    lk = f'<p><a class="link-arrow" href="{link[0]}">{e(link[1])} {ARROW}</a></p>' if link else ''
+    return (f'<div class="aside-card"><p class="aside-card__h">{e(title)}</p><p>{e(text)}</p>'
+            f'<a class="btn btn--primary" href="{wa(wa_text)}" data-wa="aside">{ico_wa()}לתיאום בוואטסאפ</a>{lk}</div>')
+
+
 def build_articles():
     idx = Page('articles/index.html')
-    items = ''.join(f'<li data-reveal><a href="{a["slug"]}/"><b>{e(a["title"])}</b><span>{e(a["desc"])}</span><time datetime="{a["date"]}">{fmt_date(a["date"])}</time></a></li>' for a in C.ARTICLES)
-    body = (f'<section class="article" aria-labelledby="h1"><header class="article__head"><nav class="crumbs" aria-label="מיקום באתר"><a href="{idx.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <span aria-current="page">מאמרים</span></nav>'
-            f'<h1 id="h1">מאמרים</h1><p class="article__meta">מה שכדאי לדעת לפני שקונים, מקבלים מפתח או נכנסים למחלוקת. כתב רביד קרודו.</p></header>'
-            f'<div class="article__body"><ul class="index-list">{items}</ul></div></section>')
-    page(idx, 'מאמרים על בדק בית וליקויי בנייה', 'מאמרים של רביד קרודו, הנדסאי בניין רשום: איך לקרוא מפרט טכני, ליקויים נפוצים בדירות חדשות, ואחריות הקבלן לפי חוק המכר.', body,
-         graph(org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים', 'articles/')])), current='articles')
+    home = idx.a('') or './'
+    K = C.CHECKLIST
+    cards = (f'<li class="svc"><p class="svc__kicker">מדריך להורדה</p><h2 class="svc__name"><a href="{idx.a("checklist/")}">{e(" ".join(K["h1"]))}</a></h2>'
+             f'<p class="svc__who">{e(K["lede"])}</p><span class="svc__more" aria-hidden="true">למדריך ←</span></li>')
+    cards += ''.join(f'<li class="svc"><p class="svc__kicker"><time datetime="{a["date"]}">{fmt_date(a["date"])}</time></p><h2 class="svc__name"><a href="{a["slug"]}/">{e(a["title"])}</a></h2>'
+                     f'<p class="svc__who">{e(a["desc"])}</p><span class="svc__more" aria-hidden="true">לקריאה ←</span></li>' for a in C.ARTICLES)
+    body = page_head(idx, 'מאמרים ומדריכים', e('מה שכדאי לדעת לפני שקונים, מקבלים מפתח או נכנסים למחלוקת. כתב רביד קרודו.'),
+                     [('דף הבית', home), ('מאמרים ומדריכים', None)], acts='')
+    body += f'<section class="section" aria-label="רשימת המאמרים והמדריכים"><div class="wrap"><ul class="svc-list svc-list--row">{cards}</ul></div></section>'
+    page(idx, 'מאמרים ומדריכים על בדק בית וליקויי בנייה', 'מאמרים ומדריכים של רביד קרודו, הנדסאי בניין רשום: רשימת בדיקה למקבלי דירה, איך לקרוא מפרט טכני, ליקויים נפוצים ואחריות הקבלן.', body,
+         graph(org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים ומדריכים', 'articles/')])), current='articles')
     for a in C.ARTICLES:
         pg = Page(f'articles/{a["slug"]}/index.html')
-        parts = []
-        for kind, val in a['body']:
-            if kind == 'p':
-                parts.append(f'<p>{e(val)}</p>')
-            elif kind == 'h2':
-                parts.append(f'<h2>{e(val)}</h2>')
-            elif kind == 'ul':
-                parts.append('<ul>' + ''.join(f'<li>{e(x)}</li>' for x in val) + '</ul>')
-            elif kind == 'table':
-                head_, *rows = val
-                parts.append('<table><thead><tr>' + ''.join(f'<th scope="col">{e(x)}</th>' for x in head_) + '</tr></thead><tbody>' +
-                             ''.join('<tr>' + ''.join(f'<td>{e(x)}</td>' for x in r) + '</tr>' for r in rows) + '</tbody></table>')
         svc = SVC[a['service']]
-        body = (f'<article class="article" aria-labelledby="h1"><header class="article__head"><nav class="crumbs" aria-label="מיקום באתר"><a href="{pg.a("") or "./"}">דף הבית</a> <span aria-hidden="true">/</span> <a href="{pg.a("articles/")}">מאמרים</a></nav>'
-                f'<h1 id="h1">{e(a["title"])}</h1><p class="article__meta">רביד קרודו · <time datetime="{a["date"]}">{fmt_date(a["date"])}</time> · עודכן <time datetime="{a["updated"]}">{fmt_date(a["updated"])}</time></p></header>'
-                f'<div class="article__body">{"".join(parts)}</div>'
-                f'<div class="article__aside"><div class="aside-card"><h2>{e(svc["name"])}</h2><p>{e(svc["lede"])}</p><a class="btn btn--accent" href="{wa(svc["wa"])}" data-wa="article">{ico_wa()}לתיאום בוואטסאפ</a>'
-                f'<p><a class="link" href="{pg.a(svc["slug"] + "/")}">על הבדיקה</a></p></div></div></article>')
+        meta = f'רביד קרודו · <time datetime="{a["date"]}">{fmt_date(a["date"])}</time> · עודכן <time datetime="{a["updated"]}">{fmt_date(a["updated"])}</time>'
+        body = doc_page(pg, a['title'], meta, [('דף הבית', pg.a('') or './'), ('מאמרים ומדריכים', pg.a('articles/')), (a['title'], None)],
+                        blocks_html(a['body']), aside_card(pg, svc['name'], svc['lede'], svc['wa'], (pg.a(svc['slug'] + '/'), 'על הבדיקה')))
         schema = graph({'@type': 'Article', 'headline': a['title'], 'description': a['desc'], 'inLanguage': 'he-IL', 'datePublished': a['date'], 'dateModified': a['updated'],
                         'author': {'@id': SITE_URL + '/#ravid'}, 'publisher': {'@id': SITE_URL + '/#business'}, 'mainEntityOfPage': f'{SITE_URL}/articles/{a["slug"]}/'},
-                       person_schema(), org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים', 'articles/'), (a['title'], f'articles/{a["slug"]}/')]))
+                       person_schema(), org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים ומדריכים', 'articles/'), (a['title'], f'articles/{a["slug"]}/')]))
         page(pg, a['title'], a['desc'], body, schema, current='articles')
+
+
+def build_checklist():
+    pg = Page('checklist/index.html')
+    K = C.CHECKLIST
+    secs = ''.join(f'<section aria-labelledby="cl-{i}"><h2 id="cl-{i}">{e(t)}</h2><ul>{"".join(f"<li>{e(x)}</li>" for x in items)}</ul></section>' for i, (t, items) in enumerate(K['sections']))
+    logo = f'<p class="print-only"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="200" height="39"></p>'
+    body_html = (f'<div class="checklist">{secs}</div><p class="print-only">{e(K["end"])} רביד קרודו, הנדסאי בניין רשום · {C.PHONE} · krudoeng.com</p>')
+    tools = (f'<div class="actions no-print"><a class="btn btn--primary" href="{pg.a("assets/krudo-checklist.pdf")}" download data-pdf>הורדה כ־PDF</a>'
+             f'<button class="btn btn--secondary" type="button" data-print>הדפסה</button></div>')
+    body = doc_page(pg, ' '.join(K['h1']), e(K['lede']), [('דף הבית', pg.a('') or './'), ('מאמרים ומדריכים', pg.a('articles/')), ('רשימת בדיקה', None)],
+                    body_html, aside_card(pg, 'רוצים שרביד יבדוק?', K['end'], SVC['new-apartment']['wa'], (pg.a('new-apartment/'), 'בדק בית לדירה חדשה')), head_extra=tools, head_pre=logo)
+    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('מאמרים ומדריכים', 'articles/'), ('רשימת בדיקה', 'checklist/')]))
+    page(pg, K['title'], K['desc'], body, schema, current='articles')
 
 
 # ---------- English ----------
 def build_en():
     pg = Page('en/index.html', lang='en')
     E = C.EN
-    hero = (f'<section class="page-hero page-hero--en" aria-labelledby="h1"><div class="page-hero__text">{lines("h1", "title", E["h1"], "h1")}'
-            f'<p class="page-hero__lede" data-load="1">{e(E["lede"])}</p><div class="page-hero__actions" data-load="2">{actions(pg, E["wa"], "en")}</div></div>'
-            f'<figure class="page-hero__model">{model(pg, "overview", "moisture,drain,cracks,tiles,plans,electric,rail", "Illustration: a sample apartment, with what an inspector looks for")}<figcaption>Illustration: what an inspector looks for</figcaption></figure></section>')
-    rows = ''.join(f'<li><div class="row" data-reveal><span class="c1">{e(a)}</span><span class="c2">{e(b)}</span><span class="c3">{e(c)}</span><span class="c4"></span></div></li>' for a, b, c in E['services'])
-    services = f'<section class="lineup" id="services" aria-labelledby="services-h"><h2 class="lineup__h" id="services-h" data-reveal>{e(E["services_h2"])}</h2><div class="lineup__table"><ul>{rows}</ul></div></section>'
-    stairs = ''.join(f'<li class="stair" data-reveal><{"h2" if i == 0 else "p"} class="stair__line"{" id=" + chr(34) + "process-h" + chr(34) if i == 0 else ""}>{e(l)}</{"h2" if i == 0 else "p"}><p class="stair__note">{e(n)}</p></li>' for i, (l, n) in enumerate(E['process']))
-    proc = f'<section class="process" aria-labelledby="process-h"><ol class="stairs">{stairs}</ol></section>'
-    about = (f'<section class="when" id="about" aria-labelledby="about-h"><div class="when__text" data-reveal><h2 id="about-h">{e(E["about_h2"])}</h2><p class="lead">{e(E["about"][0])}</p><p>{e(E["about"][1])}</p></div>'
-             f'<dl class="when__facts" data-reveal><div><dt>Registration</dt><dd>Certified construction practical engineer, 38633308</dd></div><div><dt>Based in</dt><dd>Kiryat Tivon</dd></div><div><dt>Area</dt><dd>Northern Israel, up to about 50 km</dd></div></dl></section>')
-    faq = ''.join(f'<div class="faq__row" data-reveal><h3 class="faq__q">{e(q)}</h3><div class="faq__a">{"".join(f"<p>{e(x)}</p>" for x in a)}</div></div>' for q, a in E['faq'])
-    faq = f'<section class="faq" aria-labelledby="faq-h"><div class="faq__row" data-reveal><h2 class="faq__q faq__h" id="faq-h">{e(E["faq_h2"])}</h2></div>{faq}</section>'
-    close = (f'<section class="close" aria-labelledby="close-h"><div class="close__text" data-reveal><h2 id="close-h">{e(E["contact_h2"])}</h2><p>{e(E["contact_p"])}</p>'
-             f'<div class="close__actions">{actions(pg, E["wa"], "en")}<a class="link" href="mailto:{C.EMAIL}">{C.EMAIL}</a></div></div></section>')
+    hero = (f'<section class="hero dark" aria-labelledby="h1"><div class="wrap hero__grid">'
+            f'<div class="hero__text"><h1 id="h1">{e(" ".join(E["h1"]))}</h1><p class="lede">{e(E["lede"])}</p>{actions(pg, lang="en")}'
+            f'<p class="hero__trust">Reg. 38633308 · Building defects inspector, Israel Association of Construction and Infrastructure Engineers</p></div>'
+            f'<figure class="hero__visual"><div class="hero__model">{model(pg, "overview", "moisture,drain,cracks,tiles,plans,electric,rail", "Illustration: a sample apartment, with what an inspector looks for")}</div>'
+            f'<figcaption class="eye"><p class="eye__say">Illustration: what an inspector looks for.</p></figcaption></figure></div></section>')
+    cards = ''.join(f'<li class="svc"><h3 class="svc__name">{e(a)}</h3><dl class="svc__facts"><div><dt>When</dt><dd>{e(b)}</dd></div><div><dt>You get</dt><dd>{e(c)}</dd></div></dl></li>' for a, b, c in E['services'])
+    body = hero + section('services', E['services_h2'], f'<ul class="svc-list svc-list--row">{cards}</ul>')
+    body += section('process', E['process_h2'], steps(E['process']), cls='section--paper')
+    about = (f'<div class="about-teaser"><div class="prose"><p class="lead">{e(E["about"][0])}</p><p>{e(E["about"][1])}</p></div>'
+             f'<div class="facts-card"><dl class="facts"><div><dt>Registration</dt><dd>Registered construction practical engineer, 38633308</dd></div>'
+             f'<div><dt>Based in</dt><dd>Kiryat Tivon</dd></div><div><dt>Area</dt><dd>Northern Israel, up to about 50 km</dd></div></dl></div></div>')
+    body += section('about', E['about_h2'], about)
+    faq = ''.join(f'<details class="faq__item"><summary>{e(qq)}</summary><div class="faq__a">{"".join(f"<p>{e(x)}</p>" for x in a)}</div></details>' for qq, a in E['faq'])
+    body += section('faq', E['faq_h2'], f'<div class="faq">{faq}</div>', cls='section--paper')
+    body += (f'<section class="section" id="contact" aria-labelledby="contact-h"><div class="wrap cta-band"><div><h2 id="contact-h">{e(E["contact_h2"])}</h2>'
+             f'<p class="lead">{e(E["contact_p"])} <a class="link-arrow" href="mailto:{C.EMAIL}">{C.EMAIL}</a></p></div>{actions(pg, lang="en")}</div></section>')
     schema = graph({**org_schema(), 'name': 'Krudo Engineering', 'alternateName': BRAND, 'description': E['desc']})
-    page(pg, E['title'], E['desc'], hero + services + proc + about + faq + close, schema, model=True, alt_en=True, full_title=E['title'])
+    page(pg, E['title'], E['desc'], body, schema, model=True, alt_en=True, full_title=E['title'])
 
 
 # ---------- נגישות ופרטיות ----------
@@ -658,7 +701,7 @@ def build_legal():
         ('h2', 'מחויבות לנגישות'),
         ('p', 'קרודו הנדסה רואה חשיבות במתן שירות שוויוני לכל הלקוחות, ובכלל זה לאנשים עם מוגבלות. האתר נבנה כך שיהיה נגיש, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג־2013, ולתקן הישראלי ת״י 5568 המבוסס על הנחיות WCAG ברמה AA.'),
         ('h2', 'מה נעשה באתר'),
-        ('ul', ['ניווט מלא במקלדת, עם סימון ברור של הרכיב שבפוקוס, וקישור "דילוג לתוכן" בראש כל עמוד', 'מבנה סמנטי: כותרות לפי סדר, אזורי ניווט מסומנים ורשימות אמיתיות', 'ניגודיות צבעים לפי הנחיות AA, וגודל טקסט בסיסי של 17 פיקסלים לפחות', 'טקסט חלופי לתמונות, ותיאור מילולי להמחשות', 'האתר מכבד את הגדרת "הפחתת תנועה" של מערכת ההפעלה: בלי סיבוב, סריקה ומעברים', 'כל התוכן נקרא גם בלי JavaScript, וכל ההמחשות מוצגות גם כתמונה סטטית', 'שדות הטופס מתויגים, והודעות שגיאה מוקראות', 'האתר מותאם לנייד, לטאבלט ולמחשב, ותומך בהגדלת טקסט עד 200%']),
+        ('ul', ['ניווט מלא במקלדת, עם סימון ברור של הרכיב שבפוקוס, וקישור "דילוג לתוכן" בראש כל עמוד', 'מבנה סמנטי: כותרות לפי סדר, אזורי ניווט מסומנים ורשימות אמיתיות', 'ניגודיות צבעים לפי הנחיות AA, טקסט בסיסי בגודל 18 פיקסלים, ושום טקסט קטן מ־16 פיקסלים', 'טקסט חלופי לתמונות, ותיאור מילולי להמחשות', 'באתר אין אנימציות. ההמחשה התלת־ממדית משתנה רק כשלוחצים על "מבט של בודק", ובהגדרת "הפחתת תנועה" של מערכת ההפעלה גם המעבר הזה מיידי', 'כל התוכן נקרא גם בלי JavaScript, וכל ההמחשות מוצגות גם כתמונה סטטית', 'שדות הטופס מתויגים, והודעות שגיאה מוקראות', 'האתר מותאם לנייד, לטאבלט ולמחשב, ותומך בהגדלת טקסט עד 200%']),
         ('h2', 'מגבלות ידועות'),
         ('p', 'ההמחשה התלת־ממדית של הדירה היא חזותית. כל מה שהיא מראה מתואר גם בטקסט שלידה, והממצאים שבה הם כפתורים עם שם מילולי.'),
         ('h2', 'נתקלתם בבעיה?'),
@@ -685,16 +728,7 @@ def build_legal():
         ('privacy/index.html', 'מדיניות פרטיות', 'מדיניות הפרטיות של אתר קרודו הנדסה: האתר לא שומר מידע אישי, והטופס נפתח כהודעת וואטסאפ.', priv, 'מדיניות פרטיות'),
     ]:
         pg = Page(path)
-        parts = []
-        for kind, val in blocks:
-            if kind == 'p':
-                parts.append(f'<p>{e(val)}</p>')
-            elif kind == 'h2':
-                parts.append(f'<h2>{e(val)}</h2>')
-            elif kind == 'ul':
-                parts.append('<ul>' + ''.join(f'<li>{e(x)}</li>' for x in val) + '</ul>')
-        body = (f'<article class="article" aria-labelledby="h1"><header class="article__head"><nav class="crumbs" aria-label="מיקום באתר"><a href="{pg.a("") or "./"}">דף הבית</a></nav><h1 id="h1">{e(h1)}</h1></header>'
-                f'<div class="article__body">{"".join(parts)}</div></article>')
+        body = doc_page(pg, h1, '', [('דף הבית', pg.a('') or './'), (h1, None)], blocks_html(blocks))
         page(pg, title, desc, body)
 
 
@@ -722,10 +756,10 @@ def build_redirects():
         lines_.append(f'{enc}/  /{new}  301!')
     # Netlify / Cloudflare Pages: הפניות 301 אמיתיות, אם האתר יעלה לשם
     open(os.path.join(ROOT, '_redirects'), 'w', encoding='utf-8').write('# הפניות מהכתובות של האתר הקודם (Wix)\n' + '\n'.join(lines_) + '\n')
-    pg = Page('404.html')
-    body = (f'<section class="page-hero" aria-labelledby="h1"><div class="page-hero__text wide">{lines("h1", "title", ["הדף", "לא נמצא"], "h1")}'
-            f'<p class="page-hero__lede">אולי הוא עבר, ואולי נפלה טעות בכתובת. אפשר להמשיך מכאן:</p>'
-            f'<div class="page-hero__actions"><a class="btn btn--quiet" href="/">לדף הבית</a><a class="btn btn--accent" href="{wa()}" data-wa="404">{ico_wa()}וואטסאפ לרביד</a></div></div></section>')
+    body = (f'<section class="page-head" aria-labelledby="h1"><div class="wrap"><h1 id="h1">הדף לא נמצא</h1>'
+            f'<p class="lede">אולי הוא עבר, ואולי נפלה טעות בכתובת. אפשר להמשיך מכאן:</p>'
+            f'<div class="actions"><a class="btn btn--secondary" href="/">לדף הבית</a><a class="btn btn--secondary" href="/services/">לשירותים</a>'
+            f'<a class="btn btn--primary" href="{wa()}" data-wa="404">{ico_wa()}וואטסאפ לרביד</a></div></div></section>')
     # 404 עובד רק בשורש הדומיין, ולכן הנתיבים בו מתחילים מ-/
     doc404 = Page('404.html')
     doc404.p = '/'
@@ -761,6 +795,7 @@ def build_seo_files():
 
 def main():
     build_home()
+    build_services()
     for s in C.SERVICES:
         build_service(s)
     build_lawyers()
