@@ -15,10 +15,10 @@
     { "type": "p", "en": "Omer is 17 and Yael is 15, so Omer is older than Yael. A taxi is more expensive than a bus. To compare two people or things, use a comparative (older, more expensive) + than.", "he": "עומר בן 17 ויעל בת 15, ולכן Omer is older than Yael. מונית יקרה יותר מאוטובוס: A taxi is more expensive than a bus. כדי להשוות בין שני אנשים או דברים משתמשים בערך יתרון (older, more expensive) ואחריו than." },
     { "type": "table", "headers": ["Adjective", "Rule", "Examples"], "rows": [
       ["one syllable", "+ -er (+ -r after -e)", "cheap → cheaper, old → older, nice → nicer, safe → safer"],
-      ["one vowel + one consonant at the end", "double the consonant + -er", "big → bigger, hot → hotter, thin → thinner"],
+      ["one syllable ending in one vowel + one consonant", "double the consonant + -er", "big → bigger, hot → hotter, thin → thinner"],
       ["two syllables ending in -y", "y → -ier", "easy → easier, busy → busier, funny → funnier"],
-      ["two or more syllables", "more + adjective", "more expensive, more modern, more interesting"],
-      ["irregular", "learn by heart", "good → better, bad → worse, far → further"]
+      ["most other adjectives with two or more syllables", "more + adjective", "more expensive, more modern, more interesting"],
+      ["irregular", "learn by heart", "good → better, bad → worse, far → further (or farther)"]
     ] },
     { "type": "rule", "en": "Use -er or more, never both: bigger (not *more bigger), better (not *more better). After the comparative, use than: cheaper than the bus.", "he": "משתמשים ב-er או ב-more, אף פעם לא בשניהם: bigger ולא more bigger, וגם better ולא more better. אחרי ערך היתרון בא than: cheaper than the bus." },
     { "type": "rule", "en": "The same: as + adjective + as. Maya is as tall as her mum. Less: not as ... as. The bus isn't as fast as the train (= the train is faster).", "he": "שווה: as + שם תואר + as, למשל Maya is as tall as her mum (מאיה גבוהה כמו אמא שלה). פחות: not as ... as, למשל The bus isn't as fast as the train (האוטובוס לא מהיר כמו הרכבת, כלומר הרכבת מהירה יותר)." },
@@ -155,7 +155,7 @@
       "id": "e8", "type": "correct", "skill": "grammar", "topic": "comparatives",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
       "sentence": "My new phone is more better than my old one.",
-      "answers": ["My new phone is better than my old one.", "My new phone is much better than my old one.", "My new phone is a lot better than my old one."],
+      "answers": ["My new phone is better than my old one.", "My new phone's better than my old one.", "My new phone is much better than my old one.", "My new phone is a lot better than my old one."],
       "error_type": "comparison-form",
       "hint": { "en": "better is already a comparative.", "he": "better הוא כבר ערך יתרון." },
       "explanation": { "en": "better = more good, so don't add more. For a big difference, you can say much better.", "he": "better פירושו 'יותר טוב', ולכן לא מוסיפים more. כדי להדגיש הבדל גדול אפשר לומר much better." }
@@ -178,7 +178,7 @@
         { "match": "The bus isn't as fast than the train.", "feedback": { "en": "as ... as is a pair: as fast as the train.", "he": "as ... as באים בזוג: as fast as the train." }, "error_type": "comparison-form" },
         { "match": "The bus isn't as faster as the train.", "feedback": { "en": "Between as and as, use the normal adjective: as fast as.", "he": "בין as ל-as בא שם התואר הרגיל: as fast as." }, "error_type": "comparison-form" },
         { "match": "The train isn't as fast as the bus.", "feedback": { "en": "This means the opposite. The bus is the slow one, so: The bus isn't as fast as the train.", "he": "המשפט הזה אומר את ההפך. האוטובוס הוא האיטי, ולכן: The bus isn't as fast as the train." }, "error_type": "comprehension" },
-        { "match": "The bus isn't faster than the train.", "feedback": { "en": "That's correct English, but the task asks for not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל המשימה היא להשתמש ב-not as ... as: The bus isn't as fast as the train." } },
+        { "match": "The bus isn't faster than the train.", "feedback": { "en": "That's correct English, but it doesn't say the bus is slower (it could be the same speed). Use not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל הוא לא אומר שהאוטובוס איטי יותר (אולי המהירות שווה). השתמשו ב-not as ... as: The bus isn't as fast as the train." } },
         { "match": "The train is faster than the bus.", "feedback": { "en": "That's correct English, but the task asks for not as ... as: The bus isn't as fast as the train.", "he": "זה משפט תקין, אבל המשימה היא להשתמש ב-not as ... as: The bus isn't as fast as the train." } },
         { "match": "than", "feedback": { "en": "With as ... as, don't use than.", "he": "עם as ... as לא משתמשים ב-than." }, "error_type": "comparison-form" }
       ],
@@ -260,7 +260,7 @@
       "min_words": 50,
       "max_words": 100,
       "must_include": ["than", "as"],
-      "model_answer": "I live in Ramat Gan, but my grandparents live in a small village in the Galilee. The village is much quieter than Ramat Gan, and the air is cleaner. People there are friendlier, and life is slower. But Ramat Gan is more convenient: the shops are closer and the buses are better. The village isn't as exciting as the city, but it's a better place to relax at the weekend.",
+      "model_answer": "I live in Ramat Gan, but my grandparents live in a small village in the Galilee. The village is much quieter than Ramat Gan, and the air is cleaner. People there are friendlier than in the city, and life is slower. But Ramat Gan is more convenient than the village: the shops are closer and the buses are better. The village isn't as exciting as the city, but it's a better place to relax at the weekend.",
       "checklist": [
         { "en": "I used -er or more + than at least three times, and never both together (*more bigger).", "he": "השתמשתי ב-er או ב-more עם than לפחות שלוש פעמים, ואף פעם לא בשניהם יחד (לא more bigger)." },
         { "en": "I used an irregular form: better, worse or further.", "he": "השתמשתי בצורה חריגה: better, worse או further." },

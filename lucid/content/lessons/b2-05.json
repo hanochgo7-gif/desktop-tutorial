@@ -76,7 +76,7 @@
     },
     {
       "type": "rule",
-      "en": "Check the grammar slot. Although, whereas and because need a full clause (subject + verb). Despite, due to and because of need a noun or -ing. Sentence connectors (However, Nevertheless, Consequently) start a new sentence or follow a semicolon, and take a comma after them."
+      "en": "Check the grammar slot. Although, whereas and because need a full clause (subject + verb). Despite, due to and because of need a noun or -ing. When sentence connectors (However, Nevertheless, Consequently) link two clauses, they start a new sentence or follow a semicolon, and take a comma after them."
     },
     {
       "type": "tip",
@@ -295,7 +295,13 @@
       "level": "B2"
     }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    {
+      "en": "Hebrew often links the two halves of a sentence with a pair of words (literally 'admittedly ..., but ...'), so learners write *Although the course was expensive, but it was worth it. English uses one connector only: Although the course was expensive, it was worth it. / The course was expensive, but it was worth it.",
+      "he": "בעברית מקובל לחבר את שני חלקי המשפט בשתי מילות קישור ('אמנם הקורס יקר, אבל...'), ולכן קל לכתוב Although the course was expensive, but it was worth it. באנגלית משתמשים במילת קישור אחת בלבד: Although the course was expensive, it was worth it. או: The course was expensive, but it was worth it.",
+      "error_type": "cohesion"
+    }
+  ],
   "exercises": [
     {
       "id": "e1",
@@ -488,7 +494,7 @@
           "answer": 1,
           "option_feedback": {
             "0": {
-              "en": "The shop owners' fears are in paragraph 1, and the writer says they were mostly wrong."
+              "en": "The shop owners' fears are in paragraph 1, and paragraph 2 suggests they were mostly wrong. 'Such complaints' points back to the sentence just before it."
             },
             "2": {
               "en": "The cafés are mentioned as a positive sign, not as a source of complaints."
@@ -632,28 +638,28 @@
         {
           "match": "although",
           "feedback": {
-            "en": "Although needs a full clause (subject + verb): although it was raining. Before a noun phrase like 'the heavy rain', use despite."
+            "en": "Although shows an unexpected result and needs a full clause (subject + verb), so it fits only before 'their shoes were covered in mud'. Before a noun phrase like 'the heavy rain', use despite."
           },
           "error_type": "cohesion"
         },
         {
           "match": "Despite",
           "feedback": {
-            "en": "Despite is followed by a noun or -ing, not by a clause with a subject and verb. Before 'their shoes were covered in mud', use although."
+            "en": "Despite shows an unexpected result and is followed by a noun or -ing, so it fits only before 'the heavy rain'. Before a clause like 'their shoes were covered in mud', use although."
           },
           "error_type": "cohesion"
         },
         {
           "match": "due to",
           "feedback": {
-            "en": "Due to is followed by a noun (due to a power cut). Before a clause like 'there was nothing to do', use because."
+            "en": "Due to gives a reason and is followed by a noun, so it fits only before 'a power cut'. Before a clause like 'there was nothing to do', use because."
           },
           "error_type": "cohesion"
         },
         {
           "match": "because",
           "feedback": {
-            "en": "Because is followed by a clause. Before a noun like 'a power cut', use because of or due to."
+            "en": "Because gives a reason and is followed by a clause, so it fits only before 'there was nothing to do'. Before a noun like 'a power cut', use due to or because of."
           },
           "error_type": "cohesion"
         },
@@ -793,7 +799,7 @@
       "type": "transform",
       "skill": "writing",
       "prompt": {
-        "en": "Rewrite only the second sentence, using 'the latter' and 'it' so that nothing is repeated."
+        "en": "Rewrite only the second sentence, using 'the latter' and 'it' so that 'the bike-sharing scheme' is not repeated."
       },
       "source": "The council considered two options: a new bus route and a bike-sharing scheme. The council chose the bike-sharing scheme because the bike-sharing scheme was cheaper.",
       "answers": [
@@ -846,7 +852,7 @@
       "question": "Noa's school replaced its end-of-year exams with a series of projects. ___ was popular with students but worried some parents.",
       "options": [
         "It",
-        "The latter",
+        "The former",
         "Such",
         "This change"
       ],
@@ -856,7 +862,7 @@
           "en": "It is grammatical but unclear: it could mean the school, the exams or the projects. A summary noun tells the reader exactly what you mean."
         },
         "1": {
-          "en": "The latter would point to the second item named (a series of projects, which is plural), not to the whole change. The verb 'was' would also not fit."
+          "en": "The former points to the first of two things named: the end-of-year exams. They have just been replaced, so they cannot be what is now popular. The former and the latter pick out one item; they cannot sum up a whole change."
         },
         "2": {
           "en": "Such needs a noun after it (such a change), and it means 'of this kind', not 'this particular thing'."
@@ -898,7 +904,7 @@
       },
       "question": "Choose the best paragraph.",
       "options": [
-        "Online courses are flexible, cheap and available almost anywhere. Their main weakness is isolation: many learners miss the contact of a classroom. Nevertheless, for people with jobs or families, this flexibility often matters more.",
+        "Online courses are flexible, cheap and available almost anywhere. Their main weakness is isolation: many learners miss the face-to-face contact of a classroom. Nevertheless, for people with jobs or families, this flexibility often matters more.",
         "Online courses are flexible. Moreover, they are cheap. Furthermore, they are available everywhere. However, they can be lonely. Nevertheless, many people take them.",
         "Online courses are flexible and cheap. Consequently, they are available almost anywhere. Whereas many learners miss the contact of a classroom. Therefore, people with jobs or families take them.",
         "Online courses are flexible and cheap, moreover they are available almost anywhere, however many learners miss classroom contact, nevertheless people with jobs prefer them."
@@ -952,7 +958,7 @@
       },
       "min_words": 180,
       "max_words": 280,
-      "model_answer": "Every Friday, the main street of our town is full of cars looking for parking spaces. Closing it to traffic on that day would make the centre safer, quieter and more attractive.\n\nThe most obvious benefit is safety. Children and older people could cross the street without waiting for a gap in the traffic. In addition, a car-free street would give cafés and shops room to put tables and stalls outside, which would encourage people to stay longer and spend more.\n\nCritics argue that shop owners would lose customers who usually drive into town. This concern is understandable, since many shoppers come from nearby villages with poor bus services. However, such customers could still park at the edge of the centre, only a short walk away. Moreover, people on foot can easily visit several shops in one trip, whereas drivers often stop at one place and leave.\n\nThe council has two realistic options: a trial on Fridays only, or a permanent closure. The former is clearly the wiser first step, because it would allow everyone to see the effects before a final decision is made. Consequently, the town should start with a six-month Friday trial and ask residents for their views at the end of it.",
+      "model_answer": "Every Friday, the main street of our town is full of cars looking for parking spaces. Closing it to traffic on that day would make the centre safer, quieter and more attractive.\n\nThe most obvious benefit is safety. Children and older people could cross the street without waiting for a gap in the traffic. In addition, a car-free street would give cafés and shops room to put tables and stalls outside, which would encourage people to stay longer and spend more.\n\nCritics argue that shop owners would lose customers who usually drive into town. This concern is understandable, since many shoppers come from nearby villages with poor bus services. However, such customers could still park at the edge of the centre, only a short walk away. Moreover, people on foot can easily visit several shops in one trip, whereas drivers often stop at one place and leave.\n\nThe council has two realistic options: a six-month trial or a permanent Friday closure from the start. The former is clearly the wiser first step, because it would allow everyone to see the effects before a final decision is made. Consequently, the town should begin with the trial and ask residents for their views at the end of it.",
       "checklist": [
         {
           "en": "Position: my first paragraph states clearly whether I support or oppose the plan."
@@ -982,7 +988,7 @@
       },
       {
         "en": "Check the grammar slot: although/because + clause; despite/due to/because of + noun or -ing.",
-        "he": "בדקו מה בא אחרי המילה: although/because + פסוקית עם נושא ופועל; despite/due to/because of + שם עצם או ing."
+        "he": "בדקו מה בא אחרי המילה: although/because + פסוקית עם נושא ופועל; despite/due to/because of + שם עצם או צורת ing."
       },
       {
         "en": "However, Nevertheless and Consequently start a new sentence or follow a semicolon. Never join two sentences with just a comma."

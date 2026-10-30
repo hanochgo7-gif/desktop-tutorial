@@ -39,7 +39,7 @@
     { "en": "Don't worry about the driving test. With your experience, it'll be a piece of cake.", "note": "informal: very easy" },
     { "en": "I'm still on the fence about moving to Eilat.", "note": "undecided" },
     { "en": "The bottom line is that we can't afford a new car this year.", "note": "the most important point" },
-    { "en": "Kenji told a funny story about his flight to break the ice.", "note": "help people relax" },
+    { "en": "To break the ice, Kenji told a funny story about his flight.", "note": "help people relax" },
     { "en": "Renting a flat in central Tel Aviv costs an arm and a leg.", "note": "the verb changes: cost, costs, will cost" },
     { "en": "Missing that train was a blessing in disguise: I met my future business partner on the next one.", "note": "bad at first, good in the end" },
     { "en": "When the meeting was cancelled for the third time, that was the last straw.", "note": "the final problem" },
@@ -55,15 +55,17 @@
     { "word": "under the weather", "pos": "idiom", "he": "לא מרגיש/ה טוב", "def": "slightly ill", "example": "Maya's feeling a bit under the weather today.", "ipa": "/ˌʌndə ðə ˈweðə(r)/", "collocations": ["feel under the weather", "a bit under the weather"], "level": "B2" },
     { "word": "cost an arm and a leg", "pos": "idiom", "he": "עולה הון תועפות", "def": "to be very expensive", "example": "Concert tickets cost an arm and a leg these days.", "ipa": "/ˌkɒst ən ˌɑːm ənd ə ˈleɡ/", "collocations": ["cost someone an arm and a leg", "pay an arm and a leg"], "level": "B2" },
     { "word": "once in a blue moon", "pos": "idiom", "he": "פעם ביובל", "def": "very rarely", "example": "My cousin calls once in a blue moon.", "ipa": "/ˌwʌns ɪn ə ˌbluː ˈmuːn/", "collocations": ["only once in a blue moon"], "level": "B2" },
-    { "word": "get the hang of something", "pos": "idiom", "he": "לתפוס את העניין; להתרגל", "def": "to learn how to do something, usually after some practice", "example": "Driving on the left was hard, but I soon got the hang of it.", "ipa": "/ˌɡet ðə ˈhæŋ əv/", "collocations": ["get the hang of it", "start to get the hang of"], "level": "B2" },
+    { "word": "get the hang of something", "pos": "idiom", "he": "לתפוס את העניין; ללמוד איך עושים משהו", "def": "to learn how to do something, usually after some practice", "example": "Driving on the left was hard, but I soon got the hang of it.", "ipa": "/ˌɡet ðə ˈhæŋ əv/", "collocations": ["get the hang of it", "start to get the hang of"], "level": "B2" },
     { "word": "a blessing in disguise", "pos": "idiom", "he": "ברכה במסווה", "def": "something that seems bad at first but has a good result", "example": "Losing that job was a blessing in disguise.", "ipa": "/ə ˌblesɪŋ ɪn dɪsˈɡaɪz/", "collocations": ["turn out to be a blessing in disguise"], "level": "B2" },
     { "word": "in the same boat", "pos": "idiom", "he": "באותה סירה", "def": "in the same difficult situation as other people", "example": "Don't worry, we're all in the same boat.", "ipa": "/ɪn ðə ˌseɪm ˈbəʊt/", "collocations": ["be in the same boat", "all in the same boat"], "level": "B2" },
     { "word": "cut corners", "pos": "idiom", "he": "לעגל פינות", "def": "to do something cheaply, quickly or badly, often ignoring rules", "example": "The builders cut corners, and the roof started leaking.", "ipa": "/ˌkʌt ˈkɔːnəz/", "collocations": ["cut corners on safety", "avoid cutting corners"], "level": "B2" },
     { "word": "the last straw", "pos": "idiom", "he": "הקש ששבר את גב הגמל", "def": "the final problem in a series that makes you lose patience", "example": "When the bus didn't come again, that was the last straw.", "ipa": "/ðə ˌlɑːst ˈstrɔː/", "collocations": ["the last straw for someone", "the final straw"], "level": "B2" },
     { "word": "call it a day", "pos": "idiom", "he": "לסיים להיום", "def": "to stop working on something for now", "example": "We've done enough. Let's call it a day.", "ipa": "/ˌkɔːl ɪt ə ˈdeɪ/", "collocations": ["let's call it a day", "decide to call it a day"], "level": "B2" },
-    { "word": "the elephant in the room", "pos": "idiom", "he": "הפיל שבחדר", "def": "an obvious problem that people avoid talking about", "example": "Nobody mentioned the budget, the elephant in the room.", "ipa": "/ði ˌelɪfənt ɪn ðə ˈruːm/", "collocations": ["address the elephant in the room", "ignore the elephant in the room"], "level": "B2" }
+    { "word": "the elephant in the room", "pos": "idiom", "he": "הפיל שבחדר", "def": "an obvious problem that people avoid talking about", "example": "The budget was the elephant in the room: everyone was worried about it, but nobody mentioned it.", "ipa": "/ði ˌelɪfənt ɪn ðə ˈruːm/", "collocations": ["address the elephant in the room", "ignore the elephant in the room"], "level": "B2" }
   ],
-  "hebrew_pitfalls": [],
+  "hebrew_pitfalls": [
+    { "en": "Many Hebrew idioms mean nothing in English when they are translated word for word: *It was on the face (for 'it was terrible') or *It's coming out of my nose (for 'I'm sick of it'). Translate the meaning, not the words: It was terrible. I'm sick of it.", "he": "ניבים עבריים רבים לא אומרים כלום באנגלית בתרגום מילה במילה: It was on the face (על הפנים) או It's coming out of my nose (יצא לי מהאף). תרגמו את המשמעות ולא את המילים: It was terrible. ‏I'm sick of it.", "error_type": "false-friend" }
+  ],
   "exercises": [
     {
       "id": "e1", "type": "match", "skill": "vocabulary",
@@ -232,7 +234,7 @@
       "source": "כולנו באותה סירה",
       "answers": ["We're all in the same boat.", "All of us are in the same boat."],
       "wrong_feedback": [
-        { "match": "We're all on the same boat.", "feedback": { "en": "The picture is the same as in Hebrew, but the preposition is in: in the same boat." }, "error_type": "preposition" },
+        { "match": "We're all on the same boat.", "feedback": { "en": "The idiom is fixed, and its preposition is in: in the same boat, not on." }, "error_type": "preposition" },
         { "match": "We're all in one boat.", "feedback": { "en": "The idiom is fixed: in the same boat." }, "error_type": "word-choice" },
         { "match": "We all in the same boat.", "feedback": { "en": "In Hebrew this sentence has no present-tense verb, but English needs are: We're all in the same boat.", "he": "בעברית אין כאן פועל בהווה, ובאנגלית חייבים are: We're all in the same boat." }, "error_type": "copula-omission" }
       ],
@@ -285,7 +287,7 @@
       "task": { "en": "Part A (about 70-100 words): write a message to a friend about a recent challenge, such as a new job, course or move. Use three idioms from this lesson naturally. Part B (about 110-150 words): report the same situation in a formal email to your course coordinator or manager, with no idioms at all. Both parts must give the same key information." },
       "min_words": 180,
       "max_words": 280,
-      "model_answer": "Part A\nHi Noa! Quick update: my first month at the café has been crazy. The coffee machine was a nightmare at first, but I'm finally getting the hang of it. My manager is lovely, although she's still on the fence about giving me more shifts. The bottom line is, I need more hours, because rent here costs an arm and a leg! Anyway, how are your exams going? Coffee on Friday? Yael\n\nPart B\nDear Ms Sharon,\n\nI am writing to update you on my work placement at Café Lavan. During the first month, I found the equipment challenging, but I have now learned to use it confidently, and I feel increasingly comfortable serving customers. My supervisor has been very supportive; however, she has not yet decided whether to offer me additional shifts.\n\nSince my accommodation costs are considerably higher than I expected, I need to increase my working hours. I would therefore be grateful for any advice on finding further paid work that fits my course timetable. In the meantime, I will make sure that the placement does not affect my attendance or my coursework. I would also welcome the opportunity to discuss this with you at a convenient time.\n\nKind regards,\nYael Levi",
+      "model_answer": "Part A\nHi Noa! Quick update: my first month at the café has been crazy. The coffee machine was a nightmare for the first two weeks, but I'm finally getting the hang of it. My manager is lovely, although she's still on the fence about giving me more shifts. I really need more hours, because rent here costs an arm and a leg! Anyway, how are your exams going? Fancy a coffee on Friday? Yael\n\nPart B\nDear Ms Peretz,\n\nI am writing to update you on my part-time job at Café Lavan, which I started a month ago. At first, I found the equipment challenging, but I have now learned to use it confidently. My supervisor has been very supportive; however, she has not yet decided whether to offer me additional shifts.\n\nSince rent in this area is extremely expensive, I need to increase my working hours. I would therefore be grateful for your advice on how to fit extra shifts around my course timetable. I will, of course, make sure that this does not affect my attendance or my coursework. I would also welcome the opportunity to discuss this with you at a convenient time.\n\nKind regards,\nYael Levi",
       "checklist": [
         { "en": "Part A uses three idioms in their exact form (in the same boat, not on the same boat), and each one fits the situation." },
         { "en": "Part B contains no idioms: each one is replaced with a precise neutral word or phrase (challenging, undecided, extremely expensive)." },

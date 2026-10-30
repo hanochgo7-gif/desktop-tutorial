@@ -30,7 +30,7 @@
     { "en": "It's cold. Put on your coat.", "he": "קר. תלבש/י את המעיל." },
     { "en": "Can you turn the TV off? – Sure, I'll turn it off now.", "he": "את/ה יכול/ה לכבות את הטלוויזיה? – בטח, אני אכבה אותה עכשיו.", "note": "a pronoun goes in the middle" },
     { "en": "I'm looking for my phone. Can you call it?", "he": "אני מחפש/ת את הטלפון שלי. את/ה יכול/ה להתקשר אליו?", "note": "look for never splits: look for it" },
-    { "en": "My grandmother looks after my little brother on Tuesdays.", "he": "סבתא שלי שומרת על אח שלי הקטן בימי שלישי." },
+    { "en": "My grandmother looks after my little brother on Tuesdays.", "he": "סבתא שלי שומרת על האח הקטן שלי בימי שלישי." },
     { "en": "Omer gave up sugar for a month.", "he": "עומר ויתר על סוכר למשך חודש.", "note": "give up = stop doing something" },
     { "en": "Can you pick me up from the station at eight?", "he": "את/ה יכול/ה לאסוף אותי מהתחנה בשמונה?", "note": "pick up = collect someone" },
     { "en": "I want to find out more about the course.", "he": "אני רוצה לברר עוד פרטים על הקורס." },
@@ -52,7 +52,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is one 'u' sound, so look /lʊk/ and put /pʊt/ can come out long, like 'Luke'. In English the vowel is short and relaxed, /ʊ/: look for, look after, put on.", "he": "בעברית יש צליל 'אוּ' אחד, ולכן look /lʊk/ ו-put /pʊt/ עלולים להישמע ארוכים, כמו Luke. באנגלית התנועה בהם קצרה ורפויה, /ʊ/: look for, look after, put on.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew the present-tense verb has the same form for I, you and he, so the English -s for he/she/it is easy to forget. In a phrasal verb, the -s goes on the verb: She gets up at six (not *She get up or *She get ups).", "he": "בעברית לפועל בהווה יש אותה צורה עם אני, אתה והוא ('אני קם', 'אתה קם', 'הוא קם'), ולכן קל לשכוח את ה-s של he/she/it באנגלית. בפועל מורכב ה-s מתחברת לפועל: She gets up at six ולא She get up או She get ups.", "error_type": "third-person-s" }
+    { "en": "In Hebrew the present-tense verb changes for gender and number, but not for person, so the English -s for he/she/it is easy to forget. In a phrasal verb, the -s goes on the verb: She gets up at six (not *She get up or *She get ups).", "he": "בעברית הפועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף ('אני קם', 'אתה קם', 'הוא קם'), ולכן קל לשכוח את ה-s של he/she/it באנגלית. בפועל מורכב ה-s מתחברת לפועל: She gets up at six ולא She get up או She get ups.", "error_type": "third-person-s" }
   ],
   "exercises": [
     {
@@ -66,7 +66,7 @@
         ["turn off", "לכבות"],
         ["throw away", "לזרוק (לפח)"]
       ],
-      "explanation": { "en": "Watch the traps: try on is only for clothes (to measure a room is measure), and you turn off a light, you don't close it. Learn the two words together: each phrasal verb is one unit of meaning.", "he": "שימו לב למלכודות: try on הוא רק מדידת בגד (למדוד חדר זה measure), ואת האור מכבים עם turn off, לא close. למדו את שתי המילים יחד: כל פועל מורכב הוא יחידת משמעות אחת." }
+      "explanation": { "en": "Watch the traps: Hebrew has one verb for both, but try on is only for clothes (for a room or a table, use measure). And you turn off a light; you don't close it. Learn the two words together: each phrasal verb is one unit of meaning.", "he": "שימו לב למלכודות: בעברית 'למדוד' משמש לשני המקרים, אבל try on הוא רק מדידת בגד (חדר או שולחן מודדים עם measure). ואת האור מכבים עם turn off, לא close. למדו את שתי המילים יחד: כל פועל מורכב הוא יחידת משמעות אחת." }
     },
     {
       "id": "e2", "type": "mcq", "skill": "vocabulary",
@@ -85,12 +85,12 @@
     {
       "id": "e3", "type": "listen", "skill": "listening",
       "prompt": { "en": "Listen to Noa's voice message and answer the question.", "he": "הקשיבו להודעה הקולית של נועה וענו על השאלה." },
-      "audio_text": "Hi Dad, it's Noa. My phone battery is almost dead, so can you pick me up from the station at nine? Thanks!",
+      "audio_text": "Hi Dad, it's Noa. My phone battery is almost dead, so I can't call you later. Can you pick me up from the station at nine? Thanks!",
       "question": "What does Noa want her dad to do?",
       "options": ["call her at nine", "collect her from the station", "buy her a new phone"],
       "answer": 1,
       "option_feedback": {
-        "0": { "en": "Nine is the time to meet. Her battery is almost dead, so she can't talk on the phone much.", "he": "תשע היא שעת האיסוף. הסוללה שלה כמעט גמורה, ולכן היא לא יכולה לדבר הרבה בטלפון." },
+        "0": { "en": "She says she can't call later because her battery is almost dead. Nine is the time to collect her.", "he": "היא אומרת שהיא לא תוכל להתקשר אחר כך, כי הסוללה שלה כמעט נגמרה. תשע היא שעת האיסוף." },
         "2": { "en": "She talks about her battery, but she doesn't ask for a new phone.", "he": "היא מזכירה את הסוללה, אבל לא מבקשת טלפון חדש." }
       },
       "option_errors": { "0": "comprehension", "2": "comprehension" },
@@ -115,7 +115,7 @@
     },
     {
       "id": "e5", "type": "gap", "skill": "vocabulary",
-      "prompt": { "en": "Complete Lior's morning with phrasal verbs from the box.", "he": "השלימו את הבוקר של ליאור בפעלים מורכבים מהמחסן." },
+      "prompt": { "en": "Complete Lior's morning with phrasal verbs from the box.", "he": "השלימו את הבוקר של ליאור בפעלים מורכבים ממחסן המילים." },
       "text": "Lior's alarm rings at 6:30. He ___ the alarm and goes back to sleep. At seven he finally ___ and makes coffee. At 7:45 he ___ his jacket and leaves for work.",
       "word_bank": ["turns off", "gets up", "puts on", "takes off", "turns on"],
       "answers": [["turns off"], ["gets up"], ["puts on"]],
@@ -144,7 +144,7 @@
       "id": "e7", "type": "read", "skill": "reading",
       "prompt": { "en": "Read Yael's blog post and answer the questions.", "he": "קראו את הפוסט של יעל בבלוג וענו על השאלות." },
       "title": "One week, no phone",
-      "passage": "Last month I decided to try something new: one week without my smartphone. On Sunday morning I turned it off and put it in a drawer. The first day was hard. I kept looking for my phone in my pocket, and I felt bored on the bus. On Tuesday I almost gave up, but my sister helped me. She gave me her old alarm clock, so I could still get up on time.\nBy Thursday I felt calmer. I read two books, and I went out with friends and didn't check messages all evening. I also found out that I can find my way around the city without a map app.\nOn Sunday I picked up my phone again and turned it on: 214 messages! Now I turn it off every evening at ten.\nYael",
+      "passage": "Last month I decided to try something new: one week without my smartphone. On Sunday morning I turned it off and put it in a drawer. The first day was hard. I looked for my phone in my pocket every five minutes, and I felt bored on the bus. On Tuesday I almost gave up, but my sister helped me. She gave me her old alarm clock, so I could still get up on time.\nBy Thursday I felt calmer. I read two books, and I went out with friends and didn't check messages all evening. I also found out that I can find my way around the city without a map app.\nOn Sunday I picked up my phone again and turned it on: 214 messages! Now I turn it off every evening at ten.\nYael",
       "questions": [
         { "type": "mcq", "question": "What did Yael do with her phone on Sunday morning?", "options": ["She gave it to her sister.", "She turned it off and put it in a drawer.", "She threw it away."], "answer": 1,
           "option_feedback": {

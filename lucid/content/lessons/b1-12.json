@@ -119,12 +119,12 @@
     },
     {
       "en": "To sum up, practical skills deserve a place in the school timetable.",
-      "he": "לסיכום, מיומנויות מעשיות ראויות למקום במערכת השעות של בית הספר.",
+      "he": "לסיכום, מיומנויות מעשיות ראויות לקבל מקום במערכת השעות של בית הספר.",
       "note": "conclusion: the opinion in new words"
     },
     {
       "en": "For these reasons, I strongly believe that the change would benefit students.",
-      "he": "מהסיבות האלה, אני מאמין/ה מאוד שהשינוי יועיל לתלמידים.",
+      "he": "מהסיבות האלה אני משוכנע/ת שהשינוי יועיל לתלמידים.",
       "note": "final sentence"
     }
   ],
@@ -321,8 +321,8 @@
   ],
   "hebrew_pitfalls": [
     {
-      "en": "In Hebrew there is no word for a/an (and the word for 'one' is sometimes used like an article), so it is easy to write *It is good idea or *One student told me. In English a singular countable noun needs a, an or the: It is a good idea. A student told me.",
-      "he": "בעברית אין מילה ל-a/an (ולפעמים 'אחד' משמש כמו תווית: 'תלמיד אחד אמר לי'), ולכן קל לכתוב It is good idea או One student told me. באנגלית לפני שם עצם ספיר ביחיד צריך a, ‏an או the: ‏It is a good idea. ‏A student told me.",
+      "en": "In Hebrew there is no word for a/an, so it is easy to leave it out: *It is good idea, *This is big problem. In English a singular countable noun needs a, an or the (or a word such as my or this): It is a good idea. This is a big problem.",
+      "he": "בעברית אין מילה ל-a/an, ולכן קל להשמיט אותה: It is good idea, ‏This is big problem. באנגלית לפני שם עצם ספיר ביחיד צריך a, ‏an או the (או מילה כמו my או this): ‏It is a good idea. ‏This is a big problem.",
       "error_type": "article"
     },
     {
@@ -725,8 +725,7 @@
         [
           "In my view",
           "In my opinion",
-          "From my point of view",
-          "Personally"
+          "From my point of view"
         ],
         [
           "The main reason",
@@ -748,7 +747,8 @@
           "For these reasons",
           "To conclude",
           "In summary",
-          "Overall"
+          "Overall",
+          "On the whole"
         ]
       ],
       "wrong_feedback": [
@@ -822,7 +822,9 @@
       "sentence": "In my opinion, four-day week is good idea.",
       "answers": [
         "In my opinion, a four-day week is a good idea.",
-        "In my opinion a four-day week is a good idea."
+        "In my opinion a four-day week is a good idea.",
+        "In my opinion, the four-day week is a good idea.",
+        "In my opinion the four-day week is a good idea."
       ],
       "error_type": "article",
       "hint": {
@@ -830,8 +832,8 @@
         "he": "חסרות שתי מילים קטנות."
       },
       "explanation": {
-        "en": "week and idea are singular countable nouns, so each needs an article: a four-day week, a good idea.",
-        "he": "week ו-idea הם שמות עצם ספירים ביחיד, ולכן כל אחד צריך תווית: a four-day week, ‏a good idea."
+        "en": "week and idea are singular countable nouns, so each needs an article: a four-day week, a good idea. (the four-day week is also possible if you mean the plan everyone is discussing.)",
+        "he": "week ו-idea הם שמות עצם ספירים ביחיד, ולכן כל אחד צריך תווית: a four-day week, ‏a good idea. ‏(אפשר גם the four-day week, אם מתכוונים לתוכנית שכולם מדברים עליה.)"
       }
     },
     {

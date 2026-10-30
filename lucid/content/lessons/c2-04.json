@@ -1,0 +1,1142 @@
+{
+  "id": "c2-04",
+  "level": "C2",
+  "title_en": "Argument architecture",
+  "title_he": "ארכיטקטורת טיעון",
+  "topics": [
+    "argument-architecture"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can map an argument with Toulmin's model, make its warrant, backing and qualifiers explicit, and find its load-bearing assumption."
+    },
+    {
+      "en": "I can steelman an opposing view: state it as its most thoughtful supporters would, and attribute it fairly."
+    },
+    {
+      "en": "I can build a concession-rebuttal chain that concedes, limits, counters, anticipates the reply and re-qualifies my thesis."
+    },
+    {
+      "en": "I can anticipate objections to evidence, warrant, scope and values, and dismantle a complex argument by testing its weakest link."
+    }
+  ],
+  "warmup": {
+    "en": "Think of a disagreement you had recently in which the other person accepted all your facts and still did not agree. What were you really disagreeing about? Most serious arguments turn on an assumption that nobody says out loud."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Read this argument: 'The town should replace its central car park with affordable housing. The car park is rarely more than half full on weekdays, and the waiting list for affordable homes keeps growing.' The facts may be accurate, and a reasonable opponent may still reject the conclusion, because the argument rests on an assumption it never states: that public land should go to whichever use meets the greater need. A shopkeeper who depends on Saturday parking can accept every figure and still deny that assumption. Toulmin's model calls this link the warrant. At C2 you map arguments in full, make their load-bearing warrants explicit, and build your own arguments to survive the strongest objection, not the weakest."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Element",
+        "Question it answers",
+        "In the car-park argument"
+      ],
+      "rows": [
+        [
+          "Claim",
+          "What am I arguing?",
+          "The town should replace its central car park with affordable housing."
+        ],
+        [
+          "Grounds (data)",
+          "What is my evidence?",
+          "The car park is rarely more than half full on weekdays; the waiting list for affordable homes keeps growing."
+        ],
+        [
+          "Warrant",
+          "Why does this evidence support this claim?",
+          "Public land should go to the use that meets the greatest public need."
+        ],
+        [
+          "Backing",
+          "Why should anyone accept the warrant?",
+          "The land was bought with public money to serve residents, and secure housing is a more basic need than convenient parking."
+        ],
+        [
+          "Qualifier",
+          "How strongly, and how far, do I claim it?",
+          "probably; at least on the half of the site that stands empty"
+        ],
+        [
+          "Rebuttal (exceptions)",
+          "Under what conditions would the claim not hold?",
+          "unless the Saturday market, which depends on the parking, cannot be moved"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Find the warrant to find the disagreement. To dismantle an argument, state its warrant aloud and test it three ways: Is it true? Is it true in every case the claim covers? Does a competing value outweigh it? To defend your own argument, do the reverse: make any contestable warrant explicit and give it backing, rather than hoping the reader will not notice it."
+    },
+    {
+      "type": "rule",
+      "en": "Steelman before you rebut. State the opposing view as its most thoughtful supporters would, with their best evidence, their real values and any common ground. The test: would an opponent read your summary and say, 'Yes, that is our case'? Attribute it fairly ('Opponents argue that ...'), and do not invent a better argument than anyone actually makes. A rebuttal of a straw man proves nothing; a rebuttal of a steelman earns the reader's trust."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Move in the chain",
+        "What it does",
+        "Useful language"
+      ],
+      "rows": [
+        [
+          "1 Concede",
+          "Grant what is true in the objection",
+          "Admittedly, ... / Critics are right that ... / Granted, ..."
+        ],
+        [
+          "2 Limit",
+          "Mark how far the concession goes",
+          "... but only where ... / This holds for X, far less for Y."
+        ],
+        [
+          "3 Counter",
+          "Refute the inference, outweigh the point, or show that your case is relevantly different",
+          "Even so, ... / What this overlooks is ... / However strong this point, ..."
+        ],
+        [
+          "4 Anticipate",
+          "Raise the reply a critic would make to your counter",
+          "A critic might reply that ... / It could be objected that ..."
+        ],
+        [
+          "5 Respond and re-qualify",
+          "Answer that reply, then restate the thesis so that it absorbs what you conceded",
+          "Yet ... / The case, then, is not for X everywhere but for X where ..."
+        ]
+      ]
+    },
+    {
+      "type": "tip",
+      "en": "Anticipate objections systematically. For each premise, ask who would deny it and why. Objections strike in four places: the evidence (is it true and sufficient?), the warrant (does the claim follow?), the scope (does it hold in every case claimed?) and the values (even if it is true, does something else matter more?). Answer the one or two most serious objections in depth; a long list of quick rebuttals looks defensive and convinces no one."
+    },
+    {
+      "type": "warning",
+      "en": "Qualifiers must track real limits. 'Probably', 'in most cases' and 'unless the market cannot be moved' should each answer a specific weakness in the evidence or the warrant. An unqualified thesis falls to one counterexample; a thesis hedged on every word commits to nothing. Two further traps: conceding a point and never answering it, which quietly undermines your own case, and hiding an objection that succeeds. If an objection is right, change the thesis: a revised claim that survives is stronger than an original one that does not."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Because the trial schools recorded fewer absences after the later start, and regular attendance is closely linked to attainment, a later start is likely to raise attainment, at least in schools with similar attendance problems.",
+      "note": "grounds + warrant (attendance linked to attainment) + qualifier (likely; at least in ...). The warrant is a causal assumption, so it needs backing or a hedge."
+    },
+    {
+      "en": "Straw man: 'Opponents of the congestion charge just want to drive wherever they like.' Steelman: 'Opponents argue that a flat charge falls hardest on low-paid workers whose shifts start before the buses run, so it shifts the cost of cleaner air onto those least able to pay.'",
+      "note": "the steelman names who is affected, the mechanism and the value at stake"
+    },
+    {
+      "en": "Admittedly, a four-day school week would save money on transport and heating. But those savings are modest beside the cost to working parents, who must find childcare for the fifth day. The case for a shorter week, then, is strongest where community programmes already fill that day.",
+      "note": "concede → counter (outweigh) → re-qualify"
+    },
+    {
+      "en": "Open-plan offices probably reduce focused work, at least for tasks that need long periods of concentration, unless employees can book quiet rooms.",
+      "note": "probably (degree), at least for ... (scope), unless ... (exception): each qualifier marks a real limit"
+    },
+    {
+      "en": "Even if a ban on phones in schools raised test scores, some educators argue that learning to manage a phone is itself an aim of education, and a ban gives that aim up.",
+      "note": "an objection to values: it accepts the evidence and disputes the priority"
+    },
+    {
+      "en": "A defender of the subsidy might reply that it pays for itself through lower healthcare costs. That may be true in the long run, but the council sets its budget each year, and savings that arrive in ten years do not pay this year's bills.",
+      "note": "anticipating the reply to your rebuttal, then answering it"
+    },
+    {
+      "en": "Original thesis: 'Homework should be abolished.' After the strongest objection: 'For students under twelve, homework should be limited to reading, because at that age its benefits appear small while its cost to family time does not.'",
+      "note": "a successful objection changes the thesis instead of being hidden"
+    },
+    {
+      "en": "For all its cost, the scheme is the only proposal that addresses the cause of the problem.",
+      "note": "For all + noun phrase: a compact concessive opening for a counter-move"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "warrant",
+      "pos": "noun",
+      "he": "הנחה מקשרת (בין הראיה לטענה)",
+      "def": "in an argument, the assumption that explains why the evidence supports the claim",
+      "example": "The argument's warrant, that what worked on one road will work on all of them, is never stated.",
+      "ipa": "/ˈwɒrənt/",
+      "collocations": [
+        "an implicit warrant",
+        "state the warrant",
+        "a contestable warrant"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "backing",
+      "pos": "noun",
+      "he": "ביסוס; תמיכה (להנחה המקשרת)",
+      "def": "the reasons or evidence that show why a warrant should be accepted",
+      "example": "Without backing, the warrant looks like a personal preference.",
+      "ipa": "/ˈbækɪŋ/",
+      "collocations": [
+        "provide backing for",
+        "theoretical backing",
+        "lack backing"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "qualifier",
+      "pos": "noun",
+      "he": "מסייג; ביטוי הסתייגות",
+      "def": "a word or phrase that limits how strongly or how widely a claim applies",
+      "example": "'In most urban schools' is a qualifier that matches the evidence.",
+      "ipa": "/ˈkwɒlɪfaɪə(r)/",
+      "collocations": [
+        "add a qualifier",
+        "a necessary qualifier",
+        "without qualifiers"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "steelman",
+      "pos": "verb",
+      "he": "להציג את עמדת הצד השני בגרסתה החזקה ביותר",
+      "def": "to state an opposing argument in its strongest and fairest form before answering it",
+      "example": "Before you rebut the critics, steelman their position.",
+      "ipa": "/ˈstiːlmæn/",
+      "collocations": [
+        "steelman an argument",
+        "steelman the opposing view",
+        "a steelmanned objection"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "concede",
+      "pos": "verb",
+      "he": "להודות (בנקודה); לקבל טענה של הצד השני",
+      "def": "to admit that a point made against you is true, often reluctantly",
+      "example": "She conceded that the scheme was expensive but argued that it was worth the cost.",
+      "ipa": "/kənˈsiːd/",
+      "collocations": [
+        "concede a point",
+        "readily concede",
+        "concede that"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "counterexample",
+      "pos": "noun",
+      "he": "דוגמה נגדית",
+      "def": "a single case that shows a general claim is false",
+      "example": "One counterexample is enough to break a claim about 'all' schools.",
+      "ipa": "/ˈkaʊntərɪɡzɑːmpl/",
+      "collocations": [
+        "a single counterexample",
+        "offer a counterexample",
+        "a clear counterexample"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "tenable",
+      "pos": "adjective",
+      "he": "שאפשר להגן עליו (עמדה, טענה)",
+      "def": "(of a position or argument) reasonable enough to be defended against criticism",
+      "example": "After the second study, the original claim was no longer tenable.",
+      "ipa": "/ˈtenəbl/",
+      "collocations": [
+        "a tenable position",
+        "no longer tenable",
+        "hardly tenable"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "premise",
+      "pos": "noun",
+      "he": "הנחת יסוד; הנחה",
+      "def": "a statement that an argument starts from and depends on",
+      "example": "The conclusion is only as strong as its weakest premise.",
+      "ipa": "/ˈpremɪs/",
+      "collocations": [
+        "a false premise",
+        "rest on the premise that",
+        "an unstated premise"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "outweigh",
+      "pos": "verb",
+      "he": "לגבור על; לעלות במשקלו על",
+      "def": "to be greater or more important than something else",
+      "example": "The long-term benefits outweigh the set-up costs.",
+      "ipa": "/ˌaʊtˈweɪ/",
+      "collocations": [
+        "far outweigh",
+        "the benefits outweigh the costs",
+        "be outweighed by"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "on balance",
+      "pos": "phrase",
+      "he": "בסיכומו של דבר; לאחר שקילת כל השיקולים",
+      "def": "after considering all the arguments for and against",
+      "example": "On balance, the evidence favours a local pilot rather than a national change.",
+      "ipa": "/ɒn ˈbæləns/",
+      "collocations": [
+        "on balance, the evidence suggests",
+        "judged on balance"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "the burden of proof",
+      "pos": "noun phrase",
+      "he": "נטל ההוכחה",
+      "def": "the responsibility to prove a claim, usually resting on the person who wants to change things",
+      "example": "The burden of proof lies with those who want to lower the age limit.",
+      "ipa": "/ðə ˌbɜːdn əv ˈpruːf/",
+      "collocations": [
+        "the burden of proof lies with",
+        "shift the burden of proof",
+        "meet the burden of proof"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "carry weight",
+      "pos": "verb phrase",
+      "he": "להיות בעל משקל; להשפיע ולשכנע",
+      "def": "to be important or convincing enough to influence a decision",
+      "example": "The objection carries far less weight for older students.",
+      "ipa": "/ˌkæri ˈweɪt/",
+      "collocations": [
+        "carry considerable weight",
+        "carry little weight",
+        "carry more weight than"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "pre-empt an objection",
+      "pos": "verb phrase",
+      "he": "להקדים תשובה להתנגדות",
+      "def": "to answer an objection before the reader has a chance to raise it",
+      "example": "A strong essay pre-empts the obvious objection in the paragraph before the conclusion.",
+      "ipa": "/priˈempt ən əbˈdʒekʃn/",
+      "collocations": [
+        "pre-empt criticism",
+        "pre-empt the obvious objection"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "load-bearing assumption",
+      "pos": "noun phrase",
+      "he": "הנחה נושאת משקל (שכל הטיעון נשען עליה)",
+      "def": "an assumption that the whole argument depends on, so that the argument collapses if it is false",
+      "example": "The load-bearing assumption is that one successful trial predicts success everywhere.",
+      "ipa": "/ˈləʊd beərɪŋ əˈsʌmpʃn/",
+      "collocations": [
+        "a load-bearing assumption",
+        "a load-bearing premise",
+        "expose the load-bearing assumption"
+      ],
+      "level": "C2"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Map this argument with Toulmin's model. Match each element to the part of the argument that plays that role."
+      },
+      "pairs": [
+        [
+          "Claim",
+          "Secondary schools should make personal finance a compulsory subject."
+        ],
+        [
+          "Grounds",
+          "Many school leavers sign their first rental contract or loan agreement without ever having been taught how interest works."
+        ],
+        [
+          "Warrant",
+          "Schools have a duty to teach what young adults will need to avoid serious, foreseeable harm."
+        ],
+        [
+          "Backing",
+          "The same principle already justifies compulsory lessons on road safety and health."
+        ],
+        [
+          "Qualifier",
+          "at least in the final two years, when these decisions are close at hand"
+        ],
+        [
+          "Rebuttal (exception)",
+          "unless the subject can only be added by cutting time from core literacy and numeracy"
+        ]
+      ],
+      "hint": {
+        "en": "The warrant is a general principle that links the evidence to the claim; the backing is a reason to accept that principle."
+      },
+      "explanation": {
+        "en": "The grounds report a situation (school leavers sign contracts without understanding interest). On their own they do not prove the claim: you need the warrant, a general principle about what schools owe students. The backing defends that principle by showing that it already justifies other compulsory subjects. The qualifier limits the claim's scope (the final two years), and the rebuttal names the condition under which the claim would fail (if core subjects lose time)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "reading",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Argument: 'The new bus lane on Route 7 cut average journey times by several minutes, so the city should build bus lanes on every major road.' Which assumption connects the evidence to the conclusion (the warrant)?"
+      },
+      "question": "Choose the warrant.",
+      "options": [
+        "Bus lanes are cheaper to build than new tram lines.",
+        "What worked on Route 7 will work in a similar way on other major roads.",
+        "Drivers on Route 7 were satisfied with the new lane.",
+        "The journey times on Route 7 were measured accurately."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Trams play no part in this reasoning. The argument compares one road with all roads, not one form of transport with another."
+        },
+        "2": {
+          "en": "Satisfaction is not part of the argument, which rests on journey times. Removing this assumption would not weaken the conclusion at all."
+        },
+        "3": {
+          "en": "This is an assumption about the grounds (is the evidence accurate?), not the link between the grounds and the claim. Challenging it attacks the data; the warrant is the bridge from one road to every road."
+        }
+      },
+      "explanation": {
+        "en": "The argument jumps from one road to every major road, so its warrant is that Route 7 is representative. Stating it shows exactly where to push: roads with no room for an extra lane, or with few buses, may not behave like Route 7. A qualified version would read: 'The city should trial bus lanes on other major roads with similar bus frequency and space.'"
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Listen to a tutor giving feedback on a student's essay about rent caps, and answer the question."
+      },
+      "audio_text": "You've summed up the case for rent caps as 'landlords are greedy'. No serious supporter of rent caps actually argues that. Their best argument is that tenants can't easily move, so landlords have more bargaining power than an ordinary market assumes. Answer that version. If your rebuttal still works against it, your essay will be far more convincing.",
+      "question": "What does the tutor want the student to do?",
+      "options": [
+        "Add statistics that show how greedy landlords are.",
+        "Leave out the opposing view, because it weakens the essay.",
+        "Replace a straw man with the strongest version of the opposing case, and rebut that.",
+        "Change sides, because the supporters of rent caps have the better argument."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The tutor's point is that 'landlords are greedy' misrepresents the other side; more evidence for it would not help."
+        },
+        "1": {
+          "en": "The tutor wants the opposing view answered in a stronger form, not removed."
+        },
+        "3": {
+          "en": "The tutor does not say who is right. The advice is about engaging the best version of the other side: 'If your rebuttal still works against it ...'."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "missing-counterargument",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'No serious supporter ... argues that' identifies a straw man. 'Their best argument is ...' is a steelman: unequal bargaining power because tenants cannot easily move. A rebuttal that works against this version is worth far more than one that defeats a caricature."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "read",
+      "skill": "reading",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Read the opinion column from a regional newspaper and analyse how its argument is built. (Westmere is a fictional region.)"
+      },
+      "title": "Sixteen at the ballot box: a case with conditions",
+      "passage": "Next month, Westmere's regional council will vote on whether sixteen- and seventeen-year-olds should be allowed to vote in local elections. So far the debate has been conducted in slogans: 'Old enough to work, old enough to vote' on one side, 'Let children be children' on the other. Both deserve better arguments than they have received. My own view is that the council should say yes, but to a narrower proposal than either side imagines: votes at sixteen in local elections only, introduced as a pilot over two election cycles and paired with civic education in the final two years of school.\n\nThe case rests on a principle most of us already accept: the people who will live longest with the consequences of a decision should have a say in it, provided they can understand what they are deciding. Local councils decide on school transport, youth services, parks and the planning rules that will shape the town these teenagers grow up in. A sixteen-year-old will live with a new bus network or a closed youth centre for far longer than many of the people now voting on it.\n\nThe strongest objection is not that teenagers are foolish, and those who make it seriously never say so. It is that eighteen is not an arbitrary age. It is the point at which the law, in most respects, treats people as independent: able to sign contracts, to serve on juries and to bear full responsibility for their actions. A sixteen-year-old usually still lives at home, and critics fear that many first votes would simply echo a parent's. Lowering the voting age, on this view, breaks the link between political rights and independent adulthood, and does so for no clear gain.\n\nPart of this is right. Legal thresholds should be consistent unless there is a good reason for an exception, and the burden of proof lies with those who want to change them. But the reason here is a relevant one. The other thresholds concern risks to oneself or binding obligations to others; voting concerns a share in decisions about a shared future. The worry about parental influence, meanwhile, proves too much: adults, too, vote under the influence of partners, employers and friends, and we do not ask them to prove their independence at the polling station. Some political scientists argue, moreover, that voting is partly a habit, and that a first vote cast while still at school, with a teacher explaining the ballot, may be more likely to be followed by a second.\n\nA critic might reply that, once sixteen is accepted, nothing stops the age falling to fourteen. But a threshold is fixed by its reasons, not by the slope beneath it. The reasons given here, a direct stake in local decisions and the understanding that civic education can support in the final years of school, point to sixteen, not to fourteen.\n\nNone of this proves that votes at sixteen will work. That is precisely why the council should begin with a pilot, measure turnout and understanding, and decide after two elections whether to keep, extend or abandon it. A policy that admits it might be wrong is easier to trust than one that insists it cannot be.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Which statement best captures the writer's thesis?",
+          "options": [
+            "Sixteen-year-olds should be able to vote in all elections immediately.",
+            "The voting age should stay at eighteen until more research is available.",
+            "Sixteen-year-olds should vote in local elections, starting with a two-election pilot combined with civic education.",
+            "Each school should decide whether its students may vote."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The writer explicitly narrows the proposal: 'local elections only', and as a pilot."
+            },
+            "1": {
+              "en": "The writer supports change now, but in a limited, testable form."
+            },
+            "3": {
+              "en": "Schools provide civic education in the proposal; they do not decide who votes."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The thesis is qualified in scope (local elections only), in time (a pilot over two election cycles) and by a condition (civic education in the final two years of school)."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which warrant does the writer's main argument depend on?",
+          "options": [
+            "The people who will live longest with the consequences of a decision should have a say in it, if they can understand it.",
+            "Teenagers are better informed about politics than most adults.",
+            "Every legal age limit should be lowered to sixteen.",
+            "High turnout is the only sign of a healthy democracy."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The writer never claims this; the argument rests on stake and understanding, not on being better informed than adults."
+            },
+            "2": {
+              "en": "The writer argues that voting differs from other thresholds, so this would contradict the column."
+            },
+            "3": {
+              "en": "Turnout is something the pilot should measure, not the principle that justifies the proposal."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'The case rests on a principle most of us already accept ...' The writer states the warrant explicitly and adds a condition ('provided they can understand what they are deciding'), which later explains why civic education is part of the proposal."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer presents the objection about legal adulthood in a weak form so that it is easy to dismiss.",
+          "answer": false,
+          "explanation": {
+            "en": "The writer steelmans it: 'The strongest objection is not that teenagers are foolish ...'. The objection is stated with its real reasons (eighteen as the age of legal independence, the risk of parental influence) before it is answered."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "How does the writer answer the point that eighteen is the age of legal independence?",
+          "options": [
+            "By denying that any legal age limits are set at eighteen.",
+            "By arguing that sixteen-year-olds are more mature than most adults.",
+            "By ignoring it and discussing turnout instead.",
+            "By conceding that age limits should be consistent, then arguing that voting differs from the other limits in a relevant way."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The writer accepts that these thresholds exist: 'Part of this is right.'"
+            },
+            "1": {
+              "en": "Maturity compared with adults is never claimed; the answer is about what kind of right voting is."
+            },
+            "2": {
+              "en": "The writer engages with the objection directly before mentioning habit and turnout."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "Concede ('Part of this is right ... the burden of proof lies with those who want to change them'), then distinguish: other thresholds concern risks to oneself or binding obligations, while voting concerns a share in a shared future. Showing that a case is relevantly different is a strong form of counter."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "When the writer says that the worry about parental influence 'proves too much', the point is that:",
+          "options": [
+            "if the worry were a good reason, it would also exclude many adult voters, so it cannot single out sixteen-year-olds.",
+            "research has proved that parents influence their children's votes.",
+            "parents have too much influence over adult voters.",
+            "the worry is too emotional to be answered with reasons."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "'Proves too much' is not about research. It means the reasoning, applied consistently, would lead to a conclusion nobody accepts."
+            },
+            "2": {
+              "en": "The writer mentions influence on adults only to show that the objection would apply to them too, not to complain about it."
+            },
+            "3": {
+              "en": "The writer answers the worry with a reason, so it is clearly not treated as unanswerable."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "An argument 'proves too much' when, applied consistently, it would also justify a conclusion its own supporters reject: here, removing the vote from adults who are influenced by partners or employers. This dismantles the objection's warrant without denying the facts it rests on."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer claims that research has shown that voting at sixteen raises turnout later in life.",
+          "answer": false,
+          "explanation": {
+            "en": "The claim is attributed and hedged: 'Some political scientists argue ... may be more likely'. The writer offers it as supporting reasoning, not as proof, which is why the pilot will measure turnout."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why, according to the writer, does accepting sixteen not commit anyone to fourteen?",
+          "options": [
+            "Because fourteen-year-olds are not allowed to take part in civic education.",
+            "Because the council has already ruled out fourteen.",
+            "Because nobody has ever suggested a voting age of fourteen.",
+            "Because an age limit is set by the reasons for it, and the reasons given support sixteen but not fourteen."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The column links civic education to the final years of school, but it never says younger students are excluded from it."
+            },
+            "1": {
+              "en": "The council has not voted yet; the writer answers the objection with reasoning, not with a decision."
+            },
+            "2": {
+              "en": "The writer raises the objection as one a critic might make; the answer does not depend on whether anyone has suggested it."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'A threshold is fixed by its reasons, not by the slope beneath it.' The writer anticipates a slippery-slope reply and answers it by returning to the warrant: stake plus supported understanding. This is step 4 and 5 of a concession-rebuttal chain: anticipate, then respond."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The final proposal is limited in scope (local elections only) and in time: it begins as a ___ that will be reviewed after two elections. (one word from the column)",
+          "answers": [
+            [
+              "pilot"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "trial",
+              "feedback": {
+                "en": "Same idea, but the column's word is 'pilot': 'the council should begin with a pilot'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'That is precisely why the council should begin with a pilot ...' The final paragraph re-qualifies the thesis: the writer admits the policy might fail and builds a test into the proposal."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e5",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Argument: 'The town should replace its central car park with affordable housing, because the car park is rarely more than half full on weekdays.' Sort the objections by where they strike."
+      },
+      "categories": [
+        "Evidence: are the facts true and sufficient?",
+        "Warrant: does the claim follow from the facts?",
+        "Scope: does the claim go further than the case supports?",
+        "Values: does something else matter more?"
+      ],
+      "items": [
+        {
+          "text": "The occupancy count was carried out in a single week during the school holidays.",
+          "category": "Evidence: are the facts true and sufficient?"
+        },
+        {
+          "text": "The council's figures count only ticketed cars and leave out the disabled bays, which are usually full.",
+          "category": "Evidence: are the facts true and sufficient?"
+        },
+        {
+          "text": "Being half full is not the same as being unnecessary: a car park needs spare spaces at quiet times to cope with the busy ones.",
+          "category": "Warrant: does the claim follow from the facts?"
+        },
+        {
+          "text": "Low use may reflect high parking charges rather than low demand, so usage is a poor measure of need.",
+          "category": "Warrant: does the claim follow from the facts?"
+        },
+        {
+          "text": "At most, the figures justify building on the half of the site that stands empty, not on the whole car park.",
+          "category": "Scope: does the claim go further than the case supports?"
+        },
+        {
+          "text": "The proposal's authors present it as a model for every town in the region, though the figures come from one town.",
+          "category": "Scope: does the claim go further than the case supports?"
+        },
+        {
+          "text": "Even if housing is the greater need, the car park is what allows elderly and disabled residents to reach the town centre at all, and their access should come first.",
+          "category": "Values: does something else matter more?"
+        },
+        {
+          "text": "Some residents argue that the historic market square should be protected from new building, whatever the housing need.",
+          "category": "Values: does something else matter more?"
+        }
+      ],
+      "hint": {
+        "en": "Ask what each objection accepts. Accepts nothing about the data? Evidence. Accepts the data but denies the inference? Warrant. Accepts the inference but only for part of the case? Scope. Accepts the case but ranks a different good higher? Values."
+      },
+      "explanation": {
+        "en": "Evidence objections question the data (a holiday-week count, missing bays). Warrant objections accept the data and deny the inference from 'half full' to 'not needed'. Scope objections accept part of the case and resist its extension (the whole site, every town). Values objections accept the reasoning and argue that another good (access, heritage) should come first. Knowing where an objection strikes tells you how to answer it: with better data, an explicit and backed warrant, a narrower claim, or an argument about priorities."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "A council proposes banning private cars from the old city centre. You support the ban. Which sentence states the opposing view in its strongest, fairest form?"
+      },
+      "question": "Choose the steelman.",
+      "options": [
+        "Opponents simply love their cars and refuse to change their habits.",
+        "Opponents claim that a ban would destroy the city centre completely within a year.",
+        "Some people say there might be some problems with a ban.",
+        "Opponents accept that traffic is a problem, but argue that a ban would cut off residents who cannot walk far or use buses, such as disabled people and their carers, and push trade towards out-of-town shopping centres."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "This attacks the people, not their argument. No thoughtful opponent would recognise their case in it."
+        },
+        "1": {
+          "en": "This attributes an extreme claim that is easy to knock down: a straw man. Serious opponents argue about specific harms, not total destruction."
+        },
+        "2": {
+          "en": "Too vague to answer. A steelman names who is affected, how and why it matters."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "1": "fallacy",
+        "2": "missing-counterargument"
+      },
+      "explanation": {
+        "en": "The steelman grants common ground (traffic is a problem), names the people affected (residents with limited mobility and their carers), gives a mechanism (trade moving out of town) and implies the value at stake (equal access to the centre). Opponents would accept this summary, so a rebuttal of it actually settles something."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "reading",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Argument: (1) Students who use AI writing tools submit their essays faster. (2) Faster submission means less time spent thinking about the topic. (3) Less thinking produces weaker learning. (4) Therefore schools should ban AI writing tools."
+      },
+      "question": "Which challenge identifies the load-bearing weakness and gives a sound reason?",
+      "options": [
+        "Premise 2, because it assumes the time saved is not spent thinking, when students might use it to plan, revise or check sources.",
+        "Premise 1, because the speed of submission cannot be measured.",
+        "Premise 3, because thinking has no effect on learning.",
+        "The conclusion, because schools never have the right to ban anything."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Submission times can easily be recorded, so this reason is false. Premise 1 is the least controversial step in the chain."
+        },
+        "2": {
+          "en": "This over-claims in the other direction. Premise 3 is plausible; denying any link between thinking and learning is not tenable."
+        },
+        "3": {
+          "en": "The conclusion can be challenged, but not with an absolute like this, which any counterexample breaks (schools rightly ban some things)."
+        }
+      },
+      "option_errors": {
+        "1": "unsupported-claim",
+        "2": "unsupported-claim",
+        "3": "unsupported-claim"
+      },
+      "hint": {
+        "en": "Which step turns a measurable fact into an assumption about what students do with their time?"
+      },
+      "explanation": {
+        "en": "Premise 2 is the load-bearing assumption: it treats time spent drafting as the only time spent thinking. If students use the saved time to plan or revise, the chain breaks. There is a second weak link worth noting: even if premises 1-3 held, step 4 assumes a ban is the only response (a false dilemma), when schools could instead redesign tasks or require drafts. A sound challenge names the weak step and gives a reason that is itself defensible."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "order",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Put the sentences in order to build a concession-rebuttal chain: concede, limit and counter, anticipate a reply, respond, re-qualify."
+      },
+      "tokens": [
+        "Critics of a four-day school week argue that it would leave working parents without childcare on the fifth day.",
+        "This is a serious objection, and for families with young children it is largely correct.",
+        "It carries far less weight, however, for students aged sixteen and over, who do not need supervision and could use the day for work placements or independent study.",
+        "A defender of the five-day week might reply that older students would simply waste the extra day.",
+        "Yet this is a testable worry: a one-year trial could require students to keep a brief weekly record of how the day was used.",
+        "With that safeguard in place, the proposal should be limited to the final two years of school, where the original objection loses most of its force."
+      ],
+      "hint": {
+        "en": "Follow the reference words: 'This is a serious objection', 'It carries far less weight', 'this is a testable worry', 'With that safeguard'."
+      },
+      "explanation": {
+        "en": "The objection is stated and attributed (Critics argue), then conceded (This is a serious objection ... largely correct), limited and countered (far less weight for students over sixteen). A likely reply is anticipated (A defender ... might reply) and answered with a test rather than a dismissal (Yet ... a trial could ...). The final sentence re-qualifies the thesis to absorb the concession: the proposal now covers only the final two years of school."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Original thesis: 'Cities should make public transport free.' The writer concedes this objection: 'Free fares mainly benefit people who already use public transport and do little to persuade drivers to switch; the money might do more if spent on more frequent services.' Which revised thesis absorbs the concession best?"
+      },
+      "question": "Choose the best re-qualified thesis.",
+      "options": [
+        "Cities should make public transport free, and critics who disagree have simply not understood the benefits.",
+        "Cities should make public transport free, although some people disagree.",
+        "Cities should make fares free for the groups who face the highest barriers to travel, such as young people and job-seekers, and spend the rest of the budget on more frequent services.",
+        "Cities might perhaps consider whether public transport could possibly be made free in certain cases."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "This dismisses the objection the writer has just conceded, and attacks the critics instead of answering them."
+        },
+        "1": {
+          "en": "A token concession: it mentions disagreement but changes nothing. If the objection was accepted, the thesis must reflect it."
+        },
+        "3": {
+          "en": "Over-hedged: four hedges (might, perhaps, possibly, certain cases) leave a claim nobody could disagree with, so it no longer argues anything."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "1": "missing-counterargument",
+        "3": "weak-thesis"
+      },
+      "explanation": {
+        "en": "The objection made two points: free fares mostly help existing passengers, and frequency may matter more. The best revision targets free fares where they widen access (groups facing barriers) and moves the rest of the money to frequency. The claim is narrower, but much harder to knock down, and it shows the reader that the writer has listened."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Complete the concession-rebuttal chain with words from the bank. Not every word is needed."
+      },
+      "text": "Critics are right ___ the scheme will be expensive to set up. ___, the set-up cost is paid once, whereas the savings recur every year, so over a decade the benefits are likely to ___ the costs. The case is strongest in districts ___ demand for evening services is already high; it weakens considerably ___ that demand is absent.",
+      "word_bank": [
+        "that",
+        "Even so",
+        "outweigh",
+        "where",
+        "if",
+        "Although",
+        "Despite",
+        "unless",
+        "overlook"
+      ],
+      "answers": [
+        [
+          "that"
+        ],
+        [
+          "Even so",
+          "Nevertheless",
+          "Nonetheless",
+          "Still",
+          "Yet",
+          "However"
+        ],
+        [
+          "outweigh"
+        ],
+        [
+          "where",
+          "in which"
+        ],
+        [
+          "if",
+          "where",
+          "when"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Although",
+          "feedback": {
+            "en": "Although introduces a subordinate clause (Although the cost is high, ...); it cannot stand alone before a comma. Here you need a sentence adverb that turns against the concession: Even so."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Despite",
+          "feedback": {
+            "en": "Despite needs a noun phrase after it (Despite this, ...); it cannot introduce a clause on its own."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "unless",
+          "feedback": {
+            "en": "Unless reverses the logic: the case weakens if demand is absent, not unless it is absent."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "overlook",
+          "feedback": {
+            "en": "Overlook means 'fail to notice'. The sentence compares benefits with costs, so it needs outweigh."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "The second blank starts the counter-move; the last two blanks set the conditions under which the claim holds and fails."
+      },
+      "explanation": {
+        "en": "Critics are right that ... (concede); Even so, ... (counter); the benefits are likely to outweigh the costs (weigh, with a qualifier); strongest where ... / weakens if ... (re-qualify by condition). Marking where the claim holds and where it weakens is what turns a concession into a stronger, narrower thesis."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Rewrite the concession so that the sentence begins 'For all ...'. Keep the meaning."
+      },
+      "source": "Although the scheme is expensive, it is the only proposal that addresses the cause of the problem.",
+      "answers": [
+        "For all its expense, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all its cost, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all its costs, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all that it is expensive, the scheme is the only proposal that addresses the cause of the problem.",
+        "For all that the scheme is expensive, it is the only proposal that addresses the cause of the problem.",
+        "For all the scheme's expense, it is the only proposal that addresses the cause of the problem.",
+        "For all the expense of the scheme, it is the only proposal that addresses the cause of the problem."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "For all the scheme is expensive, it is the only proposal that addresses the cause of the problem.",
+          "feedback": {
+            "en": "Before a full clause, use For all that: For all that the scheme is expensive, ... Or use a noun phrase: For all its expense, ..."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "For all its expensive, the scheme is the only proposal that addresses the cause of the problem.",
+          "feedback": {
+            "en": "After For all its, you need a noun (expense, cost), not the adjective expensive."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "For all its expense, but the scheme is the only proposal that addresses the cause of the problem.",
+          "feedback": {
+            "en": "For all already marks the concession, so adding but doubles the connector. Delete but."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "For all can be followed by a noun phrase (For all its ...) or by that + clause (For all that ...)."
+      },
+      "explanation": {
+        "en": "For all + noun phrase (or For all that + clause) means 'despite', with a nuance: it grants the point in full and then insists that the main clause still stands. It is a compact way to open the counter-move of a chain."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Rewrite the sentence so that it begins 'However strong ...'. Keep the meaning."
+      },
+      "source": "The objection may be strong, but it does not apply to students over sixteen.",
+      "answers": [
+        "However strong the objection may be, it does not apply to students over sixteen.",
+        "However strong the objection is, it does not apply to students over sixteen.",
+        "However strong the objection might be, it does not apply to students over sixteen.",
+        "However strong the objection, it does not apply to students over sixteen.",
+        "However strong it may be, the objection does not apply to students over sixteen.",
+        "However strong it is, the objection does not apply to students over sixteen."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "However strong is the objection, it does not apply to students over sixteen.",
+          "feedback": {
+            "en": "No inversion after However + adjective: However strong the objection is (or may be), ..."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "However strong the objection may be, but it does not apply to students over sixteen.",
+          "feedback": {
+            "en": "However strong ... already concedes, so but doubles the connector. Delete but."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "However the objection is strong, it does not apply to students over sixteen.",
+          "feedback": {
+            "en": "In this structure the adjective follows however directly: However strong the objection is, ..."
+          },
+          "error_type": "word-order"
+        }
+      ],
+      "hint": {
+        "en": "Pattern: However + adjective + subject (+ verb), main clause."
+      },
+      "explanation": {
+        "en": "However + adjective + subject + verb concedes the point at its maximum strength and then denies its relevance to your case. The verb can be be, may be or might be, or it can be left out in formal writing (However strong the objection, ...). Use it when you want to limit a concession rather than deny it."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "This sentence from a draft marks the concession twice. Correct it by removing one connector, and change nothing else."
+      },
+      "sentence": "Although critics are right that the scheme is costly, but the long-term savings outweigh the initial outlay.",
+      "answers": [
+        "Although critics are right that the scheme is costly, the long-term savings outweigh the initial outlay.",
+        "Critics are right that the scheme is costly, but the long-term savings outweigh the initial outlay."
+      ],
+      "error_type": "cohesion",
+      "wrong_feedback": [
+        {
+          "match": "Although critics are right that the scheme is costly, however the long-term savings outweigh the initial outlay.",
+          "feedback": {
+            "en": "Still doubled: although and however both mark the contrast. Keep only one of them."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "explanation": {
+        "en": "English marks a concession once per sentence: Although X, Y or X, but Y, never Although X, but Y. Of the two correct versions, the although-version puts your counter (the savings outweigh the outlay) in the main clause, which gives it more weight: a useful choice in the counter-move of a chain."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "In a debate, you steelman the other side before answering it. Say the sentence out loud."
+      },
+      "target": "To put their case at its strongest: they're not against cleaner air; they're worried that the cost falls on people with no other way to get to work.",
+      "focus": {
+        "en": "Use contrastive stress to separate what they reject from what they fear: they're NOT against cleaner AIR; they're WORried that the COST falls on people with no OTHer way to get to work. Pause briefly at the colon and at the semicolon."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Opening with 'To put their case at its strongest' signals fairness before you disagree. In speech, the stress pattern does the work that punctuation does in writing: it shows the listener which part you are granting and which part you will answer."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "argument-architecture",
+      "prompt": {
+        "en": "Build the core of an argument: a qualified thesis, an explicit warrant, a steelmanned objection and a full concession-rebuttal chain."
+      },
+      "task": {
+        "en": "Choose one question: (a) Should social media platforms be required to verify the age of every user? (b) Should cities ban commercial advertising from public billboards? (c) Should schools replace grades with written feedback for students under sixteen? Write the argument core of an essay (380-550 words) that argues a qualified position and responds to opposing views. Your text must: (1) open with a qualified thesis, limited by scope, condition or degree; (2) make your load-bearing warrant explicit and give it backing; (3) steelman the strongest objection and attribute it fairly; (4) answer it with a concession-rebuttal chain: concede what is true, limit the concession, counter it (refute, outweigh or distinguish), anticipate one reply to your counter and respond to it; (5) end by restating your thesis, revised if the objection forced a change. Use reasoning, real examples and carefully worded general knowledge; do not invent statistics."
+      },
+      "min_words": 350,
+      "max_words": 600,
+      "model_answer": "Model answer on a parallel question: Should national parks charge entry fees?\n\nNational parks should charge entry fees to visitors from outside the region, at least at the busiest sites and in peak seasons, provided that local residents and school groups enter free and the income is spent on the park itself. A flat charge for everyone would raise more money, but it would also turn a public good into something closer to a private one.\n\nThe argument rests on a simple warrant: those who place the heaviest demands on a shared resource should contribute most to its upkeep. The principle is not new. It already justifies tolls on expensive bridges and charges for campsites, and it reflects a basic idea of fairness: costs should fall on the people who create them. At the most popular viewpoints and trails, peak-season crowds erode paths, fill car parks and absorb rangers' time, while maintenance budgets are often fixed. A targeted fee places the cost where the damage is done.\n\nThe strongest objection deserves to be stated in full. Opponents do not merely dislike paying; they argue that national parks belong to the whole nation, which already funds them through taxes, so a fee charges citizens twice for something they own. Worse, they point out, a fee falls hardest on families with low incomes, for whom a day in the countryside may be one of the few affordable outings. On this view, a fee does not ration damage; it rations access, and it rations it by wealth.\n\nMuch of this is right. A park funded by taxpayers is in a real sense already paid for, and any charge that kept poorer families away would defeat the purpose of having national parks at all. But the objection weighs far less heavily against a targeted fee than against a universal one. Exempting residents and school groups protects those with the strongest claim to everyday access, and limiting the fee to a handful of overcrowded sites in peak season leaves most of the park free for most of the year. A defender of free entry might reply that even a targeted fee sets a precedent: once charging is accepted, it will spread. Yet this risk can be managed by law rather than avoided by refusing all fees. A charge whose income must, by statute, be spent within the park, and whose sites are listed and regularly reviewed, is difficult to extend quietly.\n\nThe objection therefore changes the thesis without defeating it. The case is not for charging everyone who enters a park, but for asking non-local visitors at the busiest places and times to pay towards the damage that crowding causes, while keeping access free for those who live nearby and for the young.",
+      "checklist": [
+        {
+          "en": "Qualified thesis: my position is arguable and limited by scope, condition or degree where the claim really is limited, with no absolutes and no stacked hedges."
+        },
+        {
+          "en": "Warrant and backing: I state the assumption that links my evidence to my claim, and I give a reason to accept it (a shared principle, a precedent, a consequence)."
+        },
+        {
+          "en": "Grounds: my evidence is relevant and sufficient for the claim; examples are real or clearly hypothetical, general knowledge is carefully worded, and no statistics are invented."
+        },
+        {
+          "en": "Steelman: the strongest objection is stated as its supporters would state it, with their best reason and the value at stake, and it is attributed (Opponents argue ..., Critics point out ...)."
+        },
+        {
+          "en": "Chain: I concede what is true, mark the limit of the concession, counter it with a reason (refute, outweigh or distinguish), anticipate one reply and answer it."
+        },
+        {
+          "en": "Re-qualification: my closing statement of the thesis reflects what I conceded, and no new argument appears at the end."
+        },
+        {
+          "en": "Language: concessive structures are varied and accurate (Admittedly, Granted, For all ..., However strong ..., Even so), with no doubled connectors (Although ..., but ...)."
+        },
+        {
+          "en": "Calibration: each qualifier answers a real weakness; boosters such as clearly or undeniably appear only where the evidence justifies them."
+        }
+      ],
+      "explanation": {
+        "en": "This task combines every move in the lesson. The model answer shows how a steelmanned objection can change a thesis without defeating it: the final claim is narrower than the first one, but it now survives the best case against it."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Every argument has a warrant, and most serious disagreements are about warrants. Make the load-bearing one explicit and back it."
+      },
+      {
+        "en": "Qualifiers and exceptions calibrate a claim to its evidence: limit scope, condition or degree only where there is a real limit."
+      },
+      {
+        "en": "Steelman before you rebut: state the opposing view as its best supporters would, and attribute it fairly."
+      },
+      {
+        "en": "A concession-rebuttal chain concedes, limits, counters, anticipates the reply and responds; then the thesis is restated, revised if an objection succeeded."
+      },
+      {
+        "en": "Objections strike at evidence, warrant, scope or values. Test each premise by asking who would deny it, and answer the one or two most serious objections in depth."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

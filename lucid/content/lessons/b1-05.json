@@ -16,7 +16,7 @@
     { "type": "table", "headers": ["if-part", "Result", "Example"], "rows": [
       ["if + past simple", "would ('d) + base verb", "If I had more time, I'd learn the guitar."],
       ["if + didn't + base verb", "would / wouldn't + base verb", "If Amir didn't live so far away, we'd see him more often."],
-      ["if + were", "could / might + base verb", "If I were taller, I could play basketball for the school team."]
+      ["if + were", "would / could / might + base verb", "If I were taller, I could play basketball for the school team."]
     ] },
     { "type": "rule", "en": "No would in the if-part: If I knew the answer, I'd tell you (not *If I would know). With I, he, she and it, were is the standard form: If she were here... (in casual speech you'll also hear was). For advice, always say If I were you.", "he": "בחלק של if לא בא would: If I knew the answer, I'd tell you, ולא If I would know. עם I, he, she, it הצורה התקנית היא were: If she were here... (בדיבור יומיומי שומעים גם was). בעצה אומרים תמיד If I were you." },
     { "type": "tip", "en": "Giving advice: If I were you, I'd talk to your teacher. A warning: I wouldn't eat that if I were you.", "he": "עצה: If I were you, I'd talk to your teacher ('במקומך, הייתי...'). אזהרה: I wouldn't eat that if I were you ('במקומך לא הייתי אוכל/ת את זה')." },
@@ -35,7 +35,7 @@
     { "en": "If I were you, I'd apologise to her.", "he": "במקומך, הייתי מתנצל/ת בפניה.", "note": "advice" },
     { "en": "I wouldn't go there alone if I were you.", "he": "במקומך לא הייתי הולך/ת לשם לבד.", "note": "a warning" },
     { "en": "If I knew her number, I'd call her.", "he": "אם הייתי יודע/ת את המספר שלה, הייתי מתקשר/ת אליה.", "note": "I don't know it" },
-    { "en": "If it's sunny tomorrow, we'll go to the beach.", "he": "אם יהיה שמשי מחר, נלך לים.", "note": "first conditional: a real possibility" },
+    { "en": "If it's sunny tomorrow, we'll go to the beach.", "he": "אם מחר יהיה יום שמשי, נלך לים.", "note": "first conditional: a real possibility" },
     { "en": "If it snowed in Eilat, everyone would go crazy.", "he": "אם היה יורד שלג באילת, כולם היו משתגעים.", "note": "second conditional: very unlikely" }
   ],
   "vocab": [
@@ -54,7 +54,8 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question can keep the order of a statement. In English would comes before the subject: What would you do if you won? (not *What you would do if you won?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה היית עושה אם...?'). באנגלית would בא לפני הנושא: What would you do if you won?, ולא What you would do if you won?", "error_type": "word-order" },
-    { "en": "In Hebrew /w/ is not a regular sound of the language (it appears mainly in borrowed words), and the letter vav is usually /v/. So would, were and won can come out as 'vould', 'vere' and 'von'. For /w/, round your lips as for 'oo' and keep your top teeth away from your lower lip.", "he": "בעברית /w/ אינו צליל רגיל של השפה (הוא מופיע בעיקר במילים שאולות), והאות ו' נהגית בדרך כלל /v/. לכן would, ‏were ו-won יכולים להישמע כמו 'ווּלד', 'וֶר' ו'וון' עם v. כדי להגות /w/, עגלו את השפתיים כמו ב'אוּ' ואל תיגעו בשיניים העליונות בשפה התחתונה.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew /w/ is not a regular sound of the language (it appears mainly in borrowed words), and the letter vav is usually /v/. So would, were and won can come out as 'vood', 'ver' and 'von'. For /w/, round your lips as for 'oo' and keep your top teeth away from your lower lip. (The l in would is silent: /wʊd/.)", "he": "בעברית /w/ אינו צליל רגיל של השפה (הוא מופיע בעיקר במילים שאולות), והאות ו' נהגית בדרך כלל /v/. לכן would, ‏were ו-won עלולים לצאת עם v במקום w. כדי להגות /w/, עגלו את השפתיים כמו ב'אוּ' ואל תיגעו בשיניים העליונות בשפה התחתונה. (ב-would האות l לא נהגית: /wʊd/.)", "error_type": "pron-w-v" },
+    { "en": "Hebrew builds an imaginary result with the past of 'be' + a verb (literally 'I was buying'), so it is easy to write *If I had money, I was buying a car. English uses would + base verb: If I had money, I would buy a car.", "he": "בעברית התוצאה הדמיונית נבנית עם 'הייתי' + פועל ('הייתי קונה'), ולכן קל לכתוב If I had money, I was buying a car. באנגלית 'הייתי קונה' = would + צורת הבסיס: If I had money, I would buy a car.", "error_type": "conditional-form" }
   ],
   "exercises": [
     {
@@ -165,7 +166,7 @@
       "id": "e8", "type": "read", "skill": "reading", "topic": "conditionals-2",
       "prompt": { "en": "Read the advice column and answer the questions.", "he": "קראו את מדור העצות וענו על השאלות." },
       "title": "Ask Sara: Should I take the job abroad?",
-      "passage": "Dear Sara,\n\nI'm 24 and I've just got a job offer in Lisbon for one year. The pay is good, and I've always wanted to live abroad. The problem is my grandmother. She's 85, and I visit her every Friday. If I moved to Portugal, she would be really sad, and I would feel terrible. What would you do?\n\nDaniel, Haifa\n\nDear Daniel,\n\nFirst, congratulations! Offers like this don't come every day.\n\nI understand your worry, but imagine the opposite situation. If your grandmother were 24 and had this offer, what would you tell her? I'm sure you'd say 'Go!'\n\nIf I were you, I'd talk to her before you decide. You might be surprised: many grandparents are proud when their grandchildren have adventures. Also, Lisbon isn't on the other side of the world. If you called her every Friday instead of visiting, she would still hear your voice, and you could fly home for the holidays.\n\nOne more thing: if you said no, would you regret it in ten years? Only you can answer that.\n\nGood luck!\nSara",
+      "passage": "Dear Sara,\n\nI'm 24 and I've just got a job offer in Lisbon for one year. The pay is good, and I've always wanted to live abroad. The problem is my grandmother. She's 85, and I visit her every Friday. If I moved to Portugal, she would be really sad, and I would feel terrible. What would you do?\n\nDaniel, Haifa\n\nDear Daniel,\n\nFirst, congratulations! Offers like this don't come every day.\n\nI understand your worry, but imagine the opposite situation. If your grandmother were 24 and had this offer, what would you tell her? I'm sure you'd say 'Go!'\n\nIf I were you, I'd talk to her first. You might be surprised: many grandparents are proud when their grandchildren have adventures. Also, Lisbon isn't on the other side of the world. If you called her every Friday instead of visiting, she would still hear your voice, and you could fly home for the holidays.\n\nOne more thing: if you said no, would you regret it in ten years? Only you can answer that.\n\nGood luck!\nSara",
       "questions": [
         { "type": "tf", "statement": "Daniel has already moved to Lisbon.", "answer": false,
           "explanation": { "en": "He has just got the offer and is still deciding: 'If I moved to Portugal...' is imaginary.", "he": "הוא רק קיבל את ההצעה ועדיין מתלבט: If I moved to Portugal... הוא מצב דמיוני." } },
@@ -184,7 +185,7 @@
           "option_errors": { "1": "conditional-form", "2": "conditional-form" },
           "explanation": { "en": "if + were = imaginary. Sara asks Daniel to imagine the opposite situation.", "he": "if + were = מצב דמיוני. שרה מבקשת מדניאל לדמיין את המצב ההפוך." } },
         { "type": "tf", "statement": "Sara thinks Daniel should talk to his grandmother before he decides.", "answer": true,
-          "explanation": { "en": "'If I were you, I'd talk to her before you decide.' This is her advice.", "he": "בטקסט: If I were you, I'd talk to her before you decide – זו העצה שלה." } },
+          "explanation": { "en": "'If I were you, I'd talk to her first.' This is her advice: talk to his grandmother before he decides.", "he": "בטקסט: If I were you, I'd talk to her first – זו העצה שלה: לדבר עם סבתא לפני שהוא מחליט." } },
         { "type": "gap", "text": "Sara says Daniel could ___ his grandmother every Friday instead of visiting her.", "answers": [["call", "phone", "ring"]],
           "explanation": { "en": "'If you called her every Friday instead of visiting, she would still hear your voice.'", "he": "בטקסט: If you called her every Friday instead of visiting, she would still hear your voice." } }
       ]
@@ -274,9 +275,9 @@
       "min_words": 100,
       "max_words": 160,
       "must_include": ["if", "would"],
-      "model_answer": "If I could change one thing about Be'er Sheva, I would plant a lot more trees. In summer it's so hot that hardly anyone walks anywhere in the afternoon. If there were trees along the main streets, people would walk more and use their cars less. The air would be cleaner, and the city would look greener and friendlier.\n\nI would also put benches and water fountains under the trees. Older people could sit down and rest, and kids would have somewhere to play outside. If the streets felt nicer, small cafés would probably open there too.\n\nI know trees take years to grow, but if we started now, our children would enjoy them. What would you change about your town?",
+      "model_answer": "If I could change one thing about Be'er Sheva, I would plant a lot more trees. In summer it's so hot that hardly anyone walks anywhere in the afternoon. If there were more trees along the main streets, people would walk more and use their cars less. The air would be cleaner, and the city would look greener and friendlier.\n\nI would also put benches and water fountains under the trees. Older people could sit down and rest, and kids would have somewhere to play outside. If the streets felt nicer, small cafés would probably open there too.\n\nI know trees take years to grow, but if we started now, our children would enjoy them. What would you change about your town?",
       "checklist": [
-        { "en": "I used if + past simple (or were) for the imaginary situation: If there were trees...", "he": "השתמשתי ב-if + עבר פשוט (או were) למצב הדמיוני: If there were trees..." },
+        { "en": "I used if + past simple (or were) for the imaginary situation: If there were more trees...", "he": "השתמשתי ב-if + עבר פשוט (או were) למצב הדמיוני: If there were more trees..." },
         { "en": "I used would or could + base verb in the results, and never would in the if-part.", "he": "השתמשתי ב-would או could + צורת הבסיס בתוצאות, ואף פעם לא ב-would בחלק של if." },
         { "en": "I gave a reason and at least two results.", "he": "נתתי סיבה ולפחות שתי תוצאות." },
         { "en": "I ended with a question to other readers (What would you change...?).", "he": "סיימתי בשאלה לקוראים (What would you change...?)." }

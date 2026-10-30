@@ -41,7 +41,7 @@
   "vocab": [
     { "word": "unless", "pos": "conjunction", "he": "אלא אם כן", "def": "except if; if ... not", "example": "You can't come in unless you have a ticket.", "ipa": "/ənˈles/", "collocations": ["unless you hurry", "unless it rains", "unless something changes"], "level": "B1" },
     { "word": "as soon as", "pos": "conjunction", "he": "ברגע ש...", "def": "immediately when", "example": "I'll message you as soon as I hear anything.", "ipa": "/əz ˈsuːn əz/", "collocations": ["as soon as possible", "as soon as I can", "as soon as I get home"], "level": "B1" },
-    { "word": "run out of", "pos": "phrasal verb", "he": "שנגמר ל... (מלאי, זמן)", "def": "to use all of something so that there is none left", "example": "If we run out of milk, I'll go to the shop.", "ipa": "/ˌrʌn ˈaʊt əv/", "collocations": ["run out of time", "run out of money", "run out of battery"], "level": "B1" },
+    { "word": "run out of", "pos": "phrasal verb", "he": "נגמר ל... (נגמר לנו החלב, נגמר לי הזמן)", "def": "to use all of something so that there is none left", "example": "If we run out of milk, I'll go to the shop.", "ipa": "/ˌrʌn ˈaʊt əv/", "collocations": ["run out of time", "run out of money", "run out of battery"], "level": "B1" },
     { "word": "get stuck", "pos": "phrase", "he": "להיתקע", "def": "to be unable to move or to continue", "example": "If we leave at five, we'll get stuck in traffic.", "ipa": "/ˌɡet ˈstʌk/", "collocations": ["get stuck in traffic", "get stuck in a lift", "get stuck on a question"], "level": "B1" },
     { "word": "work out", "pos": "phrasal verb", "he": "להסתדר, להיגמר טוב", "def": "(of a situation) to end in a good way", "example": "Don't worry. If you're patient, everything will work out.", "ipa": "/ˌwɜːk ˈaʊt/", "collocations": ["things will work out", "work out well", "work out in the end"], "level": "B1" },
     { "word": "get sunburnt", "pos": "phrase", "he": "להישרף מהשמש", "def": "to get red, painful skin from too much sun", "example": "If you don't wear sun cream, you'll get sunburnt.", "ipa": "/ˌɡet ˈsʌnbɜːnt/", "collocations": ["get badly sunburnt", "get sunburnt easily", "avoid getting sunburnt"], "level": "B1" },
@@ -53,7 +53,8 @@
     { "word": "revise", "pos": "verb", "he": "לחזור על החומר (לקראת מבחן)", "def": "(British) to study again what you have learned, before an exam", "example": "If I revise every evening, I'll be ready for the exam.", "ipa": "/rɪˈvaɪz/", "collocations": ["revise for an exam", "revise the material", "start revising"], "level": "B1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew the present-tense verb changes for gender and number, but there is nothing like the English -s for he, she and it. So the -s is easy to forget, especially in the if-part: If she misses the bus, she'll take a taxi (not *If she miss the bus).", "he": "בעברית פועל בהווה משתנה לפי מין ומספר, אבל אין בו משהו כמו ה-s האנגלית של he, she, it. לכן קל לשכוח אותה, במיוחד בחלק של if: If she misses the bus, she'll take a taxi, ולא If she miss the bus.", "error_type": "third-person-s" },
+    { "en": "Hebrew uses the future after 'if' (literally 'if it will rain, we will stay at home'), so it is easy to write *If it will rain, we'll stay at home. English uses the present after if, unless, when and as soon as, and will only in the result: If it rains, we'll stay at home.", "he": "בעברית אחרי 'אם' בא עתיד ('אם יירד גשם, נישאר בבית'), ולכן קל לכתוב If it will rain. באנגלית אחרי if, ‏unless, ‏when ו-as soon as בא הווה, ו-will מופיע רק בתוצאה: If it rains, we'll stay at home.", "error_type": "conditional-form" },
+    { "en": "The Hebrew present tense changes for gender and number but not for person: I, you and he all use the same form. English adds -s for he, she and it, so it is easy to forget, especially in the if-part: If she misses the bus, she'll take a taxi (not *If she miss the bus).", "he": "בעברית פועל בהווה משתנה לפי מין ומספר, אבל לא לפי גוף: 'אני הולך', 'אתה הולך', 'הוא הולך' – אותה צורה. באנגלית מוסיפים s עם he, she, it, ולכן קל לשכוח אותה, במיוחד בחלק של if: If she misses the bus, she'll take a taxi, ולא If she miss the bus.", "error_type": "third-person-s" },
     { "en": "In Hebrew a question can keep the order of a statement. In English will comes before the subject: What will you do if it rains? (not *What you will do if it rains?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה תעשו אם יירד גשם?'). באנגלית will בא לפני הנושא: What will you do if it rains?, ולא What you will do if it rains?", "error_type": "word-order" }
   ],
   "exercises": [
@@ -139,6 +140,7 @@
         { "match": "will leave", "feedback": { "en": "No will in the if-part: If you leave now.", "he": "בחלק של if אין will: If you leave now." }, "error_type": "conditional-form" },
         { "match": "won't hurry", "feedback": { "en": "No will in the if-part, even in the negative: if you don't hurry.", "he": "בחלק של if אין will, גם בשלילה: if you don't hurry." }, "error_type": "conditional-form" },
         { "match": "doesn't hurry", "feedback": { "en": "With you, use don't: if you don't hurry.", "he": "עם you משתמשים ב-don't: if you don't hurry." }, "error_type": "agreement" },
+        { "match": "not hurry", "feedback": { "en": "A negative in the present simple needs don't: if you don't hurry.", "he": "שלילה בהווה פשוט צריכה don't: if you don't hurry." }, "error_type": "do-support" },
         { "match": "catch", "feedback": { "en": "The result of a possible future situation needs will: you'll catch.", "he": "תוצאה של מצב אפשרי בעתיד צריכה will: you'll catch." }, "error_type": "conditional-form" },
         { "match": "miss", "feedback": { "en": "The result needs will: you'll miss it.", "he": "התוצאה צריכה will: you'll miss it." }, "error_type": "conditional-form" }
       ],
@@ -234,14 +236,16 @@
         "We will stay at home if it rains.", "We will stay home if it rains.",
         "If it rains, we will stay in.", "We will stay in if it rains.",
         "If it is raining, we will stay at home.", "If it is raining, we will stay home.", "We will stay at home if it is raining.",
-        "If it rains, we are going to stay at home.", "If it rains, we are going to stay home."
+        "If it rains, we are going to stay at home.", "If it rains, we are going to stay home.",
+        "We are going to stay at home if it rains.", "We are going to stay home if it rains.",
+        "If it rains, we will stay inside.", "If it rains we will stay inside.", "We will stay inside if it rains.",
+        "If it rains, we will stay in the house.", "If it rains we will stay in the house.", "We will stay in the house if it rains."
       ],
       "wrong_feedback": [
         { "match": "If it will rain, we will stay at home.", "feedback": { "en": "In Hebrew both parts are in the future, but English uses the present after if: If it rains, we'll stay at home.", "he": "בעברית שני החלקים בעתיד ('יירד', 'נישאר'), אבל באנגלית אחרי if בא הווה: If it rains, we'll stay at home." }, "error_type": "conditional-form" },
         { "match": "If it will rain, we will stay home.", "feedback": { "en": "In Hebrew both parts are in the future, but English uses the present after if: If it rains, we'll stay home.", "he": "בעברית שני החלקים בעתיד, אבל באנגלית אחרי if בא הווה: If it rains, we'll stay home." }, "error_type": "conditional-form" },
         { "match": "If it rains, we stay at home.", "feedback": { "en": "This sounds like a general habit (zero conditional). For one possible situation in the future, use will: we'll stay at home.", "he": "זה נשמע כמו הרגל כללי (תנאי 0). למצב אפשרי אחד בעתיד משתמשים ב-will: we'll stay at home." }, "error_type": "tense-choice" },
-        { "match": "If it rains, we will stay in home.", "feedback": { "en": "English says stay at home (or stay home), not in home.", "he": "באנגלית אומרים stay at home (או stay home), לא in home." }, "error_type": "preposition" },
-        { "match": "If it rains, we will stay in the house.", "feedback": { "en": "Understandable, but the natural phrase is stay at home (or stay home, stay in).", "he": "מובן, אבל הצירוף הטבעי הוא stay at home (או stay home, ‏stay in)." }, "error_type": "word-choice" }
+        { "match": "If it rains, we will stay in home.", "feedback": { "en": "English says stay at home (or stay home), not in home.", "he": "באנגלית אומרים stay at home (או stay home), לא in home." }, "error_type": "preposition" }
       ],
       "hint": { "en": "Which tense comes after if? And which in the result?", "he": "איזה זמן בא אחרי if? ואיזה בתוצאה?" },
       "explanation": { "en": "Hebrew: future + future. English: if + present, then will: If it rains, we'll stay at home.", "he": "בעברית: עתיד + עתיד. באנגלית: if + הווה, ואז will: If it rains, we'll stay at home." }
@@ -264,7 +268,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "conditionals-0-1",
       "prompt": { "en": "Mediation: pass on a message in English.", "he": "תיווך: העבירו הודעה באנגלית." },
-      "task": { "en": "Tom, a friend from London, is flying to Israel to stay with your family. Your mum sent you a message in Hebrew (you can see it in the Hebrew instructions). Tom doesn't read Hebrew. Write him a message in English (60-100 words) with all her information. Use if, as soon as, when or unless, with the present after them.", "he": "טום, חבר מלונדון, טס לארץ ויגור אצל המשפחה שלכם. אמא שלכם שלחה לכם את ההודעה הזאת: „תגידו לטום: אם הטיסה שלו נוחתת בזמן, אבא יאסוף אותו מהשדה. אם יש עיכוב, שייקח רכבת לתל אביב, ואנחנו נחכה לו בתחנה. שיתקשר אלינו ברגע שהוא נוחת. ואם יהיה חם בשבת, נלך לים – שלא ישכח בגד ים!” טום לא קורא עברית. כתבו לו הודעה באנגלית (60-100 מילים) עם כל המידע. השתמשו ב-if, ‏as soon as, ‏when או unless, ואחריהן בהווה." },
+      "task": { "en": "Tom, a friend from London, is flying to Israel to stay with your family. Your mum sent you a message in Hebrew (you can see it in the Hebrew instructions). Tom doesn't read Hebrew. Write him a message in English (60-100 words) with all her information. Use if and as soon as (and when or unless if you like), with the present after them.", "he": "טום, חבר מלונדון, טס לארץ ויגור אצל המשפחה שלכם. אמא שלכם שלחה לכם את ההודעה הזאת: „צריך להגיד לטום: אם הטיסה שלו נוחתת בזמן, אבא יאסוף אותו מהשדה. אם יש עיכוב, שייקח רכבת לתל אביב, ואנחנו נחכה לו בתחנה. שיתקשר אלינו ברגע שהוא נוחת. ואם יהיה חם בשבת, נלך לים – שלא ישכח בגד ים!” טום לא קורא עברית. כתבו לו הודעה באנגלית (60-100 מילים) עם כל המידע. השתמשו ב-if וב-as soon as (ואם תרצו, גם ב-when או ב-unless), ואחריהן בהווה." },
       "min_words": 60,
       "max_words": 110,
       "must_include": ["if", "as soon as"],

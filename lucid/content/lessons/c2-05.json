@@ -1,0 +1,1148 @@
+{
+  "id": "c2-05",
+  "level": "C2",
+  "title_en": "Research-based writing",
+  "title_he": "כתיבה מבוססת מחקר",
+  "topics": [
+    "research-writing"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can turn a topic into a focused, arguable and researchable question, and define my scope with stated delimitations and limitations."
+    },
+    {
+      "en": "I can organise a research-based argumentative paper so that every section advances the answer to my research question."
+    },
+    {
+      "en": "I can edit a long draft in four passes (argument, paragraph, sentence, word), each with its own questions."
+    },
+    {
+      "en": "I can plan, research, draft and revise a 1,500-2,000-word research-based argumentative paper that responds to opposing views."
+    }
+  ],
+  "warmup": {
+    "en": "'Social media and teenagers' is a topic, not a question. What would you have to decide before it became a question you could answer well in 2,000 words?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "A research paper starts with a question, not a topic. Watch one narrow. 'Social media and teenagers' is a topic: there is nothing to answer. 'Is social media bad for teenagers?' is a question, but far too broad and blunt for 2,000 words. 'Should secondary schools restrict phones for the whole school day, or only during lessons?' is focused, arguable and researchable: schools have tried both, and there is evidence to weigh. From the question comes a working thesis: 'The evidence supports restricting phones during lessons more clearly than a whole-day ban.' It is a working thesis because research may change it. A writer who will not revise it is not doing research, only collecting support."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Weak question",
+        "Example",
+        "How to fix it"
+      ],
+      "rows": [
+        [
+          "Too broad",
+          "How has technology changed education?",
+          "Narrow it by population, place, period and aspect."
+        ],
+        [
+          "Closed or factual",
+          "What percentage of teenagers own a smartphone?",
+          "Ask how, why, to what extent or should; use the fact as evidence."
+        ],
+        [
+          "Unanswerable",
+          "Will AI replace teachers by 2050?",
+          "Ask about evidence that exists now."
+        ],
+        [
+          "Loaded",
+          "Why are phone bans failing?",
+          "Remove the built-in assumption, or argue for it first."
+        ],
+        [
+          "Too narrow",
+          "Did one class's grades rise in the month after its school banned phones?",
+          "Widen it until the answer matters beyond one case."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Define your scope in two parts. Delimitations are boundaries you choose and justify: the population, place, period or aspect you will cover ('This paper focuses on secondary schools and on the school day; it does not consider phone use at home, which raises different questions'). Limitations are weaknesses you cannot fully control: thin or short-term evidence, sources in only some languages, no access to raw data. State delimitations in the introduction and limitations near the end, plainly, without apologising for the whole paper."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Section",
+        "Its job",
+        "Rough share of 2,000 words"
+      ],
+      "rows": [
+        [
+          "Introduction",
+          "Context → problem or gap → research question → thesis → scope → roadmap",
+          "10-15%"
+        ],
+        [
+          "Background and key terms",
+          "Define contested terms once; give only the context the reader needs",
+          "about 10%"
+        ],
+        [
+          "Body sections (2-4)",
+          "Each advances one strand of the answer; sources are synthesised by idea, not summarised one by one",
+          "about 50%"
+        ],
+        [
+          "Strongest objection",
+          "Steelman it and answer it with a concession-rebuttal chain (or answer it inside the body)",
+          "about 15%"
+        ],
+        [
+          "Limitations and conclusion",
+          "Limits of the evidence; the answer to the question; implications; no new evidence",
+          "10-15%"
+        ],
+        [
+          "References",
+          "Every cited source, in one consistent style (APA or MLA)",
+          "not counted"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "en": "Papers that report your own data (a survey you ran, an experiment) usually follow IMRaD: Introduction, Methods, Results and Discussion. The final assessment in this lesson is an argumentative paper built on published sources, so it follows the structure above."
+    },
+    {
+      "type": "tip",
+      "en": "Edit in four passes, from large to small, and ask one kind of question in each. Argument: does every section help answer the research question? Make a reverse outline, and check that the conclusion claims no more than the evidence supports. Paragraph: does each paragraph make one claim, organised by idea rather than by source, and does each section hand over to the next? Sentence: can the reader always see who claims what? Check attributions, make the real actor the subject, and save new information for the end. Word: is each word exact? Check reporting verbs (suggests is not proves), hedges and boosters, key terms and register; then proofread articles, agreement and citations."
+    },
+    {
+      "type": "warning",
+      "en": "Two traps that appear only in long papers. First, source-by-source summary ('Source A says ... Source B says ... Source C says ...') leaves the synthesis to the reader: organise each paragraph around a claim and make the sources answer one another. Second, elegant variation: in a story, varying your words is style, but in a research paper, switching between 'remote work', 'telework' and 'hybrid work' tells the reader that these are three different things. Define a key term once and keep it. And if you cannot find evidence for a step in your argument, narrow the question; never invent the evidence."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Topic: single-use coffee cups. Research question: Would a deposit scheme reduce cup waste more fairly than a charge on each cup?",
+      "note": "focused (two policies), arguable (people disagree) and researchable (both have been tried)"
+    },
+    {
+      "en": "This paper focuses on secondary schools and on the school day; it does not consider phone use at home, which raises different questions about parents' authority.",
+      "note": "a delimitation: a chosen boundary, with a reason"
+    },
+    {
+      "en": "Because most of the studies reviewed followed students for a single school year, the paper cannot say whether the effects last.",
+      "note": "a limitation: specific, honest and limited to what it actually affects"
+    },
+    {
+      "en": "After defining 'restriction', the paper examines the evidence on attention and then on wellbeing, before answering the objection that bans simply move phone use to the hours after school.",
+      "note": "a roadmap that previews the steps of the argument, not just a list of topics"
+    },
+    {
+      "en": "Source-led: 'Source A found fewer disruptions. Source B found fewer disruptions. Source C interviewed teachers.' Idea-led: 'Sources A and B both report fewer disruptions after the restriction, but they disagree about why, and only Source C asked teachers what had changed.'",
+      "note": "synthesis: the sources are compared, related and weighed inside one claim"
+    },
+    {
+      "en": "Before: 'The study proves that the ban improved wellbeing.' After: 'The study suggests that the ban was associated with a modest improvement in reported wellbeing.'",
+      "note": "word pass: the reporting verb and the claim now match one correlational study"
+    },
+    {
+      "en": "In this paper, 'remote work' means working away from the employer's premises for at least three days a week.",
+      "note": "define a key term once, then use only that term: no 'telecommuting' or 'working from home' later"
+    },
+    {
+      "en": "Sentence pass: 'It was found that the policy was supported by many of them.' → 'Many of the parents surveyed supported the policy.'",
+      "note": "who found what, and who supported it? Put the real actors in the sentence."
+    }
+  ],
+  "vocab": [
+    {
+      "word": "research question",
+      "pos": "noun phrase",
+      "he": "שאלת מחקר",
+      "def": "the specific question that a research paper sets out to answer",
+      "example": "A good research question can be answered, but not with a single fact.",
+      "ipa": "/rɪˈsɜːtʃ ˌkwestʃən/",
+      "collocations": [
+        "formulate a research question",
+        "a focused research question",
+        "address the research question"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "scope",
+      "pos": "noun",
+      "he": "היקף; תחום הדיון",
+      "def": "the range of things that a piece of research or writing deals with",
+      "example": "Rural schools are beyond the scope of this paper.",
+      "ipa": "/skəʊp/",
+      "collocations": [
+        "narrow the scope",
+        "beyond the scope of",
+        "the scope of the study"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "delimitation",
+      "pos": "noun",
+      "he": "תיחום (גבול שהחוקר/ת בוחר/ת)",
+      "def": "a boundary that a researcher deliberately sets on what a study covers",
+      "example": "The main delimitation is the age group: students aged 12 to 18.",
+      "ipa": "/dɪˌlɪmɪˈteɪʃn/",
+      "collocations": [
+        "state the delimitations",
+        "a deliberate delimitation",
+        "justify a delimitation"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "limitation",
+      "pos": "noun",
+      "he": "מגבלה (של המחקר או של הראיות)",
+      "def": "a weakness or gap in a study that limits what its findings can show",
+      "example": "A key limitation is that all the studies were short.",
+      "ipa": "/ˌlɪmɪˈteɪʃn/",
+      "collocations": [
+        "acknowledge the limitations",
+        "a key limitation",
+        "the limitations of the evidence"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "gap in the literature",
+      "pos": "noun phrase",
+      "he": "פער בספרות המחקרית",
+      "def": "a question that published research has not yet answered well",
+      "example": "The paper addresses a gap in the literature: no study has compared the two policies directly.",
+      "ipa": "/ˌɡæp ɪn ðə ˈlɪtrətʃə(r)/",
+      "collocations": [
+        "identify a gap in the literature",
+        "address a gap",
+        "fill a gap"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "working thesis",
+      "pos": "noun phrase",
+      "he": "תזה זמנית; תזת עבודה",
+      "def": "a provisional answer to your research question that you test, and may revise, as you research",
+      "example": "My working thesis changed after I read the second report.",
+      "ipa": "/ˌwɜːkɪŋ ˈθiːsɪs/",
+      "collocations": [
+        "draft a working thesis",
+        "revise a working thesis",
+        "test a working thesis"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "synthesise",
+      "pos": "verb",
+      "he": "לשלב מקורות לכדי טיעון אחד; לבצע סינתזה",
+      "def": "to combine information from several sources into one argument, showing how they relate",
+      "example": "Synthesise the studies by showing where they agree and why they differ.",
+      "ipa": "/ˈsɪnθəsaɪz/",
+      "collocations": [
+        "synthesise sources",
+        "synthesise findings",
+        "synthesise evidence from"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "reverse outline",
+      "pos": "noun phrase",
+      "he": "מתווה הפוך (שנבנה מתוך טיוטה גמורה)",
+      "def": "an outline made from a finished draft, listing what each paragraph says and what job it does",
+      "example": "A reverse outline showed that two sections made the same point.",
+      "ipa": "/rɪˌvɜːs ˈaʊtlaɪn/",
+      "collocations": [
+        "make a reverse outline",
+        "a reverse outline of the draft"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "corroborate",
+      "pos": "verb",
+      "he": "לאשש; לחזק בראיה נוספת",
+      "def": "to support a claim or finding with further, independent evidence",
+      "example": "The interviews corroborate the survey's findings.",
+      "ipa": "/kəˈrɒbəreɪt/",
+      "collocations": [
+        "corroborate a claim",
+        "independently corroborated",
+        "corroborating evidence"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "draw on",
+      "pos": "phrasal verb",
+      "he": "להסתמך על; לשאוב מ-",
+      "def": "to use information, sources or experience to help you do something",
+      "example": "The paper draws on three kinds of evidence.",
+      "ipa": "/ˈdrɔː ɒn/",
+      "collocations": [
+        "draw on sources",
+        "draw heavily on",
+        "draw on evidence from"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "caveat",
+      "pos": "noun",
+      "he": "הסתייגות; אזהרה מסייגת",
+      "def": "a warning that limits how a statement or finding should be understood",
+      "example": "The finding comes with an important caveat: the sample was small.",
+      "ipa": "/ˈkæviæt/",
+      "collocations": [
+        "with the caveat that",
+        "an important caveat",
+        "add a caveat"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "elegant variation",
+      "pos": "noun phrase",
+      "he": "גיוון מונחים מלאכותי (החלפת מילים נרדפות לאותו מושג)",
+      "def": "using different words for the same thing to avoid repetition, which can confuse readers of academic writing",
+      "example": "Elegant variation made readers think that 'telework' and 'remote work' were different policies.",
+      "ipa": "/ˌelɪɡənt ˌveəriˈeɪʃn/",
+      "collocations": [
+        "avoid elegant variation",
+        "a case of elegant variation"
+      ],
+      "level": "C2"
+    },
+    {
+      "word": "implications",
+      "pos": "noun (plural)",
+      "he": "השלכות",
+      "def": "the possible effects or consequences of a finding or decision",
+      "example": "The conclusion sets out the implications for libraries considering the change.",
+      "ipa": "/ˌɪmplɪˈkeɪʃnz/",
+      "collocations": [
+        "implications for policy",
+        "have implications for",
+        "practical implications"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew there is no indefinite article, so a/an can drop out even in a polished draft, especially before a noun with an adjective (*This paper offers new reading of the evidence; *The study has important limitation). In your word pass, check every singular countable noun: it needs a, an, the or another determiner (this, each, one).",
+      "he": "בעברית אין מילה ל-a/an, ולכן היא עלולה ליפול גם מטיוטה מלוטשת, במיוחד לפני שם עצם עם שם תואר (‎*This paper offers new reading of the evidence). בסבב המילים בדקו כל שם עצם ספיר ביחיד: הוא צריך a, an, the או מילה מיידעת אחרת (this, each, one).",
+      "error_type": "article"
+    },
+    {
+      "en": "Hebrew has no capital letters, so headings and reference lists need a deliberate check. Proper nouns and the adjectives formed from them always take capitals (Hebrew, Israeli, the Knesset), and source titles follow the style you chose: APA uses sentence case for the titles of articles and books, while MLA capitalises the main words.",
+      "he": "בעברית אין אותיות גדולות, ולכן כותרות ורשימת מקורות דורשות בדיקה מכוונת. שמות פרטיים ושמות תואר שנגזרים מהם תמיד באות גדולה (Hebrew, Israeli, the Knesset), וכותרות המקורות נכתבות לפי שיטת הציטוט שבחרתם: ב-APA רק המילה הראשונה (ושמות פרטיים) באות גדולה בכותרת של מאמר או ספר, וב-MLA כל המילים העיקריות.",
+      "error_type": "capitalization"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Diagnose these research questions for a 2,000-word paper. Sort them into the right category."
+      },
+      "categories": [
+        "Workable research question",
+        "Too broad",
+        "Closed or factual",
+        "Unanswerable or loaded"
+      ],
+      "items": [
+        {
+          "text": "To what extent do lesson-time phone restrictions improve concentration in secondary schools, compared with whole-day bans?",
+          "category": "Workable research question"
+        },
+        {
+          "text": "Would a deposit scheme reduce coffee-cup waste more fairly than a charge on each cup?",
+          "category": "Workable research question"
+        },
+        {
+          "text": "How has the internet changed society?",
+          "category": "Too broad"
+        },
+        {
+          "text": "What are the effects of climate change?",
+          "category": "Too broad"
+        },
+        {
+          "text": "When did the first smartphone go on sale?",
+          "category": "Closed or factual"
+        },
+        {
+          "text": "What percentage of teenagers own a smartphone?",
+          "category": "Closed or factual"
+        },
+        {
+          "text": "Will any human jobs still exist in 2100?",
+          "category": "Unanswerable or loaded"
+        },
+        {
+          "text": "Why do lazy students prefer online courses?",
+          "category": "Unanswerable or loaded"
+        }
+      ],
+      "explanation": {
+        "en": "Workable questions name a population and compare options, so evidence can be weighed and a reasonable person could disagree with the answer. Questions about the internet or climate change in general are whole libraries, not papers. Questions with a single factual answer can supply evidence but cannot drive an argument. A question about 2100 cannot be answered with evidence that exists now, and 'lazy students' builds a contested judgement into the question itself."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "A student wants to write a 2,000-word research paper about remote work. Which research question is best scoped for the task?"
+      },
+      "question": "Choose the best research question.",
+      "options": [
+        "What is remote work?",
+        "Is remote work good or bad?",
+        "Should employers offer remote work to employees in their first year, given its effects on training and mentoring?",
+        "Will remote work have replaced offices completely within fifty years?"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "A definition, not a question to argue. It belongs in the background section of a paper."
+        },
+        "1": {
+          "en": "Too broad and too blunt: good or bad for whom, in what work, measured how? It invites a list of pros and cons rather than an argument."
+        },
+        "3": {
+          "en": "Unanswerable with evidence that exists now, so any answer would be speculation."
+        }
+      },
+      "option_errors": {
+        "0": "weak-thesis",
+        "1": "weak-thesis",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "It names a population (first-year employees), a decision (should employers offer it?) and the criteria for judging it (training and mentoring). That makes it focused enough for 2,000 words, arguable, and researchable, because there is evidence on how new employees learn."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Listen to a supervisor giving feedback on a student's research proposal and answer the question."
+      },
+      "audio_text": "Your question's good, but your scope isn't. You're trying to cover every country and the last fifty years in two thousand words. Pick one setting you can actually find evidence for, say, cities in Israel over the last ten years, and say clearly in your introduction what you're leaving out and why.",
+      "question": "What does the supervisor advise?",
+      "options": [
+        "Change the research question, because it is not arguable.",
+        "Add more countries so that the paper is more complete.",
+        "Leave the scope out of the introduction and explain it in the conclusion.",
+        "Narrow the scope to one setting with available evidence, and state the delimitations in the introduction."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "The supervisor says the opposite: 'Your question's good'. The problem is the scope."
+        },
+        "1": {
+          "en": "The supervisor wants fewer countries, not more: 'Pick one setting'."
+        },
+        "2": {
+          "en": "The supervisor says 'say clearly in your introduction what you're leaving out and why'."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "'Pick one setting you can actually find evidence for' narrows the scope; 'say clearly in your introduction what you're leaving out and why' asks for delimitations with reasons. A good question can still fail if the scope is too large for the length of the paper."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "read",
+      "skill": "reading",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Read the introduction to a research paper and analyse its moves. (The Northvale Regional Library and its review are fictional.)"
+      },
+      "title": "Fine-free libraries: access, accountability and the evidence so far",
+      "passage": "Overdue fines are among the oldest features of the public library. For generations, a small daily charge has been treated as a fair way to make sure that books come back and that shared resources stay shared. In recent years, however, a number of library systems have abolished fines altogether, arguing that they deter the very readers libraries most want to reach. Supporters describe the change as a matter of access; critics see it as a loss of accountability that will leave shelves emptier and budgets thinner.\n\nMuch of the public debate has relied on anecdote: a librarian's story of a family who stopped visiting after a large bill, or a councillor's warning that 'nobody will bring anything back'. The more systematic evidence is limited. Reports from library networks that have dropped fines, such as the Northvale Regional Library's two-year review (2023), describe more returning borrowers and little change in the share of items returned. However, most of these reports are produced by the libraries themselves, which have an interest in presenting the policy as a success. Independent studies are fewer, and they rarely separate the effect of abolishing fines from that of other changes introduced at the same time, such as automatic renewals and text reminders. What remains unclear, then, is not whether fine-free policies are popular, but whether they achieve their main aim, wider access, without the costs their critics predict.\n\nThis paper asks: to what extent does abolishing overdue fines widen access to public libraries, and at what cost to the return of materials? It argues that the available evidence supports abolishing fines for children's and young adults' materials, where the gains in access appear largest and the losses smallest, but that the case for adult collections is weaker and depends on replacing fines with other safeguards, such as automatic renewals and limits on borrowing after long delays.\n\nThe paper focuses on public lending libraries in cities and towns; it does not consider university or school libraries, whose borrowers and funding work differently. It treats 'access' as the number and range of people who borrow regularly, rather than as the number of visits, which may include people who never borrow at all.\n\nThe paper first explains how fines were justified and what 'fine-free' has meant in practice. It then examines the evidence on borrowing among low-income families, followed by the evidence on returns. Next, it considers the strongest objection: that removing the penalty removes the incentive to return books on time and shifts the cost of delays onto other borrowers. It argues that this objection is partly right for adult collections. It concludes by setting out what libraries considering the change should measure, and what remains unknown.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Which sentence states the gap that the paper sets out to address?",
+          "options": [
+            "Overdue fines are among the oldest features of the public library.",
+            "What remains unclear, then, is not whether fine-free policies are popular, but whether they achieve their main aim, wider access, without the costs their critics predict.",
+            "Supporters describe the change as a matter of access; critics see it as a loss of accountability.",
+            "It concludes by setting out what libraries considering the change should measure, and what remains unknown."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "This sets the context. It tells us what fines are, not what the research has failed to answer."
+            },
+            "2": {
+              "en": "This frames the debate; the gap comes after the writer has evaluated the evidence on each side."
+            },
+            "3": {
+              "en": "This belongs to the roadmap: it says what the paper will do at the end."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'What remains unclear ...' names the question that existing evidence leaves open, after the writer has explained why the available reports cannot settle it. The research question in the next paragraph answers this gap directly."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why does the writer treat the libraries' own reports with caution?",
+          "options": [
+            "Because they are more than ten years old.",
+            "Because they report that return rates collapsed.",
+            "Because they contain no information about borrowers.",
+            "Because the libraries that produced them have an interest in presenting the policy as a success."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The review named in the passage is from 2023; age is not the issue."
+            },
+            "1": {
+              "en": "The reports describe 'little change in the share of items returned', not a collapse."
+            },
+            "2": {
+              "en": "They describe 'more returning borrowers', so they do contain information about borrowers."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'Most of these reports are produced by the libraries themselves, which have an interest in presenting the policy as a success.' This is source evaluation inside an introduction: a vested interest is a reason for caution, not for dismissal."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The thesis claims that fines should be abolished in every public library collection.",
+          "answer": false,
+          "explanation": {
+            "en": "The thesis divides the claim: the evidence supports abolishing fines for children's and young adults' materials, while the case for adult collections is 'weaker' and conditional on other safeguards."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Under the writer's definition of 'access', a person who visits the library but never borrows would not count.",
+          "answer": true,
+          "explanation": {
+            "en": "'It treats access as the number and range of people who borrow regularly, rather than as the number of visits, which may include people who never borrow at all.' Defining a key term at the start fixes what the evidence must show."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "The clause 'it does not consider university or school libraries, whose borrowers and funding work differently' is:",
+          "options": [
+            "a delimitation: a boundary the writer has chosen and justified.",
+            "a limitation: a weakness in the evidence that the writer cannot control.",
+            "a counterargument to the thesis.",
+            "part of the roadmap."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Nothing here is a weakness in the evidence. The writer chose to leave these libraries out, and says why."
+            },
+            "2": {
+              "en": "It does not oppose the thesis; it marks where the thesis applies."
+            },
+            "3": {
+              "en": "The roadmap is the final paragraph, which previews the order of the sections."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "A delimitation is a deliberate boundary with a reason ('whose borrowers and funding work differently'). Limitations, such as the short time span of the evidence, belong near the end of the paper."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "According to the roadmap, the strongest objection is that removing the penalty removes the ___ to return books on time. (one word from the text)",
+          "answers": [
+            [
+              "incentive"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "motivation",
+              "feedback": {
+                "en": "Close in meaning, but the word in the text is 'incentive': 'removes the incentive to return books on time'."
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "reason",
+              "feedback": {
+                "en": "Close in meaning, but the word in the text is 'incentive': 'removes the incentive to return books on time'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'Next, it considers the strongest objection: that removing the penalty removes the incentive to return books on time ...' Placing the objection in the roadmap shows the reader that the paper will answer the best case against it, not avoid it."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which description fits the thesis best?",
+          "options": [
+            "Descriptive: it reports what libraries have done without taking a position.",
+            "Unqualified: it claims that fines should be abolished everywhere.",
+            "Qualified: it divides the claim by type of collection and makes the case for adult collections conditional.",
+            "Over-hedged: it avoids committing to any position."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "It takes a clear position: the evidence 'supports abolishing fines' for some collections."
+            },
+            "1": {
+              "en": "It explicitly limits the claim to children's and young adults' materials."
+            },
+            "3": {
+              "en": "It commits clearly for one type of collection and states exactly what the other case depends on."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The thesis is limited by scope (children's and young adults' materials) and by condition (for adult collections, only if fines are replaced with other safeguards). It answers the research question directly, and it previews where the strongest objection will be partly accepted."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e5",
+      "type": "order",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Put the sentences of this introduction in order: context, response, gap, research question, thesis, roadmap."
+      },
+      "tokens": [
+        "Many disposable coffee cups cannot go into ordinary paper recycling because of their thin plastic lining.",
+        "Some cities have responded by adding a small charge to each cup, while others have tried deposit schemes that refund customers when cups are returned.",
+        "Supporters of each approach point to encouraging results, but the two are seldom compared directly in the same setting.",
+        "This paper therefore asks which policy reduces cup waste more effectively without placing an unfair burden on customers with low incomes.",
+        "It argues that a deposit scheme is the stronger option in dense city centres, where return points are easy to provide, but that a charge is more practical in small towns.",
+        "After outlining how each scheme works, the paper compares the evidence on waste and on fairness, and then answers the objection that both policies simply shift costs onto cafés."
+      ],
+      "hint": {
+        "en": "Follow the links: 'have responded' needs a problem; 'each approach' needs two approaches; 'therefore asks' needs a gap; 'It argues' needs a question."
+      },
+      "explanation": {
+        "en": "The problem (cups that cannot be recycled) comes first, then the responses to it (charges and deposits), then the gap (they are seldom compared). The research question follows from the gap ('therefore'), the thesis answers it with a qualification by setting (city centres versus small towns), and the roadmap previews the steps, including the objection the paper will answer."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "A paper on phone restrictions in schools needs a limitations section. Which sentence states a limitation well?"
+      },
+      "question": "Choose the best limitation statement.",
+      "options": [
+        "This paper is probably wrong about many things, so readers should not rely on its conclusions.",
+        "Because most of the available studies followed students for less than one school year, the paper cannot say whether the effects last.",
+        "This paper focuses on secondary schools and does not consider primary schools.",
+        "The paper has no limitations, because all the evidence points the same way."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Over-apologetic and unspecific: it undermines the whole paper without saying which conclusion is affected or why."
+        },
+        "2": {
+          "en": "This is a delimitation: a boundary the writer chose. A limitation is a weakness the writer could not control."
+        },
+        "3": {
+          "en": "Every body of evidence has limits, and agreement between studies does not remove them (they may share the same weakness). This over-claims."
+        }
+      },
+      "option_errors": {
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "A good limitation names the specific weakness (studies shorter than a school year) and exactly what it prevents the paper from concluding (whether the effects last). It is honest without being self-defeating, and it points to the research that would be needed next."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "A tutor has left comments on a draft research paper. Sort each comment into the editing pass that should catch it."
+      },
+      "categories": [
+        "Argument pass",
+        "Paragraph pass",
+        "Sentence pass",
+        "Word pass"
+      ],
+      "items": [
+        {
+          "text": "Section 3 tells the history of library fines but never connects it to your research question.",
+          "category": "Argument pass"
+        },
+        {
+          "text": "Your conclusion recommends abolishing fines in every collection, but your thesis and evidence support it only for children's materials.",
+          "category": "Argument pass"
+        },
+        {
+          "text": "This paragraph summarises Source A, then Source B, then Source C; reorganise it around the point on which they disagree.",
+          "category": "Paragraph pass"
+        },
+        {
+          "text": "The topic sentence announces a subject ('This paragraph is about return rates') instead of making a claim.",
+          "category": "Paragraph pass"
+        },
+        {
+          "text": "It is unclear whether the second half of this sentence is your claim or the claim of the author you have just cited.",
+          "category": "Sentence pass"
+        },
+        {
+          "text": "The subject of this sentence runs to more than twenty words, so the reader reaches the verb far too late.",
+          "category": "Sentence pass"
+        },
+        {
+          "text": "You switch between 'fine-free', 'penalty-free' and 'no-fee' for the same policy; choose one term and keep it.",
+          "category": "Word pass"
+        },
+        {
+          "text": "'Proves' is too strong for a single survey; 'suggests' fits the evidence.",
+          "category": "Word pass"
+        }
+      ],
+      "hint": {
+        "en": "Ask how large the unit is that has to change: the paper or a whole section, a paragraph, one sentence, or one word or term."
+      },
+      "explanation": {
+        "en": "The argument pass checks the paper as a whole: does every section serve the question, and does the conclusion match the thesis and evidence? The paragraph pass checks organisation within paragraphs (synthesis by idea, topic sentences that make claims). The sentence pass checks who claims what and how easily a sentence can be read. The word pass checks exact terms and the strength of single words. Working from large to small means you do not polish sentences that the argument pass will later cut."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Which sentence synthesises the sources rather than summarising them one by one?"
+      },
+      "question": "Choose the synthesis.",
+      "options": [
+        "Sources A and B both report little change in return rates after fines were abolished, but only Source B, which covered three towns, separates the effect of the policy from that of automatic renewals.",
+        "Source A studied fines in one city. Source B studied fines in three towns. Source C interviewed librarians.",
+        "Sources A, B and C all discuss library fines in interesting and important ways.",
+        "According to Source C, 'fines are an outdated relic', and this is clearly true."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "A list of summaries: each source gets its own sentence, and the reader is left to work out how they relate."
+        },
+        "2": {
+          "en": "Vague: it groups the sources without saying what they show, where they agree or how strong they are."
+        },
+        "3": {
+          "en": "A dropped quotation accepted without evaluation; 'clearly true' is a booster with no evidence behind it."
+        }
+      },
+      "option_errors": {
+        "1": "cohesion",
+        "2": "unsupported-claim",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "Synthesis makes one claim and uses the sources to build it: where they agree (little change in return rates), where they differ, and which one is stronger on the point that matters (only Source B separates the effect of the policy from the effect of renewals). The sources answer each other inside a single sentence."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "The evidence is a single survey of 300 parents in one city. Replace 'proves' with a tentative reporting verb that matches this evidence. Change only that word."
+      },
+      "source": "The survey proves that fines discourage low-income families from borrowing.",
+      "answers": [
+        "The survey suggests that fines discourage low-income families from borrowing.",
+        "The survey indicates that fines discourage low-income families from borrowing.",
+        "The survey implies that fines discourage low-income families from borrowing."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "shows",
+          "feedback": {
+            "en": "Shows still presents the finding as established fact. One survey in one city can suggest or indicate a pattern; it cannot establish that fines cause families to stop borrowing."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "demonstrates",
+          "feedback": {
+            "en": "Demonstrates is as strong as proves. For a single survey, choose a tentative verb: suggests or indicates."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "found",
+          "feedback": {
+            "en": "Found reports the result as a fact, so it is not tentative. Use suggests or indicates, or rewrite the claim as what parents reported."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "claims",
+          "feedback": {
+            "en": "A survey does not make claims; people and authors do. Use a verb for what evidence does: suggests or indicates."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "argues",
+          "feedback": {
+            "en": "A survey does not argue; authors do. Use a verb for what evidence does: suggests or indicates."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "hints",
+          "feedback": {
+            "en": "Hints is tentative but too informal for academic writing. Use suggests or indicates."
+          },
+          "error_type": "register"
+        }
+      ],
+      "explanation": {
+        "en": "Reporting verbs carry a degree of certainty. Proves, demonstrates and shows present a claim as settled; suggests and indicates present it as supported but open. One survey in one city, about a causal claim, supports the tentative version. This is a classic word-pass correction."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "The writer uses two terms for the same thing, which suggests two different things. Correct the sentence so that the key term stays the same. Change only the second term."
+      },
+      "sentence": "Remote work can reduce commuting time, but telecommuting may also weaken mentoring for new employees.",
+      "answers": [
+        "Remote work can reduce commuting time, but remote work may also weaken mentoring for new employees.",
+        "Remote work can reduce commuting time, but it may also weaken mentoring for new employees."
+      ],
+      "error_type": "word-choice",
+      "wrong_feedback": [
+        {
+          "match": "Remote work can reduce commuting time, but working from home may also weaken mentoring for new employees.",
+          "feedback": {
+            "en": "Still a second term for the same thing. Repeat 'remote work' or use 'it'."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "Remote work can reduce commuting time, but this may also weaken mentoring for new employees.",
+          "feedback": {
+            "en": "This could refer to the reduction in commuting time rather than to remote work. Use it, or repeat remote work."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "Repeating the key term is not a style fault in a research paper; a pronoun also works here."
+      },
+      "explanation": {
+        "en": "In academic writing, a new term signals a new concept. If 'telecommuting' and 'remote work' mean the same thing, the reader is left to wonder what the difference is. Define the key term once and then repeat it, or use a pronoun where the reference is clear."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Proofread this sentence from a conclusion. It has two subject-verb agreement errors. Correct them and change nothing else."
+      },
+      "sentence": "The findings of the review suggests that further research are needed.",
+      "answers": [
+        "The findings of the review suggest that further research is needed."
+      ],
+      "error_type": "agreement",
+      "wrong_feedback": [
+        {
+          "match": "The findings of the review suggest that further research are needed.",
+          "feedback": {
+            "en": "One fixed. Research is uncountable, so it takes a singular verb: further research is needed."
+          },
+          "error_type": "countability"
+        },
+        {
+          "match": "The findings of the review suggests that further research is needed.",
+          "feedback": {
+            "en": "One fixed. The head of the subject is findings (plural), not review, so the verb is suggest."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "The findings of the review suggest that further researches are needed.",
+          "feedback": {
+            "en": "Research is uncountable in this sense, so it has no plural. Write further research is needed (or further studies are needed)."
+          },
+          "error_type": "countability"
+        }
+      ],
+      "hint": {
+        "en": "Find the head noun of each subject. Is it findings or review? Is research countable?"
+      },
+      "explanation": {
+        "en": "The head of the first subject is findings (plural), so suggest; the noun between them (of the review) is a trap. Research is uncountable, so further research is needed. Agreement errors survive many readings because the sentence sounds right; they need their own proofreading pass."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "gap",
+      "skill": "vocabulary",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Complete the sentences from a research paper with words from the bank. Not every word is needed."
+      },
+      "text": "Whether fines affect school libraries in the same way lies beyond the ___ of this paper. To answer its question, the paper ___ on three kinds of evidence: library reports, interviews with parents and a study of reminder systems. The library reports are partly ___ by the interviews, which point in the same direction. This conclusion comes with one important ___: none of the studies followed borrowers for more than three years.",
+      "word_bank": [
+        "scope",
+        "draws",
+        "corroborated",
+        "caveat",
+        "range",
+        "undermined",
+        "claims",
+        "gap"
+      ],
+      "answers": [
+        [
+          "scope"
+        ],
+        [
+          "draws",
+          "relies"
+        ],
+        [
+          "corroborated",
+          "supported",
+          "confirmed"
+        ],
+        [
+          "caveat",
+          "limitation",
+          "qualification"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "range",
+          "feedback": {
+            "en": "'Beyond the scope of this paper' is the fixed academic phrase for what a paper deliberately leaves out."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "undermined",
+          "feedback": {
+            "en": "Undermined means weakened, but the interviews 'point in the same direction', so they support the reports: corroborated."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "claims",
+          "feedback": {
+            "en": "Claim does not combine with on in this sense. To use sources as evidence, a paper draws on them."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "gap",
+          "feedback": {
+            "en": "A gap is a question the research has not answered. A warning that limits a conclusion is a caveat: 'comes with an important caveat'."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "beyond the scope of (a delimitation); draws on (uses as evidence); corroborated by (supported by independent evidence); comes with a caveat (a warning that limits a conclusion). These collocations let you state the boundaries and the strength of a paper's claims precisely."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "You are presenting your research proposal in a seminar. Say the sentence out loud."
+      },
+      "target": "My research question is deliberately narrow: I'm asking whether removing fines widens access, not whether it saves money.",
+      "focus": {
+        "en": "Stress the contrast that defines your scope: whether removing fines widens ACCESS, NOT whether it saves MONEY. Put the stress on the second syllable of deliberately (deLIBerately), and pause briefly at the colon."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Saying what your question is not is one of the clearest ways to show scope. In speech, contrastive stress makes the boundary audible, so listeners do not expect you to answer the question you have set aside."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "write",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Write a research proposal for your final paper."
+      },
+      "task": {
+        "en": "Choose the question for your final paper (one of the options in the final assessment below, or your own) and write a research proposal of 350-500 words under these headings: Working title; Research question; Rationale and gap (why the question matters and what existing sources leave unclear); Scope (two or three delimitations, each with a reason); Working thesis; Planned structure (the sections and the job of each, including where you will answer the strongest objection); Sources and checks (at least five sources or types of source, and how you checked, or will check, each one laterally: who is behind it, what others say about it, and whether its claims trace back to an original). Do not invent sources or findings: if you have not found a source yet, describe the kind of source you will look for."
+      },
+      "min_words": 350,
+      "max_words": 500,
+      "model_answer": "Model answer on a parallel question (not one of the final-paper options).\n\nWorking title: Shade first? Street trees and other cooling measures in hot cities\n\nResearch question: To what extent should mid-sized cities in hot, dry climates prioritise planting street trees over faster cooling measures, such as shaded bus stops and reflective road surfaces, when they spend their heat-adaptation budgets?\n\nRationale and gap: Heatwaves make walking, waiting for buses and playing outside dangerous, and the risk is highest for older people, outdoor workers and children. City plans often present tree planting as the main answer, because trees cool streets and bring other benefits. Yet young trees take years to provide real shade and need water, while shelters and cooler surfaces work at once. The sources I have found so far usually evaluate one measure at a time; few weigh speed, cost and fairness together, which is the comparison a city budget actually has to make.\n\nScope: (1) Mid-sized cities, because the largest cities have budgets and research teams that smaller ones lack. (2) Public spending on streets and public spaces, not air conditioning in homes or offices, which raises different questions of private responsibility. (3) Evidence from roughly the last fifteen years, because the materials used for cooler surfaces have changed considerably.\n\nWorking thesis: Street trees should remain the long-term core of a city's heat strategy, but in neighbourhoods with little existing shade and many residents who walk or wait for buses, fast measures should come first, with planting funded alongside them so that the trees are ready when the temporary measures wear out.\n\nPlanned structure: (1) Introduction: context, gap, question, thesis, scope. (2) How each measure cools, and the key term 'heat-adaptation budget'. (3) Speed and cost. (4) Fairness: who benefits first. (5) The strongest objection, that a cost comparison ignores the benefits trees bring for wellbeing and wildlife, steelmanned and answered. (6) Limitations and conclusion.\n\nSources and checks: (a) a peer-reviewed review of urban cooling measures: I checked that the journal is indexed and looked up the authors' university pages; (b) a municipal climate-adaptation plan, read on the city's official website; (c) a report by an environmental organisation, which I will use only for case examples after checking its funding and how independent news outlets describe it; (d) a news investigation into the survival of newly planted trees, whose claims I will trace back to the city data it cites; (e) an interview with a municipal tree officer, which I have requested.",
+      "checklist": [
+        {
+          "en": "Research question: focused, arguable and researchable; it asks how, why, to what extent or should, and it can be answered in 1,500-2,000 words."
+        },
+        {
+          "en": "Rationale and gap: I explain why the question matters and what existing sources leave unclear, without overstating how much I have read."
+        },
+        {
+          "en": "Scope: each delimitation names a boundary and gives a reason for it."
+        },
+        {
+          "en": "Working thesis: it answers the question, is qualified where the evidence is limited, and is clearly provisional."
+        },
+        {
+          "en": "Structure: every planned section has a job that advances the answer, and the strongest objection has a place."
+        },
+        {
+          "en": "Sources: at least five, of different kinds; for each, I say how I checked it laterally (who is behind it, what others say about it, whether its claims trace back to an original)."
+        },
+        {
+          "en": "Honesty: no invented sources or findings; anything I have not found yet is described as a type of source."
+        }
+      ],
+      "explanation": {
+        "en": "A proposal forces the decisions that most weak papers never make: what exactly is being asked, where the boundaries are, and which evidence will carry the argument. Writing it before you draft also gives you a document to measure the finished paper against in the argument pass."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "research-writing",
+      "prompt": {
+        "en": "Final assessment: plan, research, draft and edit your research-based argumentative paper."
+      },
+      "task": {
+        "en": "Produce a 1,500-2,000-word research-based argumentative paper. Use the question from your proposal, or choose one of these: (a) Should city centres replace on-street parking with protected cycle lanes? (b) To what extent should secondary schools allow students to use generative AI tools for assessed homework? (c) Should employers be required to publish salary ranges in job advertisements? (d) Your own question, if it meets the criteria in this lesson. Argue a qualified thesis that answers your research question and respond to opposing views. Your paper needs: a title; an introduction that moves from context to gap, research question, thesis, scope and roadmap; body sections that each advance one strand of your answer and synthesise sources by idea; the strongest objection, steelmanned and answered with a concession-rebuttal chain; a short limitations section; a conclusion that answers the question, sets out implications and adds no new evidence; and a reference list at the end, which does not count towards the 1,500-2,000 words. Use at least six real, credible sources, at least two of them scholarly or official; check each one laterally before you use it; and cite them consistently in APA or MLA style. Do not invent sources or statistics. When the draft is complete, edit it in four passes: argument, paragraph, sentence and word."
+      },
+      "min_words": 1400,
+      "max_words": 2200,
+      "model_answer": "Model answer on a parallel question (not one of the options above). The sources in this model are invented for illustration and are marked as fictional in the reference list; every source in your own paper must be real and checked.\n\nFine-free libraries: access, accountability and the evidence so far\n\n1. Introduction\nOverdue fines are among the oldest features of the public library. For generations, a small daily charge has been treated as a fair way to make sure that books come back and that shared resources stay shared. In recent years, however, a number of library systems have abolished fines, arguing that they deter the very readers libraries most want to reach. Supporters describe the change as a matter of access; critics see it as a loss of accountability.\n\nThe evidence behind this debate is thinner than its confidence suggests. Most of it comes from reports by libraries that have already dropped fines (Harrow Valley Libraries, 2021; Northvale Regional Library, 2023), which have an interest in presenting the change as a success, and the few independent studies rarely separate the effect of abolishing fines from that of changes introduced at the same time. What remains unclear is not whether fine-free policies are popular, but whether they achieve their main aim, wider access, without the costs their critics predict.\n\nThis paper asks: to what extent does abolishing overdue fines widen access to public libraries, and at what cost to the return of materials? It argues that the evidence supports abolishing fines for children's and young adults' materials, where the gains in access appear largest and the losses smallest, but that the case for adult collections is weaker and depends on replacing fines with other safeguards. The paper focuses on public lending libraries in cities and towns, not on university or school libraries, whose borrowers and funding work differently, and it treats 'access' as the number and range of people who borrow regularly rather than as the number of visits. After explaining what fines were meant to do, it examines the evidence on borrowing and then on returns, before answering the strongest objection to the policy.\n\n2. What fines were for, and what 'fine-free' means\nFines have traditionally been justified on two grounds. The first is incentive: a charge that grows each day gives borrowers a reason to return items promptly, so that others can use them. The second is fairness: a borrower who keeps a popular book for months imposes a cost on everyone waiting for it, and a fine asks that borrower, rather than the community, to bear it. Neither justification depends on the income that fines raise, which both library systems reviewed here describe as a small part of their budgets.\n\n'Fine-free' has not meant 'consequence-free'. In both systems, abolishing fines came with automatic renewals, text and email reminders, and a block on further borrowing once an item was several weeks overdue; borrowers who never returned an item were still charged for its replacement (Harrow Valley Libraries, 2021; Northvale Regional Library, 2023). This matters for evaluation, because any change in behaviour may reflect the package as a whole rather than the absence of fines alone. Throughout this paper, 'fine-free' refers to this package.\n\n3. Access: who comes back when fines go\nThe strongest evidence for the policy concerns people who had stopped borrowing. Adeyemi and Stern (2022), who interviewed parents in two low-income districts, report that unpaid fines were among the reasons families most often gave for no longer using the library, and that the fear of a future fine led some parents to stop their children borrowing at all. Several parents said they could not predict what a late or lost book might cost, and that this uncertainty, rather than any debt they already owed, kept them away. The finding is qualitative and cannot show how widespread the effect is, but it identifies a plausible mechanism: for families on tight budgets, an unpredictable cost can deter more than a known one.\n\nThe library reports point in the same direction. Northvale's review describes a marked rise in the number of active child borrowers in the two years after fines were removed, concentrated in branches serving lower-income neighbourhoods (Northvale Regional Library, 2023). Harrow Valley reports a similar pattern, together with the return of many borrowers whose cards had been blocked for unpaid fines (Harrow Valley Libraries, 2021). Taken together, the sources corroborate one another on the direction of the change, though not on its size. The reports' authorship is a reason for caution rather than dismissal: their findings are consistent with the independent interview evidence, and both include results that do not flatter the policy, as the next section shows.\n\nThe evidence for adults is far thinner. Neither report divides adult borrowers by income, and Adeyemi and Stern's interviews concern parents' decisions about their children. It is plausible that fines also deter adults on low incomes, but the sources reviewed here do not show it.\n\n4. Returns: do the books come back?\nThe central worry about fine-free libraries is that, without a penalty, materials will come back late or not at all. On this question, the evidence is mixed in an informative way. Both library reports describe little change in the overall share of items returned, but Harrow Valley also reports that items were, on average, returned somewhat later than before (Harrow Valley Libraries, 2021). Okafor (2024), comparing reminder systems across several library networks, argues that well-timed reminders and automatic renewals account for much of the stability in return rates, and that libraries which dropped fines without strengthening their reminders saw more items returned late. The comparison that matters, then, is not fines against nothing, but fines against the other safeguards a library is willing to fund.\n\nThe pattern differs by collection. In Northvale, children's items were returned at much the same rate and speed as before, while popular adult titles, especially new fiction with long waiting lists, were kept noticeably longer (Northvale Regional Library, 2023). One explanation is that children's borrowing is often organised around school and family routines, which build in regular returns, whereas adults borrowing for themselves rely more on memory and convenience. Whatever the cause, the delays fall precisely where fines were most defensible: on items that other people are waiting for.\n\n5. The strongest objection\nCritics of fine-free policies do not merely argue that fines raise money. Their strongest case is that fines express a principle of reciprocity: a public library works because each borrower respects the claims of the next, and a fine is a small, fair reminder of that obligation. Removing it, Brandt (2022) argues, tells borrowers that their obligations to others are optional and shifts the cost of late returns from those who cause it onto those who wait. On this view, the policy is unfair to the many who return items on time in order to accommodate the few who do not.\n\nThis objection is partly right. The evidence on adult collections suggests that, without fines, some borrowers do keep popular items longer, and those waiting for them bear the cost. However, the objection carries much less weight for children's materials, where returns appear largely unchanged and where the person who pays the fine is, in practice, usually a parent who may not be able to afford it. Here the fine does little to protect reciprocity and much to restrict access. A critic might reply that even a small loss of accountability is too high a price for gains that are hard to measure. Yet the gains are not invisible: the return of blocked borrowers and the rise in child borrowing in poorer branches are recorded outcomes, not hopes, whereas the cost to children's collections is, on the evidence available, close to zero.\n\nFor adult collections, the objection should change the policy rather than be dismissed. A library could protect reciprocity without the regressive effect of fines by shortening loans of high-demand titles, by blocking borrowing after a set delay, or by charging only for reserved items kept well beyond their due date. These measures protect the next borrower without making a low income itself a barrier to borrowing.\n\n6. Limitations\nThis paper draws on a small number of sources, most of them produced by libraries that chose to abolish fines, and none of them follows borrowers for more than three years. The interview evidence is detailed but local. The evidence also comes only from systems that chose to make the change; libraries that expected it to fail may simply never have tried it, so the picture may be more favourable than a wider sample would be. Because abolishing fines usually came with other changes, the paper cannot isolate the effect of fines alone; it can only judge the packages in which fine-free policies have been introduced.\n\n7. Conclusion\nThis paper asked whether abolishing overdue fines widens access to public libraries, and at what cost. For children's and young adults' materials, the evidence reviewed here supports the policy: the gains in access appear real and are concentrated among the families that libraries most want to reach, while the cost to returns appears small. For adult collections, the case is weaker: the gains in access are not yet documented, and the delays on popular titles give the reciprocity objection real force. Libraries considering the change should therefore begin with children's collections, pair any wider change with reminders, renewals and limits on high-demand items, and measure who borrows, not only how many items come back. Whether fine-free childhoods produce lifelong library users is a question that only longer studies can answer.\n\nReferences (all fictional, for illustration only)\nAdeyemi, R., & Stern, L. (2022). Overdue: Fines, debt and library use among low-income families. Journal of Public Library Studies, 14(2), 45-63.\nBrandt, S. (2022). The case for keeping fines. Municipal Affairs Quarterly, 31(4), 77-85.\nHarrow Valley Libraries. (2021). Fine-free pilot: Final report.\nNorthvale Regional Library. (2023). Two years without fines: A review of borrowing and returns.\nOkafor, M. (2024). Nudges, not penalties: Reminder design and library returns. Library Policy Review, 9(1), 12-30.",
+      "checklist": [
+        {
+          "en": "Question and thesis: the research question is focused and arguable, and the thesis answers it directly, qualified where the evidence is limited."
+        },
+        {
+          "en": "Introduction: it moves from context to gap, research question, thesis, scope (delimitations with reasons) and a roadmap that previews the steps of the argument."
+        },
+        {
+          "en": "Structure: every section advances the answer; a reverse outline shows no section that only describes or repeats another."
+        },
+        {
+          "en": "Synthesis: paragraphs are organised by claim, not by source; sources are compared, related and weighed, and every source-derived idea is attributed."
+        },
+        {
+          "en": "Evidence and sources: at least six real, credible sources (two or more scholarly or official), each checked laterally; reporting verbs and hedges match the strength of each source; no invented statistics."
+        },
+        {
+          "en": "Opposition: the strongest objection is steelmanned, attributed and answered with a concession-rebuttal chain; where it succeeds in part, the thesis is adjusted."
+        },
+        {
+          "en": "Limitations and conclusion: limitations are specific and honest; the conclusion answers the research question, states implications and adds no new evidence."
+        },
+        {
+          "en": "Source use: no patchwriting; quotations are short, purposeful and integrated; in-text citations and the reference list follow one style consistently."
+        },
+        {
+          "en": "Language: key terms are defined once and kept; words are precise; the register is formal; sentence structures are varied and accurate."
+        },
+        {
+          "en": "Editing: four passes completed (argument, paragraph, sentence, word), with a final proofread of articles, agreement, capital letters and citation details."
+        }
+      ],
+      "explanation": {
+        "en": "This is the C2 final assessment. It brings together the whole level: a qualified thesis built on a focused research question, evidence evaluated and synthesised, the strongest objection steelmanned and answered, calibrated language, and a draft edited in deliberate passes. The model answer shows the moves on a different question; its sources are invented for illustration, so it cannot be used as a source."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "A research question is focused, arguable and researchable. Your working thesis answers it, and it may change as you research."
+      },
+      {
+        "en": "Scope has two parts: delimitations you choose and justify (in the introduction) and limitations you admit honestly (near the end)."
+      },
+      {
+        "en": "Every section of a research paper advances the answer: sources are synthesised by idea, and the strongest objection is steelmanned and answered."
+      },
+      {
+        "en": "Edit in four passes, from large to small: argument, paragraph, sentence, word, then proofread."
+      },
+      {
+        "en": "Define key terms once and keep them, match every reporting verb and hedge to the strength of its evidence, and never invent sources or statistics."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

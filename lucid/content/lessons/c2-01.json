@@ -1,0 +1,421 @@
+{
+  "id": "c2-01",
+  "level": "C2",
+  "title_en": "Style and connotation",
+  "title_he": "סגנון וקונוטציה",
+  "topics": ["style-nuance"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can choose between near-synonyms according to their connotation, so that my word choice matches the stance I have decided to take and the evidence I can offer." },
+    { "en": "I can shift register deliberately for effect, and tell a deliberate shift from an accidental lapse." },
+    { "en": "I can control sentence rhythm, the position of the main clause and agency (who did what) to give my writing emphasis and a consistent voice." }
+  ],
+  "warmup": { "en": "Three references describe the same manager. 'She is careful with money.' 'She is frugal.' 'She is stingy.' Which manager would you most like to work for, and which least? The facts have not changed, so what has?" },
+  "explanation": [
+    { "type": "p", "en": "Two reports of the same event: 'A crowd of about three hundred residents gathered outside the town hall to oppose the closure of the pool.' 'A mob of about three hundred protesters descended on the town hall to block the closure of the pool.' The facts are identical: the number, the place and the purpose. What differs is connotation, the associations a word carries beyond its dictionary meaning (its denotation). Crowd is neutral; mob suggests disorder. Gathered is calm; descended on suggests an attack. Residents are neighbours; protesters are opponents. At this level, choosing a word is never only about meaning. It is also about stance: every choice tells the reader what you think." },
+    { "type": "table", "headers": ["Neutral", "Approving", "Disapproving"], "rows": [
+      ["careful with money", "frugal, thrifty, prudent", "stingy, tight-fisted, miserly"],
+      ["confident in stating views", "assertive", "aggressive, pushy"],
+      ["does not change their mind", "resolute, determined", "obstinate, stubborn"],
+      ["wants to know things", "curious, inquisitive", "nosy, prying"],
+      ["changed the policy", "reconsidered, adapted", "backtracked, did a U-turn"],
+      ["costs little", "affordable, good value", "cheap (can suggest poor quality)"]
+    ] },
+    { "type": "rule", "en": "Decide what you think first, then choose the word that says it, and make sure your evidence can carry it: calling a policy 'reckless' is a conclusion, so your paragraph must earn it. In analytical writing, describe opponents in terms they would accept (supporters of the plan, not its cheerleaders), and keep evaluative words for claims you have argued. A euphemism that hides a fact the reader needs ('a rent adjustment' for a steep rise, 'let go' for dismissed) misleads: quote it and attribute it rather than adopt it." },
+    { "type": "rule", "en": "Register should normally be consistent, which is exactly why a deliberate shift is powerful. After a run of formal sentences, one plain sentence lands like a verdict: 'The council has published four consultation papers, held eleven public meetings and commissioned two independent reviews. Then it did nothing.' A shift works when it is rare, placed at a point of emphasis, and the reader can see why it is there. An accidental lapse is scattered and serves no purpose: 'The data were kind of inconclusive.'" },
+    { "type": "rule", "en": "Rhythm carries meaning. Vary sentence length: a long sentence that gathers detail, followed by a short one that delivers the point. Choose where the main clause goes. A loose sentence states the main point first and adds detail (The bridge finally opened after three years of delays and a doubled budget). A periodic sentence holds the main clause back until the end, creating suspense (After three years of delays, two changes of contractor and a doubled budget, the bridge finally opened). The end of a sentence, and of a paragraph, is the position of greatest weight." },
+    { "type": "tip", "en": "Voice is the impression of a person behind the text, created by consistent choices: how strongly you commit to claims, which words you prefer, how long your sentences are, whether you say 'I'. A strong voice is not an informal one; it is a consistent and deliberate one. Grammar is part of voice too: 'Mistakes were made' hides the agent, while 'We made mistakes' takes responsibility. Readers notice the difference and judge the writer by it." },
+    { "type": "warning", "en": "A thesaurus lists near-synonyms but not their connotation, collocation or register. 'Notorious' means famous for something bad, so a professor cannot be notorious for her generous feedback (unless you are being ironic, the subject of the next lesson). Check a new word in a learner's dictionary and in real examples before you use it. And do not change a key term just to avoid repetition: if one paragraph mentions 'the policy', 'the scheme' and 'the initiative', readers may think there are three different things." }
+  ],
+  "examples": [
+    { "en": "She is frugal: she repairs her shoes rather than replacing them.", "note": "frugal approves of avoiding waste; 'stingy' would accuse her of meanness" },
+    { "en": "The negotiator was assertive: she stated her limits clearly and did not raise her voice.", "note": "assertive is approving; 'aggressive' would suggest hostility" },
+    { "en": "A crowd of residents gathered outside the town hall. / A mob descended on the town hall.", "note": "same facts, opposite stances" },
+    { "en": "The council has published four consultation papers, held eleven public meetings and commissioned two independent reviews. Then it did nothing.", "note": "a long formal sentence, then a short plain one: a deliberate shift of length and register" },
+    { "en": "After three years of delays, two changes of contractor and a doubled budget, the bridge finally opened.", "note": "periodic sentence: the main clause comes last, where it carries most weight" },
+    { "en": "Mistakes were made in the handling of customer data. / We made mistakes in handling customer data.", "note": "the passive hides who is responsible; the active accepts responsibility" },
+    { "en": "The chef is renowned for her desserts. / *The chef is notorious for her desserts.", "note": "notorious is disapproving, so the second sentence attacks the desserts" },
+    { "en": "The company described the job losses as 'a realignment of resources'.", "note": "quoting and attributing a euphemism shows readers that it is the company's wording, not yours" }
+  ],
+  "vocab": [
+    { "word": "connotation", "pos": "noun", "he": "קונוטציה; משמעות נלווית", "def": "an idea or feeling that a word suggests in addition to its basic meaning", "example": "'Mob' has much more negative connotations than 'crowd'.", "ipa": "/ˌkɒnəˈteɪʃn/", "collocations": ["positive connotations", "negative connotations", "carry connotations of"], "level": "C1" },
+    { "word": "denotation", "pos": "noun", "he": "משמעות מילונית (דנוטציה)", "def": "the basic, literal meaning of a word, without the feelings it suggests", "example": "'Frugal' and 'stingy' have a similar denotation but very different connotations.", "ipa": "/ˌdiːnəʊˈteɪʃn/", "collocations": ["the literal denotation", "denotation and connotation"], "level": "C2" },
+    { "word": "frugal", "pos": "adjective", "he": "חסכן; צנוע (בהסתייגות מבזבוז)", "def": "careful to spend only what is necessary and to avoid waste (approving)", "example": "They lived a frugal life and saved for their children's education.", "ipa": "/ˈfruːɡl/", "collocations": ["a frugal lifestyle", "a frugal meal", "frugal with money"], "level": "C1" },
+    { "word": "stingy", "pos": "adjective", "he": "קמצן", "def": "unwilling to spend or give money, even when you should (disapproving)", "example": "The company was too stingy to repair the heating.", "ipa": "/ˈstɪndʒi/", "collocations": ["stingy with money", "stingy with praise"], "level": "C1" },
+    { "word": "assertive", "pos": "adjective", "he": "אסרטיבי; בטוח בעצמו", "def": "stating your opinions and needs clearly and confidently, without being rude", "example": "She was assertive in the meeting but never aggressive.", "ipa": "/əˈsɜːtɪv/", "collocations": ["assertive but polite", "become more assertive", "an assertive tone"], "level": "C1" },
+    { "word": "pejorative", "pos": "adjective", "he": "מזלזל; בעל משמעות שלילית", "def": "(of a word) expressing disapproval or criticism", "example": "'Bureaucrat' is often used in a pejorative sense.", "ipa": "/pɪˈdʒɒrətɪv/", "collocations": ["a pejorative term", "used pejoratively", "pejorative connotations"], "level": "C2" },
+    { "word": "euphemism", "pos": "noun", "he": "לשון נקייה (אופמיזם)", "def": "a mild or indirect word used instead of one that is unpleasant or embarrassing", "example": "'Let go' is a euphemism for 'dismissed'.", "ipa": "/ˈjuːfəmɪzəm/", "collocations": ["a euphemism for", "a polite euphemism", "corporate euphemisms"], "level": "C1" },
+    { "word": "overtones", "pos": "noun (plural)", "he": "נימות; משמעויות נלוות", "def": "ideas or feelings that are suggested but not stated directly", "example": "The speech had clear political overtones.", "ipa": "/ˈəʊvətəʊnz/", "collocations": ["political overtones", "carry overtones of", "sinister overtones"], "level": "C2" },
+    { "word": "cadence", "pos": "noun", "he": "מקצב; משקל (של משפט או דיבור)", "def": "the rhythm of a sentence or of someone's speech, and the way it rises and falls", "example": "The short final sentence gives the paragraph a satisfying cadence.", "ipa": "/ˈkeɪdns/", "collocations": ["the cadence of a sentence", "a natural cadence", "the cadences of speech"], "level": "C2" },
+    { "word": "jarring", "pos": "adjective", "he": "צורם", "def": "so different from what is around it that it seems wrong or unpleasant", "example": "The slang in the conclusion was a jarring shift in tone.", "ipa": "/ˈdʒɑːrɪŋ/", "collocations": ["a jarring shift", "a jarring contrast", "jarring note"], "level": "C2" },
+    { "word": "authorial voice", "pos": "noun", "he": "קולו של הכותב", "def": "the personality and attitude that readers sense behind a piece of writing", "example": "Her authorial voice is calm, precise and quietly ironic.", "ipa": "/ɔːˈθɔːriəl ˈvɔɪs/", "collocations": ["a distinctive authorial voice", "develop an authorial voice", "a consistent authorial voice"], "level": "C2" },
+    { "word": "a turn of phrase", "pos": "noun phrase", "he": "מטבע לשון; ניסוח (מוצלח)", "def": "a particular way of expressing something, especially a clever or memorable one", "example": "The column is full of elegant turns of phrase.", "ipa": "/ə ˌtɜːn əv ˈfreɪz/", "collocations": ["a memorable turn of phrase", "a neat turn of phrase", "have a nice turn of phrase"], "level": "C2" },
+    { "word": "tone down", "pos": "phrasal verb", "he": "לרכך; למתן", "def": "to make language, criticism or an opinion less strong or extreme", "example": "The editor asked him to tone down the language in his review.", "ipa": "/ˌtəʊn ˈdaʊn/", "collocations": ["tone down the language", "tone down the criticism", "a toned-down version"], "level": "C1" },
+    { "word": "err on the side of", "pos": "idiom", "he": "להעדיף לטעות לכיוון (זהירות, ניטרליות)", "def": "to choose the safer of two possible mistakes", "example": "In a news report, err on the side of neutral wording.", "ipa": "/ˌɜː(r) ɒn ðə ˈsaɪd əv/", "collocations": ["err on the side of caution", "err on the side of neutrality"], "level": "C2" },
+    { "word": "set the tone", "pos": "idiom", "he": "לקבוע את הטון", "def": "to establish the general mood or style of something from the start", "example": "The first sentence sets the tone for the whole essay.", "ipa": "/ˌset ðə ˈtəʊn/", "collocations": ["set the tone for", "set a positive tone", "set the right tone"], "level": "C1" }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "vocabulary", "topic": "style-nuance",
+      "prompt": { "en": "Each word describes a person. Sort them: does the word suggest that the writer approves or disapproves?" },
+      "categories": ["Approving", "Disapproving"],
+      "items": [
+        { "text": "frugal", "category": "Approving" },
+        { "text": "tight-fisted", "category": "Disapproving" },
+        { "text": "assertive", "category": "Approving" },
+        { "text": "pushy", "category": "Disapproving" },
+        { "text": "resolute", "category": "Approving" },
+        { "text": "obstinate", "category": "Disapproving" },
+        { "text": "inquisitive", "category": "Approving" },
+        { "text": "nosy", "category": "Disapproving" },
+        { "text": "slender", "category": "Approving" },
+        { "text": "scrawny", "category": "Disapproving" },
+        { "text": "self-assured", "category": "Approving" },
+        { "text": "arrogant", "category": "Disapproving" }
+      ],
+      "explanation": { "en": "The words come in pairs with a similar denotation and opposite connotations: frugal / tight-fisted (spends little), assertive / pushy (states views firmly), resolute / obstinate (does not change course), inquisitive / nosy (wants to know), slender / scrawny (thin), self-assured / arrogant (confident). Choosing one of each pair is choosing a judgement." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "vocabulary", "topic": "style-nuance",
+      "prompt": { "en": "You are writing a reference letter for a former colleague, and you want to praise her. Choose the word that fits." },
+      "question": "Dana kept the project within budget by questioning every unnecessary expense. She is ___ with company money, and I recommend her without reservation.",
+      "options": ["stingy", "tight-fisted", "careful", "cheap"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Stingy is disapproving: it suggests she refuses to spend even when she should, which undermines your recommendation." },
+        "1": { "en": "Tight-fisted is an informal, disapproving word for someone who hates spending: the opposite of praise." },
+        "3": { "en": "Cheap, used of a person, is informal and disapproving (unwilling to spend money). It clashes with 'I recommend her without reservation'." }
+      },
+      "option_errors": { "0": "word-choice", "1": "word-choice", "3": "register" },
+      "explanation": { "en": "'Careful with money' presents the same behaviour as a strength. The facts (she questioned every expense) are identical whichever word you choose; only the connotation, and therefore the reference, changes." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "style-nuance",
+      "prompt": { "en": "Listen to an editor giving feedback on a reporter's second draft and answer the question." },
+      "audio_text": "In your first draft, the mayor was 'stubborn'. In this one, she's 'principled'. Same woman, same decision, same facts. What's changed is whose side you seem to be on. Work out what you actually think first, then pick the word that says it. Don't let the thesaurus decide for you.",
+      "question": "What is the editor's main advice?",
+      "options": [
+        "Replace informal words like 'stubborn' with more formal ones.",
+        "Avoid describing anyone's character in a news story.",
+        "Check the facts about the mayor's decision again.",
+        "Decide on your judgement first, then choose the word whose connotation matches it."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Stubborn is not informal; the problem is its disapproving connotation, and that 'principled' takes the opposite side." },
+        "1": { "en": "The editor does not ban descriptions of character. She asks the reporter to choose them deliberately." },
+        "2": { "en": "'Same facts': the editor says the facts have not changed, only the words." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "'Stubborn' and 'principled' describe the same refusal to change course with opposite judgements. The editor's point is that the judgement should come from the writer's thinking, not from whichever synonym the thesaurus offers." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "Read the first sentence of a formal report: 'The council has published four consultation papers, held eleven public meetings and commissioned two independent reviews of the bus network.' Which second sentence uses a deliberate register shift most effectively?" },
+      "question": "Choose the best second sentence.",
+      "options": [
+        "Then it did nothing.",
+        "Subsequently, no further action was undertaken by the council.",
+        "Then it, like, totally did nothing.",
+        "Then it did nothing, which is kind of annoying, to be honest."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "This keeps the formal register, so there is no shift, and the passive (was undertaken by) buries the point at the end of a long, flat sentence." },
+        "2": { "en": "Slang (like, totally) goes too far: it breaks the report's register without adding any meaning, so readers notice the words, not the point." },
+        "3": { "en": "'Kind of' and 'to be honest' are vague and hedging. A deliberate shift should be sharp; this one weakens the verdict." }
+      },
+      "option_errors": { "1": "word-choice", "2": "register", "3": "register" },
+      "explanation": { "en": "'Then it did nothing' is plain, short and placed at the point of emphasis. After a long formal list, the sudden simplicity works as a verdict. It is still acceptable in a report, because the shift is in length and plainness, not into slang." }
+    },
+    {
+      "id": "e5", "type": "read", "skill": "reading", "topic": "style-nuance",
+      "prompt": { "en": "Read the column by a newspaper's readers' editor and answer the questions." },
+      "title": "The words we didn't notice",
+      "passage": "Last Thursday, this paper reported on a protest outside the town hall against the planned closure of the Riverside swimming pool. By Friday morning I had received forty-one complaints. Not one of them disputed a fact. The number of people present, the time, the route of the march and the words on the banners were all accurate. What readers objected to was the vocabulary.\n\nOur report said that 'a crowd of around three hundred' had 'gathered' outside the building. Several readers who support the closure wrote to say that the people outside had in fact blocked the entrance, and that we had made a noisy demonstration sound like a picnic. Readers on the other side were no happier. They pointed out that the council's plan, which our headline called a closure, is described in the council's own documents as 'a rationalisation of leisure provision', and that we had quoted this phrase twice without comment. One reader asked whether we would describe a fire as an unplanned rationalisation of the building.\n\nBoth groups have a point, and it is the same point: there is no neutral vocabulary waiting to be used. Every word carries connotations, the associations that cling to it beyond its dictionary meaning. 'Crowd' is calmer than 'mob'; 'gathered' is gentler than 'massed'; 'rationalisation' is a euphemism that makes a loss sound like tidying up. A reporter cannot avoid connotation. She can only choose it, and she should choose it consciously.\n\nOur style guide offers a simple test: would both sides accept this word as a fair description, even if they would not choose it themselves? 'Crowd' passes; 'mob' does not. 'Closure' passes, because that is what will happen to the building. 'Rationalisation' fails, unless it appears in quotation marks and is clearly attributed to the council. On that test, our report was mostly fair, and our use of the council's phrase was not.\n\nThere was a second, subtler complaint. A retired teacher noted that the paragraph about the protesters was written in long, winding sentences full of qualifications, while the paragraph quoting the council's spokesperson was short, crisp and confident. 'You gave one side the rhythm of certainty,' she wrote, 'and the other the rhythm of excuses.' I read the article again with her letter beside me. She was right, and I doubt the reporter intended it. Sentence rhythm is rarely discussed in newsrooms, but readers feel it, and it shapes their sense of who sounds reasonable.\n\nNone of this means that reporters should aim for grey, connotation-free prose. Such prose does not exist, and the attempt to produce it tends to create a dull, evasive voice that readers trust even less. What it means is that word choice is part of accuracy. A report can get every fact right and still mislead through its adjectives, its euphemisms and its cadence. We will be adding the rhythm test to our style guide.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why does the readers' editor point out that 'not one of them disputed a fact'?",
+          "options": [
+            "To suggest that the complaints were unjustified",
+            "To show that the problem lay in the connotations of the words, not in the information reported",
+            "To prove that the reporter had checked every source carefully",
+            "To criticise readers for not reading the article carefully"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "She says that 'both groups have a point', so she does not dismiss the complaints." },
+            "2": { "en": "The accuracy of the facts is the starting point, not the conclusion: the column is about what went wrong despite accurate facts." },
+            "3": { "en": "She does not blame readers; she agrees with much of what they wrote." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "'What readers objected to was the vocabulary.' The facts were right; the words carried judgements." }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer believes that a careful reporter can find words with no connotations at all.",
+          "answer": false,
+          "explanation": { "en": "'There is no neutral vocabulary waiting to be used ... A reporter cannot avoid connotation. She can only choose it.'" }
+        },
+        {
+          "type": "mcq",
+          "question": "According to the style guide's test, when would 'rationalisation' be acceptable?",
+          "options": [
+            "When it appears in quotation marks and is clearly attributed to the council",
+            "When the reporter agrees with the council's plan",
+            "When it is used in the headline rather than in the article",
+            "Never, because it is a euphemism"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The test is whether both sides would accept the word as fair, not whether the reporter agrees." },
+            "2": { "en": "The column does not distinguish headlines from articles on this point; the headline in fact used 'closure'." },
+            "3": { "en": "Not never: 'unless it appears in quotation marks and is clearly attributed to the council'." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "Quoting and attributing the euphemism shows that it is the council's wording, not the paper's own description." }
+        },
+        {
+          "type": "mcq",
+          "question": "What does the retired teacher mean by 'the rhythm of certainty' and 'the rhythm of excuses'?",
+          "options": [
+            "The council's spokesperson spoke more slowly than the protesters.",
+            "The reporter quoted the protesters more often than the council.",
+            "Short, confident sentences made the council sound reasonable, while long, qualified sentences made the protesters sound defensive.",
+            "The protesters' banners were written in a more emotional style than the council's documents."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "The complaint is about how the article was written, not how anyone spoke." },
+            "1": { "en": "Neither the number of quotations nor the balance of space is mentioned; the point is sentence length and style." },
+            "3": { "en": "The banners are mentioned only as an accurate fact in the first paragraph." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The protesters' paragraph had 'long, winding sentences full of qualifications'; the council's was 'short, crisp and confident'. Rhythm shaped readers' 'sense of who sounds reasonable'." }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer thinks the reporter deliberately favoured the council.",
+          "answer": false,
+          "explanation": { "en": "'She was right, and I doubt the reporter intended it.' The bias was real but probably unconscious, which is why the paper is adding a rhythm test." }
+        },
+        {
+          "type": "gap",
+          "text": "The writer concludes that word choice is part of ___. (one word from the column)",
+          "answers": [["accuracy"]],
+          "wrong_feedback": [
+            { "match": "style", "feedback": { "en": "The column's point is stronger than that: a report can 'get every fact right and still mislead', so word choice is part of accuracy." }, "error_type": "comprehension" }
+          ],
+          "explanation": { "en": "'What it means is that word choice is part of accuracy.'" }
+        },
+        {
+          "type": "mcq",
+          "question": "What is the writer's view of 'grey, connotation-free prose'?",
+          "options": [
+            "It is the goal every reporter should aim for.",
+            "It is possible, but only in headlines.",
+            "It is the style the paper's style guide requires.",
+            "It does not exist, and attempting it produces an evasive voice that readers distrust."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "'None of this means that reporters should aim for grey, connotation-free prose.'" },
+            "1": { "en": "The writer says such prose 'does not exist' anywhere." },
+            "2": { "en": "The style guide's test is about fairness to both sides, not about removing connotation." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'Such prose does not exist, and the attempt to produce it tends to create a dull, evasive voice that readers trust even less.'" }
+        }
+      ]
+    },
+    {
+      "id": "e6", "type": "match", "skill": "vocabulary", "topic": "style-nuance",
+      "prompt": { "en": "Match each euphemism with the plain meaning it softens." },
+      "pairs": [
+        ["let go (from a job)", "dismissed"],
+        ["between jobs", "unemployed"],
+        ["economical with the truth", "not completely honest"],
+        ["pre-owned", "second-hand"],
+        ["a rent adjustment", "a rent increase"],
+        ["passed away", "died"]
+      ],
+      "explanation": { "en": "A euphemism softens an unpleasant fact. Context decides whether that is kind or misleading: 'passed away' in a condolence letter is tact; 'a rent adjustment' in a tenant's notice hides the fact the reader most needs. In analytical writing, use the plain word, or quote the euphemism and attribute it." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "vocabulary", "topic": "style-nuance",
+      "prompt": { "en": "Two leaflets describe the same budget, which cuts public spending, and the same minister, who has refused to change it despite protests. Complete both with words from the box. Two words are not needed." },
+      "text": "Supporters: 'This is a ___ budget, and the minister has been ___ in defending it.' Critics: 'This is a ___ budget, and the minister has been ___ in refusing to listen.'",
+      "word_bank": ["prudent", "resolute", "miserly", "obstinate", "extravagant", "hesitant"],
+      "answers": [
+        ["prudent", "frugal", "careful", "responsible", "sensible"],
+        ["resolute", "firm", "steadfast", "determined"],
+        ["miserly", "stingy", "mean", "tight-fisted", "penny-pinching"],
+        ["obstinate", "stubborn", "inflexible", "intransigent"]
+      ],
+      "wrong_feedback": [
+        { "match": "extravagant", "feedback": { "en": "Extravagant means spending too much, but this budget cuts spending. Connotation can change the judgement, never the facts." }, "error_type": "word-choice" },
+        { "match": "hesitant", "feedback": { "en": "Hesitant contradicts the facts: the minister has refused to change the budget, which is the opposite of hesitating." }, "error_type": "word-choice" },
+        { "match": "prudent", "feedback": { "en": "Prudent is approving, so it belongs in the supporters' leaflet, describing the budget." }, "error_type": "word-choice" },
+        { "match": "resolute", "feedback": { "en": "Resolute is approving, so it belongs in the supporters' leaflet, describing the minister." }, "error_type": "word-choice" },
+        { "match": "miserly", "feedback": { "en": "Miserly is disapproving, so it belongs in the critics' leaflet, describing the budget." }, "error_type": "word-choice" },
+        { "match": "obstinate", "feedback": { "en": "Obstinate is disapproving, so it belongs in the critics' leaflet, describing the minister." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "First check which words fit the facts (cuts spending; refuses to change). Then decide which are approving and which disapproving." },
+      "explanation": { "en": "Prudent and miserly both describe a budget that spends little; resolute and obstinate both describe a minister who does not change course. Supporters and critics agree on the facts and disagree on the judgement, and connotation carries that disagreement." }
+    },
+    {
+      "id": "e8", "type": "mcq", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "A writer wants the fact that the report was ignored to hit the reader hardest. Which version does this best?" },
+      "question": "Choose the most effective version.",
+      "options": [
+        "Although it was ignored, the report was long, detailed and carefully researched.",
+        "The report was long, detailed and carefully researched. It was ignored.",
+        "The report, which was ignored, was long, detailed and carefully researched.",
+        "The report was long, detailed and carefully researched, and it was also, unfortunately, largely ignored by most people."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "The key fact is placed in a subordinate clause at the start, and the sentence ends by praising the report: the emphasis falls on the wrong point." },
+        "2": { "en": "A relative clause in the middle of the sentence is the weakest position available: the key fact sounds like a side note." },
+        "3": { "en": "The point is diluted by 'also', 'unfortunately', 'largely' and 'by most people', and the sentence trails off instead of landing." }
+      },
+      "option_errors": { "0": "word-order", "2": "word-order", "3": "word-choice" },
+      "explanation": { "en": "A long sentence builds up the report's qualities, and a three-word sentence delivers the point in the position of greatest weight: the end. The contrast in length does the work that an adverb like 'unfortunately' only announces." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "Combine the sentences into one periodic sentence. Begin 'After three years of delays,' then list the other two problems as noun phrases, and end with the main clause 'the bridge finally opened'." },
+      "source": "The bridge finally opened. Before that, there were three years of delays. The contractor changed twice. The budget doubled.",
+      "answers": [
+        "After three years of delays, two changes of contractor and a doubled budget, the bridge finally opened.",
+        "After three years of delays, two changes of contractor, and a doubled budget, the bridge finally opened.",
+        "After three years of delays, two changes of contractor and a budget that doubled, the bridge finally opened.",
+        "After three years of delays, two changes of contractor, and a budget that doubled, the bridge finally opened.",
+        "After three years of delays, two changes of contractor and a budget that had doubled, the bridge finally opened.",
+        "After three years of delays, two changes of contractor, and a budget that had doubled, the bridge finally opened.",
+        "After three years of delays, two contractor changes and a doubled budget, the bridge finally opened.",
+        "After three years of delays, two contractor changes, and a doubled budget, the bridge finally opened.",
+        "After three years of delays, two changes of contractor and a doubling of the budget, the bridge finally opened.",
+        "After three years of delays, two changes of contractor, and a doubling of the budget, the bridge finally opened.",
+        "After three years of delays, two new contractors and a doubled budget, the bridge finally opened.",
+        "After three years of delays, two new contractors, and a doubled budget, the bridge finally opened."
+      ],
+      "wrong_feedback": [
+        { "match": "The bridge finally opened after three years of delays, two changes of contractor and a doubled budget.", "feedback": { "en": "This is a loose sentence: the main clause comes first, so the reader already knows the outcome. The task asks for a periodic sentence that keeps 'the bridge finally opened' for the end." }, "error_type": "word-order" },
+        { "match": "After three years of delays, the contractor changed twice and the budget doubled, the bridge finally opened.", "feedback": { "en": "'The contractor changed twice' and 'the budget doubled' are full clauses, so the sentence becomes a comma splice. Turn them into noun phrases: two changes of contractor, a doubled budget." }, "error_type": "punctuation" }
+      ],
+      "hint": { "en": "Turn 'The contractor changed twice' into a noun phrase (two changes of ...) and 'The budget doubled' into one too (a doubled ...)." },
+      "explanation": { "en": "In a periodic sentence the reader waits for the main clause, so the list of problems builds pressure and 'the bridge finally opened' arrives as a release. Three parallel noun phrases (delays, changes, budget) keep the rhythm tight." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "A company's apology uses the passive to hide who is responsible. Rewrite it in the active so that the company accepts responsibility. Begin 'We ...' and keep the meaning." },
+      "source": "Mistakes were made in the handling of customer data.",
+      "answers": [
+        "We made mistakes in the handling of customer data.",
+        "We made mistakes in handling customer data.",
+        "We made mistakes in our handling of customer data.",
+        "We made mistakes when we handled customer data.",
+        "We made mistakes in how we handled customer data.",
+        "We have made mistakes in the handling of customer data.",
+        "We have made mistakes in handling customer data.",
+        "We have made mistakes in our handling of customer data.",
+        "We made mistakes in the way we handled customer data.",
+        "We mishandled customer data.",
+        "We have mishandled customer data."
+      ],
+      "wrong_feedback": [
+        { "match": "We were made mistakes in the handling of customer data.", "feedback": { "en": "'We were made' is still passive (and ungrammatical here). In the active, the company is the subject of make: We made mistakes." }, "error_type": "passive-form" },
+        { "match": "We made mistakes.", "feedback": { "en": "Good, active and responsible, but you have lost what the mistakes were about: in handling customer data." } }
+      ],
+      "explanation": { "en": "'Mistakes were made' is a famous evasion: the passive lets the speaker admit the event without naming the agent. 'We made mistakes' (or 'We mishandled customer data') puts the company in the subject position, which is what an apology needs. Choosing active or passive is a choice about responsibility, and readers hear it as part of your voice." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "vocabulary", "topic": "style-nuance",
+      "prompt": { "en": "One word in this sentence has the wrong connotation for what the writer means. Replace it and change nothing else." },
+      "sentence": "Professor Adler is notorious for the detailed, generous feedback she gives on every essay.",
+      "answers": [
+        "Professor Adler is renowned for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is famous for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is known for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is well known for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is well-known for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is celebrated for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is admired for the detailed, generous feedback she gives on every essay.",
+        "Professor Adler is respected for the detailed, generous feedback she gives on every essay."
+      ],
+      "error_type": "word-choice",
+      "wrong_feedback": [
+        { "match": "Professor Adler is infamous for the detailed, generous feedback she gives on every essay.", "feedback": { "en": "Infamous is even more strongly disapproving than notorious. You need a word for being famous for something good: renowned." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Which word means 'famous for something bad'?" },
+      "explanation": { "en": "Notorious means famous for something bad, so the sentence accidentally attacks the feedback it means to praise. Renowned (or famous, well known, celebrated) has the approving connotation the context needs. This is the classic thesaurus trap: same denotation, opposite connotation." }
+    },
+    {
+      "id": "e12", "type": "mcq", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "Read the paragraph from an essay. (1) The evidence on homework for young children is mixed. (2) Some studies find small benefits for older primary pupils, while others find almost none. (3) Anyone who still sets homework for seven-year-olds is frankly living in the past. (4) Given this uncertainty, schools may be wiser to set short, optional tasks than long, compulsory ones." },
+      "question": "Which sentence breaks the writer's voice?",
+      "options": ["Sentence 1", "Sentence 2", "Sentence 3", "Sentence 4"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Sentence 1 sets the measured voice of the paragraph: a calibrated claim about mixed evidence." },
+        "1": { "en": "Sentence 2 supports the first with balanced, cautious reporting, in the same voice." },
+        "3": { "en": "Sentence 4 draws a hedged recommendation from the uncertainty, which is consistent with the rest." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "The paragraph's voice is calm and calibrated: it reports mixed evidence and draws a cautious conclusion. Sentence 3 suddenly sneers at opponents (frankly, living in the past) and claims far more than the evidence allows. Even a correct point would sound untrustworthy in that voice; here, the claim also contradicts the uncertainty the writer has just described." }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking", "topic": "style-nuance",
+      "prompt": { "en": "You are presenting the results of a project to a committee. Say the two sentences out loud." },
+      "target": "We studied the problem for three years, consulted every expert we could find and tested every solution they proposed. None of them worked.",
+      "focus": { "en": "Let the long sentence build, with a slight rise on each item of the list (three YEARS, every EXpert, every soLUtion). Then pause before the short sentence and stress the first word: NONE of them WORKED." },
+      "error_type": "pron-stress",
+      "explanation": { "en": "In speech, rhythm and pauses do what sentence length does on the page: the long build-up creates expectation, the pause holds it, and the short sentence delivers the point with full weight." }
+    },
+    {
+      "id": "e14", "type": "write", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "Write the same news twice, controlling connotation." },
+      "task": { "en": "Facts: On Tuesday the town council voted to replace the covered market with a development of 200 flats. Thirty traders will have to move. Construction will take three years. The council says the flats will be affordable for young families. The traders' association says the market, which has operated for more than a century, is part of the town's history. Write the opening paragraph of a news story twice (60-100 words each): (A) for the traders' association newsletter; (B) for a neutral local news site. Use exactly the same facts in both. Change only the connotations of your verbs, nouns and adjectives, and invent no new facts." },
+      "min_words": 120,
+      "max_words": 220,
+      "model_answer": "(A) Traders' newsletter: After more than a century at the heart of our town, the covered market is to be torn down. On Tuesday the council pushed through a plan to replace it with a block of 200 flats, forcing thirty traders out of the stalls where many have worked all their lives. The council insists the flats will be affordable for young families. For the traders, three years of building work will erase a piece of the town's history.\n\n(B) Neutral news site: The town council voted on Tuesday to replace the covered market with a development of 200 flats. The thirty traders who work there will have to move, and construction is expected to take three years. The council says the new flats will be affordable for young families. The traders' association argues that the market, which has operated for more than a century, is an important part of the town's history.",
+      "checklist": [
+        { "en": "Facts: both versions contain the same facts (the vote, 200 flats, thirty traders, three years, the council's claim and the traders' view), and neither invents a new one." },
+        { "en": "Version A: verbs, nouns and adjectives carry the traders' stance (for example pushed through, torn down, forcing, block of flats), but no sentence states something untrue." },
+        { "en": "Version B: every evaluative word passes the test 'would both sides accept this as fair?' (voted, replace, development, will have to move)." },
+        { "en": "Attribution: in version B, each side's judgement is attributed (The council says ...; The traders' association argues ...)." },
+        { "en": "Contrast: a reader comparing the two versions can point to at least four word choices that change the stance." }
+      ]
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "style-nuance",
+      "prompt": { "en": "Write an opinion column with deliberate stylistic control." },
+      "task": { "en": "Write an opinion column of 350-550 words for a local news site. Choose one question: (a) Should the town replace its covered market with affordable flats (the situation in the previous task)? (b) Should schools replace written end-of-year exams with portfolios of work? (c) Should the town centre be closed to private cars at weekends? Argue a clear position and respond to the strongest opposing view. Your column must: describe the other side in terms its members would accept; use evaluative words only where your reasons support them; quote and attribute any euphemism rather than adopt it; include at least one long sentence followed by a short one that lands a key point; include one deliberate register shift at a point of emphasis; and keep a consistent voice from the first line to the last. Invent no statistics." },
+      "min_words": 350,
+      "max_words": 600,
+      "model_answer": "Keep the market, build the homes\n\nEvery town has a building that residents defend more fiercely than they use. In ours, it is the covered market. On a wet Tuesday morning you will find a dozen stalls open, a few regulars buying cheese and a great deal of empty floor. On paper, the council's plan to replace it with 200 flats is hard to argue with. We need homes, and young families are leaving because they cannot afford to stay.\n\nThe traders and their supporters see it differently, and their case deserves a fair hearing. They argue that the market is not just a set of stalls but a public room: the one place in the town centre where you can sit down without buying anything, where a teenager can start a business with a borrowed table, and where people who live alone talk to someone every week. A housing block, however well designed, will not do any of that. They are right about this, and the council has been too quick to talk about 'underused floorspace', a phrase that makes a community sound like a storage problem.\n\nBut the traders' preferred solution, to leave everything exactly as it is, asks young families to keep paying for that public room with their futures. A market that is crowded on Saturdays and quiet for the rest of the week is a precious thing. It is not more precious than a home.\n\nThere is a better option than either side has proposed. The site is large enough to keep a smaller market hall on the ground floor and build flats above it, as some European cities have done on a far grander scale. There would be fewer flats, certainly, perhaps 150 rather than 200, and a smaller, busier market rather than a large, half-empty one. The council would lose some income; the traders would lose some space. Both would keep what matters most to them.\n\nCritics will say that this is a compromise that pleases nobody, and compromises often are. This one, though, is not a split-the-difference fudge. It starts from what each side is actually right about: we need the homes, and we need the room.\n\nThe council meets on Thursday. For two years it has called the market a problem. It might try calling it a foundation.",
+      "checklist": [
+        { "en": "Position: my stance is clear by the end of the first paragraph, and the column argues it rather than simply asserting it." },
+        { "en": "Counterargument: I state the strongest opposing view fairly, in words its supporters would accept, attribute it (Critics argue ...; The traders say ...), and refute it, concede and outweigh it, or qualify my position." },
+        { "en": "Connotation: my evaluative words (approving or disapproving) appear only where my reasons support them, and no word changes the facts." },
+        { "en": "Euphemism: any euphemism (for example 'underused floorspace') is quoted and attributed, not adopted as my own description." },
+        { "en": "Rhythm: at least one long sentence is followed by a short one that delivers a key point, and important ideas come at the end of sentences and paragraphs." },
+        { "en": "Register: the column has one deliberate shift at a point of emphasis, and no accidental lapses (kind of, stuff, lots of things)." },
+        { "en": "Voice: my level of confidence, sentence style and attitude to opponents stay consistent from the first line to the last; I invent no statistics." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Denotation is what a word means; connotation is what it suggests. Decide what you think first, then choose the word that says it, and make sure your evidence can carry it." },
+      { "en": "Describe opponents in terms they would accept. Quote and attribute euphemisms rather than adopting them, and check new words for connotation before you use them (renowned, not notorious, for something good)." },
+      { "en": "A deliberate register shift is rare, placed at a point of emphasis, and its purpose is clear; an accidental lapse is scattered and serves no purpose." },
+      { "en": "Rhythm carries meaning: a long sentence followed by a short one lands a point, and a periodic sentence saves the main clause for the end, the position of greatest weight." },
+      { "en": "Voice comes from consistent choices of commitment, vocabulary, sentence length and agency: 'We made mistakes' says something that 'Mistakes were made' avoids." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

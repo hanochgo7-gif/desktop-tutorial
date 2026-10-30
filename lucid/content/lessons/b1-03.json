@@ -6,7 +6,7 @@
   "topics": ["past-continuous"],
   "minutes": 25,
   "objectives": [
-    { "en": "I can use was/were + -ing to say what was in progress at a moment in the past.", "he": "אני יודע/ת להשתמש ב-was/were + ing כדי לומר מה היה באמצע לקרות ברגע מסוים בעבר." },
+    { "en": "I can use was/were + -ing to say what was in progress at a moment in the past.", "he": "אני יודע/ת להשתמש ב-was/were + ing כדי לתאר פעולה שהייתה באמצע ברגע מסוים בעבר." },
     { "en": "I can join a longer action and a short event with when and while.", "he": "אני יודע/ת לחבר פעולה ארוכה ואירוע קצר בעזרת when ו-while." },
     { "en": "I can set the scene at the start of a story and then tell the main events.", "he": "אני יודע/ת לבנות רקע בפתיחת סיפור ואז לספר את האירועים המרכזיים." }
   ],
@@ -20,7 +20,7 @@
       ["Short answer", "Yes, + subject + was/were. · No, + subject + wasn't/weren't.", "Were you sleeping? – No, I wasn't."]
     ] },
     { "type": "rule", "en": "when + the short event (past simple): I was cooking when the lights went out. while + the longer action (past continuous): While I was cooking, the lights went out. Two long actions at the same time: While Noa was studying, her brother was playing the guitar. When the when or while part comes first, add a comma. (during + a noun: during the film)", "he": "when + האירוע הקצר (עבר פשוט): I was cooking when the lights went out. ‏while + הפעולה הארוכה (עבר מתמשך): While I was cooking, the lights went out. שתי פעולות ארוכות באותו זמן: While Noa was studying, her brother was playing the guitar. כשהחלק של when או while בא ראשון, שמים פסיק. (during בא לפני שם עצם: during the film)" },
-    { "type": "tip", "en": "Compare: When Noa arrived, Omer made coffee. (first she arrived, then he made coffee) / When Noa arrived, Omer was making coffee. (he was already in the middle of it)", "he": "השוו: When Noa arrived, Omer made coffee – קודם היא הגיעה, ואז הוא הכין קפה. ‏When Noa arrived, Omer was making coffee – כשהיא הגיעה, הוא כבר היה באמצע להכין קפה." },
+    { "type": "tip", "en": "Compare: When Noa arrived, Omer made coffee. (first she arrived, then he made coffee) / When Noa arrived, Omer was making coffee. (he was already in the middle of it)", "he": "השוו: When Noa arrived, Omer made coffee – קודם היא הגיעה, ואז הוא הכין קפה. ‏When Noa arrived, Omer was making coffee – כשהיא הגיעה, הוא כבר היה באמצע הכנת הקפה." },
     { "type": "tip", "en": "To open a story, use the past continuous to paint the background (It was getting dark. People were hurrying home.), then the past simple for the events that move the story forward (Suddenly, a woman screamed.).", "he": "בפתיחת סיפור משתמשים בעבר מתמשך כדי לצייר את הרקע (It was getting dark. People were hurrying home.), ואז בעבר פשוט לאירועים שמקדמים את העלילה (Suddenly, a woman screamed.)." },
     { "type": "warning", "en": "State verbs (know, want, like, need, believe, belong) don't normally take -ing: I knew the answer (not *I was knowing). And don't forget was/were: I was watching TV (not *I watching TV).", "he": "פעלי מצב (know, want, like, need, believe, belong) בדרך כלל לא מקבלים ing: I knew the answer ולא I was knowing. ואל תשכחו את was/were: I was watching TV ולא I watching TV." },
     { "type": "p", "en": "Contrast with Hebrew: Hebrew has one past form, so the same verb can mean 'it rained' or 'it was raining'. English shows an action in progress with was/were + -ing: It was raining when we left.", "he": "השוואה לעברית: בעברית יש צורת עבר אחת, ו'ירד גשם' יכול להיות גם it rained וגם it was raining. באנגלית פעולה שהייתה באמצע מסומנת ב-was/were + ing: It was raining when we left." }
@@ -37,12 +37,12 @@
   ],
   "vocab": [
     { "word": "power cut", "pos": "noun", "he": "הפסקת חשמל", "def": "a time when the electricity stops working", "example": "We were cooking dinner when there was a power cut.", "ipa": "/ˈpaʊə kʌt/", "collocations": ["a two-hour power cut", "during the power cut", "cause a power cut"], "level": "B1" },
-    { "word": "go out", "pos": "phrasal verb", "he": "(אור, אש) לכבות", "def": "(of a light or fire) to stop shining or burning", "example": "The lights went out while we were watching the film.", "ipa": "/ˌɡəʊ ˈaʊt/", "collocations": ["the lights went out", "the fire went out", "the candle went out"], "level": "B1" },
+    { "word": "go out", "pos": "phrasal verb", "he": "להיכבות (אור, אש)", "def": "(of a light or fire) to stop shining or burning", "example": "The lights went out while we were watching the film.", "ipa": "/ˌɡəʊ ˈaʊt/", "collocations": ["the lights went out", "the fire went out", "the candle went out"], "level": "B1" },
     { "word": "pour", "pos": "verb", "he": "לרדת חזק (גשם); למזוג", "def": "(of rain) to fall very heavily; to make a liquid flow into a cup or glass", "example": "It was pouring when we left the cinema.", "ipa": "/pɔː(r)/", "collocations": ["pouring with rain", "it's pouring", "pour a drink"], "level": "B1" },
     { "word": "fall asleep", "pos": "phrase", "he": "להירדם", "def": "to start sleeping", "example": "I was watching a documentary when I fell asleep.", "ipa": "/ˌfɔːl əˈsliːp/", "collocations": ["fall asleep on the sofa", "fall asleep in class", "fall fast asleep"], "level": "B1" },
     { "word": "hurry", "pos": "verb", "he": "למהר", "def": "to move or do things quickly because there isn't much time", "example": "People were hurrying to the station.", "ipa": "/ˈhʌri/", "collocations": ["hurry home", "hurry up", "in a hurry"], "level": "A2" },
     { "word": "slip", "pos": "verb", "he": "להחליק", "def": "to slide by accident and fall, or almost fall", "example": "She slipped while she was running down the stairs.", "ipa": "/slɪp/", "collocations": ["slip on the ice", "slip and fall", "slip on a wet floor"], "level": "B1" },
-    { "word": "drop", "pos": "verb", "he": "להפיל, ליפול", "def": "to let something fall by accident", "example": "I was taking a photo when I dropped my phone in the sea.", "ipa": "/drɒp/", "collocations": ["drop your phone", "drop something on the floor", "drop a glass"], "level": "A2" },
+    { "word": "drop", "pos": "verb", "he": "להפיל (בטעות)", "def": "to let something fall by accident", "example": "I was taking a photo when I dropped my phone in the sea.", "ipa": "/drɒp/", "collocations": ["drop your phone", "drop something on the floor", "drop a glass"], "level": "A2" },
     { "word": "ring", "pos": "verb", "he": "לצלצל", "def": "(of a phone or bell) to make a sound; past: rang", "example": "My phone rang while I was driving.", "ipa": "/rɪŋ/", "collocations": ["the phone rang", "ring the doorbell", "ring a bell"], "level": "A2" },
     { "word": "scream", "pos": "verb", "he": "לצרוח", "def": "to shout very loudly because you are afraid, excited or hurt", "example": "Someone screamed while we were watching the horror film.", "ipa": "/skriːm/", "collocations": ["scream for help", "scream with laughter", "hear someone scream"], "level": "B1" },
     { "word": "in the middle of", "pos": "phrase", "he": "באמצע", "def": "during an activity, before it is finished", "example": "I was in the middle of an exam when my phone rang.", "ipa": "/ɪn ðə ˈmɪdl əv/", "collocations": ["in the middle of the night", "in the middle of a meeting", "right in the middle of"], "level": "B1" },
@@ -122,7 +122,7 @@
         "0": { "en": "while goes with the longer action: while I was watching a film. The phone ringing is the short event, so use when.", "he": "while בא עם הפעולה הארוכה: while I was watching a film. הצלצול הוא האירוע הקצר, ולכן when." },
         "1": { "en": "during comes before a noun (during the film), not before a subject and verb.", "he": "during בא לפני שם עצם (during the film), לא לפני נושא ופועל." }
       },
-      "option_errors": { "0": "cohesion", "1": "word-choice" },
+      "option_errors": { "0": "word-choice", "1": "word-choice" },
       "explanation": { "en": "Long action + when + short event: I was watching a film when my phone rang.", "he": "פעולה ארוכה + when + אירוע קצר: I was watching a film when my phone rang." }
     },
     {
@@ -136,9 +136,10 @@
         { "match": "was starting", "feedback": { "en": "The rain starting is the short event that interrupts the walk: it started.", "he": "תחילת הגשם היא האירוע הקצר שקוטע את ההליכה: it started." }, "error_type": "tense-choice" },
         { "match": "wasn't having", "feedback": { "en": "have meaning own is a state verb, so no -ing: I didn't have an umbrella.", "he": "have במובן 'יש לי' הוא פועל מצב, ולכן בלי ing: I didn't have an umbrella." }, "error_type": "verb-form" },
         { "match": "were waiting", "feedback": { "en": "With I, use was: I was waiting.", "he": "עם I משתמשים ב-was: I was waiting." }, "error_type": "agreement" },
-        { "match": "was seeing", "feedback": { "en": "Seeing your teacher is a short event in the middle of the wait: I saw.", "he": "לראות את המורה זה אירוע קצר באמצע ההמתנה: I saw." }, "error_type": "tense-choice" }
+        { "match": "was seeing", "feedback": { "en": "Seeing your teacher is a short event in the middle of the wait: I saw.", "he": "לראות את המורה זה אירוע קצר באמצע ההמתנה: I saw." }, "error_type": "tense-choice" },
+        { "match": "didn't had", "feedback": { "en": "After didn't, use the base verb: didn't have.", "he": "אחרי didn't בא הפועל בצורת הבסיס: didn't have." }, "error_type": "do-support" }
       ],
-      "hint": { "en": "Two actions were in progress (the walk, the wait). Three things happened (rain, no umbrella is a state, seeing the teacher).", "he": "שתי פעולות היו באמצע (ההליכה, ההמתנה). שלושה דברים קרו או היו נכונים (הגשם, אין מטרייה – מצב, ראיית המורה)." },
+      "hint": { "en": "Two actions were in progress (the walk, the wait). The other verbs are short events (the rain starting, seeing the teacher) or a state (not having an umbrella).", "he": "שתי פעולות היו באמצע (ההליכה, ההמתנה). שאר הפעלים הם אירועים קצרים (תחילת הגשם, המפגש עם המורה) או מצב (אין מטרייה)." },
       "explanation": { "en": "was walking / was waiting = longer actions in progress. started / saw = short events. didn't have = a state verb, never -ing. (While I waited is also possible.)", "he": "was walking / was waiting = פעולות ארוכות שהיו באמצע. ‏started / saw = אירועים קצרים. ‏didn't have = פועל מצב, אף פעם לא ing. (אפשר גם While I waited.)" }
     },
     {
@@ -196,7 +197,9 @@
         { "match": "While Maya was jogging in the park, she was losing her keys.", "feedback": { "en": "Losing your keys is a short event, so use the past simple: she lost her keys.", "he": "לאבד מפתחות זה אירוע קצר, ולכן עבר פשוט: she lost her keys." }, "error_type": "tense-choice" },
         { "match": "Maya was losing her keys while she was jogging in the park.", "feedback": { "en": "Losing your keys is a short event: Maya lost her keys while she was jogging.", "he": "לאבד מפתחות זה אירוע קצר: Maya lost her keys while she was jogging." }, "error_type": "tense-choice" },
         { "match": "While Maya was jogging in the park, lost her keys.", "feedback": { "en": "The second part needs a subject: she lost her keys.", "he": "לחלק השני צריך נושא: she lost her keys." }, "error_type": "pronoun" },
-        { "match": "Maya lost her keys while was jogging in the park.", "feedback": { "en": "The while part needs a subject: while she was jogging.", "he": "לחלק של while צריך נושא: while she was jogging." }, "error_type": "pronoun" }
+        { "match": "Maya lost her keys while was jogging in the park.", "feedback": { "en": "The while part needs a subject: while she was jogging.", "he": "לחלק של while צריך נושא: while she was jogging." }, "error_type": "pronoun" },
+        { "match": "Maya was jogging in the park while she lost her keys.", "feedback": { "en": "while goes with the longer action, not the short event: Maya lost her keys while she was jogging in the park.", "he": "while בא עם הפעולה הארוכה, לא עם האירוע הקצר: Maya lost her keys while she was jogging in the park." }, "error_type": "word-choice" },
+        { "match": "While Maya lost her keys, she was jogging in the park.", "feedback": { "en": "while goes with the longer action, not the short event: While Maya was jogging in the park, she lost her keys.", "he": "while בא עם הפעולה הארוכה, לא עם האירוע הקצר: While Maya was jogging in the park, she lost her keys." }, "error_type": "word-choice" }
       ],
       "explanation": { "en": "while + the longer action (was jogging); the short event in the past simple (lost). If the while part comes first, add a comma.", "he": "while + הפעולה הארוכה (was jogging); האירוע הקצר בעבר פשוט (lost). אם החלק של while בא ראשון, שמים פסיק." }
     },
@@ -224,7 +227,7 @@
       "options": ["When Noa arrived, Omer was making coffee.", "When Noa arrived, Omer made coffee.", "While Omer was making coffee, Noa arrived."],
       "answer": 1,
       "option_feedback": {
-        "0": { "en": "was making = he was already in the middle of it when she arrived.", "he": "was making = הוא כבר היה באמצע להכין כשהיא הגיעה." },
+        "0": { "en": "was making = he was already in the middle of it when she arrived.", "he": "was making = הוא כבר היה באמצע הכנת הקפה כשהיא הגיעה." },
         "2": { "en": "Same meaning as the first sentence: the coffee-making was already in progress.", "he": "אותה משמעות כמו המשפט הראשון: הכנת הקפה כבר הייתה באמצע." }
       },
       "option_errors": { "0": "tense-choice", "2": "tense-choice" },
@@ -248,7 +251,10 @@
         "When you called, I was showering.", "When you called I was showering.", "I was showering when you called.",
         "When you rang, I was having a shower.", "When you rang I was having a shower.", "I was having a shower when you rang.",
         "When you rang, I was taking a shower.", "When you rang I was taking a shower.", "I was taking a shower when you rang.",
-        "When you rang, I was in the shower.", "I was in the shower when you rang."
+        "When you rang, I was in the shower.", "I was in the shower when you rang.",
+        "When you phoned, I was having a shower.", "When you phoned I was having a shower.", "I was having a shower when you phoned.",
+        "When you phoned, I was taking a shower.", "I was taking a shower when you phoned.",
+        "When you phoned, I was in the shower.", "I was in the shower when you phoned."
       ],
       "wrong_feedback": [
         { "match": "When you called, I had a shower.", "feedback": { "en": "This means you had the shower after the call. For an action already in progress, use the past continuous: I was having a shower.", "he": "המשמעות כאן היא שהתקלחתם אחרי השיחה. לפעולה שכבר הייתה באמצע משתמשים בעבר מתמשך: I was having a shower." }, "error_type": "tense-choice" },

@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "Think of the last time a friend suggested doing something. What did they say? What did you answer?", "he": "חשבו על הפעם האחרונה שחבר או חברה הציעו לכם לעשות משהו. מה הם אמרו? ומה עניתם? בעברית אפשר פשוט לשאול 'בא לך?'. באנגלית יש כמה תבניות קבועות, ולכל אחת צורת פועל משלה." },
   "explanation": [
-    { "type": "p", "en": "Listen to Maya and Omer: 'Let's do something tonight.' – 'Why don't we go bowling?' – 'How about watching a film instead?' – 'Good idea! Would you like to invite Lior?' Each pattern has its own verb form, and that's where most mistakes happen.", "he": "הנה מאיה ועומר: Let's do something tonight. – Why don't we go bowling? – How about watching a film instead? – Good idea! Would you like to invite Lior? לכל תבנית יש צורת פועל משלה, ושם קורות רוב הטעויות." },
+    { "type": "p", "en": "Read how Maya and Omer make plans: 'Let's do something tonight.' – 'Why don't we go bowling?' – 'How about watching a film instead?' – 'Good idea! Would you like to invite Lior?' Each pattern has its own verb form, and that's where most mistakes happen.", "he": "הנה מאיה ועומר: Let's do something tonight. – Why don't we go bowling? – How about watching a film instead? – Good idea! Would you like to invite Lior? לכל תבנית יש צורת פועל משלה, ושם קורות רוב הטעויות." },
     { "type": "table", "headers": ["Pattern", "Verb form", "Example"], "rows": [
       ["Let's ...", "base verb", "Let's order pizza."],
       ["Why don't we ...?", "base verb", "Why don't we take a taxi?"],
@@ -75,7 +75,7 @@
         { "text": "Thanks, but maybe another time.", "category": "Saying no politely" }
       ],
       "hint": { "en": "Read to the end: I'd love to can start a yes or a no.", "he": "קראו עד הסוף: I'd love to יכול לפתוח הסכמה או סירוב." },
-      "explanation": { "en": "Watch the endings: I'd love to! = yes, but I'd love to, but... = a polite no. After Sure, why not? means yes.", "he": "שימו לב לסוף: I'd love to! = כן, אבל ...I'd love to, but = סירוב מנומס. ו-Sure, why not? פירושו כן." }
+      "explanation": { "en": "Watch the endings: I'd love to! (or I'd love to! What time?) = yes, but I'd love to, but + a reason = a polite no. And Sure, why not? is not a real question: it means yes.", "he": "שימו לב לסוף: I'd love to! (או I'd love to! What time?) = כן, ואילו I'd love to, but + סיבה = סירוב מנומס. ו-Sure, why not? היא לא שאלה אמיתית: פירושה כן." }
     },
     {
       "id": "e2", "type": "mcq", "skill": "grammar",
@@ -96,18 +96,18 @@
       "prompt": { "en": "Listen to Daniel's voice message and answer the question.", "he": "הקשיבו להודעה הקולית של דניאל וענו על השאלה." },
       "audio_text": "Hi Maya, it's Daniel. A few of us are going bowling on Thursday evening. Would you like to come?",
       "question": "Why is Daniel calling Maya?",
-      "options": ["to invite her to go bowling", "to say no to her invitation", "to ask her to book the bowling"],
+      "options": ["to invite her to go bowling", "to say no to her invitation", "to ask her to pay for the bowling"],
       "answer": 0,
       "option_feedback": {
         "1": { "en": "Daniel isn't saying no to anything. He's asking Maya to come.", "he": "דניאל לא מסרב לשום דבר. הוא מזמין את מאיה לבוא." },
-        "2": { "en": "He doesn't ask her to book anything. Would you like to come? is an invitation.", "he": "הוא לא מבקש ממנה להזמין מקום. Would you like to come? היא הזמנה." }
+        "2": { "en": "He doesn't ask her to pay for anything. Would you like to come? is an invitation.", "he": "הוא לא מבקש ממנה לשלם על שום דבר. Would you like to come? היא הזמנה." }
       },
       "option_errors": { "1": "comprehension", "2": "comprehension" },
-      "explanation": { "en": "Would you like to come? = an invitation. A few of us are going bowling = an arrangement (present continuous).", "he": "Would you like to come? = הזמנה. A few of us are going bowling = סידור קבוע (הווה מתמשך)." }
+      "explanation": { "en": "Would you like to come? = an invitation. A few of us are going bowling = a plan they have already made (present continuous for arrangements).", "he": "Would you like to come? = הזמנה. A few of us are going bowling = תוכנית שכבר נקבעה (הווה מתמשך לסידורים בעתיד)." }
     },
     {
       "id": "e4", "type": "gap", "skill": "grammar",
-      "prompt": { "en": "Complete the chat with words from the box.", "he": "השלימו את הצ'אט במילים מהמחסן." },
+      "prompt": { "en": "Complete the chat with words from the box.", "he": "השלימו את הצ'אט במילים ממחסן המילים." },
       "text": "Omer: I'm bored. ___ do something tonight. Maya: OK. ___ don't we go bowling? Omer: It's expensive. How ___ watching a film at my place? Maya: Good idea! Would you ___ to invite Lior too?",
       "word_bank": ["Let's", "Why", "about", "like", "What", "to"],
       "answers": [["Let's"], ["Why"], ["about"], ["like"]],
@@ -189,7 +189,7 @@
         "2": { "en": "This says yes, but you're busy. Also, love needs to here: I'd love to.", "he": "זו הסכמה, אבל אתם עסוקים. וחוץ מזה, כאן צריך to אחרי love: ‏I'd love to." },
         "3": { "en": "Correct English, but very short: it can sound unfriendly. Show interest and give a reason: I'd love to, but...", "he": "אנגלית תקינה, אבל קצר מאוד ועלול להישמע לא ידידותי. הביעו עניין ותנו סיבה: I'd love to, but..." }
       },
-      "option_errors": { "0": "verb-form", "2": "verb-form" },
+      "option_errors": { "0": "verb-form", "2": "verb-form", "3": "register" },
       "explanation": { "en": "A polite no: show interest (I'd love to), give a reason (but I'm visiting my grandparents) and end kindly (Have a great time!).", "he": "סירוב מנומס: הבעת עניין (I'd love to), סיבה (but I'm visiting my grandparents) וסיום חם (Have a great time!)." }
     },
     {

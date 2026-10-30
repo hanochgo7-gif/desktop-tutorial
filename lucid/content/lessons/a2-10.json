@@ -10,7 +10,7 @@
     { "en": "I can use the best, the worst and the furthest, with in or of after them.", "he": "אני יודע/ת להשתמש ב-the best, the worst ו-the furthest, ואחריהם ב-in או ב-of." },
     { "en": "I can talk about my experiences with the chunk the best ... I've ever ...", "he": "אני יודע/ת לדבר על חוויות שלי בעזרת הצירוף the best ... I've ever ..." }
   ],
-  "warmup": { "en": "What's the best film you saw this year? What's the most expensive thing you own? Who's the funniest person in your family? Last lesson you compared two things. Today you compare one thing with a whole group.", "he": "מה הסרט הכי טוב שראיתם השנה? מה הדבר הכי יקר שיש לכם? מי האדם הכי מצחיק במשפחה שלכם? בשיעור הקודם השווינו בין שני דברים. היום נשווה דבר אחד לקבוצה שלמה: בעברית אומרים 'הכי', ובאנגלית the ...est או the most." },
+  "warmup": { "en": "What's the best film you've ever seen? What's the most expensive thing you own? Who's the funniest person in your family? Last lesson you compared two things. Today you compare one thing with a whole group.", "he": "מה הסרט הכי טוב שראיתם אי פעם? מה הדבר הכי יקר שיש לכם? מי האדם הכי מצחיק במשפחה שלכם? בשיעור הקודם השווינו בין שני דברים. היום נשווה דבר אחד לקבוצה שלמה: בעברית אומרים 'הכי', ובאנגלית the ...est או the most." },
   "explanation": [
     { "type": "p", "en": "Noa is 16, Maya is 17 and Yael is 19. Yael is older than Maya, and she's the oldest of the three. Use a superlative (the oldest, the most popular) to compare one person or thing with the whole group.", "he": "נועה בת 16, מאיה בת 17 ויעל בת 19. יעל מבוגרת ממאיה (older than), והיא הכי מבוגרת מבין השלוש: the oldest of the three. משתמשים בערך הפלגה (the oldest, the most popular) כדי להשוות אדם או דבר אחד לכל הקבוצה." },
     { "type": "table", "headers": ["Adjective", "Comparative", "Superlative"], "rows": [
@@ -55,7 +55,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew there is no present-tense 'be', so a sentence like 'she is the fastest' can lose its verb. English needs is or are: She is the fastest in the class (not *She the fastest in the class).", "he": "בעברית אין 'להיות' בהווה ('היא הכי מהירה בכיתה'), ולכן קל להשמיט את הפועל. באנגלית חייבים is או are: She is the fastest in the class.", "error_type": "copula-omission" },
-    { "en": "In Hebrew the perfect is not marked on the verb, so 'the best film I saw' feels natural. With ever after a superlative, English normally uses the present perfect chunk: the best film I've ever seen.", "he": "בעברית אין צורת פועל מיוחדת ל-present perfect, ולכן אומרים בעבר: 'הסרט הכי טוב שראיתי אי פעם'. באנגלית, אחרי ערך הפלגה עם ever, משתמשים בדרך כלל בצירוף I've ever + צורה שלישית: the best film I've ever seen.", "error_type": "tense-choice" }
+    { "en": "Hebrew has no present perfect, so learners translate 'that I ever saw' word for word with the past simple: the best film I ever saw. You will sometimes hear this, especially in American English, but the usual pattern after a superlative is the present perfect chunk: the best film I've ever seen.", "he": "בעברית אין present perfect, ולכן מתרגמים 'שראיתי אי פעם' בעבר פשוט: the best film I ever saw. שומעים את זה לפעמים, בעיקר באנגלית אמריקאית, אבל אחרי ערך הפלגה התבנית הרגילה היא I've ever + צורה שלישית: the best film I've ever seen.", "error_type": "tense-choice" }
   ],
   "exercises": [
     {
@@ -67,11 +67,11 @@
     {
       "id": "e2", "type": "mcq", "skill": "grammar", "topic": "superlatives",
       "prompt": { "en": "Choose the correct words.", "he": "בחרו את התשובה הנכונה." },
-      "question": "This is ___ room in the flat. It has a balcony and two windows.",
+      "question": "There are four rooms in our flat. This is ___ one: it has a balcony and two windows.",
       "options": ["the bigger", "the most big", "the biggest", "biggest"],
       "answer": 2,
       "option_feedback": {
-        "0": { "en": "bigger is for two things. A flat has more than two rooms, so use the superlative: the biggest.", "he": "bigger משמש להשוואה בין שניים. בדירה יש יותר משני חדרים, ולכן צריך ערך הפלגה: the biggest." },
+        "0": { "en": "bigger is for two things. Here there are four rooms, so use the superlative: the biggest.", "he": "bigger משמש להשוואה בין שניים. כאן יש ארבעה חדרים, ולכן צריך ערך הפלגה: the biggest." },
         "1": { "en": "big is short: the biggest, not the most big.", "he": "big קצר: the biggest, ולא the most big." },
         "3": { "en": "Use the before a superlative: the biggest.", "he": "לפני ערך הפלגה בא the: the biggest." }
       },
@@ -112,7 +112,7 @@
       "id": "e5", "type": "gap", "skill": "grammar", "topic": "superlatives",
       "prompt": { "en": "Write the superlative of the adjective in brackets.", "he": "כתבו את ערך ההפלגה של שם התואר שבסוגריים." },
       "text": "Yesterday was the ___ (hot) day of the year. This is the ___ (expensive) hotel in the area, but it has the ___ (good) view.",
-      "answers": [["hottest"], ["most expensive"], ["best"]],
+      "answers": [["hottest", "the hottest"], ["most expensive", "the most expensive"], ["best", "the best"]],
       "wrong_feedback": [
         { "match": "most hot", "feedback": { "en": "hot is short: double the t and add -est: hottest.", "he": "hot קצר: מכפילים את ה-t ומוסיפים est: hottest." }, "error_type": "comparison-form" },
         { "match": "hotter", "feedback": { "en": "hotter compares two days. For one day in the whole year, use hottest.", "he": "hotter משווה בין שני ימים. ליום אחד מתוך כל השנה: hottest." }, "error_type": "comparison-form" },
@@ -256,7 +256,7 @@
       "min_words": 50,
       "max_words": 100,
       "must_include": ["the best", "ever"],
-      "model_answer": "Welcome to Haifa! In my opinion, the best place to eat is a small hummus restaurant near the port. It's the best hummus I've ever had. The most interesting area to visit is the German Colony, and the view from the top of the Carmel is the most beautiful in the city. The worst time to drive is Sunday morning, because that's when the roads are the busiest. The easiest way to get around is by bus.",
+      "model_answer": "Welcome to Haifa! In my opinion, the best place to eat is a small hummus restaurant near the port. It's the best hummus I've ever had. The most interesting area to visit is the German Colony, and the view from the top of the Carmel is the most beautiful in the city. The worst time to drive is Sunday morning: it's the busiest time of the week. The easiest way to get around is by bus.",
       "checklist": [
         { "en": "I used at least four superlatives with the: the best, the most interesting...", "he": "השתמשתי לפחות בארבעה ערכי הפלגה עם the: the best, the most interesting..." },
         { "en": "I didn't mix -est and most (not *the most biggest).", "he": "לא ערבבתי est ו-most (לא the most biggest)." },

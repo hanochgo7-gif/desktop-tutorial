@@ -73,10 +73,11 @@
         { "text": "so far", "category": "Present perfect (up to now)" },
         { "text": "since Monday", "category": "Present perfect (up to now)" },
         { "text": "up to now", "category": "Present perfect (up to now)" },
+        { "text": "this week", "category": "Present perfect (up to now)" },
         { "text": "since I was a child", "category": "Present perfect (up to now)" }
       ],
       "hint": { "en": "Does the time period end before now, or does it reach now?", "he": "האם תקופת הזמן נגמרה לפני עכשיו, או שהיא מגיעה עד עכשיו?" },
-      "explanation": { "en": "Yesterday, last summer, in 2020, ago and when I was a child are finished: past simple. So far, up to now and since... reach the present: present perfect. Compare: when I was a child (finished) / since I was a child (up to now).", "he": "yesterday, ‏last summer, ‏in 2020, ‏ago ו-when I was a child הם זמן שהסתיים: עבר פשוט. ‏so far, ‏up to now ו-since... מגיעים עד ההווה: present perfect. השוו: when I was a child (נגמר) מול since I was a child (עד היום)." }
+      "explanation": { "en": "Yesterday, last summer, in 2020, ago and when I was a child are finished: past simple. So far, up to now, this week (the week isn't over yet) and since... reach the present: present perfect. Compare: when I was a child (finished) / since I was a child (up to now).", "he": "yesterday, ‏last summer, ‏in 2020, ‏ago ו-when I was a child הם זמן שהסתיים: עבר פשוט. ‏so far, ‏up to now, ‏this week (השבוע עוד לא נגמר) ו-since... מגיעים עד ההווה: present perfect. השוו: when I was a child (נגמר) מול since I was a child (עד היום)." }
     },
     {
       "id": "e2", "type": "mcq", "skill": "grammar", "topic": "present-perfect-vs-past",
@@ -151,7 +152,7 @@
     },
     {
       "id": "e7", "type": "gap", "skill": "grammar", "topic": "present-perfect-vs-past",
-      "prompt": { "en": "Complete the conversation with words from the box. Two words are extra.", "he": "השלימו את השיחה במילים מהמחסן. שתי מילים מיותרות." },
+      "prompt": { "en": "Complete the conversation with words from the box. Two words are extra.", "he": "השלימו את השיחה במילים ממחסן המילים. שתי מילים מיותרות." },
       "text": "Sara: Any news about your application? Kenji: No, not ___. I applied six weeks ago, and I've checked my email every day ___ then. Sara: Six weeks isn't long. My sister waited ___ three months!",
       "word_bank": ["yet", "since", "for", "already", "ago"],
       "answers": [["yet"], ["since"], ["for"]],
@@ -235,13 +236,13 @@
       "id": "e13", "type": "transform", "skill": "vocabulary", "topic": "present-perfect-vs-past",
       "prompt": { "en": "Maya is talking about her best friend. Translate into English.", "he": "מאיה מדברת על החברה הכי טובה שלה. תרגמו לאנגלית." },
       "source": "אני מכירה את נועה כבר עשר שנים.",
-      "answers": ["I have known Noa for ten years.", "I have known Noa for 10 years.", "I have known Noa for ten years now.", "I have known Noa for 10 years now.", "I have known Noa ten years."],
+      "answers": ["I have known Noa for ten years.", "I have known Noa for 10 years.", "I have known Noa for ten years now.", "I have known Noa for 10 years now.", "I have known Noa for ten years already.", "I have known Noa for 10 years already.", "I have known Noa ten years."],
       "wrong_feedback": [
         { "match": "I know Noa for ten years.", "feedback": { "en": "Hebrew uses the present here, but English needs the present perfect for a situation that started in the past and continues: I've known Noa for ten years.", "he": "בעברית אומרים 'מכירה' בהווה, אבל באנגלית מצב שהתחיל בעבר ונמשך עד היום דורש present perfect: I've known Noa for ten years." }, "error_type": "tense-choice" },
         { "match": "I know Noa ten years.", "feedback": { "en": "Two things are missing: the present perfect (I've known) and for before the length of time.", "he": "חסרים שני דברים: present perfect (I've known) ו-for לפני משך הזמן." }, "error_type": "tense-choice" },
         { "match": "I knew Noa for ten years.", "feedback": { "en": "I knew ... for ten years = a finished period. It sounds as if you don't know her any more!", "he": "I knew ... for ten years = תקופה שהסתיימה. זה נשמע כאילו אתן כבר לא מכירות!" }, "error_type": "tense-choice" },
         { "match": "I have known Noa since ten years.", "feedback": { "en": "since + a starting point (since 2015). For a length of time use for: for ten years.", "he": "since + נקודת התחלה (since 2015). למשך זמן משתמשים ב-for: for ten years." }, "error_type": "preposition" },
-        { "match": "I have already known Noa for ten years.", "feedback": { "en": "Here the Hebrew word for already only stresses that it's a long time. English doesn't need already: I've known Noa for ten years.", "he": "כאן 'כבר' רק מדגיש שזה הרבה זמן. באנגלית לא צריך already: I've known Noa for ten years." }, "error_type": "false-friend" },
+        { "match": "I have already known Noa for ten years.", "feedback": { "en": "already in the middle sounds unnatural here. The Hebrew word for already only stresses that it's a long time, and English doesn't need it: I've known Noa for ten years (you can add now or already at the end).", "he": "already באמצע המשפט נשמע כאן לא טבעי. 'כבר' רק מדגיש שזה הרבה זמן, ובאנגלית לא צריך אותו: I've known Noa for ten years (אפשר להוסיף now או already בסוף)." }, "error_type": "false-friend" },
         { "match": "I am knowing Noa for ten years.", "feedback": { "en": "know is a state verb, so no -ing. Use the present perfect: I've known Noa for ten years.", "he": "know הוא פועל מצב, ולכן בלי ing. משתמשים ב-present perfect: I've known Noa for ten years." }, "error_type": "verb-form" }
       ],
       "hint": { "en": "It started ten years ago and it's still true. Which tense? And for or since?", "he": "זה התחיל לפני עשר שנים ועדיין נכון. איזה זמן? ו-for או since?" },

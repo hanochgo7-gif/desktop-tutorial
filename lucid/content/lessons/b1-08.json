@@ -269,7 +269,7 @@
       "pos": "phrase",
       "he": "לשמש ל-",
       "def": "to have a particular purpose",
-      "example": "A corkscrew is a tool which is used for opening bottles.",
+      "example": "A thermometer is a device which is used for measuring temperature.",
       "ipa": "/bi ˈjuːzd fə(r)/",
       "collocations": [
         "used for cooking",
@@ -532,12 +532,12 @@
         "en": "Listen to Yael describing a photo. Who is Tom?",
         "he": "הקשיבו ליעל שמתארת תמונה. מי זה תום?"
       },
-      "audio_text": "This is from my cousin's wedding. The guy who's dancing on the table is my brother, and the woman whose dress is red is his girlfriend. The man who's taking the photo is Tom, my cousin's best friend.",
+      "audio_text": "This is from my cousin's wedding. The guy who's dancing on the table is my brother, and the woman whose dress is red is his girlfriend. The man who's holding the microphone is Tom, my cousin's best friend.",
       "question": "Who is Tom?",
       "options": [
         "the man who's dancing on the table",
         "the man whose girlfriend is wearing red",
-        "the man who's taking the photo",
+        "the man who's holding the microphone",
         "Yael's cousin"
       ],
       "answer": 2,
@@ -561,8 +561,8 @@
         "3": "comprehension"
       },
       "explanation": {
-        "en": "'The man who's taking the photo is Tom.' who's = who is; whose dress = her dress.",
-        "he": "בהקלטה: The man who's taking the photo is Tom. ‏who's = who is; ‏whose dress = השמלה שלה."
+        "en": "'The man who's holding the microphone is Tom.' who's = who is; whose dress = her dress.",
+        "he": "בהקלטה: The man who's holding the microphone is Tom. ‏who's = who is; ‏whose dress = השמלה שלה."
       }
     },
     {
@@ -638,6 +638,22 @@
           "feedback": {
             "en": "where needs a subject + verb after it. Before a verb (had, played), use that, which or who.",
             "he": "אחרי where צריך לבוא נושא + פועל. לפני פועל (had, played) משתמשים ב-that, ‏which או who."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "there",
+          "feedback": {
+            "en": "there can't join two sentences. For a place + subject + verb, use where: the city where I grew up.",
+            "he": "there לא מחבר שני משפטים. למקום + נושא + פועל משתמשים ב-where: ‏the city where I grew up."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "those",
+          "feedback": {
+            "en": "For possession, use whose: a girl whose name was Rana (= her name).",
+            "he": "לשייכות משתמשים ב-whose: ‏a girl whose name was Rana (= השם שלה)."
           },
           "error_type": "relative-clause"
         }
@@ -784,6 +800,24 @@
         "The woman who called you this morning is my aunt.",
         "The woman that called you this morning is my aunt."
       ],
+      "wrong_feedback": [
+        {
+          "match": "The woman which called you this morning is my aunt.",
+          "feedback": {
+            "en": "which is for things. For a person, use who or that.",
+            "he": "which משמש לדברים. לאדם משתמשים ב-who או that."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "The woman who she called you this morning is my aunt.",
+          "feedback": {
+            "en": "who already means she, so drop she: The woman who called you...",
+            "he": "who כבר מחליף את she, ולכן מוחקים את she: The woman who called you..."
+          },
+          "error_type": "relative-clause"
+        }
+      ],
       "error_type": "relative-clause",
       "hint": {
         "en": "Can you leave out the relative word when a verb comes straight after it?",
@@ -806,6 +840,32 @@
       "sentence": "I have a friend who his mother is a famous chef.",
       "answers": [
         "I have a friend whose mother is a famous chef."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I have a friend who's mother is a famous chef.",
+          "feedback": {
+            "en": "who's = who is. For possession, use whose: a friend whose mother...",
+            "he": "who's = who is. לשייכות משתמשים ב-whose: ‏a friend whose mother..."
+          },
+          "error_type": "spelling"
+        },
+        {
+          "match": "I have a friend whose his mother is a famous chef.",
+          "feedback": {
+            "en": "whose already means his, so drop his: a friend whose mother...",
+            "he": "whose כבר כולל את his, ולכן מוחקים את his: ‏a friend whose mother..."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "I have a friend that his mother is a famous chef.",
+          "feedback": {
+            "en": "Don't add his. For possession, use whose: a friend whose mother is a famous chef.",
+            "he": "לא מוסיפים his. לשייכות משתמשים ב-whose: ‏a friend whose mother is a famous chef."
+          },
+          "error_type": "relative-clause"
+        }
       ],
       "error_type": "relative-clause",
       "hint": {
@@ -917,48 +977,48 @@
         {
           "match": "This is the apartment that I lived in it last year.",
           "feedback": {
-            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English that already means 'it': the flat that I lived in.",
-            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית that כבר מחליף אותו: the flat that I lived in."
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English that already means 'it': the apartment that I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית that כבר מחליף אותו: the apartment that I lived in."
           },
           "error_type": "relative-clause"
         },
         {
           "match": "This is the apartment which I lived in it last year.",
           "feedback": {
-            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English which already means 'it': the flat which I lived in.",
-            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית which כבר מחליף אותו: the flat which I lived in."
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English which already means 'it': the apartment which I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית which כבר מחליף אותו: the apartment which I lived in."
           },
           "error_type": "relative-clause"
         },
         {
           "match": "This is the apartment I lived in it last year.",
           "feedback": {
-            "en": "Drop it: the flat I lived in. English doesn't repeat the noun as a pronoun.",
-            "he": "מוחקים את it: ‏the flat I lived in. באנגלית לא חוזרים על שם העצם בכינוי."
+            "en": "Drop it: the apartment I lived in. English doesn't repeat the noun as a pronoun.",
+            "he": "מוחקים את it: ‏the apartment I lived in. באנגלית לא חוזרים על שם העצם בכינוי."
           },
           "error_type": "relative-clause"
         },
         {
           "match": "This is the apartment where I lived in last year.",
           "feedback": {
-            "en": "where already includes \"in\". Write the flat where I lived, or the flat (that) I lived in.",
-            "he": "where כבר כולל את \"in\". כתבו the flat where I lived או the flat (that) I lived in."
+            "en": "where already includes \"in\". Write the apartment where I lived, or the apartment (that) I lived in.",
+            "he": "where כבר כולל את \"in\". כתבו the apartment where I lived או the apartment (that) I lived in."
           },
           "error_type": "relative-clause"
         },
         {
           "match": "This is the apartment that I lived last year.",
           "feedback": {
-            "en": "live needs in: the flat (that) I lived in – or use where: the flat where I lived.",
-            "he": "אחרי live צריך in: ‏the flat (that) I lived in – או where: ‏the flat where I lived."
+            "en": "live needs in: the apartment (that) I lived in – or use where: the apartment where I lived.",
+            "he": "אחרי live צריך in: ‏the apartment (that) I lived in – או where: ‏the apartment where I lived."
           },
           "error_type": "preposition"
         },
         {
           "match": "This is the apartment I lived last year.",
           "feedback": {
-            "en": "live needs in: the flat I lived in – or use where: the flat where I lived.",
-            "he": "אחרי live צריך in: ‏the flat I lived in – או where: ‏the flat where I lived."
+            "en": "live needs in: the apartment I lived in – or use where: the apartment where I lived.",
+            "he": "אחרי live צריך in: ‏the apartment I lived in – או where: ‏the apartment where I lived."
           },
           "error_type": "preposition"
         }
@@ -1160,7 +1220,7 @@
         "who",
         "where"
       ],
-      "model_answer": "My favourite place is the small market in my neighbourhood, where my family shops every Friday. There's a fruit seller who always gives me a free orange, and a bakery whose challah is the best in town. My favourite stall is the one that sells spices from all over the world. The man who runs it is called Eli, and he loves telling stories about the places he has visited. There's also a tiny café I go to after school. The people who work there know exactly what I want before I order. It's a place where I always feel at home.",
+      "model_answer": "My favourite place is the small market where my family shops every Friday. There's a fruit seller who always gives me a free orange, and a bakery whose challah is the best in town. My favourite stall is the one that sells spices from all over the world. The man who runs it is called Eli, and he loves telling stories about the places he has visited. There's also a tiny café I go to after school. The people who work there know exactly what I want before I order. It's a place where I always feel at home.",
       "checklist": [
         {
           "en": "I used at least five relative clauses: who (people), which/that (things), where (places), whose (possession).",

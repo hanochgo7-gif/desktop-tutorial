@@ -108,7 +108,7 @@
     },
     {
       "en": "Noa is really good at explaining things.",
-      "he": "נועה ממש טובה בלהסביר דברים.",
+      "he": "נועה ממש יודעת להסביר דברים.",
       "note": "preposition + -ing"
     },
     {
@@ -829,7 +829,29 @@
       "answers": [
         "I enjoy playing basketball with my friends."
       ],
+      "wrong_feedback": [
+        {
+          "match": "I enjoy play basketball with my friends.",
+          "feedback": {
+            "en": "After enjoy, use -ing, not the base verb: I enjoy playing.",
+            "he": "אחרי enjoy בא ing, לא פועל בסיס: ‏I enjoy playing."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "I enjoy to playing basketball with my friends.",
+          "feedback": {
+            "en": "Drop to: enjoy + -ing, so I enjoy playing.",
+            "he": "מוחקים את to: אחרי enjoy בא ing, כלומר I enjoy playing."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
       "error_type": "gerund-infinitive",
+      "hint": {
+        "en": "Which form comes after enjoy?",
+        "he": "איזו צורה באה אחרי enjoy?"
+      },
       "explanation": {
         "en": "enjoy + -ing: I enjoy playing basketball.",
         "he": "אחרי enjoy בא ing ולא to: ‏I enjoy playing basketball."
@@ -846,7 +868,18 @@
       },
       "sentence": "I'm looking forward to see you on Friday.",
       "answers": [
-        "I'm looking forward to seeing you on Friday."
+        "I'm looking forward to seeing you on Friday.",
+        "I look forward to seeing you on Friday."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I'm looking forward seeing you on Friday.",
+          "feedback": {
+            "en": "Keep to: the phrase is look forward to, and that to is followed by -ing: looking forward to seeing.",
+            "he": "לא מוותרים על to: הצירוף הוא look forward to, ואחרי ה-to הזה בא ing: ‏looking forward to seeing."
+          },
+          "error_type": "gerund-infinitive"
+        }
       ],
       "error_type": "gerund-infinitive",
       "hint": {
@@ -916,7 +949,9 @@
         "I plan to study Spanish since I enjoy travelling.",
         "I plan to study Spanish since I enjoy traveling.",
         "I plan to study Spanish, since I enjoy travelling.",
-        "I plan to study Spanish, since I enjoy traveling."
+        "I plan to study Spanish, since I enjoy traveling.",
+        "I'm planning on learning Spanish because I enjoy travelling.",
+        "I'm planning on learning Spanish because I enjoy traveling."
       ],
       "wrong_feedback": [
         {
@@ -1068,7 +1103,8 @@
           "text": "Noa is planning to keep ___ during her stay.",
           "answers": [
             [
-              "training"
+              "training",
+              "going to the gym"
             ]
           ],
           "wrong_feedback": [
@@ -1161,7 +1197,7 @@
       },
       "min_words": 80,
       "max_words": 130,
-      "model_answer": "Hi Daniel,\n\nI'm Omer, your new flatmate! I'm really looking forward to meeting you next week. A little about me: I'm studying computer science, and I enjoy playing football and cooking. I'm not very good at cleaning, but I promise to do my share! I'm planning to join a gym near the flat, and I hope to find a cheap place for lunch too. Are you interested in going for a run sometimes? I don't mind getting up early. Also, I need to buy a desk, so if you know a good shop, let me know.\n\nSee you soon!\nOmer",
+      "model_answer": "Hi Daniel,\n\nI'm Omer, your new flatmate! I've just finished packing, and I'm really looking forward to meeting you next week. A little about me: I'm studying computer science, and I enjoy playing football and cooking. I'm not very good at cleaning, but I promise to do my share! I'm planning to join a gym near the flat, and I hope to find a cheap place for lunch too. I'd love to go for a run with you sometimes – I don't mind getting up early. Also, I need to buy a desk, so if you know a good shop, let me know.\n\nSee you soon!\nOmer",
       "checklist": [
         {
           "en": "I used at least three verbs + -ing (enjoy, mind, finish, avoid, suggest, practise...).",

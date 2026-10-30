@@ -198,9 +198,9 @@
       "example": "She promised she would be on time.",
       "ipa": "/ˈprɒmɪs/",
       "collocations": [
-        "make a promise",
-        "keep a promise",
-        "break a promise"
+        "promise to help",
+        "promise (that)...",
+        "keep a promise"
       ],
       "level": "B1"
     },
@@ -254,7 +254,7 @@
       "example": "Do you think he told us the truth?",
       "ipa": "/ˌtel ðə ˈtruːθ/",
       "collocations": [
-        "tell the truth",
+        "tell a story",
         "tell a lie",
         "to tell the truth, ..."
       ],
@@ -332,6 +332,11 @@
     }
   ],
   "hebrew_pitfalls": [
+    {
+      "en": "Hebrew reported speech keeps the speaker's original tense (literally 'Noa said that she is tired'), so it is easy to write *Noa said she is tired about something she said last week. In English, when you report later, move the tense back: Noa said she was tired.",
+      "he": "בעברית דיבור עקיף שומר על הזמן המקורי של הדובר (\"נועה אמרה שהיא עייפה\"), ולכן קל לכתוב Noa said she is tired גם על משהו שהיא אמרה לפני שבוע. באנגלית, כשמדווחים מאוחר יותר, מזיזים את הזמן אחורה: Noa said she was tired.",
+      "error_type": "reported-speech"
+    },
     {
       "en": "In Hebrew a question needs no helper verb (literally 'What she said?'), so did is easy to drop. In English, a question about what someone said needs did: What did she say? (not *What she said?)",
       "he": "בעברית שאלה לא צריכה פועל עזר (\"מה היא אמרה?\"), ולכן קל לשכוח את did. באנגלית, בשאלה על מה שמישהו אמר, צריך did: What did she say? (ולא What she said?)",
@@ -550,8 +555,8 @@
         {
           "match": "am",
           "feedback": {
-            "en": "Move am back to was, and use he, not I.",
-            "he": "מזיזים את am אחורה ל-was (ו-I הופך ל-he)."
+            "en": "Move am back to was (I'm → he/she was).",
+            "he": "מזיזים את am אחורה ל-was ‏(I'm הופך ל-he/she was)."
           },
           "error_type": "reported-speech"
         },
@@ -601,6 +606,22 @@
             "en": "Omer can't swim, so keep the negative: couldn't.",
             "he": "עומר לא יודע לשחות, ולכן צריך שלילה: couldn't."
           }
+        },
+        {
+          "match": "were",
+          "feedback": {
+            "en": "With he or she, use was: he was hungry.",
+            "he": "עם he או she משתמשים ב-was: ‏he was hungry."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "can",
+          "feedback": {
+            "en": "Move can back to could, and keep the negative: couldn't.",
+            "he": "מזיזים את can אחורה ל-could, ושומרים על השלילה: couldn't."
+          },
+          "error_type": "reported-speech"
         }
       ],
       "hint": {
@@ -639,8 +660,8 @@
           "he": "her new haircut פירושו התספורת של דנה עצמה. התספורת היא שלכם: my new haircut."
         },
         "2": {
-          "en": "Dana spoke to you, so your becomes my. And like moves back to liked.",
-          "he": "דנה דיברה אליכם, ולכן your הופך ל-my. וגם like זז אחורה ל-liked."
+          "en": "Dana spoke to you, so your becomes my: she liked my new haircut.",
+          "he": "דנה דיברה אליכם, ולכן your הופך ל-my: ‏she liked my new haircut."
         }
       },
       "option_errors": {
@@ -754,6 +775,32 @@
         "She said to me that she was busy.",
         "She said to me she was busy."
       ],
+      "wrong_feedback": [
+        {
+          "match": "She told that she was busy.",
+          "feedback": {
+            "en": "told needs a person after it: She told me (that) she was busy. Or use said without a person: She said she was busy.",
+            "he": "אחרי told צריך לבוא אדם: She told me (that) she was busy. או said בלי אדם: She said she was busy."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "She told she was busy.",
+          "feedback": {
+            "en": "told needs a person after it: She told me (that) she was busy. Or use said without a person: She said she was busy.",
+            "he": "אחרי told צריך לבוא אדם: She told me (that) she was busy. או said בלי אדם: She said she was busy."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "She said me she was busy.",
+          "feedback": {
+            "en": "said is still followed by me. Use told me, or said to me.",
+            "he": "אחרי said עדיין בא me. כתבו told me או said to me."
+          },
+          "error_type": "reported-speech"
+        }
+      ],
       "error_type": "reported-speech",
       "hint": {
         "en": "Which verb can have a person straight after it?",
@@ -783,6 +830,24 @@
         "Maya said that she would finish the project on that day.",
         "Maya said that she would finish the project on Monday.",
         "Maya said that she would finish the project the same day."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Maya said she will finish the project that day.",
+          "feedback": {
+            "en": "that day is right, but move will back to would: she would finish.",
+            "he": "that day נכון, אבל צריך להזיז את will אחורה ל-would: ‏she would finish."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Maya said she would finish the project the next day.",
+          "feedback": {
+            "en": "Maya said 'today', not 'tomorrow', so use that day (or on Monday).",
+            "he": "מאיה אמרה \"today\" ולא \"tomorrow\", ולכן that day (או on Monday)."
+          },
+          "error_type": "reported-speech"
+        }
       ],
       "error_type": "reported-speech",
       "hint": {
@@ -894,6 +959,29 @@
             "he": "אחרי told צריך לבוא אדם: told me."
           },
           "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night, Noa told me she is tired.",
+          "feedback": {
+            "en": "The Hebrew keeps the present (literally 'that she is tired'), but in English you move it back when you report: she was tired.",
+            "he": "בעברית נשאר הווה (\"שהיא עייפה\"), אבל באנגלית מזיזים את הזמן אחורה כשמדווחים: she was tired."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night, Noa told me that she is tired.",
+          "feedback": {
+            "en": "The Hebrew keeps the present (literally 'that she is tired'), but in English you move it back when you report: she was tired.",
+            "he": "בעברית נשאר הווה (\"שהיא עייפה\"), אבל באנגלית מזיזים את הזמן אחורה כשמדווחים: she was tired."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night, Noa said she was tired.",
+          "feedback": {
+            "en": "Good grammar, but the Hebrew says 'to me' (li): Noa told me (that) she was tired.",
+            "he": "הדקדוק נכון, אבל בעברית כתוב \"אמרה לי\": Noa told me (that) she was tired."
+          }
         }
       ],
       "hint": {
@@ -915,7 +1003,7 @@
         "he": "קראו את המייל וענו על השאלות."
       },
       "title": "Email: Beach clean-up – what was said at the meeting",
-      "passage": "Hi everyone,\n\nThanks to everyone who came to Sunday's meeting about the beach clean-up. For those who missed it, here's a quick summary.\n\nDaniel from the city council said the date was still Friday, 14 June, but he told us that we would start at 7:30 instead of 8:00, because it was too hot later in the morning. He said the council would bring gloves and bags, so we didn't need to buy anything.\n\nPriya said she was organising the drinks and snacks. She told me she needed two more volunteers to help her carry everything from the car park, so if you can help, please let her know.\n\nOmer said he could bring his speaker for some music, but he promised he wouldn't play it too loud!\n\nFinally, Maya said she was writing a short article for the school website and she wanted lots of photos. She said we could send them to her after the event.\n\nThat's everything. If anything isn't clear, just reply to this email.\n\nSee you on the beach!\nNoa",
+      "passage": "Hi everyone,\n\nThanks to everyone who came to Sunday's meeting about the beach clean-up. For those who missed it, here's a quick summary.\n\nDaniel from the city council said the clean-up was still on Friday, but he told us that we would start at 7:30 instead of 8:00, because it was too hot later in the morning. He said the council would bring gloves and bags, so we didn't need to buy anything.\n\nPriya said she was organising the drinks and snacks. She told me she needed two more volunteers to help her carry everything from the car park, so if you can help, please let her know.\n\nOmer said he could bring his speaker for some music, but he promised he wouldn't play it too loud!\n\nFinally, Maya said she was writing a short article for the school website and she wanted lots of photos. She said we could send them to her after the event.\n\nThat's everything. If anything isn't clear, just reply to this email.\n\nSee you on the beach!\nNoa",
       "questions": [
         {
           "type": "mcq",

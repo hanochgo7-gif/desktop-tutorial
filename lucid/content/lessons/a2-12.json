@@ -10,7 +10,7 @@
     { "en": "I can explain the difference between mustn't (it's not allowed) and don't have to (it's not necessary).", "he": "אני יודע/ת להסביר את ההבדל בין mustn't (אסור) לבין don't have to (לא חייבים)." },
     { "en": "I can give advice with should and shouldn't.", "he": "אני יודע/ת לתת עצות בעזרת should ו-shouldn't." }
   ],
-  "warmup": { "en": "Think about your school, army base or workplace. What do you have to do there? What isn't allowed? What isn't necessary? Make a quick list in English or Hebrew.", "he": "חשבו על בית הספר, הבסיס או מקום העבודה שלכם: מה חייבים לעשות שם? מה אסור? ומה לא חובה? בעברית יש לנו 'חייבים', 'אסור' ו'לא חייבים'. היום נלמד את שלושתם באנגלית – וגם איך לתת עצה." },
+  "warmup": { "en": "Think about your school, a club or a job you know. What do you have to do there? What isn't allowed? What isn't necessary? Make a quick list in English or Hebrew.", "he": "חשבו על בית הספר שלכם, על חוג או על מקום עבודה שאתם מכירים: מה חייבים לעשות שם? מה אסור? ומה לא חובה? בעברית יש לנו 'חייבים', 'אסור' ו'לא חייבים'. היום נלמד את שלושתם באנגלית – וגם איך לתת עצה." },
   "explanation": [
     { "type": "p", "en": "Lior has a new job at a café. He has to wear a black T-shirt. He must be on time. He mustn't use his phone behind the counter. He doesn't have to work on Saturdays. His manager's advice: 'You should ask a lot of questions in your first week.'", "he": "ליאור התחיל לעבוד בבית קפה. הוא חייב ללבוש חולצה שחורה (has to), הוא חייב להגיע בזמן (must), אסור לו להשתמש בטלפון מאחורי הדלפק (mustn't), והוא לא חייב לעבוד בשבת (doesn't have to). העצה של המנהלת: 'כדאי לך לשאול הרבה שאלות בשבוע הראשון' (should)." },
     { "type": "table", "headers": ["Meaning", "English", "Example", "עברית"], "rows": [
@@ -52,7 +52,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question like 'do I have to pay?' keeps statement word order with no helper verb, so it is easy to say *I have to pay? English needs do or does: Do I have to pay? Does she have to work on Friday?", "he": "בעברית שואלים 'אני צריך לשלם?' בלי פועל עזר, ולכן קל לומר I have to pay?. באנגלית צריך do או does: Do I have to pay? Does she have to work on Friday?", "error_type": "do-support" },
-    { "en": "In Hebrew verbs change for gender and number, not for he/she/it, so the English -s is easy to miss or to put in the wrong place. have to changes: she has to (not *she have to). Modals never change: she must, he should (not *she musts).", "he": "בעברית הפועל משתנה לפי מין ומספר, ואין סיומת מיוחדת ל-he/she/it כמו ה-s באנגלית. לכן קל לשכוח אותה או לשים אותה במקום הלא נכון. have to משתנה: she has to (ולא she have to). לעומת זאת must ו-should לא משתנים לעולם: she must, he should (ולא she musts).", "error_type": "third-person-s" },
+    { "en": "Hebrew present-tense verbs change for gender and number, not for person (I have to and he has to are the same Hebrew verb form). So the English he/she/it form is easy to miss: she has to (not *she have to). Modals never change: she must, he should (not *she musts).", "he": "בהווה בעברית הפועל משתנה לפי מין ומספר, אבל לא לפי גוף: 'אני צריך' ו'הוא צריך' – אותה צורה. לכן קל לשכוח את הצורה המיוחדת של he/she/it באנגלית: she has to (ולא she have to). לעומת זאת must ו-should לא משתנים לעולם: she must, he should (ולא she musts).", "error_type": "third-person-s" },
     { "en": "In Hebrew there is one 'u' vowel, so should /ʃʊd/ can come out long, like 'shood'. Keep it short, as in good and book, and don't say the l.", "he": "בעברית יש תנועת 'u' אחת, ולכן should /ʃʊd/ עלול לצאת ארוך, כמו 'שוּוּד'. אמרו אותו קצר, כמו ב-good וב-book, ובלי לבטא את ה-l.", "error_type": "pron-vowel" }
   ],
   "exercises": [
@@ -162,7 +162,7 @@
       "answers": ["You must show your ticket at the door.", "You have to show your ticket at the door."],
       "error_type": "modal-use",
       "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
-      "explanation": { "en": "After must, use the base verb with no to: must show. (have to does have to: You have to show ...)", "he": "אחרי must בא פועל בסיס בלי to: must show. (ב-have to דווקא יש to: You have to show ...)" }
+      "explanation": { "en": "After must, use the base verb with no to: must show. (Only have to keeps the word to: You have to show ...)", "he": "אחרי must בא פועל בסיס בלי to: must show. (ב-have to דווקא יש to: You have to show ...)" }
     },
     {
       "id": "e9", "type": "correct", "skill": "grammar", "topic": "modals-obligation-advice",
@@ -228,7 +228,15 @@
         "You don't need to come early, but you mustn't be late.",
         "You don't need to come early but you mustn't be late.",
         "You don't have to come early, but you mustn't arrive late.",
-        "You don't have to come early but you mustn't arrive late."
+        "You don't have to come early but you mustn't arrive late.",
+        "You don't have to be early, but you mustn't be late.",
+        "You don't have to be early but you mustn't be late.",
+        "You don't have to be early, but you can't be late.",
+        "You don't have to be early but you can't be late.",
+        "You don't need to come early, but you can't be late.",
+        "You don't need to come early but you can't be late.",
+        "You don't need to be early, but you mustn't be late.",
+        "You don't need to be early but you mustn't be late."
       ],
       "wrong_feedback": [
         { "match": "You mustn't come early, but you mustn't be late.", "feedback": { "en": "The first part means 'it's not necessary', so use don't have to. mustn't means 'it's not allowed'.", "he": "'לא חייבים' = don't have to (לא חובה). המילה mustn't פירושה 'אסור', והיא מתאימה רק לחלק השני." }, "error_type": "modal-use" },

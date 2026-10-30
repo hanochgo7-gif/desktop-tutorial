@@ -1,0 +1,400 @@
+{
+  "id": "c2-02",
+  "level": "C2",
+  "title_en": "Irony and implicature",
+  "title_he": "אירוניה ומשמעות מרומזת",
+  "topics": ["irony-implicature"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can recognise verbal irony, understatement, litotes and damning with faint praise, and explain plainly what the writer or speaker really means." },
+    { "en": "I can infer implied meaning in editorials, essays, references and conversation, and point to the exact words that support my inference." },
+    { "en": "I can judge when irony helps and when it is risky, especially in academic writing, and rewrite ironic statements as explicit, calibrated claims." }
+  ],
+  "warmup": { "en": "A colleague reads your 3,000-word report and says only: 'Well, the formatting is very consistent.' What does she think of the report? Nothing in her sentence is negative, so where does the message come from?" },
+  "explanation": [
+    { "type": "p", "en": "A reference letter for a job applicant reads, in full: 'Mr Levi was always punctual, and his handwriting is excellent.' Every word is positive, yet any employer will read it as a warning. A reference is expected to discuss the abilities that matter for the job; when it says nothing about them, readers infer that there is nothing good to say. This is implicature: meaning that a writer communicates without stating it, and that the reader works out from what is said, what is left unsaid and the context. The philosopher Paul Grice explained it like this: we assume that people cooperate in conversation, saying as much as is needed (quantity), what they believe to be true (quality), what is relevant (relation), and saying it clearly (manner). When someone seems to break one of these expectations, we do not decide that they are being uncooperative. We look for a hidden message." },
+    { "type": "table", "headers": ["Device", "How it works", "Example", "What it communicates"], "rows": [
+      ["Verbal irony", "says something clearly different from, often the opposite of, what is meant", "'Another triumph for the planning department,' after a new road floods for the third time.", "The planning department has failed again."],
+      ["Understatement", "presents something as much smaller or milder than it is", "The marathon winner said she was 'a little tired'.", "She was exhausted; the restraint adds modesty or dry humour."],
+      ["Litotes", "affirms something by denying its opposite (not + a negative word)", "The decision was not without its critics. / She is no fool.", "Many people criticised it. / She is clever."],
+      ["Damning with faint praise", "weak praise where strong praise is expected", "The film's costumes were perfectly adequate.", "The film was disappointing."],
+      ["Implicature by quantity", "a weaker word suggests that a stronger one does not apply", "Some of the students passed.", "Not all of them passed."],
+      ["Scare quotes", "quotation marks that distance the writer from a word", "The council's 'consultation' lasted four days.", "It was not a genuine consultation."]
+    ] },
+    { "type": "rule", "en": "To read between the lines, ask four questions. (1) What would a cooperative writer normally say here? (2) What has this writer said instead: more, less, or something that seems irrelevant? (3) What do the context and the genre (an editorial, a reference, a review) tell you? (4) Which exact words support your reading? An inference you cannot anchor in the text is only a guess." },
+    { "type": "p", "en": "Irony is signalled by a mismatch: between enthusiastic words and known facts, between a solemn, formal register and a trivial subject, or between a claim and what is placed next to it ('The minister, who has never taken a bus, assured us that public transport is perfectly adequate.'). Other common signals are scare quotes, exaggerated praise, and 'of course', 'naturally' or 'needless to say' attached to a doubtful claim. In speech, irony is often carried by intonation and timing rather than by words." },
+    { "type": "tip", "en": "Implicature can be cancelled; logical meaning cannot. 'Some of the participants improved' implies that not all of them did, but you can add 'in fact, all of them did' without contradicting yourself. This matters when you write: you are responsible for what your words imply, so if a word such as some, may or often suggests a limit you do not intend, cancel it or choose another word. Remember too that litotes is weaker than the positive it replaces: 'not insignificant' means 'worth noticing', not 'large'." },
+    { "type": "warning", "en": "Irony is risky in academic writing. It depends on shared context that examiners, international readers and translation tools may not have; it can read as sarcasm towards the people you disagree with, which is unfair and damages your credibility; and it hides your claim, so the claim cannot be evaluated or supported. In an essay, say what you mean and calibrate it: not 'This \"groundbreaking\" study surveyed twelve people', but 'With a sample of only twelve participants, the study cannot support general conclusions.' Understatement and litotes can appear in academic prose when they are precise (a not insignificant minority), but never stack negatives (it is not uncommon for students not to disagree): the reader should not have to count." }
+  ],
+  "examples": [
+    { "en": "'Lovely weather for a picnic,' she said, as the rain hammered on the windows.", "note": "verbal irony: the words contradict the obvious facts" },
+    { "en": "The new ticket machines have not been an unqualified success.", "note": "litotes and understatement: they have largely failed" },
+    { "en": "A: Is the new manager any good? B: Well, she's always very well dressed.", "note": "implicature by relevance: B avoids the question, so the answer is probably no" },
+    { "en": "Some of the committee's recommendations have been implemented.", "note": "implicature by quantity: many have not" },
+    { "en": "The minister, who has never taken a bus, assured us that public transport was perfectly adequate.", "note": "irony through juxtaposition: the relative clause undermines the claim without contradicting it" },
+    { "en": "The report is, shall we say, ambitious in its assumptions.", "note": "understatement signalled by 'shall we say': the assumptions are unrealistic" },
+    { "en": "She is no stranger to controversy.", "note": "litotes: she has often been involved in controversy" },
+    { "en": "Ironic: This 'groundbreaking' study surveyed twelve people. / Explicit: With only twelve participants, the study cannot support general conclusions.", "note": "in academic writing, state the evaluation and the reason" }
+  ],
+  "vocab": [
+    { "word": "irony", "pos": "noun", "he": "אירוניה", "def": "saying something that is clearly different from, often the opposite of, what you mean, usually to criticise or amuse", "example": "There was a note of irony in her voice when she praised the 'efficient' service.", "ipa": "/ˈaɪrəni/", "collocations": ["a touch of irony", "heavy irony", "the irony is that"], "level": "C1" },
+    { "word": "understatement", "pos": "noun", "he": "לשון המעטה", "def": "a statement that makes something seem smaller, milder or less important than it really is", "example": "Calling the flood 'a bit of a setback' was quite an understatement.", "ipa": "/ˈʌndəsteɪtmənt/", "collocations": ["the understatement of the year", "a masterpiece of understatement", "typical understatement"], "level": "C1" },
+    { "word": "litotes", "pos": "noun", "he": "ליטוטס: חיוב באמצעות שלילת ההפך ('לא רע')", "def": "saying something positive by denying its opposite, as in 'not bad' or 'not without merit'", "example": "'She is no fool' is an example of litotes.", "ipa": "/laɪˈtəʊtiːz/", "collocations": ["use litotes", "an example of litotes"], "level": "C2" },
+    { "word": "implicature", "pos": "noun", "he": "משמעות משתמעת (אימפליקטורה)", "def": "meaning that a speaker or writer suggests without stating it, which the listener or reader works out from the context", "example": "The implicature of 'some students passed' is that not all of them did.", "ipa": "/ɪmˈplɪkətʃə(r)/", "collocations": ["conversational implicature", "cancel an implicature"], "level": "C2" },
+    { "word": "imply", "pos": "verb", "he": "לרמוז", "def": "(of a speaker or text) to suggest something without saying it directly", "example": "Are you implying that the data were invented?", "ipa": "/ɪmˈplaɪ/", "collocations": ["imply that", "strongly imply", "clearly implied"], "level": "B2" },
+    { "word": "infer", "pos": "verb", "he": "להסיק", "def": "(of a reader or listener) to reach a conclusion from what is said and the context", "example": "From her silence, we inferred that she disagreed.", "ipa": "/ɪnˈfɜː(r)/", "collocations": ["infer from", "infer that", "reasonably infer"], "level": "C1" },
+    { "word": "tongue-in-cheek", "pos": "adjective", "he": "בחיוך; בהומור מוסווה, לא ברצינות", "def": "meant as a joke, although it may sound serious", "example": "His tongue-in-cheek review praised the hotel's 'authentic' cold showers.", "ipa": "/ˌtʌŋ ɪn ˈtʃiːk/", "collocations": ["a tongue-in-cheek remark", "said tongue-in-cheek", "a tongue-in-cheek tone"], "level": "C2" },
+    { "word": "deadpan", "pos": "adjective", "he": "בפנים חתומות; (הומור) יבש", "def": "pretending to be completely serious when you are joking", "example": "She has a deadpan delivery that makes her jokes even funnier.", "ipa": "/ˈdedpæn/", "collocations": ["deadpan humour", "a deadpan expression", "a deadpan delivery"], "level": "C2" },
+    { "word": "sardonic", "pos": "adjective", "he": "לגלגני; מריר-ציני", "def": "showing that you think you are better than others or that something is foolish, in a mocking way", "example": "He gave a sardonic laugh when the minister promised lower prices.", "ipa": "/sɑːˈdɒnɪk/", "collocations": ["a sardonic smile", "sardonic wit", "a sardonic tone"], "level": "C2" },
+    { "word": "subtext", "pos": "noun", "he": "תת-טקסט; משמעות סמויה", "def": "a meaning that is present in a text or conversation but not stated openly", "example": "The subtext of the editorial is that the mayor should resign.", "ipa": "/ˈsʌbtekst/", "collocations": ["the subtext is clear", "political subtext", "read the subtext"], "level": "C2" },
+    { "word": "scare quotes", "pos": "noun (plural)", "he": "מירכאות של הסתייגות ('כביכול')", "def": "quotation marks placed around a word to show that the writer doubts or rejects it", "example": "The scare quotes around 'reform' show that the writer thinks it is nothing of the kind.", "ipa": "/ˈskeə kwəʊts/", "collocations": ["put something in scare quotes", "the use of scare quotes"], "level": "C2" },
+    { "word": "read between the lines", "pos": "idiom", "he": "לקרוא בין השורות", "def": "to understand a meaning that is not stated directly", "example": "If you read between the lines, the reference is quite negative.", "ipa": "/ˌriːd bɪˌtwiːn ðə ˈlaɪnz/", "collocations": ["learn to read between the lines", "reading between the lines"], "level": "C1" },
+    { "word": "damn with faint praise", "pos": "idiom", "he": "לבקר באמצעות שבח קלוש", "def": "to criticise someone or something by praising them only a little, or for something unimportant", "example": "Calling the novel 'competently typed' damns it with faint praise.", "ipa": "/ˌdæm wɪð ˌfeɪnt ˈpreɪz/", "collocations": ["damned with faint praise"], "level": "C2" },
+    { "word": "take something at face value", "pos": "idiom", "he": "לקבל משהו כפשוטו", "def": "to accept that something is what it appears to be, without looking for a hidden meaning", "example": "Don't take the council's statement at face value: read what it leaves out.", "ipa": "/ˌteɪk ˌsʌmθɪŋ ət ˌfeɪs ˈvæljuː/", "collocations": ["take a claim at face value", "accept something at face value"], "level": "C1" },
+    { "word": "be lost on someone", "pos": "idiom", "he": "לא להיקלט אצל מישהו; לא להיות מובן לו", "def": "(of a joke or irony) to not be understood or noticed by someone", "example": "The irony of his remark was completely lost on the examiners.", "ipa": "/bi ˈlɒst ɒn ˌsʌmwʌn/", "collocations": ["the irony was lost on", "completely lost on"], "level": "C2" }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "Match each device with an example of it." },
+      "pairs": [
+        ["verbal irony", "'What a lovely surprise,' she said, finding her bike tyre slashed."],
+        ["understatement", "After the storm destroyed the roof, the owner admitted the house 'needed a bit of work'."],
+        ["litotes", "The plan was not without its critics."],
+        ["damning with faint praise", "Asked about the new novel, the critic said the paper was of good quality."],
+        ["implicature by quantity", "'Some of the guests enjoyed the food,' the caterer reported."],
+        ["scare quotes", "The company's 'improvements' added twenty minutes to every journey."]
+      ],
+      "explanation": { "en": "Irony says the opposite of what is meant (a slashed tyre is not a lovely surprise). Understatement shrinks the truth (a destroyed roof is more than 'a bit of work'). Litotes denies the opposite (not without critics = many critics). Faint praise praises something irrelevant where real praise is expected (the paper, not the writing). A weaker word implies the stronger one does not apply (some, so not all). Scare quotes distance the writer from a word they reject." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "At a conference, Kenji asks Priya: 'Did you enjoy the keynote speech?' Priya replies: 'The coffee afterwards was excellent.'" },
+      "question": "What does Priya imply?",
+      "options": [
+        "She enjoyed the speech and the coffee equally.",
+        "She did not think much of the speech.",
+        "She did not attend the speech.",
+        "She wants Kenji to get her a coffee."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "If she had enjoyed the speech, the cooperative answer would simply be 'Yes'. Talking about something else signals that she is avoiding the question." },
+        "2": { "en": "If she had missed it, the natural answer would be 'I wasn't there'. And 'afterwards' suggests she was there." },
+        "3": { "en": "Nothing in the context suggests a request. Her reply is about what came after the speech, which tells you about the speech itself." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "Priya seems to break the expectation of relevance: Kenji asked about the speech, and she answers about the coffee. Assuming she is still cooperating, Kenji infers that she has nothing good to say about the speech and is too polite to say so directly." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "irony-implicature",
+      "prompt": { "en": "Listen to a radio presenter commenting on local news and answer the question." },
+      "audio_text": "The council tells us the new car park will 'revitalise' the high street. It may well do. Of course, the last car park was also going to revitalise the high street, and the three empty shops beside it have been quietly revitalising ever since. Still, I'm sure this time will be different.",
+      "question": "What does the presenter really think?",
+      "options": [
+        "The new car park will probably succeed where the last one failed.",
+        "The council should build the car park somewhere else.",
+        "The empty shops next to the old car park are being renovated.",
+        "The new car park is unlikely to help, because the last one did not."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "'I'm sure this time will be different' is ironic: after describing the last failure, the presenter means the opposite." },
+        "1": { "en": "The location of the car park is never discussed. The presenter doubts the claim that car parks revitalise the high street at all." },
+        "2": { "en": "'Quietly revitalising ever since' is ironic: the shops are empty, so nothing is happening to them." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "The presenter puts 'revitalise' in spoken scare quotes, offers a hollow concession ('It may well do'), reminds listeners that the last car park left three empty shops, and ends with an ironic reassurance. Every signal points the same way: the claim should not be taken at face value." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "Which device does each sentence use? Sort them." },
+      "categories": ["Litotes (not + the opposite)", "Verbal irony (says the opposite)", "Understatement (much milder than the truth)"],
+      "items": [
+        { "text": "The decision was not without controversy.", "category": "Litotes (not + the opposite)" },
+        { "text": "She is no stranger to hard work.", "category": "Litotes (not + the opposite)" },
+        { "text": "It's not the worst idea I've ever heard.", "category": "Litotes (not + the opposite)" },
+        { "text": "'Perfect timing,' he muttered, as the train doors closed in his face.", "category": "Verbal irony (says the opposite)" },
+        { "text": "'Oh, great,' she sighed, 'another meeting that could have been an email.'", "category": "Verbal irony (says the opposite)" },
+        { "text": "A reviewer calls a three-hour film with no plot 'a brisk, action-packed treat'.", "category": "Verbal irony (says the opposite)" },
+        { "text": "The marathon winner said she was 'a little tired'.", "category": "Understatement (much milder than the truth)" },
+        { "text": "The surgeon described the eight-hour operation as 'a bit fiddly'.", "category": "Understatement (much milder than the truth)" },
+        { "text": "The explorer described three weeks lost in the jungle as 'a bit of an adventure'.", "category": "Understatement (much milder than the truth)" }
+      ],
+      "hint": { "en": "First look for a negative (not, no). Then ask: is the speaker saying the opposite of the truth, or just a much milder version of it?" },
+      "explanation": { "en": "Litotes always contains a negative that cancels an opposite (not without controversy = controversial). Verbal irony states the opposite of the truth (perfect timing = terrible timing). Understatement points in the right direction but shrinks the scale (a little tired = exhausted). Many writers treat litotes as a kind of understatement; the negative is what makes it litotes." }
+    },
+    {
+      "id": "e5", "type": "read", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "Read the editorial from a local newspaper and answer the questions." },
+      "title": "Congratulations are in order",
+      "passage": "It is not every day that a town gets a new landmark, so let us begin by congratulating Brennock Town Council on the opening of the Millbank Footbridge. Three years later than promised and at roughly twice the agreed cost, the bridge now crosses the River Esk in an elegant curve of steel and glass. It is, by any standard, a handsome structure. It is also, by any standard, a bridge to a fence.\n\nReaders who have not yet visited may be unaware of this detail. The footbridge carries pedestrians gracefully across the water and delivers them, after forty metres of gentle climb, to a padlocked gate at the edge of a field that the council does not own. The landowner, we understand, was first contacted about the land last spring, some two years after construction began. Negotiations are said to be 'ongoing'.\n\nThe council describes the project as 'substantially complete'. In a sense, it is: the part that cost money is finished. The part that would make it useful has not yet begun. A spokesperson told this paper that the bridge 'already offers residents a unique vantage point over the river', which is true, and that the overspend was 'within normal parameters for a project of this complexity', a sentence we have now read four times without discovering what it means.\n\nThe council's communications team, it must be said, has not been idle. In the past month residents have received a glossy leaflet, two press releases and a short film of the bridge at sunset, shot from a drone. The film is beautiful. It does not show the gate.\n\nAt the opening ceremony, the mayor thanked the engineers, the contractors and the people of Brennock for their patience. She did not mention the land. Perhaps there was not time.\n\nWe do not wish to be unfair. Large projects run into difficulties, and the engineers have built exactly what they were asked to build. Nor is the bridge entirely without value: on a clear evening it is a pleasant place to stand, and several couples have already been photographed on it. But a footbridge is not a viewing platform, and residents were promised a route to the railway station, not a view of it from behind a padlocked gate.\n\nSo, plainly: the council should commission an independent review of how the project was planned, publish it in full, and tell residents when, and at what additional cost, the bridge will lead somewhere. Until it does, the most honest name for the Millbank Footbridge is the one already used by half the town. We will not print it, but readers can probably guess.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the editorial's overall position?",
+          "options": [
+            "The bridge is a handsome structure, and the council deserves congratulations.",
+            "The engineers should be blamed for building a bridge that leads nowhere.",
+            "The project was badly planned, and the council should commission and publish an independent review.",
+            "The bridge should be officially turned into a viewing platform."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "This takes the opening at face value. The congratulations are ironic: the next sentences list the delay, the overspend and the fence." },
+            "1": { "en": "The writer defends the engineers: they 'have built exactly what they were asked to build'. The criticism is aimed at the planning." },
+            "3": { "en": "'A footbridge is not a viewing platform': the writer wants the bridge to become the route residents were promised." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The irony runs through the first five paragraphs, and the last paragraph states the position directly: 'So, plainly: the council should commission an independent review ... publish it in full ...'." }
+        },
+        {
+          "type": "mcq",
+          "question": "The writer says they have read the spokesperson's sentence about 'normal parameters' four times 'without discovering what it means'. What does this imply?",
+          "options": [
+            "The writer is not familiar with engineering terms.",
+            "The sentence contains a printing error.",
+            "The spokesperson spoke too quickly to be understood.",
+            "The sentence is evasive jargon that avoids admitting the overspend was a problem."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "The pretended confusion is ironic. The writer understands perfectly well that the sentence is designed to say nothing." },
+            "1": { "en": "Nothing suggests an error; the sentence is quoted exactly because its emptiness is the point." },
+            "2": { "en": "The writer has 'read' the sentence, so speed of speech is irrelevant." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "The writer breaks the expectation that a quotation is included to inform. By claiming not to understand it, the writer implies that the sentence was built to sound reassuring while avoiding any admission, a criticism made without stating it." }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer believes that the council's communications team has done very little work.",
+          "answer": false,
+          "explanation": { "en": "'Has not been idle' is litotes: the team has been very busy, producing a leaflet, two press releases and a film. The irony is that all this effort went into publicity, and the film 'does not show the gate'." }
+        },
+        {
+          "type": "mcq",
+          "question": "'She did not mention the land. Perhaps there was not time.' What do these two sentences suggest?",
+          "options": [
+            "The ceremony was too short for a full speech.",
+            "The mayor avoided the subject that explains the failure, and the second sentence is ironic.",
+            "The land was not relevant to the opening of the bridge.",
+            "The mayor did not know that the council does not own the land."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "'Perhaps there was not time' is not meant literally. Placed after a list of people she found time to thank, it mocks the excuse." },
+            "2": { "en": "The land is the whole problem: the bridge ends at a gate to a field the council does not own." },
+            "3": { "en": "The editorial does not discuss what the mayor knew; it implies that she chose not to raise the subject." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The first sentence works by quantity: what the mayor left out is the most important fact. The second offers an obviously inadequate excuse, which is a form of irony. Together they accuse her of evasion without saying so." }
+        },
+        {
+          "type": "gap",
+          "text": "The writer places the council's description 'substantially ___' in quotation marks to show doubt about it. (one word from the editorial)",
+          "answers": [["complete"]],
+          "wrong_feedback": [
+            { "match": "ongoing", "feedback": { "en": "'Ongoing' is also in quotation marks, but it describes the negotiations. The council's description of the whole project is 'substantially complete'." }, "error_type": "comprehension" }
+          ],
+          "explanation": { "en": "'The council describes the project as \"substantially complete\". In a sense, it is: the part that cost money is finished.' The quotation marks, and the comment that follows, distance the paper from the council's wording." }
+        },
+        {
+          "type": "tf",
+          "statement": "In the final paragraph, the writer drops the irony and states the paper's demands directly.",
+          "answer": true,
+          "explanation": { "en": "'So, plainly:' signals the change. After paragraphs of irony, the explicit demands (commission a review, publish it, give a date and a cost) make the position unmistakable, and only the very last line returns to humour." }
+        },
+        {
+          "type": "mcq",
+          "question": "Why does the writer include the paragraph beginning 'We do not wish to be unfair'?",
+          "options": [
+            "To concede fair points, which makes the criticism more credible",
+            "To withdraw the criticism made earlier in the editorial",
+            "To shift the blame from the council to the engineers",
+            "To recommend the bridge as a place for wedding photographs"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The criticism continues straight after the concessions: 'But a footbridge is not a viewing platform ...'." },
+            "2": { "en": "The paragraph defends the engineers, who 'built exactly what they were asked to build'." },
+            "3": { "en": "The photographs are a concession that the bridge has some value, immediately qualified by 'But ...'." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "By granting what is true (large projects run into problems; the engineers did their job; the bridge has some value), the writer shows fairness, so readers are more likely to accept the central criticism. Note the litotes again: 'not entirely without value' grants very little." }
+        }
+      ]
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "In a project review, a manager writes: 'Noa's contribution to the launch was not negligible.'" },
+      "question": "Which reading is most accurate?",
+      "options": [
+        "Noa's contribution was large and decisive.",
+        "Noa contributed nothing of value.",
+        "Noa made a real contribution, although the manager stops short of calling it large.",
+        "Noa's contribution caused problems for the launch."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Litotes is weaker than the positive. If the contribution had been large and decisive, a cooperative writer would say so." },
+        "1": { "en": "'Not negligible' denies that the contribution was tiny, so it affirms that there was a real contribution." },
+        "3": { "en": "Negligible means too small to matter, not harmful. Denying it says nothing about problems." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "'Not negligible' affirms that the contribution mattered, but by choosing litotes instead of 'significant' or 'major', the manager implies a limit. Reading litotes accurately means hearing both the affirmation and the restraint." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "reading", "topic": "irony-implicature",
+      "prompt": { "en": "An editorial includes these two sentences: 'The minister insists that the new curriculum was tested thoroughly. Teachers in the pilot schools received the materials on the first day of term.'" },
+      "question": "What does the writer imply?",
+      "options": [
+        "The curriculum was not tested thoroughly.",
+        "The pilot schools were well prepared for the new curriculum.",
+        "Teachers should have collected the materials earlier.",
+        "The minister personally delivered the materials."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "Receiving materials on the first day of term leaves no time to prepare, so the juxtaposition suggests the opposite." },
+        "2": { "en": "Nothing suggests the teachers were at fault; the timing points to the people who ran the pilot." },
+        "3": { "en": "There is no basis in the text for this reading." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "The writer never says the minister is wrong. Placing the claim ('tested thoroughly') next to a fact that contradicts it (materials arrived on day one) invites readers to draw the conclusion themselves. The word 'insists' adds to the effect: it suggests repeating a claim in the face of doubt." }
+    },
+    {
+      "id": "e8", "type": "mcq", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "You are writing a literature review. Which sentence evaluates the study most appropriately?" },
+      "question": "Choose the best sentence for an academic essay.",
+      "options": [
+        "This 'groundbreaking' study surveyed a grand total of twelve people.",
+        "It is not entirely unreasonable to suggest that the sample may perhaps not be wholly adequate.",
+        "This study is worthless.",
+        "With a sample of only twelve participants, the study cannot support general conclusions, although it may suggest questions for larger studies."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Scare quotes and 'a grand total of' are sarcasm. The criticism is fair, but irony hides it, and it sounds like mockery rather than evaluation." },
+        "1": { "en": "Stacked negatives and hedges (not entirely unreasonable, may perhaps, not wholly) bury the point. Over-hedging is as much a calibration error as over-claiming." },
+        "2": { "en": "This over-claims: a small sample limits what a study can show, but it does not make it worthless, and no reason is given." }
+      },
+      "option_errors": { "0": "register", "1": "word-choice", "2": "unsupported-claim" },
+      "explanation": { "en": "The best sentence states the evaluation explicitly, gives the reason (twelve participants), calibrates the claim (cannot support general conclusions) and acknowledges the study's limited value. Everything the ironic version implies is now stated, so it can be checked." }
+    },
+    {
+      "id": "e9", "type": "gap", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "Complete the explanation of how implicature works and how a writer can cancel it." },
+      "text": "The sentence 'Some of the participants improved' implies, but does not state, that not ___ of them did. A writer who wants to cancel this implication can add: 'Some of the participants improved; ___, all of them did.'",
+      "answers": [["all"], ["in fact", "indeed", "actually", "as it happens", "in actual fact"]],
+      "wrong_feedback": [
+        { "match": "however", "feedback": { "en": "However signals contrast, but 'all of them did' does not contrast with 'some improved': it strengthens it. Use in fact or indeed." }, "error_type": "cohesion" },
+        { "match": "therefore", "feedback": { "en": "Therefore introduces a result, and 'all of them did' does not follow from 'some improved'. You need a phrase that adds a stronger fact: in fact, indeed." }, "error_type": "cohesion" },
+        { "match": "most", "feedback": { "en": "'Not most of them' is not natural English. The implication of 'some' is that not all of them improved." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Some is weaker than all. The second gap needs a phrase that introduces a stronger, surprising fact." },
+      "explanation": { "en": "'Some' implies 'not all' because a cooperative writer who knew that all had improved would say so. Because this is an implication, not part of the logical meaning, it can be cancelled: 'in fact, all of them did' does not contradict the first clause. Logical meaning cannot be cancelled in this way: 'All of them improved; in fact, some did not' is a contradiction." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "Rewrite the sentence using litotes. Begin 'The proposal is not ...' and use the word 'merit'." },
+      "source": "The proposal has some merit.",
+      "answers": [
+        "The proposal is not without merit.",
+        "The proposal is not without its merits.",
+        "The proposal is not without merits.",
+        "The proposal is not entirely without merit.",
+        "The proposal is not wholly without merit.",
+        "The proposal is not completely without merit.",
+        "The proposal is not entirely without its merits.",
+        "The proposal is not meritless."
+      ],
+      "wrong_feedback": [
+        { "match": "The proposal is not bad.", "feedback": { "en": "That is litotes, but 'not bad' is informal and usually means fairly good, which is stronger than 'some merit'. The task also asks you to use 'merit': not without merit." }, "error_type": "register" },
+        { "match": "The proposal is not with merit.", "feedback": { "en": "Litotes denies the opposite: the opposite of having merit is being without merit, so the proposal is not without merit." }, "error_type": "word-choice" },
+        { "match": "The proposal is not without no merit.", "feedback": { "en": "Three negatives (not, without, no) cancel each other confusingly. Litotes needs exactly two: not + without." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "'Not without merit' affirms that the proposal has merit by denying its opposite. The effect is restrained, even lukewarm: it grants a point while implying that the merit is limited. That is why it is a favourite of reviewers who want to be fair without being enthusiastic." }
+    },
+    {
+      "id": "e11", "type": "gap", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "Turn the ironic sentence into an explicit, calibrated academic sentence by completing the gaps." },
+      "text": "Ironic: This 'groundbreaking' study surveyed twelve people. Explicit: With a ___ of only twelve participants, the study ___ support general conclusions.",
+      "answers": [["sample", "sample size"], ["cannot", "does not", "is unable to", "is not able to", "could not"]],
+      "wrong_feedback": [
+        { "match": "may not", "feedback": { "en": "Too cautious. Twelve participants clearly cannot support general conclusions, so the claim can be firm. Calibrate your confidence to the evidence: over-hedging is also an error." }, "error_type": "word-choice" },
+        { "match": "might not", "feedback": { "en": "Too cautious. With twelve participants the limitation is certain, not possible, so write cannot." }, "error_type": "word-choice" },
+        { "match": "should not", "feedback": { "en": "Should not gives advice. Here you are stating what the evidence is able to show: the study cannot support general conclusions." }, "error_type": "modal-use" }
+      ],
+      "hint": { "en": "Gap 1 is the statistical word for the group a study looks at. In gap 2, how sure can you be that twelve people are too few for general conclusions?" },
+      "explanation": { "en": "The explicit version says what the irony only implied (the study is too small) and gives the reason (twelve participants). Because the limitation is clear, the claim can be firm: the study cannot support general conclusions. Calibration means hedging uncertain claims, not every claim." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "This sentence from a formal report contains three signals of sarcasm. Remove them so that the sentence states the fact plainly. Keep the information." },
+      "sentence": "Needless to say, the council's 'consultation' lasted all of four days.",
+      "answers": [
+        "The council's consultation lasted only four days.",
+        "The council's consultation lasted just four days.",
+        "The council's consultation lasted four days."
+      ],
+      "error_type": "register",
+      "wrong_feedback": [
+        { "match": "The council's 'consultation' lasted only four days.", "feedback": { "en": "Two signals removed. The scare quotes around consultation are still there, and they still sneer at the council." }, "error_type": "register" },
+        { "match": "Needless to say, the council's consultation lasted only four days.", "feedback": { "en": "Two signals removed. 'Needless to say' still implies that the council's failure was obvious; in a formal report, just state the fact." }, "error_type": "register" },
+        { "match": "The council's consultation lasted all of four days.", "feedback": { "en": "Two signals removed. 'All of four days' is ironic: it pretends four days is a lot. Use only or just, or no adverb at all." }, "error_type": "register" }
+      ],
+      "hint": { "en": "Look at the opening phrase, the punctuation around one word and the phrase before 'four days'." },
+      "explanation": { "en": "'Needless to say', the scare quotes and 'all of' are three signals of sarcasm. In a formal report they make the writer sound contemptuous, and they hide the actual criticism. 'The council's consultation lasted only four days' states the fact; if four days is too short, the next sentence should say why." }
+    },
+    {
+      "id": "e13", "type": "correct", "skill": "vocabulary", "topic": "irony-implicature",
+      "prompt": { "en": "One verb in this sentence is wrong. Correct it and change nothing else." },
+      "sentence": "From the minister's silence, journalists implied that the report was critical of the government.",
+      "answers": [
+        "From the minister's silence, journalists inferred that the report was critical of the government.",
+        "From the minister's silence, journalists concluded that the report was critical of the government.",
+        "From the minister's silence, journalists deduced that the report was critical of the government."
+      ],
+      "error_type": "word-choice",
+      "hint": { "en": "Who sends the hidden message, and who works it out?" },
+      "explanation": { "en": "The speaker or text implies; the listener or reader infers. The minister's silence implied something, and the journalists inferred it. Confusing the two is common even among native speakers, but at this level the distinction matters, because it tells the reader who is responsible for the meaning." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "irony-implicature",
+      "prompt": { "en": "A friend asks how your presentation went. Answer with self-mocking understatement. Say the sentence out loud." },
+      "target": "Well, it wasn't my finest hour: my slides froze, I lost my notes and I called the professor by the wrong name.",
+      "focus": { "en": "The understatement is in the tone. Say 'it wasn't my FINest HOUR' lightly, with a fall-rise on HOUR, pause at the colon, then move briskly through the list and let your voice fall on the last item: the WRONG NAME." },
+      "error_type": "pron-stress",
+      "explanation": { "en": "'Not my finest hour' is understatement (and litotes): the presentation was a disaster. Said lightly, it shows that you can laugh at yourself. In speech, intonation and timing tell the listener that you do not mean the words literally." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "irony-implicature",
+      "prompt": { "en": "Write a formal commentary on an ironic text." },
+      "task": { "en": "Read this article from a student magazine:\n\n'Good news, everyone: the school has finally solved the problem of students arriving late. From next term, the gates will be locked at 8:05, so latecomers will no longer be late; they will simply be absent. Punctuality figures will, naturally, look wonderful. A few parents have raised the small matter of the 7:50 bus, which has not arrived on time within living memory. The head has assured them that the new policy is \"not inflexible\". We look forward to finding out what that means.'\n\nWrite a commentary of 350-550 words for the school's governors, a formal audience. (1) Explain plainly what the article implies, and identify at least three devices it uses (for example verbal irony, understatement, litotes, implicature, scare quotes), quoting the words that support each reading. (2) Evaluate how well the irony works for different readers: students, parents and governors. (3) State your own position on the late-gate policy explicitly, with confidence that matches your reasons, and respond to the strongest opposing view, attributing it fairly. Do not use irony yourself, except in quotations." },
+      "min_words": 350,
+      "max_words": 600,
+      "model_answer": "Commentary on 'Good news, everyone' (student magazine)\n\nThe article presents itself as praise for the new late-gate policy, but its real message is the opposite. It argues that locking the gates at 8:05 will turn late students into absent ones, punish students for a bus they cannot control, and improve the school's figures rather than its students' learning.\n\nThe writer relies on several devices. The claim that the school has 'finally solved the problem' is verbal irony: the writer believes the policy creates a worse problem. The sentence 'latecomers will no longer be late; they will simply be absent' works by implicature. By presenting absence as a solution, it invites readers to notice that absence is a more serious failure than lateness. 'The small matter of the 7:50 bus' is understatement, since an unreliable bus is the central weakness of the policy, not a detail. Finally, the scare quotes around 'not inflexible' distance the writer from the head's assurance, and the litotes itself is revealing: 'not inflexible' promises much less than 'flexible'.\n\nHow well does this irony work? Students, who know the bus and share the writer's frustration, are likely to find it funny and persuasive, and parents who rely on the bus will probably recognise their own complaint. Governors, however, may find it easier to dismiss. Irony states no clear proposal and offers no evidence, so a governor who supports the policy can treat the article as student cynicism without answering its central point. The article is effective as protest but weaker as argument.\n\nIn my view, the policy should not go ahead in its current form. A rule that excludes students for lateness caused by public transport penalises those who already have the longest journeys, and it is likely to reduce learning time rather than increase it. Supporters of the policy argue, fairly, that persistent lateness disrupts lessons and that a clear rule is easier to enforce than case-by-case judgements. I accept that lateness is a real problem and that clarity matters. However, the same goal could be reached with a firm rule that distinguishes between causes: students arriving on the 7:50 bus could be admitted and recorded as delayed by transport, while repeated lateness without such a reason would lead to the existing sanctions. The school could also present its own attendance records to the bus company as evidence for a more reliable timetable.\n\nI therefore recommend that the governors postpone the policy for one term, collect data on how many late arrivals are linked to the 7:50 bus, and publish a revised version that defines what 'not inflexible' means in practice.",
+      "checklist": [
+        { "en": "Interpretation: near the start, I state plainly, in my own words, what the article implies." },
+        { "en": "Devices: I identify at least three devices correctly and quote the exact words that support each reading." },
+        { "en": "Evaluation: I explain how the irony is likely to work for at least two different groups of readers, and why." },
+        { "en": "Position: I state my own view explicitly, with confidence that matches my reasons (no over-claiming, no stacked hedges)." },
+        { "en": "Counterargument: I state the strongest opposing view fairly and attribute it (Supporters of the policy argue ...), then refute it, concede and outweigh it, or qualify my position." },
+        { "en": "Register: my commentary is formal and explicit throughout, with no irony, sarcasm or scare quotes of my own except in quotations." },
+        { "en": "Accuracy: I have proofread for articles, agreement, and the difference between imply and infer." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Implicature is meaning a writer suggests without stating it. Readers infer it when a cooperative writer seems to say too little, too much, something irrelevant or something unclear." },
+      { "en": "Verbal irony says the opposite of what is meant; understatement shrinks the truth; litotes affirms by denying the opposite (not without merit); faint praise criticises by praising the wrong thing." },
+      { "en": "Anchor every inference in the text: what would a cooperative writer say here, what did this one say instead, and which exact words support your reading?" },
+      { "en": "Implicature can be cancelled ('some; in fact, all'), and litotes is weaker than the positive it replaces. You are responsible for what your words imply." },
+      { "en": "In academic writing, avoid irony and sarcasm: state your evaluation explicitly, give the reason, and calibrate it. The speaker implies; the reader infers." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

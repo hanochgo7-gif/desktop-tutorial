@@ -63,3 +63,13 @@ test('an authored wrong answer is never accepted as a one-letter typo of the key
   assert.equal(checkTyped('forty', ['forty'], known).correct, true);
   assert.equal(checkTyped('fortty', ['forty'], known).almost, true); // other slips still count as typos
 });
+
+test('slips inside inflectional endings are errors, not typos; other slips still count as typos', () => {
+  for (const [typed, key] of [['She want coffee', 'She wants coffee'], ['I am swiming', 'I am swimming'], ['He studyed', 'He studied'], ['They chated', 'They chatted'], ['She tryed', 'She tried']]) {
+    assert.equal(checkTyped(typed, [key]).correct, false, `${typed} should be wrong`);
+  }
+  for (const [typed, key] of [['I recieved it', 'I received it'], ['She is beautifull', 'She is beautiful'], ['the adress', 'the address']]) {
+    const r = checkTyped(typed, [key]);
+    assert.ok(r.correct && r.almost, `${typed} should be accepted with a spelling note`);
+  }
+});

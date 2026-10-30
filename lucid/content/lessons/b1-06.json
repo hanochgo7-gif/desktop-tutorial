@@ -73,8 +73,8 @@
     },
     {
       "type": "warning",
-      "en": "Don't drop be: The house was built in 1950 (not *The house built in 1950, which means the house built something!). And some verbs are never passive: The concert took place in the park (not *was taken place). The accident happened at night (not *was happened).",
-      "he": "אל תשמיטו את be: ‏The house was built in 1950 (ולא The house built in 1950 – שמשמעו שהבית בנה משהו!). ויש פעלים שאף פעם לא באים בסביל: The concert took place in the park (ולא was taken place); ‏The accident happened at night (ולא was happened)."
+      "en": "Don't drop be: The house was built in 1950 (not *The house built in 1950, which means the house built something!). And verbs with no object can't be passive, because there is no object to become the subject: The concert took place in the park (not *was taken place). The accident happened at night (not *was happened).",
+      "he": "אל תשמיטו את be: ‏The house was built in 1950 (ולא The house built in 1950 – שמשמעו שהבית בנה משהו!). ופעלים בלי מושא לא יכולים לבוא בסביל, כי אין מושא שיהפוך לנושא: The concert took place in the park (ולא was taken place); ‏The accident happened at night (ולא was happened)."
     },
     {
       "type": "tip",
@@ -539,8 +539,8 @@
         {
           "match": "made",
           "feedback": {
-            "en": "The passive needs be + past participle. Oil is singular and this happens every year: is made.",
-            "he": "סביל צריך be + past participle. השמן ביחיד וזה קורה כל שנה: is made."
+            "en": "You need is + made: the passive needs be, olive oil is singular, and \"every year\" means present.",
+            "he": "צריך is + made: בסביל חייבים be, ‏olive oil ביחיד, ו-\"every year\" מצביע על הווה."
           },
           "error_type": "passive-form"
         },
@@ -563,10 +563,18 @@
         {
           "match": "picked",
           "feedback": {
-            "en": "The passive needs be + past participle. Olives are plural: are picked.",
-            "he": "סביל צריך be + past participle. הזיתים ברבים: are picked."
+            "en": "You need are + picked: the passive needs be, olives are plural, and this happens every year.",
+            "he": "צריך are + picked: בסביל חייבים be, הזיתים ברבים, וזה קורה כל שנה."
           },
           "error_type": "passive-form"
+        },
+        {
+          "match": "are sold",
+          "feedback": {
+            "en": "The oil is singular (uncountable), so use is: is sold.",
+            "he": "השמן (oil) ביחיד – שם עצם לא ספיר – ולכן is: ‏is sold."
+          },
+          "error_type": "agreement"
         },
         {
           "match": "is selled",
@@ -587,8 +595,8 @@
         {
           "match": "sold",
           "feedback": {
-            "en": "The passive needs be + past participle: the oil is sold.",
-            "he": "סביל צריך be + past participle: ‏the oil is sold."
+            "en": "You need is + sold: the passive needs be, the oil is singular, and this happens every year.",
+            "he": "צריך is + sold: בסביל חייבים be, השמן ביחיד, וזה קורה כל שנה."
           },
           "error_type": "passive-form"
         }
@@ -724,6 +732,16 @@
       "answers": [
         "This song was written by my best friend."
       ],
+      "wrong_feedback": [
+        {
+          "match": "This song was wrote by my best friend.",
+          "feedback": {
+            "en": "wrote is the past simple. After was, use the past participle: written.",
+            "he": "wrote היא צורת העבר הפשוט. אחרי was בא past participle: ‏written."
+          },
+          "error_type": "verb-form"
+        }
+      ],
       "error_type": "verb-form",
       "hint": {
         "en": "write – wrote – written",
@@ -746,7 +764,26 @@
       "sentence": "The concert was taken place in the park.",
       "answers": [
         "The concert took place in the park.",
-        "The concert was held in the park."
+        "The concert was held in the park.",
+        "The concert happened in the park."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The concert was took place in the park.",
+          "feedback": {
+            "en": "Remove was: take place is never passive. The concert took place in the park.",
+            "he": "מוחקים את was: ‏take place אף פעם לא בא בסביל. The concert took place in the park."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "The concert takes place in the park.",
+          "feedback": {
+            "en": "take place is right, but the original sentence is about the past (was), so use took place.",
+            "he": "take place נכון, אבל המשפט המקורי מדבר על העבר (was), ולכן took place."
+          },
+          "error_type": "tense-choice"
+        }
       ],
       "error_type": "passive-form",
       "hint": {
@@ -754,8 +791,8 @@
         "he": "ל-take place אין מושא, ולכן הוא אף פעם לא בא בסביל."
       },
       "explanation": {
-        "en": "take place (= happen) has no object, so it can't be passive: The concert took place in the park. If you want a passive, use hold: The concert was held in the park.",
-        "he": "take place (= להתקיים) הוא פועל בלי מושא, ולכן אין לו סביל: The concert took place in the park. אם רוצים סביל, משתמשים ב-hold: ‏The concert was held in the park."
+        "en": "take place (= happen) has no object, so it can't be passive: The concert took place in the park (or happened in the park). If you want a passive, use hold: The concert was held in the park.",
+        "he": "take place (= להתקיים) הוא פועל בלי מושא, ולכן אין לו סביל: The concert took place in the park (או happened in the park). אם רוצים סביל, משתמשים ב-hold: ‏The concert was held in the park."
       }
     },
     {
@@ -866,7 +903,7 @@
         "he": "קראו את הפוסט בבלוג של הכיתה וענו על השאלות."
       },
       "title": "Class blog: A morning at the olive press",
-      "passage": "Last Saturday our class was invited to the Haddad family's olive press, a small business in the hills of the Galilee. It was started by Samir Haddad's grandfather in 1958, and today it is run by Samir and his daughter, Rana.\n\nRana showed us how the oil is made. First, the olives are picked, usually in October and November. Most of them are still picked by hand, because the trees are very old and machines can damage them. On the same day, the olives are brought to the press, where the leaves are removed and the fruit is washed. Then the olives are crushed into a thick paste, and the oil is separated from the water. Nothing is wasted: the dry paste that is left is used as fuel in winter.\n\nThe oil isn't sold in supermarkets. It is bottled on the farm and sold directly to customers, and a lot of it is ordered online.\n\nAt the end of the visit, we were given fresh bread and oil to taste. Honestly, it was the best breakfast I've had all year!\n\n– Posted by Maya",
+      "passage": "Last Saturday our class was invited to the Haddad family's olive press, a small business in the hills of the Galilee. It was started by Samir Haddad's grandfather in 1958, and today it is run by Samir and his daughter, Rana.\n\nRana showed us how the oil is made. First, the olives are picked, usually in October and November. Most of them are still picked by hand, because the trees are very old and machines can damage them. On the same day, the olives are brought to the press, where the leaves are removed and the fruit is washed. Then the olives are crushed into a thick paste, and the oil is separated from the water. Nothing is wasted: the dry paste that is left is used as fuel in winter.\n\nThe oil isn't sold in supermarkets. It is bottled at the press and sold directly to customers, and a lot of it is ordered online.\n\nAt the end of the visit, we were given fresh bread and oil to taste. Honestly, it was the best breakfast I've had all year!\n\n– Posted by Maya",
       "questions": [
         {
           "type": "mcq",
@@ -1088,8 +1125,8 @@
         "he": "שאלות: (מילת שאלה) + be + נושא + past participle: ‏Where was it made?"
       },
       {
-        "en": "Some verbs are never passive: take place, happen, arrive.",
-        "he": "יש פעלים שאין להם סביל: take place, happen, arrive."
+        "en": "Verbs with no object are never passive: take place, happen, arrive.",
+        "he": "פעלים בלי מושא אף פעם לא באים בסביל: take place, happen, arrive."
       }
     ]
   },

@@ -21,7 +21,7 @@
       ["some / any (both kinds)", "some friends, any friends", "some money, any money"],
       ["a / an", "a friend", "no a/an: some money"]
     ] },
-    { "type": "rule", "en": "In positive sentences, use a lot of: I drink a lot of water (not *I drink much water). Much and many are most common in questions and negatives: Do you have much homework? There aren't many people here.", "he": "במשפט חיובי משתמשים ב-a lot of: I drink a lot of water (ולא I drink much water). המילים much ו-many נפוצות בעיקר בשאלות ובשלילה: Do you have much homework? There aren't many people here." },
+    { "type": "rule", "en": "In positive sentences, use a lot of: I drink a lot of water (not *I drink much water). Much and many are most common in questions and negatives: Do you have much homework? There aren't many people here. Remember from A1: some and any also work with both kinds, some in positive sentences and any in questions and negatives (Is there any milk?).", "he": "במשפט חיובי משתמשים ב-a lot of: I drink a lot of water (ולא I drink much water). המילים much ו-many נפוצות בעיקר בשאלות ובשלילה: Do you have much homework? There aren't many people here. וכזכור מרמה A1: גם some ו-any מתאימים לשני הסוגים – some במשפט חיובי, ו-any בשאלה ובשלילה (Is there any milk?)." },
     { "type": "warning", "en": "These nouns are uncountable in English: information, advice, news, furniture, homework, luggage. No -s and no a/an: some information (not *informations), some advice (not *an advice). News takes is: The news is good.", "he": "שמות העצם האלה אינם ספירים באנגלית: information, advice, news, furniture, homework, luggage. אין להם s ואין לפניהם a/an: some information ולא informations, וגם some advice ולא an advice. אחרי news בא is: The news is good." },
     { "type": "tip", "en": "To count an uncountable noun, use a word like piece, bottle or cup: a piece of advice, two pieces of furniture, a bottle of water, a cup of coffee.", "he": "כדי לספור שם עצם שאינו ספיר משתמשים במילה כמו piece, bottle או cup: a piece of advice, two pieces of furniture, a bottle of water, a cup of coffee." }
   ],
@@ -53,7 +53,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew a question with 'how much' or 'how many' needs no helper verb, so it is easy to say *How much money you have? English needs do or does after the noun: How much money do you have? How many brothers does she have?", "he": "בעברית שאלה עם 'כמה' לא צריכה פועל עזר ('כמה כסף יש לך?'), ולכן קל לומר How much money you have?. באנגלית צריך do או does אחרי שם העצם: How much money do you have? How many brothers does she have?", "error_type": "do-support" },
-    { "en": "In Hebrew there is no /ʌ/ vowel, so money /ˈmʌni/ and many /ˈmeni/ can sound the same. many has /e/, as in pen; money has the short, relaxed /ʌ/, as in cup.", "he": "בעברית אין את התנועה /ʌ/, ולכן money /ˈmʌni/ ו-many /ˈmeni/ עלולים להישמע אותו דבר. ב-many יש /e/ כמו ב-pen, וב-money יש /ʌ/ קצרה ורפויה, כמו ב-cup.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has no /ʌ/ vowel, so money /ˈmʌni/ often comes out as 'mani'. many is spelled with a, so it can come out as 'mani' too, and then the two words sound the same. many has /e/, as in pen; money has the short, relaxed /ʌ/, as in cup.", "he": "בעברית אין את התנועה /ʌ/, ולכן money /ˈmʌni/ יוצא לעיתים קרובות 'מָאנִי'. גם many, שנכתב עם a, יוצא לפעמים 'מָאנִי', ואז שתי המילים נשמעות אותו דבר. ב-many יש /e/ כמו ב-pen ('מֶנִי'), וב-money יש /ʌ/ קצרה ורפויה, כמו ב-cup.", "error_type": "pron-vowel" }
   ],
   "exercises": [
     {
@@ -127,10 +127,24 @@
       "wrong_feedback": [
         { "match": "much", "feedback": { "en": "much goes with uncountable nouns (much homework, much time), not with plurals like students or minutes.", "he": "much בא עם שמות עצם שאינם ספירים (much homework, much time), ולא עם רבים כמו students או minutes." }, "error_type": "countability" },
         { "match": "many", "feedback": { "en": "many goes with countable plurals (many students). homework and milk are uncountable.", "he": "many בא עם שמות עצם ספירים ברבים (many students), ואילו homework ו-milk אינם ספירים." }, "error_type": "countability" },
-        { "match": "a few", "feedback": { "en": "a few goes with countable plurals (a few minutes). milk is uncountable: a little milk.", "he": "a few בא עם ספירים ברבים (a few minutes). המילה milk אינה ספירה: a little milk." }, "error_type": "countability" },
-        { "match": "a little", "feedback": { "en": "a little goes with uncountable nouns (a little milk). minutes are countable: a few minutes.", "he": "a little בא עם שמות עצם שאינם ספירים (a little milk). דקות הן ספירות: a few minutes." }, "error_type": "countability" }
+        { "match": "a few", "feedback": { "en": "a few goes with countable plurals (in a few minutes), and it never comes after How. homework and milk are uncountable.", "he": "a few בא עם ספירים ברבים (in a few minutes), והוא אף פעם לא בא אחרי How. המילים homework ו-milk אינן ספירות." }, "error_type": "countability" },
+        { "match": "a little", "feedback": { "en": "a little goes with uncountable nouns (a little milk), and it never comes after How. students and minutes are countable.", "he": "a little בא עם שמות עצם שאינם ספירים (a little milk), והוא אף פעם לא בא אחרי How. המילים students ו-minutes ספירות." }, "error_type": "countability" }
       ],
       "explanation": { "en": "students, minutes → many / a few (countable). homework, milk → much / a little (uncountable).", "he": "students, minutes → many / a few (ספירים). homework, milk → much / a little (לא ספירים)." }
+    },
+    {
+      "id": "e16", "type": "mcq", "skill": "grammar", "topic": "quantifiers",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "There isn't ___ milk in the fridge. I'll buy some on my way home.",
+      "options": ["some", "many", "a few", "any"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "This sentence is negative (isn't), so use any. some is for positive sentences: I'll buy some.", "he": "המשפט שלילי (isn't), ולכן any. את some משתמשים במשפט חיובי: I'll buy some." },
+        "1": { "en": "milk is uncountable, so not many. In a negative, use any (or much).", "he": "milk אינו ספיר, ולכן לא many. במשפט שלילי: any (או much)." },
+        "2": { "en": "a few goes with countable plurals (a few eggs). milk is uncountable.", "he": "a few בא עם ספירים ברבים (a few eggs), ו-milk אינו ספיר." }
+      },
+      "option_errors": { "0": "word-choice", "1": "countability", "2": "countability" },
+      "explanation": { "en": "some and any work with both kinds of noun. Use any in negatives and questions (There isn't any milk. Is there any bread?) and some in positive sentences (I'll buy some).", "he": "some ו-any מתאימים לשני סוגי שמות העצם. any בא בשלילה ובשאלה (There isn't any milk. Is there any bread?), ו-some במשפט חיובי (I'll buy some)." }
     },
     {
       "id": "e6", "type": "gap", "skill": "vocabulary", "topic": "countable-uncountable",

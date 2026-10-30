@@ -6,7 +6,7 @@
   "topics": [
     "connectors-contrast"
   ],
-  "minutes": 25,
+  "minutes": 30,
   "objectives": [
     {
       "en": "I can show contrast with but, however, although, whereas and on the other hand.",
@@ -583,24 +583,24 @@
         {
           "match": "However",
           "feedback": {
-            "en": "however cannot join two clauses after a comma. Use but here, or start a new sentence: ... However, ...",
-            "he": "however לא יכול לחבר שני חלקים אחרי פסיק. כאן צריך but, או משפט חדש: ... However, ..."
+            "en": "However links two separate sentences: full stop + However + comma. It cannot join two clauses after a comma (use but), and it cannot go before a noun or a clause the way Despite and Although do.",
+            "he": "However מקשר בין שני משפטים נפרדים: נקודה + However + פסיק. הוא לא יכול לחבר שני חלקים אחרי פסיק (שם משתמשים ב-but), והוא לא יכול לבוא לפני שם עצם או לפני נושא + פועל כמו Despite ו-Although."
           },
           "error_type": "punctuation"
         },
         {
           "match": "On the other hand",
           "feedback": {
-            "en": "On the other hand starts a new sentence, with a comma after it. In the middle of a sentence, use but.",
-            "he": "On the other hand פותח משפט חדש, עם פסיק אחריו. באמצע משפט משתמשים ב-but."
+            "en": "On the other hand gives the other side in a new sentence, with a comma after it. It cannot join two clauses after a comma (use but), and it cannot go before a noun or a clause the way Despite and Although do.",
+            "he": "On the other hand מציג את הצד השני במשפט חדש, עם פסיק אחריו. הוא לא יכול לחבר שני חלקים אחרי פסיק (שם משתמשים ב-but), והוא לא יכול לבוא לפני שם עצם או לפני נושא + פועל כמו Despite ו-Although."
           },
           "error_type": "punctuation"
         },
         {
           "match": "Despite",
           "feedback": {
-            "en": "Despite needs a noun or -ing (despite the price). Before subject + verb (the tickets were), use Although.",
-            "he": "אחרי Despite בא שם עצם או ing ‏(despite the price). לפני נושא + פועל (the tickets were) משתמשים ב-Although."
+            "en": "Despite must be followed by a noun or -ing (despite the bad weather). Before subject + verb, use although; after a full stop, use However.",
+            "he": "אחרי Despite חייב לבוא שם עצם או ing ‏(despite the bad weather). לפני נושא + פועל משתמשים ב-although, ואחרי נקודה – ב-However."
           },
           "error_type": "cohesion"
         },
@@ -615,16 +615,16 @@
         {
           "match": "whereas",
           "feedback": {
-            "en": "whereas compares two different people or things (my sister ... I ...). Here there is one flat with a bad point and a good point: use but.",
-            "he": "whereas משווה בין שני אנשים או דברים שונים (my sister ... I ...). כאן יש דירה אחת עם חיסרון ויתרון: משתמשים ב-but."
+            "en": "whereas compares two different people or things in one sentence (my sister ... I ...). For one thing with a bad and a good side, use but; before a noun, use Despite; after a full stop, use However.",
+            "he": "whereas משווה בין שני אנשים או דברים שונים באותו משפט (my sister ... I ...). לדבר אחד עם צד רע וצד טוב משתמשים ב-but; לפני שם עצם – ב-Despite; אחרי נקודה – ב-However."
           },
           "error_type": "cohesion"
         },
         {
           "match": "but",
           "feedback": {
-            "en": "but joins two clauses inside one sentence. After a full stop, use However, or On the other hand,.",
-            "he": "but מחבר שני חלקים בתוך משפט אחד. אחרי נקודה משתמשים ב-However, או ב-On the other hand,."
+            "en": "but joins two clauses inside one sentence (..., but ...). To start a sentence, use Despite + noun, Although + subject + verb, or However, after a full stop.",
+            "he": "but מחבר שני חלקים בתוך משפט אחד (..., but ...). בתחילת משפט משתמשים ב-Despite + שם עצם, ב-Although + נושא + פועל, או ב-However, אחרי נקודה."
           },
           "error_type": "cohesion"
         }
@@ -842,6 +842,8 @@
         "In spite of the rain we went to the beach.",
         "Despite the fact that it was raining, we went to the beach.",
         "Despite the fact that it was raining we went to the beach.",
+        "In spite of the fact that it was raining, we went to the beach.",
+        "In spite of the fact that it was raining we went to the beach.",
         "We went to the beach, although it was raining.",
         "We went to the beach although it was raining.",
         "We went to the beach, even though it was raining.",
@@ -876,6 +878,8 @@
         "Although the course was expensive it was worth it.",
         "Even though the course was expensive, it was worth it.",
         "Even though the course was expensive it was worth it.",
+        "Though the course was expensive, it was worth it.",
+        "Though the course was expensive it was worth it.",
         "The course was expensive, but it was worth it.",
         "The course was expensive but it was worth it.",
         "The course was expensive. However, it was worth it.",
@@ -1128,7 +1132,7 @@
         "however",
         "although"
       ],
-      "model_answer": "Having a part-time job while you study has clear advantages and disadvantages. On the one hand, it gives you your own money and useful experience. For example, working in a café teaches you how to deal with customers and manage your time. Students with jobs also become more independent, whereas students who depend on their parents often have less freedom. On the other hand, a job takes up a lot of time and energy. Although many students only work at weekends, they often feel too tired to study on Sunday. However, the biggest problem is stress before exams, when there is no time to rest. On balance, I think a part-time job is a good idea, but only for a few hours a week.",
+      "model_answer": "Having a part-time job while you study has clear advantages and disadvantages. On the one hand, it gives you your own money and useful experience. For example, working in a café teaches you how to deal with customers and manage your time. Students with jobs also become more independent, whereas students who depend on their parents often have less freedom. On the other hand, a job takes up a lot of time and energy. Although many students only work at weekends, they often feel too tired to study on Sunday. Most of them can cope with this during the year. However, before exams there is no time to rest, and the stress can affect their grades. On balance, I think a part-time job is a good idea, but only for a few hours a week.",
       "checklist": [
         {
           "en": "My first sentence is a topic sentence that introduces the topic.",

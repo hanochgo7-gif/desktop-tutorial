@@ -6,7 +6,7 @@
   "topics": ["connectors-sequence", "paragraph-basics"],
   "minutes": 25,
   "objectives": [
-    { "en": "I can put events in order with first, then, after that, when and in the end.", "he": "אני יודע/ת לסדר אירועים לפי הסדר עם first, ‏then, ‏after that, ‏when ו-in the end." },
+    { "en": "I can put events in order with first, then, after that, when, finally and in the end.", "he": "אני יודע/ת לסדר אירועים לפי הסדר עם first, ‏then, ‏after that, ‏when, ‏finally ו-in the end." },
     { "en": "I can start a story with a clear topic sentence and keep it in the past simple.", "he": "אני יודע/ת לפתוח סיפור במשפט נושא ברור ולכתוב את כולו בעבר פשוט." },
     { "en": "I can write a short story about a personal experience with a beginning, a middle and an end (100-130 words).", "he": "אני יודע/ת לכתוב סיפור קצר על חוויה אישית, עם התחלה, אמצע וסוף (100-130 מילים)." }
   ],
@@ -84,7 +84,7 @@
     {
       "id": "e3", "type": "listen", "skill": "listening", "topic": "connectors-sequence",
       "prompt": { "en": "Listen to Omer's story and answer the question.", "he": "הקשיבו לסיפור של עומר וענו על השאלה." },
-      "audio_text": "Last Saturday my brother and I went hiking in the Galilee. First we got lost, and then it started to rain. In the end, a farmer gave us a lift back to town.",
+      "audio_text": "Last Saturday my brother and I went hiking in the Galilee. First, we got lost, and then it started to rain. In the end, a farmer gave us a lift back to town.",
       "question": "How did Omer and his brother get back to town?",
       "options": ["They walked back in the rain.", "A farmer drove them.", "They took a bus."],
       "answer": 1,
@@ -99,16 +99,17 @@
       "id": "e4", "type": "read", "skill": "reading", "topic": "paragraph-basics",
       "prompt": { "en": "Read Noa's blog post and answer the questions.", "he": "קראו את הפוסט של נועה בבלוג וענו על השאלות." },
       "title": "The day I almost missed my flight",
-      "passage": "Last April I had the most stressful morning of my life. My flight to Rome was at 7 a.m., so I set my alarm for 3:30. Unfortunately, I forgot to turn it on! When I woke up, it was already 4:45. First, I jumped out of bed and called a taxi. Then I put on my clothes and ran downstairs. On the way to the airport, there was a lot of traffic, and I was sure I was too late. After that, things got better. The queue at security was short, and the flight was twenty minutes late. In the end, I was the last person on the plane! Now I always check my alarm twice.",
+      "passage": "Last April I had the most stressful morning of my life. My flight to Rome was at 7 a.m., so I wanted to get up at 3:30. Unfortunately, I forgot to set my alarm! When I woke up, it was already 4:45. First, I jumped out of bed and called a taxi. Then I put on my clothes and ran downstairs. On the way to the airport, there was a lot of traffic, and I was sure I was going to miss my flight. After that, things got better. The queue at security was short, and the flight was twenty minutes late. In the end, I was the last person on the plane! Now I always check my alarm twice.",
       "questions": [
         { "type": "mcq", "question": "Which sentence is the topic sentence?", "options": ["Last April I had the most stressful morning of my life.", "First, I jumped out of bed and called a taxi.", "Now I always check my alarm twice."], "answer": 0,
           "option_feedback": {
             "1": { "en": "This is the first event in the middle of the story, not the topic sentence.", "he": "זה האירוע הראשון באמצע הסיפור, לא משפט הנושא." },
             "2": { "en": "This is the last sentence: it ends the story.", "he": "זה המשפט האחרון: הוא מסיים את הסיפור." }
           },
+          "option_errors": { "1": "comprehension", "2": "comprehension" },
           "explanation": { "en": "The topic sentence comes first and tells us what the story is about: a very stressful morning.", "he": "משפט הנושא בא ראשון ואומר על מה הסיפור: בוקר מלחיץ מאוד." } },
-        { "type": "tf", "statement": "Noa's alarm didn't ring because she forgot to turn it on.", "answer": true,
-          "explanation": { "en": "'I set my alarm for 3:30. Unfortunately, I forgot to turn it on!'", "he": "בפוסט: I set my alarm for 3:30. Unfortunately, I forgot to turn it on!" } },
+        { "type": "tf", "statement": "Noa woke up late because she forgot to set her alarm.", "answer": true,
+          "explanation": { "en": "'Unfortunately, I forgot to set my alarm! When I woke up, it was already 4:45.'", "he": "בפוסט: Unfortunately, I forgot to set my alarm! When I woke up, it was already 4:45." } },
         { "type": "mcq", "question": "Which of these did Noa do first?", "options": ["She ran downstairs.", "She called a taxi.", "She got dressed."], "answer": 1,
           "option_feedback": {
             "0": { "en": "She ran downstairs after she got dressed: 'Then I put on my clothes and ran downstairs.'", "he": "היא רצה למטה אחרי שהתלבשה: Then I put on my clothes and ran downstairs." },
@@ -154,7 +155,7 @@
     },
     {
       "id": "e7", "type": "gap", "skill": "writing", "topic": "connectors-sequence",
-      "prompt": { "en": "Complete Maya's story with words from the box. Use each one once; one is extra.", "he": "השלימו את הסיפור של מאיה במילים מהמחסן. השתמשו בכל אחת פעם אחת; אחת מיותרת." },
+      "prompt": { "en": "Complete Maya's story with words from the box. Use each one once; one is extra.", "he": "השלימו את הסיפור של מאיה במילים ממחסן המילים. השתמשו בכל אחת פעם אחת; אחת מיותרת." },
       "text": "Last month I cooked dinner for my whole family for the first time. ___, I found an easy recipe online. ___ I went to the supermarket and bought everything. ___ I got home, I started cooking, but I burned the rice! ___, we ordered pizza, and everyone laughed.",
       "word_bank": ["First", "Then", "When", "In the end", "Suddenly"],
       "answers": [["First"], ["Then", "After that", "Next"], ["When", "After"], ["In the end", "Finally"]],
@@ -266,18 +267,24 @@
         "We finally came home at midnight.",
         "Eventually, we got home at midnight.",
         "Eventually we got home at midnight.",
-        "We eventually got home at midnight."
+        "We eventually got home at midnight.",
+        "Eventually, we arrived home at midnight.",
+        "Eventually we arrived home at midnight.",
+        "We eventually arrived home at midnight.",
+        "At last, we got home at midnight.",
+        "At last we got home at midnight.",
+        "We arrived home at midnight in the end."
       ],
       "wrong_feedback": [
-        { "match": "At the end, we got home at midnight.", "feedback": { "en": "Hebrew uses one word for both, but English splits them: in the end = finally, after everything; at the end of + noun = the last part of something (at the end of the film). Here: In the end, we got home...", "he": "בעברית 'בסוף' משמש לשני המקרים, ובאנגלית יש שני ביטויים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו (at the end of the film). כאן: In the end, we got home..." }, "error_type": "word-choice" },
-        { "match": "At the end we got home at midnight.", "feedback": { "en": "Hebrew uses one word for both, but English splits them: in the end = finally, after everything; at the end of + noun = the last part of something. Here: In the end, we got home...", "he": "בעברית 'בסוף' משמש לשני המקרים, ובאנגלית יש שני ביטויים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו. כאן: In the end, we got home..." }, "error_type": "word-choice" },
+        { "match": "At the end, we got home at midnight.", "feedback": { "en": "The Hebrew word here covers both meanings, but English uses two different phrases: in the end = finally, after everything; at the end of + noun = the last part of something (at the end of the film). Here: In the end, we got home...", "he": "המילה 'בסוף' מכסה את שתי המשמעויות, ובאנגלית יש שני ביטויים שונים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו (at the end of the film). כאן: In the end, we got home..." }, "error_type": "word-choice" },
+        { "match": "At the end we got home at midnight.", "feedback": { "en": "The Hebrew word here covers both meanings, but English uses two different phrases: in the end = finally, after everything; at the end of + noun = the last part of something. Here: In the end, we got home...", "he": "המילה 'בסוף' מכסה את שתי המשמעויות, ובאנגלית יש שני ביטויים שונים: in the end = לבסוף, אחרי הכול; ‏at the end of + שם עצם = בחלק האחרון של משהו. כאן: In the end, we got home..." }, "error_type": "word-choice" },
         { "match": "In the end, we got to home at midnight.", "feedback": { "en": "No to before home: get home, go home, arrive home.", "he": "לפני home לא באה to: ‏get home, go home, arrive home." }, "error_type": "preposition" },
         { "match": "In the end, we arrived to home at midnight.", "feedback": { "en": "No preposition before home: arrive home.", "he": "לפני home אין מילת יחס: ‏arrive home." }, "error_type": "preposition" },
         { "match": "In the end, we got home in midnight.", "feedback": { "en": "Use at with clock times: at midnight, at six, at night.", "he": "עם שעות משתמשים ב-at: ‏at midnight, at six, at night." }, "error_type": "preposition" },
         { "match": "In the end, we get home at midnight.", "feedback": { "en": "The story is in the past: we got home.", "he": "הסיפור בעבר: we got home." }, "error_type": "tense-choice" }
       ],
-      "hint": { "en": "In English, the end of a story and the end of a film use different phrases.", "he": "באנגלית 'בסוף הסיפור' ו'בסוף הסרט' הם ביטויים שונים." },
-      "explanation": { "en": "Hebrew uses one word, but English has two phrases: in the end (= finally, how it all finished) and at the end of + noun (at the end of the day). Also: get home, with no to.", "he": "בעברית יש מילה אחת, ובאנגלית שני ביטויים: in the end (= לבסוף, איך הכול נגמר) ו-at the end of + שם עצם (at the end of the day). ושימו לב: get home, בלי to." }
+      "hint": { "en": "This is how the story finished, so use the phrase from this lesson (not at the end). And no to before home.", "he": "כך הסיפור נגמר, ולכן השתמשו בביטוי מהשיעור (לא at the end). ולפני home לא באה to." },
+      "explanation": { "en": "The Hebrew word here covers both meanings, but English has two phrases: in the end (= finally, how it all finished) and at the end of + noun (at the end of the film). Also: get home, with no to.", "he": "המילה 'בסוף' מכסה את שתי המשמעויות, ובאנגלית יש שני ביטויים: in the end (= לבסוף, איך הכול נגמר) ו-at the end of + שם עצם (at the end of the film). ושימו לב: get home, בלי to." }
     },
     {
       "id": "e14", "type": "dictation", "skill": "listening", "topic": "connectors-sequence",
@@ -296,7 +303,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "paragraph-basics",
       "prompt": { "en": "Final task: write your story.", "he": "משימת סיום: כתבו את הסיפור שלכם." },
-      "task": { "en": "Write a structured description of a personal experience (100-130 words) with a beginning, middle and end. Start with a topic sentence, tell the events in order with sequence words (first, then, after that, when, in the end), keep the past simple, and finish with how you felt. Ideas: a trip, a first day at work or school, a concert, an embarrassing moment.", "he": "כתבו תיאור מובנה של חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף. פתחו במשפט נושא, ספרו את האירועים לפי הסדר בעזרת מילות רצף (first, then, after that, when, in the end), הקפידו על עבר פשוט, וסיימו במה שהרגשתם. רעיונות: טיול, יום ראשון בעבודה או בבית ספר, הופעה, פדיחה." },
+      "task": { "en": "Write a short story about something that happened to you (100-130 words), with a beginning, a middle and an end. Start with a topic sentence, tell the events in order with sequence words (first, then, after that, when, in the end), keep the past simple, and finish with how you felt. Ideas: a trip, a first day at work or school, a concert, an embarrassing moment.", "he": "כתבו סיפור קצר על משהו שקרה לכם (100-130 מילים), עם התחלה, אמצע וסוף. פתחו במשפט נושא, ספרו את האירועים לפי הסדר בעזרת מילות רצף (first, then, after that, when, in the end), הקפידו על עבר פשוט, וסיימו במה שהרגשתם. רעיונות: טיול, יום ראשון בעבודה או בבית ספר, הופעה, פדיחה." },
       "min_words": 100,
       "max_words": 130,
       "model_answer": "Last summer I had my first job interview, and it started badly. The interview was at a café in Tel Aviv at ten o'clock. First, I missed my bus, so I ran to the train station. Then the train stopped for twenty minutes between stations. When I finally arrived, it was ten past ten, and I was hot and nervous. After that, things got worse: I dropped my phone and spilled coffee on my shirt! Luckily, the manager, Dana, just laughed. She asked me about my studies and my hobbies, and we talked for half an hour. In the end, I got the job. I worked there all summer, and now that terrible morning is one of my favourite memories.",

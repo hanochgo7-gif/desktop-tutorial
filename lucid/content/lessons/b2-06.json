@@ -23,7 +23,7 @@
   ],
   "warmup": {
     "en": "In Hebrew you use the same verb, 'do', with a party, a mistake, an effort and a shower. Which verb does English use with each one?",
-    "he": "בעברית 'עושים' מסיבה, טעות, מאמץ ומקלחת. באנגלית כל אחד מהם הולך עם פועל אחר. נסו לנחש איזה."
+    "he": "בעברית 'עושים' מסיבה, טעות, מאמץ ומקלחת. באנגלית משתמשים כאן בפעלים אחרים, ואף אחד מהם אינו do. נסו לנחש איזה פועל מתאים לכל אחד."
   },
   "explanation": [
     {
@@ -70,13 +70,13 @@
     },
     {
       "type": "warning",
-      "en": "Word-for-word translation from Hebrew can produce unnatural English: *make a party → have (or throw) a party · *put attention → pay attention · *open the light → turn on the light · *an expensive price → a high price (things are expensive; prices are high) · *we made fun → we had fun (make fun of someone means laughing at them unkindly).",
-      "he": "תרגום מילה במילה מעברית יוצר לפעמים אנגלית לא טבעית: עושים מסיבה → have/throw a party (לא make a party) · שמים לב → pay attention (לא put attention) · פותחים את האור → turn on the light (לא open the light) · מחיר יקר → a high price (מוצר הוא expensive, אבל מחיר הוא high) · עשינו כיף → we had fun (make fun of פירושו ללעוג למישהו)."
+      "en": "Word-for-word translation from Hebrew can produce unnatural English: *make a party → have (or throw) a party · *put attention → pay attention · *close the light → turn off the light · *open the TV → turn on the TV · *an expensive price → a high price (things are expensive; prices are high) · *we made fun → we had fun (make fun of someone means laughing at them unkindly).",
+      "he": "תרגום מילה במילה מעברית יוצר לפעמים אנגלית לא טבעית: עושים מסיבה → have/throw a party (לא make a party) · שמים לב / שמים תשומת לב → pay attention (לא put attention) · סוגרים את האור → turn off the light (לא close the light) · פותחים את הטלוויזיה → turn on the TV (לא open the TV) · מחיר יקר → a high price (מוצר הוא expensive, אבל מחיר הוא high) · עשינו כיף → we had fun (make fun of פירושו ללעוג למישהו)."
     },
     {
       "type": "tip",
-      "en": "Some Hebrew collocations do translate directly: make a mistake, take responsibility, reach a conclusion. When you are not sure, look up the noun in a learner's dictionary and read its example sentences: they show which verbs and adjectives go with it.",
-      "he": "חלק מהצירופים כן עובדים מילה במילה: לעשות טעות = make a mistake, לקחת אחריות = take responsibility, להגיע למסקנה = reach a conclusion. כשלא בטוחים, חפשו את שם העצם במילון ללומדים וקראו את משפטי הדוגמה: הם מראים אילו פעלים ותארים מתחברים אליו."
+      "en": "Some Hebrew collocations do translate directly: take a risk, take responsibility, reach a conclusion, raise a question. When you are not sure, look up the noun in a learner's dictionary and read its example sentences: they show which verbs and adjectives go with it.",
+      "he": "חלק מהצירופים כן עובדים מילה במילה: לקחת סיכון = take a risk, לקחת אחריות = take responsibility, להגיע למסקנה = reach a conclusion, להעלות שאלה = raise a question. כשלא בטוחים, חפשו את שם העצם במילון ללומדים וקראו את משפטי הדוגמה: הם מראים אילו פעלים ותארים מתחברים אליו."
     }
   ],
   "examples": [
@@ -299,6 +299,16 @@
       "en": "In Hebrew there is no indefinite article, so 'a' can drop out of fixed phrases: *make decision, *take break, *have look. When the noun is singular and countable, English collocations keep a/an: make a decision, take a break, have a look.",
       "he": "בעברית אין מילה ל-a, ולכן קל להשמיט אותה גם בצירופים קבועים: make decision, take break. באנגלית, כששם העצם ביחיד וספיר, ה-a נשארת: make a decision, take a break, have a look.",
       "error_type": "article"
+    },
+    {
+      "en": "Hebrew has one verb, 'do', where English has two, make and do, so learners often say *do a mistake or *do an effort. English uses make for these: make a mistake, make an effort, make progress. Do is for tasks and work: do homework, do research.",
+      "he": "בעברית יש פועל אחד, 'לעשות', ובאנגלית יש שניים: make ו-do. לכן קל לומר do a mistake או do an effort. באנגלית אומרים make a mistake, make an effort, make progress, ואת do שומרים למשימות ולעבודה: do homework, do research.",
+      "error_type": "word-choice"
+    },
+    {
+      "en": "Hebrew uses 'strong' with rain, cold and pain, so learners write *strong rain or *strong cold. English chooses a different adjective for each noun: heavy rain, bitter (or freezing) cold, severe pain.",
+      "he": "בעברית אומרים גשם חזק, קור חזק וכאב חזק, ולכן קל לכתוב strong rain או strong cold. באנגלית לכל שם עצם יש שם תואר משלו: heavy rain, ‏bitter cold (או freezing cold), ‏severe pain.",
+      "error_type": "word-choice"
     }
   ],
   "exercises": [
@@ -307,7 +317,7 @@
       "type": "categorize",
       "skill": "vocabulary",
       "prompt": {
-        "en": "Which verb do we use for doing each of these: make, do, take or have?"
+        "en": "Which verb goes with each noun: make, do, take or have?"
       },
       "categories": [
         "make",
@@ -529,8 +539,8 @@
         ]
       ],
       "explanation": {
-        "en": "Two of these keep the Hebrew picture (take a risk, raise a concern). The others change it: you pay attention (not put it), turn on a light (not open it), make an effort (not do it) and meet a deadline (not stand in it).",
-        "he": "שניים מהצירופים שומרים על התמונה העברית (take a risk, raise a concern). באחרים היא משתנה: משלמים תשומת לב (pay attention) ולא שמים אותה, מדליקים אור עם turn on ולא open, 'עושים' מאמץ עם make, ו'פוגשים' דדליין (meet a deadline) במקום לעמוד בו."
+        "en": "Two of these keep the Hebrew picture (take a risk, raise a concern). The others change it: you pay attention (not put it), turn on (or switch on) a light (in English you light only a candle or a fire), make an effort (not do it) and meet a deadline (not stand in it).",
+        "he": "שניים מהצירופים שומרים על התמונה העברית (take a risk, raise a concern). באחרים היא משתנה: משלמים תשומת לב (pay attention) ולא שמים אותה, את האור לא 'מדליקים' אלא turn on או switch on (את המילה light משתמשים רק לנר או לאש), 'עושים' מאמץ עם make, ו'פוגשים' דדליין (meet a deadline) במקום לעמוד בו."
       }
     },
     {
@@ -694,7 +704,7 @@
         {
           "match": "made",
           "feedback": {
-            "en": "Concerns are raised (or expressed), not made."
+            "en": "Made does not fit any gap: concerns are raised (or expressed), attention is paid, a deadline is met and a conclusion is drawn (or reached)."
           },
           "error_type": "word-choice"
         },
@@ -709,34 +719,34 @@
         {
           "match": "meet",
           "feedback": {
-            "en": "Meet goes with a deadline, a need or a requirement, not with concerns or conclusions."
+            "en": "Meet goes with a deadline, a need or a requirement, not with concerns, attention or conclusions."
           },
           "error_type": "word-choice"
         },
         {
           "match": "draw",
           "feedback": {
-            "en": "You draw (or reach) a conclusion, but you meet a deadline."
+            "en": "Draw goes with a conclusion (draw a conclusion), not with concerns, attention or a deadline."
           },
           "error_type": "word-choice"
         },
         {
           "match": "raised",
           "feedback": {
-            "en": "You raise a concern or a question, but you pay attention."
+            "en": "Raise goes with a concern or a question, not with attention, a deadline or a conclusion."
           },
           "error_type": "word-choice"
         },
         {
           "match": "pay",
           "feedback": {
-            "en": "Pay goes with attention (and with a visit or a compliment), not with concerns or deadlines."
+            "en": "Pay goes with attention (and with a visit or a compliment), not with concerns, deadlines or conclusions."
           },
           "error_type": "word-choice"
         }
       ],
       "explanation": {
-        "en": "raise a concern · pay attention to · meet a deadline · draw (or reach) a conclusion."
+        "en": "raise a concern · pay attention to · meet a deadline · draw (or reach) a conclusion. Each noun has its own verb partner, so the verb cannot be guessed from its basic meaning: concerns are raised, not made, and attention is paid, not put."
       }
     },
     {
@@ -759,7 +769,7 @@
           "en": "Strongly goes with verbs of opinion: strongly agree, strongly recommend, strongly oppose."
         },
         "1": {
-          "en": "Heavily goes with things like rain, traffic and dependence: it rained heavily, depend heavily on."
+          "en": "Heavily goes with verbs such as rain, smoke, rely and depend: it rained heavily, rely heavily on. It does not go with unlikely."
         },
         "2": {
           "en": "Deeply goes with feelings: deeply concerned, deeply moved, deeply disappointed."
@@ -927,7 +937,7 @@
         "en": "Which verb goes with contribution?"
       },
       "explanation": {
-        "en": "The collocation is make a contribution to: The study makes an important contribution to ..."
+        "en": "A contribution is something you produce or give, so it takes make, not do: make a contribution to. Do is for tasks and work (do research, do homework). Correct version: The study makes an important contribution to ..."
       }
     },
     {
@@ -1012,8 +1022,8 @@
         "en": "Formal verb + noun collocations: raise a concern, reach a decision, meet a deadline, pay attention, draw a conclusion."
       },
       {
-        "en": "Check guesses based on Hebrew: have a party, pay attention, turn on the light, a high price.",
-        "he": "בדקו ניחושים שמבוססים על עברית: have a party (לא make), pay attention (לא put), turn on the light (לא open), a high price (לא expensive)."
+        "en": "Check guesses based on Hebrew: have a party, pay attention, turn off the light, a high price.",
+        "he": "בדקו ניחושים שמבוססים על עברית: have a party (לא make), pay attention (לא put), turn off the light (לא close), a high price (לא expensive)."
       },
       {
         "en": "Record whole chunks, including the article: make a decision, take a break."

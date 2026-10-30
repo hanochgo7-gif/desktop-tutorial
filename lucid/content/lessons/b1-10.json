@@ -84,7 +84,7 @@
     {
       "type": "tip",
       "en": "To disagree politely in English, first show that you have listened (I see your point / That's true), then give your view with a softener (but I'm not sure... / but I'm not convinced...). 'You're wrong' or 'That's nonsense' sounds rude in most discussions, especially with people you don't know well.",
-      "he": "כדי להביע אי-הסכמה בנימוס באנגלית, הראו קודם שהקשבתם (I see your point / That's true), ואז הציגו את דעתכם בצורה מרוככת (but I'm not sure... / but I'm not convinced...). משפטים כמו You're wrong או That's nonsense נשמעים גסים ברוב הדיונים, במיוחד עם אנשים שאתם לא מכירים טוב."
+      "he": "כדי להביע אי-הסכמה בנימוס באנגלית, הראו קודם שהקשבתם (I see your point / That's true), ואז הציגו את דעתכם בצורה מרוככת (but I'm not sure... / but I'm not convinced...). משפטים כמו You're wrong או That's nonsense נשמעים גסי רוח ברוב הדיונים, במיוחד עם אנשים שאתם לא מכירים טוב."
     }
   ],
   "examples": [
@@ -293,7 +293,7 @@
     {
       "word": "to be honest",
       "pos": "phrase",
-      "he": "אם להיות כנים; האמת היא ש...",
+      "he": "למען האמת; האמת היא ש...",
       "def": "used before you say what you really think, often something the listener may not like",
       "example": "To be honest, I don't think it's a good idea.",
       "ipa": "/tə bi ˈɒnɪst/",
@@ -608,24 +608,24 @@
         {
           "match": "For example",
           "feedback": {
-            "en": "For example usually starts a new sentence, with a comma after it, before a full example. Before a short list of nouns inside the sentence, use such as.",
-            "he": "For example בדרך כלל פותח משפט חדש, עם פסיק אחריו, לפני דוגמה שלמה. לפני רשימה קצרה של שמות עצם בתוך המשפט משתמשים ב-such as."
+            "en": "For example introduces an example, usually at the start of a new sentence with a comma after it. Before a short list of nouns inside a sentence, use such as. Is this part really an example?",
+            "he": "For example מציג דוגמה, בדרך כלל בתחילת משפט חדש עם פסיק אחריו. לפני רשימה קצרה של שמות עצם בתוך המשפט משתמשים ב-such as. האם החלק הזה באמת דוגמה?"
           },
           "error_type": "cohesion"
         },
         {
           "match": "such as",
           "feedback": {
-            "en": "such as goes straight before nouns (snacks such as crisps). It cannot start a sentence.",
-            "he": "such as בא ישר לפני שמות עצם (snacks such as crisps). הוא לא יכול לפתוח משפט."
+            "en": "such as goes straight before example nouns (snacks such as crisps). It cannot start a sentence or come before subject + verb.",
+            "he": "such as בא ישר לפני שמות עצם שהם דוגמאות (snacks such as crisps). הוא לא יכול לפתוח משפט או לבוא לפני נושא + פועל."
           },
           "error_type": "cohesion"
         },
         {
           "match": "Therefore",
           "feedback": {
-            "en": "Therefore shows a result and usually starts a new sentence, with a comma after it. In the middle of a sentence, after a comma, use so.",
-            "he": "Therefore מראה תוצאה ובדרך כלל פותח משפט חדש, עם פסיק אחריו. באמצע משפט, אחרי פסיק, משתמשים ב-so."
+            "en": "Therefore introduces a result, usually at the start of a new sentence with a comma after it. In the middle of a sentence, after a comma, use so. Is this part a result?",
+            "he": "Therefore מציג תוצאה, בדרך כלל בתחילת משפט חדש עם פסיק אחריו. באמצע משפט, אחרי פסיק, משתמשים ב-so. האם החלק הזה הוא תוצאה?"
           },
           "error_type": "punctuation"
         },

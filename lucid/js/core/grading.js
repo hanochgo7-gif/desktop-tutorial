@@ -74,6 +74,17 @@ export function levenshtein(a, b) {
 const words = (s) => normalize(s).replace(/[,.!?;:"]/g, ' ').split(/\s+/).filter(Boolean);
 
 // One word differs by one edit (insert/delete/substitute/transposition), and that word has 5+ letters.
+// A slip inside an inflectional ending (wants/want, swimming/swiming, studied/studyed) is a grammar or
+// spelling-rule error that lessons teach, so it is never forgiven as a typo.
+const ENDINGS = ['ing', 'ied', 'ies', 'ed', 'es', 's'];
+function inInflection(typed, expected) {
+  const end = ENDINGS.find((e) => expected.endsWith(e) && expected.length > e.length + 2);
+  if (!end) return false;
+  let i = 0;
+  while (i < typed.length && i < expected.length && typed[i] === expected[i]) i++;
+  return i >= expected.length - end.length - 1;
+}
+
 function typoOnly(input, target) {
   const a = words(input), b = words(target);
   if (a.length !== b.length) return null;
@@ -84,6 +95,7 @@ function typoOnly(input, target) {
     diff = { typed: a[i], expected: b[i] };
   }
   if (!diff || diff.expected.length < 5) return null;
+  if (inInflection(diff.typed, diff.expected)) return null;
   const d = levenshtein(diff.typed, diff.expected);
   const transposition = d === 2 && diff.typed.length === diff.expected.length &&
     [...diff.typed].sort().join('') === [...diff.expected].sort().join('');
