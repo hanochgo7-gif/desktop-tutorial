@@ -1,0 +1,872 @@
+{
+  "entries": [
+    {
+      "id": "ex-whats-up",
+      "term": "What's up?",
+      "meaning_en": "A casual greeting meaning 'Hi, what's new?'. Said with a worried tone, it can also mean 'What's wrong?'.",
+      "meaning_he": "ברכה קלילה, בערך 'מה קורה?' או 'מה העניינים?'. בטון מודאג היא יכולה גם לשאול 'מה קרה? מה הבעיה?'.",
+      "usage": {
+        "en": "Used with friends, classmates and people your age, mostly as a quick hello rather than a real question. Nobody expects news: the usual reply is 'Not much, you?' or simply 'Hey!'. 'What's up with...?' asks about a problem: 'What's up with the Wi-Fi?'. Common in both the US and the UK; in Britain you'll also hear 'You alright?'.",
+        "he": "משתמשים בזה עם חברים, עם חברים לכיתה ועם בני ובנות גילכם, בעיקר כ'היי' מהיר ולא כשאלה אמיתית. אף אחד לא מצפה לשמוע חדשות: התשובה הרגילה היא 'Not much, you?' או פשוט 'Hey!'. המבנה 'What's up with...?' שואל על בעיה: 'What's up with the Wi-Fi?' (מה הבעיה עם ה-Wi-Fi?). נפוץ גם בארה״ב וגם בבריטניה; בבריטניה תשמעו גם 'You alright?'."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Noa", "text": "Hey, Jake! What's up?" },
+        { "speaker": "Jake", "text": "Not much, just heading to class. You?" },
+        { "speaker": "Noa", "text": "Same. Wait, what's up with your phone? The screen's cracked." },
+        { "speaker": "Jake", "text": "Don't ask. I dropped it this morning." }
+      ],
+      "mistakes": [
+        {
+          "en": "Replying 'I'm fine, thank you.' It isn't wrong, but it answers a different question ('How are you?') and sounds stiff. 'Not much' or 'Nothing much' fits better.",
+          "he": "לענות 'I'm fine, thank you'. זה לא שגוי, אבל זו תשובה לשאלה אחרת (How are you?) והיא נשמעת נוקשה. Not much או Nothing much מתאימות יותר."
+        },
+        {
+          "en": "Greeting a teacher, interviewer or someone senior you don't know well with 'What's up?'. It's too casual for that relationship; 'Hi, how are you?' is safer.",
+          "he": "לפתוח ב-What's up מול מורה, מראיין או מישהו בכיר שאינכם מכירים היטב. זה קליל מדי למערכת יחסים כזו; Hi, how are you? בטוח יותר."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal situations: job interviews, emails, or meeting someone senior for the first time. Use 'Hello, how are you?' instead.",
+        "he": "במצבים רשמיים: ראיון עבודה, מייל, או פגישה ראשונה עם מישהו בכיר. במקום זה אמרו 'Hello, how are you?'."
+      },
+      "related": ["How's it going?", "What's new?", "You alright? (UK)", "Not much, you?"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-hows-it-going",
+      "term": "How's it going?",
+      "meaning_en": "A friendly 'How are you?' that asks in general how things are.",
+      "meaning_he": "'מה נשמע?' או 'איך הולך?' – שאלה ידידותית על המצב באופן כללי.",
+      "usage": {
+        "en": "Very common with friends, colleagues and people you see often, and fine with a new classmate or in a quick chat at a shop. It's a greeting, so a short positive answer is normal: 'Pretty good, you?' or 'Not bad, how about you?'. 'How's it going with...?' asks about something specific: 'How's it going with the new job?'.",
+        "he": "נפוץ מאוד עם חברים, עם עמיתים לעבודה ועם אנשים שפוגשים לעיתים קרובות, ומתאים גם לחבר חדש לכיתה או לשיחה קצרה בחנות. זו ברכה, ולכן תשובה קצרה וחיובית היא הנורמה: 'Pretty good, you?' או 'Not bad, how about you?'. המבנה 'How's it going with...?' שואל על משהו מסוים: 'How's it going with the new job?' (איך הולך בעבודה החדשה?)."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Dana", "text": "Hey, Sam! How's it going?" },
+        { "speaker": "Sam", "text": "Pretty good, thanks. How about you?" },
+        { "speaker": "Dana", "text": "Not bad. Busy week, but I'm surviving." },
+        { "speaker": "Sam", "text": "Same here. How's it going with the new place?" },
+        { "speaker": "Dana", "text": "Great, actually. I finally have a desk by the window." }
+      ],
+      "mistakes": [
+        {
+          "en": "Word order: 'How it's going?'. In a question, 'is' comes before 'it': How's it (= How is it) going?",
+          "he": "סדר מילים: 'How it's going?'. בשאלה is בא לפני it: How's it going? (= How is it going?)."
+        },
+        {
+          "en": "Answering 'It goes well', a literal version of 'holekh tov'. Say 'Good', 'Pretty good', 'Not bad' or 'It's going well'.",
+          "he": "לענות 'It goes well', תרגום מילולי של 'הולך טוב'. אומרים Good, Pretty good, Not bad או It's going well."
+        },
+        {
+          "en": "Not asking back. In English small talk it's polite to return the question: '...and you?' or 'How about you?'.",
+          "he": "לא להחזיר שאלה. בשיחת חולין באנגלית מקובל להחזיר את השאלה: ...and you? או How about you?. בלי זה התשובה נשמעת קצרה מדי."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal emails and with officials or examiners you don't know. 'How are you?' is the safer choice there.",
+        "he": "במיילים רשמיים ובשיחה עם פקידים או בוחנים שאינכם מכירים. שם עדיף 'How are you?'."
+      },
+      "related": ["How are you doing?", "How are things?", "What's up?", "Not bad, you?"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-no-worries",
+      "term": "No worries",
+      "meaning_en": "'That's fine' or 'You're welcome': a relaxed reply to thanks, a small apology or a small request.",
+      "meaning_he": "'אין בעיה', 'בכיף' או 'הכול בסדר': תגובה רגועה לתודה, להתנצלות קטנה או לבקשה קטנה.",
+      "usage": {
+        "en": "It started in Australia and is now everyday English in the UK and the US as well. Use it after 'Thanks!', after a small apology ('Sorry I'm late.' 'No worries.'), or to soften a request: 'Can you send it today? No worries if not.'",
+        "he": "הביטוי התחיל באוסטרליה, והיום הוא חלק מהאנגלית היומיומית גם בבריטניה ובארה״ב. משתמשים בו אחרי תודה, אחרי התנצלות קטנה ('Sorry I'm late.' 'No worries.'), או כדי לרכך בקשה: 'Can you send it today? No worries if not.' (ואם לא – לא נורא)."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Maya", "text": "Excuse me, I think you're in my seat. 14B?" },
+        { "speaker": "Ethan", "text": "Oh, sorry! I'll move. Here, let me put your bag up for you." },
+        { "speaker": "Maya", "text": "No worries. That's really kind, thanks!" },
+        { "speaker": "Ethan", "text": "No worries." }
+      ],
+      "mistakes": [
+        {
+          "en": "Replying 'Don't worry' to 'Thank you'. 'Don't worry' sounds as if the other person was anxious. After thanks, say 'No worries', 'No problem' or 'You're welcome'.",
+          "he": "לענות 'Don't worry' על תודה. Don't worry נשמע כאילו האדם השני היה מודאג. על תודה עונים No worries, No problem או You're welcome."
+        },
+        {
+          "en": "Saying 'No worry'. The phrase is fixed and always plural: No worries.",
+          "he": "לומר 'No worry' ביחיד. הביטוי קבוע ותמיד ברבים: No worries."
+        }
+      ],
+      "avoid_when": {
+        "en": "When someone apologises for something serious (it can sound as if it didn't matter), and in formal writing to clients or officials, where 'You're welcome' or 'Not at all' is safer.",
+        "he": "כשמישהו מתנצל על משהו רציני (זה עלול להישמע כאילו זה לא משנה לכם), ובכתיבה רשמית ללקוחות או לגופים רשמיים, שם עדיף You're welcome או Not at all."
+      },
+      "related": ["No problem", "You're welcome", "No big deal", "All good", "Don't worry about it"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-im-down",
+      "term": "I'm down",
+      "meaning_en": "'I'm in' or 'Count me in': you're happy to join a plan or try something.",
+      "meaning_he": "'אני בעניין', 'אני זורם/ת': מסכימים בשמחה להצטרף לתוכנית או לנסות משהו.",
+      "usage": {
+        "en": "Very informal and mainly American, though young British speakers use it too (many Brits say 'I'm up for it'). Use it with friends when someone suggests a plan: 'Pizza tonight?' 'I'm down.' Patterns: 'I'm down for that', 'I'm down for pizza', 'I'm down to go'.",
+        "he": "סלנג מובהק, בעיקר אמריקאי, אבל גם צעירים בבריטניה משתמשים בו (בריטים רבים אומרים I'm up for it). אומרים את זה לחברים כשמישהו מציע תוכנית: 'Pizza tonight?' 'I'm down.' המבנים: I'm down for that, I'm down for pizza, I'm down to go."
+      },
+      "formality": "very informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Omer", "text": "We're going bowling on Saturday. You in?" },
+        { "speaker": "Chloe", "text": "I'm down! What time?" },
+        { "speaker": "Omer", "text": "Around seven. Maybe burgers after." },
+        { "speaker": "Chloe", "text": "Definitely down for burgers." }
+      ],
+      "mistakes": [
+        {
+          "en": "Confusing it with 'I'm feeling down' or 'I'm a bit down', which mean 'I'm sad'. As a reply to a suggestion, 'I'm down' is always positive: yes, I'll come.",
+          "he": "לבלבל עם I'm feeling down או I'm a bit down, שפירושם 'אני קצת עצוב/ה'. כתגובה להצעה, I'm down תמיד חיובי: כן, אני בא/ה."
+        },
+        {
+          "en": "Using the wrong pattern: 'I'm down for go' or 'I'm down to pizza'. Use 'down for' + noun (down for pizza) and 'down to' + verb (down to go).",
+          "he": "מבנה שגוי: 'I'm down for go' או 'I'm down to pizza'. הכלל: down for + שם עצם (down for pizza), down to + פועל (down to go)."
+        }
+      ],
+      "avoid_when": {
+        "en": "With teachers, employers, clients or anyone you need to sound professional with; say 'I'd be happy to' or 'That works for me'. Also in any writing that isn't a casual text to friends.",
+        "he": "מול מורים, מעסיקים, לקוחות וכל מי שמולו צריך להישמע מקצועי; שם אומרים I'd be happy to או That works for me. וגם בכל כתיבה שאינה הודעה קלילה לחברים."
+      },
+      "related": ["I'm in", "Count me in", "I'm up for it", "Sounds good"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-sounds-good",
+      "term": "Sounds good",
+      "meaning_en": "'OK, I agree': a friendly way to accept a plan, a suggestion or an arrangement.",
+      "meaning_he": "'נשמע טוב', 'סגור': דרך ידידותית להסכים לתוכנית, להצעה או לסידור.",
+      "usage": {
+        "en": "One of the most useful replies in English: with friends, with colleagues and in quick work messages. It's short for 'That sounds good'. Variants: 'Sounds great', 'Sounds like a plan'. In a more formal email, write 'That sounds good' or 'That works for me'.",
+        "he": "אחת התגובות השימושיות ביותר באנגלית: עם חברים, עם עמיתים ובהודעות עבודה קצרות. זה קיצור של That sounds good. גרסאות נוספות: Sounds great, Sounds like a plan. במייל רשמי יותר כתבו That sounds good או That works for me."
+      },
+      "formality": "neutral",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Rachel", "text": "Can we move our meeting to three instead of two?" },
+        { "speaker": "Itai", "text": "Sounds good. Same room?" },
+        { "speaker": "Rachel", "text": "Yes, Room 4. I'll send an updated invite." },
+        { "speaker": "Itai", "text": "Great, see you then." }
+      ],
+      "mistakes": [
+        {
+          "en": "Dropping the -s: 'Sound good' or 'It's sound good'. The hidden subject is 'that' (That sounds good), so the verb is 'sounds'.",
+          "he": "להשמיט את ה-s: 'Sound good' או 'It's sound good'. הנושא המושמט הוא that (That sounds good), ולכן הפועל הוא sounds."
+        },
+        {
+          "en": "Saying 'Sounds well'. After 'sound' (like 'look' and 'seem') we use an adjective: good, not well.",
+          "he": "לומר 'Sounds well'. אחרי sound (כמו אחרי look ו-seem) בא שם תואר: good ולא well."
+        }
+      ],
+      "avoid_when": {
+        "en": "When you need to sound formal (a cover letter, a reply to an official body), and when someone shares personal news rather than suggesting a plan; there, react to the news itself ('Oh no!', 'That's great!').",
+        "he": "כשצריך להישמע רשמי (מכתב מקדים, תשובה לגוף רשמי), וכשמישהו משתף חדשות אישיות ולא מציע תוכנית; אז מגיבים לחדשות עצמן ('Oh no!', 'That's great!')."
+      },
+      "related": ["Sounds great", "Sounds like a plan", "Works for me", "Perfect", "I'm down"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-my-bad",
+      "term": "My bad",
+      "meaning_en": "'My mistake, sorry': a quick, casual way to admit a small error.",
+      "meaning_he": "'טעות שלי', 'סליחה, אשמתי': הודאה מהירה וקלילה בטעות קטנה.",
+      "usage": {
+        "en": "American slang, now also common among young people in the UK. Use it for small, low-stakes slips: picking up someone's pen, taking a wrong turn, replying late. Because it's so light, it suits minor things only.",
+        "he": "סלנג אמריקאי שהתפשט גם בקרב צעירים בבריטניה. מתאים לפספוסים קטנים וחסרי חשיבות: לקחתם עט של מישהו, פניתם בפנייה הלא נכונה, עניתם באיחור. הביטוי קליל מאוד, ולכן מתאים רק לדברים שוליים."
+      },
+      "formality": "very informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Josh", "text": "Hey, I think that's my coffee." },
+        { "speaker": "Tamar", "text": "Oh! My bad, they look exactly the same. Here you go." },
+        { "speaker": "Josh", "text": "No worries. Yours is the one with oat milk." },
+        { "speaker": "Tamar", "text": "Thanks. Sorry again!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Using it for something serious, like missing a friend's important event or breaking something valuable. It sounds dismissive; say 'I'm really sorry, that was my fault.'",
+          "he": "להשתמש בו על משהו רציני, כמו פספוס של אירוע חשוב לחבר או שבירה של חפץ יקר. זה נשמע מזלזל; אמרו I'm really sorry, that was my fault."
+        },
+        {
+          "en": "Building it into a longer sentence: 'It was my bad that we were late.' 'My bad' works as a short reply on its own; inside a sentence, say 'It was my fault that we were late.'",
+          "he": "לשלב אותו בתוך משפט ארוך: 'It was my bad that we were late'. My bad עובד כתגובה קצרה שעומדת לבד; בתוך משפט אומרים It was my fault that we were late."
+        }
+      ],
+      "avoid_when": {
+        "en": "When the mistake really affected someone, and with teachers, managers, clients or in any formal writing. Use 'Sorry, my mistake' or 'I apologise, that was my fault.'",
+        "he": "כשהטעות באמת פגעה במישהו, וגם מול מורים, מנהלים, לקוחות ובכל כתיבה רשמית. אמרו Sorry, my mistake או I apologise, that was my fault."
+      },
+      "related": ["My mistake", "Sorry, my fault", "That's on me", "Oops"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-fair-enough",
+      "term": "Fair enough",
+      "meaning_en": "'OK, that's reasonable': you accept someone's reason or point, even if it isn't what you wanted or you don't fully agree.",
+      "meaning_he": "'הוגן', 'מקובל', 'בסדר, הבנתי': מקבלים את הנימוק או הטענה של מישהו, גם אם זה לא מה שרציתם או שאתם לא מסכימים לגמרי.",
+      "usage": {
+        "en": "Very common in British and Australian English and widely used in the US. Say it after someone explains a decision or a reason: 'I can't come, I've got an exam tomorrow.' 'Fair enough.' It closes the topic politely, without arguing.",
+        "he": "נפוץ מאוד באנגלית בריטית ואוסטרלית, ונפוץ גם בארה״ב. אומרים את זה אחרי שמישהו מסביר החלטה או סיבה: 'I can't come, I've got an exam tomorrow.' 'Fair enough.' כך סוגרים את הנושא בנימוס, בלי להתווכח."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Adam", "text": "Are you coming to the party tonight?" },
+        { "speaker": "Shira", "text": "I don't think so. I've got a shift at seven tomorrow morning." },
+        { "speaker": "Adam", "text": "Fair enough. Next time, then?" },
+        { "speaker": "Shira", "text": "Definitely." }
+      ],
+      "mistakes": [
+        {
+          "en": "Using 'fair' like Israeli slang 'fair' (= honestly): 'Fair, I didn't like the movie.' In English, say 'Honestly,...' or 'To be fair,...'. 'Fair enough' is a reply to someone else's reason.",
+          "he": "להשתמש ב-fair כמו 'פייר' בסלנג הישראלי (= בכנות): 'Fair, I didn't like the movie'. באנגלית אומרים Honestly או To be fair. Fair enough הוא תגובה לנימוק של מישהו אחר."
+        },
+        {
+          "en": "Saying it in an emotional or serious moment ('My dad's in hospital.' 'Fair enough.'). It sounds cold, as if you're just noting a fact; respond with sympathy: 'I'm so sorry to hear that.'",
+          "he": "לומר אותו ברגע רגשי או רציני ('My dad's in hospital.' 'Fair enough.'). זה נשמע קר, כאילו רק רשמתם עובדה; מגיבים באמפתיה: I'm so sorry to hear that."
+        }
+      ],
+      "avoid_when": {
+        "en": "When someone shares bad news or feelings, and in formal writing. In a debate it can sound like a polite way of ending the discussion, so use it only when you really accept the point.",
+        "he": "כשמישהו משתף חדשות רעות או רגשות, ובכתיבה רשמית. בוויכוח הוא עלול להישמע כמו דרך מנומסת לסגור את הדיון, אז השתמשו בו רק כשאתם באמת מקבלים את הטענה."
+      },
+      "related": ["That's fair", "To be fair", "Makes sense", "OK, I get it"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-thats-awesome",
+      "term": "That's awesome",
+      "meaning_en": "'That's great!': enthusiastic praise, or happiness about someone's news.",
+      "meaning_he": "'מדהים!', 'איזה כיף!': התלהבות או שמחה על החדשות של מישהו.",
+      "usage": {
+        "en": "Very common in American English, where 'awesome' is an everyday word for 'very good'. British speakers use it too but often prefer 'That's brilliant' or 'That's great'. Use it to react warmly to good news, a plan or something impressive.",
+        "he": "נפוץ מאוד באנגלית אמריקאית, שבה awesome היא מילה יומיומית ל'טוב מאוד'. גם בריטים משתמשים בה, אבל לרוב מעדיפים That's brilliant או That's great. משתמשים בזה כדי להגיב בחום לחדשות טובות, לתוכנית או למשהו מרשים."
+      },
+      "formality": "informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Gal", "text": "Guess what? I got into the design program!" },
+        { "speaker": "Ryan", "text": "No way! That's awesome! Congratulations!" },
+        { "speaker": "Gal", "text": "Thanks! I start in October." },
+        { "speaker": "Ryan", "text": "We have to celebrate. Lunch is on me." }
+      ],
+      "mistakes": [
+        {
+          "en": "Using 'awesome' in formal or academic writing ('The results were awesome'). In writing, choose 'impressive', 'excellent' or 'remarkable'.",
+          "he": "לכתוב awesome בכתיבה רשמית או אקדמית ('The results were awesome'). בכתיבה בחרו impressive, excellent או remarkable."
+        },
+        {
+          "en": "Missing sarcasm. Said flatly, 'Oh, that's awesome' can mean the opposite ('The train's cancelled.' 'Oh, that's awesome.'). Listen to the tone and the situation.",
+          "he": "לא לזהות אירוניה. בטון שטוח, 'Oh, that's awesome' יכול לומר את ההפך ('The train's cancelled.' 'Oh, that's awesome.'). שימו לב לטון ולמצב."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal writing, and when praising someone in a formal setting (a reference letter, a speech), where 'impressive' or 'outstanding' fits better.",
+        "he": "בכתיבה רשמית, וכשמשבחים מישהו במסגרת רשמית (מכתב המלצה, נאום), שם impressive או outstanding מתאימים יותר."
+      },
+      "related": ["That's great", "That's amazing", "That's brilliant (UK)", "Nice one", "Congrats!"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-im-beat",
+      "term": "I'm beat",
+      "meaning_en": "'I'm exhausted': very tired, usually after a long day or hard work.",
+      "meaning_he": "'אני גמור/ה': עייפות גדולה, בדרך כלל אחרי יום ארוך או עבודה קשה.",
+      "usage": {
+        "en": "Mainly American, used with friends and family when you're too tired to do anything else. British speakers more often say 'I'm knackered' or 'I'm shattered'. Note the form: 'beat', not 'beaten'.",
+        "he": "בעיקר אמריקאי, עם חברים ובני משפחה, כשאין לכם כוח לעשות שום דבר נוסף. בבריטניה אומרים יותר I'm knackered או I'm shattered. שימו לב לצורה: beat ולא beaten."
+      },
+      "formality": "informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Noam", "text": "Want to watch a movie tonight?" },
+        { "speaker": "Kayla", "text": "I'd love to, but I'm beat. I was on my feet all day at work." },
+        { "speaker": "Noam", "text": "No problem. Tomorrow?" },
+        { "speaker": "Kayla", "text": "Tomorrow works. Right now I'm going straight to bed." }
+      ],
+      "mistakes": [
+        {
+          "en": "Saying 'I'm beaten'. That means you lost (a game or a fight). The expression for tiredness is always 'I'm beat'.",
+          "he": "לומר I'm beaten. פירוש הדבר 'הפסדתי' (במשחק או בקרב). ביטוי העייפות הוא תמיד I'm beat."
+        },
+        {
+          "en": "Translating 'ani met' as 'I'm dead'. In current slang, 'I'm dead' usually means 'That's hilarious', not 'I'm tired'. Say 'I'm beat' or 'I'm exhausted' ('I'm dead tired' is fine).",
+          "he": "לתרגם 'אני מת' ל-I'm dead. בסלנג של היום I'm dead פירושו בדרך כלל 'זה מצחיק אותי נורא', ולא 'אני עייף'. אמרו I'm beat או I'm exhausted (הצירוף I'm dead tired תקין)."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal writing and with people you need to be careful with, such as an examiner or a client. 'I'm exhausted' works in any context.",
+        "he": "בכתיבה רשמית ומול אנשים שצריך להקפיד מולם, כמו בוחנים או לקוחות. I'm exhausted מתאים בכל הקשר."
+      },
+      "related": ["I'm exhausted", "I'm worn out", "I'm wiped out", "I'm knackered (UK)", "I'm dead tired"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-hang-out",
+      "term": "Hang out",
+      "meaning_en": "To spend time with friends in a relaxed way, without a fixed plan.",
+      "meaning_he": "לבלות או להעביר זמן יחד בלי תוכנית מוגדרת.",
+      "usage": {
+        "en": "Used everywhere, by all ages. 'Hang out with someone', 'hang out at a place'. Past tense: 'hung out'. As a noun, 'a hangout' is a place people like to spend time: 'This café is our usual hangout.'",
+        "he": "נפוץ בכל מקום ובכל הגילים. hang out with someone (עם מישהו), hang out at a place (במקום מסוים). בעבר: hung out. כשם עצם, hangout הוא מקום שאוהבים לבלות בו: 'This café is our usual hangout.'"
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Yoni", "text": "What did you do this weekend?" },
+        { "speaker": "Hannah", "text": "Nothing special. I just hung out with my cousins at the beach." },
+        { "speaker": "Yoni", "text": "Nice. We should hang out sometime too." },
+        { "speaker": "Hannah", "text": "Sure! Are you free on Thursday?" }
+      ],
+      "mistakes": [
+        {
+          "en": "Translating 'latset im' as 'go out with someone'. 'Go out with someone' usually means dating. To suggest spending time as friends, 'hang out' is clearer.",
+          "he": "לתרגם 'לצאת עם מישהו' ל-go out with someone. באנגלית הצירוף הזה מתאר בדרך כלל יציאה רומנטית, כמו 'לצאת' כזוג. כדי להציע בילוי כחברים, hang out ברור יותר."
+        },
+        {
+          "en": "Saying 'hanged out'. The past tense of 'hang out' is 'hung out'.",
+          "he": "לומר hanged out. העבר של hang out הוא hung out."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal writing, or when describing a professional meeting: 'I hung out with the client' sounds unprofessional; say 'I met the client'.",
+        "he": "בכתיבה רשמית, או כשמתארים פגישה מקצועית: 'I hung out with the client' נשמע לא מקצועי; אמרו I met the client."
+      },
+      "related": ["Spend time with", "Get together", "Chill (with)", "Catch up", "Hang (US, very informal)"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-hit-me-up",
+      "term": "Hit me up",
+      "meaning_en": "'Contact me': call, text or message me, usually to make plans.",
+      "meaning_he": "'תהיו בקשר', 'שלחו לי הודעה': ליצור קשר בטלפון או בהודעה, בדרך כלל כדי לקבוע משהו.",
+      "usage": {
+        "en": "Very informal American slang, also heard among young people elsewhere. Common at the end of a chat or a post: 'Hit me up if you're free this weekend.' You can also 'hit someone up' (contact them): 'I'll hit Dana up about the tickets.'",
+        "he": "סלנג אמריקאי מובהק, שנשמע גם אצל צעירים במקומות אחרים. נפוץ בסוף שיחה או פוסט: 'Hit me up if you're free this weekend.' אפשר גם hit someone up, כלומר לפנות למישהו: 'I'll hit Dana up about the tickets.'"
+      },
+      "formality": "very informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Liam", "text": "It was great meeting you. Are you on Instagram?" },
+        { "speaker": "Roni", "text": "Yeah, I'll send you my username." },
+        { "speaker": "Liam", "text": "Cool. Hit me up if you want to go to that concert on Friday." },
+        { "speaker": "Roni", "text": "Will do!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Dropping 'up'. 'Hit me' means 'strike me' (or 'deal me another card' in card games). The 'up' is what turns it into 'contact me'.",
+          "he": "להשמיט את up. Hit me פירושו 'תכה אותי' (או 'עוד קלף' במשחקי קלפים). המילה up היא שהופכת את זה ל'צרו איתי קשר'."
+        },
+        {
+          "en": "Word order: 'Hit up me'. With a pronoun (me, him, her) it goes in the middle: 'hit me up'. With a name, both 'hit Dana up' and 'hit up Dana' are fine.",
+          "he": "סדר מילים: 'Hit up me'. כינוי גוף (me, him, her) בא באמצע: hit me up. עם שם אפשר גם hit Dana up וגם hit up Dana."
+        }
+      ],
+      "avoid_when": {
+        "en": "In job applications, emails to lecturers, customer service or with anyone you don't know well. Write 'Feel free to get in touch' or 'Let me know if you have any questions.'",
+        "he": "במועמדות לעבודה, במיילים למרצים, בשירות לקוחות ומול כל מי שאינכם מכירים היטב. כתבו Feel free to get in touch או Let me know if you have any questions."
+      },
+      "related": ["Text me", "Message me", "Give me a call", "Get in touch", "Let me know"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-im-all-set",
+      "term": "I'm all set",
+      "meaning_en": "'I have everything I need': no more help is needed. It can also mean 'I'm ready'.",
+      "meaning_he": "'יש לי כל מה שצריך, תודה': לא צריך עוד עזרה. יכול גם לומר 'אני מוכן/ה'.",
+      "usage": {
+        "en": "Very common in American service situations. When a server asks 'Can I get you anything else?' or a shop assistant offers help, 'I'm all set, thanks' politely means 'No, thank you'. 'All set' meaning 'ready' ('We're all set for the trip') is used in the UK too, but there a server is more likely to hear 'I'm fine, thanks.'",
+        "he": "נפוץ מאוד במצבי שירות בארה״ב. כשמלצר שואל 'Can I get you anything else?' או כשמוכר מציע עזרה, I'm all set, thanks פירושו בנימוס 'לא, תודה'. all set במובן 'מוכנים' ('We're all set for the trip') משמש גם בבריטניה, אבל שם במסעדה סביר יותר לשמוע I'm fine, thanks."
+      },
+      "formality": "neutral",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Server", "text": "Can I get you anything else? More water?" },
+        { "speaker": "Avi", "text": "I'm all set, thanks. Could we get the check, please?" },
+        { "speaker": "Server", "text": "Sure, I'll bring it right over." },
+        { "speaker": "Avi", "text": "Thanks. Everything was great." }
+      ],
+      "mistakes": [
+        {
+          "en": "Translating 'ani mesudar' as 'I'm organised'. In English that describes a tidy, well-planned person. To say you don't need anything, use 'I'm all set' or 'I'm good, thanks'.",
+          "he": "לתרגם 'אני מסודר/ת' ל-I'm organised. באנגלית זה מתאר אדם מאורגן ומתוכנן. כדי לומר שלא צריך כלום, אומרים I'm all set או I'm good, thanks."
+        },
+        {
+          "en": "Hearing 'Are you all set?' only as 'Are you ready to order?'. Depending on the moment, it can also mean 'Do you need anything else?' or 'Are you finished?'. Use the context.",
+          "he": "להבין את 'Are you all set?' רק כ'מוכנים להזמין?'. לפי שלב הארוחה זה יכול גם לשאול 'צריכים עוד משהו?' או 'סיימתם?'. היעזרו בהקשר."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal writing (say 'I have everything I need'). Outside the US, 'I'm fine, thanks' or 'That's everything, thanks' sounds more local.",
+        "he": "בכתיבה רשמית (כתבו I have everything I need). מחוץ לארה״ב, I'm fine, thanks או That's everything, thanks נשמעים טבעיים יותר."
+      },
+      "related": ["I'm good, thanks", "That's everything, thanks", "I'm fine, thanks (UK)", "All good", "Ready to go"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-it-depends",
+      "term": "It depends",
+      "meaning_en": "'The answer changes with the situation': there's no single simple answer.",
+      "meaning_he": "'תלוי': אין תשובה אחת פשוטה, כי זה משתנה לפי המצב.",
+      "usage": {
+        "en": "Neutral and useful everywhere: in conversation, at work and in interviews. On its own it can sound evasive, so it's usually followed by what it depends on: 'It depends on the weather' or 'It depends whether I finish work early.' In casual speech it's often shortened to 'Depends.'",
+        "he": "ניטרלי ושימושי בכל מקום: בשיחה, בעבודה ובראיונות. לבד הוא עלול להישמע מתחמק, ולכן בדרך כלל מוסיפים במה זה תלוי: 'It depends on the weather' או 'It depends whether I finish work early.' בדיבור קליל מקצרים לפעמים ל-Depends."
+      },
+      "formality": "neutral",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Ben", "text": "Are you coming to the beach tomorrow?" },
+        { "speaker": "Yael", "text": "It depends on the weather. If it's windy, probably not." },
+        { "speaker": "Ben", "text": "The forecast says sunny and calm." },
+        { "speaker": "Yael", "text": "Then I'm in!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Using the wrong preposition: 'It depends in' or 'It depends of', from Hebrew 'talui be-'. In English it's always 'depends on'.",
+          "he": "מילת יחס שגויה: It depends in או It depends of, בהשפעת 'תלוי ב-'. באנגלית תמיד depends on."
+        },
+        {
+          "en": "Saying 'Depend', 'It depend' or 'It's depend'. Hebrew 'talui' is one word, but English needs a subject and third-person -s: 'It depends' (casually, 'Depends').",
+          "he": "לומר Depend, It depend או It's depend. בעברית 'תלוי' היא מילה אחת, אבל באנגלית צריך נושא ו-s של גוף שלישי: It depends (ובדיבור קליל: Depends)."
+        }
+      ],
+      "avoid_when": {
+        "en": "As your whole answer in a job interview or an exam; on its own it sounds like you're avoiding the question. Always add 'on...' and explain.",
+        "he": "כתשובה מלאה בראיון עבודה או בבחינה; לבד זה נשמע כמו התחמקות מהשאלה. תמיד הוסיפו on... והסבירו."
+      },
+      "related": ["That depends on...", "Depends.", "It's hard to say", "We'll see"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-thats-on-me",
+      "term": "That's on me",
+      "meaning_en": "1) 'That's my fault' or 'That's my responsibility.' 2) 'I'll pay for it.'",
+      "meaning_he": "1) 'זה באשמתי' או 'זו אחריות שלי'. 2) 'זה עליי', כלומר אני משלם/ת.",
+      "usage": {
+        "en": "Meaning 1 (responsibility) started in American English and is now common in the UK too: 'We missed the bus. That's on me, I read the timetable wrong.' Meaning 2 (paying) is used everywhere, often as 'It's on me', 'This one's on me' or 'Coffee's on me'. The context tells you which meaning is intended.",
+        "he": "המשמעות הראשונה (אחריות) התחילה באנגלית האמריקאית והיום נפוצה גם בבריטניה: 'We missed the bus. That's on me, I read the timetable wrong.' המשמעות השנייה (תשלום) נפוצה בכל מקום, לרוב בצורה It's on me, This one's on me או Coffee's on me. ההקשר מבהיר לאיזו משמעות הכוונה."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Ella", "text": "Wait, the restaurant's closed on Mondays?" },
+        { "speaker": "Daniel", "text": "Oh no. That's on me, I didn't check." },
+        { "speaker": "Ella", "text": "It's fine. There's a falafel place around the corner." },
+        { "speaker": "Daniel", "text": "Great. And dinner's on me, to make up for it." }
+      ],
+      "mistakes": [
+        {
+          "en": "Saying 'I invite you' to mean 'I'll pay', from Hebrew 'ani mazmin'. In English, 'I invite you' only means you're asking someone to come. Say 'It's on me' or 'My treat'.",
+          "he": "לתרגם 'אני מזמין/ה' (במובן של תשלום) ל-I invite you. באנגלית I invite you פירושו רק שאתם מזמינים מישהו להגיע. אומרים It's on me או My treat."
+        },
+        {
+          "en": "Confusing 'It's on me' with 'It's up to me'. 'It's up to me' means 'It's my decision'.",
+          "he": "לבלבל בין It's on me לבין It's up to me. It's up to me פירושו 'זו ההחלטה שלי'."
+        }
+      ],
+      "avoid_when": {
+        "en": "Be careful with 'That's on you': it clearly blames the other person and can sound harsh. In formal settings, say 'I take responsibility for that' or 'That was my mistake.'",
+        "he": "היזהרו עם That's on you: זו האשמה ישירה של האדם השני, והיא עלולה להישמע בוטה. במסגרת רשמית אמרו I take responsibility for that או That was my mistake."
+      },
+      "related": ["My bad", "My treat", "It's my fault", "I'll get this one"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-youre-good",
+      "term": "You're good",
+      "meaning_en": "'It's fine, no problem': a casual reply when someone apologises or checks whether they're in your way.",
+      "meaning_he": "'הכול בסדר', 'אין בעיה': תגובה קלילה כשמישהו מתנצל או בודק אם הוא מפריע.",
+      "usage": {
+        "en": "Very common in American English, especially among younger people. When someone says 'Sorry!' or 'Am I in your way?', 'You're good' means 'Don't worry, it's fine'. At a counter or a checkpoint it can also mean 'You're done, you can go' ('You're good to go'). British speakers more often say 'You're alright' or 'No worries'.",
+        "he": "נפוץ מאוד באנגלית אמריקאית, במיוחד אצל צעירים. כשמישהו אומר 'Sorry!' או 'Am I in your way?', התשובה You're good פירושה 'אל תדאגו, הכול בסדר'. בדלפק או בבידוק זה יכול גם לומר 'סיימתם, אפשר להמשיך' (You're good to go). בבריטניה אומרים יותר You're alright או No worries."
+      },
+      "formality": "informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Nir", "text": "Oh, sorry! Am I blocking the aisle?" },
+        { "speaker": "Megan", "text": "You're good, I can get past." },
+        { "speaker": "Nir", "text": "Thanks. These carts are huge." },
+        { "speaker": "Megan", "text": "Tell me about it!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Hearing it as a compliment ('You're good at this') and replying 'Thank you!'. After an apology, 'You're good' simply means 'No problem'.",
+          "he": "להבין את זה כמחמאה (כאילו נאמר You're good at this) ולענות Thank you!. אחרי התנצלות, You're good פירושו פשוט 'אין בעיה'."
+        },
+        {
+          "en": "Missing the second meaning: when a cashier or security officer says 'You're good', it means you can go, not that you did well.",
+          "he": "לפספס את המשמעות השנייה: כשקופאי או מאבטח אומרים You're good, הכוונה היא שאפשר להמשיך, ולא שעשיתם משהו טוב."
+        }
+      ],
+      "avoid_when": {
+        "en": "With people in formal roles or much older strangers, where it can sound too casual; 'No problem at all' is safer. Outside the US, 'No worries' is more widely used.",
+        "he": "מול אנשים בתפקיד רשמי או זרים מבוגרים בהרבה, שם זה עלול להישמע קליל מדי; No problem at all בטוח יותר. מחוץ לארה״ב, No worries נפוץ יותר."
+      },
+      "related": ["No worries", "You're fine", "All good", "No problem", "You're good to go"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-im-just-checking",
+      "term": "I'm just checking",
+      "meaning_en": "'I only want to make sure': a soft way to confirm something or follow up without sounding pushy.",
+      "meaning_he": "'רק רציתי לוודא': דרך עדינה לבדוק משהו או להזכיר בלי להישמע לוחצים.",
+      "usage": {
+        "en": "Neutral and polite. 'Just' makes the question sound small and friendly: 'I'm just checking, is the meeting still at ten?' In emails and messages, 'Just checking in' is a gentle reminder or follow-up: 'Just checking in about my application.'",
+        "he": "ניטרלי ומנומס. המילה just מקטינה את השאלה והופכת אותה לידידותית: 'I'm just checking, is the meeting still at ten?' במיילים ובהודעות, Just checking in היא תזכורת עדינה או פנייה חוזרת: 'Just checking in about my application.'"
+      },
+      "formality": "neutral",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Itamar", "text": "Hi, I'm just checking: is tomorrow's class still in Room 12?" },
+        { "speaker": "Lecturer", "text": "Yes, same room, same time." },
+        { "speaker": "Itamar", "text": "Great, thanks. I just wanted to make sure." },
+        { "speaker": "Lecturer", "text": "No problem. See you tomorrow." }
+      ],
+      "mistakes": [
+        {
+          "en": "Using it when a shop assistant asks 'Can I help you?'. The set phrase there is 'I'm just looking, thanks' (in the UK also 'I'm just browsing').",
+          "he": "להשתמש בזה כששואלים אתכם בחנות 'Can I help you?'. הביטוי הקבוע שם הוא I'm just looking, thanks (ובבריטניה גם I'm just browsing)."
+        },
+        {
+          "en": "Following up too directly, as is common in Hebrew ('Did you send it?'). In English, 'Just checking in, did you get a chance to send it?' sounds friendlier and less like pressure.",
+          "he": "לשאול שוב בצורה ישירה מדי, כמו שמקובל בעברית ('Did you send it?'). באנגלית 'Just checking in, did you get a chance to send it?' נשמע ידידותי יותר ופחות לוחץ."
+        }
+      ],
+      "avoid_when": {
+        "en": "When the matter is urgent or serious: 'just checking' makes it sound minor. Say clearly what you need and by when.",
+        "he": "כשהעניין דחוף או רציני: just checking גורם לו להישמע שולי. אמרו בבירור מה אתם צריכים ועד מתי."
+      },
+      "related": ["Just to confirm", "Just checking in", "I just wanted to make sure", "Quick question"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-cheers",
+      "term": "Cheers",
+      "meaning_en": "1) 'Thanks' (casual). 2) 'Bye' (UK). 3) What people say when they raise their glasses together.",
+      "meaning_he": "1) 'תודה' בקלילות. 2) 'ביי' (בבריטניה). 3) 'לחיים', כשמרימים כוסות יחד.",
+      "usage": {
+        "en": "As 'thanks' it's very common in the UK and Australia: in shops, on buses, in messages and casual emails ('Cheers, Tom'). Americans mostly use it only when raising a glass, so 'Cheers' for 'thanks' sounds British to them. In the UK it can also close a phone call or a conversation: 'OK, cheers, bye!'",
+        "he": "במובן 'תודה' הוא נפוץ מאוד בבריטניה ובאוסטרליה: בחנויות, באוטובוס, בהודעות ובמיילים לא רשמיים ('Cheers, Tom'). בארה״ב משתמשים בו בעיקר כשמרימים כוסות, כך ש-Cheers במובן 'תודה' נשמע לאמריקאים בריטי. בבריטניה הוא יכול גם לסיים שיחת טלפון או שיחה: 'OK, cheers, bye!'"
+      },
+      "formality": "informal",
+      "region": "UK",
+      "example_dialogue": [
+        { "speaker": "Shop assistant", "text": "Here's your change and your receipt." },
+        { "speaker": "Ori", "text": "Cheers!" },
+        { "speaker": "Shop assistant", "text": "You're welcome. Have a nice day." },
+        { "speaker": "Ori", "text": "You too. Cheers, bye!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Thinking it only means 'le-chayim'. In Britain you'll hear it many times a day simply meaning 'thanks'.",
+          "he": "לחשוב שזה רק 'לחיים'. בבריטניה שומעים את זה פעמים רבות ביום, פשוט במובן 'תודה'."
+        },
+        {
+          "en": "Using 'Cheers' to thank someone for something big, or in a formal email to a lecturer or an employer you haven't met. There, 'Thank you so much' or 'Many thanks' is right.",
+          "he": "להודות ב-Cheers על משהו גדול, או במייל רשמי למרצה או למעסיק שעוד לא פגשתם. שם מתאים Thank you so much או Many thanks."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal writing and with people you've just met in a formal setting. In the US, prefer 'Thanks', unless everyone is raising a glass.",
+        "he": "בכתיבה רשמית ומול אנשים שהכרתם זה עתה במסגרת רשמית. בארה״ב עדיף Thanks, אלא אם כולם מרימים כוסות."
+      },
+      "related": ["Thanks", "Ta (UK, very informal)", "Thanks a lot", "Many thanks", "Bye"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-no-big-deal",
+      "term": "No big deal",
+      "meaning_en": "'It's not important' or 'It's not a problem': something is minor.",
+      "meaning_he": "'לא נורא', 'לא סיפור': זה לא חשוב או לא בעיה.",
+      "usage": {
+        "en": "Used everywhere to make something feel smaller: to reassure someone after a small apology ('Sorry I forgot your charger.' 'No big deal.') or to play down your own effort ('Thanks for helping!' 'No big deal.'). Also as a full sentence: 'It's no big deal' or 'It's not a big deal'.",
+        "he": "נפוץ בכל מקום כדי להקטין משהו: להרגיע מישהו אחרי התנצלות קטנה ('Sorry I forgot your charger.' 'No big deal.') או להצניע את המאמץ שלכם ('Thanks for helping!' 'No big deal.'). אפשר גם במשפט מלא: It's no big deal או It's not a big deal."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Lucy", "text": "I'm so sorry, I spilled water on your notebook." },
+        { "speaker": "Eden", "text": "No big deal, it's just my shopping list." },
+        { "speaker": "Lucy", "text": "Are you sure? I can buy you a new one." },
+        { "speaker": "Eden", "text": "Honestly, it's not a big deal. Don't worry about it." }
+      ],
+      "mistakes": [
+        {
+          "en": "Translating 'lo sipur' as 'It's not a story'. That means nothing in English; say 'No big deal' or 'It's nothing'.",
+          "he": "לתרגם 'לא סיפור' ל-It's not a story. באנגלית זה חסר משמעות; אומרים No big deal או It's nothing."
+        },
+        {
+          "en": "Forgetting the article: 'It's not big deal'. Say 'It's no big deal' or 'It's not a big deal'.",
+          "he": "לשכוח את a: 'It's not big deal'. נכון: It's no big deal או It's not a big deal."
+        },
+        {
+          "en": "Saying 'Big deal!' without 'no'. On its own, in a flat tone, it's sarcastic: 'So what? I'm not impressed.'",
+          "he": "לומר Big deal! בלי no. לבד ובטון שטוח זה עוקצני: 'אז מה? זה לא מרשים אותי'."
+        }
+      ],
+      "avoid_when": {
+        "en": "When something matters to the other person (they're upset, hurt, or proud of it). 'No big deal' can sound as if you're dismissing their feelings.",
+        "he": "כשמשהו חשוב לאדם השני (הוא נסער, נפגע או גאה בזה). No big deal עלול להישמע כאילו אתם מבטלים את הרגשות שלו."
+      },
+      "related": ["No worries", "It's nothing", "Don't worry about it", "Not a problem"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-hang-on",
+      "term": "Hang on",
+      "meaning_en": "'Wait a moment.' Also used to stop a conversation when something seems wrong.",
+      "meaning_he": "'רגע', 'שנייה', 'חכו רגע'. משמש גם כדי לעצור שיחה כשמשהו נשמע לא נכון.",
+      "usage": {
+        "en": "Very common in British English and widely used in the US, where 'hold on' is also frequent. Use it to ask someone to wait briefly ('Hang on, I'll get my keys'), on the phone ('Hang on a sec'), or to interrupt when you notice a problem: 'Hang on, that's not what you said yesterday.' 'Hang on to something' means hold it tightly or keep it.",
+        "he": "נפוץ מאוד באנגלית בריטית ונפוץ גם בארה״ב, שם שומעים הרבה גם hold on. משתמשים בו כדי לבקש ממישהו לחכות רגע ('Hang on, I'll get my keys'), בטלפון ('Hang on a sec'), או כדי לעצור כשמשהו לא מסתדר: 'Hang on, that's not what you said yesterday.' hang on to something פירושו להחזיק משהו חזק או לשמור עליו."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Leah", "text": "Are you ready? The taxi's outside." },
+        { "speaker": "Tom", "text": "Hang on, I can't find my passport." },
+        { "speaker": "Leah", "text": "Check your jacket pocket." },
+        { "speaker": "Tom", "text": "Got it! OK, let's go." }
+      ],
+      "mistakes": [
+        {
+          "en": "Confusing 'hang on' with 'hang up'. On the phone, 'hang on' means wait; 'hang up' means end the call.",
+          "he": "לבלבל בין hang on לבין hang up. בטלפון hang on פירושו 'רגע, חכו', ו-hang up פירושו 'לנתק את השיחה'."
+        },
+        {
+          "en": "Saying just 'Moment!' or 'Second!', from Hebrew 'rega' and 'shniya'. In English these sound abrupt or unclear; say 'Hang on', 'One second' or 'Just a moment'.",
+          "he": "לומר רק Moment! או Second!, בתרגום של 'רגע' ו'שנייה'. באנגלית זה נשמע קטוע או לא ברור; אומרים Hang on, One second או Just a moment."
+        }
+      ],
+      "avoid_when": {
+        "en": "With customers or on formal calls. On a professional line, say 'Could you hold for a moment, please?' or 'Just a moment, please.'",
+        "he": "מול לקוחות או בשיחות רשמיות. בשיחה מקצועית אמרו Could you hold for a moment, please? או Just a moment, please."
+      },
+      "related": ["Hold on", "Wait a sec", "One second", "Just a moment", "Bear with me"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-im-good-to-decline",
+      "term": "I'm good (to decline)",
+      "meaning_en": "'No, thank you': a relaxed way to turn down an offer.",
+      "meaning_he": "'לא, תודה': דרך קלילה לסרב להצעה, בערך 'אני בסדר, תודה'.",
+      "usage": {
+        "en": "Very common in American English and increasingly heard in the UK, where 'I'm fine, thanks' or 'I'm alright, thanks' is more traditional. Use it when someone offers food, a drink, help or a bag: 'Want some?' 'I'm good, thanks.' Adding 'No' and 'thanks' makes it clear and polite: 'No, I'm good, thanks.'",
+        "he": "נפוץ מאוד באנגלית אמריקאית ונשמע יותר ויותר גם בבריטניה, שם הצורה המסורתית היא I'm fine, thanks או I'm alright, thanks. משתמשים בזה כשמציעים לכם אוכל, שתייה, עזרה או שקית: 'Want some?' 'I'm good, thanks.' הוספה של No ו-thanks הופכת את התשובה לברורה ומנומסת: 'No, I'm good, thanks.'"
+      },
+      "formality": "informal",
+      "region": "US",
+      "example_dialogue": [
+        { "speaker": "Cashier", "text": "Do you need a bag?" },
+        { "speaker": "Shir", "text": "No, I'm good, thanks. I brought one." },
+        { "speaker": "Cashier", "text": "Would you like your receipt?" },
+        { "speaker": "Shir", "text": "I'm good. Thanks, have a nice day!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Taking it as 'yes'. After an offer, 'I'm good' means 'no, thanks', not 'good, I'll take it'.",
+          "he": "להבין את זה כ'כן'. אחרי הצעה, I'm good פירושו 'לא, תודה', ולא 'טוב, אקח'."
+        },
+        {
+          "en": "Declining with a bare 'No.' It's correct but can sound blunt in English. 'No, I'm good, thanks' is softer.",
+          "he": "לסרב ב-No יבש. זה נכון, אבל באנגלית זה עלול להישמע חד. No, I'm good, thanks רך יותר."
+        }
+      ],
+      "avoid_when": {
+        "en": "In formal situations, such as a business dinner or with a host you don't know well, where 'No, thank you' is safer. Also when the offer is unclear: a full 'No, thank you' avoids confusion.",
+        "he": "במצבים רשמיים, כמו ארוחה עסקית או מול מארחים שאינכם מכירים היטב, שם No, thank you בטוח יותר. וגם כשההצעה לא ברורה: No, thank you מלא מונע בלבול."
+      },
+      "related": ["No, thanks", "I'm fine, thanks (UK)", "I'm all set", "I'll pass", "Not for me, thanks"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-gonna-wanna",
+      "term": "Gonna / wanna",
+      "meaning_en": "Spoken forms of 'going to' and 'want to' ('wanna' can also stand for 'want a').",
+      "meaning_he": "הצורות המדוברות של going to (תוכנית או תחזית לעתיד) ושל want to (לרצות לעשות משהו). wanna משמש לפעמים גם במקום want a.",
+      "usage": {
+        "en": "This is how most native speakers actually pronounce 'going to' and 'want to' in relaxed speech, in every English-speaking country. Recognising them helps your listening a lot. You can say them in casual conversation; in writing, use them only in very informal messages to friends, if at all.",
+        "he": "כך רוב דוברי האנגלית הוגים בפועל את going to ו-want to בדיבור רגוע, בכל המדינות דוברות האנגלית. היכולת לזהות אותם משפרת מאוד את הבנת הנשמע. אפשר להשתמש בהם בשיחה לא רשמית; בכתיבה – לכל היותר בהודעות קלילות לחברים."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Max", "text": "What are you gonna do after the exam?" },
+        { "speaker": "Noa", "text": "I'm gonna sleep for about twelve hours." },
+        { "speaker": "Max", "text": "Ha! Do you wanna come to the beach with us on Friday? We're gonna leave around ten." },
+        { "speaker": "Noa", "text": "Sure, sounds good." }
+      ],
+      "mistakes": [
+        {
+          "en": "Dropping 'be': 'I gonna call you.' 'Gonna' replaces only 'going to', so you still need am/is/are: 'I'm gonna call you.'",
+          "he": "להשמיט את be: 'I gonna call you'. gonna מחליף רק את going to, ולכן עדיין צריך am/is/are: I'm gonna call you."
+        },
+        {
+          "en": "Saying 'I wanna to go' or 'She wanna go'. 'Wanna' already contains 'to', and it doesn't work after he/she/it: 'She wants to go.'",
+          "he": "לומר 'I wanna to go' או 'She wanna go'. ב-wanna כבר יש to, והוא לא מתאים אחרי he/she/it: She wants to go."
+        },
+        {
+          "en": "Using 'gonna' for movement: 'I'm gonna the gym.' 'Gonna' only comes before a verb. For a place, say 'I'm going to the gym.'",
+          "he": "להשתמש ב-gonna לתנועה: 'I'm gonna the gym'. gonna בא רק לפני פועל. כשהולכים למקום אומרים I'm going to the gym."
+        }
+      ],
+      "avoid_when": {
+        "en": "In any formal writing, and when you need to speak especially clearly (a presentation, an interview), where the full forms sound more careful.",
+        "he": "בכל כתיבה רשמית, וכשצריך לדבר ברור במיוחד (מצגת, ראיון), שם הצורות המלאות נשמעות מוקפדות יותר."
+      },
+      "warning": {
+        "en": "Never write 'gonna' or 'wanna' in essays, exams, job applications or work emails. Write 'going to' and 'want to'.",
+        "he": "אל תכתבו gonna או wanna בחיבורים, בבחינות, במועמדות לעבודה או במיילים בעבודה. כתבו going to ו-want to."
+      },
+      "related": ["Gotta (got to)", "Kinda (kind of)", "Lemme (let me)", "Dunno (don't know)"],
+      "level": "A2"
+    },
+    {
+      "id": "ex-kind-of-sort-of",
+      "term": "Kind of / sort of",
+      "meaning_en": "'A bit', 'somewhat' or 'in a way': used to soften what you say or show you're not completely sure.",
+      "meaning_he": "'קצת', 'די', 'סוג של': כדי לרכך את מה שאומרים או להראות שלא בטוחים לגמרי.",
+      "usage": {
+        "en": "Both are used everywhere; 'kind of' is more common in American English and 'sort of' in British English. They soften adjectives and verbs ('I'm kind of hungry', 'I sort of forgot') or give a vague answer ('Did you like it?' 'Sort of.'). In fast speech they sound like 'kinda' and 'sorta'.",
+        "he": "שניהם נפוצים בכל מקום; kind of נפוץ יותר באנגלית אמריקאית ו-sort of באנגלית בריטית. הם מרככים שמות תואר ופעלים ('I'm kind of hungry', 'I sort of forgot') או נותנים תשובה מעורפלת ('Did you like it?' 'Sort of.'). בדיבור מהיר הם נשמעים kinda ו-sorta."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Jess", "text": "How was the movie?" },
+        { "speaker": "Amit", "text": "It was kind of slow at the beginning, but the ending was great." },
+        { "speaker": "Jess", "text": "So you liked it?" },
+        { "speaker": "Amit", "text": "Sort of. The second half made up for it." }
+      ],
+      "mistakes": [
+        {
+          "en": "Mixing up 'kind of' (= a bit) and 'a kind of' (= a type of). 'Kind of strange' means a bit strange; 'a kind of fruit' means one type of fruit. Hebrew 'sug shel' covers both, which is why they get confused.",
+          "he": "לבלבל בין kind of (= קצת) לבין a kind of (= סוג מסוים של). kind of strange = קצת מוזר; a kind of fruit = סוג של פרי. בעברית 'סוג של' מכסה את שתי המשמעויות, ולכן קל להתבלבל."
+        },
+        {
+          "en": "Overusing it, the way 'sug shel' is overused in Hebrew. Too many make you sound unsure; in formal writing use 'somewhat', 'rather' or 'to some extent'.",
+          "he": "שימוש־יתר, כמו ב'סוג של' בעברית. יותר מדי kind of נשמע חסר ביטחון; בכתיבה רשמית השתמשו ב-somewhat, rather או to some extent."
+        }
+      ],
+      "avoid_when": {
+        "en": "In essays, reports and job interviews, when you want to sound confident and precise. Never write 'kinda' or 'sorta' outside casual messages.",
+        "he": "בחיבורים, בדוחות ובראיונות עבודה, כשרוצים להישמע בטוחים ומדויקים. אל תכתבו kinda או sorta מחוץ להודעות קלילות."
+      },
+      "related": ["A bit", "Kinda / sorta", "Somewhat", "More or less", "Pretty (as in 'pretty good')"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-catch-up",
+      "term": "Catch up",
+      "meaning_en": "1) To meet and talk about what's been happening in each other's lives. 2) To reach someone who is ahead, or to do work you've missed.",
+      "meaning_he": "1) להיפגש ולהתעדכן מה חדש אצל כל אחד. 2) להדביק מישהו שהקדים אתכם, או להשלים חומר או עבודה שפספסתם.",
+      "usage": {
+        "en": "Very common with friends and at work. 'Catch up with someone' (a person), 'catch up on something' (news, sleep, work). As a noun, especially in British and Australian English, 'a catch-up' is a short meeting: 'Let's have a quick catch-up on Monday.' Note that 'We should catch up soon!' is often a friendly goodbye, not a fixed plan.",
+        "he": "נפוץ מאוד עם חברים וגם בעבודה. catch up with someone (עם אדם), catch up on something (חדשות, שינה, עבודה). כשם עצם, במיוחד באנגלית בריטית ואוסטרלית, a catch-up היא פגישה קצרה: 'Let's have a quick catch-up on Monday.' שימו לב: 'We should catch up soon!' הוא לעיתים קרובות פרידה ידידותית ולא תוכנית סגורה."
+      },
+      "formality": "neutral",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Rotem", "text": "Sarah! I haven't seen you in ages!" },
+        { "speaker": "Sarah", "text": "I know! We should catch up properly." },
+        { "speaker": "Rotem", "text": "Definitely. Are you free for lunch next week?" },
+        { "speaker": "Sarah", "text": "Tuesday works. I've got so much to tell you." }
+      ],
+      "mistakes": [
+        {
+          "en": "Using the wrong preposition: 'catch up on Dana' or 'catch up Dana'. With a person, use 'with' (catch up with Dana); for news, sleep or a series, use 'on' (catch up on sleep).",
+          "he": "מילת יחס שגויה: 'catch up on Dana' או 'catch up Dana'. עם אדם – with (catch up with Dana); עם חדשות, שינה או סדרה – on (catch up on sleep)."
+        },
+        {
+          "en": "Taking 'We should catch up sometime' as a firm appointment, then feeling let down. It's often just a warm way to say goodbye; if you really want to meet, suggest a day.",
+          "he": "להבין את 'We should catch up sometime' כפגישה סגורה ולהתאכזב. לעיתים קרובות זו רק דרך חמה להיפרד; אם באמת רוצים להיפגש, הציעו יום."
+        }
+      ],
+      "avoid_when": {
+        "en": "With someone senior you've never met: 'Can we catch up?' sounds too familiar. Ask 'Could we meet to discuss...?' instead.",
+        "he": "מול מישהו בכיר שעוד לא פגשתם: 'Can we catch up?' נשמע קרוב מדי. שאלו במקום זה 'Could we meet to discuss...?'."
+      },
+      "related": ["Get together", "Hang out", "Fill someone in", "Touch base", "A catch-up (noun)"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-grab-a-bite",
+      "term": "Grab a bite",
+      "meaning_en": "To get something quick and casual to eat.",
+      "meaning_he": "לאכול משהו מהיר ולא מחייב, 'לחטוף משהו לאכול'.",
+      "usage": {
+        "en": "Common everywhere, often as 'grab a bite to eat'. It suggests something quick and relaxed, not a long dinner: 'Want to grab a bite after class?' 'Grab' works with other casual plans too: 'grab a coffee', 'grab lunch'.",
+        "he": "נפוץ בכל מקום, לעיתים בצורה grab a bite to eat. הכוונה למשהו מהיר ורגוע, לא לארוחת ערב ארוכה: 'Want to grab a bite after class?' הפועל grab מתאים גם לתוכניות קלילות אחרות: grab a coffee, grab lunch."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Dan", "text": "I'm starving. Want to grab a bite before the movie?" },
+        { "speaker": "Mia", "text": "Sure, we've got about forty minutes." },
+        { "speaker": "Dan", "text": "There's a sandwich place right across the street." },
+        { "speaker": "Mia", "text": "Perfect. Let's go." }
+      ],
+      "mistakes": [
+        {
+          "en": "Confusing it with 'take a bite', which means one bite of food ('Can I take a bite of your sandwich?'). 'Grab a bite' means have a quick meal.",
+          "he": "לבלבל עם take a bite, שפירושו ביס אחד ('Can I take a bite of your sandwich?'). grab a bite פירושו לאכול ארוחה קטנה ומהירה."
+        },
+        {
+          "en": "Using it for a special or formal meal ('Let's grab a bite for Grandma's 80th birthday'). It sounds too casual; say 'go out for dinner' or 'have a meal'.",
+          "he": "להשתמש בזה לארוחה חגיגית או רשמית ('Let's grab a bite for Grandma's 80th birthday'). זה נשמע קליל מדי; אמרו go out for dinner או have a meal."
+        }
+      ],
+      "avoid_when": {
+        "en": "For formal or special meals (a business dinner, a celebration) and in formal writing. Say 'have lunch', 'have dinner' or 'go out for a meal'.",
+        "he": "לארוחות רשמיות או חגיגיות (ארוחה עסקית, חגיגה) ובכתיבה רשמית. אמרו have lunch, have dinner או go out for a meal."
+      },
+      "related": ["Grab lunch", "Grab a coffee", "Get something to eat", "Have a snack", "Eat out"],
+      "level": "B1"
+    },
+    {
+      "id": "ex-take-it-easy",
+      "term": "Take it easy",
+      "meaning_en": "1) 'Relax, don't work too hard.' 2) A casual goodbye. 3) 'Calm down' (this use can sound dismissive).",
+      "meaning_he": "1) 'תנוחו, אל תתאמצו יותר מדי'. 2) פרידה קלילה, כמו 'יאללה, ביי'. 3) 'תירגעו' (בשימוש הזה זה עלול להישמע מזלזל).",
+      "usage": {
+        "en": "As a goodbye ('See you, take it easy!') it's friendly and relaxed, especially in American English. As advice it means rest or don't push yourself: 'Take it easy this week; you've been sick.' 'Take it easy on someone' means be gentle with them.",
+        "he": "כפרידה ('See you, take it easy!') זה ידידותי ורגוע, במיוחד באנגלית אמריקאית. כעצה הכוונה לנוח ולא להעמיס על עצמכם: 'Take it easy this week; you've been sick.' take it easy on someone פירושו להתייחס למישהו בעדינות."
+      },
+      "formality": "informal",
+      "region": "both",
+      "example_dialogue": [
+        { "speaker": "Gil", "text": "I'm finally heading home. My back hurts after moving all those boxes." },
+        { "speaker": "Anna", "text": "Take it easy tonight. No more lifting!" },
+        { "speaker": "Gil", "text": "Don't worry, I'm just going to lie on the sofa." },
+        { "speaker": "Anna", "text": "Good. See you tomorrow!" },
+        { "speaker": "Gil", "text": "See you. Take it easy!" }
+      ],
+      "mistakes": [
+        {
+          "en": "Saying it to someone who is angry or upset. Like 'Calm down', it can sound as if their feelings don't matter; try 'I understand. Let's sort this out.'",
+          "he": "לומר את זה למישהו כועס או נסער. בדומה ל-Calm down, זה עלול להישמע כאילו הרגשות שלו לא חשובים; עדיף I understand. Let's sort this out."
+        },
+        {
+          "en": "Saying 'Take easy' or 'Take it easily'. The phrase is fixed: take it easy, with 'it' and without -ly.",
+          "he": "לומר Take easy או Take it easily. הביטוי קבוע: take it easy, עם it ובלי ly."
+        }
+      ],
+      "avoid_when": {
+        "en": "When someone is angry or anxious (it can sound dismissive), and as a sign-off in formal emails, where 'Best wishes' or 'Take care' is more suitable.",
+        "he": "כשמישהו כועס או לחוץ (זה עלול להישמע מזלזל), וכסיום של מייל רשמי, שם Best wishes או Take care מתאימים יותר."
+      },
+      "related": ["Take care", "Relax", "Chill out", "Go easy on someone", "See you around"],
+      "level": "B1"
+    }
+  ]
+}

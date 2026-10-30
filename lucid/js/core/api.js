@@ -111,6 +111,10 @@ export const db = {
     });
     return rows?.[0] || null;
   },
+  // Partial update of the existing profile row (an upsert would need every NOT NULL column).
+  async updateProfile(patch) {
+    return request('PATCH', `/rest/v1/lucid_profiles?id=eq.${auth.user?.id}`, patch, { headers: { Prefer: 'return=minimal' } });
+  },
   async pushRecords(rows) {
     if (!rows.length) return [];
     return request('POST', '/rest/v1/lucid_records?on_conflict=user_id,coll,id&select=coll,id,updated_at', rows, {

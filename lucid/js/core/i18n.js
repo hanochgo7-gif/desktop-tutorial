@@ -90,7 +90,7 @@ export function tOther(key) {
 
 // ---------- Hebrew support for learning content ----------
 // 'auto' follows the learner's level: full support at Pre-A1-A2, partial at B1, minimal at B2, off at C1+.
-export const SUPPORT_BY_LEVEL = { PreA1: 'full', A1: 'full', A2: 'full', B1: 'partial', B2: 'minimal', C1: 'off', C2: 'off' };
+export const SUPPORT_BY_LEVEL = { PreA1: 'full', A1: 'full', A2: 'partial', B1: 'minimal', B2: 'minimal', C1: 'off', C2: 'off' };
 let support = 'full';
 export const hebrewSupport = () => support;
 export function setHebrewSupport(setting, level) {

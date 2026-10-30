@@ -1,0 +1,113 @@
+// Settings: interface, Hebrew support, learning load, feedback, AI consent, account, and data
+// (export, import, delete). Every control takes effect immediately and is saved on the device.
+import { html, render, on, download, $ } from '../core/util.js';
+import { tt, t } from '../core/i18n.js';
+import { icon, confirmDialog, toast } from '../ui/components.js';
+import { settings, saveSettings, profile, saveProfile } from '../core/learner.js';
+import { store } from '../core/store.js';
+import { auth, db, configured } from '../core/api.js';
+import { CONFIG } from '../../config.js';
+
+const seg = (name, value, opts) => html`<div class="seg" role="group" data-seg="${name}">${opts.map(([v, he, en]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}">${tt(he, en)}</button>`)}</div>`;
+
+export default async function settingsView(el, ctx) {
+  ctx.setTitle(t('nav.settings'));
+
+  function draw() {
+    const s = settings();
+    const p = profile() || {};
+    const signedIn = configured() && auth.signedIn;
+    render(el, html`
+      <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
+      <div class="stack-lg" style="max-width:46rem">
+        ${ctx.query.reset ? html`<form class="panel stack" data-newpass><h2>${tt('סיסמה חדשה', 'New password')}</h2><div class="field"><label for="np">${tt('סיסמה (לפחות 8 תווים)', 'Password (at least 8 characters)')}</label><input class="input" id="np" type="password" minlength="8" autocomplete="new-password" required></div><button class="key enter" type="submit">${t('save')}</button></form>` : ''}
+        <section class="panel stack"><h2>${tt('ממשק', 'Interface')}</h2>
+          <div class="field"><span class="label">${tt('שפת הממשק', 'Interface language')}</span>${seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'Hebrew'], ['en', 'אנגלית', 'English']])}<span class="help">${tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.')}</span></div>
+          <div class="field"><span class="label">${tt('מראה', 'Appearance')}</span>${seg('theme', s.theme, [['system', 'לפי המכשיר', 'Match device'], ['light', 'בהיר', 'Light'], ['dark', 'כהה', 'Dark']])}</div>
+          <div class="field"><span class="label">${tt('הסברים בעברית', 'Hebrew support')}</span>${seg('hebrew_support', s.hebrew_support, [['auto', 'לפי הרמה', 'By level'], ['full', 'מלא', 'Full'], ['partial', 'חלקי', 'Partial'], ['minimal', 'מינימלי', 'Minimal'], ['off', 'כבוי', 'Off']])}
+            <span class="help">${tt('״לפי הרמה״: מלא עד A1, חלקי ב-A2, בלחיצה ב-B1-B2, כבוי מ-C1. כשכבוי, עברית זמינה בלחיצה על ״עב״.', '"By level": full up to A1, partial at A2, on tap at B1 and B2, off from C1. When off, Hebrew is one tap away on "עב".')}</span></div>
+          <div class="field"><span class="label">${tt('אנגלית בהגייה', 'English for listening and roleplay')}</span>${seg('english_variant', s.english_variant, [['any', 'בינלאומית', 'International'], ['US', 'אמריקאית', 'American'], ['UK', 'בריטית', 'British']])}</div>
+          <div class="field"><span class="label">${tt('מהירות הקראה', 'Speech speed')}</span>${seg('speech_rate', s.speech_rate, [[0.8, 'איטית', 'Slow'], [0.95, 'רגילה', 'Normal'], [1.1, 'מהירה', 'Fast']])}</div>
+        </section>
+        <section class="panel stack"><h2>${tt('עומס לימוד', 'Learning load')}</h2>
+          <div class="field"><span class="label">${tt('זמן ביום', 'Time per day')}</span>${seg('daily_minutes', s.daily_minutes, [[10, '10 דק׳', '10 min'], [20, '20 דק׳', '20 min'], [35, '35 דק׳', '35 min'], [50, '50 דק׳', '50 min']])}</div>
+          <div class="field"><span class="label">${tt('יעד שבועי (ימים)', 'Weekly goal (days)')}</span>${seg('weekly_goal_days', s.weekly_goal_days, [2, 3, 4, 5, 6, 7].map((d) => [d, String(d), String(d)]))}</div>
+          <div class="field"><span class="label">${tt('מילים חדשות ביום', 'New words a day')}</span>${seg('new_per_day', s.new_per_day, [[4, '4', '4'], [8, '8', '8'], [12, '12', '12'], [15, '15', '15']])}<span class="help">${tt('ברירת המחדל 8. כשהחזרות מצטברות, Lucid מוריד אוטומטית ל-4 כדי שלא תיווצר עמסה.', 'Default 8. When reviews pile up, Lucid automatically drops to 4 so they never snowball.')}</span></div>
+          <div class="field"><span class="label">${tt('יעד זכירה', 'Memory target')}</span>${seg('retention', s.retention, [['light', 'קל (85%)', 'Light (85%)'], ['standard', 'רגיל (90%)', 'Standard (90%)'], ['exam', 'מבחן (95%)', 'Exam (95%)']])}<span class="help">${tt('יעד גבוה יותר = יותר חזרות ביום.', 'A higher target means more reviews a day.')}</span></div>
+        </section>
+        <section class="panel stack"><h2>${tt('משוב', 'Feedback')}</h2>
+          <div class="field"><span class="label">${tt('כמה תיקונים בשיחה ובמורה', 'How much correction in conversations and the tutor')}</span>${seg('corrections', s.corrections, [['off', 'בלי', 'Off'], ['light', 'רק מה שחוסם הבנה', 'Only what blocks meaning'], ['standard', 'רגיל', 'Standard'], ['intensive', 'הרבה', 'Intensive']])}</div>
+          <div class="field"><span class="label">${tt('משוב על כתיבה', 'Writing feedback')}</span>${seg('feedback_scope', s.feedback_scope, [['auto', 'לפי הרמה', 'By level'], ['focused', 'ממוקד (עד 3 סוגי טעויות)', 'Focused (up to 3 error types)'], ['comprehensive', 'מקיף', 'Comprehensive']])}</div>
+          <label class="choice"><input type="checkbox" data-ai ${s.ai_consent ? html`checked` : ''}><span class="grow small"><strong>${tt('משוב AI', 'AI feedback')}</strong><br>${tt('כשמופעל, טקסטים ששולחים למשוב AI (כתיבה, שיחות, מורה) מעובדים אצל Anthropic לצורך המשוב בלבד. Lucid לא משתמש בהם לפרסום.', 'When on, texts you send for AI feedback (writing, conversations, tutor) are processed by Anthropic only to produce feedback. Lucid never uses them for advertising.')} ${!(configured() && CONFIG.aiEnabled) ? html`<span class="faint">${tt('(בשרת הזה ה-AI עוד לא הוגדר.)', '(AI is not configured on this server yet.)')}</span>` : ''}</span></label>
+        </section>
+        <section class="panel stack"><h2>${tt('חשבון וסנכרון', 'Account and sync')}</h2>
+          ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
+          : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p><div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button></div>`
+          : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
+        </section>
+        <section class="panel stack"><h2>${tt('המידע שלך', 'Your data')}</h2>
+          <p class="small muted">${tt('הכול שלך: אפשר להוריד את כל המידע, לשחזר מגיבוי, או למחוק הכול.', 'It is all yours: download everything, restore from a backup, or delete it all.')}</p>
+          <div class="row"><button type="button" class="key small" data-export>${icon('download', { size: 16 })} ${tt('הורדת כל המידע (JSON)', 'Download all my data (JSON)')}</button>
+            <label class="key small" style="cursor:pointer">${tt('שחזור מגיבוי', 'Restore a backup')}<input type="file" accept="application/json,.json" data-import class="sr-only"></label></div>
+          <div class="row"><button type="button" class="key small danger" data-wipe>${icon('trash', { size: 16 })} ${signedIn ? tt('מחיקת החשבון וכל המידע', 'Delete my account and all data') : tt('מחיקת כל המידע מהמכשיר', 'Delete all data from this device')}</button></div>
+        </section>
+        <p class="xsmall faint"><a href="privacy.html" target="_blank" rel="noopener">${tt('מדיניות פרטיות ותנאים', 'Privacy and terms')}</a> · ${t('level.estimate')}</p>
+      </div>`);
+  }
+
+  draw();
+  const offs = [
+    on(el, 'click', '[data-seg] [data-v]', (e, b) => {
+      const name = b.closest('[data-seg]').dataset.seg;
+      const raw = b.dataset.v;
+      const v = /^\d+(\.\d+)?$/.test(raw) ? Number(raw) : raw;
+      if (name === 'ui_language') saveProfile({ ui_language: v }); else saveSettings({ [name]: v });
+      draw();
+    }),
+    on(el, 'change', '[data-ai]', (e, c) => {
+      const at = c.checked ? new Date().toISOString() : null;
+      saveSettings({ ai_consent: c.checked, ai_consent_at: at });
+      // The AI service checks consent on the server profile, so keep it in step.
+      if (configured() && auth.signedIn) db.updateProfile({ consent_ai_at: at }).catch(() => toast(tt('לא הצלחנו לעדכן את השרת; נסו שוב.', 'Could not update the server; please try again.')));
+      toast(c.checked ? tt('משוב AI הופעל', 'AI feedback is on') : tt('משוב AI כבוי', 'AI feedback is off'));
+    }),
+    on(el, 'click', '[data-export]', async () => {
+      const local = store.snapshot();
+      let server = null;
+      if (configured() && auth.signedIn) { try { server = await db.exportAll(); } catch { toast(tt('לא הצלחנו להוריד את המידע מהשרת; הורד המידע מהמכשיר.', 'Could not fetch server data; the device copy was downloaded.')); } }
+      download(`lucid-data-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify({ app: 'lucid', version: 1, exported_at: new Date().toISOString(), device: local, server }, null, 1));
+    }),
+    on(el, 'change', '[data-import]', async (e, input) => {
+      const f = input.files?.[0];
+      if (!f) return;
+      try {
+        const data = JSON.parse(await f.text());
+        if (data.app !== 'lucid' || !data.device) throw new Error('not a Lucid backup');
+        if (!(await confirmDialog({ title: tt('לשחזר מהגיבוי?', 'Restore from this backup?'), body: tt('המידע הנוכחי במכשיר יוחלף במידע מהקובץ.', 'The data on this device will be replaced by the file.'), confirm: tt('שחזור', 'Restore') }))) return;
+        await store.replaceAll(data.device);
+        toast(tt('השחזור הושלם', 'Restored'));
+        ctx.navigate('today');
+      } catch {
+        toast(tt('הקובץ הזה לא גיבוי תקין של Lucid.', 'This file is not a valid Lucid backup.'));
+      } finally { input.value = ''; }
+    }),
+    on(el, 'click', '[data-wipe]', async () => {
+      const signedIn = configured() && auth.signedIn;
+      const ok = await confirmDialog({
+        title: signedIn ? tt('למחוק את החשבון לצמיתות?', 'Delete your account permanently?') : tt('למחוק את כל המידע מהמכשיר?', 'Delete all data from this device?'),
+        body: tt('זה מוחק את הפרופיל, ההתקדמות, המילים והכתיבה שלך. אי אפשר לבטל. כדאי להוריד גיבוי קודם.', 'This deletes your profile, progress, words and writing. It cannot be undone. Consider downloading a copy first.'),
+        confirm: tt('מחיקה לצמיתות', 'Delete permanently'), danger: true,
+      });
+      if (!ok) return;
+      try { if (signedIn) await db.deleteAccount(); } catch (e) { toast(tt('מחיקת החשבון בשרת נכשלה. נסו שוב.', 'Deleting the server account failed. Please try again.')); return; }
+      await store.wipe();
+      try { localStorage.clear(); sessionStorage.clear(); } catch { /* ignore */ }
+      location.hash = '#/welcome';
+      location.reload();
+    }),
+    on(el, 'click', '[data-signout]', async () => { await auth.signOut(); toast(tt('יצאת מהחשבון. המידע נשאר במכשיר.', 'Signed out. Your data stays on this device.')); draw(); }),
+    on(el, 'click', '[data-sync]', async () => { const { sync } = await import('../app.js'); try { await sync?.run(); toast(t('synced')); } catch { toast(t('offline')); } }),
+    on(el, 'submit', '[data-newpass]', async (e) => { e.preventDefault(); try { await auth.updatePassword($('#np', el).value); toast(tt('הסיסמה עודכנה', 'Password updated')); ctx.navigate('settings'); } catch (err) { toast(err.message); } }),
+  ];
+  return () => offs.forEach((o) => o());
+}

@@ -1,0 +1,4105 @@
+{
+  "scenarios": [
+    {
+      "id": "rl-shopping-clothes-sizes",
+      "module": "shopping",
+      "title_en": "Trying on clothes: sizes and colours",
+      "title_he": "מדידת בגדים: מידות וצבעים",
+      "level": "A2",
+      "situation": {
+        "en": "You're in a clothes shop in London. You've found a jacket you really like, but it's the wrong size, and you'd like to see it in another colour.",
+        "he": "אתם בחנות בגדים בלונדון. מצאתם ז'קט שממש מוצא חן בעיניכם, אבל המידה לא מתאימה, ואתם רוצים לראות אותו גם בצבע אחר."
+      },
+      "goal": {
+        "en": "Ask for your size and another colour, try the jacket on, say how it fits and decide what to buy.",
+        "he": "לבקש את המידה שלכם וצבע אחר, למדוד את הז'קט, להגיד איך הוא יושב עליכם ולהחליט מה קונים."
+      },
+      "partner_role": "shop assistant",
+      "phrases": [
+        {
+          "en": "Excuse me, do you have this in a medium?",
+          "he": "סליחה, יש לכם את זה במידה M?",
+          "register": "neutral",
+          "note": "Clothing sizes are usually said as words: small, medium, large."
+        },
+        {
+          "en": "Does this come in any other colours?",
+          "he": "יש את זה בעוד צבעים?",
+          "register": "neutral"
+        },
+        {
+          "en": "Have you got this in a smaller size?",
+          "he": "יש לכם את זה במידה קטנה יותר?",
+          "register": "neutral",
+          "variant": "UK",
+          "note": "'Have you got…?' is very British. 'Do you have…?' works everywhere."
+        },
+        {
+          "en": "Could I try this on, please?",
+          "he": "אפשר למדוד את זה, בבקשה?",
+          "register": "polite",
+          "note": "'Try on' = put clothes on to see if they fit. Don't say 'measure'."
+        },
+        {
+          "en": "Where are the fitting rooms?",
+          "he": "איפה תאי המדידה?",
+          "register": "neutral",
+          "note": "Also 'changing rooms' (UK) or 'dressing rooms' (US)."
+        },
+        {
+          "en": "It's a bit tight around the shoulders.",
+          "he": "זה קצת צר לי בכתפיים.",
+          "register": "neutral",
+          "note": "For clothes, 'tight' (not 'narrow') is the opposite of 'loose'."
+        },
+        {
+          "en": "It's a bit big. Do you have the next size down?",
+          "he": "זה קצת גדול. יש לכם מידה אחת קטנה יותר?",
+          "register": "neutral"
+        },
+        {
+          "en": "Does it run small?",
+          "he": "זה בגזרה קטנה?",
+          "register": "neutral",
+          "note": "'Run small/large' = the sizes are smaller or bigger than usual."
+        },
+        {
+          "en": "Do these trousers come in black?",
+          "he": "יש את המכנסיים האלה בשחור?",
+          "register": "neutral",
+          "variant": "UK",
+          "note": "In the UK, 'pants' means underwear, so say 'trousers'."
+        },
+        {
+          "en": "Do these pants come in black?",
+          "he": "יש את המכנסיים האלה בשחור?",
+          "register": "neutral",
+          "variant": "US",
+          "note": "In the US, 'pants' are trousers."
+        },
+        {
+          "en": "I'm just looking, thanks.",
+          "he": "אני רק מסתכל/ת, תודה.",
+          "register": "neutral",
+          "note": "The standard answer when you don't need help yet."
+        },
+        {
+          "en": "Perfect, I'll take it!",
+          "he": "מושלם, אני לוקח/ת!",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi there! Are you looking for anything in particular?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, actually. Have you got this jacket in a medium?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me check… Yes, here you go. That's the last medium in navy."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, thanks. Does it come in any other colours?"
+        },
+        {
+          "speaker": "partner",
+          "text": "We've got it in black and olive green as well."
+        },
+        {
+          "speaker": "you",
+          "text": "Ooh, could I try the black one too, please?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course. The changing rooms are at the back, on the left."
+        },
+        {
+          "speaker": "partner",
+          "text": "So, how did they fit?"
+        },
+        {
+          "speaker": "you",
+          "text": "The black one's perfect, but the navy's a bit tight around the shoulders."
+        },
+        {
+          "speaker": "partner",
+          "text": "Yeah, that colour runs a bit small. Shall I get you the navy in a large?"
+        },
+        {
+          "speaker": "you",
+          "text": "No, that's OK, thanks. I'll just take the black one."
+        },
+        {
+          "speaker": "partner",
+          "text": "Lovely. You can pay at the till whenever you're ready."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi there! Are you looking for anything in particular?",
+          "options": [
+            {
+              "text": "Yes, actually. Have you got this jacket in a medium?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and specific: you say yes and ask for exactly what you need.",
+                "he": "טבעי וממוקד: עונים בחיוב ומבקשים בדיוק את מה שצריך."
+              }
+            },
+            {
+              "text": "I search a jacket in medium size.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Two problems: we say 'I'm looking for', not 'I search', and the present continuous is needed for what you're doing now.",
+                "he": "שתי בעיות: אומרים I'm looking for ולא I search, ועל משהו שקורה עכשיו משתמשים בהווה מתמשך."
+              }
+            },
+            {
+              "text": "Yes. I need this jacket, size medium.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but 'I need' sounds a bit like an order. A question ('Have you got…?') is friendlier.",
+                "he": "ברור, אבל I need נשמע קצת כמו הוראה. שאלה כמו Have you got...? נעימה יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, actually. Have you got this jacket in a medium?",
+            "Yes, please. Do you have this in a medium?"
+          ],
+          "keywords": [
+            "medium",
+            "size",
+            "jacket",
+            "have"
+          ]
+        },
+        {
+          "partner": "We've got it in black and olive green as well.",
+          "options": [
+            {
+              "text": "Black.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but one word can sound cold. Add 'Could I see…' or 'please'.",
+                "he": "מובן, אבל מילה אחת עלולה להישמע קרה. כדאי להוסיף Could I see... או please."
+              }
+            },
+            {
+              "text": "Can I measure the black one?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Measure' means checking size with a tape measure. When you put clothes on to check them, it's 'try on'.",
+                "he": "measure פירושו למדוד עם סרט מדידה. כשלובשים בגד כדי לבדוק אותו אומרים try on."
+              }
+            },
+            {
+              "text": "Ooh, could I try the black one too, please?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite and natural. 'The black one' saves you repeating 'jacket'.",
+                "he": "מנומס וטבעי. the black one חוסך את החזרה על המילה jacket."
+              }
+            }
+          ],
+          "model_replies": [
+            "Could I try the black one too, please?",
+            "Oh nice. Can I try it on in black as well?"
+          ],
+          "keywords": [
+            "try",
+            "black",
+            "one",
+            "please"
+          ]
+        },
+        {
+          "partner": "The changing rooms are at the back. How many items have you got?",
+          "options": [
+            {
+              "text": "Just two, thanks.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Short, friendly and exactly what they asked.",
+                "he": "קצר, נעים ובדיוק מה ששאלו."
+              }
+            },
+            {
+              "text": "Why you need to know?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The question needs 'do' ('Why do you need to know?'), and it sounds suspicious. Many shops count items before you try them on; it's routine.",
+                "he": "חסר do בשאלה (Why do you need to know?), וזה גם נשמע חשדני. חנויות רבות סופרות פריטים לפני מדידה, זה עניין שגרתי."
+              }
+            },
+            {
+              "text": "I have two items: the navy jacket and the black jacket.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but more detail than needed. A number is enough.",
+                "he": "נכון, אבל יותר פרטים ממה שצריך. מספיק להגיד מספר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Just two, thanks.",
+            "Two, thanks."
+          ],
+          "keywords": [
+            "two",
+            "thanks",
+            "just"
+          ]
+        },
+        {
+          "partner": "So, how did they fit?",
+          "options": [
+            {
+              "text": "The navy one is very narrow on me.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Narrow' describes width, like a narrow street. For clothes that are too small, say 'tight'.",
+                "he": "narrow מתאר רוחב, כמו רחוב צר. על בגד שצר עליכם אומרים tight."
+              }
+            },
+            {
+              "text": "The black one's perfect, but the navy's a bit tight around the shoulders.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear and specific: what works, what doesn't, and where.",
+                "he": "ברור ומדויק: מה מתאים, מה לא, ואיפה."
+              }
+            },
+            {
+              "text": "Black is good. Navy is not good.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but very basic. Say why: 'too tight', 'too long', 'perfect'.",
+                "he": "מובן, אבל בסיסי מאוד. כדאי להגיד למה: too tight, too long, perfect."
+              }
+            }
+          ],
+          "model_replies": [
+            "The black one's perfect, but the navy's a bit tight.",
+            "The black one fits really well. The navy's a bit small."
+          ],
+          "keywords": [
+            "fits",
+            "perfect",
+            "tight",
+            "small",
+            "black"
+          ]
+        },
+        {
+          "partner": "Yeah, that colour runs a bit small. Shall I get you the navy in a large?",
+          "options": [
+            {
+              "text": "No, I don't want. Give me the black.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'I don't want' needs an object ('I don't want it'), and 'Give me' sounds like an order. Try 'I'll take the black one'.",
+                "he": "אחרי I don't want צריך מושא (I don't want it), ו-Give me נשמע כמו פקודה. עדיף I'll take the black one."
+              }
+            },
+            {
+              "text": "No. Only the black.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but abrupt. Add 'thanks' and a softer 'That's OK'.",
+                "he": "ברור, אבל חד מדי. כדאי להוסיף thanks וגם That's OK כדי לרכך."
+              }
+            },
+            {
+              "text": "No, that's OK, thanks. I'll just take the black one.",
+              "verdict": "best",
+              "feedback": {
+                "en": "A polite 'no' ('That's OK, thanks') plus a clear decision.",
+                "he": "'לא' מנומס (That's OK, thanks) ואחריו החלטה ברורה."
+              }
+            }
+          ],
+          "model_replies": [
+            "No, that's OK, thanks. I'll just take the black one.",
+            "Actually, yes please. Could I try the navy in a large?"
+          ],
+          "keywords": [
+            "black",
+            "take",
+            "thanks",
+            "large",
+            "OK"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Priya, a shop assistant in a busy clothes shop in London. Chatty and genuinely helpful, she loves telling customers that something would 'really suit' them.",
+        "complication": "The jacket isn't in stock in the learner's size in the colour they want. Priya can check the stockroom, suggest a similar style or offer to order it in, and she keeps suggesting extra items (a scarf, a matching top) that the learner has to turn down politely.",
+        "opening_line": "Hiya! Are you alright there? Just shout if you need a different size."
+      },
+      "culture": [
+        {
+          "en": "Shop staff often greet you and offer help. 'I'm just looking, thanks' is a perfectly polite answer, and they'll usually leave you to browse.",
+          "he": "בחנויות רבות המוכרים יברכו אתכם ויציעו עזרה. I'm just looking, thanks היא תשובה מנומסת לגמרי, ובדרך כלל ישאירו אתכם להסתובב בשקט."
+        },
+        {
+          "en": "In the UK, 'Are you alright?' is often just a friendly hello, not a question about your health. 'Yes, thanks' or 'Fine, thanks' is enough.",
+          "he": "בבריטניה Are you alright? היא הרבה פעמים פשוט ברכה ידידותית, לא שאלה על מצבכם. מספיק לענות Yes, thanks או Fine, thanks."
+        },
+        {
+          "en": "Clothing sizes use different numbers in the UK, the US and Europe, and they vary between brands. Check the label or ask.",
+          "he": "מידות בגדים מסומנות במספרים שונים בבריטניה, בארה״ב ובאירופה, וגם משתנות בין מותגים. כדאי לבדוק בתווית או לשאול."
+        }
+      ],
+      "variants": [
+        {
+          "us": "pants",
+          "uk": "trousers",
+          "note": "In the UK, 'pants' means underwear."
+        },
+        {
+          "us": "dressing room / fitting room",
+          "uk": "changing room / fitting room",
+          "note": "'Fitting room' works everywhere."
+        },
+        {
+          "us": "sweater",
+          "uk": "jumper / sweater"
+        },
+        {
+          "us": "register",
+          "uk": "till",
+          "note": "Where you pay. 'Checkout' works in both."
+        },
+        {
+          "us": "color",
+          "uk": "colour",
+          "note": "Spelling only."
+        }
+      ]
+    },
+    {
+      "id": "rl-shopping-return-refund",
+      "module": "shopping",
+      "title_en": "Returning an item: refund or store credit?",
+      "title_he": "החזרת מוצר: החזר כספי או זיכוי?",
+      "level": "B2",
+      "situation": {
+        "en": "Ten days ago you bought a pair of headphones at an electronics store in New York. The left side keeps cutting out. You have the box, but you can't find the paper receipt, only the payment in your banking app. (The store's policy in this scenario is invented for practice.)",
+        "he": "לפני עשרה ימים קניתם אוזניות בחנות אלקטרוניקה בניו יורק. הצד השמאלי כל הזמן נקטע. הקופסה אצלכם, אבל את הקבלה המודפסת אתם לא מוצאים, יש רק את התשלום באפליקציה של הבנק. (מדיניות החנות בתרחיש הומצאה לצורך תרגול.)"
+      },
+      "goal": {
+        "en": "Explain the fault, offer proof of purchase, and politely but firmly push for a refund or a replacement instead of store credit.",
+        "he": "להסביר מה התקלה, להציג הוכחת קנייה, ולעמוד בנימוס ובתקיפות על החזר כספי או החלפה במקום זיכוי לחנות."
+      },
+      "partner_role": "customer service associate",
+      "phrases": [
+        {
+          "en": "Hi, I'd like to return these, please.",
+          "he": "שלום, הייתי רוצה להחזיר את אלה, בבקשה.",
+          "register": "polite"
+        },
+        {
+          "en": "They stopped working after about a week.",
+          "he": "הן הפסיקו לעבוד אחרי שבוע בערך.",
+          "register": "neutral"
+        },
+        {
+          "en": "The left side keeps cutting out.",
+          "he": "הצד השמאלי כל הזמן נקטע.",
+          "register": "neutral",
+          "note": "'Cut out' = suddenly stop working, sometimes coming back on."
+        },
+        {
+          "en": "I can't find the receipt, but I paid by card. Here's the transaction in my banking app.",
+          "he": "אני לא מוצא/ת את הקבלה, אבל שילמתי בכרטיס. הנה העסקה באפליקציה של הבנק.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could I get a refund to my card?",
+          "he": "אפשר לקבל החזר לכרטיס?",
+          "register": "neutral"
+        },
+        {
+          "en": "If possible, I'd rather have a refund than store credit.",
+          "he": "אם אפשר, אני מעדיף/ה החזר כספי ולא זיכוי.",
+          "register": "polite",
+          "note": "'Store credit' can only be spent in that shop."
+        },
+        {
+          "en": "Could I exchange them for a new pair instead?",
+          "he": "אפשר להחליף אותן בזוג חדש?",
+          "register": "neutral"
+        },
+        {
+          "en": "Since they're defective, I'd expect a full refund.",
+          "he": "מכיוון שהן פגומות, הייתי מצפה להחזר מלא.",
+          "register": "neutral",
+          "note": "Firm but not rude. 'Defective' (US) and 'faulty' (UK) both mean they have a manufacturing problem."
+        },
+        {
+          "en": "I understand it's not your call. Is there anyone else I could talk to?",
+          "he": "אני מבין/ה שזו לא ההחלטה שלך. יש מישהו אחר שאפשר לדבר איתו?",
+          "register": "polite",
+          "note": "'Not your call' = not your decision. A soft way to ask for someone more senior."
+        },
+        {
+          "en": "Could I speak to a manager, please?",
+          "he": "אפשר לדבר עם מנהל/ת, בבקשה?",
+          "register": "polite",
+          "note": "Say it calmly, and only after you've tried to sort it out."
+        },
+        {
+          "en": "No worries, an exchange works for me.",
+          "he": "אין בעיה, החלפה מתאימה לי.",
+          "register": "casual"
+        },
+        {
+          "en": "Could I get a receipt for the return?",
+          "he": "אפשר לקבל קבלה על ההחזרה?",
+          "register": "neutral"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi there, what can I help you with today?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hi. I bought these headphones here about ten days ago, and the left side keeps cutting out."
+        },
+        {
+          "speaker": "partner",
+          "text": "Oh, sorry to hear that. Do you have your receipt?"
+        },
+        {
+          "speaker": "you",
+          "text": "I can't find it, unfortunately, but I paid by card. Here's the transaction in my banking app."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK. Without a receipt, the most I can do is store credit."
+        },
+        {
+          "speaker": "you",
+          "text": "I see. The thing is, they're defective, so I'd really rather have a refund to my card."
+        },
+        {
+          "speaker": "partner",
+          "text": "I get that, but the system won't let me do a refund without a receipt."
+        },
+        {
+          "speaker": "you",
+          "text": "Could you look up the purchase with my card? It was on the 14th."
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me try… OK, found it. I can refund it to your card or swap them for a new pair."
+        },
+        {
+          "speaker": "you",
+          "text": "A refund would be great. Thanks for looking it up."
+        },
+        {
+          "speaker": "partner",
+          "text": "No problem. It can take a few business days to show up on your card."
+        },
+        {
+          "speaker": "you",
+          "text": "That's fine. Could I get a receipt for the return, please?"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi there, what can I help you with today?",
+          "options": [
+            {
+              "text": "Your headphones are garbage. I want my money back.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Insulting the product (and the store) makes staff less willing to help. Stay polite and stick to the facts.",
+                "he": "העלבה של המוצר (ושל החנות) רק מקטינה את הרצון לעזור לכם. עדיף להישאר מנומסים ועניינים."
+              }
+            },
+            {
+              "text": "Hi. I bought these here about ten days ago, and the left side keeps cutting out. I'd like to return them.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear and calm: what, when, the problem, and what you want.",
+                "he": "ברור ורגוע: מה, מתי, מה הבעיה ומה אתם רוצים."
+              }
+            },
+            {
+              "text": "I want to return this. It's broken.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but 'I want' plus a short complaint sounds blunt. Describe the problem, then say 'I'd like to return them'.",
+                "he": "מובן, אבל I want עם תלונה קצרה נשמע בוטה. עדיף לתאר את הבעיה ואז לומר I'd like to return them."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi. I bought these here last week, and they've stopped working properly. I'd like to return them.",
+            "Hi, I'd like to return these headphones. The left side keeps cutting out."
+          ],
+          "keywords": [
+            "return",
+            "bought",
+            "cutting out",
+            "stopped working",
+            "left side"
+          ]
+        },
+        {
+          "partner": "Oh, sorry to hear that. Do you have your receipt?",
+          "options": [
+            {
+              "text": "No receipt. Card.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The idea is right, but it's too clipped. Full sentences make you sound calm and reasonable in a complaint.",
+                "he": "הרעיון נכון, אבל קטוע מדי. בתלונה משפטים מלאים גורמים לכם להישמע רגועים והגיוניים."
+              }
+            },
+            {
+              "text": "I can't find it, unfortunately, but I paid by card. Here's the transaction.",
+              "verdict": "best",
+              "feedback": {
+                "en": "You admit the problem and immediately offer other proof. 'Unfortunately' softens the bad news.",
+                "he": "מודים בבעיה ומיד מציעים הוכחה אחרת. unfortunately מרכך את החדשות הפחות טובות."
+              }
+            },
+            {
+              "text": "No, but that's not my problem.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds defensive and starts an argument. Offer another proof of purchase instead.",
+                "he": "נשמע מתגונן ופותח ויכוח. עדיף להציע הוכחת קנייה אחרת."
+              }
+            }
+          ],
+          "model_replies": [
+            "I can't find it, unfortunately, but I paid by card. Here's the transaction.",
+            "I'm afraid I've lost it, but I can show you the payment on my card."
+          ],
+          "keywords": [
+            "card",
+            "receipt",
+            "paid",
+            "transaction",
+            "unfortunately"
+          ]
+        },
+        {
+          "partner": "OK. Without a receipt, the most I can do is store credit.",
+          "options": [
+            {
+              "text": "I see. The thing is, they're defective, so I'd really rather have a refund to my card.",
+              "verdict": "best",
+              "feedback": {
+                "en": "'I see' shows you listened; 'The thing is…' introduces your point without arguing; 'I'd rather' is firm but polite.",
+                "he": "I see מראה שהקשבתם, The thing is... מציג את הטענה שלכם בלי להתווכח, ו-I'd rather תקיף אבל מנומס."
+              }
+            },
+            {
+              "text": "That's illegal. I'm going to call the police.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Threats escalate things fast, and you can't be sure what the law says. Ask politely, or ask for a manager.",
+                "he": "איומים מסלימים את המצב מהר, ואתם גם לא בטוחים מה החוק אומר. עדיף לבקש בנימוס או לבקש מנהל."
+              }
+            },
+            {
+              "text": "No, I want a refund.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but blunt. You'll get further with 'I'd rather…' and a reason (they're defective).",
+                "he": "ברור, אבל בוטה. תגיעו רחוק יותר עם I'd rather... ועם סיבה (they're defective)."
+              }
+            }
+          ],
+          "model_replies": [
+            "I see. The thing is, they're defective, so I'd really rather have a refund.",
+            "I understand, but since they're faulty, could I get a refund or a replacement instead?"
+          ],
+          "keywords": [
+            "refund",
+            "rather",
+            "prefer",
+            "defective",
+            "faulty",
+            "replacement"
+          ]
+        },
+        {
+          "partner": "I get that, but the system won't let me do a refund without a receipt.",
+          "options": [
+            {
+              "text": "Then I'd like to speak to your manager.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Reasonable, but jumping to the manager this early can feel like a threat. Suggest a solution first.",
+                "he": "סביר, אבל לבקש מנהל כבר בשלב הזה עלול להרגיש כמו איום. כדאי קודם להציע פתרון."
+              }
+            },
+            {
+              "text": "The system is stupid. Just do it.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Rude, and the employee probably can't override the system. Offer an alternative instead.",
+                "he": "גס, והעובד כנראה בכלל לא יכול לעקוף את המערכת. עדיף להציע חלופה."
+              }
+            },
+            {
+              "text": "Could you look up the purchase with my card? It was on the 14th.",
+              "verdict": "best",
+              "feedback": {
+                "en": "A practical solution instead of repeating the complaint. Giving the date makes it easy for them.",
+                "he": "פתרון מעשי במקום לחזור על התלונה. התאריך מקל על העובד למצוא את הקנייה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Could you look up the purchase with my card? It was on the 14th.",
+            "Is there any way to find the purchase on your system? I paid by card."
+          ],
+          "keywords": [
+            "look up",
+            "card",
+            "find",
+            "purchase",
+            "manager"
+          ]
+        },
+        {
+          "partner": "OK, found it. I can refund it to your card or swap them for a new pair. Which would you prefer?",
+          "options": [
+            {
+              "text": "Refund.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but abrupt after the employee went out of their way. Add 'please' or 'thanks'.",
+                "he": "ברור, אבל חד מדי אחרי שהעובד התאמץ בשבילכם. כדאי להוסיף please או thanks."
+              }
+            },
+            {
+              "text": "A refund would be great. Thanks for looking it up.",
+              "verdict": "best",
+              "feedback": {
+                "en": "A clear choice plus thanks for the extra effort. Ending on a positive note matters.",
+                "he": "בחירה ברורה ותודה על המאמץ. חשוב לסיים בטון חיובי."
+              }
+            },
+            {
+              "text": "Finally. A refund, obviously.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sarcastic and ungrateful. The employee just helped you; acknowledge it.",
+                "he": "עוקצני וכפוי טובה. העובד הרגע עזר לכם, כדאי להכיר בזה."
+              }
+            }
+          ],
+          "model_replies": [
+            "A refund would be great. Thanks for looking it up.",
+            "I'll take a new pair, thanks. I appreciate your help."
+          ],
+          "keywords": [
+            "refund",
+            "new pair",
+            "thanks",
+            "great",
+            "appreciate"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Tyler, a customer service associate at a large electronics store in New York. Friendly and laid-back, but nervous about breaking store rules.",
+        "complication": "With no paper receipt, Tyler first offers only store credit. He can find the purchase by card only if the learner suggests it and gives the date. If the learner stays polite, he offers a refund or a new pair; if the learner gets rude, he calls his manager, Denise, who is strict but fair and needs the whole story again.",
+        "opening_line": "Hey, how's it going? What can I help you with today?"
+      },
+      "culture": [
+        {
+          "en": "Return policies differ between stores and countries. Check the policy (often on the receipt or the store's website) and keep receipts until you're sure you're happy with a purchase.",
+          "he": "מדיניות ההחזרות משתנה בין חנויות ובין מדינות. כדאי לבדוק אותה (לרוב היא מופיעה על הקבלה או באתר החנות) ולשמור קבלות עד שבטוחים שהמוצר בסדר."
+        },
+        {
+          "en": "A calm, polite complaint usually gets better results than an angry one. 'I understand, but…' and 'Is there anything you can do?' keep things friendly while you stand your ground.",
+          "he": "תלונה רגועה ומנומסת מביאה בדרך כלל תוצאות טובות יותר מתלונה כועסת. I understand, but... ו-Is there anything you can do? שומרים על אווירה נעימה בלי לוותר על העמדה שלכם."
+        },
+        {
+          "en": "Asking for a manager is normal, but do it calmly and only after you've tried to sort things out with the first person.",
+          "he": "לבקש מנהל זה דבר מקובל, אבל עושים את זה ברוגע, ורק אחרי שניסיתם לפתור את העניין עם הנציג הראשון."
+        }
+      ],
+      "variants": [
+        {
+          "us": "store credit",
+          "uk": "store credit / a credit note",
+          "note": "Money you can only spend in that shop."
+        },
+        {
+          "us": "defective",
+          "uk": "faulty",
+          "note": "Both are understood everywhere."
+        },
+        {
+          "us": "store",
+          "uk": "shop",
+          "note": "British English uses 'store' for big shops, like a department store."
+        }
+      ]
+    },
+    {
+      "id": "rl-shopping-market-haggling",
+      "module": "shopping",
+      "title_en": "Haggling at a market",
+      "title_he": "מיקוח בשוק",
+      "level": "B1",
+      "situation": {
+        "en": "You're at a crafts market in Mexico City. You love a handwoven blanket, and you'd also like a couple of bracelets as gifts. Nothing has a price tag, and the seller expects some bargaining. (Prices in this scenario are made-up examples.)",
+        "he": "אתם בשוק אומנים במקסיקו סיטי. התאהבתם בשמיכה ארוגה ביד, ואתם רוצים גם כמה צמידים למתנה. אין תוויות מחיר, והמוכרת מצפה לקצת מיקוח. (המחירים בתרחיש הם דוגמה בלבד.)"
+      },
+      "goal": {
+        "en": "Ask the price, make a counter-offer and agree on a fair deal for several items, while keeping it friendly.",
+        "he": "לשאול כמה זה עולה, להציע מחיר נגדי ולהגיע לעסקה הוגנת על כמה פריטים, בלי לאבד את האווירה הנעימה."
+      },
+      "partner_role": "market stall seller",
+      "phrases": [
+        {
+          "en": "How much is this one?",
+          "he": "כמה זה עולה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Is this handmade?",
+          "he": "זו עבודת יד?",
+          "register": "neutral"
+        },
+        {
+          "en": "Is that your best price?",
+          "he": "זה המחיר הכי טוב שלך?",
+          "register": "neutral",
+          "note": "The most common friendly way to start bargaining."
+        },
+        {
+          "en": "It's beautiful, but it's a bit more than I wanted to spend.",
+          "he": "זה יפהפה, אבל זה קצת יותר ממה שתכננתי להוציא.",
+          "register": "polite"
+        },
+        {
+          "en": "Would you take 600?",
+          "he": "תסכימי על 600?",
+          "register": "neutral",
+          "note": "'Would you take…?' = would you accept this price?"
+        },
+        {
+          "en": "What if I buy two? Could you do a better price?",
+          "he": "ואם אקנה שניים? אפשר מחיר יותר טוב?",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you do all three for 900?",
+          "he": "אפשר את שלושתם ב-900?",
+          "register": "polite",
+          "note": "'Do' here means 'sell for': 'Can you do it for 500?'"
+        },
+        {
+          "en": "Meet me in the middle?",
+          "he": "ניפגש באמצע?",
+          "register": "casual"
+        },
+        {
+          "en": "Do you give a discount for cash?",
+          "he": "יש הנחה על מזומן?",
+          "register": "neutral"
+        },
+        {
+          "en": "Thanks anyway, I'll think about it.",
+          "he": "תודה בכל מקרה, אני אחשוב על זה.",
+          "register": "polite",
+          "note": "A polite way to walk away. Sometimes the seller calls you back with a better offer."
+        },
+        {
+          "en": "OK, it's a deal!",
+          "he": "סגרנו!",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hello! Come and have a look. Everything is handmade."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. This blanket is beautiful. How much is it?"
+        },
+        {
+          "speaker": "partner",
+          "text": "That one is 900 pesos. It took my sister two weeks to make."
+        },
+        {
+          "speaker": "you",
+          "text": "It's lovely, but that's a bit more than I wanted to spend. Would you take 600?"
+        },
+        {
+          "speaker": "partner",
+          "text": "600? No, no, it's real wool. I can do 850."
+        },
+        {
+          "speaker": "you",
+          "text": "What if I take two of these bracelets as well? Could you do all three for 900?"
+        },
+        {
+          "speaker": "partner",
+          "text": "All three? 1,000, and that's a very good price."
+        },
+        {
+          "speaker": "you",
+          "text": "Meet me in the middle? 950, and I'll pay cash."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK, OK, 950. You drive a hard bargain!"
+        },
+        {
+          "speaker": "you",
+          "text": "Thank you! It's a deal. They'll make great gifts."
+        },
+        {
+          "speaker": "partner",
+          "text": "Do you want a bag for them?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, please. Thanks so much."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hello! Come and have a look. Everything is handmade.",
+          "options": [
+            {
+              "text": "How much is cost this?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Two structures mixed together. Say 'How much is this?' or 'How much does this cost?'",
+                "he": "ערבוב של שני מבנים. אומרים How much is this? או How much does this cost?"
+              }
+            },
+            {
+              "text": "How much?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Common at markets and understood, but a little cold. A 'thanks' or a compliment helps when you plan to bargain.",
+                "he": "נפוץ בשווקים ומובן, אבל קצת קר. כשמתכננים להתמקח, תודה או מחמאה עוזרות."
+              }
+            },
+            {
+              "text": "Thanks. This blanket is beautiful. How much is it?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A compliment first creates goodwill, then a simple question.",
+                "he": "מחמאה בהתחלה יוצרת אווירה טובה, ואחריה שאלה פשוטה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks. This blanket is beautiful. How much is it?",
+            "Wow, these are lovely. How much is this one?"
+          ],
+          "keywords": [
+            "how much",
+            "this",
+            "beautiful",
+            "lovely",
+            "cost"
+          ]
+        },
+        {
+          "partner": "That one is 900 pesos. It took my sister two weeks to make.",
+          "options": [
+            {
+              "text": "It's lovely, but that's a bit more than I wanted to spend. Would you take 600?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Compliment, gentle reason, clear offer: the classic friendly way to bargain.",
+                "he": "מחמאה, סיבה עדינה והצעה ברורה: הדרך הקלאסית להתמקח בנעימות."
+              }
+            },
+            {
+              "text": "Too expensive. 600.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but blunt. Sellers respond better to 'That's a bit much for me. Would you take 600?'",
+                "he": "ברור, אבל בוטה. מוכרים מגיבים טוב יותר ל-That's a bit much for me. Would you take 600?"
+              }
+            },
+            {
+              "text": "900? Are you crazy? That's a tourist price.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Insulting the seller is the fastest way to end the bargaining. Show interest, then make an offer.",
+                "he": "להעליב את המוכרת זו הדרך המהירה ביותר לסיים את המיקוח. עדיף להראות עניין ואז להציע מחיר."
+              }
+            }
+          ],
+          "model_replies": [
+            "It's lovely, but that's a bit more than I wanted to spend. Would you take 600?",
+            "Hmm, is that your best price? How about 650?"
+          ],
+          "keywords": [
+            "would you take",
+            "how about",
+            "best price",
+            "a bit",
+            "600"
+          ]
+        },
+        {
+          "partner": "600? No, no, it's real wool. I can do 850.",
+          "options": [
+            {
+              "text": "No. 600 or I go.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "An ultimatum sounds aggressive. If you want to walk away, do it politely: 'Thanks anyway, I'll think about it.'",
+                "he": "אולטימטום נשמע תוקפני. אם רוצים לוותר, עושים את זה בנימוס: Thanks anyway, I'll think about it."
+              }
+            },
+            {
+              "text": "What if I take two of these bracelets as well? Could you do all three for 900?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Buying more gives the seller a reason to lower the price. 'What if…' and 'Could you do…' keep it friendly.",
+                "he": "קנייה של יותר פריטים נותנת למוכרת סיבה להוריד מחיר. What if... ו-Could you do... שומרים על טון ידידותי."
+              }
+            },
+            {
+              "text": "850 is still too much. 700.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Acceptable at a market, but you're only pushing the number. Offering to buy more works better.",
+                "he": "מקובל בשוק, אבל אתם רק לוחצים על המספר. הצעה לקנות עוד פריטים עובדת טוב יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "What if I take two bracelets as well? Could you do all three for 900?",
+            "OK, and if I buy these bracelets too, can you do a better price?"
+          ],
+          "keywords": [
+            "what if",
+            "all three",
+            "bracelets",
+            "could you do",
+            "better price"
+          ]
+        },
+        {
+          "partner": "All three? 1,000, and that's a very good price.",
+          "options": [
+            {
+              "text": "Hmm, I'm not sure. It's still a little out of my budget.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Polite, but it doesn't move the deal forward. Add a number so the seller knows what you'd accept.",
+                "he": "מנומס, אבל לא מקדם את העסקה. כדאי להוסיף מספר כדי שהמוכרת תדע על מה תסכימו."
+              }
+            },
+            {
+              "text": "You're lying, that's not a good price.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Calling someone a liar is very offensive. Disagree with the price, not the person.",
+                "he": "לקרוא למישהו שקרן זה מעליב מאוד. מתווכחים על המחיר, לא על האדם."
+              }
+            },
+            {
+              "text": "Meet me in the middle? 950, and I'll pay cash.",
+              "verdict": "best",
+              "feedback": {
+                "en": "A friendly compromise, and cash is often a good argument at a market.",
+                "he": "פשרה ידידותית, ומזומן הוא לרוב טיעון טוב בשוק."
+              }
+            }
+          ],
+          "model_replies": [
+            "Meet me in the middle? 950, and I'll pay cash.",
+            "How about 950 if I pay cash?"
+          ],
+          "keywords": [
+            "middle",
+            "950",
+            "cash",
+            "how about"
+          ]
+        },
+        {
+          "partner": "OK, OK, 950. You drive a hard bargain!",
+          "options": [
+            {
+              "text": "Thank you! It's a deal. They'll make great gifts.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm and gracious. Once you agree, accept happily and stop pushing.",
+                "he": "חם ואדיב. אחרי שמסכימים על מחיר, מקבלים אותו בשמחה ומפסיקים ללחוץ."
+              }
+            },
+            {
+              "text": "What about 900?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Trying to go lower after the seller has agreed is bad manners. A deal is a deal.",
+                "he": "לנסות להוריד שוב אחרי שהמוכרת הסכימה זה חוסר נימוס. מה שסוכם, סוכם."
+              }
+            },
+            {
+              "text": "OK, deal.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but a 'thank you' after friendly bargaining leaves a better feeling.",
+                "he": "בסדר, אבל תודה בסוף מיקוח ידידותי משאירה טעם טוב יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thank you! It's a deal.",
+            "Great, deal! Thanks so much."
+          ],
+          "keywords": [
+            "thank",
+            "deal",
+            "great"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Lupita, a weaver who sells her family's blankets and bracelets at a crafts market in Mexico City. Warm, funny and proud of her work; she enjoys a good bargain but won't sell below a fair price.",
+        "complication": "Lupita starts high and won't go below 850 for the blanket alone. She only gives a real discount if the learner buys more than one item or pays cash. If the learner is rude about the price, she stops negotiating; if the learner politely walks away, she calls them back with one last offer.",
+        "opening_line": "Hola! Hello! Come and have a look. Everything here is made by my family."
+      },
+      "culture": [
+        {
+          "en": "In many markets around the world, bargaining is normal and even expected, but it should feel friendly, like a game. In shops with price tags, especially in the UK and the US, people usually don't bargain.",
+          "he": "בשווקים רבים בעולם מיקוח הוא דבר רגיל ואפילו צפוי, אבל הוא אמור להרגיש ידידותי, כמו משחק. בחנויות עם תוויות מחיר, בעיקר בבריטניה ובארה״ב, בדרך כלל לא מתמקחים."
+        },
+        {
+          "en": "Israeli-style directness ('Too expensive! 500, final!') can sound aggressive in English. Soften your offers: 'Would you take…?', 'Is that your best price?'",
+          "he": "הישירות הישראלית ('יקר! 500 וזהו!') עלולה להישמע תוקפנית באנגלית. כדאי לרכך: Would you take...? או Is that your best price?"
+        },
+        {
+          "en": "Only offer a price you're really willing to pay. If the seller accepts, backing out is rude.",
+          "he": "מציעים רק מחיר שבאמת מוכנים לשלם. אם המוכר מסכים, לחזור בכם זה לא מנומס."
+        }
+      ]
+    },
+    {
+      "id": "rl-shopping-card-declined",
+      "module": "shopping",
+      "title_en": "At the checkout: card declined",
+      "title_he": "בקופה: הכרטיס לא עובר",
+      "level": "A2",
+      "situation": {
+        "en": "You're paying for a few books at a bookstore in Chicago. You'd like to know if there's a student discount. Then you tap your card, and the payment doesn't go through. (Prices and discounts in this scenario are made-up examples.)",
+        "he": "אתם משלמים על כמה ספרים בחנות ספרים בשיקגו ורוצים לדעת אם יש הנחת סטודנטים. אחר כך אתם מצמידים את הכרטיס, והתשלום לא עובר. (המחירים וההנחות בתרחיש הם דוגמה בלבד.)"
+      },
+      "goal": {
+        "en": "Ask about a discount, stay calm when your card is declined, find another way to pay and get your receipt.",
+        "he": "לשאול על הנחה, להישאר רגועים כשהכרטיס נדחה, למצוא דרך אחרת לשלם ולקבל קבלה."
+      },
+      "partner_role": "cashier",
+      "phrases": [
+        {
+          "en": "Do you have a student discount?",
+          "he": "יש לכם הנחת סטודנטים?",
+          "register": "neutral"
+        },
+        {
+          "en": "Is this on sale?",
+          "he": "זה במבצע?",
+          "register": "neutral",
+          "variant": "US",
+          "note": "In the US, 'on sale' means the price is reduced."
+        },
+        {
+          "en": "Is this in the sale?",
+          "he": "זה במבצע?",
+          "register": "neutral",
+          "variant": "UK",
+          "note": "In the UK, 'on sale' can just mean 'available to buy'; 'in the sale' means reduced."
+        },
+        {
+          "en": "Sorry, could you try it one more time?",
+          "he": "סליחה, אפשר לנסות עוד פעם?",
+          "register": "polite"
+        },
+        {
+          "en": "That's weird. It worked this morning.",
+          "he": "מוזר. הוא עבד הבוקר.",
+          "register": "casual"
+        },
+        {
+          "en": "Can I try a different card?",
+          "he": "אפשר לנסות כרטיס אחר?",
+          "register": "neutral"
+        },
+        {
+          "en": "I'll pay in cash, then.",
+          "he": "אז אשלם במזומן.",
+          "register": "neutral"
+        },
+        {
+          "en": "Sorry, I'm holding up the line.",
+          "he": "סליחה, אני מעכב/ת את התור.",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Sorry, I'm holding up the queue.",
+          "he": "סליחה, אני מעכב/ת את התור.",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "Could I get a receipt, please?",
+          "he": "אפשר לקבל קבלה, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Could you email it to me instead?",
+          "he": "אפשר לשלוח לי אותה במייל במקום?",
+          "register": "polite"
+        },
+        {
+          "en": "No bag, thanks.",
+          "he": "לא צריך שקית, תודה.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi there. Did you find everything OK?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, thanks. Do you have a student discount, by the way?"
+        },
+        {
+          "speaker": "partner",
+          "text": "We do, ten percent with a student ID."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, here you go."
+        },
+        {
+          "speaker": "partner",
+          "text": "Perfect. So that's $32.40. Go ahead and tap whenever you're ready."
+        },
+        {
+          "speaker": "partner",
+          "text": "Hmm, it says declined. Do you want to try again?"
+        },
+        {
+          "speaker": "you",
+          "text": "That's weird, it worked this morning. Can I insert it instead?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Sure, go ahead… No, sorry, still declined."
+        },
+        {
+          "speaker": "you",
+          "text": "Sorry about this. I'll pay in cash, then."
+        },
+        {
+          "speaker": "partner",
+          "text": "No problem at all. Out of forty… here's $7.60. Do you want the receipt in the bag?"
+        },
+        {
+          "speaker": "you",
+          "text": "Could you email it to me instead? And no bag, thanks."
+        },
+        {
+          "speaker": "partner",
+          "text": "Sure, just type your email here. Have a good one!"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi there. Did you find everything OK?",
+          "options": [
+            {
+              "text": "Why do you ask me this?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "It's just a routine, friendly question, not a real request for information. A suspicious answer sounds strange.",
+                "he": "זו שאלת נימוס שגרתית, לא באמת בקשת מידע. תשובה חשדנית נשמעת מוזרה."
+              }
+            },
+            {
+              "text": "Yes, thanks. Do you have a student discount, by the way?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A quick, friendly answer, then your question. 'By the way' makes it sound relaxed.",
+                "he": "תשובה קצרה ונעימה, ואחריה השאלה שלכם. by the way נותן לזה טון רגוע."
+              }
+            },
+            {
+              "text": "Yes.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but it can sound cold. 'Yes, thanks' is the usual answer.",
+                "he": "בסדר, אבל עלול להישמע קר. התשובה הרגילה היא Yes, thanks."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, thanks. Do you have a student discount, by the way?",
+            "Yes, thank you. Is there a student discount?"
+          ],
+          "keywords": [
+            "yes",
+            "thanks",
+            "student",
+            "discount"
+          ]
+        },
+        {
+          "partner": "We do, ten percent with a student ID. Do you have it with you?",
+          "options": [
+            {
+              "text": "Yes, I have it. Here is my student identity card.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but formal. People just say 'student ID' (US) or 'student card' (UK).",
+                "he": "נכון, אבל רשמי. אומרים פשוט student ID (ארה״ב) או student card (בריטניה)."
+              }
+            },
+            {
+              "text": "Yes, here you go.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and quick: the cashier can see what you're handing over.",
+                "he": "טבעי ומהיר: הקופאי רואה מה אתם מגישים."
+              }
+            },
+            {
+              "text": "No, but I am student, believe me.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Missing 'a' ('I'm a student'), and asking them to just believe you puts the cashier in an awkward position.",
+                "he": "חסר a (I'm a student), ולבקש מהקופאי פשוט להאמין לכם מעמיד אותו במצב לא נעים."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, here you go.",
+            "Yep, here it is."
+          ],
+          "keywords": [
+            "here",
+            "yes",
+            "ID",
+            "card"
+          ]
+        },
+        {
+          "partner": "Hmm, it says declined. Do you want to try again?",
+          "options": [
+            {
+              "text": "Your machine is broken.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Blaming the cashier sounds rude, and the problem is often with the bank. Try again or use another card.",
+                "he": "להאשים את הקופאי נשמע גס, והבעיה היא לעיתים קרובות בבנק. נסו שוב או השתמשו בכרטיס אחר."
+              }
+            },
+            {
+              "text": "Yes, again.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but abrupt. 'Sure, let me try again' sounds friendlier.",
+                "he": "מובן, אבל חד. Sure, let me try again נשמע נעים יותר."
+              }
+            },
+            {
+              "text": "That's weird, it worked this morning. Can I insert it instead?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You stay calm and suggest a solution.",
+                "he": "נשארים רגועים ומציעים פתרון."
+              }
+            }
+          ],
+          "model_replies": [
+            "That's weird, it worked this morning. Can I insert it instead?",
+            "Sure, let me try again."
+          ],
+          "keywords": [
+            "try",
+            "again",
+            "insert",
+            "weird",
+            "different card"
+          ]
+        },
+        {
+          "partner": "No, sorry, still declined.",
+          "options": [
+            {
+              "text": "Sorry about this. I'll pay in cash, then.",
+              "verdict": "best",
+              "feedback": {
+                "en": "A short apology for the delay plus a quick solution. Very natural.",
+                "he": "התנצלות קצרה על העיכוב ופתרון מהיר. טבעי מאוד."
+              }
+            },
+            {
+              "text": "What I do now?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Questions need a helping verb: 'What should I do now?' Better still, suggest another way to pay.",
+                "he": "בשאלה צריך פועל עזר: What should I do now? ועוד יותר טוב להציע דרך תשלום אחרת."
+              }
+            },
+            {
+              "text": "I have cash. I will pay with the cash.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but stiff, and 'the cash' sounds odd. 'I'll pay in cash, then' is shorter and more natural.",
+                "he": "מובן, אבל נוקשה, ו-the cash נשמע מוזר. I'll pay in cash, then קצר וטבעי יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Sorry about this. I'll pay in cash, then.",
+            "Sorry! Can I try a different card?"
+          ],
+          "keywords": [
+            "cash",
+            "sorry",
+            "pay",
+            "different card",
+            "another card"
+          ]
+        },
+        {
+          "partner": "Here's your change. Do you want the receipt in the bag?",
+          "options": [
+            {
+              "text": "No bag. Email.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but too clipped. Make it a request: 'Could you email it to me?'",
+                "he": "מובן, אבל קטוע מדי. עדיף לנסח כבקשה: Could you email it to me?"
+              }
+            },
+            {
+              "text": "Could you email it to me instead? And no bag, thanks.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite request plus a quick 'no bag, thanks'. Exactly how people say it.",
+                "he": "בקשה מנומסת ו-no bag, thanks קצר. בדיוק כמו שאומרים את זה."
+              }
+            },
+            {
+              "text": "I don't need. Give me the check.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Check' is the bill at a restaurant (US), not a receipt, and 'I don't need' needs an object: 'I don't need one'.",
+                "he": "check זה החשבון במסעדה (בארה״ב), לא קבלה. וגם אחרי I don't need צריך מושא: I don't need one."
+              }
+            }
+          ],
+          "model_replies": [
+            "Could you email it to me instead? And no bag, thanks.",
+            "In the bag is fine, thanks."
+          ],
+          "keywords": [
+            "receipt",
+            "email",
+            "bag",
+            "thanks"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Marcus, a cashier at a busy bookstore in Chicago. Easygoing and patient, he likes chatting about the books people buy, but there's a long line behind the learner.",
+        "complication": "The learner's card is declined twice, and the store's card reader won't accept the learner's second idea, so they need another solution (cash, another card, or putting a book back). The student discount only applies with a valid student ID, and Marcus asks to see it.",
+        "opening_line": "Hi there! Did you find everything OK today?"
+      },
+      "culture": [
+        {
+          "en": "In most US states, the price on the shelf doesn't include sales tax. It's added at the register, so the total is often a little higher than you expect.",
+          "he": "ברוב מדינות ארה״ב המחיר על המדף לא כולל מס מכירה. המס מתווסף בקופה, ולכן הסכום הסופי לרוב קצת גבוה ממה שציפיתם."
+        },
+        {
+          "en": "If your card is declined abroad, your bank may have blocked the payment as a security check. Check your banking app or call the bank, and carry a backup way to pay.",
+          "he": "אם הכרטיס נדחה בחו״ל, ייתכן שהבנק חסם את העסקה כבדיקת אבטחה. כדאי לבדוק באפליקציה של הבנק או להתקשר אליו, ותמיד להחזיק אמצעי תשלום נוסף."
+        },
+        {
+          "en": "Cashiers often ask 'Did you find everything OK?' or 'How's your day going?' A short, friendly answer is all they expect.",
+          "he": "קופאים שואלים הרבה פעמים Did you find everything OK? או How's your day going? מצפים רק לתשובה קצרה ונעימה."
+        }
+      ],
+      "variants": [
+        {
+          "us": "line",
+          "uk": "queue"
+        },
+        {
+          "us": "register",
+          "uk": "till",
+          "note": "'Checkout' works in both."
+        },
+        {
+          "us": "on sale",
+          "uk": "in the sale",
+          "note": "Both mean the price is reduced."
+        },
+        {
+          "us": "student ID",
+          "uk": "student card"
+        }
+      ]
+    },
+    {
+      "id": "rl-social-hostel-travellers",
+      "module": "social",
+      "title_en": "Meeting travellers in a hostel",
+      "title_he": "היכרות עם מטיילים בהוסטל",
+      "level": "A2",
+      "situation": {
+        "en": "You've just arrived at a hostel in Chiang Mai, Thailand. In the common room, a traveller is looking at a map and planning tomorrow. She looks friendly.",
+        "he": "הגעתם עכשיו להוסטל בצ'יאנג מאי שבתאילנד. בחדר המשותף יושבת מטיילת, מסתכלת על מפה ומתכננת את מחר. היא נראית ידידותית."
+      },
+      "goal": {
+        "en": "Introduce yourself, talk about your travel plans, and make a plan to do something together tomorrow.",
+        "he": "להציג את עצמכם, לדבר על תוכניות הטיול שלכם ולקבוע לעשות משהו ביחד מחר."
+      },
+      "partner_role": "another traveller",
+      "phrases": [
+        {
+          "en": "Hey, mind if I join you?",
+          "he": "היי, אכפת לך אם אצטרף?",
+          "register": "casual",
+          "note": "Very common in hostels. 'Do you mind if I sit here?' is a little more polite."
+        },
+        {
+          "en": "Hi, I'm Tal. I just got in today.",
+          "he": "היי, אני טל. הגעתי היום.",
+          "register": "neutral",
+          "note": "'Get in' = arrive (at a place you're staying)."
+        },
+        {
+          "en": "Where are you from?",
+          "he": "מאיפה את/ה?",
+          "register": "neutral"
+        },
+        {
+          "en": "How long have you been travelling?",
+          "he": "כמה זמן את/ה כבר מטייל/ת?",
+          "register": "neutral",
+          "note": "Present perfect continuous: an activity that started in the past and is still going on."
+        },
+        {
+          "en": "Where are you headed next?",
+          "he": "לאן את/ה ממשיך/ה מכאן?",
+          "register": "casual"
+        },
+        {
+          "en": "I'm here for about a week, then I'm heading south to the islands.",
+          "he": "אני פה בערך שבוע, ואז אני ממשיך/ה דרומה לאיים.",
+          "register": "neutral"
+        },
+        {
+          "en": "Have you been anywhere good so far?",
+          "he": "היית כבר במקום שווה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Any tips for Chiang Mai?",
+          "he": "יש לך המלצות לצ'יאנג מאי?",
+          "register": "casual"
+        },
+        {
+          "en": "Would you mind if I came along?",
+          "he": "יהיה בסדר אם אצטרף אליכם?",
+          "register": "polite",
+          "note": "'Come along' = join you. After 'Would you mind if…', use the past simple."
+        },
+        {
+          "en": "That sounds great, count me in!",
+          "he": "נשמע מעולה, אני בפנים!",
+          "register": "casual"
+        },
+        {
+          "en": "What time are you leaving?",
+          "he": "באיזו שעה אתם יוצאים?",
+          "register": "neutral"
+        },
+        {
+          "en": "Want to swap numbers?",
+          "he": "בא לך שנחליף מספרים?",
+          "register": "casual",
+          "note": "Or: 'Are you on WhatsApp?'"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi! Are you new? I haven't seen you around."
+        },
+        {
+          "speaker": "you",
+          "text": "Yeah, I just got in this afternoon. I'm Tal, from Israel. Mind if I join you?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course, sit down! I'm Lena, from Hamburg."
+        },
+        {
+          "speaker": "you",
+          "text": "Nice to meet you. How long have you been travelling?"
+        },
+        {
+          "speaker": "partner",
+          "text": "About two months now. I started in Vietnam. What about you?"
+        },
+        {
+          "speaker": "you",
+          "text": "Only a week. I'm here for a few days, then I'm heading south to the islands."
+        },
+        {
+          "speaker": "partner",
+          "text": "Nice. Tomorrow a few of us are doing a cooking class. You should come!"
+        },
+        {
+          "speaker": "you",
+          "text": "Oh, I'd love to! What time does it start?"
+        },
+        {
+          "speaker": "partner",
+          "text": "They pick us up here at nine. I can ask if there's still space."
+        },
+        {
+          "speaker": "you",
+          "text": "Amazing, thanks. Want to swap numbers so you can let me know?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Sure! Here, put your number in my phone."
+        },
+        {
+          "speaker": "you",
+          "text": "There you go. See you at nine, then!"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi! Are you new? I haven't seen you around.",
+          "options": [
+            {
+              "text": "Yes. My name is Tal. I am from Israel.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but it sounds like a textbook. In a hostel, people say 'I'm Tal' and use short forms.",
+                "he": "נכון, אבל נשמע כמו ספר לימוד. בהוסטל אומרים I'm Tal ומשתמשים בצורות מקוצרות."
+              }
+            },
+            {
+              "text": "Yeah, I just got in this afternoon. I'm Tal, from Israel.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Relaxed and friendly: you answer and introduce yourself in one go.",
+                "he": "רגוע וידידותי: עונים ומציגים את עצמכם באותה נשימה."
+              }
+            },
+            {
+              "text": "Yes, I came now.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'I came now' is a word-for-word translation from Hebrew. Say 'I just got here' or 'I just arrived'.",
+                "he": "I came now זה תרגום מילה במילה של 'הגעתי עכשיו'. באנגלית אומרים I just got here או I just arrived."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yeah, I just got in this afternoon. I'm Tal, from Israel.",
+            "Yes, I just arrived today. I'm Tal. Nice to meet you!"
+          ],
+          "keywords": [
+            "just",
+            "arrived",
+            "got in",
+            "I'm",
+            "from"
+          ]
+        },
+        {
+          "partner": "I'm Lena, from Hamburg. So how long are you in Thailand?",
+          "options": [
+            {
+              "text": "I am in Thailand since one week.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This follows Hebrew grammar. English uses the present perfect with 'for': 'I've been in Thailand for a week.'",
+                "he": "זה מבנה מהעברית. באנגלית משתמשים ב-present perfect עם for: I've been in Thailand for a week."
+              }
+            },
+            {
+              "text": "Three weeks.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but very short. Add a detail and ask her back to keep the conversation going.",
+                "he": "נכון, אבל קצר מאוד. כדאי להוסיף פרט ולשאול אותה בחזרה כדי שהשיחה תימשך."
+              }
+            },
+            {
+              "text": "About three weeks. I'm here for a few days, then I'm heading south. What about you?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A clear plan, natural travel language ('heading south'), and a question back.",
+                "he": "תוכנית ברורה, שפת טיולים טבעית (heading south) ושאלה בחזרה."
+              }
+            }
+          ],
+          "model_replies": [
+            "About three weeks. I'm here for a few days, then I'm heading south.",
+            "Three weeks in total. I've been here for a week so far. How about you?"
+          ],
+          "keywords": [
+            "weeks",
+            "heading",
+            "then",
+            "here for",
+            "about you"
+          ]
+        },
+        {
+          "partner": "I started in Vietnam two months ago. It was amazing.",
+          "options": [
+            {
+              "text": "Two months, wow! What was your favourite place?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You show interest and ask a follow-up question, which keeps the conversation going.",
+                "he": "מראים עניין ושואלים שאלת המשך, וכך השיחה ממשיכה לזרום."
+              }
+            },
+            {
+              "text": "Nice.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Friendly, but it closes the topic. Add a question like 'What was the best part?'",
+                "he": "ידידותי, אבל סוגר את הנושא. כדאי להוסיף שאלה כמו What was the best part?"
+              }
+            },
+            {
+              "text": "I don't like Vietnam.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Negative and a bit rude when she's sharing something she loved. Show interest first.",
+                "he": "שלילי וקצת לא נעים כשהיא משתפת במשהו שאהבה. קודם מראים עניין."
+              }
+            }
+          ],
+          "model_replies": [
+            "Two months, wow! What was your favourite place?",
+            "That's so cool. What was the best part?"
+          ],
+          "keywords": [
+            "what",
+            "favourite",
+            "favorite",
+            "best",
+            "wow"
+          ]
+        },
+        {
+          "partner": "Tomorrow a few of us are doing a cooking class. You should come!",
+          "options": [
+            {
+              "text": "OK, I will come.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but flat. Show some enthusiasm: 'I'd love to!' or 'Count me in!'",
+                "he": "נכון, אבל יבש. כדאי להראות התלהבות: I'd love to! או Count me in!"
+              }
+            },
+            {
+              "text": "Maybe. How much it costs?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Asking the price is fine, but the question needs 'does': 'How much does it cost?' Show a bit of interest first.",
+                "he": "לגיטימי לשאול על המחיר, אבל בשאלה צריך does: How much does it cost? וכדאי קודם להראות קצת עניין."
+              }
+            },
+            {
+              "text": "Oh, I'd love to! What time does it start?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm acceptance plus a practical question.",
+                "he": "הסכמה חמה ושאלה מעשית."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh, I'd love to! What time does it start?",
+            "Count me in! How much is it?"
+          ],
+          "keywords": [
+            "love to",
+            "count me in",
+            "time",
+            "start",
+            "how much"
+          ]
+        },
+        {
+          "partner": "They pick us up here at nine. I can ask if there's still space.",
+          "options": [
+            {
+              "text": "Amazing, thanks! Want to swap numbers so you can let me know?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and practical: you give a reason for asking for her number.",
+                "he": "טבעי ומעשי: נותנים סיבה לבקשת המספר."
+              }
+            },
+            {
+              "text": "OK, bye.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Ends things too suddenly, and you'll have no way to find out if there's space.",
+                "he": "מסיים בפתאומיות, ואין לכם דרך לדעת אם נשאר מקום."
+              }
+            },
+            {
+              "text": "Thank you. Give me your phone number.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but 'Give me' sounds like an order. Ask: 'Want to swap numbers?' or 'Can I get your number?'",
+                "he": "ברור, אבל Give me נשמע כמו פקודה. עדיף לשאול: Want to swap numbers? או Can I get your number?"
+              }
+            }
+          ],
+          "model_replies": [
+            "Amazing, thanks! Want to swap numbers so you can let me know?",
+            "Great, thanks. Are you on WhatsApp?"
+          ],
+          "keywords": [
+            "numbers",
+            "number",
+            "WhatsApp",
+            "thanks",
+            "let me know"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Lena, 24, a traveller from Hamburg on a gap year. Talkative and curious, she's been on the road for two months and loves giving tips.",
+        "complication": "The cooking class turns out to be full. Lena suggests an alternative: an early hike to a waterfall that leaves at 6:30. The learner has to agree on a plan, a time and a meeting place, and swap contacts.",
+        "opening_line": "Hey! Are you new here? I haven't seen you around before."
+      },
+      "culture": [
+        {
+          "en": "In hostels it's normal to talk to strangers and join their plans. 'Mind if I join you?' is all you need to start.",
+          "he": "בהוסטלים מקובל לדבר עם זרים ולהצטרף לתוכניות שלהם. Mind if I join you? זה כל מה שצריך כדי להתחיל."
+        },
+        {
+          "en": "Travellers often ask 'Where are you from?', 'How long are you travelling for?' and 'Where are you headed next?' Have a short answer ready, and ask the same question back.",
+          "he": "מטיילים שואלים הרבה Where are you from?, How long are you travelling for? ו-Where are you headed next? כדאי שתהיה לכם תשובה קצרה מוכנה, ולשאול את אותה שאלה בחזרה."
+        },
+        {
+          "en": "Meeting people on the road is part of the fun, but keep basic safety in mind: meet in public places and tell someone you trust about your plans.",
+          "he": "היכרויות בדרך הן חלק מהכיף, אבל כדאי לשמור על כללי בטיחות בסיסיים: להיפגש במקומות ציבוריים ולספר למישהו שאתם סומכים עליו על התוכניות שלכם."
+        }
+      ],
+      "variants": [
+        {
+          "us": "traveler / traveling",
+          "uk": "traveller / travelling",
+          "note": "Spelling only."
+        },
+        {
+          "us": "favorite",
+          "uk": "favourite",
+          "note": "Spelling only."
+        },
+        {
+          "us": "vacation",
+          "uk": "holiday",
+          "note": "Backpackers on a long trip usually just say 'my trip'."
+        }
+      ]
+    },
+    {
+      "id": "rl-social-party-small-talk",
+      "module": "social",
+      "title_en": "Small talk at a party",
+      "title_he": "שיחת חולין במסיבה",
+      "level": "B1",
+      "situation": {
+        "en": "You're at a friend's birthday party in London. You only know the host, Sam. A woman is standing near you by the snacks, and you'd like to start a conversation.",
+        "he": "אתם במסיבת יום הולדת של חבר בלונדון, ומכירים רק את המארח, סאם. לידכם, ליד שולחן החטיפים, עומדת בחורה, ואתם רוצים לפתוח איתה בשיחה."
+      },
+      "goal": {
+        "en": "Start a conversation, keep it going with follow-up questions, and end it politely.",
+        "he": "לפתוח בשיחה, להמשיך אותה עם שאלות המשך ולסיים אותה בנימוס."
+      },
+      "partner_role": "another guest",
+      "phrases": [
+        {
+          "en": "Hi, I don't think we've met. I'm Tal.",
+          "he": "היי, נראה לי שעוד לא הכרנו. אני טל.",
+          "register": "polite"
+        },
+        {
+          "en": "So, how do you know Sam?",
+          "he": "אז מאיפה את/ה מכיר/ה את סאם?",
+          "register": "neutral",
+          "note": "The classic opener at a party: everyone there knows the host."
+        },
+        {
+          "en": "Have you tried these? They're really good.",
+          "he": "טעמת את אלה? הם ממש טובים.",
+          "register": "casual"
+        },
+        {
+          "en": "Oh really? How did you get into that?",
+          "he": "באמת? איך הגעת לזה?",
+          "register": "neutral",
+          "note": "'Get into' = start doing or liking something."
+        },
+        {
+          "en": "That sounds amazing. What's it like?",
+          "he": "נשמע מדהים. איך זה?",
+          "register": "neutral"
+        },
+        {
+          "en": "What do you like doing when you're not working?",
+          "he": "מה את/ה אוהב/ת לעשות כשאת/ה לא בעבודה?",
+          "register": "neutral",
+          "note": "Friendlier than only asking about someone's job."
+        },
+        {
+          "en": "Same here!",
+          "he": "גם אני!",
+          "register": "casual",
+          "note": "Shows you have something in common."
+        },
+        {
+          "en": "No way! I've always wanted to go there.",
+          "he": "מה, באמת? תמיד רציתי להגיע לשם.",
+          "register": "casual",
+          "note": "'No way!' here shows surprise, not disagreement."
+        },
+        {
+          "en": "Sorry, I didn't catch your name.",
+          "he": "סליחה, לא קלטתי איך קוראים לך.",
+          "register": "polite",
+          "note": "'Catch' = hear or understand."
+        },
+        {
+          "en": "Anyway, I'm going to get a drink. It was really nice talking to you.",
+          "he": "טוב, אני הולך/ת להביא משהו לשתות. היה ממש נחמד לדבר איתך.",
+          "register": "neutral",
+          "note": "A natural way to end a conversation at a party."
+        },
+        {
+          "en": "I'll let you get back to your friends.",
+          "he": "לא אעכב אותך, תחזור/י לחברים שלך.",
+          "register": "polite",
+          "note": "A kind way to end a chat without sounding bored."
+        },
+        {
+          "en": "Great to meet you. Enjoy the rest of the party!",
+          "he": "שמחתי להכיר. תיהנה/י משאר המסיבה!",
+          "register": "polite"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "you",
+          "text": "Hi, I don't think we've met. I'm Tal."
+        },
+        {
+          "speaker": "partner",
+          "text": "Oh, hi! I'm Jess. Nice to meet you."
+        },
+        {
+          "speaker": "you",
+          "text": "You too. So, how do you know Sam?"
+        },
+        {
+          "speaker": "partner",
+          "text": "We work together at a design studio. What about you?"
+        },
+        {
+          "speaker": "you",
+          "text": "We're on the same course at uni. I'm here on an exchange year from Israel."
+        },
+        {
+          "speaker": "partner",
+          "text": "Oh, cool! How are you finding London?"
+        },
+        {
+          "speaker": "you",
+          "text": "I love it, apart from the weather! What kind of design do you do?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Mostly book covers. It's fun, but the deadlines are crazy."
+        },
+        {
+          "speaker": "you",
+          "text": "No way, that sounds amazing! How did you get into that?"
+        },
+        {
+          "speaker": "partner",
+          "text": "I was always drawing as a kid, and it just sort of happened. Do you draw at all?"
+        },
+        {
+          "speaker": "you",
+          "text": "Not really, I'm more into photography. I'd love to see some of your covers, though!"
+        },
+        {
+          "speaker": "partner",
+          "text": "Sure! I'll show you some on my phone later."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Oh, hi! I'm Jess. So, how do you know Sam?",
+          "options": [
+            {
+              "text": "From university.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but it gives Jess nothing to continue with. Add a detail or ask her back.",
+                "he": "נכון, אבל לא נותן לג'ס במה להמשיך. כדאי להוסיף פרט או לשאול אותה בחזרה."
+              }
+            },
+            {
+              "text": "Why do you want to know?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds defensive. At a party, this question is just a friendly way to start talking.",
+                "he": "נשמע מתגונן. במסיבה זו פשוט דרך ידידותית להתחיל לדבר."
+              }
+            },
+            {
+              "text": "We're on the same course at uni. What about you?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Answer briefly, then ask the same question back: that's the key to small talk.",
+                "he": "עונים בקצרה ושואלים את אותה שאלה בחזרה: זה הסוד של שיחת חולין."
+              }
+            }
+          ],
+          "model_replies": [
+            "We're on the same course at uni. What about you?",
+            "We study together. How about you? How do you know him?"
+          ],
+          "keywords": [
+            "uni",
+            "university",
+            "course",
+            "what about you",
+            "how about you"
+          ]
+        },
+        {
+          "partner": "Oh, cool! How are you finding London?",
+          "options": [
+            {
+              "text": "I love it, apart from the weather! How long have you lived here?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A real answer with a light joke, then a question back.",
+                "he": "תשובה אמיתית עם קצת הומור, ואחריה שאלה בחזרה."
+              }
+            },
+            {
+              "text": "I found it on Google Maps.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A misunderstanding: 'How are you finding London?' means 'Do you like it? How is it for you?'",
+                "he": "אי-הבנה: How are you finding London? פירושו 'איך לונדון בעינייך?', לא איך מצאת אותה."
+              }
+            },
+            {
+              "text": "It is good.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct but flat. Add a detail ('apart from the weather', 'the parks are amazing') and a question.",
+                "he": "נכון אבל יבש. כדאי להוסיף פרט (apart from the weather או the parks are amazing) ושאלה."
+              }
+            }
+          ],
+          "model_replies": [
+            "I love it, apart from the weather! How long have you lived here?",
+            "It's amazing, but really expensive! Are you from London?"
+          ],
+          "keywords": [
+            "love",
+            "apart from",
+            "amazing",
+            "how long",
+            "are you"
+          ]
+        },
+        {
+          "partner": "I design book covers, mostly. It's fun, but the deadlines are crazy.",
+          "options": [
+            {
+              "text": "How much money do you make?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Too personal. In most English-speaking cultures, you don't ask about salary when you've just met someone.",
+                "he": "אישי מדי. ברוב התרבויות דוברות האנגלית לא שואלים על משכורת מישהו שרק הכרתם."
+              }
+            },
+            {
+              "text": "No way, that sounds amazing! How did you get into that?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Enthusiasm plus an open question ('How…?') invites a longer answer.",
+                "he": "התלהבות ושאלה פתוחה (How...?) מזמינות תשובה ארוכה יותר."
+              }
+            },
+            {
+              "text": "Do you like your job?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "A yes/no question, and she's already told you it's fun. Open questions ('How did you…?', 'What's it like…?') work better.",
+                "he": "שאלת כן/לא, והיא כבר אמרה שזה כיף. שאלות פתוחות (How did you...?, What's it like...?) עובדות טוב יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "No way, that sounds amazing! How did you get into that?",
+            "That sounds so interesting. What's the best cover you've done?"
+          ],
+          "keywords": [
+            "how",
+            "what",
+            "sounds",
+            "get into",
+            "amazing"
+          ]
+        },
+        {
+          "partner": "I was always drawing as a kid, and it just sort of happened. Do you draw at all?",
+          "options": [
+            {
+              "text": "No.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Honest, but it stops the conversation. Say what you do instead: 'Not really, I'm more into…'",
+                "he": "כנה, אבל עוצר את השיחה. כדאי לספר מה כן: Not really, I'm more into..."
+              }
+            },
+            {
+              "text": "Not really, I'm more into photography. I'd love to see some of your covers, though!",
+              "verdict": "best",
+              "feedback": {
+                "en": "You share something about yourself and show interest in her work.",
+                "he": "משתפים משהו על עצמכם ומראים עניין בעבודה שלה."
+              }
+            },
+            {
+              "text": "No, drawing is for children.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Rude, especially to someone who draws for a living.",
+                "he": "גס, במיוחד כלפי מישהי שמתפרנסת מאיור."
+              }
+            }
+          ],
+          "model_replies": [
+            "Not really, I'm more into photography. I'd love to see some of your covers, though!",
+            "Not at all, but I love art. Do you have any of your work on your phone?"
+          ],
+          "keywords": [
+            "not really",
+            "not at all",
+            "more into",
+            "love to",
+            "see",
+            "photography"
+          ]
+        },
+        {
+          "partner": "Anyway, I should go and say hi to Sam's sister. She's just arrived.",
+          "options": [
+            {
+              "text": "Wait, you didn't tell me how old you are.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Holding someone back with a personal question is awkward. Let her go with a friendly line.",
+                "he": "לעכב מישהו עם שאלה אישית זה מביך. עדיף לשחרר אותה במשפט נעים."
+              }
+            },
+            {
+              "text": "OK. Goodbye, Jess.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Polite, but 'Goodbye' sounds final and formal at a party. 'See you later!' is warmer.",
+                "he": "מנומס, אבל Goodbye נשמע סופי ורשמי במסיבה. See you later! חם יותר."
+              }
+            },
+            {
+              "text": "Of course! It was really nice talking to you. See you later!",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm and natural, and it leaves the door open to talk again.",
+                "he": "חם וטבעי, ומשאיר פתח לדבר שוב."
+              }
+            }
+          ],
+          "model_replies": [
+            "Of course! It was really nice talking to you. See you later!",
+            "Sure, go ahead! Great to meet you, Jess."
+          ],
+          "keywords": [
+            "nice",
+            "talking",
+            "see you",
+            "later",
+            "meet"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Jess, 27, a graphic designer and a colleague of the host. Friendly but a little shy at first; she opens up when people ask real questions about her work and her travels.",
+        "complication": "Jess gives short answers at first, so the learner has to ask open follow-up questions to keep the conversation alive. Later the music gets loud and she mishears something, so the learner has to repeat or rephrase. Finally, the learner should end the chat politely.",
+        "opening_line": "Oh, hi! Are you a friend of Sam's too?"
+      },
+      "culture": [
+        {
+          "en": "Safe small-talk topics: how you know the host, work or studies, travel, food, films and the weather. With someone you've just met, avoid salary, religion and politics.",
+          "he": "נושאים בטוחים לשיחת חולין: איך מכירים את המארח, עבודה או לימודים, טיולים, אוכל, סרטים ומזג האוויר. עם מישהו שרק הכרתם עדיף להימנע משכר, דת ופוליטיקה."
+        },
+        {
+          "en": "Small talk is like ping-pong: answer, add a detail, then ask something back. One-word answers can seem unfriendly in English.",
+          "he": "שיחת חולין היא כמו פינג-פונג: עונים, מוסיפים פרט ושואלים משהו בחזרה. באנגלית תשובות של מילה אחת עלולות להיראות לא ידידותיות."
+        },
+        {
+          "en": "At parties, people move on after a few minutes. 'Anyway, it was great talking to you' is a polite way to end a chat; nobody will be offended.",
+          "he": "במסיבות נהוג לעבור בין אנשים אחרי כמה דקות. Anyway, it was great talking to you היא דרך מנומסת לסיים שיחה, ואף אחד לא ייעלב."
+        }
+      ],
+      "variants": [
+        {
+          "us": "college",
+          "uk": "uni / university",
+          "note": "Americans often say 'college' even for a university."
+        },
+        {
+          "us": "What's your major?",
+          "uk": "What are you studying?",
+          "note": "'What are you studying?' works everywhere."
+        },
+        {
+          "us": "the movies",
+          "uk": "the cinema"
+        }
+      ]
+    },
+    {
+      "id": "rl-social-invitations",
+      "module": "social",
+      "title_en": "Invitations: accepting, declining and rescheduling",
+      "title_he": "הזמנות: להסכים, לסרב ולדחות",
+      "level": "B1",
+      "situation": {
+        "en": "You're spending a semester in Boston. Your classmate Chris calls to invite you to the movies with some friends on Friday night, but you already have plans that evening.",
+        "he": "אתם בסמסטר לימודים בבוסטון. חבר לכיתה, כריס, מתקשר להזמין אתכם לסרט עם כמה חברים ביום שישי בערב, אבל באותו ערב כבר יש לכם תוכניות."
+      },
+      "goal": {
+        "en": "Decline politely with a reason, suggest another day, agree on the details, and reschedule smoothly if plans change.",
+        "he": "לסרב בנימוס עם סיבה, להציע יום אחר, לסגור את הפרטים, ולדחות בצורה נעימה אם התוכניות משתנות."
+      },
+      "partner_role": "a friend from your class",
+      "phrases": [
+        {
+          "en": "Are you free on Saturday?",
+          "he": "את/ה פנוי/ה בשבת?",
+          "register": "neutral"
+        },
+        {
+          "en": "Would you like to come to the movies with us?",
+          "he": "רוצה לבוא איתנו לסרט?",
+          "register": "polite",
+          "variant": "US"
+        },
+        {
+          "en": "Do you fancy coming to the cinema with us?",
+          "he": "בא לך לבוא איתנו לסרט?",
+          "register": "casual",
+          "variant": "UK",
+          "note": "'Do you fancy…?' is very British."
+        },
+        {
+          "en": "I'd love to, but I can't make it on Friday.",
+          "he": "הייתי שמח/ה, אבל ביום שישי אני לא יכול/ה.",
+          "register": "polite",
+          "note": "'Make it' = manage to come."
+        },
+        {
+          "en": "I've already got plans, unfortunately.",
+          "he": "לצערי כבר יש לי תוכניות.",
+          "register": "neutral"
+        },
+        {
+          "en": "How about Saturday instead?",
+          "he": "מה דעתך על שבת במקום?",
+          "register": "neutral"
+        },
+        {
+          "en": "Sounds good! What time works for you?",
+          "he": "נשמע טוב! איזו שעה מתאימה לך?",
+          "register": "casual"
+        },
+        {
+          "en": "Count me in!",
+          "he": "אני בפנים!",
+          "register": "casual"
+        },
+        {
+          "en": "Something's come up. Could we do another day?",
+          "he": "צץ לי משהו. אפשר לעשות את זה ביום אחר?",
+          "register": "neutral",
+          "note": "'Something's come up' = something unexpected has happened. You don't have to explain more."
+        },
+        {
+          "en": "Can I take a rain check?",
+          "he": "אפשר לדחות לפעם אחרת?",
+          "register": "casual",
+          "note": "= Not this time, but I'd like to another time. Mainly American, but widely understood."
+        },
+        {
+          "en": "Sorry for the short notice.",
+          "he": "סליחה שאני מודיע/ה ברגע האחרון.",
+          "register": "polite"
+        },
+        {
+          "en": "Thanks so much for the invite!",
+          "he": "תודה רבה על ההזמנה!",
+          "register": "casual",
+          "note": "'Invite' as a noun is informal; write 'invitation' in formal messages."
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hey! What are you up to on Friday night?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hey, Chris! Why, what's up?"
+        },
+        {
+          "speaker": "partner",
+          "text": "A few of us are going to the movies, and then getting pizza. Want to come?"
+        },
+        {
+          "speaker": "you",
+          "text": "Oh, I'd love to, but I can't make it on Friday. I've already got plans with my roommates."
+        },
+        {
+          "speaker": "partner",
+          "text": "Aw, that's too bad. What about Saturday? We could do the movie then."
+        },
+        {
+          "speaker": "you",
+          "text": "Saturday works! What time were you thinking?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Maybe the seven o'clock show, then pizza after?"
+        },
+        {
+          "speaker": "you",
+          "text": "Sounds perfect, count me in. Where should we meet?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Let's meet outside the theater at a quarter to seven."
+        },
+        {
+          "speaker": "you",
+          "text": "Great. Thanks so much for the invite!"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course! Oh, and Maya might come too."
+        },
+        {
+          "speaker": "you",
+          "text": "Even better. See you Saturday!"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hey! A few of us are going to the movies on Friday night. Want to come?",
+          "options": [
+            {
+              "text": "No, I can't. I'm busy.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Honest, but it sounds cold, as if you're not interested. Start with 'I'd love to, but…'",
+                "he": "כנה, אבל נשמע קר, כאילו זה לא מעניין אתכם. כדאי להתחיל ב-I'd love to, but..."
+              }
+            },
+            {
+              "text": "Oh, I'd love to, but I can't make it on Friday. I've already got plans.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm first ('I'd love to'), then a soft no with a short reason. Very natural.",
+                "he": "קודם חום (I'd love to), ואחר כך סירוב רך עם סיבה קצרה. טבעי מאוד."
+              }
+            },
+            {
+              "text": "No, I don't want to go with you.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Very hurtful, even if you're just busy. If you're not interested, use a soft line: 'Thanks, but I'll pass this time.'",
+                "he": "פוגע מאוד, גם אם אתם פשוט עסוקים. אם זה לא מעניין אתכם, אפשר לסרב ברכות: Thanks, but I'll pass this time."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh, I'd love to, but I can't make it on Friday. I've already got plans.",
+            "Thanks for asking! Friday's tricky for me, though. Could we do another day?"
+          ],
+          "keywords": [
+            "love to",
+            "but",
+            "can't make it",
+            "plans",
+            "another day"
+          ]
+        },
+        {
+          "partner": "Aw, that's too bad. What about Saturday instead?",
+          "options": [
+            {
+              "text": "Saturday I can. When it starts?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Word order: 'I can do Saturday', and the question needs 'does': 'When does it start?'",
+                "he": "סדר מילים: I can do Saturday, ובשאלה צריך does: When does it start?"
+              }
+            },
+            {
+              "text": "Saturday works! What time were you thinking?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Enthusiastic and moves the plan forward. 'What time were you thinking?' is a soft way to ask.",
+                "he": "נלהב ומקדם את התוכנית. What time were you thinking? היא דרך רכה לשאול."
+              }
+            },
+            {
+              "text": "Yes, Saturday is possible.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but formal and a bit flat. 'Saturday works!' or 'Saturday's great!' sounds keener.",
+                "he": "נכון, אבל רשמי וקצת יבש. Saturday works! או Saturday's great! נשמעים נלהבים יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Saturday works! What time were you thinking?",
+            "Saturday's great. What time?"
+          ],
+          "keywords": [
+            "Saturday",
+            "works",
+            "great",
+            "time"
+          ]
+        },
+        {
+          "partner": "Maybe the seven o'clock show, then pizza after?",
+          "options": [
+            {
+              "text": "Sounds perfect, count me in! Where should we meet?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear yes, some enthusiasm, and a practical next step.",
+                "he": "'כן' ברור, קצת התלהבות וצעד מעשי הבא."
+              }
+            },
+            {
+              "text": "I will think and I will tell you.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds unsure after you already said Saturday works, and the grammar is heavy. If you really need time: 'Can I let you know tomorrow?'",
+                "he": "נשמע מהסס אחרי שכבר אמרתם ששבת מתאימה, והניסוח כבד. אם באמת צריך זמן: Can I let you know tomorrow?"
+              }
+            },
+            {
+              "text": "OK.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but very minimal for an invitation. Show some enthusiasm.",
+                "he": "בסדר, אבל מינימלי מדי כתגובה להזמנה. כדאי להראות קצת התלהבות."
+              }
+            }
+          ],
+          "model_replies": [
+            "Sounds perfect, count me in! Where should we meet?",
+            "Great, see you there. Should we meet outside?"
+          ],
+          "keywords": [
+            "sounds",
+            "count me in",
+            "perfect",
+            "meet",
+            "great"
+          ]
+        },
+        {
+          "partner": "Hey, are we still on for tonight?",
+          "options": [
+            {
+              "text": "Oh, I forgot to tell you, I'm not coming.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Cancelling at the last minute with no apology sounds careless. Say sorry and suggest another time.",
+                "he": "ביטול ברגע האחרון בלי התנצלות נשמע לא אכפתי. כדאי להתנצל ולהציע מועד אחר."
+              }
+            },
+            {
+              "text": "I'm so sorry, something's come up and I can't make it tonight. Could we do next weekend instead?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Apologise, give a short reason and suggest a new time right away. It shows you still want to meet.",
+                "he": "מתנצלים, נותנים סיבה קצרה ומציעים מיד מועד חדש. זה מראה שאתם עדיין רוצים להיפגש."
+              }
+            },
+            {
+              "text": "Sorry, I can't come today.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Polite enough, but without a new suggestion it can sound like you don't want to meet. Offer another day.",
+                "he": "מנומס מספיק, אבל בלי הצעה חדשה זה עלול להישמע כאילו אתם לא רוצים להיפגש. כדאי להציע יום אחר."
+              }
+            }
+          ],
+          "model_replies": [
+            "I'm so sorry, something's come up and I can't make it tonight. Could we do next weekend instead?",
+            "Really sorry, I have to cancel tonight. Can I take a rain check? How about next Saturday?"
+          ],
+          "keywords": [
+            "sorry",
+            "come up",
+            "can't make it",
+            "instead",
+            "next",
+            "rain check"
+          ]
+        },
+        {
+          "partner": "No worries! Next weekend works for me. I'll let the others know.",
+          "options": [
+            {
+              "text": "OK, thanks.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but after cancelling, a bit more warmth helps: 'Thanks for understanding.'",
+                "he": "בסדר, אבל אחרי ביטול כדאי קצת יותר חום: Thanks for understanding."
+              }
+            },
+            {
+              "text": "Maybe. We'll see.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds uncommitted right after you cancelled. Confirm the new plan clearly.",
+                "he": "נשמע לא מחויב, ודווקא אחרי שביטלתם. כדאי לאשר את התוכנית החדשה בבירור."
+              }
+            },
+            {
+              "text": "Thanks for understanding. I'll text you during the week to set a time.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Grateful and committed: you take responsibility for the next step.",
+                "he": "מכירים תודה ומראים מחויבות: לוקחים אחריות על הצעד הבא."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks for understanding. I'll text you during the week to set a time.",
+            "Thanks, Chris. Next weekend it is!"
+          ],
+          "keywords": [
+            "thanks",
+            "understanding",
+            "text",
+            "next weekend"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Chris, a classmate on the learner's semester in Boston. Easygoing and sociable, always organising group plans, but a bit vague about details.",
+        "complication": "Chris invites the learner for a night they can't make. After they agree on another day, Chris changes the time because of another friend, so the learner has to check whether it works, maybe suggest a different time, and confirm the final plan: day, time and place.",
+        "opening_line": "Hey! What are you up to on Friday night?"
+      },
+      "culture": [
+        {
+          "en": "In English, a direct 'No' to an invitation can sound unfriendly. People soften it ('I'd love to, but…') and suggest another time if they mean it.",
+          "he": "באנגלית 'לא' ישיר להזמנה עלול להישמע לא ידידותי. נוהגים לרכך (I'd love to, but...) ולהציע מועד אחר אם באמת רוצים."
+        },
+        {
+          "en": "'What are you up to on Friday?' often comes before an invitation. If you don't know the plan yet, answer 'Nothing much, why?' or 'Why, what's up?'",
+          "he": "השאלה What are you up to on Friday? באה הרבה פעמים לפני הזמנה. אם עוד לא יודעים מה התוכנית, עונים Nothing much, why? או Why, what's up?"
+        },
+        {
+          "en": "If you need to cancel, tell people as early as possible and apologise. Not turning up without a message is considered very rude.",
+          "he": "אם צריך לבטל, מודיעים כמה שיותר מוקדם ומתנצלים. לא להגיע בלי להודיע נחשב לחוסר נימוס חמור."
+        }
+      ],
+      "variants": [
+        {
+          "us": "go to the movies / movie theater",
+          "uk": "go to the cinema",
+          "note": "'Movie' is understood everywhere; 'film' is more British."
+        },
+        {
+          "us": "Do you want to…?",
+          "uk": "Do you fancy…?",
+          "note": "'Do you want to…?' is used everywhere."
+        }
+      ]
+    },
+    {
+      "id": "rl-social-language-exchange",
+      "module": "social",
+      "title_en": "Making friends at a language exchange",
+      "title_he": "חברים חדשים במפגש חילופי שפות",
+      "level": "A2",
+      "situation": {
+        "en": "You're at a language exchange evening in a café in London. People pair up to practise each other's languages. Tonight you're practising with Ben, who is learning Hebrew.",
+        "he": "אתם בערב חילופי שפות בבית קפה בלונדון. אנשים מתחלקים לזוגות ומתרגלים זה את השפה של זה. הערב אתם מתרגלים עם בן, שלומד עברית."
+      },
+      "goal": {
+        "en": "Introduce yourself, ask follow-up questions to get to know Ben, check words you don't understand, and swap contacts so you can meet again.",
+        "he": "להציג את עצמכם, לשאול שאלות המשך כדי להכיר את בן, לברר מילים שלא הבנתם ולהחליף פרטים כדי להיפגש שוב."
+      },
+      "partner_role": "a language exchange partner",
+      "phrases": [
+        {
+          "en": "Hi, is this the language exchange?",
+          "he": "היי, זה המפגש של חילופי השפות?",
+          "register": "neutral"
+        },
+        {
+          "en": "How long have you been learning Hebrew?",
+          "he": "כמה זמן את/ה כבר לומד/ת עברית?",
+          "register": "neutral"
+        },
+        {
+          "en": "Why did you decide to learn it?",
+          "he": "למה החלטת ללמוד אותה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Your Hebrew is really good!",
+          "he": "העברית שלך ממש טובה!",
+          "register": "casual"
+        },
+        {
+          "en": "Sorry, could you say that again?",
+          "he": "סליחה, אפשר לחזור על זה?",
+          "register": "polite"
+        },
+        {
+          "en": "Could you speak a bit more slowly, please?",
+          "he": "אפשר לדבר קצת יותר לאט, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "What does 'knackered' mean?",
+          "he": "מה זה knackered?",
+          "register": "neutral",
+          "note": "Use this pattern for any new word. ('Knackered' is British slang for 'very tired'.)"
+        },
+        {
+          "en": "How do you say this in English?",
+          "he": "איך אומרים את זה באנגלית?",
+          "register": "neutral",
+          "note": "Point at something, or say the Hebrew word and ask."
+        },
+        {
+          "en": "Oh, interesting! What do you like about it?",
+          "he": "וואו, מעניין! מה את/ה אוהב/ת בזה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do you come here every week?",
+          "he": "את/ה בא/ה לכאן כל שבוע?",
+          "register": "neutral"
+        },
+        {
+          "en": "We should practise together again sometime.",
+          "he": "כדאי שנתרגל שוב ביחד מתישהו.",
+          "register": "neutral",
+          "note": "UK spelling: 'practise' is the verb, 'practice' the noun. In the US, both are 'practice'."
+        },
+        {
+          "en": "Are you on Instagram?",
+          "he": "יש לך אינסטגרם?",
+          "register": "casual",
+          "note": "Linking it to a plan ('so we can practise again') keeps it clearly friendly."
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi! Are you here for the language exchange?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes! I'm Tal. I speak Hebrew, and I'm here to practise my English."
+        },
+        {
+          "speaker": "partner",
+          "text": "Perfect! I'm Ben, and I'm learning Hebrew. Shalom!"
+        },
+        {
+          "speaker": "you",
+          "text": "Shalom! Your accent is really good. How long have you been learning?"
+        },
+        {
+          "speaker": "partner",
+          "text": "About a year. I have a class on Tuesday evenings."
+        },
+        {
+          "speaker": "you",
+          "text": "Nice. Why did you decide to learn Hebrew?"
+        },
+        {
+          "speaker": "partner",
+          "text": "My grandma grew up in Haifa, and I've got cousins there."
+        },
+        {
+          "speaker": "you",
+          "text": "Oh, that's so cool! Have you been to Israel?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Once, when I was a kid. I'm going again next summer."
+        },
+        {
+          "speaker": "you",
+          "text": "Amazing. Do you come here every week?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Most weeks, yeah. It's my first time with a Hebrew speaker, though!"
+        },
+        {
+          "speaker": "you",
+          "text": "Well, we should practise together again. Do you want to swap numbers?"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi! Are you here for the language exchange?",
+          "options": [
+            {
+              "text": "Yes, I learn English since two years.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This follows Hebrew grammar. Use the present perfect with 'for': 'I've been learning English for two years.'",
+                "he": "זה מבנה מהעברית. באנגלית משתמשים ב-present perfect עם for: I've been learning English for two years."
+              }
+            },
+            {
+              "text": "Yes! I'm Tal. I speak Hebrew, and I'm here to practise my English.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Friendly and useful: your name, your language, and what you want to practise.",
+                "he": "ידידותי ושימושי: השם שלכם, השפה שלכם ומה אתם רוצים לתרגל."
+              }
+            },
+            {
+              "text": "Yes, I am. My name is Tal.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but add which language you speak and want to practise, so the exchange can start.",
+                "he": "נכון, אבל כדאי להוסיף איזו שפה אתם מדברים ומה אתם רוצים לתרגל, כדי שהתרגול יוכל להתחיל."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes! I'm Tal. I speak Hebrew, and I'm here to practise my English.",
+            "Yes, hi! I'm Tal, from Israel. I want to improve my English."
+          ],
+          "keywords": [
+            "I'm",
+            "Hebrew",
+            "English",
+            "practise",
+            "practice"
+          ]
+        },
+        {
+          "partner": "Perfect! I'm Ben, and I'm learning Hebrew. Shalom!",
+          "options": [
+            {
+              "text": "Shalom! That's great. How long have you been learning?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A friendly reaction plus a follow-up question about him.",
+                "he": "תגובה חמה ושאלת המשך עליו."
+              }
+            },
+            {
+              "text": "Why? Hebrew is so hard and useless.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Discouraging and rude to someone who's making an effort. Show interest instead.",
+                "he": "מייאש ולא מנומס כלפי מי שמשקיע. עדיף להראות עניין."
+              }
+            },
+            {
+              "text": "Shalom. I am Israeli.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Friendly, but it doesn't keep the conversation going. Ask him something.",
+                "he": "ידידותי, אבל לא מקדם את השיחה. כדאי לשאול אותו משהו."
+              }
+            }
+          ],
+          "model_replies": [
+            "Shalom! That's great. How long have you been learning?",
+            "Shalom! Wow, why did you decide to learn Hebrew?"
+          ],
+          "keywords": [
+            "how long",
+            "learning",
+            "why",
+            "great"
+          ]
+        },
+        {
+          "partner": "About a year. My grandma grew up in Haifa, and I've got cousins there.",
+          "options": [
+            {
+              "text": "OK. I am from Tel Aviv.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but 'OK' sounds uninterested, and you change the subject to yourself. React first: 'Oh, cool!'",
+                "he": "בסדר, אבל OK נשמע אדיש, ואתם מעבירים את הנושא לעצמכם. קודם מגיבים: Oh, cool!"
+              }
+            },
+            {
+              "text": "Your grandmother is how old?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Unnatural word order ('How old is your grandmother?'), and a strange, personal question at this point.",
+                "he": "סדר מילים לא טבעי (צריך How old is your grandmother?), וגם שאלה אישית ומוזרה בשלב הזה."
+              }
+            },
+            {
+              "text": "Oh, that's so cool! Have you been to Israel?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You react to what he said and ask a follow-up question. That's how conversations grow.",
+                "he": "מגיבים למה שהוא אמר ושואלים שאלת המשך. ככה שיחה מתפתחת."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh, that's so cool! Have you been to Israel?",
+            "Haifa! I love Haifa. Do you visit your cousins?"
+          ],
+          "keywords": [
+            "cool",
+            "have you been",
+            "Israel",
+            "visit",
+            "Haifa"
+          ]
+        },
+        {
+          "partner": "We had the best hummus in Haifa. Honestly, it was unreal.",
+          "options": [
+            {
+              "text": "Yes, yes.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Pretending to understand means you miss the chance to learn. At a language exchange, just ask!",
+                "he": "להעמיד פנים שהבנתם זה לפספס הזדמנות ללמוד. במפגש חילופי שפות פשוט שואלים!"
+              }
+            },
+            {
+              "text": "What?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Can sound rude. 'Sorry?' or 'Sorry, what does … mean?' is softer and tells him exactly what you missed.",
+                "he": "עלול להישמע לא מנומס. Sorry? או Sorry, what does ... mean? רכים יותר ואומרים לו בדיוק מה לא הבנתם."
+              }
+            },
+            {
+              "text": "Sorry, what does 'unreal' mean here?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Perfect: you ask about the exact word. That's what a language exchange is for. (Here, 'unreal' means 'amazing'.)",
+                "he": "מצוין: שואלים בדיוק על המילה. בשביל זה יש מפגש חילופי שפות. (כאן unreal פירושו 'מדהים'.)"
+              }
+            }
+          ],
+          "model_replies": [
+            "Sorry, what does 'unreal' mean here?",
+            "Sorry, could you say that again? I didn't understand 'unreal'."
+          ],
+          "keywords": [
+            "what does",
+            "mean",
+            "sorry",
+            "again"
+          ]
+        },
+        {
+          "partner": "Most weeks, yeah. It's my first time with a Hebrew speaker, though!",
+          "options": [
+            {
+              "text": "Well, we should practise together again! Do you want to swap numbers?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and clearly friendly: the number is for a reason (practising).",
+                "he": "טבעי וברור שזה ידידותי: המספר הוא בשביל מטרה (לתרגל)."
+              }
+            },
+            {
+              "text": "OK. Goodbye.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Too cold, and you lose the chance to meet again.",
+                "he": "קר מדי, ואתם מפספסים את ההזדמנות להיפגש שוב."
+              }
+            },
+            {
+              "text": "Give me your Instagram.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but 'Give me' sounds like an order. 'Are you on Instagram?' is friendlier.",
+                "he": "מובן, אבל Give me נשמע כמו פקודה. Are you on Instagram? ידידותי יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Well, we should practise together again! Do you want to swap numbers?",
+            "Cool! Are you on Instagram? We could meet up and practise."
+          ],
+          "keywords": [
+            "practise",
+            "practice",
+            "again",
+            "number",
+            "Instagram"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Ben, 22, a university student in London who is learning Hebrew because his grandmother grew up in Haifa. Enthusiastic, a bit nervous about his Hebrew, and very curious about life in Israel.",
+        "complication": "Ben talks quite fast and uses a couple of British expressions ('brilliant', 'I'm knackered'), so the learner has to ask him to slow down or explain. The learner should keep the conversation going with follow-up questions and suggest meeting again; Ben isn't on WhatsApp, so they need another way to stay in touch.",
+        "opening_line": "Hi! Are you here for the language exchange? I'm Ben."
+      },
+      "culture": [
+        {
+          "en": "At a language exchange, asking 'What does that mean?' or 'Could you say that again?' is completely normal. Everyone is there to learn.",
+          "he": "במפגש חילופי שפות מקובל לגמרי לשאול What does that mean? או Could you say that again? כולם באו ללמוד."
+        },
+        {
+          "en": "Swapping numbers or social media with new friends is normal. Linking it to a plan ('so we can practise again') keeps it clearly friendly.",
+          "he": "מקובל להחליף מספרים או רשתות חברתיות עם חברים חדשים. כשקושרים את זה לתוכנית (so we can practise again) ברור שמדובר בחברות."
+        }
+      ],
+      "variants": [
+        {
+          "us": "practice (verb and noun)",
+          "uk": "practise (verb), practice (noun)",
+          "note": "Spelling only."
+        },
+        {
+          "us": "grandma",
+          "uk": "grandma / gran / nan",
+          "note": "'Gran' and 'nan' are British."
+        }
+      ]
+    },
+    {
+      "id": "rl-emergency-pharmacy-symptoms",
+      "module": "emergency",
+      "title_en": "At the pharmacy: describing symptoms",
+      "title_he": "בבית המרקחת: תיאור תסמינים",
+      "level": "B1",
+      "situation": {
+        "en": "You're travelling in London and you've woken up with a sore throat, a fever and a bad cough. You go to a pharmacy to get something for it. You're allergic to penicillin. (This scenario is language practice, not medical advice.)",
+        "he": "אתם מטיילים בלונדון והתעוררתם עם כאב גרון, חום ושיעול חזק. אתם הולכים לבית מרקחת לקנות משהו שיעזור. יש לכם אלרגיה לפניצילין. (התרחיש נועד לתרגול שפה ואינו ייעוץ רפואי.)"
+      },
+      "goal": {
+        "en": "Describe your symptoms clearly, answer the pharmacist's questions (allergies, other medication) and understand how to take the medicine and when to see a doctor.",
+        "he": "לתאר את התסמינים בבירור, לענות על השאלות של הרוקח (אלרגיות, תרופות אחרות) ולהבין איך לקחת את התרופה ומתי צריך ללכת לרופא."
+      },
+      "partner_role": "pharmacist",
+      "phrases": [
+        {
+          "en": "I've got a sore throat and a temperature.",
+          "he": "יש לי כאב גרון וחום.",
+          "register": "neutral",
+          "variant": "UK",
+          "note": "'Have a temperature' = have a fever. Very common in the UK."
+        },
+        {
+          "en": "I have a sore throat and a fever.",
+          "he": "יש לי כאב גרון וחום.",
+          "register": "neutral",
+          "variant": "US",
+          "note": "'Fever' is understood everywhere."
+        },
+        {
+          "en": "I've had a cough for three days.",
+          "he": "יש לי שיעול כבר שלושה ימים.",
+          "register": "neutral",
+          "note": "Present perfect + for/since, not 'I have a cough since…'."
+        },
+        {
+          "en": "It hurts when I swallow.",
+          "he": "כואב לי כשאני בולע/ת.",
+          "register": "neutral"
+        },
+        {
+          "en": "I feel really run-down.",
+          "he": "אני מרגיש/ה ממש גמור/ה.",
+          "register": "casual",
+          "note": "'Run-down' = tired and weak, usually because you're ill."
+        },
+        {
+          "en": "I'm allergic to penicillin.",
+          "he": "אני אלרגי/ת לפניצילין.",
+          "register": "neutral"
+        },
+        {
+          "en": "I'm not taking any other medication.",
+          "he": "אני לא לוקח/ת תרופות אחרות.",
+          "register": "neutral"
+        },
+        {
+          "en": "Is there anything you'd recommend?",
+          "he": "יש משהו שהיית ממליץ/ה עליו?",
+          "register": "polite"
+        },
+        {
+          "en": "How often should I take it?",
+          "he": "כל כמה זמן צריך לקחת את זה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do I need a prescription for this?",
+          "he": "צריך מרשם בשביל זה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Can I take it on an empty stomach?",
+          "he": "אפשר לקחת את זה על בטן ריקה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do you think I should see a doctor?",
+          "he": "את/ה חושב/ת שכדאי לי ללכת לרופא?",
+          "register": "polite"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi there, how can I help?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hi. I've got a really sore throat, and I think I've got a temperature."
+        },
+        {
+          "speaker": "partner",
+          "text": "Oh dear. How long have you had the symptoms?"
+        },
+        {
+          "speaker": "you",
+          "text": "Since yesterday morning. And I've had a bad cough for a few days."
+        },
+        {
+          "speaker": "partner",
+          "text": "Is it a dry cough, or are you coughing anything up?"
+        },
+        {
+          "speaker": "you",
+          "text": "It's mostly dry. It really hurts when I swallow, too."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK. Are you allergic to anything, or taking any other medication?"
+        },
+        {
+          "speaker": "you",
+          "text": "No other medication, but I'm allergic to penicillin."
+        },
+        {
+          "speaker": "partner",
+          "text": "That's fine, none of these contain it. I'd suggest paracetamol for the temperature and these lozenges for your throat. Just follow the dose on the packet."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. And how often can I take the paracetamol?"
+        },
+        {
+          "speaker": "partner",
+          "text": "It's all on the leaflet. Don't take more than it says. And if you're not feeling better in a few days, or it gets worse, see a doctor."
+        },
+        {
+          "speaker": "you",
+          "text": "OK, I will. Thanks so much for your help."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi there, how can I help?",
+          "options": [
+            {
+              "text": "My throat is hurting me very strong.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A word-for-word translation that doesn't work in English. Say 'I've got a sore throat' or 'My throat really hurts'.",
+                "he": "תרגום מילולי שלא עובד באנגלית. אומרים I've got a sore throat או My throat really hurts."
+              }
+            },
+            {
+              "text": "Hi. I've got a really sore throat, and I think I've got a temperature.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear and specific: the pharmacist knows straight away what you need.",
+                "he": "ברור ומדויק: הרוקח מבין מיד במה אתם צריכים עזרה."
+              }
+            },
+            {
+              "text": "I am sick. I need medicine.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but too general. Describe your symptoms so the pharmacist can help.",
+                "he": "מובן, אבל כללי מדי. כדאי לתאר את התסמינים כדי שהרוקח יוכל לעזור."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi. I've got a really sore throat, and I think I've got a temperature.",
+            "Hi, I have a sore throat, a cough and a fever. Is there anything you'd recommend?"
+          ],
+          "keywords": [
+            "sore throat",
+            "temperature",
+            "fever",
+            "cough",
+            "hurts"
+          ]
+        },
+        {
+          "partner": "Oh dear. How long have you had the symptoms?",
+          "options": [
+            {
+              "text": "Two days.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "A fine quick answer, but mention any other symptoms too. The more detail, the better the advice.",
+                "he": "תשובה מהירה וסבירה, אבל כדאי לציין גם תסמינים נוספים. ככל שיש יותר פרטים, העצה טובה יותר."
+              }
+            },
+            {
+              "text": "Since yesterday morning. And I've had a bad cough for a few days.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Exact timing plus an extra symptom, with the present perfect ('I've had') used correctly.",
+                "he": "תזמון מדויק ותסמין נוסף, עם present perfect (I've had) בשימוש נכון."
+              }
+            },
+            {
+              "text": "I have them since yesterday.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This follows Hebrew grammar. Use the present perfect: 'I've had them since yesterday.'",
+                "he": "זה מבנה מהעברית. באנגלית משתמשים ב-present perfect: I've had them since yesterday."
+              }
+            }
+          ],
+          "model_replies": [
+            "Since yesterday morning. And I've had a bad cough for a few days.",
+            "I've had them for about two days."
+          ],
+          "keywords": [
+            "since",
+            "for",
+            "days",
+            "yesterday",
+            "I've had"
+          ]
+        },
+        {
+          "partner": "Are you allergic to anything, or taking any other medication?",
+          "options": [
+            {
+              "text": "No other medication, but I'm allergic to penicillin.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Answers both questions clearly. Always mention allergies.",
+                "he": "עונים בבירור על שתי השאלות. תמיד מזכירים אלרגיות."
+              }
+            },
+            {
+              "text": "No, no problems.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Wrong answer: you are allergic to penicillin. Always mention allergies, even if you think they're not important.",
+                "he": "תשובה שגויה: יש לכם אלרגיה לפניצילין. תמיד מזכירים אלרגיות, גם אם נראה לכם שזה לא חשוב."
+              }
+            },
+            {
+              "text": "I have allergy to penicillin.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but the natural phrase is 'I'm allergic to penicillin' (or 'I have an allergy to…', with 'an'). Also answer the part about medication.",
+                "he": "מובן, אבל הניסוח הטבעי הוא I'm allergic to penicillin (או I have an allergy to..., עם an). וכדאי לענות גם על החלק של התרופות."
+              }
+            }
+          ],
+          "model_replies": [
+            "No other medication, but I'm allergic to penicillin.",
+            "I'm allergic to penicillin. I'm not taking anything else."
+          ],
+          "keywords": [
+            "allergic",
+            "penicillin",
+            "medication",
+            "not taking"
+          ]
+        },
+        {
+          "partner": "I'd suggest paracetamol for the temperature and these lozenges for your throat. Just follow the dose on the packet.",
+          "options": [
+            {
+              "text": "What is lozenges?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Asking is a good idea, but 'lozenges' is plural: 'What are lozenges?' (They're medicated sweets you suck for a sore throat.)",
+                "he": "טוב לשאול, אבל lozenges ברבים: What are lozenges? (אלה סוכריות לגרון עם חומר פעיל.)"
+              }
+            },
+            {
+              "text": "Yes, I will take both of them, thank you very much.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct and polite, but a little formal, and it's worth checking how to take them.",
+                "he": "נכון ומנומס, אבל קצת רשמי, וכדאי גם לברר איך לוקחים אותם."
+              }
+            },
+            {
+              "text": "Thanks. And how often can I take the paracetamol?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Checking how to take a medicine is smart, especially in a foreign language.",
+                "he": "חכם לברר איך לוקחים תרופה, במיוחד בשפה זרה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks. And how often can I take the paracetamol?",
+            "Great, I'll take both. How many can I take a day?"
+          ],
+          "keywords": [
+            "how often",
+            "how many",
+            "take",
+            "a day",
+            "thanks"
+          ]
+        },
+        {
+          "partner": "And if you're not feeling better in a few days, or it gets worse, see a doctor.",
+          "options": [
+            {
+              "text": "OK.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but as a visitor you may not know where to go. Ask.",
+                "he": "בסדר, אבל כתיירים אולי לא תדעו לאן ללכת. כדאי לשאול."
+              }
+            },
+            {
+              "text": "OK, I will. Where could I see a doctor around here, if I need to?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A useful follow-up: you're away from home and need to know your options.",
+                "he": "שאלת המשך שימושית: אתם רחוק מהבית וצריכים לדעת מה האפשרויות."
+              }
+            },
+            {
+              "text": "I don't need doctor, I am strong.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Missing 'a' ('a doctor'), and brushing off medical advice isn't wise.",
+                "he": "חסר a (a doctor), וגם לא חכם לבטל עצה רפואית."
+              }
+            }
+          ],
+          "model_replies": [
+            "OK, I will. Where could I see a doctor around here, if I need to?",
+            "Thanks, I will. Thanks so much for your help."
+          ],
+          "keywords": [
+            "doctor",
+            "where",
+            "will",
+            "thanks"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Daniel, a calm, experienced pharmacist in a busy London pharmacy. Kind and thorough, he asks quite a few questions before he recommends anything.",
+        "complication": "The medicine the learner asks for first isn't suitable or needs a prescription, so Daniel asks follow-up questions (how long, how bad, allergies, other medication) and suggests an alternative. He advises seeing a doctor if things get worse, and the learner should ask where to go.",
+        "opening_line": "Hello there, what can I do for you today?"
+      },
+      "culture": [
+        {
+          "en": "In the UK, pharmacists can advise on minor illnesses, and many medicines are sold without a prescription. In an emergency, call 999 in the UK or 911 in the US.",
+          "he": "בבריטניה רוקחים יכולים לייעץ על מחלות קלות, ותרופות רבות נמכרות בלי מרשם. במקרה חירום מתקשרים ל-999 בבריטניה או ל-911 בארה״ב."
+        },
+        {
+          "en": "Medicine names differ between countries: the same painkiller is 'paracetamol' in the UK and 'acetaminophen' in the US. Show the pharmacist the packet (or a photo) of your usual medicine.",
+          "he": "שמות של תרופות משתנים ממדינה למדינה: אותו משכך כאבים נקרא paracetamol בבריטניה ו-acetaminophen בארה״ב. כדאי להראות לרוקח את האריזה (או תמונה) של התרופה שאתם רגילים אליה."
+        },
+        {
+          "en": "Always mention allergies and any medicine you already take, even if nobody asks.",
+          "he": "תמיד מציינים אלרגיות ותרופות שאתם כבר לוקחים, גם אם לא שואלים."
+        }
+      ],
+      "variants": [
+        {
+          "us": "pharmacy / drugstore",
+          "uk": "pharmacy / chemist's"
+        },
+        {
+          "us": "acetaminophen",
+          "uk": "paracetamol",
+          "note": "The same medicine."
+        },
+        {
+          "us": "fever",
+          "uk": "temperature / fever",
+          "note": "'I've got a temperature' (UK) = I have a fever."
+        },
+        {
+          "us": "box / package",
+          "uk": "packet"
+        }
+      ]
+    },
+    {
+      "id": "rl-emergency-lost-passport",
+      "module": "emergency",
+      "title_en": "Lost passport: police report and embassy",
+      "title_he": "דרכון שאבד: דיווח למשטרה ופנייה לשגרירות",
+      "level": "B1",
+      "situation": {
+        "en": "You're travelling in Amsterdam and your passport is missing. You think you left it on a tram yesterday. Your embassy has told you they need a police report before they can issue an emergency travel document, and your flight home is in three days. (Procedures vary between countries; this scenario is for language practice.)",
+        "he": "אתם מטיילים באמסטרדם והדרכון שלכם נעלם. נראה לכם ששכחתם אותו בחשמלית אתמול. בשגרירות אמרו לכם שהם צריכים דיווח משטרה לפני שיוכלו להנפיק לכם מסמך נסיעה זמני, והטיסה הביתה בעוד שלושה ימים. (הנהלים משתנים ממדינה למדינה; התרחיש נועד לתרגול שפה.)"
+      },
+      "goal": {
+        "en": "Explain what happened, give the details the officer needs, explain why it's urgent and leave with a copy of the report and a reference number.",
+        "he": "להסביר מה קרה, לתת לשוטר את הפרטים שהוא צריך, להסביר למה זה דחוף ולצאת עם עותק של הדיווח ומספר אסמכתא."
+      },
+      "partner_role": "police officer at the front desk",
+      "phrases": [
+        {
+          "en": "I'd like to report a lost passport, please.",
+          "he": "אני רוצה לדווח על דרכון שאבד.",
+          "register": "polite"
+        },
+        {
+          "en": "I think I left it on the tram yesterday afternoon.",
+          "he": "נראה לי ששכחתי אותו בחשמלית אתמול אחר הצהריים.",
+          "register": "neutral"
+        },
+        {
+          "en": "I'm not sure if it was lost or stolen.",
+          "he": "אני לא בטוח/ה אם הוא אבד או נגנב.",
+          "register": "neutral"
+        },
+        {
+          "en": "No worries, I can wait.",
+          "he": "אין בעיה, אני יכול/ה לחכות.",
+          "register": "casual",
+          "note": "Relaxed but still polite, so it's fine with officials too."
+        },
+        {
+          "en": "It's an Israeli passport. The number is on this photocopy.",
+          "he": "זה דרכון ישראלי. המספר מופיע בצילום הזה.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could I get a copy of the report for my embassy?",
+          "he": "אפשר לקבל עותק של הדיווח בשביל השגרירות?",
+          "register": "polite"
+        },
+        {
+          "en": "Is there a reference number?",
+          "he": "יש מספר אסמכתא?",
+          "register": "neutral"
+        },
+        {
+          "en": "My flight home is on Friday, so it's quite urgent.",
+          "he": "הטיסה שלי הביתה ביום שישי, אז זה די דחוף.",
+          "register": "neutral"
+        },
+        {
+          "en": "Sorry, could you spell that for me?",
+          "he": "סליחה, אפשר לאיית לי את זה?",
+          "register": "polite"
+        },
+        {
+          "en": "What happens if someone hands it in?",
+          "he": "מה קורה אם מישהו מוסר אותו?",
+          "register": "neutral",
+          "note": "'Hand in' = give something you found to the police or staff."
+        },
+        {
+          "en": "I need an emergency travel document to get home.",
+          "he": "אני צריך/ה מסמך נסיעה זמני (תעודת מעבר) כדי לחזור הביתה.",
+          "register": "neutral",
+          "note": "The general name for the temporary document an embassy can issue."
+        },
+        {
+          "en": "I'm calling to book an appointment at the consulate.",
+          "he": "אני מתקשר/ת כדי לקבוע תור בקונסוליה.",
+          "register": "polite"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Good morning. How can I help you?"
+        },
+        {
+          "speaker": "you",
+          "text": "Good morning. I'd like to report a lost passport, please."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK. When and where did you last have it?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yesterday afternoon. I think I left it on the tram, but I'm not completely sure."
+        },
+        {
+          "speaker": "partner",
+          "text": "Which tram, and roughly what time?"
+        },
+        {
+          "speaker": "you",
+          "text": "Number 2, from the museum to Central Station, at about four o'clock."
+        },
+        {
+          "speaker": "partner",
+          "text": "Have you checked with the lost property office?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, I called them this morning, but nobody has handed it in."
+        },
+        {
+          "speaker": "partner",
+          "text": "All right. Do you have any ID with you, or a copy of the passport?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, here's a photocopy, and my driving licence."
+        },
+        {
+          "speaker": "partner",
+          "text": "Thank you. I'll write up the report now. You'll get a copy with a reference number."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, thank you. My embassy needs it urgently. My flight home is on Friday."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Good morning. How can I help you?",
+          "options": [
+            {
+              "text": "My passport is lost. Help me.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but 'Help me' sounds desperate and like an order. 'I'd like to report…' is the standard phrase.",
+                "he": "מובן, אבל Help me נשמע נואש וגם כמו פקודה. הניסוח המקובל הוא I'd like to report..."
+              }
+            },
+            {
+              "text": "Good morning. I'd like to report a lost passport, please.",
+              "verdict": "best",
+              "feedback": {
+                "en": "The standard, polite way to start. The officer knows exactly what you need.",
+                "he": "הפתיחה המקובלת והמנומסת. השוטר מבין בדיוק מה אתם צריכים."
+              }
+            },
+            {
+              "text": "I lost my passport. You must find it!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Demanding sounds aggressive, and the police may not be able to find it. Ask to make a report.",
+                "he": "דרישה כזו נשמעת תוקפנית, וייתכן שהמשטרה בכלל לא תוכל למצוא אותו. בקשו להגיש דיווח."
+              }
+            }
+          ],
+          "model_replies": [
+            "Good morning. I'd like to report a lost passport, please.",
+            "Hi, I've lost my passport and I need to make a police report."
+          ],
+          "keywords": [
+            "report",
+            "lost",
+            "passport",
+            "I'd like"
+          ]
+        },
+        {
+          "partner": "OK. When and where did you last have it?",
+          "options": [
+            {
+              "text": "I don't know where is it.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Word order: 'I don't know where it is.' In an indirect question, the subject comes before the verb. And try to give any detail you remember.",
+                "he": "סדר מילים: I don't know where it is (בשאלה עקיפה הנושא בא לפני הפועל). וכדאי לתת כל פרט שאתם זוכרים."
+              }
+            },
+            {
+              "text": "Yesterday afternoon. I think I left it on the tram, but I'm not completely sure.",
+              "verdict": "best",
+              "feedback": {
+                "en": "When, where, and how sure you are: exactly what the officer needs.",
+                "he": "מתי, איפה ועד כמה אתם בטוחים: בדיוק מה שהשוטר צריך."
+              }
+            },
+            {
+              "text": "Yesterday. Tram.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The key facts are there, but it's too short. Use full sentences and say how sure you are.",
+                "he": "העובדות החשובות שם, אבל קצר מדי. כדאי לדבר במשפטים מלאים ולהגיד עד כמה אתם בטוחים."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yesterday afternoon. I think I left it on the tram, but I'm not completely sure.",
+            "I last had it yesterday at about four. I think it fell out of my bag on the tram."
+          ],
+          "keywords": [
+            "yesterday",
+            "tram",
+            "think",
+            "left",
+            "last"
+          ]
+        },
+        {
+          "partner": "Have you checked with the lost property office?",
+          "options": [
+            {
+              "text": "No, it's your job to check.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Rude and unhelpful. The officer is giving you a useful tip. If you haven't checked, say 'Not yet. Could you give me the number?'",
+                "he": "גס ולא מועיל. השוטר נותן לכם טיפ שימושי. אם עוד לא בדקתם, אמרו: Not yet. Could you give me the number?"
+              }
+            },
+            {
+              "text": "Yes. Nothing.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear enough, but full sentences sound more cooperative.",
+                "he": "ברור מספיק, אבל משפטים מלאים נשמעים משתפי פעולה יותר."
+              }
+            },
+            {
+              "text": "Yes, I called them this morning, but nobody has handed it in.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Shows you've already done your part, using the right phrase: 'hand in'.",
+                "he": "מראה שכבר עשיתם את שלכם, עם הביטוי הנכון: hand in."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, I called them this morning, but nobody has handed it in.",
+            "Not yet. Could you give me their number?"
+          ],
+          "keywords": [
+            "called",
+            "checked",
+            "handed in",
+            "not yet",
+            "number"
+          ]
+        },
+        {
+          "partner": "Do you have any ID with you, or a copy of the passport?",
+          "options": [
+            {
+              "text": "Yes, here's a photocopy, and my driving licence.",
+              "verdict": "best",
+              "feedback": {
+                "en": "You say exactly what you're handing over. Quick and clear.",
+                "he": "אומרים בדיוק מה אתם מגישים. מהיר וברור."
+              }
+            },
+            {
+              "text": "Why you need it? I told you my name.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The question needs 'do' ('Why do you need it?'), and the tone is a problem: ID checks are routine, and arguing slows everything down.",
+                "he": "בשאלה חסר do (Why do you need it?), וגם הטון בעייתי: בדיקת תעודה היא עניין שגרתי, וויכוח רק מעכב."
+              }
+            },
+            {
+              "text": "Yes. Here.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but tell the officer what you're giving them.",
+                "he": "בסדר, אבל כדאי להגיד לשוטר מה אתם נותנים לו."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, here's a photocopy, and my driving licence.",
+            "I've got a photo of it on my phone. Is that OK?"
+          ],
+          "keywords": [
+            "photocopy",
+            "copy",
+            "here",
+            "licence",
+            "photo"
+          ]
+        },
+        {
+          "partner": "Have you contacted your embassy yet?",
+          "options": [
+            {
+              "text": "Yes. They want report.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but missing 'a' and too short. 'They said they need a police report.'",
+                "he": "מובן, אבל חסר a וקצר מדי. עדיף: They said they need a police report."
+              }
+            },
+            {
+              "text": "No, I'll go to the embassy after I find the passport.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "If your passport is lost, contact your embassy as soon as possible; don't wait to find it.",
+                "he": "כשדרכון אובד, פונים לשגרירות כמה שיותר מהר, לא מחכים שיימצא."
+              }
+            },
+            {
+              "text": "Yes, I called them this morning. They said they need a police report before they can give me an emergency travel document.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear and complete: the officer understands why the report matters. Note the reported speech: 'They said they need…'",
+                "he": "ברור ומלא: השוטר מבין למה הדיווח חשוב. שימו לב לדיבור העקיף: They said they need..."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, I called them this morning. They said they need a police report first.",
+            "Yes. They need a police report before they can give me a travel document."
+          ],
+          "keywords": [
+            "embassy",
+            "called",
+            "said",
+            "police report",
+            "travel document"
+          ]
+        },
+        {
+          "partner": "I'll write up the report now. Is there anything else I can help you with?",
+          "options": [
+            {
+              "text": "Could I get a copy with a reference number? My embassy needs it, and my flight is on Friday.",
+              "verdict": "best",
+              "feedback": {
+                "en": "You ask for exactly what you need and explain the urgency politely.",
+                "he": "מבקשים בדיוק את מה שצריך ומסבירים בנימוס למה זה דחוף."
+              }
+            },
+            {
+              "text": "No, that's everything. Bye.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Polite, but you forgot the most important thing: a copy of the report for the embassy.",
+                "he": "מנומס, אבל שכחתם את הדבר הכי חשוב: עותק של הדיווח בשביל השגרירות."
+              }
+            },
+            {
+              "text": "I need a paper for the embassy.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but vague. Say 'a copy of the report' and ask for the reference number.",
+                "he": "מובן, אבל לא מדויק. אמרו a copy of the report ובקשו גם מספר אסמכתא."
+              }
+            }
+          ],
+          "model_replies": [
+            "Could I get a copy with a reference number? My embassy needs it, and my flight is on Friday.",
+            "Yes, could I have a copy of the report for my embassy, please?"
+          ],
+          "keywords": [
+            "copy",
+            "report",
+            "reference number",
+            "embassy",
+            "flight"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Officer de Vries, a front-desk police officer in Amsterdam. Professional and fair, a bit tired at the end of a long shift; speaks clear but fast English.",
+        "complication": "The officer first suggests making the report online and coming back later. The learner has to explain politely that the embassy needs a signed report urgently because the flight is in three days. The officer then asks for exact details (when, where, passport number, an address in the city) and reads out a reference number with letters that the learner should ask to have spelled.",
+        "opening_line": "Good afternoon. What can I do for you?"
+      },
+      "culture": [
+        {
+          "en": "Before you travel, keep a photo of your passport's photo page on your phone and in your email. It makes reports and replacement documents much faster.",
+          "he": "לפני הנסיעה כדאי לשמור צילום של עמוד הפרטים בדרכון בטלפון ובמייל. זה מזרז מאוד דיווחים והנפקת מסמכים חלופיים."
+        },
+        {
+          "en": "Embassies and consulates can usually issue an emergency travel document so you can get home. Requirements vary, so check your country's official consular website.",
+          "he": "שגרירויות וקונסולות יכולות בדרך כלל להנפיק מסמך נסיעה זמני (לישראלים: תעודת מעבר) כדי שתוכלו לחזור הביתה. הדרישות משתנות, ולכן כדאי לבדוק באתר הרשמי של משרד החוץ."
+        },
+        {
+          "en": "Police officers in many countries speak English, but they'll appreciate short, clear sentences with the key facts: what, when and where.",
+          "he": "שוטרים במדינות רבות מדברים אנגלית, אבל הם יעריכו משפטים קצרים וברורים עם העובדות החשובות: מה, מתי ואיפה."
+        }
+      ],
+      "variants": [
+        {
+          "us": "lost and found",
+          "uk": "lost property (office)"
+        },
+        {
+          "us": "driver's license",
+          "uk": "driving licence"
+        },
+        {
+          "us": "streetcar",
+          "uk": "tram",
+          "note": "'Tram' is understood everywhere; some US cities say 'streetcar'."
+        }
+      ]
+    },
+    {
+      "id": "rl-emergency-phone-stolen",
+      "module": "emergency",
+      "title_en": "Phone stolen: getting help fast",
+      "title_he": "הטלפון נגנב: להשיג עזרה מהר",
+      "level": "B1",
+      "situation": {
+        "en": "You're in central London. A man on a bike has just grabbed your phone out of your hand and ridden off. You're not hurt, but you have no phone. You need help from someone nearby, and then from the police.",
+        "he": "אתם במרכז לונדון. רוכב אופניים חטף לכם הרגע את הטלפון מהיד ונעלם. לא נפגעתם, אבל אין לכם טלפון. אתם צריכים עזרה ממישהו שנמצא בסביבה, ואחר כך מהמשטרה."
+      },
+      "goal": {
+        "en": "Get a stranger's attention and ask for help, then report the theft clearly: what happened, when, where and what the thief looked like.",
+        "he": "לפנות לעובר אורח ולבקש עזרה, ואחר כך לדווח על הגניבה בבירור: מה קרה, מתי, איפה ואיך הגנב נראה."
+      },
+      "partner_role": "a passer-by, then a police officer",
+      "phrases": [
+        {
+          "en": "Excuse me, sorry, could you help me?",
+          "he": "סליחה, את/ה יכול/ה לעזור לי?",
+          "register": "polite"
+        },
+        {
+          "en": "Someone's just stolen my phone.",
+          "he": "מישהו גנב לי עכשיו את הטלפון.",
+          "register": "neutral",
+          "variant": "UK",
+          "note": "With 'just', British English often uses the present perfect."
+        },
+        {
+          "en": "Someone just stole my phone.",
+          "he": "מישהו גנב לי עכשיו את הטלפון.",
+          "register": "neutral",
+          "variant": "US",
+          "note": "With 'just', American English often uses the past simple."
+        },
+        {
+          "en": "Could I borrow your phone to call the police?",
+          "he": "אפשר להשתמש בטלפון שלך כדי להתקשר למשטרה?",
+          "register": "polite",
+          "note": "'Borrow' = take and give back. You borrow from someone; they lend to you."
+        },
+        {
+          "en": "Could you call the police for me?",
+          "he": "את/ה יכול/ה להתקשר בשבילי למשטרה?",
+          "register": "polite",
+          "note": "Good when someone doesn't want to hand their phone to a stranger."
+        },
+        {
+          "en": "It happened just now, about five minutes ago.",
+          "he": "זה קרה הרגע, לפני בערך חמש דקות.",
+          "register": "neutral"
+        },
+        {
+          "en": "He grabbed it out of my hand and rode off on a bike.",
+          "he": "הוא חטף לי אותו מהיד וברח על אופניים.",
+          "register": "neutral"
+        },
+        {
+          "en": "He was wearing a black hoodie and a grey cap.",
+          "he": "הוא לבש קפוצ'ון שחור וכובע מצחייה אפור.",
+          "register": "neutral"
+        },
+        {
+          "en": "He went that way, towards the station.",
+          "he": "הוא נסע לשם, לכיוון התחנה.",
+          "register": "neutral"
+        },
+        {
+          "en": "Is there a police station near here?",
+          "he": "יש תחנת משטרה קרובה?",
+          "register": "neutral"
+        },
+        {
+          "en": "Could I get a crime reference number for my insurance?",
+          "he": "אפשר לקבל מספר תיק בשביל הביטוח?",
+          "register": "polite",
+          "variant": "UK",
+          "note": "In the US, ask for 'a police report number' or 'a case number'."
+        },
+        {
+          "en": "I'm OK, just a bit shaken.",
+          "he": "אני בסדר, רק קצת בהלם.",
+          "register": "casual",
+          "note": "'Shaken' = upset and scared after something bad happens."
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "you",
+          "text": "Excuse me, sorry, could you help me? Someone's just stolen my phone."
+        },
+        {
+          "speaker": "partner",
+          "text": "Oh no! Are you all right? Did they hurt you?"
+        },
+        {
+          "speaker": "you",
+          "text": "No, I'm OK, just a bit shaken. Could you call the police for me?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course. Here, I'll put it on speaker so you can talk to them."
+        },
+        {
+          "speaker": "you",
+          "text": "Hello, I'd like to report a theft. A man on a bike has just grabbed my phone."
+        },
+        {
+          "speaker": "partner",
+          "text": "Is anyone hurt, and where are you right now?"
+        },
+        {
+          "speaker": "you",
+          "text": "No one's hurt. I'm outside the big bookshop on the corner, near the station."
+        },
+        {
+          "speaker": "partner",
+          "text": "Which way did he go, and can you describe him?"
+        },
+        {
+          "speaker": "you",
+          "text": "He went towards the station. He was wearing a black hoodie and a grey cap."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK, officers are on their way. Can you stay where you are?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, I'll wait here. Will I get a crime reference number for my insurance?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Yes, the officers will give you one when they get there."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Are you OK? What happened?",
+          "options": [
+            {
+              "text": "They stealed my phone!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Steal' is irregular: steal, stole, stolen. Say 'Someone stole my phone!' or 'Someone's just stolen my phone!'",
+                "he": "steal הוא פועל חריג: steal, stole, stolen. אומרים Someone stole my phone! או Someone's just stolen my phone!"
+              }
+            },
+            {
+              "text": "Someone's just stolen my phone. Could you help me?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Says what happened in one sentence, then asks for help.",
+                "he": "אומרים מה קרה במשפט אחד, ואז מבקשים עזרה."
+              }
+            },
+            {
+              "text": "Phone! Stolen!",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable in a panic, but a full sentence helps people react faster.",
+                "he": "מובן ברגע של לחץ, אבל משפט מלא עוזר לאנשים להגיב מהר יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Someone's just stolen my phone. Could you help me?",
+            "A guy on a bike just took my phone! Can you help me?"
+          ],
+          "keywords": [
+            "stolen",
+            "stole",
+            "phone",
+            "help",
+            "took"
+          ]
+        },
+        {
+          "partner": "Oh no. Do you want me to call someone?",
+          "options": [
+            {
+              "text": "Give me your phone, quick!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds like a demand, and the person may feel threatened. Ask: 'Could I borrow your phone?' or 'Could you call the police for me?'",
+                "he": "נשמע כמו דרישה, והאדם עלול להרגיש מאוים. עדיף לבקש: Could I borrow your phone? או Could you call the police for me?"
+              }
+            },
+            {
+              "text": "Yes, please. Could you call the police for me?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite and clear, and they don't have to hand their phone to a stranger.",
+                "he": "מנומס וברור, והאדם לא צריך למסור את הטלפון שלו לזר."
+              }
+            },
+            {
+              "text": "Yes, the police.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable in an emergency, but 'Yes, please' and a full request sound less like an order.",
+                "he": "מובן במצב חירום, אבל Yes, please ובקשה מלאה נשמעים פחות כמו פקודה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, please. Could you call the police for me?",
+            "Yes, please. Could I borrow your phone to call the police?"
+          ],
+          "keywords": [
+            "please",
+            "police",
+            "call",
+            "borrow"
+          ]
+        },
+        {
+          "partner": "Is anyone hurt, and where are you right now?",
+          "options": [
+            {
+              "text": "I'm OK. I'm in the street.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Not specific enough. Name the street or a landmark nearby.",
+                "he": "לא מספיק מדויק. כדאי לציין את שם הרחוב או מקום בולט בסביבה."
+              }
+            },
+            {
+              "text": "I don't know, I am tourist.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Missing 'a' ('I'm a tourist'), and you can still help: look for a street sign or a shop name.",
+                "he": "חסר a (I'm a tourist), ואתם עדיין יכולים לעזור: חפשו שלט רחוב או שם של חנות."
+              }
+            },
+            {
+              "text": "No one's hurt. I'm outside the big bookshop on the corner, near the station.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Answers both questions and gives a landmark so they can find you.",
+                "he": "עונים על שתי השאלות ונותנים נקודת ציון כדי שיוכלו למצוא אתכם."
+              }
+            }
+          ],
+          "model_replies": [
+            "No one's hurt. I'm outside the big bookshop on the corner, near the station.",
+            "I'm fine. I'm on the main street, opposite the station."
+          ],
+          "keywords": [
+            "hurt",
+            "outside",
+            "near",
+            "opposite",
+            "street",
+            "corner"
+          ]
+        },
+        {
+          "partner": "Can you describe him?",
+          "options": [
+            {
+              "text": "Black clothes. Young.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Useful, but more detail helps: age, height, clothes, which way he went.",
+                "he": "שימושי, אבל פרטים נוספים יעזרו: גיל, גובה, בגדים ולאיזה כיוון ברח."
+              }
+            },
+            {
+              "text": "He was about twenty, quite tall, and he was wearing a black hoodie and a grey cap.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Age, height and clothes, with the past continuous for what he was wearing.",
+                "he": "גיל, גובה ובגדים, עם past continuous לתיאור מה שלבש."
+              }
+            },
+            {
+              "text": "He wear black hoodie and is tall.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Wrong tense and a missing 'a'. Say 'He was wearing a black hoodie, and he was tall.'",
+                "he": "זמן שגוי וחסר a. אומרים He was wearing a black hoodie, and he was tall."
+              }
+            }
+          ],
+          "model_replies": [
+            "He was about twenty, quite tall, and he was wearing a black hoodie and a grey cap.",
+            "Young, maybe twenty. Black hoodie, grey cap. He went towards the station."
+          ],
+          "keywords": [
+            "wearing",
+            "was",
+            "tall",
+            "hoodie",
+            "cap"
+          ]
+        },
+        {
+          "partner": "Officers are on their way. Can you stay where you are?",
+          "options": [
+            {
+              "text": "Yes, I'll wait here. Will I get a crime reference number for my insurance?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You confirm, and you remember the reference number you'll need for insurance.",
+                "he": "מאשרים, וזוכרים לבקש את מספר התיק שתצטרכו בשביל הביטוח."
+              }
+            },
+            {
+              "text": "No, I'm busy. Can you send me the report?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Leaving makes it harder for the police to help you. Stay, or explain politely why you can't.",
+                "he": "אם תלכו, יהיה למשטרה קשה יותר לעזור לכם. הישארו, או הסבירו בנימוס למה אתם לא יכולים."
+              }
+            },
+            {
+              "text": "OK.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but ask about the crime reference number. You'll need it for insurance.",
+                "he": "בסדר, אבל כדאי לשאול על מספר התיק. תצטרכו אותו בשביל הביטוח."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, I'll wait here. Will I get a crime reference number for my insurance?",
+            "Sure, I'll stay here. Thank you."
+          ],
+          "keywords": [
+            "wait",
+            "stay",
+            "here",
+            "reference number",
+            "insurance"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "First Aisha, a passer-by who saw it happen: kind but in a hurry to catch a train. Then PC Hughes, a calm, efficient police officer who needs precise details.",
+        "complication": "Aisha is happy to help but nervous about handing her phone to a stranger, so the learner should ask her to make the call instead. PC Hughes asks for the exact location, the time and a description, and the learner needs to describe their own phone (model, colour, case). The learner should also ask about a crime reference number and how to block the phone.",
+        "opening_line": "Oh my goodness, are you OK? I just saw that guy grab your phone!"
+      },
+      "culture": [
+        {
+          "en": "In the UK, call 999 in an emergency (112 also works) and 101 for police matters that aren't emergencies. In the US, call 911.",
+          "he": "בבריטניה מתקשרים ל-999 במקרה חירום (גם 112 עובד), ול-101 לפניות למשטרה שאינן דחופות. בארה״ב מתקשרים ל-911."
+        },
+        {
+          "en": "After a phone theft, use another device to lock or erase your phone through its find-my-device service, and ask your mobile provider to block your SIM.",
+          "he": "אחרי גניבת טלפון כדאי להשתמש במכשיר אחר כדי לנעול או למחוק את הטלפון דרך שירות איתור המכשיר, ולבקש מחברת הסלולר לחסום את כרטיס ה-SIM."
+        },
+        {
+          "en": "Strangers are usually happy to help, but some won't want to hand their phone to someone they don't know. 'Could you call the police for me?' feels safer for them.",
+          "he": "אנשים זרים בדרך כלל ישמחו לעזור, אבל חלקם לא ירצו למסור את הטלפון שלהם למישהו שהם לא מכירים. Could you call the police for me? מרגיש להם בטוח יותר."
+        }
+      ],
+      "variants": [
+        {
+          "us": "cell phone",
+          "uk": "mobile (phone)",
+          "note": "Both also just say 'phone'."
+        },
+        {
+          "us": "police report number / case number",
+          "uk": "crime reference number"
+        },
+        {
+          "us": "Someone just stole…",
+          "uk": "Someone's just stolen…",
+          "note": "With 'just', British English often uses the present perfect."
+        },
+        {
+          "us": "gray",
+          "uk": "grey",
+          "note": "Spelling only."
+        }
+      ]
+    }
+  ]
+}

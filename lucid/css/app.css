@@ -508,3 +508,17 @@ dialog.sheet > .panel { padding: var(--s5); }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
 @media print { .deck, .tabbar, .top, .player-foot { display: none !important; } body { background: #fff; } }
+
+/* centers */
+.disclosure { display: flex; align-items: center; gap: var(--s3); width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; list-style: none; }
+.disclosure::-webkit-details-marker { display: none; }
+.disclosure .chev { display: inline-grid; place-items: center; flex: none; color: var(--ink-3); transition: transform 0.2s var(--ease-out); }
+:root[dir='rtl'] .disclosure .chev { transform: scaleX(-1); }
+.disclosure[aria-expanded='true'] .chev, details[open] > .disclosure .chev,
+:root[dir='rtl'] .disclosure[aria-expanded='true'] .chev, :root[dir='rtl'] details[open] > .disclosure .chev { transform: rotate(90deg); }
+.lesson-row.three { grid-template-columns: auto minmax(0, 1fr) auto; }
+.topic-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s2); }
+.topic-row { display: grid; gap: var(--s3); padding: var(--s3) var(--s4); border-radius: var(--r-key); border: 1px solid var(--key-edge); background: var(--key); }
+@media (min-width: 48rem) { .topic-row { grid-template-columns: minmax(0, 1fr) 12rem auto; align-items: center; } }
+.topic-row > .key { justify-self: start; }
+.entry-more { border-block-start: 1px solid var(--key-edge); padding-block-start: var(--s4); margin-block-start: var(--s2); }
