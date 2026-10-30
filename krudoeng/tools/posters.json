@@ -1,0 +1,46 @@
+{
+ "overview": {
+  "cam": "overview",
+  "show": ""
+ },
+ "water--moisture-drain": {
+  "cam": "water",
+  "show": "moisture,drain"
+ },
+ "structure--cracks-tiles": {
+  "cam": "structure",
+  "show": "cracks,tiles"
+ },
+ "plans--plans-electric-rail": {
+  "cam": "plans",
+  "show": "plans,electric,rail"
+ },
+ "overview--moisture-cracks-electric-drain": {
+  "cam": "overview",
+  "show": "moisture,cracks,electric,drain"
+ },
+ "moisture--moisture": {
+  "cam": "moisture",
+  "show": "moisture"
+ },
+ "water--moisture-drain-cracks": {
+  "cam": "water",
+  "show": "moisture,drain,cracks"
+ },
+ "plans--plans-tiles-drain-rail": {
+  "cam": "plans",
+  "show": "plans,tiles,drain,rail"
+ },
+ "structure--tiles-moisture-electric": {
+  "cam": "structure",
+  "show": "tiles,moisture,electric"
+ },
+ "structure--cracks-tiles-plans": {
+  "cam": "structure",
+  "show": "cracks,tiles,plans"
+ },
+ "overview--moisture-drain-cracks-tiles-plans-electric-rail": {
+  "cam": "overview",
+  "show": "moisture,drain,cracks,tiles,plans,electric,rail"
+ }
+}

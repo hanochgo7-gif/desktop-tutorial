@@ -1,0 +1,34 @@
+// קרודו הנדסה · מצלם את התמונות הסטטיות של הדגם, תמונת השיתוף ו-PDF של רשימת הבדיקה.
+// דורש שרת מקומי מתיקיית הריפו: python3 -m http.server 8765
+// ואז: NODE_PATH=$(npm root -g) node krudoeng/tools/render.cjs   (Playwright מותקן גלובלית)
+const { chromium } = require('playwright');
+const { readFileSync, mkdirSync } = require('node:fs');
+const { dirname, join } = require('node:path');
+const HERE = __dirname;
+const ROOT = dirname(HERE);
+const BASE = process.env.BASE || 'http://127.0.0.1:8765/krudoeng';
+const posters = JSON.parse(readFileSync(join(HERE, 'posters.json'), 'utf8'));
+const out = join(HERE, 'out');
+mkdirSync(out, { recursive: true });
+(async () => {
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1200, height: 900 }, deviceScaleFactor: 1 });
+for (const [key, cfg] of Object.entries(posters)) {
+  await p.goto(`${BASE}/tools/poster.html?cam=${cfg.cam}&show=${encodeURIComponent(cfg.show || '')}`);
+  await p.waitForSelector('body[data-ready]');
+  await p.waitForTimeout(400);
+  await p.locator('#stage').screenshot({ path: join(out, key + '.png') });
+  console.log('poster', key);
+}
+await p.setViewportSize({ width: 1200, height: 630 });
+await p.goto(`${BASE}/tools/og.html`);
+await p.waitForSelector('body[data-ready]');
+await p.waitForTimeout(400);
+await p.locator('.og').screenshot({ path: join(out, 'og.png') });
+console.log('og');
+await p.goto(`${BASE}/checklist/`, { waitUntil: 'networkidle' });
+await p.emulateMedia({ media: 'print' });
+await p.pdf({ path: join(ROOT, 'assets', 'krudo-checklist.pdf'), format: 'A4', printBackground: true, margin: { top: '14mm', bottom: '16mm', left: '14mm', right: '14mm' } });
+console.log('pdf');
+await b.close();
+})();
