@@ -1,0 +1,223 @@
+{
+  "id": "pa1-01",
+  "level": "PreA1",
+  "title_en": "The English alphabet",
+  "title_he": "האלפבית האנגלי",
+  "topics": ["alphabet"],
+  "minutes": 15,
+  "objectives": [
+    { "en": "I can say and recognise the 26 letters of the English alphabet.", "he": "אני יודע/ת לומר ולזהות את 26 האותיות של האלפבית האנגלי." },
+    { "en": "I can spell my name aloud and understand names that other people spell.", "he": "אני יודע/ת לאיית את השם שלי בקול ולהבין שמות שאחרים מאייתים." },
+    { "en": "I can use capital letters for names, places and the word I.", "he": "אני יודע/ת לכתוב אות גדולה בשמות של אנשים ומקומות ובמילה I." }
+  ],
+  "warmup": { "en": "You already know some English letters: OK, USB, PDF, DJ. Say them aloud. What you are saying are the letter names.", "he": "אתם כבר מכירים כמה אותיות באנגלית: OK, USB, PDF, DJ. אמרו אותן בקול. מה שאמרתם הם שמות האותיות – היום נלמד את כל 26." },
+  "explanation": [
+    { "type": "p", "en": "OK = 'oh-kay'. USB = 'you-ess-bee'. These are letter names. English has 26 letters, and every letter has a name. We use the names to spell words. Inside words, letters often make a different sound (lesson 2).", "he": "OK נקרא 'אוֹ-קֵיי', ו-USB נקרא 'יוּ-אֶס-בִּי' – אלה שמות האותיות. באנגלית יש 26 אותיות, ולכל אחת יש שם. בשמות משתמשים כשמאייתים. בתוך מילה האות עושה לפעמים צליל אחר – את זה נלמד בשיעור הבא." },
+    { "type": "table", "headers": ["Letter", "Name (IPA)", "נשמע כמו"], "rows": [
+      ["A a", "/eɪ/", "אֵיי"],
+      ["B b", "/biː/", "בִּי"],
+      ["C c", "/siː/", "סִי"],
+      ["D d", "/diː/", "דִי"],
+      ["E e", "/iː/", "אִי"],
+      ["F f", "/ef/", "אֶף"],
+      ["G g", "/dʒiː/", "ג'י"],
+      ["H h", "/eɪtʃ/", "אֵייץ'"],
+      ["I i", "/aɪ/", "אַיי"],
+      ["J j", "/dʒeɪ/", "ג'יי"],
+      ["K k", "/keɪ/", "קֵיי"],
+      ["L l", "/el/", "אֶל"],
+      ["M m", "/em/", "אֶם"],
+      ["N n", "/en/", "אֶן"],
+      ["O o", "/əʊ/", "אוֹ"],
+      ["P p", "/piː/", "פִּי"],
+      ["Q q", "/kjuː/", "קְיוּ"],
+      ["R r", "/ɑː(r)/", "אָר"],
+      ["S s", "/es/", "אֶס"],
+      ["T t", "/tiː/", "טִי"],
+      ["U u", "/juː/", "יוּ"],
+      ["V v", "/viː/", "וִי"],
+      ["W w", "/ˈdʌbljuː/", "דַאבְּל-יוּ"],
+      ["X x", "/eks/", "אֶקְס"],
+      ["Y y", "/waɪ/", "ווַאי"],
+      ["Z z", "/zed/ (US /ziː/)", "זֶד (באמריקאית: זִי)"]
+    ] },
+    { "type": "warning", "en": "Some names sound alike. E = 'ee' (like see) and I = 'eye' (like my). G = 'jee' and J = 'jay'. B, P and V all end in 'ee', so listen to the first sound.", "he": "חלק מהשמות דומים מאוד. E נקראת 'אִי' (כמו see), ו-I נקראת 'אַיי' (כמו my). G נקראת 'ג'י', ו-J נקראת 'ג'יי'. B, P ו-V נגמרות כולן ב'אִי', אז הקשיבו לצליל הראשון." },
+    { "type": "rule", "en": "Capital letters (A, B, C) are for: the first word of a sentence, names of people and places (Noa, Haifa), and the word I. All other letters are small (a, b, c).", "he": "אות גדולה (A, B, C) כותבים בשלושה מקרים: בתחילת משפט, בשמות של אנשים ומקומות (Noa, Haifa), ובמילה I (אני). בכל מקום אחר כותבים אות קטנה (a, b, c). בעברית אין אותיות גדולות, אז זה הרגל חדש שכדאי לבנות מההתחלה." },
+    { "type": "tip", "en": "To spell a name, say the letters one by one: Noa = N-O-A. For two of the same letter together, say 'double': Anna = A, double N, A. To ask, say: How do you spell that?", "he": "כדי לאיית שם, אומרים את שמות האותיות אחת אחרי השנייה: Noa = N-O-A. כשיש שתי אותיות זהות ברצף אומרים double: Anna = A, double N, A. כדי לשאול איך מאייתים, אומרים: How do you spell that?" }
+  ],
+  "examples": [
+    { "en": "My name is Noa. N-O-A.", "he": "קוראים לי נועה. N-O-A." },
+    { "en": "How do you spell that?", "he": "איך מאייתים את זה?", "note": "ask this when you don't know how to write a name" },
+    { "en": "Omer Katz: O-M-E-R, K-A-T-Z.", "he": "עומר כץ: O-M-E-R, K-A-T-Z.", "note": "first name, then surname" },
+    { "en": "Anna: A, double N, A.", "he": "אנה: A, double N, A.", "note": "double = two of the same letter" },
+    { "en": "Is that E or I?", "he": "זה E או I?", "note": "E = 'ee', I = 'eye'" },
+    { "en": "Is that B for Ben or V for Victor?", "he": "זה B כמו בן, או V כמו ויקטור?", "note": "a name helps when two letters sound alike" },
+    { "en": "I live in Tel Aviv.", "he": "אני גר/ה בתל אביב.", "note": "capital I, and capital T and A for the city" },
+    { "en": "USB, PDF, OK", "he": "יו-אס-בי, פי-די-אף, אוקיי", "note": "we say the letter names" }
+  ],
+  "vocab": [
+    { "word": "alphabet", "pos": "noun", "he": "אלפבית", "def": "all the letters of a language, in order", "example": "The English alphabet has 26 letters.", "ipa": "/ˈælfəbet/", "level": "PreA1" },
+    { "word": "letter", "pos": "noun", "he": "אות", "def": "one of the signs we use to write words, like A, B or C", "example": "Z is the last letter of the alphabet.", "ipa": "/ˈletə(r)/", "level": "PreA1" },
+    { "word": "capital letter", "pos": "noun", "he": "אות גדולה", "def": "a big letter, like A, B or C", "example": "Names start with a capital letter.", "ipa": "/ˌkæpɪtl ˈletə(r)/", "level": "PreA1" },
+    { "word": "small letter", "pos": "noun", "he": "אות קטנה", "def": "a letter like a, b or c", "example": "Most words are in small letters.", "ipa": "/ˌsmɔːl ˈletə(r)/", "level": "PreA1" },
+    { "word": "name", "pos": "noun", "he": "שם", "def": "the word people call you", "example": "My name is Maya.", "ipa": "/neɪm/", "collocations": ["first name", "full name"], "level": "PreA1" },
+    { "word": "surname", "pos": "noun", "he": "שם משפחה", "def": "your family name", "example": "My surname is Levi.", "ipa": "/ˈsɜːneɪm/", "level": "PreA1" },
+    { "word": "spell", "pos": "verb", "he": "לאיית", "def": "to say or write the letters of a word in the right order", "example": "How do you spell your name?", "ipa": "/spel/", "collocations": ["spell a name", "spell a word"], "level": "PreA1" },
+    { "word": "double", "pos": "adjective", "he": "כפול/ה", "def": "two of the same, one after the other", "example": "Anna: A, double N, A.", "ipa": "/ˈdʌbl/", "level": "PreA1" },
+    { "word": "word", "pos": "noun", "he": "מילה", "def": "a group of letters that means something", "example": "'Cat' is a short word.", "ipa": "/wɜːd/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there are no capital letters, so they are easy to forget in English. Write I, Noa and Haifa with a capital, and start every sentence with one.", "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן באנגלית. כותבים I, Noa, Haifa באות גדולה, וכל משפט מתחיל באות גדולה.", "error_type": "capitalization" },
+    { "en": "In Hebrew w is not a regular sound (the letter vav is read as v), so the letter Y ('why') can come out as 'vai'. For w, round your lips as for 'oo'.", "he": "בעברית w אינו צליל רגיל (האות ו נהגית v), ולכן שם האות Y עלול לצאת עם v. ב-w מעגלים את השפתיים כמו ב'אוּ', והשיניים לא נוגעות בשפה.", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Match each letter to its name, written in Hebrew letters.", "he": "התאימו כל אות לשם שלה, כתוב באותיות עבריות." },
+      "pairs": [["A", "אֵיי"], ["E", "אִי"], ["I", "אַיי"], ["G", "ג'י"], ["J", "ג'יי"], ["H", "אֵייץ'"]],
+      "explanation": { "en": "A = 'ay' (like day), E = 'ee' (like see), I = 'eye' (like my). G = 'jee', J = 'jay' and H = 'aitch'.", "he": "A נקראת אֵיי, E נקראת אִי, ו-I נקראת אַיי. G נקראת ג'י, J נקראת ג'יי, ו-H נקראת אֵייץ'." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "alphabet",
+      "prompt": { "en": "Listen and choose the letter you hear.", "he": "הקשיבו ובחרו את האות ששמעתם." },
+      "audio_text": "The letter is J.",
+      "question": "Which letter do you hear?",
+      "options": ["G", "J", "Y"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "G is 'jee' and rhymes with see. You heard 'jay', which rhymes with day.", "he": "G נקראת ג'י ומתחרזת עם see. שמעתם ג'יי, שמתחרז עם day – זו J." },
+        "2": { "en": "Y is 'why'. You heard 'jay', which rhymes with day.", "he": "Y נקראת ווַאי. שמעתם ג'יי, שמתחרז עם day – זו J." }
+      },
+      "explanation": { "en": "J = 'jay' (rhymes with day). G = 'jee' (rhymes with see).", "he": "J נקראת ג'יי (מתחרז עם day), ו-G נקראת ג'י (מתחרז עם see)." }
+    },
+    {
+      "id": "e3", "type": "match", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Match each capital letter to its small letter.", "he": "התאימו כל אות גדולה לאות הקטנה שלה." },
+      "pairs": [["B", "b"], ["D", "d"], ["P", "p"], ["Q", "q"], ["G", "g"], ["R", "r"]],
+      "explanation": { "en": "b, d, p and q look like mirror images. Tip: small b is capital B without its top part, and in d the circle comes before the line.", "he": "b, d, p ו-q נראות כמו תמונת מראה. טיפ: b קטנה היא B גדולה בלי החלק העליון, וב-d העיגול בא לפני הקו." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Some letter names sound like English words. Choose the correct letter.", "he": "יש אותיות ששמן נשמע כמו מילה באנגלית. בחרו את האות הנכונה." },
+      "question": "Which letter sounds like the word 'why'?",
+      "options": ["W", "V", "Y", "I"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "W is 'double u'.", "he": "W נקראת דַאבְּל-יוּ (double u)." },
+        "1": { "en": "V is 'vee', like the start of very.", "he": "V נקראת וִי, כמו תחילת המילה very." },
+        "3": { "en": "I is 'eye', like my.", "he": "I נקראת אַיי, כמו my." }
+      },
+      "explanation": { "en": "Y = 'why'. Other letters sound like words too: U = you, C = see, R = are. In text messages people write 'C U' for 'see you'.", "he": "Y נקראת בדיוק כמו המילה why. עוד אותיות שנשמעות כמו מילים: U = you, C = see, R = are. בהודעות כותבים לפעמים C U במקום see you." }
+    },
+    {
+      "id": "e5", "type": "listen", "skill": "listening", "topic": "alphabet",
+      "prompt": { "en": "Listen. Kenji spells his name. Choose the correct spelling.", "he": "הקשיבו. קנג'י מאיית את השם שלו. בחרו את האיות הנכון." },
+      "audio_text": "My name is Kenji. K, E, N, J, I.",
+      "question": "How does Kenji spell his name?",
+      "options": ["Kenji", "Kinji", "Kengi", "Kenje"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "The second letter is E ('ee'), not I ('eye').", "he": "האות השנייה היא E (אִי), לא I (אַיי)." },
+        "2": { "en": "You heard J ('jay'), not G ('jee').", "he": "שמעתם J (ג'יי), לא G (ג'י)." },
+        "3": { "en": "The last letter is I ('eye'), not E ('ee').", "he": "האות האחרונה היא I (אַיי), לא E (אִי)." }
+      },
+      "option_errors": { "1": "spelling", "2": "spelling", "3": "spelling" },
+      "explanation": { "en": "K-E-N-J-I. Listen carefully for the pairs that sound alike: E and I, G and J.", "he": "K-E-N-J-I. הקשיבו במיוחד לזוגות שנשמעים דומה: E ו-I, G ו-J." }
+    },
+    {
+      "id": "e6", "type": "categorize", "skill": "writing", "topic": "alphabet",
+      "prompt": { "en": "These words are in the middle of a sentence. Which ones need a capital letter?", "he": "המילים האלה נמצאות באמצע משפט. אילו מהן צריכות להתחיל באות גדולה?" },
+      "categories": ["Capital (A)", "small (a)"],
+      "items": [
+        { "text": "i", "category": "Capital (A)" },
+        { "text": "maya", "category": "Capital (A)" },
+        { "text": "london", "category": "Capital (A)" },
+        { "text": "israel", "category": "Capital (A)" },
+        { "text": "friend", "category": "small (a)" },
+        { "text": "phone", "category": "small (a)" },
+        { "text": "name", "category": "small (a)" },
+        { "text": "student", "category": "small (a)" }
+      ],
+      "hint": { "en": "Is it the name of a person, the name of a place, or the word I?", "he": "האם זה שם של אדם, שם של מקום, או המילה I (אני)?" },
+      "explanation": { "en": "Names of people (Maya), places (London, Israel) and the word I always start with a capital letter, even in the middle of a sentence. Normal words (friend, phone) do not.", "he": "שמות של אנשים (Maya), של מקומות (London, Israel) והמילה I נכתבים תמיד באות גדולה, גם באמצע משפט. מילים רגילות (friend, phone) נכתבות באות קטנה." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Read the spelling and choose the name.", "he": "קראו את האיות ובחרו את השם." },
+      "question": "'M, A, double T.' What is the name?",
+      "options": ["Mat", "Matt", "Mate"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Mat has one T. Double T means two: T, T.", "he": "ב-Mat יש T אחת. double T פירושו שתי אותיות T ברצף." },
+        "2": { "en": "There is no E. The last two letters are T and T.", "he": "אין E בשם. שתי האותיות האחרונות הן T ו-T." }
+      },
+      "option_errors": { "0": "spelling", "2": "spelling" },
+      "explanation": { "en": "double T = TT. M + A + TT = Matt.", "he": "double T פירושו TT, כלומר M + A + TT = Matt." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Complete the conversation. Write one word in each gap.", "he": "השלימו את השיחה. כתבו מילה אחת בכל רווח." },
+      "text": "Ella: My name is Ella. Tom: Sorry, how do you ___ that? Ella: E, ___ L, A.",
+      "answers": [["spell", "write"], ["double"]],
+      "wrong_feedback": [
+        { "match": "say", "feedback": { "en": "'How do you say that?' asks how to pronounce a word. To ask for the letters, use spell.", "he": "How do you say that שואל איך מבטאים מילה. כדי לבקש את האותיות שואלים How do you spell that." }, "error_type": "word-choice" },
+        { "match": "two", "feedback": { "en": "For two of the same letter together, we say double: double L.", "he": "כשיש שתי אותיות זהות ברצף אומרים double: double L." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "The second word means 'two of the same letter'.", "he": "המילה השנייה פירושה 'שתי אותיות זהות ברצף'." },
+      "explanation": { "en": "How do you spell that? is the question when you want the letters. double L = LL, so Ella = E, double L, A.", "he": "How do you spell that היא השאלה כשרוצים לשמוע את האותיות. double L פירושו LL, ולכן Ella = E, double L, A." }
+    },
+    {
+      "id": "e9", "type": "order", "skill": "vocabulary", "topic": "alphabet",
+      "prompt": { "en": "Put the names in alphabetical order (A to Z), like the contacts on your phone.", "he": "סדרו את השמות לפי סדר האלפבית (מ-A עד Z), כמו אנשי הקשר בטלפון." },
+      "tokens": ["Amir", "Daniel", "Lior", "Noa", "Priya", "Yael"],
+      "hint": { "en": "Say the alphabet slowly: A, B, C, D... Which first letter comes first?", "he": "אמרו את האלפבית לאט: A, B, C, D... איזו אות ראשונה מופיעה קודם?" },
+      "explanation": { "en": "A comes before D, D before L, L before N, N before P, and P before Y.", "he": "A לפני D, ‏D לפני L, ‏L לפני N, ‏N לפני P, ו-P לפני Y." }
+    },
+    {
+      "id": "e10", "type": "dictation", "skill": "listening", "topic": "alphabet",
+      "prompt": { "en": "Listen to the booking code and write the four letters.", "he": "הקשיבו לקוד ההזמנה וכתבו את ארבע האותיות." },
+      "audio_text": "Your booking code is B, V, J, E.",
+      "answers": ["BVJE", "B V J E", "B, V, J, E", "B,V,J,E", "B-V-J-E"],
+      "hint": { "en": "Listen to the start of each letter: B or V? G or J? E or I?", "he": "הקשיבו לתחילת כל אות: B או V? ‏G או J? ‏E או I?" },
+      "explanation": { "en": "B ('bee'), V ('vee'), J ('jay'), E ('ee'). B and V both end in 'ee', so listen to the first sound: lips together for B, top teeth on the lip for V.", "he": "B (בִּי), V (וִי), J (ג'יי), E (אִי). B ו-V נגמרות שתיהן ב'אִי', אז הקשיבו לצליל הראשון: ב-B השפתיים נסגרות, וב-V השיניים העליונות נוגעות בשפה התחתונה." }
+    },
+    {
+      "id": "e11", "type": "speak", "skill": "speaking", "topic": "alphabet",
+      "prompt": { "en": "Say it out loud: ask someone to spell a word.", "he": "אמרו בקול: בקשו ממישהו לאיית מילה." },
+      "target": "Sorry, how do you spell that?",
+      "focus": { "en": "Stress the important word: how do you SPELL that?", "he": "הדגישו את המילה החשובה: how do you SPELL that?" },
+      "explanation": { "en": "This question is very useful with names, email addresses and new words.", "he": "השאלה הזו שימושית מאוד עם שמות, כתובות מייל ומילים חדשות." }
+    },
+    {
+      "id": "e12", "type": "speak", "skill": "speaking", "topic": "alphabet",
+      "prompt": { "en": "Say the name, then spell it letter by letter.", "he": "אמרו את השם, ואז אייתו אותו אות אחרי אות." },
+      "target": "My name is Maya. M, A, Y, A.",
+      "focus": { "en": "A = 'ay' (like day) and Y = 'why'. For the w sound in Y, round your lips.", "he": "A נקראת אֵיי (כמו day) ו-Y נקראת ווַאי. בצליל w שב-Y מעגלים את השפתיים." },
+      "error_type": "pron-w-v",
+      "explanation": { "en": "Say each letter clearly, with a short pause between letters. Then try it with your own name.", "he": "אמרו כל אות בבירור, עם הפסקה קצרה בין האותיות. אחר כך נסו עם השם שלכם." }
+    },
+    {
+      "id": "e13", "type": "write", "skill": "writing", "topic": "alphabet",
+      "prompt": { "en": "Write your name and how to spell it.", "he": "כתבו את השם שלכם ואיך מאייתים אותו." },
+      "task": { "en": "Write 2-3 lines: your first name and surname, how you spell them (letter by letter), and the city you live in. You can use a made-up name.", "he": "כתבו 2-3 שורות: השם הפרטי ושם המשפחה שלכם, איך מאייתים אותם (אות אחרי אות), ובאיזו עיר אתם גרים. אפשר להמציא שם." },
+      "min_words": 8,
+      "max_words": 40,
+      "must_include": ["name"],
+      "model_answer": "My name is Omer Katz. O-M-E-R, K-A-T-Z. I live in Haifa.",
+      "checklist": [
+        { "en": "Your name, surname and city start with a capital letter.", "he": "השם, שם המשפחה ושם העיר מתחילים באות גדולה." },
+        { "en": "I is always a capital letter.", "he": "I תמיד באות גדולה." },
+        { "en": "Every sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Letter names are for spelling: A = 'ay', E = 'ee', I = 'eye'.", "he": "בשמות האותיות משתמשים כדי לאיית: A = אֵיי, E = אִי, I = אַיי." },
+      { "en": "Listen carefully to letters that sound alike: B/P/V, E/I, G/J.", "he": "הקשיבו היטב לאותיות שנשמעות דומה: B/P/V, ‏E/I, ‏G/J." },
+      { "en": "Spell a name letter by letter. Two of the same letter = double (A, double N, A).", "he": "מאייתים שם אות אחרי אות. שתי אותיות זהות ברצף = double (A, double N, A)." },
+      { "en": "Capital letters: the start of a sentence, names of people and places, and I.", "he": "אות גדולה: בתחילת משפט, בשמות של אנשים ומקומות, ובמילה I." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

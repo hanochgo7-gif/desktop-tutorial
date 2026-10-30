@@ -3,7 +3,7 @@
 // both languages, when people use it, an example conversation, common mistakes, when not to use it,
 // a warning where one is needed, and related expressions.
 import { html, render, on, $, $$ } from '../core/util.js';
-import { tt, t, bi } from '../core/i18n.js';
+import { tt, t, bi, isolateLatin } from '../core/i18n.js';
 import { content } from '../core/content.js';
 import { icon, levelTag, emptyState } from '../ui/components.js';
 import { settings } from '../core/learner.js';
@@ -67,7 +67,7 @@ export default async function slang(el, ctx) {
       <section class="stack-sm">
         <h3 class="small">${tt('משמעות', 'Meaning')}</h3>
         <p lang="en" dir="ltr">${x.meaning_en}</p>
-        <p class="entry-he" lang="he" dir="rtl">${x.meaning_he}</p>
+        <p class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</p>
       </section>
       ${x.usage ? html`<section class="stack-sm"><h3 class="small">${tt('מתי משתמשים בזה', 'When people use it')}</h3><p>${bi(x.usage)}</p></section>` : ''}
       ${x.example_dialogue?.length ? html`<section class="stack-sm"><h3 class="small">${tt('דוגמה לשיחה', 'Example conversation')}</h3>
@@ -92,7 +92,7 @@ export default async function slang(el, ctx) {
           <button type="button" class="disclosure" data-toggle="${x.id}" aria-expanded="${isOpen}" aria-controls="${pid}">
             <span class="chev" aria-hidden="true">${icon('chevron', { size: 18 })}</span>
             <span class="grow"><span style="display:block"><span class="entry-word" lang="en" dir="ltr">${x.term}</span></span>
-              <span style="display:block"><span class="entry-he" lang="he" dir="rtl">${x.meaning_he}</span></span></span>
+              <span style="display:block"><span class="entry-he" lang="he" dir="rtl">${isolateLatin(x.meaning_he)}</span></span></span>
           </button>
         </h2>
         ${playBtn(x.term, x.region, `${tt('השמעה', 'Play')}: ${x.term}`)}

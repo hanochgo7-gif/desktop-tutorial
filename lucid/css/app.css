@@ -489,7 +489,7 @@ dialog.sheet > .panel { padding: var(--s5); }
 .banner.warn { background: var(--warn-tint); }
 .banner.bad { background: var(--bad-tint); }
 .empty { text-align: center; padding: var(--s7) var(--s4); color: var(--ink-2); display: grid; gap: var(--s3); justify-items: center; }
-.empty h3 { color: var(--ink); }
+.empty h2, .empty h3 { color: var(--ink); font-size: var(--t-lg); }
 .boot { display: grid; place-items: center; min-height: 60dvh; color: var(--ink-3); }
 .spinner { width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2.5px solid var(--key-edge); border-top-color: var(--cobalt); animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

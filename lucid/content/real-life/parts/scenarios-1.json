@@ -8,7 +8,7 @@
       "level": "A2",
       "situation": {
         "en": "You're at the airport in London, checking in for your flight home to Tel Aviv. Your suitcase goes on the scale, and it's 4 kilos over the limit on your ticket. (Prices in this scenario are made-up examples.)",
-        "he": "אתם בשדה התעופה בלונדון, בצ'ק-אין לטיסה הביתה לתל אביב. המזוודה עולה על המשקל, ומתברר שהיא חורגת ב-4 קילו מהמשקל המותר בכרטיס שלכם. (המחירים בתרחיש הם דוגמה בלבד.)"
+        "he": "אתם בשדה התעופה בלונדון, בצ'ק-אין לטיסה הביתה לתל אביב. אתם מניחים את המזוודה על המשקל, ומתברר שהיא חורגת ב-4 קילו מהמותר בכרטיס שלכם. (המחירים בתרחיש הם דוגמה בלבד.)"
       },
       "goal": {
         "en": "Find out your options (pay a fee or repack), choose one politely and finish checking in.",
@@ -336,7 +336,7 @@
         },
         {
           "en": "Check-in agents rarely bend the rules, but a friendly tone sometimes gets you a little flexibility. Arguing almost never does.",
-          "he": "נציגי צ'ק-אין לא נוטים לוותר על הכללים, אבל טון נעים מביא לפעמים קצת גמישות. ויכוח כמעט אף פעם לא עוזר."
+          "he": "נציגי צ'ק-אין חורגים מהכללים רק לעתים רחוקות, אבל טון נעים מביא לפעמים קצת גמישות. ויכוח כמעט אף פעם לא עוזר."
         }
       ],
       "variants": [
@@ -407,7 +407,7 @@
         },
         {
           "en": "My return flight is on the 20th.",
-          "he": "הטיסה חזרה שלי ב-20 לחודש.",
+          "he": "טיסת החזרה שלי ב-20 לחודש.",
           "register": "neutral"
         },
         {
@@ -428,13 +428,13 @@
         {
           "en": "Just clothes and a few presents.",
           "he": "רק בגדים וכמה מתנות.",
-          "register": "casual"
+          "register": "neutral"
         }
       ],
       "model_dialogue": [
         {
           "speaker": "partner",
-          "text": "Next, please. Passport, please. What's the purpose of your visit?"
+          "text": "Good morning. Passport, please... Thanks. What's the purpose of your visit?"
         },
         {
           "speaker": "you",
@@ -498,7 +498,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "Never challenge a border officer. These are routine questions, so just answer them.",
-                "he": "אף פעם לא מתווכחים עם פקיד הגבול. אלה שאלות שגרתיות, ופשוט עונים עליהן."
+                "he": "אף פעם לא מתעמתים עם פקיד הגבול. אלה שאלות שגרתיות, ופשוט עונים עליהן."
               }
             },
             {
@@ -680,7 +680,7 @@
       "roleplay": {
         "persona": "Officer Ruiz, an immigration officer at a New York airport. Professional and brief, rarely smiles but isn't unfriendly; asks short questions and expects short, clear answers.",
         "complication": "The learner's hotel booking starts the day after they land. Officer Ruiz notices and asks where they're sleeping tonight; the learner has to explain clearly (for example, a night with a friend) and give an address.",
-        "opening_line": "Next, please. Passport, please. What brings you to the United States?"
+        "opening_line": "Next! Passport, please... Thank you. What brings you to the United States?"
       },
       "culture": [
         {
@@ -708,7 +708,7 @@
         {
           "us": "cookies",
           "uk": "biscuits",
-          "note": "Sweet baked snacks. In the US, a 'biscuit' is a kind of soft bread roll."
+          "note": "Sweet baked snacks. In the US, a 'biscuit' is a soft bread roll, a bit like a scone."
         }
       ]
     },
@@ -720,11 +720,11 @@
       "level": "B1",
       "situation": {
         "en": "You're flying from Madrid to New York with a connection in London. Your flight to London is delayed by three hours, so you're going to miss your connection. You go to the airline's service desk.",
-        "he": "אתם טסים ממדריד לניו יורק עם עצירה בלונדון. הטיסה ללונדון מתעכבת בשלוש שעות, כך שתפספסו את טיסת ההמשך. אתם ניגשים לדלפק השירות של חברת התעופה."
+        "he": "אתם טסים ממדריד לניו יורק עם החלפת מטוס בלונדון. הטיסה ללונדון מתעכבת בשלוש שעות, כך שתפספסו את טיסת ההמשך. אתם ניגשים לדלפק השירות של חברת התעופה."
       },
       "goal": {
         "en": "Explain the problem, get rebooked onto the best alternative and check what happens to your bag.",
-        "he": "להסביר את הבעיה, לעבור לחלופה הטובה ביותר ולברר מה יקרה עם המזוודה."
+        "he": "להסביר את הבעיה, לעבור לטיסה החלופית הטובה ביותר ולברר מה יקרה עם המזוודה."
       },
       "partner_role": "airline service agent",
       "phrases": [
@@ -807,7 +807,7 @@
         },
         {
           "speaker": "partner",
-          "text": "OK... The next connection with free seats is tomorrow morning at 9:15. Would that work?"
+          "text": "OK... The next connection I can get you on is tomorrow morning at 9:15. Would that work?"
         },
         {
           "speaker": "you",
@@ -855,7 +855,7 @@
               "verdict": "ok",
               "feedback": {
                 "en": "Understandable, but abrupt, and it doesn't explain why you need a new flight (the connection).",
-                "he": "מובן, אבל חד, ולא מסביר למה צריך טיסה חדשה (טיסת ההמשך)."
+                "he": "מובן, אבל קצר ויבש, ולא מסביר למה צריך טיסה חדשה (טיסת ההמשך)."
               }
             },
             {
@@ -879,7 +879,7 @@
           ]
         },
         {
-          "partner": "The next connection with free seats is tomorrow morning at 9:15. Would that work?",
+          "partner": "The next connection I can get you on is tomorrow morning at 9:15. Would that work?",
           "options": [
             {
               "text": "No, tomorrow is not good for me.",
@@ -894,7 +894,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "Sarcasm sounds rude and makes the agent less keen to help.",
-                "he": "ציניות נשמעת גסה וגורמת לנציג לרצות לעזור פחות."
+                "he": "עוקצנות נשמעת גסה ומורידה לנציג את החשק לעזור."
               }
             },
             {
@@ -902,7 +902,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "Polite but persistent. 'I'd rather not' is a soft way to say no, and you suggest a solution.",
-                "he": "מנומס אבל עקבי. I'd rather not היא דרך רכה לומר לא, ואתם גם מציעים פתרון."
+                "he": "מנומס אבל נחוש. I'd rather not היא דרך רכה לומר לא, ואתם גם מציעים פתרון."
               }
             }
           ],
@@ -1002,8 +1002,8 @@
               "text": "OK, thanks. How much is the voucher for?",
               "verdict": "ok",
               "feedback": {
-                "en": "A fair question, but asking about the value straight away can sound a bit transactional. Thank them properly first.",
-                "he": "שאלה לגיטימית, אבל לשאול מיד על הסכום עלול להישמע קצת חומרני. קודם מודים כמו שצריך."
+                "en": "A fair, practical question. But a quick 'OK, thanks' sounds a little flat after all the agent's help, so thank them properly first.",
+                "he": "שאלה מעשית ולגיטימית. אבל OK, thanks בלבד נשמע קצת יבש אחרי כל העזרה, אז קודם מודים כמו שצריך."
               }
             },
             {
@@ -1053,7 +1053,7 @@
         {
           "us": "checked bag",
           "uk": "hold luggage",
-          "note": "The bag that travels under the plane. 'Checked luggage' is understood everywhere."
+          "note": "The bag that travels in the hold, not in the cabin. 'Checked luggage' is understood everywhere."
         },
         {
           "us": "line",
@@ -1069,7 +1069,7 @@
       "level": "B1",
       "situation": {
         "en": "You've just landed in Manchester after flying from Tel Aviv via Frankfurt. Everyone else has collected their bags, but yours never came out. You go to the baggage services desk.",
-        "he": "נחתתם עכשיו במנצ'סטר, אחרי טיסה מתל אביב עם עצירה בפרנקפורט. כל שאר הנוסעים כבר אספו את המזוודות, אבל שלכם לא יצאה. אתם ניגשים לדלפק שירותי המטען."
+        "he": "נחתתם עכשיו במנצ'סטר, אחרי טיסה מתל אביב דרך פרנקפורט. כל שאר הנוסעים כבר אספו את המזוודות, אבל שלכם לא יצאה. אתם ניגשים לדלפק שירותי המטען."
       },
       "goal": {
         "en": "Report the missing bag, describe it clearly, and find out how and when you'll get it back.",
@@ -1110,7 +1110,7 @@
         },
         {
           "en": "Is there a reference number so I can track it?",
-          "he": "יש מספר פנייה שאפשר לעקוב איתו?",
+          "he": "יש מספר פנייה, כדי שאוכל לעקוב אחרי המזוודה?",
           "register": "neutral"
         },
         {
@@ -1240,23 +1240,23 @@
               "verdict": "best",
               "feedback": {
                 "en": "Size, colour and type, then one detail that makes it easy to spot: exactly what the agent needs.",
-                "he": "גודל, צבע וסוג, ואז פרט אחד שעוזר לזהות אותה – בדיוק מה שהנציג צריך."
+                "he": "גודל, צבע וסוג, ואז פרט אחד שעוזר לזהות אותה: בדיוק מה שהנציג צריך."
               }
             },
             {
               "text": "It's blue.",
-              "verdict": "ok",
+              "verdict": "poor",
               "feedback": {
-                "en": "Too little information: lots of bags are blue. Add the size, the type and something special about it.",
-                "he": "מעט מדי מידע: הרבה מזוודות כחולות. הוסיפו גודל, סוג ומשהו מיוחד בה."
+                "en": "Far too little information: lots of bags are blue, so this won't help them find yours. Give the size, the type and something special about it.",
+                "he": "מעט מדי מידע: הרבה מזוודות הן כחולות, וזה לא יעזור למצוא את שלכם. ציינו גודל, סוג ומשהו מיוחד בה."
               }
             },
             {
-              "text": "It's a blue big suitcase.",
-              "verdict": "poor",
+              "text": "It's a blue big suitcase with four wheels.",
+              "verdict": "ok",
               "feedback": {
-                "en": "Adjective order: size comes before colour. Say 'a big blue suitcase'.",
-                "he": "סדר שמות התואר: גודל לפני צבע. אומרים a big blue suitcase."
+                "en": "Useful details, but the adjective order is wrong: size comes before colour. Say 'a big blue suitcase'.",
+                "he": "פרטים שימושיים, אבל סדר שמות התואר שגוי: גודל לפני צבע. אומרים a big blue suitcase."
               }
             }
           ],
@@ -1317,8 +1317,8 @@
               "text": "Why you need my address?",
               "verdict": "poor",
               "feedback": {
-                "en": "A missing auxiliary: 'Why do you need it?' And they need it so they can deliver your bag.",
-                "he": "חסר פועל עזר: Why do you need it? וחוץ מזה, הם צריכים את הכתובת כדי להביא לכם את המזוודה."
+                "en": "A missing auxiliary: 'Why do you need my address?' And they need it so they can deliver your bag.",
+                "he": "חסר פועל עזר: Why do you need my address? וחוץ מזה, הם צריכים את הכתובת כדי להביא לכם את המזוודה."
               }
             },
             {
@@ -1474,7 +1474,7 @@
         {
           "en": "So, left and then straight ahead?",
           "he": "כלומר, שמאלה ואז ישר?",
-          "register": "casual"
+          "register": "neutral"
         },
         {
           "en": "Where's the restroom?",
@@ -1557,16 +1557,16 @@
               "text": "Lisbon. Where?",
               "verdict": "ok",
               "feedback": {
-                "en": "They'll probably understand you, but without a full sentence or 'please' it sounds rude.",
-                "he": "כנראה יבינו אתכם, אבל בלי משפט מלא ובלי please זה נשמע לא מנומס."
+                "en": "They'll probably understand you, but it's very short and sounds abrupt. A full sentence and 'please' are friendlier.",
+                "he": "כנראה יבינו אתכם, אבל זה קצר מאוד ונשמע בוטה. משפט מלא ו-please נשמעים נעים יותר."
               }
             },
             {
               "text": "Yes. Where I go Lisbon?",
               "verdict": "poor",
               "feedback": {
-                "en": "The word order is wrong. Say 'Where do I go for the flight to Lisbon?'",
-                "he": "סדר המילים שגוי. אומרים: Where do I go for the flight to Lisbon?"
+                "en": "Words are missing: 'do' and 'for'. Say 'Where do I go for the flight to Lisbon?'",
+                "he": "חסרות מילים: do ו-for. אומרים: Where do I go for the flight to Lisbon?"
               }
             },
             {
@@ -1635,7 +1635,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "Perfect when you didn't catch something. 'Sorry' plus 'could you' is polite and natural.",
-                "he": "מושלם כשלא הבנתם. Sorry יחד עם could you – מנומס וטבעי."
+                "he": "מושלם כשלא הבנתם. Sorry יחד עם could you: מנומס וטבעי."
               }
             },
             {
@@ -1670,19 +1670,19 @@
           "partner": "You'll see the D gates on your right. Have a good flight!",
           "options": [
             {
-              "text": "Thank you very much for your kind help.",
-              "verdict": "ok",
+              "text": "Yes, yes. Bye.",
+              "verdict": "poor",
               "feedback": {
-                "en": "Polite, but a bit formal for a quick chat at the desk.",
-                "he": "מנומס, אבל קצת רשמי לשיחה קצרה בדלפק."
+                "en": "'Yes, yes' sounds impatient, and you don't say thank you after someone has helped you. Say 'Thanks so much!'",
+                "he": "Yes, yes נשמע חסר סבלנות, וגם לא אמרתם תודה למי שעזר לכם. אומרים: Thanks so much!"
               }
             },
             {
               "text": "Thanks, you too!",
-              "verdict": "poor",
+              "verdict": "ok",
               "feedback": {
-                "en": "A very common slip: 'You too' wishes them a good flight, but they aren't flying! Say 'Thanks, have a good day!'",
-                "he": "טעות נפוצה מאוד: you too מאחל גם להם טיסה טובה, אבל הם לא טסים! אומרים Thanks, have a good day!"
+                "en": "Friendly, and people say this by mistake all the time! But 'you too' wishes them a good flight, and they aren't flying. 'Have a good day!' fits better.",
+                "he": "חברותי, וזו טעות שקורה לכולם! אבל you too מאחל גם להם טיסה טובה, והם לא טסים. Have a good day! מתאים יותר."
               }
             },
             {
@@ -1852,7 +1852,15 @@
         },
         {
           "speaker": "you",
-          "text": "That's fine, I'll take it. What should I do about the November booking?"
+          "text": "That could work. How much is it per night?"
+        },
+        {
+          "speaker": "partner",
+          "text": "It's twenty pounds more a night than your booking."
+        },
+        {
+          "speaker": "you",
+          "text": "OK, that's fine. I'll take it. What should I do about the November booking?"
         },
         {
           "speaker": "partner",
@@ -1880,7 +1888,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "Calm and helpful: you offer two easy ways to find the booking.",
-                "he": "רגוע ועוזר: מציעים שתי דרכים פשוטות למצוא את ההזמנה."
+                "he": "רגוע ומועיל: מציעים שתי דרכים פשוטות למצוא את ההזמנה."
               }
             },
             {
@@ -1912,7 +1920,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "You answer the question and back it up with proof: the fastest way to solve this.",
-                "he": "עונים על השאלה ומגבים אותה בהוכחה – הדרך המהירה ביותר לפתור את העניין."
+                "he": "עונים על השאלה ומגבים אותה בהוכחה: הדרך המהירה ביותר לפתור את העניין."
               }
             },
             {
@@ -1994,11 +2002,11 @@
               }
             },
             {
-              "text": "That sounds fine. Could you tell me the price per night first?",
+              "text": "That could work. How much is it per night?",
               "verdict": "best",
               "feedback": {
                 "en": "You're positive, but checking the price before you agree is sensible and perfectly polite.",
-                "he": "מגיבים בחיוב, אבל בודקים את המחיר לפני שמסכימים – הגיוני ומנומס לגמרי."
+                "he": "מגיבים בחיוב, אבל בודקים את המחיר לפני שמסכימים. זה הגיוני ומנומס לגמרי."
               }
             },
             {
@@ -2029,7 +2037,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "You show you'll handle it, and you thank the receptionist for the extra effort.",
-                "he": "מראים שתטפלו בזה בעצמכם, ומודים לפקיד על המאמץ הנוסף."
+                "he": "מראים שתטפלו בזה בעצמכם, ומודים על המאמץ הנוסף."
               }
             },
             {
@@ -2219,7 +2227,7 @@
               "verdict": "ok",
               "feedback": {
                 "en": "Correct, but give your name too: that's the next question anyway.",
-                "he": "נכון, אבל כדאי לומר גם את השם – זו ממילא השאלה הבאה."
+                "he": "נכון, אבל כדאי לומר גם את השם: זו ממילא השאלה הבאה."
               }
             },
             {
@@ -2227,7 +2235,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "'a' is missing, and 'I want' sounds abrupt. Say 'Yes, I have a reservation.'",
-                "he": "חסר a, ו-I want נשמע חד. אומרים: Yes, I have a reservation."
+                "he": "חסר a, ו-I want נשמע ישיר מדי. אומרים: Yes, I have a reservation."
               }
             },
             {
@@ -2256,8 +2264,8 @@
               "text": "Thanks. There is breakfast free?",
               "verdict": "poor",
               "feedback": {
-                "en": "Word order: in a question, the verb comes first. Say 'Is breakfast included?'",
-                "he": "סדר המילים: בשאלה הפועל בא קודם. אומרים: Is breakfast included?"
+                "en": "The word order is wrong. In a question, 'is' comes before 'there', and 'free' goes before 'breakfast': 'Is there free breakfast?' Even simpler: 'Is breakfast included?'",
+                "he": "סדר המילים שגוי. בשאלה is בא לפני there, ו-free בא לפני breakfast: Is there free breakfast? ועוד יותר פשוט: Is breakfast included?"
               }
             },
             {
@@ -2310,8 +2318,8 @@
               "text": "What is the code of the internet?",
               "verdict": "poor",
               "feedback": {
-                "en": "Unnatural. In English we say 'the wifi password'.",
-                "he": "לא טבעי. באנגלית אומרים the wifi password."
+                "en": "A word-for-word translation, and it sounds strange. In English we say 'the wifi password'.",
+                "he": "תרגום מילה במילה, וזה נשמע מוזר. באנגלית אומרים the wifi password."
               }
             }
           ],
@@ -2340,8 +2348,8 @@
               "text": "When I must go out?",
               "verdict": "poor",
               "feedback": {
-                "en": "The word order is wrong, and 'go out' means going out to have fun, not leaving the hotel. Say 'What time is checkout?'",
-                "he": "סדר המילים שגוי, ו-go out פירושו לצאת לבלות, לא לעזוב את המלון. שואלים: What time is checkout?"
+                "en": "The word order is wrong, and 'go out' means going out for a while (for example, to have fun), not leaving the hotel. Say 'What time is checkout?'",
+                "he": "סדר המילים שגוי, ו-go out פירושו לצאת לזמן מה (למשל לבלות), לא לעזוב את המלון. שואלים: What time is checkout?"
               }
             },
             {
@@ -2512,7 +2520,7 @@
         },
         {
           "speaker": "partner",
-          "text": "No, I'll send someone up with the new key to help with your bags, in about ten minutes."
+          "text": "No, I'll send someone up with the new key in about ten minutes. They can help you with your bags, too."
         },
         {
           "speaker": "you",
@@ -2688,7 +2696,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "Warm thanks after a problem has been solved: exactly right.",
-                "he": "תודה חמה אחרי שהבעיה נפתרה – בדיוק מה שצריך."
+                "he": "תודה חמה אחרי שהבעיה נפתרה: בדיוק מה שצריך."
               }
             },
             {
@@ -2750,11 +2758,11 @@
       "level": "A2",
       "situation": {
         "en": "You're staying at a hotel in Edinburgh. You need some extra towels, and on your last day your flight home isn't until the evening. You go down to reception.",
-        "he": "אתם במלון באדינבורו. אתם צריכים עוד מגבות, וביום האחרון הטיסה הביתה רק בערב. אתם יורדים לקבלה."
+        "he": "אתם מתארחים במלון באדינבורו. אתם צריכים עוד מגבות, וביום האחרון הטיסה הביתה רק בערב. אתם יורדים לקבלה."
       },
       "goal": {
         "en": "Ask for extra towels, then ask for a late checkout. If that isn't possible, arrange to leave your bags at the hotel.",
-        "he": "לבקש עוד מגבות, ואחר כך לבקש צ'ק-אאוט מאוחר. אם זה לא אפשרי, לסדר מקום להשאיר את המזוודות במלון."
+        "he": "לבקש עוד מגבות, ואחר כך לבקש צ'ק-אאוט מאוחר. אם זה לא אפשרי, לסדר שתוכלו להשאיר את המזוודות במלון."
       },
       "partner_role": "hotel receptionist",
       "phrases": [
@@ -2999,8 +3007,8 @@
               "text": "Can I forget my luggage here?",
               "verdict": "poor",
               "feedback": {
-                "en": "'Forget' means you didn't mean to leave it! The verb you need is 'leave'. (In Hebrew we say 'I forgot my bag at home'; in English it's 'I left my bag at home'.)",
-                "he": "forget פירושו לשכוח בלי כוונה! הפועל המתאים הוא leave. (בעברית אומרים 'שכחתי את התיק בבית', ובאנגלית I left my bag at home.)"
+                "en": "'Forget' means leaving something by accident! When you leave something on purpose, the verb is 'leave': 'Can I leave my luggage here?'",
+                "he": "forget פירושו לשכוח, כלומר להשאיר משהו בלי כוונה! כשמשאירים משהו בכוונה, הפועל הוא leave: Can I leave my luggage here?"
               }
             },
             {
@@ -3039,7 +3047,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "Warm and natural: a good way to finish.",
-                "he": "חם וטבעי – דרך טובה לסיים."
+                "he": "חם וטבעי: דרך טובה לסיים."
               }
             },
             {
@@ -3099,7 +3107,7 @@
       "id": "rl-hotel-checkout-bill-query",
       "module": "hotel",
       "title_en": "Checking out: querying a charge",
-      "title_he": "צ'ק-אאוט: ערעור על חיוב בחשבון",
+      "title_he": "צ'ק-אאוט: בירור חיוב בחשבון",
       "level": "B2",
       "situation": {
         "en": "You're checking out of a hotel in San Francisco after four nights. On the bill you see two charges you don't remember: something from the minibar and a room-service dinner. (All prices here are made-up examples.)",
@@ -3107,7 +3115,7 @@
       },
       "goal": {
         "en": "Query the charges firmly but politely, explain your side clearly, and get them removed or explained before you pay.",
-        "he": "לערער על החיובים בתקיפות אבל בנימוס, להסביר את הצד שלכם בבירור ולדאוג שיוסרו או יוסברו לפני התשלום."
+        "he": "לשאול על החיובים בנחישות אבל בנימוס, להסביר את הצד שלכם בבירור ולדאוג שיוסרו או יוסברו לפני התשלום."
       },
       "partner_role": "hotel front desk agent",
       "phrases": [
@@ -3118,7 +3126,7 @@
         },
         {
           "en": "I think there might be a mistake on my bill.",
-          "he": "נראה לי שיש טעות בחשבון.",
+          "he": "נראה לי שאולי יש טעות בחשבון.",
           "register": "polite"
         },
         {
@@ -3138,7 +3146,7 @@
         },
         {
           "en": "Could you check whether it was charged to the wrong room?",
-          "he": "אפשר לבדוק אם זה חויב לחדר הלא נכון?",
+          "he": "אפשר לבדוק אם זה חויב בטעות לחדר אחר?",
           "register": "polite"
         },
         {
@@ -3241,7 +3249,7 @@
               "verdict": "ok",
               "feedback": {
                 "en": "Fine, but 'Wait' can sound abrupt. 'Could I take a quick look?' is smoother.",
-                "he": "בסדר, אבל Wait יכול להישמע חד. Could I take a quick look? חלק יותר."
+                "he": "בסדר, אבל Wait יכול להישמע בוטה. Could I take a quick look? נשמע רך יותר."
               }
             },
             {
@@ -3249,7 +3257,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "Accusing them before you've even read the bill puts the agent on the defensive. Check first, then point to specific items.",
-                "he": "להאשים עוד לפני שקראתם את החשבון מכניס את הנציג לעמדת התגוננות. קודם בודקים, ואז מצביעים על סעיפים מסוימים."
+                "he": "להאשים עוד לפני שקראתם את החשבון מכניס את הנציג לעמדת התגוננות. קודם בודקים, ואז מצביעים על סעיפים ספציפיים."
               }
             }
           ],
@@ -3288,7 +3296,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "'I think there might be...' raises the problem softly, and you back it up with a specific fact.",
-                "he": "I think there might be... מעלה את הבעיה בעדינות, ואתם מגבים אותה בעובדה מסוימת."
+                "he": "I think there might be... מעלה את הבעיה בעדינות, ואתם מגבים אותה בעובדה ספציפית."
               }
             }
           ],
@@ -3319,7 +3327,7 @@
               "verdict": "best",
               "feedback": {
                 "en": "You give evidence calmly and ask for action: the strongest way to dispute a charge.",
-                "he": "מציגים ראיה ברוגע ומבקשים פעולה – הדרך החזקה ביותר לערער על חיוב."
+                "he": "מציגים ראיה ברוגע ומבקשים פעולה: הדרך החזקה ביותר לערער על חיוב."
               }
             },
             {
@@ -3355,18 +3363,18 @@
             },
             {
               "text": "Also the dinner. Remove it too.",
-              "verdict": "ok",
+              "verdict": "poor",
               "feedback": {
-                "en": "Understandable, but it sounds like an order. Explain why first, then ask.",
-                "he": "מובן, אבל נשמע כמו פקודה. קודם מסבירים למה, ואז מבקשים."
+                "en": "It sounds like an order, and orders make a complaint sound rude in English. You also haven't said what's wrong. Explain first, then ask: 'Could you remove that as well, please?'",
+                "he": "זה נשמע כמו פקודה, ופקודות גורמות לתלונה להישמע גסה באנגלית. גם לא הסברתם מה הבעיה. קודם מסבירים, ואז מבקשים: Could you remove that as well, please?"
               }
             },
             {
               "text": "And the dinner, we didn't ordered it.",
-              "verdict": "poor",
+              "verdict": "ok",
               "feedback": {
-                "en": "After 'didn't', use the base form: 'We didn't order it.'",
-                "he": "אחרי didn't באה צורת הבסיס: We didn't order it."
+                "en": "Clear and calm, but there's a grammar slip. After 'didn't', use the base form: 'We didn't order it.'",
+                "he": "ברור ורגוע, אבל יש טעות דקדוק. אחרי didn't באה צורת הבסיס: We didn't order it."
               }
             }
           ],

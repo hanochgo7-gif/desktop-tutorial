@@ -55,17 +55,7 @@ export function confirmDialog({ title, body, confirm, cancel = t('cancel'), dang
 }
 
 export function emptyState({ title, body, action }) {
-  return html`<div class="empty"><h3>${title}</h3>${body ? html`<p>${body}</p>` : ''}${action || ''}</div>`;
-}
-
-// Hebrew shown on demand when support is off ("עב" button next to English text).
-export function wireHebrewReveal(root) {
-  root.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-reveal-he]');
-    if (!b) return;
-    const he = b.nextElementSibling;
-    if (he) { he.hidden = !he.hidden; b.setAttribute('aria-expanded', String(!he.hidden)); }
-  });
+  return html`<div class="empty"><h2 class="h3">${title}</h2>${body ? html`<p>${body}</p>` : ''}${action || ''}</div>`;
 }
 
 // The brand mark: an Enter-coloured keycap with a dual legend, L and ל.

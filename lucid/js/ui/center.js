@@ -10,12 +10,8 @@ import { recordAttempt, settings, logEvent } from '../core/learner.js';
 import { stopSpeaking } from '../core/speech.js';
 import { LEVELS, levelIndex, lessonOrder } from '../core/adaptive.js';
 
-// The "עב" button next to English when Hebrew support is off. Unlike wireHebrewReveal, this listener
-// is removed with the view, so it never stacks on the shared #view element.
-export const hebrewReveal = (root) => on(root, 'click', '[data-reveal-he]', (e, b) => {
-  const he = b.nextElementSibling;
-  if (he) { he.hidden = !he.hidden; b.setAttribute('aria-expanded', String(!he.hidden)); }
-});
+// The "עב" reveal is handled by one document-level listener in app.js.
+export const hebrewReveal = () => () => {};
 
 // Every exercise whose type is in `types`, in curriculum order: [{ lesson, ex }].
 export async function gatherExercises(types) {

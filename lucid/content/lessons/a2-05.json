@@ -1,0 +1,282 @@
+{
+  "id": "a2-05",
+  "level": "A2",
+  "title_en": "Past simple: irregular verbs",
+  "title_he": "עבר פשוט: פעלים חריגים",
+  "topics": ["past-simple-irregular"],
+  "minutes": 22,
+  "objectives": [
+    { "en": "I can use the most common irregular past forms (went, saw, bought, took...).", "he": "אני יודע/ת להשתמש בצורות העבר החריגות הנפוצות ביותר (went, saw, bought, took...)." },
+    { "en": "I can learn irregular verbs in groups that follow the same pattern.", "he": "אני יודע/ת ללמוד פעלים חריגים בקבוצות שיש להן דפוס משותף." },
+    { "en": "I can tell a short story about my weekend in the past simple.", "he": "אני יודע/ת לספר סיפור קצר על סוף השבוע שלי בעבר פשוט." }
+  ],
+  "warmup": { "en": "Last lesson: work → worked, play → played. So what is the past of go? 'Goed'? Decide before you read on.", "he": "בשיעור הקודם ראינו ש-work הופך ל-worked ו-play הופך ל-played. אז מה העבר של go? אולי goed? החליטו לפני שממשיכים. היום נכיר את הפעלים שלא משחקים לפי הכללים." },
+  "explanation": [
+    { "type": "p", "en": "Many of the most common English verbs are irregular: they don't add -ed in the past. Each one has its own past form: go → went, see → saw, buy → bought.", "he": "רבים מהפעלים הנפוצים ביותר באנגלית הם חריגים: הם לא מקבלים ed בעבר. לכל אחד מהם יש צורת עבר משלו: go → went, see → saw, buy → bought." },
+    { "type": "rule", "en": "The past form is the same for every person: I went, she went, we went, they went. No -s and no -ed.", "he": "צורת העבר זהה בכל הגופים: I went, she went, we went, they went. בלי s ובלי ed." },
+    { "type": "table", "headers": ["Pattern", "Base → past", "איך לזכור"], "rows": [
+      ["-ought / -aught", "buy → bought, bring → brought, think → thought, catch → caught, teach → taught", "כולם מסתיימים באותו צליל: /ɔːt/"],
+      ["vowel → a", "begin → began, drink → drank, sing → sang, swim → swam, run → ran, sit → sat", "בעבר מופיעה האות a"],
+      ["long vowel → short e", "sleep → slept, keep → kept, feel → felt, leave → left, meet → met", "התנועה הארוכה מתקצרת, ובסוף יש t"],
+      ["-d → -t", "send → sent, spend → spent, build → built", "ה-d שבסוף הופכת ל-t"],
+      ["→ -ew", "know → knew, grow → grew, throw → threw, fly → flew", "כולם מסתיימים ב-ew ונשמעים /uː/"],
+      ["→ o + e", "write → wrote, drive → drove, speak → spoke, break → broke, wake → woke", "התנועה הופכת ל-o, ונשמעת /əʊ/"],
+      ["no change", "put → put, cut → cut, cost → cost, read → read", "אותה צורה בדיוק (אבל read בעבר נהגה /red/)"],
+      ["learn by heart", "go → went, have → had, do → did, make → made, say → said, see → saw, take → took, eat → ate, come → came, get → got, give → gave, find → found, lose → lost, tell → told, hear → heard, forget → forgot", "אין דפוס: חוזרים עליהם בקול עד שהם נשמעים טבעיים"]
+    ] },
+    { "type": "warning", "en": "Never add -ed to an irregular verb, and never use two past forms together: went (not *goed or *wented), bought (not *buyed).", "he": "אל תוסיפו ed לפועל חריג, ואל תחברו שתי צורות עבר: went ולא goed או wented, ‏bought ולא buyed." },
+    { "type": "tip", "en": "Learn the verbs in their groups and say them aloud: buy – bought, bring – brought, think – thought. Watch the sound too: said is /sed/, and read (past) is /red/, like the colour red.", "he": "למדו את הפעלים לפי הקבוצות ואמרו אותם בקול: buy – bought, bring – brought, think – thought. שימו לב גם להגייה: said נשמע /sed/, ו-read בעבר נשמע /red/, כמו הצבע red." },
+    { "type": "p", "en": "Good news: you need these forms only in positive sentences. Questions and negatives use did + the base form (next lesson).", "he": "חדשות טובות: צריך את הצורות האלה רק במשפטים חיוביים. בשאלות ובשלילה משתמשים ב-did ובצורת הבסיס, ועל זה בשיעור הבא." }
+  ],
+  "examples": [
+    { "en": "We went to Eilat last weekend.", "he": "נסענו לאילת בסוף השבוע שעבר.", "note": "go → went" },
+    { "en": "I saw Maya at the station yesterday.", "he": "ראיתי את מאיה בתחנה אתמול.", "note": "see → saw" },
+    { "en": "Omer bought new headphones online.", "he": "עומר קנה אוזניות חדשות באינטרנט.", "note": "buy → bought (-ought group)" },
+    { "en": "She took a taxi to the airport.", "he": "היא לקחה מונית לשדה התעופה.", "note": "take → took" },
+    { "en": "They slept for ten hours after the trip.", "he": "הם ישנו עשר שעות אחרי הטיול.", "note": "sleep → slept" },
+    { "en": "We ate falafel and drank lemonade.", "he": "אכלנו פלאפל ושתינו לימונדה.", "note": "eat → ate, drink → drank" },
+    { "en": "Lior lost his wallet, but he found it the next day.", "he": "ליאור איבד את הארנק, אבל מצא אותו למחרת.", "note": "lose → lost, find → found" },
+    { "en": "I wrote a long email to my teacher.", "he": "כתבתי מייל ארוך למורה שלי.", "note": "write → wrote" },
+    { "en": "I read the whole book on the plane.", "he": "קראתי את כל הספר בטיסה.", "note": "read → read, said /red/" }
+  ],
+  "vocab": [
+    { "word": "went", "pos": "verb (past of go)", "he": "הלך; נסע (עבר של go)", "def": "the past of go: moved or travelled to a place", "example": "We went to Eilat last weekend.", "ipa": "/went/", "collocations": ["went home", "went shopping", "went to bed"], "level": "A2" },
+    { "word": "saw", "pos": "verb (past of see)", "he": "ראה (עבר של see)", "def": "the past of see: noticed with your eyes, or watched a film or show", "example": "I saw a great film on Friday.", "ipa": "/sɔː/", "collocations": ["saw a film", "saw a doctor"], "level": "A2" },
+    { "word": "bought", "pos": "verb (past of buy)", "he": "קנה (עבר של buy)", "def": "the past of buy: got something by paying money for it", "example": "Omer bought new headphones online.", "ipa": "/bɔːt/", "collocations": ["bought a ticket", "bought it online"], "level": "A2" },
+    { "word": "brought", "pos": "verb (past of bring)", "he": "הביא (עבר של bring)", "def": "the past of bring: came with something or someone", "example": "Sara brought a cake to the party.", "ipa": "/brɔːt/", "collocations": ["brought a friend", "brought some food"], "level": "A2" },
+    { "word": "thought", "pos": "verb (past of think)", "he": "חשב (עבר של think)", "def": "the past of think: had an idea or an opinion", "example": "I thought the exam was easy.", "ipa": "/θɔːt/", "collocations": ["thought about it", "I thought so"], "level": "A2" },
+    { "word": "caught", "pos": "verb (past of catch)", "he": "תפס; הספיק לעלות על (עבר של catch)", "def": "the past of catch: took hold of something, or got on a bus or train in time", "example": "We caught the last train home.", "ipa": "/kɔːt/", "collocations": ["caught the bus", "caught a cold"], "level": "A2" },
+    { "word": "took", "pos": "verb (past of take)", "he": "לקח (עבר של take)", "def": "the past of take: got and carried something, or travelled by bus, taxi or train", "example": "She took a taxi to the airport.", "ipa": "/tʊk/", "collocations": ["took a photo", "took the bus", "took a break"], "level": "A2" },
+    { "word": "spent", "pos": "verb (past of spend)", "he": "בילה (זמן); הוציא (כסף) (עבר של spend)", "def": "the past of spend: used time or money", "example": "We spent the whole day at the beach.", "ipa": "/spent/", "collocations": ["spent the day", "spent time with", "spent money on"], "level": "A2" },
+    { "word": "forgot", "pos": "verb (past of forget)", "he": "שכח (עבר של forget)", "def": "the past of forget: did not remember", "example": "Lior forgot his keys again.", "ipa": "/fəˈɡɒt/", "collocations": ["forgot my password", "forgot to call"], "level": "A2" },
+    { "word": "said", "pos": "verb (past of say)", "he": "אמר (עבר של say)", "def": "the past of say: spoke words", "example": "She said goodbye and went home.", "ipa": "/sed/", "collocations": ["said hello", "said sorry", "said goodbye"], "level": "A2" },
+    { "word": "wrote", "pos": "verb (past of write)", "he": "כתב (עבר של write)", "def": "the past of write: put words on paper or on a screen", "example": "I wrote a long email to my teacher.", "ipa": "/rəʊt/", "collocations": ["wrote an email", "wrote a message"], "level": "A2" },
+    { "word": "found", "pos": "verb (past of find)", "he": "מצא (עבר של find)", "def": "the past of find: discovered something you were looking for", "example": "Maya found her phone under the sofa.", "ipa": "/faʊnd/", "collocations": ["found a seat", "found a job"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is one 'a' sound, so English /æ/ and /ʌ/ can sound the same. In the past this changes the meaning: ran /ræn/ is past, run /rʌn/ is not. Open your mouth wider for /æ/: ran, swam, drank, sat.", "he": "בעברית יש צליל 'a' אחד, ולכן /æ/ ו-/ʌ/ באנגלית עלולים להישמע אותו דבר. בעבר זה משנה את המשמעות: ran /ræn/ הוא עבר, ו-run /rʌn/ לא. פתחו את הפה רחב יותר ב-/æ/: ran, swam, drank, sat.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew there is no /θ/ sound, so thought can come out as 'sought' or 'tought'. Put the tip of your tongue between your teeth: /θɔːt/.", "he": "בעברית אין את הצליל /θ/, ולכן thought עלול לצאת sought או tought. שימו את קצה הלשון בין השיניים: /θɔːt/.", "error_type": "pron-th" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each verb with its past form.", "he": "התאימו כל פועל לצורת העבר שלו." },
+      "pairs": [["go", "went"], ["see", "saw"], ["take", "took"], ["eat", "ate"], ["give", "gave"], ["come", "came"]],
+      "explanation": { "en": "These six are in the 'learn by heart' group: there is no pattern, so say them aloud until they sound natural.", "he": "ששת הפעלים האלה שייכים לקבוצת 'לזכור בעל פה': אין להם דפוס, ולכן כדאי לחזור עליהם בקול עד שהם נשמעים טבעיים." }
+    },
+    {
+      "id": "e2", "type": "categorize", "skill": "grammar",
+      "prompt": { "en": "Which pattern does the past form follow? Put each verb in the right group.", "he": "לאיזה דפוס שייכת צורת העבר? מיינו כל פועל לקבוצה הנכונה." },
+      "categories": ["like buy → bought", "like know → knew", "like write → wrote"],
+      "items": [
+        { "text": "bring", "category": "like buy → bought" },
+        { "text": "catch", "category": "like buy → bought" },
+        { "text": "think", "category": "like buy → bought" },
+        { "text": "fly", "category": "like know → knew" },
+        { "text": "grow", "category": "like know → knew" },
+        { "text": "throw", "category": "like know → knew" },
+        { "text": "drive", "category": "like write → wrote" },
+        { "text": "speak", "category": "like write → wrote" },
+        { "text": "break", "category": "like write → wrote" }
+      ],
+      "hint": { "en": "Say the past form aloud first, then listen to how it ends.", "he": "אמרו קודם את צורת העבר בקול, ואז הקשיבו איך היא מסתיימת." },
+      "explanation": { "en": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke.", "he": "bring → brought, catch → caught, think → thought · fly → flew, grow → grew, throw → threw · drive → drove, speak → spoke, break → broke. כשזוכרים פועל אחד מהקבוצה, קל יותר לזכור את כולם." }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "Choose the correct verb.", "he": "בחרו את הפועל הנכון." },
+      "question": "Last summer we ___ to Greece for a week.",
+      "options": ["goed", "went", "go", "wented"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "go is irregular, so it doesn't take -ed. Its past form is went.", "he": "go הוא פועל חריג ולא מקבל ed. צורת העבר שלו היא went." },
+        "2": { "en": "go is the base form. 'Last summer' is finished past time, so use the past: went.", "he": "go היא צורת הבסיס. Last summer הוא זמן עבר שהסתיים, ולכן צריך עבר: went." },
+        "3": { "en": "went is already past. Don't add -ed to it.", "he": "went כבר בעבר. אין להוסיף לו ed." }
+      },
+      "option_errors": { "0": "verb-form", "2": "tense-choice", "3": "verb-form" },
+      "explanation": { "en": "go → went. 'Last summer' shows that the action is finished.", "he": "go → went. המילים last summer מראות שהפעולה הסתיימה." }
+    },
+    {
+      "id": "e4", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen and choose the two verbs you hear.", "he": "הקשיבו ובחרו את שני הפעלים שאתם שומעים." },
+      "audio_text": "We ran to the station and sat at the back of the train.",
+      "question": "Which verbs are in the sentence?",
+      "options": ["run, sit", "run, sat", "ran, sat", "ran, sit"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Both verbs are in the past. Listen for the open /æ/ sound: ran /ræn/, sat /sæt/.", "he": "שני הפעלים בעבר. הקשיבו לצליל הפתוח /æ/: ‏ran /ræn/, ‏sat /sæt/." },
+        "1": { "en": "The first verb is ran /ræn/, not run /rʌn/. The mouth opens wider for /æ/.", "he": "הפועל הראשון הוא ran /ræn/ ולא run /rʌn/. ב-/æ/ הפה נפתח רחב יותר." },
+        "3": { "en": "The second verb is sat /sæt/, the past of sit /sɪt/.", "he": "הפועל השני הוא sat /sæt/, העבר של sit /sɪt/." }
+      },
+      "option_errors": { "0": "pron-vowel", "1": "pron-vowel", "3": "pron-vowel" },
+      "explanation": { "en": "run → ran and sit → sat: in the past the vowel changes to /æ/, so listen for it.", "he": "run → ran ו-sit → sat: בעבר התנועה משתנה ל-/æ/, ולכן כדאי להקשיב לה במיוחד." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "Choose the correct verb.", "he": "בחרו את הפועל הנכון." },
+      "question": "I ___ my cousin to the party, so we were twelve people, not eleven.",
+      "options": ["brought", "bought", "bringed", "brang"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "bought is the past of buy. You can't buy a cousin! bring → brought.", "he": "bought הוא העבר של buy (קנה). בני דודים לא קונים! כאן צריך את העבר של bring (הביא): brought." },
+        "2": { "en": "bring is irregular, so no -ed: bring → brought.", "he": "bring הוא פועל חריג, ולכן בלי ed: ‏bring → brought." },
+        "3": { "en": "brang is a common guess (like sing → sang), but the past of bring is brought.", "he": "brang הוא ניחוש נפוץ (כמו sing → sang), אבל העבר של bring הוא brought." }
+      },
+      "option_errors": { "1": "word-choice", "2": "verb-form", "3": "verb-form" },
+      "explanation": { "en": "bring → brought and buy → bought sound almost the same. Listen for the r in brought.", "he": "brought (הביא) ו-bought (קנה) נשמעים כמעט אותו דבר. ההבדל הוא ה-r ב-brought." }
+    },
+    {
+      "id": "e6", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read Yael's blog post and answer the questions.", "he": "קראו את הפוסט של יעל בבלוג וענו על השאלות." },
+      "title": "A rainy day in Haifa",
+      "passage": "Last Friday my friend Priya and I took the early train to Haifa. We had a plan: a long walk on Mount Carmel and dinner by the sea. But the day began badly. I forgot my water bottle on the train, and Priya lost her sunglasses at the station. Then it started to rain, so we spent two hours in a small café near the port.\nActually, that was the best part of the day. We drank hot chocolate, ate amazing cheese pastries and met the owner, an old man called Yosef. He told us funny stories about the city in the 1970s.\nIn the evening the sky was clear again. We walked to the beach and saw a beautiful sunset. I came home tired and wet, but very happy.\n– Yael",
+      "questions": [
+        { "type": "tf", "statement": "Yael and Priya went to Haifa by train.", "answer": true,
+          "explanation": { "en": "'We took the early train to Haifa.' take → took.", "he": "בטקסט: We took the early train to Haifa. ‏take → took." } },
+        { "type": "mcq", "question": "Yael forgot ___ on the train.", "options": ["her sunglasses", "her water bottle", "her phone"], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Priya lost her sunglasses, at the station.", "he": "פריה איבדה את משקפי השמש שלה, בתחנה." },
+            "2": { "en": "The text doesn't mention a phone.", "he": "בטקסט אין אזכור של טלפון." }
+          },
+          "explanation": { "en": "'I forgot my water bottle on the train.' forget → forgot.", "he": "בטקסט: I forgot my water bottle on the train. ‏forget → forgot." } },
+        { "type": "tf", "statement": "For Yael, the time in the café was the worst part of the day.", "answer": false,
+          "explanation": { "en": "She writes: 'Actually, that was the best part of the day.'", "he": "היא כותבת: Actually, that was the best part of the day – זה היה החלק הכי טוב ביום." } },
+        { "type": "gap", "text": "Yosef ___ them funny stories about the city.", "answers": [["told"]],
+          "explanation": { "en": "tell → told: 'He told us funny stories.'", "he": "העבר של tell הוא told: He told us funny stories." } },
+        { "type": "mcq", "question": "In the evening, Yael and Priya ___.", "options": ["went back to the café", "took the train to Tel Aviv", "saw a beautiful sunset"], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "They walked to the beach, not back to the café.", "he": "הן הלכו לחוף, לא חזרו לבית הקפה." },
+            "1": { "en": "The text doesn't say this. It says they walked to the beach.", "he": "הטקסט לא אומר את זה. כתוב שהן הלכו לחוף." }
+          },
+          "explanation": { "en": "'We walked to the beach and saw a beautiful sunset.' see → saw.", "he": "בטקסט: We walked to the beach and saw a beautiful sunset. ‏see → saw." } }
+      ]
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar",
+      "prompt": { "en": "Write the past simple form of the verb in brackets.", "he": "כתבו את צורת העבר של הפועל שבסוגריים." },
+      "text": "Yesterday I ___ (buy) a new phone and ___ (take) about a hundred photos with it.",
+      "answers": [["bought"], ["took"]],
+      "wrong_feedback": [
+        { "match": "buyed", "feedback": { "en": "buy is irregular: buy → bought.", "he": "buy הוא פועל חריג: buy → bought." }, "error_type": "verb-form" },
+        { "match": "taked", "feedback": { "en": "take is irregular: take → took.", "he": "take הוא פועל חריג: take → took." }, "error_type": "verb-form" },
+        { "match": "taken", "feedback": { "en": "taken is a different form (you'll meet it at B1). For a finished past action, use took.", "he": "taken היא צורה אחרת (נכיר אותה ברמה B1). לפעולה שהסתיימה בעבר משתמשים ב-took." }, "error_type": "verb-form" }
+      ],
+      "explanation": { "en": "buy → bought (the -ought group) and take → took (learn by heart).", "he": "buy → bought (קבוצת ought) ו-take → took (לזכור בעל פה)." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar",
+      "prompt": { "en": "Complete Omer's message with the past simple.", "he": "השלימו את ההודעה של עומר בעבר פשוט." },
+      "text": "Hi Noa! Sorry about last night. I ___ (leave) my phone at work, ___ (come) home very late and ___ (sleep) on the sofa until eleven.",
+      "answers": [["left"], ["came"], ["slept"]],
+      "wrong_feedback": [
+        { "match": "leaved", "feedback": { "en": "leave is irregular: leave → left (the long vowel becomes a short e).", "he": "leave הוא פועל חריג: leave → left (התנועה הארוכה מתקצרת ל-e)." }, "error_type": "verb-form" },
+        { "match": "leave", "feedback": { "en": "This is the base form. The story is in the past: leave → left.", "he": "זו צורת הבסיס. הסיפור בעבר: leave → left." }, "error_type": "tense-choice" },
+        { "match": "comed", "feedback": { "en": "come is irregular: come → came.", "he": "come הוא פועל חריג: come → came." }, "error_type": "verb-form" },
+        { "match": "come", "feedback": { "en": "This is the base form. In the past the vowel changes: come → came.", "he": "זו צורת הבסיס. בעבר התנועה משתנה: come → came." }, "error_type": "tense-choice" },
+        { "match": "sleeped", "feedback": { "en": "sleep is irregular: sleep → slept (short e + t).", "he": "sleep הוא פועל חריג: sleep → slept (e קצרה ו-t בסוף)." }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "Check the table: leave and sleep are in the 'long vowel → short e' group; come is in 'learn by heart'.", "he": "חפשו בטבלה: leave ו-sleep בקבוצת 'התנועה מתקצרת', ו-come בקבוצת 'לזכור בעל פה'." },
+      "explanation": { "en": "leave → left, come → came, sleep → slept.", "he": "שלושתם פעלים חריגים: leave → left, come → came, sleep → slept." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "There are two mistakes. Write the sentence correctly.", "he": "יש במשפט שתי טעויות. כתבו אותו נכון." },
+      "sentence": "We goed to the beach and swimmed in the sea.",
+      "answers": ["We went to the beach and swam in the sea."],
+      "error_type": "verb-form",
+      "hint": { "en": "Both verbs are irregular.", "he": "שני הפעלים חריגים: go ו-swim." },
+      "explanation": { "en": "go → went (learn by heart) and swim → swam (the vowel → a group).", "he": "go → went (לזכור בעל פה) ו-swim → swam (קבוצת 'בעבר מופיעה a')." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "grammar",
+      "prompt": { "en": "Rewrite the sentence in the past simple. Start with 'Yesterday'.", "he": "כתבו את המשפט מחדש בעבר פשוט. התחילו ב-Yesterday." },
+      "source": "Omer gets up at seven and has breakfast with his dad.",
+      "answers": [
+        "Yesterday Omer got up at seven and had breakfast with his dad.",
+        "Yesterday, Omer got up at seven and had breakfast with his dad.",
+        "Yesterday Omer got up at 7 and had breakfast with his dad.",
+        "Yesterday, Omer got up at 7 and had breakfast with his dad.",
+        "Omer got up at seven and had breakfast with his dad yesterday."
+      ],
+      "wrong_feedback": [
+        { "match": "Yesterday Omer gets up at seven and has breakfast with his dad.", "feedback": { "en": "Yesterday is finished past time, so both verbs change: gets up → got up, has → had.", "he": "Yesterday הוא זמן עבר, ולכן שני הפעלים משתנים: gets up → got up, ‏has → had." }, "error_type": "tense-choice" },
+        { "match": "Yesterday Omer got up at seven and has breakfast with his dad.", "feedback": { "en": "Change the second verb too: has → had.", "he": "צריך לשנות גם את הפועל השני: has → had." }, "error_type": "tense-choice" },
+        { "match": "getted", "feedback": { "en": "get is irregular: get up → got up.", "he": "get הוא פועל חריג: get up → got up." }, "error_type": "verb-form" },
+        { "match": "haved", "feedback": { "en": "have is irregular: have → had.", "he": "have הוא פועל חריג: have → had." }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "Two verbs change: gets up and has.", "he": "שני פעלים משתנים: gets up ו-has." },
+      "explanation": { "en": "get up → got up, have → had. In the past there is no -s for he or she.", "he": "get up → got up, ‏have → had. בעבר אין s גם אחרי he או she." }
+    },
+    {
+      "id": "e11", "type": "order", "skill": "grammar",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["My", "parents", "gave", "me", "a", "new", "bike", "for", "my", "birthday"],
+      "answers": ["For my birthday my parents gave me a new bike"],
+      "explanation": { "en": "give → gave. The order is subject + verb + person + thing: My parents gave me a new bike.", "he": "give → gave. הסדר: נושא + פועל + למי + מה: My parents gave me a new bike." }
+    },
+    {
+      "id": "e12", "type": "dictation", "skill": "listening",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "I lost my keys, but my brother found them under the sofa.",
+      "answers": ["I lost my keys, but my brother found them under the sofa."],
+      "hint": { "en": "There are two irregular past forms: lose → ? and find → ?", "he": "יש במשפט שתי צורות עבר חריגות: lose → ? ו-find → ?" },
+      "explanation": { "en": "lose → lost, find → found. Both are in the 'learn by heart' group.", "he": "lose → lost, ‏find → found. שניהם בקבוצת 'לזכור בעל פה'." }
+    },
+    {
+      "id": "e13", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "נסעתי לירושלים באוטובוס.",
+      "answers": [
+        "I went to Jerusalem by bus.",
+        "I went to Jerusalem on the bus.",
+        "I went to Jerusalem on a bus.",
+        "I went by bus to Jerusalem.",
+        "I took the bus to Jerusalem.",
+        "I took a bus to Jerusalem.",
+        "I travelled to Jerusalem by bus.",
+        "I traveled to Jerusalem by bus.",
+        "I rode the bus to Jerusalem."
+      ],
+      "wrong_feedback": [
+        { "match": "drove", "feedback": { "en": "drove means you were the driver. On a bus, say I went by bus or I took the bus.", "he": "drove אומר שאתם נהגתם. כשנוסעים באוטובוס אומרים I went by bus או I took the bus." }, "error_type": "false-friend" },
+        { "match": "I go to Jerusalem by bus.", "feedback": { "en": "The sentence is about the past, so use went.", "he": "המשפט מתאר עבר, ולכן צריך went." }, "error_type": "tense-choice" },
+        { "match": "goed", "feedback": { "en": "go is irregular: go → went.", "he": "go הוא פועל חריג: go → went." }, "error_type": "verb-form" },
+        { "match": "I went to Jerusalem in bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" },
+        { "match": "I went to Jerusalem with the bus.", "feedback": { "en": "We say by bus or on the bus.", "he": "באנגלית אומרים by bus או on the bus." }, "error_type": "preposition" }
+      ],
+      "hint": { "en": "Were you the driver? If not, don't use drove.", "he": "האם אתם נהגתם? אם לא, אל תשתמשו ב-drove." },
+      "explanation": { "en": "There is no single English verb for this idea: say went (by bus), took (the bus) or travelled. drove is only for the driver.", "he": "לפועל 'נסע' אין מילה אחת באנגלית: went by bus, ‏took the bus או travelled. את drove אומרים רק כשאתם הנהגים." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "I bought a ticket and caught the last train home.",
+      "focus": { "en": "bought and caught rhyme: /bɔːt/, /kɔːt/. The gh is silent.", "he": "bought ו-caught מתחרזים: /bɔːt/, /kɔːt/. האותיות gh לא נהגות." },
+      "explanation": { "en": "All the -ought/-aught verbs end in the same sound, which makes them easier to remember.", "he": "כל הפעלים בקבוצת ought/aught מסתיימים באותו צליל, וזה עוזר לזכור אותם." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing",
+      "prompt": { "en": "Write about your last weekend.", "he": "כתבו על סוף השבוע האחרון שלכם." },
+      "task": { "en": "Write 5-6 sentences about your last weekend or a recent day out: where you went, who you saw and what you did. Use at least five irregular verbs (for example went, saw, bought, ate, met, took).", "he": "כתבו 5-6 משפטים על סוף השבוע האחרון או על יום בילוי לאחרונה: לאן הלכתם, את מי פגשתם ומה עשיתם. השתמשו לפחות בחמישה פעלים חריגים (למשל went, saw, bought, ate, met, took)." },
+      "min_words": 40,
+      "max_words": 100,
+      "model_answer": "Last Saturday I went to Tel Aviv with my sister. We took the train in the morning and met our cousin Daniel at the port. We ate lunch at a small fish restaurant, and then we walked by the sea. In the afternoon I bought a new jacket. In the evening we saw a funny film. I got home at midnight and slept for ten hours!",
+      "checklist": [
+        { "en": "I used at least five irregular past forms (went, saw, took...).", "he": "השתמשתי לפחות בחמש צורות עבר חריגות (went, saw, took...)." },
+        { "en": "No -ed on irregular verbs (not *goed, *buyed).", "he": "אין ed על פעלים חריגים (לא goed ולא buyed)." },
+        { "en": "I used past time words: last Saturday, yesterday, in the evening.", "he": "השתמשתי במילות זמן של עבר: last Saturday, yesterday, in the evening." },
+        { "en": "Every sentence starts with a capital letter and ends with a full stop.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Irregular verbs have their own past form: go → went, see → saw, buy → bought.", "he": "לפעלים חריגים יש צורת עבר משלהם: go → went, see → saw, buy → bought." },
+      { "en": "The past form is the same for every person: I went, she went, they went.", "he": "צורת העבר זהה בכל הגופים: I went, she went, they went." },
+      { "en": "Learn them in groups: bought/brought/thought/caught · knew/grew/flew · wrote/drove/spoke.", "he": "לומדים אותם בקבוצות: bought/brought/thought/caught · knew/grew/flew · wrote/drove/spoke." },
+      { "en": "Never add -ed to an irregular verb: not *goed, *buyed or *wented.", "he": "אף פעם לא מוסיפים ed לפועל חריג: לא goed, לא buyed ולא wented." },
+      { "en": "Watch the sounds: said /sed/, read (past) /red/, ran /ræn/.", "he": "שימו לב להגייה: said /sed/, ‏read בעבר /red/, ‏ran /ræn/." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

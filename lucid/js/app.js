@@ -105,6 +105,12 @@ async function boot() {
     }
   });
   router.onRoute = drawShell;
+  // "עב" buttons reveal the Hebrew next to English content when Hebrew support is off (one listener for all views).
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-reveal-he]');
+    const he = b?.nextElementSibling;
+    if (he) { he.hidden = !he.hidden; b.setAttribute('aria-expanded', String(!he.hidden)); }
+  });
   document.addEventListener('visibilitychange', () => {
     sessionTick();
     if (document.visibilityState === 'hidden') { store.flush(); if (auth.signedIn) sync?.run().catch(() => {}); }

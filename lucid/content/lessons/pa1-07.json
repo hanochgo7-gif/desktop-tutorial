@@ -1,0 +1,253 @@
+{
+  "id": "pa1-07",
+  "level": "PreA1",
+  "title_en": "Colours and things around me",
+  "title_he": "צבעים וחפצים",
+  "topics": ["colors-objects", "articles-a-an", "demonstratives"],
+  "minutes": 18,
+  "objectives": [
+    { "en": "I can name everyday objects and their colours: a red bag, a grey laptop.", "he": "אני יודע/ת לומר שמות של חפצים יומיומיים ואת הצבע שלהם: a red bag, a grey laptop." },
+    { "en": "I can choose a or an by the first sound: a key, an umbrella.", "he": "אני יודע/ת לבחור בין a ל-an לפי הצליל הראשון: a key, an umbrella." },
+    { "en": "I can use this, that, these and those, and ask What is this?", "he": "אני יודע/ת להשתמש ב-this, that, these, those ולשאול What is this?" }
+  ],
+  "warmup": { "en": "Look around you. Can you name three things in English? What colour are they?", "he": "הסתכלו סביבכם. אילו שלושה חפצים אתם יודעים לומר באנגלית? ובאיזה צבע הם?" },
+  "explanation": [
+    { "type": "p", "en": "It's a pen. It's an umbrella. Before one thing, English needs a or an. Hebrew has no word for this, but English always uses it.", "he": "It's a pen. It's an umbrella. לפני דבר אחד (ביחיד) באנגלית חייבים a או an. בעברית אין מילה כזאת ('זה עט'), אבל באנגלית היא תמיד שם." },
+    { "type": "rule", "en": "a + consonant sound: a bag, a key, a university (it starts with a 'y' sound). an + vowel sound: an apple, an egg, an umbrella, an hour (the h is silent). Listen to the sound, not the letter.", "he": "a לפני צליל עיצור: a bag, a key, a university (נשמע 'יוּ'). an לפני צליל תנועה: an apple, an egg, an umbrella, an hour (ה-h לא נשמעת). קובע הצליל, לא האות." },
+    { "type": "table", "headers": ["How many?", "Near me (here)", "Far from me (there)"], "rows": [
+      ["One thing", "this (זה / זאת)", "that (ההוא / ההיא)"],
+      ["Two or more", "these (האלה)", "those (ההם / ההן)"]
+    ] },
+    { "type": "rule", "en": "The colour comes before the thing: a red car, a black bag. And a/an goes with the next word: a red umbrella, an orange bag.", "he": "הצבע בא לפני החפץ: a red car ('מכונית אדומה'), a black bag. ו-a/an נקבע לפי המילה שמיד אחריו: a red umbrella, an orange bag." },
+    { "type": "tip", "en": "Ask: What is this? → It's a key. What are these? → They're my keys.", "he": "שואלים: What is this? ועונים It's a key. על כמה דברים: What are these? – They're my keys." },
+    { "type": "warning", "en": "this and these sound different: this has a short vowel (like sit), these has a long one (like see).", "he": "this ו-these נשמעות שונה: ב-this התנועה קצרה (כמו ב-sit), וב-these ארוכה (כמו ב-see). אם לא מאריכים, השומע לא יודע אם מדובר בדבר אחד או בכמה." }
+  ],
+  "examples": [
+    { "en": "It's a phone.", "he": "זה טלפון." },
+    { "en": "It's an umbrella.", "he": "זו מטרייה." },
+    { "en": "It's a red umbrella.", "he": "זו מטרייה אדומה.", "note": "a/an goes with the next word: a red umbrella, an orange bag" },
+    { "en": "This is my bag.", "he": "זה התיק שלי.", "note": "near me" },
+    { "en": "That car is blue.", "he": "המכונית ההיא כחולה.", "note": "far from me" },
+    { "en": "These keys are black.", "he": "המפתחות האלה שחורים." },
+    { "en": "Those shoes are white.", "he": "הנעליים ההן לבנות." },
+    { "en": "What is this? It's a key.", "he": "מה זה? זה מפתח." },
+    { "en": "a university, an hour", "he": "אוניברסיטה, שעה", "note": "listen to the first sound, not the first letter" }
+  ],
+  "vocab": [
+    { "word": "red", "pos": "adjective", "he": "אדום/ה", "def": "the colour of blood or a tomato", "example": "It's a red car.", "ipa": "/red/", "level": "PreA1" },
+    { "word": "blue", "pos": "adjective", "he": "כחול/ה", "def": "the colour of the sky on a sunny day", "example": "That car is blue.", "ipa": "/bluː/", "level": "PreA1" },
+    { "word": "green", "pos": "adjective", "he": "ירוק/ה", "def": "the colour of grass and leaves", "example": "This bottle is green.", "ipa": "/ɡriːn/", "level": "PreA1" },
+    { "word": "yellow", "pos": "adjective", "he": "צהוב/ה", "def": "the colour of a lemon or the sun", "example": "My umbrella is yellow.", "ipa": "/ˈjeləʊ/", "level": "PreA1" },
+    { "word": "black", "pos": "adjective", "he": "שחור/ה", "def": "the darkest colour, like the night", "example": "These keys are black.", "ipa": "/blæk/", "level": "PreA1" },
+    { "word": "white", "pos": "adjective", "he": "לבן/לבנה", "def": "the colour of milk or snow", "example": "Those shoes are white.", "ipa": "/waɪt/", "level": "PreA1" },
+    { "word": "orange", "pos": "adjective", "he": "כתום/ה", "def": "the colour between red and yellow (also a round fruit)", "example": "It's an orange bag.", "ipa": "/ˈɒrɪndʒ/", "level": "PreA1" },
+    { "word": "grey", "pos": "adjective", "he": "אפור/ה", "def": "the colour between black and white (US spelling: gray)", "example": "My laptop is grey.", "ipa": "/ɡreɪ/", "level": "PreA1" },
+    { "word": "bag", "pos": "noun", "he": "תיק", "def": "a thing you carry your things in", "example": "This is my bag.", "ipa": "/bæɡ/", "level": "PreA1" },
+    { "word": "key", "pos": "noun", "he": "מפתח", "def": "a small metal thing that opens a door or a lock", "example": "Is this your key?", "ipa": "/kiː/", "level": "PreA1" },
+    { "word": "umbrella", "pos": "noun", "he": "מטרייה", "def": "a thing you hold over your head when it rains", "example": "It's an umbrella.", "ipa": "/ʌmˈbrelə/", "level": "PreA1" },
+    { "word": "bottle", "pos": "noun", "he": "בקבוק", "def": "a tall container for water or other drinks", "example": "That is a bottle.", "ipa": "/ˈbɒtl/", "level": "PreA1" },
+    { "word": "wallet", "pos": "noun", "he": "ארנק", "def": "a small flat case for money and cards", "example": "My wallet is black.", "ipa": "/ˈwɒlɪt/", "level": "PreA1" },
+    { "word": "laptop", "pos": "noun", "he": "מחשב נייד", "def": "a small computer you can carry", "example": "It's a grey laptop.", "ipa": "/ˈlæptɒp/", "level": "PreA1" },
+    { "word": "shoe", "pos": "noun", "he": "נעל", "def": "a thing you wear on your foot", "example": "These shoes are new.", "ipa": "/ʃuː/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no word for a/an, and 'one' is sometimes used like an article. English works differently, so put a or an before one thing: It's a pen (not 'It's pen' or 'It's one pen'). Use one only for counting.", "he": "בעברית אין מילה ל-a/an ('זה עט'), ולפעמים 'אחד' משמש כמו תווית ('בחור אחד שאל אותי'). באנגלית זה עובד אחרת: לפני דבר אחד באים a או an – It's a pen, לא It's pen ולא It's one pen. את one שומרים לספירה.", "error_type": "article" },
+    { "en": "In Hebrew the adjective comes after the noun. English works differently, so the colour comes first: a red car (not 'a car red').", "he": "בעברית שם התואר בא אחרי שם העצם ('מכונית אדומה'). באנגלית הסדר הפוך: a red car, לא a car red.", "error_type": "word-order" },
+    { "en": "Hebrew has one 'ee' vowel, but English has a short /ɪ/ and a long /iː/, so this and these can sound the same. Make these long: /ðiːz/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן this ו-these עלולות להישמע אותו דבר. ב-these מאריכים: /ðiːz/.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "colors-objects",
+      "prompt": { "en": "Match each colour with its Hebrew name.", "he": "התאימו כל צבע לשמו בעברית." },
+      "pairs": [["red", "אדום"], ["blue", "כחול"], ["green", "ירוק"], ["yellow", "צהוב"], ["black", "שחור"], ["white", "לבן"]],
+      "explanation": { "en": "Colours are adjectives: they describe a noun (a red car).", "he": "צבעים הם שמות תואר: הם מתארים שם עצם (a red car)." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "colors-objects",
+      "prompt": { "en": "Listen and choose the right answer.", "he": "הקשיבו ובחרו את התשובה הנכונה." },
+      "audio_text": "What's this? It's a grey laptop.",
+      "question": "What is it?",
+      "options": ["A green laptop.", "A grey laptop.", "A grey bag."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Listen again: grey /ɡreɪ/, not green /ɡriːn/.", "he": "הקשיבו שוב: grey ('גְרֵיי'), לא green ('גְרִין')." },
+        "2": { "en": "The colour is right, but the thing is a laptop, not a bag.", "he": "הצבע נכון, אבל החפץ הוא laptop ולא bag." }
+      },
+      "explanation": { "en": "It's a grey laptop: a + colour + thing.", "he": "It's a grey laptop: a + צבע + חפץ." }
+    },
+    {
+      "id": "e3", "type": "categorize", "skill": "grammar", "topic": "articles-a-an",
+      "prompt": { "en": "a or an? Say each word in your head and listen to the first sound.", "he": "a או an? אמרו כל מילה בלב והקשיבו לצליל הראשון." },
+      "categories": ["a", "an"],
+      "items": [
+        { "text": "apple", "category": "an" },
+        { "text": "key", "category": "a" },
+        { "text": "umbrella", "category": "an" },
+        { "text": "hour", "category": "an" },
+        { "text": "bottle", "category": "a" },
+        { "text": "university", "category": "a" },
+        { "text": "orange bag", "category": "an" },
+        { "text": "red umbrella", "category": "a" }
+      ],
+      "hint": { "en": "With two words, the first one decides: orange bag → orange.", "he": "בצירוף של שתי מילים קובעת המילה הראשונה: ב-orange bag קובעת orange." },
+      "explanation": { "en": "an before a vowel sound: apple, umbrella, hour (silent h), orange bag. a before a consonant sound: key, bottle, university (a 'y' sound), red umbrella.", "he": "an לפני צליל תנועה: apple, umbrella, hour (ה-h לא נשמעת), orange bag. a לפני צליל עיצור: key, bottle, university (נשמע 'יוּ'), red umbrella." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "articles-a-an",
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
+      "question": "What is this?",
+      "options": ["It's an umbrella.", "It's a umbrella.", "It's umbrella.", "It's one umbrella."],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "umbrella starts with a vowel sound, so use an.", "he": "umbrella מתחילה בצליל תנועה, ולכן an." },
+        "2": { "en": "One thing needs a or an: It's an umbrella.", "he": "לפני דבר אחד חייבים a או an: It's an umbrella." },
+        "3": { "en": "We use one for counting (one umbrella, two umbrellas). To say what something is, use a/an.", "he": "one משמש לספירה (one umbrella, two umbrellas). כדי לומר מה הדבר, משתמשים ב-a/an." }
+      },
+      "option_errors": { "1": "article", "2": "article", "3": "article" },
+      "explanation": { "en": "What is this? It's a/an + thing. umbrella starts with a vowel sound: an umbrella.", "he": "על What is this? עונים It's a/an + החפץ. umbrella מתחילה בצליל תנועה, ולכן an umbrella." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "demonstratives",
+      "prompt": { "en": "Choose the right word.", "he": "בחרו את המילה המתאימה." },
+      "question": "The keys are in my hand. ___ are my keys.",
+      "options": ["This", "That", "These", "Those"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "This is for one thing. Keys = two or more.", "he": "this הוא לדבר אחד. keys זה יותר מאחד." },
+        "1": { "en": "That is for one thing far away.", "he": "that הוא לדבר אחד רחוק." },
+        "3": { "en": "Those is for things far from you. The keys are in your hand, so they're near.", "he": "those הוא לדברים רחוקים. המפתחות ביד – כלומר קרובים." }
+      },
+      "option_errors": { "0": "agreement", "1": "agreement", "3": "word-choice" },
+      "explanation": { "en": "Near + two or more = these.", "he": "קרוב + יותר מאחד = these." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "colors-objects",
+      "prompt": { "en": "Choose the correct sentence.", "he": "בחרו את המשפט הנכון." },
+      "question": "Look at Lior's car!",
+      "options": ["It's a car red.", "It's red a car.", "It's an red car.", "It's a red car."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "In English the colour comes before the thing: a red car.", "he": "באנגלית הצבע בא לפני החפץ: a red car." },
+        "1": { "en": "a comes first, then the colour, then the thing: a red car.", "he": "קודם a, אחר כך הצבע ואז החפץ: a red car." },
+        "2": { "en": "red starts with a consonant sound, so use a: a red car.", "he": "red מתחילה בצליל עיצור, ולכן a: a red car." }
+      },
+      "option_errors": { "0": "word-order", "1": "word-order", "2": "article" },
+      "explanation": { "en": "a/an + colour + thing: a red car.", "he": "a/an + צבע + חפץ: a red car." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "articles-a-an",
+      "prompt": { "en": "Complete with a or an.", "he": "השלימו ב-a או ב-an." },
+      "text": "This is ___ egg, that is ___ bottle, and this is ___ old key.",
+      "word_bank": ["a", "an"],
+      "answers": [["an"], ["a"], ["an"]],
+      "hint": { "en": "Look at the next word, even if it's an adjective: old key.", "he": "הסתכלו על המילה הבאה, גם אם היא שם תואר: old key." },
+      "wrong_feedback": [
+        { "match": "a", "feedback": { "en": "egg and old start with a vowel sound, so an: an egg, an old key.", "he": "egg ו-old מתחילות בצליל תנועה, ולכן an: an egg, an old key." }, "error_type": "article" },
+        { "match": "an", "feedback": { "en": "bottle starts with a consonant sound /b/, so a: a bottle.", "he": "bottle מתחילה בצליל עיצור /b/, ולכן a: a bottle." }, "error_type": "article" }
+      ],
+      "explanation": { "en": "an egg · a bottle · an old key. The word right after a/an decides.", "he": "an egg · a bottle · an old key. המילה שמיד אחרי a/an היא שקובעת." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar", "topic": "demonstratives",
+      "prompt": { "en": "Complete with this, that, these or those.", "he": "השלימו ב-this, that, these או those." },
+      "text": "This bag here is black, and ___ bag over there is white.",
+      "word_bank": ["this", "that", "these", "those"],
+      "answers": [["that"]],
+      "wrong_feedback": [
+        { "match": "this", "feedback": { "en": "over there = far from you, so that.", "he": "over there = רחוק, ולכן that." }, "error_type": "word-choice" },
+        { "match": "those", "feedback": { "en": "bag = one thing, so that, not those.", "he": "bag זה דבר אחד, ולכן that ולא those." }, "error_type": "agreement" },
+        { "match": "these", "feedback": { "en": "these is for two or more things near you. One bag far away: that.", "he": "these הוא לכמה דברים קרובים. תיק אחד רחוק: that." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "One thing: here → this (near); over there → that (far).", "he": "דבר אחד: here (כאן) – this; over there (שם) – that." }
+    },
+    {
+      "id": "e9", "type": "order", "skill": "grammar", "topic": "colors-objects",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["That", "is", "an", "orange", "umbrella"],
+      "answers": ["Is that an orange umbrella?"],
+      "explanation": { "en": "That is + an + colour + thing. (As a question: Is that an orange umbrella?)", "he": "That is + an + צבע + חפץ. (וגם כשאלה: Is that an orange umbrella?)" }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "grammar", "topic": "colors-objects",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "זה תיק שחור",
+      "answers": ["It's a black bag.", "This is a black bag.", "That's a black bag."],
+      "hint": { "en": "Think about two things Hebrew doesn't show: a, and where the colour goes.", "he": "חשבו על שני דברים שלא רואים בעברית: a, ואיפה בא הצבע." },
+      "wrong_feedback": [
+        { "match": "It's a bag black.", "feedback": { "en": "In English the colour comes before the thing: a black bag.", "he": "באנגלית הצבע בא לפני החפץ: a black bag." }, "error_type": "word-order" },
+        { "match": "It's black bag.", "feedback": { "en": "Add a before one thing: It's a black bag.", "he": "לפני דבר אחד מוסיפים a: It's a black bag." }, "error_type": "article" },
+        { "match": "This black bag.", "feedback": { "en": "The verb is missing: This is a black bag.", "he": "חסר הפועל: This is a black bag." }, "error_type": "copula-omission" }
+      ],
+      "explanation": { "en": "Hebrew shows no a and puts the colour last. English needs both changes: It's / This is a black bag.", "he": "בעברית אין a והצבע בא בסוף. באנגלית צריך את שני השינויים: It's a black bag או This is a black bag." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "demonstratives",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "These is my keys.",
+      "answers": ["These are my keys."],
+      "error_type": "agreement",
+      "explanation": { "en": "These = two or more, so are: These are my keys.", "he": "these = יותר מאחד, ולכן are: These are my keys." }
+    },
+    {
+      "id": "e12", "type": "read", "skill": "reading", "topic": "colors-objects",
+      "prompt": { "en": "Read the notice and answer the questions.", "he": "קראו את המודעה וענו על השאלות." },
+      "title": "Lost: a blue bag",
+      "passage": "Hi everyone! My bag is lost. It's a blue bag with a small white star on it.\nIn the bag: a grey laptop, a green bottle, an orange umbrella and my black wallet.\nIs it in your classroom? Please send a message to Maya in Room 12. Thank you!",
+      "questions": [
+        { "type": "mcq", "question": "What colour is Maya's bag?", "options": ["White.", "Blue.", "Grey."], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "White is the colour of the star on the bag.", "he": "לבן הוא צבע הכוכב שעל התיק." },
+            "2": { "en": "Grey is the colour of the laptop.", "he": "אפור הוא צבע המחשב הנייד." }
+          },
+          "explanation": { "en": "It's a blue bag with a small white star on it.", "he": "כתוב: It's a blue bag – תיק כחול." } },
+        { "type": "tf", "statement": "The laptop is grey.", "answer": true,
+          "explanation": { "en": "In the bag: a grey laptop.", "he": "כתוב: a grey laptop – מחשב נייד אפור." } },
+        { "type": "tf", "statement": "The umbrella is green.", "answer": false,
+          "explanation": { "en": "The bottle is green. The umbrella is orange.", "he": "הבקבוק ירוק. המטרייה כתומה." } },
+        { "type": "gap", "text": "Maya's wallet is ___.", "answers": [["black"]],
+          "explanation": { "en": "...and my black wallet.", "he": "כתוב: my black wallet – הארנק השחור שלי." } }
+      ],
+      "explanation": { "en": "In a list, each thing comes with a/an + colour + noun: a grey laptop, an orange umbrella.", "he": "ברשימה כל חפץ בא עם a/an + צבע + שם עצם: a grey laptop, an orange umbrella." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "demonstratives",
+      "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו מה ששמעתם." },
+      "audio_text": "What's that? It's an orange umbrella.",
+      "answers": ["What's that? It's an orange umbrella."],
+      "hint": { "en": "A question and an answer. Listen for a or an.", "he": "שאלה ותשובה. הקשיבו אם יש a או an." },
+      "explanation": { "en": "that = one thing far away. an orange: the n joins the vowel, so it sounds like 'anorange'.", "he": "that = דבר אחד רחוק. an orange: ה-n מתחברת לתנועה שאחריה ונשמעת כמו 'אנוֹרִנְג'." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "demonstratives",
+      "prompt": { "en": "Say it out loud.", "he": "אמרו בקול." },
+      "target": "This is my bag, and these are my keys.",
+      "focus": { "en": "this has a short /ɪ/ (like sit); these has a long /iː/ (like see). For th /ð/, put your tongue between your teeth.", "he": "ב-this התנועה קצרה /ɪ/ (כמו ב-sit), וב-these ארוכה /iː/ (כמו ב-see). ל-th /ð/ שימו את קצה הלשון בין השיניים." },
+      "explanation": { "en": "this /ðɪs/ vs these /ðiːz/: the long vowel tells the listener you mean more than one.", "he": "this /ðɪs/ מול these /ðiːz/: התנועה הארוכה מראה לשומע שמדובר ביותר מדבר אחד." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "colors-objects",
+      "prompt": { "en": "Write about things around you.", "he": "כתבו על חפצים סביבכם." },
+      "task": { "en": "Look around you. Write 4-5 sentences about things near you and far from you. Say what they are and their colours.", "he": "הסתכלו סביבכם. כתבו 4-5 משפטים על חפצים קרובים ורחוקים: מה הם ובאיזה צבע." },
+      "min_words": 16,
+      "max_words": 60,
+      "must_include": ["this", "that"],
+      "model_answer": "This is my laptop. It's a grey laptop. That is an orange umbrella. These are my keys. Those books are blue.",
+      "checklist": [
+        { "en": "a or an before one thing: a grey laptop, an orange umbrella.", "he": "a או an לפני דבר אחד: a grey laptop, an orange umbrella." },
+        { "en": "The colour comes before the thing: a red bag, not a bag red.", "he": "הצבע בא לפני החפץ: a red bag, לא a bag red." },
+        { "en": "this/these for near things, that/those for far things.", "he": "this/these לדברים קרובים, that/those לדברים רחוקים." },
+        { "en": "this/that + is; these/those + are.", "he": "this/that עם is; these/those עם are." }
+      ],
+      "explanation": { "en": "Describing your own space uses everything from this lesson: a/an, colours and this/that/these/those.", "he": "תיאור הסביבה שלכם משלב את כל השיעור: a/an, צבעים ו-this/that/these/those." }
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "a + consonant sound (a key, a university); an + vowel sound (an apple, an hour).", "he": "a לפני צליל עיצור (a key, a university); an לפני צליל תנועה (an apple, an hour)." },
+      { "en": "this/these = near; that/those = far. these and those are for two or more.", "he": "this/these – קרוב; that/those – רחוק. these ו-those לרבים." },
+      { "en": "The colour comes before the thing: a red car.", "he": "הצבע בא לפני החפץ: a red car." },
+      { "en": "What is this? It's a/an... · What are these? They're...", "he": "שאלה ותשובה: What is this? – It's a/an... · ועל כמה דברים: What are these? – They're..." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

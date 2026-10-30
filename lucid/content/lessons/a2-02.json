@@ -1,0 +1,303 @@
+{
+  "id": "a2-02",
+  "level": "A2",
+  "title_en": "Usually vs right now",
+  "title_he": "בדרך כלל מול עכשיו",
+  "topics": ["present-simple-vs-continuous"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can choose between the present simple (habits, facts) and the present continuous (now, temporary).", "he": "אני יודע/ת לבחור בין הווה פשוט (הרגלים, עובדות) להווה מתמשך (עכשיו, זמני)." },
+    { "en": "I can talk about temporary situations with this week and these days.", "he": "אני יכול/ה לדבר על מצבים זמניים בעזרת this week ו-these days." },
+    { "en": "I can use state verbs like know, want and need in the simple form.", "he": "אני משתמש/ת בפעלי מצב כמו know, want, need בצורה הפשוטה." }
+  ],
+  "warmup": { "en": "What do you usually do on Friday mornings? What are you doing right now? Are the two answers the same?", "he": "מה אתם עושים בדרך כלל בשישי בבוקר? ומה אתם עושים ממש עכשיו? האם התשובות זהות?" },
+  "explanation": [
+    { "type": "p", "en": "Omer usually works in an office in Tel Aviv. This week he's working from home because the office is closed. Usually → present simple. This week (a temporary situation) → present continuous.", "he": "עומר עובד בדרך כלל במשרד בתל אביב. השבוע הוא עובד מהבית כי המשרד סגור. בדרך כלל → הווה פשוט. השבוע (מצב זמני) → הווה מתמשך." },
+    { "type": "p", "en": "Hebrew has one present tense: the same form means 'he works' and 'he's working'. In English you have to choose: is it a habit or fact, or is it happening now or only for a short time?", "he": "בעברית יש זמן הווה אחד: 'הוא עובד' מתאים גם ל-he works וגם ל-he's working. באנגלית חייבים לבחור: האם זה הרגל או עובדה, או משהו שקורה עכשיו או לתקופה קצרה?" },
+    { "type": "table", "headers": ["Present simple", "Present continuous"], "rows": [
+      ["habits: I usually walk to school.", "now: Today I'm taking the bus."],
+      ["facts: She works in a bank.", "temporary: She's working from home this week."],
+      ["always true: It rains a lot here in winter.", "in progress: Look, it's raining!"],
+      ["Do you work on Fridays? She doesn't work.", "Are you working now? She isn't working."],
+      ["always, usually, often, never, every day, on Fridays", "now, right now, at the moment, today, this week, these days"]
+    ] },
+    { "type": "rule", "en": "State verbs describe feelings, thoughts and possession, not actions. We don't usually use them with -ing: like, love, hate, want, need, prefer, know, understand, believe, remember, mean, belong.", "he": "פעלי מצב מתארים רגש, מחשבה או בעלות – לא פעולה. בדרך כלל לא משתמשים בהם עם ing: like, love, hate, want, need, prefer, know, understand, believe, remember, mean, belong." },
+    { "type": "warning", "en": "I'm knowing ✗ → I know ✓. Are you understanding? ✗ → Do you understand? ✓. I'm wanting a coffee ✗ → I want a coffee ✓.", "he": "לא I'm knowing אלא I know. לא Are you understanding? אלא Do you understand? לא I'm wanting a coffee אלא I want a coffee." },
+    { "type": "tip", "en": "have = own → simple: I have a car. have = eat, drink or do → -ing is fine: We're having lunch. think = opinion → simple: I think it's great. think = consider → -ing: I'm thinking about it.", "he": "have במובן 'יש לי' → צורה פשוטה: I have a car. have במובן אוכל, שותה או עושה → אפשר ing: We're having lunch. think במובן דעה → פשוט: I think it's great. think במובן שוקל/ת → ing: I'm thinking about it." }
+  ],
+  "examples": [
+    { "en": "I usually walk to school, but today I'm taking the bus.", "he": "בדרך כלל אני הולך/ת לבית הספר ברגל, אבל היום אני נוסע/ת באוטובוס." },
+    { "en": "Kenji lives in Osaka, but he's staying with friends in Tel Aviv this month.", "he": "קנג'י גר באוסקה, אבל החודש הוא מתארח אצל חברים בתל אביב.", "note": "temporary situation" },
+    { "en": "Sara doesn't usually drink coffee. Why is she drinking one now?", "he": "שרה לא שותה קפה בדרך כלל. למה היא שותה עכשיו?" },
+    { "en": "Do you understand the question?", "he": "את/ה מבין/ה את השאלה?", "note": "understand: state verb, no -ing" },
+    { "en": "I need a break. I'm working too hard these days.", "he": "אני צריך/ה הפסקה. אני עובד/ת קשה מדי בתקופה הזאת.", "note": "need = state; these days = temporary" },
+    { "en": "We're having dinner – can I call you back?", "he": "אנחנו אוכלים ארוחת ערב – אפשר לחזור אליך?", "note": "have = eat, so -ing is fine" },
+    { "en": "Priya knows the answer, but she isn't saying anything.", "he": "פריה יודעת את התשובה, אבל היא לא אומרת כלום." },
+    { "en": "It rains a lot here in winter, but it isn't raining today.", "he": "יורד כאן הרבה גשם בחורף, אבל היום לא יורד גשם." }
+  ],
+  "vocab": [
+    { "word": "these days", "pos": "phrase", "he": "בתקופה הזאת, בימים אלה", "def": "at the present time; in the period around now", "example": "I'm reading a lot these days.", "ipa": "/ˈðiːz deɪz/", "collocations": ["busy these days", "What are you doing these days?"], "level": "A2" },
+    { "word": "temporary", "pos": "adjective", "he": "זמני", "def": "lasting for a short time only", "example": "It's only a temporary job.", "ipa": "/ˈtemprəri/", "collocations": ["a temporary job", "a temporary situation"], "level": "A2" },
+    { "word": "stay with", "pos": "verb", "he": "להתארח אצל, לגור זמנית אצל", "def": "to live in someone's home for a short time", "example": "I'm staying with my cousin this week.", "ipa": "/ˈsteɪ wɪð/", "collocations": ["stay with friends", "stay with family"], "level": "A2" },
+    { "word": "take a break", "pos": "phrase", "he": "לעשות הפסקה", "def": "to stop what you are doing for a short rest", "example": "Let's take a break for ten minutes.", "ipa": "/ˌteɪk ə ˈbreɪk/", "collocations": ["take a short break", "take a coffee break"], "level": "A2" },
+    { "word": "part-time", "pos": "adjective", "he": "(ב)משרה חלקית", "def": "working only some hours of the day or week", "example": "She works part-time in a café.", "ipa": "/ˌpɑːt ˈtaɪm/", "collocations": ["a part-time job", "work part-time"], "level": "A2" },
+    { "word": "work from home", "pos": "phrase", "he": "לעבוד מהבית", "def": "to do your job at home, not in an office", "example": "My dad works from home on Fridays.", "ipa": "/ˌwɜːk frəm ˈhəʊm/", "collocations": ["work from home on Fridays", "work from home this week"], "level": "A2" },
+    { "word": "belong to", "pos": "verb", "he": "להיות שייך ל-", "def": "to be someone's; to be owned by someone", "example": "This phone belongs to Lior.", "ipa": "/bɪˈlɒŋ tə/", "collocations": ["belong to someone", "belong to a club"], "level": "A2" },
+    { "word": "believe", "pos": "verb", "he": "להאמין", "def": "to think that something is true", "example": "I don't believe it!", "ipa": "/bɪˈliːv/", "collocations": ["believe in yourself", "I can't believe it"], "level": "A2" },
+    { "word": "prefer", "pos": "verb", "he": "להעדיף", "def": "to like one thing more than another", "example": "I prefer tea to coffee.", "ipa": "/prɪˈfɜː(r)/", "collocations": ["prefer tea to coffee", "prefer to stay home"], "level": "A2" },
+    { "word": "remember", "pos": "verb", "he": "לזכור", "def": "to keep something in your mind; not to forget", "example": "Do you remember his name?", "ipa": "/rɪˈmembə(r)/", "collocations": ["remember someone's name", "remember to call"], "level": "A2" },
+    { "word": "mean", "pos": "verb", "he": "להתכוון; פירושו", "def": "to have a meaning; to want to say", "example": "What does this word mean?", "ipa": "/miːn/", "collocations": ["What does it mean?", "I know what you mean"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew one present form covers habits and things happening now, so it is easy to use one English form for both. English splits them: I work at a café (habit) / I'm working at the moment (now).", "he": "בעברית אותה צורת הווה משמשת להרגלים ולמה שקורה עכשיו, ולכן קל להשתמש בצורה אחת באנגלית לשניהם. באנגלית הן נפרדות: I work at a café (הרגל) / I'm working at the moment (עכשיו).", "error_type": "tense-choice" },
+    { "en": "In Hebrew a question can keep statement word order with no helper verb, so English questions can lose do or are. English needs a helper before the subject, and it changes with the meaning: Do you work on Fridays? (habit) / Are you working today? (now).", "he": "בעברית שאלה יכולה להיות משפט רגיל עם אינטונציה של שאלה ('אתה עובד היום?'). באנגלית צריך פועל עזר לפני הנושא, והוא משתנה לפי המשמעות: Do you work on Fridays? (הרגל) / Are you working today? (עכשיו).", "error_type": "do-support" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Habit or now? Sort the time expressions.", "he": "הרגל או עכשיו? מיינו את ביטויי הזמן." },
+      "categories": ["habit or fact: present simple", "now or temporary: present continuous"],
+      "items": [
+        { "text": "every Saturday", "category": "habit or fact: present simple" },
+        { "text": "usually", "category": "habit or fact: present simple" },
+        { "text": "never", "category": "habit or fact: present simple" },
+        { "text": "on Mondays", "category": "habit or fact: present simple" },
+        { "text": "at the moment", "category": "now or temporary: present continuous" },
+        { "text": "this week", "category": "now or temporary: present continuous" },
+        { "text": "right now", "category": "now or temporary: present continuous" },
+        { "text": "these days", "category": "now or temporary: present continuous" }
+      ],
+      "explanation": { "en": "Words for repeated actions (every, usually, never, on Mondays) go with the present simple. Words for now or a short period (at the moment, this week, these days) go with the present continuous.", "he": "מילים של חזרה והרגל (every, usually, never, on Mondays) הולכות עם הווה פשוט. מילים של עכשיו או של תקופה קצרה (at the moment, this week, these days) הולכות עם הווה מתמשך." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Choose the correct form.", "he": "בחרו את הצורה הנכונה." },
+      "question": "My brother ___ in a café on weekends.",
+      "options": ["works", "is working", "work", "working"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "On weekends is a regular routine, so we use the present simple: works.", "he": "on weekends מתאר הרגל קבוע, ולכן הווה פשוט: works." },
+        "2": { "en": "My brother = he, so the verb needs -s: works.", "he": "My brother הוא he, ולכן הפועל מקבל s: works." },
+        "3": { "en": "Working alone is not a complete verb. For a routine, use the present simple: works.", "he": "working לבד הוא לא פועל שלם. להרגל משתמשים בהווה פשוט: works." }
+      },
+      "option_errors": { "1": "tense-choice", "2": "third-person-s", "3": "verb-form" },
+      "explanation": { "en": "A routine (on weekends) → present simple. He/she/it → verb + -s: works.", "he": "הרגל (on weekends) → הווה פשוט. עם he/she/it הפועל מקבל s: works." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "I usually work at the café on Dizengoff Street, but this week I'm helping at our new café near the beach.",
+      "question": "Where is the speaker working this week?",
+      "options": ["On Dizengoff Street", "Near the beach", "At home", "At the university"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "That's where the speaker usually works. This week is different.", "he": "שם הדובר/ת עובד/ת בדרך כלל. השבוע זה שונה." },
+        "2": { "en": "The speaker doesn't mention home.", "he": "הדובר/ת לא מזכיר/ה את הבית." },
+        "3": { "en": "The speaker doesn't mention a university.", "he": "הדובר/ת לא מזכיר/ה אוניברסיטה." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "'I usually work...' → the normal place (Dizengoff Street). 'This week I'm helping...' → a temporary place: the new café near the beach.", "he": "'I usually work...' – המקום הקבוע (רחוב דיזנגוף). 'This week I'm helping...' – מקום זמני: בית הקפה החדש ליד החוף." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Choose the correct form.", "he": "בחרו את הצורה הנכונה." },
+      "question": "Sorry, I ___ what you mean.",
+      "options": ["am not understanding", "not understand", "don't understand", "doesn't understand"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Understand is a state verb, so we don't usually use it with -ing.", "he": "understand הוא פועל מצב, ולכן בדרך כלל לא משתמשים בו עם ing." },
+        "1": { "en": "The present simple negative needs do: I don't understand.", "he": "שלילה בהווה פשוט צריכה do: I don't understand." },
+        "3": { "en": "Doesn't is for he, she and it. With I, use don't.", "he": "doesn't בא עם he, she, it. עם I משתמשים ב-don't." }
+      },
+      "option_errors": { "0": "tense-choice", "1": "do-support", "3": "agreement" },
+      "explanation": { "en": "Understand describes a state of mind, not an action, so we use the simple form: I don't understand.", "he": "understand מתאר מצב של המחשבה ולא פעולה, ולכן משתמשים בצורה הפשוטה: I don't understand." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Choose the correct form.", "he": "בחרו את הצורה הנכונה." },
+      "question": "Can I call you back? We ___ dinner right now.",
+      "options": ["have", "are having", "has", "having"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Here have means eat, which is an action. It's happening right now, so: are having.", "he": "כאן have פירושו לאכול – זו פעולה. היא קורית עכשיו, ולכן are having." },
+        "2": { "en": "Has is for he, she and it, and this action is happening now: we are having.", "he": "has בא עם he, she, it, והפעולה קורית עכשיו: we are having." },
+        "3": { "en": "Are is missing: We are having dinner.", "he": "חסר are: We are having dinner." }
+      },
+      "option_errors": { "0": "tense-choice", "2": "agreement", "3": "copula-omission" },
+      "explanation": { "en": "have = own → no -ing (I have a car). have = eat → an action, so -ing is fine: We're having dinner.", "he": "have במובן 'יש לי' → בלי ing (I have a car). have במובן לאכול → פעולה, ולכן אפשר ing: We're having dinner." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Complete with the present simple or the present continuous of the verb in brackets.", "he": "השלימו בהווה פשוט או בהווה מתמשך של הפועל שבסוגריים." },
+      "text": "Kenji usually ___ (take) the train to work, but this week he ___ (drive) because the trains aren't running.",
+      "answers": [["takes"], ["is driving", "'s driving"]],
+      "wrong_feedback": [
+        { "match": "is taking", "feedback": { "en": "Usually = a habit → present simple: takes.", "he": "usually = הרגל → הווה פשוט: takes." }, "error_type": "tense-choice" },
+        { "match": "drives", "feedback": { "en": "This week = temporary → present continuous: is driving.", "he": "this week = מצב זמני → הווה מתמשך: is driving." }, "error_type": "tense-choice" },
+        { "match": "take", "feedback": { "en": "Kenji = he, so add -s: takes.", "he": "Kenji הוא he, ולכן מוסיפים s: takes." }, "error_type": "third-person-s" }
+      ],
+      "hint": { "en": "Look at the time words: usually and this week.", "he": "שימו לב למילות הזמן: usually ו-this week." },
+      "explanation": { "en": "usually → habit → takes. this week → temporary → is driving.", "he": "usually → הרגל → takes. this week → זמני → is driving." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Complete the conversation. Use the verbs in brackets and add a helper word where you need one.", "he": "השלימו את השיחה. השתמשו בפעלים שבסוגריים והוסיפו פועל עזר במקום שצריך." },
+      "text": "A: ___ you ___ (know) where my keys are? B: No, sorry. I ___ (look) for my phone too!",
+      "answers": [["Do"], ["know"], ["'m looking", "am looking"]],
+      "wrong_feedback": [
+        { "match": "Are", "feedback": { "en": "Know is a state verb, so the question uses do: Do you know...?", "he": "know הוא פועל מצב, ולכן השאלה נבנית עם do: Do you know...?" }, "error_type": "tense-choice" },
+        { "match": "knowing", "feedback": { "en": "We don't usually use know with -ing: Do you know...?", "he": "בדרך כלל לא משתמשים ב-know עם ing: Do you know...?" }, "error_type": "tense-choice" },
+        { "match": "look", "feedback": { "en": "B is searching right now, so: am looking (I'm looking).", "he": "B מחפש/ת ממש עכשיו, ולכן am looking (I'm looking)." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "Know is a state verb. The last gap is an action happening now: I + am + look-ing.", "he": "know הוא פועל מצב. הרווח האחרון הוא פעולה שקורית עכשיו: I + am + look עם ing." },
+      "explanation": { "en": "Do you know...? (state verb → simple). I'm looking for... (action in progress → continuous).", "he": "Do you know...? – פועל מצב, ולכן הווה פשוט. I'm looking for... – פעולה שמתרחשת עכשיו, ולכן הווה מתמשך." }
+    },
+    {
+      "id": "e8", "type": "mcq", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Choose the correct sentence.", "he": "בחרו את המשפט הנכון." },
+      "question": "Whose bag is this?",
+      "options": ["This bag is belonging to Amir.", "This bag belong to Amir.", "This bag is belong to Amir.", "This bag belongs to Amir."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Belong is a state verb: no -ing.", "he": "belong הוא פועל מצב: בלי ing." },
+        "1": { "en": "This bag = it, so add -s: belongs.", "he": "This bag הוא it, ולכן מוסיפים s: belongs." },
+        "2": { "en": "Don't put is before a simple verb: This bag belongs.", "he": "לא שמים is לפני פועל בהווה פשוט: This bag belongs." }
+      },
+      "option_errors": { "0": "tense-choice", "1": "third-person-s", "2": "verb-form" },
+      "explanation": { "en": "Belong (possession) is a state verb → present simple, with -s after it: belongs.", "he": "belong (בעלות) הוא פועל מצב → הווה פשוט, ועם it מוסיפים s: belongs." }
+    },
+    {
+      "id": "e9", "type": "correct", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Are you knowing where Daniel is?",
+      "answers": ["Do you know where Daniel is?"],
+      "error_type": "tense-choice",
+      "hint": { "en": "Know is a state verb. Change the first two words.", "he": "know הוא פועל מצב. שנו את שתי המילים הראשונות." },
+      "explanation": { "en": "Know is a state verb, so we use the present simple: Do you know...?", "he": "know הוא פועל מצב, ולכן משתמשים בהווה פשוט: Do you know...?" }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Omer is usually going to the gym after work.",
+      "answers": ["Omer usually goes to the gym after work.", "Usually Omer goes to the gym after work.", "Usually, Omer goes to the gym after work."],
+      "error_type": "tense-choice",
+      "hint": { "en": "Usually tells you it's a habit.", "he": "המילה usually מראה שזה הרגל." },
+      "explanation": { "en": "Usually = a habit → present simple: Omer usually goes. Usually comes before the main verb.", "he": "usually = הרגל → הווה פשוט: Omer usually goes. המילה usually באה לפני הפועל." }
+    },
+    {
+      "id": "e11", "type": "order", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["What", "do", "you", "usually", "do", "on", "Fridays?"],
+      "hint": { "en": "do appears twice: first as a helper, then as the main verb.", "he": "do מופיע פעמיים: פעם כפועל עזר ופעם כפועל עיקרי." },
+      "explanation": { "en": "A habit question: What + do + you + usually + verb? Compare: What are you doing now? (now).", "he": "שאלה על הרגל: What + do + you + usually + פועל? השוו: What are you doing now? – שאלה על עכשיו." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "היא עובדת מהבית השבוע",
+      "answers": [
+        "She is working from home this week.",
+        "She is working at home this week.",
+        "This week she is working from home.",
+        "This week, she is working from home.",
+        "This week she is working at home.",
+        "This week, she is working at home."
+      ],
+      "wrong_feedback": [
+        { "match": "She works from home this week.", "feedback": { "en": "In Hebrew one form covers both. In English, this week = a temporary situation → present continuous: She's working from home this week.", "he": "בעברית צורה אחת מתאימה לשני המצבים. באנגלית this week = מצב זמני → הווה מתמשך: She's working from home this week." }, "error_type": "tense-choice" },
+        { "match": "She working from home this week.", "feedback": { "en": "Add is: She is (She's) working.", "he": "הוסיפו is: She is (She's) working." }, "error_type": "copula-omission" },
+        { "match": "She is work from home this week.", "feedback": { "en": "After is, use -ing: She is working.", "he": "אחרי is צריך ing: She is working." }, "error_type": "verb-form" }
+      ],
+      "hint": { "en": "This week = only for now. Which tense shows a temporary situation?", "he": "השבוע = רק לתקופה הזאת. איזה זמן מתאר מצב זמני?" },
+      "explanation": { "en": "This week shows a temporary situation, so English uses the present continuous: She's working from home this week.", "he": "'השבוע' מראה מצב זמני, ולכן באנגלית משתמשים בהווה מתמשך: She's working from home this week." }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Read Priya's email and answer the questions.", "he": "קראו את המייל של פריה וענו על השאלות." },
+      "title": "An email from Haifa",
+      "passage": "Hi Mum,\nI'm writing this on the train to university, so sorry for any typos! Everything is going well. As you know, I usually live with you and Dad in Pune, but this semester I'm living with the Levi family in Haifa. They're really kind. Mr Levi works at a hospital and Mrs Levi teaches music, so the house is always busy.\nOn weekdays I get up at seven and take the train to my classes. My Hebrew is getting better, but I still don't understand fast conversations. This week is special because it's a holiday. The family is cooking all the time, and Noa, their daughter, is teaching me some holiday songs. I love it here, but I miss your food!\nLove,\nPriya",
+      "questions": [
+        {
+          "type": "tf",
+          "statement": "Priya usually lives in Haifa.",
+          "answer": false,
+          "explanation": { "en": "She usually lives in Pune. Haifa is temporary: 'this semester I'm living with the Levi family'.", "he": "בדרך כלל היא גרה בפונה. חיפה היא זמנית: 'this semester I'm living with the Levi family'." }
+        },
+        {
+          "type": "mcq",
+          "question": "What does Mrs Levi do?",
+          "options": ["She works at a hospital.", "She teaches music.", "She studies at university.", "She cooks in a restaurant."],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "That's Mr Levi's job.", "he": "זו העבודה של מר לוי." },
+            "2": { "en": "Priya studies at university, not Mrs Levi.", "he": "פריה לומדת באוניברסיטה, לא גברת לוי." },
+            "3": { "en": "The family is cooking this week for the holiday, but it isn't her job.", "he": "המשפחה מבשלת השבוע בגלל החג, אבל זו לא העבודה שלה." }
+          },
+          "explanation": { "en": "'Mrs Levi teaches music' – present simple, because it's her job (a fact).", "he": "'Mrs Levi teaches music' – הווה פשוט, כי זו העבודה הקבועה שלה (עובדה)." }
+        },
+        {
+          "type": "tf",
+          "statement": "Priya understands fast conversations in Hebrew.",
+          "answer": false,
+          "explanation": { "en": "'I still don't understand fast conversations.'", "he": "'I still don't understand fast conversations' – היא עדיין לא מבינה שיחות מהירות." }
+        },
+        {
+          "type": "mcq",
+          "question": "Why is this week special?",
+          "options": ["Priya is going home.", "Noa is sick.", "It's a holiday.", "Priya has exams."],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "Priya doesn't say she is going home.", "he": "פריה לא אומרת שהיא חוזרת הביתה." },
+            "1": { "en": "Noa isn't sick – she is teaching Priya songs.", "he": "נועה לא חולה – היא מלמדת את פריה שירים." },
+            "3": { "en": "The email doesn't mention exams.", "he": "המייל לא מזכיר מבחנים." }
+          },
+          "explanation": { "en": "'This week is special because it's a holiday.'", "he": "'This week is special because it's a holiday' – השבוע מיוחד כי יש חג." }
+        },
+        {
+          "type": "gap",
+          "text": "Right now, Priya is on the ___.",
+          "answers": [["train"]],
+          "explanation": { "en": "'I'm writing this on the train to university.'", "he": "'I'm writing this on the train to university' – היא כותבת ברכבת." }
+        }
+      ]
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "Do you know where Lior is? She isn't answering her phone.",
+      "answers": ["Do you know where Lior is? She isn't answering her phone."],
+      "explanation": { "en": "Do you know (state verb → simple) / She isn't answering (happening now → continuous).", "he": "Do you know – פועל מצב, ולכן פשוט. She isn't answering – קורה עכשיו, ולכן מתמשך." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "I usually take the bus, but today I'm walking.",
+      "focus": { "en": "Walking starts with /w/: round your lips as for 'oo', and don't touch your lip with your teeth (that's /v/).", "he": "walking מתחיל ב-/w/: עגלו את השפתיים כמו ב'אוּ', בלי לגעת בשפה עם השיניים (כך נשמע v)." },
+      "explanation": { "en": "One sentence, two meanings: a habit (usually take) and today's exception (I'm walking).", "he": "משפט אחד, שתי משמעויות: הרגל (usually take) והחריגה של היום (I'm walking)." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "present-simple-vs-continuous",
+      "prompt": { "en": "Write a message about your week.", "he": "כתבו הודעה על השבוע שלכם." },
+      "task": { "en": "Write a message (50-80 words) to an English-speaking friend. Describe your normal week (what you usually do) and what is different this week or these days.", "he": "כתבו הודעה (50-80 מילים) לחבר או לחברה שמדברים אנגלית. תארו את השבוע הרגיל שלכם (מה אתם עושים בדרך כלל) ומה שונה השבוע או בתקופה הזאת." },
+      "min_words": 50,
+      "max_words": 80,
+      "must_include": ["usually"],
+      "model_answer": "Hi Kenji! How are you? My life is pretty busy. I usually go to school from eight to two, and I work part-time in a shoe shop on Mondays and Thursdays. But this week is different. My school is closed for the holiday, so I'm working full-time at the shop and I'm saving money for a trip. I'm also learning to cook! What are you doing these days?",
+      "checklist": [
+        { "en": "I used the present simple for habits (usually, every day, on Mondays).", "he": "השתמשתי בהווה פשוט להרגלים (usually, every day, on Mondays)." },
+        { "en": "I used the present continuous for now or temporary things (this week, these days).", "he": "השתמשתי בהווה מתמשך לדברים שקורים עכשיו או באופן זמני (this week, these days)." },
+        { "en": "State verbs (like, want, need, know) are in the simple form.", "he": "פעלי מצב (like, want, need, know) כתובים בצורה הפשוטה." },
+        { "en": "He/she/it verbs in the present simple end in -s.", "he": "בהווה פשוט, הפועל אחרי he/she/it מסתיים ב-s." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Habits, routines and facts → present simple: I usually take the bus.", "he": "הרגלים, שגרה ועובדות → הווה פשוט: I usually take the bus." },
+      { "en": "Now and temporary situations → present continuous: Today I'm walking. She's working from home this week.", "he": "עכשיו ומצבים זמניים → הווה מתמשך: Today I'm walking. She's working from home this week." },
+      { "en": "State verbs (know, want, need, like, understand, belong) are usually simple: I know, not 'I'm knowing'.", "he": "פעלי מצב (know, want, need, like, understand, belong) בדרך כלל בצורה פשוטה: I know, ולא I'm knowing." },
+      { "en": "Questions: Do you work...? (habit) / Are you working...? (now).", "he": "שאלות: Do you work...? (הרגל) / Are you working...? (עכשיו)." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

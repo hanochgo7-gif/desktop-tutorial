@@ -4,7 +4,7 @@
 import { html, render, on, $ } from '../core/util.js';
 import { tt, bi, legend, hebrewSupport } from '../core/i18n.js';
 import { content, taxonomyIndex } from '../core/content.js';
-import { icon, confirmDialog, wireHebrewReveal, levelTag } from '../ui/components.js';
+import { icon, confirmDialog, levelTag } from '../ui/components.js';
 import { mountExercise, verdictHtml } from '../ui/exercise.js';
 import { recordAttempt, startLesson, finishLesson, progressOf, settings, model, newBudgetToday } from '../core/learner.js';
 import { say, canSpeak, stopSpeaking } from '../core/speech.js';
@@ -215,7 +215,6 @@ export default async function lessonView(el, ctx) {
       ctx.navigate('today');
     }),
   ];
-  wireHebrewReveal(el);
   const onKey = (e) => {
     if (e.target.closest('dialog')) return;
     if (stage === 'practice' && ctl?.onKey(e)) { e.preventDefault(); return; }

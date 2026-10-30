@@ -1,0 +1,276 @@
+{
+  "id": "pa1-08",
+  "level": "PreA1",
+  "title_en": "Days, months and time",
+  "title_he": "ימים, חודשים ושעה",
+  "topics": ["time-dates"],
+  "minutes": 20,
+  "objectives": [
+    { "en": "I can say the days of the week and the months, and write them with a capital letter.", "he": "אני יודע/ת לומר את ימי השבוע ואת החודשים ולכתוב אותם באות גדולה." },
+    { "en": "I can say a date: the fifth of May.", "he": "אני יודע/ת לומר תאריך: the fifth of May." },
+    { "en": "I can ask and say the time: What time is it? It's half past seven.", "he": "אני יודע/ת לשאול מה השעה ולומר אותה: What time is it? It's half past seven." }
+  ],
+  "warmup": { "en": "What day is it today, and what time is it now? Try to say it in English.", "he": "איזה יום היום ומה השעה עכשיו? נסו לומר את זה באנגלית – בסוף השיעור זה יהיה קל." },
+  "explanation": [
+    { "type": "p", "en": "Today is Monday, the 5th of May. Days and months always start with a capital letter: Monday, May, even in the middle of a sentence.", "he": "Today is Monday, the 5th of May. ימים וחודשים באנגלית תמיד מתחילים באות גדולה: Monday, May – גם באמצע משפט." },
+    { "type": "table", "headers": ["Days", "Months 1-6", "Months 7-12"], "rows": [
+      ["Sunday · יום ראשון", "January", "July"],
+      ["Monday · יום שני", "February", "August"],
+      ["Tuesday · יום שלישי", "March", "September"],
+      ["Wednesday · יום רביעי", "April", "October"],
+      ["Thursday · יום חמישי", "May", "November"],
+      ["Friday · יום שישי", "June", "December"],
+      ["Saturday · שבת", "", ""]
+    ] },
+    { "type": "rule", "en": "Dates use ordinal numbers: 1st first, 2nd second, 3rd third, then add -th: 4th fourth, 5th fifth. Write 5 May; say the fifth of May.", "he": "בתאריכים משתמשים במספרים סודרים: 1st first, 2nd second, 3rd third, ומשם מוסיפים th: 4th fourth, 5th fifth. כותבים 5 May ואומרים the fifth of May." },
+    { "type": "table", "headers": ["Number", "Ordinal", "Short form"], "rows": [
+      ["1", "first", "1st"],
+      ["2", "second", "2nd"],
+      ["3", "third", "3rd"],
+      ["4", "fourth", "4th"],
+      ["5", "fifth", "5th"],
+      ["12", "twelfth", "12th"],
+      ["20", "twentieth", "20th"],
+      ["21", "twenty-first", "21st"],
+      ["31", "thirty-first", "31st"]
+    ] },
+    { "type": "table", "headers": ["Time", "Say", "Or"], "rows": [
+      ["7:00", "It's seven o'clock.", "It's seven."],
+      ["7:15", "It's quarter past seven.", "It's seven fifteen."],
+      ["7:30", "It's half past seven.", "It's seven thirty."],
+      ["7:45", "It's quarter to eight.", "It's seven forty-five."],
+      ["7:10", "It's ten past seven.", "It's seven ten."]
+    ] },
+    { "type": "warning", "en": "Start with It's: It's six o'clock (not 'Six hour' or 'Is six'). Say o'clock only for a full hour.", "he": "מתחילים ב-It's: It's six o'clock (לא 'Six hour' ולא 'Is six'). את o'clock אומרים רק בשעה עגולה." },
+    { "type": "tip", "en": "A first look: at + time (at 7 o'clock) · on + day or date (on Monday, on 5 May) · in + month or year (in May, in 2026).", "he": "הצצה ראשונה: at + שעה (at 7 o'clock) · on + יום או תאריך (on Monday, on 5 May) · in + חודש או שנה (in May, in 2026). נלמד את זה לעומק ברמה A1." },
+    { "type": "tip", "en": "Careful with dates in numbers: in the US, 3/4 means March 4. In the UK and Israel, 3/4 means 3 April.", "he": "זהירות עם תאריכים במספרים: בארה״ב 3/4 הוא 4 במרץ (החודש בא קודם). בבריטניה ובישראל 3/4 הוא 3 באפריל." }
+  ],
+  "examples": [
+    { "en": "Today is Thursday.", "he": "היום יום חמישי." },
+    { "en": "My birthday is on the 3rd of March.", "he": "יום ההולדת שלי ב-3 במרץ.", "note": "say: the third of March" },
+    { "en": "The concert is on Friday, the 21st of June.", "he": "ההופעה ביום שישי, 21 ביוני.", "note": "say: the twenty-first of June" },
+    { "en": "What time is it? It's half past seven.", "he": "מה השעה? שבע וחצי." },
+    { "en": "It's quarter to nine.", "he": "רבע לתשע." },
+    { "en": "It's ten o'clock.", "he": "השעה עשר." },
+    { "en": "The class is at 6:15.", "he": "השיעור ב-6:15.", "note": "say: at quarter past six or at six fifteen" },
+    { "en": "My exam is in July.", "he": "הבחינה שלי ביולי." }
+  ],
+  "vocab": [
+    { "word": "day", "pos": "noun", "he": "יום", "def": "one of the seven parts of a week", "example": "What day is it today?", "ipa": "/deɪ/", "level": "PreA1" },
+    { "word": "week", "pos": "noun", "he": "שבוע", "def": "a time of seven days", "example": "A week is seven days.", "ipa": "/wiːk/", "level": "PreA1" },
+    { "word": "month", "pos": "noun", "he": "חודש", "def": "one of the twelve parts of a year", "example": "June is a hot month.", "ipa": "/mʌnθ/", "level": "PreA1" },
+    { "word": "year", "pos": "noun", "he": "שנה", "def": "a time of twelve months", "example": "A year is twelve months.", "ipa": "/jɪə(r)/", "level": "PreA1" },
+    { "word": "today", "pos": "adverb", "he": "היום", "def": "on this day", "example": "Today is Monday.", "ipa": "/təˈdeɪ/", "level": "PreA1" },
+    { "word": "tomorrow", "pos": "adverb", "he": "מחר", "def": "on the day after today", "example": "Tomorrow is Tuesday.", "ipa": "/təˈmɒrəʊ/", "level": "PreA1" },
+    { "word": "weekend", "pos": "noun", "he": "סוף שבוע", "def": "the days in the week when most people don't work or study", "example": "In Israel, the weekend is Friday and Saturday.", "ipa": "/ˌwiːkˈend/", "level": "PreA1" },
+    { "word": "birthday", "pos": "noun", "he": "יום הולדת", "def": "the same date every year as the day you were born", "example": "My birthday is on the 3rd of March.", "ipa": "/ˈbɜːθdeɪ/", "level": "PreA1" },
+    { "word": "date", "pos": "noun", "he": "תאריך", "def": "the number of the day, the month and sometimes the year", "example": "What's the date today?", "ipa": "/deɪt/", "level": "PreA1" },
+    { "word": "o'clock", "pos": "adverb", "he": "(שעה) עגולה, בדיוק", "def": "used with a full hour: seven o'clock = 7:00", "example": "It's seven o'clock.", "ipa": "/əˈklɒk/", "level": "PreA1" },
+    { "word": "half", "pos": "noun", "he": "חצי", "def": "one of two equal parts; ½", "example": "It's half past six.", "ipa": "/hɑːf/", "level": "PreA1" },
+    { "word": "quarter", "pos": "noun", "he": "רבע", "def": "one of four equal parts; ¼ (of an hour = 15 minutes)", "example": "It's quarter to nine.", "ipa": "/ˈkwɔːtə(r)/", "level": "PreA1" },
+    { "word": "past", "pos": "preposition", "he": "אחרי (בשעון)", "def": "after, when you say the time", "example": "It's ten past seven.", "ipa": "/pɑːst/", "level": "PreA1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "Hebrew writing works differently: it has no capital letters, so they are easy to forget. In English, days and months always start with a capital letter: Monday, May (not monday, may).", "he": "בכתב העברי אין אותיות גדולות, ולכן קל לשכוח אותן. באנגלית ימים וחודשים תמיד מתחילים באות גדולה: Monday, May – לא monday, may.", "error_type": "capitalization" },
+    { "en": "Hebrew has no /θ/ sound, so Thursday, third, fourth and month can come out with t or s. Put the tip of your tongue between your teeth and blow gently: /θ/.", "he": "בעברית אין את הצליל /θ/, ולכן Thursday, third, fourth ו-month עלולים לצאת עם t או s ('טֶרְזְדֵיי', 'סֶרְד'). שימו את קצה הלשון בין השיניים ונשפו בעדינות: /θ/.", "error_type": "pron-th" },
+    { "en": "In Hebrew the time needs no verb (literally 'the hour seven'). English works differently, so start with It's: It's seven o'clock.", "he": "בעברית אומרים 'השעה שבע' בלי פועל. באנגלית זה עובד אחרת, ומתחילים ב-It's: It's seven o'clock.", "error_type": "copula-omission" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "Match the days with their Hebrew names.", "he": "התאימו את ימי השבוע לשמם בעברית." },
+      "pairs": [["Sunday", "יום ראשון"], ["Monday", "יום שני"], ["Tuesday", "יום שלישי"], ["Wednesday", "יום רביעי"], ["Thursday", "יום חמישי"], ["Saturday", "שבת"]],
+      "explanation": { "en": "In Israel the week starts on Sunday. In many other countries, the calendar week starts on Monday.", "he": "בישראל השבוע מתחיל ביום ראשון (Sunday). בהרבה מדינות אחרות השבוע בלוח השנה מתחיל ביום שני (Monday)." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "time-dates",
+      "prompt": { "en": "Listen and choose the time.", "he": "הקשיבו ובחרו את השעה." },
+      "audio_text": "What time is it? It's quarter to nine.",
+      "question": "What time is it?",
+      "options": ["8:45", "9:15", "9:45", "8:15"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "9:15 is quarter past nine. You heard quarter to nine: 15 minutes before nine.", "he": "9:15 זה quarter past nine. שמעתם quarter to nine – רבע שעה לפני תשע." },
+        "2": { "en": "9:45 is quarter to ten.", "he": "9:45 זה quarter to ten – רבע לעשר." },
+        "3": { "en": "8:15 is quarter past eight.", "he": "8:15 זה quarter past eight – שמונה ורבע." }
+      },
+      "explanation": { "en": "quarter to nine = 15 minutes before nine = 8:45.", "he": "quarter to nine = רבע לתשע = 8:45." }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "How do you say this time?", "he": "איך אומרים את השעה הזאת?" },
+      "question": "6:30",
+      "options": ["half to six", "half past six", "six and half", "half past seven"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "With half, we use past: half past six.", "he": "עם half משתמשים ב-past: half past six." },
+        "2": { "en": "That's a word-for-word translation from Hebrew. In English: half past six (or six thirty).", "he": "זה תרגום מילולי של 'שש וחצי'. באנגלית: half past six (או six thirty)." },
+        "3": { "en": "half past seven is 7:30.", "he": "half past seven זה 7:30." }
+      },
+      "option_errors": { "0": "preposition", "2": "false-friend" },
+      "explanation": { "en": "half past six = 30 minutes after six = 6:30. You can also say six thirty.", "he": "half past six = חצי שעה אחרי שש = 6:30. אפשר גם six thirty." }
+    },
+    {
+      "id": "e4", "type": "categorize", "skill": "writing", "topic": "time-dates",
+      "prompt": { "en": "Is it correct, or does it need a capital letter?", "he": "זה נכון, או שצריך אות גדולה?" },
+      "categories": ["Correct", "Needs a capital"],
+      "items": [
+        { "text": "on Sunday", "category": "Correct" },
+        { "text": "in april", "category": "Needs a capital" },
+        { "text": "on Tuesday", "category": "Correct" },
+        { "text": "in July", "category": "Correct" },
+        { "text": "on friday", "category": "Needs a capital" },
+        { "text": "in december", "category": "Needs a capital" }
+      ],
+      "error_type": "capitalization",
+      "explanation": { "en": "Days and months always start with a capital letter: April, Friday, December. Small words like on and in don't.", "he": "ימים וחודשים תמיד מתחילים באות גדולה: April, Friday, December. מילים כמו on ו-in – לא." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "Complete with ordinal numbers (first, second...).", "he": "השלימו במספרים סודרים (first, second...)." },
+      "text": "January is the ___ month of the year, and March is the ___ month.",
+      "answers": [["first", "1st"], ["third", "3rd"]],
+      "hint": { "en": "Count: January, February, March...", "he": "ספרו: January, February, March..." },
+      "wrong_feedback": [
+        { "match": "one", "feedback": { "en": "For order, use first, not one.", "he": "לסדר משתמשים ב-first, לא ב-one." }, "error_type": "word-choice" },
+        { "match": "three", "feedback": { "en": "For order, use third (3rd), not three.", "he": "לסדר משתמשים ב-third (3rd), לא ב-three." }, "error_type": "word-choice" },
+        { "match": "threeth", "feedback": { "en": "third is irregular: one – first, two – second, three – third.", "he": "third הוא חריג: one–first, two–second, three–third." }, "error_type": "spelling" }
+      ],
+      "explanation": { "en": "Ordinal numbers show order: first (1st), second (2nd), third (3rd).", "he": "מספרים סודרים מראים סדר: first (1st), second (2nd), third (3rd)." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "Which spelling is correct?", "he": "איזה איות נכון?" },
+      "question": "12 → 12th = ?",
+      "options": ["twelveth", "twelvth", "twelfth", "twelf"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "The ve changes to f: twelfth.", "he": "ה-ve הופך ל-f: twelfth." },
+        "1": { "en": "Almost! The v changes to f: twelfth.", "he": "כמעט! ה-v הופכת ל-f: twelfth." },
+        "3": { "en": "Ordinals end in th: twelfth.", "he": "מספר סודר מסתיים ב-th: twelfth." }
+      },
+      "option_errors": { "0": "spelling", "1": "spelling", "3": "spelling" },
+      "explanation": { "en": "Like five – fifth, twelve – twelfth: ve becomes f, then add th.", "he": "כמו five–fifth, גם twelve–twelfth: ה-ve הופך ל-f ומוסיפים th." }
+    },
+    {
+      "id": "e7", "type": "transform", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "Write how you say this date, in words.", "he": "כתבו במילים איך אומרים את התאריך הזה." },
+      "source": "3 March",
+      "answers": ["the third of March", "March the third", "March third"],
+      "hint": { "en": "the + ordinal + of + month", "he": "the + מספר סודר + of + חודש" },
+      "wrong_feedback": [
+        { "match": "the three of March", "feedback": { "en": "Use the ordinal: third, not three.", "he": "משתמשים במספר סודר: third, לא three." }, "error_type": "word-choice" },
+        { "match": "third of March", "feedback": { "en": "Add the: the third of March.", "he": "הוסיפו the: the third of March." }, "error_type": "article" },
+        { "match": "the 3rd of March", "feedback": { "en": "Right idea! Now write the number in words: the third of March.", "he": "הכיוון נכון! עכשיו כתבו את המספר במילים: the third of March." } }
+      ],
+      "explanation": { "en": "We write 3 March and say the third of March (UK). In the US people often say March third.", "he": "כותבים 3 March ואומרים the third of March (בבריטניה). בארה״ב אומרים לרוב March third." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "vocabulary", "topic": "time-dates",
+      "prompt": { "en": "Complete with past or to.", "he": "השלימו ב-past או ב-to." },
+      "text": "7:30 – It's half ___ seven. 8:45 – It's quarter ___ nine.",
+      "word_bank": ["past", "to"],
+      "answers": [["past"], ["to"]],
+      "wrong_feedback": [
+        { "match": "to", "feedback": { "en": "to = before the hour. 7:30 is after seven: half past seven.", "he": "to = לפני השעה העגולה. 7:30 זה אחרי שבע: half past seven." }, "error_type": "preposition" },
+        { "match": "past", "feedback": { "en": "past = after the hour. 8:45 is 15 minutes before nine: quarter to nine.", "he": "past = אחרי השעה העגולה. 8:45 זה רבע שעה לפני תשע: quarter to nine." }, "error_type": "preposition" }
+      ],
+      "explanation": { "en": "past = after the hour (half past seven = 7:30). to = before the next hour (quarter to nine = 8:45).", "he": "past = אחרי (half past seven = 7:30). to = לפני השעה הבאה (quarter to nine = 8:45)." }
+    },
+    {
+      "id": "e9", "type": "order", "skill": "grammar", "topic": "time-dates",
+      "prompt": { "en": "Put the words in order.", "he": "סדרו את המילים למשפט." },
+      "tokens": ["My", "birthday", "is", "on", "the", "fifth", "of", "May"],
+      "answers": ["Is my birthday on the fifth of May?"],
+      "explanation": { "en": "on + the + ordinal + of + month: on the fifth of May.", "he": "on + the + מספר סודר + of + חודש: on the fifth of May." }
+    },
+    {
+      "id": "e10", "type": "gap", "skill": "grammar", "topic": "time-dates",
+      "prompt": { "en": "A first look at in, on and at. Complete the sentence.", "he": "הצצה ראשונה ל-in, on, at. השלימו את המשפט." },
+      "text": "My English class is ___ Monday ___ six o'clock.",
+      "word_bank": ["in", "on", "at"],
+      "answers": [["on"], ["at"]],
+      "hint": { "en": "Look at the tip: day → ?, clock time → ?", "he": "היעזרו בטיפ: איזו מילה באה לפני יום, ואיזו לפני שעה?" },
+      "wrong_feedback": [
+        { "match": "in", "feedback": { "en": "in is for months and years (in May, in 2026). Days take on; clock times take at.", "he": "in בא עם חודשים ושנים (in May, in 2026). ימים באים עם on, ושעות עם at." }, "error_type": "preposition" },
+        { "match": "at", "feedback": { "en": "at is for clock times (at six o'clock). Days take on: on Monday.", "he": "at בא עם שעות (at six o'clock). ימים באים עם on: on Monday." }, "error_type": "preposition" },
+        { "match": "on", "feedback": { "en": "on is for days and dates (on Monday). Clock times take at: at six o'clock.", "he": "on בא עם ימים ותאריכים (on Monday). שעות באות עם at: at six o'clock." }, "error_type": "preposition" }
+      ],
+      "explanation": { "en": "on + day (on Monday), at + clock time (at six o'clock), in + month or year (in May).", "he": "on + יום (on Monday), at + שעה (at six o'clock), in + חודש או שנה (in May)." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "time-dates",
+      "prompt": { "en": "This sentence is a word-for-word translation from Hebrew. Write it correctly.", "he": "המשפט הזה תורגם מילה במילה מעברית. כתבו אותו נכון." },
+      "sentence": "It's seven and half.",
+      "answers": ["It's half past seven.", "It's seven thirty."],
+      "error_type": "false-friend",
+      "hint": { "en": "half + past + the hour", "he": "half + past + השעה" },
+      "explanation": { "en": "English doesn't say 'seven and half' for the time. Say: It's half past seven, or It's seven thirty.", "he": "'שבע וחצי' לא מתורגם מילה במילה. אומרים: It's half past seven או It's seven thirty." }
+    },
+    {
+      "id": "e12", "type": "read", "skill": "reading", "topic": "time-dates",
+      "prompt": { "en": "Read the message and answer the questions.", "he": "קראו את ההודעה וענו על השאלות." },
+      "title": "Party!",
+      "passage": "Hi Noa!\nMy birthday is on Thursday, the 12th of June. The party is on Friday, the 13th, at my place. It's at half past eight in the evening.\nAmir and Sara aren't at the party. They're in Eilat this weekend.\nAre you free? See you on Friday!\nKenji",
+      "questions": [
+        { "type": "mcq", "question": "When is Kenji's birthday?", "options": ["Friday, 13th June", "Thursday, 12th June", "Thursday, 13th June"], "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Friday the 13th is the party, not the birthday.", "he": "יום שישי ה-13 הוא יום המסיבה, לא יום ההולדת." },
+            "2": { "en": "Thursday is right, but the date is the 12th.", "he": "יום חמישי נכון, אבל התאריך הוא ה-12." }
+          },
+          "explanation": { "en": "My birthday is on Thursday, the 12th of June.", "he": "כתוב: My birthday is on Thursday, the 12th of June." } },
+        { "type": "mcq", "question": "What time is the party?", "options": ["8:30", "8:00", "7:30"], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Not a full hour: half past eight = 8:30.", "he": "לא שעה עגולה: half past eight = 8:30." },
+            "2": { "en": "7:30 is half past seven. The message says half past eight.", "he": "7:30 זה half past seven. בהודעה כתוב half past eight." }
+          },
+          "explanation": { "en": "It's at half past eight = 8:30.", "he": "half past eight = שמונה וחצי." } },
+        { "type": "tf", "statement": "The party is on Thursday.", "answer": false,
+          "explanation": { "en": "The birthday is on Thursday, but the party is on Friday.", "he": "יום ההולדת ביום חמישי, אבל המסיבה ביום שישי." } },
+        { "type": "tf", "statement": "Amir and Sara are at the party.", "answer": false,
+          "explanation": { "en": "Amir and Sara aren't at the party. They're in Eilat.", "he": "כתוב: Amir and Sara aren't at the party – הם באילת." } }
+      ],
+      "explanation": { "en": "Dates come after on (on Friday, on the 12th); times come after at (at half past eight).", "he": "תאריכים באים אחרי on (on Friday, on the 12th), ושעות אחרי at (at half past eight)." }
+    },
+    {
+      "id": "e13", "type": "dictation", "skill": "listening", "topic": "time-dates",
+      "prompt": { "en": "Listen and write the sentence. Remember the capital letters.", "he": "הקשיבו וכתבו את המשפט. זכרו את האותיות הגדולות." },
+      "audio_text": "Today is Wednesday, the third of April.",
+      "answers": ["Today is Wednesday, the third of April.", "Today is Wednesday the third of April.", "Today is Wednesday, the 3rd of April."],
+      "hint": { "en": "In Wednesday, the first d is silent: /ˈwenzdeɪ/.", "he": "ב-Wednesday ה-d הראשונה לא נשמעת: 'וֶנְזְדֵיי'." },
+      "explanation": { "en": "Wednesday is spelled W-e-d-n-e-s, but we say /ˈwenzdeɪ/. Days and months take a capital letter.", "he": "Wednesday נכתב W-e-d-n-e-s אבל נהגה 'וֶנְזְדֵיי'. ימים וחודשים כותבים באות גדולה." }
+    },
+    {
+      "id": "e14", "type": "speak", "skill": "speaking", "topic": "time-dates",
+      "prompt": { "en": "Say the sentence out loud.", "he": "אמרו את המשפט בקול." },
+      "target": "My birthday is on Thursday, the third of March.",
+      "focus": { "en": "th /θ/ in birthday, Thursday and third: put your tongue between your teeth and blow gently. It is not t or s.", "he": "ה-th /θ/ ב-birthday, Thursday ו-third: קצה הלשון בין השיניים ונושפים בעדינות. זה לא t ולא s." },
+      "explanation": { "en": "/θ/ appears in many date words: third, fourth, fifth, month, Thursday.", "he": "הצליל /θ/ מופיע בהרבה מילים של תאריכים: third, fourth, fifth, month, Thursday." }
+    },
+    {
+      "id": "e15", "type": "write", "skill": "writing", "topic": "time-dates",
+      "prompt": { "en": "Write about dates and times in your life.", "he": "כתבו על תאריכים ושעות בחיים שלכם." },
+      "task": { "en": "Write 3-4 sentences: the day and date today, the time now, and the date of your birthday.", "he": "כתבו 3-4 משפטים: איזה יום ותאריך היום, מה השעה עכשיו, ומתי יום ההולדת שלכם." },
+      "min_words": 15,
+      "max_words": 60,
+      "must_include": ["Today", "birthday"],
+      "model_answer": "Today is Sunday, the 2nd of November. It's quarter past five. My birthday is on the 14th of February. My English class is on Tuesday at seven o'clock.",
+      "checklist": [
+        { "en": "Days and months start with a capital letter.", "he": "ימים וחודשים מתחילים באות גדולה." },
+        { "en": "Dates use ordinals: the 2nd, the 14th.", "he": "בתאריכים משתמשים במספר סודר: the 2nd, the 14th." },
+        { "en": "The time starts with It's: It's quarter past five.", "he": "השעה מתחילה ב-It's: It's quarter past five." },
+        { "en": "on + day or date; at + time.", "he": "on לפני יום או תאריך; at לפני שעה." }
+      ],
+      "explanation": { "en": "Real-life information like dates and times is what you'll use most in messages and plans.", "he": "תאריכים ושעות הם המידע שתשתמשו בו הכי הרבה בהודעות ובתוכניות." }
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Days and months start with a capital letter: Monday, May.", "he": "ימים וחודשים מתחילים באות גדולה: Monday, May." },
+      { "en": "Dates use ordinals: the first, the third, the fifth of May.", "he": "בתאריכים משתמשים במספרים סודרים: the first, the third, the fifth of May." },
+      { "en": "What time is it? It's seven o'clock / half past seven / quarter to eight.", "he": "מה השעה? It's seven o'clock / half past seven / quarter to eight." },
+      { "en": "A first look: at 7:00, on Monday, in May.", "he": "הצצה ראשונה: at לפני שעה, on לפני יום, in לפני חודש." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

@@ -1,0 +1,290 @@
+{
+  "id": "a2-03",
+  "level": "A2",
+  "title_en": "Was and were",
+  "title_he": "was ו-were",
+  "topics": ["past-be"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can say where I was and how things were, with was and were.", "he": "אני יכול/ה לומר איפה הייתי ואיך היה, בעזרת was ו-were." },
+    { "en": "I can ask and answer questions with was/were and use wasn't/weren't.", "he": "אני יודע/ת לשאול ולענות עם was/were ולהשתמש ב-wasn't/weren't." },
+    { "en": "I can say when and where I was born, and use there was / there were.", "he": "אני יכול/ה לומר מתי ואיפה נולדתי, ולהשתמש ב-there was / there were." }
+  ],
+  "warmup": { "en": "Where were you yesterday at 8 p.m.? At home, at work, with friends? Think of the answer in English.", "he": "איפה הייתם אתמול בשמונה בערב? בבית, בעבודה, עם חברים? נסו לחשוב על התשובה באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "Today I'm at home. Yesterday I was at the beach. My friends are busy today, but yesterday they were free. The past of am and is is was; the past of are is were.", "he": "היום אני בבית. אתמול הייתי בחוף. החברים שלי עסוקים היום, אבל אתמול הם היו פנויים. בעבר am ו-is הופכים ל-was, ו-are הופך ל-were." },
+    { "type": "table", "headers": ["Subject", "Positive", "Negative", "Question", "Short answer"], "rows": [
+      ["I / he / she / it", "She was tired.", "It wasn't cold.", "Was he at home?", "Yes, he was. / No, he wasn't."],
+      ["you / we / they", "They were late.", "We weren't there.", "Were you at school?", "Yes, I was. / No, we weren't."]
+    ] },
+    { "type": "rule", "en": "Questions: put was/were before the subject. Where were you yesterday? Was the film good?", "he": "בשאלה was/were באים לפני הנושא: Where were you yesterday? Was the film good?" },
+    { "type": "rule", "en": "Birth: be born. I was born in 2009. My parents were born in Ukraine.", "he": "נולדתי = I was born. הם נולדו = they were born. למשל: I was born in 2009. My parents were born in Ukraine." },
+    { "type": "rule", "en": "There was + one thing: There was a problem. There were + plural: There were a lot of people.", "he": "היה / הייתה + דבר אחד = there was: There was a problem. היו + רבים = there were: There were a lot of people." },
+    { "type": "warning", "en": "Born always needs was or were: I born in Haifa ✗ → I was born in Haifa ✓. For the past, don't say 'I am born'.", "he": "born תמיד בא עם was או were: לא I born in Haifa אלא I was born in Haifa. וגם לא I am born כשמדברים על העבר." },
+    { "type": "tip", "en": "In fast speech, was and were are often weak: /wəz/, /wə/. In short answers they are strong: Yes, I was /wɒz/.", "he": "בדיבור מהיר was ו-were נשמעים חלשים: /wəz/, /wə/. בתשובה קצרה הם מודגשים: Yes, I was /wɒz/." }
+  ],
+  "examples": [
+    { "en": "I was at home last night.", "he": "הייתי בבית אתמול בלילה." },
+    { "en": "Where were you yesterday?", "he": "איפה היית אתמול?" },
+    { "en": "The film wasn't very good.", "he": "הסרט לא היה טוב במיוחד." },
+    { "en": "Were your parents at the wedding? – Yes, they were.", "he": "ההורים שלך היו בחתונה? – כן, הם היו." },
+    { "en": "I was born in Be'er Sheva in 2009.", "he": "נולדתי בבאר שבע ב-2009.", "note": "born + was/were" },
+    { "en": "There was a problem with my phone.", "he": "הייתה בעיה עם הטלפון שלי." },
+    { "en": "There were about fifty people at the party.", "he": "היו בערך חמישים אנשים במסיבה." },
+    { "en": "My grandparents were born in Morocco.", "he": "סבא וסבתא שלי נולדו במרוקו." }
+  ],
+  "vocab": [
+    { "word": "be born", "pos": "verb phrase", "he": "להיוולד", "def": "to come into the world as a baby", "example": "I was born in Ashdod in 2008.", "ipa": "/bi ˈbɔːn/", "collocations": ["was born in + place or year", "was born on + date"], "level": "A2" },
+    { "word": "last night", "pos": "phrase", "he": "אתמול בלילה / אתמול בערב", "def": "the evening or night before today", "example": "Where were you last night?", "ipa": "/ˌlɑːst ˈnaɪt/", "collocations": ["late last night", "last night's party"], "level": "A2" },
+    { "word": "crowded", "pos": "adjective", "he": "צפוף, עמוס אנשים", "def": "full of people", "example": "The beach was really crowded.", "ipa": "/ˈkraʊdɪd/", "collocations": ["a crowded bus", "really crowded"], "level": "A2" },
+    { "word": "empty", "pos": "adjective", "he": "ריק", "def": "with no people or things inside", "example": "The streets were empty at 5 a.m.", "ipa": "/ˈempti/", "collocations": ["an empty room", "half empty"], "level": "A2" },
+    { "word": "delicious", "pos": "adjective", "he": "טעים מאוד", "def": "tasting very good", "example": "The food was delicious.", "ipa": "/dɪˈlɪʃəs/", "collocations": ["absolutely delicious", "delicious food"], "level": "A2" },
+    { "word": "boring", "pos": "adjective", "he": "משעמם", "def": "not interesting", "example": "The lesson wasn't boring at all.", "ipa": "/ˈbɔːrɪŋ/", "collocations": ["a boring film", "really boring"], "level": "A1" },
+    { "word": "nervous", "pos": "adjective", "he": "לחוץ, מתוח", "def": "a little worried or afraid", "example": "I was nervous before my driving test.", "ipa": "/ˈnɜːvəs/", "collocations": ["nervous about something", "a bit nervous"], "level": "A2" },
+    { "word": "wedding", "pos": "noun", "he": "חתונה", "def": "a ceremony and party when two people get married", "example": "There were 300 guests at the wedding.", "ipa": "/ˈwedɪŋ/", "collocations": ["at a wedding", "a wedding party"], "level": "A2" },
+    { "word": "concert", "pos": "noun", "he": "הופעה, קונצרט", "def": "a live music show", "example": "The concert was amazing.", "ipa": "/ˈkɒnsət/", "collocations": ["a live concert", "at a concert"], "level": "A2" },
+    { "word": "childhood", "pos": "noun", "he": "ילדות", "def": "the time when you were a child", "example": "My childhood was happy.", "ipa": "/ˈtʃaɪldhʊd/", "collocations": ["a happy childhood", "a childhood friend"], "level": "A2" },
+    { "word": "sold out", "pos": "adjective", "he": "אזל (כרטיסים, מוצר)", "def": "with no tickets or products left to buy", "example": "The show was sold out.", "ipa": "/ˌsəʊld ˈaʊt/", "collocations": ["completely sold out", "a sold-out concert"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew a yes/no question can keep the word order of a statement, so it is easy to write 'You were at home?' in English. In a normal English question, was/were comes before the subject: Were you at home?", "he": "בעברית שאלת כן/לא יכולה להישאר בסדר של משפט רגיל ('היית בבית?'), ולכן קל לכתוב You were at home? באנגלית. בשאלה רגילה באנגלית was/were באים לפני הנושא: Were you at home?", "error_type": "word-order" },
+    { "en": "In Hebrew /w/ is not a regular sound (it appears only in a few borrowed words), so was and were can come out as 'vas' and 'ver'. Start with rounded lips, as in 'oo': /wɒz/, /wɜː(r)/.", "he": "בעברית /w/ אינו צליל רגיל (הוא מופיע רק בכמה מילים שאולות), ולכן was ו-were עלולים לצאת 'וָאס' ו'וֶר'. התחילו בשפתיים מעוגלות, כמו ב'אוּ': /wɒz/, /wɜː(r)/.", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "was or were? Sort the subjects.", "he": "was או were? מיינו את הנושאים." },
+      "categories": ["was", "were"],
+      "items": [
+        { "text": "I", "category": "was" },
+        { "text": "you", "category": "were" },
+        { "text": "Amir", "category": "was" },
+        { "text": "my parents", "category": "were" },
+        { "text": "the weather", "category": "was" },
+        { "text": "we", "category": "were" },
+        { "text": "the tickets", "category": "were" },
+        { "text": "it", "category": "was" }
+      ],
+      "explanation": { "en": "I, he, she, it and one person or thing → was. You, we, they and plurals → were. You is always were, even for one person.", "he": "I, he, she, it ואדם או דבר אחד → was. you, we, they ורבים → were. you תמיד עם were, גם כשמדברים לאדם אחד." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "Where ___ you last night?",
+      "options": ["was", "were", "did", "are"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "With you, use were, even for one person.", "he": "עם you משתמשים ב-were, גם כשמדברים לאדם אחד." },
+        "2": { "en": "Did is for other verbs (a later lesson). With be, we don't need did: Where were you?", "he": "did משמש לפעלים אחרים (נלמד בהמשך). עם be לא צריך did: Where were you?" },
+        "3": { "en": "Last night is in the past, so: were, not are.", "he": "last night זה עבר, ולכן were ולא are." }
+      },
+      "option_errors": { "0": "agreement", "2": "do-support", "3": "tense-choice" },
+      "explanation": { "en": "Past of are → were. Question: Where + were + you?", "he": "בעבר are הופך ל-were. שאלה: Where + were + you?" }
+    },
+    {
+      "id": "e3", "type": "mcq", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "There ___ a lot of people at the beach yesterday.",
+      "options": ["was", "is", "were", "are"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "People is plural, so: there were.", "he": "people היא מילה ברבים, ולכן there were." },
+        "1": { "en": "Yesterday is in the past, and people is plural: there were.", "he": "yesterday זה עבר, ו-people ברבים: there were." },
+        "3": { "en": "Are is present. Yesterday → were.", "he": "are זה הווה. yesterday → were." }
+      },
+      "option_errors": { "0": "agreement", "1": "tense-choice", "3": "tense-choice" },
+      "explanation": { "en": "There were + plural noun (a lot of people) in the past.", "he": "בעבר: there were + שם עצם ברבים (a lot of people)." }
+    },
+    {
+      "id": "e4", "type": "listen", "skill": "listening", "topic": "past-be",
+      "prompt": { "en": "Listen and answer the question.", "he": "הקשיבו וענו על השאלה." },
+      "audio_text": "Sorry I wasn't at your party last night. I was at my grandmother's. It was her eightieth birthday.",
+      "question": "Where was the speaker last night?",
+      "options": ["At a party", "At work", "At the cinema", "At their grandmother's home"],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "The speaker says 'I wasn't at your party'.", "he": "הדובר/ת אומר/ת 'I wasn't at your party' – לא הייתי במסיבה." },
+        "1": { "en": "Work isn't mentioned.", "he": "לא מוזכרת עבודה." },
+        "2": { "en": "The cinema isn't mentioned.", "he": "לא מוזכר קולנוע." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "'I was at my grandmother's' = at my grandmother's home. It was her 80th birthday.", "he": "'I was at my grandmother's' – הייתי אצל סבתא שלי. זה היה יום ההולדת ה-80 שלה." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Complete the conversation with the words in the box.", "he": "השלימו את השיחה במילים מהמחסן." },
+      "text": "A: ___ you at school yesterday? B: No, I ___. I ___ sick.",
+      "word_bank": ["was", "were", "wasn't", "weren't"],
+      "answers": [["Were"], ["wasn't"], ["was"]],
+      "wrong_feedback": [
+        { "match": "Was", "feedback": { "en": "With you, use were: Were you at school?", "he": "עם you משתמשים ב-were: Were you at school?" }, "error_type": "agreement" },
+        { "match": "weren't", "feedback": { "en": "With I, use wasn't: No, I wasn't.", "he": "עם I משתמשים ב-wasn't: No, I wasn't." }, "error_type": "agreement" },
+        { "match": "were", "feedback": { "en": "With I, use was: I was sick.", "he": "עם I משתמשים ב-was: I was sick." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "Were you...? – No, I wasn't. I was sick. You → were; I → was.", "he": "Were you...? – No, I wasn't. I was sick. עם you → were, עם I → was." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Complete with was or were.", "he": "השלימו ב-was או ב-were." },
+      "text": "My sister ___ born in 2011, and my twin brothers ___ born in 2014. I ___ born in 2008.",
+      "answers": [["was"], ["were"], ["was"]],
+      "wrong_feedback": [
+        { "match": "is", "feedback": { "en": "Birth is in the past: was born, not is born.", "he": "לידה היא בעבר: was born, ולא is born." }, "error_type": "tense-choice" },
+        { "match": "was", "feedback": { "en": "Two or more people → were born: my twin brothers were born.", "he": "שניים או יותר → were born: my twin brothers were born." }, "error_type": "agreement" },
+        { "match": "were", "feedback": { "en": "One person (my sister, I) → was born.", "he": "אדם אחד (my sister, I) → was born." }, "error_type": "agreement" }
+      ],
+      "hint": { "en": "My sister = she. My twin brothers = they.", "he": "אחותי = she. האחים התאומים שלי = they." },
+      "explanation": { "en": "Born always takes was/were: she was born, they were born, I was born.", "he": "born תמיד בא עם was/were: she was born, they were born, I was born." }
+    },
+    {
+      "id": "e7", "type": "order", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["Why", "were", "you", "late", "this", "morning?"],
+      "hint": { "en": "Question word + were + subject.", "he": "מילת שאלה + were + נושא." },
+      "explanation": { "en": "Question word + was/were + subject + the rest: Why were you late this morning?", "he": "מילת שאלה + was/were + נושא + שאר המשפט: Why were you late this morning?" }
+    },
+    {
+      "id": "e8", "type": "transform", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Make the sentence negative.", "he": "הפכו את המשפט לשלילה." },
+      "source": "The test was easy.",
+      "answers": ["The test wasn't easy."],
+      "wrong_feedback": [
+        { "match": "The test didn't easy.", "feedback": { "en": "With be, we don't use did. Just add not: The test wasn't easy.", "he": "עם be לא משתמשים ב-did. פשוט מוסיפים not: The test wasn't easy." }, "error_type": "do-support" },
+        { "match": "The test not was easy.", "feedback": { "en": "Not comes after was: was not (wasn't).", "he": "not בא אחרי was: was not (wasn't)." }, "error_type": "word-order" },
+        { "match": "The test weren't easy.", "feedback": { "en": "The test = it, so: wasn't.", "he": "The test הוא it, ולכן wasn't." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "Negative: was/were + not. The test was not (wasn't) easy.", "he": "שלילה: was/were + not. The test was not (wasn't) easy." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Make a question.", "he": "הפכו לשאלה." },
+      "source": "They were at the concert.",
+      "answers": ["Were they at the concert?"],
+      "wrong_feedback": [
+        { "match": "They were at the concert?", "feedback": { "en": "In a written question, were comes first: Were they at the concert?", "he": "בשאלה כתובה were בא ראשון: Were they at the concert?" }, "error_type": "word-order" },
+        { "match": "Did they at the concert?", "feedback": { "en": "With be, there's no did: Were they...?", "he": "עם be אין did: Were they...?" }, "error_type": "do-support" },
+        { "match": "Was they at the concert?", "feedback": { "en": "They → were.", "he": "עם they משתמשים ב-were." }, "error_type": "agreement" }
+      ],
+      "explanation": { "en": "Yes/no question: Was/Were + subject + the rest: Were they at the concert?", "he": "שאלת כן/לא: Was/Were + נושא + שאר המשפט: Were they at the concert?" }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "I born in Tel Aviv in 2009.",
+      "answers": ["I was born in Tel Aviv in 2009."],
+      "error_type": "verb-form",
+      "hint": { "en": "A small word is missing before born.", "he": "חסרה מילה קטנה לפני born." },
+      "explanation": { "en": "In English, born needs be: I was born.", "he": "באנגלית born צריך את be: I was born. נולדתי = I was born." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "There was three cafés on my street, but now there is only one.",
+      "answers": ["There were three cafés on my street, but now there is only one.", "There were three cafes on my street, but now there is only one."],
+      "error_type": "agreement",
+      "hint": { "en": "Three cafés is plural.", "he": "three cafés ברבים." },
+      "explanation": { "en": "Plural noun → there were: There were three cafés. Now there is only one (singular, present).", "he": "שם עצם ברבים → there were: There were three cafés. עכשיו there is only one (יחיד, הווה)." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "grammar", "topic": "past-be",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "איפה היית אתמול בערב",
+      "answers": ["Where were you yesterday evening?", "Where were you last night?", "Where were you last evening?"],
+      "wrong_feedback": [
+        { "match": "Where you were yesterday evening?", "feedback": { "en": "In English questions, were comes before you: Where were you...? The Hebrew word order doesn't change, but the English one does.", "he": "בשאלה באנגלית were בא לפני you: Where were you...? בעברית סדר המילים לא משתנה, באנגלית כן." }, "error_type": "word-order" },
+        { "match": "Where was you yesterday evening?", "feedback": { "en": "You always takes were, even for one person.", "he": "you תמיד עם were, גם לאדם אחד." }, "error_type": "agreement" },
+        { "match": "Where did you yesterday evening?", "feedback": { "en": "With be, there's no did: Where were you?", "he": "עם be אין did: Where were you?" }, "error_type": "do-support" }
+      ],
+      "hint": { "en": "You were... → in a question: were you?", "he": "היית = you were. בשאלה: were you?" },
+      "explanation": { "en": "Where + were + you + yesterday evening / last night?", "he": "Where + were + you + yesterday evening / last night? היית = you were, ובשאלה הסדר מתהפך." }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "past-be",
+      "prompt": { "en": "Read the online review and answer the questions.", "he": "קראו את הביקורת באתר וענו על השאלות." },
+      "title": "Review: Coral Steps Hostel, Eilat ★★★★",
+      "passage": "I was at Coral Steps Hostel with two friends last weekend, and we were very happy with it. The location was perfect: the beach was only five minutes away on foot. Our room was small but clean, and the beds were comfortable. There was a big kitchen for guests, and there were free bikes too.\nThe staff were really friendly. Dana at reception was especially helpful when our bus was late on Thursday night.\nThere were two problems. The Wi-Fi wasn't good – it was very slow in the evenings. And on Friday night there was a noisy party next door, so it wasn't very quiet!\nWas it good value? Yes, it was. For the price, it was great.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "How far was the beach from the hostel?",
+          "options": ["One minute on foot", "Five minutes on foot", "Fifteen minutes by bus", "An hour by car"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Look again: 'only five minutes away on foot'.", "he": "חזרו לטקסט: 'only five minutes away on foot'." },
+            "2": { "en": "The bus is mentioned, but not for the beach.", "he": "האוטובוס מוזכר, אבל לא בהקשר של החוף." },
+            "3": { "en": "The beach was very close, not an hour away.", "he": "החוף היה קרוב מאוד, לא במרחק שעה." }
+          },
+          "explanation": { "en": "'The beach was only five minutes away on foot.'", "he": "'The beach was only five minutes away on foot' – חמש דקות הליכה." }
+        },
+        {
+          "type": "tf",
+          "statement": "The room was big.",
+          "answer": false,
+          "explanation": { "en": "'Our room was small but clean.'", "he": "'Our room was small but clean' – החדר היה קטן אבל נקי." }
+        },
+        {
+          "type": "tf",
+          "statement": "The staff were friendly.",
+          "answer": true,
+          "explanation": { "en": "'The staff were really friendly.'", "he": "'The staff were really friendly' – הצוות היה נחמד מאוד." }
+        },
+        {
+          "type": "mcq",
+          "question": "Why wasn't Friday night quiet?",
+          "options": ["The bus was late.", "The beds weren't comfortable.", "The Wi-Fi was slow.", "There was a party next door."],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "The bus was late on Thursday, and that isn't about noise.", "he": "האוטובוס איחר ביום חמישי, וזה לא קשור לרעש." },
+            "1": { "en": "The beds were comfortable.", "he": "המיטות היו נוחות." },
+            "2": { "en": "The Wi-Fi was slow, but that didn't make the night noisy.", "he": "האינטרנט היה איטי, אבל זה לא מה שגרם לרעש." }
+          },
+          "explanation": { "en": "'On Friday night there was a noisy party next door.'", "he": "'On Friday night there was a noisy party next door' – הייתה מסיבה רועשת בבניין הסמוך." }
+        },
+        {
+          "type": "gap",
+          "text": "There were free ___ for guests.",
+          "answers": [["bikes", "bicycles"]],
+          "explanation": { "en": "'There were free bikes too.'", "he": "'There were free bikes too' – היו גם אופניים בחינם." }
+        }
+      ]
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "past-be",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "The concert was great, but the tickets were really expensive.",
+      "answers": ["The concert was great, but the tickets were really expensive."],
+      "explanation": { "en": "The concert (it) → was. The tickets (they) → were.", "he": "ההופעה (it) → was. הכרטיסים (they) → were." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "past-be",
+      "prompt": { "en": "Say the question and the answer out loud.", "he": "אמרו בקול את השאלה ואת התשובה." },
+      "target": "Where were you yesterday? I was at my friend's house.",
+      "focus": { "en": "Start was and were with rounded lips, /w/, not /v/. In the question, were is short and weak: /wə/.", "he": "התחילו את was ו-were בשפתיים מעוגלות, /w/, ולא v. בשאלה were נשמע קצר וחלש: /wə/." },
+      "explanation": { "en": "A typical everyday exchange about the past. Notice: Where were you? (question) – I was... (answer).", "he": "שיחה יומיומית טיפוסית על העבר. שימו לב: Where were you? (שאלה) – I was... (תשובה)." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "past-be",
+      "prompt": { "en": "Mediation: help an English-speaking friend.", "he": "תיווך: עזרו לחבר שמדבר אנגלית." },
+      "task": { "en": "Your friend Noa wrote about her weekend in Hebrew (see the Hebrew message). Tom, from London, doesn't read Hebrew. He asks: 'How was Noa's weekend?' Write a reply to Tom in English (4-6 sentences). Use was, wasn't, were and there was / there were.", "he": "נועה כתבה בקבוצה: „היה סוף שבוע מעולה! הייתי באילת עם המשפחה. מזג האוויר היה חם מאוד והים היה מדהים. היו המון אנשים בחוף, אבל המלון היה שקט. האוכל לא היה משהו.” תום מלונדון לא קורא עברית ושואל: 'How was Noa's weekend?' כתבו לו תשובה באנגלית (4-6 משפטים) עם was, wasn't, were ו-there was / there were." },
+      "min_words": 30,
+      "max_words": 80,
+      "must_include": ["was", "were"],
+      "model_answer": "Hi Tom! Noa's weekend was great. She was in Eilat with her family. The weather was very hot and the sea was amazing. There were a lot of people on the beach, but the hotel was quiet. The food wasn't very good, though!",
+      "checklist": [
+        { "en": "I included all the information: place, people, weather, sea, beach, hotel, food.", "he": "העברתי את כל המידע: המקום, עם מי, מזג האוויר, הים, החוף, המלון והאוכל." },
+        { "en": "Noa = she → she was. Plural → were / there were.", "he": "נועה היא she → she was. רבים → were / there were." },
+        { "en": "I wrote my own English sentences, not a word-for-word translation.", "he": "כתבתי משפטים באנגלית במילים שלי, לא תרגום מילה במילה." },
+        { "en": "The negative is right: wasn't / weren't.", "he": "השלילה נכונה: wasn't / weren't." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "I/he/she/it was · you/we/they were. Negative: wasn't, weren't.", "he": "I/he/she/it עם was · you/we/they עם were. שלילה: wasn't, weren't." },
+      { "en": "Questions: Were you at home? Where was she? Short answers: Yes, I was. / No, they weren't.", "he": "שאלות: Were you at home? Where was she? תשובות קצרות: Yes, I was. / No, they weren't." },
+      { "en": "Born needs was/were: I was born in 2009.", "he": "born צריך was/were: I was born in 2009." },
+      { "en": "There was + singular · There were + plural.", "he": "There was + יחיד · There were + רבים." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

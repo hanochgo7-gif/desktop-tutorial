@@ -1,6 +1,6 @@
 // Interface language (Hebrew or English) and Hebrew support for learning content.
 // UI strings live here; learning content carries its own {en, he} pairs.
-import { html, raw } from './util.js';
+import { html, raw, esc } from './util.js';
 
 const STRINGS = {
   // shell
@@ -101,12 +101,32 @@ export function setHebrewSupport(setting, level) {
 // A dual legend: the English target and the Hebrew scaffold, in two inks.
 // Hebrew is shown according to the support level; 'off' keeps it one tap away.
 export function legend(en, he, { tag = 'span', cls = '' } = {}) {
-  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${en}</span>${he ? html`<span class="l-he" lang="he" dir="rtl">${he}</span>` : ''}</${raw(tag)}>`;
+  return html`<${raw(tag)} class="legend ${cls}"><span class="l-en" lang="en" dir="ltr">${en}</span>${he ? html`<span class="l-he" lang="he" dir="rtl">${isolateLatin(he)}</span>` : ''}</${raw(tag)}>`;
 }
+// Hebrew content often quotes English ("אומרים What's up? כשנפגשים"). Left alone, the bidi algorithm can
+// move punctuation and reorder the English. Each Latin run is wrapped in a <bdi dir="ltr"> isolate at
+// render time, so content files need no invisible control characters (research C3, R2 and R5).
+const LATIN_RUN = /[^\u0590-\u05FF]*[A-Za-z][^\u0590-\u05FF]*/g;
+export function isolateLatin(text) {
+  const s = String(text ?? '');
+  if (!/[\u0590-\u05FF]/.test(s) || !/[A-Za-z]/.test(s)) return s;
+  let out = '';
+  let last = 0;
+  for (const m of s.matchAll(LATIN_RUN)) {
+    const run = m[0];
+    const lead = run.match(/^[\s,;:()\-\u2013\u2014\u05BE]*/)[0];
+    const trail = run.slice(lead.length).match(/[\s,;:()\-\u2013\u2014]*$/)[0];
+    const core = run.slice(lead.length, run.length - trail.length);
+    out += esc(s.slice(last, m.index)) + esc(lead) + (core ? `<bdi dir="ltr" lang="en">${esc(core)}</bdi>` : '') + esc(trail);
+    last = m.index + run.length;
+  }
+  return raw(out + esc(s.slice(last)));
+}
+
 // Bilingual content text: English always; Hebrew per support level.
 export function bi(obj, { always = false } = {}) {
   if (!obj) return '';
   if (typeof obj === 'string') return html`<span lang="en" dir="ltr">${obj}</span>`;
   const showHe = obj.he && (always || support === 'full' || support === 'partial');
-  return html`<span class="bi">${showHe && support === 'full' ? html`<span class="bi-he" lang="he" dir="rtl">${obj.he}</span>` : ''}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe && support !== 'full' ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${obj.he}</span>` : ''}${!showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he aria-label="${tt('הצגת הסבר בעברית', 'Show Hebrew')}" lang="he">עב</button><span class="bi-he" lang="he" dir="rtl" hidden>${obj.he}</span>` : ''}</span>`;
+  return html`<span class="bi">${showHe && support === 'full' ? html`<span class="bi-he" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}<span class="bi-en" lang="en" dir="ltr">${obj.en}</span>${showHe && support !== 'full' ? html`<span class="bi-he bi-he-after" lang="he" dir="rtl">${isolateLatin(obj.he)}</span>` : ''}${!showHe && obj.he ? html`<button type="button" class="he-reveal" data-reveal-he aria-label="${tt('הצגת הסבר בעברית', 'Show Hebrew')}" lang="he">עב</button><span class="bi-he" lang="he" dir="rtl" hidden>${isolateLatin(obj.he)}</span>` : ''}</span>`;
 }
