@@ -31,7 +31,7 @@
       hq: "MIFTAH · Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
       aria: "Interactive globe with MIFTAH projects in Israel and abroad", fly: "▶ From orbit to the net house", flyc: "An illustrated descent from orbit, ending on real drone footage of a MIFTAH net house.", close: "Close", ill: "Illustration", real: "Real drone footage" }
   };
-  var L = "he", sel = "il";
+  var L = /^he\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";
   try { if (localStorage.getItem("miftah-globe-lang") === "en") L = "en"; } catch (e) {}
   var qs = /[?&]lang=(he|en)/.exec(location.search); if (qs) L = qs[1];
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;

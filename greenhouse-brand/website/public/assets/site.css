@@ -1209,3 +1209,19 @@ body.top-dark .site-head:not(.solid) .head-tel { color: var(--white); }
 .proj-split .lead { margin-top: 16px; max-width: 42ch; }
 .proj-split .feat-cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 @media (max-width: 860px) { .proj-split { grid-template-columns: 1fr; } }
+/* crop specs: the label goes above its value when the panel is narrow for the text size (text-only zoom 200%, 320px phones) */
+.crop-panel { container-type: inline-size; }
+@container (max-width: 20em) { .crop-spec > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.crop-spec dd { overflow-wrap: break-word; }
+/* figures: one line each at normal text size (checked 320-1920 in both languages); enlarged text may wrap instead of scrolling sideways.
+   The word figure is set smaller, and the figures of a row share one bottom line (subgrid) */
+.fact b { white-space: normal; align-self: end; }
+.fact { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+.fact.w b { font-size: clamp(1.4rem, 2.6vw, 2.6rem); }
+@media (max-width: 900px) { .fact.w b { font-size: clamp(1.15rem, 5.6vw, 2.1rem); } }
+/* areas abroad: name and value above the bar when the column is narrow for the text size */
+ul.bars { container-type: inline-size; }  /* ul: the menu icon is also called .bars */
+@container (max-width: 18em) {
+  .bars li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .bars .bar { grid-column: 1 / -1; grid-row: 2; }
+}

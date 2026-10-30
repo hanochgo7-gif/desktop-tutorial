@@ -262,6 +262,9 @@ def jsonld(slug, L, crumbs):
                       "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
     if slug in ("contact", "net-houses") or slug in C.CROP_PAGES:
         faq = C.FAQ if slug == "contact" else C.NET_FAQ if slug == "net-houses" else C.CROP_PAGES[slug]["faq"]
+        if slug == "net-houses":  # a question shown on a crop page too is marked up only there (Google: one instance per site)
+            crop_qs = {q for cp in C.CROP_PAGES.values() for q, _ in cp["faq"]}
+            faq = [(q, a_) for q, a_ in faq if q not in crop_qs]
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in faq]})
     data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("<", "\\u003c")  # no "</script>" can close it early
     return '<script type="application/ld+json">' + data + "</script>"
@@ -497,7 +500,8 @@ def p_index(L):
     ticker = (f'<section class="ticker" aria-label="{esc(tm(O["ticker_label"], L))}"><div class="ticker-track">{items}<span aria-hidden="true" class="dup">{items}</span></div>'
               f'<button class="ticker-btn" type="button" aria-pressed="false" data-pause="{esc(tm(O["ticker_pause"], L))}" data-play="{esc(tm(O["ticker_play"], L))}" aria-label="{esc(tm(O["ticker_pause"], L))}">'
               '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"/><path class="i-play" d="M2 1l9 5-9 5z" fill="currentColor"/></svg></button></section>')
-    facts = "".join(f'<div class="fact"><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div>' for a_, b_ in C.FACTS)
+    # a figure that is a word ("Own plant") is set smaller than the numbers, so it stays on one line
+    facts = "".join(f'<div class="fact{"" if re.search(r"[0-9]", tm(a_, L)) else " w"}"><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div>' for a_, b_ in C.FACTS)
     def sol(x):
         img = picture(x["img"], tm(x["alt"], L), L, sizes="(max-width: 980px) 100vw, 40vw", archive=True) if x["img"] else ""
         chips = "".join(f"<span>{esc(t(c, L))}</span>" for c in x["chips"])
@@ -1022,7 +1026,9 @@ def globe_page():
                      ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
                       "ישראל ושבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים את העבודה, מדריכים צוות מקומי ומנהלים את הביצוע."),
                      ("From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
-                      "Israel and seven countries abroad. On every project abroad we plan the work, train a local crew and manage the build.")):
+                      "Israel and seven countries abroad. On every project abroad we plan the work, train a local crew and manage the build."),
+                     # opened without ?lang and without a saved choice: the browser's language (Hebrew browsers get Hebrew)
+                     ('var L = "he", sel = "il";', 'var L = /^he\\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";')):
         assert old in js, old
         js = js.replace(old, new)
     js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
