@@ -114,8 +114,8 @@
     }
     // load after the page has loaded, so the poster (LCP) and text come first; never with reduced motion
     var cn = navigator.connection, slow = cn && (cn.saveData || /(^|-)(2g|3g)$/.test(cn.effectiveType || ""));
-    var phone = window.matchMedia("(max-width: 720px)").matches, touched = false;
-    function go() { if (touched) return; if (reduce || slow || phone) { label(false); return; } start(); }
+    var touched = false;  // phones play too (the 1.7 MB portrait cut), after the page has loaded; not with reduced motion, data saver or 2G/3G
+    function go() { if (touched) return; if (reduce || slow) { label(false); return; } start(); }
     if (document.readyState === "complete") setTimeout(go, 300);
     else window.addEventListener("load", function () { setTimeout(go, 300); });
     if (btn) btn.addEventListener("click", function () {

@@ -77,7 +77,7 @@ IDs refer to the round-1 reports: A, BC, D, E (copy; its own letters in brackets
 ### Performance
 | # | Finding | IDs | Status | Notes |
 |---|---|---|---|---|
-| 37 | Hero video autoplays on phones (1.74 MB, 89% of the page) | G6 | **Fixed** | Phones get the poster and a Play button. |
+| 37 | Hero video autoplays on phones (1.74 MB, 89% of the page) | G6 | **Reversed by the client** | 30 Oct: Hanoch asked for the opening film on phones too. It plays after the page has loaded (the 1.7 MB portrait cut); not with reduced motion, data saver or 2G/3G. |
 | 38 | Forced layout at start-up | G8 | **Fixed** | First header update after the first paint. |
 | 39 | Globe loads 450 KB as you scroll near it | G10, D12 | **Fixed** | Phones load it only on a tap; the still stays until the globe has loaded. |
 | 40 | 3D page dots do nothing before three.js | G11 | **Fixed** | Bound at start. |
