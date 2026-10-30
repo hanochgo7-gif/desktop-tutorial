@@ -29,7 +29,7 @@
     { "type": "rule", "en": "from + country: I'm from Japan. be + nationality: I'm Japanese. (Not 'I'm from Japanese' or 'I'm Japan'.)", "he": "from + מדינה: I'm from Japan. be + לאום: I'm Japanese. (לא 'I'm from Japanese' ולא 'I'm Japan'.)" },
     { "type": "rule", "en": "A job needs a or an: I'm a student. She's an engineer. Use an before a vowel sound: an artist, an actor. For two or more people, no a: We're students.", "he": "לפני מקצוע ביחיד באים a או an: I'm a student. She's an engineer. לפני צליל תנועה – an: an artist, an actor. ברבים אין a: We're students." },
     { "type": "tip", "en": "What do you do? means What's your job? Answer: I'm a nurse. / I'm a student.", "he": "What do you do? פירושו 'במה את/ה עובד/ת?' (לא 'מה את/ה עושה עכשיו'). עונים: I'm a nurse / I'm a student." },
-    { "type": "warning", "en": "Question order: Where are you from? from goes at the end (not 'From where you are?').", "he": "סדר המילים בשאלה: Where are you from? – ה-from בסוף. לא 'From where you are?' ולא 'Where you from?'." }
+    { "type": "warning", "en": "Question order: Where are you from? The word from goes at the end, and are comes before you (not 'From where are you?' or 'Where you from?').", "he": "סדר המילים בשאלה: Where are you from? – ה-from בסוף, ו-are בא לפני you. לא 'From where are you?' ולא 'Where you from?'." }
   ],
   "examples": [
     { "en": "Where are you from?", "he": "מאיפה את/ה?" },
@@ -43,7 +43,7 @@
   ],
   "vocab": [
     { "word": "country", "pos": "noun", "he": "מדינה, ארץ", "def": "a land with its own government, like Israel or Japan", "example": "Israel is a small country.", "ipa": "/ˈkʌntri/", "level": "PreA1" },
-    { "word": "nationality", "pos": "noun", "he": "לאום, אזרחות", "def": "the country you belong to as a citizen", "example": "What's your nationality? I'm Israeli.", "ipa": "/ˌnæʃəˈnæləti/", "level": "PreA1" },
+    { "word": "nationality", "pos": "noun", "he": "לאום, אזרחות", "def": "being from a country: Israeli, French, Japanese...", "example": "What's your nationality? I'm Israeli.", "ipa": "/ˌnæʃəˈnæləti/", "level": "PreA1" },
     { "word": "job", "pos": "noun", "he": "עבודה, מקצוע", "def": "the work you do to get money", "example": "What's your job?", "ipa": "/dʒɒb/", "level": "PreA1" },
     { "word": "Israeli", "pos": "adjective", "he": "ישראלי/ת", "def": "from Israel", "example": "I'm Israeli.", "ipa": "/ɪzˈreɪli/", "level": "PreA1" },
     { "word": "American", "pos": "adjective", "he": "אמריקאי/ת", "def": "from the USA", "example": "Sara is American.", "ipa": "/əˈmerɪkən/", "level": "PreA1" },
@@ -60,7 +60,7 @@
   "hebrew_pitfalls": [
     { "en": "In Hebrew a job needs no article ('I'm student' is just two words). English works differently, so use a or an before one person's job: I'm a student. She's an engineer.", "he": "בעברית אומרים 'אני סטודנט' בלי שום מילה לפני המקצוע. באנגלית זה עובד אחרת: לפני מקצוע של אדם אחד באים a או an – I'm a student, She's an engineer. לא I'm student.", "error_type": "article" },
     { "en": "Hebrew writing works differently: it has no capital letters. So remember that English countries, nationalities and languages always start with a capital: Israel, Israeli, Hebrew, English.", "he": "בכתב העברי אין אותיות גדולות. לכן זכרו: באנגלית מדינות, לאומים ושפות תמיד מתחילים באות גדולה – Israel, Israeli, Hebrew, English.", "error_type": "capitalization" },
-    { "en": "In Hebrew, 'Where are you from?' works differently: the question starts with 'from where' and has no verb. In English, use be and put from at the end: Where are you from?", "he": "בעברית אומרים 'מאיפה את/ה?' – השאלה מתחילה ב'מ-איפה' ואין בה פועל. באנגלית צריך are, ו-from עובר לסוף: Where are you from? לא 'From where you?'.", "error_type": "word-order" }
+    { "en": "In Hebrew, the question 'Where are you from?' has no verb. English works differently: the question needs be, and it comes before the subject: Where are you from? (not 'Where you from?').", "he": "בעברית אומרים 'מאיפה את/ה?' – בלי פועל. באנגלית זה עובד אחרת: בשאלה צריך be, והוא בא לפני הנושא: Where are you from? ולא 'Where you from?'.", "error_type": "copula-omission" }
   ],
   "exercises": [
     {
@@ -189,6 +189,10 @@
       "sentence": "My sister is engineer.",
       "answers": ["My sister is an engineer.", "My sister's an engineer."],
       "error_type": "article",
+      "wrong_feedback": [
+        { "match": "My sister is a engineer.", "feedback": { "en": "Good, you added the missing word! But engineer starts with a vowel sound, so an: an engineer.", "he": "יפה, הוספתם את המילה החסרה! אבל engineer מתחילה בצליל תנועה, ולכן an: an engineer." }, "error_type": "article" },
+        { "match": "My sister is the engineer.", "feedback": { "en": "For a job, use a or an, not the: My sister is an engineer.", "he": "לפני מקצוע משתמשים ב-a או an, לא ב-the: My sister is an engineer." }, "error_type": "article" }
+      ],
       "hint": { "en": "One small word is missing before the job.", "he": "חסרה מילה קטנה לפני המקצוע." },
       "explanation": { "en": "One person + job needs a/an: My sister is an engineer.", "he": "אדם אחד + מקצוע: צריך a/an – My sister is an engineer." }
     },
@@ -246,7 +250,7 @@
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "personal-info",
-      "prompt": { "en": "Introduce yourself. Say it out loud.", "he": "הציגו את עצמכם. אמרו בקול." },
+      "prompt": { "en": "Say Dana's introduction out loud.", "he": "אמרו בקול את ההצגה העצמית של דנה." },
       "target": "Hi, I'm Dana. I'm from Israel, and I'm an engineer.",
       "focus": { "en": "In English, Israel is stressed on the first part: IZ-rail /ˈɪzreɪl/. Israeli: iz-RAY-li /ɪzˈreɪli/.", "he": "באנגלית ההטעמה ב-Israel בהתחלה: 'IZ-rail' /ˈɪzreɪl/, ולא בסוף כמו בעברית (ישראֵל). וב-Israeli: 'iz-RAY-li' /ɪzˈreɪli/." },
       "explanation": { "en": "Name, country and job: three facts in one natural introduction.", "he": "שם, מדינה ומקצוע – שלושה פרטים בהצגה עצמית טבעית." }
