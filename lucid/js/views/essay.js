@@ -25,12 +25,26 @@ const CATEGORY = {
 };
 const SEVERITY = { critical: ['חשוב לתקן', 'Must fix', 'bad'], important: ['כדאי לתקן', 'Should fix', 'warn'], style: ['שיפור סגנון', 'Style', 'cobalt'] };
 const ARGUMENTATIVE = new Set(['argument-construction', 'thesis-development', 'counterargument', 'essay', 'critical-response', 'research', 'timed', 'evidence-evaluation']);
+// Each level ends with a writing task from the curriculum (A1 self-introduction ... C2 research paper).
+const FINAL_FOCUS = { 1: ['grammar', 'vocabulary', 'clarity'], 2: ['coherence', 'cohesion', 'grammar'], 3: ['coherence', 'argument_strength', 'cohesion'], 6: ['argument_strength', 'evidence_quality', 'counterarguments'], 8: ['argument_strength', 'evidence_quality', 'academic_tone', 'precision'], 10: ['argument_strength', 'evidence_quality', 'counterarguments', 'academic_tone', 'precision'] };
+function finalTask(cur, level) {
+  const lvl = cur?.levels?.find((l) => l.id === level);
+  const fa = lvl?.final_assessment;
+  if (!fa) return null;
+  return {
+    id: `final-${level}`, final_task: true, stage: fa.stage || 0, level, kind: 'essay',
+    title_en: `Final writing task: ${LEVEL_LABEL[level]}`, title_he: `משימת הסיום של ${LEVEL_LABEL[level]}`,
+    instructions: { en: fa.task, he: fa.task_he || null }, min_words: fa.min_words, max_words: fa.max_words || null,
+    focus: FINAL_FOCUS[fa.stage] || FREE.focus, checklist: [],
+  };
+}
+
 const FREE = { id: 'free', stage: 0, level: null, kind: 'essay', title_en: 'Free writing', title_he: 'כתיבה חופשית', instructions: { en: 'Write about anything you like. Use the checks to improve it.', he: 'כתבו על כל נושא שתרצו, והשתמשו בבדיקות כדי לשפר.' }, min_words: 30, focus: ['grammar', 'vocabulary', 'clarity'], checklist: [] };
 
 export default async function essay(el, ctx) {
   const id = ctx.params.id;
-  const [ex, as, tx] = await Promise.all([content.writingExercises(), content.assignments(), taxonomyIndex()]);
-  const task = id === 'free' ? FREE : (ex?.exercises || []).find((x) => x.id === id) || (as?.assignments || []).find((x) => x.id === id);
+  const [ex, as, tx, cur] = await Promise.all([content.writingExercises(), content.assignments(), taxonomyIndex(), content.curriculum()]);
+  const task = id === 'free' ? FREE : id.startsWith('final-') ? finalTask(cur, id.slice(6)) : (ex?.exercises || []).find((x) => x.id === id) || (as?.assignments || []).find((x) => x.id === id);
   if (!task) { render(el, emptyState({ title: tt('התרגיל לא נמצא', 'Exercise not found'), action: html`<a class="key enter" href="#/writing">${t('nav.writing')}</a>` })); return; }
   ctx.setTitle(task.title_en);
   const m = model();
@@ -180,7 +194,7 @@ export default async function essay(el, ctx) {
     const n = last && last.text === text ? last.n : (last?.n || 0) + 1;
     const rec = { id: `${sumId}#${n}`, kind: 'essay-version', exercise: task.id, n, text, words: countWords(text), at: new Date().toISOString(), level, analysis: { stats: analysis?.stats, issues: analysis?.issues?.length || 0 }, evaluation: evaluation || (last?.n === n ? last.evaluation : null) };
     store.put('writing', rec);
-    store.put('writing', { id: sumId, kind: 'essay-summary', exercise: task.id, title: task.title_en, status: evaluation ? 'evaluated' : 'draft', versions: n, last_estimate: evaluation?.cefr_estimate || store.get('writing', sumId)?.last_estimate || null, updated: rec.at });
+    store.put('writing', { id: sumId, kind: 'essay-summary', exercise: task.id, title: task.title_en, status: store.get('writing', sumId)?.status === 'final' ? 'final' : evaluation ? 'evaluated' : 'draft', versions: n, last_estimate: evaluation?.cefr_estimate || store.get('writing', sumId)?.last_estimate || null, updated: rec.at });
     return rec;
   }
 
@@ -225,7 +239,7 @@ export default async function essay(el, ctx) {
       draw();
     }),
     on(el, 'change', '[data-self]', (e, sel) => { if (sel.value === '') delete selfScores[sel.dataset.self]; else selfScores[sel.dataset.self] = Number(sel.value); }),
-    on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { store.put('writing', { ...v, final: true }); draw(); } }),
+    on(el, 'click', '[data-final]', () => { const v = latestEval(); if (v) { store.put('writing', { ...v, final: true }); store.update('writing', sumId, { status: 'final' }); logEvent({ type: 'writing-final', exercise: task.id, estimate: v.evaluation?.cefr_estimate }); draw(); } }),
     on(el, 'click', '[data-compare]', (e, b) => { const n = Number(b.dataset.compare); compareWith = compareWith === n ? null : n; draw(); }),
     on(el, 'click', '[data-report]', () => { logEvent({ type: 'ai-report', exercise: task.id, version: latestEval()?.n }); toast(tt('תודה. הדיווח נשמר ויעזור לבדוק את איכות המשוב.', 'Thanks. Your report was saved and helps us audit feedback quality.')); }),
     on(el, 'click', '[data-timer]', () => {

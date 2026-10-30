@@ -8,7 +8,7 @@ const L = (id, title_en, title_he, topics, can_do, cover, extra = {}) => ({ id, 
 const LEVELS = {
   PreA1: {
     unit_en: 'Foundations', unit_he: 'יסודות',
-    final: { task: 'Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).', min_words: 25 },
+    final: { task: 'Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).', task_he: 'הציגו את עצמכם ב-5-6 משפטים פשוטים באנגלית: שם, גיל, ארץ, עבודה או לימודים, ודבר אחד שאתם אוהבים.', min_words: 25, max_words: 70, stage: 1 },
     lessons: [
       L('pa1-01', 'The English alphabet', 'האלפבית האנגלי', ['alphabet'], 'I can say and recognise the 26 letters and spell my name.', 'Letter names vs sounds; capital and small letters (Hebrew has no capitals); spelling a name aloud; letters Hebrew speakers confuse (b/p/v, e/i, g/j, a/e/i names).'),
       L('pa1-02', 'Letter sounds', 'צלילי האותיות', ['phonics'], 'I can read simple short words by their sounds.', 'Short vowels a e i o u in CVC words (cat, bed, sit, hot, cup); consonant sounds absent in Hebrew: th (think/this), w vs v; ship/sheep contrast; silent e (made, time).'),
@@ -24,7 +24,7 @@ const LEVELS = {
   },
   A1: {
     unit_en: 'Everyday life', unit_he: 'חיי היום-יום',
-    final: { task: 'Write a short introduction about yourself and your daily life (60-80 words).', min_words: 60 },
+    final: { task: 'Write a short introduction about yourself and your daily life (60-80 words).', task_he: 'כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים).', min_words: 60, max_words: 100, stage: 1 },
     lessons: [
       L('a1-01', 'Present simple: I, you, we, they', 'הווה פשוט: I, you, we, they', ['present-simple'], 'I can describe habits and facts.', 'Form and use for routines and facts; common verbs (live, work, study, like, eat, drink, go); time expressions every day, on Mondays.'),
       L('a1-02', 'Present simple: he, she, it', 'הווה פשוט: he, she, it', ['present-simple-third-person'], 'I can talk about other people\'s routines.', '-s/-es/-ies spelling; has, does, goes; pronunciation /s/ /z/ /ɪz/; the frequent omission of -s.'),
@@ -45,7 +45,7 @@ const LEVELS = {
   },
   A2: {
     unit_en: 'Experiences and plans', unit_he: 'חוויות ותוכניות',
-    final: { task: 'Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.', min_words: 100 },
+    final: { task: 'Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.', task_he: 'תארו באנגלית חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף.', min_words: 100, max_words: 160, stage: 2 },
     lessons: [
       L('a2-01', 'What are you doing?', 'מה אתה עושה עכשיו?', ['present-continuous'], 'I can describe what is happening now.', 'am/is/are + -ing; spelling (making, running, lying); now, at the moment, today; questions and negatives.'),
       L('a2-02', 'Usually vs right now', 'בדרך כלל מול עכשיו', ['present-simple-vs-continuous'], 'I can choose between present simple and continuous.', 'Habit vs now; temporary situations; stative verbs (like, want, know, need, believe) not usually in -ing; Hebrew has one present tense.'),
@@ -66,7 +66,7 @@ const LEVELS = {
   },
   B1: {
     unit_en: 'Opinions and reasons', unit_he: 'דעות ונימוקים',
-    final: { task: 'Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.', min_words: 250 },
+    final: { task: 'Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.', task_he: 'כתבו באנגלית חיבור דעה של כ-300 מילים: פתיחה, נימוקים תומכים וסיכום.', min_words: 250, max_words: 380, stage: 3 },
     lessons: [
       L('b1-01', 'Have you ever...?', 'Have you ever...?', ['present-perfect'], 'I can talk about life experiences.', 'have/has + past participle; ever/never; been vs gone; past participles of common irregulars; Hebrew has no equivalent tense.'),
       L('b1-02', 'Present perfect or past simple?', 'Present perfect או עבר פשוט?', ['present-perfect-vs-past'], 'I can choose correctly between present perfect and past simple.', 'Finished time = past simple (*I have seen him yesterday); unfinished time; for vs since; just/already/yet; How long have you...?'),
@@ -84,7 +84,7 @@ const LEVELS = {
   },
   B2: {
     unit_en: 'Arguments and nuance', unit_he: 'טיעונים ודקויות',
-    final: { task: 'Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.', min_words: 450 },
+    final: { task: 'Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.', min_words: 450, max_words: 600, stage: 6 },
     lessons: [
       L('b2-01', 'Narrative tenses and the past perfect', 'זמני סיפור ו-past perfect', ['past-perfect'], 'I can sequence past events precisely in a narrative.', 'past perfect simple and continuous; by the time, before, after, already; narrative tense control.'),
       L('b2-02', 'If I had known: third and mixed conditionals', 'תנאי שלישי ומעורב', ['conditionals-3-mixed'], 'I can speculate about the past and its consequences.', 'If + past perfect, would have + pp; mixed conditionals; I wish / If only; regrets and criticism.'),
@@ -100,7 +100,7 @@ const LEVELS = {
   },
   C1: {
     unit_en: 'Academic argument', unit_he: 'טיעון אקדמי',
-    final: { task: 'Write an 800-1,000-word analytical argumentative essay.', min_words: 750 },
+    final: { task: 'Write an 800-1,000-word analytical argumentative essay.', min_words: 750, max_words: 1100, stage: 8 },
     lessons: [
       L('c1-01', 'Academic vocabulary and nominalisation', 'אוצר מילים אקדמי ונומינליזציה', ['nominalisation'], 'I can use academic vocabulary and nominalisation to write concisely and formally.', 'Academic word families (analyse/analysis/analytical); turning verbs into nouns (decide -> the decision to); avoiding over-nominalisation.'),
       L('c1-02', 'Sophisticated sentence structures', 'מבנים תחביריים מתקדמים', ['inversion-cleft'], 'I can use inversion, cleft sentences and participle clauses for emphasis and flow.', 'Not only... but also, Rarely/Seldom/Only then inversion; It is X that..., What... is...; participle clauses (Having considered...); dangling participles.'),
@@ -114,7 +114,7 @@ const LEVELS = {
   },
   C2: {
     unit_en: 'Mastery', unit_he: 'שליטה',
-    final: { task: 'Produce a 1,500-2,000-word research-based argumentative paper.', min_words: 1400 },
+    final: { task: 'Produce a 1,500-2,000-word research-based argumentative paper.', min_words: 1400, max_words: 2200, stage: 10 },
     lessons: [
       L('c2-01', 'Style and connotation', 'סגנון וקונוטציה', ['style-nuance'], 'I can make deliberate stylistic choices and control connotation.', 'Near-synonyms with different connotations (frugal/stingy, assertive/aggressive); register shifts for effect; sentence rhythm; voice.'),
       L('c2-02', 'Irony and implicature', 'אירוניה ומשמעות מרומזת', ['irony-implicature'], 'I can recognise and use irony, understatement and implied meaning.', 'Verbal irony, understatement, litotes, implicature; reading between the lines in editorials and essays; risks of irony in academic writing.'),

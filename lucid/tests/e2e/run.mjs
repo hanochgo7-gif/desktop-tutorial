@@ -334,7 +334,7 @@ try {
   });
 
   await check('14-15. Mobile (320, 390), tablet and desktop layouts, every route loads without errors or horizontal overflow', async () => {
-    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
+    const routes = ['today', 'help', 'path', 'path/B2', 'practice', 'vocab', 'grammar', 'reading', 'listening', 'speaking', 'writing', 'writing/free', 'writing/final-B2', 'tutor', 'real-life', 'expressions', 'conversations', 'progress', 'profile', 'settings', 'account', 'lesson/pa1-05', 'review', 'checkpoint/PreA1'];
     for (const vp of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 768, height: 1024 }, { width: 1440, height: 900 }]) {
       const { ctx, page } = await newPage(browser, { viewport: vp });
       await onboard(page, { start: 'zero' });

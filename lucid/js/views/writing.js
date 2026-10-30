@@ -3,7 +3,7 @@
 import { html, render, on } from '../core/util.js';
 import { tt, t, legend } from '../core/i18n.js';
 import { content } from '../core/content.js';
-import { icon, levelTag, emptyState } from '../ui/components.js';
+import { icon, levelTag, emptyState, LEVEL_LABEL } from '../ui/components.js';
 import { model } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { levelIndex } from '../core/adaptive.js';
@@ -25,22 +25,23 @@ export const STAGE_FOR_LEVEL = { PreA1: 1, A1: 1, A2: 2, B1: 3, B2: 5, C1: 8, C2
 
 export default async function writing(el, ctx) {
   ctx.setTitle(t('nav.writing'));
-  const [ex, as] = await Promise.all([content.writingExercises(), content.assignments()]);
+  const [ex, as, cur] = await Promise.all([content.writingExercises(), content.assignments(), content.curriculum()]);
+  const finals = (cur?.levels || []).filter((l) => l.final_assessment?.stage).map((l) => ({ id: `final-${l.id}`, _type: 'final', stage: l.final_assessment.stage, level: l.id, min_words: l.final_assessment.min_words, title_en: `${LEVEL_LABEL[l.id]} final writing task`, title_he: `משימת הסיום של ${LEVEL_LABEL[l.id]}` }));
   const exercises = ex?.exercises || [];
   const assignments = as?.assignments || [];
   const m = model();
   const rec = STAGE_FOR_LEVEL[m.courseLevel] || 1;
   const summaries = store.all('writing').filter((w) => w.kind === 'essay-summary').sort((a, b) => (a.updated < b.updated ? 1 : -1));
-  const all = [...exercises.map((x) => ({ ...x, _type: 'exercise' })), ...assignments.map((x) => ({ ...x, _type: 'assignment' }))];
+  const all = [...exercises.map((x) => ({ ...x, _type: 'exercise' })), ...assignments.map((x) => ({ ...x, _type: 'assignment' })), ...finals];
   let open = Number(ctx.query.stage) || rec;
 
   function itemRow(x) {
     const s = summaries.find((w) => w.exercise === x.id);
     const tooHard = levelIndex(x.level) > levelIndex(m.courseLevel) + 1;
     return html`<li><a class="lesson-row" href="#/writing/${x.id}" style="grid-template-columns:auto 1fr auto">
-      <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' ? 'flag' : x.items ? 'list' : 'writing')}</span>
-      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
-      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' ? 'ok' : ''}">${s.status === 'evaluated' ? tt(`טיוטה ${s.versions}`, `Draft ${s.versions}`) : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
+      <span class="glyph" style="color:var(--ink-2)">${icon(x._type === 'assignment' || x._type === 'final' ? 'flag' : x.items ? 'list' : 'writing')}</span>
+      <span class="grow">${legend(x.title_en, x.title_he)}<span class="meta" style="display:block">${x._type === 'final' ? tt(`משימת סיום הרמה · לפחות ${x.min_words} מילים`, `Level final task · at least ${x.min_words} words`) : x._type === 'assignment' ? tt(`מטלה · ${x.word_range[0]}-${x.word_range[1]} מילים`, `Assignment · ${x.word_range[0]}-${x.word_range[1]} words`) : x.items ? tt(`${x.items.length} תרגילים`, `${x.items.length} exercises`) : x.min_words ? tt(`לפחות ${x.min_words} מילים`, `At least ${x.min_words} words`) : ''}${x.time_limit_min ? tt(` · ${x.time_limit_min} דקות`, ` · ${x.time_limit_min} min`) : ''}${tooHard ? tt(' · מעל הרמה הנוכחית', ' · above your current level') : ''}</span></span>
+      <span class="row">${s ? html`<span class="tag ${s.status === 'evaluated' || s.status === 'final' ? 'ok' : ''}">${s.status === 'final' ? tt('הוגשה', 'Final') : s.status === 'evaluated' ? tt(`טיוטה ${s.versions}`, `Draft ${s.versions}`) : tt('בכתיבה', 'In progress')}</span>` : ''}${levelTag(x.level)}</span></a></li>`;
   }
 
   function draw() {

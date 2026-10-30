@@ -7,7 +7,10 @@
    "unit_he": "יסודות",
    "final_assessment": {
     "task": "Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).",
-    "min_words": 25
+    "task_he": "הציגו את עצמכם ב-5-6 משפטים פשוטים באנגלית: שם, גיל, ארץ, עבודה או לימודים, ודבר אחד שאתם אוהבים.",
+    "min_words": 25,
+    "max_words": 70,
+    "stage": 1
    },
    "lessons": [
     {
@@ -142,7 +145,10 @@
    "unit_he": "חיי היום-יום",
    "final_assessment": {
     "task": "Write a short introduction about yourself and your daily life (60-80 words).",
-    "min_words": 60
+    "task_he": "כתבו באנגלית היכרות קצרה על עצמכם ועל סדר היום שלכם (60-80 מילים).",
+    "min_words": 60,
+    "max_words": 100,
+    "stage": 1
    },
    "lessons": [
     {
@@ -338,7 +344,10 @@
    "unit_he": "חוויות ותוכניות",
    "final_assessment": {
     "task": "Write a structured description of a personal experience (100-130 words) with a beginning, middle and end.",
-    "min_words": 100
+    "task_he": "תארו באנגלית חוויה אישית (100-130 מילים) עם התחלה, אמצע וסוף.",
+    "min_words": 100,
+    "max_words": 160,
+    "stage": 2
    },
    "lessons": [
     {
@@ -532,7 +541,10 @@
    "unit_he": "דעות ונימוקים",
    "final_assessment": {
     "task": "Write a 300-word opinion essay with an introduction, supporting arguments and a conclusion.",
-    "min_words": 250
+    "task_he": "כתבו באנגלית חיבור דעה של כ-300 מילים: פתיחה, נימוקים תומכים וסיכום.",
+    "min_words": 250,
+    "max_words": 380,
+    "stage": 3
    },
    "lessons": [
     {
@@ -688,7 +700,9 @@
    "unit_he": "טיעונים ודקויות",
    "final_assessment": {
     "task": "Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion.",
-    "min_words": 450
+    "min_words": 450,
+    "max_words": 600,
+    "stage": 6
    },
    "lessons": [
     {
@@ -820,7 +834,9 @@
    "unit_he": "טיעון אקדמי",
    "final_assessment": {
     "task": "Write an 800-1,000-word analytical argumentative essay.",
-    "min_words": 750
+    "min_words": 750,
+    "max_words": 1100,
+    "stage": 8
    },
    "lessons": [
     {
@@ -928,7 +944,9 @@
    "unit_he": "שליטה",
    "final_assessment": {
     "task": "Produce a 1,500-2,000-word research-based argumentative paper.",
-    "min_words": 1400
+    "min_words": 1400,
+    "max_words": 2200,
+    "stage": 10
    },
    "lessons": [
     {
