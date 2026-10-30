@@ -190,11 +190,87 @@ Three verifiers checked preview `53cb3gp7j` (commit 7170040) without the fixer's
 | T13 | Short descriptions (privacy, accessibility) | **Fixed** |
 | T14 | `where` values missing from the measurement plan | **Fixed** |
 
-### Test results
-(Filled in with the final runs: local suite, preview checks and production checks.)
+### Test results (30 October 2026)
+Production = https://miftah-site.vercel.app at commit f45fcb7 (deployment `i8jr1q5ze`); preview `hwkmlt3ju` is the same build.
+
+| Check | Where | Result | Status |
+|---|---|---|---|
+| Slogan in the header, every page, 9 widths, EN+HE | local | 198 / 198 | PASS |
+| Layout: overflow, off-screen, clipped text, small targets; 14 widths 320–1920 × 24 pages | local | 336 checks, no issues | PASS |
+| Header sweep 1181–2560 px (button on screen, logo ≥100 px, icon 16 px, slogan line shown), EN+HE | local | no failures | PASS |
+| Text-only zoom 200% at 390 px, 10 pages | local | no sideways scroll | PASS |
+| Key figures on one line, 12 widths × EN+HE | local | all | PASS |
+| axe-core (WCAG 2.0/2.1/2.2 A+AA), home and states | local | 0 violations | PASS |
+| axe-core, 26 pages × 2 widths + 28 states (round-3 verifier, preview 7170040) | preview | 0 violations in 84 runs | PASS |
+| Hero text contrast per glyph pixel, poster frame, 320/390/768/1440, EN+HE | local, after fixes | slogan: 0% of glyph pixels under 3:1 at every width; lead and header slogan line: 0% under 4.5:1; sub-line: 0% under 4.5:1 on phones and tablets, 0% under 3:1 at 1440 px (26 px, so large text) | PASS |
+| Hero contrast while the video plays | – | measured by the verifier before the fixes only | NOT TESTED after the fixes |
+| Form: validation, two steps, honest "not connected" result, success/500/timeout with a mocked endpoint, double send, honeypot, prefill | local | 24 / 24 | PASS |
+| Keyboard: menu, Escape, language switch, 404 links, no-JS form | local | 17 / 17 | PASS |
+| Round-2 behaviours (prefill, partner path, history, events once, result boxes, menu, phone bar, globe, video, crop tabs, ticker) | local | 28 / 28 | PASS |
+| Round-3 journey fixes | local | 18 / 18 | PASS |
+| Round-3 design fixes | local | 10 / 10 | PASS |
+| Round-3 technical fixes | local | 11 / 11 | PASS |
+| Older regression set (round 4) | local, preview, production | 22 / 22 each | PASS |
+| Console errors, page errors, failed requests, third-party requests | local (58 loads incl. globe) | none | PASS |
+| Console errors and CSP violations under the real headers, all pages EN+HE at 390/1440, globe loaded, 3D page scrolled | preview `hwkmlt3ju` | 55 loads, no errors (only the intended 404 of a missing page) | PASS |
+| Live checks (site, slogan, H1, globe, 3D page, headers, canonical, hreflang, robots, sitemap 22 URLs, structured data, header behaviour, crop selector, form, globe, no JS errors) | production | 27 / 27 | PASS |
+| `/%2ehtaccess`, `/.vercelignore` | preview and production | 404 (was 200 with the Apache config) | PASS |
+| Redirects from the old site: 54 cases incl. both %-encodings, `/index.html`, `/he`, slugs without `.html` | preview 7170040 (round-3 verifier) | 54 / 54 one hop to 200 | PASS |
+| html-validate, every page | local | clean | PASS |
+| Lighthouse | production | see below | |
+| Screen readers, Safari, Firefox, real phones | – | – | NOT TESTED |
+| Sending a real enquiry | – | no endpoint exists (O1) | BLOCKED |
+| Analytics, Search Console, CRM | – | not connected | BLOCKED |
+
+Lighthouse on production (median of 3 runs):
+
+| Page | Phone: perf / a11y / best practices / SEO | Phone LCP | Phone TBT | Phone KB | Desktop: perf / a11y / BP / SEO | Desktop LCP | Desktop KB |
+|---|---|---|---|---|---|---|---|
+| `/` | 100 / 100 / 100 / 100 | 1.43 s | 46 ms | 210 | 100 / 100 / 100 / 100 (2 valid runs) | 0.38 s | 4,214 |
+| `/he/` | 100 / 100 / 100 / 100 | 1.37 s | 0 ms | 211 | 100 / 100 / 100 / 100 | 0.38 s | 4,215 |
+| `/net-houses.html` | 100 / 100 / 100 / 100 | 1.62 s | 18 ms | 158 | 100 / 100 / 100 / 100 | 0.50 s | 243 |
+| `/contact.html` | 100 / 100 / 100 / 100 | 1.33 s | 31 ms | 84 | 100 / 100 / 100 / 100 | 0.34 s | 84 |
+| `/how-we-build.html` | 100 / 100 / 100 / 100 | 1.59 s | 4 ms | 176 | 100 / 100 / 100 / 100 | 0.39 s | 220 |
+
+CLS is 0.000 on every run. Lighthouse 12 with simulated throttling, from this sandbox; other jobs were running at the same time.
+Before (round 1, preview `m9vpboarn`, phone): home 99 at 1,825 KB (the hero video loaded on phones), net houses 98, contact 100.
+The desktop home weighs about 4.2 MB because the hero video plays on desktop; it loads after the page and does not affect the scores (re-encoding: T10, open).
 
 ## 5. Questions for the owners
-(Filled in with the final report.)
+Each answer unlocks a specific change; none of these may be guessed.
+
+| # | Question | Unlocks |
+|---|---|---|
+| Q1 (O1) | Which inbox receives website enquiries, and which form service may we use? | The form sends; "Send the request" replaces "Show my summary"; leads stop depending on a phone call |
+| Q2 (O13) | Office hours, languages the office answers in (English?), usual reply time | Contact page and turnkey page for foreign investors; structured data |
+| Q3 (O10) | A business email to publish? (WhatsApp stays off, as decided) | A second channel for buyers abroad |
+| Q4 (O5, O6) | Turnkey partner(s): may we name them? Who signs the contract, who does which of the 11 stages, and how does the investor hear about progress during delivery? | The turnkey page's trust gap (the investor's first question) |
+| Q5 (O2–O4) | Approval to show each project (photos, crop, region), client names where allowed, figures after 2015; one photo day (owners, the plant, 2–3 projects, galvanized steel only) | Real proof instead of text cards; new page heads instead of upscaled 2011 photos |
+| Q6 (O11) | Does the "20+ years" experience predate the 2012 company? Legal name and company number for the footer and privacy page | A founding line that survives due diligence |
+| Q7 (O14) | Do you maintain structures built by other suppliers? Warranty terms on the structure and the net? | The "Already have net houses?" answer; a reason for switching growers to call |
+| Q8 (O8) | Where was the drone footage (hero video, globe fly-in) filmed? | Captions and the globe card can name the place |
+| Q9 | Photos: the ages of the crew in the marking photo; the material of the round reservoir; consent for identifiable faces; the yellow lift in the 3D scene and the black tensioning tool | Whether the uncropped photos may return |
+| Q10 | A named accessibility coordinator and an email address | The accessibility statement (required content) |
+| Q11 | Analytics: option A (cookieless) or B (GA4 with consent)? | Measuring the funnel in `MIFTAH_MEASUREMENT_PLAN.md` |
+| Q12 | When to move to www.miftah.co.il (DNS), and who holds the DNS account? | One search address; HSTS on Apache; the profile's QR |
+| Q13 | Google Business Profile and a LinkedIn company page: who creates them? | Local search and `sameAs` links; "MIFTAH" is ambiguous in search today |
+| Q14 | Yiftach to review the engineering wording: drawing labels ("edge cables tie the structure to the ground"), 3D chapters ("side nets and an entrance door close the structure") | Engineering claims signed off by the engineer |
+| Q15 | Do you help growers with grant applications, or only build? | Whether the grant FAQ can offer help |
 
 ## 6. 30-day plan
-(Filled in with the final report.)
+Costs are only stated where known; "time" means our work, with no outside spend.
+
+| When | Step | Impact | Effort | Cost | Depends on |
+|---|---|---|---|---|---|
+| Week 1 | Connect the form to the chosen inbox; test with a real enquiry; switch the button text | Highest: online leads at all | Small (hours) | Time; the form service's plan if one is chosen (owner) | Q1 |
+| Week 1 | Publish office hours and languages; add them to the contact and turnkey pages and structured data | High for buyers abroad | Small | Time | Q2 |
+| Week 1 | Choose analytics A or B; install; check every event in `MIFTAH_MEASUREMENT_PLAN.md` fires once | Lets the next decisions rest on data | Small to medium (B needs a consent banner) | A: vendor subscription or Vercel's plan; B: free tool, consent work | Q11 |
+| Week 2 | Google Business Profile, LinkedIn page, Search Console verification and sitemap submission | Brand search and local visibility | Small for us; owners create the accounts | None | Q13, owners' Google account |
+| Week 2 | Turnkey: partner and contract model on the page, how progress is reported | Investor trust | Small once answered | Time | Q4 |
+| Weeks 2–3 | Photo day; project cards with photos, year and size; replace the upscaled archive heads | Proof for growers and investors | Medium | Photographer (owner's choice) | Q5, Q9 |
+| Week 3 | Engineering review of drawing labels and 3D chapters; maintenance and warranty answer | Accuracy | Small | Time | Q7, Q14 |
+| Week 4 | Move to www.miftah.co.il: DNS, the 109 redirects already built, HSTS, profile QR | One address for search; ends the temporary domain | Small for us; needs DNS access | Domain renewal (existing) | Q12, owners' approval |
+| Week 4 | Profile PDF and QR for Fruit Logistica (3–5 Feb 2027) on the final domain | Leads from the fair | Small | Printing (owner) | Q12 |
+| After 4–6 weeks of data | First funnel review: visits → CTA clicks → form starts → sent → qualified | Know where leads are lost | Small | Time | Analytics installed |
+
+Not in this plan, by choice: paid campaigns (no measurement yet), new service pages (no new verified facts), a CSS clean-up (needs visual regression tests first).
