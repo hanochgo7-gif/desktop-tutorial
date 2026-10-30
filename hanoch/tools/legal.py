@@ -6,7 +6,7 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPDATED = {'he': '10 באוקטובר 2026', 'en': 'October 10, 2026'}
 # עמודים שעודכנו אחרי כן
-UPDATED_FILE = {'privacy.html': '29 באוקטובר 2026', 'en-privacy.html': 'October 29, 2026'}
+UPDATED_FILE = {'privacy.html': '30 באוקטובר 2026', 'en-privacy.html': 'October 30, 2026'}
 TEL, TEL_HE, TEL_EN, MAIL = '+972545522053', '054-5522053', '+972 54-552-2053', 'boss@hgpro.io'
 
 STYLE = '''<style>
