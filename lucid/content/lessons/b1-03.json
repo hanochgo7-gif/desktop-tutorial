@@ -13,7 +13,7 @@
   "warmup": { "en": "Where were you at 8 o'clock last night, and what were you doing?", "he": "איפה הייתם אתמול בשמונה בערב, ומה עשיתם? בעברית אומרים פשוט 'ראיתי סדרה'. באנגלית יש צורה מיוחדת לפעולה שהייתה באמצע: I was watching a series." },
   "explanation": [
     { "type": "p", "en": "Last night at 8:00, Omer was watching a series. At 8:15 his phone rang. → Omer was watching a series when his phone rang. was watching = a longer action in progress (it started before 8:15 and continued); rang = a short event that interrupted it.", "he": "אתמול בשמונה עומר ראה סדרה. ב-8:15 הטלפון שלו צלצל. ← Omer was watching a series when his phone rang. ‏was watching = פעולה ארוכה שהייתה באמצע (התחילה לפני 8:15 ונמשכה); ‏rang = אירוע קצר שקטע אותה." },
-    { "type": "table", "headers": ["", "Form", "Example"], "rows": [
+    { "type": "table", "headers": ["Type", "Form", "Example"], "rows": [
       ["Positive", "I / he / she / it was + -ing · you / we / they were + -ing", "It was raining. We were sitting outside."],
       ["Negative", "wasn't / weren't + -ing", "I wasn't listening. They weren't waiting for us."],
       ["Question", "(Wh-word) + was / were + subject + -ing?", "What were you doing at nine? Was she driving?"],
@@ -129,7 +129,7 @@
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "past-continuous",
       "prompt": { "en": "Complete the story with the past simple or the past continuous of the verbs in brackets.", "he": "השלימו את הסיפור בעבר פשוט או בעבר מתמשך של הפעלים שבסוגריים." },
       "text": "Yesterday I ___ (walk) home from work when it ___ (start) to rain. I ___ (not have) an umbrella, so I ran into a café. While I ___ (wait) for the rain to stop, I ___ (see) my old English teacher at the next table.",
-      "answers": [["was walking"], ["started"], ["didn't have"], ["was waiting", "waited"], ["saw"]],
+      "answers": [["was walking"], ["started"], ["didn't have", "hadn't got"], ["was waiting", "waited"], ["saw"]],
       "wrong_feedback": [
         { "match": "walked", "feedback": { "en": "The walk was in progress when the rain started, so use the past continuous: I was walking.", "he": "ההליכה הייתה באמצע כשהגשם התחיל, ולכן עבר מתמשך: I was walking." }, "error_type": "tense-choice" },
         { "match": "were walking", "feedback": { "en": "With I, use was: I was walking.", "he": "עם I משתמשים ב-was: I was walking." }, "error_type": "agreement" },
@@ -189,7 +189,8 @@
         "While she was jogging in the park Maya lost her keys.",
         "Maya lost her keys while jogging in the park.",
         "While Maya jogged in the park, she lost her keys.",
-        "Maya lost her keys while she jogged in the park."
+        "Maya lost her keys while she jogged in the park.",
+        "While jogging in the park, Maya lost her keys."
       ],
       "wrong_feedback": [
         { "match": "While Maya was jogging in the park, she was losing her keys.", "feedback": { "en": "Losing your keys is a short event, so use the past simple: she lost her keys.", "he": "לאבד מפתחות זה אירוע קצר, ולכן עבר פשוט: she lost her keys." }, "error_type": "tense-choice" },

@@ -1,0 +1,1064 @@
+{
+  "id": "c1-02",
+  "level": "C1",
+  "title_en": "Sophisticated sentence structures",
+  "title_he": "מבנים תחביריים מתקדמים",
+  "topics": [
+    "inversion-cleft"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use negative and restrictive openers (Not only, Never, Rarely, Seldom, Only then, Not until, Under no circumstances) with correct auxiliary inversion."
+    },
+    {
+      "en": "I can use it-clefts and what-clefts to put the focus exactly where I want it."
+    },
+    {
+      "en": "I can use participle clauses (Having considered ..., Faced with ..., Built in ...) to make writing compact, without dangling participles."
+    }
+  ],
+  "warmup": {
+    "en": "Read: 'I have never seen such a crowd.' and 'Never have I seen such a crowd.' Do they mean the same? Where would you expect to hear or read the second one, and what happened to the word order?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Compare: 'The plan saves money, and it also cuts traffic.' → 'Not only does the plan save money, but it also cuts traffic.' 'We understood the risk only later.' → 'Only later did we understand the risk.' 'The cost worries residents most.' → 'What worries residents most is the cost.' 'After she had read the report, she changed her mind.' → 'Having read the report, she changed her mind.' None of these adds information. They move the emphasis, build suspense or make a sentence more compact, which is why you meet them in speeches, essays and formal reports."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Opener",
+        "Pattern",
+        "Example"
+      ],
+      "rows": [
+        [
+          "Never / Rarely / Seldom / Little",
+          "opener + auxiliary + subject + verb",
+          "Seldom do we see such cooperation."
+        ],
+        [
+          "Not only",
+          "Not only + auxiliary + subject ..., but (subject) also ...",
+          "Not only did prices rise, but wages also fell."
+        ],
+        [
+          "Only then / Only later",
+          "opener + auxiliary + subject",
+          "Only then did we understand the risk."
+        ],
+        [
+          "Only when / Only after / Not until + clause",
+          "invert the MAIN clause, not the time clause",
+          "Not until the results arrived did we notice the error."
+        ],
+        [
+          "Under no circumstances / On no account",
+          "opener + auxiliary + subject",
+          "Under no circumstances should you share your password."
+        ],
+        [
+          "No sooner ... than / Hardly ... when",
+          "had + subject + past participle",
+          "No sooner had we sat down than the lights went out."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Inversion uses question word order: auxiliary before subject. If there is no auxiliary, add do/does/did, exactly as in a question: We rarely see → Rarely do we see (not *Rarely we see). With be, invert be itself: Rarely is the answer simple. Inversion happens only when the opener comes first: The scheme not only saves money but also cuts traffic needs no inversion."
+    },
+    {
+      "type": "rule",
+      "en": "Cleft sentences split one idea into two clauses to spotlight one part. It-cleft: It is/was + focus + that/who + the rest: It was the cost, not the design, that worried residents. What-cleft: What + clause + is/was + focus: What worried residents was the cost. Related patterns: The reason (why) ... is that ...; All we need is ...; The thing that ... is ..."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Participle clause",
+        "Meaning",
+        "Example"
+      ],
+      "rows": [
+        [
+          "-ing",
+          "active; at the same time, or a reason",
+          "Knowing the risks, the board delayed the launch."
+        ],
+        [
+          "Having + past participle",
+          "active; finished before the main action",
+          "Having reviewed the evidence, the committee rejected the plan."
+        ],
+        [
+          "Past participle",
+          "passive",
+          "Built in 1890, the station needs urgent repairs."
+        ]
+      ]
+    },
+    {
+      "type": "warning",
+      "en": "The understood subject of a participle clause must be the subject of the main clause. Otherwise the participle 'dangles': *Walking into the room, the smell of coffee was strong (the smell was not walking). Fix it by changing the main subject (Walking into the room, I noticed the smell of coffee) or by using a full clause (As I walked into the room, the smell of coffee was strong)."
+    },
+    {
+      "type": "tip",
+      "en": "Use these structures like spices. One inversion or cleft in a paragraph adds weight; three in a row sound theatrical. Save them for the point you most want the reader to remember."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Not only did the new law reduce accidents, but it also changed drivers' attitudes.",
+      "note": "Not only + did + subject + base verb"
+    },
+    {
+      "en": "Rarely has a single report caused so much debate.",
+      "note": "present perfect: has comes before the subject"
+    },
+    {
+      "en": "Only when the data were published did the scale of the problem become clear.",
+      "note": "the inversion is in the main clause, not after 'when'"
+    },
+    {
+      "en": "Under no circumstances should candidates use their phones during the exam.",
+      "note": "formal rules and warnings"
+    },
+    {
+      "en": "It was the lack of public consultation, not the plan itself, that angered residents.",
+      "note": "it-cleft: focus + contrast"
+    },
+    {
+      "en": "What surprised the researchers was how quickly attitudes changed.",
+      "note": "what-cleft: the key information comes at the end"
+    },
+    {
+      "en": "Having considered both proposals, the committee chose the cheaper one.",
+      "note": "the committee considered first, then chose"
+    },
+    {
+      "en": "Faced with rising costs, many small theatres have started sharing staff.",
+      "note": "past participle = passive meaning: the theatres were faced with rising costs"
+    },
+    {
+      "en": "Walking home that evening, I realised I had left my laptop at the library.",
+      "note": "the subject (I) is the one walking: no dangling participle"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "seldom",
+      "pos": "adverb",
+      "he": "לעיתים רחוקות",
+      "def": "not often; rarely (formal)",
+      "example": "Seldom have I read such a balanced report.",
+      "ipa": "/ˈseldəm/",
+      "collocations": [
+        "seldom, if ever",
+        "seldom seen",
+        "Seldom do we ..."
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "under no circumstances",
+      "pos": "phrase",
+      "he": "בשום פנים ואופן",
+      "def": "not at all, for any reason (very formal and strong)",
+      "example": "Under no circumstances should the fire doors be locked.",
+      "ipa": "/ˌʌndə nəʊ ˈsɜːkəmstənsɪz/",
+      "collocations": [
+        "Under no circumstances should ...",
+        "under no circumstances whatsoever"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "no sooner ... than",
+      "pos": "phrase",
+      "he": "אך ... ומיד; רק ... וכבר",
+      "def": "used to say that one thing happened immediately after another",
+      "example": "No sooner had the meeting started than the fire alarm went off.",
+      "ipa": "/nəʊ ˈsuːnə(r) ... ðən/",
+      "collocations": [
+        "No sooner had ... than ...",
+        "no sooner said than done"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "not until",
+      "pos": "phrase",
+      "he": "רק כאשר; לא לפני ש...",
+      "def": "only at or after a particular time, and not before",
+      "example": "Not until the results came out did we notice the mistake.",
+      "ipa": "/nɒt ʌnˈtɪl/",
+      "collocations": [
+        "Not until ... did ...",
+        "not until later",
+        "not until recently"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "by no means",
+      "pos": "phrase",
+      "he": "בשום אופן לא; כלל לא",
+      "def": "not at all",
+      "example": "The problem is by no means solved.",
+      "ipa": "/baɪ ˈnəʊ miːnz/",
+      "collocations": [
+        "by no means certain",
+        "by no means the only",
+        "by no means easy"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "little did I know",
+      "pos": "phrase",
+      "he": "לא ידעתי אז ש...; לא העליתי בדעתי ש...",
+      "def": "used to say that you had no idea at the time about something important",
+      "example": "Little did I know that the trip would change my career.",
+      "ipa": "/ˌlɪtl dɪd aɪ ˈnəʊ/",
+      "collocations": [
+        "little did they know",
+        "little did she realise"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "in light of",
+      "pos": "phrase",
+      "he": "לאור",
+      "def": "because of; after considering (also: in the light of)",
+      "example": "In light of the new evidence, the committee changed its decision.",
+      "ipa": "/ɪn ˈlaɪt əv/",
+      "collocations": [
+        "in light of recent events",
+        "in light of the evidence",
+        "in the light of"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "highlight",
+      "pos": "verb",
+      "he": "להדגיש; לשים זרקור על",
+      "def": "to draw special attention to something",
+      "example": "The report highlights the need for cheaper housing.",
+      "ipa": "/ˈhaɪlaɪt/",
+      "collocations": [
+        "highlight the need for",
+        "highlight the importance of",
+        "highlight a problem"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "ambiguous",
+      "pos": "adjective",
+      "he": "דו-משמעי",
+      "def": "having more than one possible meaning, so it may cause confusion",
+      "example": "The instructions were ambiguous, so half the group went to the wrong room.",
+      "ipa": "/æmˈbɪɡjuəs/",
+      "collocations": [
+        "highly ambiguous",
+        "ambiguous wording",
+        "deliberately ambiguous"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "outcome",
+      "pos": "noun",
+      "he": "תוצאה; תוצאה סופית",
+      "def": "the result of an action, process or event",
+      "example": "Nobody could predict the outcome of the vote.",
+      "ipa": "/ˈaʊtkʌm/",
+      "collocations": [
+        "the outcome of",
+        "a positive outcome",
+        "affect the outcome"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "prior to",
+      "pos": "preposition",
+      "he": "קודם ל...; לפני (רשמי)",
+      "def": "before (formal)",
+      "example": "Prior to the meeting, all members received a copy of the report.",
+      "ipa": "/ˈpraɪə(r) tə/",
+      "collocations": [
+        "prior to the meeting",
+        "prior to publication",
+        "prior to arrival"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "compelling",
+      "pos": "adjective",
+      "he": "משכנע; מרתק",
+      "def": "so strong or interesting that it makes you pay attention or agree",
+      "example": "She made a compelling case for keeping the library open.",
+      "ipa": "/kəmˈpelɪŋ/",
+      "collocations": [
+        "a compelling argument",
+        "compelling evidence",
+        "a compelling case for"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew, questions and sentences that start with an adverb need no auxiliary like do, so it is easy to write *Rarely we see ... or *Not only it saves money. English inversion borrows the question pattern, auxiliary before subject: Rarely do we see ..., Not only does it save money ...",
+      "he": "בעברית שאלה או משפט שמתחיל בתואר פועל לא דורשים פועל עזר כמו do, ולכן קל לכתוב בטעות ‎*Rarely we see. באנגלית ההיפוך אחרי Rarely, Never, Not only בנוי בדיוק כמו שאלה, עם פועל עזר לפני הנושא: Rarely do we see..., Not only does it save money...",
+      "error_type": "do-support"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Choose the correct sentence."
+      },
+      "question": "Which sentence is correct?",
+      "options": [
+        "Rarely we have seen such a clear result.",
+        "Rarely have we seen such a clear result.",
+        "Rarely have seen we such a clear result.",
+        "Rarely did we have seen such a clear result."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "After a fronted Rarely, use question order: the auxiliary (have) comes before the subject (we)."
+        },
+        "2": {
+          "en": "Only the auxiliary moves in front of the subject; the main verb (seen) stays after it: have we seen."
+        },
+        "3": {
+          "en": "There is already an auxiliary (have), so do not add did. Did is used only when there is no other auxiliary."
+        }
+      },
+      "option_errors": {
+        "0": "word-order",
+        "2": "word-order",
+        "3": "do-support"
+      },
+      "explanation": {
+        "en": "Rarely + auxiliary + subject + main verb: Rarely have we seen ... Compare the question: Have we seen ...?"
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Is each sentence correct or incorrect? Check whether the opener comes first and whether the auxiliary is in the right place."
+      },
+      "categories": [
+        "Correct",
+        "Incorrect"
+      ],
+      "items": [
+        {
+          "text": "Not only does the scheme cut costs, but it also saves time.",
+          "category": "Correct"
+        },
+        {
+          "text": "The scheme not only cuts costs but also saves time.",
+          "category": "Correct"
+        },
+        {
+          "text": "Only after the vote did the results appear online.",
+          "category": "Correct"
+        },
+        {
+          "text": "Seldom is the answer so simple.",
+          "category": "Correct"
+        },
+        {
+          "text": "Little did we know how long the repairs would take.",
+          "category": "Correct"
+        },
+        {
+          "text": "Not only the scheme cuts costs, but it also saves time.",
+          "category": "Incorrect"
+        },
+        {
+          "text": "Only after the vote the results appeared online.",
+          "category": "Incorrect"
+        },
+        {
+          "text": "Never I have felt so welcome in a new city.",
+          "category": "Incorrect"
+        },
+        {
+          "text": "Under no circumstances you should share your password.",
+          "category": "Incorrect"
+        },
+        {
+          "text": "Hardly had we sat down than the alarm went off.",
+          "category": "Incorrect"
+        }
+      ],
+      "explanation": {
+        "en": "A fronted negative or restrictive opener needs auxiliary + subject: does the scheme cut, did the results appear, have I felt, should you share. 'The scheme not only cuts ...' has no fronting, so normal order is right. Hardly pairs with when (Hardly had we sat down when ...); than goes with No sooner."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Listen to a speaker on a local radio phone-in and answer the question."
+      },
+      "audio_text": "People keep saying the new bus timetable failed because it was badly designed. But that's not really it. What actually killed it was that nobody told the drivers until the night before. Only when the complaints started piling up did anyone think to ask them.",
+      "question": "According to the speaker, what was the main reason the timetable failed?",
+      "options": [
+        "Passengers complained about it before it started.",
+        "It was badly designed.",
+        "The drivers were told about it far too late.",
+        "The drivers refused to follow it."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The complaints came later: 'Only when the complaints started piling up ...'. They were a result, not the cause."
+        },
+        "1": {
+          "en": "The speaker rejects this: 'But that's not really it.'"
+        },
+        "3": {
+          "en": "The speaker never says the drivers refused; the problem is that nobody told them in time."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "The what-cleft puts the speaker's real answer at the end, where it gets the most weight: 'What actually killed it was that nobody told the drivers until the night before.'"
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Choose the best reply."
+      },
+      "question": "Maya: 'Was it the price that put customers off?' Kenji: 'No, ___'",
+      "options": [
+        "it was the long delivery time that put them off.",
+        "what put them off was the price.",
+        "the long delivery time put off them.",
+        "it was the long delivery time what put them off."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "This contradicts the No: it says the price was the problem."
+        },
+        "2": {
+          "en": "With a pronoun, the particle goes after it: put them off. This reply is also not a cleft, so it loses the contrast with the question."
+        },
+        "3": {
+          "en": "An it-cleft uses that (or who for people), never what: It was the long delivery time that ..."
+        }
+      },
+      "option_errors": {
+        "2": "word-order",
+        "3": "relative-clause"
+      },
+      "explanation": {
+        "en": "The question is an it-cleft, so the natural correction is an it-cleft with a new focus: It was the long delivery time that put them off."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Read the essay from a travel magazine and answer the questions. Notice how the writer uses inversion, clefts and participle clauses to control emphasis."
+      },
+      "title": "Why I changed my mind about night trains",
+      "passage": "For years I was the kind of traveller who laughed at night trains. Why spend twelve hours rattling across a continent when a plane could do it in two? Never did I imagine that I would one day write in their defence.\n\nWhat changed my mind was not an argument but an accident. Stranded in Vienna after a cancelled flight, I booked the last free berth on a sleeper to Rome, expecting a long and uncomfortable night. Instead, I woke to sunlight on the hills and arrived in the city centre rested, fed and, crucially, in time for a meeting I had assumed I would miss.\n\nHaving made similar journeys many times since, I can now see why the usual comparison with flying is misleading. Measured from door to door, the difference shrinks dramatically. There is no trip to a distant airport, no security queue, no waiting at the gate. Not only does the train save these hours, but it also turns the remaining ones into sleep, which no airline has yet managed to do. I can read, work or simply watch the landscape change, and I arrive with the day still ahead of me rather than already half spent.\n\nIt is the environmental case, of course, that most supporters emphasise, and it is a serious one. Yet I suspect that it is comfort and convenience, rather than conscience, that will decide whether night trains survive. Travellers who feel virtuous but exhausted rarely make the same choice twice.\n\nThis is where the operators still fall short. Booked months in advance, a sleeper cabin can be reasonably priced; bought a week before departure, it often costs more than a flight and a hotel combined. Seldom is the booking process simple, and only rarely are connections across borders guaranteed. A journey that crosses three countries may require three separate bookings, and a delay on the first train can leave a passenger stranded with a ticket that is no longer valid. Faced with these obstacles, even enthusiasts give up.\n\nNone of this means that the night train is a lost cause. What it needs is not nostalgia but investment: modern carriages, simpler ticketing and fares that reward people for leaving the car or the plane behind. Only when governments treat it as serious transport, rather than a charming relic, will it fulfil its promise.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What first changed the writer's opinion of night trains?",
+          "options": [
+            "An article about the environmental benefits of rail travel",
+            "A cancelled flight that forced them to take a sleeper",
+            "A cheap ticket offered by a train operator",
+            "A conversation with another traveller on a train"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The writer says it was 'not an argument but an accident'."
+            },
+            "2": {
+              "en": "Cheap tickets are not mentioned as the reason; later the writer complains that late tickets are expensive."
+            },
+            "3": {
+              "en": "No conversation with another traveller is mentioned."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'What changed my mind was not an argument but an accident. Stranded in Vienna after a cancelled flight, I booked the last free berth on a sleeper ...'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Paragraph 4 contains two it-clefts. What contrast do they create?",
+          "options": [
+            "Between what supporters stress and what the writer thinks will really decide the future of night trains",
+            "Between travelling by plane and travelling by car",
+            "Between the price of a sleeper cabin and the price of a hotel",
+            "Between the writer's old opinion and new opinion of night trains"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Cars and planes appear only in the final paragraph."
+            },
+            "2": {
+              "en": "Prices are discussed in paragraph 5, not in the clefts of paragraph 4."
+            },
+            "3": {
+              "en": "That change is the topic of paragraphs 1 and 2. The clefts in paragraph 4 compare two reasons for supporting night trains."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'It is the environmental case ... that most supporters emphasise' vs 'it is comfort and convenience, rather than conscience, that will decide ...'. Each cleft spotlights one reason so the reader notices the contrast."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer thinks the environmental case for night trains is weak.",
+          "answer": false,
+          "explanation": {
+            "en": "The writer calls it 'a serious one', but believes comfort and convenience will matter more to travellers."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "According to the writer, a sleeper cabin bought shortly before travelling can cost more than flying and staying in a hotel.",
+          "answer": true,
+          "explanation": {
+            "en": "'Bought a week before departure, it often costs more than a flight and a hotel combined.'"
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "In 'Faced with these obstacles, even enthusiasts give up', who is faced with the obstacles?",
+          "options": [
+            "The operators",
+            "Governments",
+            "Enthusiasts",
+            "The writer"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The operators create the obstacles; they are not the subject of the main clause."
+            },
+            "1": {
+              "en": "Governments appear only in the last paragraph."
+            },
+            "3": {
+              "en": "The writer is not the subject of this sentence."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The understood subject of a participle clause is the subject of the main clause: enthusiasts are faced with the obstacles, and enthusiasts give up."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "'Only when governments treat it as serious transport ... will it fulfil its promise.' What does the writer mean?",
+          "options": [
+            "Governments already treat night trains as serious transport.",
+            "Night trains will succeed whatever governments decide.",
+            "Governments should stop spending money on night trains.",
+            "Night trains cannot succeed unless governments take them seriously."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "'Only when ... will' describes a condition that has not been met yet."
+            },
+            "1": {
+              "en": "It is the opposite: success depends on what governments do."
+            },
+            "2": {
+              "en": "The writer asks for investment: 'What it needs is not nostalgia but investment.'"
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "Only when X will Y = Y will happen only if X happens first. The inversion (will it fulfil) gives the final sentence extra weight."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "In the final paragraph, the writer says that night trains need investment, not ___.",
+          "answers": [
+            [
+              "nostalgia"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "money",
+              "feedback": {
+                "en": "Investment is money, so that cannot be the contrast. Look for the word after \"not\" in the final paragraph."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'What it needs is not nostalgia but investment.' The what-cleft puts the two contrasting nouns at the end of the sentence."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Complete the report with words from the box. Look at the verb form after each subject."
+      },
+      "text": "Not only ___ the museum lose money last year, but it also lost two of its best curators. Seldom ___ a small institution faced such a difficult twelve months. Only when a local company offered support ___ the board begin to feel optimistic again. No sooner ___ the news been announced than donations started to arrive.",
+      "word_bank": [
+        "did",
+        "has",
+        "had",
+        "does",
+        "was"
+      ],
+      "answers": [
+        [
+          "did"
+        ],
+        [
+          "has",
+          "had"
+        ],
+        [
+          "did"
+        ],
+        [
+          "had"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "does",
+          "feedback": {
+            "en": "These events happened last year, so the auxiliary must be past: did."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "was",
+          "feedback": {
+            "en": "Was only works before an -ing form, a passive participle or an adjective. Look at the verb after each subject: lose and begin need did; faced needs has or had; been announced needs had."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "did",
+          "feedback": {
+            "en": "Did is followed by a base verb (did the museum lose). Before a past participle (faced, been announced) you need has or had."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "has",
+          "feedback": {
+            "en": "Has is followed by a past participle, and only fits a period that reaches up to now (Seldom has ... faced). Before the base verbs lose and begin use did; in a No sooner ... than sentence about the past use had."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "had",
+          "feedback": {
+            "en": "Had is followed by a past participle. Before the base verbs lose and begin, use did."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "hint": {
+        "en": "Base verb (lose, begin) → did. Past participle (faced, been) → has or had."
+      },
+      "explanation": {
+        "en": "Not only did the museum lose ... · Seldom has (or had) a small institution faced ... · Only when ... did the board begin ... · No sooner had the news been announced than ... In each case the auxiliary comes before the subject, as in a question."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Rewrite the sentence beginning with 'Not until'."
+      },
+      "source": "The council did not understand how unpopular the plan was until the protests began.",
+      "answers": [
+        "Not until the protests began did the council understand how unpopular the plan was.",
+        "Not until the protests had begun did the council understand how unpopular the plan was."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Not until the protests began the council understood how unpopular the plan was.",
+          "feedback": {
+            "en": "When Not until + clause comes first, invert the main clause: did the council understand."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Not until did the protests begin the council understood how unpopular the plan was.",
+          "feedback": {
+            "en": "The inversion goes in the main clause, not in the until-clause: Not until the protests began did the council understand ..."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Not until the protests began did the council understood how unpopular the plan was.",
+          "feedback": {
+            "en": "After did, use the base form: did the council understand."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "hint": {
+        "en": "Keep the until-clause in normal order; invert the main clause with did."
+      },
+      "explanation": {
+        "en": "Not until + time clause (normal order) + did + subject + base verb: Not until the protests began did the council understand how unpopular the plan was. The negative not moves to the front, so the main clause becomes positive."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Combine the two sentences into one, beginning with 'Not only'."
+      },
+      "source": "The new app is cheaper than its rivals. It is also easier to use.",
+      "answers": [
+        "Not only is the new app cheaper than its rivals, but it is also easier to use.",
+        "Not only is the new app cheaper than its rivals, but also easier to use.",
+        "Not only is the new app cheaper than its rivals, but it is easier to use as well.",
+        "Not only is the new app cheaper than its rivals but it is also easier to use.",
+        "Not only is the new app cheaper than its rivals but also easier to use.",
+        "Not only is the new app cheaper than its rivals but it is easier to use as well.",
+        "Not only is the new app cheaper than its rivals, it is also easier to use."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Not only the new app is cheaper than its rivals, but it is also easier to use.",
+          "feedback": {
+            "en": "After a fronted Not only, invert: Not only is the new app cheaper ..."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "Not only does the new app is cheaper than its rivals, but it is also easier to use.",
+          "feedback": {
+            "en": "With be, invert be itself. Do is added only when there is no other auxiliary: Not only is the new app ..."
+          },
+          "error_type": "do-support"
+        }
+      ],
+      "explanation": {
+        "en": "With be, simply move be before the subject: Not only is the new app cheaper than its rivals, but it is also easier to use. Inversion affects only the Not only clause; the but-clause keeps normal order."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Rewrite the sentence as a what-cleft that puts 'the lack of affordable housing' at the end."
+      },
+      "source": "The lack of affordable housing worries young people most.",
+      "answers": [
+        "What worries young people most is the lack of affordable housing.",
+        "What worries young people the most is the lack of affordable housing.",
+        "What most worries young people is the lack of affordable housing.",
+        "What young people worry about most is the lack of affordable housing.",
+        "What young people worry about the most is the lack of affordable housing.",
+        "What young people are most worried about is the lack of affordable housing."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "What worries young people most it is the lack of affordable housing.",
+          "feedback": {
+            "en": "Do not add it: the what-clause is already the subject. What worries young people most is ..."
+          },
+          "error_type": "pronoun"
+        },
+        {
+          "match": "What worries young people most is that the lack of affordable housing.",
+          "feedback": {
+            "en": "After is, put the focus noun phrase directly: is the lack of affordable housing. Use that only before a full clause."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "What young people worry most is the lack of affordable housing.",
+          "feedback": {
+            "en": "Young people worry about something, so the preposition must stay: What young people worry about most is ..."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "What + clause (What worries young people most) + is + focus (the lack of affordable housing). The new information comes last, where English puts the strongest emphasis."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Rewrite as an it-cleft that focuses on 'the drivers'. Begin with 'It was'."
+      },
+      "source": "The drivers complained about the new timetable, not the passengers.",
+      "answers": [
+        "It was the drivers, not the passengers, who complained about the new timetable.",
+        "It was the drivers, not the passengers, that complained about the new timetable.",
+        "It was the drivers who complained about the new timetable, not the passengers.",
+        "It was the drivers that complained about the new timetable, not the passengers.",
+        "It was not the passengers but the drivers who complained about the new timetable.",
+        "It was not the passengers but the drivers that complained about the new timetable."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "It was the drivers, not the passengers, which complained about the new timetable.",
+          "feedback": {
+            "en": "For people, use who or that, not which."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "It was the drivers, not the passengers, what complained about the new timetable.",
+          "feedback": {
+            "en": "An it-cleft uses that or who, never what."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "It was the drivers, not the passengers, who they complained about the new timetable.",
+          "feedback": {
+            "en": "Who is already the subject of complained, so do not add they."
+          },
+          "error_type": "relative-clause"
+        }
+      ],
+      "explanation": {
+        "en": "It was + focus (the drivers, not the passengers) + who/that + the rest. The it-cleft is ideal for correcting a wrong assumption: It was X, not Y, that ..."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Choose the sentence that uses a participle clause correctly."
+      },
+      "question": "Which sentence is correct?",
+      "options": [
+        "Building in 1890, the station needs urgent repairs.",
+        "Built in 1890, engineers say the station needs urgent repairs.",
+        "Having built in 1890, the station needs urgent repairs.",
+        "Built in 1890, the station needs urgent repairs."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "Building is active: it says the station built something. The station was built, so use the past participle: Built in 1890."
+        },
+        "1": {
+          "en": "Dangling participle: the subject of the main clause is engineers, so the sentence says the engineers were built in 1890."
+        },
+        "2": {
+          "en": "Having built is active and means the station built something. The meaning is passive: Built in 1890."
+        }
+      },
+      "option_errors": {
+        "0": "verb-form",
+        "1": "word-order",
+        "2": "verb-form"
+      },
+      "explanation": {
+        "en": "A past participle clause has a passive meaning (the station was built in 1890), and its subject must be the subject of the main clause (the station)."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "writing",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "This sentence has a dangling participle. Rewrite it so that 'the researchers' is the subject of the main clause, and keep the participle clause."
+      },
+      "sentence": "Having finished the survey, the results were sent to the council.",
+      "answers": [
+        "Having finished the survey, the researchers sent the results to the council.",
+        "Having finished the survey, the researchers sent the council the results.",
+        "Having finished the survey the researchers sent the results to the council.",
+        "Having finished the survey the researchers sent the council the results."
+      ],
+      "error_type": "word-order",
+      "hint": {
+        "en": "Who finished the survey? Make that the subject of sent."
+      },
+      "explanation": {
+        "en": "As written, the sentence says the results finished the survey. The participle's understood subject must be the main subject: Having finished the survey, the researchers sent the results to the council."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Find and fix the mistake."
+      },
+      "sentence": "Only after the manager had apologised the customers agreed to stay.",
+      "answers": [
+        "Only after the manager had apologised did the customers agree to stay.",
+        "Only after the manager had apologized did the customers agree to stay.",
+        "Only after the manager apologised did the customers agree to stay.",
+        "Only after the manager apologized did the customers agree to stay."
+      ],
+      "error_type": "word-order",
+      "hint": {
+        "en": "Which clause needs the inversion: the after-clause or the main clause?"
+      },
+      "explanation": {
+        "en": "Only after + clause comes first, so the main clause is inverted with did + subject + base verb: did the customers agree."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "You are reporting on a project in a team meeting. Say the sentence out loud."
+      },
+      "target": "Not only did we finish on time, but we also came in under budget.",
+      "focus": {
+        "en": "Stress ONly, FINish and BUDget, and pause briefly before 'but'. 'Did we' is light and quick: the stress falls on the words that carry the news."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Inversion is not only for writing: in presentations and speeches, Not only ... but also and Only then ... give key results extra weight."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "inversion-cleft",
+      "prompt": {
+        "en": "Write a debate speech that uses emphatic structures where the emphasis is deserved."
+      },
+      "task": {
+        "en": "Your city is debating whether to limit the number of tourists who can visit its historic centre each day. Write a speech of 250-350 words for a public debate. Argue for or against a daily limit and respond to opposing views. Use, where the emphasis is deserved: at least one inversion after a negative or restrictive opener (Not only, Rarely, Only when ...), at least one it-cleft or what-cleft, and at least two participle clauses with the correct subject. Use no more than one inverted sentence per paragraph."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Good evening. Every summer, our historic centre welcomes more visitors than its narrow streets were ever designed to hold. Tonight I want to argue that a daily limit, introduced carefully and reviewed every year, is the best way to protect both the city and the people who live in it.\n\nWhat residents describe most often is not noise or litter, but the feeling that the centre no longer belongs to them. Rents have risen as flats are turned into holiday lets, and the shops that once sold bread and newspapers now sell souvenirs. Not only does overcrowding drive local families out, but it also spoils the experience that visitors have travelled so far to enjoy. Standing in a queue for an hour to cross a square is nobody's idea of a holiday.\n\nOpponents of a limit argue that tourism pays for our museums, our restaurants and many local jobs, and that any cap will simply send that money to other cities. This concern deserves a serious answer, because a policy that empties the centre would hurt the very residents it is meant to protect. However, a limit is not a ban. Spread across the day and the year, the same number of visitors could spend just as much money without crushing the streets at noon in August. It is the timing of visits, not their total number, that creates the worst pressure.\n\nHaving looked at how other historic towns have handled similar problems, I would propose a simple system: free timed entry slots for the busiest streets, booked online, with places kept for residents and local workers. Only when we have tried this for a full season will we know whether the limit should be raised or lowered.\n\nA city that is pleasant to live in is also a city worth visiting. Let us protect it while we still can.",
+      "checklist": [
+        {
+          "en": "Position: my opening states clearly whether I support or oppose a daily limit."
+        },
+        {
+          "en": "Support: each main point gives a reason and an example or explanation of why it matters."
+        },
+        {
+          "en": "Counterargument: I state the strongest opposing view fairly, attribute it (Opponents argue ...), and respond by refuting it, conceding and outweighing it, or qualifying my claim."
+        },
+        {
+          "en": "Inversion: after Not only / Rarely / Only when ..., I used auxiliary + subject (adding do/does/did where needed), and after Only when / Not until + clause I inverted the main clause."
+        },
+        {
+          "en": "Clefts: my it-cleft or what-cleft puts the focus on the idea that most deserves it."
+        },
+        {
+          "en": "Participle clauses: the subject of each participle clause is the subject of the main clause (no dangling participles), and I chose the right form (-ing, having + past participle, past participle)."
+        },
+        {
+          "en": "Restraint: no more than one inversion per paragraph, and the speech still sounds natural read aloud."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "After a fronted negative or restrictive opener (Never, Rarely, Seldom, Not only, Only then, Under no circumstances), use question order: auxiliary + subject. Add do/does/did if there is no other auxiliary."
+      },
+      {
+        "en": "With Only when / Only after / Not until + clause, invert the main clause: Only when the data arrived did we see the problem."
+      },
+      {
+        "en": "It-clefts (It was X that/who ...) and what-clefts (What ... is X) put the spotlight on one part of the message."
+      },
+      {
+        "en": "In a participle clause, the understood subject must be the subject of the main clause: -ing (active), having + past participle (earlier), past participle (passive)."
+      },
+      {
+        "en": "Use these structures where the emphasis is earned: one per paragraph is usually enough."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

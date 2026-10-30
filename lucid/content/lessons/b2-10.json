@@ -1,0 +1,375 @@
+{
+  "id": "b2-10",
+  "level": "B2",
+  "title_en": "Building an argument",
+  "title_he": "בניית טיעון",
+  "topics": ["argument-structure"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can write a clear, specific and debatable thesis statement." },
+    { "en": "I can build body paragraphs in which the evidence is explained and linked to the claim (PEEL, or claim-evidence-reasoning)." },
+    { "en": "I can state the strongest opposing view fairly and answer it by refuting it, conceding and outweighing it, or qualifying my claim." },
+    { "en": "I can plan and write a 500-word argumentative essay that responds to opposing views and ends with a conclusion that adds no new arguments." }
+  ],
+  "warmup": { "en": "Think of a disagreement you lost recently. Did you lose because your position was weak, because you had no evidence, or because you never answered what the other person said? A written argument can fail for the same three reasons." },
+  "explanation": [
+    { "type": "p", "en": "Read this paragraph: 'Secondary schools should start at 9:00 rather than 8:00. Sleep research suggests that teenagers' body clocks shift later during adolescence, so many sixteen-year-olds find it hard to fall asleep before eleven. An 8:00 start therefore forces them to learn at the time of day when they are least alert. A later start would let students arrive ready to concentrate, which is the purpose of the school day.' Sentence 1 makes a claim, sentence 2 gives evidence, sentence 3 explains how the evidence supports the claim, and sentence 4 links back to the main argument. That is the PEEL pattern: Point, Evidence, Explain, Link." },
+    { "type": "table", "headers": ["Part", "Its job", "Useful language"], "rows": [
+      ["Thesis (end of the introduction)", "Your clear, debatable position and the main reasons for it", "This essay argues that ... because ... / Although ..., ... should ..."],
+      ["Body paragraph (PEEL)", "One point per paragraph: Point, Evidence, Explain how the evidence supports the point, Link back to the thesis", "The main reason is ... / For example, ... / This shows that ... / Therefore, ..."],
+      ["Counterargument", "The strongest opposing view, stated fairly and attributed to someone", "Critics argue that ... / Opponents point out that ... / It is often claimed that ..."],
+      ["Rebuttal", "Your reasoned answer: refute it, concede and outweigh it, or qualify your claim", "However, this overlooks ... / While this is true, ... / This is a fair concern, which is why ..."],
+      ["Conclusion", "Restate the thesis in new words, sum up the reasons and give a final implication; no new arguments", "For these reasons, ... / Overall, ..."]
+    ] },
+    { "type": "rule", "en": "A thesis must be specific and debatable: a reasonable person could disagree with it. Not a fact: 'Many teenagers own smartphones.' Not an announcement: 'In this essay I will discuss smartphones.' Not a fence-sitter: 'Smartphones have advantages and disadvantages.' Strong: 'Schools should ban phones during lessons but allow them at break, because this protects concentration without treating students like children.'" },
+    { "type": "table", "headers": ["Rebuttal move", "What you do", "Example"], "rows": [
+      ["Refute", "Show that the objection is mistaken or rests on a false assumption", "Critics argue that students would simply go to bed later. However, this assumes that teenagers choose their sleep times, when research suggests the shift is largely biological."],
+      ["Concede and outweigh", "Accept that the objection is true, then show why your side matters more", "It is true that changing bus timetables would cost money; nevertheless, this one-off cost is small compared with the daily benefit to learning."],
+      ["Qualify", "Accept part of the objection and narrow your claim", "This is a fair concern for parents of young children, so the later start should apply only to students aged 15 and over."]
+    ] },
+    { "type": "warning", "en": "Don't build a straw man: describe the other side as its own supporters would ('Critics argue that a later start would clash with parents' working hours', not 'Some people think students should sleep all day'). Don't dismiss: 'This argument is simply wrong' is not a rebuttal until you give a reason. And never introduce a counterargument in the conclusion." },
+    { "type": "tip", "en": "Evidence convinces when it is relevant (it supports this exact claim), sufficient (more than one anecdote) and explained (you say how it proves your point instead of just dropping it in). In an exam you cannot look things up, so use real examples you know, clear reasoning and carefully worded general knowledge ('research suggests ...'). Never invent statistics: one honest example is worth more than an invented number." }
+  ],
+  "examples": [
+    { "en": "This essay argues that public transport should be free for everyone under 25, because it would cut traffic and make education and jobs easier to reach.", "note": "thesis: a position plus reasons" },
+    { "en": "Free public transport has advantages and disadvantages.", "note": "weak thesis: no position to argue" },
+    { "en": "For example, after Lior's school banned phones in lessons, teachers noticed that students asked more questions in class.", "note": "evidence: one example; stronger with more support" },
+    { "en": "This suggests that removing the distraction, rather than adding new rules, changed how students behaved.", "note": "explain: links the evidence to the claim" },
+    { "en": "Critics argue that a ban treats sixteen-year-olds like children who cannot control themselves.", "note": "counterargument: fair and attributed" },
+    { "en": "However, adults also put their phones away in meetings, so the rule reflects normal workplace habits rather than distrust.", "note": "rebuttal: refute" },
+    { "en": "It is true that free transport would cost the city money; nevertheless, fewer cars on the road would mean lower spending on repairs and parking.", "note": "rebuttal: concede and outweigh" },
+    { "en": "This is a fair point, which is why the ban should include exceptions for medical needs.", "note": "rebuttal: qualify" },
+    { "en": "For these reasons, a later start is a small change that would make a real difference to how much students learn.", "note": "conclusion: restates the thesis; no new argument" }
+  ],
+  "vocab": [
+    { "word": "thesis", "pos": "noun", "he": "תזה; הטענה המרכזית", "def": "the main position that an essay argues for", "example": "State your thesis clearly at the end of the introduction.", "ipa": "/ˈθiːsɪs/", "collocations": ["thesis statement", "a clear thesis", "support a thesis"], "level": "B2" },
+    { "word": "debatable", "pos": "adjective", "he": "שנוי/ה במחלוקת; פתוח/ה לוויכוח", "def": "open to argument; reasonable people could disagree", "example": "A good thesis is debatable, not a simple fact.", "ipa": "/dɪˈbeɪtəbl/", "collocations": ["highly debatable", "a debatable point"], "level": "C1" },
+    { "word": "evidence", "pos": "noun (uncountable)", "he": "ראיות", "def": "facts or information that show whether a claim is true (for one item, say a piece of evidence)", "example": "Support every claim with relevant evidence.", "ipa": "/ˈevɪdəns/", "collocations": ["strong evidence", "provide evidence", "a piece of evidence"], "level": "B1" },
+    { "word": "convincing", "pos": "adjective", "he": "משכנע/ת", "def": "making you believe that something is true or right", "example": "Her second argument was far more convincing than her first.", "ipa": "/kənˈvɪnsɪŋ/", "collocations": ["a convincing argument", "convincing evidence", "far from convincing"], "level": "B2" },
+    { "word": "counterargument", "pos": "noun", "he": "טיעון נגדי", "def": "an argument against your own position", "example": "A strong essay deals with the most serious counterargument.", "ipa": "/ˈkaʊntərɑːɡjumənt/", "collocations": ["address a counterargument", "a strong counterargument"], "level": "B2" },
+    { "word": "objection", "pos": "noun", "he": "התנגדות; הסתייגות", "def": "a reason why someone disagrees with an idea or plan", "example": "The most common objection to the plan is its cost.", "ipa": "/əbˈdʒekʃn/", "collocations": ["raise an objection", "a serious objection", "the main objection to"], "level": "B2" },
+    { "word": "address", "pos": "verb", "he": "להתייחס ל-; לטפל ב-", "def": "to deal with a problem, question or argument", "example": "The essay never addresses the question of cost.", "ipa": "/əˈdres/", "collocations": ["address a concern", "address an issue", "address an objection"], "level": "B2" },
+    { "word": "rebuttal", "pos": "noun", "he": "הפרכה; מענה לטיעון נגדי", "def": "a reasoned answer showing that an opposing argument is wrong or less important", "example": "Her rebuttal relied on evidence, not on insults.", "ipa": "/rɪˈbʌtl/", "collocations": ["a convincing rebuttal", "offer a rebuttal"], "level": "C1" },
+    { "word": "refute", "pos": "verb", "he": "להפריך", "def": "to prove that a statement or argument is wrong", "example": "The new evidence refutes the claim that the scheme failed.", "ipa": "/rɪˈfjuːt/", "collocations": ["refute a claim", "refute an argument", "attempt to refute"], "level": "C1" },
+    { "word": "concede", "pos": "verb", "he": "להודות (בנקודה); לקבל טענה", "def": "to admit that something is true, often unwillingly", "example": "I concede that the plan is expensive, but it will save money in the long run.", "ipa": "/kənˈsiːd/", "collocations": ["concede a point", "concede that", "be forced to concede"], "level": "C1" },
+    { "word": "outweigh", "pos": "verb", "he": "לעלות על (בחשיבות); להכריע", "def": "to be more important than something else", "example": "The benefits clearly outweigh the costs.", "ipa": "/ˌaʊtˈweɪ/", "collocations": ["the benefits outweigh the costs", "far outweigh"], "level": "C1" },
+    { "word": "qualify", "pos": "verb", "he": "לסייג", "def": "to make a statement less general by adding limits or conditions", "example": "She qualified her claim: the rule should apply only to students over 15.", "ipa": "/ˈkwɒlɪfaɪ/", "collocations": ["qualify a claim", "qualify a statement"], "level": "C1" },
+    { "word": "straw man", "pos": "noun", "he": "איש קש", "def": "a weak, exaggerated version of an opposing argument that is easy to defeat", "example": "Don't attack a straw man: describe the other side as its supporters would.", "ipa": "/ˌstrɔː ˈmæn/", "collocations": ["attack a straw man", "a straw man argument"], "level": "C1" }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "writing",
+      "prompt": { "en": "Which of these could work as the thesis of an argumentative essay? Sort them." },
+      "categories": ["Strong thesis", "Just a fact", "Announcement or no clear position"],
+      "items": [
+        { "text": "Schools should drop compulsory uniforms, because they cost families money and do little to improve behaviour.", "category": "Strong thesis" },
+        { "text": "Public transport should be free for students under 25, because it would cut traffic and widen access to education.", "category": "Strong thesis" },
+        { "text": "Many teenagers own smartphones.", "category": "Just a fact" },
+        { "text": "Our city opened a light rail line last year.", "category": "Just a fact" },
+        { "text": "In this essay, I will discuss school uniforms.", "category": "Announcement or no clear position" },
+        { "text": "Homework has both advantages and disadvantages.", "category": "Announcement or no clear position" },
+        { "text": "This essay is about the four-day working week.", "category": "Announcement or no clear position" },
+        { "text": "Social media is an interesting topic with many sides.", "category": "Announcement or no clear position" }
+      ],
+      "explanation": { "en": "A strong thesis takes a position that a reasonable person could disagree with, and gives reasons. A fact cannot be argued; an announcement only names the topic; 'advantages and disadvantages' sits on the fence." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "Choose the strongest thesis." },
+      "question": "Essay question: 'Should final exams be replaced by coursework?'",
+      "options": [
+        "Exams and coursework are two different ways of assessing students.",
+        "Coursework is good, and exams are bad.",
+        "Final exams should be partly replaced by coursework, because coursework measures skills such as research and planning that a three-hour exam cannot.",
+        "Everyone agrees that exams are stressful, so they should be abolished."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "This is a fact, not a position. Nobody could disagree with it, so there is nothing to argue." },
+        "1": { "en": "This takes a side, but it is vague (good in what way?) and gives no reason." },
+        "3": { "en": "It gives a reason, but 'everyone agrees' is not evidence, and stress alone doesn't show that exams should disappear completely." }
+      },
+      "option_errors": { "0": "weak-thesis", "1": "weak-thesis", "3": "fallacy" },
+      "explanation": { "en": "The strongest thesis is specific (partly replaced), debatable and gives a reason that the body paragraphs can develop." }
+    },
+    {
+      "id": "e3", "type": "categorize", "skill": "writing",
+      "prompt": { "en": "Claim: 'The school canteen should offer a cheaper vegetarian dish every day.' Does each piece of support help this claim?" },
+      "categories": ["Relevant support", "Irrelevant or weak support"],
+      "items": [
+        { "text": "In a survey by the student council, many students said they skip lunch because the meals are too expensive.", "category": "Relevant support" },
+        { "text": "The canteen manager says a daily vegetarian dish could be offered at a lower price than the meat dishes.", "category": "Relevant support" },
+        { "text": "Students who skip lunch because of the price often find it harder to concentrate in afternoon lessons.", "category": "Relevant support" },
+        { "text": "My cousin became a vegetarian last year.", "category": "Irrelevant or weak support" },
+        { "text": "Everyone I know loves pasta.", "category": "Irrelevant or weak support" },
+        { "text": "The canteen was painted green last summer.", "category": "Irrelevant or weak support" },
+        { "text": "A famous footballer said on TV that vegetables are the future.", "category": "Irrelevant or weak support" }
+      ],
+      "hint": { "en": "Ask two questions: does it support this exact claim (a cheaper vegetarian dish), and would it convince someone who disagrees?" },
+      "explanation": { "en": "Relevant support connects directly to the claim: students want cheaper food, the dish is affordable, and eating lunch matters. A single personal story, what 'everyone I know' likes, an unrelated fact and a celebrity who is not an expert on school meals do not prove anything about this claim." }
+    },
+    {
+      "id": "e4", "type": "order", "skill": "writing",
+      "prompt": { "en": "Put the sentences in order to make a PEEL paragraph: Point, Evidence, Explain, Link." },
+      "tokens": [
+        "The main advantage of coursework is that it rewards skills that matter after school.",
+        "For example, in her history project Maya had to plan her time over six weeks, compare several sources and rewrite her first draft after feedback.",
+        "None of these skills can be tested in a three-hour exam, yet universities and employers expect all of them.",
+        "For this reason, coursework should count for at least part of the final grade."
+      ],
+      "error_type": "cohesion",
+      "hint": { "en": "Look for the words that point back or forward: For example, these skills, For this reason." },
+      "explanation": { "en": "Point (the main advantage of coursework) → Evidence (For example, Maya's project) → Explain (none of these skills can be tested in an exam, but they are needed later) → Link (For this reason, coursework should count). 'These skills' points back to the example, and 'For this reason' introduces the link to the thesis." }
+    },
+    {
+      "id": "e5", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to a student answering an objection in a debate." },
+      "audio_text": "I accept that a four-day school week would be difficult for some working parents. That's a real concern. But schools could run clubs and sports on the fifth day, and in my view, the benefit of rested, motivated students is far greater than the cost of organising them.",
+      "question": "How does the speaker answer the objection?",
+      "options": [
+        "By showing that the objection is factually wrong",
+        "By ignoring it and changing the subject",
+        "By changing position and now opposing the plan",
+        "By accepting it and arguing that the benefits are greater"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "The speaker says 'I accept that ...' and calls it 'a real concern', so the objection is not rejected as wrong." },
+        "1": { "en": "The speaker answers the objection directly, with a practical solution and a comparison." },
+        "2": { "en": "The speaker still supports the four-day week." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "This is concede and outweigh: 'I accept that ... That's a real concern' (concede), then 'the benefit ... is far greater than the cost' (outweigh). The practical suggestion (clubs on the fifth day) makes the rebuttal stronger, because it reduces the problem as well as weighing it." }
+    },
+    {
+      "id": "e6", "type": "categorize", "skill": "writing",
+      "prompt": { "en": "How does each response answer the objection in quotation marks? Sort them by rebuttal move." },
+      "categories": ["Refute", "Concede and outweigh", "Qualify"],
+      "items": [
+        { "text": "'Coursework is easy to copy.' However, this overlooks the fact that teachers see drafts at every stage, which makes copying hard to hide.", "category": "Refute" },
+        { "text": "'A phone ban makes emergencies impossible to handle.' In fact, students can still use the school office phone, and parents can call the office.", "category": "Refute" },
+        { "text": "'Free transport would cost the city money.' That is true; nevertheless, cleaner air and quieter streets are worth more than the cost.", "category": "Concede and outweigh" },
+        { "text": "'A later start is inconvenient for some parents.' Admittedly, it is. Even so, the benefits for students' learning outweigh this inconvenience.", "category": "Concede and outweigh" },
+        { "text": "'Young children cannot travel to school alone.' This is a fair concern, so the later start should apply only to students aged 15 and over.", "category": "Qualify" },
+        { "text": "'Some students need their phones for medical apps.' Critics are right about this, so the ban should include exceptions for health reasons.", "category": "Qualify" }
+      ],
+      "explanation": { "en": "Refute: the objection is wrong (However, this overlooks ... / In fact ...). Concede and outweigh: it is true, but something else matters more (nevertheless, even so, outweigh). Qualify: it is partly true, so the claim becomes narrower (should apply only to ... / should include exceptions)." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "Which sentence states the counterargument fairly?" },
+      "question": "Your thesis: 'Schools should ban phones during lessons.' Which sentence presents the opposing view best?",
+      "options": [
+        "Some people think teenagers should be allowed to stare at screens all day.",
+        "Critics argue that a ban removes a useful learning tool and takes away students' chance to learn self-control.",
+        "Opponents of the ban are probably just addicted to their own phones.",
+        "Obviously, nobody seriously believes that phones help learning."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "This is a straw man: nobody argues for screens all day. A caricature is easy to defeat, but it convinces no one." },
+        "2": { "en": "This attacks the people, not their argument." },
+        "3": { "en": "This dismisses the other side instead of stating it. Many teachers do use phones in lessons, so readers will notice the gap." }
+      },
+      "option_errors": { "0": "fallacy", "2": "fallacy", "3": "missing-counterargument" },
+      "explanation": { "en": "A fair counterargument is attributed (Critics argue) and gives the strongest version of the other side, as its supporters would put it. Answering a strong objection makes your own argument more convincing." }
+    },
+    {
+      "id": "e8", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "Choose the strongest rebuttal." },
+      "question": "Counterargument: 'Critics argue that making public transport free for under-25s would cost the city too much.'",
+      "options": [
+        "It is true that the scheme would cost money; however, if more young people left their cars at home, the city would spend less on road repairs and parking, which would cover part of the cost.",
+        "This argument is wrong, and critics should think about the planet instead.",
+        "Many cities around the world have free transport, so it must be a good idea.",
+        "Money is not important when young people's futures are at stake."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "This dismisses the objection and gives no reason. Telling critics what to think about is not a rebuttal." },
+        "2": { "en": "Popularity is not evidence: what works in one city may not work in another, and the cost question is still unanswered." },
+        "3": { "en": "Cost does matter to a city, so brushing it aside makes the argument look weak. This avoids the objection instead of answering it." }
+      },
+      "option_errors": { "1": "unsupported-claim", "2": "fallacy", "3": "fallacy" },
+      "explanation": { "en": "The strongest rebuttal concedes the point fairly ('It is true that the scheme would cost money') and then answers it with reasoning: savings on roads and parking would reduce the real cost. It responds to the objection instead of avoiding it." }
+    },
+    {
+      "id": "e9", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read a student's argumentative essay and analyse how the argument is built." },
+      "title": "Should sixteen-year-olds vote in local elections?",
+      "passage": "Local councils make decisions that shape teenagers' daily lives: bus routes, parks, sports facilities and youth centres. Yet the people who use many of these services most often have no say in who runs them. This essay argues that the voting age for local elections should be lowered to sixteen, because local decisions affect young people directly and because voting early can help to build a lifelong habit.\n\nThe first reason is that local issues are concrete and familiar to teenagers. A sixteen-year-old who takes the bus to school every day knows better than many adults whether a new timetable works. Giving such students a vote would encourage councillors to pay attention to the people their decisions affect most.\n\nSecondly, voting is a habit, and habits are easier to form while young people are still living at home. A student who votes for the first time at sixteen can discuss the choice with parents and teachers. By contrast, many eighteen-year-olds are starting military service, university or work, and their first election can easily pass them by.\n\nCritics argue that sixteen-year-olds are not mature enough to vote and would simply copy their parents. This concern deserves a serious answer. However, maturity is not measured by age alone: no adult has to pass a knowledge test before voting, and many adults also vote as their families do. Moreover, if the real worry is a lack of knowledge, the solution is better civic education at school, not exclusion from the vote.\n\nIn conclusion, lowering the local voting age to sixteen would give young people a voice in decisions that affect them every day and would help to turn voting into a habit. Councils that want an engaged population should start by listening to their youngest residents.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Which sentence is the thesis?",
+          "options": [
+            "Local councils make decisions that shape teenagers' daily lives: bus routes, parks, sports facilities and youth centres.",
+            "This essay argues that the voting age for local elections should be lowered to sixteen, because local decisions affect young people directly and because voting early can help to build a lifelong habit.",
+            "This concern deserves a serious answer.",
+            "Councils that want an engaged population should start by listening to their youngest residents."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "This is background that introduces the topic. It states a fact, not the writer's position." },
+            "2": { "en": "This sentence introduces the rebuttal in paragraph 4." },
+            "3": { "en": "This is the final implication in the conclusion, not the thesis." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The thesis comes at the end of the introduction. It states the position (lower the local voting age to sixteen) and previews the two reasons that the body paragraphs develop." }
+        },
+        {
+          "type": "mcq",
+          "question": "What kind of support does paragraph 2 mainly use?",
+          "options": ["Statistics from a study", "A quotation from an expert", "A typical example from everyday life", "A personal story about the writer"],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "There are no numbers or studies in paragraph 2." },
+            "1": { "en": "No expert is quoted." },
+            "3": { "en": "The writer doesn't describe their own experience; the bus example describes a typical student." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "'A sixteen-year-old who takes the bus to school every day ...' is a typical, imagined example. It is clear and relevant, but it is reasoning by example rather than hard evidence." }
+        },
+        {
+          "type": "mcq",
+          "question": "How does the writer respond to the counterargument in paragraph 4?",
+          "options": [
+            "By refuting it: adults are not tested either, and knowledge can be taught at school",
+            "By attacking the critics personally",
+            "By agreeing and changing the thesis to eighteen",
+            "By ignoring it and moving on to a new topic"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The writer calls it a serious concern and answers the argument, not the people." },
+            "2": { "en": "The writer keeps the thesis: the voting age should be sixteen." },
+            "3": { "en": "The writer answers the objection directly, with two reasons (However ... Moreover ...)." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The writer shows that the objection rests on a weak assumption (adults are not tested for maturity or knowledge either), then offers a different solution to the real worry: civic education." }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer presents the critics' view as an exaggerated caricature.",
+          "answer": false,
+          "explanation": { "en": "The objection is stated in terms its supporters would accept (not mature enough, would copy their parents), and the writer says it 'deserves a serious answer'. That is a fair counterargument, not a straw man." }
+        },
+        {
+          "type": "tf",
+          "statement": "The conclusion restates the thesis in different words.",
+          "answer": true,
+          "explanation": { "en": "'Lowering the local voting age to sixteen would give young people a voice ... and would help to turn voting into a habit' repeats the position and both reasons without copying the thesis or adding a new argument." }
+        },
+        {
+          "type": "mcq",
+          "question": "Which is the fairest criticism of the essay?",
+          "options": [
+            "It never makes its position clear.",
+            "It does not mention any opposing view.",
+            "Its conclusion contradicts the thesis.",
+            "Paragraph 3 states that voting is a habit but gives no evidence for this claim."
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "The position is clear in the thesis and repeated in the conclusion." },
+            "1": { "en": "Paragraph 4 presents and answers an opposing view." },
+            "2": { "en": "The conclusion supports the thesis." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "The second reason depends on the claim that voting is a habit, but the writer simply states it. A stronger paragraph would support it with evidence or a clear example and explain how it applies to sixteen-year-olds. Having all the parts is not enough: each claim needs support." }
+        }
+      ]
+    },
+    {
+      "id": "e10", "type": "gap", "skill": "writing",
+      "prompt": { "en": "Complete the counterargument and rebuttal with words from the box. Three words are not needed." },
+      "text": "___ argue that coursework is unfair to students who get little help at home. This is a fair point; ___, the same is true of exams, since private tutoring improves exam results as well. ___, coursework could be done in school, under supervision, which would reduce the advantage of outside help.",
+      "word_bank": ["Critics", "however", "Moreover", "Everyone", "therefore", "Obviously"],
+      "answers": [["Critics", "Opponents", "Some people", "Some"], ["however", "nevertheless", "even so"], ["Moreover", "Furthermore", "In addition", "What is more", "Besides"]],
+      "wrong_feedback": [
+        { "match": "Everyone", "feedback": { "en": "'Everyone argue' is ungrammatical (everyone argues), and it overstates the case. Attribute the view to a specific group, such as critics." }, "error_type": "agreement" },
+        { "match": "therefore", "feedback": { "en": "Therefore introduces a result, but these sentences answer or add to the objection; they don't follow from it. Use however for the contrast and Moreover to add a point." }, "error_type": "cohesion" },
+        { "match": "Obviously", "feedback": { "en": "Obviously dismisses instead of arguing, and it doesn't add a new point. You need an addition connector: Moreover." }, "error_type": "cohesion" },
+        { "match": "Moreover", "feedback": { "en": "Moreover adds a point on the same side. After conceding ('This is a fair point'), you need a contrast to turn to your answer: however. Moreover belongs in gap 3, where you add a second answer." }, "error_type": "cohesion" },
+        { "match": "however", "feedback": { "en": "However signals a contrast, so it belongs in gap 2, where you turn from the concession to your answer. Gap 3 adds a second answer, so it needs Moreover." }, "error_type": "cohesion" }
+      ],
+      "hint": { "en": "Gap 1 attributes the opposing view, gap 2 turns to your answer, gap 3 adds a second answer." },
+      "explanation": { "en": "Critics argue (attribute the opposing view) → This is a fair point; however, ... (concede, then answer) → Moreover, ... (add a second answer). Note the punctuation: a semicolon before however, and a comma after however and Moreover." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "writing",
+      "prompt": { "en": "Combine the two ideas into one concede-and-outweigh sentence. Start with 'It is true that' and join the ideas with '; nevertheless,'." },
+      "source": "(1) A later start would be inconvenient for some parents. (2) The benefits for students' learning are greater.",
+      "answers": [
+        "It is true that a later start would be inconvenient for some parents; nevertheless, the benefits for students' learning are greater.",
+        "It is true that a later start would be inconvenient for some parents; nevertheless the benefits for students' learning are greater.",
+        "It is true that a later start would be inconvenient for some parents. Nevertheless, the benefits for students' learning are greater."
+      ],
+      "wrong_feedback": [
+        { "match": "It is true that a later start would be inconvenient for some parents, nevertheless, the benefits for students' learning are greater.", "feedback": { "en": "A comma cannot join two complete sentences, even with nevertheless. Use a semicolon (; nevertheless,) or a full stop." }, "error_type": "punctuation" },
+        { "match": "It is true that a later start would be inconvenient for some parents, but nevertheless the benefits for students' learning are greater.", "feedback": { "en": "Use one connector, not two. The task pattern is: ... parents; nevertheless, the benefits ..." }, "error_type": "cohesion" },
+        { "match": "Although a later start would be inconvenient for some parents, the benefits for students' learning are greater.", "feedback": { "en": "That is a correct concession sentence, but this task practises a different pattern: It is true that ...; nevertheless, ..." }, "error_type": "cohesion" }
+      ],
+      "hint": { "en": "Pattern: It is true that + idea 1; nevertheless, + idea 2." },
+      "explanation": { "en": "'It is true that' concedes the objection; '; nevertheless,' turns to your answer and shows that it outweighs the objection. Keep the semicolon before nevertheless and the comma after it." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Correct the mistake in this sentence from an essay." },
+      "sentence": "There are many evidences that the new timetable has improved attendance.",
+      "answers": [
+        "There is a lot of evidence that the new timetable has improved attendance.",
+        "There is much evidence that the new timetable has improved attendance.",
+        "There is plenty of evidence that the new timetable has improved attendance.",
+        "There is considerable evidence that the new timetable has improved attendance.",
+        "There is strong evidence that the new timetable has improved attendance.",
+        "There is substantial evidence that the new timetable has improved attendance.",
+        "There is a great deal of evidence that the new timetable has improved attendance.",
+        "There is evidence that the new timetable has improved attendance.",
+        "There are many pieces of evidence that the new timetable has improved attendance."
+      ],
+      "error_type": "countability",
+      "wrong_feedback": [
+        { "match": "evidences", "feedback": { "en": "Evidence has no plural form. Use There is + evidence: There is considerable evidence that ..." }, "error_type": "countability" },
+        { "match": "many", "feedback": { "en": "Many goes with plural countable nouns, but evidence is uncountable. Use much, a lot of, considerable or strong: There is considerable evidence that ... (or many pieces of evidence)." }, "error_type": "countability" }
+      ],
+      "hint": { "en": "Can you count evidence? Check the noun and the verb." },
+      "explanation": { "en": "Evidence is uncountable: no plural -s, and a singular verb. There is considerable (or strong, or a lot of) evidence that ... For one item, say a piece of evidence. In a formal essay, considerable or strong sounds better than a lot of." }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Respond to an objection in a discussion. Say it out loud." },
+      "target": "I take your point, but I'd argue that the benefits clearly outweigh the costs.",
+      "focus": { "en": "Outweigh is stressed on the second part: out-WEIGH /ˌaʊtˈweɪ/. Weigh starts with /w/: round your lips. Pronounce the final sounds in benefits and costs clearly: /ts/ and /sts/.", "he": "ב-outweigh ההטעמה על החלק השני: out-WEIGH. ‏weigh מתחילה ב-/w/: מעגלים את השפתיים. הגו בבירור את הצלילים בסוף benefits ו-costs: ‏/ts/ ו-/sts/." },
+      "explanation": { "en": "'I take your point, but ...' concedes politely before you disagree: it is the spoken version of concede and outweigh." }
+    },
+    {
+      "id": "e14", "type": "write", "skill": "writing",
+      "prompt": { "en": "Final assessment: write your argumentative essay." },
+      "task": { "en": "Write a 500-word argumentative essay with a clear thesis, at least three supporting arguments, evidence, a counterargument, a rebuttal and a strong conclusion. Choose one question, argue your position and respond to opposing views: (a) Should final school exams be partly replaced by coursework? (b) Should public transport be free for everyone under 25? (c) Should schools ban phones for the whole school day? Plan before you write: a thesis; three body paragraphs (one reason each, with an example or evidence that you explain); the strongest opposing view, stated fairly and attributed; your rebuttal (refute, concede and outweigh, or qualify); and a conclusion with no new arguments. Use real examples and reasoning, not invented statistics." },
+      "min_words": 450,
+      "max_words": 600,
+      "model_answer": "Model answer on a parallel question: Should secondary schools start the day at 9:00 instead of 8:00?\n\nIn most secondary schools, the first lesson begins at 8:00, and many students arrive tired before the day has even started. Some see this as a matter of discipline; others see it as a question of biology. This essay argues that secondary schools should start at 9:00, because a later start would improve learning, support students' health and make better use of the time students already spend at school.\n\nThe main reason is learning. Sleep research suggests that teenagers' body clocks shift later during adolescence, so many sixteen-year-olds find it hard to fall asleep before eleven, however sensible their habits are. An 8:00 start therefore forces them to study difficult subjects at the time of day when they are least alert. If the first lesson began an hour later, students would arrive ready to concentrate, which is the purpose of the school day.\n\nSecondly, a later start would protect students' health. Students who are short of sleep often rely on energy drinks, skip breakfast or struggle to stay awake on the bus, and tiredness can also make them more irritable with friends and teachers. For example, when my school moved its first lesson to 8:45 for one term, the school nurse told our class that fewer students came to her with morning headaches. One school is not proof, but it shows how a small change to the timetable can affect students' well-being.\n\nThirdly, the change would make the school day more efficient. Teachers often spend the first lesson waking a class up rather than teaching it, and students who doze through a maths lesson at 8:00 need the same material explained again later. An extra hour of sleep would turn that lost lesson into a productive one without adding a single minute to the school day. In other words, a later start is not a reward for lazy students but a way of getting more value from lessons that already exist.\n\nCritics argue that a later start would clash with parents' working hours and would push the end of the day later, leaving less time for homework, clubs and part-time jobs. These are serious concerns, and any new timetable would have to take them into account. However, older students do not need to be taken to school by their parents, so the change could begin with students aged fifteen and over, while younger pupils keep the current timetable. It is also true that the day would finish later; nevertheless, an hour of focused learning is worth more than an hour of tired learning, and many clubs could move to lunchtime.\n\nIn conclusion, starting secondary school at 9:00 is a modest change with significant benefits. It would allow students to learn when they are most alert, support their health and make the school day more productive. The concerns about family routines are real, but they can be reduced by starting with older students. Schools that want students to perform at their best should begin by letting them wake up first.",
+      "checklist": [
+        { "en": "Thesis: the end of my introduction states a clear, debatable position and previews my main reasons." },
+        { "en": "Arguments: I develop at least three reasons, one per body paragraph, each starting with a clear topic sentence." },
+        { "en": "Evidence: every reason has a relevant example or piece of evidence, and I explain how it supports my point (PEEL). I did not invent statistics." },
+        { "en": "Counterargument: I state the strongest opposing view fairly, attribute it (Critics argue ...) and place it before the conclusion." },
+        { "en": "Rebuttal: I answer it with reasoning, by refuting it, conceding and outweighing it, or qualifying my claim, never by simply dismissing it." },
+        { "en": "Conclusion: I restate my thesis in new words and sum up, without adding new arguments." },
+        { "en": "Language: formal register (no contractions), connectors that match the logic, and correct punctuation (; however, / . However,)." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "A thesis is specific and debatable, gives reasons, and comes at the end of the introduction. Facts, announcements and 'advantages and disadvantages' are not theses." },
+      { "en": "Build each body paragraph with PEEL: Point, Evidence, Explain how the evidence proves the point, Link back to the thesis." },
+      { "en": "State the strongest opposing view fairly and attribute it (Critics argue ...). No straw men, and no counterarguments in the conclusion." },
+      { "en": "Answer objections with reasons: refute them, concede and outweigh them, or qualify your claim. 'This is wrong' is not a rebuttal." },
+      { "en": "Good evidence is relevant, sufficient and explained. Never invent statistics: one honest example beats an invented number." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

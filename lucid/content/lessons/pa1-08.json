@@ -36,10 +36,10 @@
     ] },
     { "type": "table", "headers": ["Time", "Say", "Or"], "rows": [
       ["7:00", "It's seven o'clock.", "It's seven."],
+      ["7:10", "It's ten past seven.", "It's seven ten."],
       ["7:15", "It's quarter past seven.", "It's seven fifteen."],
       ["7:30", "It's half past seven.", "It's seven thirty."],
-      ["7:45", "It's quarter to eight.", "It's seven forty-five."],
-      ["7:10", "It's ten past seven.", "It's seven ten."]
+      ["7:45", "It's quarter to eight.", "It's seven forty-five."]
     ] },
     { "type": "warning", "en": "Start with It's: It's six o'clock (not 'Six hour' or 'Is six'). Say o'clock only for a full hour.", "he": "מתחילים ב-It's: It's six o'clock (לא 'Six hour' ולא 'Is six'). את o'clock אומרים רק בשעה עגולה." },
     { "type": "tip", "en": "A first look: at + time (at 7 o'clock) · on + day or date (on Monday, on 5 May) · in + month or year (in May, in 2026).", "he": "הצצה ראשונה: at + שעה (at 7 o'clock) · on + יום או תאריך (on Monday, on 5 May) · in + חודש או שנה (in May, in 2026). נלמד את זה לעומק ברמה A1." },
@@ -161,7 +161,8 @@
       "wrong_feedback": [
         { "match": "the three of March", "feedback": { "en": "Use the ordinal: third, not three.", "he": "משתמשים במספר סודר: third, לא three." }, "error_type": "word-choice" },
         { "match": "third of March", "feedback": { "en": "Add the: the third of March.", "he": "הוסיפו the: the third of March." }, "error_type": "article" },
-        { "match": "the 3rd of March", "feedback": { "en": "Right idea! Now write the number in words: the third of March.", "he": "הכיוון נכון! עכשיו כתבו את המספר במילים: the third of March." } }
+        { "match": "the 3rd of March", "feedback": { "en": "Right idea! Now write the number in words: the third of March.", "he": "הכיוון נכון! עכשיו כתבו את המספר במילים: the third of March." } },
+        { "match": "March 3rd", "feedback": { "en": "Right idea! Now write the number in words: March third, or the third of March.", "he": "הכיוון נכון! עכשיו כתבו את המספר במילים: March third או the third of March." } }
       ],
       "explanation": { "en": "We write 3 March and say the third of March (UK). In the US people often say March third.", "he": "כותבים 3 March ואומרים the third of March (בבריטניה). בארה״ב אומרים לרוב March third." }
     },
@@ -204,6 +205,10 @@
       "sentence": "It's seven and half.",
       "answers": ["It's half past seven.", "It's seven thirty.", "It's half past 7."],
       "error_type": "false-friend",
+      "wrong_feedback": [
+        { "match": "It's seven and a half.", "feedback": { "en": "Seven and a half is for amounts (seven and a half hours), not for the clock. Say: It's half past seven.", "he": "seven and a half מתאים לכמות (שבע וחצי שעות), לא לשעון. אומרים: It's half past seven." }, "error_type": "false-friend" },
+        { "match": "It's half seven.", "feedback": { "en": "In British speech you will hear half seven, but learn the full form first: It's half past seven.", "he": "בבריטניה שומעים half seven בדיבור, אבל קודם לומדים את הצורה המלאה: It's half past seven." } }
+      ],
       "hint": { "en": "half + past + the hour", "he": "half + past + השעה" },
       "explanation": { "en": "English doesn't say 'seven and half' for the time. Say: It's half past seven, or It's seven thirty.", "he": "'שבע וחצי' לא מתורגם מילה במילה. אומרים: It's half past seven או It's seven thirty." }
     },

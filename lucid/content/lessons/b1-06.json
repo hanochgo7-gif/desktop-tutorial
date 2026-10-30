@@ -1,0 +1,1069 @@
+{
+  "id": "b1-06",
+  "level": "B1",
+  "title_en": "It was made in...: the passive",
+  "title_he": "סביל",
+  "topics": [
+    "passive-intro"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can form the passive in the present simple and past simple: is made, are grown, was built, were sold.",
+      "he": "אני יודע/ת לבנות סביל בהווה פשוט ובעבר פשוט: is made, are grown, was built, were sold."
+    },
+    {
+      "en": "I can decide when the passive is better than the active, and when to add by + the person who did it.",
+      "he": "אני יודע/ת להחליט מתי סביל מתאים יותר מפעיל, ומתי להוסיף by + מי שביצע את הפעולה."
+    },
+    {
+      "en": "I can describe how something is made and give facts about objects and places.",
+      "he": "אני יודע/ת לתאר איך משהו מיוצר ולמסור עובדות על חפצים ומקומות."
+    }
+  ],
+  "warmup": {
+    "en": "Where was your phone made? Who built the building you're in right now? Do you know – and does it really matter?",
+    "he": "איפה יוצר הטלפון שלכם? מי בנה את הבניין שאתם נמצאים בו עכשיו? אתם יודעים – וזה בכלל משנה? היום נלמד מבנה שמתאים בדיוק למצבים כאלה."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: Coffee is grown in Brazil. Our school was built in 1965. My bike was stolen last night. In each sentence the focus is on the thing (the coffee, the school, my bike) and what happens to it, not on the person who does the action. This is the passive.",
+      "he": "שימו לב: Coffee is grown in Brazil. ‏Our school was built in 1965. ‏My bike was stolen last night. בכל משפט המוקד הוא הדבר עצמו (הקפה, בית הספר, האופניים) ומה שקורה לו – לא מי שעושה את הפעולה. זה הסביל (passive)."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Tense",
+        "Form: be + past participle",
+        "Example"
+      ],
+      "rows": [
+        [
+          "Present simple",
+          "am / is / are + past participle",
+          "These phones are made in Korea."
+        ],
+        [
+          "Past simple",
+          "was / were + past participle",
+          "The tickets were sold in ten minutes."
+        ],
+        [
+          "Negative",
+          "isn't / aren't / wasn't / weren't + past participle",
+          "We weren't invited."
+        ],
+        [
+          "Question",
+          "(Wh-) + am / is / are / was / were + subject + past participle?",
+          "Where was this photo taken?"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "The tense is shown by be (is, was). The past participle never changes: is built, was built (not *was build). Common ones: make – made, build – built, write – written, steal – stolen, grow – grown, sell – sold, take – taken, give – given.",
+      "he": "הזמן מסומן ב-be ‏(is, was). ה-past participle לא משתנה: is built, was built (ולא was build). צורות נפוצות: make – made, build – built, write – written, steal – stolen, grow – grown, sell – sold, take – taken, give – given."
+    },
+    {
+      "type": "p",
+      "en": "Use the passive when the doer is unknown (My car was stolen), obvious (The thief was arrested), or less important than the action or the result. Add by + the doer only when it is new, useful information: The mural was painted by a 16-year-old student. Never add empty agents like by someone or by people.",
+      "he": "משתמשים בסביל כשלא יודעים מי עשה את הפעולה (My car was stolen), כשזה ברור מאליו (The thief was arrested), או כשהפעולה והתוצאה חשובות יותר ממי שביצע אותה. מוסיפים by + מבצע הפעולה רק כשזה מידע חדש ומועיל: The mural was painted by a 16-year-old student. לא מוסיפים מבצע \"ריק\" כמו by someone או by people."
+    },
+    {
+      "type": "warning",
+      "en": "Don't drop be: The house was built in 1950 (not *The house built in 1950, which means the house built something!). And some verbs are never passive: The concert took place in the park (not *was taken place). The accident happened at night (not *was happened).",
+      "he": "אל תשמיטו את be: ‏The house was built in 1950 (ולא The house built in 1950 – שמשמעו שהבית בנה משהו!). ויש פעלים שאף פעם לא באים בסביל: The concert took place in the park (ולא was taken place); ‏The accident happened at night (ולא was happened)."
+    },
+    {
+      "type": "tip",
+      "en": "Describing a process? Use the present passive with sequencing words: First, the olives are picked. Then they are washed and crushed. Finally, the oil is bottled.",
+      "he": "מתארים תהליך? השתמשו בסביל בהווה יחד עם מילות רצף: First, the olives are picked. Then they are washed and crushed. Finally, the oil is bottled."
+    }
+  ],
+  "examples": [
+    {
+      "en": "Most of our vegetables are grown locally.",
+      "he": "רוב הירקות שלנו גדלים כאן באזור.",
+      "note": "present simple passive: a general fact"
+    },
+    {
+      "en": "These bags are made of recycled plastic.",
+      "he": "התיקים האלה עשויים מפלסטיק ממוחזר.",
+      "note": "made of + material"
+    },
+    {
+      "en": "My phone was stolen on the train.",
+      "he": "הטלפון שלי נגנב ברכבת.",
+      "note": "we don't know who stole it"
+    },
+    {
+      "en": "The new library was designed by a young architect from Haifa.",
+      "he": "את הספרייה החדשה תכננה אדריכלית צעירה מחיפה.",
+      "note": "by + agent: new, useful information"
+    },
+    {
+      "en": "Is breakfast included in the price?",
+      "he": "ארוחת הבוקר כלולה במחיר?",
+      "note": "a present passive question"
+    },
+    {
+      "en": "The match wasn't cancelled. It was moved to Sunday.",
+      "he": "המשחק לא בוטל. הוא הועבר ליום ראשון."
+    },
+    {
+      "en": "Were you invited to Maya's party?",
+      "he": "הזמינו אותך למסיבה של מאיה?",
+      "note": "Hebrew often says 'they invited you'; English usually uses the passive"
+    },
+    {
+      "en": "First, the oranges are picked by hand. Then they are washed and packed.",
+      "he": "קודם קוטפים את התפוזים ביד. אחר כך שוטפים ואורזים אותם.",
+      "note": "describing a process"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "be made of",
+      "pos": "phrase",
+      "he": "להיות עשוי מ-",
+      "def": "to have something as its material",
+      "example": "This table is made of old wood.",
+      "ipa": "/bi ˈmeɪd əv/",
+      "collocations": [
+        "made of wood",
+        "made of glass",
+        "made of recycled plastic"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "produce",
+      "pos": "verb",
+      "he": "לייצר; להפיק",
+      "def": "to make or grow something, usually to sell it",
+      "example": "The farm produces cheese and yoghurt.",
+      "ipa": "/prəˈdjuːs/",
+      "collocations": [
+        "produce food",
+        "produce electricity",
+        "locally produced"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "invent",
+      "pos": "verb",
+      "he": "להמציא",
+      "def": "to make or design something that did not exist before",
+      "example": "When was the telephone invented?",
+      "ipa": "/ɪnˈvent/",
+      "collocations": [
+        "invent a machine",
+        "invent a game",
+        "invented by"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "design",
+      "pos": "verb",
+      "he": "לתכנן; לעצב",
+      "def": "to plan how something will look and work",
+      "example": "The app was designed by two students.",
+      "ipa": "/dɪˈzaɪn/",
+      "collocations": [
+        "designed by",
+        "well designed",
+        "design a website"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "deliver",
+      "pos": "verb",
+      "he": "למסור; להביא (משלוח)",
+      "def": "to take letters or goods to a place",
+      "example": "The package was delivered this morning.",
+      "ipa": "/dɪˈlɪvə(r)/",
+      "collocations": [
+        "deliver a package",
+        "deliver food",
+        "delivered to your door"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "recycle",
+      "pos": "verb",
+      "he": "למחזר",
+      "def": "to treat used things so that they can be used again",
+      "example": "Glass bottles are recycled here.",
+      "ipa": "/ˌriːˈsaɪkl/",
+      "collocations": [
+        "recycle plastic",
+        "recycled paper",
+        "recycling bin"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "steal",
+      "pos": "verb (stole, stolen)",
+      "he": "לגנוב",
+      "def": "to take something that is not yours without asking",
+      "example": "My bike was stolen last week.",
+      "ipa": "/stiːl/",
+      "collocations": [
+        "a stolen car",
+        "steal money",
+        "stolen goods"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "take place",
+      "pos": "phrase",
+      "he": "להתקיים; להתרחש",
+      "def": "to happen, especially when it is planned (never passive)",
+      "example": "The festival takes place every summer.",
+      "ipa": "/ˌteɪk ˈpleɪs/",
+      "collocations": [
+        "take place every year",
+        "take place in the park",
+        "the meeting took place"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be located",
+      "pos": "phrase",
+      "he": "להיות ממוקם; להימצא",
+      "def": "to be in a particular place",
+      "example": "The hotel is located near the beach.",
+      "ipa": "/bi ləʊˈkeɪtɪd/",
+      "collocations": [
+        "located in the city centre",
+        "conveniently located",
+        "located near"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be known for",
+      "pos": "phrase",
+      "he": "להיות ידוע ב-; להתפרסם בזכות",
+      "def": "to be famous because of something",
+      "example": "Akko is known for its old city and its markets.",
+      "ipa": "/bi ˈnəʊn fə(r)/",
+      "collocations": [
+        "best known for",
+        "well known for",
+        "known for its food"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be based on",
+      "pos": "phrase",
+      "he": "להיות מבוסס על",
+      "def": "to use something as the starting point",
+      "example": "The film is based on a true story.",
+      "ipa": "/bi ˈbeɪst ɒn/",
+      "collocations": [
+        "based on a true story",
+        "based on a book",
+        "based on research"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "by hand",
+      "pos": "phrase",
+      "he": "ביד; בעבודת יד",
+      "def": "done or made by a person, not by a machine",
+      "example": "These cups are made by hand.",
+      "ipa": "/ˌbaɪ ˈhænd/",
+      "collocations": [
+        "made by hand",
+        "written by hand",
+        "wash by hand"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the passive is shown inside the verb itself, and the present tense has no 'be' at all (literally 'the bags made in Italy'), so be is easy to leave out. In English the passive always needs be + past participle: These bags are made in Italy (not *These bags made in Italy).",
+      "he": "בעברית הסביל מסומן בתוך הפועל עצמו (נבנה, מיוצרים), ובהווה אין בכלל \"להיות\" (\"התיקים מיוצרים באיטליה\"), ולכן קל לשכוח את be. באנגלית סביל תמיד צריך be + past participle: These bags are made in Italy (ולא These bags made in Italy).",
+      "error_type": "passive-form"
+    },
+    {
+      "en": "In Hebrew a question can keep the word order of a statement (literally 'where this was photographed?'), so it is easy to say *Where this photo was taken?. In English, be comes before the subject: Where was this photo taken?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל (\"איפה זה צולם?\"), ולכן קל לומר Where this photo was taken?. באנגלית be בא לפני הנושא: Where was this photo taken?",
+      "error_type": "word-order"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Is the verb active or passive?",
+        "he": "הפועל פעיל (active) או סביל (passive)? מיינו את המשפטים."
+      },
+      "categories": [
+        "Active",
+        "Passive"
+      ],
+      "items": [
+        {
+          "text": "The bridge was built in 1932.",
+          "category": "Passive"
+        },
+        {
+          "text": "They built the bridge in 1932.",
+          "category": "Active"
+        },
+        {
+          "text": "Rice is grown in many countries.",
+          "category": "Passive"
+        },
+        {
+          "text": "My grandmother grows tomatoes.",
+          "category": "Active"
+        },
+        {
+          "text": "Noa was cleaning the windows.",
+          "category": "Active"
+        },
+        {
+          "text": "The windows are cleaned every month.",
+          "category": "Passive"
+        },
+        {
+          "text": "Kenji was invited to the wedding.",
+          "category": "Passive"
+        },
+        {
+          "text": "Kenji invited forty people.",
+          "category": "Active"
+        }
+      ],
+      "explanation": {
+        "en": "Passive = be + past participle: was built, is grown, are cleaned, was invited. \"Noa was cleaning\" is active: was + -ing is the past continuous, and Noa is doing the action.",
+        "he": "סביל = be + past participle: ‏was built, is grown, are cleaned, was invited. ‏\"Noa was cleaning\" הוא פעיל: was + ing זה עבר מתמשך, ונועה היא זו שמבצעת את הפעולה."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Choose the correct form.",
+        "he": "בחרו את הצורה הנכונה."
+      },
+      "question": "Most of our furniture ___ by local carpenters.",
+      "options": [
+        "is made",
+        "are made",
+        "made",
+        "is make"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "furniture is uncountable, so it takes a singular verb: is made.",
+          "he": "furniture הוא שם עצם לא ספיר, ולכן בא איתו פועל ביחיד: is made."
+        },
+        "2": {
+          "en": "Without be, the furniture made something! The passive needs be: is made.",
+          "he": "בלי be, הרהיטים \"ייצרו\" משהו! סביל צריך be: ‏is made."
+        },
+        "3": {
+          "en": "After be, use the past participle, not the base form: is made.",
+          "he": "אחרי be בא past participle, לא צורת הבסיס: is made."
+        }
+      },
+      "option_errors": {
+        "1": "agreement",
+        "2": "passive-form",
+        "3": "verb-form"
+      },
+      "explanation": {
+        "en": "Present simple passive: is/are + past participle. furniture is uncountable (no -s), so: is made.",
+        "he": "סביל בהווה פשוט: is/are + past participle. ‏furniture לא ספיר (אין לו רבים), ולכן: is made."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Choose the correct form.",
+        "he": "בחרו את הצורה הנכונה."
+      },
+      "question": "Our school ___ in 1965.",
+      "options": [
+        "was build",
+        "built",
+        "is built",
+        "was built"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "After was, use the past participle: build – built – built.",
+          "he": "אחרי was בא past participle: ‏build – built – built."
+        },
+        "1": {
+          "en": "Without was, the school did the building! Passive: was built.",
+          "he": "בלי was, בית הספר בנה משהו! סביל: was built."
+        },
+        "2": {
+          "en": "1965 is a finished time in the past, so use was, not is.",
+          "he": "1965 הוא זמן שהסתיים בעבר, ולכן was ולא is."
+        }
+      },
+      "option_errors": {
+        "0": "verb-form",
+        "1": "passive-form",
+        "2": "tense-choice"
+      },
+      "explanation": {
+        "en": "Past simple passive: was/were + past participle. The school is singular and 1965 is finished: was built.",
+        "he": "סביל בעבר פשוט: was/were + past participle. בית הספר ביחיד, ו-1965 בעבר: was built."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Listen to a voice message from the bike shop and choose the true sentence.",
+        "he": "הקשיבו להודעה הקולית מחנות האופניים ובחרו את המשפט הנכון."
+      },
+      "audio_text": "Hi, it's Lior from the bike shop. Your bike was repaired this morning, but the new lights weren't delivered. We'll add them next week. You can pick the bike up any time after four.",
+      "question": "What does Lior say?",
+      "options": [
+        "The bike was stolen from the shop this morning.",
+        "The new lights were added this morning.",
+        "The bike is ready, but the lights haven't arrived yet.",
+        "The bike will be ready next week."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Nothing was stolen. Lior says the bike was repaired.",
+          "he": "שום דבר לא נגנב. ליאור אומר שהאופניים תוקנו (was repaired)."
+        },
+        "1": {
+          "en": "The lights weren't delivered, so they can't be on the bike yet. Lior will add them next week.",
+          "he": "האורות לא הגיעו (weren't delivered), ולכן הם עוד לא על האופניים. ליאור יוסיף אותם בשבוע הבא."
+        },
+        "3": {
+          "en": "The bike was repaired this morning and you can pick it up after four. Only the lights come next week.",
+          "he": "האופניים תוקנו הבוקר ואפשר לאסוף אותם אחרי ארבע. רק האורות יגיעו בשבוע הבא."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "was repaired = the shop fixed it (we don't need to say who). weren't delivered = the lights didn't arrive.",
+        "he": "was repaired = החנות תיקנה אותם (אין צורך לומר מי). ‏weren't delivered = האורות לא הגיעו."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Complete the description with the present simple passive of the verbs in brackets.",
+        "he": "השלימו את התיאור בסביל בהווה פשוט של הפעלים שבסוגריים."
+      },
+      "text": "Every year our olive oil ___ (produce) on a small family farm. The olives ___ (pick) by hand in November, and the oil ___ (sell) at local markets.",
+      "answers": [
+        [
+          "is produced"
+        ],
+        [
+          "are picked"
+        ],
+        [
+          "is sold"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "are produced",
+          "feedback": {
+            "en": "Olive oil is uncountable, so use is: is produced.",
+            "he": "olive oil לא ספיר, ולכן is: ‏is produced."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "was produced",
+          "feedback": {
+            "en": "\"Every year\" describes a regular fact, so use the present: is produced.",
+            "he": "\"Every year\" מתאר עובדה קבועה, ולכן הווה: is produced."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "is produce",
+          "feedback": {
+            "en": "After is, use the past participle: produced.",
+            "he": "אחרי is בא past participle: ‏produced."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "produced",
+          "feedback": {
+            "en": "The passive needs be + past participle. Oil is singular and this happens every year: is produced.",
+            "he": "סביל צריך be + past participle. השמן ביחיד וזה קורה כל שנה: is produced."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "is picked",
+          "feedback": {
+            "en": "olives is plural, so use are: are picked.",
+            "he": "olives ברבים, ולכן are: ‏are picked."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "were picked",
+          "feedback": {
+            "en": "This happens every year, so use the present: are picked.",
+            "he": "זה קורה כל שנה, ולכן הווה: are picked."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "picked",
+          "feedback": {
+            "en": "The passive needs be + past participle. Olives are plural: are picked.",
+            "he": "סביל צריך be + past participle. הזיתים ברבים: are picked."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "is selled",
+          "feedback": {
+            "en": "sell is irregular: sell – sold – sold. So: is sold.",
+            "he": "sell הוא פועל חריג: sell – sold – sold. לכן: is sold."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "is sell",
+          "feedback": {
+            "en": "After is, use the past participle: sold.",
+            "he": "אחרי is בא past participle: ‏sold."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "sold",
+          "feedback": {
+            "en": "The passive needs be + past participle: the oil is sold.",
+            "he": "סביל צריך be + past participle: ‏the oil is sold."
+          },
+          "error_type": "passive-form"
+        }
+      ],
+      "hint": {
+        "en": "\"Every year\" means present simple. Is each subject singular or plural?",
+        "he": "\"Every year\" = הווה פשוט. בדקו אם כל נושא ביחיד או ברבים."
+      },
+      "explanation": {
+        "en": "A regular process → present simple passive: is/are + past participle. Oil is singular (is produced, is sold); olives are plural (are picked).",
+        "he": "תהליך קבוע = סביל בהווה פשוט: is/are + past participle. השמן ביחיד (is produced, is sold), הזיתים ברבים (are picked)."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Rewrite the sentence in the passive. Leave out 'someone'.",
+        "he": "כתבו את המשפט מחדש בסביל. השמיטו את 'someone'."
+      },
+      "source": "Someone stole my laptop at the airport.",
+      "answers": [
+        "My laptop was stolen at the airport.",
+        "At the airport my laptop was stolen.",
+        "At the airport, my laptop was stolen."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "My laptop was stolen at the airport by someone.",
+          "feedback": {
+            "en": "Correct grammar, but \"by someone\" adds nothing. Leave it out.",
+            "he": "הדקדוק נכון, אבל \"by someone\" לא מוסיף מידע. השמיטו אותו."
+          }
+        },
+        {
+          "match": "My laptop was stolen by someone at the airport.",
+          "feedback": {
+            "en": "Correct grammar, but \"by someone\" adds nothing. Leave it out.",
+            "he": "הדקדוק נכון, אבל \"by someone\" לא מוסיף מידע. השמיטו אותו."
+          }
+        },
+        {
+          "match": "My laptop was stole at the airport.",
+          "feedback": {
+            "en": "stole is the past simple. After was, use the past participle: stolen.",
+            "he": "stole היא צורת העבר. אחרי was בא past participle: ‏stolen."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "My laptop was stealed at the airport.",
+          "feedback": {
+            "en": "steal is irregular: steal – stole – stolen.",
+            "he": "steal הוא פועל חריג: steal – stole – stolen."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "My laptop stolen at the airport.",
+          "feedback": {
+            "en": "Add be: My laptop was stolen.",
+            "he": "חסר be: ‏My laptop was stolen."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "My laptop is stolen at the airport.",
+          "feedback": {
+            "en": "It happened in the past (stole), so use was: was stolen.",
+            "he": "זה קרה בעבר (stole), ולכן was: ‏was stolen."
+          },
+          "error_type": "tense-choice"
+        }
+      ],
+      "hint": {
+        "en": "Start with \"My laptop\". stole → was + past participle.",
+        "he": "התחילו ב-\"My laptop\". ‏stole הופך ל-was + past participle."
+      },
+      "explanation": {
+        "en": "The object of the active sentence (my laptop) becomes the subject. stole → was stolen. We don't know who did it, so there's no by-phrase.",
+        "he": "המושא של המשפט הפעיל (my laptop) הופך לנושא. ‏stole הופך ל-was stolen. לא ידוע מי עשה את זה, ולכן אין by."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Choose the best ending.",
+        "he": "בחרו את הסיום הטוב ביותר."
+      },
+      "question": "The new mural on our street was painted ___",
+      "options": [
+        "by people.",
+        "by someone.",
+        "by a 16-year-old student from our school.",
+        "by them."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "\"by people\" adds no information. If the doer is unknown or not important, stop after \"painted\".",
+          "he": "\"by people\" לא מוסיף מידע. אם מבצע הפעולה לא ידוע או לא חשוב, מסיימים אחרי painted."
+        },
+        "1": {
+          "en": "\"by someone\" adds no information. If the doer is unknown or not important, stop after \"painted\".",
+          "he": "\"by someone\" לא מוסיף מידע. אם מבצע הפעולה לא ידוע או לא חשוב, מסיימים אחרי painted."
+        },
+        "3": {
+          "en": "\"by them\" adds no information here. Who are \"they\"? Name the doer, or leave the by-phrase out.",
+          "he": "\"by them\" לא מוסיף מידע. מי הם? ציינו את מבצע הפעולה, או השמיטו את ה-by."
+        }
+      },
+      "explanation": {
+        "en": "Use by + agent only when the doer is new, interesting information: by a 16-year-old student from our school.",
+        "he": "משתמשים ב-by + מבצע הפעולה רק כשזה מידע חדש ומעניין: by a 16-year-old student from our school."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "The museum was build in 1998.",
+      "answers": [
+        "The museum was built in 1998."
+      ],
+      "error_type": "verb-form",
+      "hint": {
+        "en": "build – built – built",
+        "he": "שלוש הצורות: build – built – built."
+      },
+      "explanation": {
+        "en": "After be, always use the past participle: was built. build is the base form.",
+        "he": "אחרי be תמיד בא past participle: ‏was built. ‏build היא צורת הבסיס."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "The concert was taken place in the park.",
+      "answers": [
+        "The concert took place in the park.",
+        "The concert was held in the park."
+      ],
+      "error_type": "passive-form",
+      "hint": {
+        "en": "take place has no object, so it is never passive.",
+        "he": "ל-take place אין מושא, ולכן הוא אף פעם לא בא בסביל."
+      },
+      "explanation": {
+        "en": "take place (= happen) has no object, so it can't be passive: The concert took place in the park. If you want a passive, use hold: The concert was held in the park.",
+        "he": "take place (= להתקיים) הוא פועל בלי מושא, ולכן אין לו סביל: The concert took place in the park. אם רוצים סביל, משתמשים ב-hold: ‏The concert was held in the park."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Put the words in order to make a question.",
+        "he": "סדרו את המילים לשאלה."
+      },
+      "tokens": [
+        "Where",
+        "were",
+        "these",
+        "photos",
+        "taken",
+        "?"
+      ],
+      "explanation": {
+        "en": "Passive question: Wh- word + was/were + subject + past participle? Where were these photos taken?",
+        "he": "שאלה בסביל: מילת שאלה + was/were + נושא + past participle? ‏Where were these photos taken?"
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "vocabulary",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Translate into English. Use the passive.",
+        "he": "תרגמו לאנגלית. השתמשו בסביל."
+      },
+      "source": "הנעליים האלה מיוצרות בפורטוגל.",
+      "answers": [
+        "These shoes are made in Portugal.",
+        "These shoes are produced in Portugal.",
+        "These shoes are manufactured in Portugal."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "These shoes made in Portugal.",
+          "feedback": {
+            "en": "The Hebrew present has no 'be' here, but English needs it: These shoes are made in Portugal.",
+            "he": "בעברית אין כאן \"להיות\" (\"מיוצרות\"), אבל באנגלית חייבים: These shoes are made in Portugal."
+          },
+          "error_type": "passive-form"
+        },
+        {
+          "match": "These shoes are make in Portugal.",
+          "feedback": {
+            "en": "After are, use the past participle: made.",
+            "he": "אחרי are בא past participle: ‏made."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "These shoes is made in Portugal.",
+          "feedback": {
+            "en": "shoes is plural, so use are: are made.",
+            "he": "shoes ברבים, ולכן are: ‏are made."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "This shoes are made in Portugal.",
+          "feedback": {
+            "en": "With a plural noun, use these: these shoes.",
+            "he": "עם שם עצם ברבים משתמשים ב-these: ‏these shoes."
+          },
+          "error_type": "agreement"
+        },
+        {
+          "match": "These shoes were made in Portugal.",
+          "feedback": {
+            "en": "The Hebrew is present (a general fact), so use are made.",
+            "he": "המשפט בעברית בהווה (עובדה כללית), ולכן are made."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "They make these shoes in Portugal.",
+          "feedback": {
+            "en": "Good English, but the task asks for the passive: These shoes are made in Portugal.",
+            "he": "אנגלית תקינה, אבל המשימה היא לכתוב בסביל: These shoes are made in Portugal."
+          }
+        }
+      ],
+      "hint": {
+        "en": "Hebrew uses one verb; English needs two parts: be + past participle.",
+        "he": "בעברית יש פועל אחד; באנגלית צריך שני חלקים: be + past participle."
+      },
+      "explanation": {
+        "en": "Two contrasts: Hebrew shows the passive inside one verb, and its present tense has no 'be'. English needs be + past participle: are made.",
+        "he": "שני הבדלים: בעברית הסביל נמצא בתוך פועל אחד, ובהווה אין \"להיות\". באנגלית צריך be + past participle: ‏are made."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Read the class blog post and answer the questions.",
+        "he": "קראו את הפוסט בבלוג של הכיתה וענו על השאלות."
+      },
+      "title": "Class blog: A morning at the olive press",
+      "passage": "Last Saturday our class was invited to the Haddad family's olive press, a small business in the hills of the Galilee. It was started by Samir Haddad's grandfather in 1958, and today it is run by Samir and his daughter, Rana.\n\nRana showed us how the oil is made. First, the olives are picked, usually in October and November. Most of them are still picked by hand, because the trees are very old and machines can damage them. On the same day, the olives are brought to the press, where the leaves are removed and the fruit is washed. Then the olives are crushed into a thick paste, and the oil is separated from the water. Nothing is wasted: the dry paste that is left is used as fuel in winter.\n\nThe oil isn't sold in supermarkets. It is bottled on the farm and sold directly to customers, and a lot of it is ordered online.\n\nAt the end of the visit, we were given fresh bread and oil to taste. Honestly, it was the best breakfast I've had all year!\n\n– Posted by Maya",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Who runs the olive press today?",
+          "options": [
+            "Samir's grandfather",
+            "Samir and his daughter",
+            "Maya's class"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The grandfather started the business in 1958. Today it is run by Samir and Rana.",
+              "he": "הסבא הקים את העסק ב-1958. היום מנהלים אותו סמיר ורנא."
+            },
+            "2": {
+              "en": "Maya's class only visited the press.",
+              "he": "הכיתה של מאיה רק ביקרה בבית הבד."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'Today it is run by Samir and his daughter, Rana.' run = manage.",
+            "he": "בטקסט: Today it is run by Samir and his daughter, Rana. ‏run = לנהל."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Most of the olives are picked by machines.",
+          "answer": false,
+          "explanation": {
+            "en": "'Most of them are still picked by hand' – machines can damage the old trees.",
+            "he": "בטקסט: Most of them are still picked by hand – מכונות עלולות לפגוע בעצים הזקנים."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The olives are washed before they are crushed.",
+          "answer": true,
+          "explanation": {
+            "en": "First the leaves are removed and the fruit is washed. 'Then the olives are crushed.'",
+            "he": "קודם מסירים את העלים ושוטפים את הפרי, ורק אחר כך: Then the olives are crushed."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What happens to the dry paste that is left?",
+          "options": [
+            "It is thrown away.",
+            "It is given to animals.",
+            "It is used as fuel."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "'Nothing is wasted' – it isn't thrown away.",
+              "he": "בטקסט: Nothing is wasted – לא זורקים אותה."
+            },
+            "1": {
+              "en": "The text doesn't mention animals.",
+              "he": "בטקסט אין אזכור של בעלי חיים."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension"
+          },
+          "explanation": {
+            "en": "'The dry paste that is left is used as fuel in winter.'",
+            "he": "בטקסט: The dry paste that is left is used as fuel in winter."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "You can buy the oil in supermarkets.",
+          "answer": false,
+          "explanation": {
+            "en": "'The oil isn't sold in supermarkets.' It is sold directly to customers and online.",
+            "he": "בטקסט: The oil isn't sold in supermarkets. מוכרים אותו ישירות ללקוחות ובאינטרנט."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The olive press was started by Samir's ___ in 1958.",
+          "answers": [
+            [
+              "grandfather",
+              "grandad",
+              "granddad",
+              "grandpa"
+            ]
+          ],
+          "explanation": {
+            "en": "'It was started by Samir Haddad's grandfather in 1958.' by + agent tells us who started it.",
+            "he": "בטקסט: It was started by Samir Haddad's grandfather in 1958. ‏by + מבצע הפעולה מספר לנו מי הקים את העסק."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Notice how the passive describes the process (are picked, are washed, are crushed): the steps matter more than who does them.",
+        "he": "שימו לב איך הסביל מתאר את התהליך (are picked, are washed, are crushed): השלבים חשובים יותר ממי שמבצע אותם."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Listen and write the sentence.",
+        "he": "הקשיבו וכתבו את המשפט."
+      },
+      "audio_text": "Our flight was cancelled, so we were given a room in a hotel near the airport.",
+      "answers": [
+        "Our flight was cancelled, so we were given a room in a hotel near the airport.",
+        "Our flight was canceled, so we were given a room in a hotel near the airport."
+      ],
+      "explanation": {
+        "en": "Two past passives: was cancelled, were given. In fast speech was and were are weak: /wəz/, /wə/.",
+        "he": "שני משפטי סביל בעבר: was cancelled, were given. בדיבור מהיר was ו-were נשמעים חלשים: /wəz/, /wə/."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "You are at the station help desk. Say this out loud.",
+        "he": "אתם בדלפק המידע בתחנה. אמרו את זה בקול."
+      },
+      "target": "My phone was stolen on the train. Can you help me?",
+      "focus": {
+        "en": "In the middle of a sentence, was is weak: /wəz/. Stress the important words: PHONE, STOlen, TRAIN.",
+        "he": "באמצע משפט was נהגה חלש: /wəz/. הדגישו את המילים החשובות: PHONE, STOlen, TRAIN."
+      },
+      "explanation": {
+        "en": "We don't know who stole the phone, so the passive is the natural choice: My phone was stolen.",
+        "he": "לא יודעים מי גנב את הטלפון, ולכן הסביל הוא הבחירה הטבעית: My phone was stolen."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "passive-intro",
+      "prompt": {
+        "en": "Write a short post about a food or product from your area.",
+        "he": "כתבו פוסט קצר על מאכל או מוצר מהאזור שלכם."
+      },
+      "task": {
+        "en": "Write a post (80-120 words) for a travel website about a food or product from your town or region. Explain how it is made, where it is sold, and something about its history (when it was first made, or who started the place). Use at least five passive forms in the present simple and past simple. Use by + agent only where it adds useful information.",
+        "he": "כתבו פוסט (80-120 מילים) לאתר טיולים על מאכל או מוצר מהעיר או מהאזור שלכם. הסבירו איך הוא מיוצר, איפה הוא נמכר, ומשהו מההיסטוריה שלו (מתי הוא הוכן לראשונה, או מי הקים את המקום). השתמשו לפחות בחמש צורות סביל בהווה פשוט ובעבר פשוט. הוסיפו by + מבצע הפעולה רק כשזה מוסיף מידע חשוב."
+      },
+      "min_words": 80,
+      "max_words": 130,
+      "model_answer": "In our neighbourhood there is a tiny bakery that is known for its rugelach. It was opened by two sisters in 1985, and today it is run by their grandchildren. Every night the dough is made by hand and left in the fridge. In the morning, the rugelach are filled with chocolate, rolled and baked. They are sold from six o'clock until about ten, when everything is gone! Nothing is wasted: the cakes that aren't sold are given to a local food bank. The bakery isn't advertised online, but it is recommended by everyone who lives here. If you visit, go early!",
+      "checklist": [
+        {
+          "en": "I used at least five passive forms: am/is/are or was/were + past participle.",
+          "he": "השתמשתי לפחות בחמש צורות סביל: am/is/are או was/were + past participle."
+        },
+        {
+          "en": "My past participles are correct (made, built, sold, given, not *build or *sell).",
+          "he": "צורות ה-past participle נכונות (made, built, sold, given – ולא build או sell)."
+        },
+        {
+          "en": "I used present passive for how it is made today and past passive for its history.",
+          "he": "השתמשתי בסביל בהווה לתיאור התהליך היום, ובסביל בעבר להיסטוריה."
+        },
+        {
+          "en": "I only used by + agent when it gave new, useful information.",
+          "he": "השתמשתי ב-by + מבצע הפעולה רק כשזה הוסיף מידע חדש ומועיל."
+        }
+      ],
+      "explanation": {
+        "en": "Descriptions of products and places use the passive because the thing is the topic: It was opened in 1985. It is made by hand.",
+        "he": "בתיאורים של מוצרים ומקומות משתמשים בסביל, כי הדבר עצמו הוא הנושא: It was opened in 1985. It is made by hand."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Passive = be + past participle: is/are made (present), was/were built (past).",
+        "he": "סביל = be + past participle: ‏is/are made (הווה), ‏was/were built (עבר)."
+      },
+      {
+        "en": "Never drop be, and never use the base form after it: The house was built (not *built / *was build).",
+        "he": "אסור להשמיט את be, ואחריו לא באה צורת הבסיס: The house was built (ולא built או was build)."
+      },
+      {
+        "en": "Use the passive when the doer is unknown, obvious or not important. Add by + agent only for new, useful information.",
+        "he": "משתמשים בסביל כשמבצע הפעולה לא ידוע, ברור מאליו או לא חשוב. מוסיפים by + מבצע רק כשזה מידע חדש ומועיל."
+      },
+      {
+        "en": "Questions: (Wh-) + be + subject + past participle: Where was it made?",
+        "he": "שאלות: (מילת שאלה) + be + נושא + past participle: ‏Where was it made?"
+      },
+      {
+        "en": "Some verbs are never passive: take place, happen, arrive.",
+        "he": "יש פעלים שאין להם סביל: take place, happen, arrive."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

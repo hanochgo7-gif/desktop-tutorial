@@ -1,0 +1,1153 @@
+{
+  "id": "b1-07",
+  "level": "B1",
+  "title_en": "She said that...",
+  "title_he": "דיבור עקיף",
+  "topics": [
+    "reported-speech-intro"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can report what people said with said and told: She said (that)... / She told me (that)...",
+      "he": "אני יודע/ת לדווח מה אנשים אמרו בעזרת said ו-told: ‏She said (that)... / She told me (that)..."
+    },
+    {
+      "en": "I can move tenses back when I report later: is → was, will → would, can → could.",
+      "he": "אני יודע/ת להזיז זמנים אחורה כשאני מדווח/ת מאוחר יותר: is הופך ל-was, ‏will ל-would, ‏can ל-could."
+    },
+    {
+      "en": "I can change pronouns and time words: I → she, today → that day, tomorrow → the next day.",
+      "he": "אני יודע/ת לשנות כינויי גוף ומילות זמן: I הופך ל-she, ‏today ל-that day, ‏tomorrow ל-the next day."
+    }
+  ],
+  "warmup": {
+    "en": "Think of the last voice message a friend sent you. How would you tell someone else what it said? Start with: 'She said that...' or 'He told me that...'",
+    "he": "חשבו על ההודעה הקולית האחרונה שחבר או חברה שלחו לכם. איך הייתם מספרים למישהו אחר מה היה בה? התחילו ב-\"She said that...\" או \"He told me that...\""
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: Noa: 'I'm really tired.' Later: Noa said she was really tired. Amir: 'I'll call you tomorrow.' A week later: Amir told me he would call me the next day. When we report someone's words later, the verb usually moves one step back into the past, and pronouns and time words change to fit the new situation.",
+      "he": "שימו לב: נועה אמרה: 'I'm really tired.' ומאוחר יותר מדווחים: Noa said she was really tired. אמיר אמר: 'I'll call you tomorrow.' ושבוע אחרי: Amir told me he would call me the next day. כשמדווחים מאוחר יותר על דברים שמישהו אמר, הפועל בדרך כלל \"זז\" צעד אחד אחורה לעבר, וגם כינויי הגוף ומילות הזמן משתנים כדי להתאים למצב החדש."
+    },
+    {
+      "type": "p",
+      "en": "In Hebrew, reported speech normally keeps the speaker's original tense (literally 'Noa said that she is tired'). In English, when you report later, you usually move the tense back: Noa said she was tired.",
+      "he": "בעברית בדיבור עקיף שומרים בדרך כלל על הזמן המקורי של הדובר: \"נועה אמרה שהיא עייפה\". באנגלית, כשמדווחים מאוחר יותר, בדרך כלל מזיזים את הזמן אחורה: Noa said she was tired."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Direct speech",
+        "Reported speech",
+        "Change"
+      ],
+      "rows": [
+        [
+          "'I'm hungry.'",
+          "She said (that) she was hungry.",
+          "am / is → was"
+        ],
+        [
+          "'We live in Haifa.'",
+          "They said (that) they lived in Haifa.",
+          "present simple → past simple"
+        ],
+        [
+          "'I'm working.'",
+          "He said (that) he was working.",
+          "present continuous → past continuous"
+        ],
+        [
+          "'I'll help you.'",
+          "She said (that) she would help me.",
+          "will → would"
+        ],
+        [
+          "'I can't come.'",
+          "He said (that) he couldn't come.",
+          "can → could"
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Direct",
+        "Reported (later)"
+      ],
+      "rows": [
+        [
+          "today / tonight",
+          "that day / that night"
+        ],
+        [
+          "tomorrow",
+          "the next day / the following day"
+        ],
+        [
+          "yesterday",
+          "the day before / the previous day"
+        ],
+        [
+          "next week",
+          "the following week"
+        ],
+        [
+          "now",
+          "then"
+        ],
+        [
+          "here / this",
+          "there / that"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "tell + the person: She told me (that)..., He told Omer (that)... say + no person: She said (that)... To name the listener after say, add to: She said to me (that)... Never: *She said me, *She told that...",
+      "he": "אחרי tell בא האדם ששומע: She told me (that)..., ‏He told Omer (that)... אחרי say לא בא אדם: She said (that)... כדי להזכיר את השומע אחרי say מוסיפים to: ‏She said to me (that)... אף פעם לא: She said me או She told that."
+    },
+    {
+      "type": "tip",
+      "en": "that is optional, and in speech we usually leave it out: He said he was busy. Change pronouns to match the new speaker: Omer: 'I love my job.' → Omer said he loved his job.",
+      "he": "המילה that לא חובה, ובדיבור בדרך כלל משמיטים אותה: He said he was busy. משנים גם את כינויי הגוף לפי מי שמדווח: עומר אמר 'I love my job.' ומדווחים: Omer said he loved his job."
+    },
+    {
+      "type": "warning",
+      "en": "Only change what has really changed. If you report on the same day, today and tomorrow stay the same. If something is still true now, you can keep the present: Maya said she lives in Eilat (she still does). When you're not sure, move the tense back.",
+      "he": "משנים רק את מה שבאמת השתנה. אם מדווחים באותו יום, today ו-tomorrow נשארים כמו שהם. אם משהו עדיין נכון עכשיו, אפשר להשאיר הווה: Maya said she lives in Eilat (היא עדיין גרה שם). כשלא בטוחים – מזיזים את הזמן אחורה."
+    }
+  ],
+  "examples": [
+    {
+      "en": "'I'm really tired.' → Noa said she was really tired.",
+      "he": "נועה אמרה שהיא ממש עייפה.",
+      "note": "am → was"
+    },
+    {
+      "en": "'I'll call you tomorrow.' → Amir told me he would call me the next day.",
+      "he": "אמיר אמר לי שהוא יתקשר אליי למחרת.",
+      "note": "will → would; tomorrow → the next day"
+    },
+    {
+      "en": "'We can't come to the party.' → They said they couldn't come to the party.",
+      "he": "הם אמרו שהם לא יכולים לבוא למסיבה.",
+      "note": "can't → couldn't"
+    },
+    {
+      "en": "'I'm studying for an exam.' → Yael said that she was studying for an exam.",
+      "he": "יעל אמרה שהיא לומדת למבחן.",
+      "note": "is studying → was studying"
+    },
+    {
+      "en": "'The bus doesn't stop here.' → The driver told us the bus didn't stop there.",
+      "he": "הנהג אמר לנו שהאוטובוס לא עוצר שם.",
+      "note": "doesn't → didn't; here → there"
+    },
+    {
+      "en": "'I love this song.' → Kenji said he loved that song.",
+      "he": "קנג'י אמר שהוא אוהב את השיר הזה.",
+      "note": "this → that"
+    },
+    {
+      "en": "Priya told her manager she was ill.",
+      "he": "פריה אמרה למנהלת שלה שהיא חולה.",
+      "note": "tell + person"
+    },
+    {
+      "en": "What did the doctor say? – She said it wasn't serious.",
+      "he": "מה הרופאה אמרה? – היא אמרה שזה לא רציני."
+    }
+  ],
+  "vocab": [
+    {
+      "word": "mention",
+      "pos": "verb",
+      "he": "להזכיר (בדברים); לציין",
+      "def": "to talk or write about something quickly, without many details",
+      "example": "She mentioned that she was moving to Haifa.",
+      "ipa": "/ˈmenʃn/",
+      "collocations": [
+        "mention something to someone",
+        "as I mentioned",
+        "forget to mention"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "explain",
+      "pos": "verb",
+      "he": "להסביר",
+      "def": "to make something clear by giving details or reasons",
+      "example": "He explained to us that the train was late.",
+      "ipa": "/ɪkˈspleɪn/",
+      "collocations": [
+        "explain why",
+        "explain something to someone",
+        "explain the rules"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "promise",
+      "pos": "verb",
+      "he": "להבטיח",
+      "def": "to say that you will certainly do something",
+      "example": "She promised she would be on time.",
+      "ipa": "/ˈprɒmɪs/",
+      "collocations": [
+        "make a promise",
+        "keep a promise",
+        "break a promise"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "complain",
+      "pos": "verb",
+      "he": "להתלונן",
+      "def": "to say that you are unhappy or not satisfied with something",
+      "example": "He complained that the room was too cold.",
+      "ipa": "/kəmˈpleɪn/",
+      "collocations": [
+        "complain about",
+        "complain to the manager",
+        "make a complaint"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "announce",
+      "pos": "verb",
+      "he": "להודיע (באופן רשמי); להכריז",
+      "def": "to tell a lot of people something important, officially",
+      "example": "The pilot announced that we were landing.",
+      "ipa": "/əˈnaʊns/",
+      "collocations": [
+        "announce a decision",
+        "announce that",
+        "officially announce"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "reply",
+      "pos": "verb",
+      "he": "להשיב; לענות",
+      "def": "to answer someone by speaking or writing",
+      "example": "She replied that she was fine.",
+      "ipa": "/rɪˈplaɪ/",
+      "collocations": [
+        "reply to an email",
+        "reply to a message",
+        "reply that"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "tell the truth",
+      "pos": "phrase",
+      "he": "לומר את האמת",
+      "def": "to say what really happened or what you really think",
+      "example": "Do you think he told us the truth?",
+      "ipa": "/ˌtel ðə ˈtruːθ/",
+      "collocations": [
+        "tell the truth",
+        "tell a lie",
+        "to tell the truth, ..."
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "say goodbye",
+      "pos": "phrase",
+      "he": "להיפרד; להגיד להתראות",
+      "def": "to say the words people use when someone leaves",
+      "example": "She left without saying goodbye.",
+      "ipa": "/ˌseɪ ɡʊdˈbaɪ/",
+      "collocations": [
+        "say goodbye to someone",
+        "say sorry",
+        "say thank you"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "leave a message",
+      "pos": "phrase",
+      "he": "להשאיר הודעה",
+      "def": "to give information for someone who is not there to answer",
+      "example": "Lior wasn't home, so I left a message with his mum.",
+      "ipa": "/ˌliːv ə ˈmesɪdʒ/",
+      "collocations": [
+        "leave a message for someone",
+        "send a message",
+        "get a message"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "get back to someone",
+      "pos": "phrasal verb",
+      "he": "לחזור אל מישהו (עם תשובה)",
+      "def": "to reply to someone later, often with information",
+      "example": "She said she would get back to me by Friday.",
+      "ipa": "/ˌɡet ˈbæk tə ˌsʌmwʌn/",
+      "collocations": [
+        "I'll get back to you",
+        "get back to me by Friday",
+        "get back to someone later"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "according to",
+      "pos": "preposition",
+      "he": "לפי; לדברי",
+      "def": "as said or reported by someone",
+      "example": "According to Omer, the party starts at nine.",
+      "ipa": "/əˈkɔːdɪŋ tə/",
+      "collocations": [
+        "according to the news",
+        "according to my teacher",
+        "according to the plan"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "spread a rumour",
+      "pos": "phrase",
+      "he": "להפיץ שמועה",
+      "def": "to tell a story to many people when it may not be true",
+      "example": "Someone spread a rumour that the school was closing.",
+      "ipa": "/ˌspred ə ˈruːmə(r)/",
+      "collocations": [
+        "spread a rumour",
+        "hear a rumour",
+        "there's a rumour that"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew a question needs no helper verb (literally 'What she said?'), so did is easy to drop. In English, a question about what someone said needs did: What did she say? (not *What she said?)",
+      "he": "בעברית שאלה לא צריכה פועל עזר (\"מה היא אמרה?\"), ולכן קל לשכוח את did. באנגלית, בשאלה על מה שמישהו אמר, צריך did: What did she say? (ולא What she said?)",
+      "error_type": "do-support"
+    },
+    {
+      "en": "Hebrew has no th sounds, so that, the and then can come out as 'zat', 'ze' and 'zen', and truth as 'trus'. For /ð/ (that, the), put your tongue lightly between your teeth and use your voice; for /θ/ (truth), do the same without voice: She said that she was telling the truth.",
+      "he": "בעברית אין את צלילי th, ולכן that, ‏the ו-then עלולים לצאת \"זאט\", \"זה\" ו-\"זן\", ו-truth עלול לצאת \"טרוס\". כדי להגות /ð/ (that, the) שימו את קצה הלשון בעדינות בין השיניים והפיקו קול; ב-/θ/ (truth) עושים אותו דבר בלי קול: She said that she was telling the truth.",
+      "error_type": "pron-th"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Match each word in direct speech with the words you use when you report it later.",
+        "he": "התאימו כל מילה בדיבור ישיר למילים שמשתמשים בהן כשמדווחים עליה מאוחר יותר."
+      },
+      "pairs": [
+        [
+          "today",
+          "that day"
+        ],
+        [
+          "tomorrow",
+          "the next day"
+        ],
+        [
+          "yesterday",
+          "the day before"
+        ],
+        [
+          "now",
+          "then"
+        ],
+        [
+          "here",
+          "there"
+        ],
+        [
+          "next week",
+          "the following week"
+        ]
+      ],
+      "explanation": {
+        "en": "Time and place words change because the speaker's 'today' or 'here' is not your today or here when you report it later.",
+        "he": "מילות זמן ומקום משתנות, כי ה-\"היום\" או ה-\"כאן\" של הדובר הם כבר לא היום או הכאן שלכם כשאתם מדווחים מאוחר יותר."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "said or told? Put each sentence in the right group.",
+        "he": "said או told? מיינו כל משפט לקבוצה הנכונה."
+      },
+      "categories": [
+        "said",
+        "told"
+      ],
+      "items": [
+        {
+          "text": "She ___ that she was busy.",
+          "category": "said"
+        },
+        {
+          "text": "She ___ us that she was busy.",
+          "category": "told"
+        },
+        {
+          "text": "He ___ goodbye and left.",
+          "category": "said"
+        },
+        {
+          "text": "Lior ___ his parents about the trip.",
+          "category": "told"
+        },
+        {
+          "text": "They ___ the truth.",
+          "category": "told"
+        },
+        {
+          "text": "I ___ sorry to Maya.",
+          "category": "said"
+        },
+        {
+          "text": "Omer ___ me a funny story.",
+          "category": "told"
+        },
+        {
+          "text": "The teacher ___ to us that the test was easy.",
+          "category": "said"
+        }
+      ],
+      "explanation": {
+        "en": "told + person (told us, told his parents, told me). said + no person, or said to + person. Fixed phrases: say goodbye, say sorry; tell the truth, tell a story.",
+        "he": "told + אדם (told us, told his parents, told me). ‏said בלי אדם, או said to + אדם. צירופים קבועים: say goodbye, say sorry; ‏tell the truth, tell a story."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Choose the correct verb.",
+        "he": "בחרו את הפועל הנכון."
+      },
+      "question": "Omer ___ me that he was leaving early.",
+      "options": [
+        "said",
+        "told",
+        "explained"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "said is not followed directly by a person. Use told me, or said (to me) that...",
+          "he": "אחרי said לא בא אדם ישירות. כתבו told me, או said (to me) that..."
+        },
+        "2": {
+          "en": "explain needs to before the person: He explained to me that...",
+          "he": "אחרי explain צריך to לפני האדם: He explained to me that..."
+        }
+      },
+      "option_errors": {
+        "0": "reported-speech",
+        "2": "preposition"
+      },
+      "explanation": {
+        "en": "A person (me) comes straight after the verb, so use tell: Omer told me (that)...",
+        "he": "אחרי הפועל בא אדם (me), ולכן tell: ‏Omer told me (that)..."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Listen to Sara's voice message. Later, you tell a friend about it. Which report is correct?",
+        "he": "הקשיבו להודעה הקולית של שרה. מאוחר יותר אתם מספרים עליה לחבר. איזה דיווח נכון?"
+      },
+      "audio_text": "Hi, it's Sara. I'm really sorry, but I can't come to the cinema tonight. My little brother is ill and I'm looking after him. I'll call you tomorrow.",
+      "question": "What did Sara say?",
+      "options": [
+        "Sara said she couldn't come because she was ill.",
+        "Sara said she would come later with her brother.",
+        "Sara said she couldn't come because she was looking after her brother.",
+        "Sara told that her brother was looking after her."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Her brother is ill, not Sara.",
+          "he": "האח שלה חולה, לא שרה."
+        },
+        "1": {
+          "en": "She said she couldn't come at all.",
+          "he": "היא אמרה שהיא בכלל לא יכולה לבוא."
+        },
+        "3": {
+          "en": "Two problems: told needs a person (told me), and Sara is looking after her brother, not the other way round.",
+          "he": "שתי בעיות: אחרי told צריך אדם (told me), ושרה שומרת על אחיה – לא להפך."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "reported-speech"
+      },
+      "explanation": {
+        "en": "can't → couldn't; I'm looking after him → she was looking after her brother.",
+        "he": "can't הופך ל-couldn't; ‏I'm looking after him הופך ל-she was looking after her brother."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "You are reporting these a week later. Write the verb, moved one step back.",
+        "he": "אתם מדווחים על הדברים האלה שבוע אחרי. כתבו את הפועל אחרי שהזזתם אותו צעד אחד אחורה."
+      },
+      "text": "'I'm hungry.' → Kenji said he ___ hungry. 'I'm cooking dinner.' → Yael said she ___ dinner. 'We'll be there at eight.' → They told us they ___ there at eight. 'I can't swim.' → Omer said he ___ swim.",
+      "answers": [
+        [
+          "was"
+        ],
+        [
+          "was cooking"
+        ],
+        [
+          "would be"
+        ],
+        [
+          "couldn't",
+          "wasn't able to"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "is",
+          "feedback": {
+            "en": "Move am/is back to was.",
+            "he": "מזיזים את am/is אחורה ל-was."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "am",
+          "feedback": {
+            "en": "Move am back to was, and use he, not I.",
+            "he": "מזיזים את am אחורה ל-was (ו-I הופך ל-he)."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "is cooking",
+          "feedback": {
+            "en": "Move the present continuous back: was cooking.",
+            "he": "מזיזים את ההווה המתמשך אחורה: was cooking."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "cooked",
+          "feedback": {
+            "en": "Keep the continuous form: I'm cooking → she was cooking.",
+            "he": "שומרים על הצורה המתמשכת: I'm cooking הופך ל-she was cooking."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "will be",
+          "feedback": {
+            "en": "Move will back to would: would be.",
+            "he": "מזיזים את will אחורה ל-would: ‏would be."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "would",
+          "feedback": {
+            "en": "Don't forget be: they would be there.",
+            "he": "אל תשכחו את be: ‏they would be there."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "can't",
+          "feedback": {
+            "en": "Move can't back to couldn't.",
+            "he": "מזיזים את can't אחורה ל-couldn't."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "could",
+          "feedback": {
+            "en": "Omer can't swim, so keep the negative: couldn't.",
+            "he": "עומר לא יודע לשחות, ולכן צריך שלילה: couldn't."
+          }
+        }
+      ],
+      "hint": {
+        "en": "am/is → was · am/is + -ing → was + -ing · will → would · can't → couldn't",
+        "he": "am/is הופך ל-was · ‏am/is + ing הופך ל-was + ing · ‏will הופך ל-would · ‏can't הופך ל-couldn't"
+      },
+      "explanation": {
+        "en": "Each verb moves one step back: am → was, am cooking → was cooking, will be → would be, can't → couldn't.",
+        "he": "כל פועל זז צעד אחד אחורה: am הופך ל-was, ‏am cooking ל-was cooking, ‏will be ל-would be, ‏can't ל-couldn't."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Dana says to you: 'I like your new haircut.' Later, you tell a friend. Choose the correct report.",
+        "he": "דנה אומרת לכם: 'I like your new haircut.' מאוחר יותר אתם מספרים לחבר. בחרו את הדיווח הנכון."
+      },
+      "question": "Dana said ___",
+      "options": [
+        "I liked your new haircut.",
+        "she liked her new haircut.",
+        "she likes your new haircut.",
+        "she liked my new haircut."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "I was Dana, so it becomes she. your was your haircut, so it becomes my.",
+          "he": "I זו דנה, ולכן she. ‏your זו התספורת שלכם, ולכן my."
+        },
+        "1": {
+          "en": "her new haircut would mean Dana's own haircut. The haircut is yours: my new haircut.",
+          "he": "her new haircut פירושו התספורת של דנה עצמה. התספורת היא שלכם: my new haircut."
+        },
+        "2": {
+          "en": "Dana spoke to you, so your becomes my. And like moves back to liked.",
+          "he": "דנה דיברה אליכם, ולכן your הופך ל-my. וגם like זז אחורה ל-liked."
+        }
+      },
+      "option_errors": {
+        "0": "pronoun",
+        "1": "pronoun",
+        "2": "pronoun"
+      },
+      "explanation": {
+        "en": "Think about who is speaking now. Dana's I → she; Dana's your (= you) → my. like → liked.",
+        "he": "חשבו מי מדבר עכשיו. ה-I של דנה הופך ל-she; ה-your של דנה (= אתם) הופך ל-my. ‏like הופך ל-liked."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Report Amir's words a week later. Start with 'Amir said'.",
+        "he": "דווחו על דבריו של אמיר שבוע אחרי. התחילו ב-'Amir said'."
+      },
+      "source": "Amir: 'I'll send you the photos tomorrow.'",
+      "answers": [
+        "Amir said he would send me the photos the next day.",
+        "Amir said he would send me the photos the following day.",
+        "Amir said he would send me the photos the day after.",
+        "Amir said he would send the photos to me the next day.",
+        "Amir said he would send the photos to me the following day.",
+        "Amir said he would send the photos to me the day after.",
+        "Amir said that he would send me the photos the next day.",
+        "Amir said that he would send me the photos the following day.",
+        "Amir said that he would send me the photos the day after.",
+        "Amir said that he would send the photos to me the next day.",
+        "Amir said that he would send the photos to me the following day.",
+        "Amir said that he would send the photos to me the day after."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Amir said he will send me the photos tomorrow.",
+          "feedback": {
+            "en": "Move will back to would, and tomorrow becomes the next day.",
+            "he": "מזיזים את will אחורה ל-would, ו-tomorrow הופך ל-the next day."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Amir said he would send me the photos tomorrow.",
+          "feedback": {
+            "en": "A week later, Amir's 'tomorrow' is in the past: the next day.",
+            "he": "שבוע אחרי, ה-\"מחר\" של אמיר כבר בעבר: the next day."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Amir said he will send me the photos the next day.",
+          "feedback": {
+            "en": "Move will back to would.",
+            "he": "מזיזים את will אחורה ל-would."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Amir said me he would send the photos the next day.",
+          "feedback": {
+            "en": "said is not followed by a person. Write: Amir said he would send me...",
+            "he": "אחרי said לא בא אדם. כתבו: Amir said he would send me..."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Amir said I would send you the photos the next day.",
+          "feedback": {
+            "en": "Change the pronouns: I → he, you → me.",
+            "he": "משנים את כינויי הגוף: I הופך ל-he, ו-you ל-me."
+          },
+          "error_type": "pronoun"
+        },
+        {
+          "match": "Amir said he would send you the photos the next day.",
+          "feedback": {
+            "en": "Amir was talking to you, so you → me.",
+            "he": "אמיר דיבר אליכם, ולכן you הופך ל-me."
+          },
+          "error_type": "pronoun"
+        }
+      ],
+      "hint": {
+        "en": "Change three things: will, the pronouns, and tomorrow.",
+        "he": "שנו שלושה דברים: will, כינויי הגוף ו-tomorrow."
+      },
+      "explanation": {
+        "en": "will → would; I → he, you → me; tomorrow → the next day: Amir said (that) he would send me the photos the next day.",
+        "he": "will הופך ל-would; ‏I ל-he ו-you ל-me; ‏tomorrow ל-the next day: ‏Amir said (that) he would send me the photos the next day."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "She said me that she was busy.",
+      "answers": [
+        "She told me that she was busy.",
+        "She told me she was busy.",
+        "She said that she was busy.",
+        "She said she was busy.",
+        "She said to me that she was busy.",
+        "She said to me she was busy."
+      ],
+      "error_type": "reported-speech",
+      "hint": {
+        "en": "Which verb can have a person straight after it?",
+        "he": "אחרי איזה פועל יכול לבוא אדם מיד?"
+      },
+      "explanation": {
+        "en": "say is never followed directly by a person. Use tell + person (She told me...), or say without a person (She said...), or say to + person (She said to me...).",
+        "he": "אחרי say אף פעם לא בא אדם ישירות. כתבו tell + אדם (She told me...), או say בלי אדם (She said...), או say to + אדם (She said to me...)."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "It's Friday. On Monday, Maya said: 'I'll finish the project today.' Fix the report.",
+        "he": "היום יום שישי. ביום שני מאיה אמרה: 'I'll finish the project today.' תקנו את הדיווח."
+      },
+      "sentence": "Maya said she would finish the project today.",
+      "answers": [
+        "Maya said she would finish the project that day.",
+        "Maya said she would finish the project on that day.",
+        "Maya said she would finish the project on Monday.",
+        "Maya said she would finish the project the same day.",
+        "Maya said that she would finish the project that day.",
+        "Maya said that she would finish the project on that day.",
+        "Maya said that she would finish the project on Monday.",
+        "Maya said that she would finish the project the same day."
+      ],
+      "error_type": "reported-speech",
+      "hint": {
+        "en": "Is today still Monday? Change Maya's 'today'.",
+        "he": "האם היום עדיין יום שני? שנו את ה-\"today\" של מאיה."
+      },
+      "explanation": {
+        "en": "Maya's 'today' was Monday. On Friday you say that day (or on Monday): Maya said she would finish the project that day.",
+        "he": "ה-\"today\" של מאיה היה יום שני. ביום שישי אומרים that day (או on Monday): ‏Maya said she would finish the project that day."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Put the words in order.",
+        "he": "סדרו את המילים למשפט."
+      },
+      "tokens": [
+        "My",
+        "teacher",
+        "told",
+        "me",
+        "that",
+        "my",
+        "essay",
+        "was",
+        "excellent"
+      ],
+      "explanation": {
+        "en": "tell + person + (that) + reported sentence: My teacher told me that my essay was excellent.",
+        "he": "tell + אדם + (that) + המשפט המדווח: My teacher told me that my essay was excellent."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "vocabulary",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Translate into English. Start with 'Last night'.",
+        "he": "תרגמו לאנגלית. התחילו ב-'Last night'."
+      },
+      "source": "אתמול בערב נועה אמרה לי שהיא עייפה.",
+      "answers": [
+        "Last night Noa told me she was tired.",
+        "Last night Noa told me that she was tired.",
+        "Last night Noa said to me she was tired.",
+        "Last night Noa said to me that she was tired.",
+        "Last night, Noa told me she was tired.",
+        "Last night, Noa told me that she was tired.",
+        "Last night, Noa said to me she was tired.",
+        "Last night, Noa said to me that she was tired."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Last night Noa told me that she is tired.",
+          "feedback": {
+            "en": "The Hebrew keeps the present (literally 'that she is tired'), but in English you move it back when you report: she was tired.",
+            "he": "בעברית נשאר הווה (\"שהיא עייפה\"), אבל באנגלית מזיזים את הזמן אחורה כשמדווחים: she was tired."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night Noa told me she is tired.",
+          "feedback": {
+            "en": "The Hebrew keeps the present (literally 'that she is tired'), but in English you move it back when you report: she was tired.",
+            "he": "בעברית נשאר הווה (\"שהיא עייפה\"), אבל באנגלית מזיזים את הזמן אחורה כשמדווחים: she was tired."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night Noa said me that she was tired.",
+          "feedback": {
+            "en": "said is not followed directly by a person. Use told me, or said to me.",
+            "he": "אחרי said לא בא אדם ישירות. כתבו told me או said to me."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night Noa said me she was tired.",
+          "feedback": {
+            "en": "said is not followed directly by a person. Use told me, or said to me.",
+            "he": "אחרי said לא בא אדם ישירות. כתבו told me או said to me."
+          },
+          "error_type": "reported-speech"
+        },
+        {
+          "match": "Last night Noa told me that she tired.",
+          "feedback": {
+            "en": "Hebrew needs no 'be' here, but English does: she was tired.",
+            "he": "בעברית אין כאן \"להיות\", אבל באנגלית חייבים: she was tired."
+          },
+          "error_type": "copula-omission"
+        },
+        {
+          "match": "Last night Noa said she was tired.",
+          "feedback": {
+            "en": "Good grammar, but the Hebrew says 'to me' (li): Noa told me (that) she was tired.",
+            "he": "הדקדוק נכון, אבל בעברית כתוב \"אמרה לי\": Noa told me (that) she was tired."
+          }
+        },
+        {
+          "match": "Last night Noa told that she was tired.",
+          "feedback": {
+            "en": "told needs a person after it: told me.",
+            "he": "אחרי told צריך לבוא אדם: told me."
+          },
+          "error_type": "reported-speech"
+        }
+      ],
+      "hint": {
+        "en": "Two choices: told me or said to me, and is → was.",
+        "he": "שתי החלטות: told me או said to me, ו-is הופך ל-was."
+      },
+      "explanation": {
+        "en": "Two contrasts: Hebrew keeps the present tense and uses one verb for 'said to me'. English moves the tense back (was) and uses tell + person: Last night Noa told me (that) she was tired.",
+        "he": "שני הבדלים: בעברית נשאר הווה (\"שהיא עייפה\"), ו\"אמרה לי\" הוא פועל אחד. באנגלית מזיזים את הזמן אחורה (was) ומשתמשים ב-tell + אדם: Last night Noa told me (that) she was tired."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Read the email and answer the questions.",
+        "he": "קראו את המייל וענו על השאלות."
+      },
+      "title": "Email: Beach clean-up – what was said at the meeting",
+      "passage": "Hi everyone,\n\nThanks to everyone who came to Sunday's meeting about the beach clean-up. For those who missed it, here's a quick summary.\n\nDaniel from the city council said the date was still Friday, 14 June, but he told us that we would start at 7:30 instead of 8:00, because it was too hot later in the morning. He said the council would bring gloves and bags, so we didn't need to buy anything.\n\nPriya said she was organising the drinks and snacks. She told me she needed two more volunteers to help her carry everything from the car park, so if you can help, please let her know.\n\nOmer said he could bring his speaker for some music, but he promised he wouldn't play it too loud!\n\nFinally, Maya said she was writing a short article for the school website and she wanted lots of photos. She said we could send them to her after the event.\n\nThat's everything. If anything isn't clear, just reply to this email.\n\nSee you on the beach!\nNoa",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What time will the clean-up start?",
+          "options": [
+            "at 8:00",
+            "at 7:30",
+            "later in the morning"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "8:00 was the old time. Daniel said they would start at 7:30 instead.",
+              "he": "8:00 הייתה השעה הקודמת. דניאל אמר שיתחילו ב-7:30 במקום."
+            },
+            "2": {
+              "en": "Later in the morning is too hot – that's why they are starting earlier.",
+              "he": "מאוחר יותר בבוקר חם מדי – בגלל זה מתחילים מוקדם יותר."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'He told us that we would start at 7:30 instead of 8:00.'",
+            "he": "בטקסט: He told us that we would start at 7:30 instead of 8:00."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Volunteers need to bring their own gloves.",
+          "answer": false,
+          "explanation": {
+            "en": "'He said the council would bring gloves and bags, so we didn't need to buy anything.'",
+            "he": "בטקסט: He said the council would bring gloves and bags, so we didn't need to buy anything."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Priya is looking for more people to help her.",
+          "answer": true,
+          "explanation": {
+            "en": "'She told me she needed two more volunteers.'",
+            "he": "בטקסט: She told me she needed two more volunteers."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What were Priya's actual words to Noa?",
+          "options": [
+            "'She needs two more volunteers.'",
+            "'You need two more volunteers.'",
+            "'I need two more volunteers.'"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "Priya was talking about herself, so she said I, not she.",
+              "he": "פריה דיברה על עצמה, ולכן היא אמרה I ולא she."
+            },
+            "1": {
+              "en": "Priya needs the volunteers, not Noa: I need...",
+              "he": "פריה צריכה את המתנדבים, לא נועה: I need..."
+            }
+          },
+          "option_errors": {
+            "0": "pronoun",
+            "1": "pronoun"
+          },
+          "explanation": {
+            "en": "Reported: she needed → direct: I need. Undo the tense change (needed → need) and change she back to I.",
+            "he": "בדיבור עקיף: she needed; בדיבור ישיר: I need. מחזירים את הזמן צעד קדימה ואת she ל-I."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why will they start earlier than planned?",
+          "options": [
+            "It's too hot later in the morning.",
+            "The council can't come at 8:00.",
+            "Omer wants to play music."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The email doesn't say that. The reason is the heat.",
+              "he": "המייל לא אומר את זה. הסיבה היא החום."
+            },
+            "2": {
+              "en": "Omer's music has nothing to do with the time.",
+              "he": "המוזיקה של עומר לא קשורה לשעה."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'...because it was too hot later in the morning.'",
+            "he": "בטקסט: ...because it was too hot later in the morning."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Maya wants people to send her ___ after the event.",
+          "answers": [
+            [
+              "photos",
+              "pictures",
+              "photographs",
+              "their photos",
+              "lots of photos"
+            ]
+          ],
+          "explanation": {
+            "en": "'She wanted lots of photos. She said we could send them to her after the event.'",
+            "he": "בטקסט: She wanted lots of photos. She said we could send them to her after the event."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Notice how Noa reports the meeting: said / told us + tenses moved back (would start, didn't need, was organising, could bring).",
+        "he": "שימו לב איך נועה מדווחת על הפגישה: said / told us + זמנים שזזו אחורה (would start, didn't need, was organising, could bring)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Listen and write the sentence.",
+        "he": "הקשיבו וכתבו את המשפט."
+      },
+      "audio_text": "He said he couldn't come because he was working late.",
+      "answers": [
+        "He said he couldn't come because he was working late."
+      ],
+      "explanation": {
+        "en": "Reported speech with two verbs moved back: can't → couldn't, am working → was working. that is left out, as usual in speech.",
+        "he": "דיבור עקיף עם שני פעלים שזזו אחורה: can't הופך ל-couldn't, ‏am working ל-was working. המילה that הושמטה, כמו שנהוג בדיבור."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "A friend missed an announcement at the station. Ask and answer out loud.",
+        "he": "חבר פספס הודעה ברמקול בתחנה. שאלו וענו בקול."
+      },
+      "target": "What did he say? He said the train was cancelled.",
+      "focus": {
+        "en": "said is pronounced /sed/, like red, not 'sayed'. In the question, stress say: What did he SAY?",
+        "he": "said נהגה /sed/, כמו red – לא \"סֵייד\". בשאלה הדגישו את say: ‏What did he SAY?"
+      },
+      "explanation": {
+        "en": "Asking: What did he say? (did + say, not *What he said?). Answering: He said + the tense moved back.",
+        "he": "שואלים: What did he say? (‏did + say, ולא What he said?). עונים: He said + הזמן זז אחורה."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "reported-speech-intro",
+      "prompt": {
+        "en": "Mediation: pass on a message in English.",
+        "he": "תיווך: העבירו הודעה באנגלית."
+      },
+      "task": {
+        "en": "You got a voice message in Hebrew from Michal, who runs your dance studio (you can see it in the Hebrew instructions). Your classmate Tom doesn't speak Hebrew. Write him a message in English (50-90 words) and tell him what Michal said. Use said and told at least once each, and move the tenses back.",
+        "he": "קיבלתם הודעה קולית ממיכל, שמנהלת את סטודיו הריקוד שלכם: „היי, זאת מיכל מהסטודיו. השיעור של מחר מבוטל, כי המורה חולה. נעשה שיעור השלמה ביום ראשון הבא בשש. מי שלא יכול להגיע – תכתבו לי עד יום חמישי.” תום, שלומד איתכם בקבוצה, לא מדבר עברית. כתבו לו הודעה באנגלית (50-90 מילים) וספרו לו מה מיכל אמרה. השתמשו לפחות פעם אחת ב-said ופעם אחת ב-told, והזיזו את הזמנים אחורה."
+      },
+      "min_words": 50,
+      "max_words": 100,
+      "must_include": [
+        "said",
+        "told"
+      ],
+      "model_answer": "Hi Tom, Michal from the studio left me a voice message this morning. She said that tomorrow's class was cancelled because the teacher was ill. She told me we would have an extra class next Sunday at six instead. She also said that if we couldn't come, we had to write to her by Thursday. I'm going on Sunday. Can you make it? Let me know! Yael",
+      "checklist": [
+        {
+          "en": "I used said (without a person) and told + person (told me / told us).",
+          "he": "השתמשתי ב-said (בלי אדם) וב-told + אדם (told me / told us)."
+        },
+        {
+          "en": "I moved the tenses back: is → was, can → could, we will → we would.",
+          "he": "הזזתי את הזמנים אחורה: is הופך ל-was, ‏can ל-could, ‏will ל-would."
+        },
+        {
+          "en": "I changed the pronouns (I → she, you → we) and only changed time words that really changed (on the same day, tomorrow stays tomorrow).",
+          "he": "שיניתי את כינויי הגוף (I הופך ל-she, ‏you ל-we), ושיניתי רק מילות זמן שבאמת השתנו (באותו יום, tomorrow נשאר tomorrow)."
+        },
+        {
+          "en": "I included all the information: cancelled class, the reason, the new date and time, and the Thursday deadline.",
+          "he": "כללתי את כל המידע: השיעור שבוטל, הסיבה, התאריך והשעה החדשים, והמועד האחרון ביום חמישי."
+        }
+      ],
+      "explanation": {
+        "en": "Passing on a message is everyday reported speech: you change Michal's I to she and move the tenses back, but you keep all her information.",
+        "he": "העברת הודעה היא דיבור עקיף יומיומי: ה-I של מיכל הופך ל-she והזמנים זזים אחורה, אבל כל המידע שלה נשמר."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "When you report later, move the verb back: am/is → was, present → past, will → would, can → could.",
+        "he": "כשמדווחים מאוחר יותר, מזיזים את הפועל אחורה: am/is הופך ל-was, הווה לעבר, ‏will ל-would, ‏can ל-could."
+      },
+      {
+        "en": "tell + person (She told me...); say + no person (She said...) or say to + person. Never *said me.",
+        "he": "tell + אדם (She told me...); ‏say בלי אדם (She said...) או say to + אדם. אף פעם לא said me."
+      },
+      {
+        "en": "Change pronouns and time words: I → he/she, today → that day, tomorrow → the next day, here → there.",
+        "he": "משנים כינויי גוף ומילות זמן: I הופך ל-he/she, ‏today ל-that day, ‏tomorrow ל-the next day, ‏here ל-there."
+      },
+      {
+        "en": "that is optional: He said (that) he was busy.",
+        "he": "that לא חובה: He said (that) he was busy."
+      },
+      {
+        "en": "Hebrew keeps the original tense ('she said that she is tired'); English moves it back: She said she was tired.",
+        "he": "בעברית נשאר הזמן המקורי (\"אמרה שהיא עייפה\"); באנגלית מזיזים אותו אחורה: She said she was tired."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

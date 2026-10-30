@@ -1,0 +1,1198 @@
+{
+  "id": "b1-08",
+  "level": "B1",
+  "title_en": "The person who...",
+  "title_he": "משפטי זיקה",
+  "topics": [
+    "relative-clauses"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use who, which and that to say which person or thing I mean.",
+      "he": "אני יודע/ת להשתמש ב-who, ‏which ו-that כדי לומר לאיזה אדם או דבר אני מתכוון/ת."
+    },
+    {
+      "en": "I can use where for places and whose for possession.",
+      "he": "אני יודע/ת להשתמש ב-where למקומות וב-whose לשייכות."
+    },
+    {
+      "en": "I can leave out who/which/that when it is the object, and I don't repeat the pronoun: the book I read, not *the book that I read it.",
+      "he": "אני יודע/ת להשמיט את who/which/that כשהם המושא, ולא לחזור על הכינוי: the book I read, ולא the book that I read it."
+    }
+  ],
+  "warmup": {
+    "en": "How would you explain the words 'dentist' and 'library' to someone who doesn't know them? Try: 'It's a person who...' and 'It's a place where...'",
+    "he": "איך הייתם מסבירים את המילים dentist ו-library למישהו שלא מכיר אותן? נסו: \"It's a person who...\" ו-\"It's a place where...\""
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: A dentist is a person who looks after your teeth. A library is a place where you can borrow books. That's the phone that I want. A relative clause comes right after a noun and tells us which person, thing or place we mean.",
+      "he": "שימו לב: A dentist is a person who looks after your teeth. ‏A library is a place where you can borrow books. ‏That's the phone that I want. משפט זיקה (relative clause) בא מיד אחרי שם עצם ומסביר לאיזה אדם, דבר או מקום מתכוונים – בדומה ל-\"ש...\" בעברית."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Word",
+        "Use it for",
+        "Example"
+      ],
+      "rows": [
+        [
+          "who",
+          "people",
+          "The woman who lives next door is a nurse."
+        ],
+        [
+          "which",
+          "things and animals",
+          "The bus which goes to the airport leaves every hour."
+        ],
+        [
+          "that",
+          "people or things (very common in speech)",
+          "The film that we saw was great."
+        ],
+        [
+          "where",
+          "places (+ subject + verb)",
+          "That's the café where we met."
+        ],
+        [
+          "whose",
+          "possession (= his / her / their)",
+          "I have a friend whose brother is a chef."
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "If who/which/that is the subject of the clause (a verb comes next), keep it: the man who called you. If it is the object (a new subject comes next), you can leave it out: the film (that) we saw, the people (who) I met.",
+      "he": "אם who/which/that הם הנושא של משפט הזיקה (מיד אחריהם בא פועל), חייבים להשאיר אותם: the man who called you. אם הם המושא (אחריהם בא נושא חדש), אפשר להשמיט אותם: the film (that) we saw, the people (who) I met."
+    },
+    {
+      "type": "warning",
+      "en": "The relative word already stands for the noun, so don't repeat it as a pronoun: the book (that) I read (not *the book that I read it); the friend (who) I live with (not *the friend that I live with her). Hebrew often repeats the pronoun (literally 'the book that I read it'), but English never does.",
+      "he": "מילת הזיקה כבר מחליפה את שם העצם, ולכן לא חוזרים עליו בכינוי: the book (that) I read (ולא the book that I read it); ‏the friend (who) I live with (ולא the friend that I live with her). בעברית חוזרים לעיתים קרובות על הכינוי (\"הספר שקראתי אותו\", \"החברה שאני גר/ה איתה\"), אבל באנגלית אף פעם לא."
+    },
+    {
+      "type": "tip",
+      "en": "whose = possession; who's = who is. They sound the same: /huːz/. Use where only when a subject + verb follows: the café where we met, but a café that sells great cakes. These clauses tell us which one we mean, so they have no commas.",
+      "he": "whose = שייכות; ‏who's = who is. הן נשמעות אותו דבר: /huːz/. משתמשים ב-where רק כשאחריו בא נושא + פועל: the café where we met, אבל a café that sells great cakes. המשפטים האלה מגדירים לאיזה דבר מתכוונים, ולכן אין לפניהם פסיק."
+    }
+  ],
+  "examples": [
+    {
+      "en": "A pharmacist is someone who prepares and sells medicines.",
+      "he": "רוקח/ת הוא מי שמכין ומוכר תרופות.",
+      "note": "who for people"
+    },
+    {
+      "en": "This is the song that was playing at the party.",
+      "he": "זה השיר שהתנגן במסיבה."
+    },
+    {
+      "en": "The phone which I bought last month has stopped working.",
+      "he": "הטלפון שקניתי בחודש שעבר הפסיק לעבוד.",
+      "note": "not *which I bought it"
+    },
+    {
+      "en": "The people I met in Tel Aviv were really friendly.",
+      "he": "האנשים שפגשתי בתל אביב היו ממש נחמדים.",
+      "note": "who is left out: I is the subject of met"
+    },
+    {
+      "en": "That's the restaurant where Amir works.",
+      "he": "זאת המסעדה שאמיר עובד בה.",
+      "note": "where = in which"
+    },
+    {
+      "en": "I have a friend whose father is a pilot.",
+      "he": "יש לי חבר שאבא שלו טייס.",
+      "note": "whose = his"
+    },
+    {
+      "en": "Is there anything that I can do?",
+      "he": "יש משהו שאני יכול/ה לעשות?",
+      "note": "after anything, something, everything → that"
+    },
+    {
+      "en": "The guy who's sitting next to Noa is her cousin.",
+      "he": "הבחור שיושב ליד נועה הוא בן הדוד שלה.",
+      "note": "who's = who is"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "neighbour",
+      "pos": "noun",
+      "he": "שכן/ה",
+      "def": "a person who lives near you",
+      "example": "The neighbour who lives above us plays the drums.",
+      "ipa": "/ˈneɪbə(r)/",
+      "collocations": [
+        "next-door neighbour",
+        "a friendly neighbour",
+        "noisy neighbours"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "colleague",
+      "pos": "noun",
+      "he": "עמית/ה לעבודה",
+      "def": "a person who works with you",
+      "example": "I have a colleague who speaks five languages.",
+      "ipa": "/ˈkɒliːɡ/",
+      "collocations": [
+        "a colleague of mine",
+        "work colleague",
+        "former colleague"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "flatmate",
+      "pos": "noun",
+      "he": "שותף/ה לדירה",
+      "def": "a person who shares a flat with you",
+      "example": "I'm looking for a flatmate who doesn't mind cats.",
+      "ipa": "/ˈflætmeɪt/",
+      "collocations": [
+        "look for a flatmate",
+        "a new flatmate",
+        "live with flatmates"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "owner",
+      "pos": "noun",
+      "he": "בעלים (של משהו)",
+      "def": "the person who something belongs to",
+      "example": "The owner of the café is a woman whose dog sleeps under the counter.",
+      "ipa": "/ˈəʊnə(r)/",
+      "collocations": [
+        "the owner of",
+        "dog owner",
+        "business owner"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "device",
+      "pos": "noun",
+      "he": "מכשיר",
+      "def": "a small machine or tool that does a special job",
+      "example": "A smartwatch is a device that counts your steps.",
+      "ipa": "/dɪˈvaɪs/",
+      "collocations": [
+        "electronic device",
+        "mobile device",
+        "charge a device"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "landmark",
+      "pos": "noun",
+      "he": "ציון דרך; אתר מוכר",
+      "def": "a famous building or place that is easy to recognise",
+      "example": "The clock tower is a landmark that everyone in Jaffa knows.",
+      "ipa": "/ˈlændmɑːk/",
+      "collocations": [
+        "a famous landmark",
+        "a local landmark",
+        "a city landmark"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "look after",
+      "pos": "phrasal verb",
+      "he": "לטפל ב-; לשמור על",
+      "def": "to take care of someone or something",
+      "example": "A vet is someone who looks after sick animals.",
+      "ipa": "/ˌlʊk ˈɑːftə(r)/",
+      "collocations": [
+        "look after children",
+        "look after yourself",
+        "look after a plant"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be in charge of",
+      "pos": "phrase",
+      "he": "להיות אחראי/ת על",
+      "def": "to be the person who controls or is responsible for something",
+      "example": "Lior is the person who's in charge of the music.",
+      "ipa": "/bi ɪn ˈtʃɑːdʒ əv/",
+      "collocations": [
+        "in charge of a team",
+        "the person in charge",
+        "put someone in charge"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "get on with",
+      "pos": "phrasal verb",
+      "he": "להסתדר עם",
+      "def": "to have a friendly relationship with someone",
+      "example": "She's someone who gets on with everyone.",
+      "ipa": "/ˌɡet ˈɒn wɪð/",
+      "collocations": [
+        "get on well with",
+        "get on with your neighbours",
+        "don't get on"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "grow up",
+      "pos": "phrasal verb",
+      "he": "לגדול (להתבגר)",
+      "def": "to change from a child into an adult; to spend your childhood somewhere",
+      "example": "This is the town where I grew up.",
+      "ipa": "/ˌɡrəʊ ˈʌp/",
+      "collocations": [
+        "grow up in a small town",
+        "grow up together",
+        "when I grow up"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be used for",
+      "pos": "phrase",
+      "he": "לשמש ל-",
+      "def": "to have a particular purpose",
+      "example": "A corkscrew is a tool which is used for opening bottles.",
+      "ipa": "/bi ˈjuːst fə(r)/",
+      "collocations": [
+        "used for cooking",
+        "mainly used for",
+        "used for storage"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "remind someone of",
+      "pos": "phrase",
+      "he": "להזכיר למישהו את",
+      "def": "to make you think of a similar person, place or thing",
+      "example": "It's a song that reminds me of summer.",
+      "ipa": "/rɪˈmaɪnd ˌsʌmwʌn əv/",
+      "collocations": [
+        "remind me of home",
+        "reminds me of my grandmother",
+        "remind you of someone"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew a relative clause often repeats the noun as a pronoun (literally 'the book that I read it', 'the friend that I live with her'). In English the relative word already does that job, so don't add it, him, her or them: the book (that) I read; the friend (who) I live with.",
+      "he": "בעברית משפט זיקה חוזר לעיתים קרובות על שם העצם בכינוי (\"הספר שקראתי אותו\", \"החברה שאני גר/ה איתה\"). באנגלית מילת הזיקה כבר עושה את העבודה הזאת, ולכן לא מוסיפים it, ‏him, ‏her או them: the book (that) I read; ‏the friend (who) I live with.",
+      "error_type": "relative-clause"
+    },
+    {
+      "en": "/w/ is not a regular Hebrew sound (it appears mainly in borrowed words), so which, where and we can come out with a v: 'vich', 'vere'. For /w/, round your lips as for 'oo' and keep your teeth away from your lip: which /wɪtʃ/, where /weə(r)/.",
+      "he": "‏/w/ אינו צליל רגיל בעברית (הוא מופיע בעיקר במילים שאולות), ולכן which, ‏where ו-we עלולים להישמע עם v. כדי להגות /w/ עגלו את השפתיים כמו ב-\"או\", ואל תגעו בשיניים בשפה: which /wɪtʃ/, ‏where /weə(r)/.",
+      "error_type": "pron-w-v"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Match each word with its definition.",
+        "he": "התאימו כל מילה להגדרה שלה."
+      },
+      "pairs": [
+        [
+          "a dentist",
+          "a person who looks after your teeth"
+        ],
+        [
+          "a library",
+          "a place where you can borrow books"
+        ],
+        [
+          "a charger",
+          "a thing that gives your phone power"
+        ],
+        [
+          "a neighbour",
+          "someone who lives near you"
+        ],
+        [
+          "a gym",
+          "a place where people exercise"
+        ],
+        [
+          "a landlord",
+          "a person who rents a flat or house to you"
+        ]
+      ],
+      "explanation": {
+        "en": "a person who..., a place where..., a thing that... – the easiest way to explain a word you don't know in English.",
+        "he": "a person who..., ‏a place where..., ‏a thing that... – הדרך הקלה ביותר להסביר באנגלית מילה שאתם לא מכירים."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Which word completes each phrase: who, which, where or whose?",
+        "he": "איזו מילה משלימה כל צירוף: who, ‏which, ‏where או whose?"
+      },
+      "categories": [
+        "who",
+        "which",
+        "where",
+        "whose"
+      ],
+      "items": [
+        {
+          "text": "the girl ___ won the race",
+          "category": "who"
+        },
+        {
+          "text": "the app ___ I use for music",
+          "category": "which"
+        },
+        {
+          "text": "the hotel ___ we stayed",
+          "category": "where"
+        },
+        {
+          "text": "the boy ___ bike was stolen",
+          "category": "whose"
+        },
+        {
+          "text": "the teacher ___ helped me",
+          "category": "who"
+        },
+        {
+          "text": "the city ___ I was born",
+          "category": "where"
+        },
+        {
+          "text": "the singer ___ songs I love",
+          "category": "whose"
+        },
+        {
+          "text": "the bag ___ was on the table",
+          "category": "which"
+        }
+      ],
+      "explanation": {
+        "en": "who = people; which = things; where = places + subject + verb (we stayed, I was born); whose = possession (his bike, her songs). Note: the hotel which we stayed is wrong – you'd need 'in': the hotel which we stayed in.",
+        "he": "who = אנשים; ‏which = דברים; ‏where = מקומות + נושא + פועל (we stayed, I was born); ‏whose = שייכות (האופניים שלו, השירים שלה). שימו לב: the hotel which we stayed שגוי – צריך in: ‏the hotel which we stayed in."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Choose the correct word.",
+        "he": "בחרו את המילה הנכונה."
+      },
+      "question": "That's the man ___ car was stolen.",
+      "options": [
+        "who",
+        "whose",
+        "who's",
+        "which"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "who can't show possession. His car → whose car.",
+          "he": "who לא מבטא שייכות. \"המכונית שלו\" = whose car."
+        },
+        "2": {
+          "en": "who's = who is: *the man who is car... doesn't make sense. For possession, use whose.",
+          "he": "who's = who is, וזה לא מתאים כאן. לשייכות משתמשים ב-whose."
+        },
+        "3": {
+          "en": "which is for things, and it doesn't show possession here. Use whose.",
+          "he": "which משמש לדברים, והוא לא מבטא כאן שייכות. השתמשו ב-whose."
+        }
+      },
+      "option_errors": {
+        "0": "relative-clause",
+        "2": "spelling",
+        "3": "relative-clause"
+      },
+      "explanation": {
+        "en": "whose = his/her/their: the man whose car was stolen = the man; his car was stolen.",
+        "he": "whose = שלו/שלה/שלהם: the man whose car was stolen = האיש שהמכונית שלו נגנבה."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Choose the correct word.",
+        "he": "בחרו את המילה הנכונה."
+      },
+      "question": "Is this the bus ___ goes to the station?",
+      "options": [
+        "where",
+        "who",
+        "what",
+        "that"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "A verb (goes) comes next, so you need a subject word: that or which. Use where only before a subject + verb: the stop where we wait.",
+          "he": "מיד אחרי בא פועל (goes), ולכן צריך מילה שהיא נושא: that או which. ‏where בא רק לפני נושא + פועל: the stop where we wait."
+        },
+        "1": {
+          "en": "who is for people, not buses.",
+          "he": "who משמש לאנשים, לא לאוטובוסים."
+        },
+        "2": {
+          "en": "what can't start a relative clause: the bus that (or which) goes...",
+          "he": "what לא פותח משפט זיקה: the bus that (או which) goes..."
+        }
+      },
+      "option_errors": {
+        "0": "relative-clause",
+        "1": "relative-clause",
+        "2": "relative-clause"
+      },
+      "explanation": {
+        "en": "A thing + subject relative: that or which. the bus that goes = the bus; it goes.",
+        "he": "דבר + מילת זיקה שהיא הנושא: that או which. ‏the bus that goes = האוטובוס שנוסע."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Which sentence is correct?",
+        "he": "איזה משפט נכון?"
+      },
+      "question": "Choose the correct sentence.",
+      "options": [
+        "The book I read was really good.",
+        "The book that I read it was really good.",
+        "The book I read it was really good.",
+        "The book what I read was really good."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Don't repeat the book as it: that already stands for it.",
+          "he": "לא חוזרים על the book בעזרת it: ‏that כבר מחליף אותו."
+        },
+        "2": {
+          "en": "The pronoun it repeats the book. Drop it: The book I read was really good.",
+          "he": "הכינוי it חוזר על the book. מוחקים אותו: The book I read was really good."
+        },
+        "3": {
+          "en": "what can't start a relative clause: the book (that) I read.",
+          "he": "what לא פותח משפט זיקה: the book (that) I read."
+        }
+      },
+      "option_errors": {
+        "1": "relative-clause",
+        "2": "relative-clause",
+        "3": "relative-clause"
+      },
+      "explanation": {
+        "en": "the book (that) I read: that is the object, so you can leave it out – but you never add it at the end.",
+        "he": "the book (that) I read: ‏that הוא המושא, ולכן אפשר להשמיט אותו – אבל אף פעם לא מוסיפים it בסוף."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Listen to Yael describing a photo. Who is Tom?",
+        "he": "הקשיבו ליעל שמתארת תמונה. מי זה תום?"
+      },
+      "audio_text": "This is from my cousin's wedding. The guy who's dancing on the table is my brother, and the woman whose dress is red is his girlfriend. The man who's taking the photo is Tom, my cousin's best friend.",
+      "question": "Who is Tom?",
+      "options": [
+        "the man who's dancing on the table",
+        "the man whose girlfriend is wearing red",
+        "the man who's taking the photo",
+        "Yael's cousin"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "That's Yael's brother.",
+          "he": "זה האח של יעל."
+        },
+        "1": {
+          "en": "That's also Yael's brother: the woman in red is his girlfriend.",
+          "he": "גם זה האח של יעל: האישה בשמלה האדומה היא החברה שלו."
+        },
+        "3": {
+          "en": "Tom is her cousin's best friend, not her cousin.",
+          "he": "תום הוא החבר הכי טוב של בן הדוד שלה, לא בן הדוד עצמו."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'The man who's taking the photo is Tom.' who's = who is; whose dress = her dress.",
+        "he": "בהקלטה: The man who's taking the photo is Tom. ‏who's = who is; ‏whose dress = השמלה שלה."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Complete the text with who, which, that, where or whose.",
+        "he": "השלימו את הטקסט ב-who, ‏which, ‏that, ‏where או whose."
+      },
+      "text": "Haifa is the city ___ I grew up. My best friend there was a girl ___ name was Rana. We went to a school ___ had a huge garden, and we had a teacher ___ played the guitar in every lesson.",
+      "answers": [
+        [
+          "where",
+          "in which"
+        ],
+        [
+          "whose"
+        ],
+        [
+          "that",
+          "which"
+        ],
+        [
+          "who",
+          "that"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "who's",
+          "feedback": {
+            "en": "who's = who is. For possession (her name), use whose.",
+            "he": "who's = who is. לשייכות (השם שלה) משתמשים ב-whose."
+          },
+          "error_type": "spelling"
+        },
+        {
+          "match": "what",
+          "feedback": {
+            "en": "what can't start a relative clause. Use who, which, that, where or whose.",
+            "he": "what לא פותח משפט זיקה. השתמשו ב-who, ‏which, ‏that, ‏where או whose."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "which",
+          "feedback": {
+            "en": "which is for things as subject or object. Use where for a place + subject + verb (I grew up), whose for possession, and who for people.",
+            "he": "which משמש לדברים. ‏where בא לפני נושא + פועל במקום (I grew up), ‏whose לשייכות, ו-who לאנשים."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "who",
+          "feedback": {
+            "en": "who is for people (a teacher who played...). Use whose for possession (a girl whose name) and that/which for things (a school that had).",
+            "he": "who משמש לאנשים (a teacher who played...). ‏whose לשייכות (a girl whose name), ו-that/which לדברים (a school that had)."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "that",
+          "feedback": {
+            "en": "that works for people and things, but not before a place + subject + verb (use where: the city where I grew up) or for possession (use whose).",
+            "he": "that מתאים לאנשים ולדברים, אבל לא לפני נושא + פועל במקום (משתמשים ב-where: the city where I grew up) ולא לשייכות (משתמשים ב-whose)."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "where",
+          "feedback": {
+            "en": "where needs a subject + verb after it. Before a verb (had, played), use that, which or who.",
+            "he": "אחרי where צריך לבוא נושא + פועל. לפני פועל (had, played) משתמשים ב-that, ‏which או who."
+          },
+          "error_type": "relative-clause"
+        }
+      ],
+      "hint": {
+        "en": "Place + subject + verb → where. Possession → whose.",
+        "he": "מקום + נושא + פועל = where. שייכות = whose."
+      },
+      "explanation": {
+        "en": "the city where I grew up (place + subject + verb); a girl whose name (= her name); a school that/which had (thing, subject); a teacher who/that played (person, subject).",
+        "he": "the city where I grew up (מקום + נושא + פועל); ‏a girl whose name (= השם שלה); ‏a school that/which had (דבר, נושא); ‏a teacher who/that played (אדם, נושא)."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Join the two sentences with who, which or that. Don't repeat the pronoun.",
+        "he": "חברו את שני המשפטים בעזרת who, ‏which או that. אל תחזרו על הכינוי."
+      },
+      "source": "I met a woman. She speaks six languages.",
+      "answers": [
+        "I met a woman who speaks six languages.",
+        "I met a woman that speaks six languages."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I met a woman who she speaks six languages.",
+          "feedback": {
+            "en": "who already means she. Drop she: a woman who speaks...",
+            "he": "who כבר מחליף את she. מוחקים את she: a woman who speaks..."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "I met a woman that she speaks six languages.",
+          "feedback": {
+            "en": "that already means she. Drop she: a woman that speaks...",
+            "he": "that כבר מחליף את she. מוחקים את she: a woman that speaks..."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "I met a woman which speaks six languages.",
+          "feedback": {
+            "en": "which is for things. For a person, use who or that.",
+            "he": "which משמש לדברים. לאדם משתמשים ב-who או that."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "I met a woman speaks six languages.",
+          "feedback": {
+            "en": "Here who is the subject (a verb comes next), so you can't leave it out.",
+            "he": "כאן who הוא הנושא (מיד אחריו בא פועל), ולכן אי אפשר להשמיט אותו."
+          },
+          "error_type": "relative-clause"
+        }
+      ],
+      "explanation": {
+        "en": "She is the subject of speaks, so it becomes who (or that), and she disappears: a woman who speaks six languages.",
+        "he": "she הוא הנושא של speaks, ולכן הוא הופך ל-who (או that) ונעלם מהמשפט: a woman who speaks six languages."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Join the two sentences. Don't repeat the pronoun.",
+        "he": "חברו את שני המשפטים. אל תחזרו על הכינוי."
+      },
+      "source": "This is the jacket. I bought it in London.",
+      "answers": [
+        "This is the jacket I bought in London.",
+        "This is the jacket that I bought in London.",
+        "This is the jacket which I bought in London."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "This is the jacket that I bought it in London.",
+          "feedback": {
+            "en": "that already stands for the jacket, so drop it: the jacket that I bought in London.",
+            "he": "that כבר מחליף את the jacket, ולכן מוחקים את it: the jacket that I bought in London."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the jacket which I bought it in London.",
+          "feedback": {
+            "en": "which already stands for the jacket, so drop it.",
+            "he": "which כבר מחליף את the jacket, ולכן מוחקים את it."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the jacket I bought it in London.",
+          "feedback": {
+            "en": "it repeats the jacket. Drop it: the jacket I bought in London.",
+            "he": "it חוזר על the jacket. מוחקים אותו: the jacket I bought in London."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the jacket where I bought in London.",
+          "feedback": {
+            "en": "where is for places. For a thing, use that or which (or nothing).",
+            "he": "where משמש למקומות. לדבר משתמשים ב-that או which (או בלי מילה בכלל)."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the jacket who I bought in London.",
+          "feedback": {
+            "en": "who is for people. For a thing, use that or which (or nothing).",
+            "he": "who משמש לאנשים. לדבר משתמשים ב-that או which (או בלי מילה בכלל)."
+          },
+          "error_type": "relative-clause"
+        }
+      ],
+      "hint": {
+        "en": "it is the object of bought, so you can even leave out that/which.",
+        "he": "it הוא המושא של bought, ולכן אפשר אפילו להשמיט את that/which."
+      },
+      "explanation": {
+        "en": "it is the object of bought: it becomes that/which, or nothing at all – and it disappears from the clause: the jacket (that) I bought in London.",
+        "he": "it הוא המושא של bought: הוא הופך ל-that/which, או לכלום – ונעלם מהמשפט: the jacket (that) I bought in London."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "The woman called you this morning is my aunt.",
+      "answers": [
+        "The woman who called you this morning is my aunt.",
+        "The woman that called you this morning is my aunt."
+      ],
+      "error_type": "relative-clause",
+      "hint": {
+        "en": "Can you leave out the relative word when a verb comes straight after it?",
+        "he": "אפשר להשמיט את מילת הזיקה כשמיד אחריה בא פועל?"
+      },
+      "explanation": {
+        "en": "who is the subject of called, so it can't be left out: The woman who called you this morning is my aunt.",
+        "he": "who הוא הנושא של called, ולכן אי אפשר להשמיט אותו: The woman who called you this morning is my aunt."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "I have a friend who his mother is a famous chef.",
+      "answers": [
+        "I have a friend whose mother is a famous chef."
+      ],
+      "error_type": "relative-clause",
+      "hint": {
+        "en": "who + his = one word.",
+        "he": "who + his = מילה אחת."
+      },
+      "explanation": {
+        "en": "who + his → whose: a friend whose mother is a famous chef.",
+        "he": "who + his הופכים למילה אחת: whose. ‏a friend whose mother is a famous chef."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "vocabulary",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Translate into English.",
+        "he": "תרגמו לאנגלית."
+      },
+      "source": "זאת הדירה שגרתי בה בשנה שעברה.",
+      "answers": [
+        "This is the flat where I lived last year.",
+        "This is the flat where I was living last year.",
+        "This is the flat that I lived in last year.",
+        "This is the flat that I was living in last year.",
+        "This is the flat which I lived in last year.",
+        "This is the flat which I was living in last year.",
+        "This is the flat I lived in last year.",
+        "This is the flat I was living in last year.",
+        "This is the flat in which I lived last year.",
+        "This is the apartment where I lived last year.",
+        "This is the apartment where I was living last year.",
+        "This is the apartment that I lived in last year.",
+        "This is the apartment that I was living in last year.",
+        "This is the apartment which I lived in last year.",
+        "This is the apartment which I was living in last year.",
+        "This is the apartment I lived in last year.",
+        "This is the apartment I was living in last year.",
+        "This is the apartment in which I lived last year.",
+        "That is the flat where I lived last year.",
+        "That is the flat where I was living last year.",
+        "That is the flat that I lived in last year.",
+        "That is the flat that I was living in last year.",
+        "That is the flat which I lived in last year.",
+        "That is the flat which I was living in last year.",
+        "That is the flat I lived in last year.",
+        "That is the flat I was living in last year.",
+        "That is the flat in which I lived last year.",
+        "That is the apartment where I lived last year.",
+        "That is the apartment where I was living last year.",
+        "That is the apartment that I lived in last year.",
+        "That is the apartment that I was living in last year.",
+        "That is the apartment which I lived in last year.",
+        "That is the apartment which I was living in last year.",
+        "That is the apartment I lived in last year.",
+        "That is the apartment I was living in last year.",
+        "That is the apartment in which I lived last year."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "This is the flat that I lived in it last year.",
+          "feedback": {
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English that already means 'it': the flat that I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית that כבר מחליף אותו: the flat that I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the flat which I lived in it last year.",
+          "feedback": {
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English which already means 'it': the flat which I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית which כבר מחליף אותו: the flat which I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the flat I lived in it last year.",
+          "feedback": {
+            "en": "Drop it: the flat I lived in. English doesn't repeat the noun as a pronoun.",
+            "he": "מוחקים את it: ‏the flat I lived in. באנגלית לא חוזרים על שם העצם בכינוי."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the flat where I lived in last year.",
+          "feedback": {
+            "en": "where already includes \"in\". Write the flat where I lived, or the flat (that) I lived in.",
+            "he": "where כבר כולל את \"in\". כתבו the flat where I lived או the flat (that) I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the flat that I lived last year.",
+          "feedback": {
+            "en": "live needs in: the flat (that) I lived in – or use where: the flat where I lived.",
+            "he": "אחרי live צריך in: ‏the flat (that) I lived in – או where: ‏the flat where I lived."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "This is the flat I lived last year.",
+          "feedback": {
+            "en": "live needs in: the flat I lived in – or use where: the flat where I lived.",
+            "he": "אחרי live צריך in: ‏the flat I lived in – או where: ‏the flat where I lived."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "This is the apartment that I lived in it last year.",
+          "feedback": {
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English that already means 'it': the flat that I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית that כבר מחליף אותו: the flat that I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the apartment which I lived in it last year.",
+          "feedback": {
+            "en": "Hebrew repeats the pronoun (literally 'that I lived in it'), but in English which already means 'it': the flat which I lived in.",
+            "he": "בעברית חוזרים על הכינוי (\"שגרתי בה\"), אבל באנגלית which כבר מחליף אותו: the flat which I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the apartment I lived in it last year.",
+          "feedback": {
+            "en": "Drop it: the flat I lived in. English doesn't repeat the noun as a pronoun.",
+            "he": "מוחקים את it: ‏the flat I lived in. באנגלית לא חוזרים על שם העצם בכינוי."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the apartment where I lived in last year.",
+          "feedback": {
+            "en": "where already includes \"in\". Write the flat where I lived, or the flat (that) I lived in.",
+            "he": "where כבר כולל את \"in\". כתבו the flat where I lived או the flat (that) I lived in."
+          },
+          "error_type": "relative-clause"
+        },
+        {
+          "match": "This is the apartment that I lived last year.",
+          "feedback": {
+            "en": "live needs in: the flat (that) I lived in – or use where: the flat where I lived.",
+            "he": "אחרי live צריך in: ‏the flat (that) I lived in – או where: ‏the flat where I lived."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "This is the apartment I lived last year.",
+          "feedback": {
+            "en": "live needs in: the flat I lived in – or use where: the flat where I lived.",
+            "he": "אחרי live צריך in: ‏the flat I lived in – או where: ‏the flat where I lived."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "hint": {
+        "en": "Two correct patterns: 'where I lived' or '(that) I lived in'.",
+        "he": "שתי דרכים נכונות: \"where I lived\" או \"(that) I lived in\"."
+      },
+      "explanation": {
+        "en": "Hebrew says 'that I lived in it'. English either uses where (where I lived) or puts in at the end with no pronoun ((that) I lived in).",
+        "he": "בעברית אומרים \"שגרתי בה\". באנגלית משתמשים ב-where ‏(where I lived), או שמים את in בסוף בלי כינוי ‏((that) I lived in)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "read",
+      "skill": "reading",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Read Lior's blog post and answer the questions.",
+        "he": "קראו את הפוסט של ליאור בבלוג וענו על השאלות."
+      },
+      "title": "Lior's blog: The people who make my street special",
+      "passage": "I've lived on Herzl Street for six years, and I think it's the best street in the city. It isn't because of the buildings – they're old and a bit ugly. It's because of the people who live and work here.\n\nFirst, there's Mrs Avraham, the woman who runs the tiny kiosk on the corner. She knows everyone's name, and she always remembers the newspaper that you like.\n\nNext to the kiosk there's a bike shop whose owner, Kenji, moved here from Japan ten years ago. He's the person I call when anything breaks – not just bikes. Last month he fixed a radio that belonged to my grandmother, and he didn't even ask for money.\n\nAcross the road there's a café where students sit for hours with their laptops. The coffee isn't amazing, but the cakes that Rana bakes every morning are the best I've ever eaten.\n\nAnd then there's the man upstairs who plays the trumpet. He's the only person on the street that nobody really likes – at least not at seven o'clock on a Saturday morning!\n\nWhat about your street? Who are the people who make it special?\n\n– Lior",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Who is Kenji?",
+          "options": [
+            "the man who runs the kiosk",
+            "the owner of the bike shop",
+            "the man who plays the trumpet"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The kiosk is run by Mrs Avraham.",
+              "he": "את הקיוסק מנהלת גברת אברהם."
+            },
+            "2": {
+              "en": "The trumpet player is the man upstairs. His name isn't given.",
+              "he": "נגן החצוצרה הוא השכן מלמעלה. השם שלו לא מופיע."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'a bike shop whose owner, Kenji, moved here from Japan' – whose owner = the shop's owner.",
+            "he": "בטקסט: a bike shop whose owner, Kenji, moved here from Japan. ‏whose owner = הבעלים של החנות."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Mrs Avraham remembers which newspaper each customer likes.",
+          "answer": true,
+          "explanation": {
+            "en": "'She always remembers the newspaper that you like.'",
+            "he": "בטקסט: She always remembers the newspaper that you like."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Lior thinks the café's coffee is excellent.",
+          "answer": false,
+          "explanation": {
+            "en": "'The coffee isn't amazing' – it's the cakes that are excellent.",
+            "he": "בטקסט: The coffee isn't amazing – העוגות הן שמצוינות."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What did Kenji fix last month?",
+          "options": [
+            "a radio that belonged to Lior's grandmother",
+            "Lior's bike",
+            "the café's coffee machine"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "Kenji fixes bikes, but last month he fixed something else: a radio.",
+              "he": "קנג'י מתקן אופניים, אבל בחודש שעבר הוא תיקן משהו אחר: רדיו."
+            },
+            "2": {
+              "en": "The text doesn't mention a coffee machine.",
+              "he": "בטקסט אין אזכור של מכונת קפה."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'Last month he fixed a radio that belonged to my grandmother.'",
+            "he": "בטקסט: Last month he fixed a radio that belonged to my grandmother."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The cakes that ___ bakes every morning are the best Lior has ever eaten.",
+          "answers": [
+            [
+              "Rana"
+            ]
+          ],
+          "explanation": {
+            "en": "'the cakes that Rana bakes every morning' – that is the object, Rana is the subject.",
+            "he": "בטקסט: the cakes that Rana bakes every morning. ‏that הוא המושא, ורנא היא הנושא."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Everyone on the street likes the trumpet player.",
+          "answer": false,
+          "explanation": {
+            "en": "'He's the only person on the street that nobody really likes.'",
+            "he": "בטקסט: He's the only person on the street that nobody really likes."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Notice how relative clauses identify each person and place: the woman who runs..., a bike shop whose owner..., a café where...",
+        "he": "שימו לב איך משפטי הזיקה מזהים כל אדם ומקום: the woman who runs..., ‏a bike shop whose owner..., ‏a café where..."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Listen and write the sentence.",
+        "he": "הקשיבו וכתבו את המשפט."
+      },
+      "audio_text": "The woman who lives next door has a dog that never stops barking.",
+      "answers": [
+        "The woman who lives next door has a dog that never stops barking.",
+        "The woman who lives next door has a dog which never stops barking."
+      ],
+      "explanation": {
+        "en": "Two relative clauses: who lives next door (a person), that never stops barking (an animal). Both are subjects, so they must stay.",
+        "he": "שני משפטי זיקה: who lives next door (אדם), ‏that never stops barking (בעל חיים). בשניהם מילת הזיקה היא הנושא, ולכן חייבים להשאיר אותה."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "You're showing a friend around your town. Say this out loud.",
+        "he": "אתם עושים לחבר סיור בעיר שלכם. אמרו את זה בקול."
+      },
+      "target": "That's the café where we usually meet.",
+      "focus": {
+        "en": "where and we start with /w/: round your lips as for 'oo', and keep your teeth away from your lip – not 'vere', 'vee'.",
+        "he": "where ו-we מתחילים ב-/w/: עגלו את השפתיים כמו ב-\"או\" ואל תגעו בשיניים בשפה – לא \"vere\" ולא \"vee\"."
+      },
+      "explanation": {
+        "en": "a place + where + subject + verb: the café where we usually meet.",
+        "he": "מקום + where + נושא + פועל: the café where we usually meet."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "topic": "relative-clauses",
+      "prompt": {
+        "en": "Write a short blog post about a place you know well.",
+        "he": "כתבו פוסט קצר בבלוג על מקום שאתם מכירים היטב."
+      },
+      "task": {
+        "en": "Write a blog post (80-120 words) about a street, neighbourhood or place you know well and the people in it. Use at least five relative clauses with who, which/that, where and whose. Leave out the relative word at least once where you can (the café I love).",
+        "he": "כתבו פוסט בבלוג (80-120 מילים) על רחוב, שכונה או מקום שאתם מכירים היטב ועל האנשים שבו. השתמשו לפחות בחמישה משפטי זיקה עם who, ‏which/that, ‏where ו-whose. השמיטו את מילת הזיקה לפחות פעם אחת במקום שאפשר (the café I love)."
+      },
+      "min_words": 80,
+      "max_words": 130,
+      "must_include": [
+        "who",
+        "where"
+      ],
+      "model_answer": "My favourite place is the small market in my neighbourhood, where my family shops every Friday. There's a fruit seller who always gives me a free orange, and a bakery whose challah is the best in town. My favourite stall is the one that sells spices from all over the world. The man who runs it is called Eli, and he loves telling stories about the places he has visited. There's also a tiny café I go to after school. The people who work there know exactly what I want before I order. It's a place where I always feel at home.",
+      "checklist": [
+        {
+          "en": "I used at least five relative clauses: who (people), which/that (things), where (places), whose (possession).",
+          "he": "השתמשתי לפחות בחמישה משפטי זיקה: who (אנשים), ‏which/that (דברים), ‏where (מקומות), ‏whose (שייכות)."
+        },
+        {
+          "en": "I didn't repeat the noun as a pronoun (not *the café that I love it).",
+          "he": "לא חזרתי על שם העצם בכינוי (ולא the café that I love it)."
+        },
+        {
+          "en": "I left out the relative word only when a new subject follows (the café I go to), never before a verb.",
+          "he": "השמטתי את מילת הזיקה רק כשאחריה בא נושא חדש (the café I go to), אף פעם לא לפני פועל."
+        },
+        {
+          "en": "I used whose (not who's) for possession.",
+          "he": "השתמשתי ב-whose (ולא who's) לשייכות."
+        }
+      ],
+      "explanation": {
+        "en": "Relative clauses let you describe people and places precisely in one sentence instead of two.",
+        "he": "משפטי זיקה מאפשרים לתאר אנשים ומקומות בדיוק, במשפט אחד במקום שניים."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "who = people, which = things, that = both, where = places (+ subject + verb), whose = possession.",
+        "he": "who = אנשים, ‏which = דברים, ‏that = שניהם, ‏where = מקומות (+ נושא + פועל), ‏whose = שייכות."
+      },
+      {
+        "en": "Don't repeat the noun as a pronoun: the book (that) I read, not *the book that I read it.",
+        "he": "לא חוזרים על שם העצם בכינוי: the book (that) I read, ולא the book that I read it."
+      },
+      {
+        "en": "You can leave out who/which/that when a new subject follows (the film we saw), but not before a verb (the man who called).",
+        "he": "אפשר להשמיט את who/which/that כשאחריהם בא נושא חדש (the film we saw), אבל לא לפני פועל (the man who called)."
+      },
+      {
+        "en": "whose = his/her/their; who's = who is.",
+        "he": "whose = שלו/שלה/שלהם; ‏who's = who is."
+      },
+      {
+        "en": "With a preposition: the flat where I lived = the flat (that) I lived in.",
+        "he": "עם מילת יחס: the flat where I lived = the flat (that) I lived in."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

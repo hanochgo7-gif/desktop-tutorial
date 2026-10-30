@@ -12,7 +12,7 @@
   ],
   "warmup": { "en": "Look around you. Can you name three things in English? What colour are they?", "he": "הסתכלו סביבכם. אילו שלושה חפצים אתם יודעים לומר באנגלית? ובאיזה צבע הם?" },
   "explanation": [
-    { "type": "p", "en": "It's a pen. It's an umbrella. When you say what one thing is, English needs a or an. Hebrew has no word like this.", "he": "It's a pen. It's an umbrella. כשאומרים מה הוא דבר אחד, באנגלית צריך a או an. בעברית אין מילה כזאת ('זה עט')." },
+    { "type": "p", "en": "It's a pen. It's an umbrella. When you say what one thing is, English needs a or an. Hebrew has no word like this.", "he": "It's a pen. It's an umbrella. כשאומרים מה זה (על דבר אחד), באנגלית צריך a או an לפני שם העצם. בעברית אין מילה כזאת: 'זה עט'." },
     { "type": "rule", "en": "a + consonant sound: a bag, a key, a university (it starts with a 'y' sound). an + vowel sound: an apple, an egg, an umbrella, an hour (the h is silent). Listen to the sound, not the letter.", "he": "a לפני צליל עיצור: a bag, a key, a university (נשמע 'יוּ'). an לפני צליל תנועה: an apple, an egg, an umbrella, an hour (ה-h לא נשמעת). קובע הצליל, לא האות." },
     { "type": "table", "headers": ["How many?", "Near me (here)", "Far from me (there)"], "rows": [
       ["One thing", "this (זה / זאת)", "that (ההוא / ההיא)"],
@@ -20,7 +20,7 @@
     ] },
     { "type": "rule", "en": "The colour comes before the thing: a red car, a black bag. And a/an goes with the next word: a red umbrella, an orange bag.", "he": "הצבע בא לפני החפץ: a red car ('מכונית אדומה'), a black bag. ו-a/an נקבע לפי המילה שמיד אחריו: a red umbrella, an orange bag." },
     { "type": "tip", "en": "Ask: What is this? → It's a key. What are these? → They're my keys.", "he": "שואלים: What is this? ועונים It's a key. על כמה דברים: What are these? – They're my keys." },
-    { "type": "warning", "en": "this and these sound different: this has a short vowel (like sit), these has a long one (like see).", "he": "this ו-these נשמעות שונה: ב-this התנועה קצרה (כמו ב-sit), וב-these ארוכה (כמו ב-see). אם לא מאריכים, השומע לא יודע אם מדובר בדבר אחד או בכמה." }
+    { "type": "warning", "en": "this and these sound different: this has a short vowel (like sit), these has a long one (like see).", "he": "this ו-these לא נשמעות אותו דבר: ב-this התנועה קצרה (כמו ב-sit), וב-these ארוכה (כמו ב-see). אם לא מאריכים, השומע לא יודע אם מדובר בדבר אחד או בכמה." }
   ],
   "examples": [
     { "en": "It's a phone.", "he": "זה טלפון." },
@@ -51,7 +51,7 @@
     { "word": "shoe", "pos": "noun", "he": "נעל", "def": "a thing you wear on your foot", "example": "These shoes are new.", "ipa": "/ʃuː/", "level": "PreA1" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is no word for a/an, and 'one' is sometimes used like an article. English works differently, so put a or an before one thing: It's a pen (not 'It's pen' or 'It's one pen'). Use one only for counting.", "he": "בעברית אין מילה ל-a/an ('זה עט'), ולפעמים 'אחד' משמש כמו תווית ('בחור אחד שאל אותי'). באנגלית זה עובד אחרת: לפני דבר אחד באים a או an – It's a pen, לא It's pen ולא It's one pen. את one שומרים לספירה.", "error_type": "article" },
+    { "en": "In Hebrew there is no word for a/an, and 'one' is sometimes used like an article. English works differently, so put a or an before one thing: It's a pen (not 'It's pen' or 'It's one pen'). Use one only for counting.", "he": "בעברית אין מילה שמקבילה ל-a/an ('זה עט'), ולפעמים משתמשים ב'אחד' או 'אחת' במקומה ('בחור אחד שאל אותי'). באנגלית זה עובד אחרת: לפני דבר אחד באים a או an – It's a pen, לא It's pen ולא It's one pen. את one שומרים לספירה.", "error_type": "article" },
     { "en": "In Hebrew the adjective comes after the noun. English works differently, so the colour comes first: a red car (not 'a car red').", "he": "בעברית שם התואר בא אחרי שם העצם ('מכונית אדומה'). באנגלית הסדר הפוך: a red car, לא a car red.", "error_type": "word-order" },
     { "en": "Hebrew has one 'ee' vowel, but English has a short /ɪ/ and a long /iː/, so this and these can sound the same. Make these long: /ðiːz/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן this ו-these עלולות להישמע אותו דבר. ב-these מאריכים: /ðiːz/.", "error_type": "pron-vowel" }
   ],
@@ -114,7 +114,7 @@
       "answer": 2,
       "option_feedback": {
         "0": { "en": "This is for one thing. Keys = two or more.", "he": "this הוא לדבר אחד. keys זה יותר מאחד." },
-        "1": { "en": "That is for one thing far away.", "he": "that הוא לדבר אחד רחוק." },
+        "1": { "en": "That is for one thing far away. Keys = two or more, and they're in your hand, so they're near.", "he": "that הוא לדבר אחד רחוק. keys זה יותר מאחד, והם ביד – כלומר קרובים." },
         "3": { "en": "Those is for things far from you. The keys are in your hand, so they're near.", "he": "those הוא לדברים רחוקים. המפתחות ביד – כלומר קרובים." }
       },
       "option_errors": { "0": "agreement", "1": "agreement", "3": "word-choice" },
@@ -176,7 +176,9 @@
       "wrong_feedback": [
         { "match": "It's a bag black.", "feedback": { "en": "In English the colour comes before the thing: a black bag.", "he": "באנגלית הצבע בא לפני החפץ: a black bag." }, "error_type": "word-order" },
         { "match": "It's black bag.", "feedback": { "en": "Add a before one thing: It's a black bag.", "he": "לפני דבר אחד מוסיפים a: It's a black bag." }, "error_type": "article" },
-        { "match": "This black bag.", "feedback": { "en": "The verb is missing: This is a black bag.", "he": "חסר הפועל: This is a black bag." }, "error_type": "copula-omission" }
+        { "match": "This black bag.", "feedback": { "en": "The verb is missing: This is a black bag.", "he": "חסר הפועל: This is a black bag." }, "error_type": "copula-omission" },
+        { "match": "This is black bag.", "feedback": { "en": "Add a before one thing: This is a black bag.", "he": "לפני דבר אחד מוסיפים a: This is a black bag." }, "error_type": "article" },
+        { "match": "This bag is black.", "feedback": { "en": "Good English, but it says something different: the bag here is black. The Hebrew says what the thing is: This is a black bag.", "he": "משפט נכון, אבל הוא אומר 'התיק הזה שחור'. 'זה תיק שחור' זה This is a black bag." }, "error_type": "word-order" }
       ],
       "explanation": { "en": "Hebrew shows no a and puts the colour last. English needs both changes: It's / This is a black bag.", "he": "בעברית אין a והצבע בא בסוף. באנגלית צריך את שני השינויים: It's a black bag או This is a black bag." }
     },
@@ -186,6 +188,9 @@
       "sentence": "These is my keys.",
       "answers": ["These are my keys."],
       "error_type": "agreement",
+      "wrong_feedback": [
+        { "match": "This is my key.", "feedback": { "en": "Good English, but the sentence is about keys (two or more). Keep These and keys, and fix the verb: These are my keys.", "he": "משפט נכון, אבל המשפט מדבר על כמה מפתחות. השאירו את These ואת keys ותקנו את הפועל: These are my keys." }, "error_type": "agreement" }
+      ],
       "explanation": { "en": "These = two or more, so are: These are my keys.", "he": "these = יותר מאחד, ולכן are: These are my keys." }
     },
     {
@@ -234,7 +239,7 @@
       "min_words": 16,
       "max_words": 60,
       "must_include": ["this", "that"],
-      "model_answer": "This is my laptop. It's a grey laptop. That is an orange umbrella. These are my keys. Those books are blue.",
+      "model_answer": "This is a grey laptop. That is an orange umbrella. These are my keys. They're black. Those books are blue.",
       "checklist": [
         { "en": "a or an before one thing: a grey laptop, an orange umbrella.", "he": "a או an לפני דבר אחד: a grey laptop, an orange umbrella." },
         { "en": "The colour comes before the thing: a red bag, not a bag red.", "he": "הצבע בא לפני החפץ: a red bag, לא a bag red." },

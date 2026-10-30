@@ -1,0 +1,336 @@
+{
+  "id": "b2-09",
+  "level": "B2",
+  "title_en": "Reading critically",
+  "title_he": "קריאה ביקורתית",
+  "topics": ["critical-reading"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can tell factual claims, which can be checked, from opinions, and spot opinions presented as facts." },
+    { "en": "I can recognise loaded language and describe the same event in neutral words." },
+    { "en": "I can notice selective evidence by asking what a writer has left out." },
+    { "en": "I can compare two viewpoints on the same issue and identify each author's purpose." }
+  ],
+  "warmup": { "en": "Two headlines describe the same event: 'Council finally scraps useless bus lane' and 'Council removes bus lane after six-month trial'. Which one tells you what to think, and which words do it?" },
+  "explanation": [
+    { "type": "p", "en": "Look at the two headlines again. Both report the same fact: a bus lane was removed. The first also tells you how to feel: finally (we waited too long), scraps (throws away like rubbish) and useless (a judgement). The second gives you a detail you can check (a six-month trial) and leaves the judgement to you. Reading critically means separating what happened from how the writer wants you to see it." },
+    { "type": "table", "headers": ["What you find", "How to test it", "Example"], "rows": [
+      ["Factual claim", "It can be checked: dates, numbers, events, quotes. It may still turn out to be false.", "The bus lane was removed in March."],
+      ["Opinion", "A judgement, prediction or recommendation that reasonable people can disagree with", "The bus lane was a waste of money."],
+      ["Opinion presented as fact", "A judgement with no 'I think', often with clearly, obviously, everyone knows or the truth is", "Clearly, nobody takes the bus any more."],
+      ["Loaded language", "Words that add feeling: replace them with a neutral word and see what is left", "a mob of protesters (neutral: a crowd)"],
+      ["Selective evidence", "True facts chosen to support one side, while other relevant facts are left out", "Car journeys got slower (but the article never mentions that more people now cycle)."]
+    ] },
+    { "type": "rule", "en": "Loaded words can be negative (slash, scrap, mob, so-called, rant, hike) or positive (bold, reform, vibrant, freedom). The same flat can be cosy, small or cramped; the same person can be determined or stubborn. Ask: what word would a careful reporter use? Reporting verbs carry a judgement too: says and states are neutral, claims suggests doubt, and reveals or points out suggests that the writer accepts the information." },
+    { "type": "tip", "en": "To spot selective evidence, ask what is missing. Is only one side quoted? Is one example presented as typical? Is a number given without a comparison (sales doubled: from two to four?). Are the costs mentioned but not the benefits, or the other way round?" },
+    { "type": "tip", "en": "Identify the author's purpose: to inform, to persuade, to sell, to entertain or to criticise. Look at the genre and the source: a news report should inform, an opinion column is meant to persuade, and a press release is written by the organisation it describes. Ask: who wrote this, for whom, and what do they want me to believe or do?" },
+    { "type": "warning", "en": "Biased does not mean false, and opinion is not a problem in itself. Opinion columns are supposed to argue, and a biased article may contain only true facts, carefully chosen. The problem is opinion disguised as fact, or a 'news' report that quietly takes sides. Judge each claim, not the whole text at once." }
+  ],
+  "examples": [
+    { "en": "The library opened in 1998.", "note": "factual claim: it can be checked" },
+    { "en": "The library is the best place in town to study.", "note": "opinion: people can reasonably disagree" },
+    { "en": "Obviously, the new timetable is a disaster.", "note": "opinion presented as fact: obviously, disaster" },
+    { "en": "A crowd gathered outside the town hall.", "note": "neutral" },
+    { "en": "An angry mob descended on the town hall.", "note": "the same event, loaded: mob, descended on" },
+    { "en": "The council has slashed the arts budget.", "note": "loaded verb; neutral: cut or reduced, ideally with a figure" },
+    { "en": "Residents claim that the factory is too noisy.", "note": "claim suggests doubt; say would be neutral" },
+    { "en": "Sales doubled last month: from two bikes to four.", "note": "a big-sounding change, small in reality" },
+    { "en": "According to the company's own press release, the app is 'the safest on the market'.", "note": "source and purpose: the company is promoting its own product" }
+  ],
+  "vocab": [
+    { "word": "bias", "pos": "noun", "he": "הטיה; משוא פנים", "def": "an unfair preference for or against one side", "example": "The report shows a clear bias against cyclists.", "ipa": "/ˈbaɪəs/", "collocations": ["a bias against / towards", "political bias", "show bias"], "level": "B2" },
+    { "word": "loaded language", "pos": "noun phrase", "he": "שפה טעונה (רגשית)", "def": "words chosen to create strong feelings, not just to describe", "example": "Words like 'mob' and 'slash' are examples of loaded language.", "ipa": "/ˌləʊdɪd ˈlæŋɡwɪdʒ/", "collocations": ["use loaded language", "a loaded word", "a loaded question"], "level": "C1" },
+    { "word": "neutral", "pos": "adjective", "he": "ניטרלי/ת", "def": "not supporting either side; without strong feeling", "example": "Try to describe the event in neutral terms.", "ipa": "/ˈnjuːtrəl/", "collocations": ["neutral language", "in neutral terms", "remain neutral"], "level": "B2" },
+    { "word": "objective", "pos": "adjective", "he": "אובייקטיבי/ת", "def": "based on facts, not on personal feelings", "example": "News reports should be as objective as possible.", "ipa": "/əbˈdʒektɪv/", "collocations": ["an objective account", "objective evidence"], "level": "B2" },
+    { "word": "selective", "pos": "adjective", "he": "סלקטיבי/ת; בררני/ת", "def": "choosing only some things, especially to support one point of view", "example": "The article makes selective use of the survey results.", "ipa": "/sɪˈlektɪv/", "collocations": ["selective use of evidence", "selective quotation", "highly selective"], "level": "B2" },
+    { "word": "cherry-pick", "pos": "verb", "he": "לבחור רק את מה שנוח; ללקט באופן מגמתי", "def": "to choose only the facts that support your argument and ignore the rest", "example": "The advert cherry-picks the best reviews.", "ipa": "/ˈtʃeri pɪk/", "collocations": ["cherry-pick data", "cherry-pick examples"], "level": "C1" },
+    { "word": "viewpoint", "pos": "noun", "he": "נקודת מבט", "def": "a particular way of thinking about an issue", "example": "The two articles present very different viewpoints.", "ipa": "/ˈvjuːpɔɪnt/", "collocations": ["a different viewpoint", "from a ... viewpoint", "express a viewpoint"], "level": "B2" },
+    { "word": "purpose", "pos": "noun", "he": "מטרה", "def": "the reason why something is written or done", "example": "The author's main purpose is to persuade readers to sign the petition.", "ipa": "/ˈpɜːpəs/", "collocations": ["the author's purpose", "main purpose", "serve a purpose"], "level": "B1" },
+    { "word": "verify", "pos": "verb", "he": "לאמת", "def": "to check that something is true", "example": "Can these figures be verified?", "ipa": "/ˈverɪfaɪ/", "collocations": ["verify a claim", "independently verified", "difficult to verify"], "level": "B2" },
+    { "word": "one-sided", "pos": "adjective", "he": "חד-צדדי/ת", "def": "showing only one side of an issue", "example": "The documentary gives a very one-sided account of the strike.", "ipa": "/ˌwʌn ˈsaɪdɪd/", "collocations": ["a one-sided account", "a one-sided argument"], "level": "B2" },
+    { "word": "so-called", "pos": "adjective", "he": "מה שמכונה; כביכול", "def": "used to show that you think a name or description is wrong", "example": "The so-called improvements have made the park worse.", "ipa": "/ˌsəʊ ˈkɔːld/", "collocations": ["so-called experts", "the so-called ..."], "level": "B2" },
+    { "word": "press release", "pos": "noun", "he": "הודעה לעיתונות", "def": "an official statement that an organisation gives to journalists", "example": "The figures come from the company's own press release.", "ipa": "/ˈpres rɪliːs/", "collocations": ["issue a press release", "according to a press release"], "level": "B2" }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "reading",
+      "prompt": { "en": "Fact or opinion? Sort these sentences from an article about a new museum." },
+      "categories": ["Factual claim (can be checked)", "Opinion (judgement or prediction)"],
+      "items": [
+        { "text": "The museum opened in May.", "category": "Factual claim (can be checked)" },
+        { "text": "The new museum is the most exciting building in the city.", "category": "Opinion (judgement or prediction)" },
+        { "text": "Entry is free on Friday mornings.", "category": "Factual claim (can be checked)" },
+        { "text": "The council should spend less on museums and more on parks.", "category": "Opinion (judgement or prediction)" },
+        { "text": "About 300 people attended the opening night.", "category": "Factual claim (can be checked)" },
+        { "text": "Clearly, the museum is a waste of public money.", "category": "Opinion (judgement or prediction)" },
+        { "text": "The architect also designed the central library.", "category": "Factual claim (can be checked)" },
+        { "text": "Visitors will love the rooftop café.", "category": "Opinion (judgement or prediction)" }
+      ],
+      "explanation": { "en": "A factual claim can be checked (a date, a price, a number, who designed what), even if it turns out to be wrong. An opinion is a judgement (the most exciting, a waste of money), a recommendation (should) or a prediction (will love). 'Clearly' does not turn an opinion into a fact." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "reading",
+      "prompt": { "en": "Which sentence presents an opinion as if it were a fact?" },
+      "question": "Four sentences about new parking rules:",
+      "options": [
+        "In my view, the new parking rules are too strict.",
+        "The new parking rules came into force on Monday.",
+        "Everyone knows the new parking rules are pointless.",
+        "Some drivers say the new parking rules are confusing."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "This is an opinion, but it is honestly marked as one: In my view." },
+        "1": { "en": "This is a factual claim: you can check the date." },
+        "3": { "en": "This reports what some drivers say. Whether the rules are confusing is their opinion, but the fact that they say so can be checked." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "'Everyone knows' presents a judgement (pointless) as something nobody could disagree with. A careful writer would say who thinks so, or mark it clearly as an opinion." }
+    },
+    {
+      "id": "e3", "type": "categorize", "skill": "vocabulary",
+      "prompt": { "en": "Same thing, different spin. Is each phrase positive, neutral or negative?" },
+      "categories": ["Positive spin", "Neutral", "Negative spin"],
+      "items": [
+        { "text": "a bold plan", "category": "Positive spin" },
+        { "text": "a new plan", "category": "Neutral" },
+        { "text": "a reckless plan", "category": "Negative spin" },
+        { "text": "a cosy flat", "category": "Positive spin" },
+        { "text": "a small flat", "category": "Neutral" },
+        { "text": "a cramped flat", "category": "Negative spin" },
+        { "text": "a lively debate", "category": "Positive spin" },
+        { "text": "a debate", "category": "Neutral" },
+        { "text": "a shouting match", "category": "Negative spin" }
+      ],
+      "explanation": { "en": "Each group describes the same thing. Bold, cosy and lively invite you to approve; reckless, cramped and shouting match invite you to disapprove; the neutral words leave the judgement to you. An estate agent says cosy; an unhappy tenant says cramped." }
+    },
+    {
+      "id": "e4", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each loaded word with a neutral word that a careful reporter might use." },
+      "pairs": [["slash (a budget)", "reduce"], ["mob", "crowd"], ["scrap (a plan)", "cancel"], ["a flood of (visitors)", "a large number of"], ["rant", "speech"], ["hike (in prices)", "increase"]],
+      "explanation": { "en": "The loaded words add feeling: slash (violent), mob (dangerous and out of control), scrap (worthless), flood (overwhelming), rant (angry and unreasonable), hike (sudden and unfair). The neutral words describe the same facts and let readers decide." }
+    },
+    {
+      "id": "e5", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to part of a radio report and answer the question." },
+      "audio_text": "The company claims its new app helps users sleep better. In a survey it carried out itself, most users said they felt more rested. However, independent researchers point out that the survey did not include anyone who wasn't using the app.",
+      "question": "What does the reporter suggest about the company's evidence?",
+      "options": [
+        "It proves that the app works.",
+        "It may be weak, because the company tested its own product with no one to compare.",
+        "It comes from independent researchers.",
+        "It shows that most users slept worse."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "The reporter uses 'claims' and then gives the researchers' objection, so the evidence is presented as doubtful, not as proof." },
+        "2": { "en": "The company carried out the survey itself; the independent researchers only criticise it." },
+        "3": { "en": "The users said they felt more rested, not worse." }
+      },
+      "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "hint": { "en": "Listen for the reporting verbs: claims, point out." },
+      "explanation": { "en": "Three clues: 'claims' signals doubt; 'carried out itself' shows that the source has an interest in the result; and 'point out' tells you the reporter accepts the researchers' criticism. Without a comparison group, you cannot tell whether the app made any difference." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "reading",
+      "prompt": { "en": "Read for the writer's stance." },
+      "question": "A journalist writes: 'The minister admitted that the project was over budget.' What does 'admitted' tell you?",
+      "options": [
+        "The minister was proud of the project's cost.",
+        "The journalist thinks the minister is lying.",
+        "The minister refused to answer the question.",
+        "The fact is embarrassing for the minister, and the journalist treats it as true."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "Admit is used for something negative or embarrassing, not something you are proud of." },
+        "1": { "en": "If the journalist doubted it, a verb like 'claimed' would be more likely. 'Admitted' presents the statement as true." },
+        "2": { "en": "Admitted means the minister did say it, even if unwillingly." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+      "explanation": { "en": "Admit = say, often unwillingly, that something bad is true. Compare: the minister said (neutral), claimed (the writer has doubts), revealed (new and true), admitted (negative and true)." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "reading",
+      "prompt": { "en": "Spot the selective evidence." },
+      "question": "An advert says: 'Sales of our bike helmet rose by 200% last year!' What important information is missing?",
+      "options": [
+        "How many helmets were sold before the rise",
+        "The colour of the helmet",
+        "The price of the helmet",
+        "Where the helmets are sold"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "The colour doesn't affect whether the number is impressive." },
+        "2": { "en": "The price might matter to a buyer, but it doesn't tell you whether 200% is a big rise." },
+        "3": { "en": "Where they are sold doesn't tell you whether 200% is a big change." }
+      },
+      "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "A percentage without the starting number can mislead: a 200% rise could be from 1,000 to 3,000 helmets, or from 5 to 15. Always ask: 200% of what?" }
+    },
+    {
+      "id": "e8", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read two opinion pieces from a local news website and answer the questions." },
+      "title": "Holiday rentals in Port Ellis: two views",
+      "passage": "VIEW 1: Give our streets back to residents\nby Ruth Adler, chair of the Port Ellis Residents' Association\n\nOur town is being swallowed by holiday rentals, and the people who make it a community are being pushed out. Walk down Shell Street on a winter evening and you will count more key boxes than lit windows. Young families who grew up here can no longer afford to rent, because owners can earn more from a weekend of tourists than from a month of local tenants. Last year, the primary school on Shell Street lost two classes. Visitors are welcome in Port Ellis, but a town needs neighbours as well as guests. The council must act now: it should limit holiday rentals to 90 nights a year and give our streets back to the people who actually live in them.\n\nVIEW 2: Build homes, don't ban visitors\nby Eli Navon, who rents out two flats in the town\n\nHoliday rentals are not the villain in this story. Ten years ago, half the shops on the seafront were empty; today, cafés, surf schools and bike shops employ dozens of local young people. Many hosts, like me, are ordinary residents who rent out a spare flat to help pay the mortgage. The real problem is that almost no new homes have been built here in a decade, and blaming hosts is easier than admitting that. A 90-night limit would punish us for the council's own failure to build affordable homes. If the council is serious about housing, it should build, not ban.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the main purpose of both texts?",
+          "options": ["To report the council's decision neutrally", "To persuade readers to support a particular policy", "To advertise holiday flats in Port Ellis", "To explain how the council makes decisions"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Neither text is neutral: both writers argue for what the council should do, and no decision has been made yet." },
+            "2": { "en": "Eli Navon rents out flats, but he is arguing about a policy, not advertising them." },
+            "3": { "en": "Neither text explains how the council works." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "Both are opinion pieces. Ruth Adler wants a 90-night limit ('The council must act now'); Eli Navon wants new homes instead ('it should build, not ban')." }
+        },
+        {
+          "type": "mcq",
+          "question": "Which sentence from View 1 is an opinion rather than a factual claim?",
+          "options": ["Last year, the primary school on Shell Street lost two classes.", "Owners can earn more from a weekend of tourists than from a month of local tenants.", "The council must act now."],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "This can be checked in school records, so it is a factual claim. Whether it proves her point is another question." },
+            "1": { "en": "This can be checked by comparing prices, so it is a factual claim, even though the writer gives no figures." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension" },
+          "explanation": { "en": "'The council must act now' is a recommendation: reasonable people can disagree with it. The other two sentences can be checked." }
+        },
+        {
+          "type": "mcq",
+          "question": "Why might the school evidence in View 1 be selective?",
+          "options": ["Ruth Adler does not show that holiday rentals caused the school to lose classes.", "The number of classes is not important in a small town.", "Eli Navon says that the school did not lose any classes.", "Schools are never affected by housing."],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The number matters to her argument; the problem is the missing link between the rentals and the school." },
+            "2": { "en": "Eli Navon doesn't mention the school at all." },
+            "3": { "en": "Housing can affect schools. The point is that the writer gives no evidence that it did here, and there may be other causes." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "The fact may well be true, but it is placed next to the rentals as if one caused the other. Other possible causes, such as fewer children being born or a new school nearby, are not mentioned." }
+        },
+        {
+          "type": "mcq",
+          "question": "Which phrase in View 2 is the clearest example of loaded language?",
+          "options": ["rent out a spare flat", "employ dozens of local young people", "to help pay the mortgage", "would punish us"],
+          "answer": 3,
+          "option_feedback": {
+            "0": { "en": "This is a neutral description of what hosts do." },
+            "1": { "en": "This is a factual claim that could be checked, with no emotional words." },
+            "2": { "en": "This is a neutral reason." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'Punish' presents a planning rule as a deliberate penalty against innocent people. A neutral version would be: 'A 90-night limit would reduce hosts' income.' ('Not the villain' is loaded too.)" }
+        },
+        {
+          "type": "tf",
+          "statement": "Both writers accept that housing in Port Ellis is a problem.",
+          "answer": true,
+          "explanation": { "en": "They agree on the problem but disagree about its cause and solution: Ruth Adler blames holiday rentals, while Eli Navon blames the lack of new homes ('the council's own failure to build affordable homes')." }
+        },
+        {
+          "type": "tf",
+          "statement": "Ruth Adler mentions the jobs that tourism has created in the town.",
+          "answer": false,
+          "explanation": { "en": "Only Eli Navon mentions jobs (cafés, surf schools, bike shops). Each writer leaves out the evidence that suits the other side: Adler says nothing about jobs, and Navon says nothing about empty homes in winter." }
+        }
+      ]
+    },
+    {
+      "id": "e9", "type": "mcq", "skill": "reading",
+      "prompt": { "en": "Think about the source and its purpose." },
+      "question": "You want a balanced view of a new electric scooter. Which source is most likely to be one-sided?",
+      "options": [
+        "A comparison of five scooters by an independent consumer magazine",
+        "A news report on the scooter's launch that quotes both fans and critics",
+        "A press release from the company that makes the scooter",
+        "A forum where owners post both good and bad reviews"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "An independent comparison has no reason to favour one product, so it is a good place to start." },
+        "1": { "en": "A report that quotes both sides is trying to be balanced." },
+        "3": { "en": "Individual reviews can be biased, but a mix of good and bad reviews gives you several viewpoints." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "A press release is written by the organisation itself to show its product in the best light. It may be accurate, but you should look for the other side elsewhere." }
+    },
+    {
+      "id": "e10", "type": "gap", "skill": "vocabulary",
+      "prompt": { "en": "Rewrite the loaded news sentence in neutral language. Choose words from the box. Three words are not needed." },
+      "text": "Loaded: 'The council has slashed the youth budget and scrapped the free night bus, while a mob of furious parents gathered outside.' Neutral: 'The council has ___ the youth budget and ___ the free night bus, while a ___ of parents gathered outside.'",
+      "word_bank": ["reduced", "cancelled", "crowd", "axed", "gutted", "horde"],
+      "answers": [["reduced", "cut"], ["cancelled", "canceled", "ended", "withdrawn", "discontinued"], ["crowd", "group"]],
+      "wrong_feedback": [
+        { "match": "axed", "feedback": { "en": "Axed is as loaded as scrapped: it suggests something was chopped off violently. Neutral: cancelled." }, "error_type": "word-choice" },
+        { "match": "gutted", "feedback": { "en": "Gutted is loaded: it suggests the budget was destroyed from the inside. Neutral: reduced." }, "error_type": "word-choice" },
+        { "match": "horde", "feedback": { "en": "Horde is loaded: it suggests a large, threatening group. Neutral: crowd." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "slashed → reduced, scrapped → cancelled, mob → crowd. Notice that 'furious' has gone too: a neutral report describes what happened and leaves the feelings to the reader, or to a quote from the parents." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "writing",
+      "prompt": { "en": "This sentence presents an opinion as a fact. Rewrite it as a clearly marked opinion: start with 'In my view,' or 'In my opinion,' and remove the word that makes it sound like a fact. Change nothing else." },
+      "source": "Obviously, the new stadium is a waste of money.",
+      "answers": [
+        "In my view, the new stadium is a waste of money.",
+        "In my view the new stadium is a waste of money.",
+        "In my opinion, the new stadium is a waste of money.",
+        "In my opinion the new stadium is a waste of money."
+      ],
+      "wrong_feedback": [
+        { "match": "In my view, the new stadium is waste of money.", "feedback": { "en": "Keep the article: a waste of money." }, "error_type": "article" },
+        { "match": "obviously", "feedback": { "en": "Remove obviously: it tells readers that no sensible person could disagree, which is exactly what makes an opinion sound like a fact." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Which word tells the reader that nobody could disagree?" },
+      "explanation": { "en": "'Obviously' hides the fact that this is a judgement. 'In my view' is honest about it and invites the reader to weigh your reasons. In an essay, you would then give those reasons." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "writing",
+      "prompt": { "en": "This sentence is from a news report, not an opinion column. Remove the reporter's opinion." },
+      "sentence": "The mayor's ridiculous new parking plan will come into force in May.",
+      "answers": ["The mayor's new parking plan will come into force in May."],
+      "error_type": "word-choice",
+      "hint": { "en": "One word is the reporter's judgement, not a fact." },
+      "explanation": { "en": "'Ridiculous' is an opinion. A news report should state what will happen and let people who dislike the plan say so in a quote: 'Some residents called the plan ridiculous.'" }
+    },
+    {
+      "id": "e13", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Challenge a claim politely in a discussion. Say it out loud." },
+      "target": "That sounds like an opinion, not a fact. What's the evidence?",
+      "focus": { "en": "Fact has the open /æ/ sound: drop your jaw more than for 'get' /e/. Stress the contrast: an oPINion, not a FACT. Evidence is stressed on the first syllable: EVidence.", "he": "ב-fact יש את הצליל הפתוח /æ/: פותחים את הפה יותר מאשר ב-get /e/. מדגישים את הניגוד: an oPINion, not a FACT. ב-evidence ההטעמה בהברה הראשונה: EVidence." },
+      "explanation": { "en": "This is a polite but firm way to question a claim in a seminar or meeting: it challenges the idea, not the person." }
+    },
+    {
+      "id": "e14", "type": "write", "skill": "writing",
+      "prompt": { "en": "Compare two viewpoints critically." },
+      "task": { "en": "Read two short texts about the same proposal. Text A (a post on the student union's page): 'Students are desperate for somewhere quiet to study. Many share bedrooms with siblings, and cafés expect you to keep buying drinks. Last June, library staff turned students away every evening at closing time. Opening the library 24 hours a day during exams is a small price to pay for our future.' Text B (a statement from a town councillor): 'Opening the library all night would mean paying extra staff and security every night of the exam period. When the university library tried night opening two years ago, very few students came after midnight. The council's limited budget would be better spent on longer weekend hours.' Write a critical comparison of the two texts for your class blog (180-250 words). Summarise each writer's position and purpose; identify one factual claim and one opinion in each text; point out at least one example of loaded language and one example of selective evidence (what is missing?); and say which text you find more convincing and why, in neutral language." },
+      "min_words": 180,
+      "max_words": 280,
+      "model_answer": "The two texts take opposite positions on opening the town library 24 hours a day during exam periods. Text A, a post by the student union, aims to persuade readers to support the idea, while Text B, a councillor's statement, argues against it on the grounds of cost.\n\nEach text mixes facts and opinions. In Text A, the claim that staff turned students away at closing time last June is factual, since it could be checked, whereas 'a small price to pay for our future' is an opinion. In Text B, the statement that few students used the university library after midnight is a factual claim, but the view that the money 'would be better spent' on weekend hours is an opinion.\n\nText A relies on loaded language: students are 'desperate', a word that appeals to emotion rather than giving evidence. Both texts are also selective. Text A never mentions the cost, and Text B uses a university library as evidence, although a town library may serve different users, such as school students who have no quiet place to study at home.\n\nOverall, Text B is more convincing, because it gives a specific example and addresses the cost, which Text A ignores. However, its evidence comes from a different kind of library, so a short trial in the town library would provide a fairer test.",
+      "checklist": [
+        { "en": "Summary: I stated each writer's position and purpose accurately, without adding my own opinion at this stage." },
+        { "en": "Fact and opinion: I identified one checkable factual claim and one opinion in each text, and explained how I could tell." },
+        { "en": "Loaded language: I quoted at least one loaded word and explained the feeling it creates." },
+        { "en": "Selective evidence: I explained what at least one writer leaves out and why it matters." },
+        { "en": "Evaluation: my final judgement is based on the quality of the evidence, not on which side I prefer, and is written in neutral language." },
+        { "en": "Language: I used neutral reporting verbs (states, argues; claims only where I have doubts) and linked my paragraphs clearly." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "A factual claim can be checked; an opinion is a judgement, prediction or recommendation. Words like clearly and everyone knows do not turn an opinion into a fact." },
+      { "en": "Loaded words (slash, mob, scrap, so-called; bold, vibrant) tell you what to feel. Swap in a neutral word and see what is left." },
+      { "en": "Reporting verbs show the writer's stance: says (neutral), claims (doubt), admits (negative and true), points out (the writer agrees)." },
+      { "en": "To spot selective evidence, ask what is missing: the other side, the starting number, other possible causes." },
+      { "en": "Identify the source and its purpose: news should inform, opinion persuades, a press release promotes. Biased does not mean false, so judge each claim." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

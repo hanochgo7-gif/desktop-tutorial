@@ -613,17 +613,17 @@
           "type": "mcq",
           "question": "In paragraph 3, why does the writer quote 'This decline', 'Such criticism' and 'The council's refusal'?",
           "options": [
+            "To show how a short noun phrase can sum up an earlier idea and link sentences",
             "As examples of over-nominalised, unclear writing",
             "To criticise the council's refusal to change its letter",
-            "To show how a short noun phrase can sum up an earlier idea and link sentences",
             "As examples of informal phrases that reports should avoid"
           ],
-          "answer": 2,
+          "answer": 0,
           "option_feedback": {
-            "0": {
+            "1": {
               "en": "They appear in the paragraph that defends nominalisation, as examples of good use."
             },
-            "1": {
+            "2": {
               "en": "'The council's refusal' is a model phrase, not a reference to a real refusal in the story."
             },
             "3": {
@@ -631,8 +631,8 @@
             }
           },
           "option_errors": {
-            "0": "comprehension",
             "1": "comprehension",
+            "2": "comprehension",
             "3": "comprehension"
           },
           "explanation": {
@@ -716,7 +716,7 @@
       "prompt": {
         "en": "Complete the text with the correct form of the word in brackets."
       },
-      "text": "The researchers ___ (analyse) the results carefully, but their ___ (interpret) of the data was later challenged. Critics argued that the study placed too much ___ (emphasise) on a small sample and that its conclusions were not fully ___ (justify).",
+      "text": "The researchers ___ (analyse) the results carefully, but their ___ (interpret) of the data was later challenged. Critics argued that the study's heavy ___ (rely) on a small sample meant that its conclusions were not fully ___ (justify).",
       "answers": [
         [
           "analysed",
@@ -728,7 +728,7 @@
           "interpretation"
         ],
         [
-          "emphasis"
+          "reliance"
         ],
         [
           "justified",
@@ -751,16 +751,23 @@
           "error_type": "word-choice"
         },
         {
-          "match": "emphasise",
+          "match": "reliability",
           "feedback": {
-            "en": "After 'too much' you need a noun: too much emphasis on. (The verb emphasise never takes on.)"
+            "en": "Reliability means 'being reliable' (the reliability of the data). Depending on something is reliance: heavy reliance on a small sample."
           },
           "error_type": "word-choice"
         },
         {
-          "match": "emphasize",
+          "match": "relying",
           "feedback": {
-            "en": "After 'too much' you need a noun: too much emphasis on. (The verb emphasise never takes on.)"
+            "en": "After 'the study's heavy' you need a true noun, not an -ing form: heavy reliance on."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "rely",
+          "feedback": {
+            "en": "After 'the study's heavy' you need a noun: heavy reliance on."
           },
           "error_type": "word-choice"
         },
@@ -780,10 +787,10 @@
         }
       ],
       "hint": {
-        "en": "Look at the word before each gap: a subject needs a verb; their or too much needs a noun; were not fully needs an adjective."
+        "en": "Look at the words before each gap: a subject needs a verb; their or the study's heavy needs a noun; were not fully needs an adjective."
       },
       "explanation": {
-        "en": "The researchers analysed (verb) · their interpretation (noun) · too much emphasis on (noun) · not fully justified (participle adjective)."
+        "en": "The researchers analysed (verb) · their interpretation (noun) · the study's heavy reliance on (noun + on, from rely on) · not fully justified (participle adjective)."
       }
     },
     {
@@ -945,10 +952,10 @@
       "options": [
         "The implementation of a change in the marking of essays by teachers resulted in a reduction in the number of complaints of students.",
         "After teachers changed the way they marked essays, there were way fewer complaints from students.",
-        "The change in how teachers marked essays was followed by a fall in student complaints.",
-        "The changing of marking essays by teachers caused less complainings of students."
+        "The changing of marking essays by teachers caused less complainings of students.",
+        "The change in how teachers marked essays was followed by a fall in student complaints."
       ],
-      "answer": 2,
+      "answer": 3,
       "option_feedback": {
         "0": {
           "en": "Over-nominalised: six abstract nouns, a chain of of-phrases, and 'resulted in' claims a cause that the original never stated."
@@ -956,14 +963,14 @@
         "1": {
           "en": "Clear, but 'way fewer' is informal and does not suit a formal report."
         },
-        "3": {
+        "2": {
           "en": "'The changing of marking essays' is not a natural noun phrase, and complain → complaint (complainings does not exist)."
         }
       },
       "option_errors": {
         "0": "register",
         "1": "register",
-        "3": "verb-form"
+        "2": "verb-form"
       },
       "hint": {
         "en": "Check three things in each option: the register, how many abstract nouns are stacked together, and whether it claims more than the original says."
@@ -1052,7 +1059,7 @@
       "skill": "speaking",
       "topic": "nominalisation",
       "prompt": {
-        "en": "You are summarising a finding in a seminar. Say it out loud."
+        "en": "You are Lior, summarising your group's housing project in a seminar. Say the sentence out loud."
       },
       "target": "Our analysis suggests that the rise in rents has had a significant impact on young families.",
       "focus": {

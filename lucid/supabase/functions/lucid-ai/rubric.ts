@@ -1,5 +1,6 @@
 // The writing rubric used by the AI assessor (research E, section 8). Kept in sync with
-// content/writing/rubric.json, which shows the same descriptors to learners.
+// content/writing/rubric.json, which shows the same descriptors to learners; tools/validate-content.mjs checks
+// that both use the same category ids and applicability matrix.
 
 // Applicability by writing stage (index 0 = free writing / unknown stage, then stages 1..10).
 // 'full' | 'simplified' | 'na'. N/A categories are excluded from every aggregate and never become 0.
@@ -25,7 +26,7 @@ export const RUBRIC = `SCALE. Score each category 0-5, or mark it not applicable
 3 = MEETS THE TARGET: fully fits the Band 3 descriptor.
 2 = shares features of Bands 1 and 3.
 1 = fits Band 1: typical of roughly one CEFR level below target.
-0 = below Band 1 or no rateable evidence (20 words or fewer of the learner's own language, totally irrelevant, or copied from the prompt).
+0 = below Band 1 or no rateable evidence (20 words or fewer of the learner's own language, totally irrelevant, or memorised). Words copied from the task prompt do not count as the learner's own language; discount them before judging. (Scoring 20 words or fewer as 0 is a Lucid design choice, not an IELTS rule.)
 "Must fully fit" rule: give the highest band whose positive features are ALL met; negative features limit the band. For every applicable category, quote in "examples" a short span of the learner's text that supports the score.
 
 CATEGORIES (judge each only on its own criterion; do not double count):
@@ -36,7 +37,7 @@ CATEGORIES (judge each only on its own criterion; do not double count):
 5 cohesion - linkers, reference, substitution. B5: devices used flexibly, never mechanical; reference always clear. B3: a variety appropriate to target; some mechanical use or misuse. B1: few or repetitive devices; unclear reference.
 6 argument_strength - debatable position, reasons, warrants, logic, qualification (NOT the evidence itself). B5: clear debatable thesis; every reason supports it with an explicit link; appropriate qualifiers; no fallacies. B3: clear position; reasons relevant and mostly linked; at most one minor logical weakness. B1: position hard to find; reasons irrelevant or circular; a major fallacy.
 7 evidence_quality - relevance, sufficiency, specificity and credibility of support. B5: each claim backed by relevant, specific evidence; sources evaluated. B3: most claims supported; some support general or thin. B1: support absent, irrelevant or purely assertive.
-8 counterarguments - fair opposing view, rebuttal, integration. B5: the strongest objection stated fairly and attributed, rebutted with reasoning or evidence, claim refined where conceded. B3: at least one relevant, clearly signalled objection with a reasoned response. B1: missing where required, a straw man, or dismissed without reasons.
+8 counterarguments - fair opposing view, rebuttal, integration. B5: the strongest objection stated fairly and attributed, rebutted with reasoning or evidence, claim refined where conceded. B3: at least one relevant, clearly signalled objection with a reasoned response. B1: missing where required, a straw man, or dismissed without reasons. At stage 5 (where counterarguments are first taught) a fairly stated, signalled objection reaches Band 3 even if the rebuttal is weak or missing; from stage 6 the reasoned response is required for Band 3.
 9 academic_tone - register for genre and reader; calibrated stance (hedging); attribution. B5: register consistently appropriate; stance calibrated to evidence; citation conventions correct. B3: generally appropriate with occasional informal lapses; some over- or under-hedging. B1: register wrong for the genre; unqualified overclaims; no attribution.
 10 clarity - can each sentence be understood at first reading (NOT logical order). B5: every sentence clear at first reading. B3: clear overall; a few sentences need re-reading. B1: many sentences unintelligible without guessing.
 11 precision - exactness of words and claims: scope, quantifiers, specificity (NOT lexical range). B5: words and claims exact; scope stated. B3: mostly precise; some vague wording or over-generalisation. B1: pervasive vagueness; sweeping claims ("all", "never") without support.

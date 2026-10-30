@@ -303,13 +303,43 @@ function writing(file, kind) {
     if (!w.items && !Number.isInteger(w.min_words)) err(f, p, 'needs items (auto-graded) or min_words (free writing)');
     if (!Array.isArray(w.focus) || !w.focus.length || !w.focus.every((c) => RUBRIC.has(c))) err(f, `${p}.focus`, 'rubric category ids required');
     if (!Array.isArray(w.checklist) || w.checklist.length < 2) err(f, `${p}.checklist`, 'needs >= 2');
+    if (w.min_words && w.max_words && w.min_words >= w.max_words) err(f, p, 'min_words must be below max_words');
+    // Research E (decision 5): argument prompts ask learners to argue and respond to opposing views, not only to persuade.
+    const prompt = `${w.prompt || ''} ${w.instructions?.en || ''}`;
+    if (w.stage >= 4 && /\bpersuade\b/i.test(prompt) && !/oppos|counter|object/i.test(prompt)) warn(f, p, 'argument prompt says "persuade" without asking for opposing views');
+    if (w.model_answer && w.min_words) {
+      const body = w.model_answer.split(/\n+/).slice(1).join(' ');
+      const n = body.split(/\s+/).filter((x) => /[A-Za-z0-9]/.test(x)).length;
+      if (n < w.min_words * 0.9 || (w.max_words && n > w.max_words * 1.1)) warn(f, `${p}.model_answer`, `about ${n} words, outside the task's range`);
+    }
     if (kind === 'assignments') {
       if (!isStr(w.prompt)) err(f, `${p}.prompt`, 'missing');
       strArr(f, `${p}.required_elements`, w.required_elements);
       if (!Array.isArray(w.word_range) || w.word_range.length !== 2 || w.word_range[0] >= w.word_range[1]) err(f, `${p}.word_range`, '[min, max]');
+      else if ((w.min_words && w.min_words !== w.word_range[0]) || (w.max_words && w.max_words !== w.word_range[1])) err(f, `${p}.word_range`, 'disagrees with min_words/max_words');
       if (w.source_pack) w.source_pack.forEach((s, j) => { if (s.kind !== 'illustrative' || !isStr(s.text)) err(f, `${p}.source_pack[${j}]`, 'kind must be illustrative and text required'); });
     }
   });
+}
+
+// The learner-facing rubric must match the AI assessor's (supabase/functions/lucid-ai/rubric.ts).
+function rubric(file) {
+  const d = read(file); const f = 'writing/rubric.json';
+  if (!Array.isArray(d.scale) || d.scale.length !== 6) err(f, 'scale', 'bands 0-5 required');
+  (d.scale || []).forEach((b, i) => { if (b.band !== i) err(f, `scale[${i}]`, 'bands in order 0-5'); bilingual(f, `scale[${i}]`, b, { he: true }); });
+  const ids = (d.categories || []).map((c) => c.id);
+  if (ids.length !== RUBRIC.size || !ids.every((id) => RUBRIC.has(id))) err(f, 'categories', 'must be exactly the 12 rubric categories');
+  (d.categories || []).forEach((c, i) => { for (const k of ['name_en', 'name_he', 'what_en', 'what_he']) if (!isStr(c[k])) err(f, `categories[${i}].${k}`, 'missing'); });
+  const tsPath = join(ROOT, '..', 'supabase', 'functions', 'lucid-ai', 'rubric.ts');
+  const ts = existsSync(tsPath) ? readFileSync(tsPath, 'utf8') : '';
+  for (const id of RUBRIC) {
+    const row = d.applicability?.[id];
+    if (!Array.isArray(row) || row.length !== 10 || !row.every((v) => ['full', 'simplified', 'na'].includes(v))) { err(f, `applicability.${id}`, '10 values of full|simplified|na'); continue; }
+    const m = ts.match(new RegExp(`\\b${id}:\\s*\\[([^\\]]+)\\]`));
+    if (!m) { warn(f, `applicability.${id}`, 'not found in rubric.ts'); continue; }
+    const server = m[1].split(',').map((x) => x.trim().replace(/'/g, '')).slice(1); // rubric.ts index 0 is free writing
+    if (server.join() !== row.join()) err(f, `applicability.${id}`, `differs from rubric.ts (${server.join(' ')})`);
+  }
 }
 
 // ---- run ----
@@ -317,7 +347,7 @@ const arg = (k) => (process.argv.includes(k) ? process.argv[process.argv.indexOf
 // Single-file mode for authors: --file <path> --kind lesson|placement|scenarios|slang|writing-exercises|writing-assignments
 if (arg('--file')) {
   const file = arg('--file'), kind = arg('--kind');
-  const run = { lesson, placement, scenarios, slang, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
+  const run = { lesson, placement, scenarios, slang, rubric, 'writing-exercises': (f) => writing(f, 'exercises'), 'writing-assignments': (f) => writing(f, 'assignments') }[kind];
   if (!run) { console.log('ERROR unknown --kind'); process.exit(2); }
   try { run(file); } catch (e) { err(file, '', `invalid JSON or crash: ${e.message}`); }
   for (const w of warnings) console.log('WARN ', w);
@@ -338,7 +368,7 @@ const opt = (rel, fn, ...a) => { const p = join(ROOT, rel); if (existsSync(p)) {
 if (want('placement')) opt('placement.json', placement);
 if (want('scenarios')) opt('real-life/scenarios.json', scenarios);
 if (want('slang')) opt('real-life/slang.json', slang);
-if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); }
+if (want('writing')) { opt('writing/exercises.json', writing, 'exercises'); opt('writing/assignments.json', writing, 'assignments'); opt('writing/rubric.json', rubric); }
 
 for (const w of warnings) console.log('WARN ', w);
 for (const e of errors) console.log('ERROR', e);

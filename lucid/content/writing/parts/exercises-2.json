@@ -9,7 +9,7 @@
    "title_he": "מהלכי הפרכה: לסתור, להודות, לסייג",
    "instructions": {
     "en": "An objection can be answered in three ways. Refute it: show that it is mistaken. Concede and outweigh it: accept that it is true, then show why your side still weighs more. Qualify your claim: narrow it so that the objection no longer applies. Whichever move you choose must rest on a reason or evidence; brushing an objection aside is not a rebuttal. Work through the items, then use these moves in your own paragraph in the next task.",
-    "he": "אפשר להשיב להתנגדות בשלוש דרכים. לסתור אותה: להראות שהיא שגויה. להודות ולהכריע: לקבל שהיא נכונה, ולהראות למה הצד שלכם עדיין שוקל יותר. לסייג את הטענה: לצמצם אותה כך שההתנגדות כבר לא חלה עליה. כל מהלך חייב להישען על נימוק או על ראיה; לבטל התנגדות בלי להסביר למה איננו הפרכה. עבדו על הפריטים, ובמשימה הבאה השתמשו במהלכים האלה בפסקה משלכם."
+    "he": "אפשר להשיב להתנגדות בשלוש דרכים. לסתור אותה: להראות שהיא שגויה. להודות ולהכריע: לקבל שהיא נכונה, ולהראות למה הצד שלכם בכל זאת גובר. לסייג את הטענה: לצמצם אותה כך שההתנגדות כבר לא חלה עליה. כל מהלך חייב להישען על נימוק או על ראיה; דחייה של התנגדות בלי הסבר איננה הפרכה. פתרו את הפריטים, ובמשימה הבאה השתמשו במהלכים האלה בפסקה משלכם."
    },
    "focus": [
     "counterarguments",
@@ -37,7 +37,7 @@
    "checklist": [
     {
      "en": "I can tell refuting (the objection is wrong) from conceding and outweighing (it is right, but my side weighs more) and qualifying (my claim becomes narrower).",
-     "he": "ההבחנה ברורה לי: סתירה (ההתנגדות שגויה), הודאה והכרעה (היא נכונה, אבל הצד שלי שוקל יותר) וסיוג (הטענה שלי מצטמצמת)."
+     "he": "ההבחנה ברורה לי: סתירה (ההתנגדות שגויה), הודאה והכרעה (היא נכונה, אבל הצד שלי גובר) וסיוג (הטענה שלי מצטמצמת)."
     },
     {
      "en": "Every rebuttal I write gives a reason or evidence; none simply dismisses the objection or attacks the people who raise it.",
@@ -45,7 +45,7 @@
     },
     {
      "en": "When I concede, I say why my side still weighs more, using a criterion such as scale, duration or likelihood.",
-     "he": "כשאני מודה בנקודה, ההסבר שלי מראה למה הצד שלי עדיין שוקל יותר, לפי קריטריון כמו היקף, משך או סבירות."
+     "he": "כשאני מודה בנקודה, ההסבר שלי מראה למה הצד שלי בכל זאת גובר, לפי קריטריון כמו היקף, משך או סבירות."
     },
     {
      "en": "When I qualify, the claim itself changes, not just its wording.",
@@ -166,20 +166,20 @@
      "topic": "argument-structure",
      "prompt": {
       "en": "Build a concede-and-outweigh sentence. Start with the concession.",
-      "he": "בנו משפט שמודה בהתנגדות ומכריע נגדה. התחילו בהודאה."
+      "he": "בנו משפט שמודה בהתנגדות ומראה שהצד שלכם גובר עליה. התחילו בהודאה."
      },
      "tokens": [
       "Although a later start would complicate some parents' mornings,",
-      "the gain in students' sleep and attention",
-      "outweighs this cost",
-      "because it affects every student on every school day."
+      "the gain in students' sleep and attention,",
+      "which reaches every student on every school day,",
+      "outweighs this cost."
      ],
      "hint": {
-      "en": "The concession ends with a comma; the reason for the weighing comes last.",
-      "he": "ההודאה מסתיימת בפסיק; הנימוק לשקילה בא בסוף."
+      "en": "The concession ends with a comma; the weighing criterion sits between commas inside the main clause.",
+      "he": "ההודאה מסתיימת בפסיק; הקריטריון לשקילה משולב בתוך המשפט העיקרי, בין שני פסיקים."
      },
      "explanation": {
-      "en": "Concession first (Although...), then the writer's point (the gain outweighs this cost), then the weighing criterion (scale: every student, every day). The main clause carries the point you want the reader to remember."
+      "en": "Concession first (Although...), then the writer's point (the gain outweighs this cost), with the weighing criterion built in (scale: every student, every school day). Naming \"the gain\" as the subject also avoids an unclear \"it\", which could point to either the gain or the cost. The main clause carries the point you want the reader to remember."
      }
     },
     {
@@ -376,7 +376,7 @@
     },
     {
      "en": "End with your position, adjusted if you conceded anything.",
-     "he": "סיימו בעמדה שלכם, מותאמת אם הודיתם במשהו."
+     "he": "סיימו בעמדה שלכם, ואם הודיתם במשהו, בגרסה המותאמת שלה."
     }
    ],
    "checklist": [
@@ -405,7 +405,7 @@
      "he": "סיכום: המשפט האחרון חוזר על העמדה שלי ולא מוסיף טיעון חדש."
     }
    ],
-   "model_answer": "Model for a parallel prompt (\"Should cities close their historic centres to private cars on Friday mornings?\"). It answers a different question from yours, so study the moves, not the content.\n\nCities should close their historic centres to private cars on Friday mornings. The main reason is safety: old streets were built for people and carts, not traffic, and on a busy Friday a single delivery van can push pedestrians off a pavement barely wide enough for a pushchair. Removing private cars for a few hours would return that space to the people who actually fill the centre on Fridays: shoppers, families and older residents on foot. Shop owners, however, argue that a closure would cost them customers who arrive by car, and this objection deserves a serious answer, because small shops depend on Friday trade. It is true that some drivers may shop elsewhere at first. Even so, the cost can be reduced: a shuttle from the car parks at the edge of the centre would bring drivers to the shop doors, and quieter streets may encourage people to stay longer rather than hurry back to their cars. The closure should also be limited to the hours between 9:00 and 14:00, so that early deliveries and afternoon trade continue as before. Adjusted in this way, the proposal protects every pedestrian in the centre at a modest and manageable cost to a few businesses, and that balance favours the closure.\n\nMoves: claim → reason with a specific example → attributed objection → concession (\"It is true that...\") → the cost reduced → claim qualified (9:00-14:00) → weighed conclusion."
+   "model_answer": "Model for a parallel prompt (\"Should cities close their historic centres to private cars on Friday mornings?\"). It answers a different question from yours, so study the moves, not the content.\n\nCities should close their historic centres to private cars on Friday mornings. The main reason is safety: old streets were built for people and carts, not traffic, and on a busy Friday a single car squeezing down a narrow lane can push pedestrians off a pavement barely wide enough for a pushchair. Removing private cars for a few hours would return that space to the people who actually fill the centre on Fridays: shoppers, families and older residents on foot. Shop owners, however, argue that a closure would cost them customers who arrive by car, and this objection deserves a serious answer, because small shops depend on Friday trade. It is true that some drivers may shop elsewhere at first. Even so, the cost can be reduced: a shuttle from the car parks at the edge of the centre would bring drivers to the shop doors, and quieter streets may encourage people to stay longer rather than hurry back to their cars. The closure should also be limited to the hours between 9:00 and 12:00, so that early deliveries and afternoon trade continue as before. Adjusted in this way, the proposal makes the centre safer for the many people on foot at a modest and manageable cost to a few businesses, and that balance favours the closure.\n\nMoves: claim → reason with a specific example → attributed objection → concession (\"It is true that...\") → the cost reduced → claim qualified (9:00-12:00) → weighed conclusion."
   },
   {
    "id": "we-13",
@@ -541,7 +541,7 @@
      "skill": "writing",
      "topic": "thesis-advanced",
      "prompt": {
-      "en": "Reverse-outline this body paragraph from an essay arguing for a later school start. Sort each sentence by the job it does."
+      "en": "Reverse-outline this body paragraph from an essay arguing for a later school start (the district and its pilot are invented for this exercise). Sort each sentence by the job it does."
      },
      "categories": [
       "Topic sentence",
@@ -555,7 +555,7 @@
        "category": "Topic sentence"
       },
       {
-       "text": "In a fictional district's pilot, moving the start from 8:00 to 9:00 was followed by fewer late arrivals.",
+       "text": "In one district's pilot scheme, moving the start from 8:00 to 9:00 was followed by fewer late arrivals.",
        "category": "Support"
       },
       {
@@ -617,7 +617,7 @@
      "prompt": {
       "en": "Diagnose the essay from its reverse outline."
      },
-     "question": "A reverse outline of a student essay reads: P1 says the thesis: social media harms teenagers' sleep and concentration. P2 does: shows how late-night scrolling delays sleep. P3 does: argues that social media helps teenagers keep in touch with friends. P4 does: restates that social media harms sleep and concentration. What is the main structural problem?",
+     "question": "A reverse outline of a student essay reads: P1 states the thesis: social media harms teenagers' sleep and concentration. P2 shows how late-night scrolling delays sleep. P3 argues that social media helps teenagers keep in touch with friends. P4 restates that social media harms sleep and concentration. What is the main structural problem?",
      "options": [
       "P3 argues the other side without signalling or answering it, and the promised point about concentration never gets a paragraph.",
       "The essay has too few paragraphs: an argumentative essay needs at least five, so two more body paragraphs are needed.",
@@ -670,8 +670,8 @@
    "title_en": "Timed essay: 40 minutes",
    "title_he": "חיבור בזמן מוגבל: 40 דקות",
    "instructions": {
-    "en": "In 40 minutes, write an argumentative essay of 250-350 words on this question: \"Should secondary schools require every student to complete a set number of hours of community volunteering in order to graduate?\" Argue for a clear position and respond to the strongest opposing view. Suggested timing: 5 minutes to plan (a thesis and a four-line outline), 30 minutes to write, 5 minutes to check against the checklist. Start the timer when you start planning, and write before you open the model, which answers a different question.",
-    "he": "תוך 40 דקות כתבו חיבור טיעוני של 250–350 מילים על השאלה: \"Should secondary schools require every student to complete a set number of hours of community volunteering in order to graduate?\" טענו לעמדה ברורה והשיבו לעמדה הנגדית החזקה ביותר. חלוקת זמן מומלצת: 5 דקות לתכנון (תזה ומתווה של ארבע שורות), 30 דקות לכתיבה ו-5 דקות לבדיקה מול רשימת הבדיקה. הפעילו את הטיימר כשאתם מתחילים לתכנן, וכתבו לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
+    "en": "In 40 minutes, write an argumentative essay of 250-350 words on this question: \"Should secondary schools require every student to pass a course in personal finance (budgeting, saving, borrowing and tax) in order to graduate?\" Argue for a clear position and respond to the strongest opposing view. Suggested timing: 5 minutes to plan (a thesis and a four-line outline), 30 minutes to write, 5 minutes to check against the checklist. Start the timer when you start planning, and write before you open the model, which answers a different question.",
+    "he": "תוך 40 דקות כתבו חיבור טיעוני של 250–350 מילים על השאלה: \"Should secondary schools require every student to pass a course in personal finance (budgeting, saving, borrowing and tax) in order to graduate?\" טענו לעמדה ברורה והשיבו לעמדה הנגדית החזקה ביותר. חלוקת זמן מומלצת: 5 דקות לתכנון (תזה ומתווה של ארבע שורות), 30 דקות לכתיבה ו-5 דקות לבדיקה מול רשימת הבדיקה. הפעילו את הטיימר כשאתם מתחילים לתכנן, וכתבו לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
    },
    "min_words": 250,
    "max_words": 350,
@@ -680,6 +680,7 @@
     "coherence",
     "cohesion",
     "argument_strength",
+    "evidence_quality",
     "counterarguments",
     "academic_tone"
    ],
@@ -700,6 +701,9 @@
      "en": "Cohesion: linking words and reference show how each paragraph follows from the last, without mechanical overuse."
     },
     {
+     "en": "Tone and precision: my register is formal, and no claim is stronger than my reasons allow (no unsupported \"all\", \"every\" or \"never\")."
+    },
+    {
      "en": "Conclusion: I restate my position and add nothing new, and I left time to check my draft."
     }
    ],
@@ -718,6 +722,7 @@
    "input_text": "Illustrative paragraph (invented for this task; the school and the town are fictional).\n\n(1) Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement. (2) Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students. (3) Opponents of the ban are mostly teenagers who simply want to play games in class. (4) If students keep their phones, they will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate on anything. (5) Either we ban phones completely, or we admit that schools have given up on discipline. (6) After all, no one has ever proved that phones help anyone learn. (7) The town's other schools should therefore copy Ardenvale's ban at once.",
    "focus": [
     "argument_strength",
+    "evidence_quality",
     "precision",
     "counterarguments"
    ],
@@ -831,7 +836,7 @@
        "Would opponents accept this description? What is their strongest argument?"
       ],
       [
-       "(4) They will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate.",
+       "(4) If students keep their phones, they will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate on anything.",
        "Which step in this chain has evidence, and which is only assumed?"
       ],
       [
@@ -965,7 +970,7 @@
      "prompt": {
       "en": "Repair sentence 6 (\"After all, no one has ever proved that phones help anyone learn.\"). Complete the new version with one word so that it no longer treats a lack of proof as proof."
      },
-     "text": "No study we know of shows that phones help students learn, but that alone does not ___ that phones harm learning.",
+     "text": "Even if no study has shown that phones help students learn, that alone does not ___ that phones harm learning.",
      "answers": [
       [
        "prove",
@@ -976,7 +981,8 @@
        "imply",
        "confirm",
        "suggest",
-       "indicate"
+       "indicate",
+       "entail"
       ]
      ],
      "wrong_feedback": [
@@ -1006,7 +1012,7 @@
    "title_en": "Critical response to an opinion piece",
    "title_he": "תגובה ביקורתית למאמר דעה",
    "instructions": {
-    "en": "Read the illustrative opinion piece. Then argue whether schools should ban AI homework apps, and respond to opposing views, in a critical response of 300-400 words written for a reader who has not seen the piece. First, summarise the writer's position and main reasons fairly, in two or three sentences. Next, evaluate the reasoning: identify its strongest point and at least two weaknesses (unstated assumptions, weak evidence or fallacies), quoting briefly and explaining what the writer would need to show instead. Finally, state and defend your own position, answering the writer's strongest point. Naming a fallacy is not enough: show why the step fails and how it could be repaired."
+    "en": "Read the illustrative opinion piece. Then argue whether schools should ban AI homework apps, and respond to opposing views, in a critical response of 300-400 words written for a reader who has not seen the piece. First, summarise the writer's position and main reasons fairly, in two or three sentences. Next, evaluate the reasoning: identify its strongest point and at least two weaknesses (unstated assumptions, weak evidence or fallacies), quoting briefly and explaining what the writer would need to show instead. Finally, state and defend your own position, answering the writer's strongest point. Naming a fallacy is not enough: show why the step fails and how it could be repaired. Write your response before you open the model, which responds to a different piece."
    },
    "input_text": "Illustrative opinion piece (invented for this task: the newspaper, the town, the class and the survey are fictional, and no figure in it describes the real world).\n\nBan the Homework Apps (The Port Halden Courier, education column)\n\nWalk into any classroom in Port Halden and you will meet students who can no longer think for themselves. The cause is obvious. AI homework apps arrived in our town three years ago, and since then teachers have complained of essays that all sound the same. When I asked my nephew's class how many of them had used an app to write an essay, almost every hand went up.\n\nSupporters of the apps call them \"a modern calculator\". But a calculator does arithmetic; it does not write your opinions for you. Others say that students will use the apps at home whatever schools decide. That is like abolishing speed limits because some drivers speed.\n\nA survey of 40 Port Halden parents found that 31 of them believe the apps harm learning. The experts have spoken. Nobody has shown that the apps improve writing, and until somebody does, we should assume the worst.\n\nSome will call this old-fashioned. Perhaps it is. But if we allow the apps for homework today, students will use them in exams tomorrow, and in ten years we will have a generation of graduates who cannot write a letter. Schools face a simple choice: ban the apps on every school device and network, or admit that they no longer care whether students learn.\n\nThe app enthusiasts are right about one thing. Some students, especially those with learning difficulties, use the apps to plan and check their work, and they deserve support. But that is a case for special arrangements, not a reason to keep the apps for everyone.",
    "min_words": 300,
@@ -1048,7 +1054,8 @@
     {
      "en": "Conclusion: I end with my position, adjusted if I conceded anything, and add nothing new."
     }
-   ]
+   ],
+   "model_answer": "Model for a parallel task. It responds to a different illustrative opinion piece, so study the moves, not the content. The piece, \"Close the Pool in Winter\" (invented: the Elsby Weekly, the town of Elsby and every figure are fictional), argues that the town's indoor pool should close from November to March. The columnist counted fewer than ten swimmers on \"three January mornings\", notes that heating costs peak in winter, calls the pool's defenders \"a handful of enthusiasts who could swim somewhere else\", and warns that winter opening will mean \"every park and library\" has to close.\n\nIn a recent Elsby Weekly column, the writer argues that the town's indoor pool should close from November to March. The case rests on three claims: few people swim in winter, heating the pool costs most in those months, and the money would be better spent elsewhere in the leisure budget.\n\nThe column's strongest point is cost. Heating a pool is more expensive in winter, and money spent on a little-used facility is not available for anything else; any defence of winter opening has to accept that trade-off.\n\nThe evidence for low use, however, is thin. The writer counted swimmers on \"three January mornings\", but mornings may be the quietest part of the day, and three visits cannot show attendance across five months. To support the claim, the column would need the pool's own entry figures for the whole winter, compared with the summer.\n\nThe column also caricatures the other side. Calling defenders \"a handful of enthusiasts who could swim somewhere else\" ignores the users for whom an indoor pool matters most in winter, such as school swimming classes and older residents doing physiotherapy, some of whom may find it hard to travel to another town. A fair account of the opposing view would ask whether these users have a realistic alternative, and the column never does.\n\nFinally, the warning that winter opening will force \"every park and library\" to close is a slippery slope: no step between one heated pool and the loss of every park is supported.\n\nMy own view is that the pool should stay open in winter, but for fewer hours. The writer is right that heating costs money, so the council should use the full entry figures to find the least-used sessions and cut those, while keeping the classes and therapy sessions that have no local substitute.\n\nIn short, the column identifies a real cost but supports its remedy with a small sample, a caricature and an exaggerated threat. A narrower measure meets the cost concern without removing a service that some residents cannot replace.\n\nMoves: fair summary → strongest point granted → weakness 1 quoted, explained and repaired (what evidence is needed) → weakness 2 (straw man) → weakness 3 (slippery slope) → own position, qualified in answer to the writer's strongest point → conclusion with nothing new."
   },
   {
    "id": "we-17",
@@ -1082,7 +1089,7 @@
      "en": "My claims are as strong as the evidence: no \"proves\" or \"all\" for one small study, and no pile of hedges either."
     },
     {
-     "en": "I use one well-placed hedge per claim (may, suggests, tends to), and I keep the scope precise."
+     "en": "I hedge once for each job (a reporting verb such as \"suggests\" for limited evidence, a modal such as \"may\" for a possible effect), never stack hedges that do the same job, and keep the scope precise."
     },
     {
      "en": "My paraphrase changes both the words and the sentence structure, keeps the meaning, and names the source."
@@ -1121,7 +1128,8 @@
      },
      "option_errors": {
       "0": "unsupported-claim",
-      "1": "unsupported-claim"
+      "1": "unsupported-claim",
+      "3": "register"
      },
      "explanation": {
       "en": "Calibration means scope plus strength. The calibrated sentence keeps the scope (top-floor flats, hottest days), flags the design limit (small, non-randomised), and hedges the interpretation (\"suggests\", \"may\")."
@@ -1235,7 +1243,7 @@
      "skill": "writing",
      "topic": "hedging",
      "prompt": {
-      "en": "This sentence stacks four hedges. Rewrite it with exactly one, starting with \"Planted roofs may\"."
+      "en": "This sentence stacks four hedges that all do the same job. Rewrite it so that the single modal \"may\" carries the uncertainty: start with \"Planted roofs may\" and keep the verb \"reduce\"."
      },
      "source": "It might perhaps be possible that planted roofs could possibly reduce heat on upper floors.",
      "answers": [
@@ -1252,7 +1260,7 @@
       {
        "match": "Planted roofs may help to reduce heat on upper floors.",
        "feedback": {
-        "en": "Close, but \"help to\" adds a second softener. The task asks for exactly one hedge: \"may\"."
+        "en": "\"May help to reduce\" is a well-calibrated phrase (the authors use it), but here the task is to cut hedges, not to add a new softener. Keep the verb \"reduce\" and let \"may\" alone carry the uncertainty."
        }
       }
      ],
@@ -1271,7 +1279,7 @@
      "question": "Source sentence (fictional study, Ferrant & Oyelaran, 2024): \"On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs.\" Which version is an acceptable paraphrase?",
      "options": [
       "On the hottest days of the summer, top-floor flats under green roofs were on average 1.5 °C cooler in the afternoon than those under normal roofs (Ferrant & Oyelaran, 2024).",
-      "Ferrant and Oyelaran (2024) report that on the summer's hottest afternoons, the highest flats in green-roofed blocks averaged 1.5 °C cooler than those in conventional blocks.",
+      "Ferrant and Oyelaran (2024) report that, on the hottest days, afternoon temperatures in top-floor flats beneath green roofs averaged 1.5 °C lower than in comparable flats beneath conventional roofs.",
       "Planted roofs make top-floor apartments 1.5 °C cooler in the afternoon, which shows how effective they are on hot days.",
       "Top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs on the hottest days of summer."
      ],
@@ -1395,7 +1403,7 @@
    "title_en": "Mini-synthesis: three sources on green roofs",
    "title_he": "סינתזה קצרה: שלושה מקורות על גגות ירוקים",
    "instructions": {
-    "en": "Argue whether the fictional town of Marrowby should require planted roofs on all new apartment buildings, and respond to opposing views, in a mini-synthesis of 350-500 words that draws on all three illustrative sources. Organise by idea, not source by source: show where the sources agree, conflict or qualify one another. Attribute every source-derived idea (author or organisation, year), paraphrase rather than patchwrite, quote only where the wording matters, and match the strength of each claim to the strength of its source. Say briefly how much weight each source deserves and why. Because the sources are fictional, you cannot check them laterally; instead, say in one sentence per source what you would check before relying on it in real research (who produced it and why, and what independent coverage says)."
+    "en": "Argue whether the fictional town of Marrowby should require planted roofs on all new apartment buildings, and respond to opposing views, in a mini-synthesis of 350-500 words that draws on all three illustrative sources. Organise by idea, not source by source: show where the sources agree, conflict or qualify one another. Attribute every source-derived idea (author or organisation, year), paraphrase rather than patchwrite, quote only where the wording matters, and match the strength of each claim to the strength of its source. Say briefly how much weight each source deserves and why. Because the sources are fictional, you cannot check them laterally; instead, say in one sentence per source what you would check before relying on it in real research (who produced it and why, and what independent coverage says). Write your synthesis before you open the model, which answers a different question with different sources."
    },
    "input_text": "All three sources are illustrative: they were invented for this task. The town, the authors, the council, the association and every figure are fictional and describe nothing in the real world.\n\nSource A. Research summary. Ferrant, L., & Oyelaran, T. (2024). Planted roofs and summer indoor temperatures in Marrowby: a one-summer comparison. Marrowby Urban Review, 3(2), 14-29.\n\nDuring one summer in the town of Marrowby, the researchers compared 12 apartment buildings with planted (green) roofs and 12 similar buildings with ordinary roofs. On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs. The difference was smaller on lower floors and almost disappeared on the ground floor. The authors note that the buildings were not randomly assigned, that the planted-roof buildings were on average newer, and that one summer may not be typical. They conclude that planted roofs \"may help to reduce indoor heat on upper floors\" and call for a study over several years.\n\nSource B. Council briefing note. Marrowby Town Council, Planning Department (2025). Roof options for new apartment buildings.\n\nThe department estimates that a planted roof adds between 8% and 12% to the cost of building a roof, and that it needs an inspection twice a year, usually paid for by the residents' committee. Planted roofs hold back part of the rainwater in heavy storms, which can reduce flooding in the streets below. A white reflective coating costs far less; in a trial on two council buildings it lowered top-floor temperatures by about as much as the planted roofs in Source A, but it does nothing for rainwater. The note recommends that the council \"consider a requirement for either option\" and does not choose between them.\n\nSource C. Opinion column. Marrowby Builders' Association newsletter (2025).\n\n\"Green roofs are an expensive fashion. Leaks are common, residents never want the maintenance bills, and buyers do not care what is on the roof. Any requirement will simply push up the price of new flats at a time when young families can barely afford one. The Association represents the town's building firms, and our members know what works.\"",
    "min_words": 350,
@@ -1440,7 +1448,8 @@
     {
      "en": "Counterargument and rebuttal: I state the strongest opposing view fairly and answer it, and my conclusion adds nothing new."
     }
-   ]
+   ],
+   "model_answer": "Model for a parallel task: \"Argue whether the fictional town of Kestwick should stop charging fines for overdue library books, and respond to opposing views\", using three illustrative sources that were invented for this model (the town, the authors, the council, the forum and every figure are fictional). Source A: Halloran (2023), a one-year study of a fine-free trial at one of Kestwick's four branch libraries, which found that books came back slightly later on average but that 14% more lapsed members returned. Source B: a Kestwick Borough Council finance note (2024), which estimates that at two branches fines raise less than the staff time spent collecting them. Source C: a letter from the Kestwick Ratepayers' Forum (2024), which asserts that \"without fines, nobody will bring books back\". It answers a different question from yours, so study the moves, not the content.\n\nKestwick should replace overdue fines with reminders and loan limits, because the available evidence suggests that fines cost the library more in lost readers and staff time than they raise. The three sources deserve very different weight, however, and the case is stronger on finance than on borrowers' behaviour.\n\nOn income, the sources point the same way. Kestwick Borough Council (2024) estimates that at two of the town's four branches, fines raise less than it costs to collect them. A finance note has direct access to the library's accounts and no obvious stake in the outcome, so it deserves considerable weight, although its estimate covers only half the branches. Neither of the other sources offers figures on income.\n\nOn behaviour, the evidence is thinner and partly conflicting. Halloran (2023) reports that during a one-year trial at a single branch, books came back slightly later on average, while 14% more lapsed members returned. This suggests that removing fines may win back readers at a small cost in delays, but one branch over one year cannot show how the whole town would respond. The Ratepayers' Forum (2024) asserts that \"without fines, nobody will bring books back\". Halloran's finding contradicts this, and the letter cites no evidence, so it deserves little weight as a source of fact, although it may voice a concern that many residents share.\n\nThe strongest objection is that fines protect other readers rather than raise money: a borrower who keeps a book late keeps it from everyone else. This is a fair point, and Halloran's finding of slower returns supports it. Even so, the delay was small, and reminders, together with a limit on new loans for anyone with an overdue book, would protect other readers without shutting out borrowers who cannot pay. The proposal is therefore narrower than simple abolition: fines should be replaced, not merely removed.\n\nBefore relying on these sources in real research, I would check who funded Halloran's study and whether trials elsewhere found similar effects, whether anyone outside the council has reviewed its estimate, and whom the Ratepayers' Forum represents and what it has said about library spending before.\n\nOn balance, the evidence supports replacing fines with reminders and loan limits at all four branches, with the results reviewed against the council's figures after a year.\n\nMoves: qualified thesis → idea 1 (income), sources compared and weighed → idea 2 (behaviour), sources in conflict and weighed → strongest objection, conceded in part, claim adjusted → what would be checked laterally, one point per source → conclusion with nothing new."
   },
   {
    "id": "we-19",
@@ -1450,7 +1459,7 @@
    "title_en": "Editing for concision and precision",
    "title_he": "עריכה: תמציתיות ודיוק",
    "instructions": {
-    "en": "The illustrative draft below makes a reasonable point in about twice the words it needs, and its key claims are vague. Each item takes one sentence from it. Cut what repeats or pads, turn noun phrases back into verbs, and replace vague wording with the specific claim the writer can support. Type the full revised sentence."
+    "en": "The illustrative draft below makes a reasonable point in about twice the words it needs, and its key claims are vague. Most items take one sentence from it. Cut what repeats or pads, turn empty noun phrases back into verbs (but keep a noun phrase that does real work), and replace vague wording with the specific claim the writer can support. Where an item asks for a rewrite, type the full revised sentence."
    },
    "input_text": "Illustrative student draft (invented for this task).\n\nIn today's modern society of the present day, many teenagers use their phones late at night, which is something that has a lot of very negative effects on many different aspects of their lives. Due to the fact that teenagers use their phones late at night, they sleep less, and it is the case that tired students find it more difficult to concentrate. In my personal opinion, I think that schools should limit phone use in the evening study hall. It is absolutely essential and of vital importance that schools act on this problem. Schools should make a decision about whether to carry out an investigation into the problem. At this point in time, there are a number of different measures that could potentially be taken, such as, for example, workshops.",
    "focus": [
@@ -1471,6 +1480,9 @@
     },
     {
      "en": "My precise version claims no more than my evidence supports."
+    },
+    {
+     "en": "I keep a noun phrase only when it does real work, such as summing up the previous point as the subject of the next sentence (\"This loss of sleep...\"), not when it hides a simple verb."
     }
    ],
    "items": [
@@ -1669,21 +1681,38 @@
     },
     {
      "id": "i8",
-     "type": "correct",
+     "type": "mcq",
      "skill": "writing",
-     "topic": "concision-editing",
+     "topic": "nominalisation",
      "prompt": {
-      "en": "\"Such as\" and \"for example\" introduce the same example. Keep one of them."
+      "en": "Judge when a noun phrase earns its place."
      },
-     "sentence": "Schools could offer support, such as, for example, workshops on sleep.",
-     "answers": [
-      "Schools could offer support, such as workshops on sleep.",
-      "Schools could offer support, for example workshops on sleep.",
-      "Schools could offer support, for example, workshops on sleep."
+     "question": "Item 6 turned \"make a decision about\" back into \"decide\", but nominalisation is not always padding. Each sentence below follows one saying that late-night phone use shortens teenagers' sleep. In which one does the noun phrase do real work?",
+     "options": [
+      "Schools should give consideration to whether a review of their phone rules ought to be carried out.",
+      "This loss of sleep, rather than phone use as such, is what any school policy needs to address.",
+      "Teachers have made the observation that students are tired and have come to the conclusion that phones are to blame.",
+      "Students make use of their phones late at night, and there is then a reduction in their ability to concentrate."
      ],
-     "error_type": "word-choice",
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "\"Give consideration to\" and \"a review... be carried out\" hide the verbs \"consider\" and \"review\": Schools should consider reviewing their phone rules."
+      },
+      "2": {
+       "en": "\"Made the observation\" and \"come to the conclusion\" hide \"observed\" and \"concluded\"."
+      },
+      "3": {
+       "en": "\"Make use of\" and \"a reduction in their ability to\" hide \"use\" and \"concentrate less\"."
+      }
+     },
+     "option_errors": {
+      "0": "word-choice",
+      "2": "word-choice",
+      "3": "word-choice"
+     },
      "explanation": {
-      "en": "Two signposts to one example is one too many. \"Such as\" needs no commas around it."
+      "en": "\"This loss of sleep\" packs the previous sentence into a noun phrase, so it can become the subject of the next one and be contrasted with \"phone use as such\". That links the sentences and sharpens the claim. In the other sentences, each noun phrase only hides a simpler verb."
      }
     },
     {
@@ -1768,7 +1797,7 @@
    "title_en": "Independent argument",
    "title_he": "טיעון עצמאי",
    "instructions": {
-    "en": "Write an independent argumentative essay of 400-700 words on ONE of these questions. (A) Should universities admit students mainly on the basis of a single standardised entrance examination? (B) Should governments tax foods and drinks that are high in added sugar? Take a clear, qualified position, argue it, and respond to the strongest opposing views. Plan, draft and revise on your own: no frames or phrase banks are provided. Before you ask for feedback, score your draft against the checklist and the focus categories; the gap between your self-assessment and the feedback is part of what this stage trains. Draw on your own knowledge, but do not invent statistics: where a figure would settle a point, say what evidence would be needed."
+    "en": "Write an independent argumentative essay of 400-700 words on ONE of these questions. (A) Should universities admit students mainly on the basis of a single standardised entrance examination? (B) Should zoos stop keeping large, wide-ranging animals such as elephants and polar bears? Take a clear, qualified position, argue it, and respond to the strongest opposing views. Plan, draft and revise on your own: no frames or phrase banks are provided. Before you ask for feedback, score your draft against the checklist and the focus categories; the gap between your self-assessment and the feedback is part of what this stage trains. Draw on your own knowledge, but do not invent statistics: where a figure would settle a point, say what evidence would be needed."
    },
    "min_words": 400,
    "max_words": 700,
@@ -1793,6 +1822,9 @@
     },
     {
      "en": "Rebuttal: I refute, concede and outweigh, or qualify, and I adjust my claim wherever I concede."
+    },
+    {
+     "en": "Precision and tone: key terms are defined once and used consistently, my register is formal, each claim is as strong as its support, and I invent no statistics."
     },
     {
      "en": "Structure and style: every paragraph has one job, the logic is easy to follow, and no sentence wastes words."

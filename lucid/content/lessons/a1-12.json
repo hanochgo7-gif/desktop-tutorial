@@ -1,0 +1,278 @@
+{
+  "id": "a1-12",
+  "level": "A1",
+  "title_en": "Can and can't",
+  "title_he": "can ו-can't",
+  "topics": ["modal-can"],
+  "minutes": 20,
+  "objectives": [
+    { "en": "I can say what I and other people can and can't do.", "he": "אני יודע/ת לומר מה אני ואנשים אחרים יודעים לעשות ומה לא." },
+    { "en": "I can ask and answer questions like Can you swim? with short answers.", "he": "אני יודע/ת לשאול שאלות כמו Can you swim? ולענות בקצרה: Yes, I can. / No, I can't." },
+    { "en": "I can make polite requests: Can you help me? Can I have...?", "he": "אני יודע/ת לבקש בנימוס: Can you help me? Can I have a coffee, please?" }
+  ],
+  "warmup": { "en": "Think of three things you can do well (a sport, a language, something at home) and one thing you can't do at all.", "he": "חשבו על שלושה דברים שאתם יודעים לעשות טוב (ספורט, שפה, משהו בבית) ועל דבר אחד שאתם לא יודעים לעשות בכלל. בעברית אומרים 'אני יודע לשחות' וגם 'אני יכולה לעזור לך' – באנגלית בשני המקרים אומרים can." },
+  "explanation": [
+    { "type": "p", "en": "I can swim, but I can't drive. Can you drive? – Yes, I can. We use can for ability (things we know how to do) and for requests (asking for help or for something).", "he": "I can swim, but I can't drive. ‏Can you drive? – Yes, I can. משתמשים ב-can כדי לדבר על יכולת (דברים שאנחנו יודעים לעשות) וכדי לבקש עזרה או משהו. בעברית יש 'יודע/ת ל...' וגם 'יכול/ה ל...', ובאנגלית שניהם can: I can swim = אני יודע/ת לשחות." },
+    { "type": "table", "headers": ["Type", "Form", "Example"], "rows": [
+      ["+", "I / you / he / she / we / they + can + verb", "She can speak Arabic."],
+      ["−", "can't (= cannot) + verb", "I can't drive."],
+      ["?", "Can + subject + verb?", "Can you swim?"],
+      ["Short answers", "Yes, I can. / No, I can't.", "Can he cook? – Yes, he can."]
+    ] },
+    { "type": "rule", "en": "can never changes: I can, she can, they can (no -s). After can, use the base verb: no to and no -s. Questions and negatives don't need do or does.", "he": "can לא משתנה אף פעם: I can, she can, they can (בלי s). אחרי can בא הפועל בצורת הבסיס: בלי to ובלי s. בשאלה ובשלילה לא צריך do או does." },
+    { "type": "warning", "en": "Not 'She cans swim', 'I can to swim' or 'Do you can swim?'. Say: She can swim. I can swim. Can you swim?", "he": "לא She cans swim, לא I can to swim ולא Do you can swim. אומרים: She can swim, I can swim, Can you swim?" },
+    { "type": "p", "en": "Requests: Can you + verb...? asks someone to do something (Can you help me?). Can I + verb...? asks for something or for permission (Can I have a glass of water? Can I sit here?). Add please to sound polite. Could you...? is a little more polite.", "he": "בקשות: Can you + פועל – כשמבקשים ממישהו לעשות משהו (Can you help me?). ‏Can I + פועל – כשמבקשים לקבל משהו או רשות (Can I have a glass of water? Can I sit here?). הוסיפו please כדי להישמע מנומסים. Could you...? מנומס עוד קצת." },
+    { "type": "tip", "en": "Listen for the stress. In a sentence, can is short and weak: I can swim /aɪ kən ˈswɪm/. can't is strong: /kɑːnt/ in British English, /kænt/ in American English. The t is often very quiet, so the vowel and the stress tell you which word it is.", "he": "הקשיבו להטעמה. בתוך משפט can קצר וחלש: I can swim /aɪ kən ˈswɪm/. ‏can't חזק ומוטעם: /kɑːnt/ באנגלית בריטית, /kænt/ באנגלית אמריקאית. ה-t נשמעת לפעמים בקושי, ולכן התנועה וההטעמה הן שמבדילות בין המילים." }
+  ],
+  "examples": [
+    { "en": "I can speak Hebrew and English, but I can't speak Arabic.", "he": "אני יודע/ת לדבר עברית ואנגלית, אבל אני לא יודע/ת לדבר ערבית." },
+    { "en": "Omer can play the guitar really well.", "he": "עומר יודע לנגן בגיטרה ממש טוב.", "note": "can + base verb: play, not plays" },
+    { "en": "My grandmother can't use a smartphone, but she can send voice messages.", "he": "סבתא שלי לא יודעת להשתמש בסמארטפון, אבל היא יודעת לשלוח הודעות קוליות." },
+    { "en": "Can you drive? – No, I can't.", "he": "את/ה יודע/ת לנהוג? – לא.", "note": "short answer: No, I can't" },
+    { "en": "Can you help me with this form, please?", "he": "את/ה יכול/ה לעזור לי עם הטופס הזה, בבקשה?", "note": "request: please do this for me" },
+    { "en": "Can I have a glass of water, please?", "he": "אפשר לקבל כוס מים, בבקשה?", "note": "Can I have...? = asking for something" },
+    { "en": "Excuse me, can I sit here?", "he": "סליחה, אפשר לשבת כאן?", "note": "asking for permission" },
+    { "en": "Can I borrow your charger? My battery is low.", "he": "אפשר לשאול ממך מטען? הסוללה שלי כמעט נגמרה.", "note": "borrow = take and give back" }
+  ],
+  "vocab": [
+    { "word": "can", "pos": "modal verb", "he": "יכול/ה; יודע/ת (ל...)", "def": "a word we use for ability (I can swim) and for requests (Can you help me?)", "example": "She can speak three languages.", "ipa": "/kæn/ (weak /kən/); can't /kɑːnt/", "collocations": ["can't ... at all", "Can you...?", "Can I have...?"], "level": "A1" },
+    { "word": "swim", "pos": "verb", "he": "לשחות", "def": "move through water using your arms and legs", "example": "Can you swim?", "ipa": "/swɪm/", "level": "A1" },
+    { "word": "drive", "pos": "verb", "he": "לנהוג", "def": "control a car and make it move", "example": "My brother can't drive.", "ipa": "/draɪv/", "collocations": ["drive a car", "drive to work"], "level": "A1" },
+    { "word": "ride", "pos": "verb", "he": "לרכוב (על)", "def": "sit on a bike or a horse and control it as it moves", "example": "Can you ride a bike?", "ipa": "/raɪd/", "collocations": ["ride a bike", "ride a horse"], "level": "A1" },
+    { "word": "play", "pos": "verb", "he": "לשחק; לנגן", "def": "do a sport or a game; make music with an instrument", "example": "Omer can play the guitar.", "ipa": "/pleɪ/", "collocations": ["play football", "play the guitar"], "level": "A1" },
+    { "word": "speak", "pos": "verb", "he": "לדבר (שפה)", "def": "say words; know and use a language", "example": "Priya can speak four languages.", "ipa": "/spiːk/", "collocations": ["speak English", "speak slowly"], "level": "A1" },
+    { "word": "help", "pos": "verb", "he": "לעזור", "def": "do something for someone to make things easier for them", "example": "Can you help me, please?", "ipa": "/help/", "collocations": ["help someone with something", "help with homework"], "level": "A1" },
+    { "word": "borrow", "pos": "verb", "he": "לשאול (חפץ), ללוות", "def": "take something from someone for a short time and then give it back", "example": "Can I borrow your pen?", "ipa": "/ˈbɒrəʊ/", "collocations": ["borrow a pen", "borrow money", "borrow something from someone"], "level": "A2" },
+    { "word": "charger", "pos": "noun", "he": "מטען", "def": "a thing you use to put power into a phone or a laptop", "example": "Can I borrow your charger?", "ipa": "/ˈtʃɑːdʒə(r)/", "collocations": ["phone charger", "laptop charger"], "level": "A2" },
+    { "word": "well", "pos": "adverb", "he": "טוב (באופן טוב)", "def": "in a good way", "example": "She can sing really well.", "ipa": "/wel/", "collocations": ["really well", "very well"], "level": "A1" },
+    { "word": "at all", "pos": "phrase", "he": "בכלל (במשפט שלילי)", "def": "used after a negative to make it stronger", "example": "I can't cook at all.", "ipa": "/ət ˈɔːl/", "collocations": ["not at all", "can't ... at all"], "level": "A2" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew, yes/no questions work differently: they can keep the word order of a normal sentence, with only the voice going up. So 'You can help me?' may feel natural. In English, can comes before the subject: Can you help me?", "he": "בעברית שאלת כן/לא בנויה אחרת: אפשר לשמור על סדר המילים של משפט רגיל, ורק הקול עולה ('אתה יכול לעזור לי?'). לכן You can help me? עלול להרגיש טבעי. באנגלית can בא לפני הנושא: Can you help me?", "error_type": "word-order" },
+    { "en": "In Hebrew there is only one 'a' vowel, so can and can't may sound almost the same. In English the difference is in the vowel and the stress: in a sentence can is weak /kən/, and can't is strong and stressed: /kɑːnt/ (UK), /kænt/ (US).", "he": "בעברית יש תנועת 'a' אחת בלבד, ולכן can ו-can't עלולים להישמע כמעט אותו דבר. באנגלית ההבדל הוא בתנועה ובהטעמה: בתוך משפט can חלש /kən/, ו-can't חזק ומוטעם: /kɑːnt/ (בריטית), /kænt/ (אמריקאית).", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "match", "skill": "vocabulary", "topic": "modal-can",
+      "prompt": { "en": "Match the English with the Hebrew.", "he": "התאימו בין האנגלית לעברית." },
+      "pairs": [["play the guitar", "לנגן בגיטרה"], ["play football", "לשחק כדורגל"], ["ride a bike", "לרכוב על אופניים"], ["drive a car", "לנהוג במכונית"], ["borrow a pen", "לשאול עט (ולהחזיר)"], ["ask a question", "לשאול שאלה"]],
+      "explanation": { "en": "Hebrew has two verbs where English has one: play football and play the guitar. And the other way round: one Hebrew verb is two English verbs: ask (a question) and borrow (take something and give it back).", "he": "בעברית יש שני פעלים (לשחק, לנגן) ובאנגלית אחד: play football, play the guitar. ולהפך: 'לשאול' בעברית הוא שני פעלים באנגלית – ask (לשאול שאלה) ו-borrow (לקחת משהו ולהחזיר)." }
+    },
+    {
+      "id": "e2", "type": "listen", "skill": "listening", "topic": "modal-can",
+      "prompt": { "en": "Listen. What can the speaker do?", "he": "הקשיבו. מה הדובר/ת יודע/ת לעשות?" },
+      "audio_text": "I can play the guitar, but I can't sing.",
+      "question": "What can the speaker do?",
+      "options": ["Sing, but not play the guitar.", "Play the guitar and sing.", "Play the guitar, but not sing."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Listen again: the strong, stressed word comes before sing: can't sing. The weak can comes before play.", "he": "הקשיבו שוב: המילה החזקה והמוטעמת באה לפני sing – can't sing. ה-can החלש בא לפני play." },
+        "1": { "en": "There are two different words here: can play, but can't sing. can't is longer and stressed.", "he": "יש כאן שתי מילים שונות: can play, אבל can't sing. ‏can't ארוכה ומוטעמת יותר." }
+      },
+      "option_errors": { "0": "pron-vowel", "1": "pron-vowel" },
+      "hint": { "en": "Listen for the stressed word before each verb.", "he": "הקשיבו למילה המוטעמת שלפני כל פועל." },
+      "explanation": { "en": "can play (weak: /kən/), but can't sing (strong: /kɑːnt/). The word but also tells you that the second part is different.", "he": "can play (חלש: /kən/), but can't sing (חזק: /kɑːnt/). גם המילה but רומזת שהחלק השני שונה מהראשון." }
+    },
+    {
+      "id": "e3", "type": "categorize", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Is the sentence about ability, or is it a request?", "he": "האם המשפט מדבר על יכולת, או שזו בקשה?" },
+      "categories": ["ability", "request"],
+      "items": [
+        { "text": "My dad can cook really well.", "category": "ability" },
+        { "text": "Can you open the window, please?", "category": "request" },
+        { "text": "Can I have the bill, please?", "category": "request" },
+        { "text": "Lior can't ride a bike.", "category": "ability" },
+        { "text": "Can you speak Arabic? – Yes, a little.", "category": "ability" },
+        { "text": "Can I sit here?", "category": "request" },
+        { "text": "Can you help me with my bag?", "category": "request" },
+        { "text": "We can't swim.", "category": "ability" }
+      ],
+      "explanation": { "en": "Ability = what someone knows how to do (cook, ride a bike, speak Arabic). A request asks someone to do something (Can you open...?) or asks for something (Can I have...? Can I sit...?). Can you speak Arabic? asks about ability: the answer is Yes, a little.", "he": "יכולת = מה שמישהו יודע לעשות (לבשל, לרכוב על אופניים, לדבר ערבית). בקשה = מבקשים ממישהו לעשות משהו (Can you open...?) או מבקשים לקבל משהו (Can I have...? Can I sit...?). ‏Can you speak Arabic? היא שאלה על יכולת – והתשובה: Yes, a little." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Choose the correct option.", "he": "בחרו את האפשרות הנכונה." },
+      "question": "My sister ___ speak three languages.",
+      "options": ["cans", "can", "can to", "is can"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "can never takes -s, even with he, she or it: she can.", "he": "ל-can אף פעם לא מוסיפים s, גם עם he, she, it: she can." },
+        "2": { "en": "No to after can: can speak.", "he": "אחרי can אין to: can speak." },
+        "3": { "en": "Don't add is: can is already the verb. My sister can speak...", "he": "לא מוסיפים is – can הוא כבר הפועל: My sister can speak..." }
+      },
+      "option_errors": { "0": "modal-use", "2": "modal-use", "3": "modal-use" },
+      "explanation": { "en": "can + base verb, the same for every person: My sister can speak three languages.", "he": "can + פועל בצורת הבסיס, אותו דבר לכל הגופים: My sister can speak three languages." }
+    },
+    {
+      "id": "e5", "type": "gap", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Complete with can or can't. ✓ = yes, ✗ = no.", "he": "השלימו ב-can או ב-can't. ‏✓ = כן, ✗ = לא." },
+      "text": "Maya ___ ride a motorbike (✓), but she ___ drive a car (✗). Her brothers ___ drive (✓).",
+      "answers": [["can"], ["can't"], ["can"]],
+      "wrong_feedback": [
+        { "match": "cans", "feedback": { "en": "can never takes -s: she can.", "he": "ל-can אף פעם לא מוסיפים s: she can." }, "error_type": "modal-use" },
+        { "match": "doesn't", "feedback": { "en": "Don't use does with can. The negative is can't (cannot): she can't drive.", "he": "לא משתמשים ב-does עם can. השלילה היא can't (cannot): she can't drive." }, "error_type": "modal-use" },
+        { "match": "can", "feedback": { "en": "Look at the ✗: she doesn't know how to drive, so: can't.", "he": "שימו לב ל-✗: היא לא יודעת לנהוג, ולכן can't." } },
+        { "match": "can't", "feedback": { "en": "Look at the ✓: yes, so: can.", "he": "שימו לב ל-✓: כן, ולכן can." } }
+      ],
+      "explanation": { "en": "✓ → can, ✗ → can't (= cannot). The verb after can stays in the base form: can ride, can't drive.", "he": "✓ → can, ✗ → can't (= cannot). הפועל שאחרי can נשאר בצורת הבסיס: can ride, can't drive." }
+    },
+    {
+      "id": "e6", "type": "gap", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Complete the short answers.", "he": "השלימו את התשובות הקצרות." },
+      "text": "Can you cook? – Yes, I ___. Can your brothers cook? – No, they ___.",
+      "answers": [["can", "can cook"], ["can't", "can't cook"]],
+      "wrong_feedback": [
+        { "match": "do", "feedback": { "en": "The question uses can, so the short answer uses can too: Yes, I can.", "he": "השאלה עם can, ולכן גם התשובה הקצרה עם can: Yes, I can." }, "error_type": "modal-use" },
+        { "match": "don't", "feedback": { "en": "The question uses can, so the short answer uses can't: No, they can't.", "he": "השאלה עם can, ולכן התשובה הקצרה עם can't: No, they can't." }, "error_type": "modal-use" },
+        { "match": "can", "feedback": { "en": "The answer starts with No, so: No, they can't.", "he": "התשובה מתחילה ב-No, ולכן: No, they can't." } },
+        { "match": "can't", "feedback": { "en": "The answer starts with Yes, so: Yes, I can.", "he": "התשובה מתחילה ב-Yes, ולכן: Yes, I can." } }
+      ],
+      "explanation": { "en": "Short answers repeat can: Yes, I can. No, they can't. Don't answer a can question with do or don't.", "he": "בתשובה קצרה חוזרים על can: Yes, I can. No, they can't. לא עונים על שאלה עם can ב-do או ב-don't." }
+    },
+    {
+      "id": "e7", "type": "order", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["Can", "your", "sister", "play", "the", "piano?"],
+      "explanation": { "en": "Questions with can: Can + subject (your sister) + base verb (play) + the rest (the piano).", "he": "שאלה עם can: Can + נושא (your sister) + פועל בצורת הבסיס (play) + שאר המשפט (the piano)." }
+    },
+    {
+      "id": "e8", "type": "transform", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Make a question.", "he": "הפכו את המשפט לשאלה." },
+      "source": "Amir can swim.",
+      "answers": ["Can Amir swim?", "Can he swim?"],
+      "wrong_feedback": [
+        { "match": "Does Amir can swim?", "feedback": { "en": "Don't use do or does with can. Just move can to the front: Can Amir swim?", "he": "לא משתמשים ב-do או does עם can. פשוט מעבירים את can להתחלה: Can Amir swim?" }, "error_type": "modal-use" },
+        { "match": "Amir can swim?", "feedback": { "en": "In a question, can comes before the subject: Can Amir swim?", "he": "בשאלה can בא לפני הנושא: Can Amir swim?" }, "error_type": "word-order" },
+        { "match": "Can Amir swims?", "feedback": { "en": "After can, use the base verb, with no -s: swim.", "he": "אחרי can בא פועל בצורת הבסיס, בלי s: swim." }, "error_type": "modal-use" }
+      ],
+      "explanation": { "en": "To make a question, move can before the subject: Amir can swim. → Can Amir swim?", "he": "כדי לשאול, מעבירים את can לפני הנושא: Amir can swim → Can Amir swim?" }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Translate into English.", "he": "תרגמו לאנגלית." },
+      "source": "את יכולה לעזור לי?",
+      "answers": ["Can you help me?", "Can you help me, please?", "Can you help me please?", "Can you please help me?", "Could you help me?", "Could you help me, please?", "Could you help me please?", "Could you please help me?"],
+      "wrong_feedback": [
+        { "match": "You can help me?", "feedback": { "en": "The Hebrew question has the same word order as a normal sentence, but English questions put can first: Can you help me?", "he": "בשאלה בעברית סדר המילים זהה למשפט רגיל, אבל באנגלית can עובר לתחילת השאלה: Can you help me?" }, "error_type": "word-order" },
+        { "match": "Can you to help me?", "feedback": { "en": "No to after can: Can you help me?", "he": "אחרי can אין to: Can you help me?" }, "error_type": "modal-use" },
+        { "match": "Can you help to me?", "feedback": { "en": "help takes the person directly, with nothing in between: help me.", "he": "אחרי help בא האדם ישירות, בלי מילה באמצע: help me (ולא help to me)." }, "error_type": "preposition" }
+      ],
+      "hint": { "en": "Start with Can.", "he": "התחילו ב-Can." },
+      "explanation": { "en": "Can you help me? English has one you for a man, a woman or a group, so the question is the same for everyone. Add please to sound even more polite.", "he": "Can you help me? באנגלית יש you אחד לאת, לאתה, לאתם ולאתן, ולכן השאלה זהה לכולם. אפשר להוסיף please כדי להישמע מנומסים עוד יותר." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
+      "sentence": "Omer can plays the guitar really well.",
+      "answers": ["Omer can play the guitar really well."],
+      "error_type": "modal-use",
+      "explanation": { "en": "After can, the verb has no -s, even with he or she: Omer can play.", "he": "אחרי can הפועל בלי s, גם עם he או she: Omer can play." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "modal-can",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "Does your sister can drive?",
+      "answers": ["Can your sister drive?"],
+      "error_type": "modal-use",
+      "hint": { "en": "Questions with can don't need does.", "he": "שאלה עם can לא צריכה does." },
+      "explanation": { "en": "can makes its own questions, with no do or does: Can your sister drive?", "he": "can בונה שאלה בעצמו, בלי do או does: Can your sister drive?" }
+    },
+    {
+      "id": "e12", "type": "mcq", "skill": "speaking", "topic": "modal-can",
+      "prompt": { "en": "You're in a café and you want some water. What do you say?", "he": "אתם בבית קפה ורוצים מים. מה תגידו?" },
+      "question": "You want some water. You say:",
+      "options": ["Can you have a glass of water, please?", "I can have a glass of water?", "Can I have a glass of water, please?", "Give me water."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "Can you have...? asks about the waiter, not about you. When you want something: Can I have...?", "he": "Can you have...? שואל על המלצר/ית ולא עליכם. כשאתם רוצים לקבל משהו: Can I have...?" },
+        "1": { "en": "In a question, can goes before I: Can I have...?", "he": "בשאלה can בא לפני I: Can I have...?" },
+        "3": { "en": "The grammar is fine, but it sounds rude. In English we usually ask for things with a question and please.", "he": "הדקדוק תקין, אבל זה נשמע גס. באנגלית מבקשים בדרך כלל בשאלה ועם please." }
+      },
+      "option_errors": { "0": "pronoun", "1": "word-order", "3": "register" },
+      "explanation": { "en": "Can I have + thing + please? is the easiest polite way to ask for something in a café, a shop or a restaurant.", "he": "Can I have + הדבר שרוצים + please? היא הדרך הפשוטה והמנומסת לבקש משהו בבית קפה, בחנות או במסעדה." }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "modal-can",
+      "prompt": { "en": "Read Kenji's post on a language-exchange app and answer the questions.", "he": "קראו את הפוסט של קנג'י באפליקציה לחילופי שפות וענו על השאלות." },
+      "title": "Japanese for Hebrew?",
+      "passage": "Hi! I'm Kenji. I'm from Osaka, but I live in Tel Aviv now. I can speak Japanese and English, and I can read a little Hebrew, but I can't speak it well. Can you help me? I can teach you Japanese, and you can help me with my Hebrew. I can meet on Mondays or Wednesdays after six. I can't meet at the weekend because I work in a restaurant. And yes, I can cook – I can make you real ramen! Send me a message on the app.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Which languages can Kenji speak well?",
+          "options": ["Japanese and Hebrew", "Japanese and English", "English and Hebrew"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "He can read a little Hebrew, but he can't speak it well.", "he": "הוא יודע לקרוא קצת עברית, אבל לא לדבר אותה טוב." },
+            "2": { "en": "He can read a little Hebrew, but he can't speak it well.", "he": "הוא יודע לקרוא קצת עברית, אבל לא לדבר אותה טוב." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'I can speak Japanese and English... but I can't speak it (Hebrew) well.'", "he": "'I can speak Japanese and English' – יפנית ואנגלית. את העברית הוא 'can't speak well'." }
+        },
+        {
+          "type": "tf",
+          "statement": "Kenji can meet on Saturdays.",
+          "answer": false,
+          "explanation": { "en": "'I can't meet at the weekend because I work in a restaurant.'", "he": "'I can't meet at the weekend' – בסוף השבוע הוא עובד במסעדה." }
+        },
+        {
+          "type": "gap",
+          "text": "Kenji can teach you ___.",
+          "answers": [["Japanese"]],
+          "explanation": { "en": "'I can teach you Japanese, and you can help me with my Hebrew.'", "he": "'I can teach you Japanese' – הוא יכול ללמד יפנית." }
+        },
+        {
+          "type": "mcq",
+          "question": "Why can't Kenji meet at the weekend?",
+          "options": ["He works.", "He studies Hebrew.", "He cooks ramen at home."],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Look for because: '...because I work in a restaurant.'", "he": "חפשו את because: '...because I work in a restaurant'." },
+            "2": { "en": "He can cook ramen, but that is not the reason. Look for because.", "he": "הוא יודע לבשל ראמן, אבל זו לא הסיבה. חפשו את because." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "because gives the reason: 'I can't meet at the weekend because I work in a restaurant.'", "he": "because מציג את הסיבה: 'I can't meet at the weekend because I work in a restaurant'." }
+        }
+      ]
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "modal-can",
+      "prompt": { "en": "Listen and type what you hear.", "he": "הקשיבו והקלידו את מה ששמעתם." },
+      "audio_text": "Can you help me? I can't open this window.",
+      "answers": ["Can you help me? I can't open this window."],
+      "hint": { "en": "Two short sentences: a request, then the problem.", "he": "שני משפטים קצרים: בקשה, ואז הבעיה." },
+      "explanation": { "en": "Can you help me? is a request. I can't open... explains the problem: can't is the strong, stressed word.", "he": "Can you help me? היא בקשה. ...I can't open מסביר את הבעיה – can't היא המילה החזקה והמוטעמת." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "modal-can",
+      "prompt": { "en": "You're lost in a new city. Ask someone for help, out loud.", "he": "הלכתם לאיבוד בעיר חדשה. בקשו ממישהו עזרה, בקול." },
+      "target": "Excuse me, can you help me? I can't find the station.",
+      "focus": { "en": "can is weak and quick: /kən/ (can you help me). can't is strong and long: I CAN'T find. Stress the word that matters.", "he": "can חלש ומהיר: /kən/ (can you help me). ‏can't חזק וארוך: I CAN'T find. הדגישו את המילה החשובה." },
+      "explanation": { "en": "Excuse me + Can you help me? is a polite way to start talking to someone you don't know.", "he": "Excuse me ואחריו Can you help me? היא דרך מנומסת לפנות לאדם שאתם לא מכירים." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "modal-can",
+      "prompt": { "en": "Write a profile for a skills-swap app.", "he": "כתבו פרופיל לאפליקציה להחלפת כישורים." },
+      "task": { "en": "On this app, people teach a skill and learn a new one. Write a short profile (5-7 sentences). Say three things you can do, two things you can't do, and ask for help with a Can you...? question.", "he": "באפליקציה הזאת אנשים מלמדים משהו שהם יודעים ולומדים משהו חדש. כתבו פרופיל קצר (5-7 משפטים): שלושה דברים שאתם יודעים לעשות, שני דברים שאתם לא יודעים לעשות, ובקשו עזרה בשאלה עם Can you...?" },
+      "min_words": 30,
+      "max_words": 90,
+      "must_include": ["can", "Can you"],
+      "model_answer": "Hi, I'm Noa, and I'm 19. I can speak Hebrew, English and a little Spanish. I can play the guitar, and I can make great pizza. But I can't swim, and I can't ride a bike at all! Can you teach me to swim? I can teach you the guitar or Spanish.",
+      "checklist": [
+        { "en": "can / can't + base verb: I can play (not 'I can to play' or 'she cans').", "he": "can / can't + פועל בצורת הבסיס: I can play (לא I can to play ולא she cans)." },
+        { "en": "Three things I can do and two things I can't do.", "he": "שלושה דברים שאני יודע/ת לעשות ושניים שאני לא יודע/ת." },
+        { "en": "My question starts with Can: Can you teach me...?", "he": "השאלה שלי מתחילה ב-Can: Can you teach me...?" },
+        { "en": "Every sentence starts with a capital letter, and I is always a capital.", "he": "כל משפט מתחיל באות גדולה, ו-I תמיד באות גדולה." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "can + base verb, the same for everyone: I can swim. She can drive. (No to, no -s.)", "he": "can + פועל בצורת הבסיס, אותו דבר לכולם: I can swim. She can drive. (בלי to ובלי s.)" },
+      { "en": "Negative: can't (cannot). Question: Can you...? Short answers: Yes, I can. / No, I can't.", "he": "שלילה: can't (cannot). שאלה: Can you...? תשובות קצרות: Yes, I can. / No, I can't." },
+      { "en": "Requests: Can you help me? (do this for me) · Can I have...? (give me) – and add please.", "he": "בקשות: Can you help me? (תעשו בשבילי) · Can I have...? (תנו לי) – והוסיפו please." },
+      { "en": "can is weak /kən/; can't is strong: /kɑːnt/ (UK), /kænt/ (US).", "he": "can חלש /kən/; ‏can't חזק: /kɑːnt/ (בריטית), /kænt/ (אמריקאית)." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

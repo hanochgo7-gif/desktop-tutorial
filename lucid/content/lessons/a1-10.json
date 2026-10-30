@@ -1,0 +1,1020 @@
+{
+  "id": "a1-10",
+  "level": "A1",
+  "title_en": "In, on, at: time",
+  "title_he": "מילות יחס של זמן",
+  "topics": [
+    "prepositions-time"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use at with clock times, on with days and dates, and in with months, years, seasons and parts of the day.",
+      "he": "אני יודע/ת להשתמש ב-at עם שעות, ב-on עם ימים ותאריכים, וב-in עם חודשים, שנים, עונות וחלקי היום."
+    },
+    {
+      "en": "I can say when things happen in my week.",
+      "he": "אני יכול/ה לספר מתי דברים קורים בשבוע שלי."
+    },
+    {
+      "en": "I know when not to use a preposition: every day, next week, last Friday.",
+      "he": "אני יודע/ת מתי לא משתמשים במילת יחס: every day, next week, last Friday."
+    }
+  ],
+  "warmup": {
+    "en": "When is your birthday? What time do you get up? Which days do you work or study? Answer in English, and look at the small word before each time.",
+    "he": "מתי יום ההולדת שלכם? באיזו שעה אתם קמים? באילו ימים אתם עובדים או לומדים? ענו באנגלית, ושימו לב למילה הקטנה שלפני כל זמן."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Lior's guitar lesson is on Tuesday at 5:30. In the summer, it's in the morning, and his concert is on 12 August. Each kind of time has its own small word: at, on or in.",
+      "he": "שיעור הגיטרה של ליאור ביום שלישי ב-5:30. בקיץ השיעור בבוקר, וההופעה שלו ב-12 באוגוסט. באנגלית לכל סוג של זמן יש מילה קטנה משלו: at, on או in."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "at",
+        "on",
+        "in",
+        "no preposition"
+      ],
+      "rows": [
+        [
+          "clock times: at 7:00, at half past six",
+          "days: on Monday, on Fridays",
+          "months: in May",
+          "every day, every Sunday"
+        ],
+        [
+          "at night, at midnight, at lunchtime",
+          "dates: on 5 May, on the 21st",
+          "years: in 2027",
+          "next week, next Monday"
+        ],
+        [
+          "at the weekend (UK)",
+          "special days: on my birthday",
+          "seasons: in (the) summer",
+          "last month, last Friday"
+        ],
+        [
+          "",
+          "a day + part of it: on Friday evening",
+          "parts of the day: in the morning, in the afternoon, in the evening",
+          "today, tomorrow, this evening"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "at = an exact time (a point). on = a day or a date. in = a longer time: a month, a year, a season, or a part of the day.",
+      "he": "at = זמן מדויק (נקודה בזמן). ‏on = יום או תאריך. ‏in = פרק זמן ארוך יותר: חודש, שנה, עונה, או חלק מהיום."
+    },
+    {
+      "type": "warning",
+      "en": "Watch these: in the morning, but at night. in the evening, but on Friday evening (a day + part of the day → on). No preposition before every, next, last, this, today or tomorrow: I see her every Monday (not 'on every Monday').",
+      "he": "שימו לב: in the morning, אבל at night. ‏in the evening, אבל on Friday evening (יום + חלק מהיום → on). לפני every, next, last, this, today ו-tomorrow לא שמים מילת יחס: I see her every Monday (ולא on every Monday)."
+    },
+    {
+      "type": "tip",
+      "en": "The weekend: British English says at the weekend; American English says on the weekend. Both are correct, so choose one. Never in the weekend.",
+      "he": "סוף השבוע: באנגלית בריטית אומרים at the weekend, ובאנגלית אמריקאית on the weekend. שתי הצורות נכונות – בחרו אחת. אבל אף פעם לא in the weekend."
+    }
+  ],
+  "examples": [
+    {
+      "en": "The film starts at 8:30.",
+      "he": "הסרט מתחיל ב-8:30.",
+      "note": "at + clock time"
+    },
+    {
+      "en": "I have English on Sundays and Wednesdays.",
+      "he": "יש לי אנגלית בימי ראשון ורביעי.",
+      "note": "on + days"
+    },
+    {
+      "en": "My birthday is on 3 June.",
+      "he": "יום ההולדת שלי ב-3 ביוני.",
+      "note": "say: on the third of June"
+    },
+    {
+      "en": "We go to the beach a lot in the summer.",
+      "he": "בקיץ אנחנו הולכים הרבה לים.",
+      "note": "in + season"
+    },
+    {
+      "en": "She studies in the evening and works at night.",
+      "he": "היא לומדת בערב ועובדת בלילה."
+    },
+    {
+      "en": "See you on Friday morning!",
+      "he": "נתראה ביום שישי בבוקר!",
+      "note": "day + part of the day → on"
+    },
+    {
+      "en": "I go to the gym every Tuesday.",
+      "he": "אני הולך/ת לחדר כושר כל יום שלישי.",
+      "note": "no preposition before every"
+    },
+    {
+      "en": "The new library opens in 2027.",
+      "he": "הספרייה החדשה נפתחת ב-2027.",
+      "note": "in + year"
+    },
+    {
+      "en": "Our exams start next week.",
+      "he": "הבחינות שלנו מתחילות בשבוע הבא.",
+      "note": "no preposition before next"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "morning",
+      "pos": "noun",
+      "he": "בוקר",
+      "def": "the part of the day from when the sun comes up until 12 o'clock",
+      "example": "I study in the morning.",
+      "ipa": "/ˈmɔːnɪŋ/",
+      "collocations": [
+        "in the morning",
+        "this morning",
+        "on Monday morning"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "afternoon",
+      "pos": "noun",
+      "he": "אחר הצהריים",
+      "def": "the part of the day from 12 o'clock until about 6 o'clock",
+      "example": "We have a meeting in the afternoon.",
+      "ipa": "/ˌɑːftəˈnuːn/",
+      "collocations": [
+        "in the afternoon",
+        "on Friday afternoon"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "evening",
+      "pos": "noun",
+      "he": "ערב",
+      "def": "the part of the day from about 6 o'clock until you go to bed",
+      "example": "I watch TV in the evening.",
+      "ipa": "/ˈiːvnɪŋ/",
+      "collocations": [
+        "in the evening",
+        "this evening",
+        "on Saturday evening"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "night",
+      "pos": "noun",
+      "he": "לילה",
+      "def": "the time when it is dark and most people sleep",
+      "example": "I never drink coffee at night.",
+      "ipa": "/naɪt/",
+      "collocations": [
+        "at night",
+        "late at night"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "weekend",
+      "pos": "noun",
+      "he": "סוף שבוע, סופ״ש",
+      "def": "the days at the end of the week when many people don't work",
+      "example": "What do you do at the weekend?",
+      "ipa": "/ˌwiːkˈend/",
+      "collocations": [
+        "at the weekend (UK)",
+        "on the weekend (US)",
+        "next weekend"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "midnight",
+      "pos": "noun",
+      "he": "חצות",
+      "def": "12 o'clock at night",
+      "example": "The party ends at midnight.",
+      "ipa": "/ˈmɪdnaɪt/",
+      "level": "A1"
+    },
+    {
+      "word": "lunchtime",
+      "pos": "noun",
+      "he": "שעת הצהריים",
+      "def": "the time in the middle of the day when people eat lunch",
+      "example": "I call my mum at lunchtime.",
+      "ipa": "/ˈlʌntʃtaɪm/",
+      "level": "A1"
+    },
+    {
+      "word": "spring",
+      "pos": "noun",
+      "he": "אביב",
+      "def": "the season between winter and summer",
+      "example": "The weather is lovely in the spring.",
+      "ipa": "/sprɪŋ/",
+      "level": "A1"
+    },
+    {
+      "word": "summer",
+      "pos": "noun",
+      "he": "קיץ",
+      "def": "the hottest season of the year",
+      "example": "It's very hot here in the summer.",
+      "ipa": "/ˈsʌmə(r)/",
+      "collocations": [
+        "in the summer",
+        "summer holiday"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "autumn",
+      "pos": "noun",
+      "he": "סתיו",
+      "def": "the season between summer and winter (US: fall)",
+      "example": "The days get shorter in the autumn.",
+      "ipa": "/ˈɔːtəm/",
+      "level": "A1"
+    },
+    {
+      "word": "winter",
+      "pos": "noun",
+      "he": "חורף",
+      "def": "the coldest season of the year",
+      "example": "It's cold and rainy in the winter.",
+      "ipa": "/ˈwɪntə(r)/",
+      "level": "A1"
+    },
+    {
+      "word": "early",
+      "pos": "adjective, adverb",
+      "he": "מוקדם",
+      "def": "near the beginning of a time, or before the usual time",
+      "example": "I get up early on Mondays.",
+      "ipa": "/ˈɜːli/",
+      "collocations": [
+        "early in the morning",
+        "an early train"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "late",
+      "pos": "adjective, adverb",
+      "he": "מאוחר; מאחר/ת",
+      "def": "after the usual or the right time",
+      "example": "I go to bed late at the weekend.",
+      "ipa": "/leɪt/",
+      "collocations": [
+        "late at night",
+        "be late for"
+      ],
+      "level": "A1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "Hebrew writing works differently: it has no capital letters, so they are easy to forget. In English, days and months always start with a capital letter: on Monday, in May. Seasons don't: in summer, in winter.",
+      "he": "בעברית אין אותיות גדולות, ולכן קל לשכוח אותן. באנגלית ימים וחודשים תמיד מתחילים באות גדולה: on Monday, in May. עונות השנה – לא: in summer, in winter.",
+      "error_type": "capitalization"
+    },
+    {
+      "en": "In Hebrew the sound /w/ is rare, and the letter vav is usually /v/. So Wednesday, week and winter can sound like 'Vednesday', 'veek' and 'vinter'. For /w/, make your lips small and round, as for 'oo', and keep your teeth away from your lip.",
+      "he": "בעברית הצליל /w/ נדיר, והאות ו' נהגית בדרך כלל /v/. לכן Wednesday, week ו-winter יוצאות לפעמים עם v. ל-/w/ מעגלים את השפתיים כמו ב'אוּ', בלי שהשיניים יגעו בשפה.",
+      "error_type": "pron-w-v"
+    },
+    {
+      "en": "Hebrew has no /θ/ sound, so Thursday, third and month can come out with t or s. Put the tip of your tongue between your teeth and blow gently: /ˈθɜːzdeɪ/.",
+      "he": "בעברית אין את הצליל /θ/, ולכן Thursday, third ו-month יוצאות לפעמים עם ט' או ס'. שימו את קצה הלשון בין השיניים ונשפו בעדינות: Thursday.",
+      "error_type": "pron-th"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "at, on or in? Sort the time words.",
+        "he": "at, ‏on או in? מיינו את מילות הזמן."
+      },
+      "categories": [
+        "at",
+        "on",
+        "in"
+      ],
+      "items": [
+        {
+          "text": "7:30",
+          "category": "at"
+        },
+        {
+          "text": "midnight",
+          "category": "at"
+        },
+        {
+          "text": "lunchtime",
+          "category": "at"
+        },
+        {
+          "text": "Monday",
+          "category": "on"
+        },
+        {
+          "text": "my birthday",
+          "category": "on"
+        },
+        {
+          "text": "5 May",
+          "category": "on"
+        },
+        {
+          "text": "July",
+          "category": "in"
+        },
+        {
+          "text": "2027",
+          "category": "in"
+        },
+        {
+          "text": "the morning",
+          "category": "in"
+        },
+        {
+          "text": "winter",
+          "category": "in"
+        }
+      ],
+      "hint": {
+        "en": "An exact time, a day, or a longer time?",
+        "he": "זמן מדויק, יום, או פרק זמן ארוך?"
+      },
+      "explanation": {
+        "en": "at = exact times (7:30, midnight, lunchtime). on = days and dates (Monday, my birthday, 5 May). in = months, years, seasons and parts of the day (July, 2027, winter, the morning).",
+        "he": "at = זמן מדויק (7:30, חצות, צהריים). ‏on = ימים ותאריכים (Monday, יום ההולדת, 5 May). ‏in = חודשים, שנים, עונות וחלקי היום (July, 2027, winter, the morning)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Match the time words with their Hebrew meaning.",
+        "he": "התאימו כל מילת זמן באנגלית למשמעות שלה בעברית."
+      },
+      "pairs": [
+        [
+          "spring",
+          "אביב"
+        ],
+        [
+          "autumn",
+          "סתיו"
+        ],
+        [
+          "midnight",
+          "חצות"
+        ],
+        [
+          "weekend",
+          "סוף שבוע"
+        ],
+        [
+          "afternoon",
+          "אחר הצהריים"
+        ],
+        [
+          "early",
+          "מוקדם"
+        ]
+      ],
+      "explanation": {
+        "en": "autumn is British English; Americans usually say fall. midnight is 12 o'clock at night: at midnight.",
+        "he": "autumn היא המילה הבריטית; באמריקה אומרים בדרך כלל fall. ‏midnight היא 12 בלילה: at midnight."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Listen and answer the question.",
+        "he": "הקשיבו וענו על השאלה."
+      },
+      "audio_text": "The concert is on Friday at half past eight.",
+      "question": "When is the concert?",
+      "options": [
+        "Friday at 8:30",
+        "Thursday at 8:30",
+        "Friday at 9:30"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Listen for the day: Friday (with f), not Thursday (with th).",
+          "he": "הקשיבו ליום: Friday (עם f), ולא Thursday (עם th)."
+        },
+        "2": {
+          "en": "half past eight = 8:30. (9:30 is half past nine.)",
+          "he": "half past eight = 8:30. ‏(9:30 זה half past nine.)"
+        }
+      },
+      "option_errors": {
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "on Friday (a day) + at half past eight (a clock time) = Friday at 8:30.",
+        "he": "on Friday (יום) + at half past eight (שעה) = יום שישי ב-8:30."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Complete with in, on or at.",
+        "he": "השלימו ב-in, ב-on או ב-at."
+      },
+      "text": "The film starts ___ 8:30 ___ Saturday evening.",
+      "word_bank": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answers": [
+        [
+          "at"
+        ],
+        [
+          "on"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "in",
+          "feedback": {
+            "en": "We say in the evening, but with a day it's on: on Saturday evening. A clock time takes at: at 8:30.",
+            "he": "אומרים in the evening, אבל כשיש יום אומרים on: on Saturday evening. עם שעה – at: at 8:30."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "on",
+          "feedback": {
+            "en": "on is for days (on Saturday evening). A clock time takes at: at 8:30.",
+            "he": "on הוא לימים (on Saturday evening). עם שעה אומרים at: at 8:30."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "at",
+          "feedback": {
+            "en": "at is for clock times (at 8:30). A day + evening takes on: on Saturday evening.",
+            "he": "at הוא לשעות (at 8:30). יום + ערב → on: on Saturday evening."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "at + clock time (at 8:30). on + day, even with evening (on Saturday evening).",
+        "he": "at + שעה (at 8:30). ‏on + יום, גם כשמוסיפים evening (on Saturday evening)."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Complete with in, on or at.",
+        "he": "השלימו ב-in, ב-on או ב-at."
+      },
+      "text": "My birthday is ___ August, so I never have school ___ my birthday!",
+      "word_bank": [
+        "in",
+        "on",
+        "at"
+      ],
+      "answers": [
+        [
+          "in"
+        ],
+        [
+          "on"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "on",
+          "feedback": {
+            "en": "Months take in: in August. on is for days and special days: on my birthday.",
+            "he": "עם חודשים אומרים in: in August. ‏on הוא לימים ולימים מיוחדים: on my birthday."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "in",
+          "feedback": {
+            "en": "in is for months (in August). A special day takes on: on my birthday.",
+            "he": "in הוא לחודשים (in August). יום מיוחד – on: on my birthday."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "at",
+          "feedback": {
+            "en": "at is for clock times. Say in August and on my birthday.",
+            "he": "at הוא לשעות. אומרים in August ו-on my birthday."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "in August (a month) · on my birthday (a special day).",
+        "he": "in August (חודש) · on my birthday (יום מיוחד)."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Which sentence is NOT correct?",
+        "he": "איזה משפט אינו נכון?"
+      },
+      "question": "Choose the wrong sentence.",
+      "options": [
+        "See you at the weekend!",
+        "See you on the weekend!",
+        "See you in the weekend!"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "This one is correct: it's British English.",
+          "he": "המשפט הזה נכון – זו אנגלית בריטית."
+        },
+        "1": {
+          "en": "This one is correct: it's American English.",
+          "he": "המשפט הזה נכון – זו אנגלית אמריקאית."
+        }
+      },
+      "explanation": {
+        "en": "at the weekend (UK) and on the weekend (US) are both correct. in the weekend is wrong.",
+        "he": "at the weekend (בריטית) ו-on the weekend (אמריקאית) נכונים שניהם. ‏in the weekend – שגוי."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Choose the correct option.",
+        "he": "בחרו את האפשרות הנכונה."
+      },
+      "question": "I go swimming ___ every Friday.",
+      "options": [
+        "on",
+        "in",
+        "at",
+        "— (no word)"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "We say on Friday, but every replaces the preposition: every Friday.",
+          "he": "אומרים on Friday, אבל every מחליף את מילת היחס: every Friday."
+        },
+        "1": {
+          "en": "No preposition before every: I go swimming every Friday.",
+          "he": "לפני every לא שמים מילת יחס: I go swimming every Friday."
+        },
+        "2": {
+          "en": "No preposition before every: I go swimming every Friday.",
+          "he": "לפני every לא שמים מילת יחס: I go swimming every Friday."
+        }
+      },
+      "option_errors": {
+        "0": "preposition",
+        "1": "preposition",
+        "2": "preposition"
+      },
+      "explanation": {
+        "en": "every, next, last and this come with no preposition: every Friday, next Friday.",
+        "he": "every, next, last ו-this באים בלי מילת יחס: every Friday, next Friday."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Choose the correct sentence.",
+        "he": "בחרו את המשפט הנכון."
+      },
+      "question": "Omer is a nurse. He often works when it's dark.",
+      "options": [
+        "He often works in night.",
+        "He often works at night.",
+        "He often works on night."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "We say in the morning and in the evening, but at night.",
+          "he": "אומרים in the morning ו-in the evening, אבל at night."
+        },
+        "2": {
+          "en": "on is for days. For the time when it's dark, say at night.",
+          "he": "on הוא לימים. לזמן שבו חושך אומרים at night."
+        }
+      },
+      "option_errors": {
+        "0": "preposition",
+        "2": "preposition"
+      },
+      "explanation": {
+        "en": "at night is a fixed phrase, with no the: He often works at night.",
+        "he": "at night הוא צירוף קבוע, בלי the: He often works at night."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "We have a test in Thursday morning.",
+      "answers": [
+        "We have a test on Thursday morning.",
+        "We have a test on Thursday in the morning.",
+        "We have a test Thursday morning."
+      ],
+      "error_type": "preposition",
+      "hint": {
+        "en": "A day + part of the day takes the 'day' word.",
+        "he": "יום + חלק מהיום → המילה של הימים."
+      },
+      "wrong_feedback": [
+        {
+          "match": "We have a test at Thursday morning.",
+          "feedback": {
+            "en": "at is for clock times. Thursday morning is a day, so use on.",
+            "he": "at הוא לשעות. Thursday morning הוא יום, ולכן on."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "in the morning, but on Thursday morning: when there's a day, use on.",
+        "he": "in the morning, אבל on Thursday morning: כשיש יום, משתמשים ב-on."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "I see my grandparents on every Saturday.",
+      "answers": [
+        "I see my grandparents every Saturday.",
+        "I see my grandparents on Saturdays."
+      ],
+      "error_type": "preposition",
+      "explanation": {
+        "en": "No preposition before every: every Saturday. (on Saturdays also means every Saturday.)",
+        "he": "לפני every לא שמים מילת יחס: every Saturday. ‏(on Saturdays אומר אותו דבר.)"
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Rewrite the sentence with next instead of on.",
+        "he": "כתבו את המשפט מחדש עם next במקום on."
+      },
+      "source": "I'm busy on Sunday.",
+      "answers": [
+        "I'm busy next Sunday."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I'm busy on next Sunday.",
+          "feedback": {
+            "en": "next replaces on. No preposition before next: I'm busy next Sunday.",
+            "he": "next מחליף את on. לפני next לא שמים מילת יחס: I'm busy next Sunday."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "I'm busy in next Sunday.",
+          "feedback": {
+            "en": "No preposition before next: I'm busy next Sunday.",
+            "he": "לפני next לא שמים מילת יחס: I'm busy next Sunday."
+          },
+          "error_type": "preposition"
+        }
+      ],
+      "explanation": {
+        "en": "next, last, every and this replace the preposition: next Sunday, last Sunday, every Sunday, this Sunday.",
+        "he": "next, last, every ו-this מחליפים את מילת היחס: next Sunday, last Sunday, every Sunday, this Sunday."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Translate into English. Start with I have.",
+        "he": "תרגמו לאנגלית. התחילו ב-I have."
+      },
+      "source": "יש לי מבחן ביום ראשון בבוקר.",
+      "answers": [
+        "I have a test on Sunday morning.",
+        "I have a test on Sunday in the morning.",
+        "I have a test Sunday morning.",
+        "I have an exam on Sunday morning.",
+        "I have an exam on Sunday in the morning.",
+        "I have got a test on Sunday morning.",
+        "I have got a test on Sunday in the morning."
+      ],
+      "hint": {
+        "en": "Use test. The time is one unit: a day + part of the day.",
+        "he": "מבחן = test. 'ביום ראשון בבוקר' הוא זמן אחד: יום + חלק מהיום."
+      },
+      "wrong_feedback": [
+        {
+          "match": "I have a test in Sunday morning.",
+          "feedback": {
+            "en": "With a day, use on, even with morning: on Sunday morning.",
+            "he": "כשיש יום משתמשים ב-on, גם עם morning: on Sunday morning."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "I have a test at Sunday morning.",
+          "feedback": {
+            "en": "at is for clock times. A day + morning takes on: on Sunday morning.",
+            "he": "at הוא לשעות. יום + בוקר → on: on Sunday morning."
+          },
+          "error_type": "preposition"
+        },
+        {
+          "match": "I have test on Sunday morning.",
+          "feedback": {
+            "en": "In Hebrew there is no word for a/an. English works differently: one test needs a: I have a test.",
+            "he": "בעברית אין מילה ל-a/an. באנגלית לפני מבחן אחד צריך a: I have a test."
+          },
+          "error_type": "article"
+        }
+      ],
+      "explanation": {
+        "en": "I have a test on Sunday morning: a/an before one test, and on for a day + part of the day.",
+        "he": "I have a test on Sunday morning: ‏a לפני מבחן אחד, ו-on ליום + חלק מהיום."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "read",
+      "skill": "reading",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Read the email from a language school and answer the questions.",
+        "he": "קראו את המייל מבית ספר לשפות וענו על השאלות."
+      },
+      "title": "Your first week",
+      "passage": "Hi Kenji,\nWelcome to Sunrise Language School! Here is some information about your first week. Your English classes are on Monday, Wednesday and Thursday at 9:30 in the morning. There's a conversation club every Tuesday at 6 in the evening, and it's free! The school is closed at the weekend. In July and August, classes start early, at 8:00, because the afternoons are very hot. Our first trip is on 14 June. See you on Monday!\nSara, Student Office",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "When are Kenji's English classes?",
+          "options": [
+            "in the evening",
+            "at night",
+            "in the morning"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The conversation club is in the evening. The classes are 'at 9:30 in the morning'.",
+              "he": "מועדון השיחה בערב. השיעורים 'at 9:30 in the morning'."
+            },
+            "1": {
+              "en": "Nothing happens at night. The classes are 'at 9:30 in the morning'.",
+              "he": "שום דבר לא קורה בלילה. השיעורים 'at 9:30 in the morning'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension"
+          },
+          "explanation": {
+            "en": "'Your English classes are on Monday, Wednesday and Thursday at 9:30 in the morning.'",
+            "he": "'Your English classes are ... at 9:30 in the morning' – השיעורים בבוקר."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The conversation club is on Tuesdays.",
+          "answer": true,
+          "explanation": {
+            "en": "'There's a conversation club every Tuesday' – every Tuesday = on Tuesdays.",
+            "he": "'There's a conversation club every Tuesday' – כל יום שלישי."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Kenji can study at the school on Saturday.",
+          "answer": false,
+          "explanation": {
+            "en": "'The school is closed at the weekend.' Saturday is part of the weekend.",
+            "he": "'The school is closed at the weekend' – בית הספר סגור בסוף השבוע, ושבת היא חלק ממנו."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why do classes start early in July and August?",
+          "options": [
+            "The afternoons are very hot.",
+            "There is a trip.",
+            "The teachers are busy."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The trip is on 14 June, and it isn't the reason. Look for because.",
+              "he": "הטיול ב-14 ביוני, והוא לא הסיבה. חפשו את המילה because."
+            },
+            "2": {
+              "en": "The email doesn't say this. Look for because.",
+              "he": "המייל לא אומר את זה. חפשו את המילה because."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'...classes start early, at 8:00, because the afternoons are very hot.'",
+            "he": "'...classes start early, at 8:00, because the afternoons are very hot' – כי אחר הצהריים חם מאוד."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The first trip is ___ 14 June.",
+          "answers": [
+            [
+              "on"
+            ]
+          ],
+          "explanation": {
+            "en": "A date takes on: on 14 June.",
+            "he": "עם תאריך אומרים on: on 14 June."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e14",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Listen and type what you hear.",
+        "he": "הקשיבו והקלידו את מה ששמעתם."
+      },
+      "audio_text": "I usually get up at seven, but at the weekend I sleep late.",
+      "answers": [
+        "I usually get up at seven, but at the weekend I sleep late.",
+        "I usually get up at seven, but on the weekend I sleep late."
+      ],
+      "hint": {
+        "en": "Two times: a clock time and the weekend.",
+        "he": "שני זמנים: שעה, וסוף השבוע."
+      },
+      "explanation": {
+        "en": "at seven (a clock time) · at the weekend (British English; American: on the weekend).",
+        "he": "at seven (שעה) · at the weekend (אנגלית בריטית; באמריקאית on the weekend)."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "You're making a plan with a friend. Say the sentence out loud.",
+        "he": "אתם קובעים עם חבר או חברה. אמרו את המשפט בקול."
+      },
+      "target": "See you on Wednesday at three o'clock.",
+      "focus": {
+        "en": "Wednesday sounds like WENZ-day (the first d is silent). Start with /w/: round lips, not v. three: tongue between your teeth.",
+        "he": "Wednesday נשמע כמו 'וֶנְז-דֵיי' – ה-d הראשונה לא נשמעת. מתחילים ב-/w/: שפתיים מעוגלות, לא v. ב-three קצה הלשון בין השיניים."
+      },
+      "error_type": "pron-w-v",
+      "explanation": {
+        "en": "on + day, at + clock time: on Wednesday at three o'clock.",
+        "he": "on + יום, ‏at + שעה: on Wednesday at three o'clock."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "topic": "prepositions-time",
+      "prompt": {
+        "en": "Write about your week.",
+        "he": "כתבו על השבוע שלכם."
+      },
+      "task": {
+        "en": "Write 5-6 sentences about your week. When do you work or study, do sport, see friends and relax? Use at, on and in, and at least one time with every or next.",
+        "he": "כתבו 5-6 משפטים על השבוע שלכם: מתי אתם עובדים או לומדים, עושים ספורט, פוגשים חברים ונחים? השתמשו ב-at, ב-on וב-in, ולפחות פעם אחת ב-every או ב-next."
+      },
+      "min_words": 35,
+      "max_words": 90,
+      "must_include": [
+        "at",
+        "on",
+        "in"
+      ],
+      "model_answer": "I study at the university on Sundays, Mondays and Wednesdays. My classes usually start at nine in the morning. On Tuesday evening I play basketball with my friends. I work in a café on Thursdays, and I finish at midnight! I relax at the weekend. My exams are in June, so I study every day in May.",
+      "checklist": [
+        {
+          "en": "at + clock times (at nine, at midnight).",
+          "he": "at + שעה (at nine, at midnight)."
+        },
+        {
+          "en": "on + days and dates (on Tuesday evening, on 5 May).",
+          "he": "on + ימים ותאריכים (on Tuesday evening, on 5 May)."
+        },
+        {
+          "en": "in + months, years, seasons and parts of the day (in June, in the morning).",
+          "he": "in + חודשים, שנים, עונות וחלקי היום (in June, in the morning)."
+        },
+        {
+          "en": "No preposition before every or next.",
+          "he": "אין מילת יחס לפני every או next."
+        },
+        {
+          "en": "Days and months start with a capital letter.",
+          "he": "ימים וחודשים מתחילים באות גדולה."
+        }
+      ],
+      "explanation": {
+        "en": "The model mixes all three: at nine, on Tuesday evening, in June, and every day with no preposition.",
+        "he": "בתשובה לדוגמה יש את שלושתן: at nine, on Tuesday evening, in June – ו-every day בלי מילת יחס."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "at + clock times, at night, at midnight · on + days and dates · in + months, years, seasons, parts of the day.",
+        "he": "at + שעות, at night, at midnight · ‏on + ימים ותאריכים · ‏in + חודשים, שנים, עונות וחלקי היום."
+      },
+      {
+        "en": "in the morning, but on Friday morning (a day → on).",
+        "he": "in the morning, אבל on Friday morning (כשיש יום → on)."
+      },
+      {
+        "en": "No preposition before every, next, last, this: every Monday, next week.",
+        "he": "אין מילת יחס לפני every, next, last, this: every Monday, next week."
+      },
+      {
+        "en": "the weekend: at (UK) or on (US), never in. Days and months take capital letters.",
+        "he": "סוף השבוע: at (בריטית) או on (אמריקאית), אף פעם לא in. ימים וחודשים – באות גדולה."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

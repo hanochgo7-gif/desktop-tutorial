@@ -1,0 +1,382 @@
+{
+  "id": "b2-08",
+  "level": "B2",
+  "title_en": "Formal or informal?",
+  "title_he": "רשמי או לא רשמי?",
+  "topics": ["register"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can recognise what makes a text formal or informal: contractions, phrasal verbs, vocabulary, requests, greetings and sentence length." },
+    { "en": "I can replace informal phrasal verbs with formal single verbs (put off → postpone, look into → investigate) and know when a phrasal verb is perfectly acceptable." },
+    { "en": "I can make polite, hedged requests: Would you mind + -ing, I was wondering if you could, I would be grateful if you could." },
+    { "en": "I can rewrite the same message for a different reader without losing any key information." }
+  ],
+  "warmup": { "en": "You need someone to cover your shift on Friday. How would you ask a close friend? How would you ask a manager you have only met twice? Write the first sentence of each and compare the words you chose.", "he": "חשבו קודם בעברית: לחבר/ה הייתם כותבים 'אהלן, יש מצב שתחליף/י אותי בשישי?', ולמנהל/ת – 'שלום, רציתי לשאול אם אפשר להחליף משמרת ביום שישי'. אילו מילים השתנו? היום נראה איך עושים את אותו הדבר באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "Same news, two readers. To a friend: 'Hi Dana! Can't make it on Thursday, sorry. Something's come up at work. Can we put it off till next week?' To a manager: 'Dear Ms Peretz, I am afraid I will be unable to attend the meeting on Thursday, as an urgent matter has arisen at work. Would it be possible to postpone it until next week?' The information is identical; the register (the level of formality) is not. Neither version is 'better English'. The mistake is choosing the wrong one for the reader: the first sounds careless to a manager, and the second sounds cold, even sarcastic, to a friend." },
+    { "type": "table", "headers": ["Feature", "Informal (friends, family, chat)", "Formal (emails to strangers, applications, complaints, reports)"], "rows": [
+      ["Contractions", "I'm, can't, it's, we'll", "I am, cannot, it is, we will"],
+      ["Verbs", "phrasal verbs: find out, put off, get in touch", "single verbs: discover, postpone, contact"],
+      ["Vocabulary", "get, need, buy, help, kids, a lot of, sorry", "receive, require, purchase, assist, children, a great deal of, I apologise"],
+      ["Requests", "Can you ...? Send me ...", "Could you ...? Would it be possible to ...? I would be grateful if you could ..."],
+      ["Openings and endings", "Hi Dana! / Hey! ... Thanks! / See you soon", "Dear Ms Peretz, ... Kind regards, / Yours sincerely,"],
+      ["Sentences", "short, with words left out: Can't make it. Sounds good!", "complete and linked (as, however, therefore); no exclamation marks, emojis or ASAP"]
+    ] },
+    { "type": "table", "headers": ["Phrasal verb", "Formal single verb", "Formal example"], "rows": [
+      ["put off", "postpone", "The meeting has been postponed until Monday."],
+      ["find out", "discover, establish", "We need to establish the cause of the delay."],
+      ["get in touch (with)", "contact", "Please contact the office directly."],
+      ["look into", "investigate", "We are investigating your complaint."],
+      ["go up / go down", "rise, increase / fall, decrease", "Prices have risen sharply."],
+      ["turn down", "reject, decline", "She declined the offer."],
+      ["ask for", "request", "I would like to request a refund."],
+      ["get back to (someone)", "reply to, respond to", "I will respond to your email by Friday."]
+    ] },
+    { "type": "rule", "en": "Hedged requests: the more you are asking for, and the less well you know the reader, the more indirect the request. Can you send it? → Could you send it? → Would you mind sending it? → I was wondering if you could send it. → I would be grateful if you could send it. Watch the grammar: mind + -ing; I was wondering if you could + base verb; I would be grateful if you could + base verb; Would it be possible to + base verb." },
+    { "type": "warning", "en": "Don't mix registers in one text: 'Dear Professor Cohen ... Cheers!' sounds odd. Don't give a stranger bare imperatives, even with please: 'Send me the form' sounds like an order, while 'Could you send me the form?' is a request. And formal does not mean complicated: 'I am writing to ask whether ...' is better than 'I hereby wish to enquire as to whether ...'." },
+    { "type": "tip", "en": "Not every phrasal verb is informal. Carry out, point out and set up are standard in formal reports: 'The team carried out a survey.' Replace a phrasal verb only when it is informal and a natural single verb exists." },
+    { "type": "p", "en": "Hebrew makes a similar split between formal and everyday words, so the instinct you already have in Hebrew transfers well: assist / help, purchase / buy, respond / answer.", "he": "גם בעברית יש מילים 'גבוהות' ומילים יומיומיות: לסייע / לעזור, לרכוש / לקנות, להשיב / לענות. באנגלית ההבחנה דומה: assist / help, purchase / buy, respond / answer. אז האינטואיציה שיש לכם בעברית עובדת גם כאן." }
+  ],
+  "examples": [
+    { "en": "I am writing to enquire about the part-time position advertised on your website.", "note": "formal: a standard first line in an email to a stranger" },
+    { "en": "Just wanted to check you got my message!", "note": "informal: the subject (I) is left out; exclamation mark" },
+    { "en": "The meeting has been postponed until further notice.", "note": "formal: postponed = put off" },
+    { "en": "Would you mind sending me the updated timetable?", "note": "polite request: mind + -ing" },
+    { "en": "I was wondering if you could give me some feedback on my CV.", "note": "very polite and indirect" },
+    { "en": "I would be grateful if you could confirm the booking by Friday.", "note": "formal request: grateful if you could + base verb" },
+    { "en": "Can't make it tonight, sorry! Can we do Saturday instead?", "note": "informal message: no subject, contraction, short sentences" },
+    { "en": "Please do not hesitate to contact me if you require any further information.", "note": "fixed formal closing line" },
+    { "en": "Let me know if you need anything else!", "note": "the informal version of the line above" }
+  ],
+  "vocab": [
+    { "word": "register", "pos": "noun", "he": "משלב (לשוני)", "def": "the level of formality in language, chosen to suit the reader and the situation", "example": "Her email was polite, but the register was too informal for a job application.", "ipa": "/ˈredʒɪstə(r)/", "collocations": ["formal register", "informal register", "switch register"], "level": "B2" },
+    { "word": "postpone", "pos": "verb", "he": "לדחות (למועד מאוחר יותר)", "def": "to move an event to a later time", "example": "The match was postponed because of the storm.", "ipa": "/pəˈspəʊn/", "collocations": ["postpone a meeting", "postpone something until next week"], "level": "B2" },
+    { "word": "contact", "pos": "verb", "he": "ליצור קשר עם", "def": "to communicate with someone by phone, email or letter", "example": "Please contact the office if you have any questions.", "ipa": "/ˈkɒntækt/", "collocations": ["contact someone directly", "contact us by email"], "level": "B1" },
+    { "word": "enquire", "pos": "verb", "he": "לברר; לשאול (רשמי)", "def": "to ask for information (formal)", "example": "I am writing to enquire about the summer course.", "ipa": "/ɪnˈkwaɪə(r)/", "collocations": ["enquire about", "enquire whether"], "level": "B2" },
+    { "word": "request", "pos": "verb / noun", "he": "לבקש (רשמי); בקשה", "def": "to ask for something politely or officially; the act of asking", "example": "I would like to request a copy of the invoice.", "ipa": "/rɪˈkwest/", "collocations": ["make a request", "request information", "at your request"], "level": "B1" },
+    { "word": "assist", "pos": "verb", "he": "לסייע", "def": "to help (formal)", "example": "Our staff will be happy to assist you.", "ipa": "/əˈsɪst/", "collocations": ["assist with", "assist someone in doing something"], "level": "B2" },
+    { "word": "require", "pos": "verb", "he": "להזדקק ל-; לדרוש", "def": "to need (formal)", "example": "Please let us know if you require any further information.", "ipa": "/rɪˈkwaɪə(r)/", "collocations": ["require further information", "be required to do something"], "level": "B2" },
+    { "word": "confirm", "pos": "verb", "he": "לאשר", "def": "to say or show that something is definitely true or will definitely happen", "example": "Could you confirm your booking by Friday?", "ipa": "/kənˈfɜːm/", "collocations": ["confirm a booking", "confirm in writing"], "level": "B1" },
+    { "word": "investigate", "pos": "verb", "he": "לחקור; לבדוק לעומק", "def": "to examine the facts carefully to find out the truth", "example": "The company is investigating the complaint.", "ipa": "/ɪnˈvestɪɡeɪt/", "collocations": ["investigate a complaint", "fully investigate"], "level": "B2" },
+    { "word": "get in touch (with)", "pos": "phrasal verb", "he": "ליצור קשר (עם)", "def": "to contact someone (informal or neutral)", "example": "Get in touch when you're back in town!", "ipa": "/ˌɡet ɪn ˈtʌtʃ/", "collocations": ["get in touch with someone", "keep in touch"], "level": "B1" },
+    { "word": "I was wondering if", "pos": "phrase", "he": "רציתי לשאול אם...; תהיתי אם...", "def": "a polite, indirect way to start a request", "example": "I was wondering if you could help me with my CV.", "ipa": "/aɪ wəz ˈwʌndərɪŋ ɪf/", "collocations": ["I was wondering if you could", "I was wondering whether"], "level": "B1" },
+    { "word": "be grateful (if)", "pos": "phrase", "he": "אודה (לך) אם...; להיות אסיר/ת תודה", "def": "to feel thankful; used in formal requests", "example": "I would be grateful if you could reply by Monday.", "ipa": "/bi ˈɡreɪtfl ɪf/", "collocations": ["I would be grateful if you could", "be grateful for something"], "level": "B1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there are no capital letters, and informal English messages often drop them too (hi dana, i'll be late). In a formal email, capitals are required: Dear Ms Cohen, the pronoun I, names, days and months (Monday, March) and the first word of the sign-off (Kind regards).", "he": "בעברית אין אותיות גדולות, וגם בהודעות לא רשמיות באנגלית משמיטים אותן לעיתים קרובות (hi dana, i'll be late). במייל רשמי הן חובה: Dear Ms Cohen, הכינוי I, שמות, ימים וחודשים (Monday, March) והמילה הראשונה בסיום (Kind regards).", "error_type": "capitalization" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "writing",
+      "prompt": { "en": "Formal or informal? Sort the sentences." },
+      "categories": ["Formal", "Informal"],
+      "items": [
+        { "text": "I am writing to enquire about the course.", "category": "Formal" },
+        { "text": "Just a quick note to say thanks!", "category": "Informal" },
+        { "text": "Could you let me know asap?", "category": "Informal" },
+        { "text": "I would be grateful if you could reply by Friday.", "category": "Formal" },
+        { "text": "We've sorted out the problem with your order.", "category": "Informal" },
+        { "text": "The problem with your order has now been resolved.", "category": "Formal" },
+        { "text": "Please find attached my updated CV.", "category": "Formal" },
+        { "text": "Cheers, see you Thursday!", "category": "Informal" }
+      ],
+      "explanation": { "en": "Informal clues: contractions (we've), phrasal verbs (sort out), abbreviations (asap), exclamation marks and friendly endings (Cheers). Formal clues: complete sentences, single verbs (enquire, resolve), passives (has been resolved) and fixed phrases (Please find attached, I would be grateful if). 'Could you' is polite, but asap makes that request informal." }
+    },
+    {
+      "id": "e2", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "You are texting a close friend. Which message sounds natural?" },
+      "question": "You can't come to your friend's birthday dinner tonight.",
+      "options": [
+        "I regret to inform you that I will be unable to attend this evening's dinner.",
+        "So sorry, I can't make it tonight! Can we celebrate at the weekend instead?",
+        "Please be advised that my attendance this evening will not be possible.",
+        "I am writing to inform you that I cannot come to dinner tonight."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Perfect in a formal email, but to a close friend 'I regret to inform you' sounds cold, as if you were cancelling a business contract." },
+        "2": { "en": "'Please be advised' belongs in official notices. To a friend it sounds sarcastic or angry." },
+        "3": { "en": "'I am writing to inform you' is a formal email opening; nobody 'writes to inform' a friend by text." }
+      },
+      "option_errors": { "0": "register", "2": "register", "3": "register" },
+      "explanation": { "en": "Friends expect informal language: a contraction (can't), a set phrase (make it = manage to come), short sentences and an exclamation mark. Too much formality is a register mistake too: it creates distance." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening",
+      "prompt": { "en": "Listen to the voice message and answer the question." },
+      "audio_text": "Hey, it's me. Listen, I'm not gonna make it to the thing tonight, something's come up at work. Can we push it to Saturday? Text me when you get this.",
+      "question": "Who is the message most likely for?",
+      "options": ["A manager the speaker doesn't know well", "A customer who booked a table", "A close friend", "A university lecturer"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "To a manager, the speaker would give their name and explain politely: 'I'm afraid I won't be able to attend ...'. 'Hey, it's me' assumes the listener knows the voice." },
+        "1": { "en": "A business would never call a booking 'the thing tonight' or tell a customer 'Text me when you get this'." },
+        "3": { "en": "With a lecturer you would expect a greeting, your name and a polite request, not 'gonna' and 'push it to Saturday'." }
+      },
+      "option_errors": { "0": "register", "1": "register", "3": "register" },
+      "explanation": { "en": "Every clue is informal: 'Hey, it's me' (the listener knows the voice), 'gonna', 'the thing' (both people know what it is), the phrasal verb 'push it to Saturday' (= postpone it) and the direct 'Text me'." }
+    },
+    {
+      "id": "e4", "type": "match", "skill": "vocabulary",
+      "prompt": { "en": "Match each phrasal verb with a formal single verb that means the same." },
+      "pairs": [["put off", "postpone"], ["get in touch with", "contact"], ["go up", "increase"], ["turn down", "reject"], ["look into", "investigate"], ["carry on", "continue"]],
+      "explanation": { "en": "In formal writing, a single verb often replaces a phrasal verb: The vote was postponed (put off). We will contact you (get in touch with). Costs have increased (gone up). The council rejected the plan (turned it down). We are investigating the complaint (looking into it). Please continue (carry on)." }
+    },
+    {
+      "id": "e5", "type": "read", "skill": "reading",
+      "prompt": { "en": "Read an email from a language school and the message Maya sent to a friend about it. Then answer the questions." },
+      "title": "Same news, two readers",
+      "passage": "EMAIL FROM THE SCHOOL\n\nSubject: Change to your course start date\n\nDear Ms Levi,\n\nWe are writing to inform you that the start of the Advanced English summer course has been postponed from 1 July to 8 July. This is due to essential maintenance work in our main building, which will not be completed until the end of June.\n\nWe appreciate that this change may cause some inconvenience, and we apologise for any disruption to your summer plans. If the new date is not suitable, you are welcome to transfer to the August course at no extra cost, or to request a full refund. Your timetable and classroom details will be sent to you in the week before the course begins.\n\nWe would be grateful if you could confirm whether you will be attending by 15 June. Should you require any further information, please do not hesitate to contact our office.\n\nKind regards,\nDaniel Shapiro\nStudent Services, Brightwater Language School\n\nMAYA'S MESSAGE TO HER FRIEND NOA\n\nHey Noa! Bad news, the summer course has been pushed back a week. They're fixing something in the building, so it starts on the 8th now, not the 1st. If that's no good, I can switch to August for free or just get my money back. Got to let them know by the 15th, and they'll send the timetable the week before. Honestly, I don't mind, it means I'm free for your birthday trip on the 1st! Still on? Let me know what time we're leaving and I'll sort out snacks.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why has the start date of the course changed?",
+          "options": ["Not enough students have registered.", "Work on the school building will not be finished in time.", "The teachers are not available until 8 July.", "Maya asked to start a week later."],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Student numbers are not mentioned." },
+            "2": { "en": "The teachers are not mentioned; the reason is the building work." },
+            "3": { "en": "The school made the change. Maya didn't ask for it, although she doesn't mind it." }
+          },
+          "option_errors": { "0": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "'This is due to essential maintenance work in our main building, which will not be completed until the end of June.' Maya says the same thing informally: 'They're fixing something in the building.'" }
+        },
+        {
+          "type": "tf",
+          "statement": "Students who move to the August course have to pay extra.",
+          "answer": false,
+          "explanation": { "en": "The email says 'at no extra cost'; Maya's informal version is 'for free'." }
+        },
+        {
+          "type": "mcq",
+          "question": "Which phrase in Maya's message has the same meaning as 'has been postponed'?",
+          "options": ["let them know", "get my money back", "has been pushed back", "switch to"],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "'Let them know' is the informal version of 'confirm'." },
+            "1": { "en": "'Get my money back' is the informal version of 'request a full refund'." },
+            "3": { "en": "'Switch to' is the informal version of 'transfer to'." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "push back = postpone. Maya uses a phrasal verb where the formal email uses a single verb." }
+        },
+        {
+          "type": "mcq",
+          "question": "Which feature appears in the email but not in Maya's message?",
+          "options": ["Fixed formal phrases, such as 'Should you require any further information'", "Contractions, such as they're and that's", "Missing subjects, as in 'Got to let them know'", "Exclamation marks"],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Contractions (they're, that's, I'm) appear only in Maya's message; the email uses full forms." },
+            "2": { "en": "Leaving out the subject (Got to = I've got to) is typical of informal messages, not formal emails." },
+            "3": { "en": "Only Maya uses exclamation marks; formal emails avoid them." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension", "3": "comprehension" },
+          "explanation": { "en": "'Should you require any further information, please do not hesitate to contact ...' is a fixed formal phrase. The informal equivalent would be 'Let us know if you need anything else.'" }
+        },
+        {
+          "type": "gap",
+          "text": "The formal word in the email for 'getting your money back' is a full ___.",
+          "answers": [["refund"]],
+          "explanation": { "en": "'Request a full refund' (formal) = 'get my money back' (informal)." }
+        },
+        {
+          "type": "tf",
+          "statement": "Maya is unhappy about the new start date.",
+          "answer": false,
+          "explanation": { "en": "'Honestly, I don't mind, it means I'm free for your birthday trip on the 1st!' The change actually suits her." }
+        }
+      ]
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "writing",
+      "prompt": { "en": "Which sentence would fit best in a formal report?" },
+      "question": "A report on how teachers plan their lessons:",
+      "options": [
+        "The researchers found out loads about how teachers plan lessons.",
+        "The researchers got 40 teachers to chat about their lessons.",
+        "The researchers checked out how teachers plan their lessons.",
+        "The researchers carried out interviews with 40 teachers."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "'Loads' is very informal, and 'found out' is less formal than 'discovered' or 'established'." },
+        "1": { "en": "'Got ... to chat' is conversational. A report would say 'interviewed 40 teachers'." },
+        "2": { "en": "'Check out' is informal. A report would use 'examined' or 'investigated'." }
+      },
+      "option_errors": { "0": "register", "1": "register", "2": "register" },
+      "hint": { "en": "One of these phrasal verbs is neutral and completely normal in reports." },
+      "explanation": { "en": "Carry out is a phrasal verb, but it is neutral and standard in reports: carry out interviews, a survey, research, an experiment. Replace a phrasal verb only when it is informal and a natural single verb exists." }
+    },
+    {
+      "id": "e7", "type": "mcq", "skill": "grammar",
+      "prompt": { "en": "Choose the best request for an email to a lecturer you have never met." },
+      "question": "You missed a lecture and need the slides.",
+      "options": [
+        "I was wondering if you could send me the slides from Monday's lecture.",
+        "Send me the slides from Monday's lecture, please.",
+        "Can u send me Monday's slides?",
+        "I would be grateful if you can send me the slides from Monday's lecture."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "An imperative sounds like an order, even with please. To someone you don't know, ask: Could you ...? / I was wondering if you could ..." },
+        "2": { "en": "'u' and a direct 'Can' belong in a text to a friend, not in an email to a lecturer." },
+        "3": { "en": "Nearly perfect, but the pattern is would ... if you could: I would be grateful if you could send me ..." }
+      },
+      "option_errors": { "1": "register", "2": "register", "3": "modal-use" },
+      "explanation": { "en": "I was wondering if you could + base verb is polite and indirect: ideal for a first email to someone in authority." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar",
+      "prompt": { "en": "Complete the polite requests with the correct form of the word in brackets." },
+      "text": "Would you mind ___ (check) my application before I submit it? Would it be possible ___ (move) the meeting to Tuesday? I would be grateful if you ___ (can) let me know by Friday.",
+      "answers": [["checking"], ["to move", "for us to move", "for you to move", "for me to move", "for them to move"], ["could", "would"]],
+      "wrong_feedback": [
+        { "match": "to check", "feedback": { "en": "Mind is followed by -ing: Would you mind checking ...?" }, "error_type": "gerund-infinitive" },
+        { "match": "check", "feedback": { "en": "Mind is followed by -ing: Would you mind checking ...?" }, "error_type": "gerund-infinitive" },
+        { "match": "moving", "feedback": { "en": "Would it be possible is followed by to + base verb: Would it be possible to move ...?" }, "error_type": "gerund-infinitive" },
+        { "match": "move", "feedback": { "en": "Would it be possible needs to before the verb: to move." }, "error_type": "gerund-infinitive" },
+        { "match": "can", "feedback": { "en": "After I would be grateful if you ..., use could (or would), not can." }, "error_type": "modal-use" }
+      ],
+      "hint": { "en": "Three different patterns: mind + -ing; possible + to + verb; grateful if you + past modal." },
+      "explanation": { "en": "Would you mind checking ...? · Would it be possible to move ...? · I would be grateful if you could (or would) let me know ... The polite request needs could or would, not can, because the whole sentence is hypothetical." }
+    },
+    {
+      "id": "e9", "type": "gap", "skill": "writing",
+      "prompt": { "en": "Complete Lior's formal email with words from the box. Two words are not needed." },
+      "text": "Dear Mr Haddad, I am writing to ___ about the part-time position advertised on your website. I have attached my CV, and I would be ___ if you could let me know whether the position is still available. Please do not ___ to contact me if you ___ any further information. I look forward to ___ from you. Kind regards, Lior Mizrahi",
+      "word_bank": ["enquire", "grateful", "hesitate", "require", "hearing", "hear", "wondering"],
+      "answers": [["enquire", "inquire", "ask"], ["grateful"], ["hesitate"], ["require", "need"], ["hearing"]],
+      "wrong_feedback": [
+        { "match": "hear", "feedback": { "en": "In look forward to, to is a preposition, so it is followed by -ing: I look forward to hearing from you." }, "error_type": "gerund-infinitive" },
+        { "match": "wondering", "feedback": { "en": "Wondering belongs in 'I was wondering if you could ...', which does not fit any of these gaps." }, "error_type": "word-choice" }
+      ],
+      "explanation": { "en": "These are fixed phrases of formal emails: I am writing to enquire about ...; I would be grateful if you could ...; Please do not hesitate to contact me if you require any further information; I look forward to hearing from you." }
+    },
+    {
+      "id": "e10", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "This sentence is for an official notice. Replace the phrasal verb with a formal single verb." },
+      "source": "The council has decided to put off the vote until next month.",
+      "answers": [
+        "The council has decided to postpone the vote until next month.",
+        "The council has decided to postpone the vote to next month.",
+        "The council has decided to defer the vote until next month.",
+        "The council has decided to defer the vote to next month.",
+        "The council has decided to delay the vote until next month."
+      ],
+      "wrong_feedback": [
+        { "match": "The council has decided to put off the vote until next month.", "feedback": { "en": "That is the original sentence. Replace put off with one formal verb." }, "error_type": "register" },
+        { "match": "The council has decided to put the vote off until next month.", "feedback": { "en": "Moving the particle doesn't change the register. Use one formal verb: postpone." }, "error_type": "register" },
+        { "match": "cancel", "feedback": { "en": "Cancel means the vote will not happen at all. Put off means move it to a later date: postpone." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "Which single verb means 'move to a later time'?" },
+      "explanation": { "en": "put off = postpone. 'Postpone the vote until next month' is the standard phrase in official notices; defer is even more formal." }
+    },
+    {
+      "id": "e11", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "Rewrite the sentence for a formal report. Replace the phrasal verb with a single verb and keep the same tense." },
+      "source": "Ticket prices have gone up by almost a third since January.",
+      "answers": [
+        "Ticket prices have risen by almost a third since January.",
+        "Ticket prices have increased by almost a third since January.",
+        "Ticket prices have climbed by almost a third since January."
+      ],
+      "wrong_feedback": [
+        { "match": "raised", "feedback": { "en": "Raise needs an object: The company raised its prices. Prices themselves rise or increase: Ticket prices have risen." }, "error_type": "word-choice" },
+        { "match": "rose", "feedback": { "en": "Keep the present perfect: have + past participle. Rise is irregular (rise, rose, risen): have risen." }, "error_type": "verb-form" },
+        { "match": "Ticket prices increased by almost a third since January.", "feedback": { "en": "Keep the present perfect: since January connects the past to now, so use have increased." }, "error_type": "tense-choice" }
+      ],
+      "hint": { "en": "go up = rise / increase. Watch the past participle." },
+      "explanation": { "en": "go up = rise or increase. Rise is irregular (rise, rose, risen) and takes no object; raise needs an object (raise prices)." }
+    },
+    {
+      "id": "e12", "type": "transform", "skill": "vocabulary",
+      "prompt": { "en": "Now go the other way. Rewrite this formal notice as a message to a friend, using a phrasal verb with 'call'." },
+      "source": "The concert has been cancelled.",
+      "answers": [
+        "The concert has been called off.",
+        "They've called off the concert.",
+        "They've called the concert off.",
+        "They called off the concert.",
+        "They called the concert off.",
+        "The concert's been called off.",
+        "The concert got called off.",
+        "The concert was called off."
+      ],
+      "wrong_feedback": [
+        { "match": "The concert has been called out.", "feedback": { "en": "Call out means shout, or criticise someone publicly. The phrasal verb that means cancel is call off." }, "error_type": "word-choice" },
+        { "match": "The concert has been called.", "feedback": { "en": "You need the particle: call off = cancel." }, "error_type": "word-choice" }
+      ],
+      "hint": { "en": "call ___ = cancel" },
+      "explanation": { "en": "call off = cancel. In a message to a friend you might write: 'Bad news, they've called off the concert!'" }
+    },
+    {
+      "id": "e13", "type": "correct", "skill": "grammar",
+      "prompt": { "en": "Find and correct the mistake in this sentence from an email." },
+      "sentence": "Would you mind to send me the agenda before Thursday's meeting?",
+      "answers": [
+        "Would you mind sending me the agenda before Thursday's meeting?",
+        "Would you mind sending the agenda to me before Thursday's meeting?"
+      ],
+      "error_type": "gerund-infinitive",
+      "wrong_feedback": [
+        { "match": "send", "feedback": { "en": "After mind, use the -ing form, not the base verb or to + verb: Would you mind sending ...?" }, "error_type": "gerund-infinitive" }
+      ],
+      "hint": { "en": "Check the verb form after mind." },
+      "explanation": { "en": "Mind is always followed by -ing: Would you mind sending ...? (Would you mind if I sent ...? is also correct, but it asks for permission, so the meaning changes.)" }
+    },
+    {
+      "id": "e14", "type": "correct", "skill": "writing",
+      "prompt": { "en": "This sentence is from a formal email to a company. One expression is too informal. Correct it." },
+      "sentence": "I would be grateful if you could get back to me ASAP.",
+      "answers": [
+        "I would be grateful if you could get back to me as soon as possible.",
+        "I would be grateful if you could reply as soon as possible.",
+        "I would be grateful if you could respond as soon as possible.",
+        "I would be grateful if you could contact me as soon as possible.",
+        "I would be grateful if you could get back to me at your earliest convenience.",
+        "I would be grateful if you could reply at your earliest convenience.",
+        "I would be grateful if you could respond at your earliest convenience."
+      ],
+      "error_type": "register",
+      "wrong_feedback": [
+        { "match": "asap", "feedback": { "en": "Writing asap in small letters doesn't change it: it is still an abbreviation. Write it in full: as soon as possible." }, "error_type": "register" }
+      ],
+      "hint": { "en": "Which abbreviation belongs in a quick message, not a formal email?" },
+      "explanation": { "en": "ASAP is fine between colleagues who know each other, but in a formal email write it in full (as soon as possible) or use the formal phrase at your earliest convenience." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking",
+      "prompt": { "en": "Ask a manager politely to move a meeting. Say it out loud." },
+      "target": "I was wondering if it would be possible to move our meeting to Tuesday afternoon.",
+      "focus": { "en": "Wondering and would start with /w/: round your lips and keep your top teeth away from your lower lip. Stress the key words: I was WONdering if it would be POSSible to MOVE our MEETing to TUESday afterNOON. 'Was' is weak: /wəz/.", "he": "wondering ו-would מתחילות ב-/w/: מעגלים את השפתיים בלי שהשיניים העליונות יגעו בשפה התחתונה. ההטעמה על המילים החשובות: WONdering, POSSible, MOVE, MEETing, TUESday. את was אומרים חלש: /wəz/." },
+      "explanation": { "en": "This request uses two softeners at once (I was wondering if + would it be possible), which suits someone senior. With a colleague you know well, 'Can we move the meeting to Tuesday?' is fine." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing",
+      "prompt": { "en": "Pass on the same news to two different readers." },
+      "task": { "en": "Your flatmate Omer sent you this message: 'ugh, the boiler's broken AGAIN. no hot water since Sunday!! that's the 3rd time this month. I texted Mr Walsh on Sunday and he hasn't got back to me. can you email him? we need someone to come and fix it by Thursday. if he can't sort it out, we'll get our own plumber and send him the bill. oh and tell Kenji, he doesn't know yet'. Part A (130-180 words): write a formal email to your landlord, Mr Walsh. Include all the key information: the problem, how long it has lasted, how often it has happened, the earlier message, the deadline and what you will do if it is not repaired. Make at least one hedged request, and avoid contractions and informal phrasal verbs. Part B (50-90 words): write an informal message to your other flatmate, Kenji, explaining what is happening and what you have done. (The automatic checks treat all B2 writing as formal, so you can ignore contraction warnings for Part B.)" },
+      "min_words": 180,
+      "max_words": 280,
+      "model_answer": "Part A\nSubject: No hot water at Flat 3, 12 Mill Road\n\nDear Mr Walsh,\n\nI am writing on behalf of the tenants of Flat 3 to report that the boiler has stopped working again. We have had no hot water since Sunday, and this is the third time this month that the boiler has failed.\n\nMy flatmate Omer sent you a text message about the problem on Sunday, but unfortunately we have not yet received a reply. I would therefore be grateful if you could arrange for a qualified engineer to repair the boiler by Thursday at the latest.\n\nIf this is not possible, we will have no choice but to hire a plumber ourselves and forward the invoice to you. We would, of course, prefer to resolve the matter with you directly.\n\nPlease do not hesitate to contact me on 07700 900123 if you require any further information or need access to the flat.\n\nKind regards,\nYael Cohen\n\nPart B\nHey Kenji, heads-up: the boiler's broken again, so no hot water till it's fixed. Omer texted Mr Walsh on Sunday but heard nothing back, so I've just emailed him and asked him to get someone round by Thursday. If he doesn't sort it out, we'll call our own plumber and send him the bill. Fingers crossed! The gym showers are always an option in the meantime. See you later!",
+      "checklist": [
+        { "en": "Part A opens and closes formally (Dear Mr Walsh, ... Kind regards,) and uses capital letters for names, days and I." },
+        { "en": "Part A includes every key fact: no hot water since Sunday, the third time this month, the unanswered text, the Thursday deadline and the plan to hire your own plumber." },
+        { "en": "Part A makes at least one hedged request (I would be grateful if you could ..., Would it be possible to ...?) and states the consequence firmly but politely, with no exclamation marks." },
+        { "en": "Part A has no contractions or abbreviations (ASAP), and formal verbs replace informal phrasal verbs where a natural one exists (contact, arrange, repair, resolve)." },
+        { "en": "Part B sounds like a real message to a friend: contractions, everyday phrasal verbs (sort out, get back to) and short sentences." },
+        { "en": "The registers stay separate: nothing like 'Cheers' in Part A and nothing like 'I would be grateful' in Part B." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Register is a choice made for the reader: the same information can be formal or informal, and the wrong choice for the reader is the mistake." },
+      { "en": "Formal: full forms, single verbs (postpone, contact, investigate), complete sentences, Dear ... / Kind regards. Informal: contractions, phrasal verbs, short sentences, Hi ... / Thanks!" },
+      { "en": "Not every phrasal verb is informal: carry out, point out and set up are fine in reports." },
+      { "en": "Soften requests to people you don't know: Would you mind + -ing; I was wondering if you could; I would be grateful if you could; Would it be possible to." },
+      { "en": "In a formal email, capital letters are not optional: Dear Ms Cohen, I, Monday, Kind regards.", "he": "במייל רשמי אותיות גדולות הן חובה: Dear Ms Cohen, I, Monday, Kind regards. בעברית אין אותיות גדולות, ולכן כדאי לבדוק אותן במיוחד לפני ששולחים." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

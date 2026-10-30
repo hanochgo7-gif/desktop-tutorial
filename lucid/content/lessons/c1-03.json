@@ -1,0 +1,1059 @@
+{
+  "id": "c1-03",
+  "level": "C1",
+  "title_en": "Hedging and stance",
+  "title_he": "הסתייגות ועמדה",
+  "topics": [
+    "hedging"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can make each claim exactly as strong as its evidence, using hedges (may, tends to, appears to, arguably, to some extent) and boosters (clearly, undeniably, demonstrates)."
+    },
+    {
+      "en": "I can spot and fix both over-claiming (boosters, absolutes or causal claims the evidence cannot support) and over-hedging (stacked hedges that say nothing)."
+    },
+    {
+      "en": "I can show my own stance clearly, with attitude markers and phrases such as I would argue, while staying appropriately cautious about the evidence."
+    }
+  ],
+  "warmup": {
+    "en": "Noa and Daniel describe the same small survey of 40 classmates. Noa: 'This proves that teenagers hate reading.' Daniel: 'This suggests that many students in our class read less for pleasure than they used to.' Which writer would a careful reader trust more, and which words make the difference?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Compare three versions of one finding from a small study. (1) 'Online classes damage students' concentration.' This sounds like a proven fact about every student. (2) 'It could perhaps be argued that online classes might possibly have some effect on concentration in some cases.' This says almost nothing. (3) 'The results suggest that online classes may reduce some students' concentration, particularly in longer sessions.' Only the third is calibrated: the claim is exactly as strong as the evidence. Hedging is not about sounding modest; it is about precision."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Strength",
+        "Verbs and modals",
+        "Adverbs and phrases",
+        "Use when ..."
+      ],
+      "rows": [
+        [
+          "Strong (boosters)",
+          "demonstrates, shows, will, must",
+          "clearly, undeniably, certainly",
+          "the evidence is strong, consistent and directly relevant, or the point is uncontroversial"
+        ],
+        [
+          "Probable",
+          "suggests, indicates, is likely to, tends to",
+          "probably, generally, in most cases, largely",
+          "the evidence is good but has limits (sample, place, time)"
+        ],
+        [
+          "Possible",
+          "may, might, could, appears to, seems to",
+          "possibly, arguably, to some extent, in some cases",
+          "the evidence is limited, early or indirect, or you are interpreting"
+        ],
+        [
+          "Distancing",
+          "It is claimed that ..., X is said to ...",
+          "reportedly, according to ...",
+          "you report someone else's view without adopting it"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Hedge the part of the claim that is actually uncertain: the scope (all students → many students in this sample; always → usually), the certainty (is → may be; will → is likely to), the cause (causes → is associated with, may contribute to) or the reporting verb (proves → suggests; shows → indicates). A reporting verb plus a modal (The data suggest that X may ...) is a normal combination."
+    },
+    {
+      "type": "rule",
+      "en": "Boosters (clearly, undeniably, it is evident that, demonstrates) are fine when the evidence is overwhelming or the point is uncontroversial: Clearly, one survey cannot settle the question. On a contested claim they read as over-claiming, and a critical reader will go looking for the gap. The same is true of absolutes you cannot defend: always, never, everyone, all, proves."
+    },
+    {
+      "type": "warning",
+      "en": "Over-hedging is also an error. Stacking hedges on the same point makes a claim meaningless and makes you sound unsure of everything: *It might possibly be suggested that this could perhaps be a factor. → This may be a factor. If every sentence is hedged, the reader cannot tell which claims you actually stand behind."
+    },
+    {
+      "type": "tip",
+      "en": "Being cautious about evidence is not the same as having no opinion. Show your stance with attitude markers (surprisingly, importantly, a serious weakness, a convincing explanation) and, where the genre allows it, careful self-mention (I would argue that ...). Arguably means 'there are good reasons to say this, although others may disagree': it signals a position, not a vague maybe. A strong essay sounds like this: 'Although the evidence is limited, I would argue that the scheme deserves a longer trial.'"
+    }
+  ],
+  "examples": [
+    {
+      "en": "The results suggest that shorter lessons can improve concentration, particularly among younger students.",
+      "note": "the reporting verb and the scope are both calibrated"
+    },
+    {
+      "en": "Remote work tends to suit employees who already have a quiet place to work.",
+      "note": "tends to: a general pattern with exceptions"
+    },
+    {
+      "en": "This is arguably the most important change to the exam system in a generation.",
+      "note": "arguably: a stance that others may dispute"
+    },
+    {
+      "en": "To some extent, the fall in visitor numbers reflects the bad weather.",
+      "note": "to some extent: partly, not fully"
+    },
+    {
+      "en": "The new policy appears to have reduced waiting times, although the data cover only six months.",
+      "note": "appears to + perfect infinitive for a past result; the limitation is stated"
+    },
+    {
+      "en": "Over-claim: This study proves that social media causes loneliness. Calibrated: This study indicates that heavy social media use is associated with loneliness in the group surveyed.",
+      "note": "proves → indicates; causes → is associated with; the scope is limited"
+    },
+    {
+      "en": "Over-hedged: It could perhaps be argued that this might possibly be a factor. Calibrated: This may be a factor.",
+      "note": "one hedge is enough for one uncertainty"
+    },
+    {
+      "en": "Clearly, no single study can settle the question.",
+      "note": "a booster is fine when the point is uncontroversial"
+    },
+    {
+      "en": "It is widely claimed that the reform was rushed, but the committee's own records suggest otherwise.",
+      "note": "distancing: report a view without adopting it"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "arguably",
+      "pos": "adverb",
+      "he": "ניתן לטעון ש...",
+      "def": "used when you believe something is true and can give reasons, although others may disagree",
+      "example": "This is arguably the best novel she has written.",
+      "ipa": "/ˈɑːɡjuəbli/",
+      "collocations": [
+        "arguably the best",
+        "arguably more important",
+        "arguably the most"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "to some extent",
+      "pos": "phrase",
+      "he": "במידה מסוימת",
+      "def": "partly, but not completely",
+      "example": "To some extent, the results support the original hypothesis.",
+      "ipa": "/tə ˌsʌm ɪkˈstent/",
+      "collocations": [
+        "to a large extent",
+        "to a lesser extent",
+        "to what extent"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "tend to",
+      "pos": "verb phrase",
+      "he": "נוטה ל...",
+      "def": "to usually do or be something; to be likely to behave in a particular way",
+      "example": "Prices tend to rise in the summer months.",
+      "ipa": "/ˈtend tə/",
+      "collocations": [
+        "tend to be",
+        "tend to agree",
+        "tend to increase"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "appear to",
+      "pos": "verb phrase",
+      "he": "נראה ש...; מסתמן ש...",
+      "def": "to seem to be true, based on the evidence available",
+      "example": "The new rules appear to have reduced waiting times.",
+      "ipa": "/əˈpɪə(r) tə/",
+      "collocations": [
+        "appear to have",
+        "would appear to",
+        "appear to show"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "suggest",
+      "pos": "verb",
+      "he": "להצביע על; לרמז ש...",
+      "def": "(of evidence) to show that something is probably true",
+      "example": "The findings suggest that sleep affects memory.",
+      "ipa": "/səˈdʒest/",
+      "collocations": [
+        "the findings suggest",
+        "strongly suggest",
+        "evidence suggests that"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "undeniably",
+      "pos": "adverb",
+      "he": "ללא ספק; באופן שאין להכחישו",
+      "def": "in a way that nobody can reasonably doubt",
+      "example": "The building is undeniably beautiful, but it is very expensive to heat.",
+      "ipa": "/ˌʌndɪˈnaɪəbli/",
+      "collocations": [
+        "undeniably true",
+        "undeniably important",
+        "undeniably impressive"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "be associated with",
+      "pos": "phrase",
+      "he": "להיות קשור ל...; להימצא בקשר עם",
+      "def": "to be connected with something, without showing that one thing causes the other",
+      "example": "Long working hours are associated with poorer sleep.",
+      "ipa": "/bi əˈsəʊʃieɪtɪd wɪð/",
+      "collocations": [
+        "closely associated with",
+        "strongly associated with",
+        "associated with an increased risk of"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "tentative",
+      "pos": "adjective",
+      "he": "זהיר; ראשוני; לא סופי",
+      "def": "not definite or certain, because you are not yet sure",
+      "example": "The study offers tentative evidence that the method works.",
+      "ipa": "/ˈtentətɪv/",
+      "collocations": [
+        "tentative conclusions",
+        "a tentative explanation",
+        "tentative evidence"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "conclusive",
+      "pos": "adjective",
+      "he": "חד-משמעי; מכריע",
+      "def": "proving something so that there is no longer any doubt",
+      "example": "There is still no conclusive evidence that the drug works.",
+      "ipa": "/kənˈkluːsɪv/",
+      "collocations": [
+        "conclusive evidence",
+        "conclusive proof",
+        "far from conclusive"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "overstate",
+      "pos": "verb",
+      "he": "להפריז; להגזים בתיאור",
+      "def": "to say that something is larger, more important or more certain than it really is",
+      "example": "The headline overstated the results of a very small study.",
+      "ipa": "/ˌəʊvəˈsteɪt/",
+      "collocations": [
+        "overstate the case",
+        "overstate the importance of",
+        "hard to overstate"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "a degree of",
+      "pos": "phrase",
+      "he": "מידה מסוימת של",
+      "def": "some, but not a large amount of",
+      "example": "There is a degree of uncertainty in all long-term forecasts.",
+      "ipa": "/ə dɪˈɡriː əv/",
+      "collocations": [
+        "a degree of uncertainty",
+        "a high degree of",
+        "a certain degree of"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "stance",
+      "pos": "noun",
+      "he": "עמדה",
+      "def": "an opinion or attitude about something, especially one that you state publicly",
+      "example": "The report takes a cautious stance on the new technology.",
+      "ipa": "/stæns/",
+      "collocations": [
+        "take a stance on",
+        "a neutral stance",
+        "adopt a cautious stance"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "caveat",
+      "pos": "noun",
+      "he": "הסתייגות; אזהרה",
+      "def": "a warning that a claim has limits or may not be completely true",
+      "example": "The results are promising, with the caveat that the sample was small.",
+      "ipa": "/ˈkæviæt/",
+      "collocations": [
+        "with the caveat that",
+        "an important caveat",
+        "add a caveat"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Sort the expressions by what they do to a claim."
+      },
+      "categories": [
+        "Hedge (softens)",
+        "Booster (strengthens)",
+        "Distancing (reports others' view)"
+      ],
+      "items": [
+        {
+          "text": "may",
+          "category": "Hedge (softens)"
+        },
+        {
+          "text": "tends to",
+          "category": "Hedge (softens)"
+        },
+        {
+          "text": "arguably",
+          "category": "Hedge (softens)"
+        },
+        {
+          "text": "to some extent",
+          "category": "Hedge (softens)"
+        },
+        {
+          "text": "clearly",
+          "category": "Booster (strengthens)"
+        },
+        {
+          "text": "undeniably",
+          "category": "Booster (strengthens)"
+        },
+        {
+          "text": "demonstrates",
+          "category": "Booster (strengthens)"
+        },
+        {
+          "text": "it is beyond doubt that",
+          "category": "Booster (strengthens)"
+        },
+        {
+          "text": "it is claimed that",
+          "category": "Distancing (reports others' view)"
+        },
+        {
+          "text": "reportedly",
+          "category": "Distancing (reports others' view)"
+        },
+        {
+          "text": "is said to",
+          "category": "Distancing (reports others' view)"
+        },
+        {
+          "text": "according to some critics",
+          "category": "Distancing (reports others' view)"
+        }
+      ],
+      "explanation": {
+        "en": "Hedges reduce the certainty or the scope of your own claim. Boosters increase it. Distancing devices report a view without committing to it, which is useful when you present an opposing view before answering it (It is often claimed that ...)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Evidence: a survey of 60 students at one college found that those who used a planner app reported slightly lower stress than those who did not. Which claim best matches this evidence?"
+      },
+      "question": "Choose the best-calibrated claim.",
+      "options": [
+        "Planner apps reduce stress in students.",
+        "The survey clearly proves that planner apps are the most effective way for students everywhere to manage their stress.",
+        "At this college, students who used a planner app reported slightly lower stress, although the survey cannot show that the app caused the difference.",
+        "It might perhaps be possible that planner apps could possibly have some kind of effect on stress in certain cases."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Over-claim: a general causal claim about all students, based on one survey at one college that cannot show cause and effect."
+        },
+        "1": {
+          "en": "Over-claim: 'clearly proves', 'most effective' and 'everywhere' go far beyond a small survey at one college."
+        },
+        "3": {
+          "en": "Over-hedged: five hedges stacked on one point, so the sentence says nothing, and it even loses what the survey did find."
+        }
+      },
+      "option_errors": {
+        "0": "unsupported-claim",
+        "1": "unsupported-claim",
+        "3": "register"
+      },
+      "explanation": {
+        "en": "The best claim limits the scope (at this college), reports exactly what was found (reported slightly lower stress), and names the limitation (cannot show cause), while still making a clear statement."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Listen to a researcher talking about a study on a podcast and answer the question."
+      },
+      "audio_text": "We were honestly surprised by the results. Students who walked to school seemed to concentrate better in the first lesson. But I'd be careful about saying that walking causes it. Families who live close enough to walk may differ in other ways, and that probably matters too.",
+      "question": "How certain is the speaker that walking to school improves concentration?",
+      "options": [
+        "Completely certain: the results prove that walking causes better concentration.",
+        "The speaker thinks the results were probably a mistake.",
+        "The speaker is certain that walking has no effect on concentration.",
+        "The speaker sees a link but is not sure that walking is the real cause."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "The speaker says the opposite: 'I'd be careful about saying that walking causes it.'"
+        },
+        "1": {
+          "en": "The researchers were surprised, but the speaker does not doubt the results themselves: students who walked 'seemed to concentrate better'."
+        },
+        "2": {
+          "en": "The speaker does not rule walking out, but only says that other factors may also explain the link."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "Listen for the hedges: 'seemed to concentrate better' (a link), 'I'd be careful about saying that walking causes it' (no causal claim), 'may differ in other ways' and 'probably matters too' (other explanations)."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Three of these sentences are well calibrated. Which one is over-hedged?"
+      },
+      "question": "Choose the over-hedged sentence.",
+      "options": [
+        "The data suggest a link between sleep and exam performance.",
+        "It could perhaps be argued that sleep might possibly play some sort of role in exam performance.",
+        "Sleep is likely to be one of several factors in exam performance.",
+        "Clearly, sleep is not the only factor in exam performance."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "Well calibrated: one cautious reporting verb (suggest) and a modest claim (a link, not a cause)."
+        },
+        "2": {
+          "en": "Well calibrated: 'is likely to' and 'one of several' each limit the claim once."
+        },
+        "3": {
+          "en": "A booster is justified here: nobody would seriously claim that sleep is the only factor."
+        }
+      },
+      "explanation": {
+        "en": "'Could perhaps be argued', 'might possibly' and 'some sort of' all soften the same point. Keep one: Sleep may play a role in exam performance."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Read the teacher's blog post and answer the questions. Notice how the writer separates what the evidence shows from what it does not."
+      },
+      "title": "Our phone-free term: what we can and cannot say",
+      "passage": "Last spring, our school asked students in Years 10 and 11 to hand in their phones at the start of each day for one term. When the term ended, a local news site ran the headline 'Phone ban transforms school: grades soar'. As the teacher who coordinated the trial, I would like to set out more carefully what we actually found.\n\nFirst, the good news. Teachers reported fewer interruptions in lessons, and in our end-of-term survey most students said they found it easier to concentrate. Average marks in the end-of-term tests were somewhat higher than in the previous year. These are encouraging results, and I believe they justify continuing the trial.\n\nHowever, 'grades soar' is not a fair summary. The improvement in marks was modest, and it appears to have been concentrated in two subjects that also changed their teaching methods that term. It is therefore difficult to say how much of the improvement was due to the phone policy and how much to the new methods. Students' own reports of better concentration are valuable, but they may partly reflect what students believed we wanted to hear.\n\nThere is also the question of scale. One school, one term and two year groups are a small base for any general conclusion. Schools differ in size, intake and culture, and a policy that works in one setting will not necessarily work in another. Critics of the trial have argued that the ban simply moved phone use to breaks and the journey home. We have no data on this, so we cannot rule it out.\n\nNone of this means the trial failed. On the contrary, I would argue that it was a success precisely because it gives us good questions rather than final answers. The results suggest that a phone-free day can make lessons calmer, and they offer tentative evidence of better learning. What they do not show is that the ban, on its own, caused grades to rise, or that every school should adopt it tomorrow.\n\nNext year we plan to run the trial for a full year, with a comparison school that keeps its current rules. If the pattern holds, we will be able to make a stronger claim. Until then, the honest headline would be less exciting: 'Phone-free day shows promise; more research needed'.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why does the writer object to the headline 'Phone ban transforms school: grades soar'?",
+          "options": [
+            "Because the trial was a failure",
+            "Because it claims far more than the evidence shows",
+            "Because the journalist did not visit the school",
+            "Because grades actually went down"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "The writer says 'None of this means the trial failed' and calls it a success."
+            },
+            "2": {
+              "en": "The text says nothing about the journalist's visit."
+            },
+            "3": {
+              "en": "Marks were 'somewhat higher', so they did not go down; they just did not 'soar'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The improvement 'was modest' and may have other causes, so 'transforms' and 'soar' over-claim. The writer's whole post calibrates the claim."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why is the writer unsure that the phone policy caused the higher marks?",
+          "options": [
+            "The tests were easier than in the previous year.",
+            "Teachers reported more interruptions than before.",
+            "Two subjects also changed their teaching methods that term.",
+            "Students refused to take part in the survey."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The difficulty of the tests is not mentioned."
+            },
+            "1": {
+              "en": "Teachers reported fewer interruptions, not more."
+            },
+            "3": {
+              "en": "Most students did answer the survey; the concern is that their answers 'may partly reflect what students believed we wanted to hear'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The improvement was concentrated in two subjects that changed their teaching methods, so the new methods are an alternative explanation."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer thinks the trial should be stopped.",
+          "answer": false,
+          "explanation": {
+            "en": "'I believe they justify continuing the trial', and next year it will run for a full year."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer accepts that the critics' claim about phone use moving to breaks could be true.",
+          "answer": true,
+          "explanation": {
+            "en": "'We have no data on this, so we cannot rule it out.' The writer reports the critics' view fairly and admits the limitation."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which phrase shows the writer taking a clear personal stance rather than hedging?",
+          "options": [
+            "it appears to have been concentrated",
+            "they may partly reflect",
+            "It is therefore difficult to say",
+            "I would argue that it was a success"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "Appears to is a hedge: it makes a claim about the marks more cautious."
+            },
+            "1": {
+              "en": "May partly is a hedge on the value of the survey answers."
+            },
+            "2": {
+              "en": "This admits uncertainty; it does not state a position."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'I would argue that ...' is self-mention plus a reporting verb: the writer commits to a position while the hedges elsewhere stay honest about the evidence."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "The writer describes the evidence of better learning as ___, meaning that it is early and not yet certain.",
+          "answers": [
+            [
+              "tentative"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "conclusive",
+              "feedback": {
+                "en": "Conclusive means 'proving something beyond doubt': the opposite of what the writer says."
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "encouraging",
+              "feedback": {
+                "en": "Encouraging describes the results in paragraph 2. In paragraph 5 the evidence of better learning is described with a word that means 'early and uncertain'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'... they offer tentative evidence of better learning.' Tentative = not definite or certain."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What would allow the writer to 'make a stronger claim'?",
+          "options": [
+            "A full-year trial with a comparison school showing the same pattern",
+            "A more exciting headline in the local news",
+            "Asking students again whether they concentrate better",
+            "Banning phones during breaks as well"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "A headline does not change the evidence; the writer criticises exciting headlines."
+            },
+            "2": {
+              "en": "More self-reports would not answer the main doubt about what caused the change."
+            },
+            "3": {
+              "en": "This is not mentioned as part of the plan."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "A longer trial and a comparison school address two stated limitations (a single term, no comparison). 'If the pattern holds, we will be able to make a stronger claim': claim strength follows evidence strength."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Complete the summary with words from the box. Match each word to the strength of the evidence."
+      },
+      "text": "The trial lasted only one term, so its results ___ be treated with caution. In every class, teachers ___ reported fewer interruptions, so this finding is solid. The rise in marks, however, ___ to have been concentrated in two subjects, and it ___ partly reflect new teaching methods rather than the phone policy.",
+      "word_bank": [
+        "should",
+        "consistently",
+        "appears",
+        "may",
+        "proves",
+        "undeniably"
+      ],
+      "answers": [
+        [
+          "should",
+          "must"
+        ],
+        [
+          "consistently"
+        ],
+        [
+          "appears",
+          "seems"
+        ],
+        [
+          "may",
+          "might",
+          "could"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "may",
+          "feedback": {
+            "en": "May shows possibility: it fits where the writer is unsure whether something is true (the last gap). The first gap gives advice based on a limitation: the results should be treated with caution."
+          },
+          "error_type": "modal-use"
+        },
+        {
+          "match": "should",
+          "feedback": {
+            "en": "Should gives advice or an expectation. The last gap needs possibility (it may partly reflect ...), because nobody knows what caused the rise."
+          },
+          "error_type": "modal-use"
+        },
+        {
+          "match": "undeniably",
+          "feedback": {
+            "en": "Undeniably is a booster about certainty. The cue 'In every class' calls for a word about how regularly something happened: consistently."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "proves",
+          "feedback": {
+            "en": "Proves is far too strong for a one-term trial, and it does not fit the grammar of any gap here."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "appears",
+          "feedback": {
+            "en": "Appears needs to after it (appears to have been), so it only fits the third gap."
+          },
+          "error_type": "word-choice"
+        },
+        {
+          "match": "consistently",
+          "feedback": {
+            "en": "Consistently describes a pattern across many cases. It only fits the gap after 'In every class, teachers'."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "hint": {
+        "en": "Find the cue for each gap: 'only one term' (a limitation), 'In every class' (a consistent pattern), 'to have been' (a verb that takes to), 'partly ... rather than' (a possibility)."
+      },
+      "explanation": {
+        "en": "should be treated with caution (advice from a limitation) · consistently reported (strong, repeated evidence) · appears to have been concentrated (a cautious interpretation) · may partly reflect (a possible alternative cause)."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Match each over-strong word with a calibrated alternative."
+      },
+      "pairs": [
+        [
+          "always",
+          "usually"
+        ],
+        [
+          "proves",
+          "suggests"
+        ],
+        [
+          "causes",
+          "is associated with"
+        ],
+        [
+          "all students",
+          "many students"
+        ],
+        [
+          "will",
+          "is likely to"
+        ],
+        [
+          "certainly",
+          "probably"
+        ]
+      ],
+      "explanation": {
+        "en": "Each pair hedges a different dimension: frequency (always → usually), reporting (proves → suggests), cause (causes → is associated with), scope (all → many), prediction (will → is likely to) and certainty (certainly → probably)."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "The claim below is based on a small six-week study. Rewrite it with 'suggests' and a modal verb (may, might or could)."
+      },
+      "source": "The study proves that the new app improves sleep.",
+      "answers": [
+        "The study suggests that the new app may improve sleep.",
+        "The study suggests that the new app may help to improve sleep.",
+        "The study suggests that the new app may help improve sleep.",
+        "The study suggests that the new app might improve sleep.",
+        "The study suggests that the new app might help to improve sleep.",
+        "The study suggests that the new app might help improve sleep.",
+        "The study suggests that the new app could improve sleep.",
+        "The study suggests that the new app could help to improve sleep.",
+        "The study suggests that the new app could help improve sleep.",
+        "The study suggests the new app may improve sleep.",
+        "The study suggests the new app may help to improve sleep.",
+        "The study suggests the new app may help improve sleep.",
+        "The study suggests the new app might improve sleep.",
+        "The study suggests the new app might help to improve sleep.",
+        "The study suggests the new app might help improve sleep.",
+        "The study suggests the new app could improve sleep.",
+        "The study suggests the new app could help to improve sleep.",
+        "The study suggests the new app could help improve sleep."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The study suggests that the new app improves sleep.",
+          "feedback": {
+            "en": "Suggests is a good start, but the task also asks you to soften the claim itself with a modal: the new app may improve sleep."
+          }
+        },
+        {
+          "match": "The study suggests that the new app may possibly improve sleep.",
+          "feedback": {
+            "en": "May and possibly hedge the same uncertainty twice. Keep one: may improve sleep."
+          },
+          "error_type": "register"
+        }
+      ],
+      "explanation": {
+        "en": "Two different uncertainties, two hedges: the reporting verb (proves → suggests: one small study) and the claim (improves → may improve: the effect is possible, not established)."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Rewrite the sentence beginning 'The new rules appear ...'."
+      },
+      "source": "It seems that the new rules reduced waiting times.",
+      "answers": [
+        "The new rules appear to have reduced waiting times.",
+        "The new rules appear to have reduced the waiting times."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The new rules appear to reduce waiting times.",
+          "feedback": {
+            "en": "The reduction happened in the past, so use the perfect infinitive: appear to have reduced."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "The new rules appear having reduced waiting times.",
+          "feedback": {
+            "en": "Appear is followed by a to-infinitive: appear to have reduced."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "hint": {
+        "en": "Appear + to-infinitive. For a past event, use to have + past participle."
+      },
+      "explanation": {
+        "en": "It seems that X reduced ... = X appears to have reduced ... The perfect infinitive (to have reduced) shows that the result is in the past, while appear keeps the claim cautious."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "This sentence is over-hedged. Rewrite it with only one hedge, beginning 'The new timetable ...'."
+      },
+      "source": "It could perhaps be suggested that the new timetable might possibly have contributed to the fall in complaints.",
+      "answers": [
+        "The new timetable may have contributed to the fall in complaints.",
+        "The new timetable might have contributed to the fall in complaints.",
+        "The new timetable could have contributed to the fall in complaints.",
+        "The new timetable may well have contributed to the fall in complaints.",
+        "The new timetable probably contributed to the fall in complaints.",
+        "The new timetable possibly contributed to the fall in complaints.",
+        "The new timetable appears to have contributed to the fall in complaints.",
+        "The new timetable seems to have contributed to the fall in complaints.",
+        "The new timetable is likely to have contributed to the fall in complaints."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The new timetable may possibly have contributed to the fall in complaints.",
+          "feedback": {
+            "en": "Still two hedges on the same point (may + possibly). Keep one: The new timetable may have contributed ..."
+          },
+          "error_type": "register"
+        },
+        {
+          "match": "The new timetable contributed to the fall in complaints.",
+          "feedback": {
+            "en": "Now there is no hedge at all. The evidence was uncertain, so keep exactly one: may have contributed."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "The new timetable caused the fall in complaints.",
+          "feedback": {
+            "en": "Caused is stronger than the original 'contributed to', and there is no hedge. Keep the original meaning with one hedge: may have contributed."
+          },
+          "error_type": "unsupported-claim"
+        }
+      ],
+      "explanation": {
+        "en": "'Could perhaps be suggested', 'might' and 'possibly' all soften the same uncertainty. One hedge is enough: The new timetable may have contributed to the fall in complaints. The claim is now clear and still honest."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Find and fix the mistake."
+      },
+      "sentence": "In some extent, the results support the original hypothesis.",
+      "answers": [
+        "To some extent, the results support the original hypothesis.",
+        "To some extent the results support the original hypothesis.",
+        "The results support the original hypothesis to some extent.",
+        "The results, to some extent, support the original hypothesis."
+      ],
+      "error_type": "preposition",
+      "explanation": {
+        "en": "The fixed phrase is to some extent (also to a large extent, to what extent). In some extent is not used."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "hedging",
+      "prompt": {
+        "en": "This sentence from a report has two mistakes in the same pattern. Rewrite it correctly."
+      },
+      "sentence": "The survey appears showing that younger employees tend preferring flexible hours to higher pay.",
+      "answers": [
+        "The survey appears to show that younger employees tend to prefer flexible hours to higher pay.",
+        "The survey appears to show younger employees tend to prefer flexible hours to higher pay."
+      ],
+      "error_type": "gerund-infinitive",
+      "hint": {
+        "en": "Appear and tend are followed by the same verb pattern."
+      },
+      "explanation": {
+        "en": "Appear and tend both take a to-infinitive: appears to show, tend to prefer. These hedging verbs are very common in reports, so the pattern is worth learning as a unit."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Boosters are not always wrong. In which sentence is the booster justified?"
+      },
+      "question": "Choose the sentence where the booster fits the evidence.",
+      "options": [
+        "Clearly, a sample of twelve volunteers cannot tell us how the whole country feels.",
+        "Clearly, this small pilot study proves that the method works for all learners.",
+        "It is undeniable that our approach is the only sensible solution to the housing crisis.",
+        "Obviously, everyone now agrees that a four-day working week is a good idea."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "A small pilot study cannot prove anything about 'all learners': clearly and proves both over-claim."
+        },
+        "2": {
+          "en": "Housing policy is highly contested, so 'It is undeniable' and 'the only sensible solution' over-claim."
+        },
+        "3": {
+          "en": "'Everyone agrees' is an absolute that is almost never true of a debated policy; obviously makes the over-claim worse."
+        }
+      },
+      "option_errors": {
+        "1": "unsupported-claim",
+        "2": "unsupported-claim",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "A booster is justified when the point is uncontroversial or the evidence is overwhelming. Nobody would dispute that twelve volunteers cannot represent a whole country."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "hedging",
+      "prompt": {
+        "en": "You are discussing a study in a seminar. Say the sentence out loud."
+      },
+      "target": "The results suggest a link, but I wouldn't go so far as to say that one causes the other.",
+      "focus": {
+        "en": "Let your voice fall and then rise slightly on 'link' to signal that a 'but' is coming, and stress CAUSes. Link 'go so far as' smoothly: /ɡəʊ səʊ ˈfɑːr əz/."
+      },
+      "explanation": {
+        "en": "Spoken hedging often uses whole phrases: I wouldn't go so far as to say ..., It looks as if ..., I'd be careful about saying ... They let you agree with part of a claim without accepting all of it."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "hedging",
+      "prompt": {
+        "en": "Write the discussion section of a short report, calibrating every claim to the evidence."
+      },
+      "task": {
+        "en": "A town ran a one-year trial of a four-day school week (Monday to Thursday) at two of its secondary schools. Illustrative, fictional findings: attendance rose slightly; average test results did not change; in a survey, most teachers said they felt less stressed; some parents reported difficulty finding childcare on Fridays; no comparison schools were included. Write the discussion section of a report for the town's education committee (250-350 words). Argue whether the town should extend the four-day week to all its schools, and respond to opposing views. Calibrate every claim: hedge where the evidence is limited, use boosters only where they are justified, and do not stack hedges."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "The trial offers encouraging but limited evidence. On balance, I would argue that the town should continue the four-day week at the two trial schools for a further year, with comparison schools, rather than extend it to every school now.\n\nThe most promising result is the slight rise in attendance. Students may find a shorter week easier to manage, and teachers' reports of lower stress suggest that the change could also help schools keep experienced staff. These are not trivial gains: attendance and staff stability both tend to affect learning over time. However, the evidence for them is modest. The rise in attendance was small, and the teachers' views come from a survey, which may partly reflect their enthusiasm for the new schedule.\n\nEqually important is what did not change. Test results stayed the same, so the trial clearly does not show that a shorter week improves learning. It does, at least, suggest that learning did not suffer, which was the main fear before the trial began.\n\nSome parents argue that the scheme simply moves the burden onto families, who must now find childcare on Fridays. This objection deserves serious weight, because a policy that helps teachers while making life harder for working parents is unlikely to be fair or sustainable. The trial cannot tell us how widespread the problem is, but the committee could address it directly by offering supervised activities on Fridays during a second trial year.\n\nFinally, the design of the study limits what we can conclude. With only two schools and no comparison group, it is difficult to say whether the changes were caused by the shorter week or by other factors, such as new staff or a different intake of students. A second year with comparison schools would allow a far stronger claim, in either direction.\n\nIn short, the four-day week appears to be workable, but it is too early to recommend it for every school.",
+      "checklist": [
+        {
+          "en": "Position: I state clearly whether the town should extend, continue or end the scheme, and my position follows from the evidence."
+        },
+        {
+          "en": "Calibration: every claim is as strong as its evidence: hedges (suggests, may, appears to, tends to) where the evidence is limited, boosters (clearly) only for uncontroversial points."
+        },
+        {
+          "en": "No over-claiming: no 'proves', 'always', 'everyone' or causal claim that a small trial without comparison schools cannot support."
+        },
+        {
+          "en": "No over-hedging: no claim carries more than one or two hedges, and my main position is stated clearly, not buried in maybes."
+        },
+        {
+          "en": "Limitations: I explain at least two limitations of the study (size, length, self-reported data, no comparison group) and what they mean for my conclusion."
+        },
+        {
+          "en": "Counterargument: I state the strongest opposing view fairly and attribute it (Some parents argue ...), then respond by refuting it, conceding and outweighing it, or qualifying my claim."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Calibrate: make every claim exactly as strong as its evidence."
+      },
+      {
+        "en": "Hedge the part that is uncertain: scope (many, in most cases), certainty (may, appears to, is likely to), cause (is associated with) or the reporting verb (suggests, indicates)."
+      },
+      {
+        "en": "Use boosters (clearly, undeniably, demonstrates) only when the evidence is overwhelming or the point is uncontroversial; avoid absolutes such as always, everyone and proves."
+      },
+      {
+        "en": "Over-hedging is an error too: one hedge per uncertainty is enough, and your main position must stay clear."
+      },
+      {
+        "en": "Distancing (It is claimed that ..., X is said to ...) reports others' views; attitude markers and I would argue that ... show your own stance."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

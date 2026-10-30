@@ -1,0 +1,335 @@
+{
+  "id": "a1-14",
+  "level": "A1",
+  "title_en": "Reading short messages",
+  "title_he": "קריאת הודעות קצרות",
+  "topics": ["pronouns-object"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can use me, you, him, her, it, us and them after a verb or a preposition.", "he": "אני יודע/ת להשתמש ב-me, you, him, her, it, us, them אחרי פועל או אחרי מילת יחס." },
+    { "en": "I can understand short emails, text messages and notices.", "he": "אני מבין/ה מיילים, הודעות טקסט ומודעות קצרות." },
+    { "en": "I can quickly find one piece of information (a time, a place, a name) in a short text.", "he": "אני יודע/ת למצוא מהר פרט מידע אחד (שעה, מקום, שם) בטקסט קצר." }
+  ],
+  "warmup": { "en": "Look at the last three messages on your phone. Who are they from? What do they want from you?", "he": "הסתכלו על שלוש ההודעות האחרונות בטלפון שלכם. ממי הן? מה רוצים מכם? אולי כתוב בהן 'תתקשר אליי' או 'תגידי לה' – היום נראה איך אומרים את זה באנגלית." },
+  "explanation": [
+    { "type": "p", "en": "A message from Noa: 'Can you call me? I can't find Omer. Is he with you? Tell him to call us!' I, he and we come before the verb: they are subjects. me, him and us come after a verb or after a word like with, for or to: they are objects.", "he": "הודעה מנועה: 'Can you call me? I can't find Omer. Is he with you? Tell him to call us!' ‏I, he, we באים לפני הפועל – הם הנושא. ‏me, him, us באים אחרי פועל או אחרי מילה כמו with, for, to – הם המושא." },
+    { "type": "table", "headers": ["Subject", "Object", "עברית", "Example"], "rows": [
+      ["I", "me", "אותי, לי, אליי, איתי", "Call me later."],
+      ["you", "you", "אותך, לך, אליך", "I can see you!"],
+      ["he", "him", "אותו, לו, אליו", "Do you know him?"],
+      ["she", "her", "אותה, לה, אליה", "Ask her."],
+      ["it", "it", "אותו / אותה (חפץ)", "I love it."],
+      ["we", "us", "אותנו, לנו, איתנו", "Come with us."],
+      ["they", "them", "אותם / אותן, להם", "Text them."]
+    ] },
+    { "type": "rule", "en": "Subject pronoun before the verb; object pronoun after the verb or after a preposition (with, for, to, at, from, about): She likes him. This is for you. Wait for us.", "he": "כינוי נושא בא לפני הפועל; כינוי מושא בא אחרי הפועל או אחרי מילת יחס (with, for, to, at, from, about): She likes him. This is for you. Wait for us." },
+    { "type": "p", "en": "In Hebrew the form changes: oti, li, elay, iti. In English one word does all these jobs: me (call me, for me, with me).", "he": "בעברית הצורה משתנה: אותי, לי, אליי, איתי. באנגלית מילה אחת עושה את כל העבודה: me (call me, for me, with me)." },
+    { "type": "warning", "en": "Don't use I, he, she, we or they after a verb or a preposition: I love them (not 'I love they'), with me (not 'with I'). And a thing is always it, never him or her.", "he": "אחרי פועל או מילת יחס לא משתמשים ב-I, he, she, we, they: I love them (לא I love they), with me (לא with I). וחפץ הוא תמיד it, אף פעם לא him או her – גם אם בעברית הוא בזכר או בנקבה." },
+    { "type": "tip", "en": "Reading a message: 1) For one fact (a time, a place, a price), don't read every word. Know what you need, then look quickly for numbers, names and capital letters. 2) When you see him, her, it or them, look back: who or what is it?", "he": "קריאת הודעה: 1) כשמחפשים פרט אחד (שעה, מקום, מחיר), לא צריך לקרוא כל מילה. החליטו מה אתם מחפשים, ואז חפשו בעיניים מספרים, שמות ואותיות גדולות. 2) כשמופיע him, her, it או them, חזרו אחורה ובדקו: על מי או על מה מדובר?" }
+  ],
+  "examples": [
+    { "en": "Can you call me after work?", "he": "את/ה יכול/ה להתקשר אליי אחרי העבודה?" },
+    { "en": "I see your sister every morning. I really like her!", "he": "אני רואה את אחותך כל בוקר. אני ממש מחבב/ת אותה!" },
+    { "en": "These shoes are great. I love them!", "he": "הנעליים האלה מעולות. אני מת/ה עליהן!", "note": "shoes = they → them" },
+    { "en": "Where's my phone? I can't find it.", "he": "איפה הטלפון שלי? אני לא מוצא/ת אותו.", "note": "a thing → it" },
+    { "en": "Omer is at the door. Can you open it for him?", "he": "עומר בדלת. את/ה יכול/ה לפתוח לו?", "note": "it = the door; him = Omer" },
+    { "en": "We're at the café. Come and meet us!", "he": "אנחנו בבית הקפה. בואו לפגוש אותנו!" },
+    { "en": "This parcel is for you.", "he": "החבילה הזאת בשבילך." },
+    { "en": "Dana and Lior are new here. Let's invite them for dinner.", "he": "דנה וליאור חדשים כאן. בואו נזמין אותם לארוחת ערב." }
+  ],
+  "vocab": [
+    { "word": "message", "pos": "noun", "he": "הודעה", "def": "a short piece of writing you send to someone", "example": "I get a lot of messages every day.", "ipa": "/ˈmesɪdʒ/", "collocations": ["send a message", "get a message", "text message"], "level": "A1" },
+    { "word": "text", "pos": "verb", "he": "לשלוח הודעה (בטלפון)", "def": "send a written message from your phone", "example": "Text me when you get home.", "ipa": "/tekst/", "collocations": ["text someone", "text me"], "level": "A2" },
+    { "word": "call", "pos": "verb", "he": "להתקשר (אל)", "def": "phone someone", "example": "Call me after six.", "ipa": "/kɔːl/", "collocations": ["call me", "call back"], "level": "A1" },
+    { "word": "reply", "pos": "verb", "he": "לענות, להשיב", "def": "answer a message, an email or a letter", "example": "Please reply to this email by Friday.", "ipa": "/rɪˈplaɪ/", "collocations": ["reply to an email", "reply to a message"], "level": "A2" },
+    { "word": "notice", "pos": "noun", "he": "מודעה (על לוח או על דלת)", "def": "a short piece of writing on a wall or a door that gives information", "example": "There's a notice on the door of the building.", "ipa": "/ˈnəʊtɪs/", "collocations": ["notice board", "put up a notice"], "level": "A2" },
+    { "word": "invite", "pos": "verb", "he": "להזמין (אנשים, לא אוכל)", "def": "ask someone to come to a party, a meal or an event", "example": "Let's invite them for dinner.", "ipa": "/ɪnˈvaɪt/", "collocations": ["invite someone to a party", "invite someone for dinner"], "level": "A2" },
+    { "word": "wait for", "pos": "phrasal verb", "he": "לחכות ל-", "def": "stay in a place until someone or something comes", "example": "Wait for me at the station!", "ipa": "/ˈweɪt fə(r)/", "collocations": ["wait for a bus", "wait for me"], "level": "A1" },
+    { "word": "meet", "pos": "verb", "he": "לפגוש, להיפגש", "def": "come to the same place as someone at a planned time", "example": "Let's meet at the café at seven.", "ipa": "/miːt/", "collocations": ["meet a friend", "meet at the café"], "level": "A1" },
+    { "word": "parcel", "pos": "noun", "he": "חבילה", "def": "a box or a bag that you send or get by post", "example": "There's a parcel for you at the post office.", "ipa": "/ˈpɑːsl/", "collocations": ["send a parcel", "a parcel for you"], "level": "A2" },
+    { "word": "neighbour", "pos": "noun", "he": "שכן/ה", "def": "a person who lives next to you or near you", "example": "My neighbour has a key to my flat.", "ipa": "/ˈneɪbə(r)/", "collocations": ["next-door neighbour", "a friendly neighbour"], "level": "A1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew there is no /ð/ sound, so them can come out as 'dem' or 'zem'. Put the tip of your tongue between your teeth and use your voice: them /ðəm/, with them.", "he": "בעברית אין את הצליל /ð/, ולכן them עלול לצאת 'דֶם' או 'זֶם'. שימו את קצה הלשון בין השיניים והשמיעו קול: them /ðəm/, with them.", "error_type": "pron-th" },
+    { "en": "In Hebrew there is one 'i' sound, so him and it can come out long, like 'heem' and 'eet' (= eat). In English they are short: him /hɪm/, it /ɪt/. The long sound is in he /hiː/.", "he": "בעברית יש צליל 'i' אחד, ולכן him ו-it עלולים לצאת ארוכים, כמו 'הִים' ו'אִיט' (כמו eat). באנגלית הם קצרים: him /hɪm/, it /ɪt/. הצליל הארוך הוא ב-he /hiː/.", "error_type": "pron-vowel" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "categorize", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Subject or object? Sort the words.", "he": "נושא או מושא? מיינו את המילים." },
+      "categories": ["subject (before the verb)", "object (after the verb)"],
+      "items": [
+        { "text": "I", "category": "subject (before the verb)" },
+        { "text": "me", "category": "object (after the verb)" },
+        { "text": "he", "category": "subject (before the verb)" },
+        { "text": "him", "category": "object (after the verb)" },
+        { "text": "they", "category": "subject (before the verb)" },
+        { "text": "them", "category": "object (after the verb)" },
+        { "text": "we", "category": "subject (before the verb)" },
+        { "text": "us", "category": "object (after the verb)" }
+      ],
+      "explanation": { "en": "Subjects do the action and come before the verb: I, he, they, we. Objects come after the verb or after a preposition: me, him, them, us. you and it are the same in both places.", "he": "הנושא עושה את הפעולה ובא לפני הפועל: I, he, they, we. המושא בא אחרי הפועל או אחרי מילת יחס: me, him, them, us. ‏you ו-it זהים בשני המקומות." }
+    },
+    {
+      "id": "e2", "type": "match", "skill": "vocabulary", "topic": "pronouns-object",
+      "prompt": { "en": "Match the English and the Hebrew.", "he": "התאימו בין המשפטים באנגלית לעברית." },
+      "pairs": [["Call me.", "תתקשרו אליי."], ["Wait for me.", "חכו לי."], ["Come with me.", "בואו איתי."], ["I know him.", "אני מכיר/ה אותו."], ["Tell her.", "תגידו לה."], ["I love them.", "אני אוהב/ת אותם."]],
+      "explanation": { "en": "Look at the first three: Hebrew has three different words (elay, li, iti), but English has one: me. The verb or the preposition (call, wait for, with) does the rest.", "he": "שימו לב לשלושת הראשונים: בעברית שלוש מילים שונות (אליי, לי, איתי), ובאנגלית מילה אחת: me. הפועל או מילת היחס (call, wait for, with) עושים את השאר." }
+    },
+    {
+      "id": "e3", "type": "read", "skill": "reading", "topic": "pronouns-object",
+      "prompt": { "en": "Read the chat and answer the questions.", "he": "קראו את הצ'אט וענו על השאלות." },
+      "title": "Climbing on Thursday?",
+      "passage": "Noa: Hi Amir! Are you free on Thursday? Maya and I go to the climbing wall every Thursday at 7. Come with us!\nAmir: Sounds great! Where is it?\nNoa: Next to the old bus station. I can send you the address.\nAmir: Thanks! Can my brother come too? He loves climbing.\nNoa: Of course! Bring him. Maya knows him from school.\nAmir: Perfect. See you there!",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "When do they go climbing?",
+          "options": ["On Thursday at 7", "On Tuesday at 7", "On Friday at 7"],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "Scan for a day: 'every Thursday at 7'.", "he": "חפשו בעיניים יום בשבוע: 'every Thursday at 7'." },
+            "2": { "en": "Scan for a day: 'every Thursday at 7'.", "he": "חפשו בעיניים יום בשבוע: 'every Thursday at 7'." }
+          },
+          "option_errors": { "1": "comprehension", "2": "comprehension" },
+          "explanation": { "en": "'Maya and I go to the climbing wall every Thursday at 7.'", "he": "'every Thursday at 7' – כל יום חמישי בשבע." }
+        },
+        {
+          "type": "mcq",
+          "question": "Noa writes 'Come with us!'. Who is us?",
+          "options": ["Amir and his brother", "Noa and Maya", "Maya and Amir"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: '...Maya and I go'." },
+            "2": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: '...Maya and I go'." }
+          },
+          "option_errors": { "0": "pronoun", "2": "pronoun" },
+          "explanation": { "en": "Maya and I = we → us. Noa invites Amir to come with her and Maya.", "he": "Maya and I = we → us. נועה מזמינה את אמיר לבוא איתה ועם מאיה." }
+        },
+        {
+          "type": "mcq",
+          "question": "Noa writes 'Bring him.' Who is him?",
+          "options": ["Amir", "Maya's friend", "Amir's brother"],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "Noa is writing to Amir, so Amir is you. Look back: 'Can my brother come too?'", "he": "נועה כותבת לאמיר, ולכן אמיר הוא you. חזרו אחורה: '?Can my brother come too'." },
+            "1": { "en": "Look back at Amir's question: 'Can my brother come too?'", "he": "חזרו לשאלה של אמיר: '?Can my brother come too'." }
+          },
+          "option_errors": { "0": "pronoun", "1": "comprehension" },
+          "explanation": { "en": "him points back to the last man in the chat: Amir's brother.", "he": "him מתייחס לגבר האחרון שהוזכר בצ'אט: האח של אמיר." }
+        },
+        {
+          "type": "tf",
+          "statement": "Maya doesn't know Amir's brother.",
+          "answer": false,
+          "explanation": { "en": "'Maya knows him from school.' him = Amir's brother.", "he": "'Maya knows him from school' – ‏him הוא האח של אמיר." }
+        },
+        {
+          "type": "gap",
+          "text": "The climbing wall is next to the old bus ___.",
+          "answers": [["station"]],
+          "explanation": { "en": "'Next to the old bus station.'", "he": "'Next to the old bus station' – ליד תחנת האוטובוסים הישנה." }
+        }
+      ]
+    },
+    {
+      "id": "e4", "type": "listen", "skill": "listening", "topic": "pronouns-object",
+      "prompt": { "en": "Listen to the voice message and answer the question.", "he": "הקשיבו להודעה הקולית וענו על השאלה." },
+      "audio_text": "Your parcel is with your neighbour, Mrs Cohen. Please call her before six.",
+      "question": "Who do you need to call?",
+      "options": ["The post office.", "Mrs Cohen, your neighbour.", "Mr Cohen, your neighbour."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "The message doesn't say call the post office. It says call her, and her = Mrs Cohen.", "he": "ההודעה לא אומרת להתקשר לדואר. נאמר call her, ו-her היא Mrs Cohen." },
+        "2": { "en": "The speaker says call her – a woman: Mrs Cohen. For a man we say him.", "he": "נאמר call her – אישה: Mrs Cohen. על גבר אומרים him." }
+      },
+      "option_errors": { "0": "comprehension", "2": "pronoun" },
+      "explanation": { "en": "her points back to Mrs Cohen: 'Your parcel is with your neighbour, Mrs Cohen. Please call her.'", "he": "her מתייחסת ל-Mrs Cohen: 'Your parcel is with your neighbour, Mrs Cohen. Please call her'." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "Lior and Maya are at the door. Can you open the door for ___?",
+      "options": ["they", "their", "them", "him"],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "they is a subject (before a verb). After for, use the object form: them.", "he": "they הוא נושא (לפני פועל). אחרי for משתמשים בצורת המושא: them." },
+        "1": { "en": "their needs a noun after it (their car). Here: for them.", "he": "אחרי their חייב לבוא שם עצם (their car). כאן: for them." },
+        "3": { "en": "him is for one man. Lior and Maya are two people: them.", "he": "him מתאים לגבר אחד. ליאור ומאיה הם שני אנשים: them." }
+      },
+      "option_errors": { "0": "pronoun", "1": "pronoun", "3": "pronoun" },
+      "explanation": { "en": "Lior and Maya = they. After a preposition (for) → them.", "he": "Lior and Maya = they. אחרי מילת יחס (for) → them." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Choose the correct word.", "he": "בחרו את המילה הנכונה." },
+      "question": "Where's my phone? I can't find ___.",
+      "options": ["him", "it", "her", "them"],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "him is only for a man or a boy. In Hebrew a phone is masculine, but in English every thing is it.", "he": "him רק לגבר או לילד. בעברית טלפון הוא בזכר ('אותו'), אבל באנגלית כל חפץ הוא it." },
+        "2": { "en": "her is only for a woman or a girl. A phone is a thing: it.", "he": "her רק לאישה או לילדה. טלפון הוא חפץ: it." },
+        "3": { "en": "them is for two or more. One phone: it.", "he": "them מתאים לשניים או יותר. טלפון אחד: it." }
+      },
+      "option_errors": { "0": "pronoun", "2": "pronoun", "3": "pronoun" },
+      "explanation": { "en": "One thing → it, as a subject and as an object: It's new. I can't find it.", "he": "דבר אחד → it, גם כנושא וגם כמושא: It's new. I can't find it." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Complete with I, me, they or them.", "he": "השלימו ב-I, me, they או them." },
+      "text": "I can't find my keys. Can you help ___? Maybe ___ are in the kitchen.",
+      "word_bank": ["I", "me", "they", "them"],
+      "answers": [["me"], ["they"]],
+      "wrong_feedback": [
+        { "match": "I", "feedback": { "en": "After a verb (help), use the object form: help me.", "he": "אחרי פועל (help) משתמשים בצורת המושא: help me." }, "error_type": "pronoun" },
+        { "match": "them", "feedback": { "en": "Before a verb (are), use the subject form: they are.", "he": "לפני פועל (are) משתמשים בצורת הנושא: they are." }, "error_type": "pronoun" },
+        { "match": "me", "feedback": { "en": "The second gap is the keys, and it comes before the verb are: they.", "he": "במקום החסר השני מדובר במפתחות, והמילה באה לפני הפועל are: they." }, "error_type": "pronoun" },
+        { "match": "they", "feedback": { "en": "After help we need an object, and you mean yourself: help me.", "he": "אחרי help צריך מושא, ואתם מדברים על עצמכם: help me." }, "error_type": "pronoun" }
+      ],
+      "explanation": { "en": "help me (object, after the verb). they are (subject, before the verb; they = my keys).", "he": "help me (מושא, אחרי הפועל). ‏they are (נושא, לפני הפועל; they = המפתחות)." }
+    },
+    {
+      "id": "e8", "type": "gap", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Type the missing pronouns.", "he": "הקלידו את הכינויים החסרים." },
+      "text": "My grandmother lives in Rehovot. I visit ___ every Friday, and she always cooks for ___ – me and my brothers.",
+      "answers": [["her"], ["us"]],
+      "wrong_feedback": [
+        { "match": "she", "feedback": { "en": "After visit, use the object form: her.", "he": "אחרי visit משתמשים בצורת המושא: her." }, "error_type": "pronoun" },
+        { "match": "him", "feedback": { "en": "Your grandmother is a woman: her.", "he": "סבתא היא אישה: her." }, "error_type": "pronoun" },
+        { "match": "we", "feedback": { "en": "After for, use the object form: us.", "he": "אחרי for משתמשים בצורת המושא: us." }, "error_type": "pronoun" },
+        { "match": "them", "feedback": { "en": "You are in the group too (me and my brothers), so: us.", "he": "גם אתם בקבוצה (me and my brothers), ולכן us." }, "error_type": "pronoun" }
+      ],
+      "hint": { "en": "Who gets the visit? Who gets the food?", "he": "את מי מבקרים? בשביל מי מבשלים?" },
+      "explanation": { "en": "visit her (my grandmother = she → her). cook for us (me and my brothers = we → us).", "he": "visit her (סבתא = she → her). ‏cook for us (אני והאחים שלי = we → us)." }
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Replace the words in CAPITAL LETTERS with a pronoun.", "he": "החליפו את המילים באותיות הגדולות בכינוי גוף." },
+      "source": "I see DANA AND TOM every day.",
+      "answers": ["I see them every day."],
+      "wrong_feedback": [
+        { "match": "I see they every day.", "feedback": { "en": "After a verb (see), use the object form: them.", "he": "אחרי פועל (see) משתמשים בצורת המושא: them." }, "error_type": "pronoun" },
+        { "match": "I see their every day.", "feedback": { "en": "their needs a noun after it (their car). Here: I see them.", "he": "אחרי their חייב לבוא שם עצם (their car). כאן: I see them." }, "error_type": "pronoun" },
+        { "match": "I see him every day.", "feedback": { "en": "Dana and Tom are two people: them.", "he": "דנה ותום הם שני אנשים: them." }, "error_type": "pronoun" }
+      ],
+      "explanation": { "en": "Dana and Tom = they (subject) / them (object). After see → them.", "he": "Dana and Tom = they (נושא) / them (מושא). אחרי see → them." }
+    },
+    {
+      "id": "e10", "type": "order", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["Can", "you", "send", "me", "the", "photos?"],
+      "explanation": { "en": "send + person (me) + thing (the photos). You can also say: Can you send the photos to me?", "he": "send + אדם (me) + דבר (the photos). אפשר גם: Can you send the photos to me?" }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "This sentence has a mistake. Write it correctly.", "he": "במשפט יש טעות. כתבו אותו נכון." },
+      "sentence": "Come to the cinema with we!",
+      "answers": ["Come to the cinema with us!"],
+      "error_type": "pronoun",
+      "explanation": { "en": "After a preposition (with), use the object form: with us.", "he": "אחרי מילת יחס (with) משתמשים בצורת המושא: with us." }
+    },
+    {
+      "id": "e12", "type": "correct", "skill": "grammar", "topic": "pronouns-object",
+      "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
+      "sentence": "These are my new shoes. Do you like it?",
+      "answers": ["These are my new shoes. Do you like them?"],
+      "error_type": "pronoun",
+      "hint": { "en": "How many shoes?", "he": "כמה נעליים יש כאן?" },
+      "explanation": { "en": "shoes is plural, so the pronoun is them: Do you like them?", "he": "shoes ברבים, ולכן הכינוי הוא them: Do you like them?" }
+    },
+    {
+      "id": "e13", "type": "read", "skill": "reading", "topic": "pronouns-object",
+      "prompt": { "en": "Scan the notice: find the facts quickly, then answer.", "he": "סרקו את המודעה: חפשו מהר את הפרטים, ואז ענו." },
+      "title": "Notice: no water on Tuesday",
+      "passage": "Dear neighbours,\nThere is no water in the building on Tuesday 12 March, from 9 a.m. to 2 p.m. There is a problem with the pipes on the roof, and workers need to fix them. Please don't use the lift from 10 to 12 – the workers need it. Do you have a question or a problem? Call us on 054-555-0137 (Dana, flat 3).\nThank you!\nThe building committee",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "When does the water come back?",
+          "options": ["At 9 a.m.", "At 12 o'clock", "At 2 p.m."],
+          "answer": 2,
+          "option_feedback": {
+            "0": { "en": "At 9 a.m. the water stops: 'from 9 a.m. to 2 p.m.'", "he": "ב-9 בבוקר המים נעצרים: 'from 9 a.m. to 2 p.m.'." },
+            "1": { "en": "12 o'clock is the time for the lift, not the water.", "he": "השעה 12 קשורה למעלית, לא למים." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension" },
+          "explanation": { "en": "'from 9 a.m. to 2 p.m.' – so the water is back at 2 p.m.", "he": "'from 9 a.m. to 2 p.m.' – המים חוזרים ב-2 בצהריים." }
+        },
+        {
+          "type": "tf",
+          "statement": "You can use the lift at 11 a.m.",
+          "answer": false,
+          "explanation": { "en": "'Please don't use the lift from 10 to 12.' 11 is between 10 and 12.", "he": "'Please don't use the lift from 10 to 12' – והשעה 11 בין 10 ל-12." }
+        },
+        {
+          "type": "mcq",
+          "question": "'...the workers need it.' What is it?",
+          "options": ["the water", "the lift", "the roof"],
+          "answer": 1,
+          "option_feedback": {
+            "0": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: '...Please don't use the lift'." },
+            "2": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: '...Please don't use the lift'." }
+          },
+          "option_errors": { "0": "pronoun", "2": "pronoun" },
+          "explanation": { "en": "it points back to the lift: the workers need the lift, so you can't use it.", "he": "it מתייחס למעלית: הפועלים צריכים אותה, ולכן אי אפשר להשתמש בה." }
+        },
+        {
+          "type": "mcq",
+          "question": "'...workers need to fix them.' What is them?",
+          "options": ["the pipes", "the neighbours", "the workers"],
+          "answer": 0,
+          "option_feedback": {
+            "1": { "en": "The workers don't fix people! Look back: 'a problem with the pipes'.", "he": "הפועלים לא מתקנים אנשים! חזרו אחורה: 'a problem with the pipes'." },
+            "2": { "en": "The workers are the subject. them is the thing they fix: the pipes.", "he": "הפועלים הם הנושא. ‏them הוא מה שהם מתקנים: הצינורות." }
+          },
+          "option_errors": { "1": "pronoun", "2": "pronoun" },
+          "explanation": { "en": "them points back to the pipes (plural): 'a problem with the pipes... workers need to fix them.'", "he": "them מתייחס לצינורות (ברבים): '...a problem with the pipes... workers need to fix them'." }
+        },
+        {
+          "type": "gap",
+          "text": "If you have a problem, call Dana in flat ___.",
+          "answers": [["3", "three"]],
+          "explanation": { "en": "'Call us on 054-555-0137 (Dana, flat 3).' Here us = the building committee.", "he": "'(Dana, flat 3)'. כאן us = ועד הבית." }
+        }
+      ]
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "pronouns-object",
+      "prompt": { "en": "Listen and type the voice message.", "he": "הקשיבו והקלידו את ההודעה הקולית." },
+      "audio_text": "Can you call me tonight? I want to ask you something.",
+      "answers": ["Can you call me tonight? I want to ask you something."],
+      "hint": { "en": "Listen for two object pronouns: one after call, one after ask.", "he": "הקשיבו לשני כינויי מושא: אחד אחרי call ואחד אחרי ask." },
+      "explanation": { "en": "call me, ask you: the object pronoun comes straight after the verb.", "he": "call me, ask you: כינוי המושא בא מיד אחרי הפועל." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "pronouns-object",
+      "prompt": { "en": "You're planning a party with a friend. Say this out loud.", "he": "אתם מתכננים מסיבה עם חבר/ה. אמרו את המשפט בקול." },
+      "target": "Please tell them about the party, and invite him too.",
+      "focus": { "en": "them /ðəm/: tongue between your teeth, and use your voice. him /hɪm/ is short – not 'heem'.", "he": "them /ðəm/: הלשון בין השיניים, והשמיעו קול. ‏him /hɪm/ קצר – לא 'הִים'." },
+      "explanation": { "en": "tell them, invite him: the object pronoun comes right after the verb.", "he": "tell them, invite him: כינוי המושא בא מיד אחרי הפועל." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "pronouns-object",
+      "prompt": { "en": "Reply to Omer's message.", "he": "ענו להודעה של עומר." },
+      "task": { "en": "Read Omer's message: 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. Write a reply (4-6 sentences). Say yes or no, give a reason, ask one question, and use at least three object pronouns (me, you, him, her, it, us, them).", "he": "קראו את ההודעה של עומר: 'Hi! My parents are in town this weekend, and they want to meet you. Can you have lunch with us on Saturday? Meet us at the beach café at 12. Bring your sister too! Omer'. כתבו תשובה (4-6 משפטים): הסכימו או סרבו, תנו סיבה, שאלו שאלה אחת, והשתמשו לפחות בשלושה כינויי מושא (me, you, him, her, it, us, them)." },
+      "min_words": 25,
+      "max_words": 80,
+      "model_answer": "Hi Omer! Thanks for the message. Yes, I can come, and I really want to meet them. My sister can't come with me because she works on Saturdays, but she says hi to you. Can I bring something for your parents? See you at 12!",
+      "checklist": [
+        { "en": "Object pronouns come after verbs and prepositions: meet them, with me, to you.", "he": "כינויי מושא באים אחרי פעלים ומילות יחס: meet them, with me, to you." },
+        { "en": "Subjects come before the verb: I, she, they (not me, her, them).", "he": "לפני הפועל באים כינויי נושא: I, she, they (לא me, her, them)." },
+        { "en": "I answer Omer's question and ask one question.", "he": "עניתי על השאלה של עומר ושאלתי שאלה אחת." },
+        { "en": "Every sentence starts with a capital letter and ends with . ! or ?", "he": "כל משפט מתחיל באות גדולה ומסתיים ב-. או ! או ?" }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Subject before the verb: I, you, he, she, it, we, they. Object after a verb or a preposition: me, you, him, her, it, us, them.", "he": "נושא לפני הפועל: I, you, he, she, it, we, they. מושא אחרי פועל או מילת יחס: me, you, him, her, it, us, them." },
+      { "en": "One English object word does many jobs: call me, for me, with me.", "he": "מילה אחת באנגלית עושה את העבודה של כמה מילים בעברית: me = אותי, לי, אליי, איתי." },
+      { "en": "A thing is always it; two or more people or things → them.", "he": "חפץ הוא תמיד it; שניים או יותר (אנשים או דברים) → them." },
+      { "en": "Scanning: decide what you need (a time, a place, a name) and look for it quickly. When you see him, her, it or them, look back: who or what is it?", "he": "סריקה: החליטו מה אתם מחפשים (שעה, מקום, שם) וחפשו את זה מהר. כשמופיע him, her, it או them, חזרו אחורה ובדקו על מי או על מה מדובר." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}

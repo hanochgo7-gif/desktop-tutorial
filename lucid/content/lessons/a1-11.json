@@ -1,0 +1,965 @@
+{
+  "id": "a1-11",
+  "level": "A1",
+  "title_en": "Describing people and things",
+  "title_he": "תיאור אנשים ודברים",
+  "topics": [
+    "adjectives-basic"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can describe people, places and things with common adjectives and their opposites.",
+      "he": "אני יכול/ה לתאר אנשים, מקומות ודברים בעזרת שמות תואר נפוצים וההפכים שלהם."
+    },
+    {
+      "en": "I can put the adjective in the right place: a tall man, The man is tall.",
+      "he": "אני יודע/ת איפה לשים את שם התואר: a tall man, ‏The man is tall."
+    },
+    {
+      "en": "I can make an adjective stronger or softer with very, really and quite.",
+      "he": "אני יודע/ת לחזק או לרכך שם תואר בעזרת very, really ו-quite."
+    }
+  ],
+  "warmup": {
+    "en": "Describe your phone in Hebrew in two words. Does the adjective come before or after the noun? In English it's the other way round: a new phone.",
+    "he": "תארו את הטלפון שלכם בעברית בשתי מילים, למשל 'טלפון חדש'. שם התואר בא לפני שם העצם או אחריו? באנגלית זה הפוך: a new phone."
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Maya is tall, with long dark hair. She has a small flat in a really beautiful building. Her neighbours are very friendly people.",
+      "he": "מאיה גבוהה, עם שיער ארוך וכהה. יש לה דירה קטנה בבניין יפה מאוד. השכנים שלה אנשים נחמדים מאוד. שימו לב: באנגלית שם התואר בא לפני שם העצם (a small flat), או אחרי is/are (Maya is tall)."
+    },
+    {
+      "type": "rule",
+      "en": "An adjective goes before the noun: a tall man, an old city, friendly people. Or after be: The man is tall. The city is old.",
+      "he": "שם התואר בא לפני שם העצם: a tall man, an old city, friendly people. או אחרי be: The man is tall. The city is old."
+    },
+    {
+      "type": "warning",
+      "en": "Adjectives never change: one green apple, two green apples (not 'greens apples'); a tall man, a tall woman. No -s, and no different form for a man or a woman.",
+      "he": "שמות תואר באנגלית לא משתנים לעולם: one green apple, two green apples (ולא greens apples); ‏a tall man, a tall woman. אין s בסוף, ואין צורה שונה לזכר ולנקבה."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Adjective",
+        "Opposite",
+        "עברית"
+      ],
+      "rows": [
+        [
+          "big",
+          "small",
+          "גדול – קטן"
+        ],
+        [
+          "tall (people, buildings)",
+          "short",
+          "גבוה – נמוך"
+        ],
+        [
+          "long (hair, a film)",
+          "short",
+          "ארוך – קצר"
+        ],
+        [
+          "old (people)",
+          "young",
+          "מבוגר, זקן – צעיר"
+        ],
+        [
+          "old (things)",
+          "new",
+          "ישן – חדש"
+        ],
+        [
+          "cheap",
+          "expensive",
+          "זול – יקר"
+        ],
+        [
+          "quiet",
+          "noisy",
+          "שקט – רועש"
+        ],
+        [
+          "easy",
+          "difficult",
+          "קל – קשה"
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Word",
+        "Meaning",
+        "עברית",
+        "Example"
+      ],
+      "rows": [
+        [
+          "quite",
+          "a bit, but not very",
+          "די",
+          "The flat is quite small."
+        ],
+        [
+          "very",
+          "more than usual",
+          "מאוד",
+          "The flat is very small."
+        ],
+        [
+          "really",
+          "like very (common when speaking)",
+          "ממש",
+          "The flat is really small."
+        ]
+      ]
+    },
+    {
+      "type": "tip",
+      "en": "very, really and quite go before the adjective: a very old house. a/an depends on the next sound: an old car, but a very old car. With quite, a comes after it: quite a big flat. And don't mix quite /kwaɪt/ (a bit) with quiet /ˈkwaɪət/ (not noisy).",
+      "he": "very, ‏really ו-quite באים לפני שם התואר: a very old house. הבחירה בין a ל-an נקבעת לפי הצליל הבא: an old car, אבל a very old car. עם quite, ה-a בא אחריו: quite a big flat. ואל תבלבלו בין quite (די) ל-quiet (שקט)."
+    }
+  ],
+  "examples": [
+    {
+      "en": "It's a beautiful city.",
+      "he": "זאת עיר יפהפייה."
+    },
+    {
+      "en": "My brother is tall and very friendly.",
+      "he": "אחי גבוה ונחמד מאוד."
+    },
+    {
+      "en": "She has long curly hair.",
+      "he": "יש לה שיער ארוך ומתולתל.",
+      "note": "two adjectives, both before the noun"
+    },
+    {
+      "en": "These shoes are cheap, but they're really nice.",
+      "he": "הנעליים האלה זולות, אבל הן ממש יפות.",
+      "note": "no -s on cheap or nice"
+    },
+    {
+      "en": "We have quiet neighbours.",
+      "he": "יש לנו שכנים שקטים.",
+      "note": "quiet = not noisy; quite = a bit"
+    },
+    {
+      "en": "The test is quite easy.",
+      "he": "המבחן די קל.",
+      "note": "quite = a bit, not very"
+    },
+    {
+      "en": "It's an expensive restaurant.",
+      "he": "זו מסעדה יקרה.",
+      "note": "an + a vowel sound"
+    },
+    {
+      "en": "My grandfather is old, but his car is new!",
+      "he": "סבא שלי מבוגר, אבל המכונית שלו חדשה!",
+      "note": "old ↔ young (people), old ↔ new (things)"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "tall",
+      "pos": "adjective",
+      "he": "גבוה/ה",
+      "def": "big from the feet to the head (for people, trees and buildings)",
+      "example": "My sister is very tall.",
+      "ipa": "/tɔːl/",
+      "level": "A1"
+    },
+    {
+      "word": "short",
+      "pos": "adjective",
+      "he": "נמוך/ה; קצר/ה",
+      "def": "not tall (people); not long (hair, a film, a text)",
+      "example": "He's short, with short hair.",
+      "ipa": "/ʃɔːt/",
+      "level": "A1"
+    },
+    {
+      "word": "young",
+      "pos": "adjective",
+      "he": "צעיר/ה",
+      "def": "not old; in the early part of life",
+      "example": "Our teacher is young and friendly.",
+      "ipa": "/jʌŋ/",
+      "level": "A1"
+    },
+    {
+      "word": "old",
+      "pos": "adjective",
+      "he": "מבוגר/ת, זקן/ה; ישן/ה",
+      "def": "1 not young (people) 2 not new (things)",
+      "example": "My grandfather is old, but his phone is new.",
+      "ipa": "/əʊld/",
+      "level": "A1"
+    },
+    {
+      "word": "long",
+      "pos": "adjective",
+      "he": "ארוך/ה",
+      "def": "big from one end to the other",
+      "example": "She has long dark hair.",
+      "ipa": "/lɒŋ/",
+      "collocations": [
+        "long hair",
+        "a long day"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "curly",
+      "pos": "adjective",
+      "he": "מתולתל/ת",
+      "def": "with a lot of curls; not straight (for hair)",
+      "example": "Daniel has short curly hair.",
+      "ipa": "/ˈkɜːli/",
+      "collocations": [
+        "curly hair"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "friendly",
+      "pos": "adjective",
+      "he": "נחמד/ה, ידידותי/ת",
+      "def": "kind and nice to other people",
+      "example": "Our neighbours are really friendly.",
+      "ipa": "/ˈfrendli/",
+      "collocations": [
+        "friendly people",
+        "a friendly smile"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "quiet",
+      "pos": "adjective",
+      "he": "שקט/ה",
+      "def": "with little or no noise; (a person) not talking much",
+      "example": "The library is very quiet.",
+      "ipa": "/ˈkwaɪət/",
+      "level": "A1"
+    },
+    {
+      "word": "noisy",
+      "pos": "adjective",
+      "he": "רועש/ת",
+      "def": "with a lot of noise",
+      "example": "The street is noisy at night.",
+      "ipa": "/ˈnɔɪzi/",
+      "collocations": [
+        "noisy neighbours"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "cheap",
+      "pos": "adjective",
+      "he": "זול/ה",
+      "def": "not costing much money",
+      "example": "This café is cheap and good.",
+      "ipa": "/tʃiːp/",
+      "level": "A1"
+    },
+    {
+      "word": "expensive",
+      "pos": "adjective",
+      "he": "יקר/ה",
+      "def": "costing a lot of money",
+      "example": "It's an expensive phone.",
+      "ipa": "/ɪkˈspensɪv/",
+      "collocations": [
+        "very expensive",
+        "an expensive restaurant"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "beautiful",
+      "pos": "adjective",
+      "he": "יפה מאוד, יפהפה/ייה",
+      "def": "very nice to look at",
+      "example": "It's a beautiful day.",
+      "ipa": "/ˈbjuːtɪfl/",
+      "level": "A1"
+    },
+    {
+      "word": "difficult",
+      "pos": "adjective",
+      "he": "קשה",
+      "def": "not easy",
+      "example": "The test is quite difficult.",
+      "ipa": "/ˈdɪfɪkəlt/",
+      "collocations": [
+        "a difficult question"
+      ],
+      "level": "A1"
+    },
+    {
+      "word": "quite",
+      "pos": "adverb",
+      "he": "די, במידה מסוימת",
+      "def": "a bit, but not very (don't confuse it with quiet)",
+      "example": "The flat is quite small, but it's nice.",
+      "ipa": "/kwaɪt/",
+      "level": "A1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew the adjective comes after the noun. English works differently, so the adjective goes first: a red car, friendly people (not 'a car red').",
+      "he": "בעברית שם התואר בא אחרי שם העצם ('מכונית אדומה'). באנגלית הוא בא לפניו: a red car, friendly people – ולא a car red.",
+      "error_type": "word-order"
+    },
+    {
+      "en": "In Hebrew an adjective changes for plural and for male/female. English works differently: the adjective never changes. green apples, not 'greens apples'; tall is the same for a man and a woman.",
+      "he": "בעברית שם התואר משתנה לפי מין ומספר (ירוק, ירוקה, ירוקים). באנגלית הוא לא משתנה לעולם: green apples ולא greens apples, ו-tall זהה לגבר ולאישה.",
+      "error_type": "plural-form"
+    },
+    {
+      "en": "In Hebrew there is no present-tense 'be', so 'She very tall' can sound complete. English works differently: She is very tall.",
+      "he": "בעברית אין 'להיות' בהווה, ולכן 'She very tall' נשמע אולי שלם. באנגלית חייבים is: She is very tall.",
+      "error_type": "copula-omission"
+    },
+    {
+      "en": "In Hebrew there is no word for a/an. English works differently: one thing with an adjective still needs a/an: It's a nice city (not 'It's nice city'). Choose by the first sound after it: an old car, a new car.",
+      "he": "בעברית אין מילה ל-a/an. באנגלית גם כשיש שם תואר, לפני דבר אחד צריך a/an: It's a nice city (ולא It's nice city). הבחירה נקבעת לפי הצליל שבא מיד אחריו: an old car, a new car.",
+      "error_type": "article"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Match each adjective with its opposite.",
+        "he": "התאימו כל שם תואר להפך שלו."
+      },
+      "pairs": [
+        [
+          "big",
+          "small"
+        ],
+        [
+          "cheap",
+          "expensive"
+        ],
+        [
+          "young",
+          "old"
+        ],
+        [
+          "noisy",
+          "quiet"
+        ],
+        [
+          "easy",
+          "difficult"
+        ],
+        [
+          "tall",
+          "short"
+        ]
+      ],
+      "explanation": {
+        "en": "Careful: old has two opposites, young (people) and new (things). short is the opposite of tall (people) and of long (hair, a film).",
+        "he": "שימו לב: ל-old יש שני הפכים – young (לאנשים) ו-new (לדברים). ‏short הוא ההפך של tall (לאנשים) וגם של long (שיער, סרט)."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Choose the correct sentence.",
+        "he": "בחרו את המשפט הנכון."
+      },
+      "question": "Which sentence is correct?",
+      "options": [
+        "Noa drives a car small.",
+        "Noa drives small a car.",
+        "Noa drives a small car.",
+        "Noa drives a smalls car."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "The adjective goes before the noun: a small car.",
+          "he": "שם התואר בא לפני שם העצם: a small car."
+        },
+        "1": {
+          "en": "a comes first, then the adjective, then the noun: a small car.",
+          "he": "קודם a, אחר כך שם התואר, ובסוף שם העצם: a small car."
+        },
+        "3": {
+          "en": "Adjectives never take -s: a small car, two small cars.",
+          "he": "לשמות תואר אף פעם אין s: a small car, two small cars."
+        }
+      },
+      "option_errors": {
+        "0": "word-order",
+        "1": "word-order",
+        "3": "plural-form"
+      },
+      "explanation": {
+        "en": "a/an + adjective + noun: a small car.",
+        "he": "a/an + שם תואר + שם עצם: a small car."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Correct or not correct? Sort the phrases.",
+        "he": "נכון או לא נכון? מיינו את הצירופים."
+      },
+      "categories": [
+        "Correct",
+        "Not correct"
+      ],
+      "items": [
+        {
+          "text": "two old houses",
+          "category": "Correct"
+        },
+        {
+          "text": "two olds houses",
+          "category": "Not correct"
+        },
+        {
+          "text": "a city beautiful",
+          "category": "Not correct"
+        },
+        {
+          "text": "a beautiful city",
+          "category": "Correct"
+        },
+        {
+          "text": "She is very tall.",
+          "category": "Correct"
+        },
+        {
+          "text": "She very tall.",
+          "category": "Not correct"
+        },
+        {
+          "text": "an expensive phone",
+          "category": "Correct"
+        },
+        {
+          "text": "a expensive phone",
+          "category": "Not correct"
+        }
+      ],
+      "hint": {
+        "en": "Check four things: the position, -s, the verb is, and a/an.",
+        "he": "בדקו ארבעה דברים: המיקום, s בסוף, הפועל is, ו-a/an."
+      },
+      "explanation": {
+        "en": "The adjective goes before the noun, never takes -s, needs is/are after the subject, and an comes before a vowel sound (an expensive phone).",
+        "he": "שם התואר בא לפני שם העצם, אין לו s, אחרי הנושא צריך is/are, ולפני צליל תנועה באה an (an expensive phone)."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Listen to someone describing her brother. Choose the true sentence.",
+        "he": "הקשיבו למישהי שמתארת את אחיה. בחרו את המשפט הנכון."
+      },
+      "audio_text": "My brother is tall, with short dark hair. He's really friendly.",
+      "question": "Which is true about her brother?",
+      "options": [
+        "He's short and friendly.",
+        "He's tall and friendly.",
+        "He's tall, with long hair."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "His hair is short, but he is tall: 'My brother is tall'.",
+          "he": "השיער שלו קצר, אבל הוא עצמו גבוה: 'My brother is tall'."
+        },
+        "2": {
+          "en": "He is tall, but his hair is short: 'short dark hair'.",
+          "he": "הוא גבוה, אבל השיער שלו קצר: 'short dark hair'."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "'tall, with short dark hair': short describes his hair, not him. really friendly = very friendly.",
+        "he": "'tall, with short dark hair' – המילה short מתארת את השיער, לא אותו. ‏really friendly = נחמד מאוד."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "vocabulary",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Write the opposite of the adjective in each first sentence.",
+        "he": "כתבו את ההפך של שם התואר מהמשפט הראשון בכל זוג."
+      },
+      "text": "My phone isn't new. It's ___. This street isn't noisy. It's ___.",
+      "answers": [
+        [
+          "old"
+        ],
+        [
+          "quiet",
+          "calm",
+          "peaceful"
+        ]
+      ],
+      "hint": {
+        "en": "Think of a library: it's never noisy there. Careful with the spelling: it is not quite.",
+        "he": "חשבו על ספרייה – שם אף פעם לא רועש. שימו לב לאיות: זו לא המילה quite (די)."
+      },
+      "wrong_feedback": [
+        {
+          "match": "young",
+          "feedback": {
+            "en": "young is the opposite of old for people. For things, the opposite of new is old.",
+            "he": "young הוא ההפך של old כשמדובר באנשים. לדברים, ההפך של new הוא old."
+          },
+          "error_type": "word-choice"
+        }
+      ],
+      "explanation": {
+        "en": "new ↔ old (things). noisy ↔ quiet (q-u-i-e-t; quite means 'a bit').",
+        "he": "new ↔ old (לדברים). ‏noisy ↔ quiet (q-u-i-e-t; ‏quite פירושו 'די')."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "vocabulary",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Choose the best word.",
+        "he": "בחרו את המילה המתאימה ביותר."
+      },
+      "question": "Maya gives the new café 6 out of 10. She says: 'It's ___ good, but not great.'",
+      "options": [
+        "quite",
+        "really",
+        "very"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "really = very. That's too strong for 6 out of 10 and 'not great'.",
+          "he": "really = מאוד. זה חזק מדי בשביל 6 מתוך 10 ו-'not great'."
+        },
+        "2": {
+          "en": "very is too strong here. 6 out of 10 and 'but not great' tell you it's only a bit good.",
+          "he": "very חזק מדי כאן. 6 מתוך 10 ו-'but not great' אומרים שהוא רק די טוב."
+        }
+      },
+      "option_errors": {
+        "1": "word-choice",
+        "2": "word-choice"
+      },
+      "explanation": {
+        "en": "quite = a bit, but not very: It's quite good, but not great.",
+        "he": "quite = די, אבל לא מאוד: It's quite good, but not great."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "order",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Put the words in order.",
+        "he": "סדרו את המילים למשפט."
+      },
+      "tokens": [
+        "They",
+        "live",
+        "in",
+        "a",
+        "really",
+        "old",
+        "house"
+      ],
+      "explanation": {
+        "en": "a + really + adjective + noun: a really old house. really comes before the adjective.",
+        "he": "a + really + שם תואר + שם עצם: a really old house. ‏really בא לפני שם התואר."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "My grandparents have two bigs dogs.",
+      "answers": [
+        "My grandparents have two big dogs.",
+        "My grandparents have got two big dogs."
+      ],
+      "error_type": "plural-form",
+      "hint": {
+        "en": "Which word can't be plural?",
+        "he": "איזו מילה לא יכולה להיות ברבים?"
+      },
+      "wrong_feedback": [
+        {
+          "match": "My grandparents have two big dog.",
+          "feedback": {
+            "en": "Keep the -s on the noun (two dogs). Take it off the adjective: two big dogs.",
+            "he": "ה-s נשארת בשם העצם (two dogs). מורידים אותה משם התואר: two big dogs."
+          },
+          "error_type": "plural-form"
+        }
+      ],
+      "explanation": {
+        "en": "The noun is plural (dogs), but the adjective never changes: two big dogs.",
+        "he": "שם העצם ברבים (dogs), אבל שם התואר לא משתנה: two big dogs."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Find and fix the mistake.",
+        "he": "מצאו ותקנו את הטעות."
+      },
+      "sentence": "I have a phone new.",
+      "answers": [
+        "I have a new phone.",
+        "I have got a new phone."
+      ],
+      "error_type": "word-order",
+      "explanation": {
+        "en": "In Hebrew the adjective comes after the noun. In English it comes before: a new phone.",
+        "he": "בעברית שם התואר בא אחרי שם העצם ('טלפון חדש'). באנגלית הוא בא לפניו: a new phone."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Rewrite the sentence. Start with They are, and put the adjective before the noun.",
+        "he": "כתבו את המשפט מחדש. התחילו ב-They are, ושימו את שם התואר לפני שם העצם."
+      },
+      "source": "The questions are easy.",
+      "answers": [
+        "They are easy questions."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "They are easys questions.",
+          "feedback": {
+            "en": "No -s on the adjective: easy questions.",
+            "he": "אין s בשם התואר: easy questions."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "They are questions easy.",
+          "feedback": {
+            "en": "The adjective goes before the noun: easy questions.",
+            "he": "שם התואר בא לפני שם העצם: easy questions."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "They are an easy questions.",
+          "feedback": {
+            "en": "a/an is only for one thing. questions is plural: They are easy questions.",
+            "he": "a/an רק לדבר אחד. questions ברבים: They are easy questions."
+          },
+          "error_type": "article"
+        }
+      ],
+      "explanation": {
+        "en": "be + adjective (are easy) → adjective + noun (easy questions). Plural noun, no a/an, no -s on easy.",
+        "he": "be + שם תואר (are easy) → שם תואר + שם עצם (easy questions). שם עצם ברבים: בלי a/an, ובלי s ב-easy."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Translate into English.",
+        "he": "תרגמו לאנגלית."
+      },
+      "source": "יש לה עיניים כחולות.",
+      "answers": [
+        "She has blue eyes.",
+        "She has got blue eyes.",
+        "Her eyes are blue."
+      ],
+      "hint": {
+        "en": "Start with She has. Where does blue go?",
+        "he": "'יש לה' = She has. ואיפה שמים את blue?"
+      },
+      "wrong_feedback": [
+        {
+          "match": "She has eyes blue.",
+          "feedback": {
+            "en": "In Hebrew the adjective comes after the noun. In English it comes before: blue eyes.",
+            "he": "בעברית שם התואר בא אחרי שם העצם ('עיניים כחולות'). באנגלית הוא בא לפניו: blue eyes."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "She has blues eyes.",
+          "feedback": {
+            "en": "In Hebrew the adjective is plural too. In English it never changes: blue eyes.",
+            "he": "בעברית גם שם התואר ברבים ('כחולות'). באנגלית הוא לא משתנה: blue eyes."
+          },
+          "error_type": "plural-form"
+        },
+        {
+          "match": "She have blue eyes.",
+          "feedback": {
+            "en": "With she, use has: She has blue eyes.",
+            "he": "עם she משתמשים ב-has: She has blue eyes."
+          },
+          "error_type": "third-person-s"
+        }
+      ],
+      "explanation": {
+        "en": "She has blue eyes: has with she, and blue before eyes, with no -s. (Her eyes are blue is also correct.)",
+        "he": "She has blue eyes: ‏has עם she, ו-blue לפני eyes, בלי s. ‏(גם Her eyes are blue נכון.)"
+      }
+    },
+    {
+      "id": "e12",
+      "type": "read",
+      "skill": "reading",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Read Amir's message to his friend Sara and answer the questions.",
+        "he": "קראו את ההודעה של אמיר לחברה שלו שרה וענו על השאלות."
+      },
+      "title": "My new flat",
+      "passage": "Hi Sara! My new flat in Jerusalem is great. It's quite small, but it's very bright, and it isn't expensive. My two flatmates are really friendly. Daniel is tall, with short curly hair, and he's a good cook. Priya is from India. She's quiet, but she's very funny. The street is a bit noisy at night, but there's a beautiful park opposite our building. Come and visit!\nAmir",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is Amir's flat like?",
+          "options": [
+            "big and expensive",
+            "small and bright",
+            "dark and cheap"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "'It's quite small... and it isn't expensive.'",
+              "he": "'It's quite small... and it isn't expensive' – היא קטנה ולא יקרה."
+            },
+            "2": {
+              "en": "It isn't expensive, but it isn't dark: 'it's very bright'.",
+              "he": "היא לא יקרה, אבל גם לא חשוכה: 'it's very bright'."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'It's quite small, but it's very bright.'",
+            "he": "'It's quite small, but it's very bright' – קטנה ומוארת מאוד."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Daniel has long hair.",
+          "answer": false,
+          "explanation": {
+            "en": "'Daniel is tall, with short curly hair.'",
+            "he": "'Daniel is tall, with short curly hair' – השיער שלו קצר."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Priya is quiet.",
+          "answer": true,
+          "explanation": {
+            "en": "'She's quiet, but she's very funny.'",
+            "he": "'She's quiet, but she's very funny' – היא שקטה ומצחיקה."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What is the problem with the flat?",
+          "options": [
+            "The flatmates aren't friendly.",
+            "The park is ugly.",
+            "The street is noisy at night."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "'My two flatmates are really friendly.'",
+              "he": "'My two flatmates are really friendly' – השותפים נחמדים מאוד."
+            },
+            "1": {
+              "en": "The park is 'beautiful', not ugly.",
+              "he": "הפארק 'beautiful' – יפהפה, לא מכוער."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension"
+          },
+          "explanation": {
+            "en": "'The street is a bit noisy at night' – the word but shows it's a small problem.",
+            "he": "'The street is a bit noisy at night' – הרחוב קצת רועש בלילה."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "There's a ___ park opposite the building.",
+          "answers": [
+            [
+              "beautiful"
+            ]
+          ],
+          "explanation": {
+            "en": "'there's a beautiful park opposite our building' – a + adjective + noun.",
+            "he": "'there's a beautiful park opposite our building' – a + שם תואר + שם עצם."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e13",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Listen and type what you hear.",
+        "he": "הקשיבו והקלידו את מה ששמעתם."
+      },
+      "audio_text": "She has long dark hair and a really nice smile.",
+      "answers": [
+        "She has long dark hair and a really nice smile."
+      ],
+      "hint": {
+        "en": "Two adjectives before hair, and really before nice.",
+        "he": "שני שמות תואר לפני hair, ו-really לפני nice."
+      },
+      "explanation": {
+        "en": "long dark hair: both adjectives go before the noun. a really nice smile: a + really + adjective + noun.",
+        "he": "long dark hair – שני שמות התואר לפני שם העצם. ‏a really nice smile – ‏a + really + שם תואר + שם עצם."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Describe someone in your family. Say the sentence out loud.",
+        "he": "תארו מישהו מהמשפחה. אמרו את המשפט בקול."
+      },
+      "target": "My brother is tall and thin, with short curly hair.",
+      "focus": {
+        "en": "thin /θɪn/: tongue between your teeth, and a short /ɪ/ (not 'teen'). curly: /ˈkɜːli/.",
+        "he": "thin: קצה הלשון בין השיניים, ותנועה קצרה /ɪ/ – לא teen. ‏curly: /ˈkɜːli/."
+      },
+      "error_type": "pron-th",
+      "explanation": {
+        "en": "be + adjectives (is tall and thin), then with + adjectives + noun (with short curly hair).",
+        "he": "be + שמות תואר (is tall and thin), ואחר כך with + שמות תואר + שם עצם (with short curly hair)."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "adjectives-basic",
+      "prompt": {
+        "en": "Describe a person and a place.",
+        "he": "תארו אדם ומקום."
+      },
+      "task": {
+        "en": "Write 5-7 sentences. Describe a person you know (how they look and what they are like) and a place you like (your city, a café, a park). Use at least six adjectives, and very, really or quite.",
+        "he": "כתבו 5-7 משפטים. תארו אדם שאתם מכירים (איך הוא נראה ומה האופי שלו) ומקום שאתם אוהבים (העיר שלכם, בית קפה, פארק). השתמשו לפחות בשישה שמות תואר, וב-very, ‏really או quite."
+      },
+      "min_words": 40,
+      "max_words": 100,
+      "model_answer": "My friend Yael is tall, with long curly hair and brown eyes. She's really funny and very kind. She works in a small café in Haifa. The café is quite old, but it's beautiful. The coffee is cheap and the cakes are amazing. It's a quiet place in the morning, but it's very noisy in the evening.",
+      "checklist": [
+        {
+          "en": "The adjective is before the noun (a small café) or after is/are (The café is old).",
+          "he": "שם התואר לפני שם העצם (a small café) או אחרי is/are (The café is old)."
+        },
+        {
+          "en": "No -s on adjectives: brown eyes, cheap cakes.",
+          "he": "אין s בשמות תואר: brown eyes, cheap cakes."
+        },
+        {
+          "en": "Every sentence has a verb: She is..., It is...",
+          "he": "בכל משפט יש פועל: She is..., It is..."
+        },
+        {
+          "en": "very, really or quite comes before the adjective.",
+          "he": "very, ‏really או quite באים לפני שם התואר."
+        }
+      ],
+      "explanation": {
+        "en": "The model describes looks (tall, long curly hair), personality (funny, kind) and a place (small, old, quiet, noisy), with very, really and quite.",
+        "he": "בתשובה לדוגמה יש תיאור של מראה (tall, long curly hair), של אופי (funny, kind) ושל מקום (small, old, quiet, noisy), עם very, ‏really ו-quite."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Adjective + noun (a tall man, friendly people), or be + adjective (The man is tall).",
+        "he": "שם תואר + שם עצם (a tall man, friendly people), או be + שם תואר (The man is tall)."
+      },
+      {
+        "en": "Adjectives never change: green apples, a tall woman.",
+        "he": "שמות תואר לא משתנים: green apples, a tall woman."
+      },
+      {
+        "en": "quite (a bit) < very = really: quite small, very small, really small.",
+        "he": "quite (די) < very = really (מאוד, ממש): quite small, very small, really small."
+      },
+      {
+        "en": "old ↔ young (people), old ↔ new (things); tall ↔ short, long ↔ short.",
+        "he": "old ↔ young (אנשים), old ↔ new (דברים); tall ↔ short, ‏long ↔ short."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

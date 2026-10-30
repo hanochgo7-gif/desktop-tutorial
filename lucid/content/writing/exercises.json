@@ -1,0 +1,3958 @@
+{
+ "exercises": [
+  {
+   "id": "we-01",
+   "stage": 1,
+   "level": "A1",
+   "kind": "sentence-transformation",
+   "title_en": "Joining and changing sentences",
+   "title_he": "מחברים ומשנים משפטים",
+   "instructions": {
+    "en": "Build correct sentences step by step: put words in order, join short sentences with and, but, because or so, and change statements into questions and negatives. Every sentence you write starts with a capital letter and ends with a full stop or a question mark.",
+    "he": "בונים משפטים נכונים צעד אחר צעד: מסדרים מילים, מחברים משפטים קצרים בעזרת and, but, because או so, והופכים משפטים לשאלה ולשלילה. כל משפט שאתם כותבים מתחיל באות גדולה ונגמר בנקודה או בסימן שאלה."
+   },
+   "focus": [
+    "sentence_structure",
+    "grammar",
+    "clarity"
+   ],
+   "checklist": [
+    {
+     "en": "To join two sentences, use and, but, because or so - not only a comma.",
+     "he": "כדי לחבר שני משפטים משתמשים ב-and, but, because או so, ולא רק בפסיק."
+    },
+    {
+     "en": "because gives a reason, so gives a result, and but shows a contrast.",
+     "he": "because מציג סיבה, so מציג תוצאה, ו-but מציג ניגוד."
+    },
+    {
+     "en": "After he, she or it, the verb takes -s (she works), but not after does (Does she work?).",
+     "he": "אחרי he, she או it מוסיפים s לפועל (she works), אבל לא אחרי does (Does she work?)."
+    },
+    {
+     "en": "Every English sentence needs a verb: My brother is happy, not My brother happy.",
+     "he": "בכל משפט באנגלית חייב להיות פועל: My brother is happy, ולא My brother happy."
+    },
+    {
+     "en": "An adjective comes before its noun: a big hospital.",
+     "he": "שם התואר בא לפני שם העצם: a big hospital."
+    }
+   ],
+   "items": [
+    {
+     "id": "we-01-1",
+     "type": "order",
+     "skill": "grammar",
+     "topic": "word-order-basic",
+     "prompt": {
+      "en": "Put the words in order to make a sentence.",
+      "he": "סדרו את המילים למשפט."
+     },
+     "tokens": [
+      "My",
+      "sister",
+      "works",
+      "in",
+      "a",
+      "big",
+      "hospital."
+     ],
+     "hint": {
+      "en": "Start with who (My sister), then the verb. The adjective comes before the noun.",
+      "he": "התחילו במי (My sister), ואחר כך הפועל. שם התואר בא לפני שם העצם."
+     },
+     "explanation": {
+      "en": "English order is subject + verb + place: My sister works in a big hospital. The adjective big goes before hospital; in Hebrew it comes after the noun.",
+      "he": "סדר המילים באנגלית הוא נושא + פועל + מקום: My sister works in a big hospital. שם התואר big בא לפני hospital, בניגוד לעברית (בית חולים גדול)."
+     },
+     "error_type": "word-order"
+    },
+    {
+     "id": "we-01-2",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Complete the text with but, because or so.",
+      "he": "השלימו את הטקסט במילים but, because או so."
+     },
+     "text": "I was hungry, ___ I made a sandwich. I wanted cheese, ___ there was no cheese in the fridge. I used tomatoes ___ they were fresh.",
+     "answers": [
+      [
+       "so"
+      ],
+      [
+       "but"
+      ],
+      [
+       "because"
+      ]
+     ],
+     "word_bank": [
+      "but",
+      "because",
+      "so"
+     ],
+     "hint": {
+      "en": "For each gap, ask: is the second part a result, a contrast or a reason?",
+      "he": "בכל מקום ריק שאלו: החלק השני הוא תוצאה, ניגוד או סיבה?"
+     },
+     "explanation": {
+      "en": "so = result: I was hungry, so I made a sandwich. but = contrast: I wanted cheese, but there was none. because = reason: I used tomatoes because they were fresh.",
+      "he": "so = תוצאה (ולכן): I was hungry, so I made a sandwich. but = ניגוד (אבל): I wanted cheese, but there was none. because = סיבה (כי): I used tomatoes because they were fresh."
+     },
+     "wrong_feedback": [
+      {
+       "match": "because",
+       "feedback": {
+        "en": "because introduces a reason. Is the second part really the reason for the first part?",
+        "he": "because מציג סיבה. האם החלק השני הוא באמת הסיבה לחלק הראשון?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "so",
+       "feedback": {
+        "en": "so introduces a result. Is the second part really a result of the first part?",
+        "he": "so מציג תוצאה. האם החלק השני הוא באמת התוצאה של החלק הראשון?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "but",
+       "feedback": {
+        "en": "but shows a contrast. Do the two parts really contrast here?",
+        "he": "but מציג ניגוד. האם יש כאן באמת ניגוד בין שני החלקים?"
+       },
+       "error_type": "cohesion"
+      }
+     ]
+    },
+    {
+     "id": "we-01-3",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Join the two sentences with because.",
+      "he": "חברו את שני המשפטים בעזרת because."
+     },
+     "source": "I am tired. I went to bed late.",
+     "answers": [
+      "I am tired because I went to bed late.",
+      "Because I went to bed late, I am tired.",
+      "Because I went to bed late I am tired."
+     ],
+     "hint": {
+      "en": "because goes before the reason. Which sentence is the reason?",
+      "he": "because בא לפני הסיבה. איזה משפט הוא הסיבה?"
+     },
+     "explanation": {
+      "en": "The reason is I went to bed late, so because goes before it: I am tired because I went to bed late. Now it is one sentence with one full stop.",
+      "he": "הסיבה היא I went to bed late, ולכן because בא לפניה: I am tired because I went to bed late. עכשיו זה משפט אחד עם נקודה אחת."
+     },
+     "wrong_feedback": [
+      {
+       "match": "I went to bed late because I am tired.",
+       "feedback": {
+        "en": "This says that being tired is the reason you went to bed late. Put because before the real reason: I went to bed late.",
+        "he": "כאן יוצא שהעייפות היא הסיבה לכך שהלכת לישון מאוחר. שימו את because לפני הסיבה האמיתית: I went to bed late."
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "I am tired. Because I went to bed late.",
+       "feedback": {
+        "en": "Because I went to bed late is not a full sentence on its own. Join the two parts into one sentence.",
+        "he": "Because I went to bed late לבד הוא לא משפט שלם. חברו את שני החלקים למשפט אחד."
+       },
+       "error_type": "punctuation"
+      }
+     ]
+    },
+    {
+     "id": "we-01-4",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Join the two sentences with but.",
+      "he": "חברו את שני המשפטים בעזרת but."
+     },
+     "source": "Dana is tall. Her brother is short.",
+     "answers": [
+      "Dana is tall, but her brother is short.",
+      "Dana is tall but her brother is short."
+     ],
+     "explanation": {
+      "en": "but joins two ideas that contrast (tall and short). When but joins two full sentences, put a comma before it: Dana is tall, but her brother is short.",
+      "he": "but מחבר שני רעיונות מנוגדים (גבוהה ונמוך). כש-but מחבר שני משפטים שלמים, נהוג לשים פסיק לפניו: Dana is tall, but her brother is short."
+     },
+     "wrong_feedback": [
+      {
+       "match": "Dana is tall, her brother is short.",
+       "feedback": {
+        "en": "A comma alone cannot join two sentences. Add but after the comma.",
+        "he": "פסיק לבד לא מחבר שני משפטים. הוסיפו but אחרי הפסיק."
+       },
+       "error_type": "punctuation"
+      }
+     ]
+    },
+    {
+     "id": "we-01-5",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Join the two sentences with so.",
+      "he": "חברו את שני המשפטים בעזרת so."
+     },
+     "source": "The shop is closed. We can't buy bread.",
+     "answers": [
+      "The shop is closed, so we can't buy bread.",
+      "The shop is closed so we can't buy bread."
+     ],
+     "explanation": {
+      "en": "so introduces a result: the shop is closed, and the result is that we can't buy bread. Put a comma before so.",
+      "he": "so מציג תוצאה: החנות סגורה, ולכן אי אפשר לקנות לחם. שמים פסיק לפני so."
+     },
+     "wrong_feedback": [
+      {
+       "match": "We can't buy bread, so the shop is closed.",
+       "feedback": {
+        "en": "This says the shop is closed because we can't buy bread. Put so before the result.",
+        "he": "כאן יוצא שהחנות סגורה בגלל שאי אפשר לקנות לחם. שימו את so לפני התוצאה."
+       },
+       "error_type": "cohesion"
+      }
+     ]
+    },
+    {
+     "id": "we-01-6",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "sentence-basics",
+     "prompt": {
+      "en": "Join the two sentences with and. Try it without repeating He.",
+      "he": "חברו את שני המשפטים בעזרת and. נסו בלי לחזור על He."
+     },
+     "source": "My father cooks dinner. He washes the dishes.",
+     "answers": [
+      "My father cooks dinner and washes the dishes.",
+      "My father cooks dinner, and he washes the dishes.",
+      "My father cooks dinner and he washes the dishes."
+     ],
+     "explanation": {
+      "en": "When both sentences have the same subject, you can say it once: My father cooks dinner and washes the dishes. Both verbs keep their -s.",
+      "he": "כששני המשפטים מדברים על אותו אדם, אפשר לכתוב אותו פעם אחת: My father cooks dinner and washes the dishes. לשני הפעלים נשארת ה-s."
+     },
+     "wrong_feedback": [
+      {
+       "match": "My father cooks dinner and wash the dishes.",
+       "feedback": {
+        "en": "My father is still the subject of the second verb, so keep the -s: washes.",
+        "he": "My father הוא עדיין הנושא של הפועל השני, ולכן משאירים s: washes."
+       },
+       "error_type": "third-person-s"
+      }
+     ]
+    },
+    {
+     "id": "we-01-7",
+     "type": "transform",
+     "skill": "grammar",
+     "topic": "present-simple-questions-negatives",
+     "prompt": {
+      "en": "Make a question.",
+      "he": "הפכו את המשפט לשאלה."
+     },
+     "source": "Yoni works in Tel Aviv.",
+     "answers": [
+      "Does Yoni work in Tel Aviv?"
+     ],
+     "hint": {
+      "en": "Start with Does. After does, the verb has no -s.",
+      "he": "התחילו ב-Does. אחרי does הפועל בלי s."
+     },
+     "explanation": {
+      "en": "Present simple questions with he, she or it use Does + subject + base verb: Does Yoni work in Tel Aviv? The -s moves to does, so work has no -s.",
+      "he": "שאלה בהווה פשוט עם he, she או it נבנית כך: Does + נושא + פועל בסיס: Does Yoni work in Tel Aviv? ה-s עוברת ל-does, ולכן work בלי s."
+     },
+     "error_type": "do-support",
+     "wrong_feedback": [
+      {
+       "match": "Does Yoni works in Tel Aviv?",
+       "feedback": {
+        "en": "Almost. After Does, use the base verb: work, not works.",
+        "he": "כמעט. אחרי Does משתמשים בפועל בסיס: work ולא works."
+       },
+       "error_type": "third-person-s"
+      },
+      {
+       "match": "Yoni works in Tel Aviv?",
+       "feedback": {
+        "en": "In Hebrew a question mark is enough, but in English you need Does at the start.",
+        "he": "בעברית מספיק סימן שאלה, אבל באנגלית צריך להתחיל ב-Does."
+       },
+       "error_type": "do-support"
+      }
+     ]
+    },
+    {
+     "id": "we-01-8",
+     "type": "transform",
+     "skill": "grammar",
+     "topic": "present-simple-questions-negatives",
+     "prompt": {
+      "en": "Make the sentence negative.",
+      "he": "הפכו את המשפט לשלילה."
+     },
+     "source": "They play football on Saturday.",
+     "answers": [
+      "They don't play football on Saturday."
+     ],
+     "hint": {
+      "en": "Put don't (do not) before the verb.",
+      "he": "הוסיפו don't (do not) לפני הפועל."
+     },
+     "explanation": {
+      "en": "Present simple negatives use don't or doesn't + base verb. With they, use don't: They don't play football on Saturday.",
+      "he": "שלילה בהווה פשוט: don't או doesn't + פועל בסיס. עם they משתמשים ב-don't: They don't play football on Saturday."
+     },
+     "error_type": "do-support",
+     "wrong_feedback": [
+      {
+       "match": "They not play football on Saturday.",
+       "feedback": {
+        "en": "In English, not needs a helper verb here: don't play.",
+        "he": "באנגלית not לבד לא מספיק כאן. צריך פועל עזר: don't play."
+       },
+       "error_type": "do-support"
+      },
+      {
+       "match": "They doesn't play football on Saturday.",
+       "feedback": {
+        "en": "doesn't is for he, she and it. With they, use don't.",
+        "he": "doesn't מתאים ל-he, she ו-it. עם they משתמשים ב-don't."
+       },
+       "error_type": "agreement"
+      }
+     ]
+    },
+    {
+     "id": "we-01-9",
+     "type": "correct",
+     "skill": "grammar",
+     "topic": "be-present",
+     "prompt": {
+      "en": "Find the mistake and write the correct sentence.",
+      "he": "מצאו את הטעות וכתבו את המשפט הנכון."
+     },
+     "sentence": "My brother happy because he has a new bike.",
+     "answers": [
+      "My brother is happy because he has a new bike.",
+      "My brother's happy because he has a new bike."
+     ],
+     "error_type": "copula-omission",
+     "hint": {
+      "en": "Every English sentence needs a verb. What is missing after My brother?",
+      "he": "בכל משפט באנגלית צריך פועל. מה חסר אחרי My brother?"
+     },
+     "explanation": {
+      "en": "Hebrew needs no verb in a sentence like this, but English needs a form of be: My brother is happy because he has a new bike.",
+      "he": "בעברית אומרים 'אחי שמח' בלי פועל, אבל באנגלית צריך את be: My brother is happy because he has a new bike."
+     }
+    },
+    {
+     "id": "we-01-10",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "sentence-basics",
+     "prompt": {
+      "en": "Two sentences are joined with only a comma. Fix the sentence.",
+      "he": "כאן שני משפטים מחוברים בפסיק בלבד. תקנו את המשפט."
+     },
+     "sentence": "I like my school, it is very big.",
+     "answers": [
+      "I like my school. It is very big.",
+      "I like my school, and it is very big.",
+      "I like my school and it is very big.",
+      "I like my school because it is very big.",
+      "I like my school; it is very big."
+     ],
+     "error_type": "punctuation",
+     "hint": {
+      "en": "Use a full stop and a capital letter, or join the two parts with and or because.",
+      "he": "שימו נקודה והתחילו באות גדולה, או חברו את שני החלקים בעזרת and או because."
+     },
+     "explanation": {
+      "en": "A comma cannot join two full sentences in English. Use a full stop (I like my school. It is very big.) or a connector (I like my school because it is very big.).",
+      "he": "באנגלית פסיק לא יכול לחבר שני משפטים שלמים. אפשר לשים נקודה (I like my school. It is very big.) או להשתמש במילת קישור (I like my school because it is very big.)."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-02",
+   "stage": 1,
+   "level": "A1",
+   "kind": "paragraph-completion",
+   "title_en": "Six sentences about someone you know",
+   "title_he": "שישה משפטים על מישהו שאתם מכירים",
+   "instructions": {
+    "en": "Write 6 sentences about a person you know well: a friend or someone in your family. Use the sentence frames and the word bank below. Use because in one sentence and but in another.",
+    "he": "כתבו 6 משפטים על אדם שאתם מכירים היטב: חבר, חברה או מישהו מהמשפחה. היעזרו במסגרות המשפטים ובמחסן המילים שלמטה. השתמשו ב-because במשפט אחד וב-but במשפט אחר."
+   },
+   "input_text": "Sentence frames\n1. My ___ is called ___ .\n2. He / She is ___ years old, and he / she lives in ___ .\n3. He / She is a / an ___ , and he / she is very ___ .\n4. He / She likes ___ because ___ .\n5. He / She doesn't like ___ , but he / she ___ .\n6. On Saturdays, he / she usually ___ .\nWord bank\nPeople: brother, sister, cousin, friend, grandmother, uncle\nJobs: a student, a soldier, a nurse, a teacher, an engineer, a cook\nAdjectives: kind, funny, quiet, clever, busy, friendly\nVerbs with -s: plays, cooks, reads, swims, works, watches, visits\nThings: football, music, films, the beach, coffee, computer games",
+   "min_words": 30,
+   "max_words": 80,
+   "must_include": [
+    "because",
+    "but"
+   ],
+   "focus": [
+    "grammar",
+    "sentence_structure",
+    "vocabulary",
+    "clarity"
+   ],
+   "scaffold": [
+    {
+     "en": "Choose one person. Write their name and who they are (my cousin, my friend).",
+     "he": "בחרו אדם אחד. כתבו איך קוראים לו או לה ומי זה (my cousin, my friend)."
+    },
+    {
+     "en": "Write one sentence for each frame. Take the words you need from the word bank.",
+     "he": "כתבו משפט אחד לכל מסגרת. קחו ממחסן המילים את המילים שאתם צריכים."
+    },
+    {
+     "en": "After the first sentence, write He or She instead of the name.",
+     "he": "אחרי המשפט הראשון כתבו He או She במקום לחזור על השם."
+    },
+    {
+     "en": "Check every verb after he or she: it needs -s (she plays, he works).",
+     "he": "בדקו כל פועל שבא אחרי he או she: צריך להוסיף לו s (she plays, he works)."
+    },
+    {
+     "en": "Read your sentences aloud. Does each one start with a capital letter and end with a full stop?",
+     "he": "קראו את המשפטים בקול. האם כל משפט מתחיל באות גדולה ונגמר בנקודה?"
+    }
+   ],
+   "checklist": [
+    {
+     "en": "I wrote 6 sentences, and each sentence has a subject and a verb.",
+     "he": "כתבתי 6 משפטים, ובכל משפט יש נושא ופועל."
+    },
+    {
+     "en": "I used because in one sentence and but in another.",
+     "he": "השתמשתי ב-because במשפט אחד וב-but במשפט אחר."
+    },
+    {
+     "en": "After he or she, my verbs end in -s (she likes, he works).",
+     "he": "אחרי he או she הוספתי s לפועל (she likes, he works)."
+    },
+    {
+     "en": "I wrote a or an before a job (a nurse, an engineer).",
+     "he": "כתבתי a או an לפני מקצוע (a nurse, an engineer)."
+    },
+    {
+     "en": "Every sentence starts with a capital letter and ends with a full stop.",
+     "he": "כל משפט מתחיל באות גדולה ונגמר בנקודה."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt: six sentences about a neighbour, not a friend or a family member. Write your own sentences first, then compare.\nMy neighbour is called Ruth. She is seventy years old, and she lives in the flat next to ours. She is a retired teacher, and she is very kind. She likes her garden because it is quiet and green. She doesn't like loud music, but she likes old films. On Saturdays, she usually visits her grandchildren."
+  },
+  {
+   "id": "we-03",
+   "stage": 2,
+   "level": "A2",
+   "kind": "paragraph-completion",
+   "title_en": "Building a paragraph",
+   "title_he": "בונים פסקה",
+   "instructions": {
+    "en": "Practise the parts of a good paragraph: a topic sentence, supporting sentences in a clear order, linking words that match the meaning, clear pronouns, and a short summary.",
+    "he": "תרגול של החלקים בפסקה טובה: משפט נושא, משפטים תומכים בסדר ברור, מילות קישור שמתאימות למשמעות, כינויי גוף ברורים וסיכום קצר."
+   },
+   "focus": [
+    "coherence",
+    "cohesion",
+    "sentence_structure"
+   ],
+   "checklist": [
+    {
+     "en": "A paragraph starts with a topic sentence that gives the main idea.",
+     "he": "פסקה מתחילה במשפט נושא שמציג את הרעיון המרכזי."
+    },
+    {
+     "en": "Every sentence supports that main idea; a sentence about another topic does not belong.",
+     "he": "כל משפט בפסקה תומך ברעיון המרכזי; משפט על נושא אחר לא שייך לפסקה."
+    },
+    {
+     "en": "Linkers must match the meaning: First and Then for order, However for contrast, Also to add, so for a result.",
+     "he": "מילת הקישור צריכה להתאים למשמעות: First ו-Then לסדר, However לניגוד, Also להוספה, so לתוצאה."
+    },
+    {
+     "en": "A pronoun (he, she, it) must point clearly to one person or thing.",
+     "he": "כינוי גוף (he, she, it) צריך להתייחס בבירור לאדם אחד או לדבר אחד."
+    },
+    {
+     "en": "A good summary gives the main idea, without small details or your own opinion.",
+     "he": "סיכום טוב מציג את הרעיון המרכזי, בלי פרטים קטנים ובלי דעה אישית."
+    }
+   ],
+   "items": [
+    {
+     "id": "we-03-1",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "paragraph-basics",
+     "prompt": {
+      "en": "Choose the best topic sentence for this paragraph.",
+      "he": "בחרו את משפט הנושא המתאים ביותר לפסקה."
+     },
+     "question": "___ First, it is cheap: a train ticket usually costs less than a taxi. Also, you can read, study or listen to music on the way. Finally, one train carries hundreds of people, so it is better for the environment than many cars.",
+     "options": [
+      "I took the train to Haifa last week.",
+      "There are several good reasons to travel by train.",
+      "Trains are long and have many windows.",
+      "Taxis are very expensive."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "This is one small event, not the main idea of the whole paragraph.",
+       "he": "זה אירוע אחד קטן, לא הרעיון המרכזי של כל הפסקה."
+      },
+      "2": {
+       "en": "The paragraph is not about what trains look like.",
+       "he": "הפסקה לא עוסקת במראה של הרכבות."
+      },
+      "3": {
+       "en": "This is only one detail. A topic sentence covers all the points in the paragraph.",
+       "he": "זה רק פרט אחד. משפט נושא צריך לכסות את כל הנקודות בפסקה."
+      }
+     },
+     "explanation": {
+      "en": "The paragraph gives three reasons (it is cheap, you can study on the way, it is better for the environment), so the topic sentence must announce reasons: There are several good reasons to travel by train.",
+      "he": "בפסקה יש שלוש סיבות (זול, אפשר ללמוד בדרך, עדיף לסביבה), ולכן משפט הנושא צריך להציג סיבות: There are several good reasons to travel by train."
+     }
+    },
+    {
+     "id": "we-03-2",
+     "type": "order",
+     "skill": "writing",
+     "topic": "connectors-sequence",
+     "prompt": {
+      "en": "Put the sentences in order to make a paragraph.",
+      "he": "סדרו את המשפטים כך שתיווצר פסקה."
+     },
+     "tokens": [
+      "Last summer, my family had a terrible day at the beach.",
+      "First, in the morning, we forgot the umbrella at home.",
+      "Then, at lunchtime, a dog ran away with our sandwiches.",
+      "After that, in the afternoon, it started to rain.",
+      "In the end, we laughed about it all the way home."
+     ],
+     "hint": {
+      "en": "Find the sentence that introduces the whole story. Then follow the time words.",
+      "he": "מצאו את המשפט שמציג את כל הסיפור, ואחר כך עקבו אחרי מילות הזמן."
+     },
+     "explanation": {
+      "en": "The topic sentence comes first and tells the reader what the paragraph is about (a terrible day). Then the time words give the order: First (morning), Then (lunchtime), After that (afternoon), In the end.",
+      "he": "משפט הנושא בא ראשון ומספר לקורא על מה הפסקה (יום נורא). אחר כך מילות הזמן קובעות את הסדר: First (בוקר), Then (צהריים), After that (אחר הצהריים), In the end (בסוף)."
+     },
+     "error_type": "cohesion"
+    },
+    {
+     "id": "we-03-3",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "paragraph-basics",
+     "prompt": {
+      "en": "Which sentence does not belong in this paragraph?",
+      "he": "איזה משפט לא שייך לפסקה?"
+     },
+     "question": "(1) Our school library is a great place to study. (2) It is quiet, so you can concentrate. (3) It has computers and good internet. (4) My favourite food is pizza. (5) The librarians are always happy to help.",
+     "options": [
+      "Sentence 2",
+      "Sentence 3",
+      "Sentence 4",
+      "Sentence 5"
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "Quiet helps you study, so this sentence supports the main idea.",
+       "he": "שקט עוזר ללמוד, ולכן המשפט הזה תומך ברעיון המרכזי."
+      },
+      "1": {
+       "en": "Computers and internet help you study, so this sentence supports the main idea.",
+       "he": "מחשבים ואינטרנט עוזרים ללמוד, ולכן המשפט הזה תומך ברעיון המרכזי."
+      },
+      "3": {
+       "en": "Helpful librarians make the library a good place to study, so this sentence belongs.",
+       "he": "ספרנים שעוזרים הופכים את הספרייה למקום טוב ללמידה, ולכן המשפט שייך לפסקה."
+      }
+     },
+     "explanation": {
+      "en": "The main idea is that the library is a great place to study. Sentence 4 is about food, so it breaks the unity of the paragraph: one paragraph, one main idea.",
+      "he": "הרעיון המרכזי הוא שהספרייה מקום מצוין ללמוד בו. משפט 4 עוסק באוכל, ולכן הוא שובר את האחידות של הפסקה: פסקה אחת, רעיון מרכזי אחד."
+     }
+    },
+    {
+     "id": "we-03-4",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Complete the paragraph. Use each word once.",
+      "he": "השלימו את הפסקה. השתמשו בכל מילה פעם אחת."
+     },
+     "text": "Noa wanted a new bike ___ her old one was broken. She did not have much money, ___ she looked for a cheap one. The first bike in the shop was too expensive. ___, the second bike was cheap. ___, it had a basket for her school books, so she bought it.",
+     "answers": [
+      [
+       "because"
+      ],
+      [
+       "so"
+      ],
+      [
+       "However"
+      ],
+      [
+       "Also"
+      ]
+     ],
+     "word_bank": [
+      "because",
+      "so",
+      "However",
+      "Also"
+     ],
+     "hint": {
+      "en": "Ask what each linker does: reason, result, contrast or adding.",
+      "he": "שאלו מה כל מילת קישור עושה: סיבה, תוצאה, ניגוד או הוספה."
+     },
+     "explanation": {
+      "en": "because = reason (her old bike was broken). so = result (little money, so a cheap bike). However = contrast (too expensive, then cheap). Also = adding another good point (a basket).",
+      "he": "because = סיבה (האופניים הישנים התקלקלו). so = תוצאה (מעט כסף, ולכן אופניים זולים). However = ניגוד (יקר מדי לעומת זול). Also = הוספה של עוד יתרון (סל)."
+     },
+     "wrong_feedback": [
+      {
+       "match": "Also",
+       "feedback": {
+        "en": "Also adds one more point of the same kind. Is this sentence adding a point, or does it give a reason, a result or a contrast?",
+        "he": "Also מוסיף עוד נקודה מאותו סוג. האם המשפט הזה מוסיף נקודה, או שהוא מציג סיבה, תוצאה או ניגוד?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "However",
+       "feedback": {
+        "en": "However shows a contrast with the sentence before. Is there really a contrast here?",
+        "he": "However מציין ניגוד למשפט הקודם. האם באמת יש כאן ניגוד?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "because",
+       "feedback": {
+        "en": "because introduces a reason. Is the second part really the reason?",
+        "he": "because מציג סיבה. האם החלק השני הוא באמת הסיבה?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "so",
+       "feedback": {
+        "en": "so introduces a result. Is the second part really a result?",
+        "he": "so מציג תוצאה. האם החלק השני הוא באמת התוצאה?"
+       },
+       "error_type": "cohesion"
+      }
+     ]
+    },
+    {
+     "id": "we-03-5",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "sentence-basics",
+     "prompt": {
+      "en": "Join the two sentences with when.",
+      "he": "חברו את שני המשפטים בעזרת when."
+     },
+     "source": "I was ten. My family moved to Haifa.",
+     "answers": [
+      "When I was ten, my family moved to Haifa.",
+      "When I was ten my family moved to Haifa.",
+      "My family moved to Haifa when I was ten.",
+      "I was ten when my family moved to Haifa."
+     ],
+     "explanation": {
+      "en": "when introduces the time: When I was ten, my family moved to Haifa. If the when-part comes first, put a comma after it. You can also write: My family moved to Haifa when I was ten.",
+      "he": "when מציג את הזמן: When I was ten, my family moved to Haifa. אם החלק עם when בא ראשון, שמים אחריו פסיק. אפשר גם לכתוב: My family moved to Haifa when I was ten."
+     },
+     "wrong_feedback": [
+      {
+       "match": "When I was ten my family moved to Haifa when I was ten.",
+       "feedback": {
+        "en": "Say the time only once.",
+        "he": "כתבו את הזמן פעם אחת בלבד."
+       },
+       "error_type": "cohesion"
+      }
+     ]
+    },
+    {
+     "id": "we-03-6",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "connectors-basic",
+     "prompt": {
+      "en": "Join the sentences with but. Use she instead of repeating Maya.",
+      "he": "חברו את המשפטים בעזרת but. כתבו she במקום לחזור על Maya."
+     },
+     "source": "Maya likes maths. Maya doesn't like physics.",
+     "answers": [
+      "Maya likes maths, but she doesn't like physics.",
+      "Maya likes maths but she doesn't like physics.",
+      "Maya likes maths, but not physics.",
+      "Maya likes maths but not physics."
+     ],
+     "explanation": {
+      "en": "A pronoun saves repetition: Maya likes maths, but she doesn't like physics. She clearly means Maya, because Maya is the only person in the sentence. An even shorter version is also correct: Maya likes maths, but not physics.",
+      "he": "כינוי גוף חוסך חזרה: Maya likes maths, but she doesn't like physics. ברור ש-she היא מאיה, כי היא האדם היחיד במשפט. גם הגרסה הקצרה נכונה: Maya likes maths, but not physics."
+     },
+     "wrong_feedback": [
+      {
+       "match": "Maya likes maths, but Maya doesn't like physics.",
+       "feedback": {
+        "en": "The join is right. Now replace the second Maya with she.",
+        "he": "החיבור נכון. עכשיו החליפו את Maya השנייה ב-she."
+       },
+       "error_type": "pronoun"
+      },
+      {
+       "match": "Maya likes maths, but he doesn't like physics.",
+       "feedback": {
+        "en": "Maya is a girl, so use she.",
+        "he": "Maya היא בת, ולכן she."
+       },
+       "error_type": "pronoun"
+      }
+     ]
+    },
+    {
+     "id": "we-03-7",
+     "error_type": "pronoun",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "paragraph-basics",
+     "prompt": {
+      "en": "Which sentence is clear? In the other three, we cannot be sure who 'she' is.",
+      "he": "איזה משפט ברור? בשלושת האחרים אי אפשר לדעת בוודאות מי זאת 'she'."
+     },
+     "question": "Choose the clear sentence.",
+     "options": [
+      "Dana called Shira after she got home.",
+      "Dana told Shira that she won the prize.",
+      "Dana and Shira met, and she was very happy.",
+      "When Dana got home, she called Shira."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "Who got home, Dana or Shira? Both are possible.",
+       "he": "מי הגיעה הביתה, דנה או שירה? שתי האפשרויות קיימות."
+      },
+      "1": {
+       "en": "Who won the prize? It could be Dana or Shira.",
+       "he": "מי זכתה בפרס? זו יכולה להיות דנה וזו יכולה להיות שירה."
+      },
+      "2": {
+       "en": "Who was happy? We cannot tell.",
+       "he": "מי הייתה שמחה? אי אפשר לדעת."
+      }
+     },
+     "explanation": {
+      "en": "In When Dana got home, she called Shira, only Dana appears before she, so she = Dana. When two people of the same gender appear in a sentence, repeat the name or change the sentence.",
+      "he": "במשפט When Dana got home, she called Shira רק דנה מופיעה לפני she, ולכן she היא דנה. כשיש במשפט שני אנשים מאותו מגדר, כדאי לחזור על השם או לבנות את המשפט אחרת."
+     }
+    },
+    {
+     "id": "we-03-8",
+     "error_type": "comprehension",
+     "type": "mcq",
+     "skill": "reading",
+     "topic": "paragraph-basics",
+     "prompt": {
+      "en": "Read the text. Which sentence is the best one-sentence summary?",
+      "he": "קראו את הטקסט. איזה משפט הוא הסיכום הטוב ביותר במשפט אחד?"
+     },
+     "question": "Every spring, the Year 10 students at a small school clean the beach near their town. They collect plastic bottles, bags and old fishing nets. Last year they filled more than forty bags. After the clean-up, they make a short film about the rubbish they found and show it to younger students, so the younger students learn to keep the beach clean too.",
+     "options": [
+      "Every spring, Year 10 students clean a local beach and teach younger students to keep it clean.",
+      "Last year the students filled more than forty bags.",
+      "Plastic is a terrible problem, and everybody should stop using it.",
+      "The students collect bottles, bags and nets."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "This is a small detail (a number), not the main idea.",
+       "he": "זה פרט קטן (מספר), לא הרעיון המרכזי."
+      },
+      "2": {
+       "en": "This adds an opinion that is not in the text. A summary reports what the text says.",
+       "he": "כאן נוספה דעה שלא מופיעה בטקסט. סיכום מוסר את מה שכתוב בטקסט."
+      },
+      "3": {
+       "en": "This is only part of the text; it misses the film and the younger students.",
+       "he": "זה רק חלק מהטקסט; חסרים הסרט והתלמידים הצעירים."
+      }
+     },
+     "explanation": {
+      "en": "A good summary is short, covers the whole text (the clean-up and the teaching), leaves out details such as numbers, and adds no opinion.",
+      "he": "סיכום טוב הוא קצר, מכסה את כל הטקסט (הניקיון וההסברה לתלמידים הצעירים), משמיט פרטים כמו מספרים ולא מוסיף דעה."
+     }
+    },
+    {
+     "id": "we-03-9",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "paragraph-basics",
+     "prompt": {
+      "en": "These sentences come from one paragraph. Sort them: topic sentence, supporting detail or closing sentence.",
+      "he": "המשפטים האלה לקוחים מפסקה אחת. מיינו אותם: משפט נושא, פרט תומך או משפט סיום."
+     },
+     "categories": [
+      "Topic sentence",
+      "Supporting detail",
+      "Closing sentence"
+     ],
+     "items": [
+      {
+       "text": "Walking to school is a good habit for teenagers.",
+       "category": "Topic sentence"
+      },
+      {
+       "text": "A twenty-minute walk gives you exercise every morning.",
+       "category": "Supporting detail"
+      },
+      {
+       "text": "You can talk with your friends on the way.",
+       "category": "Supporting detail"
+      },
+      {
+       "text": "You arrive awake and ready to learn.",
+       "category": "Supporting detail"
+      },
+      {
+       "text": "For these reasons, students who live near their school should walk when they can.",
+       "category": "Closing sentence"
+      }
+     ],
+     "explanation": {
+      "en": "The topic sentence gives the main idea in general words. Supporting details give specific reasons or examples. The closing sentence sums up, often with a phrase such as For these reasons.",
+      "he": "משפט הנושא מציג את הרעיון המרכזי במילים כלליות. הפרטים התומכים נותנים סיבות או דוגמאות ספציפיות. משפט הסיום מסכם, הרבה פעמים עם ביטוי כמו For these reasons."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-04",
+   "stage": 2,
+   "level": "A2",
+   "kind": "summarization",
+   "title_en": "Summarise a short article",
+   "title_he": "מסכמים כתבה קצרה",
+   "instructions": {
+    "en": "Read the short article below. Then write a summary of 60-100 words in your own words. Give the main idea and the most important points. Do not add your own opinion.",
+    "he": "קראו את הכתבה הקצרה שלמטה. אחר כך כתבו סיכום של 60 עד 100 מילים במילים שלכם. הציגו את הרעיון המרכזי ואת הנקודות החשובות ביותר. אל תוסיפו את הדעה שלכם."
+   },
+   "input_text": "Lunch without phones (an invented article, written for this exercise)\nLast year, a secondary school in a small town tried something new. For one month, students could not use their phones during the lunch break. They put their phones in a box at the door of the dining room and took them back after lunch.\nAt first, many students were angry. Some said that they needed their phones to answer messages from their parents. The school explained that parents could always call the school office.\nAfter two weeks, the teachers noticed some changes. The dining room was louder, but in a good way: students were talking and laughing together. More students played table tennis and board games after they finished eating. A teacher said that some quiet students made new friends.\nNot everything was positive. A few students said the rule was unfair, because they were old enough to make their own decisions. Others said that they felt nervous without their phones in the first days.\nAt the end of the month, the students voted. Most of them wanted phone-free lunches two days a week, not every day. The school agreed to try this plan next year.",
+   "min_words": 60,
+   "max_words": 100,
+   "focus": [
+    "coherence",
+    "cohesion",
+    "vocabulary",
+    "clarity"
+   ],
+   "scaffold": [
+    {
+     "en": "Read the article twice. The first time, just ask yourself: what is it about?",
+     "he": "קראו את הכתבה פעמיים. בפעם הראשונה רק שאלו את עצמכם: על מה היא?"
+    },
+    {
+     "en": "Write the main idea in one sentence: The article is about... / The article describes...",
+     "he": "כתבו את הרעיון המרכזי במשפט אחד: The article is about... / The article describes..."
+    },
+    {
+     "en": "Find 3-4 key points: what the school did, how the students reacted, what changed, and the result. Leave out small details, such as the exact words people said.",
+     "he": "מצאו 3 או 4 נקודות מפתח: מה בית הספר עשה, איך התלמידים הגיבו, מה השתנה ומה הייתה התוצאה. השמיטו פרטים קטנים, כמו מה שאנשים אמרו מילה במילה."
+    },
+    {
+     "en": "Without looking at the article, write each point in your own words and connect the points with linkers: At first, ... / After two weeks, ... / However, ... / In the end, ...",
+     "he": "בלי להסתכל בכתבה, כתבו כל נקודה במילים שלכם וחברו בין הנקודות בעזרת מילות קישור: At first, ... / After two weeks, ... / However, ... / In the end, ..."
+    },
+    {
+     "en": "Look at the article again and check: is every point correct? Did you add an opinion? If so, delete it.",
+     "he": "הסתכלו שוב בכתבה ובדקו: האם כל נקודה נכונה? הוספתם דעה? אם כן, מחקו אותה."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "My first sentence gives the main idea of the whole article.",
+     "he": "המשפט הראשון שלי מציג את הרעיון המרכזי של כל הכתבה."
+    },
+    {
+     "en": "I included the most important points: what happened, how the students reacted, and the result.",
+     "he": "כללתי את הנקודות החשובות ביותר: מה קרה, איך התלמידים הגיבו ומה הייתה התוצאה."
+    },
+    {
+     "en": "I used my own words and did not copy whole sentences from the article.",
+     "he": "השתמשתי במילים שלי ולא העתקתי משפטים שלמים מהכתבה."
+    },
+    {
+     "en": "I did not add my own opinion.",
+     "he": "לא הוספתי את הדעה שלי."
+    },
+    {
+     "en": "I used linkers to connect the points (At first, However, In the end).",
+     "he": "השתמשתי במילות קישור כדי לחבר בין הנקודות (At first, However, In the end)."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt: a summary of a different invented article, 'The Saturday repair cafe'. Write your own summary of 'Lunch without phones' first, then compare how this model is built.\nThe article describes a repair cafe that volunteers opened in a community centre. Once a month, people bring broken things, such as lamps, bikes and clothes, and the volunteers help them to fix these things for free. At first, only a few people came, but after a few months the cafe became very popular. According to the article, it helps people to save money and to throw away less. However, some local shop owners were unhappy because they lost customers. In the end, the cafe and the shops agreed to work together."
+  },
+  {
+   "id": "we-05",
+   "stage": 3,
+   "level": "B1",
+   "kind": "argument-construction",
+   "title_en": "Opinions, reasons and examples",
+   "title_he": "דעה, נימוק ודוגמה",
+   "instructions": {
+    "en": "Practise the building blocks of an opinion text: tell facts from opinions, state an opinion clearly, match each reason with an example that really supports it, and use opinion language correctly.",
+    "he": "תרגול של אבני הבניין של טקסט דעה: להבחין בין עובדה לדעה, להציג דעה בבירור, להתאים לכל נימוק דוגמה שבאמת תומכת בו ולהשתמש נכון בביטויי דעה."
+   },
+   "focus": [
+    "argument_strength",
+    "vocabulary",
+    "coherence"
+   ],
+   "checklist": [
+    {
+     "en": "A fact can be checked; an opinion is a judgement that people can disagree with.",
+     "he": "עובדה אפשר לבדוק; דעה היא שיפוט שאנשים יכולים לחלוק עליו."
+    },
+    {
+     "en": "A clear opinion takes a side, ideally in the first or second sentence.",
+     "he": "דעה ברורה נוקטת עמדה, רצוי כבר במשפט הראשון או השני."
+    },
+    {
+     "en": "Every reason needs an example that really shows the reason is true.",
+     "he": "כל נימוק צריך דוגמה שבאמת מראה שהוא נכון."
+    },
+    {
+     "en": "Say I agree, not I am agree; for your own view, say In my opinion or In my view, not According to me.",
+     "he": "אומרים I agree ולא I am agree; כשמביעים דעה אישית אומרים In my opinion או In my view ולא According to me."
+    },
+    {
+     "en": "A conclusion restates the opinion in new words and adds no new reason.",
+     "he": "פסקת הסיום חוזרת על הדעה במילים חדשות ולא מוסיפה נימוק חדש."
+    }
+   ],
+   "items": [
+    {
+     "id": "we-05-1",
+     "type": "categorize",
+     "skill": "reading",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Fact or opinion? Sort the sentences.",
+      "he": "עובדה או דעה? מיינו את המשפטים."
+     },
+     "categories": [
+      "Fact",
+      "Opinion"
+     ],
+     "items": [
+      {
+       "text": "The town library closes at 7 p.m. on Thursdays.",
+       "category": "Fact"
+      },
+      {
+       "text": "Summer is the best season of the year.",
+       "category": "Opinion"
+      },
+      {
+       "text": "This film is two hours long.",
+       "category": "Fact"
+      },
+      {
+       "text": "Homework is a waste of time.",
+       "category": "Opinion"
+      },
+      {
+       "text": "There are 24 hours in a day.",
+       "category": "Fact"
+      },
+      {
+       "text": "Reading on paper is more enjoyable than reading on a screen.",
+       "category": "Opinion"
+      },
+      {
+       "text": "Water freezes at 0°C.",
+       "category": "Fact"
+      },
+      {
+       "text": "Schools should start later in the morning.",
+       "category": "Opinion"
+      }
+     ],
+     "hint": {
+      "en": "Ask: could you check it with a clock, a calendar or a thermometer? Words such as best, should and waste usually show an opinion.",
+      "he": "שאלו: אפשר לבדוק את זה בשעון, בלוח שנה או במדחום? מילים כמו best, should ו-waste מעידות בדרך כלל על דעה."
+     },
+     "explanation": {
+      "en": "Facts can be checked (a closing time, the length of a film, 24 hours, 0°C). Opinions are judgements that people can disagree with: best, a waste of time, more enjoyable, should.",
+      "he": "את העובדות אפשר לבדוק (שעת סגירה, אורך של סרט, 24 שעות, 0 מעלות). דעות הן שיפוטים שאפשר לחלוק עליהם: best, a waste of time, more enjoyable, should."
+     }
+    },
+    {
+     "id": "we-05-2",
+     "error_type": "weak-thesis",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "The topic is online classes. Which sentence states a clear opinion?",
+      "he": "הנושא הוא שיעורים מקוונים. איזה משפט מציג דעה ברורה?"
+     },
+     "question": "Choose the sentence that takes a clear position.",
+     "options": [
+      "Some people like online classes and some people don't.",
+      "Many schools used online classes in the past few years.",
+      "This essay will talk about online classes.",
+      "In my view, online classes work well for older students, but not for young children."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "This describes both sides but takes no position.",
+       "he": "המשפט מתאר את שני הצדדים, אבל לא נוקט עמדה."
+      },
+      "1": {
+       "en": "This is a fact, not an opinion.",
+       "he": "זו עובדה, לא דעה."
+      },
+      "2": {
+       "en": "This announces the topic but does not say what the writer thinks.",
+       "he": "המשפט מודיע מה הנושא, אבל לא אומר מה הכותב חושב."
+      }
+     },
+     "explanation": {
+      "en": "A clear opinion takes a side. In my view, online classes work well for older students, but not for young children is clear, and it even says exactly for whom.",
+      "he": "דעה ברורה נוקטת צד. המשפט In my view, online classes work well for older students, but not for young children ברור, ואפילו מפרט בדיוק למי זה מתאים."
+     }
+    },
+    {
+     "id": "we-05-3",
+     "type": "match",
+     "skill": "writing",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Opinion: Teenagers should learn to cook. Match each reason with the example that supports it.",
+      "he": "הדעה: בני נוער צריכים ללמוד לבשל. התאימו לכל נימוק את הדוגמה שתומכת בו."
+     },
+     "pairs": [
+      [
+       "Cooking saves money.",
+       "A pasta dinner made at home costs much less than a takeaway pizza."
+      ],
+      [
+       "Cooking is a skill for life.",
+       "Young people who move out of their parents' home have to make their own meals."
+      ],
+      [
+       "Cooking helps you eat more healthily.",
+       "When you cook, you decide how much salt, sugar and oil to use."
+      ],
+      [
+       "Cooking brings families together.",
+       "Preparing a Friday-night dinner together gives everyone time to talk."
+      ]
+     ],
+     "explanation": {
+      "en": "Each example shows that its own reason is true: the price comparison shows saving money, moving out shows a life skill, choosing the salt and sugar shows healthier eating, and cooking together shows family time.",
+      "he": "כל דוגמה מוכיחה את הנימוק שלה: השוואת המחירים מראה חיסכון, המעבר מבית ההורים מראה מיומנות לחיים, הבחירה בכמות המלח והסוכר מראה תזונה בריאה יותר, והבישול המשותף מראה זמן משפחתי."
+     }
+    },
+    {
+     "id": "we-05-4",
+     "error_type": "unsupported-claim",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Opinion: Our town should build a skate park. Which reason is relevant?",
+      "he": "הדעה: העיר שלנו צריכה לבנות סקייטפארק. איזה נימוק רלוונטי?"
+     },
+     "question": "Choose the reason that supports the opinion.",
+     "options": [
+      "Skateboarding was invented a long time ago.",
+      "Young people need a safe place to skate, away from cars.",
+      "I have a red skateboard.",
+      "Some parks have big trees."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "This may be true, but it does not explain why our town needs a skate park.",
+       "he": "אולי זה נכון, אבל זה לא מסביר למה העיר שלנו צריכה סקייטפארק."
+      },
+      "2": {
+       "en": "This is a personal detail. It gives the town no reason to act.",
+       "he": "זה פרט אישי. הוא לא נותן לעירייה סיבה לפעול."
+      },
+      "3": {
+       "en": "This is about parks in general, not about skating.",
+       "he": "זה על פארקים באופן כללי, לא על סקייטבורד."
+      }
+     },
+     "explanation": {
+      "en": "A relevant reason answers the question Why? about the opinion. Safety away from cars explains why the town should build the park.",
+      "he": "נימוק רלוונטי עונה על השאלה 'למה?' לגבי הדעה. בטיחות הרחק ממכוניות מסבירה למה העיר צריכה לבנות את הפארק."
+     }
+    },
+    {
+     "id": "we-05-5",
+     "type": "correct",
+     "skill": "grammar",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Correct the mistake.",
+      "he": "תקנו את הטעות."
+     },
+     "sentence": "I am agree that students need more breaks.",
+     "answers": [
+      "I agree that students need more breaks."
+     ],
+     "error_type": "false-friend",
+     "hint": {
+      "en": "In English, agree is a verb, not an adjective.",
+      "he": "באנגלית agree הוא פועל, לא שם תואר."
+     },
+     "explanation": {
+      "en": "Translating word for word from Hebrew, learners often add am. But agree is already a verb: I agree that students need more breaks. The same is true of I disagree.",
+      "he": "בעברית אומרים 'אני מסכים', ולכן קל להוסיף am באנגלית. אבל agree הוא כבר פועל: I agree that students need more breaks. כך גם I disagree."
+     }
+    },
+    {
+     "id": "we-05-6",
+     "type": "correct",
+     "skill": "vocabulary",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Correct the mistake.",
+      "he": "תקנו את הטעות."
+     },
+     "sentence": "According to me, school uniforms are a good idea.",
+     "answers": [
+      "In my opinion, school uniforms are a good idea.",
+      "In my opinion school uniforms are a good idea.",
+      "In my view, school uniforms are a good idea.",
+      "In my view school uniforms are a good idea.",
+      "I think school uniforms are a good idea.",
+      "I think that school uniforms are a good idea.",
+      "I believe school uniforms are a good idea.",
+      "I believe that school uniforms are a good idea."
+     ],
+     "error_type": "word-choice",
+     "hint": {
+      "en": "Use In my opinion, In my view, I think or I believe.",
+      "he": "השתמשו ב-In my opinion, In my view, I think או I believe."
+     },
+     "explanation": {
+      "en": "In English, according to introduces other people or sources (according to the report). For your own view, write In my opinion, In my view or I believe that.",
+      "he": "באנגלית according to מציג דעה של אחרים או של מקור (according to the report). לדעה שלכם כתבו In my opinion, In my view או I believe that."
+     }
+    },
+    {
+     "id": "we-05-7",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Complete the paragraph with the phrases. Use each phrase once.",
+      "he": "השלימו את הפסקה בביטויים. השתמשו בכל ביטוי פעם אחת."
+     },
+     "text": "___ that every student should learn first aid. ___ accidents can happen anywhere: at home, at school or in the street. ___, if a friend cuts their hand badly, you need to know how to stop the bleeding. ___, first aid lessons should be part of every school programme.",
+     "answers": [
+      [
+       "I believe"
+      ],
+      [
+       "This is because"
+      ],
+      [
+       "For example"
+      ],
+      [
+       "For this reason"
+      ]
+     ],
+     "word_bank": [
+      "I believe",
+      "This is because",
+      "For example",
+      "For this reason"
+     ],
+     "explanation": {
+      "en": "The paragraph follows the opinion frame: the opinion (I believe that...), the reason (This is because...), an example (For example, ...) and the restated opinion (For this reason, ...). It gives one reason, so For this reason, not For these reasons.",
+      "he": "הפסקה בנויה לפי מבנה של טקסט דעה: קודם הדעה (I believe that...), אחר כך הנימוק (This is because...), אחר כך דוגמה (For example) ובסוף חזרה על הדעה (For this reason). בפסקה יש נימוק אחד בלבד, ולכן For this reason ולא For these reasons."
+     },
+     "wrong_feedback": [
+      {
+       "match": "For example",
+       "feedback": {
+        "en": "For example introduces one specific case. Is this sentence a specific case?",
+        "he": "For example מציג מקרה ספציפי אחד. האם המשפט הזה הוא מקרה ספציפי?"
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "For this reason",
+       "feedback": {
+        "en": "For this reason sums up the reason already given, so it belongs at the end.",
+        "he": "For this reason מסכם את הנימוק שכבר הוצג, ולכן מקומו בסוף."
+       },
+       "error_type": "cohesion"
+      }
+     ]
+    },
+    {
+     "id": "we-05-8",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "essay-structure-basic",
+     "prompt": {
+      "en": "Which sentence is the best conclusion for the first-aid paragraph?",
+      "he": "איזה משפט הוא הסיום הטוב ביותר לפסקה על עזרה ראשונה?"
+     },
+     "question": "Choose the conclusion that restates the opinion without adding a new argument.",
+     "options": [
+      "To sum up, learning first aid prepares students to help when an accident happens, so every school should teach it.",
+      "To sum up, first aid is useful, and schools should also teach cooking.",
+      "To sum up, there are many things in life.",
+      "To sum up, some people think first aid is boring."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "Cooking is a new topic. A conclusion should not add new arguments.",
+       "he": "בישול הוא נושא חדש. בסיום לא מוסיפים טיעונים חדשים."
+      },
+      "2": {
+       "en": "This is too vague; it does not restate the opinion.",
+       "he": "המשפט כללי מדי ולא חוזר על הדעה."
+      },
+      "3": {
+       "en": "This ends with a different view and no answer, so the reader is left unsure of the writer's position.",
+       "he": "המשפט מסתיים בדעה אחרת בלי מענה, והקורא לא יודע מה העמדה של הכותב."
+      }
+     },
+     "explanation": {
+      "en": "A good conclusion repeats the opinion in new words and reminds the reader of the main reason, without anything new.",
+      "he": "סיום טוב חוזר על הדעה במילים חדשות ומזכיר לקורא את הנימוק המרכזי, בלי להוסיף דבר חדש."
+     }
+    },
+    {
+     "id": "we-05-9",
+     "error_type": "unsupported-claim",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "opinion-language",
+     "prompt": {
+      "en": "Reason: Learning a musical instrument teaches patience. Which example supports this reason best?",
+      "he": "הנימוק: לימוד נגינה בכלי מלמד סבלנות. איזו דוגמה תומכת בנימוק הזה בצורה הטובה ביותר?"
+     },
+     "question": "Choose the best example.",
+     "options": [
+      "Pianos are expensive to buy.",
+      "Music is popular all over the world.",
+      "My cousin practised the guitar every day for months before she could play one full song.",
+      "Many famous singers are rich."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This is about cost, not patience.",
+       "he": "זה עוסק במחיר, לא בסבלנות."
+      },
+      "1": {
+       "en": "This is about music in general; it says nothing about patience.",
+       "he": "זה על מוזיקה באופן כללי, ולא אומר שום דבר על סבלנות."
+      },
+      "3": {
+       "en": "This is about money and fame, not patience.",
+       "he": "זה על כסף ופרסום, לא על סבלנות."
+      }
+     },
+     "explanation": {
+      "en": "Months of daily practice before one full song show patience directly, so this example supports the reason.",
+      "he": "חודשים של תרגול יומי לפני שהצליחה לנגן שיר אחד שלם מראים סבלנות באופן ישיר, ולכן הדוגמה הזאת תומכת בנימוק."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-06",
+   "stage": 3,
+   "level": "B1",
+   "kind": "essay",
+   "title_en": "Agree or disagree: volunteering at school",
+   "title_he": "מסכימים או לא: התנדבות במסגרת בית הספר",
+   "instructions": {
+    "en": "Many schools ask students aged 16-18 to do volunteer work in their community, for example in a hospital, a youth club or an animal shelter. Should volunteering be part of every student's school programme? Write a short opinion essay of 120-180 words. State your opinion clearly, give two reasons with an example for each, and finish by restating your opinion.",
+    "he": "בתי ספר רבים מבקשים מתלמידים בני 16 עד 18 להתנדב בקהילה, למשל בבית חולים, במועדון נוער או במקלט לבעלי חיים. האם התנדבות צריכה להיות חלק מתוכנית הלימודים של כל תלמיד? כתבו חיבור דעה קצר של 120 עד 180 מילים. הציגו את דעתכם בבירור, תנו שני נימוקים ודוגמה לכל אחד מהם, וסיימו בחזרה על הדעה."
+   },
+   "min_words": 120,
+   "max_words": 180,
+   "focus": [
+    "argument_strength",
+    "coherence",
+    "cohesion",
+    "grammar",
+    "vocabulary"
+   ],
+   "scaffold": [
+    {
+     "en": "Decide: agree, disagree or partly agree. Write your opinion in one sentence (In my view, ... / I strongly believe that ... / I partly agree that ...).",
+     "he": "החליטו: מסכימים, לא מסכימים או מסכימים חלקית. כתבו את דעתכם במשפט אחד (In my view, ... / I strongly believe that ... / I partly agree that ...)."
+    },
+    {
+     "en": "Reason 1 + example: One reason is that ... For example, ...",
+     "he": "נימוק 1 ודוגמה: One reason is that ... For example, ..."
+    },
+    {
+     "en": "Reason 2 + example: Another reason is that ... For instance, ...",
+     "he": "נימוק 2 ודוגמה: Another reason is that ... For instance, ..."
+    },
+    {
+     "en": "After each example, explain it in one short sentence: This shows that ...",
+     "he": "אחרי כל דוגמה הסבירו אותה במשפט קצר: This shows that ..."
+    },
+    {
+     "en": "Restate your opinion in new words: To sum up, ... / For these reasons, ...",
+     "he": "חזרו על הדעה במילים חדשות: To sum up, ... / For these reasons, ..."
+    },
+    {
+     "en": "Organise the text in three or four short paragraphs: opinion, reasons with examples, conclusion.",
+     "he": "חלקו את הטקסט לשלוש או ארבע פסקאות קצרות: דעה, נימוקים עם דוגמאות, סיום."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "My opinion is clear in the first two sentences.",
+     "he": "הדעה שלי ברורה כבר בשני המשפטים הראשונים."
+    },
+    {
+     "en": "I gave two different reasons, and each one has its own example.",
+     "he": "נתתי שני נימוקים שונים, ולכל אחד מהם יש דוגמה משלו."
+    },
+    {
+     "en": "Each example really shows that its reason is true.",
+     "he": "כל דוגמה באמת מראה שהנימוק שלה נכון."
+    },
+    {
+     "en": "My conclusion restates my opinion in new words and adds no new reason.",
+     "he": "בסיום חזרתי על הדעה שלי במילים חדשות ולא הוספתי נימוק חדש."
+    },
+    {
+     "en": "I used opinion language correctly (I agree, In my view - not I am agree or According to me).",
+     "he": "השתמשתי נכון בביטויי דעה (I agree, In my view, ולא I am agree או According to me)."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt: 'Should students have a part-time job during the school year?' Write your own essay about volunteering before you read this model.\nIn my view, students aged 16-18 should be allowed to have a part-time job, but only for a few hours a week.\nOne reason is that a job teaches responsibility. For example, my neighbour works in a bakery on Friday mornings. She has to arrive on time, and she cannot leave before her shift ends. This shows that a job builds habits that school alone does not always teach.\nAnother reason is that working teaches students the value of money. For instance, when my brother started working at a supermarket, he stopped asking our parents for money and began to save for a laptop. Now he thinks carefully before he buys anything.\nTo sum up, a small part-time job can help students grow up, as long as it leaves enough time for schoolwork."
+  },
+  {
+   "id": "we-07",
+   "stage": 4,
+   "level": "B1",
+   "kind": "argument-construction",
+   "title_en": "Claims, evidence and the link",
+   "title_he": "טענה, ראיה והקשר ביניהן",
+   "instructions": {
+    "en": "Practise the parts of an argument: tell a strong claim from a weak one, match evidence to the claim it supports, recognise types of evidence, and explain the link between evidence and claim. All the surveys, places and figures in these items are invented for practice.",
+    "he": "תרגול של חלקי הטיעון: להבחין בין טענה חזקה לטענה חלשה, להתאים ראיה לטענה שהיא תומכת בה, לזהות סוגי ראיות ולהסביר את הקשר בין הראיה לטענה. כל הסקרים, המקומות והמספרים בתרגיל הומצאו לצורך התרגול."
+   },
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "precision"
+   ],
+   "checklist": [
+    {
+     "en": "A good claim is specific and debatable: a reasonable person could disagree with it.",
+     "he": "טענה טובה היא ספציפית ופתוחה לוויכוח: אדם סביר יכול לחלוק עליה."
+    },
+    {
+     "en": "A fact is not a claim, and a vague slogan (Technology is bad) is too broad to argue.",
+     "he": "עובדה איננה טענה, וסיסמה כללית (Technology is bad) רחבה מדי בשביל טיעון."
+    },
+    {
+     "en": "Evidence must be relevant to this claim, not just true or interesting.",
+     "he": "ראיה צריכה להיות רלוונטית לטענה הזאת, ולא רק נכונה או מעניינת."
+    },
+    {
+     "en": "After the evidence, add a sentence that explains how it supports the claim (This suggests that...).",
+     "he": "אחרי הראיה מוסיפים משפט שמסביר איך היא תומכת בטענה (This suggests that...)."
+    },
+    {
+     "en": "Specific, relevant support is stronger than 'everyone knows' or one friend's feelings.",
+     "he": "ביסוס ספציפי ורלוונטי חזק יותר מ'כולם יודעים' או מהתחושה של חבר אחד."
+    }
+   ],
+   "items": [
+    {
+     "id": "we-07-1",
+     "error_type": "weak-thesis",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Sort the sentences: not debatable (a fact), too broad, or a good claim.",
+      "he": "מיינו את המשפטים: לא פתוח לוויכוח (עובדה), רחב מדי או טענה טובה."
+     },
+     "categories": [
+      "Not debatable (a fact)",
+      "Too broad",
+      "Good claim"
+     ],
+     "items": [
+      {
+       "text": "Our school has a library on the second floor.",
+       "category": "Not debatable (a fact)"
+      },
+      {
+       "text": "The number 5 bus from the city centre to the university takes about 40 minutes.",
+       "category": "Not debatable (a fact)"
+      },
+      {
+       "text": "Technology is bad.",
+       "category": "Too broad"
+      },
+      {
+       "text": "Sport is good for everybody.",
+       "category": "Too broad"
+      },
+      {
+       "text": "Things should be better in schools.",
+       "category": "Too broad"
+      },
+      {
+       "text": "The town library should stay open until 9 p.m. during exam weeks.",
+       "category": "Good claim"
+      },
+      {
+       "text": "Schools should give students in Years 10-12 one free period a week to work on a project of their choice.",
+       "category": "Good claim"
+      },
+      {
+       "text": "Our school canteen should offer a cheap vegetarian meal every day.",
+       "category": "Good claim"
+      }
+     ],
+     "hint": {
+      "en": "Ask two questions: Can it simply be checked? Is it specific enough to find evidence for?",
+      "he": "שאלו שתי שאלות: אפשר פשוט לבדוק את זה? האם זה ספציפי מספיק כדי למצוא לזה ראיות?"
+     },
+     "explanation": {
+      "en": "Facts can simply be checked, so there is nothing to argue. Broad slogans (Technology is bad) are too vague to support with evidence. Good claims are specific (who, what, when), and a reasonable person could disagree with them.",
+      "he": "את העובדות אפשר פשוט לבדוק, ולכן אין על מה להתווכח. סיסמאות כלליות (Technology is bad) עמומות מכדי לבסס אותן בראיות. טענה טובה היא ספציפית (מי, מה, מתי), ואדם סביר יכול לחלוק עליה."
+     }
+    },
+    {
+     "id": "we-07-2",
+     "error_type": "unsupported-claim",
+     "type": "match",
+     "skill": "reading",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Match each claim with the evidence that supports it. (The surveys and reports are invented for practice.)",
+      "he": "התאימו לכל טענה את הראיה שתומכת בה. (הסקרים והדיווחים הומצאו לצורך התרגול.)"
+     },
+     "pairs": [
+      [
+       "School lessons should start at 8:45, not 8:00.",
+       "In a class survey, most students said they sleep less than seven hours on school nights."
+      ],
+      [
+       "The town should put more rubbish bins in the park.",
+       "The park cleaners report that most litter is found far from the nearest bin."
+      ],
+      [
+       "Schools should teach students how to manage money.",
+       "A school counsellor says that many graduates sign their first phone contract without checking the monthly cost."
+      ],
+      [
+       "Group projects should be marked partly on each student's own work.",
+       "In our last group project, one student did most of the work, but all four students got the same grade."
+      ]
+     ],
+     "explanation": {
+      "en": "Relevant evidence speaks directly to its claim: too little sleep supports a later start, where the litter is found supports more bins, costly contracts support money lessons, and unequal work supports individual marks.",
+      "he": "ראיה רלוונטית מתייחסת ישירות לטענה שלה: מעט שינה תומכת בהתחלה מאוחרת יותר, המקום שבו נמצאת הפסולת תומך בפחים נוספים, חוזים יקרים תומכים בלימוד ניהול כסף, וחלוקת עבודה לא שוויונית תומכת בציון אישי."
+     }
+    },
+    {
+     "id": "we-07-3",
+     "error_type": "unsupported-claim",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Which sentence best explains the link between the evidence and the claim?",
+      "he": "איזה משפט מסביר בצורה הטובה ביותר את הקשר בין הראיה לטענה?"
+     },
+     "question": "Claim: School lessons should start at 8:45, not 8:00. Evidence: In a class survey, most students said they sleep less than seven hours on school nights. Link: ___",
+     "options": [
+      "Many students are tired.",
+      "Students who sleep too little find it harder to concentrate, so a later start would give them more sleep and help them learn in the first lessons.",
+      "8:45 is a nice time to start.",
+      "Other schools start at different times."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "This only repeats the evidence; it does not explain why a later start would help.",
+       "he": "המשפט רק חוזר על הראיה; הוא לא מסביר למה התחלה מאוחרת תעזור."
+      },
+      "2": {
+       "en": "This is a personal preference, not a link.",
+       "he": "זו העדפה אישית, לא הסבר של הקשר."
+      },
+      "3": {
+       "en": "This is a new fact; it does not connect the sleep evidence to the claim.",
+       "he": "זו עובדה חדשה, והיא לא מחברת בין הראיה על השינה לבין הטענה."
+      }
+     },
+     "explanation": {
+      "en": "The link (the warrant) explains why the evidence matters for the claim: too little sleep hurts concentration, so a later start would help learning. Without it, the reader has to guess.",
+      "he": "משפט הקשר (warrant) מסביר למה הראיה חשובה לטענה: מעט שינה פוגעת בריכוז, ולכן התחלה מאוחרת תעזור ללמידה. בלי המשפט הזה הקורא צריך לנחש."
+     }
+    },
+    {
+     "id": "we-07-4",
+     "error_type": "unsupported-claim",
+     "type": "mcq",
+     "skill": "reading",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: The town library should stay open until 9 p.m. during exam weeks. Which support is strongest?",
+      "he": "הטענה: ספריית העיר צריכה להיות פתוחה עד 21:00 בשבועות של מבחנים. איזה ביסוס הוא החזק ביותר?"
+     },
+     "question": "Choose the most relevant and specific support. (The example is invented.)",
+     "options": [
+      "Everyone knows that libraries are important.",
+      "My friend really likes the library.",
+      "Libraries have existed for thousands of years.",
+      "During the last exam period, the study room was full every evening when it closed at 6 p.m., and the librarian had to ask students to leave."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "'Everyone knows' is not evidence: the fact that many people believe something does not prove it.",
+       "he": "'כולם יודעים' זו לא ראיה: העובדה שהרבה אנשים חושבים משהו לא מוכיחה אותו."
+      },
+      "1": {
+       "en": "One friend's feelings are too weak and too personal.",
+       "he": "התחושה של חבר אחד חלשה ואישית מדי."
+      },
+      "2": {
+       "en": "This may be true, but it is not relevant to opening hours in exam weeks.",
+       "he": "אולי זה נכון, אבל זה לא רלוונטי לשעות הפתיחה בתקופת מבחנים."
+      }
+     },
+     "explanation": {
+      "en": "The strongest support is specific and directly relevant: a full study room at closing time shows real demand for longer hours in exam weeks.",
+      "he": "הביסוס החזק ביותר הוא ספציפי ורלוונטי ישירות: חדר לימוד מלא בשעת הסגירה מראה שיש ביקוש אמיתי לשעות פתיחה ארוכות יותר בתקופת מבחנים."
+     }
+    },
+    {
+     "id": "we-07-5",
+     "error_type": "unsupported-claim",
+     "type": "categorize",
+     "skill": "reading",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "What type of evidence is each sentence? (All the details are invented.)",
+      "he": "איזה סוג ראיה מופיע בכל משפט? (כל הפרטים הומצאו.)"
+     },
+     "categories": [
+      "Data",
+      "Example",
+      "Expert view",
+      "Personal experience"
+     ],
+     "items": [
+      {
+       "text": "A count by the student council found 45 bikes but only 20 bike racks at the school gate.",
+       "category": "Data"
+      },
+      {
+       "text": "In a survey of our year group, 22 of 30 students said they read the news on their phones.",
+       "category": "Data"
+      },
+      {
+       "text": "A nearby town closed its main street to cars on Fridays, and the cafes there became busier.",
+       "category": "Example"
+      },
+      {
+       "text": "Another school replaced one exam with a group project, and its teachers now use projects in every subject.",
+       "category": "Example"
+      },
+      {
+       "text": "A dentist who visited our class explained that sugary drinks are a major cause of tooth decay in teenagers.",
+       "category": "Expert view"
+      },
+      {
+       "text": "A sleep researcher interviewed in the school magazine said that teenagers' body clocks make early mornings hard.",
+       "category": "Expert view"
+      },
+      {
+       "text": "When I started cycling to school, I arrived more awake and less stressed.",
+       "category": "Personal experience"
+      },
+      {
+       "text": "Last year I volunteered at an animal shelter, and it taught me to be responsible.",
+       "category": "Personal experience"
+      }
+     ],
+     "explanation": {
+      "en": "Data = numbers or counts. Example = a specific case from another place or group. Expert view = what a qualified person says about their own field. Personal experience = what happened to the writer (I, my). Strong arguments often combine several types.",
+      "he": "Data = מספרים או ספירות. Example = מקרה ספציפי ממקום אחר או מקבוצה אחרת. Expert view = מה שאומר אדם מוסמך על התחום שלו. Personal experience = מה שקרה לכותב עצמו (I, my). טיעונים חזקים משלבים לעיתים קרובות כמה סוגים."
+     }
+    },
+    {
+     "id": "we-07-6",
+     "type": "order",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Put the sentences in order to build an argument paragraph. (The survey is invented for this exercise.)",
+      "he": "סדרו את המשפטים כך שתיבנה פסקת טיעון. (הסקר הומצא לצורך התרגיל.)"
+     },
+     "tokens": [
+      "Our school should open a quiet study room during the lunch break.",
+      "The main reason is that many students have no calm place to revise during the school day.",
+      "In a survey of Year 11, 40 of 60 students said the library is too noisy at lunchtime.",
+      "This suggests that a separate quiet room would give these students study time that they do not have now.",
+      "For this reason, a quiet room would be a simple way to support students before exams."
+     ],
+     "hint": {
+      "en": "Look for words that point back to an earlier sentence: The main reason, This suggests, For this reason.",
+      "he": "חפשו מילים שמפנות למשפט קודם: The main reason, This suggests, For this reason."
+     },
+     "explanation": {
+      "en": "Claim first, then the reason, then the evidence, then the link that explains the evidence (This suggests that...), and finally a closing sentence that returns to the claim.",
+      "he": "קודם הטענה, אחר כך הנימוק, אחר כך הראיה, אחר כך משפט הקשר שמסביר את הראיה (This suggests that...), ובסוף משפט סיום שחוזר לטענה."
+     },
+     "error_type": "cohesion"
+    },
+    {
+     "id": "we-07-7",
+     "error_type": "weak-thesis",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Which version makes the claim 'Phones are bad for students' more precise and easier to argue?",
+      "he": "איזו גרסה הופכת את הטענה 'Phones are bad for students' למדויקת יותר ולקלה יותר לביסוס?"
+     },
+     "question": "Choose the best revision.",
+     "options": [
+      "Students should not use phones during lessons, because notifications interrupt their concentration.",
+      "Phones are very, very bad for students.",
+      "Some people think phones are bad.",
+      "Phones are bad for students and for everyone else too."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "Repeating very adds emphasis, not precision.",
+       "he": "חזרה על very מוסיפה הדגשה, לא דיוק."
+      },
+      "2": {
+       "en": "This reports other people's view, so it is no longer the writer's claim.",
+       "he": "המשפט מוסר דעה של אחרים, ולכן זו כבר לא הטענה של הכותב."
+      },
+      "3": {
+       "en": "This makes the claim even broader and harder to support.",
+       "he": "כך הטענה נעשית רחבה עוד יותר וקשה עוד יותר לבסס אותה."
+      }
+     },
+     "explanation": {
+      "en": "The precise version says who (students), when (during lessons), what (should not use phones) and why (notifications interrupt concentration). A precise claim is easier to support with evidence.",
+      "he": "הגרסה המדויקת אומרת מי (תלמידים), מתי (בזמן שיעורים), מה (לא להשתמש בטלפון) ולמה (התראות פוגעות בריכוז). קל יותר לבסס טענה מדויקת בראיות."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-08",
+   "stage": 4,
+   "level": "B2",
+   "kind": "argument-construction",
+   "title_en": "Argue a position: phones at school",
+   "title_he": "טוענים עמדה: טלפונים בבית הספר",
+   "instructions": {
+    "en": "Should schools ban phones for the whole school day, including breaks, and not only during lessons? Argue for or against a full-day ban and respond to opposing views. Write 180-250 words in three or four short paragraphs. Make a clear claim, support it with two reasons, back each reason with evidence and a sentence that explains the link, respond briefly to one opposing view, and end with a conclusion. You may use the evidence notes below (they are invented for this exercise), your own experience, or examples you know.",
+    "he": "האם בתי ספר צריכים לאסור שימוש בטלפונים במשך כל היום, כולל בהפסקות, ולא רק בשיעורים? טענו בעד איסור כזה או נגדו, והשיבו לעמדות המנוגדות. כתבו 180 עד 250 מילים בשלוש או ארבע פסקאות קצרות. הציגו טענה ברורה, בססו אותה בשני נימוקים, תמכו בכל נימוק בראיה ובמשפט שמסביר את הקשר, השיבו בקצרה לעמדה מנוגדת אחת וסיימו בסיכום. אפשר להיעזר ברשימות הראיות שלמטה (הן הומצאו לצורך התרגיל), בניסיון האישי שלכם או בדוגמאות שאתם מכירים."
+   },
+   "input_text": "Evidence notes (all invented for this exercise: use them as practice evidence, not as real facts)\n1. School X (an invented school) banned phones for the whole day last year. Teachers reported fewer arguments during breaks and more students playing sports.\n2. At School X, some parents complained that they could not reach their children quickly during the day.\n3. In a class survey, 18 of 30 students said they check their phone in every break.\n4. A school counsellor: 'Breaks are when students practise talking face to face. Phones make that practice shorter.'\n5. Some students use their phones to check bus times, to pay for lunch or to read digital textbooks.",
+   "min_words": 180,
+   "max_words": 250,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "coherence",
+    "precision"
+   ],
+   "scaffold": [
+    {
+     "en": "Claim: write one sentence that answers the question and takes a side (Schools should / should not ...).",
+     "he": "טענה: כתבו משפט אחד שעונה על השאלה ונוקט צד (Schools should / should not ...)."
+    },
+    {
+     "en": "Reason 1 -> evidence (a note, an example or your own experience) -> link: This suggests that ... / This matters because ...",
+     "he": "נימוק 1, אחריו ראיה (אחת הרשימות, דוגמה או ניסיון אישי), ואחריה משפט קשר: This suggests that ... / This matters because ..."
+    },
+    {
+     "en": "Reason 2 -> evidence -> link, in the same way.",
+     "he": "נימוק 2, ראיה ומשפט קשר, באותה דרך."
+    },
+    {
+     "en": "Opposing view in one or two sentences: Some people argue that ... However, ...",
+     "he": "עמדה מנוגדת במשפט או שניים: Some people argue that ... However, ..."
+    },
+    {
+     "en": "Conclusion: restate your claim in new words. Do not add a new reason.",
+     "he": "סיכום: חזרו על הטענה במילים חדשות. אל תוסיפו נימוק חדש."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position on a full-day ban is clear, specific and debatable.",
+     "he": "טענה: העמדה שלי לגבי איסור לכל היום ברורה, ספציפית ופתוחה לוויכוח."
+    },
+    {
+     "en": "Reasons: I gave two different reasons that support my claim.",
+     "he": "נימוקים: נתתי שני נימוקים שונים שתומכים בטענה."
+    },
+    {
+     "en": "Evidence: each reason has relevant evidence and a sentence that explains how it supports the claim.",
+     "he": "ראיות: לכל נימוק יש ראיה רלוונטית ומשפט שמסביר איך היא תומכת בטענה."
+    },
+    {
+     "en": "Counterargument: I stated one opposing view fairly (Some people argue that ...).",
+     "he": "טיעון נגדי: הצגתי בהגינות עמדה מנוגדת אחת (Some people argue that ...)."
+    },
+    {
+     "en": "Rebuttal: I answered that view with a reason, not just 'this is wrong'.",
+     "he": "מענה: השבתי לעמדה הזאת בנימוק, ולא רק ב'זה לא נכון'."
+    },
+    {
+     "en": "Conclusion: I restated my claim without adding a new argument.",
+     "he": "סיכום: חזרתי על הטענה בלי להוסיף טיעון חדש."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt: 'Should secondary schools require students to wear a uniform?' Write your own argument about phones first, then compare how this model is built. Its survey and examples are invented for illustration.\nIn my view, secondary schools should require a simple uniform, such as a school T-shirt worn with any trousers or skirt.\nThe first reason is that a uniform reduces pressure about clothes. In a class survey, 19 of 28 students said they sometimes feel judged for what they wear, and several said they spend time every morning choosing an outfit. This suggests that a uniform would remove one daily source of stress and competition.\nThe second reason is that a uniform makes school trips safer. On a class trip to a busy market, for instance, a teacher could count her group at a glance because everyone wore the same bright blue shirt, so she noticed within a minute when one student wandered off. This matters because crowded places are exactly where students get lost, and every minute counts.\nSome people argue that uniforms stop teenagers from expressing who they are. This is a fair concern, because clothes are one way in which young people show their identity. However, a simple T-shirt still leaves students free to choose their hair, shoes and bags, and to express themselves through their ideas and activities.\nFor these reasons, a basic uniform is a small rule that makes school both fairer and safer."
+  },
+  {
+   "id": "we-09",
+   "stage": 5,
+   "level": "B2",
+   "kind": "counterargument",
+   "title_en": "Fair objections and straw men",
+   "title_he": "התנגדות הוגנת ואיש קש",
+   "instructions": {
+    "en": "Practise handling the other side: spot a straw man, choose the fairest and most serious objection, signal an opposing view so that readers cannot mistake it for yours, and notice when an objection is dismissed instead of answered.",
+    "he": "תרגול של התמודדות עם הצד השני: לזהות 'איש קש', לבחור את ההתנגדות ההוגנת והרצינית ביותר, לסמן עמדה מנוגדת כך שהקורא לא יחשוב שהיא שלכם, ולזהות מתי מבטלים התנגדות במקום להשיב לה."
+   },
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "cohesion"
+   ],
+   "checklist": [
+    {
+     "en": "I state the strongest objection in a form that its supporters would accept as fair."
+    },
+    {
+     "en": "I choose serious objections (cost, safety, fairness), not trivial ones."
+    },
+    {
+     "en": "I signal the opposing view with attribution (Critics argue that..., Some parents worry that...)."
+    },
+    {
+     "en": "I answer the reason behind an objection; I never attack the people who hold it."
+    },
+    {
+     "en": "I place the counterargument before my conclusion, never as the last word."
+    }
+   ],
+   "items": [
+    {
+     "id": "we-09-1",
+     "type": "mcq",
+     "skill": "reading",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: The city should add protected bike lanes on its main shopping street. Which sentence presents the opposing view as a straw man?"
+     },
+     "question": "Choose the straw man.",
+     "options": [
+      "Some shop owners worry that losing parking spaces will mean fewer customers.",
+      "Some residents point out that delivery lorries will have less space to stop.",
+      "Opponents of bike lanes simply hate cyclists and want everyone stuck in traffic forever.",
+      "Critics argue that the money could be spent on more frequent buses instead."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This is a fair, specific concern that shop owners would recognise as their own."
+      },
+      "1": {
+       "en": "This is a fair, practical objection about deliveries."
+      },
+      "3": {
+       "en": "This is a fair objection: it questions the cost by pointing to an alternative."
+      }
+     },
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "A straw man replaces the real objection with an extreme, weaker version that is easy to knock down. The other three sentences describe concerns their supporters would recognise as their own."
+     }
+    },
+    {
+     "id": "we-09-2",
+     "error_type": "fallacy",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Position: Schools should replace final exams with long-term projects. Which sentence states the opposing view most fairly and strongly?"
+     },
+     "question": "Choose the best statement of the objection.",
+     "options": [
+      "Critics only want to keep exams because they are afraid of anything new.",
+      "Some say that exams are boring.",
+      "Everyone agrees that exams are bad, except a few old-fashioned people.",
+      "Critics argue that projects are harder to mark fairly, because it is difficult to know how much of the work each student did alone."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "This invents a silly motive for the critics instead of stating their real reason; it is a straw man."
+      },
+      "1": {
+       "en": "This is trivial, and it is not even a reason to keep exams."
+      },
+      "2": {
+       "en": "This is loaded language and a bandwagon claim, not a fair statement of the other side."
+      }
+     },
+     "explanation": {
+      "en": "A fair objection gives the real reason people hold the view. Fair marking and individual work are serious concerns that supporters of exams would accept as their own."
+     }
+    },
+    {
+     "id": "we-09-3",
+     "error_type": "missing-counterargument",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: Our town should make public buses free for everyone under 18. Which objection matters most?"
+     },
+     "question": "Choose the most serious objection to answer in your essay.",
+     "options": [
+      "Some people do not like the colour of the buses.",
+      "The town would need to replace the money from tickets, which might mean cutting other services.",
+      "Buses are sometimes late.",
+      "Teenagers could walk instead."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "This has nothing to do with free fares."
+      },
+      "2": {
+       "en": "Late buses are a problem whether fares are free or not, so this is not an objection to the claim."
+      },
+      "3": {
+       "en": "This has some force, but many trips are too long to walk, so it is weaker than the cost objection."
+      }
+     },
+     "explanation": {
+      "en": "It is better to answer one or two serious objections in depth than many trivial ones. Cost is the most serious here because it questions whether the plan is possible at all."
+     }
+    },
+    {
+     "id": "we-09-4",
+     "error_type": "cohesion",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Is each sentence clearly signalled as an opposing view, or could a reader mistake it for the writer's own view?"
+     },
+     "categories": [
+      "Clearly signalled",
+      "Could be mistaken for the writer's view"
+     ],
+     "items": [
+      {
+       "text": "Critics argue that a four-day school week would leave working parents without childcare.",
+       "category": "Clearly signalled"
+      },
+      {
+       "text": "A four-day school week would leave working parents without childcare.",
+       "category": "Could be mistaken for the writer's view"
+      },
+      {
+       "text": "It could be argued that longer school days would tire younger students.",
+       "category": "Clearly signalled"
+      },
+      {
+       "text": "Longer school days tire younger students.",
+       "category": "Could be mistaken for the writer's view"
+      },
+      {
+       "text": "Some parents worry that online homework increases screen time.",
+       "category": "Clearly signalled"
+      },
+      {
+       "text": "Online homework increases screen time.",
+       "category": "Could be mistaken for the writer's view"
+      }
+     ],
+     "explanation": {
+      "en": "Attribution phrases (Critics argue that..., It could be argued that..., Some parents worry that...) tell the reader whose view this is. Without them, an objection reads as if the writer were contradicting their own claim."
+     }
+    },
+    {
+     "id": "we-09-5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "A student ends an essay with this sentence. What is the main problem?"
+     },
+     "question": "In conclusion, school uniforms are a good idea, although some people say they are expensive for families.",
+     "options": [
+      "The objection comes at the very end with no response, so the reader finishes with an unanswered problem.",
+      "The conclusion is too short.",
+      "Essays should never mention the other side.",
+      "Although cannot be used in a conclusion."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "Length is not the issue; a short conclusion can work well."
+      },
+      "2": {
+       "en": "Stating the other side fairly and answering it makes an argument stronger, not weaker."
+      },
+      "3": {
+       "en": "Although is grammatically fine here; the problem is where the objection is placed."
+      }
+     },
+     "error_type": "missing-counterargument",
+     "explanation": {
+      "en": "Place the counterargument and your response in the body, before the conclusion. A conclusion should leave the reader with your position, already tested against the objection, not with a new unanswered problem."
+     }
+    },
+    {
+     "id": "we-09-6",
+     "error_type": "cohesion",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Rewrite the sentence as an opposing view. Begin with: Supporters of homework argue that"
+     },
+     "source": "Homework helps students remember what they learned in class.",
+     "answers": [
+      "Supporters of homework argue that it helps students remember what they learned in class.",
+      "Supporters of homework argue that homework helps students remember what they learned in class.",
+      "Supporters of homework argue that it helps students to remember what they learned in class.",
+      "Supporters of homework argue that homework helps students to remember what they learned in class.",
+      "Supporters of homework argue that it helps students remember what they learnt in class.",
+      "Supporters of homework argue that homework helps students remember what they learnt in class."
+     ],
+     "explanation": {
+      "en": "The attribution phrase makes it clear that this is someone else's position. Use it to avoid repeating homework: Supporters of homework argue that it helps students remember what they learned in class."
+     }
+    },
+    {
+     "id": "we-09-7",
+     "type": "mcq",
+     "skill": "reading",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Read the paragraph. What is wrong with how it handles the other side?"
+     },
+     "question": "Some people say that a later school start would not work, because buses and parents' working hours are planned around 8:00. But these people are just lazy and do not really care about students.",
+     "options": [
+      "It states the objection unfairly.",
+      "It does not include an objection.",
+      "It attacks the people instead of answering their reason about buses and working hours.",
+      "It has too many linking words."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "The objection itself is stated fairly: buses and working hours are real concerns. The problem is the response."
+      },
+      "1": {
+       "en": "It does include one: the timetable objection in the first sentence."
+      },
+      "3": {
+       "en": "There is only one linker (But), so that is not the problem."
+      }
+     },
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "Calling opponents lazy is an ad hominem: it attacks people, not their reasons. A real response would deal with the bus timetable and parents' working hours, for example by proposing a gradual change."
+     }
+    },
+    {
+     "id": "we-09-8",
+     "error_type": "fallacy",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: Schools should have one home-learning day every week. A draft says: 'Some people don't like learning from home.' Which revision turns this into a fair, serious objection?"
+     },
+     "question": "Choose the strongest version of the objection.",
+     "options": [
+      "Everybody hates learning from home.",
+      "Some teachers point out that students without a quiet room or a reliable internet connection fall behind on home-learning days.",
+      "Learning from home is very, very boring.",
+      "Students who dislike learning from home are just lazy."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "This is a sweeping generalisation (everybody), not a reason."
+      },
+      "2": {
+       "en": "Adding very makes it louder, not stronger; there is still no reason."
+      },
+      "3": {
+       "en": "This insults the people who hold the view instead of giving their reason."
+      }
+     },
+     "explanation": {
+      "en": "Steel-manning means stating the best version of the other side: a specific, reasonable concern (unequal conditions at home) that you will then have to answer properly."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-10",
+   "stage": 5,
+   "level": "B2",
+   "kind": "essay",
+   "title_en": "AI tools for homework: argue and answer the other side",
+   "title_he": "כלי בינה מלאכותית בשיעורי בית: טוענים ומשיבים לצד השני",
+   "instructions": {
+    "en": "Should secondary schools allow students to use AI writing tools (chatbots that can draft and correct text) for homework? Argue for or against, or take a qualified position (for example, AI tools allowed for some tasks only), and respond to opposing views. Write 200-280 words. State a clear claim, give at least two reasons with relevant support, present the strongest opposing view fairly and with attribution, respond to it with a reason, and end with a short conclusion. Place the counterargument before your conclusion.",
+    "he": "האם בתי ספר תיכוניים צריכים להתיר לתלמידים להשתמש בכלי כתיבה מבוססי בינה מלאכותית (צ'טבוטים שיכולים לנסח ולתקן טקסט) בשיעורי הבית? טענו בעד או נגד, או הציגו עמדה מסויגת (למשל, להתיר את הכלים רק במשימות מסוימות), והשיבו לעמדות המנוגדות. כתבו 200 עד 280 מילים: טענה ברורה, לפחות שני נימוקים עם ביסוס רלוונטי, הצגה הוגנת של העמדה המנוגדת החזקה ביותר תוך ציון מי מחזיק בה, מענה מנומק לה וסיכום קצר. מקמו את הטיעון הנגדי לפני הסיכום."
+   },
+   "min_words": 200,
+   "max_words": 280,
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "evidence_quality",
+    "coherence"
+   ],
+   "scaffold": [
+    {
+     "en": "Before you write, list three people who might disagree with you: a teacher, a parent and a student. What would each one say? Choose the strongest objection."
+    },
+    {
+     "en": "Plan: claim -> reason 1 + support -> reason 2 + support -> strongest objection (attributed) -> your response -> conclusion."
+    },
+    {
+     "en": "Attribution phrases: Critics argue that... / Some teachers worry that... / It could be argued that... / Opponents of this policy point out that..."
+    },
+    {
+     "en": "Test your objection: would someone who holds this view accept your description of it?"
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position is clear and specific (for example, which tasks, and under what rules)."
+    },
+    {
+     "en": "Reasons and evidence: I gave at least two reasons, each with relevant support and a sentence that explains the link."
+    },
+    {
+     "en": "Counterargument: I stated the strongest opposing view fairly; its supporters would accept my description."
+    },
+    {
+     "en": "Signalling: the objection is attributed (Critics argue that...), so it cannot be mistaken for my view."
+    },
+    {
+     "en": "Rebuttal: I answered the objection with a reason, before my conclusion."
+    },
+    {
+     "en": "Conclusion: I restated my position without adding new arguments."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt: 'Should secondary schools replace printed textbooks with tablets?' Write your own essay about AI tools first; this model shows the structure, not the content you need. Its examples are invented for illustration.\nSecondary schools should replace most printed textbooks with tablets, but they should keep printed copies for students who need or prefer them.\nThe first reason is cost over time. Tablets cost more at the start, but a printed textbook goes out of date after a few years, and the whole set must then be bought again, whereas a digital edition can be updated for every student at once. Over several years, this could free money for other resources, although each school would need to check its own figures.\nThe second reason is that tablets make materials more accessible. A student with weak eyesight can enlarge the text, and a student who struggles with reading can listen to a chapter read aloud. A printed page cannot adapt in these ways.\nCritics argue that tablets distract students, because games and messages are only one tap away, and that long hours of screen reading may tire students' eyes. This is a serious concern, and it would be wrong to dismiss it. However, schools can install software that blocks other apps during lessons, and the printed copies I propose would allow students to read on paper when they choose. The objection therefore shows that tablets need clear rules, not that printed books must stay.\nIn short, a carefully managed move to tablets can make learning more accessible, and possibly cheaper, without ignoring the risks."
+  },
+  {
+   "id": "we-11",
+   "stage": 6,
+   "level": "B2",
+   "kind": "counterargument",
+   "title_en": "Rebuttal moves: refute, concede, qualify",
+   "title_he": "מהלכי הפרכה: לסתור, להודות, לסייג",
+   "instructions": {
+    "en": "An objection can be answered in three ways. Refute it: show that it is mistaken. Concede and outweigh it: accept that it is true, then show why your side still weighs more. Qualify your claim: narrow it so that the objection no longer applies. Whichever move you choose must rest on a reason or evidence; brushing an objection aside is not a rebuttal. Work through the items, then use these moves in your own paragraph in the next task.",
+    "he": "אפשר להשיב להתנגדות בשלוש דרכים. לסתור אותה: להראות שהיא שגויה. להודות ולהכריע: לקבל שהיא נכונה, ולהראות למה הצד שלכם בכל זאת גובר. לסייג את הטענה: לצמצם אותה כך שההתנגדות כבר לא חלה עליה. כל מהלך חייב להישען על נימוק או על ראיה; דחייה של התנגדות בלי הסבר איננה הפרכה. פתרו את הפריטים, ובמשימה הבאה השתמשו במהלכים האלה בפסקה משלכם."
+   },
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "cohesion"
+   ],
+   "scaffold": [
+    {
+     "en": "Refute: \"This objection assumes that X, but in fact Y, because...\"",
+     "he": "לסתור: \"ההתנגדות מניחה ש-X, אבל למעשה Y, כי...\""
+    },
+    {
+     "en": "Concede and outweigh: \"It is true that X; even so, Y matters more, because...\"",
+     "he": "להודות ולהכריע: \"נכון ש-X; ובכל זאת Y חשוב יותר, כי...\""
+    },
+    {
+     "en": "Qualify: \"This is a fair point about X, so the proposal should be limited to Y.\"",
+     "he": "לסייג: \"זו נקודה הוגנת לגבי X, ולכן כדאי להגביל את ההצעה ל-Y.\""
+    },
+    {
+     "en": "Weigh with criteria: how many people are affected, how serious and how lasting the effect is, how likely it is, and whether it can be reduced.",
+     "he": "שקלו לפי קריטריונים: כמה אנשים מושפעים, עד כמה ההשפעה חמורה ולכמה זמן, מה הסיכוי שתתרחש, והאם אפשר לצמצם אותה."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "I can tell refuting (the objection is wrong) from conceding and outweighing (it is right, but my side weighs more) and qualifying (my claim becomes narrower).",
+     "he": "ההבחנה ברורה לי: סתירה (ההתנגדות שגויה), הודאה והכרעה (היא נכונה, אבל הצד שלי גובר) וסיוג (הטענה שלי מצטמצמת)."
+    },
+    {
+     "en": "Every rebuttal I write gives a reason or evidence; none simply dismisses the objection or attacks the people who raise it.",
+     "he": "בכל הפרכה שלי יש נימוק או ראיה; אף אחת מהן לא מבטלת את ההתנגדות סתם ולא תוקפת את מי שהעלה אותה."
+    },
+    {
+     "en": "When I concede, I say why my side still weighs more, using a criterion such as scale, duration or likelihood.",
+     "he": "כשאני מודה בנקודה, ההסבר שלי מראה למה הצד שלי בכל זאת גובר, לפי קריטריון כמו היקף, משך או סבירות."
+    },
+    {
+     "en": "When I qualify, the claim itself changes, not just its wording.",
+     "he": "בסיוג, הטענה עצמה משתנה, ולא רק הניסוח שלה."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Claim: \"The school library should stay open until 20:00 on weekdays.\" Objection: \"Longer hours cost money that could buy books.\" Sort each response by the move it makes.",
+      "he": "טענה: \"ספריית בית הספר צריכה להיות פתוחה עד 20:00 בימי חול.\" התנגדות: \"שעות פתיחה ארוכות עולות כסף שאפשר היה לקנות בו ספרים.\" מיינו כל תגובה לפי המהלך שהיא עושה."
+     },
+     "categories": [
+      "Refute",
+      "Concede and outweigh",
+      "Qualify"
+     ],
+     "items": [
+      {
+       "text": "In fact, the evening hours would cost the book budget nothing, because trained senior students would supervise them as part of their volunteering.",
+       "category": "Refute"
+      },
+      {
+       "text": "This assumes the money would come from the book budget, but the parents' association has offered to fund the extra hours.",
+       "category": "Refute"
+      },
+      {
+       "text": "Longer hours would indeed cost money, but a quiet place to study for students who have none at home is worth more than a few extra books.",
+       "category": "Concede and outweigh"
+      },
+      {
+       "text": "It is true that staff time is not free; even so, the benefit to every student preparing for exams outweighs the price of some new titles.",
+       "category": "Concede and outweigh"
+      },
+      {
+       "text": "The library should stay open late only in the six weeks before exams, when demand is highest.",
+       "category": "Qualify"
+      },
+      {
+       "text": "Late opening should start on two evenings a week, which keeps the cost low while the school checks how many students use it.",
+       "category": "Qualify"
+      }
+     ],
+     "hint": {
+      "en": "Ask of each response: does it say the objection is wrong, admit it is right, or change the claim?",
+      "he": "שאלו על כל תגובה: האם היא אומרת שההתנגדות שגויה, מודה שהיא נכונה, או משנה את הטענה?"
+     },
+     "explanation": {
+      "en": "Refute: the objection is wrong (the money does not come from the book budget). Concede and outweigh: the objection is right (late opening costs money), but the benefit is greater. Qualify: the claim itself shrinks (only before exams, only two evenings), so the cost objection loses most of its force."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Choose the response that answers the objection with a reason.",
+      "he": "בחרו את התגובה שמשיבה להתנגדות בנימוק."
+     },
+     "question": "Claim: \"Secondary schools should start the day at 9:00 instead of 8:00.\" Objection: \"Parents who start work early would have nowhere to leave their children.\" Which response is a rebuttal rather than a dismissal?",
+     "options": [
+      "That objection is not really relevant to the main issue, which is how well teenagers sleep and learn.",
+      "Parents complain about almost every change a school makes, so this objection can safely be ignored.",
+      "Schools could open at 7:30 for supervised quiet study, so parents could still drop children off early.",
+      "Everyone knows that teenagers need more sleep than adults, so the objection about parents simply fails."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This declares the objection irrelevant without saying why. That is a dismissal, not a rebuttal."
+      },
+      "1": {
+       "en": "This attacks the people who object instead of answering their point (ad hominem)."
+      },
+      "3": {
+       "en": "Popularity is not a reason (bandwagon), and the childcare problem is never addressed."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "fallacy",
+      "3": "fallacy"
+     },
+     "explanation": {
+      "en": "A rebuttal meets the objection on its own terms. The supervised early opening accepts that drop-off time matters and shows how the proposal can meet that need, so the objection no longer counts against the claim."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Identify the rebuttal move.",
+      "he": "זהו את מהלך ההפרכה."
+     },
+     "question": "Objection: \"Homework-free weekends would leave students less prepared for exams.\" Response: \"Students might lose some practice, but two days of rest lower stress and sharpen concentration during the week, which matters more for exam results than a few extra exercises.\" Which move does the response make?",
+     "options": [
+      "It refutes the objection by showing that its central factual premise is false.",
+      "It concedes the objection and argues that the benefit outweighs it.",
+      "It qualifies the claim, narrowing it so that the objection no longer applies.",
+      "It ignores the objection and moves on to a different subject entirely."
+     ],
+     "answer": 1,
+     "explanation": {
+      "en": "\"Students might lose some practice\" grants the objection, and \"which matters more\" weighs the two sides. Nothing in the response denies the loss or narrows the claim."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "order",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Build a concede-and-outweigh sentence. Start with the concession.",
+      "he": "בנו משפט שמודה בהתנגדות ומראה שהצד שלכם גובר עליה. התחילו בהודאה."
+     },
+     "tokens": [
+      "Although a later start would complicate some parents' mornings,",
+      "the gain in students' sleep and attention,",
+      "which reaches every student on every school day,",
+      "outweighs this cost."
+     ],
+     "hint": {
+      "en": "The concession ends with a comma; the weighing criterion sits between commas inside the main clause.",
+      "he": "ההודאה מסתיימת בפסיק; הקריטריון לשקילה משולב בתוך המשפט העיקרי, בין שני פסיקים."
+     },
+     "explanation": {
+      "en": "Concession first (Although...), then the writer's point (the gain outweighs this cost), with the weighing criterion built in (scale: every student, every school day). Naming \"the gain\" as the subject also avoids an unclear \"it\", which could point to either the gain or the cost. The main clause carries the point you want the reader to remember."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Find the response that qualifies the claim.",
+      "he": "מצאו את התגובה שמסייגת את הטענה."
+     },
+     "question": "Claim: \"Public transport in our city should be free for everyone.\" Objection: \"Free fares for everyone would cost more than the city can afford.\" Which response qualifies the claim?",
+     "options": [
+      "Free fares should start with students, pensioners and people on low incomes, for whom fares are the biggest barrier.",
+      "The city already spends heavily on roads and car parks, so it can clearly afford free public transport as well.",
+      "Even if the cost is high, the cleaner air and quieter streets that free fares would bring are worth paying for.",
+      "People who worry about the cost of free fares do not really care about the environment or about bus users."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "This tries to refute the objection, and weakly: spending on roads does not show that money is left over."
+      },
+      "2": {
+       "en": "This concedes the cost and outweighs it; the claim itself does not change."
+      },
+      "3": {
+       "en": "This attacks the objectors, not their argument (ad hominem)."
+      }
+     },
+     "explanation": {
+      "en": "Qualifying changes the claim itself: \"free for everyone\" becomes \"free first for the groups who need it most\", which costs less and so meets the objection."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Join the two sentences into one concede-and-outweigh sentence. Start with Although and keep all the other words.",
+      "he": "חברו את שני המשפטים למשפט אחד שמודה ומכריע. התחילו ב-Although ושמרו על כל שאר המילים."
+     },
+     "source": "Remote work can leave employees isolated. It gives them back the hours they used to spend commuting.",
+     "answers": [
+      "Although remote work can leave employees isolated, it gives them back the hours they used to spend commuting."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Although remote work can leave employees isolated it gives them back the hours they used to spend commuting.",
+       "feedback": {
+        "en": "Almost: when the Although-clause comes first, put a comma after it."
+       },
+       "error_type": "punctuation"
+      },
+      {
+       "match": "Remote work can leave employees isolated, although it gives them back the hours they used to spend commuting.",
+       "feedback": {
+        "en": "Here \"although\" introduces the benefit, so the benefit becomes the concession and isolation becomes your main point: the opposite weighting. Put Although before the cost you concede."
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "Although remote work gives employees back the hours they used to spend commuting, it can leave them isolated.",
+       "feedback": {
+        "en": "Grammatical, but it reverses the weighing: the benefit is now conceded and the isolation is your main point. Follow the task: start with Although and keep the original words."
+       },
+       "error_type": "cohesion"
+      }
+     ],
+     "explanation": {
+      "en": "Although + the cost you concede, a comma, then your main point. The main clause (\"it gives them back...\") is the one the reader takes away."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "argument-structure",
+     "prompt": {
+      "en": "Choose the reason that weighs the two sides with clear criteria.",
+      "he": "בחרו את הנימוק ששוקל את שני הצדדים לפי קריטריונים ברורים."
+     },
+     "question": "Claim: \"The town should turn the car park beside the market into a public park.\" Concession: \"This would remove parking spaces near the market.\" Which ending best explains why the benefit outweighs the cost? \"Even so, the park is worth it...\"",
+     "options": [
+      "...because parks are simply nicer places than car parks, and a market among trees is more pleasant to visit.",
+      "...because most people in the town agree that green spaces matter, and the council should follow them.",
+      "...because drivers should stop being lazy and walk to the market, as everyone did before cars took over.",
+      "...because it would serve thousands of residents daily for decades, while drivers can park five minutes away."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "A statement of taste, not a criterion for weighing."
+      },
+      "1": {
+       "en": "Popularity is not a reason here (bandwagon)."
+      },
+      "2": {
+       "en": "This insults the people who bear the cost; it weighs nothing."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "fallacy",
+      "2": "fallacy"
+     },
+     "explanation": {
+      "en": "The strong ending weighs with explicit criteria: scale (thousands of residents), duration (decades) and mitigation (parking five minutes away). A reader can disagree with the weighing, but can see exactly how it was done."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "cohesion-devices",
+     "prompt": {
+      "en": "Complete the concession with words from the bank.",
+      "he": "השלימו את משפט ההודאה במילים ממחסן המילים."
+     },
+     "text": "It is ___ that a four-day school week would shorten teaching time; ___, a rested student may learn more in four days than a tired one does in five.",
+     "word_bank": [
+      "true",
+      "nevertheless",
+      "therefore",
+      "because",
+      "for example"
+     ],
+     "answers": [
+      [
+       "true"
+      ],
+      [
+       "nevertheless"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "therefore",
+       "feedback": {
+        "en": "\"Therefore\" would claim that shorter teaching time causes better learning. You need a word that turns from the concession to your stronger point."
+       },
+       "error_type": "cohesion"
+      },
+      {
+       "match": "for example",
+       "feedback": {
+        "en": "The second half is not an example of the first; it is the writer's counterweight to it."
+       },
+       "error_type": "cohesion"
+      }
+     ],
+     "explanation": {
+      "en": "\"It is true that...\" grants the objection; \"nevertheless\" turns to the writer's stronger point. This pair is the skeleton of every concede-and-outweigh sentence."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-12",
+   "stage": 6,
+   "level": "B2",
+   "kind": "counterargument",
+   "title_en": "Write a rebuttal paragraph",
+   "title_he": "כתיבת פסקת הפרכה",
+   "instructions": {
+    "en": "Argue whether secondary schools should replace some end-of-year exams with long-term projects, and respond to the strongest opposing view. Write one developed paragraph of 200-280 words: open with your claim, support it with your main reason and a specific example, present the strongest objection fairly and attribute it (\"Critics argue that...\"), then answer it with one rebuttal move: refute, concede and outweigh, or qualify. If you concede a point, adjust your claim. Write your paragraph before you open the model, which answers a different question.",
+    "he": "טענו בעד או נגד החלפת חלק ממבחני סוף השנה בתיכון בפרויקטים ארוכי טווח, והשיבו לעמדה הנגדית החזקה ביותר. כתבו פסקה מפותחת אחת של 200–280 מילים: פתחו בטענה שלכם, תמכו בה בנימוק המרכזי ובדוגמה מוחשית, הציגו בהגינות את ההתנגדות החזקה ביותר וייחסו אותה למי שמחזיק בה (\"Critics argue that...\"), ואז השיבו לה באחד ממהלכי ההפרכה: לסתור, להודות ולהכריע, או לסייג. אם הודיתם בנקודה, התאימו את הטענה שלכם. כתבו את הפסקה לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
+   },
+   "min_words": 200,
+   "max_words": 280,
+   "focus": [
+    "counterarguments",
+    "argument_strength",
+    "evidence_quality",
+    "cohesion"
+   ],
+   "scaffold": [
+    {
+     "en": "Write your claim as one debatable sentence.",
+     "he": "נסחו את הטענה שלכם במשפט אחד שאפשר להתווכח איתו."
+    },
+    {
+     "en": "List two objections and keep the one a fair-minded opponent would choose.",
+     "he": "רשמו שתי התנגדויות, ובחרו את זו שיריב הוגן היה בוחר."
+    },
+    {
+     "en": "Choose your move: refute, concede and outweigh, or qualify.",
+     "he": "בחרו מהלך: לסתור, להודות ולהכריע, או לסייג."
+    },
+    {
+     "en": "Weigh with a criterion: scale, seriousness, duration, likelihood, or whether the cost can be reduced.",
+     "he": "הכריעו לפי קריטריון: היקף, חומרה, משך, סבירות, או האם אפשר לצמצם את המחיר."
+    },
+    {
+     "en": "End with your position, adjusted if you conceded anything.",
+     "he": "סיימו בעמדה שלכם, ואם הודיתם במשהו, בגרסה המותאמת שלה."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position is clear and debatable in the first sentence.",
+     "he": "טענה: העמדה שלי ברורה וניתנת לוויכוח כבר במשפט הראשון."
+    },
+    {
+     "en": "Reason and evidence: my main reason has a specific example, and I explain how it supports the claim.",
+     "he": "נימוק וראיה: לנימוק המרכזי שלי יש דוגמה מוחשית, ויש הסבר איך היא תומכת בטענה."
+    },
+    {
+     "en": "Counterargument: the strongest objection is stated fairly and attributed, so no reader could mistake it for my own view.",
+     "he": "טיעון נגדי: ההתנגדות החזקה ביותר מוצגת בהגינות ומיוחסת למי שמחזיק בה, כך שאיש לא יחשוב שזו העמדה שלי."
+    },
+    {
+     "en": "Rebuttal: my answer rests on reasoning or evidence (refute, concede and outweigh, or qualify), not on dismissal.",
+     "he": "הפרכה: התשובה שלי נשענת על נימוק או ראיה (סתירה, הודאה והכרעה או סיוג), ולא על ביטול."
+    },
+    {
+     "en": "Adjusted claim: if I conceded a point, my claim or my weighing reflects it.",
+     "he": "טענה מותאמת: אם הודיתי בנקודה, הטענה שלי או השקילה שלי משקפות זאת."
+    },
+    {
+     "en": "Conclusion: my last sentence restates my position and adds no new argument.",
+     "he": "סיכום: המשפט האחרון חוזר על העמדה שלי ולא מוסיף טיעון חדש."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt (\"Should cities close their historic centres to private cars on Friday mornings?\"). It answers a different question from yours, so study the moves, not the content.\n\nCities should close their historic centres to private cars on Friday mornings. The main reason is safety: old streets were built for people and carts, not traffic, and on a busy Friday a single car squeezing down a narrow lane can push pedestrians off a pavement barely wide enough for a pushchair. Removing private cars for a few hours would return that space to the people who actually fill the centre on Fridays: shoppers, families and older residents on foot. Shop owners, however, argue that a closure would cost them customers who arrive by car, and this objection deserves a serious answer, because small shops depend on Friday trade. It is true that some drivers may shop elsewhere at first. Even so, the cost can be reduced: a shuttle from the car parks at the edge of the centre would bring drivers to the shop doors, and quieter streets may encourage people to stay longer rather than hurry back to their cars. The closure should also be limited to the hours between 9:00 and 12:00, so that early deliveries and afternoon trade continue as before. Adjusted in this way, the proposal makes the centre safer for the many people on foot at a modest and manageable cost to a few businesses, and that balance favours the closure.\n\nMoves: claim → reason with a specific example → attributed objection → concession (\"It is true that...\") → the cost reduced → claim qualified (9:00-12:00) → weighed conclusion."
+  },
+  {
+   "id": "we-13",
+   "stage": 7,
+   "level": "C1",
+   "kind": "outlining",
+   "title_en": "From thesis to outline, and back",
+   "title_he": "מתזה למתווה ומתווה הפוך",
+   "instructions": {
+    "en": "A plan should grow out of its thesis. Each body paragraph defends one part of the thesis, in the order the thesis announces; the strongest objection comes after your own case and is answered before the conclusion; the conclusion restates the position and adds nothing new. In these items you map theses to outlines and reverse-outline paragraphs: for each paragraph, ask what it says and what it does.",
+    "he": "תוכנית חיבור צריכה לצמוח מתוך התזה. כל פסקת גוף מגינה על חלק אחד שלה, לפי הסדר שהתזה מכריזה עליו; ההתנגדות החזקה ביותר באה אחרי הטיעונים שלכם ומקבלת תשובה לפני הסיכום; והסיכום חוזר על העמדה בלי להוסיף דבר חדש. בפריטים האלה תתאימו תזות למתווים ותבנו מתווה הפוך לפסקאות: בכל פסקה שאלו מה היא אומרת ומה היא עושה."
+   },
+   "focus": [
+    "coherence",
+    "argument_strength",
+    "counterarguments"
+   ],
+   "scaffold": [
+    {
+     "en": "Essay blueprint: introduction with thesis → one body paragraph per reason → objection and rebuttal → conclusion."
+    },
+    {
+     "en": "Reverse outline: beside each paragraph, write what it says (its point, in a few words) and what it does (its job in the essay)."
+    },
+    {
+     "en": "Check the fit: every part of the thesis has a paragraph, and every paragraph serves a part of the thesis."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Every body paragraph defends one part of my thesis, in the order the thesis announces."
+    },
+    {
+     "en": "The strongest objection comes after my own case and is answered before the conclusion."
+    },
+    {
+     "en": "For each paragraph I can write, in one line each, what it says and what it does."
+    },
+    {
+     "en": "My conclusion restates the position, with any qualification, and adds no new reasons or evidence."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "order",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Thesis: \"Cities should fund free public transport for under-18s, because it widens access to education and work, and its real cost is lower than it first appears.\" Put the outline in order. The body paragraphs follow the order of the thesis, and the objection is answered after the reason it attacks."
+     },
+     "tokens": [
+      "Introduction: teenagers who cannot afford daily travel; thesis",
+      "Point: free travel opens schools, clubs and first jobs",
+      "Point: the real cost once savings on fare collection are counted",
+      "Objection and response: \"the scheme is too expensive\", partly conceded, then outweighed",
+      "Conclusion: the thesis restated with its limits; no new reasons"
+     ],
+     "explanation": {
+      "en": "The thesis announces access first and cost second, so the body follows that order. The cost objection attacks the second reason, so it comes after the cost paragraph and before the conclusion, which adds no new reasons."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Map the thesis to a plan."
+     },
+     "question": "Thesis: \"Although compulsory school uniforms reduce visible differences in family income, schools should make them optional, because they restrict self-expression and cost poorer families more than they save.\" Which body plan matches this thesis?",
+     "options": [
+      "(1) How uniforms reduce bullying over clothes and brands. (2) How they save families time on school mornings. (3) How they build school pride.",
+      "(1) The history of school uniforms since the nineteenth century. (2) How uniform rules differ between countries. (3) What students say about them.",
+      "(1) Why self-expression matters at school. (2) What uniforms really cost poorer families. (3) The income-difference argument, partly conceded and answered.",
+      "(1) Why self-expression matters at school. (2) What uniforms cost low-income families. (3) A further reason: the environmental cost of making uniforms."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "This plan argues the opposite of the thesis."
+      },
+      "1": {
+       "en": "This plan describes the topic but argues nothing."
+      },
+      "3": {
+       "en": "Paragraph 3 adds a reason the thesis never announced, and the point conceded in \"Although...\" is never answered."
+      }
+     },
+     "explanation": {
+      "en": "The thesis promises two reasons (self-expression, cost) and concedes one opposing point (income differences). A matching plan gives each reason a paragraph and returns to the concession to answer it."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Choose the thesis you could outline."
+     },
+     "question": "Which thesis gives a clear plan for a short argumentative essay with two reasons and one answered objection?",
+     "options": [
+      "This essay will discuss the main advantages and disadvantages of recorded lectures for students and universities, and then reach a conclusion.",
+      "Universities should record large lectures, because recordings help students review hard material and free halls for seminars, even if attendance falls.",
+      "Recorded lectures are a topic on which students, lecturers and university managers all hold strong and often very different opinions.",
+      "Recorded lectures are good for students in many ways and bad in some others, so universities will need to think about them very carefully."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "An announcement, not a position: nothing here can be argued for or against."
+      },
+      "2": {
+       "en": "A fact about opinions, not a debatable claim."
+      },
+      "3": {
+       "en": "No position: \"think about them very carefully\" cannot be argued for or against, so there is nothing to outline."
+      }
+     },
+     "option_errors": {
+      "0": "weak-thesis",
+      "2": "weak-thesis",
+      "3": "weak-thesis"
+     },
+     "explanation": {
+      "en": "The strong thesis takes a position, names two reasons (review, space) and signals the objection (attendance), so each part becomes a paragraph of the outline."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Reverse-outline this body paragraph from an essay arguing for a later school start (the district and its pilot are invented for this exercise). Sort each sentence by the job it does."
+     },
+     "categories": [
+      "Topic sentence",
+      "Support",
+      "Explains the link",
+      "Does not belong"
+     ],
+     "items": [
+      {
+       "text": "A later start would help students learn more in the first lessons of the day.",
+       "category": "Topic sentence"
+      },
+      {
+       "text": "In one district's pilot scheme, moving the start from 8:00 to 9:00 was followed by fewer late arrivals.",
+       "category": "Support"
+      },
+      {
+       "text": "Teachers in the same pilot reported that fewer students fell asleep in first-period lessons.",
+       "category": "Support"
+      },
+      {
+       "text": "This matters because a student who arrives on time and rested can follow the opening lesson instead of spending the morning catching up.",
+       "category": "Explains the link"
+      },
+      {
+       "text": "The district also repainted several of its school buildings that year.",
+       "category": "Does not belong"
+      }
+     ],
+     "explanation": {
+      "en": "A unified body paragraph has one point (the topic sentence), support for it, and a sentence explaining why the support proves the point. The repainting happened during the pilot but has nothing to do with the point, so the reverse outline shows it should be cut."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "match",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Reverse-outline a five-paragraph essay on free entry to national museums. Match each paragraph's opening to what the paragraph does."
+     },
+     "pairs": [
+      [
+       "\"Free entry to national museums is often dismissed as a luxury; this essay argues that it is a sound use of public money, provided that special exhibitions still charge.\"",
+       "Introduces the issue and states a qualified thesis"
+      ],
+      [
+       "\"When fees disappear, the visitors who gain most are those who could least afford to come: school groups, large families and pensioners.\"",
+       "Develops the first reason: wider access"
+      ],
+      [
+       "\"Free entry also changes how people use a museum: a visitor who has paid nothing can stay for twenty minutes and come back next week.\"",
+       "Develops the second reason: shorter, repeated visits"
+      ],
+      [
+       "\"Critics reply that museums would lose income they need for conservation, and they are right to worry.\"",
+       "Presents the strongest objection before answering it"
+      ],
+      [
+       "\"Free entry, then, is less a luxury than a decision about whom museums are for.\"",
+       "Restates the position without new reasons"
+      ]
+     ],
+     "explanation": {
+      "en": "A reverse outline names the job of every paragraph. Here the jobs follow the blueprint: thesis, reason, reason, objection and rebuttal, conclusion. If two paragraphs had the same job, or one had none, the outline would show it at once."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Diagnose the essay from its reverse outline."
+     },
+     "question": "A reverse outline of a student essay reads: P1 states the thesis: social media harms teenagers' sleep and concentration. P2 shows how late-night scrolling delays sleep. P3 argues that social media helps teenagers keep in touch with friends. P4 restates that social media harms sleep and concentration. What is the main structural problem?",
+     "options": [
+      "P3 argues the other side without signalling or answering it, and the promised point about concentration never gets a paragraph.",
+      "The essay has too few paragraphs: an argumentative essay needs at least five, so two more body paragraphs are needed.",
+      "The conclusion simply restates the thesis, which wastes words; a conclusion should end with a final, new reason instead.",
+      "P2 and P3 are in the wrong order: the more positive point about friendship should come first to win the reader over."
+     ],
+     "answer": 0,
+     "explanation": {
+      "en": "The reverse outline exposes two gaps between thesis and body: one promised reason (concentration) has no paragraph, and P3 reads as a contradiction because the opposing view is neither signalled (\"Some argue that...\") nor answered. Restating the thesis in a conclusion is normal."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "thesis-advanced",
+     "prompt": {
+      "en": "Choose the conclusion that fits the thesis."
+     },
+     "question": "Thesis: \"Cities should fund free public transport for under-18s, because it widens access to education and work, and its real cost is lower than it first appears.\" Which concluding sentence fits this essay?",
+     "options": [
+      "Free travel for under-18s would also reduce air pollution and traffic around schools, which is another strong reason to support it.",
+      "In the end, everyone has their own opinion on this issue, and each city will have to decide for itself what is best.",
+      "In conclusion, public transport is a topic of great importance in the modern world, and it will only grow more important.",
+      "Free travel for under-18s is thus a modest investment that brings schools, clubs and first jobs within young people's reach."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "A new argument in the conclusion: if pollution matters, it needs its own body paragraph."
+      },
+      "1": {
+       "en": "This abandons the position the essay has argued."
+      },
+      "2": {
+       "en": "Empty: it could end any essay about transport."
+      }
+     },
+     "explanation": {
+      "en": "A conclusion restates the position in fresh words and gathers the reasons already given (cost, access) without adding new ones."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-14",
+   "stage": 7,
+   "level": "C1",
+   "kind": "timed",
+   "title_en": "Timed essay: 40 minutes",
+   "title_he": "חיבור בזמן מוגבל: 40 דקות",
+   "instructions": {
+    "en": "In 40 minutes, write an argumentative essay of 250-350 words on this question: \"Should secondary schools require every student to pass a course in personal finance (budgeting, saving, borrowing and tax) in order to graduate?\" Argue for a clear position and respond to the strongest opposing view. Suggested timing: 5 minutes to plan (a thesis and a four-line outline), 30 minutes to write, 5 minutes to check against the checklist. Start the timer when you start planning, and write before you open the model, which answers a different question.",
+    "he": "תוך 40 דקות כתבו חיבור טיעוני של 250–350 מילים על השאלה: \"Should secondary schools require every student to pass a course in personal finance (budgeting, saving, borrowing and tax) in order to graduate?\" טענו לעמדה ברורה והשיבו לעמדה הנגדית החזקה ביותר. חלוקת זמן מומלצת: 5 דקות לתכנון (תזה ומתווה של ארבע שורות), 30 דקות לכתיבה ו-5 דקות לבדיקה מול רשימת הבדיקה. הפעילו את הטיימר כשאתם מתחילים לתכנן, וכתבו לפני שאתם פותחים את הדוגמה, שעוסקת בשאלה אחרת."
+   },
+   "min_words": 250,
+   "max_words": 350,
+   "time_limit_min": 40,
+   "focus": [
+    "coherence",
+    "cohesion",
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "Thesis: my introduction ends with a clear, debatable position that previews my reasons."
+    },
+    {
+     "en": "Reasons and evidence: each body paragraph makes one point, supports it with a specific example or reason, and links it back to the thesis."
+    },
+    {
+     "en": "Counterargument: the strongest opposing view is stated fairly, attributed, and placed before my conclusion."
+    },
+    {
+     "en": "Rebuttal: I answer it with reasoning, and I adjust my claim if I concede part of it."
+    },
+    {
+     "en": "Cohesion: linking words and reference show how each paragraph follows from the last, without mechanical overuse."
+    },
+    {
+     "en": "Tone and precision: my register is formal, and no claim is stronger than my reasons allow (no unsupported \"all\", \"every\" or \"never\")."
+    },
+    {
+     "en": "Conclusion: I restate my position and add nothing new, and I left time to check my draft."
+    }
+   ],
+   "model_answer": "Model for a parallel prompt (\"Should secondary schools require every student to play a team sport?\"), written in 40 minutes. It answers a different question from yours: compare its structure with your essay, not its ideas.\n\nFew school requirements divide students as sharply as compulsory sport. Supporters see it as the only regular exercise many teenagers get; opponents see it as a weekly humiliation for the least athletic. Schools should require every student to take part in regular physical activity, but not necessarily in a team sport, because the benefits depend on movement, not on competition.\n\nThe first reason is that exercise matters for every student, not only the sporty ones. A teenager who rarely moves between the school bus and the sofa is precisely the student a requirement is meant to reach, and optional programmes tend to attract those who are already active.\n\nThe second reason is that the form of the activity matters less than its regularity. Dance, swimming, climbing or a well-run fitness class can raise the heart rate as effectively as football, and they spare students who dread being picked last the public judgement that team games can involve. A requirement framed around activity also lets schools build on what students already enjoy.\n\nSupporters of compulsory team sport argue that teams teach cooperation and resilience, and this is a serious point: learning to lose together is a lesson few classrooms offer. Yet cooperation can also be learned in an orchestra, a debating team or a group project, whereas a student who learns to hate exercise at fifteen may avoid it for years. The value of teams is real, but it does not justify making them the only option.\n\nSchools should therefore require activity rather than competition: every student should move every week, and team sport should be one choice among several."
+  },
+  {
+   "id": "we-15",
+   "stage": 8,
+   "level": "C1",
+   "kind": "evidence-evaluation",
+   "title_en": "Spot and fix: fallacies and hidden assumptions",
+   "title_he": "לזהות ולתקן: כשלים לוגיים והנחות סמויות",
+   "instructions": {
+    "en": "The illustrative paragraph below argues for a school phone ban. Its conclusion may be reasonable, but almost every step that leads to it is weak. Each item quotes one sentence from it: find what is wrong with the reasoning, then choose or complete a repair that a careful writer could defend. The aim is to fix the argument, not to collect fallacy names, and the same checks apply to your own drafts."
+   },
+   "input_text": "Illustrative paragraph (invented for this task; the school and the town are fictional).\n\n(1) Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement. (2) Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students. (3) Opponents of the ban are mostly teenagers who simply want to play games in class. (4) If students keep their phones, they will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate on anything. (5) Either we ban phones completely, or we admit that schools have given up on discipline. (6) After all, no one has ever proved that phones help anyone learn. (7) The town's other schools should therefore copy Ardenvale's ban at once.",
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "precision",
+    "counterarguments"
+   ],
+   "scaffold": [
+    {
+     "en": "Cause: Did anything else change? How exactly would X produce Y?"
+    },
+    {
+     "en": "Sample: How many cases are there, and are they typical of the group the claim is about?"
+    },
+    {
+     "en": "Opponents: Would they accept this description of their view?"
+    },
+    {
+     "en": "Chains and choices: Which step has evidence? Are there really only two options?"
+    },
+    {
+     "en": "Hidden links: What must be true, but is not said, for the conclusion to follow?"
+    }
+   ],
+   "checklist": [
+    {
+     "en": "For every causal claim, I ask what else could explain the result and say how the cause would work."
+    },
+    {
+     "en": "My sample is large and representative enough for the size of my claim, or I narrow the claim."
+    },
+    {
+     "en": "I describe opponents' views in terms they would accept, and I answer their strongest argument."
+    },
+    {
+     "en": "I test every \"either... or\", \"will lead to\", \"no one has proved\" and \"everyone\" in my own drafts."
+    },
+    {
+     "en": "I can name the unstated assumption that links my evidence to my conclusion, and I check that it holds."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Spot the weakness in sentence 1."
+     },
+     "question": "Sentence 1: \"Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement.\" Which question exposes the weakness in this reasoning?",
+     "options": [
+      "How many students at Ardenvale High own a phone, and how many brought it to lessons before March?",
+      "Did anything else change at the school that year, such as staff, timetables or the exams themselves?",
+      "Do the teachers at Ardenvale High support the ban, and would they like other schools to copy it?",
+      "Are exam results the best measure of a school's success, or should well-being count as well?"
+     ],
+     "answer": 1,
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "Results rising after the ban does not show that the ban caused the rise (post hoc, or false cause). The writer would need to rule out other changes and explain how a ban would raise results."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 1."
+     },
+     "question": "Which revision of sentence 1 (\"Since Ardenvale High banned phones in March, its exam results have risen, so the ban clearly caused the improvement.\") claims only what the evidence supports?",
+     "options": [
+      "Since Ardenvale High banned phones in March, its results have risen, which proves beyond any reasonable doubt that the ban worked.",
+      "Ardenvale High's results have nothing to do with the phone ban, since exam results go up and down every year anyway.",
+      "Everyone knows that results rise when phones are banned, and Ardenvale High's rise since March is simply the latest example.",
+      "Ardenvale High's results rose after the March ban; the ban may have helped, but other changes that year must be ruled out first."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "Stronger, not better: \"proves beyond doubt\" over-claims even more."
+      },
+      "1": {
+       "en": "This over-corrects: the evidence does not show that there is no link either."
+      },
+      "2": {
+       "en": "Popularity replaces evidence (bandwagon)."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "unsupported-claim",
+      "2": "fallacy"
+     },
+     "explanation": {
+      "en": "The repaired version keeps the observation, offers the causal link only as a possibility (\"may have helped\") and names what would have to be checked."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "match",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Match each sentence from the paragraph to the question that would repair it."
+     },
+     "pairs": [
+      [
+       "(2) Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students.",
+       "How many cases is this, are they typical, and is support for a ban evidence of harm?"
+      ],
+      [
+       "(3) Opponents of the ban are mostly teenagers who simply want to play games in class.",
+       "Would opponents accept this description? What is their strongest argument?"
+      ],
+      [
+       "(4) If students keep their phones, they will text during lessons, then stop listening altogether, and soon nobody will be able to concentrate on anything.",
+       "Which step in this chain has evidence, and which is only assumed?"
+      ],
+      [
+       "(5) Either we ban phones completely, or we admit that schools have given up on discipline.",
+       "Are there other options, such as limits on when phones may be used?"
+      ],
+      [
+       "(6) After all, no one has ever proved that phones help anyone learn.",
+       "Does a lack of proof that phones help count as proof that they harm?"
+      ]
+     ],
+     "explanation": {
+      "en": "Each repair question targets one weak step: a small, unrepresentative sample of opinions (2), a caricature of the other side (3), a chain of consequences with no evidence for its links (4), a false choice between two options (5), and treating absence of proof as proof of the opposite (6)."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Replace the straw man in sentence 3."
+     },
+     "question": "Sentence 3 dismisses opponents as \"teenagers who simply want to play games in class\". Which objection should the paragraph answer instead, because it is the strongest case the other side could make?",
+     "options": [
+      "Teenagers enjoy games on their phones, and taking the phones away for the school day will make them resentful.",
+      "Phones are expensive and easily lost or broken, so most students would be better off leaving them at home.",
+      "Phones can support learning, through quick research or class apps, and parents may need to reach their children.",
+      "Teachers who support the ban are simply too strict and do not understand how young people communicate today."
+     ],
+     "answer": 2,
+     "error_type": "missing-counterargument",
+     "explanation": {
+      "en": "Answering the strongest version of the opposing view makes the argument more convincing; answering a caricature (a straw man) persuades only readers who already agree. Calling teachers \"too strict\" just attacks the other side in return."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 2."
+     },
+     "question": "Sentence 2: \"Every teacher I have spoken to supports the ban, which shows that phones are harmful to all students.\" Which revision claims only what this evidence can support?",
+     "options": [
+      "The teachers I have spoken to support the ban, which suggests that at least some staff see phones as a distraction in lessons.",
+      "Every teacher in the country supports the ban, which shows clearly that phones are harmful to all students everywhere.",
+      "Most of the teachers I have spoken to support the ban, so phones must be harmful to most of their students.",
+      "Some of the teachers I have spoken to support the ban, which proves that phones harm at least some students."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "This widens the sample without evidence and keeps the leap from opinion to harm."
+      },
+      "2": {
+       "en": "\"Most\" is smaller than \"all\", but teachers' support is still treated as proof of harm."
+      },
+      "3": {
+       "en": "\"Some\" does not repair a sentence that still treats opinion as proof."
+      }
+     },
+     "option_errors": {
+      "1": "fallacy",
+      "2": "unsupported-claim",
+      "3": "unsupported-claim"
+     },
+     "explanation": {
+      "en": "The evidence is the opinions of an unknown number of teachers the writer happens to know. It supports a claim about those teachers' views, not a claim that phones harm every student (hasty generalisation)."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Fix sentence 5."
+     },
+     "question": "Sentence 5 offers only two options: \"Either we ban phones completely, or we admit that schools have given up on discipline.\" Which revision removes the false choice?",
+     "options": [
+      "Either we ban phones completely, or classrooms will descend into chaos and teachers will lose control of lessons.",
+      "Schools could ban phones, allow them only at break, or allow them for set tasks, and should compare the results.",
+      "We must ban phones completely, because there is no other way to protect lessons from constant interruption.",
+      "Either we ban phones completely, or discipline will slowly get worse, year by year, until it is lost altogether."
+     ],
+     "answer": 1,
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "The repair names the options between the two extremes and proposes a way to choose among them. The other versions keep a two-option frame, or simply declare that no other option exists."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Find the unstated assumption in sentence 7."
+     },
+     "question": "Sentence 7: \"The town's other schools should therefore copy Ardenvale's ban at once.\" Which unstated assumption must hold for this conclusion to follow?",
+     "options": [
+      "That the other schools are similar enough to Ardenvale High for a ban to work the same way.",
+      "That the other schools in the town already have some kind of phone ban in place.",
+      "That most teachers at the town's other schools are currently opposed to a ban.",
+      "That Ardenvale High's exam results had been falling steadily in the years before March."
+     ],
+     "answer": 0,
+     "option_feedback": {
+      "1": {
+       "en": "If they already had a ban, there would be nothing to copy."
+      },
+      "2": {
+       "en": "The conclusion does not depend on what teachers at other schools think."
+      },
+      "3": {
+       "en": "The argument does not need this: it claims only that results rose after March."
+      }
+     },
+     "error_type": "unsupported-claim",
+     "explanation": {
+      "en": "To move from \"it worked here\" to \"do it everywhere\", the writer silently assumes the other schools are alike in the ways that matter: students, rules, and the reasons for their results. Stating the assumption shows what evidence is missing, such as results from comparable schools or a trial before a town-wide rule."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "fallacies",
+     "prompt": {
+      "en": "Repair sentence 6 (\"After all, no one has ever proved that phones help anyone learn.\"). Complete the new version with one word so that it no longer treats a lack of proof as proof."
+     },
+     "text": "Even if no study has shown that phones help students learn, that alone does not ___ that phones harm learning.",
+     "answers": [
+      [
+       "prove",
+       "show",
+       "establish",
+       "demonstrate",
+       "mean",
+       "imply",
+       "confirm",
+       "suggest",
+       "indicate",
+       "entail"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "disprove",
+       "feedback": {
+        "en": "\"Disprove\" reverses the meaning. The point is that missing evidence for one claim does not establish the opposite claim."
+       },
+       "error_type": "fallacy"
+      }
+     ],
+     "hint": {
+      "en": "Which verb links evidence to a conclusion: \"this does not ___ that...\"?"
+     },
+     "error_type": "fallacy",
+     "explanation": {
+      "en": "Absence of evidence for one claim (phones help) is not evidence for the opposite claim (phones harm). A defensible writer either supplies evidence of harm or limits the conclusion."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-16",
+   "stage": 8,
+   "level": "C1",
+   "kind": "critical-response",
+   "title_en": "Critical response to an opinion piece",
+   "title_he": "תגובה ביקורתית למאמר דעה",
+   "instructions": {
+    "en": "Read the illustrative opinion piece. Then argue whether schools should ban AI homework apps, and respond to opposing views, in a critical response of 300-400 words written for a reader who has not seen the piece. First, summarise the writer's position and main reasons fairly, in two or three sentences. Next, evaluate the reasoning: identify its strongest point and at least two weaknesses (unstated assumptions, weak evidence or fallacies), quoting briefly and explaining what the writer would need to show instead. Finally, state and defend your own position, answering the writer's strongest point. Naming a fallacy is not enough: show why the step fails and how it could be repaired. Write your response before you open the model, which responds to a different piece."
+   },
+   "input_text": "Illustrative opinion piece (invented for this task: the newspaper, the town, the class and the survey are fictional, and no figure in it describes the real world).\n\nBan the Homework Apps (The Port Halden Courier, education column)\n\nWalk into any classroom in Port Halden and you will meet students who can no longer think for themselves. The cause is obvious. AI homework apps arrived in our town three years ago, and since then teachers have complained of essays that all sound the same. When I asked my nephew's class how many of them had used an app to write an essay, almost every hand went up.\n\nSupporters of the apps call them \"a modern calculator\". But a calculator does arithmetic; it does not write your opinions for you. Others say that students will use the apps at home whatever schools decide. That is like abolishing speed limits because some drivers speed.\n\nA survey of 40 Port Halden parents found that 31 of them believe the apps harm learning. The experts have spoken. Nobody has shown that the apps improve writing, and until somebody does, we should assume the worst.\n\nSome will call this old-fashioned. Perhaps it is. But if we allow the apps for homework today, students will use them in exams tomorrow, and in ten years we will have a generation of graduates who cannot write a letter. Schools face a simple choice: ban the apps on every school device and network, or admit that they no longer care whether students learn.\n\nThe app enthusiasts are right about one thing. Some students, especially those with learning difficulties, use the apps to plan and check their work, and they deserve support. But that is a case for special arrangements, not a reason to keep the apps for everyone.",
+   "min_words": 300,
+   "max_words": 400,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "precision",
+    "academic_tone"
+   ],
+   "scaffold": [
+    {
+     "en": "Read twice: first for the writer's position, then sentence by sentence for the steps that carry it."
+    },
+    {
+     "en": "Label each step as evidence, assumption or leap, and find the piece's strongest point as well as its weakest."
+    },
+    {
+     "en": "Plan: summary → strongest point → two weaknesses, each with a repair → your position and its defence → conclusion."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Summary: a reader who has not seen the piece learns its position and reasons, stated in terms the writer would accept."
+    },
+    {
+     "en": "Fair evaluation: I identify the piece's strongest point as well as its weaknesses."
+    },
+    {
+     "en": "Each weakness is quoted briefly, explained, and paired with what the writer would need to show instead."
+    },
+    {
+     "en": "Claim and reasons: my own position is clear, and each reason is supported."
+    },
+    {
+     "en": "Rebuttal: I answer the writer's strongest point with reasoning, not dismissal, and I have argued once against my own conclusion to check for myside bias."
+    },
+    {
+     "en": "Conclusion: I end with my position, adjusted if I conceded anything, and add nothing new."
+    }
+   ],
+   "model_answer": "Model for a parallel task. It responds to a different illustrative opinion piece, so study the moves, not the content. The piece, \"Close the Pool in Winter\" (invented: the Elsby Weekly, the town of Elsby and every figure are fictional), argues that the town's indoor pool should close from November to March. The columnist counted fewer than ten swimmers on \"three January mornings\", notes that heating costs peak in winter, calls the pool's defenders \"a handful of enthusiasts who could swim somewhere else\", and warns that winter opening will mean \"every park and library\" has to close.\n\nIn a recent Elsby Weekly column, the writer argues that the town's indoor pool should close from November to March. The case rests on three claims: few people swim in winter, heating the pool costs most in those months, and the money would be better spent elsewhere in the leisure budget.\n\nThe column's strongest point is cost. Heating a pool is more expensive in winter, and money spent on a little-used facility is not available for anything else; any defence of winter opening has to accept that trade-off.\n\nThe evidence for low use, however, is thin. The writer counted swimmers on \"three January mornings\", but mornings may be the quietest part of the day, and three visits cannot show attendance across five months. To support the claim, the column would need the pool's own entry figures for the whole winter, compared with the summer.\n\nThe column also caricatures the other side. Calling defenders \"a handful of enthusiasts who could swim somewhere else\" ignores the users for whom an indoor pool matters most in winter, such as school swimming classes and older residents doing physiotherapy, some of whom may find it hard to travel to another town. A fair account of the opposing view would ask whether these users have a realistic alternative, and the column never does.\n\nFinally, the warning that winter opening will force \"every park and library\" to close is a slippery slope: no step between one heated pool and the loss of every park is supported.\n\nMy own view is that the pool should stay open in winter, but for fewer hours. The writer is right that heating costs money, so the council should use the full entry figures to find the least-used sessions and cut those, while keeping the classes and therapy sessions that have no local substitute.\n\nIn short, the column identifies a real cost but supports its remedy with a small sample, a caricature and an exaggerated threat. A narrower measure meets the cost concern without removing a service that some residents cannot replace.\n\nMoves: fair summary → strongest point granted → weakness 1 quoted, explained and repaired (what evidence is needed) → weakness 2 (straw man) → weakness 3 (slippery slope) → own position, qualified in answer to the writer's strongest point → conclusion with nothing new."
+  },
+  {
+   "id": "we-17",
+   "stage": 9,
+   "level": "C1",
+   "kind": "sentence-transformation",
+   "title_en": "Calibrating claims and paraphrasing a source",
+   "title_he": "כיול טענות ופרפרזה של מקור",
+   "instructions": {
+    "en": "Every item uses the illustrative study summary below, and each item restates the facts it needs. Two skills are practised. Calibration: a claim should be exactly as strong as its evidence, so over-claiming and stacking hedges are both errors. Paraphrase: restating a source in your own words and your own sentence structure, with attribution. Keeping the source's structure and swapping some words (patchwriting) is a normal stage in learning to write from sources, not a sign of dishonesty; the fix is to understand the idea, look away from the source, and rebuild the sentence."
+   },
+   "input_text": "Illustrative source (invented for this task: the authors, the journal, the town and all figures are fictional).\n\nFerrant, L., & Oyelaran, T. (2024). Planted roofs and summer indoor temperatures in Marrowby: a one-summer comparison. Marrowby Urban Review, 3(2), 14-29.\n\nSummary: During one summer in the town of Marrowby, the researchers compared 12 apartment buildings with planted (green) roofs and 12 similar buildings with ordinary roofs. On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs. The difference was smaller on lower floors and almost disappeared on the ground floor. The authors note that the buildings were not randomly assigned, that the planted-roof buildings were on average newer, and that one summer may not be typical. They conclude that planted roofs \"may help to reduce indoor heat on upper floors\" and call for a study over several years.",
+   "focus": [
+    "academic_tone",
+    "precision",
+    "evidence_quality"
+   ],
+   "scaffold": [
+    {
+     "en": "Calibrate to the evidence: large, repeated or controlled studies support \"shows\" and \"demonstrates\"; one small, non-randomised study supports \"suggests\", \"indicates\" and \"may\"."
+    },
+    {
+     "en": "Hedging phrase bank by function: distancing (\"It has been suggested that...\"), cautious interpretation (\"These results suggest that...\"), avoiding over-generalisation (\"on upper floors\", \"in this sample\", \"generally\")."
+    },
+    {
+     "en": "Paraphrase in four steps: read until you understand, look away, write the idea in your own structure, then check the meaning against the source and add the citation."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "My claims are as strong as the evidence: no \"proves\" or \"all\" for one small study, and no pile of hedges either."
+    },
+    {
+     "en": "I hedge once for each job (a reporting verb such as \"suggests\" for limited evidence, a modal such as \"may\" for a possible effect), never stack hedges that do the same job, and keep the scope precise."
+    },
+    {
+     "en": "My paraphrase changes both the words and the sentence structure, keeps the meaning, and names the source."
+    },
+    {
+     "en": "I quote only when the exact wording matters, and I attribute every idea that comes from a source."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Choose the calibrated claim."
+     },
+     "question": "A fictional study compared 12 planted-roof and 12 ordinary-roof buildings in one town over one summer; the buildings were not randomly assigned, and top-floor flats under planted roofs were on average 1.5 °C cooler on the hottest afternoons. Which sentence reports this with the right strength?",
+     "options": [
+      "Green roofs keep buildings cool in summer, so every new apartment building should have one.",
+      "This study proves that green roofs lower indoor temperatures, and the same result can be expected in every city.",
+      "This small, non-randomised study suggests that planted roofs may reduce heat in top-floor flats on the hottest days.",
+      "It could perhaps be possible that green roofs might possibly have some kind of effect on temperature in certain cases."
+     ],
+     "answer": 2,
+     "option_feedback": {
+      "0": {
+       "en": "Over-claimed: no scope (which floors? which days?), a possible effect stated as a general fact, and a policy drawn from one small study."
+      },
+      "1": {
+       "en": "Over-claimed: one town and one summer cannot prove anything about every city."
+      },
+      "3": {
+       "en": "Over-hedged: so many hedges that the reader cannot tell what was found."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "1": "unsupported-claim",
+      "3": "register"
+     },
+     "explanation": {
+      "en": "Calibration means scope plus strength. The calibrated sentence keeps the scope (top-floor flats, hottest days), flags the design limit (small, non-randomised), and hedges the interpretation (\"suggests\", \"may\")."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Each sentence describes the fictional green-roof study (24 buildings, one town, one summer, not randomised; top-floor flats under planted roofs were on average 1.5 °C cooler on the hottest afternoons). Sort the sentences."
+     },
+     "categories": [
+      "Over-claimed",
+      "Calibrated",
+      "Over-hedged"
+     ],
+     "items": [
+      {
+       "text": "Planted roofs eliminate summer heat in apartment buildings.",
+       "category": "Over-claimed"
+      },
+      {
+       "text": "The study shows beyond doubt that every city should require planted roofs.",
+       "category": "Over-claimed"
+      },
+      {
+       "text": "On the hottest afternoons, top-floor flats under planted roofs were on average 1.5 °C cooler.",
+       "category": "Calibrated"
+      },
+      {
+       "text": "The authors suggest that planted roofs may reduce indoor heat on upper floors.",
+       "category": "Calibrated"
+      },
+      {
+       "text": "It might perhaps be possible that planted roofs could possibly have some effect.",
+       "category": "Over-hedged"
+      },
+      {
+       "text": "There may possibly be some slight indication that top floors could perhaps be somewhat cooler.",
+       "category": "Over-hedged"
+      }
+     ],
+     "explanation": {
+      "en": "A reported observation needs no hedge when its scope is stated (top floors, hottest afternoons, on average). An interpretation needs one. \"Eliminate\" and \"beyond doubt\" claim more than 24 buildings in one summer can show, while four hedges in one clause claim almost nothing."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "gap",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "Calibrate the claim about the fictional one-summer, 24-building study. Choose from the bank."
+     },
+     "text": "This study ___ that planted roofs ___ reduce heat in top-floor flats on very hot days.",
+     "word_bank": [
+      "proves",
+      "suggests",
+      "shows beyond doubt",
+      "may",
+      "always",
+      "will definitely"
+     ],
+     "answers": [
+      [
+       "suggests"
+      ],
+      [
+       "may"
+      ]
+     ],
+     "wrong_feedback": [
+      {
+       "match": "proves",
+       "feedback": {
+        "en": "One non-randomised summer cannot prove a general claim. Use a verb that reports evidence without certainty."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "shows beyond doubt",
+       "feedback": {
+        "en": "Nothing about a small, one-summer comparison is beyond doubt."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "always",
+       "feedback": {
+        "en": "\"Always\" claims more than the study measured: it found an average difference on the hottest afternoons."
+       },
+       "error_type": "unsupported-claim"
+      },
+      {
+       "match": "will definitely",
+       "feedback": {
+        "en": "\"Will definitely\" turns a possible effect into a certain one."
+       },
+       "error_type": "unsupported-claim"
+      }
+     ],
+     "explanation": {
+      "en": "The reporting verb and the modal do different jobs: \"suggests\" marks the evidence as limited, and \"may\" marks the effect as possible. Two hedges with different jobs are normal academic usage; four in one clause, all doing the same job, are not."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "hedging",
+     "prompt": {
+      "en": "This sentence stacks four hedges that all do the same job. Rewrite it so that the single modal \"may\" carries the uncertainty: start with \"Planted roofs may\" and keep the verb \"reduce\"."
+     },
+     "source": "It might perhaps be possible that planted roofs could possibly reduce heat on upper floors.",
+     "answers": [
+      "Planted roofs may reduce heat on upper floors.",
+      "Planted roofs may reduce heat on the upper floors."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Planted roofs may possibly reduce heat on upper floors.",
+       "feedback": {
+        "en": "Still two hedges doing the same job: \"may\" already marks the possibility, so \"possibly\" adds nothing."
+       }
+      },
+      {
+       "match": "Planted roofs may help to reduce heat on upper floors.",
+       "feedback": {
+        "en": "\"May help to reduce\" is a well-calibrated phrase (the authors use it), but here the task is to cut hedges, not to add a new softener. Keep the verb \"reduce\" and let \"may\" alone carry the uncertainty."
+       }
+      }
+     ],
+     "explanation": {
+      "en": "\"Might\", \"perhaps\", \"possible\" and \"could possibly\" all mark the same uncertainty. One modal is enough, and the scope (\"on upper floors\") keeps the claim precise."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Choose the acceptable paraphrase."
+     },
+     "question": "Source sentence (fictional study, Ferrant & Oyelaran, 2024): \"On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs.\" Which version is an acceptable paraphrase?",
+     "options": [
+      "On the hottest days of the summer, top-floor flats under green roofs were on average 1.5 °C cooler in the afternoon than those under normal roofs (Ferrant & Oyelaran, 2024).",
+      "Ferrant and Oyelaran (2024) report that, on the hottest days, afternoon temperatures in top-floor flats beneath green roofs averaged 1.5 °C lower than in comparable flats beneath conventional roofs.",
+      "Planted roofs make top-floor apartments 1.5 °C cooler in the afternoon, which shows how effective they are on hot days.",
+      "Top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs on the hottest days of summer."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "Patchwriting: the source's structure with a few words swapped. It is cited, but it is not yet your own sentence. Look away from the source and rebuild it."
+      },
+      "2": {
+       "en": "No attribution, and the scope has slipped (\"on average\" and \"the hottest days\" are gone), so the claim over-generalises."
+      },
+      "3": {
+       "en": "The source's own words, reshuffled, with no attribution. Rebuild the sentence from the idea, and cite it."
+      }
+     },
+     "explanation": {
+      "en": "A paraphrase keeps the meaning (including the figure and its scope), changes the wording and the sentence structure, and names the source. Patchwriting is a normal step on the way; to move past it, write the idea from memory, then check the meaning and add the citation."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "categorize",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Source sentence (fictional study, Ferrant & Oyelaran, 2024): \"The difference was smaller on lower floors and almost disappeared on the ground floor.\" Sort each version."
+     },
+     "categories": [
+      "Acceptable paraphrase",
+      "Patchwriting",
+      "No attribution"
+     ],
+     "items": [
+      {
+       "text": "The difference was smaller on the lower floors and nearly vanished on the ground floor (Ferrant & Oyelaran, 2024).",
+       "category": "Patchwriting"
+      },
+      {
+       "text": "The gap was smaller on lower storeys and almost disappeared at street level (Ferrant & Oyelaran, 2024).",
+       "category": "Patchwriting"
+      },
+      {
+       "text": "Ferrant and Oyelaran (2024) found that the cooling effect weakened on the lower floors until it was barely measurable at ground level.",
+       "category": "Acceptable paraphrase"
+      },
+      {
+       "text": "According to Ferrant and Oyelaran (2024), the benefit was concentrated on the upper storeys and was close to zero on the ground floor.",
+       "category": "Acceptable paraphrase"
+      },
+      {
+       "text": "The cooling effect weakened on the lower floors until it was barely measurable at ground level.",
+       "category": "No attribution"
+      },
+      {
+       "text": "Lower floors gained less from the planted roofs, and ground-floor flats gained almost nothing.",
+       "category": "No attribution"
+      }
+     ],
+     "explanation": {
+      "en": "Patchwriting keeps the source's skeleton (\"the difference was smaller on X and almost disappeared on Y\") and swaps words. A paraphrase rebuilds the sentence around the idea. Either way, an idea from a source needs a citation, even when every word is your own."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Choose the reporting verb that represents the source fairly."
+     },
+     "question": "The fictional authors conclude, cautiously, that planted roofs \"may help to reduce indoor heat on upper floors\". Complete: \"Ferrant and Oyelaran (2024) ___ that planted roofs may help to reduce indoor heat on upper floors.\"",
+     "options": [
+      "prove",
+      "deny",
+      "establish beyond doubt",
+      "suggest"
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "This makes the authors sound far more certain than they are."
+      },
+      "1": {
+       "en": "This reverses the authors' position."
+      },
+      "2": {
+       "en": "This makes the authors sound far more certain than they are."
+      }
+     },
+     "explanation": {
+      "en": "Reporting verbs carry stance. \"Suggest\" matches tentative authors; \"prove\" or \"establish beyond doubt\" would misrepresent the source by making it sound more certain than it is."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "synthesis-citation",
+     "prompt": {
+      "en": "Decide when to quote."
+     },
+     "question": "When you write about the fictional green-roof study, when is it better to quote the authors' exact words than to paraphrase them?",
+     "options": [
+      "When the wording itself matters, such as the authors' cautious claim that planted roofs \"may help to reduce indoor heat\".",
+      "Whenever a sentence is difficult to paraphrase, because quoting saves you from working out exactly what it means.",
+      "For every sentence you take from the study, because quoting is always safer and more accurate than paraphrasing.",
+      "Never: academic writing avoids direct quotation and expects every idea from a source to be paraphrased."
+     ],
+     "answer": 0,
+     "explanation": {
+      "en": "Quote when the wording itself is the evidence, such as a hedged conclusion whose caution you want to show. Otherwise paraphrase or summarise. Quotation, paraphrase and summary all need attribution."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-18",
+   "stage": 9,
+   "level": "C1",
+   "kind": "research",
+   "title_en": "Mini-synthesis: three sources on green roofs",
+   "title_he": "סינתזה קצרה: שלושה מקורות על גגות ירוקים",
+   "instructions": {
+    "en": "Argue whether the fictional town of Marrowby should require planted roofs on all new apartment buildings, and respond to opposing views, in a mini-synthesis of 350-500 words that draws on all three illustrative sources. Organise by idea, not source by source: show where the sources agree, conflict or qualify one another. Attribute every source-derived idea (author or organisation, year), paraphrase rather than patchwrite, quote only where the wording matters, and match the strength of each claim to the strength of its source. Say briefly how much weight each source deserves and why. Because the sources are fictional, you cannot check them laterally; instead, say in one sentence per source what you would check before relying on it in real research (who produced it and why, and what independent coverage says). Write your synthesis before you open the model, which answers a different question with different sources."
+   },
+   "input_text": "All three sources are illustrative: they were invented for this task. The town, the authors, the council, the association and every figure are fictional and describe nothing in the real world.\n\nSource A. Research summary. Ferrant, L., & Oyelaran, T. (2024). Planted roofs and summer indoor temperatures in Marrowby: a one-summer comparison. Marrowby Urban Review, 3(2), 14-29.\n\nDuring one summer in the town of Marrowby, the researchers compared 12 apartment buildings with planted (green) roofs and 12 similar buildings with ordinary roofs. On the hottest days, top-floor apartments under planted roofs were on average 1.5 °C cooler in the afternoon than those under ordinary roofs. The difference was smaller on lower floors and almost disappeared on the ground floor. The authors note that the buildings were not randomly assigned, that the planted-roof buildings were on average newer, and that one summer may not be typical. They conclude that planted roofs \"may help to reduce indoor heat on upper floors\" and call for a study over several years.\n\nSource B. Council briefing note. Marrowby Town Council, Planning Department (2025). Roof options for new apartment buildings.\n\nThe department estimates that a planted roof adds between 8% and 12% to the cost of building a roof, and that it needs an inspection twice a year, usually paid for by the residents' committee. Planted roofs hold back part of the rainwater in heavy storms, which can reduce flooding in the streets below. A white reflective coating costs far less; in a trial on two council buildings it lowered top-floor temperatures by about as much as the planted roofs in Source A, but it does nothing for rainwater. The note recommends that the council \"consider a requirement for either option\" and does not choose between them.\n\nSource C. Opinion column. Marrowby Builders' Association newsletter (2025).\n\n\"Green roofs are an expensive fashion. Leaks are common, residents never want the maintenance bills, and buyers do not care what is on the roof. Any requirement will simply push up the price of new flats at a time when young families can barely afford one. The Association represents the town's building firms, and our members know what works.\"",
+   "min_words": 350,
+   "max_words": 500,
+   "focus": [
+    "evidence_quality",
+    "academic_tone",
+    "argument_strength",
+    "counterarguments",
+    "coherence"
+   ],
+   "scaffold": [
+    {
+     "en": "SIFT each source first: Stop; Investigate who produced it and why; Find other coverage; Trace claims back to their origin. Note one question per source."
+    },
+    {
+     "en": "Fill a synthesis grid: rows for ideas (cooling, cost and upkeep, rainwater, alternatives), columns for Sources A, B and C."
+    },
+    {
+     "en": "Plan by idea: thesis → first idea with the sources compared → second idea → strongest objection and rebuttal → conclusion."
+    },
+    {
+     "en": "Match reporting verbs to source strength: \"found\", \"estimates\", \"reports\", \"asserts without evidence\"."
+    }
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my position on the requirement is clear, and qualified if the evidence calls for it."
+    },
+    {
+     "en": "Synthesis: my paragraphs are organised by idea, not one per source, and show where the sources agree, conflict or qualify each other."
+    },
+    {
+     "en": "Source use: every source-derived idea is attributed and paraphrased in my own words and structure; I quote only where the wording matters."
+    },
+    {
+     "en": "Calibration: my claims are no stronger than their sources; small or interested sources get cautious reporting verbs."
+    },
+    {
+     "en": "Source weight: I say what kind of source each one is, how much weight it deserves, and what I would check laterally before relying on it."
+    },
+    {
+     "en": "Counterargument and rebuttal: I state the strongest opposing view fairly and answer it, and my conclusion adds nothing new."
+    }
+   ],
+   "model_answer": "Model for a parallel task: \"Argue whether the fictional town of Kestwick should stop charging fines for overdue library books, and respond to opposing views\", using three illustrative sources that were invented for this model (the town, the authors, the council, the forum and every figure are fictional). Source A: Halloran (2023), a one-year study of a fine-free trial at one of Kestwick's four branch libraries, which found that books came back slightly later on average but that 14% more lapsed members returned. Source B: a Kestwick Borough Council finance note (2024), which estimates that at two branches fines raise less than the staff time spent collecting them. Source C: a letter from the Kestwick Ratepayers' Forum (2024), which asserts that \"without fines, nobody will bring books back\". It answers a different question from yours, so study the moves, not the content.\n\nKestwick should replace overdue fines with reminders and loan limits, because the available evidence suggests that fines cost the library more in lost readers and staff time than they raise. The three sources deserve very different weight, however, and the case is stronger on finance than on borrowers' behaviour.\n\nOn income, the sources point the same way. Kestwick Borough Council (2024) estimates that at two of the town's four branches, fines raise less than it costs to collect them. A finance note has direct access to the library's accounts and no obvious stake in the outcome, so it deserves considerable weight, although its estimate covers only half the branches. Neither of the other sources offers figures on income.\n\nOn behaviour, the evidence is thinner and partly conflicting. Halloran (2023) reports that during a one-year trial at a single branch, books came back slightly later on average, while 14% more lapsed members returned. This suggests that removing fines may win back readers at a small cost in delays, but one branch over one year cannot show how the whole town would respond. The Ratepayers' Forum (2024) asserts that \"without fines, nobody will bring books back\". Halloran's finding contradicts this, and the letter cites no evidence, so it deserves little weight as a source of fact, although it may voice a concern that many residents share.\n\nThe strongest objection is that fines protect other readers rather than raise money: a borrower who keeps a book late keeps it from everyone else. This is a fair point, and Halloran's finding of slower returns supports it. Even so, the delay was small, and reminders, together with a limit on new loans for anyone with an overdue book, would protect other readers without shutting out borrowers who cannot pay. The proposal is therefore narrower than simple abolition: fines should be replaced, not merely removed.\n\nBefore relying on these sources in real research, I would check who funded Halloran's study and whether trials elsewhere found similar effects, whether anyone outside the council has reviewed its estimate, and whom the Ratepayers' Forum represents and what it has said about library spending before.\n\nOn balance, the evidence supports replacing fines with reminders and loan limits at all four branches, with the results reviewed against the council's figures after a year.\n\nMoves: qualified thesis → idea 1 (income), sources compared and weighed → idea 2 (behaviour), sources in conflict and weighed → strongest objection, conceded in part, claim adjusted → what would be checked laterally, one point per source → conclusion with nothing new."
+  },
+  {
+   "id": "we-19",
+   "stage": 10,
+   "level": "C2",
+   "kind": "editing",
+   "title_en": "Editing for concision and precision",
+   "title_he": "עריכה: תמציתיות ודיוק",
+   "instructions": {
+    "en": "The illustrative draft below makes a reasonable point in about twice the words it needs, and its key claims are vague. Most items take one sentence from it. Cut what repeats or pads, turn empty noun phrases back into verbs (but keep a noun phrase that does real work), and replace vague wording with the specific claim the writer can support. Where an item asks for a rewrite, type the full revised sentence."
+   },
+   "input_text": "Illustrative student draft (invented for this task).\n\nIn today's modern society of the present day, many teenagers use their phones late at night, which is something that has a lot of very negative effects on many different aspects of their lives. Due to the fact that teenagers use their phones late at night, they sleep less, and it is the case that tired students find it more difficult to concentrate. In my personal opinion, I think that schools should limit phone use in the evening study hall. It is absolutely essential and of vital importance that schools act on this problem. Schools should make a decision about whether to carry out an investigation into the problem. At this point in time, there are a number of different measures that could potentially be taken, such as, for example, workshops.",
+   "focus": [
+    "precision",
+    "clarity",
+    "vocabulary",
+    "academic_tone"
+   ],
+   "checklist": [
+    {
+     "en": "I replace long connectives with one word (because, today, now) and turn noun phrases back into verbs (decide, investigate)."
+    },
+    {
+     "en": "I cut words that repeat a meaning already given (modern + today, essential + vital, I think + in my opinion)."
+    },
+    {
+     "en": "I replace vague words (a lot of, some kind of, various) with the specific claim or action I mean."
+    },
+    {
+     "en": "My precise version claims no more than my evidence supports."
+    },
+    {
+     "en": "I keep a noun phrase only when it does real work, such as summing up the previous point as the subject of the next sentence (\"This loss of sleep...\"), not when it hides a simple verb."
+    }
+   ],
+   "items": [
+    {
+     "id": "i1",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Replace the four-word phrase \"Due to the fact that\" with one word. Change nothing else."
+     },
+     "sentence": "Due to the fact that teenagers use their phones late at night, they sleep less.",
+     "answers": [
+      "Because teenagers use their phones late at night, they sleep less.",
+      "Since teenagers use their phones late at night, they sleep less.",
+      "As teenagers use their phones late at night, they sleep less."
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "\"Due to the fact that\" means \"because\". A long connective slows the reader down and adds no meaning."
+     }
+    },
+    {
+     "id": "i2",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "\"Today's\", \"modern\" and \"of the present day\" all mean \"now\". Replace the whole opening phrase with one word."
+     },
+     "sentence": "In today's modern society of the present day, many teenagers use their phones late at night.",
+     "answers": [
+      "Today, many teenagers use their phones late at night.",
+      "Today many teenagers use their phones late at night.",
+      "Nowadays, many teenagers use their phones late at night.",
+      "Nowadays many teenagers use their phones late at night.",
+      "Now, many teenagers use their phones late at night.",
+      "Currently, many teenagers use their phones late at night."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "In today's society, many teenagers use their phones late at night.",
+       "feedback": {
+        "en": "Shorter, but still padded: \"In today's society\" says no more than \"Today\"."
+       },
+       "error_type": "word-choice"
+      },
+      {
+       "match": "In modern society, many teenagers use their phones late at night.",
+       "feedback": {
+        "en": "Shorter, but still padded: \"In modern society\" says no more than \"Today\"."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "One time word does the work of eight. Redundant pairs (modern + today, present day + today) are the most common source of padding."
+     }
+    },
+    {
+     "id": "i3",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Remove the empty opening \"It is the case that\", and replace \"more difficult\" with a one-word comparative."
+     },
+     "source": "It is the case that tired students find it more difficult to concentrate.",
+     "answers": [
+      "Tired students find it harder to concentrate."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Tired students find it more difficult to concentrate.",
+       "feedback": {
+        "en": "Good cut. Now replace \"more difficult\" with the one-word comparative."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "hint": {
+      "en": "difficult → ?er"
+     },
+     "explanation": {
+      "en": "\"It is the case that\" adds nothing, so the sentence should start with its real subject. \"Harder\" says in one word what \"more difficult\" says in two."
+     }
+    },
+    {
+     "id": "i4",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "The opening signals \"this is my opinion\" three times. Keep one signal at most."
+     },
+     "sentence": "In my personal opinion, I think that schools should limit phone use in the evening study hall.",
+     "answers": [
+      "Schools should limit phone use in the evening study hall.",
+      "I think that schools should limit phone use in the evening study hall.",
+      "I think schools should limit phone use in the evening study hall.",
+      "In my opinion, schools should limit phone use in the evening study hall.",
+      "In my opinion schools should limit phone use in the evening study hall.",
+      "I believe that schools should limit phone use in the evening study hall.",
+      "I believe schools should limit phone use in the evening study hall."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "In my opinion, I think that schools should limit phone use in the evening study hall.",
+       "feedback": {
+        "en": "Still two signals: \"In my opinion\" and \"I think\" say the same thing."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "\"Personal\", \"my opinion\" and \"I think\" all mark the same thing. In an argument the claim is already yours, so the most concise version, \"Schools should limit...\", is often the strongest."
+     }
+    },
+    {
+     "id": "i5",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "\"Essential\" and \"of vital importance\" say the same thing, and \"absolutely\" adds nothing. Keep one adjective."
+     },
+     "sentence": "It is absolutely essential and of vital importance that schools act on this problem.",
+     "answers": [
+      "It is essential that schools act on this problem.",
+      "It is vital that schools act on this problem.",
+      "Schools must act on this problem."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "It is absolutely essential that schools act on this problem.",
+       "feedback": {
+        "en": "Better, but \"absolutely\" adds nothing to \"essential\"."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "Stacked intensifiers weaken a claim: the reader hears insistence instead of reasons. One adjective, or simply \"Schools must act\", is enough."
+     }
+    },
+    {
+     "id": "i6",
+     "type": "correct",
+     "skill": "writing",
+     "topic": "nominalisation",
+     "prompt": {
+      "en": "Turn the two noun phrases back into verbs: \"make a decision about\" and \"carry out an investigation into\"."
+     },
+     "sentence": "Schools should make a decision about whether to carry out an investigation into the problem.",
+     "answers": [
+      "Schools should decide whether to investigate the problem.",
+      "Schools should decide whether or not to investigate the problem."
+     ],
+     "error_type": "word-choice",
+     "explanation": {
+      "en": "Nominalisation is useful when you need to name a process, but \"make a decision\" and \"carry out an investigation\" only hide the verbs \"decide\" and \"investigate\". The sentence goes from fifteen words to eight."
+     }
+    },
+    {
+     "id": "i7",
+     "type": "transform",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Rewrite in six words or fewer, starting with \"Several measures\"."
+     },
+     "source": "At this point in time, there are a number of different measures that could potentially be taken.",
+     "answers": [
+      "Several measures could be taken.",
+      "Several measures could now be taken.",
+      "Several measures could be taken now.",
+      "Several measures are possible.",
+      "Several measures are now possible.",
+      "Several measures are possible now."
+     ],
+     "wrong_feedback": [
+      {
+       "match": "Several measures could potentially be taken.",
+       "feedback": {
+        "en": "\"Could\" already expresses possibility, so \"potentially\" repeats it."
+       },
+       "error_type": "word-choice"
+      }
+     ],
+     "explanation": {
+      "en": "\"At this point in time\" means \"now\" (and is often unnecessary); \"a number of different\" means \"several\"; \"could potentially\" says \"possible\" twice."
+     }
+    },
+    {
+     "id": "i8",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "nominalisation",
+     "prompt": {
+      "en": "Judge when a noun phrase earns its place."
+     },
+     "question": "Item 6 turned \"make a decision about\" back into \"decide\", but nominalisation is not always padding. Each sentence below follows one saying that late-night phone use shortens teenagers' sleep. In which one does the noun phrase do real work?",
+     "options": [
+      "Schools should give consideration to whether a review of their phone rules ought to be carried out.",
+      "This loss of sleep, rather than phone use as such, is what any school policy needs to address.",
+      "Teachers have made the observation that students are tired and have come to the conclusion that phones are to blame.",
+      "Students make use of their phones late at night, and there is then a reduction in their ability to concentrate."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "\"Give consideration to\" and \"a review... be carried out\" hide the verbs \"consider\" and \"review\": Schools should consider reviewing their phone rules."
+      },
+      "2": {
+       "en": "\"Made the observation\" and \"come to the conclusion\" hide \"observed\" and \"concluded\"."
+      },
+      "3": {
+       "en": "\"Make use of\" and \"a reduction in their ability to\" hide \"use\" and \"concentrate less\"."
+      }
+     },
+     "option_errors": {
+      "0": "word-choice",
+      "2": "word-choice",
+      "3": "word-choice"
+     },
+     "explanation": {
+      "en": "\"This loss of sleep\" packs the previous sentence into a noun phrase, so it can become the subject of the next one and be contrasted with \"phone use as such\". That links the sentences and sharpens the claim. In the other sentences, each noun phrase only hides a simpler verb."
+     }
+    },
+    {
+     "id": "i9",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Make the vague claim precise."
+     },
+     "question": "The draft says late-night phone use \"has a lot of very negative effects on many different aspects of their lives\", but the only effects it discusses are shorter sleep and weaker concentration. Which revision is precise and claims no more than the draft supports?",
+     "options": [
+      "This has extremely negative effects on every single aspect of teenagers' lives, both at school and at home.",
+      "Late-night phone use can shorten teenagers' sleep, which in turn makes it harder for them to concentrate in class.",
+      "This has a range of different effects on various important aspects of teenagers' lives and wellbeing.",
+      "Late-night phone use destroys teenagers' health, their school grades and their relationships with their families."
+     ],
+     "answer": 1,
+     "option_feedback": {
+      "0": {
+       "en": "More sweeping, not more precise: \"every aspect\" claims far more than the draft supports."
+      },
+      "2": {
+       "en": "Just as vague as the original: which effects, on what?"
+      },
+      "3": {
+       "en": "Specific, but it claims three effects the draft never supports."
+      }
+     },
+     "option_errors": {
+      "0": "unsupported-claim",
+      "2": "word-choice",
+      "3": "unsupported-claim"
+     },
+     "explanation": {
+      "en": "Precision means naming the actual effects (sleep, concentration), the mechanism linking them, and a strength the evidence allows (\"can\")."
+     }
+    },
+    {
+     "id": "i10",
+     "type": "mcq",
+     "skill": "writing",
+     "topic": "concision-editing",
+     "prompt": {
+      "en": "Make the recommendation precise."
+     },
+     "question": "The draft ends with \"there are a number of different measures that could potentially be taken, such as, for example, workshops\". Which recommendation is the most precise?",
+     "options": [
+      "Schools should take some kind of action to raise students' awareness of the problem and its many effects.",
+      "Schools must act immediately to solve the problem of screens and phones once and for all, whatever it takes.",
+      "Schools should do various things to help students, such as workshops, talks, posters and so on.",
+      "Schools should run short workshops that show students how late-night phone use affects their sleep and concentration."
+     ],
+     "answer": 3,
+     "option_feedback": {
+      "0": {
+       "en": "\"Some kind of action\" names no action at all."
+      },
+      "1": {
+       "en": "Over-claimed and still vague: what would \"solve once and for all\" involve?"
+      },
+      "2": {
+       "en": "\"Various things\" and \"and so on\" leave the reader to guess."
+      }
+     },
+     "option_errors": {
+      "0": "word-choice",
+      "1": "unsupported-claim",
+      "2": "word-choice"
+     },
+     "explanation": {
+      "en": "A precise recommendation says who should do what, and to what end: here, workshops on the specific link the draft has argued for."
+     }
+    }
+   ]
+  },
+  {
+   "id": "we-20",
+   "stage": 10,
+   "level": "C2",
+   "kind": "essay",
+   "title_en": "Independent argument",
+   "title_he": "טיעון עצמאי",
+   "instructions": {
+    "en": "Write an independent argumentative essay of 400-700 words on ONE of these questions. (A) Should universities admit students mainly on the basis of a single standardised entrance examination? (B) Should zoos stop keeping large, wide-ranging animals such as elephants and polar bears? Take a clear, qualified position, argue it, and respond to the strongest opposing views. Plan, draft and revise on your own: no frames or phrase banks are provided. Before you ask for feedback, score your draft against the checklist and the focus categories; the gap between your self-assessment and the feedback is part of what this stage trains. Draw on your own knowledge, but do not invent statistics: where a figure would settle a point, say what evidence would be needed."
+   },
+   "min_words": 400,
+   "max_words": 700,
+   "focus": [
+    "argument_strength",
+    "evidence_quality",
+    "counterarguments",
+    "coherence",
+    "precision",
+    "academic_tone",
+    "overall"
+   ],
+   "checklist": [
+    {
+     "en": "Claim: my thesis is debatable, precise, and qualified where the evidence demands it."
+    },
+    {
+     "en": "Reasons and evidence: each reason is supported by specific, relevant evidence or reasoning, and its link to the thesis is explicit."
+    },
+    {
+     "en": "Counterargument: I state the strongest opposing view in terms its supporters would accept."
+    },
+    {
+     "en": "Rebuttal: I refute, concede and outweigh, or qualify, and I adjust my claim wherever I concede."
+    },
+    {
+     "en": "Precision and tone: key terms are defined once and used consistently, my register is formal, each claim is as strong as its support, and I invent no statistics."
+    },
+    {
+     "en": "Structure and style: every paragraph has one job, the logic is easy to follow, and no sentence wastes words."
+    },
+    {
+     "en": "Conclusion and self-assessment: my conclusion adds nothing new, and I scored my draft on each focus category before asking for feedback."
+    }
+   ]
+  }
+ ]
+}

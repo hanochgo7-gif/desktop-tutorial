@@ -1,0 +1,296 @@
+{
+  "id": "b1-05",
+  "level": "B1",
+  "title_en": "If I had a million dollars",
+  "title_he": "אילו היה לי",
+  "topics": ["conditionals-2"],
+  "minutes": 25,
+  "objectives": [
+    { "en": "I can talk about imaginary or unlikely situations with if + past simple and would.", "he": "אני יודע/ת לדבר על מצבים דמיוניים או לא סבירים בעזרת if + עבר פשוט ו-would." },
+    { "en": "I can give advice with If I were you, I'd...", "he": "אני יודע/ת לתת עצה עם If I were you, I'd..." },
+    { "en": "I can choose between the first and the second conditional to show how real or likely something is.", "he": "אני יודע/ת לבחור בין תנאי 1 לתנאי 2 כדי להראות עד כמה משהו אמיתי או סביר." }
+  ],
+  "warmup": { "en": "If you had a million dollars, what would you do first?", "he": "אילו היה לכם מיליון דולר, מה הייתם עושים קודם כול? שימו לב: בשאלה באנגלית מופיע had, שנראה כמו עבר, אבל היא בכלל לא עוסקת בעבר." },
+  "explanation": [
+    { "type": "p", "en": "Noa doesn't have a car; she takes two buses to work. She says: If I had a car, I'd drive to work. had looks like the past, but the meaning is present and imaginary: she doesn't have a car.", "he": "לנועה אין רכב, והיא נוסעת לעבודה בשני אוטובוסים. היא אומרת: If I had a car, I'd drive to work. ‏had נראה כמו עבר, אבל המשמעות היא הווה דמיוני: אין לה רכב. גם בעברית משתמשים בצורת עבר למצב דמיוני: 'אם היה לי רכב, הייתי נוסעת לעבודה'. ‏had ≈ 'היה לי', ‏I'd drive ≈ 'הייתי נוסעת'." },
+    { "type": "table", "headers": ["if-part", "Result", "Example"], "rows": [
+      ["if + past simple", "would ('d) + base verb", "If I had more time, I'd learn the guitar."],
+      ["if + didn't + base verb", "would / wouldn't + base verb", "If Amir didn't live so far away, we'd see him more often."],
+      ["if + were", "could / might + base verb", "If I were taller, I could play basketball for the school team."]
+    ] },
+    { "type": "rule", "en": "No would in the if-part: If I knew the answer, I'd tell you (not *If I would know). With I, he, she and it, were is the standard form: If she were here... (in casual speech you'll also hear was). For advice, always say If I were you.", "he": "בחלק של if לא בא would: If I knew the answer, I'd tell you, ולא If I would know. עם I, he, she, it הצורה התקנית היא were: If she were here... (בדיבור יומיומי שומעים גם was). בעצה אומרים תמיד If I were you." },
+    { "type": "tip", "en": "Giving advice: If I were you, I'd talk to your teacher. A warning: I wouldn't eat that if I were you.", "he": "עצה: If I were you, I'd talk to your teacher ('במקומך, הייתי...'). אזהרה: I wouldn't eat that if I were you ('במקומך לא הייתי אוכל/ת את זה')." },
+    { "type": "table", "headers": ["Point", "First conditional", "Second conditional"], "rows": [
+      ["Form", "if + present, will", "if + past, would"],
+      ["Meaning", "real and possible", "imaginary or very unlikely"],
+      ["Example", "If I win on Sunday, I'll be in the final. (I'm in the semi-final.)", "If I won the lottery, I'd travel the world. (I don't even buy tickets.)"]
+    ] },
+    { "type": "warning", "en": "Don't mix the patterns: *If I have money, I would... / *If I had money, I will... Present goes with will; past goes with would. Here 'd = would: I'd go = I would go.", "he": "אל תערבבו בין המבנים: לא If I have money, I would... ולא If I had money, I will... הווה הולך עם will, ועבר הולך עם would. כאן 'd = would: I'd go = I would go. ושימו לב: 'הייתי עושה' זה I would do, ולא I was doing." }
+  ],
+  "examples": [
+    { "en": "If I had a million dollars, I'd buy my parents a house.", "he": "אילו היה לי מיליון דולר, הייתי קונה להורים שלי בית.", "note": "imaginary: I don't have it" },
+    { "en": "If I lived near the sea, I would go surfing every morning.", "he": "אם הייתי גר/ה ליד הים, הייתי גולש/ת כל בוקר." },
+    { "en": "If Omer didn't work so hard, he'd have more free time.", "he": "אם עומר לא היה עובד כל כך קשה, היה לו יותר זמן פנוי." },
+    { "en": "What would you do if you found a wallet in the street?", "he": "מה הייתם עושים אם הייתם מוצאים ארנק ברחוב?" },
+    { "en": "If I were you, I'd apologise to her.", "he": "במקומך, הייתי מתנצל/ת בפניה.", "note": "advice" },
+    { "en": "I wouldn't go there alone if I were you.", "he": "במקומך לא הייתי הולך/ת לשם לבד.", "note": "a warning" },
+    { "en": "If I knew her number, I'd call her.", "he": "אם הייתי יודע/ת את המספר שלה, הייתי מתקשר/ת אליה.", "note": "I don't know it" },
+    { "en": "If it's sunny tomorrow, we'll go to the beach.", "he": "אם יהיה שמשי מחר, נלך לים.", "note": "first conditional: a real possibility" },
+    { "en": "If it snowed in Eilat, everyone would go crazy.", "he": "אם היה יורד שלג באילת, כולם היו משתגעים.", "note": "second conditional: very unlikely" }
+  ],
+  "vocab": [
+    { "word": "win the lottery", "pos": "phrase", "he": "לזכות בלוטו", "def": "to win a big money prize in a game where the numbers are chosen by chance", "example": "If I won the lottery, I'd travel around the world.", "ipa": "/ˌwɪn ðə ˈlɒtəri/", "collocations": ["buy a lottery ticket", "a lottery winner", "win the jackpot"], "level": "B1" },
+    { "word": "afford", "pos": "verb", "he": "להרשות לעצמך (מבחינה כלכלית)", "def": "to have enough money to pay for something", "example": "If I could afford it, I'd buy a new laptop.", "ipa": "/əˈfɔːd/", "collocations": ["can't afford", "afford to buy", "afford a car"], "level": "B1" },
+    { "word": "if I were you", "pos": "phrase", "he": "במקומך", "def": "used to give advice", "example": "If I were you, I'd take the job.", "ipa": "/ɪf aɪ ˈwɜː juː/", "collocations": ["If I were you, I'd...", "I wouldn't ... if I were you"], "level": "B1" },
+    { "word": "in someone's shoes", "pos": "idiom", "he": "במקומו של מישהו, בנעליו", "def": "in another person's situation", "example": "If you were in my shoes, what would you do?", "ipa": "/ɪn ˈsʌmwʌnz ʃuːz/", "collocations": ["put yourself in someone's shoes", "in my shoes", "I wouldn't want to be in his shoes"], "level": "B1" },
+    { "word": "imagine", "pos": "verb", "he": "לדמיין", "def": "to make a picture of something in your mind", "example": "Imagine you could live anywhere. Where would you go?", "ipa": "/ɪˈmædʒɪn/", "collocations": ["imagine a world", "can't imagine", "just imagine"], "level": "B1" },
+    { "word": "spend money on", "pos": "phrase", "he": "להוציא כסף על", "def": "to use money to pay for something", "example": "If I had more money, I'd spend it on travel.", "ipa": "/ˌspend ˈmʌni ɒn/", "collocations": ["spend money on clothes", "spend a fortune", "spend money wisely"], "level": "B1" },
+    { "word": "take a year off", "pos": "phrase", "he": "לקחת שנת חופש", "def": "to stop working or studying for a year", "example": "If I could, I'd take a year off and travel.", "ipa": "/ˌteɪk ə jɪər ˈɒf/", "collocations": ["take time off", "take a day off", "take a gap year"], "level": "B1" },
+    { "word": "move abroad", "pos": "phrase", "he": "לעבור לגור בחוץ לארץ", "def": "to go and live in another country", "example": "Would you move abroad if you got a good job offer?", "ipa": "/ˌmuːv əˈbrɔːd/", "collocations": ["move abroad for work", "live abroad", "study abroad"], "level": "B1" },
+    { "word": "go back in time", "pos": "phrase", "he": "לחזור אחורה בזמן", "def": "to travel to an earlier time, usually in your imagination", "example": "If you could go back in time, which year would you visit?", "ipa": "/ˌɡəʊ ˌbæk ɪn ˈtaɪm/", "collocations": ["travel back in time", "go back in time to", "turn back time"], "level": "B1" },
+    { "word": "donate", "pos": "verb", "he": "לתרום", "def": "to give money or things to help people or animals", "example": "If I were rich, I'd donate money to animal shelters.", "ipa": "/dəʊˈneɪt/", "collocations": ["donate money", "donate to charity", "donate blood"], "level": "B1" },
+    { "word": "quit", "pos": "verb", "he": "לעזוב (עבודה); להפסיק", "def": "to leave a job, or to stop doing something", "example": "If I didn't need the money, I'd quit my job.", "ipa": "/kwɪt/", "collocations": ["quit your job", "quit smoking", "quit social media"], "level": "B1" },
+    { "word": "invisible", "pos": "adjective", "he": "בלתי נראה, שקוף", "def": "impossible to see", "example": "If I were invisible for a day, I'd follow my cat to see where it goes.", "ipa": "/ɪnˈvɪzəbl/", "collocations": ["become invisible", "almost invisible", "invisible to the eye"], "level": "B1" }
+  ],
+  "hebrew_pitfalls": [
+    { "en": "In Hebrew a question can keep the order of a statement. In English would comes before the subject: What would you do if you won? (not *What you would do if you won?)", "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('מה היית עושה אם...?'). באנגלית would בא לפני הנושא: What would you do if you won?, ולא What you would do if you won?", "error_type": "word-order" },
+    { "en": "In Hebrew /w/ is not a regular sound of the language (it appears mainly in borrowed words), and the letter vav is usually /v/. So would, were and won can come out as 'vould', 'vere' and 'von'. For /w/, round your lips as for 'oo' and keep your top teeth away from your lower lip.", "he": "בעברית /w/ אינו צליל רגיל של השפה (הוא מופיע בעיקר במילים שאולות), והאות ו' נהגית בדרך כלל /v/. לכן would, ‏were ו-won יכולים להישמע כמו 'ווּלד', 'וֶר' ו'וון' עם v. כדי להגות /w/, עגלו את השפתיים כמו ב'אוּ' ואל תיגעו בשיניים העליונות בשפה התחתונה.", "error_type": "pron-w-v" }
+  ],
+  "exercises": [
+    {
+      "id": "e1", "type": "mcq", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Read and answer the question.", "he": "קראו וענו על השאלה." },
+      "question": "Noa says: 'If I had a car, I'd drive to work.' Does Noa have a car?",
+      "options": ["Yes, and she drives to work every day.", "No, she doesn't.", "She had one in the past, but she sold it."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "If she had a car, she would say I drive to work. The second conditional describes an imaginary situation.", "he": "אילו היה לה רכב, היא הייתה אומרת I drive to work. תנאי 2 מתאר מצב דמיוני." },
+        "2": { "en": "had here doesn't mean the past. If I had... = an imaginary present.", "he": "had כאן לא מדבר על העבר. ‏If I had... = הווה דמיוני." }
+      },
+      "option_errors": { "0": "conditional-form", "2": "conditional-form" },
+      "explanation": { "en": "if + past simple, would + verb = imaginary now: she doesn't have a car, so she doesn't drive to work.", "he": "if + עבר פשוט, ‏would + פועל = הווה דמיוני: אין לה רכב, ולכן היא לא נוסעת ברכב לעבודה." }
+    },
+    {
+      "id": "e2", "type": "categorize", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Real possibility or imaginary situation? Sort the sentences.", "he": "אפשרות אמיתית או מצב דמיוני? מיינו את המשפטים." },
+      "categories": ["Real possibility (first)", "Imaginary (second)"],
+      "items": [
+        { "text": "If it rains tomorrow, we'll stay at home.", "category": "Real possibility (first)" },
+        { "text": "If I see Dana, I'll give her your message.", "category": "Real possibility (first)" },
+        { "text": "If the bus is late, I'll walk.", "category": "Real possibility (first)" },
+        { "text": "If you study tonight, you'll do well tomorrow.", "category": "Real possibility (first)" },
+        { "text": "If I were a cat, I'd sleep all day.", "category": "Imaginary (second)" },
+        { "text": "If I spoke ten languages, I'd work as a translator.", "category": "Imaginary (second)" },
+        { "text": "If we lived on the moon, we'd weigh much less.", "category": "Imaginary (second)" },
+        { "text": "If I had wings, I'd fly to school.", "category": "Imaginary (second)" }
+      ],
+      "hint": { "en": "Look at the verbs: present + will, or past + would?", "he": "הסתכלו על הפעלים: הווה + will, או עבר + would?" },
+      "explanation": { "en": "present + will = it can really happen. past + would = imaginary or very unlikely.", "he": "הווה + will = זה באמת יכול לקרות. עבר + would = דמיוני או מאוד לא סביר." }
+    },
+    {
+      "id": "e3", "type": "listen", "skill": "listening", "topic": "conditionals-2",
+      "prompt": { "en": "Listen to Priya and answer the question.", "he": "הקשיבו לפריה וענו על השאלה." },
+      "audio_text": "Honestly, if I had more free time, I'd learn to cook properly. But with work and university, I usually just grab a sandwich. Maybe next year.",
+      "question": "What does Priya say about cooking?",
+      "options": ["She cooks a proper meal every evening.", "She's going to start a cooking course next month.", "She'd like to learn, but she doesn't have time.", "She doesn't enjoy food."],
+      "answer": 2,
+      "option_feedback": {
+        "0": { "en": "No: she usually just grabs a sandwich.", "he": "לא: בדרך כלל היא פשוט חוטפת כריך." },
+        "1": { "en": "She doesn't have a plan. She says 'maybe next year'.", "he": "אין לה תוכנית. היא אומרת maybe next year – אולי בשנה הבאה." },
+        "3": { "en": "She doesn't say this. Her problem is time, not food.", "he": "היא לא אומרת את זה. הבעיה שלה היא זמן, לא אוכל." }
+      },
+      "option_errors": { "0": "comprehension", "1": "comprehension", "3": "comprehension" },
+      "explanation": { "en": "if I had more free time, I'd learn = imaginary: she doesn't have the time now.", "he": "if I had more free time, I'd learn = מצב דמיוני: עכשיו אין לה את הזמן." }
+    },
+    {
+      "id": "e4", "type": "mcq", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Choose the correct option.", "he": "בחרו את האפשרות הנכונה." },
+      "question": "If I ___ his number, I'd call him.",
+      "options": ["knew", "know", "would know", "will know"],
+      "answer": 0,
+      "option_feedback": {
+        "1": { "en": "know + I'd doesn't match. For an imaginary situation, use the past: If I knew.", "he": "know לא מתאים ל-I'd. למצב דמיוני משתמשים בעבר: If I knew." },
+        "2": { "en": "No would in the if-part: If I knew.", "he": "בחלק של if לא בא would: If I knew." },
+        "3": { "en": "No will after if, and the result has would, so use the past: If I knew.", "he": "אחרי if לא בא will, ובתוצאה יש would, ולכן עבר: If I knew." }
+      },
+      "option_errors": { "1": "conditional-form", "2": "conditional-form", "3": "conditional-form" },
+      "explanation": { "en": "Second conditional: if + past simple (knew), would + base verb (I'd call). The speaker doesn't know the number.", "he": "תנאי 2: if + עבר פשוט (knew), ‏would + צורת הבסיס (I'd call). הדובר/ת לא יודע/ת את המספר." }
+    },
+    {
+      "id": "e5", "type": "mcq", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Your friend says: 'My boss shouts at me every day.' Choose the best advice.", "he": "חבר/ה אומר/ת לכם: 'My boss shouts at me every day.' בחרו את העצה הנכונה." },
+      "question": "What do you say?",
+      "options": ["If I am you, I'll look for a new job.", "If I would be you, I'd look for a new job.", "If I were you, I will look for a new job.", "If I were you, I'd look for a new job."],
+      "answer": 3,
+      "option_feedback": {
+        "0": { "en": "You can't really be your friend, so it's imaginary: If I were you, I'd...", "he": "אי אפשר באמת להיות החבר/ה שלך, ולכן זה מצב דמיוני: If I were you, I'd..." },
+        "1": { "en": "No would in the if-part: If I were you.", "he": "בחלק של if לא בא would: If I were you." },
+        "2": { "en": "were goes with would, not will: I'd look.", "he": "were הולך עם would, לא עם will: I'd look." }
+      },
+      "option_errors": { "0": "conditional-form", "1": "conditional-form", "2": "conditional-form" },
+      "explanation": { "en": "The fixed phrase for advice: If I were you, I'd (= I would) + base verb.", "he": "הביטוי הקבוע לעצה: If I were you, I'd (= I would) + צורת הבסיס." }
+    },
+    {
+      "id": "e6", "type": "mcq", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Kenji has a job interview tomorrow, and he feels confident. Which sentence fits best?", "he": "לקנג'י יש מחר ראיון עבודה, והוא מרגיש בטוח בעצמו. איזה משפט מתאים ביותר?" },
+      "question": "Kenji says:",
+      "options": ["If I got the job, I'd buy everyone pizza.", "If I get the job, I'll buy everyone pizza.", "If I'd get the job, I'd buy everyone pizza."],
+      "answer": 1,
+      "option_feedback": {
+        "0": { "en": "Correct English, but it sounds as if Kenji thinks the job is unlikely. He's confident, so the first conditional fits better.", "he": "המשפט תקין, אבל הוא נשמע כאילו קנג'י חושב שהסיכוי קטן. הוא בטוח בעצמו, ולכן תנאי 1 מתאים יותר." },
+        "2": { "en": "No would ('d) in the if-part: If I get / If I got.", "he": "בחלק של if לא בא would ‏('d): If I get או If I got." }
+      },
+      "option_errors": { "0": "tense-choice", "2": "conditional-form" },
+      "explanation": { "en": "The speaker chooses: first conditional = I think it can really happen; second conditional = I think it's unlikely or imaginary.", "he": "הדובר/ת בוחר/ת: תנאי 1 = אני חושב/ת שזה באמת יכול לקרות; תנאי 2 = אני חושב/ת שזה לא סביר או דמיוני." }
+    },
+    {
+      "id": "e7", "type": "gap", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Complete Omer's message with the correct form of the verbs in brackets.", "he": "השלימו את ההודעה של עומר בצורה הנכונה של הפעלים שבסוגריים." },
+      "text": "I spend two hours a day on buses. If I ___ (not live) so far from the university, I ___ (not need) to get up at six. And if I ___ (have) a car, I ___ (be) home in twenty minutes. My brother always says: 'If I ___ (be) you, I'd move!'",
+      "answers": [["didn't live"], ["wouldn't need"], ["had"], ["would be", "'d be", "could be"], ["were"]],
+      "wrong_feedback": [
+        { "match": "wouldn't live", "feedback": { "en": "No would in the if-part: If I didn't live so far...", "he": "בחלק של if לא בא would: If I didn't live so far..." }, "error_type": "conditional-form" },
+        { "match": "don't live", "feedback": { "en": "Omer does live far away, so this is imaginary: use the past. If I didn't live so far...", "he": "עומר באמת גר רחוק, ולכן זה מצב דמיוני: עבר. If I didn't live so far..." }, "error_type": "conditional-form" },
+        { "match": "won't need", "feedback": { "en": "In the second conditional the result uses would, not will: I wouldn't need.", "he": "בתנאי 2 התוצאה עם would, לא עם will: I wouldn't need." }, "error_type": "conditional-form" },
+        { "match": "didn't need", "feedback": { "en": "The result needs would: I wouldn't need.", "he": "התוצאה צריכה would: I wouldn't need." }, "error_type": "conditional-form" },
+        { "match": "would have", "feedback": { "en": "No would in the if-part: if I had.", "he": "בחלק של if לא בא would: if I had." }, "error_type": "conditional-form" },
+        { "match": "will be", "feedback": { "en": "Use would, not will, in the second conditional: I'd be home.", "he": "בתנאי 2 משתמשים ב-would ולא ב-will: I'd be home." }, "error_type": "conditional-form" },
+        { "match": "was", "feedback": { "en": "You'll hear If I was you in casual speech, but the standard phrase for advice is If I were you.", "he": "בדיבור יומיומי שומעים If I was you, אבל הביטוי התקני לעצה הוא If I were you." }, "error_type": "conditional-form" },
+        { "match": "am", "feedback": { "en": "It's imaginary (he isn't Omer), so use were: If I were you.", "he": "זה דמיוני (האח הוא לא עומר), ולכן were: If I were you." }, "error_type": "conditional-form" }
+      ],
+      "hint": { "en": "if-part: past (were for be). Result: would or wouldn't + base verb.", "he": "בחלק של if: עבר (were עבור be). בתוצאה: would או wouldn't + צורת הבסיס." },
+      "explanation": { "en": "Imaginary present: if + past (didn't live, had, were), would + base verb (wouldn't need, would be). In reality Omer lives far away and doesn't have a car.", "he": "הווה דמיוני: if + עבר (didn't live, ‏had, ‏were), ‏would + צורת הבסיס (wouldn't need, ‏would be). במציאות עומר גר רחוק ואין לו רכב." }
+    },
+    {
+      "id": "e8", "type": "read", "skill": "reading", "topic": "conditionals-2",
+      "prompt": { "en": "Read the advice column and answer the questions.", "he": "קראו את מדור העצות וענו על השאלות." },
+      "title": "Ask Sara: Should I take the job abroad?",
+      "passage": "Dear Sara,\n\nI'm 24 and I've just got a job offer in Lisbon for one year. The pay is good, and I've always wanted to live abroad. The problem is my grandmother. She's 85, and I visit her every Friday. If I moved to Portugal, she would be really sad, and I would feel terrible. What would you do?\n\nDaniel, Haifa\n\nDear Daniel,\n\nFirst, congratulations! Offers like this don't come every day.\n\nI understand your worry, but imagine the opposite situation. If your grandmother were 24 and had this offer, what would you tell her? I'm sure you'd say 'Go!'\n\nIf I were you, I'd talk to her before you decide. You might be surprised: many grandparents are proud when their grandchildren have adventures. Also, Lisbon isn't on the other side of the world. If you called her every Friday instead of visiting, she would still hear your voice, and you could fly home for the holidays.\n\nOne more thing: if you said no, would you regret it in ten years? Only you can answer that.\n\nGood luck!\nSara",
+      "questions": [
+        { "type": "tf", "statement": "Daniel has already moved to Lisbon.", "answer": false,
+          "explanation": { "en": "He has just got the offer and is still deciding: 'If I moved to Portugal...' is imaginary.", "he": "הוא רק קיבל את ההצעה ועדיין מתלבט: If I moved to Portugal... הוא מצב דמיוני." } },
+        { "type": "mcq", "question": "Why is Daniel unsure about the job?", "options": ["The pay isn't good enough.", "He doesn't like Lisbon.", "He's worried about his grandmother."], "answer": 2,
+          "option_feedback": {
+            "0": { "en": "He says 'The pay is good'.", "he": "הוא כותב The pay is good – המשכורת טובה." },
+            "1": { "en": "He doesn't say this. He has always wanted to live abroad.", "he": "הוא לא כותב את זה. הוא תמיד רצה לגור בחוץ לארץ." }
+          },
+          "option_errors": { "0": "comprehension", "1": "comprehension" },
+          "explanation": { "en": "'The problem is my grandmother... If I moved to Portugal, she would be really sad.'", "he": "בטקסט: The problem is my grandmother... If I moved to Portugal, she would be really sad." } },
+        { "type": "mcq", "question": "'If your grandmother were 24...' Why does Sara use were?", "options": ["It's an imaginary situation: his grandmother is 85, not 24.", "Sara is talking about the past.", "It's a real plan for the future."], "answer": 0,
+          "option_feedback": {
+            "1": { "en": "were here isn't about the past. It's the second conditional for something imaginary.", "he": "were כאן לא מדבר על העבר. זה תנאי 2 למשהו דמיוני." },
+            "2": { "en": "His grandmother can't become 24, so it isn't a real plan.", "he": "סבתא שלו לא יכולה להיות בת 24, ולכן זו לא תוכנית אמיתית." }
+          },
+          "option_errors": { "1": "conditional-form", "2": "conditional-form" },
+          "explanation": { "en": "if + were = imaginary. Sara asks Daniel to imagine the opposite situation.", "he": "if + were = מצב דמיוני. שרה מבקשת מדניאל לדמיין את המצב ההפוך." } },
+        { "type": "tf", "statement": "Sara thinks Daniel should talk to his grandmother before he decides.", "answer": true,
+          "explanation": { "en": "'If I were you, I'd talk to her before you decide.' This is her advice.", "he": "בטקסט: If I were you, I'd talk to her before you decide – זו העצה שלה." } },
+        { "type": "gap", "text": "Sara says Daniel could ___ his grandmother every Friday instead of visiting her.", "answers": [["call", "phone", "ring"]],
+          "explanation": { "en": "'If you called her every Friday instead of visiting, she would still hear your voice.'", "he": "בטקסט: If you called her every Friday instead of visiting, she would still hear your voice." } }
+      ]
+    },
+    {
+      "id": "e9", "type": "transform", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Rewrite as a second conditional sentence beginning with If I...", "he": "כתבו מחדש כמשפט בתנאי 2 שמתחיל ב-If I..." },
+      "source": "I don't have enough money, so I can't buy a new phone.",
+      "answers": [
+        "If I had enough money, I could buy a new phone.", "If I had enough money I could buy a new phone.",
+        "If I had enough money, I would buy a new phone.", "If I had enough money I would buy a new phone.",
+        "If I had enough money, I would be able to buy a new phone.", "If I had enough money I would be able to buy a new phone."
+      ],
+      "wrong_feedback": [
+        { "match": "If I have enough money, I can buy a new phone.", "feedback": { "en": "That's a real possibility. But you don't have the money, so it's imaginary: If I had enough money, I could...", "he": "זו אפשרות אמיתית. אבל אין לכם מספיק כסף, ולכן זה מצב דמיוני: If I had enough money, I could..." }, "error_type": "conditional-form" },
+        { "match": "If I would have enough money, I would buy a new phone.", "feedback": { "en": "No would in the if-part: If I had enough money.", "he": "בחלק של if לא בא would: If I had enough money." }, "error_type": "conditional-form" },
+        { "match": "If I had enough money, I can buy a new phone.", "feedback": { "en": "The result needs could or would: I could buy a new phone.", "he": "בתוצאה צריך could או would: I could buy a new phone." }, "error_type": "conditional-form" },
+        { "match": "If I had enough money, I will buy a new phone.", "feedback": { "en": "Past in the if-part goes with would, not will: I'd buy.", "he": "עבר בחלק של if הולך עם would, לא עם will: I'd buy." }, "error_type": "conditional-form" },
+        { "match": "If I didn't have enough money, I couldn't buy a new phone.", "feedback": { "en": "That's the real situation. The second conditional imagines the opposite: If I had enough money, I could...", "he": "זה המצב האמיתי. תנאי 2 מדמיין את ההפך: If I had enough money, I could..." }, "error_type": "conditional-form" }
+      ],
+      "hint": { "en": "Imagine the opposite: don't have → had; can't → could.", "he": "דמיינו את ההפך: don't have → had; ‏can't → could." },
+      "explanation": { "en": "Real: I don't have money. Imaginary: If I had enough money, I could (or would) buy a new phone.", "he": "המציאות: אין לי מספיק כסף. הדמיון: If I had enough money, I could (או would) buy a new phone." }
+    },
+    {
+      "id": "e10", "type": "correct", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Find the mistake and write the sentence correctly.", "he": "מצאו את הטעות וכתבו את המשפט נכון." },
+      "sentence": "If I would have more time, I would learn Japanese.",
+      "answers": ["If I had more time, I would learn Japanese.", "If I had more time I would learn Japanese.", "I would learn Japanese if I had more time."],
+      "error_type": "conditional-form",
+      "explanation": { "en": "would goes only in the result. The if-part takes the past simple: If I had more time.", "he": "would בא רק בתוצאה. בחלק של if בא עבר פשוט: If I had more time." }
+    },
+    {
+      "id": "e11", "type": "correct", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Find the mistake and write the sentence correctly.", "he": "מצאו את הטעות וכתבו את המשפט נכון." },
+      "sentence": "If I were you, I will call him tonight.",
+      "answers": ["If I were you, I would call him tonight.", "If I were you I would call him tonight.", "I would call him tonight if I were you."],
+      "error_type": "conditional-form",
+      "explanation": { "en": "If I were you goes with would: I'd call him tonight.", "he": "If I were you הולך עם would: I'd call him tonight." }
+    },
+    {
+      "id": "e12", "type": "order", "skill": "grammar", "topic": "conditionals-2",
+      "prompt": { "en": "Put the words in order to make a question.", "he": "סדרו את המילים לשאלה." },
+      "tokens": ["What", "would", "you", "do", "if", "you", "won", "the", "lottery"],
+      "answers": ["If you won the lottery what would you do"],
+      "explanation": { "en": "Wh-word + would + subject + verb, then if + past: What would you do if you won the lottery?", "he": "מילת שאלה + would + נושא + פועל, ואחר כך if + עבר: What would you do if you won the lottery?" }
+    },
+    {
+      "id": "e13", "type": "transform", "skill": "vocabulary", "topic": "conditionals-2",
+      "prompt": { "en": "Your friend can't decide whether to buy a new phone now or wait for a sale. Translate your advice into English.", "he": "חבר/ה לא מצליח/ה להחליט אם לקנות טלפון חדש עכשיו או לחכות למבצע. תרגמו את העצה שלכם לאנגלית." },
+      "source": "במקומך, הייתי מחכה עוד שבוע.",
+      "answers": [
+        "If I were you, I would wait another week.", "If I were you I would wait another week.", "I would wait another week if I were you.",
+        "If I were you, I would wait one more week.", "If I were you I would wait one more week.", "I would wait one more week if I were you.",
+        "If I were you, I would wait for another week.", "I would wait for another week if I were you.",
+        "If I were you, I would wait for one more week.", "I would wait for one more week if I were you.",
+        "If I were in your place, I would wait another week.", "In your place, I would wait another week.", "If I were in your shoes, I would wait another week."
+      ],
+      "wrong_feedback": [
+        { "match": "If I were you, I was waiting another week.", "feedback": { "en": "The Hebrew past form here isn't 'I was'. It means would + verb: I'd wait another week.", "he": "'הייתי' כאן הוא לא I was. ‏'הייתי מחכה' = would + פועל: I'd wait another week." }, "error_type": "conditional-form" },
+        { "match": "If I were you, I will wait another week.", "feedback": { "en": "If I were you goes with would: I'd wait.", "he": "If I were you הולך עם would: I'd wait." }, "error_type": "conditional-form" },
+        { "match": "If I was you, I would wait another week.", "feedback": { "en": "You'll hear this in casual speech, but the standard phrase for advice is If I were you.", "he": "בדיבור יומיומי שומעים את זה, אבל הביטוי התקני לעצה הוא If I were you." }, "error_type": "conditional-form" },
+        { "match": "If I am you, I would wait another week.", "feedback": { "en": "It's imaginary (you can't be your friend), so use the past form were: If I were you.", "he": "זה מצב דמיוני (אי אפשר להיות החבר/ה), ולכן were: If I were you." }, "error_type": "conditional-form" },
+        { "match": "instead", "feedback": { "en": "instead of you means that you won't do it and someone else will. For advice, say If I were you, I'd...", "he": "instead of you אומר שמישהו אחר יעשה את זה במקומך. לעצה אומרים If I were you, I'd..." }, "error_type": "false-friend" }
+      ],
+      "hint": { "en": "There's a fixed English phrase for advice: If I ___ you, ...", "he": "יש באנגלית ביטוי קבוע לעצה: If I ___ you, ..." },
+      "explanation": { "en": "The Hebrew phrase for giving advice becomes If I were you, and the Hebrew past form + verb becomes would + base verb: If I were you, I'd wait another week.", "he": "'במקומך' = If I were you. ‏'הייתי' + פועל = would + צורת הבסיס: If I were you, I'd wait another week." }
+    },
+    {
+      "id": "e14", "type": "dictation", "skill": "listening", "topic": "conditionals-2",
+      "prompt": { "en": "Listen and write the sentence.", "he": "הקשיבו וכתבו את המשפט." },
+      "audio_text": "If I didn't have to work tomorrow, I'd stay up and watch the match.",
+      "answers": ["If I didn't have to work tomorrow, I'd stay up and watch the match."],
+      "hint": { "en": "I'd = I would. Listen for the short /d/.", "he": "I'd = I would. הקשיבו ל-/d/ הקצרה." },
+      "explanation": { "en": "if + didn't have to (imaginary: the speaker does have to work), then I'd = I would stay up.", "he": "if + didn't have to (דמיוני: הדובר/ת כן צריך/ה לעבוד), ואז I'd = I would stay up." }
+    },
+    {
+      "id": "e15", "type": "speak", "skill": "speaking", "topic": "conditionals-2",
+      "prompt": { "en": "Ask the question out loud.", "he": "שאלו את השאלה בקול." },
+      "target": "What would you do if you won the lottery?",
+      "focus": { "en": "would and won start with /w/: round your lips as for 'oo', and don't let your top teeth touch your lower lip (that's /v/). would is weak here: /wəd/.", "he": "would ו-won מתחילים ב-/w/: עגלו את השפתיים כמו ב'אוּ', ואל תיתנו לשיניים העליונות לגעת בשפה התחתונה (זה /v/). ‏would נאמר כאן חלש: /wəd/." },
+      "explanation": { "en": "A classic conversation question: would before the subject, then if + past.", "he": "שאלת שיחה קלאסית: would לפני הנושא, ואחר כך if + עבר." }
+    },
+    {
+      "id": "e16", "type": "write", "skill": "writing", "topic": "conditionals-2",
+      "prompt": { "en": "Write a forum post.", "he": "כתבו פוסט בפורום." },
+      "task": { "en": "A forum for young people asks: 'If you could change one thing about the town or city where you live, what would it be?' Write a post (100-150 words). Say what you would change and why, give at least two results (what would be different), and end with a question to other readers.", "he": "בפורום לצעירים שואלים: 'If you could change one thing about the town or city where you live, what would it be?' כתבו פוסט (100-150 מילים). כתבו מה הייתם משנים ולמה, תנו לפחות שתי תוצאות (מה היה שונה), וסיימו בשאלה לקוראים אחרים." },
+      "min_words": 100,
+      "max_words": 160,
+      "must_include": ["if", "would"],
+      "model_answer": "If I could change one thing about Be'er Sheva, I would plant a lot more trees. In summer it's so hot that hardly anyone walks anywhere in the afternoon. If there were trees along the main streets, people would walk more and use their cars less. The air would be cleaner, and the city would look greener and friendlier.\n\nI would also put benches and water fountains under the trees. Older people could sit down and rest, and kids would have somewhere to play outside. If the streets felt nicer, small cafés would probably open there too.\n\nI know trees take years to grow, but if we started now, our children would enjoy them. What would you change about your town?",
+      "checklist": [
+        { "en": "I used if + past simple (or were) for the imaginary situation: If there were trees...", "he": "השתמשתי ב-if + עבר פשוט (או were) למצב הדמיוני: If there were trees..." },
+        { "en": "I used would or could + base verb in the results, and never would in the if-part.", "he": "השתמשתי ב-would או could + צורת הבסיס בתוצאות, ואף פעם לא ב-would בחלק של if." },
+        { "en": "I gave a reason and at least two results.", "he": "נתתי סיבה ולפחות שתי תוצאות." },
+        { "en": "I ended with a question to other readers (What would you change...?).", "he": "סיימתי בשאלה לקוראים (What would you change...?)." }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      { "en": "Second conditional = if + past simple, would + base verb, for imaginary or unlikely situations: If I had a car, I'd drive to work.", "he": "תנאי 2 = if + עבר פשוט, ‏would + צורת הבסיס, למצבים דמיוניים או לא סבירים: If I had a car, I'd drive to work." },
+      { "en": "The past form doesn't mean the past here: it means 'not real'.", "he": "צורת העבר כאן לא מדברת על העבר: היא אומרת 'לא מציאותי'." },
+      { "en": "No would in the if-part: If I knew (not *If I would know).", "he": "בחלק של if לא בא would: If I knew, ולא If I would know." },
+      { "en": "Advice: If I were you, I'd... (standard form: were).", "he": "עצה: If I were you, I'd... (הצורה התקנית: were)." },
+      { "en": "First (if + present, will) = real and possible; second (if + past, would) = imaginary or very unlikely.", "he": "תנאי 1 (if + הווה, ‏will) = אמיתי ואפשרי; תנאי 2 (if + עבר, ‏would) = דמיוני או מאוד לא סביר." }
+    ]
+  },
+  "completion": { "pass_score": 0.7 }
+}
