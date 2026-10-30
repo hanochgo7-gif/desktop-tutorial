@@ -203,11 +203,10 @@
       "id": "e11", "type": "correct", "skill": "grammar", "topic": "time-dates",
       "prompt": { "en": "This sentence is a word-for-word translation from Hebrew. Write it correctly.", "he": "המשפט הזה תורגם מילה במילה מעברית. כתבו אותו נכון." },
       "sentence": "It's seven and half.",
-      "answers": ["It's half past seven.", "It's seven thirty.", "It's half past 7."],
+      "answers": ["It's half past seven.", "It's seven thirty.", "It's half past 7.", "It's half seven."],
       "error_type": "false-friend",
       "wrong_feedback": [
-        { "match": "It's seven and a half.", "feedback": { "en": "Seven and a half is for amounts (seven and a half hours), not for the clock. Say: It's half past seven.", "he": "seven and a half מתאים לכמות (שבע וחצי שעות), לא לשעון. אומרים: It's half past seven." }, "error_type": "false-friend" },
-        { "match": "It's half seven.", "feedback": { "en": "In British speech you will hear half seven, but learn the full form first: It's half past seven.", "he": "בבריטניה שומעים half seven בדיבור, אבל קודם לומדים את הצורה המלאה: It's half past seven." } }
+        { "match": "It's seven and a half.", "feedback": { "en": "Seven and a half is for amounts (seven and a half hours), not for the clock. Say: It's half past seven.", "he": "seven and a half מתאים לכמות (שבע וחצי שעות), לא לשעון. אומרים: It's half past seven." }, "error_type": "false-friend" }
       ],
       "hint": { "en": "half + past + the hour", "he": "half + past + השעה" },
       "explanation": { "en": "English doesn't say 'seven and half' for the time. Say: It's half past seven, or It's seven thirty.", "he": "'שבע וחצי' לא מתורגם מילה במילה. אומרים: It's half past seven או It's seven thirty." }
@@ -216,7 +215,7 @@
       "id": "e12", "type": "read", "skill": "reading", "topic": "time-dates",
       "prompt": { "en": "Read the message and answer the questions.", "he": "קראו את ההודעה וענו על השאלות." },
       "title": "Party!",
-      "passage": "Hi Noa!\nMy birthday is on Thursday, the 12th of June. The party is on Friday, the 13th, at my place. It's at half past eight in the evening.\nAmir and Sara aren't at the party. They're in Eilat this weekend.\nAre you free? See you on Friday!\nKenji",
+      "passage": "Hi Noa!\nMy birthday is on Thursday, the 12th of June. The party is on Friday, the 13th, at my place. It's at half past eight in the evening.\nAmir and Sara aren't free. They're in Eilat this weekend.\nAre you free? See you on Friday!\nKenji",
       "questions": [
         { "type": "mcq", "question": "When is Kenji's birthday?", "options": ["Friday, 13th June", "Thursday, 12th June", "Thursday, 13th June"], "answer": 1,
           "option_feedback": {
@@ -232,10 +231,10 @@
           "explanation": { "en": "It's at half past eight = 8:30.", "he": "half past eight = שמונה וחצי." } },
         { "type": "tf", "statement": "The party is on Thursday.", "answer": false,
           "explanation": { "en": "The birthday is on Thursday, but the party is on Friday.", "he": "יום ההולדת ביום חמישי, אבל המסיבה ביום שישי." } },
-        { "type": "tf", "statement": "Amir and Sara are at the party.", "answer": false,
-          "explanation": { "en": "Amir and Sara aren't at the party. They're in Eilat.", "he": "כתוב: Amir and Sara aren't at the party – הם באילת." } }
+        { "type": "tf", "statement": "Amir and Sara are free on Friday.", "answer": false,
+          "explanation": { "en": "Kenji writes: Amir and Sara aren't free. They're in Eilat this weekend.", "he": "קנג'י כותב: Amir and Sara aren't free – הם באילת בסוף השבוע." } }
       ],
-      "explanation": { "en": "Dates come after on (on Friday, on the 12th); times come after at (at half past eight).", "he": "תאריכים באים אחרי on (on Friday, on the 12th), ושעות אחרי at (at half past eight)." }
+      "explanation": { "en": "Days and dates come after on (on Friday, on the 12th); times come after at (at half past eight).", "he": "ימים ותאריכים באים אחרי on (on Friday, on the 12th), ושעות אחרי at (at half past eight)." }
     },
     {
       "id": "e13", "type": "dictation", "skill": "listening", "topic": "time-dates",

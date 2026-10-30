@@ -119,11 +119,11 @@
       "wrong_feedback": [
         { "match": "Who", "feedback": { "en": "who asks about a person. Look at each answer: a month, a city, a reason.", "he": "who שואלת על אדם. הסתכלו על כל תשובה: חודש, עיר, סיבה." } },
         { "match": "How", "feedback": { "en": "how asks about the way (How do you get there? – By bus.). Look at each answer: a month, a city, a reason.", "he": "how שואלת איך (How do you get there? – By bus.). הסתכלו על כל תשובה: חודש, עיר, סיבה." } },
-        { "match": "When", "feedback": { "en": "when asks about a time. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "when שואלת על זמן. בדקו כל תשובה: In May = זמן, In Haifa = מקום, ...Because = סיבה." } },
-        { "match": "Where", "feedback": { "en": "where asks about a place. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "where שואלת על מקום. בדקו כל תשובה: In May = זמן, In Haifa = מקום, ...Because = סיבה." } },
+        { "match": "When", "feedback": { "en": "when asks about a time. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "when שואלת על זמן. בדקו כל תשובה: In May = זמן, In Haifa = מקום, Because... = סיבה." } },
+        { "match": "Where", "feedback": { "en": "where asks about a place. Check each answer: In May = a time, In Haifa = a place, Because... = a reason.", "he": "where שואלת על מקום. בדקו כל תשובה: In May = זמן, In Haifa = מקום, Because... = סיבה." } },
         { "match": "Why", "feedback": { "en": "why asks for a reason, and the answer starts with Because. Check each answer: a time, a place, a reason.", "he": "why שואלת על סיבה, והתשובה מתחילה ב-Because. בדקו כל תשובה: זמן, מקום, סיבה." } }
       ],
-      "explanation": { "en": "When → In May (a time). Where → In Haifa (a place). Why → Because... (a reason).", "he": "When → In May (זמן). ‏Where → In Haifa (מקום). ‏Why → ...Because (סיבה)." }
+      "explanation": { "en": "When → In May (a time). Where → In Haifa (a place). Why → Because... (a reason).", "he": "When → In May (זמן). ‏Where → In Haifa (מקום). ‏Why → Because... (סיבה)." }
     },
     {
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "wh-questions",

@@ -100,8 +100,8 @@
           "options": ["Amir and his brother", "Noa and Maya", "Maya and Amir"],
           "answer": 1,
           "option_feedback": {
-            "0": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: '...Maya and I go'." },
-            "2": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: '...Maya and I go'." }
+            "0": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: 'Maya and I go...'." },
+            "2": { "en": "us always includes the writer, Noa. Look back: 'Maya and I go...'", "he": "us תמיד כולל את מי שכותבת – נועה. חזרו אחורה: 'Maya and I go...'." }
           },
           "option_errors": { "0": "pronoun", "2": "pronoun" },
           "explanation": { "en": "Maya and I = we → us. Noa invites Amir to come with her and Maya.", "he": "Maya and I = we → us. נועה מזמינה את אמיר לבוא איתה ועם מאיה." }
@@ -112,8 +112,8 @@
           "options": ["Amir", "Maya's friend", "Amir's brother"],
           "answer": 2,
           "option_feedback": {
-            "0": { "en": "Noa is writing to Amir, so Amir is you. Look back: 'Can my brother come too?'", "he": "נועה כותבת לאמיר, ולכן אמיר הוא you. חזרו אחורה: '?Can my brother come too'." },
-            "1": { "en": "Look back at Amir's question: 'Can my brother come too?'", "he": "חזרו לשאלה של אמיר: '?Can my brother come too'." }
+            "0": { "en": "Noa is writing to Amir, so Amir is you. Look back: 'Can my brother come too?'", "he": "נועה כותבת לאמיר, ולכן אמיר הוא you. חזרו אחורה: 'Can my brother come too?'." },
+            "1": { "en": "Look back at Amir's question: 'Can my brother come too?'", "he": "חזרו לשאלה של אמיר: 'Can my brother come too?'." }
           },
           "option_errors": { "0": "pronoun", "1": "comprehension" },
           "explanation": { "en": "him points back to the last man in the chat: Amir's brother.", "he": "him מתייחס לגבר האחרון שהוזכר בצ'אט: האח של אמיר." }
@@ -267,8 +267,8 @@
           "options": ["the water", "the lift", "the roof"],
           "answer": 1,
           "option_feedback": {
-            "0": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: '...Please don't use the lift'." },
-            "2": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: '...Please don't use the lift'." }
+            "0": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: 'Please don't use the lift...'." },
+            "2": { "en": "Look at the words just before it: 'Please don't use the lift...'", "he": "הסתכלו על המילים שלפני it: 'Please don't use the lift...'." }
           },
           "option_errors": { "0": "pronoun", "2": "pronoun" },
           "explanation": { "en": "it points back to the lift: the workers need the lift, so you can't use it.", "he": "it מתייחס למעלית: הפועלים צריכים אותה, ולכן אי אפשר להשתמש בה." }

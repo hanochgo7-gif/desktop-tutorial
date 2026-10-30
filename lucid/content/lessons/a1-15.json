@@ -22,7 +22,7 @@
     { "type": "rule", "en": "Every sentence starts with a capital letter and ends with a full stop (.), a question mark (?) or an exclamation mark (!). Use capital letters for I and for names of people, cities, countries, languages, days and months: On Fridays I visit my grandparents in Jaffa.", "he": "כל משפט מתחיל באות גדולה ומסתיים בנקודה (.), בסימן שאלה (?) או בסימן קריאה (!). אות גדולה גם ל-I ולשמות של אנשים, ערים, ארצות, שפות, ימים וחודשים: On Fridays I visit my grandparents in Jaffa. בעברית אין אותיות גדולות, ולכן כדאי לבדוק את זה במיוחד." },
     { "type": "warning", "en": "A run-on sentence joins two sentences with only a comma, or with nothing: 'I live in Haifa, I work in a café.' Fix it with a full stop (I live in Haifa. I work in a café.) or with a joining word (I live in Haifa, and I work in a café.).", "he": "משפט רץ מחבר שני משפטים בפסיק בלבד, או בלי כלום: 'I live in Haifa, I work in a café'. מתקנים בנקודה (I live in Haifa. I work in a café.) או במילת קישור (I live in Haifa, and I work in a café.)." },
     { "type": "tip", "en": "We usually put a comma before but and so when they join two sentences: I'm tired, but I'm happy. We don't usually need one before because. And because + reason can't stand alone: 'Because I work.' is not a full sentence.", "he": "בדרך כלל שמים פסיק לפני but ולפני so כשהן מחברות שני משפטים: I'm tired, but I'm happy. לפני because בדרך כלל לא צריך פסיק. ו-because עם סיבה לא עומד לבד: 'Because I work.' הוא לא משפט שלם." },
-    { "type": "tip", "en": "Plan before you write: three mini-paragraphs. 1) About me: name, age, where I live, work or studies. 2) My day: what I do and when (I usually..., at seven...). 3) Free time: what I like and why (because...).", "he": "תכננו לפני שאתם כותבים: שלוש פסקאות קטנות. 1) עליי: שם, גיל, איפה אני גר/ה, עבודה או לימודים. 2) היום שלי: מה אני עושה ומתי (...I usually, ...at seven). 3) זמן פנוי: מה אני אוהב/ת ולמה (...because)." }
+    { "type": "tip", "en": "Plan before you write: three mini-paragraphs. 1) About me: name, age, where I live, work or studies. 2) My day: what I do and when (I usually..., at seven...). 3) Free time: what I like and why (because...).", "he": "תכננו לפני שאתם כותבים: שלוש פסקאות קטנות. 1) עליי: שם, גיל, איפה אני גר/ה, עבודה או לימודים. 2) היום שלי: מה אני עושה ומתי (I usually..., at seven...). 3) זמן פנוי: מה אני אוהב/ת ולמה (because...)." }
   ],
   "examples": [
     { "en": "My name is Lior, and I'm 17.", "he": "קוראים לי ליאור, ואני בן/בת 17." },
@@ -214,7 +214,7 @@
           "answer": 1,
           "option_feedback": {
             "0": { "en": "Sara doesn't write about her family. Paragraph 2 tells us what she does every day.", "he": "שרה לא כותבת על המשפחה שלה. פסקה 2 מספרת מה היא עושה כל יום." },
-            "2": { "en": "Her hobbies are in paragraph 3 (In my free time...).", "he": "התחביבים שלה בפסקה 3 (...In my free time)." }
+            "2": { "en": "Her hobbies are in paragraph 3 (In my free time...).", "he": "התחביבים שלה בפסקה 3 (In my free time...)." }
           },
           "option_errors": { "0": "comprehension", "2": "comprehension" },
           "explanation": { "en": "Paragraph 2 has times and everyday actions: get up at six, go by train, get home at seven.", "he": "בפסקה 2 יש שעות ופעולות יומיות: get up at six, go by train, get home at seven." }

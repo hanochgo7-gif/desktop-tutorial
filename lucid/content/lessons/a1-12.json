@@ -241,7 +241,7 @@
       "audio_text": "Can you help me? I can't open this window.",
       "answers": ["Can you help me? I can't open this window."],
       "hint": { "en": "Two short sentences: a request, then the problem.", "he": "שני משפטים קצרים: בקשה, ואז הבעיה." },
-      "explanation": { "en": "Can you help me? is a request. I can't open... explains the problem: can't is the strong, stressed word.", "he": "Can you help me? היא בקשה. ...I can't open מסביר את הבעיה – can't היא המילה החזקה והמוטעמת." }
+      "explanation": { "en": "Can you help me? is a request. I can't open... explains the problem: can't is the strong, stressed word.", "he": "Can you help me? היא בקשה. I can't open... מסביר את הבעיה – can't היא המילה החזקה והמוטעמת." }
     },
     {
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "modal-can",
