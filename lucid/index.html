@@ -15,6 +15,22 @@
 <link rel="preload" href="fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/app.css">
+<!-- The whole static import graph, so a first visit fetches it in one round trip instead of five. -->
+<link rel="modulepreload" href="js/app.js">
+<link rel="modulepreload" href="js/core/store.js">
+<link rel="modulepreload" href="js/core/router.js">
+<link rel="modulepreload" href="js/ui/components.js">
+<link rel="modulepreload" href="js/core/api.js">
+<link rel="modulepreload" href="js/core/sync.js">
+<link rel="modulepreload" href="js/core/learner.js">
+<link rel="modulepreload" href="js/ui/icons.js">
+<link rel="modulepreload" href="config.js">
+<link rel="modulepreload" href="js/core/util.js">
+<link rel="modulepreload" href="js/core/content.js">
+<link rel="modulepreload" href="js/core/adaptive.js">
+<link rel="modulepreload" href="js/core/srs.js">
+<link rel="modulepreload" href="js/core/i18n.js">
+<link rel="modulepreload" href="vendor/ts-fsrs.mjs">
 </head>
 <body>
 <a class="skip" href="#view">דילוג לתוכן · Skip to content</a>
