@@ -10,8 +10,8 @@ JOBS = {
     # name: (master, crop box as fractions or None)
     "valley": ("valley.jpg", None),
     "forest": ("forest.jpg", None),
-    "p-site": ("p-site.jpg", None),
-    "p-marking": ("p-marking.jpg", None),
+    "p-site": ("p-site.jpg", (0, .2035, .7375, 1)),  # 4:3, left of the rust-coloured steel tank (galvanized steel only in images)
+    "p-marking": ("p-marking.jpg", (.3375, .2778, 1, .94)),  # 4:3, without the two workers at the left (one may be a minor)
     "p-poles": ("p-poles.jpg", None),
     "p-closed": ("p-closed.jpg", (0, 0, 1, .86)),  # trims the photographer's shadow at the bottom edge
 }
@@ -25,7 +25,7 @@ def main():
             w, h = im.size
             im = im.crop((int(crop[0] * w), int(crop[1] * h), int(crop[2] * w), int(crop[3] * h)))
         for w in WIDTHS:
-            if w > im.width:
+            if w > im.width * 1.02:  # a crop a few pixels narrower than 1600 still gets its 1600 file (a stale one would outlive the crop)
                 continue
             t = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
             t.save(OUT / f"{name}-{w}.avif", quality=52)

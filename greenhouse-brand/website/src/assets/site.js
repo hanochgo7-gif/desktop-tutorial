@@ -198,6 +198,10 @@
     mark(); window.addEventListener("resize", mark);
   });
 
+  // ---- 404 under /he/: the Hebrew block first ----
+  var nfh = document.querySelector(".nf-he"), nfw = nfh && nfh.parentNode;
+  if (nfh && /^\/he(\/|$)/.test(location.pathname)) { nfw.insertBefore(nfh, nfw.firstChild); nfh.classList.add("first"); }
+
   // ---- print button on the profile page ----
   var pb = document.getElementById("print-btn");
   if (pb) pb.addEventListener("click", function () { track("profile_print", {}); window.print(); });
@@ -342,7 +346,14 @@
   // a phone button and the copyable summary, on every result (success, error, not connected) (Teams B+C 11, D 26)
   function resultBox(p, where) {
     var box = document.createElement("div"), pre = document.createElement("pre"), cb = document.createElement("button");
-    pre.className = "brief"; pre.textContent = brief(p);
+    pre.className = "brief";
+    brief(p).split("\n").forEach(function (line, i) {
+      if (i) pre.appendChild(document.createTextNode("\n"));
+      var c = line.indexOf(": ");
+      if (c < 0) { pre.appendChild(document.createTextNode(line)); return; }
+      pre.appendChild(document.createTextNode(line.slice(0, c + 2)));
+      var v = document.createElement("bdi"); v.textContent = line.slice(c + 2); pre.appendChild(v);
+    });
     cb.type = "button"; cb.className = "btn btn-line"; cb.textContent = M.copy;
     cb.addEventListener("click", function () {
       var done = function () { cb.textContent = M.copied; };

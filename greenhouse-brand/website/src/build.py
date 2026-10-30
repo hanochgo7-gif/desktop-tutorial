@@ -326,6 +326,7 @@ def header(slug, L):
     # the main buttons carry the page's context into the form (turnkey, net houses, the crop of a crop page)
     ctx = qs(need="turnkey") if slug == "turnkey-farms" else qs(need="nethouse") if slug == "net-houses" else \
         qs(crop=C.CROP_PAGES[slug]["prefill"], need="nethouse") if slug in C.CROP_PAGES else ""
+    head_tel = "" if slug == "contact" else f'<a class="head-tel" href="tel:{C.SITE["phone_tel"]}" data-where="header-text"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>'  # Contact: the header button is the number
     # on Contact the header button would link to the page itself: it calls the office instead
     cta = (f'<a class="btn btn-primary head-cta" href="tel:{C.SITE["phone_tel"]}" data-where="header-contact">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>' if slug == "contact" else
            f'<a class="btn btn-primary head-cta" href="contact.html{ctx}" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>')
@@ -344,7 +345,7 @@ def header(slug, L):
       <a class="btn btn-primary nav-cta" href="contact.html{ctx}" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
     </nav>
     <a class="lang" href="{other}" hreflang="{alt}" lang="{alt}" data-track="lang_switch">{esc(t(C.SITE["lang_other"], L))}</a>
-    <a class="head-tel" href="tel:{C.SITE["phone_tel"]}" data-where="header-text"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>
+    {head_tel}
     {cta}
     <a class="head-call" href="tel:{C.SITE["phone_tel"]}" data-where="header" aria-label="{esc(tm(C.SITE["call"], L))} {esc(tm(C.SITE["phone_display"], L))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
   </div>
@@ -642,7 +643,7 @@ def p_sim(L):
         if i == n - 1:
             cta = (f'<div class="actions"><a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="sim">{esc(t(C.SITE["cta"], L))}</a>'
                    f'<a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="sim">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a></div>')
-        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}</span>'
+        chs.append(f'<section class="sim-ch" aria-labelledby="sim-h{i}"><div class="sim-card"><span class="k"><span class="num">{i + 1:02d}</span> {esc(t(k, L))}<span class="k-ill"> · {esc(t(S["badge"], L))}</span></span>'
                    f'<h2 id="sim-h{i}">{esc(t(h, L))}</h2><p>{esc(t(p, L))}</p>{cta}</div></section>')
     fig, legend = drawing(L, animate=False)
     r = rel(L)
@@ -680,7 +681,7 @@ def p_turnkey(L):
         phases.append(f'<div class="phase"><h3>{esc(t(ph, L))}</h3><ol start="{n - len(items) + 1}">{"".join(lis)}</ol></div>')
     return f"""
 <main id="main">
-{page_head("turnkey-farms", L)}
+{page_head("turnkey-farms", L, extra=f'<div class="actions ph-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-head">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>')}
 <section class="section" aria-labelledby="honest-h">
   <div class="wrap split">
     <div>
@@ -700,7 +701,6 @@ def p_turnkey(L):
       <div><h3>{esc(t(P["excl_h"], L))}</h3><ul><li>{esc(t(P["excl_1"], L))}</li><li>{esc(t(P["excl_2"], L))}</li></ul></div>
       <div><h3>{esc(t(P["mistake_h"], L))}</h3><p>{esc(t(P["mistake_p"], L))}</p></div>
     </div>
-    <div class="actions tk-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-stages">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>
   </div>
 </section>
 {cta_band(L, "turnkey", need="turnkey")}
@@ -716,7 +716,7 @@ def p_projects(L):
   <div class="wrap">
     <div class="os-head"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="lead">{esc(t(C.GLOBE["p"], L))}</p></div>
       <p class="more"><a href="{rel(L)}globe/index.html?lang={L}" data-track="globe_open">{esc(t(C.GLOBE["full"], L))}</a></p></div>
-    <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async">
+    <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async"><span class="ill-chip">{esc(t(C.SIM["badge"], L))}</span>
       <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" tabindex="-1" hidden></iframe>
       <button type="button" class="btn btn-primary globe-go" data-loading="{esc(tm(C.GLOBE["loading"], L))}">{esc(t(C.GLOBE["go"], L))}</button></div>
     <div class="proj-table">{projects_table(L)}</div>
@@ -1038,28 +1038,29 @@ def globe_page():
         js = js.replace(old, new)
     js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
            ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט";'
-           ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת"); }'
+           ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת");'
+           ' var ic = document.getElementById("ill-chip"); if (ic) ic.textContent = en ? "Illustration" : "הדמיה"; }'
            ' u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
     assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
     page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית")
     page = page.replace('<button class="lang" id="lang" type="button" lang="en">English</button>',
-                        '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a>', 1)
+                        '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a><span class="ill-chip" id="ill-chip">הדמיה</span>', 1)
     assert 'id="globe-cta"' in page
     page, n = re.subn(r'(<p class="note" id="note">)מקור:[^<]*', r'\1' + NOTE["he"], page); assert n == 1
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
     assert 'id="home-link"' in page
     page = page.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>', f'<script src="../assets/vendor/three.min.js?v={VER["three"]}"></script>')
     page = re.sub(r'<meta name="claude:viewport-fit-sides"[^>]*>\n|<link rel="preconnect"[^>]*>\n|<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>\n', "", page)
-    page = page.replace('"Heebo", Arial, sans-serif', '"Heebo", "Heebo Fallback", Arial, sans-serif').replace('"IBM Plex Mono", ui-monospace', '"Plex Mono", ui-monospace')
+    page = page.replace('"Heebo", Arial, sans-serif', '"Heebo", "Heebo Fallback", Arial, sans-serif').replace('--mono: "IBM Plex Mono", ui-monospace, monospace;', '--mono: var(--font);')
     assert "googleapis" not in page and "cdnjs" not in page
     title = re.search(r"<title>(.*?)</title>", page).group(1)
     page = page.replace(f"<title>{title}</title>", "", 1)
     # in the embed: a plain deep-green field instead of the space backdrop, and vertical swipes left to the page
     page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\n"
                         ".globe-cta { margin-inline-start: 12px; padding: 8px 16px; border-radius: 999px; background: #7FC49B; color: #0E4239; font-weight: 700; text-decoration: none; white-space: nowrap; }\n"
-                        ".compact .globe-cta { display: none; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
+                        ".compact .globe-cta { display: none; }\n.ill-chip { margin-inline-start: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); color: #fff; font-size: .75rem; white-space: nowrap; }\n.compact .ill-chip { display: none; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
     head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
             f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')

@@ -578,7 +578,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .tagline { margin: 0; margin-inline-start: 2px; padding-inline-start: 14px; border-inline-start: 1px solid var(--line); font-size: .875rem; line-height: 1.3; color: var(--canopy); font-weight: 500; white-space: nowrap; }
 .tagline-m { display: none; }
 .nav a { white-space: nowrap; }
-@media (min-width: 1181px) and (max-width: 1499px) {  /* laptops: the slogan gets its own line under the bar, so the menu keeps its room */
+@media (min-width: 1181px) {  /* wide screens: the slogan gets its own line under the bar, so the menu, the number and the button keep their room */
   .tagline { display: none; }
   .tagline-m { display: block; margin: -10px 0 0; padding: 0 0 10px; width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); font-size: .875rem; line-height: 1.3; color: var(--canopy); font-weight: 500; }
 }
@@ -1062,7 +1062,11 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .hero-os h1 { position: relative; }
 .hero-os h1::before { content: ""; position: absolute; inset: -25% -12%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(8, 30, 26, .58), rgba(8, 30, 26, .34) 55%, rgba(8, 30, 26, 0)); }
 .hero-os h1 .h1-a { font-weight: 300; }
-@media (max-width: 720px) { .hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .42) 30%, rgba(8, 30, 26, .6) 55%, rgba(8, 30, 26, .94) 100%) !important; } }
+@media (max-width: 720px), (max-width: 1024px) and (orientation: portrait) {
+  .hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .55) 30%, rgba(8, 30, 26, .7) 55%, rgba(8, 30, 26, .94) 100%) !important; }
+  .hero-os .hero-sub { color: var(--white); }
+  .hero-os .lead { font-weight: 400; }
+}
 @media (max-width: 420px) { .hero-os .actions { grid-template-columns: 1fr; } }
 
 /* D02: small phones keep the logo: the menu button shows only its icon (its name stays in aria-label) */
@@ -1089,7 +1093,8 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .head-tel { display: none; align-items: center; gap: 6px; padding: 10px 4px; color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
 .head-tel:hover { color: var(--canopy); }
 body.top-dark .site-head:not(.solid) .head-tel { color: var(--white); }
-@media (min-width: 1366px) { .head-tel { display: inline-flex; } }  /* measured: below 1366 the header has no room for it */
+@media (min-width: 1400px) { .head-tel { display: inline-flex; } }  /* measured: below 1400 the header has no room for it */
+.head-tel svg { flex: none; }
 
 /* D11: the hidden phone bar is out of reach for the keyboard too; on phones, focus is never hidden under it */
 .mbar:not(.on) { visibility: hidden; transition: transform .28s cubic-bezier(.2, .7, .2, 1), visibility 0s .28s; }
@@ -1098,7 +1103,7 @@ body.top-dark .site-head:not(.solid) .head-tel { color: var(--white); }
 
 /* D07, D14: inner page heads: shorter, darker under the title, white breadcrumbs, no slow zoom on archive photos */
 .page-head.has-img { min-height: min(62svh, 560px); }
-.page-head.has-img::after { background: linear-gradient(180deg, rgba(8, 30, 26, .6) 0%, rgba(8, 30, 26, .45) 35%, rgba(8, 30, 26, .72) 65%, rgba(8, 30, 26, .94) 100%); }
+.page-head.has-img::after { background: linear-gradient(180deg, rgba(8, 30, 26, .68) 0%, rgba(8, 30, 26, .6) 35%, rgba(8, 30, 26, .74) 65%, rgba(8, 30, 26, .94) 100%); }
 .page-head .crumbs, .page-head .crumbs a { color: var(--white); text-shadow: 0 1px 8px rgba(4, 24, 20, .6); }
 .page-head .crumbs li + li::before { color: rgba(255, 255, 255, .8); }
 .page-head .ph-media img { animation: none !important; }
@@ -1215,3 +1220,39 @@ ul.bars { container-type: inline-size; }  /* ul: the menu icon is also called .b
   .bars li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
   .bars .bar { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* ---------- growth audit, round 3 (30 Oct 2026): from the independent design check ---------- */
+/* V6: a consent error goes under its box, not into a third column */
+.check { flex-wrap: wrap; }
+.check > .err { flex: 0 0 100%; margin: 4px 0 0; padding-inline-start: 34px; }
+/* V8: on phones each 3D chapter card carries the "Illustration" label, since the cards pass over the corner badge */
+.k-ill { display: none; }
+@media (max-width: 760px) { .k-ill { display: inline; } }
+/* V9: the globe's still is an illustration too */
+.globe-frame .ill-chip { position: absolute; inset-block-start: 14px; inset-inline-start: 14px; z-index: 2; padding: 3px 10px; border-radius: 999px; background: rgba(6, 26, 22, .72); color: var(--white); font-size: .8rem; }
+.globe-frame.on .ill-chip { display: none; }
+/* V12 */
+.globe-go { white-space: nowrap; }
+/* V10: the open menu dims the page behind it; its button matches the other pills */
+@media (max-width: 1180px) {
+  body.menu-open::after { content: ""; position: fixed; inset: 0; z-index: 45; background: rgba(8, 30, 26, .45); }
+  .site-head .nav a.nav-cta { font: 700 1rem/1.2 var(--font); max-width: 420px; }
+}
+/* V13: legal pages read from the same left edge as their title */
+.wrap.prose { max-width: calc(var(--max) + 2 * var(--gutter)); }
+.prose > * { max-width: 72ch; }
+/* V14: same-coloured sections don't stack their padding; a dark section and the dark closing band get a line between them */
+.section.white + .section.white { padding-top: 0; }
+.section.dark:not(.cta-band) + .cta-band { border-top: 1px solid rgba(127, 196, 155, .25); }
+/* the turnkey page head carries its two actions (light outline on the dark head) */
+.ph-actions { margin-top: 26px; }
+.page-head .btn-line { color: var(--white); }
+.page-head .btn-line:hover { background: rgba(255, 255, 255, .12); border-color: var(--white); color: var(--white); }
+/* V15: no last word alone on its line; long Hebrew titles fit small phones; the globe lead clears its heading */
+.statement-os .big, .owners .big-quote, .lead { text-wrap: pretty; }
+@media (max-width: 380px) { .page-head h1 { font-size: 2.1rem; } }
+#map-h + .lead { margin-top: 16px; }
+/* V16: the Hebrew block first on a missing /he/ address */
+.nf-he.first { margin: 0 0 28px; padding: 0 0 24px; border-top: 0; border-bottom: 1px solid var(--line); }
+/* one corner radius for containers; pills stay round */
+.form, .choice, .sheet, .sim-card { border-radius: var(--radius); }

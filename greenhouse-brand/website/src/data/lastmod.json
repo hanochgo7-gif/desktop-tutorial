@@ -1,7 +1,7 @@
 {
  "en/about": {
-  "date": "2026-10-29",
-  "hash": "5ff34ba38cec7d37"
+  "date": "2026-10-30",
+  "hash": "d804fd4c67561eb5"
  },
  "en/accessibility": {
   "date": "2026-10-29",
@@ -16,12 +16,12 @@
   "hash": "4617d4d21672170a"
  },
  "en/how-we-build": {
-  "date": "2026-10-29",
-  "hash": "1fe5e0784e18da78"
+  "date": "2026-10-30",
+  "hash": "f58839f7a7c13efb"
  },
  "en/index": {
   "date": "2026-10-30",
-  "hash": "f589e6e19b7ef482"
+  "hash": "5d3a68941b3d267c"
  },
  "en/net-houses": {
   "date": "2026-10-30",
@@ -40,16 +40,16 @@
   "hash": "ec6e028000a46401"
  },
  "en/projects": {
-  "date": "2026-10-29",
-  "hash": "98cd9c61b8875e73"
+  "date": "2026-10-30",
+  "hash": "88d50963a9544c17"
  },
  "en/turnkey-farms": {
-  "date": "2026-10-29",
-  "hash": "af949deac7db9611"
+  "date": "2026-10-30",
+  "hash": "ab4a4078ffd0e3ec"
  },
  "he/about": {
-  "date": "2026-10-29",
-  "hash": "959f89f8cc5fcfa5"
+  "date": "2026-10-30",
+  "hash": "b6ae54de1f6e2b1d"
  },
  "he/accessibility": {
   "date": "2026-10-29",
@@ -64,12 +64,12 @@
   "hash": "73d2d782905072e0"
  },
  "he/how-we-build": {
-  "date": "2026-10-29",
-  "hash": "ab3ac65215d9ed2f"
+  "date": "2026-10-30",
+  "hash": "56549062b036b720"
  },
  "he/index": {
   "date": "2026-10-30",
-  "hash": "9e4054f99b35a803"
+  "hash": "f9c821452cd930a8"
  },
  "he/net-houses": {
   "date": "2026-10-30",
@@ -88,11 +88,11 @@
   "hash": "62fc45d2b1512a05"
  },
  "he/projects": {
-  "date": "2026-10-29",
-  "hash": "6b6898609e2ca597"
+  "date": "2026-10-30",
+  "hash": "606749394c1fe515"
  },
  "he/turnkey-farms": {
-  "date": "2026-10-29",
-  "hash": "da456f31522485c7"
+  "date": "2026-10-30",
+  "hash": "99f5f2eaf7e09192"
  }
 }

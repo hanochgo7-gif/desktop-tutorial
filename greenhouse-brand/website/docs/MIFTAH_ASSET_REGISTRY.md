@@ -310,3 +310,10 @@ All of these were checked visually: steel is drawn silver/galvanized, and there 
 - **Labels:** every A-asset and I1–I3 carries a visible corner tag "Illustration" (EN) / "הדמיה" (HE), and also says so in the alt text. Real photos may carry "Real project photo" / "צילום אמיתי".
 - **Repetition rule:** the DJI_0024 net house appears at most in D1 (homepage), D7 (one page), D8 (another page) and I2 (Projects). Never two of these on the same page.
 - **Logo:** only B1–B3. On dark sections use B2 (white plate). Never recolour.
+
+## Change, 30 October 2026 (growth audit, round 3)
+An independent design check looked at the two archive photos at full size:
+- **P1 / `p-site`** shows a large rust-coloured round steel reservoir at the right. The client's rule allows only galvanized steel in images. The site now uses a 4:3 crop that ends left of the reservoir (`src/tools/images.py`: crop 0–73.75% of the width, from 20.35% of the height).
+- **P2 / `p-marking`**: the left-most local worker may be under 18, and the client's rule excludes children. The site now uses a 4:3 crop without the two left-hand workers (from 33.75% of the width). The date-stamp patch near the bottom right is still visible at full size.
+
+The masters in `media-src/` and `images/process/` are unchanged. To be confirmed with Yiftach: the workers' ages, the reservoir's material, and consent for identifiable faces (§11).
