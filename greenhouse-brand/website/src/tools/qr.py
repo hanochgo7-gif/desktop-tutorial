@@ -7,7 +7,9 @@ from reportlab.graphics.shapes import Drawing
 from reportlab.lib import colors
 
 W = Path(__file__).resolve().parents[2]
-w = qr.QrCodeWidget("https://www.miftah.co.il/")
+# the address the site really answers on today: DOMAIN in build.py (re-run this after the www.miftah.co.il move)
+DOMAIN = re.search(r'^DOMAIN = "([^"]+)"', (W / "src/build.py").read_text(), re.M).group(1)
+w = qr.QrCodeWidget(DOMAIN + "/")
 w.barFillColor = colors.HexColor("#0E4239"); w.barStrokeColor = colors.HexColor("#0E4239")
 x0, y0, x1, y1 = w.getBounds()
 d = Drawing(120, 120, transform=[120 / (x1 - x0), 0, 0, 120 / (y1 - y0), 0, 0]); d.add(w)

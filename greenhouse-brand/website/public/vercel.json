@@ -124,6 +124,282 @@
    "permanent": true
   },
   {
+   "source": "/project/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%9C%D7%91%D7%A0%D7%A0%D7%95%D7%AA{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%A9%D7%9C-%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%91%D7%9E%D7%98%D7%A2%D7%99%D7%9D{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%a9%d7%9c-%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%A9%D7%9C-%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%91%D7%9E%D7%98%D7%A2%D7%99%D7%9D-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%a9%d7%9c-%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A1%D7%9B%D7%9B%D7%95%D7%AA-%D7%A6%D7%9C-%D7%9C%D7%94%D7%A2%D7%9E%D7%A1%D7%94{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a1%d7%9b%d7%9b%d7%95%d7%aa-%d7%a6%d7%9c-%d7%9c%d7%94%d7%a2%d7%9e%d7%a1%d7%94{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%9C%D7%99%D7%A8%D7%A7%D7%95%D7%AA{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%99%d7%a8%d7%a7%d7%95%d7%aa{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%9C%D7%99%D7%A8%D7%A7%D7%95%D7%AA-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%99%d7%a8%d7%a7%d7%95%d7%aa-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A7%D7%99%D7%A8%D7%95%D7%99-%D7%95%D7%94%D7%A6%D7%9C%D7%9C%D7%AA-%D7%9E%D7%AA%D7%97%D7%9E%D7%99%D7%9D-%D7%90%D7%96%D7%A8%D7%97%D7%99%D7%99%D7%9D{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a7%d7%99%d7%a8%d7%95%d7%99-%d7%95%d7%94%d7%a6%d7%9c%d7%9c%d7%aa-%d7%9e%d7%aa%d7%97%d7%9e%d7%99%d7%9d-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A7%D7%99%D7%A8%D7%95%D7%99-%D7%95%D7%94%D7%A6%D7%9C%D7%9C%D7%AA-%D7%9E%D7%AA%D7%97%D7%9E%D7%99%D7%9D-%D7%90%D7%96%D7%A8%D7%97%D7%99%D7%99%D7%9D-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a7%d7%99%d7%a8%d7%95%d7%99-%d7%95%d7%94%d7%a6%d7%9c%d7%9c%d7%aa-%d7%9e%d7%aa%d7%97%d7%9e%d7%99%d7%9d-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d-2{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%91%D7%A2%D7%95%D7%9C%D7%9D{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%a2%d7%95%d7%9c%d7%9d{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/bananas-plantations-shadings{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/loading-area-shadings{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/greenhouses{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/international-projects{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/civil-projects{/}?",
+   "has": [
+    {
+     "type": "query",
+     "key": "lang",
+     "value": "en"
+    }
+   ],
+   "destination": "/",
+   "permanent": true
+  },
+  {
    "source": "/(project|project-category)/:rest(.*)",
    "has": [
     {
@@ -136,7 +412,17 @@
    "permanent": true
   },
   {
+   "source": "/%D7%90%D7%95%D7%93%D7%95%D7%AA{/}?",
+   "destination": "/he/about.html",
+   "permanent": true
+  },
+  {
    "source": "/%d7%90%d7%95%d7%93%d7%95%d7%aa{/}?",
+   "destination": "/he/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/%D7%94%D7%A0%D7%94%D7%9C%D7%94{/}?",
    "destination": "/he/about.html",
    "permanent": true
   },
@@ -146,7 +432,17 @@
    "permanent": true
   },
   {
+   "source": "/%D7%94%D7%9E%D7%9C%D7%A6%D7%95%D7%AA{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
    "source": "/%d7%94%d7%9e%d7%9c%d7%a6%d7%95%d7%aa{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D{/}?",
    "destination": "/he/projects.html",
    "permanent": true
   },
@@ -161,7 +457,17 @@
    "permanent": true
   },
   {
+   "source": "/%D7%A4%D7%AA%D7%A8%D7%95%D7%A0%D7%95%D7%AA{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
    "source": "/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/%D7%A4%D7%AA%D7%A8%D7%95%D7%A0%D7%95%D7%AA-%D7%A7%D7%99%D7%A8%D7%95%D7%99-%D7%95%D7%94%D7%A6%D7%9C%D7%9C%D7%94-%D7%97%D7%A7%D7%9C%D7%90%D7%99%D7%99%D7%9D{/}?",
    "destination": "/he/net-houses.html",
    "permanent": true
   },
@@ -171,13 +477,28 @@
    "permanent": true
   },
   {
+   "source": "/%D7%99%D7%99%D7%A2%D7%95%D7%A5-%D7%AA%D7%9B%D7%A0%D7%95%D7%9F-%D7%A0%D7%99%D7%94%D7%95%D7%9C-%D7%95%D7%94%D7%93%D7%A8%D7%9B%D7%94{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
    "source": "/%d7%99%d7%99%d7%a2%d7%95%d7%a5-%d7%aa%d7%9b%d7%a0%d7%95%d7%9f-%d7%a0%d7%99%d7%94%d7%95%d7%9c-%d7%95%d7%94%d7%93%d7%a8%d7%9b%d7%94{/}?",
    "destination": "/he/net-houses.html",
    "permanent": true
   },
   {
+   "source": "/%D7%A4%D7%AA%D7%A8%D7%95%D7%A0%D7%95%D7%AA-%D7%A7%D7%99%D7%A8%D7%95%D7%99-%D7%95%D7%94%D7%A6%D7%9C%D7%9C%D7%94-%D7%90%D7%96%D7%A8%D7%97%D7%99%D7%99%D7%9D{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
    "source": "/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa-%d7%a7%d7%99%d7%a8%d7%95%d7%99-%d7%95%d7%94%d7%a6%d7%9c%d7%9c%d7%94-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d{/}?",
    "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/%D7%99%D7%A6%D7%99%D7%A8%D7%AA-%D7%A7%D7%A9%D7%A8{/}?",
+   "destination": "/he/contact.html",
    "permanent": true
   },
   {
@@ -196,28 +517,118 @@
    "permanent": true
   },
   {
-   "source": "/project/%d7%a1%d7%9b%d7%9b%d7%95%d7%aa-%d7%94%d7%a2%d7%9e%d7%a1%d7%94/:rest(.*)",
+   "source": "/project/%D7%A1%D7%9B%D7%9B%D7%95%D7%AA-%D7%94%D7%A2%D7%9E%D7%A1%D7%94{/}?",
    "destination": "/he/net-houses.html",
    "permanent": true
   },
   {
-   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa/:rest(.*)",
+   "source": "/project/%d7%a1%d7%9b%d7%9b%d7%95%d7%aa-%d7%94%d7%a2%d7%9e%d7%a1%d7%94{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%9C%D7%91%D7%A0%D7%A0%D7%95%D7%AA{/}?",
    "destination": "/he/banana-net-houses.html",
    "permanent": true
   },
   {
-   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d/:rest(.*)",
-   "destination": "/he/orchard-hail-nets.html",
-   "permanent": true
-  },
-  {
-   "source": "/project-category/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa/:rest(.*)",
+   "source": "/project/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa{/}?",
    "destination": "/he/banana-net-houses.html",
    "permanent": true
   },
   {
-   "source": "/project-category/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d/:rest(.*)",
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%91%D7%9E%D7%98%D7%A2%D7%99%D7%9D{/}?",
    "destination": "/he/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d{/}?",
+   "destination": "/he/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%91%D7%A2%D7%95%D7%9C%D7%9D{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%a2%d7%95%d7%9c%d7%9d{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%90%D7%96%D7%A8%D7%97%D7%99%D7%99%D7%9D{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/project/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/project/145{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%95%D7%97%D7%9E%D7%9E%D7%95%D7%AA{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%95%d7%97%d7%9e%d7%9e%d7%95%d7%aa{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%91%D7%AA%D7%99-%D7%A8%D7%A9%D7%AA-%D7%9C%D7%91%D7%A0%D7%A0%D7%95%D7%AA{/}?",
+   "destination": "/he/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%91%d7%aa%d7%99-%d7%a8%d7%a9%d7%aa-%d7%9c%d7%91%d7%a0%d7%a0%d7%95%d7%aa{/}?",
+   "destination": "/he/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%A1%D7%9B%D7%9B%D7%95%D7%AA-%D7%94%D7%A2%D7%9E%D7%A1%D7%94{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%a1%d7%9b%d7%9b%d7%95%d7%aa-%d7%94%d7%a2%d7%9e%d7%a1%d7%94{/}?",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%90%D7%96%D7%A8%D7%97%D7%99%D7%99%D7%9D{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%90%d7%96%d7%a8%d7%97%d7%99%d7%99%d7%9d{/}?",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%91%D7%9E%D7%98%D7%A2%D7%99%D7%9D{/}?",
+   "destination": "/he/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%9e%d7%98%d7%a2%d7%99%d7%9d{/}?",
+   "destination": "/he/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%D7%A4%D7%A8%D7%95%D7%99%D7%99%D7%A7%D7%98%D7%99%D7%9D-%D7%91%D7%A2%D7%95%D7%9C%D7%9D{/}?",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/project-category/%d7%a4%d7%a8%d7%95%d7%99%d7%99%d7%a7%d7%98%d7%99%d7%9d-%d7%91%d7%a2%d7%95%d7%9c%d7%9d{/}?",
+   "destination": "/he/projects.html",
    "permanent": true
   },
   {
@@ -236,6 +647,11 @@
    "permanent": true
   },
   {
+   "source": "/%D7%9C%D7%9C%D7%90-%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94/:rest(.*)",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
    "source": "/%d7%9c%d7%9c%d7%90-%d7%a7%d7%98%d7%92%d7%95%d7%a8%d7%99%d7%94/:rest(.*)",
    "destination": "/he/",
    "permanent": true
@@ -243,6 +659,126 @@
   {
    "source": "/category/:rest(.*)",
    "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/index.html",
+   "destination": "/",
+   "permanent": true
+  },
+  {
+   "source": "/he/index.html",
+   "destination": "/he/",
+   "permanent": true
+  },
+  {
+   "source": "/net-houses",
+   "destination": "/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/net-houses",
+   "destination": "/he/net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/banana-net-houses",
+   "destination": "/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/banana-net-houses",
+   "destination": "/he/banana-net-houses.html",
+   "permanent": true
+  },
+  {
+   "source": "/orchard-hail-nets",
+   "destination": "/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/orchard-hail-nets",
+   "destination": "/he/orchard-hail-nets.html",
+   "permanent": true
+  },
+  {
+   "source": "/how-we-build",
+   "destination": "/how-we-build.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/how-we-build",
+   "destination": "/he/how-we-build.html",
+   "permanent": true
+  },
+  {
+   "source": "/turnkey-farms",
+   "destination": "/turnkey-farms.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/turnkey-farms",
+   "destination": "/he/turnkey-farms.html",
+   "permanent": true
+  },
+  {
+   "source": "/projects",
+   "destination": "/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/projects",
+   "destination": "/he/projects.html",
+   "permanent": true
+  },
+  {
+   "source": "/about",
+   "destination": "/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/about",
+   "destination": "/he/about.html",
+   "permanent": true
+  },
+  {
+   "source": "/contact",
+   "destination": "/contact.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/contact",
+   "destination": "/he/contact.html",
+   "permanent": true
+  },
+  {
+   "source": "/profile",
+   "destination": "/profile.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/profile",
+   "destination": "/he/profile.html",
+   "permanent": true
+  },
+  {
+   "source": "/privacy",
+   "destination": "/privacy.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/privacy",
+   "destination": "/he/privacy.html",
+   "permanent": true
+  },
+  {
+   "source": "/accessibility",
+   "destination": "/accessibility.html",
+   "permanent": true
+  },
+  {
+   "source": "/he/accessibility",
+   "destination": "/he/accessibility.html",
    "permanent": true
   }
  ],
@@ -261,6 +797,14 @@
     {
      "key": "Content-Security-Policy",
      "value": "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'self'"
+    },
+    {
+     "key": "Permissions-Policy",
+     "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    },
+    {
+     "key": "Cross-Origin-Opener-Policy",
+     "value": "same-origin"
     }
    ]
   },

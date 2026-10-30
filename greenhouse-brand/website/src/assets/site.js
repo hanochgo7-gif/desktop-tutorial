@@ -25,7 +25,7 @@
       try { ref = document.referrer ? new URL(document.referrer).hostname : ""; } catch (x) {}
       if (ref === location.hostname) ref = "";
       SRC = { landing: location.pathname, referrer: ref };
-      ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid"].forEach(function (k) { if (q.get(k)) SRC[k] = q.get(k).slice(0, 100); });
+      ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "msclkid", "li_fat_id"].forEach(function (k) { if (q.get(k)) SRC[k] = q.get(k).slice(0, 100); });
       sessionStorage.setItem("miftah-src", JSON.stringify(SRC));
     }
   } catch (x) { SRC = SRC || {}; }
@@ -37,13 +37,23 @@
     else if (href.indexOf("mailto:") === 0) track("email_click", {});
   });
 
+  // ---- the language link keeps the query (?crop=…&need=…) and the #section ----
+  Array.prototype.forEach.call(document.querySelectorAll("a.lang"), function (a) {
+    if ((location.search || location.hash) && a.getAttribute("href").indexOf("?") < 0 && a.getAttribute("href").indexOf("#") < 0) a.setAttribute("href", a.getAttribute("href") + location.search + location.hash);
+  });
+
   // ---- mobile menu ----
   var mb = document.getElementById("menu-btn"), nav = document.getElementById("nav");
   if (mb && nav) {
+    var mbt = mb.querySelector(".mb-t");
     function setMenu(open) {
       nav.classList.toggle("open", open); mb.setAttribute("aria-expanded", open ? "true" : "false");
+      var lbl = open ? mb.dataset.close : mb.dataset.open;
+      if (lbl) { mb.setAttribute("aria-label", lbl); if (mbt) mbt.textContent = lbl; }
+      document.body.classList.toggle("menu-open", open);
       if (window.miftahHead) window.miftahHead();
     }
+    document.addEventListener("click", function (e) { if (mb.getAttribute("aria-expanded") === "true" && !nav.contains(e.target) && !mb.contains(e.target)) setMenu(false); });
     mb.addEventListener("click", function () { setMenu(mb.getAttribute("aria-expanded") !== "true"); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && mb.getAttribute("aria-expanded") === "true") { setMenu(false); mb.focus(); } });
     nav.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
@@ -66,7 +76,7 @@
       ticking = false;
       var y = window.scrollY, down = y > lastY + 4, up = y < lastY - 4, menuOpen = mb && mb.getAttribute("aria-expanded") === "true";
       if (head && !menuOpen && !head.contains(document.activeElement)) { if (down && y > 160) head.classList.add("away"); else if (up || y < 160) head.classList.remove("away"); }
-      if (bar) bar.classList.toggle("on", y > window.innerHeight * .6 && !endVisible);
+      if (bar) { var on = y > window.innerHeight * .6 && !endVisible; bar.classList.toggle("on", on); bar.inert = !on; if (!on) bar.setAttribute("aria-hidden", "true"); else bar.removeAttribute("aria-hidden"); }
       // see-through over the opening photo; white once the page moves, or while the menu is open
       if (head) head.classList.toggle("solid", !document.body.classList.contains("top-dark") || y > 40 || !!menuOpen);
       if (down || up) lastY = y;
@@ -74,7 +84,8 @@
     window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     document.addEventListener("focusin", function (e) { if (head && head.contains(e.target)) head.classList.remove("away"); });
     window.miftahHead = update;
-    update();
+    if (bar) { bar.inert = true; bar.setAttribute("aria-hidden", "true"); }
+    requestAnimationFrame(update);  // after the first paint, so reading scrollY doesn't force a layout during load (Team G 8)
   })();
 
   // ---- the moving line of what we build: a pause button (WCAG 2.2.2) ----
@@ -83,7 +94,6 @@
     b.addEventListener("click", function () {
       var paused = tk.classList.toggle("paused");
       b.setAttribute("aria-pressed", paused ? "true" : "false");
-      b.setAttribute("aria-label", paused ? b.dataset.play : b.dataset.pause);
     });
   });
 
@@ -104,10 +114,12 @@
     }
     // load after the page has loaded, so the poster (LCP) and text come first; never with reduced motion
     var cn = navigator.connection, slow = cn && (cn.saveData || /(^|-)(2g|3g)$/.test(cn.effectiveType || ""));
-    function go() { if (reduce || slow) { label(false); return; } start(); }
+    var phone = window.matchMedia("(max-width: 720px)").matches, touched = false;
+    function go() { if (touched) return; if (reduce || slow || phone) { label(false); return; } start(); }
     if (document.readyState === "complete") setTimeout(go, 300);
     else window.addEventListener("load", function () { setTimeout(go, 300); });
     if (btn) btn.addEventListener("click", function () {
+      touched = true;
       if (v.paused || !v.getAttribute("src")) { start(); track("video_play", { id: v.id }); }
       else { v.pause(); label(false); track("video_pause", { id: v.id }); }
     });
@@ -137,24 +149,35 @@
   // ---- the projects globe loads on request (or once the visitor scrolls near it), so the page itself stays light ----
   var gf = document.getElementById("globe-frame");
   if (gf) {
-    var gi = gf.querySelector("iframe"), go = function () { if (gf.classList.contains("on")) return; gi.src = gi.dataset.src; gi.hidden = false; gf.classList.add("on"); track("globe_load", {}); };
-    gf.querySelector(".globe-go").addEventListener("click", function () { go(); gi.focus(); });
-    var near = function () { var r = gf.getBoundingClientRect(); if (r.top < innerHeight * 1.2 && r.bottom > 0) { go(); window.removeEventListener("scroll", near); } };
-    window.addEventListener("scroll", near, { passive: true });
+    var gi = gf.querySelector("iframe"), gb = gf.querySelector(".globe-go"), go = function (trigger) {
+      if (gi.getAttribute("src")) return;
+      gf.setAttribute("aria-busy", "true"); gf.classList.add("loading"); gi.hidden = false; if (gb.dataset.loading) gb.textContent = gb.dataset.loading;
+      gi.addEventListener("load", function () { gf.classList.remove("loading"); gf.classList.add("on"); gf.removeAttribute("aria-busy"); if (trigger === "click") gi.focus(); }, { once: true });
+      gi.src = gi.dataset.src; track("globe_load", { trigger: trigger });
+    };
+    gb.addEventListener("click", function () { go("click"); });
+    if (!window.matchMedia("(max-width: 760px)").matches) {  // on a phone the globe costs ~450 KB: only on a tap
+      var near = function () { var r = gf.getBoundingClientRect(); if (r.top < innerHeight * 1.2 && r.bottom > 0) { go("scroll"); window.removeEventListener("scroll", near); } };
+      window.addEventListener("scroll", near, { passive: true });
+    }
   }
 
   // ---- crop selector: tabs switch the specs, the project and the drawing (arrow keys move between tabs) ----
   document.querySelectorAll(".crop").forEach(function (sec) {
-    var tabs = Array.prototype.slice.call(sec.querySelectorAll('[role="tab"]')), fig = sec.querySelector(".crop-dw");
-    function pick(tab, focus) {
+    var tabs = Array.prototype.slice.call(sec.querySelectorAll('[role="tab"]')), fig = sec.querySelector(".crop-dw"), last = "", tmr = 0;
+    function pick(tab, focus, quiet) {
       tabs.forEach(function (t) {
         var on = t === tab, panel = document.getElementById(t.getAttribute("aria-controls"));
         t.setAttribute("aria-selected", on ? "true" : "false"); t.tabIndex = on ? 0 : -1; if (panel) panel.hidden = !on;
       });
       if (fig) fig.setAttribute("data-crop", tab.dataset.crop);
       if (focus) tab.focus();
-      track("crop_select", { crop: tab.dataset.crop });
+      var c = tab.dataset.crop;
+      if (!quiet && c !== last) { clearTimeout(tmr); tmr = setTimeout(function () { if (c !== last) { last = c; track("crop_select", { crop: c }); } }, 800); }
     }
+    var want = ""; try { want = new URLSearchParams(location.search).get("crop") || ""; } catch (x) {}
+    var hm = /^#crop-([a-z]+)$/.exec(location.hash || ""); if (hm) want = hm[1];
+    tabs.forEach(function (t) { if (want && t.dataset.crop === want) { pick(t, false, true); last = want; } });
     tabs.forEach(function (t, i) {
       t.addEventListener("click", function () { pick(t, false); });
       t.addEventListener("keydown", function (e) {
@@ -188,23 +211,37 @@
   var started = false, t0 = Date.now(), busy = false;
   form.addEventListener("input", function () { if (!started) { started = true; track("form_start", {}); } }, { once: false });
   // keep what was typed if the visitor leaves and comes back in this tab (this browser only; cleared after sending)
-  var DK = "miftah-form-" + LANG;
+  var DK = "miftah-form";  // one draft for both languages: values are codes, so a switch keeps them
   function saveDraft() { try { var d = {}; Array.prototype.forEach.call(form.elements, function (el) { if (!el.name || el.name === "mt_hp" || el.type === "submit") return; if (el.type === "radio" || el.type === "checkbox") { if (el.checked) d[el.name] = el.value; } else if (el.value) d[el.name] = el.value; }); sessionStorage.setItem(DK, JSON.stringify(d)); } catch (x) {} }
-  // arriving from the crop selector: fill in the crop
-  try { var qc = new URLSearchParams(location.search).get("crop"), cm = JSON.parse(form.dataset.crops || "{}"); if (qc && cm[qc] && form.crop && !form.crop.value) form.crop.value = cm[qc]; } catch (x) {}
   try { var dr = JSON.parse(sessionStorage.getItem(DK) || "null"); if (dr) Array.prototype.forEach.call(form.elements, function (el) { if (!(el.name in dr)) return; if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === dr[el.name]; else el.value = dr[el.name]; }); } catch (x) {}
+  // arriving from a crop or a page: the link says what the visitor came for, and that wins over an older draft
+  try {
+    var qp = new URLSearchParams(location.search), qc = qp.get("crop"), qn = qp.get("need"), cm = JSON.parse(form.dataset.crops || "{}");
+    if (qc && cm[qc] && form.crop) form.crop.value = cm[qc];
+    if (qn) { var nr = form.querySelector('[name="need"][value="' + qn.replace(/[^a-z]/g, "") + '"]'); if (nr) nr.checked = true; }
+  } catch (x) {}
   form.addEventListener("input", saveDraft); form.addEventListener("change", saveDraft);
 
   ["email", "phone"].forEach(function (n) { var el = form.elements[n]; if (el) el.setAttribute("aria-describedby", ("f-reach " + (el.getAttribute("aria-describedby") || "")).trim()); });
   var sizeNote = document.getElementById("size-note");
   function sizeCheck() {
     if (!sizeNote) return;
-    var c = form.country.value, s = form.size.value, msg = "";
-    if (s === "lt5" && c === "IL") msg = M.small_il;
+    var c = form.country.value, s = form.size.value, n = (form.querySelector('[name="need"]:checked') || {}).value, msg = "";
+    if (n === "turnkey" && c === "IL") msg = M.tk_il;
+    else if (s === "lt5" && c === "IL") msg = M.small_il;
     else if ((s === "lt5" || s === "5-30") && c && c !== "IL" && c !== "SEARCH") msg = M.small_ab;
     sizeNote.textContent = msg; sizeNote.hidden = !msg;
   }
   form.country.addEventListener("change", sizeCheck); form.size.addEventListener("change", sizeCheck);
+  var LAND = ["need", "country", "region", "size", "status", "crop", "timeline"];
+  function isPartner() { var r = form.querySelector('[name="role"]:checked'); return !!r && r.value === "partner"; }
+  function one(el) { return el && !el.tagName && el[0] ? el[0] : el; }  // a radio group stands for its first radio
+  function partnerMode() {
+    var on = isPartner();
+    LAND.forEach(function (n) { var el = one(form.elements[n]); if (!el) return; var box = el.closest(".field, fieldset"); if (box) box.hidden = on; if (on) setErr(el, ""); });
+  }
+  form.addEventListener("change", function (e) { if (e.target.name === "role") partnerMode(); if (e.target.name === "need" || e.target.name === "country") sizeCheck(); });
+  partnerMode(); sizeCheck();
 
   function fieldOf(el) { return el.closest(".field, fieldset, .check"); }
   // focus the first problem and bring its question (with its message) into view
@@ -224,7 +261,8 @@
   }
   function validate() {
     var bad = [];
-    [["name", "req"], ["country", "choose"], ["size", "choose"]].forEach(function (r) {
+    var partner = isPartner();
+    (partner ? [["name", "req"]] : [["name", "req"], ["country", "choose"], ["size", "choose"]]).forEach(function (r) {
       var el = form.elements[r[0]], ok = !!(el.value || "").trim();
       setErr(el, ok ? "" : M[r[1]]);
       if (!ok) bad.push(el);
@@ -235,7 +273,7 @@
     setErr(em, !ev && !pv ? M.reach : emOk ? "" : M.email); if ((!ev && !pv) || !emOk) bad.push(em);
     setErr(ph, phOk ? "" : M.phone); if (!phOk) bad.push(ph);
     var need = form.querySelector('[name="need"]:checked'), first = form.querySelector('[name="need"]');
-    setErr(first, need ? "" : M.choose); if (!need) bad.push(first);
+    setErr(first, need || partner ? "" : M.choose); if (!need && !partner) bad.push(first);
     var role = form.querySelector('[name="role"]:checked'), r1 = form.querySelector('[name="role"]');
     setErr(r1, role ? "" : M.choose); if (!role) bad.push(r1);
     setErr(form.consent, form.consent.checked ? "" : M.consent); if (!form.consent.checked) bad.push(form.consent);
@@ -261,8 +299,10 @@
       mine.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
       if (mine.length) { showBad(mine[0]); track("form_invalid", { fields: mine.length, step: 1 }); return; }
       goStep(2, true); track("form_step", { step: 2 });
+      try { history.pushState({ miftahStep: 2 }, ""); } catch (x) {}
     });
-    form.querySelector("[data-back]").addEventListener("click", function () { goStep(1, true); });
+    form.querySelector("[data-back]").addEventListener("click", function () { if (history.state && history.state.miftahStep === 2) history.back(); else goStep(1, true); });
+    window.addEventListener("popstate", function () { if (!st2.hidden) goStep(1, true); });
   }
 
   function label(name) {
@@ -285,8 +325,8 @@
       name: label("name"), company: label("company"), email: label("email"), phone: label("phone"),
       role: label("role"), role_code: val("role"), need: label("need"), need_code: val("need"), country: label("country"), country_code: form.country.value, region: label("region"),
       size: label("size"), size_code: form.size.value, status: label("status"), crop: label("crop"), timeline: label("timeline"),
-      message: label("message"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString(),
-      fit: fit(), source: SRC
+      message: label("message"), heard: label("heard"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString(),
+      fit: fit(), source: SRC, lead_id: leadId
     };
   }
   function brief(p) {
@@ -295,7 +335,24 @@
     if (p.meet_berlin) lines.push(M.berlin);
     return lines.join("\n");
   }
+  var leadId = (Date.now().toString(36) + Math.random().toString(36).slice(2, 8)).toUpperCase();
   var status = document.getElementById("form-status");
+  // a phone button and the copyable summary, on every result (success, error, not connected) (Teams B+C 11, D 26)
+  function resultBox(p, where) {
+    var box = document.createElement("div"), pre = document.createElement("pre"), cb = document.createElement("button");
+    pre.className = "brief"; pre.textContent = brief(p);
+    cb.type = "button"; cb.className = "btn btn-line"; cb.textContent = M.copy;
+    cb.addEventListener("click", function () {
+      var done = function () { cb.textContent = M.copied; };
+      try { navigator.clipboard.writeText(pre.textContent).then(done, function () { selectPre(); }); } catch (x) { selectPre(); }
+      function selectPre() { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    });
+    var tel = document.createElement("a"); tel.className = "btn btn-primary"; tel.href = "tel:" + form.dataset.tel; tel.textContent = M.call; tel.setAttribute("data-where", where);
+    var row = document.createElement("div"); row.className = "actions"; row.style.marginTop = "12px"; row.appendChild(tel); row.appendChild(cb);
+    box.appendChild(row); box.appendChild(pre);
+    return box;
+  }
+  var unconnectedSent = false;
   function show(kind, h, p, extra) {
     status.hidden = false; status.className = "form-status" + (kind === "bad" ? " bad" : kind === "info" ? " info" : "");
     status.innerHTML = "<h3></h3><p></p>"; status.querySelector("h3").textContent = h; status.querySelector("p").textContent = p;
@@ -305,6 +362,7 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (busy) return;
+    if (st1 && st2 && !st1.hidden) { form.querySelector("[data-next]").click(); return; }  // Enter in step 1 means "next" (Team G 5)
     if (form.elements.mt_hp && form.elements.mt_hp.value) { show("bad", M.badH, M.trapP); track("form_honeypot", {}); return; } // hidden trap field: nothing is sent; a real person still gets the phone
     var bad = validate();
     bad.sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
@@ -315,19 +373,8 @@
     var p = payload(), btn = form.querySelector("[type=submit]");
     var endpoint = form.dataset.endpoint;
     if (!endpoint) {
-      var box = document.createElement("div"), pre = document.createElement("pre"), cb = document.createElement("button");
-      pre.className = "brief"; pre.textContent = brief(p);
-      cb.type = "button"; cb.className = "btn btn-line"; cb.textContent = M.copy; cb.style.marginTop = "10px";
-      cb.addEventListener("click", function () {
-        var done = function () { cb.textContent = M.copied; };
-        try { navigator.clipboard.writeText(pre.textContent).then(done, function () { selectPre(); }); } catch (x) { selectPre(); }
-        function selectPre() { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
-      });
-      var tel = document.createElement("a"); tel.className = "btn btn-primary"; tel.href = "tel:" + form.dataset.tel; tel.textContent = M.call; tel.setAttribute("data-where", "form-unconnected");
-      var row = document.createElement("div"); row.className = "actions"; row.style.marginTop = "12px"; row.appendChild(tel); row.appendChild(cb); cb.style.marginTop = "0";
-      box.appendChild(row); box.appendChild(pre);
-      show("info", M.offH, M.offP, box);
-      track("form_submit_unconnected", { need: p.need_code });
+      show("info", M.offH, M.offP, resultBox(p, "form-unconnected"));
+      if (!unconnectedSent) { unconnectedSent = true; track("form_submit_unconnected", { need: p.need_code }); }  // once per visit, not per tap
       return;
     }
     busy = true; btn.disabled = true; btn.textContent = M.sending;
@@ -336,12 +383,12 @@
       .then(function (r) {
         if (!r.ok) throw new Error("HTTP " + r.status);
         form.reset(); form.hidden = true;
-        show("ok", M.okH, M.okP);
+        show("ok", M.okH, M.okP, resultBox(p, "form-success"));
         try { sessionStorage.removeItem(DK); } catch (x) {}
-        track("form_submit_success", { need: p.need_code, size: p.size_code, country: p.country_code });
+        track("form_submit_success", { need: p.need_code, size: p.size_code, country: p.country_code, fit: p.fit, lead_id: p.lead_id });
       })
       .catch(function () {
-        show("bad", M.badH, M.badP);
+        show("bad", M.badH, M.badP, resultBox(p, "form-error"));
         track("form_submit_error", {});
       })
       .then(function () { if (timer) clearTimeout(timer); busy = false; btn.disabled = false; btn.textContent = M.send; });

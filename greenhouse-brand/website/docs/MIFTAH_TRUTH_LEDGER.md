@@ -121,6 +121,13 @@ Other services:
 - The same drone net-house shot is not repeated.
 - The location of the DJI_0024 net house is **not confirmed**, so it is captioned without a place name.
 
+## 6b. External sources (facts about the market, not about MIFTAH)
+
+| # | Fact | Source | Used on the site | Confidence |
+|---|---|---|---|---|
+| E1 | The Investment Administration's development plan lists net houses for apples, lychee, figs and kiwi among supported items, and net houses for bananas "by key"; for bananas, "grants for irrigation and fertigation and for trellising are approved only if the planting is under an existing or new net house". Support for net houses per the recognized-cost table applies to specific procedures (new farmers, water agreements), so the site says "in certain tracks and on certain conditions" and sends readers to the current procedure. | Ministry of Agriculture, development plan 2023, https://www.gov.il/BlobFolder/reports/developmentplan2023/ar/development_2023.pdf (downloaded and read 29 Oct 2026) | Grant questions on Net houses, Banana and Orchard pages, always with "check the current procedure" | High for 2023; may change yearly |
+| E2 | Companies Registrar: "מיפתח הספל פרוייקטים בע״מ", company no. 514770015, incorporated 3 June 2012 (Yehiam, c/o Yiftach Hasfel) | Israeli Companies Registrar, looked up 29 Oct 2026 (audit Team A) | Not used. See D10. | High (registry) |
+
 ## 7. Contradictions and decision log
 
 | # | Conflict | Decision | Why |
@@ -133,6 +140,8 @@ Other services:
 | D6 | Testimonials existed on the OS, but the client asked for approval or new ones (m2, q15) | No quotes. The site offers "References from clients in Israel and Portugal on request". | References exist (q15). Wording is not approved. |
 | D7 | "Leading company in Israel" (OS) | Not used | No evidence |
 | D8 | Brand name spelling: "מיפתח פרויקטים" (CL) vs "מיפתח פרוייקטים" (OS) | "מיפתח פרויקטים" in Hebrew; "MIFTAH Projects" in English | CL is current. The legal English name is O7. |
+| D10 | Start year: the 2015 site says "two decades" (about 1995); the Registrar shows the current company incorporated in 2012 (E2); an agency brief (29 Oct 2026) says "since 2003", with no source | Keep "20+ years" (1.6) and never print a founding year until the owners confirm. Ask whether the experience predates the 2012 company (O11). | Avoids a claim that due diligence could contradict |
+| D11 | The same brief describes "management and operation of agricultural properties" for owners abroad, including property in Israel | Not stated anywhere. Farm operation exists only as turnkey stages 8–11 abroad, with partners (§2). Ask the owners (O12). | No source; "don't put on the site things we don't do" (1.5) |
 | D9 | The design choice (4 examples) is pending with Merav; this brief asks for a full build now | Build on a scored direction (see MIFTAH_CREATIVE_DIRECTION.md). Tokens are kept swappable, and the four examples stay untouched. | The user explicitly requested the full build on 26 Oct 2026 |
 
 ## 8. Open questions (must be answered before go-live)
@@ -149,3 +158,7 @@ Other services:
 | O8 | Where is the DJI_0024 net house? Can it be named? | Captions |
 | O9 | A vector logo file from the designer | Final logo quality |
 | O10 | Company WhatsApp or business mobile for the site? | Second contact route |
+| O11 | Real start year and legal entity (E2); does the experience predate the 2012 company? Legal name and company number for the footer and privacy page | "20+ years", legal details |
+| O12 | Do you manage or operate farms or land in Israel for owners abroad, and do you want to offer that? | Any "management" service |
+| O13 | Office hours (Israel time) and languages you can answer in; reply time to an enquiry | Contact page, success message |
+| O14 | Do you maintain structures built by other suppliers? Warranty terms on structure and net? | "Already have net houses?" answer, switching growers |

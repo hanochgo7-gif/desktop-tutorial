@@ -1,3 +1,4 @@
+Options -Indexes
 RewriteEngine On
 # old site, English pages (?lang=en)
 RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
@@ -19,6 +20,34 @@ RewriteRule ^civil\-shading\-solutions/?$ /? [R=301,L,NC]
 RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
 RewriteRule ^contact/?$ /contact.html? [R=301,L,NC]
 RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/בתי\-רשת\-לבננות/?$ /banana-net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/פרוייקטים\-של\-בתי\-רשת\-במטעים/?$ /orchard-hail-nets.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/פרוייקטים\-של\-בתי\-רשת\-במטעים\-2/?$ /orchard-hail-nets.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/סככות\-צל\-להעמסה/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/בתי\-רשת\-לירקות/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/בתי\-רשת\-לירקות\-2/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/קירוי\-והצללת\-מתחמים\-אזרחיים/?$ /? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/קירוי\-והצללת\-מתחמים\-אזרחיים\-2/?$ /? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project/פרוייקטים\-בעולם/?$ /projects.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project\-category/bananas\-plantations\-shadings/?$ /banana-net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project\-category/loading\-area\-shadings/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project\-category/greenhouses/?$ /net-houses.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project\-category/international\-projects/?$ /projects.html? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
+RewriteRule ^project\-category/civil\-projects/?$ /? [R=301,L,NC]
+RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
 RewriteRule ^(project|project-category)/ /projects.html? [R=301,L,NC]
 RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)
 RewriteRule ^$ /? [R=301,L]
@@ -35,17 +64,28 @@ RewriteRule ^פתרונות\-קירוי\-והצללה\-אזרחיים/?$ /he/ [R
 RewriteRule ^יצירת\-קשר/?$ /he/contact.html [R=301,L,NC]
 RewriteRule ^sample\-page/?$ /he/ [R=301,L,NC]
 RewriteRule ^8/?$ /he/ [R=301,L,NC]
-RewriteRule ^project/סככות\-העמסה/ /he/net-houses.html [R=301,L,NC]
-RewriteRule ^project/בתי\-רשת\-לבננות/ /he/banana-net-houses.html [R=301,L,NC]
-RewriteRule ^project/פרוייקטים\-במטעים/ /he/orchard-hail-nets.html [R=301,L,NC]
-RewriteRule ^project\-category/בתי\-רשת\-לבננות/ /he/banana-net-houses.html [R=301,L,NC]
-RewriteRule ^project\-category/פרוייקטים\-במטעים/ /he/orchard-hail-nets.html [R=301,L,NC]
+RewriteRule ^project/סככות\-העמסה/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^project/בתי\-רשת\-לבננות/?$ /he/banana-net-houses.html [R=301,L,NC]
+RewriteRule ^project/פרוייקטים\-במטעים/?$ /he/orchard-hail-nets.html [R=301,L,NC]
+RewriteRule ^project/פרוייקטים\-בעולם/?$ /he/projects.html [R=301,L,NC]
+RewriteRule ^project/פרוייקטים\-אזרחיים/?$ /he/ [R=301,L,NC]
+RewriteRule ^project/145/?$ /he/projects.html [R=301,L,NC]
+RewriteRule ^project\-category/בתי\-רשת\-וחממות/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^project\-category/בתי\-רשת\-לבננות/?$ /he/banana-net-houses.html [R=301,L,NC]
+RewriteRule ^project\-category/סככות\-העמסה/?$ /he/net-houses.html [R=301,L,NC]
+RewriteRule ^project\-category/פרוייקטים\-אזרחיים/?$ /he/ [R=301,L,NC]
+RewriteRule ^project\-category/פרוייקטים\-במטעים/?$ /he/orchard-hail-nets.html [R=301,L,NC]
+RewriteRule ^project\-category/פרוייקטים\-בעולם/?$ /he/projects.html [R=301,L,NC]
 RewriteRule ^project/ /he/projects.html [R=301,L,NC]
 RewriteRule ^project\-category/ /he/projects.html [R=301,L,NC]
 RewriteRule ^dt_testimonials/ /he/projects.html [R=301,L,NC]
 RewriteRule ^ללא\-קטגוריה/ /he/ [R=301,L,NC]
 RewriteRule ^category/ /he/ [R=301,L,NC]
 RewriteRule ^(feed|comments/feed|xmlrpc\.php|wp-.*)(/.*)?$ - [G,L]
+# one URL per page: no index.html, and the .html ending is optional
+RewriteCond %{THE_REQUEST} \s/(he/)?index\.html[\s?]
+RewriteRule ^(he/)?index\.html$ /$1 [R=301,L]
+RewriteRule ^(he/)?(net-houses|banana-net-houses|orchard-hail-nets|how-we-build|turnkey-farms|projects|about|contact|profile|privacy|accessibility)/?$ /$1$2.html [R=301,L]
 ErrorDocument 404 /404.html
 <If "%{REQUEST_URI} =~ m#^/he/#">
   ErrorDocument 404 /he/404.html
@@ -68,7 +108,9 @@ ErrorDocument 404 /404.html
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'self'"
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'self'"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
 </IfModule>
 # Turn on once HTTPS works on www.miftah.co.il (release checklist). HSTS only after the redirect is confirmed.
 # RewriteEngine On

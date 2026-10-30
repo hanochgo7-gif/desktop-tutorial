@@ -104,6 +104,8 @@
   #flyx { all: unset; cursor: pointer; color: var(--ink); font-weight: 700; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; }
   @media (prefers-reduced-motion: reduce) { .tag { transition: none; } }
 .compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }
+.globe-cta { margin-inline-start: 12px; padding: 8px 16px; border-radius: 999px; background: #7FC49B; color: #0E4239; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.compact .globe-cta { display: none; }
 html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }
 .item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }
 </style>
@@ -116,8 +118,8 @@ html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #led
   </div>
 
   <aside class="panel" aria-labelledby="h1">
-    <div class="top"><a id="home-link" href="../index.html"><svg class="logo" class="logo logo--compact" viewBox="299 186 1314 378" role="img" aria-label="MIFTAH"><rect fill="#FFFFFF" x="299" y="186" width="1314" height="378" rx="34"/><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></a><button class="lang" id="lang" type="button" lang="en">English</button></div>
-    <span class="eyebrow" id="eb">מיפתח פרויקטים · חקלאות שיש לה בית</span>
+    <div class="top"><a id="home-link" href="../index.html"><svg class="logo" class="logo logo--compact" viewBox="299 186 1314 378" role="img" aria-label="MIFTAH"><rect fill="#FFFFFF" x="299" y="186" width="1314" height="378" rx="34"/><path fill="#0E4239" d="M355 348L387 360V508H355z"/><path fill="#1B6E62" d="M355 348L674 242V265L387 360z"/><path fill="#0E4239" d="M434 375L469 387V508H434z"/><path fill="#1B6E62" d="M434 375L674 298V322L469 387z"/><path fill="#0E4239" d="M513 401L545 413V508H513z"/><path fill="#1B6E62" d="M513 401L674 352V375L545 413z"/><path fill="#0E4239" d="M592 433L624 445V508H592z"/><path fill="#1B6E62" d="M592 433L674 407V429L624 445z"/><rect fill="#7FC49B" x="674" y="242" width="33" height="266"/><rect fill="#7FC49B" x="752" y="294" width="33" height="214"/><rect fill="#7FC49B" x="831" y="351" width="33" height="157"/><rect fill="#7FC49B" x="910" y="406" width="33" height="102"/><path fill="#1B6E62" fill-rule="evenodd" d="M1021 508V407h29l24.5 71 24.5-71h30v101h-22v-72l-25 72h-15l-24.5-71v71zM1153 407h22v101h-22zM1199 508V406h67v17h-45v24h40v19h-40v42zM1279 406h83v17h-31v85h-22v-85h-30zM1362 508l35.5-101h23l35.5 101h-21.7l-6.3-19h-38l-6.3 19zM1409 433l-13 38h26zM1472 407h22v40h39v-40h22v101h-22v-42h-39v42h-22z"/></svg></a><button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a></div>
+    <span class="eyebrow" id="eb">מיפתח פרויקטים - חקלאות שיש לה בית</span>
     <h1 id="h1">פרויקטים בשמונה מדינות.</h1>
     <p class="lede" id="lede">מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.</p>
     <div class="stats">
@@ -135,7 +137,7 @@ html:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #led
 
 <div id="flybox" hidden role="dialog" aria-modal="true" aria-label="From orbit to the net house"><div class="in"><div class="vw"><video id="flyv" src="fly.mp4" poster="fly.jpg" playsinline muted controls preload="none" data-real="4.8"></video><span id="flybadge"></span></div><div class="row"><span id="flycap"></span><button type="button" id="flyx">סגירה</button></div></div></div>
 <script src="../assets/vendor/three.min.js?v=eb854986"></script>
-<script src="globe.js?v=d7185c82"></script>
+<script src="globe.js?v=43fca8d1"></script>
 
 </body>
 </html>

@@ -261,9 +261,10 @@ def jsonld(slug, L, crumbs):
         graph.append({"@type": "CreativeWork", "name": tm(C.PAGES[slug]["h1"], L), "description": tm(C.PAGES[slug]["desc"], L), "creator": {"@id": f"{DOMAIN}/#org"},
                       "image": f"{DOMAIN}/assets/img/sim-poster.jpg", "inLanguage": L, "genre": "3D illustration"})
     if slug in ("contact", "net-houses") or slug in C.CROP_PAGES:
-        faq = C.FAQ if slug == "contact" else C.NET_FAQ if slug == "net-houses" else C.CROP_PAGES[slug]["faq"] + [C.NET_FAQ[3], C.NET_FAQ[4], C.FAQ[0]]
+        faq = C.FAQ if slug == "contact" else C.NET_FAQ if slug == "net-houses" else C.CROP_PAGES[slug]["faq"]
         graph.append({"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": tm(q, L), "acceptedAnswer": {"@type": "Answer", "text": tm(a, L)}} for q, a in faq]})
-    return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False) + "</script>"
+    data = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("<", "\\u003c")  # no "</script>" can close it early
+    return '<script type="application/ld+json">' + data + "</script>"
 
 
 def head(slug, L, crumbs=None, noindex=False, r=None):
@@ -308,8 +309,8 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
 <link rel="apple-touch-icon" href="{r}assets/favicon-180.png">
 <link rel="manifest" href="{r}site.webmanifest">
 {pre}
-<link rel="stylesheet" href="{r}assets/fonts/fonts.css?v={VER["fonts"]}">
 <link rel="stylesheet" href="{r}assets/site.css?v={VER["css"]}">
+<noscript><style>body.top-dark .site-head:not(.solid){{background:#fff}}body.top-dark .site-head:not(.solid) :is(.nav a,.lang,.menu-btn,.tagline,.tagline-m){{color:#0D1F1B}}.crop-panel[hidden]{{display:block!important}}.form [type=submit],.form [data-next]{{display:none}}</style></noscript>
 {jsonld(slug, L, crumbs) if slug != "404" else ""}
 {ANALYTICS}
 </head>"""
@@ -317,8 +318,11 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
 
 def header(slug, L):
     alt = "he" if L == "en" else "en"
-    other = ("he/" if L == "en" else "../") + ("index.html" if slug in ("index", "404") else f"{slug}.html")
+    other = ("he/" if L == "en" else "../") + ("" if slug in ("index", "404") else f"{slug}.html")  # home is "/" and "/he/", never index.html (one URL per page)
     items = "".join(f'<li><a href="{s}.html"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
+    # on Contact the header button would link to the page itself: it calls the office instead
+    cta = (f'<a class="btn btn-primary head-cta" href="tel:{C.SITE["phone_tel"]}" data-where="header-contact">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>' if slug == "contact" else
+           f'<a class="btn btn-primary head-cta" href="contact.html" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>')
     mbar = "" if slug in ("contact", "how-we-build", "profile", "404") else (
         f'<nav class="mbar" id="mbar" aria-label="{"Quick contact" if L == "en" else "יצירת קשר מהירה"}" hidden><a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="mbar">{esc(t(C.SITE["call_short"], L))}</a>'
         f'<a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="mbar">{esc(t(C.SITE["cta"], L))}</a></nav>')
@@ -326,16 +330,17 @@ def header(slug, L):
 <a class="skip" href="#main">{esc(t(C.SITE["skip"], L))}</a>
 <header class="site-head">
   <div class="wrap head-in">
-    <a class="brand" href="index.html" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{logo(L)}</a>
+    <a class="brand" href="./" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{logo(L)}</a>
     <p class="tagline">{esc(t(C.SITE["slogan"], L))}</p>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="{esc(tm(C.SITE["menu"], L))}" data-open="{esc(tm(C.SITE["menu"], L))}" data-close="{esc(tm(C.SITE["close"], L))}"><span class="bars" aria-hidden="true"></span><span class="mb-t">{esc(t(C.SITE["menu"], L))}</span></button>
     <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}">
       <ul>{items}</ul>
       <a class="btn btn-primary nav-cta" href="contact.html" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
     </nav>
     <a class="lang" href="{other}" hreflang="{alt}" lang="{alt}" data-track="lang_switch">{esc(t(C.SITE["lang_other"], L))}</a>
-    <a class="btn btn-primary head-cta" href="contact.html" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>
+    <a class="head-tel" href="tel:{C.SITE["phone_tel"]}" data-where="header-text"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>
+    {cta}
     <a class="head-call" href="tel:{C.SITE["phone_tel"]}" data-where="header" aria-label="{esc(tm(C.SITE["call"], L))} {esc(tm(C.SITE["phone_display"], L))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav"><span class="bars" aria-hidden="true"></span>{esc(t(C.SITE["menu"], L))}</button>
   </div>
   <p class="tagline-m">{esc(t(C.SITE["slogan"], L))}</p>
 </header>
@@ -376,26 +381,32 @@ def footer(L):
 """
 
 
-def page_head(slug, L, img=None):
+def page_head(slug, L, img=None, lead_key="lead", extra=""):
     """Inner-page head in the Open Skies style: the title over a full-bleed archive photo (or the deep green field), under the see-through header."""
     P = C.PAGES[slug]
     if img is None and slug in HEAD_IMG:
         name = HEAD_IMG[slug]; img = (name, next(cap for im, _, _, cap in C.STEPS if im == name))
     mid = f'<li><a href="net-houses.html">{esc(t(C.PAGES["net-houses"]["h1"], L))}</a></li>' if slug in C.CROP_PAGES else ""
-    crumbs = f'<nav class="crumbs" aria-label="{"Breadcrumb" if L == "en" else "פירורי לחם"}"><ol><li><a href="index.html">{esc(t(C.SITE["home"], L))}</a></li>{mid}<li aria-current="page">{esc(t(P["h1"], L))}</li></ol></nav>'
-    lead = f'<p class="lead">{esc(t(P["lead"], L))}</p>' if "lead" in P else ""
+    crumbs = f'<nav class="crumbs" aria-label="{"Breadcrumb" if L == "en" else "פירורי לחם"}"><ol><li><a href="./">{esc(t(C.SITE["home"], L))}</a></li>{mid}<li aria-current="page">{esc(t(P["h1"], L))}</li></ol></nav>'
+    lead = f'<p class="lead">{esc(t(P[lead_key], L))}</p>' if lead_key in P else ""
     bg = cap = ""
     if img:
         name, c = img
         bg = f'<div class="ph-media" aria-hidden="true">{picture(name, "", L, sizes="100vw", archive=True, eager=True)}</div>'
         cap = f'<p class="ph-cap">{esc(t(c, L))}. {esc(t(C.SITE["archive"], L))}.</p>'
-    return f'<section class="page-head{" has-img" if img else ""}">{bg}<div class="wrap ph-in">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}{cap}</div></section>'
+    return f'<section class="page-head{" has-img" if img else ""}">{bg}<div class="wrap ph-in">{crumbs}<h1>{esc(t(P["h1"], L))}</h1>{lead}{extra}{cap}</div></section>'
 
 
 HEAD_IMG = {"projects": "p-closed", "about": "p-site"}  # archive photos not used elsewhere on those pages
 
 
-def cta_band(L, where, crop=""):
+def qs(**kw):
+    """?crop=apple&need=nethouse, for links that pre-fill the contact form."""
+    q = "&".join(f"{k}={v}" for k, v in kw.items() if v)
+    return f"?{q}" if q else ""
+
+
+def cta_band(L, where, crop="", need=""):
     B = C.CTA_BAND; S = C.SITE
     lines = [esc(t(B["fair"], L))] if where in ("home", "turnkey") else []
     meta = f'<p class="meta">{"<br>".join(lines)}</p>' if lines else ""
@@ -403,11 +414,11 @@ def cta_band(L, where, crop=""):
   <div class="wrap in">
     <div>
       <h2 id="cta-{where}">{esc(t(C.CTA_HEADS[where], L))}</h2>
-      <p class="lead">{esc(t(B["p"], L))}</p>
+      <p class="lead">{esc(t(B["p"] if FORM_ENDPOINT else B["p_off"], L))}</p>
     </div>
     <div class="side">
       <div class="actions">
-        <a class="btn btn-primary" href="contact.html{f"?crop={crop}" if crop else ""}" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
+        <a class="btn btn-primary" href="contact.html{qs(crop=crop, need=need)}" data-track="cta_click" data-label="band-{where}">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="tel:{S["phone_tel"]}" data-where="band-{where}">{esc(t(S["call"], L))} <bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a>
       </div>
       {meta}
@@ -420,7 +431,7 @@ def steps(L, photos=True):
     """Process steps, each with its real photo on Home; text only on Net houses, so the photos aren't shown twice."""
     lis = []
     for i, (img, h, p, cap) in enumerate(C.STEPS):
-        fig = f'<figure>{picture(img, tm(cap, L), L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption>{esc(t(cap, L))}</figcaption></figure>' if photos else ""
+        fig = f'<figure>{picture(img, "", L, sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 300px", archive=True)}<figcaption>{esc(t(cap, L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>' if photos else ""
         lis.append(f'<li>{fig}<span class="n">{i + 1:02d}</span><h3>{esc(t(h, L))}</h3><p>{esc(t(p, L))}</p></li>')
     return f'<ol class="steps{"" if photos else " plain"}">{"".join(lis)}</ol>'
 
@@ -453,7 +464,7 @@ def crop_selector(L, where="home"):
                     f'{"" if sel else " tabindex=" + chr(34) + "-1" + chr(34)} data-crop="{cr["id"]}">{esc(t(cr["label"], L))}</button>')
         rows = "".join(f'<div><dt>{esc(t(k, L))}</dt><dd>{esc(t(v, L))}</dd></div>' for k, v in cr["rows"])
         proj = (f'<p class="crop-proj"><span>{esc(t(H["crop_proj"], L))}</span>{esc(t(cr["proj"], L))}</p>' if cr["proj"] else "")
-        q = "" if cr["id"] == "other" else f'?crop={cr["id"]}'
+        q = qs(need="nethouse") if cr["id"] == "other" else qs(crop=cr["id"], need="nethouse")
         panels.append(f'<div class="crop-panel" role="tabpanel" id="crop-{cr["id"]}-{where}" aria-labelledby="tab-{cr["id"]}-{where}"{"" if sel else " hidden"}>'
                       f'<p class="crop-say">{esc(t(cr["say"], L))}</p><dl class="crop-spec">{rows}</dl>{proj}'
                       f'<p class="crop-min">{esc(t(H["crop_min"], L))}</p>'
@@ -490,6 +501,9 @@ def p_index(L):
     def sol(x):
         img = picture(x["img"], tm(x["alt"], L), L, sizes="(max-width: 980px) 100vw, 40vw", archive=True) if x["img"] else ""
         chips = "".join(f"<span>{esc(t(c, L))}</span>" for c in x["chips"])
+        # a card without a photo shows the four phases of a turnkey farm instead (the text below already names them, so this is for the eye)
+        if not x["img"]:
+            img = '<ol class="sol-phases" aria-hidden="true">' + "".join(f'<li><span class="n">{i + 1:02d}</span>{esc(t(ph, L))}</li>' for i, (ph, _) in enumerate(C.STAGES)) + '</ol>'
         return (f'<a class="sol{"" if x["img"] else " sol-plain"}" href="{x["href"]}" data-track="route_click" data-label="sol-{x["img"] or "stage"}">{img}'
                 f'<div class="sol-body"><small>{esc(t(x["k"], L))}</small><h3>{esc(t(x["h"], L))}</h3><p>{esc(t(x["p"], L))}</p><div class="chips">{chips}</div></div></a>')
     sols = "".join(sol(x) for x in O["sols"])
@@ -498,7 +512,12 @@ def p_index(L):
     bars = "".join(f'<li><b>{esc(en if L == "en" else he)}</b><span class="bar"><i style="width:{a_ / top * 100:.0f}%"></i></span>'
                    f'<span class="v">{(f"{a_ / 10000:g}" if L == "en" else f"{a_ / 1000:g}")} {esc(t(O["world_unit"], L))}</span></li>' for en, he, a_ in rows)
     more = "".join(f'<li><b>{esc(t(c, L))}</b><span>{esc(t(w, L))}</span></li>' for c, w in O["world_more"])
-    path = "".join(f'<li><span class="n">{i + 1:02d}</span>{esc(t(x[0], L))}</li>' for i, x in enumerate(x for _, items in C.STAGES for x in items))
+    # the 11 stages in their 4 phases (assess, design, build, operate), numbered across the phases
+    path, n = [], 0
+    for ph, items in C.STAGES:
+        lis = "".join(f'<li><span class="n">{n + i + 1:02d}</span>{esc(t(x[0], L))}</li>' for i, x in enumerate(items))
+        path.append(f'<div class="pp"><h3>{esc(t(ph, L))}</h3><ol start="{n + 1}">{lis}</ol></div>'); n += len(items)
+    path = "".join(path)
     return f"""
 <main id="main">
 <section class="hero hero-os" aria-labelledby="hero-h">
@@ -512,7 +531,7 @@ def p_index(L):
         <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>
       </div>
     </div>
-    <div class="hero-foot"><span class="hero-cap">{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
+    <div class="hero-foot"><a class="hero-invest" href="turnkey-farms.html" data-track="route_click" data-label="hero-investors">{esc(t(H["invest"], L))}</a><span class="hero-cap">{esc(t(P["vidcap"], L))}</span><button class="vid-btn" type="button" data-video="hero-video" data-play="{esc(t(S["video_play"], L))}" data-pause="{esc(t(S["video_pause"], L))}"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg><span>{esc(t(S["video_play"], L))}</span></button></div>
   </div>
 </section>
 {ticker}
@@ -536,7 +555,7 @@ def p_index(L):
 
 <section class="section build field-os" aria-labelledby="steps-h">
   <div class="wrap">
-    <div class="os-head"><div><p class="kicker">{esc(t(O["field_k"], L))}</p><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2></div><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
+    <div class="os-head"><h2 id="steps-h">{esc(t(H["steps_h"], L))}</h2><p class="lead">{esc(t(H["steps_p"], L))}</p></div>
     {steps(L)}
     <p class="swipe-hint" aria-hidden="true">{esc(t(H["steps_swipe"], L))}</p>
     <p class="more sim-link"><a href="how-we-build.html">{esc(t(H["sim_go"], L))}</a></p>
@@ -552,7 +571,6 @@ def p_index(L):
 
 <section class="section owners" aria-labelledby="who-h">
   <div class="wrap">
-    <p class="kicker">{esc(t(O["owners_k"], L))}</p>
     <h2 id="who-h">{esc(t(H["who_h"], L))}</h2>
     <p class="big-quote">{esc(t(H["who_peace"], L))}</p>
     <div class="owners-more"><p>{esc(t(H["who_p"], L))}</p><div><p>{esc(t(H["who_refs"], L))}</p><p class="more"><a href="about.html">{esc(t(H["who_go"], L))}</a></p></div></div>
@@ -561,8 +579,8 @@ def p_index(L):
 
 <section class="section path-os" aria-labelledby="inv-h">
   <div class="wrap">
-    <div class="os-head"><div><p class="kicker">{esc(t(O["path_k"], L))}</p><h2 id="inv-h">{esc(t(O["path_h"], L))}</h2></div><div><p class="lead">{esc(t(H["inv_p"], L))}</p><p class="inv-note">{esc(t(H["inv_note"], L))}</p></div></div>
-    <ol class="path">{path}</ol>
+    <div class="os-head"><h2 id="inv-h">{esc(t(O["path_h"], L))}</h2><div><p class="lead">{esc(t(H["inv_p"], L))}</p><p class="inv-note">{esc(t(H["inv_note"], L))}</p></div></div>
+    <div class="path-phases">{path}</div>
     <div class="actions"><a class="btn btn-primary" href="turnkey-farms.html" data-track="route_click" data-label="investors">{esc(t(H["inv_go"], L))}</a></div>
   </div>
 </section>
@@ -602,7 +620,7 @@ def p_net(L):
     <div class="faq">{"".join(f'<details><summary>{esc(t(q, L))}</summary><p>{esc(t(a, L))}</p></details>' for q, a in C.NET_FAQ)}</div>
   </div>
 </section>
-{cta_band(L, "net")}
+{cta_band(L, "net", need="nethouse")}
 </main>"""
 
 
@@ -655,7 +673,7 @@ def p_turnkey(L):
         phases.append(f'<div class="phase"><h3>{esc(t(ph, L))}</h3><ol start="{n - len(items) + 1}">{"".join(lis)}</ol></div>')
     return f"""
 <main id="main">
-{page_head("turnkey-farms", L, img=("valley", C.TYPES[0]["cap"]))}
+{page_head("turnkey-farms", L)}
 <section class="section" aria-labelledby="honest-h">
   <div class="wrap split">
     <div>
@@ -675,9 +693,10 @@ def p_turnkey(L):
       <div><h3>{esc(t(P["excl_h"], L))}</h3><ul><li>{esc(t(P["excl_1"], L))}</li><li>{esc(t(P["excl_2"], L))}</li></ul></div>
       <div><h3>{esc(t(P["mistake_h"], L))}</h3><p>{esc(t(P["mistake_p"], L))}</p></div>
     </div>
+    <div class="actions tk-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-stages">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>
   </div>
 </section>
-{cta_band(L, "turnkey")}
+{cta_band(L, "turnkey", need="turnkey")}
 </main>"""
 
 
@@ -688,15 +707,21 @@ def p_projects(L):
 {page_head("projects", L)}
 <section class="section white" aria-labelledby="map-h">
   <div class="wrap">
-    <div class="sec-head split"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="muted" style="margin-top:10px">{esc(t(C.GLOBE["p"], L))}</p></div>
+    <div class="os-head"><div><h2 id="map-h">{esc(t(C.GLOBE["h"], L))}</h2><p class="lead">{esc(t(C.GLOBE["p"], L))}</p></div>
       <p class="more"><a href="{rel(L)}globe/index.html?lang={L}" data-track="globe_open">{esc(t(C.GLOBE["full"], L))}</a></p></div>
     <div class="globe-frame" id="globe-frame"><img src="{rel(L)}assets/img/globe-poster-{L}.jpg" width="1240" height="698" alt="" loading="lazy" decoding="async">
       <iframe data-src="{rel(L)}globe/index.html?lang={L}#compact" title="{esc(tm(C.GLOBE["title"], L))}" tabindex="-1" hidden></iframe>
-      <button type="button" class="btn btn-primary globe-go">{esc(t(C.GLOBE["go"], L))}</button></div>
+      <button type="button" class="btn btn-primary globe-go" data-loading="{esc(tm(C.GLOBE["loading"], L))}">{esc(t(C.GLOBE["go"], L))}</button></div>
     <div class="proj-table">{projects_table(L)}</div>
   </div>
 </section>
-<section class="section" aria-labelledby="feat-h">
+<section class="section how-abroad" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h">{esc(t(P["how_h"], L))}</h2>
+    <ol class="path how-path">{"".join(f'<li><span class="n">{i + 1:02d}</span><b>{esc(t(h, L))}</b><span class="d">{esc(t(d, L))}</span></li>' for i, (h, d) in enumerate(P["how"]))}</ol>
+  </div>
+</section>
+<section class="section white" aria-labelledby="feat-h">
   <div class="wrap split">
     <div><h2 id="feat-h">{esc(t(P["feat_h"], L))}</h2><p class="muted" style="margin-top:14px">{esc(t(P["feat_p"], L))}</p></div>
     <div>{featured(L)}</div>
@@ -730,6 +755,12 @@ def p_about(L):
     <div><h2 id="how-h">{esc(t(P["how_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["how_p"], L))}</p>
       <h2 class="h-small" id="co-h" style="margin-top:32px">{esc(t(P["company_h"], L))}</h2><table class="tbl" aria-labelledby="co-h" style="margin-top:12px"><tbody>{rows}</tbody></table></div>
     <figure class="ph-fig">{picture("p-marking", tm(C.STEPS[1][3], L), L, sizes="(max-width: 960px) 100vw, 600px", archive=True)}<figcaption>{esc(t(C.STEPS[1][3], L))}. {esc(t(C.SITE["archive"], L))}.</figcaption></figure>
+  </div>
+</section>
+<section class="section" aria-labelledby="values-h">
+  <div class="wrap">
+    <h2 id="values-h">{esc(t(P["values_h"], L))}</h2>
+    <ul class="values">{"".join(f'<li><b>{esc(t(a, L))}</b><span>{esc(t(b_, L))}</span></li>' for a, b_ in C.VALUES)}</ul>
   </div>
 </section>
 {cta_band(L, "about")}
@@ -799,16 +830,19 @@ def p_contact(L):
     <p class="full reach-note" id="f-reach">{esc(t(F["reach"], L))}</p>
     {inp("email", F["email"], L, typ="email", auto="email")}
     {inp("phone", F["phone"], L, typ="tel", auto="tel", hint=F["phone_hint"])}
+    {inp("heard", F["heard"], L, hint=F["heard_hint"])}
     <div class="field full"><label for="f-message">{esc(t(F["message"], L))}</label><textarea id="f-message" name="message" rows="4"></textarea></div>
     <div class="hp" aria-hidden="true"><label for="f-website">{esc(t(F["honeypot"], L))}</label><input id="f-website" name="mt_hp" type="text" tabindex="-1" autocomplete="off"></div>
     <label class="check full"><input type="checkbox" name="berlin" value="yes"><span>{esc(t(F["berlin"], L))}</span></label>
     <div class="check full"><input type="checkbox" id="f-consent" name="consent" value="yes" required aria-required="true"><label for="f-consent">{consent}</label></div>
     </div>
-    <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"], L))}</button></div>
+    <div class="actions fnav"><button class="btn btn-line" type="button" data-back>{esc(t(F["back"], L))}</button><button class="btn btn-primary" type="submit">{esc(t(F["send"] if FORM_ENDPOINT else F["send_off"], L))}</button></div>
   </div>
 </form>
 <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>"""
+    nxt = "".join(f'<li><b>{esc(t(h, L))}</b><span>{esc(t(d, L))}</span></li>' for h, d in C.NEXT)
     aside = f"""<aside class="aside" aria-label="{"Other ways to reach us" if L == "en" else "דרכים נוספות"}">
+  <div class="block next-block"><h2 id="next-h">{esc(t(C.NEXT_H, L))}</h2><ol class="next-list">{nxt}</ol><p class="small muted">{esc(t(C.NEXT_ABROAD, L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_phone_h"], L))}</h2><a class="big-phone" href="tel:{S["phone_tel"]}" data-where="contact"><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi></a><p>{esc(t(P["aside_phone_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_min_h"], L))}</h2><p>{esc(t(P["aside_min_p"], L))}</p></div>
   <div class="block"><h2>{esc(t(P["aside_profile_h"], L))}</h2><p>{esc(t(P["aside_profile_p"], L))}</p><p><a href="profile.html" data-track="profile_open">{esc(t(P["aside_profile_go"], L))}</a></p></div>
@@ -818,15 +852,9 @@ def p_contact(L):
 </aside>"""
     return f"""
 <main id="main">
-{page_head("contact", L)}
+{page_head("contact", L, lead_key="lead" if FORM_ENDPOINT else "lead_off",
+            extra=f'<p class="ph-call"><a class="btn btn-primary" href="tel:{S["phone_tel"]}" data-where="contact-head">{esc(t(P["call_pill"], L)).replace("{phone}", "<bdi class=" + chr(34) + "ltr" + chr(34) + ">" + esc(t(S["phone_display"], L)) + "</bdi>")}</a></p>')}
 <section class="section"><div class="wrap form-grid"><div>{form}</div>{aside}</div></section>
-<section class="section next-os" aria-labelledby="next-h">
-  <div class="wrap">
-    <h2 id="next-h">{esc(t(C.NEXT_H, L))}</h2>
-    <ol class="path next-path">{"".join(f'<li><span class="n">{i + 1:02d}</span><b>{esc(t(h, L))}</b><span class="d">{esc(t(d, L))}</span></li>' for i, (h, d) in enumerate(C.NEXT))}</ol>
-    <p class="muted next-abroad">{esc(t(C.NEXT_ABROAD, L))}</p>
-  </div>
-</section>
 <section class="section white" aria-labelledby="faq-h">
   <div class="wrap split">
     <h2 id="faq-h">{esc(t(C.FAQ_H, L))}</h2>
@@ -843,7 +871,8 @@ def p_profile(L):
     names = [t(x[0], L) for _, items in C.STAGES for x in items]
     stg = ", ".join([names[0]] + [n[0].lower() + n[1:] if L == "en" else n for n in names[1:]])
     proc = "".join(f'<li>{esc(t(h, L))}</li>' for _, h, _, _ in C.STEPS)
-    qr_alt = "QR code for www.miftah.co.il" if L == "en" else "קוד QR לאתר www.miftah.co.il"
+    host = DOMAIN.split("//", 1)[1]
+    qr_alt = f"QR code for {host}" if L == "en" else f"קוד QR לאתר {host}"
     return f"""
 <main id="main">
 <div class="wrap no-print"><div class="profile-bar"><p class="muted">{esc(t(P["bar_p"], L))}</p><button class="btn btn-primary" type="button" id="print-btn">{esc(t(P["print"], L))}</button></div></div>
@@ -857,7 +886,7 @@ def p_profile(L):
       <h2>{esc(t(P["turn_h"], L))}</h2><p class="small">{esc(stg)}.</p></section>
   </div>
   <section><h2>{esc(t(P["proj_h"], L))}</h2>{projects_table(L)}</section>
-  <section class="p-contact"><div><h2>{esc(t(P["contact_h"], L))}</h2><p><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi> &nbsp;|&nbsp; {esc(t(S["town"], L))} &nbsp;|&nbsp; <span class="ltr">{esc(t(P["web"], L))}</span></p></div>
+  <section class="p-contact"><div><h2>{esc(t(P["contact_h"], L))}</h2><p><bdi class="ltr">{esc(t(S["phone_display"], L))}</bdi> &nbsp;|&nbsp; {esc(t(S["town"], L))} &nbsp;|&nbsp; <span class="ltr">{esc(host)}</span></p></div>
     <img src="{rel(L)}assets/qr-site.svg" width="84" height="84" alt="{esc(qr_alt)}"></section>
 </article>
 <div class="sheet-gap"></div>
@@ -875,9 +904,12 @@ def p_prose(slug, L, data):
 
 def p_404(L):
     P = C.PAGES["404"]
+    he_too = ("" if L == "he" else
+              f'<div class="nf-he" lang="he" dir="rtl"><p class="lead">{esc(tm(P["p"], "he"))}</p><ul><li><a href="he/">{esc(tm(C.SITE["home"], "he"))}</a></li>'
+              f'<li><a href="he/contact.html">{esc(tm(C.PAGES["contact"]["h1"], "he"))}</a></li></ul></div>')
     links = "".join(f'<li><a href="{s}.html">{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
     return f"""
-<main id="main"><section class="section"><div class="wrap nf"><h1>{esc(t(P["h1"], L))}</h1><p class="lead">{esc(t(P["p"], L))}</p><ul><li><a href="index.html">{esc(t(C.SITE["home"], L))}</a></li>{links}</ul></div></section></main>"""
+<main id="main"><section class="section"><div class="wrap nf"><h1>{esc(t(P["h1"], L))}</h1><p class="lead">{esc(t(P["p"], L))}</p><ul><li><a href="./">{esc(t(C.SITE["home"], L))}</a></li>{links}</ul>{he_too}</div></section></main>"""
 
 
 def rootify(s, L):
@@ -885,7 +917,7 @@ def rootify(s, L):
     base = "/" if L == "en" else "/he/"
     s = re.sub(r'(href|src)="(\.\./)?assets/', r'\1="/assets/', s)
     s = re.sub(r'href="([a-z0-9-]+\.html)"', lambda m: f'href="{base}{m.group(1)}"', s)
-    s = s.replace('href="he/', 'href="/he/').replace('href="../', 'href="/').replace('href="site.webmanifest"', 'href="/site.webmanifest"')
+    s = s.replace('href="./"', f'href="{base}"').replace('href="he/', 'href="/he/').replace('href="../', 'href="/').replace('href="site.webmanifest"', 'href="/site.webmanifest"')
     return s
 
 
@@ -896,7 +928,7 @@ def p_crop(slug, L):
     fig = fig.replace('<figure class="drawing"', f'<figure class="drawing crop-dw" data-crop="{D["crop"]}"', 1)
     rows = "".join(f'<div><dt>{esc(t(k, L))}</dt><dd>{esc(t(v, L))}</dd></div>' for k, v in D["rows"])
     proj = "".join(f'<li><b>{esc(t(w, L))}</b><span>{esc(t(r_, L))}</span></li>' for r_, w in D["proj"])
-    faq = D["faq"] + [C.NET_FAQ[3], C.NET_FAQ[4], C.FAQ[0]]
+    faq = D["faq"]
     faqs = "".join(f'<details><summary>{esc(t(q, L))}</summary><p>{esc(t(a, L))}</p></details>' for q, a in faq)
     return f"""
 <main id="main">
@@ -904,13 +936,13 @@ def p_crop(slug, L):
 <section class="section crop-page" aria-labelledby="spec-h">
   <div class="wrap crop-body">
     <div><h2 id="spec-h">{esc(t(D["spec_h"], L))}</h2><dl class="crop-spec">{rows}</dl>
-      <div class="actions"><a class="btn btn-primary" href="contact.html?crop={D["crop"]}" data-track="cta_click" data-label="page-{slug}">{esc(t(C.HOME3["crop_cta"], L))}</a></div></div>
+      <div class="actions"><a class="btn btn-primary" href="contact.html{qs(crop=D["crop"], need="nethouse")}" data-track="cta_click" data-label="page-{slug}">{esc(t(C.HOME3["crop_cta"], L))}</a></div></div>
     <div class="crop-fig">{fig}</div>
   </div>
 </section>
 <section class="section white" aria-labelledby="proj-h">
-  <div class="wrap">
-    <div class="os-head"><h2 id="proj-h">{esc(t(G["proj_h"], L))}</h2><p class="lead">{esc(t(G["proj_note"], L))}</p></div>
+  <div class="wrap proj-split">
+    <div><h2 id="proj-h">{esc(t(G["proj_h"], L))}</h2><p class="lead">{esc(t(G["proj_note"], L))}</p></div>
     <ul class="feat-cards">{proj}</ul>
   </div>
 </section>
@@ -927,7 +959,7 @@ def p_crop(slug, L):
     <div class="faq">{faqs}</div>
   </div>
 </section>
-{cta_band(L, slug, D["crop"])}
+{cta_band(L, slug, D["crop"], need="nethouse")}
 </main>"""
 
 
@@ -985,8 +1017,24 @@ def globe_page():
                      ("A decade of work with Bar'am Orchard", "The client is willing to give a reference")):
         assert old in js, old
         js = js.replace(old, new)
+    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
+                     ('d: "4 פרויקטים בגליל ובגולן"', 'd: "פרויקטים נבחרים בישראל"'), ('d: "4 projects in the Galilee and the Golan"', 'd: "Selected projects in Israel"'),
+                     ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
+                      "ישראל ושבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים את העבודה, מדריכים צוות מקומי ומנהלים את הביצוע."),
+                     ("From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
+                      "Israel and seven countries abroad. On every project abroad we plan the work, train a local crew and manage the build.")):
+        assert old in js, old
+        js = js.replace(old, new)
+    js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
+           ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט"; }'
+           ' u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]
+    assert page.count("מיפתח פרויקטים · חקלאות שיש לה בית") == 1
+    page = page.replace("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית")
+    page = page.replace('<button class="lang" id="lang" type="button" lang="en">English</button>',
+                        '<button class="lang" id="lang" type="button" lang="en">English</button><a id="globe-cta" class="globe-cta" href="../he/contact.html">דברו איתנו על הפרויקט</a>', 1)
+    assert 'id="globe-cta"' in page
     page, n = re.subn(r'(<p class="note" id="note">)מקור:[^<]*', r'\1' + NOTE["he"], page); assert n == 1
     page = re.sub(r'(<div class="top">)(<svg class="logo".*?</svg>)', r'\1<a id="home-link" href="../index.html">\2</a>', page, count=1, flags=re.S)
     assert 'id="home-link"' in page
@@ -997,7 +1045,9 @@ def globe_page():
     title = re.search(r"<title>(.*?)</title>", page).group(1)
     page = page.replace(f"<title>{title}</title>", "", 1)
     # in the embed: a plain deep-green field instead of the space backdrop, and vertical swipes left to the page
-    page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
+    page = page.replace("</style>", ".compact .globe { background: radial-gradient(90% 80% at 50% 45%, #0E4239 0%, #061A16 70%); touch-action: pan-y; }\n"
+                        ".globe-cta { margin-inline-start: 12px; padding: 8px 16px; border-radius: 999px; background: #7FC49B; color: #0E4239; font-weight: 700; text-decoration: none; white-space: nowrap; }\n"
+                        ".compact .globe-cta { display: none; }\nhtml:not([data-i18n]) #eb, html:not([data-i18n]) #h1, html:not([data-i18n]) #lede, html:not([data-i18n]) #hint, html:not([data-i18n]) #note, html:not([data-i18n]) #g1, html:not([data-i18n]) #g2, html:not([data-i18n]) #s1, html:not([data-i18n]) #s2, html:not([data-i18n]) #s3 { visibility: hidden; }\n.item:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }\n</style>", 1)
     head = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'<title>{title}</title>\n<meta name="robots" content="noindex">\n<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">\n'
             f'<link rel="stylesheet" href="../assets/fonts/fonts.css?v={VER["fonts"]}">\n</head>\n<body>\n')
@@ -1023,49 +1073,91 @@ VER = {}
 
 # The old WordPress site's URLs (from its Yoast sitemaps, read 28 Oct 2026) and where each one lives now.
 # Used only once www.miftah.co.il points at this site: Google keeps the old pages' standing through 301s.
-OLD_HE = [  # Hebrew pages (decoded slugs) -> new Hebrew page
+# Every URL in the old WordPress site's Yoast sitemaps (59, read 29 Oct 2026), mapped to the best new page.
+# Used once www.miftah.co.il points at this site, so the old pages' standing in Google carries over.
+OLD_HE = [  # Hebrew pages, exact path (decoded) -> new Hebrew page
     ("אודות", "about"), ("הנהלה", "about"), ("המלצות", "projects"), ("פרוייקטים", "projects"), ("project", "projects"),
     ("פתרונות", "net-houses"), ("פתרונות-קירוי-והצללה-חקלאיים", "net-houses"), ("ייעוץ-תכנון-ניהול-והדרכה", "net-houses"),
     ("פתרונות-קירוי-והצללה-אזרחיים", "index"), ("יצירת-קשר", "contact"), ("sample-page", "index"), ("8", "index"),
+    ("project/סככות-העמסה", "net-houses"), ("project/בתי-רשת-לבננות", "banana-net-houses"), ("project/פרוייקטים-במטעים", "orchard-hail-nets"),
+    ("project/פרוייקטים-בעולם", "projects"), ("project/פרוייקטים-אזרחיים", "index"), ("project/145", "projects"),
+    ("project-category/בתי-רשת-וחממות", "net-houses"), ("project-category/בתי-רשת-לבננות", "banana-net-houses"), ("project-category/סככות-העמסה", "net-houses"),
+    ("project-category/פרוייקטים-אזרחיים", "index"), ("project-category/פרוייקטים-במטעים", "orchard-hail-nets"), ("project-category/פרוייקטים-בעולם", "projects"),
 ]
-OLD_HE_PREFIX = [("project/סככות-העמסה", "net-houses"), ("project/בתי-רשת-לבננות", "banana-net-houses"), ("project/פרוייקטים-במטעים", "orchard-hail-nets"),
-                 ("project-category/בתי-רשת-לבננות", "banana-net-houses"), ("project-category/פרוייקטים-במטעים", "orchard-hail-nets"), ("project", "projects"),
-                 ("project-category", "projects"), ("dt_testimonials", "projects"), ("ללא-קטגוריה", "index"), ("category", "index")]
-OLD_EN = [  # English pages were ?lang=en
+OLD_HE_PREFIX = [("project", "projects"), ("project-category", "projects"), ("dt_testimonials", "projects"), ("ללא-קטגוריה", "index"), ("category", "index")]
+OLD_EN = [  # English pages were ?lang=en; exact path -> new English page
     ("about", "about"), ("management", "about"), ("recommendations", "projects"), ("projects", "projects"), ("solutions", "net-houses"),
     ("agricultural-shading-solutions", "net-houses"), ("planning-guiding", "net-houses"), ("civil-shading-solutions", "index"), ("contact", "contact"),
+    ("project/בתי-רשת-לבננות", "banana-net-houses"), ("project/פרוייקטים-של-בתי-רשת-במטעים", "orchard-hail-nets"), ("project/פרוייקטים-של-בתי-רשת-במטעים-2", "orchard-hail-nets"),
+    ("project/סככות-צל-להעמסה", "net-houses"), ("project/בתי-רשת-לירקות", "net-houses"), ("project/בתי-רשת-לירקות-2", "net-houses"),
+    ("project/קירוי-והצללת-מתחמים-אזרחיים", "index"), ("project/קירוי-והצללת-מתחמים-אזרחיים-2", "index"), ("project/פרוייקטים-בעולם", "projects"),
+    ("project-category/bananas-plantations-shadings", "banana-net-houses"), ("project-category/loading-area-shadings", "net-houses"),
+    ("project-category/greenhouses", "net-houses"), ("project-category/international-projects", "projects"), ("project-category/civil-projects", "index"),
 ]
+
+
+def _he(slug): return "/he/" if slug == "index" else f"/he/{slug}.html"
+def _en(slug): return "/" if slug == "index" else f"/{slug}.html"
 
 
 def old_redirects_htaccess():
-    """mod_rewrite rules: RewriteRule matches the decoded path, so the Hebrew slugs are written as text."""
-    def he(slug): return "/he/" if slug == "index" else f"/he/{slug}.html"
-    def en(slug): return "/" if slug == "index" else f"/{slug}.html"
-    out = ["RewriteEngine On", "# old site, English pages (?lang=en)"]
+    """mod_rewrite rules. RewriteRule matches the decoded path, so the Hebrew slugs are written as text (any %-encoding case matches)."""
+    out = ["Options -Indexes", "RewriteEngine On", "# old site, English pages (?lang=en)"]
     for old, new in OLD_EN:
-        out += ["RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", f"RewriteRule ^{re.escape(old)}/?$ {en(new)}? [R=301,L,NC]"]
+        out += ["RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", f"RewriteRule ^{re.escape(old)}/?$ {_en(new)}? [R=301,L,NC]"]
     out += ["RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", "RewriteRule ^(project|project-category)/ /projects.html? [R=301,L,NC]",
             "RewriteCond %{QUERY_STRING} (^|&)lang=en(&|$)", "RewriteRule ^$ /? [R=301,L]", "# old site, Hebrew pages"]
     for old, new in OLD_HE:
-        out.append(f"RewriteRule ^{re.escape(old)}/?$ {he(new)} [R=301,L,NC]")
+        out.append(f"RewriteRule ^{re.escape(old)}/?$ {_he(new)} [R=301,L,NC]")
     for old, new in OLD_HE_PREFIX:
-        out.append(f"RewriteRule ^{re.escape(old)}/ {he(new)} [R=301,L,NC]")
+        out.append(f"RewriteRule ^{re.escape(old)}/ {_he(new)} [R=301,L,NC]")
     out.append("RewriteRule ^(feed|comments/feed|xmlrpc\\.php|wp-.*)(/.*)?$ - [G,L]")
+    out += ["# one URL per page: no index.html, and the .html ending is optional",
+            "RewriteCond %{THE_REQUEST} \\s/(he/)?index\\.html[\\s?]", "RewriteRule ^(he/)?index\\.html$ /$1 [R=301,L]",
+            f"RewriteRule ^(he/)?({'|'.join(x for x in PAGES if x != 'index')})/?$ /$1$2.html [R=301,L]"]
     return "\n".join(out) + "\n"
 
 
 def old_redirects_vercel():
-    """The same map for Vercel. Vercel matches the percent-encoded path, so the Hebrew slugs are encoded (lower case, as WordPress wrote them)."""
+    """The same map for Vercel, which matches the path as sent. Browsers send Hebrew as upper-case %D7..., WordPress wrote
+    lower case, and Vercel matches the case exactly, so every Hebrew source is listed in both (Team F, 29 Oct 2026)."""
     from urllib.parse import quote
-    def enc(x): return quote(x, safe="-_").lower().replace("%2f", "/")
-    def he(slug): return "/he/" if slug == "index" else f"/he/{slug}.html"
-    def en(slug): return "/" if slug == "index" else f"/{slug}.html"
+    def encs(x): e = quote(x, safe="-_/"); return sorted({e, e.lower()}) if e != x else [x]
     q = [{"type": "query", "key": "lang", "value": "en"}]
-    r = [{"source": f"/{old}{{/}}?", "has": q, "destination": en(new), "permanent": True} for old, new in OLD_EN]
+    r = []
+    for old, new in OLD_EN:
+        r += [{"source": f"/{e}{{/}}?", "has": q, "destination": _en(new), "permanent": True} for e in encs(old)]
     r += [{"source": "/(project|project-category)/:rest(.*)", "has": q, "destination": "/projects.html", "permanent": True}]
-    r += [{"source": f"/{enc(old)}{{/}}?", "destination": he(new), "permanent": True} for old, new in OLD_HE]
-    r += [{"source": f"/{enc(old)}/:rest(.*)", "destination": he(new), "permanent": True} for old, new in OLD_HE_PREFIX]
+    for old, new in OLD_HE:
+        r += [{"source": f"/{e}{{/}}?", "destination": _he(new), "permanent": True} for e in encs(old)]
+    for old, new in OLD_HE_PREFIX:
+        r += [{"source": f"/{e}/:rest(.*)", "destination": _he(new), "permanent": True} for e in encs(old)]
+    # one URL per page: no index.html, and the .html ending is optional
+    r += [{"source": "/index.html", "destination": "/", "permanent": True}, {"source": "/he/index.html", "destination": "/he/", "permanent": True}]
+    for slug in PAGES:
+        if slug != "index":
+            r += [{"source": f"/{slug}", "destination": f"/{slug}.html", "permanent": True}, {"source": f"/he/{slug}", "destination": f"/he/{slug}.html", "permanent": True}]
     return r
+
+
+LASTMOD = SRC / "data/lastmod.json"
+
+
+def page_lastmod(pages):
+    """Per-page lastmod for the sitemap: the date a page's main content last changed (hash of <main>), not one date for every page."""
+    import hashlib
+    try:
+        known = json.loads(LASTMOD.read_text())
+    except (OSError, ValueError):
+        known = {}
+    today, out = datetime.date.today().isoformat(), {}
+    for key, html in pages.items():
+        m = re.search(r"<main.*?</main>", html, re.S)
+        h = hashlib.sha1((m.group(0) if m else html).encode()).hexdigest()[:16]
+        old = known.get(key)
+        out[key] = old if old and old["hash"] == h else {"hash": h, "date": old and today or SOURCE_DATE.isoformat()}
+    LASTMOD.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    return {k: v["date"] for k, v in out.items()}
 
 
 def main():
@@ -1087,16 +1179,21 @@ def main():
         FONTV[w.name] = ver(w)
     fc = A / "fonts/fonts.css"
     fc.write_text(re.sub(r"url\(\.\./fonts/([\w-]+\.woff2)\)", lambda m: f"url(../fonts/{m.group(1)}?v={FONTV[m.group(1)]})", fc.read_text()))
+    # the @font-face rules go at the top of site.css, so pages load one stylesheet (fonts.css stays for the globe page)
+    (A / "site.css").write_text(fc.read_text().replace("url(../fonts/", "url(fonts/") + "\n" + (A / "site.css").read_text())
     VER.update(css=ver(A / "site.css"), js=ver(A / "site.js"), fonts=ver(fc), sim=ver(A / "build-sim.js"), three=ver(A / "vendor/three.min.js"))
+    from PIL import Image  # /favicon.ico for clients that ask for it by default
+    Image.open(A / "favicon-32.png").convert("RGBA").save(PUB / "favicon.ico", sizes=[(16, 16), (32, 32)])
     globe_page()
+    built = {}
     for L in LANGS:
         base = PUB if L == "en" else PUB / "he"
         for slug in PAGES:
-            write(base / ("index.html" if slug == "index" else f"{slug}.html"),
-                  head(slug, L, crumbs_for(slug, L), noindex=(slug == "profile")) + header(slug, L) + RENDER[slug](L) + footer(L))
+            html = head(slug, L, crumbs_for(slug, L), noindex=(slug == "profile")) + header(slug, L) + RENDER[slug](L) + footer(L)
+            write(base / ("index.html" if slug == "index" else f"{slug}.html"), html)
+            built[f"{L}/{slug}"] = html
         write(base / "404.html", rootify(head("404", L, noindex=True) + header("404", L) + p_404(L) + footer(L), L))
-    # sitemap: lastmod is the date of the last commit to the source, not the build date
-    lastmod = SOURCE_DATE.isoformat()
+    lastmod = page_lastmod(built)
     urls = []
     for slug in PAGES:
         if slug == "profile":
@@ -1104,25 +1201,27 @@ def main():
         for L in LANGS:
             alts = "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{url(slug, a, True)}"/>' for a in LANGS) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{url(slug, "en", True)}"/>'
             imgs = "".join(f"<image:image><image:loc>{DOMAIN}/assets/img/{n}</image:loc></image:image>" for n in SITEMAP_IMAGES.get(slug, []))
-            urls.append(f"<url><loc>{url(slug, L, True)}</loc><lastmod>{lastmod}</lastmod>{alts}{imgs}</url>")
+            urls.append(f"<url><loc>{url(slug, L, True)}</loc><lastmod>{lastmod[f'{L}/{slug}']}</lastmod>{alts}{imgs}</url>")
     write(PUB / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + "\n".join(urls) + "\n</urlset>\n")
     write(PUB / "robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")
     write(PUB / "site.webmanifest", json.dumps({"name": "MIFTAH Projects", "short_name": "MIFTAH", "start_url": "/", "display": "browser", "background_color": "#F2F5F3", "theme_color": "#0E4239",
                                                "icons": [{"src": "/assets/favicon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/assets/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
     EP = " " + "/".join(FORM_ENDPOINT.split("/")[:3]) if FORM_ENDPOINT else ""  # the form endpoint's origin, allowed by the CSP
+    # one policy for both hosts (they had drifted apart)
+    csp = ("default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP +
+           "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
+    perms = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     # host config for Apache (Nethost): 404 pages per language and cache headers
     write(PUB / ".htaccess", old_redirects_htaccess() + "ErrorDocument 404 /404.html\n<If \"%{REQUEST_URI} =~ m#^/he/#\">\n  ErrorDocument 404 /he/404.html\n</If>\n"
           "<IfModule mod_expires.c>\n  ExpiresActive On\n  ExpiresByType text/html \"access plus 10 minutes\"\n  ExpiresByType text/css \"access plus 1 year\"\n  ExpiresByType application/javascript \"access plus 1 year\"\n"
           "  ExpiresByType font/woff2 \"access plus 1 year\"\n  ExpiresByType image/avif \"access plus 1 month\"\n  ExpiresByType image/webp \"access plus 1 month\"\n  ExpiresByType image/jpeg \"access plus 1 month\"\n  ExpiresByType video/mp4 \"access plus 1 month\"\n  ExpiresByType video/webm \"access plus 1 month\"\n</IfModule>\n"
           "<IfModule mod_deflate.c>\n  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml application/manifest+json text/plain\n</IfModule>\n"
           "<IfModule mod_headers.c>\n  Header always set X-Content-Type-Options \"nosniff\"\n  Header always set Referrer-Policy \"strict-origin-when-cross-origin\"\n"
-          "  Header always set Content-Security-Policy \"default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP + "; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'\"\n</IfModule>\n"
+          "  Header always set Content-Security-Policy \"" + csp + "\"\n  Header always set Permissions-Policy \"" + perms + "\"\n  Header always set Cross-Origin-Opener-Policy \"same-origin\"\n</IfModule>\n"
           "# Turn on once HTTPS works on www.miftah.co.il (release checklist). HSTS only after the redirect is confirmed.\n"
           "# RewriteEngine On\n# RewriteCond %{HTTPS} off [OR]\n# RewriteCond %{HTTP_HOST} !^www\\. [NC]\n# RewriteRule ^ https://www.miftah.co.il%{REQUEST_URI} [L,R=301]\n"
           "# Header always set Strict-Transport-Security \"max-age=31536000\"\n")
     # host config for Vercel (the live preview): same headers as .htaccess; static files, no build step.
-    csp = ("default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP +
-           "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
     long_cache = [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
     write(PUB / "vercel.json", json.dumps({
         "buildCommand": "", "installCommand": "", "outputDirectory": ".", "framework": None, "cleanUrls": False,
@@ -1130,7 +1229,8 @@ def main():
         "redirects": [{"source": "/he", "destination": "/he/", "permanent": True}, {"source": "/.htaccess", "destination": "/404.html", "permanent": False}] + old_redirects_vercel(),
         "headers": [
             {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"}, {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
-                                            {"key": "Content-Security-Policy", "value": csp}]},
+                                            {"key": "Content-Security-Policy", "value": csp}, {"key": "Permissions-Policy", "value": perms},
+                                            {"key": "Cross-Origin-Opener-Policy", "value": "same-origin"}]},
             {"source": "/assets/(site.css|site.js|build-sim.js|vendor/.*|fonts/.*)", "headers": long_cache},
             {"source": "/assets/(img|video)/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=604800"}]},
         ]}, indent=1) + "\n")

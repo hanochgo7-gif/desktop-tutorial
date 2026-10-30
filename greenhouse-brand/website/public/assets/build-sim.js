@@ -20,6 +20,9 @@
   }
   EV.forEach(function (e) { window.addEventListener(e, start, { passive: true, capture: true }); });
   if (window.scrollY > 0) start();
+  function chH() { var c = root.querySelector(".sim-ch"); return (c && c.offsetHeight) || window.innerHeight; }
+  // a dot goes to its step on click, and on keyboard focus too, so the focused dot is always on screen
+  root.querySelectorAll(".sim-rail button").forEach(function (b, n) { function go() { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * chH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
 
   function init() {
   var renderer;
@@ -535,8 +538,8 @@
 
   // ---------------------------------------------------------------- scroll, resize, loop
   var Pt = 0, P = 0;
-  function chH() { var c = root.querySelector(".sim-ch"); return (c && c.offsetHeight) || window.innerHeight; }
-  function readScroll() { var r = track.getBoundingClientRect(), vh = window.innerHeight; Pt = Math.max(0, Math.min(N - .001, (-r.top + vh * .5) / chH())); }
+  // the step follows the card being read: half-way down on a desktop, a third of the way on a phone, where the scene sits on top (Team D 15)
+  function readScroll() { var r = track.getBoundingClientRect(), vh = window.innerHeight; Pt = Math.max(0, Math.min(N - .001, (-r.top + vh * (window.innerWidth <= 760 ? .35 : .5)) / chH())); }
   window.addEventListener("scroll", readScroll, { passive: true });
   function size() {
     var w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false);
@@ -550,8 +553,6 @@
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { running = es[0].isIntersecting; kick(); }, { rootMargin: "100px" }).observe(track);
   document.addEventListener("visibilitychange", kick);
   var rail = root.querySelectorAll(".sim-rail button"), stepEl = document.getElementById("sim-step"), bar = document.getElementById("sim-bar");
-  // a dot goes to its step on click, and on keyboard focus too, so the focused dot is always on screen
-  rail.forEach(function (b, n) { function go() { var r = track.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top + n * chH() + 4, behavior: reduce ? "auto" : "smooth" }); } b.addEventListener("click", go); b.addEventListener("focus", function () { if (b.matches(":focus-visible")) go(); }); });
   var t0 = performance.now(), cur = -1, first = true;
   function frame(now) {
     pending = false;

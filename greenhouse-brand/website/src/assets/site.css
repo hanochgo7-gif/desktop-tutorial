@@ -1055,3 +1055,147 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 .crop-more { margin-top: 14px; }
 .os-steps-h { margin-bottom: clamp(28px, 4vw, 44px); }
 .feat-cards li b { font-weight: 800; }
+
+/* ---------- growth audit, round 2 (29 Oct 2026): the measured fixes ---------- */
+/* D01: the slogan over the footage. A soft dark field behind the two lines, the thin line one step heavier, a darker scrim on phones.
+   Measured with this CSS: every hero text layer at a median of 5.4:1 or more, at most 1% of glyph pixels under 3:1 */
+.hero-os h1 { position: relative; }
+.hero-os h1::before { content: ""; position: absolute; inset: -25% -12%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(8, 30, 26, .58), rgba(8, 30, 26, .34) 55%, rgba(8, 30, 26, 0)); }
+.hero-os h1 .h1-a { font-weight: 300; }
+@media (max-width: 720px) { .hero-os::after, [dir="rtl"] .hero-os::after { background: linear-gradient(180deg, rgba(8, 30, 26, .55) 0%, rgba(8, 30, 26, .42) 30%, rgba(8, 30, 26, .6) 55%, rgba(8, 30, 26, .94) 100%) !important; } }
+@media (max-width: 420px) { .hero-os .actions { grid-template-columns: 1fr; } }
+
+/* D02: small phones keep the logo: the menu button shows only its icon (its name stays in aria-label) */
+@media (max-width: 420px) {
+  .head-in { gap: 6px; }
+  .brand { flex: none; }
+  .brand svg { height: 24px; }
+  .menu-btn { width: 44px; padding: 0; justify-content: center; }
+  .menu-btn .mb-t { display: none; }
+}
+/* D24: the open menu says so: an ×, the page behind it holds still */
+.menu-btn .bars::before { content: ""; position: absolute; inset-inline: 0; top: 3px; border-top: 2px solid currentColor; opacity: 0; }
+.menu-btn[aria-expanded="true"] .bars { border-color: transparent; }
+.menu-btn[aria-expanded="true"] .bars::before { opacity: 1; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .bars::after { transform: rotate(-45deg); }
+@media (max-width: 1180px) { body.menu-open { overflow: hidden; } .nav.open { max-height: calc(100svh - var(--head-h)); overflow-y: auto; } }
+/* D03: the drawer's main button keeps its pill and its contrast (mint on deep green, 5.53:1) */
+.site-head .nav a.nav-cta, body.top-dark .site-head .nav a.nav-cta { background: var(--mint); color: var(--deep); border-radius: 999px; border: 0; min-height: 54px; justify-content: center; align-items: center; }
+.site-head .nav a.nav-cta:hover { background: var(--deep); color: var(--white); }
+/* touch feedback */
+.btn:active { transform: translateY(1px); filter: brightness(.94); }
+
+/* the office number in the header, on wide screens */
+.head-tel { display: none; align-items: center; gap: 6px; padding: 10px 4px; color: var(--ink); font-weight: 700; text-decoration: none; white-space: nowrap; }
+.head-tel:hover { color: var(--canopy); }
+body.top-dark .site-head:not(.solid) .head-tel { color: var(--white); }
+@media (min-width: 1366px) { .head-tel { display: inline-flex; } }  /* measured: below 1366 the header has no room for it */
+
+/* D11: the hidden phone bar is out of reach for the keyboard too; on phones, focus is never hidden under it */
+.mbar:not(.on) { visibility: hidden; transition: transform .28s cubic-bezier(.2, .7, .2, 1), visibility 0s .28s; }
+.mbar.on { visibility: visible; }
+@media (max-width: 760px) { html { scroll-padding-bottom: 88px; } }
+
+/* D07, D14: inner page heads: shorter, darker under the title, white breadcrumbs, no slow zoom on archive photos */
+.page-head.has-img { min-height: min(62svh, 560px); }
+.page-head.has-img::after { background: linear-gradient(180deg, rgba(8, 30, 26, .6) 0%, rgba(8, 30, 26, .45) 35%, rgba(8, 30, 26, .72) 65%, rgba(8, 30, 26, .94) 100%); }
+.page-head .crumbs, .page-head .crumbs a { color: var(--white); text-shadow: 0 1px 8px rgba(4, 24, 20, .6); }
+.page-head .crumbs li + li::before { color: rgba(255, 255, 255, .8); }
+.page-head .ph-media img { animation: none !important; }
+/* D09: pages without a photo start sooner; Contact puts the phone first */
+@media (max-width: 720px) { .page-head:not(.has-img) { padding-block: calc(var(--head-h) + 28px) 28px; } }
+.ph-call { margin-top: 24px; }
+
+/* D23: one cinematic moment (the home film); the rest stays still and flat */
+.cta-band, .page-head:not(.has-img) { background-image: none; }
+.sol-plain::after { background: none; }
+.sol img { transition: none; }
+.sol:hover img { transform: none; }
+.ticker-track span:not(.dup)::after, .ticker .dup span::after { content: ""; display: inline-block; width: 2px; height: 14px; background: var(--mint); opacity: .75; vertical-align: -1px; font-size: inherit; }
+@media (prefers-reduced-motion: reduce) { .ticker-track span:not(.dup)::after, .ticker .dup span::after { display: none; } }
+
+/* D08: two ways to work with us, side by side; the first photo shows the net house, not the forest under it */
+.sol-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+.sol:first-child img { object-position: 50% 80%; }
+@media (max-width: 980px) { .sol-grid { grid-template-columns: 1fr; } }
+
+/* D18: key figures never break inside a number */
+.fact b { white-space: nowrap; font-size: clamp(1.6rem, 3.5vw, 3.4rem); }
+@media (max-width: 900px) {
+  .facts-os { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .fact:nth-child(3) { border-inline-start: 0; padding-inline-start: 0; }
+  .fact b { font-size: clamp(1.6rem, 7.5vw, 2.6rem); }
+}
+
+/* D20, D21: a second, smaller heading size for modest sections; the owners' promise as a real heading */
+:root { --fs-h2s: clamp(1.75rem, 3.2vw, 2.75rem); }
+.sec-head h2, .split > h2, .split > div > h2, .crop-page h2, .os-steps-h, .next-os h2, .how-abroad h2, .faq h2 { font-size: var(--fs-h2s); }
+.owners h2 { font-size: var(--fs-h2); color: var(--ink); font-weight: 800; letter-spacing: -.03em; }
+[dir="rtl"] .owners h2 { letter-spacing: -.01em; }
+.owners .big-quote { font-size: clamp(1.5rem, 3vw, 2.6rem); }
+
+/* D13: project cards stand out from their section */
+.section.white .feat-cards li { background: var(--white); }
+/* D16: the step numbers line up */
+.steps figcaption { min-height: 2.8em; }
+/* D17: the crop drawing without its unlabelled brackets, level with its text */
+.crop-dw :is(.dw-dim, .dw-ext) { display: none; }
+.crop-body { align-items: start; }
+
+/* D12: the globe uses the full grid width; its still stays until the live globe has loaded */
+.globe-frame { max-height: none; }
+.globe-frame:not(.on) iframe { visibility: hidden; }
+.globe-frame.loading .globe-go { pointer-events: none; opacity: .85; }
+
+/* D22: the 11 stages in their 4 phases */
+.path-phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px clamp(16px, 2vw, 28px); }
+.pp { border-top: 2px solid var(--ink); }
+.pp h3 { margin: 0; padding: 14px 0 10px; font-size: 1rem; font-weight: 800; color: var(--canopy); letter-spacing: 0; }
+.pp ol { list-style: none; margin: 0; padding: 0; }
+.pp li { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 6px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 1.05rem; font-weight: 500; line-height: 1.35; }
+.pp .n { color: var(--canopy); font-weight: 800; font-size: .9rem; padding-top: .15em; font-variant-numeric: tabular-nums; }
+.pp:last-child li:last-child { font-weight: 800; color: var(--deep); }
+@media (max-width: 900px) { .path-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .path-phases { grid-template-columns: 1fr; } }
+
+/* Projects: how we work abroad, four steps */
+.how-abroad h2 { margin-bottom: clamp(24px, 3vw, 36px); max-width: 22ch; }
+.how-path li { font-size: 1rem; }
+.how-path b { font-size: 1.15rem; font-weight: 800; }
+.how-path .d { color: var(--ink-2); font-weight: 400; line-height: 1.5; }
+.how-path li:last-child { background: none; color: inherit; padding: 20px 20px 24px 0; }
+[dir="rtl"] .how-path li:last-child { padding: 20px 0 24px 20px; }
+.how-path li:last-child .n { color: var(--canopy); }
+
+/* Turnkey: the stages lead straight to a conversation */
+.tk-actions { margin-top: 32px; }
+
+/* Contact: what happens after you get in touch, first in the side column */
+.next-list { list-style: none; margin: 14px 0 12px; padding: 0; counter-reset: nx; display: grid; gap: 14px; }
+.next-list li { counter-increment: nx; display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; }
+.next-list li::before { content: counter(nx); grid-row: span 2; width: 28px; height: 28px; border-radius: 50%; background: var(--deep); color: var(--white); display: grid; place-items: center; font-weight: 800; font-size: .875rem; }
+.next-list b { color: var(--ink); font-weight: 800; }
+.next-list span { color: var(--ink-2); line-height: 1.5; }
+
+/* About: what we hold to */
+.values b { color: var(--ink); font-weight: 800; }
+
+/* 404: the Hebrew way back on the shared error page */
+.nf-he { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+.nf-he ul { margin: 0; }
+
+/* D26: the profile sheet without a doubled heading (the caption stays for screen readers) */
+.sheet .tbl caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* chips: plain dark labels, readable on the photo and on the flat green card (axe: 4.32:1 before) */
+.chips span { background: rgba(8, 30, 26, .5); -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, .28); }
+/* the turnkey card has no photo: its four phases fill the space */
+.sol-plain { flex-direction: column; align-items: stretch; justify-content: space-between; }
+.sol-phases { list-style: none; margin: 0; padding: 28px 28px 0; display: grid; gap: 6px; }
+.sol-phases li { display: flex; align-items: baseline; gap: 14px; font-size: clamp(1.5rem, 2.4vw, 2.2rem); font-weight: 300; line-height: 1.15; color: var(--white); }
+.sol-phases .n { font-size: .9rem; font-weight: 800; color: #CDEEDA; font-variant-numeric: tabular-nums; }
+@media (max-width: 980px) { .sol-plain { min-height: 0; } }
+/* crop pages: one or two projects sit beside their heading, not alone in an empty row (D13) */
+.proj-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px clamp(32px, 5vw, 72px); align-items: end; }
+.proj-split .lead { margin-top: 16px; max-width: 42ch; }
+.proj-split .feat-cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+@media (max-width: 860px) { .proj-split { grid-template-columns: 1fr; } }
