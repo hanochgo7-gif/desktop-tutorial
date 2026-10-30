@@ -22,7 +22,7 @@
       "question": "Which sentence is correct?",
       "options": ["It's an egg.", "It's a egg.", "It's egg.", "It an egg."],
       "answer": 0,
-      "explanation": { "en": "Use 'an' before a vowel sound (an egg), and keep the verb: It's = It is.", "he": "לפני מילה שמתחילה בצליל תנועה באה an (an egg). ואסור להשמיט את is: It's = It is." }
+      "explanation": { "en": "Use 'an' before a vowel sound (an egg), and don't leave out the verb: It's = It is.", "he": "לפני מילה שמתחילה בצליל תנועה משתמשים ב-an: an egg. וגם אי אפשר לוותר על is: It's = It is." }
     },
     {
       "id": "pl-PreA1-3",
@@ -94,7 +94,7 @@
       "question": "I'm from Israel. I'm ___.",
       "options": ["Israel", "Hebrew", "English", "Israeli"],
       "answer": 3,
-      "explanation": { "en": "The country is Israel, the nationality is Israeli, and the language is Hebrew.", "he": "המדינה: Israel. הלאום: Israeli. השפה: Hebrew." }
+      "explanation": { "en": "The country is Israel, the nationality is Israeli, and the language is Hebrew.", "he": "המדינה: Israel. ישראלי/ת: Israeli. השפה (עברית): Hebrew." }
     },
     {
       "id": "pl-PreA1-9",
@@ -432,7 +432,7 @@
       "question": "What did they do yesterday?",
       "options": ["They went to the beach.", "They went swimming.", "They played games at home.", "They went for a walk."],
       "answer": 2,
-      "explanation": { "en": "It was too windy for the beach, so they stayed at home and played board games.", "he": "הייתה רוח חזקה מדי בשביל הים, אז הם נשארו בבית ושיחקו במשחקי קופסה." }
+      "explanation": { "en": "It was too windy for the beach, so they stayed at home and played board games.", "he": "הייתה רוח חזקה מדי, אז במקום ללכת לים הם נשארו בבית ושיחקו במשחקי קופסה." }
     },
     {
       "id": "pl-B1-1",
@@ -440,11 +440,11 @@
       "skill": "grammar",
       "type": "mcq",
       "topic": "present-perfect-vs-past",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "I ___ in this city since 2020.",
       "options": ["live", "am living", "have lived", "lived"],
       "answer": 2,
-      "explanation": { "en": "'Since' + a starting point describes a situation that began in the past and continues now, so we need the present perfect: I have lived here since 2020." }
+      "explanation": { "en": "'Since' + a starting point describes a situation that began in the past and continues now, so we need the present perfect: I have lived here since 2020. Hebrew uses the present here, which is why 'live' is tempting.", "he": "since עם נקודת התחלה מתאר מצב שהתחיל בעבר ונמשך עד היום, ולכן צריך present perfect: I have lived here since 2020. בעברית משתמשים כאן בהווה (\"אני גר/ה כאן מאז 2020\"), ולכן קל לטעות ולבחור ב-live." }
     },
     {
       "id": "pl-B1-2",
@@ -452,11 +452,11 @@
       "skill": "grammar",
       "type": "mcq",
       "topic": "conditionals-0-1",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "If it ___ tomorrow, we'll stay at home.",
       "options": ["rains", "will rain", "rained", "would rain"],
       "answer": 0,
-      "explanation": { "en": "In the first conditional the if-clause uses the present simple, even for the future: If it rains, we'll stay at home. Hebrew uses the future here, which is why 'will rain' is tempting." }
+      "explanation": { "en": "In the first conditional the if-clause uses the present simple, even for the future: If it rains, we'll stay at home. Hebrew uses the future here, which is why 'will rain' is tempting.", "he": "במשפט תנאי מסוג ראשון, אחרי if משתמשים בהווה פשוט גם כשמדובר בעתיד: If it rains, we'll stay at home. בעברית אומרים כאן עתיד (\"אם ירד גשם\"), ולכן קל לבחור ב-will rain." }
     },
     {
       "id": "pl-B1-3",
@@ -464,11 +464,11 @@
       "skill": "grammar",
       "type": "mcq",
       "topic": "gerund-infinitive",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "After a long conversation, she decided ___ the job offer.",
       "options": ["accepting", "accept", "to accepting", "to accept"],
       "answer": 3,
-      "explanation": { "en": "'Decide' is followed by to + infinitive: decide to accept. Verbs like 'enjoy' and 'avoid' take -ing instead." }
+      "explanation": { "en": "'Decide' is followed by to + infinitive: decide to accept. Verbs like 'enjoy' and 'avoid' take -ing instead.", "he": "אחרי decide באים to וצורת המקור של הפועל: decide to accept. אחרי פעלים כמו enjoy ו-avoid באה צורת ing." }
     },
     {
       "id": "pl-B1-4",
@@ -476,44 +476,44 @@
       "skill": "grammar",
       "type": "mcq",
       "topic": "passive-intro",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "This bridge ___ more than a hundred years ago.",
       "options": ["built", "was built", "has built", "is building"],
       "answer": 1,
-      "explanation": { "en": "The bridge didn't do the building, so we need the passive (was + past participle). 'Ago' points to a finished past time, so the past simple: was built." }
+      "explanation": { "en": "The bridge didn't do the building, so we need the passive (was + past participle). 'Ago' points to a finished past time, so the past simple: was built.", "he": "הגשר לא בנה, אלא נבנה, ולכן צריך סביל (passive): was + צורת ה-past participle. ago מציין זמן שהסתיים בעבר, ולכן עבר פשוט: was built." }
     },
     {
       "id": "pl-B1-5",
       "level": "B1",
       "skill": "vocabulary",
       "type": "mcq",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "Can I ___ your charger? I left mine at home.",
       "options": ["lend", "borrow", "owe", "give"],
       "answer": 1,
-      "explanation": { "en": "You borrow something from someone (you receive it); you lend something to someone (you give it). 'Can I lend your charger?' is a very common mistake." }
+      "explanation": { "en": "You borrow something from someone (you receive it); you lend something to someone (you give it). 'Can I lend your charger?' is a very common mistake.", "he": "borrow פירושו לשאול (לקבל משהו לזמן מה), ו-lend פירושו להשאיל (לתת). Can I lend your charger? היא טעות נפוצה מאוד." }
     },
     {
       "id": "pl-B1-6",
       "level": "B1",
       "skill": "vocabulary",
       "type": "mcq",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "Please ___ me to call the dentist tomorrow. I always forget.",
       "options": ["remember", "repeat", "notice", "remind"],
       "answer": 3,
-      "explanation": { "en": "'Remind someone to do something' means help them remember. You remember something yourself; you can't 'remember someone to do' something." }
+      "explanation": { "en": "'Remind someone to do something' means help them remember. You remember something yourself; you can't 'remember someone to do' something.", "he": "remind someone to do something פירושו להזכיר למישהו לעשות משהו. remember פירושו לזכור בעצמך, ואי אפשר לומר remember someone to do something." }
     },
     {
       "id": "pl-B1-7",
       "level": "B1",
       "skill": "vocabulary",
       "type": "mcq",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "I'd love a new laptop, but I can't ___ one right now.",
       "options": ["afford", "pay", "spend", "cost"],
       "answer": 0,
-      "explanation": { "en": "'Afford' means to have enough money for something. 'Pay' needs 'for' (pay for one), and 'spend' and 'cost' don't fit this pattern." }
+      "explanation": { "en": "'Afford' means to have enough money for something. 'Pay' needs 'for' (pay for one), and 'spend' and 'cost' don't fit this pattern.", "he": "afford פירושו שיש מספיק כסף למשהו (להרשות לעצמך). אחרי pay צריך for (pay for one), ו-spend ו-cost לא מתאימים למבנה הזה." }
     },
     {
       "id": "pl-B1-8",
@@ -521,11 +521,11 @@
       "skill": "vocabulary",
       "type": "mcq",
       "topic": "phrasal-verbs-basic",
-      "prompt": { "en": "Choose the correct answer." },
+      "prompt": { "en": "Choose the correct answer.", "he": "בחרו את התשובה הנכונה." },
       "question": "We've had to ___ the meeting until next week because the manager is away.",
       "options": ["put out", "put on", "put off", "put away"],
       "answer": 2,
-      "explanation": { "en": "'Put off' means postpone (move to a later time). You put out a fire, put on clothes and put away your things." }
+      "explanation": { "en": "'Put off' means postpone (move to a later time). You put out a fire, put on clothes and put away your things.", "he": "put off פירושו לדחות (להעביר למועד מאוחר יותר). put out = לכבות (למשל אש), put on = ללבוש, put away = להחזיר למקום." }
     },
     {
       "id": "pl-B1-9",
@@ -533,46 +533,46 @@
       "skill": "reading",
       "type": "mcq",
       "topic": "opinion-language",
-      "prompt": { "en": "Read the text and answer the question." },
+      "prompt": { "en": "Read the text and answer the question.", "he": "קראו את הטקסט וענו על השאלה." },
       "question": "Many people think working from home is always easier. In my experience, it has clear advantages: I save two hours of travel every day, and I can concentrate better. However, I miss my colleagues, and it is sometimes hard to stop working in the evening. For me, two days a week at home is the right balance.\n\nWhat is the writer's main point?",
-      "options": ["Working from home is always easier.", "Working from home has both advantages and disadvantages.", "Working in an office is better for everyone.", "People should never work in the evening."],
+      "options": ["Working from home is easier than working in an office.", "Working from home has both good and bad sides.", "Most people are happier working in an office.", "The main problem with working from home is working late."],
       "answer": 1,
-      "explanation": { "en": "The writer lists advantages (less travel, better concentration) and disadvantages (missing colleagues, working late) and prefers a balance. The first sentence is the view the writer questions." }
+      "explanation": { "en": "The writer lists advantages (less travel, better concentration) and disadvantages (missing colleagues, working late) and prefers a balance. The first sentence is the view the writer questions, and working late is only one detail, not the main point.", "he": "הכותב מונה יתרונות (חיסכון בזמן נסיעה, ריכוז טוב יותר) וחסרונות (הגעגועים לעמיתים, הקושי להפסיק לעבוד בערב), ומעדיף איזון. המשפט הראשון מציג דעה שהכותב מטיל בה ספק, והעבודה עד שעה מאוחרת היא רק פרט אחד ולא הרעיון המרכזי." }
     },
     {
       "id": "pl-B1-10",
       "level": "B1",
       "skill": "reading",
       "type": "mcq",
-      "prompt": { "en": "Read the text and answer the question." },
+      "prompt": { "en": "Read the text and answer the question.", "he": "קראו את הטקסט וענו על השאלה." },
       "question": "When Adi moved to Be'er Sheva for a new job, she didn't know anyone there. She joined a running club, and within a few weeks she had a group of close friends. That was two years ago. Today she says she can't imagine living anywhere else.\n\nWhich sentence about Adi is true today?",
       "options": ["She is planning to move back.", "She still doesn't know many people.", "She is happy living in Be'er Sheva.", "She has just started her job."],
       "answer": 2,
-      "explanation": { "en": "'She can't imagine living anywhere else' shows she is happy there. She moved two years ago and made friends through the running club." }
+      "explanation": { "en": "'She can't imagine living anywhere else' shows she is happy there. She moved two years ago and made friends through the running club.", "he": "המשפט she can't imagine living anywhere else (היא לא מדמיינת את עצמה גרה במקום אחר) מראה שטוב לה שם. היא עברה לעיר לפני שנתיים והכירה חברים במועדון הריצה." }
     },
     {
       "id": "pl-B1-11",
       "level": "B1",
       "skill": "listening",
       "type": "listen",
-      "prompt": { "en": "Listen and answer the question." },
+      "prompt": { "en": "Listen and answer the question.", "he": "האזינו וענו על השאלה." },
       "audio_text": "Hi, this is Sarah from the dental clinic. Doctor Levi won't be in tomorrow, so we'd like to move your appointment to Thursday at the same time.",
       "question": "Why is Sarah calling?",
       "options": ["To change the day of an appointment.", "To cancel an appointment completely.", "To move an appointment to later the same day.", "To remind the listener about tomorrow's appointment."],
       "answer": 0,
-      "explanation": { "en": "The appointment moves from tomorrow to Thursday 'at the same time', so only the day changes, not the time." }
+      "explanation": { "en": "The appointment moves from tomorrow to Thursday 'at the same time', so only the day changes, not the time.", "he": "התור עובר ממחר ליום חמישי at the same time (באותה שעה), כלומר רק היום משתנה, ולא השעה." }
     },
     {
       "id": "pl-B1-12",
       "level": "B1",
       "skill": "listening",
       "type": "listen",
-      "prompt": { "en": "Listen and answer the question." },
+      "prompt": { "en": "Listen and answer the question.", "he": "האזינו וענו על השאלה." },
       "audio_text": "Attention, please. The ten fifteen train to Jerusalem is running about twenty minutes late, and today it will not stop at the airport.",
       "question": "What are passengers told?",
       "options": ["The train is late but will make all its usual stops.", "The train will leave twenty minutes early.", "The train will not run today.", "The train is late and will skip one stop."],
       "answer": 3,
-      "explanation": { "en": "Two things change: the train is about twenty minutes late, and today it will not stop at the airport." }
+      "explanation": { "en": "Two things change: the train is about twenty minutes late, and today it will not stop at the airport.", "he": "יש שני שינויים: הרכבת מאחרת בכעשרים דקות, והיום היא לא תעצור בשדה התעופה." }
     },
     {
       "id": "pl-B2-1",
@@ -653,10 +653,10 @@
       "type": "mcq",
       "topic": "register",
       "prompt": { "en": "Choose the best option." },
-      "question": "Which is the most appropriate way to begin a first email to a university admissions office?",
-      "options": ["Hey guys,", "Hi there!", "What's up?", "Dear Sir or Madam,"],
+      "question": "You are emailing a university admissions office for the first time. Which request is the most appropriate?",
+      "options": ["I want you to send me the course details as soon as possible.", "Can you send me the course info ASAP? Thanks a lot!", "Send me the details of the course, please. I need them soon.", "I would be grateful if you could send me the course details."],
       "answer": 3,
-      "explanation": { "en": "A first email to an institution needs a formal greeting. 'Dear Sir or Madam' (or 'Dear Admissions Team') is appropriate; the other options are too casual." }
+      "explanation": { "en": "A first email to an institution calls for a polite, indirect request such as 'I would be grateful if you could…'. 'I want you to…' and a bare imperative ('Send me…') sound like demands in English, even when the Hebrew equivalents sound normal, and 'info', 'ASAP' and 'Thanks a lot!' are too casual for this reader." }
     },
     {
       "id": "pl-B2-8",
@@ -690,9 +690,9 @@
       "topic": "critical-reading",
       "prompt": { "en": "Read the text and answer the question." },
       "question": "When the town council announced plans to turn the old post office into a hotel, few residents objected. It was only after photos of the building's original interior appeared online that a campaign to save it began. Within a month, the council had agreed to reconsider.\n\nWhat does the text suggest?",
-      "options": ["Residents opposed the plan from the start.", "The council refused to change its plans.", "The hotel has already been built.", "The photos changed many residents' minds."],
+      "options": ["Residents opposed the plan from the start.", "The council refused to change its original plans.", "The hotel has already been built.", "The photos helped turn opinion against the plan."],
       "answer": 3,
-      "explanation": { "en": "Few people objected at first, and the campaign began only after the photos appeared, so the photos changed opinions. The council agreed to reconsider, so it did not refuse." }
+      "explanation": { "en": "Few residents objected at first, and a campaign began only after the photos appeared, so the photos helped turn opinion against the plan. The council agreed to reconsider, so it did not refuse, and nothing suggests the hotel has been built." }
     },
     {
       "id": "pl-B2-11",
@@ -741,7 +741,7 @@
       "question": "___ you require any further information, please do not hesitate to contact us.",
       "options": ["Should", "Would", "Unless", "Had"],
       "answer": 0,
-      "explanation": { "en": "'Should you require…' is a formal inverted conditional meaning 'If you require…'. 'Had you require' is ungrammatical, and 'Unless' reverses the meaning." }
+      "explanation": { "en": "'Should you require…' is a formal inverted conditional meaning 'If you require…'. 'Would' cannot open a conditional clause like this, 'Had you require' is ungrammatical, and 'Unless' reverses the meaning." }
     },
     {
       "id": "pl-C1-3",
@@ -753,7 +753,7 @@
       "question": "___ the report twice, she sent it to her manager.",
       "options": ["Checked", "Having been checked", "Having checked", "To have checked"],
       "answer": 2,
-      "explanation": { "en": "A perfect participle clause (having + past participle) shows that one action was completed before the next, with the same subject: she checked the report, then sent it. 'Having been checked' would mean she was checked." }
+      "explanation": { "en": "A perfect participle clause (having + past participle) shows that one action was completed before the next, with the same subject: she checked the report, then sent it. 'Having been checked' is passive, so it cannot take an object ('the report') and would make 'she' the thing that was checked." }
     },
     {
       "id": "pl-C1-4",
@@ -787,9 +787,9 @@
       "topic": "hedging",
       "prompt": { "en": "Choose the best option." },
       "question": "Imagine a small survey found that students who slept less tended to get lower exam results. Which conclusion is worded most appropriately for an academic essay?",
-      "options": ["This demonstrates that a lack of sleep causes poor exam results.", "The survey suggests a possible link between less sleep and lower results.", "It is certain that students should sleep more.", "Sleep clearly has no effect on exam results."],
+      "options": ["This demonstrates that a lack of sleep causes poor exam results.", "The survey suggests a possible link between sleep and exam results.", "It is certain that every student should sleep more before exams.", "This shows clearly that sleep has no real effect on exam results."],
       "answer": 1,
-      "explanation": { "en": "A small survey can show a link but cannot prove a cause. 'Suggests a possible link' matches the strength of the evidence; 'demonstrates… causes' and 'it is certain' overstate it." }
+      "explanation": { "en": "A small survey can show a link but cannot prove a cause. 'Suggests a possible link' matches the strength of the evidence; 'demonstrates… causes' and 'it is certain' overstate it, and 'no real effect' contradicts the finding." }
     },
     {
       "id": "pl-C1-7",
@@ -843,11 +843,11 @@
       "skill": "listening",
       "type": "listen",
       "prompt": { "en": "Listen and answer the question." },
-      "audio_text": "Frankly, the proposal isn't without its merits, but I'd want to see a far more detailed budget before I'd be prepared to put my name to it.",
+      "audio_text": "To be fair, the proposal isn't without its merits, but I'd want to see a far more detailed budget before I'd be prepared to put my name to it.",
       "question": "What is the speaker's position on the proposal?",
-      "options": ["Fully supports it.", "Rejects it outright.", "Sees some value in it but won't support it yet.", "Has already signed it."],
+      "options": ["Supports it fully and is ready to sign it.", "Rejects it outright because of its cost.", "Sees some value in it but won't back it yet.", "Has signed it but wants a more detailed budget."],
       "answer": 2,
-      "explanation": { "en": "'Isn't without its merits' means it has some good points; 'before I'd be prepared to put my name to it' shows the speaker won't back it until there is a detailed budget." }
+      "explanation": { "en": "'Isn't without its merits' means it has some good points; 'before I'd be prepared to put my name to it' shows the speaker won't back it until there is a detailed budget. So the speaker has neither signed nor rejected it: the problem is the missing detail in the budget, not the cost." }
     },
     {
       "id": "pl-C1-12",
@@ -976,7 +976,7 @@
       "topic": "synthesis-citation",
       "prompt": { "en": "Read the text and answer the question." },
       "question": "Early studies of the teaching method reported dramatic gains. Later work, using larger samples and stricter controls, found effects that were real but modest. The most defensible position, then, is neither the enthusiasts' nor the critics'.\n\nWhat is the writer's conclusion about the method?",
-      "options": ["It works, but less dramatically than first claimed.", "It does not work at all.", "The early studies were the most reliable.", "No conclusion can be drawn from the research."],
+      "options": ["It works, but less dramatically than first claimed.", "It does not work, despite the early reports.", "The early studies were more reliable than the later ones.", "No conclusion can be drawn from the research."],
       "answer": 0,
       "explanation": { "en": "The writer weighs both sets of studies and concludes the effect is 'real but modest'. That rejects both the enthusiasts' 'dramatic gains' and the critics' view that the method does not work." }
     },
@@ -991,7 +991,7 @@
       "question": "What does the speaker imply?",
       "options": ["The speaker agrees with the committee's decision.", "The speaker doubts that the committee had good reasons.", "The speaker already knows the committee's reasons.", "The speaker would like to join the committee."],
       "answer": 1,
-      "explanation": { "en": "'I'm sure they had their reasons' followed by 'I'd be fascinated to hear what they were' is polite irony: the speaker suggests the reasons are hard to find." }
+      "explanation": { "en": "'I'm sure the committee had its reasons' followed by 'I'd just be fascinated to hear what they were' is polite irony: the speaker suggests the reasons are hard to find." }
     },
     {
       "id": "pl-C2-12",

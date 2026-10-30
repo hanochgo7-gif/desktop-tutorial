@@ -255,7 +255,7 @@ function scenarios(file) {
       if (!Array.isArray(t.options) || t.options.length < 3) err(f, `${q}.options`, 'needs >= 3');
       else {
         if (!t.options.some((o) => o.verdict === 'best')) err(f, `${q}.options`, 'needs a best option');
-        t.options.forEach((o, k) => { if (!isStr(o.text) || !['best', 'ok', 'poor'].includes(o.verdict)) err(f, `${q}.options[${k}]`, 'text and verdict best|ok|poor'); bilingual(f, `${q}.options[${k}].feedback`, o.feedback, { he: true }); });
+        t.options.forEach((o, k) => { if (!isStr(o.text) || !['best', 'ok', 'poor'].includes(o.verdict)) err(f, `${q}.options[${k}]`, 'text and verdict best|ok|poor'); bilingual(f, `${q}.options[${k}].feedback`, o.feedback, { he: true }); if (o.error_type && !ERRORS.has(o.error_type)) err(f, `${q}.options[${k}].error_type`, `unknown error type ${o.error_type}`); });
       }
       strArr(f, `${q}.model_replies`, t.model_replies);
       strArr(f, `${q}.keywords`, t.keywords);

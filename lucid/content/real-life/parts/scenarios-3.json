@@ -128,7 +128,7 @@
         },
         {
           "speaker": "partner",
-          "text": "Yeah, that colour runs a bit small. Shall I get you the navy in a large?"
+          "text": "Yeah, that one runs a bit small. Shall I get you the navy in a large?"
         },
         {
           "speaker": "you",
@@ -155,8 +155,8 @@
               "text": "I search a jacket in medium size.",
               "verdict": "poor",
               "feedback": {
-                "en": "Two problems: we say 'I'm looking for', not 'I search', and the present continuous is needed for what you're doing now.",
-                "he": "שתי בעיות: אומרים I'm looking for ולא I search, ועל משהו שקורה עכשיו משתמשים בהווה מתמשך."
+                "en": "Two problems: the verb is 'look for', not 'search', and for something you're doing right now we use the present continuous: 'I'm looking for a jacket in a medium.'",
+                "he": "שתי בעיות: הפועל הוא look for ולא search, ועל משהו שעושים ממש עכשיו משתמשים בהווה מתמשך: I'm looking for a jacket in a medium."
               }
             },
             {
@@ -297,7 +297,7 @@
           ]
         },
         {
-          "partner": "Yeah, that colour runs a bit small. Shall I get you the navy in a large?",
+          "partner": "Yeah, that one runs a bit small. Shall I get you the navy in a large?",
           "options": [
             {
               "text": "No, I don't want. Give me the black.",
@@ -345,7 +345,7 @@
       "culture": [
         {
           "en": "Shop staff often greet you and offer help. 'I'm just looking, thanks' is a perfectly polite answer, and they'll usually leave you to browse.",
-          "he": "בחנויות רבות המוכרים יברכו אתכם ויציעו עזרה. I'm just looking, thanks היא תשובה מנומסת לגמרי, ובדרך כלל ישאירו אתכם להסתובב בשקט."
+          "he": "בחנויות רבות המוכרים יגידו לכם שלום ויציעו עזרה. I'm just looking, thanks היא תשובה מנומסת לגמרי, ובדרך כלל ישאירו אתכם להסתובב בשקט."
         },
         {
           "en": "In the UK, 'Are you alright?' is often just a friendly hello, not a question about your health. 'Yes, thanks' or 'Fine, thanks' is enough.",
@@ -391,7 +391,7 @@
       "level": "B2",
       "situation": {
         "en": "Ten days ago you bought a pair of headphones at an electronics store in New York. The left side keeps cutting out. You have the box, but you can't find the paper receipt, only the payment in your banking app. (The store's policy in this scenario is invented for practice.)",
-        "he": "לפני עשרה ימים קניתם אוזניות בחנות אלקטרוניקה בניו יורק. הצד השמאלי כל הזמן נקטע. הקופסה אצלכם, אבל את הקבלה המודפסת אתם לא מוצאים, יש רק את התשלום באפליקציה של הבנק. (מדיניות החנות בתרחיש הומצאה לצורך תרגול.)"
+        "he": "לפני עשרה ימים קניתם אוזניות בחנות אלקטרוניקה בניו יורק. הצליל באוזנייה השמאלית כל הזמן נקטע. הקופסה אצלכם, אבל את הקבלה המודפסת אתם לא מוצאים, יש רק את התשלום באפליקציה של הבנק. (מדיניות החנות בתרחיש הומצאה לצורך תרגול.)"
       },
       "goal": {
         "en": "Explain the fault, offer proof of purchase, and politely but firmly push for a refund or a replacement instead of store credit.",
@@ -411,7 +411,7 @@
         },
         {
           "en": "The left side keeps cutting out.",
-          "he": "הצד השמאלי כל הזמן נקטע.",
+          "he": "הצליל באוזנייה השמאלית כל הזמן נקטע.",
           "register": "neutral",
           "note": "'Cut out' = suddenly stop working, sometimes coming back on."
         },
@@ -440,7 +440,7 @@
           "en": "Since they're defective, I'd expect a full refund.",
           "he": "מכיוון שהן פגומות, הייתי מצפה להחזר מלא.",
           "register": "neutral",
-          "note": "Firm but not rude. 'Defective' (US) and 'faulty' (UK) both mean they have a manufacturing problem."
+          "note": "Firm but not rude. 'Defective' (US) and 'faulty' (UK) both mean something is wrong with them, so they don't work properly."
         },
         {
           "en": "I understand it's not your call. Is there anyone else I could talk to?",
@@ -524,7 +524,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "Insulting the product (and the store) makes staff less willing to help. Stay polite and stick to the facts.",
-                "he": "העלבה של המוצר (ושל החנות) רק מקטינה את הרצון לעזור לכם. עדיף להישאר מנומסים ועניינים."
+                "he": "זלזול במוצר (ובחנות) רק מקטין את הרצון של הצוות לעזור לכם. עדיף להישאר מנומסים ועניינים."
               }
             },
             {
@@ -794,7 +794,7 @@
         },
         {
           "en": "Would you take 600?",
-          "he": "תסכימי על 600?",
+          "he": "תסכים/י ל-600?",
           "register": "neutral",
           "note": "'Would you take…?' = would you accept this price?"
         },
@@ -812,7 +812,8 @@
         {
           "en": "Meet me in the middle?",
           "he": "ניפגש באמצע?",
-          "register": "casual"
+          "register": "casual",
+          "note": "= Let's both move a little and agree on a price in between. 'Meet me halfway?' is also common."
         },
         {
           "en": "Do you give a discount for cash?",
@@ -1096,7 +1097,7 @@
         },
         {
           "en": "Only offer a price you're really willing to pay. If the seller accepts, backing out is rude.",
-          "he": "מציעים רק מחיר שבאמת מוכנים לשלם. אם המוכר מסכים, לחזור בכם זה לא מנומס."
+          "he": "מציעים רק מחיר שבאמת מוכנים לשלם. אם המוכר מסכים, לחזור בכם מההצעה זה לא מנומס."
         }
       ]
     },
@@ -1274,7 +1275,7 @@
           ]
         },
         {
-          "partner": "We do, ten percent with a student ID. Do you have it with you?",
+          "partner": "We do, ten percent with a student ID. Do you have one with you?",
           "options": [
             {
               "text": "Yes, I have it. Here is my student identity card.",
@@ -1319,8 +1320,8 @@
               "text": "Your machine is broken.",
               "verdict": "poor",
               "feedback": {
-                "en": "Blaming the cashier sounds rude, and the problem is often with the bank. Try again or use another card.",
-                "he": "להאשים את הקופאי נשמע גס, והבעיה היא לעיתים קרובות בבנק. נסו שוב או השתמשו בכרטיס אחר."
+                "en": "Blaming their card machine sounds rude, and the problem is often with your bank. Try again or use another card.",
+                "he": "להאשים את מכשיר התשלום של החנות נשמע גס, והבעיה היא לעיתים קרובות בבנק שלכם. נסו שוב או השתמשו בכרטיס אחר."
               }
             },
             {
@@ -1335,8 +1336,8 @@
               "text": "That's weird, it worked this morning. Can I insert it instead?",
               "verdict": "best",
               "feedback": {
-                "en": "You stay calm and suggest a solution.",
-                "he": "נשארים רגועים ומציעים פתרון."
+                "en": "You stay calm, don't blame anyone ('That's weird…') and suggest a solution.",
+                "he": "נשארים רגועים, לא מאשימים אף אחד (That's weird...) ומציעים פתרון."
               }
             }
           ],
@@ -1479,8 +1480,8 @@
       "title_he": "היכרות עם מטיילים בהוסטל",
       "level": "A2",
       "situation": {
-        "en": "You've just arrived at a hostel in Chiang Mai, Thailand. In the common room, a traveller is looking at a map and planning tomorrow. She looks friendly.",
-        "he": "הגעתם עכשיו להוסטל בצ'יאנג מאי שבתאילנד. בחדר המשותף יושבת מטיילת, מסתכלת על מפה ומתכננת את מחר. היא נראית ידידותית."
+        "en": "You've just arrived at a hostel in Chiang Mai, Thailand. In the common room, a traveller is looking at a map, planning what to do tomorrow. She looks friendly.",
+        "he": "הגעתם עכשיו להוסטל בצ'יאנג מאי שבתאילנד. בחדר המשותף יושבת מטיילת, מסתכלת על מפה ומתכננת מה לעשות מחר. היא נראית ידידותית."
       },
       "goal": {
         "en": "Introduce yourself, talk about your travel plans, and make a plan to do something together tomorrow.",
@@ -1492,7 +1493,7 @@
           "en": "Hey, mind if I join you?",
           "he": "היי, אכפת לך אם אצטרף?",
           "register": "casual",
-          "note": "Very common in hostels. 'Do you mind if I sit here?' is a little more polite."
+          "note": "Very common in hostels. 'Do you mind if I sit here?' is a little more polite. The friendly answer is 'Not at all' or 'Go ahead' (= I don't mind)."
         },
         {
           "en": "Hi, I'm Tal. I just got in today.",
@@ -1523,7 +1524,7 @@
         },
         {
           "en": "Have you been anywhere good so far?",
-          "he": "היית כבר במקום שווה?",
+          "he": "היית כבר באיזה מקום שווה?",
           "register": "neutral"
         },
         {
@@ -1565,7 +1566,7 @@
         },
         {
           "speaker": "partner",
-          "text": "Of course, sit down! I'm Lena, from Hamburg."
+          "text": "Not at all, have a seat! I'm Lena, from Hamburg."
         },
         {
           "speaker": "you",
@@ -1646,7 +1647,7 @@
           ]
         },
         {
-          "partner": "I'm Lena, from Hamburg. So how long are you in Thailand?",
+          "partner": "I'm Lena, from Hamburg. So how long are you in Thailand for?",
           "options": [
             {
               "text": "I am in Thailand since one week.",
@@ -1851,7 +1852,7 @@
       "level": "B1",
       "situation": {
         "en": "You're at a friend's birthday party in London. You only know the host, Sam. A woman is standing near you by the snacks, and you'd like to start a conversation.",
-        "he": "אתם במסיבת יום הולדת של חבר בלונדון, ומכירים רק את המארח, סאם. לידכם, ליד שולחן החטיפים, עומדת בחורה, ואתם רוצים לפתוח איתה בשיחה."
+        "he": "אתם במסיבת יום הולדת של חבר בלונדון, ומכירים רק את המארח, סאם. לצדכם, ליד שולחן החטיפים, עומדת בחורה, ואתם רוצים לפתוח איתה בשיחה."
       },
       "goal": {
         "en": "Start a conversation, keep it going with follow-up questions, and end it politely.",
@@ -1963,7 +1964,7 @@
         },
         {
           "speaker": "you",
-          "text": "No way, that sounds amazing! How did you get into that?"
+          "text": "Oh wow, that sounds amazing! How did you get into that?"
         },
         {
           "speaker": "partner",
@@ -2035,7 +2036,7 @@
               "verdict": "poor",
               "feedback": {
                 "en": "A misunderstanding: 'How are you finding London?' means 'Do you like it? How is it for you?'",
-                "he": "אי-הבנה: How are you finding London? פירושו 'איך לונדון בעינייך?', לא איך מצאת אותה."
+                "he": "אי-הבנה: How are you finding London? פירושו 'מה דעתך על לונדון?', ולא איך מצאת אותה."
               }
             },
             {
@@ -2071,7 +2072,7 @@
               }
             },
             {
-              "text": "No way, that sounds amazing! How did you get into that?",
+              "text": "Oh wow, that sounds amazing! How did you get into that?",
               "verdict": "best",
               "feedback": {
                 "en": "Enthusiasm plus an open question ('How…?') invites a longer answer.",
@@ -2088,7 +2089,7 @@
             }
           ],
           "model_replies": [
-            "No way, that sounds amazing! How did you get into that?",
+            "Oh wow, that sounds amazing! How did you get into that?",
             "That sounds so interesting. What's the best cover you've done?"
           ],
           "keywords": [
@@ -2439,15 +2440,15 @@
               "verdict": "best",
               "feedback": {
                 "en": "Clear yes, some enthusiasm, and a practical next step.",
-                "he": "'כן' ברור, קצת התלהבות וצעד מעשי הבא."
+                "he": "'כן' ברור, קצת התלהבות וצעד מעשי להמשך."
               }
             },
             {
               "text": "I will think and I will tell you.",
               "verdict": "poor",
               "feedback": {
-                "en": "Sounds unsure after you already said Saturday works, and the grammar is heavy. If you really need time: 'Can I let you know tomorrow?'",
-                "he": "נשמע מהסס אחרי שכבר אמרתם ששבת מתאימה, והניסוח כבד. אם באמת צריך זמן: Can I let you know tomorrow?"
+                "en": "Sounds unsure after you've just said Saturday works, and it's translated word for word from Hebrew. The natural phrase is 'Let me think about it and get back to you', but here it's better to just say yes.",
+                "he": "נשמע מהסס אחרי שרק עכשיו אמרתם ששבת מתאימה, וזה תרגום מילולי של 'אחשוב ואגיד לך'. הניסוח הטבעי הוא Let me think about it and get back to you, אבל כאן עדיף פשוט להסכים."
               }
             },
             {
@@ -2644,7 +2645,7 @@
         },
         {
           "en": "Oh, interesting! What do you like about it?",
-          "he": "וואו, מעניין! מה את/ה אוהב/ת בזה?",
+          "he": "אה, מעניין! מה את/ה אוהב/ת בזה?",
           "register": "neutral"
         },
         {
@@ -2662,7 +2663,7 @@
           "en": "Are you on Instagram?",
           "he": "יש לך אינסטגרם?",
           "register": "casual",
-          "note": "Linking it to a plan ('so we can practise again') keeps it clearly friendly."
+          "note": "Friendlier than 'Give me your Instagram'. Adding a reason ('so we can practise again') keeps it clearly friendly."
         }
       ],
       "model_dialogue": [
@@ -2950,8 +2951,8 @@
       "title_he": "בבית המרקחת: תיאור תסמינים",
       "level": "B1",
       "situation": {
-        "en": "You're travelling in London and you've woken up with a sore throat, a fever and a bad cough. You go to a pharmacy to get something for it. You're allergic to penicillin. (This scenario is language practice, not medical advice.)",
-        "he": "אתם מטיילים בלונדון והתעוררתם עם כאב גרון, חום ושיעול חזק. אתם הולכים לבית מרקחת לקנות משהו שיעזור. יש לכם אלרגיה לפניצילין. (התרחיש נועד לתרגול שפה ואינו ייעוץ רפואי.)"
+        "en": "You're travelling in London. You've had a bad cough for a few days, and since yesterday morning you've also had a sore throat and a fever. You go to a pharmacy to get something for it. You're allergic to penicillin. (This scenario is language practice, not medical advice.)",
+        "he": "אתם מטיילים בלונדון. כבר כמה ימים יש לכם שיעול חזק, ומאתמול בבוקר יש לכם גם כאב גרון וחום. אתם הולכים לבית מרקחת לקנות משהו שיעזור. יש לכם אלרגיה לפניצילין. (התרחיש נועד לתרגול שפה ואינו ייעוץ רפואי.)"
       },
       "goal": {
         "en": "Describe your symptoms clearly, answer the pharmacist's questions (allergies, other medication) and understand how to take the medicine and when to see a doctor.",
@@ -2986,7 +2987,7 @@
         },
         {
           "en": "I feel really run-down.",
-          "he": "אני מרגיש/ה ממש גמור/ה.",
+          "he": "אני מרגיש/ה ממש חלש/ה ותשוש/ה.",
           "register": "casual",
           "note": "'Run-down' = tired and weak, usually because you're ill."
         },
@@ -3061,7 +3062,7 @@
         },
         {
           "speaker": "partner",
-          "text": "That's fine, none of these contain it. I'd suggest paracetamol for the temperature and these lozenges for your throat. Just follow the dose on the packet."
+          "text": "That's fine, none of these contain it. I'd suggest paracetamol for the temperature and these lozenges for your throat."
         },
         {
           "speaker": "you",
@@ -3069,7 +3070,7 @@
         },
         {
           "speaker": "partner",
-          "text": "It's all on the leaflet. Don't take more than it says. And if you're not feeling better in a few days, or it gets worse, see a doctor."
+          "text": "The packet tells you how many to take and how often. Don't take more than it says. And if you're not feeling better in a few days, or it gets worse, see a doctor."
         },
         {
           "speaker": "you",
@@ -3197,22 +3198,22 @@
           ]
         },
         {
-          "partner": "I'd suggest paracetamol for the temperature and these lozenges for your throat. Just follow the dose on the packet.",
+          "partner": "I'd suggest paracetamol for the temperature and these lozenges for your throat.",
           "options": [
             {
               "text": "What is lozenges?",
-              "verdict": "poor",
+              "verdict": "ok",
               "feedback": {
                 "en": "Asking is a good idea, but 'lozenges' is plural: 'What are lozenges?' (They're medicated sweets you suck for a sore throat.)",
-                "he": "טוב לשאול, אבל lozenges ברבים: What are lozenges? (אלה סוכריות לגרון עם חומר פעיל.)"
+                "he": "טוב ששואלים, אבל lozenges ברבים: What are lozenges? (אלה סוכריות לגרון עם חומר פעיל.)"
               }
             },
             {
-              "text": "Yes, I will take both of them, thank you very much.",
-              "verdict": "ok",
+              "text": "Just give me the strongest thing you have.",
+              "verdict": "poor",
               "feedback": {
-                "en": "Correct and polite, but a little formal, and it's worth checking how to take them.",
-                "he": "נכון ומנומס, אבל קצת רשמי, וכדאי גם לברר איך לוקחים אותם."
+                "en": "Sounds demanding, and the strongest medicine isn't always the right one. Go with the pharmacist's advice and ask how to take it.",
+                "he": "נשמע תובעני, והתרופה החזקה ביותר היא לא תמיד המתאימה. כדאי לסמוך על ההמלצה של הרוקח ולשאול איך לוקחים את התרופה."
               }
             },
             {
@@ -3419,7 +3420,7 @@
         },
         {
           "speaker": "you",
-          "text": "Number 2, from the museum to Central Station, at about four o'clock."
+          "text": "The number 2, from the museum to Central Station, at about four o'clock."
         },
         {
           "speaker": "partner",
@@ -3561,7 +3562,7 @@
           "keywords": [
             "called",
             "checked",
-            "handed in",
+            "handed",
             "not yet",
             "number"
           ]
@@ -3804,7 +3805,7 @@
         {
           "en": "I'm OK, just a bit shaken.",
           "he": "אני בסדר, רק קצת בהלם.",
-          "register": "casual",
+          "register": "neutral",
           "note": "'Shaken' = upset and scared after something bad happens."
         }
       ],

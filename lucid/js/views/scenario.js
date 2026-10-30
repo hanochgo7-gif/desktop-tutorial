@@ -138,7 +138,7 @@ export default async function scenarioView(el, ctx) {
       if (picked != null) return;
       picked = Number(b.dataset.opt);
       const v = turnOrder[ti].options[picked].verdict;
-      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: s.module === 'social' ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: v === 'best', score: v === 'best' ? 1 : v === 'ok' ? 0.5 : 0, error_type: v === 'poor' ? 'register' : null, response: turnOrder[ti].options[picked].text });
+      recordAttempt({ source: 'scenario', exercise: `${s.id}:${ti}`, topic: s.module === 'social' ? 'social-functional' : 'travel-functional', skill: 'speaking', level: s.level, correct: v === 'best', score: v === 'best' ? 1 : v === 'ok' ? 0.5 : 0, error_type: v === 'best' ? null : turnOrder[ti].options[picked].error_type || null, response: turnOrder[ti].options[picked].text });
       draw();
     }),
     on(el, 'click', '[data-own-check]', () => {

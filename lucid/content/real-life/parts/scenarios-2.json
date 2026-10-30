@@ -4,7 +4,7 @@
       "id": "rl-restaurant-dietary",
       "module": "restaurant",
       "title_en": "Ordering food: ingredients, allergies and diets",
-      "title_he": "הזמנת אוכל: רכיבים, אלרגיות ותזונה",
+      "title_he": "הזמנת אוכל: רכיבים, אלרגיות ותזונה מיוחדת",
       "level": "A2",
       "situation": {
         "en": "You're having dinner at a busy restaurant in London with a friend who is vegetarian. You're allergic to nuts. The server comes over to take your order.",
@@ -70,8 +70,8 @@
             { "text": "No problem, it's fine.", "verdict": "poor", "feedback": { "en": "This tells the server there's nothing to worry about, which could be dangerous if the allergy is real. Be clear and honest about it.", "he": "התשובה הזאת אומרת למלצרית שאין מה לדאוג, וזה עלול להיות מסוכן אם האלרגיה אמיתית. חשוב להיות ברורים וכנים." } },
             { "text": "Yes, it's quite serious. Could you check with the kitchen, please?", "verdict": "best", "feedback": { "en": "Honest about how serious it is, and asks the server to act. 'Check with the kitchen' is a very useful phrase.", "he": "אומר בכנות עד כמה זה חמור ומבקש פעולה. check with the kitchen הוא צירוף שימושי מאוד במסעדות." } }
           ],
-          "model_replies": ["Yes, it's quite serious. Could you check with the kitchen, please?", "Yes, it's a severe allergy, so even a little is a problem."],
-          "keywords": ["yes", "serious", "kitchen"]
+          "model_replies": ["Yes, it's quite serious. Could you check with the kitchen, please?", "Yes, it's a severe allergy. Even a tiny amount can make me ill."],
+          "keywords": ["yes", "serious", "severe", "kitchen"]
         },
         {
           "partner": "And what can I get for your friend?",
@@ -120,11 +120,11 @@
       "level": "B1",
       "situation": {
         "en": "You're at a casual restaurant in Chicago with friends. You ordered a grilled chicken burger with no cheese, but the server brings you a beef burger with cheese. You're hungry, and your friends have already started eating.",
-        "he": "אתם במסעדה לא רשמית בשיקגו עם חברים. הזמנתם המבורגר עוף על הגריל בלי גבינה, אבל המלצר מביא המבורגר בקר עם גבינה. אתם רעבים, והחברים כבר התחילו לאכול."
+        "he": "אתם במסעדה פשוטה בשיקגו עם חברים. הזמנתם המבורגר עוף על הגריל בלי גבינה, אבל המלצר מביא המבורגר בקר עם גבינה. אתם רעבים, והחברים כבר התחילו לאכול."
       },
       "goal": {
         "en": "Point out the mistake politely, explain what you ordered and agree on a solution: a new dish, something quicker, or taking it off the check.",
-        "he": "להצביע על הטעות בנימוס, להסביר מה הזמנתם ולהגיע לפתרון: מנה חדשה, משהו מהיר יותר או הורדה של המנה מהחשבון."
+        "he": "להעיר בנימוס על הטעות, להסביר מה הזמנתם ולהגיע לפתרון: מנה חדשה, משהו מהיר יותר או הורדת המנה מהחשבון."
       },
       "partner_role": "server at a casual American restaurant",
       "phrases": [
@@ -138,7 +138,7 @@
         { "en": "I asked for my steak medium, but this is quite rare.", "he": "ביקשתי את הסטייק מדיום, אבל הוא די נא.", "register": "neutral" },
         { "en": "Could you take it off the check, please?", "he": "אפשר להוריד את זה מהחשבון, בבקשה?", "register": "polite", "variant": "US" },
         { "en": "Could you take it off the bill, please?", "he": "אפשר להוריד את זה מהחשבון, בבקשה?", "register": "polite", "variant": "UK" },
-        { "en": "Don't worry about it, I'll just have this one.", "he": "עזבו, זה בסדר, אסתדר עם זה.", "register": "casual" },
+        { "en": "Don't worry about it, I'll just have this one.", "he": "לא נורא, אסתדר עם זה.", "register": "casual" },
         { "en": "Could I speak to the manager, please?", "he": "אפשר לדבר עם המנהל, בבקשה?", "register": "polite", "note": "Use this only if the problem isn't solved; asking straight away can sound aggressive." }
       ],
       "model_dialogue": [
@@ -157,7 +157,7 @@
         {
           "partner": "Here you go: one beef burger with cheese. Enjoy!",
           "options": [
-            { "text": "This is wrong. I ordered chicken.", "verdict": "ok", "feedback": { "en": "Correct, but 'This is wrong' sounds blunt. Starting with 'Sorry, I think...' keeps the server on your side.", "he": "תקין, אבל This is wrong נשמע בוטה. פתיחה כמו Sorry, I think... משאירה את המלצר לצדכם." } },
+            { "text": "This is wrong. I ordered chicken.", "verdict": "ok", "feedback": { "en": "Correct, but 'This is wrong' sounds blunt. Starting with 'Sorry, I think...' makes the server more willing to help.", "he": "תקין, אבל This is wrong נשמע בוטה. פתיחה כמו Sorry, I think... גורמת למלצר לרצות לעזור לכם." } },
             { "text": "Sorry, I think there's been a mistake. I ordered the chicken burger with no cheese.", "verdict": "best", "feedback": { "en": "Polite and clear: 'Sorry, I think...' softens the complaint, and you say exactly what you ordered.", "he": "מנומס וברור: Sorry, I think... מרכך את התלונה, ואתם אומרים בדיוק מה הזמנתם." } },
             { "text": "What is this? I didn't order this!", "verdict": "poor", "feedback": { "en": "This sounds angry and accusing. Mistakes happen, and a calm tone usually gets a faster fix.", "he": "זה נשמע כועס ומאשים. טעויות קורות, וטון רגוע בדרך כלל מביא לפתרון מהיר יותר." } }
           ],
@@ -172,7 +172,7 @@
             { "text": "Yes. Quickly, please.", "verdict": "ok", "feedback": { "en": "Understandable, but 'Quickly, please' can sound like pressure. 'How long will it take?' asks the same thing more politely.", "he": "מובן, אבל Quickly, please עלול להישמע כמו לחץ. How long will it take? שואל את אותו הדבר בנימוס." } }
           ],
           "model_replies": ["Yes, please, if that's OK. How long do you think it'll take?", "That would be great, thanks. Will it take long?"],
-          "keywords": ["yes", "please", "long"]
+          "keywords": ["yes", "please", "great", "long"]
         },
         {
           "partner": "It'll be about fifteen minutes, I'm afraid. The kitchen's pretty busy right now.",
@@ -182,7 +182,7 @@
             { "text": "Hmm, my friends have already started. Is there anything quicker I could have instead?", "verdict": "best", "feedback": { "en": "Explains your situation calmly and asks for an alternative instead of complaining.", "he": "מסביר את המצב ברוגע ומבקש חלופה במקום להתלונן." } }
           ],
           "model_replies": ["Hmm, my friends have already started. Is there anything quicker I could have instead?", "That's a bit long for me. Is there something quicker on the menu?"],
-          "keywords": ["quicker", "instead", "friends"]
+          "keywords": ["quicker", "instead", "friends", "menu"]
         },
         {
           "partner": "We could do a chicken salad instead. That'd only take about five minutes.",
@@ -201,8 +201,8 @@
             { "text": "Oh, that's really kind of you, thanks. No harm done!", "verdict": "best", "feedback": { "en": "Warm and gracious. 'No harm done' tells them the problem is forgotten.", "he": "חם ואדיב. No harm done אומר שהעניין נשכח ואין טינה." } },
             { "text": "OK, thank you.", "verdict": "ok", "feedback": { "en": "Polite, but a warmer reply shows you appreciate the gesture.", "he": "מנומס, אבל תשובה חמה יותר מראה שאתם מעריכים את המחווה." } }
           ],
-          "model_replies": ["Oh, that's really kind of you, thanks. No harm done!", "That's very kind, thank you. It was all sorted really quickly."],
-          "keywords": ["thank", "kind", "really"]
+          "model_replies": ["Oh, that's really kind of you, thanks. No harm done!", "That's very kind, thank you. You fixed it really quickly."],
+          "keywords": ["thank", "kind", "no harm"]
         }
       ],
       "roleplay": {
@@ -211,7 +211,7 @@
         "opening_line": "Alright, here we go: one cheeseburger! Can I get you anything else?"
       },
       "culture": [
-        { "en": "In the US and the UK, politely pointing out a mistake is normal. Staff would usually rather fix the problem than have you leave unhappy, and a calm, specific complaint ('I ordered X, but this is Y') works best.", "he": "בארצות הברית ובבריטניה מקובל לגמרי להעיר בנימוס על טעות. הצוות בדרך כלל מעדיף לתקן מאשר שתצאו מאוכזבים, ותלונה רגועה ומדויקת (I ordered X, but this is Y) עובדת הכי טוב." },
+        { "en": "In the US and the UK, politely pointing out a mistake is normal. Staff would usually rather fix the problem than have you leave unhappy, and a calm, specific complaint ('I ordered X, but this is Y') works best.", "he": "בארצות הברית ובבריטניה מקובל לגמרי להעיר בנימוס על טעות. הצוות בדרך כלל מעדיף לתקן את הבעיה ולא שתצאו מאוכזבים, ותלונה רגועה ומדויקת (I ordered X, but this is Y) עובדת הכי טוב." },
         { "en": "British people often complain very gently: 'Sorry, I think this might be the wrong dish.' It can sound indirect to Israeli ears, but it's the norm, and it isn't a sign of weakness.", "he": "בריטים מתלוננים לעיתים קרובות בעדינות רבה: Sorry, I think this might be the wrong dish. לאוזן ישראלית זה עלול להישמע עקיף, אבל זו הנורמה, ואין בזה שום חולשה." }
       ],
       "variants": [
@@ -229,11 +229,11 @@
       "level": "B1",
       "situation": {
         "en": "You've just finished dinner with two friends at a restaurant in New York. You want to split the check, pay by card and leave the right tip. Next month you'll do the same in London, where the customs are a little different.",
-        "he": "סיימתם ארוחת ערב עם שני חברים במסעדה בניו יורק. אתם רוצים לחלק את החשבון, לשלם בכרטיס ולהשאיר טיפ מתאים. בחודש הבא תעשו את אותו הדבר בלונדון, שם המנהגים קצת שונים."
+        "he": "סיימתם הרגע ארוחת ערב עם שני חברים במסעדה בניו יורק. אתם רוצים לחלק את החשבון, לשלם בכרטיס ולהשאיר טיפ מתאים. בחודש הבא תעשו את אותו הדבר בלונדון, שם המנהגים קצת שונים."
       },
       "goal": {
         "en": "Ask for the check/bill, arrange to pay separately or split it evenly, find out whether service is included and tip appropriately.",
-        "he": "לבקש את החשבון, לסדר תשלום נפרד או חלוקה שווה, לברר אם השירות כלול ולהשאיר טיפ מתאים."
+        "he": "לבקש את החשבון, לשלם בנפרד או לחלק שווה בשווה, לברר אם השירות כלול ולהשאיר טיפ מתאים."
       },
       "partner_role": "server (in the US and in the UK)",
       "phrases": [
@@ -244,7 +244,7 @@
         { "en": "Could you split it three ways, please?", "he": "אפשר לחלק את זה לשלושה, בבקשה?", "register": "polite", "note": "= divide the total equally between three people." },
         { "en": "Let's just split it evenly.", "he": "בואו פשוט נחלק שווה בשווה.", "register": "casual" },
         { "en": "Is service included?", "he": "השירות כלול?", "register": "neutral", "note": "Very useful in the UK, where a service charge is often added to the bill." },
-        { "en": "Can I put the tip on the card?", "he": "אפשר להוסיף את הטיפ בכרטיס?", "register": "neutral" },
+        { "en": "Can I put the tip on the card?", "he": "אפשר לשלם את הטיפ בכרטיס?", "register": "neutral" },
         { "en": "Don't worry, it's on me.", "he": "עזבו, זה עליי.", "register": "casual" },
         { "en": "Shall we go halves?", "he": "נתחלק חצי-חצי?", "register": "casual", "variant": "UK", "note": "Mainly British. In the US: 'Want to split it?'" },
         { "en": "Keep the change.", "he": "העודף בשבילך.", "register": "neutral", "note": "Used when paying cash; the extra money is the tip." }
@@ -280,7 +280,17 @@
             { "text": "Could you split it three ways, please?", "verdict": "best", "feedback": { "en": "Clear and polite. 'Split it three ways' means everyone pays the same amount.", "he": "ברור ומנומס. split it three ways פירושו שכל אחד משלם אותו סכום." } }
           ],
           "model_replies": ["Could you split it three ways, please?", "Separate checks, please. We each had different things."],
-          "keywords": ["split", "three", "please"]
+          "keywords": ["split", "three", "separate", "please"]
+        },
+        {
+          "partner": "The card machine will ask you about the tip. Just pick whatever works for you.",
+          "options": [
+            { "text": "No tip. The food was normal.", "verdict": "poor", "feedback": { "en": "In the US, leaving no tip at a sit-down restaurant sends a strong negative message about the service. Also, 'normal' sounds odd as a comment on food; say 'OK' or 'fine'.", "he": "בארצות הברית, לא להשאיר טיפ במסעדה עם שירות לשולחן משדר ביקורת חריפה על השירות. וגם normal (תרגום של 'נורמלי') נשמע מוזר כתיאור של אוכל; אומרים OK או fine." } },
+            { "text": "OK, I'll put 10 percent.", "verdict": "ok", "feedback": { "en": "Grammatically fine, though 'go with' or 'leave' is more natural than 'put'. For good service at a sit-down restaurant in the US, 10% may come across as low.", "he": "תקין דקדוקית, אם כי go with או leave טבעיים יותר מ-put. על שירות טוב במסעדה בארצות הברית, 10% עלול להיתפס כנמוך." } },
+            { "text": "Thanks. We'll go with 20 percent. You've been great.", "verdict": "best", "feedback": { "en": "Natural: 'go with' means 'choose'. At sit-down restaurants in the US, around 18-20% is a common choice for good service.", "he": "טבעי: go with פירושו 'לבחור'. במסעדות עם שירות לשולחן בארצות הברית, טיפ של כ-18-20% הוא בחירה נפוצה על שירות טוב." } }
+          ],
+          "model_replies": ["Thanks. We'll go with 20 percent. You've been great.", "Thanks so much. I'll leave 20 percent; the service was excellent."],
+          "keywords": ["thanks", "percent", "great"]
         },
         {
           "partner": "Here's your bill. Just so you know, a 12.5% service charge has been added.",
@@ -290,7 +300,7 @@
             { "text": "Why did you add money? I didn't ask for this.", "verdict": "poor", "feedback": { "en": "This sounds accusing. Service charges are common in UK restaurants. They're usually optional, so if the service was poor, you can politely ask for it to be removed.", "he": "זה נשמע מאשים. דמי שירות נפוצים במסעדות בבריטניה. בדרך כלל הם לא חובה, כך שאם השירות היה גרוע אפשר לבקש בנימוס להוריד אותם." } }
           ],
           "model_replies": ["Thanks for letting me know. So the tip's already included, right?", "Great, thanks. So we don't need to leave anything extra?"],
-          "keywords": ["thanks", "tip", "included"]
+          "keywords": ["thanks", "tip", "included", "extra"]
         },
         {
           "partner": "Are you paying by card? I'll bring the machine over.",
@@ -301,16 +311,6 @@
           ],
           "model_replies": ["Yes, please. Could we pay separately? Two of us are paying by card and one in cash.", "Yes, please. We'd like to pay separately, if that's OK."],
           "keywords": ["separately", "card", "please"]
-        },
-        {
-          "partner": "The card machine will ask you about the tip. Just pick whatever works for you.",
-          "options": [
-            { "text": "No tip. The food was normal.", "verdict": "poor", "feedback": { "en": "In the US, leaving no tip at a sit-down restaurant sends a strong negative message about the service. Also, 'normal' sounds odd here; say 'OK' or 'fine'.", "he": "בארצות הברית, לא להשאיר טיפ במסעדה עם שירות לשולחן משדר ביקורת חריפה על השירות. וגם normal נשמע מוזר כאן (כמו 'נורמלי' בעברית); אומרים OK או fine." } },
-            { "text": "OK, I'll put 10 percent.", "verdict": "ok", "feedback": { "en": "Grammatically fine, though 'go with' or 'leave' is more natural than 'put'. For good service at a sit-down restaurant in the US, 10% may come across as low.", "he": "תקין דקדוקית, אם כי go with או leave טבעיים יותר מ-put. על שירות טוב במסעדה בארצות הברית, 10% עלול להיתפס כנמוך." } },
-            { "text": "Thanks. We'll go with 20 percent. You've been great.", "verdict": "best", "feedback": { "en": "Natural: 'go with' means 'choose'. At sit-down restaurants in the US, around 18-20% is a common choice for good service.", "he": "טבעי: go with פירושו 'לבחור'. במסעדות עם שירות לשולחן בארצות הברית, טיפ של כ-18-20% הוא בחירה נפוצה על שירות טוב." } }
-          ],
-          "model_replies": ["Thanks. We'll go with 20 percent. You've been great.", "Thanks so much. I'll leave 20 percent; the service was excellent."],
-          "keywords": ["thanks", "percent", "great"]
         }
       ],
       "roleplay": {
@@ -325,7 +325,7 @@
       ],
       "variants": [
         { "us": "check", "uk": "bill" },
-        { "us": "separate checks", "uk": "pay separately" },
+        { "us": "separate checks", "uk": "separate bills", "note": "'Could we pay separately?' works in both." },
         { "us": "Want to split it?", "uk": "Shall we go halves?", "note": "Both are informal; 'go halves' is mainly British." },
         { "us": "tip", "uk": "tip / service charge", "note": "In the UK, the tip may already be on the bill as a service charge." }
       ]
@@ -402,7 +402,7 @@
             { "text": "No, in Israel the weather is much better.", "verdict": "poor", "feedback": { "en": "The grammar is fine, but arguing about the weather, or saying home is better, can sound rude. Small talk is about being friendly, not being right.", "he": "הדקדוק תקין, אבל להתווכח על מזג האוויר, או לומר שבבית יותר טוב, עלול להישמע גס. בשיחת חולין המטרה היא להיות נחמדים, לא לצדוק." } }
           ],
           "model_replies": ["It's gorgeous! Much warmer than I expected.", "It really is! Perfect weather for a walk by the sea."],
-          "keywords": ["it's", "really", "gorgeous", "beautiful", "lovely"]
+          "keywords": ["it's", "really", "gorgeous", "beautiful", "lovely", "weather"]
         },
         {
           "partner": "So, are you here on holiday?",
@@ -419,7 +419,7 @@
           "options": [
             { "text": "Card, please. Thanks, have a lovely day!", "verdict": "best", "feedback": { "en": "Answers the question and ends with a friendly goodbye.", "he": "עונה על השאלה ומסיים בפרידה ידידותית." } },
             { "text": "Card.", "verdict": "ok", "feedback": { "en": "Clear, but abrupt. Add 'please' and a friendly goodbye.", "he": "ברור, אבל חד. כדאי להוסיף please ופרידה ידידותית." } },
-            { "text": "Four twenty? Why so expensive?", "verdict": "poor", "feedback": { "en": "Commenting on the price to the barista sounds rude; they don't set the prices. If something is too expensive, just change your order politely.", "he": "להעיר לבריסטה על המחיר נשמע גס, הוא לא קובע את המחירים. אם משהו יקר מדי, פשוט משנים את ההזמנה בנימוס." } }
+            { "text": "Four twenty? Why so expensive?", "verdict": "poor", "feedback": { "en": "Commenting on the price to the barista sounds rude; they don't set the prices. If something is too expensive, just change your order politely.", "he": "להעיר לבריסטה על המחיר נשמע גס, כי לא הוא קובע את המחירים. אם משהו יקר מדי, פשוט משנים את ההזמנה בנימוס." } }
           ],
           "model_replies": ["Card, please. Thanks, have a lovely day!", "Card, please. Cheers!"],
           "keywords": ["card", "please", "thanks"]
@@ -450,7 +450,7 @@
       "level": "B1",
       "situation": {
         "en": "You're on holiday with your family in Portugal. It's late afternoon, and you're relaxing at a beach bar with a lemonade. A traveller about your age asks if the seat next to you is free, and you start chatting.",
-        "he": "אתם בחופשה משפחתית בפורטוגל. אחר הצהריים, ואתם נחים בבר על החוף עם לימונדה. מטיילת בערך בגילכם שואלת אם הכיסא לידכם פנוי, ואתם מתחילים לדבר."
+        "he": "אתם בחופשה משפחתית בפורטוגל. שעת אחר צהריים מאוחרת, ואתם נחים בבר על החוף עם לימונדה. מטיילת בערך בגילכם שואלת אם הכיסא לידכם פנוי, ואתם מתחילים לדבר."
       },
       "goal": {
         "en": "Start a friendly conversation with a stranger: ask and answer questions about your trips, introduce yourselves, share a tip and end the chat naturally.",
@@ -458,7 +458,7 @@
       },
       "partner_role": "another traveller at a beach bar",
       "phrases": [
-        { "en": "Sure, go ahead.", "he": "בטח, בבקשה.", "register": "casual", "note": "Reply to 'Is anyone sitting here?' or 'Is this seat taken?'" },
+        { "en": "Sure, go ahead.", "he": "בטח, בבקשה.", "register": "casual", "note": "Reply to 'Can I sit here?' If someone asks 'Is anyone sitting here?' or 'Is this seat taken?', start with 'No': 'No, go ahead.'" },
         { "en": "Where are you from?", "he": "מאיפה הגעת?", "register": "neutral" },
         { "en": "How long are you here for?", "he": "לכמה זמן הגעת לכאן?", "register": "neutral" },
         { "en": "This is my first time in Portugal. How about you?", "he": "זו הפעם הראשונה שלי בפורטוגל. ומה איתך?", "register": "neutral" },
@@ -466,7 +466,7 @@
         { "en": "Have you been to Lisbon yet?", "he": "כבר היית בליסבון?", "register": "neutral" },
         { "en": "You should definitely try the custard tarts here.", "he": "חייבים לטעום פה את הפסטל דה נאטה.", "register": "casual" },
         { "en": "That sounds amazing!", "he": "נשמע מדהים!", "register": "casual" },
-        { "en": "I'm Noa, by the way.", "he": "אני נועה, דרך אגב.", "register": "neutral", "note": "It's natural to introduce yourself after chatting for a bit, not only at the start." },
+        { "en": "I'm Noa, by the way.", "he": "אגב, אני נועה.", "register": "neutral", "note": "It's natural to introduce yourself after chatting for a bit, not only at the start." },
         { "en": "Nice to meet you.", "he": "נעים מאוד.", "register": "neutral" },
         { "en": "It was really nice chatting with you.", "he": "היה ממש נחמד לדבר איתך.", "register": "polite" },
         { "en": "Enjoy the rest of your trip!", "he": "שיהיה לך המשך טיול מהנה!", "register": "polite" }
@@ -493,8 +493,8 @@
             { "text": "No, it's free. Go ahead!", "verdict": "best", "feedback": { "en": "Friendly and natural. 'Go ahead' invites them to sit down.", "he": "ידידותי וטבעי. Go ahead מזמין לשבת." } },
             { "text": "No, it is not taken. You can sit.", "verdict": "ok", "feedback": { "en": "Correct, but it sounds stiff. Contractions (it's) and 'Go ahead' sound warmer.", "he": "תקין, אבל נשמע נוקשה. קיצורים (it's) ו-Go ahead נשמעים חמים יותר." } }
           ],
-          "model_replies": ["No, it's free. Go ahead!", "Not at all, have a seat."],
-          "keywords": ["no", "free", "ahead"]
+          "model_replies": ["No, it's free. Go ahead!", "Nope, have a seat!"],
+          "keywords": ["no", "free", "ahead", "seat"]
         },
         {
           "partner": "So, are you here on vacation too?",
@@ -510,7 +510,7 @@
           "partner": "I'm from Toronto. I've been backpacking around Europe for a month.",
           "options": [
             { "text": "Nice. I never was in Canada.", "verdict": "ok", "feedback": { "en": "Friendly, but 'I never was' should be 'I've never been' (present perfect for life experience). It also turns the topic back to you; a question about her trip works better.", "he": "ידידותי, אבל במקום I never was צריך I've never been (present perfect לניסיון חיים). וזה גם מחזיר את השיחה אליכם; שאלה על הטיול שלה עדיפה." } },
-            { "text": "Why you travel alone?", "verdict": "poor", "feedback": { "en": "Missing 'do' (Why do you travel...?), and asking 'why' about someone's personal choices can sound judgmental with a stranger.", "he": "חסר do (Why do you travel...?), ושאלת 'למה' על בחירות אישיות עלולה להישמע שיפוטית מול אדם זר." } },
+            { "text": "How much costs a trip like that?", "verdict": "poor", "feedback": { "en": "Wrong word order: 'How much does a trip like that cost?' And asking about money is too personal with someone you've just met.", "he": "סדר מילים שגוי: How much does a trip like that cost? וחוץ מזה, שאלה על כסף אישית מדי מול מישהו שזה עתה הכרתם." } },
             { "text": "Wow, a whole month! What's been the best place so far?", "verdict": "best", "feedback": { "en": "Shows real interest and asks an open question, so the other person can talk.", "he": "מראה עניין אמיתי ושואל שאלה פתוחה, שמזמינה את הצד השני לספר." } }
           ],
           "model_replies": ["Wow, a whole month! What's been the best place so far?", "That sounds amazing. Where else have you been?"],
@@ -519,8 +519,8 @@
         {
           "partner": "Have you been to Lisbon yet?",
           "options": [
-            { "text": "Not yet, we're going on Thursday. Is there anything I shouldn't miss?", "verdict": "best", "feedback": { "en": "'Not yet' is the natural short answer, 'we're going' is right for a fixed plan, and asking for tips keeps the chat going.", "he": "Not yet היא התשובה הקצרה והטבעית, we're going מתאים לתוכנית מסודרת, ובקשת המלצה ממשיכה את השיחה." } },
-            { "text": "No, not yet. We go there Thursday.", "verdict": "ok", "feedback": { "en": "Understandable, but for a fixed plan use 'we're going' (present continuous), and add 'on': on Thursday.", "he": "מובן, אבל לתוכנית קבועה משתמשים ב-we're going (הווה מתמשך), וצריך on לפני היום: on Thursday." } },
+            { "text": "Not yet, we're going on Thursday. Is there anything I shouldn't miss?", "verdict": "best", "feedback": { "en": "'Not yet' is the natural short answer, 'we're going' is right for a fixed plan, and asking for tips keeps the chat going.", "he": "Not yet היא התשובה הקצרה והטבעית, we're going מתאים לתוכנית שכבר נקבעה, ובקשת המלצה ממשיכה את השיחה." } },
+            { "text": "No, not yet. We go there Thursday.", "verdict": "ok", "feedback": { "en": "Understandable, but for a fixed plan use the present continuous: 'We're going on Thursday.' Americans sometimes drop 'on', but with 'on' it's always correct.", "he": "מובן, אבל לתוכנית שכבר נקבעה משתמשים בהווה מתמשך: We're going on Thursday. אמריקאים משמיטים לפעמים את on, אבל איתו זה תמיד נכון." } },
             { "text": "No, I didn't been there.", "verdict": "poor", "feedback": { "en": "'Didn't been' mixes two tenses. Say 'Not yet' or 'No, I haven't been there yet.'", "he": "didn't been מערבב שני זמנים. אומרים Not yet או No, I haven't been there yet." } }
           ],
           "model_replies": ["Not yet, we're going on Thursday. Is there anything I shouldn't miss?", "No, not yet. We're going there at the end of the week. Any tips?"],
@@ -534,7 +534,7 @@
             { "text": "You too! Enjoy the rest of your trip!", "verdict": "best", "feedback": { "en": "'You too' returns the compliment, and the good wishes end the chat warmly.", "he": "You too מחזיר את המחמאה, והאיחול מסיים את השיחה בחום." } }
           ],
           "model_replies": ["You too! Enjoy the rest of your trip!", "Same here! Have a great time in Lisbon."],
-          "keywords": ["too", "enjoy", "trip"]
+          "keywords": ["too", "same", "enjoy", "trip", "great"]
         }
       ],
       "roleplay": {
@@ -545,7 +545,7 @@
       "culture": [
         { "en": "Small talk with strangers usually stays on safe topics: travel, food, the weather, music, sport. With someone you've just met, avoid money, politics and religion.", "he": "שיחת חולין עם זרים נשארת בדרך כלל בנושאים בטוחים: טיולים, אוכל, מזג אוויר, מוזיקה וספורט. מול מישהו שזה עתה הכרתם, עדיף להימנע מכסף, פוליטיקה ודת." },
         { "en": "Asking a question back ('How about you?', 'What about you?') is essential. One-word answers can make you seem uninterested, even if you're just shy.", "he": "חשוב מאוד לשאול בחזרה (How about you?, What about you?). תשובות של מילה אחת עלולות לגרום לכם להיראות לא מעוניינים, גם אם אתם רק ביישנים." },
-        { "en": "Be friendly but sensible: chat in public places, don't share where you're staying, and never feel you have to swap numbers or social media.", "he": "היו ידידותיים אבל זהירים: שוחחו במקומות ציבוריים, אל תשתפו איפה אתם משתכנים, ואל תרגישו מחויבים להחליף מספרי טלפון או רשתות חברתיות." }
+        { "en": "Be friendly but sensible: chat in public places, don't share where you're staying, and never feel you have to swap numbers or social media.", "he": "היו ידידותיים אבל זהירים: שוחחו במקומות ציבוריים, אל תשתפו איפה אתם מתאכסנים, ואל תרגישו מחויבים להחליף מספרי טלפון או רשתות חברתיות." }
       ],
       "variants": [
         { "us": "vacation", "uk": "holiday", "note": "Canadians usually say 'vacation' too." },
@@ -561,7 +561,7 @@
       "level": "B1",
       "situation": {
         "en": "It's evening in New York. You take a yellow cab from Penn Station to your hotel near Central Park. You need to give the address, ask roughly how long it will take and how much it will cost, and sort out a small problem with paying.",
-        "he": "ערב בניו יורק. אתם לוקחים מונית צהובה מתחנת פן סטיישן למלון ליד סנטרל פארק. צריך למסור כתובת, לשאול בערך כמה זמן זה ייקח וכמה זה יעלה, ולפתור בעיה קטנה בתשלום."
+        "he": "ערב בניו יורק. אתם לוקחים מונית צהובה מפן סטיישן למלון ליד סנטרל פארק. צריך למסור כתובת, לשאול בערך כמה זמן זה ייקח וכמה זה יעלה, ולפתור בעיה קטנה בתשלום."
       },
       "goal": {
         "en": "Give your destination clearly, ask about the route, time and fare, and solve a payment or drop-off problem politely.",
@@ -578,7 +578,7 @@
         { "en": "Could you drop me off at the corner, please?", "he": "אפשר להוריד אותי בפינה, בבקשה?", "register": "polite" },
         { "en": "Just here is fine, thanks.", "he": "פה זה מצוין, תודה.", "register": "casual" },
         { "en": "Sorry, the card machine doesn't seem to be working.", "he": "סליחה, נראה שמכשיר האשראי לא עובד.", "register": "polite" },
-        { "en": "Do you take cash? I've only got a twenty.", "he": "אפשר לשלם במזומן? יש לי רק שטר של עשרים.", "register": "neutral" },
+        { "en": "Do you take cash? I've only got a fifty.", "he": "אפשר לשלם במזומן? יש לי רק שטר של חמישים.", "register": "neutral", "note": "Mention a large bill (UK: note) early, so the driver can check they have change." },
         { "en": "Could I get a receipt, please?", "he": "אפשר קבלה, בבקשה?", "register": "polite" },
         { "en": "Keep the change.", "he": "העודף בשבילך.", "register": "neutral" }
       ],
@@ -608,14 +608,14 @@
           "keywords": ["hotel", "street", "please"]
         },
         {
-          "partner": "I can take the highway or go through the city. The highway's longer, but there's less traffic. Your call.",
+          "partner": "I can take the highway or go straight up through Midtown. The highway's longer, but there's less traffic. Your call.",
           "options": [
             { "text": "Take the short way, and don't try to cheat me.", "verdict": "poor", "feedback": { "en": "Accusing the driver of cheating is rude and may start an argument. If you're worried about the fare, just ask: 'Roughly how much will it be?'", "he": "להאשים את הנהג ברמאות זה גס ועלול להוביל לוויכוח. אם המחיר מדאיג אתכם, פשוט שואלים: Roughly how much will it be?" } },
             { "text": "I don't know. You decide.", "verdict": "ok", "feedback": { "en": "Acceptable, but it can sound a bit careless. 'Whichever's quicker is fine' gives the driver a clear instruction.", "he": "סביר, אבל עלול להישמע אדיש. Whichever's quicker is fine נותן לנהג הנחיה ברורה." } },
             { "text": "Whichever's quicker is fine. Roughly how much will it be?", "verdict": "best", "feedback": { "en": "Lets the driver choose but gives a clear priority, and checks the fare. 'Your call' means 'you decide'.", "he": "נותן לנהג לבחור אבל עם עדיפות ברורה, ובודק את המחיר. Your call פירושו 'ההחלטה שלך'." } }
           ],
           "model_replies": ["Whichever's quicker is fine. Roughly how much will it be?", "Let's take the highway if it's faster. About how much will that be?"],
-          "keywords": ["quicker", "fine", "much"]
+          "keywords": ["quicker", "faster", "fine", "much"]
         },
         {
           "partner": "Sorry, I can't stop right outside the hotel. There's construction. Is the corner OK?",
@@ -628,13 +628,13 @@
           "keywords": ["corner", "fine", "thanks"]
         },
         {
-          "partner": "Here we are. That's twenty-eight fifty on the meter.",
+          "partner": "Here we are. That's twenty-eight fifty. Just tap your card on the screen back there.",
           "options": [
             { "text": "Your machine is broken.", "verdict": "ok", "feedback": { "en": "Clear, but it sounds like blame. 'The card machine doesn't seem to be working' is softer.", "he": "ברור, אבל נשמע מאשים. The card machine doesn't seem to be working רך יותר." } },
-            { "text": "Thanks. Sorry, the card machine back here doesn't seem to be working. Could you check it?", "verdict": "best", "feedback": { "en": "'Doesn't seem to be working' describes the problem politely without blaming anyone, and you ask for help.", "he": "doesn't seem to be working מתאר את הבעיה בנימוס בלי להאשים אף אחד, ומבקש עזרה." } },
+            { "text": "Sorry, I've tried twice, but the card machine doesn't seem to be working. Could you check it?", "verdict": "best", "feedback": { "en": "'Doesn't seem to be working' describes the problem politely without blaming anyone, and you ask for help.", "he": "doesn't seem to be working מתאר את הבעיה בנימוס בלי להאשים אף אחד, ומבקש עזרה." } },
             { "text": "The machine is broken, so I don't pay.", "verdict": "poor", "feedback": { "en": "You still need to pay. Explain the problem and suggest another way: 'Could I pay in cash, or could you restart the machine?'", "he": "עדיין צריך לשלם. מסבירים את הבעיה ומציעים דרך אחרת: Could I pay in cash, or could you restart the machine?" } }
           ],
-          "model_replies": ["Thanks. Sorry, the card machine back here doesn't seem to be working. Could you check it?", "Sorry, my card isn't going through. Could you restart the machine?"],
+          "model_replies": ["Sorry, I've tried twice, but the card machine doesn't seem to be working. Could you check it?", "Sorry, my card isn't going through. Could you restart the machine?"],
           "keywords": ["sorry", "card", "working"]
         },
         {
@@ -642,9 +642,9 @@
           "options": [
             { "text": "I have no cash. It's your problem.", "verdict": "poor", "feedback": { "en": "Rude, and it doesn't solve anything. Suggest a solution: 'I don't have enough cash. Is there an ATM nearby?'", "he": "גס, ולא פותר כלום. מציעים פתרון: I don't have enough cash. Is there an ATM nearby?" } },
             { "text": "Yes. Here.", "verdict": "ok", "feedback": { "en": "It works, but it sounds abrupt. 'Sure, here you go' is friendlier.", "he": "זה עובד, אבל נשמע חד. Sure, here you go ידידותי יותר." } },
-            { "text": "Sure, here's thirty. Keep the change.", "verdict": "best", "feedback": { "en": "Natural: paying a little more and saying 'Keep the change' is a simple way to tip in a US taxi.", "he": "טבעי: לשלם קצת יותר ולומר Keep the change היא דרך פשוטה להשאיר טיפ במונית בארצות הברית." } }
+            { "text": "Sure, here's thirty-five. Keep the change.", "verdict": "best", "feedback": { "en": "Natural: rounding up and saying 'Keep the change' is a simple way to tip in a US taxi. Here that's a tip of just over 20%.", "he": "טבעי: לעגל כלפי מעלה ולומר Keep the change היא דרך פשוטה להשאיר טיפ במונית בארצות הברית. כאן זה טיפ של קצת יותר מ-20%." } }
           ],
-          "model_replies": ["Sure, here's thirty. Keep the change.", "No problem, here you go. Keep the change."],
+          "model_replies": ["Sure, here's thirty-five. Keep the change.", "No problem, here you go. Keep the change."],
           "keywords": ["here", "keep", "change"]
         }
       ],
@@ -660,7 +660,7 @@
       ],
       "variants": [
         { "us": "license plate", "uk": "number plate" },
-        { "us": "highway", "uk": "motorway" },
+        { "us": "highway / freeway", "uk": "motorway", "note": "A UK motorway is a major multi-lane road, like a US freeway or interstate." },
         { "us": "AC", "uk": "air con" },
         { "us": "cab", "uk": "taxi / cab", "note": "'Taxi' is understood everywhere; 'cab' is more common in the US, and a London taxi is a 'black cab'." }
       ]
@@ -669,7 +669,7 @@
       "id": "rl-transport-metro-ticket",
       "module": "transport",
       "title_en": "Metro and train: tickets, signs and announcements",
-      "title_he": "רכבת ותחתית: כרטיסים, שלטים והכרזות",
+      "title_he": "רכבת תחתית ורכבת: כרטיסים, שלטים והכרזות",
       "level": "A2",
       "situation": {
         "en": "You're at Victoria station in London and need to get to King's Cross on the Underground. Later in the week you'll take a train to Brighton. You're not sure which ticket to buy, which line or platform to use, or what some announcements mean, so you ask a member of staff.",
@@ -743,21 +743,21 @@
           "partner": "I'm afraid the Victoria line is suspended this morning, so you'll need to take a bus or go a different way.",
           "options": [
             { "text": "Oh, OK. What's the best way to get to King's Cross, then?", "verdict": "best", "feedback": { "en": "Accepts the change and immediately asks for the information you need.", "he": "מקבל את השינוי ומיד שואל את מה שצריך לדעת." } },
-            { "text": "What means 'suspended'?", "verdict": "poor", "feedback": { "en": "Questions need 'does': 'What does suspended mean?' Here it means the line isn't running for now.", "he": "בשאלה צריך does: What does suspended mean? כאן הכוונה שהקו לא פועל כרגע." } },
+            { "text": "What means 'suspended'?", "verdict": "poor", "feedback": { "en": "Asking about a new word is a good idea, but the question needs 'does': 'What does suspended mean?' Here it means the line isn't running for now.", "he": "לשאול על מילה חדשה זה רעיון טוב, אבל בשאלה צריך does: What does suspended mean? כאן הכוונה שהקו לא פועל כרגע." } },
             { "text": "OK. Where is the bus?", "verdict": "ok", "feedback": { "en": "Understandable, but vague: there are many buses. Ask which one: 'Which bus goes to King's Cross?'", "he": "מובן, אבל כללי מדי: יש הרבה אוטובוסים. שואלים איזה: Which bus goes to King's Cross?" } }
           ],
           "model_replies": ["Oh, OK. What's the best way to get to King's Cross, then?", "Oh no. Which bus goes to King's Cross from here?"],
-          "keywords": ["best", "way", "Cross"]
+          "keywords": ["best", "way", "bus", "Cross"]
         },
         {
-          "partner": "You can just tap your card or phone at the turnstile. Where are you headed?",
+          "partner": "You can just tap your bank card or phone on the yellow reader. Where are you heading?",
           "options": [
-            { "text": "OK, I tap. I go to Central Park.", "verdict": "ok", "feedback": { "en": "Understandable, but use 'I'll' for a decision you make now and 'I'm going' for where you're headed: 'OK, I'll tap. I'm going to Central Park.'", "he": "מובן, אבל להחלטה של הרגע משתמשים ב-I'll, ולתיאור לאן נוסעים ב-I'm going: OK, I'll tap. I'm going to Central Park." } },
-            { "text": "Great, thanks. I'm going to Central Park. Is this the right side for uptown?", "verdict": "best", "feedback": { "en": "Natural and useful: in New York, many stations have separate entrances or platforms for uptown and downtown trains.", "he": "טבעי ושימושי: בניו יורק לתחנות רבות יש כניסות או רציפים נפרדים לרכבות לכיוון uptown ולכיוון downtown." } },
-            { "text": "Where is the Underground to Central Park?", "verdict": "poor", "feedback": { "en": "In New York it's the 'subway'; 'the Underground' is London's system, so this sounds confusing. Ask: 'Which train goes to Central Park?'", "he": "בניו יורק אומרים subway; the Underground היא הרכבת התחתית של לונדון, ולכן זה מבלבל. שואלים: Which train goes to Central Park?" } }
+            { "text": "OK, I tap. I go to King's Cross.", "verdict": "ok", "feedback": { "en": "Understandable, but use 'I'll' for a decision you make now and 'I'm going' for where you're headed: 'OK, I'll tap. I'm going to King's Cross.'", "he": "מובן, אבל להחלטה של הרגע משתמשים ב-I'll, ולתיאור לאן נוסעים ב-I'm going: OK, I'll tap. I'm going to King's Cross." } },
+            { "text": "Great, thanks. I'm going to King's Cross. Is it northbound?", "verdict": "best", "feedback": { "en": "Natural and useful: Tube platforms are signed by direction (northbound, southbound, eastbound, westbound), so checking the direction helps you get on the right train.", "he": "טבעי ושימושי: הרציפים ברכבת התחתית של לונדון מסומנים לפי כיוון (northbound, southbound, eastbound, westbound), ולכן כדאי לבדוק את הכיוון כדי לעלות לרכבת הנכונה." } },
+            { "text": "Where is subway to King's Cross?", "verdict": "poor", "feedback": { "en": "Two problems: it needs 'the', and in London the trains are 'the Underground' or 'the Tube'. In British English a 'subway' is usually a tunnel for walking under a road, so this can confuse people. Ask: 'Which line goes to King's Cross?'", "he": "שתי בעיות: חסר the, ובלונדון הרכבת התחתית נקראת the Underground או the Tube. באנגלית בריטית subway הוא בדרך כלל מעבר תת-קרקעי להולכי רגל מתחת לכביש, ולכן זה עלול לבלבל. שואלים: Which line goes to King's Cross?" } }
           ],
-          "model_replies": ["Great, thanks. I'm going to Central Park. Is this the right side for uptown?", "Thanks! I'm heading to Central Park. Which platform do I need?"],
-          "keywords": ["going", "Park", "uptown"]
+          "model_replies": ["Great, thanks. I'm going to King's Cross. Is it northbound?", "Thanks! I'm heading to King's Cross. Which line do I need?"],
+          "keywords": ["going", "King's Cross", "northbound", "line"]
         }
       ],
       "roleplay": {
@@ -802,9 +802,9 @@
         { "en": "What exactly does the basic insurance cover?", "he": "מה בדיוק הביטוח הבסיסי מכסה?", "register": "polite" },
         { "en": "What's the excess if something happens?", "he": "מה גובה ההשתתפות העצמית אם קורה משהו?", "register": "neutral", "variant": "UK" },
         { "en": "What's the deductible on the basic coverage?", "he": "מה ההשתתפות העצמית בכיסוי הבסיסי?", "register": "neutral", "variant": "US" },
-        { "en": "I think I'll stick with the basic cover, thanks.", "he": "נראה לי שאסתפק בכיסוי הבסיסי, תודה.", "register": "casual" },
-        { "en": "Is it full to full?", "he": "המדיניות היא מלא-מלא?", "register": "neutral", "note": "Full to full: you get the car with a full tank and bring it back full." },
-        { "en": "Does it take petrol or diesel?", "he": "הוא עובד על בנזין או על דיזל?", "register": "neutral", "variant": "UK", "note": "US: 'gas or diesel'." },
+        { "en": "I think I'll stick with the basic cover, thanks.", "he": "נראה לי שאסתפק בכיסוי הבסיסי, תודה.", "register": "neutral" },
+        { "en": "Is it full to full?", "he": "זה בשיטת מלא-מלא?", "register": "neutral", "note": "Full to full: you get the car with a full tank and bring it back full." },
+        { "en": "Does it take petrol or diesel?", "he": "הוא על בנזין או על סולר?", "register": "neutral", "variant": "UK", "note": "US: 'gas or diesel'." },
         { "en": "Is it a manual or an automatic?", "he": "הוא ידני או אוטומטי?", "register": "neutral" },
         { "en": "There's a scratch on the rear bumper that isn't marked on the form.", "he": "יש שריטה על הפגוש האחורי שלא מסומנת בטופס.", "register": "neutral" },
         { "en": "Could you note that down, please? I'd like it on record.", "he": "אפשר לרשום את זה, בבקשה? חשוב לי שזה יתועד.", "register": "polite" }
@@ -849,7 +849,7 @@
           "options": [
             { "text": "What is full to full? I don't understand nothing.", "verdict": "poor", "feedback": { "en": "Double negative: say 'I don't understand anything', or better, 'Sorry, what does full to full mean?'", "he": "שלילה כפולה: אומרים I don't understand anything, ועוד יותר טוב: Sorry, what does full to full mean?" } },
             { "text": "Just one: does it take petrol or diesel? And is there a petrol station near the airport for when I bring it back?", "verdict": "best", "feedback": { "en": "Two practical questions that prevent expensive mistakes, like putting the wrong fuel in the car.", "he": "שתי שאלות מעשיות שמונעות טעויות יקרות, כמו תדלוק בדלק הלא נכון." } },
-            { "text": "So I bring it full?", "verdict": "ok", "feedback": { "en": "Statement questions are common in speech, but you need 'back': 'So I bring it back full?' It's also worth asking about petrol or diesel.", "he": "שאלה בצורת משפט חיווי נפוצה בדיבור, אבל חסר back: So I bring it back full? וכדאי לשאול גם על בנזין או דיזל." } }
+            { "text": "So I bring it full?", "verdict": "ok", "feedback": { "en": "Statement questions are common in speech, but you need 'back': 'So I bring it back full?' It's also worth asking about petrol or diesel.", "he": "שאלה בצורת משפט חיווי נפוצה בדיבור, אבל חסר back: So I bring it back full? וכדאי לשאול גם אם הרכב על בנזין או על סולר." } }
           ],
           "model_replies": ["Just one: does it take petrol or diesel? And is there a petrol station near the airport?", "So I need to bring it back with a full tank. Is it petrol or diesel?"],
           "keywords": ["petrol", "diesel", "full"]
@@ -859,9 +859,9 @@
           "options": [
             { "text": "Wait. I need to check the car first.", "verdict": "ok", "feedback": { "en": "The right idea, but 'Wait' and 'I need to' sound a little sharp. 'Could I check the car first?' gets the same result more politely.", "he": "הרעיון נכון, אבל Wait ו-I need to נשמעים קצת חדים. Could I check the car first? משיג את אותו הדבר בנימוס." } },
             { "text": "Sure, the car is perfect, I'll sign.", "verdict": "poor", "feedback": { "en": "Polite, but risky: you're confirming the car has no other damage without looking. Always check, and take photos, before you sign.", "he": "מנומס, אבל מסוכן: אתם מאשרים שאין נזק נוסף בלי להסתכל. תמיד בודקים ומצלמים לפני שחותמים." } },
-            { "text": "Before I sign, could I check the car first? I'd just like to make sure everything's on the form.", "verdict": "best", "feedback": { "en": "Sensible and polite: you only sign after checking, and the reason sounds reasonable, not suspicious.", "he": "נבון ומנומס: חותמים רק אחרי בדיקה, וההסבר נשמע סביר ולא חשדני." } }
+            { "text": "Could I check the car before I sign? I'd just like to make sure everything's on the form.", "verdict": "best", "feedback": { "en": "Sensible and polite: you only sign after checking, and the reason sounds reasonable, not suspicious.", "he": "נבון ומנומס: חותמים רק אחרי בדיקה, וההסבר נשמע סביר ולא חשדני." } }
           ],
-          "model_replies": ["Before I sign, could I check the car first? I'd just like to make sure everything's on the form.", "Would you mind if I had a quick look at the car before I sign?"],
+          "model_replies": ["Could I check the car before I sign? I'd just like to make sure everything's on the form.", "Would you mind if I had a quick look at the car before I sign?"],
           "keywords": ["check", "before", "sign"]
         },
         {
@@ -872,17 +872,17 @@
             { "text": "There is a scratch here.", "verdict": "ok", "feedback": { "en": "Clear, but add where it is and what you'd like: 'Could you add it to the form, please?'", "he": "ברור, אבל כדאי להוסיף איפה בדיוק ומה אתם מבקשים: Could you add it to the form, please?" } }
           ],
           "model_replies": ["Mostly, yes, but there's a scratch on the rear bumper that isn't on the form. Could you add it, please?", "Almost. There's a small scratch here that isn't marked. Could you note it down?"],
-          "keywords": ["scratch", "form", "add"]
+          "keywords": ["scratch", "form", "add", "note"]
         },
         {
           "partner": "We've found a dent on the passenger door, I'm afraid. We'll have to charge it to your card.",
           "options": [
             { "text": "That's not my fault. It was there before.", "verdict": "ok", "feedback": { "en": "Your point is clear, but it sounds defensive and gives no evidence. Mention the form or your photos.", "he": "הטענה ברורה, אבל נשמעת מתגוננת ואין בה ראיות. הזכירו את הטופס או את התמונות." } },
             { "text": "I'm sorry, but that dent was already there when I picked the car up. It's on the damage form, and I've got photos from the pick-up too.", "verdict": "best", "feedback": { "en": "Calm, firm and backed by evidence: exactly how to handle a dispute. 'I'm sorry, but...' signals polite disagreement.", "he": "רגוע, נחוש ומגובה בראיות: בדיוק כך מתמודדים עם מחלוקת. I'm sorry, but... מסמן אי-הסכמה מנומסת." } },
-            { "text": "No way, I'm not paying anything. You're lying!", "verdict": "poor", "feedback": { "en": "Calling the agent a liar escalates the situation. Stay calm, show your proof and, if needed, ask to speak to a manager.", "he": "לקרוא לנציג שקרן רק מסלים את המצב. נשארים רגועים, מציגים הוכחות, ואם צריך מבקשים לדבר עם מנהל." } }
+            { "text": "No way, I'm not paying anything. You're lying!", "verdict": "poor", "feedback": { "en": "Calling the agent a liar escalates the situation. Stay calm, show your proof and, if needed, ask to speak to a manager.", "he": "לקרוא לנציגה שקרנית רק מסלים את המצב. נשארים רגועים, מציגים הוכחות, ואם צריך מבקשים לדבר עם מנהל." } }
           ],
           "model_replies": ["I'm sorry, but that dent was already there when I picked the car up. It's on the damage form, and I've got photos too.", "I don't think that's right. The dent is marked on the pick-up form. Could we look at it together?"],
-          "keywords": ["already", "form", "photos"]
+          "keywords": ["already", "dent", "form", "photos"]
         }
       ],
       "roleplay": {
@@ -901,7 +901,7 @@
         { "us": "coverage", "uk": "cover" },
         { "us": "gas", "uk": "petrol" },
         { "us": "gas station", "uk": "petrol station" },
-        { "us": "stick shift", "uk": "manual" },
+        { "us": "stick shift / manual", "uk": "manual" },
         { "us": "trunk", "uk": "boot" },
         { "us": "windshield", "uk": "windscreen" },
         { "us": "reservation", "uk": "booking", "note": "Both are understood in both countries." }
@@ -930,7 +930,7 @@
         { "en": "Can I walk there?", "he": "אפשר ללכת לשם ברגל?", "register": "neutral" },
         { "en": "Go straight on.", "he": "תמשיכו ישר.", "register": "neutral", "variant": "UK", "note": "US: 'Go straight ahead' or 'Keep going straight'." },
         { "en": "Turn left at the traffic lights.", "he": "תפנו שמאלה ברמזור.", "register": "neutral", "note": "In the US people often say 'at the light'." },
-        { "en": "Take the second right.", "he": "תיקחו את הפנייה השנייה ימינה.", "register": "neutral" },
+        { "en": "Take the second right.", "he": "תפנו בפנייה השנייה ימינה.", "register": "neutral" },
         { "en": "It's on your left.", "he": "זה יהיה בצד שמאל.", "register": "neutral" },
         { "en": "Go two blocks and turn right.", "he": "תלכו שני רחובות ותפנו ימינה.", "register": "neutral", "variant": "US", "note": "'Block' is very common in the US, where many streets form a grid." },
         { "en": "Sorry, could you say that again more slowly?", "he": "סליחה, אפשר לחזור על זה לאט יותר?", "register": "polite" },
@@ -997,7 +997,7 @@
             { "text": "Thank you very much for your help. I am very grateful.", "verdict": "ok", "feedback": { "en": "Polite, but very formal for a quick question on the street. 'Thanks so much!' sounds more natural.", "he": "מנומס, אבל רשמי מאוד לשאלה קצרה ברחוב. Thanks so much! נשמע טבעי יותר." } }
           ],
           "model_replies": ["Oh, I see it! Thanks so much.", "Great, thanks a lot!"],
-          "keywords": ["oh", "see", "thanks"]
+          "keywords": ["see", "thanks", "great"]
         }
       ],
       "roleplay": {

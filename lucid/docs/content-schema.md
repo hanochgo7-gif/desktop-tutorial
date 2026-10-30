@@ -87,7 +87,7 @@ correct answer is strong evidence of ability at that level (no trick questions, 
 `title_he`, `level`, `situation` (Bilingual), `goal` (Bilingual), `partner_role`, `phrases`
 `[{en, he, register: "polite" | "neutral" | "casual", variant?: "US" | "UK", note?}]`,
 `model_dialogue` `[{speaker: "partner" | "you", text}]`,
-`practice` `[{partner, options: [{text, verdict: "best" | "ok" | "poor", feedback: Bilingual}], model_replies[], keywords[]}]`,
+`practice` `[{partner, options: [{text, verdict: "best" | "ok" | "poor", feedback: Bilingual, error_type?}], model_replies[], keywords[]}]` (`error_type` names the taxonomy error a weaker option shows, so analytics do not guess),
 `roleplay` `{persona, complication, opening_line}` (used by AI roleplay when configured),
 `culture?` (Bilingual[]), `variants?` `[{us, uk, note?}]`.
 

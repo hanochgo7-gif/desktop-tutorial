@@ -336,13 +336,15 @@ body.bare .view { max-width: none; padding: 0; }
 .lesson-row.unwritten { border-style: dashed; }
 
 /* ---------- lesson player ---------- */
-.player { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; background: var(--ground); }
+.player { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; grid-template-columns: minmax(0, 1fr); background: var(--ground); }
 .player-top { display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); max-width: 52rem; width: 100%; margin-inline: auto; }
 .progress { flex: 1; height: 0.6rem; border-radius: var(--r-pill); background: var(--key-sunk); border: 1px solid var(--key-edge); overflow: hidden; }
 .progress > span { display: block; height: 100%; background: var(--cobalt); transition: width 0.4s var(--ease-out); border-radius: inherit; }
 .player-body { width: 100%; max-width: 46rem; margin-inline: auto; padding: var(--s5) var(--s4) var(--s7); }
 .player-foot { position: sticky; bottom: 0; border-block-start: 1px solid var(--key-edge); background: var(--ground); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom)); }
-.player-foot .inner { max-width: 46rem; margin-inline: auto; display: flex; align-items: center; gap: var(--s3); }
+.player-foot .inner { max-width: 46rem; margin-inline: auto; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.player-foot .inner > .key { min-width: 0; }
+@media (max-width: 22rem) { .player-foot .inner > .key { white-space: normal; text-align: center; } }
 .player-foot.ok { background: var(--ok-tint); border-color: transparent; }
 .player-foot.bad { background: var(--bad-tint); border-color: transparent; }
 .player-foot.almost { background: var(--warn-tint); border-color: transparent; }
