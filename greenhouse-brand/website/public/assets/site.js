@@ -321,13 +321,15 @@
     return (sz === "lt5" || sz === "5-30") ? "below_minimum" : "in_range";
   }
   function payload() {
-    return {
+    var p = {
       name: label("name"), company: label("company"), email: label("email"), phone: label("phone"),
       role: label("role"), role_code: val("role"), need: label("need"), need_code: val("need"), country: label("country"), country_code: form.country.value, region: label("region"),
       size: label("size"), size_code: form.size.value, status: label("status"), crop: label("crop"), timeline: label("timeline"),
       message: label("message"), heard: label("heard"), meet_berlin: form.berlin && form.berlin.checked, lang: LANG, page: location.pathname, sent_at: new Date().toISOString(),
       fit: fit(), source: SRC, lead_id: leadId
     };
+    if (isPartner()) { LAND.forEach(function (n) { p[n] = ""; }); p.need_code = p.country_code = p.size_code = ""; p.fit = "unknown"; }
+    return p;
   }
   function brief(p) {
     var lines = [M.brief];

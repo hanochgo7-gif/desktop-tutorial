@@ -50,7 +50,7 @@ def esc(s):
     return html.escape(str(s), quote=True)
 
 
-RANGE = re.compile(r"\d[\d,.]*%?\s?[–-]\s?\d[\d,.]*%?")
+RANGE = re.compile(r"\d(?:[\d,.]*\d)?%?\s?[–-]\s?\d(?:[\d,.]*\d)?%?")
 
 
 def t(pair, L):
@@ -243,7 +243,7 @@ def jsonld(slug, L, crumbs):
         "knowsAbout": ["Agricultural net houses", "Anti-hail nets", "Banana net houses", "Orchard net houses", "Loading sheds", "Windbreaks", "Turnkey farms"],
         "employee": [{"@type": "Person", "name": "Merav Eyal Hasfel", "jobTitle": "Co-CEO and owner"}, {"@type": "Person", "name": "Yiftach Hasfel", "jobTitle": "Co-CEO and owner"}],
         "image": f"{DOMAIN}/assets/img/og-miftah.jpg", "description": tm(C.PAGES["index"]["desc"], L),
-        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "availableLanguage": ["he", "en"], "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
+        "contactPoint": {"@type": "ContactPoint", "telephone": "+972-4-985-4404", "contactType": "sales", "areaServed": ["IL", "PT", "ES", "MX", "IN", "HN", "GE", "BY"]},
     }
     graph = [org, {"@type": "WebSite", "@id": f"{DOMAIN}/#site", "url": DOMAIN + "/", "name": "MIFTAH Projects", "inLanguage": ["en", "he"], "publisher": {"@id": f"{DOMAIN}/#org"}},
              {"@type": "WebPage", "url": url(slug, L, True), "name": tm(C.PAGES[slug]["title"], L), "inLanguage": L, "isPartOf": {"@id": f"{DOMAIN}/#site"}, "about": {"@id": f"{DOMAIN}/#org"}}]
@@ -323,12 +323,15 @@ def header(slug, L):
     alt = "he" if L == "en" else "en"
     other = ("he/" if L == "en" else "../") + ("" if slug in ("index", "404") else f"{slug}.html")  # home is "/" and "/he/", never index.html (one URL per page)
     items = "".join(f'<li><a href="{s}.html"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
+    # the main buttons carry the page's context into the form (turnkey, net houses, the crop of a crop page)
+    ctx = qs(need="turnkey") if slug == "turnkey-farms" else qs(need="nethouse") if slug == "net-houses" else \
+        qs(crop=C.CROP_PAGES[slug]["prefill"], need="nethouse") if slug in C.CROP_PAGES else ""
     # on Contact the header button would link to the page itself: it calls the office instead
     cta = (f'<a class="btn btn-primary head-cta" href="tel:{C.SITE["phone_tel"]}" data-where="header-contact">{esc(t(C.SITE["call"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>' if slug == "contact" else
-           f'<a class="btn btn-primary head-cta" href="contact.html" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>')
+           f'<a class="btn btn-primary head-cta" href="contact.html{ctx}" data-track="cta_click" data-label="header">{esc(t(C.SITE["cta"], L))}</a>')
     mbar = "" if slug in ("contact", "how-we-build", "profile", "404") else (
         f'<nav class="mbar" id="mbar" aria-label="{"Quick contact" if L == "en" else "יצירת קשר מהירה"}" hidden><a class="btn btn-line" href="tel:{C.SITE["phone_tel"]}" data-where="mbar">{esc(t(C.SITE["call_short"], L))}</a>'
-        f'<a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="mbar">{esc(t(C.SITE["cta"], L))}</a></nav>')
+        f'<a class="btn btn-primary" href="contact.html{ctx}" data-track="cta_click" data-label="mbar">{esc(t(C.SITE["cta"], L))}</a></nav>')
     return f"""<body{' class="top-dark"' if slug not in ("profile", "404") else ""}>
 <a class="skip" href="#main">{esc(t(C.SITE["skip"], L))}</a>
 <header class="site-head">
@@ -338,7 +341,7 @@ def header(slug, L):
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="{esc(tm(C.SITE["menu"], L))}" data-open="{esc(tm(C.SITE["menu"], L))}" data-close="{esc(tm(C.SITE["close"], L))}"><span class="bars" aria-hidden="true"></span><span class="mb-t">{esc(t(C.SITE["menu"], L))}</span></button>
     <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}">
       <ul>{items}</ul>
-      <a class="btn btn-primary nav-cta" href="contact.html" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
+      <a class="btn btn-primary nav-cta" href="contact.html{ctx}" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
     </nav>
     <a class="lang" href="{other}" hreflang="{alt}" lang="{alt}" data-track="lang_switch">{esc(t(C.SITE["lang_other"], L))}</a>
     <a class="head-tel" href="tel:{C.SITE["phone_tel"]}" data-where="header-text"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a>
@@ -814,8 +817,8 @@ def p_contact(L):
   <div class="fstep" id="fstep-1">
     <h3 class="fstep-h" tabindex="-1">{esc(t(F["step1_h"], L))}</h3>
     <div class="fields">
-    {choices("need", F["needs"], L, F["need"])}
     {choices("role", F["roles"], L, F["role"])}
+    {choices("need", F["needs"], L, F["need"])}
     {select("country", F["country"], F["countries"], L, req=True)}
     {inp("region", F["region"], L, auto="address-level1")}
     {select("size", F["size"], F["sizes"], L, req=True)}
@@ -940,7 +943,7 @@ def p_crop(slug, L):
 <section class="section crop-page" aria-labelledby="spec-h">
   <div class="wrap crop-body">
     <div><h2 id="spec-h">{esc(t(D["spec_h"], L))}</h2><dl class="crop-spec">{rows}</dl>
-      <div class="actions"><a class="btn btn-primary" href="contact.html{qs(crop=D["crop"], need="nethouse")}" data-track="cta_click" data-label="page-{slug}">{esc(t(C.HOME3["crop_cta"], L))}</a></div></div>
+      <div class="actions"><a class="btn btn-primary" href="contact.html{qs(crop=D["prefill"], need="nethouse")}" data-track="cta_click" data-label="page-{slug}">{esc(t(C.HOME3["crop_cta"], L))}</a></div></div>
     <div class="crop-fig">{fig}</div>
   </div>
 </section>
@@ -963,7 +966,7 @@ def p_crop(slug, L):
     <div class="faq">{faqs}</div>
   </div>
 </section>
-{cta_band(L, slug, D["crop"], need="nethouse")}
+{cta_band(L, slug, D["prefill"], need="nethouse")}
 </main>"""
 
 
@@ -1021,18 +1024,21 @@ def globe_page():
                      ("A decade of work with Bar'am Orchard", "The client is willing to give a reference")):
         assert old in js, old
         js = js.replace(old, new)
-    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "MIFTAH Projects - Where agriculture feels at home"),
+    for old, new in (("מיפתח פרויקטים · חקלאות שיש לה בית", "מיפתח פרויקטים - חקלאות שיש לה בית"), ("MIFTAH Projects · Where agriculture feels at home", "Where agriculture feels at home"),
                      ('d: "4 פרויקטים בגליל ובגולן"', 'd: "פרויקטים נבחרים בישראל"'), ('d: "4 projects in the Galilee and the Golan"', 'd: "Selected projects in Israel"'),
                      ("מכפר מסריק לגליל, לגולן, ולשבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים, מדריכים צוות מקומי ומנהלים את הביצוע.",
-                      "ישראל ושבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים את העבודה, מדריכים צוות מקומי ומנהלים את הביצוע."),
+                      "ישראל ושבע מדינות מעבר לים. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע."),
                      ("From Kfar Masaryk to the Galilee, the Golan and seven countries abroad. On every project abroad we design, train a local crew and manage the build.",
-                      "Israel and seven countries abroad. On every project abroad we plan the work, train a local crew and manage the build."),
+                      "Israel and seven countries abroad. Abroad, we plan the work, train local crews and manage the build."),
                      # opened without ?lang and without a saved choice: the browser's language (Hebrew browsers get Hebrew)
-                     ('var L = "he", sel = "il";', 'var L = /^he\\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";')):
+                     ('var L = "he", sel = "il";', 'var L = /^he\\b/i.test(navigator.language || "") ? "he" : "en", sel = "il";'),
+                     ('{ id: "baram", g: "il", lat: 33.063, lon: 35.432, prec: "exact",', '{ id: "ug", g: "il", lat: 33.0, lon: 35.5, prec: "region",'),
+                     ('var fly = p.g === "il" && HAS_FLY ?', 'var fly = p.id === "il" && HAS_FLY ?')):
         assert old in js, old
         js = js.replace(old, new)
     js += ('\n(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en";'
-           ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט"; }'
+           ' a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט";'
+           ' var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת"); }'
            ' u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();\n')
     (out / "globe.js").write_text(js)
     page = src[:i0] + f'<script src="globe.js?v={ver(out / "globe.js")}"></script>' + src[i1 + len("</script>"):]

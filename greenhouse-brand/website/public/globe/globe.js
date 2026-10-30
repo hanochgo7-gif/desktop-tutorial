@@ -7,7 +7,7 @@
   // הפרויקטים: רק מה שאושר (שאלון + אתר קיים). prec: exact = יישוב ידוע, region = אזור/מדינה בלבד
   var P = [
     { id: "il", g: "il", lat: 32.95, lon: 35.35, prec: "region", he: { n: "ישראל", d: "פרויקטים נבחרים בישראל", w: "קיווי בגליל העליון, בננות בגליל המערבי, תפוחים ברמת הגולן, דובדבנים" }, en: { n: "Israel", d: "Selected projects in Israel", w: "Kiwi in the Upper Galilee, bananas in the Western Galilee, apples in the Golan, cherries" } },
-    { id: "baram", g: "il", lat: 33.063, lon: 35.432, prec: "exact", pos: "t", he: { n: "קיווי, הגליל העליון", d: "בית רשת עם הדליה בצורת סוכה", w: "הלקוח מוכן להמליץ עלינו" }, en: { n: "Kiwi, Upper Galilee", d: "Net house with a pergola trellis", w: "The client is willing to give a reference" }, sub: true },
+    { id: "ug", g: "il", lat: 33.0, lon: 35.5, prec: "region", pos: "t", he: { n: "קיווי, הגליל העליון", d: "בית רשת עם הדליה בצורת סוכה", w: "הלקוח מוכן להמליץ עלינו" }, en: { n: "Kiwi, Upper Galilee", d: "Net house with a pergola trellis", w: "The client is willing to give a reference" }, sub: true },
     { id: "wg", g: "il", lat: 33.02, lon: 35.15, prec: "region", pos: "l", he: { n: "בננות, הגליל המערבי", d: "בית רשת עם רשת 11%", w: "רשת קלה ואוורירית: הגנה מרוח וברד, וחיסכון במים בקיץ" }, en: { n: "Bananas, Western Galilee", d: "Net house with an 11% net", w: "A light, airy net: protection from wind and hail, water saved in summer" }, sub: true },
     { id: "golan", g: "il", lat: 33.05, lon: 35.77, prec: "region", pos: "t", he: { n: "תפוחים, רמת הגולן", d: "רשת שמתקפלת בחורף", w: "נפרסת בקיץ ומתקפלת בחורף" }, en: { n: "Apples, Golan Heights", d: "Nets fold away in winter", w: "Spread in summer, folded in winter" }, sub: true },
     { id: "cherry", g: "il", lat: null, lon: null, prec: "none", he: { n: "דובדבנים", d: "בית רשת למטע", w: "מיקום עוד לא צוין" }, en: { n: "Cherries", d: "Orchard net house", w: "Location not given yet" }, sub: true },
@@ -20,12 +20,12 @@
     { id: "by", g: "ab", lat: 53.7, lon: 27.9, prec: "region", he: { n: "בלארוס", d: "פרויקט מורכב", w: "ייצור מקומי וצוותים מקומיים, הסתיים בזמן" }, en: { n: "Belarus", d: "A complex project", w: "Local production and local crews, delivered on schedule" } }
   ];
   var T = {
-    he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "ישראל ושבע מדינות מעבר לים. בכל פרויקט בחו״ל אנחנו מתכננים את העבודה, מדריכים צוות מקומי ומנהלים את הביצוע.",
+    he: { dir: "rtl", lang: "en", langL: "English", eb: "מיפתח פרויקטים - חקלאות שיש לה בית", h1: "פרויקטים בשמונה מדינות.", lede: "ישראל ושבע מדינות מעבר לים. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע.",
       s1: "מ״ר של בתי רשת בחו״ל, ב-5 מדינות", s2: "מדינות, כולל ישראל", s3: "שנים בשטח", g1: "ישראל", g2: "מעבר לים", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "גוררים לצדדים כדי לסובב · לוחצים על נקודה" : "גוררים כדי לסובב · Ctrl + גלגלת לזום · לוחצים על נקודה") : "גוררים כדי לסובב · גלגלת או צביטה לזום · לוחצים על נקודה",
       note: "השטחים נכונים ל-2015. נקודה צהובה: הפרויקט מסומן ברמת מדינה או אזור, לא במיקום המדויק. גובה קרן האור לפי השטח.",
       hq: "מיפתח · כפר מסריק", k: "פרויקט", size: "שטח", m2: "מ״ר", loc: "מיקום", exact: "יישוב מדויק", region: "מסומן ברמת מדינה או אזור", none: "לא צוין", from: "מכפר מסריק", km: "ק״מ", title: "מפת הפרויקטים של מיפתח",
       aria: "גלובוס אינטראקטיבי עם הפרויקטים של מיפתח בישראל ובעולם", fly: "▶ מהחלל אל בית הרשת", flyc: "הדמיית מעבר מהחלל, שמסתיימת בצילום רחפן אמיתי של בית רשת של מיפתח.", close: "סגירה", ill: "הדמיה", real: "צילום רחפן אמיתי" },
-    en: { dir: "ltr", lang: "he", langL: "עברית", eb: "MIFTAH Projects - Where agriculture feels at home", h1: "Projects in eight countries.", lede: "Israel and seven countries abroad. On every project abroad we plan the work, train a local crew and manage the build.",
+    en: { dir: "ltr", lang: "he", langL: "עברית", eb: "Where agriculture feels at home", h1: "Projects in eight countries.", lede: "Israel and seven countries abroad. Abroad, we plan the work, train local crews and manage the build.",
       s1: "m² of net houses abroad, in 5 countries", s2: "countries, including Israel", s3: "years in the field", g1: "Israel", g2: "Abroad", hint: location.hash === "#compact" ? (matchMedia("(pointer: coarse)").matches ? "Drag sideways to rotate · tap a point" : "Drag to rotate · Ctrl + scroll to zoom · tap a point") : "Drag to rotate · scroll or pinch to zoom · tap a point",
       note: "Areas as of 2015. A yellow point marks the country or region, not the exact site. Beam height follows the area.",
       hq: "MIFTAH · Kfar Masaryk", k: "Project", size: "Area", m2: "m²", loc: "Location", exact: "Exact village", region: "Marked at country or region level", none: "Not given", from: "from Kfar Masaryk", km: "km", title: "MIFTAH Project Map",
@@ -272,7 +272,7 @@
     if (p.m2) rows += "<dt>" + t.size + '</dt><dd class="num">' + fmt(p.m2) + " " + t.m2 + "</dd>";
     rows += "<dt>" + t.loc + '</dt><dd><span class="prec ' + (p.prec === "exact" ? "exact" : "region") + '">' + precTxt + "</span></dd>";
     if (p.lat != null && p.g === "ab") rows += "<dt>" + t.from + '</dt><dd class="num">~' + fmt(km(p)) + " " + t.km + "</dd>";
-    var fly = p.g === "il" && HAS_FLY ? '<button type="button" class="fly" id="flyb">' + t.fly + "</button>" : "";
+    var fly = p.id === "il" && HAS_FLY ? '<button type="button" class="fly" id="flyb">' + t.fly + "</button>" : "";
     c.innerHTML = '<span class="k">' + t.k + "</span><h3>" + esc(p[L].n) + "</h3><p>" + esc(p[L].d) + ". " + esc(p[L].w) + ".</p><dl>" + rows + "</dl>" + fly;
     var fb = document.getElementById("flyb"); if (fb) fb.addEventListener("click", openFly);
   }
@@ -317,4 +317,4 @@
 
 document.documentElement.setAttribute("data-i18n", "1");
 
-(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en"; a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט"; } u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();
+(function () { var a = document.getElementById("globe-cta"); if (!a) return; function u() { var en = document.documentElement.lang === "en"; a.href = en ? "../contact.html" : "../he/contact.html"; a.textContent = en ? "Discuss your project" : "דברו איתנו על הפרויקט"; var fb = document.getElementById("flybox"); if (fb) fb.setAttribute("aria-label", en ? "From orbit to the net house" : "מהחלל אל בית הרשת"); } u(); new MutationObserver(u).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] }); })();
