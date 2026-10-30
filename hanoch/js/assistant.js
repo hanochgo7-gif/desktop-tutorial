@@ -381,7 +381,7 @@
     say(T('הנה שלוש עבודות שונות מאוד זו מזו:', 'Here are three very different projects:') + '\n' +
       ['gotovski', 'chef', 'clinic'].map(function (id) { return '• ' + PROJ[id] + ' ' + work(id); }).join('\n') + '\n' +
       T('ספרו לי איזה עסק יש לכם, ואמצא את הכי דומה.', 'Tell me what business you have, and I’ll find the closest one.'));
-    chips([[T('מה מתאים לעסק שלי?', 'What fits my business?'), function () { diag(false); }], [T('לכל העבודות', 'All work'), function () { location.href = EN ? '/en-work.html' : '/work.html'; }]], true);
+    chips([[T('מה מתאים לעסק שלי?', 'What fits my business?'), function () { diag(false); }], [T('לכל העבודות', 'All work'), function () { var to = EN ? '/en-work.html' : '/work.html'; location.href = window.hgAd && window.hgAd.link ? window.hgAd.link(to) : to; }]], true);
     focusFirstChip();
   }
   function briefText(extra) {

@@ -32,6 +32,9 @@ GUIDES = {'website-building': [('how-much-does-a-website-cost', 'כמה עולה
 # כתובת בלי לוכסן בסוף (hgpro.io/services) שוברת את הקישורים היחסיים: מוסיפים אותו
 SLASH = '<script>if(!/\\/$/.test(location.pathname)&&!/\\.[a-z]+$/.test(location.pathname))location.replace(location.pathname+"/"+location.search+location.hash)</script>'
 CB_LINK = '<button class="sv-cb" type="button" data-callback hidden>או שאחזור אליכם בשעה נוחה</button>'
+# שירותים של אתרים: רק בהם הגורמים למחיר (עמודים, מערכות, טקסטים, שפה) רלוונטיים
+WEB_SLUGS = {'website-building', 'web-design', 'landing-page', 'online-store', 'wix-migration',
+             'website-design', 'web-design-studio', 'landing-page-design', 'ecommerce-store', 'wix-wordpress-migration'}
 # בטלפון הפס התחתון מופיע רק אחרי שהכפתור הראשון יצא מהמסך, כדי שלא יהיו שלושה כפתורי וואטסאפ במסך הראשון
 DOCK_JS = '<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>\n'
 CRM_SCRIPTS = ('<script src="../js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>\n'
@@ -402,7 +405,8 @@ body { background: var(--ink, #0a0a0b); }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
   .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
 }
-.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+.sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
+.sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
 /* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
 .sv-dock { display: none; }
 @media (max-width: 700px) {
@@ -438,7 +442,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
 .sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
-.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
 .sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
@@ -574,13 +578,13 @@ def render(p):
   <p class="sv-kicker">{esc(p['kicker'])}</p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{esc(p['lead'])}</p>
-  {pkg}<p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">054-5522053</a>{CB_LINK if he else ''}</p>
+  {pkg}<p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a>{CB_LINK if he else ''}</p>
   <p class="sv-facts">{facts}</p>
   {secs}
   <h2>{T('איך זה עובד', 'How it works')}</h2>
   <ol class="sv-steps">{''.join(f'<li><b>{esc(a)}</b>{esc(b)}</li>' for a, b in steps)}</ol>
   <h2>{T('איך נקבע המחיר', 'How pricing works')}</h2>
-  <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך: כמה עמודים, אילו מערכות (למשל תורים או חנות), מי כותב את הטקסטים, והאם צריך שפה שנייה. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs: how many pages, which systems (bookings or a store, for example), who writes the copy, and whether you need a second language. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
+  <p>{T('כל פרויקט מתומחר לפי מה שהעסק שלכם צריך' + (': כמה עמודים, אילו מערכות (למשל תורים או חנות), מי כותב את הטקסטים, והאם צריך שפה שנייה' if p['slug'] in WEB_SLUGS else '') + '. אחרי שיחת היכרות קצרה מקבלים הצעה כתובה עם מחיר סגור ולוח זמנים, ומה שכתוב בהצעה זה מה שמשלמים.', 'Every project is priced around what your business needs' + (': how many pages, which systems (bookings or a store, for example), who writes the copy, and whether you need a second language' if p['slug'] in WEB_SLUGS else '') + '. After a short intro call you get a written proposal with a fixed price and a schedule, and what it says is what you pay.')}</p>
   {f'<h2>{T("מהתיק", "From the portfolio")}</h2><div class="sv-cards">{ex}</div>{ex_after}' if ex else ''}
   <h2>{T('שאלות נפוצות', 'FAQ')}</h2>
   <div class="sv-faq">{faq}</div>

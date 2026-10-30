@@ -516,7 +516,7 @@
           <div class="d-h" style="font-size:1.5em">${T('מה קורה כשהחשמל נופל?', 'What happens when the power goes out?')}</div>
           <div style="opacity:.75;max-width:40ch">${T('לקוחות של ש. גוטובסקי לוחצים על כפתור ורואים איך הגנרטורים מתניעים. ככה מסבירים מערכת מורכבת בלי מילה אחת.', 'S. Gotovski’s customers press a button and watch the generators kick in. A complex system, explained without a single word.')}</div>
           <button class="d-btn hot d-go" type="button">${T('לנסות את ההדמיה', 'Try the simulation')}</button></div></div>`;
-      $('.d-go', s).addEventListener('click', () => { location.href = T('work.html#demo', 'en-work.html#demo'); });
+      $('.d-go', s).addEventListener('click', () => { const to = T('work.html#demo', 'en-work.html#demo'); location.href = window.hgAd && window.hgAd.link ? window.hgAd.link(to) : to; });
     }
   };
 

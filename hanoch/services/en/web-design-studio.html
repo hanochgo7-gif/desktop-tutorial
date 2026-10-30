@@ -39,7 +39,8 @@ body { background: var(--ink, #0a0a0b); }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
   .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
 }
-.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+.sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
+.sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
 /* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
 .sv-dock { display: none; }
 @media (max-width: 700px) {
@@ -75,7 +76,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
 .sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
-.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
 .sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
@@ -111,7 +112,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="sv-kicker">Service · Web design</p>
   <h1>Custom web design and development</h1>
   <p class="sv-lead">A good business website is not a business card. It is a salesperson that works at night: it explains what you do, convinces visitors you are the right choice and brings them to a message. HG Studio designs and builds every site from scratch, around your business, with design, code and motion in one pair of hands.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">054-5522053</a></p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Custom%20web%20design%20studio%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a></p>
   <p class="sv-facts">A fixed price in a written proposal · You talk to me directly</p>
   <h2>What you get</h2><ul><li>A custom design for every page, not a template shared by thousands.</li><li>Fully responsive and fast, because most visitors arrive on a phone.</li><li>Titles, descriptions, business markup and a sitemap, so Google understands what you do.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>A simple content manager to update text, images and prices yourself.</li><li>Accessibility built in from the start.</li></ul><h2>Work across languages</h2><p>Sites in Hebrew, English and more, with correct right-to-left layout where needed. The studio is based in Israel and works with clients worldwide.</p>
   <h2>How it works</h2>

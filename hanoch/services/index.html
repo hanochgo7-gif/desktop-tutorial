@@ -33,7 +33,8 @@ body { background: var(--ink, #0a0a0b); }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
   .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
 }
-.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+.sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
+.sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
 /* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
 .sv-dock { display: none; }
 @media (max-width: 700px) {
@@ -69,7 +70,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
 .sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
-.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
 .sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }

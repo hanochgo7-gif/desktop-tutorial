@@ -52,5 +52,16 @@
     else carry(a);
   }, true);
 
-  window.hgAd = { code: code, tag: tag };
+  // כתובת לניווט מהקוד (לא דרך קישור): מצרפת את קוד המודעה ואת מזהה הקליק של גוגל כמו בלחיצה על קישור
+  function link(url) {
+    var u;
+    try { u = new URL(url, location.href); } catch (e) { return url; }
+    if (u.origin !== location.origin) return url;
+    var q = new URLSearchParams(location.search);
+    ['gclid', 'gbraid', 'wbraid', '_gl'].forEach(function (k) { if (q.get(k) && !u.searchParams.get(k)) u.searchParams.set(k, q.get(k)); });
+    if (here && !(window.hgConsent && window.hgConsent.analytics()) && !u.searchParams.get('utm_content') && !u.searchParams.get('hgad')) u.searchParams.set('hgad', here);
+    return u.href;
+  }
+
+  window.hgAd = { code: code, tag: tag, link: link };
 })();

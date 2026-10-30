@@ -39,7 +39,8 @@ body { background: var(--ink, #0a0a0b); }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
   .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
 }
-.sv-early { display: flex; flex-wrap: wrap; gap: 12px; margin: 1.6rem 0 0; }
+.sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
+.sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
 /* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
 .sv-dock { display: none; }
 @media (max-width: 700px) {
@@ -75,7 +76,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-pkg { margin-top: 1rem; color: var(--fg-dim); }
 .sv-pkg a, .sv-facts a { color: var(--fg, #ede8de); text-underline-offset: 4px; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
-.sv-cb { min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
 .sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
 .sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
@@ -111,7 +112,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="sv-kicker">Service · Landing pages</p>
   <h1>Landing page design</h1>
   <p class="sv-lead">A landing page does one thing and does it well: it takes someone who clicked an ad or a link and turns them into an enquiry. No menus to distract them, no ten pages. One clear message, proof that you can be trusted, and a button.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Landing%20page%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">054-5522053</a></p>
+  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Landing%20page%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a></p>
   <p class="sv-facts">A fixed price in a written proposal · You talk to me directly</p>
   <h2>When you need one</h2><ul><li>When you run a campaign on Google, Facebook or Instagram and want every shekel to work.</li><li>When you launch a product, a workshop or a new service.</li><li>When you are a freelancer and want a professional presence quickly and on a sane budget.</li></ul><h2>What is on the page</h2><ul><li>A headline that says exactly what people get, and who it is for.</li><li>Up to six sections: the problem, the solution, how it works, proof, questions and contact.</li><li>WhatsApp, call and form buttons, with every click measured.</li><li>Fast loading, because every second of waiting costs leads.</li><li>A branded share image for WhatsApp and Facebook.</li></ul><h2>Tracking</h2><p>A Meta pixel, Google conversions and a separate page per campaign can be connected, so you know exactly what brings customers. See <a href="seo-services.html">SEO</a> and campaign tracking.</p>
   <h2>How it works</h2>

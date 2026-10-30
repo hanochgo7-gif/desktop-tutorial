@@ -83,7 +83,48 @@
     if (want > (parseFloat(getComputedStyle(box).bottom) || 0)) box.style.bottom = Math.round(want) + 'px';
   }
   // בזמן שההודעה פתוחה, מה שמקבל מיקוד מקלדת נגלל מעליה ולא מתחתיה
-  function show() { if (!box) build(); lift(); box.hidden = false; document.documentElement.style.scrollPaddingBottom = (box.offsetHeight + (parseFloat(getComputedStyle(box).bottom) || 18) + 12) + 'px'; }
+  function reveal() { box.hidden = false; document.documentElement.style.scrollPaddingBottom = (box.offsetHeight + (parseFloat(getComputedStyle(box).bottom) || 18) + 12) + 'px'; }
+  function show() { if (!box) build(); lift(); reveal(); }
+
+  // כשההודעה עולה לבד (ולא מהקישור "הגדרות עוגיות"), היא לא נוחתת על דרך פנייה: טלפון, וואטסאפ, שיחה חוזרת,
+  // או שורת הכפתורים הראשית של דף הבית (בפתיחה ובסיום, בעברית ובאנגלית).
+  // הבדיקה נעשית רק כשהדף עומד. אם יש דרך פנייה באזור שלה, היא מחכה שהגלילה הבאה תיעצר ובודקת שוב.
+  // מה שלא נראה על המסך או שאי אפשר ללחוץ עליו (למשל בתוך תפריט סגור) לא נחשב
+  var CONTACT = 'a[href^="tel:"], a[href*="wa.me"], a[href*="api.whatsapp.com"], [data-callback], .cta-row a, .cr-cta a';
+  function seen(el) {
+    if (el.closest('#dock, .sv-dock, .consent, dialog, [inert], details:not([open]) > :not(summary)')) return false;
+    try { return !el.checkVisibility || el.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true }); } catch (e) { return true; }
+  }
+  function covers() {
+    var top = box.getBoundingClientRect().top - 8, list = document.querySelectorAll(CONTACT);
+    for (var i = 0; i < list.length; i++) {
+      if (!seen(list[i])) continue;
+      var r = list[i].getBoundingClientRect();
+      if (r.width && r.height && r.bottom > top && r.top < innerHeight) return true;
+    }
+    return false;
+  }
+  // גלילה של הדף, או של אזור גלילה שתופס את רוב המסך (כמו הארכיון בטלפון). קרוסלה או רשימה קטנה לא נחשבות
+  function pageScroll(e) { var t = e.target; return t === document || t === window || (t.clientHeight > innerHeight * 0.6 && t.scrollHeight > t.clientHeight); }
+  var moved = 0;
+  addEventListener('scroll', function (e) { if (pageScroll(e)) moved = Date.now(); }, { passive: true, capture: true });
+  function later(now) {
+    var t, again = function (e) { if (e && !pageScroll(e)) return; clearTimeout(t); t = setTimeout(function () { removeEventListener('scroll', again, true); autoShow(); }, 250); };
+    addEventListener('scroll', again, { passive: true, capture: true });
+    if (now) again();
+  }
+  function autoShow() {
+    if (read() || (box && !box.hidden)) return; // כבר בחרו, או שההודעה כבר פתוחה (למשל דרך "הגדרות עוגיות")
+    if (Date.now() - moved < 200) return later(true);
+    if (!box) build();
+    lift();
+    box.style.visibility = 'hidden'; box.hidden = false;
+    var blocked = covers();
+    box.style.visibility = '';
+    if (!blocked) return reveal();
+    box.hidden = true;
+    later(false);
+  }
   function hide() { if (box) box.hidden = true; document.documentElement.style.scrollPaddingBottom = ''; }
 
   function choose(yes) {
@@ -126,19 +167,19 @@
   // בעמודים עם כפתור הצ'אט, ההודעה מופיעה רק אחרי שהכפתור במקומו (עד 3 שניות). כך היא לא קופצת למעלה אחרי שכבר נראתה
   function ask() {
     var chat = document.querySelector('script[src*="assistant.js"]');
-    if (!chat || document.documentElement.hasAttribute('data-launcher')) show();
+    if (!chat || document.documentElement.hasAttribute('data-launcher')) autoShow();
     else {
-      var t = setTimeout(show, 3000);
-      document.addEventListener('hg:launcher', function () { clearTimeout(t); show(); }, { once: true });
+      var t = setTimeout(autoShow, 3000);
+      document.addEventListener('hg:launcher', function () { clearTimeout(t); autoShow(); }, { once: true });
     }
   }
 
   function init() {
     if (!state && !embedded) {
-      // ההודעה מחכה שיעברו את רוב המסך הראשון (או 25 שניות), כדי שהכותרת, הטלפון והשיחה החוזרת לא יוסתרו בזמן שקוראים אותם.
+      // ההודעה מחכה שיעברו את רוב המסך הראשון (או 25 שניות), ואז גם לרגע שבו היא לא מכסה דרך פנייה (autoShow).
       // זה לא משנה מה נאסף: עד שמאשרים לא נשמרת שום עוגייה (js/ga.js)
       var asked = false, wait;
-      var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', past); ask(); };
+      var go = function () { if (asked) return; asked = true; clearTimeout(wait); removeEventListener('scroll', past); if (!read()) ask(); };
       var past = function () { if (window.scrollY > innerHeight * 0.6) go(); };
       addEventListener('scroll', past, { passive: true });
       wait = setTimeout(go, 25000);
