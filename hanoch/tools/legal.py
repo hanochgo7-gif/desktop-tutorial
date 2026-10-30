@@ -132,7 +132,7 @@ PRIVACY_HE = '''  <p class="lead">האתר hgpro.io שייך ל-HG Studio, הע�
   <h2 id="meta">מדידת פרסום ב-Meta (פייסבוק ואינסטגרם)</h2>
   <p>כשאני מפרסם בפייסבוק ובאינסטגרם, האתר יכול להשתמש בפיקסל של Meta כדי לדעת אילו מודעות הביאו פניות. הפיקסל נטען רק אם אישרתם עוגיות. בלי אישור לא נטען שום קוד של Meta ולא נשלח אליה כלום. אחרי אישור Meta מקבלת את העמודים שנצפו, מידע טכני על הדפדפן והמכשיר, כתובת IP, ולחיצה על וואטסאפ, טלפון או מייל או פנייה שנשמרה במערכת הפניות (בלי הפרטים שבה), יחד עם קוד המודעה אם הגעתם ממודעה. תוכן ההודעות ופרטים שכתבתם בטופס לא נשלחים ל-Meta. Meta מעבדת את המידע לפי מדיניות הפרטיות שלה, גם מחוץ לישראל. את האישור אפשר לבטל בכל עת בקישור "הגדרות עוגיות" בתחתית כל עמוד, ואז העוגיות של Meta נמחקות מהדפדפן.</p>
   <h2 id="adcode">קוד המודעה בהודעת הוואטסאפ</h2>
-  <p>אם הגעתם מקישור של מודעה, הודעת הוואטסאפ שנפתחת כוללת בסופה קוד קצר (למשל "קוד: M12"), כדי שאדע מאיזו מודעה הגיעה הפנייה. הקוד מופיע בהודעה לפני השליחה, ואפשר למחוק אותו. אם אישרתם עוגיות, הקוד נזכר עד סגירת הלשונית גם במעבר בין עמודים.</p>
+  <p>אם הגעתם מקישור של מודעה, הודעת הוואטסאפ שנפתחת כוללת בסופה קוד קצר (למשל "קוד: M12"), כדי שאדע מאיזו מודעה הגיעה הפנייה. הקוד מופיע בהודעה לפני השליחה, ואפשר למחוק אותו. כשעוברים לעמוד אחר באתר, הקוד עובר בכתובת של העמוד הבא, בלי עוגייה ובלי שמירה בדפדפן. אם אישרתם עוגיות, הוא נזכר גם עד סגירת הלשונית.</p>
 
   <h2 id="cookies">עוגיות ואחסון בדפדפן</h2>
   <p>עוגיות (Cookies) וזיכרון מקומי (Local Storage) הם קבצים קטנים שהדפדפן שומר. האתר משתמש באלה בלבד:</p>
@@ -231,7 +231,7 @@ PRIVACY_EN = '''  <p class="lead">hgpro.io belongs to HG Studio, the business of
   <h2 id="meta">Ad measurement on Meta (Facebook and Instagram)</h2>
   <p>When I advertise on Facebook and Instagram, the site may use the Meta Pixel to learn which ads brought enquiries. The pixel loads only if you allow cookies. Without consent, no Meta code loads and nothing is sent to Meta. With consent, Meta receives the pages viewed, technical information about your browser and device, your IP address, and clicks on WhatsApp, phone or email or an inquiry saved in my inquiries system (without its details), together with the ad code if you came from an ad. The content of your messages and anything you typed in a form are not sent to Meta. Meta processes this information under its own privacy policy, including outside Israel. You can withdraw consent at any time with the "Cookie settings" link at the bottom of every page, and Meta's cookies are then deleted from your browser.</p>
   <h2 id="adcode">The ad code in the WhatsApp message</h2>
-  <p>If you arrived from an ad link, the WhatsApp message that opens ends with a short code (for example "Code: M12") so I know which ad brought the enquiry. You see the code before sending and can delete it. If you allowed cookies, the code is remembered until you close the tab, even as you move between pages.</p>
+  <p>If you arrived from an ad link, the WhatsApp message that opens ends with a short code (for example "Code: M12") so I know which ad brought the enquiry. You see the code before sending and can delete it. When you move to another page on the site, the code travels in that page's address, without a cookie and without being stored in your browser. If you allowed cookies, it is also remembered until you close the tab.</p>
 
   <h2 id="cookies">Cookies and browser storage</h2>
   <p>Cookies and local storage are small files your browser keeps. The site uses only these:</p>
