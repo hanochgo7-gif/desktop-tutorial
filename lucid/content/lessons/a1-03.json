@@ -62,7 +62,7 @@
         "1": { "en": "It's the other way round: no meat, but fish is OK.", "he": "הפוך: בלי בשר, אבל דגים כן." }
       },
       "option_errors": { "0": "comprehension", "1": "comprehension" },
-      "explanation": { "en": "In speech, don't is short and quick: I don't eat meat. Listen for the /t/ at the end.", "he": "בדיבור don't קצר ומהיר: I don't eat meat. הקשיבו ל-t בסוף." }
+      "explanation": { "en": "In speech, don't is short and quick, and its t is often very soft. Listen for the vowel instead: don't /dəʊnt/ sounds like 'dohnt', not like do /duː/.", "he": "בדיבור don't קצר ומהיר, וה-t בסופו נשמעת לפעמים בקושי. לכן הקשיבו לתנועה: don't /dəʊnt/ נשמע 'דוֹנְט', ולא כמו do /duː/ ('דוּ')." }
     },
     {
       "id": "e2", "type": "categorize", "skill": "grammar", "topic": "present-simple-questions-negatives",
@@ -120,6 +120,7 @@
         { "match": "doesn't likes", "feedback": { "en": "After doesn't, the verb has no -s: doesn't like.", "he": "אחרי doesn't הפועל בלי s: doesn't like." }, "error_type": "do-support" },
         { "match": "don't like", "feedback": { "en": "My brother = he, so doesn't: doesn't like.", "he": "My brother = he, ולכן doesn't: doesn't like." }, "error_type": "agreement" },
         { "match": "not likes", "feedback": { "en": "English needs does: My brother doesn't like coffee.", "he": "באנגלית צריך does: My brother doesn't like coffee." }, "error_type": "do-support" },
+        { "match": "not like", "feedback": { "en": "English needs does before not: My brother doesn't like coffee.", "he": "באנגלית צריך does לפני not: My brother doesn't like coffee." }, "error_type": "do-support" },
         { "match": "dont eat", "feedback": { "en": "Almost! Add the apostrophe: don't.", "he": "כמעט! הוסיפו גרש (אפוסטרוף): don't." }, "error_type": "spelling" },
         { "match": "doesnt like", "feedback": { "en": "Almost! Add the apostrophe: doesn't.", "he": "כמעט! הוסיפו גרש (אפוסטרוף): doesn't." }, "error_type": "spelling" }
       ],
@@ -134,8 +135,8 @@
       "wrong_feedback": [
         { "match": "likes", "feedback": { "en": "After do/does, use the base verb: like.", "he": "אחרי do/does בא פועל בסיס: like." }, "error_type": "do-support" },
         { "match": "works", "feedback": { "en": "After does, no -s: Does your sister work...?", "he": "אחרי does אין s: Does your sister work...?" }, "error_type": "do-support" },
-        { "match": "Are", "feedback": { "en": "like is a verb, so use do: Do your parents like...?", "he": "like הוא פועל, ולכן משתמשים ב-do: Do your parents like...?" }, "error_type": "do-support" },
-        { "match": "Is", "feedback": { "en": "work is a verb, so use does: Does your sister work...?", "he": "work הוא פועל, ולכן משתמשים ב-does: Does your sister work...?" }, "error_type": "do-support" },
+        { "match": "Are", "feedback": { "en": "like and work are normal verbs, so these questions need Do or Does, not are or is.", "he": "like ו-work הם פעלים רגילים, ולכן בשאלות האלה צריך Do או Does – לא are או is." }, "error_type": "do-support" },
+        { "match": "Is", "feedback": { "en": "like and work are normal verbs, so these questions need Do or Does, not are or is.", "he": "like ו-work הם פעלים רגילים, ולכן בשאלות האלה צריך Do או Does – לא are או is." }, "error_type": "do-support" },
         { "match": "Does", "feedback": { "en": "your parents = they, so Do.", "he": "your parents = they, ולכן Do." }, "error_type": "agreement" },
         { "match": "Do", "feedback": { "en": "your sister = she, so Does.", "he": "your sister = she, ולכן Does." }, "error_type": "agreement" }
       ],
@@ -184,7 +185,7 @@
         { "match": "You speak Spanish?", "feedback": { "en": "In Hebrew the voice alone makes the question. In English, add Do: Do you speak Spanish?", "he": "בעברית הטון לבדו הופך את המשפט לשאלה. באנגלית מוסיפים Do: Do you speak Spanish?" }, "error_type": "do-support" },
         { "match": "Are you speak Spanish?", "feedback": { "en": "speak is a verb, so use do, not are.", "he": "speak הוא פועל, ולכן do ולא are." }, "error_type": "do-support" },
         { "match": "Do you talk Spanish?", "feedback": { "en": "For languages, English uses speak: Do you speak Spanish?", "he": "עם שפות משתמשים ב-speak: Do you speak Spanish? (talk = לשוחח עם מישהו.)" }, "error_type": "word-choice" },
-        { "match": "Are you speaking Spanish?", "feedback": { "en": "This asks what is happening right now. To ask if she knows the language: Do you speak Spanish?", "he": "זה שואל מה קורה ממש עכשיו. כדי לשאול אם היא יודעת את השפה: Do you speak Spanish?" }, "error_type": "tense-choice" }
+        { "match": "Are you speaking Spanish?", "feedback": { "en": "This asks what is happening right now. To ask if someone knows the language: Do you speak Spanish?", "he": "זה שואל מה קורה ממש עכשיו. כדי לשאול אם מישהו יודע את השפה: Do you speak Spanish?" }, "error_type": "tense-choice" }
       ],
       "explanation": { "en": "Hebrew: the same words + a rising voice. English: Do + you + speak. And Spanish has a capital letter.", "he": "בעברית: אותן מילים + טון עולה. באנגלית: Do + you + speak. ושימו לב: Spanish באות גדולה." }
     },
@@ -210,10 +211,10 @@
       "id": "e13", "type": "read", "skill": "reading", "topic": "present-simple-questions-negatives",
       "prompt": { "en": "Read Daniel's message and answer the questions.", "he": "קראו את ההודעה של דניאל וענו על השאלות." },
       "title": "Re: The room in Bat Yam",
-      "passage": "Hi Kenji,\nThanks for your message about the room. Here are some answers. The flat is near the beach in Bat Yam. I'm a nurse, so I work at night and sleep during the day. I don't smoke, and I don't have a cat or a dog. My friend Sara lives here too. She doesn't work at night – she's a teacher. Now some questions for you: Do you cook? We cook dinner together on Fridays. And do you play an instrument? Sara plays the piano!\nDaniel",
+      "passage": "Hi Kenji,\nThanks for your message about the room. Here are some answers. The flat is near the beach in Bat Yam. I'm a nurse. I work at night and sleep during the day. I don't smoke, and I don't have a cat or a dog. My friend Sara lives here too. She doesn't work at night – she's a teacher. Now some questions for you: Do you cook? We cook dinner together on Fridays. And do you play an instrument? Sara plays the piano!\nDaniel",
       "questions": [
         { "type": "tf", "statement": "Daniel works at night.", "answer": true,
-          "explanation": { "en": "I'm a nurse, so I work at night.", "he": "דניאל כותב: I'm a nurse, so I work at night." } },
+          "explanation": { "en": "I'm a nurse. I work at night.", "he": "דניאל כותב: I'm a nurse. I work at night." } },
         { "type": "tf", "statement": "Daniel has a dog.", "answer": false,
           "explanation": { "en": "I don't have a cat or a dog.", "he": "דניאל כותב: I don't have a cat or a dog – אין לו חיות." } },
         { "type": "mcq", "question": "Does Sara work at night?", "options": ["Yes, she does.", "No, she doesn't.", "Yes, she is."], "answer": 1,
@@ -251,7 +252,7 @@
       "id": "e16", "type": "write", "skill": "writing", "topic": "present-simple-questions-negatives",
       "prompt": { "en": "Write a message to a new flatmate.", "he": "כתבו הודעה לשותף/ה חדש/ה לדירה." },
       "task": { "en": "You are looking for a new flatmate. Write a short message (5-7 sentences): two things you do, two things you don't do, and three questions with Do you...?", "he": "אתם מחפשים שותף/ה לדירה. כתבו הודעה קצרה (5-7 משפטים): שני דברים שאתם עושים, שני דברים שאתם לא עושים, ושלוש שאלות עם Do you...?" },
-      "min_words": 35,
+      "min_words": 30,
       "max_words": 90,
       "must_include": ["Do you"],
       "model_answer": "Hi, I'm Lior. I'm a student, and I study at home in the evenings. I cook every day, and I listen to music a lot. I don't smoke, and I don't have a pet. Do you work or study? Do you like cooking? Do you get up early?",

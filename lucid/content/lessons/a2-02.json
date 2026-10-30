@@ -8,7 +8,7 @@
   "objectives": [
     { "en": "I can choose between the present simple (habits, facts) and the present continuous (now, temporary).", "he": "אני יודע/ת לבחור בין הווה פשוט (הרגלים, עובדות) להווה מתמשך (עכשיו, זמני)." },
     { "en": "I can talk about temporary situations with this week and these days.", "he": "אני יכול/ה לדבר על מצבים זמניים בעזרת this week ו-these days." },
-    { "en": "I can use state verbs like know, want and need in the simple form.", "he": "אני משתמש/ת בפעלי מצב כמו know, want, need בצורה הפשוטה." }
+    { "en": "I can use state verbs like know, want and need in the simple form.", "he": "אני יודע/ת להשתמש בפעלי מצב כמו know, want, need בצורה הפשוטה." }
   ],
   "warmup": { "en": "What do you usually do on Friday mornings? What are you doing right now? Are the two answers the same?", "he": "מה אתם עושים בדרך כלל בשישי בבוקר? ומה אתם עושים ממש עכשיו? האם התשובות זהות?" },
   "explanation": [
@@ -134,7 +134,9 @@
       "wrong_feedback": [
         { "match": "is taking", "feedback": { "en": "Usually = a habit → present simple: takes.", "he": "usually = הרגל → הווה פשוט: takes." }, "error_type": "tense-choice" },
         { "match": "drives", "feedback": { "en": "This week = temporary → present continuous: is driving.", "he": "this week = מצב זמני → הווה מתמשך: is driving." }, "error_type": "tense-choice" },
-        { "match": "take", "feedback": { "en": "Kenji = he, so add -s: takes.", "he": "Kenji הוא he, ולכן מוסיפים s: takes." }, "error_type": "third-person-s" }
+        { "match": "take", "feedback": { "en": "Kenji = he, so add -s: takes.", "he": "Kenji הוא he, ולכן מוסיפים s: takes." }, "error_type": "third-person-s" },
+        { "match": "driving", "feedback": { "en": "Add is before the -ing form: he is driving.", "he": "צריך is לפני צורת ה-ing: he is driving." }, "error_type": "copula-omission" },
+        { "match": "drive", "feedback": { "en": "This week = temporary → is + -ing: is driving.", "he": "this week = מצב זמני → is + ing: is driving." }, "error_type": "tense-choice" }
       ],
       "hint": { "en": "Look at the time words: usually and this week.", "he": "שימו לב למילות הזמן: usually ו-this week." },
       "explanation": { "en": "usually → habit → takes. this week → temporary → is driving.", "he": "usually → הרגל → takes. this week → זמני → is driving." }
@@ -145,9 +147,10 @@
       "text": "A: ___ you ___ (know) where my keys are? B: No, sorry. I ___ (look) for my phone too!",
       "answers": [["Do"], ["know"], ["'m looking", "am looking"]],
       "wrong_feedback": [
-        { "match": "Are", "feedback": { "en": "Know is a state verb, so the question uses do: Do you know...?", "he": "know הוא פועל מצב, ולכן השאלה נבנית עם do: Do you know...?" }, "error_type": "tense-choice" },
+        { "match": "looking", "feedback": { "en": "Add am before the -ing form: I am (I'm) looking.", "he": "צריך am לפני צורת ה-ing: I am (I'm) looking." }, "error_type": "copula-omission" },
         { "match": "knowing", "feedback": { "en": "We don't usually use know with -ing: Do you know...?", "he": "בדרך כלל לא משתמשים ב-know עם ing: Do you know...?" }, "error_type": "tense-choice" },
-        { "match": "look", "feedback": { "en": "B is searching right now, so: am looking (I'm looking).", "he": "B מחפש/ת ממש עכשיו, ולכן am looking (I'm looking)." }, "error_type": "tense-choice" }
+        { "match": "look", "feedback": { "en": "B is searching right now, so: am looking (I'm looking).", "he": "B מחפש/ת ממש עכשיו, ולכן am looking (I'm looking)." }, "error_type": "tense-choice" },
+        { "match": "Are", "feedback": { "en": "Know is a state verb, so the question uses do: Do you know...?", "he": "know הוא פועל מצב, ולכן השאלה נבנית עם do: Do you know...?" }, "error_type": "tense-choice" }
       ],
       "hint": { "en": "Know is a state verb. The last gap is an action happening now: I + am + look-ing.", "he": "know הוא פועל מצב. הרווח האחרון הוא פעולה שקורית עכשיו: I + am + look עם ing." },
       "explanation": { "en": "Do you know...? (state verb → simple). I'm looking for... (action in progress → continuous).", "he": "Do you know...? – פועל מצב, ולכן הווה פשוט. I'm looking for... – פעולה שמתרחשת עכשיו, ולכן הווה מתמשך." }
@@ -169,11 +172,15 @@
     {
       "id": "e9", "type": "correct", "skill": "grammar", "topic": "present-simple-vs-continuous",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
-      "sentence": "Are you knowing where Daniel is?",
-      "answers": ["Do you know where Daniel is?"],
+      "sentence": "The kids are wanting pizza for dinner.",
+      "answers": ["The kids want pizza for dinner."],
       "error_type": "tense-choice",
-      "hint": { "en": "Know is a state verb. Change the first two words.", "he": "know הוא פועל מצב. שנו את שתי המילים הראשונות." },
-      "explanation": { "en": "Know is a state verb, so we use the present simple: Do you know...?", "he": "know הוא פועל מצב, ולכן משתמשים בהווה פשוט: Do you know...?" }
+      "wrong_feedback": [
+        { "match": "The kids are want pizza for dinner.", "feedback": { "en": "Don't put are before a simple verb: The kids want pizza.", "he": "לא שמים are לפני פועל בהווה פשוט: The kids want pizza." }, "error_type": "verb-form" },
+        { "match": "The kids wants pizza for dinner.", "feedback": { "en": "The kids = they, so no -s: The kids want pizza.", "he": "The kids הם they, ולכן בלי s: The kids want pizza." }, "error_type": "agreement" }
+      ],
+      "hint": { "en": "Want is a state verb. Change two words: are wanting.", "he": "want הוא פועל מצב. שנו שתי מילים: are wanting." },
+      "explanation": { "en": "Want is a state verb (a wish, not an action), so we use the present simple even when we talk about now: The kids want pizza.", "he": "want הוא פועל מצב (רצון, לא פעולה), ולכן משתמשים בהווה פשוט גם כשמדברים על עכשיו: The kids want pizza." }
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "present-simple-vs-continuous",
@@ -278,7 +285,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "present-simple-vs-continuous",
       "prompt": { "en": "Write a message about your week.", "he": "כתבו הודעה על השבוע שלכם." },
-      "task": { "en": "Write a message (50-80 words) to an English-speaking friend. Describe your normal week (what you usually do) and what is different this week or these days.", "he": "כתבו הודעה (50-80 מילים) לחבר או לחברה שמדברים אנגלית. תארו את השבוע הרגיל שלכם (מה אתם עושים בדרך כלל) ומה שונה השבוע או בתקופה הזאת." },
+      "task": { "en": "Write a message (50-80 words) to an English-speaking friend. Describe your normal week (what you usually do) and what is different this week or these days.", "he": "כתבו הודעה (50-80 מילים) לחבר או לחברה שמדבר/ת אנגלית. תארו את השבוע הרגיל שלכם (מה אתם עושים בדרך כלל) ומה שונה השבוע או בתקופה הזאת." },
       "min_words": 50,
       "max_words": 80,
       "must_include": ["usually"],

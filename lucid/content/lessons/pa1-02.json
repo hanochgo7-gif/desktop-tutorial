@@ -20,7 +20,7 @@
       ["o", "/ɒ/", "hot, dog, stop", "'אוֹ' קצרה, עם פה פתוח"],
       ["u", "/ʌ/", "cup, bus, sun", "'אַ' קצרה ורפויה"]
     ] },
-    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: mad – made, ‏kit – kite, ‏hop – hope, ‏cut – cute." },
+    { "type": "rule", "en": "Silent e: when a word ends in vowel + consonant + e, the e is silent and the vowel says its name: mad → made, kit → kite, hop → hope, cut → cute. A few very common words break this rule: come, some, have, give, love.", "he": "e שקטה: כשמילה נגמרת בתנועה + עיצור + e, ה-e לא נשמעת, והתנועה שלפניה נשמעת כמו שם האות: mad – made, ‏kit – kite, ‏hop – hope, ‏cut – cute. כמה מילים נפוצות מאוד לא עובדות לפי הכלל: come, some, have, give, love." },
     { "type": "table", "headers": ["Sound", "Examples", "איך אומרים"], "rows": [
       ["th /θ/", "think, three, thanks", "קצה הלשון בין השיניים, ונושפים אוויר בלי קול"],
       ["th /ð/", "this, the, mother", "אותה תנוחה, אבל עם קול (מרגישים רטט בגרון)"],
@@ -45,12 +45,12 @@
   "vocab": [
     { "word": "cup", "pos": "noun", "he": "כוס, ספל", "def": "a small container that you drink from", "example": "A cup of tea, please.", "ipa": "/kʌp/", "collocations": ["a cup of tea", "a cup of coffee"], "level": "PreA1" },
     { "word": "bed", "pos": "noun", "he": "מיטה", "def": "the thing you sleep in", "example": "I'm in bed with a cold.", "ipa": "/bed/", "level": "PreA1" },
-    { "word": "bus", "pos": "noun", "he": "אוטובוס", "def": "a long car that takes many people around a city", "example": "Get on the bus at ten.", "ipa": "/bʌs/", "collocations": ["bus stop", "take the bus"], "level": "PreA1" },
+    { "word": "bus", "pos": "noun", "he": "אוטובוס", "def": "a big vehicle that takes many people from place to place", "example": "Get on the bus at ten.", "ipa": "/bʌs/", "collocations": ["bus stop", "take the bus"], "level": "PreA1" },
     { "word": "hot", "pos": "adjective", "he": "חם", "def": "very warm", "example": "The coffee is hot.", "ipa": "/hɒt/", "level": "PreA1" },
     { "word": "sit", "pos": "verb", "he": "לשבת", "def": "to rest on a chair or seat", "example": "Sit here, please.", "ipa": "/sɪt/", "collocations": ["sit down"], "level": "PreA1" },
     { "word": "seat", "pos": "noun", "he": "מושב, מקום ישיבה", "def": "a place where you can sit", "example": "Is this seat free?", "ipa": "/siːt/", "collocations": ["window seat"], "level": "PreA1" },
     { "word": "ship", "pos": "noun", "he": "ספינה, אונייה", "def": "a very big boat", "example": "The ship is in the port.", "ipa": "/ʃɪp/", "level": "PreA1" },
-    { "word": "sheep", "pos": "noun", "he": "כבשה (ברבים: כבשים)", "def": "a farm animal with thick wool", "example": "Look at that sheep!", "ipa": "/ʃiːp/", "level": "PreA1" },
+    { "word": "sheep", "pos": "noun", "he": "כבשה (ברבים: כבשים – ובאנגלית גם sheep, בלי s)", "def": "a farm animal with thick wool", "example": "Look at that sheep!", "ipa": "/ʃiːp/", "level": "PreA1" },
     { "word": "think", "pos": "verb", "he": "לחשוב", "def": "to have an idea or opinion in your head", "example": "I think so.", "ipa": "/θɪŋk/", "level": "PreA1" },
     { "word": "wet", "pos": "adjective", "he": "רטוב", "def": "covered with water", "example": "My hair is wet.", "ipa": "/wet/", "level": "PreA1" },
     { "word": "vet", "pos": "noun", "he": "וטרינר/ית", "def": "a doctor for animals", "example": "My dog is at the vet.", "ipa": "/vet/", "level": "PreA1" },
@@ -82,7 +82,7 @@
     {
       "id": "e2", "type": "listen", "skill": "listening", "topic": "phonics",
       "prompt": { "en": "Listen and choose the word you hear.", "he": "הקשיבו ובחרו את המילה ששמעתם." },
-      "audio_text": "My hair is wet.",
+      "audio_text": "The word is wet.",
       "question": "Which word do you hear at the end?",
       "options": ["wet", "vet", "bet"],
       "answer": 0,
@@ -146,7 +146,7 @@
     },
     {
       "id": "e7", "type": "mcq", "skill": "vocabulary", "topic": "phonics",
-      "prompt": { "en": "You don't need to know the word: read it by its sounds. Which word rhymes with 'time'?", "he": "לא צריך להכיר את המילה – קראו אותה לפי הצלילים. איזו מילה מתחרזת עם time?" },
+      "prompt": { "en": "You don't need to know the words: read them by their sounds.", "he": "לא צריך להכיר את המילים – קראו אותן לפי הצלילים." },
       "question": "Which word rhymes with 'time'?",
       "options": ["lime", "Tim", "team", "tame"],
       "answer": 0,
@@ -174,7 +174,7 @@
         { "type": "tf", "statement": "Kate says: 'Come at nine.'", "answer": false, "explanation": { "en": "She says 'Come at five.' five and nine both have i + consonant + silent e, so read them carefully.", "he": "היא כותבת Come at five. גם five וגם nine בנויות מ-i + עיצור + e שקטה, אז קראו בעיון." } },
         { "type": "gap", "text": "Kate is in ___ with a cold.", "answers": [["bed"]], "explanation": { "en": "'I'm at home in bed with a cold.' bed has a short e: /e/.", "he": "כתוב: in bed with a cold. ב-bed יש e קצרה." } }
       ],
-      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate).", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועות קצרות (bed, get, milk, shop, bus, stop) ו-e שקטה (home, five, Kate)." }
+      "explanation": { "en": "Most words in the message follow the rules: short vowels (bed, get, milk, shop, bus, stop) and silent e (home, five, Kate). Two words break the silent-e rule: come and some have /ʌ/, like cup.", "he": "רוב המילים בהודעה עובדות לפי הכללים: תנועות קצרות (bed, get, milk, shop, bus, stop) ו-e שקטה (home, five, Kate). שתי מילים לא עובדות לפי כלל ה-e השקטה: ב-come וב-some שומעים /ʌ/, כמו ב-cup." }
     },
     {
       "id": "e9", "type": "gap", "skill": "vocabulary", "topic": "phonics",
@@ -183,8 +183,8 @@
       "word_bank": ["sit", "seat"],
       "answers": [["seat"], ["sit"]],
       "wrong_feedback": [
-        { "match": "sit", "feedback": { "en": "sit (short /ɪ/) is the action. The place is a seat (long /iː/): Is this seat free?", "he": "sit (עם /ɪ/ קצרה) היא הפעולה – לשבת. המקום עצמו הוא seat (עם /iː/ ארוכה): Is this seat free?" }, "error_type": "pron-vowel" },
-        { "match": "seat", "feedback": { "en": "seat (long /iː/) is the place. The action is sit (short /ɪ/): please sit down.", "he": "seat (עם /iː/ ארוכה) הוא המקום – מושב. הפעולה היא sit (עם /ɪ/ קצרה): please sit down." }, "error_type": "pron-vowel" }
+        { "match": "sit", "feedback": { "en": "sit (short /ɪ/) is the action. The place is a seat (long /iː/): Is this seat free?", "he": "sit (עם /ɪ/ קצרה) היא הפעולה – לשבת. המקום עצמו הוא seat (עם /iː/ ארוכה): Is this seat free?" }, "error_type": "word-choice" },
+        { "match": "seat", "feedback": { "en": "seat (long /iː/) is the place. The action is sit (short /ɪ/): please sit down.", "he": "seat (עם /iː/ ארוכה) הוא המקום – מושב. הפעולה היא sit (עם /ɪ/ קצרה): please sit down." }, "error_type": "word-choice" }
       ],
       "explanation": { "en": "Is this seat free? asks about the place. Please sit down is the action. One vowel sound changes the word.", "he": "Is this seat free שואל על המקום. Please sit down היא הפעולה – בבקשה שבו. צליל תנועה אחד משנה את המילה." }
     },
@@ -227,7 +227,7 @@
       "task": { "en": "Write a short message (2-3 sentences), like Kate's. Use at least three words from this lesson, for example: home, bed, hot, cup, bus, time, think, thanks.", "he": "כתבו הודעה קצרה (2-3 משפטים), כמו ההודעה של קייט. השתמשו לפחות בשלוש מילים מהשיעור, למשל: home, bed, hot, cup, bus, time, think, thanks." },
       "min_words": 8,
       "max_words": 40,
-      "model_answer": "Hi Omer! I'm at home. Get a hot cup of tea and come at ten. Thanks!",
+      "model_answer": "Hi Omer! I'm at home in bed with a cold. Can you get me a hot cup of tea? Come at ten. Thanks!",
       "checklist": [
         { "en": "You used at least three words from the lesson.", "he": "השתמשתם לפחות בשלוש מילים מהשיעור." },
         { "en": "Read your message aloud: are the short vowels short (hot, cup, bed)?", "he": "קראו את ההודעה בקול: האם התנועות הקצרות באמת קצרות (hot, cup, bed)?" },

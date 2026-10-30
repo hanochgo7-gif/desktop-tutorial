@@ -50,7 +50,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "Hebrew has one 'i' vowel, but English has a short /ɪ/ and a long /iː/, so live and leave, or it and eat, can sound the same. Keep live short /lɪv/ and make eat long /iːt/.", "he": "בעברית יש תנועת 'אִי' אחת, ובאנגלית יש שתיים: קצרה /ɪ/ וארוכה /iː/. לכן live ו-leave, או it ו-eat, עלולות להישמע אותו דבר. ב-live התנועה קצרה /lɪv/, וב-eat היא ארוכה /iːt/.", "error_type": "pron-vowel" },
-    { "en": "In Hebrew, the letter vav is usually said as v, and w is not a separate sound. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" }
+    { "en": "In Hebrew, the letter vav is usually said as v, and w has no letter of its own. English works differently, so work, we and week start with rounded lips: /w/, not /v/.", "he": "בעברית האות ו' נהגית בדרך כלל v, ואין ל-w אות משלה. באנגלית זה עובד אחרת: work, we ו-week מתחילות בשפתיים מעוגלות – /w/ ולא /v/.", "error_type": "pron-w-v" }
   ],
   "exercises": [
     {
@@ -63,7 +63,7 @@
       "id": "e2", "type": "listen", "skill": "listening", "topic": "present-simple",
       "prompt": { "en": "Listen and answer.", "he": "הקשיבו וענו." },
       "audio_text": "We live in Ashdod, but we work in Tel Aviv.",
-      "question": "They work in…",
+      "question": "The speakers work in…",
       "options": ["Ashdod.", "Tel Aviv.", "Haifa."],
       "answer": 1,
       "option_feedback": {
@@ -82,12 +82,12 @@
         { "text": "They lives in Eilat.", "category": "Wrong" },
         { "text": "We study English.", "category": "Correct" },
         { "text": "I am work at home.", "category": "Wrong" },
-        { "text": "You speak Hebrew.", "category": "Correct" },
+        { "text": "My friends like pizza.", "category": "Correct" },
         { "text": "My parents drinks coffee.", "category": "Wrong" },
         { "text": "We are eat lunch at one.", "category": "Wrong" },
         { "text": "They go to the gym.", "category": "Correct" }
       ],
-      "explanation": { "en": "With I, you, we and they: the base verb, with no -s and no am/is/are. Correct: They live, I work, My parents drink, We eat.", "he": "עם I, you, we, they: פועל בסיס – בלי s ובלי am/is/are. הנכון: They live, I work, My parents drink, We eat." }
+      "explanation": { "en": "With I, you, we and they (and two or more people, like my parents or my friends): the base verb, with no -s and no am/is/are. Correct: They live, I work, My parents drink, We eat.", "he": "עם I, you, we, they (ועם שניים או יותר, כמו my parents או my friends): פועל בסיס – בלי s ובלי am/is/are. הנכון: They live, I work, My parents drink, We eat." }
     },
     {
       "id": "e4", "type": "mcq", "skill": "grammar", "topic": "present-simple",
@@ -207,7 +207,7 @@
             "3": { "en": "Priya and Lior go home on Fridays. Maya writes: I work in a bookshop.", "he": "פְּרִיָּה וליאור נוסעים הביתה בשישי. מאיה כותבת: I work in a bookshop." }
           },
           "explanation": { "en": "On Fridays, ... I work in a bookshop. I = Maya.", "he": "On Fridays, ... I work in a bookshop – הכותבת היא מאיה." } },
-        { "type": "gap", "text": "On Saturdays, they sleep ___.", "answers": [["late"]],
+        { "type": "gap", "text": "On Saturdays, they sleep ___.", "answers": [["late", "in"]],
           "wrong_feedback": [
             { "match": "early", "feedback": { "en": "They get up early from Sunday to Thursday. On Saturdays, they sleep late.", "he": "הם קמים מוקדם מראשון עד חמישי. בשבת הם ישנים עד מאוחר." }, "error_type": "comprehension" }
           ],
@@ -235,7 +235,7 @@
       "id": "e15", "type": "write", "skill": "writing", "topic": "present-simple",
       "prompt": { "en": "Write about your week.", "he": "כתבו על השבוע שלכם." },
       "task": { "en": "Write 4-5 sentences about what you and people you know do every week. Use I, we or they, and time expressions like every day, every morning and on Fridays.", "he": "כתבו 4-5 משפטים על מה שאתם ואנשים שאתם מכירים עושים כל שבוע. השתמשו ב-I, we או they, ובביטויי זמן כמו every day, every morning ו-on Fridays." },
-      "min_words": 30,
+      "min_words": 25,
       "max_words": 80,
       "must_include": ["every"],
       "model_answer": "I live in Holon with my family. I study at a high school in Tel Aviv, and I go there by bus every morning. My friends and I play basketball on Tuesdays. On Fridays, we eat dinner with my grandparents. They live near the sea.",

@@ -1031,6 +1031,16 @@
               "lots of photos"
             ]
           ],
+          "wrong_feedback": [
+            {
+              "match": "article",
+              "feedback": {
+                "en": "Maya is writing the article. She wants people to send her photos for it.",
+                "he": "מאיה כותבת את הכתבה. היא רוצה שישלחו לה תמונות בשבילה."
+              },
+              "error_type": "comprehension"
+            }
+          ],
           "explanation": {
             "en": "'She wanted lots of photos. She said we could send them to her after the event.'",
             "he": "בטקסט: She wanted lots of photos. She said we could send them to her after the event."

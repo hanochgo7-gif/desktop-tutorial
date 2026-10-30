@@ -1,0 +1,1138 @@
+{
+  "id": "c1-07",
+  "level": "C1",
+  "title_en": "Rhetoric and persuasion",
+  "title_he": "רטוריקה ושכנוע",
+  "topics": [
+    "rhetoric"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can recognise and use the three classic appeals (ethos, logos and pathos) and explain how each one supports an argument."
+    },
+    {
+      "en": "I can use tricolon, antithesis, rhetorical questions and concession deliberately, and control the tone of a speech or opinion piece."
+    },
+    {
+      "en": "I can tell ethical persuasion from manipulation, and repair a manipulative sentence so that it persuades with honest reasons."
+    }
+  ],
+  "warmup": {
+    "en": "Two students want their school to fund a counsellor. Lior: 'Any school that refuses is telling its students that their pain does not matter, and everyone agrees with me.' Priya: 'Last year a friend of mine waited two months to talk to anyone. We already fund a sports coach and a careers adviser; students' well-being deserves the same.' Both appeal to emotion. Whose argument would you trust, and what exactly makes the difference?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Rhetoric is the craft of making a sound argument land with a real audience. Read this short speech: 'I have taught in this town for twenty years. Last winter, two of my students sat their exams wearing coats because the heating had failed. The repair would cost less than the school spends on photocopying in a single term. We are not asking for luxury; we are asking for classrooms where students can think.' The first sentence earns trust (ethos), the second makes the problem felt (pathos), the third gives a reason the audience can check (logos), and the last, an antithesis, makes the request memorable. Every technique serves the same honest claim."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Appeal",
+        "What it does",
+        "Ethical use",
+        "Manipulative use"
+      ],
+      "rows": [
+        [
+          "Ethos (credibility)",
+          "shows why the audience can trust you",
+          "relevant experience; a fair account of the other side; honesty about your interest or your plan's limits",
+          "borrowed authority; fake consensus (Everyone knows ...); flattering the audience"
+        ],
+        [
+          "Logos (reason)",
+          "gives reasons and evidence",
+          "checkable facts; the link between evidence and claim explained; claims as strong as the evidence",
+          "invented or cherry-picked figures; false either-or choices; an unsupported chain of 'this will lead to ...'"
+        ],
+        [
+          "Pathos (emotion)",
+          "makes the stakes felt",
+          "one concrete, representative example; feeling in proportion to the facts and tied to a reason",
+          "fear or guilt instead of reasons; loaded words; one shocking case presented as typical"
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Device",
+        "Pattern",
+        "Example",
+        "Use it when ..."
+      ],
+      "rows": [
+        [
+          "Tricolon",
+          "three parallel items, often growing in weight",
+          "This park is where our children play, where our parents walk and where our neighbours meet.",
+          "you sum up reasons or close a paragraph"
+        ],
+        [
+          "Antithesis",
+          "two contrasting ideas in parallel form",
+          "We do not need more rules; we need better ones.",
+          "you want to sharpen a choice or correct a misunderstanding"
+        ],
+        [
+          "Rhetorical question",
+          "a question the audience answers in their heads",
+          "If the old gym is too unsafe for teachers to use, why is it safe enough for students?",
+          "the answer really is obvious to this audience"
+        ],
+        [
+          "Concession",
+          "grant a fair point before you answer it",
+          "Admittedly, the tram will disrupt traffic for two years. Yet the city will live with its benefits for fifty.",
+          "you want to build trust and deal with the strongest objection"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Every device must carry content. A tricolon needs three genuinely parallel items (cheaper, faster and more reliable, not cheaper, faster and it is also more reliable). An antithesis needs a real contrast. A rhetorical question works only if this audience would really give the answer you expect; otherwise it hides a claim you have not supported. In writing, keep question word order: Why should we pay ...? How many more reports do we need?, not *Why we should pay ...?"
+    },
+    {
+      "type": "warning",
+      "en": "Persuasion or manipulation? Ask four questions. (1) Would each appeal still work if the audience could see exactly what you were doing? (2) Is every emotion in proportion to the facts and tied to a reason? (3) Would your opponents accept your description of their view? (4) Are you inviting the audience to think, or trying to stop them thinking? Fake consensus, loaded labels (so-called experts), invented urgency (Act tonight or lose everything) and the fallacies from the previous lesson (appeal to pity, bandwagon, straw man, ad hominem) are manipulation dressed up as rhetoric."
+    },
+    {
+      "type": "tip",
+      "en": "Tone is a choice too. A measured tone (Many parents are worried about this, and they deserve an answer) wins undecided readers; sarcasm and contempt (Apparently some people think ...) only please readers who already agree. In an academic essay, use rhetorical questions and emotional appeals sparingly: one well-chosen example outweighs several exclamations. And set out to argue, not just to win: in one study of university students, those told simply to 'persuade' wrote fewer counterarguments and weaker arguments than students given more specific goals."
+    }
+  ],
+  "examples": [
+    {
+      "en": "I have taught in this town for twenty years, and until tonight I have never asked the council for anything.",
+      "note": "ethos: relevant experience and restraint make the speaker credible"
+    },
+    {
+      "en": "The repair would cost less than the school spends on photocopying in a single term.",
+      "note": "logos: a comparison the audience can check"
+    },
+    {
+      "en": "Last winter, two of my students sat their exams wearing coats because the heating had failed.",
+      "note": "pathos: a concrete example, in proportion to the facts"
+    },
+    {
+      "en": "This park is where our children play, where our parents walk and where our neighbours meet.",
+      "note": "tricolon with repeated openings (where ... where ... where)"
+    },
+    {
+      "en": "The question is not whether we can afford to act, but whether we can afford not to.",
+      "note": "antithesis: the reversed parallel structure makes the contrast memorable"
+    },
+    {
+      "en": "If the old gym is too unsafe for teachers to use, why is it safe enough for students?",
+      "note": "rhetorical question: it exposes a real inconsistency, and the answer is obvious"
+    },
+    {
+      "en": "Admittedly, the tram will disrupt traffic for two years. Yet the city will live with its benefits for fifty.",
+      "note": "concession, then a turn that outweighs it"
+    },
+    {
+      "en": "Manipulative: Only a heartless person could vote against this budget. Ethical: Without this budget, the night shelter will have no heating this winter.",
+      "note": "the same emotion, but only the second gives a reason the audience can check"
+    },
+    {
+      "en": "Sneering: Apparently some people think pollution is a fair price for a faster drive. Measured: Supporters of the road argue that faster journeys would help local businesses.",
+      "note": "tone: fair attribution wins undecided readers; sarcasm loses them"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "appeal to",
+      "pos": "verb phrase",
+      "he": "לפנות אל (רגש, היגיון); להסתמך על",
+      "def": "to try to persuade people by using their emotions, their reason or their sense of what is fair",
+      "example": "The campaign appealed to voters' sense of fairness.",
+      "ipa": "/əˈpiːl tə/",
+      "collocations": [
+        "appeal to emotion",
+        "appeal to reason",
+        "appeal to someone's sense of fairness"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "ethos",
+      "pos": "noun",
+      "he": "אתוס; האמינות של הדובר",
+      "def": "(in rhetoric) the way a speaker or writer earns the audience's trust, for example through experience, fairness and honesty",
+      "example": "Admitting the plan's weaknesses strengthened her ethos.",
+      "ipa": "/ˈiːθɒs/",
+      "collocations": [
+        "establish your ethos",
+        "an appeal to ethos"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "pathos",
+      "pos": "noun",
+      "he": "פאתוס; פנייה לרגש",
+      "def": "(in rhetoric) the power of a speech or text to make people feel emotions such as sympathy, anger or hope",
+      "example": "The speech relied on pathos rather than evidence.",
+      "ipa": "/ˈpeɪθɒs/",
+      "collocations": [
+        "rely on pathos",
+        "an appeal to pathos",
+        "a moment of pathos"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "logos",
+      "pos": "noun",
+      "he": "לוגוס; פנייה להיגיון",
+      "def": "(in rhetoric) persuasion through reasons, logic and evidence",
+      "example": "Her argument was strong on logos: every claim was backed by a source.",
+      "ipa": "/ˈlɒɡɒs/",
+      "collocations": [
+        "an appeal to logos",
+        "strong on logos"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "credibility",
+      "pos": "noun",
+      "he": "אמינות",
+      "def": "the quality of being believed and trusted",
+      "example": "Exaggerated claims damaged the campaign's credibility.",
+      "ipa": "/ˌkredəˈbɪləti/",
+      "collocations": [
+        "lose credibility",
+        "lend credibility to",
+        "damage someone's credibility"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "rhetorical question",
+      "pos": "noun",
+      "he": "שאלה רטורית",
+      "def": "a question asked for effect rather than to get an answer, because the answer seems obvious",
+      "example": "'Who wants dirtier air?' is a rhetorical question.",
+      "ipa": "/rɪˌtɒrɪkl ˈkwestʃən/",
+      "collocations": [
+        "ask a rhetorical question",
+        "a purely rhetorical question"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "antithesis",
+      "pos": "noun",
+      "he": "אנטיתזה; ניגוד במבנה מקביל",
+      "def": "the use of two contrasting ideas in a balanced, parallel structure; also, the exact opposite of something",
+      "example": "'Not a cost but an investment' is a simple antithesis.",
+      "ipa": "/ænˈtɪθəsɪs/",
+      "collocations": [
+        "a neat antithesis",
+        "the very antithesis of"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "concede",
+      "pos": "verb",
+      "he": "להודות ב...; לקבל נקודה של הצד השני",
+      "def": "to admit that something is true or fair, often before giving your own reply",
+      "example": "She conceded that the plan was expensive, but argued that it would pay for itself.",
+      "ipa": "/kənˈsiːd/",
+      "collocations": [
+        "concede a point",
+        "concede that",
+        "readily concede"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "manipulate",
+      "pos": "verb",
+      "he": "לתמרן; להפעיל מניפולציה",
+      "def": "to influence someone unfairly or dishonestly, so that they do what you want without fully realising it",
+      "example": "The advert manipulates viewers by playing on their fears.",
+      "ipa": "/məˈnɪpjuleɪt/",
+      "collocations": [
+        "manipulate public opinion",
+        "emotionally manipulate",
+        "feel manipulated"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "loaded",
+      "pos": "adjective",
+      "he": "טעון (רגשית); מוטה",
+      "def": "(of words or questions) carrying strong associations that push the listener towards one opinion",
+      "example": "'So-called experts' is a loaded phrase.",
+      "ipa": "/ˈləʊdɪd/",
+      "collocations": [
+        "loaded language",
+        "a loaded question",
+        "politically loaded"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "compelling",
+      "pos": "adjective",
+      "he": "משכנע; שאי אפשר להתעלם ממנו",
+      "def": "so convincing that you have to take it seriously",
+      "example": "She made a compelling case for a later start time.",
+      "ipa": "/kəmˈpelɪŋ/",
+      "collocations": [
+        "a compelling case",
+        "compelling evidence",
+        "a compelling argument"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "strike the right tone",
+      "pos": "phrase",
+      "he": "למצוא את הטון הנכון",
+      "def": "to speak or write in a way that suits the audience and the situation",
+      "example": "His speech struck the right tone: serious but not gloomy.",
+      "ipa": "/ˌstraɪk ðə ˌraɪt ˈtəʊn/",
+      "collocations": [
+        "strike a conciliatory tone",
+        "strike the wrong tone",
+        "set the tone for"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "resonate with",
+      "pos": "verb phrase",
+      "he": "לגעת ב...; להדהד אצל",
+      "def": "to seem relevant and important to someone, so that they feel strongly about it",
+      "example": "Her story about the night bus resonated with many young workers.",
+      "ipa": "/ˈrezəneɪt wɪð/",
+      "collocations": [
+        "resonate deeply with",
+        "resonate with voters",
+        "resonate with an audience"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "sway",
+      "pos": "verb",
+      "he": "להטות (דעה); לשכנע",
+      "def": "to influence someone so that they change their opinion or decision",
+      "example": "Fair arguments are more likely to sway undecided readers than insults are.",
+      "ipa": "/sweɪ/",
+      "collocations": [
+        "sway public opinion",
+        "sway undecided voters",
+        "be swayed by"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew a question can keep the word order of a statement, so it is easy to write a rhetorical question such as *Why we should pay for this? or *How many more reports we need? A written English question still needs question order: the auxiliary before the subject, with do, does or did when there is no other auxiliary: Why should we pay for this? How many more reports do we need?",
+      "he": "בעברית שאלה יכולה לשמור על סדר המילים של משפט רגיל ('למה אנחנו צריכים לשלם על זה?'), ולכן קל לכתוב באנגלית שאלה רטורית כמו ‎*Why we should pay for this? גם בשאלה רטורית כתובה צריך באנגלית סדר של שאלה: פועל העזר לפני הנושא, ואם אין פועל עזר – do/does/did: Why should we pay for this? How many more reports do we need?",
+      "error_type": "do-support"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "reading",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "A council member is speaking in favour of a new night-bus service. Sort each sentence by the main appeal it makes."
+      },
+      "categories": [
+        "Ethos (credibility)",
+        "Logos (reasons and evidence)",
+        "Pathos (emotion)"
+      ],
+      "items": [
+        {
+          "text": "I drove a night bus in this city for six years before I joined the council.",
+          "category": "Ethos (credibility)"
+        },
+        {
+          "text": "The opponents of this plan raise a fair point about cost, and I want to answer it properly.",
+          "category": "Ethos (credibility)"
+        },
+        {
+          "text": "I may be wrong about the exact cost, so I will publish our figures in full for anyone to check.",
+          "category": "Ethos (credibility)"
+        },
+        {
+          "text": "Two of the city's three hospitals have shifts that end after midnight.",
+          "category": "Logos (reasons and evidence)"
+        },
+        {
+          "text": "The service would cost less than the council already spends on emergency taxis for its own late-shift staff.",
+          "category": "Logos (reasons and evidence)"
+        },
+        {
+          "text": "If workers cannot get home safely, employers will struggle to fill late shifts, so the service would also support local businesses.",
+          "category": "Logos (reasons and evidence)"
+        },
+        {
+          "text": "Picture a nineteen-year-old nurse walking home alone along the ring road after a twelve-hour shift.",
+          "category": "Pathos (emotion)"
+        },
+        {
+          "text": "Think how it feels to check your phone at 1 a.m. and realise that the last bus left two hours ago.",
+          "category": "Pathos (emotion)"
+        },
+        {
+          "text": "Every night, someone's daughter or son stands at that stop, cold and anxious, waiting for a bus that will not come.",
+          "category": "Pathos (emotion)"
+        }
+      ],
+      "hint": {
+        "en": "Ask what each sentence asks the audience to do: trust the speaker, check a fact or follow a reason, or feel something."
+      },
+      "explanation": {
+        "en": "Ethos sentences give the audience a reason to trust the speaker: relevant experience, fairness to opponents and transparency about uncertainty. Logos sentences offer facts and reasoning that can be checked. Pathos sentences make the human stakes felt. A strong speech uses all three for the same claim; a manipulative one uses pathos instead of logos."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Match each technique with an example of it."
+      },
+      "pairs": [
+        [
+          "tricolon",
+          "The plan is affordable, fair and ready to start."
+        ],
+        [
+          "antithesis",
+          "We do not need more rules; we need better ones."
+        ],
+        [
+          "rhetorical question",
+          "Who would choose dirtier air for their children?"
+        ],
+        [
+          "concession",
+          "Admittedly, the tram will disrupt traffic for a while."
+        ],
+        [
+          "loaded language",
+          "The council's so-called experts have rushed out another reckless scheme."
+        ],
+        [
+          "fake consensus",
+          "Everyone already knows this plan is a disaster."
+        ]
+      ],
+      "explanation": {
+        "en": "The first four are legitimate devices: three parallel items, a contrast in parallel form, a question with an obvious answer, and a fair point granted. The last two are manipulative: loaded labels (so-called, reckless scheme) judge instead of arguing, and 'Everyone already knows' replaces evidence with an imaginary majority."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Listen to a student speaking at a school council meeting and answer the question."
+      },
+      "audio_text": "Some of you have told me that a silent study room is a waste of space, and honestly, I understand why. Most of us revise with friends, not alone. But for students who share a bedroom with two younger brothers, a quiet room isn't a luxury; it's the only place they can think. So I'm not asking you to use it. I'm asking you not to take it away from the people who need it.",
+      "question": "How does the speaker deal with the view that the study room is a waste of space?",
+      "options": [
+        "She ignores it and talks only about her own plans.",
+        "She suggests that the people who hold it are selfish.",
+        "She accepts part of it, then explains why the room still matters for some students.",
+        "She agrees with it completely and drops her proposal."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "She deals with it in her very first sentence: 'Some of you have told me ...'."
+        },
+        "1": {
+          "en": "She never attacks anyone. 'I understand why' is the opposite of an attack."
+        },
+        "3": {
+          "en": "She concedes that most students revise with friends, but she still asks the council not to remove the room."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "3": "comprehension"
+      },
+      "explanation": {
+        "en": "'I understand why. Most of us revise with friends' is a concession: it grants the fair part of the objection and builds trust. 'But for students who share a bedroom ...' then outweighs it. The closing antithesis ('I'm not asking you to use it. I'm asking you not to take it away ...') states the real request in a memorable form."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "A campaign wants a pedestrian crossing outside a primary school. Which sentence appeals to emotion ethically, with the feeling tied to an honest, relevant reason?"
+      },
+      "question": "Choose the ethical appeal to emotion.",
+      "options": [
+        "If you vote against the crossing, you clearly do not care whether children live or die.",
+        "Every morning, children from the primary school cross four lanes of traffic to reach the gate, and a crossing would give them a safe way over.",
+        "Imagine your own child lying in a hospital bed. Now tell me you will vote no.",
+        "Thousands of children are hurt on this road every single day, so we must act tonight."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "A false choice and a personal attack: people can oppose this crossing (because of its position or its cost, for example) and still care about children. Guilt replaces reasons."
+        },
+        "2": {
+          "en": "A frightening worst case is presented as if it were likely, and no reason is given for this particular crossing. The emotion is out of proportion to the facts."
+        },
+        "3": {
+          "en": "'Thousands ... every single day' on one road is an exaggerated, uncheckable figure, and 'we must act tonight' is invented urgency."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "2": "fallacy",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "Ethical pathos makes the real stakes felt through a concrete, representative situation (children crossing four lanes every morning) and links the feeling to a reason the audience can check. Manipulative pathos uses guilt, fear or invented numbers in place of a reason."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Read the opinion column from a local newspaper and answer the questions. Notice that the columnist judges how each side argues, not which policy is better."
+      },
+      "title": "Two leaflets, one doormat",
+      "passage": "This week two leaflets landed on my doormat, one from each side of the referendum on the old rail yard. Should the land become a public park, or should the council sell it for new homes? I have not made up my mind, and I suspect many readers have not either. So rather than tell you how to vote, I want to look at how each side is trying to win your vote.\n\nThe Yes to the Park leaflet opens with a photograph of a small child staring through a wire fence at the empty yard. Underneath, in large letters, it asks: 'Do you want your grandchildren to grow up surrounded by concrete?' It is an effective question, but it is not a fair one. Nobody is proposing to cover the town in concrete; the housing plan itself includes a garden square. The question works by making you say 'no' to something that is not on the ballot.\n\nTurn the leaflet over, however, and the tone changes. The campaign points out that the nearest park is a forty-minute walk for families on the eastern estates, sets out a costed plan for maintaining the new one, and admits that 'a park will not solve the housing shortage'. That last sentence is the most persuasive thing in the leaflet. A campaign that tells you what its plan cannot do gives you a reason to believe what it says the plan can do.\n\nThe Homes First leaflet has the opposite problem. Its central argument is serious: young couples are leaving the town because they cannot afford the rent, and two hundred new flats would ease the pressure. It even offers a memorable line: 'A park is somewhere to visit; a home is somewhere to live.' That sentence does real work, because it names the choice at the heart of the vote. But the leaflet then claims that 'everyone under thirty supports Homes First' and describes the park campaigners as 'a few retired people with large gardens'. The first claim is impossible to check and almost certainly untrue; the second is a sneer, not an argument. Both will please readers who already agree, and both will put off the undecided voters the campaign most needs.\n\nWhat strikes me is that the strongest parts of each leaflet are the least dramatic: a walking distance, a cost, an honest admission, a clear statement of the trade-off. The weakest parts are the ones that try hardest to make me feel something without giving me a reason to feel it.\n\nI will vote next month, and I still do not know which way. But I know what kind of argument I will be listening for.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "What is the columnist's main purpose?",
+          "options": [
+            "To persuade readers to vote for the park",
+            "To argue that the town should not have held a referendum",
+            "To criticise the Homes First campaign only",
+            "To show readers how to judge the way each side argues"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The columnist has 'not made up my mind' and both praises and criticises each leaflet."
+            },
+            "1": {
+              "en": "The columnist never questions the referendum itself."
+            },
+            "2": {
+              "en": "The park leaflet is criticised too, for its opening question."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'Rather than tell you how to vote, I want to look at how each side is trying to win your vote.' The column evaluates rhetoric, not policy."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Why does the columnist call the park leaflet's opening question 'not a fair one'?",
+          "options": [
+            "It asks readers to reject an outcome that nobody is actually proposing.",
+            "Questions should never be used in political leaflets.",
+            "It does not mention how much the park would cost.",
+            "The photograph of the child was not taken in this town."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The columnist calls it 'an effective question'; the problem is what it implies, not the fact that it is a question."
+            },
+            "2": {
+              "en": "The cost is set out on the back of the leaflet, and the columnist praises it."
+            },
+            "3": {
+              "en": "The text says nothing about where the photograph was taken."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'Nobody is proposing to cover the town in concrete ... The question works by making you say no to something that is not on the ballot.' A rhetorical question is unfair when it smuggles in a false picture of the choice."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The columnist thinks the park campaign's admission that 'a park will not solve the housing shortage' weakens its case.",
+          "answer": false,
+          "explanation": {
+            "en": "'That last sentence is the most persuasive thing in the leaflet.' Admitting a limit builds credibility (ethos)."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "'A park is somewhere to visit; a home is somewhere to live.' Which device is this?",
+          "options": [
+            "A rhetorical question",
+            "A tricolon",
+            "An antithesis",
+            "A concession"
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "It is a statement, not a question."
+            },
+            "1": {
+              "en": "A tricolon has three parallel parts; this sentence has two."
+            },
+            "3": {
+              "en": "It grants nothing to the other side; it sharpens a contrast."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Two contrasting ideas in a parallel structure (somewhere to visit / somewhere to live): an antithesis. It 'does real work' because the contrast names the real choice in the vote."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "The description of the park campaigners as 'a few retired people with large gardens' is best described as ...",
+          "options": [
+            "a fair summary of the other side's view",
+            "an attack on the people instead of their argument",
+            "a piece of evidence that readers can check",
+            "a carefully hedged claim"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "It says nothing about what park campaigners actually argue; it mocks who they are."
+            },
+            "2": {
+              "en": "It cannot be checked, and it does not support the case for housing."
+            },
+            "3": {
+              "en": "There is no hedge here; 'a few' is dismissive, not cautious."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The columnist calls it 'a sneer, not an argument'. It is an ad hominem move: it targets the people, not their reasons, and it works only on readers who already agree."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The columnist states that the claim 'everyone under thirty supports Homes First' is definitely false.",
+          "answer": false,
+          "explanation": {
+            "en": "The columnist says it is 'impossible to check and almost certainly untrue': a strong but hedged judgement, not 'definitely false'. Read hedges as carefully as you write them."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "According to the columnist, the strongest parts of both leaflets are the least ___. (one word from the column)",
+          "answers": [
+            [
+              "dramatic"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "emotional",
+              "feedback": {
+                "en": "Close in meaning, but the columnist's word is 'dramatic': the strongest parts are 'the least dramatic'."
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "persuasive",
+              "feedback": {
+                "en": "The opposite: these parts are the most persuasive. The columnist's word is 'dramatic'."
+              },
+              "error_type": "comprehension"
+            }
+          ],
+          "explanation": {
+            "en": "'... the strongest parts of each leaflet are the least dramatic: a walking distance, a cost, an honest admission, a clear statement of the trade-off.'"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "A rhetorical question works only when the audience will supply the answer you expect. Which one is used well?"
+      },
+      "question": "Choose the rhetorical question that works.",
+      "options": [
+        "Who would choose to sit a three-hour exam in a freezing classroom?",
+        "Is nuclear power the answer to the energy crisis?",
+        "Isn't it obvious that the four-day week has failed everywhere it has been tried?",
+        "Why do some people still cling to the old system?"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "This is a genuinely open question: the audience could answer yes or no. Used as a rhetorical question, it hides your claim instead of supporting it. Ask it only if you then answer it with evidence."
+        },
+        "2": {
+          "en": "'Isn't it obvious ...' presents a contested claim as if nobody could doubt it, and 'everywhere' is an absolute you cannot support."
+        },
+        "3": {
+          "en": "'Cling to' is loaded: it implies that opponents are foolish instead of answering their reasons."
+        }
+      },
+      "option_errors": {
+        "1": "unsupported-claim",
+        "2": "unsupported-claim",
+        "3": "fallacy"
+      },
+      "explanation": {
+        "en": "Nobody would choose to sit an exam in a freezing classroom, so the audience supplies the answer 'no one', and the question points to a real problem. A good rhetorical question rests on shared ground; a bad one smuggles in a contested claim."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "A columnist supports new cycle lanes and wants to win over undecided readers. Which sentence best introduces the opposing view?"
+      },
+      "question": "Choose the sentence with the most effective tone.",
+      "options": [
+        "Apparently, some people think a few extra minutes in the car matter more than children's safety.",
+        "The usual anti-cycling crowd will, of course, start screaming about traffic.",
+        "It could perhaps be suggested by some that there might possibly be certain concerns about traffic.",
+        "Many drivers worry, reasonably, that the new lanes will slow their journeys, and that concern deserves an answer."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "Sarcasm ('Apparently') plus a straw man: drivers' real concern is delay, not indifference to children. Undecided readers feel mocked, not persuaded."
+        },
+        "1": {
+          "en": "Loaded labels ('the usual anti-cycling crowd', 'screaming') attack people instead of answering their view. They please readers who already agree and push everyone else away."
+        },
+        "2": {
+          "en": "Over-hedged and unattributed: who has the concerns, and what are they? The objection disappears in the vagueness, so it can never be properly answered."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "1": "fallacy",
+        "2": "register"
+      },
+      "explanation": {
+        "en": "A measured tone states the other side as its supporters would (drivers worry about slower journeys), gives it credit ('reasonably') and promises an answer. That builds ethos with exactly the readers who have not yet decided."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Complete the extract from a speech with words from the box. You need a concession, a turn, the antithesis pattern not ... but ..., and the last item of a tricolon."
+      },
+      "text": "___, the new cycle lanes will make some car journeys a few minutes longer. ___ those minutes are a small price for streets where a twelve-year-old can ride to school safely. The real question is not whether drivers will notice the change, ___ whether, in ten years, anyone will want to go back. If the lanes make our streets safer, quieter and ___, why would we refuse them?",
+      "word_bank": [
+        "Admittedly",
+        "Yet",
+        "but",
+        "cleaner",
+        "Therefore",
+        "and",
+        "more clean"
+      ],
+      "answers": [
+        [
+          "Admittedly",
+          "Granted"
+        ],
+        [
+          "Yet",
+          "But"
+        ],
+        [
+          "but"
+        ],
+        [
+          "cleaner"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Therefore",
+          "feedback": {
+            "en": "Therefore introduces a result, and nothing here follows as a result. The opening needs a concession that grants a fair point: Admittedly."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "and",
+          "feedback": {
+            "en": "And cannot complete either pattern here: the antithesis needs not ... but ..., and the last item of the tricolon must be a comparative adjective like safer and quieter."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "more clean",
+          "feedback": {
+            "en": "The other two items are -er comparatives (safer, quieter), so the third must match: cleaner. 'More clean' also breaks the normal rule for one-syllable adjectives."
+          },
+          "error_type": "comparison-form"
+        },
+        {
+          "match": "Admittedly",
+          "feedback": {
+            "en": "Admittedly grants a point to the other side, so it belongs at the very start, before the speaker turns to the answer."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Yet",
+          "feedback": {
+            "en": "Yet turns against what has just been said, so it fits the second gap. The first gap needs a concession (Admittedly), and the third needs the antithesis pattern not ... but ..."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "but",
+          "feedback": {
+            "en": "But turns against something already said, so it cannot open the extract, and it cannot be the last item of the tricolon. The opening needs a concession: Admittedly."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Gap 1 grants the other side a point; gap 2 turns to the answer; gap 3 completes 'not whether ..., ___ whether ...'; gap 4 must match safer and quieter."
+      },
+      "explanation": {
+        "en": "Admittedly grants the fair point (concession); Yet turns to the answer; not ... but ... builds the antithesis; and cleaner completes a parallel tricolon of comparatives (safer, quieter and cleaner). The closing rhetorical question works because, after the concession and the reasons, the expected answer is clear."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Combine the two sentences into one antithesis that begins 'We do not need ...'."
+      },
+      "source": "We need better rules. More rules are not what we need.",
+      "answers": [
+        "We do not need more rules; we need better ones.",
+        "We do not need more rules: we need better ones.",
+        "We do not need more rules - we need better ones.",
+        "We do not need more rules-we need better ones.",
+        "We do not need more rules but better ones.",
+        "We do not need more rules, but better ones.",
+        "We do not need more rules; we need better rules.",
+        "We do not need more rules: we need better rules.",
+        "We do not need more rules - we need better rules.",
+        "We do not need more rules-we need better rules.",
+        "We do not need more rules but better rules.",
+        "We do not need more rules, but better rules.",
+        "We do not need more rules; what we need is better rules.",
+        "We do not need more rules; what we need are better rules.",
+        "We do not need more rules; what we need is better ones.",
+        "We do not need more rules; what we need are better ones."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "We do not need more rules, we need better ones.",
+          "feedback": {
+            "en": "Two full clauses joined only by a comma make a comma splice. Use a semicolon (We do not need more rules; we need better ones) or one clause with not ... but (We do not need more rules but better ones)."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "We do not need more rules, we need better rules.",
+          "feedback": {
+            "en": "Two full clauses joined only by a comma make a comma splice. Use a semicolon or a colon between them, or rewrite with but: We do not need more rules but better ones."
+          },
+          "error_type": "punctuation"
+        },
+        {
+          "match": "We need better rules, not more rules.",
+          "feedback": {
+            "en": "A good antithesis, but the task asks you to begin with 'We do not need ...', putting the rejected idea first so that the preferred idea gets the final, stronger position."
+          }
+        },
+        {
+          "match": "We need better rules, not more ones.",
+          "feedback": {
+            "en": "Begin with 'We do not need ...': the rejected idea goes first, and the preferred idea gets the stronger final position."
+          }
+        }
+      ],
+      "hint": {
+        "en": "Put the rejected idea first and the preferred idea second, in the same grammatical pattern."
+      },
+      "explanation": {
+        "en": "An antithesis places two contrasting ideas in parallel form: do not need more rules / need better ones. The parallel structure makes the contrast instantly clear, and the preferred idea comes last, where it has the most weight. A semicolon, a colon or a dash joins the two clauses; not ... but ... does the same job in one clause."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "The three items in this tricolon are not parallel. Rewrite the sentence so that they are three comparative adjectives, with no extra words."
+      },
+      "source": "The new timetable is simpler, cheaper, and it is also more reliable.",
+      "answers": [
+        "The new timetable is simpler, cheaper and more reliable.",
+        "The new timetable is simpler, cheaper, and more reliable."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "The new timetable is simpler, cheaper and also more reliable.",
+          "feedback": {
+            "en": "Closer, but 'also' is an extra word that breaks the rhythm. In a tight tricolon, the three items match: simpler, cheaper and more reliable."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "The new timetable is simpler, cheaper and more reliable too.",
+          "feedback": {
+            "en": "Drop 'too': the three items should match exactly, so the last one lands with full weight."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "The new timetable is simpler, cheaper and reliable.",
+          "feedback": {
+            "en": "Reliable is not a comparative, so it does not match simpler and cheaper: more reliable."
+          },
+          "error_type": "comparison-form"
+        },
+        {
+          "match": "The new timetable is simpler, cheaper and reliabler.",
+          "feedback": {
+            "en": "Reliable has three syllables, so its comparative is more reliable, not reliabler."
+          },
+          "error_type": "comparison-form"
+        }
+      ],
+      "explanation": {
+        "en": "A tricolon gets its force from rhythm and parallel form: simpler, cheaper and more reliable. Switching to a clause (and it is also ...) breaks the pattern and weakens the last item, which is usually the most important one."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Rewrite the statement as a rhetorical question that begins 'Do we really ...'."
+      },
+      "source": "We do not want our children to breathe dirtier air.",
+      "answers": [
+        "Do we really want our children to breathe dirtier air?",
+        "Do we really want our children breathing dirtier air?"
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Do we really want that our children breathe dirtier air?",
+          "feedback": {
+            "en": "Want is followed by an object and a to-infinitive, not by a that-clause: want our children to breathe."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Do we really want our children breathe dirtier air?",
+          "feedback": {
+            "en": "Add to: want + object + to-infinitive (want our children to breathe)."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Do we really not want our children to breathe dirtier air?",
+          "feedback": {
+            "en": "Keep the question positive. The audience supplies the negative answer themselves ('No, of course not'), which is what makes the question rhetorical."
+          }
+        },
+        {
+          "match": "Do we really don't want our children to breathe dirtier air?",
+          "feedback": {
+            "en": "A question has only one auxiliary before the subject, and this one should be positive: Do we really want ...? The audience supplies the answer 'no'."
+          },
+          "error_type": "do-support"
+        }
+      ],
+      "explanation": {
+        "en": "The audience answers 'No, of course not' in their heads, which is exactly the point you wanted to make. In writing, a question needs question word order with do: Do we really want ...? Want then takes an object and a to-infinitive: want our children to breathe."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "This rhetorical question from a speech has a word-order mistake. Write it correctly."
+      },
+      "sentence": "How many more reports we need before we act?",
+      "answers": [
+        "How many more reports do we need before we act?"
+      ],
+      "error_type": "do-support",
+      "hint": {
+        "en": "The main clause has no auxiliary. What does a question in the present simple need?"
+      },
+      "explanation": {
+        "en": "In a written question, the auxiliary comes before the subject, and in the present simple that auxiliary is do: How many more reports do we need ...? The before-clause keeps normal order (before we act)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "This sentence persuades by manipulation: 'Every responsible parent already supports the phone ban, and only people who do not care about children's well-being could oppose it.' Which revision keeps a clear position but persuades with honest reasons?"
+      },
+      "question": "Choose the best repair.",
+      "options": [
+        "Every responsible parent supports the phone ban, and its opponents should be ashamed of themselves.",
+        "Science has proven that phones destroy children's ability to think, so a total ban is the only option.",
+        "Many parents support the ban because they have seen notifications break their children's concentration; opponents' concern about emergencies is fair, and it could be met by letting students call home from the school office.",
+        "Some people might possibly support the ban, while others may perhaps have some doubts about it."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "Still fake consensus ('every responsible parent'), and still an attack on opponents instead of an answer to their reasons."
+        },
+        "1": {
+          "en": "'Science has proven' and 'destroy' over-claim, and 'the only option' is a false dilemma. Manipulation by exaggeration is still manipulation."
+        },
+        "3": {
+          "en": "The manipulation has gone, but so has the position: stacked hedges and no reasons leave the reader nothing to agree with."
+        }
+      },
+      "option_errors": {
+        "0": "fallacy",
+        "1": "unsupported-claim",
+        "3": "register"
+      },
+      "explanation": {
+        "en": "The repair replaces fake consensus with a reason readers can recognise (what parents have seen), replaces the attack with a fair statement of the opposing concern (emergencies), and answers it with a practical qualification. Ethical persuasion keeps the conviction and changes the method."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "You are speaking at a public meeting about the town's budget. Say the sentence out loud."
+      },
+      "target": "We are not asking for more money; we are asking for better use of the money we already have.",
+      "focus": {
+        "en": "An antithesis is heard through stress. Stress the contrasting words: NOT asking for MORE money ... asking for BETTER use. Pause briefly at the semicolon, and let your voice fall at the end of the sentence."
+      },
+      "error_type": "pron-stress",
+      "explanation": {
+        "en": "Listeners cannot see punctuation, so they hear an antithesis through stress and rhythm. Stressing the contrasting pair (more / better) makes the structure audible, and the pause gives the audience time to register the turn."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "write",
+      "skill": "writing",
+      "topic": "rhetoric",
+      "prompt": {
+        "en": "Write a short speech that argues a position and uses rhetoric ethically."
+      },
+      "task": {
+        "en": "Your town council is deciding whether to keep the public library open until midnight on weekdays during the four-week exam period. To pay for this, the library would close on Sunday afternoons during those four weeks. Write a speech of 250-350 words for a public meeting. Argue for or against the plan and respond to opposing views. Use all three appeals ethically: credibility (relevant experience, or honesty about your interest or your plan's limits), reasons the audience can check, and one concrete human example in proportion to the facts. Include at least one tricolon, one antithesis and one concession, and no more than one rhetorical question. Avoid manipulation: no invented statistics, fake consensus, loaded labels for your opponents, or fear in place of reasons."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Good evening. My name is Noa Peretz, and for the last two years I have revised for every exam at a kitchen table I share with three younger brothers. So let me be honest about my interest: I would use a late-opening library. But I want to argue that the council should approve this plan for the town's sake, not just for mine.\n\nThe proposal is modest. For four weeks a year, the library would stay open until midnight on weekdays, and in return it would close on Sunday afternoons for those same four weeks. According to the library's own figures, the hours moved from Sunday would cover the cost of the extra evenings, so no new money is needed.\n\nPicture a student at eleven o'clock at night, trying to learn chemistry while the television plays through the wall. For many young people in this town, the library is not a convenience; it is the only quiet room they have. And exam results shape which courses they can apply for, which jobs they can do and which towns they can afford to live in.\n\nFamilies who use the library on Sundays have raised a fair objection. Sunday afternoon is when parents bring young children to story time, and losing it, even for four weeks, is a real cost. I take that seriously, which is why I would ask the council to move story time to Saturday mornings during the exam period rather than cancel it. The change is small, it is temporary, and it can be reversed if it does not work.\n\nWe are not asking the town to choose between children and teenagers. We are asking it to share one building more fairly across the year. Is a quiet desk at eleven o'clock at night really too much to ask? I hope you will vote yes.",
+      "checklist": [
+        {
+          "en": "Position: I state clearly, early on, whether the council should approve the plan, and I respond to the opposing view."
+        },
+        {
+          "en": "Ethos: I give the audience a reason to trust me (relevant experience, honesty about my interest, a fair account of the other side)."
+        },
+        {
+          "en": "Logos: my main reasons are ones the audience can check or follow, and I invent no statistics."
+        },
+        {
+          "en": "Pathos: I use one concrete, representative example, in proportion to the facts and tied to a reason."
+        },
+        {
+          "en": "Devices: at least one parallel tricolon, one antithesis and one concession; at most one rhetorical question, and its answer really is obvious to this audience."
+        },
+        {
+          "en": "Counterargument: I state the strongest objection fairly and attribute it (Families who use the library argue ...), then refute it, concede and outweigh it, or qualify my position."
+        },
+        {
+          "en": "Ethics and tone: no fake consensus, loaded labels, sarcasm or invented urgency; my tone suits a public meeting and would not alienate an undecided listener."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Ethos, logos and pathos should all serve the same honest claim: credibility you have earned, reasons the audience can check, and one concrete example in proportion to the facts."
+      },
+      {
+        "en": "Devices must carry content: a tricolon has three parallel items, an antithesis a real contrast in parallel form, and a concession grants a fair point before you answer it."
+      },
+      {
+        "en": "Use a rhetorical question only when the answer is obvious to this audience, and keep question word order in writing: Why should we ...? How many more reports do we need?"
+      },
+      {
+        "en": "Manipulation replaces reasons: fake consensus, loaded labels, invented urgency, fear or guilt without a reason, and straw men. Test every appeal: would it survive if the audience saw what you were doing?"
+      },
+      {
+        "en": "A measured tone and fair attribution win undecided readers. Set out to argue and respond to opposing views, not simply to win."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

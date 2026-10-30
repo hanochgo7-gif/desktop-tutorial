@@ -48,6 +48,7 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew a yes/no question can keep the word order of a statement, so it is easy to write 'You were at home?' in English. In a normal English question, was/were comes before the subject: Were you at home?", "he": "בעברית שאלת כן/לא יכולה להישאר בסדר של משפט רגיל ('היית בבית?'), ולכן קל לכתוב You were at home? באנגלית. בשאלה רגילה באנגלית was/were באים לפני הנושא: Were you at home?", "error_type": "word-order" },
+    { "en": "In Hebrew 'I was born' is a single verb (nolad-ti), so it is easy to translate it as 'I born'. English needs be + born: I was born in 2010. My parents were born in Ukraine.", "he": "בעברית 'נולדתי' היא מילה אחת, פועל אחד, ולכן קל לתרגם 'I born'. באנגלית צריך be + born: I was born in 2010. My parents were born in Ukraine.", "error_type": "verb-form" },
     { "en": "In Hebrew /w/ is not a regular sound (it appears only in a few borrowed words), so was and were can come out as 'vas' and 'ver'. Start with rounded lips, as in 'oo': /wɒz/, /wɜː(r)/.", "he": "בעברית /w/ אינו צליל רגיל (הוא מופיע רק בכמה מילים שאולות), ולכן was ו-were עלולים לצאת 'וָאס' ו'וֶר'. התחילו בשפתיים מעוגלות, כמו ב'אוּ': /wɒz/, /wɜː(r)/.", "error_type": "pron-w-v" }
   ],
   "exercises": [
@@ -115,13 +116,13 @@
       "prompt": { "en": "Complete the conversation with the words in the box.", "he": "השלימו את השיחה במילים מהמחסן." },
       "text": "A: ___ you at school yesterday? B: No, I ___. I ___ sick.",
       "word_bank": ["was", "were", "wasn't", "weren't"],
-      "answers": [["Were"], ["wasn't"], ["was"]],
+      "answers": [["Were", "Weren't"], ["wasn't"], ["was"]],
       "wrong_feedback": [
-        { "match": "Was", "feedback": { "en": "With you, use were: Were you at school?", "he": "עם you משתמשים ב-were: Were you at school?" }, "error_type": "agreement" },
-        { "match": "weren't", "feedback": { "en": "With I, use wasn't: No, I wasn't.", "he": "עם I משתמשים ב-wasn't: No, I wasn't." }, "error_type": "agreement" },
-        { "match": "were", "feedback": { "en": "With I, use was: I was sick.", "he": "עם I משתמשים ב-was: I was sick." }, "error_type": "agreement" }
+        { "match": "Was", "feedback": { "en": "Check each subject. You → were: Were you at school? I → was/wasn't. After No, the short answer is negative: No, I wasn't.", "he": "בדקו כל נושא. עם you → were: Were you at school? עם I → was/wasn't. אחרי No התשובה הקצרה בשלילה: No, I wasn't." }, "error_type": "agreement" },
+        { "match": "weren't", "feedback": { "en": "With I, use was or wasn't, not were: No, I wasn't. I was sick.", "he": "עם I משתמשים ב-was או ב-wasn't, לא ב-were: No, I wasn't. I was sick." }, "error_type": "agreement" },
+        { "match": "were", "feedback": { "en": "With I, use was or wasn't, not were: No, I wasn't. I was sick.", "he": "עם I משתמשים ב-was או ב-wasn't, לא ב-were: No, I wasn't. I was sick." }, "error_type": "agreement" }
       ],
-      "explanation": { "en": "Were you...? – No, I wasn't. I was sick. You → were; I → was.", "he": "Were you...? – No, I wasn't. I was sick. עם you → were, עם I → was." }
+      "explanation": { "en": "Were you...? – No, I wasn't. I was sick. You → were; I → was. (Weren't you at school? is also possible: it shows surprise.)", "he": "Were you...? – No, I wasn't. I was sick. עם you → were, עם I → was. (אפשר גם Weren't you at school? – שאלה שמביעה הפתעה.)" }
     },
     {
       "id": "e6", "type": "gap", "skill": "grammar", "topic": "past-be",
@@ -265,7 +266,7 @@
     {
       "id": "e16", "type": "write", "skill": "writing", "topic": "past-be",
       "prompt": { "en": "Mediation: help an English-speaking friend.", "he": "תיווך: עזרו לחבר שמדבר אנגלית." },
-      "task": { "en": "Your friend Noa wrote about her weekend in Hebrew (see the Hebrew message). Tom, from London, doesn't read Hebrew. He asks: 'How was Noa's weekend?' Write a reply to Tom in English (4-6 sentences). Use was, wasn't, were and there was / there were.", "he": "נועה כתבה בקבוצה: „היה סוף שבוע מעולה! הייתי באילת עם המשפחה. מזג האוויר היה חם מאוד והים היה מדהים. היו המון אנשים בחוף, אבל המלון היה שקט. האוכל לא היה משהו.” תום מלונדון לא קורא עברית ושואל: 'How was Noa's weekend?' כתבו לו תשובה באנגלית (4-6 משפטים) עם was, wasn't, were ו-there was / there were." },
+      "task": { "en": "Your friend Noa wrote about her weekend in Hebrew (you can see her message in the Hebrew instructions). Tom, from London, doesn't read Hebrew. He asks: 'How was Noa's weekend?' Write a reply to Tom in English (4-6 sentences). Use was, wasn't, were and there was / there were.", "he": "נועה כתבה בקבוצה: „היה סוף שבוע מעולה! הייתי באילת עם המשפחה. מזג האוויר היה חם מאוד והים היה מדהים. היו המון אנשים בחוף, אבל המלון היה שקט. האוכל לא היה משהו.” תום מלונדון לא קורא עברית ושואל: 'How was Noa's weekend?' כתבו לו תשובה באנגלית (4-6 משפטים) עם was, wasn't, were ו-there was / there were." },
       "min_words": 30,
       "max_words": 80,
       "must_include": ["was", "were"],

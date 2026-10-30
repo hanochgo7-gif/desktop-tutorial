@@ -10,7 +10,7 @@
     { "en": "I can say my name, say 'Nice to meet you' and answer 'How are you?'.", "he": "אני יודע/ת לומר את השם שלי, לומר Nice to meet you ולענות על How are you?" },
     { "en": "I can use please, thank you, sorry and excuse me politely.", "he": "אני יודע/ת להשתמש בנימוס ב-please, thank you, sorry ו-excuse me." }
   ],
-  "warmup": { "en": "Think: what do you say to a friend, and what do you say to a new manager? In English too, hello and goodbye change with the person and the time of day.", "he": "חשבו: מה אתם אומרים לחבר, ומה למנהלת חדשה? 'היי' או 'בוקר טוב'? גם באנגלית ברכות השלום והפרידה משתנות לפי האדם ולפי השעה." },
+  "warmup": { "en": "Think: what do you say to a friend, and what do you say to a new teacher? In English too, hello and goodbye change with the person and the time of day.", "he": "חשבו: מה אתם אומרים לחבר, ומה למורה חדשה? 'היי' או 'בוקר טוב'? גם באנגלית ברכות השלום והפרידה משתנות לפי האדם ולפי השעה." },
   "explanation": [
     { "type": "p", "en": "Hi, I'm Noa. – Hello, Noa. My name is Omer. Nice to meet you. – Nice to meet you too. This is how a first meeting sounds: hello, your name, Nice to meet you.", "he": "Hi, I'm Noa. – Hello, Noa. My name is Omer. Nice to meet you. – Nice to meet you too. כך נשמעת פגישה ראשונה: ברכה, השם, ו-Nice to meet you (נעים להכיר). התשובה: Nice to meet you too (גם לי נעים)." },
     { "type": "rule", "en": "Hello: Hi / Hey (friends) · Hello / Good morning (polite). Goodbye: Bye / See you (friends) · Goodbye (polite). The first time you meet someone: Nice to meet you. The next time: Nice to see you.", "he": "שלום: Hi / Hey לחברים · Hello / Good morning בנימוס. להתראות: Bye / See you לחברים · Goodbye בנימוס. בפגישה הראשונה אומרים Nice to meet you, ובפעם הבאה – Nice to see you." },
@@ -59,7 +59,10 @@
   ],
   "hebrew_pitfalls": [
     { "en": "In Hebrew, 'how are you' and 'I'm fine' need no verb in the present, so it is easy to drop it in English. Say How are you? and I'm fine, not 'How you?' or 'I fine'.", "he": "בעברית 'מה שלומך?' ו'אני בסדר' הם משפטים בלי פועל, ולכן קל לשכוח אותו באנגלית. אומרים How are you? ו-I'm fine – לא How you? ולא I fine.", "error_type": "copula-omission" },
-    { "en": "In Hebrew there is no th sound, so thank you can sound like 'tank you' or 'sank you'. For th, put your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן thank you עלול להישמע 'טנק יו' או 'סנק יו'. ב-th שמים את קצה הלשון בין השיניים.", "error_type": "pron-th" }
+    { "en": "In Hebrew there is no th sound, so thank you can sound like 'tank you' or 'sank you'. For th, put your tongue between your teeth.", "he": "בעברית אין את הצליל th, ולכן thank you עלול להישמע 'טנק יו' או 'סנק יו'. ב-th שמים את קצה הלשון בין השיניים.", "error_type": "pron-th" },
+    { "en": "In Hebrew, 'bevakasha' is used both to ask and to answer 'toda'. In English, please is only for asking. The answer to Thank you is You're welcome.", "he": "בעברית 'בבקשה' משמשת גם כשמבקשים וגם כתשובה ל'תודה'. באנגלית please רק כשמבקשים, ועל Thank you עונים You're welcome.", "error_type": "false-friend" },
+    { "en": "In Hebrew, 'slicha' is used for two things. In English, Excuse me comes before you ask someone something, and Sorry comes after a mistake.", "he": "בעברית 'סליחה' משמשת לשני דברים. באנגלית Excuse me אומרים לפני שפונים למישהו, ו-Sorry אומרים אחרי טעות.", "error_type": "word-choice" },
+    { "en": "The Hebrew 'na'im lehakir' uses the verb 'to know', but English says Nice to meet you, not 'Nice to know you'.", "he": "ב'נעים להכיר' יש את הפועל 'להכיר', אבל באנגלית אומרים Nice to meet you – לא Nice to know you.", "error_type": "false-friend" }
   ],
   "exercises": [
     {
@@ -70,8 +73,8 @@
     },
     {
       "id": "e2", "type": "mcq", "skill": "speaking", "topic": "greetings",
-      "prompt": { "en": "It's 8 pm and you arrive at a party. Choose the best greeting.", "he": "השעה 20:00 ואתם מגיעים למסיבה. בחרו את הברכה המתאימה." },
-      "question": "It's 8 pm. You arrive at a party. You say: ___",
+      "prompt": { "en": "It's 8 pm. You visit a friend, and her father opens the door. Choose the best greeting.", "he": "השעה 20:00. באתם לבקר חברה, ואבא שלה פותח את הדלת. בחרו את הברכה המתאימה." },
+      "question": "It's 8 pm. Your friend's father opens the door. You say: ___",
       "options": ["Good night!", "Good evening!", "Good afternoon!", "Good morning!"],
       "answer": 1,
       "option_feedback": {
@@ -80,7 +83,7 @@
         "3": { "en": "Good morning is only before 12:00.", "he": "Good morning אומרים רק לפני 12:00." }
       },
       "option_errors": { "0": "word-choice", "2": "word-choice", "3": "word-choice" },
-      "explanation": { "en": "After about 6 pm, say Good evening when you arrive. Good night is for when you leave.", "he": "אחרי 18:00 בערך, כשמגיעים אומרים Good evening. את Good night שומרים לפרידה." }
+      "explanation": { "en": "After about 6 pm, say Good evening when you arrive. It is polite, so it is right for a friend's parents. Good night is for when you leave.", "he": "אחרי 18:00 בערך, כשמגיעים אומרים Good evening. זו ברכה מנומסת, ולכן היא מתאימה להורים של חברה. את Good night שומרים לפרידה." }
     },
     {
       "id": "e3", "type": "listen", "skill": "listening", "topic": "greetings",
@@ -185,7 +188,7 @@
       "prompt": { "en": "Listen and write what you hear.", "he": "הקשיבו וכתבו את מה ששמעתם." },
       "audio_text": "Thanks, see you tomorrow!",
       "answers": ["Thanks, see you tomorrow!", "Thanks see you tomorrow", "Thanks. See you tomorrow!", "Thanks! See you tomorrow!"],
-      "hint": { "en": "Four words: thanks + a goodbye.", "he": "ארבע מילים: תודה + פרידה. המילה האחרונה פירושה 'מחר'." },
+      "hint": { "en": "Four words: thanks + a goodbye. The last word means 'the day after today'.", "he": "ארבע מילים: תודה + פרידה. המילה האחרונה פירושה 'מחר'." },
       "explanation": { "en": "Thanks is the informal form of thank you. See you tomorrow = goodbye until tomorrow. Spelling: tomorrow has one m and two r's.", "he": "Thanks היא צורה לא רשמית של thank you. ‏See you tomorrow – נתראה מחר. איות: ב-tomorrow יש m אחת ושתי r." }
     },
     {

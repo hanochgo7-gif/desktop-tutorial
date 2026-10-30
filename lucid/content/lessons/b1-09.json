@@ -1,0 +1,1216 @@
+{
+  "id": "b1-09",
+  "level": "B1",
+  "title_en": "Enjoy doing, want to do",
+  "title_he": "enjoy doing / want to do",
+  "topics": [
+    "gerund-infinitive"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can use -ing after enjoy, finish, mind, avoid and suggest.",
+      "he": "אני יודע/ת להשתמש ב-ing אחרי enjoy, ‏finish, ‏mind, ‏avoid ו-suggest."
+    },
+    {
+      "en": "I can use to + verb after want, decide, hope, plan and need.",
+      "he": "אני יודע/ת להשתמש ב-to + פועל אחרי want, ‏decide, ‏hope, ‏plan ו-need."
+    },
+    {
+      "en": "I can use -ing after prepositions (good at cooking, interested in learning) and both forms after like, love and hate.",
+      "he": "אני יודע/ת להשתמש ב-ing אחרי מילות יחס (good at cooking, interested in learning) ובשתי הצורות אחרי like, ‏love ו-hate."
+    }
+  ],
+  "warmup": {
+    "en": "Finish these two sentences about yourself: I really enjoy... / This year I want... Did you use the same verb form after enjoy and want?",
+    "he": "השלימו על עצמכם את שני המשפטים: I really enjoy... / This year I want... האם השתמשתם באותה צורת פועל אחרי enjoy ואחרי want?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "Look: I enjoy cooking. I want to cook more. She's good at cooking. When one verb follows another, the first verb decides the form of the second: -ing (cooking) or to + base verb (to cook). No simple rule covers every verb, so learn each verb with its pattern, as one chunk: enjoy doing, want to do.",
+      "he": "שימו לב: I enjoy cooking. ‏I want to cook more. ‏She's good at cooking. כשפועל אחד בא אחרי פועל אחר, הפועל הראשון קובע את הצורה של השני: ing ‏(cooking) או to + פועל בסיס (to cook). אין כלל פשוט שמתאים לכל הפעלים, ולכן כדאי ללמוד כל פועל יחד עם הדפוס שלו, כצירוף אחד: enjoy doing, want to do."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Verb + -ing",
+        "Verb + to + base verb"
+      ],
+      "rows": [
+        [
+          "enjoy: I enjoy reading on the train.",
+          "want: I want to read more."
+        ],
+        [
+          "finish: Have you finished eating?",
+          "decide: We decided to stay at home."
+        ],
+        [
+          "mind: Do you mind waiting a minute?",
+          "hope: I hope to see you soon."
+        ],
+        [
+          "avoid: I avoid driving in the rush hour.",
+          "plan: They're planning to move to Haifa."
+        ],
+        [
+          "suggest: Omer suggested taking a taxi.",
+          "need: You need to rest."
+        ],
+        [
+          "also: keep, practise, can't stand, give up",
+          "also: would like, learn, agree, afford, manage"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "After a preposition (in, at, about, of, for, without, before, after...), always use -ing: I'm interested in learning Japanese. She's good at drawing. Thanks for coming. Don't leave without saying goodbye.",
+      "he": "אחרי מילת יחס (in, at, about, of, for, without, before, after...) תמיד בא ing: I'm interested in learning Japanese. ‏She's good at drawing. ‏Thanks for coming. ‏Don't leave without saying goodbye."
+    },
+    {
+      "type": "tip",
+      "en": "like, love and hate can take both forms with almost no change in meaning: I love dancing / I love to dance. But would like, would love and would hate take only to: I'd like to dance (not *I'd like dancing).",
+      "he": "אחרי like, ‏love ו-hate אפשר להשתמש בשתי הצורות, כמעט בלי הבדל במשמעות: I love dancing / I love to dance. אבל אחרי would like, ‏would love ו-would hate בא רק to: I'd like to dance (ולא I'd like dancing)."
+    },
+    {
+      "type": "warning",
+      "en": "The to trap: in look forward to, to is a preposition, so -ing follows: I'm looking forward to seeing you (not *to see you). And watch out for: *I enjoy to cook → I enjoy cooking; *She suggested to go → She suggested going; *I want going → I want to go.",
+      "he": "מלכודת ה-to: בצירוף look forward to, ה-to היא מילת יחס, ולכן אחריה בא ing: I'm looking forward to seeing you (ולא to see you). והיזהרו גם מאלה: כותבים I enjoy cooking ולא I enjoy to cook; ‏She suggested going ולא She suggested to go; ‏I want to go ולא I want going."
+    }
+  ],
+  "examples": [
+    {
+      "en": "I enjoy cooking for my friends.",
+      "he": "אני נהנה/ית לבשל לחברים שלי.",
+      "note": "enjoy + -ing"
+    },
+    {
+      "en": "We've decided to rent a flat together.",
+      "he": "החלטנו לשכור דירה ביחד.",
+      "note": "decide + to"
+    },
+    {
+      "en": "Do you mind closing the window?",
+      "he": "אכפת לך לסגור את החלון?",
+      "note": "a polite request"
+    },
+    {
+      "en": "Kenji is planning to study in Tel Aviv next year.",
+      "he": "קנג'י מתכנן ללמוד בתל אביב בשנה הבאה.",
+      "note": "plan + to"
+    },
+    {
+      "en": "Maya avoids eating late at night.",
+      "he": "מאיה נמנעת מלאכול מאוחר בלילה.",
+      "note": "avoid + -ing"
+    },
+    {
+      "en": "Noa is really good at explaining things.",
+      "he": "נועה ממש טובה בלהסביר דברים.",
+      "note": "preposition + -ing"
+    },
+    {
+      "en": "Omer suggested meeting at the station.",
+      "he": "עומר הציע להיפגש בתחנה.",
+      "note": "suggest + -ing (not *suggested to meet)"
+    },
+    {
+      "en": "I love dancing. / I love to dance.",
+      "he": "אני אוהב/ת לרקוד.",
+      "note": "both forms are fine after love"
+    },
+    {
+      "en": "I'd like to learn the guitar.",
+      "he": "הייתי רוצה ללמוד לנגן בגיטרה.",
+      "note": "would like + to"
+    },
+    {
+      "en": "I'm looking forward to seeing you!",
+      "he": "אני מחכה לראות אותך!",
+      "note": "to is a preposition here → -ing"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "avoid",
+      "pos": "verb",
+      "he": "להימנע מ-",
+      "def": "to stay away from something, or try not to do it",
+      "example": "I avoid drinking coffee after four o'clock.",
+      "ipa": "/əˈvɔɪd/",
+      "collocations": [
+        "avoid mistakes",
+        "avoid traffic",
+        "try to avoid"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "suggest",
+      "pos": "verb",
+      "he": "להציע",
+      "def": "to give someone an idea about what to do",
+      "example": "Priya suggested going to the beach.",
+      "ipa": "/səˈdʒest/",
+      "collocations": [
+        "suggest an idea",
+        "suggest a place",
+        "suggest going"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "mind",
+      "pos": "verb",
+      "he": "להפריע ל-; אכפת ל-",
+      "def": "to feel annoyed or unhappy about something",
+      "example": "I don't mind waiting.",
+      "ipa": "/maɪnd/",
+      "collocations": [
+        "Do you mind...?",
+        "I don't mind",
+        "never mind"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "afford",
+      "pos": "verb",
+      "he": "להרשות לעצמי (כלכלית)",
+      "def": "to have enough money or time for something",
+      "example": "We can't afford to buy a car.",
+      "ipa": "/əˈfɔːd/",
+      "collocations": [
+        "can't afford to",
+        "afford a holiday",
+        "afford the rent"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "practise",
+      "pos": "verb",
+      "he": "לתרגל; להתאמן",
+      "def": "to do something many times to get better at it",
+      "example": "I practise speaking English every day.",
+      "ipa": "/ˈpræktɪs/",
+      "collocations": [
+        "practise the piano",
+        "practise speaking",
+        "practise every day"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "manage",
+      "pos": "verb",
+      "he": "להצליח (במשהו קשה)",
+      "def": "to succeed in doing something difficult",
+      "example": "We managed to catch the last bus.",
+      "ipa": "/ˈmænɪdʒ/",
+      "collocations": [
+        "manage to do something",
+        "just managed to",
+        "somehow managed to"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "give up",
+      "pos": "phrasal verb",
+      "he": "להפסיק (הרגל); לוותר",
+      "def": "to stop doing something you did regularly",
+      "example": "My dad gave up smoking last year.",
+      "ipa": "/ˌɡɪv ˈʌp/",
+      "collocations": [
+        "give up smoking",
+        "give up sugar",
+        "never give up"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be good at",
+      "pos": "phrase",
+      "he": "להיות טוב/ה ב-",
+      "def": "able to do something well",
+      "example": "She's good at solving problems.",
+      "ipa": "/bi ˈɡʊd ət/",
+      "collocations": [
+        "good at maths",
+        "really good at",
+        "not very good at"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "be interested in",
+      "pos": "phrase",
+      "he": "להתעניין ב-",
+      "def": "wanting to know or learn more about something",
+      "example": "I'm interested in learning Korean.",
+      "ipa": "/bi ˈɪntrəstɪd ɪn/",
+      "collocations": [
+        "really interested in",
+        "interested in politics",
+        "interested in joining"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "look forward to",
+      "pos": "phrasal verb",
+      "he": "לצפות ל-; לחכות בקוצר רוח ל-",
+      "def": "to feel happy about something that is going to happen",
+      "example": "I'm looking forward to seeing you.",
+      "ipa": "/ˌlʊk ˈfɔːwəd tə/",
+      "collocations": [
+        "look forward to hearing from you",
+        "really looking forward to",
+        "look forward to the weekend"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "can't stand",
+      "pos": "phrase",
+      "he": "לא לסבול",
+      "def": "to hate something very much",
+      "example": "I can't stand waiting in queues.",
+      "ipa": "/ˌkɑːnt ˈstænd/",
+      "collocations": [
+        "can't stand the heat",
+        "can't stand waiting",
+        "can't stand people who are rude"
+      ],
+      "level": "B1"
+    },
+    {
+      "word": "feel like",
+      "pos": "phrase",
+      "he": "מתחשק ל-",
+      "def": "to want to do or have something at this moment",
+      "example": "I don't feel like going out tonight.",
+      "ipa": "/ˈfiːl laɪk/",
+      "collocations": [
+        "feel like a coffee",
+        "don't feel like it",
+        "feel like going out"
+      ],
+      "level": "B1"
+    }
+  ],
+  "hebrew_pitfalls": [
+    {
+      "en": "In Hebrew /ŋ/ is not a separate sound (it only appears before g or k), so -ing can come out as 'in' or 'ing-g'. In English, -ing ends in /ŋ/ alone, with no g after it: cooking /ˈkʊkɪŋ/, enjoy dancing.",
+      "he": "בעברית /ŋ/ אינו צליל עצמאי (הוא מופיע רק לפני g או k), ולכן ing עלול לצאת \"אין\" או \"אינג-ג\". באנגלית ing מסתיים ב-/ŋ/ בלבד, בלי g אחריו: cooking /ˈkʊkɪŋ/, ‏enjoy dancing."
+    },
+    {
+      "en": "In Hebrew there is one 'u' vowel, so look /lʊk/ and good /ɡʊd/ can come out long, like 'Luke'. Keep them short and relaxed: look forward to, good at.",
+      "he": "בעברית יש תנועת \"u\" אחת, ולכן look /lʊk/ ו-good /ɡʊd/ עלולים לצאת ארוכים, כמו \"לוּוּק\". אמרו אותם קצרים ורפויים: look forward to, ‏good at.",
+      "error_type": "pron-vowel"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Which pattern does each verb take?",
+        "he": "איזה דפוס בא אחרי כל פועל?"
+      },
+      "categories": [
+        "+ -ing",
+        "+ to + verb"
+      ],
+      "items": [
+        {
+          "text": "enjoy",
+          "category": "+ -ing"
+        },
+        {
+          "text": "want",
+          "category": "+ to + verb"
+        },
+        {
+          "text": "finish",
+          "category": "+ -ing"
+        },
+        {
+          "text": "decide",
+          "category": "+ to + verb"
+        },
+        {
+          "text": "avoid",
+          "category": "+ -ing"
+        },
+        {
+          "text": "hope",
+          "category": "+ to + verb"
+        },
+        {
+          "text": "suggest",
+          "category": "+ -ing"
+        },
+        {
+          "text": "plan",
+          "category": "+ to + verb"
+        },
+        {
+          "text": "mind",
+          "category": "+ -ing"
+        },
+        {
+          "text": "need",
+          "category": "+ to + verb"
+        },
+        {
+          "text": "practise",
+          "category": "+ -ing"
+        },
+        {
+          "text": "afford",
+          "category": "+ to + verb"
+        }
+      ],
+      "explanation": {
+        "en": "-ing: enjoy, finish, avoid, suggest, mind, practise. to + verb: want, decide, hope, plan, need, afford. Learn them as chunks: enjoy doing, want to do.",
+        "he": "ing: ‏enjoy, finish, avoid, suggest, mind, practise. ‏to + פועל: want, decide, hope, plan, need, afford. כדאי ללמוד אותם כצירופים: enjoy doing, want to do."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Choose the correct form.",
+        "he": "בחרו את הצורה הנכונה."
+      },
+      "question": "I really enjoy ___ to podcasts on the bus.",
+      "options": [
+        "listen",
+        "to listen",
+        "listening",
+        "listened"
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "After enjoy, use -ing, not the base verb: listening.",
+          "he": "אחרי enjoy בא ing, לא פועל בסיס: listening."
+        },
+        "1": {
+          "en": "enjoy is never followed by to + verb: enjoy listening.",
+          "he": "אחרי enjoy אף פעם לא בא to + פועל: enjoy listening."
+        },
+        "3": {
+          "en": "After enjoy, use -ing: listening.",
+          "he": "אחרי enjoy בא ing: ‏listening."
+        }
+      },
+      "option_errors": {
+        "0": "gerund-infinitive",
+        "1": "gerund-infinitive",
+        "3": "verb-form"
+      },
+      "explanation": {
+        "en": "enjoy + -ing: I enjoy listening to podcasts.",
+        "he": "אחרי enjoy בא ing: ‏I enjoy listening to podcasts."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Choose the correct form.",
+        "he": "בחרו את הצורה הנכונה."
+      },
+      "question": "We've decided ___ a car for the trip.",
+      "options": [
+        "renting",
+        "to rent",
+        "rent",
+        "for renting"
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "decide takes to + verb, not -ing: decided to rent.",
+          "he": "אחרי decide בא to + פועל, לא ing: decided to rent."
+        },
+        "2": {
+          "en": "You need to before the verb: decided to rent.",
+          "he": "צריך to לפני הפועל: decided to rent."
+        },
+        "3": {
+          "en": "decide is followed directly by to + verb: decided to rent.",
+          "he": "אחרי decide בא ישר to + פועל: decided to rent."
+        }
+      },
+      "option_errors": {
+        "0": "gerund-infinitive",
+        "2": "gerund-infinitive",
+        "3": "gerund-infinitive"
+      },
+      "explanation": {
+        "en": "decide + to + base verb: We've decided to rent a car.",
+        "he": "decide + to + פועל בסיס: We've decided to rent a car."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Listen to Sara's voice message to Noa and answer the question.",
+        "he": "הקשיבו להודעה הקולית ששרה השאירה לנועה וענו על השאלה."
+      },
+      "audio_text": "Hi Noa, it's Sara. Omer suggested going to the beach on Saturday, but I don't really feel like driving that far. How about watching a film at my place instead? Let me know!",
+      "question": "What does Sara want to do on Saturday?",
+      "options": [
+        "go to the beach",
+        "drive to Omer's place",
+        "go to the cinema",
+        "watch a film at her place"
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "That was Omer's idea. Sara doesn't feel like driving that far.",
+          "he": "זה היה הרעיון של עומר. לשרה לא מתחשק לנסוע כל כך רחוק."
+        },
+        "1": {
+          "en": "Nobody mentions driving to Omer's place.",
+          "he": "אף אחד לא מדבר על נסיעה לעומר."
+        },
+        "2": {
+          "en": "She wants to watch a film, but at her place, not at the cinema.",
+          "he": "היא רוצה לראות סרט, אבל אצלה בבית, לא בקולנוע."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "suggested going = Omer's idea; don't feel like driving = Sara doesn't want to; How about watching...? = Sara's suggestion. All three take -ing.",
+        "he": "suggested going = הרעיון של עומר; ‏don't feel like driving = לשרה לא מתחשק; ‏How about watching...? = ההצעה של שרה. אחרי שלושתם בא ing."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Complete the message with the correct form of the verbs in brackets.",
+        "he": "השלימו את ההודעה בצורה הנכונה של הפעלים שבסוגריים."
+      },
+      "text": "I've finally finished ___ (write) my essay, so now I want ___ (relax). I'm thinking of ___ (go) to the cinema. Do you want ___ (come)?",
+      "answers": [
+        [
+          "writing"
+        ],
+        [
+          "to relax"
+        ],
+        [
+          "going"
+        ],
+        [
+          "to come"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "to write",
+          "feedback": {
+            "en": "finish takes -ing: finished writing.",
+            "he": "אחרי finish בא ing: ‏finished writing."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "write",
+          "feedback": {
+            "en": "finish takes -ing: finished writing.",
+            "he": "אחרי finish בא ing: ‏finished writing."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "relaxing",
+          "feedback": {
+            "en": "want takes to + verb: want to relax.",
+            "he": "אחרי want בא to + פועל: want to relax."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "relax",
+          "feedback": {
+            "en": "want needs to before the verb: want to relax.",
+            "he": "אחרי want צריך to לפני הפועל: want to relax."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "to go",
+          "feedback": {
+            "en": "of is a preposition, so use -ing: thinking of going.",
+            "he": "of היא מילת יחס, ולכן ing: ‏thinking of going."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "go",
+          "feedback": {
+            "en": "of is a preposition, so use -ing: thinking of going.",
+            "he": "of היא מילת יחס, ולכן ing: ‏thinking of going."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "coming",
+          "feedback": {
+            "en": "want takes to + verb: want to come.",
+            "he": "אחרי want בא to + פועל: want to come."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "come",
+          "feedback": {
+            "en": "want needs to before the verb: want to come.",
+            "he": "אחרי want צריך to לפני הפועל: want to come."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "hint": {
+        "en": "finish + -ing · want + to · of (a preposition) + -ing",
+        "he": "finish + ing · ‏want + to · ‏of (מילת יחס) + ing"
+      },
+      "explanation": {
+        "en": "finished writing (finish + -ing); want to relax, want to come (want + to); thinking of going (preposition + -ing).",
+        "he": "finished writing ‏(finish + ing); ‏want to relax, want to come ‏(want + to); ‏thinking of going (מילת יחס + ing)."
+      }
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "You are calling a restaurant. Choose the correct form.",
+        "he": "אתם מתקשרים למסעדה. בחרו את הצורה הנכונה."
+      },
+      "question": "Good evening. I'd like ___ a table for four, please.",
+      "options": [
+        "to book",
+        "booking",
+        "book"
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "would like takes to, not -ing: I'd like to book.",
+          "he": "אחרי would like בא to, לא ing: ‏I'd like to book."
+        },
+        "2": {
+          "en": "would like needs to before the verb: I'd like to book.",
+          "he": "אחרי would like צריך to לפני הפועל: I'd like to book."
+        }
+      },
+      "option_errors": {
+        "1": "gerund-infinitive",
+        "2": "gerund-infinitive"
+      },
+      "explanation": {
+        "en": "I'd like = I would like, and would like always takes to: I'd like to book a table.",
+        "he": "I'd like = I would like, ואחרי would like תמיד בא to: ‏I'd like to book a table."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "gap",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Complete with the correct form of the verbs in brackets.",
+        "he": "השלימו בצורה הנכונה של הפעלים שבסוגריים."
+      },
+      "text": "Thanks for ___ (help) me yesterday. I'm not very good at ___ (fix) things, and I was worried about ___ (break) my laptop.",
+      "answers": [
+        [
+          "helping"
+        ],
+        [
+          "fixing"
+        ],
+        [
+          "breaking"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "to help",
+          "feedback": {
+            "en": "for is a preposition, so use -ing: Thanks for helping.",
+            "he": "for היא מילת יחס, ולכן ing: ‏Thanks for helping."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "help",
+          "feedback": {
+            "en": "for is a preposition, so use -ing: Thanks for helping.",
+            "he": "for היא מילת יחס, ולכן ing: ‏Thanks for helping."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "to fix",
+          "feedback": {
+            "en": "at is a preposition, so use -ing: good at fixing.",
+            "he": "at היא מילת יחס, ולכן ing: ‏good at fixing."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "fix",
+          "feedback": {
+            "en": "at is a preposition, so use -ing: good at fixing.",
+            "he": "at היא מילת יחס, ולכן ing: ‏good at fixing."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "to break",
+          "feedback": {
+            "en": "about is a preposition, so use -ing: worried about breaking.",
+            "he": "about היא מילת יחס, ולכן ing: ‏worried about breaking."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "break",
+          "feedback": {
+            "en": "about is a preposition, so use -ing: worried about breaking.",
+            "he": "about היא מילת יחס, ולכן ing: ‏worried about breaking."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "hint": {
+        "en": "Look at the word before each gap: for, at, about.",
+        "he": "הסתכלו על המילה שלפני כל רווח: for, ‏at, ‏about."
+      },
+      "explanation": {
+        "en": "After a preposition, always -ing: thanks for helping, good at fixing, worried about breaking.",
+        "he": "אחרי מילת יחס תמיד בא ing: ‏thanks for helping, good at fixing, worried about breaking."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Which sentence is NOT correct?",
+        "he": "איזה משפט אינו נכון?"
+      },
+      "question": "Find the incorrect sentence.",
+      "options": [
+        "I love swimming in the sea.",
+        "I love to swim in the sea.",
+        "I'd love swimming in the sea with you tomorrow.",
+        "I'd love to swim in the sea with you tomorrow."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "This one is correct: love + -ing is fine.",
+          "he": "המשפט הזה נכון: love + ing תקין."
+        },
+        "1": {
+          "en": "This one is correct: love + to is also fine.",
+          "he": "המשפט הזה נכון: גם love + to תקין."
+        },
+        "3": {
+          "en": "This one is correct: would love + to.",
+          "he": "המשפט הזה נכון: would love + to."
+        }
+      },
+      "explanation": {
+        "en": "love, like and hate take both forms. But would love / would like take only to: I'd love to swim with you tomorrow.",
+        "he": "אחרי love, ‏like ו-hate אפשר את שתי הצורות. אבל אחרי would love / would like בא רק to: I'd love to swim with you tomorrow."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "transform",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Report Omer's idea. Use 'suggested'.",
+        "he": "דווחו על הרעיון של עומר. השתמשו ב-'suggested'."
+      },
+      "source": "Omer: 'Let's take a taxi.'",
+      "answers": [
+        "Omer suggested taking a taxi.",
+        "Omer suggested that we take a taxi.",
+        "Omer suggested we take a taxi.",
+        "Omer suggested that we should take a taxi.",
+        "Omer suggested we should take a taxi."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Omer suggested to take a taxi.",
+          "feedback": {
+            "en": "suggest is not followed by to + verb. Use -ing: Omer suggested taking a taxi.",
+            "he": "אחרי suggest לא בא to + פועל. השתמשו ב-ing: ‏Omer suggested taking a taxi."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Omer suggested us to take a taxi.",
+          "feedback": {
+            "en": "suggest can't take a person + to. Use -ing: Omer suggested taking a taxi.",
+            "he": "אחרי suggest לא בא אדם + to. השתמשו ב-ing: ‏Omer suggested taking a taxi."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Omer suggested take a taxi.",
+          "feedback": {
+            "en": "Use -ing after suggest: Omer suggested taking a taxi.",
+            "he": "אחרי suggest בא ing: ‏Omer suggested taking a taxi."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "Omer suggested to taking a taxi.",
+          "feedback": {
+            "en": "No to after suggest: Omer suggested taking a taxi.",
+            "he": "אחרי suggest אין to: ‏Omer suggested taking a taxi."
+          },
+          "error_type": "gerund-infinitive"
+        }
+      ],
+      "hint": {
+        "en": "suggest + -ing",
+        "he": "אחרי suggest בא ing."
+      },
+      "explanation": {
+        "en": "Let's + verb → suggested + -ing: Omer suggested taking a taxi. (Not *suggested to take – one of the most common mistakes in English.)",
+        "he": "Let's + פועל הופך ל-suggested + ing: ‏Omer suggested taking a taxi. (ולא suggested to take – אחת הטעויות הנפוצות ביותר באנגלית.)"
+      }
+    },
+    {
+      "id": "e10",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "I enjoy to play basketball with my friends.",
+      "answers": [
+        "I enjoy playing basketball with my friends."
+      ],
+      "error_type": "gerund-infinitive",
+      "explanation": {
+        "en": "enjoy + -ing: I enjoy playing basketball.",
+        "he": "אחרי enjoy בא ing ולא to: ‏I enjoy playing basketball."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "This sentence has a mistake. Write it correctly.",
+        "he": "במשפט יש טעות. כתבו אותו נכון."
+      },
+      "sentence": "I'm looking forward to see you on Friday.",
+      "answers": [
+        "I'm looking forward to seeing you on Friday."
+      ],
+      "error_type": "gerund-infinitive",
+      "hint": {
+        "en": "Is to part of the verb here, or a preposition?",
+        "he": "האם to כאן חלק מהפועל, או מילת יחס?"
+      },
+      "explanation": {
+        "en": "In look forward to, to is a preposition, and prepositions take -ing: I'm looking forward to seeing you.",
+        "he": "בצירוף look forward to, ה-to היא מילת יחס, ואחרי מילת יחס בא ing: ‏I'm looking forward to seeing you."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "vocabulary",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Translate into English.",
+        "he": "תרגמו לאנגלית."
+      },
+      "source": "אני מתכנן/ת ללמוד ספרדית, כי אני נהנה/ית לטייל.",
+      "answers": [
+        "I'm planning to learn Spanish because I enjoy travelling.",
+        "I'm planning to learn Spanish because I enjoy traveling.",
+        "I'm planning to learn Spanish, because I enjoy travelling.",
+        "I'm planning to learn Spanish, because I enjoy traveling.",
+        "I'm planning to learn Spanish as I enjoy travelling.",
+        "I'm planning to learn Spanish as I enjoy traveling.",
+        "I'm planning to learn Spanish, as I enjoy travelling.",
+        "I'm planning to learn Spanish, as I enjoy traveling.",
+        "I'm planning to learn Spanish since I enjoy travelling.",
+        "I'm planning to learn Spanish since I enjoy traveling.",
+        "I'm planning to learn Spanish, since I enjoy travelling.",
+        "I'm planning to learn Spanish, since I enjoy traveling.",
+        "I'm planning to study Spanish because I enjoy travelling.",
+        "I'm planning to study Spanish because I enjoy traveling.",
+        "I'm planning to study Spanish, because I enjoy travelling.",
+        "I'm planning to study Spanish, because I enjoy traveling.",
+        "I'm planning to study Spanish as I enjoy travelling.",
+        "I'm planning to study Spanish as I enjoy traveling.",
+        "I'm planning to study Spanish, as I enjoy travelling.",
+        "I'm planning to study Spanish, as I enjoy traveling.",
+        "I'm planning to study Spanish since I enjoy travelling.",
+        "I'm planning to study Spanish since I enjoy traveling.",
+        "I'm planning to study Spanish, since I enjoy travelling.",
+        "I'm planning to study Spanish, since I enjoy traveling.",
+        "I plan to learn Spanish because I enjoy travelling.",
+        "I plan to learn Spanish because I enjoy traveling.",
+        "I plan to learn Spanish, because I enjoy travelling.",
+        "I plan to learn Spanish, because I enjoy traveling.",
+        "I plan to learn Spanish as I enjoy travelling.",
+        "I plan to learn Spanish as I enjoy traveling.",
+        "I plan to learn Spanish, as I enjoy travelling.",
+        "I plan to learn Spanish, as I enjoy traveling.",
+        "I plan to learn Spanish since I enjoy travelling.",
+        "I plan to learn Spanish since I enjoy traveling.",
+        "I plan to learn Spanish, since I enjoy travelling.",
+        "I plan to learn Spanish, since I enjoy traveling.",
+        "I plan to study Spanish because I enjoy travelling.",
+        "I plan to study Spanish because I enjoy traveling.",
+        "I plan to study Spanish, because I enjoy travelling.",
+        "I plan to study Spanish, because I enjoy traveling.",
+        "I plan to study Spanish as I enjoy travelling.",
+        "I plan to study Spanish as I enjoy traveling.",
+        "I plan to study Spanish, as I enjoy travelling.",
+        "I plan to study Spanish, as I enjoy traveling.",
+        "I plan to study Spanish since I enjoy travelling.",
+        "I plan to study Spanish since I enjoy traveling.",
+        "I plan to study Spanish, since I enjoy travelling.",
+        "I plan to study Spanish, since I enjoy traveling."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "I'm planning to learn Spanish because I enjoy to travel.",
+          "feedback": {
+            "en": "Translate the pattern, not the word: plan + to (to learn), but enjoy + -ing (travelling).",
+            "he": "מתרגמים לפי הדפוס של הפועל באנגלית: plan + to ‏(to learn), אבל enjoy + ing ‏(travelling)."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "I plan to learn Spanish because I enjoy to travel.",
+          "feedback": {
+            "en": "Translate the pattern, not the word: plan + to (to learn), but enjoy + -ing (travelling).",
+            "he": "מתרגמים לפי הדפוס של הפועל באנגלית: plan + to ‏(to learn), אבל enjoy + ing ‏(travelling)."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "I'm planning learning Spanish because I enjoy travelling.",
+          "feedback": {
+            "en": "plan takes to + verb: I'm planning to learn Spanish.",
+            "he": "אחרי plan בא to + פועל: I'm planning to learn Spanish."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "I'm planning to learning Spanish because I enjoy travelling.",
+          "feedback": {
+            "en": "After to, use the base verb: to learn.",
+            "he": "אחרי to בא פועל בסיס: to learn."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "I plan learn Spanish because I enjoy travelling.",
+          "feedback": {
+            "en": "plan needs to before the verb: I plan to learn Spanish.",
+            "he": "אחרי plan צריך to לפני הפועל: I plan to learn Spanish."
+          },
+          "error_type": "gerund-infinitive"
+        },
+        {
+          "match": "I'm planning to learn Spanish because I'm enjoy travelling.",
+          "feedback": {
+            "en": "enjoy is the main verb here, so there's no am: I enjoy travelling.",
+            "he": "enjoy הוא הפועל העיקרי, ולכן אין כאן am: I enjoy travelling."
+          },
+          "error_type": "verb-form"
+        }
+      ],
+      "hint": {
+        "en": "Two English verbs, two different patterns: plan + ?, enjoy + ?",
+        "he": "שני פעלים באנגלית, שני דפוסים שונים: plan + ?, ‏enjoy + ?"
+      },
+      "explanation": {
+        "en": "In the Hebrew sentence both verbs are infinitives (lilmod, letayel). In English the first verb decides: plan + to (to learn), enjoy + -ing (travelling).",
+        "he": "במשפט העברי שני הפעלים בשם הפועל (\"ללמוד\", \"לטייל\"). באנגלית הפועל הראשון קובע: plan + to ‏(to learn), ‏enjoy + ing ‏(travelling)."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "read",
+      "skill": "reading",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Read Noa's email to her host family and answer the questions.",
+        "he": "קראו את המייל שנועה כתבה למשפחה המארחת שלה וענו על השאלות."
+      },
+      "title": "Email: Before my exchange trip",
+      "passage": "Dear Mr and Mrs Clarke,\n\nMy name is Noa, and I'm the student from Israel who is going to stay with you in July. I'm really looking forward to meeting you!\n\nHere is a little about me. I'm seventeen and I live in Be'er Sheva with my parents and my younger brother. I enjoy cooking, and I'm quite good at making Israeli food, so I'd love to cook dinner for you one evening. I also like going to the gym, and I'm planning to keep training during my stay. I'm not very good at getting up early, but I promise to try!\n\nI don't eat meat, but please don't worry about cooking special meals for me. I'm happy to eat vegetables and pasta.\n\nAnother Israeli student, Amir, is staying with a family on your street, and we've decided to practise our English together. I hope you don't mind him visiting sometimes in the afternoon.\n\nThank you for agreeing to have me. I can't wait to see England!\n\nBest wishes,\nNoa",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Why is Noa writing?",
+          "options": [
+            "to introduce herself before her stay",
+            "to book a hotel room in England",
+            "to cancel her trip"
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "She is going to stay with a family, not in a hotel.",
+              "he": "היא תגור אצל משפחה, לא במלון."
+            },
+            "2": {
+              "en": "She isn't cancelling: she's looking forward to meeting them.",
+              "he": "היא לא מבטלת: היא מחכה לפגוש אותם."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'I'm the student from Israel who is going to stay with you in July... Here is a little about me.'",
+            "he": "בטקסט: I'm the student from Israel who is going to stay with you in July... Here is a little about me."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Noa would like to cook for the family.",
+          "answer": true,
+          "explanation": {
+            "en": "'I'd love to cook dinner for you one evening.'",
+            "he": "בטקסט: I'd love to cook dinner for you one evening."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Noa finds it easy to get up early.",
+          "answer": false,
+          "explanation": {
+            "en": "'I'm not very good at getting up early.'",
+            "he": "בטקסט: I'm not very good at getting up early."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What have Noa and Amir decided to do?",
+          "options": [
+            "go to the gym together",
+            "practise their English together",
+            "cook dinner for the Clarkes"
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "Noa goes to the gym, but she doesn't say she goes with Amir.",
+              "he": "נועה הולכת לחדר כושר, אבל היא לא כותבת שהיא הולכת עם אמיר."
+            },
+            "2": {
+              "en": "Noa wants to cook – Amir is not part of that plan.",
+              "he": "נועה רוצה לבשל, אבל אמיר לא חלק מהתוכנית הזאת."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "'We've decided to practise our English together.' decide + to.",
+            "he": "בטקסט: We've decided to practise our English together. ‏decide + to."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "Noa is planning to keep ___ during her stay.",
+          "answers": [
+            [
+              "training"
+            ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "train",
+              "feedback": {
+                "en": "keep is followed by -ing: keep training.",
+                "he": "אחרי keep בא ing: ‏keep training."
+              },
+              "error_type": "gerund-infinitive"
+            },
+            {
+              "match": "to train",
+              "feedback": {
+                "en": "keep is followed by -ing: keep training.",
+                "he": "אחרי keep בא ing: ‏keep training."
+              },
+              "error_type": "gerund-infinitive"
+            }
+          ],
+          "explanation": {
+            "en": "'I'm planning to keep training during my stay.' plan + to, then keep + -ing.",
+            "he": "בטקסט: I'm planning to keep training during my stay. ‏plan + to, ואחר כך keep + ing."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "Noa wants the family to cook special meals for her.",
+          "answer": false,
+          "explanation": {
+            "en": "'Please don't worry about cooking special meals for me.'",
+            "he": "בטקסט: Please don't worry about cooking special meals for me."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "The email is full of verb patterns: looking forward to meeting, enjoy cooking, good at making, planning to keep training, decided to practise.",
+        "he": "המייל מלא בדפוסי פעלים: looking forward to meeting, ‏enjoy cooking, ‏good at making, ‏planning to keep training, ‏decided to practise."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "dictation",
+      "skill": "listening",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Listen and write the sentence.",
+        "he": "הקשיבו וכתבו את המשפט."
+      },
+      "audio_text": "I don't mind waiting, but I can't afford to miss the last bus.",
+      "answers": [
+        "I don't mind waiting, but I can't afford to miss the last bus."
+      ],
+      "explanation": {
+        "en": "mind + -ing (waiting); afford + to (to miss).",
+        "he": "אחרי mind בא ing ‏(waiting), ואחרי afford בא to ‏(to miss)."
+      }
+    },
+    {
+      "id": "e15",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "You're ending a message to a friend you'll see soon. Say it out loud.",
+        "he": "אתם מסיימים הודעה לחבר שתפגשו בקרוב. אמרו אותה בקול."
+      },
+      "target": "I'm really looking forward to seeing you!",
+      "focus": {
+        "en": "End -ing with /ŋ/ and no g: looking /ˈlʊkɪŋ/, seeing /ˈsiːɪŋ/. Keep look short: /lʊk/, not 'Luke'.",
+        "he": "סיימו את ing ב-/ŋ/ בלי g: looking /ˈlʊkɪŋ/, ‏seeing /ˈsiːɪŋ/. ואמרו את look קצר: /lʊk/, לא \"לוּוּק\"."
+      },
+      "explanation": {
+        "en": "A very common way to end a friendly message or email. Remember: look forward to + -ing.",
+        "he": "דרך נפוצה מאוד לסיים הודעה או מייל ידידותיים. זכרו: look forward to + ing."
+      }
+    },
+    {
+      "id": "e16",
+      "type": "write",
+      "skill": "writing",
+      "topic": "gerund-infinitive",
+      "prompt": {
+        "en": "Write an email to someone you are going to live with.",
+        "he": "כתבו מייל למישהו שאתם עומדים לגור איתו."
+      },
+      "task": {
+        "en": "Write an email (80-120 words) to a host family or a new flatmate before you meet. Say what you enjoy doing, what you're good at, what you're planning or hoping to do during your stay, and one thing you'd like to do together. Use at least three verbs + -ing, three verbs + to, and one preposition + -ing.",
+        "he": "כתבו מייל (80-120 מילים) למשפחה מארחת או לשותף/ה חדש/ה לדירה לפני שאתם נפגשים. ספרו מה אתם נהנים לעשות, במה אתם טובים, מה אתם מתכננים או מקווים לעשות בתקופה הזאת, ודבר אחד שהייתם רוצים לעשות ביחד. השתמשו לפחות בשלושה פעלים + ing, שלושה פעלים + to, ומילת יחס אחת + ing."
+      },
+      "min_words": 80,
+      "max_words": 130,
+      "model_answer": "Hi Daniel,\n\nI'm Omer, your new flatmate! I'm really looking forward to meeting you next week. A little about me: I'm studying computer science, and I enjoy playing football and cooking. I'm not very good at cleaning, but I promise to do my share! I'm planning to join a gym near the flat, and I hope to find a cheap place for lunch too. Are you interested in going for a run sometimes? I don't mind getting up early. Also, I need to buy a desk, so if you know a good shop, let me know.\n\nSee you soon!\nOmer",
+      "checklist": [
+        {
+          "en": "I used at least three verbs + -ing (enjoy, mind, finish, avoid, suggest, practise...).",
+          "he": "השתמשתי לפחות בשלושה פעלים + ing ‏(enjoy, mind, finish, avoid, suggest, practise...)."
+        },
+        {
+          "en": "I used at least three verbs + to (want, plan, hope, decide, need, would like...).",
+          "he": "השתמשתי לפחות בשלושה פעלים + to ‏(want, plan, hope, decide, need, would like...)."
+        },
+        {
+          "en": "After prepositions (at, in, about, for, forward to), I used -ing.",
+          "he": "אחרי מילות יחס (at, in, about, for, forward to) השתמשתי ב-ing."
+        },
+        {
+          "en": "I used would like / would love + to (I'd like to..., not *I'd like doing).",
+          "he": "אחרי would like / would love השתמשתי ב-to (I'd like to... ולא I'd like doing)."
+        }
+      ],
+      "explanation": {
+        "en": "Introducing yourself is full of these patterns: what you enjoy doing, what you want to do and what you are good at doing.",
+        "he": "בהיכרות עצמית יש הרבה דפוסים כאלה: מה אתם נהנים לעשות (enjoy doing), מה אתם רוצים לעשות (want to do) ובמה אתם טובים (good at doing)."
+      }
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "Verb + -ing: enjoy, finish, mind, avoid, suggest, practise, keep. Verb + to: want, decide, hope, plan, need, afford, would like.",
+        "he": "פועל + ing: ‏enjoy, finish, mind, avoid, suggest, practise, keep. פועל + to: ‏want, decide, hope, plan, need, afford, would like."
+      },
+      {
+        "en": "After a preposition, always -ing: good at cooking, interested in learning, thanks for coming.",
+        "he": "אחרי מילת יחס תמיד ing: ‏good at cooking, interested in learning, thanks for coming."
+      },
+      {
+        "en": "like / love / hate + either form; would like / would love + to only.",
+        "he": "אחרי like / love / hate אפשר את שתי הצורות; אחרי would like / would love רק to."
+      },
+      {
+        "en": "Watch the to trap: look forward to seeing (to is a preposition).",
+        "he": "היזהרו ממלכודת ה-to: ‏look forward to seeing (ה-to היא מילת יחס)."
+      },
+      {
+        "en": "suggest + -ing: She suggested going (not *suggested to go).",
+        "he": "suggest + ing: ‏She suggested going (ולא suggested to go)."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

@@ -20,6 +20,7 @@
       ["he / she / it", "She's working.", "She isn't working.", "Is she working?", "Yes, she is. / No, she isn't."],
       ["you / we / they", "They're working.", "They aren't working.", "Are they working?", "Yes, they are. / No, they aren't."]
     ] },
+    { "type": "rule", "en": "Spelling the -ing form: most verbs just add -ing. Drop a final -e (make → making). After one vowel + one consonant, double the last letter (run → running). Change ie to y (lie → lying).", "he": "איות של ing: ברוב הפעלים פשוט מוסיפים ing. e בסוף הפועל נופלת (make → making). אחרי תנועה אחת + עיצור אחד מכפילים את האות האחרונה (run → running), אבל לא w, x, y. ie הופך ל-y (lie → lying)." },
     { "type": "table", "headers": ["Verb ends in", "Rule", "Examples"], "rows": [
       ["most verbs", "add -ing", "work → working, play → playing, study → studying"],
       ["-e", "drop the e, add -ing", "make → making, write → writing, dance → dancing"],
@@ -146,7 +147,11 @@
       "wrong_feedback": [
         { "match": "are helping", "feedback": { "en": "Dad is one person (he), so: is helping.", "he": "אבא הוא אדם אחד (he), ולכן is helping." }, "error_type": "agreement" },
         { "match": "cooking", "feedback": { "en": "Add be before the -ing form: I am cooking.", "he": "צריך am לפני צורת ה-ing: I am cooking." }, "error_type": "copula-omission" },
-        { "match": "cook", "feedback": { "en": "Use am + verb-ing: am cooking.", "he": "צריך am + פועל עם ing: am cooking." }, "error_type": "verb-form" }
+        { "match": "cook", "feedback": { "en": "Use am + verb-ing: am cooking.", "he": "צריך am + פועל עם ing: am cooking." }, "error_type": "verb-form" },
+        { "match": "is cooking", "feedback": { "en": "With I, use am: I am cooking.", "he": "עם I משתמשים ב-am: I am cooking." }, "error_type": "agreement" },
+        { "match": "helping", "feedback": { "en": "Add is before the -ing form: Dad is helping.", "he": "צריך is לפני צורת ה-ing: Dad is helping." }, "error_type": "copula-omission" },
+        { "match": "doing", "feedback": { "en": "Add are before the -ing form: the kids are doing.", "he": "צריך are לפני צורת ה-ing: the kids are doing." }, "error_type": "copula-omission" },
+        { "match": "is doing", "feedback": { "en": "The kids = they, so: are doing.", "he": "הילדים הם they, ולכן are doing." }, "error_type": "agreement" }
       ],
       "hint": { "en": "I → am, Dad → is, the kids → are.", "he": "I → am, אבא → is, הילדים → are." },
       "explanation": { "en": "Each subject takes its own form of be + -ing: I am cooking, Dad is helping, the kids are doing.", "he": "כל נושא מקבל את הצורה שלו של be ועוד ing: I am cooking, Dad is helping, the kids are doing." }
@@ -155,7 +160,7 @@
       "id": "e8", "type": "gap", "skill": "grammar", "topic": "present-continuous",
       "prompt": { "en": "Complete the short answer.", "he": "השלימו את התשובה הקצרה." },
       "text": "A: Is Kenji working today? B: No, he ___. He's at home with a cold.",
-      "answers": [["isn't", "isn't working", "'s not"]],
+      "answers": [["isn't", "isn't working", "'s not", "'s not working"]],
       "wrong_feedback": [
         { "match": "doesn't", "feedback": { "en": "The question starts with Is, so the short answer uses is: No, he isn't.", "he": "השאלה נפתחת ב-Is, ולכן גם התשובה הקצרה עם is: No, he isn't." }, "error_type": "do-support" },
         { "match": "not", "feedback": { "en": "Short answers repeat be: No, he isn't.", "he": "בתשובה קצרה חוזרים על be: No, he isn't." }, "error_type": "copula-omission" },
@@ -264,7 +269,7 @@
       "id": "e15", "type": "speak", "skill": "speaking", "topic": "present-continuous",
       "prompt": { "en": "Say the question and the answer out loud.", "he": "אמרו בקול את השאלה ואת התשובה." },
       "target": "What are you doing at the moment? I'm making dinner.",
-      "focus": { "en": "-ing is one sound at the back of the mouth, /ɪŋ/, with no hard g after it: doing, making.", "he": "את ing אומרים כצליל אחד מהאף, /ɪŋ/, בלי g בסוף: doing, making." },
+      "focus": { "en": "The ng in -ing is one sound, /ŋ/: the back of the tongue touches the roof of the mouth and the air goes out through the nose. Don't add a hard g after it: doing /ˈduːɪŋ/, making /ˈmeɪkɪŋ/.", "he": "ה-ng שב-ing הוא צליל אחד, /ŋ/: גב הלשון נוגע בחלק האחורי של החך, והאוויר יוצא דרך האף. אל תוסיפו g אחריו: doing, making." },
       "explanation": { "en": "This is a real everyday exchange. The short form I'm sounds natural in speech.", "he": "זו שיחה יומיומית אמיתית. בדיבור הצורה המקוצרת I'm נשמעת טבעית." }
     },
     {

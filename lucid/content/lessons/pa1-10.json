@@ -39,10 +39,10 @@
   "vocab": [
     { "word": "live", "pos": "verb", "he": "לגור", "def": "to have your home in a place", "example": "I live in Haifa.", "ipa": "/lɪv/", "collocations": ["live in a city", "live with my family"], "level": "PreA1" },
     { "word": "like", "pos": "verb", "he": "לאהוב, לחבב", "def": "to think something is nice or good", "example": "I like music.", "ipa": "/laɪk/", "level": "PreA1" },
-    { "word": "have", "pos": "verb", "he": "יש ל- (יש לי)", "def": "to own something or to be with a person in your family", "example": "I have a dog and a sister.", "ipa": "/hæv/", "level": "PreA1" },
+    { "word": "have", "pos": "verb", "he": "יש ל- (יש לי)", "def": "used to say what is yours, or who is in your family", "example": "I have a dog and a sister.", "ipa": "/hæv/", "level": "PreA1" },
     { "word": "city", "pos": "noun", "he": "עיר", "def": "a big town", "example": "Tel Aviv is a big city.", "ipa": "/ˈsɪti/", "level": "PreA1" },
     { "word": "music", "pos": "noun", "he": "מוזיקה", "def": "sounds that people sing or play", "example": "I like music very much.", "ipa": "/ˈmjuːzɪk/", "level": "PreA1" },
-    { "word": "sport", "pos": "noun", "he": "ספורט", "def": "a game or activity like football or swimming", "example": "Basketball is my sport.", "ipa": "/spɔːt/", "level": "PreA1" },
+    { "word": "sport", "pos": "noun", "he": "ספורט", "def": "a game or activity like football or swimming", "example": "My favourite sport is basketball.", "ipa": "/spɔːt/", "level": "PreA1" },
     { "word": "football", "pos": "noun", "he": "כדורגל", "def": "a game where two teams kick a ball", "example": "I like football.", "ipa": "/ˈfʊtbɔːl/", "level": "PreA1" },
     { "word": "very much", "pos": "phrase", "he": "מאוד", "def": "a lot; it goes at the end of the sentence", "example": "I like pizza very much.", "ipa": "/ˌveri ˈmʌtʃ/", "level": "PreA1" },
     { "word": "years old", "pos": "phrase", "he": "בן/בת (גיל)", "def": "words you can put after your age", "example": "I'm 17 years old.", "ipa": "/ˌjɪəz ˈəʊld/", "level": "PreA1" },
@@ -135,7 +135,7 @@
       "wrong_feedback": [
         { "match": "is", "feedback": { "en": "The word I never goes with is. Here you need live, have or like.", "he": "המילה I אף פעם לא באה עם is. כאן צריך live, have או like." }, "error_type": "agreement" }
       ],
-      "explanation": { "en": "I live in + a place. I have + a thing or a person. I like + something you enjoy.", "he": "I live in + מקום. I have + משהו או מישהו שיש לך. I like + משהו שנעים לך." }
+      "explanation": { "en": "I live in + a place. I have + a thing or a person. I like + something you enjoy.", "he": "I live in + מקום. I have + משהו או מישהו שיש לכם. I like + משהו שאתם נהנים ממנו." }
     },
     {
       "id": "e7", "type": "order", "skill": "grammar", "topic": "word-order-basic",
@@ -158,7 +158,7 @@
       "answers": ["I like football very much.", "I very much like football."],
       "error_type": "word-order",
       "hint": { "en": "Move very much.", "he": "הזיזו את very much." },
-      "explanation": { "en": "like + football stay together, and very much goes at the end: I like football very much.", "he": "like ו-football נשארים צמודים, ו-very much עובר לסוף: I like football very much." }
+      "explanation": { "en": "like + football stay together, so very much cannot go between them. It usually goes at the end: I like football very much.", "he": "like ו-football נשארים צמודים, ולכן very much לא נכנס ביניהם. בדרך כלל הוא עובר לסוף: I like football very much." }
     },
     {
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "word-order-basic",
@@ -230,19 +230,19 @@
     },
     {
       "id": "e15", "type": "write", "skill": "writing", "topic": "word-order-basic",
-      "prompt": { "en": "Checkpoint: introduce yourself.", "he": "מבחן סיום הרמה: הציגו את עצמכם." },
+      "prompt": { "en": "Checkpoint: introduce yourself.", "he": "משימת סיום הרמה: הציגו את עצמכם." },
       "task": { "en": "Introduce yourself in 5-6 simple sentences (name, age, country, job or studies, one thing you like).", "he": "הציגו את עצמכם ב-5-6 משפטים פשוטים: שם, גיל, מדינה, עבודה או לימודים, ודבר אחד שאתם אוהבים." },
       "min_words": 25,
-      "max_words": 80,
+      "max_words": 70,
       "must_include": ["like"],
-      "model_answer": "My name is Yael. I'm 17 years old. I'm from Israel, and I live in Ashdod. I'm a student at a high school. I have a brother and a cat. I like music and basketball very much.",
+      "model_answer": "My name is Yael. I'm 17 years old. I'm from Israel, and I live in Ashdod. I'm a high school student. I have a brother and a cat. I like music and basketball very much.",
       "checklist": [
         { "en": "Name, age, country, job or studies, and one thing you like are all there.", "he": "יש שם, גיל, מדינה, עבודה או לימודים, ודבר אחד שאתם אוהבים." },
         { "en": "Every sentence has who + verb: I live..., I like..., I'm...", "he": "בכל משפט יש מי + פועל: I live..., I like..., I'm..." },
         { "en": "One verb at a time: I live (not I'm live). For age: I'm 17.", "he": "פועל אחד בכל פעם: I live, לא I'm live. לגיל: I'm 17." },
         { "en": "I is a capital letter. Every sentence starts with a capital letter and ends with a full stop.", "he": "I באות גדולה. כל משפט מתחיל באות גדולה ומסתיים בנקודה." }
       ],
-      "explanation": { "en": "This is your Pre-A1 checkpoint: everything from Foundations in one short text.", "he": "זה מבחן הסיום של רמת Pre-A1: כל מה שלמדתם ביחידת היסודות, בטקסט קצר אחד." }
+      "explanation": { "en": "This is your Pre-A1 checkpoint: everything from Foundations in one short text.", "he": "זו משימת הסיום של רמת Pre-A1: כל מה שלמדתם ביחידת היסודות, בטקסט קצר אחד." }
     }
   ],
   "review": {

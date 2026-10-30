@@ -112,7 +112,7 @@
     {
       "id": "e5", "type": "mcq", "skill": "grammar", "topic": "present-simple-third-person",
       "prompt": { "en": "Which sentence is correct?", "he": "איזה משפט נכון?" },
-      "question": "Dana and Tom are from the UK. Now…",
+      "question": "Dana and Tom are from Israel. Now…",
       "options": ["Dana and Tom lives in London.", "Dana live in London.", "Dana and Tom live in London.", "Dana and Tom are live in London."],
       "answer": 2,
       "option_feedback": {
@@ -264,10 +264,10 @@
       "id": "e16", "type": "write", "skill": "writing", "topic": "present-simple-third-person",
       "prompt": { "en": "Write about someone's routine.", "he": "כתבו על השגרה של מישהו." },
       "task": { "en": "Write 5-6 sentences about a person you know (a friend, a family member or a neighbour): where they live, their job or studies, and what they do every day or every week.", "he": "כתבו 5-6 משפטים על אדם שאתם מכירים (חבר/ה, בן/בת משפחה או שכן/ה): איפה הוא/היא גר/ה, במה הוא/היא עובד/ת או מה לומד/ת, ומה הוא/היא עושה כל יום או כל שבוע." },
-      "min_words": 35,
+      "min_words": 30,
       "max_words": 90,
       "must_include": ["every"],
-      "model_answer": "My friend Amir lives in Nazareth. He studies engineering at a university in Haifa, so he takes the train every morning. He has a part-time job in a phone shop. On Fridays, he plays football with his cousins. In the evening, he watches series and relaxes.",
+      "model_answer": "My friend Amir lives in Nazareth. He studies engineering at a university in Haifa, so he takes the bus every morning. He has a part-time job in a phone shop. On Fridays, he plays football with his cousins. In the evening, he watches TV series and relaxes.",
       "checklist": [
         { "en": "Every verb after he/she/it has -s or -es: lives, watches, studies.", "he": "כל פועל אחרי he/she/it מקבל s או es: lives, watches, studies." },
         { "en": "has, does, goes – not haves, dos, gos.", "he": "has, does, goes – לא haves, dos, gos." },

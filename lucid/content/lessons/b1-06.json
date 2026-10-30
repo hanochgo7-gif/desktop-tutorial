@@ -491,10 +491,10 @@
         "en": "Complete the description with the present simple passive of the verbs in brackets.",
         "he": "השלימו את התיאור בסביל בהווה פשוט של הפעלים שבסוגריים."
       },
-      "text": "Every year our olive oil ___ (produce) on a small family farm. The olives ___ (pick) by hand in November, and the oil ___ (sell) at local markets.",
+      "text": "Every year our olive oil ___ (make) on a small family farm. The olives ___ (pick) by hand in November, and the oil ___ (sell) at local markets.",
       "answers": [
         [
-          "is produced"
+          "is made"
         ],
         [
           "are picked"
@@ -505,34 +505,42 @@
       ],
       "wrong_feedback": [
         {
-          "match": "are produced",
+          "match": "are made",
           "feedback": {
-            "en": "Olive oil is uncountable, so use is: is produced.",
-            "he": "olive oil לא ספיר, ולכן is: ‏is produced."
+            "en": "Olive oil is uncountable, so use is: is made.",
+            "he": "olive oil לא ספיר, ולכן is: ‏is made."
           },
           "error_type": "agreement"
         },
         {
-          "match": "was produced",
+          "match": "was made",
           "feedback": {
-            "en": "\"Every year\" describes a regular fact, so use the present: is produced.",
-            "he": "\"Every year\" מתאר עובדה קבועה, ולכן הווה: is produced."
+            "en": "\"Every year\" describes a regular fact, so use the present: is made.",
+            "he": "\"Every year\" מתאר עובדה קבועה, ולכן הווה: is made."
           },
           "error_type": "tense-choice"
         },
         {
-          "match": "is produce",
+          "match": "is make",
           "feedback": {
-            "en": "After is, use the past participle: produced.",
-            "he": "אחרי is בא past participle: ‏produced."
+            "en": "After is, use the past participle: make – made – made.",
+            "he": "אחרי is בא past participle: ‏make – made – made."
           },
           "error_type": "verb-form"
         },
         {
-          "match": "produced",
+          "match": "is maked",
           "feedback": {
-            "en": "The passive needs be + past participle. Oil is singular and this happens every year: is produced.",
-            "he": "סביל צריך be + past participle. השמן ביחיד וזה קורה כל שנה: is produced."
+            "en": "make is irregular: make – made – made.",
+            "he": "make הוא פועל חריג: make – made – made."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "made",
+          "feedback": {
+            "en": "The passive needs be + past participle. Oil is singular and this happens every year: is made.",
+            "he": "סביל צריך be + past participle. השמן ביחיד וזה קורה כל שנה: is made."
           },
           "error_type": "passive-form"
         },
@@ -590,8 +598,8 @@
         "he": "\"Every year\" = הווה פשוט. בדקו אם כל נושא ביחיד או ברבים."
       },
       "explanation": {
-        "en": "A regular process → present simple passive: is/are + past participle. Oil is singular (is produced, is sold); olives are plural (are picked).",
-        "he": "תהליך קבוע = סביל בהווה פשוט: is/are + past participle. השמן ביחיד (is produced, is sold), הזיתים ברבים (are picked)."
+        "en": "A regular process → present simple passive: is/are + past participle. Oil is singular (is made, is sold); olives are plural (are picked).",
+        "he": "תהליך קבוע = סביל בהווה פשוט: is/are + past participle. השמן ביחיד (is made, is sold), הזיתים ברבים (are picked)."
       }
     },
     {
@@ -603,67 +611,68 @@
         "en": "Rewrite the sentence in the passive. Leave out 'someone'.",
         "he": "כתבו את המשפט מחדש בסביל. השמיטו את 'someone'."
       },
-      "source": "Someone stole my laptop at the airport.",
+      "source": "Someone hacked my email account last night.",
       "answers": [
-        "My laptop was stolen at the airport.",
-        "At the airport my laptop was stolen.",
-        "At the airport, my laptop was stolen."
+        "My email account was hacked last night.",
+        "Last night my email account was hacked.",
+        "Last night, my email account was hacked.",
+        "My email account got hacked last night."
       ],
       "wrong_feedback": [
         {
-          "match": "My laptop was stolen at the airport by someone.",
+          "match": "My email account was hacked last night by someone.",
           "feedback": {
             "en": "Correct grammar, but \"by someone\" adds nothing. Leave it out.",
             "he": "הדקדוק נכון, אבל \"by someone\" לא מוסיף מידע. השמיטו אותו."
           }
         },
         {
-          "match": "My laptop was stolen by someone at the airport.",
+          "match": "My email account was hacked by someone last night.",
           "feedback": {
             "en": "Correct grammar, but \"by someone\" adds nothing. Leave it out.",
             "he": "הדקדוק נכון, אבל \"by someone\" לא מוסיף מידע. השמיטו אותו."
           }
         },
         {
-          "match": "My laptop was stole at the airport.",
+          "match": "My email account hacked last night.",
           "feedback": {
-            "en": "stole is the past simple. After was, use the past participle: stolen.",
-            "he": "stole היא צורת העבר. אחרי was בא past participle: ‏stolen."
-          },
-          "error_type": "verb-form"
-        },
-        {
-          "match": "My laptop was stealed at the airport.",
-          "feedback": {
-            "en": "steal is irregular: steal – stole – stolen.",
-            "he": "steal הוא פועל חריג: steal – stole – stolen."
-          },
-          "error_type": "verb-form"
-        },
-        {
-          "match": "My laptop stolen at the airport.",
-          "feedback": {
-            "en": "Add be: My laptop was stolen.",
-            "he": "חסר be: ‏My laptop was stolen."
+            "en": "Add was: My email account was hacked. Without be, the account did the hacking!",
+            "he": "חסר was: ‏My email account was hacked. בלי be, החשבון הוא זה שפרץ!"
           },
           "error_type": "passive-form"
         },
         {
-          "match": "My laptop is stolen at the airport.",
+          "match": "My email account was hack last night.",
           "feedback": {
-            "en": "It happened in the past (stole), so use was: was stolen.",
-            "he": "זה קרה בעבר (stole), ולכן was: ‏was stolen."
+            "en": "After was, use the past participle: hacked.",
+            "he": "אחרי was בא past participle: ‏hacked."
+          },
+          "error_type": "verb-form"
+        },
+        {
+          "match": "My email account is hacked last night.",
+          "feedback": {
+            "en": "Last night is finished time, so use was: was hacked.",
+            "he": "last night הוא זמן שהסתיים, ולכן was: ‏was hacked."
+          },
+          "error_type": "tense-choice"
+        },
+        {
+          "match": "My email account has been hacked last night.",
+          "feedback": {
+            "en": "With a finished time (last night), use the past simple: was hacked.",
+            "he": "עם זמן שהסתיים (last night) משתמשים בעבר פשוט: was hacked."
           },
           "error_type": "tense-choice"
         }
       ],
       "hint": {
-        "en": "Start with \"My laptop\". stole → was + past participle.",
-        "he": "התחילו ב-\"My laptop\". ‏stole הופך ל-was + past participle."
+        "en": "Start with \"My email account\". hacked → was + past participle.",
+        "he": "התחילו ב-\"My email account\". ‏hacked הופך ל-was + past participle."
       },
       "explanation": {
-        "en": "The object of the active sentence (my laptop) becomes the subject. stole → was stolen. We don't know who did it, so there's no by-phrase.",
-        "he": "המושא של המשפט הפעיל (my laptop) הופך לנושא. ‏stole הופך ל-was stolen. לא ידוע מי עשה את זה, ולכן אין by."
+        "en": "The object of the active sentence (my email account) becomes the subject. hacked → was hacked. We don't know who did it, so there's no by-phrase.",
+        "he": "המושא של המשפט הפעיל (my email account) הופך לנושא. ‏hacked הופך ל-was hacked. לא ידוע מי עשה את זה, ולכן אין by."
       }
     },
     {
@@ -711,18 +720,18 @@
         "en": "This sentence has a mistake. Write it correctly.",
         "he": "במשפט יש טעות. כתבו אותו נכון."
       },
-      "sentence": "The museum was build in 1998.",
+      "sentence": "This song was write by my best friend.",
       "answers": [
-        "The museum was built in 1998."
+        "This song was written by my best friend."
       ],
       "error_type": "verb-form",
       "hint": {
-        "en": "build – built – built",
-        "he": "שלוש הצורות: build – built – built."
+        "en": "write – wrote – written",
+        "he": "שלוש הצורות: write – wrote – written."
       },
       "explanation": {
-        "en": "After be, always use the past participle: was built. build is the base form.",
-        "he": "אחרי be תמיד בא past participle: ‏was built. ‏build היא צורת הבסיס."
+        "en": "After be, always use the past participle: was written (not *was write or *was wrote). by my best friend is useful information, so we keep it.",
+        "he": "אחרי be תמיד בא past participle: ‏was written (ולא was write או was wrote). ‏by my best friend הוא מידע חשוב, ולכן משאירים אותו."
       }
     },
     {
@@ -784,7 +793,10 @@
       "answers": [
         "These shoes are made in Portugal.",
         "These shoes are produced in Portugal.",
-        "These shoes are manufactured in Portugal."
+        "These shoes are manufactured in Portugal.",
+        "Those shoes are made in Portugal.",
+        "Those shoes are produced in Portugal.",
+        "Those shoes are manufactured in Portugal."
       ],
       "wrong_feedback": [
         {
@@ -949,6 +961,24 @@
               "granddad",
               "grandpa"
             ]
+          ],
+          "wrong_feedback": [
+            {
+              "match": "father",
+              "feedback": {
+                "en": "Samir runs it today, but it was started by Samir's grandfather.",
+                "he": "סמיר מנהל את המקום היום, אבל מי שהקים אותו היה הסבא של סמיר."
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "daughter",
+              "feedback": {
+                "en": "Rana is Samir's daughter. She runs the press today; she didn't start it.",
+                "he": "רנא היא הבת של סמיר. היא מנהלת את בית הבד היום, אבל לא הקימה אותו."
+              },
+              "error_type": "comprehension"
+            }
           ],
           "explanation": {
             "en": "'It was started by Samir Haddad's grandfather in 1958.' by + agent tells us who started it.",

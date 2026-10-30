@@ -1,0 +1,996 @@
+{
+  "id": "c1-04",
+  "level": "C1",
+  "title_en": "A thesis worth arguing",
+  "title_he": "תזה ששווה להתווכח איתה",
+  "topics": [
+    "thesis-advanced"
+  ],
+  "minutes": 25,
+  "objectives": [
+    {
+      "en": "I can tell a descriptive thesis, which reports or announces, from an analytical thesis, which makes an arguable claim about how, why or to what extent."
+    },
+    {
+      "en": "I can qualify a thesis by scope, condition and degree so that it is defensible without becoming vague."
+    },
+    {
+      "en": "I can write a thesis that previews the logic of my essay and turn it into an outline in which every body paragraph does a distinct job."
+    }
+  ],
+  "warmup": {
+    "en": "Two students answer the essay question 'Has remote work been good for cities?'. Lior writes: 'Remote work has changed cities in many ways.' Priya writes: 'Remote work has emptied city-centre offices, but by freeing that space for housing it could make city centres more liveable than they were before.' Which thesis gives its writer something to prove for 1,000 words, and which has nothing left to argue after the first sentence?"
+  },
+  "explanation": [
+    {
+      "type": "p",
+      "en": "A thesis is the one claim your whole essay exists to prove. Compare three answers to 'Should cities limit short-term holiday rentals?'. (1) 'Short-term rentals have both benefits and drawbacks for cities.' True, but nobody could disagree, so there is nothing to argue: a descriptive thesis. (2) 'Short-term rentals are ruining our cities and should be banned.' Arguable, but one counterexample breaks it. (3) 'Cities should cap short-term rentals in neighbourhoods where they are pushing out long-term residents, rather than ban them outright, because a cap protects housing without closing a useful source of income for local hosts.' This analytical thesis is specific, debatable and defensible, and it tells the reader what the essay must show."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Thesis type",
+        "What it does",
+        "Example",
+        "Problem or strength"
+      ],
+      "rows": [
+        [
+          "Descriptive",
+          "reports, lists or announces",
+          "This essay examines how streaming has changed the music industry.",
+          "no reader could disagree, so there is nothing to argue"
+        ],
+        [
+          "Over-claimed",
+          "takes a side with an absolute claim",
+          "Streaming has destroyed music as an art form.",
+          "arguable but indefensible: one counterexample breaks it"
+        ],
+        [
+          "Over-hedged",
+          "qualifies everything",
+          "Streaming may have had some effects on some musicians in some ways.",
+          "safe but empty: it commits to nothing"
+        ],
+        [
+          "Analytical and qualified",
+          "claims how, why or to what extent, within stated limits",
+          "Streaming has made music easier to reach but harder to make a living from, because it rewards constant output over albums.",
+          "specific, debatable and defensible; it maps the essay"
+        ]
+      ]
+    },
+    {
+      "type": "rule",
+      "en": "Test a thesis with three questions. Could an informed, reasonable reader disagree? Does it take a whole essay to prove, rather than one fact? Does it say why it matters (the 'so what')? Analytical theses usually answer how, why or to what extent, and they often use patterns that turn a topic into a position: not X but Y; less X than Y; X rather than Y; X because Y."
+    },
+    {
+      "type": "rule",
+      "en": "Qualify a thesis along the dimension that is actually limited: scope (for students over 16; in city centres; in the short term), condition (provided that ..., unless ..., as long as ...) or degree (largely, partly, more ... than). A concession clause (Although X, ...) shows that you know the strongest objection and have an answer to it. This is calibration at the level of the whole essay: one or two precise qualifications make a thesis stronger, while a hedge on every word makes it empty."
+    },
+    {
+      "type": "tip",
+      "en": "A thesis can preview the logic of the essay. 'Rent controls protect current tenants, but by discouraging new building they raise rents for the next generation, so the city should subsidise construction instead' tells the reader to expect four steps in order: the concession, the mechanism, the consequence and the alternative. Each step becomes a body paragraph whose topic sentence is a mini-claim that moves the argument forward, not a fact or a heading."
+    },
+    {
+      "type": "warning",
+      "en": "Paragraphs should build, not just list. If you can swap two body paragraphs without changing the logic, ask whether one should depend on the other. Check a finished draft with a reverse outline: for each paragraph, write one line on what it says and one on what it does (concedes, explains a mechanism, shows a consequence, answers an objection). Merge paragraphs that do the same job, cut any paragraph that serves no part of the thesis, and revise the thesis last, because arguments change as you write."
+    }
+  ],
+  "examples": [
+    {
+      "en": "This essay will discuss the advantages and disadvantages of school uniforms.",
+      "note": "descriptive: an announcement with no position"
+    },
+    {
+      "en": "School uniforms do little to reduce visible inequality, because the most obvious signs of wealth, such as phones and trainers, are not covered by any uniform policy.",
+      "note": "analytical: a 'how far' claim with a reason the essay must prove"
+    },
+    {
+      "en": "Although a four-day week would raise costs for some employers at first, it is likely to pay for itself in jobs where tiredness causes expensive mistakes, such as healthcare and transport.",
+      "note": "concession + limited scope (in jobs where ...) + calibrated degree (is likely to)"
+    },
+    {
+      "en": "Public libraries should be judged less by how many books they lend than by how many people they connect to services they could not otherwise reach.",
+      "note": "less X than Y: reframes how the issue should be judged"
+    },
+    {
+      "en": "Banning phones in schools treats the symptom rather than the cause: what students need is not less technology but better reasons to look up from it.",
+      "note": "rather than and not X but Y sharpen the claim"
+    },
+    {
+      "en": "Rent controls protect current tenants, but by discouraging new building they raise rents for the next generation, so the city should subsidise construction instead.",
+      "note": "previews four steps: concession, mechanism, consequence, alternative"
+    },
+    {
+      "en": "Over-hedged: It could be argued that tourism may have some negative effects in certain places. Qualified: Mass tourism harms historic city centres most when visitors outnumber residents, so cities should manage numbers through pricing rather than bans.",
+      "note": "qualify by scope and condition instead of stacking maybes"
+    },
+    {
+      "en": "The strongest case for the tax is not environmental but economic.",
+      "note": "a topic sentence as a mini-claim: it tells the reader this paragraph's job"
+    }
+  ],
+  "vocab": [
+    {
+      "word": "arguable",
+      "pos": "adjective",
+      "he": "שאפשר להתווכח עליו; שנוי במחלוקת",
+      "def": "(of a claim) that reasonable people could disagree about, so it needs reasons and evidence",
+      "example": "A good thesis is arguable: an informed reader could take the other side.",
+      "ipa": "/ˈɑːɡjuəbl/",
+      "collocations": [
+        "an arguable claim",
+        "it is arguable that",
+        "highly arguable"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "descriptive",
+      "pos": "adjective",
+      "he": "תיאורי",
+      "def": "describing what something is like or what happened, rather than explaining or judging it",
+      "example": "The first draft was purely descriptive; the second made an argument.",
+      "ipa": "/dɪˈskrɪptɪv/",
+      "collocations": [
+        "purely descriptive",
+        "descriptive rather than analytical",
+        "a descriptive account"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "contention",
+      "pos": "noun",
+      "he": "טענה (מרכזית)",
+      "def": "an opinion or claim that someone argues for",
+      "example": "My central contention is that the city needs more homes, not more controls.",
+      "ipa": "/kənˈtenʃn/",
+      "collocations": [
+        "central contention",
+        "the contention that",
+        "a bone of contention"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "qualification",
+      "pos": "noun",
+      "he": "סייג; הסתייגות",
+      "def": "a word, phrase or condition that limits a claim or makes it less general",
+      "example": "I agree, with one qualification: the rule should not apply to small businesses.",
+      "ipa": "/ˌkwɒlɪfɪˈkeɪʃn/",
+      "collocations": [
+        "with one qualification",
+        "without qualification",
+        "add a qualification"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "nuanced",
+      "pos": "adjective",
+      "he": "מורכב; רגיש לדקויות",
+      "def": "showing an understanding of small but important differences",
+      "example": "Her essay offers a more nuanced view than the usual 'for or against' debate.",
+      "ipa": "/ˈnjuːɑːnst/",
+      "collocations": [
+        "a nuanced argument",
+        "a more nuanced view",
+        "highly nuanced"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "overarching",
+      "pos": "adjective",
+      "he": "כולל; מרכזי ומקיף",
+      "def": "most important, and including or connecting all the other parts",
+      "example": "Each paragraph should serve the overarching argument of the essay.",
+      "ipa": "/ˌəʊvərˈɑːtʃɪŋ/",
+      "collocations": [
+        "the overarching argument",
+        "an overarching aim",
+        "an overarching theme"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "underpin",
+      "pos": "verb",
+      "he": "לבסס; לשמש בסיס ל...",
+      "def": "to support an argument or idea and form the basis for it",
+      "example": "Two assumptions underpin the council's plan, and both are questionable.",
+      "ipa": "/ˌʌndəˈpɪn/",
+      "collocations": [
+        "underpin the argument",
+        "the assumptions that underpin",
+        "be underpinned by"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "implication",
+      "pos": "noun",
+      "he": "השלכה; משמעות נגזרת",
+      "def": "a possible effect or result of an idea, decision or finding",
+      "example": "The implication of the argument is that the tax should be introduced gradually.",
+      "ipa": "/ˌɪmplɪˈkeɪʃn/",
+      "collocations": [
+        "have implications for",
+        "the wider implications",
+        "far-reaching implications"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "hinge on",
+      "pos": "phrasal verb",
+      "he": "להיות תלוי לגמרי ב...",
+      "def": "to depend completely on something",
+      "example": "The whole argument hinges on whether the new homes would actually be built.",
+      "ipa": "/ˈhɪndʒ ɒn/",
+      "collocations": [
+        "the argument hinges on",
+        "hinge on whether",
+        "everything hinges on"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "counterintuitive",
+      "pos": "adjective",
+      "he": "מנוגד לאינטואיציה",
+      "def": "different from what you would naturally expect, although it may be true",
+      "example": "The essay makes the counterintuitive claim that more roads can mean more traffic.",
+      "ipa": "/ˌkaʊntərɪnˈtjuːɪtɪv/",
+      "collocations": [
+        "a counterintuitive claim",
+        "seem counterintuitive",
+        "a counterintuitive result"
+      ],
+      "level": "C1"
+    },
+    {
+      "word": "scope",
+      "pos": "noun",
+      "he": "היקף; תחום",
+      "def": "the range of cases, places or people that a claim, study or essay deals with",
+      "example": "Narrowing the scope of your thesis to secondary schools makes it easier to defend.",
+      "ipa": "/skəʊp/",
+      "collocations": [
+        "narrow the scope",
+        "the scope of the essay",
+        "beyond the scope of"
+      ],
+      "level": "B2"
+    },
+    {
+      "word": "reverse outline",
+      "pos": "noun",
+      "he": "מתווה הפוך (סיכום של כל פסקה בטיוטה לבדיקת המבנה)",
+      "def": "a list, made after drafting, of what each paragraph says and does, used to check the structure of a text",
+      "example": "The reverse outline showed that paragraphs three and four made the same point.",
+      "ipa": "/rɪˌvɜːs ˈaʊtlaɪn/",
+      "collocations": [
+        "write a reverse outline",
+        "a reverse outline of the draft"
+      ],
+      "level": "C1"
+    }
+  ],
+  "hebrew_pitfalls": [],
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "categorize",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Sort the thesis statements by type."
+      },
+      "categories": [
+        "Descriptive",
+        "Over-claimed",
+        "Over-hedged",
+        "Analytical and qualified"
+      ],
+      "items": [
+        {
+          "text": "This essay examines how streaming services have changed the music industry.",
+          "category": "Descriptive"
+        },
+        {
+          "text": "Online learning has both advantages and disadvantages for university students.",
+          "category": "Descriptive"
+        },
+        {
+          "text": "Streaming has destroyed music as an art form.",
+          "category": "Over-claimed"
+        },
+        {
+          "text": "Online learning is useless and should be abolished at every level of education.",
+          "category": "Over-claimed"
+        },
+        {
+          "text": "It could perhaps be said that streaming might have had some effects on some musicians.",
+          "category": "Over-hedged"
+        },
+        {
+          "text": "Online learning may possibly be somewhat helpful for certain students in some situations.",
+          "category": "Over-hedged"
+        },
+        {
+          "text": "Streaming has made music easier to reach but harder to make a living from, because it rewards constant output over the slow work of making albums.",
+          "category": "Analytical and qualified"
+        },
+        {
+          "text": "Online lectures work well for passing on information, but seminars should stay face to face, because discussion depends on cues that video calls lose.",
+          "category": "Analytical and qualified"
+        }
+      ],
+      "hint": {
+        "en": "Ask two questions about each sentence: could a reasonable reader disagree with it, and could you defend every word of it?"
+      },
+      "explanation": {
+        "en": "Descriptive theses report or announce, so nobody could disagree. Over-claimed theses take a side but rely on absolutes (destroyed, useless, every level) that one counterexample can break. Over-hedged theses stack maybes until nothing is claimed. Analytical theses make a specific how or why claim and limit it precisely: easier to reach but harder to make a living from; lectures, but not seminars."
+      }
+    },
+    {
+      "id": "e2",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Choose the strongest thesis for the essay question."
+      },
+      "question": "Essay question: 'To what extent should universities replace lectures with recorded videos?'",
+      "options": [
+        "Recorded lectures are now common at many universities around the world.",
+        "Universities should record their lectures but use the recordings to support live teaching rather than replace it, because the main value of a lecture lies in the questions and discussion that a recording cannot answer.",
+        "Recorded lectures are the future, and universities that resist them will not survive.",
+        "This essay will look at the arguments for and against recorded lectures and then reach a conclusion."
+      ],
+      "answer": 1,
+      "option_feedback": {
+        "0": {
+          "en": "This is a fact, not a position. It does not answer 'to what extent', and nobody would dispute it."
+        },
+        "2": {
+          "en": "This takes a side, but 'the future' and 'will not survive' are absolute predictions that the essay could not prove, and it ignores what lectures do well."
+        },
+        "3": {
+          "en": "This announces the essay instead of stating a position. The reader still does not know what you will argue."
+        }
+      },
+      "option_errors": {
+        "0": "weak-thesis",
+        "2": "unsupported-claim",
+        "3": "weak-thesis"
+      },
+      "explanation": {
+        "en": "A 'to what extent' question needs a calibrated answer. 'Support rather than replace' gives a precise degree, and the because-clause names the reason the body paragraphs will develop: live lectures allow questions and discussion."
+      }
+    },
+    {
+      "id": "e3",
+      "type": "listen",
+      "skill": "listening",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Listen to a university tutor giving feedback on a student's thesis in an office-hours meeting."
+      },
+      "audio_text": "Your thesis says that the museum's free entry policy has had a big impact. That's true, but it doesn't tell me what you're going to argue. Was the impact good or bad, and for whom? Something like 'free entry has brought in more tourists but done little for the local families it was meant to reach' would give you an argument.",
+      "question": "What is the tutor's main criticism of the student's thesis?",
+      "options": [
+        "It contains a factual error about the museum's visitors.",
+        "It is too critical of the museum's policy.",
+        "It is too long and tries to cover too many points.",
+        "It describes an effect without saying what the student will argue about it."
+      ],
+      "answer": 3,
+      "option_feedback": {
+        "0": {
+          "en": "The tutor says 'That's true', so accuracy is not the problem."
+        },
+        "1": {
+          "en": "The thesis is not critical at all: it does not even say whether the impact was good or bad."
+        },
+        "2": {
+          "en": "The tutor's suggested version is longer and more specific, so length is not the issue."
+        }
+      },
+      "option_errors": {
+        "0": "comprehension",
+        "1": "comprehension",
+        "2": "comprehension"
+      },
+      "explanation": {
+        "en": "'It doesn't tell me what you're going to argue' and 'good or bad, and for whom?' describe a descriptive thesis. The suggested version makes an arguable claim about who actually benefited, which the essay would then have to prove."
+      }
+    },
+    {
+      "id": "e4",
+      "type": "match",
+      "skill": "vocabulary",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Match each part of a thesis with the job it does."
+      },
+      "pairs": [
+        [
+          "for students over sixteen",
+          "limits the scope"
+        ],
+        [
+          "provided that the income is spent on buses",
+          "sets a condition"
+        ],
+        [
+          "largely",
+          "limits the degree"
+        ],
+        [
+          "Although the plan is expensive, ...",
+          "concedes a point"
+        ],
+        [
+          "rather than an outright ban",
+          "rejects an alternative"
+        ],
+        [
+          "because a cap protects housing",
+          "gives the reason"
+        ]
+      ],
+      "explanation": {
+        "en": "These are the building blocks of a qualified thesis. Scope, condition and degree each narrow the claim in a different way; the concession shows you have weighed the objection; rather than positions your claim against the obvious alternative; and the reason tells the reader what the essay must prove."
+      }
+    },
+    {
+      "id": "e5",
+      "type": "read",
+      "skill": "reading",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Read the opinion column from a local newspaper and analyse how the argument is built."
+      },
+      "title": "More parking will not save our high street",
+      "passage": "Every few months another shop on Ashby Vale's high street closes, and every few months the same explanation returns: people cannot park. The council now proposes to answer it with a three-storey car park behind the market square, at a cost that would use most of its regeneration budget for the next five years.\n\nI understand the logic, and I share the frustration. But I believe the plan rests on a mistaken diagnosis. The high street will not be saved by making it easier to reach; it will be saved, if at all, by giving people reasons to come that a website or an out-of-town retail park cannot offer.\n\nConsider why people stopped coming. The retail park on the ring road has plenty of parking, but its real attractions are lower prices and a wider range of goods, and online shops beat it on both. A shopper who now buys her trainers on her phone did not give up the high street because the car park was full; she gave it up because her phone was cheaper and never closed. Building more spaces answers a question that most shoppers are no longer asking.\n\nWhat the internet cannot provide is a place to meet, to be served by someone who knows your name, or to spend an hour without spending much money. The high streets that are holding up in towns like ours tend to be those that have changed what they offer: cafés, repair shops, a weekly food market, a library that runs evening classes. These are reasons to come in person, and they would gain far more from the car park money than from the car park.\n\nShop owners object that their customers complain about parking every day, and they are right to say so. For older and disabled residents in particular, a long walk from the bus stop can be a real barrier. But this is an argument for keeping a number of accessible spaces close to the shops, not for spending five years of investment on a building that will stand half-empty on weekdays.\n\nThe council's question was how to bring people back to the high street. The answer depends on why they left. If they left because they could not park, a car park makes sense. If they left because the street no longer offered anything they could not get more cheaply elsewhere, then it is the street, not the parking, that needs rebuilding.",
+      "questions": [
+        {
+          "type": "mcq",
+          "question": "Which sentence states the writer's thesis?",
+          "options": [
+            "Every few months another shop on Ashby Vale's high street closes.",
+            "The high street will not be saved by making it easier to reach; it will be saved, if at all, by giving people reasons to come that a website or an out-of-town retail park cannot offer.",
+            "Shop owners object that their customers complain about parking every day.",
+            "The council's question was how to bring people back to the high street."
+          ],
+          "answer": 1,
+          "option_feedback": {
+            "0": {
+              "en": "This is background: a fact that sets up the problem."
+            },
+            "2": {
+              "en": "This is the opposing view that the writer answers in paragraph 5."
+            },
+            "3": {
+              "en": "This restates the question. The thesis is the writer's answer to it."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "The thesis uses the not X but Y pattern: not easier access, but reasons to come. Every later paragraph supports one part of it."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What does the phrase 'if at all' add to the thesis?",
+          "options": [
+            "It shows that the writer does not really believe the argument.",
+            "It limits the claim to older and disabled residents.",
+            "It admits that even the writer's approach may not succeed.",
+            "It suggests that the high street has already been saved."
+          ],
+          "answer": 2,
+          "option_feedback": {
+            "0": {
+              "en": "The writer argues the case firmly throughout; 'if at all' qualifies the claim, it does not abandon it."
+            },
+            "1": {
+              "en": "Older and disabled residents appear later, in the concession about accessible parking."
+            },
+            "3": {
+              "en": "The column begins with shops closing, so the street has clearly not been saved."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "'If at all' is a precise qualification of degree: the writer claims to know the only realistic route, not to guarantee success. This makes the thesis harder to attack."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "What is the main job of paragraph 3 ('Consider why people stopped coming ...')?",
+          "options": [
+            "It challenges the assumption behind the council's plan by explaining why shoppers really left.",
+            "It describes the history of the retail park.",
+            "It answers an objection from shop owners.",
+            "It proposes what the money should be spent on instead."
+          ],
+          "answer": 0,
+          "option_feedback": {
+            "1": {
+              "en": "The retail park is mentioned only as evidence about prices and range, not for its history."
+            },
+            "2": {
+              "en": "The shop owners' objection comes in paragraph 5."
+            },
+            "3": {
+              "en": "The alternative (cafés, repair shops, a market, a library) is the job of paragraph 4."
+            }
+          },
+          "option_errors": {
+            "1": "comprehension",
+            "2": "comprehension",
+            "3": "comprehension"
+          },
+          "explanation": {
+            "en": "Paragraph 3 attacks the 'mistaken diagnosis' announced in paragraph 2: shoppers left for price and range, not parking. Its last sentence is a mini-claim that links back to the thesis."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer argues that the town centre should have no parking at all.",
+          "answer": false,
+          "explanation": {
+            "en": "Paragraph 5 recommends 'keeping a number of accessible spaces close to the shops'. The writer qualifies the claim instead of rejecting all parking."
+          }
+        },
+        {
+          "type": "tf",
+          "statement": "The writer accepts that the shop owners' complaint is partly justified.",
+          "answer": true,
+          "explanation": {
+            "en": "'They are right to say so', especially for older and disabled residents. The writer concedes the point and then narrows the response to accessible spaces."
+          }
+        },
+        {
+          "type": "mcq",
+          "question": "Which outline best matches the structure of the column?",
+          "options": [
+            "Thesis → three reasons for the car park → three reasons against it → conclusion",
+            "Problem → objection from shop owners → thesis → history of the town → conclusion",
+            "Thesis → personal story → figures on parking → call to action",
+            "Problem and the council's plan → thesis → why shoppers really left → what would bring them back → objection, conceded and qualified → conclusion that returns to the diagnosis"
+          ],
+          "answer": 3,
+          "option_feedback": {
+            "0": {
+              "en": "The column does not list reasons for the car park; it questions the assumption behind it."
+            },
+            "1": {
+              "en": "The objection comes near the end, after the writer's own argument, not before the thesis."
+            },
+            "2": {
+              "en": "There are no parking figures in the column, and the thesis comes in paragraph 2, not first."
+            }
+          },
+          "option_errors": {
+            "0": "comprehension",
+            "1": "comprehension",
+            "2": "comprehension"
+          },
+          "explanation": {
+            "en": "Each paragraph does a different job, and each depends on the one before: the alternative only makes sense once the diagnosis has been challenged, and the objection is answered once the alternative is clear."
+          }
+        },
+        {
+          "type": "gap",
+          "text": "In the final paragraph, the writer shows that the right answer ___ on why people left the high street.",
+          "answers": [
+            [
+              "hinges",
+              "depends",
+              "turns",
+              "rests",
+              "relies"
+            ]
+          ],
+          "explanation": {
+            "en": "'The answer depends on why they left.' The whole argument hinges on (depends completely on) the diagnosis, which is why the writer spends paragraph 3 on it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "e6",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Read the thesis, then choose the outline that would support it best."
+      },
+      "question": "Thesis: 'Although homework can help students practise what they learn in class, schools should replace most of it with supervised practice during the school day, because unsupervised homework widens the gap between students who get help at home and those who do not.'",
+      "options": [
+        "1. Homework has a long history. 2. Students in some countries get more homework than others. 3. Many students dislike homework. 4. Conclusion: schools should reduce homework.",
+        "1. Homework widens the gap between students. 2. Homework is unfair to students without help at home. 3. Some parents cannot help with homework. 4. Conclusion: replace homework.",
+        "1. Practice does help students learn. 2. At home, that practice depends on help that some students do not have. 3. Supervised practice gives every student the same support. 4. Objection: students must learn to work alone; answer: keep some independent reading and projects. 5. Conclusion.",
+        "1. Homework helps students practise. 2. Homework teaches responsibility. 3. Teachers use homework to check understanding. 4. Conclusion: homework is valuable."
+      ],
+      "answer": 2,
+      "option_feedback": {
+        "0": {
+          "en": "These paragraphs are about homework in general. None develops the thesis's reason (the gap between students), and the conclusion does not follow from them."
+        },
+        "1": {
+          "en": "Paragraphs 1-3 do the same job three times: a reverse outline would show one point repeated. There is also no concession and no objection."
+        },
+        "3": {
+          "en": "This outline argues the opposite of the thesis."
+        }
+      },
+      "option_errors": {
+        "0": "unsupported-claim",
+        "1": "cohesion",
+        "3": "weak-thesis"
+      },
+      "hint": {
+        "en": "Find the three parts of the thesis (the concession, the claim, the reason). The best outline gives each a paragraph and adds a response to the strongest objection."
+      },
+      "explanation": {
+        "en": "The best outline follows the logic of the thesis step by step: it develops the concession, explains the mechanism (help at home), offers the alternative, and answers the strongest objection with a qualification."
+      }
+    },
+    {
+      "id": "e7",
+      "type": "order",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Thesis: 'Rather than cap visitor numbers, the old city should introduce a nightly tourist tax, because a tax spreads visits more evenly while paying for the damage that crowds cause.' Put the topic sentences of the five body paragraphs in the most logical order."
+      },
+      "tokens": [
+        "Few would deny that crowds are damaging the old city: its narrow streets, ancient stonework and residents all pay the price.",
+        "The most popular response to this damage, a cap on visitor numbers, would cut crowds but also the income that many local families depend on.",
+        "A nightly tax, by contrast, discourages the shortest and most crowded visits without turning anyone away.",
+        "Its revenue would also pay to repair the streets and buildings that visitors wear down.",
+        "Even critics who accept both of these benefits argue that the tax would hit budget travellers hardest; for this reason, it should be lower in the quiet season and waived for students."
+      ],
+      "error_type": "cohesion",
+      "hint": {
+        "en": "Look for words that depend on an earlier paragraph: this damage, by contrast, Its revenue ... also, both of these benefits."
+      },
+      "explanation": {
+        "en": "Problem (crowds cause damage) → the rejected alternative (a cap, a response to 'this damage') → the proposal (a tax, 'by contrast' with the cap) → a second benefit ('Its revenue ... also') → the strongest objection, answered with a qualification ('both of these benefits' needs both earlier paragraphs). Each paragraph depends on the one before it: the argument builds instead of listing."
+      }
+    },
+    {
+      "id": "e8",
+      "type": "mcq",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "A student made this reverse outline of her draft. Which change would most improve the logic of the essay?"
+      },
+      "question": "Thesis: 'The town should turn its unused railway line into a cycle path rather than sell the land for housing, because a path would serve more residents and could open much sooner.' P1 says: cycling is popular with young people. Does: background. P2 says: the path would link three neighbourhoods to the station and two schools. Does: reason 1 (who it serves). P3 says: many residents would use the path to commute and to exercise. Does: reason 1 again. P4 says: the path could open within a year, while housing would take several. Does: reason 2 (speed). P5 says: critics argue that the town needs homes more than paths. Does: states the objection, but no answer follows.",
+      "options": [
+        "Merge P2 and P3, which do the same job, and add an answer to the objection in P5.",
+        "Delete P5, because mentioning an objection weakens the argument.",
+        "Move P5 into the introduction so that the reader meets the objection first.",
+        "Add a sixth paragraph listing more reasons why cycling is popular."
+      ],
+      "answer": 0,
+      "option_feedback": {
+        "1": {
+          "en": "Ignoring the strongest objection makes the essay one-sided. The problem with P5 is that it raises the objection without answering it."
+        },
+        "2": {
+          "en": "Moving the objection does not solve the problem: it still needs an answer (refute, concede and outweigh, or qualify)."
+        },
+        "3": {
+          "en": "More background on cycling's popularity does not support the thesis, which is about this railway line versus housing."
+        }
+      },
+      "option_errors": {
+        "1": "missing-counterargument",
+        "2": "missing-counterargument",
+        "3": "unsupported-claim"
+      },
+      "explanation": {
+        "en": "The reverse outline shows two problems: P2 and P3 do the same job (reason 1), and P5 raises an objection that is never answered. Fixing both makes every paragraph do a distinct job for the thesis."
+      }
+    },
+    {
+      "id": "e9",
+      "type": "gap",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Complete the qualified thesis with words from the box. Four words are not needed."
+      },
+      "text": "___ the congestion charge has reduced traffic in the city centre, it has ___ moved the problem to the ring road ___ solved it: some drivers now take the bus, but most simply drive around the centre. The council should therefore keep the charge ___ it spends the income on better bus services along the ring road.",
+      "word_bank": [
+        "Although",
+        "largely",
+        "rather than",
+        "provided that",
+        "Despite",
+        "completely",
+        "unless",
+        "because"
+      ],
+      "answers": [
+        [
+          "Although",
+          "While",
+          "Whilst",
+          "Though",
+          "Even though"
+        ],
+        [
+          "largely",
+          "mostly",
+          "mainly"
+        ],
+        [
+          "rather than"
+        ],
+        [
+          "provided that",
+          "providing that",
+          "provided",
+          "as long as",
+          "so long as",
+          "on condition that",
+          "only if",
+          "if"
+        ]
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Despite",
+          "feedback": {
+            "en": "Despite is followed by a noun or an -ing form (Despite reducing traffic ...), not by a subject and verb. Before a full clause, use Although."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "completely",
+          "feedback": {
+            "en": "Completely over-claims: the same sentence says that some drivers now take the bus. Largely limits the degree to what the evidence shows."
+          },
+          "error_type": "unsupported-claim"
+        },
+        {
+          "match": "unless",
+          "feedback": {
+            "en": "Unless means 'if ... not'. In the last gap it would reverse the condition: the charge would stay only if the money were not spent on buses."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "because",
+          "feedback": {
+            "en": "Because presents a reason or a fact. The first gap needs a concession (Although), and the last gap needs a condition that the council must meet (provided that), not a statement that it already spends the money this way."
+          },
+          "error_type": "cohesion"
+        }
+      ],
+      "hint": {
+        "en": "Gap 1 concedes, gap 2 limits the degree, gap 3 contrasts two outcomes, gap 4 sets a condition."
+      },
+      "explanation": {
+        "en": "Although (concession) ... largely (degree) ... rather than (one outcome instead of another) ... provided that (condition). Each word qualifies the thesis along a different dimension, and together they make it precise and defensible."
+      }
+    },
+    {
+      "id": "e10",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Combine the three notes into one thesis sentence. Begin with 'Although', put the claim in the main clause and introduce the reason with 'because'."
+      },
+      "source": "Concession: exams are a reliable way to compare students. Claim: exams should count for less than half of the final grade. Reason: exams reward speed and memory over the skills students will need later.",
+      "answers": [
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, they should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students they should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although exams are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students, exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students, exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students exams should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+        "Although they are a reliable way to compare students exams should count for less than half of the final grade because they reward speed and memory over the skills students will need later."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "Although exams are a reliable way to compare students, but they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later.",
+          "feedback": {
+            "en": "Although and but cannot both mark the same contrast. Keep Although and delete but."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Although exams reward speed and memory over the skills students will need later, they should count for less than half of the final grade, because they are a reliable way to compare students.",
+          "feedback": {
+            "en": "The concession and the reason have swapped places, so reliability has become your reason for reducing exams, which makes no sense. Put the point you concede after Although and your reason after because."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "Exams should count for less than half of the final grade, although they are a reliable way to compare students, because they reward speed and memory over the skills students will need later.",
+          "feedback": {
+            "en": "The grammar is correct, but the task asks you to begin with Although, so that the reader meets the concession first and the claim lands in the main clause."
+          },
+          "error_type": "word-order"
+        }
+      ],
+      "hint": {
+        "en": "Although + concession, + main clause (your claim) + because + reason."
+      },
+      "explanation": {
+        "en": "Although exams are a reliable way to compare students, they should count for less than half of the final grade, because they reward speed and memory over the skills students will need later. The concession shows you have weighed the other side; the main clause carries the claim you will defend; the because-clause tells the reader what the body paragraphs must prove."
+      }
+    },
+    {
+      "id": "e11",
+      "type": "correct",
+      "skill": "grammar",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "This thesis mixes two patterns. Correct it."
+      },
+      "sentence": "The success of the tree-planting scheme should be measured less by the number of trees planted but by the number that survive.",
+      "answers": [
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than by the number that survive.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than by the number that survives.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than the number that survive.",
+        "The success of the tree-planting scheme should be measured less by the number of trees planted than the number that survives.",
+        "The success of the tree-planting scheme should be measured not by the number of trees planted but by the number that survive.",
+        "The success of the tree-planting scheme should be measured not by the number of trees planted but by the number that survives.",
+        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number that survive.",
+        "The success of the tree-planting scheme should be measured not so much by the number of trees planted as by the number that survives."
+      ],
+      "error_type": "word-choice",
+      "hint": {
+        "en": "Less ... is completed in the same way as more ..."
+      },
+      "explanation": {
+        "en": "Less X than Y and not X but Y are both correct; mixing them (less X but Y) is not. Note the difference in strength: less ... than says one measure matters more, while not ... but rejects the first measure entirely."
+      }
+    },
+    {
+      "id": "e12",
+      "type": "transform",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Turn the descriptive thesis into an analytical claim. Begin 'What school sport teaches best is ...' and use 'not ... but ...' to reject the obvious answer."
+      },
+      "source": "Descriptive thesis: 'School sport has many different benefits for students.' Your view: its most important lesson is teamwork; fitness comes second.",
+      "answers": [
+        "What school sport teaches best is not fitness but teamwork.",
+        "What school sport teaches best is not fitness, but teamwork.",
+        "What school sport teaches best is not physical fitness but teamwork.",
+        "What school sport teaches best is not physical fitness, but teamwork.",
+        "What school sport teaches best is teamwork, not fitness.",
+        "What school sport teaches best is teamwork, not physical fitness."
+      ],
+      "wrong_feedback": [
+        {
+          "match": "What school sport teaches best is not teamwork but fitness.",
+          "feedback": {
+            "en": "This reverses your view. The idea you reject goes after not, and your own claim (teamwork) goes after but."
+          },
+          "error_type": "word-order"
+        },
+        {
+          "match": "What school sport teaches best is not only fitness but also teamwork.",
+          "feedback": {
+            "en": "Not only ... but also adds a second benefit; it does not rank them. To claim that teamwork matters more, use not ... but: not fitness but teamwork."
+          },
+          "error_type": "cohesion"
+        },
+        {
+          "match": "What school sport teaches best are not fitness but teamwork.",
+          "feedback": {
+            "en": "A what-clause subject takes a singular verb: What school sport teaches best is ..."
+          },
+          "error_type": "agreement"
+        }
+      ],
+      "explanation": {
+        "en": "Not X but Y rejects the obvious answer and replaces it with yours, which is what turns a topic into a position. Compare not only X but also Y, which simply adds. The what-cleft you met in an earlier lesson puts the spotlight on the claim."
+      }
+    },
+    {
+      "id": "e13",
+      "type": "speak",
+      "skill": "speaking",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "You are stating your position in a seminar. Say the sentence out loud."
+      },
+      "target": "My central contention is not that the scheme has failed, but that it has helped the wrong people.",
+      "focus": {
+        "en": "Stress the contrasted words: NOT that it has FAILED, but that it has helped the WRONG people. Contention is stressed on the second syllable: /kənˈtenʃn/. Pause briefly before but."
+      },
+      "explanation": {
+        "en": "In speech, contrastive stress does the work that not ... but does on the page: it tells listeners which idea you are rejecting and which one you are claiming."
+      }
+    },
+    {
+      "id": "e14",
+      "type": "write",
+      "skill": "writing",
+      "topic": "thesis-advanced",
+      "prompt": {
+        "en": "Plan an argument: write an introduction with an analytical thesis, an outline and one body paragraph."
+      },
+      "task": {
+        "en": "Choose one question: (a) To what extent should schools replace written exams with project work? (b) Should cities make public transport free for everyone at weekends? (c) To what extent should social media platforms be responsible for what their users post? Plan an argumentative essay that takes a clear position and responds to opposing views. Write: (1) an introduction (70-110 words) that ends with an analytical, qualified thesis previewing the steps of your argument; (2) an outline of 4-5 body paragraphs, each with a topic sentence that makes a mini-claim and a note in brackets on what the paragraph does (for example: concedes, explains a mechanism, answers an objection), including the strongest opposing view, stated fairly and attributed, with your planned response; (3) one full body paragraph (100-150 words) that develops one step of your outline. Use reasoning and real examples, not invented statistics."
+      },
+      "min_words": 250,
+      "max_words": 400,
+      "model_answer": "Model on a parallel question: To what extent should cities ban private cars from their historic centres?\n\nIntroduction\nHistoric city centres were built for walking, and in many of them cars now compete with pedestrians for streets that are barely wide enough for either. Calls for a complete ban are growing louder. Yet a ban would protect the stones at the expense of the people who still need to reach them. Although private cars cause much of the damage to historic centres, cities should restrict them rather than ban them: closing centres to through traffic while keeping access for residents, deliveries and disabled drivers would remove most of the harm without cutting the centre off from the people it serves.\n\nOutline\n1. Private cars cause much of the damage, through vibration, fumes and congestion. (concedes the case for action and defines the problem)\n2. Much of this traffic is passing through rather than arriving. (explains the mechanism that makes a targeted rule possible)\n3. Closing centres to through traffic would remove it while keeping access for those who need it. (presents the alternative to a ban)\n4. Supporters of a full ban argue that partial rules are too hard to enforce; however, camera-controlled access zones show that permits can be checked automatically. (states the strongest objection fairly and refutes it)\n5. A restriction can be tightened if it fails, whereas a ban is hard to reverse. (adds a final reason and prepares the conclusion)\n\nBody paragraph 2\nThe case for a targeted rule rests on a simple observation: many of the cars in a historic centre are not going there. In many old towns, the shortest route between two newer districts runs straight through the centre, so drivers use its narrow streets as a shortcut. They save a few minutes, while the centre pays the full cost in noise, fumes and vibration. If through traffic is a large part of the problem, the solution does not need to keep residents, shopkeepers or disabled visitors out. It needs to make the shortcut useless, for example by letting cars enter and leave the centre only from the same side. A ban would remove this traffic too, but it would also remove everyone else.",
+      "checklist": [
+        {
+          "en": "Thesis: it is analytical (it claims how, why or to what extent), an informed reader could disagree with it, and it answers the question I chose."
+        },
+        {
+          "en": "Qualification: the thesis is limited by scope, condition or degree where the claim really is limited, with no absolutes and no stacked hedges."
+        },
+        {
+          "en": "Preview: the thesis (or the sentence after it) signals the steps of the argument, and the outline follows those steps in the same order."
+        },
+        {
+          "en": "Paragraph logic: every outline point is a mini-claim with a distinct job; no two paragraphs do the same job, and later paragraphs build on earlier ones."
+        },
+        {
+          "en": "Opposing view: the outline includes the strongest objection, stated as its supporters would state it and attributed (Critics argue ...), with a planned response: refute, concede and outweigh, or qualify."
+        },
+        {
+          "en": "Body paragraph: it opens with its topic sentence, develops one step with reasoning and an example, and links back to the thesis."
+        }
+      ]
+    }
+  ],
+  "review": {
+    "key_points": [
+      {
+        "en": "A descriptive thesis reports or announces; an analytical thesis claims how, why or to what extent, and an informed reader could disagree with it."
+      },
+      {
+        "en": "Qualify along the dimension that is really limited (scope, condition or degree). A concession (Although ...) shows you have weighed the objection; stacked hedges empty the claim."
+      },
+      {
+        "en": "Patterns such as not X but Y, less X than Y and X rather than Y turn a topic into a position."
+      },
+      {
+        "en": "A strong thesis previews the logic of the essay, and each body paragraph's topic sentence is a mini-claim that advances one step."
+      },
+      {
+        "en": "Check paragraph logic with a reverse outline: merge paragraphs that do the same job, cut any that serve no part of the thesis, and revise the thesis last."
+      }
+    ]
+  },
+  "completion": {
+    "pass_score": 0.7
+  }
+}

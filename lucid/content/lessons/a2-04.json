@@ -9,18 +9,20 @@
     { "en": "I can talk about finished past actions with regular verbs.", "he": "אני יכול/ה לספר על פעולות שהסתיימו בעבר בעזרת פעלים רגילים." },
     { "en": "I can spell -ed forms correctly: stopped, studied, lived.", "he": "אני יודע/ת לאיית נכון צורות ed: stopped, studied, lived." },
     { "en": "I can pronounce -ed as /t/, /d/ or /ɪd/.", "he": "אני יודע/ת להגות ed כ-/t/, כ-/d/ או כ-/ɪd/." },
-    { "en": "I can use past time expressions: yesterday, last week, two days ago.", "he": "אני משתמש/ת בביטויי זמן של עבר: yesterday, last week, two days ago." }
+    { "en": "I can use past time expressions: yesterday, last week, two days ago.", "he": "אני יודע/ת להשתמש בביטויי זמן של עבר: yesterday, last week, two days ago." }
   ],
   "warmup": { "en": "Think about yesterday evening: three things you watched, cooked, studied or played. Try to say them in English.", "he": "חשבו על אתמול בערב: שלושה דברים שצפיתם בהם, בישלתם, למדתם או שיחקתם. נסו לומר אותם באנגלית." },
   "explanation": [
     { "type": "p", "en": "Yesterday I walked to school, studied for two hours and watched a series. All three verbs end in -ed: this is the past simple of regular verbs.", "he": "אתמול הלכתי ברגל לבית הספר, למדתי שעתיים וצפיתי בסדרה. שלושת הפעלים מסתיימים ב-ed: זה עבר פשוט של פעלים רגילים." },
     { "type": "rule", "en": "Past simple = a finished action at a finished time: yesterday, last week, in 2020, two days ago. Regular verbs add -ed, and the form is the same for every subject: I worked, she worked, they worked (no -s).", "he": "עבר פשוט = פעולה שהסתיימה, בזמן שכבר עבר: yesterday, last week, in 2020, two days ago. פעלים רגילים מקבלים ed, והצורה זהה לכל הגופים: I worked, she worked, they worked (בלי s)." },
+    { "type": "rule", "en": "Spelling -ed: most verbs add -ed. Verbs ending in -e add only -d (live → lived). Consonant + y → -ied (study → studied), but vowel + y keeps the y (play → played). Short verbs with one vowel + one consonant double the last letter (stop → stopped).", "he": "איות ed: ברוב הפעלים מוסיפים ed. פועל שמסתיים ב-e מקבל רק d (live → lived). עיצור + y הופך ל-ied (study → studied), אבל תנועה + y – ה-y נשארת (play → played). בפועל קצר עם תנועה אחת + עיצור אחד מכפילים את האות האחרונה (stop → stopped), אבל לא w, x, y." },
     { "type": "table", "headers": ["Verb", "Rule", "Examples"], "rows": [
       ["most verbs", "+ -ed", "work → worked, play → played, stay → stayed"],
       ["ends in -e", "+ -d", "live → lived, dance → danced"],
       ["consonant + y", "y → -ied", "study → studied, try → tried"],
-      ["short verb: one vowel + one consonant", "double + -ed", "stop → stopped, plan → planned, chat → chatted"]
+      ["short verb: one vowel + one consonant", "double + -ed", "stop → stopped, plan → planned, chat → chatted (not w, x, y: showed, fixed, played)"]
     ] },
+    { "type": "p", "en": "-ed has three sounds, and the last sound of the verb decides which one.", "he": "ל-ed יש שלוש הגיות, והצליל האחרון של הפועל קובע איזו: אחרי צליל t או d – /ɪd/, הברה נוספת (wanted); אחרי הצלילים p, k, f, s, sh, ch – /t/ (walked); אחרי כל צליל אחר – /d/ (played)." },
     { "type": "table", "headers": ["Sound", "When", "Examples"], "rows": [
       ["/t/", "after the sounds p, k, f, s, sh, ch", "stopped, walked, laughed, missed, washed, watched"],
       ["/d/", "after other sounds and vowels", "played, called, lived, cleaned, tried"],
@@ -28,12 +30,12 @@
     ] },
     { "type": "warning", "en": "Only verbs ending in a t or d sound get an extra syllable: wanted /ˈwɒntɪd/ has two syllables, but walked /wɔːkt/ has one (not 'walk-ed').", "he": "רק פעלים שמסתיימים בצליל t או d מקבלים הברה נוספת: ל-wanted /ˈwɒntɪd/ יש שתי הברות, אבל walked /wɔːkt/ היא הברה אחת (לא 'ווֹק-אֶד')." },
     { "type": "tip", "en": "Time expressions: yesterday, last night, last week, two days ago, in 2019. Ago comes after the time: three years ago. Don't put in or on before last: last Friday (not 'on last Friday').", "he": "ביטויי זמן: yesterday, last night, last week, two days ago, in 2019. המילה ago באה אחרי פרק הזמן: three years ago = לפני שלוש שנים. לפני last לא שמים in או on: last Friday (ולא on last Friday)." },
-    { "type": "p", "en": "Irregular verbs (go → went) come in the next lesson, and questions with did in lesson 6.", "he": "פעלים חריגים (go → went) נלמד בשיעור הבא, ושאלות עם did בשיעור 6." }
+    { "type": "p", "en": "Irregular verbs (go → went) come in the next lesson, and questions with did in lesson 6.", "he": "את הפעלים החריגים (go → went) נלמד בשיעור הבא, ואת השאלות עם did – בשיעור 6." }
   ],
   "examples": [
     { "en": "I watched a great series last night.", "he": "צפיתי בסדרה מעולה אתמול בלילה.", "note": "watched = /t/" },
     { "en": "Maya studied for three hours yesterday.", "he": "מאיה למדה שלוש שעות אתמול.", "note": "study → studied" },
-    { "en": "We stayed at a small hotel in Tiberias last summer.", "he": "בקיץ שעבר לנו במלון קטן בטבריה.", "note": "stay → stayed (vowel + y)" },
+    { "en": "We stayed at a small hotel in Tiberias last summer.", "he": "בקיץ שעבר התאכסנו במלון קטן בטבריה.", "note": "stay → stayed (vowel + y)" },
     { "en": "The bus stopped and three tourists jumped off.", "he": "האוטובוס עצר ושלושה תיירים קפצו ממנו.", "note": "stop → stopped" },
     { "en": "Omer called me two days ago.", "he": "עומר התקשר אליי לפני יומיים.", "note": "ago comes after the time" },
     { "en": "My parents moved to Ashdod in 2015.", "he": "ההורים שלי עברו לאשדוד ב-2015." },
@@ -49,12 +51,14 @@
     { "word": "plan", "pos": "verb", "he": "לתכנן", "def": "to think about and decide what you are going to do", "example": "We planned the trip together.", "ipa": "/plæn/", "collocations": ["plan a trip", "plan a party"], "level": "A2" },
     { "word": "invite", "pos": "verb", "he": "להזמין (אנשים)", "def": "to ask someone to come to an event or to your home", "example": "I invited ten friends to my birthday.", "ipa": "/ɪnˈvaɪt/", "collocations": ["invite someone to a party", "invite friends over"], "level": "A2" },
     { "word": "order", "pos": "verb", "he": "להזמין (אוכל, מוצר)", "def": "to ask for food in a restaurant, or to buy something online", "example": "We ordered pizza last night.", "ipa": "/ˈɔːdə(r)/", "collocations": ["order food", "order a taxi", "order online"], "level": "A2" },
+    { "word": "book", "pos": "verb", "he": "להזמין (חדר, שולחן, כרטיס)", "def": "to arrange to have a room, a table or a ticket at a later time", "example": "We booked a room near the beach.", "ipa": "/bʊk/", "collocations": ["book a room", "book a table", "book tickets"], "level": "A2" },
     { "word": "visit", "pos": "verb", "he": "לבקר", "def": "to go to see a person or a place", "example": "We visited my aunt in Nazareth.", "ipa": "/ˈvɪzɪt/", "collocations": ["visit friends", "visit a museum"], "level": "A2" },
     { "word": "try", "pos": "verb", "he": "לנסות, לטעום", "def": "to do or taste something to see if you like it", "example": "I tried sushi for the first time.", "ipa": "/traɪ/", "collocations": ["try something new", "try a new restaurant"], "level": "A2" },
     { "word": "miss", "pos": "verb", "he": "לפספס; גם: להתגעגע", "def": "to be too late for something, for example a bus", "example": "I missed the bus this morning.", "ipa": "/mɪs/", "collocations": ["miss the bus", "miss a lesson"], "level": "A2" }
   ],
   "hebrew_pitfalls": [
-    { "en": "In Hebrew there is only one 'i' vowel, while English has a short /ɪ/ and a long /iː/, so the -ed in wanted and needed can come out long, like 'eed'. Keep it short and relaxed: needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "בעברית יש תנועת i אחת, ובאנגלית יש /ɪ/ קצרה ו-/iː/ ארוכה. לכן קל להאריך את ה-ed ל'איד'. אמרו אותה קצרה ורפויה: needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "error_type": "pron-vowel" }
+    { "en": "Hebrew has only five full vowels and no short, relaxed /ɪ/, so the ending of wanted or needed often comes out as a full Hebrew 'ed' (want-ED). Keep it short and weak: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "he": "בעברית יש חמש תנועות מלאות בלבד, ואין /ɪ/ קצרה ורפויה, ולכן הסיומת של wanted או needed יוצאת לעיתים קרובות 'אֶד' מלא (וונט-אֶד). אמרו אותה קצרה וחלשה: wanted /ˈwɒntɪd/, needed /ˈniːdɪd/, visited /ˈvɪzɪtɪd/.", "error_type": "pron-vowel" },
+    { "en": "In Hebrew one verb (lehazmin) covers inviting people, ordering food and booking a room or a table, so it is easy to use invite for all three. English has three verbs: I invited my friends, we ordered pizza, we booked a room.", "he": "בעברית הפועל 'להזמין' משמש גם לאנשים, גם לאוכל וגם לחדר או לשולחן, ולכן קל להשתמש ב-invite לכולם. באנגלית יש שלושה פעלים: I invited my friends (אנשים), we ordered pizza (אוכל), we booked a room (מקום).", "error_type": "word-choice" }
   ],
   "exercises": [
     {
@@ -133,6 +137,7 @@
         "0": { "en": "Listen again for the /t/ at the end: walked /wɔːkt/ – walked along.", "he": "הקשיבו שוב ל-/t/ בסוף: walked /wɔːkt/ – walked along." },
         "2": { "en": "Waited has an extra syllable, /ˈweɪtɪd/. The verb you heard has one syllable: walked.", "he": "ב-waited יש הברה נוספת, /ˈweɪtɪd/. הפועל ששמעתם הוא הברה אחת: walked." }
       },
+      "option_errors": { "0": "comprehension", "2": "comprehension" },
       "explanation": { "en": "walked = /wɔːkt/: one syllable, with a /t/ that links to the next word (walked_along).", "he": "walked = /wɔːkt/: הברה אחת, וה-/t/ מתחבר למילה הבאה (walked_along)." }
     },
     {
@@ -181,7 +186,7 @@
       "id": "e10", "type": "correct", "skill": "grammar", "topic": "past-simple-regular",
       "prompt": { "en": "Find and fix the mistake.", "he": "מצאו ותקנו את הטעות." },
       "sentence": "She cleaned her room on last Sunday.",
-      "answers": ["She cleaned her room last Sunday."],
+      "answers": ["She cleaned her room last Sunday.", "Last Sunday she cleaned her room.", "Last Sunday, she cleaned her room."],
       "error_type": "preposition",
       "hint": { "en": "One word is extra.", "he": "יש מילה אחת מיותרת." },
       "explanation": { "en": "No in, on or at before last: last Sunday, last week, last year.", "he": "לפני last לא שמים in, on או at: last Sunday, last week, last year." }
@@ -193,7 +198,8 @@
       "answers": ["Yesterday evening Dana walked her dog in the park.", "Yesterday evening, Dana walked her dog in the park.", "Dana walked her dog in the park yesterday evening."],
       "wrong_feedback": [
         { "match": "walks", "feedback": { "en": "Yesterday → past simple: walked. There's no -s in the past.", "he": "yesterday → עבר פשוט: walked. בעבר אין s." }, "error_type": "tense-choice" },
-        { "match": "was", "feedback": { "en": "Don't add was before a past verb: Dana walked her dog.", "he": "לא מוסיפים was לפני פועל בעבר: Dana walked her dog." }, "error_type": "verb-form" }
+        { "match": "was", "feedback": { "en": "Use the past simple: one word, walked. Don't add was (not 'was walked' or 'was walk').", "he": "השתמשו בעבר פשוט – מילה אחת: walked. לא מוסיפים was (לא was walked ולא was walk)." }, "error_type": "verb-form" },
+        { "match": "walk", "feedback": { "en": "Yesterday evening is finished, so add -ed: walked.", "he": "yesterday evening כבר עבר, ולכן מוסיפים ed: walked." }, "error_type": "tense-choice" }
       ],
       "explanation": { "en": "Every evening (habit) → walks. Yesterday evening (finished) → walked, the same form for every subject.", "he": "every evening (הרגל) → walks. yesterday evening (עבר) → walked – אותה צורה לכל הגופים." }
     },
@@ -291,7 +297,7 @@
         { "en": "I used at least six regular verbs with -ed.", "he": "השתמשתי לפחות בשישה פעלים רגילים עם ed." },
         { "en": "My spelling is right: studied, stopped, lived, stayed.", "he": "האיות נכון: studied, stopped, lived, stayed." },
         { "en": "I used time expressions: last weekend, on Saturday, in the evening.", "he": "השתמשתי בביטויי זמן: last weekend, on Saturday, in the evening." },
-        { "en": "Past verbs have no -s: she watched, not 'she watcheds'.", "he": "בעבר אין s: she watched, ולא she watcheds." }
+        { "en": "Past verbs are the same for every subject, with no -s: she watched (not 'she watches').", "he": "בעבר הפועל זהה לכל הגופים, בלי s: she watched (ולא she watches)." }
       ]
     }
   ],

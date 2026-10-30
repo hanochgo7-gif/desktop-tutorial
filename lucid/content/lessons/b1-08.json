@@ -270,7 +270,7 @@
       "he": "לשמש ל-",
       "def": "to have a particular purpose",
       "example": "A corkscrew is a tool which is used for opening bottles.",
-      "ipa": "/bi ˈjuːst fə(r)/",
+      "ipa": "/bi ˈjuːzd fə(r)/",
       "collocations": [
         "used for cooking",
         "mainly used for",
@@ -1066,6 +1066,24 @@
               "Rana"
             ]
           ],
+          "wrong_feedback": [
+            {
+              "match": "Mrs Avraham",
+              "feedback": {
+                "en": "Mrs Avraham runs the kiosk. Who bakes the cakes in the café?",
+                "he": "גברת אברהם מנהלת את הקיוסק. מי אופה את העוגות בבית הקפה?"
+              },
+              "error_type": "comprehension"
+            },
+            {
+              "match": "Lior",
+              "feedback": {
+                "en": "Lior eats the cakes, but who bakes them?",
+                "he": "ליאור אוכל את העוגות, אבל מי אופה אותן?"
+              },
+              "error_type": "comprehension"
+            }
+          ],
           "explanation": {
             "en": "'the cakes that Rana bakes every morning' – that is the object, Rana is the subject.",
             "he": "בטקסט: the cakes that Rana bakes every morning. ‏that הוא המושא, ורנא היא הנושא."
@@ -1097,8 +1115,7 @@
       },
       "audio_text": "The woman who lives next door has a dog that never stops barking.",
       "answers": [
-        "The woman who lives next door has a dog that never stops barking.",
-        "The woman who lives next door has a dog which never stops barking."
+        "The woman who lives next door has a dog that never stops barking."
       ],
       "explanation": {
         "en": "Two relative clauses: who lives next door (a person), that never stops barking (an animal). Both are subjects, so they must stay.",
