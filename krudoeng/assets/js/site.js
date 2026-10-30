@@ -24,7 +24,7 @@
       menu.hidden = true;
       openBtn.setAttribute('aria-expanded', 'false');
       document.documentElement.style.overflow = '';
-      if (focusBack !== false) openBtn.focus();
+      if (focusBack !== false) openBtn.focus({ preventScroll: true });
     };
     openBtn.addEventListener('click', open);
     menu.addEventListener('click', function (ev) {

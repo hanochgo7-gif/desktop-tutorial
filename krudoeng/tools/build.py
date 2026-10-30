@@ -114,7 +114,7 @@ def q(s):
 
 
 # ---------- מסגרת: סרגל עליון, תפריט נייד, סוף עמוד ----------
-def header(pg, current=None):
+def header(pg, current=None, wa_text=None):
     if pg.lang == 'en':
         return (f'<header class="site-header dark"><div class="wrap site-header__in">'
                 f'<a class="brand" href="{pg.a("")}" aria-label="Krudo Engineering, Hebrew site"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="Krudo Engineering" width="607" height="103"></a>'
@@ -125,27 +125,28 @@ def header(pg, current=None):
     links = ''.join(f'<li><a href="{pg.a(href)}"{" aria-current=" + q("page") if key == current else ""}>{e(t)}</a></li>' for key, href, t in C.NAV)
     groups = ''
     for key, title, _ in C.SITUATIONS:
-        items = ''.join(f'<li><a href="{pg.a(s["slug"] + "/")}">{e(s["name"])}</a></li>' for s in C.SERVICES if s['group'] == key)
+        items = ''.join(f'<li><a href="{pg.a(s["slug"] + "/")}"{" aria-current=" + q("page") if pg.path == s["slug"] + "/index.html" else ""}>{e(s["name"])}</a></li>' for s in C.SERVICES if s['group'] == key)
         groups += f'<li><p class="menu__label">{e(title)}</p><ul>{items}</ul></li>'
-    others = ''.join(f'<li><a href="{pg.a(href)}">{e(t)}</a></li>' for key, href, t in C.NAV if key != 'services')
+    others = ''.join(f'<li><a href="{pg.a(href)}"{" aria-current=" + q("page") if key == current else ""}>{e(t)}</a></li>' for key, href, t in C.NAV if key != 'services')
+    hw = wa(wa_text) if wa_text else wa()
     return (f'<header class="site-header dark"><div class="wrap site-header__in">'
             f'<a class="brand" href="{home}" aria-label="{BRAND}, לדף הבית"><img src="{pg.a("assets/img/brand/wordmark-light.svg")}" alt="{BRAND}" width="607" height="103"></a>'
             f'<nav class="nav" aria-label="ראשי"><ul>{links}<li><a class="nav__en" href="{pg.a("en/")}" lang="en" hreflang="en">EN</a></li></ul></nav>'
-            f'<a class="btn btn--primary site-header__cta" href="{wa()}" data-wa="header">{ico_wa()}<span class="long">לתיאום בוואטסאפ</span><span class="short">וואטסאפ</span></a>'
+            f'<a class="btn btn--primary site-header__cta" href="{hw}" data-wa="header">{ico_wa()}<span class="long">לתיאום בוואטסאפ</span><span class="short">וואטסאפ</span></a>'
             f'<button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>תפריט</button>'
             f'</div></header>'
             f'<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="תפריט" hidden>'
             f'<div class="menu__top"><a class="brand" href="{home}"><img src="{pg.a("assets/img/brand/logo-wordmark.svg")}" alt="{BRAND}" width="607" height="118"></a>'
             f'<button class="btn btn--secondary menu__close" type="button" data-menu-close>סגירה</button></div>'
-            f'<nav class="menu__nav" aria-label="תפריט ראשי"><p class="menu__head"><a href="{pg.a("services/")}">שירותים</a></p>'
-            f'<ul class="menu__groups">{groups}</ul><ul class="menu__main">{others}<li><a href="{pg.a("en/")}" lang="en">English</a></li></ul></nav>'
-            f'<div class="menu__actions"><a class="btn btn--primary" href="{wa()}" data-wa="menu">{ico_wa()}וואטסאפ לרביד</a>'
-            f'<a class="btn btn--secondary" href="tel:{C.PHONE_INTL}" data-tel="menu">{ico_phone()}<span class="ltr">{C.PHONE}</span></a></div></div>')
+            f'<div class="menu__actions"><a class="btn btn--primary" href="{hw}" data-wa="menu">{ico_wa()}וואטסאפ לרביד</a>'
+            f'<a class="btn btn--secondary" href="tel:{C.PHONE_INTL}" data-tel="menu">{ico_phone()}<span class="ltr">{C.PHONE}</span></a></div>'
+            f'<nav class="menu__nav" aria-label="תפריט ראשי"><p class="menu__head"><a href="{pg.a("services/")}"{" aria-current=" + q("page") if current == "services" and pg.path == "services/index.html" else ""}>שירותים</a></p>'
+            f'<ul class="menu__groups">{groups}</ul><ul class="menu__main">{others}<li><a href="{pg.a("en/")}" lang="en">English</a></li></ul></nav></div>')
 
 
 def footer(pg, credit=None):
     if pg.lang == 'en':
-        return (f'<footer class="site-footer dark"><div class="wrap site-footer__end"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
+        return (f'<footer class="site-footer site-footer--compact dark"><div class="wrap site-footer__end"><p>Krudo Engineering · Kiryat Tivon, northern Israel</p>'
                 f'<p class="site-footer__legal"><a href="{pg.a("")}" lang="he">עברית</a><a href="tel:{C.PHONE_INTL}" data-tel="foot"><span class="ltr">{C.PHONE_EN}</span></a>'
                 f'<a href="mailto:{C.EMAIL}">{C.EMAIL}</a><a href="{pg.a("accessibility/")}">Accessibility (Hebrew)</a><a href="{pg.a("privacy/")}">Privacy (Hebrew)</a></p></div>'
                 f'<div class="wrap"><p class="site-footer__credit">© {YEAR} Krudo Engineering. The apartment model on this site is an illustration.</p></div></footer>')
@@ -172,11 +173,11 @@ def scripts(pg, model=False):
     return s
 
 
-def page(pg, title, desc, body, schema=None, current=None, model=False, credit=None, robots=None, alt_en=False, full_title=None):
+def page(pg, title, desc, body, schema=None, current=None, model=False, credit=None, robots=None, alt_en=False, full_title=None, wa_text=None):
     doc = [head(pg, title, desc, schema, robots, alt_en, full_title=full_title),
            '<body>',
            f'<a class="skip" href="#main">{"דילוג לתוכן" if pg.lang == "he" else "Skip to content"}</a>',
-           header(pg, current),
+           header(pg, current, wa_text),
            f'<main id="main">{body}</main>',
            footer(pg, credit), scripts(pg, model), '</body>', '</html>']
     out = '\n'.join(doc) + '\n'
@@ -253,7 +254,9 @@ def chooser(pg, who=False, level=3):
     cols = ''
     for key, title, sub in C.SITUATIONS:
         cards = ''.join(svc_card(pg, s, level + 1, who) for s in C.SERVICES if s['group'] == key)
-        cols += f'<div class="chooser__col"><h{level} class="chooser__h">{e(title)}</h{level}><p class="chooser__sub">{e(sub)}</p><ul class="svc-list">{cards}</ul></div>'
+        also = ''.join(f'<li>{e(q_)} <a class="link-arrow" href="{pg.a(slug + "/")}">{e(SVC[slug]["name"])} {ARROW}</a></li>' for slug, q_ in C.SITUATION_ALSO.get(key, []))
+        also = f'<ul class="chooser__also">{also}</ul>' if also else ''
+        cols += f'<div class="chooser__col"><h{level} class="chooser__h">{e(title)}</h{level}><p class="chooser__sub">{e(sub)}</p><ul class="svc-list">{cards}</ul>{also}</div>'
     return f'<div class="chooser">{cols}</div>'
 
 
@@ -489,8 +492,10 @@ def build_service(s):
     pg = Page(s['slug'] + '/index.html')
     home = pg.a('') or './'
     w = s['when']
+    extra = (f'<p class="facts-card__more"><a class="link-arrow" href="{pg.a("checklist/")}">רשימת בדיקה למקבלי דירה, להורדה {ARROW}</a></p>'
+             if s['slug'] == 'new-apartment' else '')
     body = page_head(pg, s['name'], e(s['lede']), [('דף הבית', home), ('שירותים', pg.a('services/')), (s['name'], None)],
-                     side=facts_card(w['facts']), acts=actions(pg, s['wa']))
+                     side=facts_card(C.FACTS[s['slug']] + [('המחיר', C.PRICE_LINE)], extra=extra), acts=actions(pg, s['wa']))
     paras = ''.join(f'<p>{e(x)}</p>' for x in w['p'])
     body += section('when', w['h2'], f'<div class="prose"><p class="lead">{e(w["lead"])}</p>{paras}</div>')
     pic = None
@@ -501,14 +506,15 @@ def build_service(s):
     report_title = REPORT_STEP.get(s['slug'], 'דוח תוך שבוע')
     report_note = s['report_note'] + ('' if s['slug'] in REPORT_STEP else ' ה־PDF מגיע תוך שבוע, בוואטסאפ ובמייל.')
     items = [C.PROCESS[0], (C.PROCESS[1][0], s.get('visit') or C.PROCESS[1][1]), (report_title, report_note), C.PROCESS[3]]
-    body += section('process', 'מה מקבלים ואיך זה עובד', steps(items))
+    if s['slug'] != 'counter-inspection':
+        body += section('process', 'מה מקבלים ואיך זה עובד', steps(items))
     body += section('faq', 'שאלות על ' + s['row'], faq_list(s['faq'], pg), cls='section--paper')
     body += contact_section(pg, s['close'][0], s['close'][1], preset=s['slug'], cls='')
     body += related_section(pg, s['related'])
     schema = graph({'@type': 'Service', 'name': s['name'], 'serviceType': s['name'], 'description': s['desc'], 'url': f"{SITE_URL}/{s['slug']}/",
                     'provider': {'@id': SITE_URL + '/#business'}, 'areaServed': {'@type': 'AdministrativeArea', 'name': 'צפון ישראל'}},
                    org_schema(), crumbs_schema([('דף הבית', ''), ('שירותים', 'services/'), (s['name'], s['slug'] + '/')]), faq_schema(s['faq']))
-    page(pg, s['title'], s['desc'], body, schema, current='services')
+    page(pg, s['title'], s['desc'], body, schema, current='services', wa_text=s['wa'])
 
 
 # ---------- לעורכי דין ----------
@@ -525,7 +531,7 @@ def build_lawyers():
                      side=card, acts=actions(pg, L['wa'], 'להפניית לקוח בוואטסאפ'))
     refer = ''.join(f'<li class="svc"><h3 class="svc__name"><a href="{pg.a(href)}">{e(a)}</a></h3><dl class="svc__facts"><div><dt>מתי</dt><dd>{e(b)}</dd></div>'
                     f'<div><dt>מה מקבלים</dt><dd>{e(c)}</dd></div></dl><span class="svc__more" aria-hidden="true">לפרטים ←</span></li>' for href, a, b, c in L['refer'])
-    body += section('refer', L['refer_h2'], f'<ul class="svc-list svc-list--row svc-list--4">{refer}</ul>')
+    body += section('refer', L['refer_h2'], f'<ul class="svc-list svc-list--row">{refer}</ul>')
     send = ''.join(f'<li>{e(x)}</li>' for x in L['send'])
     get = ''.join(f'<li>{e(x)}</li>' for x in L['get'])
     work = (f'<p class="lead work__statement">{e(L["statement"])}</p><div class="work">'
@@ -536,7 +542,7 @@ def build_lawyers():
     body += section('faq', 'שאלות של אנשי מקצוע', faq_list(L['faq'], pg), cls='section--paper')
     body += contact_section(pg, 'להפנות לקוח', 'בחרו את סוג הבדיקה ושלחו את פרטי הנכס. תמונות ודוחות קיימים מצרפים בצ׳אט.', cls='')
     schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('לעורכי דין ומתווכים', 'lawyers/')]), faq_schema(L['faq']))
-    page(pg, L['title'], L['desc'], body, schema, current='lawyers')
+    page(pg, L['title'], L['desc'], body, schema, current='lawyers', wa_text=L['wa'])
 
 
 # ---------- אודות ----------
@@ -564,14 +570,14 @@ def build_contact():
     pg = Page('contact/index.html')
     K = C.CONTACT
     home = pg.a('') or './'
-    body = page_head(pg, 'צור קשר', e(K['lede']), [('דף הבית', home), ('צור קשר', None)])
+    body = page_head(pg, 'צרו קשר', e(K['lede']), [('דף הבית', home), ('צרו קשר', None)])
     body += contact_section(pg, 'תיאום בדיקה', 'בחרו סוג בדיקה והוסיפו מה שאתם יודעים. תמונות מצרפים בצ׳אט.', sid='form', cls='')
     body += section('next', K['next_h2'], steps(K['next']), cls='section--paper')
     area = (f'<figure class="area"><img src="{pg.a("assets/img/photo/valley-1600.webp")}" srcset="{pg.a("assets/img/photo/valley-900.webp")} 900w, {pg.a("assets/img/photo/valley-1600.webp")} 1600w, {pg.a("assets/img/photo/valley-1920.webp")} 1920w" '
             f'sizes="(max-width: 1240px) 100vw, 1200px" alt="עמק יזרעאל כפי שהוא נראה מהכרמל: שדות, יישובים וגבעות" width="1600" height="900" loading="lazy" decoding="async">'
             f'<figcaption>עמק יזרעאל מהכרמל.</figcaption></figure>')
     body += section('area', 'אזור העבודה', area, e(f'{C.AREA_TOWNS}, עד כ־50 ק״מ מקריית טבעון. לחוות דעת ולנכסים גדולים, אפשר לתאם גם רחוק יותר.'))
-    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('צור קשר', 'contact/')]))
+    schema = graph(org_schema(), crumbs_schema([('דף הבית', ''), ('צרו קשר', 'contact/')]))
     page(pg, K['title'], K['desc'], body, schema, current='contact', credit=VALLEY_CREDIT)
 
 

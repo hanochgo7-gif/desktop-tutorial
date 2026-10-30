@@ -144,7 +144,10 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .menu__groups a { padding-inline-start: 14px; border-inline-start: 2px solid var(--paper-2); }
 .menu__main { display: grid; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--line); }
 .menu__main a { font-size: 1.1875rem; }
-.menu__actions { display: grid; gap: 10px; margin-top: auto; }
+.menu__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.menu__actions .btn { padding: 0 12px; }
+.menu a[aria-current="page"] { color: var(--link); font-weight: 500; }
+.menu__groups a[aria-current="page"] { border-inline-start-color: var(--accent); }
 
 /* ---------- פתיחה (דף הבית ואנגלית) ---------- */
 .hero { padding-block: clamp(36px, 6vw, 80px) clamp(40px, 6vw, 72px); }
@@ -188,6 +191,7 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .facts-card { background: var(--bg); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 28px); }
 .section--paper .facts-card, .page-head .facts-card { background: var(--bg); }
 .facts-card__h { margin-bottom: 14px; font-weight: 500; color: var(--ink-strong); }
+.facts-card__more { margin-top: 16px; }
 .facts { display: grid; gap: 14px; }
 .facts > div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; }
 .facts dt { font-size: var(--fs-small); color: var(--muted); }
@@ -202,6 +206,8 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .chooser { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 2.6vw, 36px); align-items: start; }
 .chooser__h { font-size: 1.25rem; }
 .chooser__sub { margin-top: 4px; font-size: var(--fs-small); color: var(--ink-2); }
+.chooser__also { display: grid; gap: 10px; margin-top: 16px; font-size: var(--fs-small); color: var(--ink-2); }
+.chooser__also .link-arrow { display: inline; padding: 0; }
 .svc-list { display: grid; gap: 12px; margin-top: 16px; }
 .svc-list--row { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: clamp(12px, 1.6vw, 20px); margin-top: 0; }
 .svc-list--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -231,7 +237,6 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
   .svc__more { display: none; }
   .svc::after { content: "←"; position: absolute; inset-inline-end: 16px; top: 50%; transform: translateY(-50%); color: var(--link); font-weight: 500; }
   .svc__facts { gap: 2px; }
-  .chooser--home .svc__facts > div + div { display: none; }
 }
 
 /* ---------- למה רביד ---------- */
@@ -341,7 +346,7 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .chips span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--paper-2); font-size: var(--fs-small); color: var(--ink-strong); }
 .chips input:checked + span { background: var(--ink-strong); color: var(--bg); }
 .chips input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 2px; }
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: end; }
 .quote label > span { display: block; margin-bottom: 6px; font-size: var(--fs-small); color: var(--ink-2); }
 .quote input[type="text"], .quote textarea { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid #6f8b99; border-radius: var(--radius-s); background: #ffffff; color: #10232d; font-size: var(--fs-small); }
 .quote textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
@@ -391,6 +396,8 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .bizcard__name { font-size: 1.375rem; font-weight: 500; color: var(--ink-strong); }
 .bizcard__title { margin-bottom: 18px; font-size: var(--fs-small); color: var(--ink-2); }
 .bizcard .btn { margin-top: 22px; }
+.bizcard .facts > div { grid-template-columns: 1fr; gap: 2px; }
+.bizcard .facts dd { overflow-wrap: normal; }
 .work__statement { max-width: 44rem; margin-bottom: 28px; color: var(--ink-strong); }
 .work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 56px); }
 .work__col h3 { margin-bottom: 12px; }
@@ -442,7 +449,10 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .site-footer__legal { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .site-footer__legal a { color: var(--ink-2); text-decoration: none; padding-block: 4px; }
 .site-footer__legal a:hover { text-decoration: underline; }
-.site-footer__credit { margin-top: 12px; font-size: var(--fs-small); color: var(--muted); }
+.site-footer__credit { margin-top: 12px; font-size: var(--fs-small); line-height: 1.8; color: var(--muted); }
+.site-footer__credit a { white-space: nowrap; }
+.site-footer--compact { padding-block: 28px; }
+.site-footer--compact .site-footer__end { margin-top: 0; padding-top: 0; border-top: 0; }
 .site-footer__credit a { color: var(--ink-2); }
 @media (max-width: 1000px) { .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) {
@@ -454,7 +464,7 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 
 /* אזורי לחיצה של 44 פיקסלים בטלפון */
 @media (max-width: 900px) {
-  .crumbs a, .contact__list a, .facts a, .link-arrow { display: inline-block; padding-block: 10px; }
+  .crumbs a, .crumbs span, .contact__list a, .facts a, .link-arrow { display: inline-block; padding-block: 10px; }
 }
 
 /* ---------- הדירה השקופה (מעטפת) ---------- */
@@ -515,8 +525,7 @@ html:not(.js) .btn.nojs-wa { display: inline-flex; }
 .k-floor .tap { fill: none; stroke: var(--accent); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: k-tap 1.8s var(--ease-out) infinite; }
 .k-floor .tap.t2 { animation-delay: 0.9s; }
 /* האנימציות של הממצאים רצות רק כשהממצא מואר */
-.k-floor .flow, .k-floor .tap { animation-play-state: paused; }
-.k-floor .k-x.on .flow, .k-floor .k-x.on .tap { animation-play-state: running; }
+.k-floor .flow, .k-floor .tap { animation: none; }
 .k-floor .ghost { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 8 7; fill: none; }
 .k-floor .dim, .k-floor .tick { stroke: var(--ink); stroke-width: 1.6; fill: none; }
 .k-floor .plan { stroke: var(--accent); }
