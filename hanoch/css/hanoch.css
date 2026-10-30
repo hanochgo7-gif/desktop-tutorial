@@ -394,6 +394,9 @@ html:not(.motion) .bar, .a11y-no-motion .bar { transition-duration: .01s; }
 .btn span { display: inline-block; pointer-events: none; }
 .btn-signal { background: var(--signal); color: var(--ink); }
 @media (hover: hover) { .btn-signal:hover { background: var(--fg); } }
+/* כפתור וואטסאפ בירוק של וואטסאפ, כמו בדף הבית. שאר הכפתורים הכתומים נשארים כמו שהם */
+a.btn-signal[href*="wa.me"], a.btn-signal[href*="api.whatsapp.com"] { background: var(--wa, #25d366); color: var(--wa-ink, #06301a); }
+@media (hover: hover) { a.btn-signal[href*="wa.me"]:hover, a.btn-signal[href*="api.whatsapp.com"]:hover { background: #2fe072; color: var(--wa-ink, #06301a); } }
 .btn-line { border: 1px solid var(--fg-line); }
 @media (hover: hover) { .btn-line:hover { border-color: var(--fg); background: var(--fg); color: var(--ink); } }
 .foot { width: 100%; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; color: var(--fg-dim); border-top: 1px solid var(--fg-faint); padding-top: 18px; }
@@ -2183,7 +2186,7 @@ html[dir="rtl"] .pf-numbers b { text-align: right; }
     background: rgba(12, 12, 14, .96);  border: 1px solid rgba(237, 232, 222, .14);
     transform: translateY(calc(100% + 30px)); transition: transform .5s var(--ease); }
   .hm-dock a { flex: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 46px; border-radius: 99px; font-size: var(--fs-s); font-weight: 500; text-decoration: none; }
-  .hm-dock-wa { background: var(--signal); color: var(--ink); }
+  .hm-dock-wa { background: var(--wa, #25d366); color: var(--wa-ink, #06301a); }
   .hm-dock-call { color: var(--fg); box-shadow: inset 0 0 0 1px var(--fg-line); }
   html.dock-on .hm-dock { transform: none; }
   .a11y, .ht-btn, .ht-hint { transition: bottom .5s var(--ease), translate .5s var(--ease); }

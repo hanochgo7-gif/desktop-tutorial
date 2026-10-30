@@ -29,7 +29,7 @@ body { background: var(--ink, #0a0a0b); }
 @media (max-width: 560px) {
   .sv-mark { font-size: 1.2rem; }
   .sv-bar-cta nav a:not(:last-child) { display: none; }
-  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(255,79,26,.6); color: var(--fg, #ede8de); }
+  .sv-bar-cta nav a:last-child { min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid rgba(37,211,102,.6); color: var(--fg, #ede8de); }
 }
 .sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
 .sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
@@ -81,6 +81,9 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-cta .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1rem; }
 .sv-btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 99px; background: var(--signal); color: #141416 !important; text-decoration: none; font-family: var(--f-body); font-weight: 500; }
 .sv-btn.ghost { background: transparent; color: var(--fg, #ede8de) !important; border: 1px solid rgba(237,232,222,.3); }
+/* כפתור וואטסאפ בירוק של וואטסאפ, כמו בדף הבית */
+.sv-btn[href*="wa.me"], .sv-btn[href*="api.whatsapp.com"] { background: var(--wa, #25d366); color: var(--wa-ink, #06301a) !important; }
+@media (hover: hover) { .sv-btn[href*="wa.me"]:hover, .sv-btn[href*="api.whatsapp.com"]:hover { background: #2fe072; } }
 .sv-rel { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0 !important; }
 .sv-rel a { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(237,232,222,.18); color: var(--fg, #ede8de); text-decoration: none; font-size: .92rem; }
 .sv-foot { max-width: 860px; margin: 0 auto; padding: 30px var(--gutter) 60px; font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; border-top: 1px solid rgba(237,232,222,.08); }

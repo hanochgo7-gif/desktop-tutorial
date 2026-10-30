@@ -116,6 +116,7 @@
     }
   ],
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www\\.hgpro\\.io" }], "destination": "https://hgpro.io/:path*", "permanent": true },
     {
       "source": "/index.html",
       "destination": "/",
