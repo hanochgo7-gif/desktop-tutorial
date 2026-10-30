@@ -3,7 +3,7 @@
 import { html, raw, render, on, $, uid } from '../core/util.js';
 import { tt, t, hebrewSupport } from '../core/i18n.js';
 import { taxonomyIndex, content } from '../core/content.js';
-import { icon, toast } from '../ui/components.js';
+import { icon, toast, confirmDialog } from '../ui/components.js';
 import { model, settings, profile } from '../core/learner.js';
 import { store } from '../core/store.js';
 import { callAI, configured, auth } from '../core/api.js';
@@ -48,6 +48,13 @@ export default async function tutor(el, ctx) {
     };
   }
 
+  // Saved tutor conversations other than the one on screen ("New conversation" keeps the old one).
+  const others = () => store.all('chats').filter((c) => c.kind === 'tutor' && c.id !== session?.id);
+  function savedRow() {
+    const n = others().length;
+    return n ? html`<p class="xsmall faint row" style="margin-top:var(--s2)">${tt(n === 1 ? 'עוד שיחה שמורה אחת עם המורה.' : `עוד ${n} שיחות שמורות עם המורה.`, `${n} more saved tutor conversation${n === 1 ? '' : 's'}.`)}<button type="button" class="key ghost small" data-delete-all>${icon('trash', { size: 14 })} ${tt('מחיקת כולן', 'Delete all')}</button></p>` : '';
+  }
+
   function draw() {
     const msgs = session?.messages || [];
     render(el, html`
@@ -58,7 +65,7 @@ export default async function tutor(el, ctx) {
           <p class="banner">${icon('info', { size: 18 })}<span>${!configured() || !CONFIG.aiEnabled ? tt('המורה מבוסס AI ופועל רק בשרת שבו הוגדר שירות ה-AI. בשרת הזה הוא עוד לא הוגדר, ולכן הוא לא זמין: אנחנו לא מציגים שיחה מזויפת.', 'The tutor runs on AI and works only on a server where the AI service is configured. It is not configured here, so the tutor is unavailable: we do not show a fake conversation.') : !auth.signedIn ? tt('כדי לדבר עם המורה צריך להיכנס לחשבון.', 'Sign in to talk with the tutor.') : tt('המורה דורש הפעלה של ״משוב AI״ בהגדרות.', 'The tutor needs "AI feedback" turned on in Settings.')}</span></p>
           <p class="small">${tt('בלי AI עדיין יש:', 'Without AI you still have:')}</p>
           <ul class="small stack-sm" style="margin:0;padding-inline-start:1.2rem"><li><a href="#/grammar">${t('nav.grammar')}</a> ${tt('– הסברים ותרגול לכל נושא', '– explanations and practice for every topic')}</li><li><a href="#/writing">${t('nav.writing')}</a> ${tt('– בדיקות כתיבה אוטומטיות', '– automatic writing checks')}</li><li><a href="#/real-life">${t('nav.reallife')}</a> ${tt('– תרגול שיחה מובנה', '– scripted conversation practice')}</li></ul>
-          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div></div>`
+          <div class="row">${configured() && !auth.signedIn ? html`<a class="key enter" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a>` : ''}${configured() && auth.signedIn && !settings().ai_consent ? html`<a class="key enter" href="#/settings">${tt('להגדרות', 'Settings')}</a>` : ''}</div>${session ? html`<p class="xsmall faint row">${tt('יש שיחה שמורה במצב הזה.', 'There is a saved conversation in this mode.')}<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 14 })} ${tt('מחיקה', 'Delete')}</button></p>` : ''}${savedRow()}</div>`
       : html`<div class="chat" style="max-width:52rem">
           <div class="chat-log" id="log" aria-live="polite">${!msgs.length ? html`<p class="small faint" style="margin:auto;text-align:center">${tt('אפשר לשאול כל דבר על אנגלית, או לבקש תרגול.', 'Ask anything about English, or ask for practice.')}</p>` : ''}
             ${msgs.map((m) => html`<div class="msg ${m.role === 'user' ? 'me' : 'them'}" dir="auto">${m.role === 'assistant' ? html`<span class="who">Lucid</span>` : ''}${m.role === 'assistant' ? raw(formatReply(m.text)) : m.text}</div>`)}
@@ -66,7 +73,8 @@ export default async function tutor(el, ctx) {
           <form class="chat-input" data-send><label class="sr-only" for="tin">${tt('ההודעה שלך', 'Your message')}</label><textarea class="input" id="tin" rows="1" maxlength="2000" dir="auto" placeholder="${tt('כתבו הודעה…', 'Write a message…')}" ${busy ? html`disabled` : ''}></textarea>${canListen() ? html`<button type="button" class="key icon-only" data-dictate aria-label="${tt('לומר בקול', 'Say it')}">${icon('speaking')}</button>` : ''}<button class="key enter icon-only" type="submit" aria-label="${tt('שליחה', 'Send')}" ${busy ? html`disabled` : ''}>${icon('send')}</button></form>
         </div>
         ${error ? html`<p class="error-text" role="alert">${error}</p>` : ''}
-        <div class="row" style="margin-top:var(--s3)"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>`}`);
+        <div class="row" style="margin-top:var(--s3)"><span class="xsmall faint grow">${tt('משוב AI יכול לטעות. אם משהו נראה לא נכון, בדקו אותו.', 'AI feedback can be wrong. If something looks off, check it.')}</span>${msgs.length ? html`<button type="button" class="key ghost small" data-delete>${icon('trash', { size: 16 })} ${tt('מחיקת השיחה', 'Delete conversation')}</button><button type="button" class="key ghost small" data-new>${icon('plus', { size: 16 })} ${tt('שיחה חדשה', 'New conversation')}</button>` : ''}</div>
+        ${savedRow()}`}`);
     const log = $('#log', el); if (log) log.scrollTop = log.scrollHeight;
   }
 
@@ -99,6 +107,24 @@ export default async function tutor(el, ctx) {
     on(el, 'submit', '[data-send]', (e) => { e.preventDefault(); send($('#tin', el).value); }),
     on(el, 'keydown', '#tin', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(e.target.value); } }),
     on(el, 'click', '[data-new]', () => { session = null; draw(); }),
+    on(el, 'click', '[data-delete]', async () => {
+      if (!session || busy) return;
+      const ok = await confirmDialog({ title: tt('למחוק את השיחה?', 'Delete this conversation?'), body: tt('השיחה תימחק מהמכשיר, ואם יש לכם חשבון, גם מהשרת בסנכרון הבא.', 'It is removed from this device and, if you have an account, from the server at the next sync.'), confirm: tt('מחיקה', 'Delete'), danger: true });
+      if (!ok) return;
+      store.remove('chats', session.id);
+      session = null; error = '';
+      draw();
+      toast(tt('השיחה נמחקה', 'Conversation deleted'));
+    }),
+    on(el, 'click', '[data-delete-all]', async () => {
+      const list = others();
+      if (!list.length || busy) return;
+      const ok = await confirmDialog({ title: tt('למחוק את כל השיחות השמורות?', 'Delete all saved conversations?'), body: tt(`${list.length === 1 ? 'שיחה אחת' : `${list.length} שיחות`} עם המורה ${list.length === 1 ? 'תימחק' : 'יימחקו'} מהמכשיר, ואם יש לכם חשבון, גם מהשרת בסנכרון הבא. השיחה שעל המסך נשארת.`, `${list.length} tutor conversation${list.length === 1 ? '' : 's'} will be removed from this device and, if you have an account, from the server at the next sync. The conversation on screen stays.`), confirm: tt('מחיקה', 'Delete'), danger: true });
+      if (!ok) return;
+      list.forEach((c) => store.remove('chats', c.id));
+      draw();
+      toast(tt('השיחות נמחקו', 'Conversations deleted'));
+    }),
     on(el, 'click', '[data-dictate]', async () => { try { const r = await listen(); $('#tin', el).value = r.transcript; } catch (err) { toast(err.code === 'denied' ? tt('אין הרשאה למיקרופון', 'Microphone blocked') : tt('לא נשמע דיבור', 'No speech heard')); } }),
   ];
   return () => offs.forEach((o) => o());

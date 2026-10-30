@@ -8,6 +8,7 @@ import { profile, settings, initModel, applySupport, sessionTick, hasProfile } f
 import { icon, toast, brandMark } from './ui/components.js';
 import { auth, db, configured } from './core/api.js';
 import { createSync } from './core/sync.js';
+import { startSession, syncAllowed } from './core/session.js';
 
 const NAV = [
   ['today', 'nav.today', 'today'],
@@ -89,14 +90,11 @@ async function boot() {
   document.title = 'Lucid';
 
   if (configured()) {
-    const type = auth.consumeRedirect();
-    sync = createSync({ store: s, api: db, cursorKey: () => `lucid-sync-cursor:${auth.user?.id || 'anon'}` });
+    // Sync runs only once session.js has confirmed the device data and the server profile belong to this account.
+    sync = createSync({ store: s, api: db, cursorKey: () => `lucid-sync-cursor:${auth.user?.id || 'anon'}`, guard: syncAllowed });
     sync.onStatus(() => { const el = document.getElementById('sync-status'); if (el) el.textContent = syncLabel(); });
-    if (auth.signedIn) {
-      sync.run().catch(() => {});
-      setInterval(() => { if (auth.signedIn && document.visibilityState === 'visible') sync.run().catch(() => {}); }, 60_000);
-      if (type === 'signup') toast(tt('החשבון אומת. ההתקדמות שלך תסונכרן.', 'Account confirmed. Your progress will sync.'));
-    }
+    await startSession(sync); // email links (adopted only if requested on this device), returning sessions
+    setInterval(() => { if (auth.signedIn && document.visibilityState === 'visible') sync.run().catch(() => {}); }, 60_000);
   }
 
   store.on('change', (e) => {

@@ -6,34 +6,58 @@ import { roleplayMessages, tutorMessages, writingUserMessage } from './prompts.t
 const ORIGIN = 'https://lucid.example';
 const USER = { id: 'u1' };
 
-function fakeClaude(behaviour: { parsed?: unknown; text?: string; stop?: string; throwStatus?: number }) {
+function fakeClaude(behaviour: { parsed?: unknown; text?: string; stop?: string; throwStatus?: number; delayMs?: number }) {
   const calls: unknown[] = [];
-  const respond = (p: unknown) => {
+  const respond = async (p: unknown) => {
     calls.push(p);
-    if (behaviour.throwStatus) return Promise.reject(Object.assign(new Error('upstream'), { status: behaviour.throwStatus }));
-    return Promise.resolve({
+    if (behaviour.delayMs) await new Promise((r) => setTimeout(r, behaviour.delayMs));
+    if (behaviour.throwStatus) throw Object.assign(new Error('upstream'), { status: behaviour.throwStatus });
+    return {
       stop_reason: behaviour.stop ?? 'end_turn',
       parsed_output: behaviour.parsed ?? null,
       content: [{ type: 'text', text: behaviour.text ?? '' }],
       usage: { input_tokens: 100, output_tokens: 50 },
-    });
+    };
   };
   return { calls, client: { beta: { messages: { parse: respond, create: respond } } } as unknown as Deps['claude'] };
 }
 
-function deps(over: Partial<Deps> = {}, claude = fakeClaude({})) {
-  const usage: unknown[] = [];
+type Row = { id: number; user_id: string; route: string; units: number; outcome: string; input_tokens: number | null; output_tokens: number | null };
+// In-memory stand-in for lucid_ai_reserve: synchronous, so each reservation is atomic like the SQL function.
+// One window stands in for the hour and the day (the SQL windows are covered by tests/db/schema.test.mjs).
+function ledger(seed: Partial<Row>[] = []) {
+  const rows: Row[] = seed.map((r, i) => ({ id: i + 1, user_id: USER.id, route: 'tutor_turn', units: 1, outcome: 'ok', input_tokens: null, output_tokens: null, ...r }));
+  const reservations: Parameters<Deps['reserve']>[0][] = [];
+  const reserve: Deps['reserve'] = (r) => {
+    reservations.push(r);
+    const mine = rows.filter((x) => x.user_id === r.user_id);
+    const used = mine.reduce((a, x) => a + x.units, 0);
+    const total = rows.reduce((a, x) => a + x.units, 0);
+    if (used + r.units > r.daily) return Promise.resolve({ ok: false, reason: 'daily' });
+    if (used + r.units > r.hourly) return Promise.resolve({ ok: false, reason: 'hourly' });
+    if (mine.filter((x) => x.outcome === 'pending').length >= r.maxInFlight) return Promise.resolve({ ok: false, reason: 'in_flight' });
+    if (total + r.units > r.globalDaily) return Promise.resolve({ ok: false, reason: 'global' });
+    const id = rows.length + 1;
+    rows.push({ id, user_id: r.user_id, route: r.route, units: r.units, outcome: 'pending', input_tokens: null, output_tokens: null });
+    return Promise.resolve({ ok: true, id });
+  };
+  const settle: Deps['settle'] = (id, s) => { Object.assign(rows.find((x) => x.id === id)!, s); return Promise.resolve(); };
+  return { rows, reservations, reserve, settle };
+}
+
+const ENV: Deps['env'] = { allowedOrigins: [ORIGIN], model: 'claude-opus-5-5', hourlyUnits: 10, dailyUnits: 50, globalDailyUnits: 1000, maxInFlight: 99 };
+
+function deps(over: Partial<Deps> = {}, claude = fakeClaude({}), book = ledger()) {
   const d: Deps = {
-    env: { allowedOrigins: [ORIGIN], model: 'claude-opus-5-5', hourlyUnits: 10, dailyUnits: 50 },
+    env: ENV,
     authenticate: (t) => Promise.resolve(t === 'good' ? USER : null),
     profile: () => Promise.resolve({ consent_ai_at: '2026-10-30T00:00:00Z' }),
-    unitsUsedSince: () => Promise.resolve(0),
-    recordUsage: (r) => { usage.push(r); return Promise.resolve(); },
+    reserve: book.reserve,
+    settle: book.settle,
     claude: claude.client,
-    now: () => new Date('2026-10-30T12:00:00Z'),
     ...over,
   };
-  return { d, usage, calls: claude.calls };
+  return { d, rows: book.rows, reservations: book.reservations, calls: claude.calls };
 }
 
 const post = (body: unknown, { token = 'good', origin = ORIGIN } = {}) => new Request('https://fn/lucid-ai', {
@@ -79,24 +103,38 @@ Deno.test('authentication, validation and consent', async () => {
   assertEquals((await (await noConsent(post(writingBody))).json()).error.code, 'ai_consent_required');
 });
 
-Deno.test('rate limits use weighted units over the hour and the day', async () => {
-  const h = createHandler(deps({ unitsUsedSince: (_u, since) => Promise.resolve(since.getUTCHours() === 11 ? 8 : 8) }).d);
-  const r = await h(post(writingBody)); // 8 + 3 > 10 per hour
-  assertEquals(r.status, 429);
+Deno.test('rate limits use weighted units, reserved before the model is called', async () => {
   const tutor = { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'What is the past of go?' };
-  const ok = createHandler(deps({ unitsUsedSince: () => Promise.resolve(9) }, fakeClaude({ text: 'Went.' })).d);
-  assertEquals((await ok(post(tutor))).status, 200, '9 + 1 <= 10');
+  const full = deps({}, fakeClaude({ parsed: evaluation }), ledger([{ units: 8 }]));
+  const r = await createHandler(full.d)(post(writingBody)); // 8 + 3 > 10 per hour
+  assertEquals(r.status, 429);
+  assertEquals((await r.json()).error.code, 'rate_limited');
+  assertEquals(full.calls.length, 0, 'no model call when the limit is reached');
+  const ok = deps({}, fakeClaude({ text: 'Went.' }), ledger([{ units: 9 }]));
+  assertEquals((await createHandler(ok.d)(post(tutor))).status, 200, '9 + 1 <= 10');
+  assertEquals(ok.reservations[0], { user_id: 'u1', route: 'tutor_turn', units: 1, hourly: 10, daily: 50, globalDaily: 1000, maxInFlight: 99 });
 });
 
-Deno.test('writing evaluation: scores clamped, n/a nulled, usage logged, learner text framed as data', async () => {
+Deno.test('parallel requests cannot overspend: each one reserves its units first', async () => {
+  const tutor = { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'Hi' };
+  const { d, rows, calls } = deps({}, fakeClaude({ text: 'Hello.', delayMs: 20 }));
+  const results = await Promise.all(Array.from({ length: 25 }, () => createHandler(d)(post(tutor))));
+  assertEquals(results.filter((r) => r.status === 200).length, 10, 'hourly limit 10');
+  assertEquals(results.filter((r) => r.status === 429).length, 15);
+  assertEquals(calls.length, 10);
+  assertEquals(rows.reduce((a, r) => a + r.units, 0), 10);
+  assert(rows.every((r) => r.outcome === 'ok' && r.output_tokens === 50));
+});
+
+Deno.test('writing evaluation: scores clamped, n/a nulled, usage settled, learner text framed as data', async () => {
   const claude = fakeClaude({ parsed: evaluation });
-  const { d, usage, calls } = deps({}, claude);
+  const { d, rows, calls } = deps({}, claude);
   const res = await createHandler(d)(post(writingBody));
   assertEquals(res.status, 200);
   const body = await res.json();
   assertEquals(body.evaluation.categories[0].score, 5);
   assertEquals(body.evaluation.categories[1].score, null);
-  assertEquals((usage[0] as { units: number }).units, 3);
+  assertEquals(rows[0], { id: 1, user_id: 'u1', route: 'evaluate_writing', units: 3, outcome: 'ok', input_tokens: 100, output_tokens: 50 });
   const call = calls[0] as { model: string; fallbacks: string; messages: { content: string }[]; system: { cache_control: unknown }[] };
   assertEquals(call.model, 'claude-opus-5-5');
   assertEquals(call.fallbacks, 'default');
@@ -104,13 +142,74 @@ Deno.test('writing evaluation: scores clamped, n/a nulled, usage logged, learner
   assert(call.messages[0].content.includes('<learner_text>\nI think that social media is bad.'));
 });
 
-Deno.test('refusals, truncation and upstream errors map to safe messages', async () => {
-  assertEquals((await createHandler(deps({}, fakeClaude({ stop: 'refusal' })).d)(post(writingBody))).status, 422);
-  assertEquals((await createHandler(deps({}, fakeClaude({ stop: 'max_tokens', parsed: evaluation })).d)(post(writingBody))).status, 502);
-  const busy = await createHandler(deps({}, fakeClaude({ throwStatus: 529 })).d)(post(writingBody));
-  assertEquals(busy.status, 503);
-  const down = await createHandler(deps({}, fakeClaude({ throwStatus: 500 })).d)(post(writingBody));
-  assertEquals((await down.json()).error.code, 'upstream_error');
+Deno.test('refusals, truncation and upstream errors map to safe messages and stay metered', async () => {
+  const refused = deps({}, fakeClaude({ stop: 'refusal' }));
+  assertEquals((await createHandler(refused.d)(post(writingBody))).status, 422);
+  assertEquals(refused.rows[0], { id: 1, user_id: 'u1', route: 'evaluate_writing', units: 3, outcome: 'refused', input_tokens: 100, output_tokens: 50 });
+  const cut = deps({}, fakeClaude({ stop: 'max_tokens', parsed: evaluation }));
+  assertEquals((await createHandler(cut.d)(post(writingBody))).status, 502);
+  assertEquals([cut.rows[0].outcome, cut.rows[0].units, cut.rows[0].output_tokens], ['incomplete', 3, 50]);
+  const tutor = { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'Write 10,000 words about verbs.' };
+  const empty = deps({}, fakeClaude({ text: '   ' }));
+  assertEquals((await createHandler(empty.d)(post(tutor))).status, 502);
+  assertEquals(empty.rows[0].outcome, 'incomplete');
+  const busy = deps({}, fakeClaude({ throwStatus: 529 }));
+  assertEquals((await createHandler(busy.d)(post(writingBody))).status, 503);
+  assertEquals([busy.rows[0].outcome, busy.rows[0].units, busy.rows[0].input_tokens], ['error', 3, null]);
+  const down = deps({}, fakeClaude({ throwStatus: 500 }));
+  assertEquals((await (await createHandler(down.d)(post(writingBody))).json()).error.code, 'upstream_error');
+  assertEquals(down.rows[0].outcome, 'error');
+});
+
+Deno.test('project budget, in-flight cap and an unavailable ledger refuse before the model is called', async () => {
+  const tutor = { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'Hi' };
+  const global = deps({ env: { ...ENV, globalDailyUnits: 5 } }, fakeClaude({ text: 'x' }), ledger([{ user_id: 'someone-else', units: 5 }]));
+  const g = await createHandler(global.d)(post(tutor));
+  assertEquals(g.status, 503);
+  assertEquals((await g.json()).error.code, 'budget_exhausted');
+  assertEquals(global.calls.length, 0);
+  const open = deps({ env: { ...ENV, maxInFlight: 1 } }, fakeClaude({ text: 'x' }), ledger([{ outcome: 'pending' }]));
+  const o = await createHandler(open.d)(post(tutor));
+  assertEquals(o.status, 429);
+  assertEquals((await o.json()).error.code, 'in_flight');
+  assertEquals(open.calls.length, 0);
+  const daily = deps({ env: { ...ENV, hourlyUnits: 100, dailyUnits: 3 } }, fakeClaude({ text: 'x' }), ledger([{ units: 3 }]));
+  assert((await (await createHandler(daily.d)(post(tutor))).json()).error.message.includes('today'));
+  const broken = deps({ reserve: () => Promise.reject(new Error('db down')) }, fakeClaude({ text: 'x' }));
+  const b = await createHandler(broken.d)(post(tutor));
+  assertEquals([b.status, (await b.json()).error.code, broken.calls.length], [503, 'unavailable', 0]);
+});
+
+Deno.test('a failed settle keeps the reply and the reserved units', async () => {
+  const tutor = { task: 'tutor_turn', mode: 'grammar', level: 'A2', history: [], message: 'Hi' };
+  const { d, rows } = deps({ settle: () => Promise.reject(new Error('db blip')) }, fakeClaude({ text: 'Hello.' }));
+  const res = await createHandler(d)(post(tutor));
+  assertEquals(res.status, 200);
+  assertEquals([rows[0].units, rows[0].outcome], [1, 'pending']);
+});
+
+Deno.test('body size is counted in bytes, and an oversized Content-Length is refused before sign-in', async () => {
+  let authCalls = 0;
+  const { d } = deps({ authenticate: (t) => { authCalls++; return Promise.resolve(t === 'good' ? USER : null); } });
+  const h = createHandler(d);
+  const declared = new Request('https://fn/lucid-ai', { method: 'POST', headers: { origin: ORIGIN, authorization: 'Bearer good', 'content-length': '100000' }, body: '{}' });
+  assertEquals((await h(declared)).status, 413);
+  assertEquals(authCalls, 0, 'no auth call for a declared oversize body');
+  // 33,000 Hebrew letters: about 33K UTF-16 code units (under the old check) but about 66 KB of UTF-8.
+  const hebrew = JSON.stringify({ ...writingBody, text: 'ש'.repeat(33000) });
+  assert(hebrew.length < 64 * 1024 && new TextEncoder().encode(hebrew).length > 64 * 1024);
+  assertEquals((await h(post(hebrew))).status, 413);
+  // A streamed body with no Content-Length is cut off at the limit.
+  const chunk = new TextEncoder().encode('x'.repeat(16 * 1024));
+  let sent = 0;
+  const stream = new ReadableStream<Uint8Array>({ pull(c) { if (sent++ < 10) c.enqueue(chunk); else c.close(); } });
+  const streamed = new Request('https://fn/lucid-ai', { method: 'POST', headers: { origin: ORIGIN, authorization: 'Bearer good' }, body: stream });
+  assertEquals((await h(streamed)).status, 413);
+  assert(sent <= 6, 'stops reading soon after the limit');
+  // Just under the limit in bytes: the size check passes and the schema decides.
+  const under = JSON.stringify({ ...writingBody, text: 'ש'.repeat(16001) });
+  assert(new TextEncoder().encode(under).length < 64 * 1024);
+  assertEquals((await h(post(under))).status, 400);
 });
 
 Deno.test('roleplay transcripts alternate roles, start and end with the learner side', () => {
@@ -179,12 +278,13 @@ Deno.test('research E rubric rules are enforced in code, not only requested', ()
   assertEquals([bad.cefr_low, bad.cefr_estimate, bad.cefr_high], ['B2', 'B2', 'B2']);
 });
 
-Deno.test('several scoring runs are made and their usage summed when configured', async () => {
+Deno.test('several scoring runs are made, their usage summed and their units reserved', async () => {
   const claude = fakeClaude({ parsed: evaluation });
-  const { d, calls } = deps({ env: { allowedOrigins: [ORIGIN], model: 'claude-opus-5-5', hourlyUnits: 10, dailyUnits: 50, evalRuns: 3 } }, claude);
+  const { d, calls, rows } = deps({ env: { ...ENV, evalRuns: 3 } }, claude);
   const res = await createHandler(d)(post({ ...writingBody, stage: 7, draft_number: 2 }));
   assertEquals(res.status, 200);
   assertEquals(calls.length, 3);
   assert(((calls[0] as { messages: { content: string }[] }).messages[0].content).includes('Writing stage: 7; target: B2+-C1'));
   assertEquals((await res.json()).evaluation.runs, 3);
+  assertEquals([rows[0].units, rows[0].input_tokens, rows[0].output_tokens], [9, 300, 150]);
 });

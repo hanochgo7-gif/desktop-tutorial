@@ -1,10 +1,13 @@
 // Two-way sync between the local store and lucid_records. Local changes are pushed first, then
 // server changes since the last cursor are pulled. The server stamps updated_at, so the newest
 // write wins; a record still waiting to be pushed is never overwritten by an older server copy.
+// Deletions travel as tombstones with an empty document, so deleted content leaves the server too.
+// `guard` (optional) is asked before every run; sync stays idle while it returns false, for example
+// before the device data has been confirmed as this account's or before the server profile exists.
 
 const BATCH = 400;
 
-export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', storage = globalThis.localStorage }) {
+export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', storage = globalThis.localStorage, guard = () => true }) {
   let running = null;
   let lastError = null;
   let lastSyncedAt = null;
@@ -19,9 +22,10 @@ export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', 
     for (let i = 0; i < dirty.length; i += BATCH) {
       const chunk = dirty.slice(i, i + BATCH);
       await api.pushRecords(chunk.map(({ coll, record }) => {
+        if (record._deleted) return { coll, id: record.id, data: {}, deleted: true };
         const data = { ...record };
         delete data._dirty;
-        return { coll, id: record.id, data, deleted: Boolean(record._deleted) };
+        return { coll, id: record.id, data, deleted: false };
       }));
       store.markClean(chunk);
     }
@@ -34,9 +38,10 @@ export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', 
     for (;;) {
       const rows = (await api.pullRecords(cursor, 1000)) || [];
       for (const row of rows) {
-        const local = store.get(row.coll, row.id);
+        const local = store.get(row.coll, row.id, { includeDeleted: true });
         if (local?._dirty) continue; // our newer change goes up on the next push
-        store.put(row.coll, { ...row.data, id: row.id, updated_at: row.updated_at, ...(row.deleted ? { _deleted: true } : {}) }, { origin: 'remote' });
+        const rec = row.deleted ? { id: row.id, _deleted: true } : { ...row.data, id: row.id };
+        store.put(row.coll, { ...rec, updated_at: row.updated_at }, { origin: 'remote' });
         pulled++;
       }
       if (rows.length) { cursor = rows[rows.length - 1].updated_at; setCursor(cursor); }
@@ -48,6 +53,7 @@ export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', 
   const sync = {
     async run() {
       if (running) return running;
+      if (!guard()) return { pushed: 0, pulled: 0, skipped: true };
       running = (async () => {
         try {
           const pushed = await push();
@@ -67,7 +73,7 @@ export function createSync({ store, api, cursorKey = () => 'lucid-sync-cursor', 
       return running;
     },
     status() {
-      return { running: Boolean(running), lastError: lastError?.message || null, offline: Boolean(lastError?.network), lastSyncedAt, pending: store.dirty().length };
+      return { running: Boolean(running), lastError: lastError?.message || null, offline: Boolean(lastError?.network), lastSyncedAt, pending: store.dirty().length, paused: !guard() };
     },
     resetCursor() { try { storage?.removeItem(cursorKey()); } catch { /* ignore */ } },
     onStatus(fn) { listeners.add(fn); return () => listeners.delete(fn); },

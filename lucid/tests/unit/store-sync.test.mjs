@@ -62,7 +62,8 @@ test('two devices converge through the server, newest write wins, dirty local da
 
   b.remove('cards', 'v:student');
   await syncB.run(); await syncA.run();
-  assert.equal(a.get('cards', 'v:student')._deleted, true, 'deletions sync');
+  assert.equal(a.get('cards', 'v:student'), null, 'deletions sync');
+  assert.equal(a.get('cards', 'v:student', { includeDeleted: true })._deleted, true, 'as a tombstone');
   assert.equal(syncA.status().pending, 0);
 });
 
@@ -73,4 +74,85 @@ test('a failed push keeps data dirty and reports offline', async () => {
   await assert.rejects(sync.run());
   assert.equal(s.dirty().length, 1);
   assert.equal(sync.status().offline, true);
+});
+
+// ---------- security review S-18, S-06, S-05, S-04 ----------
+import { eraseDevice, LUCID_KEY } from '../../js/core/store.js';
+
+test('deleting keeps only an id tombstone, hides it from get(), and a later local write brings the record back (S-18)', async () => {
+  const s = createStore();
+  s.put('writing', { id: 'ess:1', text: 'My private essay' });
+  s.remove('writing', 'ess:1');
+  assert.equal(s.get('writing', 'ess:1'), null, 'tombstones are hidden by default');
+  const tomb = s.get('writing', 'ess:1', { includeDeleted: true });
+  assert.deepEqual(Object.keys(tomb).sort(), ['_deleted', '_dirty', 'id', 'updated_at']);
+  assert.equal(tomb.text, undefined, 'the content is gone from the device at once');
+  // A lesson placed out, moved back, then completed must not stay deleted.
+  s.put('progress', { id: 'a1-01', status: 'placed_out' });
+  s.remove('progress', 'a1-01');
+  s.put('progress', { ...(s.get('progress', 'a1-01') || {}), id: 'a1-01', status: 'completed' });
+  assert.equal(s.all('progress').length, 1);
+  assert.equal(s.get('progress', 'a1-01')._deleted, undefined);
+});
+
+test('sync pushes tombstones with an empty document and stores pulled deletions without content (S-18)', async () => {
+  const server = fakeServer();
+  const a = createStore(), b = createStore();
+  const syncA = createSync({ store: a, api: server, storage: mem() });
+  const syncB = createSync({ store: b, api: server, storage: mem() });
+  a.put('chats', { id: 'tutor-1', messages: [{ role: 'user', text: 'secret' }] });
+  await syncA.run(); await syncB.run();
+  a.remove('chats', 'tutor-1');
+  await syncA.run();
+  const row = server.rows.get('chats/tutor-1');
+  assert.equal(row.deleted, true);
+  assert.deepEqual(row.data, {}, 'the server row keeps no content');
+  // An older server row that still carries data (pushed before this fix) is not copied into the tombstone.
+  server.rows.set('chats/tutor-1', { ...row, data: { messages: ['old'] }, updated_at: new Date(Date.UTC(2026, 9, 30, 13)).toISOString() });
+  await syncB.run();
+  assert.equal(b.get('chats', 'tutor-1'), null);
+  assert.equal(b.get('chats', 'tutor-1', { includeDeleted: true }).messages, undefined);
+});
+
+test('a guard keeps sync idle: nothing is pushed or pulled while it says no (S-05, S-06)', async () => {
+  const server = fakeServer();
+  const s = createStore();
+  let allowed = false;
+  const sync = createSync({ store: s, api: server, storage: mem(), guard: () => allowed });
+  s.put('attempts', { id: 'x1', correct: true });
+  assert.deepEqual(await sync.run(), { pushed: 0, pulled: 0, skipped: true });
+  assert.equal(server.rows.size, 0);
+  assert.equal(sync.status().paused, true);
+  allowed = true;
+  assert.equal((await sync.run()).pushed, 1);
+});
+
+test('the device remembers which account owns its data; wiping forgets it (S-06)', async () => {
+  const storage = mem();
+  const s = createStore(memoryBackend(), { storage });
+  assert.equal(s.hasData(), false);
+  assert.equal(s.owner(), null);
+  s.put('profile', { id: 'me', name: 'A' });
+  s.setOwner('user-a');
+  assert.equal(s.hasData(), true);
+  assert.equal(createStore(memoryBackend(), { storage }).owner(), 'user-a', 'kept across reloads');
+  await s.wipe();
+  assert.equal(s.hasData(), false);
+  assert.equal(s.owner(), null);
+});
+
+test('erasing the device removes only Lucid keys and caches, never other apps on the origin (S-04)', async () => {
+  const fakeStorage = (entries) => {
+    const m = new Map(Object.entries(entries));
+    return { get length() { return m.size; }, key: (i) => [...m.keys()][i] ?? null, getItem: (k) => m.get(k) ?? null, removeItem: (k) => m.delete(k), setItem: (k, v) => m.set(k, v), m };
+  };
+  const local = fakeStorage({ 'lucid-session': '{}', 'lucid-owner': 'u', 'lucid-sync-cursor:u': 't', 'lucid-auth-pending': '{}', 'hgos-session': 'crm', 'hgos-outbox': '[1]', theme: 'dark' });
+  const session = fakeStorage({ 'lucid-ui-lang': 'he', 'lucid-recovery-at': '1', 'other-app': 'x' });
+  const names = new Set(['lucid-2026-10-30.1', 'lucid-v1', 'hgos-v3', 'workbox-precache']);
+  const cacheStorage = { keys: async () => [...names], delete: async (n) => names.delete(n) };
+  await eraseDevice({ storages: [local, session], cacheStorage });
+  assert.deepEqual([...local.m.keys()].sort(), ['hgos-outbox', 'hgos-session', 'theme']);
+  assert.deepEqual([...session.m.keys()], ['other-app']);
+  assert.deepEqual([...names].sort(), ['hgos-v3', 'workbox-precache']);
+  assert.ok(LUCID_KEY.test('lucid-owner') && !LUCID_KEY.test('lucidity') && !LUCID_KEY.test('hgos-session'));
 });

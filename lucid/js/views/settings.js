@@ -4,14 +4,28 @@ import { html, render, on, download, $ } from '../core/util.js';
 import { tt, t } from '../core/i18n.js';
 import { icon, confirmDialog, toast } from '../ui/components.js';
 import { settings, saveSettings, profile, saveProfile } from '../core/learner.js';
-import { store } from '../core/store.js';
+import { store, eraseDevice } from '../core/store.js';
 import { auth, db, configured } from '../core/api.js';
+import { signOut } from '../core/session.js';
 import { CONFIG } from '../../config.js';
 
 const seg = (name, value, opts) => html`<div class="seg" role="group" data-seg="${name}">${opts.map(([v, he, en]) => html`<button type="button" data-v="${v}" aria-pressed="${String(value) === String(v)}">${tt(he, en)}</button>`)}</div>`;
 
 export default async function settingsView(el, ctx) {
   ctx.setTitle(t('nav.settings'));
+  let pwOpen = Boolean(ctx.query.reset);
+  let pwMsg = '';
+
+  // Changing the password asks for the current one, unless a reset link was just used on this device.
+  function passwordForm() {
+    const fresh = auth.recoveryFresh;
+    return html`<form class="panel stack" data-newpass novalidate><h2>${fresh ? tt('סיסמה חדשה', 'New password') : tt('שינוי סיסמה', 'Change password')}</h2>
+      <input type="email" autocomplete="username" value="${auth.user?.email || ''}" hidden>
+      ${fresh ? '' : html`<div class="field"><label for="cp">${tt('הסיסמה הנוכחית', 'Current password')}</label><input class="input" id="cp" type="password" autocomplete="current-password" dir="ltr" required></div>`}
+      <div class="field"><label for="np">${tt('סיסמה חדשה (לפחות 8 תווים)', 'New password (at least 8 characters)')}</label><input class="input" id="np" type="password" minlength="8" autocomplete="new-password" dir="ltr" required></div>
+      ${pwMsg ? html`<p class="error-text" role="alert">${pwMsg}</p>` : ''}
+      <div class="row"><button class="key enter" type="submit">${t('save')}</button>${fresh ? '' : html`<button type="button" class="key ghost" data-pw-cancel>${t('cancel')}</button>`}</div></form>`;
+  }
 
   function draw() {
     const s = settings();
@@ -20,7 +34,7 @@ export default async function settingsView(el, ctx) {
     render(el, html`
       <div class="page-head"><div><h1>${t('nav.settings')}</h1><p>${tt('כל שינוי נשמר מיד.', 'Every change is saved immediately.')}</p></div></div>
       <div class="stack-lg" style="max-width:46rem">
-        ${ctx.query.reset ? html`<form class="panel stack" data-newpass><h2>${tt('סיסמה חדשה', 'New password')}</h2><div class="field"><label for="np">${tt('סיסמה (לפחות 8 תווים)', 'Password (at least 8 characters)')}</label><input class="input" id="np" type="password" minlength="8" autocomplete="new-password" required></div><button class="key enter" type="submit">${t('save')}</button></form>` : ''}
+        ${signedIn && pwOpen ? passwordForm() : ''}
         <section class="panel stack"><h2>${tt('ממשק', 'Interface')}</h2>
           <div class="field"><span class="label">${tt('שפת הממשק', 'Interface language')}</span>${seg('ui_language', p.ui_language || 'he', [['he', 'עברית', 'Hebrew'], ['en', 'אנגלית', 'English']])}<span class="help">${tt('ההוראות והתפריטים. תוכן הלימוד תמיד באנגלית.', 'Instructions and menus. Learning content is always in English.')}</span></div>
           <div class="field"><span class="label">${tt('מראה', 'Appearance')}</span>${seg('theme', s.theme, [['system', 'לפי המכשיר', 'Match device'], ['light', 'בהיר', 'Light'], ['dark', 'כהה', 'Dark']])}</div>
@@ -43,7 +57,10 @@ export default async function settingsView(el, ctx) {
         </section>
         <section class="panel stack"><h2>${tt('חשבון וסנכרון', 'Account and sync')}</h2>
           ${!configured() ? html`<p class="small muted">${tt('Lucid פועל כאן במצב מכשיר בלבד: הכול נשמר בדפדפן הזה, ואין חשבון או סנכרון. כדי לא לאבד התקדמות, הורידו גיבוי מדי פעם.', 'Lucid runs in device-only mode here: everything is saved in this browser, with no account or sync. Download a backup now and then so you never lose progress.')}</p>`
-          : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p><div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button></div>`
+          : signedIn ? html`<p class="small">${tt('מחובר/ת כ-', 'Signed in as ')}<strong dir="ltr">${auth.user?.email || ''}</strong></p>
+            <div class="row"><button type="button" class="key small" data-sync>${icon('refresh', { size: 16 })} ${tt('לסנכרן עכשיו', 'Sync now')}</button>${pwOpen ? '' : html`<button type="button" class="key small ghost" data-pw>${tt('שינוי סיסמה', 'Change password')}</button>`}</div>
+            <div class="row"><button type="button" class="key small ghost" data-signout>${icon('log-out', { size: 16 })} ${tt('יציאה', 'Sign out')}</button><button type="button" class="key small ghost" data-signout-erase>${icon('log-out', { size: 16 })} ${tt('יציאה ומחיקת המידע מהמכשיר', 'Sign out and remove my data from this device')}</button></div>
+            <p class="xsmall faint">${tt('במחשב משותף, בחרו ביציאה עם מחיקה. מה שסונכרן נשאר בחשבון שלכם בשרת.', 'On a shared computer, sign out and remove your data. Whatever has synced stays in your account on the server.')}</p>`
           : html`<p class="small muted">${tt('אפשר לפתוח חשבון כדי לשמור את ההתקדמות בשרת ולהמשיך מכל מכשיר.', 'Create an account to save progress on the server and continue on any device.')}</p><div class="row"><a class="key small" href="#/account?mode=signup">${tt('יצירת חשבון', 'Create account')}</a><a class="key small ghost" href="#/account?mode=signin">${tt('כניסה', 'Sign in')}</a></div>`}
         </section>
         <section class="panel stack"><h2>${tt('המידע שלך', 'Your data')}</h2>
@@ -101,14 +118,49 @@ export default async function settingsView(el, ctx) {
       });
       if (!ok) return;
       try { if (signedIn) await db.deleteAccount(); } catch (e) { toast(tt('מחיקת החשבון בשרת נכשלה. נסו שוב.', 'Deleting the server account failed. Please try again.')); return; }
-      await store.wipe();
-      try { localStorage.clear(); sessionStorage.clear(); } catch { /* ignore */ }
+      // Only Lucid's data: the browser origin is shared with other apps (security review S-04).
+      await eraseDevice();
       location.hash = '#/welcome';
       location.reload();
     }),
-    on(el, 'click', '[data-signout]', async () => { await auth.signOut(); toast(tt('יצאת מהחשבון. המידע נשאר במכשיר.', 'Signed out. Your data stays on this device.')); draw(); }),
-    on(el, 'click', '[data-sync]', async () => { const { sync } = await import('../app.js'); try { await sync?.run(); toast(t('synced')); } catch { toast(t('offline')); } }),
-    on(el, 'submit', '[data-newpass]', async (e) => { e.preventDefault(); try { await auth.updatePassword($('#np', el).value); toast(tt('הסיסמה עודכנה', 'Password updated')); ctx.navigate('settings'); } catch (err) { toast(err.message); } }),
+    on(el, 'click', '[data-signout]', async () => { await signOut(); toast(tt('יצאת מהחשבון. המידע נשאר במכשיר.', 'Signed out. Your data stays on this device.')); draw(); }),
+    on(el, 'click', '[data-signout-erase]', async () => {
+      const { sync } = await import('../app.js');
+      try { await sync?.run(); } catch { /* offline: counted below */ }
+      const pending = store.dirty().length;
+      const ok = await confirmDialog({
+        title: tt('לצאת ולמחוק את המידע מהמכשיר?', 'Sign out and remove your data from this device?'),
+        body: pending ? tt(`${pending} שינויים עוד לא הגיעו לשרת, והם יימחקו. כל השאר שמור בחשבון שלכם.`, `${pending} changes have not reached the server yet and will be lost. Everything else is saved in your account.`)
+          : tt('ההתקדמות שמורה בחשבון שלכם ותחזור כשתיכנסו שוב.', 'Your progress is saved in your account and comes back when you sign in again.'),
+        confirm: tt('יציאה ומחיקה', 'Sign out and remove'), danger: pending > 0,
+      });
+      if (!ok) return;
+      await signOut({ erase: true });
+      location.hash = '#/welcome';
+      location.reload();
+    }),
+    on(el, 'click', '[data-sync]', async () => {
+      const { sync } = await import('../app.js');
+      try { const r = await sync?.run(); toast(r?.skipped ? tt('הסנכרון מושהה עד שהפרופיל יישמר בשרת. ננסה שוב אוטומטית.', 'Sync is paused until your profile is saved on the server. Lucid will try again automatically.') : t('synced')); } catch { toast(t('offline')); }
+    }),
+    on(el, 'click', '[data-pw]', () => { pwOpen = true; pwMsg = ''; draw(); $('#cp', el)?.focus(); }),
+    on(el, 'click', '[data-pw-cancel]', () => { pwOpen = false; pwMsg = ''; if (ctx.query.reset) ctx.navigate('settings'); else draw(); }),
+    on(el, 'submit', '[data-newpass]', async (e) => {
+      e.preventDefault();
+      const current = $('#cp', el)?.value || '', next = $('#np', el).value;
+      if (next.length < 8) { pwMsg = tt('הסיסמה החדשה צריכה לפחות 8 תווים.', 'The new password needs at least 8 characters.'); draw(); return; }
+      if (!auth.recoveryFresh && !current) { pwMsg = tt('כתבו את הסיסמה הנוכחית.', 'Enter your current password.'); draw(); return; }
+      try {
+        await auth.updatePassword(next, { current });
+        pwOpen = false; pwMsg = '';
+        toast(tt('הסיסמה עודכנה', 'Password updated'));
+        if (ctx.query.reset) ctx.navigate('settings'); else draw();
+      } catch (err) {
+        pwMsg = err.code === 'wrong_password' ? tt('הסיסמה הנוכחית לא נכונה.', 'The current password is not correct.')
+          : err.network ? tt('אין חיבור לשרת. נסו שוב.', 'No connection to the server. Please try again.') : err.message;
+        draw();
+      }
+    }),
   ];
   return () => offs.forEach((o) => o());
 }

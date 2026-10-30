@@ -1,6 +1,7 @@
 // Hash router with lazy-loaded views.
 // A view module's default export is `async (el, ctx) => cleanup?`, where
-// ctx = { params, query, path, watch(colls, fn), navigate(href), setTitle(text) }.
+// ctx = { params, query, path, from, watch(colls, fn), navigate(href), setTitle(text) }, where `from` is the
+// hash of the screen the learner came from (the account screen uses it to return there after signing in).
 import { store } from './store.js';
 import { hasProfile } from './learner.js';
 
@@ -41,11 +42,19 @@ const compiled = ROUTES.map(([pattern, load, extra = {}]) => {
   return { pattern, re, keys, load, extra };
 });
 
-export function parse() {
-  const h = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
+// A malformed escape (for example "#/%E0%A4%A") must not stop the app from starting: it is treated
+// as an empty route and replaced.
+export function parse(hash = location.hash) {
+  let h = hash.replace(/^#\/?/, '');
+  try { h = decodeURIComponent(h); } catch { return { path: '', query: {}, malformed: true }; }
   const [path, qs = ''] = h.split('?');
   return { path: path.replace(/\/$/, ''), query: Object.fromEntries(new URLSearchParams(qs)) };
 }
+
+export const hrefOf = ({ path, query = {} }) => {
+  const qs = new URLSearchParams(query).toString();
+  return `#/${path}${qs ? `?${qs}` : ''}`;
+};
 
 export function navigate(href, { replace = false } = {}) {
   const target = href.startsWith('#') ? href : `#/${href.replace(/^\//, '')}`;
@@ -58,7 +67,8 @@ export const router = {
   current: null,
   onRoute: null, // set by app: (route) => void
   async go() {
-    let { path, query } = parse();
+    let { path, query, malformed } = parse();
+    if (malformed) { navigate(hasProfile() ? 'today' : 'welcome', { replace: true }); return; }
     if (!path) path = hasProfile() ? 'today' : 'welcome';
     let match = compiled.find((r) => r.re.test(path));
     if (!match) { navigate(hasProfile() ? 'today' : 'welcome', { replace: true }); return; }
@@ -69,7 +79,9 @@ export const router = {
     this.current?.unwatch?.forEach((u) => u());
     const params = {};
     match.re.exec(path).slice(1).forEach((v, i) => { params[match.keys[i]] = v; });
-    const state = { path, pattern: match.pattern, params, query, extra: match.extra, unwatch: [], cleanup: null };
+    const prev = this.current;
+    const from = prev ? (prev.path === path ? prev.from : hrefOf(prev)) : null; // a query-only change keeps the origin
+    const state = { path, pattern: match.pattern, params, query, from, extra: match.extra, unwatch: [], cleanup: null };
     this.current = state;
     this.onRoute?.(state);
     let mod;
@@ -80,7 +92,7 @@ export const router = {
     }
     if (this.current !== state) return;
     const ctx = {
-      params, query, path,
+      params, query, path, from,
       navigate,
       watch: (colls, fn) => {
         const set = new Set(colls);

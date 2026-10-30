@@ -1,7 +1,8 @@
 // Local-first learner data. Everything the learner does is saved on the device first
 // (IndexedDB, or memory when storage is unavailable) and, when an account is connected,
 // synced to the server by sync.js. Records live in collections and carry `updated_at`
-// plus a `_dirty` flag until the server has them.
+// plus a `_dirty` flag until the server has them. The device also remembers which account
+// the data belongs to (the owner), so one learner's data never flows into another's account.
 
 export const COLLECTIONS = ['profile', 'settings', 'progress', 'attempts', 'cards', 'writing', 'chats', 'placement', 'events'];
 // Collections that are synced (profile is synced through its own table).
@@ -43,12 +44,28 @@ export function indexedDbBackend(name = 'lucid') {
     async put(rows) { return tx('readwrite', (s) => { for (const r of rows) s.put(r); }); },
     async del(keys) { return tx('readwrite', (s) => { for (const k of keys) s.delete(k); }); },
     async clear() { return tx('readwrite', (s) => s.clear()); },
+    // Close the connection and delete the whole database (used when erasing the device).
+    async destroy() {
+      try { (await open()).close(); } catch { /* never opened */ }
+      dbp = null;
+      await new Promise((resolve) => {
+        const req = indexedDB.deleteDatabase(name);
+        req.onsuccess = req.onerror = req.onblocked = () => resolve();
+      });
+    },
   };
 }
 
+// Lucid's own keys in localStorage and sessionStorage all start with "lucid-" (or "lucid:").
+// The origin is shared with other apps, so erasing never clears storage wholesale.
+export const LUCID_KEY = /^lucid[-:]/;
+const OWNER_KEY = 'lucid-owner';
+const browserStorage = () => { try { return globalThis.localStorage || null; } catch { return null; } };
+
 // ---------- store ----------
-export function createStore(backend = memoryBackend(), { now = () => new Date() } = {}) {
+export function createStore(backend = memoryBackend(), { now = () => new Date(), storage = browserStorage() } = {}) {
   const data = new Map(COLLECTIONS.map((c) => [c, new Map()]));
+  let ownerMem = null; // used when localStorage is unavailable
   const listeners = new Set();
   let pending = [];
   let flushTimer = null;
@@ -71,17 +88,22 @@ export function createStore(backend = memoryBackend(), { now = () => new Date() 
       for (const r of rows) if (data.has(r.coll)) data.get(r.coll).set(r.id, r.data);
       return rows.length;
     },
-    get(c, id) { return coll(c).get(id) ?? null; },
+    // Deleted records (tombstones) are hidden unless asked for; sync needs them.
+    get(c, id, { includeDeleted = false } = {}) {
+      const r = coll(c).get(id) ?? null;
+      return r && r._deleted && !includeDeleted ? null : r;
+    },
     all(c, { includeDeleted = false } = {}) {
       const out = [...coll(c).values()];
       return includeDeleted ? out : out.filter((r) => !r._deleted);
     },
-    // Upsert a record; returns the stored record.
-    put(c, record, { origin = 'local' } = {}) {
+    // Upsert a record; returns the stored record. A local write means the record exists, so it
+    // also clears an earlier deletion; only remove() writes tombstones locally.
+    put(c, record, { origin = 'local', tombstone = false } = {}) {
       if (!record || record.id == null) throw new Error('record.id required');
       const id = String(record.id);
       const rec = { ...record, id, updated_at: record.updated_at && origin === 'remote' ? record.updated_at : now().toISOString() };
-      if (origin === 'local') rec._dirty = true;
+      if (origin === 'local') { rec._dirty = true; if (!tombstone) delete rec._deleted; }
       else delete rec._dirty;
       coll(c).set(id, rec);
       pending.push({ coll: c, id, data: rec });
@@ -93,11 +115,24 @@ export function createStore(backend = memoryBackend(), { now = () => new Date() 
       const cur = this.get(c, id);
       return this.put(c, { ...(cur || {}), ...(typeof patch === 'function' ? patch(cur) : patch), id });
     },
-    // Soft delete so the deletion can sync; purge() removes it locally afterwards.
+    // Soft delete so the deletion can sync. The tombstone keeps only the id: the content is gone
+    // from the device at once, and sync sends the server an empty document.
     remove(c, id) {
-      const cur = this.get(c, id);
-      if (!cur) return;
-      this.put(c, { ...cur, _deleted: true });
+      if (!this.get(c, id)) return;
+      this.put(c, { id, _deleted: true }, { tombstone: true });
+    },
+    // Any learner data on this device (including tombstones still waiting to sync)?
+    hasData() {
+      for (const c of COLLECTIONS) if (coll(c).size) return true;
+      return false;
+    },
+    // The account id the local data belongs to, or null when it was made without an account.
+    owner() {
+      try { return storage ? storage.getItem(OWNER_KEY) || null : ownerMem; } catch { return ownerMem; }
+    },
+    setOwner(id) {
+      ownerMem = id || null;
+      try { if (!storage) return; if (id) storage.setItem(OWNER_KEY, id); else storage.removeItem(OWNER_KEY); } catch { /* private mode */ }
     },
     dirty() {
       const out = [];
@@ -143,10 +178,35 @@ export function createStore(backend = memoryBackend(), { now = () => new Date() 
       for (const c of COLLECTIONS) coll(c).clear();
       pending = [];
       await backend.clear();
+      this.setOwner(null);
       emit(COLLECTIONS, 'wipe');
+    },
+    // Wipe, then delete the database itself. Later writes in this page stay in memory only.
+    async destroy() {
+      await this.wipe();
+      await backend.destroy?.();
+      backend = memoryBackend();
     },
   };
   return store;
+}
+
+// "Delete all data from this device": the store and its database, Lucid's keys in localStorage and
+// sessionStorage, and Lucid's service-worker caches. Nothing else on the shared origin is touched.
+export async function eraseDevice({ storages = [browserStorage(), (() => { try { return globalThis.sessionStorage; } catch { return null; } })()], cacheStorage = globalThis.caches } = {}) {
+  if (store) await store.destroy();
+  for (const s of storages) {
+    if (!s) continue;
+    try {
+      const keys = [];
+      for (let i = 0; i < s.length; i++) { const k = s.key(i); if (k && LUCID_KEY.test(k)) keys.push(k); }
+      keys.forEach((k) => s.removeItem(k));
+    } catch { /* storage unavailable */ }
+  }
+  try {
+    const names = cacheStorage ? await cacheStorage.keys() : [];
+    await Promise.all(names.filter((n) => n.startsWith('lucid-')).map((n) => cacheStorage.delete(n)));
+  } catch { /* caches unavailable */ }
 }
 
 // The app's singleton, created by app.js once it knows which backend works.
