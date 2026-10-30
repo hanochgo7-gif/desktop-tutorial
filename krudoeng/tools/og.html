@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><title>og</title>
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  html,body{margin:0;background:#03202d}
+  .og{position:relative;width:1200px;height:630px;overflow:hidden;background:#03202d;color:#e9eff2;font-family:Plex,sans-serif}
+  .og h1{position:absolute;right:56px;top:150px;font:400 112px/.9 Plex;letter-spacing:-.03em;margin:0}
+  .og p{position:absolute;right:58px;top:388px;width:430px;font:400 26px/1.4 Plex;margin:0;color:#c6d4dc}
+  .og .logo{position:absolute;right:56px;top:52px;width:250px}
+  #stage{position:absolute;left:-40px;top:0;width:760px;height:630px}
+</style></head>
+<body><div class="og"><img class="logo" src="../assets/img/brand/wordmark-light.svg" alt=""><h1>בדק בית<br>הנדסי</h1><p>רביד קרודו, הנדסאי בניין רשום. בדיקות וחוות דעת בצפון.</p><div id="stage"></div></div>
+<script src="../assets/js/apartment.js"></script>
+<script>
+  var host = document.getElementById('stage');
+  document.documentElement.style.setProperty('--k-thermal', 'url("' + KrudoApartment.thermal() + '")');
+  var api = KrudoApartment.build(host, { cam: 'overview', show: 'moisture,drain,cracks,tiles' });
+  setTimeout(function () { api.follow(10); document.body.dataset.ready = '1'; }, 1600);
+</script></body></html>
