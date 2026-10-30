@@ -1,0 +1,13 @@
+{
+  "name": "Lucid English",
+  "short_name": "Lucid",
+  "description": "English for Hebrew speakers, from the alphabet to academic argument.",
+  "start_url": "./#/today",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f7",
+  "theme_color": "#2a2f38",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [{ "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

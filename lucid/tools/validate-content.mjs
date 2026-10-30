@@ -203,6 +203,9 @@ function lesson(file) {
     if (mcqs.length >= 4 && new Set(mcqs.map((e) => e.answer)).size === 1) warn(f, 'exercises', 'every mcq has the same answer index');
     if (d.exercises.length > 18) warn(f, 'exercises', 'more than 18 exercises; lesson may be too long');
     if (plan.final && !d.exercises.some((e) => e.type === 'write')) err(f, 'exercises', 'final lesson needs a write exercise for the level assessment');
+    // Lesson template (research C2, D13-D15): meaningful input and free production are both required.
+    if (!d.exercises.some((e) => ['read', 'listen', 'dictation'].includes(e.type))) err(f, 'exercises', 'needs at least one input exercise (read, listen or dictation)');
+    if (!d.exercises.some((e) => ['write', 'speak'].includes(e.type))) err(f, 'exercises', 'needs at least one free-production exercise (write or speak)');
   }
   if (!d.review || !Array.isArray(d.review.key_points) || d.review.key_points.length < 2) err(f, 'review.key_points', 'needs at least 2');
   else d.review.key_points.forEach((k, i) => bilingual(f, `review.key_points[${i}]`, k, { he }));

@@ -1,0 +1,3456 @@
+{
+  "scenarios": [
+    {
+      "id": "rl-airport-checkin-overweight",
+      "module": "airport",
+      "title_en": "Check-in: an overweight bag",
+      "title_he": "צ'ק-אין: מזוודה במשקל עודף",
+      "level": "A2",
+      "situation": {
+        "en": "You're at the airport in London, checking in for your flight home to Tel Aviv. Your suitcase goes on the scale, and it's 4 kilos over the limit on your ticket. (Prices in this scenario are made-up examples.)",
+        "he": "אתם בשדה התעופה בלונדון, בצ'ק-אין לטיסה הביתה לתל אביב. המזוודה עולה על המשקל, ומתברר שהיא חורגת ב-4 קילו מהמשקל המותר בכרטיס שלכם. (המחירים בתרחיש הם דוגמה בלבד.)"
+      },
+      "goal": {
+        "en": "Find out your options (pay a fee or repack), choose one politely and finish checking in.",
+        "he": "לברר מה האפשרויות (לשלם תוספת או להעביר חפצים), לבחור אחת מהן בנימוס ולסיים את הצ'ק-אין."
+      },
+      "partner_role": "check-in agent",
+      "phrases": [
+        {
+          "en": "Hi, I'd like to check in for my flight to Tel Aviv, please.",
+          "he": "שלום, אשמח לעשות צ'ק-אין לטיסה לתל אביב.",
+          "register": "polite"
+        },
+        {
+          "en": "How much over the limit is it?",
+          "he": "בכמה היא חורגת מהמשקל המותר?",
+          "register": "neutral"
+        },
+        {
+          "en": "What's the excess baggage fee?",
+          "he": "כמה עולה התשלום על משקל עודף?",
+          "register": "neutral",
+          "note": "'Excess baggage' is the term airlines use for extra weight or extra bags."
+        },
+        {
+          "en": "Is there any flexibility on the weight?",
+          "he": "יש אפשרות לקצת גמישות במשקל?",
+          "register": "polite",
+          "note": "A polite way to ask them to let it go. Don't expect a yes."
+        },
+        {
+          "en": "Can I move a few things into my carry-on?",
+          "he": "אפשר להעביר כמה דברים למטען היד?",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Can I move a few things into my hand luggage?",
+          "he": "אפשר להעביר כמה דברים למטען היד?",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "Is it OK if I repack over there?",
+          "he": "זה בסדר אם אסדר את המזוודה מחדש שם בצד?",
+          "register": "polite"
+        },
+        {
+          "en": "I'll just pay the fee, that's fine.",
+          "he": "אני פשוט אשלם את התוספת, זה בסדר.",
+          "register": "neutral"
+        },
+        {
+          "en": "No problem, just give me a sec.",
+          "he": "אין בעיה, רק שנייה.",
+          "register": "casual",
+          "note": "'A sec' = a second. Fine with friendly staff."
+        },
+        {
+          "en": "Could I have an aisle seat, please?",
+          "he": "אפשר לקבל מושב ליד המעבר, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Which gate is it, and what time does boarding start?",
+          "he": "מאיזה שער יוצאים, ומתי מתחילה העלייה למטוס?",
+          "register": "neutral"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hello. Where are you flying to today?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hi, Tel Aviv. Here's my passport."
+        },
+        {
+          "speaker": "partner",
+          "text": "Thank you. Could you put your suitcase on the scale, please?"
+        },
+        {
+          "speaker": "you",
+          "text": "Sure, here you go."
+        },
+        {
+          "speaker": "partner",
+          "text": "Right, it's 27 kilos. Your ticket allows 23, so you're 4 kilos over, I'm afraid."
+        },
+        {
+          "speaker": "you",
+          "text": "Oh no. How much is the fee for the extra weight?"
+        },
+        {
+          "speaker": "partner",
+          "text": "It's £65. Or you can move some things into your hand luggage, if you've got room."
+        },
+        {
+          "speaker": "you",
+          "text": "I think I'll repack. Is it OK if I do it over there?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course. Just come straight back to me when you're done. No need to queue again."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, thanks. I'll be quick."
+        },
+        {
+          "speaker": "partner",
+          "text": "Perfect, 23 kilos exactly. Here's your boarding pass: gate 14, boarding at 10:40."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks so much. Have a good day."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hello. Where are you flying to today?",
+          "options": [
+            {
+              "text": "To Tel Aviv. Quick, I'm late.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds rude. If you're short on time, say 'Sorry, I'm in a bit of a hurry.'",
+                "he": "נשמע גס. אם אתם לחוצים בזמן, אפשר לומר: Sorry, I'm in a bit of a hurry."
+              }
+            },
+            {
+              "text": "Hi, Tel Aviv. Here's my passport.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and efficient: you answer and hand over your passport in one go.",
+                "he": "טבעי ויעיל: עונים על השאלה ומגישים את הדרכון באותו משפט."
+              }
+            },
+            {
+              "text": "I am flying to Tel Aviv today.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but a bit stiff. People usually just say the place.",
+                "he": "נכון דקדוקית, אבל קצת נוקשה. בדרך כלל פשוט אומרים את היעד."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi, Tel Aviv. Here's my passport.",
+            "Hello, I'm going to Tel Aviv. Here you go."
+          ],
+          "keywords": [
+            "Tel Aviv",
+            "passport",
+            "here"
+          ]
+        },
+        {
+          "partner": "Right, it's 27 kilos. Your ticket allows 23, so you're 4 kilos over, I'm afraid.",
+          "options": [
+            {
+              "text": "Oh, I see. How much would the extra weight cost?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Calm and polite. 'Would' makes the question softer.",
+                "he": "רגוע ומנומס. would מרכך את השאלה."
+              }
+            },
+            {
+              "text": "What is the price for this?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but vague and a bit flat. Say what you mean: 'the extra weight' or 'the fee'.",
+                "he": "מובן, אבל כללי ויבש. עדיף לפרט: the extra weight או the fee."
+              }
+            },
+            {
+              "text": "That's not my problem. Your scale is wrong.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Arguing with the agent won't help and sounds aggressive. Ask about your options instead.",
+                "he": "ויכוח עם הנציג לא יעזור ונשמע תוקפני. עדיף לשאול מה האפשרויות."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh, I see. How much would the extra weight cost?",
+            "Oh no. What are my options?",
+            "Sorry, I didn't know. How much is the fee?"
+          ],
+          "keywords": [
+            "how much",
+            "fee",
+            "cost",
+            "extra",
+            "options"
+          ]
+        },
+        {
+          "partner": "It's £65. Or you can move some things into your hand luggage, if you've got room.",
+          "options": [
+            {
+              "text": "I want to put things in my bag.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but 'I want' sounds abrupt in English. 'I'll' or 'I'd like to' is softer.",
+                "he": "מובן, אבל I want נשמע ישיר מדי באנגלית. I'll או I'd like to רכים יותר."
+              }
+            },
+            {
+              "text": "No, I don't pay. You do it free.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Rude and ungrammatical. If you want to ask for a little flexibility, do it nicely: 'Is there any flexibility?'",
+                "he": "גס ולא תקין דקדוקית. אם רוצים לבקש הקלה, עושים את זה בנימוס: Is there any flexibility?"
+              }
+            },
+            {
+              "text": "I'll move a few things, then. Is it OK if I repack over there?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A clear decision, then a polite check before you step aside.",
+                "he": "החלטה ברורה, ואחריה בקשת רשות מנומסת לפני שזזים הצידה."
+              }
+            }
+          ],
+          "model_replies": [
+            "I'll move a few things, then. Is it OK if I repack over there?",
+            "I think I'll repack. Can I do it over there?"
+          ],
+          "keywords": [
+            "move",
+            "repack",
+            "things",
+            "over there"
+          ]
+        },
+        {
+          "partner": "Perfect, 23 kilos. Would you like a window or an aisle seat?",
+          "options": [
+            {
+              "text": "I want the seat near the way.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'The way' doesn't work here. The seat next to the walkway is called an 'aisle seat'.",
+                "he": "the way לא מתאים כאן. המושב ליד המעבר נקרא aisle seat."
+              }
+            },
+            {
+              "text": "An aisle seat, please, if there's one left.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite and natural. 'If there's one left' shows you know it might not be available.",
+                "he": "מנומס וטבעי. if there's one left מראה שאתם מבינים שאולי אין כבר מקום פנוי."
+              }
+            },
+            {
+              "text": "Aisle.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine in a quick exchange, but adding 'please' makes it much friendlier.",
+                "he": "בסדר בשיחה מהירה, אבל עם please זה נשמע הרבה יותר נעים."
+              }
+            }
+          ],
+          "model_replies": [
+            "An aisle seat, please.",
+            "Window, please, if there's one left.",
+            "I'd prefer an aisle seat, please."
+          ],
+          "keywords": [
+            "aisle",
+            "window",
+            "please"
+          ]
+        },
+        {
+          "partner": "Here's your boarding pass. Gate 14, and boarding starts at 10:40.",
+          "options": [
+            {
+              "text": "Great, thanks. Is the gate far from security?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A natural thank-you plus a useful follow-up question.",
+                "he": "תודה טבעית ושאלת המשך שימושית."
+              }
+            },
+            {
+              "text": "Thank you very much for all your kind help, I appreciate it a lot.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Polite, but more than a quick check-in needs. 'Thanks so much' is enough.",
+                "he": "מנומס, אבל יותר ממה שצ'ק-אין קצר דורש. Thanks so much מספיק."
+              }
+            },
+            {
+              "text": "OK. Bye.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Correct, but it sounds cold after the agent has helped you. Add a 'thanks'.",
+                "he": "תקין, אבל נשמע קר אחרי שעזרו לכם. כדאי להוסיף thanks."
+              }
+            }
+          ],
+          "model_replies": [
+            "Great, thanks. Is the gate far from security?",
+            "Thanks so much. Have a good day."
+          ],
+          "keywords": [
+            "thanks",
+            "gate",
+            "day"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Margaret, a check-in agent at a London airport. Experienced and friendly, but firm about the rules; she has heard every excuse about heavy bags.",
+        "complication": "The bag is 4 kilos over. After the learner repacks, it's still half a kilo over. Margaret only lets it go if the learner asks politely, and she warns that hand luggage has its own weight limit.",
+        "opening_line": "Hello! Where are you off to today? Could you pop your case on the scale for me?"
+      },
+      "culture": [
+        {
+          "en": "Baggage allowances and fees depend on the airline and the ticket type. Check them in your booking before you fly.",
+          "he": "המשקל המותר והתעריפים משתנים לפי חברת התעופה וסוג הכרטיס. כדאי לבדוק אותם בהזמנה לפני הטיסה."
+        },
+        {
+          "en": "Check-in agents rarely bend the rules, but a friendly tone sometimes gets you a little flexibility. Arguing almost never does.",
+          "he": "נציגי צ'ק-אין לא נוטים לוותר על הכללים, אבל טון נעים מביא לפעמים קצת גמישות. ויכוח כמעט אף פעם לא עוזר."
+        }
+      ],
+      "variants": [
+        {
+          "us": "carry-on (bag)",
+          "uk": "hand luggage",
+          "note": "The bag you take on the plane with you."
+        },
+        {
+          "us": "line",
+          "uk": "queue",
+          "note": "'Get in line' (US) / 'join the queue' (UK)."
+        },
+        {
+          "us": "check-in counter",
+          "uk": "check-in desk"
+        }
+      ]
+    },
+    {
+      "id": "rl-airport-arrival-immigration",
+      "module": "airport",
+      "title_en": "Passport control and customs on arrival",
+      "title_he": "ביקורת דרכונים ומכס בנחיתה",
+      "level": "A2",
+      "situation": {
+        "en": "You've just landed in New York for a two-week trip. At passport control, an officer checks your passport and asks you a few questions. Then, at customs, another officer asks what you're bringing in.",
+        "he": "נחתתם עכשיו בניו יורק לטיול של שבועיים. בביקורת הדרכונים בודקים את הדרכון ושואלים אתכם כמה שאלות, ואחר כך במכס שואלים מה אתם מכניסים למדינה."
+      },
+      "goal": {
+        "en": "Answer the officers' questions clearly, briefly and truthfully.",
+        "he": "לענות על השאלות בצורה ברורה, קצרה וכנה."
+      },
+      "partner_role": "immigration officer",
+      "phrases": [
+        {
+          "en": "I'm here on vacation for two weeks.",
+          "he": "אני כאן בחופשה של שבועיים.",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "I'm here on holiday for two weeks.",
+          "he": "אני כאן בחופשה של שבועיים.",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "I'm visiting my cousins in Brooklyn.",
+          "he": "באתי לבקר את בני הדודים שלי בברוקלין.",
+          "register": "neutral"
+        },
+        {
+          "en": "I'm staying at the Park Hotel in Manhattan.",
+          "he": "אני במלון פארק במנהטן.",
+          "register": "neutral",
+          "note": "Stay AT a hotel, stay WITH a person."
+        },
+        {
+          "en": "Here's my hotel booking, if you need it.",
+          "he": "הנה אישור ההזמנה מהמלון, אם צריך.",
+          "register": "polite"
+        },
+        {
+          "en": "It's my first time in the US.",
+          "he": "זו הפעם הראשונה שלי בארצות הברית.",
+          "register": "neutral"
+        },
+        {
+          "en": "My return flight is on the 20th.",
+          "he": "הטיסה חזרה שלי ב-20 לחודש.",
+          "register": "neutral"
+        },
+        {
+          "en": "Sorry, could you repeat that, please?",
+          "he": "סליחה, אפשר לחזור על זה?",
+          "register": "polite"
+        },
+        {
+          "en": "No, nothing to declare.",
+          "he": "לא, אין לי מה להצהיר.",
+          "register": "neutral"
+        },
+        {
+          "en": "I have some snacks from home. Do I need to declare them?",
+          "he": "יש לי כמה חטיפים מהבית. צריך להצהיר עליהם?",
+          "register": "neutral"
+        },
+        {
+          "en": "Just clothes and a few presents.",
+          "he": "רק בגדים וכמה מתנות.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Next, please. Passport, please. What's the purpose of your visit?"
+        },
+        {
+          "speaker": "you",
+          "text": "Tourism. I'm here on vacation."
+        },
+        {
+          "speaker": "partner",
+          "text": "How long are you staying?"
+        },
+        {
+          "speaker": "you",
+          "text": "Two weeks. I fly back on the 20th."
+        },
+        {
+          "speaker": "partner",
+          "text": "And where are you staying?"
+        },
+        {
+          "speaker": "you",
+          "text": "At the Park Hotel in Manhattan. I have the booking here if you need it."
+        },
+        {
+          "speaker": "partner",
+          "text": "That's fine. Look at the camera, please... Thank you. Enjoy your stay."
+        },
+        {
+          "speaker": "you",
+          "text": "Thank you!"
+        },
+        {
+          "speaker": "partner",
+          "text": "Hi there. Anything to declare? Any food, fruit or plants?"
+        },
+        {
+          "speaker": "you",
+          "text": "Just some chocolate and snacks from home. Do I need to declare them?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me take a look... That's fine. Go ahead."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. Have a nice day."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "What's the purpose of your visit?",
+          "options": [
+            {
+              "text": "The purpose of my visit is tourism.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but repeating the whole question sounds stiff. A short answer is more natural.",
+                "he": "נכון, אבל חזרה על כל השאלה נשמעת נוקשה. תשובה קצרה טבעית יותר."
+              }
+            },
+            {
+              "text": "Why do you ask? That's my business.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Never challenge a border officer. These are routine questions, so just answer them.",
+                "he": "אף פעם לא מתווכחים עם פקיד הגבול. אלה שאלות שגרתיות, ופשוט עונים עליהן."
+              }
+            },
+            {
+              "text": "Tourism. I'm here on vacation for two weeks.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Short, clear and complete: the reason plus how long you're staying.",
+                "he": "קצר, ברור ומלא: הסיבה וגם משך השהייה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Tourism. I'm here on vacation.",
+            "I'm visiting family for two weeks.",
+            "Tourism. I'm here for two weeks."
+          ],
+          "keywords": [
+            "tourism",
+            "vacation",
+            "holiday",
+            "visiting"
+          ]
+        },
+        {
+          "partner": "How long are you staying?",
+          "options": [
+            {
+              "text": "I stay two week.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Wrong tense and a missing plural. Say 'I'm staying for two weeks.'",
+                "he": "זמן הפועל שגוי וחסרה צורת הרבים. אומרים: I'm staying for two weeks."
+              }
+            },
+            {
+              "text": "Two weeks. I fly back on the 20th.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Precise, and the return date shows you have a ticket home.",
+                "he": "תשובה מדויקת, ותאריך החזרה מראה שיש לכם כרטיס הביתה."
+              }
+            },
+            {
+              "text": "Maybe two weeks, maybe a bit more. I'm not sure.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Honest, but vague answers can lead to more questions. If you have a return date, give it.",
+                "he": "כנה, אבל תשובה מעורפלת עלולה להוביל לעוד שאלות. אם יש לכם תאריך חזרה, ציינו אותו."
+              }
+            }
+          ],
+          "model_replies": [
+            "Two weeks. I fly back on the 20th.",
+            "I'm staying for two weeks."
+          ],
+          "keywords": [
+            "two weeks",
+            "staying",
+            "back"
+          ]
+        },
+        {
+          "partner": "Where are you staying?",
+          "options": [
+            {
+              "text": "At the Park Hotel in Manhattan. I have the booking here if you need it.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Specific and helpful. Offering the booking shows you're prepared.",
+                "he": "ספציפי ומועיל. ההצעה להראות את ההזמנה מראה שאתם מוכנים."
+              }
+            },
+            {
+              "text": "In a hotel.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "True, but too vague. Officers usually want the name or the address.",
+                "he": "נכון, אבל כללי מדי. בדרך כלל רוצים לשמוע את שם המלון או את הכתובת."
+              }
+            },
+            {
+              "text": "I don't know yet. I'll find something.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This can cause trouble at the border. Always have an address ready, at least for the first night.",
+                "he": "תשובה כזאת עלולה לעורר בעיה בגבול. תמיד כדאי שתהיה כתובת מוכנה, לפחות ללילה הראשון."
+              }
+            }
+          ],
+          "model_replies": [
+            "At the Park Hotel in Manhattan.",
+            "With my cousins in Brooklyn. I have their address here."
+          ],
+          "keywords": [
+            "hotel",
+            "address",
+            "staying"
+          ]
+        },
+        {
+          "partner": "Is this your first visit to the United States?",
+          "options": [
+            {
+              "text": "Yes, it is my first visit to the United States.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but repeating the question sounds stiff. 'It's my first time' is lighter.",
+                "he": "נכון, אבל החזרה על השאלה נשמעת נוקשה. It's my first time קליל יותר."
+              }
+            },
+            {
+              "text": "Yes, I never was here before.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Wrong tense and word order. Say 'I've never been here before.'",
+                "he": "זמן הפועל וסדר המילים שגויים. אומרים: I've never been here before."
+              }
+            },
+            {
+              "text": "Yes, it's my first time here.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Short and natural. 'It's my first time' is the usual way to say it.",
+                "he": "קצר וטבעי. It's my first time היא הדרך הרגילה לומר את זה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, it's my first time.",
+            "No, I was here three years ago."
+          ],
+          "keywords": [
+            "first time",
+            "yes",
+            "before"
+          ]
+        },
+        {
+          "partner": "Do you have anything to declare? Any food, fruit or plants?",
+          "options": [
+            {
+              "text": "Nothing special. Why, do I look suspicious?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Jokes and defensive questions are a bad idea at customs. Answer the question directly.",
+                "he": "בדיחות ושאלות מתגוננות הן רעיון רע במכס. עונים ישירות על השאלה."
+              }
+            },
+            {
+              "text": "Just some chocolate and snacks from home. Do I need to declare them?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Honest and sensible: when you're not sure, mention it and ask.",
+                "he": "כנה והגיוני: כשלא בטוחים, מציינים ושואלים."
+              }
+            },
+            {
+              "text": "No.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine if it's true. But if you do have food, say so: hiding it can get you into trouble.",
+                "he": "בסדר אם זה נכון. אבל אם יש לכם אוכל, צריך לומר את זה. הסתרה עלולה לסבך אתכם."
+              }
+            }
+          ],
+          "model_replies": [
+            "Just some chocolate and snacks. Do I need to declare them?",
+            "No, nothing to declare.",
+            "I have some snacks from home. Is that OK?"
+          ],
+          "keywords": [
+            "declare",
+            "snacks",
+            "food",
+            "nothing"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Officer Ruiz, an immigration officer at a New York airport. Professional and brief, rarely smiles but isn't unfriendly; asks short questions and expects short, clear answers.",
+        "complication": "The learner's hotel booking starts the day after they land. Officer Ruiz notices and asks where they're sleeping tonight; the learner has to explain clearly (for example, a night with a friend) and give an address.",
+        "opening_line": "Next, please. Passport, please. What brings you to the United States?"
+      },
+      "culture": [
+        {
+          "en": "Never joke at passport control, customs or security. Officers have to take every comment seriously, jokes included.",
+          "he": "אף פעם לא מתבדחים בביקורת הדרכונים, במכס או בבידוק הביטחוני. הפקידים חייבים להתייחס ברצינות לכל משפט, גם לבדיחה."
+        },
+        {
+          "en": "Answer briefly and truthfully. You don't need long explanations, but have your return date and accommodation address ready.",
+          "he": "עונים בקצרה ובכנות. אין צורך בהסברים ארוכים, אבל כדאי שיהיו מוכנים תאריך החזרה וכתובת מקום הלינה."
+        },
+        {
+          "en": "Entry rules (visas, electronic travel permits, which foods you can bring in) differ from country to country and change over time. Check the official government website before you travel.",
+          "he": "כללי הכניסה (ויזה, אישור נסיעה אלקטרוני, אילו מזונות מותר להכניס) שונים ממדינה למדינה ומשתנים מעת לעת. כדאי לבדוק באתר הממשלתי הרשמי לפני הנסיעה."
+        }
+      ],
+      "variants": [
+        {
+          "us": "vacation",
+          "uk": "holiday"
+        },
+        {
+          "us": "line",
+          "uk": "queue"
+        },
+        {
+          "us": "cookies",
+          "uk": "biscuits",
+          "note": "Sweet baked snacks. In the US, a 'biscuit' is a kind of soft bread roll."
+        }
+      ]
+    },
+    {
+      "id": "rl-airport-delay-rebook",
+      "module": "airport",
+      "title_en": "Delayed flight: getting rebooked",
+      "title_he": "טיסה מתעכבת: מעבר לטיסה אחרת",
+      "level": "B1",
+      "situation": {
+        "en": "You're flying from Madrid to New York with a connection in London. Your flight to London is delayed by three hours, so you're going to miss your connection. You go to the airline's service desk.",
+        "he": "אתם טסים ממדריד לניו יורק עם עצירה בלונדון. הטיסה ללונדון מתעכבת בשלוש שעות, כך שתפספסו את טיסת ההמשך. אתם ניגשים לדלפק השירות של חברת התעופה."
+      },
+      "goal": {
+        "en": "Explain the problem, get rebooked onto the best alternative and check what happens to your bag.",
+        "he": "להסביר את הבעיה, לעבור לחלופה הטובה ביותר ולברר מה יקרה עם המזוודה."
+      },
+      "partner_role": "airline service agent",
+      "phrases": [
+        {
+          "en": "My flight's been delayed, and I'm going to miss my connection.",
+          "he": "הטיסה שלי מתעכבת, ואפספס את טיסת ההמשך.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you rebook me on another flight, please?",
+          "he": "אפשר להעביר אותי לטיסה אחרת, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Is there anything earlier, even with another airline?",
+          "he": "יש משהו מוקדם יותר, אפילו בחברה אחרת?",
+          "register": "neutral"
+        },
+        {
+          "en": "I'd rather not wait until tomorrow, if there's another option.",
+          "he": "אעדיף לא לחכות עד מחר, אם יש אפשרות אחרת.",
+          "register": "polite",
+          "note": "'I'd rather not' is a soft way to say no."
+        },
+        {
+          "en": "Will I have to pay anything extra?",
+          "he": "אצטרך לשלם משהו נוסף?",
+          "register": "neutral"
+        },
+        {
+          "en": "Will my checked bag be transferred automatically?",
+          "he": "המזוודה שלי תועבר לטיסה החדשה אוטומטית?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do you provide meal vouchers for the delay?",
+          "he": "אתם נותנים שוברי ארוחה בגלל העיכוב?",
+          "register": "neutral"
+        },
+        {
+          "en": "If I have to stay overnight, will you arrange a hotel?",
+          "he": "אם אצטרך ללון כאן, תסדרו לי מלון?",
+          "register": "neutral"
+        },
+        {
+          "en": "Could I get that in writing, please?",
+          "he": "אפשר לקבל את זה בכתב, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "OK, that works for me.",
+          "he": "אוקיי, זה מתאים לי.",
+          "register": "casual"
+        },
+        {
+          "en": "Is this the line for rebooking?",
+          "he": "זה התור לשינוי טיסות?",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Is this the queue for rebooking?",
+          "he": "זה התור לשינוי טיסות?",
+          "register": "neutral",
+          "variant": "UK"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "you",
+          "text": "Hi. My flight to London is delayed by three hours, so I'm going to miss my connection to New York."
+        },
+        {
+          "speaker": "partner",
+          "text": "I'm sorry about that. Can I see your passport and boarding pass?"
+        },
+        {
+          "speaker": "you",
+          "text": "Sure, here you go."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK... The next connection with free seats is tomorrow morning at 9:15. Would that work?"
+        },
+        {
+          "speaker": "you",
+          "text": "I'd rather not wait until tomorrow, if there's another option. Is there anything tonight, even with another airline?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me check... There's a direct flight from here to New York at 6:30 this evening with one of our partners. It's quite full, but I can get you a middle seat."
+        },
+        {
+          "speaker": "you",
+          "text": "That would be great. Will I have to pay anything extra?"
+        },
+        {
+          "speaker": "partner",
+          "text": "No, there's no charge, since the delay is on our side."
+        },
+        {
+          "speaker": "you",
+          "text": "Perfect. And what about my checked bag?"
+        },
+        {
+          "speaker": "partner",
+          "text": "It hasn't been loaded yet, so we'll move it to the new flight. Here's your new boarding pass, and a meal voucher for the wait."
+        },
+        {
+          "speaker": "you",
+          "text": "Thank you so much. I really appreciate your help."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi, how can I help?",
+          "options": [
+            {
+              "text": "Hi. My flight to London is delayed, so I'm going to miss my connection. Could you help me rebook?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Ideal: the problem, the result and a clear request, in that order.",
+                "he": "מצוין: הבעיה, התוצאה ובקשה ברורה, לפי הסדר."
+              }
+            },
+            {
+              "text": "My flight is late. I need a new flight.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but abrupt, and it doesn't explain why you need a new flight (the connection).",
+                "he": "מובן, אבל חד, ולא מסביר למה צריך טיסה חדשה (טיסת ההמשך)."
+              }
+            },
+            {
+              "text": "Your airline is a disaster! Fix this now.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Anger won't make the agent work faster, and the delay isn't their personal fault. Stay calm and specific.",
+                "he": "כעס לא יגרום לנציג לעבוד מהר יותר, והעיכוב הוא לא אשמתו האישית. עדיף להישאר רגועים ולדייק."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi. My flight to London is delayed, so I'm going to miss my connection. Could you help me rebook?",
+            "Hi, I'm going to miss my connecting flight because of the delay. What are my options?"
+          ],
+          "keywords": [
+            "delayed",
+            "miss",
+            "connection",
+            "rebook"
+          ]
+        },
+        {
+          "partner": "The next connection with free seats is tomorrow morning at 9:15. Would that work?",
+          "options": [
+            {
+              "text": "No, tomorrow is not good for me.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but it closes the conversation. Ask about alternatives so the agent knows what to look for.",
+                "he": "ברור, אבל סוגר את השיחה. כדאי לשאול על חלופות, כדי שהנציג יידע מה לחפש."
+              }
+            },
+            {
+              "text": "Tomorrow? Are you joking?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sarcasm sounds rude and makes the agent less keen to help.",
+                "he": "ציניות נשמעת גסה וגורמת לנציג לרצות לעזור פחות."
+              }
+            },
+            {
+              "text": "I'd rather not wait until tomorrow, if there's another option. Is there anything tonight, even with another airline?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite but persistent. 'I'd rather not' is a soft way to say no, and you suggest a solution.",
+                "he": "מנומס אבל עקבי. I'd rather not היא דרך רכה לומר לא, ואתם גם מציעים פתרון."
+              }
+            }
+          ],
+          "model_replies": [
+            "I'd rather not wait until tomorrow. Is there anything tonight?",
+            "Is there anything earlier, even with another airline?"
+          ],
+          "keywords": [
+            "rather",
+            "tonight",
+            "earlier",
+            "another"
+          ]
+        },
+        {
+          "partner": "There's a flight to New York at 6:30 this evening with one of our partners. It's quite full, but I can get you a middle seat.",
+          "options": [
+            {
+              "text": "A middle seat? No way. Give me business class.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Demanding an upgrade isn't realistic here. You can ask, but politely: 'Is there any chance of an aisle seat?'",
+                "he": "לדרוש שדרוג זה לא מציאותי כאן. אפשר לבקש, אבל בנימוס: Is there any chance of an aisle seat?"
+              }
+            },
+            {
+              "text": "That would be great, thanks. A middle seat is fine.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Accepting graciously. 'That would be great' is the natural way to say yes to an offer.",
+                "he": "קבלה אדיבה של ההצעה. That would be great היא הדרך הטבעית לומר כן להצעה."
+              }
+            },
+            {
+              "text": "Yes. Book it.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "It works, but it sounds like an order. Add 'please' or 'that would be great'.",
+                "he": "זה עובד, אבל נשמע כמו פקודה. כדאי להוסיף please או that would be great."
+              }
+            }
+          ],
+          "model_replies": [
+            "That would be great, thanks. A middle seat is fine.",
+            "Yes, please. Is there any chance of an aisle seat?"
+          ],
+          "keywords": [
+            "great",
+            "thanks",
+            "fine",
+            "please"
+          ]
+        },
+        {
+          "partner": "OK, you're booked on the 6:30 flight. Anything else?",
+          "options": [
+            {
+              "text": "Yes, will my checked bag go on the new flight automatically?",
+              "verdict": "best",
+              "feedback": {
+                "en": "An important question: after any change, always check what happens to your luggage.",
+                "he": "שאלה חשובה: אחרי כל שינוי כדאי לברר מה קורה עם המזוודה."
+              }
+            },
+            {
+              "text": "And my bag?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable in context, but a full question is clearer and more polite.",
+                "he": "מובן בהקשר, אבל שאלה מלאה ברורה ומנומסת יותר."
+              }
+            },
+            {
+              "text": "Where is my bag go?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Mixed-up grammar. Say 'Where will my bag go?' or 'What happens to my bag?'",
+                "he": "ערבוב דקדוקי. אומרים Where will my bag go? או What happens to my bag?"
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, will my checked bag go on the new flight automatically?",
+            "Just one thing: what happens to my luggage?"
+          ],
+          "keywords": [
+            "bag",
+            "luggage",
+            "new flight",
+            "automatically"
+          ]
+        },
+        {
+          "partner": "Your bag will be moved to the new flight. And here's a meal voucher for the wait.",
+          "options": [
+            {
+              "text": "OK, thanks. How much is the voucher for?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "A fair question, but asking about the value straight away can sound a bit transactional. Thank them properly first.",
+                "he": "שאלה לגיטימית, אבל לשאול מיד על הסכום עלול להישמע קצת חומרני. קודם מודים כמו שצריך."
+              }
+            },
+            {
+              "text": "Only a voucher? That's nothing.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Ungrateful, and it won't get you more. If you think you're owed more, calmly ask about the airline's policy.",
+                "he": "נשמע כפוי טובה, וזה לא יביא לכם יותר. אם נראה לכם שמגיע לכם יותר, שאלו ברוגע על מדיניות החברה."
+              }
+            },
+            {
+              "text": "Thank you so much. I really appreciate your help.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm and natural. Agents on a busy delay day remember polite passengers.",
+                "he": "חם וטבעי. ביום עמוס בעיכובים, נציגים זוכרים נוסעים מנומסים."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thank you so much. I really appreciate your help.",
+            "Thanks a lot. You've been really helpful."
+          ],
+          "keywords": [
+            "thank",
+            "appreciate",
+            "help"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Stefan, an airline agent at Madrid airport. Tired after a long shift full of delayed passengers, but genuinely helpful to anyone who stays calm and clear.",
+        "complication": "The only same-day option lands in New York at 1 a.m., and the learner's checked bag might not make it onto that flight. The learner has to choose: arrive tonight without a guarantee about the bag, or fly tomorrow with a hotel night provided.",
+        "opening_line": "Next, please! Sorry about the wait, it's been a busy afternoon. How can I help?"
+      },
+      "culture": [
+        {
+          "en": "Passenger rights after a delay (meals, a hotel, compensation) depend on the country, the airline and the reason for the delay. Ask politely what applies to you, and keep your boarding passes and receipts.",
+          "he": "זכויות הנוסעים בעיכוב (ארוחות, מלון, פיצוי) תלויות במדינה, בחברת התעופה ובסיבת העיכוב. שאלו בנימוס מה חל עליכם, ושמרו את כרטיסי העלייה למטוס ואת הקבלות."
+        },
+        {
+          "en": "Staff at a busy desk respond best to calm, specific requests. Know what you want before you reach the front of the line.",
+          "he": "נציגים בדלפק עמוס מגיבים הכי טוב לבקשות רגועות ומדויקות. כדאי לדעת מה רוצים לפני שמגיעים לראש התור."
+        }
+      ],
+      "variants": [
+        {
+          "us": "checked bag",
+          "uk": "hold luggage",
+          "note": "The bag that travels under the plane. 'Checked luggage' is understood everywhere."
+        },
+        {
+          "us": "line",
+          "uk": "queue"
+        }
+      ]
+    },
+    {
+      "id": "rl-airport-lost-luggage",
+      "module": "airport",
+      "title_en": "Reporting lost luggage",
+      "title_he": "דיווח על מזוודה שלא הגיעה",
+      "level": "B1",
+      "situation": {
+        "en": "You've just landed in Manchester after flying from Tel Aviv via Frankfurt. Everyone else has collected their bags, but yours never came out. You go to the baggage services desk.",
+        "he": "נחתתם עכשיו במנצ'סטר, אחרי טיסה מתל אביב עם עצירה בפרנקפורט. כל שאר הנוסעים כבר אספו את המזוודות, אבל שלכם לא יצאה. אתם ניגשים לדלפק שירותי המטען."
+      },
+      "goal": {
+        "en": "Report the missing bag, describe it clearly, and find out how and when you'll get it back.",
+        "he": "לדווח על המזוודה החסרה, לתאר אותה בבירור ולברר איך ומתי תקבלו אותה בחזרה."
+      },
+      "partner_role": "baggage services agent",
+      "phrases": [
+        {
+          "en": "My suitcase didn't come out on the carousel.",
+          "he": "המזוודה שלי לא יצאה על המסוע.",
+          "register": "neutral"
+        },
+        {
+          "en": "I think my bag might be lost.",
+          "he": "נראה לי שהמזוודה שלי אבדה.",
+          "register": "neutral"
+        },
+        {
+          "en": "Here's my bag tag. It's stuck to my boarding pass.",
+          "he": "הנה מדבקת המזוודה. היא מודבקת על כרטיס העלייה למטוס.",
+          "register": "neutral"
+        },
+        {
+          "en": "It's a medium-sized dark blue suitcase with four wheels.",
+          "he": "זו מזוודה בינונית, כחולה כהה, עם ארבעה גלגלים.",
+          "register": "neutral",
+          "note": "Adjective order: size, then colour, then the noun."
+        },
+        {
+          "en": "There's a red ribbon on the handle.",
+          "he": "יש סרט אדום על הידית.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you deliver it to my hotel when it arrives?",
+          "he": "אפשר לשלוח אותה למלון שלי כשהיא תגיע?",
+          "register": "polite"
+        },
+        {
+          "en": "Is there a reference number so I can track it?",
+          "he": "יש מספר פנייה שאפשר לעקוב איתו?",
+          "register": "neutral"
+        },
+        {
+          "en": "My medication is in that bag. What should I do?",
+          "he": "התרופות שלי במזוודה הזאת. מה עושים?",
+          "register": "neutral"
+        },
+        {
+          "en": "Can I claim back the cost of a few essentials?",
+          "he": "אפשר לקבל החזר על כמה דברים בסיסיים שאקנה?",
+          "register": "neutral",
+          "note": "'Essentials' = a toothbrush, a change of clothes and so on."
+        },
+        {
+          "en": "Where's baggage claim?",
+          "he": "איפה אזור איסוף המזוודות?",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Where's baggage reclaim?",
+          "he": "איפה אזור איסוף המזוודות?",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "What a start to the trip! Thanks for your help, though.",
+          "he": "איזו התחלה לטיול! אבל תודה על העזרה.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hello, how can I help?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hi. I've just arrived from Tel Aviv via Frankfurt, and my suitcase didn't come out."
+        },
+        {
+          "speaker": "partner",
+          "text": "Sorry to hear that. Have you got your bag tag?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, here it is. It's stuck to my boarding pass."
+        },
+        {
+          "speaker": "partner",
+          "text": "Thanks. Can you describe the bag for me?"
+        },
+        {
+          "speaker": "you",
+          "text": "It's a medium-sized dark blue suitcase with four wheels. There's a red ribbon on the handle."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK, it looks like it's still in Frankfurt. It should be on tomorrow morning's flight."
+        },
+        {
+          "speaker": "you",
+          "text": "That's a relief. Could you deliver it to my hotel?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course. Just fill in this form with the hotel address and your phone number."
+        },
+        {
+          "speaker": "you",
+          "text": "Sure. And if I need to buy a few essentials tonight, can I claim that back?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Keep the receipts and send them in with your claim. Here's your reference number."
+        },
+        {
+          "speaker": "you",
+          "text": "Perfect. Thanks for your help."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hello, how can I help?",
+          "options": [
+            {
+              "text": "I didn't got my bag.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "After 'didn't', use the base form: 'I didn't get my bag.'",
+                "he": "אחרי didn't באה צורת הבסיס: I didn't get my bag."
+              }
+            },
+            {
+              "text": "Hi. I've just arrived from Tel Aviv, and my suitcase didn't come out on the carousel.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear and complete: where you came from and what happened. 'I've just arrived' (present perfect) fits perfectly.",
+                "he": "ברור ומלא: מאיפה הגעתם ומה קרה. I've just arrived (present perfect) מתאים כאן בדיוק."
+              }
+            },
+            {
+              "text": "My bag is lost.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but you don't know yet that it's lost. 'My bag didn't come out' is more accurate and less dramatic.",
+                "he": "מובן, אבל עוד לא ידוע שהיא אבדה. My bag didn't come out מדויק יותר ופחות דרמטי."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi. I've just arrived from Tel Aviv, and my suitcase didn't come out.",
+            "Hi, my bag didn't arrive on the flight from Frankfurt."
+          ],
+          "keywords": [
+            "suitcase",
+            "bag",
+            "arrived",
+            "didn't"
+          ]
+        },
+        {
+          "partner": "Can you describe the bag for me?",
+          "options": [
+            {
+              "text": "It's a medium-sized dark blue suitcase with four wheels and a red ribbon on the handle.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Size, colour and type, then one detail that makes it easy to spot: exactly what the agent needs.",
+                "he": "גודל, צבע וסוג, ואז פרט אחד שעוזר לזהות אותה – בדיוק מה שהנציג צריך."
+              }
+            },
+            {
+              "text": "It's blue.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Too little information: lots of bags are blue. Add the size, the type and something special about it.",
+                "he": "מעט מדי מידע: הרבה מזוודות כחולות. הוסיפו גודל, סוג ומשהו מיוחד בה."
+              }
+            },
+            {
+              "text": "It's a blue big suitcase.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Adjective order: size comes before colour. Say 'a big blue suitcase'.",
+                "he": "סדר שמות התואר: גודל לפני צבע. אומרים a big blue suitcase."
+              }
+            }
+          ],
+          "model_replies": [
+            "It's a medium-sized dark blue suitcase with four wheels.",
+            "It's a big black suitcase with a red ribbon on the handle."
+          ],
+          "keywords": [
+            "suitcase",
+            "blue",
+            "wheels",
+            "handle"
+          ]
+        },
+        {
+          "partner": "It looks like it's still in Frankfurt. It should be on tomorrow morning's flight.",
+          "options": [
+            {
+              "text": "OK. I come back tomorrow to take it.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The idea works, but use 'will' for a decision: 'I'll come back tomorrow to pick it up.' It's also worth asking about delivery.",
+                "he": "הרעיון עובד, אבל להחלטה משתמשים ב-will: I'll come back tomorrow to pick it up. כדאי גם לשאול על משלוח."
+              }
+            },
+            {
+              "text": "Tomorrow?! I need it now!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The frustration is understandable, but the agent can't make the bag fly faster. Ask what they can do for you tonight.",
+                "he": "התסכול מובן, אבל הנציג לא יכול להטיס את המזוודה מהר יותר. עדיף לשאול במה אפשר לעזור הלילה."
+              }
+            },
+            {
+              "text": "That's a relief. Could you deliver it to my hotel, please?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You react naturally and ask for the most useful thing: delivery.",
+                "he": "תגובה טבעית, ומבקשים את הדבר הכי שימושי: משלוח למלון."
+              }
+            }
+          ],
+          "model_replies": [
+            "That's a relief. Could you deliver it to my hotel, please?",
+            "Great. Can you send it to my hotel when it arrives?"
+          ],
+          "keywords": [
+            "deliver",
+            "send",
+            "hotel",
+            "relief"
+          ]
+        },
+        {
+          "partner": "No problem. Can I have the address of your hotel?",
+          "options": [
+            {
+              "text": "Why you need my address?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A missing auxiliary: 'Why do you need it?' And they need it so they can deliver your bag.",
+                "he": "חסר פועל עזר: Why do you need it? וחוץ מזה, הם צריכים את הכתובת כדי להביא לכם את המזוודה."
+              }
+            },
+            {
+              "text": "Sure, it's the Northern Hotel on Oxford Road.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear, with the name in the natural English order: 'the Northern Hotel'.",
+                "he": "ברור, והשם בסדר הטבעי באנגלית: the Northern Hotel."
+              }
+            },
+            {
+              "text": "Hotel Northern, Oxford Road.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but in English the name usually comes before 'Hotel', unlike in Hebrew. A full sentence also sounds friendlier.",
+                "he": "מובן, אבל באנגלית השם בא בדרך כלל לפני Hotel, בניגוד לעברית. משפט מלא גם נשמע נעים יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Sure, it's the Northern Hotel on Oxford Road.",
+            "It's the Northern Hotel. I'll write the address on the form."
+          ],
+          "keywords": [
+            "hotel",
+            "road",
+            "address"
+          ]
+        },
+        {
+          "partner": "Here's your reference number. You can track your bag online.",
+          "options": [
+            {
+              "text": "Great. One more thing: if I buy a few essentials tonight, can I claim the cost back?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A smart question to ask now, and 'claim back' is exactly the right verb.",
+                "he": "שאלה חכמה לשאול כבר עכשיו, ו-claim back הוא בדיוק הפועל המתאים."
+              }
+            },
+            {
+              "text": "Thank you. Do you give money for clothes?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The idea comes across, but it sounds blunt. 'Can I claim back the cost of essentials?' is more precise.",
+                "he": "הרעיון מובן, אבל זה נשמע בוטה. Can I claim back the cost of essentials? מדויק יותר."
+              }
+            },
+            {
+              "text": "OK, bye.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "It sounds cold, and you miss the chance to ask about expenses. Thank the agent and ask what you need.",
+                "he": "נשמע קר, ומפספסים את ההזדמנות לשאול על הוצאות. כדאי להודות ולשאול מה שצריך."
+              }
+            }
+          ],
+          "model_replies": [
+            "Great. If I buy a few essentials tonight, can I claim the cost back?",
+            "Thanks. Should I keep my receipts for anything I buy?"
+          ],
+          "keywords": [
+            "essentials",
+            "claim",
+            "receipts",
+            "cost",
+            "thanks"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Priya, a baggage services agent at Manchester Airport. Calm, kind and very organised; she has heard every lost-bag story and asks precise questions.",
+        "complication": "The system shows no trace of the bag at all, not in Frankfurt or anywhere else. Priya needs a detailed description and a list of what's inside, and she can't promise when it will turn up.",
+        "opening_line": "Hi there. Let me guess, your bag didn't turn up?"
+      },
+      "culture": [
+        {
+          "en": "Report a missing bag before you leave the baggage hall, and keep your bag tag and the reference number you're given.",
+          "he": "מדווחים על מזוודה חסרה לפני שיוצאים מאולם המזוודות, ושומרים את מדבקת המזוודה ואת מספר הפנייה שמקבלים."
+        },
+        {
+          "en": "What airlines pay for while a bag is delayed varies. Keep every receipt and ask at the desk what they can cover.",
+          "he": "מה שחברות התעופה מכסות בזמן שמזוודה מתעכבת משתנה מחברה לחברה. שמרו כל קבלה ושאלו בדלפק מה אפשר לכסות."
+        }
+      ],
+      "variants": [
+        {
+          "us": "baggage claim",
+          "uk": "baggage reclaim"
+        },
+        {
+          "us": "fill out (a form)",
+          "uk": "fill in (a form)",
+          "note": "Americans mostly say 'fill out'; British speakers mostly say 'fill in'."
+        },
+        {
+          "us": "cell phone",
+          "uk": "mobile (phone)"
+        },
+        {
+          "us": "Do you have...?",
+          "uk": "Have you got...?",
+          "note": "Both are common in the UK; 'Do you have...?' is standard in the US."
+        }
+      ]
+    },
+    {
+      "id": "rl-airport-gate-transfer",
+      "module": "airport",
+      "title_en": "Finding your gate for a connecting flight",
+      "title_he": "למצוא את השער לטיסת ההמשך",
+      "level": "A1",
+      "situation": {
+        "en": "You've just landed at a big European airport. You have a connecting flight to Lisbon in two hours, but you don't know where to go. You ask at the information desk.",
+        "he": "נחתתם עכשיו בשדה תעופה גדול באירופה. בעוד שעתיים יש לכם טיסת המשך לליסבון, אבל אתם לא יודעים לאן ללכת. אתם שואלים בדלפק המידע."
+      },
+      "goal": {
+        "en": "Ask where to go for your connecting flight and how to get to your gate, and understand simple directions.",
+        "he": "לשאול לאן הולכים לטיסת ההמשך ואיך מגיעים לשער, ולהבין הוראות הגעה פשוטות."
+      },
+      "partner_role": "airport information desk staff",
+      "phrases": [
+        {
+          "en": "Excuse me, where is gate D7?",
+          "he": "סליחה, איפה שער D7?",
+          "register": "polite"
+        },
+        {
+          "en": "I have a connecting flight to Lisbon.",
+          "he": "יש לי טיסת המשך לליסבון.",
+          "register": "neutral"
+        },
+        {
+          "en": "Where do I go for transfers?",
+          "he": "לאן הולכים לטיסות המשך?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do I need to go through security again?",
+          "he": "צריך לעבור שוב בידוק ביטחוני?",
+          "register": "neutral"
+        },
+        {
+          "en": "Is it far from here?",
+          "he": "זה רחוק מכאן?",
+          "register": "neutral"
+        },
+        {
+          "en": "Sorry, could you say that again, more slowly?",
+          "he": "סליחה, אפשר לחזור על זה לאט יותר?",
+          "register": "polite"
+        },
+        {
+          "en": "So, left and then straight ahead?",
+          "he": "כלומר, שמאלה ואז ישר?",
+          "register": "casual"
+        },
+        {
+          "en": "Where's the restroom?",
+          "he": "איפה השירותים?",
+          "register": "neutral",
+          "variant": "US",
+          "note": "In the US, 'toilet' can sound a bit blunt; 'restroom' or 'bathroom' is more usual."
+        },
+        {
+          "en": "Where are the toilets?",
+          "he": "איפה השירותים?",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "Is there an elevator?",
+          "he": "יש מעלית?",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Is there a lift?",
+          "he": "יש מעלית?",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "Thanks, have a good day!",
+          "he": "תודה, יום טוב!",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "you",
+          "text": "Excuse me, I have a connecting flight to Lisbon. Where do I go?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Can I see your boarding pass? ... OK, gate D7. Follow the signs for Transfers."
+        },
+        {
+          "speaker": "you",
+          "text": "Do I need to go through security again?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Yes, there's a security check first. Then go left and walk straight ahead to the D gates."
+        },
+        {
+          "speaker": "you",
+          "text": "Is it far?"
+        },
+        {
+          "speaker": "partner",
+          "text": "About ten minutes on foot."
+        },
+        {
+          "speaker": "you",
+          "text": "Sorry, could you say that again? Left, and then...?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Left, then straight ahead. You'll see the D gates on your right."
+        },
+        {
+          "speaker": "you",
+          "text": "Got it. Thank you so much!"
+        },
+        {
+          "speaker": "partner",
+          "text": "You're welcome. Have a good flight!"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi, can I help you?",
+          "options": [
+            {
+              "text": "Lisbon. Where?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "They'll probably understand you, but without a full sentence or 'please' it sounds rude.",
+                "he": "כנראה יבינו אתכם, אבל בלי משפט מלא ובלי please זה נשמע לא מנומס."
+              }
+            },
+            {
+              "text": "Yes. Where I go Lisbon?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The word order is wrong. Say 'Where do I go for the flight to Lisbon?'",
+                "he": "סדר המילים שגוי. אומרים: Where do I go for the flight to Lisbon?"
+              }
+            },
+            {
+              "text": "Yes, please. I have a connecting flight to Lisbon. Where do I go?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite and clear: you say what you need and ask a direct question.",
+                "he": "מנומס וברור: אומרים מה צריך ושואלים שאלה ישירה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, please. I have a connecting flight to Lisbon. Where do I go?",
+            "Hi. Where do I go for my flight to Lisbon?"
+          ],
+          "keywords": [
+            "connecting",
+            "flight",
+            "Lisbon",
+            "where"
+          ]
+        },
+        {
+          "partner": "Your gate is D7. Follow the signs for Transfers.",
+          "options": [
+            {
+              "text": "I must security again?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A verb is missing. Say 'Do I need to go through security again?'",
+                "he": "חסר פועל. אומרים: Do I need to go through security again?"
+              }
+            },
+            {
+              "text": "Thank you. Do I need to go through security again?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A quick thank-you and a useful question.",
+                "he": "תודה קצרה ושאלה שימושית."
+              }
+            },
+            {
+              "text": "OK.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but 'thank you' sounds friendlier, and it's a good moment to ask about security.",
+                "he": "בסדר, אבל thank you נשמע נעים יותר, וזה רגע טוב לשאול על הבידוק."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thank you. Do I need to go through security again?",
+            "Thanks! Is it far?"
+          ],
+          "keywords": [
+            "thank",
+            "security",
+            "again"
+          ]
+        },
+        {
+          "partner": "Go left, then straight ahead. It's about ten minutes on foot.",
+          "options": [
+            {
+              "text": "Sorry, could you say that again, more slowly?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Perfect when you didn't catch something. 'Sorry' plus 'could you' is polite and natural.",
+                "he": "מושלם כשלא הבנתם. Sorry יחד עם could you – מנומס וטבעי."
+              }
+            },
+            {
+              "text": "What? Again.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "'What?' on its own can sound rude. 'Sorry?' or 'Pardon?' is softer.",
+                "he": "What לבד יכול להישמע גס. Sorry? או Pardon? רכים יותר."
+              }
+            },
+            {
+              "text": "Speak slow!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This sounds like an order. Ask instead: 'Could you speak more slowly, please?'",
+                "he": "זה נשמע כמו פקודה. עדיף לבקש: Could you speak more slowly, please?"
+              }
+            }
+          ],
+          "model_replies": [
+            "Sorry, could you say that again, more slowly?",
+            "So, left and then straight ahead? Thank you!"
+          ],
+          "keywords": [
+            "sorry",
+            "again",
+            "slowly",
+            "left"
+          ]
+        },
+        {
+          "partner": "You'll see the D gates on your right. Have a good flight!",
+          "options": [
+            {
+              "text": "Thank you very much for your kind help.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Polite, but a bit formal for a quick chat at the desk.",
+                "he": "מנומס, אבל קצת רשמי לשיחה קצרה בדלפק."
+              }
+            },
+            {
+              "text": "Thanks, you too!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A very common slip: 'You too' wishes them a good flight, but they aren't flying! Say 'Thanks, have a good day!'",
+                "he": "טעות נפוצה מאוד: you too מאחל גם להם טיסה טובה, אבל הם לא טסים! אומרים Thanks, have a good day!"
+              }
+            },
+            {
+              "text": "Thanks so much. Have a good day!",
+              "verdict": "best",
+              "feedback": {
+                "en": "Friendly and natural: you return the good wishes in a way that fits.",
+                "he": "חברותי וטבעי: מחזירים איחול שמתאים למצב."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks so much. Have a good day!",
+            "Thank you! Bye!"
+          ],
+          "keywords": [
+            "thanks",
+            "thank",
+            "day"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Jonas, a friendly information desk worker at a big European airport. Speaks clearly, gives simple directions and is happy to repeat them.",
+        "complication": "The gate on the learner's boarding pass has changed from D7 to E2, which is further away, and boarding starts in 40 minutes. The learner needs to understand the new directions and ask how long it takes to get there.",
+        "opening_line": "Hi there! Where are you flying to?"
+      },
+      "culture": [
+        {
+          "en": "At big airports, follow the signs for 'Transfers' or 'Connecting flights', not 'Exit', if you have another flight.",
+          "he": "בשדות תעופה גדולים, אם יש לכם טיסה נוספת, הולכים לפי השלטים Transfers או Connecting flights, ולא לפי Exit."
+        },
+        {
+          "en": "Gates often change. Check the departure screens again when you reach your gate area.",
+          "he": "שערים מתחלפים לא מעט. כדאי לבדוק שוב את לוחות ההמראות כשמגיעים לאזור השער."
+        },
+        {
+          "en": "'Sorry?' and 'Pardon?' are polite ways to ask someone to repeat something. A plain 'What?' can sound rude.",
+          "he": "Sorry? ו-Pardon? הן דרכים מנומסות לבקש שיחזרו על משהו. What? לבד יכול להישמע גס."
+        }
+      ],
+      "variants": [
+        {
+          "us": "restroom",
+          "uk": "toilets",
+          "note": "In the US, 'toilet' usually means the bowl itself, so 'restroom' or 'bathroom' sounds more polite."
+        },
+        {
+          "us": "elevator",
+          "uk": "lift"
+        }
+      ]
+    },
+    {
+      "id": "rl-hotel-reservation-missing",
+      "module": "hotel",
+      "title_en": "Your reservation can't be found",
+      "title_he": "ההזמנה שלכם לא נמצאת",
+      "level": "B1",
+      "situation": {
+        "en": "It's 10 p.m. and you've just arrived at your hotel after a long day of travelling. You booked a double room for three nights through a booking website, but the receptionist can't find your reservation.",
+        "he": "השעה עשר בלילה, ואתם מגיעים למלון אחרי יום נסיעה ארוך. הזמנתם חדר זוגי לשלושה לילות דרך אתר הזמנות, אבל בקבלה לא מוצאים את ההזמנה."
+      },
+      "goal": {
+        "en": "Stay calm, give details that help them find the booking, show your confirmation and agree on a solution for tonight.",
+        "he": "להישאר רגועים, למסור פרטים שיעזרו למצוא את ההזמנה, להציג את אישור ההזמנה ולהגיע לפתרון ללילה הזה."
+      },
+      "partner_role": "hotel receptionist",
+      "phrases": [
+        {
+          "en": "Hi, I have a reservation under the name Levi.",
+          "he": "שלום, יש לי הזמנה על שם לוי.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you try searching by my email address?",
+          "he": "אפשר לנסות לחפש לפי כתובת המייל שלי?",
+          "register": "polite"
+        },
+        {
+          "en": "It might be spelled L-E-V-Y.",
+          "he": "אולי זה נכתב L-E-V-Y.",
+          "register": "neutral"
+        },
+        {
+          "en": "I booked it through a booking website about three weeks ago.",
+          "he": "הזמנתי דרך אתר הזמנות לפני בערך שלושה שבועות.",
+          "register": "neutral"
+        },
+        {
+          "en": "Here's my confirmation email with the booking number.",
+          "he": "הנה מייל האישור עם מספר ההזמנה.",
+          "register": "neutral"
+        },
+        {
+          "en": "I've already paid for the first night.",
+          "he": "כבר שילמתי על הלילה הראשון.",
+          "register": "neutral"
+        },
+        {
+          "en": "Is there any chance you have a room for tonight?",
+          "he": "יש סיכוי שיש לכם חדר פנוי הלילה?",
+          "register": "polite"
+        },
+        {
+          "en": "Would it be the same price as my booking?",
+          "he": "המחיר יהיה כמו בהזמנה שלי?",
+          "register": "neutral"
+        },
+        {
+          "en": "I understand it's not your fault, but I really need somewhere to sleep tonight.",
+          "he": "ברור לי שזו לא אשמתכם, אבל חשוב לי מאוד שיהיה לי איפה לישון הלילה.",
+          "register": "polite"
+        },
+        {
+          "en": "Could you contact the booking website to check?",
+          "he": "אפשר ליצור קשר עם אתר ההזמנות ולבדוק?",
+          "register": "polite"
+        },
+        {
+          "en": "If you're fully booked, could you help me find somewhere nearby?",
+          "he": "אם המלון מלא, תוכלו לעזור לי למצוא מקום קרוב?",
+          "register": "polite"
+        },
+        {
+          "en": "No worries, these things happen.",
+          "he": "אין בעיה, דברים כאלה קורים.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Good evening, welcome to the Harbour View. Checking in?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, hi. I have a reservation under the name Levi, for three nights."
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me have a look... I'm sorry, I can't see anything under that name."
+        },
+        {
+          "speaker": "you",
+          "text": "Could you try L-E-V-Y? It sometimes gets spelled that way."
+        },
+        {
+          "speaker": "partner",
+          "text": "Hmm, still nothing. How did you book?"
+        },
+        {
+          "speaker": "you",
+          "text": "Through a booking website. Here's the confirmation email with the booking number."
+        },
+        {
+          "speaker": "partner",
+          "text": "Thank you. Ah, I see the problem. The booking is for the 14th of November, not October."
+        },
+        {
+          "speaker": "you",
+          "text": "Oh no, that's my mistake. Is there any chance you have a room for tonight?"
+        },
+        {
+          "speaker": "partner",
+          "text": "We're quite busy, but I've got a twin room for three nights. It's a little more than your booking."
+        },
+        {
+          "speaker": "you",
+          "text": "That's fine, I'll take it. What should I do about the November booking?"
+        },
+        {
+          "speaker": "partner",
+          "text": "You'll need to cancel that one on the website, but I can book you in directly now."
+        },
+        {
+          "speaker": "you",
+          "text": "Perfect. Thank you so much for your patience."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "I'm sorry, I can't see a reservation under that name.",
+          "options": [
+            {
+              "text": "This is unacceptable. Your system is terrible.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Too aggressive for the first minute, and the problem may be simple. Stay calm until you know what happened.",
+                "he": "תוקפני מדי לדקה הראשונה, וייתכן שהבעיה פשוטה. עדיף להישאר רגועים עד שמבינים מה קרה."
+              }
+            },
+            {
+              "text": "Oh, could you try L-E-V-Y? Or I can give you my booking number.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Calm and helpful: you offer two easy ways to find the booking.",
+                "he": "רגוע ועוזר: מציעים שתי דרכים פשוטות למצוא את ההזמנה."
+              }
+            },
+            {
+              "text": "But I booked. Look again.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but it sounds impatient. Offer extra details instead of just repeating yourself.",
+                "he": "מובן, אבל נשמע חסר סבלנות. עדיף להציע פרטים נוספים במקום לחזור על אותו דבר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh, could you try L-E-V-Y? Or I can give you my booking number.",
+            "Could you try searching by my email address? I have the confirmation here."
+          ],
+          "keywords": [
+            "try",
+            "booking number",
+            "email",
+            "confirmation",
+            "spell"
+          ]
+        },
+        {
+          "partner": "How did you book?",
+          "options": [
+            {
+              "text": "Through a booking website, about three weeks ago. Here's the confirmation email.",
+              "verdict": "best",
+              "feedback": {
+                "en": "You answer the question and back it up with proof: the fastest way to solve this.",
+                "he": "עונים על השאלה ומגבים אותה בהוכחה – הדרך המהירה ביותר לפתור את העניין."
+              }
+            },
+            {
+              "text": "On the internet.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "True, but vague. Say which website, or show the confirmation.",
+                "he": "נכון, אבל כללי. כדאי לציין איזה אתר או להראות את האישור."
+              }
+            },
+            {
+              "text": "I was booking it in a website.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Use the past simple for a finished action, and 'on' or 'through' with a website: 'I booked it through a website.'",
+                "he": "לפעולה שהסתיימה משתמשים ב-past simple, ועם אתר אומרים on או through: I booked it through a website."
+              }
+            }
+          ],
+          "model_replies": [
+            "Through a booking website. Here's the confirmation email.",
+            "I booked it online about three weeks ago. Here's the booking number."
+          ],
+          "keywords": [
+            "website",
+            "booked",
+            "confirmation",
+            "email"
+          ]
+        },
+        {
+          "partner": "Ah, I see the problem. Your booking is for November, not October.",
+          "options": [
+            {
+              "text": "OK. So what now?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Not rude, but it leaves all the work to the receptionist. Ask a clear question.",
+                "he": "לא גס, אבל משאיר את כל העבודה לצד השני. עדיף לשאול שאלה ברורה."
+              }
+            },
+            {
+              "text": "No, the website made a mistake, not me.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Blaming someone else when the date is clearly wrong won't help. Accept it and look for a solution.",
+                "he": "להאשים מישהו אחר כשהתאריך שגוי בבירור לא יעזור. עדיף לקבל את זה ולחפש פתרון."
+              }
+            },
+            {
+              "text": "Oh no, that's my mistake. Is there any chance you have a room for tonight?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Owning the mistake keeps the receptionist on your side, and 'Is there any chance...?' is a soft way to ask.",
+                "he": "כשמודים בטעות, הצוות בקבלה נשאר בצד שלכם, ו-Is there any chance...? היא דרך רכה לבקש."
+              }
+            }
+          ],
+          "model_replies": [
+            "Oh no, that's my mistake. Is there any chance you have a room for tonight?",
+            "Oh, sorry about that. Do you have anything available tonight?"
+          ],
+          "keywords": [
+            "mistake",
+            "room",
+            "tonight",
+            "available"
+          ]
+        },
+        {
+          "partner": "We're quite busy, but I've got a twin room for three nights. It's a bit more than your booking.",
+          "options": [
+            {
+              "text": "More money? You should give me a discount.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The mistake was yours, so demanding a discount sounds rude. You can ask gently: 'Is there anything you can do on the price?'",
+                "he": "הטעות הייתה שלכם, ולכן לדרוש הנחה נשמע גס. אפשר לשאול בעדינות: Is there anything you can do on the price?"
+              }
+            },
+            {
+              "text": "That sounds fine. Could you tell me the price per night first?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You're positive, but checking the price before you agree is sensible and perfectly polite.",
+                "he": "מגיבים בחיוב, אבל בודקים את המחיר לפני שמסכימים – הגיוני ומנומס לגמרי."
+              }
+            },
+            {
+              "text": "OK, I'll take it.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but it's a good idea to ask the price before you say yes.",
+                "he": "בסדר, אבל כדאי לשאול על המחיר לפני שמסכימים."
+              }
+            }
+          ],
+          "model_replies": [
+            "That sounds fine. How much is it per night?",
+            "Great, I'll take it. Is it much more than my booking?"
+          ],
+          "keywords": [
+            "fine",
+            "take it",
+            "price",
+            "night"
+          ]
+        },
+        {
+          "partner": "You'll need to cancel the November booking on the website.",
+          "options": [
+            {
+              "text": "No problem, I'll do it tonight. Thanks so much for your patience.",
+              "verdict": "best",
+              "feedback": {
+                "en": "You show you'll handle it, and you thank the receptionist for the extra effort.",
+                "he": "מראים שתטפלו בזה בעצמכם, ומודים לפקיד על המאמץ הנוסף."
+              }
+            },
+            {
+              "text": "Can't you do it for me?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "You can ask, but the hotel may not be able to change a booking made on another website. Add 'please' and accept the answer.",
+                "he": "אפשר לבקש, אבל ייתכן שהמלון לא יכול לשנות הזמנה שנעשתה באתר אחר. הוסיפו please וקבלו את התשובה."
+              }
+            },
+            {
+              "text": "OK, whatever.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Whatever' sounds dismissive and rude, especially after someone has helped you.",
+                "he": "Whatever נשמע מזלזל וגס, במיוחד אחרי שעזרו לכם."
+              }
+            }
+          ],
+          "model_replies": [
+            "No problem, I'll do it tonight. Thanks for your patience.",
+            "Sure, I'll cancel it on the website. Thanks for your help."
+          ],
+          "keywords": [
+            "cancel",
+            "tonight",
+            "thanks",
+            "patience"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Fiona, the night receptionist at a small seaside hotel. Polite and patient, but tired and alone at the desk; she warms up to guests who stay calm.",
+        "complication": "There is no record of the booking at all, even with the confirmation number. The hotel has one room left, a small single that costs more than the booking. The learner has to decide whether to take it and ask the hotel to contact the booking website.",
+        "opening_line": "Good evening, welcome to the Harbour View. Are you checking in?"
+      },
+      "culture": [
+        {
+          "en": "Keep your confirmation available offline (a screenshot is enough): you may not have a connection when you arrive.",
+          "he": "כדאי לשמור את אישור ההזמנה גם בלי אינטרנט (צילום מסך מספיק), כי ייתכן שלא יהיה לכם חיבור כשתגיעו."
+        },
+        {
+          "en": "When something goes wrong, calm politeness usually gets better results in English than showing anger. 'I understand...' and 'Is there any chance...?' go a long way.",
+          "he": "כשמשהו משתבש, נימוס רגוע מביא באנגלית בדרך כלל תוצאות טובות יותר מכעס. I understand... ו-Is there any chance...? עוזרים מאוד."
+        }
+      ],
+      "variants": [
+        {
+          "us": "front desk",
+          "uk": "reception",
+          "note": "'Reception' is the usual word in the UK; Americans use both."
+        },
+        {
+          "us": "a room with two beds",
+          "uk": "a twin room",
+          "note": "In the US, 'twin' is also the name of a single-bed size."
+        }
+      ]
+    },
+    {
+      "id": "rl-hotel-checkin-basics",
+      "module": "hotel",
+      "title_en": "Checking in: breakfast, wifi and checkout",
+      "title_he": "צ'ק-אין: ארוחת בוקר, וויי-פיי וצ'ק-אאוט",
+      "level": "A1",
+      "situation": {
+        "en": "You arrive at your hotel in Chicago, and your reservation is fine. While you check in, you want to know about breakfast, the wifi and checkout time.",
+        "he": "הגעתם למלון בשיקגו, וההזמנה מסודרת. בזמן הצ'ק-אין אתם רוצים לברר על ארוחת הבוקר, על הוויי-פיי ועל שעת הצ'ק-אאוט."
+      },
+      "goal": {
+        "en": "Check in and ask three simple questions: breakfast, the wifi password and checkout time.",
+        "he": "לעשות צ'ק-אין ולשאול שלוש שאלות פשוטות: על ארוחת הבוקר, על הסיסמה לוויי-פיי ועל שעת הצ'ק-אאוט."
+      },
+      "partner_role": "hotel receptionist",
+      "phrases": [
+        {
+          "en": "Hi, I'd like to check in. My name is Dana Cohen.",
+          "he": "שלום, אשמח לעשות צ'ק-אין. קוראים לי דנה כהן.",
+          "register": "polite"
+        },
+        {
+          "en": "Is breakfast included?",
+          "he": "ארוחת הבוקר כלולה?",
+          "register": "neutral"
+        },
+        {
+          "en": "What time is breakfast?",
+          "he": "באיזו שעה ארוחת הבוקר?",
+          "register": "neutral"
+        },
+        {
+          "en": "Where is breakfast served?",
+          "he": "איפה מגישים את ארוחת הבוקר?",
+          "register": "neutral"
+        },
+        {
+          "en": "What's the wifi password?",
+          "he": "מה הסיסמה לוויי-פיי?",
+          "register": "neutral"
+        },
+        {
+          "en": "What time is checkout?",
+          "he": "באיזו שעה הצ'ק-אאוט?",
+          "register": "neutral"
+        },
+        {
+          "en": "Could I have a second key card, please?",
+          "he": "אפשר לקבל עוד כרטיס לחדר, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Which floor is my room on?",
+          "he": "באיזו קומה החדר שלי?",
+          "register": "neutral"
+        },
+        {
+          "en": "Where's the elevator?",
+          "he": "איפה המעלית?",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "Where's the lift?",
+          "he": "איפה המעלית?",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "Could you write it down for me, please?",
+          "he": "אפשר לכתוב לי את זה, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Great, thanks a lot!",
+          "he": "מעולה, תודה רבה!",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Hi, welcome! Checking in?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, hi. My name is Dana Cohen."
+        },
+        {
+          "speaker": "partner",
+          "text": "Great, I have you here for two nights. Can I see your ID and a credit card, please?"
+        },
+        {
+          "speaker": "you",
+          "text": "Sure, here you go. Is breakfast included?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Yes, it is. It's from 6:30 to 10 in the restaurant on the first floor."
+        },
+        {
+          "speaker": "you",
+          "text": "Great. And what's the wifi password?"
+        },
+        {
+          "speaker": "partner",
+          "text": "It's on this card, with your room number. You're in 512, on the fifth floor."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. What time is checkout?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Checkout is at 11. The elevators are on your right. Enjoy your stay!"
+        },
+        {
+          "speaker": "you",
+          "text": "Thank you!"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi, welcome! Checking in?",
+          "options": [
+            {
+              "text": "Yes. I have a reservation.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct, but give your name too: that's the next question anyway.",
+                "he": "נכון, אבל כדאי לומר גם את השם – זו ממילא השאלה הבאה."
+              }
+            },
+            {
+              "text": "Yes, I want room.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'a' is missing, and 'I want' sounds abrupt. Say 'Yes, I have a reservation.'",
+                "he": "חסר a, ו-I want נשמע חד. אומרים: Yes, I have a reservation."
+              }
+            },
+            {
+              "text": "Yes, hi. My name is Dana Cohen.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Short, friendly, and it gives the receptionist what they need.",
+                "he": "קצר, ידידותי, ומוסר בדיוק את המידע שצריך בקבלה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, hi. My name is Dana Cohen.",
+            "Yes, I have a reservation. My name is Dana Cohen."
+          ],
+          "keywords": [
+            "yes",
+            "name",
+            "reservation"
+          ]
+        },
+        {
+          "partner": "Here's your key card. You're in room 512, on the fifth floor.",
+          "options": [
+            {
+              "text": "Thanks. There is breakfast free?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Word order: in a question, the verb comes first. Say 'Is breakfast included?'",
+                "he": "סדר המילים: בשאלה הפועל בא קודם. אומרים: Is breakfast included?"
+              }
+            },
+            {
+              "text": "Thanks. Is breakfast included?",
+              "verdict": "best",
+              "feedback": {
+                "en": "A short, natural question. 'Is ... included?' is the standard way to ask.",
+                "he": "שאלה קצרה וטבעית. Is ... included? היא הדרך המקובלת לשאול."
+              }
+            },
+            {
+              "text": "Thanks. And breakfast?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but not very clear: do you mean the time, the place or the price? Ask a full question.",
+                "he": "מובן, אבל לא מספיק ברור: השעה, המקום או המחיר? עדיף לשאול שאלה מלאה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks. Is breakfast included?",
+            "Thank you. What time is breakfast?"
+          ],
+          "keywords": [
+            "breakfast",
+            "included",
+            "time"
+          ]
+        },
+        {
+          "partner": "Yes, it is. Breakfast is from 6:30 to 10 in the restaurant.",
+          "options": [
+            {
+              "text": "Great. And what's the wifi password?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Natural and polite. 'And' connects it nicely to the conversation.",
+                "he": "טבעי ומנומס. And מחבר את השאלה יפה לשיחה."
+              }
+            },
+            {
+              "text": "Give me the wifi password, please.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Even with 'please', it sounds like an order. Ask: 'What's the wifi password?'",
+                "he": "גם עם please זה נשמע כמו פקודה. שואלים: What's the wifi password?"
+              }
+            },
+            {
+              "text": "What is the code of the internet?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Unnatural. In English we say 'the wifi password'.",
+                "he": "לא טבעי. באנגלית אומרים the wifi password."
+              }
+            }
+          ],
+          "model_replies": [
+            "Great. And what's the wifi password?",
+            "Thanks. Is there wifi in the room?"
+          ],
+          "keywords": [
+            "wifi",
+            "password",
+            "what's"
+          ]
+        },
+        {
+          "partner": "The password is on this card. Anything else?",
+          "options": [
+            {
+              "text": "When do I need to leave the room?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Correct and clear, but 'What time is checkout?' is what people usually ask.",
+                "he": "נכון וברור, אבל בדרך כלל שואלים What time is checkout?"
+              }
+            },
+            {
+              "text": "When I must go out?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "The word order is wrong, and 'go out' means going out to have fun, not leaving the hotel. Say 'What time is checkout?'",
+                "he": "סדר המילים שגוי, ו-go out פירושו לצאת לבלות, לא לעזוב את המלון. שואלים: What time is checkout?"
+              }
+            },
+            {
+              "text": "Yes, what time is checkout?",
+              "verdict": "best",
+              "feedback": {
+                "en": "The standard hotel question: short and clear.",
+                "he": "השאלה הרגילה במלון: קצרה וברורה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, what time is checkout?",
+            "Just one thing: what time is checkout?"
+          ],
+          "keywords": [
+            "checkout",
+            "time",
+            "what time"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Marcus, a cheerful receptionist at a big hotel in Chicago. He talks quickly and likes to chat about the city.",
+        "complication": "Breakfast isn't included in the learner's rate; it costs extra. Marcus mentions this quickly, so the learner has to ask him to repeat it and decide whether to add breakfast.",
+        "opening_line": "Hey there, welcome to the Lakeview! Checking in?"
+      },
+      "culture": [
+        {
+          "en": "In the US, the 'first floor' is the ground floor. In the UK, as in Israel, the 'first floor' is one floor up.",
+          "he": "בארצות הברית first floor היא קומת הקרקע. בבריטניה, כמו בישראל, first floor היא הקומה הראשונה מעל הקרקע."
+        },
+        {
+          "en": "Hotels often ask for a credit card at check-in to cover extras such as room service or the minibar, even if you've already paid for the room.",
+          "he": "מלונות מבקשים לעיתים קרובות כרטיס אשראי בצ'ק-אין כדי לכסות הוצאות נוספות, כמו שירות חדרים או מיני-בר, גם אם החדר כבר שולם."
+        }
+      ],
+      "variants": [
+        {
+          "us": "elevator",
+          "uk": "lift"
+        },
+        {
+          "us": "first floor",
+          "uk": "ground floor",
+          "note": "The floor at street level."
+        },
+        {
+          "us": "second floor",
+          "uk": "first floor",
+          "note": "One floor above street level."
+        }
+      ]
+    },
+    {
+      "id": "rl-hotel-room-problem",
+      "module": "hotel",
+      "title_en": "A problem with your room",
+      "title_he": "בעיה בחדר",
+      "level": "B1",
+      "situation": {
+        "en": "It's your first night at a hotel in Barcelona. The air conditioning isn't working, the room is very hot, and your window faces a street with loud music until late. You call reception.",
+        "he": "זה הלילה הראשון שלכם במלון בברצלונה. המזגן לא עובד, חם מאוד בחדר, והחלון פונה לרחוב עם מוזיקה רועשת עד מאוחר. אתם מתקשרים לקבלה."
+      },
+      "goal": {
+        "en": "Describe both problems clearly and politely, and ask to move to a quieter room.",
+        "he": "לתאר את שתי הבעיות בבירור ובנימוס ולבקש לעבור לחדר שקט יותר."
+      },
+      "partner_role": "hotel receptionist (on the phone)",
+      "phrases": [
+        {
+          "en": "Hi, this is room 304. I'm afraid there's a problem with the air conditioning.",
+          "he": "שלום, כאן חדר 304. לצערי יש בעיה עם המזגן.",
+          "register": "polite",
+          "note": "'I'm afraid' softens bad news. It doesn't mean you're scared."
+        },
+        {
+          "en": "The AC isn't working. It's only blowing warm air.",
+          "he": "המזגן לא עובד. יוצא ממנו רק אוויר חם.",
+          "register": "neutral",
+          "variant": "US"
+        },
+        {
+          "en": "The air con isn't working. It's only blowing warm air.",
+          "he": "המזגן לא עובד. יוצא ממנו רק אוויר חם.",
+          "register": "neutral",
+          "variant": "UK"
+        },
+        {
+          "en": "I've tried the remote, but nothing happens.",
+          "he": "ניסיתי את השלט, אבל שום דבר לא קורה.",
+          "register": "neutral"
+        },
+        {
+          "en": "It's really noisy. There's loud music from the street.",
+          "he": "ממש רועש. יש מוזיקה חזקה מהרחוב.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you send someone to take a look?",
+          "he": "אפשר לשלוח מישהו שיבדוק?",
+          "register": "polite"
+        },
+        {
+          "en": "Would it be possible to move to a quieter room?",
+          "he": "אפשר יהיה לעבור לחדר שקט יותר?",
+          "register": "polite"
+        },
+        {
+          "en": "Ideally one at the back of the building, away from the street.",
+          "he": "רצוי חדר בצד האחורי של הבניין, רחוק מהרחוב.",
+          "register": "neutral"
+        },
+        {
+          "en": "I'd really appreciate it. I've got an early start tomorrow.",
+          "he": "אודה לכם מאוד. מחר יש לי השכמה מוקדמת.",
+          "register": "polite"
+        },
+        {
+          "en": "I'm sorry, but that doesn't really solve the problem.",
+          "he": "סליחה, אבל זה לא באמת פותר את הבעיה.",
+          "register": "polite",
+          "note": "A polite way to push back when an offer isn't good enough."
+        },
+        {
+          "en": "Do I need to pack everything now, or can I move in the morning?",
+          "he": "צריך לארוז הכול עכשיו, או שאפשר לעבור בבוקר?",
+          "register": "neutral"
+        },
+        {
+          "en": "No worries, I can wait ten minutes.",
+          "he": "אין בעיה, אחכה עשר דקות.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Good evening, reception. How can I help?"
+        },
+        {
+          "speaker": "you",
+          "text": "Hi, this is room 304. I'm afraid the air conditioning isn't working. It's only blowing warm air."
+        },
+        {
+          "speaker": "partner",
+          "text": "I'm sorry about that. Have you set it to 'cool' on the remote?"
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, I've tried everything. There's also loud music from the street, so it's hard to sleep."
+        },
+        {
+          "speaker": "partner",
+          "text": "I'm very sorry. I can send someone from maintenance to look at the air conditioning."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks, but would it be possible to move to a quieter room instead? Ideally one at the back."
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me check... Yes, I have a room on the fifth floor at the back. It's a bit smaller, though."
+        },
+        {
+          "speaker": "you",
+          "text": "That's fine, as long as it's quiet. Do I need to come down for the key?"
+        },
+        {
+          "speaker": "partner",
+          "text": "No, I'll send someone up with the new key to help with your bags, in about ten minutes."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, thank you so much. I really appreciate it."
+        },
+        {
+          "speaker": "partner",
+          "text": "You're welcome. Sorry again for the trouble."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Good evening, reception. How can I help?",
+          "options": [
+            {
+              "text": "Your air conditioning is broken and it's so hot! Do something!",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Too aggressive. You'll get help faster if you're calm and specific.",
+                "he": "תוקפני מדי. עזרה תגיע מהר יותר אם תהיו רגועים וממוקדים."
+              }
+            },
+            {
+              "text": "Hi, this is room 304. I'm afraid the air conditioning isn't working.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Room number first, then the problem. 'I'm afraid' softens bad news and sounds very natural in a complaint.",
+                "he": "קודם מספר החדר, אחר כך הבעיה. I'm afraid מרכך בשורה רעה ונשמע טבעי מאוד בתלונה."
+              }
+            },
+            {
+              "text": "The air conditioning is broken.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but start with your room number so they know who's calling. A softener also sounds friendlier.",
+                "he": "ברור, אבל כדאי להתחיל במספר החדר כדי שיידעו מי מתקשר. מילה מרככת גם נשמעת נעים יותר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi, this is room 304. I'm afraid the air conditioning isn't working.",
+            "Hi, I'm calling from room 304. There's a problem with the AC."
+          ],
+          "keywords": [
+            "room",
+            "air conditioning",
+            "working",
+            "afraid"
+          ]
+        },
+        {
+          "partner": "I'm sorry about that. Have you tried the remote control?",
+          "options": [
+            {
+              "text": "Yes, I've tried it. It turns on, but it's only blowing warm air.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Present perfect for something that matters now, plus a precise description of the problem.",
+                "he": "present perfect לפעולה שרלוונטית עכשיו, ותיאור מדויק של הבעיה."
+              }
+            },
+            {
+              "text": "Yes, of course I tried.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but 'of course' sounds a little impatient, as if the question were silly.",
+                "he": "מובן, אבל of course נשמע קצת חסר סבלנות, כאילו השאלה מטופשת."
+              }
+            },
+            {
+              "text": "Yes, I tried, but it not working.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "A verb is missing: 'it isn't working' or 'it's not working'.",
+                "he": "חסר פועל: it isn't working או it's not working."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, I've tried it. It turns on, but it's only blowing warm air.",
+            "Yes, I've tried everything. Nothing happens."
+          ],
+          "keywords": [
+            "tried",
+            "warm",
+            "working",
+            "remote"
+          ]
+        },
+        {
+          "partner": "I can send someone from maintenance to look at it in the morning.",
+          "options": [
+            {
+              "text": "In the morning? I want another room.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The request is reasonable, but 'I want' sounds demanding. Try 'Could I move to another room?'",
+                "he": "הבקשה הגיונית, אבל I want נשמע תובעני. נסו: Could I move to another room?"
+              }
+            },
+            {
+              "text": "Is not possible. Change me the room.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Ungrammatical, and it sounds like an order. Say 'Could I change rooms, please?' (note: rooms, plural).",
+                "he": "לא תקין דקדוקית ונשמע כמו פקודה. אומרים: Could I change rooms, please? (שימו לב: rooms ברבים)."
+              }
+            },
+            {
+              "text": "Thank you, but it's really hot tonight. Would it be possible to move to another room?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You thank them, explain why the morning is too late and politely ask for an alternative.",
+                "he": "מודים, מסבירים למה הבוקר מאוחר מדי ומבקשים חלופה בנימוס."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thank you, but it's really hot tonight. Would it be possible to move to another room?",
+            "I appreciate that, but could I change rooms tonight instead?"
+          ],
+          "keywords": [
+            "possible",
+            "move",
+            "room",
+            "tonight",
+            "change"
+          ]
+        },
+        {
+          "partner": "Let me check... I have a room at the back on the fifth floor. It's a bit smaller, though.",
+          "options": [
+            {
+              "text": "I don't want small. I want big and quiet.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Sounds childish and demanding. If size matters, ask: 'Is there anything a bit bigger?'",
+                "he": "נשמע ילדותי ותובעני. אם הגודל חשוב, שאלו: Is there anything a bit bigger?"
+              }
+            },
+            {
+              "text": "That's fine, as long as it's quiet. Thank you.",
+              "verdict": "best",
+              "feedback": {
+                "en": "'As long as' sets your one condition clearly and politely.",
+                "he": "as long as מציב את התנאי היחיד שלכם בצורה ברורה ומנומסת."
+              }
+            },
+            {
+              "text": "Smaller? Hmm, OK.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "You agree, but you sound unhappy. If the size doesn't matter, say yes warmly.",
+                "he": "אתם מסכימים, אבל נשמעים לא מרוצים. אם הגודל לא משנה לכם, הסכימו בחום."
+              }
+            }
+          ],
+          "model_replies": [
+            "That's fine, as long as it's quiet. Thank you.",
+            "Perfect, a quiet room is all I need."
+          ],
+          "keywords": [
+            "fine",
+            "quiet",
+            "thank"
+          ]
+        },
+        {
+          "partner": "I'll send someone up with the new key in about ten minutes.",
+          "options": [
+            {
+              "text": "Great, thank you so much. I really appreciate it.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm thanks after a problem has been solved: exactly right.",
+                "he": "תודה חמה אחרי שהבעיה נפתרה – בדיוק מה שצריך."
+              }
+            },
+            {
+              "text": "OK, ten minutes.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "It confirms the time but sounds flat. A thank-you shows you appreciate the help.",
+                "he": "מאשר את הזמן, אבל נשמע יבש. תודה מראה שאתם מעריכים את העזרה."
+              }
+            },
+            {
+              "text": "Ten minutes? Faster, please.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Ten minutes is reasonable. Pushing after they've solved your problem sounds rude.",
+                "he": "עשר דקות זה סביר. ללחוץ אחרי שפתרו לכם את הבעיה נשמע גס."
+              }
+            }
+          ],
+          "model_replies": [
+            "Great, thank you so much. I really appreciate it.",
+            "Perfect, thanks for sorting it out."
+          ],
+          "keywords": [
+            "thank",
+            "appreciate",
+            "great"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Javier, the evening receptionist at a busy city hotel in Barcelona. Friendly and apologetic, but the hotel is almost full tonight.",
+        "complication": "The only free room tonight is smaller and on the same noisy side of the building, just higher up; a quiet room will be free tomorrow. The learner has to negotiate, for example asking for a fan tonight, an earlier maintenance visit, or a guaranteed move in the morning.",
+        "opening_line": "Good evening, reception, Javier speaking. How can I help?"
+      },
+      "culture": [
+        {
+          "en": "Complain early and to the right person. Reception can usually fix much more on the first night than after you've checked out.",
+          "he": "כדאי להתלונן מוקדם ולאדם הנכון. בקבלה אפשר בדרך כלל לתקן הרבה יותר בלילה הראשון מאשר אחרי הצ'ק-אאוט."
+        },
+        {
+          "en": "Complaints in English are usually softened: 'I'm afraid...', 'Would it be possible...?', 'I'd really appreciate it.' A direct demand can sound much ruder in English than it would in Hebrew.",
+          "he": "באנגלית נוהגים לרכך תלונות: I'm afraid..., Would it be possible...?, I'd really appreciate it. דרישה ישירה עלולה להישמע באנגלית הרבה יותר גסה מאשר בעברית."
+        }
+      ],
+      "variants": [
+        {
+          "us": "AC",
+          "uk": "air con",
+          "note": "Informal short forms of 'air conditioning', which everyone understands."
+        }
+      ]
+    },
+    {
+      "id": "rl-hotel-towels-late-checkout",
+      "module": "hotel",
+      "title_en": "Extra towels and a late checkout",
+      "title_he": "מגבות נוספות וצ'ק-אאוט מאוחר",
+      "level": "A2",
+      "situation": {
+        "en": "You're staying at a hotel in Edinburgh. You need some extra towels, and on your last day your flight home isn't until the evening. You go down to reception.",
+        "he": "אתם במלון באדינבורו. אתם צריכים עוד מגבות, וביום האחרון הטיסה הביתה רק בערב. אתם יורדים לקבלה."
+      },
+      "goal": {
+        "en": "Ask for extra towels, then ask for a late checkout. If that isn't possible, arrange to leave your bags at the hotel.",
+        "he": "לבקש עוד מגבות, ואחר כך לבקש צ'ק-אאוט מאוחר. אם זה לא אפשרי, לסדר מקום להשאיר את המזוודות במלון."
+      },
+      "partner_role": "hotel receptionist",
+      "phrases": [
+        {
+          "en": "Could I have two extra towels, please?",
+          "he": "אפשר לקבל עוד שתי מגבות, בבקשה?",
+          "register": "polite"
+        },
+        {
+          "en": "Could you send some more towels up to room 210?",
+          "he": "אפשר לשלוח עוד מגבות לחדר 210?",
+          "register": "polite"
+        },
+        {
+          "en": "Can I get another pillow?",
+          "he": "אפשר לקבל עוד כרית?",
+          "register": "neutral",
+          "note": "'Can I get...?' is very common in the US; 'Could I have...?' is safe everywhere."
+        },
+        {
+          "en": "Is it possible to have a late checkout tomorrow?",
+          "he": "אפשר לקבל צ'ק-אאוט מאוחר מחר?",
+          "register": "polite"
+        },
+        {
+          "en": "My flight isn't until 7 p.m.",
+          "he": "הטיסה שלי רק בשבע בערב.",
+          "register": "neutral"
+        },
+        {
+          "en": "Is there a charge for that?",
+          "he": "יש על זה תשלום?",
+          "register": "neutral"
+        },
+        {
+          "en": "Can I leave my luggage here after I check out?",
+          "he": "אפשר להשאיר כאן את המזוודות אחרי הצ'ק-אאוט?",
+          "register": "neutral"
+        },
+        {
+          "en": "We've arrived early. Can we leave our bags until the room is ready?",
+          "he": "הגענו מוקדם. אפשר להשאיר את המזוודות עד שהחדר יהיה מוכן?",
+          "register": "neutral"
+        },
+        {
+          "en": "Do you have luggage storage?",
+          "he": "יש לכם שירות שמירת מזוודות?",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you keep our bags behind the desk for a few hours?",
+          "he": "אפשר להשאיר אצלכם את התיקים לכמה שעות?",
+          "register": "polite"
+        },
+        {
+          "en": "No worries if not.",
+          "he": "ואם לא, אין בעיה.",
+          "register": "casual",
+          "note": "Adding this makes a request feel low-pressure."
+        },
+        {
+          "en": "Perfect, that's really helpful.",
+          "he": "מושלם, זה עוזר מאוד.",
+          "register": "casual"
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "you",
+          "text": "Hi, could I have two extra towels for room 210, please?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course. I'll have housekeeping bring them up in a few minutes."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. Also, my flight home tomorrow isn't until 7 p.m. Is it possible to have a late checkout?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me see... We're fully booked tomorrow, so the latest I can do is 12. Normal checkout is at 11."
+        },
+        {
+          "speaker": "you",
+          "text": "That would still help, thanks. Is there a charge for that?"
+        },
+        {
+          "speaker": "partner",
+          "text": "No, that's fine. No charge."
+        },
+        {
+          "speaker": "you",
+          "text": "Great. And after I check out, can I leave my luggage here until the afternoon?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Yes, no problem. Just give your bags to the porter and you'll get a ticket."
+        },
+        {
+          "speaker": "you",
+          "text": "Perfect. What time do I need to collect them by?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Any time before 9 p.m. Is there anything else I can help with?"
+        },
+        {
+          "speaker": "you",
+          "text": "No, that's everything. Thanks so much for your help."
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Hi there, how can I help?",
+          "options": [
+            {
+              "text": "I need towels.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but blunt. Add 'Could I have...?' and your room number.",
+                "he": "ברור, אבל בוטה. הוסיפו Could I have...? ואת מספר החדר."
+              }
+            },
+            {
+              "text": "Give me more towel.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "It sounds like an order, and 'towel' needs to be plural: 'more towels'.",
+                "he": "נשמע כמו פקודה, ו-towel צריך להיות ברבים: more towels."
+              }
+            },
+            {
+              "text": "Hi, could I have two extra towels for room 210, please?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Polite and complete: what you need, how many and where.",
+                "he": "מנומס ומלא: מה צריך, כמה ולאיזה חדר."
+              }
+            }
+          ],
+          "model_replies": [
+            "Hi, could I have two extra towels for room 210, please?",
+            "Hi, could you send some more towels up to room 210?"
+          ],
+          "keywords": [
+            "towels",
+            "room",
+            "please",
+            "could"
+          ]
+        },
+        {
+          "partner": "Of course. I'll have housekeeping bring them up. Anything else?",
+          "options": [
+            {
+              "text": "I will leave the room late tomorrow.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "This sounds like you're informing them, not asking. A late checkout is a request: 'Is it possible to...?'",
+                "he": "זה נשמע כמו הודעה ולא כמו בקשה. צ'ק-אאוט מאוחר מבקשים: Is it possible to...?"
+              }
+            },
+            {
+              "text": "Yes, my flight tomorrow isn't until 7 p.m. Is it possible to have a late checkout?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Giving the reason first makes the request sound fair, and 'Is it possible...?' keeps it polite.",
+                "he": "כשנותנים קודם סיבה, הבקשה נשמעת הוגנת, ו-Is it possible...? שומר על נימוס."
+              }
+            },
+            {
+              "text": "Can I stay in the room until 5 p.m. tomorrow?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "A clear request, but asking for that long with no reason may get a quick 'no'. Explain why.",
+                "he": "בקשה ברורה, אבל לבקש זמן ארוך כל כך בלי סיבה עלול להוביל ל'לא' מהיר. הסבירו למה."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, my flight isn't until 7 p.m. Is it possible to have a late checkout?",
+            "Could I possibly check out a bit later tomorrow? My flight's in the evening."
+          ],
+          "keywords": [
+            "late checkout",
+            "flight",
+            "possible",
+            "tomorrow"
+          ]
+        },
+        {
+          "partner": "We're fully booked tomorrow, so the latest I can do is 12.",
+          "options": [
+            {
+              "text": "That would still help, thanks. Is there a charge for that?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You accept the compromise politely and check the cost before agreeing.",
+                "he": "מקבלים את הפשרה בנימוס ובודקים את המחיר לפני שמסכימים."
+              }
+            },
+            {
+              "text": "Only 12? OK...",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but you sound disappointed, and they've already tried to help.",
+                "he": "מובן, אבל אתם נשמעים מאוכזבים, וכבר ניסו לעזור לכם."
+              }
+            },
+            {
+              "text": "12 is too early for me. I stay until 5.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Refusing and insisting sounds rude, and the room is booked. Ask about other options instead, like leaving your bags.",
+                "he": "לסרב ולהתעקש נשמע גס, והחדר תפוס. עדיף לשאול על אפשרויות אחרות, כמו להשאיר את המזוודות."
+              }
+            }
+          ],
+          "model_replies": [
+            "That would still help, thanks. Is there a charge for that?",
+            "OK, 12 is great. Thank you."
+          ],
+          "keywords": [
+            "thanks",
+            "help",
+            "charge"
+          ]
+        },
+        {
+          "partner": "No charge. Can I help with anything else?",
+          "options": [
+            {
+              "text": "Where can I put my bags tomorrow?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but less clear. Say that it's for after checkout.",
+                "he": "מובן, אבל פחות ברור. ציינו שמדובר על אחרי הצ'ק-אאוט."
+              }
+            },
+            {
+              "text": "Can I forget my luggage here?",
+              "verdict": "poor",
+              "feedback": {
+                "en": "'Forget' means you didn't mean to leave it! The verb you need is 'leave'. (In Hebrew we say 'I forgot my bag at home'; in English it's 'I left my bag at home'.)",
+                "he": "forget פירושו לשכוח בלי כוונה! הפועל המתאים הוא leave. (בעברית אומרים 'שכחתי את התיק בבית', ובאנגלית I left my bag at home.)"
+              }
+            },
+            {
+              "text": "Yes, can I leave my luggage here after I check out? I'll pick it up around 4.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Clear request, and saying when you'll be back helps them plan.",
+                "he": "בקשה ברורה, וכשאומרים מתי תחזרו, קל להם להתארגן."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, can I leave my luggage here after I check out?",
+            "Do you have somewhere I can leave my bags until the afternoon?"
+          ],
+          "keywords": [
+            "leave",
+            "luggage",
+            "bags",
+            "after"
+          ]
+        },
+        {
+          "partner": "Of course. Just give your bags to the porter, and you'll get a ticket.",
+          "options": [
+            {
+              "text": "Thank you for your helping.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Here you need the noun: 'Thank you for your help.'",
+                "he": "כאן צריך את שם העצם: Thank you for your help."
+              }
+            },
+            {
+              "text": "Perfect, thanks so much for your help.",
+              "verdict": "best",
+              "feedback": {
+                "en": "Warm and natural: a good way to finish.",
+                "he": "חם וטבעי – דרך טובה לסיים."
+              }
+            },
+            {
+              "text": "OK. And the ticket is for what?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "A fair question, but the word order is unnatural. Ask 'What's the ticket for?'",
+                "he": "שאלה לגיטימית, אבל סדר המילים לא טבעי. שואלים: What's the ticket for?"
+              }
+            }
+          ],
+          "model_replies": [
+            "Perfect, thanks so much for your help.",
+            "Great, thank you!"
+          ],
+          "keywords": [
+            "thanks",
+            "help",
+            "perfect"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Hamish, a receptionist at a traditional hotel in Edinburgh. Warm, chatty and a little formal, with a dry sense of humour.",
+        "complication": "Housekeeping has run out of clean bath towels for the next hour, and a late checkout is only possible for a fee. The learner should ask when the towels will come, how much the late checkout costs, and whether they can leave their bags instead.",
+        "opening_line": "Good afternoon! What can I do for you?"
+      },
+      "culture": [
+        {
+          "en": "In the US, guests usually tip the bellhop for carrying their bags, and many also tip housekeeping. In the UK, tipping hotel staff is appreciated but less expected.",
+          "he": "בארצות הברית נהוג לתת טיפ לסבל שמעלה את המזוודות, ורבים משאירים טיפ גם לצוות הניקיון. בבריטניה טיפ לצוות המלון מתקבל בברכה, אבל פחות מצופה."
+        },
+        {
+          "en": "A late checkout is a favour, not a right. Asking the day before and giving a reason improves your chances.",
+          "he": "צ'ק-אאוט מאוחר הוא טובה ולא זכות. כשמבקשים יום לפני ונותנים סיבה, הסיכויים עולים."
+        }
+      ],
+      "variants": [
+        {
+          "us": "bag storage / luggage storage",
+          "uk": "left luggage",
+          "note": "At stations and airports. In a hotel, both say 'luggage storage' or 'luggage room'."
+        },
+        {
+          "us": "bellhop / bellman",
+          "uk": "porter",
+          "note": "The hotel worker who carries guests' bags."
+        },
+        {
+          "us": "pick up (your bags)",
+          "uk": "collect (your bags)",
+          "note": "Both are understood everywhere; 'collect' sounds more British."
+        }
+      ]
+    },
+    {
+      "id": "rl-hotel-checkout-bill-query",
+      "module": "hotel",
+      "title_en": "Checking out: querying a charge",
+      "title_he": "צ'ק-אאוט: ערעור על חיוב בחשבון",
+      "level": "B2",
+      "situation": {
+        "en": "You're checking out of a hotel in San Francisco after four nights. On the bill you see two charges you don't remember: something from the minibar and a room-service dinner. (All prices here are made-up examples.)",
+        "he": "אתם עושים צ'ק-אאוט ממלון בסן פרנסיסקו אחרי ארבעה לילות. בחשבון מופיעים שני חיובים שאתם לא זוכרים: משהו מהמיני-בר וארוחת ערב משירות חדרים. (כל המחירים כאן הם דוגמה בלבד.)"
+      },
+      "goal": {
+        "en": "Query the charges firmly but politely, explain your side clearly, and get them removed or explained before you pay.",
+        "he": "לערער על החיובים בתקיפות אבל בנימוס, להסביר את הצד שלכם בבירור ולדאוג שיוסרו או יוסברו לפני התשלום."
+      },
+      "partner_role": "hotel front desk agent",
+      "phrases": [
+        {
+          "en": "Could I take a quick look at the bill before I pay?",
+          "he": "אפשר לעבור רגע על החשבון לפני התשלום?",
+          "register": "polite"
+        },
+        {
+          "en": "I think there might be a mistake on my bill.",
+          "he": "נראה לי שיש טעות בחשבון.",
+          "register": "polite"
+        },
+        {
+          "en": "I don't recognize this charge. Could you tell me what it's for?",
+          "he": "אני לא מזהה את החיוב הזה. אפשר לדעת על מה הוא?",
+          "register": "polite"
+        },
+        {
+          "en": "We didn't use the minibar at all.",
+          "he": "לא השתמשנו במיני-בר בכלל.",
+          "register": "neutral"
+        },
+        {
+          "en": "We didn't order room service. We ate out every night.",
+          "he": "לא הזמנו שירות חדרים. אכלנו בחוץ כל ערב.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you check whether it was charged to the wrong room?",
+          "he": "אפשר לבדוק אם זה חויב לחדר הלא נכון?",
+          "register": "polite"
+        },
+        {
+          "en": "Is there a signed receipt for that order?",
+          "he": "יש קבלה חתומה על ההזמנה הזאת?",
+          "register": "neutral"
+        },
+        {
+          "en": "I'd like those charges removed, please.",
+          "he": "אבקש להסיר את החיובים האלה.",
+          "register": "polite",
+          "note": "Firm but polite. 'Remove these' on its own would sound rude."
+        },
+        {
+          "en": "I'm not comfortable paying for something we didn't have.",
+          "he": "לא נוח לי לשלם על משהו שלא קיבלנו.",
+          "register": "neutral"
+        },
+        {
+          "en": "Could you email me the corrected bill?",
+          "he": "אפשר לשלוח לי במייל את החשבון המתוקן?",
+          "register": "polite"
+        },
+        {
+          "en": "Fair enough, that one's mine. Sorry!",
+          "he": "מקובל עליי, את זה באמת לקחתי. סליחה!",
+          "register": "casual"
+        },
+        {
+          "en": "Could I speak to a manager, please?",
+          "he": "אפשר לדבר עם מנהל, בבקשה?",
+          "register": "polite",
+          "note": "Use this only after you've tried to solve it with the person at the desk."
+        }
+      ],
+      "model_dialogue": [
+        {
+          "speaker": "partner",
+          "text": "Good morning! Checking out? Here's your bill. The total comes to $1,240."
+        },
+        {
+          "speaker": "you",
+          "text": "Thanks. Could I take a quick look before I pay?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Of course, take your time."
+        },
+        {
+          "speaker": "you",
+          "text": "I think there might be a mistake. There's a $38 minibar charge, but we didn't use the minibar at all."
+        },
+        {
+          "speaker": "partner",
+          "text": "Let me check... The system shows two drinks and a snack taken on Tuesday."
+        },
+        {
+          "speaker": "you",
+          "text": "That's strange. We were out all day on Tuesday, and everything is still in the fridge."
+        },
+        {
+          "speaker": "partner",
+          "text": "OK, the sensors do make mistakes sometimes. I'll take that off."
+        },
+        {
+          "speaker": "you",
+          "text": "Thank you. There's also a $64 room-service dinner on Wednesday, and we didn't order room service."
+        },
+        {
+          "speaker": "partner",
+          "text": "Hmm, the order says room 1412. You're in 1421, right? It looks like it was charged to the wrong room."
+        },
+        {
+          "speaker": "you",
+          "text": "Yes, we're in 1421. Could you remove that as well, please?"
+        },
+        {
+          "speaker": "partner",
+          "text": "Absolutely. I'm sorry about that. Your new total is $1,138."
+        },
+        {
+          "speaker": "you",
+          "text": "Great, thanks for sorting that out so quickly. Could you email me the updated bill?"
+        }
+      ],
+      "practice": [
+        {
+          "partner": "Here's your bill. The total comes to $1,240.",
+          "options": [
+            {
+              "text": "Thanks. Could I take a quick look before I pay?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Checking the bill is completely normal. Asking first sounds relaxed, not suspicious.",
+                "he": "בדיקת החשבון היא דבר רגיל לגמרי. כששואלים קודם, זה נשמע רגוע ולא חשדני."
+              }
+            },
+            {
+              "text": "Wait, I need to check it.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Fine, but 'Wait' can sound abrupt. 'Could I take a quick look?' is smoother.",
+                "he": "בסדר, אבל Wait יכול להישמע חד. Could I take a quick look? חלק יותר."
+              }
+            },
+            {
+              "text": "That's way too much. You've overcharged me.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Accusing them before you've even read the bill puts the agent on the defensive. Check first, then point to specific items.",
+                "he": "להאשים עוד לפני שקראתם את החשבון מכניס את הנציג לעמדת התגוננות. קודם בודקים, ואז מצביעים על סעיפים מסוימים."
+              }
+            }
+          ],
+          "model_replies": [
+            "Thanks. Could I take a quick look before I pay?",
+            "Thank you. Do you mind if I check it first?"
+          ],
+          "keywords": [
+            "look",
+            "check",
+            "before",
+            "pay"
+          ]
+        },
+        {
+          "partner": "Is everything OK with the bill?",
+          "options": [
+            {
+              "text": "There is a mistake here. The minibar is wrong.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear but quite direct, and 'the minibar is wrong' is vague. Say exactly what's wrong.",
+                "he": "ברור אבל די ישיר, ו-the minibar is wrong לא מדויק. אמרו בדיוק מה שגוי."
+              }
+            },
+            {
+              "text": "No. You're trying to cheat me with the minibar.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Accusing staff of cheating is insulting, and most billing problems are simple errors. Describe the problem instead.",
+                "he": "להאשים את הצוות ברמאות זה מעליב, ורוב הבעיות בחשבון הן טעויות פשוטות. עדיף לתאר את הבעיה."
+              }
+            },
+            {
+              "text": "I think there might be a mistake. There's a minibar charge, but we didn't use the minibar at all.",
+              "verdict": "best",
+              "feedback": {
+                "en": "'I think there might be...' raises the problem softly, and you back it up with a specific fact.",
+                "he": "I think there might be... מעלה את הבעיה בעדינות, ואתם מגבים אותה בעובדה מסוימת."
+              }
+            }
+          ],
+          "model_replies": [
+            "I think there might be a mistake. We didn't use the minibar at all.",
+            "Actually, I don't recognize this minibar charge. Could you tell me what it's for?"
+          ],
+          "keywords": [
+            "mistake",
+            "minibar",
+            "didn't",
+            "charge"
+          ]
+        },
+        {
+          "partner": "The system shows two drinks and a snack taken on Tuesday.",
+          "options": [
+            {
+              "text": "Your system is lying.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "Unnatural and aggressive: systems don't lie, they make mistakes. Say 'I think the system has made a mistake.'",
+                "he": "לא טבעי ותוקפני: מערכות לא משקרות, הן טועות. אומרים: I think the system has made a mistake."
+              }
+            },
+            {
+              "text": "That's strange. We were out all day on Tuesday, and everything is still in the fridge. Could you check it again?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You give evidence calmly and ask for action: the strongest way to dispute a charge.",
+                "he": "מציגים ראיה ברוגע ומבקשים פעולה – הדרך החזקה ביותר לערער על חיוב."
+              }
+            },
+            {
+              "text": "No, we didn't take anything.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Clear, but it's your word against the system. Add a detail that supports you.",
+                "he": "ברור, אבל זו המילה שלכם מול המערכת. הוסיפו פרט שתומך בגרסה שלכם."
+              }
+            }
+          ],
+          "model_replies": [
+            "That's strange. Everything is still in the fridge. Could you check it again?",
+            "I think the system has made a mistake. We weren't even in the room on Tuesday."
+          ],
+          "keywords": [
+            "fridge",
+            "still",
+            "check",
+            "mistake"
+          ]
+        },
+        {
+          "partner": "OK, I'll remove the minibar charge. Is there anything else?",
+          "options": [
+            {
+              "text": "Yes, there's also a room-service dinner on Wednesday. We didn't order room service. Could it have been charged to the wrong room?",
+              "verdict": "best",
+              "feedback": {
+                "en": "You raise the second issue clearly and suggest a likely explanation, which makes it easy to fix.",
+                "he": "מעלים את הבעיה השנייה בבירור ומציעים הסבר סביר, וכך קל יותר לתקן."
+              }
+            },
+            {
+              "text": "Also the dinner. Remove it too.",
+              "verdict": "ok",
+              "feedback": {
+                "en": "Understandable, but it sounds like an order. Explain why first, then ask.",
+                "he": "מובן, אבל נשמע כמו פקודה. קודם מסבירים למה, ואז מבקשים."
+              }
+            },
+            {
+              "text": "And the dinner, we didn't ordered it.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "After 'didn't', use the base form: 'We didn't order it.'",
+                "he": "אחרי didn't באה צורת הבסיס: We didn't order it."
+              }
+            }
+          ],
+          "model_replies": [
+            "Yes, there's also a room-service dinner we didn't order. Could it be from another room?",
+            "One more thing: we didn't order this room-service dinner."
+          ],
+          "keywords": [
+            "room service",
+            "dinner",
+            "order",
+            "wrong room"
+          ]
+        },
+        {
+          "partner": "You're right, it was room 1412, not 1421. I'm sorry about that.",
+          "options": [
+            {
+              "text": "OK. Now the total is correct?",
+              "verdict": "ok",
+              "feedback": {
+                "en": "The question makes sense, but the word order is off: 'Is the total correct now?'",
+                "he": "השאלה הגיונית, אבל סדר המילים לא נכון: Is the total correct now?"
+              }
+            },
+            {
+              "text": "You should be more careful. I want a discount for this.",
+              "verdict": "poor",
+              "feedback": {
+                "en": "They fixed the mistake quickly, so demanding compensation now sounds petty. Save complaints for real problems.",
+                "he": "תיקנו את הטעות מהר, ולכן לדרוש פיצוי עכשיו נשמע קטנוני. עדיף לשמור תלונות לבעיות אמיתיות."
+              }
+            },
+            {
+              "text": "No problem, mistakes happen. Could you email me the corrected bill?",
+              "verdict": "best",
+              "feedback": {
+                "en": "Gracious, and getting the corrected bill in writing protects you later.",
+                "he": "אדיב, וחשבון מתוקן בכתב מגן עליכם בהמשך."
+              }
+            }
+          ],
+          "model_replies": [
+            "No problem, mistakes happen. Could you email me the corrected bill?",
+            "That's OK. Could I get a copy of the updated bill, please?"
+          ],
+          "keywords": [
+            "problem",
+            "email",
+            "corrected",
+            "bill"
+          ]
+        }
+      ],
+      "roleplay": {
+        "persona": "Kevin, a front desk agent at a large San Francisco hotel. Polite and professional, but he follows the system closely and needs a clear reason before he removes anything.",
+        "complication": "Kevin removes the minibar charge but insists the room-service order is correct because it was 'signed for by a guest'. The learner has to ask to see the signed receipt, point out that the signature and room number aren't theirs, and politely ask for a manager if Kevin still won't remove it.",
+        "opening_line": "Good morning! Checking out today? Let me print your bill... OK, your total comes to $1,240."
+      },
+      "culture": [
+        {
+          "en": "Always check your bill before you pay. Mistakes happen, and they're much easier to fix at the desk than after you've left.",
+          "he": "תמיד בודקים את החשבון לפני התשלום. טעויות קורות, והרבה יותר קל לתקן אותן בדלפק מאשר אחרי שעזבתם."
+        },
+        {
+          "en": "A firm complaint in English still sounds polite: 'I'd like this removed, please' is firm; 'Remove this' sounds rude. Ask for a manager only if the desk can't help.",
+          "he": "באנגלית גם תלונה תקיפה נשמעת מנומסת: I'd like this removed, please היא תקיפה, ואילו Remove this נשמע גס. מבקשים מנהל רק אם בדלפק לא מצליחים לעזור."
+        },
+        {
+          "en": "In many US cities, hotel bills include taxes, and sometimes extra fees, that weren't in the room price you first saw. If a fee isn't clear, ask what it's for.",
+          "he": "בערים רבות בארצות הברית נוספים לחשבון המלון מסים, ולפעמים גם עמלות, שלא הופיעו במחיר החדר שראיתם בהתחלה. אם עמלה לא ברורה, שאלו על מה היא."
+        }
+      ],
+      "variants": [
+        {
+          "us": "check",
+          "uk": "bill",
+          "note": "In a restaurant. At a hotel, both Americans and Britons say 'bill' (or 'invoice' / 'folio')."
+        },
+        {
+          "us": "front desk",
+          "uk": "reception"
+        }
+      ]
+    }
+  ]
+}

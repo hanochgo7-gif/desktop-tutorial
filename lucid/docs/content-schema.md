@@ -37,7 +37,7 @@ English learning material (sentences, options, passages, answers) is always plai
 | `examples` | `{en, he?, note?}[]` | 5-10 model sentences |
 | `vocab` | Vocab[] | 6-15 items added to the learner's notebook |
 | `hebrew_pitfalls` | `{en, he, error_type}[]` | L1-transfer traps relevant to this lesson |
-| `exercises` | Exercise[] | 10-16, easy to hard, mixing types and skills |
+| `exercises` | Exercise[] | 10-16, easy to hard, mixing types and skills. Must include at least one input exercise (`read`, `listen` or `dictation`) and one free-production exercise (`write` or `speak`): input, brief explicit focus, controlled practice, free production, feedback (research C2, D13-D15). |
 | `review` | `{key_points: Bilingual[]}` | 3-5 points shown at the end |
 | `completion` | `{pass_score}` | fraction of auto-graded points needed (default 0.7) |
 

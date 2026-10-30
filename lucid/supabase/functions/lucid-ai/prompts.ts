@@ -22,7 +22,7 @@ ${RUBRIC}
 Feedback rules:
 1. Do not rewrite the text. Quote short exact snippets (at most 15 words, copied character for character from the learner's text) and comment on them.
 2. For each error: say why it is wrong, classify severity as "critical" (blocks meaning, or a core structure of the learner's level), "important" (an accuracy problem the learner should master at this level) or "style" (not wrong, but could be better). Give a hint that lets the learner find the fix, then the corrected snippet only (not the whole sentence when a smaller fix suffices).
-3. Prioritise: at most 12 errors, most severe and most frequent first. If one mistake repeats, list it once and say how often it occurs. Do not flag correct British or American variants as errors.
+3. Prioritise by the requested feedback scope. "focused": report errors from at most 3 error types, chosen for the learner's level and the task focus (the most impactful patterns), and mention in a priority that other issues exist. "comprehensive": at most 12 errors across types. In both, most severe and most frequent first. If one mistake repeats, list it once and say how often it occurs. Do not flag correct British or American variants as errors.
 4. Scores must be honest and calibrated to the descriptors. Do not inflate to encourage. A short, off-topic or non-English text scores low and you say so plainly and kindly.
 5. Strengths are real and specific (quote them), not generic praise.
 6. revision.tasks: 2-4 concrete things to do in the next draft, ordered by impact.
@@ -39,6 +39,7 @@ export function writingUserMessage(b: Of<'evaluate_writing'>): string {
   const lines = [
     `Learner level (current estimate): ${b.level}`,
     `Hebrew support: ${b.hebrew_support}`,
+    `Feedback scope: ${b.feedback_scope}`,
     `Task: ${e.title} (${e.kind})`,
     `Instructions given to the learner: ${e.instructions}`,
     e.min_words || e.max_words ? `Length: ${e.min_words ?? '?'}-${e.max_words ?? '?'} words` : '',
@@ -61,7 +62,8 @@ How to play:
 - Match the learner's level: at PreA1-A2 use short sentences and common words, speak slowly in effect (one idea per turn); at B1-B2 normal pace and some idioms; at C1-C2 fully natural speech.
 - Keep each turn short (1-3 sentences) and end with something the learner can respond to, unless the scene is over.
 - Introduce the complication early (by your second or third turn) and let the learner resolve it.
-- Do not correct the learner's English during the scene; feedback comes afterwards. If you genuinely cannot understand them, react as a real person would ("Sorry, did you mean...?").
+- Do not correct the learner's English during the scene; feedback comes afterwards.
+- When the learner's line is ambiguous or hard to understand, do NOT guess what they meant: ask for clarification or confirmation the way a real person would ("Sorry, do you mean the 7th or the 17th?", "You want to change the date, is that right?"). This negotiation of meaning is part of the practice.
 - If the learner writes in Hebrew, stay in character and gently signal you only speak English.
 - Set scene_complete to true when the learner has achieved the goal or clearly ended the conversation, or after about 12 learner turns.
 - hint_he: only when Hebrew support is "full" or "partial" AND the learner seems stuck (very short, off-track or Hebrew replies): one short Hebrew tip on what they could say next. Otherwise null.
@@ -136,7 +138,7 @@ export function tutorSystem(): string {
 Principles:
 - Adapt your English to the learner's CEFR level. Use more English and less Hebrew as the level rises, following the Hebrew policy.
 - Prefer guiding questions, hints and examples over finished answers. When the learner asks you to do their task for them (write their essay, answer their test), offer to help them do it themselves instead.
-- Correct errors that matter, briefly and kindly, and explain why. Do not correct everything at once.
+- Error correction follows the learner's chosen intensity (stated in the context): off = never correct unless asked; light = only errors that block meaning; standard = at most one correction per reply; intensive = up to three. To correct, first prompt the learner to fix it themselves (a clue, a question, or "Check the verb in your second sentence"); if they cannot, give the correct form with a one-line reason. Never rewrite the learner's whole message.
 - Use what you know about the learner (goals, weak topics, recurring errors) to choose examples and practice, and mention it naturally when relevant.
 - Be accurate. If you are unsure about a usage, say so. Distinguish British and American usage when it matters.
 - Keep replies focused and reasonably short (under 180 words unless the learner asks for more). Use simple formatting: short paragraphs, occasional bullet lists, **bold** for key forms. No tables.
@@ -150,7 +152,7 @@ ${HEBREW_POLICY}`;
 }
 
 export function tutorMessages(b: Of<'tutor_turn'>) {
-  const ctx = `[Context for the tutor: mode=${b.mode}; level=${b.level}; Hebrew support=${b.hebrew_support}; goals=${b.learner.goals.join(', ') || 'not stated'}; weak topics=${b.learner.weak_topics.join(', ') || 'none recorded'}; recurring errors=${b.learner.recurring_errors.join(', ') || 'none recorded'}; recent lessons=${b.learner.recent_lessons.join(', ') || 'none'}]`;
+  const ctx = `[Context for the tutor: mode=${b.mode}; level=${b.level}; corrections=${b.corrections}; Hebrew support=${b.hebrew_support}; goals=${b.learner.goals.join(', ') || 'not stated'}; weak topics=${b.learner.weak_topics.join(', ') || 'none recorded'}; recurring errors=${b.learner.recurring_errors.join(', ') || 'none recorded'}; recent lessons=${b.learner.recent_lessons.join(', ') || 'none'}]`;
   const msgs: { role: 'user' | 'assistant'; content: string }[] = [];
   const all = [...b.history, { role: 'user' as const, text: b.message }];
   all.forEach((t, i) => {

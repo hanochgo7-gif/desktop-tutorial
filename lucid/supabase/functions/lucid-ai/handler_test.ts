@@ -124,10 +124,22 @@ Deno.test('roleplay transcripts alternate roles, start and end with the learner 
 });
 
 Deno.test('tutor messages carry learner context and merge same-role turns', () => {
-  const msgs = tutorMessages({ task: 'tutor_turn', mode: 'writing', level: 'B2', hebrew_support: 'minimal',
+  const msgs = tutorMessages({ task: 'tutor_turn', mode: 'writing', corrections: 'standard', level: 'B2', hebrew_support: 'minimal',
     learner: { goals: ['IELTS'], weak_topics: ['articles'], recurring_errors: ['article'], recent_lessons: [] },
     history: [{ role: 'user', text: 'Hi' }, { role: 'assistant', text: 'Hello!' }], message: 'Help me with my thesis' });
   assertEquals(msgs.map((m) => m.role), ['user', 'assistant', 'user']);
   assert(msgs[0].content.startsWith('[Context for the tutor: mode=writing; level=B2'));
   assert(writingUserMessage({ ...writingBody, previous: { text: 'old', priorities: ['fix thesis'] } } as never).includes('<previous_text>\nold'));
+});
+
+Deno.test('minimal-edit enforcement drops errors whose quote is not in the learner text', async () => {
+  const ev = { ...evaluation, errors: [
+    { quote: 'social media is bad', type: 'unsupported-claim', severity: 'important', explanation: '', explanation_he: null, hint: '', correction: 'social media can be harmful' },
+    { quote: 'a sentence the learner never wrote', type: 'agreement', severity: 'critical', explanation: '', explanation_he: null, hint: '', correction: 'x' },
+    { quote: 'is bad', type: 'word-choice', severity: 'style', explanation: '', explanation_he: null, hint: '', correction: 'a full paragraph rewritten by the model that goes far beyond the original two-word span' },
+  ] };
+  const { d } = deps({}, fakeClaude({ parsed: ev }));
+  const body = await (await createHandler(d)(post(writingBody))).json();
+  assertEquals(body.evaluation.errors.map((e: { quote: string }) => e.quote), ['social media is bad']);
+  assertEquals(body.evaluation.dropped_errors, 2);
 });

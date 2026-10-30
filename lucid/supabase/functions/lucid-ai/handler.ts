@@ -122,7 +122,7 @@ async function run(deps: Deps, body: Request): Promise<{ result: unknown; usage:
       });
       check(msg);
       if (!msg.parsed_output) throw new Incomplete();
-      return { result: { evaluation: clampEvaluation(msg.parsed_output) }, usage: msg.usage };
+      return { result: { evaluation: clampEvaluation(msg.parsed_output, body.text) }, usage: msg.usage };
     }
     case 'roleplay_turn': {
       const msg = await claude.beta.messages.parse({

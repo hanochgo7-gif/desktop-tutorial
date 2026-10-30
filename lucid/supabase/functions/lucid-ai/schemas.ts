@@ -36,6 +36,8 @@ export const Request = z.discriminatedUnion('task', [
     task: z.literal('evaluate_writing'),
     level: z.enum(LEVELS),
     hebrew_support: z.enum(SUPPORT).default('partial'),
+    // focused: at most 3 error categories (default A2-B1); comprehensive: all important errors (research C2, D22).
+    feedback_scope: z.enum(['focused', 'comprehensive']).default('focused'),
     exercise: z.object({
       title: text(200),
       instructions: text(2000),
@@ -65,6 +67,8 @@ export const Request = z.discriminatedUnion('task', [
   z.object({
     task: z.literal('tutor_turn'),
     mode: z.enum(TUTOR_MODES),
+    // Learner-controlled correction intensity (research C2, D21).
+    corrections: z.enum(['off', 'light', 'standard', 'intensive']).default('standard'),
     level: z.enum(LEVELS),
     hebrew_support: z.enum(SUPPORT).default('partial'),
     learner: z.object({
@@ -134,11 +138,25 @@ export const RoleplayFeedback = z.object({
 
 const clampInt = (n: number | null, lo: number, hi: number) => (n == null ? null : Math.min(hi, Math.max(lo, Math.round(n))));
 
-export function clampEvaluation(e: WritingEvaluation): WritingEvaluation {
+// Normalise quotes and spaces so a verbatim quote still matches after typographic differences.
+const loose = (s: string) => s.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim().toLowerCase();
+
+// Post-processing (research C2, D26-D27): an error must quote the learner's text verbatim, and a
+// correction may not be much longer than the span it fixes; anything else is dropped as an
+// unverifiable or over-reaching edit. Counts of dropped items are returned for monitoring.
+export function clampEvaluation(e: WritingEvaluation, learnerText = ''): WritingEvaluation & { dropped_errors: number } {
+  const text = loose(learnerText);
+  const errors = e.errors.filter((err) => {
+    const q = loose(err.quote);
+    if (!q || (text && !text.includes(q))) return false;
+    return loose(err.correction).length <= Math.max(40, q.length * 2.5);
+  });
+  const quoteOk = (q: string) => !text || text.includes(loose(q));
   return {
     ...e,
-    categories: e.categories.map((c) => ({ ...c, score: c.applicable ? clampInt(c.score, 0, 5) : null })),
-    errors: e.errors.slice(0, 15),
+    categories: e.categories.map((c) => ({ ...c, score: c.applicable ? clampInt(c.score, 0, 5) : null, examples: c.examples.filter((x) => quoteOk(x.quote)) })),
+    errors: errors.slice(0, 15),
+    dropped_errors: e.errors.length - errors.slice(0, 15).length,
   };
 }
 export function clampFeedback(f: z.infer<typeof RoleplayFeedback>) {
